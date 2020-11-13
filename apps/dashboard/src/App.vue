@@ -68,7 +68,9 @@
 				<a v-if="isAdmin" :href="appStoreUrl" class="button">{{ t('dashboard', 'Get more widgets from the app store') }}</a>
 
 				<h3>{{ t('dashboard', 'Change background image') }}</h3>
-				<BackgroundSettings :background="background" @update:background="updateBackground" />
+				<BackgroundSettings :background="background"
+					:theming-default-background="themingDefaultBackground"
+					@update:background="updateBackground" />
 
 				<h3>{{ t('dashboard', 'Weather service') }}</h3>
 				<p>
@@ -95,11 +97,11 @@ import { generateUrl } from '@nextcloud/router'
 import isMobile from './mixins/isMobile'
 import BackgroundSettings from './components/BackgroundSettings'
 import getBackgroundUrl from './helpers/getBackgroundUrl'
-import prefixWithBaseUrl from './helpers/prefixWithBaseUrl'
 
 const panels = loadState('dashboard', 'panels')
 const firstRun = loadState('dashboard', 'firstRun')
 const background = loadState('dashboard', 'background')
+const themingDefaultBackground = loadState('dashboard', 'themingDefaultBackground')
 const version = loadState('dashboard', 'version')
 const shippedBackgroundList = loadState('dashboard', 'shippedBackgrounds')
 const statusInfo = {
@@ -142,16 +144,17 @@ export default {
 			appStoreUrl: generateUrl('/settings/apps/dashboard'),
 			statuses: {},
 			background,
+			themingDefaultBackground,
 			version,
-			defaultBackground: window.OCA.Accessibility?.theme === 'dark' ? prefixWithBaseUrl('flickr-148302424@N05-36591009215.jpg?v=1') : prefixWithBaseUrl('flickr-paszczak000-8715851521.jpg?v=1'),
 		}
 	},
 	computed: {
 		backgroundImage() {
-			return getBackgroundUrl(this.background, this.version)
+			return getBackgroundUrl(this.background, this.version, this.themingDefaultBackground)
 		},
 		backgroundStyle() {
-			if (this.background.match(/#[0-9A-Fa-f]{6}/g)) {
+			if ((this.background === 'default' && this.themingDefaultBackground === 'backgroundColor')
+				|| this.background.match(/#[0-9A-Fa-f]{6}/g)) {
 				return null
 			}
 			return {

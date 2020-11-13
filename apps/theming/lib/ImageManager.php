@@ -101,9 +101,9 @@ class ImageManager {
 	 * @throws NotPermittedException
 	 */
 	public function getImage(string $key, bool $useSvg = true): ISimpleFile {
-		$logo = $this->config->getAppValue('theming', $key . 'Mime', false);
+		$logo = $this->config->getAppValue('theming', $key . 'Mime', '');
 		$folder = $this->appData->getFolder('images');
-		if ($logo === false || !$folder->fileExists($key)) {
+		if ($logo === '' || !$folder->fileExists($key)) {
 			throw new NotFoundException();
 		}
 		if (!$useSvg && $this->shouldReplaceIcons()) {

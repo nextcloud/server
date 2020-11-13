@@ -59,7 +59,7 @@ class JSDataService implements \JsonSerializable {
 			'imprintUrl' => $this->themingDefaults->getImprintUrl(),
 			'privacyUrl' => $this->themingDefaults->getPrivacyUrl(),
 			'inverted' => $this->util->invertTextColor($this->themingDefaults->getColorPrimary()),
-			'cacheBuster' => $this->appConfig->getAppValue(Application::class, 'cachebuster', '0'),
+			'cacheBuster' => $this->appConfig->getAppValue(Application::APP_ID, 'cachebuster', '0'),
 		];
 	}
 }

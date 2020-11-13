@@ -35,6 +35,7 @@ use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\App\IAppManager;
 use OCP\Dashboard\IManager;
 use OCP\Dashboard\IWidget;
 use OCP\Dashboard\RegisterWidgetEvent;
@@ -49,6 +50,8 @@ class DashboardController extends Controller {
 	private $inititalStateService;
 	/** @var IEventDispatcher */
 	private $eventDispatcher;
+	/** @var IAppManager */
+	private $appManager;
 	/** @var IManager */
 	private $dashboardManager;
 	/** @var IConfig */
@@ -65,6 +68,7 @@ class DashboardController extends Controller {
 		IRequest $request,
 		IInitialStateService $initialStateService,
 		IEventDispatcher $eventDispatcher,
+		IAppManager $appManager,
 		IManager $dashboardManager,
 		IConfig $config,
 		BackgroundService $backgroundService,
@@ -74,6 +78,7 @@ class DashboardController extends Controller {
 
 		$this->inititalStateService = $initialStateService;
 		$this->eventDispatcher = $eventDispatcher;
+		$this->appManager = $appManager;
 		$this->dashboardManager = $dashboardManager;
 		$this->config = $config;
 		$this->backgroundService = $backgroundService;
@@ -109,6 +114,11 @@ class DashboardController extends Controller {
 		// It does not matter if some statuses are missing from the array, missing ones are considered enabled
 		$statuses = ($statuses && count($statuses) > 0) ? $statuses : ['weather' => true];
 
+		// if theming app is enabled and wants to override default, we pass it
+		$themingDefaultBackground = $this->appManager->isEnabledForUser('theming')
+			? $this->config->getAppValue('theming', 'backgroundMime', '')
+			: '';
+		$this->inititalStateService->provideInitialState('dashboard', 'themingDefaultBackground', $themingDefaultBackground);
 		$this->inititalStateService->provideInitialState('dashboard', 'panels', $widgets);
 		$this->inititalStateService->provideInitialState('dashboard', 'statuses', $statuses);
 		$this->inititalStateService->provideInitialState('dashboard', 'layout', $userLayout);

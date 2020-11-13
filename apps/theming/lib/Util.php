@@ -249,7 +249,7 @@ class Util {
 	}
 
 	public function isBackgroundThemed() {
-		$backgroundLogo = $this->config->getAppValue('theming', 'backgroundMime',false);
+		$backgroundLogo = $this->config->getAppValue('theming', 'backgroundMime', '');
 
 		$backgroundExists = true;
 		try {
