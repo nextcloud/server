@@ -248,6 +248,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OCP\\Files' => __DIR__ . '/../../..' . '/lib/public/Files.php',
         'OCP\\Files\\AlreadyExistsException' => __DIR__ . '/../../..' . '/lib/public/Files/AlreadyExistsException.php',
         'OCP\\Files\\Cache\\CacheInsertEvent' => __DIR__ . '/../../..' . '/lib/public/Files/Cache/CacheInsertEvent.php',
+        'OCP\\Files\\Cache\\CacheRemoveEvent' => __DIR__ . '/../../..' . '/lib/public/Files/Cache/CacheRemoveEvent.php',
         'OCP\\Files\\Cache\\CacheUpdateEvent' => __DIR__ . '/../../..' . '/lib/public/Files/Cache/CacheUpdateEvent.php',
         'OCP\\Files\\Cache\\ICache' => __DIR__ . '/../../..' . '/lib/public/Files/Cache/ICache.php',
         'OCP\\Files\\Cache\\ICacheEntry' => __DIR__ . '/../../..' . '/lib/public/Files/Cache/ICacheEntry.php',

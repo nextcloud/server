@@ -67,7 +67,7 @@ class CacheEntry implements ICacheEntry {
 
 
 	public function getPath() {
-		return $this->data['path'];
+		return (string)$this->data['path'];
 	}
 
 
