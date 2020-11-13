@@ -235,7 +235,12 @@ class BirthdayService {
 				}
 			} else {
 				$originalYear = (int)$dateParts['year'];
-
+				// 'X-APPLE-OMIT-YEAR' is not always present, at least iOS 12.4 uses the hard coded date of 1604 (the start of the gregorian calendar) when the year is unknown
+				if ($originalYear == 1604) {
+					$originalYear = null;
+					$unknownYear = true;
+					$birthday = '1970-' . $dateParts['month'] . '-' . $dateParts['date'];
+				}
 				if ($originalYear < 1970) {
 					$birthday = '1970-' . $dateParts['month'] . '-' . $dateParts['date'];
 				}
