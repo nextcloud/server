@@ -824,7 +824,7 @@ class DefaultShareProvider implements IShareProvider {
 		$pathSections = explode('/', $data['path'], 2);
 		// FIXME: would not detect rare md5'd home storage case properly
 		if ($pathSections[0] !== 'files'
-				&& in_array(explode(':', $data['storage_string_id'], 2)[0], ['home', 'object'])) {
+			&& (strpos($data['storage_string_id'], 'home::') === 0 || strpos($data['storage_string_id'], 'object::user') === 0)) {
 			return false;
 		}
 		return true;
