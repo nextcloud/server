@@ -41,15 +41,6 @@
       <code>array</code>
     </LessSpecificImplementedReturnType>
   </file>
-  <file src="apps/accessibility/lib/Controller/AccessibilityController.php">
-    <UndefinedThisPropertyAssignment occurrences="1">
-      <code>$this-&gt;appRoot</code>
-    </UndefinedThisPropertyAssignment>
-    <UndefinedThisPropertyFetch occurrences="2">
-      <code>$this-&gt;appRoot</code>
-      <code>$this-&gt;appRoot</code>
-    </UndefinedThisPropertyFetch>
-  </file>
   <file src="apps/cloud_federation_api/lib/Controller/RequestHandlerController.php">
     <InvalidScalarArgument occurrences="1">
       <code>$e-&gt;getCode()</code>
