@@ -219,6 +219,7 @@ return array(
     'OCP\\Files' => $baseDir . '/lib/public/Files.php',
     'OCP\\Files\\AlreadyExistsException' => $baseDir . '/lib/public/Files/AlreadyExistsException.php',
     'OCP\\Files\\Cache\\CacheInsertEvent' => $baseDir . '/lib/public/Files/Cache/CacheInsertEvent.php',
+    'OCP\\Files\\Cache\\CacheRemoveEvent' => $baseDir . '/lib/public/Files/Cache/CacheRemoveEvent.php',
     'OCP\\Files\\Cache\\CacheUpdateEvent' => $baseDir . '/lib/public/Files/Cache/CacheUpdateEvent.php',
     'OCP\\Files\\Cache\\ICache' => $baseDir . '/lib/public/Files/Cache/ICache.php',
     'OCP\\Files\\Cache\\ICacheEntry' => $baseDir . '/lib/public/Files/Cache/ICacheEntry.php',

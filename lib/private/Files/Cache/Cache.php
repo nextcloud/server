@@ -42,6 +42,7 @@ use Doctrine\DBAL\Driver\Statement;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\Cache\CacheInsertEvent;
+use OCP\Files\Cache\CacheRemoveEvent;
 use OCP\Files\Cache\CacheUpdateEvent;
 use OCP\Files\Cache\ICache;
 use OCP\Files\Cache\ICacheEntry;
@@ -284,7 +285,8 @@ class Cache implements ICache {
 		$data['name'] = basename($file);
 
 		[$values, $extensionValues] = $this->normalizeData($data);
-		$values['storage'] = $this->getNumericStorageId();
+		$storageId = $this->getNumericStorageId();
+		$values['storage'] = $storageId;
 
 		try {
 			$builder = $this->connection->getQueryBuilder();
@@ -308,7 +310,7 @@ class Cache implements ICache {
 					$query->execute();
 				}
 
-				$this->eventDispatcher->dispatch(CacheInsertEvent::class, new CacheInsertEvent($this->storage, $file, $fileId));
+				$this->eventDispatcher->dispatch(CacheInsertEvent::class, new CacheInsertEvent($this->storage, $file, $fileId, $storageId));
 				return $fileId;
 			}
 		} catch (UniqueConstraintViolationException $e) {
@@ -399,7 +401,7 @@ class Cache implements ICache {
 		$path = $this->getPathById($id);
 		// path can still be null if the file doesn't exist
 		if ($path !== null) {
-			$this->eventDispatcher->dispatch(CacheUpdateEvent::class, new CacheUpdateEvent($this->storage, $path, $id));
+			$this->eventDispatcher->dispatch(CacheUpdateEvent::class, new CacheUpdateEvent($this->storage, $path, $id, $this->getNumericStorageId()));
 		}
 	}
 
@@ -536,6 +538,8 @@ class Cache implements ICache {
 			if ($entry->getMimeType() == FileInfo::MIMETYPE_FOLDER) {
 				$this->removeChildren($entry);
 			}
+
+			$this->eventDispatcher->dispatch(CacheRemoveEvent::class, new CacheRemoveEvent($this->storage, $entry->getPath(), $entry->getId(), $this->getNumericStorageId()));
 		}
 	}
 
@@ -681,9 +685,17 @@ class Cache implements ICache {
 			$query->execute();
 
 			$this->connection->commit();
+
+			if ($sourceCache->getNumericStorageId() !== $this->getNumericStorageId()) {
+				$this->eventDispatcher->dispatch(CacheRemoveEvent::class, new CacheRemoveEvent($this->storage, $sourcePath, $sourceId, $sourceCache->getNumericStorageId()));
+				$this->eventDispatcher->dispatch(CacheInsertEvent::class, new CacheInsertEvent($this->storage, $targetPath, $sourceId, $this->getNumericStorageId()));
+			} else {
+				$this->eventDispatcher->dispatch(CacheUpdateEvent::class, new CacheUpdateEvent($this->storage, $targetPath, $sourceId, $this->getNumericStorageId()));
+			}
 		} else {
 			$this->moveFromCacheFallback($sourceCache, $sourcePath, $targetPath);
 		}
+
 	}
 
 	/**
