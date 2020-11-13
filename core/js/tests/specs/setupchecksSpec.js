@@ -1114,7 +1114,8 @@ describe('OC.SetupChecks tests', function() {
 				{
 					'Content-Type': 'application/json',
 					'Strict-Transport-Security': 'max-age=15768000'
-				}
+				},
+				'{}'
 			);
 
 			async.done(function( data, s, x ){
