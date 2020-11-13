@@ -918,7 +918,7 @@ OC.Uploader.prototype = _.extend({
 				 */
 				add: function(e, data) {
 					self.log('add', e, data);
-					var that = $(this), freeSpace;
+					var that = $(this), freeSpace = 0;
 
 					var upload = new OC.FileUpload(self, data);
 					// can't link directly due to jQuery not liking cyclic deps on its ajax object
@@ -989,13 +989,20 @@ OC.Uploader.prototype = _.extend({
 					}
 
 					// check free space
-					freeSpace = $('#free_space').val();
+					if (!self.fileList || upload.getTargetFolder() === self.fileList.getCurrentDirectory()) {
+						// Use global free space if there is no file list to check or the current directory is the target
+						freeSpace = $('#free_space').val()
+					} else if (upload.getTargetFolder().indexOf(self.fileList.getCurrentDirectory()) === 0) {
+						// Check subdirectory free space if file is uploaded there
+						var targetSubdir = upload._targetFolder.replace(self.fileList.getCurrentDirectory(), '')
+						freeSpace = parseInt(upload.uploader.fileList.getModelForFile(targetSubdir).get('quotaAvailableBytes'))
+					}
 					if (freeSpace >= 0 && selection.totalBytes > freeSpace) {
 						data.textStatus = 'notenoughspace';
 						data.errorThrown = t('files',
 							'Not enough free space, you are uploading {size1} but only {size2} is left', {
 							'size1': OC.Util.humanFileSize(selection.totalBytes),
-							'size2': OC.Util.humanFileSize($('#free_space').val())
+							'size2': OC.Util.humanFileSize(freeSpace)
 						});
 					}
 
