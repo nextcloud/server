@@ -3,7 +3,7 @@
     "Channel updated" : "Каналот е ажуриран",
     "Update notifications" : "Известувања за ажурирање",
     "The update server could not be reached since %d days to check for new updates." : "Серверот за ажурирање не е проверен %d дена.",
-    "Please check the Nextcloud and server log files for errors." : "Проверете ги записите во Nextcloud и записите во серверот за грешките.",
+    "Please check the Nextcloud and server log files for errors." : "Проверете ги записите во Cloud-от и записите во серверот за грешките.",
     "Update to %1$s is available." : "Достапно е аурирање во верзија %1$s.",
     "Update for %1$s to version %2$s is available." : "Достапно е ажурирање од %1$s во верзија %2$s.",
     "Update for {app} to version %s is available." : "Достапно е ажурирање за {app} во верзија %s.",
