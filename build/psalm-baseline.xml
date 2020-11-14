@@ -2173,10 +2173,6 @@
     <InvalidScalarArgument occurrences="1">
       <code>(int)$cacheBusterKey + 1</code>
     </InvalidScalarArgument>
-    <NullArgument occurrences="2">
-      <code>null</code>
-      <code>null</code>
-    </NullArgument>
   </file>
   <file src="apps/theming/lib/Util.php">
     <InvalidReturnStatement occurrences="1">
