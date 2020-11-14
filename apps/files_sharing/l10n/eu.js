@@ -169,6 +169,7 @@ OC.L10N.register(
     "Password protection" : "Pasahitz bidezko babesa",
     "Enter a password" : "Sartu pasahitz bat",
     "Expiration date (enforced)" : "Iraungitze-data (betearazita)",
+    "Create share" : "Sortu partekatzea",
     "Cancel" : "Utzi",
     "Share label" : "partekatu etiketa",
     "Read only" : "Irakurtzeko soilik",
@@ -186,6 +187,8 @@ OC.L10N.register(
     "Error, please enter proper password and/or expiration date" : "Errorea, sartu dagokion pasahitza edo/eta iraungitze-data",
     "No recommendations. Start typing." : "Gomendiorik ez. Hasi idazten.",
     "Resharing is not allowed" : "Birpartekatzea ez da onartzen",
+    "Name or email …" : "Izena edo posta ...",
+    "Name, email, or Federated Cloud ID …" : "Izena, posta, edo Federatutako Lainoaren IDa ...",
     "Searching …" : "Bilatzen…",
     "No elements found." : "Ez da elementurik aurkitu.",
     "Search globally" : "Bilatu globalki",
@@ -228,6 +231,7 @@ OC.L10N.register(
     "Uploading files" : "Fitxategiak kargatzen",
     "Uploaded files:" : "Igotako fitxategiak:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Fitxategiak kargatzean, %1$szerbitzu-baldintzak%2$s onartzen dituzu.",
+    "Name, email, or federated cloud ID …" : "Izena, posta, edo federatutako lainoaren IDa ...",
     "Uploading files…" : "Fitxategiak igotzen…"
 },
 "nplurals=2; plural=(n != 1);");

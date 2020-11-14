@@ -47,7 +47,7 @@ OC.L10N.register(
     "Custom mimetype" : "Прилагоден тип на датотеки",
     "Select a tag" : "Избери ознака",
     "No results" : "Нема резултати",
-    "%s (invisible)" : "%s (невидлива)",
+    "%s (invisible)" : "%s (невидливо)",
     "%s (restricted)" : "%s (ограничена)",
     "Please enter a valid time span" : "Внесете валиден времески осег",
     "Others" : "Останати",
