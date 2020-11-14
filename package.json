@@ -64,7 +64,7 @@
     "marked": "^1.2.3",
     "moment": "^2.29.1",
     "moment-timezone": "^0.5.31",
-    "nextcloud-vue-collections": "^0.8.1",
+    "nextcloud-vue-collections": "^0.9.0",
     "p-limit": "^3.0.2",
     "p-queue": "^6.6.2",
     "query-string": "^5.1.1",
