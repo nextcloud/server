@@ -106,7 +106,7 @@ OC.L10N.register(
     "does not match IPv6" : "nie pasuje IPv6",
     "File system tag" : "Etykieta systemu plików",
     "is tagged with" : "jest oznaczony",
-    "is not tagged with" : "Nie jest oznaczony",
+    "is not tagged with" : "nie jest oznaczony",
     "Request URL" : "Żądanie URL",
     "Request time" : "Czas odpowiedzi",
     "between" : "pomiędzy",
