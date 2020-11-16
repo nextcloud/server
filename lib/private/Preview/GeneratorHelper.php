@@ -58,8 +58,11 @@ class GeneratorHelper {
 	 *
 	 * @return bool|IImage
 	 */
-	public function getThumbnail(IProviderV2 $provider, File $file, $maxWidth, $maxHeight) {
-		return $provider->getThumbnail($file, $maxWidth, $maxHeight);
+	public function getThumbnail(IProviderV2 $provider, File $file, $maxWidth, $maxHeight, bool $crop = false) {
+		if ($provider instanceof Imaginary) {
+			return $provider->getCroppedThumbnail($file, $maxWidth, $maxHeight, $crop) ?? false;
+		}
+		return $provider->getThumbnail($file, $maxWidth, $maxHeight) ?? false;
 	}
 
 	/**
