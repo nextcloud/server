@@ -29,7 +29,7 @@ use OCP\DB\QueryBuilder\IParameter;
 use OCP\DB\QueryBuilder\IQueryFunction;
 
 class OCIFunctionBuilder extends FunctionBuilder {
-	public function md5($input) {
+	public function md5($input): IQueryFunction {
 		return new QueryFunction('LOWER(DBMS_OBFUSCATION_TOOLKIT.md5 (input => UTL_RAW.cast_to_raw(' . $this->helper->quoteColumnName($input) .')))');
 	}
 
@@ -45,7 +45,7 @@ class OCIFunctionBuilder extends FunctionBuilder {
 	 * @param string|ILiteral|IParameter|IQueryFunction $y
 	 * @return IQueryFunction
 	 */
-	public function greatest($x, $y) {
+	public function greatest($x, $y): IQueryFunction {
 		if (is_string($y) || $y instanceof IQueryFunction) {
 			return parent::greatest($y, $x);
 		}
@@ -65,7 +65,7 @@ class OCIFunctionBuilder extends FunctionBuilder {
 	 * @param string|ILiteral|IParameter|IQueryFunction $y
 	 * @return IQueryFunction
 	 */
-	public function least($x, $y) {
+	public function least($x, $y): IQueryFunction {
 		if (is_string($y) || $y instanceof IQueryFunction) {
 			return parent::least($y, $x);
 		}
