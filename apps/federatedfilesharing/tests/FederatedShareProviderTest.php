@@ -35,6 +35,7 @@ use OCA\FederatedFileSharing\AddressHandler;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\FederatedFileSharing\Notifications;
 use OCA\FederatedFileSharing\TokenHandler;
+use OCP\Contacts\IManager as IContactsManager;
 use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Federation\ICloudIdManager;
 use OCP\Files\File;
@@ -46,6 +47,7 @@ use OCP\ILogger;
 use OCP\IUserManager;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Class FederatedShareProviderTest
@@ -80,6 +82,8 @@ class FederatedShareProviderTest extends \Test\TestCase {
 	protected $shareManager;
 	/** @var FederatedShareProvider */
 	protected $provider;
+	/** @var IContactsManager|\PHPUnit\Framework\MockObject\MockObject */
+	protected $contactsManager;
 
 	/** @var  ICloudIdManager */
 	private $cloudIdManager;
@@ -108,7 +112,8 @@ class FederatedShareProviderTest extends \Test\TestCase {
 		$this->userManager = $this->getMockBuilder(IUserManager::class)->getMock();
 		//$this->addressHandler = new AddressHandler(\OC::$server->getURLGenerator(), $this->l);
 		$this->addressHandler = $this->getMockBuilder('OCA\FederatedFileSharing\AddressHandler')->disableOriginalConstructor()->getMock();
-		$this->cloudIdManager = new CloudIdManager();
+		$this->contactsManager = $this->createMock(IContactsManager::class);
+		$this->cloudIdManager = new CloudIdManager($this->contactsManager);
 		$this->gsConfig = $this->createMock(\OCP\GlobalScale\IConfig::class);
 
 		$this->userManager->expects($this->any())->method('userExists')->willReturn(true);
@@ -142,6 +147,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 	public function testCreate() {
 		$share = $this->shareManager->newShare();
 
+		/** @var File|MockObject $node */
 		$node = $this->getMockBuilder(File::class)->getMock();
 		$node->method('getId')->willReturn(42);
 		$node->method('getName')->willReturn('myFile');
@@ -171,9 +177,14 @@ class FederatedShareProviderTest extends \Test\TestCase {
 				'shareOwner@http://localhost/',
 				'sharedBy',
 				'sharedBy@http://localhost/'
-			)->willReturn(true);
+			)
+			->willReturn(true);
 
 		$this->rootFolder->expects($this->never())->method($this->anything());
+
+		$this->contactsManager->expects($this->any())
+			->method('search')
+			->willReturn([]);
 
 		$share = $this->provider->create($share);
 
@@ -251,6 +262,10 @@ class FederatedShareProviderTest extends \Test\TestCase {
 			->with('42')
 			->willReturn([$node]);
 
+		$this->contactsManager->expects($this->any())
+			->method('search')
+			->willReturn([]);
+
 		try {
 			$share = $this->provider->create($share);
 			$this->fail();
@@ -308,6 +323,10 @@ class FederatedShareProviderTest extends \Test\TestCase {
 			->with('42')
 			->willReturn([$node]);
 
+		$this->contactsManager->expects($this->any())
+			->method('search')
+			->willReturn([]);
+
 		try {
 			$share = $this->provider->create($share);
 			$this->fail();
@@ -344,6 +363,10 @@ class FederatedShareProviderTest extends \Test\TestCase {
 			->setShareOwner('shareOwner')
 			->setPermissions(19)
 			->setNode($node);
+
+		$this->contactsManager->expects($this->any())
+			->method('search')
+			->willReturn([]);
 
 		$this->rootFolder->expects($this->never())->method($this->anything());
 
@@ -404,6 +427,10 @@ class FederatedShareProviderTest extends \Test\TestCase {
 
 		$this->rootFolder->expects($this->never())->method($this->anything());
 
+		$this->contactsManager->expects($this->any())
+			->method('search')
+			->willReturn([]);
+
 		$this->provider->create($share);
 
 		try {
@@ -442,7 +469,6 @@ class FederatedShareProviderTest extends \Test\TestCase {
 		$node->method('getId')->willReturn(42);
 		$node->method('getName')->willReturn('myFile');
 
-
 		$this->addressHandler->expects($this->any())->method('splitUserRemote')
 			->willReturn(['user', 'server.com']);
 
@@ -477,6 +503,10 @@ class FederatedShareProviderTest extends \Test\TestCase {
 		}
 
 		$this->rootFolder->expects($this->never())->method($this->anything());
+
+		$this->contactsManager->expects($this->any())
+			->method('search')
+			->willReturn([]);
 
 		$share = $this->provider->create($share);
 
@@ -515,6 +545,10 @@ class FederatedShareProviderTest extends \Test\TestCase {
 			->willReturn(true);
 
 		$this->rootFolder->expects($this->never())->method($this->anything());
+
+		$this->contactsManager->expects($this->any())
+			->method('search')
+			->willReturn([]);
 
 		$share = $this->shareManager->newShare();
 		$share->setSharedWith('user@server.com')
@@ -555,6 +589,10 @@ class FederatedShareProviderTest extends \Test\TestCase {
 
 		$this->addressHandler->method('generateRemoteURL')
 			->willReturn('remoteurl.com');
+
+		$this->contactsManager->expects($this->any())
+			->method('search')
+			->willReturn([]);
 
 		$share = $this->shareManager->newShare();
 		$share->setSharedWith('user@server.com')
@@ -598,6 +636,10 @@ class FederatedShareProviderTest extends \Test\TestCase {
 
 		$this->addressHandler->method('generateRemoteURL')
 			->willReturn('remoteurl.com');
+
+		$this->contactsManager->expects($this->any())
+			->method('search')
+			->willReturn([]);
 
 		$share = $this->shareManager->newShare();
 		$share->setSharedWith('user@server.com')
@@ -644,6 +686,10 @@ class FederatedShareProviderTest extends \Test\TestCase {
 
 		$this->addressHandler->method('generateRemoteURL')
 			->willReturn('remoteurl.com');
+
+		$this->contactsManager->expects($this->any())
+			->method('search')
+			->willReturn([]);
 
 		$share = $this->shareManager->newShare();
 		$share->setSharedWith('user@server.com')
@@ -845,6 +891,10 @@ class FederatedShareProviderTest extends \Test\TestCase {
 		$this->addressHandler->method('generateRemoteURL')
 			->willReturn('remoteurl.com');
 
+		$this->contactsManager->expects($this->any())
+			->method('search')
+			->willReturn([]);
+
 		$share1 = $this->shareManager->newShare();
 		$share1->setSharedWith('user@server.com')
 			->setSharedBy($u1->getUID())
@@ -891,6 +941,10 @@ class FederatedShareProviderTest extends \Test\TestCase {
 		$this->notifications->expects($this->atLeastOnce())
 			->method('sendRemoteShare')
 			->willReturn(true);
+
+		$this->contactsManager->expects($this->any())
+			->method('search')
+			->willReturn([]);
 
 		$result = $this->provider->getAccessList([$file1], true);
 		$this->assertEquals(['remote' => []], $result);
