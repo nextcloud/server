@@ -391,6 +391,112 @@ Feature: sharing
     And Share fields of last share match with
       | permissions | 7 |
 
+  Scenario: Creating a new internal share with default expiration date
+    Given user "user0" exists
+    And user "user1" exists
+    And As an "user0"
+    And parameter "shareapi_default_internal_expire_date" of app "core" is set to "yes"
+    And parameter "shareapi_internal_expire_after_n_days" of app "core" is set to "3"
+    When creating a share with
+      | path | welcome.txt |
+      | shareWith | user1 |
+      | shareType | 0 |
+    And the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And Getting info of last share
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And Share fields of last share match with
+      | expiration | +3 days |
+
+  Scenario: Creating a new internal share with relaxed default expiration date
+    Given user "user0" exists
+    And user "user1" exists
+    And As an "user0"
+    And parameter "shareapi_default_internal_expire_date" of app "core" is set to "yes"
+    And parameter "shareapi_internal_expire_after_n_days" of app "core" is set to "3"
+    And parameter "internal_defaultExpDays" of app "core" is set to "1"
+    When creating a share with
+      | path | welcome.txt |
+      | shareWith | user1 |
+      | shareType | 0 |
+    And the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And Getting info of last share
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And Share fields of last share match with
+      | expiration | +1 days |
+
+  Scenario: Creating a new internal share with relaxed default expiration date too large
+    Given user "user0" exists
+    And user "user1" exists
+    And As an "user0"
+    And parameter "shareapi_default_internal_expire_date" of app "core" is set to "yes"
+    And parameter "shareapi_internal_expire_after_n_days" of app "core" is set to "3"
+    And parameter "internal_defaultExpDays" of app "core" is set to "10"
+    When creating a share with
+      | path | welcome.txt |
+      | shareWith | user1 |
+      | shareType | 0 |
+    And the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And Getting info of last share
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And Share fields of last share match with
+      | expiration | +3 days |
+
+  Scenario: Creating a new link share with default expiration date
+    Given user "user0" exists
+    And As an "user0"
+    And parameter "shareapi_default_expire_date" of app "core" is set to "yes"
+    And parameter "shareapi_expire_after_n_days" of app "core" is set to "3"
+    When creating a share with
+      | path | welcome.txt |
+      | shareType | 3 |
+    And the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And Getting info of last share
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And Share fields of last share match with
+      | expiration | +3 days |
+
+  Scenario: Creating a new link share with relaxed default expiration date
+    Given user "user0" exists
+    And As an "user0"
+    And parameter "shareapi_default_expire_date" of app "core" is set to "yes"
+    And parameter "shareapi_expire_after_n_days" of app "core" is set to "3"
+    And parameter "link_defaultExpDays" of app "core" is set to "1"
+    When creating a share with
+      | path | welcome.txt |
+      | shareType | 3 |
+    And the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And Getting info of last share
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And Share fields of last share match with
+      | expiration | +1 days |
+
+  Scenario: Creating a new link share with relaxed default expiration date too large
+    Given user "user0" exists
+    And As an "user0"
+    And parameter "shareapi_default_expire_date" of app "core" is set to "yes"
+    And parameter "shareapi_expire_after_n_days" of app "core" is set to "3"
+    And parameter "link_defaultExpDays" of app "core" is set to "10"
+    When creating a share with
+      | path | welcome.txt |
+      | shareType | 3 |
+    And the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And Getting info of last share
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And Share fields of last share match with
+      | expiration | +3 days |
+
   Scenario: getting all shares of a user using that user
     Given user "user0" exists
     And user "user1" exists

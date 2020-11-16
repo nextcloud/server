@@ -36,7 +36,13 @@ class SharingContext implements Context, SnippetAcceptingContext {
 	use CommandLine;
 
 	protected function resetAppConfigs() {
-		$this->modifyServerConfig('core', 'shareapi_default_permissions', '31');
-		$this->modifyServerConfig('sharebymail', 'enforcePasswordProtection', 'no');
+		$this->deleteServerConfig('core', 'shareapi_default_permissions');
+		$this->deleteServerConfig('core', 'shareapi_default_internal_expire_date');
+		$this->deleteServerConfig('core', 'shareapi_internal_expire_after_n_days');
+		$this->deleteServerConfig('core', 'internal_defaultExpDays');
+		$this->deleteServerConfig('core', 'shareapi_default_expire_date');
+		$this->deleteServerConfig('core', 'shareapi_expire_after_n_days');
+		$this->deleteServerConfig('core', 'link_defaultExpDays');
+		$this->deleteServerConfig('sharebymail', 'enforcePasswordProtection');
 	}
 }

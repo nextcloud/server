@@ -97,7 +97,7 @@ class FederationContext implements Context, SnippetAcceptingContext {
 	}
 
 	protected function resetAppConfigs() {
-		$this->modifyServerConfig('files_sharing', 'incoming_server2server_group_share_enabled', 'no');
-		$this->modifyServerConfig('files_sharing', 'outgoing_server2server_group_share_enabled', 'no');
+		$this->deleteServerConfig('files_sharing', 'incoming_server2server_group_share_enabled');
+		$this->deleteServerConfig('files_sharing', 'outgoing_server2server_group_share_enabled');
 	}
 }
