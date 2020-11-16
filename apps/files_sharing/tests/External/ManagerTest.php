@@ -33,6 +33,7 @@ use OC\Files\Storage\StorageFactory;
 use OCA\Files_Sharing\External\Manager;
 use OCA\Files_Sharing\External\MountProvider;
 use OCA\Files_Sharing\Tests\TestCase;
+use OCP\Contacts\IManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\ICloudFederationFactory;
 use OCP\Federation\ICloudFederationProviderManager;
@@ -52,6 +53,9 @@ use Test\Traits\UserTrait;
  */
 class ManagerTest extends TestCase {
 	use UserTrait;
+
+	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
+	protected $contactsManager;
 
 	/** @var Manager|\PHPUnit\Framework\MockObject\MockObject **/
 	private $manager;
@@ -99,6 +103,12 @@ class ManagerTest extends TestCase {
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 
+		$this->contactsManager = $this->createMock(IManager::class);
+		// needed for MountProvider() initialization
+		$this->contactsManager->expects($this->any())
+			->method('search')
+			->willReturn([]);
+
 		$this->manager = $this->getMockBuilder(Manager::class)
 			->setConstructorArgs(
 				[
@@ -119,7 +129,7 @@ class ManagerTest extends TestCase {
 
 		$this->testMountProvider = new MountProvider(\OC::$server->getDatabaseConnection(), function () {
 			return $this->manager;
-		}, new CloudIdManager());
+		}, new CloudIdManager($this->contactsManager));
 	}
 
 	private function setupMounts() {

@@ -29,6 +29,7 @@ namespace OCA\Files_Sharing\Tests\External;
 
 use OC\Federation\CloudIdManager;
 use OCA\Files_Sharing\Tests\TestCase;
+use OCP\Contacts\IManager;
 use OCP\Federation\ICloudIdManager;
 
 /**
@@ -39,6 +40,8 @@ use OCP\Federation\ICloudIdManager;
  * @package OCA\Files_Sharing\Tests\External
  */
 class CacheTest extends TestCase {
+	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
+	protected $contactsManager;
 
 	/**
 	 * @var \OC\Files\Storage\Storage
@@ -61,7 +64,9 @@ class CacheTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->cloudIdManager = new CloudIdManager();
+		$this->contactsManager = $this->createMock(IManager::class);
+
+		$this->cloudIdManager = new CloudIdManager($this->contactsManager);
 		$this->remoteUser = $this->getUniqueID('remoteuser');
 
 		$this->storage = $this->getMockBuilder('\OCA\Files_Sharing\External\Storage')
@@ -71,6 +76,11 @@ class CacheTest extends TestCase {
 			->expects($this->any())
 			->method('getId')
 			->willReturn('dummystorage::');
+
+		$this->contactsManager->expects($this->any())
+			->method('search')
+			->willReturn([]);
+
 		$this->cache = new \OCA\Files_Sharing\External\Cache(
 			$this->storage,
 			$this->cloudIdManager->getCloudId($this->remoteUser, 'http://example.com/owncloud')
