@@ -641,7 +641,7 @@ class OC {
 
 		/** @var \OC\AppFramework\Bootstrap\Coordinator $bootstrapCoordinator */
 		$bootstrapCoordinator = \OC::$server->query(\OC\AppFramework\Bootstrap\Coordinator::class);
-		$bootstrapCoordinator->runRegistration();
+		$bootstrapCoordinator->runInitialRegistration();
 
 		\OC::$server->getEventLogger()->start('init_session', 'Initialize session');
 		OC_App::loadApps(['session']);

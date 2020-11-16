@@ -42,6 +42,7 @@ namespace OC;
 use Doctrine\DBAL\Exception\TableExistsException;
 use OC\App\AppStore\Bundles\Bundle;
 use OC\App\AppStore\Fetcher\AppFetcher;
+use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Archive\TAR;
 use OC_App;
 use OC_DB;
@@ -138,6 +139,9 @@ class Installer {
 
 		// check for required dependencies
 		\OC_App::checkAppDependencies($this->config, $l, $info, $ignoreMax);
+		/** @var Coordinator $coordinator */
+		$coordinator = \OC::$server->get(Coordinator::class);
+		$coordinator->runLazyRegistration($appId);
 		\OC_App::registerAutoloading($appId, $basedir);
 
 		$previousVersion = $this->config->getAppValue($info['id'], 'installed_version', false);
