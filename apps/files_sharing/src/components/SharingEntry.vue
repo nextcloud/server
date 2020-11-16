@@ -76,9 +76,9 @@
 
 				<!-- expiration date -->
 				<ActionCheckbox :checked.sync="hasExpirationDate"
-					:disabled="config.isDefaultExpireDateEnforced || saving"
+					:disabled="config.isDefaultInternalExpireDateEnforced || saving"
 					@uncheck="onExpirationDisable">
-					{{ config.isDefaultExpireDateEnforced
+					{{ config.isDefaultInternalExpireDateEnforced
 						? t('files_sharing', 'Expiration date enforced')
 						: t('files_sharing', 'Set expiration date') }}
 				</ActionCheckbox>
