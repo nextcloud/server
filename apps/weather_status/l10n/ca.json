@@ -25,6 +25,8 @@
     "Loading weather" : "S' està carregant el temps",
     "Set location for weather" : "Definir la ubicació per al temps",
     "Remove from favorites" : "Suprimeix de preferits",
+    "Add as favorite" : "Afegeix-ho com a preferit",
+    "You are not logged in." : "No heu iniciat la sessió.",
     "There was an error getting the weather status information." : "S'ha produït un error en obtenir la informació de l'estat del temps.",
     "No weather information found" : "No s'ha trobat informació meteorològica",
     "Location not found" : "No s'ha trobat la ubicació",
