@@ -475,6 +475,9 @@ class OC_Helper {
 	/**
 	 * Calculate the disc space for the given path
 	 *
+	 * BEWARE: this requires that Util::setupFS() was called
+	 * already !
+	 *
 	 * @param string $path
 	 * @param \OCP\Files\FileInfo $rootInfo (optional)
 	 * @return array
