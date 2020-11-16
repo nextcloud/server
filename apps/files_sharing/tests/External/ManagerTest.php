@@ -94,6 +94,12 @@ class ManagerTest extends TestCase {
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->userManager = $this->createMock(IUserManager::class);
 
+		$this->contactsManager = $this->createMock(IManager::class);
+		// needed for MountProvider() initialization
+		$this->contactsManager->expects($this->any())
+			->method('search')
+			->willReturn([]);
+
 		$this->manager = $this->getMockBuilder(Manager::class)
 			->setConstructorArgs(
 				[
@@ -113,7 +119,7 @@ class ManagerTest extends TestCase {
 
 		$this->testMountProvider = new MountProvider(\OC::$server->getDatabaseConnection(), function () {
 			return $this->manager;
-		}, new CloudIdManager());
+		}, new CloudIdManager($this->contactsManager));
 	}
 
 	private function setupMounts() {

@@ -1278,7 +1278,7 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 
 		$this->registerService(ICloudIdManager::class, function (Server $c) {
-			return new CloudIdManager();
+			return new CloudIdManager($c->getContactsManager());
 		});
 
 		$this->registerService(IConfig::class, function (Server $c) {
