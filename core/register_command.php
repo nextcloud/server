@@ -101,6 +101,7 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 	$application->add(new OC\Core\Command\Db\ConvertFilecacheBigInt(\OC::$server->getDatabaseConnection()));
 	$application->add(new OC\Core\Command\Db\AddMissingIndices(\OC::$server->getDatabaseConnection(), \OC::$server->getEventDispatcher()));
 	$application->add(new OC\Core\Command\Db\AddMissingColumns(\OC::$server->getDatabaseConnection(), \OC::$server->getEventDispatcher()));
+	$application->add(new OC\Core\Command\Db\AddMissingPrimaryKeys(\OC::$server->getDatabaseConnection(), \OC::$server->getEventDispatcher()));
 	$application->add(new OC\Core\Command\Db\Migrations\StatusCommand(\OC::$server->getDatabaseConnection()));
 	$application->add(new OC\Core\Command\Db\Migrations\MigrateCommand(\OC::$server->getDatabaseConnection()));
 	$application->add(new OC\Core\Command\Db\Migrations\GenerateCommand(\OC::$server->getDatabaseConnection(), \OC::$server->getAppManager()));
