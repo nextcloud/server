@@ -105,6 +105,9 @@ class PersonalInfo implements ISettings {
 		$user = $this->userManager->get($uid);
 		$userData = $this->accountManager->getUser($user);
 
+		// make sure FS is setup before querying storage related stuff...
+		\OC_Util::setupFS($user->getUID());
+
 		$storageInfo = \OC_Helper::getStorageInfo('/');
 		if ($storageInfo['quota'] === FileInfo::SPACE_UNLIMITED) {
 			$totalSpace = $this->l->t('Unlimited');
