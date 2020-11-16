@@ -103,7 +103,8 @@ class OC_DB {
 			return true;
 		}
 
-		\OC::$server->getLogger()->logException(new \Exception('Can not detect if query is manipulating: ' . $sql));
+		// This is triggered with "SHOW VERSION" and some more, so until we made a list, we keep this out.
+		// \OC::$server->getLogger()->logException(new \Exception('Can not detect if query is manipulating: ' . $sql));
 
 		return false;
 	}
