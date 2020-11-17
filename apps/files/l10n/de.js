@@ -192,11 +192,9 @@ OC.L10N.register(
     "Text file" : "Textdatei",
     "New text file.txt" : "Neue Textdatei file.txt",
     "Unshare" : "Freigabe aufheben",
-    "This group folder is full, files can not be updated or synced anymore!" : "Dieser Gruppenordner ist voll, Dateien können nicht mehr aktualisiert oder synchronisiert werden!",
-    "This external storage is full, files can not be updated or synced anymore!" : "Dieser externe Speicher ist voll, Dateien können nicht mehr aktualisiert oder synchronisiert werden!",
     "Storage of {owner} is almost full ({usedSpacePercent}%)" : "Der Speicher von {owner} ist beinahe voll ({usedSpacePercent}%)",
-    "This group folder is almost full ({usedSpacePercent}%)" : "Dieser Gruppenordner ist beinahe voll ({usedSpacePercent}%)",
-    "This external storage is almost full ({usedSpacePercent}%)" : "Dieser externe Speicher ist fast voll ({usedSpacePercent}%)",
+    "Group folder \"{mountPoint}\" is almost full ({usedSpacePercent}%)" : "Gruppenordner \"{mountPoint}\" ist beinahe voll ({usedSpacePercent}%).",
+    "External storage \"{mountPoint}\" is almost full ({usedSpacePercent}%)" : "Externer Speicher \"{mountPoint}\" ist beinahe voll ({usedSpacePercent}%).",
     "Your storage is almost full ({usedSpacePercent}%)" : "Dein Speicher ist fast voll ({usedSpacePercent}%)",
     "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>" : "Eine Datei oder Ordner wurde <strong>geändert</strong> oder <strong>umbenannt</strong>",
     "A new file or folder has been <strong>created</strong>" : "Eine neue Datei oder ein neuer Ordner wurde <strong>erstellt</strong>",
@@ -204,8 +202,6 @@ OC.L10N.register(
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Benachrichtigungen über Neues und Änderungen auf Deine <strong>favorisierten Dateien</strong> beschränken <em>(nur im Stream)</em>",
     "A file or folder has been <strong>restored</strong>" : "Eine Datei oder ein Ordner wurde <strong>wiederhergestellt</strong>",
     "Cannot transfter ownership of a file or folder you don't own" : "Der Besitz einer Datei oder eines Ordners, den Du nicht besitzt, kann nicht übertragen werden",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Diese Adresse benutzen, um <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">über WebDAV auf Deine Dateien zuzugreifen</a>",
-    "Group folder \"{mountPoint}\" is almost full ({usedSpacePercent}%)" : "Gruppenordner \"{mountPoint}\" ist beinahe voll ({usedSpacePercent}%).",
-    "External storage \"{mountPoint}\" is almost full ({usedSpacePercent}%)" : "Externer Speicher \"{mountPoint}\" ist beinahe voll ({usedSpacePercent}%)."
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Diese Adresse benutzen, um <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">über WebDAV auf Deine Dateien zuzugreifen</a>"
 },
 "nplurals=2; plural=(n != 1);");

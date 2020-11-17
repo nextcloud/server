@@ -148,8 +148,6 @@
     "Text file" : "Archivo de texto",
     "New text file.txt" : "Nuevo ArchivoDeTexto.txt",
     "Unshare" : "Dejar de compartir",
-    "This group folder is full, files can not be updated or synced anymore!" : "Esta carpeta grupal esta llena. ¡Los archivos ya no se pueden actualizar o sincronizar!",
-    "This external storage is full, files can not be updated or synced anymore!" : "Este espacio externo esta lleno. ¡Los archivos ya no se pueden actualizar o sincronizar!",
     "Storage of {owner} is almost full ({usedSpacePercent}%)" : "El espacio de {owner} está casi lleno ({usedSpacePercent}%)",
     "Your storage is almost full ({usedSpacePercent}%)" : "Tu espacio está casi lleno ({usedSpacePercent}%)",
     "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>" : "Un archivo o carpeta ha sido <strong>cambiado </strong> o <strong>renombrado</strong>",
