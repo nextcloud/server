@@ -5117,7 +5117,7 @@
       <code>'OCP\Share::preShare'</code>
       <code>'OCP\Share::preUnshare'</code>
     </InvalidArgument>
-    <InvalidScalarArgument occurrences="3">
+    <InvalidScalarArgument occurrences="2">
       <code>$id</code>
       <code>$this-&gt;shareApiLinkDefaultExpireDays()</code>
       <code>$this-&gt;shareApiLinkDefaultExpireDays()</code>
