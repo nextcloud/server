@@ -134,22 +134,31 @@ class WeatherStatusService {
 	}
 
 	/**
-	 * Get favorites list
-	 * @param array $favorites
-	 * @return array success state
+	 * Get option values
+	 * @return array the values
 	 */
-	public function getFavorites(): array {
+	public function getOptions(): array {
 		$favoritesJson = $this->config->getUserValue($this->userId, Application::APP_ID, 'favorites', '');
-		return json_decode($favoritesJson, true) ?: [];
+		$forecastOffset = $this->config->getUserValue($this->userId, Application::APP_ID, 'forecastOffset', '5');
+		return [
+			'favorites' => json_decode($favoritesJson, true) ?: [],
+			'forecastOffset' => $forecastOffset,
+		];
 	}
 
 	/**
-	 * Set favorites list
-	 * @param array $favorites
+	 * Set option values
+	 * @param ?array $favorites
+	 * @param ?int $forecastOffset
 	 * @return array success state
 	 */
-	public function setFavorites(array $favorites): array {
-		$this->config->setUserValue($this->userId, Application::APP_ID, 'favorites', json_encode($favorites));
+	public function setOptions(?array $favorites, ?int $forecastOffset): array {
+		if (!is_null($favorites)) {
+			$this->config->setUserValue($this->userId, Application::APP_ID, 'favorites', json_encode($favorites));
+		}
+		if (!is_null($forecastOffset)) {
+			$this->config->setUserValue($this->userId, Application::APP_ID, 'forecastOffset', $forecastOffset);
+		}
 		return ['success' => true];
 	}
 

@@ -107,27 +107,27 @@ const fetchForecast = async() => {
 }
 
 /**
- * Fetches the location favorites
+ * Fetches option values like favorites and weather offset
  *
- * @param {String} address The location
  * @returns {Promise<Object>}
  */
-const getFavorites = async() => {
-	const url = generateOcsUrl('apps/weather_status/api/v1', 2) + 'favorites'
+const getOptionValues = async() => {
+	const url = generateOcsUrl('apps/weather_status/api/v1', 2) + 'options'
 	const response = await HttpClient.get(url)
 
 	return response.data.ocs.data
 }
 
 /**
+ * Saves multiple option values
  *
- * @param {Array} favorites List of favorite addresses
+ * @param {Object} optionValues key/val option values
  * @returns {Promise<Object>}
  */
-const saveFavorites = async(favorites) => {
-	const url = generateOcsUrl('apps/weather_status/api/v1', 2) + 'favorites'
+const saveOptionValues = async(optionValues) => {
+	const url = generateOcsUrl('apps/weather_status/api/v1', 2) + 'options'
 	const response = await HttpClient.put(url, {
-		favorites,
+		...optionValues,
 	})
 
 	return response.data.ocs.data
@@ -140,6 +140,6 @@ export {
 	setLocation,
 	setAddress,
 	fetchForecast,
-	getFavorites,
-	saveFavorites,
+	getOptionValues,
+	saveOptionValues,
 }

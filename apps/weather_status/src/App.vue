@@ -25,7 +25,8 @@
 			<Actions
 				class="weather-status-menu-item__subheader"
 				:default-icon="weatherIcon"
-				:menu-title="visibleMessage">
+				:menu-title="visibleMessage"
+				@close="showFavorites = false; showOptions = false">
 				<ActionLink v-if="gotWeather"
 					icon="icon-address"
 					target="_blank"
@@ -66,13 +67,32 @@
 					@click="onFavoriteClick(f)">
 					{{ f }}
 				</ActionButton>
+				<ActionButton
+					:icon="toggleOptionsIcon"
+					@click="showOptions = !showOptions">
+					{{ t('weather_status', 'Settings') }}
+				</ActionButton>
+				<ActionInput
+					v-show="showOptions"
+					ref="forecastOffsetInput"
+					icon="icon-play-next"
+					type="number"
+					step="1"
+					min="0"
+					max="9"
+					class="classic-number-input"
+					:value="forecastOffset"
+					@update:value="onForecastOffsetSubmit"
+					@submit="onForecastOffsetSubmit">
+					{{ t('weather_status', '{offset} Forecast offset (hours)', { offset: forecastOffset }) }}
+				</ActionInput>
 			</Actions>
 		</div>
 	</li>
 </template>
 
 <script>
-import { showError } from '@nextcloud/dialogs'
+import { showError, showWarning } from '@nextcloud/dialogs'
 import moment from '@nextcloud/moment'
 import { getLocale } from '@nextcloud/l10n'
 import Actions from '@nextcloud/vue/dist/Components/Actions'
@@ -179,6 +199,8 @@ export default {
 			loop: null,
 			favorites: [],
 			showFavorites: false,
+			showOptions: false,
+			forecastOffset: 5,
 		}
 	},
 	computed: {
@@ -191,25 +213,27 @@ export default {
 		locationText() {
 			return t('weather_status', 'More weather for {adr}', { adr: this.address })
 		},
-		sixHoursTempForecast() {
-			return this.forecasts.length > 5 ? this.forecasts[5].data.instant.details.air_temperature : ''
+		temperatureForecast() {
+			return this.forecasts.length > this.forecastOffset
+				? this.forecasts[this.forecastOffset].data.instant.details.air_temperature
+				: ''
 		},
-		sixHoursWeatherForecast() {
-			return this.forecasts.length > 5 ? this.forecasts[5].data.next_1_hours.summary.symbol_code : ''
+		weatherForecast() {
+			return this.forecasts.length > this.forecastOffset
+				? this.forecasts[this.forecastOffset].data.next_1_hours.summary.symbol_code
+				: ''
 		},
-		sixHoursFormattedTime() {
-			if (this.forecasts.length > 5) {
-				const date = moment(this.forecasts[5].time)
-				return date.format('LT')
-			}
-			return ''
+		formattedForecastTime() {
+			return this.forecasts.length > this.forecastOffset
+				? moment(this.forecasts[this.forecastOffset].time).format('LT')
+				: ''
 		},
 		weatherIcon() {
 			if (this.loading) {
 				return 'icon-loading-small'
 			} else {
-				return this.sixHoursWeatherForecast && this.sixHoursWeatherForecast in weatherOptions
-					? weatherOptions[this.sixHoursWeatherForecast].icon
+				return this.weatherForecast && this.weatherForecast in weatherOptions
+					? weatherOptions[this.weatherForecast].icon
 					: 'icon-fair-day'
 			}
 		},
@@ -224,11 +248,11 @@ export default {
 			} else if (this.errorMessage) {
 				return this.errorMessage
 			} else {
-				return this.sixHoursWeatherForecast && this.sixHoursWeatherForecast in weatherOptions
-					? weatherOptions[this.sixHoursWeatherForecast].text(
-						this.getLocalizedTemperature(this.sixHoursTempForecast),
+				return this.weatherForecast && this.weatherForecast in weatherOptions
+					? weatherOptions[this.weatherForecast].text(
+						this.getLocalizedTemperature(this.temperatureForecast),
 						this.temperatureUnit,
-						this.sixHoursFormattedTime,
+						this.formattedForecastTime,
 					)
 					: t('weather_status', 'Set location for weather')
 			}
@@ -259,6 +283,11 @@ export default {
 				? 'icon-triangle-s'
 				: 'icon-triangle-e'
 		},
+		toggleOptionsIcon() {
+			return this.showOptions
+				? 'icon-triangle-s'
+				: 'icon-triangle-e'
+		},
 		displayedFavorites() {
 			return this.showFavorites
 				? this.favorites
@@ -282,8 +311,9 @@ export default {
 				} else if (this.mode === MODE_MANUAL_LOCATION) {
 					this.startLoop()
 				}
-				const favs = await network.getFavorites()
-				this.favorites = favs
+				const optionValues = await network.getOptionValues()
+				this.favorites = optionValues.favorites
+				this.forecastOffset = optionValues.forecastOffset
 			} catch (err) {
 				if (err?.code === 'ECONNABORTED') {
 					console.info('The weather status request was cancelled because the user navigates.')
@@ -422,6 +452,17 @@ export default {
 			const newAddress = this.$refs.addressInput.$el.querySelector('input[type="text"]').value
 			this.setAddress(newAddress)
 		},
+		onForecastOffsetSubmit() {
+			const input = this.$refs.forecastOffsetInput.$el.querySelector('input[type="number"]')
+			const newOffset = parseInt(input.value)
+			if (!isNaN(newOffset) && newOffset >= 0 && newOffset <= 9) {
+				// input.value = ''
+				this.forecastOffset = newOffset
+				network.saveOptionValues({ forecastOffset: newOffset })
+			} else {
+				showWarning(t('weather_status', 'Forecast offset must be a number between 0 and 9.'))
+			}
+		},
 		getLocalizedTemperature(celcius) {
 			return this.useFahrenheitLocale
 				? ((celcius * (9 / 5)) + 32).toFixed(1)
@@ -437,7 +478,7 @@ export default {
 			} else {
 				this.favorites.push(this.address)
 			}
-			network.saveFavorites(this.favorites)
+			network.saveOptionValues({ favorites: this.favorites })
 		},
 		onFavoriteClick(favAddress) {
 			if (favAddress !== this.address) {
@@ -574,5 +615,10 @@ li:not(.inline) .weather-status-menu-item {
 
 li {
 	list-style-type: none;
+}
+
+.classic-number-input input[type="number"] {
+	-moz-appearance: number-input !important;
+	-webkit-appearance: initial !important;
 }
 </style>
