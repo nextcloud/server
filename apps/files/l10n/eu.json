@@ -190,11 +190,9 @@
     "Text file" : "Testu-fitxategia",
     "New text file.txt" : "Testu-fitxategi berria.txt",
     "Unshare" : "Ez partekatu",
-    "This group folder is full, files can not be updated or synced anymore!" : "Talde karpeta hau beteta dago, ezin da fitxategirik eguneratu edo sinkronizatu gehiago!",
-    "This external storage is full, files can not be updated or synced anymore!" : "Kanpoko biltegi hau beteta dago, ezin da fitxategirik eguneratu edo sinkronizatu gehiago!",
     "Storage of {owner} is almost full ({usedSpacePercent}%)" : "{owner} erabiltzailearen biltegia ia beteta dago ({usedSpacePercent}%)",
-    "This group folder is almost full ({usedSpacePercent}%)" : "Talde karpeta hau betetzear dago ({usedSpacePercent}%)",
-    "This external storage is almost full ({usedSpacePercent}%)" : "Kanpoko biltegi hau betetzear dago ({usedSpacePercent}%)",
+    "Group folder \"{mountPoint}\" is almost full ({usedSpacePercent}%)" : "\"{mountPoint}\" talde karpeta betetzear dago ({usedSpacePercent}%)",
+    "External storage \"{mountPoint}\" is almost full ({usedSpacePercent}%)" : "\"{mountPoint}\" kanpoko biltegia betetzear dago ({usedSpacePercent}%)",
     "Your storage is almost full ({usedSpacePercent}%)" : "Zure biltegia ia beteta dago (%{usedSpacePercent})",
     "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>" : "Fitxategi edo karpeta bat <strong>aldatu</strong> edo <strong>berrizendatu</strong> da",
     "A new file or folder has been <strong>created</strong>" : "Fitxategi edo karpeta berri bat <strong>sortu</strong> da",
@@ -202,8 +200,6 @@
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Mugatu <strong>gogoko fitxategien</strong> sorrera eta aldaketen jakinarazpenak <em>(Jarioa soilik)</em>",
     "A file or folder has been <strong>restored</strong>" : "Fitxategia edo karpeta bat <strong>leheneratu</strong> da",
     "Cannot transfter ownership of a file or folder you don't own" : "Ezin da zurea ez den fitxategi edo karpeta baten jabetza transferitu",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Erabili helbide hau <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">zure fitxategiak WebDAV bidez atzitzeko</a>",
-    "Group folder \"{mountPoint}\" is almost full ({usedSpacePercent}%)" : "\"{mountPoint}\" talde karpeta betetzear dago ({usedSpacePercent}%)",
-    "External storage \"{mountPoint}\" is almost full ({usedSpacePercent}%)" : "\"{mountPoint}\" kanpoko biltegia betetzear dago ({usedSpacePercent}%)"
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Erabili helbide hau <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">zure fitxategiak WebDAV bidez atzitzeko</a>"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
