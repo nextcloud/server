@@ -39,12 +39,12 @@ declare(strict_types=1);
 
 namespace OC;
 
+use OC\Route\Router;
 use OCA\Theming\ThemingDefaults;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\IURLGenerator;
-use OCP\Route\IRouter;
 use RuntimeException;
 
 /**
@@ -57,13 +57,13 @@ class URLGenerator implements IURLGenerator {
 	private $cacheFactory;
 	/** @var IRequest */
 	private $request;
-	/** @var IRouter*/
+	/** @var Router */
 	private $router;
 
 	public function __construct(IConfig $config,
 								ICacheFactory $cacheFactory,
 								IRequest $request,
-								IRouter $router) {
+								Router $router) {
 		$this->config = $config;
 		$this->cacheFactory = $cacheFactory;
 		$this->request = $request;

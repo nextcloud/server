@@ -41,6 +41,7 @@ declare(strict_types=1);
 namespace OCP\AppFramework;
 
 use OC\AppFramework\Routing\RouteConfig;
+use OC\Route\Router;
 use OC\ServerContainer;
 use OCP\Route\IRouter;
 
@@ -146,6 +147,10 @@ class App {
 	 * @deprecated 20.0.0 Just return an array from your routes.php
 	 */
 	public function registerRoutes(IRouter $router, array $routes) {
+		if (!($router instanceof Router)) {
+			throw new \RuntimeException('Can only setup routes with real router');
+		}
+
 		$routeConfig = new RouteConfig($this->container, $router, $routes);
 		$routeConfig->register();
 	}
