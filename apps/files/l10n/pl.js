@@ -192,11 +192,9 @@ OC.L10N.register(
     "Text file" : "Plik tekstowy",
     "New text file.txt" : "Nowy plik tekstowy.txt",
     "Unshare" : "Zatrzymaj udostępnianie",
-    "This group folder is full, files can not be updated or synced anymore!" : "Ten katalog grupowy jest pełny. Nie można już aktualizować ani synchronizować plików!",
-    "This external storage is full, files can not be updated or synced anymore!" : "Magazyn zewnętrzny jest pełny. Nie można już aktualizować ani synchronizować plików!",
     "Storage of {owner} is almost full ({usedSpacePercent}%)" : "Magazyn dla {owner} jest pawie pełny ({usedSpacePercent}%).",
-    "This group folder is almost full ({usedSpacePercent}%)" : "Ten katalog grupowy jest prawie pełny ({usedSpacePercent}%).",
-    "This external storage is almost full ({usedSpacePercent}%)" : "Magazyn zewnętrzny jest prawie pełny ({usedSpacePercent}%).",
+    "Group folder \"{mountPoint}\" is almost full ({usedSpacePercent}%)" : "Katalog grupowy \"{mountPoint}\" jest prawie pełny ({usedSpacePercent}%)",
+    "External storage \"{mountPoint}\" is almost full ({usedSpacePercent}%)" : "Pamięć zewnętrzna \"{mountPoint}\" jest prawie pełna ({usedSpacePercent}%)",
     "Your storage is almost full ({usedSpacePercent}%)" : "Twój magazyn jest prawie pełny ({usedSpacePercent}%).",
     "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>" : "Plik lub katalog został <strong>zmieniony</strong> lub <strong>zmieniono nazwę</strong>",
     "A new file or folder has been <strong>created</strong>" : "Nowy plik lub katalog został <strong>utworzony</strong>",
@@ -204,8 +202,6 @@ OC.L10N.register(
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Ogranicz powiadomienia o tworzeniu i zmianach w <strong>ulubionych plikach</strong> <em>(Tylko transmisja strumieniowa)</em>",
     "A file or folder has been <strong>restored</strong>" : "Plik lub katalog został <strong>przywrócony</strong>",
     "Cannot transfter ownership of a file or folder you don't own" : "Nie można przenieść prawa własności do pliku lub katalogu, którego nie jesteś właścicielem",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Użyj tego adresu, aby uzyskać <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">dostęp do swoich plików poprzez WebDAV</a>",
-    "Group folder \"{mountPoint}\" is almost full ({usedSpacePercent}%)" : "Katalog grupowy \"{mountPoint}\" jest prawie pełny ({usedSpacePercent}%)",
-    "External storage \"{mountPoint}\" is almost full ({usedSpacePercent}%)" : "Pamięć zewnętrzna \"{mountPoint}\" jest prawie pełna ({usedSpacePercent}%)"
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Użyj tego adresu, aby uzyskać <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">dostęp do swoich plików poprzez WebDAV</a>"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

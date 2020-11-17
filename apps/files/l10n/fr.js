@@ -192,11 +192,9 @@ OC.L10N.register(
     "Text file" : "Fichier texte",
     "New text file.txt" : "Nouveau fichier texte.txt",
     "Unshare" : "Ne plus partager",
-    "This group folder is full, files can not be updated or synced anymore!" : "Le dossier de groupe est plein, les fichiers ne peuvent plus être mis à jour ou synchronisés !",
-    "This external storage is full, files can not be updated or synced anymore!" : "Cet espace de stockage externe est plein, les fichiers ne peuvent plus être mis à jour ni synchronisés !",
     "Storage of {owner} is almost full ({usedSpacePercent}%)" : "L'espace de stockage de {owner} est presque plein ({usedSpacePercent}%)",
-    "This group folder is almost full ({usedSpacePercent}%)" : "Ce dossier de groupe est presque plein ({usedSpacePercent}%).",
-    "This external storage is almost full ({usedSpacePercent}%)" : "Cet espace de stockage externe est presque plein ({usedSpacePercent}%)",
+    "Group folder \"{mountPoint}\" is almost full ({usedSpacePercent}%)" : "Le dossier de groupe \"{mountPoint}\" est presque plein ({usedSpacePercent}%)",
+    "External storage \"{mountPoint}\" is almost full ({usedSpacePercent}%)" : "L'espace de stockage externe \"{mountPoint}\" est presque plein ({usedSpacePercent}%)",
     "Your storage is almost full ({usedSpacePercent}%)" : "Votre espace de stockage est presque plein ({usedSpacePercent}%)",
     "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>" : "Un fichier ou dossier a été <strong>modifié</strong> ou <strong>renommé</strong>",
     "A new file or folder has been <strong>created</strong>" : "Un nouveau fichier ou répertoire a été <strong>créé</strong>",
@@ -204,8 +202,6 @@ OC.L10N.register(
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Limiter les notifications qui concernent les créations et les modifications à vos <strong>fichiers favoris</strong> <em>(Flux uniquement)</em>",
     "A file or folder has been <strong>restored</strong>" : "Un fichier ou un dossier a été <strong>restauré</strong>",
     "Cannot transfter ownership of a file or folder you don't own" : "Impossible de transférer la propriété d’un fichier ou d’un dossier que vous ne possédez pas",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Utilisez cette adresse pour <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">accéder à vos fichiers par WebDAV</a>",
-    "Group folder \"{mountPoint}\" is almost full ({usedSpacePercent}%)" : "Le dossier de groupe \"{mountPoint}\" est presque plein ({usedSpacePercent}%)",
-    "External storage \"{mountPoint}\" is almost full ({usedSpacePercent}%)" : "L'espace de stockage externe \"{mountPoint}\" est presque plein ({usedSpacePercent}%)"
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Utilisez cette adresse pour <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">accéder à vos fichiers par WebDAV</a>"
 },
 "nplurals=2; plural=(n > 1);");
