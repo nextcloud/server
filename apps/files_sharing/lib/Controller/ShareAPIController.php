@@ -1648,11 +1648,10 @@ class ShareAPIController extends OCSController {
 			$hasCircleId = (substr($share->getSharedWith(), -1) === ']');
 			$shareWithStart = ($hasCircleId ? strrpos($share->getSharedWith(), '[') + 1 : 0);
 			$shareWithLength = ($hasCircleId ? -1 : strpos($share->getSharedWith(), ' '));
-			if ($shareWithLength === false) {
-				$sharedWith = substr($share->getSharedWith(), $shareWithStart);
-			} else {
-				$sharedWith = substr($share->getSharedWith(), $shareWithStart, $shareWithLength);
+			if (is_bool($shareWithLength)) {
+				$shareWithLength = -1;
 			}
+			$sharedWith = substr($share->getSharedWith(), $shareWithStart, $shareWithLength);
 			try {
 				$member = \OCA\Circles\Api\v1\Circles::getMember($sharedWith, $userId, 1);
 				if ($member->getLevel() >= 4) {
