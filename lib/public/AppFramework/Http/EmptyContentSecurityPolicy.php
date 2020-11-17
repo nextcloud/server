@@ -509,6 +509,8 @@ class EmptyContentSecurityPolicy {
 		if (!empty($this->allowedFrameAncestors)) {
 			$policy .= 'frame-ancestors ' . implode(' ', $this->allowedFrameAncestors);
 			$policy .= ';';
+		} else {
+			$policy .= 'frame-ancestors \'none\';';
 		}
 
 		if (!empty($this->allowedWorkerSrcDomains)) {
