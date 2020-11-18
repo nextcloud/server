@@ -332,7 +332,7 @@ OC.L10N.register(
     "The password is wrong. Try again." : "Das Passwort ist falsch. Bitte versuchen Sie es erneut.",
     "Two-factor authentication" : "Zwei-Faktor Authentifizierung",
     "Enhanced security is enabled for your account. Choose a second factor for authentication:" : "Die erweiterte Sicherheit wurde für Ihr Konto aktiviert. Bitte wählen Sie einem zweiten Faktor für die Authentifizierung: ",
-    "Could not load at least one of your enabled two-factor auth methods. Please contact your admin." : "Es konnte nicht eine Ihrer Zwei-Faktor-Authentifizierungsmethoden geladen werden. Kontaktieren Sie Ihren Administrator.",
+    "Could not load at least one of your enabled two-factor auth methods. Please contact your admin." : "Mindestens eine Ihrer Zwei-Faktor-Authentifizierungsmethoden konnte nicht geladen werden. Kontaktieren Sie Ihren Administrator.",
     "Two-factor authentication is enforced but has not been configured on your account. Contact your admin for assistance." : "Die Zwei-Faktor-Authentifizierung wird erzwungen, wurde für Ihr Konto jedoch nicht konfiguriert. Wenden Sie sich für Unterstützung an Ihren Administrator.",
     "Two-factor authentication is enforced but has not been configured on your account. Please continue to setup two-factor authentication." : "Die Zwei-Faktor-Authentifizierung wird erzwungen, wurde jedoch für Dein Konto nicht konfiguriert. Bitte fahre mit der Einrichtung der Zwei-Faktor-Authentifizierung fort.",
     "Set up two-factor authentication" : "Zwei-Faktor-Authentifizierung konfigurieren",
