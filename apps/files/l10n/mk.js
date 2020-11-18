@@ -193,6 +193,8 @@ OC.L10N.register(
     "New text file.txt" : "Нова текстуална датотека file.txt",
     "Unshare" : "Не споделувај",
     "Storage of {owner} is almost full ({usedSpacePercent}%)" : "Скалдиштето на {owner} е скоро исполнето ({usedSpacePercent}%)",
+    "Group folder \"{mountPoint}\" is almost full ({usedSpacePercent}%)" : "Групната папка \"{mountPoint}\" е скоро исполнета ({usedSpacePercent}%)",
+    "External storage \"{mountPoint}\" is almost full ({usedSpacePercent}%)" : "Надворешното складиште \"{mountPoint}\" е скоро исполнето ({usedSpacePercent}%)",
     "Your storage is almost full ({usedSpacePercent}%)" : "Вашиот сториџ е скоро полн ({usedSpacePercent}%)",
     "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>" : "Датотека или папка е <strong>променета</strong> или <strong>преименувана</strong>",
     "A new file or folder has been <strong>created</strong>" : "Датотека или папка е <strong>креирана</strong>",

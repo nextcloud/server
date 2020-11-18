@@ -169,6 +169,7 @@ OC.L10N.register(
     "Password protection" : "Lösenordsskydd",
     "Enter a password" : "Ange ett lösenord",
     "Expiration date (enforced)" : "Förfallodatum (obligatorisk)",
+    "Create share" : "Skapa delning",
     "Cancel" : "Avbryt",
     "Share label" : "Delningsetikett",
     "Read only" : "Läsbehörighet",
