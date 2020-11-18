@@ -116,7 +116,7 @@ class Version2000Date20190808074233 extends SimpleMigrationStep {
 			$table->addColumn('entity', Types::STRING, [
 				'notnull' => true,
 				'length' => 256,
-				'default' => '',
+				'default' => ' ',
 			]);
 		}
 		if (!$table->hasColumn('events')) {
