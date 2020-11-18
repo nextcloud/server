@@ -26,11 +26,18 @@ declare(strict_types=1);
 
 namespace OCA\Dashboard\Service;
 
+use InvalidArgumentException;
+use OC\User\NoUserException;
+use OCP\Files\File;
 use OCP\Files\IAppData;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
+use OCP\Files\NotPermittedException;
 use OCP\Files\SimpleFS\ISimpleFile;
+use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\IConfig;
+use OCP\Lock\LockedException;
+use OCP\PreConditionNotMetException;
 
 class BackgroundService {
 	public const THEMING_MODE_DARK = 'dark';
@@ -102,13 +109,13 @@ class BackgroundService {
 		]
 	];
 	/**
-	 * @var \OCP\Files\Folder
+	 * @var IRootFolder
 	 */
-	private $userFolder;
+	private $rootFolder;
 	/**
-	 * @var \OCP\Files\SimpleFS\ISimpleFolder
+	 * @var IAppData
 	 */
-	private $dashboardUserFolder;
+	private $appData;
 	/**
 	 * @var IConfig
 	 */
@@ -119,12 +126,8 @@ class BackgroundService {
 		if ($userId === null) {
 			return;
 		}
-		$this->userFolder = $rootFolder->getUserFolder($userId);
-		try {
-			$this->dashboardUserFolder = $appData->getFolder($userId);
-		} catch (NotFoundException $e) {
-			$this->dashboardUserFolder = $appData->newFolder($userId);
-		}
+		$this->rootFolder = $rootFolder;
+		$this->appData = $appData;
 		$this->config = $config;
 		$this->userId = $userId;
 	}
@@ -136,26 +139,29 @@ class BackgroundService {
 	/**
 	 * @param $path
 	 * @throws NotFoundException
-	 * @throws \OCP\Files\NotPermittedException
-	 * @throws \OCP\PreConditionNotMetException
+	 * @throws NotPermittedException
+	 * @throws LockedException
+	 * @throws PreConditionNotMetException
+	 * @throws NoUserException
 	 */
 	public function setFileBackground($path): void {
 		$this->config->setUserValue($this->userId, 'dashboard', 'background', 'custom');
-		/** @var \OCP\Files\File $file */
-		$file = $this->userFolder->get($path);
-		$this->dashboardUserFolder->newFile('background.jpg', $file->fopen('r'));
+		$userFolder = $this->rootFolder->getUserFolder($this->userId);
+		/** @var File $file */
+		$file = $userFolder->get($path);
+		$this->getAppDataFolder()->newFile('background.jpg', $file->fopen('r'));
 	}
 
 	public function setShippedBackground($fileName): void {
 		if (!array_key_exists($fileName, self::SHIPPED_BACKGROUNDS)) {
-			throw new \InvalidArgumentException('The given file name is invalid');
+			throw new InvalidArgumentException('The given file name is invalid');
 		}
 		$this->config->setUserValue($this->userId, 'dashboard', 'background', $fileName);
 	}
 
 	public function setColorBackground(string $color): void {
-		if (!preg_match('/^\#([0-9a-f]{3}|[0-9a-f]{6})$/i', $color)) {
-			throw new \InvalidArgumentException('The given color is invalid');
+		if (!preg_match('/^#([0-9a-f]{3}|[0-9a-f]{6})$/i', $color)) {
+			throw new InvalidArgumentException('The given color is invalid');
 		}
 		$this->config->setUserValue($this->userId, 'dashboard', 'background', $color);
 	}
@@ -164,10 +170,22 @@ class BackgroundService {
 		$background = $this->config->getUserValue($this->userId, 'dashboard', 'background', 'default');
 		if ($background === 'custom') {
 			try {
-				return $this->dashboardUserFolder->getFile('background.jpg');
-			} catch (NotFoundException $e) {
+				return $this->getAppDataFolder()->getFile('background.jpg');
+			} catch (NotFoundException | NotPermittedException $e) {
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * @return ISimpleFolder
+	 * @throws NotPermittedException
+	 */
+	private function getAppDataFolder(): ISimpleFolder {
+		try {
+			return $this->appData->getFolder($this->userId);
+		} catch (NotFoundException $e) {
+			return $this->appData->newFolder($this->userId);
+		}
 	}
 }
