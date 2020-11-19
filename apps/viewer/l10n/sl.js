@@ -8,6 +8,7 @@ OC.L10N.register(
     "Your browser does not support videos." : "Spletni brskalnik ne podpira predvajanja video posnetkov.",
     "Open sidebar" : "Odpri bočno okno",
     "Delete" : "Odstrani",
+    "There is no plugin available to display this file type" : "Ni vstavka, ki omogoča prikaz te vrste datotek",
     "View" : "Poglej",
     "Your browser does not support the video tag." : "Spletni brskalnik ne podpira oznak videa."
 },
