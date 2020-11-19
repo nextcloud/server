@@ -141,6 +141,7 @@ class ScopedPsrLogger implements LoggerInterface {
 
 	public function log($level, $message, array $context = []) {
 		$this->inner->log(
+			$level,
 			$message,
 			array_merge(
 				[
