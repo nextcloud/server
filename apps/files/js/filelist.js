@@ -1236,6 +1236,7 @@
 				mtime: parseInt($el.attr('data-mtime'), 10),
 				type: $el.attr('data-type'),
 				etag: $el.attr('data-etag'),
+				quotaAvailableBytes: $el.attr('data-quota'),
 				permissions: parseInt($el.attr('data-permissions'), 10),
 				hasPreview: $el.attr('data-has-preview') === 'true',
 				isEncrypted: $el.attr('data-e2eencrypted') === 'true'
@@ -1495,6 +1496,7 @@
 				"data-mime": mime,
 				"data-mtime": mtime,
 				"data-etag": fileData.etag,
+				"data-quota": fileData.quotaAvailableBytes,
 				"data-permissions": permissions,
 				"data-has-preview": fileData.hasPreview !== false,
 				"data-e2eencrypted": fileData.isEncrypted === true
