@@ -94,7 +94,7 @@ class UpdateConfig extends Command {
 			return 0;
 		}
 
-		if (!in_array($key, self::SUPPORTED_KEYS, true)) {
+		if (!in_array($key, self::SUPPORTED_KEYS, true) && !in_array($key, self::SUPPORTED_IMAGE_KEYS, true)) {
 			$output->writeln('<error>Invalid config key provided</error>');
 			return 1;
 		}
@@ -116,11 +116,12 @@ class UpdateConfig extends Command {
 		}
 
 		if (in_array($key, self::SUPPORTED_IMAGE_KEYS, true)) {
-			if (file_exists(__DIR__ . $value)) {
-				$value = __DIR__ . $value;
+			if (strpos($value, '/') !== 0) {
+				$output->writeln('<error>The image file needs to be provided as an absolute path: ' . $value . '.</error>');
+				return 1;
 			}
 			if (!file_exists($value)) {
-				$output->writeln('<error>File could not be found: ' . $value . '</error>');
+				$output->writeln('<error>File could not be found: ' . $value . '.</error>');
 				return 1;
 			}
 			$value = $this->imageManager->updateImage($key, $value);
