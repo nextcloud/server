@@ -38,7 +38,6 @@ use OCP\Dashboard\IManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ILogger;
 use OCP\IServerContainer;
-use RuntimeException;
 use Throwable;
 use function class_exists;
 use function class_implements;
@@ -79,14 +78,23 @@ class Coordinator {
 		$this->logger = $logger;
 	}
 
-	public function runRegistration(): void {
-		if ($this->registrationContext !== null) {
-			throw new RuntimeException('Registration has already been run');
-		}
+	public function runInitialRegistration(): void {
+		$this->registerApps(OC_App::getEnabledApps());
+	}
 
-		$this->registrationContext = new RegistrationContext($this->logger);
+	public function runLazyRegistration(string $appId): void {
+		$this->registerApps([$appId]);
+	}
+
+	/**
+	 * @param string[] $appIds
+	 */
+	private function registerApps(array $appIds): void {
+		if ($this->registrationContext === null) {
+			$this->registrationContext = new RegistrationContext($this->logger);
+		}
 		$apps = [];
-		foreach (OC_App::getEnabledApps() as $appId) {
+		foreach ($appIds as $appId) {
 			/*
 			 * First, we have to enable the app's autoloader
 			 *
