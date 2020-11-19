@@ -79,6 +79,7 @@
 	Client.PROPERTY_GETCONTENTLENGTH	= '{' + Client.NS_DAV + '}getcontentlength';
 	Client.PROPERTY_ISENCRYPTED	= '{' + Client.NS_DAV + '}is-encrypted';
 	Client.PROPERTY_SHARE_PERMISSIONS	= '{' + Client.NS_OCS + '}share-permissions';
+	Client.PROPERTY_QUOTA_AVAILABLE_BYTES	= '{' + Client.NS_DAV + '}quota-available-bytes';
 
 	Client.PROTOCOL_HTTP	= 'http';
 	Client.PROTOCOL_HTTPS	= 'https';
@@ -117,6 +118,7 @@
 		 * File sizes
 		 */
 		[Client.NS_DAV, 'getcontentlength'],
+		[Client.NS_DAV, 'quota-available-bytes'],
 		/**
 		 * Preview availability
 		 */
@@ -392,6 +394,11 @@
 			var mounTypeProp = props['{' + Client.NS_NEXTCLOUD + '}mount-type'];
 			if (!_.isUndefined(mounTypeProp)) {
 				data.mountType = mounTypeProp;
+			}
+
+			var quotaAvailableBytes = props['{' + Client.NS_DAV + '}quota-available-bytes']
+			if (!_.isUndefined(quotaAvailableBytes)) {
+				data.quotaAvailableBytes = quotaAvailableBytes
 			}
 
 			// extend the parsed data using the custom parsers
