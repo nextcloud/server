@@ -29,7 +29,6 @@
 
 namespace OCA\Encryption\AppInfo;
 
-use OC\Files\View;
 use OCA\Encryption\Crypto\Crypt;
 use OCA\Encryption\Crypto\DecryptAll;
 use OCA\Encryption\Crypto\EncryptAll;
@@ -43,9 +42,6 @@ use OCA\Encryption\Users\Setup;
 use OCA\Encryption\Util;
 use OCP\Encryption\IManager;
 use OCP\IConfig;
-use OCP\IServerContainer;
-use Psr\Container\ContainerInterface;
-use Symfony\Component\Console\Helper\QuestionHelper;
 
 class Application extends \OCP\AppFramework\App {
 
@@ -61,7 +57,6 @@ class Application extends \OCP\AppFramework\App {
 		parent::__construct('encryption', $urlParams);
 		$this->encryptionManager = \OC::$server->getEncryptionManager();
 		$this->config = \OC::$server->getConfig();
-		$this->registerServices();
 	}
 
 	public function setUp() {
@@ -120,54 +115,5 @@ class Application extends \OCP\AppFramework\App {
 				$container->getServer()->getL10N($container->getAppName())
 			);
 			});
-	}
-
-	public function registerServices() {
-		$container = $this->getContainer();
-
-
-		$container->registerService(Recovery::class,		function (ContainerInterface $c) {
-			/** @var IServerContainer $server */
-			$server = $c->get(IServerContainer::class);
-
-			return new Recovery(
-					$server->getUserSession(),
-					$c->get(Crypt::class),
-					$c->get(KeyManager::class),
-					$server->getConfig(),
-					$server->getEncryptionFilesHelper(),
-					new View());
-		});
-
-		$container->registerService(Util::class, function (ContainerInterface $c) {
-			/** @var IServerContainer $server */
-			$server = $c->get(IServerContainer::class);
-
-			return new Util(
-					new View(),
-					$c->get(Crypt::class),
-					$server->getLogger(),
-					$server->getUserSession(),
-					$server->getConfig(),
-					$server->getUserManager());
-		});
-
-		$container->registerService(EncryptAll::class,	function (ContainerInterface $c) {
-			/** @var IServerContainer $server */
-			$server = $c->get(IServerContainer::class);
-			return new EncryptAll(
-					$c->get(Setup::class),
-					$server->getUserManager(),
-					new View(),
-					$c->get(KeyManager::class),
-					$c->get(Util::class),
-					$server->getConfig(),
-					$server->getMailer(),
-					$server->getL10N('encryption'),
-					new QuestionHelper(),
-					$server->getSecureRandom()
-				);
-		}
-		);
 	}
 }
