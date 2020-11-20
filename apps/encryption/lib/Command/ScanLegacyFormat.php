@@ -96,7 +96,7 @@ class ScanLegacyFormat extends Command {
 		}
 
 		if ($result) {
-			$output->writeln('All scanned files are propperly encrypted. You can disable the legacy compatibility mode.');
+			$output->writeln('All scanned files are properly encrypted. You can disable the legacy compatibility mode.');
 			return 0;
 		}
 
