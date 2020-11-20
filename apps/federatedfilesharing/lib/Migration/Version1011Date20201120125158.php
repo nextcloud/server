@@ -1,11 +1,8 @@
 <?php
-
-declare(strict_types=1);
-
-/**
- * @copyright Copyright (c) 2020 Joas Schilling <coding@schilljs.com>
+/*
+ * @copyright Copyright (c) 2020 Julius Härtl <jus@bitgrid.net>
  *
- * @author Joas Schilling <coding@schilljs.com>
+ * @author Julius Härtl <jus@bitgrid.net>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -16,45 +13,39 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
+declare(strict_types=1);
+
 namespace OCA\FederatedFileSharing\Migration;
 
 use Closure;
+use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Types\Types;
 use OCP\DB\ISchemaWrapper;
 use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
 
-class Version1010Date20200630191755 extends SimpleMigrationStep {
-	/**
-	 * @param IOutput $output
-	 * @param Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
-	 * @param array $options
-	 * @return null|ISchemaWrapper
-	 */
+class Version1011Date20201120125158 extends SimpleMigrationStep {
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options) {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
-
-		if (!$schema->hasTable('federated_reshares')) {
-			$table = $schema->createTable('federated_reshares');
-			$table->addColumn('share_id', Types::INTEGER, [
-				'notnull' => true,
-				'length' => 4,
-			]);
-			$table->addColumn('remote_id', Types::STRING, [
-				'notnull' => true,
-				'length' => 255,
-			]);
-			$table->setPrimaryKey(['share_id'], 'federated_res_pk');
-//			$table->addUniqueIndex(['share_id'], 'share_id_index');
+		
+		if ($schema->hasTable('federated_reshares')) {
+			$table = $schema->getTable('federated_reshares');
+			$remoteIdColumn = $table->getColumn('remote_id');
+			if ($remoteIdColumn && $remoteIdColumn->getType()->getName() !== Types::STRING) {
+				$remoteIdColumn->setType(Type::getType(Types::STRING));
+				$remoteIdColumn->setOptions(['length' => 255]);
+			}
 		}
+
 		return $schema;
 	}
 }

@@ -83,7 +83,7 @@ class Notifications {
 	 * @param string $token
 	 * @param string $shareWith
 	 * @param string $name
-	 * @param int $remote_id
+	 * @param string $remoteId
 	 * @param string $owner
 	 * @param string $ownerFederatedId
 	 * @param string $sharedBy
@@ -93,7 +93,7 @@ class Notifications {
 	 * @throws \OC\HintException
 	 * @throws \OC\ServerNotAvailableException
 	 */
-	public function sendRemoteShare($token, $shareWith, $name, $remote_id, $owner, $ownerFederatedId, $sharedBy, $sharedByFederatedId, $shareType) {
+	public function sendRemoteShare($token, $shareWith, $name, $remoteId, $owner, $ownerFederatedId, $sharedBy, $sharedByFederatedId, $shareType) {
 		list($user, $remote) = $this->addressHandler->splitUserRemote($shareWith);
 
 		if ($user && $remote) {
@@ -103,7 +103,7 @@ class Notifications {
 				'shareWith' => $user,
 				'token' => $token,
 				'name' => $name,
-				'remoteId' => $remote_id,
+				'remoteId' => $remoteId,
 				'owner' => $owner,
 				'ownerFederatedId' => $ownerFederatedId,
 				'sharedBy' => $sharedBy,
@@ -132,13 +132,13 @@ class Notifications {
 	 * ask owner to re-share the file with the given user
 	 *
 	 * @param string $token
-	 * @param int $id remote Id
+	 * @param string $id remote Id
 	 * @param int $shareId internal share Id
 	 * @param string $remote remote address of the owner
 	 * @param string $shareWith
 	 * @param int $permission
 	 * @param string $filename
-	 * @return bool
+	 * @return array
 	 * @throws \OC\HintException
 	 * @throws \OC\ServerNotAvailableException
 	 */
@@ -151,7 +151,7 @@ class Notifications {
 		];
 
 		$ocmFields = $fields;
-		$ocmFields['remoteId'] = $id;
+		$ocmFields['remoteId'] = (string)$id;
 		$ocmFields['localId'] = $shareId;
 		$ocmFields['name'] = $filename;
 
@@ -171,7 +171,7 @@ class Notifications {
 		if ($httpRequestSuccessful && $ocsCallSuccessful && $validToken && $validRemoteId) {
 			return [
 				$status['ocs']['data']['token'],
-				(int)$status['ocs']['data']['remoteId']
+				$status['ocs']['data']['remoteId']
 			];
 		}
 
@@ -206,7 +206,7 @@ class Notifications {
 	 * send notification to remote server if the permissions was changed
 	 *
 	 * @param string $remote
-	 * @param int $remoteId
+	 * @param string $remoteId
 	 * @param string $token
 	 * @param int $permissions
 	 * @return bool
@@ -219,7 +219,7 @@ class Notifications {
 	 * forward accept reShare to remote server
 	 *
 	 * @param string $remote
-	 * @param int $remoteId
+	 * @param string $remoteId
 	 * @param string $token
 	 */
 	public function sendAcceptShare($remote, $remoteId, $token) {
@@ -230,7 +230,7 @@ class Notifications {
 	 * forward decline reShare to remote server
 	 *
 	 * @param string $remote
-	 * @param int $remoteId
+	 * @param string $remoteId
 	 * @param string $token
 	 */
 	public function sendDeclineShare($remote, $remoteId, $token) {
@@ -242,7 +242,7 @@ class Notifications {
 	 *
 	 * @param string $remote
 	 * @param string $token
-	 * @param int $remoteId Share id on the remote host
+	 * @param string $remoteId Share id on the remote host
 	 * @param string $action possible actions: accept, decline, unshare, revoke, permissions
 	 * @param array $data
 	 * @param int $try

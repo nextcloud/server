@@ -126,7 +126,7 @@ class Manager {
 	 * @param int $shareType
 	 * @param boolean $accepted
 	 * @param string $user
-	 * @param int $remoteId
+	 * @param string $remoteId
 	 * @param int $parent
 	 * @return Mount|null
 	 * @throws \Doctrine\DBAL\DBALException
@@ -347,7 +347,7 @@ class Manager {
 	 *
 	 * @param string $remote
 	 * @param string $token
-	 * @param int $remoteId Share id on the remote host
+	 * @param string $remoteId Share id on the remote host
 	 * @param string $feedback
 	 * @return boolean
 	 */
@@ -388,7 +388,7 @@ class Manager {
 	 *
 	 * @param string $remoteDomain
 	 * @param string $token
-	 * @param $remoteId id of the share
+	 * @param string $remoteId id of the share
 	 * @param string $feedback
 	 * @return bool
 	 */
