@@ -18,11 +18,11 @@ class Version11300Date20201120141438 extends SimpleMigrationStep {
 
 		if (!$schema->hasTable('share_external')) {
 			$table = $schema->createTable('share_external');
-			$table->addColumn('id', Types::INTEGER, [
+			$table->addColumn('id', Types::BIGINT, [
 				'autoincrement' => true,
 				'notnull' => true,
 			]);
-			$table->addColumn('parent', Types::INTEGER, [
+			$table->addColumn('parent', Types::BIGINT, [
 				'notnull' => false,
 				'default' => -1,
 			]);
@@ -86,5 +86,4 @@ class Version11300Date20201120141438 extends SimpleMigrationStep {
 
 		return $schema;
 	}
-
 }
