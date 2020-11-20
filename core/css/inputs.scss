@@ -366,6 +366,12 @@ input {
 			&:focus + label:before {
 				border-color: var(--color-primary-element);
 			}
+			&:focus-visible + label {
+				outline-style: solid;
+				outline-color: var(--color-primary-element);
+				outline-width: 1px;
+				outline-offset: 2px;
+			}
 			&:checked + label:before,
 			&.checkbox:indeterminate + label:before {
 			/* ^ :indeterminate have a strange behavior on radio,
