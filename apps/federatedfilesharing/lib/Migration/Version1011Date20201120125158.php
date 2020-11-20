@@ -36,16 +36,18 @@ class Version1011Date20201120125158 extends SimpleMigrationStep {
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options) {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
-		
+
 		if ($schema->hasTable('federated_reshares')) {
 			$table = $schema->getTable('federated_reshares');
 			$remoteIdColumn = $table->getColumn('remote_id');
 			if ($remoteIdColumn && $remoteIdColumn->getType()->getName() !== Types::STRING) {
 				$remoteIdColumn->setType(Type::getType(Types::STRING));
 				$remoteIdColumn->setOptions(['length' => 255]);
+				$remoteIdColumn->setDefault('');
+				return $schema;
 			}
 		}
 
-		return $schema;
+		return null;
 	}
 }
