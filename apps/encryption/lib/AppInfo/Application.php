@@ -199,16 +199,5 @@ class Application extends \OCP\AppFramework\App {
 				);
 		}
 		);
-
-		$container->registerService(DecryptAll::class,function (ContainerInterface $c) {
-			return new DecryptAll(
-					$c->get(Util::class),
-					$c->get(KeyManager::class),
-					$c->get(Crypt::class),
-					$c->get(Session::class),
-					new QuestionHelper()
-				);
-		}
-		);
 	}
 }
