@@ -314,6 +314,44 @@ class QueryBuilderTest extends \Test\TestCase {
 		$this->deleteTestingRows('testFirstResult2');
 	}
 
+	public function testSelectDistinctMultiple() {
+		$this->deleteTestingRows('testFirstResult1');
+		$this->deleteTestingRows('testFirstResult2');
+		$this->createTestingRows('testFirstResult1');
+		$this->createTestingRows('testFirstResult2');
+
+		$this->queryBuilder->selectDistinct(['appid', 'configkey']);
+
+		$this->queryBuilder->from('*PREFIX*appconfig')
+			->where($this->queryBuilder->expr()->eq(
+				'appid',
+				$this->queryBuilder->expr()->literal('testFirstResult1')
+			))
+			->orderBy('appid', 'DESC');
+
+		$query = $this->queryBuilder->execute();
+		$rows = $query->fetchAll();
+		$query->closeCursor();
+
+		$this->assertEquals(
+			[
+				['appid' => 'testFirstResult1', 'configkey' => 'testing1'],
+				['appid' => 'testFirstResult1', 'configkey' => 'testing2'],
+				['appid' => 'testFirstResult1', 'configkey' => 'testing3'],
+				['appid' => 'testFirstResult1', 'configkey' => 'testing4'],
+				['appid' => 'testFirstResult1', 'configkey' => 'testing5'],
+				['appid' => 'testFirstResult1', 'configkey' => 'testing6'],
+				['appid' => 'testFirstResult1', 'configkey' => 'testing7'],
+				['appid' => 'testFirstResult1', 'configkey' => 'testing8'],
+				['appid' => 'testFirstResult1', 'configkey' => 'testing9'],
+			],
+			$rows
+		);
+
+		$this->deleteTestingRows('testFirstResult1');
+		$this->deleteTestingRows('testFirstResult2');
+	}
+
 	public function dataAddSelect() {
 		$config = $this->createMock(SystemConfig::class);
 		$logger = $this->createMock(ILogger::class);
