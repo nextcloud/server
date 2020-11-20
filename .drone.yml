@@ -1726,36 +1726,36 @@ trigger:
     - pull_request
     - push
 
-#---
-#kind: pipeline
-#name: acceptance-app-comments
-#
-#steps:
-#- name: submodules
-#  image: docker:git
-#  commands:
-#    - git submodule update --init
-#- name: acceptance-app-comments
-#  image: nextcloudci/acceptance-php7.3:acceptance-php7.3-2
-#  commands:
-#    - tests/acceptance/run-local.sh --timeout-multiplier 10 --nextcloud-server-domain acceptance-app-comments --selenium-server selenium:4444 allow-git-repository-modifications features/app-comments.feature
-#
-#services:
-#- name: selenium
-#  image: selenium/standalone-firefox:2.53.1-beryllium
-#  environment:
-#    # Reduce default log level for Selenium server (INFO) as it is too
-#    # verbose.
-#    JAVA_OPTS: -Dselenium.LOGGER.level=WARNING
-#
-#trigger:
-#  branch:
-#    - master
-#    - stable*
-#  event:
-#    - pull_request
-#    - push
-#
+---
+kind: pipeline
+name: acceptance-app-comments
+
+steps:
+- name: submodules
+  image: docker:git
+  commands:
+    - git submodule update --init
+- name: acceptance-app-comments
+  image: nextcloudci/acceptance-php7.3:acceptance-php7.3-2
+  commands:
+    - tests/acceptance/run-local.sh --timeout-multiplier 10 --nextcloud-server-domain acceptance-app-comments --selenium-server selenium:4444 allow-git-repository-modifications features/app-comments.feature
+
+services:
+- name: selenium
+  image: selenium/standalone-firefox:2.53.1-beryllium
+  environment:
+    # Reduce default log level for Selenium server (INFO) as it is too
+    # verbose.
+    JAVA_OPTS: -Dselenium.LOGGER.level=WARNING
+
+trigger:
+  branch:
+    - master
+    - stable*
+  event:
+    - pull_request
+    - push
+
 ---
 kind: pipeline
 name: acceptance-app-files
