@@ -25,6 +25,13 @@ class Version21000Date20201120141228 extends SimpleMigrationStep {
 			}
 		}
 
+		if ($schema->hasTable('share')) {
+			$table = $schema->getTable('share');
+			if ($table->hasColumn('attributes')) {
+				$table->dropColumn('attributes');
+			}
+		}
+
 		return $schema;
 	}
 }
