@@ -13,6 +13,7 @@
     },
     "require": {
         "ext-json": "*",
+        "ext-libxml": "*",
         "ext-pdo": "*"
     },
     "require-dev": {
