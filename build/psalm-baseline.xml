@@ -1659,12 +1659,6 @@
       <code>\OCA\Talk\Share\Helper\DeletedShareAPIController</code>
     </UndefinedDocblockClass>
   </file>
-  <file src="apps/files_sharing/lib/Controller/ExternalSharesController.php">
-    <InvalidArgument occurrences="2">
-      <code>'http'</code>
-      <code>'https'</code>
-    </InvalidArgument>
-  </file>
   <file src="apps/files_sharing/lib/Controller/ShareAPIController.php">
     <InvalidScalarArgument occurrences="3">
       <code>$code</code>
@@ -1689,9 +1683,8 @@
     </UndefinedDocblockClass>
   </file>
   <file src="apps/files_sharing/lib/Controller/ShareController.php">
-    <InvalidArgument occurrences="2">
+    <InvalidArgument occurrences="1">
       <code>$files_list</code>
-      <code>'Share has no read permission'</code>
     </InvalidArgument>
     <InvalidScalarArgument occurrences="3">
       <code>$freeSpace</code>
@@ -1705,11 +1698,6 @@
   <file src="apps/files_sharing/lib/Controller/ShareInfoController.php">
     <NullArgument occurrences="1">
       <code>$password</code>
-    </NullArgument>
-  </file>
-  <file src="apps/files_sharing/lib/ExpireSharesJob.php">
-    <NullArgument occurrences="1">
-      <code>null</code>
     </NullArgument>
   </file>
   <file src="apps/files_sharing/lib/External/Manager.php">
@@ -2048,13 +2036,6 @@
       <code>dispatch</code>
     </TooManyArguments>
   </file>
-  <file src="apps/settings/lib/Controller/MailSettingsController.php">
-    <InvalidArgument occurrences="3">
-      <code>$this-&gt;l10n-&gt;t('A problem occurred while sending the email. Please revise your settings. (Error: %s)', [$e-&gt;getMessage()])</code>
-      <code>$this-&gt;l10n-&gt;t('Invalid SMTP password.')</code>
-      <code>$this-&gt;l10n-&gt;t('You need to set your user email before being able to send test emails.')</code>
-    </InvalidArgument>
-  </file>
   <file src="apps/settings/lib/Hooks.php">
     <InvalidArgument occurrences="1">
       <code>[$user-&gt;getEMailAddress() =&gt; $user-&gt;getDisplayName()]</code>
@@ -2204,9 +2185,6 @@
     </InvalidArgument>
   </file>
   <file src="apps/updatenotification/lib/Controller/AdminController.php">
-    <InvalidArgument occurrences="1">
-      <code>$newToken</code>
-    </InvalidArgument>
     <InvalidScalarArgument occurrences="2">
       <code>$this-&gt;timeFactory-&gt;getTime()</code>
       <code>0</code>
@@ -2591,9 +2569,6 @@
     </InvalidArgument>
   </file>
   <file src="apps/workflowengine/lib/Controller/AWorkflowController.php">
-    <InvalidArgument occurrences="1">
-      <code>$deleted</code>
-    </InvalidArgument>
     <InvalidScalarArgument occurrences="3">
       <code>$e-&gt;getCode()</code>
       <code>$e-&gt;getCode()</code>
@@ -3160,9 +3135,6 @@
     <RedundantCondition occurrences="1">
       <code>strtolower</code>
     </RedundantCondition>
-  </file>
-  <file src="lib/private/AppFramework/ScopedPsrLogger.php">
-    <InvalidArgument occurrences="1"/>
   </file>
   <file src="lib/private/AppFramework/Services/AppConfig.php">
     <MoreSpecificImplementedParamType occurrences="1">
@@ -5634,14 +5606,6 @@
     <NullableReturnStatement occurrences="1">
       <code>$column</code>
     </NullableReturnStatement>
-  </file>
-  <file src="lib/public/AppFramework/Http/DataResponse.php">
-    <InvalidReturnStatement occurrences="1">
-      <code>$this-&gt;data</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
-      <code>array</code>
-    </InvalidReturnType>
   </file>
   <file src="lib/public/AppFramework/Http/JSONResponse.php">
     <InvalidReturnStatement occurrences="1">
