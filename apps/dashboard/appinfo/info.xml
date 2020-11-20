@@ -22,7 +22,7 @@
 	<navigations>
 		<navigation>
 			<name>Dashboard</name>
-			<route>dashboard.dashboard.index</route>
+			<route>dashboard</route>
 			<icon>dashboard.svg</icon>
 			<order>-1</order>
 		</navigation>

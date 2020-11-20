@@ -279,7 +279,10 @@ class NavigationManager implements INavigationManager {
 				$id = $nav['id'] ?? $app . ($key === 0 ? '' : $key);
 				$order = isset($nav['order']) ? $nav['order'] : 100;
 				$type = isset($nav['type']) ? $nav['type'] : 'link';
-				$route = $nav['route'] !== '' ? $this->urlGenerator->linkToRoute($nav['route']) : '';
+				$frontControllerActive = ($this->config->getSystemValue('htaccess.IgnoreFrontController', false) === true || getenv('front_controller_active') === 'true');
+				$route = strpos($nav['route'], '.') ?
+					$this->urlGenerator->linkToRoute($nav['route']) :
+					'/' . \OC::$WEBROOT . ($frontControllerActive ? '' : 'index.php/') . 'apps/' . $nav['route'] . '/';
 				$icon = isset($nav['icon']) ? $nav['icon'] : 'app.svg';
 				foreach ([$icon, "$app.svg"] as $i) {
 					try {

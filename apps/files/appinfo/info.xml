@@ -57,7 +57,7 @@
 	<navigations>
 		<navigation>
 			<name>Files</name>
-			<route>files.view.index</route>
+			<route>files</route>
 			<order>0</order>
 		</navigation>
 	</navigations>
