@@ -601,20 +601,22 @@ class ManagerTest extends \Test\TestCase {
 		$nonShareAble = $this->createMock(Folder::class);
 		$nonShareAble->method('isShareable')->willReturn(false);
 		$nonShareAble->method('getPath')->willReturn('path');
+		$nonShareAble->method('getName')->willReturn('name');
 		$nonShareAble->method('getOwner')
 			->willReturn($owner);
 		$nonShareAble->method('getStorage')
 			->willReturn($storage);
 
-		$data[] = [$this->createShare(null, IShare::TYPE_USER,  $nonShareAble, $user2, $user0, $user0, 31, null, null), 'You are not allowed to share path', true];
-		$data[] = [$this->createShare(null, IShare::TYPE_GROUP, $nonShareAble, $group0, $user0, $user0, 31, null, null), 'You are not allowed to share path', true];
-		$data[] = [$this->createShare(null, IShare::TYPE_LINK,  $nonShareAble, null, $user0, $user0, 31, null, null), 'You are not allowed to share path', true];
+		$data[] = [$this->createShare(null, IShare::TYPE_USER,  $nonShareAble, $user2, $user0, $user0, 31, null, null), 'You are not allowed to share name', true];
+		$data[] = [$this->createShare(null, IShare::TYPE_GROUP, $nonShareAble, $group0, $user0, $user0, 31, null, null), 'You are not allowed to share name', true];
+		$data[] = [$this->createShare(null, IShare::TYPE_LINK,  $nonShareAble, null, $user0, $user0, 31, null, null), 'You are not allowed to share name', true];
 
 		$limitedPermssions = $this->createMock(File::class);
 		$limitedPermssions->method('isShareable')->willReturn(true);
 		$limitedPermssions->method('getPermissions')->willReturn(\OCP\Constants::PERMISSION_READ);
 		$limitedPermssions->method('getId')->willReturn(108);
 		$limitedPermssions->method('getPath')->willReturn('path');
+		$limitedPermssions->method('getName')->willReturn('name');
 		$limitedPermssions->method('getOwner')
 			->willReturn($owner);
 		$limitedPermssions->method('getStorage')
@@ -637,6 +639,7 @@ class ManagerTest extends \Test\TestCase {
 		$nonMoveableMountPermssions->method('getPermissions')->willReturn(\OCP\Constants::PERMISSION_READ);
 		$nonMoveableMountPermssions->method('getId')->willReturn(108);
 		$nonMoveableMountPermssions->method('getPath')->willReturn('path');
+		$nonMoveableMountPermssions->method('getName')->willReturn('name');
 		$nonMoveableMountPermssions->method('getOwner')
 			->willReturn($owner);
 		$nonMoveableMountPermssions->method('getStorage')
