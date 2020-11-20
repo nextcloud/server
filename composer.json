@@ -13,8 +13,10 @@
     },
     "require": {
         "ext-json": "*",
-        "ext-pdo": "*"
-    },
+        "ext-libxml": "*",
+        "ext-pdo": "*",
+        "ext-xmlreader": "*"
+	},
     "require-dev": {
         "nextcloud/coding-standard": "^0.3.0",
         "vimeo/psalm": "^4.0"

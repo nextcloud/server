@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e13ded744e614c48738e6ecc965d868e",
+    "content-hash": "be39e6ce67fced2d72723f6343bbe352",
     "packages": [],
     "packages-dev": [
         {
@@ -2962,7 +2962,9 @@
     "prefer-lowest": false,
     "platform": {
         "ext-json": "*",
-        "ext-pdo": "*"
+        "ext-libxml": "*",
+        "ext-pdo": "*",
+        "ext-xmlreader": "*"
     },
     "platform-dev": [],
     "plugin-api-version": "1.1.0"
