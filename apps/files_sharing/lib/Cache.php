@@ -177,4 +177,20 @@ class Cache extends CacheJail {
 	public function clear() {
 		// Not a valid action for Shared Cache
 	}
+
+	public function search($pattern) {
+		// Do the normal search on the whole storage for non files
+		if ($this->storage->getItemType() !== 'file') {
+			return parent::search($pattern);
+		}
+
+		$regex = '/' . str_replace('%', '.*', $pattern) . '/i';
+
+		$data = $this->get('');
+		if (preg_match($regex, $data->getName()) === 1) {
+			return [$data];
+		}
+
+		return [];
+	}
 }
