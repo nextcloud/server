@@ -54,6 +54,10 @@ class EncryptionMigration implements IRepairStep {
 	}
 
 	public function run(IOutput $output): void {
+		if (!$this->shouldRun()) {
+			return;
+		}
+
 		if ($this->manager->isEnabled()) {
 			if ($this->config->getSystemValue('encryption.key_storage_migrated', '') === '') {
 				$this->config->setSystemValue('encryption.key_storage_migrated', false);

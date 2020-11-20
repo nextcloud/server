@@ -54,6 +54,10 @@ class EncryptionLegacyCipher implements IRepairStep {
 	}
 
 	public function run(IOutput $output): void {
+		if (!$this->shouldRun()) {
+			return;
+		}
+
 		if ($this->manager->isEnabled()) {
 			if ($this->config->getSystemValue('encryption.legacy_format_support', '') === '') {
 				$this->config->setSystemValue('encryption.legacy_format_support', true);
