@@ -98,7 +98,7 @@ class Client implements IClient {
 		}
 
 		// If the instance is not yet setup we need to use the static path as
-		// $this->certificateManager->getAbsoluteBundlePath() tries to instantiiate
+		// $this->certificateManager->getAbsoluteBundlePath() tries to instantiate
 		// a view
 		if ($this->config->getSystemValue('installed', false)) {
 			return $this->certificateManager->getAbsoluteBundlePath(null);
@@ -160,7 +160,7 @@ class Client implements IClient {
 		}
 
 		$host = strtolower($host);
-		// remove brackets from IPv6 addresses
+		// Remove brackets from IPv6 addresses
 		if (strpos($host, '[') === 0 && substr($host, -1) === ']') {
 			$host = substr($host, 1, -1);
 		}
