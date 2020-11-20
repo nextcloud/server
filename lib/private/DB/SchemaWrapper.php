@@ -111,6 +111,7 @@ class SchemaWrapper implements ISchemaWrapper {
 	 * @return \Doctrine\DBAL\Schema\Table
 	 */
 	public function createTable($tableName) {
+		unset($this->tablesToDelete[$tableName]);
 		return $this->schema->createTable($this->connection->getPrefix() . $tableName);
 	}
 
