@@ -284,7 +284,7 @@
     "Enable" : "Etkinleştir",
     "Enable untested app" : "Denenmemiş uygulamalar kullanılabilsin",
     "The app will be downloaded from the app store" : "Uygulama uygulama mağazasından indirilecek",
-    "This app is not marked as compatible with your Nextcloud version. If you continue you will still be able to install the app. Note that the app might not work as expected." : "Bu uygulamanın kullandığınız Nextcloud sürümü ile uyumluluğu denetlenmemiş. Devam ederseniz uygulamayı kurabilirsiniz. Ancak uygulama beklendiği gibi çalışmayabilir.",
+    "This app is not marked as compatible with your Nextcloud version. If you continue you will still be able to install the app. Note that the app might not work as expected." : "Bu uygulamanın kullandığınız Nextcloud sürümü ile uyumluluğu denetlenmemiş. İşlemi sürdürürseniz uygulamayı kurabilirsiniz. Ancak uygulama beklendiği gibi çalışmayabilir.",
     "Never" : "Asla",
     "An error occured during the request. Unable to proceed." : "İstek sırasında bir sorun çıktı. İşlem sürdürülemiyor.",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "Uygulama etkinleştirilmiş fakat güncellenmesi gerekiyor. 5 saniye içinde güncelleme sayfasına yönlendirileceksiniz.",
