@@ -290,6 +290,9 @@ class Server extends ServerContainer implements IServerContainer {
 
 		$this->registerAlias(IActionFactory::class, ActionFactory::class);
 
+		$this->registerService(View::class, function (Server $c) {
+			return new View();
+		}, false);
 
 		$this->registerService(IPreview::class, function (ContainerInterface $c) {
 			return new PreviewManager(
