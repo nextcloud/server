@@ -150,6 +150,8 @@ use OCP\Dashboard\IDashboardManager;
 use OCP\Defaults;
 use OCP\Diagnostics\IEventLogger;
 use OCP\Diagnostics\IQueryLogger;
+use OCP\Encryption\IFile;
+use OCP\Encryption\Keys\IStorage;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\ICloudFederationFactory;
 use OCP\Federation\ICloudFederationProviderManager;
@@ -334,7 +336,9 @@ class Server extends ServerContainer implements IServerContainer {
 		/** @deprecated 19.0.0 */
 		$this->registerDeprecatedAlias('EncryptionManager', \OCP\Encryption\IManager::class);
 
-		$this->registerService('EncryptionFileHelper', function (ContainerInterface $c) {
+		/** @deprecated 21.0.0 */
+		$this->registerDeprecatedAlias('EncryptionFileHelper', IFile::class);
+		$this->registerService(IFile::class, function (ContainerInterface $c) {
 			$util = new Encryption\Util(
 				new View(),
 				$c->get(IUserManager::class),
@@ -348,7 +352,9 @@ class Server extends ServerContainer implements IServerContainer {
 			);
 		});
 
-		$this->registerService('EncryptionKeyStorage', function (ContainerInterface $c) {
+		/** @deprecated 21.0.0 */
+		$this->registerDeprecatedAlias('EncryptionKeyStorage', IStorage::class);
+		$this->registerService(IStorage::class, function (ContainerInterface $c) {
 			$view = new View();
 			$util = new Encryption\Util(
 				$view,
@@ -1427,7 +1433,7 @@ class Server extends ServerContainer implements IServerContainer {
 	 * @deprecated 20.0.0
 	 */
 	public function getEncryptionFilesHelper() {
-		return $this->get('EncryptionFileHelper');
+		return $this->get(IFile::class);
 	}
 
 	/**
@@ -1435,7 +1441,7 @@ class Server extends ServerContainer implements IServerContainer {
 	 * @deprecated 20.0.0
 	 */
 	public function getEncryptionKeyStorage() {
-		return $this->get('EncryptionKeyStorage');
+		return $this->get(IStorage::class);
 	}
 
 	/**
