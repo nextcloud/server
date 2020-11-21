@@ -517,6 +517,8 @@ class OC_App {
 	 * Get the directory for the given app.
 	 * If the app is defined in multiple directories, the first one is taken. (false if not found)
 	 *
+	 * @psalm-taint-specialize
+	 *
 	 * @param string $appId
 	 * @return string|false
 	 * @deprecated 11.0.0 use \OC::$server->getAppManager()->getAppPath()
