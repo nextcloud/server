@@ -81,6 +81,7 @@ class OC_App {
 	 * clean the appId
 	 *
 	 * @psalm-taint-escape file
+	 * @psalm-taint-escape include
 	 *
 	 * @param string $app AppId that needs to be cleaned
 	 * @return string
