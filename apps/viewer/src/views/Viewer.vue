@@ -50,6 +50,13 @@
 				@click="showSidebar">
 				{{ t('viewer', 'Open sidebar') }}
 			</ActionButton>
+			<ActionLink
+				download
+				icon="icon-download"
+				:close-after-click="true"
+				:href="currentFile.davPath">
+				{{ t('viewer', 'Download') }}
+			</ActionLink>
 			<ActionButton
 				v-if="canDelete"
 				:close-after-click="true"
@@ -120,6 +127,7 @@ import '@nextcloud/dialogs/styles/toast.scss'
 import { showError } from '@nextcloud/dialogs'
 
 import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
+import ActionLink from '@nextcloud/vue/dist/Components/ActionLink'
 import isFullscreen from '@nextcloud/vue/dist/Mixins/isFullscreen'
 import isMobile from '@nextcloud/vue/dist/Mixins/isMobile'
 import Modal from '@nextcloud/vue/dist/Components/Modal'
@@ -139,6 +147,7 @@ export default {
 
 	components: {
 		ActionButton,
+		ActionLink,
 		Modal,
 		Error,
 	},

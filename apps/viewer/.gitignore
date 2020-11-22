@@ -17,7 +17,9 @@ yarn-error.log*
 build/
 coverage/
 
+cypress/downloads
 cypress/screenshots
 cypress/snapshots
+cypress/videos
 vendor
 .php_cs.cache

@@ -19,6 +19,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+import { getDavPath } from '../utils/fileUtils'
 
 export default function(fileInfo, mime, component) {
 	const data = {
@@ -26,6 +27,7 @@ export default function(fileInfo, mime, component) {
 		modal: component,
 		failed: false,
 		loaded: false,
+		davPath: getDavPath(fileInfo),
 	}
 
 	return Object.assign({}, fileInfo, data)

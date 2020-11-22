@@ -1,7 +1,7 @@
 /**
- * @copyright Copyright (c) 2019 John Molakvoæ <skjnldsv@protonmail.com>
+ * @copyright Copyright (c) 2020 Florent Fayolle <florent@zeteo.me>
  *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Florent Fayolle <florent@zeteo.me>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -21,32 +21,36 @@
  */
 
 import { randHash } from '../utils'
+import * as path from 'path';
 const randUser = randHash()
+const fileName = "image.png"
+const fileSize = 4531680; // du -b image.png
 
-describe('Delete image.png in viewer', function() {
+describe(`Download ${fileName} in viewer`, function() {
 	before(function() {
 		// Init user
 		cy.nextcloudCreateUser(randUser, 'password')
 		cy.login(randUser, 'password')
 
 		// Upload test files
-		cy.uploadFile('image.png', 'image/png')
+		cy.uploadFile(fileName, 'image/png')
 		cy.visit('/apps/files')
 
 		// wait a bit for things to be settled
 		cy.wait(2000)
 	})
+
 	after(function() {
 		cy.logout()
 	})
 
-	it('See image.png in the list', function() {
-		cy.get('#fileList tr[data-file="image.png"]', { timeout: 10000 })
-			.should('contain', 'image.png')
+	it(`See "${fileName}" in the list`, function() {
+		cy.get(`#fileList tr[data-file="${fileName}"]`, { timeout: 10000 })
+			.should('contain', fileName)
 	})
 
 	it('Open the viewer on file click', function() {
-		cy.openFile('image.png')
+		cy.openFile(fileName)
 		cy.get('body > .viewer').should('be.visible')
 	})
 
@@ -57,25 +61,21 @@ describe('Delete image.png in viewer', function() {
 			.and('not.have.class', 'icon-loading')
 	})
 
-	it('Delete the image and close viewer', function() {
+	it('Download the image', function() {
 		// open the menu
 		cy.get('body > .viewer .modal-header button.action-item__menutoggle').click()
-		// delete the file
-		cy.get('.action-button__icon.icon-delete').click()
+		// download the file
+		cy.get('.action-link__icon.icon-download').click()
 	})
 
-	it('Does not see the viewer anymore', function() {
-		cy.get('body > .viewer', { timeout: 10000 })
-			.should('not.exist')
-	})
-
-	it('Does not see image.png in the list anymore', function() {
-		cy.visit('/apps/files')
-		cy.get('#fileList tr[data-file="image.png"]', { timeout: 10000 })
-			.should('not.exist')
-	})
-
-	it('Does not have any visual regression', function() {
-		cy.matchImageSnapshot()
+	it('Compare downloaded file with asset by size', function() {
+		const downloadsFolder = Cypress.config('downloadsFolder')
+		const downloadedFileName = path.join(downloadsFolder, fileName)
+		cy.readFile(downloadedFileName, 'binary', { timeout: 15000 })
+			.should((buffer) => {
+				if (buffer.length !== fileSize) {
+					throw new Error(`File size ${buffer.length} is not ${fileSize}`)
+				}
+			})
 	})
 })
