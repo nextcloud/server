@@ -27,12 +27,13 @@ namespace OCA\Encryption\AppInfo;
 
 \OCP\Util::addscript('encryption', 'encryption');
 
-$encryptionSystemReady = \OC::$server->getEncryptionManager()->isReady();
+$encryptionManager = \OC::$server->getEncryptionManager();
+$encryptionSystemReady = $encryptionManager->isReady();
 
 /** @var Application $app */
 $app = \OC::$server->query(Application::class);
 if ($encryptionSystemReady) {
-	$app->registerEncryptionModule();
-	$app->registerHooks();
-	$app->setUp();
+	$app->registerEncryptionModule($encryptionManager);
+	$app->registerHooks(\OC::$server->getConfig());
+	$app->setUp($encryptionManager);
 }
