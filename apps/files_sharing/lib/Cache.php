@@ -38,6 +38,7 @@ use OCP\Files\Search\ISearchBinaryOperator;
 use OCP\Files\Search\ISearchComparison;
 use OCP\Files\Search\ISearchOperator;
 use OCP\Files\StorageNotAvailableException;
+use OCP\IUserManager;
 
 /**
  * Metadata cache for shared files
@@ -174,7 +175,13 @@ class Cache extends CacheJail {
 
 	private function getOwnerDisplayName() {
 		if (!$this->ownerDisplayName) {
-			$this->ownerDisplayName = \OC_User::getDisplayName($this->storage->getOwner(''));
+			$uid = $this->storage->getOwner('');
+			$user = \OC::$server->get(IUserManager::class)->get($uid);
+			if ($user) {
+				$this->ownerDisplayName = $user->getDisplayName();
+			} else {
+				$this->ownerDisplayName = $uid;
+			}
 		}
 		return $this->ownerDisplayName;
 	}

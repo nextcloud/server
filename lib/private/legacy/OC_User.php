@@ -329,32 +329,6 @@ class OC_User {
 	}
 
 	/**
-	 * get the display name of the user currently logged in.
-	 *
-	 * @param string $uid
-	 * @return string|bool uid or false
-	 * @deprecated 8.1.0 fetch \OCP\IUser (has getDisplayName()) by using method
-	 *                   get() of \OCP\IUserManager - \OC::$server->getUserManager()
-	 */
-	public static function getDisplayName($uid = null) {
-		if ($uid) {
-			$user = \OC::$server->getUserManager()->get($uid);
-			if ($user) {
-				return $user->getDisplayName();
-			} else {
-				return $uid;
-			}
-		} else {
-			$user = \OC::$server->getUserSession()->getUser();
-			if ($user) {
-				return $user->getDisplayName();
-			} else {
-				return false;
-			}
-		}
-	}
-
-	/**
 	 * Set password
 	 *
 	 * @param string $uid The username
