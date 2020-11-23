@@ -7,6 +7,7 @@ namespace OCA\WorkflowEngine\Migration;
 use Closure;
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Types\Types;
+use OCA\WorkflowEngine\Entity\File;
 use OCP\DB\ISchemaWrapper;
 use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
@@ -116,7 +117,7 @@ class Version2000Date20190808074233 extends SimpleMigrationStep {
 			$table->addColumn('entity', Types::STRING, [
 				'notnull' => true,
 				'length' => 256,
-				'default' => '',
+				'default' => File::class,
 			]);
 		}
 		if (!$table->hasColumn('events')) {
