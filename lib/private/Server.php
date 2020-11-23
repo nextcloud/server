@@ -117,6 +117,7 @@ use OC\Preview\GeneratorHelper;
 use OC\Remote\Api\ApiFactory;
 use OC\Remote\InstanceFactory;
 use OC\RichObjectStrings\Validator;
+use OC\Route\Router;
 use OC\Security\Bruteforce\Throttler;
 use OC\Security\CertificateManager;
 use OC\Security\CredentialsManager;
@@ -759,7 +760,7 @@ class Server extends ServerContainer implements IServerContainer {
 		/** @deprecated 19.0.0 */
 		$this->registerDeprecatedAlias('JobList', IJobList::class);
 
-		$this->registerService(IRouter::class, function (Server $c) {
+		$this->registerService(Router::class, function (Server $c) {
 			$cacheFactory = $c->get(ICacheFactory::class);
 			$logger = $c->get(ILogger::class);
 			if ($cacheFactory->isLocalCacheAvailable()) {
@@ -769,6 +770,7 @@ class Server extends ServerContainer implements IServerContainer {
 			}
 			return $router;
 		});
+		$this->registerAlias(IRouter::class, Router::class);
 		/** @deprecated 19.0.0 */
 		$this->registerDeprecatedAlias('Router', IRouter::class);
 
