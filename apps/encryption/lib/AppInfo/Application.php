@@ -44,23 +44,15 @@ use OCP\Encryption\IManager;
 use OCP\IConfig;
 
 class Application extends \OCP\AppFramework\App {
-
-	/** @var IManager */
-	private $encryptionManager;
-	/** @var IConfig */
-	private $config;
-
 	/**
 	 * @param array $urlParams
 	 */
 	public function __construct($urlParams = []) {
 		parent::__construct('encryption', $urlParams);
-		$this->encryptionManager = \OC::$server->getEncryptionManager();
-		$this->config = \OC::$server->getConfig();
 	}
 
-	public function setUp() {
-		if ($this->encryptionManager->isEnabled()) {
+	public function setUp(IManager $encryptionManager) {
+		if ($encryptionManager->isEnabled()) {
 			/** @var Setup $setup */
 			$setup = $this->getContainer()->query(Setup::class);
 			$setup->setupSystem();
@@ -70,8 +62,8 @@ class Application extends \OCP\AppFramework\App {
 	/**
 	 * register hooks
 	 */
-	public function registerHooks() {
-		if (!$this->config->getSystemValueBool('maintenance')) {
+	public function registerHooks(IConfig $config) {
+		if (!$config->getSystemValueBool('maintenance')) {
 			$container = $this->getContainer();
 			$server = $container->getServer();
 			// Register our hooks and fire them.
@@ -96,11 +88,10 @@ class Application extends \OCP\AppFramework\App {
 		}
 	}
 
-	public function registerEncryptionModule() {
+	public function registerEncryptionModule(IManager $encryptionManager) {
 		$container = $this->getContainer();
 
-
-		$this->encryptionManager->registerEncryptionModule(
+		$encryptionManager->registerEncryptionModule(
 			Encryption::ID,
 			Encryption::DISPLAY_NAME,
 			function () use ($container) {
