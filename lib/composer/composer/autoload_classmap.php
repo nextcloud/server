@@ -863,6 +863,7 @@ return array(
     'OC\\Core\\Command\\TwoFactorAuth\\State' => $baseDir . '/core/Command/TwoFactorAuth/State.php',
     'OC\\Core\\Command\\Upgrade' => $baseDir . '/core/Command/Upgrade.php',
     'OC\\Core\\Command\\User\\Add' => $baseDir . '/core/Command/User/Add.php',
+    'OC\\Core\\Command\\User\\AddAppPassword' => $baseDir . '/core/Command/User/AddAppPassword.php',
     'OC\\Core\\Command\\User\\Delete' => $baseDir . '/core/Command/User/Delete.php',
     'OC\\Core\\Command\\User\\Disable' => $baseDir . '/core/Command/User/Disable.php',
     'OC\\Core\\Command\\User\\Enable' => $baseDir . '/core/Command/User/Enable.php',

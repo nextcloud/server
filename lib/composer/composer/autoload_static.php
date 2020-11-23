@@ -892,6 +892,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Core\\Command\\TwoFactorAuth\\State' => __DIR__ . '/../../..' . '/core/Command/TwoFactorAuth/State.php',
         'OC\\Core\\Command\\Upgrade' => __DIR__ . '/../../..' . '/core/Command/Upgrade.php',
         'OC\\Core\\Command\\User\\Add' => __DIR__ . '/../../..' . '/core/Command/User/Add.php',
+        'OC\\Core\\Command\\User\\AddAppPassword' => __DIR__ . '/../../..' . '/core/Command/User/AddAppPassword.php',
         'OC\\Core\\Command\\User\\Delete' => __DIR__ . '/../../..' . '/core/Command/User/Delete.php',
         'OC\\Core\\Command\\User\\Disable' => __DIR__ . '/../../..' . '/core/Command/User/Disable.php',
         'OC\\Core\\Command\\User\\Enable' => __DIR__ . '/../../..' . '/core/Command/User/Enable.php',
