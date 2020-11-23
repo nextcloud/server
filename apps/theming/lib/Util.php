@@ -250,13 +250,6 @@ class Util {
 
 	public function isBackgroundThemed() {
 		$backgroundLogo = $this->config->getAppValue('theming', 'backgroundMime', '');
-
-		$backgroundExists = true;
-		try {
-			$this->appData->getFolder('images')->getFile('background');
-		} catch (\Exception $e) {
-			$backgroundExists = false;
-		}
-		return $backgroundLogo && $backgroundLogo !== 'backgroundColor' && $backgroundExists;
+		return $backgroundLogo !== '' && $backgroundLogo !== 'backgroundColor';
 	}
 }
