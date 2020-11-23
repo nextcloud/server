@@ -550,7 +550,6 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OCP\\User\\Events\\BeforeUserLoggedInEvent' => __DIR__ . '/../../..' . '/lib/public/User/Events/BeforeUserLoggedInEvent.php',
         'OCP\\User\\Events\\BeforeUserLoggedInWithCookieEvent' => __DIR__ . '/../../..' . '/lib/public/User/Events/BeforeUserLoggedInWithCookieEvent.php',
         'OCP\\User\\Events\\BeforeUserLoggedOutEvent' => __DIR__ . '/../../..' . '/lib/public/User/Events/BeforeUserLoggedOutEvent.php',
-        'OCP\\User\\Events\\CreateUserEvent' => __DIR__ . '/../../..' . '/lib/public/User/Events/CreateUserEvent.php',
         'OCP\\User\\Events\\PasswordUpdatedEvent' => __DIR__ . '/../../..' . '/lib/public/User/Events/PasswordUpdatedEvent.php',
         'OCP\\User\\Events\\PostLoginEvent' => __DIR__ . '/../../..' . '/lib/public/User/Events/PostLoginEvent.php',
         'OCP\\User\\Events\\UserChangedEvent' => __DIR__ . '/../../..' . '/lib/public/User/Events/UserChangedEvent.php',

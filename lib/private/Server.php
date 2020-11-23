@@ -524,33 +524,25 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->get(ILogger::class),
 				$c->get(IEventDispatcher::class)
 			);
+			/** @deprecated 21.0.0 use BeforeUserCreatedEvent event with the IEventDispatcher instead */
 			$userSession->listen('\OC\User', 'preCreateUser', function ($uid, $password) {
 				\OC_Hook::emit('OC_User', 'pre_createUser', ['run' => true, 'uid' => $uid, 'password' => $password]);
-
-				/** @var IEventDispatcher $dispatcher */
-				$dispatcher = $this->get(IEventDispatcher::class);
-				$dispatcher->dispatchTyped(new BeforeUserCreatedEvent($uid, $password));
 			});
+			/** @deprecated 21.0.0 use UserCreatedEvent event with the IEventDispatcher instead */
 			$userSession->listen('\OC\User', 'postCreateUser', function ($user, $password) {
 				/** @var \OC\User\User $user */
 				\OC_Hook::emit('OC_User', 'post_createUser', ['uid' => $user->getUID(), 'password' => $password]);
 			});
+			/** @deprecated 21.0.0 use BeforeUserDeletedEvent event with the IEventDispatcher instead */
 			$userSession->listen('\OC\User', 'preDelete', function ($user) use ($legacyDispatcher) {
 				/** @var \OC\User\User $user */
 				\OC_Hook::emit('OC_User', 'pre_deleteUser', ['run' => true, 'uid' => $user->getUID()]);
 				$legacyDispatcher->dispatch('OCP\IUser::preDelete', new GenericEvent($user));
-
-				/** @var IEventDispatcher $dispatcher */
-				$dispatcher = $this->get(IEventDispatcher::class);
-				$dispatcher->dispatchTyped(new BeforeUserDeletedEvent($user));
 			});
+			/** @deprecated 21.0.0 use UserDeletedEvent event with the IEventDispatcher instead */
 			$userSession->listen('\OC\User', 'postDelete', function ($user) {
 				/** @var \OC\User\User $user */
 				\OC_Hook::emit('OC_User', 'post_deleteUser', ['uid' => $user->getUID()]);
-
-				/** @var IEventDispatcher $dispatcher */
-				$dispatcher = $this->get(IEventDispatcher::class);
-				$dispatcher->dispatchTyped(new UserDeletedEvent($user));
 			});
 			$userSession->listen('\OC\User', 'preSetPassword', function ($user, $password, $recoveryPassword) {
 				/** @var \OC\User\User $user */

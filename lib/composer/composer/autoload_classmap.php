@@ -521,7 +521,6 @@ return array(
     'OCP\\User\\Events\\BeforeUserLoggedInEvent' => $baseDir . '/lib/public/User/Events/BeforeUserLoggedInEvent.php',
     'OCP\\User\\Events\\BeforeUserLoggedInWithCookieEvent' => $baseDir . '/lib/public/User/Events/BeforeUserLoggedInWithCookieEvent.php',
     'OCP\\User\\Events\\BeforeUserLoggedOutEvent' => $baseDir . '/lib/public/User/Events/BeforeUserLoggedOutEvent.php',
-    'OCP\\User\\Events\\CreateUserEvent' => $baseDir . '/lib/public/User/Events/CreateUserEvent.php',
     'OCP\\User\\Events\\PasswordUpdatedEvent' => $baseDir . '/lib/public/User/Events/PasswordUpdatedEvent.php',
     'OCP\\User\\Events\\PostLoginEvent' => $baseDir . '/lib/public/User/Events/PostLoginEvent.php',
     'OCP\\User\\Events\\UserChangedEvent' => $baseDir . '/lib/public/User/Events/UserChangedEvent.php',
