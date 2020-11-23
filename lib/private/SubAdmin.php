@@ -93,7 +93,7 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 			])
 			->execute();
 
-		/** @depreacted 21.0.0 - use type SubAdminAddedEvent instead  */
+		/** @deprecated 21.0.0 - use type SubAdminAddedEvent instead  */
 		$this->emit('\OC\SubAdmin', 'postCreateSubAdmin', [$user, $group]);
 		$event = new SubAdminAddedEvent($group, $user);
 		$this->eventDispatcher->dispatchTyped($event);
@@ -112,7 +112,7 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 			->andWhere($qb->expr()->eq('uid', $qb->createNamedParameter($user->getUID())))
 			->execute();
 
-		/** @depreacted 21.0.0 - use type SubAdminRemovedEvent instead  */
+		/** @deprecated 21.0.0 - use type SubAdminRemovedEvent instead  */
 		$this->emit('\OC\SubAdmin', 'postDeleteSubAdmin', [$user, $group]);
 		$event = new SubAdminRemovedEvent($group, $user);
 		$this->eventDispatcher->dispatchTyped($event);

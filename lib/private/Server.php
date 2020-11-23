@@ -2283,7 +2283,7 @@ class Server extends ServerContainer implements IServerContainer {
 			try {
 				/** @var ILogger $logger */
 				$logger = $container->get(ILogger::class);
-				$logger->debug('The requested alias "' . $alias . '" is depreacted. Please request "' . $target . '" directly. This alias will be removed in a future Nextcloud version.', ['app' => 'serverDI']);
+				$logger->debug('The requested alias "' . $alias . '" is deprecated. Please request "' . $target . '" directly. This alias will be removed in a future Nextcloud version.', ['app' => 'serverDI']);
 			} catch (ContainerExceptionInterface $e) {
 				// Could not get logger. Continue
 			}
