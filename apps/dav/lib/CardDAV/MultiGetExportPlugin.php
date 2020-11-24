@@ -75,7 +75,7 @@ class MultiGetExportPlugin extends DAV\ServerPlugin {
 
 		// Reduce the vcards into one string
 		$output = array_reduce($responseXml->getResponses(), function ($vcf, $card) {
-			$vcf .= $card->getResponseProperties()[200]['{urn:ietf:params:xml:ns:carddav}address-data'];
+			$vcf .= $card->getResponseProperties()[200]['{urn:ietf:params:xml:ns:carddav}address-data'] . PHP_EOL;
 			return $vcf;
 		}, '');
 
