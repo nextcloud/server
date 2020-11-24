@@ -29,10 +29,13 @@ namespace OCA\FederatedFileSharing\Tests;
 
 use OC\Federation\CloudIdManager;
 use OCA\FederatedFileSharing\AddressHandler;
+use OCP\Contacts\IManager;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 
 class AddressHandlerTest extends \Test\TestCase {
+	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
+	protected $contactsManager;
 
 	/** @var  AddressHandler */
 	private $addressHandler;
@@ -54,7 +57,9 @@ class AddressHandlerTest extends \Test\TestCase {
 		$this->il10n = $this->getMockBuilder(IL10N::class)
 			->getMock();
 
-		$this->cloudIdManager = new CloudIdManager();
+		$this->contactsManager = $this->createMock(IManager::class);
+
+		$this->cloudIdManager = new CloudIdManager($this->contactsManager);
 
 		$this->addressHandler = new AddressHandler($this->urlGenerator, $this->il10n, $this->cloudIdManager);
 	}
@@ -98,6 +103,10 @@ class AddressHandlerTest extends \Test\TestCase {
 	 * @param string $expectedUrl
 	 */
 	public function testSplitUserRemote($remote, $expectedUser, $expectedUrl) {
+		$this->contactsManager->expects($this->any())
+			->method('search')
+			->willReturn([]);
+
 		list($remoteUser, $remoteUrl) = $this->addressHandler->splitUserRemote($remote);
 		$this->assertSame($expectedUser, $remoteUser);
 		$this->assertSame($expectedUrl, $remoteUrl);

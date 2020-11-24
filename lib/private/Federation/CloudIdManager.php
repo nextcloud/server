@@ -29,10 +29,18 @@ declare(strict_types=1);
 
 namespace OC\Federation;
 
+use OCP\Contacts\IManager;
 use OCP\Federation\ICloudId;
 use OCP\Federation\ICloudIdManager;
 
 class CloudIdManager implements ICloudIdManager {
+	/** @var IManager */
+	private $contactsManager;
+
+	public function __construct(IManager $contactsManager) {
+		$this->contactsManager = $contactsManager;
+	}
+
 	/**
 	 * @param string $cloudId
 	 * @return ICloudId
@@ -60,21 +68,30 @@ class CloudIdManager implements ICloudIdManager {
 			$invalidPos = min($posSlash, $posColon);
 		}
 
-		// Find the last @ before $invalidPos
-		$pos = $lastAtPos = 0;
-		while ($lastAtPos !== false && $lastAtPos <= $invalidPos) {
-			$pos = $lastAtPos;
-			$lastAtPos = strpos($id, '@', $pos + 1);
-		}
+		$lastValidAtPos = strrpos($id, '@', $invalidPos - strlen($id));
 
-		if ($pos !== false) {
-			$user = substr($id, 0, $pos);
-			$remote = substr($id, $pos + 1);
+		if ($lastValidAtPos !== false) {
+			$user = substr($id, 0, $lastValidAtPos);
+			$remote = substr($id, $lastValidAtPos + 1);
 			if (!empty($user) && !empty($remote)) {
-				return new CloudId($id, $user, $remote);
+				return new CloudId($id, $user, $remote, $this->getDisplayNameFromContact($id));
 			}
 		}
 		throw new \InvalidArgumentException('Invalid cloud id');
+	}
+
+	protected function getDisplayNameFromContact(string $cloudId): ?string {
+		$addressBookEntries = $this->contactsManager->search($cloudId, ['CLOUD']);
+		foreach ($addressBookEntries as $entry) {
+			if (isset($entry['CLOUD'])) {
+				foreach ($entry['CLOUD'] as $cloudID) {
+					if ($cloudID === $cloudId) {
+						return $entry['FN'];
+					}
+				}
+			}
+		}
+		return null;
 	}
 
 	/**
@@ -84,7 +101,16 @@ class CloudIdManager implements ICloudIdManager {
 	 */
 	public function getCloudId(string $user, string $remote): ICloudId {
 		// TODO check what the correct url is for remote (asking the remote)
-		return new CloudId($user. '@' . $remote, $user, $remote);
+		$fixedRemote = $this->fixRemoteURL($remote);
+		if (strpos($fixedRemote, 'http://') === 0) {
+			$host = substr($fixedRemote, strlen('http://'));
+		} elseif (strpos($fixedRemote, 'https://') === 0) {
+			$host = substr($fixedRemote, strlen('https://'));
+		} else {
+			$host = $fixedRemote;
+		}
+		$id = $user . '@' . $remote;
+		return new CloudId($id, $user, $fixedRemote, $this->getDisplayNameFromContact($id));
 	}
 
 	/**
