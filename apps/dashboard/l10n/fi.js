@@ -1,8 +1,8 @@
 OC.L10N.register(
     "dashboard",
     {
-    "Dashboard" : "Kojetaulu",
-    "Dashboard app" : "Kojetaulusovellus",
+    "Dashboard" : "Konsoli",
+    "Dashboard app" : "Konsolisovellus",
     "Customize" : "Mukauta",
     "Change background image" : "Vaihda taustakuva",
     "Weather service" : "Sääpalvelu",
