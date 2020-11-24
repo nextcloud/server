@@ -359,7 +359,7 @@
     "Restrict username autocompletion to users within the same groups" : "Rajoita käyttäjänimen automaattista täydentämistä samoihin ryhmiin kuuluviin käyttäjiin",
     "This text will be shown on the public link upload page when the file list is hidden." : "Tämä teksti näytetään julkisen linkin lähetyssivulla, kun tiedostolista on piilotettu.",
     "Default share permissions" : "Oletusjako-oikeudet",
-    "Reasons to use Nextcloud in your organization" : "Syitä Nextcloudin käyttöön organisaatiossasi",
+    "Reasons to use Nextcloud in your organization" : "Nextcloudin käytön edut organisaatiossasi",
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "Kehityksestä on vastannut {communityopen}Nextcloud-yhteisö{linkclose}, {githubopen}lähdekoodi{linkclose} on {licenseopen}AGPL-lisensoitu{linkclose}.",
     "Like our Facebook page" : "Tykkää Facebook-sivustamme",
     "Follow us on Twitter" : "Seuraa meitä Twitterissä",

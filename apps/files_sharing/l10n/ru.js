@@ -222,7 +222,7 @@ OC.L10N.register(
     "Share note" : "Комментарий к общему ресурсу",
     "Toggle grid view" : "Включить или отключить режим просмотра сеткой",
     "Download %s" : "Скачать %s",
-    "Upload files to %s" : "Отправка файлов в %s",
+    "Upload files to %s" : "Загрузка файлов в %s",
     "Note" : "Примечание",
     "Select or drop files" : "Выберите или перетащите файлы",
     "Uploading files" : "Загрузка файлов",
