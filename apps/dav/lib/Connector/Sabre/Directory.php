@@ -51,7 +51,7 @@ use Sabre\DAV\Exception\ServiceUnavailable;
 use Sabre\DAV\IFile;
 use Sabre\DAV\INode;
 
-class Directory extends \OCA\DAV\Connector\Sabre\Node implements \Sabre\DAV\ICollection, \Sabre\DAV\IQuota, \Sabre\DAV\IMoveTarget {
+class Directory extends \OCA\DAV\Connector\Sabre\Node implements \Sabre\DAV\ICollection, \Sabre\DAV\IQuota, \Sabre\DAV\IMoveTarget, \Sabre\DAV\ICopyTarget {
 
 	/**
 	 * Cached directory content
@@ -394,7 +394,7 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node implements \Sabre\DAV\ICol
 			throw new \Sabre\DAV\Exception\Forbidden('Could not copy directory ' . $sourceNode->getName() . ', target exists');
 		}
 
-		list($sourceDir,) = \Sabre\Uri\split($sourceNode->getPath());
+		[$sourceDir,] = \Sabre\Uri\split($sourceNode->getPath());
 		$destinationDir = $this->getPath();
 
 		$sourcePath = $sourceNode->getPath();
@@ -448,5 +448,27 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node implements \Sabre\DAV\ICol
 		}
 
 		return true;
+	}
+
+
+	public function copyInto($targetName, $sourcePath, INode $sourceNode) {
+		if ($sourceNode instanceof File) {
+			$destinationPath = $this->getPath() . '/' . $targetName;
+			$sourcePath = $sourceNode->getPath();
+
+			if (!$this->fileView->isCreatable($this->getPath())) {
+				throw new \Sabre\DAV\Exception\Forbidden();
+			}
+
+			try {
+				$this->fileView->verifyPath($this->getPath(), $targetName);
+			} catch (InvalidPathException $ex) {
+				throw new InvalidPath($ex->getMessage());
+			}
+
+			return $this->fileView->copy($sourcePath, $destinationPath);
+		}
+
+		return false;
 	}
 }
