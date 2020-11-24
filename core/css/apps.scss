@@ -187,7 +187,7 @@ kbd {
 			&.app-navigation-caption {
 				font-weight: bold;
 				line-height: 44px;
-				padding: 0 44px;
+				padding: 0 15px; /* Changing 44px to 15px -> décallage vers la droite */ 
 				white-space: nowrap;
 				text-overflow: ellipsis;
 				box-shadow: none !important;
@@ -267,7 +267,7 @@ kbd {
 				justify-content: space-between;
 				line-height: 44px;
 				min-height: 44px;
-				padding: 0 12px 0 44px;
+				padding: 0 12px 0 44px; /* Former 44 au lieu de 15 */
 				overflow: hidden;
 				box-sizing: border-box;
 				white-space: nowrap;
@@ -281,7 +281,7 @@ kbd {
 				    margin-right: 11px;
 				    width: 16px;
 				    height: 16px;
-				    margin-left: -30px;
+				    /*margin-left: -30px;*/
 				}
 
 				/* counter can also be inside the link */
