@@ -264,7 +264,7 @@ class RegistrationContext {
 	 * @param App[] $apps
 	 */
 	public function delegateCapabilityRegistrations(array $apps): void {
-		while (($registration = array_pop($this->capabilities)) !== null) {
+		while (($registration = array_shift($this->capabilities)) !== null) {
 			try {
 				$apps[$registration['appId']]
 					->getContainer()
@@ -283,7 +283,7 @@ class RegistrationContext {
 	 * @param App[] $apps
 	 */
 	public function delegateCrashReporterRegistrations(array $apps, Registry $registry): void {
-		while (($registration = array_pop($this->crashReporters)) !== null) {
+		while (($registration = array_shift($this->crashReporters)) !== null) {
 			try {
 				$registry->registerLazy($registration['class']);
 			} catch (Throwable $e) {
@@ -300,7 +300,7 @@ class RegistrationContext {
 	 * @param App[] $apps
 	 */
 	public function delegateDashboardPanelRegistrations(array $apps, IManager $dashboardManager): void {
-		while (($panel = array_pop($this->dashboardPanels)) !== null) {
+		while (($panel = array_shift($this->dashboardPanels)) !== null) {
 			try {
 				$dashboardManager->lazyRegisterWidget($panel['class']);
 			} catch (Throwable $e) {
@@ -314,7 +314,7 @@ class RegistrationContext {
 	}
 
 	public function delegateEventListenerRegistrations(IEventDispatcher $eventDispatcher): void {
-		while (($registration = array_pop($this->eventListeners)) !== null) {
+		while (($registration = array_shift($this->eventListeners)) !== null) {
 			try {
 				if (isset($registration['priority'])) {
 					$eventDispatcher->addServiceListener(
@@ -342,7 +342,7 @@ class RegistrationContext {
 	 * @param App[] $apps
 	 */
 	public function delegateContainerRegistrations(array $apps): void {
-		while (($registration = array_pop($this->services)) !== null) {
+		while (($registration = array_shift($this->services)) !== null) {
 			try {
 				/**
 				 * Register the service and convert the callable into a \Closure if necessary
@@ -402,7 +402,7 @@ class RegistrationContext {
 	 * @param App[] $apps
 	 */
 	public function delegateMiddlewareRegistrations(array $apps): void {
-		while (($middleware = array_pop($this->middlewares)) !== null) {
+		while (($middleware = array_shift($this->middlewares)) !== null) {
 			try {
 				$apps[$middleware['appId']]
 					->getContainer()
