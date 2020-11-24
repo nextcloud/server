@@ -160,7 +160,7 @@ class JSConfigHelper {
 		$defaultInternalExpireDate = $defaultInternalExpireDateEnforced = null;
 		if ($defaultInternalExpireDateEnabled) {
 			$defaultInternalExpireDate = (int)$this->config->getAppValue('core', 'shareapi_internal_expire_after_n_days', '7');
-			$defaultInternalExpireDateEnforced = $this->config->getAppValue('core', 'shareapi_internal_enforce_expire_date', 'no') === 'yes';
+			$defaultInternalExpireDateEnforced = $this->config->getAppValue('core', 'shareapi_enforce_internal_expire_date', 'no') === 'yes';
 		}
 
 		$countOfDataLocation = 0;
