@@ -124,4 +124,8 @@ trait S3ObjectTrait {
 	public function objectExists($urn) {
 		return $this->getConnection()->doesObjectExist($this->bucket, $urn);
 	}
+
+	public function copyObject($from, $to) {
+		$this->getConnection()->copy($this->getBucket(), $from, $this->getBucket(), $to);
+	}
 }

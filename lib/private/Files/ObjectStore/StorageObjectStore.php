@@ -93,4 +93,8 @@ class StorageObjectStore implements IObjectStore {
 	public function objectExists($urn) {
 		return $this->storage->file_exists($urn);
 	}
+
+	public function copyObject($from, $to) {
+		$this->storage->copy($from, $to);
+	}
 }
