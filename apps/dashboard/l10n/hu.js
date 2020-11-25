@@ -4,7 +4,7 @@ OC.L10N.register(
     "Dashboard" : "Irányítópult",
     "Dashboard app" : "Irányítópult modul",
     "Show something" : "Mutass valamit",
-    "Customize" : "Testreszab",
+    "Customize" : "Testreszabás",
     "Edit widgets" : "Modulok szerkesztése",
     "Get more widgets from the app store" : "Tölts le további modulokat az app áruházból",
     "Change background image" : "Háttérkép megváltoztatása",
