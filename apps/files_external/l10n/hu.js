@@ -82,7 +82,7 @@ OC.L10N.register(
     "Kerberos ticket" : "Kerbeos jegy",
     "Amazon S3" : "Amazon S3",
     "Bucket" : "Bucket",
-    "Hostname" : "Hosztnév",
+    "Hostname" : "Gépnév",
     "Port" : "Port",
     "Region" : "Megye",
     "Enable SSL" : "SSL engedélyezése",

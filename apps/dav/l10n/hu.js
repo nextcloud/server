@@ -49,6 +49,7 @@ OC.L10N.register(
     "Where:" : "Hol:",
     "Description:" : "Leírás:",
     "Untitled event" : "Névtelen esemény",
+    "_%n day_::_%n days_" : ["%n nap","%n nap"],
     "Calendar: %s" : "Naptár: %s",
     "Date: %s" : "Dátum: %s",
     "Description: %s" : "Leírás: %s",

@@ -49,7 +49,7 @@ OC.L10N.register(
     "Consider narrowing your search, as it encompassed many users, only the first one of whom will be able to log in." : "Esetleg szűkítsd a keresést, mert rengeteg felhasználóra igaz, de csak az első fog tudni belépni.",
     "An unspecified error occurred. Please check log and settings." : "Ismeretlen hiba lépett fel. Kérlek nézd meg a naplót.",
     "The search filter is invalid, probably due to syntax issues like uneven number of opened and closed brackets. Please revise." : "A keresési feltétel érvénytelen, talán el van írva, például nem azonos a kezdő és záró zárójelek száma.",
-    "A connection error to LDAP / AD occurred, please check host, port and credentials." : "LDAP/AD kapcsolati hiba lépett fel, kérlek ellenőrizd a hosztot, portot és a bejelentkezési adatokat.",
+    "A connection error to LDAP / AD occurred, please check host, port and credentials." : "LDAP/AD kapcsolati hiba lépett fel, ellenőrizze a gépet, a portot és a hitelesítési adatokat.",
     "The \"%uid\" placeholder is missing. It will be replaced with the login name when querying LDAP / AD." : "A \"%uid\" helytartó hiányzik. Ez kerül behelyettesítésre a felhasználónévvel az LDAP / AD lekérdezéskor.",
     "Please provide a login name to test against" : "Kérlek adj meg egy bejelentkezési nevet az újrateszteléshez",
     "The group box was disabled, because the LDAP / AD server does not support memberOf." : "A csoport doboz ki van kapcsolva, mert az LDAP/AD szerver nem támogatja a memberOf-ot.",
