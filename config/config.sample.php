@@ -821,7 +821,7 @@ $CONFIG = [
  *
  * Defaults to ``2``
  */
-'loglevel' => 2,
+'loglevel' => 0,
 
 /**
  * If you maintain different instances and aggregate the logs, you may want
@@ -1776,7 +1776,7 @@ $CONFIG = [
  *
  * Defaults to ``false``
  */
-'debug' => false,
+'debug' => true,
 
 /**
  * Sets the data-fingerprint of the current data served
