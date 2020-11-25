@@ -65,7 +65,8 @@ class MailPluginTest extends TestCase {
 		$this->contactsManager = $this->createMock(IManager::class);
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->userSession = $this->createMock(IUserSession::class);
-		$this->cloudIdManager = new CloudIdManager();
+		$this->cloudIdManager = new CloudIdManager($this->contactsManager);
+
 		$this->searchResult = new SearchResult();
 	}
 
@@ -104,8 +105,12 @@ class MailPluginTest extends TestCase {
 
 		$this->contactsManager->expects($this->any())
 			->method('search')
-			->with($searchTerm, ['EMAIL', 'FN'])
-			->willReturn($contacts);
+			->willReturnCallback(function ($search, $searchAttributes) use ($searchTerm, $contacts) {
+				if ($search === $searchTerm) {
+					return $contacts;
+				}
+				return [];
+			});
 
 		$moreResults = $this->plugin->search($searchTerm, 2, 0, $this->searchResult);
 		$result = $this->searchResult->asArray();
@@ -553,8 +558,12 @@ class MailPluginTest extends TestCase {
 
 		$this->contactsManager->expects($this->any())
 			->method('search')
-			->with($searchTerm, ['EMAIL', 'FN'])
-			->willReturn($contacts);
+			->willReturnCallback(function ($search, $searchAttributes) use ($searchTerm, $contacts) {
+				if ($search === $searchTerm) {
+					return $contacts;
+				}
+				return [];
+			});
 
 		$this->userSession->expects($this->any())
 			->method('getUser')
