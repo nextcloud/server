@@ -110,7 +110,8 @@ class CloudIdManager implements ICloudIdManager {
 			$host = $fixedRemote;
 		}
 		$id = $user . '@' . $remote;
-		return new CloudId($id, $user, $fixedRemote, $this->getDisplayNameFromContact($id));
+		$displayName = $this->getDisplayNameFromContact($user . '@' . $host);
+		return new CloudId($id, $user, $fixedRemote, $displayName);
 	}
 
 	/**
