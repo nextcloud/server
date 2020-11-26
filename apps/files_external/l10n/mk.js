@@ -8,7 +8,7 @@ OC.L10N.register(
     "Error configuring OAuth1" : "Грешка во конфигурацијата на OAuth1",
     "Please provide a valid app key and secret." : "Внесете валиден клуч на апликацијата и лозинка.",
     "Error configuring OAuth2" : "Грешка во конфигурацијата на OAuth2",
-    "Generate keys" : "Генеригај клучеви",
+    "Generate keys" : "Генерирај клучеви",
     "Error generating key pair" : "Грешка при генерирање на клучеви",
     "All users. Type to select user or group." : "Сите корисници. Напишете за да изберете корисник или група.",
     "(group)" : "(group)",
