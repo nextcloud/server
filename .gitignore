@@ -155,3 +155,5 @@ clover.xml
 # Tests - dependencies
 tests/acceptance/composer.lock
 tests/acceptance/vendor/
+
+composer.phar
