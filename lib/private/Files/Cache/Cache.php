@@ -41,8 +41,11 @@ namespace OC\Files\Cache;
 use Doctrine\DBAL\Driver\Statement;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Cache\CacheEntryInsertedEvent;
+use OCP\Files\Cache\CacheEntryUpdatedEvent;
 use OCP\Files\Cache\CacheInsertEvent;
-use OCP\Files\Cache\CacheRemoveEvent;
+use OCP\Files\Cache\CacheEntryRemovedEvent;
 use OCP\Files\Cache\CacheUpdateEvent;
 use OCP\Files\Cache\ICache;
 use OCP\Files\Cache\ICacheEntry;
@@ -92,6 +95,9 @@ class Cache implements ICache {
 	 */
 	protected $connection;
 
+	/**
+	 * @var IEventDispatcher
+	 */
 	protected $eventDispatcher;
 
 	/** @var QuerySearchHelper */
@@ -110,7 +116,7 @@ class Cache implements ICache {
 		$this->storageCache = new Storage($storage);
 		$this->mimetypeLoader = \OC::$server->getMimeTypeLoader();
 		$this->connection = \OC::$server->getDatabaseConnection();
-		$this->eventDispatcher = \OC::$server->getEventDispatcher();
+		$this->eventDispatcher = \OC::$server->get(IEventDispatcher::class);
 		$this->querySearchHelper = new QuerySearchHelper($this->mimetypeLoader);
 	}
 
@@ -310,7 +316,9 @@ class Cache implements ICache {
 					$query->execute();
 				}
 
-				$this->eventDispatcher->dispatch(CacheInsertEvent::class, new CacheInsertEvent($this->storage, $file, $fileId, $storageId));
+				$event = new CacheEntryInsertedEvent($this->storage, $file, $fileId, $storageId);
+				$this->eventDispatcher->dispatch(CacheInsertEvent::class, $event);
+				$this->eventDispatcher->dispatchTyped($event);
 				return $fileId;
 			}
 		} catch (UniqueConstraintViolationException $e) {
@@ -401,7 +409,9 @@ class Cache implements ICache {
 		$path = $this->getPathById($id);
 		// path can still be null if the file doesn't exist
 		if ($path !== null) {
-			$this->eventDispatcher->dispatch(CacheUpdateEvent::class, new CacheUpdateEvent($this->storage, $path, $id, $this->getNumericStorageId()));
+			$event = new CacheEntryUpdatedEvent($this->storage, $path, $id, $this->getNumericStorageId());
+			$this->eventDispatcher->dispatch(CacheUpdateEvent::class, $event);
+			$this->eventDispatcher->dispatchTyped($event);
 		}
 	}
 
@@ -539,7 +549,7 @@ class Cache implements ICache {
 				$this->removeChildren($entry);
 			}
 
-			$this->eventDispatcher->dispatch(CacheRemoveEvent::class, new CacheRemoveEvent($this->storage, $entry->getPath(), $entry->getId(), $this->getNumericStorageId()));
+			$this->eventDispatcher->dispatch(CacheEntryRemovedEvent::class, new CacheEntryRemovedEvent($this->storage, $entry->getPath(), $entry->getId(), $this->getNumericStorageId()));
 		}
 	}
 
@@ -687,10 +697,14 @@ class Cache implements ICache {
 			$this->connection->commit();
 
 			if ($sourceCache->getNumericStorageId() !== $this->getNumericStorageId()) {
-				$this->eventDispatcher->dispatch(CacheRemoveEvent::class, new CacheRemoveEvent($this->storage, $sourcePath, $sourceId, $sourceCache->getNumericStorageId()));
-				$this->eventDispatcher->dispatch(CacheInsertEvent::class, new CacheInsertEvent($this->storage, $targetPath, $sourceId, $this->getNumericStorageId()));
+				$this->eventDispatcher->dispatchTyped(new CacheEntryRemovedEvent($this->storage, $sourcePath, $sourceId, $sourceCache->getNumericStorageId()));
+				$event = new CacheEntryInsertedEvent($this->storage, $targetPath, $sourceId, $this->getNumericStorageId());
+				$this->eventDispatcher->dispatch(CacheInsertEvent::class, $event);
+				$this->eventDispatcher->dispatchTyped($event);
 			} else {
-				$this->eventDispatcher->dispatch(CacheUpdateEvent::class, new CacheUpdateEvent($this->storage, $targetPath, $sourceId, $this->getNumericStorageId()));
+				$event = new CacheEntryUpdatedEvent($this->storage, $targetPath, $sourceId, $this->getNumericStorageId());
+				$this->eventDispatcher->dispatch(CacheUpdateEvent::class, $event);
+				$this->eventDispatcher->dispatchTyped($event);
 			}
 		} else {
 			$this->moveFromCacheFallback($sourceCache, $sourcePath, $targetPath);

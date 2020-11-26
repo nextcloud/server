@@ -23,12 +23,13 @@ declare(strict_types=1);
 
 namespace OCP\Files\Cache;
 
+
 use OC\Files\Cache\AbstractCacheEvent;
 
 /**
- * Event for when an existing entry in the cache gets removed
+ * Event for when an existing entry in the cache gets updated
  *
  * @since 21.0.0
  */
-class CacheRemoveEvent extends AbstractCacheEvent {
+class CacheEntryUpdatedEvent extends AbstractCacheEvent implements ICacheEvent {
 }
