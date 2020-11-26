@@ -43,7 +43,7 @@ use OCP\IUser;
 use OCP\IUserBackend;
 use OCP\IUserManager;
 use OCP\User\Backend\IGetRealUIDBackend;
-use OCP\User\Events\CreateUserEvent;
+use OCP\User\Events\BeforeUserCreatedEvent;
 use OCP\User\Events\UserCreatedEvent;
 use OCP\UserInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -365,16 +365,16 @@ class Manager extends PublicEmitter implements IUserManager {
 			throw new \InvalidArgumentException($l->t('The username is already being used'));
 		}
 
-		/** @depreacted 21.0.0 use CreateUserEvent event with the IEventDispatcher instead */
+		/** @deprecated 21.0.0 use BeforeUserCreatedEvent event with the IEventDispatcher instead */
 		$this->emit('\OC\User', 'preCreateUser', [$uid, $password]);
-		$this->eventDispatcher->dispatchTyped(new CreateUserEvent($uid, $password));
+		$this->eventDispatcher->dispatchTyped(new BeforeUserCreatedEvent($uid, $password));
 		$state = $backend->createUser($uid, $password);
 		if ($state === false) {
 			throw new \InvalidArgumentException($l->t('Could not create user'));
 		}
 		$user = $this->getUserObject($uid, $backend);
 		if ($user instanceof IUser) {
-			/** @depreacted 21.0.0 use UserCreatedEvent event with the IEventDispatcher instead */
+			/** @deprecated 21.0.0 use UserCreatedEvent event with the IEventDispatcher instead */
 			$this->emit('\OC\User', 'postCreateUser', [$user, $password]);
 			$this->eventDispatcher->dispatchTyped(new UserCreatedEvent($user, $password));
 		}
