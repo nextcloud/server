@@ -161,9 +161,14 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface, IGroupLD
 			if (count($filterParts) > 0) {
 				$filter = $this->access->combineFilterWithOr($filterParts);
 				$users = $this->access->fetchListOfUsers($filter, $requestAttributes, count($filterParts));
-				$dns = array_merge($dns, $users);
+				$dns = array_reduce($users, function (array $carry, array $record) {
+					if (!in_array($carry, $record['dn'][0])) {
+						$carry[$record['dn'][0]] = 1;
+					}
+					return $carry;
+				}, $dns);
 			}
-			$members = $dns;
+			$members = array_keys($dns);
 		}
 
 		$isInGroup = in_array($userDN, $members);
