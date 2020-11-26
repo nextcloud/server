@@ -1,8 +1,8 @@
 OC.L10N.register(
     "dashboard",
     {
-    "Dashboard" : "Kонтролна табла",
-    "Dashboard app" : "Kонтролна табла",
+    "Dashboard" : "Табла",
+    "Dashboard app" : "Табла",
     "Show something" : "Прикажи нешто",
     "Customize" : "Прилагоди",
     "Edit widgets" : "Уреди графички контроли",
