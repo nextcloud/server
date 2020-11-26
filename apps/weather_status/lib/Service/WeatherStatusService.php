@@ -157,7 +157,7 @@ class WeatherStatusService {
 			$this->config->setUserValue($this->userId, Application::APP_ID, 'favorites', json_encode($favorites));
 		}
 		if (!is_null($forecastOffset)) {
-			$this->config->setUserValue($this->userId, Application::APP_ID, 'forecastOffset', $forecastOffset);
+			$this->config->setUserValue($this->userId, Application::APP_ID, 'forecastOffset', strval($forecastOffset));
 		}
 		return ['success' => true];
 	}
