@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = $vendorDir;
 
 return array(
+    'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
     'OCA\\Encryption\\AppInfo\\Application' => $baseDir . '/../lib/AppInfo/Application.php',
     'OCA\\Encryption\\Command\\DisableMasterKey' => $baseDir . '/../lib/Command/DisableMasterKey.php',
     'OCA\\Encryption\\Command\\EnableMasterKey' => $baseDir . '/../lib/Command/EnableMasterKey.php',

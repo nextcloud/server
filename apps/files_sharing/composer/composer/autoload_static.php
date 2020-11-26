@@ -21,6 +21,7 @@ class ComposerStaticInitFiles_Sharing
     );
 
     public static $classMap = array (
+        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'OCA\\Files_Sharing\\Activity\\Filter' => __DIR__ . '/..' . '/../lib/Activity/Filter.php',
         'OCA\\Files_Sharing\\Activity\\Providers\\Base' => __DIR__ . '/..' . '/../lib/Activity/Providers/Base.php',
         'OCA\\Files_Sharing\\Activity\\Providers\\Downloads' => __DIR__ . '/..' . '/../lib/Activity/Providers/Downloads.php',

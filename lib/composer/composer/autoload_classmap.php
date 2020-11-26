@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname(dirname($vendorDir));
 
 return array(
+    'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
     'OCP\\API' => $baseDir . '/lib/public/API.php',
     'OCP\\Accounts\\IAccount' => $baseDir . '/lib/public/Accounts/IAccount.php',
     'OCP\\Accounts\\IAccountManager' => $baseDir . '/lib/public/Accounts/IAccountManager.php',

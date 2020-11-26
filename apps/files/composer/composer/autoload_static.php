@@ -21,6 +21,7 @@ class ComposerStaticInitFiles
     );
 
     public static $classMap = array (
+        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'OCA\\Files\\Activity\\FavoriteProvider' => __DIR__ . '/..' . '/../lib/Activity/FavoriteProvider.php',
         'OCA\\Files\\Activity\\Filter\\Favorites' => __DIR__ . '/..' . '/../lib/Activity/Filter/Favorites.php',
         'OCA\\Files\\Activity\\Filter\\FileChanges' => __DIR__ . '/..' . '/../lib/Activity/Filter/FileChanges.php',

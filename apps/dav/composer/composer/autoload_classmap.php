@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = $vendorDir;
 
 return array(
+    'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
     'OCA\\DAV\\AppInfo\\Application' => $baseDir . '/../lib/AppInfo/Application.php',
     'OCA\\DAV\\AppInfo\\PluginManager' => $baseDir . '/../lib/AppInfo/PluginManager.php',
     'OCA\\DAV\\Avatars\\AvatarHome' => $baseDir . '/../lib/Avatars/AvatarHome.php',
