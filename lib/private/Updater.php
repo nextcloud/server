@@ -300,47 +300,6 @@ class Updater extends BasicEmitter {
 	}
 
 	/**
-	 * @param string $version the oc version to check app compatibility with
-	 */
-	protected function checkAppUpgrade($version) {
-		$apps = \OC_App::getEnabledApps();
-		$this->emit('\OC\Updater', 'appUpgradeCheckBefore');
-
-		$appManager = \OC::$server->getAppManager();
-		foreach ($apps as $appId) {
-			$info = \OC_App::getAppInfo($appId);
-			$compatible = \OC_App::isAppCompatible($version, $info);
-			$isShipped = $appManager->isShipped($appId);
-
-			if ($compatible && $isShipped && \OC_App::shouldUpgrade($appId)) {
-				/**
-				 * FIXME: The preupdate check is performed before the database migration, otherwise database changes
-				 * are not possible anymore within it. - Consider this when touching the code.
-				 * @link https://github.com/owncloud/core/issues/10980
-				 * @see \OC_App::updateApp
-				 */
-				if (file_exists(\OC_App::getAppPath($appId) . '/appinfo/preupdate.php')) {
-					$this->includePreUpdate($appId);
-				}
-				if (file_exists(\OC_App::getAppPath($appId) . '/appinfo/database.xml')) {
-					$this->emit('\OC\Updater', 'appSimulateUpdate', [$appId]);
-					\OC_DB::simulateUpdateDbFromStructure(\OC_App::getAppPath($appId) . '/appinfo/database.xml');
-				}
-			}
-		}
-
-		$this->emit('\OC\Updater', 'appUpgradeCheck');
-	}
-
-	/**
-	 * Includes the pre-update file. Done here to prevent namespace mixups.
-	 * @param string $appId
-	 */
-	private function includePreUpdate($appId) {
-		include \OC_App::getAppPath($appId) . '/appinfo/preupdate.php';
-	}
-
-	/**
 	 * upgrades all apps within a major ownCloud upgrade. Also loads "priority"
 	 * (types authentication, filesystem, logging, in that order) afterwards.
 	 *
