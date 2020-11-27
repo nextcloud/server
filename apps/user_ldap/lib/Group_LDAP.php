@@ -51,9 +51,7 @@ use OCP\ILogger;
 class Group_LDAP extends BackendUtility implements \OCP\GroupInterface, IGroupLDAP, IGetDisplayNameBackend {
 	protected $enabled = false;
 
-	/**
-	 * @var string[] $cachedGroupMembers array of users with gid as key
-	 */
+	/** @var string[][] $cachedGroupMembers array of users with gid as key */
 	protected $cachedGroupMembers;
 
 	/**
@@ -168,12 +166,10 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface, IGroupLD
 			}
 			
 			// now we cleanup the users array to get only dns
-			$dns = array_reduce($users, function (array $carry, array $record) {
-				if (!in_array($carry, $record['dn'][0])) {
-					$carry[$record['dn'][0]] = 1;
-				}
-				return $carry;
-			}, []);
+			$dns = [];
+			foreach ($users as $record) {
+				$dns[$record['dn'][0]] = 1;
+			}
 
 			$members = array_keys($dns);
 		}
