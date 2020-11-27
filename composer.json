@@ -15,6 +15,7 @@
         "ext-json": "*",
         "ext-libxml": "*",
         "ext-pdo": "*",
+        "ext-simplexml": "*",
         "ext-xmlreader": "*"
 	},
     "require-dev": {
