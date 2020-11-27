@@ -131,10 +131,6 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface, IGroupLD
 
 		//usually, LDAP attributes are said to be case insensitive. But there are exceptions of course.
 		$members = $this->_groupMembers($groupDN);
-		if (!is_array($members) || count($members) === 0) {
-			$this->access->connection->writeToCache($cacheKey, false);
-			return false;
-		}
 
 		//extra work if we don't get back user DNs
 		if (strtolower($this->access->connection->ldapGroupMemberAssocAttr) === 'memberuid') {
@@ -172,6 +168,11 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface, IGroupLD
 			}
 
 			$members = array_keys($dns);
+		}
+
+		if (count($members) === 0) {
+			$this->access->connection->writeToCache($cacheKey, false);
+			return false;
 		}
 
 		$isInGroup = in_array($userDN, $members);
