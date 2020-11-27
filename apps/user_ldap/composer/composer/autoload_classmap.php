@@ -51,6 +51,7 @@ return array(
     'OCA\\User_LDAP\\Mapping\\GroupMapping' => $baseDir . '/../lib/Mapping/GroupMapping.php',
     'OCA\\User_LDAP\\Mapping\\UserMapping' => $baseDir . '/../lib/Mapping/UserMapping.php',
     'OCA\\User_LDAP\\Migration\\RemoveRefreshTime' => $baseDir . '/../lib/Migration/RemoveRefreshTime.php',
+    'OCA\\User_LDAP\\Migration\\SetDefaultProvider' => $baseDir . '/../lib/Migration/SetDefaultProvider.php',
     'OCA\\User_LDAP\\Migration\\UUIDFix' => $baseDir . '/../lib/Migration/UUIDFix.php',
     'OCA\\User_LDAP\\Migration\\UUIDFixGroup' => $baseDir . '/../lib/Migration/UUIDFixGroup.php',
     'OCA\\User_LDAP\\Migration\\UUIDFixInsert' => $baseDir . '/../lib/Migration/UUIDFixInsert.php',
