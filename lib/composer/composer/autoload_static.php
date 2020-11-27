@@ -475,6 +475,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OCP\\SabrePluginException' => __DIR__ . '/../../..' . '/lib/public/SabrePluginException.php',
         'OCP\\Search\\IProvider' => __DIR__ . '/../../..' . '/lib/public/Search/IProvider.php',
         'OCP\\Search\\ISearchQuery' => __DIR__ . '/../../..' . '/lib/public/Search/ISearchQuery.php',
+        'OCP\\Search\\ObjectSearchResultEntry' => __DIR__ . '/../../..' . '/lib/public/Search/ObjectSearchResultEntry.php',
         'OCP\\Search\\PagedProvider' => __DIR__ . '/../../..' . '/lib/public/Search/PagedProvider.php',
         'OCP\\Search\\Provider' => __DIR__ . '/../../..' . '/lib/public/Search/Provider.php',
         'OCP\\Search\\Result' => __DIR__ . '/../../..' . '/lib/public/Search/Result.php',

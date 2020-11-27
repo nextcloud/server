@@ -2,11 +2,10 @@
 
 declare(strict_types=1);
 
-/**
+/*
  * @copyright 2020 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author 2020 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -21,66 +20,29 @@ declare(strict_types=1);
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 namespace OCP\Search;
 
-use JsonSerializable;
+use function array_merge;
 
 /**
- * Represents an entry in a list of results an app returns for a unified search
- * query.
- *
- * The app providing the results has to extend this class for customization. In
- * most cases apps do not have to add any additional code.
- *
- * @example ``class MailResultEntry extends SearchResultEntry {}`
- *
- * This approach was chosen over a final class as it allows Nextcloud to later
- * add new optional properties of an entry without having to break the usage of
- * this class in apps.
- *
  * @since 20.0.0
  */
-class SearchResultEntry implements JsonSerializable {
+class ObjectSearchResultEntry extends SearchResultEntry {
 
 	/**
 	 * @var string
 	 * @since 20.0.0
 	 */
-	protected $thumbnailUrl;
+	protected $objectType;
 
 	/**
 	 * @var string
 	 * @since 20.0.0
 	 */
-	protected $title;
-
-	/**
-	 * @var string
-	 * @since 20.0.0
-	 */
-	protected $subline;
-
-	/**
-	 * @var string
-	 * @since 20.0.0
-	 */
-	protected $resourceUrl;
-
-	/**
-	 * @var string
-	 * @since 20.0.0
-	 */
-	protected $icon;
-
-	/**
-	 * @var boolean
-	 * @since 20.0.0
-	 */
-	protected $rounded;
+	protected $objectId;
 
 	/**
 	 * @param string $thumbnailUrl a relative or absolute URL to the thumbnail or icon of the entry
@@ -96,14 +58,21 @@ class SearchResultEntry implements JsonSerializable {
 								string $title,
 								string $subline,
 								string $resourceUrl,
+								string $objectType,
+								string $objectId,
 								string $icon = '',
 								bool $rounded = false) {
-		$this->thumbnailUrl = $thumbnailUrl;
-		$this->title = $title;
-		$this->subline = $subline;
-		$this->resourceUrl = $resourceUrl;
-		$this->icon = $icon;
-		$this->rounded = $rounded;
+		parent::__construct(
+			$thumbnailUrl,
+			$title,
+			$subline,
+			$resourceUrl,
+			$icon,
+			$rounded
+		);
+
+		$this->objectType = $objectType;
+		$this->objectId = $objectId;
 	}
 
 	/**
@@ -112,13 +81,12 @@ class SearchResultEntry implements JsonSerializable {
 	 * @since 20.0.0
 	 */
 	public function jsonSerialize(): array {
-		return [
-			'thumbnailUrl' => $this->thumbnailUrl,
-			'title' => $this->title,
-			'subline' => $this->subline,
-			'resourceUrl' => $this->resourceUrl,
-			'icon' => $this->icon,
-			'rounded' => $this->rounded,
-		];
+		return array_merge(
+			parent::jsonSerialize(),
+			[
+				'objectType' => $this->objectType,
+				'objectId' => $this->objectId,
+			]
+		);
 	}
 }

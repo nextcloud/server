@@ -446,6 +446,7 @@ return array(
     'OCP\\SabrePluginException' => $baseDir . '/lib/public/SabrePluginException.php',
     'OCP\\Search\\IProvider' => $baseDir . '/lib/public/Search/IProvider.php',
     'OCP\\Search\\ISearchQuery' => $baseDir . '/lib/public/Search/ISearchQuery.php',
+    'OCP\\Search\\ObjectSearchResultEntry' => $baseDir . '/lib/public/Search/ObjectSearchResultEntry.php',
     'OCP\\Search\\PagedProvider' => $baseDir . '/lib/public/Search/PagedProvider.php',
     'OCP\\Search\\Provider' => $baseDir . '/lib/public/Search/Provider.php',
     'OCP\\Search\\Result' => $baseDir . '/lib/public/Search/Result.php',
