@@ -144,6 +144,10 @@ class Application extends App {
 					if (!$table->hasIndex('cards_abid')) {
 						$subject->addHintForMissingSubject($table->getName(), 'cards_abid');
 					}
+
+					if (!$table->hasIndex('cards_abiduri')) {
+						$subject->addHintForMissingSubject($table->getName(), 'cards_abiduri');
+					}
 				}
 
 				if ($schema->hasTable('cards_properties')) {
