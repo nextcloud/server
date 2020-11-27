@@ -48,6 +48,47 @@ use Test\TestCase;
  * @package OCA\User_LDAP\Tests
  */
 class Group_LDAPTest extends TestCase {
+	public function testCountEmptySearchString() {
+		$access = $this->getAccessMock();
+		$pluginManager = $this->getPluginManagerMock();
+		$groupDN = 'cn=group,dc=foo,dc=bar';
+
+		$this->enableGroups($access);
+
+		$access->expects($this->any())
+			->method('groupname2dn')
+			->willReturn($groupDN);
+		$access->expects($this->any())
+			->method('readAttribute')
+			->willReturnCallback(function ($dn) use ($groupDN) {
+				if ($dn === $groupDN) {
+					return [
+						'uid=u11,ou=users,dc=foo,dc=bar',
+						'uid=u22,ou=users,dc=foo,dc=bar',
+						'uid=u33,ou=users,dc=foo,dc=bar',
+						'uid=u34,ou=users,dc=foo,dc=bar'
+					];
+				}
+				return [];
+			});
+		$access->expects($this->any())
+			->method('isDNPartOfBase')
+			->willReturn(true);
+		// for primary groups
+		$access->expects($this->once())
+			->method('countUsers')
+			->willReturn(2);
+
+		$access->userManager->expects($this->any())
+			->method('getAttributes')
+			->willReturn(['displayName', 'mail']);
+
+		$groupBackend = new GroupLDAP($access, $pluginManager);
+		$users = $groupBackend->countUsersInGroup('group');
+
+		$this->assertSame(6, $users);
+	}
+
 	/**
 	 * @return \PHPUnit_Framework_MockObject_MockObject|Access
 	 */
@@ -94,52 +135,6 @@ class Group_LDAPTest extends TestCase {
 				}
 				return 1;
 			});
-	}
-
-	public function testCountEmptySearchString() {
-		$access = $this->getAccessMock();
-		$pluginManager = $this->getPluginManagerMock();
-		$groupDN = 'cn=group,dc=foo,dc=bar';
-
-		$this->enableGroups($access);
-
-		$access->expects($this->any())
-			->method('groupname2dn')
-			->willReturn($groupDN);
-
-		$access->expects($this->any())
-			->method('readAttribute')
-			->willReturnCallback(function ($dn) use ($groupDN) {
-				if ($dn === $groupDN) {
-					return [
-						'uid=u11,ou=users,dc=foo,dc=bar',
-						'uid=u22,ou=users,dc=foo,dc=bar',
-						'uid=u33,ou=users,dc=foo,dc=bar',
-						'uid=u34,ou=users,dc=foo,dc=bar'
-					];
-				}
-				return [];
-			});
-		$access->expects($this->any())
-			->method('isDNPartOfBase')
-			->willReturn(true);
-		$access->expects($this->any())
-			->method('combineFilterWithAnd')
-			->willReturn('pseudo=filter');
-
-		// for primary groups
-		$access->expects($this->once())
-			->method('countUsers')
-			->willReturn(2);
-
-		$access->userManager->expects($this->any())
-			->method('getAttributes')
-			->willReturn(['displayName', 'mail']);
-
-		$groupBackend = new GroupLDAP($access, $pluginManager);
-		$users = $groupBackend->countUsersInGroup('group');
-
-		$this->assertSame(6, $users);
 	}
 
 	public function testCountWithSearchString() {
@@ -506,7 +501,7 @@ class Group_LDAPTest extends TestCase {
 		$groupBackend->inGroup($uid, $gid);
 	}
 
-	public function  groupWithMembersProvider() {
+	public function groupWithMembersProvider() {
 		return [
 			[
 				'someGroup',
@@ -542,7 +537,7 @@ class Group_LDAPTest extends TestCase {
 					case 'ldapDynamicGroupMemberURL':
 						return '';
 					case 'hasPrimaryGroups':
-					case 'ldapNestedGroups';
+					case 'ldapNestedGroups':
 						return 0;
 					default:
 						return 1;
@@ -588,7 +583,7 @@ class Group_LDAPTest extends TestCase {
 					case 'ldapDynamicGroupMemberURL':
 						return '';
 					case 'hasPrimaryGroups':
-					case 'ldapNestedGroups';
+					case 'ldapNestedGroups':
 						return 0;
 					default:
 						return 1;
@@ -644,7 +639,7 @@ class Group_LDAPTest extends TestCase {
 					case 'ldapLoginFilter':
 						return 'uid=%uid';
 					case 'hasPrimaryGroups':
-					case 'ldapNestedGroups';
+					case 'ldapNestedGroups':
 						return 0;
 					default:
 						return 1;
@@ -902,8 +897,8 @@ class Group_LDAPTest extends TestCase {
 
 	public function nestedGroupsProvider(): array {
 		return [
-			[ true ],
-			[ false ],
+			[true],
+			[false],
 		];
 	}
 
