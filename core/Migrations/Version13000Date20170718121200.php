@@ -128,6 +128,9 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 				'notnull' => false,
 				'length' => 20,
 			]);
+			if (!$table->hasIndex('mounts_mount_id_index')) {
+				$table->addIndex(['mount_id'], 'mounts_mount_id_index');
+			}
 		}
 
 		if (!$schema->hasTable('mimetypes')) {
