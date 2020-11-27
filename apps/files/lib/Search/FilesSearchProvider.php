@@ -116,7 +116,7 @@ class FilesSearchProvider implements IProvider {
 					$this->formatSubline($result),
 					$this->urlGenerator->getAbsoluteURL($result->link),
 					'file',
-					$result->id,
+					(string)$result->id,
 					$result->type === 'folder' ? 'icon-folder' : $this->mimeTypeDetector->mimeTypeIcon($result->mime_type)
 				);
 			}, $this->fileSearch->search($query->getTerm()))

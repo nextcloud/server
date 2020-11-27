@@ -36,7 +36,7 @@ class Result {
 	/**
 	 * A unique identifier for the result, usually given as the item ID in its
 	 * corresponding application.
-	 * @var string
+	 * @var string|int
 	 * @since 7.0.0
 	 * @deprecated 20.0.0
 	 */
