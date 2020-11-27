@@ -146,7 +146,7 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 			case 'memberuid':
 			case 'zimbramailforwardingaddress':
 				$requestAttributes = $this->access->userManager->getAttributes(true);
-				$dns = [];
+				$users = [];
 				$filterParts = [];
 				$bytes = 0;
 				foreach ($members as $mid) {
@@ -160,24 +160,31 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 					if ($bytes >= 9000000) {
 						// AD has a default input buffer of 10 MB, we do not want
 						// to take even the chance to exceed it
+						// so we fetch results with the filterParts we collected so far
 						$filter = $this->access->combineFilterWithOr($filterParts);
-						$users = $this->access->fetchListOfUsers($filter, $requestAttributes, count($filterParts));
+						$search = $this->access->fetchListOfUsers($filter, $requestAttributes, count($filterParts));
 						$bytes = 0;
 						$filterParts = [];
-						$dns = array_merge($dns, $users);
+						$users = array_merge($users, $search);
 					}
 				}
+				
 				if (count($filterParts) > 0) {
+					// if there are filterParts left we need to add their result
 					$filter = $this->access->combineFilterWithOr($filterParts);
-					$users = $this->access->fetchListOfUsers($filter, $requestAttributes, count($filterParts));
-					$dns = array_reduce($users, function (array $carry, array $record) {
-						if (!in_array($carry, $record['dn'][0])) {
-							$carry[$record['dn'][0]] = 1;
-						}
-						return $carry;
-					}, $dns);
+					$search = $this->access->fetchListOfUsers($filter, $requestAttributes, count($filterParts));
+					$users = array_merge($users, $search);
 				}
+				
+				// now we cleanup the users array to get only dns
+				$dns = array_reduce($users, function (array $carry, array $record) {
+					if (!in_array($carry, $record['dn'][0])) {
+						$carry[$record['dn'][0]] = 1;
+					}
+					return $carry;
+				}, []);
 				$members = array_keys($dns);
+				
 				break;
 		}
 
