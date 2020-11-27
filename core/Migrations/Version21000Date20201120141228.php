@@ -14,6 +14,14 @@ class Version21000Date20201120141228 extends SimpleMigrationStep {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
 
+		if ($schema->hasTable('authtoken')) {
+			$table = $schema->getTable('authtoken');
+			$loginNameColumn = $table->getColumn('login_name');
+			if ($loginNameColumn->getLength() !== 255) {
+				$loginNameColumn->setLength(255);
+			}
+		}
+
 		if ($schema->hasTable('dav_job_status')) {
 			$schema->dropTable('dav_job_status');
 		}
