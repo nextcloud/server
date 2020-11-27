@@ -39,7 +39,6 @@ use OCP\Search\IProvider;
 use OCP\Search\ISearchQuery;
 use OCP\Search\ObjectSearchResultEntry;
 use OCP\Search\SearchResult;
-use OCP\Search\SearchResultEntry;
 
 class FilesSearchProvider implements IProvider {
 
