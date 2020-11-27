@@ -55,7 +55,7 @@ use OCP\ILogger;
 class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, IGetDisplayNameBackend {
 	protected $enabled = false;
 
-	/** @var string[] $cachedGroupMembers array of users with gid as key */
+	/** @var string[][] $cachedGroupMembers array of users with gid as key */
 	protected $cachedGroupMembers;
 	/** @var string[] $cachedGroupsByMember array of groups with uid as key */
 	protected $cachedGroupsByMember;
@@ -168,23 +168,21 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 						$users = array_merge($users, $search);
 					}
 				}
-				
+
 				if (count($filterParts) > 0) {
 					// if there are filterParts left we need to add their result
 					$filter = $this->access->combineFilterWithOr($filterParts);
 					$search = $this->access->fetchListOfUsers($filter, $requestAttributes, count($filterParts));
 					$users = array_merge($users, $search);
 				}
-				
+
 				// now we cleanup the users array to get only dns
-				$dns = array_reduce($users, function (array $carry, array $record) {
-					if (!in_array($carry, $record['dn'][0])) {
-						$carry[$record['dn'][0]] = 1;
-					}
-					return $carry;
-				}, []);
+				$dns = [];
+				foreach ($users as $record) {
+					$dns[$record['dn'][0]] = 1;
+				}
 				$members = array_keys($dns);
-				
+
 				break;
 		}
 
