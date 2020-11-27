@@ -24,7 +24,7 @@ OC.L10N.register(
     "{temperature} {unit} Light rain showers at {time}" : "{temperature} {unit} Слаби врнежи од дожд во {time}",
     "{temperature} {unit} Heavy rain showers at {time}" : "{temperature} {unit} Поројни врнежи од дожд во {time}",
     "More weather for {adr}" : "Повеќе информации за временската прогноза за {adr}",
-    "Loading weather" : "Вчитување на времесна прогноза",
+    "Loading weather" : "Вчитување на временска прогноза",
     "Set location for weather" : "Поставете локација за временска прогноза",
     "Remove from favorites" : "Отстрани од фаворити",
     "Add as favorite" : "Додади во омилени",
