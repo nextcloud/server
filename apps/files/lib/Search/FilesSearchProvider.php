@@ -37,6 +37,7 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\Search\IProvider;
 use OCP\Search\ISearchQuery;
+use OCP\Search\ObjectSearchResultEntry;
 use OCP\Search\SearchResult;
 use OCP\Search\SearchResultEntry;
 
@@ -110,11 +111,13 @@ class FilesSearchProvider implements IProvider {
 					? $this->urlGenerator->linkToRouteAbsolute('core.Preview.getPreviewByFileId', ['x' => 32, 'y' => 32, 'fileId' => $result->id])
 					: '';
 
-				return new SearchResultEntry(
+				return new ObjectSearchResultEntry(
 					$thumbnailUrl,
 					$result->name,
 					$this->formatSubline($result),
 					$this->urlGenerator->getAbsoluteURL($result->link),
+					'file',
+					$result->id,
 					$result->type === 'folder' ? 'icon-folder' : $this->mimeTypeDetector->mimeTypeIcon($result->mime_type)
 				);
 			}, $this->fileSearch->search($query->getTerm()))
