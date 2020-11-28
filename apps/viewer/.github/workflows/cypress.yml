@@ -54,7 +54,7 @@ jobs:
           docker-compose exec --env APP_NAME=${{ env.APP_NAME }} --env BRANCH=${{ env.BRANCH }} -T nextcloud bash /initserver.sh
 
       - name: Cypress run
-        uses: cypress-io/github-action@v1
+        uses: cypress-io/github-action@v2
         with:
           record: true
           parallel: true
