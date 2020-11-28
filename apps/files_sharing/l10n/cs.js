@@ -188,6 +188,7 @@ OC.L10N.register(
     "No recommendations. Start typing." : "Žádná doporučení. Pište",
     "Resharing is not allowed" : "Příjemcům tohoto sdílení není dovoleno ho nasdílet dál dalším",
     "Name or email …" : "Jméno nebo e-mail…",
+    "Name, email, or Federated Cloud ID …" : "Jméno, e-mail nebo identifikátor ve federovaném cloudu …",
     "Searching …" : "Hledání...",
     "No elements found." : "Nenalezeny žádné prvky.",
     "Search globally" : "Hledat všude",
