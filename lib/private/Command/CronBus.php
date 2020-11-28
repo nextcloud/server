@@ -26,7 +26,6 @@
 namespace OC\Command;
 
 use OCP\Command\ICommand;
-use SuperClosure\Serializer;
 
 class CronBus extends AsyncBus {
 	/**
@@ -68,10 +67,9 @@ class CronBus extends AsyncBus {
 	 */
 	private function serializeCommand($command) {
 		if ($command instanceof \Closure) {
-			$serializer = new Serializer();
-			return $serializer->serialize($command);
+			return \Opis\Closure\serialize($command);
 		} elseif (is_callable($command) or $command instanceof ICommand) {
-			return serialize($command);
+			return \Opis\Closure\serialize($command);
 		} else {
 			throw new \InvalidArgumentException('Invalid command');
 		}
