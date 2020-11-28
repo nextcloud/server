@@ -77,7 +77,7 @@
     "cypress": "^5.6.0",
     "cypress-image-snapshot": "^3.1.1",
     "eslint": "^7.14.0",
-    "eslint-config-standard": "^16.0.1",
+    "eslint-config-standard": "^16.0.2",
     "eslint-import-resolver-webpack": "^0.13.0",
     "eslint-loader": "^4.0.2",
     "eslint-plugin-import": "^2.22.1",
