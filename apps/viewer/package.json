@@ -70,7 +70,7 @@
     "@nextcloud/eslint-plugin": "^2.0.0",
     "@nextcloud/webpack-vue-config": "^2.0.0",
     "babel-eslint": "^10.1.0",
-    "babel-loader": "^8.2.1",
+    "babel-loader": "^8.2.2",
     "babel-loader-exclude-node-modules-except": "^1.0.3",
     "browserslist-config-nextcloud": "0.1.0",
     "css-loader": "^4.3.0",
