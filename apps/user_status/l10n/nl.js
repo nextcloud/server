@@ -7,9 +7,11 @@ OC.L10N.register(
     "Out sick" : "Ziek",
     "Vacationing" : "vakantie",
     "Working remotely" : "Thuiswerken",
+    "User status" : "Gebruikersstatus",
     "What's your status?" : "Wat is je status?",
     "Set status" : "Instellen status",
     "Status message" : "Statusbericht",
+    "No recent status changes" : "Geen recente statuswijzigingen",
     "Away" : "Afwezig",
     "Do not disturb" : "Niet storen",
     "{status}, {timestamp}" : "{status}, {timestamp}",
@@ -20,6 +22,7 @@ OC.L10N.register(
     "Offline" : "Off-line",
     "30 minutes" : "30 minuten",
     "1 hour" : "1 uur",
-    "4 hours" : "4 uur"
+    "4 hours" : "4 uur",
+    "Mute all notifications" : "Onderdruk alle meldingen"
 },
 "nplurals=2; plural=(n != 1);");
