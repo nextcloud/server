@@ -302,9 +302,7 @@ class SharedStorageTest extends TestCase {
 
 		//cleanup
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
-		$result = \OC\Share\Share::unshare('folder', $fileinfoFolder['fileid'], IShare::TYPE_USER,
-			self::TEST_FILES_SHARING_API_USER2);
-		$this->assertTrue($result);
+		$this->shareManager->deleteShare($share);
 	}
 
 	public function testFopenWithUpdateOnlyPermission() {
