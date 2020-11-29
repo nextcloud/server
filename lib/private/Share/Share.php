@@ -292,42 +292,6 @@ class Share extends Constants {
 	}
 
 	/**
-	 * Checks whether a share has expired, calls unshareItem() if yes.
-	 * @param array $item Share data (usually database row)
-	 * @return boolean True if item was expired, false otherwise.
-	 */
-	protected static function expireItem(array $item) {
-		$result = false;
-
-		// only use default expiration date for link shares
-		if ((int) $item['share_type'] === IShare::TYPE_LINK) {
-
-			// calculate expiration date
-			if (!empty($item['expiration'])) {
-				$userDefinedExpire = new \DateTime($item['expiration']);
-				$expires = $userDefinedExpire->getTimestamp();
-			} else {
-				$expires = null;
-			}
-
-
-			// get default expiration settings
-			$defaultSettings = Helper::getDefaultExpireSetting();
-			$expires = Helper::calculateExpireDate($defaultSettings, $item['stime'], $expires);
-
-
-			if (is_int($expires)) {
-				$now = time();
-				if ($now > $expires) {
-					self::unshareItem($item);
-					$result = true;
-				}
-			}
-		}
-		return $result;
-	}
-
-	/**
 	 * Unshares a share given a share data array
 	 * @param array $item Share data (usually database row)
 	 * @param int $newParent parent ID
