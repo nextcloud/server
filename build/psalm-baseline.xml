@@ -5237,9 +5237,6 @@
       <code>1</code>
       <code>1</code>
     </InvalidScalarArgument>
-    <UndefinedMethod occurrences="1">
-      <code>\OC_DB::simulateUpdateDbFromStructure(\OC_App::getAppPath($appId) . '/appinfo/database.xml')</code>
-    </UndefinedMethod>
   </file>
   <file src="lib/private/Updater/VersionCheck.php">
     <InvalidScalarArgument occurrences="2">
