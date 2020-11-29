@@ -234,23 +234,6 @@ class Share extends Constants {
 	}
 
 	/**
-	 * Get the item of item type shared with the current user by source
-	 * @param string $itemType
-	 * @param string $itemSource
-	 * @param int $format (optional) Format type must be defined by the backend
-	 * @param mixed $parameters
-	 * @param boolean $includeCollections
-	 * @param string $shareWith (optional) define against which user should be checked, default: current user
-	 * @return array
-	 */
-	public static function getItemSharedWithBySource($itemType, $itemSource, $format = self::FORMAT_NONE,
-													 $parameters = null, $includeCollections = false, $shareWith = null) {
-		$shareWith = ($shareWith === null) ? \OC_User::getUser() : $shareWith;
-		return self::getItems($itemType, $itemSource, self::$shareTypeUserAndGroups, $shareWith, null, $format,
-			$parameters, 1, $includeCollections, true);
-	}
-
-	/**
 	 * Get the shared item of item type owned by the current user
 	 * @param string $itemType
 	 * @param string $itemSource
