@@ -185,7 +185,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 
 	/**
 	 * Updates old storage ids (v0.2.1 and older) that are based on key and secret to new ones based on the bucket name.
-	 * TODO Do this in an update.php. requires iterating over all users and loading the mount.json from their home
+	 * TODO Do this in a repair step. requires iterating over all users and loading the mount.json from their home
 	 *
 	 * @param array $params
 	 */

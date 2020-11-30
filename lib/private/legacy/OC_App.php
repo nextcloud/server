@@ -990,11 +990,6 @@ class OC_App {
 		\OC::$server->getAppManager()->clearAppsCache();
 		\OC::$server->getAppManager()->getAppVersion($appId, false);
 
-		// run upgrade code
-		if (file_exists($appPath . '/appinfo/update.php')) {
-			self::loadApp($appId);
-			include $appPath . '/appinfo/update.php';
-		}
 		self::setupBackgroundJobs($appData['background-jobs']);
 
 		//set remote/public handlers
