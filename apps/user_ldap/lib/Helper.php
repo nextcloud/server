@@ -214,18 +214,6 @@ class Helper {
 	}
 
 	/**
-	 *
-	 * Set the LDAPProvider in the config
-	 *
-	 */
-	public function setLDAPProvider() {
-		$current = \OC::$server->getConfig()->getSystemValue('ldapProviderFactory', null);
-		if (is_null($current)) {
-			\OC::$server->getConfig()->setSystemValue('ldapProviderFactory', LDAPProviderFactory::class);
-		}
-	}
-
-	/**
 	 * sanitizes a DN received from the LDAP server
 	 *
 	 * @param array $dn the DN in question
