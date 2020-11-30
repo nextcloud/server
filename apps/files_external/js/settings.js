@@ -85,8 +85,8 @@ function addSelect2 ($elements, userListLimit) {
 					var userCount = 0; // users is an object
 
 					// add groups
-					$.each(data.groups, function(i, group) {
-						results.push({name:group+'(group)', displayname:group, type:'group' });
+					$.each(data.groups, function(gid, group) {
+						results.push({name:gid+'(group)', displayname:group, type:'group' });
 					});
 					// add users
 					$.each(data.users, function(id, user) {
