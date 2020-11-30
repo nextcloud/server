@@ -170,6 +170,7 @@ OC.L10N.register(
     "Start typing to search" : "Begin met typen om te zoeken",
     "Loading more results …" : "Meer resultaten laden ...",
     "Load more results" : "Laad meer resultaten",
+    "An error occurred while searching for {type}" : "Er trad een fout op bij het zoeken naar {type}",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Voer {minSearchLength} tekens of meer in om te zoeken","Voer alstublieft {minSearchLength} tekens of meer in om te zoeken"],
     "Search {types} …" : "Zoeken naar {types}…",
     "Settings" : "Instellingen",
