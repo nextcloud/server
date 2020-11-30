@@ -28,7 +28,7 @@ export default (background, time = 0, themingDefaultBackground = '') => {
 		if (themingDefaultBackground && themingDefaultBackground !== 'backgroundColor') {
 			return generateUrl('/apps/theming/image/background') + '?v=' + window.OCA.Theming.cacheBuster
 		}
-		if (window.OCA.Accessibility.theme === 'dark') {
+		if (window.OCA.Accessibility && window.OCA.Accessibility.theme === 'dark') {
 			return prefixWithBaseUrl('eduardo-neves-pedra-azul.jpg')
 		}
 		return prefixWithBaseUrl('kamil-porembinski-clouds.jpg')
