@@ -444,7 +444,8 @@ class Crypt {
 	 */
 	protected function isValidPrivateKey($plainKey) {
 		$res = openssl_get_privatekey($plainKey);
-		if (is_resource($res)) {
+		// TODO: remove resource check one php7.4 is not longer supported
+		if (is_resource($res) || (is_object($res) && get_class($res) === 'OpenSSLAsymmetricKey')) {
 			$sslInfo = openssl_pkey_get_details($res);
 			if (isset($sslInfo['key'])) {
 				return true;
