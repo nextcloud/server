@@ -1674,6 +1674,8 @@ class ViewTest extends \Test\TestCase {
 			->setSharedBy($this->user)
 			->setShareType(IShare::TYPE_USER)
 			->setPermissions(\OCP\Constants::PERMISSION_READ)
+			->setId(42)
+			->setProviderId('foo')
 			->setNode($shareDir);
 		$shareManager->createShare($share);
 
@@ -1681,7 +1683,7 @@ class ViewTest extends \Test\TestCase {
 		$this->assertFalse($view->rename('mount1', 'shareddir/sub'), 'Cannot move mount point into shared folder');
 		$this->assertFalse($view->rename('mount1', 'shareddir/sub/sub2'), 'Cannot move mount point into shared subfolder');
 
-		$this->assertTrue(\OC\Share\Share::unshare('folder', $fileId, IShare::TYPE_USER, 'test2'));
+		$shareManager->deleteShare($share);
 		$userObject->delete();
 	}
 
