@@ -112,7 +112,7 @@ class ExpirationTest extends \Test\TestCase {
 
 		$expiration = new Expiration($mockedConfig, $mockedTimeFactory);
 		$actualResult = $expiration->isExpired($timestamp, $quotaExceeded);
-		
+
 		$this->assertEquals($expectedResult, $actualResult);
 	}
 
@@ -127,41 +127,6 @@ class ExpirationTest extends \Test\TestCase {
 			[ '5, auto', 5, Expiration::NO_OBLIGATION, true ],
 			[ '3, 5', 3, 5, false ],
 			[ '10, 3', 10, 10, false ],
-		];
-	}
-
-
-	/**
-	 * @dataProvider configData
-	 *
-	 * @param string $configValue
-	 * @param int $expectedMinAge
-	 * @param int $expectedMaxAge
-	 * @param bool $expectedCanPurgeToSaveSpace
-	 */
-	public function testParseRetentionObligation($configValue, $expectedMinAge, $expectedMaxAge, $expectedCanPurgeToSaveSpace) {
-		$mockedConfig = $this->getMockedConfig($configValue);
-		$mockedTimeFactory = $this->getMockedTimeFactory(
-				time()
-		);
-
-		$expiration = new Expiration($mockedConfig, $mockedTimeFactory);
-		$this->assertAttributeEquals($expectedMinAge, 'minAge', $expiration);
-		$this->assertAttributeEquals($expectedMaxAge, 'maxAge', $expiration);
-		$this->assertAttributeEquals($expectedCanPurgeToSaveSpace, 'canPurgeToSaveSpace', $expiration);
-	}
-
-
-	public function timestampTestData() {
-		return [
-			[ 'disabled', false],
-			[ 'auto', false ],
-			[ 'auto,auto', false ],
-			[ 'auto, auto', false ],
-			[ 'auto, 3',  self::FAKE_TIME_NOW - (3 * self::SECONDS_PER_DAY) ],
-			[ '5, auto', false ],
-			[ '3, 5', self::FAKE_TIME_NOW - (5 * self::SECONDS_PER_DAY) ],
-			[ '10, 3', self::FAKE_TIME_NOW - (10 * self::SECONDS_PER_DAY) ],
 		];
 	}
 
