@@ -634,9 +634,10 @@ class ThemingDefaultsTest extends TestCase {
 	}
 
 	public function testGetScssVariablesCached() {
+		$this->config->expects($this->any())->method('getAppValue')->with('theming', 'cachebuster', '0')->willReturn('1');
 		$this->cacheFactory->expects($this->once())
 			->method('createDistributed')
-			->with('theming-')
+			->with('theming-1-')
 			->willReturn($this->cache);
 		$this->cache->expects($this->once())->method('get')->with('getScssVariables')->willReturn(['foo'=>'bar']);
 		$this->assertEquals(['foo'=>'bar'], $this->template->getScssVariables());
@@ -658,7 +659,7 @@ class ThemingDefaultsTest extends TestCase {
 		$this->util->expects($this->any())->method('elementColor')->with($this->defaults->getColorPrimary())->willReturn('#aaaaaa');
 		$this->cacheFactory->expects($this->once())
 			->method('createDistributed')
-			->with('theming-')
+			->with('theming-0-')
 			->willReturn($this->cache);
 		$this->cache->expects($this->once())->method('get')->with('getScssVariables')->willReturn(null);
 		$this->imageManager->expects($this->at(0))->method('getImageUrl')->with('logo')->willReturn('custom-logo?v=0');
