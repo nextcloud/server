@@ -104,8 +104,7 @@ class Share extends Constants {
 	 * \OC\Share\Share::getItemsSharedWith('folder'); (apps/files_sharing/tests/UpdaterTest.php)
 	 */
 	public static function getItemsSharedWith() {
-		return self::getItems('folder', null, self::$shareTypeUserAndGroups, \OC_User::getUser(), null, self::FORMAT_NONE,
-			null, -1, false);
+		return self::getItems('folder', null, self::$shareTypeUserAndGroups, \OC_User::getUser());
 	}
 
 	/**
@@ -117,11 +116,12 @@ class Share extends Constants {
 	 * @param int $limit Number of items to return (optional) Returns all by default
 	 * @param boolean $includeCollections (optional)
 	 * @return mixed Return depends on format
+	 * @deprecated TESTS ONLY - this methods is only used by tests
+	 * called like this:
+	 * \OC\Share\Share::getItemsSharedWithUser('test', $shareWith); (tests/lib/Share/Backend.php)
 	 */
-	public static function getItemsSharedWithUser($itemType, $user, $format = self::FORMAT_NONE,
-												  $parameters = null, $limit = -1, $includeCollections = false) {
-		return self::getItems($itemType, null, self::$shareTypeUserAndGroups, $user, null, $format,
-			$parameters, $limit, $includeCollections);
+	public static function getItemsSharedWithUser($itemType, $user) {
+		return self::getItems('test', null, self::$shareTypeUserAndGroups, $user);
 	}
 
 	/**
@@ -234,23 +234,6 @@ class Share extends Constants {
 	}
 
 	/**
-	 * Get the item of item type shared with the current user by source
-	 * @param string $itemType
-	 * @param string $itemSource
-	 * @param int $format (optional) Format type must be defined by the backend
-	 * @param mixed $parameters
-	 * @param boolean $includeCollections
-	 * @param string $shareWith (optional) define against which user should be checked, default: current user
-	 * @return array
-	 */
-	public static function getItemSharedWithBySource($itemType, $itemSource, $format = self::FORMAT_NONE,
-													 $parameters = null, $includeCollections = false, $shareWith = null) {
-		$shareWith = ($shareWith === null) ? \OC_User::getUser() : $shareWith;
-		return self::getItems($itemType, $itemSource, self::$shareTypeUserAndGroups, $shareWith, null, $format,
-			$parameters, 1, $includeCollections, true);
-	}
-
-	/**
 	 * Get the shared item of item type owned by the current user
 	 * @param string $itemType
 	 * @param string $itemSource
@@ -258,11 +241,14 @@ class Share extends Constants {
 	 * @param mixed $parameters
 	 * @param boolean $includeCollections
 	 * @return mixed Return depends on format
+	 *
+	 * Refactoring notes:
+	 *   * defacto $parameters and $format is always the default and therefore is removed in the subsequent call
 	 */
 	public static function getItemShared($itemType, $itemSource, $format = self::FORMAT_NONE,
 										 $parameters = null, $includeCollections = false) {
-		return self::getItems($itemType, $itemSource, null, null, \OC_User::getUser(), $format,
-			$parameters, -1, $includeCollections);
+		return self::getItems($itemType, $itemSource, null, null, \OC_User::getUser(), self::FORMAT_NONE,
+			null, -1, $includeCollections);
 	}
 
 	/**
@@ -303,42 +289,6 @@ class Share extends Constants {
 			return true;
 		}
 		return false;
-	}
-
-	/**
-	 * Checks whether a share has expired, calls unshareItem() if yes.
-	 * @param array $item Share data (usually database row)
-	 * @return boolean True if item was expired, false otherwise.
-	 */
-	protected static function expireItem(array $item) {
-		$result = false;
-
-		// only use default expiration date for link shares
-		if ((int) $item['share_type'] === IShare::TYPE_LINK) {
-
-			// calculate expiration date
-			if (!empty($item['expiration'])) {
-				$userDefinedExpire = new \DateTime($item['expiration']);
-				$expires = $userDefinedExpire->getTimestamp();
-			} else {
-				$expires = null;
-			}
-
-
-			// get default expiration settings
-			$defaultSettings = Helper::getDefaultExpireSetting();
-			$expires = Helper::calculateExpireDate($defaultSettings, $item['stime'], $expires);
-
-
-			if (is_int($expires)) {
-				$now = time();
-				if ($now > $expires) {
-					self::unshareItem($item);
-					$result = true;
-				}
-			}
-		}
-		return $result;
 	}
 
 	/**
@@ -472,6 +422,8 @@ class Share extends Constants {
 	 *
 	 * See public functions getItem(s)... for parameter usage
 	 *
+	 * Refactoring notes:
+	 *   * defacto $limit, $itemsShareWithBySource, $checkExpireDate, $parameters and $format is always the default and therefore is removed in the subsequent call
 	 */
 	public static function getItems($itemType, $item = null, $shareType = null, $shareWith = null,
 									$uidOwner = null, $format = self::FORMAT_NONE, $parameters = null, $limit = -1,
@@ -579,7 +531,7 @@ class Share extends Constants {
 				$where .= ' AND';
 			}
 			// If looking for own shared items, check item_source else check item_target
-			if (isset($uidOwner) || $itemShareWithBySource) {
+			if (isset($uidOwner)) {
 				// If item type is a file, file source needs to be checked in case the item was converted
 				if ($fileDependent) {
 					$where .= ' `file_source` = ?';
@@ -604,26 +556,10 @@ class Share extends Constants {
 			}
 		}
 
-		if ($shareType == self::$shareTypeUserAndGroups && $limit === 1) {
-			// Make sure the unique user target is returned if it exists,
-			// unique targets should follow the group share in the database
-			// If the limit is not 1, the filtering can be done later
-			$where .= ' ORDER BY `*PREFIX*share`.`id` DESC';
-		} else {
-			$where .= ' ORDER BY `*PREFIX*share`.`id` ASC';
-		}
+		$where .= ' ORDER BY `*PREFIX*share`.`id` ASC';
 
-		if ($limit != -1 && !$includeCollections) {
-			// The limit must be at least 3, because filtering needs to be done
-			if ($limit < 3) {
-				$queryLimit = 3;
-			} else {
-				$queryLimit = $limit;
-			}
-		} else {
-			$queryLimit = null;
-		}
-		$select = self::createSelectStatement($format, $fileDependent, $uidOwner);
+		$queryLimit = null;
+		$select = self::createSelectStatement(self::FORMAT_NONE, $fileDependent, $uidOwner);
 		$root = strlen($root);
 		$query = \OC_DB::prepare('SELECT '.$select.' FROM `*PREFIX*share` '.$where, $queryLimit);
 		$result = $query->execute($queryArgs);
@@ -727,11 +663,6 @@ class Share extends Constants {
 				}
 			}
 
-			if ($checkExpireDate) {
-				if (self::expireItem($row)) {
-					continue;
-				}
-			}
 			// Check if resharing is allowed, if not remove share permission
 			if (isset($row['permissions']) && (!self::isResharingAllowed() | \OCP\Util::isSharingDisabledForUser())) {
 				$row['permissions'] &= ~\OCP\Constants::PERMISSION_SHARE;
@@ -771,14 +702,6 @@ class Share extends Constants {
 		if (!empty($items)) {
 			$collectionItems = [];
 			foreach ($items as &$row) {
-				// Return only the item instead of a 2-dimensional array
-				if ($limit == 1 && $row[$column] == $item && ($row['item_type'] == $itemType || $itemType == 'file')) {
-					if ($format == self::FORMAT_NONE) {
-						return $row;
-					} else {
-						break;
-					}
-				}
 				// Check if this is a collection of the requested item type
 				if ($includeCollections && $collectionTypes && $row['item_type'] !== 'folder' && in_array($row['item_type'], $collectionTypes)) {
 					if (($collectionBackend = self::getBackend($row['item_type']))
@@ -814,19 +737,7 @@ class Share extends Constants {
 								}
 								if (isset($item)) {
 									if ($childItem[$column] == $item) {
-										// Return only the item instead of a 2-dimensional array
-										if ($limit == 1) {
-											if ($format == self::FORMAT_NONE) {
-												return $childItem;
-											} else {
-												// Unset the items array and break out of both loops
-												$items = [];
-												$items[] = $childItem;
-												break 2;
-											}
-										} else {
-											$collectionItems[] = $childItem;
-										}
+										$collectionItems[] = $childItem;
 									}
 								} else {
 									$collectionItems[] = $childItem;
@@ -862,7 +773,7 @@ class Share extends Constants {
 				return $item['share_type'] !== self::$shareTypeGroupUserUnique;
 			});
 
-			return self::formatResult($items, $column, $backend, $format, $parameters);
+			return self::formatResult($items, $column, $backend);
 		} elseif ($includeCollections && $collectionTypes && in_array('folder', $collectionTypes)) {
 			// FIXME: Thats a dirty hack to improve file sharing performance,
 			// see github issue #10588 for more details
@@ -873,10 +784,7 @@ class Share extends Constants {
 			foreach ($sharedParents as $parent) {
 				$collectionItems[] = $parent;
 			}
-			if ($limit === 1) {
-				return reset($collectionItems);
-			}
-			return self::formatResult($collectionItems, $column, $backend, $format, $parameters);
+			return self::formatResult($collectionItems, $column, $backend);
 		}
 
 		return [];

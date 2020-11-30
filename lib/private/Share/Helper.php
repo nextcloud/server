@@ -32,49 +32,8 @@ namespace OC\Share;
 
 use OC\HintException;
 use OCP\DB\QueryBuilder\IQueryBuilder;
-use OCP\Share\IShare;
 
 class Helper extends \OC\Share\Constants {
-
-	/**
-	 * Generate a unique target for the item
-	 * @param string $itemType
-	 * @param string $itemSource
-	 * @param int $shareType SHARE_TYPE_USER, SHARE_TYPE_GROUP, or SHARE_TYPE_LINK
-	 * @param string $shareWith User or group the item is being shared with
-	 * @param string $uidOwner User that is the owner of shared item
-	 * @param string $suggestedTarget The suggested target originating from a reshare (optional)
-	 * @param int $groupParent The id of the parent group share (optional)
-	 * @throws \Exception
-	 * @return string Item target
-	 */
-	public static function generateTarget($itemType, $itemSource, $shareType, $shareWith, $uidOwner, $suggestedTarget = null, $groupParent = null) {
-		// FIXME: $uidOwner and $groupParent seems to be unused
-		$backend = \OC\Share\Share::getBackend($itemType);
-		if ($shareType === IShare::TYPE_LINK || $shareType === IShare::TYPE_REMOTE) {
-			if (isset($suggestedTarget)) {
-				return $suggestedTarget;
-			}
-			return $backend->generateTarget($itemSource, false);
-		} else {
-			if ($shareType == IShare::TYPE_USER) {
-				// Share with is a user, so set share type to user and groups
-				$shareType = self::$shareTypeUserAndGroups;
-			}
-
-			// Check if suggested target exists first
-			if (!isset($suggestedTarget)) {
-				$suggestedTarget = $itemSource;
-			}
-			if ($shareType == IShare::TYPE_GROUP) {
-				$target = $backend->generateTarget($suggestedTarget, false);
-			} else {
-				$target = $backend->generateTarget($suggestedTarget, $shareWith);
-			}
-
-			return $target;
-		}
-	}
 
 	/**
 	 * Delete all reshares and group share children of an item
