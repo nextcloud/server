@@ -30,10 +30,9 @@
 namespace OCA\Settings\BackgroundJobs;
 
 use OC\Accounts\AccountManager;
-use OC\BackgroundJob\Job;
-use OC\BackgroundJob\JobList;
 use OCP\AppFramework\Http;
 use OCP\BackgroundJob\IJobList;
+use OCP\BackgroundJob\Job;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\ILogger;
@@ -96,10 +95,10 @@ class VerifyUserData extends Job {
 	/**
 	 * run the job, then remove it from the jobList
 	 *
-	 * @param JobList $jobList
+	 * @param IJobList $jobList
 	 * @param ILogger|null $logger
 	 */
-	public function execute($jobList, ILogger $logger = null) {
+	public function execute(IJobList $jobList, ILogger $logger = null) {
 		if ($this->shouldRun($this->argument)) {
 			parent::execute($jobList, $logger);
 			$jobList->remove($this, $this->argument);

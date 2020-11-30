@@ -32,12 +32,11 @@ namespace OCA\Federation\BackgroundJob;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Ring\Exception\RingException;
-use OC\BackgroundJob\Job;
-use OC\BackgroundJob\JobList;
 use OCA\Federation\TrustedServers;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
+use OCP\BackgroundJob\Job;
 use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\Http\Client\IResponse;
@@ -115,7 +114,7 @@ class GetSharedSecret extends Job {
 	/**
 	 * run the job, then remove it from the joblist
 	 *
-	 * @param JobList $jobList
+	 * @param IJobList $jobList
 	 * @param ILogger|null $logger
 	 */
 	public function execute(IJobList $jobList, ILogger $logger = null) {
@@ -135,7 +134,7 @@ class GetSharedSecret extends Job {
 	/**
 	 * call execute() method of parent
 	 *
-	 * @param JobList $jobList
+	 * @param IJobList $jobList
 	 * @param ILogger $logger
 	 */
 	protected function parentExecute($jobList, $logger = null) {

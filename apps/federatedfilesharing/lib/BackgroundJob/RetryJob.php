@@ -27,11 +27,10 @@
 
 namespace OCA\FederatedFileSharing\BackgroundJob;
 
-use OC\BackgroundJob\Job;
-use OC\BackgroundJob\JobList;
 use OCA\FederatedFileSharing\AddressHandler;
 use OCA\FederatedFileSharing\Notifications;
 use OCP\BackgroundJob\IJobList;
+use OCP\BackgroundJob\Job;
 use OCP\ILogger;
 
 /**
@@ -84,10 +83,10 @@ class RetryJob extends Job {
 	/**
 	 * run the job, then remove it from the jobList
 	 *
-	 * @param JobList $jobList
+	 * @param IJobList $jobList
 	 * @param ILogger|null $logger
 	 */
-	public function execute($jobList, ILogger $logger = null) {
+	public function execute(IJobList $jobList, ILogger $logger = null) {
 		if ($this->shouldRun($this->argument)) {
 			parent::execute($jobList, $logger);
 			$jobList->remove($this, $this->argument);
