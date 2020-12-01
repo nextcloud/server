@@ -713,7 +713,7 @@
     <InvalidReturnType occurrences="1">
       <code>string[]</code>
     </InvalidReturnType>
-    <NullableReturnStatement occurrences="9">
+    <NullableReturnStatement occurrences="8">
       <code>$this-&gt;circleToPrincipal($name)</code>
       <code>null</code>
       <code>null</code>
@@ -1092,9 +1092,6 @@
     </RedundantCondition>
   </file>
   <file src="apps/federatedfilesharing/lib/BackgroundJob/RetryJob.php">
-    <MoreSpecificImplementedParamType occurrences="1">
-      <code>$jobList</code>
-    </MoreSpecificImplementedParamType>
     <TooFewArguments occurrences="1"/>
   </file>
   <file src="apps/federatedfilesharing/lib/Controller/RequestHandlerController.php">
@@ -1170,16 +1167,6 @@
     <NullableReturnStatement occurrences="1">
       <code>null</code>
     </NullableReturnStatement>
-  </file>
-  <file src="apps/federation/lib/BackgroundJob/GetSharedSecret.php">
-    <MoreSpecificImplementedParamType occurrences="1">
-      <code>$jobList</code>
-    </MoreSpecificImplementedParamType>
-  </file>
-  <file src="apps/federation/lib/BackgroundJob/RequestSharedSecret.php">
-    <MoreSpecificImplementedParamType occurrences="1">
-      <code>$jobList</code>
-    </MoreSpecificImplementedParamType>
   </file>
   <file src="apps/federation/lib/TrustedServers.php">
     <InvalidArgument occurrences="1">
@@ -1975,11 +1962,6 @@
     <UndefinedInterfaceMethod occurrences="1">
       <code>getSettingsManager</code>
     </UndefinedInterfaceMethod>
-  </file>
-  <file src="apps/settings/lib/BackgroundJobs/VerifyUserData.php">
-    <MoreSpecificImplementedParamType occurrences="1">
-      <code>$jobList</code>
-    </MoreSpecificImplementedParamType>
   </file>
   <file src="apps/settings/lib/Controller/AppSettingsController.php">
     <UndefinedInterfaceMethod occurrences="1">
@@ -5001,8 +4983,7 @@
     <InvalidOperand occurrences="1">
       <code>!self::isResharingAllowed()</code>
     </InvalidOperand>
-    <InvalidScalarArgument occurrences="3">
-      <code>$shareWith</code>
+    <InvalidScalarArgument occurrences="2">
       <code>\OC_User::getUser()</code>
       <code>\OC_User::getUser()</code>
     </InvalidScalarArgument>
