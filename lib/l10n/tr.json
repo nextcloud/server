@@ -101,7 +101,6 @@
     "Set an admin username." : "Bir yönetici kullanıcı adı yazın.",
     "Set an admin password." : "Bir yönetici parolası yazın.",
     "Can't create or write into the data directory %s" : "%s veri klasörü oluşturulamadı ya da içine yazılamadı",
-    "Invalid Federated Cloud ID" : "Birleşik Bulut Kimliği Geçersiz",
     "Sharing backend %s must implement the interface OCP\\Share_Backend" : "Paylaşım arka ucu %s OCP\\Share_Backend arayüzünü desteklemeli",
     "Sharing backend %s not found" : "%s paylaşım arka ucu bulunamadı",
     "Sharing backend for %s not found" : "%s için paylaşım arka ucu bulunamadı",
@@ -233,6 +232,7 @@
     "Groupware" : "Grup çalışması",
     "Personal info" : "Kişisel Bilgiler",
     "Mobile & desktop" : "Mobil ve masaüstü",
+    "Invalid Federated Cloud ID" : "Birleşik Bulut Kimliği Geçersiz",
     "This can usually be fixed by giving the webserver write access to the apps directory or disabling the appstore in the config file. See %s" : "Bu sorun genellikle, web sunucusuna apps klasörüne yazma izni verilerek ya da yapılandırma dosyasından uygulama mağazası devre dışı bırakılarak çözülebilir. %s bölümüne bakın"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

@@ -101,7 +101,6 @@
     "Set an admin username." : "Einen Administrator-Benutzernamen setzen.",
     "Set an admin password." : "Ein Administrator-Passwort setzen.",
     "Can't create or write into the data directory %s" : "Das Datenverzeichnis %s kann nicht erstellt oder es kann darin nicht geschrieben werden.",
-    "Invalid Federated Cloud ID" : "Ungültige Federated-Cloud-ID",
     "Sharing backend %s must implement the interface OCP\\Share_Backend" : "Freigabe-Backend %s muss in der OCP\\Share_Backend - Schnittstelle implementiert werden",
     "Sharing backend %s not found" : "Freigabe-Backend %s nicht gefunden",
     "Sharing backend for %s not found" : "Freigabe-Backend für %s nicht gefunden",
@@ -233,6 +232,7 @@
     "Groupware" : "Groupware",
     "Personal info" : "Persönliche Informationen ",
     "Mobile & desktop" : "Mobil & Desktop",
+    "Invalid Federated Cloud ID" : "Ungültige Federated-Cloud-ID",
     "This can usually be fixed by giving the webserver write access to the apps directory or disabling the appstore in the config file. See %s" : "Dies kann zumeist behoben werden, indem dem Web-Server Schreibzugriff auf das App-Verzeichnis eingeräumt wird. Siehe auch %s"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
