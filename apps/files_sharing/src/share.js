@@ -177,12 +177,12 @@
 						var shareType = parseInt(context.$file.data('share-types'), 10)
 						var shareOwner = context.$file.data('share-owner-id')
 						if (shareType >= 0 || shareOwner) {
-							return t('core', 'Shared')
+							return t('files_sharing', 'Shared')
 						}
 					}
-					return t('core', 'Share')
+					return t('files_sharing', 'Share')
 				},
-				altText: t('core', 'Share'),
+				altText: t('files_sharing', 'Share'),
 				mime: 'all',
 				order: -150,
 				permissions: OC.PERMISSION_ALL,
@@ -316,10 +316,10 @@
 				recipients = $tr.data('share-recipient-data')
 				action.addClass('shared-style')
 
-				avatars = '<span>' + t('core', 'Shared') + '</span>'
+				avatars = '<span>' + t('files_sharing', 'Shared') + '</span>'
 				// even if reshared, only show "Shared by"
 				if (ownerId) {
-					message = t('core', 'Shared by')
+					message = t('files_sharing', 'Shared by')
 					avatars = OCA.Sharing.Util._formatRemoteShare(ownerId, owner, message)
 				} else if (recipients) {
 					avatars = OCA.Sharing.Util._formatShareList(recipients)
@@ -334,7 +334,7 @@
 					action.find('span[title]').tooltip({ placement: 'top' })
 				}
 			} else {
-				action.html('<span class="hidden-visually">' + t('core', 'Shared') + '</span>').prepend(icon)
+				action.html('<span class="hidden-visually">' + t('files_sharing', 'Shared') + '</span>').prepend(icon)
 			}
 			if (hasLink) {
 				iconClass = 'icon-public'
@@ -395,7 +395,7 @@
 				return a.shareWithDisplayName.localeCompare(b.shareWithDisplayName)
 			})
 			return $.map(recipients, function(recipient) {
-				return _parent._formatRemoteShare(recipient.shareWith, recipient.shareWithDisplayName, t('core', 'Shared with'))
+				return _parent._formatRemoteShare(recipient.shareWith, recipient.shareWithDisplayName, t('files_sharing', 'Shared with'))
 			})
 		},
 
@@ -451,10 +451,10 @@
 				recipients = $tr.data('share-recipient-data')
 				action.addClass('shared-style')
 
-				avatars = '<span>' + t('core', 'Shared') + '</span>'
+				avatars = '<span>' + t('files_sharing', 'Shared') + '</span>'
 				// even if reshared, only show "Shared by"
 				if (ownerId) {
-					message = t('core', 'Shared by')
+					message = t('files_sharing', 'Shared by')
 					avatars = this._formatRemoteShare(ownerId, owner, message)
 				} else if (recipients) {
 					avatars = this._formatShareList(recipients)
@@ -469,7 +469,7 @@
 					action.find('span[title]').tooltip({ placement: 'top' })
 				}
 			} else {
-				action.html('<span class="hidden-visually">' + t('core', 'Shared') + '</span>').prepend(icon)
+				action.html('<span class="hidden-visually">' + t('files_sharing', 'Shared') + '</span>').prepend(icon)
 			}
 			if (hasLink) {
 				iconClass = 'icon-public'
