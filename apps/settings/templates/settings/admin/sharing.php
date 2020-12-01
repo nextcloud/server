@@ -48,7 +48,7 @@
 		<input type="text" name='shareapi_internal_expire_after_n_days' id="shareapiInternalExpireAfterNDays" placeholder="<?php p('7')?>"
 			   value='<?php p($_['shareInternalExpireAfterNDays']) ?>' />
 		<?php p($l->t( 'days' )); ?>
-		<input type="checkbox" name="shareapi_internal_enforce_expire_date" id="shareapiInternalEnforceExpireDate" class="checkbox"
+		<input type="checkbox" name="shareapi_enforce_internal_expire_date" id="shareapiInternalEnforceExpireDate" class="checkbox"
 			   value="1" <?php if ($_['shareInternalEnforceExpireDate'] === 'yes') print_unescaped('checked="checked"'); ?> />
 		<label for="shareapiInternalEnforceExpireDate"><?php p($l->t('Enforce expiration date'));?></label><br/>
 	</p>
