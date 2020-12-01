@@ -100,7 +100,6 @@
     "Set an admin username." : "Εισάγετε όνομα χρήστη διαχειριστή.",
     "Set an admin password." : "Εισάγετε συνθηματικό διαχειριστή.",
     "Can't create or write into the data directory %s" : "Αδύνατη η δημιουργία ή συγγραφή στον κατάλογο δεδομένων %s",
-    "Invalid Federated Cloud ID" : "Μη έγκυρο Federated Cloud ID",
     "Sharing backend %s must implement the interface OCP\\Share_Backend" : "Το σύστημα διαμοιρασμού %s πρέπει να υλοποιεί την διεπαφή OCP\\Share_Backend",
     "Sharing backend %s not found" : "Το σύστημα διαμοιρασμού %s δεν βρέθηκε",
     "Sharing backend for %s not found" : "Το σύστημα διαμοιρασμού για το %s δεν βρέθηκε",
@@ -232,6 +231,7 @@
     "Groupware" : "Ομαδικό",
     "Personal info" : "Προσωπικές πληροφορίες",
     "Mobile & desktop" : "Κινητό & σταθερό",
+    "Invalid Federated Cloud ID" : "Μη έγκυρο Federated Cloud ID",
     "This can usually be fixed by giving the webserver write access to the apps directory or disabling the appstore in the config file. See %s" : "Αυτό συνήθως μπορεί να διορθωθεί δίνοντας δικαιώματα εγγραφής στον κατάλογο apps στον διακομιστή ιστού ή απενεργοποιώντας το appstore στο αρχείο διαμόρφωσης. Δείτε το %s"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -101,7 +101,6 @@
     "Set an admin username." : "Estabeleza un nome de usuario administrador",
     "Set an admin password." : "Estabeleza un contrasinal de administrador",
     "Can't create or write into the data directory %s" : "Non é posíbel crear ou escribir o directorio «data» %s",
-    "Invalid Federated Cloud ID" : "ID de nube federada incorrecto",
     "Sharing backend %s must implement the interface OCP\\Share_Backend" : "A infraestrutura de compartición %s ten que implementar a interface OCP\\Share_Backend",
     "Sharing backend %s not found" : "Non se atopou a infraestrutura de compartición %s",
     "Sharing backend for %s not found" : "Non se atopou a infraestrutura de compartición para %s",
@@ -233,6 +232,7 @@
     "Groupware" : "Software colaborativo",
     "Personal info" : "Información persoal",
     "Mobile & desktop" : "Móbil e escritorio",
+    "Invalid Federated Cloud ID" : "ID de nube federada incorrecto",
     "This can usually be fixed by giving the webserver write access to the apps directory or disabling the appstore in the config file. See %s" : "Polo xeral, isto pódese solucionar dándolle ao servidor web acceso de escritura  ao directorio das aplicacións ou desactivando a tenda de aplicacións no ficheiro de configuración. Vexa %s"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
