@@ -101,7 +101,6 @@
     "Set an admin username." : "Постави администраторско корисничко име",
     "Set an admin password." : "Постави администраторска лозинка.",
     "Can't create or write into the data directory %s" : "Неможете да креирате или да запишувате во оваа папка %s",
-    "Invalid Federated Cloud ID" : "Невалиден федерален ID",
     "Sharing backend %s must implement the interface OCP\\Share_Backend" : "За позадинското споделување %s мора се имплементира интерфејсот OCP\\Share_Backend",
     "Sharing backend %s not found" : "Не е пронајдено позадинско споделување %s",
     "Sharing backend for %s not found" : "Не е пронајдено позадинско споделување за %s.",
@@ -231,6 +230,7 @@
     "Groupware" : "Групни производи",
     "Personal info" : "Лични податоци",
     "Mobile & desktop" : "Мобилен & компјутер",
+    "Invalid Federated Cloud ID" : "Невалиден федерален ID",
     "This can usually be fixed by giving the webserver write access to the apps directory or disabling the appstore in the config file. See %s" : "Ова најчесто се поправа со давање дозвола на веб серверот за запишување во папката со апликации или оневозможување на продавницата за апликации во кофигурациската датотека. Видете %s"
 },"pluralForm" :"nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;"
 }

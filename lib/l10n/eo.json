@@ -93,7 +93,6 @@
     "Set an admin username." : "Agordi uzantnomon de administranto.",
     "Set an admin password." : "Agordi pasvorton de administranto.",
     "Can't create or write into the data directory %s" : "Ne kreeblas aŭ ne skribeblas la datumdosierujo %s",
-    "Invalid Federated Cloud ID" : "Nevalida federnuba identigilo",
     "Sharing backend %s must implement the interface OCP\\Share_Backend" : "Kunhava interna servo %s devas realigi la interfacon „OCP\\Share_Backend“",
     "Sharing backend %s not found" : "Kunhava interna servo %s ne troviĝas",
     "Sharing backend for %s not found" : "Kunhava interna servo por %s ne troviĝas",
@@ -223,6 +222,7 @@
     "Groupware" : "Grupa kunlaborado",
     "Personal info" : "Persona informo",
     "Mobile & desktop" : "Porteblaj kaj labortablaj aplikaĵoj",
+    "Invalid Federated Cloud ID" : "Nevalida federnuba identigilo",
     "This can usually be fixed by giving the webserver write access to the apps directory or disabling the appstore in the config file. See %s" : "Igi la „apps“ dosierujon alirebla de la servilo aŭ malŝalti la aplikaĵejon en la agordodosiero kutime solvas tiun problemon. Vidu %s"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
