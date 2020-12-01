@@ -101,7 +101,6 @@
     "Set an admin username." : "Nastavte uživatelské jméno správce.",
     "Set an admin password." : "Nastavte heslo pro účet správce.",
     "Can't create or write into the data directory %s" : "Nedaří se vytvořit nebo zapisovat do datového adresáře %s",
-    "Invalid Federated Cloud ID" : "Neplatný identifikátor v rámci federovaného cloudu",
     "Sharing backend %s must implement the interface OCP\\Share_Backend" : "Úložiště pro sdílení %s musí implementovat rozhraní OCP\\Share_Backend",
     "Sharing backend %s not found" : "Úložiště sdílení %s nenalezeno",
     "Sharing backend for %s not found" : "Úložiště  sdílení pro %s nenalezeno",
@@ -233,6 +232,7 @@
     "Groupware" : "Software pro podporu spolupráce",
     "Personal info" : "Osobní údaje",
     "Mobile & desktop" : "Mobilní a desktop",
+    "Invalid Federated Cloud ID" : "Neplatný identifikátor v rámci federovaného cloudu",
     "This can usually be fixed by giving the webserver write access to the apps directory or disabling the appstore in the config file. See %s" : "To lze obvykle vyřešit povolením zápisu webovému serveru do adresáře apps nebo zakázáním appstore v souboru s nastaveními. Viz %s"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;"
 }

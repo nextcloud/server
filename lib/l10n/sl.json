@@ -94,7 +94,6 @@
     "Set an admin username." : "Nastavi uporabniško ime skrbnika.",
     "Set an admin password." : "Nastavi skrbniško geslo.",
     "Can't create or write into the data directory %s" : "Ni mogoče zapisati podatkov v podatkovno mapo %s",
-    "Invalid Federated Cloud ID" : "Neveljaven ID zveznega oblaka",
     "Sharing backend %s must implement the interface OCP\\Share_Backend" : "Souporaba ozadnjega programa %s mora vsebovati tudi vmesnik OCP\\Share_Backend",
     "Sharing backend %s not found" : "Ozadnjega programa %s za souporabo ni mogoče najti",
     "Sharing backend for %s not found" : "Ozadnjega programa za souporabo za %s ni mogoče najti",
@@ -219,6 +218,7 @@
     "Security" : "Varnost",
     "Groupware" : "Skupinsko delo",
     "Personal info" : "Osebni podatki",
-    "Mobile & desktop" : "Mobilni in namizni dostop"
+    "Mobile & desktop" : "Mobilni in namizni dostop",
+    "Invalid Federated Cloud ID" : "Neveljaven ID zveznega oblaka"
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }
