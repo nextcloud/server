@@ -133,6 +133,7 @@
 	"one": ["application/msonenote"],
 	"opus": ["audio/ogg"],
 	"orf": ["image/x-dcraw"],
+	"org": ["text/org", "text/plain"],
 	"otf": ["application/font-sfnt"],
 	"pages": ["application/x-iwork-pages-sffpages"],
 	"pdf": ["application/pdf"],
