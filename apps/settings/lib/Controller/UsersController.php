@@ -35,6 +35,10 @@ declare(strict_types=1);
 
 namespace OCA\Settings\Controller;
 
+use libphonenumber\NumberParseException;
+use libphonenumber\PhoneNumber;
+use libphonenumber\PhoneNumberFormat;
+use libphonenumber\PhoneNumberUtil;
 use OC\Accounts\AccountManager;
 use OC\AppFramework\Http;
 use OC\Encryption\Exceptions\ModuleDoesNotExistsException;
@@ -389,7 +393,7 @@ class UsersController extends Controller {
 			}
 		}
 		try {
-			$this->saveUserSettings($user, $data);
+			$data = $this->saveUserSettings($user, $data);
 			return new DataResponse(
 				[
 					'status' => 'success',
@@ -420,6 +424,13 @@ class UsersController extends Controller {
 					'message' => $e->getMessage()
 				],
 			]);
+		} catch (\InvalidArgumentException $e) {
+			return new DataResponse([
+				'status' => 'error',
+				'data' => [
+					'message' => $e->getMessage()
+				],
+			]);
 		}
 	}
 	/**
@@ -427,9 +438,11 @@ class UsersController extends Controller {
 	 *
 	 * @param IUser $user
 	 * @param array $data
+	 * @return array
 	 * @throws ForbiddenException
+	 * @throws \InvalidArgumentException
 	 */
-	protected function saveUserSettings(IUser $user, array $data): void {
+	protected function saveUserSettings(IUser $user, array $data): array {
 		// keep the user back-end up-to-date with the latest display name and email
 		// address
 		$oldDisplayName = $user->getDisplayName();
@@ -442,6 +455,7 @@ class UsersController extends Controller {
 				throw new ForbiddenException($this->l10n->t('Unable to change full name'));
 			}
 		}
+
 		$oldEmailAddress = $user->getEMailAddress();
 		$oldEmailAddress = is_null($oldEmailAddress) ? '' : strtolower($oldEmailAddress);
 		if (isset($data[IAccountManager::PROPERTY_EMAIL]['value'])
@@ -454,7 +468,25 @@ class UsersController extends Controller {
 			}
 			$user->setEMailAddress($data[IAccountManager::PROPERTY_EMAIL]['value']);
 		}
+
+		if (isset($data[AccountManager::PROPERTY_PHONE])) {
+			$phoneUtil = PhoneNumberUtil::getInstance();
+			try {
+				$phoneValue = $data[AccountManager::PROPERTY_PHONE]['value'];
+				$phoneNumber = $phoneUtil->parse($phoneValue, 'DE'); // FIXME need a reasonable default
+				if ($phoneNumber instanceof PhoneNumber && $phoneUtil->isValidNumber($phoneNumber)) {
+					$data[AccountManager::PROPERTY_PHONE]['value'] = $phoneUtil->format($phoneNumber, PhoneNumberFormat::E164);
+				} else {
+					throw new \InvalidArgumentException($this->l10n->t('Unable to set invalid phone number'));
+				}
+			} catch (NumberParseException $e) {
+				throw new \InvalidArgumentException($this->l10n->t('Unable to set invalid phone number'));
+			}
+		}
+
 		$this->accountManager->updateUser($user, $data);
+
+		return $data;
 	}
 
 	/**
