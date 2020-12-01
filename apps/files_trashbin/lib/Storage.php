@@ -128,7 +128,7 @@ class Storage extends Wrapper {
 	protected function shouldMoveToTrash($path) {
 		$normalized = Filesystem::normalizePath($this->mountPoint . '/' . $path);
 		$parts = explode('/', $normalized);
-		if (count($parts) < 4) {
+		if (count($parts) < 4 || strpos($normalized, '/appdata_') === 0) {
 			return false;
 		}
 
