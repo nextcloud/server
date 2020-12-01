@@ -398,12 +398,16 @@ class UsersController extends Controller {
 						'avatarScope' => $data[IAccountManager::PROPERTY_AVATAR]['scope'],
 						'displayname' => $data[IAccountManager::PROPERTY_DISPLAYNAME]['value'],
 						'displaynameScope' => $data[IAccountManager::PROPERTY_DISPLAYNAME]['scope'],
+						'phone' => $data[IAccountManager::PROPERTY_PHONE]['value'],
+						'phoneScope' => $data[IAccountManager::PROPERTY_PHONE]['scope'],
 						'email' => $data[IAccountManager::PROPERTY_EMAIL]['value'],
 						'emailScope' => $data[IAccountManager::PROPERTY_EMAIL]['scope'],
 						'website' => $data[IAccountManager::PROPERTY_WEBSITE]['value'],
 						'websiteScope' => $data[IAccountManager::PROPERTY_WEBSITE]['scope'],
 						'address' => $data[IAccountManager::PROPERTY_ADDRESS]['value'],
 						'addressScope' => $data[IAccountManager::PROPERTY_ADDRESS]['scope'],
+						'twitter' => $data[IAccountManager::PROPERTY_TWITTER]['value'],
+						'twitterScope' => $data[IAccountManager::PROPERTY_TWITTER]['scope'],
 						'message' => $this->l10n->t('Settings saved')
 					]
 				],
