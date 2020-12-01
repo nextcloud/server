@@ -46,6 +46,7 @@ use OC\Authentication\Token\RemoteWipe;
 use OC\HintException;
 use OCA\Provisioning_API\FederatedShareProviderFactory;
 use OCA\Settings\Mailer\NewUserMailHelper;
+use OCP\Accounts\IAccountManager;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSException;
@@ -431,17 +432,17 @@ class UsersController extends AUserData {
 
 		// Editing self (display, email)
 		if ($this->config->getSystemValue('allow_user_to_change_display_name', true) !== false) {
-			$permittedFields[] = AccountManager::PROPERTY_DISPLAYNAME;
-			$permittedFields[] = AccountManager::PROPERTY_EMAIL;
+			$permittedFields[] = IAccountManager::PROPERTY_DISPLAYNAME;
+			$permittedFields[] = IAccountManager::PROPERTY_EMAIL;
 		}
 
 		if ($this->appManager->isEnabledForUser('federatedfilesharing')) {
 			$shareProvider = $this->federatedShareProviderFactory->get();
 			if ($shareProvider->isLookupServerUploadEnabled()) {
-				$permittedFields[] = AccountManager::PROPERTY_PHONE;
-				$permittedFields[] = AccountManager::PROPERTY_ADDRESS;
-				$permittedFields[] = AccountManager::PROPERTY_WEBSITE;
-				$permittedFields[] = AccountManager::PROPERTY_TWITTER;
+				$permittedFields[] = IAccountManager::PROPERTY_PHONE;
+				$permittedFields[] = IAccountManager::PROPERTY_ADDRESS;
+				$permittedFields[] = IAccountManager::PROPERTY_WEBSITE;
+				$permittedFields[] = IAccountManager::PROPERTY_TWITTER;
 			}
 		}
 
@@ -474,8 +475,8 @@ class UsersController extends AUserData {
 			// Editing self (display, email)
 			if ($this->config->getSystemValue('allow_user_to_change_display_name', true) !== false) {
 				$permittedFields[] = 'display';
-				$permittedFields[] = AccountManager::PROPERTY_DISPLAYNAME;
-				$permittedFields[] = AccountManager::PROPERTY_EMAIL;
+				$permittedFields[] = IAccountManager::PROPERTY_DISPLAYNAME;
+				$permittedFields[] = IAccountManager::PROPERTY_EMAIL;
 			}
 
 			$permittedFields[] = 'password';
@@ -492,10 +493,10 @@ class UsersController extends AUserData {
 			if ($this->appManager->isEnabledForUser('federatedfilesharing')) {
 				$shareProvider = $this->federatedShareProviderFactory->get();
 				if ($shareProvider->isLookupServerUploadEnabled()) {
-					$permittedFields[] = AccountManager::PROPERTY_PHONE;
-					$permittedFields[] = AccountManager::PROPERTY_ADDRESS;
-					$permittedFields[] = AccountManager::PROPERTY_WEBSITE;
-					$permittedFields[] = AccountManager::PROPERTY_TWITTER;
+					$permittedFields[] = IAccountManager::PROPERTY_PHONE;
+					$permittedFields[] = IAccountManager::PROPERTY_ADDRESS;
+					$permittedFields[] = IAccountManager::PROPERTY_WEBSITE;
+					$permittedFields[] = IAccountManager::PROPERTY_TWITTER;
 				}
 			}
 
@@ -510,15 +511,15 @@ class UsersController extends AUserData {
 			|| $subAdminManager->isUserAccessible($currentLoggedInUser, $targetUser)) {
 				// They have permissions over the user
 				$permittedFields[] = 'display';
-				$permittedFields[] = AccountManager::PROPERTY_DISPLAYNAME;
-				$permittedFields[] = AccountManager::PROPERTY_EMAIL;
+				$permittedFields[] = IAccountManager::PROPERTY_DISPLAYNAME;
+				$permittedFields[] = IAccountManager::PROPERTY_EMAIL;
 				$permittedFields[] = 'password';
 				$permittedFields[] = 'language';
 				$permittedFields[] = 'locale';
-				$permittedFields[] = AccountManager::PROPERTY_PHONE;
-				$permittedFields[] = AccountManager::PROPERTY_ADDRESS;
-				$permittedFields[] = AccountManager::PROPERTY_WEBSITE;
-				$permittedFields[] = AccountManager::PROPERTY_TWITTER;
+				$permittedFields[] = IAccountManager::PROPERTY_PHONE;
+				$permittedFields[] = IAccountManager::PROPERTY_ADDRESS;
+				$permittedFields[] = IAccountManager::PROPERTY_WEBSITE;
+				$permittedFields[] = IAccountManager::PROPERTY_TWITTER;
 				$permittedFields[] = 'quota';
 			} else {
 				// No rights
@@ -532,7 +533,7 @@ class UsersController extends AUserData {
 		// Process the edit
 		switch ($key) {
 			case 'display':
-			case AccountManager::PROPERTY_DISPLAYNAME:
+			case IAccountManager::PROPERTY_DISPLAYNAME:
 				$targetUser->setDisplayName($value);
 				break;
 			case 'quota':
@@ -577,17 +578,17 @@ class UsersController extends AUserData {
 				}
 				$this->config->setUserValue($targetUser->getUID(), 'core', 'locale', $value);
 				break;
-			case AccountManager::PROPERTY_EMAIL:
+			case IAccountManager::PROPERTY_EMAIL:
 				if (filter_var($value, FILTER_VALIDATE_EMAIL) || $value === '') {
 					$targetUser->setEMailAddress($value);
 				} else {
 					throw new OCSException('', 102);
 				}
 				break;
-			case AccountManager::PROPERTY_PHONE:
-			case AccountManager::PROPERTY_ADDRESS:
-			case AccountManager::PROPERTY_WEBSITE:
-			case AccountManager::PROPERTY_TWITTER:
+			case IAccountManager::PROPERTY_PHONE:
+			case IAccountManager::PROPERTY_ADDRESS:
+			case IAccountManager::PROPERTY_WEBSITE:
+			case IAccountManager::PROPERTY_TWITTER:
 				$userAccount = $this->accountManager->getUser($targetUser);
 				if ($userAccount[$key]['value'] !== $value) {
 					$userAccount[$key]['value'] = $value;

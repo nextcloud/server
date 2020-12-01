@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -30,7 +32,6 @@
 
 // FIXME: disabled for now to be able to inject IGroupManager and also use
 // getSubAdmin()
-//declare(strict_types=1);
 
 namespace OCA\Settings\Controller;
 
@@ -46,6 +47,7 @@ use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\Settings\BackgroundJobs\VerifyUserData;
 use OCA\Settings\Events\BeforeTemplateRenderedEvent;
 use OCA\User_LDAP\User_Proxy;
+use OCP\Accounts\IAccountManager;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\DataResponse;
@@ -140,7 +142,7 @@ class UsersController extends Controller {
 	 *
 	 * @return TemplateResponse
 	 */
-	public function usersListByGroup() {
+	public function usersListByGroup(): TemplateResponse {
 		return $this->usersList();
 	}
 
@@ -152,7 +154,7 @@ class UsersController extends Controller {
 	 *
 	 * @return TemplateResponse
 	 */
-	public function usersList() {
+	public function usersList(): TemplateResponse {
 		$user = $this->userSession->getUser();
 		$uid = $user->getUID();
 
@@ -309,7 +311,7 @@ class UsersController extends Controller {
 	 *
 	 * @return bool
 	 */
-	protected function canAdminChangeUserPasswords() {
+	protected function canAdminChangeUserPasswords(): bool {
 		$isEncryptionEnabled = $this->encryptionManager->isEnabled();
 		try {
 			$noUserSpecificEncryptionKeys = !$this->encryptionManager->getEncryptionModule()->needDetailedAccessList();
@@ -344,19 +346,19 @@ class UsersController extends Controller {
 	 * @param string $twitterScope
 	 * @return DataResponse
 	 */
-	public function setUserSettings($avatarScope,
-									$displayname,
-									$displaynameScope,
-									$phone,
-									$phoneScope,
-									$email,
-									$emailScope,
-									$website,
-									$websiteScope,
-									$address,
-									$addressScope,
-									$twitter,
-									$twitterScope
+	public function setUserSettings(string $avatarScope,
+									string $displayname,
+									string $displaynameScope,
+									string $phone,
+									string $phoneScope,
+									string $email,
+									string $emailScope,
+									string $website,
+									string $websiteScope,
+									string $address,
+									string $addressScope,
+									string $twitter,
+									string $twitterScope
 	) {
 		$email = strtolower($email);
 		if (!empty($email) && !$this->mailer->validateMailAddress($email)) {
@@ -372,18 +374,18 @@ class UsersController extends Controller {
 		}
 		$user = $this->userSession->getUser();
 		$data = $this->accountManager->getUser($user);
-		$data[AccountManager::PROPERTY_AVATAR] = ['scope' => $avatarScope];
+		$data[IAccountManager::PROPERTY_AVATAR] = ['scope' => $avatarScope];
 		if ($this->config->getSystemValue('allow_user_to_change_display_name', true) !== false) {
-			$data[AccountManager::PROPERTY_DISPLAYNAME] = ['value' => $displayname, 'scope' => $displaynameScope];
-			$data[AccountManager::PROPERTY_EMAIL] = ['value' => $email, 'scope' => $emailScope];
+			$data[IAccountManager::PROPERTY_DISPLAYNAME] = ['value' => $displayname, 'scope' => $displaynameScope];
+			$data[IAccountManager::PROPERTY_EMAIL] = ['value' => $email, 'scope' => $emailScope];
 		}
 		if ($this->appManager->isEnabledForUser('federatedfilesharing')) {
 			$shareProvider = \OC::$server->query(FederatedShareProvider::class);
 			if ($shareProvider->isLookupServerUploadEnabled()) {
-				$data[AccountManager::PROPERTY_WEBSITE] = ['value' => $website, 'scope' => $websiteScope];
-				$data[AccountManager::PROPERTY_ADDRESS] = ['value' => $address, 'scope' => $addressScope];
-				$data[AccountManager::PROPERTY_PHONE] = ['value' => $phone, 'scope' => $phoneScope];
-				$data[AccountManager::PROPERTY_TWITTER] = ['value' => $twitter, 'scope' => $twitterScope];
+				$data[IAccountManager::PROPERTY_WEBSITE] = ['value' => $website, 'scope' => $websiteScope];
+				$data[IAccountManager::PROPERTY_ADDRESS] = ['value' => $address, 'scope' => $addressScope];
+				$data[IAccountManager::PROPERTY_PHONE] = ['value' => $phone, 'scope' => $phoneScope];
+				$data[IAccountManager::PROPERTY_TWITTER] = ['value' => $twitter, 'scope' => $twitterScope];
 			}
 		}
 		try {
@@ -393,15 +395,15 @@ class UsersController extends Controller {
 					'status' => 'success',
 					'data' => [
 						'userId' => $user->getUID(),
-						'avatarScope' => $data[AccountManager::PROPERTY_AVATAR]['scope'],
-						'displayname' => $data[AccountManager::PROPERTY_DISPLAYNAME]['value'],
-						'displaynameScope' => $data[AccountManager::PROPERTY_DISPLAYNAME]['scope'],
-						'email' => $data[AccountManager::PROPERTY_EMAIL]['value'],
-						'emailScope' => $data[AccountManager::PROPERTY_EMAIL]['scope'],
-						'website' => $data[AccountManager::PROPERTY_WEBSITE]['value'],
-						'websiteScope' => $data[AccountManager::PROPERTY_WEBSITE]['scope'],
-						'address' => $data[AccountManager::PROPERTY_ADDRESS]['value'],
-						'addressScope' => $data[AccountManager::PROPERTY_ADDRESS]['scope'],
+						'avatarScope' => $data[IAccountManager::PROPERTY_AVATAR]['scope'],
+						'displayname' => $data[IAccountManager::PROPERTY_DISPLAYNAME]['value'],
+						'displaynameScope' => $data[IAccountManager::PROPERTY_DISPLAYNAME]['scope'],
+						'email' => $data[IAccountManager::PROPERTY_EMAIL]['value'],
+						'emailScope' => $data[IAccountManager::PROPERTY_EMAIL]['scope'],
+						'website' => $data[IAccountManager::PROPERTY_WEBSITE]['value'],
+						'websiteScope' => $data[IAccountManager::PROPERTY_WEBSITE]['scope'],
+						'address' => $data[IAccountManager::PROPERTY_ADDRESS]['value'],
+						'addressScope' => $data[IAccountManager::PROPERTY_ADDRESS]['scope'],
 						'message' => $this->l10n->t('Settings saved')
 					]
 				],
@@ -423,30 +425,30 @@ class UsersController extends Controller {
 	 * @param array $data
 	 * @throws ForbiddenException
 	 */
-	protected function saveUserSettings(IUser $user, array $data) {
+	protected function saveUserSettings(IUser $user, array $data): void {
 		// keep the user back-end up-to-date with the latest display name and email
 		// address
 		$oldDisplayName = $user->getDisplayName();
 		$oldDisplayName = is_null($oldDisplayName) ? '' : $oldDisplayName;
-		if (isset($data[AccountManager::PROPERTY_DISPLAYNAME]['value'])
-			&& $oldDisplayName !== $data[AccountManager::PROPERTY_DISPLAYNAME]['value']
+		if (isset($data[IAccountManager::PROPERTY_DISPLAYNAME]['value'])
+			&& $oldDisplayName !== $data[IAccountManager::PROPERTY_DISPLAYNAME]['value']
 		) {
-			$result = $user->setDisplayName($data[AccountManager::PROPERTY_DISPLAYNAME]['value']);
+			$result = $user->setDisplayName($data[IAccountManager::PROPERTY_DISPLAYNAME]['value']);
 			if ($result === false) {
 				throw new ForbiddenException($this->l10n->t('Unable to change full name'));
 			}
 		}
 		$oldEmailAddress = $user->getEMailAddress();
 		$oldEmailAddress = is_null($oldEmailAddress) ? '' : strtolower($oldEmailAddress);
-		if (isset($data[AccountManager::PROPERTY_EMAIL]['value'])
-			&& $oldEmailAddress !== $data[AccountManager::PROPERTY_EMAIL]['value']
+		if (isset($data[IAccountManager::PROPERTY_EMAIL]['value'])
+			&& $oldEmailAddress !== $data[IAccountManager::PROPERTY_EMAIL]['value']
 		) {
 			// this is the only permission a backend provides and is also used
 			// for the permission of setting a email address
 			if (!$user->canChangeDisplayName()) {
 				throw new ForbiddenException($this->l10n->t('Unable to change email address'));
 			}
-			$user->setEMailAddress($data[AccountManager::PROPERTY_EMAIL]['value']);
+			$user->setEMailAddress($data[IAccountManager::PROPERTY_EMAIL]['value']);
 		}
 		$this->accountManager->updateUser($user, $data);
 	}
@@ -479,19 +481,19 @@ class UsersController extends Controller {
 
 		switch ($account) {
 			case 'verify-twitter':
-				$accountData[AccountManager::PROPERTY_TWITTER]['verified'] = AccountManager::VERIFICATION_IN_PROGRESS;
+				$accountData[IAccountManager::PROPERTY_TWITTER]['verified'] = AccountManager::VERIFICATION_IN_PROGRESS;
 				$msg = $this->l10n->t('In order to verify your Twitter account, post the following tweet on Twitter (please make sure to post it without any line breaks):');
 				$code = $codeMd5;
-				$type = AccountManager::PROPERTY_TWITTER;
-				$data = $accountData[AccountManager::PROPERTY_TWITTER]['value'];
-				$accountData[AccountManager::PROPERTY_TWITTER]['signature'] = $signature;
+				$type = IAccountManager::PROPERTY_TWITTER;
+				$data = $accountData[IAccountManager::PROPERTY_TWITTER]['value'];
+				$accountData[IAccountManager::PROPERTY_TWITTER]['signature'] = $signature;
 				break;
 			case 'verify-website':
-				$accountData[AccountManager::PROPERTY_WEBSITE]['verified'] = AccountManager::VERIFICATION_IN_PROGRESS;
+				$accountData[IAccountManager::PROPERTY_WEBSITE]['verified'] = AccountManager::VERIFICATION_IN_PROGRESS;
 				$msg = $this->l10n->t('In order to verify your Website, store the following content in your web-root at \'.well-known/CloudIdVerificationCode.txt\' (please make sure that the complete text is in one line):');
-				$type = AccountManager::PROPERTY_WEBSITE;
-				$data = $accountData[AccountManager::PROPERTY_WEBSITE]['value'];
-				$accountData[AccountManager::PROPERTY_WEBSITE]['signature'] = $signature;
+				$type = IAccountManager::PROPERTY_WEBSITE;
+				$data = $accountData[IAccountManager::PROPERTY_WEBSITE]['value'];
+				$accountData[IAccountManager::PROPERTY_WEBSITE]['signature'] = $signature;
 				break;
 			default:
 				return new DataResponse([], Http::STATUS_BAD_REQUEST);

@@ -173,7 +173,7 @@ class AccountManager implements IAccountManager {
 					'lastRun' => time()
 				]
 			);
-			$newData[AccountManager::PROPERTY_EMAIL]['verified'] = AccountManager::VERIFICATION_IN_PROGRESS;
+			$newData[self::PROPERTY_EMAIL]['verified'] = self::VERIFICATION_IN_PROGRESS;
 		}
 
 		return $newData;

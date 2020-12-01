@@ -48,6 +48,7 @@ use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\Provisioning_API\Controller\UsersController;
 use OCA\Provisioning_API\FederatedShareProviderFactory;
 use OCA\Settings\Mailer\NewUserMailHelper;
+use OCP\Accounts\IAccountManager;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -993,10 +994,10 @@ class UsersControllerTest extends TestCase {
 			->with($targetUser)
 			->willReturn(
 				[
-					AccountManager::PROPERTY_ADDRESS => ['value' => 'address'],
-					AccountManager::PROPERTY_PHONE => ['value' => 'phone'],
-					AccountManager::PROPERTY_TWITTER => ['value' => 'twitter'],
-					AccountManager::PROPERTY_WEBSITE => ['value' => 'website'],
+					IAccountManager::PROPERTY_ADDRESS => ['value' => 'address'],
+					IAccountManager::PROPERTY_PHONE => ['value' => 'phone'],
+					IAccountManager::PROPERTY_TWITTER => ['value' => 'twitter'],
+					IAccountManager::PROPERTY_WEBSITE => ['value' => 'website'],
 				]
 			);
 		$this->config
@@ -1162,10 +1163,10 @@ class UsersControllerTest extends TestCase {
 			->with($targetUser)
 			->willReturn(
 				[
-					AccountManager::PROPERTY_ADDRESS => ['value' => 'address'],
-					AccountManager::PROPERTY_PHONE => ['value' => 'phone'],
-					AccountManager::PROPERTY_TWITTER => ['value' => 'twitter'],
-					AccountManager::PROPERTY_WEBSITE => ['value' => 'website'],
+					IAccountManager::PROPERTY_ADDRESS => ['value' => 'address'],
+					IAccountManager::PROPERTY_PHONE => ['value' => 'phone'],
+					IAccountManager::PROPERTY_TWITTER => ['value' => 'twitter'],
+					IAccountManager::PROPERTY_WEBSITE => ['value' => 'website'],
 				]
 			);
 
@@ -1333,10 +1334,10 @@ class UsersControllerTest extends TestCase {
 			->with($targetUser)
 			->willReturn(
 				[
-					AccountManager::PROPERTY_ADDRESS => ['value' => 'address'],
-					AccountManager::PROPERTY_PHONE => ['value' => 'phone'],
-					AccountManager::PROPERTY_TWITTER => ['value' => 'twitter'],
-					AccountManager::PROPERTY_WEBSITE => ['value' => 'website'],
+					IAccountManager::PROPERTY_ADDRESS => ['value' => 'address'],
+					IAccountManager::PROPERTY_PHONE => ['value' => 'phone'],
+					IAccountManager::PROPERTY_TWITTER => ['value' => 'twitter'],
+					IAccountManager::PROPERTY_WEBSITE => ['value' => 'website'],
 				]
 			);
 
@@ -3566,22 +3567,22 @@ class UsersControllerTest extends TestCase {
 		return [
 			[false, false, []],
 			[false,  true, [
-				AccountManager::PROPERTY_PHONE,
-				AccountManager::PROPERTY_ADDRESS,
-				AccountManager::PROPERTY_WEBSITE,
-				AccountManager::PROPERTY_TWITTER,
+				IAccountManager::PROPERTY_PHONE,
+				IAccountManager::PROPERTY_ADDRESS,
+				IAccountManager::PROPERTY_WEBSITE,
+				IAccountManager::PROPERTY_TWITTER,
 			]],
 			[ true, false, [
-				AccountManager::PROPERTY_DISPLAYNAME,
-				AccountManager::PROPERTY_EMAIL,
+				IAccountManager::PROPERTY_DISPLAYNAME,
+				IAccountManager::PROPERTY_EMAIL,
 			]],
 			[ true,  true ,[
-				AccountManager::PROPERTY_DISPLAYNAME,
-				AccountManager::PROPERTY_EMAIL,
-				AccountManager::PROPERTY_PHONE,
-				AccountManager::PROPERTY_ADDRESS,
-				AccountManager::PROPERTY_WEBSITE,
-				AccountManager::PROPERTY_TWITTER,
+				IAccountManager::PROPERTY_DISPLAYNAME,
+				IAccountManager::PROPERTY_EMAIL,
+				IAccountManager::PROPERTY_PHONE,
+				IAccountManager::PROPERTY_ADDRESS,
+				IAccountManager::PROPERTY_WEBSITE,
+				IAccountManager::PROPERTY_TWITTER,
 			]]
 		];
 	}

@@ -24,6 +24,7 @@
 
 namespace OC\Accounts;
 
+use OCP\Accounts\IAccountManager;
 use OCP\IUser;
 use Psr\Log\LoggerInterface;
 
@@ -61,14 +62,14 @@ class Hooks {
 
 		switch ($feature) {
 			case 'eMailAddress':
-				if ($accountData[AccountManager::PROPERTY_EMAIL]['value'] !== $newValue) {
-					$accountData[AccountManager::PROPERTY_EMAIL]['value'] = $newValue;
+				if ($accountData[IAccountManager::PROPERTY_EMAIL]['value'] !== $newValue) {
+					$accountData[IAccountManager::PROPERTY_EMAIL]['value'] = $newValue;
 					$accountManager->updateUser($user, $accountData);
 				}
 				break;
 			case 'displayName':
-				if ($accountData[AccountManager::PROPERTY_DISPLAYNAME]['value'] !== $newValue) {
-					$accountData[AccountManager::PROPERTY_DISPLAYNAME]['value'] = $newValue;
+				if ($accountData[IAccountManager::PROPERTY_DISPLAYNAME]['value'] !== $newValue) {
+					$accountData[IAccountManager::PROPERTY_DISPLAYNAME]['value'] = $newValue;
 					$accountManager->updateUser($user, $accountData);
 				}
 				break;
