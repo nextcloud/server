@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = $vendorDir;
 
 return array(
+    'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
     'OCA\\FederatedFileSharing\\AddressHandler' => $baseDir . '/../lib/AddressHandler.php',
     'OCA\\FederatedFileSharing\\AppInfo\\Application' => $baseDir . '/../lib/AppInfo/Application.php',
     'OCA\\FederatedFileSharing\\BackgroundJob\\RetryJob' => $baseDir . '/../lib/BackgroundJob/RetryJob.php',

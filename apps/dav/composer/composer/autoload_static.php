@@ -21,6 +21,7 @@ class ComposerStaticInitDAV
     );
 
     public static $classMap = array (
+        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'OCA\\DAV\\AppInfo\\Application' => __DIR__ . '/..' . '/../lib/AppInfo/Application.php',
         'OCA\\DAV\\AppInfo\\PluginManager' => __DIR__ . '/..' . '/../lib/AppInfo/PluginManager.php',
         'OCA\\DAV\\Avatars\\AvatarHome' => __DIR__ . '/..' . '/../lib/Avatars/AvatarHome.php',

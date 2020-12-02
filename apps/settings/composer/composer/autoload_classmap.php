@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = $vendorDir;
 
 return array(
+    'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
     'OCA\\Settings\\Activity\\GroupProvider' => $baseDir . '/../lib/Activity/GroupProvider.php',
     'OCA\\Settings\\Activity\\GroupSetting' => $baseDir . '/../lib/Activity/GroupSetting.php',
     'OCA\\Settings\\Activity\\Provider' => $baseDir . '/../lib/Activity/Provider.php',

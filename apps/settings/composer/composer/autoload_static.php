@@ -21,6 +21,7 @@ class ComposerStaticInitSettings
     );
 
     public static $classMap = array (
+        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'OCA\\Settings\\Activity\\GroupProvider' => __DIR__ . '/..' . '/../lib/Activity/GroupProvider.php',
         'OCA\\Settings\\Activity\\GroupSetting' => __DIR__ . '/..' . '/../lib/Activity/GroupSetting.php',
         'OCA\\Settings\\Activity\\Provider' => __DIR__ . '/..' . '/../lib/Activity/Provider.php',

@@ -21,6 +21,7 @@ class ComposerStaticInitFederatedFileSharing
     );
 
     public static $classMap = array (
+        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'OCA\\FederatedFileSharing\\AddressHandler' => __DIR__ . '/..' . '/../lib/AddressHandler.php',
         'OCA\\FederatedFileSharing\\AppInfo\\Application' => __DIR__ . '/..' . '/../lib/AppInfo/Application.php',
         'OCA\\FederatedFileSharing\\BackgroundJob\\RetryJob' => __DIR__ . '/..' . '/../lib/BackgroundJob/RetryJob.php',

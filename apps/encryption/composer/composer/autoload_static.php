@@ -21,6 +21,7 @@ class ComposerStaticInitEncryption
     );
 
     public static $classMap = array (
+        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'OCA\\Encryption\\AppInfo\\Application' => __DIR__ . '/..' . '/../lib/AppInfo/Application.php',
         'OCA\\Encryption\\Command\\DisableMasterKey' => __DIR__ . '/..' . '/../lib/Command/DisableMasterKey.php',
         'OCA\\Encryption\\Command\\EnableMasterKey' => __DIR__ . '/..' . '/../lib/Command/EnableMasterKey.php',

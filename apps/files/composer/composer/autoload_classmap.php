@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = $vendorDir;
 
 return array(
+    'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
     'OCA\\Files\\Activity\\FavoriteProvider' => $baseDir . '/../lib/Activity/FavoriteProvider.php',
     'OCA\\Files\\Activity\\Filter\\Favorites' => $baseDir . '/../lib/Activity/Filter/Favorites.php',
     'OCA\\Files\\Activity\\Filter\\FileChanges' => $baseDir . '/../lib/Activity/Filter/FileChanges.php',

@@ -21,6 +21,7 @@ class ComposerStaticInitUser_LDAP
     );
 
     public static $classMap = array (
+        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'OCA\\User_LDAP\\Access' => __DIR__ . '/..' . '/../lib/Access.php',
         'OCA\\User_LDAP\\AccessFactory' => __DIR__ . '/..' . '/../lib/AccessFactory.php',
         'OCA\\User_LDAP\\AppInfo\\Application' => __DIR__ . '/..' . '/../lib/AppInfo/Application.php',

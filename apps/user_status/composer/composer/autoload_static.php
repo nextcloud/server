@@ -21,6 +21,7 @@ class ComposerStaticInitUserStatus
     );
 
     public static $classMap = array (
+        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'OCA\\UserStatus\\AppInfo\\Application' => __DIR__ . '/..' . '/../lib/AppInfo/Application.php',
         'OCA\\UserStatus\\BackgroundJob\\ClearOldStatusesBackgroundJob' => __DIR__ . '/..' . '/../lib/BackgroundJob/ClearOldStatusesBackgroundJob.php',
         'OCA\\UserStatus\\Capabilities' => __DIR__ . '/..' . '/../lib/Capabilities.php',
