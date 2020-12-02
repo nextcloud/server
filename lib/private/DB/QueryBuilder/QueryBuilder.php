@@ -193,25 +193,33 @@ class QueryBuilder implements IQueryBuilder {
 	 */
 	public function execute() {
 		if ($this->systemConfig->getValue('log_query', false)) {
-			$params = [];
-			foreach ($this->getParameters() as $placeholder => $value) {
-				if (is_array($value)) {
-					$params[] = $placeholder . ' => (\'' . implode('\', \'', $value) . '\')';
-				} else {
-					$params[] = $placeholder . ' => \'' . $value . '\'';
+			try {
+				$params = [];
+				foreach ($this->getParameters() as $placeholder => $value) {
+					if ($value instanceof \DateTime) {
+						$params[] = $placeholder . ' => DateTime:\'' . $value->format('c') . '\'';
+					} elseif (is_array($value)) {
+						$params[] = $placeholder . ' => (\'' . implode('\', \'', $value) . '\')';
+					} else {
+						$params[] = $placeholder . ' => \'' . $value . '\'';
+					}
 				}
-			}
-			if (empty($params)) {
-				$this->logger->debug('DB QueryBuilder: \'{query}\'', [
-					'query' => $this->getSQL(),
-					'app' => 'core',
-				]);
-			} else {
-				$this->logger->debug('DB QueryBuilder: \'{query}\' with parameters: {params}', [
-					'query' => $this->getSQL(),
-					'params' => implode(', ', $params),
-					'app' => 'core',
-				]);
+				if (empty($params)) {
+					$this->logger->debug('DB QueryBuilder: \'{query}\'', [
+						'query' => $this->getSQL(),
+						'app' => 'core',
+					]);
+				} else {
+					$this->logger->debug('DB QueryBuilder: \'{query}\' with parameters: {params}', [
+						'query' => $this->getSQL(),
+						'params' => implode(', ', $params),
+						'app' => 'core',
+					]);
+				}
+			} catch (\Error $e) {
+				// likely an error during conversion of $value to string
+				$this->logger->debug('DB QueryBuilder: error trying to log SQL query');
+				$this->logger->logException($e);
 			}
 		}
 
