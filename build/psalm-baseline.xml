@@ -3281,6 +3281,21 @@
       <code>''</code>
     </TypeDoesNotContainType>
   </file>
+  <file src="lib/private/Command/ClosureJob.php">
+    <UndefinedFunction occurrences="1">
+      <code>\Opis\Closure\unserialize($serializedCallable)</code>
+    </UndefinedFunction>
+  </file>
+  <file src="lib/private/Command/CommandJob.php">
+    <UndefinedFunction occurrences="1">
+      <code>\Opis\Closure\unserialize($serializedCommand)</code>
+    </UndefinedFunction>
+  </file>
+  <file src="lib/private/Command/CronBus.php">
+    <UndefinedFunction occurrences="1">
+      <code>\Opis\Closure\serialize($command)</code>
+    </UndefinedFunction>
+  </file>
   <file src="lib/private/Comments/Comment.php">
     <ImplementedReturnTypeMismatch occurrences="1">
       <code>\DateTime|null</code>
