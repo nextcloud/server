@@ -24,8 +24,11 @@ namespace Test\Support\Subscription;
 
 use OC\Support\Subscription\Registry;
 use OCP\IConfig;
+use OCP\IGroup;
+use OCP\IGroupManager;
 use OCP\IServerContainer;
 use OCP\IUserManager;
+use OCP\Notification\IManager;
 use OCP\Support\Subscription\ISubscription;
 use OCP\Support\Subscription\ISupportedApps;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -46,8 +49,14 @@ class RegistryTest extends TestCase {
 	/** @var MockObject|IUserManager */
 	private $userManager;
 
+	/** @var MockObject|IGroupManager */
+	private $groupManager;
+
 	/** @var MockObject|LoggerInterface */
 	private $logger;
+
+	/** @var MockObject|IManager */
+	private $notificationManager;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -55,12 +64,16 @@ class RegistryTest extends TestCase {
 		$this->config = $this->createMock(IConfig::class);
 		$this->serverContainer = $this->createMock(IServerContainer::class);
 		$this->userManager = $this->createMock(IUserManager::class);
+		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
+		$this->notificationManager = $this->createMock(IManager::class);
 		$this->registry = new Registry(
 			$this->config,
 			$this->serverContainer,
 			$this->userManager,
-			$this->logger
+			$this->groupManager,
+			$this->logger,
+			$this->notificationManager
 		);
 	}
 
@@ -153,6 +166,13 @@ class RegistryTest extends TestCase {
 			->method('isHardUserLimitReached')
 			->willReturn(true);
 		$this->registry->register($subscription);
+		$dummyGroup = $this->createMock(IGroup::class);
+		$dummyGroup->expects($this->once())
+			->method('getUsers')
+			->willReturn([]);
+		$this->groupManager->expects($this->once())
+			->method('get')
+			->willReturn($dummyGroup);
 
 		$this->assertSame(true, $this->registry->delegateIsHardUserLimitReached());
 	}
@@ -203,6 +223,16 @@ class RegistryTest extends TestCase {
 		$this->userManager->expects($this->once())
 			->method('getBackends')
 			->willReturn([$dummyBackend]);
+
+		if ($expectedResult) {
+			$dummyGroup = $this->createMock(IGroup::class);
+			$dummyGroup->expects($this->once())
+				->method('getUsers')
+				->willReturn([]);
+			$this->groupManager->expects($this->once())
+				->method('get')
+				->willReturn($dummyGroup);
+		}
 
 		$this->assertSame($expectedResult, $this->registry->delegateIsHardUserLimitReached());
 	}
