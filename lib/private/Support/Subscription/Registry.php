@@ -31,8 +31,10 @@ namespace OC\Support\Subscription;
 use OC\User\Backend;
 use OCP\AppFramework\QueryException;
 use OCP\IConfig;
+use OCP\IGroupManager;
 use OCP\IServerContainer;
 use OCP\IUserManager;
+use OCP\Notification\IManager;
 use OCP\Support\Subscription\Exception\AlreadyRegisteredException;
 use OCP\Support\Subscription\IRegistry;
 use OCP\Support\Subscription\ISubscription;
@@ -54,17 +56,25 @@ class Registry implements IRegistry {
 	private $container;
 	/** @var IUserManager */
 	private $userManager;
+	/** @var IGroupManager */
+	private $groupManager;
 	/** @var LoggerInterface */
 	private $logger;
+	/** @var IManager */
+	private $notificationManager;
 
 	public function __construct(IConfig $config,
 								IServerContainer $container,
 								IUserManager $userManager,
-								LoggerInterface $logger) {
+								IGroupManager $groupManager,
+								LoggerInterface $logger,
+								IManager $notificationManager) {
 		$this->config = $config;
 		$this->container = $container;
 		$this->userManager = $userManager;
+		$this->groupManager = $groupManager;
 		$this->logger = $logger;
+		$this->notificationManager = $notificationManager;
 	}
 
 	private function getSubscription(): ?ISubscription {
@@ -208,7 +218,18 @@ class Registry implements IRegistry {
 	}
 
 	private function notifyAboutReachedUserLimit() {
-		// TODO notify admin about reached user limit
+		$admins = $this->groupManager->get('admin')->getUsers();
+		foreach ($admins as $admin) {
+			$notification = $this->notificationManager->createNotification();
+
+			$notification->setApp('core')
+				->setUser($admin->getUID())
+				->setDateTime(new \DateTime())
+				->setObject('user_limit_reached', '1')
+				->setSubject('user_limit_reached');
+			$this->notificationManager->notify($notification);
+		}
+
 		$this->logger->warning('The user limit was reached and the new user was not created', ['app' => 'lib']);
 	}
 }
