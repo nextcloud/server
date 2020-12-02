@@ -29,6 +29,7 @@ declare(strict_types=1);
 
 namespace OC\Core\Notification;
 
+use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
 use OCP\Notification\INotification;
 use OCP\Notification\INotifier;
@@ -36,9 +37,12 @@ use OCP\Notification\INotifier;
 class CoreNotifier implements INotifier {
 	/** @var IFactory */
 	private $l10nFactory;
+	/** @var IURLGenerator */
+	private $url;
 
-	public function __construct(IFactory $factory) {
+	public function __construct(IFactory $factory, IURLGenerator $url) {
 		$this->l10nFactory = $factory;
+		$this->url = $url;
 	}
 
 	/**
@@ -78,6 +82,7 @@ class CoreNotifier implements INotifier {
 			$notification->setParsedSubject($l->t('The user limit of this instance is reached.'));
 			$notification->setParsedMessage($l->t('Add a subscription key to increase the user limit of this instance. For more information have a look at the Enterprise subscription page.'));
 			$notification->setLink('https://nextcloud.com/enterprise/order/');
+			$notification->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'places/contacts.svg')));
 			return $notification;
 		}
 
