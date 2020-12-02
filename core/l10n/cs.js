@@ -259,6 +259,7 @@ OC.L10N.register(
     "Too many requests" : "Příliš mnoho požadavků",
     "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "Z vaší sítě bylo příliš mnoho požadavků. Zkuste to později nebo (pokud je toto chyba) se obraťte na svého správce.",
     "Error" : "Chyba",
+    "Previous" : "Předchozí",
     "Internal Server Error" : "Vnitřní chyba serveru",
     "The server was unable to complete your request." : "Server nemohl dokončit váš požadavek.",
     "If this happens again, please send the technical details below to the server administrator." : "Pokud se toto stane znovu, pošlete níže uvedené technické podrobnosti správci serveru.",
