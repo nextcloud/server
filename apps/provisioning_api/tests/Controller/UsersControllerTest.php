@@ -52,11 +52,13 @@ use OCP\Accounts\IAccountManager;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Federation\ICloudIdManager;
 use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IL10N;
 use OCP\ILogger;
 use OCP\IRequest;
+use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
@@ -86,6 +88,10 @@ class UsersControllerTest extends TestCase {
 	protected $api;
 	/** @var AccountManager|MockObject */
 	protected $accountManager;
+	/** @var ICloudIdManager|MockObject */
+	protected $cloudIdManager;
+	/** @var IURLGenerator|MockObject */
+	protected $urlGenerator;
 	/** @var IRequest|MockObject */
 	protected $request;
 	/** @var IFactory|MockObject */
@@ -112,6 +118,8 @@ class UsersControllerTest extends TestCase {
 		$this->logger = $this->createMock(ILogger::class);
 		$this->request = $this->createMock(IRequest::class);
 		$this->accountManager = $this->createMock(AccountManager::class);
+		$this->cloudIdManager = $this->createMock(ICloudIdManager::class);
+		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->l10nFactory = $this->createMock(IFactory::class);
 		$this->newUserMailHelper = $this->createMock(NewUserMailHelper::class);
 		$this->federatedShareProviderFactory = $this->createMock(FederatedShareProviderFactory::class);
@@ -129,6 +137,8 @@ class UsersControllerTest extends TestCase {
 				$this->groupManager,
 				$this->userSession,
 				$this->accountManager,
+				$this->cloudIdManager,
+				$this->urlGenerator,
 				$this->logger,
 				$this->l10nFactory,
 				$this->newUserMailHelper,
@@ -382,7 +392,7 @@ class UsersControllerTest extends TestCase {
 	}
 
 	public function testAddUserSuccessfulWithDisplayName() {
-		$api = $this->getMockBuilder('OCA\Provisioning_API\Controller\UsersController')
+		$api = $this->getMockBuilder(UsersController::class)
 			->setConstructorArgs([
 				'provisioning_api',
 				$this->request,
@@ -392,6 +402,8 @@ class UsersControllerTest extends TestCase {
 				$this->groupManager,
 				$this->userSession,
 				$this->accountManager,
+				$this->cloudIdManager,
+				$this->urlGenerator,
 				$this->logger,
 				$this->l10nFactory,
 				$this->newUserMailHelper,
@@ -3163,7 +3175,7 @@ class UsersControllerTest extends TestCase {
 			->willReturn($user);
 
 		/** @var UsersController | MockObject $api */
-		$api = $this->getMockBuilder('OCA\Provisioning_API\Controller\UsersController')
+		$api = $this->getMockBuilder(UsersController::class)
 			->setConstructorArgs([
 				'provisioning_api',
 				$this->request,
@@ -3173,6 +3185,8 @@ class UsersControllerTest extends TestCase {
 				$this->groupManager,
 				$this->userSession,
 				$this->accountManager,
+				$this->cloudIdManager,
+				$this->urlGenerator,
 				$this->logger,
 				$this->l10nFactory,
 				$this->newUserMailHelper,
@@ -3228,7 +3242,7 @@ class UsersControllerTest extends TestCase {
 
 	public function testGetUser() {
 		/** @var UsersController | MockObject $api */
-		$api = $this->getMockBuilder('OCA\Provisioning_API\Controller\UsersController')
+		$api = $this->getMockBuilder(UsersController::class)
 			->setConstructorArgs([
 				'provisioning_api',
 				$this->request,
@@ -3238,6 +3252,8 @@ class UsersControllerTest extends TestCase {
 				$this->groupManager,
 				$this->userSession,
 				$this->accountManager,
+				$this->cloudIdManager,
+				$this->urlGenerator,
 				$this->logger,
 				$this->l10nFactory,
 				$this->newUserMailHelper,

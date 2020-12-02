@@ -41,6 +41,10 @@ declare(strict_types=1);
 
 namespace OCA\Provisioning_API\Controller;
 
+use libphonenumber\NumberParseException;
+use libphonenumber\PhoneNumber;
+use libphonenumber\PhoneNumberFormat;
+use libphonenumber\PhoneNumberUtil;
 use OC\Accounts\AccountManager;
 use OC\Authentication\Token\RemoteWipe;
 use OC\HintException;
@@ -51,11 +55,13 @@ use OCP\App\IAppManager;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
+use OCP\Federation\ICloudIdManager;
 use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\ILogger;
 use OCP\IRequest;
+use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
@@ -68,6 +74,10 @@ class UsersController extends AUserData {
 
 	/** @var IAppManager */
 	private $appManager;
+	/** @var ICloudIdManager */
+	protected $cloudIdManager;
+	/** @var IURLGenerator */
+	protected $urlGenerator;
 	/** @var ILogger */
 	private $logger;
 	/** @var IFactory */
@@ -91,6 +101,8 @@ class UsersController extends AUserData {
 								IGroupManager $groupManager,
 								IUserSession $userSession,
 								AccountManager $accountManager,
+								ICloudIdManager $cloudIdManager,
+								IURLGenerator $urlGenerator,
 								ILogger $logger,
 								IFactory $l10nFactory,
 								NewUserMailHelper $newUserMailHelper,
@@ -108,6 +120,8 @@ class UsersController extends AUserData {
 							$l10nFactory);
 
 		$this->appManager = $appManager;
+		$this->cloudIdManager = $cloudIdManager;
+		$this->urlGenerator = $urlGenerator;
 		$this->logger = $logger;
 		$this->l10nFactory = $l10nFactory;
 		$this->newUserMailHelper = $newUserMailHelper;
@@ -200,6 +214,54 @@ class UsersController extends AUserData {
 		return new DataResponse([
 			'users' => $usersDetails
 		]);
+	}
+
+
+	/**
+	 * @NoAdminRequired
+	 * @NoSubAdminRequired
+	 *
+	 * @param string $location
+	 * @param array $search
+	 * @return DataResponse
+	 */
+	public function searchByPhoneNumbers(string $location, array $search): DataResponse {
+		$phoneUtil = PhoneNumberUtil::getInstance();
+
+		$normalizedNumberToKey = [];
+		foreach ($search as $key => $phoneNumbers) {
+			foreach ($phoneNumbers as $phone) {
+				try {
+					$phoneNumber = $phoneUtil->parse($phone, $location);
+					if ($phoneNumber instanceof PhoneNumber && $phoneUtil->isValidNumber($phoneNumber)) {
+						$normalizedNumber = $phoneUtil->format($phoneNumber, PhoneNumberFormat::E164);
+						$normalizedNumberToKey[$normalizedNumber] = (string) $key;
+					}
+				} catch (NumberParseException $e) {
+				}
+			}
+		}
+
+		$phoneNumbers = array_keys($normalizedNumberToKey);
+
+		if (empty($phoneNumbers)) {
+			return new DataResponse();
+		}
+
+		$userMatches = $this->accountManager->searchUsers(IAccountManager::PROPERTY_PHONE, $phoneNumbers);
+
+		if (empty($userMatches)) {
+			return new DataResponse();
+		}
+
+		$cloudUrl = $this->urlGenerator->getAbsoluteURL('/');
+
+		$matches = [];
+		foreach ($userMatches as $phone => $userId) {
+			$matches[$normalizedNumberToKey[$phone]] = $this->cloudIdManager->getCloudId($userId, $cloudUrl)->getId();
+		}
+
+		return new DataResponse($matches);
 	}
 
 	/**

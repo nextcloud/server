@@ -65,4 +65,15 @@ interface IAccountManager {
 	 * @return IAccount
 	 */
 	public function getAccount(IUser $user): IAccount;
+
+	/**
+	 * Search for users based on account data
+	 *
+	 * @param string $property
+	 * @param string[] $values
+	 * @return array
+	 *
+	 * @since 21.0.0
+	 */
+	public function searchUsers(string $property, array $values): array;
 }

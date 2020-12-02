@@ -34,6 +34,7 @@ use OCA\Settings\BackgroundJobs\VerifyUserData;
 use OCP\Accounts\IAccount;
 use OCP\Accounts\IAccountManager;
 use OCP\BackgroundJob\IJobList;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\IUser;
 use Psr\Log\LoggerInterface;
@@ -169,6 +170,24 @@ class AccountManager implements IAccountManager {
 		$userDataArray = $this->addMissingDefaultValues($userDataArray);
 
 		return $userDataArray;
+	}
+
+	public function searchUsers(string $property, array $values): array {
+		$query = $this->connection->getQueryBuilder();
+		$query->select('*')
+			->from($this->dataTable)
+			->where($query->expr()->eq('name', $query->createNamedParameter($property)))
+			->andWhere($query->expr()->in('value', $query->createNamedParameter($values, IQueryBuilder::PARAM_STR_ARRAY)));
+
+		$result = $query->execute();
+		$matches = [];
+
+		while ($row = $result->fetch()) {
+			$matches[$row['value']] = $row['uid'];
+		}
+		$result->closeCursor();
+
+		return $matches;
 	}
 
 	/**
