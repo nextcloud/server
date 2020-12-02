@@ -30,6 +30,10 @@
 
 namespace OC\Accounts;
 
+use libphonenumber\NumberParseException;
+use libphonenumber\PhoneNumber;
+use libphonenumber\PhoneNumberFormat;
+use libphonenumber\PhoneNumberUtil;
 use OCA\Settings\BackgroundJobs\VerifyUserData;
 use OCP\Accounts\IAccount;
 use OCP\Accounts\IAccountManager;
@@ -85,11 +89,29 @@ class AccountManager implements IAccountManager {
 	 * update user record
 	 *
 	 * @param IUser $user
-	 * @param $data
+	 * @param array $data
+	 * @return array The potentially modified data (e.g. phone numbers are converted to E.164 format)
+	 * @throws \InvalidArgumentException Message is the property that was invalid
 	 */
-	public function updateUser(IUser $user, $data) {
+	public function updateUser(IUser $user, array $data): array {
 		$userData = $this->getUser($user);
 		$updated = true;
+
+		if (isset($data[self::PROPERTY_PHONE])) {
+			$phoneUtil = PhoneNumberUtil::getInstance();
+			try {
+				$phoneValue = $data[self::PROPERTY_PHONE]['value'];
+				$phoneNumber = $phoneUtil->parse($phoneValue, 'DE'); // FIXME need a reasonable default
+				if ($phoneNumber instanceof PhoneNumber && $phoneUtil->isValidNumber($phoneNumber)) {
+					$data[self::PROPERTY_PHONE]['value'] = $phoneUtil->format($phoneNumber, PhoneNumberFormat::E164);
+				} else {
+					throw new \InvalidArgumentException(self::PROPERTY_PHONE);
+				}
+			} catch (NumberParseException $e) {
+				throw new \InvalidArgumentException(self::PROPERTY_PHONE);
+			}
+		}
+
 		if (empty($userData)) {
 			$this->insertNewUser($user, $data);
 		} elseif ($userData !== $data) {
@@ -107,6 +129,8 @@ class AccountManager implements IAccountManager {
 				new GenericEvent($user, $data)
 			);
 		}
+
+		return $data;
 	}
 
 	/**

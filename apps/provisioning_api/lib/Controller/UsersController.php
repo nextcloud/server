@@ -654,7 +654,11 @@ class UsersController extends AUserData {
 				$userAccount = $this->accountManager->getUser($targetUser);
 				if ($userAccount[$key]['value'] !== $value) {
 					$userAccount[$key]['value'] = $value;
-					$this->accountManager->updateUser($targetUser, $userAccount);
+					try {
+						$this->accountManager->updateUser($targetUser, $userAccount);
+					} catch (\InvalidArgumentException $e) {
+						throw new OCSException('Invalid ' . $e->getMessage(), 102);
+					}
 				}
 				break;
 			default:

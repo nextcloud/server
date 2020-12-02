@@ -35,10 +35,6 @@ declare(strict_types=1);
 
 namespace OCA\Settings\Controller;
 
-use libphonenumber\NumberParseException;
-use libphonenumber\PhoneNumber;
-use libphonenumber\PhoneNumberFormat;
-use libphonenumber\PhoneNumberUtil;
 use OC\Accounts\AccountManager;
 use OC\AppFramework\Http;
 use OC\Encryption\Exceptions\ModuleDoesNotExistsException;
@@ -469,24 +465,14 @@ class UsersController extends Controller {
 			$user->setEMailAddress($data[IAccountManager::PROPERTY_EMAIL]['value']);
 		}
 
-		if (isset($data[AccountManager::PROPERTY_PHONE])) {
-			$phoneUtil = PhoneNumberUtil::getInstance();
-			try {
-				$phoneValue = $data[AccountManager::PROPERTY_PHONE]['value'];
-				$phoneNumber = $phoneUtil->parse($phoneValue, 'DE'); // FIXME need a reasonable default
-				if ($phoneNumber instanceof PhoneNumber && $phoneUtil->isValidNumber($phoneNumber)) {
-					$data[AccountManager::PROPERTY_PHONE]['value'] = $phoneUtil->format($phoneNumber, PhoneNumberFormat::E164);
-				} else {
-					throw new \InvalidArgumentException($this->l10n->t('Unable to set invalid phone number'));
-				}
-			} catch (NumberParseException $e) {
+		try {
+			return $this->accountManager->updateUser($user, $data);
+		} catch (\InvalidArgumentException $e) {
+			if ($e->getMessage() === IAccountManager::PROPERTY_PHONE) {
 				throw new \InvalidArgumentException($this->l10n->t('Unable to set invalid phone number'));
 			}
+			throw new \InvalidArgumentException($this->l10n->t('Some account data was invalid'));
 		}
-
-		$this->accountManager->updateUser($user, $data);
-
-		return $data;
 	}
 
 	/**
@@ -521,14 +507,12 @@ class UsersController extends Controller {
 				$msg = $this->l10n->t('In order to verify your Twitter account, post the following tweet on Twitter (please make sure to post it without any line breaks):');
 				$code = $codeMd5;
 				$type = IAccountManager::PROPERTY_TWITTER;
-				$data = $accountData[IAccountManager::PROPERTY_TWITTER]['value'];
 				$accountData[IAccountManager::PROPERTY_TWITTER]['signature'] = $signature;
 				break;
 			case 'verify-website':
 				$accountData[IAccountManager::PROPERTY_WEBSITE]['verified'] = AccountManager::VERIFICATION_IN_PROGRESS;
 				$msg = $this->l10n->t('In order to verify your Website, store the following content in your web-root at \'.well-known/CloudIdVerificationCode.txt\' (please make sure that the complete text is in one line):');
 				$type = IAccountManager::PROPERTY_WEBSITE;
-				$data = $accountData[IAccountManager::PROPERTY_WEBSITE]['value'];
 				$accountData[IAccountManager::PROPERTY_WEBSITE]['signature'] = $signature;
 				break;
 			default:
@@ -536,7 +520,8 @@ class UsersController extends Controller {
 		}
 
 		if ($onlyVerificationCode === false) {
-			$this->accountManager->updateUser($user, $accountData);
+			$accountData = $this->accountManager->updateUser($user, $accountData);
+			$data = $accountData[$type]['value'];
 
 			$this->jobList->add(VerifyUserData::class,
 				[

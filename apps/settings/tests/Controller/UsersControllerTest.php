@@ -239,12 +239,14 @@ class UsersControllerTest extends \Test\TestCase {
 						],
 				]);
 
-			$controller->expects($this->once())->method('saveUserSettings');
+			$controller->expects($this->once())
+				->method('saveUserSettings')
+				->willReturnArgument(1);
 		} else {
 			$controller->expects($this->never())->method('saveUserSettings');
 		}
 
-		$result = $controller->setUserSettings(
+		$result = $controller->setUserSettings(//
 			AccountManager::VISIBILITY_CONTACTS_ONLY,
 			'displayName',
 			AccountManager::VISIBILITY_CONTACTS_ONLY,
@@ -471,7 +473,7 @@ class UsersControllerTest extends \Test\TestCase {
 		$controller->expects($this->any())->method('getCurrentTime')->willReturn(1234567);
 
 		if ($onlyVerificationCode === false) {
-			$this->accountManager->expects($this->once())->method('updateUser')->with($user, $expectedData);
+			$this->accountManager->expects($this->once())->method('updateUser')->with($user, $expectedData)->willReturnArgument(1);
 			$this->jobList->expects($this->once())->method('add')
 				->with('OCA\Settings\BackgroundJobs\VerifyUserData',
 					[
