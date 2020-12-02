@@ -5098,8 +5098,9 @@
     </UndefinedInterfaceMethod>
   </file>
   <file src="lib/private/Support/Subscription/Registry.php">
-    <UndefinedInterfaceMethod occurrences="1">
+    <UndefinedInterfaceMethod occurrences="2">
       <code>getSupportedApps</code>
+      <code>countUsers</code>
     </UndefinedInterfaceMethod>
   </file>
   <file src="lib/private/SystemTag/SystemTagManager.php">
