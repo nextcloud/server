@@ -55,9 +55,10 @@ class PersonalMount extends ExternalMountPoint implements MoveableMount {
 		$mountpoint,
 		$arguments = null,
 		$loader = null,
-		$mountOptions = null
+		$mountOptions = null,
+		$mountId = null
 	) {
-		parent::__construct($storage, $mountpoint, $arguments, $loader, $mountOptions);
+		parent::__construct($storage, $mountpoint, $arguments, $loader, $mountOptions, $mountId);
 		$this->storagesService = $storagesService;
 		$this->numericStorageId = $storageId;
 	}
