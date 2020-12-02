@@ -58,6 +58,9 @@ class AccountManager implements IAccountManager {
 	/** @var string table name */
 	private $table = 'accounts';
 
+	/** @var string table name */
+	private $dataTable = 'accounts_data';
+
 	/** @var EventDispatcherInterface */
 	private $eventDispatcher;
 
@@ -114,6 +117,21 @@ class AccountManager implements IAccountManager {
 		$uid = $user->getUID();
 		$query = $this->connection->getQueryBuilder();
 		$query->delete($this->table)
+			->where($query->expr()->eq('uid', $query->createNamedParameter($uid)))
+			->execute();
+
+		$this->deleteUserData($user);
+	}
+
+	/**
+	 * delete user from accounts table
+	 *
+	 * @param IUser $user
+	 */
+	public function deleteUserData(IUser $user): void {
+		$uid = $user->getUID();
+		$query = $this->connection->getQueryBuilder();
+		$query->delete($this->dataTable)
 			->where($query->expr()->eq('uid', $query->createNamedParameter($uid)))
 			->execute();
 	}
@@ -256,7 +274,7 @@ class AccountManager implements IAccountManager {
 	 * @param IUser $user
 	 * @param array $data
 	 */
-	protected function insertNewUser(IUser $user, $data) {
+	protected function insertNewUser(IUser $user, array $data): void {
 		$uid = $user->getUID();
 		$jsonEncodedData = json_encode($data);
 		$query = $this->connection->getQueryBuilder();
@@ -268,6 +286,9 @@ class AccountManager implements IAccountManager {
 				]
 			)
 			->execute();
+
+		$this->deleteUserData($user);
+		$this->writeUserData($user, $data);
 	}
 
 	/**
@@ -276,7 +297,7 @@ class AccountManager implements IAccountManager {
 	 * @param IUser $user
 	 * @param array $data
 	 */
-	protected function updateExistingUser(IUser $user, $data) {
+	protected function updateExistingUser(IUser $user, array $data): void {
 		$uid = $user->getUID();
 		$jsonEncodedData = json_encode($data);
 		$query = $this->connection->getQueryBuilder();
@@ -284,6 +305,30 @@ class AccountManager implements IAccountManager {
 			->set('data', $query->createNamedParameter($jsonEncodedData))
 			->where($query->expr()->eq('uid', $query->createNamedParameter($uid)))
 			->execute();
+
+		$this->deleteUserData($user);
+		$this->writeUserData($user, $data);
+	}
+
+	protected function writeUserData(IUser $user, array $data): void {
+		$query = $this->connection->getQueryBuilder();
+		$query->insert($this->dataTable)
+			->values(
+				[
+					'uid' => $query->createNamedParameter($user->getUID()),
+					'name' => $query->createParameter('name'),
+					'value' => $query->createParameter('value'),
+				]
+			);
+		foreach ($data as $propertyName => $property) {
+			if ($propertyName === self::PROPERTY_AVATAR) {
+				continue;
+			}
+
+			$query->setParameter('name', $propertyName)
+				->setParameter('value', $property['value']);
+			$query->execute();
+		}
 	}
 
 	/**
