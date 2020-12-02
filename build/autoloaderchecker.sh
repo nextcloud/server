@@ -42,6 +42,8 @@ do
     fi
 done
 
+rm composer.phar
+
 echo
 if [ $composerfile = true ]
 then
