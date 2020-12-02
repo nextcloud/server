@@ -7,6 +7,7 @@ declare(strict_types=1);
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
@@ -32,7 +33,7 @@ use OCP\L10N\IFactory;
 use OCP\Notification\INotification;
 use OCP\Notification\INotifier;
 
-class RemoveLinkSharesNotifier implements INotifier {
+class CoreNotifier implements INotifier {
 	/** @var IFactory */
 	private $l10nFactory;
 
@@ -70,6 +71,13 @@ class RemoveLinkSharesNotifier implements INotifier {
 			$notification->setParsedSubject($l->t('Some of your link shares have been removed'));
 			$notification->setParsedMessage($l->t('Due to a security bug we had to remove some of your link shares. Please see the link for more information.'));
 			$notification->setLink('https://nextcloud.com/security/advisory/?id=NC-SA-2019-003');
+			return $notification;
+		}
+
+		if ($notification->getSubject() === 'user_limit_reached') {
+			$notification->setParsedSubject($l->t('The user limit of this instance is reached.'));
+			$notification->setParsedMessage($l->t('Add a subscription key to increase the user limit of this instance. For more information have a look at the Enterprise subscription page.'));
+			$notification->setLink('https://nextcloud.com/enterprise/order/');
 			return $notification;
 		}
 

@@ -39,7 +39,7 @@ use OC\Authentication\Listeners\RemoteWipeNotificationsListener;
 use OC\Authentication\Listeners\UserDeletedStoreCleanupListener;
 use OC\Authentication\Listeners\UserDeletedTokenCleanupListener;
 use OC\Authentication\Notifications\Notifier as AuthenticationNotifier;
-use OC\Core\Notification\RemoveLinkSharesNotifier;
+use OC\Core\Notification\CoreNotifier;
 use OC\DB\MissingColumnInformation;
 use OC\DB\MissingIndexInformation;
 use OC\DB\MissingPrimaryKeyInformation;
@@ -71,7 +71,7 @@ class Application extends App {
 		$eventDispatcher = $server->query(IEventDispatcher::class);
 
 		$notificationManager = $server->getNotificationManager();
-		$notificationManager->registerNotifierService(RemoveLinkSharesNotifier::class);
+		$notificationManager->registerNotifierService(CoreNotifier::class);
 		$notificationManager->registerNotifierService(AuthenticationNotifier::class);
 
 		$oldEventDispatcher = $server->getEventDispatcher();
