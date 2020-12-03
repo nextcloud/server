@@ -36,9 +36,9 @@ declare(strict_types=1);
 
 namespace OC;
 
+use Nextcloud\LogNormalizer\Normalizer;
 use OCP\Log\IDataLogger;
 use function array_merge;
-use InterfaSys\LogNormalizer\Normalizer;
 
 use OC\Log\ExceptionSerializer;
 use OCP\ILogger;
