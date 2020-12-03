@@ -226,7 +226,11 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 				$property->setValue($object, array_pop($parameters));
 			}
 
-			return $property->getValue($object);
+			if (is_object($object)) {
+				return $property->getValue($object);
+			}
+
+			return $property->getValue();
 		}
 
 		return false;
