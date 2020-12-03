@@ -149,6 +149,7 @@ class ManagerTest extends TestCase {
 			'shareType' => IShare::TYPE_USER,
 			'accepted' => false,
 			'user' => $this->uid,
+			'remote_id' => '2342'
 		];
 		$shareData2 = $shareData1;
 		$shareData2['token'] = 'token2';
@@ -158,8 +159,8 @@ class ManagerTest extends TestCase {
 		$this->userManager->expects($this->any())->method('get')->willReturn($this->user);
 		$this->groupManager->expects($this->any())->method(('getUserGroups'))->willReturn([]);
 
-		$this->manager->expects($this->at(0))->method('tryOCMEndPoint')->with('http://localhost', 'token1', -1, 'accept')->willReturn(false);
-		$this->manager->expects($this->at(1))->method('tryOCMEndPoint')->with('http://localhost', 'token3', -1, 'decline')->willReturn(false);
+		$this->manager->expects($this->at(0))->method('tryOCMEndPoint')->with('http://localhost', 'token1', '2342', 'accept')->willReturn(false);
+		$this->manager->expects($this->at(1))->method('tryOCMEndPoint')->with('http://localhost', 'token3', '2342', 'decline')->willReturn(false);
 
 		// Add a share for "user"
 		$this->assertSame(null, call_user_func_array([$this->manager, 'addShare'], $shareData1));

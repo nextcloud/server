@@ -493,7 +493,7 @@ class FederatedShareProvider implements IShareProvider {
 			throw new ShareNotFound();
 		}
 
-		return (int)$data['remote_id'];
+		return (string)$data['remote_id'];
 	}
 
 	/**
