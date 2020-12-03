@@ -248,6 +248,7 @@ class Manager implements IManager {
 				throw new \InvalidArgumentException('SharedWith is not a valid circle');
 			}
 		} elseif ($share->getShareType() === IShare::TYPE_ROOM) {
+		} elseif ($share->getShareType() === IShare::TYPE_DECK) {
 		} else {
 			// We can't handle other types yet
 			throw new \InvalidArgumentException('unknown share type');
