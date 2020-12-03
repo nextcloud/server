@@ -752,6 +752,7 @@ Raw output
 				PhpOutputBuffering::class => ['pass' => $phpOutputBuffering->run(), 'description' => $phpOutputBuffering->description(), 'severity' => $phpOutputBuffering->severity()],
 				LegacySSEKeyFormat::class => ['pass' => $legacySSEKeyFormat->run(), 'description' => $legacySSEKeyFormat->description(), 'severity' => $legacySSEKeyFormat->severity(), 'linkToDocumentation' => $legacySSEKeyFormat->linkToDocumentation()],
 				CheckUserCertificates::class => ['pass' => $checkUserCertificates->run(), 'description' => $checkUserCertificates->description(), 'severity' => $checkUserCertificates->severity(), 'elements' => $checkUserCertificates->elements()],
+				'isDefaultPhoneRegionSet' => $this->config->getSystemValueString('default_phone_region', '') !== '',
 			]
 		);
 	}

@@ -251,6 +251,7 @@ describe('OC.SetupChecks tests', function() {
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
+					isDefaultPhoneRegionSet: true,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
 				})
@@ -306,6 +307,7 @@ describe('OC.SetupChecks tests', function() {
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
+					isDefaultPhoneRegionSet: true,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
 				})
@@ -362,6 +364,7 @@ describe('OC.SetupChecks tests', function() {
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
+					isDefaultPhoneRegionSet: true,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
 				})
@@ -416,6 +419,7 @@ describe('OC.SetupChecks tests', function() {
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
+					isDefaultPhoneRegionSet: true,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
 				})
@@ -468,6 +472,7 @@ describe('OC.SetupChecks tests', function() {
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
+					isDefaultPhoneRegionSet: true,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
 				})
@@ -522,6 +527,7 @@ describe('OC.SetupChecks tests', function() {
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
+					isDefaultPhoneRegionSet: true,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
 				})
@@ -574,6 +580,7 @@ describe('OC.SetupChecks tests', function() {
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
+					isDefaultPhoneRegionSet: true,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
 				})
@@ -626,6 +633,7 @@ describe('OC.SetupChecks tests', function() {
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
+					isDefaultPhoneRegionSet: true,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
 				})
@@ -678,6 +686,7 @@ describe('OC.SetupChecks tests', function() {
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
+					isDefaultPhoneRegionSet: true,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
 				})
@@ -751,6 +760,7 @@ describe('OC.SetupChecks tests', function() {
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
+					isDefaultPhoneRegionSet: true,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
 				})
@@ -804,6 +814,7 @@ describe('OC.SetupChecks tests', function() {
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
+					isDefaultPhoneRegionSet: true,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
 				})
@@ -857,6 +868,7 @@ describe('OC.SetupChecks tests', function() {
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
+					isDefaultPhoneRegionSet: true,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
 				})
@@ -910,6 +922,7 @@ describe('OC.SetupChecks tests', function() {
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
+					isDefaultPhoneRegionSet: true,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
 				})
@@ -962,6 +975,7 @@ describe('OC.SetupChecks tests', function() {
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: true,
+					isDefaultPhoneRegionSet: true,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
 				})
@@ -1014,6 +1028,7 @@ describe('OC.SetupChecks tests', function() {
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
+					isDefaultPhoneRegionSet: true,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyDocs: 'https://docs.nextcloud.com/foo/bar.html',
 					reverseProxyGeneratedURL: 'http://server',
@@ -1067,6 +1082,7 @@ describe('OC.SetupChecks tests', function() {
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
+					isDefaultPhoneRegionSet: true,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: false,
 					reverseProxyGeneratedURL: 'https://server',
 				})
@@ -1076,6 +1092,59 @@ describe('OC.SetupChecks tests', function() {
 				expect(data).toEqual([{
 					msg: 'This instance uses an S3 based object store as primary storage. The uploaded files are stored temporarily on the server and thus it is recommended to have 50 GB of free space available in the temp directory of PHP. Check the logs for full details about the path and the available space. To improve this please change the temporary directory in the php.ini or make more space available in that path.',
 					type: OC.SetupChecks.MESSAGE_TYPE_WARNING
+				}]);
+				done();
+			});
+		});
+
+		it('should return an info if there is no default phone region', function(done) {
+			var async = OC.SetupChecks.checkSetup();
+
+			suite.server.requests[0].respond(
+				200,
+				{
+					'Content-Type': 'application/json',
+				},
+				JSON.stringify({
+					hasFileinfoInstalled: true,
+					isGetenvServerWorking: true,
+					isReadOnlyConfig: false,
+					hasWorkingFileLocking: true,
+					hasValidTransactionIsolationLevel: true,
+					suggestedOverwriteCliURL: '',
+					isRandomnessSecure: true,
+					securityDocs: 'https://docs.owncloud.org/myDocs.html',
+					serverHasInternetConnectionProblems: false,
+					isMemcacheConfigured: true,
+					forwardedForHeadersWorking: true,
+					isCorrectMemcachedPHPModuleInstalled: true,
+					hasPassedCodeIntegrityCheck: true,
+					isOpcacheProperlySetup: true,
+					hasOpcacheLoaded: true,
+					isSettimelimitAvailable: true,
+					hasFreeTypeSupport: true,
+					missingIndexes: [],
+					missingPrimaryKeys: [],
+					missingColumns: [],
+					cronErrors: [],
+					cronInfo: {
+						diffInSeconds: 0
+					},
+					isMemoryLimitSufficient: true,
+					appDirsWithDifferentOwner: [],
+					recommendedPHPModules: [],
+					pendingBigIntConversionColumns: [],
+					isMysqlUsedWithoutUTF8MB4: false,
+					isDefaultPhoneRegionSet: false,
+					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
+					reverseProxyGeneratedURL: 'https://server',
+				})
+			);
+
+			async.done(function( data, s, x ){
+				expect(data).toEqual([{
+					msg: 'Your installation has no default phone region set. This is required to be able to validate phone numbers in the profile settings without a country code. To allow numbers without a country code, please add "default_phone_region" with the respective ISO 3166-1 code of the wished region.',
+					type: OC.SetupChecks.MESSAGE_TYPE_INFO
 				}]);
 				done();
 			});

@@ -76,7 +76,7 @@ Feature: provisioning
 		And the HTTP status code should be "200"
 		And sending "PUT" to "/cloud/users/brand-new-user" with
 			| key | phone |
-			| value | 0711 / 25 24 28-90 |
+			| value | +49 711 / 25 24 28-90 |
 		And the OCS status code should be "100"
 		And the HTTP status code should be "200"
 		And sending "PUT" to "/cloud/users/brand-new-user" with
@@ -108,7 +108,7 @@ Feature: provisioning
 		And user "phone-user" exists
 		And sending "PUT" to "/cloud/users/phone-user" with
 			| key | phone |
-			| value | 0711 / 25 24 28-90 |
+			| value | +49 711 / 25 24 28-90 |
 		And the OCS status code should be "100"
 		And the HTTP status code should be "200"
 		Then search users by phone for region "DE" with

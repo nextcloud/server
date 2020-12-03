@@ -39,6 +39,7 @@ use OCP\Accounts\IAccount;
 use OCP\Accounts\IAccountManager;
 use OCP\BackgroundJob\IJobList;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IUser;
 use Psr\Log\LoggerInterface;
@@ -60,6 +61,9 @@ class AccountManager implements IAccountManager {
 	/** @var  IDBConnection database connection */
 	private $connection;
 
+	/** @var IConfig */
+	private $config;
+
 	/** @var string table name */
 	private $table = 'accounts';
 
@@ -76,13 +80,44 @@ class AccountManager implements IAccountManager {
 	private $logger;
 
 	public function __construct(IDBConnection $connection,
+								IConfig $config,
 								EventDispatcherInterface $eventDispatcher,
 								IJobList $jobList,
 								LoggerInterface $logger) {
 		$this->connection = $connection;
+		$this->config = $config;
 		$this->eventDispatcher = $eventDispatcher;
 		$this->jobList = $jobList;
 		$this->logger = $logger;
+	}
+
+	/**
+	 * @param string $input
+	 * @return string Provided phone number in E.164 format when it was a valid number
+	 * @throws \InvalidArgumentException When the phone number was invalid or no default region is set and the number doesn't start with a country code
+	 */
+	protected function parsePhoneNumber(string $input): string {
+		$defaultRegion = $this->config->getSystemValueString('default_phone_region', '');
+
+		if ($defaultRegion === '') {
+			// When no default region is set, only +49… numbers are valid
+			if (strpos($input, '+') !== 0) {
+				throw new \InvalidArgumentException(self::PROPERTY_PHONE);
+			}
+
+			$defaultRegion = 'EN';
+		}
+
+		$phoneUtil = PhoneNumberUtil::getInstance();
+		try {
+			$phoneNumber = $phoneUtil->parse($input, $defaultRegion);
+			if ($phoneNumber instanceof PhoneNumber && $phoneUtil->isValidNumber($phoneNumber)) {
+				return $phoneUtil->format($phoneNumber, PhoneNumberFormat::E164);
+			}
+		} catch (NumberParseException $e) {
+		}
+
+		throw new \InvalidArgumentException(self::PROPERTY_PHONE);
 	}
 
 	/**
@@ -98,18 +133,7 @@ class AccountManager implements IAccountManager {
 		$updated = true;
 
 		if (isset($data[self::PROPERTY_PHONE])) {
-			$phoneUtil = PhoneNumberUtil::getInstance();
-			try {
-				$phoneValue = $data[self::PROPERTY_PHONE]['value'];
-				$phoneNumber = $phoneUtil->parse($phoneValue, 'DE'); // FIXME need a reasonable default
-				if ($phoneNumber instanceof PhoneNumber && $phoneUtil->isValidNumber($phoneNumber)) {
-					$data[self::PROPERTY_PHONE]['value'] = $phoneUtil->format($phoneNumber, PhoneNumberFormat::E164);
-				} else {
-					throw new \InvalidArgumentException(self::PROPERTY_PHONE);
-				}
-			} catch (NumberParseException $e) {
-				throw new \InvalidArgumentException(self::PROPERTY_PHONE);
-			}
+			$data[self::PROPERTY_PHONE]['value'] = $this->parsePhoneNumber($data[self::PROPERTY_PHONE]['value']);
 		}
 
 		if (empty($userData)) {

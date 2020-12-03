@@ -195,6 +195,16 @@ $CONFIG = [
 'default_locale' => 'en_US',
 
 /**
+ * This sets the default region for phone numbers on your Nextcloud server,
+ * using ISO 3166-1 country codes such as ``DE`` for Germany, ``FR`` for France, …
+ * It is required to allow inserting phone numbers in the user profiles starting
+ * without the country code (e.g. +49 for Germany).
+ *
+ * No default value!
+ */
+'default_phone_region' => 'EN',
+
+/**
  * With this setting a locale can be forced for all users. If a locale is
  * forced, the users are also unable to change their locale in the personal
  * settings. If users shall be unable to change their locale, but users have
