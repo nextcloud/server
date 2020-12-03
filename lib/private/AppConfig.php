@@ -348,10 +348,10 @@ class AppConfig implements IAppConfig {
 		$rows = $result->fetchAll();
 		foreach ($rows as $row) {
 			if (!isset($this->cache[$row['appid']])) {
-				$this->cache[$row['appid']] = [];
+				$this->cache[(string)$row['appid']] = [];
 			}
 
-			$this->cache[$row['appid']][$row['configkey']] = $row['configvalue'];
+			$this->cache[(string)$row['appid']][(string)$row['configkey']] = (string)$row['configvalue'];
 		}
 		$result->closeCursor();
 
