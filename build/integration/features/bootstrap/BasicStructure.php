@@ -307,21 +307,31 @@ trait BasicStructure {
 	 * @When Sending a :method to :url with requesttoken
 	 * @param string $method
 	 * @param string $url
+	 * @param TableNode|array|null $body
 	 */
-	public function sendingAToWithRequesttoken($method, $url) {
+	public function sendingAToWithRequesttoken($method, $url, $body = null) {
 		$baseUrl = substr($this->baseUrl, 0, -5);
+
+		$options = [
+			'cookies' => $this->cookieJar,
+			'headers' => [
+				'requesttoken' => $this->requestToken
+			],
+		];
+
+		if ($body instanceof TableNode) {
+			$fd = $body->getRowsHash();
+			$options['form_params'] = $fd;
+		} elseif ($body) {
+			$options = array_merge($options, $body);
+		}
 
 		$client = new Client();
 		try {
 			$this->response = $client->request(
 				$method,
 				$baseUrl . $url,
-				[
-					'cookies' => $this->cookieJar,
-					'headers' => [
-						'requesttoken' => $this->requestToken
-					]
-				]
+				$options
 			);
 		} catch (ClientException $e) {
 			$this->response = $e->getResponse();
