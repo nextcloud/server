@@ -178,7 +178,7 @@ trait BasicStructure {
 		$options = [];
 		if ($this->currentUser === 'admin') {
 			$options['auth'] = $this->adminUser;
-		} else {
+		} elseif (strpos($this->currentUser, 'anonymous') !== 0) {
 			$options['auth'] = [$this->currentUser, $this->regularUser];
 		}
 		$options['headers'] = [
@@ -218,7 +218,7 @@ trait BasicStructure {
 		$options = [];
 		if ($this->currentUser === 'admin') {
 			$options['auth'] = $this->adminUser;
-		} else {
+		} elseif (strpos($this->currentUser, 'anonymous') !== 0) {
 			$options['auth'] = [$this->currentUser, $this->regularUser];
 		}
 		if ($body instanceof TableNode) {
