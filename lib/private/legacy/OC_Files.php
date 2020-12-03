@@ -109,6 +109,7 @@ class OC_Files {
 	 * @param array $params ; 'head' boolean to only send header of the request ; 'range' http range header
 	 */
 	public static function get($dir, $files, $params = null) {
+		OC_Util::setupFS();
 		$view = \OC\Files\Filesystem::getView();
 		$getType = self::FILE;
 		$filename = $dir;
