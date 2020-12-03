@@ -72,6 +72,7 @@ class ListConfigs extends Base {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
+		/** @var string $app */
 		$app = $input->getArgument('app');
 		$noSensitiveValues = !$input->getOption('private');
 

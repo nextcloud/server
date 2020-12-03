@@ -66,6 +66,7 @@ class User implements IUser {
 
 	/** @var UserInterface|null */
 	private $backend;
+
 	/** @var EventDispatcherInterface */
 	private $legacyDispatcher;
 
@@ -127,23 +128,26 @@ class User implements IUser {
 	 *
 	 * @return string
 	 */
-	public function getDisplayName() {
-		if (!isset($this->displayName)) {
-			$displayName = '';
-			if ($this->backend && $this->backend->implementsActions(Backend::GET_DISPLAYNAME)) {
-				// get display name and strip whitespace from the beginning and end of it
-				$backendDisplayName = $this->backend->getDisplayName($this->uid);
-				if (is_string($backendDisplayName)) {
-					$displayName = trim($backendDisplayName);
-				}
-			}
+	public function getDisplayName(): string {
+		if ($this->displayName !== null) {
+			return $this->displayName;
+		}
 
-			if (!empty($displayName)) {
-				$this->displayName = $displayName;
-			} else {
-				$this->displayName = $this->uid;
+		$displayName = '';
+		if ($this->backend && $this->backend->implementsActions(Backend::GET_DISPLAYNAME)) {
+			// get display name and strip whitespace from the beginning and end of it
+			$backendDisplayName = $this->backend->getDisplayName($this->uid);
+			if (is_string($backendDisplayName)) {
+				$displayName = trim($backendDisplayName);
 			}
 		}
+
+		if (!empty($displayName)) {
+			$this->displayName = $displayName;
+		} else {
+			$this->displayName = $this->uid;
+		}
+
 		return $this->displayName;
 	}
 

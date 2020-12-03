@@ -196,6 +196,9 @@ class EmailProvider extends AbstractProvider {
 		}
 
 		$organizerEMail = substr($organizer->getValue(), 7);
+		if ($organizerEMail === false) {
+			return null;
+		}
 
 		$name = $organizer->offsetGet('CN');
 		if ($name instanceof Parameter) {

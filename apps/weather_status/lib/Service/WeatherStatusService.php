@@ -397,7 +397,7 @@ class WeatherStatusService {
 	 * @return array which contains the error message or the parsed JSON result
 	 */
 	private function requestJSON(string $url, array $params = []): array {
-		if (isset($this->cache)) {
+		if ($this->cache !== null) {
 			$cacheKey = $url . '|' . implode(',', $params) . '|' . implode(',', array_keys($params));
 			if ($this->cache->hasKey($cacheKey)) {
 				return $this->cache->get($cacheKey);

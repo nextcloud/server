@@ -178,6 +178,10 @@ class IMipPlugin extends SabreIMipPlugin {
 		// Strip off mailto:
 		$sender = substr($iTipMessage->sender, 7);
 		$recipient = substr($iTipMessage->recipient, 7);
+		if ($sender === false || $recipient === false) {
+			// Shouldn't happen but in theory `substr` can return `false`
+			return;
+		}
 
 		$senderName = $iTipMessage->senderName ?: null;
 		$recipientName = $iTipMessage->recipientName ?: null;
@@ -207,7 +211,6 @@ class IMipPlugin extends SabreIMipPlugin {
 
 
 		$meetingUrl = $vevent->URL;
-		$meetingLocation = $vevent->LOCATION;
 
 		$defaultVal = '--';
 

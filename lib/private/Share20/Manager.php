@@ -1266,6 +1266,7 @@ class Manager implements IManager {
 			return [];
 		}
 
+		/** @var IShare[] $shares */
 		$shares = $provider->getSharesBy($userId, $shareType, $path, $reshares, $limit, $offset);
 
 		/*
@@ -1273,6 +1274,7 @@ class Manager implements IManager {
 		 * proper pagination.
 		 */
 
+		/** @var IShare[] $shares2 */
 		$shares2 = [];
 
 		while (true) {

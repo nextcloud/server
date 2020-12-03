@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.2.1@ea9cb72143b77e7520c52fa37290bd8d8bc88fd9">
+<files psalm-version="4.3.1@2feba22a005a18bf31d4c7b9bdb9252c73897476">
+  <file src="3rdparty/doctrine/dbal/lib/Doctrine/DBAL/Connection.php">
+    <ImplementedReturnTypeMismatch occurrences="1">
+      <code>string|null</code>
+    </ImplementedReturnTypeMismatch>
+  </file>
   <file src="3rdparty/sabre/dav/lib/CalDAV/Calendar.php">
     <MoreSpecificImplementedParamType occurrences="1">
       <code>$calendarData</code>
@@ -287,15 +292,13 @@
       <code>$l10n-&gt;l('time', $dt, ['width' =&gt; 'short'])</code>
       <code>$l10n-&gt;l('weekdayName', $dt, ['width' =&gt; 'abbreviated'])</code>
     </FalsableReturnStatement>
-    <InvalidReturnStatement occurrences="5">
+    <InvalidReturnStatement occurrences="4">
       <code>$l10n-&gt;l('date', $dt, ['width' =&gt; 'medium'])</code>
       <code>$l10n-&gt;l('datetime', $dt, ['width' =&gt; 'medium|short'])</code>
       <code>$l10n-&gt;l('time', $dt, ['width' =&gt; 'short'])</code>
       <code>$l10n-&gt;l('weekdayName', $dt, ['width' =&gt; 'abbreviated'])</code>
-      <code>[$organizerEMail =&gt; $name]</code>
     </InvalidReturnStatement>
-    <InvalidReturnType occurrences="5">
-      <code>array|null</code>
+    <InvalidReturnType occurrences="4">
       <code>string</code>
       <code>string</code>
       <code>string</code>
@@ -367,10 +370,6 @@
     <InvalidNullableReturnType occurrences="1">
       <code>string</code>
     </InvalidNullableReturnType>
-    <InvalidScalarArgument occurrences="2">
-      <code>[$recipient =&gt; $recipientName]</code>
-      <code>[$sender =&gt; $senderName]</code>
-    </InvalidScalarArgument>
     <NullableReturnStatement occurrences="1">
       <code>$lang-&gt;getValue()</code>
     </NullableReturnStatement>
@@ -752,12 +751,9 @@
     </InvalidScalarArgument>
   </file>
   <file src="apps/dav/lib/Connector/Sabre/SharesPlugin.php">
-    <InvalidReturnStatement occurrences="1">
-      <code>$shares</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
-      <code>array</code>
-    </InvalidReturnType>
+    <InvalidPropertyAssignmentValue occurrences="1">
+      <code>$this-&gt;cachedShares</code>
+    </InvalidPropertyAssignmentValue>
     <UndefinedFunction occurrences="1">
       <code>\Sabre\Uri\split($sabreNode-&gt;getPath())</code>
     </UndefinedFunction>
@@ -1030,9 +1026,6 @@
     </TypeDoesNotContainType>
   </file>
   <file src="apps/encryption/lib/Crypto/EncryptAll.php">
-    <InvalidArgument occurrences="1">
-      <code>[$to =&gt; $recipientDisplayName]</code>
-    </InvalidArgument>
     <UndefinedInterfaceMethod occurrences="3">
       <code>setHtmlBody</code>
       <code>setPlainBody</code>
@@ -1060,8 +1053,7 @@
     <InvalidThrow occurrences="1">
       <code>throw $exception;</code>
     </InvalidThrow>
-    <RedundantCondition occurrences="2">
-      <code>$encryptedFileKey</code>
+    <RedundantCondition occurrences="1">
       <code>$userSession</code>
     </RedundantCondition>
   </file>
@@ -1962,16 +1954,6 @@
       <code>dispatch</code>
     </TooManyArguments>
   </file>
-  <file src="apps/settings/lib/Hooks.php">
-    <InvalidArgument occurrences="1">
-      <code>[$user-&gt;getEMailAddress() =&gt; $user-&gt;getDisplayName()]</code>
-    </InvalidArgument>
-  </file>
-  <file src="apps/settings/lib/Mailer/NewUserMailHelper.php">
-    <InvalidArgument occurrences="1">
-      <code>[$user-&gt;getEMailAddress() =&gt; $user-&gt;getDisplayName()]</code>
-    </InvalidArgument>
-  </file>
   <file src="apps/settings/lib/Settings/Admin/Security.php">
     <UndefinedInterfaceMethod occurrences="1">
       <code>isReady</code>
@@ -2168,11 +2150,10 @@
     <InvalidReturnType occurrences="1">
       <code>string[]</code>
     </InvalidReturnType>
-    <InvalidScalarArgument occurrences="4">
+    <InvalidScalarArgument occurrences="3">
       <code>$e-&gt;getCode()</code>
       <code>$key</code>
       <code>$key</code>
-      <code>[$attr =&gt; $result['values']]</code>
     </InvalidScalarArgument>
     <NullArgument occurrences="1">
       <code>$cookie</code>
@@ -2187,9 +2168,8 @@
       <code>!$attribute === null</code>
       <code>is_null($findings)</code>
     </TypeDoesNotContainNull>
-    <TypeDoesNotContainType occurrences="2">
+    <TypeDoesNotContainType occurrences="1">
       <code>!is_null($attr) &amp;&amp; !is_array($attr)</code>
-      <code>isset($ldapRecord[$this-&gt;connection-&gt;$uuidAttr])</code>
     </TypeDoesNotContainType>
     <UndefinedVariable occurrences="1">
       <code>$uidsByDn</code>
@@ -3038,9 +3018,6 @@
     <InvalidArrayOffset occurrences="1">
       <code>$action['url-postfix']</code>
     </InvalidArrayOffset>
-    <RedundantCondition occurrences="1">
-      <code>strtolower</code>
-    </RedundantCondition>
   </file>
   <file src="lib/private/AppFramework/Services/AppConfig.php">
     <MoreSpecificImplementedParamType occurrences="1">
@@ -3632,9 +3609,6 @@
       <code>null</code>
       <code>null</code>
     </NullableReturnStatement>
-    <TypeDoesNotContainType occurrences="1">
-      <code>$data ?? $this-&gt;getData($file)</code>
-    </TypeDoesNotContainType>
   </file>
   <file src="lib/private/Files/Cache/Storage.php">
     <InvalidNullableReturnType occurrences="1">
@@ -4563,9 +4537,6 @@
     <RedundantCondition occurrences="1">
       <code>method_exists(self::$cache, 'deleteMulti')</code>
     </RedundantCondition>
-    <TypeDoesNotContainType occurrences="1">
-      <code>\Memcached::HAVE_IGBINARY</code>
-    </TypeDoesNotContainType>
   </file>
   <file src="lib/private/Memcache/Redis.php">
     <InvalidMethodCall occurrences="2">
@@ -5397,6 +5368,15 @@
     <NullableReturnStatement occurrences="1">
       <code>$column</code>
     </NullableReturnStatement>
+  </file>
+  <file src="lib/public/AppFramework/Db/QBMapper.php">
+    <InvalidReturnStatement occurrences="2">
+      <code>$this-&gt;insert($entity)</code>
+      <code>$this-&gt;update($entity)</code>
+    </InvalidReturnStatement>
+    <InvalidReturnType occurrences="1">
+      <code>T</code>
+    </InvalidReturnType>
   </file>
   <file src="lib/public/AppFramework/Http/JSONResponse.php">
     <InvalidReturnStatement occurrences="1">

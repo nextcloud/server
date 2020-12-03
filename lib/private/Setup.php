@@ -187,13 +187,12 @@ class Setup {
 
 		foreach ($configuredDatabases as $database) {
 			if (array_key_exists($database, $availableDatabases)) {
-				$working = false;
 				$type = $availableDatabases[$database]['type'];
 				$call = $availableDatabases[$database]['call'];
 
 				if ($type === 'function') {
 					$working = $this->is_callable($call);
-				} elseif ($type === 'pdo') {
+				} else {
 					$working = in_array($call, $this->getAvailableDbDriversForPdo(), true);
 				}
 				if ($working) {

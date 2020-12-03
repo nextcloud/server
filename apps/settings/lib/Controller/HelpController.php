@@ -73,7 +73,7 @@ class HelpController extends Controller {
 	public function help(string $mode = 'user'): TemplateResponse {
 		$this->navigationManager->setActiveEntry('help');
 
-		if (!isset($mode) || $mode !== 'admin') {
+		if (empty($mode) || $mode !== 'admin') {
 			$mode = 'user';
 		}
 

@@ -181,7 +181,7 @@ class Access extends LDAPUtility {
 	 *          array if $attr is empty, false otherwise
 	 * @throws ServerNotAvailableException
 	 */
-	public function readAttribute($dn, $attr, $filter = 'objectClass=*') {
+	public function readAttribute(string $dn, string $attr, string $filter = 'objectClass=*') {
 		if (!$this->checkConnection()) {
 			\OCP\Util::writeLog('user_ldap',
 				'No LDAP Connector assigned, access impossible for readAttribute.',
@@ -204,6 +204,10 @@ class Access extends LDAPUtility {
 		// (cf. #12306), 500 is default for paging and should work everywhere.
 		$maxResults = $pagingSize > 20 ? $pagingSize : 500;
 		$attr = mb_strtolower($attr, 'UTF-8');
+		if ($attr === false) {
+			\OCP\Util::writeLog('user_ldap', 'Attribute name could not be converted to lower case.', ILogger::DEBUG);
+			return false;
+		}
 		// the actual read attribute later may contain parameters on a ranged
 		// request, e.g. member;range=99-199. Depends on server reply.
 		$attrToRead = $attr;
@@ -1760,6 +1764,7 @@ class Access extends LDAPUtility {
 
 		$uuid = false;
 		if ($this->detectUuidAttribute($dn, $isUser, false, $ldapRecord)) {
+			/** @var string $attr */
 			$attr = $this->connection->$uuidAttr;
 			$uuid = isset($ldapRecord[$attr]) ? $ldapRecord[$attr] : $this->readAttribute($dn, $attr);
 			if (!is_array($uuid)

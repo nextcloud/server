@@ -414,10 +414,14 @@ class EncryptAll {
 			$progress->advance();
 			if (!empty($password)) {
 				$recipient = $this->userManager->get($uid);
+				if ($recipient === null) {
+					$noMail[] = $uid;
+					continue;
+				}
 				$recipientDisplayName = $recipient->getDisplayName();
 				$to = $recipient->getEMailAddress();
 
-				if ($to === '') {
+				if (empty($to)) {
 					$noMail[] = $uid;
 					continue;
 				}

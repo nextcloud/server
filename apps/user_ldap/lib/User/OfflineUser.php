@@ -134,7 +134,7 @@ class OfflineUser {
 	 * @return string
 	 */
 	public function getUID() {
-		if (!isset($this->uid)) {
+		if ($this->uid === null) {
 			$this->fetchDetails();
 		}
 		return $this->uid;
@@ -145,7 +145,7 @@ class OfflineUser {
 	 * @return string
 	 */
 	public function getDN() {
-		if (!isset($this->dn)) {
+		if ($this->dn === null) {
 			$this->fetchDetails();
 		}
 		return $this->dn;
@@ -156,7 +156,7 @@ class OfflineUser {
 	 * @return string
 	 */
 	public function getDisplayName() {
-		if (!isset($this->displayName)) {
+		if ($this->displayName === null) {
 			$this->fetchDetails();
 		}
 		return $this->displayName;
@@ -167,7 +167,7 @@ class OfflineUser {
 	 * @return string
 	 */
 	public function getEmail() {
-		if (!isset($this->email)) {
+		if ($this->email === null) {
 			$this->fetchDetails();
 		}
 		return $this->email;
@@ -178,7 +178,7 @@ class OfflineUser {
 	 * @return string
 	 */
 	public function getHomePath() {
-		if (!isset($this->homePath)) {
+		if ($this->homePath === null) {
 			$this->fetchDetails();
 		}
 		return $this->homePath;
@@ -189,7 +189,7 @@ class OfflineUser {
 	 * @return int
 	 */
 	public function getLastLogin() {
-		if (!isset($this->lastLogin)) {
+		if ($this->lastLogin === null) {
 			$this->fetchDetails();
 		}
 		return (int)$this->lastLogin;
@@ -200,7 +200,7 @@ class OfflineUser {
 	 * @return int
 	 */
 	public function getDetectedOn() {
-		if (!isset($this->foundDeleted)) {
+		if ($this->foundDeleted === null) {
 			$this->fetchDetails();
 		}
 		return (int)$this->foundDeleted;
@@ -211,7 +211,7 @@ class OfflineUser {
 	 * @return bool
 	 */
 	public function getHasActiveShares() {
-		if (!isset($this->hasActiveShares)) {
+		if ($this->hasActiveShares === null) {
 			$this->fetchDetails();
 		}
 		return $this->hasActiveShares;

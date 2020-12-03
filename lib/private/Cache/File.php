@@ -49,7 +49,7 @@ class File implements ICache {
 	 * @throws \OC\User\NoUserException
 	 */
 	protected function getStorage() {
-		if (isset($this->storage)) {
+		if ($this->storage !== null) {
 			return $this->storage;
 		}
 		if (\OC::$server->getUserSession()->isLoggedIn()) {

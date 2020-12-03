@@ -143,7 +143,7 @@ class DAV extends Common {
 			'userName' => $this->user,
 			'password' => $this->password,
 		];
-		if (isset($this->authType)) {
+		if ($this->authType !== null) {
 			$settings['authType'] = $this->authType;
 		}
 

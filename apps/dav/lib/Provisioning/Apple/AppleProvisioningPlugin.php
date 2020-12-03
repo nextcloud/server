@@ -130,6 +130,7 @@ class AppleProvisioningPlugin extends ServerPlugin {
 		$absoluteURL = $this->urlGenerator->getBaseUrl();
 		$parsedUrl = parse_url($absoluteURL);
 		if (isset($parsedUrl['port'])) {
+			/** @psalm-suppress RedundantCast */
 			$serverPort = (int) $parsedUrl['port'];
 		} else {
 			$serverPort = 443;
