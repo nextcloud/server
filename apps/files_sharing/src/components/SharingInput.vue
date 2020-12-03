@@ -186,6 +186,7 @@ export default {
 				this.SHARE_TYPES.SHARE_TYPE_CIRCLE,
 				this.SHARE_TYPES.SHARE_TYPE_ROOM,
 				this.SHARE_TYPES.SHARE_TYPE_GUEST,
+				this.SHARE_TYPES.SHARE_TYPE_DECK,
 			]
 
 			if (OC.getCapabilities().files_sharing.public.enabled === true) {

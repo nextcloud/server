@@ -83,6 +83,7 @@ class ShareesAPIController extends OCSController {
 			'emails' => [],
 			'circles' => [],
 			'rooms' => [],
+			'deck' => [],
 		],
 		'users' => [],
 		'groups' => [],
@@ -92,6 +93,7 @@ class ShareesAPIController extends OCSController {
 		'lookup' => [],
 		'circles' => [],
 		'rooms' => [],
+		'deck' => [],
 		'lookupEnabled' => false,
 	];
 
@@ -183,6 +185,10 @@ class ShareesAPIController extends OCSController {
 			if ($this->shareManager->shareProviderExists(IShare::TYPE_ROOM)) {
 				$shareTypes[] = IShare::TYPE_ROOM;
 			}
+
+			if ($this->shareManager->shareProviderExists(IShare::TYPE_DECK)) {
+				$shareTypes[] = IShare::TYPE_DECK;
+			}
 		} else {
 			$shareTypes[] = IShare::TYPE_GROUP;
 			$shareTypes[] = IShare::TYPE_EMAIL;
@@ -191,6 +197,10 @@ class ShareesAPIController extends OCSController {
 		// FIXME: DI
 		if (\OC::$server->getAppManager()->isEnabledForUser('circles') && class_exists('\OCA\Circles\ShareByCircleProvider')) {
 			$shareTypes[] = IShare::TYPE_CIRCLE;
+		}
+
+		if ($this->shareManager->shareProviderExists(IShare::TYPE_DECK)) {
+			$shareTypes[] = IShare::TYPE_DECK;
 		}
 
 		if ($shareType !== null && is_array($shareType)) {
