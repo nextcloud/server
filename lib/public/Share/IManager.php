@@ -417,6 +417,12 @@ interface IManager {
 	public function shareProviderExists($shareType);
 
 	/**
+	 * @param string $shareProviderClass
+	 * @since 21.0.0
+	 */
+	public function registerShareProvider(string $shareProviderClass): void;
+
+	/**
 	 * @Internal
 	 *
 	 * Get all the shares as iterable to reduce memory overhead

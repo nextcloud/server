@@ -1887,6 +1887,10 @@ class Manager implements IManager {
 		return true;
 	}
 
+	public function registerShareProvider(string $shareProviderClass): void {
+		$this->factory->registerProvider($shareProviderClass);
+	}
+
 	public function getAllShares(): iterable {
 		$providers = $this->factory->getAllProviders();
 

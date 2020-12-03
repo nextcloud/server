@@ -44,6 +44,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IServerContainer;
 use OCP\Share\IProviderFactory;
 use OCP\Share\IShare;
+use OCP\Share\IShareProvider;
 
 /**
  * Class ProviderFactory
@@ -67,6 +68,10 @@ class ProviderFactory implements IProviderFactory {
 	/** @var \OCA\Talk\Share\RoomShareProvider */
 	private $roomShareProvider = null;
 
+	private $registeredShareProviders = [];
+
+	private $shareProviders = [];
+
 	/**
 	 * IProviderFactory constructor.
 	 *
@@ -74,6 +79,10 @@ class ProviderFactory implements IProviderFactory {
 	 */
 	public function __construct(IServerContainer $serverContainer) {
 		$this->serverContainer = $serverContainer;
+	}
+
+	public function registerProvider(string $shareProviderClass): void {
+		$this->registeredShareProviders[] = $shareProviderClass;
 	}
 
 	/**
@@ -257,6 +266,10 @@ class ProviderFactory implements IProviderFactory {
 	 */
 	public function getProvider($id) {
 		$provider = null;
+		if (isset($this->shareProviders[$id])) {
+			return $this->shareProviders[$id];
+		}
+
 		if ($id === 'ocinternal') {
 			$provider = $this->defaultShareProvider();
 		} elseif ($id === 'ocFederatedSharing') {
@@ -267,6 +280,16 @@ class ProviderFactory implements IProviderFactory {
 			$provider = $this->getShareByCircleProvider();
 		} elseif ($id === 'ocRoomShare') {
 			$provider = $this->getRoomShareProvider();
+		}
+
+		foreach ($this->registeredShareProviders as $shareProvider) {
+			/** @var IShareProvider $instance */
+			$instance = $this->serverContainer->get($shareProvider);
+			$this->shareProviders[$instance->identifier()] = $instance;
+		}
+
+		if (isset($this->shareProviders[$id])) {
+			$provider = $this->shareProviders[$id];
 		}
 
 		if ($provider === null) {
