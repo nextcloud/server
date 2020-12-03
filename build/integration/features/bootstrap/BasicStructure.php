@@ -44,6 +44,7 @@ require __DIR__ . '/../../vendor/autoload.php';
 
 trait BasicStructure {
 	use Auth;
+	use Avatar;
 	use Download;
 	use Mail;
 	use Trashbin;
