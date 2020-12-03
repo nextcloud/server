@@ -42,7 +42,7 @@ class Quota extends Wrapper {
 	/**
 	 * @param resource $stream
 	 * @param int $limit
-	 * @return resource
+	 * @return bool|resource
 	 */
 	public static function wrap($stream, $limit) {
 		$context = stream_context_create([

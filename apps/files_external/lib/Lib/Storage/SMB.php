@@ -441,7 +441,7 @@ class SMB extends Common implements INotifyStorage {
 	/**
 	 * @param string $path
 	 * @param string $mode
-	 * @return resource|false
+	 * @return resource|bool
 	 */
 	public function fopen($path, $mode) {
 		$fullPath = $this->buildPath($path);

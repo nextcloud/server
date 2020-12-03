@@ -30,6 +30,7 @@ use OCP\IAvatarManager;
 use OCP\IUser;
 use OCP\IUserManager;
 use Psr\Log\LoggerInterface;
+use function is_resource;
 
 class MoveAvatarsBackgroundJob extends QueuedJob {
 
@@ -76,7 +77,7 @@ class MoveAvatarsBackgroundJob extends QueuedJob {
 			try {
 				$avatarPath = $path . '/avatar.' . $this->getExtension($path);
 				$resource = $this->owncloudAvatarStorage->fopen($avatarPath, 'r');
-				if ($resource) {
+				if (is_resource($resource)) {
 					$avatar->set($resource);
 					fclose($resource);
 				} else {
