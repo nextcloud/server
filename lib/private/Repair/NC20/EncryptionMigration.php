@@ -58,7 +58,8 @@ class EncryptionMigration implements IRepairStep {
 			return;
 		}
 
-		if ($this->manager->isEnabled()) {
+		$masterKeyId = $this->config->getAppValue('encryption', 'masterKeyId');
+		if ($this->manager->isEnabled() || !empty($masterKeyId)) {
 			if ($this->config->getSystemValue('encryption.key_storage_migrated', '') === '') {
 				$this->config->setSystemValue('encryption.key_storage_migrated', false);
 			}

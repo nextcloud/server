@@ -58,7 +58,8 @@ class EncryptionLegacyCipher implements IRepairStep {
 			return;
 		}
 
-		if ($this->manager->isEnabled()) {
+		$masterKeyId = $this->config->getAppValue('encryption', 'masterKeyId');
+		if ($this->manager->isEnabled() || !empty($masterKeyId)) {
 			if ($this->config->getSystemValue('encryption.legacy_format_support', '') === '') {
 				$this->config->setSystemValue('encryption.legacy_format_support', true);
 			}
