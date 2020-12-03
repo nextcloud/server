@@ -125,15 +125,23 @@ class AccountManager implements IAccountManager {
 	 *
 	 * @param IUser $user
 	 * @param array $data
+	 * @param bool $throwOnData Set to true if you can inform the user about invalid data
 	 * @return array The potentially modified data (e.g. phone numbers are converted to E.164 format)
 	 * @throws \InvalidArgumentException Message is the property that was invalid
 	 */
-	public function updateUser(IUser $user, array $data): array {
+	public function updateUser(IUser $user, array $data, bool $throwOnData = false): array {
 		$userData = $this->getUser($user);
 		$updated = true;
 
-		if (isset($data[self::PROPERTY_PHONE])) {
-			$data[self::PROPERTY_PHONE]['value'] = $this->parsePhoneNumber($data[self::PROPERTY_PHONE]['value']);
+		if (isset($data[self::PROPERTY_PHONE]) && $data[self::PROPERTY_PHONE]['value'] !== '') {
+			try {
+				$data[self::PROPERTY_PHONE]['value'] = $this->parsePhoneNumber($data[self::PROPERTY_PHONE]['value']);
+			} catch (\InvalidArgumentException $e) {
+				if ($throwOnData) {
+					throw $e;
+				}
+				$data[self::PROPERTY_PHONE]['value'] = '';
+			}
 		}
 
 		if (empty($userData)) {

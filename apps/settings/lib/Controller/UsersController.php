@@ -466,7 +466,7 @@ class UsersController extends Controller {
 		}
 
 		try {
-			return $this->accountManager->updateUser($user, $data);
+			return $this->accountManager->updateUser($user, $data, true);
 		} catch (\InvalidArgumentException $e) {
 			if ($e->getMessage() === IAccountManager::PROPERTY_PHONE) {
 				throw new \InvalidArgumentException($this->l10n->t('Unable to set invalid phone number'));
