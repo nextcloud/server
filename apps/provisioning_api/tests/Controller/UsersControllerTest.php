@@ -52,7 +52,6 @@ use OCP\Accounts\IAccountManager;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\Federation\ICloudIdManager;
 use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IL10N;
@@ -88,8 +87,6 @@ class UsersControllerTest extends TestCase {
 	protected $api;
 	/** @var AccountManager|MockObject */
 	protected $accountManager;
-	/** @var ICloudIdManager|MockObject */
-	protected $cloudIdManager;
 	/** @var IURLGenerator|MockObject */
 	protected $urlGenerator;
 	/** @var IRequest|MockObject */
@@ -118,7 +115,6 @@ class UsersControllerTest extends TestCase {
 		$this->logger = $this->createMock(ILogger::class);
 		$this->request = $this->createMock(IRequest::class);
 		$this->accountManager = $this->createMock(AccountManager::class);
-		$this->cloudIdManager = $this->createMock(ICloudIdManager::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->l10nFactory = $this->createMock(IFactory::class);
 		$this->newUserMailHelper = $this->createMock(NewUserMailHelper::class);
@@ -137,7 +133,6 @@ class UsersControllerTest extends TestCase {
 				$this->groupManager,
 				$this->userSession,
 				$this->accountManager,
-				$this->cloudIdManager,
 				$this->urlGenerator,
 				$this->logger,
 				$this->l10nFactory,
@@ -402,7 +397,6 @@ class UsersControllerTest extends TestCase {
 				$this->groupManager,
 				$this->userSession,
 				$this->accountManager,
-				$this->cloudIdManager,
 				$this->urlGenerator,
 				$this->logger,
 				$this->l10nFactory,
@@ -1381,6 +1375,47 @@ class UsersControllerTest extends TestCase {
 			]
 		];
 		$this->assertEquals($expected, $this->invokePrivate($this->api, 'getUserData', ['UID']));
+	}
+
+	public function dataSearchByPhoneNumbers(): array {
+		return [
+			'Invalid country' => ['Not a country code', ['12345' => ['NaN']], 400, null, null, []],
+			'No number to search' => ['DE', ['12345' => ['NaN']], 200, null, null, []],
+			'Valid number but no match' => ['DE', ['12345' => ['0711 / 25 24 28-90']], 200, ['+4971125242890'], [], []],
+			'Invalid number' => ['FR', ['12345' => ['0711 / 25 24 28-90']], 200, null, null, []],
+			'Invalid and valid number' => ['DE', ['12345' => ['NaN', '0711 / 25 24 28-90']], 200, ['+4971125242890'], [], []],
+			'Valid and invalid number' => ['DE', ['12345' => ['0711 / 25 24 28-90', 'NaN']], 200, ['+4971125242890'], [], []],
+			'Valid number and a match' => ['DE', ['12345' => ['0711 / 25 24 28-90']], 200, ['+4971125242890'], ['+4971125242890' => 'admin'], ['12345' => 'admin@localhost']],
+			'Same number twice, later hits' => ['DE', ['12345' => ['0711 / 25 24 28-90'], '23456' => ['0711 / 25 24 28-90']], 200, ['+4971125242890'], ['+4971125242890' => 'admin'], ['23456' => 'admin@localhost']],
+		];
+	}
+
+	/**
+	 * @dataProvider dataSearchByPhoneNumbers
+	 * @param string $location
+	 * @param array $search
+	 * @param int $status
+	 * @param array $expected
+	 */
+	public function testSearchByPhoneNumbers(string $location, array $search, int $status, ?array $searchUsers, ?array $userMatches, array $expected) {
+		if ($searchUsers === null) {
+			$this->accountManager->expects($this->never())
+				->method('searchUsers');
+		} else {
+			$this->accountManager->expects($this->once())
+				->method('searchUsers')
+				->with(IAccountManager::PROPERTY_PHONE, $searchUsers)
+				->willReturn($userMatches);
+		}
+
+		$this->urlGenerator->method('getAbsoluteURL')
+			->with('/')
+			->willReturn('https://localhost/');
+
+		$response = $this->api->searchByPhoneNumbers($location, $search);
+
+		self::assertEquals($status, $response->getStatus());
+		self::assertEquals($expected, $response->getData());
 	}
 
 	public function testEditUserRegularUserSelfEditChangeDisplayName() {
@@ -3185,7 +3220,6 @@ class UsersControllerTest extends TestCase {
 				$this->groupManager,
 				$this->userSession,
 				$this->accountManager,
-				$this->cloudIdManager,
 				$this->urlGenerator,
 				$this->logger,
 				$this->l10nFactory,
@@ -3252,7 +3286,6 @@ class UsersControllerTest extends TestCase {
 				$this->groupManager,
 				$this->userSession,
 				$this->accountManager,
-				$this->cloudIdManager,
 				$this->urlGenerator,
 				$this->logger,
 				$this->l10nFactory,

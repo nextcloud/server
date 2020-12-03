@@ -118,7 +118,7 @@ Feature: provisioning
 		And the OCS status code should be "100"
 		And the HTTP status code should be "200"
 		Then phone matches returned are
-			| random-string1 | phone-user@http://localhost:8080/ |
+			| random-string1 | phone-user@localhost:8080 |
 
 	Scenario: Create a group
 		Given As an "admin"

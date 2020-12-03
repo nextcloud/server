@@ -52,10 +52,10 @@ use OCA\Provisioning_API\FederatedShareProviderFactory;
 use OCA\Settings\Mailer\NewUserMailHelper;
 use OCP\Accounts\IAccountManager;
 use OCP\App\IAppManager;
+use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
-use OCP\Federation\ICloudIdManager;
 use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
@@ -74,8 +74,6 @@ class UsersController extends AUserData {
 
 	/** @var IAppManager */
 	private $appManager;
-	/** @var ICloudIdManager */
-	protected $cloudIdManager;
 	/** @var IURLGenerator */
 	protected $urlGenerator;
 	/** @var ILogger */
@@ -101,7 +99,6 @@ class UsersController extends AUserData {
 								IGroupManager $groupManager,
 								IUserSession $userSession,
 								AccountManager $accountManager,
-								ICloudIdManager $cloudIdManager,
 								IURLGenerator $urlGenerator,
 								ILogger $logger,
 								IFactory $l10nFactory,
@@ -120,7 +117,6 @@ class UsersController extends AUserData {
 							$l10nFactory);
 
 		$this->appManager = $appManager;
-		$this->cloudIdManager = $cloudIdManager;
 		$this->urlGenerator = $urlGenerator;
 		$this->logger = $logger;
 		$this->l10nFactory = $l10nFactory;
@@ -228,6 +224,11 @@ class UsersController extends AUserData {
 	public function searchByPhoneNumbers(string $location, array $search): DataResponse {
 		$phoneUtil = PhoneNumberUtil::getInstance();
 
+		if ($phoneUtil->getCountryCodeForRegion($location) === 0) {
+			// Not a valid region code
+			return new DataResponse([], Http::STATUS_BAD_REQUEST);
+		}
+
 		$normalizedNumberToKey = [];
 		foreach ($search as $key => $phoneNumbers) {
 			foreach ($phoneNumbers as $phone) {
@@ -254,11 +255,17 @@ class UsersController extends AUserData {
 			return new DataResponse();
 		}
 
-		$cloudUrl = $this->urlGenerator->getAbsoluteURL('/');
+		$cloudUrl = rtrim($this->urlGenerator->getAbsoluteURL('/'), '/');
+		if (strpos($cloudUrl, 'http://') === 0) {
+			$cloudUrl = substr($cloudUrl, strlen('http://'));
+		} elseif (strpos($cloudUrl, 'https://') === 0) {
+			$cloudUrl = substr($cloudUrl, strlen('https://'));
+		}
 
 		$matches = [];
 		foreach ($userMatches as $phone => $userId) {
-			$matches[$normalizedNumberToKey[$phone]] = $this->cloudIdManager->getCloudId($userId, $cloudUrl)->getId();
+			// Not using the ICloudIdManager as that would run a search for each contact to find the display name in the address book
+			$matches[$normalizedNumberToKey[$phone]] = $userId . '@' . $cloudUrl;
 		}
 
 		return new DataResponse($matches);
