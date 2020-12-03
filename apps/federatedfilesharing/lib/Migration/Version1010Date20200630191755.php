@@ -48,8 +48,9 @@ class Version1010Date20200630191755 extends SimpleMigrationStep {
 				'notnull' => true,
 			]);
 			$table->addColumn('remote_id', Types::STRING, [
-				'notnull' => true,
+				'notnull' => false,
 				'length' => 255,
+				'default' => '',
 			]);
 			$table->setPrimaryKey(['share_id'], 'federated_res_pk');
 //			$table->addUniqueIndex(['share_id'], 'share_id_index');

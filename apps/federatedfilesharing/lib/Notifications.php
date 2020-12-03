@@ -133,12 +133,12 @@ class Notifications {
 	 *
 	 * @param string $token
 	 * @param string $id remote Id
-	 * @param int $shareId internal share Id
+	 * @param string $shareId internal share Id
 	 * @param string $remote remote address of the owner
 	 * @param string $shareWith
 	 * @param int $permission
 	 * @param string $filename
-	 * @return array
+	 * @return array|false
 	 * @throws \OC\HintException
 	 * @throws \OC\ServerNotAvailableException
 	 */
@@ -182,7 +182,7 @@ class Notifications {
 	 * send server-to-server unshare to remote server
 	 *
 	 * @param string $remote url
-	 * @param int $id share id
+	 * @param string $id share id
 	 * @param string $token
 	 * @return bool
 	 */
@@ -194,7 +194,7 @@ class Notifications {
 	 * send server-to-server unshare to remote server
 	 *
 	 * @param string $remote url
-	 * @param int $id share id
+	 * @param string $id share id
 	 * @param string $token
 	 * @return bool
 	 */
