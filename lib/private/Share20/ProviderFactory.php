@@ -318,6 +318,8 @@ class ProviderFactory implements IProviderFactory {
 			$provider = $this->getShareByCircleProvider();
 		} elseif ($shareType === IShare::TYPE_ROOM) {
 			$provider = $this->getRoomShareProvider();
+		} elseif ($shareType === IShare::TYPE_DECK) {
+			$provider = $this->getProvider('deck');
 		}
 
 
