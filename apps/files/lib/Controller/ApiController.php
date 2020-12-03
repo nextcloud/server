@@ -221,7 +221,8 @@ class ApiController extends Controller {
 			IShare::TYPE_LINK,
 			IShare::TYPE_REMOTE,
 			IShare::TYPE_EMAIL,
-			IShare::TYPE_ROOM
+			IShare::TYPE_ROOM,
+			IShare::TYPE_DECK
 		];
 		foreach ($requestedShareTypes as $requestedShareType) {
 			// one of each type is enough to find out about the types

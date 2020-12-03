@@ -345,6 +345,17 @@ class ProviderFactory implements IProviderFactory {
 			$shares[] = $roomShare;
 		}
 
+		foreach ($this->registeredShareProviders as $shareProvider) {
+			/** @var IShareProvider $instance */
+			$instance = $this->serverContainer->get($shareProvider);
+			if (!isset($this->shareProviders[$instance->identifier()])) {
+				$this->shareProviders[$instance->identifier()] = $instance;
+			}
+			$shares[] = $this->shareProviders[$instance->identifier()];
+		}
+
+
+
 		return $shares;
 	}
 }
