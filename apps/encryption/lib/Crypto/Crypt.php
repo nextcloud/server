@@ -677,7 +677,7 @@ class Crypt {
 			throw new MultiKeyDecryptException('Cannot multikey decrypt empty plain content');
 		}
 
-		if (openssl_open($encKeyFile, $plainContent, $shareKey, $privateKey)) {
+		if (openssl_open($encKeyFile, $plainContent, $shareKey, $privateKey, 'RC4')) {
 			return $plainContent;
 		} else {
 			throw new MultiKeyDecryptException('multikeydecrypt with share key failed:' . openssl_error_string());
@@ -702,7 +702,7 @@ class Crypt {
 		$shareKeys = [];
 		$mappedShareKeys = [];
 
-		if (openssl_seal($plainContent, $sealed, $shareKeys, $keyFiles)) {
+		if (openssl_seal($plainContent, $sealed, $shareKeys, $keyFiles, 'RC4')) {
 			$i = 0;
 
 			// Ensure each shareKey is labelled with its corresponding key id
