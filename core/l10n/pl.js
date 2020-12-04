@@ -29,6 +29,7 @@ OC.L10N.register(
     "Nextcloud Server" : "Serwer Nextcloud",
     "Some of your link shares have been removed" : "Niektóre współdzielenia w linkach zostały usunięte",
     "Due to a security bug we had to remove some of your link shares. Please see the link for more information." : "Ze względu na błąd bezpieczeństwa musieliśmy usunąć część Twoich udostępnień przez link. Zobacz link, aby uzyskać więcej informacji.",
+    "The user limit of this instance is reached." : "Osiągnięto limit użytkowników dla tej instancji.",
     "Preparing update" : "Przygotowywanie aktualizacji",
     "[%d / %d]: %s" : "[%d/%d]: %s",
     "Repair step:" : "Krok naprawy:",

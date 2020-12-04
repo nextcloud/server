@@ -68,6 +68,7 @@ OC.L10N.register(
     "installing and updating apps via the app store or Federated Cloud Sharing" : "通过应用程序商店或联合云共享安装和更新应用程序",
     "Federated Cloud Sharing" : "联合云共享",
     "cURL is using an outdated %1$s version (%2$s). Please update your operating system or features such as %3$s will not work reliably." : "cURL正使用一个过时的%1$s 版本 (%2$s)。请升级您的操作系统，否则像 %3$s 这样的特性将无法可靠地工作。",
+    "Could not determine if TLS version of cURL is outdated or not because an error happened during the HTTPS request against https://nextcloud.com. Please check the nextcloud log file for more details." : "不能确定 cURL 的 TLS 版本是否已过时，因为在HTTPS请求 https://nextcloud.com 时发生了错误。请检查 nextcloud 日志文件以了解详情。",
     "Invalid SMTP password." : "无效的 SMTP 密码",
     "Email setting test" : "电子邮件设置测试",
     "Well done, %s!" : "已完成，%s！",
