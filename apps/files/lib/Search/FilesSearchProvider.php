@@ -110,13 +110,16 @@ class FilesSearchProvider implements IProvider {
 					? $this->urlGenerator->linkToRouteAbsolute('core.Preview.getPreviewByFileId', ['x' => 32, 'y' => 32, 'fileId' => $result->id])
 					: '';
 
-				return new SearchResultEntry(
+				$searchResultEntry = new SearchResultEntry(
 					$thumbnailUrl,
 					$result->name,
 					$this->formatSubline($result),
 					$this->urlGenerator->getAbsoluteURL($result->link),
 					$result->type === 'folder' ? 'icon-folder' : $this->mimeTypeDetector->mimeTypeIcon($result->mime_type)
 				);
+				$searchResultEntry->addAttribute('fileId', (string)$result->id);
+				$searchResultEntry->addAttribute('path', $result->path);
+				return $searchResultEntry;
 			}, $this->fileSearch->search($query->getTerm()))
 		);
 	}
