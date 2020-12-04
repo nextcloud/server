@@ -1234,10 +1234,7 @@
     </InvalidScalarArgument>
   </file>
   <file src="apps/federatedfilesharing/lib/Notifications.php">
-    <InvalidReturnStatement occurrences="2">
-      <code>[$ocmResult['token'], $ocmResult['providerId']]</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="4">
+    <InvalidReturnType occurrences="3">
       <code>bool</code>
       <code>bool</code>
       <code>bool</code>
