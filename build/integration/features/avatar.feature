@@ -133,3 +133,35 @@ Feature: avatar
       | X-NC-IsCustomAvatar | 0 |
     And last avatar is a square of size 128
     And last avatar is not a single color
+
+
+
+  Scenario: get user avatar with a larger size than the original one
+    Given Logging in using web as "user0"
+    And logged in user posts temporary avatar from file "data/coloured-pattern.png"
+    And logged in user crops temporary avatar
+      | x | 384 |
+      | y | 256 |
+      | w | 128 |
+      | h | 128 |
+    When user "user0" gets avatar for user "user0" with size "192"
+    Then The following headers should be set
+      | Content-Type | image/png |
+      | X-NC-IsCustomAvatar | 1 |
+    And last avatar is a square of size 192
+    And last avatar is a single "#FF0000" color
+
+  Scenario: get user avatar with a smaller size than the original one
+    Given Logging in using web as "user0"
+    And logged in user posts temporary avatar from file "data/coloured-pattern.png"
+    And logged in user crops temporary avatar
+      | x | 384 |
+      | y | 256 |
+      | w | 128 |
+      | h | 128 |
+    When user "user0" gets avatar for user "user0" with size "96"
+    Then The following headers should be set
+      | Content-Type | image/png |
+      | X-NC-IsCustomAvatar | 1 |
+    And last avatar is a square of size 96
+    And last avatar is a single "#FF0000" color

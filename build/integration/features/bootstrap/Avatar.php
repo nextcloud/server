@@ -179,19 +179,50 @@ trait Avatar {
 	 * @param string $size
 	 */
 	public function lastAvatarIsASingleColor(string $color) {
-		Assert::assertEquals($color, $this->getColorFromLastAvatar());
+		$expectedColor = $this->hexStringToRgbColor($color);
+		$colorFromLastAvatar = $this->getColorFromLastAvatar();
+
+		Assert::assertTrue($this->isSameColor($expectedColor, $colorFromLastAvatar),
+			$this->rgbColorToHexString($colorFromLastAvatar) . ' does not match expected ' . $color);
+	}
+
+	private function hexStringToRgbColor($hexString) {
+		// Strip initial "#"
+		$hexString = substr($hexString, 1);
+
+		$rgbColorInt = hexdec($hexString);
+
+		// RGBA hex strings are not supported; the given string is assumed to be
+		// an RGB hex string.
+		return [
+			'red' => ($rgbColorInt >> 16) & 0xFF,
+			'green' => ($rgbColorInt >> 8) & 0xFF,
+			'blue' => $rgbColorInt & 0xFF,
+			'alpha' => 0
+		];
+	}
+
+	private function rgbColorToHexString($rgbColor) {
+		$rgbColorInt = ($rgbColor['red'] << 16) + ($rgbColor['green'] << 8) + ($rgbColor['blue']);
+
+		return '#' . str_pad(strtoupper(dechex($rgbColorInt)), 6, '0', STR_PAD_LEFT);
 	}
 
 	private function getColorFromLastAvatar() {
 		$image = imagecreatefromstring($this->lastAvatar);
 
-		$firstPixelColor = imagecolorat($image, 0, 0);
+		$firstPixelColorIndex = imagecolorat($image, 0, 0);
+		$firstPixelColor = imagecolorsforindex($image, $firstPixelColorIndex);
 
 		for ($i = 0; $i < imagesx($image); $i++) {
 			for ($j = 0; $j < imagesx($image); $j++) {
-				$currentPixelColor = imagecolorat($image, $i, $j);
+				$currentPixelColorIndex = imagecolorat($image, $i, $j);
+				$currentPixelColor = imagecolorsforindex($image, $currentPixelColorIndex);
 
-				if ($firstPixelColor !== $currentPixelColor) {
+				// The colors are compared with a small allowed delta, as even
+				// on solid color images the resizing can cause some small
+				// artifacts that slightly modify the color of certain pixels.
+				if (!$this->isSameColor($firstPixelColor, $currentPixelColor)) {
 					imagedestroy($image);
 
 					return null;
@@ -201,8 +232,26 @@ trait Avatar {
 
 		imagedestroy($image);
 
-		// Assume that the image is a truecolor image and thus the index is the
-		// RGB value of the pixel as an integer.
-		return '#' . str_pad(strtoupper(dechex($firstPixelColor)), 6, '0', STR_PAD_LEFT);
+		return $firstPixelColor;
+	}
+
+	private function isSameColor(array $firstColor, array $secondColor, int $allowedDelta = 1) {
+		if ($this->isSameColorComponent($firstColor['red'], $secondColor['red'], $allowedDelta) &&
+			$this->isSameColorComponent($firstColor['green'], $secondColor['green'], $allowedDelta) &&
+			$this->isSameColorComponent($firstColor['blue'], $secondColor['blue'], $allowedDelta) &&
+			$this->isSameColorComponent($firstColor['alpha'], $secondColor['alpha'], $allowedDelta)) {
+			return true;
+		}
+
+		return false;
+	}
+
+	private function isSameColorComponent(int $firstColorComponent, int $secondColorComponent, int $allowedDelta) {
+		if ($firstColorComponent >= ($secondColorComponent - $allowedDelta) &&
+			$firstColorComponent <= ($secondColorComponent + $allowedDelta)) {
+			return true;
+		}
+
+		return false;
 	}
 }
