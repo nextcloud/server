@@ -828,7 +828,7 @@ class Session implements IUserSession, Emitter {
 		try {
 			$dbToken = $this->tokenProvider->getToken($token);
 		} catch (InvalidTokenException $e) {
-			// Can't relaly happen but better save than sorry
+			// Can't really happen but better save than sorry
 			return true;
 		}
 
