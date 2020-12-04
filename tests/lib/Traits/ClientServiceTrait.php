@@ -49,7 +49,7 @@ trait ClientServiceTrait {
 	 *
 	 * @since  Method available since Release 3.0.0
 	 */
-	abstract static public function any();
+	abstract public static function any();
 
 	protected function setUpClientServiceTrait() {
 		$this->clientService = $this->createMock(IClientService::class);

@@ -39,7 +39,6 @@ use OCP\Calendar\Room\IManager as IRoomManager;
 use Test\TestCase;
 
 interface tmpI extends IResource, IMetadataProvider {
-
 }
 
 class UpdateCalendarResourcesRoomsBackgroundJobTest extends TestCase {

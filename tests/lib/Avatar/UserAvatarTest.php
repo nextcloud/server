@@ -82,7 +82,7 @@ class UserAvatarTest extends \Test\TestCase {
 			}));
 
 		$file->method('getContent')
-			->willReturnCallback(function() use (&$data) {
+			->willReturnCallback(function () use (&$data) {
 				return $data;
 			});
 
