@@ -215,6 +215,66 @@ Feature: federated
 			| share_with | user2 |
 			| share_with_displayname | user2 |
 
+  Scenario: Share a file to a cloud id on the same instance
+    And Using server "LOCAL"
+    And user "user0" exists
+    And user "user1" exists
+    And User "user0" uploads file "data/textfile.txt" to "/sharelocal.txt"
+    And User "user0" from server "LOCAL" shares "/sharelocal.txt" with user "user1" from server "LOCAL"
+    And User "user1" from server "LOCAL" accepts last pending share
+    And Using server "LOCAL"
+    And As an "user1"
+    When Downloading file "/sharelocal.txt" with range "bytes=0-18"
+    Then Downloaded content should be "This is a testfile."
+
+  Scenario: Reshare a federated shared on the same instance to another cloud id on the same instance
+    And Using server "LOCAL"
+    And user "user0" exists
+    And user "user1" exists
+    And user "user2" exists
+    And User "user0" uploads file "data/textfile.txt" to "/reshare.txt"
+    And User "user0" from server "LOCAL" shares "/reshare.txt" with user "user1" from server "LOCAL"
+    And User "user1" from server "LOCAL" accepts last pending share
+    And User "user1" from server "LOCAL" shares "/reshare.txt" with user "user2" from server "LOCAL"
+    And User "user2" from server "LOCAL" accepts last pending share
+    And Using server "LOCAL"
+    And As an "user2"
+    When Downloading file "/reshare.txt" with range "bytes=0-18"
+    Then Downloaded content should be "This is a testfile."
+
+  Scenario: Reshare a federated shared file to a federated user back to the original instance
+    Given Using server "REMOTE"
+    And user "user1" exists
+    And Using server "LOCAL"
+    And user "user0" exists
+    And user "user2" exists
+    And User "user0" uploads file "data/textfile.txt" to "/reshare1.txt"
+    And User "user0" from server "LOCAL" shares "/reshare1.txt" with user "user1" from server "REMOTE"
+    And User "user1" from server "REMOTE" accepts last pending share
+    And User "user1" from server "REMOTE" shares "/reshare1.txt" with user "user2" from server "LOCAL"
+    And User "user2" from server "LOCAL" accepts last pending share
+    And Using server "LOCAL"
+    And As an "user2"
+    When Downloading file "/reshare1.txt" with range "bytes=0-18"
+    Then Downloaded content should be "This is a testfile."
+
+  Scenario: Reshare a federated shared file to a federated user on the same instance
+    Given Using server "REMOTE"
+    And user "user1" exists
+    And user "user2" exists
+    And Using server "LOCAL"
+    And user "user0" exists
+    And User "user0" uploads file "data/textfile.txt" to "/reshare2.txt"
+    And User "user0" from server "LOCAL" shares "/reshare2.txt" with user "user1" from server "REMOTE"
+    And User "user1" from server "REMOTE" accepts last pending share
+    And User "user1" from server "REMOTE" shares "/reshare2.txt" with user "user2" from server "REMOTE"
+    And User "user2" from server "REMOTE" accepts last pending share
+    And Using server "REMOTE"
+    And As an "user2"
+    When Downloading file "/reshare2.txt" with range "bytes=0-18"
+    Then Downloaded content should be "This is a testfile."
+
+
 	Scenario: Overwrite a federated shared file as recipient
 		Given Using server "REMOTE"
 		And user "user1" exists
