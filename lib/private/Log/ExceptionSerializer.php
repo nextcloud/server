@@ -86,6 +86,9 @@ class ExceptionSerializer {
 
 		// files_external: UserStoragesController
 		'update',
+
+		// Preview providers, don't log big data strings
+		'imagecreatefromstring',
 	];
 
 	public const methodsWithSensitiveParametersByClass = [
