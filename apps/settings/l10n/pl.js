@@ -68,6 +68,7 @@ OC.L10N.register(
     "installing and updating apps via the app store or Federated Cloud Sharing" : "instalowanie i aktualizowanie aplikacji za pośrednictwem sklepu z aplikacjami lub Udostępnionej Chmury Federacyjnej",
     "Federated Cloud Sharing" : "Udostępnianie Chmury Federacyjnej",
     "cURL is using an outdated %1$s version (%2$s). Please update your operating system or features such as %3$s will not work reliably." : "cURL używa nieaktualnej %1$s wersji (%2$s). Zaktualizuj system operacyjny lub funkcje takie jak %3$s nie będą działać prawidłowo.",
+    "Could not determine if TLS version of cURL is outdated or not because an error happened during the HTTPS request against https://nextcloud.com. Please check the nextcloud log file for more details." : "Nie można określić, czy wersja TLS cURL jest aktualna, ponieważ wystąpił błąd podczas żądania HTTPS skierowanego do https://nextcloud.com. Aby uzyskać więcej informacji, sprawdź plik dziennika nextcloud.",
     "Invalid SMTP password." : "Nieprawidłowe hasło SMTP.",
     "Email setting test" : "Test ustawień e-mail",
     "Well done, %s!" : "Dobra robota, %s!",

@@ -27,6 +27,7 @@
     "Nextcloud Server" : "Serveur Nextcloud",
     "Some of your link shares have been removed" : "Certains de vos liens partagés ont été supprimés.",
     "Due to a security bug we had to remove some of your link shares. Please see the link for more information." : "En raison d'une faille de sécurité, nous avons supprimé certains de vos liens partagés. Consultez le lien ci-dessus pour plus d'information.",
+    "The user limit of this instance is reached." : "Le nombre maximum d'utilisateurs a été atteint sur cette instance.",
     "Preparing update" : "Préparation de la mise à jour",
     "[%d / %d]: %s" : "[%d / %d] : %s",
     "Repair step:" : "Étape de réparation :",

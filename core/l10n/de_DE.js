@@ -29,6 +29,7 @@ OC.L10N.register(
     "Nextcloud Server" : "Nextcloud-Server",
     "Some of your link shares have been removed" : "Einige der geteilten Freigaben wurden entfernt",
     "Due to a security bug we had to remove some of your link shares. Please see the link for more information." : "Aufgrund eines Sicherheitsfehlers mussten einige Link-Freigaben entfernt werden. Für weitere Informationen siehe Link.",
+    "The user limit of this instance is reached." : "Die Benutzergrenze dieser Instanz ist erreicht.",
     "Preparing update" : "Update vorbereiten",
     "[%d / %d]: %s" : "[%d / %d]: %s",
     "Repair step:" : "Reparaturschritt:",
