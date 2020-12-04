@@ -13,6 +13,7 @@ use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Platforms\OraclePlatform;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\SchemaConfig;
+use OC\DB\SchemaWrapper;
 use OCP\IConfig;
 
 /**
@@ -94,6 +95,26 @@ class MigratorTest extends \Test\TestCase {
 		return [$startSchema, $endSchema];
 	}
 
+	/**
+	 * @return \Doctrine\DBAL\Schema\Schema[]
+	 */
+	private function getChangedTypeSchema($from, $to) {
+		$startSchema = new Schema([], [], $this->getSchemaConfig());
+		$table = $startSchema->createTable($this->tableName);
+		$table->addColumn('id', $from);
+		$table->addColumn('name', 'string');
+		$table->addIndex(['id'], $this->tableName . '_id');
+
+		$endSchema = new Schema([], [], $this->getSchemaConfig());
+		$table = $endSchema->createTable($this->tableName);
+		$table->addColumn('id', $to);
+		$table->addColumn('name', 'string');
+		$table->addIndex(['id'], $this->tableName . '_id');
+
+		return [$startSchema, $endSchema];
+	}
+
+
 	private function getSchemaConfig() {
 		$config = new SchemaConfig();
 		$config->setName($this->connection->getDatabase());
@@ -121,6 +142,34 @@ class MigratorTest extends \Test\TestCase {
 
 		$migrator->checkMigrate($endSchema);
 		$this->fail('checkMigrate should have failed');
+	}
+
+	public function testChangeToString() {
+		list($startSchema, $endSchema) = $this->getChangedTypeSchema('integer', 'string');
+		$migrator = $this->manager->getMigrator();
+		$migrator->migrate($startSchema);
+		$schema = new SchemaWrapper($this->connection);
+		$table = $schema->getTable(substr($this->tableName, 3));
+		$this->assertEquals('integer', $table->getColumn('id')->getType()->getName());
+
+		$this->connection->insert($this->tableName, ['id' => 1, 'name' => 'foo']);
+		$this->connection->insert($this->tableName, ['id' => 2, 'name' => 'bar']);
+		$this->connection->insert($this->tableName, ['id' => 3, 'name' => 'qwerty']);
+
+		$migrator->checkMigrate($endSchema);
+		$migrator->migrate($endSchema);
+		$this->addToAssertionCount(1);
+
+		$qb = $this->connection->getQueryBuilder();
+		$result = $qb->select('*')->from(substr($this->tableName, 3))->execute();
+		$this->assertEquals([
+			['id' => 1, 'name' => 'foo'],
+			['id' => 2, 'name' => 'bar'],
+			['id' => 3, 'name' => 'qwerty']
+		], $result->fetchAll());
+		$schema = new SchemaWrapper($this->connection);
+		$table = $schema->getTable(substr($this->tableName, 3));
+		$this->assertEquals('string', $table->getColumn('id')->getType()->getName());
 	}
 
 	public function testUpgrade() {
