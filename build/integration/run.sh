@@ -34,13 +34,13 @@ if [ -z "$EXECUTOR_NUMBER" ]; then
 fi
 PORT=$((8080 + $EXECUTOR_NUMBER))
 echo $PORT
-php -S localhost:$PORT -t ../.. &
+PHP_CLI_SERVER_WORKERS=10 php -S 0.0.0.0:$PORT -t ../.. &
 PHPPID=$!
 echo $PHPPID
 
 PORT_FED=$((8180 + $EXECUTOR_NUMBER))
 echo $PORT_FED
-php -S localhost:$PORT_FED -t ../.. &
+PHP_CLI_SERVER_WORKERS=10 php -S 0.0.0.0:$PORT_FED -t ../.. &
 PHPPID_FED=$!
 echo $PHPPID_FED
 
@@ -66,6 +66,7 @@ RESULT=$?
 
 kill $PHPPID
 kill $PHPPID_FED
+pkill -9 php
 
 if [ "$INSTALLED" == "true" ]; then
 
