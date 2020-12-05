@@ -165,6 +165,7 @@
     "Oct." : "Okt.",
     "Nov." : "Nov.",
     "Dec." : "Dez.",
+    "The user limit has been reached and the user was not created." : "Die Benutzergrenze wurde erreicht und der Benutzer wurde nicht erstellt.",
     "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Folgende Zeichen sind im Benutzernamen erlaubt: „a-z“, „A-Z“, „0-9“ und „_.@-'“",
     "A valid username must be provided" : "Es muss ein gültiger Benutzername angegeben werden",
     "Username contains whitespace at the beginning or at the end" : "Der Benutzername enthält Leerzeichen am Anfang oder am Ende",
