@@ -30,6 +30,7 @@ OC.L10N.register(
     "Some of your link shares have been removed" : "Elimináronse algunhas das súas ligazóns de compartición",
     "Due to a security bug we had to remove some of your link shares. Please see the link for more information." : "Por mor dun erro de seguridade tivemos que eliminar algunhas das súas ligazóns de compartición. Vexa a ligazón para obter máis información.",
     "The user limit of this instance is reached." : "Acadouse o límite de usuarios desta instancia.",
+    "Enter your subscription key to increase the user limit. For more information about Nextcloud Enterprise see our website." : "Introduza a súa chave de subscrición para aumentar o límite de usuarios. Para obter máis información sobre Nextcloud Enterprise, consulte o noso sitio web.",
     "Preparing update" : "Preparando a actualización",
     "[%d / %d]: %s" : "[%d / %d]: %s",
     "Repair step:" : "Paso do arranxo:",
