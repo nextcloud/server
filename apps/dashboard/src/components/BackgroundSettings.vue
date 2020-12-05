@@ -26,7 +26,7 @@
 			:class="{ active: background === 'custom' }"
 			tabindex="0"
 			@click="pickFile">
-			{{ t('dashboard', 'Pick from files') }}
+			{{ t('dashboard', 'Pick from Files') }}
 		</button>
 		<button class="background default"
 			tabindex="0"
