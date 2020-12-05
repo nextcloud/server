@@ -27,6 +27,8 @@
     "Nextcloud Server" : "Servidor Nexcloud",
     "Some of your link shares have been removed" : "Algunos de tus enlaces compartidos han sido eliminados.",
     "Due to a security bug we had to remove some of your link shares. Please see the link for more information." : "Debido a un bug de seguridad hemos tenido que eliminar algunos de tus enlaces compartidos. Por favor, accede al link para más información.",
+    "The user limit of this instance is reached." : "Se alcanzó el límite de usuarios de esta instancia.",
+    "Enter your subscription key to increase the user limit. For more information about Nextcloud Enterprise see our website." : "Introduzca su clave de suscripción para aumentar el límite de usuarios. Para obtener más información sobre Nextcloud Enterprise, visite nuestro sitio web.",
     "Preparing update" : "Preparando la actualización",
     "[%d / %d]: %s" : "[%d / %d]: %s",
     "Repair step:" : "Paso de reparación:",

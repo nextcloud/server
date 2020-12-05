@@ -29,6 +29,8 @@ OC.L10N.register(
     "Nextcloud Server" : "Strežnik Nextcloud",
     "Some of your link shares have been removed" : "Nekatere povezave za souporabo so bile odstranjene.",
     "Due to a security bug we had to remove some of your link shares. Please see the link for more information." : "Zaradi varnostnih razlogov so bile nekatere povezave odstranjene. Več podrobnosti je na voljo v uradno izdanem opozorilu.",
+    "The user limit of this instance is reached." : "Dosežena je količinska omejitev za uporabnika.",
+    "Enter your subscription key to increase the user limit. For more information about Nextcloud Enterprise see our website." : "Vpišite ključ naročnine in povečajte omejitev za uporabnika. Za več podrobnosti si oglejte Poslovni paket Nextcloud na spletni strani.",
     "Preparing update" : "Poteka pripravljanje posodobitve",
     "[%d / %d]: %s" : "[%d / %d]: %s",
     "Repair step:" : "Korak popravila:",
