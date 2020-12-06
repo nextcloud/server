@@ -165,6 +165,7 @@
     "Oct." : "Okt.",
     "Nov." : "Nov.",
     "Dec." : "Dec.",
+    "The user limit has been reached and the user was not created." : "Het maximum aantal gebruikers is bereikt en de gebruiker is niet aangemaakt.",
     "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Alleen de volgende tekens zijn toegestaan in een gebruikersnaam: \"a-z\", \"A-Z\", \"0-9\", en \"_.@-\"",
     "A valid username must be provided" : "Er moet een geldige gebruikersnaam worden opgegeven",
     "Username contains whitespace at the beginning or at the end" : "De gebruikersnaam bevat spaties aan het begin of aan het eind",

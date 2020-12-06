@@ -66,6 +66,7 @@
     "installing and updating apps via the app store or Federated Cloud Sharing" : "installeren en bijwerken van applicaties via de app store of gefedereerd delen",
     "Federated Cloud Sharing" : "Gefedereerd delen via de cloud",
     "cURL is using an outdated %1$s version (%2$s). Please update your operating system or features such as %3$s will not work reliably." : "cUrl gebruikt een verouderde %1$s versie (%2$s). Werk het besturingssysteem bij, want anders zullen functies als %3$s niet betrouwbaar werken.",
+    "Could not determine if TLS version of cURL is outdated or not because an error happened during the HTTPS request against https://nextcloud.com. Please check the nextcloud log file for more details." : "Kan niet bepalen of de TLS-versie van cURL verouderd is of niet, omdat er een fout is opgetreden tijdens het HTTPS-verzoek voor https://nextcloud.com. Controleer het logbestand van Nextcloud voor meer details.",
     "Invalid SMTP password." : "Ongeldig SMTP wachtwoord",
     "Email setting test" : "E-mailinstellingen test",
     "Well done, %s!" : "Goed gedaan, %s!",

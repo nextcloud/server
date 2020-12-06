@@ -373,6 +373,7 @@ OC.L10N.register(
     "Restrict username autocompletion to users within the same groups" : "Запретить автоматическое дополнение имён пользователей из других групп",
     "This text will be shown on the public link upload page when the file list is hidden." : "Этот текст будет показан при переходе по открытой ссылке на страницу передачи файлов на сервер и только при скрытом списке файлов.",
     "Default share permissions" : "Права общего доступа по умолчанию",
+    "Reasons to use Nextcloud in your organization" : "Причины использовать Nextcloud в организации",
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "Разработано {communityopen}сообществом Nextcloud{linkclose}, {githubopen}исходный код{linkclose} лицензируется в соответствии с {licenseopen}AGPL{linkclose}.",
     "Like our Facebook page" : "Посмотрите нашу страницу на Facebook",
     "Follow us on Twitter" : "Следите за нашими новостями в Twitter",

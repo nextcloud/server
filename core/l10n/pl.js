@@ -182,7 +182,7 @@ OC.L10N.register(
     "Could not load your contacts" : "Nie można załadować kontaktów",
     "Search contacts …" : "Wyszukiwanie kontaktów…",
     "No contacts found" : "Nie znaleziono kontaktów",
-    "Show all contacts …" : "Pokazywanie wszystkich kontaktów…",
+    "Show all contacts …" : "Pokaż wszystkie kontakty…",
     "Install the Contacts app" : "Zainstaluj aplikację \"Kontakty\"",
     "Loading your contacts …" : "Ładowanie kontaktów…",
     "Looking for {term} …" : "Szukam {term}…",
