@@ -193,6 +193,8 @@ OC.L10N.register(
     "New text file.txt" : "Nieuw tekstbestand.txt",
     "Unshare" : "Stop met delen",
     "Storage of {owner} is almost full ({usedSpacePercent}%)" : "Opslagruimte van {owner} zit bijna vol ({usedSpacePercent}%)",
+    "Group folder \"{mountPoint}\" is almost full ({usedSpacePercent}%)" : "Groepsmap \"{mountPoint}\" is bijna ({usedSpacePercent}%) vol ",
+    "External storage \"{mountPoint}\" is almost full ({usedSpacePercent}%)" : "Externe opslag \"{mountPoint}\" is bijna ({usedSpacePercent}%) vol",
     "Your storage is almost full ({usedSpacePercent}%)" : "Je opslagruimte zit bijna vol ({usedSpacePercent}%)",
     "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>" : "Een bestand of map is <strong>gewijzigd</strong> of <strong>hernoemd</strong>",
     "A new file or folder has been <strong>created</strong>" : "Een nieuw bestand of map is <strong>aangemaakt</strong>",
