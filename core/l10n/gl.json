@@ -299,7 +299,7 @@
     "SQLite should only be used for minimal and development instances. For production we recommend a different database backend." : "SQLite só debería empregarse para instancias mínimas e de desenvolvemento. Para produción recomendámoslle que empregue unha infraestrutura de base de datos diferente.",
     "If you use clients for file syncing, the use of SQLite is highly discouraged." : "Se emprega clientes para a sincronización dos ficheiros, desaconséllase encarecidamente o uso de SQLite.",
     "Install recommended apps" : "Instalar aplicacións recomendadas",
-    "Calendar, Contacts, Talk, Mail & Collaborative editing" : "Calendario, Contactos, Talk (falar), Correo e Edición colaborativa",
+    "Calendar, Contacts, Talk, Mail & Collaborative editing" : "Calendario, Contactos, Talk, Correo e Edición colaborativa",
     "Finish setup" : "Rematar a configuración",
     "Finishing …" : "Rematando…",
     "Need help?" : "Precisa axuda?",
@@ -373,7 +373,7 @@
     "Nextcloud {app}" : "Nextcloud {app}",
     "Local document editing back-end used by the OnlyOffice app." : "Infraestrutura para a edición de documentos locais utilizada pola aplicación OnlyOffice.",
     "Saving..." : "Gardando…",
-    "Calendar, Contacts, Talk, Mail & OnlyOffice" : "Calendario, Contactos, Talk (falar), Correo e OnlyOffice",
+    "Calendar, Contacts, Talk, Mail & OnlyOffice" : "Calendario, Contactos, Talk, Correo e OnlyOffice",
     "Search" : "Buscar",
     "These apps will be updated:" : "Actualizaranse estas aplicacións:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

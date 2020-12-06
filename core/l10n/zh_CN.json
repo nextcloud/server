@@ -28,6 +28,7 @@
     "Some of your link shares have been removed" : "您的一些链接共享已被移除",
     "Due to a security bug we had to remove some of your link shares. Please see the link for more information." : "由于一个安全缺陷，我们必须移除您的部分链接共享。更多信息请查看此链接。",
     "The user limit of this instance is reached." : "已达到这个实例的最大用户数。",
+    "Enter your subscription key to increase the user limit. For more information about Nextcloud Enterprise see our website." : "输入订阅密钥以增加用户限制。欲了解更多关于Nextcloud企业版的信息，请访问我们的网站。",
     "Preparing update" : "正在准备更新",
     "[%d / %d]: %s" : "[%d / %d]：%s",
     "Repair step:" : "修复错误：",
