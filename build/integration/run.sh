@@ -34,18 +34,18 @@ if [ -z "$EXECUTOR_NUMBER" ]; then
 fi
 PORT=$((8080 + $EXECUTOR_NUMBER))
 echo $PORT
-PHP_CLI_SERVER_WORKERS=10 php -S 0.0.0.0:$PORT -t ../.. &>/tmp/nc-access-$PORT &
+PHP_CLI_SERVER_WORKERS=10 php -S 0.0.0.0:$PORT -t ../.. &>/${NC_DATADIR}/nc-access-$PORT &
 PHPPID=$!
 echo $PHPPID
 
 PORT_FED=$((8180 + $EXECUTOR_NUMBER))
 echo $PORT_FED
-PHP_CLI_SERVER_WORKERS=10 php -S 0.0.0.0:$PORT_FED -t ../.. &>/tmp/nc-access-$PORT_FED &
+PHP_CLI_SERVER_WORKERS=10 php -S 0.0.0.0:$PORT_FED -t ../.. &>/${NC_DATADIR}/nc-access-$PORT_FED &
 PHPPID_FED=$!
 echo $PHPPID_FED
 
 if [ -n $SHOW_LOGS ]; then
-	tail -f /tmp/nc-access-*
+	tail -f /${NC_DATADIR}/nc-access-* &
 fi
 
 export TEST_SERVER_URL="http://localhost:$PORT/ocs/"
@@ -70,7 +70,7 @@ RESULT=$?
 
 kill $PHPPID
 kill $PHPPID_FED
-pkill -9 php
+pkill -9 tail
 
 if [ "$INSTALLED" == "true" ]; then
 
