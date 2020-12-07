@@ -216,7 +216,8 @@ class FederatedShareProvider implements IShareProvider {
 			$remoteShare = null;
 		}
 
-		if ($remoteShare) {
+		// Only use reshare notification if we are actually trying to go to a different server
+		if ($remoteShare && $cloudId->getRemote() !== $currentServer) {
 			try {
 				$ownerCloudId = $this->cloudIdManager->getCloudId($remoteShare['owner'], $remoteShare['remote']);
 				$shareId = $this->addShareToDB($itemSource, $itemType, $cloudId->getId(), $sharedBy, $ownerCloudId->getId(), $permissions, 'tmp_token_' . time(), $shareType);
