@@ -165,3 +165,19 @@ Feature: avatar
       | X-NC-IsCustomAvatar | 1 |
     And last avatar is a square of size 96
     And last avatar is a single "#FF0000" color
+
+
+
+  Scenario: get default guest avatar
+    When user "user0" gets avatar for guest "guest0"
+    Then The following headers should be set
+      | Content-Type | image/png |
+    And last avatar is a square of size 128
+    And last avatar is not a single color
+
+  Scenario: get default guest avatar as an anonymous user
+    When user "anonymous" gets avatar for guest "guest0"
+    Then The following headers should be set
+      | Content-Type | image/png |
+    And last avatar is a square of size 128
+    And last avatar is not a single color

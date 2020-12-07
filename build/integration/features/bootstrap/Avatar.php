@@ -72,6 +72,20 @@ trait Avatar {
 	}
 
 	/**
+	 * @When user :user gets avatar for guest :guestAvatar
+	 *
+	 * @param string $user
+	 * @param string $guestAvatar
+	 */
+	public function userGetsAvatarForGuest(string $user, string $guestAvatar) {
+		$this->asAn($user);
+		$this->sendingToDirectUrl('GET', '/index.php/avatar/guest/' . $guestAvatar . '/128');
+		$this->theHTTPStatusCodeShouldBe('201');
+
+		$this->getLastAvatar();
+	}
+
+	/**
 	 * @When logged in user gets temporary avatar
 	 */
 	public function loggedInUserGetsTemporaryAvatar() {
