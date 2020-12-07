@@ -34,19 +34,15 @@ if [ -z "$EXECUTOR_NUMBER" ]; then
 fi
 PORT=$((8080 + $EXECUTOR_NUMBER))
 echo $PORT
-PHP_CLI_SERVER_WORKERS=10 php -S 0.0.0.0:$PORT -t ../.. &>/${NC_DATADIR}/nc-access-$PORT &
+PHP_CLI_SERVER_WORKERS=20 php -S 0.0.0.0:$PORT -t ../.. &
 PHPPID=$!
 echo $PHPPID
 
 PORT_FED=$((8180 + $EXECUTOR_NUMBER))
 echo $PORT_FED
-PHP_CLI_SERVER_WORKERS=10 php -S 0.0.0.0:$PORT_FED -t ../.. &>/${NC_DATADIR}/nc-access-$PORT_FED &
+PHP_CLI_SERVER_WORKERS=20 php -S 0.0.0.0:$PORT_FED -t ../.. &
 PHPPID_FED=$!
 echo $PHPPID_FED
-
-if [ -n $SHOW_LOGS ]; then
-	tail -f /${NC_DATADIR}/nc-access-* &
-fi
 
 export TEST_SERVER_URL="http://localhost:$PORT/ocs/"
 export TEST_SERVER_FED_URL="http://localhost:$PORT_FED/ocs/"
@@ -70,7 +66,6 @@ RESULT=$?
 
 kill $PHPPID
 kill $PHPPID_FED
-pkill -9 tail
 
 if [ "$INSTALLED" == "true" ]; then
 
@@ -80,7 +75,7 @@ if [ "$INSTALLED" == "true" ]; then
     $OCC app:disable files_external user_ldap
 fi
 
-if [ -n $SHOW_LOGS ]; then
+if [ -z $SHOW_LOGS ]; then
 	tail "${NC_DATADIR}/nextcloud.log"
 fi
 
