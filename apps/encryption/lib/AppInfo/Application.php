@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -29,82 +32,76 @@
 
 namespace OCA\Encryption\AppInfo;
 
-use OCA\Encryption\Crypto\Crypt;
-use OCA\Encryption\Crypto\DecryptAll;
-use OCA\Encryption\Crypto\EncryptAll;
+use Closure;
+use OC\Encryption\Manager;
 use OCA\Encryption\Crypto\Encryption;
 use OCA\Encryption\HookManager;
 use OCA\Encryption\Hooks\UserHooks;
-use OCA\Encryption\KeyManager;
-use OCA\Encryption\Recovery;
-use OCA\Encryption\Session;
 use OCA\Encryption\Users\Setup;
-use OCA\Encryption\Util;
+use OCP\AppFramework\App;
+use OCP\AppFramework\Bootstrap\IBootContext;
+use OCP\AppFramework\Bootstrap\IBootstrap;
+use OCP\AppFramework\Bootstrap\IRegistrationContext;
+use OCP\AppFramework\IAppContainer;
 use OCP\Encryption\IManager;
 use OCP\IConfig;
+use OCP\IUserSession;
+use OCP\Util;
 
-class Application extends \OCP\AppFramework\App {
-	/**
-	 * @param array $urlParams
-	 */
-	public function __construct($urlParams = []) {
-		parent::__construct('encryption', $urlParams);
+class Application extends App implements IBootstrap {
+
+	public const APP_ID = 'encryption';
+
+	public function __construct() {
+		parent::__construct(self::APP_ID);
 	}
 
-	public function setUp(IManager $encryptionManager) {
-		if ($encryptionManager->isEnabled()) {
-			/** @var Setup $setup */
-			$setup = $this->getContainer()->query(Setup::class);
-			$setup->setupSystem();
+	public function register(IRegistrationContext $context): void {
+	}
+
+	public function boot(IBootContext $context): void {
+		Util::addscript(self::APP_ID, 'encryption');
+
+		$encryptionManager = $context->getServerContainer()->get(Manager::class);
+		$encryptionSystemReady = $encryptionManager->isReady();
+
+		if ($encryptionSystemReady) {
+			$context->injectFn(Closure::fromCallable([$this, 'registerEncryptionModule']));
+			$context->injectFn(Closure::fromCallable([$this, 'registerHooks']));
+			$context->injectFn(Closure::fromCallable([$this, 'setUp']));
 		}
 	}
 
-	/**
-	 * register hooks
-	 */
-	public function registerHooks(IConfig $config) {
+	private function setUp(IManager $encryptionManager, Setup $setup): void {
+		if (!$encryptionManager->isEnabled()) {
+			return;
+		}
+
+		$setup->setupSystem();
+	}
+
+	private function registerHooks(IConfig $config, IAppContainer $container) {
 		if (!$config->getSystemValueBool('maintenance')) {
-			$container = $this->getContainer();
-			$server = $container->getServer();
 			// Register our hooks and fire them.
 			$hookManager = new HookManager();
-
 			$hookManager->registerHook([
-				new UserHooks($container->query(KeyManager::class),
-					$server->getUserManager(),
-					$server->getLogger(),
-					$container->query(Setup::class),
-					$server->getUserSession(),
-					$container->query(Util::class),
-					$container->query(Session::class),
-					$container->query(Crypt::class),
-					$container->query(Recovery::class))
+				$container->get(UserHooks::class)
 			]);
-
 			$hookManager->fireHooks();
 		} else {
 			// Logout user if we are in maintenance to force re-login
-			$this->getContainer()->getServer()->getUserSession()->logout();
+			/** @var IUserSession $userSession */
+			$userSession = $container->get(IUserSession::class);
+			$userSession->logout();
 		}
 	}
 
-	public function registerEncryptionModule(IManager $encryptionManager) {
-		$container = $this->getContainer();
-
+	private function registerEncryptionModule(IManager $encryptionManager, IAppContainer $container) {
 		$encryptionManager->registerEncryptionModule(
 			Encryption::ID,
 			Encryption::DISPLAY_NAME,
 			function () use ($container) {
-				return new Encryption(
-				$container->query(Crypt::class),
-				$container->query(KeyManager::class),
-				$container->query(Util::class),
-				$container->query(Session::class),
-				$container->query(EncryptAll::class),
-				$container->query(DecryptAll::class),
-				$container->getServer()->getLogger(),
-				$container->getServer()->getL10N($container->getAppName())
-			);
+				return $container->get(Encryption::class);
 			});
 	}
 }
