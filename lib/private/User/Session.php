@@ -832,8 +832,18 @@ class Session implements IUserSession, Emitter {
 			return false;
 		}
 
-		// Set the session variable so we know this is an app password
-		$this->session->set('app_password', $token);
+		try {
+			$dbToken = $this->tokenProvider->getToken($token);
+		} catch (InvalidTokenException $e) {
+			// Can't really happen but better save than sorry
+			return true;
+		}
+
+		// Remember me tokens are not app_passwords
+		if ($dbToken->getRemember() === IToken::DO_NOT_REMEMBER) {
+			// Set the session variable so we know this is an app password
+			$this->session->set('app_password', $token);
+		}
 
 		return true;
 	}
