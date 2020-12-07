@@ -193,6 +193,8 @@ OC.L10N.register(
     "New text file.txt" : "Nový textový soubor.txt",
     "Unshare" : "Zrušit sdílení",
     "Storage of {owner} is almost full ({usedSpacePercent}%)" : "Úložiště uživatele {owner} je téměř plné ({usedSpacePercent}%)",
+    "Group folder \"{mountPoint}\" is almost full ({usedSpacePercent}%)" : "Skupinový adresář \"{mountPoint}\" je téměř plný ({usedSpacePercent}%)",
+    "External storage \"{mountPoint}\" is almost full ({usedSpacePercent}%)" : "Externí úložiště \"{mountPoint}\" je téměř plné ({usedSpacePercent}%)",
     "Your storage is almost full ({usedSpacePercent}%)" : "Vaše úložiště je téměř plné ({usedSpacePercent}%)",
     "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>" : "Soubor nebo složka byla <strong>změněna</strong> nebo <strong>přejmenována</strong>",
     "A new file or folder has been <strong>created</strong>" : "Byl <strong>vytvořen</strong> nový soubor nebo složka",
