@@ -165,6 +165,7 @@
     "Oct." : "Eki",
     "Nov." : "Kas",
     "Dec." : "Ara",
+    "The user limit has been reached and the user was not created." : "Kullanıcı sayısı sınırına ulaşıldığından kullanıcı eklenemedi.",
     "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Kullanıcı adında yalnız şu karakterler kullanılabilir: \"a-z\", \"A-Z\", \"0-9\", ve \"_.@-'\"",
     "A valid username must be provided" : "Geçerli bir kullanıcı adı yazmalısınız",
     "Username contains whitespace at the beginning or at the end" : "Kullanıcı adının başı ya da sonunda boşluk var",

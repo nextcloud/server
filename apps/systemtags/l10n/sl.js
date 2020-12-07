@@ -41,7 +41,7 @@ OC.L10N.register(
     "{actor} removed system tag {systemtag} from {file}" : "{actor} odstrani sistemsko oznako {systemtag} z datoteke {file}",
     "%s (restricted)" : "%s (omejeno)",
     "%s (invisible)" : "%s (nevidno)",
-    "<strong>System tags</strong> for a file have been modified" : "<strong>Sistemske oznake</strong> datoteke so bile spremenjene",
+    "<strong>System tags</strong> for a file have been modified" : "Spremenjene so bile <strong>sistemske oznake</strong> datoteke",
     "Tags" : "Oznake",
     "Collaborative tags" : "Sodelovalne oznake",
     "Collaborative tagging functionality which shares tags among users." : "Možnost dodajanja sodelovalnih oznak za souporabo med uporabniki.",
