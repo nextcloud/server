@@ -27,6 +27,7 @@
 
 namespace OC\DB;
 
+use Doctrine\DBAL\Exception\DriverException;
 use Doctrine\DBAL\Platforms\OraclePlatform;
 use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
 use Doctrine\DBAL\Schema\Index;
@@ -421,7 +422,13 @@ class MigrationService {
 		// read known migrations
 		$toBeExecuted = $this->getMigrationsToExecute($to);
 		foreach ($toBeExecuted as $version) {
-			$this->executeStep($version, $schemaOnly);
+			try {
+				$this->executeStep($version, $schemaOnly);
+			} catch (DriverException $e) {
+				// The exception itself does not contain the name of the migration,
+				// so we wrap it here, to make debugging easier.
+				throw new \Exception('Database error when running migration ' . $to . ' for app ' . $this->getApp(), 0, $e);
+			}
 		}
 	}
 
