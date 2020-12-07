@@ -68,6 +68,7 @@ OC.L10N.register(
     "installing and updating apps via the app store or Federated Cloud Sharing" : "Uygulama mağazası ve Birleşik Bulut Paylaşımından uygulama kurma ve güncelleme",
     "Federated Cloud Sharing" : "Birleşik Bulut Paylaşımı",
     "cURL is using an outdated %1$s version (%2$s). Please update your operating system or features such as %3$s will not work reliably." : "cURL eski bir %1$s sürümü kullanıyor (%2$s). Lütfen işletim sisteminizi güncelleyin, yoksa %3$s gibi özellikler düzgün çalışmaz.",
+    "Could not determine if TLS version of cURL is outdated or not because an error happened during the HTTPS request against https://nextcloud.com. Please check the nextcloud log file for more details." : "https://nextcloud.com üzerine yapılan HTTPS isteği sırasında oluşan sorun nedeniyle cURL TLS sürümünün eski olup olmadığı belirlenemedi. Ayrıntılı bilgi almak için nextcloud günlük dosyasına bakabilirsiniz.",
     "Invalid SMTP password." : "SMTP parolası geçersiz.",
     "Email setting test" : "E-posta ayarları sınaması",
     "Well done, %s!" : "Tamamdır %s!",

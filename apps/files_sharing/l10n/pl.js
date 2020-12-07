@@ -173,7 +173,7 @@ OC.L10N.register(
     "Cancel" : "Anuluj",
     "Share label" : "Udostępnij etykietę",
     "Read only" : "Tylko do odczytu",
-    "Allow upload and editing" : "Zezwalaj na wysyłanie i edycję",
+    "Allow upload and editing" : "Zezwalaj na przesyłanie i edycję",
     "File drop (upload only)" : "Upuszczanie pliku (tylko wysyłanie)",
     "Hide download" : "Ukryj pobieranie",
     "Password protect" : "Zabezpiecz hasłem",

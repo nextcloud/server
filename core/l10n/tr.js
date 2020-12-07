@@ -29,6 +29,8 @@ OC.L10N.register(
     "Nextcloud Server" : "Nextcloud Sunucusu",
     "Some of your link shares have been removed" : "Bazı paylaşım bağlantılarınız silindi",
     "Due to a security bug we had to remove some of your link shares. Please see the link for more information." : "Bir güvenlik açığı nedeniyle bazı paylaşım bağlantılarınızı silmek zorunda kaldık. ayrıntılı bilgi almak için bağlantıya bakabilirsiniz.",
+    "The user limit of this instance is reached." : "Bu kopya için kullanıcı sayısı sınırına ulaşıldı.",
+    "Enter your subscription key to increase the user limit. For more information about Nextcloud Enterprise see our website." : "Kullanıcı sayısı sınırını arttırmak için abonelik anatarınızı yazın. Nextcloud Enterprise sürümü hakkında ayrıntılı bilgi almak için web sitemize bakabilirsiniz.",
     "Preparing update" : "Güncelleme hazırlanıyor",
     "[%d / %d]: %s" : "[%d / %d]: %s",
     "Repair step:" : "Onarım adımı:",
