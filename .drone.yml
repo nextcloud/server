@@ -859,6 +859,31 @@ trigger:
 
 ---
 kind: pipeline
+name: integration-avatar
+
+steps:
+- name: submodules
+  image: docker:git
+  commands:
+    - git submodule update --init
+- name: integration-auth
+  image: nextcloudci/integration-php7.3:integration-php7.3-2
+  commands:
+    - bash tests/drone-run-integration-tests.sh || exit 0
+    - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
+    - cd build/integration
+    - ./run.sh features/avatar.feature
+
+trigger:
+  branch:
+    - master
+    - stable*
+  event:
+    - pull_request
+    - push
+
+---
+kind: pipeline
 name: integration-maintenance-mode
 
 steps:
