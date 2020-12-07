@@ -152,4 +152,16 @@ class AvatarManager implements IAvatarManager {
 	public function getGuestAvatar(string $name): IAvatar {
 		return new GuestAvatar($name, $this->logger);
 	}
+
+	public function getGenericAvatar(string $type, string $id): IAvatar {
+		if ($type === 'user') {
+			return $this->getAvatar($id);
+		}
+
+		if ($type === 'guest') {
+			return $this->getGuestAvatar($id);
+		}
+
+		throw new \InvalidArgumentException('Unknown avatar type: ' . $type);
+	}
 }
