@@ -218,9 +218,12 @@ class FederatedShareProvider implements IShareProvider {
 		}
 
 		// Only use reshare notification if we are actually trying to go to a different server
-		if ($remoteShare && $cloudId->getRemote() !== $currentServer) {
+		$ownerCloudId = $remoteShare ? $this->cloudIdManager->getCloudId($remoteShare['owner'], $remoteShare['remote']) : null;
+		$isReshareOnSameInstance = $ownerCloudId
+			&& $this->addressHandler->compareAddresses('', $cloudId->getRemote(), '', $ownerCloudId->getRemote())
+			&& $this->addressHandler->compareAddresses('', $ownerCloudId->getRemote(), '', $currentServer);
+		if ($remoteShare && !$isReshareOnSameInstance) {
 			try {
-				$ownerCloudId = $this->cloudIdManager->getCloudId($remoteShare['owner'], $remoteShare['remote']);
 				$shareId = $this->addShareToDB($itemSource, $itemType, $cloudId->getId(), $sharedBy, $ownerCloudId->getId(), $permissions, 'tmp_token_' . time(), $shareType);
 				$share->setId($shareId);
 				list($token, $remoteId) = $this->askOwnerToReShare($shareWith, $share, $shareId, $shareType);
@@ -241,6 +244,9 @@ class FederatedShareProvider implements IShareProvider {
 				throw new \Exception($message_t);
 			}
 		} else {
+			if ($isReshareOnSameInstance) {
+				$share->setShareOwner($ownerCloudId->getUser());
+			}
 			$shareId = $this->createFederatedShare($share);
 		}
 
