@@ -722,7 +722,6 @@
       <code>null</code>
       <code>null</code>
       <code>null</code>
-      <code>null</code>
     </NullableReturnStatement>
     <UndefinedClass occurrences="2">
       <code>\OCA\Circles\Api\v1\Circles</code>
@@ -1034,6 +1033,10 @@
     <RedundantCondition occurrences="1">
       <code>$userSession</code>
     </RedundantCondition>
+    <TypeDoesNotContainType occurrences="2">
+      <code>get_class($res) === 'OpenSSLAsymmetricKey'</code>
+      <code>is_object($res)</code>
+    </TypeDoesNotContainType>
   </file>
   <file src="apps/encryption/lib/Crypto/EncryptAll.php">
     <InvalidArgument occurrences="1">
@@ -2816,7 +2819,7 @@
   <file src="core/routes.php">
     <InvalidScope occurrences="2">
       <code>$this</code>
-      <code>$this</code>
+      <code>$this-&gt;create('core_ajax_update', '/core/ajax/update.php')</code>
     </InvalidScope>
   </file>
   <file src="core/templates/layout.public.php">
@@ -5463,6 +5466,9 @@
       <code>$data[floor($p)]</code>
       <code>$data[floor($p)]</code>
     </InvalidArrayOffset>
+    <InvalidPropertyAssignmentValue occurrences="1">
+      <code>$resource</code>
+    </InvalidPropertyAssignmentValue>
     <InvalidReturnType occurrences="1">
       <code>bool</code>
     </InvalidReturnType>
@@ -5491,6 +5497,10 @@
     <RedundantCondition occurrences="1">
       <code>$isWritable</code>
     </RedundantCondition>
+    <TypeDoesNotContainType occurrences="2">
+      <code>get_class($resource) === 'GdImage'</code>
+      <code>get_class($this-&gt;resource) === 'GdImage'</code>
+    </TypeDoesNotContainType>
   </file>
   <file src="lib/private/legacy/OC_JSON.php">
     <InvalidScalarArgument occurrences="1">
