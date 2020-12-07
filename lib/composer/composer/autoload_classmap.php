@@ -1267,6 +1267,7 @@ return array(
     'OC\\Repair\\NC20\\EncryptionMigration' => $baseDir . '/lib/private/Repair/NC20/EncryptionMigration.php',
     'OC\\Repair\\NC20\\ShippedDashboardEnable' => $baseDir . '/lib/private/Repair/NC20/ShippedDashboardEnable.php',
     'OC\\Repair\\NC21\\AddCheckForUserCertificatesJob' => $baseDir . '/lib/private/Repair/NC21/AddCheckForUserCertificatesJob.php',
+    'OC\\Repair\\NC21\\ValidatePhoneNumber' => $baseDir . '/lib/private/Repair/NC21/ValidatePhoneNumber.php',
     'OC\\Repair\\OldGroupMembershipShares' => $baseDir . '/lib/private/Repair/OldGroupMembershipShares.php',
     'OC\\Repair\\Owncloud\\DropAccountTermsTable' => $baseDir . '/lib/private/Repair/Owncloud/DropAccountTermsTable.php',
     'OC\\Repair\\Owncloud\\SaveAccountsTableData' => $baseDir . '/lib/private/Repair/Owncloud/SaveAccountsTableData.php',
