@@ -104,7 +104,6 @@ class SetupController {
 		];
 		$parameters = array_merge($defaults, $post);
 
-		\OC_Util::addScript('setup');
 		\OC_Template::printGuestPage('', 'installation', $parameters);
 	}
 
