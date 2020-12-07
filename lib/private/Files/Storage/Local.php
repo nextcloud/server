@@ -297,6 +297,8 @@ class Local extends \OC\Files\Storage\Common {
 
 	public function file_put_contents($path, $data) {
 		$oldMask = umask($this->defUMask);
+		// support Write-Once-Read-Many filesystems
+		$this->unlink($path);
 		$result = file_put_contents($this->getSourcePath($path), $data);
 		umask($oldMask);
 		return $result;
@@ -378,6 +380,10 @@ class Local extends \OC\Files\Storage\Common {
 
 	public function fopen($path, $mode) {
 		$oldMask = umask($this->defUMask);
+		if ($mode === 'w') {
+			// support Write-Once-Read-Many filesystems
+			$this->unlink($path);
+		}
 		$result = fopen($this->getSourcePath($path), $mode);
 		umask($oldMask);
 		return $result;
