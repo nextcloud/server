@@ -183,11 +183,15 @@ class FederatedShareProvider implements IShareProvider {
 			throw new \Exception($message_t);
 		}
 
+		$cloudId = $this->cloudIdManager->resolveCloudId($shareWith);
+		$currentServer = $this->addressHandler->generateRemoteURL();
+		$currentUser = $sharedBy;
+
 		/*
 		 * Check if file is not already shared with the remote user
 		 */
-		$alreadyShared = $this->getSharedWith($shareWith, IShare::TYPE_REMOTE, $share->getNode(), 1, 0);
-		$alreadySharedGroup = $this->getSharedWith($shareWith, IShare::TYPE_REMOTE_GROUP, $share->getNode(), 1, 0);
+		$alreadyShared = $this->getSharedWith($cloudId->getId(), IShare::TYPE_REMOTE, $share->getNode(), 1, 0);
+		$alreadySharedGroup = $this->getSharedWith($cloudId->getId(), IShare::TYPE_REMOTE_GROUP, $share->getNode(), 1, 0);
 		if (!empty($alreadyShared) || !empty($alreadySharedGroup)) {
 			$message = 'Sharing %1$s failed, because this item is already shared with %2$s';
 			$message_t = $this->l->t('Sharing %1$s failed, because this item is already shared with %2$s', [$share->getNode()->getName(), $shareWith]);
@@ -197,9 +201,6 @@ class FederatedShareProvider implements IShareProvider {
 
 
 		// don't allow federated shares if source and target server are the same
-		$cloudId = $this->cloudIdManager->resolveCloudId($shareWith);
-		$currentServer = $this->addressHandler->generateRemoteURL();
-		$currentUser = $sharedBy;
 		if ($this->addressHandler->compareAddresses($cloudId->getUser(), $cloudId->getRemote(), $currentUser, $currentServer)) {
 			$message = 'Not allowed to create a federated share with the same user.';
 			$message_t = $this->l->t('Not allowed to create a federated share with the same user');
