@@ -34,6 +34,7 @@
 
 namespace OC;
 
+use OC\App\AppStore\Bundles\BundleFetcher;
 use OC\Avatar\AvatarManager;
 use OC\Repair\AddBruteForceCleanupJob;
 use OC\Repair\AddCleanupUpdaterBackupsJob;
@@ -42,7 +43,11 @@ use OC\Repair\ClearFrontendCaches;
 use OC\Repair\ClearGeneratedAvatarCache;
 use OC\Repair\Collation;
 use OC\Repair\MoveUpdaterStepFile;
+use OC\Repair\Owncloud\CleanPreviews;
 use OC\Repair\NC11\FixMountStorages;
+use OC\Repair\Owncloud\MoveAvatars;
+use OC\Repair\Owncloud\InstallCoreBundle;
+use OC\Repair\Owncloud\UpdateLanguageCodes;
 use OC\Repair\NC13\AddLogRotateJob;
 use OC\Repair\NC14\AddPreviewBackgroundCleanupJob;
 use OC\Repair\NC16\AddClenupLoginFlowV2BackgroundJob;
@@ -151,7 +156,22 @@ class Repair implements IOutput {
 			new CleanTags(\OC::$server->getDatabaseConnection(), \OC::$server->getUserManager()),
 			new RepairInvalidShares(\OC::$server->getConfig(), \OC::$server->getDatabaseConnection()),
 			new MoveUpdaterStepFile(\OC::$server->getConfig()),
+			new MoveAvatars(
+				\OC::$server->getJobList(),
+				\OC::$server->getConfig()
+			),
+			new CleanPreviews(
+				\OC::$server->getJobList(),
+				\OC::$server->getUserManager(),
+				\OC::$server->getConfig()
+			),
 			new FixMountStorages(\OC::$server->getDatabaseConnection()),
+			new UpdateLanguageCodes(\OC::$server->getDatabaseConnection(), \OC::$server->getConfig()),
+			new InstallCoreBundle(
+				\OC::$server->query(BundleFetcher::class),
+				\OC::$server->getConfig(),
+				\OC::$server->query(Installer::class)
+			),
 			new AddLogRotateJob(\OC::$server->getJobList()),
 			new ClearFrontendCaches(\OC::$server->getMemCacheFactory(), \OC::$server->query(SCSSCacher::class), \OC::$server->query(JSCombiner::class)),
 			new ClearGeneratedAvatarCache(\OC::$server->getConfig(), \OC::$server->query(AvatarManager::class)),
