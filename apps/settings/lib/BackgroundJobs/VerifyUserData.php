@@ -30,6 +30,7 @@
 namespace OCA\Settings\BackgroundJobs;
 
 use OC\Accounts\AccountManager;
+use OCP\Accounts\IAccountManager;
 use OCP\AppFramework\Http;
 use OCP\BackgroundJob\IJobList;
 use OCP\BackgroundJob\Job;
@@ -114,11 +115,11 @@ class VerifyUserData extends Job {
 		$try = (int)$argument['try'] + 1;
 
 		switch ($argument['type']) {
-			case AccountManager::PROPERTY_WEBSITE:
+			case IAccountManager::PROPERTY_WEBSITE:
 				$result = $this->verifyWebsite($argument);
 				break;
-			case AccountManager::PROPERTY_TWITTER:
-			case AccountManager::PROPERTY_EMAIL:
+			case IAccountManager::PROPERTY_TWITTER:
+			case IAccountManager::PROPERTY_EMAIL:
 				$result = $this->verifyViaLookupServer($argument, $argument['type']);
 				break;
 			default:
@@ -164,9 +165,9 @@ class VerifyUserData extends Job {
 			$userData = $this->accountManager->getUser($user);
 
 			if ($publishedCodeSanitized === $argument['verificationCode']) {
-				$userData[AccountManager::PROPERTY_WEBSITE]['verified'] = AccountManager::VERIFIED;
+				$userData[IAccountManager::PROPERTY_WEBSITE]['verified'] = AccountManager::VERIFIED;
 			} else {
-				$userData[AccountManager::PROPERTY_WEBSITE]['verified'] = AccountManager::NOT_VERIFIED;
+				$userData[IAccountManager::PROPERTY_WEBSITE]['verified'] = AccountManager::NOT_VERIFIED;
 			}
 
 			$this->accountManager->updateUser($user, $userData);

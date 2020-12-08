@@ -41,12 +41,18 @@ declare(strict_types=1);
 
 namespace OCA\Provisioning_API\Controller;
 
+use libphonenumber\NumberParseException;
+use libphonenumber\PhoneNumber;
+use libphonenumber\PhoneNumberFormat;
+use libphonenumber\PhoneNumberUtil;
 use OC\Accounts\AccountManager;
 use OC\Authentication\Token\RemoteWipe;
 use OC\HintException;
 use OCA\Provisioning_API\FederatedShareProviderFactory;
 use OCA\Settings\Mailer\NewUserMailHelper;
+use OCP\Accounts\IAccountManager;
 use OCP\App\IAppManager;
+use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
@@ -55,6 +61,7 @@ use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\ILogger;
 use OCP\IRequest;
+use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
@@ -67,6 +74,8 @@ class UsersController extends AUserData {
 
 	/** @var IAppManager */
 	private $appManager;
+	/** @var IURLGenerator */
+	protected $urlGenerator;
 	/** @var ILogger */
 	private $logger;
 	/** @var IFactory */
@@ -90,6 +99,7 @@ class UsersController extends AUserData {
 								IGroupManager $groupManager,
 								IUserSession $userSession,
 								AccountManager $accountManager,
+								IURLGenerator $urlGenerator,
 								ILogger $logger,
 								IFactory $l10nFactory,
 								NewUserMailHelper $newUserMailHelper,
@@ -107,6 +117,7 @@ class UsersController extends AUserData {
 							$l10nFactory);
 
 		$this->appManager = $appManager;
+		$this->urlGenerator = $urlGenerator;
 		$this->logger = $logger;
 		$this->l10nFactory = $l10nFactory;
 		$this->newUserMailHelper = $newUserMailHelper;
@@ -199,6 +210,65 @@ class UsersController extends AUserData {
 		return new DataResponse([
 			'users' => $usersDetails
 		]);
+	}
+
+
+	/**
+	 * @NoAdminRequired
+	 * @NoSubAdminRequired
+	 *
+	 * @param string $location
+	 * @param array $search
+	 * @return DataResponse
+	 */
+	public function searchByPhoneNumbers(string $location, array $search): DataResponse {
+		$phoneUtil = PhoneNumberUtil::getInstance();
+
+		if ($phoneUtil->getCountryCodeForRegion($location) === 0) {
+			// Not a valid region code
+			return new DataResponse([], Http::STATUS_BAD_REQUEST);
+		}
+
+		$normalizedNumberToKey = [];
+		foreach ($search as $key => $phoneNumbers) {
+			foreach ($phoneNumbers as $phone) {
+				try {
+					$phoneNumber = $phoneUtil->parse($phone, $location);
+					if ($phoneNumber instanceof PhoneNumber && $phoneUtil->isValidNumber($phoneNumber)) {
+						$normalizedNumber = $phoneUtil->format($phoneNumber, PhoneNumberFormat::E164);
+						$normalizedNumberToKey[$normalizedNumber] = (string) $key;
+					}
+				} catch (NumberParseException $e) {
+				}
+			}
+		}
+
+		$phoneNumbers = array_keys($normalizedNumberToKey);
+
+		if (empty($phoneNumbers)) {
+			return new DataResponse();
+		}
+
+		$userMatches = $this->accountManager->searchUsers(IAccountManager::PROPERTY_PHONE, $phoneNumbers);
+
+		if (empty($userMatches)) {
+			return new DataResponse();
+		}
+
+		$cloudUrl = rtrim($this->urlGenerator->getAbsoluteURL('/'), '/');
+		if (strpos($cloudUrl, 'http://') === 0) {
+			$cloudUrl = substr($cloudUrl, strlen('http://'));
+		} elseif (strpos($cloudUrl, 'https://') === 0) {
+			$cloudUrl = substr($cloudUrl, strlen('https://'));
+		}
+
+		$matches = [];
+		foreach ($userMatches as $phone => $userId) {
+			// Not using the ICloudIdManager as that would run a search for each contact to find the display name in the address book
+			$matches[$normalizedNumberToKey[$phone]] = $userId . '@' . $cloudUrl;
+		}
+
+		return new DataResponse($matches);
 	}
 
 	/**
@@ -431,17 +501,17 @@ class UsersController extends AUserData {
 
 		// Editing self (display, email)
 		if ($this->config->getSystemValue('allow_user_to_change_display_name', true) !== false) {
-			$permittedFields[] = AccountManager::PROPERTY_DISPLAYNAME;
-			$permittedFields[] = AccountManager::PROPERTY_EMAIL;
+			$permittedFields[] = IAccountManager::PROPERTY_DISPLAYNAME;
+			$permittedFields[] = IAccountManager::PROPERTY_EMAIL;
 		}
 
 		if ($this->appManager->isEnabledForUser('federatedfilesharing')) {
 			$shareProvider = $this->federatedShareProviderFactory->get();
 			if ($shareProvider->isLookupServerUploadEnabled()) {
-				$permittedFields[] = AccountManager::PROPERTY_PHONE;
-				$permittedFields[] = AccountManager::PROPERTY_ADDRESS;
-				$permittedFields[] = AccountManager::PROPERTY_WEBSITE;
-				$permittedFields[] = AccountManager::PROPERTY_TWITTER;
+				$permittedFields[] = IAccountManager::PROPERTY_PHONE;
+				$permittedFields[] = IAccountManager::PROPERTY_ADDRESS;
+				$permittedFields[] = IAccountManager::PROPERTY_WEBSITE;
+				$permittedFields[] = IAccountManager::PROPERTY_TWITTER;
 			}
 		}
 
@@ -474,8 +544,8 @@ class UsersController extends AUserData {
 			// Editing self (display, email)
 			if ($this->config->getSystemValue('allow_user_to_change_display_name', true) !== false) {
 				$permittedFields[] = 'display';
-				$permittedFields[] = AccountManager::PROPERTY_DISPLAYNAME;
-				$permittedFields[] = AccountManager::PROPERTY_EMAIL;
+				$permittedFields[] = IAccountManager::PROPERTY_DISPLAYNAME;
+				$permittedFields[] = IAccountManager::PROPERTY_EMAIL;
 			}
 
 			$permittedFields[] = 'password';
@@ -492,10 +562,10 @@ class UsersController extends AUserData {
 			if ($this->appManager->isEnabledForUser('federatedfilesharing')) {
 				$shareProvider = $this->federatedShareProviderFactory->get();
 				if ($shareProvider->isLookupServerUploadEnabled()) {
-					$permittedFields[] = AccountManager::PROPERTY_PHONE;
-					$permittedFields[] = AccountManager::PROPERTY_ADDRESS;
-					$permittedFields[] = AccountManager::PROPERTY_WEBSITE;
-					$permittedFields[] = AccountManager::PROPERTY_TWITTER;
+					$permittedFields[] = IAccountManager::PROPERTY_PHONE;
+					$permittedFields[] = IAccountManager::PROPERTY_ADDRESS;
+					$permittedFields[] = IAccountManager::PROPERTY_WEBSITE;
+					$permittedFields[] = IAccountManager::PROPERTY_TWITTER;
 				}
 			}
 
@@ -510,15 +580,15 @@ class UsersController extends AUserData {
 			|| $subAdminManager->isUserAccessible($currentLoggedInUser, $targetUser)) {
 				// They have permissions over the user
 				$permittedFields[] = 'display';
-				$permittedFields[] = AccountManager::PROPERTY_DISPLAYNAME;
-				$permittedFields[] = AccountManager::PROPERTY_EMAIL;
+				$permittedFields[] = IAccountManager::PROPERTY_DISPLAYNAME;
+				$permittedFields[] = IAccountManager::PROPERTY_EMAIL;
 				$permittedFields[] = 'password';
 				$permittedFields[] = 'language';
 				$permittedFields[] = 'locale';
-				$permittedFields[] = AccountManager::PROPERTY_PHONE;
-				$permittedFields[] = AccountManager::PROPERTY_ADDRESS;
-				$permittedFields[] = AccountManager::PROPERTY_WEBSITE;
-				$permittedFields[] = AccountManager::PROPERTY_TWITTER;
+				$permittedFields[] = IAccountManager::PROPERTY_PHONE;
+				$permittedFields[] = IAccountManager::PROPERTY_ADDRESS;
+				$permittedFields[] = IAccountManager::PROPERTY_WEBSITE;
+				$permittedFields[] = IAccountManager::PROPERTY_TWITTER;
 				$permittedFields[] = 'quota';
 			} else {
 				// No rights
@@ -532,7 +602,7 @@ class UsersController extends AUserData {
 		// Process the edit
 		switch ($key) {
 			case 'display':
-			case AccountManager::PROPERTY_DISPLAYNAME:
+			case IAccountManager::PROPERTY_DISPLAYNAME:
 				$targetUser->setDisplayName($value);
 				break;
 			case 'quota':
@@ -577,21 +647,25 @@ class UsersController extends AUserData {
 				}
 				$this->config->setUserValue($targetUser->getUID(), 'core', 'locale', $value);
 				break;
-			case AccountManager::PROPERTY_EMAIL:
+			case IAccountManager::PROPERTY_EMAIL:
 				if (filter_var($value, FILTER_VALIDATE_EMAIL) || $value === '') {
 					$targetUser->setEMailAddress($value);
 				} else {
 					throw new OCSException('', 102);
 				}
 				break;
-			case AccountManager::PROPERTY_PHONE:
-			case AccountManager::PROPERTY_ADDRESS:
-			case AccountManager::PROPERTY_WEBSITE:
-			case AccountManager::PROPERTY_TWITTER:
+			case IAccountManager::PROPERTY_PHONE:
+			case IAccountManager::PROPERTY_ADDRESS:
+			case IAccountManager::PROPERTY_WEBSITE:
+			case IAccountManager::PROPERTY_TWITTER:
 				$userAccount = $this->accountManager->getUser($targetUser);
 				if ($userAccount[$key]['value'] !== $value) {
 					$userAccount[$key]['value'] = $value;
-					$this->accountManager->updateUser($targetUser, $userAccount);
+					try {
+						$this->accountManager->updateUser($targetUser, $userAccount, true);
+					} catch (\InvalidArgumentException $e) {
+						throw new OCSException('Invalid ' . $e->getMessage(), 102);
+					}
 				}
 				break;
 			default:

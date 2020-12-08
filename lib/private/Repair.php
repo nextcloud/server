@@ -53,6 +53,7 @@ use OC\Repair\NC20\EncryptionLegacyCipher;
 use OC\Repair\NC20\EncryptionMigration;
 use OC\Repair\NC20\ShippedDashboardEnable;
 use OC\Repair\NC21\AddCheckForUserCertificatesJob;
+use OC\Repair\NC21\ValidatePhoneNumber;
 use OC\Repair\OldGroupMembershipShares;
 use OC\Repair\Owncloud\DropAccountTermsTable;
 use OC\Repair\Owncloud\SaveAccountsTableData;
@@ -177,7 +178,8 @@ class Repair implements IOutput {
 	 */
 	public static function getExpensiveRepairSteps() {
 		return [
-			new OldGroupMembershipShares(\OC::$server->getDatabaseConnection(), \OC::$server->getGroupManager())
+			new OldGroupMembershipShares(\OC::$server->getDatabaseConnection(), \OC::$server->getGroupManager()),
+			\OC::$server->get(ValidatePhoneNumber::class),
 		];
 	}
 

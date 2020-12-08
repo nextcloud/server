@@ -30,10 +30,16 @@
 
 namespace OC\Accounts;
 
+use libphonenumber\NumberParseException;
+use libphonenumber\PhoneNumber;
+use libphonenumber\PhoneNumberFormat;
+use libphonenumber\PhoneNumberUtil;
 use OCA\Settings\BackgroundJobs\VerifyUserData;
 use OCP\Accounts\IAccount;
 use OCP\Accounts\IAccountManager;
 use OCP\BackgroundJob\IJobList;
+use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IUser;
 use Psr\Log\LoggerInterface;
@@ -55,8 +61,14 @@ class AccountManager implements IAccountManager {
 	/** @var  IDBConnection database connection */
 	private $connection;
 
+	/** @var IConfig */
+	private $config;
+
 	/** @var string table name */
 	private $table = 'accounts';
+
+	/** @var string table name */
+	private $dataTable = 'accounts_data';
 
 	/** @var EventDispatcherInterface */
 	private $eventDispatcher;
@@ -68,24 +80,70 @@ class AccountManager implements IAccountManager {
 	private $logger;
 
 	public function __construct(IDBConnection $connection,
+								IConfig $config,
 								EventDispatcherInterface $eventDispatcher,
 								IJobList $jobList,
 								LoggerInterface $logger) {
 		$this->connection = $connection;
+		$this->config = $config;
 		$this->eventDispatcher = $eventDispatcher;
 		$this->jobList = $jobList;
 		$this->logger = $logger;
 	}
 
 	/**
+	 * @param string $input
+	 * @return string Provided phone number in E.164 format when it was a valid number
+	 * @throws \InvalidArgumentException When the phone number was invalid or no default region is set and the number doesn't start with a country code
+	 */
+	protected function parsePhoneNumber(string $input): string {
+		$defaultRegion = $this->config->getSystemValueString('default_phone_region', '');
+
+		if ($defaultRegion === '') {
+			// When no default region is set, only +49… numbers are valid
+			if (strpos($input, '+') !== 0) {
+				throw new \InvalidArgumentException(self::PROPERTY_PHONE);
+			}
+
+			$defaultRegion = 'EN';
+		}
+
+		$phoneUtil = PhoneNumberUtil::getInstance();
+		try {
+			$phoneNumber = $phoneUtil->parse($input, $defaultRegion);
+			if ($phoneNumber instanceof PhoneNumber && $phoneUtil->isValidNumber($phoneNumber)) {
+				return $phoneUtil->format($phoneNumber, PhoneNumberFormat::E164);
+			}
+		} catch (NumberParseException $e) {
+		}
+
+		throw new \InvalidArgumentException(self::PROPERTY_PHONE);
+	}
+
+	/**
 	 * update user record
 	 *
 	 * @param IUser $user
-	 * @param $data
+	 * @param array $data
+	 * @param bool $throwOnData Set to true if you can inform the user about invalid data
+	 * @return array The potentially modified data (e.g. phone numbers are converted to E.164 format)
+	 * @throws \InvalidArgumentException Message is the property that was invalid
 	 */
-	public function updateUser(IUser $user, $data) {
+	public function updateUser(IUser $user, array $data, bool $throwOnData = false): array {
 		$userData = $this->getUser($user);
 		$updated = true;
+
+		if (isset($data[self::PROPERTY_PHONE]) && $data[self::PROPERTY_PHONE]['value'] !== '') {
+			try {
+				$data[self::PROPERTY_PHONE]['value'] = $this->parsePhoneNumber($data[self::PROPERTY_PHONE]['value']);
+			} catch (\InvalidArgumentException $e) {
+				if ($throwOnData) {
+					throw $e;
+				}
+				$data[self::PROPERTY_PHONE]['value'] = '';
+			}
+		}
+
 		if (empty($userData)) {
 			$this->insertNewUser($user, $data);
 		} elseif ($userData !== $data) {
@@ -103,6 +161,8 @@ class AccountManager implements IAccountManager {
 				new GenericEvent($user, $data)
 			);
 		}
+
+		return $data;
 	}
 
 	/**
@@ -114,6 +174,21 @@ class AccountManager implements IAccountManager {
 		$uid = $user->getUID();
 		$query = $this->connection->getQueryBuilder();
 		$query->delete($this->table)
+			->where($query->expr()->eq('uid', $query->createNamedParameter($uid)))
+			->execute();
+
+		$this->deleteUserData($user);
+	}
+
+	/**
+	 * delete user from accounts table
+	 *
+	 * @param IUser $user
+	 */
+	public function deleteUserData(IUser $user): void {
+		$uid = $user->getUID();
+		$query = $this->connection->getQueryBuilder();
+		$query->delete($this->dataTable)
 			->where($query->expr()->eq('uid', $query->createNamedParameter($uid)))
 			->execute();
 	}
@@ -153,6 +228,24 @@ class AccountManager implements IAccountManager {
 		return $userDataArray;
 	}
 
+	public function searchUsers(string $property, array $values): array {
+		$query = $this->connection->getQueryBuilder();
+		$query->select('*')
+			->from($this->dataTable)
+			->where($query->expr()->eq('name', $query->createNamedParameter($property)))
+			->andWhere($query->expr()->in('value', $query->createNamedParameter($values, IQueryBuilder::PARAM_STR_ARRAY)));
+
+		$result = $query->execute();
+		$matches = [];
+
+		while ($row = $result->fetch()) {
+			$matches[$row['value']] = $row['uid'];
+		}
+		$result->closeCursor();
+
+		return $matches;
+	}
+
 	/**
 	 * check if we need to ask the server for email verification, if yes we create a cronjob
 	 *
@@ -173,7 +266,7 @@ class AccountManager implements IAccountManager {
 					'lastRun' => time()
 				]
 			);
-			$newData[AccountManager::PROPERTY_EMAIL]['verified'] = AccountManager::VERIFICATION_IN_PROGRESS;
+			$newData[self::PROPERTY_EMAIL]['verified'] = self::VERIFICATION_IN_PROGRESS;
 		}
 
 		return $newData;
@@ -256,7 +349,7 @@ class AccountManager implements IAccountManager {
 	 * @param IUser $user
 	 * @param array $data
 	 */
-	protected function insertNewUser(IUser $user, $data) {
+	protected function insertNewUser(IUser $user, array $data): void {
 		$uid = $user->getUID();
 		$jsonEncodedData = json_encode($data);
 		$query = $this->connection->getQueryBuilder();
@@ -268,6 +361,9 @@ class AccountManager implements IAccountManager {
 				]
 			)
 			->execute();
+
+		$this->deleteUserData($user);
+		$this->writeUserData($user, $data);
 	}
 
 	/**
@@ -276,7 +372,7 @@ class AccountManager implements IAccountManager {
 	 * @param IUser $user
 	 * @param array $data
 	 */
-	protected function updateExistingUser(IUser $user, $data) {
+	protected function updateExistingUser(IUser $user, array $data): void {
 		$uid = $user->getUID();
 		$jsonEncodedData = json_encode($data);
 		$query = $this->connection->getQueryBuilder();
@@ -284,6 +380,30 @@ class AccountManager implements IAccountManager {
 			->set('data', $query->createNamedParameter($jsonEncodedData))
 			->where($query->expr()->eq('uid', $query->createNamedParameter($uid)))
 			->execute();
+
+		$this->deleteUserData($user);
+		$this->writeUserData($user, $data);
+	}
+
+	protected function writeUserData(IUser $user, array $data): void {
+		$query = $this->connection->getQueryBuilder();
+		$query->insert($this->dataTable)
+			->values(
+				[
+					'uid' => $query->createNamedParameter($user->getUID()),
+					'name' => $query->createParameter('name'),
+					'value' => $query->createParameter('value'),
+				]
+			);
+		foreach ($data as $propertyName => $property) {
+			if ($propertyName === self::PROPERTY_AVATAR) {
+				continue;
+			}
+
+			$query->setParameter('name', $propertyName)
+				->setParameter('value', $property['value']);
+			$query->execute();
+		}
 	}
 
 	/**

@@ -173,6 +173,37 @@ trait Provisioning {
 		}
 	}
 
+	/**
+	 * @Then /^search users by phone for region "([^"]*)" with$/
+	 *
+	 * @param string $user
+	 * @param \Behat\Gherkin\Node\TableNode|null $settings
+	 */
+	public function searchUserByPhone($region, \Behat\Gherkin\Node\TableNode $searchTable) {
+		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/cloud/users/search/by-phone";
+		$client = new Client();
+		$options = [];
+		$options['auth'] = $this->adminUser;
+		$options['headers'] = [
+			'OCS-APIREQUEST' => 'true',
+		];
+
+		$search = [];
+		foreach ($searchTable->getRows() as $row) {
+			if (!isset($search[$row[0]])) {
+				$search[$row[0]] = [];
+			}
+			$search[$row[0]][] = $row[1];
+		}
+
+		$options['form_params'] = [
+			'location' => $region,
+			'search' => $search,
+		];
+
+		$this->response = $client->post($fullUrl, $options);
+	}
+
 	public function createUser($user) {
 		$previous_user = $this->currentUser;
 		$this->currentUser = "admin";
@@ -557,6 +588,19 @@ trait Provisioning {
 			$usersSimplified = $this->simplifyArray($users);
 			$respondedArray = $this->getArrayOfUsersResponded($this->response);
 			Assert::assertEquals($usersSimplified, $respondedArray, "", 0.0, 10, true);
+		}
+	}
+
+	/**
+	 * @Then /^phone matches returned are$/
+	 * @param \Behat\Gherkin\Node\TableNode|null $usersList
+	 */
+	public function thePhoneUsersShouldBe($usersList) {
+		if ($usersList instanceof \Behat\Gherkin\Node\TableNode) {
+			$users = $usersList->getRowsHash();
+			$listCheckedElements = simplexml_load_string($this->response->getBody())->data;
+			$respondedArray = json_decode(json_encode($listCheckedElements), true);
+			Assert::assertEquals($users, $respondedArray);
 		}
 	}
 

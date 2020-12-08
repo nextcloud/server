@@ -67,6 +67,7 @@ script('settings', [
 					</div>
 				</div>
 				<span class="icon-checkmark hidden"></span>
+				<span class="icon-error hidden" ></span>
 				<?php if ($_['lookupServerUploadEnabled']) { ?>
 				<input type="hidden" id="avatarscope" value="<?php p($_['avatarScope']) ?>">
 				<?php } ?>
@@ -161,7 +162,7 @@ script('settings', [
 					} ?>
 					   placeholder="<?php p($l->t('Your email address')); ?>"
 					   autocomplete="on" autocapitalize="none" autocorrect="off" />
-			   	<span class="icon-checkmark hidden"></span>
+				<span class="icon-checkmark hidden"></span>
 				<span class="icon-error hidden" ></span>
 				<?php if (!$_['displayNameChangeSupported']) { ?>
 					<span><?php if (isset($_['email']) && !empty($_['email'])) {
@@ -196,6 +197,7 @@ script('settings', [
 					   placeholder="<?php p($l->t('Your phone number')); ?>"
 				       autocomplete="on" autocapitalize="none" autocorrect="off" />
 				<span class="icon-checkmark hidden"></span>
+				<span class="icon-error hidden" ></span>
 				<?php if ($_['lookupServerUploadEnabled']) { ?>
 				<input type="hidden" id="phonescope" value="<?php p($_['phoneScope']) ?>">
 				<?php } ?>
@@ -220,6 +222,7 @@ script('settings', [
 					   value="<?php p($_['address']) ?>"
 					   autocomplete="on" autocapitalize="none" autocorrect="off" />
 				<span class="icon-checkmark hidden"></span>
+				<span class="icon-error hidden" ></span>
 				<?php if ($_['lookupServerUploadEnabled']) { ?>
 				<input type="hidden" id="addressscope" value="<?php p($_['addressScope']) ?>">
 				<?php } ?>
@@ -275,6 +278,7 @@ script('settings', [
 					}  ?>
 				/>
 				<span class="icon-checkmark hidden"></span>
+				<span class="icon-error hidden" ></span>
 				<?php if ($_['lookupServerUploadEnabled']) { ?>
 				<input type="hidden" id="websitescope" value="<?php p($_['websiteScope']) ?>">
 				<?php } ?>
@@ -330,6 +334,7 @@ script('settings', [
 					}  ?>
 				/>
 				<span class="icon-checkmark hidden"></span>
+				<span class="icon-error hidden" ></span>
 				<?php if ($_['lookupServerUploadEnabled']) { ?>
 				<input type="hidden" id="twitterscope" value="<?php p($_['twitterScope']) ?>">
 				<?php } ?>

@@ -23,6 +23,7 @@ namespace Test\Accounts;
 
 use OC\Accounts\AccountManager;
 use OC\Accounts\Hooks;
+use OCP\Accounts\IAccountManager;
 use OCP\IUser;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
@@ -77,11 +78,11 @@ class HooksTest extends TestCase {
 			$this->accountManager->expects($this->once())->method('getUser')->willReturn($data);
 			$newData = $data;
 			if ($setEmail) {
-				$newData[AccountManager::PROPERTY_EMAIL]['value'] = $params['value'];
+				$newData[IAccountManager::PROPERTY_EMAIL]['value'] = $params['value'];
 				$this->accountManager->expects($this->once())->method('updateUser')
 					->with($params['user'], $newData);
 			} elseif ($setDisplayName) {
-				$newData[AccountManager::PROPERTY_DISPLAYNAME]['value'] = $params['value'];
+				$newData[IAccountManager::PROPERTY_DISPLAYNAME]['value'] = $params['value'];
 				$this->accountManager->expects($this->once())->method('updateUser')
 					->with($params['user'], $newData);
 			} else {
@@ -98,48 +99,48 @@ class HooksTest extends TestCase {
 			[
 				['feature' => '', 'value' => ''],
 				[
-					AccountManager::PROPERTY_EMAIL => ['value' => ''],
-					AccountManager::PROPERTY_DISPLAYNAME => ['value' => '']
+					IAccountManager::PROPERTY_EMAIL => ['value' => ''],
+					IAccountManager::PROPERTY_DISPLAYNAME => ['value' => '']
 				],
 				false, false, true
 			],
 			[
 				['user' => $user, 'value' => ''],
 				[
-					AccountManager::PROPERTY_EMAIL => ['value' => ''],
-					AccountManager::PROPERTY_DISPLAYNAME => ['value' => '']
+					IAccountManager::PROPERTY_EMAIL => ['value' => ''],
+					IAccountManager::PROPERTY_DISPLAYNAME => ['value' => '']
 				],
 				false, false, true
 			],
 			[
 				['user' => $user, 'feature' => ''],
 				[
-					AccountManager::PROPERTY_EMAIL => ['value' => ''],
-					AccountManager::PROPERTY_DISPLAYNAME => ['value' => '']
+					IAccountManager::PROPERTY_EMAIL => ['value' => ''],
+					IAccountManager::PROPERTY_DISPLAYNAME => ['value' => '']
 				],
 				false, false, true
 			],
 			[
 				['user' => $user, 'feature' => 'foo', 'value' => 'bar'],
 				[
-					AccountManager::PROPERTY_EMAIL => ['value' => 'oldMail@example.com'],
-					AccountManager::PROPERTY_DISPLAYNAME => ['value' => 'oldDisplayName']
+					IAccountManager::PROPERTY_EMAIL => ['value' => 'oldMail@example.com'],
+					IAccountManager::PROPERTY_DISPLAYNAME => ['value' => 'oldDisplayName']
 				],
 				false, false, false
 			],
 			[
 				['user' => $user, 'feature' => 'eMailAddress', 'value' => 'newMail@example.com'],
 				[
-					AccountManager::PROPERTY_EMAIL => ['value' => 'oldMail@example.com'],
-					AccountManager::PROPERTY_DISPLAYNAME => ['value' => 'oldDisplayName']
+					IAccountManager::PROPERTY_EMAIL => ['value' => 'oldMail@example.com'],
+					IAccountManager::PROPERTY_DISPLAYNAME => ['value' => 'oldDisplayName']
 				],
 				true, false, false
 			],
 			[
 				['user' => $user, 'feature' => 'displayName', 'value' => 'newDisplayName'],
 				[
-					AccountManager::PROPERTY_EMAIL => ['value' => 'oldMail@example.com'],
-					AccountManager::PROPERTY_DISPLAYNAME => ['value' => 'oldDisplayName']
+					IAccountManager::PROPERTY_EMAIL => ['value' => 'oldMail@example.com'],
+					IAccountManager::PROPERTY_DISPLAYNAME => ['value' => 'oldDisplayName']
 				],
 				false, true, false
 			],
