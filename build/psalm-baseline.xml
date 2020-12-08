@@ -1625,12 +1625,6 @@
       <code>getUserFolder</code>
     </UndefinedInterfaceMethod>
   </file>
-  <file src="apps/files_sharing/lib/Controller/DeletedShareAPIController.php">
-    <UndefinedDocblockClass occurrences="2">
-      <code>$this-&gt;getRoomShareHelper()</code>
-      <code>\OCA\Talk\Share\Helper\DeletedShareAPIController</code>
-    </UndefinedDocblockClass>
-  </file>
   <file src="apps/files_sharing/lib/Controller/ShareAPIController.php">
     <InvalidScalarArgument occurrences="3">
       <code>$code</code>
@@ -5063,16 +5057,13 @@
       <code>FederatedShareProvider</code>
       <code>ShareByMailProvider</code>
     </InvalidNullableReturnType>
-    <InvalidReturnStatement occurrences="5">
+    <InvalidReturnStatement occurrences="4">
       <code>$provider</code>
       <code>$provider</code>
-      <code>$shares</code>
       <code>$this-&gt;roomShareProvider</code>
       <code>$this-&gt;shareByCircleProvider</code>
     </InvalidReturnStatement>
-    <InvalidReturnType occurrences="3">
-      <code>getAllProviders</code>
-      <code>getProvider</code>
+    <InvalidReturnType occurrences="1">
       <code>getProviderForType</code>
     </InvalidReturnType>
     <NullableReturnStatement occurrences="6">
