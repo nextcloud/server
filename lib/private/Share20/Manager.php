@@ -1168,6 +1168,8 @@ class Manager implements IManager {
 		$provider = $this->factory->getProviderForType($share->getShareType());
 		$provider->delete($share);
 
+		$this->dispatcher->dispatchTyped(new Share\Events\ShareDeletedEvent($share, $deletedShares));
+
 		// All the deleted shares caused by this delete
 		$deletedShares[] = $share;
 
