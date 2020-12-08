@@ -2744,11 +2744,13 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @param string $uriName
 	 * @param string $uriOrigin
 	 * @param string $uriDestination
+	 * @param string $newUriName (optional) the new uriName
 	 */
-	public function moveCalendar($uriName, $uriOrigin, $uriDestination) {
+	public function moveCalendar($uriName, $uriOrigin, $uriDestination, $newUriName = null) {
 		$query = $this->db->getQueryBuilder();
 		$query->update('calendars')
 			->set('principaluri', $query->createNamedParameter($uriDestination))
+			->set('uri', $query->createNamedParameter($newUriName ?: $uriName))
 			->where($query->expr()->eq('principaluri', $query->createNamedParameter($uriOrigin)))
 			->andWhere($query->expr()->eq('uri', $query->createNamedParameter($uriName)))
 			->execute();
