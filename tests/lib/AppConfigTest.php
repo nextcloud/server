@@ -140,11 +140,11 @@ class AppConfigTest extends TestCase {
 	public function testGetApps() {
 		$config = new \OC\AppConfig(\OC::$server->getDatabaseConnection());
 
-		$this->assertEquals([
+		$this->assertEqualsCanonicalizing([
 			'anotherapp',
 			'someapp',
 			'testapp',
-			'123456',
+			123456,
 		], $config->getApps());
 	}
 
@@ -152,7 +152,7 @@ class AppConfigTest extends TestCase {
 		$config = new \OC\AppConfig(\OC::$server->getDatabaseConnection());
 
 		$keys = $config->getKeys('testapp');
-		$this->assertEquals([
+		$this->assertEqualsCanonicalizing([
 			'deletethis',
 			'depends_on',
 			'enabled',

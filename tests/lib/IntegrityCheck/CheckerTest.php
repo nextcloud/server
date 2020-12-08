@@ -110,7 +110,7 @@ class CheckerTest extends TestCase {
 
 	public function testWriteAppSignatureWrongPermissions() {
 		$this->expectException(\Exception::class);
-		$this->expectExceptionMessageRegExp('/[a-zA-Z\\/_-]+ is not writable/');
+		$this->expectExceptionMessageMatches('/[a-zA-Z\\/_-]+ is not writable/');
 
 		$this->fileAccessHelper
 			->expects($this->once())
@@ -507,7 +507,7 @@ class CheckerTest extends TestCase {
 
 	public function testWriteCoreSignatureWrongPermissions() {
 		$this->expectException(\Exception::class);
-		$this->expectExceptionMessageRegExp('/[a-zA-Z\\/_-]+ is not writable/');
+		$this->expectExceptionMessageMatches('/[a-zA-Z\\/_-]+ is not writable/');
 
 		$this->fileAccessHelper
 			->expects($this->at(0))

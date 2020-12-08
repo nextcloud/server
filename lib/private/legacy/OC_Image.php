@@ -98,7 +98,14 @@ class OC_Image implements \OCP\IImage {
 	 * @return bool
 	 */
 	public function valid() { // apparently you can't name a method 'empty'...
-		return is_resource($this->resource);
+		if (is_resource($this->resource)) {
+			return true;
+		}
+		if (is_object($this->resource) && get_class($this->resource) === 'GdImage') {
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
@@ -305,7 +312,13 @@ class OC_Image implements \OCP\IImage {
 	 * @throws \InvalidArgumentException in case the supplied resource does not have the type "gd"
 	 */
 	public function setResource($resource) {
-		if (get_resource_type($resource) === 'gd') {
+		// For PHP<8
+		if (is_resource($resource) && get_resource_type($resource) === 'gd') {
+			$this->resource = $resource;
+			return;
+		}
+		// PHP 8 has real objects for GD stuff
+		if (is_object($resource) && get_class($resource) === 'GdImage') {
 			$this->resource = $resource;
 			return;
 		}

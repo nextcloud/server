@@ -256,11 +256,11 @@ steps:
   commands:
     - bash tests/drone-run-php-tests.sh || exit 0
     - NOCOVERAGE=true TEST_SELECTION=NODB ./autotest.sh sqlite
-#- name: nodb-php8.0
-#  image: nextcloudci/php8.0:latest
-#  commands:
-#    - bash tests/drone-run-php-tests.sh || exit 0
-#    - NOCOVERAGE=true TEST_SELECTION=NODB ./autotest.sh sqlite
+- name: nodb-php8.0
+  image: nextcloudci/php8.0:latest
+  commands:
+    - bash tests/drone-run-php-tests.sh || exit 0
+    - NOCOVERAGE=true TEST_SELECTION=NODB ./autotest.sh sqlite
 
 services:
 - name: cache
@@ -293,11 +293,11 @@ steps:
   commands:
     - bash tests/drone-run-php-tests.sh || exit 0
     - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh sqlite
-#- name: sqlite-php8.0
-#  image: nextcloudci/php8.0:latest
-#  commands:
-#    - bash tests/drone-run-php-tests.sh || exit 0
-#    - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh sqlite
+- name: sqlite-php8.0
+  image: nextcloudci/php8.0:latest
+  commands:
+    - bash tests/drone-run-php-tests.sh || exit 0
+    - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh sqlite
 
 services:
 - name: cache

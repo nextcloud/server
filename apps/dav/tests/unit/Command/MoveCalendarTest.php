@@ -216,7 +216,7 @@ class MoveCalendarTest extends TestCase {
 			'destinationuid' => 'user2',
 		]);
 
-		$this->assertContains("[OK] Calendar <personal> was moved from user <user> to <user2>", $commandTester->getDisplay());
+		$this->assertStringContainsString("[OK] Calendar <personal> was moved from user <user> to <user2>", $commandTester->getDisplay());
 	}
 
 	public function dataTestMoveWithDestinationNotPartOfGroup(): array {

@@ -38,6 +38,9 @@ use OCP\Calendar\Resource\IResource;
 use OCP\Calendar\Room\IManager as IRoomManager;
 use Test\TestCase;
 
+interface tmpI extends IResource, IMetadataProvider {
+}
+
 class UpdateCalendarResourcesRoomsBackgroundJobTest extends TestCase {
 
 	/** @var UpdateCalendarResourcesRoomsBackgroundJob */
@@ -108,9 +111,9 @@ class UpdateCalendarResourcesRoomsBackgroundJobTest extends TestCase {
 		$backend3 = $this->createMock(IBackend::class);
 		$backend4 = $this->createMock(IBackend::class);
 
-		$res6 = $this->createMock([IResource::class, IMetadataProvider::class]);
-		$res7 = $this->createMock([IResource::class, IMetadataProvider::class]);
-		$res8 = $this->createMock([IResource::class, IMetadataProvider::class]);
+		$res6 = $this->createMock(tmpI::class);
+		$res7 = $this->createMock(tmpI::class);
+		$res8 = $this->createMock(tmpI::class);
 		$res9 = $this->createMock(IResource::class);
 
 		$backend2->method('getBackendIdentifier')

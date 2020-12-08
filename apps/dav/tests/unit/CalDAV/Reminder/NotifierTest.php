@@ -63,6 +63,9 @@ class NotifierTest extends TestCase {
 		$this->l10n->expects($this->any())
 			->method('t')
 			->willReturnCallback(function ($string, $args) {
+				if (!is_array($args)) {
+					$args = [$args];
+				}
 				return vsprintf($string, $args);
 			});
 		$this->l10n->expects($this->any())
@@ -103,7 +106,7 @@ class NotifierTest extends TestCase {
 		$this->assertEquals($this->notifier->getName(), 'Calendar');
 	}
 
-	
+
 	public function testPrepareWrongApp(): void {
 		$this->expectException(\InvalidArgumentException::class);
 		$this->expectExceptionMessage('Notification not from this app');
@@ -120,7 +123,7 @@ class NotifierTest extends TestCase {
 		$this->notifier->prepare($notification, 'en');
 	}
 
-	
+
 	public function testPrepareWrongSubject() {
 		$this->expectException(\InvalidArgumentException::class);
 		$this->expectExceptionMessage('Unknown subject');

@@ -444,7 +444,8 @@ class Crypt {
 	 */
 	protected function isValidPrivateKey($plainKey) {
 		$res = openssl_get_privatekey($plainKey);
-		if (is_resource($res)) {
+		// TODO: remove resource check one php7.4 is not longer supported
+		if (is_resource($res) || (is_object($res) && get_class($res) === 'OpenSSLAsymmetricKey')) {
 			$sslInfo = openssl_pkey_get_details($res);
 			if (isset($sslInfo['key'])) {
 				return true;
@@ -676,7 +677,7 @@ class Crypt {
 			throw new MultiKeyDecryptException('Cannot multikey decrypt empty plain content');
 		}
 
-		if (openssl_open($encKeyFile, $plainContent, $shareKey, $privateKey)) {
+		if (openssl_open($encKeyFile, $plainContent, $shareKey, $privateKey, 'RC4')) {
 			return $plainContent;
 		} else {
 			throw new MultiKeyDecryptException('multikeydecrypt with share key failed:' . openssl_error_string());
@@ -701,7 +702,7 @@ class Crypt {
 		$shareKeys = [];
 		$mappedShareKeys = [];
 
-		if (openssl_seal($plainContent, $sealed, $shareKeys, $keyFiles)) {
+		if (openssl_seal($plainContent, $sealed, $shareKeys, $keyFiles, 'RC4')) {
 			$i = 0;
 
 			// Ensure each shareKey is labelled with its corresponding key id

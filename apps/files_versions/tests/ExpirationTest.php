@@ -118,42 +118,6 @@ class ExpirationTest extends \Test\TestCase {
 	}
 
 
-	public function configData() {
-		return [
-			[ 'disabled', null, null, null],
-			[ 'auto', Expiration::NO_OBLIGATION, Expiration::NO_OBLIGATION, true ],
-			[ 'auto,auto', Expiration::NO_OBLIGATION, Expiration::NO_OBLIGATION, true ],
-			[ 'auto, auto', Expiration::NO_OBLIGATION, Expiration::NO_OBLIGATION, true ],
-			[ 'auto, 3', Expiration::NO_OBLIGATION, 3, true ],
-			[ '5, auto', 5, Expiration::NO_OBLIGATION, true ],
-			[ '3, 5', 3, 5, false ],
-			[ '10, 3', 10, 10, false ],
-			[ 'g,a,r,b,a,g,e',  Expiration::NO_OBLIGATION, Expiration::NO_OBLIGATION, true ],
-			[ '-3,8',  Expiration::NO_OBLIGATION, Expiration::NO_OBLIGATION, true ]
-		];
-	}
-
-
-	/**
-	 * @dataProvider configData
-	 *
-	 * @param string $configValue
-	 * @param int $expectedMinAge
-	 * @param int $expectedMaxAge
-	 * @param bool $expectedCanPurgeToSaveSpace
-	 */
-	public function testParseRetentionObligation($configValue, $expectedMinAge, $expectedMaxAge, $expectedCanPurgeToSaveSpace) {
-		$mockedConfig = $this->getMockedConfig($configValue);
-		$mockedTimeFactory = $this->getMockedTimeFactory(
-				time()
-		);
-
-		$expiration = new Expiration($mockedConfig, $mockedTimeFactory);
-		$this->assertAttributeEquals($expectedMinAge, 'minAge', $expiration);
-		$this->assertAttributeEquals($expectedMaxAge, 'maxAge', $expiration);
-		$this->assertAttributeEquals($expectedCanPurgeToSaveSpace, 'canPurgeToSaveSpace', $expiration);
-	}
-
 	/**
 	 * @param int $time
 	 * @return ITimeFactory|MockObject
