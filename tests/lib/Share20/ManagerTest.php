@@ -4362,6 +4362,9 @@ class DummyFactory implements IProviderFactory {
 	public function getAllProviders() {
 		return [$this->provider];
 	}
+
+	public function registerProvider(string $shareProvier): void {
+	}
 }
 
 class DummyFactory2 extends DummyFactory {
@@ -4377,5 +4380,8 @@ class DummyFactory2 extends DummyFactory {
 
 	public function getAllProviders() {
 		return [$this->provider, $this->provider2];
+	}
+
+	public function registerProvider(string $shareProvier): void {
 	}
 }
