@@ -161,6 +161,8 @@ import escapeHTML from 'escape-html'
 								hasShares = true
 							} else if (shareType === OC.Share.SHARE_TYPE_ROOM) {
 								hasShares = true
+							} else if (shareType === OC.Share.SHARE_TYPE_DECK) {
+								hasShares = true
 							}
 						})
 						OCA.Sharing.Util._updateFileActionIcon($tr, hasShares, hasLink)
