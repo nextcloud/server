@@ -387,6 +387,8 @@ export default {
 				desc = t('files_sharing', 'on {server}', { server: result.value.server })
 			} else if (result.value.shareType === this.SHARE_TYPES.SHARE_TYPE_EMAIL) {
 				desc = result.value.shareWith
+			} else {
+				desc = result.shareWithDescription ?? ''
 			}
 
 			return {

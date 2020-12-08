@@ -151,6 +151,17 @@ export default class Share {
 	}
 
 	/**
+	 * Get the share with entity link
+	 *
+	 * @returns {string}
+	 * @readonly
+	 * @memberof Share
+	 */
+	get shareWithLink() {
+		return this.#share.share_with_link
+	}
+
+	/**
 	 * Get the share with avatar if any
 	 *
 	 * @returns {string}
