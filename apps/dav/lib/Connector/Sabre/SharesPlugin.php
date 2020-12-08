@@ -121,6 +121,7 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 			IShare::TYPE_EMAIL,
 			IShare::TYPE_ROOM,
 			IShare::TYPE_CIRCLE,
+			IShare::TYPE_DECK,
 		];
 		foreach ($requestedShareTypes as $requestedShareType) {
 			$shares = $this->shareManager->getSharesBy(
