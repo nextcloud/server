@@ -366,6 +366,8 @@ export default {
 				return 'icon-circle'
 			case this.SHARE_TYPES.SHARE_TYPE_ROOM:
 				return 'icon-room'
+			case this.SHARE_TYPES.SHARE_TYPE_DECK:
+				return 'icon-deck'
 
 			default:
 				return ''
