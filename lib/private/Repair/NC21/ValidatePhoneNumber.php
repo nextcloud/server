@@ -66,7 +66,7 @@ class ValidatePhoneNumber implements IRepairStep {
 		$numUpdated = 0;
 		$numRemoved = 0;
 
-		$this->userManager->callForSeenUsers(function(IUser $user) use(&$numUpdated, &$numRemoved) {
+		$this->userManager->callForSeenUsers(function (IUser $user) use (&$numUpdated, &$numRemoved) {
 			$account = $this->accountManager->getUser($user);
 
 			if ($account[IAccountManager::PROPERTY_PHONE]['value'] !== '') {
