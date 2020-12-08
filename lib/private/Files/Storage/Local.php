@@ -58,8 +58,6 @@ class Local extends \OC\Files\Storage\Common {
 
 	protected $dataDirLength;
 
-	protected $allowSymlinks = false;
-
 	protected $realDataDir;
 
 	public function __construct($arguments) {
@@ -441,7 +439,8 @@ class Local extends \OC\Files\Storage\Common {
 
 		$fullPath = $this->datadir . $path;
 		$currentPath = $path;
-		if ($this->allowSymlinks || $currentPath === '') {
+		$allowSymlinks = \OC::$server->getConfig()->getSystemValue('localstorage.allowsymlinks', false);
+		if ($allowSymlinks || $currentPath === '') {
 			return $fullPath;
 		}
 		$pathToResolve = $fullPath;
