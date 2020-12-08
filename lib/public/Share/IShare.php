@@ -111,6 +111,11 @@ interface IShare {
 	public const TYPE_DECK = 12;
 
 	/**
+	 * @internal 21.00
+	 */
+	public const TYPE_DECK_USER = 13;
+
+	/**
 	 * @since 18.0.0
 	 */
 	public const STATUS_PENDING = 0;
