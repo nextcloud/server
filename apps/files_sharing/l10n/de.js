@@ -43,7 +43,7 @@ OC.L10N.register(
     "File shares" : "Dateifreigaben",
     "Downloaded via public link" : "Über den öffentlichen Link heruntergeladen",
     "Downloaded by {email}" : "Heruntergeladen von {email}",
-    "{file} downloaded via public link" : "{file} heruntergeladen mittels öffentlichen Link",
+    "{file} downloaded via public link" : "{file} heruntergeladen mittels öffentlichem Link",
     "{email} downloaded {file}" : "{email} hat {file} heruntergeladen",
     "Shared with group {group}" : "Geteilt mit der Gruppe {group}",
     "Removed share for group {group}" : "Freigabe für die Gruppe {group} entfernt",
