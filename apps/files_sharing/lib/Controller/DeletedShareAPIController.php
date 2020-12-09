@@ -220,7 +220,7 @@ class DeletedShareAPIController extends OCSController {
 			throw new QueryException();
 		}
 
-		return $this->serverContainer->query('\OCA\Talk\Share\Helper\DeletedShareAPIController');
+		return $this->serverContainer->get('\OCA\Talk\Share\Helper\DeletedShareAPIController');
 	}
 
 	/**
@@ -237,6 +237,6 @@ class DeletedShareAPIController extends OCSController {
 			throw new QueryException();
 		}
 
-		return $this->serverContainer->query('\OCA\Deck\Sharing\ShareAPIHelper');
+		return $this->serverContainer->get('\OCA\Deck\Sharing\ShareAPIHelper');
 	}
 }

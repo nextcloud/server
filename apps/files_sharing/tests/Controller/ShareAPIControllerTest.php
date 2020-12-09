@@ -1558,7 +1558,7 @@ class ShareAPIControllerTest extends TestCase {
 				->with($share, $this->currentUser)
 				->willReturn($canAccessShareByHelper);
 
-			$this->serverContainer->method('query')
+			$this->serverContainer->method('get')
 				->with('\OCA\Talk\Share\Helper\ShareAPIController')
 				->willReturn($helper);
 		}
@@ -2222,7 +2222,7 @@ class ShareAPIControllerTest extends TestCase {
 				}
 			);
 
-		$this->serverContainer->method('query')
+		$this->serverContainer->method('get')
 			->with('\OCA\Talk\Share\Helper\ShareAPIController')
 			->willReturn($helper);
 
@@ -2340,7 +2340,7 @@ class ShareAPIControllerTest extends TestCase {
 				}
 			);
 
-		$this->serverContainer->method('query')
+		$this->serverContainer->method('get')
 			->with('\OCA\Talk\Share\Helper\ShareAPIController')
 			->willReturn($helper);
 
@@ -4404,7 +4404,7 @@ class ShareAPIControllerTest extends TestCase {
 				->with($share)
 				->willReturn($formatShareByHelper);
 
-			$this->serverContainer->method('query')
+			$this->serverContainer->method('get')
 				->with('\OCA\Talk\Share\Helper\ShareAPIController')
 				->willReturn($helper);
 		}

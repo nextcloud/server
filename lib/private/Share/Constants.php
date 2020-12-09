@@ -71,9 +71,10 @@ class Constants {
 	public const SHARE_TYPE_ROOM = 10;
 	// const SHARE_TYPE_USERROOM = 11; // Internal type used by RoomShareProvider
 	/**
-	 * @deprecated 21.0.0 - use IShare::TYPE_ROOM instead
+	 * @deprecated 21.0.0 - use IShare::TYPE_DECK instead
 	 */
 	public const SHARE_TYPE_DECK = 12;
+	// const SHARE_TYPE_DECK_USER = 13; // Internal type used by DeckShareProvider
 
 	public const FORMAT_NONE = -1;
 	public const FORMAT_STATUSES = -2;
