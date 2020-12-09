@@ -15,6 +15,7 @@ OC.L10N.register(
     "No valid crop data provided" : "未提供有效的剪裁設定",
     "Crop is not square" : "剪裁設定不是正方形",
     "State token does not match" : "狀態權杖不相符",
+    "Invalid app password" : "無效的 APP 密碼",
     "Could not complete login" : "嘗試登入時發生錯誤",
     "Your login token is invalid or has expired" : "您的登入權杖無效或已過期",
     "Password reset is disabled" : "密碼重設已停用",

@@ -116,7 +116,7 @@ OC.L10N.register(
     "Name" : "Ime",
     "Storage type" : "Vrsta shrambe",
     "Scope" : "Obseg",
-    "Open documentation" : "Odpri dokumentacijo",
+    "Open documentation" : "Odpri dokumentacijo-",
     "Folder name" : "Ime mape",
     "External storage" : "Zunanja shramba",
     "Authentication" : "Overitev",
