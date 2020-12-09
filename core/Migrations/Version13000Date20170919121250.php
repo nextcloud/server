@@ -68,7 +68,7 @@ class Version13000Date20170919121250 extends SimpleMigrationStep {
 			$column->setUnsigned(true);
 		} else {
 			$table->addColumn('remember', 'smallint', [
-				'notnull' => true,
+				'notnull' => false,
 				'length' => 1,
 				'default' => 0,
 				'unsigned' => true,
