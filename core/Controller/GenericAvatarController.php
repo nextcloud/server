@@ -28,8 +28,9 @@ namespace OC\Core\Controller;
 
 use OCP\AppFramework\OCSController;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\FileDisplayResponse;
-use OCP\AppFramework\Http\JSONResponse;
+use OCP\AppFramework\Http\Response;
 use OCP\IAvatarManager;
 use OCP\IL10N;
 use OCP\ILogger;
@@ -64,9 +65,9 @@ class GenericAvatarController extends OCSController {
 	 * @param string $avatarType
 	 * @param string $avatarId
 	 * @param int $size
-	 * @return JSONResponse|FileDisplayResponse
+	 * @return DataResponse|FileDisplayResponse
 	 */
-	public function getAvatar(string $avatarType, string $avatarId, int $size) {
+	public function getAvatar(string $avatarType, string $avatarId, int $size): Response {
 		// min/max size
 		if ($size > 2048) {
 			$size = 2048;
@@ -86,7 +87,7 @@ class GenericAvatarController extends OCSController {
 				]
 			);
 		} catch (\Exception $e) {
-			return new JSONResponse([], Http::STATUS_NOT_FOUND);
+			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		}
 
 		return $response;
@@ -96,13 +97,13 @@ class GenericAvatarController extends OCSController {
 	 * @PublicPage
 	 *
 	 * @param string $path
-	 * @return JSONResponse
+	 * @return DataResponse
 	 */
-	public function setAvatar(string $avatarType, string $avatarId) {
+	public function setAvatar(string $avatarType, string $avatarId): DataResponse {
 		$files = $this->request->getUploadedFile('files');
 
 		if (is_null($files)) {
-			return new JSONResponse(
+			return new DataResponse(
 				['data' => ['message' => $this->l->t('No file provided')]],
 				Http::STATUS_BAD_REQUEST
 			);
@@ -113,14 +114,14 @@ class GenericAvatarController extends OCSController {
 			!is_uploaded_file($files['tmp_name'][0]) ||
 			\OC\Files\Filesystem::isFileBlacklisted($files['tmp_name'][0])
 		) {
-			return new JSONResponse(
+			return new DataResponse(
 				['data' => ['message' => $this->l->t('Invalid file provided')]],
 				Http::STATUS_BAD_REQUEST
 			);
 		}
 
 		if ($files['size'][0] > 20 * 1024 * 1024) {
-			return new JSONResponse(
+			return new DataResponse(
 				['data' => ['message' => $this->l->t('File is too big')]],
 				Http::STATUS_BAD_REQUEST
 			);
@@ -135,17 +136,17 @@ class GenericAvatarController extends OCSController {
 		try {
 			$avatar = $this->avatarManager->getGenericAvatar($avatarType, $avatarId);
 			$avatar->set($image);
-			return new JSONResponse(
+			return new DataResponse(
 				['status' => 'success']
 			);
 		} catch (\OC\NotSquareException $e) {
-			return new JSONResponse(
+			return new DataResponse(
 				['data' => ['message' => $this->l->t('Crop is not square')]],
 				Http::STATUS_BAD_REQUEST
 			);
 		} catch (\Exception $e) {
 			$this->logger->logException($e, ['app' => 'core']);
-			return new JSONResponse(
+			return new DataResponse(
 				['data' => ['message' => $this->l->t('An error occurred. Please contact your admin.')]],
 				Http::STATUS_BAD_REQUEST
 			);
@@ -155,16 +156,16 @@ class GenericAvatarController extends OCSController {
 	/**
 	 * @PublicPage
 	 *
-	 * @return JSONResponse
+	 * @return DataResponse
 	 */
-	public function deleteAvatar(string $avatarType, string $avatarId) {
+	public function deleteAvatar(string $avatarType, string $avatarId): DataResponse {
 		try {
 			$avatar = $this->avatarManager->getGenericAvatar($avatarType, $avatarId);
 			$avatar->remove();
-			return new JSONResponse();
+			return new DataResponse();
 		} catch (\Exception $e) {
 			$this->logger->logException($e, ['app' => 'core']);
-			return new JSONResponse(
+			return new DataResponse(
 				['data' => ['message' => $this->l->t('An error occurred. Please contact your admin.')]],
 				Http::STATUS_BAD_REQUEST
 			);
