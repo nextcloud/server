@@ -197,6 +197,7 @@ class Updater extends BasicEmitter {
 			isset($allowedPreviousVersions['owncloud'][$majorMinor])
 		)) {
 			$currentVendor = 'owncloud';
+			$this->config->setAppValue('core', 'vendor', $currentVendor);
 		}
 
 		if ($currentVendor === 'nextcloud') {

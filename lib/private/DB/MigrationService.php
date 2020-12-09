@@ -125,7 +125,7 @@ class MigrationService {
 			return false;
 		}
 
-		if ($this->connection->tableExists('migrations')) {
+		if ($this->connection->tableExists('migrations') && \OC::$server->getConfig()->getAppValue('core', 'vendor', '') !== 'owncloud') {
 			$this->migrationTableCreated = true;
 			return false;
 		}
