@@ -168,7 +168,7 @@ class Application extends App {
 	protected function setupSharingMenus() {
 		$config = \OC::$server->getConfig();
 
-		if ($config->getAppValue('core', 'shareapi_enabled', 'yes') !== 'yes') {
+		if ($config->getAppValue('core', 'shareapi_enabled', 'yes') !== 'yes' || !class_exists('\OCA\Files\App')) {
 			return;
 		}
 

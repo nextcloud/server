@@ -1113,21 +1113,13 @@
     </TypeDoesNotContainNull>
   </file>
   <file src="apps/federatedfilesharing/lib/FederatedShareProvider.php">
-    <InvalidArrayAccess occurrences="2">
-      <code>$remoteId</code>
-      <code>$token</code>
-    </InvalidArrayAccess>
-    <InvalidArrayOffset occurrences="1">
-      <code>list($token, $remoteId)</code>
-    </InvalidArrayOffset>
     <InvalidReturnStatement occurrences="1">
       <code>$shares</code>
     </InvalidReturnStatement>
     <InvalidReturnType occurrences="1">
       <code>getSharesInFolder</code>
     </InvalidReturnType>
-    <InvalidScalarArgument occurrences="6">
-      <code>$share-&gt;getId()</code>
+    <InvalidScalarArgument occurrences="5">
       <code>$shareId</code>
       <code>$shareId</code>
       <code>$shareId</code>
@@ -1136,10 +1128,7 @@
     </InvalidScalarArgument>
   </file>
   <file src="apps/federatedfilesharing/lib/Notifications.php">
-    <InvalidReturnStatement occurrences="2">
-      <code>[$ocmResult['token'], $ocmResult['providerId']]</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="4">
+    <InvalidReturnType occurrences="3">
       <code>bool</code>
       <code>bool</code>
       <code>bool</code>
@@ -1153,13 +1142,12 @@
     <InvalidReturnType occurrences="1">
       <code>string</code>
     </InvalidReturnType>
-    <InvalidScalarArgument occurrences="7">
+    <InvalidScalarArgument occurrences="6">
       <code>$id</code>
       <code>$id</code>
       <code>$id</code>
       <code>$id</code>
       <code>$id</code>
-      <code>$remoteId</code>
       <code>(int)$share['id']</code>
     </InvalidScalarArgument>
   </file>

@@ -44,13 +44,13 @@ class Version1010Date20200630191755 extends SimpleMigrationStep {
 
 		if (!$schema->hasTable('federated_reshares')) {
 			$table = $schema->createTable('federated_reshares');
-			$table->addColumn('share_id', Types::INTEGER, [
+			$table->addColumn('share_id', Types::BIGINT, [
 				'notnull' => true,
-				'length' => 4,
 			]);
-			$table->addColumn('remote_id', Types::INTEGER, [
-				'notnull' => true,
-				'length' => 4,
+			$table->addColumn('remote_id', Types::STRING, [
+				'notnull' => false,
+				'length' => 255,
+				'default' => '',
 			]);
 			$table->setPrimaryKey(['share_id'], 'federated_res_pk');
 //			$table->addUniqueIndex(['share_id'], 'share_id_index');
