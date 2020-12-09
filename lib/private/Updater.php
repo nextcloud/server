@@ -360,7 +360,7 @@ class Updater extends BasicEmitter {
 		$disabledApps = [];
 		$appManager = \OC::$server->getAppManager();
 		foreach ($apps as $app) {
-			// check if the app is compatible with this version of ownCloud
+			// check if the app is compatible with this version of Nextcloud
 			$info = OC_App::getAppInfo($app);
 			if ($info === null || !OC_App::isAppCompatible($version, $info)) {
 				if ($appManager->isShipped($app)) {
