@@ -25,38 +25,36 @@
 namespace OC\Repair\Owncloud;
 
 use OC\BackgroundJob\QueuedJob;
-use OCP\Files\File;
-use OCP\Files\Folder;
-use OCP\Files\IAppData;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
-use OCP\Files\SimpleFS\ISimpleFolder;
-use OCP\ILogger;
+use OCP\Files\Storage;
+use OCP\IAvatarManager;
 use OCP\IUser;
 use OCP\IUserManager;
+use Psr\Log\LoggerInterface;
 
 class MoveAvatarsBackgroundJob extends QueuedJob {
 
 	/** @var IUserManager */
 	private $userManager;
 
-	/** @var IRootFolder */
-	private $rootFolder;
-
-	/** @var IAppData */
-	private $appData;
-
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	private $logger;
 
-	/**
-	 * MoveAvatars constructor.
-	 */
-	public function __construct() {
-		$this->userManager = \OC::$server->getUserManager();
-		$this->rootFolder = \OC::$server->getRootFolder();
-		$this->logger = \OC::$server->getLogger();
-		$this->appData = \OC::$server->getAppDataDir('avatar');
+	/** @var IAvatarManager */
+	private $avatarManager;
+
+	/** @var Storage */
+	private $owncloudAvatarStorage;
+
+	public function __construct(IUserManager $userManager, LoggerInterface $logger, IAvatarManager $avatarManager, IRootFolder $rootFolder) {
+		$this->userManager = $userManager;
+		$this->logger = $logger;
+		$this->avatarManager = $avatarManager;
+		try {
+			$this->owncloudAvatarStorage = $rootFolder->get('avatars')->getStorage();
+		} catch (\Exception $e) {
+		}
 	}
 
 	public function run($arguments) {
@@ -65,43 +63,31 @@ class MoveAvatarsBackgroundJob extends QueuedJob {
 		$this->logger->info('All avatars migrated to AppData folder');
 	}
 
-	private function moveAvatars() {
-		try {
-			$ownCloudAvatars = $this->rootFolder->get('avatars');
-		} catch (NotFoundException $e) {
+	private function moveAvatars(): void {
+		if (!$this->owncloudAvatarStorage) {
 			$this->logger->info('No legacy avatars available, skipping migration');
 			return;
 		}
 
 		$counter = 0;
-		$this->userManager->callForSeenUsers(function (IUser $user) use ($counter, $ownCloudAvatars) {
+		$this->userManager->callForSeenUsers(function (IUser $user) use ($counter) {
 			$uid = $user->getUID();
 
-			\OC\Files\Filesystem::initMountPoints($uid);
-			/** @var Folder $userFolder */
-			$userFolder = $this->rootFolder->get($uid);
-
+			$path = 'avatars/' . $this->buildOwnCloudAvatarPath($uid);
+			$avatar = $this->avatarManager->getAvatar($uid);
 			try {
-				$userData = $this->appData->getFolder($uid);
-			} catch (NotFoundException $e) {
-				$userData = $this->appData->newFolder($uid);
-			}
-
-			$foundAvatars = $this->copyAvatarsFromFolder($userFolder, $userData);
-
-			// ownCloud migration?
-			if ($foundAvatars === 0 && $ownCloudAvatars instanceof Folder) {
-				$parts = $this->buildOwnCloudAvatarPath($uid);
-				$userOwnCloudAvatar = $ownCloudAvatars;
-				foreach ($parts as $part) {
-					try {
-						$userOwnCloudAvatar = $userOwnCloudAvatar->get($part);
-					} catch (NotFoundException $e) {
-						return;
-					}
+				$avatarPath = $path . '/avatar.' . $this->getExtension($path);
+				$resource = $this->owncloudAvatarStorage->fopen($avatarPath, 'r');
+				if ($resource) {
+					$avatar->set($resource);
+					fclose($resource);
+				} else {
+					throw new \Exception('Failed to open old avatar file for reading');
 				}
-
-				$this->copyAvatarsFromFolder($userOwnCloudAvatar, $userData);
+			} catch (NotFoundException $e) {
+				// In case there is no avatar we can just skip
+			} catch (\Throwable $e) {
+				$this->logger->error('Failed to migrate avatar for user ' . $uid, ['exception' => $e]);
 			}
 
 			$counter++;
@@ -112,36 +98,19 @@ class MoveAvatarsBackgroundJob extends QueuedJob {
 	}
 
 	/**
-	 * @param Folder $source
-	 * @param ISimpleFolder $target
-	 * @return int
-	 * @throws \OCP\Files\NotPermittedException
 	 * @throws NotFoundException
 	 */
-	protected function copyAvatarsFromFolder(Folder $source, ISimpleFolder $target) {
-		$foundAvatars = 0;
-		$avatars = $source->getDirectoryListing();
-		$regex = '/^avatar\.([0-9]+\.)?(jpg|png)$/';
-
-		foreach ($avatars as $avatar) {
-			/** @var File $avatar */
-			if (preg_match($regex, $avatar->getName())) {
-				/*
-				 * This is not the most effective but it is the most abstract way
-				 * to handle this. Avatars should be small anyways.
-				 */
-				$newAvatar = $target->newFile($avatar->getName());
-				$newAvatar->putContent($avatar->getContent());
-				$avatar->delete();
-				$foundAvatars++;
-			}
+	private function getExtension(string $path): string {
+		if ($this->owncloudAvatarStorage->file_exists("{$path}/avatar.jpg")) {
+			return 'jpg';
 		}
-
-		return $foundAvatars;
+		if ($this->owncloudAvatarStorage->file_exists("{$path}/avatar.png")) {
+			return 'png';
+		}
+		throw new NotFoundException("{$path}/avatar.jpg|png");
 	}
 
-	protected function buildOwnCloudAvatarPath($userId) {
-		$avatar = substr_replace(substr_replace(md5($userId), '/', 4, 0), '/', 2, 0);
-		return explode('/', $avatar);
+	protected function buildOwnCloudAvatarPath(string $userId): string {
+		return substr_replace(substr_replace(md5($userId), '/', 4, 0), '/', 2, 0);
 	}
 }
