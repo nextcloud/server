@@ -536,7 +536,7 @@ return array(
     'OCP\\User\\Events\\UserLoggedOutEvent' => $baseDir . '/lib/public/User/Events/UserLoggedOutEvent.php',
     'OCP\\User\\GetQuotaEvent' => $baseDir . '/lib/public/User/GetQuotaEvent.php',
     'OCP\\Util' => $baseDir . '/lib/public/Util.php',
-    'OCP\\WellKnown\\Event\\WellKnownEvent' => $baseDir . '/lib/public/WellKnown/Event/WellKnownEvent.php',
+    'OCP\\WellKnown\\Event\\WellKnownRequestEvent' => $baseDir . '/lib/public/WellKnown/Event/WellKnownRequestEvent.php',
     'OCP\\WellKnown\\IWellKnownManager' => $baseDir . '/lib/public/WellKnown/IWellKnownManager.php',
     'OCP\\WellKnown\\Model\\IWellKnown' => $baseDir . '/lib/public/WellKnown/Model/IWellKnown.php',
     'OCP\\WorkflowEngine\\EntityContext\\IContextPortation' => $baseDir . '/lib/public/WorkflowEngine/EntityContext/IContextPortation.php',

@@ -33,7 +33,7 @@ use OC\WellKnown\Model\WellKnown;
 use OCP\AppFramework\Http;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IRequest;
-use OCP\WellKnown\Event\WellKnownEvent;
+use OCP\WellKnown\Event\WellKnownRequestEvent;
 use OCP\WellKnown\IWellKnownManager;
 use OCP\WellKnown\Model\IWellKnown;
 
@@ -87,7 +87,7 @@ class WellKnownManager implements IWellKnownManager {
 		}
 
 		$wellKnown = new WellKnown($service, $request);
-		$this->eventDispatcher->dispatchTyped(new WellKnownEvent($wellKnown));
+		$this->eventDispatcher->dispatchTyped(new WellKnownRequestEvent($wellKnown));
 
 		if ($this->isEmpty($wellKnown)) {
 			throw new WellKnownRequestException(Http::STATUS_NOT_FOUND);

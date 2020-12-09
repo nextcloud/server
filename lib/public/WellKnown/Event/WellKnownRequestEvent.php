@@ -30,14 +30,14 @@ use OCP\EventDispatcher\Event;
 use OCP\WellKnown\Model\IWellKnown;
 
 /**
- * Class WellKnownEvent
+ * Class WellKnownRequestEvent
  *
  * Emitted on a request on /.well-known/
  *
  * @package OCP\WellKnown\Events
  * @since 21.0.0
  */
-class WellKnownEvent extends Event {
+class WellKnownRequestEvent extends Event {
 
 
 	/** @var IWellKnown */
@@ -45,7 +45,7 @@ class WellKnownEvent extends Event {
 
 
 	/**
-	 * WellKnownEvent constructor.
+	 * WellKnownRequestEvent constructor.
 	 *
 	 * @param IWellKnown $wellKnown
 	 *

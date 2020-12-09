@@ -555,7 +555,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OCP\\User\\Events\\UserLoggedInWithCookieEvent' => __DIR__ . '/../../..' . '/lib/public/User/Events/UserLoggedInWithCookieEvent.php',
         'OCP\\User\\Events\\UserLoggedOutEvent' => __DIR__ . '/../../..' . '/lib/public/User/Events/UserLoggedOutEvent.php',
         'OCP\\Util' => __DIR__ . '/../../..' . '/lib/public/Util.php',
-        'OCP\\WellKnown\\Event\\WellKnownEvent' => __DIR__ . '/../../..' . '/lib/public/WellKnown/Event/WellKnownEvent.php',
+        'OCP\\WellKnown\\Event\\WellKnownRequestEvent' => __DIR__ . '/../../..' . '/lib/public/WellKnown/Event/WellKnownRequestEvent.php',
         'OCP\\WellKnown\\IWellKnownManager' => __DIR__ . '/../../..' . '/lib/public/WellKnown/IWellKnownManager.php',
         'OCP\\WellKnown\\Model\\IWellKnown' => __DIR__ . '/../../..' . '/lib/public/WellKnown/Model/IWellKnown.php',
         'OCP\\WorkflowEngine\\EntityContext\\IDisplayName' => __DIR__ . '/../../..' . '/lib/public/WorkflowEngine/EntityContext/IDisplayName.php',
