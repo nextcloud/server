@@ -509,12 +509,6 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 			]);
 			$table->setPrimaryKey(['id']);
 			$table->addIndex(['class'], 'job_class_index');
-		} else {
-			$table = $schema->getTable('jobs');
-			$table->changeColumn('execution_duration', [
-				'notnull' => true,
-				'default' => 0,
-			]);
 		}
 
 		if (!$schema->hasTable('users')) {
@@ -567,25 +561,25 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 				'default' => '',
 			]);
 			$table->addColumn('type', 'smallint', [
-				'notnull' => true,
+				'notnull' => false,
 				'length' => 2,
 				'default' => 0,
 				'unsigned' => true,
 			]);
 			$table->addColumn('remember', 'smallint', [
-				'notnull' => true,
+				'notnull' => false,
 				'length' => 1,
 				'default' => 0,
 				'unsigned' => true,
 			]);
 			$table->addColumn('last_activity', 'integer', [
-				'notnull' => true,
+				'notnull' => false,
 				'length' => 4,
 				'default' => 0,
 				'unsigned' => true,
 			]);
 			$table->addColumn('last_check', 'integer', [
-				'notnull' => true,
+				'notnull' => false,
 				'length' => 4,
 				'default' => 0,
 				'unsigned' => true,

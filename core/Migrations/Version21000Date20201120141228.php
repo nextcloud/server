@@ -20,6 +20,18 @@ class Version21000Date20201120141228 extends SimpleMigrationStep {
 			if ($loginNameColumn->getLength() !== 255) {
 				$loginNameColumn->setLength(255);
 			}
+			$table->changeColumn('type', [
+				'notnull' => false,
+			]);
+			$table->changeColumn('remember', [
+				'notnull' => false,
+			]);
+			$table->changeColumn('last_activity', [
+				'notnull' => false,
+			]);
+			$table->changeColumn('last_check', [
+				'notnull' => false,
+			]);
 		}
 
 		if ($schema->hasTable('dav_job_status')) {
@@ -38,6 +50,14 @@ class Version21000Date20201120141228 extends SimpleMigrationStep {
 			if ($table->hasColumn('attributes')) {
 				$table->dropColumn('attributes');
 			}
+		}
+
+		if ($schema->hasTable('jobs')) {
+			$table = $schema->getTable('jobs');
+			$table->changeColumn('execution_duration', [
+				'notnull' => false,
+				'default' => 0,
+			]);
 		}
 
 		return $schema;
