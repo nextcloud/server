@@ -77,6 +77,8 @@
     "Settings saved" : "Paramètres sauvegardés",
     "Unable to change full name" : "Impossible de modifier le nom complet",
     "Unable to change email address" : "Impossible de modifier l'adresse e-mail",
+    "Unable to set invalid phone number" : "Impossible d'enregistrer un n° de téléphone incorrect",
+    "Some account data was invalid" : "Certaines données du compte ne sont pas valides",
     "In order to verify your Twitter account, post the following tweet on Twitter (please make sure to post it without any line breaks):" : "Pour vérifier votre compte Twitter, postez le tweet suivant sur Twitter (veuillez vérifier de le poster sans saut de ligne) :",
     "In order to verify your Website, store the following content in your web-root at '.well-known/CloudIdVerificationCode.txt' (please make sure that the complete text is in one line):" : "Pour vérifier votre site web, placez le contenu suivant à la racine de votre site à '.well-known/CloudIdVerificationCode.txt' (veuillez vérifier que le texte complet est en une seule ligne) :",
     "%1$s changed your password on %2$s." : "%1$s a modifié votre mot de passe sur %2$s.",
