@@ -38,15 +38,6 @@ namespace OCP;
 interface IAvatarManager {
 
 	/**
-	 * Registers a provider for the given avatar type.
-	 *
-	 * @param string $type avatar type to associate with the provider
-	 * @param string $class class name, must implement OCP\IAvatarProvider
-	 * @since 21.0.0
-	 */
-	public function registerAvatarProvider(string $type, string $class): void;
-
-	/**
 	 * return a user specific instance of \OCP\IAvatar
 	 * @see IAvatar
 	 * @param string $user the ownCloud user id

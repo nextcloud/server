@@ -34,6 +34,7 @@ declare(strict_types=1);
 
 namespace OC\Avatar;
 
+use OC\AppFramework\Bootstrap\Coordinator;
 use OC\User\Manager;
 use OC\User\NoUserException;
 use OCP\Files\IAppData;
@@ -70,8 +71,8 @@ class AvatarManager implements IAvatarManager {
 	/** @var IServerContainer */
 	private $serverContainer;
 
-	/** @var string[] */
-	private $providerClasses;
+	/** @var Coordinator */
+	private $bootstrapCoordinator;
 
 	/** @var IAvatarProvider[] */
 	private $providers;
@@ -85,6 +86,7 @@ class AvatarManager implements IAvatarManager {
 	 * @param ILogger $logger
 	 * @param IConfig $config
 	 * @param IServerContainer $serverContainer
+	 * @param Coordinator $bootstrapCoordinator
 	 */
 	public function __construct(
 			Manager $userManager,
@@ -92,25 +94,16 @@ class AvatarManager implements IAvatarManager {
 			IL10N $l,
 			ILogger $logger,
 			IConfig $config,
-			IServerContainer $serverContainer) {
+			IServerContainer $serverContainer,
+			Coordinator $bootstrapCoordinator) {
 		$this->userManager = $userManager;
 		$this->appData = $appData;
 		$this->l = $l;
 		$this->logger = $logger;
 		$this->config = $config;
 		$this->serverContainer = $serverContainer;
-		$this->providerClasses = [];
+		$this->bootstrapCoordinator = $bootstrapCoordinator;
 		$this->providers = [];
-	}
-
-	/**
-	 * Registers a provider for the given avatar type.
-	 *
-	 * @param string $type avatar type to associate with the provider
-	 * @param string $class class name, must implement OCP\IAvatarProvider
-	 */
-	public function registerAvatarProvider(string $type, string $class): void {
-		$this->providerClasses[$type] = $class;
 	}
 
 	/**
@@ -188,12 +181,21 @@ class AvatarManager implements IAvatarManager {
 			return $this->getGuestAvatar($id);
 		}
 
-		if (!array_key_exists($type, $this->providerClasses)) {
+		$context = $this->bootstrapCoordinator->getRegistrationContext();
+
+		if ($context === null) {
+			// Too early, nothing to do yet
+			throw new \InvalidArgumentException('Unknown avatar type: ' . $type);
+		}
+
+		$providerClasses = $context->getAvatarProviders();
+
+		if (!array_key_exists($type, $providerClasses)) {
 			throw new \InvalidArgumentException('Unknown avatar type: ' . $type);
 		}
 
 		if (!array_key_exists($type, $this->providers)) {
-			$this->providers[$type] = $this->serverContainer->get($this->providerClasses[$type]);
+			$this->providers[$type] = $this->serverContainer->get($providerClasses[$type]);
 		}
 
 		return $this->providers[$type]->getAvatar($id);

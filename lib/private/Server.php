@@ -60,6 +60,7 @@ use OC\App\AppManager;
 use OC\App\AppStore\Bundles\BundleFetcher;
 use OC\App\AppStore\Fetcher\AppFetcher;
 use OC\App\AppStore\Fetcher\CategoryFetcher;
+use OC\AppFramework\Bootstrap\Coordinator;
 use OC\AppFramework\Http\Request;
 use OC\AppFramework\Utility\TimeFactory;
 use OC\Authentication\Events\LoginFailed;
@@ -721,7 +722,8 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->getL10N('lib'),
 				$c->get(ILogger::class),
 				$c->get(\OCP\IConfig::class),
-				$c->get(IServerContainer::class)
+				$c->get(IServerContainer::class),
+				$c->get(Coordinator::class)
 			);
 		});
 		$this->registerAlias(IAvatarManager::class, AvatarManager::class);

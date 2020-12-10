@@ -72,6 +72,9 @@ class RegistrationContext {
 	/** @var array[] */
 	private $initialStates = [];
 
+	/** @var array[] */
+	private $avatarProviders = [];
+
 	/** @var ILogger */
 	private $logger;
 
@@ -174,6 +177,14 @@ class RegistrationContext {
 					$class
 				);
 			}
+
+			public function registerAvatarProvider(string $type, string $class): void {
+				$this->context->registerAvatarProvider(
+					$this->appId,
+					$type,
+					$class
+				);
+			}
 		};
 	}
 
@@ -258,6 +269,10 @@ class RegistrationContext {
 			'appId' => $appId,
 			'class' => $class,
 		];
+	}
+
+	public function registerAvatarProvider(string $appId, string $type, string $class): void {
+		$this->avatarProviders[$type] = $class;
 	}
 
 	/**
@@ -436,5 +451,12 @@ class RegistrationContext {
 	 */
 	public function getInitialStates(): array {
 		return $this->initialStates;
+	}
+
+	/**
+	 * @erturn array[]
+	 */
+	public function getAvatarProviders(): array {
+		return $this->avatarProviders;
 	}
 }
