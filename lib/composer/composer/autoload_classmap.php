@@ -875,6 +875,7 @@ return array(
     'OC\\Core\\Controller\\CollaborationResourcesController' => $baseDir . '/core/Controller/CollaborationResourcesController.php',
     'OC\\Core\\Controller\\ContactsMenuController' => $baseDir . '/core/Controller/ContactsMenuController.php',
     'OC\\Core\\Controller\\CssController' => $baseDir . '/core/Controller/CssController.php',
+    'OC\\Core\\Controller\\GenericAvatarController' => $baseDir . '/core/Controller/GenericAvatarController.php',
     'OC\\Core\\Controller\\GuestAvatarController' => $baseDir . '/core/Controller/GuestAvatarController.php',
     'OC\\Core\\Controller\\JsController' => $baseDir . '/core/Controller/JsController.php',
     'OC\\Core\\Controller\\LoginController' => $baseDir . '/core/Controller/LoginController.php',
