@@ -79,6 +79,8 @@ OC.L10N.register(
     "Settings saved" : "Nastavitve so shranjene.",
     "Unable to change full name" : "Ni mogoče spremeniti polnega imena",
     "Unable to change email address" : "Ni mogoče spremeniti elektronskega naslova",
+    "Unable to set invalid phone number" : "Ni mogoče nastaviti neveljavne telefonske številke",
+    "Some account data was invalid" : "Nekateri podatki računa niso veljavni",
     "In order to verify your Twitter account, post the following tweet on Twitter (please make sure to post it without any line breaks):" : "Za overitev računa Twitter, objavite sporočilo (prepričajte se, da ni nobenega preloma vrstice):",
     "%1$s changed your password on %2$s." : "%1$s spremeni vaše geslo %2$s.",
     "Your password on %s was changed." : "Vaše geslo %s je bilo spremenjeno.",
