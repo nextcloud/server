@@ -33,8 +33,8 @@ use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\IAvatarManager;
 use OCP\IL10N;
-use OCP\ILogger;
 use OCP\IRequest;
+use Psr\Log\LoggerInterface;
 
 class GenericAvatarController extends OCSController {
 
@@ -44,14 +44,14 @@ class GenericAvatarController extends OCSController {
 	/** @var IL10N */
 	protected $l;
 
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	protected $logger;
 
 	public function __construct($appName,
 								IRequest $request,
 								IAvatarManager $avatarManager,
 								IL10N $l10n,
-								ILogger $logger) {
+								LoggerInterface $logger) {
 		parent::__construct($appName, $request);
 
 		$this->avatarManager = $avatarManager;
@@ -145,7 +145,7 @@ class GenericAvatarController extends OCSController {
 				Http::STATUS_BAD_REQUEST
 			);
 		} catch (\Exception $e) {
-			$this->logger->logException($e, ['app' => 'core']);
+			$this->logger->error('Error when setting avatar', ['app' => 'core', 'exception' => $e]);
 			return new DataResponse(
 				['data' => ['message' => $this->l->t('An error occurred. Please contact your admin.')]],
 				Http::STATUS_BAD_REQUEST
@@ -164,7 +164,7 @@ class GenericAvatarController extends OCSController {
 			$avatar->remove();
 			return new DataResponse();
 		} catch (\Exception $e) {
-			$this->logger->logException($e, ['app' => 'core']);
+			$this->logger->error('Error when deleting avatar', ['app' => 'core', 'exception' => $e]);
 			return new DataResponse(
 				['data' => ['message' => $this->l->t('An error occurred. Please contact your admin.')]],
 				Http::STATUS_BAD_REQUEST
