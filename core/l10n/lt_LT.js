@@ -96,7 +96,7 @@ OC.L10N.register(
     "Password" : "Slaptažodis",
     "Wrong username or password." : "Neteisingas naudotojo vardas ar slaptažodis.",
     "User disabled" : "Naudotojas išjungtas",
-    "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Aptikome kelis nepavykusius prisijungimus iš jūsų IP adreso. Dėl to prisijungimo dažnis yra apribotas iki 30 sekundžių.",
+    "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Dėl daugkartinių nesėkmingų bandymų prisijungti iš jūsų IP adreso, prisijungimai bus uždelsti iki 30 sekundžių.",
     "Your account is not setup for passwordless login." : "Jūsų paskyra nėra nustatyta prisijungimui be slaptažodžio.",
     "Passwordless authentication is not supported in your browser." : "Tapatybės nustatymas be slaptažodžio nėra palaikomas jūsų naršyklėje.",
     "Passwordless authentication is only available over a secure connection." : "Tapatybės nustatymas be slaptažodžio yra prieinamas tik per saugų ryšį.",

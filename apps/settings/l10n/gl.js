@@ -80,6 +80,8 @@ OC.L10N.register(
     "Settings saved" : "Axustes gardados",
     "Unable to change full name" : "Non é posíbel cambiar o nome completo",
     "Unable to change email address" : "Non é posíbel cambiar o enderezo de correo.",
+    "Unable to set invalid phone number" : "Non é posíbel estabelecer un número de teléfono non válido",
+    "Some account data was invalid" : "Algúns datos da conta non eran válidos",
     "In order to verify your Twitter account, post the following tweet on Twitter (please make sure to post it without any line breaks):" : "Para poder verificar a súa conta de Twitter, publique o seguinte chío en Twitter (asegúrese de publicar sen ningún salto de liña):",
     "In order to verify your Website, store the following content in your web-root at '.well-known/CloudIdVerificationCode.txt' (please make sure that the complete text is in one line):" : "Para poder verificar o seu sitio Web, engada o seguinte contido ao seu web-root en «.well-known/CloudIdVerificationCode.txt» (asegúrese de que o texto completo estea só nunha liña):",
     "%1$s changed your password on %2$s." : "%1$s cambiou o seu contrasinal en %2$s.",
