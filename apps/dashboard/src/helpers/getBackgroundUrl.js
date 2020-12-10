@@ -25,7 +25,7 @@ import prefixWithBaseUrl from './prefixWithBaseUrl'
 
 export default (background, time = 0) => {
 	if (background === 'default') {
-		if (window.OCA.Accessibility.theme === 'dark') {
+		if (window.OCA.Accessibility?.theme === 'dark') {
 			return prefixWithBaseUrl('eduardo-neves-pedra-azul.jpg')
 		}
 		return prefixWithBaseUrl('kamil-porembinski-clouds.jpg')
