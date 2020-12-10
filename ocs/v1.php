@@ -51,12 +51,15 @@ use Symfony\Component\Routing\Exception\MethodNotAllowedException;
 try {
 	OC_App::loadApps(['session']);
 	OC_App::loadApps(['authentication']);
+
+	// load all apps to get all api routes properly setup
+	// FIXME: this should ideally appear after handleLogin but will cause
+	// side effects in existing apps
+	OC_App::loadApps();
+
 	if (!\OC::$server->getUserSession()->isLoggedIn()) {
 		OC::handleLogin(\OC::$server->getRequest());
 	}
-
-	// load all apps to get all api routes properly setup
-	OC_App::loadApps();
 
 	OC::$server->get(\OC\Route\Router::class)->match('/ocsapp'.\OC::$server->getRequest()->getRawPathInfo());
 } catch (ResourceNotFoundException $e) {
