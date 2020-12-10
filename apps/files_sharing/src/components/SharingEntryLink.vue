@@ -410,6 +410,12 @@ export default {
 			// if we have a valid existing share (not pending)
 			if (this.share && this.share.id) {
 				if (!this.isShareOwner && this.share.ownerDisplayName) {
+					if (this.isEmailShareType) {
+						return t('files_sharing', '{shareWith} by {initiator}', {
+							shareWith: this.share.shareWith,
+							initiator: this.share.ownerDisplayName,
+						})
+					}
 					return t('files_sharing', 'Shared via link by {initiator}', {
 						initiator: this.share.ownerDisplayName,
 					})
