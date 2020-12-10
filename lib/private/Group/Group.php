@@ -36,6 +36,7 @@ use OC\Hooks\PublicEmitter;
 use OCP\Group\Backend\ICountDisabledInGroup;
 use OCP\Group\Backend\IGetDisplayNameBackend;
 use OCP\Group\Backend\IHideFromCollaborationBackend;
+use OCP\Group\Backend\IHideMembersFromCollaborationBackend;
 use OCP\Group\Backend\ISetDisplayNameBackend;
 use OCP\GroupInterface;
 use OCP\IGroup;
@@ -400,6 +401,16 @@ class Group implements IGroup {
 	public function hideFromCollaboration(): bool {
 		return array_reduce($this->backends, function (bool $hide, GroupInterface $backend) {
 			return $hide | ($backend instanceof IHideFromCollaborationBackend && $backend->hideGroup($this->gid));
+		}, false);
+	}
+
+	/**
+	 * @return bool
+	 * @since 21.0.0
+	 */
+	public function hideMembersFromCollaboration(): bool {
+		return array_reduce($this->backends, function (bool $hide, GroupInterface $backend) {
+			return $hide | ($backend instanceof IHideMembersFromCollaborationBackend && $backend->hideGroupMembers($this->gid));
 		}, false);
 	}
 }

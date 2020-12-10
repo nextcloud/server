@@ -111,7 +111,8 @@ class MailPlugin implements ISearchPlugin {
 							$userGroups = $this->groupManager->getUserGroupIds($this->userSession->getUser());
 							$found = false;
 							foreach ($userGroups as $userGroup) {
-								if ($this->groupManager->isInGroup($contact['UID'], $userGroup)) {
+								$groupObject = $this->groupManager->get($userGroup);
+								if ($this->groupManager->isInGroup($contact['UID'], $userGroup) && $groupObject && !$groupObject->hideMembersFromCollaboration()) {
 									$found = true;
 									break;
 								}

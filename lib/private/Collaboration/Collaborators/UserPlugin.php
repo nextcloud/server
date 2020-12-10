@@ -94,6 +94,10 @@ class UserPlugin implements ISearchPlugin {
 		if ($this->shareWithGroupOnly) {
 			// Search in all the groups this user is part of
 			foreach ($currentUserGroups as $userGroupId) {
+				$group = $this->groupManager->get($userGroupId);
+				if (!$group || $group->hideFromCollaboration()) {
+					continue;
+				}
 				$usersInGroup = $this->groupManager->displayNamesInGroup($userGroupId, $search, $limit, $offset);
 				foreach ($usersInGroup as $userId => $displayName) {
 					$userId = (string) $userId;
@@ -202,6 +206,10 @@ class UserPlugin implements ISearchPlugin {
 				if ($this->shareWithGroupOnly) {
 					// Only add, if we have a common group
 					$commonGroups = array_intersect($currentUserGroups, $this->groupManager->getUserGroupIds($user));
+					$commonGroups = array_filter($commonGroups, function ($gid) {
+						$group = $this->groupManager->get($gid);
+						return $group && !$group->hideMembersFromCollaboration();
+					});
 					$addUser = !empty($commonGroups);
 				}
 

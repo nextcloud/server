@@ -154,4 +154,10 @@ interface IGroup {
 	 * @since 16.0.0
 	 */
 	public function hideFromCollaboration(): bool;
+
+	/**
+	 * @return bool
+	 * @since 21.0.0
+	 */
+	public function hideMembersFromCollaboration(): bool;
 }
