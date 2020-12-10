@@ -53,4 +53,10 @@ interface IProviderFactory {
 	 * @since 11.0.0
 	 */
 	public function getAllProviders();
+
+	/**
+	 * @since 21.0.0
+	 * @param string $shareProvier
+	 */
+	public function registerProvider(string $shareProvier): void;
 }

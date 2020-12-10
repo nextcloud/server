@@ -196,10 +196,10 @@ class ShareAPIControllerTest extends TestCase {
 		$this->expectExceptionMessage('Wrong share ID, share doesn\'t exist');
 
 		$this->shareManager
-			->expects($this->exactly(5))
+			->expects($this->exactly(6))
 			->method('getShareById')
 			->willReturnCallback(function ($id) {
-				if ($id === 'ocinternal:42' || $id === 'ocRoomShare:42' || $id === 'ocFederatedSharing:42' || $id === 'ocCircleShare:42' || $id === 'ocMailShare:42') {
+				if ($id === 'ocinternal:42' || $id === 'ocRoomShare:42' || $id === 'ocFederatedSharing:42' || $id === 'ocCircleShare:42' || $id === 'ocMailShare:42' || $id === 'deck:42') {
 					throw new \OCP\Share\Exceptions\ShareNotFound();
 				} else {
 					throw new \Exception();
@@ -1558,7 +1558,7 @@ class ShareAPIControllerTest extends TestCase {
 				->with($share, $this->currentUser)
 				->willReturn($canAccessShareByHelper);
 
-			$this->serverContainer->method('query')
+			$this->serverContainer->method('get')
 				->with('\OCA\Talk\Share\Helper\ShareAPIController')
 				->willReturn($helper);
 		}
@@ -2222,7 +2222,7 @@ class ShareAPIControllerTest extends TestCase {
 				}
 			);
 
-		$this->serverContainer->method('query')
+		$this->serverContainer->method('get')
 			->with('\OCA\Talk\Share\Helper\ShareAPIController')
 			->willReturn($helper);
 
@@ -2340,7 +2340,7 @@ class ShareAPIControllerTest extends TestCase {
 				}
 			);
 
-		$this->serverContainer->method('query')
+		$this->serverContainer->method('get')
 			->with('\OCA\Talk\Share\Helper\ShareAPIController')
 			->willReturn($helper);
 
@@ -4404,7 +4404,7 @@ class ShareAPIControllerTest extends TestCase {
 				->with($share)
 				->willReturn($formatShareByHelper);
 
-			$this->serverContainer->method('query')
+			$this->serverContainer->method('get')
 				->with('\OCA\Talk\Share\Helper\ShareAPIController')
 				->willReturn($helper);
 		}

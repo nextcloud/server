@@ -276,6 +276,7 @@ class SharesPluginTest extends \Test\TestCase {
 			[[IShare::TYPE_LINK]],
 			[[IShare::TYPE_REMOTE]],
 			[[IShare::TYPE_ROOM]],
+			[[IShare::TYPE_DECK]],
 			[[IShare::TYPE_USER, IShare::TYPE_GROUP]],
 			[[IShare::TYPE_USER, IShare::TYPE_GROUP, IShare::TYPE_LINK]],
 			[[IShare::TYPE_USER, IShare::TYPE_LINK]],

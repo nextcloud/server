@@ -186,6 +186,7 @@ export default {
 				this.SHARE_TYPES.SHARE_TYPE_CIRCLE,
 				this.SHARE_TYPES.SHARE_TYPE_ROOM,
 				this.SHARE_TYPES.SHARE_TYPE_GUEST,
+				this.SHARE_TYPES.SHARE_TYPE_DECK,
 			]
 
 			if (OC.getCapabilities().files_sharing.public.enabled === true) {
@@ -365,6 +366,8 @@ export default {
 				return 'icon-circle'
 			case this.SHARE_TYPES.SHARE_TYPE_ROOM:
 				return 'icon-room'
+			case this.SHARE_TYPES.SHARE_TYPE_DECK:
+				return 'icon-deck'
 
 			default:
 				return ''
@@ -384,6 +387,8 @@ export default {
 				desc = t('files_sharing', 'on {server}', { server: result.value.server })
 			} else if (result.value.shareType === this.SHARE_TYPES.SHARE_TYPE_EMAIL) {
 				desc = result.value.shareWith
+			} else {
+				desc = result.shareWithDescription ?? ''
 			}
 
 			return {

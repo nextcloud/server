@@ -146,6 +146,19 @@ class Sharing extends Action {
 					'id',
 				]
 			);
+		} elseif ($params['shareType'] === IShare::TYPE_DECK) {
+			$this->log(
+				'The %s "%s" with ID "%s" has been shared to the deck card "%s" with permissions "%s" (Share ID: %s)',
+				$params,
+				[
+					'itemType',
+					'itemTarget',
+					'itemSource',
+					'shareWith',
+					'permissions',
+					'id',
+				]
+			);
 		}
 	}
 
@@ -241,6 +254,18 @@ class Sharing extends Action {
 		} elseif ($params['shareType'] === IShare::TYPE_REMOTE_GROUP) {
 			$this->log(
 				'The %s "%s" with ID "%s" has been unshared from the remote group "%s" (Share ID: %s)',
+				$params,
+				[
+					'itemType',
+					'fileTarget',
+					'itemSource',
+					'shareWith',
+					'id',
+				]
+			);
+		} elseif ($params['shareType'] === IShare::TYPE_DECK) {
+			$this->log(
+				'The %s "%s" with ID "%s" has been unshared from the deck card "%s" (Share ID: %s)',
 				$params,
 				[
 					'itemType',
