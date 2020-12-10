@@ -41,9 +41,11 @@ use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\IAvatar;
 use OCP\IAvatarManager;
+use OCP\IAvatarProvider;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\ILogger;
+use OCP\IServerContainer;
 
 /**
  * This class implements methods to access Avatar functionality
@@ -65,6 +67,15 @@ class AvatarManager implements IAvatarManager {
 	/** @var IConfig */
 	private $config;
 
+	/** @var IServerContainer */
+	private $serverContainer;
+
+	/** @var string[] */
+	private $providerClasses;
+
+	/** @var IAvatarProvider[] */
+	private $providers;
+
 	/**
 	 * AvatarManager constructor.
 	 *
@@ -73,18 +84,33 @@ class AvatarManager implements IAvatarManager {
 	 * @param IL10N $l
 	 * @param ILogger $logger
 	 * @param IConfig $config
+	 * @param IServerContainer $serverContainer
 	 */
 	public function __construct(
 			Manager $userManager,
 			IAppData $appData,
 			IL10N $l,
 			ILogger $logger,
-			IConfig $config) {
+			IConfig $config,
+			IServerContainer $serverContainer) {
 		$this->userManager = $userManager;
 		$this->appData = $appData;
 		$this->l = $l;
 		$this->logger = $logger;
 		$this->config = $config;
+		$this->serverContainer = $serverContainer;
+		$this->providerClasses = [];
+		$this->providers = [];
+	}
+
+	/**
+	 * Registers a provider for the given avatar type.
+	 *
+	 * @param string $type avatar type to associate with the provider
+	 * @param string $class class name, must implement OCP\IAvatarProvider
+	 */
+	public function registerAvatarProvider(string $type, string $class): void {
+		$this->providerClasses[$type] = $class;
 	}
 
 	/**
@@ -162,6 +188,14 @@ class AvatarManager implements IAvatarManager {
 			return $this->getGuestAvatar($id);
 		}
 
-		throw new \InvalidArgumentException('Unknown avatar type: ' . $type);
+		if (!array_key_exists($type, $this->providerClasses)) {
+			throw new \InvalidArgumentException('Unknown avatar type: ' . $type);
+		}
+
+		if (!array_key_exists($type, $this->providers)) {
+			$this->providers[$type] = $this->serverContainer->get($this->providerClasses[$type]);
+		}
+
+		return $this->providers[$type]->getAvatar($id);
 	}
 }

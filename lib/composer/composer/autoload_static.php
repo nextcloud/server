@@ -392,6 +392,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OCP\\IAppConfig' => __DIR__ . '/../../..' . '/lib/public/IAppConfig.php',
         'OCP\\IAvatar' => __DIR__ . '/../../..' . '/lib/public/IAvatar.php',
         'OCP\\IAvatarManager' => __DIR__ . '/../../..' . '/lib/public/IAvatarManager.php',
+        'OCP\\IAvatarProvider' => __DIR__ . '/../../..' . '/lib/public/IAvatarProvider.php',
         'OCP\\ICache' => __DIR__ . '/../../..' . '/lib/public/ICache.php',
         'OCP\\ICacheFactory' => __DIR__ . '/../../..' . '/lib/public/ICacheFactory.php',
         'OCP\\ICertificate' => __DIR__ . '/../../..' . '/lib/public/ICertificate.php',

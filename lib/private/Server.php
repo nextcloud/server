@@ -720,7 +720,8 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->getAppDataDir('avatar'),
 				$c->getL10N('lib'),
 				$c->get(ILogger::class),
-				$c->get(\OCP\IConfig::class)
+				$c->get(\OCP\IConfig::class),
+				$c->get(IServerContainer::class)
 			);
 		});
 		$this->registerAlias(IAvatarManager::class, AvatarManager::class);

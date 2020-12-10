@@ -363,6 +363,7 @@ return array(
     'OCP\\IAppConfig' => $baseDir . '/lib/public/IAppConfig.php',
     'OCP\\IAvatar' => $baseDir . '/lib/public/IAvatar.php',
     'OCP\\IAvatarManager' => $baseDir . '/lib/public/IAvatarManager.php',
+    'OCP\\IAvatarProvider' => $baseDir . '/lib/public/IAvatarProvider.php',
     'OCP\\ICache' => $baseDir . '/lib/public/ICache.php',
     'OCP\\ICacheFactory' => $baseDir . '/lib/public/ICacheFactory.php',
     'OCP\\ICertificate' => $baseDir . '/lib/public/ICertificate.php',
