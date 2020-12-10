@@ -136,8 +136,8 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * @param string $stream
 	 * @see http://www.php.net/manual/en/reserved.variables.php
 	 */
-	public function __construct(array $vars = [],
-								ISecureRandom $secureRandom = null,
+	public function __construct(array $vars,
+								ISecureRandom $secureRandom,
 								IConfig $config,
 								CsrfTokenManager $csrfTokenManager = null,
 								string $stream = 'php://input') {
