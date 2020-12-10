@@ -179,6 +179,7 @@ class ApiController extends Controller {
 			/** @var \OC\Files\Node\Node $shareTypes */
 			$shareTypes = $this->getShareTypes($node);
 			$file = \OCA\Files\Helper::formatFileInfo($node->getFileInfo());
+			$file['hasPreview'] = $this->previewManager->isAvailable($node);
 			$parts = explode('/', dirname($node->getPath()), 4);
 			if (isset($parts[3])) {
 				$file['path'] = '/' . $parts[3];
