@@ -31,6 +31,7 @@ namespace OC\DB\QueryBuilder;
 use Doctrine\DBAL\Platforms\MySqlPlatform;
 use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
 use Doctrine\DBAL\Platforms\SqlitePlatform;
+use Doctrine\DBAL\Query\QueryException;
 use OC\DB\OracleConnection;
 use OC\DB\QueryBuilder\ExpressionBuilder\ExpressionBuilder;
 use OC\DB\QueryBuilder\ExpressionBuilder\MySqlExpressionBuilder;
@@ -220,6 +221,26 @@ class QueryBuilder implements IQueryBuilder {
 				// likely an error during conversion of $value to string
 				$this->logger->debug('DB QueryBuilder: error trying to log SQL query');
 				$this->logger->logException($e);
+			}
+		}
+
+		if (!empty($this->getQueryPart('select'))) {
+			$select = $this->getQueryPart('select');
+			$hasSelectAll = array_filter($select, static function ($s) {
+				return $s === '*';
+			});
+			$hasSelectSpecific = array_filter($select, static function ($s) {
+				return $s !== '*';
+			});
+
+			if (empty($hasSelectAll) === empty($hasSelectSpecific)) {
+				$exception = new QueryException('Query is selecting * and specific values in the same query. This is not supported in Oracle.');
+				$this->logger->logException($exception, [
+					'message' => 'Query is selecting * and specific values in the same query. This is not supported in Oracle.',
+					'query' => $this->getSQL(),
+					'level' => ILogger::ERROR,
+					'app' => 'core',
+				]);
 			}
 		}
 
