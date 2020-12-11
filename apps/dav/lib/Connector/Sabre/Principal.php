@@ -270,6 +270,7 @@ class Principal implements BackendInterface {
 			}
 		}
 
+		$searchLimit = $this->config->getSystemValue('sharing.maxAutocompleteResults', null);
 		foreach ($searchProperties as $prop => $value) {
 			switch ($prop) {
 				case '{http://sabredav.org/ns}email-address':
@@ -305,7 +306,7 @@ class Principal implements BackendInterface {
 					break;
 
 				case '{DAV:}displayname':
-					$users = $this->userManager->searchDisplayName($value);
+					$users = $this->userManager->searchDisplayName($value, $searchLimit);
 
 					if (!$allowEnumeration) {
 						$users = \array_filter($users, static function (IUser $user) use ($value) {

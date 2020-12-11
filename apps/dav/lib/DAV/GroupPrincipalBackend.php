@@ -27,6 +27,7 @@
 
 namespace OCA\DAV\DAV;
 
+use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IUser;
@@ -47,18 +48,24 @@ class GroupPrincipalBackend implements BackendInterface {
 
 	/** @var IShareManager */
 	private $shareManager;
+	/** @var IConfig */
+	private $config;
 
 	/**
 	 * @param IGroupManager $IGroupManager
 	 * @param IUserSession $userSession
 	 * @param IShareManager $shareManager
 	 */
-	public function __construct(IGroupManager $IGroupManager,
-								IUserSession $userSession,
-								IShareManager $shareManager) {
+	public function __construct(
+		IGroupManager $IGroupManager,
+		IUserSession $userSession,
+		IShareManager $shareManager,
+		IConfig $config
+	) {
 		$this->groupManager = $IGroupManager;
 		$this->userSession = $userSession;
 		$this->shareManager = $shareManager;
+		$this->config = $config;
 	}
 
 	/**
@@ -205,10 +212,11 @@ class GroupPrincipalBackend implements BackendInterface {
 			$restrictGroups = $this->groupManager->getUserGroupIds($user);
 		}
 
+		$searchLimit = $this->config->getSystemValue('sharing.maxAutocompleteResults', null);
 		foreach ($searchProperties as $prop => $value) {
 			switch ($prop) {
 				case '{DAV:}displayname':
-					$groups = $this->groupManager->search($value);
+					$groups = $this->groupManager->search($value, $searchLimit);
 
 					$results[] = array_reduce($groups, function (array $carry, IGroup $group) use ($restrictGroups) {
 						$gid = $group->getGID();

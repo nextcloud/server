@@ -31,6 +31,7 @@ namespace OCA\DAV\Tests\unit\DAV;
 
 use OC\Group\Group;
 use OCA\DAV\DAV\GroupPrincipalBackend;
+use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IUser;
@@ -39,6 +40,8 @@ use OCP\Share\IManager;
 use Sabre\DAV\PropPatch;
 
 class GroupPrincipalTest extends \Test\TestCase {
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
+	private $config;
 
 	/** @var IGroupManager | \PHPUnit\Framework\MockObject\MockObject */
 	private $groupManager;
@@ -56,11 +59,14 @@ class GroupPrincipalTest extends \Test\TestCase {
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->shareManager = $this->createMock(IManager::class);
+		$this->config = $this->createMock(IConfig::class);
 
 		$this->connector = new GroupPrincipalBackend(
 			$this->groupManager,
 			$this->userSession,
-			$this->shareManager);
+			$this->shareManager,
+			$this->config
+		);
 		parent::setUp();
 	}
 
@@ -164,6 +170,23 @@ class GroupPrincipalTest extends \Test\TestCase {
 			'{urn:ietf:params:xml:ns:caldav}calendar-user-type' => 'GROUP',
 		];
 		$response = $this->connector->getPrincipalByPath('principals/groups/foo/bar');
+		$this->assertSame($expectedResponse, $response);
+	}
+
+	public function testGetPrincipalsByPathGroupWithHash() {
+		$group1 = $this->mockGroup('foo#bar');
+		$this->groupManager
+			->expects($this->once())
+			->method('get')
+			->with('foo#bar')
+			->willReturn($group1);
+
+		$expectedResponse = [
+			'uri' => 'principals/groups/foo%23bar',
+			'{DAV:}displayname' => 'Group foo#bar',
+			'{urn:ietf:params:xml:ns:caldav}calendar-user-type' => 'GROUP',
+		];
+		$response = $this->connector->getPrincipalByPath('principals/groups/foo#bar');
 		$this->assertSame($expectedResponse, $response);
 	}
 
