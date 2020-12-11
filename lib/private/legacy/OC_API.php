@@ -43,6 +43,7 @@ class OC_API {
 	 * respond to a call
 	 * @param \OC\OCS\Result $result
 	 * @param string $format the format xml|json
+	 * @psalm-taint-escape html
 	 */
 	public static function respond($result, $format = 'xml') {
 		$request = \OC::$server->getRequest();
