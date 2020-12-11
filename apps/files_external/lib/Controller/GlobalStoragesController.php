@@ -32,9 +32,11 @@ use OCA\Files_External\NotFoundException;
 use OCA\Files_External\Service\GlobalStoragesService;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\ILogger;
 use OCP\IRequest;
+use OCP\IUserSession;
 
 /**
  * Global storages controller
@@ -48,20 +50,26 @@ class GlobalStoragesController extends StoragesController {
 	 * @param IL10N $l10n l10n service
 	 * @param GlobalStoragesService $globalStoragesService storage service
 	 * @param ILogger $logger
+	 * @param IUserSession $userSession
+	 * @param IGroupManager $groupManager
 	 */
 	public function __construct(
 		$AppName,
 		IRequest $request,
 		IL10N $l10n,
 		GlobalStoragesService $globalStoragesService,
-		ILogger $logger
+		ILogger $logger,
+		IUserSession $userSession,
+		IGroupManager $groupManager
 	) {
 		parent::__construct(
 			$AppName,
 			$request,
 			$l10n,
 			$globalStoragesService,
-			$logger
+			$logger,
+			$userSession,
+			$groupManager
 		);
 	}
 
