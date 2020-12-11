@@ -154,7 +154,7 @@
     "No apps found for your version" : "Za navedeni iskalni niz ni programov",
     "Disable all" : "Onemogoči vse",
     "Enable all" : "Omogoči vse",
-    "_%n app has an update available_::_%n apps have an update available_" : ["Za %n program je na voljo posodobitev.","Za %n programa so na voljo posodobitve.","Za %n programe so na voljo posodobitve.","Za %n programov so na voljo posodobitve."],
+    "_%n app has an update available_::_%n apps have an update available_" : ["Na voljo je posodobitev za %n program.","Na voljo sta posodobitvi za %n programa.","Na voljo so posodobitve za %n programe.","Na voljo so posodobitve za %n programov."],
     "Marked for remote wipe" : "Označeno za oddaljeno varnostno brisanje",
     "Device settings" : "Nastavitve naprave",
     "Allow filesystem access" : "Dovoli dostop do datotečnega sistema",

@@ -80,6 +80,8 @@ OC.L10N.register(
     "Settings saved" : "设置已保存",
     "Unable to change full name" : "无法修改全名",
     "Unable to change email address" : "无法修改电子邮箱地址",
+    "Unable to set invalid phone number" : "无法设置有效的电话号码",
+    "Some account data was invalid" : "一些账号数据无效",
     "In order to verify your Twitter account, post the following tweet on Twitter (please make sure to post it without any line breaks):" : "为了验证您的 Twitter 账号，请在 Twitter 上发布以下推文（请确保发布内容中没有任何换行符）：",
     "In order to verify your Website, store the following content in your web-root at '.well-known/CloudIdVerificationCode.txt' (please make sure that the complete text is in one line):" : "为了验证您的网站，请将以下内容存储在“.well-known / CloudIdVerificationCode.txt”的网络根目录中（请确保完整的文本在一行中）：",
     "%1$s changed your password on %2$s." : "%1$s 更改了您在 %2$s 上的密码。",
