@@ -52,4 +52,10 @@ class Constants {
 	 * longer support windows as server platform.
 	 */
 	public const FILENAME_INVALID_CHARS = "\\/";
+
+	/**
+	 * @since 21.0.0 – default value for autocomplete/search results limit,
+	 * cf. sharing.maxAutocompleteResults in config.sample.php.
+	 */
+	public const SHARING_MAX_AUTOCOMPLETE_RESULTS_DEFAULT = 25;
 }

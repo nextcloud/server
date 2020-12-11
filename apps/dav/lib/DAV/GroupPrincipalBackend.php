@@ -27,6 +27,7 @@
 
 namespace OCA\DAV\DAV;
 
+use OCP\Constants;
 use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
@@ -212,7 +213,10 @@ class GroupPrincipalBackend implements BackendInterface {
 			$restrictGroups = $this->groupManager->getUserGroupIds($user);
 		}
 
-		$searchLimit = $this->config->getSystemValue('sharing.maxAutocompleteResults', null);
+		$searchLimit = $this->config->getSystemValueInt('sharing.maxAutocompleteResults', Constants::SHARING_MAX_AUTOCOMPLETE_RESULTS_DEFAULT);
+		if ($searchLimit <= 0) {
+			$searchLimit = null;
+		}
 		foreach ($searchProperties as $prop => $value) {
 			switch ($prop) {
 				case '{DAV:}displayname':
