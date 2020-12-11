@@ -760,7 +760,7 @@
     <InvalidReturnType occurrences="1">
       <code>string[]</code>
     </InvalidReturnType>
-    <NullableReturnStatement occurrences="9">
+    <NullableReturnStatement occurrences="8">
       <code>null</code>
       <code>$this-&gt;circleToPrincipal($name)</code>
       <code>null</code>
@@ -1211,25 +1211,17 @@
       <code>$qb-&gt;createNamedParameter($this-&gt;supportedShareType, IQueryBuilder::PARAM_INT_ARRAY)</code>
       <code>$qb-&gt;createNamedParameter($ids, IQueryBuilder::PARAM_INT_ARRAY)</code>
     </ImplicitToStringCast>
-    <InvalidArrayAccess occurrences="2">
-      <code>$token</code>
-      <code>$remoteId</code>
-    </InvalidArrayAccess>
-    <InvalidArrayOffset occurrences="1">
-      <code>list($token, $remoteId)</code>
-    </InvalidArrayOffset>
     <InvalidReturnStatement occurrences="1">
       <code>$shares</code>
     </InvalidReturnStatement>
     <InvalidReturnType occurrences="1">
       <code>getSharesInFolder</code>
     </InvalidReturnType>
-    <InvalidScalarArgument occurrences="6">
+    <InvalidScalarArgument occurrences="5">
       <code>$shareId</code>
       <code>$shareId</code>
       <code>$shareId</code>
       <code>$shareId</code>
-      <code>$share-&gt;getId()</code>
       <code>(int)$data['id']</code>
     </InvalidScalarArgument>
   </file>
@@ -1248,8 +1240,7 @@
     <InvalidReturnType occurrences="1">
       <code>string</code>
     </InvalidReturnType>
-    <InvalidScalarArgument occurrences="7">
-      <code>$remoteId</code>
+    <InvalidScalarArgument occurrences="6">
       <code>$id</code>
       <code>$id</code>
       <code>$id</code>
@@ -3397,9 +3388,6 @@
       <code>strtolower</code>
     </RedundantCondition>
   </file>
-  <file src="lib/private/AppFramework/ScopedPsrLogger.php">
-    <InvalidArgument occurrences="1"/>
-  </file>
   <file src="lib/private/AppFramework/Services/AppConfig.php">
     <MoreSpecificImplementedParamType occurrences="1">
       <code>$default</code>
@@ -4790,14 +4778,6 @@
       <code>true</code>
     </InvalidReturnType>
   </file>
-  <file src="lib/private/Files/Stream/Encryption.php">
-    <InvalidScalarArgument occurrences="1">
-      <code>$position</code>
-    </InvalidScalarArgument>
-    <UndefinedInterfaceMethod occurrences="1">
-      <code>$cacheEntry</code>
-    </UndefinedInterfaceMethod>
-  </file>
   <file src="lib/private/Files/Stream/SeekableHttpStream.php">
     <FalsableReturnStatement occurrences="3">
       <code>false</code>
@@ -5526,7 +5506,7 @@
       <code>'OCP\Share::postUnshareFromSelf'</code>
       <code>$data</code>
     </InvalidArgument>
-    <InvalidScalarArgument occurrences="3">
+    <InvalidScalarArgument occurrences="2">
       <code>$this-&gt;shareApiLinkDefaultExpireDays()</code>
       <code>$this-&gt;shareApiLinkDefaultExpireDays()</code>
       <code>$id</code>
