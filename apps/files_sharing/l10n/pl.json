@@ -77,7 +77,7 @@
     "{actor} removed themselves" : "{actor} usunęli się",
     "{actor} shared with {user}" : "{actor} udostępnia użytkownikowi {user}",
     "{actor} removed share for {user}" : "{actor} usunął udostępnienie dla {user}",
-    "Shared by {actor}" : "Udostępnione przez użytkownika {actor}",
+    "Shared by {actor}" : "Udostępnione przez {actor}",
     "{actor} removed share" : "{actor} usunął udostępnienie",
     "Share for {user} expired" : "Udostępnianie dla {user} wygasło",
     "Share expired" : "Udostępnianie wygasło",
@@ -179,7 +179,8 @@
     "Enter a note for the share recipient" : "Napisz notatkę dla odbiorcy udostępnienia",
     "Add another link" : "Dodaj kolejny link",
     "Create a new share link" : "Utwórz nowy link udostępniania",
-    "Shared via link by {initiator}" : "Udostępnione przez link {initiator}",
+    "{shareWith} by {initiator}" : "{shareWith} przez {initiator}",
+    "Shared via link by {initiator}" : "Udostępnione przez link od {initiator}",
     "Share link ({label})" : "Udostępnij link ({label})",
     "Share link" : "Udostępnij link",
     "Error, please enter proper password and/or expiration date" : "Błąd, wprowadź prawidłowe hasło i/lub datę ważności",
@@ -228,7 +229,7 @@
     "Select or drop files" : "Wybierz lub upuść pliki",
     "Uploading files" : "Wysyłanie plików",
     "Uploaded files:" : "Wysłane pliki:",
-    "By uploading files, you agree to the %1$sterms of service%2$s." : "Przesyłając pliki, akceptujesz %1$swarunki usługi%2$s.",
+    "By uploading files, you agree to the %1$sterms of service%2$s." : "Wysyłając pliki, zgadzasz się na %1$swarunki korzystania z usługi%2$s.",
     "Name, email, or federated cloud ID …" : "Nazwa, adres e-mail lub ID Chmury Federacyjnej…",
     "Uploading files…" : "Wysyłanie plików…"
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
