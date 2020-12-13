@@ -181,6 +181,7 @@ OC.L10N.register(
     "Enter a note for the share recipient" : "Notiz für Empfänger der Freigabe eingeben",
     "Add another link" : "Weiteren Link hinzufügen",
     "Create a new share link" : "Neuen Freigabe-Link erstellen",
+    "{shareWith} by {initiator}" : "{shareWith} von {initiator}",
     "Shared via link by {initiator}" : "Geteilt mittels Link von {initiator}",
     "Share link ({label})" : "Link teilen ({label})",
     "Share link" : "Link teilen",
