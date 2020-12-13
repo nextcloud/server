@@ -181,6 +181,7 @@ OC.L10N.register(
     "Enter a note for the share recipient" : "Внесете белешка до примачот на споделуваето",
     "Add another link" : "Додади линк",
     "Create a new share link" : "Креирајте нов линк за споделување",
+    "{shareWith} by {initiator}" : "{shareWith} од {initiator}",
     "Shared via link by {initiator}" : "Споделено со линк од {initiator}",
     "Share link ({label})" : "Сподели линк ({label})",
     "Share link" : "Сподели линк",

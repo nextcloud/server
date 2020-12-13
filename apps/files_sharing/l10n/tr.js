@@ -181,6 +181,7 @@ OC.L10N.register(
     "Enter a note for the share recipient" : "Paylaşım alıcısı için bir not yazın",
     "Add another link" : "Başka bir bağlantı ekle",
     "Create a new share link" : "Yeni bir paylaşım bağlantısı ekle",
+    "{shareWith} by {initiator}" : "{initiator} tarafından {shareWith}",
     "Shared via link by {initiator}" : "{initiator} tarafından bağlantı ile paylaşıldı",
     "Share link ({label})" : "Bağlantıyı paylaş ({label})",
     "Share link" : "Paylaşım bağlantısı",

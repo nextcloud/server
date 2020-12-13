@@ -181,6 +181,7 @@ OC.L10N.register(
     "Enter a note for the share recipient" : "Digita una nota per il destinatario della condivisione",
     "Add another link" : "Aggiungi un altro collegamento",
     "Create a new share link" : "Crea un nuovo collegamento di condivisione",
+    "{shareWith} by {initiator}" : "{shareWith} da {initiator}",
     "Shared via link by {initiator}" : "Condiviso tramite collegamento da {initiator}",
     "Share link ({label})" : "Condividi collegamento ({label})",
     "Share link" : "Condividi collegamento",

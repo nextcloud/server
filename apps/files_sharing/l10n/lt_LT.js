@@ -169,6 +169,7 @@ OC.L10N.register(
     "Password protection" : "Apsauga slaptažodžiu",
     "Enter a password" : "Enter a password",
     "Expiration date (enforced)" : "Galiojimo pabaigos data (nustatyta)",
+    "Create share" : "Sukurti viešinį",
     "Cancel" : "Atsisakyti",
     "Share label" : "Bendrinti žymeklį",
     "Read only" : "Tik skaitymui",
