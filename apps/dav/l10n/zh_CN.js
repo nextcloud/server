@@ -86,6 +86,7 @@ OC.L10N.register(
     "Tasks" : "任务",
     "Untitled task" : "无标题任务",
     "Completed on %s" : "已完成 %s",
+    "Due on %s by %s" : "到期于%s ，在%s之前",
     "Due on %s" : "到期于%s",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "WebDAV端点",
