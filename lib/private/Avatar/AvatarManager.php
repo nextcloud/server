@@ -75,7 +75,7 @@ class AvatarManager implements IAvatarManager {
 	private $bootstrapCoordinator;
 
 	/** @var IAvatarProvider[] */
-	private $providers;
+	private $providers = [];
 
 	/**
 	 * AvatarManager constructor.
@@ -103,7 +103,6 @@ class AvatarManager implements IAvatarManager {
 		$this->config = $config;
 		$this->serverContainer = $serverContainer;
 		$this->bootstrapCoordinator = $bootstrapCoordinator;
-		$this->providers = [];
 	}
 
 	/**
