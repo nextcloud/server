@@ -42,5 +42,4 @@ interface IAvatarProvider {
 	 * @since 21.0.0
 	 */
 	public function getAvatar(string $id): IAvatar;
-
 }
