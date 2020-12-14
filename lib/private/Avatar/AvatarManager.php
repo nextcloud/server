@@ -100,7 +100,7 @@ class AvatarManager implements IAvatarManager {
 	 * @throws NotFoundException In case there is no user folder yet
 	 */
 	public function getAvatar(string $userId) : IAvatar {
-		return $this->getGenericAvatar('user', $userId);
+		return $this->getAvatarProvider('user')->getAvatar($userId);
 	}
 
 	/**
@@ -140,10 +140,10 @@ class AvatarManager implements IAvatarManager {
 	 * @return IAvatar
 	 */
 	public function getGuestAvatar(string $name): IAvatar {
-		return $this->getGenericAvatar('guest', $name);
+		return $this->getAvatarProvider('guest')->getAvatar($name);
 	}
 
-	public function getGenericAvatar(string $type, string $id): IAvatar {
+	public function getAvatarProvider(string $type): IAvatarProvider {
 		$context = $this->bootstrapCoordinator->getRegistrationContext();
 
 		if ($context === null) {
@@ -161,6 +161,6 @@ class AvatarManager implements IAvatarManager {
 			$this->providers[$type] = $this->serverContainer->get($providerClasses[$type]);
 		}
 
-		return $this->providers[$type]->getAvatar($id);
+		return $this->providers[$type];
 	}
 }

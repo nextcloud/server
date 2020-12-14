@@ -58,15 +58,12 @@ interface IAvatarManager {
 	public function getGuestAvatar(string $name): IAvatar;
 
 	/**
-	 * Returns an avatar instance of the given type
+	 * Returns an avatar provider instance of the given type
 	 *
 	 * @param string $type the type of the avatar
-	 * @param string $id the identifier for the avatar of the given type
-	 * @return IAvatar
-	 * @throws \InvalidArgumentException if the type is not known or the id is
-	 *         not valid
-	 * @throws \Exception if getting the avatar failed
+	 * @return IAvatarProvider
+	 * @throws \InvalidArgumentException if the type is not known
 	 * @since 21.0.0
 	 */
-	public function getGenericAvatar(string $type, string $id): IAvatar;
+	public function getAvatarProvider(string $type): IAvatarProvider;
 }

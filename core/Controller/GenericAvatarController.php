@@ -77,7 +77,7 @@ class GenericAvatarController extends OCSController {
 		}
 
 		try {
-			$avatar = $this->avatarManager->getGenericAvatar($avatarType, $avatarId);
+			$avatar = $this->avatarManager->getAvatarProvider($avatarType)->getAvatar($avatarId);
 			$avatarFile = $avatar->getFile($size);
 			$response = new FileDisplayResponse(
 				$avatarFile,
@@ -140,7 +140,7 @@ class GenericAvatarController extends OCSController {
 		$image->loadFromData($content);
 
 		try {
-			$avatar = $this->avatarManager->getGenericAvatar($avatarType, $avatarId);
+			$avatar = $this->avatarManager->getAvatarProvider($avatarType)->getAvatar($avatarId);
 			$avatar->set($image);
 			return new DataResponse(
 				['status' => 'success']
@@ -166,7 +166,7 @@ class GenericAvatarController extends OCSController {
 	 */
 	public function deleteAvatar(string $avatarType, string $avatarId): DataResponse {
 		try {
-			$avatar = $this->avatarManager->getGenericAvatar($avatarType, $avatarId);
+			$avatar = $this->avatarManager->getAvatarProvider($avatarType)->getAvatar($avatarId);
 			$avatar->remove();
 			return new DataResponse();
 		} catch (\Exception $e) {
