@@ -83,7 +83,7 @@ class GenericAvatarController extends OCSController {
 				Http::STATUS_OK,
 				[
 					'Content-Type' => $avatarFile->getMimeType(),
-					'X-NC-IsCustomAvatar' => (int)$avatar->isCustomAvatar()
+					'X-NC-IsCustomAvatar' => $avatar->isCustomAvatar() ? '1' : '0',
 				]
 			);
 		} catch (\Exception $e) {
