@@ -24,6 +24,7 @@
 
 namespace Test\Avatar;
 
+use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Avatar\AvatarManager;
 use OC\Avatar\UserAvatar;
 use OC\User\Manager;
@@ -67,7 +68,8 @@ class AvatarManagerTest extends \Test\TestCase {
 			$this->l10n,
 			$this->logger,
 			$this->config,
-			$this->createMock(IServerContainer::class)
+			$this->createMock(IServerContainer::class),
+			$this->createMock(Coordinator::class)
 		);
 	}
 
