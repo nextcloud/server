@@ -24,23 +24,21 @@
 
 namespace Test\Avatar;
 
-use OC\AppFramework\Bootstrap\Coordinator;
-use OC\Avatar\AvatarManager;
 use OC\Avatar\UserAvatar;
-use OC\User\Manager;
+use OC\Avatar\UserAvatarProvider;
 use OCP\Files\IAppData;
 use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\IConfig;
 use OCP\IL10N;
-use OCP\IServerContainer;
 use OCP\IUser;
+use OCP\IUserManager;
 use Psr\Log\LoggerInterface;
 
 /**
- * Class AvatarManagerTest
+ * Class UserAvatarProviderTest
  */
-class AvatarManagerTest extends \Test\TestCase {
-	/** @var Manager|\PHPUnit\Framework\MockObject\MockObject */
+class UserAvatarProviderTest extends \Test\TestCase {
+	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $userManager;
 	/** @var IAppData|\PHPUnit\Framework\MockObject\MockObject */
 	private $appData;
@@ -50,26 +48,24 @@ class AvatarManagerTest extends \Test\TestCase {
 	private $logger;
 	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
-	/** @var AvatarManager | \PHPUnit\Framework\MockObject\MockObject */
-	private $avatarManager;
+	/** @var UserAvatarProvider | \PHPUnit\Framework\MockObject\MockObject */
+	private $userAvatarProvider;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->userManager = $this->createMock(Manager::class);
+		$this->userManager = $this->createMock(IUserManager::class);
 		$this->appData = $this->createMock(IAppData::class);
 		$this->l10n = $this->createMock(IL10N::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->config = $this->createMock(IConfig::class);
 
-		$this->avatarManager = new AvatarManager(
+		$this->userAvatarProvider = new UserAvatarProvider(
 			$this->userManager,
 			$this->appData,
 			$this->l10n,
 			$this->logger,
-			$this->config,
-			$this->createMock(IServerContainer::class),
-			$this->createMock(Coordinator::class)
+			$this->config
 		);
 	}
 
@@ -84,7 +80,7 @@ class AvatarManagerTest extends \Test\TestCase {
 			->with('invalidUser')
 			->willReturn(null);
 
-		$this->avatarManager->getAvatar('invalidUser');
+		$this->userAvatarProvider->getAvatar('invalidUser');
 	}
 
 	public function testGetAvatarValidUser() {
@@ -106,7 +102,7 @@ class AvatarManagerTest extends \Test\TestCase {
 			->willReturn($folder);
 
 		$expected = new UserAvatar($folder, $this->l10n, $user, $this->logger, $this->config);
-		$this->assertEquals($expected, $this->avatarManager->getAvatar('valid-user'));
+		$this->assertEquals($expected, $this->userAvatarProvider->getAvatar('valid-user'));
 	}
 
 	public function testGetAvatarValidUserDifferentCasing() {
@@ -128,6 +124,6 @@ class AvatarManagerTest extends \Test\TestCase {
 			->willReturn($folder);
 
 		$expected = new UserAvatar($folder, $this->l10n, $user, $this->logger, $this->config);
-		$this->assertEquals($expected, $this->avatarManager->getAvatar('vaLid-USER'));
+		$this->assertEquals($expected, $this->userAvatarProvider->getAvatar('vaLid-USER'));
 	}
 }

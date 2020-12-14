@@ -114,21 +114,7 @@ class AvatarManager implements IAvatarManager {
 	 * @throws NotFoundException In case there is no user folder yet
 	 */
 	public function getAvatar(string $userId) : IAvatar {
-		$user = $this->userManager->get($userId);
-		if ($user === null) {
-			throw new \Exception('user does not exist');
-		}
-
-		// sanitize userID - fixes casing issue (needed for the filesystem stuff that is done below)
-		$userId = $user->getUID();
-
-		try {
-			$folder = $this->appData->getFolder($userId);
-		} catch (NotFoundException $e) {
-			$folder = $this->appData->newFolder($userId);
-		}
-
-		return new UserAvatar($folder, $this->l, $user, $this->logger, $this->config);
+		return $this->getGenericAvatar('user', $userId);
 	}
 
 	/**
@@ -168,18 +154,10 @@ class AvatarManager implements IAvatarManager {
 	 * @return IAvatar
 	 */
 	public function getGuestAvatar(string $name): IAvatar {
-		return new GuestAvatar($name, $this->logger);
+		return $this->getGenericAvatar('guest', $name);
 	}
 
 	public function getGenericAvatar(string $type, string $id): IAvatar {
-		if ($type === 'user') {
-			return $this->getAvatar($id);
-		}
-
-		if ($type === 'guest') {
-			return $this->getGuestAvatar($id);
-		}
-
 		$context = $this->bootstrapCoordinator->getRegistrationContext();
 
 		if ($context === null) {
