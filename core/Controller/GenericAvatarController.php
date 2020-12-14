@@ -31,6 +31,7 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Http\Response;
+use OCP\Files\NotFoundException;
 use OCP\IAvatarManager;
 use OCP\IL10N;
 use OCP\IRequest;
@@ -86,7 +87,12 @@ class GenericAvatarController extends OCSController {
 					'X-NC-IsCustomAvatar' => $avatar->isCustomAvatar() ? '1' : '0',
 				]
 			);
+		} catch (\InvalidArgumentException $e) {
+			return new DataResponse([], Http::STATUS_NOT_FOUND);
+		} catch (NotFoundException $e) {
+			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		} catch (\Exception $e) {
+			$this->logger->error('Error when getting avatar', ['app' => 'core', 'exception' => $e]);
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		}
 
