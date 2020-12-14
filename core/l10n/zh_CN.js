@@ -139,7 +139,7 @@ OC.L10N.register(
     "Password" : "密码",
     "Wrong username or password." : "错误的用户名或密码。",
     "User disabled" : "用户不可用",
-    "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "我们检测到您的 IP 进行了多次无效登录尝试。因此，请 30 秒之后再尝试。",
+    "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "我们检测到您的 IP 进行了多次无效登录尝试。因此，你的下一次登录最长会延迟30秒。",
     "Your account is not setup for passwordless login." : "您的账号未设置无密码登录。",
     "Passwordless authentication is not supported in your browser." : "浏览器不支持无密码验证。",
     "Passwordless authentication is only available over a secure connection." : "无密码身份验证仅在安全连接上可用。",
