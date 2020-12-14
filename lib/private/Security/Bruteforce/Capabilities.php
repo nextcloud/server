@@ -46,6 +46,10 @@ class Capabilities implements IPublicCapability {
 	}
 
 	public function getCapabilities() {
+		if (version_compare(\OC::$server->getConfig()->getSystemValue('version', '0.0.0.0'), '12.0.0.0', '<')) {
+			return [];
+		}
+
 		return [
 			'bruteforce' => [
 				'delay' => $this->throttler->getDelay($this->request->getRemoteAddress())
