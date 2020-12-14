@@ -32,9 +32,9 @@ use OCP\Files\IAppData;
 use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\IConfig;
 use OCP\IL10N;
-use OCP\ILogger;
 use OCP\IServerContainer;
 use OCP\IUser;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class AvatarManagerTest
@@ -46,7 +46,7 @@ class AvatarManagerTest extends \Test\TestCase {
 	private $appData;
 	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
 	private $l10n;
-	/** @var ILogger|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
 	private $logger;
 	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
@@ -59,7 +59,7 @@ class AvatarManagerTest extends \Test\TestCase {
 		$this->userManager = $this->createMock(Manager::class);
 		$this->appData = $this->createMock(IAppData::class);
 		$this->l10n = $this->createMock(IL10N::class);
-		$this->logger = $this->createMock(ILogger::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->config = $this->createMock(IConfig::class);
 
 		$this->avatarManager = new AvatarManager(

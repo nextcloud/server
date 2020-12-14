@@ -720,7 +720,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->get(\OC\User\Manager::class),
 				$c->getAppDataDir('avatar'),
 				$c->getL10N('lib'),
-				$c->get(ILogger::class),
+				$c->get(LoggerInterface::class),
 				$c->get(\OCP\IConfig::class),
 				$c->get(IServerContainer::class),
 				$c->get(Coordinator::class)
