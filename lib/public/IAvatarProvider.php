@@ -27,18 +27,18 @@ declare(strict_types=1);
 namespace OCP;
 
 /**
- * This class acts as a factory for avatar instances.
+ * This class acts as a factory for avatar instances
  *
  * @since 21.0.0
  */
 interface IAvatarProvider {
 
 	/**
-	 * Returns an IAvatar instance for the given id.
+	 * Returns an IAvatar instance for the given id
 	 *
-	 * @param string $id the identifier of the avatar.
-	 * @return IAvatar the avatar instance.
-	 * @throws \Exception if an error occurred while getting the avatar.
+	 * @param string $id the identifier of the avatar
+	 * @return IAvatar the avatar instance
+	 * @throws \Exception if an error occurred while getting the avatar
 	 * @since 21.0.0
 	 */
 	public function getAvatar(string $id): IAvatar;
