@@ -58,7 +58,7 @@ interface IAvatarManager {
 	public function getGuestAvatar(string $name): IAvatar;
 
 	/**
-	 * Returns an avatar instance of the given type.
+	 * Returns an avatar instance of the given type
 	 *
 	 * @param string $type the type of the avatar
 	 * @param string $id the identifier for the avatar of the given type
