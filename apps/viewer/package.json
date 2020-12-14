@@ -74,7 +74,7 @@
     "babel-loader-exclude-node-modules-except": "^1.0.3",
     "browserslist-config-nextcloud": "0.1.0",
     "css-loader": "^4.3.0",
-    "cypress": "^6.0.0",
+    "cypress": "^6.1.0",
     "cypress-image-snapshot": "^4.0.0",
     "eslint": "^7.15.0",
     "eslint-config-standard": "^16.0.2",
