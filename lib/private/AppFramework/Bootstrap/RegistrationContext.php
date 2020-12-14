@@ -72,7 +72,7 @@ class RegistrationContext {
 	/** @var array[] */
 	private $initialStates = [];
 
-	/** @var array[] */
+	/** @var string[] */
 	private $avatarProviders = [];
 
 	/** @var ILogger */
