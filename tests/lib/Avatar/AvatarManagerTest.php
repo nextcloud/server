@@ -32,6 +32,7 @@ use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\ILogger;
+use OCP\IServerContainer;
 use OCP\IUser;
 
 /**
@@ -65,7 +66,8 @@ class AvatarManagerTest extends \Test\TestCase {
 			$this->appData,
 			$this->l10n,
 			$this->logger,
-			$this->config
+			$this->config,
+			$this->createMock(IServerContainer::class)
 		);
 	}
 
