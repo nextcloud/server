@@ -77,7 +77,8 @@ class GenericAvatarController extends OCSController {
 		}
 
 		try {
-			$avatar = $this->avatarManager->getAvatarProvider($avatarType)->getAvatar($avatarId);
+			$avatarProvider = $this->avatarManager->getAvatarProvider($avatarType);
+			$avatar = $avatarProvider->getAvatar($avatarId);
 			$avatarFile = $avatar->getFile($size);
 			$response = new FileDisplayResponse(
 				$avatarFile,
@@ -94,6 +95,11 @@ class GenericAvatarController extends OCSController {
 		} catch (\Exception $e) {
 			$this->logger->error('Error when getting avatar', ['app' => 'core', 'exception' => $e]);
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
+		}
+
+		$cache = $avatarProvider->getCacheTimeToLive($avatar);
+		if ($cache !== null) {
+			$response->cacheFor($cache);
 		}
 
 		return $response;

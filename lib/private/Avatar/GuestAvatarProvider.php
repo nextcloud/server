@@ -49,4 +49,15 @@ class GuestAvatarProvider implements IAvatarProvider {
 	public function getAvatar(string $id): IAvatar {
 		return new GuestAvatar($id, $this->logger);
 	}
+
+	/**
+	 * Returns the cache duration for guest avatars in seconds
+	 *
+	 * @param IAvatar $avatar ignored, same duration for all guest avatars
+	 * @return int the cache duration
+	 */
+	public function getCacheTimeToLive(IAvatar $avatar): int {
+		// Cache for 30 minutes
+		return 60 * 30;
+	}
 }

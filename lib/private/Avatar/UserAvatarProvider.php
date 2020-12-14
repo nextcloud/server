@@ -90,4 +90,15 @@ class UserAvatarProvider implements IAvatarProvider {
 
 		return new UserAvatar($folder, $this->l, $user, $this->logger, $this->config);
 	}
+
+	/**
+	 * Returns the cache duration for user avatars in seconds
+	 *
+	 * @param IAvatar $avatar ignored, same duration for all user avatars
+	 * @return int the cache duration
+	 */
+	public function getCacheTimeToLive(IAvatar $avatar): int {
+		// Cache for 1 day
+		return 60 * 60 * 24;
+	}
 }
