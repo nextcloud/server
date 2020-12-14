@@ -126,12 +126,12 @@ class Manager {
 	 * @param int $shareType
 	 * @param boolean $accepted
 	 * @param string $user
-	 * @param int $remoteId
+	 * @param string $remoteId
 	 * @param int $parent
 	 * @return Mount|null
 	 * @throws \Doctrine\DBAL\DBALException
 	 */
-	public function addShare($remote, $token, $password, $name, $owner, $shareType, $accepted=false, $user = null, $remoteId = -1, $parent = -1) {
+	public function addShare($remote, $token, $password, $name, $owner, $shareType, $accepted = false, $user = null, $remoteId = '', $parent = -1) {
 		$user = $user ? $user : $this->uid;
 		$accepted = $accepted ? IShare::STATUS_ACCEPTED : IShare::STATUS_PENDING;
 		$name = Filesystem::normalizePath('/' . $name);
@@ -347,7 +347,7 @@ class Manager {
 	 *
 	 * @param string $remote
 	 * @param string $token
-	 * @param int $remoteId Share id on the remote host
+	 * @param string $remoteId Share id on the remote host
 	 * @param string $feedback
 	 * @return boolean
 	 */
@@ -388,7 +388,7 @@ class Manager {
 	 *
 	 * @param string $remoteDomain
 	 * @param string $token
-	 * @param $remoteId id of the share
+	 * @param string $remoteId id of the share
 	 * @param string $feedback
 	 * @return bool
 	 */

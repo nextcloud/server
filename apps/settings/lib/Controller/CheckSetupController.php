@@ -630,12 +630,14 @@ Raw output
 			'activity_mq' => ['mail_id'],
 			'authtoken' => ['id'],
 			'bruteforce_attempts' => ['id'],
+			'federated_reshares' => ['share_id'],
 			'filecache' => ['fileid', 'storage', 'parent', 'mimetype', 'mimepart', 'mtime', 'storage_mtime'],
 			'filecache_extended' => ['fileid'],
 			'file_locks' => ['id'],
 			'jobs' => ['id'],
 			'mimetypes' => ['id'],
 			'mounts' => ['id', 'storage_id', 'root_id', 'mount_id'],
+			'share_external' => ['id', 'parent'],
 			'storages' => ['numeric_id'],
 		];
 
