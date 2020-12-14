@@ -4,6 +4,7 @@ OC.L10N.register(
     "Viewer" : "Pregledovalnik",
     "Simple file viewer with slideshow for media" : "Enostaven pregledovalnik datotek z možnostjo predstavitve",
     "Show your latest holiday photos and videos like in the movies, show a glimpse of your latest novel directly from your nextcloud, choose the best GIF of your collection thanks to the direct preview of your favorites files and many more!" : "Pokažite najnovejše fotografije in posnetke s počitnic kot v filmih, pokažite kakšno stran novega romana neposredno iz oblaka, izberite najboljše iz zbirke v neposrednem predogledu priljubljenih datotek in še veliko, veliko več!",
+    "Your browser does not support audio." : "Spletni brskalnik ne podpira možnosti predvajanja zvoka.",
     "Error loading {name}" : "Prišlo je do napake med nalaganjem {name}",
     "Your browser does not support videos." : "Spletni brskalnik ne podpira predvajanja video posnetkov.",
     "Open sidebar" : "Odpri bočno okno",
