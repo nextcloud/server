@@ -48,8 +48,8 @@ interface IAvatarProvider {
 	 *
 	 * @param IAvatar $avatar the specific avatar, returned by this provider, to
 	 *        get the cache for
-	 * @return int the cache duration
+	 * @return int|null the cache duration, or null for no cache
 	 * @since 21.0.0
 	 */
-	public function getCacheTimeToLive(IAvatar $avatar): int;
+	public function getCacheTimeToLive(IAvatar $avatar): ?int;
 }

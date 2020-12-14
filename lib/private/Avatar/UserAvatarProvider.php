@@ -95,9 +95,9 @@ class UserAvatarProvider implements IAvatarProvider {
 	 * Returns the cache duration for user avatars in seconds
 	 *
 	 * @param IAvatar $avatar ignored, same duration for all user avatars
-	 * @return int the cache duration
+	 * @return int|null the cache duration
 	 */
-	public function getCacheTimeToLive(IAvatar $avatar): int {
+	public function getCacheTimeToLive(IAvatar $avatar): ?int {
 		// Cache for 1 day
 		return 60 * 60 * 24;
 	}
