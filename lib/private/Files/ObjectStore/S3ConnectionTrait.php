@@ -31,6 +31,7 @@ namespace OC\Files\ObjectStore;
 
 use Aws\ClientResolver;
 use Aws\Credentials\CredentialProvider;
+use Aws\Credentials\EcsCredentialProvider;
 use Aws\Credentials\Credentials;
 use Aws\Exception\CredentialsException;
 use Aws\S3\Exception\S3Exception;
@@ -103,9 +104,22 @@ trait S3ConnectionTrait {
 		$provider = CredentialProvider::memoize(
 			CredentialProvider::chain(
 				$this->paramCredentialProvider(),
-				CredentialProvider::defaultProvider()
+				CredentialProvider::env(),
+				CredentialProvider::instanceProfile()
 			)
 		);
+
+		// If running in an ECS environment, then also include the ECS task role in the chain
+		if (!empty(getenv(EcsCredentialProvider::ENV_URI))) {
+			$provider = CredentialProvider::memoize(
+				CredentialProvider::chain(
+					$this->paramCredentialProvider(),
+					CredentialProvider::env(),
+					CredentialProvider::ecsCredentials(),
+					CredentialProvider::instanceProfile()
+				)
+			);
+		}
 
 		$options = [
 			'version' => isset($this->params['version']) ? $this->params['version'] : 'latest',
