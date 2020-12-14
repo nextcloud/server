@@ -8,6 +8,10 @@ const BabelLoaderExcludeNodeModulesExcept = require('babel-loader-exclude-node-m
 const isTesting = !!process.env.TESTING
 const plyrIcons = fs.readFileSync(path.join('node_modules', 'plyr', 'dist', 'plyr.svg'), { encoding: 'utf8' })
 
+if (isTesting) {
+	console.debug('TESTING MODE ENABLED')
+}
+
 const config = {
 	module: {
 		rules: [

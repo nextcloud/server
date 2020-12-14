@@ -66,13 +66,13 @@ describe('Open image.png in viewer', function() {
 
 	it('Does not see the viewer anymore', function() {
 		cy.get('body > .viewer', { timeout: 10000 })
-			.should('not.be.visible')
+			.should('not.exist')
 	})
 
 	it('Does not see image.png in the list anymore', function() {
 		cy.visit('/apps/files')
 		cy.get('#fileList tr[data-file="image.png"]', { timeout: 10000 })
-			.should('not.contain', 'image.png')
+			.should('not.exist')
 	})
 
 	it('Does not have any visual regression', function() {

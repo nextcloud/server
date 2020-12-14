@@ -32,8 +32,8 @@
     "lint:fix": "eslint --ext .js,.vue src --fix",
     "stylelint": "stylelint src",
     "stylelint:fix": "stylelint src --fix",
-    "cypress": "cypress run",
-    "cypress:gui": "cypress open",
+    "cypress": "TESTING=true cypress run",
+    "cypress:gui": "TESTING=true cypress open",
     "wait-on": "wait-on -i 500 -t 300000"
   },
   "dependencies": {

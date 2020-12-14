@@ -3,5 +3,6 @@
   "projectId": "xysa6x",
   "viewportWidth": 1280,
   "viewportHeight": 720,
-  "defaultCommandTimeout": 6000
+  "defaultCommandTimeout": 6000,
+  "retries": 2
 }
