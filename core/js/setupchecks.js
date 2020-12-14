@@ -56,7 +56,7 @@
 		 * @param {int|int[]} expectedStatus the expected HTTP status to be returned by the URL, 207 by default
 		 * @return $.Deferred object resolved with an array of error messages
 		 */
-		checkWellKnownUrl: function(url, placeholderUrl, runCheck, expectedStatus) {
+		checkWellKnownUrl: function(verb, url, placeholderUrl, runCheck, expectedStatus, checkCustomHeader) {
 			if (expectedStatus === undefined) {
 				expectedStatus = [207];
 			}
@@ -73,7 +73,8 @@
 			}
 			var afterCall = function(xhr) {
 				var messages = [];
-				if (expectedStatus.indexOf(xhr.status) === -1) {
+				var customWellKnown = xhr.getResponseHeader('X-NEXTCLOUD-WELL-KNOWN')
+				if (expectedStatus.indexOf(xhr.status) === -1 || (checkCustomHeader && !customWellKnown)) {
 					var docUrl = placeholderUrl.replace('PLACEHOLDER', 'admin-setup-well-known-URL');
 					messages.push({
 						msg: t('core', 'Your web server is not properly set up to resolve "{url}". Further information can be found in the <a target="_blank" rel="noreferrer noopener" href="{docLink}">documentation</a>.', { docLink: docUrl, url: url }),
@@ -84,7 +85,7 @@
 			};
 
 			$.ajax({
-				type: 'PROPFIND',
+				type: verb,
 				url: url,
 				complete: afterCall,
 				allowAuthErrors: true

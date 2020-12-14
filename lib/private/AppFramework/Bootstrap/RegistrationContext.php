@@ -72,6 +72,9 @@ class RegistrationContext {
 	/** @var array[] */
 	private $initialStates = [];
 
+	/** @var array[] */
+	private $wellKnownHandlers = [];
+
 	/** @var ILogger */
 	private $logger;
 
@@ -174,6 +177,13 @@ class RegistrationContext {
 					$class
 				);
 			}
+
+			public function registerWellKnownHandler(string $class): void {
+				$this->context->registerWellKnown(
+					$this->appId,
+					$class
+				);
+			}
 		};
 	}
 
@@ -255,6 +265,13 @@ class RegistrationContext {
 
 	public function registerInitialState(string $appId, string $class): void {
 		$this->initialStates[] = [
+			'appId' => $appId,
+			'class' => $class,
+		];
+	}
+
+	public function registerWellKnown(string $appId, string $class): void {
+		$this->wellKnownHandlers[] = [
 			'appId' => $appId,
 			'class' => $class,
 		];
@@ -436,5 +453,12 @@ class RegistrationContext {
 	 */
 	public function getInitialStates(): array {
 		return $this->initialStates;
+	}
+
+	/**
+	 * @return array[]
+	 */
+	public function getWellKnownHandlers(): array {
+		return $this->wellKnownHandlers;
 	}
 }
