@@ -39,6 +39,8 @@ use OCP\WellKnown\Model\IWellKnown;
  * @package OCP\WellKnown
  */
 interface IWellKnownManager {
+	public const LOCAL_RESOURCE = 'http://nextcloud.com/';
+	
 	public const WEBFINGER = 'webfinger';
 	public const NODEINFO = 'nodeinfo';
 

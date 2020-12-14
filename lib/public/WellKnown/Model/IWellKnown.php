@@ -66,12 +66,28 @@ interface IWellKnown {
 	 */
 	public function getSubject(): string;
 
+	/**
+	 * @param string $subject
+	 *
+	 * @return bool
+	 * @since 21.0.0
+	 */
+	public function isSubject(string $subject): bool;
+
 
 	/**
 	 * @return array
 	 * @since 21.0.0
 	 */
 	public function getRels(): array;
+
+	/**
+	 * @param string $rel
+	 *
+	 * @return bool
+	 * @since 21.0.0
+	 */
+	public function isRequestedRel(string $rel): bool;
 
 
 	/**
@@ -110,6 +126,7 @@ interface IWellKnown {
 	 * - https://tools.ietf.org/html/rfc7033#section-4.4.4
 	 *
 	 * @param array $link
+	 *
 	 * @psalm-param array{rel: string, type: string, href: string, titles: array, properties: array} $link
 	 * @return IWellKnown
 	 *

@@ -73,6 +73,10 @@ final class WellKnown implements IWellKnown, JsonSerializable {
 		$this->request = $request;
 		$this->service = $service;
 		$this->subject = $request->getParam('resource', '');
+		$rel = $request->getParam('rel', '');
+		if ($rel !== '') {
+			$this->rels[] = $rel;
+		}
 	}
 
 
@@ -112,6 +116,16 @@ final class WellKnown implements IWellKnown, JsonSerializable {
 		return $this->subject;
 	}
 
+	/**
+	 * @param string $subject
+	 *
+	 * @return bool
+	 * @since 21.0.0
+	 */
+	public function isSubject(string $subject): bool {
+		return ($this->subject === $subject);
+	}
+
 
 	/**
 	 * @return array
@@ -119,6 +133,16 @@ final class WellKnown implements IWellKnown, JsonSerializable {
 	 */
 	public function getRels(): array {
 		return $this->rels;
+	}
+
+	/**
+	 * @param string $rel
+	 *
+	 * @return bool
+	 * @since 21.0.0
+	 */
+	public function isRequestedRel(string $rel): bool {
+		return (empty($this->rels) || in_array($rel, $this->rels));
 	}
 
 
