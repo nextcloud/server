@@ -717,9 +717,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 		$this->registerService(AvatarManager::class, function (Server $c) {
 			return new AvatarManager(
-				$c->get(\OC\User\Manager::class),
 				$c->getAppDataDir('avatar'),
-				$c->getL10N('lib'),
 				$c->get(LoggerInterface::class),
 				$c->get(\OCP\IConfig::class),
 				$c->get(IServerContainer::class),

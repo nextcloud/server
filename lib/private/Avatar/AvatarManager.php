@@ -35,7 +35,6 @@ declare(strict_types=1);
 namespace OC\Avatar;
 
 use OC\AppFramework\Bootstrap\Coordinator;
-use OC\User\Manager;
 use OC\User\NoUserException;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
@@ -44,7 +43,6 @@ use OCP\IAvatar;
 use OCP\IAvatarManager;
 use OCP\IAvatarProvider;
 use OCP\IConfig;
-use OCP\IL10N;
 use OCP\IServerContainer;
 use Psr\Log\LoggerInterface;
 
@@ -53,14 +51,8 @@ use Psr\Log\LoggerInterface;
  */
 class AvatarManager implements IAvatarManager {
 
-	/** @var Manager */
-	private $userManager;
-
 	/** @var IAppData */
 	private $appData;
-
-	/** @var IL10N */
-	private $l;
 
 	/** @var LoggerInterface  */
 	private $logger;
@@ -80,25 +72,19 @@ class AvatarManager implements IAvatarManager {
 	/**
 	 * AvatarManager constructor.
 	 *
-	 * @param Manager $userManager
 	 * @param IAppData $appData
-	 * @param IL10N $l
 	 * @param LoggerInterface $logger
 	 * @param IConfig $config
 	 * @param IServerContainer $serverContainer
 	 * @param Coordinator $bootstrapCoordinator
 	 */
 	public function __construct(
-			Manager $userManager,
 			IAppData $appData,
-			IL10N $l,
 			LoggerInterface $logger,
 			IConfig $config,
 			IServerContainer $serverContainer,
 			Coordinator $bootstrapCoordinator) {
-		$this->userManager = $userManager;
 		$this->appData = $appData;
-		$this->l = $l;
 		$this->logger = $logger;
 		$this->config = $config;
 		$this->serverContainer = $serverContainer;
