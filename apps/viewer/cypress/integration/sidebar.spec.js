@@ -84,7 +84,7 @@ describe('Open the sidebar from the viewer and open viewer with sidebar already 
 		cy.get('.action-button__icon.icon-menu-sidebar').click()
 		cy.get('aside.app-sidebar').should('be.visible')
 		// we hide the sidebar button if opened
-		cy.get('body > .viewer .modal-header button.action-item__menutoggle').should('not.be.visible')
+		cy.get('body > .viewer .modal-header button.action-item__menutoggle').should('not.exist')
 		// check the sidebar is opened for the correct file
 		cy.get('aside.app-sidebar .app-sidebar-header .app-sidebar-header__maintitle').should('contain', 'image1.jpg')
 		// check we indeed have a preview
@@ -143,13 +143,13 @@ describe('Open the sidebar from the viewer and open viewer with sidebar already 
 
 	it('Close the sidebar', function() {
 		cy.get('aside.app-sidebar .app-sidebar-header .app-sidebar__close').click()
-		cy.get('aside.app-sidebar').should('not.be.visible')
+		cy.get('aside.app-sidebar').should('not.exist')
 		cy.get('body > .viewer .modal-header button.action-item__menutoggle').should('be.visible')
 	})
 
 	it('Open the viewer with the sidebar open', function() {
 		cy.get('body > .viewer .header-close.icon-close').click()
-		cy.get('body > .viewer').should('not.be.visible')
+		cy.get('body > .viewer').should('not.exist')
 
 		// open the sidebar without viewer open
 		cy.get('#fileList tr[data-file="image1.jpg"] .date .modified').click()
@@ -163,7 +163,7 @@ describe('Open the sidebar from the viewer and open viewer with sidebar already 
 
 		// close the sidebar again
 		cy.get('aside.app-sidebar .app-sidebar-header .app-sidebar__close').click()
-		cy.get('aside.app-sidebar').should('not.be.visible')
+		cy.get('aside.app-sidebar').should('not.exist')
 		cy.get('body > .viewer .modal-header button.action-item__menutoggle').should('be.visible')
 	})
 

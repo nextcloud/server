@@ -11,6 +11,7 @@ env:
   APP_NAME: viewer
   BRANCH: ${{ github.base_ref }}
   CYPRESS_baseUrl: http://127.0.0.1:8082/index.php
+  TESTING: true
 
 jobs:
   cypress:
