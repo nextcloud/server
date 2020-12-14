@@ -104,8 +104,7 @@ trait S3ConnectionTrait {
 		$provider = CredentialProvider::memoize(
 			CredentialProvider::chain(
 				$this->paramCredentialProvider(),
-				CredentialProvider::env(),
-				CredentialProvider::instanceProfile()
+				CredentialProvider::defaultProvider()
 			)
 		);
 
