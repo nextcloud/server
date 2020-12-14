@@ -106,7 +106,7 @@ class Client implements IClient {
 		// $this->certificateManager->getAbsoluteBundlePath() tries to instantiate
 		// a view
 		if ($this->config->getSystemValue('installed', false)) {
-			return $this->certificateManager->getAbsoluteBundlePath(null);
+			return $this->certificateManager->getAbsoluteBundlePath('');
 		}
 
 		return \OC::$SERVERROOT . '/resources/config/ca-bundle.crt';

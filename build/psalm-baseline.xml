@@ -760,10 +760,9 @@
     <InvalidReturnType occurrences="1">
       <code>string[]</code>
     </InvalidReturnType>
-    <NullableReturnStatement occurrences="9">
+    <NullableReturnStatement occurrences="8">
       <code>null</code>
       <code>$this-&gt;circleToPrincipal($name)</code>
-      <code>null</code>
       <code>null</code>
       <code>null</code>
       <code>null</code>
@@ -3400,9 +3399,6 @@
       <code>strtolower</code>
     </RedundantCondition>
   </file>
-  <file src="lib/private/AppFramework/ScopedPsrLogger.php">
-    <InvalidArgument occurrences="1"/>
-  </file>
   <file src="lib/private/AppFramework/Services/AppConfig.php">
     <MoreSpecificImplementedParamType occurrences="1">
       <code>$default</code>
@@ -4793,14 +4789,6 @@
       <code>true</code>
     </InvalidReturnType>
   </file>
-  <file src="lib/private/Files/Stream/Encryption.php">
-    <InvalidScalarArgument occurrences="1">
-      <code>$position</code>
-    </InvalidScalarArgument>
-    <UndefinedInterfaceMethod occurrences="1">
-      <code>$cacheEntry</code>
-    </UndefinedInterfaceMethod>
-  </file>
   <file src="lib/private/Files/Stream/SeekableHttpStream.php">
     <FalsableReturnStatement occurrences="3">
       <code>false</code>
@@ -5529,8 +5517,7 @@
       <code>'OCP\Share::postUnshareFromSelf'</code>
       <code>$data</code>
     </InvalidArgument>
-    <InvalidScalarArgument occurrences="3">
-      <code>$this-&gt;shareApiLinkDefaultExpireDays()</code>
+    <InvalidScalarArgument occurrences="2">
       <code>$this-&gt;shareApiLinkDefaultExpireDays()</code>
       <code>$id</code>
     </InvalidScalarArgument>
