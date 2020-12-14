@@ -34,6 +34,7 @@ use OC\AppFramework\Utility\SimpleContainer;
 use OCA\Files_Sharing\Capabilities;
 use OCA\Files_Sharing\Event\BeforeTemplateRenderedEvent;
 use OCA\Files_Sharing\External\Manager;
+use OCA\Files_Sharing\Helper;
 use OCA\Files_Sharing\Listener\LegacyBeforeTemplateRenderedListener;
 use OCA\Files_Sharing\Listener\LoadAdditionalListener;
 use OCA\Files_Sharing\Listener\LoadSidebarListener;
@@ -46,6 +47,8 @@ use OCA\Files_Sharing\Middleware\SharingCheckMiddleware;
 use OCA\Files_Sharing\MountProvider;
 use OCA\Files_Sharing\Notification\Listener;
 use OCA\Files_Sharing\Notification\Notifier;
+use OCA\Files_Sharing\ShareBackend\File;
+use OCA\Files_Sharing\ShareBackend\Folder;
 use OCA\Files\Event\LoadAdditionalScriptsEvent;
 use OCA\Files\Event\LoadSidebar;
 use OCP\AppFramework\App;
@@ -209,7 +212,7 @@ class Application extends App implements IBootstrap {
 		/**
 		 * Core class wrappers
 		 */
-		$container->registerService(Manager::class, function (SimpleContainer $c) use ($server) {
+		$context->getAppContainer()->registerService(Manager::class, function (SimpleContainer $c) use ($server) {
 			$user = $server->getUserSession()->getUser();
 			$uid = $user ? $user->getUID() : null;
 			return new \OCA\Files_Sharing\External\Manager(
@@ -233,13 +236,18 @@ class Application extends App implements IBootstrap {
 
 		/** @var IEventDispatcher $dispatcher */
 		$dispatcher = $context->getAppContainer()->query(IEventDispatcher::class);
-		$oldDispatcher = $server()->getEventDispatcher();
+		$oldDispatcher = $server->getEventDispatcher();
 		$this->registerEventsScripts($dispatcher, $oldDispatcher);
 
 		$mountProviderCollection = $server->getMountProviderCollection();
 		$this->registerMountProviders($mountProviderCollection);
 
 		$this->setupSharingMenus();
+
+		Helper::registerHooks();
+
+		\OC\Share\Share::registerBackend('file', File::class);
+		\OC\Share\Share::registerBackend('folder', Folder::class, 'file');
 
 		/**
 		 * Always add main sharing script
