@@ -34,6 +34,7 @@
 		<!-- clipboard -->
 		<Actions v-if="share && !isEmailShareType && share.token"
 			ref="copyButton"
+			:boundaries-element="boundaryElement"
 			class="sharing-entry__copy">
 			<ActionLink :href="shareLink"
 				target="_blank"
@@ -47,6 +48,7 @@
 		<Actions v-if="!loading && (pendingPassword || pendingExpirationDate)"
 			class="sharing-entry__actions"
 			menu-align="right"
+			:boundaries-element="boundaryElement"
 			:open.sync="open"
 			@close="onNewLinkShare">
 			<!-- pending data menu -->
@@ -126,6 +128,7 @@
 			class="sharing-entry__actions"
 			menu-align="right"
 			:open.sync="open"
+			:boundaries-element="boundaryElement"
 			@close="onMenuClose">
 			<template v-if="share">
 				<template v-if="share.canEdit">
@@ -372,6 +375,7 @@ export default {
 		return {
 			copySuccess: true,
 			copied: false,
+			boundaryElement: document.querySelector('.app-sidebar-tabs__content'),
 
 			publicUploadRWValue: OC.PERMISSION_UPDATE | OC.PERMISSION_CREATE | OC.PERMISSION_READ | OC.PERMISSION_DELETE,
 			publicUploadRValue: OC.PERMISSION_READ,

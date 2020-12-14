@@ -44,7 +44,7 @@
 			icon="icon-close"
 			@click.prevent="onDelete">
 			{{ t('files_sharing', 'Unshare') }}
-		</actionbutton>
+		</ActionButton>
 	</SharingEntrySimple>
 </template>
 
@@ -79,6 +79,12 @@ export default {
 			type: Share,
 			required: true,
 		},
+	},
+
+	data() {
+		return {
+			boundaryElement: document.querySelector('.app-sidebar-tabs__content'),
+		}
 	},
 
 	computed: {

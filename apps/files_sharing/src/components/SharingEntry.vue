@@ -42,6 +42,7 @@
 		<Actions
 			menu-align="right"
 			class="sharing-entry__actions"
+			:boundaries-element="boundaryElement"
 			@close="onMenuClose">
 			<template v-if="share.canEdit">
 				<!-- edit permission -->
@@ -181,6 +182,8 @@ export default {
 			permissionsDelete: OC.PERMISSION_DELETE,
 			permissionsRead: OC.PERMISSION_READ,
 			permissionsShare: OC.PERMISSION_SHARE,
+
+			boundaryElement: document.querySelector('.app-sidebar-tabs__content'),
 		}
 	},
 

@@ -29,7 +29,11 @@
 				{{ subtitle }}
 			</p>
 		</div>
-		<Actions v-if="$slots['default']" menu-align="right" class="sharing-entry__actions">
+		<Actions
+			v-if="$slots['default']"
+			menu-align="right"
+			class="sharing-entry__actions"
+			:boundaries-element="boundaryElement">
 			<slot />
 		</Actions>
 	</li>
@@ -66,6 +70,11 @@ export default {
 		},
 	},
 
+	data() {
+		return {
+			boundaryElement: document.querySelector('.app-sidebar-tabs__content'),
+		}
+	},
 }
 </script>
 
