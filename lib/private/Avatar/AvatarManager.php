@@ -147,8 +147,7 @@ class AvatarManager implements IAvatarManager {
 		$context = $this->bootstrapCoordinator->getRegistrationContext();
 
 		if ($context === null) {
-			// Too early, nothing to do yet
-			throw new \InvalidArgumentException('Unknown avatar type: ' . $type);
+			throw new RuntimeException("Avatar requested before the apps had been fully registered");
 		}
 
 		$providerClasses = $context->getAvatarProviders();
