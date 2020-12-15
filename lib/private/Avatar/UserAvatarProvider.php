@@ -26,13 +26,14 @@ declare(strict_types=1);
 
 namespace OC\Avatar;
 
-use OCP\Files\IAppData;
+use OC\Files\AppData\Factory as AppDataFactory;
 use OCP\Files\NotFoundException;
 use OCP\IAvatar;
 use OCP\IAvatarProvider;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IUserManager;
+use OCP\L10N\IFactory as L10NFactory;
 use Psr\Log\LoggerInterface;
 
 class UserAvatarProvider implements IAvatarProvider {
@@ -54,13 +55,13 @@ class UserAvatarProvider implements IAvatarProvider {
 
 	public function __construct(
 			IUserManager $userManager,
-			IAppData $appData,
-			IL10N $l,
+			AppDataFactory $appDataFactory,
+			L10NFactory $lFactory,
 			LoggerInterface $logger,
 			IConfig $config) {
 		$this->userManager = $userManager;
-		$this->appData = $appData;
-		$this->l = $l;
+		$this->appData = $appDataFactory->get('avatar');
+		$this->l = $lFactory->get('lib');
 		$this->logger = $logger;
 		$this->config = $config;
 	}
