@@ -57,24 +57,6 @@ Feature: avatar
     And last avatar is a square of size 256
     And last avatar is a single "#00FF00" color
 
-  Scenario: set generic user avatar as another user
-    When user "user1" sets avatar for type "user" and id "user0" from file "data/green-square-256.png" with "404"
-    Then user "user0" gets avatar for type "user" and id "user0"
-    And The following headers should be set
-      | Content-Type | image/png |
-      | X-NC-IsCustomAvatar | 0 |
-    And last avatar is a square of size 128
-    And last avatar is not a single color
-
-  Scenario: set generic user avatar as an anonymous user
-    When user "anonymous" sets avatar for type "user" and id "user0" from file "data/green-square-256.png" with "404"
-    Then user "user0" gets avatar for type "user" and id "user0"
-    And The following headers should be set
-      | Content-Type | image/png |
-      | X-NC-IsCustomAvatar | 0 |
-    And last avatar is a square of size 128
-    And last avatar is not a single color
-
   Scenario: set non squared image as generic user avatar
     When user "user0" sets avatar for type "user" and id "user0" from file "data/coloured-pattern.png" with "400"
     Then user "user0" gets avatar for type "user" and id "user0"
@@ -132,38 +114,6 @@ Feature: avatar
       | X-NC-IsCustomAvatar | 0 |
     And last avatar is a square of size 128
     And last avatar is not a single color
-
-  Scenario: delete generic user avatar as another user
-    Given user "user0" sets avatar for type "user" and id "user0" from file "data/green-square-256.png"
-    And user "user0" gets avatar for type "user" and id "user0" with size "256"
-    And The following headers should be set
-      | Content-Type | image/png |
-      | X-NC-IsCustomAvatar | 1 |
-    And last avatar is a square of size 256
-    And last avatar is a single "#00FF00" color
-    When user "user1" deletes avatar for type "user" and id "user0" with "404"
-    Then user "user0" gets avatar for type "user" and id "user0" with size "256"
-    And The following headers should be set
-      | Content-Type | image/png |
-      | X-NC-IsCustomAvatar | 1 |
-    And last avatar is a square of size 128
-    And last avatar is a single "#00FF00" color
-
-  Scenario: delete generic user avatar as an anonymous user
-    Given user "user0" sets avatar for type "user" and id "user0" from file "data/green-square-256.png"
-    And user "user0" gets avatar for type "user" and id "user0" with size "256"
-    And The following headers should be set
-      | Content-Type | image/png |
-      | X-NC-IsCustomAvatar | 1 |
-    And last avatar is a square of size 256
-    And last avatar is a single "#00FF00" color
-    When user "anonymous" deletes avatar for type "user" and id "user0" with "404"
-    Then user "user0" gets avatar for type "user" and id "user0" with size "256"
-    And The following headers should be set
-      | Content-Type | image/png |
-      | X-NC-IsCustomAvatar | 1 |
-    And last avatar is a square of size 128
-    And last avatar is a single "#00FF00" color
 
   Scenario: delete generic guest avatar
     # Silently ignored
