@@ -9,6 +9,19 @@
     "Thursday" : "Dijòus",
     "Friday" : "Divendres",
     "Saturday" : "Dissabte",
+    "January" : "Genièr",
+    "February" : "Febrièr",
+    "March" : "Març",
+    "April" : "Abril",
+    "May" : "Mai",
+    "June" : "Junh",
+    "July" : "Julhet",
+    "August" : "Agost",
+    "September" : "Setembre",
+    "October" : "Octòbre",
+    "November" : "Novembre",
+    "December" : "Decembre",
+    "May." : "Mai",
     "Sharing" : "Partiment"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }
