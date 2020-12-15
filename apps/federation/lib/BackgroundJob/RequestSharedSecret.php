@@ -69,9 +69,6 @@ class RequestSharedSecret extends Job {
 	/** @var ILogger */
 	private $logger;
 
-	/** @var ITimeFactory */
-	private $timeFactory;
-
 	/** @var bool */
 	protected $retainJob = false;
 
@@ -100,13 +97,13 @@ class RequestSharedSecret extends Job {
 		ILogger $logger,
 		ITimeFactory $timeFactory
 	) {
+		parent::__construct($timeFactory);
 		$this->httpClient = $httpClientService->newClient();
 		$this->jobList = $jobList;
 		$this->urlGenerator = $urlGenerator;
 		$this->logger = $logger;
 		$this->ocsDiscoveryService = $ocsDiscoveryService;
 		$this->trustedServers = $trustedServers;
-		$this->timeFactory = $timeFactory;
 	}
 
 
@@ -142,8 +139,8 @@ class RequestSharedSecret extends Job {
 
 	protected function run($argument) {
 		$target = $argument['url'];
-		$created = isset($argument['created']) ? (int)$argument['created'] : $this->timeFactory->getTime();
-		$currentTime = $this->timeFactory->getTime();
+		$created = isset($argument['created']) ? (int)$argument['created'] : $this->time->getTime();
+		$currentTime = $this->time->getTime();
 		$source = $this->urlGenerator->getAbsoluteURL('/');
 		$source = rtrim($source, '/');
 		$token = $argument['token'];
@@ -211,7 +208,7 @@ class RequestSharedSecret extends Job {
 	 */
 	protected function reAddJob(array $argument) {
 		$url = $argument['url'];
-		$created = isset($argument['created']) ? (int)$argument['created'] : $this->timeFactory->getTime();
+		$created = isset($argument['created']) ? (int)$argument['created'] : $this->time->getTime();
 		$token = $argument['token'];
 
 		$this->jobList->add(

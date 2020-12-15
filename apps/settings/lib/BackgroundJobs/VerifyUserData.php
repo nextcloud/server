@@ -32,6 +32,7 @@ namespace OCA\Settings\BackgroundJobs;
 use OC\Accounts\AccountManager;
 use OCP\Accounts\IAccountManager;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
 use OCP\BackgroundJob\Job;
 use OCP\Http\Client\IClientService;
@@ -68,21 +69,14 @@ class VerifyUserData extends Job {
 	/** @var IConfig */
 	private $config;
 
-	/**
-	 * VerifyUserData constructor.
-	 *
-	 * @param AccountManager $accountManager
-	 * @param IUserManager $userManager
-	 * @param IClientService $clientService
-	 * @param ILogger $logger
-	 * @param IConfig $config
-	 */
 	public function __construct(AccountManager $accountManager,
 								IUserManager $userManager,
 								IClientService $clientService,
 								ILogger $logger,
+								ITimeFactory $timeFactory,
 								IConfig $config
 	) {
+		parent::__construct($timeFactory);
 		$this->accountManager = $accountManager;
 		$this->userManager = $userManager;
 		$this->httpClientService = $clientService;
