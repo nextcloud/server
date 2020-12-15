@@ -61,7 +61,11 @@ class ContactsSearchProvider implements IProvider {
 		'FN',
 		'NICKNAME',
 		'EMAIL',
+		'TEL',
 		'ADR',
+		'TITLE',
+		'ORG',
+		'NOTE',
 	];
 
 	/**
