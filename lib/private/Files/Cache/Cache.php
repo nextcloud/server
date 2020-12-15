@@ -997,7 +997,8 @@ class Cache implements ICache {
 			->from('filecache')
 			->whereStorageId()
 			->andWhere($query->expr()->lt('size', $query->createNamedParameter(0, IQueryBuilder::PARAM_INT)))
-			->orderBy('fileid', 'DESC');
+			->orderBy('fileid', 'DESC')
+			->setMaxResults(1);
 
 		$result = $query->execute();
 		$path = $result->fetchColumn();
