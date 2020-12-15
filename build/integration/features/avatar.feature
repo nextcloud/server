@@ -85,6 +85,9 @@ Feature: avatar
     And last avatar is a square of size 128
     And last avatar is not a single color
 
+  Scenario: set generic unknown avatar
+    When user "user0" sets avatar for type "unknown" and id "user0" from file "data/green-square-256.png" with "404"
+
 
 
   Scenario: delete generic user avatar
@@ -124,6 +127,9 @@ Feature: avatar
       | X-NC-IsCustomAvatar | 0 |
     And last avatar is a square of size 128
     And last avatar is not a single color
+
+  Scenario: delete generic unknown avatar
+    When user "user0" deletes avatar for type "unknown" and id "user0" with "404"
 
 
 
