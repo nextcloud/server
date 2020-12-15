@@ -106,21 +106,12 @@ trait S3ConnectionTrait {
 			CredentialProvider::chain(
 				$this->paramCredentialProvider(),
 				CredentialProvider::env(),
-				CredentialProvider::instanceProfile()
+				CredentialProvider::assumeRoleWithWebIdentityCredentialProvider()
+				!empty(getenv(EcsCredentialProvider::ENV_URI))
+					? CredentialProvider::ecsCredentials()
+					: CredentialProvider::instanceProfile()
 			)
 		);
-
-		// If running in an ECS environment, then also include the ECS task role in the chain
-		if (!empty(getenv(EcsCredentialProvider::ENV_URI))) {
-			$provider = CredentialProvider::memoize(
-				CredentialProvider::chain(
-					$this->paramCredentialProvider(),
-					CredentialProvider::env(),
-					CredentialProvider::ecsCredentials(),
-					CredentialProvider::instanceProfile()
-				)
-			);
-		}
 
 		$options = [
 			'version' => isset($this->params['version']) ? $this->params['version'] : 'latest',
