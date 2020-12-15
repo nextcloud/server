@@ -27,7 +27,6 @@
 
 namespace OCA\FederatedFileSharing\BackgroundJob;
 
-use OCA\FederatedFileSharing\AddressHandler;
 use OCA\FederatedFileSharing\Notifications;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
