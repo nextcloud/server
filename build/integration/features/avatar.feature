@@ -1,6 +1,7 @@
 Feature: avatar
 
   Background:
+    Given using api version "2"
     Given user "user0" exists
     Given user "user1" exists
 
