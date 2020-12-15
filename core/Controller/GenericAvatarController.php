@@ -151,6 +151,8 @@ class GenericAvatarController extends OCSController {
 			return new DataResponse(
 				['status' => 'success']
 			);
+		} catch (\InvalidArgumentException $e) {
+			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		} catch (\OC\NotSquareException $e) {
 			return new DataResponse(
 				['data' => ['message' => $this->l->t('Crop is not square')]],
@@ -175,6 +177,8 @@ class GenericAvatarController extends OCSController {
 			$avatar = $this->avatarManager->getAvatarProvider($avatarType)->getAvatar($avatarId);
 			$avatar->remove();
 			return new DataResponse();
+		} catch (\InvalidArgumentException $e) {
+			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		} catch (\Exception $e) {
 			$this->logger->error('Error when deleting avatar', ['app' => 'core', 'exception' => $e]);
 			return new DataResponse(
