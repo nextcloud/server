@@ -22,6 +22,7 @@ declare(strict_types=1);
 
 namespace OCA\WorkflowEngine\Check;
 
+use OC\Files\Storage\Local;
 use OCA\WorkflowEngine\Entity\File;
 use OCP\Files\Mount\IMountManager;
 use OCP\IL10N;
@@ -51,7 +52,7 @@ class FileName extends AbstractStringCheck implements IFileCheck {
 	 */
 	protected function getActualValue(): string {
 		$fileName = $this->path === null ? '' : basename($this->path);
-		if ($fileName === '' && !$this->storage->isLocal()) {
+		if ($fileName === '' && (!$this->storage->isLocal() || $this->storage->instanceOfStorage(Local::class))) {
 			// Return the mountpoint name of external storages that are not mounted as user home
 			$mountPoints = $this->mountManager->findByStorageId($this->storage->getId());
 			if (empty($mountPoints) || $mountPoints[0]->getMountType() !== 'external') {
