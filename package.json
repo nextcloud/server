@@ -47,7 +47,7 @@
     "bootstrap": "^4.5.3",
     "camelcase": "^6.2.0",
     "clipboard": "^2.0.6",
-    "core-js": "^3.8.0",
+    "core-js": "^3.8.1",
     "css-vars-ponyfill": "^2.4.2",
     "davclient.js": "git+https://github.com/owncloud/davclient.js.git#0.2.1",
     "debounce": "^1.2.0",
