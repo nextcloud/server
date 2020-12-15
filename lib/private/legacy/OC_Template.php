@@ -114,7 +114,7 @@ class OC_Template extends \OC\Template\Base {
 			OC_Util::addStyle('server', null, true);
 			OC_Util::addTranslations('core', null, true);
 
-			if (\OC::$server->getSystemConfig()->getValue('installed', false)) {
+			if (\OC::$server->getSystemConfig()->getValue('installed', false) && !\OCP\Util::needUpgrade()) {
 				OC_Util::addScript('merged-template-prepend', null, true);
 				OC_Util::addScript('dist/files_client', null, true);
 				OC_Util::addScript('dist/files_fileinfo', null, true);
