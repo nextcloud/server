@@ -27,30 +27,13 @@ declare(strict_types=1);
 namespace OCP;
 
 /**
- * This class acts as a factory for avatar instances
+ * Generic exception thrown when an AvatarProvider can not perform an action
  *
  * @since 21.0.0
  */
-interface IAvatarProvider {
+class AvatarProviderException extends \RuntimeException {
 
-	/**
-	 * Returns an IAvatar instance for the given id
-	 *
-	 * @param string $id the identifier of the avatar
-	 * @return IAvatar the avatar instance
-	 * @throws AvatarProviderException if an error occurred while getting the
-	 *         avatar
-	 * @since 21.0.0
-	 */
-	public function getAvatar(string $id): IAvatar;
-
-	/**
-	 * Returns the cache duration in seconds
-	 *
-	 * @param IAvatar $avatar the specific avatar, returned by this provider, to
-	 *        get the cache for
-	 * @return int|null the cache duration, or null for no cache
-	 * @since 21.0.0
-	 */
-	public function getCacheTimeToLive(IAvatar $avatar): ?int;
+	public function __construct(string $message = "", int $code = 0, \Exception $previous = null) {
+		parent::__construct($message, $code, $previous);
+	}
 }

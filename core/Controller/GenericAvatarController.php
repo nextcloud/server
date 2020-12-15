@@ -31,6 +31,7 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Http\Response;
+use OCP\AvatarProviderException;
 use OCP\Files\NotFoundException;
 use OCP\IAvatarManager;
 use OCP\IL10N;
@@ -89,6 +90,8 @@ class GenericAvatarController extends OCSController {
 				]
 			);
 		} catch (\InvalidArgumentException $e) {
+			return new DataResponse([], Http::STATUS_NOT_FOUND);
+		} catch (AvatarProviderException $e) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		} catch (NotFoundException $e) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
