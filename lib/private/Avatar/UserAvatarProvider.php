@@ -27,6 +27,7 @@ declare(strict_types=1);
 namespace OC\Avatar;
 
 use OC\Files\AppData\Factory as AppDataFactory;
+use OCP\AvatarProviderException;
 use OCP\Files\NotFoundException;
 use OCP\IAvatar;
 use OCP\IAvatarProvider;
@@ -71,13 +72,13 @@ class UserAvatarProvider implements IAvatarProvider {
 	 *
 	 * @param string $id the user id
 	 * @returns IAvatar
-	 * @throws \Exception In case the username is potentially dangerous
-	 * @throws NotFoundException In case there is no user folder yet
+	 * @throws AvatarProviderException if the user name does not exist
+	 * @throws NotFoundException if there is no user folder yet
 	 */
 	public function getAvatar(string $id): IAvatar {
 		$user = $this->userManager->get($id);
 		if ($user === null) {
-			throw new \Exception('user does not exist');
+			throw new AvatarProviderException('user ' . $id . ' does not exist');
 		}
 
 		// sanitize userID - fixes casing issue (needed for the filesystem stuff that is done below)
