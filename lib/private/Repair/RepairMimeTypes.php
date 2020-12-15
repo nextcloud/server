@@ -192,6 +192,15 @@ class RepairMimeTypes implements IRepairStep {
 		return $this->updateMimetypes($updatedMimetypes);
 	}
 
+	private function introduceOrgModeType() {
+		$updatedMimetypes = [
+			'org' => 'text/org'
+		];
+
+		return $this->updateMimetypes($updatedMimetypes);
+	}
+
+
 	/**
 	 * Fix mime types
 	 */
@@ -231,6 +240,10 @@ class RepairMimeTypes implements IRepairStep {
 
 		if (version_compare($ocVersionFromBeforeUpdate, '20.0.0.5', '<') && $this->introduceOpenDocumentTemplates()) {
 			$out->info('Fixed OpenDocument template mime types');
+		}
+		
+		if (version_compare($ocVersionFromBeforeUpdate, '21.0.0.7', '<') && $this->introduceOrgModeType()) {
+			$out->info('Fixed orgmode mime types');
 		}
 	}
 }
