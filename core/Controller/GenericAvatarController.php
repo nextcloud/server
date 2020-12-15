@@ -95,9 +95,6 @@ class GenericAvatarController extends OCSController {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		} catch (NotFoundException $e) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
-		} catch (\Exception $e) {
-			$this->logger->error('Error when getting avatar', ['app' => 'core', 'exception' => $e]);
-			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		}
 
 		$cache = $avatarProvider->getCacheTimeToLive($avatar);
