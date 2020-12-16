@@ -76,8 +76,7 @@ Feature: avatar
     And last avatar is not a single color
 
   Scenario: set generic guest avatar
-    # Silently ignored
-    When user "user0" sets avatar for type "guest" and id "guest0" from file "data/green-square-256.png"
+    When user "user0" sets avatar for type "guest" and id "guest0" from file "data/green-square-256.png" with "404"
     Then user "user0" gets avatar for type "guest" and id "guest0"
     And The following headers should be set
       | Content-Type | image/png |
@@ -119,8 +118,7 @@ Feature: avatar
     And last avatar is not a single color
 
   Scenario: delete generic guest avatar
-    # Silently ignored
-    When user "user0" deletes avatar for type "guest" and id "guest0"
+    When user "user0" deletes avatar for type "guest" and id "guest0" with "404"
     Then user "user0" gets avatar for type "guest" and id "guest0"
     And The following headers should be set
       | Content-Type | image/png |

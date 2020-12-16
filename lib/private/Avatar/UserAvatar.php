@@ -79,6 +79,10 @@ class UserAvatar extends Avatar {
 		$this->config = $config;
 	}
 
+	public function getUser(): User {
+		return $this->user;
+	}
+
 	/**
 	 * Check if an avatar exists for the user
 	 *

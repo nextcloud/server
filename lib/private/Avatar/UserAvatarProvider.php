@@ -33,7 +33,9 @@ use OCP\IAvatar;
 use OCP\IAvatarProvider;
 use OCP\IConfig;
 use OCP\IL10N;
+use OCP\IUser;
 use OCP\IUserManager;
+use OCP\IUserSession;
 use OCP\L10N\IFactory as L10NFactory;
 use Psr\Log\LoggerInterface;
 
@@ -54,17 +56,22 @@ class UserAvatarProvider implements IAvatarProvider {
 	/** @var IConfig */
 	private $config;
 
+	/** @var IUser|null */
+	protected $currentUser;
+
 	public function __construct(
 			IUserManager $userManager,
 			AppDataFactory $appDataFactory,
 			L10NFactory $lFactory,
 			LoggerInterface $logger,
-			IConfig $config) {
+			IConfig $config,
+			IUserSession $userSession) {
 		$this->userManager = $userManager;
 		$this->appData = $appDataFactory->get('avatar');
 		$this->l = $lFactory->get('lib');
 		$this->logger = $logger;
 		$this->config = $config;
+		$this->currentUser = $userSession->getUser();
 	}
 
 	/**
@@ -101,6 +108,26 @@ class UserAvatarProvider implements IAvatarProvider {
 	 */
 	public function canBeAccessedByCurrentUser(IAvatar $avatar): bool {
 		return true;
+	}
+
+	/**
+	 * Returns whether the current user can modify the given avatar or not
+	 *
+	 * @param IAvatar $avatar the avatar to check
+	 * @return bool true if the current user is the user of the avatar, false
+	 *         otherwise
+	 * @throws \InvalidArgumentException if the given avatar is not a UserAvatar
+	 */
+	public function canBeModifiedByCurrentUser(IAvatar $avatar): bool {
+		if (!($avatar instanceof UserAvatar)) {
+			throw new \InvalidArgumentException();
+		}
+
+		if (!$this->currentUser) {
+			return false;
+		}
+
+		return $avatar->getUser()->getUID() === $this->currentUser->getUID();
 	}
 
 	/**

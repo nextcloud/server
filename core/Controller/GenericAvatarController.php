@@ -161,6 +161,10 @@ class GenericAvatarController extends OCSController {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		}
 
+		if (!$avatarProvider->canBeModifiedByCurrentUser($avatar)) {
+			return new DataResponse([], Http::STATUS_NOT_FOUND);
+		}
+
 		try {
 			$avatar->set($image);
 			return new DataResponse(
@@ -192,6 +196,10 @@ class GenericAvatarController extends OCSController {
 		} catch (\InvalidArgumentException $e) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		} catch (AvatarProviderException $e) {
+			return new DataResponse([], Http::STATUS_NOT_FOUND);
+		}
+
+		if (!$avatarProvider->canBeModifiedByCurrentUser($avatar)) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		}
 
