@@ -220,7 +220,7 @@ const actions = {
 				.then((response) => {
 					if (Object.keys(response.data.ocs.data.users).length > 0) {
 						context.commit('appendUsers', response.data.ocs.data.users)
-						return true
+						return Object.keys(response.data.ocs.data.users).length === limit
 					}
 					return false
 				})
@@ -237,7 +237,7 @@ const actions = {
 			.then((response) => {
 				if (Object.keys(response.data.ocs.data.users).length > 0) {
 					context.commit('appendUsers', response.data.ocs.data.users)
-					return true
+					return Object.keys(response.data.ocs.data.users).length === limit
 				}
 				return false
 			})
