@@ -81,6 +81,22 @@ interface IAvatarProvider {
 	public function canBeModifiedByCurrentUser(IAvatar $avatar): bool;
 
 	/**
+	 * Returns the latest value of the avatar version
+	 *
+	 * Implementers of IAvatarProvider may not throw \InvalidArgumentException
+	 * if the behaviour does not depend on specific avatar instances (for
+	 * example, if versions are not supported and the same version is always
+	 * returned).
+	 *
+	 * @param IAvatar $avatar the avatar to check
+	 * @return int the latest value of the avatar version
+	 * @throws \InvalidArgumentException if the given avatar is not supported by
+	 *         this provider
+	 * @since 21.0.0
+	 */
+	public function getVersion(IAvatar $avatar): int;
+
+	/**
 	 * Returns the cache duration in seconds
 	 *
 	 * Implementers of IAvatarProvider may not throw \InvalidArgumentException

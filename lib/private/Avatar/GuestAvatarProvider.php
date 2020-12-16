@@ -72,6 +72,16 @@ class GuestAvatarProvider implements IAvatarProvider {
 	}
 
 	/**
+	 * Returns the latest value of the avatar version
+	 *
+	 * @param IAvatar $avatar ignored
+	 * @return int 0, as versions are not supported by guest avatars
+	 */
+	public function getVersion(IAvatar $avatar): int {
+		return 0;
+	}
+
+	/**
 	 * Returns the cache duration for guest avatars in seconds
 	 *
 	 * @param IAvatar $avatar ignored, same duration for all guest avatars

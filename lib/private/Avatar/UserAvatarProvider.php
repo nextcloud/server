@@ -131,6 +131,21 @@ class UserAvatarProvider implements IAvatarProvider {
 	}
 
 	/**
+	 * Returns the latest value of the avatar version
+	 *
+	 * @param IAvatar $avatar the avatar to check
+	 * @return int the latest value of the avatar version
+	 * @throws \InvalidArgumentException if the given avatar is not a UserAvatar
+	 */
+	public function getVersion(IAvatar $avatar): int {
+		if (!($avatar instanceof UserAvatar)) {
+			throw new \InvalidArgumentException();
+		}
+
+		return (int) $this->config->getUserValue($avatar->getUser()->getUID(), 'avatar', 'version', 0);
+	}
+
+	/**
 	 * Returns the cache duration for user avatars in seconds
 	 *
 	 * @param IAvatar $avatar ignored, same duration for all user avatars
