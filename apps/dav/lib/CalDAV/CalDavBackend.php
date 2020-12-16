@@ -8,16 +8,16 @@
  * @author dartcafe <github@dartcafe.de>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author leith abdulla <online-nextcloud@eleith.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
- * @author nhirokinet <nhirokinet@nhiroki.net>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Simon Spannagel <simonspa@kth.se>
  * @author Stefan Weil <sw@weilnetz.de>
  * @author Thomas Citharel <nextcloud@tcit.fr>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vinicius Cubas Brand <vinicius@eita.org.br>
- * @author Simon Spannagel <simonspa@kth.se>
  *
  * @license AGPL-3.0
  *

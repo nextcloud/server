@@ -3,8 +3,8 @@
  *
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
  * @author Joas Schilling <coding@schilljs.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *

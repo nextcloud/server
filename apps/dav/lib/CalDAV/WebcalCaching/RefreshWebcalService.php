@@ -7,6 +7,7 @@ declare(strict_types=1);
  * @copyright Copyright (c) 2020, leith abdulla (<online-nextcloud@eleith.com>)
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author eleith <online+github@eleith.com>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Thomas Citharel <nextcloud@tcit.fr>

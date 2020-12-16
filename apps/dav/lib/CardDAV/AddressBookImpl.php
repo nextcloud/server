@@ -4,6 +4,7 @@
  *
  * @author Arne Hamann <kontakt+github@arne.email>
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author call-me-matt <nextcloud@matthiasheinisch.de>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Georg Ehrke <oc.list@georgehrke.com>

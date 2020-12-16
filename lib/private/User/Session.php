@@ -19,7 +19,7 @@
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Sandro Lutz <sandro.lutz@temparus.ch>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *

@@ -12,7 +12,6 @@
  * @author Kyle Fazzari <kyrofa@ubuntu.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Michael Weimann <mail@michael-weimann.eu>
- * @author Morris Jobke <hey@morrisjobke.de>
  * @author rakekniven <mark.ziegler@rakekniven.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *

@@ -10,9 +10,9 @@
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Liam JACK <liamjack@users.noreply.github.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author medcloud <42641918+medcloud@users.noreply.github.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Simon Spannagel <simonspa@kth.se>
  * @author zulan <git@zulan.net>
  *
  * @license GNU AGPL version 3 or any later version

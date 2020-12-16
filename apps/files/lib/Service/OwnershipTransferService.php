@@ -9,7 +9,6 @@ declare(strict_types=1);
  * @author Joas Schilling <coding@schilljs.com>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Morris Jobke <hey@morrisjobke.de>
- * @author rawtaz <rawtaz@users.noreply.github.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Sascha Wiswedel <sascha.wiswedel@nextcloud.com>
  * @author Tobia De Koninck <LEDfan@users.noreply.github.com>
