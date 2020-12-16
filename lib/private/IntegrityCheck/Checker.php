@@ -235,13 +235,21 @@ class Checker {
 
 		$privateKey->setSignatureMode(RSA::SIGNATURE_PSS);
 		$privateKey->setMGFHash('sha512');
+		$privateKey->setHash('sha1');
 		// See https://tools.ietf.org/html/rfc3447#page-38
 		$privateKey->setSaltLength(0);
 		$signature = $privateKey->sign(json_encode($hashes));
 
+		$privateKey->setHash('sha512');
+		$newSignature = $privateKey->sign(json_encode($hashes));
+
 		return [
 			'hashes' => $hashes,
 			'signature' => base64_encode($signature),
+			'signatures' => [
+				'sha1' => base64_encode($signature),
+				'sha512' => base64_encode($newSignature),
+			],
 			'certificate' => $certificate->saveX509($certificate->currentCert),
 		];
 	}
