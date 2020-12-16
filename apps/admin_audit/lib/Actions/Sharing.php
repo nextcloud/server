@@ -7,6 +7,7 @@ declare(strict_types=1);
  *
  * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Sascha Wiswedel <sascha.wiswedel@nextcloud.com>
  *

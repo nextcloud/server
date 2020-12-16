@@ -9,15 +9,18 @@
  * @author Derek <derek.kelly27@gmail.com>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Ko- <k.stoffelen@cs.ru.nl>
  * @author Lauris Binde <laurisb@users.noreply.github.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Michael Weimann <mail@michael-weimann.eu>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author nhirokinet <nhirokinet@nhiroki.net>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Sven Strickroth <email@cs-ware.de>
  * @author Sylvia van Os <sylvia@hackerchick.me>
+ * @author timm2k <timm2k@gmx.de>
  * @author Timo Förster <tfoerster@webfoersterei.de>
  *
  * @license AGPL-3.0

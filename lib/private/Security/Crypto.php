@@ -8,9 +8,9 @@ declare(strict_types=1);
  * @author Andreas Fischer <bantu@owncloud.com>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author lynn-stephenson <lynn.stephenson@protonmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Lynn Stephenson <lynn.stephenson@protonmail.com>
  *
  * @license AGPL-3.0
  *

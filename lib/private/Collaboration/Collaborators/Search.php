@@ -4,6 +4,7 @@
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author onehappycat <one.happy.cat@gmx.com>
  * @author Robin Appelman <robin@icewind.nl>
  *
