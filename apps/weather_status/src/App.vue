@@ -63,7 +63,7 @@
 				<ActionButton v-for="f in displayedFavorites"
 					:key="f"
 					icon="icon-starred"
-					@click="onFavoriteClick(f)">
+					@click="onFavoriteClick($event, f)">
 					{{ f }}
 				</ActionButton>
 			</Actions>
@@ -439,8 +439,16 @@ export default {
 			}
 			network.saveFavorites(this.favorites)
 		},
-		onFavoriteClick(favAddress) {
-			if (favAddress !== this.address) {
+		onFavoriteClick(e, favAddress) {
+			// clicked on the icon
+			if (e.target.classList.contains('action-button__icon')) {
+				const i = this.favorites.indexOf(favAddress)
+				if (i !== -1) {
+					this.favorites.splice(i, 1)
+				}
+				network.saveFavorites(this.favorites)
+			} else if (favAddress !== this.address) {
+				// clicked on the text
 				this.setAddress(favAddress)
 			}
 		},
