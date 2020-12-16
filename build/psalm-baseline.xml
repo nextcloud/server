@@ -1094,9 +1094,6 @@
       <code>$userSession</code>
     </RedundantCondition>
   </file>
-  <file src="apps/federatedfilesharing/lib/BackgroundJob/RetryJob.php">
-    <TooFewArguments occurrences="1"/>
-  </file>
   <file src="apps/federatedfilesharing/lib/Controller/RequestHandlerController.php">
     <InvalidScalarArgument occurrences="7">
       <code>$id</code>
@@ -2239,13 +2236,11 @@
     <ParadoxicalCondition occurrences="1"/>
   </file>
   <file src="apps/user_ldap/lib/Group_LDAP.php">
-    <InvalidArgument occurrences="3">
-      <code>$this-&gt;cachedGroupMembers[$gid]</code>
+    <InvalidArgument occurrences="2">
       <code>$this-&gt;cachedGroupsByMember[$uid]</code>
       <code>'dn'</code>
     </InvalidArgument>
-    <InvalidPropertyAssignmentValue occurrences="6">
-      <code>$this-&gt;cachedGroupMembers</code>
+    <InvalidPropertyAssignmentValue occurrences="5">
       <code>$this-&gt;cachedGroupsByMember</code>
       <code>$this-&gt;cachedNestedGroups</code>
       <code>new CappedMemoryCache()</code>
@@ -2266,9 +2261,6 @@
       <code>is_array($groupDNs)</code>
       <code>is_array($list)</code>
     </RedundantCondition>
-    <TypeDoesNotContainType occurrences="1">
-      <code>!is_array($members)</code>
-    </TypeDoesNotContainType>
   </file>
   <file src="apps/user_ldap/lib/Helper.php">
     <InvalidScalarArgument occurrences="1">
