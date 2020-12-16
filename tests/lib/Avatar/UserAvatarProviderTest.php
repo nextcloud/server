@@ -34,6 +34,7 @@ use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\IUserSession;
 use OCP\L10N\IFactory as L10NFactory;
 use Psr\Log\LoggerInterface;
 
@@ -51,6 +52,8 @@ class UserAvatarProviderTest extends \Test\TestCase {
 	private $logger;
 	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
+	/** @var IUser|\PHPUnit\Framework\MockObject\MockObject */
+	private $currentUser;
 	/** @var UserAvatarProvider | \PHPUnit\Framework\MockObject\MockObject */
 	private $userAvatarProvider;
 
@@ -65,6 +68,7 @@ class UserAvatarProviderTest extends \Test\TestCase {
 		$this->l10n = $this->createMock(IL10N::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->config = $this->createMock(IConfig::class);
+		$this->currentUser = $this->createMock(IUser::class);
 
 		$appDataFactory = $this->createMock(AppDataFactory::class);
 		$appDataFactory
@@ -76,13 +80,18 @@ class UserAvatarProviderTest extends \Test\TestCase {
 			->method('get')
 			->with('lib')
 			->willReturn($this->l10n);
+		$userSession = $this->createMock(IUserSession::class);
+		$userSession
+			->method('getUser')
+			->willReturn($this->currentUser);
 
 		$this->userAvatarProvider = new UserAvatarProvider(
 			$this->userManager,
 			$appDataFactory,
 			$l10nFactory,
 			$this->logger,
-			$this->config
+			$this->config,
+			$userSession
 		);
 	}
 
