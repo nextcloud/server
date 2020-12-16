@@ -587,9 +587,10 @@ class Checker {
 	public function verifyCoreSignature(): array {
 		try {
 			$result = $this->verify(
-					$this->environmentHelper->getServerRoot() . '/core/signature.json',
-					$this->environmentHelper->getServerRoot(),
-					'core'
+				$this->environmentHelper->getServerRoot() . '/core/signature.json',
+				$this->environmentHelper->getServerRoot(),
+				'core',
+				true
 			);
 		} catch (\Exception $e) {
 			$result = [
