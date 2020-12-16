@@ -32,6 +32,7 @@ declare(strict_types=1);
 
 namespace OC\IntegrityCheck;
 
+use OC\App\InfoParser;
 use OC\Core\Command\Maintenance\Mimetype\GenerateMimetypeFileBuilder;
 use OC\IntegrityCheck\Exceptions\InvalidSignatureException;
 use OC\IntegrityCheck\Helpers\AppLocator;
@@ -323,7 +324,7 @@ class Checker {
 	 * @throws InvalidSignatureException
 	 * @throws \Exception
 	 */
-	private function verify(string $signaturePath, string $basePath, string $certificateCN): array {
+	private function verify(string $signaturePath, string $basePath, string $certificateCN, bool $forceNewHash = false): array {
 		if (!$this->isCodeCheckEnforced()) {
 			return [];
 		}
@@ -340,7 +341,6 @@ class Checker {
 
 		$expectedHashes = $signatureData['hashes'];
 		ksort($expectedHashes);
-		$signature = base64_decode($signatureData['signature']);
 		$certificate = $signatureData['certificate'];
 
 		// Check if certificate is signed by Nextcloud Root Authority
@@ -365,8 +365,19 @@ class Checker {
 		$rsa->setMGFHash('sha512');
 		// See https://tools.ietf.org/html/rfc3447#page-38
 		$rsa->setSaltLength(0);
-		if (!$rsa->verify(json_encode($expectedHashes), $signature)) {
-			throw new InvalidSignatureException('Signature could not get verified.');
+
+		if ($forceNewHash || isset($signatureData['signatures'])) {
+			// Check the sha512 hash
+			$rsa->setHash('sha512');
+			if (!$rsa->verify(json_encode($expectedHashes), base64_decode($signatureData['signatures']['sha512']))) {
+				throw new InvalidSignatureException('Signature could not get verified.');
+			}
+		} else {
+			// The default fallback with the sha1 hash
+			$rsa->setHash('sha1');
+			if (!$rsa->verify(json_encode($expectedHashes), base64_decode($signatureData['signature']))) {
+				throw new InvalidSignatureException('Signature could not get verified.');
+			}
 		}
 
 		// Fixes for the updater as shipped with ownCloud 9.0.x: The updater is
@@ -510,10 +521,25 @@ class Checker {
 			if ($path === '') {
 				$path = $this->appLocator->getAppPath($appId);
 			}
+
+			$parser = new InfoParser();
+			$result = $parser->parse($path . '/appinfo/info.xml');
+
+			if (!isset($result['dependencies']['nextcloud']['@attributes']['min-version'])) {
+				throw new \Exception('Could not parse nextcloud dependency');
+			}
+
+			$forceNewHashed = false;
+			$minVersion = (int)$result['dependencies']['nextcloud']['@attributes']['min-version'];
+			if ($minVersion >= 21) {
+				$forceNewHashed = true;
+			}
+
 			$result = $this->verify(
-					$path . '/appinfo/signature.json',
-					$path,
-					$appId
+				$path . '/appinfo/signature.json',
+				$path,
+				$appId,
+				$forceNewHashed
 			);
 		} catch (\Exception $e) {
 			$result = [
