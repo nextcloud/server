@@ -70,12 +70,7 @@ class GenericAvatarController extends OCSController {
 	 * @return DataResponse|FileDisplayResponse
 	 */
 	public function getAvatar(string $avatarType, string $avatarId, int $size): Response {
-		// min/max size
-		if ($size > 2048) {
-			$size = 2048;
-		} elseif ($size <= 0) {
-			$size = 64;
-		}
+		$size = $this->sanitizeSize($size);
 
 		try {
 			$avatarProvider = $this->avatarManager->getAvatarProvider($avatarType);
@@ -110,6 +105,36 @@ class GenericAvatarController extends OCSController {
 		}
 
 		return $response;
+	}
+
+	/**
+	 * Returns the closest value to the predefined set of sizes
+	 *
+	 * @param int $size the size to sanitize
+	 * @return int the sanitized size
+	 */
+	private function sanitizeSize(int $size): int {
+		$validSizes = [64, 128, 256, 512];
+
+		if ($size < $validSizes[0]) {
+			return $validSizes[0];
+		}
+
+		if ($size > $validSizes[count($validSizes) - 1]) {
+			return $validSizes[count($validSizes) - 1];
+		}
+
+		for ($i = 0; $i < count($validSizes) - 1; $i++) {
+			if ($size >= $validSizes[$i] && $size <= $validSizes[$i + 1]) {
+				$middlePoint = ($validSizes[$i] + $validSizes[$i + 1]) / 2;
+				if ($size < $middlePoint) {
+					return $validSizes[$i];
+				}
+				return $validSizes[$i + 1];
+			}
+		}
+
+		return $size;
 	}
 
 	/**
