@@ -29,17 +29,20 @@
 
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
+use OC\AppFramework\Http\Request;
 use OC\Files\Filesystem;
 use OC\Files\Storage\Local;
 use OC\Files\Storage\Temporary;
 use OC\Files\Storage\Wrapper\PermissionsMask;
 use OC\Files\View;
+use OC\Security\SecureRandom;
 use OCA\DAV\Connector\Sabre\File;
 use OCP\Constants;
 use OCP\Files\ForbiddenException;
 use OCP\Files\Storage;
 use OCP\IConfig;
 use OCP\Lock\ILockingProvider;
+use OCP\Security\ISecureRandom;
 use Test\HookHelper;
 use Test\TestCase;
 use Test\Traits\MountProviderTrait;
@@ -64,6 +67,9 @@ class FileTest extends TestCase {
 	/** @var IConfig | \PHPUnit\Framework\MockObject\MockObject */
 	protected $config;
 
+	/** @var ISecureRandom */
+	protected $secureRandom;
+
 	protected function setUp(): void {
 		parent::setUp();
 		unset($_SERVER['HTTP_OC_CHUNKED']);
@@ -78,6 +84,7 @@ class FileTest extends TestCase {
 		$this->loginAsUser($this->user);
 
 		$this->config = $this->getMockBuilder('\OCP\IConfig')->getMock();
+		$this->secureRandom = new SecureRandom();
 	}
 
 	protected function tearDown(): void {
@@ -303,11 +310,11 @@ class FileTest extends TestCase {
 	 *
 	 * @param string $path path to put the file into
 	 * @param string $viewRoot root to use for the view
-	 * @param null|\OC\AppFramework\Http\Request $request the HTTP request
+	 * @param null|Request $request the HTTP request
 	 *
 	 * @return null|string of the PUT operaiton which is usually the etag
 	 */
-	private function doPut($path, $viewRoot = null, \OC\AppFramework\Http\Request $request = null) {
+	private function doPut($path, $viewRoot = null, Request $request = null) {
 		$view = \OC\Files\Filesystem::getView();
 		if (!is_null($viewRoot)) {
 			$view = new \OC\Files\View($viewRoot);
@@ -405,11 +412,11 @@ class FileTest extends TestCase {
 	 * @dataProvider legalMtimeProvider
 	 */
 	public function testPutSingleFileLegalMtime($requestMtime, $resultMtime) {
-		$request = new \OC\AppFramework\Http\Request([
+		$request = new Request([
 			'server' => [
 				'HTTP_X_OC_MTIME' => $requestMtime,
 			]
-		], null, $this->config, null);
+		], $this->secureRandom, $this->config, null);
 		$file = 'foo.txt';
 
 		if ($resultMtime === null) {
@@ -429,11 +436,11 @@ class FileTest extends TestCase {
 	 * @dataProvider legalMtimeProvider
 	 */
 	public function testChunkedPutLegalMtime($requestMtime, $resultMtime) {
-		$request = new \OC\AppFramework\Http\Request([
+		$request = new Request([
 			'server' => [
 				'HTTP_X_OC_MTIME' => $requestMtime,
 			]
-		], null, $this->config, null);
+		], $this->secureRandom, $this->config, null);
 
 		$_SERVER['HTTP_OC_CHUNKED'] = true;
 		$file = 'foo.txt';
