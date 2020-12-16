@@ -98,7 +98,7 @@ class UserAvatarProviderTest extends \Test\TestCase {
 
 	public function testGetAvatarInvalidUser() {
 		$this->expectException(\Exception::class);
-		$this->expectExceptionMessage('user does not exist');
+		$this->expectExceptionMessage('user invalidUser does not exist');
 
 		$this->userManager
 			->expects($this->once())
