@@ -80,6 +80,13 @@ class GenericAvatarController extends OCSController {
 		try {
 			$avatarProvider = $this->avatarManager->getAvatarProvider($avatarType);
 			$avatar = $avatarProvider->getAvatar($avatarId);
+		} catch (\InvalidArgumentException $e) {
+			return new DataResponse([], Http::STATUS_NOT_FOUND);
+		} catch (AvatarProviderException $e) {
+			return new DataResponse([], Http::STATUS_NOT_FOUND);
+		}
+
+		try {
 			$avatarFile = $avatar->getFile($size);
 			$response = new FileDisplayResponse(
 				$avatarFile,
@@ -89,10 +96,6 @@ class GenericAvatarController extends OCSController {
 					'X-NC-IsCustomAvatar' => $avatar->isCustomAvatar() ? '1' : '0',
 				]
 			);
-		} catch (\InvalidArgumentException $e) {
-			return new DataResponse([], Http::STATUS_NOT_FOUND);
-		} catch (AvatarProviderException $e) {
-			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		} catch (NotFoundException $e) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		}
@@ -146,15 +149,19 @@ class GenericAvatarController extends OCSController {
 		$image->loadFromData($content);
 
 		try {
-			$avatar = $this->avatarManager->getAvatarProvider($avatarType)->getAvatar($avatarId);
-			$avatar->set($image);
-			return new DataResponse(
-				['status' => 'success']
-			);
+			$avatarProvider = $this->avatarManager->getAvatarProvider($avatarType);
+			$avatar = $avatarProvider->getAvatar($avatarId);
 		} catch (\InvalidArgumentException $e) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		} catch (AvatarProviderException $e) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
+		}
+
+		try {
+			$avatar->set($image);
+			return new DataResponse(
+				['status' => 'success']
+			);
 		} catch (\OC\NotSquareException $e) {
 			return new DataResponse(
 				['data' => ['message' => $this->l->t('Crop is not square')]],
@@ -176,13 +183,17 @@ class GenericAvatarController extends OCSController {
 	 */
 	public function deleteAvatar(string $avatarType, string $avatarId): DataResponse {
 		try {
-			$avatar = $this->avatarManager->getAvatarProvider($avatarType)->getAvatar($avatarId);
-			$avatar->remove();
-			return new DataResponse();
+			$avatarProvider = $this->avatarManager->getAvatarProvider($avatarType);
+			$avatar = $avatarProvider->getAvatar($avatarId);
 		} catch (\InvalidArgumentException $e) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		} catch (AvatarProviderException $e) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
+		}
+
+		try {
+			$avatar->remove();
+			return new DataResponse();
 		} catch (\Exception $e) {
 			$this->logger->error('Error when deleting avatar', ['app' => 'core', 'exception' => $e]);
 			return new DataResponse(
