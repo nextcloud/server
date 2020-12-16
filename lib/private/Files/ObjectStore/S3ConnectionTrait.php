@@ -105,7 +105,7 @@ trait S3ConnectionTrait {
 			CredentialProvider::chain(
 				$this->paramCredentialProvider(),
 				CredentialProvider::env(),
-				CredentialProvider::assumeRoleWithWebIdentityCredentialProvider()
+				CredentialProvider::assumeRoleWithWebIdentityCredentialProvider(),
 				!empty(getenv(EcsCredentialProvider::ENV_URI))
 					? CredentialProvider::ecsCredentials()
 					: CredentialProvider::instanceProfile()
