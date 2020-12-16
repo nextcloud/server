@@ -51,6 +51,16 @@ class GuestAvatarProvider implements IAvatarProvider {
 	}
 
 	/**
+	 * Returns whether the current user can access the given avatar or not
+	 *
+	 * @param IAvatar $avatar ignored
+	 * @return bool true, as all users can access guest avatars
+	 */
+	public function canBeAccessedByCurrentUser(IAvatar $avatar): bool {
+		return true;
+	}
+
+	/**
 	 * Returns the cache duration for guest avatars in seconds
 	 *
 	 * @param IAvatar $avatar ignored, same duration for all guest avatars

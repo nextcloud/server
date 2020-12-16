@@ -45,6 +45,24 @@ interface IAvatarProvider {
 	public function getAvatar(string $id): IAvatar;
 
 	/**
+	 * Returns whether the current user can access the given avatar or not
+	 *
+	 * Clients of IAvatarProvider should not try to access the avatar if not
+	 * allowed, but they can ignore it if it makes sense.
+	 *
+	 * Implementers of IAvatarProvider may not throw \InvalidArgumentException
+	 * if the behaviour does not depend on specific avatar instances.
+	 *
+	 * @param IAvatar $avatar the avatar to check
+	 * @return bool true if the current user can access the avatar, false
+	 *         otherwise
+	 * @throws \InvalidArgumentException if the given avatar is not supported by
+	 *         this provider
+	 * @since 21.0.0
+	 */
+	public function canBeAccessedByCurrentUser(IAvatar $avatar): bool;
+
+	/**
 	 * Returns the cache duration in seconds
 	 *
 	 * Implementers of IAvatarProvider may not throw \InvalidArgumentException

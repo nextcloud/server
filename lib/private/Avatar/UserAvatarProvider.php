@@ -94,6 +94,16 @@ class UserAvatarProvider implements IAvatarProvider {
 	}
 
 	/**
+	 * Returns whether the current user can access the given avatar or not
+	 *
+	 * @param IAvatar $avatar ignored
+	 * @return bool true, as all users can access user avatars
+	 */
+	public function canBeAccessedByCurrentUser(IAvatar $avatar): bool {
+		return true;
+	}
+
+	/**
 	 * Returns the cache duration for user avatars in seconds
 	 *
 	 * @param IAvatar $avatar ignored, same duration for all user avatars

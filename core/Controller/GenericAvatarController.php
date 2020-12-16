@@ -86,6 +86,10 @@ class GenericAvatarController extends OCSController {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		}
 
+		if (!$avatarProvider->canBeAccessedByCurrentUser($avatar)) {
+			return new DataResponse([], Http::STATUS_NOT_FOUND);
+		}
+
 		try {
 			$avatarFile = $avatar->getFile($size);
 			$response = new FileDisplayResponse(
