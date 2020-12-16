@@ -47,9 +47,14 @@ interface IAvatarProvider {
 	/**
 	 * Returns the cache duration in seconds
 	 *
+	 * Implementers of IAvatarProvider may not throw \InvalidArgumentException
+	 * if the behaviour does not depend on specific avatar instances.
+	 *
 	 * @param IAvatar $avatar the specific avatar, returned by this provider, to
 	 *        get the cache for
 	 * @return int|null the cache duration, or null for no cache
+	 * @throws \InvalidArgumentException if the given avatar is not supported by
+	 *         this provider
 	 * @since 21.0.0
 	 */
 	public function getCacheTimeToLive(IAvatar $avatar): ?int;
