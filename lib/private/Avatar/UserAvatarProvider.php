@@ -28,6 +28,7 @@ namespace OC\Avatar;
 
 use OC\Files\AppData\Factory as AppDataFactory;
 use OCP\AvatarProviderException;
+use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
 use OCP\IAvatar;
 use OCP\IAvatarProvider;
