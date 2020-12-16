@@ -36,6 +36,7 @@ declare(strict_types=1);
 
 namespace OCA\Files_Sharing\Controller;
 
+use OCP\Constants;
 use function array_slice;
 use function array_values;
 use Generator;
@@ -148,7 +149,7 @@ class ShareesAPIController extends OCSController {
 		}
 
 		// never return more than the max. number of results configured in the config.php
-		$maxResults = (int)$this->config->getSystemValue('sharing.maxAutocompleteResults', 0);
+		$maxResults = $this->config->getSystemValueInt('sharing.maxAutocompleteResults', Constants::SHARING_MAX_AUTOCOMPLETE_RESULTS_DEFAULT);
 		if ($maxResults > 0) {
 			$perPage = min($perPage, $maxResults);
 		}

@@ -39,6 +39,7 @@ use OCA\DAV\CalDAV\Proxy\ProxyMapper;
 use OCA\DAV\Traits\PrincipalProxyTrait;
 use OCP\App\IAppManager;
 use OCP\AppFramework\QueryException;
+use OCP\Constants;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IUser;
@@ -270,6 +271,10 @@ class Principal implements BackendInterface {
 			}
 		}
 
+		$searchLimit = $this->config->getSystemValueInt('sharing.maxAutocompleteResults', Constants::SHARING_MAX_AUTOCOMPLETE_RESULTS_DEFAULT);
+		if ($searchLimit <= 0) {
+			$searchLimit = null;
+		}
 		foreach ($searchProperties as $prop => $value) {
 			switch ($prop) {
 				case '{http://sabredav.org/ns}email-address':
@@ -305,7 +310,7 @@ class Principal implements BackendInterface {
 					break;
 
 				case '{DAV:}displayname':
-					$users = $this->userManager->searchDisplayName($value);
+					$users = $this->userManager->searchDisplayName($value, $searchLimit);
 
 					if (!$allowEnumeration) {
 						$users = \array_filter($users, static function (IUser $user) use ($value) {

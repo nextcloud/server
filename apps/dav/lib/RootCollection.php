@@ -72,7 +72,7 @@ class RootCollection extends SimpleCollection {
 			$proxyMapper,
 			\OC::$server->getConfig()
 		);
-		$groupPrincipalBackend = new GroupPrincipalBackend($groupManager, $userSession, $shareManager);
+		$groupPrincipalBackend = new GroupPrincipalBackend($groupManager, $userSession, $shareManager, $config);
 		$calendarResourcePrincipalBackend = new ResourcePrincipalBackend($db, $userSession, $groupManager, $logger, $proxyMapper);
 		$calendarRoomPrincipalBackend = new RoomPrincipalBackend($db, $userSession, $groupManager, $logger, $proxyMapper);
 		// as soon as debug mode is enabled we allow listing of principals
