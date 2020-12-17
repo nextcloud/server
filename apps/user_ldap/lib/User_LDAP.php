@@ -294,6 +294,9 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 		if (is_string($user)) {
 			$user = $this->access->userManager->get($user);
 		}
+		elseif (is_numeric($user)) {
+			$user = $this->access->userManager->get($user);
+		}
 		if (is_null($user)) {
 			return false;
 		}
