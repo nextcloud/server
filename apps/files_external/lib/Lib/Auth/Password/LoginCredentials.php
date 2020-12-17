@@ -79,6 +79,11 @@ class LoginCredentials extends AuthMechanism {
 			try {
 				$sessionCredentials = $this->credentialsStore->getLoginCredentials();
 
+				if ($sessionCredentials->getUID() !== $user->getUID()) {
+					// Can't take the credentials from the session as they are not the same user
+					throw new CredentialsUnavailableException();
+				}
+
 				$credentials = [
 					'user' => $sessionCredentials->getLoginName(),
 					'password' => $sessionCredentials->getPassword()
