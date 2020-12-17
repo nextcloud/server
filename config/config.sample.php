@@ -202,7 +202,7 @@ $CONFIG = [
  *
  * No default value!
  */
-'default_phone_region' => 'EN',
+'default_phone_region' => 'GB',
 
 /**
  * With this setting a locale can be forced for all users. If a locale is
