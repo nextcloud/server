@@ -453,7 +453,7 @@
 								'core',
 								'The PHP memory limit is below the recommended value of 512MB.'
 							),
-							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
+							type: OC.SetupChecks.MESSAGE_TYPE_ERROR
 						})
 					}
 

@@ -695,7 +695,7 @@ describe('OC.SetupChecks tests', function() {
 			async.done(function( data, s, x ){
 				expect(data).toEqual([{
 					msg: 'The PHP memory limit is below the recommended value of 512MB.',
-					type: OC.SetupChecks.MESSAGE_TYPE_WARNING
+					type: OC.SetupChecks.MESSAGE_TYPE_ERROR
 				}]);
 				done();
 			});
