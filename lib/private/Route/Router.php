@@ -297,6 +297,7 @@ class Router implements IRouter {
 		if (isset($parameters['caller'])) {
 			$caller = $parameters['caller'];
 			unset($parameters['caller']);
+			unset($parameters['action']);
 			$application = $this->getApplicationClass($caller[0]);
 			\OC\AppFramework\App::main($caller[1], $caller[2], $application->getContainer(), $parameters);
 		} elseif (isset($parameters['action'])) {
@@ -305,6 +306,7 @@ class Router implements IRouter {
 				throw new \Exception('not a callable action');
 			}
 			unset($parameters['action']);
+			unset($parameters['caller']);
 			call_user_func($action, $parameters);
 		} elseif (isset($parameters['file'])) {
 			include $parameters['file'];
