@@ -20,7 +20,7 @@ OC.L10N.register(
     "It is not allowed to send federated group shares from this server." : "Z tohoto serveru není povoleno posílat federovaná skupinová sdílení.",
     "Sharing %1$s failed, because this item is already shared with %2$s" : "Sdílení %1$s se nezdařilo, protože tato položka už je sdílena s %2$s",
     "Not allowed to create a federated share with the same user" : "Není možné vytvářet federované sdílení mezi jedním a tím samým uživatelem",
-    "File is already shared with %s" : "Soubor je už sdílen s %s",
+    "File is already shared with %s" : "Soubor už je sdílen s %s",
     "Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable or uses a self-signed certificate." : "Sdílení %1$s se nezdařilo, %2$s se nepodařilo nalézt, server pravděpodobně právě není dostupný nebo používá self-signed certifikát.",
     "Could not find share" : "Nedaří se nalézt sdílení",
     "Federated sharing" : "Federované sdílení",
@@ -49,7 +49,7 @@ OC.L10N.register(
     "Your Federated Cloud ID:" : "Váš identifikátor v rámci federovaného cloudu:",
     "Share it so your friends can share files with you:" : "Podělte se o to, aby mohli vaši přátelé s vámi mohli sdílet soubory:",
     "Add to your website" : "Přidat na svou webovou stránku",
-    "Share with me via Nextcloud" : "Sdíleno se mnou přes Nextcloud",
+    "Share with me via Nextcloud" : "Sdílet se mnou přes Nextcloud",
     "HTML Code:" : "HTML kód:",
     "Allow users on this server to send shares to other servers" : "Povolit uživatelům z tohoto serveru zasílat sdílení na jiné servery"
 },

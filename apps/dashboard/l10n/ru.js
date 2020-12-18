@@ -1,12 +1,12 @@
 OC.L10N.register(
     "dashboard",
     {
-    "Dashboard" : "Панель управления",
-    "Dashboard app" : "Приложения Панели управления",
+    "Dashboard" : "Виджеты",
+    "Dashboard app" : "Приложение Виджеты",
     "Show something" : "Показать",
     "Customize" : "Настроить",
     "Edit widgets" : "Редактировать виджеты",
-    "Get more widgets from the app store" : "Получите больше виджетов в магазине приложений",
+    "Get more widgets from the app store" : "Загрузить виджеты из магазина приложений",
     "Change background image" : "Изменить фоновое изображение",
     "Weather service" : "Погода",
     "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "В целях вашей конфиденциальности данные о погоде запрашиваются вашим сервером Nextcloud от вашего имени, поэтому служба погоды не получает никакой личной информации.",

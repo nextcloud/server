@@ -97,7 +97,7 @@
     "A file or folder has been <strong>shared</strong>" : "Soubor nebo složka byla <strong>nasdílena</strong>",
     "Shared link" : "Sdílený odkaz",
     "Wrong share ID, share doesn't exist" : "Chybný identifikátor sdílení – takové neexistuje",
-    "Could not delete share" : "Nelze smazat sdílení",
+    "Could not delete share" : "Sdílení se nedaří smazat",
     "Please specify a file or folder path" : "Zadejte popis umístění souboru či složky",
     "Wrong path, file/folder doesn't exist" : "Nesprávný popis umístění – soubor/složka neexistuje",
     "Could not create share" : "Nelze vytvořit sdílení",
@@ -179,6 +179,7 @@
     "Enter a note for the share recipient" : "Zadejte poznámku pro příjemce sdílení",
     "Add another link" : "Přidat další odkaz",
     "Create a new share link" : "Vytvořit nový odkaz pro sdílení",
+    "{shareWith} by {initiator}" : "{shareWith} od {initiator}",
     "Shared via link by {initiator}" : "{initiator} sdílí odkazem",
     "Share link ({label})" : "Odkaz na sdílení ({label})",
     "Share link" : "Odkaz pro sdílení",
@@ -186,8 +187,8 @@
     "No recommendations. Start typing." : "Žádná doporučení. Pište",
     "Resharing is not allowed" : "Příjemcům tohoto sdílení není dovoleno ho nasdílet dál dalším",
     "Name or email …" : "Jméno nebo e-mail…",
-    "Name, email, or Federated Cloud ID …" : "Jméno, e-mail nebo identifikátor ve federovaném cloudu …",
-    "Searching …" : "Hledání...",
+    "Name, email, or Federated Cloud ID …" : "Jméno, e-mail nebo identifikátor ve federovaném cloudu…",
+    "Searching …" : "Hledání…",
     "No elements found." : "Nenalezeny žádné prvky.",
     "Search globally" : "Hledat všude",
     "on {server}" : "na {server}",
@@ -229,7 +230,7 @@
     "Uploading files" : "Nahrávání souborů",
     "Uploaded files:" : "Nahrané soubory:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Nahráním souborů vyjadřujete souhlas s %1$svšeobecnými podmínkami%2$s.",
-    "Name, email, or federated cloud ID …" : "Jméno, e-mail nebo identifikátor ve federovaném cloudu …",
+    "Name, email, or federated cloud ID …" : "Jméno, e-mail nebo identifikátor ve federovaném cloudu…",
     "Uploading files…" : "Nahrávání souborů…"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;"
 }
