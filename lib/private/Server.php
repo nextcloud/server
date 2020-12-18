@@ -575,7 +575,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 				/** @var IEventDispatcher $dispatcher */
 				$dispatcher = $this->get(IEventDispatcher::class);
-				$dispatcher->dispatchTyped(new UserLoggedInEvent($user, $password, $isTokenLogin));
+				$dispatcher->dispatchTyped(new UserLoggedInEvent($user, $loginName, $password, $isTokenLogin));
 			});
 			$userSession->listen('\OC\User', 'preRememberedLogin', function ($uid) {
 				/** @var IEventDispatcher $dispatcher */
