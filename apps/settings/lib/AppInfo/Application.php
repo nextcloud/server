@@ -163,8 +163,6 @@ class Application extends App implements IBootstrap {
 			$groupManager->listen('\OC\Group', 'postRemoveUser',  [$this, 'removeUserFromGroup']);
 			$groupManager->listen('\OC\Group', 'postAddUser',  [$this, 'addUserToGroup']);
 		});
-
-		Util::connectHook('\OCP\Config', 'js', $this, 'extendJsConfig');
 	}
 
 	public function addUserToGroup(IGroup $group, IUser $user): void {
@@ -208,24 +206,5 @@ class Application extends App implements IBootstrap {
 		/** @var Hooks $hooks */
 		$hooks = $this->getContainer()->query(Hooks::class);
 		$hooks->onChangeEmail($parameters['user'], $parameters['old_value']);
-	}
-
-	/**
-	 * @param array $settings
-	 */
-	public function extendJsConfig(array $settings) {
-		$appConfig = json_decode($settings['array']['oc_appconfig'], true);
-
-		$publicWebFinger = \OC::$server->getConfig()->getAppValue('core', 'public_webfinger', '');
-		if (!empty($publicWebFinger)) {
-			$appConfig['core']['public_webfinger'] = $publicWebFinger;
-		}
-
-		$publicNodeInfo = \OC::$server->getConfig()->getAppValue('core', 'public_nodeinfo', '');
-		if (!empty($publicNodeInfo)) {
-			$appConfig['core']['public_nodeinfo'] = $publicNodeInfo;
-		}
-
-		$settings['array']['oc_appconfig'] = json_encode($appConfig);
 	}
 }

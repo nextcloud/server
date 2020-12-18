@@ -89,6 +89,9 @@ $application->registerRoutes($this, [
 		// Logins for passwordless auth
 		['name' => 'WebAuthn#startAuthentication', 'url' => 'login/webauthn/start', 'verb' => 'POST'],
 		['name' => 'WebAuthn#finishAuthentication', 'url' => 'login/webauthn/finish', 'verb' => 'POST'],
+
+		// Well known requests https://tools.ietf.org/html/rfc5785
+		['name' => 'WellKnown#handle', 'url' => '.well-known/{service}'],
 	],
 	'ocs' => [
 		['root' => '/cloud', 'name' => 'OCS#getCapabilities', 'url' => '/capabilities', 'verb' => 'GET'],

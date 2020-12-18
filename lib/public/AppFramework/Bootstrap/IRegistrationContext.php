@@ -181,4 +181,18 @@ interface IRegistrationContext {
 	 * @since 21.0.0
 	 */
 	public function registerInitialStateProvider(string $class): void;
+
+	/**
+	 * Register a well known protocol handler
+	 *
+	 * It is allowed to register more than one handler per app.
+	 *
+	 * @param string $class
+	 * @psalm-param class-string<\OCP\Http\WellKnown\IHandler> $class
+	 *
+	 * @return void
+	 *
+	 * @since 21.0.0
+	 */
+	public function registerWellKnownHandler(string $class): void;
 }

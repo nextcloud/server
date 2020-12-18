@@ -62,7 +62,7 @@ describe('OC.SetupChecks tests', function() {
 
 	describe('checkWellKnownUrl', function() {
 		it('should fail with another response status code than the expected one', function(done) {
-			var async = OC.SetupChecks.checkWellKnownUrl('/.well-known/caldav', 'http://example.org/PLACEHOLDER', true, 207);
+			var async = OC.SetupChecks.checkWellKnownUrl('PROPFIND', '/.well-known/caldav', 'http://example.org/PLACEHOLDER', true, 207);
 
 			suite.server.requests[0].respond(200);
 
@@ -76,7 +76,7 @@ describe('OC.SetupChecks tests', function() {
 		});
 
 		it('should return no error with the expected response status code', function(done) {
-			var async = OC.SetupChecks.checkWellKnownUrl('/.well-known/caldav', 'http://example.org/PLACEHOLDER', true, 207);
+			var async = OC.SetupChecks.checkWellKnownUrl('PROPFIND', '/.well-known/caldav', 'http://example.org/PLACEHOLDER', true, 207);
 
 			suite.server.requests[0].respond(207);
 
@@ -87,7 +87,7 @@ describe('OC.SetupChecks tests', function() {
 		});
 
 		it('should return no error with the default expected response status code', function(done) {
-			var async = OC.SetupChecks.checkWellKnownUrl('/.well-known/caldav', 'http://example.org/PLACEHOLDER', true);
+			var async = OC.SetupChecks.checkWellKnownUrl('PROPFIND', '/.well-known/caldav', 'http://example.org/PLACEHOLDER', true);
 
 			suite.server.requests[0].respond(207);
 
@@ -98,7 +98,7 @@ describe('OC.SetupChecks tests', function() {
 		});
 
 		it('should return no error when no check should be run', function(done) {
-			var async = OC.SetupChecks.checkWellKnownUrl('/.well-known/caldav', 'http://example.org/PLACEHOLDER', false);
+			var async = OC.SetupChecks.checkWellKnownUrl('PROPFIND', '/.well-known/caldav', 'http://example.org/PLACEHOLDER', false);
 
 			async.done(function( data, s, x ){
 				expect(data).toEqual([]);
