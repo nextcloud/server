@@ -34,7 +34,7 @@ OC.L10N.register(
     "[Deleted user]" : "[Smazaný uživatel]",
     "More comments …" : "Více komentářů…",
     "Save" : "Uložit",
-    "Allowed characters {count} of {max}" : "Povolených znaků {count} z {max}",
+    "Allowed characters {count} of {max}" : "Využito {count} znaků z {max}",
     "Error occurred while retrieving comment with ID {id}" : "Došlo k chybě při načítání komentáře s identifikátorem {id}",
     "Error occurred while updating comment with id {id}" : "Došlo k chybě při aktualizování komentáře s id {id}",
     "Error occurred while posting comment" : "Došlo k chybě při zveřejňování komentáře"
