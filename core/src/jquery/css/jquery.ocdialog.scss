@@ -42,7 +42,9 @@
 	button {
 	    white-space: nowrap;
 	    overflow: hidden;
-	    text-overflow: ellipsis;
+		text-overflow: ellipsis;
+		height: 44px;
+		min-width: 44px;
 	}
 }
 
