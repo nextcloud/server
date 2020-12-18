@@ -107,6 +107,7 @@ class Backend {
 			return;
 		}
 
+		$principal[2] = urldecode($principal[2]);
 		if (($principal[1] === 'users' && !$this->userManager->userExists($principal[2])) ||
 			($principal[1] === 'groups' && !$this->groupManager->groupExists($principal[2]))) {
 			// User or group does not exist
