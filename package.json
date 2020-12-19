@@ -127,7 +127,7 @@
     "vue-template-compiler": "^2.6.12",
     "webpack": "^4.44.2",
     "webpack-cli": "^4.2.0",
-    "webpack-merge": "^5.6.1",
+    "webpack-merge": "^5.7.2",
     "webpack-node-externals": "^2.5.2"
   },
   "browserslist": [
