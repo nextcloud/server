@@ -1,7 +1,7 @@
 OC.L10N.register(
     "settings",
     {
-    "Migration in progress. Please wait until the migration is finished" : "Migrace probíhá. Počkejte než bude dokončena",
+    "Migration in progress. Please wait until the migration is finished" : "Probíhá migrace. Vyčkejte jejího dokončení",
     "Migration started …" : "Migrace spuštěna…",
     "Saved" : "Uloženo",
     "Not saved" : "Neuloženo",
