@@ -18,7 +18,7 @@ OC.L10N.register(
     "An error occurred while generating your backup codes" : "Wystąpił błąd podczas generowania kodów zapasowych.",
     "{name} backup codes" : "Kody kopii zapasowej {name}",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Użyj jednego z kodów zapasowych zapisanych podczas konfigurowania uwierzytelniania dwuskładnikowego.",
-    "Submit" : "Prześlij",
+    "Submit" : "Wyślij",
     "_" : "_",
     "_icon-loading-small_::_generate-backup-codes_" : ["mała ikona ładowania","małe ikony ładowania","małe ikony ładowania","generuj kody zapasowe"]
 },
