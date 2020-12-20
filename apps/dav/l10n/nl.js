@@ -107,9 +107,9 @@ OC.L10N.register(
     "Notifications are sent via background jobs, so these must occur often enough." : "Meldingen worden via achtergrondtaken verstuurd, dus die moeten vaak genoeg plaatsvinden.",
     "Enable notifications for events via push" : "Inschakelen push-melding voor afspraken",
     "Hello %s," : "Hallo %s,",
-    "The meeting »%1$s« with %2$s was canceled." : "De vergadering »%1$s« met %2$s is geannuleerd.",
-    "The meeting »%1$s« with %2$s was updated." : "De vergadering »%1$s« met %2$s is bijgewerkt.",
-    "%1$s invited you to »%2$s«" : "%1$s heeft je uitgenodigd voor »%2$s«",
+    "The meeting »%1$s« with %2$s was canceled." : "De vergadering \"%1$s\" met %2$s is geannuleerd.",
+    "The meeting »%1$s« with %2$s was updated." : "De vergadering \"%1$s\" met %2$s is bijgewerkt.",
+    "%1$s invited you to »%2$s«" : "%1$s heeft je uitgenodigd voor \"%2$s\"",
     "When:" : "Wanneer:"
 },
 "nplurals=2; plural=(n != 1);");
