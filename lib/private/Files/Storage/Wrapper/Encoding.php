@@ -309,8 +309,8 @@ class Encoding extends Wrapper {
 	 * see http://php.net/manual/en/function.file_put_contents.php
 	 *
 	 * @param string $path
-	 * @param string $data
-	 * @return bool
+	 * @param mixed $data
+	 * @return int|false
 	 */
 	public function file_put_contents($path, $data) {
 		return $this->storage->file_put_contents($this->findPathToUse($path), $data);

@@ -73,7 +73,11 @@ abstract class Flysystem extends Common {
 	 * {@inheritdoc}
 	 */
 	public function file_put_contents($path, $data) {
-		return $this->flysystem->put($this->buildPath($path), $data);
+		$result = $this->flysystem->put($this->buildPath($path), $data);
+		if ($result === true) {
+			return strlen($data);
+		}
+		return $result;
 	}
 
 	/**

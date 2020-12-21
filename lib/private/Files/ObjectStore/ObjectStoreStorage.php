@@ -439,9 +439,9 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 
 	public function file_put_contents($path, $data) {
 		$handle = $this->fopen($path, 'w+');
-		fwrite($handle, $data);
+		$result = fwrite($handle, $data);
 		fclose($handle);
-		return true;
+		return $result;
 	}
 
 	public function writeStream(string $path, $stream, int $size = null): int {
