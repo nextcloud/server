@@ -2805,9 +2805,9 @@ define('IMG_TGA', 128);
 
 /**
  * Return an image containing the affine tramsformed src image, using an optional clipping area
- * @link https://secure.php.net/manual/en/function.imageaffine.php
+ * @link https://www.php.net/manual/en/function.imageaffine.php
  * @param resource $image <p>An image resource, returned by one of the image creation functions,
- * such as {@link https://secure.php.net/manual/en/function.imagecreatetruecolor.php imagecreatetruecolor()}.</p>
+ * such as {@link https://www.php.net/manual/en/function.imagecreatetruecolor.php imagecreatetruecolor()}.</p>
  * @param array $affine <p>Array with keys 0 to 5.</p>
  * @param array $clip [optional] <p>Array with keys "x", "y", "width" and "height".</p>
  * @return resource|bool Return affined image resource on success or FALSE on failure.
@@ -2816,7 +2816,7 @@ function imageaffine($image, $affine, $clip = null) {}
 
 /**
  * Concat two matrices (as in doing many ops in one go)
- * @link https://secure.php.net/manual/en/function.imageaffinematrixconcat.php
+ * @link https://www.php.net/manual/en/function.imageaffinematrixconcat.php
  * @param array $m1 <p>Array with keys 0 to 5.</p>
  * @param array $m2 <p>Array with keys 0 to 5.</p>
  * @return array|bool Array with keys 0 to 5 and float values or <b>FALSE</b> on failure.
@@ -2826,7 +2826,7 @@ function imageaffinematrixconcat(array $m1, array $m2) {}
 
 /**
  * Return an image containing the affine tramsformed src image, using an optional clipping area
- * @link https://secure.php.net/manual/en/function.imageaffinematrixget.php
+ * @link https://www.php.net/manual/en/function.imageaffinematrixget.php
  * @param int $type <p> One of <b>IMG_AFFINE_*</b> constants.
  * @param mixed $options [optional]
  * @return array|bool Array with keys 0 to 5 and float values or <b>FALSE</b> on failure.
@@ -2837,9 +2837,9 @@ function imageaffinematrixget ($type, $options = null) {}
 
 /**
  * Crop an image using the given coordinates and size, x, y, width and height
- * @link https://secure.php.net/manual/en/function.imagecrop.php
+ * @link https://www.php.net/manual/en/function.imagecrop.php
  * @param resource $image <p>
- * An image resource, returned by one of the image creation functions, such as {@link https://secure.php.net/manual/en/function.imagecreatetruecolor.php imagecreatetruecolor()}.
+ * An image resource, returned by one of the image creation functions, such as {@link https://www.php.net/manual/en/function.imagecreatetruecolor.php imagecreatetruecolor()}.
  * </p>
  * @param array $rect <p>Array with keys "x", "y", "width" and "height".</p>
  * @return resource|bool Return cropped image resource on success or FALSE on failure.
@@ -2849,9 +2849,9 @@ function imagecrop ($image, $rect) {}
 
 /**
  * Crop an image automatically using one of the available modes
- * @link https://secure.php.net/manual/en/function.imagecropauto.php
+ * @link https://www.php.net/manual/en/function.imagecropauto.php
  * @param resource $image <p>
- * An image resource, returned by one of the image creation functions, such as {@link https://secure.php.net/manual/en/function.imagecreatetruecolor.php imagecreatetruecolor()}.
+ * An image resource, returned by one of the image creation functions, such as {@link https://www.php.net/manual/en/function.imagecreatetruecolor.php imagecreatetruecolor()}.
  * </p>
  * @param int $mode [optional] <p>
  * One of <b>IMG_CROP_*</b> constants.
@@ -2870,9 +2870,9 @@ function imagecropauto ($image, $mode = IMG_CROP_DEFAULT, $threshold = .5, $colo
 
 /**
  * Flips an image using a given mode
- * @link https://secure.php.net/manual/en/function.imageflip.php
+ * @link https://www.php.net/manual/en/function.imageflip.php
  * @param resource $image <p>
- * An image resource, returned by one of the image creation functions, such as {@link https://secure.php.net/manual/en/function.imagecreatetruecolor.php imagecreatetruecolor()}.
+ * An image resource, returned by one of the image creation functions, such as {@link https://www.php.net/manual/en/function.imagecreatetruecolor.php imagecreatetruecolor()}.
  * </p>
  * @param int $mode <p>
  * Flip mode, this can be one of the <b>IMG_FLIP_*</b> constants:
@@ -2911,9 +2911,9 @@ function imageflip ($image, $mode) {}
 
 /**
  * Converts a palette based image to true color
- * @link https://secure.php.net/manual/en/function.imagepalettetotruecolor.php
+ * @link https://www.php.net/manual/en/function.imagepalettetotruecolor.php
  * @param resource $image <p>
- * An image resource, returnd by one of the image creation functions, such as {@link https://secure.php.net/manual/en/function.imagecreatetruecolor.php imagecreatetruecolor()}.
+ * An image resource, returnd by one of the image creation functions, such as {@link https://www.php.net/manual/en/function.imagecreatetruecolor.php imagecreatetruecolor()}.
  * </p>
  * @return bool Returns <b>TRUE</b> if the convertion was complete, or if the source image already is a true color image, otherwise <b>FALSE</b> is returned.
  * @since 5.5
@@ -2923,9 +2923,9 @@ function imagepalettetotruecolor ($image) {}
 /**
  * @since 5.5
  * Scale an image using the given new width and height
- * @link https://secure.php.net/manual/en/function.imagescale.php
+ * @link https://www.php.net/manual/en/function.imagescale.php
  * @param resource $image <p>
- * An image resource, returnd by one of the image creation functions, such as {@link https://secure.php.net/manual/en/function.imagecreatetruecolor.php imagecreatetruecolor()}.
+ * An image resource, returnd by one of the image creation functions, such as {@link https://www.php.net/manual/en/function.imagecreatetruecolor.php imagecreatetruecolor()}.
  * </p>
  * @param int $new_width
  * @param int $new_height [optional]
@@ -2937,9 +2937,9 @@ function imagescale ($image, $new_width, $new_height = -1, $mode = IMG_BILINEAR_
 
 /**
  * Set the interpolation method
- * @link https://secure.php.net/manual/en/function.imagesetinterpolation.php
+ * @link https://www.php.net/manual/en/function.imagesetinterpolation.php
  * @param resource $image <p>
- * An image resource, returned by one of the image creation functions, such as {@link https://secure.php.net/manual/en/function.imagecreatetruecolor.php imagecreatetruecolor()}.
+ * An image resource, returned by one of the image creation functions, such as {@link https://www.php.net/manual/en/function.imagecreatetruecolor.php imagecreatetruecolor()}.
  * </p>
  * @param int $method <p>
  * The interpolation method, which can be one of the following:

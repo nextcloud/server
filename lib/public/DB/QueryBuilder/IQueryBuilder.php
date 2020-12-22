@@ -785,7 +785,7 @@ interface IQueryBuilder {
 	 * placeholder for you. An automatic placeholder will be of the name
 	 * ':dcValue1', ':dcValue2' etc.
 	 *
-	 * For more information see {@link http://php.net/pdostatement-bindparam}
+	 * For more information see {@link https://www.php.net/pdostatement-bindparam}
 	 *
 	 * Example:
 	 * <code>

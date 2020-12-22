@@ -316,7 +316,7 @@ class Util {
 	 * @param string $str file size in a fancy format
 	 * @return float a file size in bytes
 	 *
-	 * Inspired by: http://www.php.net/manual/en/function.filesize.php#92418
+	 * Inspired by: https://www.php.net/manual/en/function.filesize.php#92418
 	 * @since 4.0.0
 	 */
 	public static function computerFileSize($str) {

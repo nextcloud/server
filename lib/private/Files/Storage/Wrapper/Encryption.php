@@ -132,7 +132,7 @@ class Encryption extends Wrapper {
 	}
 
 	/**
-	 * see http://php.net/manual/en/function.filesize.php
+	 * see https://www.php.net/manual/en/function.filesize.php
 	 * The result for filesize when called on a folder is required to be 0
 	 *
 	 * @param string $path
@@ -210,7 +210,7 @@ class Encryption extends Wrapper {
 	}
 
 	/**
-	 * see http://php.net/manual/en/function.file_get_contents.php
+	 * see https://www.php.net/manual/en/function.file_get_contents.php
 	 *
 	 * @param string $path
 	 * @return string
@@ -231,7 +231,7 @@ class Encryption extends Wrapper {
 	}
 
 	/**
-	 * see http://php.net/manual/en/function.file_put_contents.php
+	 * see https://www.php.net/manual/en/function.file_put_contents.php
 	 *
 	 * @param string $path
 	 * @param mixed $data
@@ -250,7 +250,7 @@ class Encryption extends Wrapper {
 	}
 
 	/**
-	 * see http://php.net/manual/en/function.unlink.php
+	 * see https://www.php.net/manual/en/function.unlink.php
 	 *
 	 * @param string $path
 	 * @return bool
@@ -270,7 +270,7 @@ class Encryption extends Wrapper {
 	}
 
 	/**
-	 * see http://php.net/manual/en/function.rename.php
+	 * see https://www.php.net/manual/en/function.rename.php
 	 *
 	 * @param string $path1
 	 * @param string $path2
@@ -302,7 +302,7 @@ class Encryption extends Wrapper {
 	}
 
 	/**
-	 * see http://php.net/manual/en/function.rmdir.php
+	 * see https://www.php.net/manual/en/function.rmdir.php
 	 *
 	 * @param string $path
 	 * @return bool
@@ -344,7 +344,7 @@ class Encryption extends Wrapper {
 	}
 
 	/**
-	 * see http://php.net/manual/en/function.copy.php
+	 * see https://www.php.net/manual/en/function.copy.php
 	 *
 	 * @param string $path1
 	 * @param string $path2
@@ -364,7 +364,7 @@ class Encryption extends Wrapper {
 	}
 
 	/**
-	 * see http://php.net/manual/en/function.fopen.php
+	 * see https://www.php.net/manual/en/function.fopen.php
 	 *
 	 * @param string $path
 	 * @param string $mode
@@ -807,7 +807,7 @@ class Encryption extends Wrapper {
 	}
 
 	/**
-	 * see http://php.net/manual/en/function.stat.php
+	 * see https://www.php.net/manual/en/function.stat.php
 	 * only the following keys are required in the result: size and mtime
 	 *
 	 * @param string $path
@@ -823,7 +823,7 @@ class Encryption extends Wrapper {
 	}
 
 	/**
-	 * see http://php.net/manual/en/function.hash.php
+	 * see https://www.php.net/manual/en/function.hash.php
 	 *
 	 * @param string $type
 	 * @param string $path

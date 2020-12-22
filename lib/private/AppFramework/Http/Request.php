@@ -134,7 +134,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * @param IConfig $config
 	 * @param CsrfTokenManager|null $csrfTokenManager
 	 * @param string $stream
-	 * @see http://www.php.net/manual/en/reserved.variables.php
+	 * @see https://www.php.net/manual/en/reserved.variables.php
 	 */
 	public function __construct(array $vars,
 								ISecureRandom $secureRandom,

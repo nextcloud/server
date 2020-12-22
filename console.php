@@ -60,7 +60,7 @@ try {
 	set_exception_handler('exceptionHandler');
 
 	if (!function_exists('posix_getuid')) {
-		echo "The posix extensions are required - see http://php.net/manual/en/book.posix.php" . PHP_EOL;
+		echo "The posix extensions are required - see https://www.php.net/manual/en/book.posix.php" . PHP_EOL;
 		exit(1);
 	}
 	$user = posix_getuid();
@@ -85,7 +85,7 @@ try {
 	}
 
 	if (!function_exists('pcntl_signal') && !in_array('--no-warnings', $argv)) {
-		echo "The process control (PCNTL) extensions are required in case you want to interrupt long running commands - see http://php.net/manual/en/book.pcntl.php" . PHP_EOL;
+		echo "The process control (PCNTL) extensions are required in case you want to interrupt long running commands - see https://www.php.net/manual/en/book.pcntl.php" . PHP_EOL;
 	}
 
 	$application = new Application(

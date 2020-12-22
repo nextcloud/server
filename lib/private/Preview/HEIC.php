@@ -133,7 +133,7 @@ class HEIC extends ProviderV2 {
 				// A bigger image calls for some better resizing algorithm
 				// According to http://www.imagemagick.org/Usage/filter/#lanczos
 				// the catrom filter is almost identical to Lanczos2, but according
-				// to http://php.net/manual/en/imagick.resizeimage.php it is
+				// to https://www.php.net/manual/en/imagick.resizeimage.php it is
 				// significantly faster
 				$bp->resizeImage($maxX, $maxY, \Imagick::FILTER_CATROM, 1, true);
 			}

@@ -285,7 +285,7 @@ class CheckSetupController extends Controller {
 
 	/**
 	 * Whether the php version is still supported (at time of release)
-	 * according to: https://secure.php.net/supported-versions.php
+	 * according to: https://www.php.net/supported-versions.php
 	 *
 	 * @return array
 	 */

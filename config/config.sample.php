@@ -865,16 +865,16 @@ $CONFIG = [
 ],
 
 /**
- * This uses PHP.date formatting; see http://php.net/manual/en/function.date.php
+ * This uses PHP.date formatting; see https://www.php.net/manual/en/function.date.php
  *
  * Defaults to ISO 8601 ``2005-08-15T15:52:01+00:00`` - see \DateTime::ATOM
- * (https://secure.php.net/manual/en/class.datetime.php#datetime.constants.atom)
+ * (https://www.php.net/manual/en/class.datetime.php#datetime.constants.atom)
  */
 'logdateformat' => 'F d, Y H:i:s',
 
 /**
  * The timezone for logfiles. You may change this; see
- * http://php.net/manual/en/timezones.php
+ * https://www.php.net/manual/en/timezones.php
  *
  * Defaults to ``UTC``
  */
@@ -1246,8 +1246,8 @@ $CONFIG = [
  */
 'memcached_servers' => [
 	// hostname, port and optional weight. Also see:
-	// http://www.php.net/manual/en/memcached.addservers.php
-	// http://www.php.net/manual/en/memcached.addserver.php
+	// https://www.php.net/manual/en/memcached.addservers.php
+	// https://www.php.net/manual/en/memcached.addserver.php
 	['localhost', 11211],
 	//array('other.host.local', 11211),
 ],

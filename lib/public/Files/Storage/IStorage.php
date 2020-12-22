@@ -66,7 +66,7 @@ interface IStorage {
 	public function getId();
 
 	/**
-	 * see http://php.net/manual/en/function.mkdir.php
+	 * see https://www.php.net/manual/en/function.mkdir.php
 	 * implementations need to implement a recursive mkdir
 	 *
 	 * @param string $path
@@ -76,7 +76,7 @@ interface IStorage {
 	public function mkdir($path);
 
 	/**
-	 * see http://php.net/manual/en/function.rmdir.php
+	 * see https://www.php.net/manual/en/function.rmdir.php
 	 *
 	 * @param string $path
 	 * @return bool
@@ -85,7 +85,7 @@ interface IStorage {
 	public function rmdir($path);
 
 	/**
-	 * see http://php.net/manual/en/function.opendir.php
+	 * see https://www.php.net/manual/en/function.opendir.php
 	 *
 	 * @param string $path
 	 * @return resource|false
@@ -94,7 +94,7 @@ interface IStorage {
 	public function opendir($path);
 
 	/**
-	 * see http://php.net/manual/en/function.is-dir.php
+	 * see https://www.php.net/manual/en/function.is-dir.php
 	 *
 	 * @param string $path
 	 * @return bool
@@ -103,7 +103,7 @@ interface IStorage {
 	public function is_dir($path);
 
 	/**
-	 * see http://php.net/manual/en/function.is-file.php
+	 * see https://www.php.net/manual/en/function.is-file.php
 	 *
 	 * @param string $path
 	 * @return bool
@@ -112,7 +112,7 @@ interface IStorage {
 	public function is_file($path);
 
 	/**
-	 * see http://php.net/manual/en/function.stat.php
+	 * see https://www.php.net/manual/en/function.stat.php
 	 * only the following keys are required in the result: size and mtime
 	 *
 	 * @param string $path
@@ -122,7 +122,7 @@ interface IStorage {
 	public function stat($path);
 
 	/**
-	 * see http://php.net/manual/en/function.filetype.php
+	 * see https://www.php.net/manual/en/function.filetype.php
 	 *
 	 * @param string $path
 	 * @return string|false
@@ -131,7 +131,7 @@ interface IStorage {
 	public function filetype($path);
 
 	/**
-	 * see http://php.net/manual/en/function.filesize.php
+	 * see https://www.php.net/manual/en/function.filesize.php
 	 * The result for filesize when called on a folder is required to be 0
 	 *
 	 * @param string $path
@@ -196,7 +196,7 @@ interface IStorage {
 	public function getPermissions($path);
 
 	/**
-	 * see http://php.net/manual/en/function.file_exists.php
+	 * see https://www.php.net/manual/en/function.file_exists.php
 	 *
 	 * @param string $path
 	 * @return bool
@@ -205,7 +205,7 @@ interface IStorage {
 	public function file_exists($path);
 
 	/**
-	 * see http://php.net/manual/en/function.filemtime.php
+	 * see https://www.php.net/manual/en/function.filemtime.php
 	 *
 	 * @param string $path
 	 * @return int|false
@@ -214,7 +214,7 @@ interface IStorage {
 	public function filemtime($path);
 
 	/**
-	 * see http://php.net/manual/en/function.file_get_contents.php
+	 * see https://www.php.net/manual/en/function.file_get_contents.php
 	 *
 	 * @param string $path
 	 * @return string|false
@@ -223,7 +223,7 @@ interface IStorage {
 	public function file_get_contents($path);
 
 	/**
-	 * see http://php.net/manual/en/function.file_put_contents.php
+	 * see https://www.php.net/manual/en/function.file_put_contents.php
 	 *
 	 * @param string $path
 	 * @param mixed $data
@@ -233,7 +233,7 @@ interface IStorage {
 	public function file_put_contents($path, $data);
 
 	/**
-	 * see http://php.net/manual/en/function.unlink.php
+	 * see https://www.php.net/manual/en/function.unlink.php
 	 *
 	 * @param string $path
 	 * @return bool
@@ -242,7 +242,7 @@ interface IStorage {
 	public function unlink($path);
 
 	/**
-	 * see http://php.net/manual/en/function.rename.php
+	 * see https://www.php.net/manual/en/function.rename.php
 	 *
 	 * @param string $path1
 	 * @param string $path2
@@ -252,7 +252,7 @@ interface IStorage {
 	public function rename($path1, $path2);
 
 	/**
-	 * see http://php.net/manual/en/function.copy.php
+	 * see https://www.php.net/manual/en/function.copy.php
 	 *
 	 * @param string $path1
 	 * @param string $path2
@@ -262,7 +262,7 @@ interface IStorage {
 	public function copy($path1, $path2);
 
 	/**
-	 * see http://php.net/manual/en/function.fopen.php
+	 * see https://www.php.net/manual/en/function.fopen.php
 	 *
 	 * @param string $path
 	 * @param string $mode
@@ -282,7 +282,7 @@ interface IStorage {
 	public function getMimeType($path);
 
 	/**
-	 * see http://php.net/manual/en/function.hash-file.php
+	 * see https://www.php.net/manual/en/function.hash-file.php
 	 *
 	 * @param string $type
 	 * @param string $path
@@ -293,7 +293,7 @@ interface IStorage {
 	public function hash($type, $path, $raw = false);
 
 	/**
-	 * see http://php.net/manual/en/function.free_space.php
+	 * see https://www.php.net/manual/en/function.free_space.php
 	 *
 	 * @param string $path
 	 * @return int|false
@@ -302,7 +302,7 @@ interface IStorage {
 	public function free_space($path);
 
 	/**
-	 * see http://php.net/manual/en/function.touch.php
+	 * see https://www.php.net/manual/en/function.touch.php
 	 * If the backend does not support the operation, false should be returned
 	 *
 	 * @param string $path

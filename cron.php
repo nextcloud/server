@@ -90,7 +90,7 @@ try {
 
 		// the cron job must be executed with the right user
 		if (!function_exists('posix_getuid')) {
-			echo "The posix extensions are required - see http://php.net/manual/en/book.posix.php" . PHP_EOL;
+			echo "The posix extensions are required - see https://www.php.net/manual/en/book.posix.php" . PHP_EOL;
 			exit(1);
 		}
 

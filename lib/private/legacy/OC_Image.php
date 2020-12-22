@@ -1288,7 +1288,7 @@ if (!function_exists('exif_imagetype')) {
 	/**
 	 * Workaround if exif_imagetype does not exist
 	 *
-	 * @link http://www.php.net/manual/en/function.exif-imagetype.php#80383
+	 * @link https://www.php.net/manual/en/function.exif-imagetype.php#80383
 	 * @param string $fileName
 	 * @return string|boolean
 	 */
