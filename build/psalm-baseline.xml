@@ -1129,7 +1129,6 @@
       <code>bool</code>
       <code>bool</code>
       <code>bool</code>
-      <code>bool</code>
     </InvalidReturnType>
   </file>
   <file src="apps/federatedfilesharing/lib/OCM/CloudFederationProviderFiles.php">
@@ -2793,6 +2792,7 @@
   <file src="core/routes.php">
     <InvalidScope occurrences="2">
       <code>$this</code>
+      <code>$this</code>
     </InvalidScope>
   </file>
   <file src="core/templates/layout.public.php">
@@ -4036,12 +4036,6 @@
       <code>$result</code>
       <code>$result</code>
     </InvalidOperand>
-    <InvalidReturnStatement occurrences="1">
-      <code>$count</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
-      <code>file_put_contents</code>
-    </InvalidReturnType>
     <NoInterfaceProperties occurrences="8">
       <code>$storage-&gt;cache</code>
       <code>$storage-&gt;cache</code>
@@ -4058,9 +4052,6 @@
     </NullableReturnStatement>
   </file>
   <file src="lib/private/Files/Storage/DAV.php">
-    <ImplementedReturnTypeMismatch occurrences="1">
-      <code>int</code>
-    </ImplementedReturnTypeMismatch>
     <InvalidClass occurrences="2">
       <code>ArrayCache</code>
       <code>ArrayCache</code>
@@ -4068,13 +4059,11 @@
     <InvalidNullableReturnType occurrences="1">
       <code>getETag</code>
     </InvalidNullableReturnType>
-    <InvalidReturnStatement occurrences="2">
+    <InvalidReturnStatement occurrences="1">
       <code>$response-&gt;getBody()</code>
-      <code>$result</code>
     </InvalidReturnStatement>
-    <InvalidReturnType occurrences="2">
+    <InvalidReturnType occurrences="1">
       <code>fopen</code>
-      <code>int</code>
     </InvalidReturnType>
     <NullableReturnStatement occurrences="1">
       <code>null</code>
@@ -4155,13 +4144,11 @@
     <InvalidOperand occurrences="1">
       <code>$result</code>
     </InvalidOperand>
-    <InvalidReturnStatement occurrences="3">
+    <InvalidReturnStatement occurrences="2">
       <code>$helper-&gt;getFileSize($fullPath)</code>
       <code>$space</code>
-      <code>file_put_contents($this-&gt;getSourcePath($path), $data)</code>
     </InvalidReturnStatement>
-    <InvalidReturnType occurrences="3">
-      <code>file_put_contents</code>
+    <InvalidReturnType occurrences="2">
       <code>filesize</code>
       <code>free_space</code>
     </InvalidReturnType>
@@ -4288,12 +4275,10 @@
       <code>$result</code>
       <code>$result</code>
     </InvalidOperand>
-    <InvalidReturnStatement occurrences="2">
+    <InvalidReturnStatement occurrences="1">
       <code>$newUnencryptedSize</code>
-      <code>$written</code>
     </InvalidReturnStatement>
-    <InvalidReturnType occurrences="2">
-      <code>bool</code>
+    <InvalidReturnType occurrences="1">
       <code>int</code>
     </InvalidReturnType>
     <InvalidScalarArgument occurrences="2">
