@@ -230,8 +230,8 @@ interface Storage extends IStorage {
 	 * see http://php.net/manual/en/function.file_put_contents.php
 	 *
 	 * @param string $path
-	 * @param string $data
-	 * @return bool
+	 * @param mixed $data
+	 * @return int|false
 	 * @since 6.0.0
 	 */
 	public function file_put_contents($path, $data);

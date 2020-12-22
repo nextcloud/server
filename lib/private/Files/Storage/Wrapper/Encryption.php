@@ -234,8 +234,8 @@ class Encryption extends Wrapper {
 	 * see http://php.net/manual/en/function.file_put_contents.php
 	 *
 	 * @param string $path
-	 * @param string $data
-	 * @return bool
+	 * @param mixed $data
+	 * @return int|false
 	 */
 	public function file_put_contents($path, $data) {
 		// file put content will always be translated to a stream write
