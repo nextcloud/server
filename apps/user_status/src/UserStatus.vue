@@ -155,7 +155,12 @@ export default {
 		 * @private
 		 */
 		async _backgroundHeartbeat() {
-			await sendHeartbeat(this.isAway)
+			try {
+				await sendHeartbeat(this.isAway)
+			} catch (error) {
+				console.debug('Failed sending heartbeat, got: ' + error.response.status)
+				return
+			}
 			await this.$store.dispatch('reFetchStatusFromServer')
 		},
 	},
