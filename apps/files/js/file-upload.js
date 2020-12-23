@@ -586,7 +586,10 @@ OC.Uploader.prototype = _.extend({
 		_.each(uploads, function(upload) {
 			self._uploads[upload.data.uploadId] = upload;
 		});
-		self.totalToUpload = _.reduce(uploads, function(memo, upload) { return memo+upload.getFile().size; }, 0);
+		if (!self._uploading) {
+			self.totalToUpload = 0;
+		}
+		self.totalToUpload += _.reduce(uploads, function(memo, upload) { return memo+upload.getFile().size; }, 0);
 		var semaphore = new OCA.Files.Semaphore(5);
 		var promises = _.map(uploads, function(upload) {
 			return semaphore.acquire().then(function(){
