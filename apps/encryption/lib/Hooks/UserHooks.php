@@ -172,6 +172,11 @@ class UserHooks implements IHook {
 	 * @return boolean|null
 	 */
 	public function login($params) {
+		// prevent session from being initialized twice
+		if ($this->session->isReady()) {
+			return true;
+		}
+
 		// ensure filesystem is loaded
 		if (!\OC\Files\Filesystem::$loaded) {
 			$this->setupFS($params['uid']);
