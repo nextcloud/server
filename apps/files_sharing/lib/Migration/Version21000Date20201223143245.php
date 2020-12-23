@@ -48,6 +48,13 @@ class Version21000Date20201223143245 extends SimpleMigrationStep {
 				]);
 				$changed = true;
 			}
+			if (!$table->hasColumn('share_type')) {
+				$table->addColumn('share_type', Types::INTEGER, [
+					'notnull' => false,
+					'length' => 4,
+				]);
+				$changed = true;
+			}
 			if ($table->hasColumn('lastscan')) {
 				$table->dropColumn('lastscan');
 				$changed = true;
