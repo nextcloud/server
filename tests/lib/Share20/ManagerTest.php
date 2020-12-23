@@ -209,6 +209,8 @@ class ManagerTest extends \Test\TestCase {
 			->setMethods(['getShareById', 'deleteChildren'])
 			->getMock();
 
+		$manager->method('deleteChildren')->willReturn([]);
+
 		$path = $this->createMock(File::class);
 		$path->method('getId')->willReturn(1);
 
@@ -253,6 +255,8 @@ class ManagerTest extends \Test\TestCase {
 		$manager = $this->createManagerMock()
 			->setMethods(['getShareById', 'deleteChildren'])
 			->getMock();
+
+		$manager->method('deleteChildren')->willReturn([]);
 
 		$share = $this->manager->newShare();
 		$share->setId(42)
