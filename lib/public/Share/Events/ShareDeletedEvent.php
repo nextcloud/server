@@ -37,9 +37,6 @@ class ShareDeletedEvent extends Event {
 	/** @var IShare */
 	private $share;
 
-	/** @var IShare[] */
-	private $children;
-
 	/**
 	 *
 	 * @param IShare $share
@@ -47,11 +44,10 @@ class ShareDeletedEvent extends Event {
 	 *
 	 * @since 21.0.0
 	 */
-	public function __construct(IShare $share, array $children = []) {
+	public function __construct(IShare $share) {
 		parent::__construct();
 
 		$this->share = $share;
-		$this->children = $children;
 	}
 
 	/**
@@ -60,21 +56,5 @@ class ShareDeletedEvent extends Event {
 	 */
 	public function getShare(): IShare {
 		return $this->share;
-	}
-
-	/**
-	 * @return IShare[]
-	 * @since 21.0.0
-	 */
-	public function getChildren(): array {
-		return $this->children;
-	}
-
-	/**
-	 * @return IShare[]
-	 * @since 21.0.0
-	 */
-	public function getAllDeletedShares(): array {
-		return array_merge([$this->share], $this->children);
 	}
 }

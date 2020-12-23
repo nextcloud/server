@@ -1138,6 +1138,7 @@ class Manager implements IManager {
 			$deletedShares = array_merge($deletedShares, $deletedChildren);
 
 			$provider->delete($child);
+			$this->dispatcher->dispatchTyped(new Share\Events\ShareDeletedEvent($child));
 			$deletedShares[] = $child;
 		}
 
@@ -1168,7 +1169,7 @@ class Manager implements IManager {
 		$provider = $this->factory->getProviderForType($share->getShareType());
 		$provider->delete($share);
 
-		$this->dispatcher->dispatchTyped(new Share\Events\ShareDeletedEvent($share, $deletedShares));
+		$this->dispatcher->dispatchTyped(new Share\Events\ShareDeletedEvent($share));
 
 		// All the deleted shares caused by this delete
 		$deletedShares[] = $share;
