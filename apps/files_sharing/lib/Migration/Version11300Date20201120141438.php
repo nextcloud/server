@@ -116,6 +116,15 @@ class Version11300Date20201120141438 extends SimpleMigrationStep {
 				$remoteIdColumn->setOptions(['length' => 255]);
 				$remoteIdColumn->setDefault('');
 			}
+			if (!$table->hasColumn('parent')) {
+				$table->addColumn('parent', Types::BIGINT, [
+					'notnull' => false,
+					'default' => -1,
+				]);
+			}
+			if ($table->hasColumn('lastscan')) {
+				$table->dropColumn('lastscan');
+			}
 		}
 
 		return $schema;
