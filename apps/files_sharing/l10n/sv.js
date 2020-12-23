@@ -181,6 +181,7 @@ OC.L10N.register(
     "Enter a note for the share recipient" : "Ange en notering till mottagaren",
     "Add another link" : "Lägg till en annan länk",
     "Create a new share link" : "Skapa en ny delad länk",
+    "{shareWith} by {initiator}" : "{shareWith} av {initiator}",
     "Shared via link by {initiator}" : "Delad via länk av {initiator}",
     "Share link ({label})" : "Dela länk ({label})",
     "Share link" : "Dela länk",
