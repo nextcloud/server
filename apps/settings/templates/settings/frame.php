@@ -41,7 +41,7 @@ script('files', 'jquery.fileupload');
 				$sectionName = $form['section-name'];
 				$active = $form['active'] ? ' class="active"' : ''; ?>
 				<li <?php print_unescaped($form['active'] ? ' class="active"' : ''); ?>>
-					<a href="<?php p($anchor); ?>" class="settings_nav_item">
+					<a href="<?php p($anchor); ?>">
 						<?php if (!empty($form['icon'])) { ?>
 							<img alt="" src="<?php print_unescaped($form['icon']); ?>">
 							<span><?php p($form['section-name']); ?></span>
@@ -68,7 +68,7 @@ script('files', 'jquery.fileupload');
 				$sectionName = $form['section-name'];
 				$active = $form['active'] ? ' class="active"' : ''; ?>
 				<li <?php print_unescaped($form['active'] ? ' class="active"' : ''); ?>>
-					<a href="<?php p($anchor); ?>" class="settings_nav_item">
+					<a href="<?php p($anchor); ?>">
 						<?php if (!empty($form['icon'])) { ?>
 							<img alt="" src="<?php print_unescaped($form['icon']); ?>">
 							<span><?php p($form['section-name']); ?></span>

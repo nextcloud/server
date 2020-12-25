@@ -246,7 +246,6 @@ kbd {
 			}
 		}
 		/* Menu and submenu */
-
 		> li,
 		> li > ul > li {
 			position: relative;
@@ -261,9 +260,6 @@ kbd {
 				}
 			}
 			/* Main entry link */
-			.settings_nav_item{
-				padding-left: 15px !important;
-			}
 			> a {
 				background-size: 16px 16px;
 				background-position: 14px center;
@@ -283,10 +279,12 @@ kbd {
 				z-index: 100; /* above the bullet to allow click*/
 				/* TODO: forbid using img as icon in menu? */
 				&:first-child img {
+						position: absolute;
+						top: 15px;
 				    margin-right: 11px;
 				    width: 16px;
 				    height: 16px;
-						margin-left: 0px;
+						margin-left: -30px;
 				}
 
 				/* counter can also be inside the link */
