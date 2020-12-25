@@ -18,7 +18,6 @@
 
 /* BASE STYLING ------------------------------------------------------------ */
 // no h1 allowed since h1 = logo
-
 h2 {
 	font-weight: bold;
 	font-size: 20px;
@@ -188,7 +187,7 @@ kbd {
 			&.app-navigation-caption {
 				font-weight: bold;
 				line-height: 44px;
-				padding: 0 46px;
+				padding: 0 44px;
 				white-space: nowrap;
 				text-overflow: ellipsis;
 				box-shadow: none !important;
