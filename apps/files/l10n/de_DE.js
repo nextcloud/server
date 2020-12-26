@@ -30,7 +30,7 @@ OC.L10N.register(
     "Actions" : "Aktionen",
     "Rename" : "Umbenennen",
     "Copy" : "Kopieren",
-    "Choose target folder" : "Zielordner wählen",
+    "Choose target folder" : "Zielordner auswählen",
     "Open" : "Öffnen",
     "Delete file" : "Datei löschen",
     "Delete folder" : "Ordner löschen",
