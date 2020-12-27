@@ -106,6 +106,7 @@ OC.L10N.register(
     "Hello %s," : "Pozdravljeni, %s,",
     "The meeting »%1$s« with %2$s was canceled." : "Sestanek »%1$s« z uporabnikom %2$s je preklican.",
     "The meeting »%1$s« with %2$s was updated." : "Sestanek »%1$s« z uporabnikom %2$s je spremenjen.",
+    "%1$s invited you to »%2$s«" : "%1$s vas vabi na »%2$s«",
     "When:" : "Kdaj:"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");
