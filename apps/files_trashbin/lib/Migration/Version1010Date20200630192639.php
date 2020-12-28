@@ -45,10 +45,9 @@ class Version1010Date20200630192639 extends SimpleMigrationStep {
 
 		if (!$schema->hasTable('files_trash')) {
 			$table = $schema->createTable('files_trash');
-			$table->addColumn('auto_id', Types::INTEGER, [
+			$table->addColumn('auto_id', Types::BIGINT, [
 				'autoincrement' => true,
 				'notnull' => true,
-				'length' => 4,
 			]);
 			$table->addColumn('id', Types::STRING, [
 				'notnull' => true,
