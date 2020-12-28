@@ -8,7 +8,35 @@
     errorBaseline="build/psalm-baseline.xml"
 >
 	<projectFiles>
-		<directory name="apps"/>
+		<directory name="apps/accessibility"/>
+		<directory name="apps/admin_audit"/>
+		<directory name="apps/cloud_federation_api"/>
+		<directory name="apps/comments"/>
+		<directory name="apps/contactsinteraction"/>
+		<directory name="apps/dashboard"/>
+		<directory name="apps/dav"/>
+		<directory name="apps/encryption"/>
+		<directory name="apps/federatedfilesharing"/>
+		<directory name="apps/federation"/>
+		<directory name="apps/files"/>
+		<directory name="apps/files_external"/>
+		<directory name="apps/files_sharing"/>
+		<directory name="apps/files_trashbin"/>
+		<directory name="apps/files_versions"/>
+		<directory name="apps/lookup_server_connector"/>
+		<directory name="apps/oauth2"/>
+		<directory name="apps/provisioning_api"/>
+		<directory name="apps/settings"/>
+		<directory name="apps/sharebymail"/>
+		<directory name="apps/systemtags"/>
+		<directory name="apps/testing"/>
+		<directory name="apps/theming"/>
+		<directory name="apps/twofactor_backupcodes"/>
+		<directory name="apps/updatenotification"/>
+		<directory name="apps/user_ldap"/>
+		<directory name="apps/user_status"/>
+		<directory name="apps/weather_status"/>
+		<directory name="apps/workflowengine"/>
 		<directory name="core"/>
 		<directory name="lib"/>
 		<directory name="ocm-provider"/>
