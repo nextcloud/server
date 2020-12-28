@@ -294,6 +294,8 @@ export default {
 				return
 			}
 
+			const externalResults = this.externalResults.filter(result => !result.condition || result.condition(this))
+
 			const exact = request.data.ocs.data.exact
 
 			// flatten array of arrays
@@ -302,6 +304,7 @@ export default {
 			// remove invalid data and format to user-select layout
 			this.recommendations = this.filterOutExistingShares(rawRecommendations)
 				.map(share => this.formatForMultiselect(share))
+				.concat(externalResults)
 
 			this.loading = false
 			console.info('recommendations', this.recommendations)
