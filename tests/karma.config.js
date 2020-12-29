@@ -60,7 +60,6 @@ module.exports = function(config) {
 					'apps/files_sharing/js/dist/files_sharing_tab.js',
 					'apps/files_sharing/js/dist/files_sharing.js',
 					'apps/files_sharing/js/dist/main.js',
-					'apps/files_sharing/js/dist/sidebar.js',
 					'apps/files_sharing/js/files_drop.js',
 					'apps/files_sharing/js/public.js',
 					'apps/files_sharing/js/sharedfilelist.js',
@@ -193,12 +192,6 @@ module.exports = function(config) {
 		included: false,
 		served: true
 	});
-	files.push({
-		pattern: 'core/css/images/*',
-		watched: false,
-		included: false,
-		served: true
-	});
 
 	// include core CSS
 	files.push({
@@ -241,7 +234,8 @@ module.exports = function(config) {
 			'/base/tests/css/': 'http://localhost:9876/base/core/css/',
 			'/base/core/css/images/': 'http://localhost:9876/base/core/css/images/',
 			'/actions/': 'http://localhost:9876/base/core/img/actions/',
-			'/base/core/fonts/': 'http://localhost:9876/base/core/fonts/'
+			'/base/core/fonts/': 'http://localhost:9876/base/core/fonts/',
+			'/svg/': '../core/img/'
 		},
 
 		// test results reporter to use
