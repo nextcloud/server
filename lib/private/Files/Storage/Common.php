@@ -630,8 +630,9 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 				}
 			}
 
-			if ($result and $preserveMtime) {
-				$this->touch($targetInternalPath, $sourceStorage->filemtime($sourceInternalPath));
+			if ($result && $preserveMtime) {
+				$mtime = $sourceStorage->filemtime($sourceInternalPath);
+				$this->touch($targetInternalPath, is_int($mtime) ? $mtime : null);
 			}
 
 			if (!$result) {
