@@ -33,6 +33,7 @@ use OC\Core\Controller\SetupController;
 use OC\HintException;
 use OC\Security\IdentityProof\Key;
 use OC\Setup;
+use OC\SystemConfig;
 
 class ExceptionSerializer {
 	public const methodsWithSensitiveParameters = [
@@ -91,6 +92,13 @@ class ExceptionSerializer {
 		// Preview providers, don't log big data strings
 		'imagecreatefromstring',
 	];
+
+	/** @var SystemConfig */
+	private $systemConfig;
+
+	public function __construct(SystemConfig $systemConfig) {
+		$this->systemConfig = $systemConfig;
+	}
 
 	public const methodsWithSensitiveParametersByClass = [
 		SetupController::class => [
@@ -163,11 +171,21 @@ class ExceptionSerializer {
 			$data = get_object_vars($arg);
 			$data['__class__'] = get_class($arg);
 			return array_map([$this, 'encodeArg'], $data);
-		} elseif (is_array($arg)) {
-			return array_map([$this, 'encodeArg'], $arg);
-		} else {
-			return $arg;
 		}
+
+		if (is_array($arg)) {
+			// Only log the first 5 elements of an array unless we are on debug
+			if ((int)$this->systemConfig->getValue('loglevel', 2) !== 0) {
+				$elemCount = count($arg);
+				if ($elemCount > 5) {
+					$arg = array_slice($arg, 0, 5);
+					$arg[] = 'And ' . ($elemCount - 5) . ' more entries, set log level to debug to see all entries';
+				}
+			}
+			return array_map([$this, 'encodeArg'], $arg);
+		}
+
+		return $arg;
 	}
 
 	public function serializeException(\Throwable $exception) {
