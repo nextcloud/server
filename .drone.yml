@@ -1,27 +1,4 @@
 kind: pipeline
-name: jsunit
-
-steps:
-- name: jsunit
-  image: nextcloudci/jsunit:jsunit-5
-  environment:
-      CODECOV_TOKEN:
-          from_secret: CODECOV_TOKEN
-  commands:
-    - ./autotest-js.sh
-    - curl -o codecov.sh https://codecov.io/bash
-    - bash codecov.sh -C $DRONE_COMMIT
-
-trigger:
-  branch:
-    - master
-    - stable*
-  event:
-    - pull_request
-    - push
-
----
-kind: pipeline
 name: checkers
 
 steps:

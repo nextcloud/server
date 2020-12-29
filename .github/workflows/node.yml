@@ -49,6 +49,17 @@ jobs:
     - name: Test
       run: npm run test
 
+  jsunit:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use node ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+          node-version: ${{ matrix.node-version }}
+    - name: Test
+      run: ./autotest-js.sh
+
   handlebars:
     runs-on: ubuntu-latest
     strategy:

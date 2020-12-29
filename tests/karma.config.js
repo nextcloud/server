@@ -33,6 +33,10 @@
  * preprocessor, which is needed to be able to debug tests properly in a browser.
  */
 
+if (!process.env.CHROMIUM_BIN) {
+	process.env.CHROMIUM_BIN = require('puppeteer').executablePath()
+}
+
 /* jshint node: true */
 module.exports = function(config) {
 	function findApps() {
@@ -242,7 +246,16 @@ module.exports = function(config) {
 
 		// test results reporter to use
 		// possible values: 'dots', 'progress', 'junit', 'growl', 'coverage'
-		reporters: ['dots', 'junit', 'coverage'],
+		reporters: ['spec'],
+
+		specReporter: {
+			maxLogLines: 5,
+			suppressErrorSummary: false,
+			suppressFailed: false,
+			suppressPassed: true,
+			suppressSkipped: true,
+			showSpecTiming: false,
+		},
 
 		junitReporter: {
 			outputFile: 'tests/autotest-results-js.xml'
@@ -281,16 +294,8 @@ module.exports = function(config) {
 		// - PhantomJS
 		// - IE (only Windows; has to be installed with `npm install karma-ie-launcher`)
 		// use PhantomJS_debug for extra local debug
-		browsers: ['PhantomJS'],
+		browsers: ['ChromiumHeadless'],
 
-		plugins: [
-			'karma-phantomjs-launcher',
-			'karma-coverage',
-			'karma-jasmine',
-			'karma-jasmine-sinon',
-			'karma-viewport',
-			'karma-junit-reporter'
-		],
 		// you can define custom flags
 		customLaunchers: {
 			PhantomJS_debug: {
