@@ -27,7 +27,6 @@ declare(strict_types=1);
 
 namespace OCA\ShareByMail;
 
-use OCA\ShareByMail\Settings\SettingsManager;
 use OCP\Capabilities\ICapability;
 use OCP\Share\IManager;
 

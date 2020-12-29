@@ -556,7 +556,7 @@ class ShareAPIController extends OCSController {
 			}
 
 			// Only share by mail have a recipient
-			if ($shareType === IShare::TYPE_EMAIL) {
+			if (is_string($shareWith) && $shareType === IShare::TYPE_EMAIL) {
 				$share->setSharedWith($shareWith);
 			}
 
@@ -1590,7 +1590,6 @@ class ShareAPIController extends OCSController {
 			IShare::TYPE_USER,
 			IShare::TYPE_GROUP,
 			IShare::TYPE_LINK,
-			IShare::TYPE_EMAIL,
 			IShare::TYPE_EMAIL,
 			IShare::TYPE_CIRCLE,
 			IShare::TYPE_ROOM,

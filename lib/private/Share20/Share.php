@@ -40,7 +40,7 @@ use OCP\IUserManager;
 use OCP\Share\Exceptions\IllegalIDChangeException;
 use OCP\Share\IShare;
 
-class Share implements \OCP\Share\IShare {
+class Share implements IShare {
 
 	/** @var string */
 	private $id;

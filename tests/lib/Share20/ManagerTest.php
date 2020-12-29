@@ -50,7 +50,6 @@ use OCP\Mail\IMailer;
 use OCP\Security\Events\ValidatePasswordPolicyEvent;
 use OCP\Security\IHasher;
 use OCP\Security\ISecureRandom;
-use OCP\Share\Exceptions\AlreadySharedException;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IProviderFactory;
 use OCP\Share\IShare;
@@ -1068,7 +1067,7 @@ class ManagerTest extends \Test\TestCase {
 		$share = $this->manager->newShare();
 		$share->setExpirationDate($past);
 
-		self::invokePrivate($this->manager, 'validateExpirationDateLink', [$share]);
+		self::invokePrivate($this->manager, 'validateExpirationDate', [$share]);
 	}
 
 	public function testValidateExpirationDateEnforceButNotSet() {
@@ -1084,7 +1083,7 @@ class ManagerTest extends \Test\TestCase {
 				['core', 'shareapi_enforce_expire_date', 'no', 'yes'],
 			]);
 
-		self::invokePrivate($this->manager, 'validateExpirationDateLink', [$share]);
+		self::invokePrivate($this->manager, 'validateExpirationDate', [$share]);
 	}
 
 	public function testValidateExpirationDateEnforceButNotEnabledAndNotSet() {
@@ -1096,7 +1095,7 @@ class ManagerTest extends \Test\TestCase {
 				['core', 'shareapi_enforce_expire_date', 'no', 'yes'],
 			]);
 
-		self::invokePrivate($this->manager, 'validateExpirationDateLink', [$share]);
+		self::invokePrivate($this->manager, 'validateExpirationDate', [$share]);
 
 		$this->assertNull($share->getExpirationDate());
 	}
@@ -1116,7 +1115,7 @@ class ManagerTest extends \Test\TestCase {
 		$expected->setTime(0,0,0);
 		$expected->add(new \DateInterval('P3D'));
 
-		self::invokePrivate($this->manager, 'validateExpirationDateLink', [$share]);
+		self::invokePrivate($this->manager, 'validateExpirationDate', [$share]);
 
 		$this->assertNotNull($share->getExpirationDate());
 		$this->assertEquals($expected, $share->getExpirationDate());
@@ -1137,7 +1136,7 @@ class ManagerTest extends \Test\TestCase {
 		$expected->setTime(0,0,0);
 		$expected->add(new \DateInterval('P1D'));
 
-		self::invokePrivate($this->manager, 'validateExpirationDateLink', [$share]);
+		self::invokePrivate($this->manager, 'validateExpirationDate', [$share]);
 
 		$this->assertNotNull($share->getExpirationDate());
 		$this->assertEquals($expected, $share->getExpirationDate());
@@ -1160,7 +1159,7 @@ class ManagerTest extends \Test\TestCase {
 				['core', 'shareapi_default_expire_date', 'no', 'yes'],
 			]);
 
-		self::invokePrivate($this->manager, 'validateExpirationDateLink', [$share]);
+		self::invokePrivate($this->manager, 'validateExpirationDate', [$share]);
 	}
 
 	public function testValidateExpirationDateEnforceValid() {
@@ -1187,7 +1186,7 @@ class ManagerTest extends \Test\TestCase {
 			return $data['expirationDate'] == $future;
 		}));
 
-		self::invokePrivate($this->manager, 'validateExpirationDateLink', [$share]);
+		self::invokePrivate($this->manager, 'validateExpirationDate', [$share]);
 
 		$this->assertEquals($expected, $share->getExpirationDate());
 	}
@@ -1209,7 +1208,7 @@ class ManagerTest extends \Test\TestCase {
 			return $data['expirationDate'] == $expected && $data['passwordSet'] === false;
 		}));
 
-		self::invokePrivate($this->manager, 'validateExpirationDateLink', [$share]);
+		self::invokePrivate($this->manager, 'validateExpirationDate', [$share]);
 
 		$this->assertEquals($expected, $share->getExpirationDate());
 	}
@@ -1224,7 +1223,7 @@ class ManagerTest extends \Test\TestCase {
 		$share = $this->manager->newShare();
 		$share->setPassword('password');
 
-		self::invokePrivate($this->manager, 'validateExpirationDateLink', [$share]);
+		self::invokePrivate($this->manager, 'validateExpirationDate', [$share]);
 
 		$this->assertNull($share->getExpirationDate());
 	}
@@ -1249,7 +1248,7 @@ class ManagerTest extends \Test\TestCase {
 			return $data['expirationDate'] == $expected;
 		}));
 
-		self::invokePrivate($this->manager, 'validateExpirationDateLink', [$share]);
+		self::invokePrivate($this->manager, 'validateExpirationDate', [$share]);
 
 		$this->assertEquals($expected, $share->getExpirationDate());
 	}
@@ -1278,7 +1277,7 @@ class ManagerTest extends \Test\TestCase {
 			return $data['expirationDate'] == $expected;
 		}));
 
-		self::invokePrivate($this->manager, 'validateExpirationDateLink', [$share]);
+		self::invokePrivate($this->manager, 'validateExpirationDate', [$share]);
 
 		$this->assertEquals($expected, $share->getExpirationDate());
 	}
@@ -1299,7 +1298,7 @@ class ManagerTest extends \Test\TestCase {
 		$share = $this->manager->newShare();
 		$share->setExpirationDate($nextWeek);
 
-		self::invokePrivate($this->manager, 'validateExpirationDateLink', [$share]);
+		self::invokePrivate($this->manager, 'validateExpirationDate', [$share]);
 
 		$save->sub(new \DateInterval('P2D'));
 		$this->assertEquals($save, $share->getExpirationDate());
@@ -1323,7 +1322,7 @@ class ManagerTest extends \Test\TestCase {
 			$data['message'] = 'Invalid date!';
 		});
 
-		self::invokePrivate($this->manager, 'validateExpirationDateLink', [$share]);
+		self::invokePrivate($this->manager, 'validateExpirationDate', [$share]);
 	}
 
 	public function testValidateExpirationDateExistingShareNoDefault() {
@@ -1337,7 +1336,7 @@ class ManagerTest extends \Test\TestCase {
 				['core', 'shareapi_expire_after_n_days', '7', '6'],
 			]);
 
-		self::invokePrivate($this->manager, 'validateExpirationDateLink', [$share]);
+		self::invokePrivate($this->manager, 'validateExpirationDate', [$share]);
 
 		$this->assertEquals(null, $share->getExpirationDate());
 	}
@@ -2049,7 +2048,7 @@ class ManagerTest extends \Test\TestCase {
 				'generalCreateChecks',
 				'linkCreateChecks',
 				'pathCreateChecks',
-				'validateExpirationDateLink',
+				'validateExpirationDate',
 				'verifyPassword',
 				'setLinkParent',
 			])
@@ -2091,7 +2090,7 @@ class ManagerTest extends \Test\TestCase {
 			->method('pathCreateChecks')
 			->with($path);
 		$manager->expects($this->once())
-			->method('validateExpirationDateLink')
+			->method('validateExpirationDate')
 			->with($share)
 			->willReturn($share);
 		$manager->expects($this->once())
@@ -2174,7 +2173,7 @@ class ManagerTest extends \Test\TestCase {
 				'generalCreateChecks',
 				'linkCreateChecks',
 				'pathCreateChecks',
-				'validateExpirationDateLink',
+				'validateExpirationDate',
 				'verifyPassword',
 				'setLinkParent',
 			])
@@ -2203,17 +2202,19 @@ class ManagerTest extends \Test\TestCase {
 		$manager->expects($this->once())
 			->method('generalCreateChecks')
 			->with($share);
-		;
-		$manager->expects($this->never())
+
+		$manager->expects($this->once())
 			->method('linkCreateChecks');
 		$manager->expects($this->once())
 			->method('pathCreateChecks')
 			->with($path);
-		$manager->expects($this->never())
-			->method('validateExpirationDateLink');
-		$manager->expects($this->never())
+		$manager->expects($this->once())
+			->method('validateExpirationDate')
+			->with($share)
+			->willReturn($share);
+		$manager->expects($this->once())
 			->method('verifyPassword');
-		$manager->expects($this->never())
+		$manager->expects($this->once())
 			->method('setLinkParent');
 
 		$this->secureRandom->method('generate')
@@ -3024,7 +3025,7 @@ class ManagerTest extends \Test\TestCase {
 				'linkCreateChecks',
 				'pathCreateChecks',
 				'verifyPassword',
-				'validateExpirationDateLink',
+				'validateExpirationDate',
 			])
 			->getMock();
 
@@ -3053,7 +3054,7 @@ class ManagerTest extends \Test\TestCase {
 
 		$manager->expects($this->once())->method('canShare')->willReturn(true);
 		$manager->expects($this->once())->method('getShareById')->with('foo:42')->willReturn($originalShare);
-		$manager->expects($this->once())->method('validateExpirationDateLink')->with($share);
+		$manager->expects($this->once())->method('validateExpirationDate')->with($share);
 		$manager->expects($this->once())->method('verifyPassword')->with('password');
 
 		$this->hasher->expects($this->once())
@@ -3095,7 +3096,7 @@ class ManagerTest extends \Test\TestCase {
 
 	public function testUpdateShareLinkEnableSendPasswordByTalkWithNoPassword() {
 		$this->expectException(\InvalidArgumentException::class);
-		$this->expectExceptionMessage('Can’t enable sending the password by Talk with an empty password');
+		$this->expectExceptionMessage('Can’t enable sending the password by Talk without setting a new password');
 
 		$manager = $this->createManagerMock()
 			->setMethods([
@@ -3105,7 +3106,7 @@ class ManagerTest extends \Test\TestCase {
 				'linkCreateChecks',
 				'pathCreateChecks',
 				'verifyPassword',
-				'validateExpirationDateLink',
+				'validateExpirationDate',
 			])
 			->getMock();
 
@@ -3139,7 +3140,7 @@ class ManagerTest extends \Test\TestCase {
 		$manager->expects($this->once())->method('linkCreateChecks')->with($share);
 		$manager->expects($this->never())->method('verifyPassword');
 		$manager->expects($this->never())->method('pathCreateChecks');
-		$manager->expects($this->never())->method('validateExpirationDateLink');
+		$manager->expects($this->never())->method('validateExpirationDate');
 
 		$this->hasher->expects($this->never())
 			->method('hash');
@@ -3171,7 +3172,7 @@ class ManagerTest extends \Test\TestCase {
 				'verifyPassword',
 				'pathCreateChecks',
 				'linkCreateChecks',
-				'validateExpirationDateLink',
+				'validateExpirationDate',
 			])
 			->getMock();
 
@@ -3203,8 +3204,8 @@ class ManagerTest extends \Test\TestCase {
 		$manager->expects($this->once())->method('generalCreateChecks')->with($share);
 		$manager->expects($this->once())->method('verifyPassword')->with('password');
 		$manager->expects($this->once())->method('pathCreateChecks')->with($file);
-		$manager->expects($this->never())->method('linkCreateChecks');
-		$manager->expects($this->never())->method('validateExpirationDateLink');
+		$manager->expects($this->once())->method('linkCreateChecks');
+		$manager->expects($this->once())->method('validateExpirationDate');
 
 		$this->hasher->expects($this->once())
 			->method('hash')
@@ -3218,7 +3219,12 @@ class ManagerTest extends \Test\TestCase {
 
 		$hookListener = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
 		\OCP\Util::connectHook('OCP\Share', 'post_set_expiration_date', $hookListener, 'post');
-		$hookListener->expects($this->never())->method('post');
+		$hookListener->expects($this->once())->method('post')->with([
+			'itemType' => 'file',
+			'itemSource' => 100,
+			'date' => $tomorrow,
+			'uidOwner' => 'owner',
+		]);
 
 		$hookListener2 = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
 		\OCP\Util::connectHook('OCP\Share', 'post_update_password', $hookListener2, 'post');
@@ -3246,7 +3252,7 @@ class ManagerTest extends \Test\TestCase {
 				'verifyPassword',
 				'pathCreateChecks',
 				'linkCreateChecks',
-				'validateExpirationDateLink',
+				'validateExpirationDate',
 			])
 			->getMock();
 
@@ -3281,8 +3287,8 @@ class ManagerTest extends \Test\TestCase {
 		$manager->expects($this->once())->method('generalCreateChecks')->with($share);
 		$manager->expects($this->once())->method('verifyPassword')->with('password');
 		$manager->expects($this->once())->method('pathCreateChecks')->with($file);
-		$manager->expects($this->never())->method('linkCreateChecks');
-		$manager->expects($this->never())->method('validateExpirationDateLink');
+		$manager->expects($this->once())->method('linkCreateChecks');
+		$manager->expects($this->once())->method('validateExpirationDate');
 
 		$this->hasher->expects($this->once())
 			->method('hash')
@@ -3296,7 +3302,12 @@ class ManagerTest extends \Test\TestCase {
 
 		$hookListener = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
 		\OCP\Util::connectHook('OCP\Share', 'post_set_expiration_date', $hookListener, 'post');
-		$hookListener->expects($this->never())->method('post');
+		$hookListener->expects($this->once())->method('post')->with([
+			'itemType' => 'file',
+			'itemSource' => 100,
+			'date' => $tomorrow,
+			'uidOwner' => 'owner',
+		]);
 
 		$hookListener2 = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
 		\OCP\Util::connectHook('OCP\Share', 'post_update_password', $hookListener2, 'post');
@@ -3324,7 +3335,7 @@ class ManagerTest extends \Test\TestCase {
 				'verifyPassword',
 				'pathCreateChecks',
 				'linkCreateChecks',
-				'validateExpirationDateLink',
+				'validateExpirationDate',
 			])
 			->getMock();
 
@@ -3359,8 +3370,8 @@ class ManagerTest extends \Test\TestCase {
 		$manager->expects($this->once())->method('generalCreateChecks')->with($share);
 		$manager->expects($this->once())->method('verifyPassword')->with('password');
 		$manager->expects($this->once())->method('pathCreateChecks')->with($file);
-		$manager->expects($this->never())->method('linkCreateChecks');
-		$manager->expects($this->never())->method('validateExpirationDateLink');
+		$manager->expects($this->once())->method('linkCreateChecks');
+		$manager->expects($this->once())->method('validateExpirationDate');
 
 		$this->hasher->expects($this->once())
 			->method('verify')
@@ -3379,7 +3390,12 @@ class ManagerTest extends \Test\TestCase {
 
 		$hookListener = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
 		\OCP\Util::connectHook('OCP\Share', 'post_set_expiration_date', $hookListener, 'post');
-		$hookListener->expects($this->never())->method('post');
+		$hookListener->expects($this->once())->method('post')->with([
+			'itemType' => 'file',
+			'itemSource' => 100,
+			'date' => $tomorrow,
+			'uidOwner' => 'owner',
+		]);
 
 		$hookListener2 = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
 		\OCP\Util::connectHook('OCP\Share', 'post_update_password', $hookListener2, 'post');
@@ -3410,7 +3426,7 @@ class ManagerTest extends \Test\TestCase {
 				'verifyPassword',
 				'pathCreateChecks',
 				'linkCreateChecks',
-				'validateExpirationDateLink',
+				'validateExpirationDate',
 			])
 			->getMock();
 
@@ -3445,8 +3461,8 @@ class ManagerTest extends \Test\TestCase {
 		$manager->expects($this->once())->method('generalCreateChecks')->with($share);
 		$manager->expects($this->never())->method('verifyPassword');
 		$manager->expects($this->never())->method('pathCreateChecks');
-		$manager->expects($this->never())->method('linkCreateChecks');
-		$manager->expects($this->never())->method('validateExpirationDateLink');
+		$manager->expects($this->once())->method('linkCreateChecks');
+		$manager->expects($this->never())->method('validateExpirationDate');
 
 		$this->hasher->expects($this->never())
 			->method('hash');
@@ -3482,7 +3498,7 @@ class ManagerTest extends \Test\TestCase {
 				'verifyPassword',
 				'pathCreateChecks',
 				'linkCreateChecks',
-				'validateExpirationDateLink',
+				'validateExpirationDate',
 			])
 			->getMock();
 
@@ -3517,8 +3533,8 @@ class ManagerTest extends \Test\TestCase {
 		$manager->expects($this->once())->method('generalCreateChecks')->with($share);
 		$manager->expects($this->never())->method('verifyPassword');
 		$manager->expects($this->never())->method('pathCreateChecks');
-		$manager->expects($this->never())->method('linkCreateChecks');
-		$manager->expects($this->never())->method('validateExpirationDateLink');
+		$manager->expects($this->once())->method('linkCreateChecks');
+		$manager->expects($this->never())->method('validateExpirationDate');
 
 		$this->hasher->expects($this->never())
 			->method('hash');
@@ -3554,7 +3570,7 @@ class ManagerTest extends \Test\TestCase {
 				'verifyPassword',
 				'pathCreateChecks',
 				'linkCreateChecks',
-				'validateExpirationDateLink',
+				'validateExpirationDate',
 			])
 			->getMock();
 
@@ -3589,8 +3605,8 @@ class ManagerTest extends \Test\TestCase {
 		$manager->expects($this->once())->method('generalCreateChecks')->with($share);
 		$manager->expects($this->never())->method('verifyPassword');
 		$manager->expects($this->never())->method('pathCreateChecks');
-		$manager->expects($this->never())->method('linkCreateChecks');
-		$manager->expects($this->never())->method('validateExpirationDateLink');
+		$manager->expects($this->once())->method('linkCreateChecks');
+		$manager->expects($this->never())->method('validateExpirationDate');
 
 		$this->hasher->expects($this->never())
 			->method('hash');
@@ -3626,7 +3642,7 @@ class ManagerTest extends \Test\TestCase {
 				'verifyPassword',
 				'pathCreateChecks',
 				'linkCreateChecks',
-				'validateExpirationDateLink',
+				'validateExpirationDate',
 			])
 			->getMock();
 
@@ -3661,8 +3677,8 @@ class ManagerTest extends \Test\TestCase {
 		$manager->expects($this->once())->method('generalCreateChecks')->with($share);
 		$manager->expects($this->never())->method('verifyPassword');
 		$manager->expects($this->never())->method('pathCreateChecks');
-		$manager->expects($this->never())->method('linkCreateChecks');
-		$manager->expects($this->never())->method('validateExpirationDateLink');
+		$manager->expects($this->once())->method('linkCreateChecks');
+		$manager->expects($this->never())->method('validateExpirationDate');
 
 		$this->hasher->expects($this->once())
 			->method('verify')
@@ -3702,7 +3718,7 @@ class ManagerTest extends \Test\TestCase {
 				'verifyPassword',
 				'pathCreateChecks',
 				'linkCreateChecks',
-				'validateExpirationDateLink',
+				'validateExpirationDate',
 			])
 			->getMock();
 
@@ -3735,10 +3751,10 @@ class ManagerTest extends \Test\TestCase {
 		$manager->expects($this->once())->method('canShare')->willReturn(true);
 		$manager->expects($this->once())->method('getShareById')->with('foo:42')->willReturn($originalShare);
 		$manager->expects($this->once())->method('generalCreateChecks')->with($share);
-		$manager->expects($this->never())->method('verifyPassword');
-		$manager->expects($this->never())->method('pathCreateChecks');
-		$manager->expects($this->never())->method('linkCreateChecks');
-		$manager->expects($this->never())->method('validateExpirationDateLink');
+		$manager->expects($this->once())->method('verifyPassword');
+		$manager->expects($this->once())->method('pathCreateChecks');
+		$manager->expects($this->once())->method('linkCreateChecks');
+		$manager->expects($this->once())->method('validateExpirationDate');
 
 		$this->hasher->expects($this->once())
 			->method('verify')
@@ -3778,7 +3794,7 @@ class ManagerTest extends \Test\TestCase {
 				'verifyPassword',
 				'pathCreateChecks',
 				'linkCreateChecks',
-				'validateExpirationDateLink',
+				'validateExpirationDate',
 			])
 			->getMock();
 
@@ -3811,10 +3827,10 @@ class ManagerTest extends \Test\TestCase {
 		$manager->expects($this->once())->method('canShare')->willReturn(true);
 		$manager->expects($this->once())->method('getShareById')->with('foo:42')->willReturn($originalShare);
 		$manager->expects($this->once())->method('generalCreateChecks')->with($share);
-		$manager->expects($this->never())->method('verifyPassword');
-		$manager->expects($this->never())->method('pathCreateChecks');
-		$manager->expects($this->never())->method('linkCreateChecks');
-		$manager->expects($this->never())->method('validateExpirationDateLink');
+		$manager->expects($this->once())->method('verifyPassword');
+		$manager->expects($this->once())->method('pathCreateChecks');
+		$manager->expects($this->once())->method('linkCreateChecks');
+		$manager->expects($this->once())->method('validateExpirationDate');
 
 		$this->hasher->expects($this->never())
 			->method('verify');
