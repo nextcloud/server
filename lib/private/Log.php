@@ -314,7 +314,7 @@ class Log implements ILogger, IDataLogger {
 		$app = $context['app'] ?? 'no app in context';
 		$level = $context['level'] ?? ILogger::ERROR;
 
-		$serializer = new ExceptionSerializer();
+		$serializer = new ExceptionSerializer($this->config);
 		$data = $serializer->serializeException($exception);
 		$data['CustomMessage'] = $context['message'] ?? '--';
 
