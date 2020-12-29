@@ -789,7 +789,7 @@ steps:
   commands:
     - git submodule update --init
 - name: integration-federation_features
-  image: ghcr.io/nextcloud/continuous-integration-integration-php7.3:latest
+  image: ghcr.io/nextcloud/continuous-integration-integration-php7.4:latest
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin
