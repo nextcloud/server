@@ -32,7 +32,8 @@ require __DIR__ . '/../../vendor/autoload.php';
  * Features context.
  */
 class SharingContext implements Context, SnippetAcceptingContext {
-	use Sharing;
+	use WebDav;
+	use Trashbin;
 	use AppConfiguration;
 	use CommandLine;
 
