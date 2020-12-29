@@ -8,10 +8,13 @@ OC.L10N.register(
     "Vacationing" : "vakantie",
     "Working remotely" : "Thuiswerken",
     "User status" : "Gebruikersstatus",
+    "Clear status message after" : "Opruimen statusbericht na",
     "What's your status?" : "Wat is je status?",
     "Set status" : "Instellen status",
     "Online status" : "Online status",
     "Status message" : "Statusbericht",
+    "Clear status message" : "Opruimen statusbericht",
+    "Set status message" : "Instellen statusbericht",
     "There was an error saving the status" : "Er is een fout opgetreden bij het bewaren van de status",
     "There was an error clearing the status" : "Er is een fout opgetreden bij het leegmaken van de status",
     "No recent status changes" : "Geen recente statuswijzigingen",
@@ -29,6 +32,7 @@ OC.L10N.register(
     "1 hour" : "1 uur",
     "4 hours" : "4 uur",
     "Mute all notifications" : "Onderdruk alle meldingen",
+    "Appear offline" : "Toon afwezig",
     "Clear status after" : "Maak de status leeg na"
 },
 "nplurals=2; plural=(n != 1);");

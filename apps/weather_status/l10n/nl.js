@@ -27,6 +27,7 @@ OC.L10N.register(
     "Loading weather" : "Weergegevens ophalen",
     "Set location for weather" : "Stel je locatie voor het weer in.",
     "Remove from favorites" : "Verwijderen uit favorieten",
+    "Add as favorite" : "Toevoegen als favoriet",
     "You are not logged in." : "Je bent niet ingelogd.",
     "There was an error getting the weather status information." : "Er is een fout opgetreden bij het ophalen van de weerinformatie.",
     "No weather information found" : "Geen weer informatie gevonden.",
