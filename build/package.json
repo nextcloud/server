@@ -21,7 +21,7 @@
     "karma-jasmine-sinon": "^1.0.4",
     "karma-spec-reporter": "^0.0.32",
     "karma-viewport": "^1.0.7",
-    "node-sass": "~4.14.1",
+    "node-sass": "~5.0.0",
     "puppeteer": "^5.5.0",
     "sinon": "<= 5.0.7"
   },
