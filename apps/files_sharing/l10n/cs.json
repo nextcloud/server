@@ -149,7 +149,7 @@
     "group" : "skupina",
     "conversation" : "konverzace",
     "remote" : "vzdálené",
-    "remote group" : "skupina na protěšjku",
+    "remote group" : "federovaná skupina",
     "guest" : "host",
     "Shared with the group {user} by {owner}" : "{owner} sdílí se skupinou {user}",
     "Shared with the conversation {user} by {owner}" : "{owner} sdílí konverzaci {user}",
