@@ -16,7 +16,7 @@ OC.L10N.register(
     "Regenerate backup codes" : "Regenereer backup code",
     "If you regenerate backup codes, you automatically invalidate old codes." : "Als je backup codes opnieuw genereert, worden oude codes automatisch ongeldig gemaakt.",
     "An error occurred while generating your backup codes" : "Er trad een fout op bij het genereren van je backup codes",
-    "{name} backup codes" : "{naam} backup codes",
+    "{name} backup codes" : "{name} backup codes",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Gebruik een van de backupcodes die je bewaarde bij het inschakelen van de twee-factor authenticatie.",
     "Submit" : "Verwerken",
     "_" : "_",

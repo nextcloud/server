@@ -114,7 +114,7 @@ OC.L10N.register(
     "Restored by {user}" : "Obnovil(a) {user}",
     "Renamed by {user}" : "Přejmenoval(a) {user}",
     "Moved by {user}" : "Přesunul(a) {user}",
-    "\"remote user\"" : "„uživatel na protějšku“",
+    "\"remote user\"" : "„federovaný uživatel“",
     "You created {file}" : "Vytvořili jste {file}",
     "You created an encrypted file in {file}" : "Vytvořili jste šifrovaný soubor v {file}",
     "{user} created {file}" : "{user} vytvořil(a) {file}",
