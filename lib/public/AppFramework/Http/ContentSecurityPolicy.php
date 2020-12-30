@@ -6,7 +6,6 @@
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author sualko <klaus@jsxc.org>
- * @author Thomas Citharel <github@tcit.fr>
  * @author Thomas Citharel <nextcloud@tcit.fr>
  *
  * @license AGPL-3.0

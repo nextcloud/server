@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @copyright Copyright (c) 2020, Maxence Lange <maxence@artificial-owl.com>
  *
  * @author Maxence Lange <maxence@artificial-owl.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
