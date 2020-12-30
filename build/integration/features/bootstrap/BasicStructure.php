@@ -47,7 +47,6 @@ trait BasicStructure {
 	use Avatar;
 	use Download;
 	use Mail;
-	use Trashbin;
 
 	/** @var string */
 	private $currentUser = '';
