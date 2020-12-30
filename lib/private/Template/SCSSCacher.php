@@ -47,8 +47,7 @@ use OCP\IMemcache;
 use OCP\IURLGenerator;
 use ScssPhp\ScssPhp\Compiler;
 use ScssPhp\ScssPhp\Exception\ParserException;
-use ScssPhp\ScssPhp\Formatter\Crunched;
-use ScssPhp\ScssPhp\Formatter\Expanded;
+use ScssPhp\ScssPhp\OutputStyle;
 
 class SCSSCacher {
 
@@ -313,14 +312,12 @@ class SCSSCacher {
 		]);
 
 		// Continue after throw
-		$scss->setIgnoreErrors(true);
 		if ($this->config->getSystemValue('debug')) {
 			// Debug mode
-			$scss->setFormatter(Expanded::class);
-			$scss->setLineNumberStyle(Compiler::LINE_COMMENTS);
+			$scss->setOutputStyle(OutputStyle::EXPANDED);
 		} else {
 			// Compression
-			$scss->setFormatter(Crunched::class);
+			$scss->setOutputStyle(OutputStyle::COMPRESSED);
 		}
 
 		try {
@@ -391,8 +388,8 @@ class SCSSCacher {
 		$this->injectedVariables = null;
 
 		// do not clear locks
-		$this->cacheFactory->createDistributed('SCSS-deps-')->clear();
-		$this->cacheFactory->createDistributed('SCSS-cached-')->clear();
+		$this->depsCache->clear();
+		$this->isCachedCache->clear();
 
 		$appDirectory = $this->appData->getDirectoryListing();
 		foreach ($appDirectory as $folder) {
