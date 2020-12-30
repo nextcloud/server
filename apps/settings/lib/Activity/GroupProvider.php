@@ -88,14 +88,14 @@ class GroupProvider implements IProvider {
 		switch ($event->getSubject()) {
 			case self::ADDED_TO_GROUP:
 				if (isset($parsedParameters['actor'])) {
-					if ($this->activityManager->getCurrentUserId() === $params['user']) {
+					if ($event->getAffectedUser() === $params['user']) {
 						$subject = $l->t('{actor} added you to group {group}');
-					} elseif (isset($params['actor']) && $this->activityManager->getCurrentUserId() === $params['actor']) {
+					} elseif (isset($params['actor']) && $event->getAffectedUser() === $params['actor']) {
 						$subject = $l->t('You added {user} to group {group}');
 					} else {
 						$subject = $l->t('{actor} added {user} to group {group}');
 					}
-				} elseif ($this->activityManager->getCurrentUserId() === $params['user']) {
+				} elseif ($event->getAffectedUser() === $params['user']) {
 					$subject = $l->t('An administrator added you to group {group}');
 				} else {
 					$subject = $l->t('An administrator added {user} to group {group}');
@@ -103,14 +103,14 @@ class GroupProvider implements IProvider {
 				break;
 			case self::REMOVED_FROM_GROUP:
 				if (isset($parsedParameters['actor'])) {
-					if ($this->activityManager->getCurrentUserId() === $params['user']) {
+					if ($event->getAffectedUser() === $params['user']) {
 						$subject = $l->t('{actor} removed you from group {group}');
-					} elseif (isset($params['actor']) && $this->activityManager->getCurrentUserId() === $params['actor']) {
+					} elseif (isset($params['actor']) && $event->getAffectedUser() === $params['actor']) {
 						$subject = $l->t('You removed {user} from group {group}');
 					} else {
 						$subject = $l->t('{actor} removed {user} from group {group}');
 					}
-				} elseif ($this->activityManager->getCurrentUserId() === $params['user']) {
+				} elseif ($event->getAffectedUser() === $params['user']) {
 					$subject = $l->t('An administrator removed you from group {group}');
 				} else {
 					$subject = $l->t('An administrator removed {user} from group {group}');
