@@ -87,6 +87,12 @@ class GroupProvider implements IProvider {
 
 		switch ($event->getSubject()) {
 			case self::ADDED_TO_GROUP:
+				$currentUserId = null;
+				try {
+					$currentUserId = $this->activityManager->getCurrentUserId();
+				} catch (\UnexpectedValueException $e) {
+					// Ignore
+				}
 				if (isset($parsedParameters['actor'])) {
 					if ($this->activityManager->getCurrentUserId() === $params['user']) {
 						$subject = $l->t('{actor} added you to group {group}');
@@ -95,7 +101,7 @@ class GroupProvider implements IProvider {
 					} else {
 						$subject = $l->t('{actor} added {user} to group {group}');
 					}
-				} elseif ($this->activityManager->getCurrentUserId() === $params['user']) {
+				} elseif ($currentUserId === $params['user']) {
 					$subject = $l->t('An administrator added you to group {group}');
 				} else {
 					$subject = $l->t('An administrator added {user} to group {group}');
