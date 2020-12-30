@@ -379,7 +379,7 @@
     <NullableReturnStatement occurrences="1">
       <code>$lang-&gt;getValue()</code>
     </NullableReturnStatement>
-    <UndefinedMethod occurrences="15">
+    <UndefinedMethod occurrences="10">
       <code>getDateTime</code>
       <code>getDateTime</code>
       <code>getDateTime</code>
@@ -393,8 +393,6 @@
       <code>isFloating</code>
       <code>isFloating</code>
       <code>isFloating</code>
-      <code>setDateTime</code>
-      <code>setDateTime</code>
     </UndefinedMethod>
     <UndefinedPropertyFetch occurrences="1">
       <code>$iTipMessage-&gt;message-&gt;VEVENT-&gt;SUMMARY</code>
@@ -918,7 +916,7 @@
     <InvalidReturnType occurrences="1">
       <code>string</code>
     </InvalidReturnType>
-    <UndefinedMethod occurrences="9">
+    <UndefinedMethod occurrences="5">
       <code>getDateTime</code>
       <code>getDateTime</code>
       <code>getDateTime</code>
@@ -926,8 +924,6 @@
       <code>hasTime</code>
       <code>isFloating</code>
       <code>isFloating</code>
-      <code>setDateTime</code>
-      <code>setDateTime</code>
     </UndefinedMethod>
   </file>
   <file src="apps/dav/lib/Search/TasksSearchProvider.php">
@@ -2793,7 +2789,6 @@
   <file src="core/routes.php">
     <InvalidScope occurrences="2">
       <code>$this</code>
-      <code>$this-&gt;create('core_ajax_update', '/core/ajax/update.php')</code>
     </InvalidScope>
   </file>
   <file src="core/templates/layout.public.php">
