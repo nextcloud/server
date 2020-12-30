@@ -171,7 +171,7 @@ OC.L10N.register(
     "Log in with a device" : "Inloggen met een toestel",
     "Back" : "Terug",
     "Reset search" : "Zoekopdracht wissen",
-    "Search for {name} only" : "Zoek enkel naar {name}",
+    "Search for {name} only" : "Zoek alleen naar {name}",
     "No results for {query}" : "Geen resultaten voor {query}",
     "Start typing to search" : "Begin met typen om te zoeken",
     "Loading more results …" : "Meer resultaten laden ...",

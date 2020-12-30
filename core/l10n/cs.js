@@ -266,7 +266,7 @@ OC.L10N.register(
     "If this happens again, please send the technical details below to the server administrator." : "Pokud se toto stane znovu, pošlete níže uvedené technické podrobnosti správci serveru.",
     "More details can be found in the server log." : "Další podrobnosti naleznete v záznamu událostí serveru.",
     "Technical details" : "Technické podrobnosti",
-    "Remote Address: %s" : "Adresa protějšku: %s",
+    "Remote Address: %s" : "Federovaná adresa: %s",
     "Request ID: %s" : "Identifikátor požadavku: %s",
     "Type: %s" : "Typ: %s",
     "Code: %s" : "Kód: %s",
