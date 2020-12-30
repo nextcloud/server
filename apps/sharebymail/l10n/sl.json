@@ -1,5 +1,5 @@
 { "translations": {
-    "Shared with %1$s" : "V skupni rabi %1$s",
+    "Shared with %1$s" : "V skupni rabi z %1$s",
     "Shared with {email}" : "V skupni rabi z {email}",
     "Unshared from %1$s" : "Souporaba z %1$s je prekinjena",
     "Unshared from {email}" : "Souporaba z naslovom {email} je prekinjena",
@@ -20,6 +20,7 @@
     "Password to access {file} was sent to {email}" : "Geslo za dostop do datoteke {file} je bilo poslano na {email}.",
     "Password to access %1$s was sent to you" : "Geslo za dostop do datoteke %1$s je bilo poslano vaš elektronski naslov.",
     "Password to access {file} was sent to you" : "Geslo za dostop do datoteke {file} je bilo poslano vaš elektronski naslov.",
+    "Sharing %1$s failed, this item is already shared with %2$s" : "Souporaba %1$s je spodletela, ker je predmet že v souporabi pri %2$s",
     "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Samodejno ustvarjenega gesla ni mogoče poslati. Nastaviti je treba veljavni elektronski naslov med osebnimi nastavitvami.",
     "Failed to send share by email" : "Pošiljanje povezave po elektronski pošti je spodletelo.",
     "%1$s shared »%2$s« with you" : "%1$s vam omogoča souporabo »%2$s«",
@@ -30,6 +31,8 @@
     "%1$s shared »%2$s« with you.\nYou should have already received a separate mail with a link to access it.\n" : "%1$s vam omogoča souporabo »%2$s«.\nPo elektronski pošti bi morali prejeti tudi ločeno sporočilo s povezavo.\n",
     "Password to access »%s«" : "Geslo za dostop do »%s«",
     "It is protected with the following password:" : "Zaščiten je z geslom:",
+    "%1$s shared »%2$s« with you and wants to add:" : "%1$s vam omogoča souporabo »%2$s« in želi dodati:",
+    "%1$s shared »%2$s« with you and wants to add" : "%1$s vam omogoča souporabo »%2$s« in želi dodati",
     "»%s« added a note to a file shared with you" : "»%s« doda opombo k datoteki v souporabi",
     "This is the password:" : "Geslo:",
     "You can choose a different password at any time in the share dialog." : "Geslo je mogoče kadarkoli spremeniti med nastavitvami souporabe.",

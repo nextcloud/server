@@ -91,7 +91,7 @@ OC.L10N.register(
     "Legacy (v2) authentication" : "Starší (v2) ověřování",
     "WebDAV" : "WebDAV",
     "URL" : "URL",
-    "Remote subfolder" : "Podsložka na protějšku",
+    "Remote subfolder" : "Federovaná podsložka",
     "Secure https://" : "Zabezpečené https://",
     "FTP" : "FTP",
     "Host" : "Hostitel",
