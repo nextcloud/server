@@ -23,9 +23,9 @@ OC.L10N.register(
     "Good morning" : "صباح الخير",
     "Good night, {name}" : "تصبح على خير، {name}",
     "Good night" : "تصبح على خير",
-    "Pick from files" : "اختر من الملفات",
     "Default images" : "الصور الإفتراضية",
     "Plain background" : "خلفية سادة",
-    "Insert from {productName}" : "اضف من {productName}"
+    "Insert from {productName}" : "اضف من {productName}",
+    "Pick from files" : "اختر من الملفات"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

@@ -21,9 +21,9 @@ OC.L10N.register(
     "Good morning" : "Bonjour",
     "Good night, {name}" : "Bonne nuit {name}",
     "Good night" : "Bonne nuit",
-    "Pick from files" : "Choisissez parmi les fichiers",
     "Default images" : "Images par défaut",
     "Plain background" : "Fond uni",
-    "Insert from {productName}" : "Insérer depuis {productName}"
+    "Insert from {productName}" : "Insérer depuis {productName}",
+    "Pick from files" : "Choisissez parmi les fichiers"
 },
 "nplurals=2; plural=(n > 1);");

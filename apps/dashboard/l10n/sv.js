@@ -23,9 +23,9 @@ OC.L10N.register(
     "Good morning" : "God morgon",
     "Good night, {name}" : "Godnatt, {name}",
     "Good night" : "Godnatt",
-    "Pick from files" : "Välj från filer",
     "Default images" : "Standardbilder",
     "Plain background" : "Enkel bakgrund",
-    "Insert from {productName}" : "Infoga från {productName}"
+    "Insert from {productName}" : "Infoga från {productName}",
+    "Pick from files" : "Välj från filer"
 },
 "nplurals=2; plural=(n != 1);");

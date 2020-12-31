@@ -21,9 +21,9 @@
     "Good morning" : "Goedemorgen",
     "Good night, {name}" : "Goedenacht, {name}",
     "Good night" : "Goedenacht",
-    "Pick from files" : "Kies uit bestanden",
     "Default images" : "Standaardafbeeldingen",
     "Plain background" : "Kale achtergrond",
-    "Insert from {productName}" : "Invoegen vanuit {productName}"
+    "Insert from {productName}" : "Invoegen vanuit {productName}",
+    "Pick from files" : "Kies uit bestanden"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

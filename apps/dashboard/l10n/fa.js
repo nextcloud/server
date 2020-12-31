@@ -19,8 +19,8 @@ OC.L10N.register(
     "Good morning" : "صبح بخیر",
     "Good night, {name}" : "{name} شبتان بخیر",
     "Good night" : "شب بخیر",
-    "Pick from files" : "از میان پرونده‌ها انتخاب کنم",
     "Default images" : "تصاویر پیش‌فرض",
-    "Plain background" : "تصویر زمینه ساده"
+    "Plain background" : "تصویر زمینه ساده",
+    "Pick from files" : "از میان پرونده‌ها انتخاب کنم"
 },
 "nplurals=2; plural=(n > 1);");

@@ -23,9 +23,9 @@ OC.L10N.register(
     "Good morning" : "בוקר טוב",
     "Good night, {name}" : "לילה טוב, {name}",
     "Good night" : "לילה טוב",
-    "Pick from files" : "בחר מתוך קבצים",
     "Default images" : "תמונות ברירת מחדל",
     "Plain background" : "רקע רגיל",
-    "Insert from {productName}" : "הכנס מ-{productName}"
+    "Insert from {productName}" : "הכנס מ-{productName}",
+    "Pick from files" : "בחר מתוך קבצים"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");

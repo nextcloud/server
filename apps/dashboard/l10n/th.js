@@ -23,9 +23,9 @@ OC.L10N.register(
     "Good morning" : "อรุณสวัสดิ์",
     "Good night, {name}" : "ราตรีสวัสดิ์ {name}",
     "Good night" : "ราตรีสวัสดิ์",
-    "Pick from files" : "เลือกจากไฟล์",
     "Default images" : "รูปภาพเริ่มต้น",
     "Plain background" : "พื้นหลังธรรมดา",
-    "Insert from {productName}" : "แทรกจาก {productName}"
+    "Insert from {productName}" : "แทรกจาก {productName}",
+    "Pick from files" : "เลือกจากไฟล์"
 },
 "nplurals=1; plural=0;");
