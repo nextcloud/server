@@ -23,9 +23,9 @@ OC.L10N.register(
     "Good morning" : "Jó reggelt",
     "Good night, {name}" : "Jó éjszakát, {name}",
     "Good night" : "Jó éjszakát",
-    "Pick from files" : "Választás a fájlok közül",
     "Default images" : "Alapértelmezett képek",
     "Plain background" : "Egyszerű háttér",
-    "Insert from {productName}" : "Beillesztés {productName}-ból"
+    "Insert from {productName}" : "Beillesztés {productName}-ból",
+    "Pick from files" : "Választás a fájlok közül"
 },
 "nplurals=2; plural=(n != 1);");

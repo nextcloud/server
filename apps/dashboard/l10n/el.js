@@ -23,9 +23,9 @@ OC.L10N.register(
     "Good morning" : "Καλημέρα",
     "Good night, {name}" : "Καληνύχτα, {name}",
     "Good night" : "Καληνύχτα",
-    "Pick from files" : "Επιλογή από τα αρχεία",
     "Default images" : "Προεπιλεγμένες εικόνες",
     "Plain background" : "Απλό παρασκήνιο",
-    "Insert from {productName}" : "Εισαγωγή από {productName}"
+    "Insert from {productName}" : "Εισαγωγή από {productName}",
+    "Pick from files" : "Επιλογή από τα αρχεία"
 },
 "nplurals=2; plural=(n != 1);");

@@ -21,9 +21,9 @@ OC.L10N.register(
     "Good morning" : "Bon dia",
     "Good night, {name}" : "Bona nit, {name}",
     "Good night" : "Bona nit",
-    "Pick from files" : "Tria entre fitxers",
     "Default images" : "Imatges predeterminades",
     "Plain background" : "Fons senzill",
-    "Insert from {productName}" : "Insereix des de {productName}"
+    "Insert from {productName}" : "Insereix des de {productName}",
+    "Pick from files" : "Tria entre fitxers"
 },
 "nplurals=2; plural=(n != 1);");

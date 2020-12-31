@@ -18,9 +18,9 @@ OC.L10N.register(
     "Good morning" : "早安",
     "Good night, {name}" : "晚安，{name}",
     "Good night" : "晚安",
-    "Pick from files" : "從檔案選取",
     "Default images" : "預設圖片",
     "Plain background" : "簡單背景",
-    "Insert from {productName}" : "插入自 {productName}"
+    "Insert from {productName}" : "插入自 {productName}",
+    "Pick from files" : "從檔案選取"
 },
 "nplurals=1; plural=0;");

@@ -23,9 +23,9 @@ OC.L10N.register(
     "Good morning" : "Добро утро",
     "Good night, {name}" : "Добра ноќ, {name}",
     "Good night" : "Добра ноќ",
-    "Pick from files" : "Избери од датотеките",
     "Default images" : "Стандардни слики",
     "Plain background" : "Обична позадина",
-    "Insert from {productName}" : "Вметнни од {productName}"
+    "Insert from {productName}" : "Вметнни од {productName}",
+    "Pick from files" : "Избери од датотеките"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

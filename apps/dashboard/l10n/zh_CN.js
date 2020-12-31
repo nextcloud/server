@@ -23,9 +23,9 @@ OC.L10N.register(
     "Good morning" : "早上好",
     "Good night, {name}" : "晚安，{name}",
     "Good night" : "晚安",
-    "Pick from files" : "从文件选取",
     "Default images" : "默认图片",
     "Plain background" : "纯色背景",
-    "Insert from {productName}" : "从 {productName} 插入"
+    "Insert from {productName}" : "从 {productName} 插入",
+    "Pick from files" : "从文件选取"
 },
 "nplurals=1; plural=0;");

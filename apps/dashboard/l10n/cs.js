@@ -23,9 +23,9 @@ OC.L10N.register(
     "Good morning" : "Dobré ráno",
     "Good night, {name}" : "Dobrou noc, {name}",
     "Good night" : "Dobrou noc",
-    "Pick from files" : "Vybrat ze souborů",
     "Default images" : "Výchozí obrázky",
     "Plain background" : "Holé pozadí",
-    "Insert from {productName}" : "Vložit z {productName}"
+    "Insert from {productName}" : "Vložit z {productName}",
+    "Pick from files" : "Vybrat ze souborů"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

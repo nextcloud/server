@@ -17,7 +17,7 @@ OC.L10N.register(
     "Good morning" : "Hyvää huomenta",
     "Good night, {name}" : "Hyvää yötä, {name}",
     "Good night" : "Hyvää yötä",
-    "Pick from files" : "Valitse tiedostoista",
-    "Default images" : "Oletuskuvat"
+    "Default images" : "Oletuskuvat",
+    "Pick from files" : "Valitse tiedostoista"
 },
 "nplurals=2; plural=(n != 1);");
