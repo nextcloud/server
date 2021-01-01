@@ -23,6 +23,7 @@ OC.L10N.register(
     "Good morning" : "Günaydın",
     "Good night, {name}" : "İyi geceler, {name}",
     "Good night" : "İyi geceler",
+    "Pick from Files" : "Dosyalardan Seçin",
     "Default images" : "Varsayılan görseller",
     "Plain background" : "Düz arka plan",
     "Insert from {productName}" : "{productName} üzerinden ekle",
