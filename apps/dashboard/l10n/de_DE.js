@@ -23,6 +23,7 @@ OC.L10N.register(
     "Good morning" : "Guten Morgen",
     "Good night, {name}" : "Gute Nacht {name}",
     "Good night" : "Gute Nacht",
+    "Pick from Files" : "Aus Dateien auswählen",
     "Default images" : "Standardbilder",
     "Plain background" : "Einfacher Hintergrund",
     "Insert from {productName}" : "Von {productName} einfügen",
