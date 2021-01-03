@@ -23,6 +23,7 @@ OC.L10N.register(
     "Good morning" : "Labas rytas",
     "Good night, {name}" : "Labas vakaras, {name}",
     "Good night" : "Labas vakaras",
+    "Pick from Files" : "Pasirinkti iš Failų",
     "Default images" : "Numatytieji paveikslai",
     "Plain background" : "Vientisas fonas",
     "Insert from {productName}" : "Įterpti iš {productName}",
