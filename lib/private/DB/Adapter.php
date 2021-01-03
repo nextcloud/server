@@ -52,7 +52,7 @@ class Adapter {
 	 * @return int id of last insert statement
 	 */
 	public function lastInsertId($table) {
-		return $this->conn->realLastInsertId($table);
+		return (int) $this->conn->realLastInsertId($table);
 	}
 
 	/**
@@ -94,7 +94,7 @@ class Adapter {
 	 *				If this is null or an empty array, all keys of $input will be compared
 	 *				Please note: text fields (clob) must not be used in the compare array
 	 * @return int number of inserted rows
-	 * @throws \Doctrine\DBAL\DBALException
+	 * @throws \Doctrine\DBAL\Exception
 	 * @deprecated 15.0.0 - use unique index and "try { $db->insert() } catch (UniqueConstraintViolationException $e) {}" instead, because it is more reliable and does not have the risk for deadlocks - see https://github.com/nextcloud/server/pull/12371
 	 */
 	public function insertIfNotExist($table, $input, array $compare = null) {

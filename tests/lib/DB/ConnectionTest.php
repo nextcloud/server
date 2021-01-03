@@ -44,7 +44,7 @@ class ConnectionTest extends \Test\TestCase {
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->connection = \OC::$server->getDatabaseConnection();
+		$this->connection = \OC::$server->get(\OC\DB\Connection::class);
 	}
 
 	protected function tearDown(): void {
@@ -234,7 +234,7 @@ class ConnectionTest extends \Test\TestCase {
 		$query = $this->connection->prepare('SELECT * FROM `*PREFIX*table`');
 		$result = $query->execute();
 		$this->assertTrue((bool)$result);
-		$this->assertEquals(7, count($query->fetchAll()));
+		$this->assertEquals(7, count($result->fetchAll()));
 	}
 
 	public function testInsertIfNotExistNull() {
@@ -263,7 +263,7 @@ class ConnectionTest extends \Test\TestCase {
 		$query = $this->connection->prepare('SELECT * FROM `*PREFIX*table`');
 		$result = $query->execute();
 		$this->assertTrue((bool)$result);
-		$this->assertEquals(2, count($query->fetchAll()));
+		$this->assertEquals(2, count($result->fetchAll()));
 	}
 
 	public function testInsertIfNotExistDonTOverwrite() {
@@ -278,11 +278,10 @@ class ConnectionTest extends \Test\TestCase {
 		// Normal test to have same known data inserted.
 		$query = $this->connection->prepare('INSERT INTO `*PREFIX*table` (`textfield`, `clobfield`) VALUES (?, ?)');
 		$result = $query->execute([$fullName, $uri]);
-		$this->assertEquals(1, $result);
+		$this->assertEquals(1, $result->rowCount());
 		$query = $this->connection->prepare('SELECT `textfield`, `clobfield` FROM `*PREFIX*table` WHERE `clobfield` = ?');
 		$result = $query->execute([$uri]);
-		$this->assertTrue($result);
-		$rowset = $query->fetchAll();
+		$rowset = $result->fetchAll();
 		$this->assertEquals(1, count($rowset));
 		$this->assertArrayHasKey('textfield', $rowset[0]);
 		$this->assertEquals($fullName, $rowset[0]['textfield']);
@@ -297,10 +296,9 @@ class ConnectionTest extends \Test\TestCase {
 
 		$query = $this->connection->prepare('SELECT `textfield`, `clobfield` FROM `*PREFIX*table` WHERE `clobfield` = ?');
 		$result = $query->execute([$uri]);
-		$this->assertTrue($result);
 		// Test that previously inserted data isn't overwritten
 		// And that a new row hasn't been inserted.
-		$rowset = $query->fetchAll();
+		$rowset = $result->fetchAll();
 		$this->assertEquals(1, count($rowset));
 		$this->assertArrayHasKey('textfield', $rowset[0]);
 		$this->assertEquals($fullName, $rowset[0]['textfield']);

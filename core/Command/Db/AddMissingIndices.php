@@ -33,6 +33,7 @@ declare(strict_types=1);
 
 namespace OC\Core\Command\Db;
 
+use OC\DB\Connection;
 use OC\DB\SchemaWrapper;
 use OCP\IDBConnection;
 use Symfony\Component\Console\Command\Command;
@@ -51,13 +52,13 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  */
 class AddMissingIndices extends Command {
 
-	/** @var IDBConnection */
+	/** @var Connection */
 	private $connection;
 
 	/** @var EventDispatcherInterface */
 	private $dispatcher;
 
-	public function __construct(IDBConnection $connection, EventDispatcherInterface $dispatcher) {
+	public function __construct(Connection $connection, EventDispatcherInterface $dispatcher) {
 		parent::__construct();
 
 		$this->connection = $connection;

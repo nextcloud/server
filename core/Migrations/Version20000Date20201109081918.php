@@ -28,7 +28,7 @@ declare(strict_types=1);
 namespace OC\Core\Migrations;
 
 use Closure;
-use Doctrine\DBAL\Types\Type;
+use Doctrine\DBAL\Types\Types;
 use OCP\DB\ISchemaWrapper;
 use OCP\IDBConnection;
 use OCP\Migration\IOutput;
@@ -55,20 +55,20 @@ class Version20000Date20201109081918 extends SimpleMigrationStep {
 
 		if (!$schema->hasTable('storages_credentials')) {
 			$table = $schema->createTable('storages_credentials');
-			$table->addColumn('id', Type::BIGINT, [
+			$table->addColumn('id', Types::BIGINT, [
 				'autoincrement' => true,
 				'notnull' => true,
 				'length' => 64,
 			]);
-			$table->addColumn('user', Type::STRING, [
+			$table->addColumn('user', Types::STRING, [
 				'notnull' => false,
 				'length' => 64,
 			]);
-			$table->addColumn('identifier', Type::STRING, [
+			$table->addColumn('identifier', Types::STRING, [
 				'notnull' => true,
 				'length' => 64,
 			]);
-			$table->addColumn('credentials', Type::TEXT, [
+			$table->addColumn('credentials', Types::TEXT, [
 				'notnull' => false,
 			]);
 			$table->setPrimaryKey(['id']);

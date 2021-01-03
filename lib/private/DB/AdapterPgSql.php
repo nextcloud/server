@@ -31,7 +31,10 @@ class AdapterPgSql extends Adapter {
 	protected $compatModePre9_5 = null;
 
 	public function lastInsertId($table) {
-		return $this->conn->fetchColumn('SELECT lastval()');
+		$result = $this->conn->executeQuery('SELECT lastval()');
+		$val = $result->fetchOne();
+		$result->free();
+		return (int)$val;
 	}
 
 	public const UNIX_TIMESTAMP_REPLACEMENT = 'cast(extract(epoch from current_timestamp) as integer)';
@@ -62,7 +65,9 @@ class AdapterPgSql extends Adapter {
 			return $this->compatModePre9_5;
 		}
 
-		$version = $this->conn->fetchColumn('SHOW SERVER_VERSION');
+		$result = $this->conn->executeQuery('SHOW SERVER_VERSION');
+		$version = $result->fetchOne();
+		$result->free();
 		$this->compatModePre9_5 = version_compare($version, '9.5', '<');
 
 		return $this->compatModePre9_5;

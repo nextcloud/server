@@ -44,12 +44,12 @@ class ReconnectWrapper extends \Doctrine\DBAL\Connection {
 
 		if ($this->lastConnectionCheck > $checkTime || $this->isTransactionActive()) {
 			return parent::connect();
-		} else {
-			$this->lastConnectionCheck = $now;
-			if (!$this->ping()) {
-				$this->close();
-			}
-			return parent::connect();
 		}
+
+		$this->lastConnectionCheck = $now;
+		if (!$this->isConnected()) {
+			$this->close();
+		}
+		return parent::connect();
 	}
 }

@@ -36,6 +36,7 @@
 
 namespace OC\Files\Cache;
 
+use Doctrine\DBAL\Exception;
 use OC\Files\Filesystem;
 use OC\Hooks\BasicEmitter;
 use OCP\Files\Cache\IScanner;
@@ -437,7 +438,7 @@ class Scanner extends BasicEmitter implements IScanner {
 						$size += $data['size'];
 					}
 				}
-			} catch (\Doctrine\DBAL\DBALException $ex) {
+			} catch (Exception $ex) {
 				// might happen if inserting duplicate while a scanning
 				// process is running in parallel
 				// log and ignore

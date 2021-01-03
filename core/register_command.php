@@ -100,15 +100,15 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 
 	$application->add(new OC\Core\Command\Db\ConvertType(\OC::$server->getConfig(), new \OC\DB\ConnectionFactory(\OC::$server->getSystemConfig())));
 	$application->add(new OC\Core\Command\Db\ConvertMysqlToMB4(\OC::$server->getConfig(), \OC::$server->getDatabaseConnection(), \OC::$server->getURLGenerator(), \OC::$server->getLogger()));
-	$application->add(new OC\Core\Command\Db\ConvertFilecacheBigInt(\OC::$server->getDatabaseConnection()));
-	$application->add(new OC\Core\Command\Db\AddMissingIndices(\OC::$server->getDatabaseConnection(), \OC::$server->getEventDispatcher()));
-	$application->add(new OC\Core\Command\Db\AddMissingColumns(\OC::$server->getDatabaseConnection(), \OC::$server->getEventDispatcher()));
-	$application->add(new OC\Core\Command\Db\AddMissingPrimaryKeys(\OC::$server->getDatabaseConnection(), \OC::$server->getEventDispatcher()));
-	$application->add(new OC\Core\Command\Db\Migrations\StatusCommand(\OC::$server->getDatabaseConnection()));
-	$application->add(new OC\Core\Command\Db\Migrations\MigrateCommand(\OC::$server->getDatabaseConnection()));
-	$application->add(new OC\Core\Command\Db\Migrations\GenerateCommand(\OC::$server->getDatabaseConnection(), \OC::$server->getAppManager()));
-	$application->add(new OC\Core\Command\Db\Migrations\GenerateFromSchemaFileCommand(\OC::$server->getConfig(), \OC::$server->getAppManager(), \OC::$server->getDatabaseConnection()));
-	$application->add(new OC\Core\Command\Db\Migrations\ExecuteCommand(\OC::$server->getDatabaseConnection(), \OC::$server->getAppManager(), \OC::$server->getConfig()));
+	$application->add(new OC\Core\Command\Db\ConvertFilecacheBigInt(\OC::$server->get(\OC\DB\Connection::class)));
+	$application->add(new OC\Core\Command\Db\AddMissingIndices(\OC::$server->get(\OC\DB\Connection::class), \OC::$server->getEventDispatcher()));
+	$application->add(new OC\Core\Command\Db\AddMissingColumns(\OC::$server->get(\OC\DB\Connection::class), \OC::$server->getEventDispatcher()));
+	$application->add(new OC\Core\Command\Db\AddMissingPrimaryKeys(\OC::$server->get(\OC\DB\Connection::class), \OC::$server->getEventDispatcher()));
+	$application->add(new OC\Core\Command\Db\Migrations\StatusCommand(\OC::$server->get(\OC\DB\Connection::class)));
+	$application->add(new OC\Core\Command\Db\Migrations\MigrateCommand(\OC::$server->get(\OC\DB\Connection::class)));
+	$application->add(new OC\Core\Command\Db\Migrations\GenerateCommand(\OC::$server->get(\OC\DB\Connection::class), \OC::$server->getAppManager()));
+	$application->add(new OC\Core\Command\Db\Migrations\GenerateFromSchemaFileCommand(\OC::$server->getConfig(), \OC::$server->getAppManager(), \OC::$server->get(\OC\DB\Connection::class)));
+	$application->add(new OC\Core\Command\Db\Migrations\ExecuteCommand(\OC::$server->get(\OC\DB\Connection::class), \OC::$server->getConfig()));
 
 	$application->add(new OC\Core\Command\Encryption\Disable(\OC::$server->getConfig()));
 	$application->add(new OC\Core\Command\Encryption\Enable(\OC::$server->getConfig(), \OC::$server->getEncryptionManager()));

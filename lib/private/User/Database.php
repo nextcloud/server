@@ -436,7 +436,7 @@ class Database extends ABackend implements
 			->from($this->table);
 		$result = $query->execute();
 
-		return $result->fetchColumn();
+		return $result->fetchOne();
 	}
 
 	/**

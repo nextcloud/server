@@ -36,12 +36,11 @@ namespace OC\AppFramework\Http;
 use OC\AppFramework\Http;
 use OC\AppFramework\Middleware\MiddlewareDispatcher;
 use OC\AppFramework\Utility\ControllerMethodReflector;
-use OC\DB\Connection;
+use OC\DB\ConnectionAdapter;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\IConfig;
-use OCP\IDBConnection;
 use OCP\IRequest;
 use Psr\Log\LoggerInterface;
 
@@ -65,7 +64,7 @@ class Dispatcher {
 	/** @var IConfig */
 	private $config;
 
-	/** @var IDBConnection|Connection */
+	/** @var ConnectionAdapter */
 	private $connection;
 
 	/** @var LoggerInterface */
@@ -79,7 +78,7 @@ class Dispatcher {
 	 * the arguments for the controller
 	 * @param IRequest $request the incoming request
 	 * @param IConfig $config
-	 * @param IDBConnection $connection
+	 * @param ConnectionAdapter $connection
 	 * @param LoggerInterface $logger
 	 */
 	public function __construct(Http $protocol,
@@ -87,7 +86,7 @@ class Dispatcher {
 								ControllerMethodReflector $reflector,
 								IRequest $request,
 								IConfig $config,
-								IDBConnection $connection,
+								ConnectionAdapter $connection,
 								LoggerInterface $logger) {
 		$this->protocol = $protocol;
 		$this->middlewareDispatcher = $middlewareDispatcher;
@@ -122,13 +121,13 @@ class Dispatcher {
 
 			$databaseStatsBefore = [];
 			if ($this->config->getSystemValueBool('debug', false)) {
-				$databaseStatsBefore = $this->connection->getStats();
+				$databaseStatsBefore = $this->connection->getInner()->getStats();
 			}
 
 			$response = $this->executeController($controller, $methodName);
 
 			if (!empty($databaseStatsBefore)) {
-				$databaseStatsAfter = $this->connection->getStats();
+				$databaseStatsAfter = $this->connection->getInner()->getStats();
 				$numBuilt = $databaseStatsAfter['built'] - $databaseStatsBefore['built'];
 				$numExecuted = $databaseStatsAfter['executed'] - $databaseStatsBefore['executed'];
 

@@ -9,7 +9,7 @@
 
 namespace Test\DB;
 
-use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Platforms\OraclePlatform;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\SchemaConfig;
@@ -49,7 +49,7 @@ class MigratorTest extends \Test\TestCase {
 		parent::setUp();
 
 		$this->config = \OC::$server->getConfig();
-		$this->connection = \OC::$server->getDatabaseConnection();
+		$this->connection = \OC::$server->get(\OC\DB\Connection::class);
 		if ($this->connection->getDatabasePlatform() instanceof OraclePlatform) {
 			$this->markTestSkipped('DB migration tests are not supported on OCI');
 		}
@@ -66,12 +66,12 @@ class MigratorTest extends \Test\TestCase {
 		// Try to delete if exists (IF EXISTS NOT SUPPORTED IN ORACLE)
 		try {
 			$this->connection->exec('DROP TABLE ' . $this->connection->quoteIdentifier($this->tableNameTmp));
-		} catch (\Doctrine\DBAL\DBALException $e) {
+		} catch (Exception $e) {
 		}
 
 		try {
 			$this->connection->exec('DROP TABLE ' . $this->connection->quoteIdentifier($this->tableName));
-		} catch (\Doctrine\DBAL\DBALException $e) {
+		} catch (Exception $e) {
 		}
 		parent::tearDown();
 	}
@@ -125,9 +125,9 @@ class MigratorTest extends \Test\TestCase {
 		return $this->connection->getDriver() instanceof \Doctrine\DBAL\Driver\PDOSqlite\Driver;
 	}
 
-	
+
 	public function testDuplicateKeyUpgrade() {
-		$this->expectException(\OC\DB\MigrationException::class);
+		$this->expectException(Exception\UniqueConstraintViolationException::class);
 
 		if ($this->isSQLite()) {
 			$this->markTestSkipped('sqlite does not throw errors when creating a new key on existing data');
@@ -140,8 +140,12 @@ class MigratorTest extends \Test\TestCase {
 		$this->connection->insert($this->tableName, ['id' => 2, 'name' => 'bar']);
 		$this->connection->insert($this->tableName, ['id' => 2, 'name' => 'qwerty']);
 
-		$migrator->checkMigrate($endSchema);
-		$this->fail('checkMigrate should have failed');
+		try {
+			$migrator->migrate($endSchema);
+		} catch (Exception\UniqueConstraintViolationException $e) {
+			$this->connection->rollBack();
+			throw $e;
+		}
 	}
 
 	public function testChangeToString() {
@@ -156,7 +160,6 @@ class MigratorTest extends \Test\TestCase {
 		$this->connection->insert($this->tableName, ['id' => 2, 'name' => 'bar']);
 		$this->connection->insert($this->tableName, ['id' => 3, 'name' => 'qwerty']);
 
-		$migrator->checkMigrate($endSchema);
 		$migrator->migrate($endSchema);
 		$this->addToAssertionCount(1);
 
@@ -181,7 +184,6 @@ class MigratorTest extends \Test\TestCase {
 		$this->connection->insert($this->tableName, ['id' => 2, 'name' => 'bar']);
 		$this->connection->insert($this->tableName, ['id' => 3, 'name' => 'qwerty']);
 
-		$migrator->checkMigrate($endSchema);
 		$migrator->migrate($endSchema);
 		$this->addToAssertionCount(1);
 	}
@@ -200,7 +202,6 @@ class MigratorTest extends \Test\TestCase {
 		$this->connection->insert($this->tableName, ['id' => 2, 'name' => 'bar']);
 		$this->connection->insert($this->tableName, ['id' => 3, 'name' => 'qwerty']);
 
-		$migrator->checkMigrate($endSchema);
 		$migrator->migrate($endSchema);
 		$this->addToAssertionCount(1);
 
@@ -219,7 +220,7 @@ class MigratorTest extends \Test\TestCase {
 		try {
 			$this->connection->insert($this->tableName, ['id' => 2, 'name' => 'qwerty']);
 			$this->fail('Expected duplicate key insert to fail');
-		} catch (DBALException $e) {
+		} catch (Exception $e) {
 			$this->addToAssertionCount(1);
 		}
 	}
@@ -239,7 +240,6 @@ class MigratorTest extends \Test\TestCase {
 		$migrator = $this->manager->getMigrator();
 		$migrator->migrate($startSchema);
 
-		$migrator->checkMigrate($endSchema);
 		$migrator->migrate($endSchema);
 
 		$this->addToAssertionCount(1);
@@ -261,7 +261,6 @@ class MigratorTest extends \Test\TestCase {
 		$migrator = $this->manager->getMigrator();
 		$migrator->migrate($startSchema);
 
-		$migrator->checkMigrate($endSchema);
 		$migrator->migrate($endSchema);
 
 		$this->addToAssertionCount(1);

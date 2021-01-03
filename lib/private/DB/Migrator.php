@@ -31,7 +31,8 @@
 
 namespace OC\DB;
 
-use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Exception;
+use Doctrine\DBAL\Schema\AbstractAsset;
 use Doctrine\DBAL\Schema\Comparator;
 use Doctrine\DBAL\Schema\Index;
 use Doctrine\DBAL\Schema\Schema;
@@ -43,6 +44,7 @@ use OCP\IConfig;
 use OCP\Security\ISecureRandom;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
+use function preg_match;
 
 class Migrator {
 
@@ -102,34 +104,6 @@ class Migrator {
 	}
 
 	/**
-	 * @param Schema $targetSchema
-	 * @throws \OC\DB\MigrationException
-	 */
-	public function checkMigrate(Schema $targetSchema) {
-		$this->noEmit = true;
-		/**@var \Doctrine\DBAL\Schema\Table[] $tables */
-		$tables = $targetSchema->getTables();
-		$filterExpression = $this->getFilterExpression();
-		$this->connection->getConfiguration()->
-			setFilterSchemaAssetsExpression($filterExpression);
-		$existingTables = $this->connection->getSchemaManager()->listTableNames();
-
-		$step = 0;
-		foreach ($tables as $table) {
-			if (strpos($table->getName(), '.')) {
-				list(, $tableName) = explode('.', $table->getName());
-			} else {
-				$tableName = $table->getName();
-			}
-			$this->emitCheckStep($tableName, $step++, count($tables));
-			// don't need to check for new tables
-			if (array_search($tableName, $existingTables) !== false) {
-				$this->checkTableMigrate($table);
-			}
-		}
-	}
-
-	/**
 	 * Create a unique name for the temporary table
 	 *
 	 * @param string $name
@@ -160,7 +134,7 @@ class Migrator {
 		try {
 			$this->applySchema($schema);
 			$this->dropTable($tmpName);
-		} catch (DBALException $e) {
+		} catch (Exception $e) {
 			// pgsql needs to commit it's failed transaction before doing anything else
 			if ($this->connection->isTransactionActive()) {
 				$this->connection->commit();
@@ -193,12 +167,18 @@ class Migrator {
 		}
 
 		// foreign keys are not supported so we just set it to an empty array
-		return new Table($newName, $table->getColumns(), $newIndexes, [], 0, $table->getOptions());
+		return new Table($newName, $table->getColumns(), $newIndexes, [], [], $table->getOptions());
 	}
 
 	public function createSchema() {
-		$filterExpression = $this->getFilterExpression();
-		$this->connection->getConfiguration()->setFilterSchemaAssetsExpression($filterExpression);
+		$this->connection->getConfiguration()->setSchemaAssetsFilter(function ($asset) {
+			/** @var string|AbstractAsset $asset */
+			$filterExpression = $this->getFilterExpression();
+			if ($asset instanceof AbstractAsset) {
+				return preg_match($filterExpression, $asset->getName()) !== false;
+			}
+			return preg_match($filterExpression, $asset) !== false;
+		});
 		return $this->connection->getSchemaManager()->createSchema();
 	}
 
@@ -206,7 +186,6 @@ class Migrator {
 	 * @param Schema $targetSchema
 	 * @param \Doctrine\DBAL\Connection $connection
 	 * @return \Doctrine\DBAL\Schema\SchemaDiff
-	 * @throws DBALException
 	 */
 	protected function getDiff(Schema $targetSchema, \Doctrine\DBAL\Connection $connection) {
 		// adjust varchar columns with a length higher then getVarcharMaxLength to clob
@@ -221,8 +200,14 @@ class Migrator {
 			}
 		}
 
-		$filterExpression = $this->getFilterExpression();
-		$this->connection->getConfiguration()->setFilterSchemaAssetsExpression($filterExpression);
+		$this->connection->getConfiguration()->setSchemaAssetsFilter(function ($asset) {
+			/** @var string|AbstractAsset $asset */
+			$filterExpression = $this->getFilterExpression();
+			if ($asset instanceof AbstractAsset) {
+				return preg_match($filterExpression, $asset->getName()) !== false;
+			}
+			return preg_match($filterExpression, $asset) !== false;
+		});
 		$sourceSchema = $connection->getSchemaManager()->createSchema();
 
 		// remove tables we don't know about

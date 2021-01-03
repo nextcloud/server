@@ -77,6 +77,8 @@ use OC\Comments\ManagerFactory as CommentsManagerFactory;
 use OC\Contacts\ContactsMenu\ActionFactory;
 use OC\Contacts\ContactsMenu\ContactsStore;
 use OC\Dashboard\DashboardManager;
+use OC\DB\Connection;
+use OC\DB\ConnectionAdapter;
 use OC\Diagnostics\EventLogger;
 use OC\Diagnostics\QueryLogger;
 use OC\EventDispatcher\SymfonyAdapter;
@@ -792,7 +794,8 @@ class Server extends ServerContainer implements IServerContainer {
 		/** @deprecated 19.0.0 */
 		$this->registerDeprecatedAlias('CredentialsManager', ICredentialsManager::class);
 
-		$this->registerService(IDBConnection::class, function (Server $c) {
+		$this->registerAlias(IDBConnection::class, ConnectionAdapter::class);
+		$this->registerService(Connection::class, function (Server $c) {
 			$systemConfig = $c->get(SystemConfig::class);
 			$factory = new \OC\DB\ConnectionFactory($systemConfig);
 			$type = $systemConfig->getValue('dbtype', 'sqlite');
