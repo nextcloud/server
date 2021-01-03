@@ -160,7 +160,14 @@ class Local extends \OC\Files\Storage\Common {
 	 * @inheritdoc
 	 */
 	public function getMetaData($path) {
-		$stat = $this->stat($path);
+		$stat = null;
+
+		try {
+			$stat = $this->stat($path);
+		} catch (ForbiddenException $e) {
+			$stat = false;
+		}
+
 		if (!$stat) {
 			return null;
 		}
