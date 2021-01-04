@@ -2,7 +2,7 @@
 /**
  * @copyright 2020 Matthias Heinisch <nextcloud@matthiasheinisch.de>
  *
- * @author Matthias Heinisch <nextcloud@matthiasheinisch.de>
+ * @author call-me-matt <nextcloud@matthiasheinisch.de>
  *
  * @license GNU AGPL version 3 or any later version
  *
