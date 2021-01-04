@@ -177,6 +177,7 @@ OC.L10N.register(
     "Loading more results …" : "Emaitza gehiago kargatzen ...",
     "Load more results" : "Kargatu emaitza gehiago ",
     "An error occurred while searching for {type}" : "Errorea gertatu da {type} bilatzean",
+    "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Sartu karaktere {minSearchLength} edo gehiago bilatzeko","Sartu {minSearchLength} karaktere edo gehiago bilatzeko"],
     "Search {types} …" : "Bilatu  {types} …",
     "Settings" : "Ezarpenak",
     "Could not load your contacts" : "Ezin izan dira zure kontaktuak kargatu",
