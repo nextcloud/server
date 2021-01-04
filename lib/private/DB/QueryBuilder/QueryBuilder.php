@@ -48,6 +48,7 @@ use OCP\DB\QueryBuilder\ILiteral;
 use OCP\DB\QueryBuilder\IParameter;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\DB\QueryBuilder\IQueryFunction;
+use OCP\DB\QueryBuilder\IResult;
 use OCP\IDBConnection;
 use OCP\ILogger;
 
@@ -191,7 +192,7 @@ class QueryBuilder implements IQueryBuilder {
 	 * Uses {@see Connection::executeQuery} for select statements and {@see Connection::executeUpdate}
 	 * for insert, update and delete statements.
 	 *
-	 * @return \Doctrine\DBAL\Driver\Statement|int
+	 * @return IResult|int
 	 */
 	public function execute() {
 		if ($this->systemConfig->getValue('log_query', false)) {
@@ -245,7 +246,11 @@ class QueryBuilder implements IQueryBuilder {
 			}
 		}
 
-		return $this->queryBuilder->execute();
+		$result = $this->queryBuilder->execute();
+		if (is_int($result)) {
+			return $result;
+		}
+		return new ResultAdapter($result);
 	}
 
 	/**

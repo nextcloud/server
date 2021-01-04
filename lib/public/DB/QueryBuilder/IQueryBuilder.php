@@ -147,7 +147,11 @@ interface IQueryBuilder {
 	 * Uses {@see Connection::executeQuery} for select statements and {@see Connection::executeUpdate}
 	 * for insert, update and delete statements.
 	 *
-	 * @return \Doctrine\DBAL\Driver\Statement|int
+	 * Warning: until Nextcloud 20, this method could return a \Doctrine\DBAL\Driver\Statement but since
+	 *          that interface changed in a breaking way the adapter \OCP\DB\QueryBuilder\IStatement is returned
+	 *          to bridge old code to the new API
+	 *
+	 * @return IResult|int
 	 * @since 8.2.0
 	 */
 	public function execute();
