@@ -566,12 +566,6 @@ class EncryptionTest extends Storage {
 	 * @param string $strippedPath
 	 */
 	public function testGetHeader($path, $strippedPathExists, $strippedPath) {
-		$cache = $this->getMockBuilder('\OC\Files\Cache\Cache')
-			->disableOriginalConstructor()->getMock();
-		$cache->expects($this->any())
-			->method('get')
-			->willReturn(['encrypted' => true]);
-		
 		$sourceStorage = $this->getMockBuilder('\OC\Files\Storage\Storage')
 			->disableOriginalConstructor()->getMock();
 
@@ -590,6 +584,14 @@ class EncryptionTest extends Storage {
 					$this->arrayCache
 				]
 			)->getMock();
+		
+		$cache = $this->getMockBuilder('\OC\Files\Cache\Cache')
+			->disableOriginalConstructor()->getMock();
+		$cache->expects($this->any())
+			->method('get')
+			->willReturnCallback(function ($path) {
+				return ['encrypted' => true, 'path' => $path];
+			});
 
 		$instance = $this->getMockBuilder('\OC\Files\Storage\Wrapper\Encryption')
 			->setConstructorArgs(
@@ -605,7 +607,9 @@ class EncryptionTest extends Storage {
 			)
 			->setMethods(['getCache','readFirstBlock', 'parseRawHeader'])
 			->getMock();
-
+		
+		$instance->expects($this->any())->method('getCache')->willReturn($cache);
+		
 		$instance->expects($this->once())->method(('parseRawHeader'))
 			->willReturn([Util::HEADER_ENCRYPTION_MODULE_KEY => 'OC_DEFAULT_MODULE']);
 
