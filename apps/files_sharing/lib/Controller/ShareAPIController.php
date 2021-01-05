@@ -235,6 +235,9 @@ class ShareAPIController extends OCSController {
 			$sharedWith = $this->userManager->get($share->getSharedWith());
 			$result['share_with'] = $share->getSharedWith();
 			$result['share_with_displayname'] = $sharedWith !== null ? $sharedWith->getDisplayName() : $share->getSharedWith();
+			$result['share_with_displayname_unique'] = $sharedWith !== null ? (
+				 $sharedWith->getEMailAddress() !== '' ? $sharedWith->getEMailAddress() : $sharedWith->getUID()
+			) : $share->getSharedWith();
 			$result['status'] = [];
 
 			$userStatuses = $this->userStatusManager->getUserStatuses([$share->getSharedWith()]);

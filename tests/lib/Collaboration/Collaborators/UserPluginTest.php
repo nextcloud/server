@@ -151,13 +151,13 @@ class UserPluginTest extends TestCase {
 			[
 				'test', false, true, [], [],
 				[
-					['label' => 'Test', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test'], 'status' => []],
+					['label' => 'Test', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test'], 'status' => [], 'shareWithDisplayNameUnique' => 'test'],
 				], [], true, $this->getUserMock('test', 'Test'),
 			],
 			[
 				'test', false, false, [], [],
 				[
-					['label' => 'Test', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test'], 'status' => []],
+					['label' => 'Test', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test'], 'status' => [], 'shareWithDisplayNameUnique' => 'test'],
 				], [], true, $this->getUserMock('test', 'Test'),
 			],
 			[
@@ -171,13 +171,13 @@ class UserPluginTest extends TestCase {
 			[
 				'test', true, true, ['test-group'], [['test-group', 'test', 2, 0, []]],
 				[
-					['label' => 'Test', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test'], 'status' => []],
+					['label' => 'Test', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test'], 'status' => [], 'shareWithDisplayNameUnique' => 'test'],
 				], [], true, $this->getUserMock('test', 'Test'),
 			],
 			[
 				'test', true, false, ['test-group'], [['test-group', 'test', 2, 0, []]],
 				[
-					['label' => 'Test', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test'], 'status' => []],
+					['label' => 'Test', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test'], 'status' => [], 'shareWithDisplayNameUnique' => 'test'],
 				], [], true, $this->getUserMock('test', 'Test'),
 			],
 			[
@@ -190,7 +190,7 @@ class UserPluginTest extends TestCase {
 				],
 				[],
 				[
-					['label' => 'Test One', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test1'], 'status' => []],
+					['label' => 'Test One', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test1'], 'status' => [], 'shareWithDisplayNameUnique' => 'test1'],
 				],
 				true,
 				false,
@@ -219,8 +219,8 @@ class UserPluginTest extends TestCase {
 				],
 				[],
 				[
-					['label' => 'Test One', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test1'], 'status' => []],
-					['label' => 'Test Two', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test2'], 'status' => []],
+					['label' => 'Test One', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test1'], 'status' => [], 'shareWithDisplayNameUnique' => 'test1'],
+					['label' => 'Test Two', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test2'], 'status' => [], 'shareWithDisplayNameUnique' => 'test2'],
 				],
 				false,
 				false,
@@ -250,11 +250,11 @@ class UserPluginTest extends TestCase {
 					$this->getUserMock('test2', 'Test Two'),
 				],
 				[
-					['label' => 'Test', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test0'], 'status' => []],
+					['label' => 'Test', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test0'], 'status' => [], 'shareWithDisplayNameUnique' => 'test0'],
 				],
 				[
-					['label' => 'Test One', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test1'], 'status' => []],
-					['label' => 'Test Two', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test2'], 'status' => []],
+					['label' => 'Test One', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test1'], 'status' => [], 'shareWithDisplayNameUnique' => 'test1'],
+					['label' => 'Test Two', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test2'], 'status' => [], 'shareWithDisplayNameUnique' => 'test2'],
 				],
 				false,
 				false,
@@ -270,7 +270,7 @@ class UserPluginTest extends TestCase {
 					$this->getUserMock('test2', 'Test Two'),
 				],
 				[
-					['label' => 'Test', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test0'], 'status' => []],
+					['label' => 'Test', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test0'], 'status' => [], 'shareWithDisplayNameUnique' => 'test0'],
 				],
 				[],
 				true,
@@ -287,7 +287,7 @@ class UserPluginTest extends TestCase {
 				],
 				[],
 				[
-					['label' => 'Test One', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test1'], 'status' => []],
+					['label' => 'Test One', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test1'], 'status' => [], 'shareWithDisplayNameUnique' => 'test1'],
 				],
 				true,
 				false,
@@ -325,8 +325,8 @@ class UserPluginTest extends TestCase {
 				],
 				[],
 				[
-					['label' => 'Test One', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test1'], 'status' => []],
-					['label' => 'Test Two', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test2'], 'status' => []],
+					['label' => 'Test One', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test1'], 'status' => [], 'shareWithDisplayNameUnique' => 'test1'],
+					['label' => 'Test Two', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test2'], 'status' => [], 'shareWithDisplayNameUnique' => 'test2'],
 				],
 				true,
 				false,
@@ -373,10 +373,10 @@ class UserPluginTest extends TestCase {
 					]],
 				],
 				[
-					['label' => 'Test One', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test'], 'status' => []],
+					['label' => 'Test One', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test'], 'status' => [], 'shareWithDisplayNameUnique' => 'test'],
 				],
 				[
-					['label' => 'Test Two', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test2'], 'status' => []],
+					['label' => 'Test Two', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test2'], 'status' => [], 'shareWithDisplayNameUnique' => 'test2'],
 				],
 				false,
 				false,
@@ -399,7 +399,7 @@ class UserPluginTest extends TestCase {
 					]],
 				],
 				[
-					['label' => 'Test One', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test'], 'status' => []],
+					['label' => 'Test One', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test'], 'status' => [], 'shareWithDisplayNameUnique' => 'test'],
 				],
 				[],
 				true,
@@ -618,10 +618,10 @@ class UserPluginTest extends TestCase {
 		}, $matchingUsers);
 
 		$mappedResultExact = array_map(function ($user) {
-			return ['label' => $user, 'value' => ['shareType' => 0, 'shareWith' => $user], 'status' => []];
+			return ['label' => $user, 'value' => ['shareType' => 0, 'shareWith' => $user], 'status' => [], 'shareWithDisplayNameUnique' => $user];
 		}, $result['exact']);
 		$mappedResultWide = array_map(function ($user) {
-			return ['label' => $user, 'value' => ['shareType' => 0, 'shareWith' => $user], 'status' => []];
+			return ['label' => $user, 'value' => ['shareType' => 0, 'shareWith' => $user], 'status' => [], 'shareWithDisplayNameUnique' => $user];
 		}, $result['wide']);
 
 		$this->userManager->expects($this->once())
