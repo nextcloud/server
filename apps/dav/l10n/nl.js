@@ -1,7 +1,7 @@
 OC.L10N.register(
     "dav",
     {
-    "Calendar" : "Kalender",
+    "Calendar" : "Agenda",
     "Todos" : "Te doen",
     "Personal" : "Persoonlijk",
     "{actor} created calendar {calendar}" : "{actor} creëerde agenda {calendar}",

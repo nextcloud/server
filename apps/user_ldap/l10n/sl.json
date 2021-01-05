@@ -168,6 +168,7 @@
     "Quota Field" : "Polje količinske omejitve",
     "Leave empty for user's default quota. Otherwise, specify an LDAP/AD attribute." : "Pustite prazno za privzeto količinsko omejitev, sicer navedite atribut LDAP/AD.",
     "Quota Default" : "Privzeta omejitev",
+    "Override default quota for LDAP users who do not have a quota set in the Quota Field." : "Prepiši privzeto omejitev velikosti prostora za uporabnike LDAP, pri katerih ta ni določena med nastavitvami.",
     "Email Field" : "Polje elektronske pošte",
     "Set the user's email from their LDAP attribute. Leave it empty for default behaviour." : "Nastavite elektronski naslov uporabnika kot atribut LDAP, pustite prazno za privzeto delovanje.",
     "User Home Folder Naming Rule" : "Pravila poimenovanja uporabniške osebne mape",
