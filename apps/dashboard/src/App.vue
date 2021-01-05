@@ -163,18 +163,43 @@ export default {
 		},
 		greeting() {
 			const time = this.timer.getHours()
-			const shouldShowName = this.displayName && this.uid !== this.displayName
 
-			if (time > 18) {
-				return { text: shouldShowName ? t('dashboard', 'Good evening, {name}', { name: this.displayName }) : t('dashboard', 'Good evening') }
+			// Determine part of the day
+			let partOfDay
+			if (time >= 22 && time < 5) {
+				partOfDay = 'night'
+			} else if (time >= 18) {
+				partOfDay = 'evening'
+			} else if (time >= 12) {
+				partOfDay = 'afternoon'
+			} else {
+				partOfDay = 'morning'
 			}
-			if (time > 12) {
-				return { text: shouldShowName ? t('dashboard', 'Good afternoon, {name}', { name: this.displayName }) : t('dashboard', 'Good afternoon') }
+
+			// Define the greetings
+			const good = {
+				morning: {
+					generic: t('dashboard', 'Good morning'),
+					withName: t('dashboard', 'Good morning, {name}', { name: this.displayName }),
+				},
+				afternoon: {
+					generic: t('dashboard', 'Good afternoon'),
+					withName: t('dashboard', 'Good afternoon, {name}', { name: this.displayName }),
+				},
+				evening: {
+					generic: t('dashboard', 'Good evening'),
+					withName: t('dashboard', 'Good evening, {name}', { name: this.displayName }),
+				},
+				night: {
+					// Don't use "Good night" as it's not a greeting
+					generic: t('dashboard', 'Hello'),
+					withName: t('dashboard', 'Hello, {name}', { name: this.displayName }),
+				},
 			}
-			if (time > 5) {
-				return { text: shouldShowName ? t('dashboard', 'Good morning, {name}', { name: this.displayName }) : t('dashboard', 'Good morning') }
-			}
-			return { text: shouldShowName ? t('dashboard', 'Good night, {name}', { name: this.displayName }) : t('dashboard', 'Good night') }
+
+			// Figure out which greeting to show
+			const shouldShowName = this.displayName && this.uid !== this.displayName
+			return { text: shouldShowName ? good[partOfDay].withName : good[partOfDay].generic }
 		},
 		isActive() {
 			return (panel) => this.layout.indexOf(panel.id) > -1
