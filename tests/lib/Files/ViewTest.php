@@ -17,6 +17,7 @@ use OC\Files\View;
 use OCP\Constants;
 use OCP\Files\Config\IMountProvider;
 use OCP\Files\FileInfo;
+use OCP\Files\GenericFileException;
 use OCP\Files\Storage\IStorage;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
@@ -1167,7 +1168,7 @@ class ViewTest extends \Test\TestCase {
 			->getMock();
 
 		$storage2->method('writeStream')
-			->willReturn(0);
+			->willThrowException(new GenericFileException("Failed to copy stream"));
 
 		$storage1->mkdir('sub');
 		$storage1->file_put_contents('foo.txt', '0123456789ABCDEFGH');
