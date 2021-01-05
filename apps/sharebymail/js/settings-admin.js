@@ -35,4 +35,12 @@ $(function() {
 		OCP.AppConfig.setValue('sharebymail', 'enforcePasswordProtection', status);
 	});
 
+	$('#replyToInitiator').on('change', function() {
+		var status = 'no';
+		if ($(this).is(':checked')) {
+			status = 'yes';
+		}
+		OCP.AppConfig.setValue('sharebymail', 'replyToInitiator', status);
+	});
+
 });

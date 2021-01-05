@@ -38,6 +38,8 @@ class SettingsManager {
 
 	private $enforcePasswordProtectionDefault = 'no';
 
+	private $replyToInitiator = 'yes';
+
 	public function __construct(IConfig $config) {
 		$this->config = $config;
 	}
@@ -60,5 +62,15 @@ class SettingsManager {
 	public function enforcePasswordProtection(): bool {
 		$enforcePassword = $this->config->getAppValue('sharebymail', 'enforcePasswordProtection', $this->enforcePasswordProtectionDefault);
 		return $enforcePassword === 'yes';
+	}
+
+	/**
+	 * should add reply to with initiator mail
+	 *
+	 * @return bool
+	 */
+	public function replyToInitiator(): bool {
+		$replyToInitiator = $this->config->getAppValue('sharebymail', 'replyToInitiator', $this->replyToInitiator);
+		return $replyToInitiator === 'yes';
 	}
 }

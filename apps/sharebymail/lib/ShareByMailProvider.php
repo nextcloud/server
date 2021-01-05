@@ -399,19 +399,22 @@ class ShareByMailProvider implements IShareProvider {
 
 		// The "From" contains the sharers name
 		$instanceName = $this->defaults->getName();
-		$senderName = $this->l->t(
-			'%1$s via %2$s',
-			[
-				$initiatorDisplayName,
-				$instanceName
-			]
-		);
+		$senderName = $instanceName;
+		if ($this->settingsManager->replyToInitiator()) {
+			$senderName = $this->l->t(
+				'%1$s via %2$s',
+				[
+					$initiatorDisplayName,
+					$instanceName
+				]
+			);
+		}
 		$message->setFrom([\OCP\Util::getDefaultEmailAddress($instanceName) => $senderName]);
 
 		// The "Reply-To" is set to the sharer if an mail address is configured
 		// also the default footer contains a "Do not reply" which needs to be adjusted.
 		$initiatorEmail = $initiatorUser->getEMailAddress();
-		if ($initiatorEmail !== null) {
+		if ($this->settingsManager->replyToInitiator() && $initiatorEmail !== null) {
 			$message->setReplyTo([$initiatorEmail => $initiatorDisplayName]);
 			$emailTemplate->addFooter($instanceName . ($this->defaults->getSlogan() !== '' ? ' - ' . $this->defaults->getSlogan() : ''));
 		} else {
@@ -464,15 +467,18 @@ class ShareByMailProvider implements IShareProvider {
 
 		// The "From" contains the sharers name
 		$instanceName = $this->defaults->getName();
-		$senderName = $this->l->t(
-			'%1$s via %2$s',
-			[
-				$initiatorDisplayName,
-				$instanceName
-			]
-		);
+		$senderName = $instanceName;
+		if ($this->settingsManager->replyToInitiator()) {
+			$senderName = $this->l->t(
+				'%1$s via %2$s',
+				[
+					$initiatorDisplayName,
+					$instanceName
+				]
+			);
+		}
 		$message->setFrom([\OCP\Util::getDefaultEmailAddress($instanceName) => $senderName]);
-		if ($initiatorEmailAddress !== null) {
+		if ($this->settingsManager->replyToInitiator() && $initiatorEmailAddress !== null) {
 			$message->setReplyTo([$initiatorEmailAddress => $initiatorDisplayName]);
 			$emailTemplate->addFooter($instanceName . ' - ' . $this->defaults->getSlogan());
 		} else {
@@ -521,15 +527,18 @@ class ShareByMailProvider implements IShareProvider {
 
 		// The "From" contains the sharers name
 		$instanceName = $this->defaults->getName();
-		$senderName = $this->l->t(
-			'%1$s via %2$s',
-			[
-				$initiatorDisplayName,
-				$instanceName
-			]
-		);
+		$senderName = $instanceName;
+		if ($this->settingsManager->replyToInitiator()) {
+			$senderName = $this->l->t(
+				'%1$s via %2$s',
+				[
+					$initiatorDisplayName,
+					$instanceName
+				]
+			);
+		}
 		$message->setFrom([\OCP\Util::getDefaultEmailAddress($instanceName) => $senderName]);
-		if ($initiatorEmailAddress !== null) {
+		if ($this->settingsManager->replyToInitiator() && $initiatorEmailAddress !== null) {
 			$message->setReplyTo([$initiatorEmailAddress => $initiatorDisplayName]);
 			$emailTemplate->addFooter($instanceName . ' - ' . $this->defaults->getSlogan());
 		} else {

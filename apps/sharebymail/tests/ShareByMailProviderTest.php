@@ -1077,6 +1077,7 @@ class ShareByMailProviderTest extends TestCase {
 	public function testSendMailNotificationWithSameUserAndUserEmail() {
 		$provider = $this->getInstance();
 		$user = $this->createMock(IUser::class);
+		$this->settingsManager->expects($this->any())->method('replyToInitiator')->willReturn(true);
 		$this->userManager
 			->expects($this->once())
 			->method('get')
@@ -1175,6 +1176,7 @@ class ShareByMailProviderTest extends TestCase {
 	public function testSendMailNotificationWithDifferentUserAndNoUserEmail() {
 		$provider = $this->getInstance();
 		$initiatorUser = $this->createMock(IUser::class);
+		$this->settingsManager->expects($this->any())->method('replyToInitiator')->willReturn(true);
 		$this->userManager
 			->expects($this->once())
 			->method('get')
@@ -1228,6 +1230,190 @@ class ShareByMailProviderTest extends TestCase {
 			->method('setFrom')
 			->with([
 				\OCP\Util::getDefaultEmailAddress('UnitTestCloud') => 'Mr. Initiator User via UnitTestCloud'
+			]);
+		$message
+			->expects($this->never())
+			->method('setReplyTo');
+		$template
+			->expects($this->once())
+			->method('addFooter')
+			->with('');
+		$template
+			->expects($this->once())
+			->method('setSubject')
+			->with('Mr. Initiator User shared »file.txt« with you');
+		$message
+			->expects($this->once())
+			->method('useTemplate')
+			->with($template);
+		$this->mailer
+			->expects($this->once())
+			->method('send')
+			->with($message);
+
+		self::invokePrivate(
+			$provider,
+			'sendMailNotification',
+			[
+				'file.txt',
+				'https://example.com/file.txt',
+				'InitiatorUser',
+				'john@doe.com',
+				null,
+			]);
+	}
+
+	public function testSendMailNotificationWithSameUserAndUserEmailAndReplyToDesactivate() {
+		$provider = $this->getInstance();
+		$user = $this->createMock(IUser::class);
+		$this->settingsManager->expects($this->any())->method('replyToInitiator')->willReturn(false);
+		$this->userManager
+			->expects($this->once())
+			->method('get')
+			->with('OwnerUser')
+			->willReturn($user);
+		$user
+			->expects($this->once())
+			->method('getDisplayName')
+			->willReturn('Mrs. Owner User');
+		$message = $this->createMock(Message::class);
+		$this->mailer
+			->expects($this->once())
+			->method('createMessage')
+			->willReturn($message);
+		$template = $this->createMock(IEMailTemplate::class);
+		$this->mailer
+			->expects($this->once())
+			->method('createEMailTemplate')
+			->willReturn($template);
+		$template
+			->expects($this->once())
+			->method('addHeader');
+		$template
+			->expects($this->once())
+			->method('addHeading')
+			->with('Mrs. Owner User shared »file.txt« with you');
+		$template
+			->expects($this->once())
+			->method('addBodyText')
+			->with(
+				'Mrs. Owner User shared »file.txt« with you. Click the button below to open it.',
+				'Mrs. Owner User shared »file.txt« with you.'
+			);
+		$template
+			->expects($this->once())
+			->method('addBodyButton')
+			->with(
+				'Open »file.txt«',
+				'https://example.com/file.txt'
+			);
+		$message
+			->expects($this->once())
+			->method('setTo')
+			->with(['john@doe.com']);
+		$this->defaults
+			->expects($this->once())
+			->method('getName')
+			->willReturn('UnitTestCloud');
+		$message
+			->expects($this->once())
+			->method('setFrom')
+			->with([
+				\OCP\Util::getDefaultEmailAddress('UnitTestCloud') => 'UnitTestCloud'
+			]);
+		$user
+			->expects($this->once())
+			->method('getEMailAddress')
+			->willReturn('owner@example.com');
+		$message
+			->expects($this->never())
+			->method('setReplyTo');
+		$template
+			->expects($this->once())
+			->method('addFooter')
+			->with('');
+		$template
+			->expects($this->once())
+			->method('setSubject')
+			->with('Mrs. Owner User shared »file.txt« with you');
+		$message
+			->expects($this->once())
+			->method('useTemplate')
+			->with($template);
+		$this->mailer
+			->expects($this->once())
+			->method('send')
+			->with($message);
+
+		self::invokePrivate(
+			$provider,
+			'sendMailNotification',
+			[
+				'file.txt',
+				'https://example.com/file.txt',
+				'OwnerUser',
+				'john@doe.com',
+				null,
+			]);
+	}
+
+	public function testSendMailNotificationWithDifferentUserAndNoUserEmailAndReplyToDesactivate() {
+		$provider = $this->getInstance();
+		$initiatorUser = $this->createMock(IUser::class);
+		$this->settingsManager->expects($this->any())->method('replyToInitiator')->willReturn(false);
+		$this->userManager
+			->expects($this->once())
+			->method('get')
+			->with('InitiatorUser')
+			->willReturn($initiatorUser);
+		$initiatorUser
+			->expects($this->once())
+			->method('getDisplayName')
+			->willReturn('Mr. Initiator User');
+		$message = $this->createMock(Message::class);
+		$this->mailer
+			->expects($this->once())
+			->method('createMessage')
+			->willReturn($message);
+		$template = $this->createMock(IEMailTemplate::class);
+		$this->mailer
+			->expects($this->once())
+			->method('createEMailTemplate')
+			->willReturn($template);
+		$template
+			->expects($this->once())
+			->method('addHeader');
+		$template
+			->expects($this->once())
+			->method('addHeading')
+			->with('Mr. Initiator User shared »file.txt« with you');
+		$template
+			->expects($this->once())
+			->method('addBodyText')
+			->with(
+				'Mr. Initiator User shared »file.txt« with you. Click the button below to open it.',
+				'Mr. Initiator User shared »file.txt« with you.'
+			);
+		$template
+			->expects($this->once())
+			->method('addBodyButton')
+			->with(
+				'Open »file.txt«',
+				'https://example.com/file.txt'
+			);
+		$message
+			->expects($this->once())
+			->method('setTo')
+			->with(['john@doe.com']);
+		$this->defaults
+			->expects($this->once())
+			->method('getName')
+			->willReturn('UnitTestCloud');
+		$message
+			->expects($this->once())
+			->method('setFrom')
+			->with([
+				\OCP\Util::getDefaultEmailAddress('UnitTestCloud') => 'UnitTestCloud'
 			]);
 		$message
 			->expects($this->never())
