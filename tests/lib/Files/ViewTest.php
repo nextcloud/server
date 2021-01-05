@@ -1163,7 +1163,7 @@ class ViewTest extends \Test\TestCase {
 		/** @var \PHPUnit\Framework\MockObject\MockObject|Temporary $storage2 */
 		$storage2 = $this->getMockBuilder(TemporaryNoCross::class)
 			->setConstructorArgs([[]])
-			->setMethods(['fopen'])
+			->setMethods(['fopen', 'writeStream'])
 			->getMock();
 
 		$storage2->method('writeStream')
