@@ -608,7 +608,7 @@ class EncryptionTest extends Storage {
 			->setMethods(['getCache','readFirstBlock', 'parseRawHeader'])
 			->getMock();
 		
-		$instance->expects($this->any())->method('getCache')->willReturn($cache);
+		$instance->expects($this->once())->method('getCache')->willReturn($cache);
 		
 		$instance->expects($this->once())->method(('parseRawHeader'))
 			->willReturn([Util::HEADER_ENCRYPTION_MODULE_KEY => 'OC_DEFAULT_MODULE']);
@@ -687,8 +687,8 @@ class EncryptionTest extends Storage {
 			->setMethods(['readFirstBlock', 'parseRawHeader', 'getCache'])
 			->getMock();
 
-		$instance->expects($this->once())->method(('parseRawHeader'))->willReturn($header);
-		$instance->expects($this->any())->method('getCache')->willReturn($cache);
+		$instance->expects($this->any())->method(('parseRawHeader'))->willReturn($header);
+		$instance->expects($this->once())->method('getCache')->willReturn($cache);
 
 		$result = $this->invokePrivate($instance, 'getHeader', ['test.txt']);
 		$this->assertSameSize($expected, $result);
