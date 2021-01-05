@@ -219,7 +219,7 @@ class GroupPrincipalBackend implements BackendInterface {
 							}
 						}
 
-						$carry[] = self::PRINCIPAL_PREFIX . '/' . $gid;
+						$carry[] = self::PRINCIPAL_PREFIX . '/' . urlencode($gid);
 						return $carry;
 					}, []);
 					break;
