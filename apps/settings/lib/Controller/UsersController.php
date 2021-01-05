@@ -333,34 +333,35 @@ class UsersController extends Controller {
 	 * @NoSubAdminRequired
 	 * @PasswordConfirmationRequired
 	 *
-	 * @param string $avatarScope
-	 * @param string $displayname
-	 * @param string $displaynameScope
-	 * @param string $phone
-	 * @param string $phoneScope
-	 * @param string $email
-	 * @param string $emailScope
-	 * @param string $website
-	 * @param string $websiteScope
-	 * @param string $address
-	 * @param string $addressScope
-	 * @param string $twitter
-	 * @param string $twitterScope
+	 * @param string|null $avatarScope
+	 * @param string|null $displayname
+	 * @param string|null $displaynameScope
+	 * @param string|null $phone
+	 * @param string|null $phoneScope
+	 * @param string|null $email
+	 * @param string|null $emailScope
+	 * @param string|null $website
+	 * @param string|null $websiteScope
+	 * @param string|null $address
+	 * @param string|null $addressScope
+	 * @param string|null $twitter
+	 * @param string|null $twitterScope
+	 *
 	 * @return DataResponse
 	 */
-	public function setUserSettings(string $avatarScope,
-									string $displayname,
-									string $displaynameScope,
-									string $phone,
-									string $phoneScope,
-									string $email,
-									string $emailScope,
-									string $website,
-									string $websiteScope,
-									string $address,
-									string $addressScope,
-									string $twitter,
-									string $twitterScope
+	public function setUserSettings(?string $avatarScope = null,
+									?string $displayname = null,
+									?string $displaynameScope = null,
+									?string $phone = null,
+									?string $phoneScope = null,
+									?string $email = null,
+									?string $emailScope = null,
+									?string $website = null,
+									?string $websiteScope = null,
+									?string $address = null,
+									?string $addressScope = null,
+									?string $twitter = null,
+									?string $twitterScope = null
 	) {
 		$email = strtolower($email);
 		if (!empty($email) && !$this->mailer->validateMailAddress($email)) {
