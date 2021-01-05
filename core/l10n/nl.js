@@ -376,7 +376,7 @@ OC.L10N.register(
     "Nextcloud {app}" : "Nextcloud {app}",
     "Local document editing back-end used by the OnlyOffice app." : "Lokale back-end voor bestandsbewerking gebruikt door de OnlyOffice-app.",
     "Saving..." : "Opslaan...",
-    "Calendar, Contacts, Talk, Mail & OnlyOffice" : "Kalender, Contacten, Talk, Mail & OnlyOffice",
+    "Calendar, Contacts, Talk, Mail & OnlyOffice" : "Agenda, Contacten, Talk, Mail & OnlyOffice",
     "Search" : "Zoeken",
     "These apps will be updated:" : "Deze apps worden bijgewerkt:"
 },
