@@ -64,6 +64,7 @@ return array(
     'OCA\\Files_Sharing\\Migration\\SetAcceptedStatus' => $baseDir . '/../lib/Migration/SetAcceptedStatus.php',
     'OCA\\Files_Sharing\\Migration\\SetPasswordColumn' => $baseDir . '/../lib/Migration/SetPasswordColumn.php',
     'OCA\\Files_Sharing\\Migration\\Version11300Date20201120141438' => $baseDir . '/../lib/Migration/Version11300Date20201120141438.php',
+    'OCA\\Files_Sharing\\Migration\\Version21000Date20201223143245' => $baseDir . '/../lib/Migration/Version21000Date20201223143245.php',
     'OCA\\Files_Sharing\\MountProvider' => $baseDir . '/../lib/MountProvider.php',
     'OCA\\Files_Sharing\\Notification\\Listener' => $baseDir . '/../lib/Notification/Listener.php',
     'OCA\\Files_Sharing\\Notification\\Notifier' => $baseDir . '/../lib/Notification/Notifier.php',
