@@ -4031,7 +4031,7 @@
       <code>array</code>
       <code>getMetaData</code>
     </InvalidNullableReturnType>
-    <InvalidOperand occurrences="4">
+    <InvalidOperand occurrences="2">
       <code>!$permissions</code>
       <code>$result</code>
       <code>$result</code>
