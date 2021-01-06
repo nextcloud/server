@@ -475,7 +475,7 @@ trigger:
 
 ---
 kind: pipeline
-name: postgres9-php7.3
+name: postgres9.6-php7.3
 
 steps:
 - name: submodules
@@ -493,7 +493,7 @@ services:
 - name: cache
   image: redis
 - name: postgres-9
-  image: postgres:9
+  image: postgres:9.6
   environment:
     POSTGRES_USER: oc_autotest
     POSTGRES_DB: oc_autotest_dummy
@@ -580,6 +580,77 @@ trigger:
     - pull_request
     - push
 
+---
+kind: pipeline
+name: postgres12-php7.4
+
+steps:
+- name: submodules
+  image: docker:git
+  commands:
+    - git submodule update --init
+- name: postgres-php7.4
+  image: nextcloudci/php7.4:latest
+  commands:
+    - bash tests/drone-run-php-tests.sh || exit 0
+    - sleep 10 # gives the database enough time to initialize
+    - POSTGRES=12 NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh pgsql
+
+services:
+- name: cache
+  image: redis
+- name: postgres-12
+  image: postgres:12
+  environment:
+    POSTGRES_USER: oc_autotest
+    POSTGRES_DB: oc_autotest_dummy
+    POSTGRES_PASSWORD: owncloud
+  tmpfs:
+    - /var/lib/postgresql/data
+
+trigger:
+  branch:
+    - master
+    - stable*
+  event:
+    - pull_request
+    - push
+
+---
+kind: pipeline
+name: postgres13-php7.4
+
+steps:
+- name: submodules
+  image: docker:git
+  commands:
+    - git submodule update --init
+- name: postgres-php7.4
+  image: nextcloudci/php7.4:latest
+  commands:
+    - bash tests/drone-run-php-tests.sh || exit 0
+    - sleep 10 # gives the database enough time to initialize
+    - POSTGRES=13 NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh pgsql
+
+services:
+- name: cache
+  image: redis
+- name: postgres-13
+  image: postgres:13
+  environment:
+    POSTGRES_USER: oc_autotest
+    POSTGRES_DB: oc_autotest_dummy
+    POSTGRES_PASSWORD: owncloud
+  tmpfs:
+    - /var/lib/postgresql/data
+
+trigger:
+  branch:
+    - master
+    - stable*
+  event:
+    - pull_request
+    - push
 ---
 kind: pipeline
 name: mysqlmb4-php7.4
@@ -2186,4 +2257,3 @@ trigger:
 #  event:
 #    - pull_request
 #    - push
-
