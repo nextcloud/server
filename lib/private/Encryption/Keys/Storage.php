@@ -301,7 +301,7 @@ class Storage implements IStorage {
 						$fallback = false;
 						try {
 							$clearData = $this->crypto->decrypt($data);
-						} catch (\Exception $e) {
+						} catch (\Throwable $e) {
 							$fallback = true;
 						}
 
