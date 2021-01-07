@@ -35,6 +35,7 @@
 namespace OCA\Settings\Tests\Controller;
 
 use bantu\IniGetWrapper\IniGetWrapper;
+use Doctrine\DBAL\Platforms\SqlitePlatform;
 use OC;
 use OC\DB\Connection;
 use OC\IntegrityCheck\Checker;
@@ -48,6 +49,7 @@ use OCP\AppFramework\Http\RedirectResponse;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\IDateTimeFormatter;
+use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\ILogger;
 use OCP\IRequest;
@@ -95,6 +97,8 @@ class CheckSetupControllerTest extends TestCase {
 	private $secureRandom;
 	/** @var IniGetWrapper|\PHPUnit\Framework\MockObject\MockObject */
 	private $iniGetWrapper;
+	/** @var IDBConnection|\PHPUnit\Framework\MockObject\MockObject */
+	private $connection;
 
 	/**
 	 * Holds a list of directories created during tests.
@@ -135,6 +139,8 @@ class CheckSetupControllerTest extends TestCase {
 			->getMock();
 		$this->secureRandom = $this->getMockBuilder(SecureRandom::class)->getMock();
 		$this->iniGetWrapper = $this->getMockBuilder(IniGetWrapper::class)->getMock();
+		$this->connection = $this->getMockBuilder(IDBConnection::class)
+			->disableOriginalConstructor()->getMock();
 		$this->checkSetupController = $this->getMockBuilder(CheckSetupController::class)
 			->setConstructorArgs([
 				'settings',
@@ -152,6 +158,7 @@ class CheckSetupControllerTest extends TestCase {
 				$this->memoryInfo,
 				$this->secureRandom,
 				$this->iniGetWrapper,
+				$this->connection,
 			])
 			->setMethods([
 				'isReadOnlyConfig',
@@ -553,6 +560,9 @@ class CheckSetupControllerTest extends TestCase {
 				}
 				return '';
 			});
+		$sqlitePlatform = $this->getMockBuilder(SqlitePlatform::class)->getMock();
+		$this->connection->method('getDatabasePlatform')
+			->willReturn($sqlitePlatform);
 
 		$expected = new DataResponse(
 			[
@@ -605,6 +615,7 @@ class CheckSetupControllerTest extends TestCase {
 				'OCA\Settings\SetupChecks\PhpDefaultCharset' => ['pass' => true, 'description' => 'PHP configuration option default_charset should be UTF-8', 'severity' => 'warning'],
 				'OCA\Settings\SetupChecks\PhpOutputBuffering' => ['pass' => true, 'description' => 'PHP configuration option output_buffering must be disabled', 'severity' => 'error'],
 				'OCA\Settings\SetupChecks\LegacySSEKeyFormat' => ['pass' => true, 'description' => 'The old server-side-encryption format is enabled. We recommend disabling this.', 'severity' => 'warning', 'linkToDocumentation' => ''],
+				'OCA\Settings\SetupChecks\SupportedDatabase' => ['pass' => true, 'description' => '', 'severity' => 'info'],
 			]
 		);
 		$this->assertEquals($expected, $this->checkSetupController->check());
@@ -628,6 +639,7 @@ class CheckSetupControllerTest extends TestCase {
 				$this->memoryInfo,
 				$this->secureRandom,
 				$this->iniGetWrapper,
+				$this->connection,
 			])
 			->setMethods(null)->getMock();
 
@@ -662,6 +674,7 @@ class CheckSetupControllerTest extends TestCase {
 				$this->memoryInfo,
 				$this->secureRandom,
 				$this->iniGetWrapper,
+				$this->connection,
 			])
 			->setMethods(null)->getMock();
 
@@ -1430,7 +1443,8 @@ Array
 				$this->dateTimeFormatter,
 				$this->memoryInfo,
 				$this->secureRandom,
-				$this->iniGetWrapper
+				$this->iniGetWrapper,
+				$this->connection
 			);
 
 		$this->assertSame($expected, $this->invokePrivate($checkSetupController, 'isMysqlUsedWithoutUTF8MB4'));
@@ -1479,7 +1493,8 @@ Array
 			$this->dateTimeFormatter,
 			$this->memoryInfo,
 			$this->secureRandom,
-			$this->iniGetWrapper
+			$this->iniGetWrapper,
+			$this->connection
 		);
 
 		$this->assertSame($expected, $this->invokePrivate($checkSetupController, 'isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed'));
