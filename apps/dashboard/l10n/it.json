@@ -19,6 +19,8 @@
     "Good afternoon, {name}" : "Buon pomeriggio, {name}",
     "Good evening" : "Buona sera",
     "Good evening, {name}" : "Buona sera, {name}",
+    "Hello" : "Ciao",
+    "Hello, {name}" : "Ciao {name}",
     "Pick from Files" : "Scegli da File",
     "Default images" : "Immagini predefinite",
     "Plain background" : "Sfondo semplice",

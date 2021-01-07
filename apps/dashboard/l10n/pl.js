@@ -21,6 +21,8 @@ OC.L10N.register(
     "Good afternoon, {name}" : "Dzień dobry, {name}",
     "Good evening" : "Dobry wieczór",
     "Good evening, {name}" : "Dobry wieczór, {name}",
+    "Hello" : "Witaj",
+    "Hello, {name}" : "Witaj, {name}",
     "Pick from Files" : "Wybierz z Plików",
     "Default images" : "Obrazy domyślne",
     "Plain background" : "Zwykłe tło",
