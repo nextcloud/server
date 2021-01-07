@@ -159,7 +159,7 @@ class NewUserMailHelper {
 			);
 		}
 
-		$emailTemplate->addFooter();
+		$emailTemplate->addFooter('', $lang);
 
 		return $emailTemplate;
 	}
