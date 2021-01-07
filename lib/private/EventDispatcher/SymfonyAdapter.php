@@ -63,27 +63,35 @@ class SymfonyAdapter implements EventDispatcherInterface {
 	 * @param Event|null $event The event to pass to the event handlers/listeners
 	 *                              If not supplied, an empty Event instance is created
 	 *
-	 * @return void
+	 * @return object the emitted event
 	 * @deprecated 20.0.0
 	 */
-	public function dispatch($eventName, $event = null) {
+	public function dispatch($eventName, $event = null): object {
 		// type hinting is not possible, due to usage of GenericEvent
 		if ($event instanceof Event) {
 			$this->eventDispatcher->dispatch($eventName, $event);
-		} else {
-			if ($event instanceof GenericEvent && get_class($event) === GenericEvent::class) {
-				$newEvent = new GenericEventWrapper($this->logger, $eventName, $event);
-			} else {
-				$newEvent = $event;
-
-				// Legacy event
-				$this->logger->info(
-					'Deprecated event type for {name}: {class}',
-					['name' => $eventName, 'class' => is_object($event) ? get_class($event) : 'null']
-				);
-			}
-			$this->eventDispatcher->getSymfonyDispatcher()->dispatch($eventName, $newEvent);
+			return $event;
 		}
+
+		if ($event instanceof GenericEvent && get_class($event) === GenericEvent::class) {
+			$newEvent = new GenericEventWrapper($this->logger, $eventName, $event);
+		} else {
+			$newEvent = $event;
+
+			// Legacy event
+			$this->logger->info(
+				'Deprecated event type for {name}: {class}',
+				['name' => $eventName, 'class' => is_object($event) ? get_class($event) : 'null']
+			);
+		}
+
+		// Event with no payload (object) need special handling
+		if ($newEvent === null) {
+			return $this->eventDispatcher->getSymfonyDispatcher()->dispatch($eventName);
+		}
+
+		// Flip the argument order for Symfony to prevent a trigger_error
+		return $this->eventDispatcher->getSymfonyDispatcher()->dispatch($newEvent, $eventName);
 	}
 
 	/**
