@@ -319,7 +319,7 @@
     "Settings menu" : "Einstellungen-Menü",
     "Confirm your password" : "Bestätige Dein Passwort",
     "Connect to your account" : "Verbinde Dich mit Deinem Konto",
-    "Please log in before granting %1$s access to your %2$s account." : "Bitte anmelden, bevor Du %1$s Zugriff auf Dein %2$s-Konto gewährst.",
+    "Please log in before granting %1$s access to your %2$s account." : "Bitte melde Dich an, bevor Du %1$s Zugriff auf Dein %2$s-Konto gewährst.",
     "If you are not trying to set up a new device or app, someone is trying to trick you into granting them access to your data. In this case do not proceed and instead contact your system administrator." : "Solltest Du aktuell nicht versuchen, ein neues Gerät oder eine neue App einzurichten, dann kann es sein, das jemand versucht, Dich dazu zu bewegen, ihm Zugriff auf Deine Daten zu gewähren. Fahre in diesem Fall nicht fort, sondern wende Dich an Deinen Administrator.",
     "App token" : "App-Token",
     "Grant access" : "Zugriff gewähren",

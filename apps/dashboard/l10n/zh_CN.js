@@ -21,6 +21,8 @@ OC.L10N.register(
     "Good afternoon, {name}" : "下午好，{name}",
     "Good evening" : "晚上好",
     "Good evening, {name}" : "晚上好，{name}",
+    "Hello" : "你好",
+    "Hello, {name}" : "你好， {name}",
     "Pick from Files" : "从文件中挑选",
     "Default images" : "默认图片",
     "Plain background" : "纯色背景",
