@@ -39,6 +39,7 @@ use OCP\IUserManager;
 use Sabre\VObject;
 use Sabre\VObject\Component\VAlarm;
 use Sabre\VObject\Component\VEvent;
+use Sabre\VObject\InvalidDataException;
 use Sabre\VObject\ParseException;
 use Sabre\VObject\Recur\EventIterator;
 use Sabre\VObject\Recur\NoInstancesException;
@@ -273,7 +274,11 @@ class ReminderService {
 						continue;
 					}
 
-					$triggerTime = $valarm->getEffectiveTriggerTime();
+					try {
+						$triggerTime = $valarm->getEffectiveTriggerTime();
+					} catch (InvalidDataException $e) {
+						continue;
+					}
 
 					// If effective trigger time is in the past
 					// just skip and generate for next event
