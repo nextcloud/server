@@ -218,6 +218,7 @@ class Install extends Command {
 
 	private function printThrowable(OutputInterface $output, Throwable $t): void {
 		$output->write('<info>Trace: ' . $t->getTraceAsString() . '</info>');
+		$output->writeln('');
 		if ($t->getPrevious() !== null) {
 			$output->writeln('');
 			$output->writeln('<info>Previous: ' . get_class($t->getPrevious()) . ': ' . $t->getPrevious()->getMessage() . '</info>');
