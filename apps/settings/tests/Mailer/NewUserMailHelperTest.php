@@ -139,7 +139,7 @@ class NewUserMailHelperTest extends TestCase {
 		$this->timeFactory
 			->expects($this->once())
 			->method('getTime')
-			->willReturn('12345');
+			->willReturn(12345);
 		/** @var IUser|\PHPUnit\Framework\MockObject\MockObject $user */
 		$user = $this->createMock(IUser::class);
 		$user
@@ -370,6 +370,7 @@ Welcome aboard
 Welcome to your TestCloud account, you can add, protect, and share your data.
 
 Your username is: john
+
 
 Set your password: https://example.com/resetPassword/MySuperLongSecureRandomToken
 Install Client: https://nextcloud.com/install/#install-clients
