@@ -813,7 +813,7 @@ steps:
   image: docker:git
   commands:
     - git submodule update --init
-- name: integration-auth
+- name: integration-avatar
   image: nextcloudci/integration-php7.3:integration-php7.3-2
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
