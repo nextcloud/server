@@ -77,6 +77,6 @@ class LogFactory implements ILogFactory {
 		}
 		$fallback = $defaultLogFile !== $logFile ? $defaultLogFile : '';
 
-		return new File($logFile, $fallback, $this->systemConfig);
+		return new File($logFile, $this->systemConfig, $fallback);
 	}
 }
