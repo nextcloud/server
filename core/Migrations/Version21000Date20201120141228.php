@@ -62,7 +62,7 @@ class Version21000Date20201120141228 extends SimpleMigrationStep {
 
 		if ($schema->hasTable('systemtag')) {
 			$table = $schema->getTable('systemtag');
-			if ($table->hasColumn('systemtag')) {
+			if ($table->hasColumn('assignable')) {
 				$table->dropColumn('assignable');
 			}
 		}
