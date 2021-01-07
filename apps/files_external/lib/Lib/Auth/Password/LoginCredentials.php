@@ -30,6 +30,7 @@ use OCA\Files_External\Lib\Auth\AuthMechanism;
 use OCA\Files_External\Lib\InsufficientDataForMeaningfulAnswerException;
 use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\Listener\StorePasswordListener;
+use OCA\User_LDAP\IUserLDAP;
 use OCP\Authentication\Exceptions\CredentialsUnavailableException;
 use OCP\Authentication\LoginCredentials\IStore as CredentialsStore;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -81,7 +82,7 @@ class LoginCredentials extends AuthMechanism {
 
 				$credentials = [
 					'user' => $sessionCredentials->getLoginName(),
-					'password' => $sessionCredentials->getPassword()
+					'password' => $sessionCredentials->getPassword(),
 				];
 
 				$this->credentialsManager->store($user->getUID(), self::CREDENTIALS_IDENTIFIER, $credentials);
@@ -99,7 +100,42 @@ class LoginCredentials extends AuthMechanism {
 		}
 		$credentials = $this->getCredentials($user);
 
-		$storage->setBackendOption('user', $credentials['user']);
+		$loginKey = $storage->getBackendOption("login_ldap_attr");
+		if ($loginKey) {
+			$backend = $user->getBackend();
+			if ($backend instanceof IUserLDAP) {
+				$value = $this->getLdapPropertyForUser($backend, $user, $loginKey);
+				if ($value === null) {
+					throw new InsufficientDataForMeaningfulAnswerException('Custom ldap attribute not set for user ' . $user->getUID());
+				}
+				$storage->setBackendOption('user', $value);
+			} else {
+				throw new InsufficientDataForMeaningfulAnswerException('Custom ldap attribute configured but user ' . $user->getUID() . ' is not an ldap user');
+			}
+		} else {
+			$storage->setBackendOption('user', $credentials['user']);
+		}
 		$storage->setBackendOption('password', $credentials['password']);
+	}
+
+	private function getLdapPropertyForUser(IUserLDAP $ldap, IUser $user, string $property): ?string {
+		$access = $ldap->getLDAPAccess($user->getUID());
+		$connection = $access->getConnection();
+		$key = "external_login::" . $user->getUID() . "::" . $property;
+		$cached = $connection->getFromCache($key);
+
+		if ($cached !== null) {
+			return $cached;
+		}
+
+		$value = $access->readAttribute($access->username2dn($user->getUID()), $property);
+		if (count($value) > 0) {
+			$value = current($value);
+		} else {
+			return null;
+		}
+		$connection->writeToCache($key, $value);
+
+		return $value;
 	}
 }
