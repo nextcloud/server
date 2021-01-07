@@ -415,6 +415,10 @@ class Scanner extends BasicEmitter implements IScanner {
 		$childQueue = [];
 		$newChildNames = [];
 		foreach ($newChildren as $fileMeta) {
+			$permissions = isset($fileMeta['scan_permissions']) ? $fileMeta['scan_permissions'] : $fileMeta['permissions'];
+			if ($permissions === 0) {
+				continue;
+			}
 			$file = $fileMeta['name'];
 			$newChildNames[] = $file;
 			$child = $path ? $path . '/' . $file : $file;
