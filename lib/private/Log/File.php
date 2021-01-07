@@ -56,7 +56,7 @@ class File extends LogDetails implements IWriter, IFileBased {
 	/** @var SystemConfig */
 	private $config;
 
-	public function __construct(string $path, string $fallbackPath = '', SystemConfig $config) {
+	public function __construct(string $path, string $fallbackPath, SystemConfig $config) {
 		parent::__construct($config);
 		$this->logFile = $path;
 		if (!file_exists($this->logFile)) {
