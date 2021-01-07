@@ -236,6 +236,7 @@ class Setup {
 			} catch (\OC\HintException $e) {
 				$errors[] = [
 					'error' => $e->getMessage(),
+					'exception' => $e,
 					'hint' => $e->getHint(),
 				];
 				$htAccessWorking = false;
@@ -360,12 +361,14 @@ class Setup {
 		} catch (\OC\DatabaseSetupException $e) {
 			$error[] = [
 				'error' => $e->getMessage(),
+				'exception' => $e,
 				'hint' => $e->getHint(),
 			];
 			return $error;
 		} catch (Exception $e) {
 			$error[] = [
 				'error' => 'Error while trying to create admin user: ' . $e->getMessage(),
+				'exception' => $e,
 				'hint' => '',
 			];
 			return $error;
@@ -376,6 +379,7 @@ class Setup {
 		} catch (Exception $e) {
 			$error[] = [
 				'error' => 'Error while trying to initialise the database: ' . $e->getMessage(),
+				'exception' => $e,
 				'hint' => '',
 			];
 			return $error;
