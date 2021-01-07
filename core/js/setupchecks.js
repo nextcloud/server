@@ -513,6 +513,7 @@
 					OC.SetupChecks.addGenericSetupCheck(data, 'OCA\\Settings\\SetupChecks\\PhpOutputBuffering', messages)
 					OC.SetupChecks.addGenericSetupCheck(data, 'OCA\\Settings\\SetupChecks\\LegacySSEKeyFormat', messages)
 					OC.SetupChecks.addGenericSetupCheck(data, 'OCA\\Settings\\SetupChecks\\CheckUserCertificates', messages)
+					OC.SetupChecks.addGenericSetupCheck(data, 'OCA\\Settings\\SetupChecks\\SupportedDatabase', messages)
 
 				} else {
 					messages.push({

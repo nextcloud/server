@@ -62,6 +62,7 @@ use OCA\Settings\SetupChecks\CheckUserCertificates;
 use OCA\Settings\SetupChecks\LegacySSEKeyFormat;
 use OCA\Settings\SetupChecks\PhpDefaultCharset;
 use OCA\Settings\SetupChecks\PhpOutputBuffering;
+use OCA\Settings\SetupChecks\SupportedDatabase;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\DataResponse;
@@ -106,6 +107,8 @@ class CheckSetupController extends Controller {
 	private $secureRandom;
 	/** @var IniGetWrapper */
 	private $iniGetWrapper;
+	/** @var IDBConnection */
+	private $connection;
 
 	public function __construct($AppName,
 								IRequest $request,
@@ -121,7 +124,8 @@ class CheckSetupController extends Controller {
 								IDateTimeFormatter $dateTimeFormatter,
 								MemoryInfo $memoryInfo,
 								ISecureRandom $secureRandom,
-								IniGetWrapper $iniGetWrapper) {
+								IniGetWrapper $iniGetWrapper,
+								IDBConnection $connection) {
 		parent::__construct($AppName, $request);
 		$this->config = $config;
 		$this->clientService = $clientService;
@@ -136,6 +140,7 @@ class CheckSetupController extends Controller {
 		$this->memoryInfo = $memoryInfo;
 		$this->secureRandom = $secureRandom;
 		$this->iniGetWrapper = $iniGetWrapper;
+		$this->connection = $connection;
 	}
 
 	/**
@@ -713,6 +718,7 @@ Raw output
 		$phpOutputBuffering = new PhpOutputBuffering();
 		$legacySSEKeyFormat = new LegacySSEKeyFormat($this->l10n, $this->config, $this->urlGenerator);
 		$checkUserCertificates = new CheckUserCertificates($this->l10n, $this->config, $this->urlGenerator);
+		$supportedDatabases = new SupportedDatabase($this->l10n, $this->connection);
 
 		return new DataResponse(
 			[
@@ -759,6 +765,7 @@ Raw output
 				LegacySSEKeyFormat::class => ['pass' => $legacySSEKeyFormat->run(), 'description' => $legacySSEKeyFormat->description(), 'severity' => $legacySSEKeyFormat->severity(), 'linkToDocumentation' => $legacySSEKeyFormat->linkToDocumentation()],
 				CheckUserCertificates::class => ['pass' => $checkUserCertificates->run(), 'description' => $checkUserCertificates->description(), 'severity' => $checkUserCertificates->severity(), 'elements' => $checkUserCertificates->elements()],
 				'isDefaultPhoneRegionSet' => $this->config->getSystemValueString('default_phone_region', '') !== '',
+				SupportedDatabase::class => ['pass' => $supportedDatabases->run(), 'description' => $supportedDatabases->description(), 'severity' => $supportedDatabases->severity()],
 			]
 		);
 	}
