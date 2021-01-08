@@ -5171,7 +5171,8 @@
       <code>$this-&gt;createUserFromBackend($uid, $password, $backend)</code>
       <code>$this-&gt;createUserFromBackend($uid, $password, $backend)</code>
     </NullableReturnStatement>
-    <UndefinedInterfaceMethod occurrences="4">
+    <UndefinedInterfaceMethod occurrences="5">
+      <code>checkPassword</code>
       <code>checkPassword</code>
       <code>countUsers</code>
       <code>createUser</code>
