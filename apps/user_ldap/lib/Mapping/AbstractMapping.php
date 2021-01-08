@@ -190,30 +190,18 @@ abstract class AbstractMapping {
 	}
 
 	public function getListOfIdsByDn(array $fdns): array {
-		$fdnsSlice = count($fdns) > 1000 ? array_slice($fdns, 0, 1000) : $fdns;
 		$qb = $this->dbc->getQueryBuilder();
 		$qb->select('owncloud_name', 'ldap_dn')
 			->from($this->getTableName(false))
-			->where($qb->expr()->in('ldap_dn', $qb->createNamedParameter($fdnsSlice, QueryBuilder::PARAM_STR_ARRAY)));
-
-		$slice = 1;
-		while (isset($fdnsSlice[999])) {
-			// Oracle does not allow more than 1000 values in the IN list,
-			// but allows slicing
-			$fdnsSlice = array_slice($fdns, 1000 * $slice, 1000);
-			if (!empty($fdnsSlice)) {
-				$qb->orWhere($qb->expr()->in('ldap_dn', $qb->createNamedParameter($fdnsSlice, QueryBuilder::PARAM_STR_ARRAY)));
-			}
-			$slice++;
-		}
-
+			->where($qb->expr()->in('ldap_dn', $qb->createNamedParameter($fdns, QueryBuilder::PARAM_STR_ARRAY)));
 		$stmt = $qb->execute();
-		$results = [];
-		while ($entry = $stmt->fetch(\Doctrine\DBAL\FetchMode::ASSOCIATIVE)) {
+
+		$results = $stmt->fetchAll(\Doctrine\DBAL\FetchMode::ASSOCIATIVE);
+		foreach ($results as $key => $entry) {
+			unset($results[$key]);
 			$results[$entry['ldap_dn']] = $entry['owncloud_name'];
 			$this->cache[$entry['ldap_dn']] = $entry['owncloud_name'];
 		}
-		$stmt->closeCursor();
 
 		return $results;
 	}
