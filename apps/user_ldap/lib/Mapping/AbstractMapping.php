@@ -28,6 +28,7 @@
 namespace OCA\User_LDAP\Mapping;
 
 use OC\DB\QueryBuilder\QueryBuilder;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 
 /**
  * Class AbstractMapping
@@ -189,18 +190,56 @@ abstract class AbstractMapping {
 		return $this->cache[$fdn];
 	}
 
-	public function getListOfIdsByDn(array $fdns): array {
+	protected function prepareListOfIdsQuery(array $dnList): IQueryBuilder {
 		$qb = $this->dbc->getQueryBuilder();
 		$qb->select('owncloud_name', 'ldap_dn')
 			->from($this->getTableName(false))
-			->where($qb->expr()->in('ldap_dn', $qb->createNamedParameter($fdns, QueryBuilder::PARAM_STR_ARRAY)));
-		$stmt = $qb->execute();
+			->where($qb->expr()->in('ldap_dn', $qb->createNamedParameter($dnList, QueryBuilder::PARAM_STR_ARRAY)));
+		return $qb;
+	}
 
-		$results = $stmt->fetchAll(\Doctrine\DBAL\FetchMode::ASSOCIATIVE);
-		foreach ($results as $key => $entry) {
-			unset($results[$key]);
+	protected function collectResultsFromListOfIdsQuery(IQueryBuilder $qb, array &$results): void {
+		$stmt = $qb->execute();
+		while ($entry = $stmt->fetch(\Doctrine\DBAL\FetchMode::ASSOCIATIVE)) {
 			$results[$entry['ldap_dn']] = $entry['owncloud_name'];
 			$this->cache[$entry['ldap_dn']] = $entry['owncloud_name'];
+		}
+		$stmt->closeCursor();
+	}
+
+	public function getListOfIdsByDn(array $fdns): array {
+		$totalDBParamLimit = 65000;
+		$sliceSize = 1000;
+		$maxSlices = $totalDBParamLimit / $sliceSize;
+		$results = [];
+
+		$slice = 1;
+		$fdnsSlice = count($fdns) > $sliceSize ? array_slice($fdns, 0, $sliceSize) : $fdns;
+		$qb = $this->prepareListOfIdsQuery($fdnsSlice);
+
+		while (isset($fdnsSlice[999])) {
+			// Oracle does not allow more than 1000 values in the IN list,
+			// but allows slicing
+			$slice++;
+			$fdnsSlice = array_slice($fdns, $sliceSize * ($slice - 1), $sliceSize);
+
+			if (!isset($qb)) {
+				$qb = $this->prepareListOfIdsQuery($fdnsSlice);
+				continue;
+			}
+
+			if (!empty($fdnsSlice)) {
+				$qb->orWhere($qb->expr()->in('ldap_dn', $qb->createNamedParameter($fdnsSlice, QueryBuilder::PARAM_STR_ARRAY)));
+			}
+
+			if ($slice % $maxSlices === 0) {
+				$this->collectResultsFromListOfIdsQuery($qb, $results);
+				unset($qb);
+			}
+		}
+
+		if (isset($qb)) {
+			$this->collectResultsFromListOfIdsQuery($qb, $results);
 		}
 
 		return $results;
