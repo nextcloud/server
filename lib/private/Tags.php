@@ -230,10 +230,6 @@ class Tags implements ITags {
 					}
 					$entries[$objId][] = $row['category'];
 				}
-				if ($result === null) {
-					\OCP\Util::writeLog('core', __METHOD__. 'DB error: ' . \OC::$server->getDatabaseConnection()->getError(), ILogger::ERROR);
-					return false;
-				}
 			}
 		} catch (\Exception $e) {
 			\OC::$server->getLogger()->logException($e, [

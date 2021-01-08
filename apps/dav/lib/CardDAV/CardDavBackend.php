@@ -140,7 +140,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			->where($query->expr()->eq('principaluri', $query->createNamedParameter($principalUri)));
 
 		$result = $query->execute();
-		$column = (int) $result->fetchColumn();
+		$column = (int) $result->fetchOne();
 		$result->closeCursor();
 		return $column;
 	}
@@ -661,7 +661,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			->andWhere($q->expr()->eq('uid', $q->createNamedParameter($uid)))
 			->setMaxResults(1);
 		$result = $q->execute();
-		$count = (bool)$result->fetchColumn();
+		$count = (bool)$result->fetchOne();
 		$result->closeCursor();
 		if ($count) {
 			throw new \Sabre\DAV\Exception\BadRequest('VCard object with uid already exists in this addressbook collection.');
@@ -864,7 +864,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		// Current synctoken
 		$stmt = $this->db->prepare('SELECT `synctoken` FROM `*PREFIX*addressbooks` WHERE `id` = ?');
 		$stmt->execute([$addressBookId]);
-		$currentToken = $stmt->fetchColumn(0);
+		$currentToken = $stmt->fetchOne();
 
 		if (is_null($currentToken)) {
 			return null;

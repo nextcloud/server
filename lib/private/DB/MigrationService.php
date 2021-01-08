@@ -30,7 +30,7 @@ namespace OC\DB;
 
 use Doctrine\DBAL\Exception\DriverException;
 use Doctrine\DBAL\Platforms\OraclePlatform;
-use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
+use Doctrine\DBAL\Platforms\PostgreSQL94Platform;
 use Doctrine\DBAL\Schema\Index;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\SchemaException;
@@ -42,7 +42,6 @@ use OC\IntegrityCheck\Helpers\AppLocator;
 use OC\Migration\SimpleOutput;
 use OCP\AppFramework\App;
 use OCP\AppFramework\QueryException;
-use OCP\IDBConnection;
 use OCP\Migration\IMigrationStep;
 use OCP\Migration\IOutput;
 
@@ -65,12 +64,12 @@ class MigrationService {
 	 * MigrationService constructor.
 	 *
 	 * @param $appName
-	 * @param IDBConnection $connection
+	 * @param Connection $connection
 	 * @param AppLocator $appLocator
 	 * @param IOutput|null $output
 	 * @throws \Exception
 	 */
-	public function __construct($appName, IDBConnection $connection, IOutput $output = null, AppLocator $appLocator = null) {
+	public function __construct($appName, Connection $connection, IOutput $output = null, AppLocator $appLocator = null) {
 		$this->appName = $appName;
 		$this->connection = $connection;
 		$this->output = $output;
@@ -591,7 +590,7 @@ class MigrationService {
 				$indexName = strtolower($primaryKey->getName());
 				$isUsingDefaultName = $indexName === 'primary';
 
-				if ($this->connection->getDatabasePlatform() instanceof PostgreSqlPlatform) {
+				if ($this->connection->getDatabasePlatform() instanceof PostgreSQL94Platform) {
 					$defaultName = $table->getName() . '_pkey';
 					$isUsingDefaultName = strtolower($defaultName) === $indexName;
 

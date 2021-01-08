@@ -989,7 +989,7 @@ class OC_App {
 		if (file_exists($appPath . '/appinfo/database.xml')) {
 			OC_DB::updateDbFromStructure($appPath . '/appinfo/database.xml');
 		} else {
-			$ms = new MigrationService($appId, \OC::$server->getDatabaseConnection());
+			$ms = new MigrationService($appId, \OC::$server->get(\OC\DB\Connection::class));
 			$ms->migrate();
 		}
 

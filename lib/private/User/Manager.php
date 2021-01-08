@@ -505,7 +505,7 @@ class Manager extends PublicEmitter implements IUserManager {
 
 
 		$result = $queryBuilder->execute();
-		$count = $result->fetchColumn();
+		$count = $result->fetchOne();
 		$result->closeCursor();
 
 		if ($count !== false) {
@@ -535,7 +535,7 @@ class Manager extends PublicEmitter implements IUserManager {
 			->andWhere($queryBuilder->expr()->in('gid', $queryBuilder->createNamedParameter($groups, IQueryBuilder::PARAM_STR_ARRAY)));
 
 		$result = $queryBuilder->execute();
-		$count = $result->fetchColumn();
+		$count = $result->fetchOne();
 		$result->closeCursor();
 
 		if ($count !== false) {
@@ -563,7 +563,7 @@ class Manager extends PublicEmitter implements IUserManager {
 
 		$query = $queryBuilder->execute();
 
-		$result = (int)$query->fetchColumn();
+		$result = (int)$query->fetchOne();
 		$query->closeCursor();
 
 		return $result;

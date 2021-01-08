@@ -44,8 +44,9 @@ namespace OCA\Settings\Controller;
 
 use bantu\IniGetWrapper\IniGetWrapper;
 use DirectoryIterator;
-use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Platforms\SqlitePlatform;
+use Doctrine\DBAL\TransactionIsolationLevel;
 use Doctrine\DBAL\Types\Types;
 use GuzzleHttp\Exception\ClientException;
 use OC;
@@ -94,7 +95,7 @@ class CheckSetupController extends Controller {
 	private $logger;
 	/** @var EventDispatcherInterface */
 	private $dispatcher;
-	/** @var IDBConnection|Connection */
+	/** @var Connection */
 	private $db;
 	/** @var ILockingProvider */
 	private $lockingProvider;
@@ -116,7 +117,7 @@ class CheckSetupController extends Controller {
 								Checker $checker,
 								ILogger $logger,
 								EventDispatcherInterface $dispatcher,
-								IDBConnection $db,
+								Connection $db,
 								ILockingProvider $lockingProvider,
 								IDateTimeFormatter $dateTimeFormatter,
 								MemoryInfo $memoryInfo,
@@ -492,8 +493,8 @@ Raw output
 				return true;
 			}
 
-			return $this->db->getTransactionIsolation() === Connection::TRANSACTION_READ_COMMITTED;
-		} catch (DBALException $e) {
+			return $this->db->getTransactionIsolation() === TransactionIsolationLevel::READ_COMMITTED;
+		} catch (Exception $e) {
 			// ignore
 		}
 

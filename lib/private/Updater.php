@@ -37,6 +37,7 @@
 
 namespace OC;
 
+use OC\DB\Connection;
 use OC\DB\MigrationService;
 use OC\Hooks\BasicEmitter;
 use OC\IntegrityCheck\Checker;
@@ -298,7 +299,7 @@ class Updater extends BasicEmitter {
 		$this->emit('\OC\Updater', 'dbUpgradeBefore');
 
 		// execute core migrations
-		$ms = new MigrationService('core', \OC::$server->getDatabaseConnection());
+		$ms = new MigrationService('core', \OC::$server->get(Connection::class));
 		$ms->migrate();
 
 		$this->emit('\OC\Updater', 'dbUpgrade');

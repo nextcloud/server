@@ -44,7 +44,7 @@ class OC_DB {
 	 * @return \OC\DB\MDB2SchemaManager
 	 */
 	private static function getMDB2SchemaManager() {
-		return new \OC\DB\MDB2SchemaManager(\OC::$server->getDatabaseConnection());
+		return new \OC\DB\MDB2SchemaManager(\OC::$server->get(\OC\DB\Connection::class));
 	}
 
 	/**
@@ -70,7 +70,7 @@ class OC_DB {
 		// return the result
 		try {
 			$result = $connection->prepare($query, $limit, $offset);
-		} catch (\Doctrine\DBAL\DBALException $e) {
+		} catch (\Doctrine\DBAL\Exception $e) {
 			throw new \OC\DatabaseException($e->getMessage());
 		}
 		// differentiate between query and manipulation
@@ -160,18 +160,6 @@ class OC_DB {
 	}
 
 	/**
-	 * saves database schema to xml file
-	 * @param string $file name of file
-	 * @return bool
-	 *
-	 * TODO: write more documentation
-	 */
-	public static function getDbStructure($file) {
-		$schemaManager = self::getMDB2SchemaManager();
-		return $schemaManager->getDbStructure($file);
-	}
-
-	/**
 	 * Creates tables from XML file
 	 * @param string $file file to read structure from
 	 * @return bool
@@ -211,7 +199,7 @@ class OC_DB {
 	}
 
 	/**
-	 * check if a result is an error and throws an exception, works with \Doctrine\DBAL\DBALException
+	 * check if a result is an error and throws an exception, works with \Doctrine\DBAL\Exception
 	 * @param mixed $result
 	 * @param string $message
 	 * @return void

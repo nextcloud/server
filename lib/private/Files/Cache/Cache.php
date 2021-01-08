@@ -39,8 +39,8 @@
 
 namespace OC\Files\Cache;
 
-use Doctrine\DBAL\Driver\Statement;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+use OCP\DB\IResult;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Cache\CacheEntryInsertedEvent;
@@ -486,7 +486,7 @@ class Cache implements ICache {
 			->wherePath($file);
 
 		$result = $query->execute();
-		$id = $result->fetchColumn();
+		$id = $result->fetchOne();
 		$result->closeCursor();
 
 		return $id === false ? -1 : (int)$id;
@@ -746,7 +746,7 @@ class Cache implements ICache {
 			->wherePath($file);
 
 		$result = $query->execute();
-		$size = $result->fetchColumn();
+		$size = $result->fetchOne();
 		$result->closeCursor();
 
 		if ($size !== false) {
@@ -793,10 +793,10 @@ class Cache implements ICache {
 	}
 
 	/**
-	 * @param Statement $result
+	 * @param IResult $result
 	 * @return CacheEntry[]
 	 */
-	private function searchResultToCacheEntries(Statement $result) {
+	private function searchResultToCacheEntries(IResult $result): array {
 		$files = $result->fetchAll();
 
 		return array_map(function (array $data) {
@@ -870,7 +870,9 @@ class Cache implements ICache {
 		}
 
 		$result = $query->execute();
-		return $this->searchResultToCacheEntries($result);
+		$cacheEntries = $this->searchResultToCacheEntries($result);
+		$result->closeCursor();
+		return $cacheEntries;
 	}
 
 	/**
@@ -912,7 +914,7 @@ class Cache implements ICache {
 				->andWhere($query->expr()->lt('size', $query->createNamedParameter(0, IQueryBuilder::PARAM_INT)));
 
 			$result = $query->execute();
-			$size = (int)$result->fetchColumn();
+			$size = (int)$result->fetchOne();
 			$result->closeCursor();
 
 			return $size;
@@ -1002,7 +1004,7 @@ class Cache implements ICache {
 			->setMaxResults(1);
 
 		$result = $query->execute();
-		$path = $result->fetchColumn();
+		$path = $result->fetchOne();
 		$result->closeCursor();
 
 		return $path;
@@ -1022,7 +1024,7 @@ class Cache implements ICache {
 			->whereFileId($id);
 
 		$result = $query->execute();
-		$path = $result->fetchColumn();
+		$path = $result->fetchOne();
 		$result->closeCursor();
 
 		if ($path === false) {

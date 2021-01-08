@@ -41,6 +41,7 @@ use OC\Authentication\Listeners\UserDeletedStoreCleanupListener;
 use OC\Authentication\Listeners\UserDeletedTokenCleanupListener;
 use OC\Authentication\Notifications\Notifier as AuthenticationNotifier;
 use OC\Core\Notification\CoreNotifier;
+use OC\DB\Connection;
 use OC\DB\MissingColumnInformation;
 use OC\DB\MissingIndexInformation;
 use OC\DB\MissingPrimaryKeyInformation;
@@ -82,7 +83,7 @@ class Application extends App {
 				/** @var MissingIndexInformation $subject */
 				$subject = $event->getSubject();
 
-				$schema = new SchemaWrapper($container->query(IDBConnection::class));
+				$schema = new SchemaWrapper($container->query(Connection::class));
 
 				if ($schema->hasTable('share')) {
 					$table = $schema->getTable('share');
@@ -192,7 +193,7 @@ class Application extends App {
 				/** @var MissingPrimaryKeyInformation $subject */
 				$subject = $event->getSubject();
 
-				$schema = new SchemaWrapper($container->query(IDBConnection::class));
+				$schema = new SchemaWrapper($container->query(Connection::class));
 
 				if ($schema->hasTable('federated_reshares')) {
 					$table = $schema->getTable('federated_reshares');
@@ -249,7 +250,7 @@ class Application extends App {
 				/** @var MissingColumnInformation $subject */
 				$subject = $event->getSubject();
 
-				$schema = new SchemaWrapper($container->query(IDBConnection::class));
+				$schema = new SchemaWrapper($container->query(Connection::class));
 
 				if ($schema->hasTable('comments')) {
 					$table = $schema->getTable('comments');

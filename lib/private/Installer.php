@@ -45,6 +45,7 @@ use OC\App\AppStore\Bundles\Bundle;
 use OC\App\AppStore\Fetcher\AppFetcher;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Archive\TAR;
+use OC\DB\Connection;
 use OC_App;
 use OC_DB;
 use OC_Helper;
@@ -158,7 +159,7 @@ class Installer {
 				OC_DB::updateDbFromStructure($basedir.'/appinfo/database.xml');
 			}
 		} else {
-			$ms = new \OC\DB\MigrationService($info['id'], \OC::$server->getDatabaseConnection());
+			$ms = new \OC\DB\MigrationService($info['id'], \OC::$server->get(Connection::class));
 			$ms->migrate('latest', true);
 		}
 		if ($previousVersion) {
@@ -593,7 +594,7 @@ class Installer {
 				);
 			}
 		} else {
-			$ms = new \OC\DB\MigrationService($app, \OC::$server->getDatabaseConnection());
+			$ms = new \OC\DB\MigrationService($app, \OC::$server->get(Connection::class));
 			$ms->migrate('latest', true);
 		}
 

@@ -33,10 +33,10 @@
 
 namespace OC;
 
+use OC\DB\Connection;
 use OC\DB\OracleConnection;
 use OCP\IAppConfig;
 use OCP\IConfig;
-use OCP\IDBConnection;
 
 /**
  * This class provides an easy way for apps to store config values in the
@@ -68,7 +68,7 @@ class AppConfig implements IAppConfig {
 		],
 	];
 
-	/** @var \OCP\IDBConnection */
+	/** @var Connection */
 	protected $conn;
 
 	/** @var array[] */
@@ -78,11 +78,10 @@ class AppConfig implements IAppConfig {
 	private $configLoaded = false;
 
 	/**
-	 * @param IDBConnection $conn
+	 * @param Connection $conn
 	 */
-	public function __construct(IDBConnection $conn) {
+	public function __construct(Connection $conn) {
 		$this->conn = $conn;
-		$this->configLoaded = false;
 	}
 
 	/**

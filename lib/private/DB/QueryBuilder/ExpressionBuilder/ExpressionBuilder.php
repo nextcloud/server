@@ -27,6 +27,7 @@
 namespace OC\DB\QueryBuilder\ExpressionBuilder;
 
 use Doctrine\DBAL\Query\Expression\ExpressionBuilder as DoctrineExpressionBuilder;
+use OC\DB\ConnectionAdapter;
 use OC\DB\QueryBuilder\CompositeExpression;
 use OC\DB\QueryBuilder\FunctionBuilder\FunctionBuilder;
 use OC\DB\QueryBuilder\Literal;
@@ -55,13 +56,13 @@ class ExpressionBuilder implements IExpressionBuilder {
 	/**
 	 * Initializes a new <tt>ExpressionBuilder</tt>.
 	 *
-	 * @param IDBConnection $connection
+	 * @param ConnectionAdapter $connection
 	 * @param IQueryBuilder $queryBuilder
 	 */
-	public function __construct(IDBConnection $connection, IQueryBuilder $queryBuilder) {
+	public function __construct(ConnectionAdapter $connection, IQueryBuilder $queryBuilder) {
 		$this->connection = $connection;
 		$this->helper = new QuoteHelper();
-		$this->expressionBuilder = new DoctrineExpressionBuilder($connection);
+		$this->expressionBuilder = new DoctrineExpressionBuilder($connection->getInner());
 		$this->functionBuilder = $queryBuilder->func();
 	}
 

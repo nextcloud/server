@@ -9,7 +9,7 @@
 
 namespace Test\DB;
 
-use Doctrine\DBAL\Platforms\MySqlPlatform;
+use Doctrine\DBAL\Platforms\MySQLPlatform;
 use Doctrine\DBAL\Schema\Schema;
 use OC\DB\MDB2SchemaReader;
 use OCP\IConfig;
@@ -50,7 +50,7 @@ class MDB2SchemaReaderTest extends TestCase {
 	}
 
 	public function testRead() {
-		$reader = new MDB2SchemaReader($this->getConfig(), new MySqlPlatform());
+		$reader = new MDB2SchemaReader($this->getConfig(), new MySQLPlatform());
 		$schema = $reader->loadSchemaFromFile(__DIR__ . '/testschema.xml', new Schema());
 		$this->assertCount(1, $schema->getTables());
 

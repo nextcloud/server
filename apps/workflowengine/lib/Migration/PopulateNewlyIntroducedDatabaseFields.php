@@ -25,7 +25,7 @@ declare(strict_types=1);
 
 namespace OCA\WorkflowEngine\Migration;
 
-use Doctrine\DBAL\Driver\Statement;
+use OCP\DB\IResult;
 use OCP\IDBConnection;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
@@ -52,17 +52,17 @@ class PopulateNewlyIntroducedDatabaseFields implements IRepairStep {
 		$result->closeCursor();
 	}
 
-	protected function populateScopeTable(Statement $ids): void {
+	protected function populateScopeTable(IResult $ids): void {
 		$qb = $this->dbc->getQueryBuilder();
 
 		$insertQuery = $qb->insert('flow_operations_scope');
-		while ($id = $ids->fetchColumn(0)) {
+		while ($id = $ids->fetchOne()) {
 			$insertQuery->values(['operation_id' => $qb->createNamedParameter($id), 'type' => IManager::SCOPE_ADMIN]);
 			$insertQuery->execute();
 		}
 	}
 
-	protected function getIdsWithoutScope(): Statement {
+	protected function getIdsWithoutScope(): IResult {
 		$qb = $this->dbc->getQueryBuilder();
 		$selectQuery = $qb->select('o.id')
 			->from('flow_operations', 'o')
@@ -71,6 +71,8 @@ class PopulateNewlyIntroducedDatabaseFields implements IRepairStep {
 		// The left join operation is not necessary, usually, but it's a safe-guard
 		// in case the repair step is executed multiple times for whatever reason.
 
-		return $selectQuery->execute();
+		/** @var IResult $result */
+		$result = $selectQuery->execute();
+		return $result;
 	}
 }

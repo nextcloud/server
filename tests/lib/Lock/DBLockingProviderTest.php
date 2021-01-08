@@ -94,7 +94,7 @@ class DBLockingProviderTest extends LockingProvider {
 	private function getLockEntryCount() {
 		$query = $this->connection->prepare('SELECT count(*) FROM `*PREFIX*file_locks`');
 		$query->execute();
-		return $query->fetchColumn();
+		return $query->fetchOne();
 	}
 
 	protected function getLockValue($key) {
@@ -104,7 +104,7 @@ class DBLockingProviderTest extends LockingProvider {
 			->where($query->expr()->eq('key', $query->createNamedParameter($key)));
 
 		$result = $query->execute();
-		$rows = $result->fetchColumn();
+		$rows = $result->fetchOne();
 		$result->closeCursor();
 
 		return $rows;

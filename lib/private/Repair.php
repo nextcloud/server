@@ -36,6 +36,8 @@ namespace OC;
 
 use OC\App\AppStore\Bundles\BundleFetcher;
 use OC\Avatar\AvatarManager;
+use OC\DB\Connection;
+use OC\DB\ConnectionAdapter;
 use OC\Repair\AddBruteForceCleanupJob;
 use OC\Repair\AddCleanupUpdaterBackupsJob;
 use OC\Repair\CleanTags;
@@ -210,13 +212,16 @@ class Repair implements IOutput {
 	 * @return IRepairStep[]
 	 */
 	public static function getBeforeUpgradeRepairSteps() {
-		$connection = \OC::$server->getDatabaseConnection();
+		/** @var Connection $connection */
+		$connection = \OC::$server->get(Connection::class);
+		/** @var ConnectionAdapter $connectionAdapter */
+		$connectionAdapter = \OC::$server->get(ConnectionAdapter::class);
 		$config = \OC::$server->getConfig();
 		$steps = [
-			new Collation(\OC::$server->getConfig(), \OC::$server->getLogger(), $connection, true),
+			new Collation(\OC::$server->getConfig(), \OC::$server->getLogger(), $connectionAdapter, true),
 			new SqliteAutoincrement($connection),
-			new SaveAccountsTableData($connection, $config),
-			new DropAccountTermsTable($connection)
+			new SaveAccountsTableData($connectionAdapter, $config),
+			new DropAccountTermsTable($connectionAdapter)
 		];
 
 		return $steps;

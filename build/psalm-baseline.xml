@@ -3061,10 +3061,14 @@
     </MoreSpecificImplementedParamType>
   </file>
   <file src="lib/private/Archive/TAR.php">
-    <InvalidReturnStatement occurrences="1">
+    <FalsableReturnStatement occurrences="1">
+      <code>false</code>
+    </FalsableReturnStatement>
+    <InvalidReturnStatement occurrences="2">
       <code>$this-&gt;tar-&gt;extractInString($path)</code>
     </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
+    <InvalidReturnType occurrences="2">
+      <code>resource</code>
       <code>string</code>
     </InvalidReturnType>
     <UndefinedDocblockClass occurrences="1">
@@ -3076,6 +3080,10 @@
       <code>boolean|null</code>
       <code>boolean|null</code>
     </ImplementedReturnTypeMismatch>
+    <InvalidReturnStatement occurrences="1"/>
+    <InvalidReturnType occurrences="1">
+      <code>resource</code>
+    </InvalidReturnType>
   </file>
   <file src="lib/private/Authentication/LoginCredentials/Store.php">
     <RedundantCondition occurrences="1">
@@ -3584,6 +3592,9 @@
     <ImplementedParamTypeMismatch occurrences="1">
       <code>$eventName</code>
     </ImplementedParamTypeMismatch>
+    <ImplementedReturnTypeMismatch occurrences="1">
+      <code>void</code>
+    </ImplementedReturnTypeMismatch>
     <InvalidArgument occurrences="1">
       <code>$eventName</code>
     </InvalidArgument>

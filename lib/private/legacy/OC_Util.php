@@ -993,7 +993,7 @@ class OC_Util {
 						];
 					}
 				}
-			} catch (\Doctrine\DBAL\DBALException $e) {
+			} catch (\Doctrine\DBAL\Exception $e) {
 				$logger = \OC::$server->getLogger();
 				$logger->warning('Error occurred while checking PostgreSQL version, assuming >= 9');
 				$logger->logException($e);

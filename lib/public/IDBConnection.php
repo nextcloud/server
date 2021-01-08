@@ -39,7 +39,10 @@
 
 namespace OCP;
 
+use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Schema\Schema;
+use OCP\DB\IPreparedStatement;
+use OCP\DB\IResult;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 
 /**
@@ -68,10 +71,11 @@ interface IDBConnection {
 	 * @param string $sql the sql query with ? placeholder for params
 	 * @param int $limit the maximum number of rows
 	 * @param int $offset from which row we want to start
-	 * @return \Doctrine\DBAL\Driver\Statement The prepared statement.
+	 * @return IPreparedStatement The prepared statement.
 	 * @since 6.0.0
+	 * @throws Exception since 21.0.0
 	 */
-	public function prepare($sql, $limit = null, $offset = null);
+	public function prepare($sql, $limit = null, $offset = null): IPreparedStatement;
 
 	/**
 	 * Executes an, optionally parameterized, SQL query.
@@ -82,10 +86,11 @@ interface IDBConnection {
 	 * @param string $sql The SQL query to execute.
 	 * @param string[] $params The parameters to bind to the query, if any.
 	 * @param array $types The types the previous parameters are in.
-	 * @return \Doctrine\DBAL\Driver\Statement The executed statement.
+	 * @return IResult The executed statement.
 	 * @since 8.0.0
+	 * @throws Exception since 21.0.0
 	 */
-	public function executeQuery($sql, array $params = [], $types = []);
+	public function executeQuery(string $sql, array $params = [], $types = []): IResult;
 
 	/**
 	 * Executes an SQL INSERT/UPDATE/DELETE query with the given parameters
@@ -96,12 +101,12 @@ interface IDBConnection {
 	 * @param string $sql The SQL query.
 	 * @param array $params The query parameters.
 	 * @param array $types The parameter types.
-	 * @return integer The number of affected rows.
+	 * @return int The number of affected rows.
 	 * @since 8.0.0
 	 *
 	 * @deprecated 21.0.0 use executeStatement
 	 */
-	public function executeUpdate($sql, array $params = [], array $types = []);
+	public function executeUpdate(string $sql, array $params = [], array $types = []): int;
 
 	/**
 	 * Executes an SQL INSERT/UPDATE/DELETE query with the given parameters
@@ -112,18 +117,20 @@ interface IDBConnection {
 	 * @param string $sql The SQL query.
 	 * @param array $params The query parameters.
 	 * @param array $types The parameter types.
-	 * @return integer The number of affected rows.
+	 * @return int The number of affected rows.
 	 * @since 21.0.0
 	 */
-	public function executeStatement($sql, array $params = [], array $types = []);
+	public function executeStatement($sql, array $params = [], array $types = []): int;
 
 	/**
 	 * Used to get the id of the just inserted element
 	 * @param string $table the name of the table where we inserted the item
 	 * @return int the id of the inserted element
 	 * @since 6.0.0
+	 * @throws Exception since 21.0.0
+	 * @deprecated 21.0.0 use \OCP\DB\QueryBuilder\IQueryBuilder::getLastInsertId
 	 */
-	public function lastInsertId($table = null);
+	public function lastInsertId(string $table): int;
 
 	/**
 	 * Insert a row if the matching row does not exists. To accomplish proper race condition avoidance
@@ -136,11 +143,11 @@ interface IDBConnection {
 	 *				If this is null or an empty array, all keys of $input will be compared
 	 *				Please note: text fields (clob) must not be used in the compare array
 	 * @return int number of inserted rows
-	 * @throws \Doctrine\DBAL\DBALException
+	 * @throws Exception
 	 * @since 6.0.0 - parameter $compare was added in 8.1.0, return type changed from boolean in 8.1.0
 	 * @deprecated 15.0.0 - use unique index and "try { $db->insert() } catch (UniqueConstraintViolationException $e) {}" instead, because it is more reliable and does not have the risk for deadlocks - see https://github.com/nextcloud/server/pull/12371
 	 */
-	public function insertIfNotExist($table, $input, array $compare = null);
+	public function insertIfNotExist(string $table, array $input, array $compare = null);
 
 
 	/**
@@ -164,11 +171,11 @@ interface IDBConnection {
 	 * @param array $values (column name => value)
 	 * @param array $updatePreconditionValues ensure values match preconditions (column name => value)
 	 * @return int number of new rows
-	 * @throws \Doctrine\DBAL\DBALException
+	 * @throws Exception
 	 * @throws PreconditionNotMetException
 	 * @since 9.0.0
 	 */
-	public function setValues($table, array $keys, array $values, array $updatePreconditionValues = []);
+	public function setValues($table, array $keys, array $values, array $updatePreconditionValues = []): int;
 
 	/**
 	 * Create an exclusive read+write lock on a table
@@ -180,20 +187,21 @@ interface IDBConnection {
 	 * @param string $tableName
 	 * @since 9.1.0
 	 */
-	public function lockTable($tableName);
+	public function lockTable($tableName): void;
 
 	/**
 	 * Release a previous acquired lock again
 	 *
 	 * @since 9.1.0
 	 */
-	public function unlockTable();
+	public function unlockTable(): void;
 
 	/**
 	 * Start a transaction
 	 * @since 6.0.0
+	 * @throws Exception since 21.0.0
 	 */
-	public function beginTransaction();
+	public function beginTransaction(): void;
 
 	/**
 	 * Check if a transaction is active
@@ -201,32 +209,36 @@ interface IDBConnection {
 	 * @return bool
 	 * @since 8.2.0
 	 */
-	public function inTransaction();
+	public function inTransaction(): bool;
 
 	/**
 	 * Commit the database changes done during a transaction that is in progress
 	 * @since 6.0.0
+	 * @throws Exception since 21.0.0
 	 */
-	public function commit();
+	public function commit(): void;
 
 	/**
 	 * Rollback the database changes done during a transaction that is in progress
 	 * @since 6.0.0
+	 * @throws Exception since 21.0.0
 	 */
-	public function rollBack();
+	public function rollBack(): void;
 
 	/**
 	 * Gets the error code and message as a string for logging
 	 * @return string
 	 * @since 6.0.0
+	 * @deprecated 21.0.0 doesn't return anything meaningful
 	 */
-	public function getError();
+	public function getError(): string;
 
 	/**
 	 * Fetch the SQLSTATE associated with the last database operation.
 	 *
 	 * @return integer The last error code.
 	 * @since 8.0.0
+	 * @deprecated 21.0.0 doesn't return anything anymore
 	 */
 	public function errorCode();
 
@@ -235,6 +247,7 @@ interface IDBConnection {
 	 *
 	 * @return array The last error information.
 	 * @since 8.0.0
+	 * @deprecated 21.0.0 doesn't return anything anymore
 	 */
 	public function errorInfo();
 
@@ -244,20 +257,20 @@ interface IDBConnection {
 	 * @return bool
 	 * @since 8.0.0
 	 */
-	public function connect();
+	public function connect(): bool;
 
 	/**
 	 * Close the database connection
 	 * @since 8.0.0
 	 */
-	public function close();
+	public function close(): void;
 
 	/**
 	 * Quotes a given input parameter.
 	 *
 	 * @param mixed $input Parameter to be quoted.
 	 * @param int $type Type of the parameter.
-	 * @return string The quoted parameter.
+	 * @return mixed The quoted parameter.
 	 * @since 8.0.0
 	 */
 	public function quote($input, $type = IQueryBuilder::PARAM_STR);
@@ -277,7 +290,7 @@ interface IDBConnection {
 	 * @param string $table table name without the prefix
 	 * @since 8.0.0
 	 */
-	public function dropTable($table);
+	public function dropTable(string $table): void;
 
 	/**
 	 * Check if a table exists
@@ -286,7 +299,7 @@ interface IDBConnection {
 	 * @return bool
 	 * @since 8.0.0
 	 */
-	public function tableExists($table);
+	public function tableExists(string $table): bool;
 
 	/**
 	 * Escape a parameter to be used in a LIKE query
@@ -295,7 +308,7 @@ interface IDBConnection {
 	 * @return string
 	 * @since 9.0.0
 	 */
-	public function escapeLikeParameter($param);
+	public function escapeLikeParameter(string $param): string;
 
 	/**
 	 * Check whether or not the current database support 4byte wide unicode
@@ -303,7 +316,7 @@ interface IDBConnection {
 	 * @return bool
 	 * @since 11.0.0
 	 */
-	public function supports4ByteText();
+	public function supports4ByteText(): bool;
 
 	/**
 	 * Create the schema of the connected database
@@ -311,7 +324,7 @@ interface IDBConnection {
 	 * @return Schema
 	 * @since 13.0.0
 	 */
-	public function createSchema();
+	public function createSchema(): Schema;
 
 	/**
 	 * Migrate the database to the given schema
@@ -319,5 +332,5 @@ interface IDBConnection {
 	 * @param Schema $toSchema
 	 * @since 13.0.0
 	 */
-	public function migrateToSchema(Schema $toSchema);
+	public function migrateToSchema(Schema $toSchema): void;
 }

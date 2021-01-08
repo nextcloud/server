@@ -34,8 +34,8 @@ namespace OC\Core\Command\Db;
 use Doctrine\DBAL\Platforms\SqlitePlatform;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Types\Types;
+use OC\DB\Connection;
 use OC\DB\SchemaWrapper;
-use OCP\IDBConnection;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -43,13 +43,13 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 class ConvertFilecacheBigInt extends Command {
 
-	/** @var IDBConnection */
+	/** @var Connection */
 	private $connection;
 
 	/**
-	 * @param IDBConnection $connection
+	 * @param Connection $connection
 	 */
-	public function __construct(IDBConnection $connection) {
+	public function __construct(Connection $connection) {
 		$this->connection = $connection;
 		parent::__construct();
 	}

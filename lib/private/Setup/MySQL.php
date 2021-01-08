@@ -31,6 +31,7 @@
 
 namespace OC\Setup;
 
+use OC\DB\ConnectionAdapter;
 use OC\DB\MySqlTools;
 use OCP\IDBConnection;
 use OCP\ILogger;
@@ -45,12 +46,12 @@ class MySQL extends AbstractDatabase {
 
 		// detect mb4
 		$tools = new MySqlTools();
-		if ($tools->supports4ByteCharset($connection)) {
+		if ($tools->supports4ByteCharset(new ConnectionAdapter($connection))) {
 			$this->config->setValue('mysql.utf8mb4', true);
 			$connection = $this->connect(['dbname' => null]);
 		}
 
-		$this->createSpecificUser($username, $connection);
+		$this->createSpecificUser($username, new ConnectionAdapter($connection));
 
 		//create the database
 		$this->createDatabase($connection);
@@ -156,27 +157,24 @@ class MySQL extends AbstractDatabase {
 					$result = $connection->executeQuery($query, [$adminUser]);
 
 					//current dbuser has admin rights
-					if ($result) {
-						$data = $result->fetchAll();
-						//new dbuser does not exist
-						if (count($data) === 0) {
-							//use the admin login data for the new database user
-							$this->dbUser = $adminUser;
+					$data = $result->fetchAll();
+					$result->closeCursor();
+					//new dbuser does not exist
+					if (count($data) === 0) {
+						//use the admin login data for the new database user
+						$this->dbUser = $adminUser;
 
-							//create a random password so we don't need to store the admin password in the config file
-							$this->dbPassword = $this->random->generate(30);
+						//create a random password so we don't need to store the admin password in the config file
+						$this->dbPassword = $this->random->generate(30);
 
-							$this->createDBUser($connection);
+						$this->createDBUser($connection);
 
-							break;
-						} else {
-							//repeat with different username
-							$length = strlen((string)$i);
-							$adminUser = substr('oc_' . $username, 0, 16 - $length) . $i;
-							$i++;
-						}
-					} else {
 						break;
+					} else {
+						//repeat with different username
+						$length = strlen((string)$i);
+						$adminUser = substr('oc_' . $username, 0, 16 - $length) . $i;
+						$i++;
 					}
 				}
 			}

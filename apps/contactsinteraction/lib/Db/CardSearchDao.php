@@ -82,7 +82,7 @@ class CardSearchDao {
 			->setMaxResults(1);
 		$result = $cardQuery->execute();
 		/** @var string|resource|false $card */
-		$card = $result->fetchColumn(0);
+		$card = $result->fetchOne();
 
 		if ($card === false) {
 			return null;

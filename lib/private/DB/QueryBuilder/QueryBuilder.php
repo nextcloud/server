@@ -30,11 +30,12 @@
 
 namespace OC\DB\QueryBuilder;
 
-use Doctrine\DBAL\Platforms\MySqlPlatform;
-use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
+use Doctrine\DBAL\Platforms\MySQLPlatform;
+use Doctrine\DBAL\Platforms\OraclePlatform;
+use Doctrine\DBAL\Platforms\PostgreSQL94Platform;
 use Doctrine\DBAL\Platforms\SqlitePlatform;
 use Doctrine\DBAL\Query\QueryException;
-use OC\DB\OracleConnection;
+use OC\DB\ConnectionAdapter;
 use OC\DB\QueryBuilder\ExpressionBuilder\ExpressionBuilder;
 use OC\DB\QueryBuilder\ExpressionBuilder\MySqlExpressionBuilder;
 use OC\DB\QueryBuilder\ExpressionBuilder\OCIExpressionBuilder;
@@ -44,17 +45,18 @@ use OC\DB\QueryBuilder\FunctionBuilder\FunctionBuilder;
 use OC\DB\QueryBuilder\FunctionBuilder\OCIFunctionBuilder;
 use OC\DB\QueryBuilder\FunctionBuilder\PgSqlFunctionBuilder;
 use OC\DB\QueryBuilder\FunctionBuilder\SqliteFunctionBuilder;
+use OC\DB\ResultAdapter;
 use OC\SystemConfig;
+use OCP\DB\IResult;
 use OCP\DB\QueryBuilder\ILiteral;
 use OCP\DB\QueryBuilder\IParameter;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\DB\QueryBuilder\IQueryFunction;
-use OCP\IDBConnection;
 use OCP\ILogger;
 
 class QueryBuilder implements IQueryBuilder {
 
-	/** @var \OCP\IDBConnection */
+	/** @var ConnectionAdapter */
 	private $connection;
 
 	/** @var SystemConfig */
@@ -78,15 +80,15 @@ class QueryBuilder implements IQueryBuilder {
 	/**
 	 * Initializes a new QueryBuilder.
 	 *
-	 * @param IDBConnection $connection
+	 * @param ConnectionAdapter $connection
 	 * @param SystemConfig $systemConfig
 	 * @param ILogger $logger
 	 */
-	public function __construct(IDBConnection $connection, SystemConfig $systemConfig, ILogger $logger) {
+	public function __construct(ConnectionAdapter $connection, SystemConfig $systemConfig, ILogger $logger) {
 		$this->connection = $connection;
 		$this->systemConfig = $systemConfig;
 		$this->logger = $logger;
-		$this->queryBuilder = new \Doctrine\DBAL\Query\QueryBuilder($this->connection);
+		$this->queryBuilder = new \Doctrine\DBAL\Query\QueryBuilder($this->connection->getInner());
 		$this->helper = new QuoteHelper();
 	}
 
@@ -118,17 +120,20 @@ class QueryBuilder implements IQueryBuilder {
 	 * @return \OCP\DB\QueryBuilder\IExpressionBuilder
 	 */
 	public function expr() {
-		if ($this->connection instanceof OracleConnection) {
+		if ($this->connection->getDatabasePlatform() instanceof OraclePlatform) {
 			return new OCIExpressionBuilder($this->connection, $this);
-		} elseif ($this->connection->getDatabasePlatform() instanceof PostgreSqlPlatform) {
-			return new PgSqlExpressionBuilder($this->connection, $this);
-		} elseif ($this->connection->getDatabasePlatform() instanceof MySqlPlatform) {
-			return new MySqlExpressionBuilder($this->connection, $this);
-		} elseif ($this->connection->getDatabasePlatform() instanceof SqlitePlatform) {
-			return new SqliteExpressionBuilder($this->connection, $this);
-		} else {
-			return new ExpressionBuilder($this->connection, $this);
 		}
+		if ($this->connection->getDatabasePlatform() instanceof PostgreSQL94Platform) {
+			return new PgSqlExpressionBuilder($this->connection, $this);
+		}
+		if ($this->connection->getDatabasePlatform() instanceof MySQLPlatform) {
+			return new MySqlExpressionBuilder($this->connection, $this);
+		}
+		if ($this->connection->getDatabasePlatform() instanceof SqlitePlatform) {
+			return new SqliteExpressionBuilder($this->connection, $this);
+		}
+
+		return new ExpressionBuilder($this->connection, $this);
 	}
 
 	/**
@@ -148,15 +153,17 @@ class QueryBuilder implements IQueryBuilder {
 	 * @return \OCP\DB\QueryBuilder\IFunctionBuilder
 	 */
 	public function func() {
-		if ($this->connection instanceof OracleConnection) {
+		if ($this->connection->getDatabasePlatform() instanceof OraclePlatform) {
 			return new OCIFunctionBuilder($this->helper);
-		} elseif ($this->connection->getDatabasePlatform() instanceof SqlitePlatform) {
-			return new SqliteFunctionBuilder($this->helper);
-		} elseif ($this->connection->getDatabasePlatform() instanceof PostgreSqlPlatform) {
-			return new PgSqlFunctionBuilder($this->helper);
-		} else {
-			return new FunctionBuilder($this->helper);
 		}
+		if ($this->connection->getDatabasePlatform() instanceof SqlitePlatform) {
+			return new SqliteFunctionBuilder($this->helper);
+		}
+		if ($this->connection->getDatabasePlatform() instanceof PostgreSQL94Platform) {
+			return new PgSqlFunctionBuilder($this->helper);
+		}
+
+		return new FunctionBuilder($this->helper);
 	}
 
 	/**
@@ -192,7 +199,7 @@ class QueryBuilder implements IQueryBuilder {
 	 * Uses {@see Connection::executeQuery} for select statements and {@see Connection::executeUpdate}
 	 * for insert, update and delete statements.
 	 *
-	 * @return \Doctrine\DBAL\Driver\Statement|int
+	 * @return IResult|int
 	 */
 	public function execute() {
 		if ($this->systemConfig->getValue('log_query', false)) {
@@ -246,7 +253,11 @@ class QueryBuilder implements IQueryBuilder {
 			}
 		}
 
-		return $this->queryBuilder->execute();
+		$result = $this->queryBuilder->execute();
+		if (is_int($result)) {
+			return $result;
+		}
+		return new ResultAdapter($result);
 	}
 
 	/**

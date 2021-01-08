@@ -24,7 +24,7 @@
 
 namespace OC\Core\Command\Db;
 
-use Doctrine\DBAL\Platforms\MySqlPlatform;
+use Doctrine\DBAL\Platforms\MySQLPlatform;
 use OC\DB\MySqlTools;
 use OC\Migration\ConsoleOutput;
 use OC\Repair\Collation;
@@ -70,7 +70,7 @@ class ConvertMysqlToMB4 extends Command {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-		if (!$this->connection->getDatabasePlatform() instanceof MySqlPlatform) {
+		if (!$this->connection->getDatabasePlatform() instanceof MySQLPlatform) {
 			$output->writeln("This command is only valid for MySQL/MariaDB databases.");
 			return 1;
 		}

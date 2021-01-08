@@ -71,7 +71,7 @@ class RepairMimeTypes implements IRepairStep {
 		if (empty($this->folderMimeTypeId)) {
 			$query->setParameter('mimetype', 'httpd/unix-directory');
 			$result = $query->execute();
-			$this->folderMimeTypeId = (int)$result->fetchColumn();
+			$this->folderMimeTypeId = (int)$result->fetchOne();
 			$result->closeCursor();
 		}
 
@@ -88,7 +88,7 @@ class RepairMimeTypes implements IRepairStep {
 			// get target mimetype id
 			$query->setParameter('mimetype', $mimetype);
 			$result = $query->execute();
-			$mimetypeId = (int)$result->fetchColumn();
+			$mimetypeId = (int)$result->fetchOne();
 			$result->closeCursor();
 
 			if (!$mimetypeId) {
@@ -242,7 +242,7 @@ class RepairMimeTypes implements IRepairStep {
 		if (version_compare($ocVersionFromBeforeUpdate, '20.0.0.5', '<') && $this->introduceOpenDocumentTemplates()) {
 			$out->info('Fixed OpenDocument template mime types');
 		}
-		
+
 		if (version_compare($ocVersionFromBeforeUpdate, '21.0.0.7', '<') && $this->introduceOrgModeType()) {
 			$out->info('Fixed orgmode mime types');
 		}
