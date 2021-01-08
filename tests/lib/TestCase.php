@@ -261,7 +261,12 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 		}
 		$dataDir = \OC::$server->getConfig()->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data-autotest');
 		if (self::$wasDatabaseAllowed && \OC::$server->getDatabaseConnection()) {
-			$queryBuilder = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+			$db = \OC::$server->getDatabaseConnection();
+			if ($db->inTransaction()) {
+				$db->rollBack();
+				throw new \Exception('There was a transaction still in progress and needed to be rolled back. Please fix this in your test.');
+			}
+			$queryBuilder = $db->getQueryBuilder();
 
 			self::tearDownAfterClassCleanShares($queryBuilder);
 			self::tearDownAfterClassCleanStorages($queryBuilder);
