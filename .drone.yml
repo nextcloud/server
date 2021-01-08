@@ -7,7 +7,7 @@ steps:
   commands:
     - git submodule update --init
 - name: checkers
-  image: nextcloudci/php7.3:latest
+  image: nextcloudci/php7.3:php7.3-5
   commands:
     - ./autotest-checkers.sh
   secrets: [ github_token ]
@@ -224,12 +224,12 @@ steps:
   commands:
     - git submodule update --init
 - name: nodb-php7.3
-  image: nextcloudci/php7.3:latest
+  image: nextcloudci/php7.3:php7.3-5
   commands:
     - bash tests/drone-run-php-tests.sh || exit 0
     - NOCOVERAGE=true TEST_SELECTION=NODB ./autotest.sh sqlite
 - name: nodb-php7.4
-  image: nextcloudci/php7.4:latest
+  image: nextcloudci/php7.4:php7.4-3
   commands:
     - bash tests/drone-run-php-tests.sh || exit 0
     - NOCOVERAGE=true TEST_SELECTION=NODB ./autotest.sh sqlite
@@ -261,12 +261,12 @@ steps:
   commands:
     - git submodule update --init
 - name: sqlite-php7.3
-  image: nextcloudci/php7.3:latest
+  image: nextcloudci/php7.3:php7.3-5
   commands:
     - bash tests/drone-run-php-tests.sh || exit 0
     - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh sqlite
 - name: sqlite-php7.4
-  image: nextcloudci/php7.4:latest
+  image: nextcloudci/php7.4:php7.4-3
   commands:
     - bash tests/drone-run-php-tests.sh || exit 0
     - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh sqlite
@@ -298,7 +298,7 @@ steps:
   commands:
     - git submodule update --init
 - name: mariadb10.1-php7.3
-  image: nextcloudci/php7.3:latest
+  image: nextcloudci/php7.3:php7.3-5
   commands:
     - bash tests/drone-run-php-tests.sh || exit 0
     - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mariadb
@@ -334,7 +334,7 @@ steps:
   commands:
     - git submodule update --init
 - name: mariadb10.2-php7.3
-  image: nextcloudci/php7.3:latest
+  image: nextcloudci/php7.3:php7.3-5
   commands:
     - bash tests/drone-run-php-tests.sh || exit 0
     - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mariadb
@@ -369,7 +369,7 @@ steps:
   commands:
     - git submodule update --init
 - name: mariadb10.3-php7.3
-  image: nextcloudci/php7.3:latest
+  image: nextcloudci/php7.3:php7.3-5
   commands:
     - bash tests/drone-run-php-tests.sh || exit 0
     - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mariadb
@@ -405,7 +405,7 @@ steps:
   commands:
     - git submodule update --init
 - name: mariadb10.4-php7.4
-  image: nextcloudci/php7.4:latest
+  image: nextcloudci/php7.4:php7.4-3
   commands:
     - bash tests/drone-run-php-tests.sh || exit 0
     - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mariadb
@@ -446,7 +446,7 @@ steps:
   commands:
     - git submodule update --init
 - name: mysql-php7.4
-  image: nextcloudci/php7.4:latest
+  image: nextcloudci/php7.4:php7.4-3
   commands:
     - bash tests/drone-run-php-tests.sh || exit 0
     - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysql
@@ -483,7 +483,7 @@ steps:
   commands:
     - git submodule update --init
 - name: postgres-php7.3
-  image: nextcloudci/php7.3:php7.3-4
+  image: nextcloudci/php7.3:php7.3-5
   commands:
     - bash tests/drone-run-php-tests.sh || exit 0
     - sleep 10 # gives the database enough time to initialize
@@ -519,7 +519,7 @@ steps:
   commands:
     - git submodule update --init
 - name: postgres-php7.3
-  image: nextcloudci/php7.3:latest
+  image: nextcloudci/php7.3:php7.3-5
   commands:
     - bash tests/drone-run-php-tests.sh || exit 0
     - sleep 10 # gives the database enough time to initialize
@@ -554,7 +554,7 @@ steps:
   commands:
     - git submodule update --init
 - name: postgres-php7.4
-  image: nextcloudci/php7.4:latest
+  image: nextcloudci/php7.4:php7.4-3
   commands:
     - bash tests/drone-run-php-tests.sh || exit 0
     - sleep 10 # gives the database enough time to initialize
@@ -590,7 +590,7 @@ steps:
   commands:
     - git submodule update --init
 - name: postgres-php7.4
-  image: nextcloudci/php7.4:latest
+  image: nextcloudci/php7.4:php7.4-3
   commands:
     - bash tests/drone-run-php-tests.sh || exit 0
     - sleep 10 # gives the database enough time to initialize
@@ -626,7 +626,7 @@ steps:
   commands:
     - git submodule update --init
 - name: postgres-php7.4
-  image: nextcloudci/php7.4:latest
+  image: nextcloudci/php7.4:php7.4-3
   commands:
     - bash tests/drone-run-php-tests.sh || exit 0
     - sleep 10 # gives the database enough time to initialize
@@ -662,7 +662,7 @@ steps:
   commands:
     - git submodule update --init
 - name: mysqlmb4-php7.4
-  image: nextcloudci/php7.4:latest
+  image: nextcloudci/php7.4:php7.4-3
   commands:
     - bash tests/drone-run-php-tests.sh || exit 0
     - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysqlmb4
@@ -703,7 +703,7 @@ steps:
   commands:
     - git submodule update --init
 - name: mysqlmb4-php7.3
-  image: nextcloudci/php7.3:php7.3-4
+  image: nextcloudci/php7.3:php7.3-5
   commands:
     - bash tests/drone-run-php-tests.sh || exit 0
     - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysqlmb4
@@ -2008,7 +2008,7 @@ steps:
   commands:
     - git submodule update --init
 - name: nodb-codecov
-  image: nextcloudci/php7.4:latest
+  image: nextcloudci/php7.4:php7.4-3
   environment:
       CODECOV_TOKEN:
           from_secret: CODECOV_TOKEN
@@ -2039,7 +2039,7 @@ steps:
   commands:
     - git submodule update --init
 - name: db-codecov
-  image: nextcloudci/php7.4:latest
+  image: nextcloudci/php7.4:php7.4-3
   environment:
       CODECOV_TOKEN:
           from_secret: CODECOV_TOKEN
@@ -2070,7 +2070,7 @@ steps:
   commands:
     - git submodule update --init
 - name: object-store
-  image: nextcloudci/php7.4:latest
+  image: nextcloudci/php7.4:php7.4-3
   environment:
       CODECOV_TOKEN:
           from_secret: CODECOV_TOKEN
@@ -2103,7 +2103,7 @@ steps:
   commands:
     - git submodule update --init
 - name: object-store
-  image: nextcloudci/php7.4:latest
+  image: nextcloudci/php7.4:php7.4-3
   environment:
       CODECOV_TOKEN:
           from_secret: CODECOV_TOKEN
@@ -2237,7 +2237,7 @@ trigger:
 #  commands:
 #    - git submodule update --init
 #- name: memcache-redis-cluster
-#  image: nextcloudci/php7.3:latest
+#  image: nextcloudci/php7.3:php7.3-5
 #  commands:
 #    - phpenmod xdebug
 #    - sleep 20
