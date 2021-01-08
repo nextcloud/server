@@ -66,7 +66,7 @@ class MySQL extends AbstractDatabase {
 		} catch (\Exception $e) {
 			$this->logger->logException($e);
 			throw new \OC\DatabaseSetupException($this->trans->t('MySQL username and/or password not valid'),
-				$this->trans->t('You need to enter details of an existing account.'));
+				$this->trans->t('You need to enter details of an existing account.'), 0, $e);
 		}
 	}
 
