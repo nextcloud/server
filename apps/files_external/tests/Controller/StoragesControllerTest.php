@@ -338,7 +338,9 @@ abstract class StoragesControllerTest extends \Test\TestCase {
 		$response = $this->controller->show(1);
 
 		$this->assertEquals(Http::STATUS_OK, $response->getStatus());
-		$this->assertEquals($storageConfig, $response->getData());
+		$expected = $storageConfig->jsonSerialize();
+		$expected['can_edit'] = false;
+		$this->assertEquals($expected, $response->getData());
 	}
 
 	public function validateStorageProvider() {
