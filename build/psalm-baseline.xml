@@ -1,10 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <files psalm-version="4.2.1@ea9cb72143b77e7520c52fa37290bd8d8bc88fd9">
-  <file src="3rdparty/doctrine/dbal/lib/Doctrine/DBAL/Connection.php">
-    <ImplementedReturnTypeMismatch occurrences="1">
-      <code>string|null</code>
-    </ImplementedReturnTypeMismatch>
-  </file>
   <file src="3rdparty/sabre/dav/lib/CalDAV/Calendar.php">
     <MoreSpecificImplementedParamType occurrences="1">
       <code>$calendarData</code>
@@ -2527,14 +2522,6 @@
       <code>dispatch</code>
     </TooManyArguments>
   </file>
-  <file src="apps/workflowengine/lib/Migration/PopulateNewlyIntroducedDatabaseFields.php">
-    <InvalidReturnStatement occurrences="1">
-      <code>$selectQuery-&gt;execute()</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
-      <code>Statement</code>
-    </InvalidReturnType>
-  </file>
   <file src="apps/workflowengine/lib/Service/RuleMatcher.php">
     <UndefinedInterfaceMethod occurrences="5">
       <code>getAllConfiguredScopesForOperation</code>
@@ -3061,14 +3048,10 @@
     </MoreSpecificImplementedParamType>
   </file>
   <file src="lib/private/Archive/TAR.php">
-    <FalsableReturnStatement occurrences="1">
-      <code>false</code>
-    </FalsableReturnStatement>
-    <InvalidReturnStatement occurrences="2">
+    <InvalidReturnStatement occurrences="1">
       <code>$this-&gt;tar-&gt;extractInString($path)</code>
     </InvalidReturnStatement>
-    <InvalidReturnType occurrences="2">
-      <code>resource</code>
+    <InvalidReturnType occurrences="1">
       <code>string</code>
     </InvalidReturnType>
     <UndefinedDocblockClass occurrences="1">
@@ -3080,10 +3063,6 @@
       <code>boolean|null</code>
       <code>boolean|null</code>
     </ImplementedReturnTypeMismatch>
-    <InvalidReturnStatement occurrences="1"/>
-    <InvalidReturnType occurrences="1">
-      <code>resource</code>
-    </InvalidReturnType>
   </file>
   <file src="lib/private/Authentication/LoginCredentials/Store.php">
     <RedundantCondition occurrences="1">
@@ -3388,15 +3367,7 @@
       <code>getParams</code>
     </InternalMethod>
   </file>
-  <file src="lib/private/DB/AdapterPgSql.php">
-    <FalsableReturnStatement occurrences="1">
-      <code>$this-&gt;conn-&gt;fetchColumn('SELECT lastval()')</code>
-    </FalsableReturnStatement>
-  </file>
   <file src="lib/private/DB/Connection.php">
-    <ImplementedReturnTypeMismatch occurrences="1">
-      <code>string</code>
-    </ImplementedReturnTypeMismatch>
     <InternalMethod occurrences="1">
       <code>getParams</code>
     </InternalMethod>
@@ -3411,9 +3382,6 @@
     <InvalidScalarArgument occurrences="1">
       <code>$e-&gt;getCode()</code>
     </InvalidScalarArgument>
-    <LessSpecificImplementedReturnType occurrences="1">
-      <code>\Doctrine\DBAL\Driver\Statement</code>
-    </LessSpecificImplementedReturnType>
     <ParamNameMismatch occurrences="1">
       <code>$statement</code>
     </ParamNameMismatch>
@@ -3421,11 +3389,6 @@
   <file src="lib/private/DB/MDB2SchemaReader.php">
     <InvalidScalarArgument occurrences="1">
       <code>$options['default']</code>
-    </InvalidScalarArgument>
-  </file>
-  <file src="lib/private/DB/MDB2SchemaWriter.php">
-    <InvalidScalarArgument occurrences="1">
-      <code>$column-&gt;getLength()</code>
     </InvalidScalarArgument>
   </file>
   <file src="lib/private/DB/MigrationService.php">
@@ -3465,9 +3428,6 @@
     <ImplicitToStringCast occurrences="1">
       <code>$this-&gt;functionBuilder-&gt;lower($x)</code>
     </ImplicitToStringCast>
-    <InvalidArgument occurrences="1">
-      <code>$connection</code>
-    </InvalidArgument>
     <InvalidScalarArgument occurrences="2">
       <code>$y</code>
       <code>$y</code>
@@ -3487,9 +3447,6 @@
     </InvalidReturnType>
   </file>
   <file src="lib/private/DB/QueryBuilder/QueryBuilder.php">
-    <InvalidArgument occurrences="1">
-      <code>$this-&gt;connection</code>
-    </InvalidArgument>
     <InvalidNullableReturnType occurrences="1">
       <code>string</code>
     </InvalidNullableReturnType>
@@ -3592,9 +3549,6 @@
     <ImplementedParamTypeMismatch occurrences="1">
       <code>$eventName</code>
     </ImplementedParamTypeMismatch>
-    <ImplementedReturnTypeMismatch occurrences="1">
-      <code>void</code>
-    </ImplementedReturnTypeMismatch>
     <InvalidArgument occurrences="1">
       <code>$eventName</code>
     </InvalidArgument>
@@ -4768,12 +4722,6 @@
     <InvalidPropertyAssignmentValue occurrences="1">
       <code>$this-&gt;userToNotify</code>
     </InvalidPropertyAssignmentValue>
-    <InvalidReturnStatement occurrences="1">
-      <code>$query-&gt;execute()</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
-      <code>\Doctrine\DBAL\Driver\Statement</code>
-    </InvalidReturnType>
   </file>
   <file src="lib/private/Route/Router.php">
     <InvalidClass occurrences="1">
@@ -5287,11 +5235,6 @@
     <InvalidReturnType occurrences="1">
       <code>OC_DB_StatementWrapper</code>
     </InvalidReturnType>
-  </file>
-  <file src="lib/private/legacy/OC_DB_StatementWrapper.php">
-    <FalsableReturnStatement occurrences="1">
-      <code>$this-&gt;statement-&gt;fetchColumn($column)</code>
-    </FalsableReturnStatement>
   </file>
   <file src="lib/private/legacy/OC_EventSource.php">
     <RedundantCondition occurrences="1">
