@@ -25,6 +25,7 @@ OC.L10N.register(
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} z {totalSize} ({bitrate})",
     "Uploading that item is not supported" : "Nahrávanie tejto položky nie je podporované",
     "Target folder does not exist any more" : "Cieľový priečinok už neexistuje",
+    "Operation is blocked by access control" : "Činnosť je blokovaná kontrolou prístupu",
     "Error when assembling chunks, status code {status}" : "Chyba pri zostavovaní kusov, kód chyby {status}",
     "Actions" : "Akcie",
     "Rename" : "Premenovať",

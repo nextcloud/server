@@ -165,6 +165,7 @@
     "Oct." : "Okt.",
     "Nov." : "Nov.",
     "Dec." : "Dec.",
+    "The user limit has been reached and the user was not created." : "Bol dosiahnutý limit používateľov a používateľ nebol vytvorený.",
     "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "V mene používateľa je možné použiť iba nasledovné znaky: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"",
     "A valid username must be provided" : "Musíte zadať platné používateľské meno",
     "Username contains whitespace at the beginning or at the end" : "Meno používateľa obsahuje na začiatku, alebo na konci medzeru",
