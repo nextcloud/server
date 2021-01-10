@@ -252,7 +252,8 @@
 				this._filesConfig = OCA.Files.App.getFilesConfig();
 			} else {
 				this._filesConfig = new OC.Backbone.Model({
-					'showhidden': false
+					'showhidden': false,
+					'cropimagepreviews': true
 				});
 			}
 
@@ -289,6 +290,10 @@
 						// hiding files could make the page too small, need to try rendering next page
 						self._onScroll();
 					}
+				});
+
+				this._filesConfig.on('change:cropimagepreviews', function() {
+					self.reload();
 				});
 
 				this.$el.toggleClass('hide-hidden-files', !this._filesConfig.get('showhidden'));
@@ -2214,6 +2219,12 @@
 			urlSpec.x = Math.ceil(urlSpec.x);
 			urlSpec.y = Math.ceil(urlSpec.y);
 			urlSpec.forceIcon = 0;
+
+			/**
+			 * Images are cropped to a square by default. Append a=1 to the URL
+			 *  if the user wants to see images with original aspect ratio.
+			 */
+			urlSpec.a = this._filesConfig.get('cropimagepreviews') ? 0 : 1;
 
 			if (typeof urlSpec.fileId !== 'undefined') {
 				delete urlSpec.file;

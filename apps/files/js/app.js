@@ -56,13 +56,18 @@
 			var showHidden = $('#showHiddenFiles').val() === "1";
 			this.$showHiddenFiles.prop('checked', showHidden);
 
+			// crop image previews
+			this.$cropImagePreviews = $('input#cropimagepreviewsToggle');
+			var cropImagePreviews = $('#cropImagePreviews').val() === "1";
+			this.$cropImagePreviews.prop('checked', cropImagePreviews);
 
 			if ($('#fileNotFound').val() === "1") {
 				OC.Notification.show(t('files', 'File could not be found'), {type: 'error'});
 			}
 
 			this._filesConfig = new OC.Backbone.Model({
-				showhidden: showHidden
+				showhidden: showHidden,
+				cropimagepreviews: cropImagePreviews,
 			});
 
 			var urlParams = OC.Util.History.parseUrlQuery();
@@ -132,6 +137,7 @@
 			});
 
 			this._debouncedPersistShowHiddenFilesState = _.debounce(this._persistShowHiddenFilesState, 1200);
+			this._debouncedPersistCropImagePreviewsState = _.debounce(this._persistCropImagePreviewsState, 1200);
 
 			if (sessionStorage.getItem('WhatsNewServerCheck') < (Date.now() - 3600*1000)) {
 				OCP.WhatsNew.query(); // for Nextcloud server
@@ -231,6 +237,7 @@
 
 			$('#app-navigation').on('itemChanged', _.bind(this._onNavigationChanged, this));
 			this.$showHiddenFiles.on('change', _.bind(this._onShowHiddenFilesChange, this));
+			this.$cropImagePreviews.on('change', _.bind(this._onCropImagePreviewsChange, this));
 		},
 
 		/**
@@ -253,6 +260,29 @@
 			var show = this._filesConfig.get('showhidden');
 			$.post(OC.generateUrl('/apps/files/api/v1/showhidden'), {
 				show: show
+			});
+		},
+
+		/**
+		 * Toggle cropping image previews according to the settings checkbox
+		 *
+		 * @returns void
+		 */
+		_onCropImagePreviewsChange: function() {
+			var crop = this.$cropImagePreviews.is(':checked');
+			this._filesConfig.set('cropimagepreviews', crop);
+			this._debouncedPersistCropImagePreviewsState();
+		},
+
+		/**
+		 * Persist crop image previews preference on the server
+		 *
+		 * @returns void
+		 */
+		_persistCropImagePreviewsState: function() {
+			var crop = this._filesConfig.get('cropimagepreviews');
+			$.post(OC.generateUrl('/apps/files/api/v1/cropimagepreviews'), {
+				crop: crop
 			});
 		},
 

@@ -77,6 +77,11 @@ $application->registerRoutes(
 				'verb' => 'POST'
 			],
 			[
+				'name' => 'API#cropImagePreviews',
+				'url' => '/api/v1/cropimagepreviews',
+				'verb' => 'POST'
+			],
+			[
 				'name' => 'API#showGridView',
 				'url' => '/api/v1/showgridview',
 				'verb' => 'POST'
