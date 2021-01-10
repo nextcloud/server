@@ -21,6 +21,8 @@ OC.L10N.register(
     "Good afternoon, {name}" : "Goedemiddag, {name}",
     "Good evening" : "Goedenavond",
     "Good evening, {name}" : "Goedenavond, {name}",
+    "Hello" : "Hallo",
+    "Hello, {name}" : "Hallo, {name}",
     "Pick from Files" : "Kies uit Bestanden",
     "Default images" : "Standaardafbeeldingen",
     "Plain background" : "Kale achtergrond",
