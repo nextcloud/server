@@ -151,14 +151,14 @@ class Notifier implements INotifier {
 					switch ($action->getLabel()) {
 						case 'accept':
 							$action->setParsedLabel(
-								(string)$l->t('Accept')
+								$l->t('Accept')
 							)
 								->setPrimary(true);
 							break;
 
 						case 'decline':
 							$action->setParsedLabel(
-								(string)$l->t('Decline')
+								$l->t('Decline')
 							);
 							break;
 					}

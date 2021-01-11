@@ -158,19 +158,19 @@ class DependencyAnalyzer {
 		if (isset($dependencies['php']['@attributes']['min-version'])) {
 			$minVersion = $dependencies['php']['@attributes']['min-version'];
 			if ($this->compareSmaller($this->platform->getPhpVersion(), $minVersion)) {
-				$missing[] = (string)$this->l->t('PHP %s or higher is required.', [$minVersion]);
+				$missing[] = $this->l->t('PHP %s or higher is required.', [$minVersion]);
 			}
 		}
 		if (isset($dependencies['php']['@attributes']['max-version'])) {
 			$maxVersion = $dependencies['php']['@attributes']['max-version'];
 			if ($this->compareBigger($this->platform->getPhpVersion(), $maxVersion)) {
-				$missing[] = (string)$this->l->t('PHP with a version lower than %s is required.', [$maxVersion]);
+				$missing[] = $this->l->t('PHP with a version lower than %s is required.', [$maxVersion]);
 			}
 		}
 		if (isset($dependencies['php']['@attributes']['min-int-size'])) {
 			$intSize = $dependencies['php']['@attributes']['min-int-size'];
 			if ($intSize > $this->platform->getIntSize() * 8) {
-				$missing[] = (string)$this->l->t('%sbit or higher PHP required.', [$intSize]);
+				$missing[] = $this->l->t('%sbit or higher PHP required.', [$intSize]);
 			}
 		}
 		return $missing;
@@ -194,7 +194,7 @@ class DependencyAnalyzer {
 		}, $supportedArchitectures);
 		$currentArchitecture = $this->platform->getArchitecture();
 		if (!in_array($currentArchitecture, $supportedArchitectures, true)) {
-			$missing[] = (string)$this->l->t('The following architectures are supported: %s', [implode(', ', $supportedArchitectures)]);
+			$missing[] = $this->l->t('The following architectures are supported: %s', [implode(', ', $supportedArchitectures)]);
 		}
 		return $missing;
 	}
@@ -221,7 +221,7 @@ class DependencyAnalyzer {
 		}, $supportedDatabases);
 		$currentDatabase = $this->platform->getDatabase();
 		if (!in_array($currentDatabase, $supportedDatabases)) {
-			$missing[] = (string)$this->l->t('The following databases are supported: %s', [implode(', ', $supportedDatabases)]);
+			$missing[] = $this->l->t('The following databases are supported: %s', [implode(', ', $supportedDatabases)]);
 		}
 		return $missing;
 	}
@@ -250,7 +250,7 @@ class DependencyAnalyzer {
 			}
 			$commandName = $this->getValue($command);
 			if (!$this->platform->isCommandKnown($commandName)) {
-				$missing[] = (string)$this->l->t('The command line tool %s could not be found', [$commandName]);
+				$missing[] = $this->l->t('The command line tool %s could not be found', [$commandName]);
 			}
 		}
 		return $missing;
@@ -324,7 +324,7 @@ class DependencyAnalyzer {
 		}
 		$currentOS = $this->platform->getOS();
 		if (!in_array($currentOS, $oss)) {
-			$missing[] = (string)$this->l->t('The following platforms are supported: %s', [implode(', ', $oss)]);
+			$missing[] = $this->l->t('The following platforms are supported: %s', [implode(', ', $oss)]);
 		}
 		return $missing;
 	}
@@ -350,12 +350,12 @@ class DependencyAnalyzer {
 
 		if (!is_null($minVersion)) {
 			if ($this->compareSmaller($this->platform->getOcVersion(), $minVersion)) {
-				$missing[] = (string)$this->l->t('Server version %s or higher is required.', [$this->toVisibleVersion($minVersion)]);
+				$missing[] = $this->l->t('Server version %s or higher is required.', [$this->toVisibleVersion($minVersion)]);
 			}
 		}
 		if (!$ignoreMax && !is_null($maxVersion)) {
 			if ($this->compareBigger($this->platform->getOcVersion(), $maxVersion)) {
-				$missing[] = (string)$this->l->t('Server version %s or lower is required.', [$this->toVisibleVersion($maxVersion)]);
+				$missing[] = $this->l->t('Server version %s or lower is required.', [$this->toVisibleVersion($maxVersion)]);
 			}
 		}
 		return $missing;

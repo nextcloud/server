@@ -212,7 +212,7 @@ class ShareesAPIController extends OCSController {
 		}
 		sort($shareTypes);
 
-		$this->limit = (int) $perPage;
+		$this->limit = $perPage;
 		$this->offset = $perPage * ($page - 1);
 
 		// In global scale mode we always search the loogup server

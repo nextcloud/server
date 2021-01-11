@@ -133,7 +133,7 @@ class Dispatcher {
 
 				if ($numBuilt > 50) {
 					$this->logger->debug('Controller {class}::{method} created {count} QueryBuilder objects, please check if they are created inside a loop by accident.' , [
-						'class' => (string) get_class($controller),
+						'class' => get_class($controller),
 						'method' => $methodName,
 						'count' => $numBuilt,
 					]);
@@ -141,7 +141,7 @@ class Dispatcher {
 
 				if ($numExecuted > 100) {
 					$this->logger->warning('Controller {class}::{method} executed {count} queries.' , [
-						'class' => (string) get_class($controller),
+						'class' => get_class($controller),
 						'method' => $methodName,
 						'count' => $numExecuted,
 					]);

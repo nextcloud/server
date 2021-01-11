@@ -123,7 +123,7 @@ class Factory implements IFactory {
 		return new LazyL10N(function () use ($app, $lang, $locale) {
 			$app = \OC_App::cleanAppId($app);
 			if ($lang !== null) {
-				$lang = str_replace(['\0', '/', '\\', '..'], '', (string)$lang);
+				$lang = str_replace(['\0', '/', '\\', '..'], '', $lang);
 			}
 
 			$forceLang = $this->config->getSystemValue('force_language', false);
@@ -617,7 +617,7 @@ class Factory implements IFactory {
 		$forceLanguage = $this->config->getSystemValue('force_language', false);
 		if ($forceLanguage !== false) {
 			$l = $this->get('lib', $forceLanguage);
-			$potentialName = (string) $l->t('__language_name__');
+			$potentialName = $l->t('__language_name__');
 
 			return [
 				'commonlanguages' => [[
@@ -636,7 +636,7 @@ class Factory implements IFactory {
 		foreach ($languageCodes as $lang) {
 			$l = $this->get('lib', $lang);
 			// TRANSLATORS this is the language name for the language switcher in the personal settings and should be the localized version
-			$potentialName = (string) $l->t('__language_name__');
+			$potentialName = $l->t('__language_name__');
 			if ($l->getLanguageCode() === $lang && $potentialName[0] !== '_') {//first check if the language name is in the translation file
 				$ln = [
 					'code' => $lang,

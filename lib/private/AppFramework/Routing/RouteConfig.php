@@ -231,7 +231,7 @@ class RouteConfig {
 				$controllerName = $this->buildControllerName($controller);
 				$actionName = $this->buildActionName($method);
 
-				$routeName = $routeNamePrefix . $this->appName . '.' . strtolower($resource) . '.' . strtolower($method);
+				$routeName = $routeNamePrefix . $this->appName . '.' . strtolower($resource) . '.' . $method;
 
 				$route = $this->router->create($routeName, $url)
 					->method($verb);

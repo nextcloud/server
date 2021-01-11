@@ -1031,7 +1031,7 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 			$insert->setParameter('propertypath', (string) $row['propertypath'])
 				->setParameter('propertyname', (string) $row['propertyname'])
 				->setParameter('propertyvalue', (string) $row['propertyvalue'])
-				->setParameter('userid', (string) ($match[2] ?? ''));
+				->setParameter('userid', ($match[2] ?? ''));
 			$insert->execute();
 		}
 	}

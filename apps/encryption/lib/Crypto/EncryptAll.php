@@ -422,7 +422,7 @@ class EncryptAll {
 					continue;
 				}
 
-				$subject = (string)$this->l->t('one-time password for server-side-encryption');
+				$subject = $this->l->t('one-time password for server-side-encryption');
 				list($htmlBody, $textBody) = $this->createMailBody($password);
 
 				// send it out now

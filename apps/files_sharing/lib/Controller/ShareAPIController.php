@@ -1064,7 +1064,7 @@ class ShareAPIController extends OCSController {
 			}
 
 			if ($permissions !== null) {
-				$newPermissions = (int) $permissions;
+				$newPermissions = $permissions;
 				$newPermissions = $newPermissions & ~Constants::PERMISSION_SHARE;
 			}
 
@@ -1147,7 +1147,6 @@ class ShareAPIController extends OCSController {
 		// NOT A LINK SHARE
 		else {
 			if ($permissions !== null) {
-				$permissions = (int) $permissions;
 				$share->setPermissions($permissions);
 			}
 

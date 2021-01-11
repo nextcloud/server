@@ -61,7 +61,7 @@ class Encoding extends Wrapper {
 	 * @return bool true if the string is all ASCII, false otherwise
 	 */
 	private function isAscii($str) {
-		return (bool) !preg_match('/[\\x80-\\xff]+/', $str);
+		return !preg_match('/[\\x80-\\xff]+/', $str);
 	}
 
 	/**
