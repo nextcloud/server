@@ -10,7 +10,9 @@
 namespace Test\DB;
 
 use Doctrine\DBAL\Exception;
+use Doctrine\DBAL\Platforms\MySQLPlatform;
 use Doctrine\DBAL\Platforms\OraclePlatform;
+use Doctrine\DBAL\Platforms\SqlitePlatform;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\SchemaConfig;
 use OC\DB\SchemaWrapper;
@@ -122,7 +124,11 @@ class MigratorTest extends \Test\TestCase {
 	}
 
 	private function isSQLite() {
-		return $this->connection->getDriver() instanceof \Doctrine\DBAL\Driver\PDOSqlite\Driver;
+		return $this->connection->getDatabasePlatform() instanceof SqlitePlatform;
+	}
+
+	private function isMySQL() {
+		return $this->connection->getDatabasePlatform() instanceof MySQLPlatform;
 	}
 
 
@@ -143,7 +149,9 @@ class MigratorTest extends \Test\TestCase {
 		try {
 			$migrator->migrate($endSchema);
 		} catch (Exception\UniqueConstraintViolationException $e) {
-			$this->connection->rollBack();
+			if (!$this->isMySQL()) {
+				$this->connection->rollBack();
+			}
 			throw $e;
 		}
 	}
