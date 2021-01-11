@@ -35,15 +35,15 @@
 
 namespace OCA\Files\Command;
 
-use Doctrine\DBAL\Connection;
 use OC\Core\Command\Base;
 use OC\Core\Command\InterruptedException;
+use OC\DB\Connection;
+use OC\DB\ConnectionAdapter;
 use OC\ForbiddenException;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\NotFoundException;
 use OCP\Files\StorageNotAvailableException;
-use OCP\IDBConnection;
 use OCP\IUserManager;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
@@ -118,7 +118,12 @@ class Scan extends Base {
 
 	protected function scanFiles($user, $path, OutputInterface $output, $backgroundScan = false, $recursive = true, $homeOnly = false) {
 		$connection = $this->reconnectToDatabase($output);
-		$scanner = new \OC\Files\Utils\Scanner($user, $connection, \OC::$server->query(IEventDispatcher::class), \OC::$server->getLogger());
+		$scanner = new \OC\Files\Utils\Scanner(
+			$user,
+			new ConnectionAdapter($connection),
+			\OC::$server->query(IEventDispatcher::class),
+			\OC::$server->getLogger()
+		);
 
 		# check on each file/folder if there was a user interrupt (ctrl-c) and throw an exception
 
@@ -303,12 +308,9 @@ class Scan extends Base {
 		return sprintf('%02d:%02d:%02d', ($secs / 3600), ($secs / 60 % 60), $secs % 60);
 	}
 
-	/**
-	 * @return \OCP\IDBConnection
-	 */
-	protected function reconnectToDatabase(OutputInterface $output) {
-		/** @var Connection | IDBConnection $connection */
-		$connection = \OC::$server->getDatabaseConnection();
+	protected function reconnectToDatabase(OutputInterface $output): Connection {
+		/** @var Connection $connection */
+		$connection = \OC::$server->get(Connection::class);
 		try {
 			$connection->close();
 		} catch (\Exception $ex) {
