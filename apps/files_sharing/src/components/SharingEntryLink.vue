@@ -138,7 +138,7 @@
 						:class="{ error: errors.label }"
 						:disabled="saving"
 						:aria-label="t('files_sharing', 'Share label')"
-						:value="share.newLabel || share.label"
+						:value="share.newLabel !== undefined ? share.newLabel : share.label"
 						icon="icon-edit"
 						maxlength="255"
 						@update:value="onLabelChange"
