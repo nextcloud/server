@@ -321,7 +321,7 @@ class ApiController extends Controller {
 		foreach ($navItems as $item) {
 			// check if data is valid
 			if (($show === 0 || $show === 1) && isset($item['expandedState']) && $key === $item['expandedState']) {
-				$this->config->setUserValue($this->userSession->getUser()->getUID(), 'files', $key, (int)$show);
+				$this->config->setUserValue($this->userSession->getUser()->getUID(), 'files', $key, $show);
 				return new Response();
 			}
 		}

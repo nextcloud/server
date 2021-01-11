@@ -58,7 +58,7 @@ class IpAddress {
 		$binary = \inet_pton($ip);
 		for ($i = 32; $i > $maskBits; $i -= 8) {
 			$j = \intdiv($i, 8) - 1;
-			$k = (int) \min(8, $i - $maskBits);
+			$k = \min(8, $i - $maskBits);
 			$mask = (0xff - ((2 ** $k) - 1));
 			$int = \unpack('C', $binary[$j]);
 			$binary[$j] = \pack('C', $int[1] & $mask);
@@ -84,7 +84,7 @@ class IpAddress {
 		$binary = \inet_pton($ip);
 		for ($i = 128; $i > $maskBits; $i -= 8) {
 			$j = \intdiv($i, 8) - 1;
-			$k = (int) \min(8, $i - $maskBits);
+			$k = \min(8, $i - $maskBits);
 			$mask = (0xff - ((2 ** $k) - 1));
 			$int = \unpack('C', $binary[$j]);
 			$binary[$j] = \pack('C', $int[1] & $mask);

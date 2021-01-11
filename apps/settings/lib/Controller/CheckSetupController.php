@@ -239,9 +239,9 @@ class CheckSetupController extends Controller {
 			return '';
 		}
 
-		$features = (string)$this->l10n->t('installing and updating apps via the app store or Federated Cloud Sharing');
+		$features = $this->l10n->t('installing and updating apps via the app store or Federated Cloud Sharing');
 		if (!$this->config->getSystemValue('appstoreenabled', true)) {
-			$features = (string)$this->l10n->t('Federated Cloud Sharing');
+			$features = $this->l10n->t('Federated Cloud Sharing');
 		}
 
 		// Check if at least OpenSSL after 1.01d or 1.0.2b

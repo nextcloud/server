@@ -85,7 +85,7 @@ class TXT extends ProviderV2 {
 		foreach ($lines as $index => $line) {
 			$index = $index + 1;
 
-			$x = (int) 1;
+			$x = 1;
 			$y = (int) ($index * $lineSize);
 
 			if ($canUseTTF === true) {
