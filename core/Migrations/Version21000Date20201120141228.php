@@ -38,13 +38,6 @@ class Version21000Date20201120141228 extends SimpleMigrationStep {
 			$schema->dropTable('dav_job_status');
 		}
 
-		if ($schema->hasTable('systemtag')) {
-			$table = $schema->getTable('systemtag');
-			if ($table->hasColumn('assignable')) {
-				$table->dropColumn('assignable');
-			}
-		}
-
 		if ($schema->hasTable('share')) {
 			$table = $schema->getTable('share');
 			if ($table->hasColumn('attributes')) {
