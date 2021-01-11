@@ -2481,16 +2481,14 @@
     <ParadoxicalCondition occurrences="1"/>
   </file>
   <file src="apps/user_ldap/lib/Group_LDAP.php">
-    <InvalidArgument occurrences="3">
-      <code>$this-&gt;cachedGroupMembers[$gid]</code>
+    <InvalidArgument occurrences="2">
       <code>'dn'</code>
       <code>$this-&gt;cachedGroupsByMember[$uid]</code>
     </InvalidArgument>
-    <InvalidPropertyAssignmentValue occurrences="6">
+    <InvalidPropertyAssignmentValue occurrences="5">
       <code>new CappedMemoryCache()</code>
       <code>new CappedMemoryCache()</code>
       <code>new CappedMemoryCache()</code>
-      <code>$this-&gt;cachedGroupMembers</code>
       <code>$this-&gt;cachedNestedGroups</code>
       <code>$this-&gt;cachedGroupsByMember</code>
     </InvalidPropertyAssignmentValue>
@@ -2504,15 +2502,10 @@
       <code>$groupID</code>
       <code>$groupID</code>
     </InvalidScalarArgument>
-    <RedundantCondition occurrences="4">
-      <code>!is_array($members) || count($members) === 0</code>
-      <code>is_array($members)</code>
+    <RedundantCondition occurrences="2">
       <code>is_array($list)</code>
       <code>is_array($groupDNs)</code>
     </RedundantCondition>
-    <TypeDoesNotContainType occurrences="1">
-      <code>is_array($members)</code>
-    </TypeDoesNotContainType>
   </file>
   <file src="apps/user_ldap/lib/Helper.php">
     <InvalidScalarArgument occurrences="1">
@@ -4778,6 +4771,14 @@
       <code>true</code>
     </InvalidReturnType>
   </file>
+  <file src="lib/private/Files/Stream/Encryption.php">
+    <InvalidScalarArgument occurrences="1">
+      <code>$position</code>
+    </InvalidScalarArgument>
+    <UndefinedInterfaceMethod occurrences="1">
+      <code>offsetGet</code>
+    </UndefinedInterfaceMethod>
+  </file>
   <file src="lib/private/Files/Stream/SeekableHttpStream.php">
     <FalsableReturnStatement occurrences="3">
       <code>false</code>
@@ -4942,6 +4943,11 @@
       <code>$sortMode</code>
       <code>self::SORT_NONE</code>
     </InvalidPropertyAssignmentValue>
+  </file>
+  <file src="lib/private/Http/Client/Client.php">
+    <NullArgument occurrences="1">
+      <code>null</code>
+    </NullArgument>
   </file>
   <file src="lib/private/Http/Client/Response.php">
     <InvalidNullableReturnType occurrences="1">
