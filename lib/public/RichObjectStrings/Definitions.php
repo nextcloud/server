@@ -219,6 +219,68 @@ class Definitions {
 				],
 			],
 		],
+		'deck-board' => [
+			'author' => 'Nextcloud',
+			'app' => 'deck',
+			'since' => '21.0.0',
+			'parameters' => [
+				'id' => [
+					'since' => '21.0.0',
+					'required' => true,
+					'description' => 'The id used to identify the board on the instance',
+					'example' => '1',
+				],
+				'name' => [
+					'since' => '21.0.0',
+					'required' => true,
+					'description' => 'The display name of the deck board',
+					'example' => 'Personal',
+				],
+				'link' => [
+					'since' => '21.0.0',
+					'required' => true,
+					'description' => 'The full URL to the board',
+					'example' => 'http://localhost/index.php/apps/deck/#/board/1',
+				],
+			],
+		],
+		'deck-card' => [
+			'author' => 'Nextcloud',
+			'app' => 'deck',
+			'since' => '21.0.0',
+			'parameters' => [
+				'id' => [
+					'since' => '21.0.0',
+					'required' => true,
+					'description' => 'The id used to identify the card on the instance',
+					'example' => '1',
+				],
+				'name' => [
+					'since' => '21.0.0',
+					'required' => true,
+					'description' => 'The title of the deck card',
+					'example' => 'Foo Bar',
+				],
+				'boardname' => [
+					'since' => '21.0.0',
+					'required' => true,
+					'description' => 'The display name of board which contains the card',
+					'example' => 'Personal',
+				],
+				'stackname' => [
+					'since' => '21.0.0',
+					'required' => true,
+					'description' => 'The display name of the stack which contains the card in the board',
+					'example' => 'To do',
+				],
+				'link' => [
+					'since' => '21.0.0',
+					'required' => true,
+					'description' => 'The full URL to the card directly',
+					'example' => 'https://nextcloud21.local/index.php/apps/deck/#/board/1/card/1',
+				],
+			],
+		],
 		'email' => [
 			'author' => 'Nextcloud',
 			'app' => 'sharebymail',
