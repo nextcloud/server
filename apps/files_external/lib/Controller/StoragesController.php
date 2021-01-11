@@ -40,9 +40,11 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\Files\StorageNotAvailableException;
+use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\ILogger;
 use OCP\IRequest;
+use OCP\IUserSession;
 
 /**
  * Base class for storages controllers
@@ -69,6 +71,16 @@ abstract class StoragesController extends Controller {
 	protected $logger;
 
 	/**
+	 * @var IUserSession
+	 */
+	protected $userSession;
+
+	/**
+	 * @var IGroupManager
+	 */
+	protected $groupManager;
+
+	/**
 	 * Creates a new storages controller.
 	 *
 	 * @param string $AppName application name
@@ -82,12 +94,16 @@ abstract class StoragesController extends Controller {
 		IRequest $request,
 		IL10N $l10n,
 		StoragesService $storagesService,
-		ILogger $logger
+		ILogger $logger,
+		IUserSession $userSession,
+		IGroupManager $groupManager
 	) {
 		parent::__construct($AppName, $request);
 		$this->l10n = $l10n;
 		$this->service = $storagesService;
 		$this->logger = $logger;
+		$this->userSession = $userSession;
+		$this->groupManager = $groupManager;
 	}
 
 	/**
@@ -337,8 +353,12 @@ abstract class StoragesController extends Controller {
 			);
 		}
 
+		$data = $this->formatStorageForUI($storage)->jsonSerialize();
+		$isAdmin = $this->groupManager->isAdmin($this->userSession->getUser()->getUID());
+		$data['can_edit'] = $storage->getType() === StorageConfig::MOUNT_TYPE_PERSONAl || $isAdmin;
+
 		return new DataResponse(
-			$this->formatStorageForUI($storage),
+			$data,
 			Http::STATUS_OK
 		);
 	}
