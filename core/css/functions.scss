@@ -29,7 +29,7 @@
 @function remove-hash-from-color($color) {
 	$index: str-index(inspect($color), '#');
 	@if $index {
-		$color: str-slice(inspect($color), 2);
+		$color: str-slice(inspect($color), 0, 1) + str-slice(inspect($color), 3);
 	}
 	@return $color;
 }
