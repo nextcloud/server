@@ -27,9 +27,10 @@
  * @return string The color without #
  */
 @function remove-hash-from-color($color) {
+	$color: unquote($color);
 	$index: str-index(inspect($color), '#');
 	@if $index {
-		$color: str-slice(inspect($color), 0, 1) + str-slice(inspect($color), 3);
+		$color: str-slice(inspect($color), 2);
 	}
 	@return $color;
 }
