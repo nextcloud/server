@@ -56,6 +56,8 @@ class SCSSCacherTest extends \Test\TestCase {
 	/** @var ICache|\PHPUnit\Framework\MockObject\MockObject */
 	protected $depsCache;
 	/** @var ICacheFactory|\PHPUnit\Framework\MockObject\MockObject */
+	protected $isCachedCache;
+	/** @var ICacheFactory|\PHPUnit\Framework\MockObject\MockObject */
 	protected $cacheFactory;
 	/** @var IconsCacher|\PHPUnit\Framework\MockObject\MockObject */
 	protected $iconsCacher;
@@ -88,9 +90,15 @@ class SCSSCacherTest extends \Test\TestCase {
 			}));
 		$this->cacheFactory = $this->createMock(ICacheFactory::class);
 		$this->depsCache = $this->createMock(ICache::class);
-		$this->cacheFactory->expects($this->at(0))
+		$this->isCachedCache = $this->createMock(ICache::class);
+		$this->cacheFactory
 			->method('createDistributed')
-			->willReturn($this->depsCache);
+			->withConsecutive()
+			->willReturnOnConsecutiveCalls(
+				$this->depsCache,
+				$this->isCachedCache,
+				$this->createMock(ICache::class)
+			);
 
 		$this->themingDefaults = $this->createMock(ThemingDefaults::class);
 		$this->themingDefaults->expects($this->any())->method('getScssVariables')->willReturn([]);
@@ -537,11 +545,10 @@ class SCSSCacherTest extends \Test\TestCase {
 			->method('getDirectoryListing')
 			->willReturn([$file]);
 
-		$cache = $this->createMock(ICache::class);
-		$this->cacheFactory->expects($this->exactly(2))
-			->method('createDistributed')
-			->willReturn($cache);
-		$cache->expects($this->exactly(2))
+		$this->depsCache->expects($this->once())
+			->method('clear')
+			->with('');
+		$this->isCachedCache->expects($this->once())
 			->method('clear')
 			->with('');
 		$this->appData->expects($this->once())
