@@ -148,13 +148,13 @@ class App {
 		/** @var Dispatcher $dispatcher */
 		$dispatcher = $container['Dispatcher'];
 
-		list(
+		[
 			$httpHeaders,
 			$responseHeaders,
 			$responseCookies,
 			$output,
 			$response
-		) = $dispatcher->dispatch($controller, $methodName);
+		] = $dispatcher->dispatch($controller, $methodName);
 
 		$io = $container[IOutput::class];
 
@@ -228,7 +228,7 @@ class App {
 
 		$dispatcher = $container['Dispatcher'];
 
-		list(, , $output) = $dispatcher->dispatch($controller, $methodName);
+		[, , $output] = $dispatcher->dispatch($controller, $methodName);
 		return $output;
 	}
 }

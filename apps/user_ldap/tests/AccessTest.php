@@ -238,7 +238,7 @@ class AccessTest extends TestCase {
 	 * @param array $case
 	 */
 	public function testStringResemblesDN($case) {
-		list($lw, $con, $um, $helper) = $this->getConnectorAndLdapMock();
+		[$lw, $con, $um, $helper] = $this->getConnectorAndLdapMock();
 		/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject $config */
 		$config = $this->createMock(IConfig::class);
 		$access = new Access($con, $lw, $um, $helper, $config, $this->ncUserManager);
@@ -260,7 +260,7 @@ class AccessTest extends TestCase {
 	 * @param $case
 	 */
 	public function testStringResemblesDNLDAPmod($case) {
-		list(, $con, $um, $helper) = $this->getConnectorAndLdapMock();
+		[, $con, $um, $helper] = $this->getConnectorAndLdapMock();
 		/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject $config */
 		$config = $this->createMock(IConfig::class);
 		$lw = new LDAP();
@@ -430,7 +430,7 @@ class AccessTest extends TestCase {
 	 * @param $attribute
 	 */
 	public function testSanitizeDN($attribute) {
-		list($lw, $con, $um, $helper) = $this->getConnectorAndLdapMock();
+		[$lw, $con, $um, $helper] = $this->getConnectorAndLdapMock();
 		/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject $config */
 		$config = $this->createMock(IConfig::class);
 
@@ -647,7 +647,7 @@ class AccessTest extends TestCase {
 	}
 
 	public function testFetchListOfGroupsKnown() {
-		$filter  = 'objectClass=nextcloudGroup';
+		$filter = 'objectClass=nextcloudGroup';
 		$attributes = ['cn', 'gidNumber', 'dn'];
 		$base = 'ou=SomeGroups,dc=my,dc=directory';
 

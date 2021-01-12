@@ -212,7 +212,7 @@ class MoveCalendar extends Command {
 	private function checkShares(array $calendar, string $userOrigin, string $userDestination, bool $force = false): bool {
 		$shares = $this->calDav->getShares($calendar['id']);
 		foreach ($shares as $share) {
-			list(, $prefix, $userOrGroup) = explode('/', $share['href'], 3);
+			[, $prefix, $userOrGroup] = explode('/', $share['href'], 3);
 
 			/**
 			 * Check that user destination is member of the groups which whom the calendar was shared

@@ -133,7 +133,7 @@ class Notifier implements INotifier {
 				if (strpos($path, '/' . $notification->getUser() . '/files/') === 0) {
 					// Remove /user/files/...
 					$fullPath = $path;
-					list(,,, $path) = explode('/', $fullPath, 4);
+					[,,, $path] = explode('/', $fullPath, 4);
 				}
 				$subjectParameters = [
 					'file' => [
@@ -155,7 +155,7 @@ class Notifier implements INotifier {
 						'name' => $displayName,
 					];
 				}
-				list($message, $messageParameters) = $this->commentToRichMessage($comment);
+				[$message, $messageParameters] = $this->commentToRichMessage($comment);
 				$notification->setRichSubject($subject, $subjectParameters)
 					->setParsedSubject($this->richToParsed($subject, $subjectParameters))
 					->setRichMessage($message, $messageParameters)

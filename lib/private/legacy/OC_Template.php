@@ -86,7 +86,7 @@ class OC_Template extends \OC\Template\Base {
 		/** @var \OCP\Defaults $themeDefaults */
 		$themeDefaults = \OC::$server->query(\OCP\Defaults::class);
 
-		list($path, $template) = $this->findTemplate($theme, $app, $name);
+		[$path, $template] = $this->findTemplate($theme, $app, $name);
 
 		// Set the private data
 		$this->renderAs = $renderAs;

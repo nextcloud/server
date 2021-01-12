@@ -107,7 +107,7 @@ class SharedStorageTest extends TestCase {
 
 		// delete the local folder
 		/** @var \OC\Files\Storage\Storage $storage */
-		list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath('/' . self::TEST_FILES_SHARING_API_USER2 . '/files/localfolder');
+		[$storage, $internalPath] = \OC\Files\Filesystem::resolvePath('/' . self::TEST_FILES_SHARING_API_USER2 . '/files/localfolder');
 		$storage->rmdir($internalPath);
 
 		//enforce reload of the mount points
@@ -442,7 +442,7 @@ class SharedStorageTest extends TestCase {
 		/**
 		 * @var \OCP\Files\Storage $sharedStorage
 		 */
-		list($sharedStorage,) = $view->resolvePath($this->folder);
+		[$sharedStorage,] = $view->resolvePath($this->folder);
 		$this->assertTrue($sharedStorage->instanceOfStorage('OCA\Files_Sharing\ISharedStorage'));
 
 		$sourceStorage = new \OC\Files\Storage\Temporary([]);
@@ -475,7 +475,7 @@ class SharedStorageTest extends TestCase {
 		/**
 		 * @var \OCP\Files\Storage $sharedStorage
 		 */
-		list($sharedStorage,) = $view->resolvePath($this->folder);
+		[$sharedStorage,] = $view->resolvePath($this->folder);
 		$this->assertTrue($sharedStorage->instanceOfStorage('OCA\Files_Sharing\ISharedStorage'));
 
 		$sourceStorage = new \OC\Files\Storage\Temporary([]);

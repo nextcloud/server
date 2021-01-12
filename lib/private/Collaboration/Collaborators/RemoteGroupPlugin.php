@@ -59,7 +59,7 @@ class RemoteGroupPlugin implements ISearchPlugin {
 		$resultType = new SearchResultType('remote_groups');
 
 		if ($this->enabled && $this->cloudIdManager->isValidCloudId($search) && $offset === 0) {
-			list($remoteGroup, $serverUrl) = $this->splitGroupRemote($search);
+			[$remoteGroup, $serverUrl] = $this->splitGroupRemote($search);
 			$result['exact'][] = [
 				'label' => $remoteGroup . " ($serverUrl)",
 				'guid' => $remoteGroup,

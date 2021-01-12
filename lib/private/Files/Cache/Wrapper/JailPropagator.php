@@ -40,7 +40,7 @@ class JailPropagator extends Propagator {
 	 */
 	public function propagateChange($internalPath, $time, $sizeDifference = 0) {
 		/** @var \OC\Files\Storage\Storage $storage */
-		list($storage, $sourceInternalPath) = $this->storage->resolvePath($internalPath);
+		[$storage, $sourceInternalPath] = $this->storage->resolvePath($internalPath);
 		$storage->getPropagator()->propagateChange($sourceInternalPath, $time, $sizeDifference);
 	}
 }

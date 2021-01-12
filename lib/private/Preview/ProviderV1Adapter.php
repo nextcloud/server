@@ -50,7 +50,7 @@ class ProviderV1Adapter implements IProviderV2 {
 	}
 
 	public function getThumbnail(File $file, int $maxX, int $maxY): ?IImage {
-		list($view, $path) = $this->getViewAndPath($file);
+		[$view, $path] = $this->getViewAndPath($file);
 		$thumbnail = $this->providerV1->getThumbnail($path, $maxX, $maxY, false, $view);
 		return $thumbnail === false ? null: $thumbnail;
 	}

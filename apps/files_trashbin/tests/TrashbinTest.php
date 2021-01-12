@@ -198,7 +198,7 @@ class TrashbinTest extends \Test\TestCase {
 		$manipulatedList = $this->manipulateDeleteTime($filesInTrash, $this->trashRoot1, $expiredDate);
 
 		$testClass = new TrashbinForTesting();
-		list($sizeOfDeletedFiles, $count) = $testClass->dummyDeleteExpiredFiles($manipulatedList, $expireAt);
+		[$sizeOfDeletedFiles, $count] = $testClass->dummyDeleteExpiredFiles($manipulatedList, $expireAt);
 
 		$this->assertSame(10, $sizeOfDeletedFiles);
 		$this->assertSame(2, $count);
@@ -657,7 +657,7 @@ class TrashbinTest extends \Test\TestCase {
 		$trashedFile = $filesInTrash[0];
 
 		// delete source folder
-		list($storage, $internalPath) = $this->rootView->resolvePath('/' . self::TEST_TRASHBIN_USER1 . '/files/folder');
+		[$storage, $internalPath] = $this->rootView->resolvePath('/' . self::TEST_TRASHBIN_USER1 . '/files/folder');
 		if ($storage instanceof \OC\Files\Storage\Local) {
 			$folderAbsPath = $storage->getSourcePath($internalPath);
 			// make folder read-only

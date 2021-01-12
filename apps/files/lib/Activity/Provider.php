@@ -363,7 +363,7 @@ class Provider implements IProvider {
 			try {
 				$fullPath = rtrim($encryptionContainer->getPath(), '/');
 				// Remove /user/files/...
-				list(,,, $path) = explode('/', $fullPath, 4);
+				[,,, $path] = explode('/', $fullPath, 4);
 				if (!$path) {
 					throw new InvalidPathException('Path could not be split correctly');
 				}

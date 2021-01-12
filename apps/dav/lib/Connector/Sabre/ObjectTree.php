@@ -80,7 +80,7 @@ class ObjectTree extends CachingTree {
 	private function resolveChunkFile($path) {
 		if (isset($_SERVER['HTTP_OC_CHUNKED'])) {
 			// resolve to real file name to find the proper node
-			list($dir, $name) = \Sabre\Uri\split($path);
+			[$dir, $name] = \Sabre\Uri\split($path);
 			if ($dir === '/' || $dir === '.') {
 				$dir = '';
 			}
@@ -220,7 +220,7 @@ class ObjectTree extends CachingTree {
 		// this will trigger existence check
 		$this->getNodeForPath($sourcePath);
 
-		list($destinationDir, $destinationName) = \Sabre\Uri\split($destinationPath);
+		[$destinationDir, $destinationName] = \Sabre\Uri\split($destinationPath);
 		try {
 			$this->fileView->verifyPath($destinationDir, $destinationName);
 		} catch (\OCP\Files\InvalidPathException $ex) {
@@ -237,7 +237,7 @@ class ObjectTree extends CachingTree {
 			throw new FileLocked($e->getMessage(), $e->getCode(), $e);
 		}
 
-		list($destinationDir,) = \Sabre\Uri\split($destinationPath);
+		[$destinationDir,] = \Sabre\Uri\split($destinationPath);
 		$this->markDirty($destinationDir);
 	}
 }

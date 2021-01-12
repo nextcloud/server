@@ -138,7 +138,7 @@ class MigratorTest extends \Test\TestCase {
 		if ($this->isSQLite()) {
 			$this->markTestSkipped('sqlite does not throw errors when creating a new key on existing data');
 		}
-		list($startSchema, $endSchema) = $this->getDuplicateKeySchemas();
+		[$startSchema, $endSchema] = $this->getDuplicateKeySchemas();
 		$migrator = $this->manager->getMigrator();
 		$migrator->migrate($startSchema);
 
@@ -157,7 +157,7 @@ class MigratorTest extends \Test\TestCase {
 	}
 
 	public function testChangeToString() {
-		list($startSchema, $endSchema) = $this->getChangedTypeSchema('integer', 'string');
+		[$startSchema, $endSchema] = $this->getChangedTypeSchema('integer', 'string');
 		$migrator = $this->manager->getMigrator();
 		$migrator->migrate($startSchema);
 		$schema = new SchemaWrapper($this->connection);
@@ -184,7 +184,7 @@ class MigratorTest extends \Test\TestCase {
 	}
 
 	public function testUpgrade() {
-		list($startSchema, $endSchema) = $this->getDuplicateKeySchemas();
+		[$startSchema, $endSchema] = $this->getDuplicateKeySchemas();
 		$migrator = $this->manager->getMigrator();
 		$migrator->migrate($startSchema);
 
@@ -202,7 +202,7 @@ class MigratorTest extends \Test\TestCase {
 		$this->config->setSystemValue('dbtableprefix', 'ownc_');
 		$this->tableName = strtolower($this->getUniqueID($this->config->getSystemValue('dbtableprefix') . 'test_'));
 
-		list($startSchema, $endSchema) = $this->getDuplicateKeySchemas();
+		[$startSchema, $endSchema] = $this->getDuplicateKeySchemas();
 		$migrator = $this->manager->getMigrator();
 		$migrator->migrate($startSchema);
 
@@ -217,7 +217,7 @@ class MigratorTest extends \Test\TestCase {
 	}
 
 	public function testInsertAfterUpgrade() {
-		list($startSchema, $endSchema) = $this->getDuplicateKeySchemas();
+		[$startSchema, $endSchema] = $this->getDuplicateKeySchemas();
 		$migrator = $this->manager->getMigrator();
 		$migrator->migrate($startSchema);
 

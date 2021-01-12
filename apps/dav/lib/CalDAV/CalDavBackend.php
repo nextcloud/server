@@ -365,7 +365,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			->setParameter('type', 'calendar')
 			->setParameter('principaluri', $principals, \Doctrine\DBAL\Connection::PARAM_STR_ARRAY);
 
-		$result	= $query->execute();
+		$result = $query->execute();
 
 		$readOnlyPropertyName = '{' . \OCA\DAV\DAV\Sharing\Plugin::NS_OWNCLOUD . '}read-only';
 		while ($row = $result->fetch()) {
@@ -387,7 +387,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				}
 			}
 
-			list(, $name) = Uri\split($row['principaluri']);
+			[, $name] = Uri\split($row['principaluri']);
 			$uri = $row['uri'] . '_shared_by_' . $name;
 			$row['displayname'] = $row['displayname'] . ' (' . $this->getUserDisplayName($name) . ')';
 			$components = [];
@@ -511,7 +511,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 
 		while ($row = $result->fetch()) {
 			$row['principaluri'] = (string) $row['principaluri'];
-			list(, $name) = Uri\split($row['principaluri']);
+			[, $name] = Uri\split($row['principaluri']);
 			$row['displayname'] = $row['displayname'] . "($name)";
 			$components = [];
 			if ($row['components']) {
@@ -578,7 +578,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		}
 
 		$row['principaluri'] = (string) $row['principaluri'];
-		list(, $name) = Uri\split($row['principaluri']);
+		[, $name] = Uri\split($row['principaluri']);
 		$row['displayname'] = $row['displayname'] . ' ' . "($name)";
 		$components = [];
 		if ($row['components']) {
@@ -2837,7 +2837,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 */
 	private function convertPrincipal($principalUri, $toV2) {
 		if ($this->principalBackend->getPrincipalPrefix() === 'principals') {
-			list(, $name) = Uri\split($principalUri);
+			[, $name] = Uri\split($principalUri);
 			if ($toV2 === true) {
 				return "principals/users/$name";
 			}

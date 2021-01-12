@@ -223,7 +223,7 @@ class ShareesAPIController extends OCSController {
 			$this->result['lookupEnabled'] = $this->config->getAppValue('files_sharing', 'lookupServerEnabled', 'yes') === 'yes';
 		}
 
-		list($result, $hasMoreResults) = $this->collaboratorSearch->search($search, $shareTypes, $lookup, $this->limit, $this->offset);
+		[$result, $hasMoreResults] = $this->collaboratorSearch->search($search, $shareTypes, $lookup, $this->limit, $this->offset);
 
 		// extra treatment for 'exact' subarray, with a single merge expected keys might be lost
 		if (isset($result['exact'])) {
@@ -290,7 +290,7 @@ class ShareesAPIController extends OCSController {
 		foreach ($shareTypes as $shareType) {
 			$sharees = $this->getAllShareesByType($user, $shareType);
 			$shareTypeResults = [];
-			foreach ($sharees as list($sharee, $displayname)) {
+			foreach ($sharees as [$sharee, $displayname]) {
 				if (!isset($this->searchResultTypeMap[$shareType])) {
 					continue;
 				}

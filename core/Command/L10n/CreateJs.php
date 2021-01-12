@@ -91,7 +91,7 @@ class CreateJs extends Command implements CompletionAwareInterface {
 	}
 
 	private function writeFiles($app, $path, $lang, OutputInterface $output) {
-		list($translations, $plurals) = $this->loadTranslations($path, $lang);
+		[$translations, $plurals] = $this->loadTranslations($path, $lang);
 		$this->writeJsFile($app, $path, $lang, $output, $translations, $plurals);
 		$this->writeJsonFile($path, $lang, $output, $translations, $plurals);
 	}

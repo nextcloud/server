@@ -82,8 +82,8 @@ class ExpressionBuilderTest extends TestCase {
 	 * @param bool $isInput2Literal
 	 */
 	public function testComparison($comparison, $input1, $isInput1Literal, $input2, $isInput2Literal) {
-		list($doctrineInput1, $ocInput1) = $this->helpWithLiteral($input1, $isInput1Literal);
-		list($doctrineInput2, $ocInput2) = $this->helpWithLiteral($input2, $isInput2Literal);
+		[$doctrineInput1, $ocInput1] = $this->helpWithLiteral($input1, $isInput1Literal);
+		[$doctrineInput2, $ocInput2] = $this->helpWithLiteral($input2, $isInput2Literal);
 
 		$this->assertEquals(
 			$this->doctrineExpressionBuilder->comparison($doctrineInput1, $comparison, $doctrineInput2),
@@ -109,8 +109,8 @@ class ExpressionBuilderTest extends TestCase {
 	 * @param bool $isInput2Literal
 	 */
 	public function testEquals($input1, $isInput1Literal, $input2, $isInput2Literal) {
-		list($doctrineInput1, $ocInput1) = $this->helpWithLiteral($input1, $isInput1Literal);
-		list($doctrineInput2, $ocInput2) = $this->helpWithLiteral($input2, $isInput2Literal);
+		[$doctrineInput1, $ocInput1] = $this->helpWithLiteral($input1, $isInput1Literal);
+		[$doctrineInput2, $ocInput2] = $this->helpWithLiteral($input2, $isInput2Literal);
 
 		$this->assertEquals(
 			$this->doctrineExpressionBuilder->eq($doctrineInput1, $doctrineInput2),
@@ -127,8 +127,8 @@ class ExpressionBuilderTest extends TestCase {
 	 * @param bool $isInput2Literal
 	 */
 	public function testNotEquals($input1, $isInput1Literal, $input2, $isInput2Literal) {
-		list($doctrineInput1, $ocInput1) = $this->helpWithLiteral($input1, $isInput1Literal);
-		list($doctrineInput2, $ocInput2) = $this->helpWithLiteral($input2, $isInput2Literal);
+		[$doctrineInput1, $ocInput1] = $this->helpWithLiteral($input1, $isInput1Literal);
+		[$doctrineInput2, $ocInput2] = $this->helpWithLiteral($input2, $isInput2Literal);
 
 		$this->assertEquals(
 			$this->doctrineExpressionBuilder->neq($doctrineInput1, $doctrineInput2),
@@ -145,8 +145,8 @@ class ExpressionBuilderTest extends TestCase {
 	 * @param bool $isInput2Literal
 	 */
 	public function testLowerThan($input1, $isInput1Literal, $input2, $isInput2Literal) {
-		list($doctrineInput1, $ocInput1) = $this->helpWithLiteral($input1, $isInput1Literal);
-		list($doctrineInput2, $ocInput2) = $this->helpWithLiteral($input2, $isInput2Literal);
+		[$doctrineInput1, $ocInput1] = $this->helpWithLiteral($input1, $isInput1Literal);
+		[$doctrineInput2, $ocInput2] = $this->helpWithLiteral($input2, $isInput2Literal);
 
 		$this->assertEquals(
 			$this->doctrineExpressionBuilder->lt($doctrineInput1, $doctrineInput2),
@@ -163,8 +163,8 @@ class ExpressionBuilderTest extends TestCase {
 	 * @param bool $isInput2Literal
 	 */
 	public function testLowerThanEquals($input1, $isInput1Literal, $input2, $isInput2Literal) {
-		list($doctrineInput1, $ocInput1) = $this->helpWithLiteral($input1, $isInput1Literal);
-		list($doctrineInput2, $ocInput2) = $this->helpWithLiteral($input2, $isInput2Literal);
+		[$doctrineInput1, $ocInput1] = $this->helpWithLiteral($input1, $isInput1Literal);
+		[$doctrineInput2, $ocInput2] = $this->helpWithLiteral($input2, $isInput2Literal);
 
 		$this->assertEquals(
 			$this->doctrineExpressionBuilder->lte($doctrineInput1, $doctrineInput2),
@@ -181,8 +181,8 @@ class ExpressionBuilderTest extends TestCase {
 	 * @param bool $isInput2Literal
 	 */
 	public function testGreaterThan($input1, $isInput1Literal, $input2, $isInput2Literal) {
-		list($doctrineInput1, $ocInput1) = $this->helpWithLiteral($input1, $isInput1Literal);
-		list($doctrineInput2, $ocInput2) = $this->helpWithLiteral($input2, $isInput2Literal);
+		[$doctrineInput1, $ocInput1] = $this->helpWithLiteral($input1, $isInput1Literal);
+		[$doctrineInput2, $ocInput2] = $this->helpWithLiteral($input2, $isInput2Literal);
 
 		$this->assertEquals(
 			$this->doctrineExpressionBuilder->gt($doctrineInput1, $doctrineInput2),
@@ -199,8 +199,8 @@ class ExpressionBuilderTest extends TestCase {
 	 * @param bool $isInput2Literal
 	 */
 	public function testGreaterThanEquals($input1, $isInput1Literal, $input2, $isInput2Literal) {
-		list($doctrineInput1, $ocInput1) = $this->helpWithLiteral($input1, $isInput1Literal);
-		list($doctrineInput2, $ocInput2) = $this->helpWithLiteral($input2, $isInput2Literal);
+		[$doctrineInput1, $ocInput1] = $this->helpWithLiteral($input1, $isInput1Literal);
+		[$doctrineInput2, $ocInput2] = $this->helpWithLiteral($input2, $isInput2Literal);
 
 		$this->assertEquals(
 			$this->doctrineExpressionBuilder->gte($doctrineInput1, $doctrineInput2),
@@ -236,7 +236,7 @@ class ExpressionBuilderTest extends TestCase {
 	 * @param bool $isLiteral
 	 */
 	public function testLike($input, $isLiteral) {
-		list($doctrineInput, $ocInput) = $this->helpWithLiteral($input, $isLiteral);
+		[$doctrineInput, $ocInput] = $this->helpWithLiteral($input, $isLiteral);
 
 		$this->assertEquals(
 			$this->doctrineExpressionBuilder->like('`test`', $doctrineInput),
@@ -251,7 +251,7 @@ class ExpressionBuilderTest extends TestCase {
 	 * @param bool $isLiteral
 	 */
 	public function testNotLike($input, $isLiteral) {
-		list($doctrineInput, $ocInput) = $this->helpWithLiteral($input, $isLiteral);
+		[$doctrineInput, $ocInput] = $this->helpWithLiteral($input, $isLiteral);
 
 		$this->assertEquals(
 			$this->doctrineExpressionBuilder->notLike('`test`', $doctrineInput),
@@ -275,7 +275,7 @@ class ExpressionBuilderTest extends TestCase {
 	 * @param bool $isLiteral
 	 */
 	public function testIn($input, $isLiteral) {
-		list($doctrineInput, $ocInput) = $this->helpWithLiteral($input, $isLiteral);
+		[$doctrineInput, $ocInput] = $this->helpWithLiteral($input, $isLiteral);
 
 		$this->assertEquals(
 			$this->doctrineExpressionBuilder->in('`test`', $doctrineInput),
@@ -290,7 +290,7 @@ class ExpressionBuilderTest extends TestCase {
 	 * @param bool $isLiteral
 	 */
 	public function testNotIn($input, $isLiteral) {
-		list($doctrineInput, $ocInput) = $this->helpWithLiteral($input, $isLiteral);
+		[$doctrineInput, $ocInput] = $this->helpWithLiteral($input, $isLiteral);
 
 		$this->assertEquals(
 			$this->doctrineExpressionBuilder->notIn('`test`', $doctrineInput),

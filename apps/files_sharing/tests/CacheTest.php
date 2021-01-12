@@ -90,7 +90,7 @@ class CacheTest extends TestCase {
 		$this->view->file_put_contents('container/shareddir/subdir/another too.txt', $textData);
 		$this->view->file_put_contents('container/shareddir/subdir/not a text file.xml', '<xml></xml>');
 
-		list($this->ownerStorage,) = $this->view->resolvePath('');
+		[$this->ownerStorage,] = $this->view->resolvePath('');
 		$this->ownerCache = $this->ownerStorage->getCache();
 		$this->ownerStorage->getScanner()->scan('');
 
@@ -124,7 +124,7 @@ class CacheTest extends TestCase {
 
 		// retrieve the shared storage
 		$secondView = new \OC\Files\View('/' . self::TEST_FILES_SHARING_API_USER2);
-		list($this->sharedStorage,) = $secondView->resolvePath('files/shareddir');
+		[$this->sharedStorage,] = $secondView->resolvePath('files/shareddir');
 		$this->sharedCache = $this->sharedStorage->getCache();
 	}
 
@@ -213,7 +213,7 @@ class CacheTest extends TestCase {
 	 */
 	public function testSearch() {
 		foreach ($this->searchDataProvider() as $data) {
-			list($pattern, $expectedFiles) = $data;
+			[$pattern, $expectedFiles] = $data;
 
 			$results = $this->sharedStorage->getCache()->search($pattern);
 
@@ -410,7 +410,7 @@ class CacheTest extends TestCase {
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
 		$this->assertTrue(\OC\Files\Filesystem::file_exists('/test.txt'));
-		list($sharedStorage) = \OC\Files\Filesystem::resolvePath('/' . self::TEST_FILES_SHARING_API_USER2 . '/files/test.txt');
+		[$sharedStorage] = \OC\Files\Filesystem::resolvePath('/' . self::TEST_FILES_SHARING_API_USER2 . '/files/test.txt');
 		/**
 		 * @var \OCA\Files_Sharing\SharedStorage $sharedStorage
 		 */
@@ -442,7 +442,7 @@ class CacheTest extends TestCase {
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
 		$this->assertTrue(\OC\Files\Filesystem::file_exists('/foo'));
-		list($sharedStorage) = \OC\Files\Filesystem::resolvePath('/' . self::TEST_FILES_SHARING_API_USER2 . '/files/foo');
+		[$sharedStorage] = \OC\Files\Filesystem::resolvePath('/' . self::TEST_FILES_SHARING_API_USER2 . '/files/foo');
 		/**
 		 * @var \OCA\Files_Sharing\SharedStorage $sharedStorage
 		 */
@@ -469,12 +469,12 @@ class CacheTest extends TestCase {
 		$this->shareManager->updateShare($share);
 		\OC_Util::tearDownFS();
 
-		list($sourceStorage) = \OC\Files\Filesystem::resolvePath('/' . self::TEST_FILES_SHARING_API_USER1 . '/files/foo');
+		[$sourceStorage] = \OC\Files\Filesystem::resolvePath('/' . self::TEST_FILES_SHARING_API_USER1 . '/files/foo');
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
 		$this->assertTrue(\OC\Files\Filesystem::file_exists('/foo'));
 		/** @var SharedStorage $sharedStorage */
-		list($sharedStorage) = \OC\Files\Filesystem::resolvePath('/' . self::TEST_FILES_SHARING_API_USER2 . '/files/foo');
+		[$sharedStorage] = \OC\Files\Filesystem::resolvePath('/' . self::TEST_FILES_SHARING_API_USER2 . '/files/foo');
 
 		$this->assertEquals($sourceStorage->getCache()->getNumericStorageId(), $sharedStorage->getCache()->getNumericStorageId());
 	}
@@ -511,7 +511,7 @@ class CacheTest extends TestCase {
 
 		\OC\Files\Filesystem::file_put_contents('/sub/bar.txt', 'bar');
 		/** @var SharedStorage $sharedStorage */
-		list($sharedStorage) = \OC\Files\Filesystem::resolvePath('/' . self::TEST_FILES_SHARING_API_USER2 . '/files/sub');
+		[$sharedStorage] = \OC\Files\Filesystem::resolvePath('/' . self::TEST_FILES_SHARING_API_USER2 . '/files/sub');
 
 		$this->assertTrue($sharedStorage->getCache()->inCache('bar.txt'));
 

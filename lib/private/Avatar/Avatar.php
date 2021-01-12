@@ -187,7 +187,7 @@ abstract class Avatar implements IAvatar {
 		$font = __DIR__ . '/../../../core/fonts/NotoSans-Regular.ttf';
 
 		$fontSize = $size * 0.4;
-		list($x, $y) = $this->imageTTFCenter(
+		[$x, $y] = $this->imageTTFCenter(
 			$im, $text, $font, (int)$fontSize
 		);
 

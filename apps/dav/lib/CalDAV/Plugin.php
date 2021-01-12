@@ -40,15 +40,15 @@ class Plugin extends \Sabre\CalDAV\Plugin {
 	 */
 	public function getCalendarHomeForPrincipal($principalUrl) {
 		if (strrpos($principalUrl, 'principals/users', -strlen($principalUrl)) !== false) {
-			list(, $principalId) = \Sabre\Uri\split($principalUrl);
+			[, $principalId] = \Sabre\Uri\split($principalUrl);
 			return self::CALENDAR_ROOT . '/' . $principalId;
 		}
 		if (strrpos($principalUrl, 'principals/calendar-resources', -strlen($principalUrl)) !== false) {
-			list(, $principalId) = \Sabre\Uri\split($principalUrl);
+			[, $principalId] = \Sabre\Uri\split($principalUrl);
 			return self::SYSTEM_CALENDAR_ROOT . '/calendar-resources/' . $principalId;
 		}
 		if (strrpos($principalUrl, 'principals/calendar-rooms', -strlen($principalUrl)) !== false) {
-			list(, $principalId) = \Sabre\Uri\split($principalUrl);
+			[, $principalId] = \Sabre\Uri\split($principalUrl);
 			return self::SYSTEM_CALENDAR_ROOT . '/calendar-rooms/' . $principalId;
 		}
 	}

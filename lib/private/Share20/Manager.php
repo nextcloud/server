@@ -1191,7 +1191,7 @@ class Manager implements IManager {
 	 * @param string $recipientId
 	 */
 	public function deleteFromSelf(IShare $share, $recipientId) {
-		list($providerId, ) = $this->splitFullId($share->getFullId());
+		[$providerId, ] = $this->splitFullId($share->getFullId());
 		$provider = $this->factory->getProvider($providerId);
 
 		$provider->deleteFromSelf($share, $recipientId);
@@ -1200,7 +1200,7 @@ class Manager implements IManager {
 	}
 
 	public function restoreShare(IShare $share, string $recipientId): IShare {
-		list($providerId, ) = $this->splitFullId($share->getFullId());
+		[$providerId, ] = $this->splitFullId($share->getFullId());
 		$provider = $this->factory->getProvider($providerId);
 
 		return $provider->restore($share, $recipientId);
@@ -1229,7 +1229,7 @@ class Manager implements IManager {
 			}
 		}
 
-		list($providerId, ) = $this->splitFullId($share->getFullId());
+		[$providerId, ] = $this->splitFullId($share->getFullId());
 		$provider = $this->factory->getProvider($providerId);
 
 		return $provider->move($share, $recipientId);
@@ -1375,7 +1375,7 @@ class Manager implements IManager {
 			throw new ShareNotFound();
 		}
 
-		list($providerId, $id) = $this->splitFullId($id);
+		[$providerId, $id] = $this->splitFullId($id);
 
 		try {
 			$provider = $this->factory->getProvider($providerId);

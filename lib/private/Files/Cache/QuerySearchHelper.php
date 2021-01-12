@@ -129,7 +129,7 @@ class QuerySearchHelper {
 	private function searchComparisonToDBExpr(IQueryBuilder $builder, ISearchComparison $comparison, array $operatorMap) {
 		$this->validateComparison($comparison);
 
-		list($field, $value, $type) = $this->getOperatorFieldAndValue($comparison);
+		[$field, $value, $type] = $this->getOperatorFieldAndValue($comparison);
 		if (isset($operatorMap[$type])) {
 			$queryOperator = $operatorMap[$type];
 			return $builder->expr()->$queryOperator($field, $this->getParameterForValue($builder, $value));

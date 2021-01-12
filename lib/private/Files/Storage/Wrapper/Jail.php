@@ -532,7 +532,7 @@ class Jail extends Wrapper {
 			return $storage->writeStream($this->getUnjailedPath($path), $stream, $size);
 		} else {
 			$target = $this->fopen($path, 'w');
-			list($count, $result) = \OC_Helper::streamCopy($stream, $target);
+			[$count, $result] = \OC_Helper::streamCopy($stream, $target);
 			fclose($stream);
 			fclose($target);
 			return $count;

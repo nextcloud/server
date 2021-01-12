@@ -212,7 +212,7 @@ class SwiftFactory {
 		if (!$hasValidCachedToken) {
 			unset($this->params['cachedToken']);
 			try {
-				list($token, $serviceUrl) = $authService->authenticate($this->params);
+				[$token, $serviceUrl] = $authService->authenticate($this->params);
 				$this->cacheToken($token, $serviceUrl, $cacheKey);
 			} catch (ConnectException $e) {
 				throw new StorageAuthException('Failed to connect to keystone, verify the keystone url', $e);

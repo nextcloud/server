@@ -123,7 +123,7 @@ class SearchTest extends TestCase {
 		$this->search->registerPlugin(['shareType' => 'SHARE_TYPE_GROUP', 'class' => $groupPlugin]);
 		$this->search->registerPlugin(['shareType' => 'SHARE_TYPE_REMOTE', 'class' => $remotePlugin]);
 
-		list($results, $moreResults) = $this->search->search($searchTerm, $shareTypes, false, $perPage, $perPage * ($page - 1));
+		[$results, $moreResults] = $this->search->search($searchTerm, $shareTypes, false, $perPage, $perPage * ($page - 1));
 
 		$this->assertEquals($expected, $results);
 		$this->assertSame($expectedMoreResults, $moreResults);

@@ -231,7 +231,7 @@ class RuleMatcher implements IRuleMatcher {
 			$checkInstance->setFileInfo($this->fileInfo['storage'], $this->fileInfo['path'], $this->fileInfo['isDir']);
 		} elseif ($checkInstance instanceof IEntityCheck) {
 			foreach ($this->contexts as $entityInfo) {
-				list($entity, $subject) = $entityInfo;
+				[$entity, $subject] = $entityInfo;
 				$checkInstance->setEntitySubject($entity, $subject);
 			}
 		} elseif (!$checkInstance instanceof ICheck) {

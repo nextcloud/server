@@ -58,7 +58,7 @@ class TrashHome implements ICollection {
 	}
 
 	public function getName(): string {
-		list(, $name) = \Sabre\Uri\split($this->principalInfo['uri']);
+		[, $name] = \Sabre\Uri\split($this->principalInfo['uri']);
 		return $name;
 	}
 

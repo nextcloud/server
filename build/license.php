@@ -356,7 +356,7 @@ With help from many libraries and frameworks including:
 				if (strpos($entry, '> ') === false) {
 					$this->mailMap[$entry] = $entry;
 				} else {
-					list($use, $actual) = explode('> ', $entry);
+					[$use, $actual] = explode('> ', $entry);
 					$this->mailMap[$actual] = $use . '>';
 				}
 			}

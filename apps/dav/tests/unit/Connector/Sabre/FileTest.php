@@ -1087,7 +1087,7 @@ class FileTest extends TestCase {
 			$userView = \OC\Files\Filesystem::getView();
 		}
 		$files = [];
-		list($storage, $internalPath) = $userView->resolvePath($path);
+		[$storage, $internalPath] = $userView->resolvePath($path);
 		if ($storage instanceof Local) {
 			$realPath = $storage->getSourcePath($internalPath);
 			$dh = opendir($realPath);

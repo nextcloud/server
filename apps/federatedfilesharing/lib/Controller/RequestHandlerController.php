@@ -219,7 +219,7 @@ class RequestHandlerController extends OCSController {
 
 		try {
 			$provider = $this->cloudFederationProviderManager->getCloudFederationProvider('file');
-			list($newToken, $localId) = $provider->notificationReceived('REQUEST_RESHARE', $id, $notification);
+			[$newToken, $localId] = $provider->notificationReceived('REQUEST_RESHARE', $id, $notification);
 			return new Http\DataResponse([
 				'token' => $newToken,
 				'remoteId' => $localId

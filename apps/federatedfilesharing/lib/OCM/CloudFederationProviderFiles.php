@@ -183,7 +183,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 			throw new ProviderCouldNotAddShareException('Unsupported protocol for data exchange.', '', Http::STATUS_NOT_IMPLEMENTED);
 		}
 
-		list($ownerUid, $remote) = $this->addressHandler->splitUserRemote($share->getOwner());
+		[$ownerUid, $remote] = $this->addressHandler->splitUserRemote($share->getOwner());
 		// for backward compatibility make sure that the remote url stored in the
 		// database ends with a trailing slash
 		if (substr($remote, -1) !== '/') {
@@ -385,7 +385,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 		$this->verifyShare($share, $token);
 		$this->executeAcceptShare($share);
 		if ($share->getShareOwner() !== $share->getSharedBy()) {
-			list(, $remote) = $this->addressHandler->splitUserRemote($share->getSharedBy());
+			[, $remote] = $this->addressHandler->splitUserRemote($share->getSharedBy());
 			$remoteId = $this->federatedShareProvider->getRemoteId($share);
 			$notification = $this->cloudFederationFactory->getCloudFederationNotification();
 			$notification->setMessage(
@@ -411,7 +411,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 	protected function executeAcceptShare(IShare $share) {
 		try {
 			$fileId = (int)$share->getNode()->getId();
-			list($file, $link) = $this->getFile($this->getCorrectUid($share), $fileId);
+			[$file, $link] = $this->getFile($this->getCorrectUid($share), $fileId);
 		} catch (\Exception $e) {
 			throw new ShareNotFound();
 		}
@@ -455,7 +455,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 		$this->verifyShare($share, $token);
 
 		if ($share->getShareOwner() !== $share->getSharedBy()) {
-			list(, $remote) = $this->addressHandler->splitUserRemote($share->getSharedBy());
+			[, $remote] = $this->addressHandler->splitUserRemote($share->getSharedBy());
 			$remoteId = $this->federatedShareProvider->getRemoteId($share);
 			$notification = $this->cloudFederationFactory->getCloudFederationNotification();
 			$notification->setMessage(
@@ -487,7 +487,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 
 		try {
 			$fileId = (int)$share->getNode()->getId();
-			list($file, $link) = $this->getFile($this->getCorrectUid($share), $fileId);
+			[$file, $link] = $this->getFile($this->getCorrectUid($share), $fileId);
 		} catch (\Exception $e) {
 			throw new ShareNotFound();
 		}
@@ -642,7 +642,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 		$share = $this->federatedShareProvider->getShareById($id);
 		// don't allow to share a file back to the owner
 		try {
-			list($user, $remote) = $this->addressHandler->splitUserRemote($shareWith);
+			[$user, $remote] = $this->addressHandler->splitUserRemote($shareWith);
 			$owner = $share->getShareOwner();
 			$currentServer = $this->addressHandler->generateRemoteURL();
 			if ($this->addressHandler->compareAddresses($user, $remote, $owner, $currentServer)) {

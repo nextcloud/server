@@ -102,7 +102,7 @@ class Util {
 	 * @return float
 	 */
 	public function calculateLuminance($color) {
-		list($red, $green, $blue) = $this->hexToRGB($color);
+		[$red, $green, $blue] = $this->hexToRGB($color);
 		$compiler = new Compiler();
 		$hsl = $compiler->toHSL($red, $green, $blue);
 		return $hsl[3] / 100;
@@ -113,7 +113,7 @@ class Util {
 	 * @return float
 	 */
 	public function calculateLuma($color) {
-		list($red, $green, $blue) = $this->hexToRGB($color);
+		[$red, $green, $blue] = $this->hexToRGB($color);
 		return (0.2126 * $red + 0.7152 * $green + 0.0722 * $blue) / 255;
 	}
 

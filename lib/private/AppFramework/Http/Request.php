@@ -776,7 +776,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 
 		// strip off the script name's dir and file name
 		// FIXME: Sabre does not really belong here
-		list($path, $name) = \Sabre\Uri\split($scriptName);
+		[$path, $name] = \Sabre\Uri\split($scriptName);
 		if (!empty($path)) {
 			if ($path === $pathInfo || strpos($pathInfo, $path.'/') === 0) {
 				$pathInfo = substr($pathInfo, \strlen($path));

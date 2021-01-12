@@ -53,7 +53,7 @@ class VersionHome implements ICollection {
 	}
 
 	private function getUser() {
-		list(, $name) = \Sabre\Uri\split($this->principalInfo['uri']);
+		[, $name] = \Sabre\Uri\split($this->principalInfo['uri']);
 		$user = $this->userManager->get($name);
 		if (!$user) {
 			throw new NoUserException();

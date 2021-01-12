@@ -154,11 +154,11 @@ class Principal implements BackendInterface {
 	 * @return array
 	 */
 	public function getPrincipalByPath($path) {
-		list($prefix, $name) = \Sabre\Uri\split($path);
+		[$prefix, $name] = \Sabre\Uri\split($path);
 		$decodedName = urldecode($name);
 
 		if ($name === 'calendar-proxy-write' || $name === 'calendar-proxy-read') {
-			list($prefix2, $name2) = \Sabre\Uri\split($prefix);
+			[$prefix2, $name2] = \Sabre\Uri\split($prefix);
 
 			if ($prefix2 === $this->principalPrefix) {
 				$user = $this->userManager->get($name2);
@@ -213,7 +213,7 @@ class Principal implements BackendInterface {
 	 * @throws Exception
 	 */
 	public function getGroupMembership($principal, $needGroups = false) {
-		list($prefix, $name) = \Sabre\Uri\split($principal);
+		[$prefix, $name] = \Sabre\Uri\split($principal);
 
 		if ($prefix !== $this->principalPrefix) {
 			return [];
@@ -532,7 +532,7 @@ class Principal implements BackendInterface {
 			return [];
 		}
 
-		list($prefix, $name) = \Sabre\Uri\split($principal);
+		[$prefix, $name] = \Sabre\Uri\split($principal);
 		if ($this->hasCircles && $prefix === $this->principalPrefix) {
 			$user = $this->userManager->get($name);
 			if (!$user) {

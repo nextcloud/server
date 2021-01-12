@@ -79,8 +79,8 @@ class RequestTime implements ICheck {
 	 * @return int
 	 */
 	protected function getTimestamp($currentTimestamp, $value) {
-		list($time1, $timezone1) = explode(' ', $value);
-		list($hour1, $minute1) = explode(':', $time1);
+		[$time1, $timezone1] = explode(' ', $value);
+		[$hour1, $minute1] = explode(':', $time1);
 		$date1 = new \DateTime('now', new \DateTimeZone($timezone1));
 		$date1->setTimestamp($currentTimestamp);
 		$date1->setTime($hour1, $minute1);

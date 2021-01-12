@@ -421,7 +421,7 @@ class Factory implements IFactory {
 
 			$preferences = preg_split('/,\s*/', strtolower($header));
 			foreach ($preferences as $preference) {
-				list($preferred_language) = explode(';', $preference);
+				[$preferred_language] = explode(';', $preference);
 				$preferred_language = str_replace('-', '_', $preferred_language);
 
 				foreach ($available as $available_language) {
