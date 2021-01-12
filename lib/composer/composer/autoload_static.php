@@ -200,6 +200,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OCP\\DB\\QueryBuilder\\IParameter' => __DIR__ . '/../../..' . '/lib/public/DB/QueryBuilder/IParameter.php',
         'OCP\\DB\\QueryBuilder\\IQueryBuilder' => __DIR__ . '/../../..' . '/lib/public/DB/QueryBuilder/IQueryBuilder.php',
         'OCP\\DB\\QueryBuilder\\IQueryFunction' => __DIR__ . '/../../..' . '/lib/public/DB/QueryBuilder/IQueryFunction.php',
+        'OCP\\DB\\Types' => __DIR__ . '/../../..' . '/lib/public/DB/Types.php',
         'OCP\\Dashboard\\Exceptions\\DashboardAppNotAvailableException' => __DIR__ . '/../../..' . '/lib/public/Dashboard/Exceptions/DashboardAppNotAvailableException.php',
         'OCP\\Dashboard\\IDashboardManager' => __DIR__ . '/../../..' . '/lib/public/Dashboard/IDashboardManager.php',
         'OCP\\Dashboard\\IDashboardWidget' => __DIR__ . '/../../..' . '/lib/public/Dashboard/IDashboardWidget.php',
