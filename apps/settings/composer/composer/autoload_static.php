@@ -74,6 +74,7 @@ class ComposerStaticInitSettings
         'OCA\\Settings\\SetupChecks\\LegacySSEKeyFormat' => __DIR__ . '/..' . '/../lib/SetupChecks/LegacySSEKeyFormat.php',
         'OCA\\Settings\\SetupChecks\\PhpDefaultCharset' => __DIR__ . '/..' . '/../lib/SetupChecks/PhpDefaultCharset.php',
         'OCA\\Settings\\SetupChecks\\PhpOutputBuffering' => __DIR__ . '/..' . '/../lib/SetupChecks/PhpOutputBuffering.php',
+        'OCA\\Settings\\SetupChecks\\SupportedDatabase' => __DIR__ . '/..' . '/../lib/SetupChecks/SupportedDatabase.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
