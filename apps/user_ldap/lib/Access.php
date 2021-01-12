@@ -945,7 +945,7 @@ class Access extends LDAPUtility {
 
 		array_walk($groupRecords, function ($record) use ($idsByDn) {
 			$newlyMapped = false;
-			$gid = $uidsByDn[$record['dn'][0]] ?? null;
+			$gid = $idsByDn[$record['dn'][0]] ?? null;
 			if ($gid === null) {
 				$gid = $this->dn2ocname($record['dn'][0], null, false, $newlyMapped, $record);
 			}
