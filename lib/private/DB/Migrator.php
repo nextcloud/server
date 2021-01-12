@@ -82,6 +82,8 @@ class Migrator {
 
 	/**
 	 * @param \Doctrine\DBAL\Schema\Schema $targetSchema
+	 *
+	 * @throws Exception
 	 */
 	public function migrate(Schema $targetSchema) {
 		$this->noEmit = true;
@@ -171,6 +173,9 @@ class Migrator {
 		return new Table($newName, $table->getColumns(), $newIndexes, [], [], $table->getOptions());
 	}
 
+	/**
+	 * @throws Exception
+	 */
 	public function createSchema() {
 		$this->connection->getConfiguration()->setSchemaAssetsFilter(function ($asset) {
 			/** @var string|AbstractAsset $asset */
@@ -231,6 +236,8 @@ class Migrator {
 	/**
 	 * @param \Doctrine\DBAL\Schema\Schema $targetSchema
 	 * @param \Doctrine\DBAL\Connection $connection
+	 *
+	 * @throws Exception
 	 */
 	protected function applySchema(Schema $targetSchema, \Doctrine\DBAL\Connection $connection = null) {
 		if (is_null($connection)) {

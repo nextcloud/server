@@ -25,8 +25,10 @@ declare(strict_types=1);
 
 namespace OC\DB;
 
+use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Schema\Schema;
+use OC\DB\Exceptions\DbalException;
 use OCP\DB\IPreparedStatement;
 use OCP\DB\IResult;
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -49,51 +51,95 @@ class ConnectionAdapter implements IDBConnection {
 	}
 
 	public function prepare($sql, $limit = null, $offset = null): IPreparedStatement {
-		return new PreparedStatement(
-			$this->inner->prepare($sql, $limit, $offset)
-		);
+		try {
+			return new PreparedStatement(
+				$this->inner->prepare($sql, $limit, $offset)
+			);
+		} catch (Exception $e) {
+			throw DbalException::wrap($e);
+		}
 	}
 
 	public function executeQuery(string $sql, array $params = [], $types = []): IResult {
-		return new ResultAdapter(
-			$this->inner->executeQuery($sql, $params, $types)
-		);
+		try {
+			return new ResultAdapter(
+				$this->inner->executeQuery($sql, $params, $types)
+			);
+		} catch (Exception $e) {
+			throw DbalException::wrap($e);
+		}
 	}
 
 	public function executeUpdate(string $sql, array $params = [], array $types = []): int {
-		return $this->inner->executeUpdate($sql, $params, $types);
+		try {
+			return $this->inner->executeUpdate($sql, $params, $types);
+		} catch (Exception $e) {
+			throw DbalException::wrap($e);
+		}
 	}
 
 	public function executeStatement($sql, array $params = [], array $types = []): int {
-		return $this->inner->executeStatement($sql, $params, $types);
+		try {
+			return $this->inner->executeStatement($sql, $params, $types);
+		} catch (Exception $e) {
+			throw DbalException::wrap($e);
+		}
 	}
 
 	public function lastInsertId(string $table): int {
-		return (int) $this->inner->lastInsertId($table);
+		try {
+			return (int)$this->inner->lastInsertId($table);
+		} catch (Exception $e) {
+			throw DbalException::wrap($e);
+		}
 	}
 
 	public function insertIfNotExist(string $table, array $input, array $compare = null) {
-		return $this->inner->insertIfNotExist($table, $input, $compare);
+		try {
+			return $this->inner->insertIfNotExist($table, $input, $compare);
+		} catch (Exception $e) {
+			throw DbalException::wrap($e);
+		}
 	}
 
 	public function insertIgnoreConflict(string $table, array $values): int {
-		return $this->inner->insertIgnoreConflict($table, $values);
+		try {
+			return $this->inner->insertIgnoreConflict($table, $values);
+		} catch (Exception $e) {
+			throw DbalException::wrap($e);
+		}
 	}
 
 	public function setValues($table, array $keys, array $values, array $updatePreconditionValues = []): int {
-		return $this->inner->setValues($table, $keys, $values, $updatePreconditionValues);
+		try {
+			return $this->inner->setValues($table, $keys, $values, $updatePreconditionValues);
+		} catch (Exception $e) {
+			throw DbalException::wrap($e);
+		}
 	}
 
 	public function lockTable($tableName): void {
-		$this->inner->lockTable($tableName);
+		try {
+			$this->inner->lockTable($tableName);
+		} catch (Exception $e) {
+			throw DbalException::wrap($e);
+		}
 	}
 
 	public function unlockTable(): void {
-		$this->inner->unlockTable();
+		try {
+			$this->inner->unlockTable();
+		} catch (Exception $e) {
+			throw DbalException::wrap($e);
+		}
 	}
 
 	public function beginTransaction(): void {
-		$this->inner->beginTransaction();
+		try {
+			$this->inner->beginTransaction();
+		} catch (Exception $e) {
+			throw DbalException::wrap($e);
+		}
 	}
 
 	public function inTransaction(): bool {
@@ -101,11 +147,19 @@ class ConnectionAdapter implements IDBConnection {
 	}
 
 	public function commit(): void {
-		$this->inner->commit();
+		try {
+			$this->inner->commit();
+		} catch (Exception $e) {
+			throw DbalException::wrap($e);
+		}
 	}
 
 	public function rollBack(): void {
-		$this->inner->rollBack();
+		try {
+			$this->inner->rollBack();
+		} catch (Exception $e) {
+			throw DbalException::wrap($e);
+		}
 	}
 
 	public function getError(): string {
@@ -121,7 +175,11 @@ class ConnectionAdapter implements IDBConnection {
 	}
 
 	public function connect(): bool {
-		return $this->inner->connect();
+		try {
+			return $this->inner->connect();
+		} catch (Exception $e) {
+			throw DbalException::wrap($e);
+		}
 	}
 
 	public function close(): void {
@@ -140,11 +198,19 @@ class ConnectionAdapter implements IDBConnection {
 	}
 
 	public function dropTable(string $table): void {
-		$this->inner->dropTable($table);
+		try {
+			$this->inner->dropTable($table);
+		} catch (Exception $e) {
+			throw DbalException::wrap($e);
+		}
 	}
 
 	public function tableExists(string $table): bool {
-		return $this->inner->tableExists($table);
+		try {
+			return $this->inner->tableExists($table);
+		} catch (Exception $e) {
+			throw DbalException::wrap($e);
+		}
 	}
 
 	public function escapeLikeParameter(string $param): string {
@@ -159,11 +225,19 @@ class ConnectionAdapter implements IDBConnection {
 	 * @todo leaks a 3rdparty type
 	 */
 	public function createSchema(): Schema {
-		return $this->inner->createSchema();
+		try {
+			return $this->inner->createSchema();
+		} catch (Exception $e) {
+			throw DbalException::wrap($e);
+		}
 	}
 
 	public function migrateToSchema(Schema $toSchema): void {
-		$this->inner->migrateToSchema($toSchema);
+		try {
+			$this->inner->migrateToSchema($toSchema);
+		} catch (Exception $e) {
+			throw DbalException::wrap($e);
+		}
 	}
 
 	public function getInner(): Connection {
