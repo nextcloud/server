@@ -47,7 +47,7 @@ use DirectoryIterator;
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Platforms\SqlitePlatform;
 use Doctrine\DBAL\TransactionIsolationLevel;
-use Doctrine\DBAL\Types\Types;
+use OCP\DB\Types;
 use GuzzleHttp\Exception\ClientException;
 use OC;
 use OC\AppFramework\Http;

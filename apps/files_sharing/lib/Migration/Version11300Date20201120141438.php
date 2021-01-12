@@ -29,7 +29,7 @@ namespace OCA\Files_Sharing\Migration;
 
 use Closure;
 use Doctrine\DBAL\Types\Type;
-use Doctrine\DBAL\Types\Types;
+use OCP\DB\Types;
 use OCP\DB\ISchemaWrapper;
 use OCP\IDBConnection;
 use OCP\Migration\IOutput;
