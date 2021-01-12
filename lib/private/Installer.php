@@ -286,7 +286,7 @@ class Installer {
 				$tempFile = $this->tempManager->getTemporaryFile('.tar.gz');
 				$timeout = $this->isCLI ? 0 : 120;
 				$client = $this->clientService->newClient();
-				$client->get($app['releases'][0]['download'], ['save_to' => $tempFile, 'timeout' => $timeout]);
+				$client->get($app['releases'][0]['download'], ['sink' => $tempFile, 'timeout' => $timeout]);
 
 				// Check if the signature actually matches the downloaded content
 				$certificate = openssl_get_publickey($app['certificate']);
