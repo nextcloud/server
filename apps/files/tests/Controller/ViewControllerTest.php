@@ -36,10 +36,12 @@ use OCA\Files\Activity\Helper;
 use OCA\Files\Controller\ViewController;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Services\IInitialState;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
+use OCP\Files\Template\ITemplateManager;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
@@ -78,6 +80,10 @@ class ViewControllerTest extends TestCase {
 	private $rootFolder;
 	/** @var Helper|\PHPUnit\Framework\MockObject\MockObject */
 	private $activityHelper;
+	/** @var IInitialState|\PHPUnit\Framework\MockObject\MockObject */
+	private $initialState;
+	/** @var ITemplateManager|\PHPUnit\Framework\MockObject\MockObject */
+	private $templateManager;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -97,6 +103,8 @@ class ViewControllerTest extends TestCase {
 			->willReturn($this->user);
 		$this->rootFolder = $this->getMockBuilder('\OCP\Files\IRootFolder')->getMock();
 		$this->activityHelper = $this->createMock(Helper::class);
+		$this->initialState = $this->createMock(IInitialState::class);
+		$this->templateManager = $this->createMock(ITemplateManager::class);
 		$this->viewController = $this->getMockBuilder('\OCA\Files\Controller\ViewController')
 			->setConstructorArgs([
 				'files',
@@ -109,6 +117,8 @@ class ViewControllerTest extends TestCase {
 				$this->appManager,
 				$this->rootFolder,
 				$this->activityHelper,
+				$this->initialState,
+				$this->templateManager,
 			])
 		->setMethods([
 			'getStorageInfo',

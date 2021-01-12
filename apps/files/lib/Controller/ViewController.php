@@ -44,10 +44,12 @@ use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Services\IInitialState;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
+use OCP\Files\Template\ITemplateManager;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
@@ -80,6 +82,10 @@ class ViewController extends Controller {
 	protected $rootFolder;
 	/** @var Helper */
 	protected $activityHelper;
+	/** @var IInitialState */
+	private $initialState;
+	/** @var ITemplateManager */
+	private $templateManager;
 
 	public function __construct(string $appName,
 		IRequest $request,
@@ -90,7 +96,9 @@ class ViewController extends Controller {
 		IUserSession $userSession,
 		IAppManager $appManager,
 		IRootFolder $rootFolder,
-		Helper $activityHelper
+		Helper $activityHelper,
+		IInitialState $initialState,
+		ITemplateManager $templateManager
 	) {
 		parent::__construct($appName, $request);
 		$this->appName = $appName;
@@ -103,6 +111,8 @@ class ViewController extends Controller {
 		$this->appManager = $appManager;
 		$this->rootFolder = $rootFolder;
 		$this->activityHelper = $activityHelper;
+		$this->initialState = $initialState;
+		$this->templateManager = $templateManager;
 	}
 
 	/**
@@ -283,6 +293,8 @@ class ViewController extends Controller {
 		if (class_exists(LoadViewer::class)) {
 			$this->eventDispatcher->dispatchTyped(new LoadViewer());
 		}
+		$this->initialState->provideInitialState('template_path', $this->templateManager->hasTemplateDirectory() ? $this->templateManager->getTemplatePath() : null);
+		$this->initialState->provideInitialState('templates', $this->templateManager->listCreators());
 
 		$params = [];
 		$params['usedSpacePercent'] = (int) $storageInfo['relative'];

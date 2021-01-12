@@ -66,6 +66,7 @@
 use bantu\IniGetWrapper\IniGetWrapper;
 use OC\AppFramework\Http\Request;
 use OC\Files\Storage\LocalRootStorage;
+use OCP\Files\Template\ITemplateManager;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\ILogger;
@@ -447,6 +448,8 @@ class OC_Util {
 			self::copyr($skeletonDirectory, $userDirectory);
 			// update the file cache
 			$userDirectory->getStorage()->getScanner()->scan('', \OC\Files\Cache\Scanner::SCAN_RECURSIVE);
+			$templateManaer = \OC::$server->get(ITemplateManager::class);
+			$templateManaer->initializeTemplateDirectory(null, $userId);
 		}
 	}
 
