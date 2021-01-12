@@ -1620,6 +1620,15 @@ $CONFIG = [
 'minimum.supported.desktop.version' => '2.0.0',
 
 /**
+ * Option to allow local storage to contain symlinks.
+ * WARNING: Not recommended. This would make it possible for Nextcloud to access
+ * files outside the data directory and could be considered a security risk.
+ *
+ * Defaults to ``false``
+ */
+'localstorage.allowsymlinks' => false,
+
+/**
  * EXPERIMENTAL: option whether to include external storage in quota
  * calculation, defaults to false.
  *
