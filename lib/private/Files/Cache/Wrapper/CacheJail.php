@@ -93,6 +93,9 @@ class CacheJail extends CacheWrapper {
 	}
 
 	protected function filterCacheEntry($entry) {
+		if ($entry === false) {
+			return false;
+		}
 		$rootLength = strlen($this->getRoot()) + 1;
 		return $rootLength === 1 || ($entry['path'] === $this->getRoot()) || (substr($entry['path'], 0, $rootLength) === $this->getRoot() . '/');
 	}
