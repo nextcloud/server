@@ -3038,9 +3038,6 @@
     <InvalidArrayOffset occurrences="1">
       <code>$action['url-postfix']</code>
     </InvalidArrayOffset>
-    <RedundantCondition occurrences="1">
-      <code>strtolower</code>
-    </RedundantCondition>
   </file>
   <file src="lib/private/AppFramework/Services/AppConfig.php">
     <MoreSpecificImplementedParamType occurrences="1">
@@ -5034,11 +5031,6 @@
       <code>$this-&gt;appendIfExist($this-&gt;serverroot, 'apps/'.$script.'.js')</code>
       <code>$this-&gt;appendIfExist($this-&gt;serverroot, 'core/'.$script.'.js')</code>
     </InvalidOperand>
-  </file>
-  <file src="lib/private/Template/SCSSCacher.php">
-    <InvalidScalarArgument occurrences="1">
-      <code>Compiler::LINE_COMMENTS</code>
-    </InvalidScalarArgument>
   </file>
   <file src="lib/private/TemplateLayout.php">
     <InvalidParamDefault occurrences="2">
