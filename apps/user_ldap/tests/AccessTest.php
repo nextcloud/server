@@ -42,6 +42,7 @@ use OCA\User_LDAP\Helper;
 use OCA\User_LDAP\ILDAPWrapper;
 use OCA\User_LDAP\LDAP;
 use OCA\User_LDAP\LogWrapper;
+use OCA\User_LDAP\Mapping\GroupMapping;
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\User\Manager;
 use OCA\User_LDAP\User\OfflineUser;
@@ -64,6 +65,8 @@ use Test\TestCase;
 class AccessTest extends TestCase {
 	/** @var UserMapping|\PHPUnit_Framework_MockObject_MockObject */
 	protected $userMapper;
+	/** @var GroupMapping|\PHPUnit\Framework\MockObject\MockObject */
+	protected $groupMapper;
 	/** @var Connection|\PHPUnit_Framework_MockObject_MockObject */
 	private $connection;
 	/** @var LDAP|\PHPUnit_Framework_MockObject_MockObject */
@@ -86,6 +89,7 @@ class AccessTest extends TestCase {
 		$this->helper = $this->createMock(Helper::class);
 		$this->config  = $this->createMock(IConfig::class);
 		$this->userMapper = $this->createMock(UserMapping::class);
+		$this->groupMapper = $this->createMock(GroupMapping::class);
 		$this->ncUserManager = $this->createMock(IUserManager::class);
 
 		$this->access = new Access(
@@ -97,6 +101,7 @@ class AccessTest extends TestCase {
 			$this->ncUserManager
 		);
 		$this->access->setUserMapper($this->userMapper);
+		$this->access->setGroupMapper($this->groupMapper);
 	}
 
 	private function getConnectorAndLdapMock() {
@@ -636,6 +641,45 @@ class AccessTest extends TestCase {
 		/** @noinspection PhpUnhandledExceptionInspection */
 		$list = $this->access->fetchListOfUsers($filter, $attrs);
 		$this->assertSame($expected, $list);
+	}
+
+	public function testFetchListOfGroupsKnown() {
+		$filter  = 'objectClass=nextcloudGroup';
+		$attributes = ['cn', 'gidNumber', 'dn'];
+		$base = 'ou=SomeGroups,dc=my,dc=directory';
+
+		$fakeConnection = ldap_connect();
+		$fakeSearchResultResource = ldap_connect();
+		$fakeLdapEntries = [
+			'count' => 2,
+			[
+				'dn' => 'cn=Good Team,' . $base,
+				'cn' => ['Good Team'],
+			],
+			[
+				'dn' => 'cn=Another Good Team,' . $base,
+				'cn' => ['Another Good Team'],
+			]
+		];
+
+		$this->prepareMocksForSearchTests($base, $fakeConnection, $fakeSearchResultResource, $fakeLdapEntries);
+
+		$this->groupMapper->expects($this->any())
+			->method('getListOfIdsByDn')
+			->willReturn([
+				'cn=Good Team,' . $base => 'Good_Team',
+				'cn=Another Good Team,' . $base => 'Another_Good_Team',
+			]);
+		$this->groupMapper->expects($this->never())
+			->method('getNameByDN');
+
+		$this->connection->expects($this->exactly(2))
+			->method('writeToCache');
+
+		$groups = $this->access->fetchListOfGroups($filter, $attributes);
+		$this->assertSame(2, count($groups));
+		$this->assertSame('Good Team', $groups[0]['cn'][0]);
+		$this->assertSame('Another Good Team', $groups[1]['cn'][0]);
 	}
 
 	public function intUsernameProvider() {
