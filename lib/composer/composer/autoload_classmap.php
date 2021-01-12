@@ -171,6 +171,7 @@ return array(
     'OCP\\DB\\QueryBuilder\\IParameter' => $baseDir . '/lib/public/DB/QueryBuilder/IParameter.php',
     'OCP\\DB\\QueryBuilder\\IQueryBuilder' => $baseDir . '/lib/public/DB/QueryBuilder/IQueryBuilder.php',
     'OCP\\DB\\QueryBuilder\\IQueryFunction' => $baseDir . '/lib/public/DB/QueryBuilder/IQueryFunction.php',
+    'OCP\\DB\\Types' => $baseDir . '/lib/public/DB/Types.php',
     'OCP\\Dashboard\\Exceptions\\DashboardAppNotAvailableException' => $baseDir . '/lib/public/Dashboard/Exceptions/DashboardAppNotAvailableException.php',
     'OCP\\Dashboard\\IDashboardManager' => $baseDir . '/lib/public/Dashboard/IDashboardManager.php',
     'OCP\\Dashboard\\IDashboardWidget' => $baseDir . '/lib/public/Dashboard/IDashboardWidget.php',

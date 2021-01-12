@@ -33,7 +33,7 @@ namespace OC\Core\Command\Db;
 
 use Doctrine\DBAL\Platforms\SqlitePlatform;
 use Doctrine\DBAL\Types\Type;
-use Doctrine\DBAL\Types\Types;
+use OCP\DB\Types;
 use OC\DB\Connection;
 use OC\DB\SchemaWrapper;
 use Symfony\Component\Console\Command\Command;
