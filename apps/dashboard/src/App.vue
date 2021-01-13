@@ -166,7 +166,7 @@ export default {
 
 			// Determine part of the day
 			let partOfDay
-			if (time >= 22 && time < 5) {
+			if (time >= 22 || time < 5) {
 				partOfDay = 'night'
 			} else if (time >= 18) {
 				partOfDay = 'evening'
