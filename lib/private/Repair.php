@@ -114,7 +114,11 @@ class Repair implements IOutput {
 		foreach ($this->repairSteps as $step) {
 			$this->currentStep = $step->getName();
 			$this->emit('\OC\Repair', 'step', [$this->currentStep]);
-			$step->run($this);
+			try {
+				$step->run($this);
+			} catch (\Exception $e) {
+				$this->emit('\OC\Repair', 'error', [$e->getMessage()]);
+			}
 		}
 	}
 
