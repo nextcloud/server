@@ -1196,23 +1196,11 @@
     </InvalidScalarArgument>
   </file>
   <file src="apps/files/lib/Command/Scan.php">
-    <InvalidReturnStatement occurrences="1">
-      <code>$connection</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
-      <code>\OCP\IDBConnection</code>
-    </InvalidReturnType>
     <NullArgument occurrences="1">
       <code>null</code>
     </NullArgument>
   </file>
   <file src="apps/files/lib/Command/ScanAppData.php">
-    <InvalidReturnStatement occurrences="1">
-      <code>$connection</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
-      <code>\OCP\IDBConnection</code>
-    </InvalidReturnType>
     <NullArgument occurrences="2">
       <code>null</code>
       <code>null</code>
