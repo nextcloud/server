@@ -2,6 +2,7 @@ OC.L10N.register(
     "viewer",
     {
     "Viewer" : "檢視器",
+    "Simple file viewer with slideshow for media" : "簡單的檔案檢視器，支援媒體幻燈片檢視",
     "Your browser does not support audio." : "您的瀏覽器不支援音訊。",
     "Error loading {name}" : "載入 {name} 錯誤",
     "Your browser does not support videos." : "您的瀏覽器不支援視訊。",
