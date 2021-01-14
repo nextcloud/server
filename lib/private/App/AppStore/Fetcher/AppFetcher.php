@@ -113,12 +113,12 @@ class AppFetcher extends Fetcher {
 							$phpVersion = $versionParser->getVersion($release['rawPhpVersionSpec']);
 							$minPhpVersion = $phpVersion->getMinimumVersion();
 							$maxPhpVersion = $phpVersion->getMaximumVersion();
-							$minPhpFulfilled = $minPhpVersion === '' || $this->compareVersion->isCompatible(
+							$minPhpFulfilled = $minPhpVersion === '' || version_compare(
 									PHP_VERSION,
 									$minPhpVersion,
 									'>='
 								);
-							$maxPhpFulfilled = $maxPhpVersion === '' || $this->compareVersion->isCompatible(
+							$maxPhpFulfilled = $maxPhpVersion === '' || version_compare(
 									PHP_VERSION,
 									$maxPhpVersion,
 									'<='
