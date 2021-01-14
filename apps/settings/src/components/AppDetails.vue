@@ -144,7 +144,7 @@
 </template>
 
 <script>
-import { Multiselect } from '@nextcloud/vue'
+import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
 
 import AppManagement from '../mixins/AppManagement'
 import PrefixMixin from './PrefixMixin'
