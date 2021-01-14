@@ -215,6 +215,35 @@ class QueryBuilder implements IQueryBuilder {
 		}
 
 		return $this->queryBuilder->execute();
+		$numberOfParameters = 0;
+		$hasTooLargeArrayParameter = false;
+		foreach ($this->getParameters() as $parameter) {
+			if (is_array($parameter)) {
+				$count = count($parameter);
+				$numberOfParameters += $count;
+				$hasTooLargeArrayParameter = $hasTooLargeArrayParameter || ($count > 1000);
+			}
+		}
+
+		if ($hasTooLargeArrayParameter) {
+			$exception = new QueryException('More than 1000 expressions in a list are not allowed on Oracle.');
+			$this->logger->logException($exception, [
+				'message' => 'More than 1000 expressions in a list are not allowed on Oracle.',
+				'query' => $this->getSQL(),
+				'level' => ILogger::ERROR,
+				'app' => 'core',
+			]);
+		}
+
+		if ($numberOfParameters > 65535) {
+			$exception = new QueryException('The number of parameters must not exceed 65535. Restriction by PostgreSQL.');
+			$this->logger->logException($exception, [
+				'message' => 'The number of parameters must not exceed 65535. Restriction by PostgreSQL.',
+				'query' => $this->getSQL(),
+				'level' => ILogger::ERROR,
+				'app' => 'core',
+			]);
+		}
 	}
 
 	/**
