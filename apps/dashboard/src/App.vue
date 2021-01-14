@@ -90,7 +90,7 @@
 import Vue from 'vue'
 import { loadState } from '@nextcloud/initial-state'
 import { getCurrentUser } from '@nextcloud/auth'
-import { Modal } from '@nextcloud/vue'
+import Modal from '@nextcloud/vue/dist/Components/Modal'
 import Draggable from 'vuedraggable'
 import axios from '@nextcloud/axios'
 import { generateUrl } from '@nextcloud/router'

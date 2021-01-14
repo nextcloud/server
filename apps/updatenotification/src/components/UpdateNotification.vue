@@ -110,7 +110,8 @@
 
 <script>
 import { generateUrl, getRootUrl, generateOcsUrl } from '@nextcloud/router'
-import { PopoverMenu, Multiselect } from '@nextcloud/vue'
+import PopoverMenu from '@nextcloud/vue/dist/Components/PopoverMenu'
+import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
 import { VTooltip } from 'v-tooltip'
 import ClickOutside from 'vue-click-outside'
 
