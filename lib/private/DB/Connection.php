@@ -74,6 +74,9 @@ class Connection extends ReconnectWrapper {
 	/** @var int */
 	protected $queriesExecuted = 0;
 
+	/**
+	 * @throws Exception
+	 */
 	public function connect() {
 		try {
 			return parent::connect();
@@ -183,7 +186,9 @@ class Connection extends ReconnectWrapper {
 	 * @param string $statement The SQL statement to prepare.
 	 * @param int $limit
 	 * @param int $offset
+	 *
 	 * @return Statement The prepared statement.
+	 * @throws Exception
 	 */
 	public function prepare($statement, $limit = null, $offset = null): Statement {
 		if ($limit === -1) {
@@ -221,6 +226,9 @@ class Connection extends ReconnectWrapper {
 		return parent::executeQuery($sql, $params, $types, $qcp);
 	}
 
+	/**
+	 * @throws Exception
+	 */
 	public function executeUpdate(string $sql, array $params = [], array $types = []): int {
 		$sql = $this->replaceTablePrefix($sql);
 		$sql = $this->adapter->fixupStatement($sql);
@@ -258,7 +266,9 @@ class Connection extends ReconnectWrapper {
 	 * columns or sequences.
 	 *
 	 * @param string $seqName Name of the sequence object from which the ID should be returned.
+	 *
 	 * @return string the last inserted ID.
+	 * @throws Exception
 	 */
 	public function lastInsertId($seqName = null) {
 		if ($seqName) {
@@ -267,7 +277,10 @@ class Connection extends ReconnectWrapper {
 		return $this->adapter->lastInsertId($seqName);
 	}
 
-	// internal use
+	/**
+	 * @internal
+	 * @throws Exception
+	 */
 	public function realLastInsertId($seqName = null) {
 		return parent::lastInsertId($seqName);
 	}
@@ -364,7 +377,9 @@ class Connection extends ReconnectWrapper {
 	 * Create an exclusive read+write lock on a table
 	 *
 	 * @param string $tableName
+	 *
 	 * @throws \BadMethodCallException When trying to acquire a second lock
+	 * @throws Exception
 	 * @since 9.1.0
 	 */
 	public function lockTable($tableName) {
@@ -380,6 +395,7 @@ class Connection extends ReconnectWrapper {
 	/**
 	 * Release a previous acquired lock again
 	 *
+	 * @throws Exception
 	 * @since 9.1.0
 	 */
 	public function unlockTable() {
@@ -415,6 +431,8 @@ class Connection extends ReconnectWrapper {
 	 * Drop a table from the database if it exists
 	 *
 	 * @param string $table table name without the prefix
+	 *
+	 * @throws Exception
 	 */
 	public function dropTable($table) {
 		$table = $this->tablePrefix . trim($table);
@@ -428,7 +446,9 @@ class Connection extends ReconnectWrapper {
 	 * Check if a table exists
 	 *
 	 * @param string $table table name without the prefix
+	 *
 	 * @return bool
+	 * @throws Exception
 	 */
 	public function tableExists($table) {
 		$table = $this->tablePrefix . trim($table);
@@ -483,6 +503,7 @@ class Connection extends ReconnectWrapper {
 	 * Create the schema of the connected database
 	 *
 	 * @return Schema
+	 * @throws Exception
 	 */
 	public function createSchema() {
 		$schemaManager = new MDB2SchemaManager($this);
@@ -494,6 +515,8 @@ class Connection extends ReconnectWrapper {
 	 * Migrate the database to the given schema
 	 *
 	 * @param Schema $toSchema
+	 *
+	 * @throws Exception
 	 */
 	public function migrateToSchema(Schema $toSchema) {
 		$schemaManager = new MDB2SchemaManager($this);

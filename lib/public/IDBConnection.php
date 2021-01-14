@@ -39,8 +39,8 @@
 
 namespace OCP;
 
-use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Schema\Schema;
+use OCP\DB\Exception;
 use OCP\DB\IPreparedStatement;
 use OCP\DB\IResult;
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -103,6 +103,7 @@ interface IDBConnection {
 	 * @param array $types The parameter types.
 	 * @return int The number of affected rows.
 	 * @since 8.0.0
+	 * @throws Exception since 21.0.0
 	 *
 	 * @deprecated 21.0.0 use executeStatement
 	 */
@@ -119,6 +120,7 @@ interface IDBConnection {
 	 * @param array $types The parameter types.
 	 * @return int The number of affected rows.
 	 * @since 21.0.0
+	 * @throws Exception since 21.0.0
 	 */
 	public function executeStatement($sql, array $params = [], array $types = []): int;
 
@@ -143,7 +145,7 @@ interface IDBConnection {
 	 *				If this is null or an empty array, all keys of $input will be compared
 	 *				Please note: text fields (clob) must not be used in the compare array
 	 * @return int number of inserted rows
-	 * @throws Exception
+	 * @throws Exception used to be the removed dbal exception, since 21.0.0 it's \OCP\DB\Exception
 	 * @since 6.0.0 - parameter $compare was added in 8.1.0, return type changed from boolean in 8.1.0
 	 * @deprecated 15.0.0 - use unique index and "try { $db->insert() } catch (UniqueConstraintViolationException $e) {}" instead, because it is more reliable and does not have the risk for deadlocks - see https://github.com/nextcloud/server/pull/12371
 	 */
@@ -171,7 +173,7 @@ interface IDBConnection {
 	 * @param array $values (column name => value)
 	 * @param array $updatePreconditionValues ensure values match preconditions (column name => value)
 	 * @return int number of new rows
-	 * @throws Exception
+	 * @throws Exception used to be the removed dbal exception, since 21.0.0 it's \OCP\DB\Exception
 	 * @throws PreconditionNotMetException
 	 * @since 9.0.0
 	 */
@@ -185,6 +187,7 @@ interface IDBConnection {
 	 * transaction while holding a lock.
 	 *
 	 * @param string $tableName
+	 * @throws Exception since 21.0.0
 	 * @since 9.1.0
 	 */
 	public function lockTable($tableName): void;
@@ -192,6 +195,7 @@ interface IDBConnection {
 	/**
 	 * Release a previous acquired lock again
 	 *
+	 * @throws Exception since 21.0.0
 	 * @since 9.1.0
 	 */
 	public function unlockTable(): void;
@@ -255,6 +259,7 @@ interface IDBConnection {
 	 * Establishes the connection with the database.
 	 *
 	 * @return bool
+	 * @throws Exception since 21.0.0
 	 * @since 8.0.0
 	 */
 	public function connect(): bool;
@@ -288,6 +293,7 @@ interface IDBConnection {
 	 * Drop a table from the database if it exists
 	 *
 	 * @param string $table table name without the prefix
+	 * @throws Exception since 21.0.0
 	 * @since 8.0.0
 	 */
 	public function dropTable(string $table): void;
@@ -297,6 +303,7 @@ interface IDBConnection {
 	 *
 	 * @param string $table table name without the prefix
 	 * @return bool
+	 * @throws Exception since 21.0.0
 	 * @since 8.0.0
 	 */
 	public function tableExists(string $table): bool;
@@ -322,6 +329,7 @@ interface IDBConnection {
 	 * Create the schema of the connected database
 	 *
 	 * @return Schema
+	 * @throws Exception since 21.0.0
 	 * @since 13.0.0
 	 */
 	public function createSchema(): Schema;
@@ -330,6 +338,7 @@ interface IDBConnection {
 	 * Migrate the database to the given schema
 	 *
 	 * @param Schema $toSchema
+	 * @throws Exception since 21.0.0
 	 * @since 13.0.0
 	 */
 	public function migrateToSchema(Schema $toSchema): void;

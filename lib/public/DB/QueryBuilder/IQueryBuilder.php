@@ -29,6 +29,7 @@
 namespace OCP\DB\QueryBuilder;
 
 use Doctrine\DBAL\Connection;
+use OCP\DB\Exception;
 use OCP\DB\IResult;
 
 /**
@@ -154,6 +155,7 @@ interface IQueryBuilder {
 	 *          to bridge old code to the new API
 	 *
 	 * @return IResult|int
+	 * @throws Exception since 21.0.0
 	 * @since 8.2.0
 	 */
 	public function execute();
