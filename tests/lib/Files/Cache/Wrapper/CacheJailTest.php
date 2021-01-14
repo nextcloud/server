@@ -9,6 +9,11 @@
 namespace Test\Files\Cache\Wrapper;
 
 use OC\Files\Cache\Wrapper\CacheJail;
+use OC\Files\Search\SearchComparison;
+use OC\Files\Search\SearchQuery;
+use OC\User\User;
+use OCP\Files\Search\ISearchComparison;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Test\Files\Cache\CacheTest;
 
 /**
@@ -40,6 +45,38 @@ class CacheJailTest extends CacheTest {
 		$this->sourceCache->put($file2, $data1);
 
 		$this->assertCount(2, $this->sourceCache->search('%foobar'));
+
+		$result = $this->cache->search('%foobar%');
+		$this->assertCount(1, $result);
+		$this->assertEquals('foobar', $result[0]['path']);
+	}
+
+	public function testSearchMimeOutsideJail() {
+		$file1 = 'foo/foobar';
+		$file2 = 'folder/foobar';
+		$data1 = ['size' => 100, 'mtime' => 50, 'mimetype' => 'foo/folder'];
+
+		$this->sourceCache->put($file1, $data1);
+		$this->sourceCache->put($file2, $data1);
+
+		$this->assertCount(2, $this->sourceCache->searchByMime('foo/folder'));
+
+		$result = $this->cache->search('%foobar%');
+		$this->assertCount(1, $result);
+		$this->assertEquals('foobar', $result[0]['path']);
+	}
+
+	public function testSearchQueryOutsideJail() {
+		$file1 = 'foo/foobar';
+		$file2 = 'folder/foobar';
+		$data1 = ['size' => 100, 'mtime' => 50, 'mimetype' => 'foo/folder'];
+
+		$this->sourceCache->put($file1, $data1);
+		$this->sourceCache->put($file2, $data1);
+
+		$user = new User('foo', null, $this->createMock(EventDispatcherInterface::class));
+		$query = new SearchQuery(new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'name', 'foobar'), 10, 0, [], $user);
+		$this->assertCount(2, $this->sourceCache->searchQuery($query));
 
 		$result = $this->cache->search('%foobar%');
 		$this->assertCount(1, $result);

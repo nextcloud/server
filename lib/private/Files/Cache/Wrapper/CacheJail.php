@@ -29,8 +29,13 @@
 namespace OC\Files\Cache\Wrapper;
 
 use OC\Files\Cache\Cache;
+use OC\Files\Search\SearchBinaryOperator;
+use OC\Files\Search\SearchComparison;
 use OC\Files\Search\SearchQuery;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\Cache\ICacheEntry;
+use OCP\Files\Search\ISearchBinaryOperator;
+use OCP\Files\Search\ISearchComparison;
 use OCP\Files\Search\ISearchQuery;
 
 /**
@@ -49,6 +54,8 @@ class CacheJail extends CacheWrapper {
 	public function __construct($cache, $root) {
 		parent::__construct($cache);
 		$this->root = $root;
+		$this->connection = \OC::$server->getDatabaseConnection();
+		$this->mimetypeLoader = \OC::$server->getMimeTypeLoader();
 	}
 
 	protected function getRoot() {
@@ -221,7 +228,26 @@ class CacheJail extends CacheWrapper {
 	 * @return array an array of file data
 	 */
 	public function search($pattern) {
-		$results = $this->getCache()->search($pattern);
+		// normalize pattern
+		$pattern = $this->normalize($pattern);
+
+		if ($pattern === '%%') {
+			return [];
+		}
+
+		$query = $this->getQueryBuilder();
+		$query->selectFileCache()
+			->whereStorageId()
+			->andWhere($query->expr()->like('path', $query->createNamedParameter($this->getRoot() . '/%')))
+			->andWhere($query->expr()->iLike('name', $query->createNamedParameter($pattern)));
+
+		$result = $query->execute();
+		$files = $result->fetchAll();
+		$result->closeCursor();
+
+		$results = array_map(function (array $data) {
+			return self::cacheEntryFromData($data, $this->mimetypeLoader);
+		}, $files);
 		return $this->formatSearchResults($results);
 	}
 
@@ -232,12 +258,40 @@ class CacheJail extends CacheWrapper {
 	 * @return array
 	 */
 	public function searchByMime($mimetype) {
-		$results = $this->getCache()->searchByMime($mimetype);
+		$mimeId = $this->mimetypeLoader->getId($mimetype);
+
+		$query = $this->getQueryBuilder();
+		$query->selectFileCache()
+			->whereStorageId()
+			->andWhere($query->expr()->like('path', $query->createNamedParameter($this->getRoot() . '/%')));
+
+		if (strpos($mimetype, '/')) {
+			$query->andWhere($query->expr()->eq('mimetype', $query->createNamedParameter($mimeId, IQueryBuilder::PARAM_INT)));
+		} else {
+			$query->andWhere($query->expr()->eq('mimepart', $query->createNamedParameter($mimeId, IQueryBuilder::PARAM_INT)));
+		}
+
+		$result = $query->execute();
+		$files = $result->fetchAll();
+		$result->closeCursor();
+
+		$results = array_map(function (array $data) {
+			return self::cacheEntryFromData($data, $this->mimetypeLoader);
+		}, $files);
 		return $this->formatSearchResults($results);
 	}
 
 	public function searchQuery(ISearchQuery $query) {
-		$simpleQuery = new SearchQuery($query->getSearchOperation(), 0, 0, $query->getOrder(), $query->getUser());
+		$prefixFilter = new SearchComparison(
+			ISearchComparison::COMPARE_LIKE,
+			'path',
+			$this->getRoot() . '/%'
+		);
+		$operation = new SearchBinaryOperator(
+			ISearchBinaryOperator::OPERATOR_AND,
+			[$prefixFilter, $query->getSearchOperation()]
+		);
+		$simpleQuery = new SearchQuery($operation, 0, 0, $query->getOrder(), $query->getUser());
 		$results = $this->getCache()->searchQuery($simpleQuery);
 		$results = $this->formatSearchResults($results);
 

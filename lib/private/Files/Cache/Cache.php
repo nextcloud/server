@@ -121,7 +121,7 @@ class Cache implements ICache {
 		$this->querySearchHelper = new QuerySearchHelper($this->mimetypeLoader);
 	}
 
-	private function getQueryBuilder() {
+	protected function getQueryBuilder() {
 		return new CacheQueryBuilder(
 			$this->connection,
 			\OC::$server->getSystemConfig(),
