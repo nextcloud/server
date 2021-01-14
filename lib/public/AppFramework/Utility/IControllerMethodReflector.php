@@ -28,6 +28,9 @@ declare(strict_types=1);
 
 namespace OCP\AppFramework\Utility;
 
+use Attribute;
+use RuntimeException;
+
 /**
  * Interface ControllerMethodReflector
  *
@@ -69,6 +72,33 @@ interface IControllerMethodReflector {
 	 * @param string $name the name of the annotation
 	 * @return bool true if the annotation is found
 	 * @since 8.0.0
+	 * @deprecated 22.0.0 php8 attributes replace phpdoc annotations
 	 */
 	public function hasAnnotation(string $name): bool;
+
+	/**
+	 * Check if a method has the specified attribute
+	 *
+	 * For PHP older than 8.0 this will always return false due to the lack of attribute support
+	 *
+	 * @param string $attributeClass
+	 * @psalm-param class-string<Attribute> $attributeClass
+	 * @return bool
+	 * @throws RuntimeException if no method was reflected before calling this method
+	 * @since 22.0.0
+	 */
+	public function hasAttribute(string $attributeClass): bool;
+
+	/**
+	 * Get an attribute of the reflected method, if specified
+	 *
+	 * For PHP older than 8.0 this will always return an empty array due to the lack of attribute support
+	 *
+	 * @param string|null $attributeClass
+	 * @psalm-param class-string<Attribute> $attributeClass
+	 * @return Attribute[]
+	 * @throws RuntimeException if no method was reflected before calling this method
+	 * @since 22.0.0
+	 */
+	public function getAttributeInstances(?string $attributeClass = null): array;
 }

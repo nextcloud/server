@@ -34,23 +34,31 @@ declare(strict_types=1);
 
 namespace OC\AppFramework\Utility;
 
+use Attribute;
 use OCP\AppFramework\Utility\IControllerMethodReflector;
+use ReflectionAttribute;
+use ReflectionMethod;
+use RuntimeException;
+use function array_map;
 
 /**
  * Reads and parses annotations from doc comments
  */
 class ControllerMethodReflector implements IControllerMethodReflector {
-	public $annotations = [];
+	private $annotations = [];
 	private $types = [];
 	private $parameters = [];
+
+	/** @var ReflectionMethod|null */
+	private $reflectedMethod;
 
 	/**
 	 * @param object $object an object or classname
 	 * @param string $method the method which we want to inspect
 	 */
 	public function reflect($object, string $method) {
-		$reflection = new \ReflectionMethod($object, $method);
-		$docs = $reflection->getDocComment();
+		$this->reflectedMethod = new \ReflectionMethod($object, $method);
+		$docs = $this->reflectedMethod->getDocComment();
 
 		if ($docs !== false) {
 			// extract everything prefixed by @ and first letter uppercase
@@ -77,7 +85,7 @@ class ControllerMethodReflector implements IControllerMethodReflector {
 			$this->types = array_combine($matches['var'], $matches['type']);
 		}
 
-		foreach ($reflection->getParameters() as $param) {
+		foreach ($this->reflectedMethod->getParameters() as $param) {
 			// extract type information from PHP 7 scalar types and prefer them over phpdoc annotations
 			$type = $param->getType();
 			if ($type instanceof \ReflectionNamedType) {
@@ -118,6 +126,7 @@ class ControllerMethodReflector implements IControllerMethodReflector {
 	 * Check if a method contains an annotation
 	 * @param string $name the name of the annotation
 	 * @return bool true if the annotation is found
+	 * @deprecated 22.0.0 php8 attributes replace phpdoc annotations
 	 */
 	public function hasAnnotation(string $name): bool {
 		$name = strtolower($name);
@@ -130,6 +139,7 @@ class ControllerMethodReflector implements IControllerMethodReflector {
 	 * @param string $name the name of the annotation
 	 * @param string $key the string of the annotation
 	 * @return string
+	 * @deprecated 22.0.0 php8 attributes replace phpdoc annotations
 	 */
 	public function getAnnotationParameter(string $name, string $key): string {
 		$name = strtolower($name);
@@ -138,5 +148,29 @@ class ControllerMethodReflector implements IControllerMethodReflector {
 		}
 
 		return '';
+	}
+
+	public function hasAttribute(string $attributeClass): bool {
+		if ($this->reflectedMethod === null) {
+			throw new RuntimeException('No method reflected');
+		}
+		if (PHP_VERSION_ID < 80000) {
+			return false;
+		}
+
+		return !empty($this->reflectedMethod->getAttributes($attributeClass));
+	}
+
+	public function getAttributeInstances(?string $attributeClass = null): array {
+		if ($this->reflectedMethod === null) {
+			throw new RuntimeException('No method reflected');
+		}
+		if (PHP_VERSION_ID < 80000) {
+			return [];
+		}
+
+		return array_map(function(ReflectionAttribute $reflectionAttribute) {
+			return $reflectionAttribute->newInstance();
+		}, $this->reflectedMethod->getAttributes($attributeClass)) ;
 	}
 }
