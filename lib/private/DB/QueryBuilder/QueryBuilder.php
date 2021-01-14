@@ -244,7 +244,6 @@ class QueryBuilder implements IQueryBuilder {
 				'app' => 'core',
 			]);
 		}
-		
 	}
 
 	/**
