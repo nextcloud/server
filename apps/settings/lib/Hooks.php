@@ -24,11 +24,14 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OCA\Settings;
 
+use OCA\Settings\Activity\GroupProvider;
 use OCA\Settings\Activity\Provider;
 use OCP\Activity\IManager as IActivityManager;
 use OCP\IConfig;
+use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IURLGenerator;
 use OCP\IUser;
@@ -209,6 +212,107 @@ class Hooks {
 			$message->setTo([$oldMailAddress => $user->getDisplayName()]);
 			$message->useTemplate($template);
 			$this->mailer->send($message);
+		}
+	}
+
+	public function onChangeDisplayName(IUser $user, string $oldDisplayName) {
+		if ($oldDisplayName === $user->getDisplayName() ||
+			$user->getLastLogin() === 0) {
+			// display name didn't really change or user didn't login,
+			// so don't create activities.
+			return;
+		}
+
+		$event = $this->activityManager->generateEvent();
+		$event->setApp('settings')
+			->setType('personal_settings')
+			->setAffectedUser($user->getUID());
+
+		$actor = $this->userSession->getUser();
+		if ($actor instanceof IUser) {
+			$subject = Provider::DISPLAY_NAME_CHANGED_SELF;
+			if ($actor->getUID() !== $user->getUID()) {
+				$subject = Provider::DISPLAY_NAME_CHANGED_BY;
+			}
+			$event->setAuthor($actor->getUID())
+				->setSubject($subject, ['actor' => $actor->getUID()]);
+		} else {
+			$event->setSubject(Provider::DISPLAY_NAME_CHANGED);
+		}
+		$this->activityManager->publish($event);
+	}
+
+	/**
+	 * @param IGroup $group
+	 * @param IUser $user
+	 * @throws \InvalidArgumentException
+	 * @throws \BadMethodCallException
+	 */
+	public function addUserToGroup(IGroup $group, IUser $user): void {
+		$subAdminManager = $this->groupManager->getSubAdmin();
+		$usersToNotify = $subAdminManager->getGroupsSubAdmins($group);
+		$usersToNotify[] = $user;
+
+
+		$event = $this->activityManager->generateEvent();
+		$event->setApp('settings')
+			->setType('group_settings');
+
+		$actor = $this->userSession->getUser();
+		if ($actor instanceof IUser) {
+			$event->setAuthor($actor->getUID())
+				->setSubject(GroupProvider::ADDED_TO_GROUP, [
+					'user' => $user->getUID(),
+					'group' => $group->getGID(),
+					'actor' => $actor->getUID(),
+				]);
+		} else {
+			$event->setSubject(GroupProvider::ADDED_TO_GROUP, [
+				'user' => $user->getUID(),
+				'group' => $group->getGID(),
+			]);
+		}
+
+		foreach ($usersToNotify as $userToNotify) {
+			$event->setAffectedUser($userToNotify->getUID());
+			$this->activityManager->publish($event);
+		}
+	}
+
+	/**
+	 * @param IGroup $group
+	 * @param IUser $user
+	 * @throws \InvalidArgumentException
+	 * @throws \BadMethodCallException
+	 */
+	public function removeUserFromGroup(IGroup $group, IUser $user): void {
+		$subAdminManager = $this->groupManager->getSubAdmin();
+		$usersToNotify = $subAdminManager->getGroupsSubAdmins($group);
+		$usersToNotify[] = $user;
+
+
+		$event = $this->activityManager->generateEvent();
+		$event->setApp('settings')
+			->setType('group_settings');
+
+		$actor = $this->userSession->getUser();
+		if ($actor instanceof IUser) {
+			$event->setAuthor($actor->getUID())
+				->setSubject(GroupProvider::REMOVED_FROM_GROUP, [
+					'user' => $user->getUID(),
+					'group' => $group->getGID(),
+					'actor' => $actor->getUID(),
+				]);
+		} else {
+			$event->setSubject(GroupProvider::REMOVED_FROM_GROUP, [
+				'user' => $user->getUID(),
+				'group' => $group->getGID(),
+			]);
+		}
+
+		foreach ($usersToNotify as $userToNotify) {
+			$event->setAffectedUser($userToNotify->getUID());
+			$this->activityManager->publish($event);
 		}
 	}
 }
