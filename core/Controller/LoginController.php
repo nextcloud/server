@@ -175,7 +175,10 @@ class LoginController extends Controller {
 		);
 
 		if (!empty($redirect_url)) {
-			$this->initialStateService->provideInitialState('core', 'loginRedirectUrl', $redirect_url);
+			[$url, ] = explode('?', $redirect_url);
+			if ($url !== $this->urlGenerator->linkToRoute('core.login.logout')) {
+				$this->initialStateService->provideInitialState('core', 'loginRedirectUrl', $redirect_url);
+			}
 		}
 
 		$this->initialStateService->provideInitialState(
