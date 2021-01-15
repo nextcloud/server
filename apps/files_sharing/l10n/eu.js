@@ -181,6 +181,7 @@ OC.L10N.register(
     "Enter a note for the share recipient" : "Sartu ohar bat partekatzearen hartzailearentzat",
     "Add another link" : "Gehitu beste esteka bat",
     "Create a new share link" : "Sortu partekatze esteka berri bat",
+    "{shareWith} by {initiator}" : "{initiator} erabiltzaileak {shareWith} ",
     "Shared via link by {initiator}" : "{initiator} erabiltzaileak esteka bidez partekatua",
     "Share link ({label})" : "Partekatu ({label}) eskeka",
     "Share link" : "Partekatu esteka",
