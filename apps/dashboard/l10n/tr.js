@@ -21,6 +21,8 @@ OC.L10N.register(
     "Good afternoon, {name}" : "Tünaydın, {name}",
     "Good evening" : "İyi geceler",
     "Good evening, {name}" : "İyi geceler, {name}",
+    "Hello" : "Merhaba",
+    "Hello, {name}" : "Merhaba {name}",
     "Pick from Files" : "Dosyalardan Seçin",
     "Default images" : "Varsayılan görseller",
     "Plain background" : "Düz arka plan",
