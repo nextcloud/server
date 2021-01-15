@@ -388,6 +388,10 @@ class Access extends LDAPUtility {
 			// memberOf is an "operational" attribute, without a definition in any RFC
 			'memberof'
 		];
+		$customMemberOf = $this->connection->ldapCustomMemberOf;
+		if (!empty($customMemberOf)) {
+			$resemblingAttributes[] = $customMemberOf;
+		}
 		return in_array($attr, $resemblingAttributes);
 	}
 
@@ -543,7 +547,7 @@ class Access extends LDAPUtility {
 		if (is_null($ldapName)) {
 			$ldapName = $this->readAttribute($fdn, $nameAttribute, $filter);
 			if (!isset($ldapName[0]) && empty($ldapName[0])) {
-				\OCP\Util::writeLog('user_ldap', 'No or empty name for ' . $fdn . ' with filter ' . $filter . '.', ILogger::INFO);
+				\OCP\Util::writeLog('user_ldap', 'No or empty name for ' . $fdn . ' with filter ' . $filter . '.', ILogger::DEBUG);
 				return false;
 			}
 			$ldapName = $ldapName[0];
@@ -2073,5 +2077,21 @@ class Access extends LDAPUtility {
 			return \count($attr) > 1;
 		}
 		return false;
+	}
+
+	public function getMemberOfAttribute(): string {
+		$customMemberOf = $this->connection->ldapCustomMemberOf;
+		return !empty($customMemberOf) ? $customMemberOf : 'memberof';
+	}
+
+	public function getMemberOfValuesFromRecord(array $record): ?array {
+		if (isset($record['memberof'])) {
+			return $record['memberof'];
+		}
+		$customMemberOf = $this->connection->ldapCustomMemberOf;
+		if (!empty($customMemberOf) && isset($record[$customMemberOf])) {
+			return $record[$customMemberOf];
+		}
+		return null;
 	}
 }
