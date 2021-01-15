@@ -44,7 +44,6 @@ use OCP\Files\IMimeTypeDetector;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IConfig;
-use OCP\ITempManager;
 use phpseclib\Crypt\RSA;
 use phpseclib\File\X509;
 
@@ -66,14 +65,12 @@ class Checker {
 	private $appLocator;
 	/** @var FileAccessHelper */
 	private $fileAccessHelper;
-	/** @var IConfig */
+	/** @var IConfig|null */
 	private $config;
 	/** @var ICache */
 	private $cache;
-	/** @var IAppManager */
+	/** @var IAppManager|null */
 	private $appManager;
-	/** @var ITempManager */
-	private $tempManager;
 	/** @var IMimeTypeDetector */
 	private $mimeTypeDetector;
 
@@ -81,19 +78,17 @@ class Checker {
 	 * @param EnvironmentHelper $environmentHelper
 	 * @param FileAccessHelper $fileAccessHelper
 	 * @param AppLocator $appLocator
-	 * @param IConfig $config
+	 * @param IConfig|null $config
 	 * @param ICacheFactory $cacheFactory
-	 * @param IAppManager $appManager
-	 * @param ITempManager $tempManager
+	 * @param IAppManager|null $appManager
 	 * @param IMimeTypeDetector $mimeTypeDetector
 	 */
 	public function __construct(EnvironmentHelper $environmentHelper,
 								FileAccessHelper $fileAccessHelper,
 								AppLocator $appLocator,
-								IConfig $config = null,
+								?IConfig $config,
 								ICacheFactory $cacheFactory,
-								IAppManager $appManager = null,
-								ITempManager $tempManager,
+								?IAppManager $appManager,
 								IMimeTypeDetector $mimeTypeDetector) {
 		$this->environmentHelper = $environmentHelper;
 		$this->fileAccessHelper = $fileAccessHelper;
@@ -101,7 +96,6 @@ class Checker {
 		$this->config = $config;
 		$this->cache = $cacheFactory->createDistributed(self::CACHE_KEY);
 		$this->appManager = $appManager;
-		$this->tempManager = $tempManager;
 		$this->mimeTypeDetector = $mimeTypeDetector;
 	}
 

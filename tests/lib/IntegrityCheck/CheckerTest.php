@@ -77,7 +77,6 @@ class CheckerTest extends TestCase {
 			$this->config,
 			$this->cacheFactory,
 			$this->appManager,
-			\OC::$server->getTempManager(),
 			$this->mimeTypeDetector
 		);
 	}
@@ -1279,7 +1278,6 @@ class CheckerTest extends TestCase {
 				$this->config,
 				$this->cacheFactory,
 				$this->appManager,
-				\OC::$server->getTempManager(),
 				$this->mimeTypeDetector,
 			])
 			->setMethods([
