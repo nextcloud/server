@@ -2618,8 +2618,9 @@
     </InvalidReturnType>
   </file>
   <file src="apps/user_ldap/lib/Mapping/AbstractMapping.php">
-    <ImplicitToStringCast occurrences="1">
-      <code>$qb-&gt;createNamedParameter($fdns, QueryBuilder::PARAM_STR_ARRAY)</code>
+    <ImplicitToStringCast occurrences="2">
+      <code>$qb-&gt;createNamedParameter($dnList, QueryBuilder::PARAM_STR_ARRAY)</code>
+      <code>$qb-&gt;createNamedParameter($fdnsSlice, QueryBuilder::PARAM_STR_ARRAY)</code>
     </ImplicitToStringCast>
   </file>
   <file src="apps/user_ldap/lib/Proxy.php">
