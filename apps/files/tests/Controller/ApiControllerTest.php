@@ -246,4 +246,17 @@ class ApiControllerTest extends TestCase {
 
 		$this->assertEquals($expected, $actual);
 	}
+
+	public function testCropImagePreviews() {
+		$crop = true;
+
+		$this->config->expects($this->once())
+			->method('setUserValue')
+			->with($this->user->getUID(), 'files', 'crop_image_previews', $crop);
+
+		$expected = new Http\Response();
+		$actual = $this->apiController->cropImagePreviews($crop);
+
+		$this->assertEquals($expected, $actual);
+	}
 }

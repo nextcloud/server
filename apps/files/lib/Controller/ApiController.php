@@ -281,6 +281,20 @@ class ApiController extends Controller {
 	}
 
 	/**
+	 * Toggle default for cropping preview images
+	 *
+	 * @NoAdminRequired
+	 *
+	 * @param bool $crop
+	 * @return Response
+	 * @throws \OCP\PreConditionNotMetException
+	 */
+	public function cropImagePreviews($crop) {
+		$this->config->setUserValue($this->userSession->getUser()->getUID(), 'files', 'crop_image_previews', (int)$crop);
+		return new Response();
+	}
+
+	/**
 	 * Toggle default for files grid view
 	 *
 	 * @NoAdminRequired

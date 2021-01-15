@@ -135,6 +135,7 @@ class ViewControllerTest extends TestCase {
 				[$this->user->getUID(), 'files', 'file_sorting', 'name', 'name'],
 				[$this->user->getUID(), 'files', 'file_sorting_direction', 'asc', 'asc'],
 				[$this->user->getUID(), 'files', 'show_hidden', false, false],
+				[$this->user->getUID(), 'files', 'crop_image_previews', true, true],
 				[$this->user->getUID(), 'files', 'show_grid', true],
 			]);
 
@@ -316,6 +317,7 @@ class ViewControllerTest extends TestCase {
 				'defaultFileSorting' => 'name',
 				'defaultFileSortingDirection' => 'asc',
 				'showHiddenFiles' => 0,
+				'cropImagePreviews' => 1,
 				'fileNotFound' => 0,
 				'allowShareWithLink' => 'yes',
 				'appNavigation' => $nav,
