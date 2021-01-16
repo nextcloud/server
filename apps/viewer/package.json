@@ -101,6 +101,6 @@
     "wait-on": "^5.2.1",
     "webpack": "^4.46.0",
     "webpack-cli": "^3.3.12",
-    "webpack-merge": "^5.7.2"
+    "webpack-merge": "^5.7.3"
   }
 }
