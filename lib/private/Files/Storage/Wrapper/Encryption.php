@@ -935,11 +935,8 @@ class Encryption extends Wrapper {
 
 			// if the header doesn't contain a encryption module we check if it is a
 			// legacy file. If true, we add the default encryption module
-			if (!isset($result[Util::HEADER_ENCRYPTION_MODULE_KEY])) {
-				if (!empty($result)) {
-					$result[Util::HEADER_ENCRYPTION_MODULE_KEY] = 'OC_DEFAULT_MODULE';
-				} elseif ($exists) {
-					$result[Util::HEADER_ENCRYPTION_MODULE_KEY] = 'OC_DEFAULT_MODULE';
+			if (!isset($result[Util::HEADER_ENCRYPTION_MODULE_KEY] && (!empty($result) || $exists)) {
+				$result[Util::HEADER_ENCRYPTION_MODULE_KEY] = 'OC_DEFAULT_MODULE';
 				}
 			}
 		}
