@@ -13,7 +13,7 @@
 		"lint": "find . -name \\*.php -not -path './vendor/*' -print0 | xargs -0 -n1 php -l"
 	},
 	"require-dev": {
-		"nextcloud/coding-standard": "^0.3.0",
+		"nextcloud/coding-standard": "^0.5.0",
 		"phpunit/phpunit": "^7"
 	}
 }
