@@ -118,7 +118,7 @@
     "mocha": "^8.2.1",
     "mochapack": "^2.0.6",
     "node-sass": "^5.0.0",
-    "sass-loader": "^10.1.0",
+    "sass-loader": "^10.1.1",
     "sinon": "^9.2.3",
     "sinon-chai": "^3.5.0",
     "style-loader": "^2.0.0",
