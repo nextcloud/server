@@ -176,21 +176,21 @@ class UsersSettingsContext implements Context, ActorAwareInterface {
 	 * @When I click the New user button
 	 */
 	public function iClickTheNewUserButton() {
-		$this->actor->find(self::newUserButton())->click();
+		$this->actor->find(self::newUserButton(), 10)->click();
 	}
 
 	/**
 	 * @When I click the :action action in the :user actions menu
 	 */
 	public function iClickTheAction($action, $user) {
-		$this->actor->find(self::theAction($action, $user))->click();
+		$this->actor->find(self::theAction($action, $user), 10)->click();
 	}
 
 	/**
 	 * @When I open the actions menu for the user :user
 	 */
 	public function iOpenTheActionsMenuOf($user) {
-		$this->actor->find(self::actionsMenuOf($user))->click();
+		$this->actor->find(self::actionsMenuOf($user), 10)->click();
 	}
 
 	/**
