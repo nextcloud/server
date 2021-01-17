@@ -74,7 +74,7 @@ class AppSettingsContext implements Context, ActorAwareInterface {
 	 * @Given I open the settings
 	 */
 	public function iOpenTheSettings() {
-		$this->actor->find(self::appSettingsOpenButton())->click();
+		$this->actor->find(self::appSettingsOpenButton(), 10)->click();
 	}
 
 	/**
@@ -84,11 +84,11 @@ class AppSettingsContext implements Context, ActorAwareInterface {
 		$locator = self::CheckboxInTheSettings($id);
 
 		// If locator is not visible, fallback to label
-		if (!$this->actor->find(self::CheckboxInTheSettings($id))->isVisible()) {
+		if (!$this->actor->find(self::CheckboxInTheSettings($id), 10)->isVisible()) {
 			$locator = self::checkboxLabelInTheSettings($id);
 		}
 
-		$this->actor->find($locator)->click();
+		$this->actor->find($locator, 10)->click();
 	}
 
 	/**

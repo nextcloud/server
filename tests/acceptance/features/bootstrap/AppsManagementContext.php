@@ -209,7 +209,7 @@ class AppsManagementContext implements Context, ActorAwareInterface {
 	 * @Given /^I see that the "([^"]*)" is disabled$/
 	 */
 	public function iSeeThatTheIsDisabled($bundle) {
-		PHPUnit\Framework\Assert::assertEquals('Enable all', $this->actor->find(self::bundleButton($bundle))->getValue());
+		PHPUnit\Framework\Assert::assertEquals('Enable all', $this->actor->find(self::bundleButton($bundle), 2)->getValue());
 	}
 
 	/**
