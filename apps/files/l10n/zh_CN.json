@@ -169,6 +169,7 @@
     "%1$s of %2$s used" : "已使用了 %2$s 中的 %1$s",
     "Settings" : "设置",
     "Show hidden files" : "显示隐藏文件",
+    "Crop image previews" : "裁剪图片预览",
     "WebDAV" : "WebDAV",
     "Use this address to access your Files via WebDAV" : "使用此地址通过 WebDAV 访问您的文件",
     "Toggle grid view" : "切换网格视图",
