@@ -24,6 +24,7 @@
  */
 
 use Behat\Behat\Context\Context;
+use PHPUnit\Framework\Assert;
 
 class AppsManagementContext implements Context, ActorAwareInterface {
 	use ActorAware;
@@ -170,7 +171,7 @@ class AppsManagementContext implements Context, ActorAwareInterface {
 	 */
 	public function iSeeThatTheAppHasBeenEnabled($app) {
 		// TODO: Find a way to check if the enable button is removed
-		PHPUnit_Framework_Assert::assertTrue(
+		Assert::assertTrue(
 			$this->actor->find(self::disableButtonForApp($app), 10)->isVisible()
 		);
 	}
@@ -180,7 +181,7 @@ class AppsManagementContext implements Context, ActorAwareInterface {
 	 */
 	public function iSeeThatTheAppHasBeenDisabled($app) {
 		// TODO: Find a way to check if the disable button is removed
-		PHPUnit_Framework_Assert::assertTrue(
+		Assert::assertTrue(
 			$this->actor->find(self::enableButtonForApp($app), 10)->isVisible()
 		);
 	}
@@ -189,7 +190,7 @@ class AppsManagementContext implements Context, ActorAwareInterface {
 	 * @Then /^I see that there are no available updates$/
 	 */
 	public function iSeeThatThereAreNoAvailableUpdates() {
-		PHPUnit_Framework_Assert::assertTrue(
+		Assert::assertTrue(
 			$this->actor->find(self::emptyAppList(), 10)->isVisible()
 		);
 	}
@@ -202,7 +203,7 @@ class AppsManagementContext implements Context, ActorAwareInterface {
 				$this->actor,
 				self::appEntries(),
 				$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
-			PHPUnit_Framework_Assert::fail("The apps from the app store were not shown yet after $timeout seconds");
+			Assert::fail("The apps from the app store were not shown yet after $timeout seconds");
 		}
 	}
 
@@ -220,7 +221,7 @@ class AppsManagementContext implements Context, ActorAwareInterface {
 		try {
 			$this->actor->find(self::disableButtonForAnyApp(), 2);
 
-			PHPUnit_Framework_Assert::fail("Found enabled apps");
+			Assert::fail("Found enabled apps");
 		} catch (NoSuchElementException $exception) {
 		}
 	}
@@ -232,7 +233,7 @@ class AppsManagementContext implements Context, ActorAwareInterface {
 		try {
 			$this->actor->find(self::enableButtonForAnyApp(), 2);
 
-			PHPUnit_Framework_Assert::fail("Found disabled apps");
+			Assert::fail("Found disabled apps");
 		} catch (NoSuchElementException $exception) {
 		}
 	}
@@ -241,10 +242,10 @@ class AppsManagementContext implements Context, ActorAwareInterface {
 	 * @Given /^I see the app bundles$/
 	 */
 	public function iSeeTheAppBundles() {
-		PHPUnit_Framework_Assert::assertTrue(
+		Assert::assertTrue(
 			$this->actor->find(self::rowForApp('Auditing / Logging'), 2)->isVisible()
 		);
-		PHPUnit_Framework_Assert::assertTrue(
+		Assert::assertTrue(
 			$this->actor->find(self::rowForApp('LDAP user and group backend'), 2)->isVisible()
 		);
 	}
@@ -260,7 +261,7 @@ class AppsManagementContext implements Context, ActorAwareInterface {
 	 * @Given /^I see that the "([^"]*)" is disabled$/
 	 */
 	public function iSeeThatTheIsDisabled($bundle) {
-		PHPUnit_Framework_Assert::assertTrue(
+		Assert::assertTrue(
 			$this->actor->find(self::enableAllBundleButton($bundle), 2)->isVisible()
 		);
 	}
@@ -276,7 +277,7 @@ class AppsManagementContext implements Context, ActorAwareInterface {
 			$this->actor,
 			self::sidebar(),
 			$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
-			PHPUnit_Framework_Assert::fail("The sidebar was not shown yet after $timeout seconds");
+			Assert::fail("The sidebar was not shown yet after $timeout seconds");
 		}
 	}
 }

@@ -23,6 +23,7 @@
  */
 
 use Behat\Behat\Context\Context;
+use PHPUnit\Framework\Assert;
 
 class AppSettingsContext implements Context, ActorAwareInterface {
 	use ActorAware;
@@ -92,7 +93,7 @@ class AppSettingsContext implements Context, ActorAwareInterface {
 				$this->actor,
 				self::appSettingsContent(),
 				$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
-			PHPUnit_Framework_Assert::fail("The app settings are not open yet after $timeout seconds");
+			Assert::fail("The app settings are not open yet after $timeout seconds");
 		}
 	}
 }

@@ -22,6 +22,7 @@
  */
 
 use Behat\Behat\Context\Context;
+use PHPUnit\Framework\Assert;
 
 class CommentsAppContext implements Context, ActorAwareInterface {
 	use ActorAware;
@@ -87,7 +88,7 @@ class CommentsAppContext implements Context, ActorAwareInterface {
 				$this->actor,
 				self::emptyContent(),
 				$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
-			PHPUnit_Framework_Assert::fail("The no comments message is not visible yet after $timeout seconds");
+			Assert::fail("The no comments message is not visible yet after $timeout seconds");
 		}
 	}
 
@@ -95,7 +96,7 @@ class CommentsAppContext implements Context, ActorAwareInterface {
 	 * @Then /^I see a comment with "([^"]*)" as message$/
 	 */
 	public function iSeeACommentWithAsMessage($commentText) {
-		PHPUnit_Framework_Assert::assertTrue(
+		Assert::assertTrue(
 				$this->actor->find(self::commentWithText($commentText), 10)->isVisible());
 	}
 
@@ -104,7 +105,7 @@ class CommentsAppContext implements Context, ActorAwareInterface {
 	 */
 	public function iSeeThatThereIsNoCommentWithAsMessage($commentText) {
 		try {
-			PHPUnit_Framework_Assert::assertFalse(
+			Assert::assertFalse(
 					$this->actor->find(self::commentWithText($commentText))->isVisible());
 		} catch (NoSuchElementException $exception) {
 		}

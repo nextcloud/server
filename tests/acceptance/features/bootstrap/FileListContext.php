@@ -22,6 +22,7 @@
  */
 
 use Behat\Behat\Context\Context;
+use PHPUnit\Framework\Assert;
 
 class FileListContext implements Context, ActorAwareInterface {
 
@@ -476,7 +477,7 @@ class FileListContext implements Context, ActorAwareInterface {
 				$this->actor,
 				self::mainWorkingIcon($this->fileListAncestor),
 				$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
-			PHPUnit_Framework_Assert::fail("The main working icon for the file list is still shown after $timeout seconds");
+			Assert::fail("The main working icon for the file list is still shown after $timeout seconds");
 		}
 	}
 
@@ -486,7 +487,7 @@ class FileListContext implements Context, ActorAwareInterface {
 	public function iSeeThatTheFileListIsCurrentlyIn($path) {
 		// The text of the breadcrumbs is the text of all the crumbs separated
 		// by white spaces.
-		PHPUnit_Framework_Assert::assertEquals(
+		Assert::assertEquals(
 			str_replace('/', ' ', $path), $this->actor->find(self::breadcrumbs($this->fileListAncestor), 10)->getText());
 	}
 
@@ -496,14 +497,14 @@ class FileListContext implements Context, ActorAwareInterface {
 	public function iSeeThatItIsNotPossibleToCreateNewFiles() {
 		// Once a file list is loaded the "Create" menu button is always in the
 		// DOM, so it is checked if it is visible or not.
-		PHPUnit_Framework_Assert::assertFalse($this->actor->find(self::createMenuButton($this->fileListAncestor))->isVisible());
+		Assert::assertFalse($this->actor->find(self::createMenuButton($this->fileListAncestor))->isVisible());
 	}
 
 	/**
 	 * @Then I see that the file list contains a file named :fileName
 	 */
 	public function iSeeThatTheFileListContainsAFileNamed($fileName) {
-		PHPUnit_Framework_Assert::assertNotNull($this->actor->find(self::rowForFile($this->fileListAncestor, $fileName), 10));
+		Assert::assertNotNull($this->actor->find(self::rowForFile($this->fileListAncestor, $fileName), 10));
 	}
 
 	/**
@@ -514,7 +515,7 @@ class FileListContext implements Context, ActorAwareInterface {
 				$this->actor,
 				self::rowForFile($this->fileListAncestor, $fileName),
 				$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
-			PHPUnit_Framework_Assert::fail("The file list still contains a file named $fileName after $timeout seconds");
+			Assert::fail("The file list still contains a file named $fileName after $timeout seconds");
 		}
 	}
 
@@ -522,35 +523,35 @@ class FileListContext implements Context, ActorAwareInterface {
 	 * @Then I see that :fileName1 precedes :fileName2 in the file list
 	 */
 	public function iSeeThatPrecedesInTheFileList($fileName1, $fileName2) {
-		PHPUnit_Framework_Assert::assertNotNull($this->actor->find(self::rowForFilePreceding($this->fileListAncestor, $fileName1, $fileName2), 10));
+		Assert::assertNotNull($this->actor->find(self::rowForFilePreceding($this->fileListAncestor, $fileName1, $fileName2), 10));
 	}
 
 	/**
 	 * @Then I see that :fileName is not selected
 	 */
 	public function iSeeThatIsNotSelected($fileName) {
-		PHPUnit_Framework_Assert::assertFalse($this->actor->find(self::selectionCheckboxInputForFile($this->fileListAncestor, $fileName), 10)->isChecked());
+		Assert::assertFalse($this->actor->find(self::selectionCheckboxInputForFile($this->fileListAncestor, $fileName), 10)->isChecked());
 	}
 
 	/**
 	 * @Then I see that :fileName is marked as favorite
 	 */
 	public function iSeeThatIsMarkedAsFavorite($fileName) {
-		PHPUnit_Framework_Assert::assertNotNull($this->actor->find(self::favoritedStateIconForFile($this->fileListAncestor, $fileName), 10));
+		Assert::assertNotNull($this->actor->find(self::favoritedStateIconForFile($this->fileListAncestor, $fileName), 10));
 	}
 
 	/**
 	 * @Then I see that :fileName is not marked as favorite
 	 */
 	public function iSeeThatIsNotMarkedAsFavorite($fileName) {
-		PHPUnit_Framework_Assert::assertNotNull($this->actor->find(self::notFavoritedStateIconForFile($this->fileListAncestor, $fileName), 10));
+		Assert::assertNotNull($this->actor->find(self::notFavoritedStateIconForFile($this->fileListAncestor, $fileName), 10));
 	}
 
 	/**
 	 * @Then I see that :fileName has unread comments
 	 */
 	public function iSeeThatHasUnreadComments($fileName) {
-		PHPUnit_Framework_Assert::assertTrue($this->actor->find(self::commentActionForFile($this->fileListAncestor, $fileName), 10)->isVisible());
+		Assert::assertTrue($this->actor->find(self::commentActionForFile($this->fileListAncestor, $fileName), 10)->isVisible());
 	}
 
 	private function waitForRowForFileToBeFullyOpaque($fileName) {
@@ -567,7 +568,7 @@ class FileListContext implements Context, ActorAwareInterface {
 		};
 
 		if (!Utils::waitFor($fileRowIsFullyOpaqueCallback, $timeout = 2 * $this->actor->getFindTimeoutMultiplier(), $timeoutStep = 1)) {
-			PHPUnit_Framework_Assert::fail("The row for file $fileName in file list is not fully opaque after $timeout seconds");
+			Assert::fail("The row for file $fileName in file list is not fully opaque after $timeout seconds");
 		}
 	}
 
