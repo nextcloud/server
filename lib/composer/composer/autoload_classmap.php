@@ -1253,6 +1253,7 @@ return array(
     'OC\\Preview\\TXT' => $baseDir . '/lib/private/Preview/TXT.php',
     'OC\\Preview\\Watcher' => $baseDir . '/lib/private/Preview/Watcher.php',
     'OC\\Preview\\WatcherConnector' => $baseDir . '/lib/private/Preview/WatcherConnector.php',
+    'OC\\Preview\\WebP' => $baseDir . '/lib/private/Preview/WebP.php',
     'OC\\Preview\\XBitmap' => $baseDir . '/lib/private/Preview/XBitmap.php',
     'OC\\RedisFactory' => $baseDir . '/lib/private/RedisFactory.php',
     'OC\\Remote\\Api\\ApiBase' => $baseDir . '/lib/private/Remote/Api/ApiBase.php',
