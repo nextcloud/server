@@ -169,6 +169,7 @@
     "%1$s of %2$s used" : "%s de %s utilizado",
     "Settings" : "Axustes",
     "Show hidden files" : "Amosar os ficheiros agochados",
+    "Crop image previews" : "Recortar a vista previa das imaxes",
     "WebDAV" : "WebDAV",
     "Use this address to access your Files via WebDAV" : "Empregue este enderezo para acceder ao seu Ficheiros mediante WebDAV",
     "Toggle grid view" : "Alternar a vista como grella",

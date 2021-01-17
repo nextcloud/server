@@ -169,6 +169,7 @@
     "%1$s of %2$s used" : "%1$s van %2$s gebruikt",
     "Settings" : "Instellingen",
     "Show hidden files" : "Verborgen bestanden tonen",
+    "Crop image previews" : "Bijsnijden afbeeldingvoorbeeld:",
     "WebDAV" : "WebDAV",
     "Use this address to access your Files via WebDAV" : "Gebruik dit adres om je bestanden via WebDAV te benaderen",
     "Toggle grid view" : "Omschakelen roosterweergave",
