@@ -126,9 +126,18 @@ class FileListContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function createNewFolderMenuItemNameInput($fileListAncestor) {
-		return Locator::forThe()->css(".filenameform input")->
+		return Locator::forThe()->css(".filenameform input[type=text]")->
 				descendantOf(self::createNewFolderMenuItem($fileListAncestor))->
 				describedAs("Name input in create new folder menu item in file list");
+	}
+
+	/**
+	 * @return Locator
+	 */
+	public static function createNewFolderMenuItemConfirmButton($fileListAncestor) {
+		return Locator::forThe()->css(".filenameform input[type=submit]")->
+				descendantOf(self::createNewFolderMenuItem($fileListAncestor))->
+				describedAs("Confirm button in create new folder menu item in file list");
 	}
 
 	/**
@@ -356,7 +365,8 @@ class FileListContext implements Context, ActorAwareInterface {
 		$this->actor->find(self::createMenuButton($this->fileListAncestor), 10)->click();
 
 		$this->actor->find(self::createNewFolderMenuItem($this->fileListAncestor), 2)->click();
-		$this->actor->find(self::createNewFolderMenuItemNameInput($this->fileListAncestor), 2)->setValue($folderName . "\r");
+		$this->actor->find(self::createNewFolderMenuItemNameInput($this->fileListAncestor), 2)->setValue($folderName);
+		$this->actor->find(self::createNewFolderMenuItemConfirmButton($this->fileListAncestor), 2)->click();
 	}
 
 	/**
@@ -410,7 +420,7 @@ class FileListContext implements Context, ActorAwareInterface {
 		// This should not be a problem, though, as the default behaviour is to
 		// bring the browser window to the foreground when switching to a
 		// different actor.
-		$this->actor->find(self::renameInputForFile($this->fileListAncestor, $fileName1), 10)->setValue($fileName2 . "\r");
+		$this->actor->find(self::renameInputForFile($this->fileListAncestor, $fileName1), 10)->setValue($fileName2);
 	}
 
 	/**

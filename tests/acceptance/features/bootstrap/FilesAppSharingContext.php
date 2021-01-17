@@ -372,8 +372,8 @@ class FilesAppSharingContext implements Context, ActorAwareInterface {
 				self::shareLinkMenu($shareLinkMenuTriggerElement),
 				$timeout = 2 * $this->actor->getFindTimeoutMultiplier())) {
 			// It may not be possible to click on the menu button (due to the
-			// menu itself covering it), so "Esc" key is pressed instead.
-			$this->actor->find(self::shareLinkMenu($shareLinkMenuTriggerElement), 2)->getWrappedElement()->keyPress(27);
+			// menu itself covering it), so "Enter" key is pressed instead.
+			$this->actor->find(self::shareLinkMenuButton(), 2)->getWrappedElement()->keyPress(13);
 		}
 
 		$this->actor->find(self::copyLinkButton(), 10)->click();
