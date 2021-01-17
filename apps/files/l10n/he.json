@@ -169,6 +169,7 @@
     "%1$s of %2$s used" : "%1$s מתוך %2$s בשימוש",
     "Settings" : "הגדרות",
     "Show hidden files" : "הצגת קבצים נסתרים",
+    "Crop image previews" : "חיתוך תצוגות מקדימות של תמונות",
     "WebDAV" : "WebDAV",
     "Use this address to access your Files via WebDAV" : "יש להשתמש בכתובת הזאת כדי לגשת לקבצים שלך דרך WebDAV",
     "Toggle grid view" : "החלפת תצוגת טבלה",

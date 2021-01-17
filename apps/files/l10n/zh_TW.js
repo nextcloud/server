@@ -171,6 +171,7 @@ OC.L10N.register(
     "%1$s of %2$s used" : "在  %2$s中使用了%1$s ",
     "Settings" : "設定",
     "Show hidden files" : "顯示隱藏檔",
+    "Crop image previews" : "圖片裁剪預覽",
     "WebDAV" : "WebDAV",
     "Use this address to access your Files via WebDAV" : "用這位址使用 WebDAV 存取你的檔案。",
     "Toggle grid view" : "切換網格檢視",

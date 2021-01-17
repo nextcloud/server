@@ -169,6 +169,7 @@
     "%1$s of %2$s used" : "%1$s / %2$s kullanıldı",
     "Settings" : "Ayarlar",
     "Show hidden files" : "Gizli dosyaları görüntüle",
+    "Crop image previews" : "Görsel ön izlemeleri kırpılsın",
     "WebDAV" : "WebDAV",
     "Use this address to access your Files via WebDAV" : "Dosyalarınıza WebDAV üzerinden erişmek için bu adresi kullanın",
     "Toggle grid view" : "Tablo görünümünü değiştir",
