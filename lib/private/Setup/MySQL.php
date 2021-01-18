@@ -36,6 +36,7 @@ use OC\DB\MySqlTools;
 use OCP\IDBConnection;
 use OCP\ILogger;
 use Doctrine\DBAL\Platforms\MySQL80Platform;
+use OCP\Security\ISecureRandom;
 
 class MySQL extends AbstractDatabase {
 	public $dbprettyname = 'MySQL/MariaDB';
@@ -165,7 +166,7 @@ class MySQL extends AbstractDatabase {
 						$this->dbUser = $adminUser;
 
 						//create a random password so we don't need to store the admin password in the config file
-						$this->dbPassword = $this->random->generate(30);
+						$this->dbPassword = $this->random->generate(30, ISecureRandom::CHAR_DIGITS . ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_UPPER);
 
 						$this->createDBUser($connection);
 
