@@ -169,6 +169,7 @@
     "%1$s of %2$s used" : "%1$s von %2$s verwendet",
     "Settings" : "Einstellungen",
     "Show hidden files" : "Versteckte Dateien anzeigen",
+    "Crop image previews" : "Bildvorschauen zuschneiden",
     "WebDAV" : "WebDAV",
     "Use this address to access your Files via WebDAV" : "Diese Adresse benutzen, um über WebDAV auf Deine Dateien zuzugreifen",
     "Toggle grid view" : "Rasteransicht umschalten",
