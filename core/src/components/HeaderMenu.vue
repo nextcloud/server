@@ -20,7 +20,11 @@
   -
   -->
 <template>
-	<div v-click-outside="clickOutsideConfig" :class="{ 'header-menu--opened': opened }" class="header-menu">
+	<div
+		:id="id"
+		v-click-outside="clickOutsideConfig"
+		:class="{ 'header-menu--opened': opened }"
+		class="header-menu">
 		<a class="header-menu__trigger"
 			href="#"
 			:aria-controls="`header-menu-${id}`"
