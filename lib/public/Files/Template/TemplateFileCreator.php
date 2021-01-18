@@ -34,7 +34,11 @@ final class TemplateFileCreator implements \JsonSerializable {
 	protected $actionName;
 	protected $fileExtension;
 	protected $iconClass;
+	protected $ratio = null;
 
+	/**
+	 * @since 21.0.0
+	 */
 	public function __construct(
 		string $appId, string $actionName, string $fileExtension
 	) {
@@ -43,31 +47,55 @@ final class TemplateFileCreator implements \JsonSerializable {
 		$this->fileExtension = $fileExtension;
 	}
 
+	/**
+	 * @since 21.0.0
+	 */
 	public function getAppId(): string {
 		return $this->appId;
 	}
 
+	/**
+	 * @since 21.0.0
+	 */
 	public function setIconClass(string $iconClass): TemplateFileCreator {
 		$this->iconClass = $iconClass;
 		return $this;
 	}
 
+	/**
+	 * @since 21.0.0
+	 */
 	public function addMimetype(string $mimetype): TemplateFileCreator {
 		$this->mimetypes[] = $mimetype;
 		return $this;
 	}
 
+	/**
+	 * @since 21.0.0
+	 */
 	public function getMimetypes(): array {
 		return $this->mimetypes;
 	}
 
+	/**
+	 * @since 21.0.0
+	 */
+	public function setRatio(float $ratio) {
+		$this->ratio = $ratio;
+		return $this;
+	}
+
+	/**
+	 * @since 21.0.0
+	 */
 	public function jsonSerialize() {
 		return [
 			'app' => $this->appId,
 			'label' => $this->actionName,
 			'extension' => $this->fileExtension,
 			'iconClass' => $this->iconClass,
-			'mimetypes' => $this->mimetypes
+			'mimetypes' => $this->mimetypes,
+			'ratio' => $this->ratio
 		];
 	}
 }
