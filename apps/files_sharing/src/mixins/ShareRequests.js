@@ -59,7 +59,11 @@ export default {
 				return new Share(request.data.ocs.data)
 			} catch (error) {
 				console.error('Error while creating share', error)
-				OC.Notification.showTemporary(t('files_sharing', 'Error creating the share'), { type: 'error' })
+				const errorMessage = error?.response?.data?.ocs?.meta?.message
+				OC.Notification.showTemporary(
+					errorMessage ? t('files_sharing', 'Error creating the share: {errorMessage}', { errorMessage }) : t('files_sharing', 'Error creating the share'),
+					{ type: 'error' }
+				)
 				throw error
 			}
 		},
@@ -79,7 +83,11 @@ export default {
 				return true
 			} catch (error) {
 				console.error('Error while deleting share', error)
-				OC.Notification.showTemporary(t('files_sharing', 'Error deleting the share'), { type: 'error' })
+				const errorMessage = error?.response?.data?.ocs?.meta?.message
+				OC.Notification.showTemporary(
+					errorMessage ? t('files_sharing', 'Error deleting the share: {errorMessage}', { errorMessage }) : t('files_sharing', 'Error deleting the share'),
+					{ type: 'error' }
+				)
 				throw error
 			}
 		},
@@ -100,7 +108,11 @@ export default {
 			} catch (error) {
 				console.error('Error while updating share', error)
 				if (error.response.status !== 400) {
-					OC.Notification.showTemporary(t('files_sharing', 'Error updating the share'), { type: 'error' })
+					const errorMessage = error?.response?.data?.ocs?.meta?.message
+					OC.Notification.showTemporary(
+						errorMessage ? t('files_sharing', 'Error updating the share: {errorMessage}', { errorMessage }) : t('files_sharing', 'Error updating the share'),
+						{ type: 'error' }
+					)
 				}
 				const message = error.response.data.ocs.meta.message
 				throw new Error(message)
