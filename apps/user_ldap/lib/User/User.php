@@ -192,11 +192,6 @@ class User {
 		}
 		if ($displayName !== '') {
 			$this->composeAndStoreDisplayName($displayName, $displayName2);
-			$this->access->cacheUserDisplayName(
-				$this->getUsername(),
-				$displayName,
-				$displayName2
-			);
 		}
 		unset($attr);
 
@@ -402,6 +397,10 @@ class User {
 			}
 		}
 		return $displayName;
+	}
+
+	public function getDisplayName(): ?string {
+		return $this->config->getUserValue($this->uid, 'user_ldap', 'displayName', null);
 	}
 
 	/**
