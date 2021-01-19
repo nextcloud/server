@@ -44,7 +44,6 @@ use OCP\Files\IMimeTypeDetector;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IConfig;
-use OCP\ITempManager;
 use phpseclib\Crypt\RSA;
 use phpseclib\File\X509;
 
@@ -66,14 +65,12 @@ class Checker {
 	private $appLocator;
 	/** @var FileAccessHelper */
 	private $fileAccessHelper;
-	/** @var IConfig */
+	/** @var IConfig|null */
 	private $config;
 	/** @var ICache */
 	private $cache;
-	/** @var IAppManager */
+	/** @var IAppManager|null */
 	private $appManager;
-	/** @var ITempManager */
-	private $tempManager;
 	/** @var IMimeTypeDetector */
 	private $mimeTypeDetector;
 
@@ -81,19 +78,17 @@ class Checker {
 	 * @param EnvironmentHelper $environmentHelper
 	 * @param FileAccessHelper $fileAccessHelper
 	 * @param AppLocator $appLocator
-	 * @param IConfig $config
+	 * @param IConfig|null $config
 	 * @param ICacheFactory $cacheFactory
-	 * @param IAppManager $appManager
-	 * @param ITempManager $tempManager
+	 * @param IAppManager|null $appManager
 	 * @param IMimeTypeDetector $mimeTypeDetector
 	 */
 	public function __construct(EnvironmentHelper $environmentHelper,
 								FileAccessHelper $fileAccessHelper,
 								AppLocator $appLocator,
-								IConfig $config = null,
+								?IConfig $config,
 								ICacheFactory $cacheFactory,
-								IAppManager $appManager = null,
-								ITempManager $tempManager,
+								?IAppManager $appManager,
 								IMimeTypeDetector $mimeTypeDetector) {
 		$this->environmentHelper = $environmentHelper;
 		$this->fileAccessHelper = $fileAccessHelper;
@@ -101,7 +96,6 @@ class Checker {
 		$this->config = $config;
 		$this->cache = $cacheFactory->createDistributed(self::CACHE_KEY);
 		$this->appManager = $appManager;
-		$this->tempManager = $tempManager;
 		$this->mimeTypeDetector = $mimeTypeDetector;
 	}
 
@@ -311,12 +305,13 @@ class Checker {
 	 * @param string $signaturePath
 	 * @param string $basePath
 	 * @param string $certificateCN
+	 * @param bool $forceVerify
 	 * @return array
 	 * @throws InvalidSignatureException
 	 * @throws \Exception
 	 */
-	private function verify(string $signaturePath, string $basePath, string $certificateCN): array {
-		if (!$this->isCodeCheckEnforced()) {
+	private function verify(string $signaturePath, string $basePath, string $certificateCN, bool $forceVerify = false): array {
+		if (!$forceVerify && !$this->isCodeCheckEnforced()) {
 			return [];
 		}
 
@@ -495,9 +490,10 @@ class Checker {
 	 *
 	 * @param string $appId
 	 * @param string $path Optional path. If none is given it will be guessed.
+	 * @param bool $forceVerify
 	 * @return array
 	 */
-	public function verifyAppSignature(string $appId, string $path = ''): array {
+	public function verifyAppSignature(string $appId, string $path = '', bool $forceVerify = false): array {
 		try {
 			if ($path === '') {
 				$path = $this->appLocator->getAppPath($appId);
@@ -505,7 +501,8 @@ class Checker {
 			$result = $this->verify(
 					$path . '/appinfo/signature.json',
 					$path,
-					$appId
+					$appId,
+					$forceVerify
 			);
 		} catch (\Exception $e) {
 			$result = [

@@ -942,7 +942,6 @@ class Server extends ServerContainer implements IServerContainer {
 				$config,
 				$c->get(ICacheFactory::class),
 				$appManager,
-				$c->get(ITempManager::class),
 				$c->get(IMimeTypeDetector::class)
 			);
 		});
