@@ -37,6 +37,7 @@ class CacheJailTest extends CacheTest {
 	}
 
 	public function testSearchOutsideJail() {
+		$this->storage->getScanner()->scan('');
 		$file1 = 'foo/foobar';
 		$file2 = 'folder/foobar';
 		$data1 = ['size' => 100, 'mtime' => 50, 'mimetype' => 'foo/folder'];
@@ -49,9 +50,18 @@ class CacheJailTest extends CacheTest {
 		$result = $this->cache->search('%foobar%');
 		$this->assertCount(1, $result);
 		$this->assertEquals('foobar', $result[0]['path']);
+
+		$result = $this->cache->search('%foo%');
+		$this->assertCount(2, $result);
+		usort($result, function ($a, $b) {
+			return $a['path'] <=> $b['path'];
+		});
+		$this->assertEquals('', $result[0]['path']);
+		$this->assertEquals('foobar', $result[1]['path']);
 	}
 
 	public function testSearchMimeOutsideJail() {
+		$this->storage->getScanner()->scan('');
 		$file1 = 'foo/foobar';
 		$file2 = 'folder/foobar';
 		$data1 = ['size' => 100, 'mtime' => 50, 'mimetype' => 'foo/folder'];
@@ -67,6 +77,7 @@ class CacheJailTest extends CacheTest {
 	}
 
 	public function testSearchQueryOutsideJail() {
+		$this->storage->getScanner()->scan('');
 		$file1 = 'foo/foobar';
 		$file2 = 'folder/foobar';
 		$data1 = ['size' => 100, 'mtime' => 50, 'mimetype' => 'foo/folder'];
@@ -76,11 +87,15 @@ class CacheJailTest extends CacheTest {
 
 		$user = new User('foo', null, $this->createMock(EventDispatcherInterface::class));
 		$query = new SearchQuery(new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'name', 'foobar'), 10, 0, [], $user);
-		$this->assertCount(2, $this->sourceCache->searchQuery($query));
+		$result = $this->cache->searchQuery($query);
 
-		$result = $this->cache->search('%foobar%');
 		$this->assertCount(1, $result);
 		$this->assertEquals('foobar', $result[0]['path']);
+
+		$query = new SearchQuery(new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'name', 'foo'), 10, 0, [], $user);
+		$result = $this->cache->searchQuery($query);
+		$this->assertCount(1, $result);
+		$this->assertEquals('', $result[0]['path']);
 	}
 
 	public function testClearKeepEntriesOutsideJail() {

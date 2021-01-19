@@ -166,6 +166,9 @@ class QuerySearchHelper {
 			$field = 'tag.category';
 		} elseif ($field === 'fileid') {
 			$field = 'file.fileid';
+		} elseif ($field === 'path' && $type === ISearchComparison::COMPARE_EQUAL) {
+			$field = 'path_hash';
+			$value = md5((string)$value);
 		}
 		return [$field, $value, $type];
 	}
