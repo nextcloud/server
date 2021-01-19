@@ -238,7 +238,10 @@ class CacheJail extends CacheWrapper {
 		$query = $this->getQueryBuilder();
 		$query->selectFileCache()
 			->whereStorageId()
-			->andWhere($query->expr()->like('path', $query->createNamedParameter($this->getRoot() . '/%')))
+			->andWhere($query->expr()->orX(
+				$query->expr()->like('path', $query->createNamedParameter($this->getRoot() . '/%')),
+				$query->expr()->eq('path_hash', $query->createNamedParameter(md5($this->getRoot()))),
+			))
 			->andWhere($query->expr()->iLike('name', $query->createNamedParameter($pattern)));
 
 		$result = $query->execute();
@@ -263,7 +266,10 @@ class CacheJail extends CacheWrapper {
 		$query = $this->getQueryBuilder();
 		$query->selectFileCache()
 			->whereStorageId()
-			->andWhere($query->expr()->like('path', $query->createNamedParameter($this->getRoot() . '/%')));
+			->andWhere($query->expr()->orX(
+				$query->expr()->like('path', $query->createNamedParameter($this->getRoot() . '/%')),
+				$query->expr()->eq('path_hash', $query->createNamedParameter(md5($this->getRoot()))),
+			));
 
 		if (strpos($mimetype, '/')) {
 			$query->andWhere($query->expr()->eq('mimetype', $query->createNamedParameter($mimeId, IQueryBuilder::PARAM_INT)));
@@ -287,9 +293,14 @@ class CacheJail extends CacheWrapper {
 			'path',
 			$this->getRoot() . '/%'
 		);
+		$rootFilter = new SearchComparison(
+			ISearchComparison::COMPARE_EQUAL,
+			'path',
+			$this->getRoot()
+		);
 		$operation = new SearchBinaryOperator(
 			ISearchBinaryOperator::OPERATOR_AND,
-			[$prefixFilter, $query->getSearchOperation()]
+			[new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_OR, [$prefixFilter, $rootFilter]) , $query->getSearchOperation()]
 		);
 		$simpleQuery = new SearchQuery($operation, 0, 0, $query->getOrder(), $query->getUser());
 		$results = $this->getCache()->searchQuery($simpleQuery);
