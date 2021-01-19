@@ -45,7 +45,7 @@
     "_in %n minute_::_in %n minutes_" : ["בעוד דקה","בעוד 2 דקות","בעוד %n דקות","בעוד %n דקות"],
     "_%n minute ago_::_%n minutes ago_" : ["לפני דקה","לפני 2 דקות","לפני %n דקות","לפני %n דקות"],
     "in a few seconds" : "בעוד מספר שניות",
-    "seconds ago" : "שניות",
+    "seconds ago" : "לפני מספר שניות",
     "Module with ID: %s does not exist. Please enable it in your apps settings or contact your administrator." : "המודול עם המזהה: %s לא קיים. נא להפעיל אותו בהגדרות היישומונים שלך או ליצור קשר עם מנהל המערכת.",
     "File name is a reserved word" : "שם קובץ הוא מילה שמורה",
     "File name contains at least one invalid character" : "שם הקובץ כולל לפחות תו אחד לא חוקי",

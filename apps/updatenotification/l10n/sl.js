@@ -37,6 +37,7 @@ OC.L10N.register(
     "Enterprise" : "Poslovno",
     "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package." : "Za poslovno uporabo. Na voljo so najnovejši popravki programov in manjše posodobitve, ne pa tudi takojšnja nadgradnja sistema na naslednjo večjo različico. Ta posodobitev je na voljo šele po daljšem in podrobnejšem preizkušanju sistema. Ta kanal je na voljo le naročnikom, ki uporabljajo paket Nextcloud Enterprise.",
     "Stable" : "Stabilno",
-    "Beta" : "Preizkusno"
+    "Beta" : "Preizkusno",
+    "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["Za <strong>%n</strong> program je na voljo posodobitev za to različico.","Za <strong>%n</strong> programa so na voljo posodobitve za to različico.","Za <strong>%n</strong> programe so na voljo posodobitve za to različico.","Za <strong>%n</strong> programov so na voljo posodobitve za to različico."]
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");
