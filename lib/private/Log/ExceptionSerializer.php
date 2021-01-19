@@ -81,6 +81,7 @@ class ExceptionSerializer {
 		// Encryption
 		'storeKeyPair',
 		'setupUser',
+		'checkSignature',
 
 		// files_external: OC_Mount_Config
 		'getBackendStatus',
