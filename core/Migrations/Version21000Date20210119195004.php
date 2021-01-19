@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2018 Roeland Jago Douma <roeland@famdouma.nl>
+ * @copyright Copyright (c) 2020 Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -26,28 +26,29 @@ declare(strict_types=1);
 
 namespace OC\Core\Migrations;
 
+use Closure;
 use OCP\DB\ISchemaWrapper;
 use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
 
-class Version14000Date20180518120534 extends SimpleMigrationStep {
-	public function changeSchema(IOutput $output, \Closure $schemaClosure, array $options) {
+/**
+ * Auto-generated migration step: Please modify to your needs!
+ */
+class Version21000Date20210119195004 extends SimpleMigrationStep {
+	/**
+	 * @param IOutput $output
+	 * @param Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
+	 * @param array $options
+	 * @return null|ISchemaWrapper
+	 */
+	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options): ?ISchemaWrapper {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
 
 		$table = $schema->getTable('authtoken');
-		$table->addColumn('private_key', 'text', [
-			'notnull' => false,
-		]);
-		$table->addColumn('public_key', 'text', [
-			'notnull' => false,
-		]);
-		$table->addColumn('version', 'smallint', [
-			'notnull' => true,
-			'default' => 1,
-			'unsigned' => true,
-		]);
-		$table->addIndex(['uid'], 'authtoken_uid_index');
+		if ($table->hasIndex('authtoken_version_index')) {
+			$table->dropIndex('authtoken_version_index');
+		}
 
 		return $schema;
 	}
