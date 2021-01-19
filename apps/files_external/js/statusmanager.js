@@ -190,7 +190,7 @@ OCA.Files_External.StatusManager = {
 							}
 						});
 					} else {
-						OC.dialogs.info(t('files_external', 'There was an error with message: ') + mountData.error + '. Please contact your system administrator.', t('files_external', 'External mount error'), () => {});
+						OC.dialogs.info(t('files_external', 'There was an error with message: ') + mountData.error + '. Please contact your system administrator.', t('files_external', 'External mount error'), function(){});
 					}
 				} else {
 					OC.dialogs.confirm(t('files_external', 'There was an error with message: ') + mountData.error + '. Do you want to review mount point config in personal settings page?', t('files_external', 'External mount error'), function (e) {
