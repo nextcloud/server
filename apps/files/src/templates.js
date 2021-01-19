@@ -23,9 +23,14 @@
 import { getLoggerBuilder } from '@nextcloud/logger'
 import { loadState } from '@nextcloud/initial-state'
 import { translate as t, translatePlural as n } from '@nextcloud/l10n'
+import { generateOcsUrl } from '@nextcloud/router'
+import { getCurrentDirectory } from './utils/davUtils'
+import axios from '@nextcloud/axios'
 import Vue from 'vue'
 
 import TemplatePickerView from './views/TemplatePicker'
+import { getCurrentUser } from '@nextcloud/auth'
+import { showError } from '@nextcloud/dialogs'
 
 // Set up logger
 const logger = getLoggerBuilder()
@@ -47,8 +52,10 @@ TemplatePickerRoot.id = 'template-picker'
 document.body.appendChild(TemplatePickerRoot)
 
 // Retrieve and init templates
-const templates = loadState('files', 'templates', [])
+let templates = loadState('files', 'templates', [])
+let templatesPath = loadState('files', 'templates_path', false)
 logger.debug('Templates providers', templates)
+logger.debug('Templates folder', { templatesPath })
 
 // Init vue app
 const View = Vue.extend(TemplatePickerView)
@@ -60,33 +67,77 @@ const TemplatePicker = new View({
 })
 TemplatePicker.$mount('#template-picker')
 
-// Init template engine after load
+// Init template engine after load to make sure it's the last injected entry
 window.addEventListener('DOMContentLoaded', function() {
-	// Init template files menu
-	templates.forEach((provider, index) => {
-
-		const newTemplatePlugin = {
+	if (!templatesPath) {
+		logger.debug('Templates folder not initialized')
+		const initTemplatesPlugin = {
 			attach(menu) {
-				const fileList = menu.fileList
-
-				// only attach to main file list, public view is not supported yet
-				if (fileList.id !== 'files' && fileList.id !== 'files.public') {
-					return
-				}
-
 				// register the new menu entry
 				menu.addMenuEntry({
-					id: `template-new-${provider.app}-${index}`,
-					displayName: provider.label,
-					templateName: provider.label + provider.extension,
-					iconClass: provider.iconClass || 'icon-file',
+					id: 'template-init',
+					displayName: t('files', 'Set up templates folder'),
+					templateName: t('files', 'Templates'),
+					iconClass: 'icon-template-add',
 					fileType: 'file',
 					actionHandler(name) {
-						TemplatePicker.open(name, provider)
+						initTemplatesFolder(name)
 					},
 				})
 			},
 		}
-		OC.Plugins.register('OCA.Files.NewFileMenu', newTemplatePlugin)
-	})
+		OC.Plugins.register('OCA.Files.NewFileMenu', initTemplatesPlugin)
+	}
 })
+
+// Init template files menu
+templates.forEach((provider, index) => {
+	const newTemplatePlugin = {
+		attach(menu) {
+			const fileList = menu.fileList
+
+			// only attach to main file list, public view is not supported yet
+			if (fileList.id !== 'files' && fileList.id !== 'files.public') {
+				return
+			}
+
+			// register the new menu entry
+			menu.addMenuEntry({
+				id: `template-new-${provider.app}-${index}`,
+				displayName: provider.label,
+				templateName: provider.label + provider.extension,
+				iconClass: provider.iconClass || 'icon-file',
+				fileType: 'file',
+				actionHandler(name) {
+					TemplatePicker.open(name, provider)
+				},
+			})
+		},
+	}
+	OC.Plugins.register('OCA.Files.NewFileMenu', newTemplatePlugin)
+})
+
+/**
+ * Init the template directory
+ *
+ * @param {string} name the templates folder name
+ */
+const initTemplatesFolder = async function(name) {
+	const templatePath = (getCurrentDirectory() + `/${name}`).replace('//', '/')
+	try {
+		logger.debug('Initializing the templates directory', { templatePath })
+		const response = await axios.post(generateOcsUrl('apps/files/api/v1/templates', 2) + 'path', {
+			templatePath,
+			copySystemTemplates: true,
+		})
+
+		// Go to template directory
+		OCA.Files.App.currentFileList.changeDirectory(templatePath, true, true)
+
+		templates = response.data.ocs.data.templates
+		templatesPath = response.data.ocs.data.template_path
+	} catch (error) {
+		logger.error('Unable to initialize the templates directory')
+		showError(t('files', 'Unable to initialize the templates directory'))
+	}
+}

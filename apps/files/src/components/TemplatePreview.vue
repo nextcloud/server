@@ -30,9 +30,9 @@
 			@change="onCheck">
 
 		<label :for="id" class="template-picker__label">
-			<div class="template-picker__preview">
+			<div class="template-picker__preview"
+				:class="failedPreview ? 'template-picker__preview--failed' : ''">
 				<img class="template-picker__image"
-					:class="failedPreview ? 'template-picker__image--failed' : ''"
 					:src="realPreviewUrl"
 					alt=""
 					draggable="false"
@@ -40,7 +40,7 @@
 			</div>
 
 			<span class="template-picker__title">
-				{{ basename }}
+				{{ nameWithoutExt }}
 			</span>
 		</label>
 	</li>
@@ -100,6 +100,14 @@ export default {
 	},
 
 	computed: {
+		/**
+		 * Strip away extension from name
+		 * @returns {string}
+		 */
+		nameWithoutExt() {
+			return this.basename.indexOf('.') > -1 ? this.basename.split('.').slice(0, -1).join('.') : this.basename
+		},
+
 		id() {
 			return `template-picker-${this.fileid}`
 		},
@@ -107,7 +115,7 @@ export default {
 		realPreviewUrl() {
 			// If original preview failed, fallback to mime icon
 			if (this.failedPreview && this.mimeIcon) {
-				return generateUrl(this.mimeIcon)
+				return this.mimeIcon
 			}
 
 			if (this.previewUrl) {
@@ -149,7 +157,6 @@ export default {
 		align-items: center;
 		flex: 1 1;
 		flex-direction: column;
-		margin: var(--margin);
 
 		&, * {
 			cursor: pointer;
@@ -162,19 +169,24 @@ export default {
 	}
 
 	&__preview {
-		display: flex;
+		display: block;
 		overflow: hidden;
 		// Stretch so all entries are the same width
 		flex: 1 1;
 		width: var(--width);
-		min-height: var(--width);
+		min-height: var(--height);
 		max-height: var(--height);
-		padding: var(--margin);
+		padding: 0;
 		border: var(--border) solid var(--color-border);
 		border-radius: var(--border-radius-large);
 
 		input:checked + label > & {
 			border-color: var(--color-primary);
+		}
+
+		&--failed {
+			// Make sure to properly center fallback icon
+			display: flex;
 		}
 	}
 
@@ -182,12 +194,17 @@ export default {
 		max-width: 100%;
 		background-color: var(--color-main-background);
 
-		&--failed {
-			width: calc(var(--margin) * 8);
-			// Center mime icon
-			margin: auto;
-			background-color: transparent !important;
-		}
+		object-fit: cover;
+	}
+
+	// Failed preview, fallback to mime icon
+	&__preview--failed &__image {
+		width: calc(var(--margin) * 8);
+		// Center mime icon
+		margin: auto;
+		background-color: transparent !important;
+
+		object-fit: initial;
 	}
 
 	&__title {

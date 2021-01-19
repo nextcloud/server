@@ -23,7 +23,7 @@
 import { generateRemoteUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
 
-const getRootPath = function() {
+export const getRootPath = function() {
 	if (getCurrentUser()) {
 		return generateRemoteUrl(`dav/files/${getCurrentUser().uid}`)
 	} else {
@@ -31,12 +31,22 @@ const getRootPath = function() {
 	}
 }
 
-const isPublic = function() {
+export const isPublic = function() {
 	return !getCurrentUser()
 }
 
-const getToken = function() {
+export const getToken = function() {
 	return document.getElementById('sharingToken') && document.getElementById('sharingToken').value
 }
 
-export { getRootPath, getToken, isPublic }
+/**
+ * Return the current directory, fallback to root
+ * @returns {string}
+ */
+export const getCurrentDirectory = function() {
+	const currentDirInfo = OCA?.Files?.App?.currentFileList?.dirInfo
+		|| { path: '/', name: '' }
+
+	// Make sure we don't have double slashes
+	return `${currentDirInfo.path}/${currentDirInfo.name}`.replace(/\/\//gi, '/')
+}

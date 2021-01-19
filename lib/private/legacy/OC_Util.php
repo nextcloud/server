@@ -449,9 +449,9 @@ class OC_Util {
 			// update the file cache
 			$userDirectory->getStorage()->getScanner()->scan('', \OC\Files\Cache\Scanner::SCAN_RECURSIVE);
 
-			/** @var ITemplateManager $templateManaer */
-			$templateManaer = \OC::$server->get(ITemplateManager::class);
-			$templateManaer->initializeTemplateDirectory(null, $userId);
+			/** @var ITemplateManager $templateManager */
+			$templateManager = \OC::$server->get(ITemplateManager::class);
+			$templateManager->initializeTemplateDirectory(null, $userId);
 		}
 	}
 

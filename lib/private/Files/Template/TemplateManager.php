@@ -34,6 +34,7 @@ use OCP\Files\GenericFileException;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
+use OCP\Files\NotPermittedException;
 use OCP\Files\Template\CreatedFromTemplateEvent;
 use OCP\Files\Template\ICustomTemplateProvider;
 use OCP\Files\Template\ITemplateManager;
@@ -103,7 +104,15 @@ class TemplateManager implements ITemplateManager {
 		return $this->providers;
 	}
 
-	public function listCreators(): array {
+	public function listCreators():? array {
+		if ($this->types === null) {
+			return null;
+		}
+
+		usort($this->types, function (TemplateFileCreator $a, TemplateFileCreator $b) {
+			return $a->getOrder() - $b->getOrder();
+		});
+
 		return array_map(function (TemplateFileCreator $entry) {
 			return array_merge($entry->jsonSerialize(), [
 				'templates' => $this->getTemplateFiles($entry)
@@ -154,7 +163,10 @@ class TemplateManager implements ITemplateManager {
 	 * @throws \OC\User\NoUserException
 	 */
 	private function getTemplateFolder(): Node {
-		return $this->rootFolder->getUserFolder($this->userId)->get($this->getTemplatePath());
+		if ($this->getTemplatePath() !== '') {
+			return $this->rootFolder->getUserFolder($this->userId)->get($this->getTemplatePath());
+		}
+		throw new NotFoundException();
 	}
 
 	private function getTemplateFiles(TemplateFileCreator $type): array {
@@ -220,10 +232,10 @@ class TemplateManager implements ITemplateManager {
 	}
 
 	public function getTemplatePath(): string {
-		return $this->config->getUserValue($this->userId, 'core', 'templateDirectory', $this->l10n->t('Templates') . '/');
+		return $this->config->getUserValue($this->userId, 'core', 'templateDirectory', '');
 	}
 
-	public function initializeTemplateDirectory(string $path = null, string $userId = null): void {
+	public function initializeTemplateDirectory(string $path = null, string $userId = null, $copyTemplates = true): string {
 		if ($userId !== null) {
 			$this->userId = $userId;
 		}
@@ -232,6 +244,8 @@ class TemplateManager implements ITemplateManager {
 		$defaultTemplateDirectory = \OC::$SERVERROOT . '/core/skeleton/Templates';
 		$skeletonPath = $this->config->getSystemValue('skeletondirectory', $defaultSkeletonDirectory);
 		$skeletonTemplatePath = $this->config->getSystemValue('templatedirectory', $defaultTemplateDirectory);
+		$isDefaultSkeleton = $skeletonPath === $defaultSkeletonDirectory;
+		$isDefaultTemplates = $skeletonTemplatePath === $defaultTemplateDirectory;
 		$userLang = $this->l10nFactory->getUserLanguage();
 
 		try {
@@ -239,39 +253,64 @@ class TemplateManager implements ITemplateManager {
 			$userFolder = $this->rootFolder->getUserFolder($this->userId);
 			$userTemplatePath = $path ?? $l10n->t('Templates') . '/';
 
-			// All locations are default so we just need to rename the directory to the users language
-			if ($skeletonPath === $defaultSkeletonDirectory && $skeletonTemplatePath === $defaultTemplateDirectory && $userFolder->nodeExists('Templates')) {
-				$newPath = $userFolder->getPath() . '/' . $userTemplatePath;
-				if ($newPath !== $userFolder->get('Templates')->getPath()) {
-					$userFolder->get('Templates')->move($newPath);
+			// Initial user setup without a provided path
+			if ($path === null) {
+				// All locations are default so we just need to rename the directory to the users language
+				if ($isDefaultSkeleton && $isDefaultTemplates && $userFolder->nodeExists('Templates')) {
+					$newPath = $userFolder->getPath() . '/' . $userTemplatePath;
+					if ($newPath !== $userFolder->get('Templates')->getPath()) {
+						$userFolder->get('Templates')->move($newPath);
+					}
+					$this->setTemplatePath($userTemplatePath);
+					return $userTemplatePath;
 				}
-				$this->setTemplatePath($userTemplatePath);
-				return;
-			}
 
-			// A custom template directory is specified
-			if (!empty($skeletonTemplatePath) && $skeletonTemplatePath !== $defaultTemplateDirectory) {
-				// In case the shipped template files are in place we remove them
-				if ($skeletonPath === $defaultSkeletonDirectory && $userFolder->nodeExists('Templates')) {
+				if ($isDefaultSkeleton && !empty($skeletonTemplatePath) && !$isDefaultTemplates && $userFolder->nodeExists('Templates')) {
 					$shippedSkeletonTemplates = $userFolder->get('Templates');
 					$shippedSkeletonTemplates->delete();
 				}
-				try {
-					$userFolder->get($userTemplatePath);
-				} catch (NotFoundException $e) {
-					$folder = $userFolder->newFolder($userTemplatePath);
-
-					$localizedSkeletonTemplatePath = $this->getLocalizedTemplatePath($skeletonTemplatePath, $userLang);
-					if (!empty($localizedSkeletonTemplatePath) && file_exists($localizedSkeletonTemplatePath)) {
-						\OC_Util::copyr($localizedSkeletonTemplatePath, $folder);
-						$userFolder->getStorage()->getScanner()->scan($userTemplatePath, Scanner::SCAN_RECURSIVE);
-					}
-				}
-				$this->setTemplatePath($userTemplatePath);
 			}
+
+			try {
+				$folder = $userFolder->newFolder($userTemplatePath);
+			} catch (NotPermittedException $e) {
+				$folder = $userFolder->get($userTemplatePath);
+			}
+
+			$folderIsEmpty = count($folder->getDirectoryListing()) === 0;
+
+			if (!$copyTemplates) {
+				$this->setTemplatePath($userTemplatePath);
+				return $userTemplatePath;
+			}
+
+			if (!$isDefaultTemplates && $folderIsEmpty) {
+				$localizedSkeletonTemplatePath = $this->getLocalizedTemplatePath($skeletonTemplatePath, $userLang);
+				if (!empty($localizedSkeletonTemplatePath) && file_exists($localizedSkeletonTemplatePath)) {
+					\OC_Util::copyr($localizedSkeletonTemplatePath, $folder);
+					$userFolder->getStorage()->getScanner()->scan($userTemplatePath, Scanner::SCAN_RECURSIVE);
+					$this->setTemplatePath($userTemplatePath);
+					return $userTemplatePath;
+				}
+			}
+
+			if ($path !== null && $isDefaultSkeleton && $isDefaultTemplates && $folderIsEmpty) {
+				$localizedSkeletonPath = $this->getLocalizedTemplatePath($skeletonPath . '/Templates', $userLang);
+				if (!empty($localizedSkeletonPath) && file_exists($localizedSkeletonPath)) {
+					\OC_Util::copyr($localizedSkeletonPath, $folder);
+					$userFolder->getStorage()->getScanner()->scan($userTemplatePath, Scanner::SCAN_RECURSIVE);
+					$this->setTemplatePath($userTemplatePath);
+					return $userTemplatePath;
+				}
+			}
+
+			$this->setTemplatePath($path ?? '');
+			return $this->getTemplatePath();
 		} catch (\Throwable $e) {
-			$this->logger->error('Failed to rename templates directory to user language ' . $userLang . ' for ' . $userId, ['app' => 'files_templates']);
+			$this->logger->error('Failed to initialize templates directory to user language ' . $userLang . ' for ' . $userId, ['app' => 'files_templates', 'exception' => $e]);
 		}
+		$this->setTemplatePath('');
+		return $this->getTemplatePath();
 	}
 
 	private function getLocalizedTemplatePath(string $skeletonTemplatePath, string $userLang) {

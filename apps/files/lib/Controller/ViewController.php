@@ -294,7 +294,7 @@ class ViewController extends Controller {
 		if (class_exists(LoadViewer::class)) {
 			$this->eventDispatcher->dispatchTyped(new LoadViewer());
 		}
-		$this->initialState->provideInitialState('template_path', $this->templateManager->hasTemplateDirectory() ? $this->templateManager->getTemplatePath() : null);
+		$this->initialState->provideInitialState('templates_path', $this->templateManager->hasTemplateDirectory() ? $this->templateManager->getTemplatePath() : null);
 		$this->initialState->provideInitialState('templates', $this->templateManager->listCreators());
 
 		$params = [];

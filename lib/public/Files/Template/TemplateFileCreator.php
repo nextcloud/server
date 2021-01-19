@@ -35,6 +35,7 @@ final class TemplateFileCreator implements \JsonSerializable {
 	protected $fileExtension;
 	protected $iconClass;
 	protected $ratio = null;
+	protected $order = 100;
 
 	/**
 	 * @since 21.0.0
@@ -80,9 +81,25 @@ final class TemplateFileCreator implements \JsonSerializable {
 	/**
 	 * @since 21.0.0
 	 */
-	public function setRatio(float $ratio) {
+	public function setRatio(float $ratio): TemplateFileCreator {
 		$this->ratio = $ratio;
 		return $this;
+	}
+
+	/**
+	 * @param int $order order in which the create action shall be listed
+	 * @since 21.0.0
+	 */
+	public function setOrder(int $order): TemplateFileCreator {
+		$this->order = $order;
+		return $this;
+	}
+
+	/**
+	 * @since 21.0.0
+	 */
+	public function getOrder(): int {
+		return $this->order;
 	}
 
 	/**

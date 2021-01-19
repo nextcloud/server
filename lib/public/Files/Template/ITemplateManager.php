@@ -56,7 +56,7 @@ interface ITemplateManager {
 	 * @return array
 	 * @since 21.0.0
 	 */
-	public function listCreators(): array;
+	public function listCreators():? array;
 
 	/**
 	 * @return bool
@@ -82,7 +82,7 @@ interface ITemplateManager {
 	 * @param string|null $userId
 	 * @since 21.0.0
 	 */
-	public function initializeTemplateDirectory(string $path = null, string $userId = null): void;
+	public function initializeTemplateDirectory(string $path = null, string $userId = null, $copyTemplates = true): string;
 
 	/**
 	 * @param string $filePath

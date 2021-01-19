@@ -29,7 +29,7 @@
 		<form class="templates-picker__form"
 			:style="style"
 			@submit.prevent.stop="onSubmit">
-			<h3>{{ t('files', 'Pick a template') }}</h3>
+			<h2>{{ t('files', 'Pick a template for {name}', { name: nameWithoutExt }) }}</h2>
 
 			<!-- Templates list -->
 			<ul class="templates-picker__list">
@@ -55,11 +55,11 @@
 				<input type="submit"
 					class="primary"
 					:value="t('files', 'Create')"
-					:aria-label="t('files', 'Create a new file with the ')">
+					:aria-label="t('files', 'Create a new file with the selected template')">
 			</div>
 		</form>
 
-		<EmptyContent class="templates-picker__loading" v-if="loading" icon="icon-loading">
+		<EmptyContent v-if="loading" class="templates-picker__loading" icon="icon-loading">
 			{{ t('files', 'Creating file') }}
 		</EmptyContent>
 	</Modal>
@@ -68,11 +68,12 @@
 <script>
 import { generateOcsUrl } from '@nextcloud/router'
 import { showError } from '@nextcloud/dialogs'
-
 import axios from '@nextcloud/axios'
 import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
 import Modal from '@nextcloud/vue/dist/Components/Modal'
 
+import { getCurrentDirectory } from '../utils/davUtils'
+import { getTemplates } from '../services/Templates'
 import TemplatePreview from '../components/TemplatePreview'
 
 const border = 2
@@ -107,6 +108,14 @@ export default {
 	},
 
 	computed: {
+		/**
+		 * Strip away extension from name
+		 * @returns {string}
+		 */
+		nameWithoutExt() {
+			return this.name.indexOf('.') > -1 ? this.name.split('.').slice(0, -1).join('.') : this.name
+		},
+
 		emptyTemplate() {
 			return {
 				basename: t('files', 'Blank'),
@@ -131,7 +140,7 @@ export default {
 				'--width': width + 'px',
 				'--border': border + 'px',
 				'--fullwidth': width + 2 * margin + 2 * border + 'px',
-				'--height': this.ratio ? width * this.ratio + 'px' : null,
+				'--height': this.provider.ratio ? Math.round(width / this.provider.ratio) + 'px' : null,
 			}
 		},
 	},
@@ -142,11 +151,27 @@ export default {
 		 * @param {string} name the file name to create
 		 * @param {object} provider the template provider picked
 		 */
-		open(name, provider) {
+		async open(name, provider) {
+
 			this.checked = this.emptyTemplate.fileid
 			this.name = name
-			this.opened = true
 			this.provider = provider
+
+			const templates = await getTemplates()
+			const fetchedProvider = templates.find((fetchedProvider) => fetchedProvider.app === provider.app && fetchedProvider.label === provider.label)
+			if (fetchedProvider === null) {
+				throw new Error('Failed to match provider in results')
+			}
+			this.provider = fetchedProvider
+
+			// If there is no templates available, just create an empty file
+			if (fetchedProvider.templates.length === 0) {
+				this.onSubmit()
+				return
+			}
+
+			// Else, open the picker
+			this.opened = true
 		},
 
 		/**
@@ -170,7 +195,7 @@ export default {
 
 		async onSubmit() {
 			this.loading = true
-			const currentDirectory = this.getCurrentDirectory()
+			const currentDirectory = getCurrentDirectory()
 			const fileList = OCA?.Files?.App?.currentFileList
 
 			try {
@@ -197,23 +222,12 @@ export default {
 
 				this.close()
 			} catch (error) {
-				this.logger.error('Error while creating the new file from template', error)
+				this.logger.error('Error while creating the new file from template')
+				console.error(error)
 				showError(this.t('files', 'Unable to create new file from template'))
 			} finally {
 				this.loading = false
 			}
-		},
-
-		/**
-		 * Return the current directory, fallback to root
-		 * @returns {string}
-		 */
-		getCurrentDirectory() {
-			const currentDirInfo = OCA?.Files?.App?.currentFileList?.dirInfo
-				|| { path: '/', name: '' }
-
-			// Make sure we don't have double slashes
-			return `${currentDirInfo.path}/${currentDirInfo.name}`.replace(/\/\//gi, '/')
 		},
 	},
 }
@@ -225,6 +239,12 @@ export default {
 		padding: calc(var(--margin) * 2);
 		// Will be handled by the buttons
 		padding-bottom: 0;
+
+		h2 {
+			text-align: center;
+			font-weight: bold;
+			margin: var(--margin) 0 calc(var(--margin) * 2);
+		}
 	}
 
 	&__list {
@@ -233,18 +253,20 @@ export default {
 		grid-auto-columns: 1fr;
 		// We want maximum 5 columns. Putting 6 as we don't count the grid gap. So it will always be lower than 6
 		max-width: calc(var(--fullwidth) * 6);
-		grid-template-columns: repeat(auto-fit, minmax(var(--fullwidth), 1fr));
+		grid-template-columns: repeat(auto-fit, var(--fullwidth));
 		// Make sure all rows are the same height
 		grid-auto-rows: 1fr;
+		// Center the columns set
+		justify-content: center;
 	}
+
 	&__buttons {
 		display: flex;
 		justify-content: space-between;
 		padding: calc(var(--margin) * 2) var(--margin);
 		position: sticky;
-		// Make sure the templates list doesn't weirdly peak under when scrolled. Happens on some rare occasions
-		bottom: -1px;
-		background-color: var(--color-main-background);
+		bottom: 0;
+		background-image: linear-gradient(0, var(--gradient-main-background));
 	}
 
 	// Make sure we're relative for the loading emptycontent on top
