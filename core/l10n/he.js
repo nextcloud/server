@@ -224,7 +224,7 @@ OC.L10N.register(
     "This action requires you to confirm your password" : "פעולה זו דורשת ממך לאמת את הססמה שלך",
     "Confirm" : "אימות",
     "Failed to authenticate, try again" : "האימות נכשל, נא לנסות שוב",
-    "seconds ago" : "שניות",
+    "seconds ago" : "לפני מספר שניות",
     "Connection to server lost" : "החיבור לשרת אבד",
     "_Problem loading page, reloading in %n second_::_Problem loading page, reloading in %n seconds_" : ["תקלה בטעינת העמוד, יתבצע רענון בעוד שנייה","תקלה בטעינת העמוד, יתבצע רענון בעוד %n שניות","תקלה בטעינת העמוד, יתבצע רענון בעוד %n שניות","תקלה בטעינת העמוד, יתבצע רענון בעוד %n שניות"],
     "Add to a project" : "הוספה למיזם",
