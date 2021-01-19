@@ -78,10 +78,11 @@ interface ITemplateManager {
 	public function getTemplatePath(): string;
 
 	/**
-	 * @param string $path
+	 * @param string|null $path
+	 * @param string|null $userId
 	 * @since 21.0.0
 	 */
-	public function initializeTemplateDirectory(string $path): void;
+	public function initializeTemplateDirectory(string $path = null, string $userId = null): void;
 
 	/**
 	 * @param string $filePath

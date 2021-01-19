@@ -26,6 +26,7 @@ declare(strict_types=1);
 
 namespace OC\Files\Template;
 
+use OC\Files\Cache\Scanner;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Folder;
 use OCP\Files\File;
@@ -59,6 +60,7 @@ class TemplateManager implements ITemplateManager {
 	private $l10n;
 	private $logger;
 	private $userId;
+	private $l10nFactory;
 
 	public function __construct(
 		IServerContainer $serverContainer,
@@ -67,7 +69,7 @@ class TemplateManager implements ITemplateManager {
 		IUserSession $userSession,
 		IPreview $previewManager,
 		IConfig $config,
-		IFactory $l10n,
+		IFactory $l10nFactory,
 		LoggerInterface $logger
 	) {
 		$this->serverContainer = $serverContainer;
@@ -75,7 +77,8 @@ class TemplateManager implements ITemplateManager {
 		$this->rootFolder = $rootFolder;
 		$this->previewManager = $previewManager;
 		$this->config = $config;
-		$this->l10n = $l10n->get('lib');
+		$this->l10nFactory = $l10nFactory;
+		$this->l10n = $l10nFactory->get('lib');
 		$this->logger = $logger;
 		$user = $userSession->getUser();
 		$this->userId = $user ? $user->getUID() : null;
@@ -224,14 +227,66 @@ class TemplateManager implements ITemplateManager {
 		if ($userId !== null) {
 			$this->userId = $userId;
 		}
-		$userFolder = $this->rootFolder->getUserFolder($this->userId);
-		$templateDirectoryPath = $path ?? $this->l10n->t('Templates') . '/';
+
+		$defaultSkeletonDirectory = \OC::$SERVERROOT . '/core/skeleton';
+		$defaultTemplateDirectory = \OC::$SERVERROOT . '/core/skeleton/Templates';
+		$skeletonPath = $this->config->getSystemValue('skeletondirectory', $defaultSkeletonDirectory);
+		$skeletonTemplatePath = $this->config->getSystemValue('templatedirectory', $defaultTemplateDirectory);
+		$userLang = $this->l10nFactory->getUserLanguage();
+
 		try {
-			$userFolder->get($templateDirectoryPath);
-		} catch (NotFoundException $e) {
-			$folder = $userFolder->newFolder($templateDirectoryPath);
-			$folder->newFile('Testtemplate.txt');
+			$l10n = $this->l10nFactory->get('lib', $userLang);
+			$userFolder = $this->rootFolder->getUserFolder($this->userId);
+			$userTemplatePath = $path ?? $l10n->t('Templates') . '/';
+
+			// All locations are default so we just need to rename the directory to the users language
+			if ($skeletonPath === $defaultSkeletonDirectory && $skeletonTemplatePath === $defaultTemplateDirectory && $userFolder->nodeExists('Templates')) {
+				$newPath = $userFolder->getPath() . '/' . $userTemplatePath;
+				if ($newPath !== $userFolder->get('Templates')->getPath()) {
+					$userFolder->get('Templates')->move($newPath);
+				}
+				$this->setTemplatePath($userTemplatePath);
+				return;
+			}
+
+			// A custom template directory is specified
+			if (!empty($skeletonTemplatePath) && $skeletonTemplatePath !== $defaultTemplateDirectory) {
+				// In case the shipped template files are in place we remove them
+				if ($skeletonPath === $defaultSkeletonDirectory && $userFolder->nodeExists('Templates')) {
+					$shippedSkeletonTemplates = $userFolder->get('Templates');
+					$shippedSkeletonTemplates->delete();
+				}
+				try {
+					$userFolder->get($userTemplatePath);
+				} catch (NotFoundException $e) {
+					$folder = $userFolder->newFolder($userTemplatePath);
+
+					$localizedSkeletonTemplatePath = $this->getLocalizedTemplatePath($skeletonTemplatePath, $userLang);
+					if (!empty($localizedSkeletonTemplatePath) && file_exists($localizedSkeletonTemplatePath)) {
+						\OC_Util::copyr($localizedSkeletonTemplatePath, $folder);
+						$userFolder->getStorage()->getScanner()->scan($userTemplatePath, Scanner::SCAN_RECURSIVE);
+					}
+				}
+				$this->setTemplatePath($userTemplatePath);
+			}
+		} catch (\Throwable $e) {
+			$this->logger->error('Failed to rename templates directory to user language ' . $userLang . ' for ' . $userId, ['app' => 'files_templates']);
 		}
-		$this->setTemplatePath($templateDirectoryPath);
+	}
+
+	private function getLocalizedTemplatePath(string $skeletonTemplatePath, string $userLang) {
+		$localizedSkeletonTemplatePath = str_replace('{lang}', $userLang, $skeletonTemplatePath);
+
+		if (!file_exists($localizedSkeletonTemplatePath)) {
+			$dialectStart = strpos($userLang, '_');
+			if ($dialectStart !== false) {
+				$localizedSkeletonTemplatePath = str_replace('{lang}', substr($userLang, 0, $dialectStart), $skeletonTemplatePath);
+			}
+			if ($dialectStart === false || !file_exists($localizedSkeletonTemplatePath)) {
+				$localizedSkeletonTemplatePath = str_replace('{lang}', 'default', $skeletonTemplatePath);
+			}
+		}
+
+		return $localizedSkeletonTemplatePath;
 	}
 }
