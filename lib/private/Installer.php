@@ -216,6 +216,18 @@ class Installer {
 	}
 
 	/**
+	 * Split the certificate file in individual certs
+	 *
+	 * @param string $cert
+	 * @return string[]
+	 */
+	private function splitCerts(string $cert): array {
+		preg_match_all('([\-]{3,}[\S\ ]+?[\-]{3,}[\S\s]+?[\-]{3,}[\S\ ]+?[\-]{3,})', $cert, $matches);
+
+		return $matches[0];
+	}
+
+	/**
 	 * Downloads an app and puts it into the app directory
 	 *
 	 * @param string $appId
@@ -231,12 +243,18 @@ class Installer {
 			if ($app['id'] === $appId) {
 				// Load the certificate
 				$certificate = new X509();
-				$certificate->loadCA(file_get_contents(__DIR__ . '/../../resources/codesigning/root.crt'));
+				$rootCrt = file_get_contents(__DIR__ . '/../../resources/codesigning/root.crt');
+				$rootCrts = $this->splitCerts($rootCrt);
+				foreach ($rootCrts as $rootCrt) {
+					$certificate->loadCA($rootCrt);
+				}
 				$loadedCertificate = $certificate->loadX509($app['certificate']);
 
 				// Verify if the certificate has been revoked
 				$crl = new X509();
-				$crl->loadCA(file_get_contents(__DIR__ . '/../../resources/codesigning/root.crt'));
+				foreach ($rootCrts as $rootCrt) {
+					$crl->loadCA($rootCrt);
+				}
 				$crl->loadCRL(file_get_contents(__DIR__ . '/../../resources/codesigning/root.crl'));
 				if ($crl->validateSignature() !== true) {
 					throw new \Exception('Could not validate CRL signature');
