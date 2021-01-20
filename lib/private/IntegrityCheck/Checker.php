@@ -300,6 +300,18 @@ class Checker {
 	}
 
 	/**
+	 * Split the certificate file in individual certs
+	 *
+	 * @param string $cert
+	 * @return string[]
+	 */
+	private function splitCerts(string $cert): array {
+		preg_match_all('([\-]{3,}[\S\ ]+?[\-]{3,}[\S\s]+?[\-]{3,}[\S\ ]+?[\-]{3,})', $cert, $matches);
+
+		return $matches[0];
+	}
+
+	/**
 	 * Verifies the signature for the specified path.
 	 *
 	 * @param string $signaturePath
@@ -333,7 +345,11 @@ class Checker {
 		// Check if certificate is signed by Nextcloud Root Authority
 		$x509 = new \phpseclib\File\X509();
 		$rootCertificatePublicKey = $this->fileAccessHelper->file_get_contents($this->environmentHelper->getServerRoot().'/resources/codesigning/root.crt');
-		$x509->loadCA($rootCertificatePublicKey);
+
+		$rootCerts = $this->splitCerts($rootCertificatePublicKey);
+		foreach ($rootCerts as $rootCert) {
+			$x509->loadCA($rootCert);
+		}
 		$x509->loadX509($certificate);
 		if (!$x509->validateSignature()) {
 			throw new InvalidSignatureException('Certificate is not valid.');
