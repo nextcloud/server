@@ -54,7 +54,7 @@ class MarkDown extends TXT {
 
 		$content = preg_replace('/((?!^(\s*-|#)).*)(\w|\\|\.)(\r\n|\n|\r)(\w|\*)/mU', '$1 $3', $content);
 
-		// Remove markdown symbols that we cannot easily represent in renered text in the preview
+		// Remove markdown symbols that we cannot easily represent in rendered text in the preview
 		$content = preg_replace('/\*\*(.*)\*\*/U', '$1', $content);
 		$content = preg_replace('/\*(.*)\*/U', '$1', $content);
 		$content = preg_replace('/\_\_(.*)\_\_/U', '$1', $content);
