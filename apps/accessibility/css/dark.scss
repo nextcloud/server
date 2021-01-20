@@ -53,11 +53,12 @@ $color-border-dark: lighten($color-main-background, 14%);
 
 .bubble,
 .app-navigation-entry-menu,
-.popovermenu {
+.popovermenu,
+.popover__menu {
 	li {
 		> button,
 		> a,
-		> .menuitem {
+		> .menuitem, > .popover__menuitem {
 			> img {
 				filter: invert(100%);
 			}
@@ -68,6 +69,22 @@ $color-border-dark: lighten($color-main-background, 14%);
 .app-navigation-entry-menu,
 .popovermenu,
 #header .menu {
+	border: 1px solid var(--color-border);
+}
+
+.popover[x-placement^='top'] .popover__arrow {
+	border-top-color: var(--color-border);
+}
+.popover[x-placement^='bottom'] .popover__arrow {
+	border-bottom-color: var(--color-border);
+}
+.popover[x-placement^='left'] .popover__arrow {
+	border-left-color: var(--color-border);
+}
+.popover[x-placement^='right'] .popover__arrow {
+	border-right-color: var(--color-border);
+}
+.popover .popover__inner {
 	border: 1px solid var(--color-border);
 }
 
