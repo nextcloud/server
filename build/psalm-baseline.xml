@@ -5289,20 +5289,7 @@
     <InvalidReturnType occurrences="1">
       <code>bool</code>
     </InvalidReturnType>
-    <InvalidScalarArgument occurrences="17">
-      <code>$imagePath</code>
-      <code>$imagePath</code>
-      <code>$imagePath</code>
-      <code>$imagePath</code>
-      <code>$imagePath</code>
-      <code>$imagePath</code>
-      <code>$imagePath</code>
-      <code>$imagePath</code>
-      <code>$imagePath</code>
-      <code>$imagePath</code>
-      <code>$imagePath</code>
-      <code>$imagePath</code>
-      <code>$imagePath</code>
+    <InvalidScalarArgument occurrences="4">
       <code>$this-&gt;bitDepth</code>
       <code>$x</code>
       <code>$y</code>
