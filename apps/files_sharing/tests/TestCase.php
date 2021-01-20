@@ -73,14 +73,14 @@ abstract class TestCase extends \Test\TestCase {
 		parent::setUpBeforeClass();
 
 		new Application();
-		
+
 		// reset backend
 		\OC_User::clearBackends();
 		\OC::$server->getGroupManager()->clearBackends();
 
 		// clear share hooks
 		\OC_Hook::clear('OCP\\Share');
-		\OC::registerShareHooks();
+		\OC::registerShareHooks(\OC::$server->getSystemConfig());
 
 		// create users
 		$backend = new \Test\Util\User\Dummy();

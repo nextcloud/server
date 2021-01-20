@@ -92,7 +92,7 @@ class DeleteOrphanedSharesJobTest extends \Test\TestCase {
 		$userManager->createUser($this->user1, 'pass');
 		$userManager->createUser($this->user2, 'pass');
 
-		\OC::registerShareHooks();
+		\OC::registerShareHooks(\OC::$server->getSystemConfig());
 
 		$this->job = new DeleteOrphanedSharesJob();
 	}

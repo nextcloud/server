@@ -72,7 +72,7 @@ class TrashbinTest extends \Test\TestCase {
 
 		// clear share hooks
 		\OC_Hook::clear('OCP\\Share');
-		\OC::registerShareHooks();
+		\OC::registerShareHooks(\OC::$server->getSystemConfig());
 
 		// init files sharing
 		new Application();
