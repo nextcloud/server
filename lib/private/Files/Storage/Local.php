@@ -86,7 +86,10 @@ class Local extends \OC\Files\Storage\Common {
 	}
 
 	public function mkdir($path) {
-		return @mkdir($this->getSourcePath($path), 0777, true);
+		$sourcePath = $this->getSourcePath($path);
+		$result = @mkdir($sourcePath, 0777, true);
+		chmod($sourcePath, 0755);
+		return $result;
 	}
 
 	public function rmdir($path) {
