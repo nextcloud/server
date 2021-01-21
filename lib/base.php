@@ -211,25 +211,18 @@ class OC {
 			}
 		} elseif (file_exists(OC::$SERVERROOT . '/apps')) {
 			OC::$APPSROOTS[] = ['path' => OC::$SERVERROOT . '/apps', 'url' => '/apps', 'writable' => true];
-		} elseif (file_exists(OC::$SERVERROOT . '/../apps')) {
-			OC::$APPSROOTS[] = [
-				'path' => rtrim(dirname(OC::$SERVERROOT), '/') . '/apps',
-				'url' => '/apps',
-				'writable' => true
-			];
 		}
 
 		if (empty(OC::$APPSROOTS)) {
 			throw new \RuntimeException('apps directory not found! Please put the Nextcloud apps folder in the Nextcloud folder'
-				. ' or the folder above. You can also configure the location in the config.php file.');
+				. '. You can also configure the location in the config.php file.');
 		}
 		$paths = [];
 		foreach (OC::$APPSROOTS as $path) {
 			$paths[] = $path['path'];
 			if (!is_dir($path['path'])) {
 				throw new \RuntimeException(sprintf('App directory "%s" not found! Please put the Nextcloud apps folder in the'
-					. ' Nextcloud folder or the folder above. You can also configure the location in the'
-					. ' config.php file.', $path['path']));
+					. ' Nextcloud folder. You can also configure the location in the config.php file.', $path['path']));
 			}
 		}
 
