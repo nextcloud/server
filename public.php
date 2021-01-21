@@ -42,7 +42,7 @@ try {
 		exit;
 	}
 
-	OC::checkMaintenanceMode();
+	OC::checkMaintenanceMode(\OC::$server->get(\OC\SystemConfig::class));
 	$request = \OC::$server->getRequest();
 	$pathInfo = $request->getPathInfo();
 

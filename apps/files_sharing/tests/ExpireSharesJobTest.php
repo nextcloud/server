@@ -65,7 +65,7 @@ class ExpireSharesJobTest extends \Test\TestCase {
 		$userManager->createUser($this->user1, 'longrandompassword');
 		$userManager->createUser($this->user2, 'longrandompassword');
 
-		\OC::registerShareHooks();
+		\OC::registerShareHooks(\OC::$server->getSystemConfig());
 
 		$this->job = new ExpireSharesJob(\OC::$server->get(ITimeFactory::class), \OC::$server->get(IManager::class), $this->connection);
 	}
