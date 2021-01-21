@@ -29,6 +29,8 @@ OC.L10N.register(
     "Nextcloud Server" : "Servidor Nextcloud",
     "Some of your link shares have been removed" : "Alguns dos seus compartilhamentos de links foram removidos",
     "Due to a security bug we had to remove some of your link shares. Please see the link for more information." : "Devido a um bug de segurança, tivemos que remover alguns dos seus compartilhamentos de links. Por favor, veja o link para mais informações.",
+    "The user limit of this instance is reached." : "O limite do usuário desta instância foi atingido.",
+    "Enter your subscription key to increase the user limit. For more information about Nextcloud Enterprise see our website." : "Digite sua chave de assinatura para aumentar o limite de usuários. Para obter mais informações sobre Nextcloud Enterprise, consulte nosso website.",
     "Preparing update" : "Preparando a atualização",
     "[%d / %d]: %s" : "[%d / %d]: %s",
     "Repair step:" : "Etapa do reparo:",
