@@ -452,7 +452,7 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node implements \Sabre\DAV\ICol
 
 
 	public function copyInto($targetName, $sourcePath, INode $sourceNode) {
-		if ($sourceNode instanceof File) {
+		if ($sourceNode instanceof File || $sourceNode instanceof Directory) {
 			$destinationPath = $this->getPath() . '/' . $targetName;
 			$sourcePath = $sourceNode->getPath();
 
