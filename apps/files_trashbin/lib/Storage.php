@@ -135,7 +135,7 @@ class Storage extends Wrapper {
 		// check if there is a app which want to disable the trash bin for this file
 		$fileId = $this->storage->getCache()->getId($path);
 		$owner = $this->storage->getOwner($path);
-		if ($owner === false) {
+		if ($owner === false || $this->storage->instanceOfStorage(\OCA\Files_Sharing\External\Storage::class)) {
 			$nodes = $this->rootFolder->getById($fileId);
 		} else {
 			$nodes = $this->rootFolder->getUserFolder($owner)->getById($fileId);
