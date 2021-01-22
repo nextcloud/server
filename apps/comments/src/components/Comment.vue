@@ -94,7 +94,7 @@
 
 <script>
 import { getCurrentUser } from '@nextcloud/auth'
-import moment from 'moment'
+import moment from '@nextcloud/moment'
 
 import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
 import Actions from '@nextcloud/vue/dist/Components/Actions'
