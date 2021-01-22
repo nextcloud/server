@@ -41,7 +41,27 @@ class FederationContext implements Context, SnippetAcceptingContext {
 	use CommandLine;
 
 	/** @var string */
+	private static $phpFederatedServerPid = '';
+
+	/** @var string */
 	private $lastAcceptedRemoteShareId;
+
+	/**
+	 * @BeforeScenario
+	 * @AfterScenario
+	 *
+	 * The server is started also after the scenarios to ensure that it is
+	 * properly cleaned up if stopped.
+	 */
+	public function startFederatedServer() {
+		if (self::$phpFederatedServerPid !== '') {
+			return;
+		}
+
+		$port = getenv('PORT_FED');
+
+		self::$phpFederatedServerPid = exec('php -S localhost:' . $port . ' -t ../../ >/dev/null & echo $!');
+	}
 
 	/**
 	 * @BeforeScenario
@@ -155,6 +175,19 @@ class FederationContext implements Context, SnippetAcceptingContext {
 	public function deleteLastAcceptedRemoteShare($user) {
 		$this->asAn($user);
 		$this->sendingToWith('DELETE', "/apps/files_sharing/api/v1/remote_shares/" . $this->lastAcceptedRemoteShareId, null);
+	}
+
+	/**
+	 * @When /^remote server is stopped$/
+	 */
+	public function remoteServerIsStopped() {
+		if (self::$phpFederatedServerPid === '') {
+			return;
+		}
+
+		exec('kill ' . self::$phpFederatedServerPid);
+
+		self::$phpFederatedServerPid = '';
 	}
 
 	protected function resetAppConfigs() {
