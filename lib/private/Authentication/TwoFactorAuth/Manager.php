@@ -339,7 +339,7 @@ class Manager {
 				$tokenId = $token->getId();
 				$tokensNeeding2FA = $this->config->getUserKeys($user->getUID(), 'login_token_2fa');
 
-				if (!\in_array($tokenId, $tokensNeeding2FA, true)) {
+				if (!\in_array((string) $tokenId, $tokensNeeding2FA, true)) {
 					$this->session->set(self::SESSION_UID_DONE, $user->getUID());
 					return false;
 				}
@@ -376,14 +376,14 @@ class Manager {
 
 		$id = $this->session->getId();
 		$token = $this->tokenProvider->getToken($id);
-		$this->config->setUserValue($user->getUID(), 'login_token_2fa', $token->getId(), $this->timeFactory->getTime());
+		$this->config->setUserValue($user->getUID(), 'login_token_2fa', (string) $token->getId(), $this->timeFactory->getTime());
 	}
 
 	public function clearTwoFactorPending(string $userId) {
 		$tokensNeeding2FA = $this->config->getUserKeys($userId, 'login_token_2fa');
 
 		foreach ($tokensNeeding2FA as $tokenId) {
-			$this->tokenProvider->invalidateTokenById($userId, $tokenId);
+			$this->tokenProvider->invalidateTokenById($userId, (int)$tokenId);
 		}
 	}
 }
