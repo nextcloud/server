@@ -105,7 +105,6 @@
 	"application/km": "mindmap",
 	"application/x-freemind": "mindmap",
 	"application/vnd.xmind.workbook": "mindmap",
-	"image/targa": "image/tga",
 	"image/targa": "image/tga"
 }
 
