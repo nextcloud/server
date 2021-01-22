@@ -324,7 +324,7 @@ OC.L10N.register(
     "All checks passed." : "Všetky kontroly prešli úspešne.",
     "There are some errors regarding your setup." : "Vo Vašom nastavení sú nejaké chyby.",
     "There are some warnings regarding your setup." : "Vo Vašom nastavení sú nejaké varovania.",
-    "Checking for system and security issues." : "Kontrolujú sa existenicia systémových a bezpečnostných problémov.",
+    "Checking for system and security issues." : "Prebieha kontrola systémových a bezpečnostných problémov.",
     "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%2$s\">log</a>." : "Prosím skontrolujte <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">inštalačnú dokumentáciu</a> a skontrolujte existenciu chýb a upozornení v <a href=\"%2$s\">logu</a>.",
     "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Skontrolujte bezpečnosť Vášho Nextcloud pomocou <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">nášho bezpečnostného scanu</a>.",
     "Version" : "Verzia",
