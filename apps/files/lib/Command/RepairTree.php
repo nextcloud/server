@@ -62,6 +62,7 @@ class RepairTree extends Command {
 		$query->update('filecache')
 			->set('path', $query->createParameter('path'))
 			->set('path_hash', $query->func()->md5($query->createParameter('path')))
+			->set('storage', $query->createParameter('storage'))
 			->where($query->expr()->eq('fileid', $query->createParameter('fileid')));
 
 		foreach ($rows as $row) {
@@ -71,6 +72,7 @@ class RepairTree extends Command {
 				$query->setParameters([
 					'fileid' => $row['fileid'],
 					'path' => $row['parent_path'] . '/' . $row['name'],
+					'storage' => $row['parent_storage'],
 				]);
 				$query->execute();
 			}
@@ -88,6 +90,7 @@ class RepairTree extends Command {
 
 		$query->select('f.fileid', 'f.path', 'f.parent', 'f.name')
 			->selectAlias('p.path', 'parent_path')
+			->selectAlias('p.storage', 'parent_storage')
 			->from('filecache', 'f')
 			->innerJoin('f', 'filecache', 'p', $query->expr()->eq('f.parent', 'p.fileid'))
 			->where($query->expr()->orX(
