@@ -39,6 +39,9 @@ class FederationContext implements Context, SnippetAcceptingContext {
 	use AppConfiguration;
 	use CommandLine;
 
+	/** @var string */
+	private $lastAcceptedRemoteShareId;
+
 	/**
 	 * @BeforeScenario
 	 */
@@ -109,6 +112,17 @@ class FederationContext implements Context, SnippetAcceptingContext {
 		$this->theHTTPStatusCodeShouldBe('200');
 		$this->theOCSStatusCodeShouldBe('100');
 		$this->usingServer($previous);
+
+		$this->lastAcceptedRemoteShareId = $share_id;
+	}
+
+	/**
+	 * @When /^user "([^"]*)" deletes last accepted remote share$/
+	 * @param string $user
+	 */
+	public function deleteLastAcceptedRemoteShare($user) {
+		$this->asAn($user);
+		$this->sendingToWith('DELETE', "/apps/files_sharing/api/v1/remote_shares/" . $this->lastAcceptedRemoteShareId, null);
 	}
 
 	protected function resetAppConfigs() {
