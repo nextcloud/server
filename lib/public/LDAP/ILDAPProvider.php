@@ -164,7 +164,7 @@ interface ILDAPProvider {
 	 * @param string $attribute the name of the attribute to read
 	 * @return string|null
 	 * @throws \Exception if user id was not found in LDAP
-	 * @since 22.0.0
+	 * @since 21.0.0
 	 */
 	public function getUserAttribute(string $uid, string $attribute): ?string;
 }
