@@ -128,7 +128,7 @@ OC.L10N.register(
     "One file conflict" : "Un conflicto en el archivo",
     "New Files" : "Archivos Nuevos",
     "Already existing files" : "Archivos ya existentes",
-    "Which files do you want to keep?" : "¿Cuales archivos deseas mantener?",
+    "Which files do you want to keep?" : "¿Cuáles archivos deseas mantener?",
     "If you select both versions, the copied file will have a number added to its name." : "Si seleccionas ambas versiones, se le agregará un número al nombre del archivo copiado.",
     "Continue" : "Continuar",
     "(all selected)" : "(todos seleccionados)",
