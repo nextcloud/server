@@ -115,9 +115,18 @@ export default {
 	 * @deprecated 17.0.0 use the `@nextcloud/dialogs` package
 	 */
 	show(text, options) {
+		const escapeHTML = function(text) {
+			return text.toString()
+				.split('&').join('&amp;')
+				.split('<').join('&lt;')
+				.split('>').join('&gt;')
+				.split('"').join('&quot;')
+				.split('\'').join('&#039;')
+		}
+
 		options = options || {}
 		options.timeout = (!options.timeout) ? -1 : options.timeout
-		const toast = showMessage(text, options)
+		const toast = showMessage(escapeHTML(text), options)
 		toast.toastElement.toastify = toast
 		return $(toast.toastElement)
 	},
