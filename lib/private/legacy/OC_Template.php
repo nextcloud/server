@@ -106,7 +106,15 @@ class OC_Template extends \OC\Template\Base {
 			//so to make sure this scripts/styles here are loaded first we use OC_Util::addScript() with $prepend=true
 			//meaning the last script/style in this list will be loaded first
 			if (\OC::$server->getSystemConfig()->getValue('installed', false) && $renderAs !== TemplateResponse::RENDER_AS_ERROR && !\OCP\Util::needUpgrade()) {
-				if (\OC::$server->getConfig()->getAppValue('core', 'backgroundjobs_mode', 'ajax') == 'ajax') {
+				$cronMode = \OC::$server->getConfig()->getAppValue('core', 'backgroundjobs_mode', 'ajax');
+				if (($cronMode !== 'none') && ($cronMode !== 'ajax')) {
+					$cronLast = \OC::$server->getConfig()->getAppValue('core', 'lastcron', false);
+					if (($cronLast !== false) && (time() - $cronLast > 60*60)) {
+						\OC::$server->getConfig()->setAppValue('core', 'backgroundjobs_mode', 'ajax');
+						$cronMode = 'ajax';
+					}
+				}
+				if ($cronMode === 'ajax') {
 					OC_Util::addScript('backgroundjobs', null, true);
 				}
 			}
