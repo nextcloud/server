@@ -1989,14 +1989,6 @@
       <code>getLanguages</code>
     </UndefinedInterfaceMethod>
   </file>
-  <file src="apps/settings/lib/Settings/Personal/Security/WebAuthn.php">
-    <InvalidNullableReturnType occurrences="1">
-      <code>?string</code>
-    </InvalidNullableReturnType>
-    <NullableReturnStatement occurrences="1">
-      <code>null</code>
-    </NullableReturnStatement>
-  </file>
   <file src="apps/settings/lib/Settings/Personal/ServerDevNotice.php">
     <InvalidNullableReturnType occurrences="1">
       <code>string</code>
@@ -3102,8 +3094,7 @@
     </InvalidReturnType>
   </file>
   <file src="lib/private/Authentication/TwoFactorAuth/Manager.php">
-    <InvalidArgument occurrences="3">
-      <code>$tokenId</code>
+    <InvalidArgument occurrences="2">
       <code>IProvider::EVENT_FAILED</code>
       <code>IProvider::EVENT_SUCCESS</code>
     </InvalidArgument>
@@ -3113,9 +3104,8 @@
     <InvalidReturnType occurrences="1">
       <code>string[]</code>
     </InvalidReturnType>
-    <InvalidScalarArgument occurrences="3">
+    <InvalidScalarArgument occurrences="2">
       <code>$this-&gt;timeFactory-&gt;getTime()</code>
-      <code>$token-&gt;getId()</code>
       <code>$tokenId</code>
     </InvalidScalarArgument>
     <TooManyArguments occurrences="2">
@@ -4061,12 +4051,6 @@
     </InvalidScalarArgument>
   </file>
   <file src="lib/private/Files/Storage/Flysystem.php">
-    <InvalidReturnStatement occurrences="1">
-      <code>$this-&gt;flysystem-&gt;getTimestamp($this-&gt;buildPath($path))</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
-      <code>filemtime</code>
-    </InvalidReturnType>
     <ParamNameMismatch occurrences="4">
       <code>$source</code>
       <code>$source</code>
