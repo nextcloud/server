@@ -15,7 +15,7 @@ OC.L10N.register(
     "Upload cancelled." : "Carga cancelada.",
     "…" : "...",
     "Unable to upload {filename} as it is a directory or has 0 bytes" : "No fue posible cargar {filename} ya que es una carpeta o tiene un tamaño de 0 bytes",
-    "Not enough free space, you are uploading {size1} but only {size2} is left" : "No tienes suficiente espacio disponible, Estas cargando {size1} pero sólo cuentas con {size2} disponible",
+    "Not enough free space, you are uploading {size1} but only {size2} is left" : "No tienes suficiente espacio disponible, Estás cargando {size1} pero sólo cuentas con {size2} disponible",
     "Target folder \"{dir}\" does not exist any more" : "La carpeta destino \"{dir}\" ya no existe",
     "Not enough free space" : "No cuentas con suficiente espacio libre",
     "Uploading …" : "Cargando...",
