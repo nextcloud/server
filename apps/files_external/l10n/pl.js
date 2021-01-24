@@ -130,7 +130,7 @@ OC.L10N.register(
     "Authentication" : "Uwierzytelnienie",
     "Configuration" : "Konfiguracja",
     "Available for" : "Dostępne dla",
-    "Click to recheck the configuration" : "Kliknij aby ponownie sprawdzić konfigurację",
+    "Click to recheck the configuration" : "Kliknij, aby ponownie sprawdzić konfigurację",
     "Add storage" : "Dodaj zewnętrzne magazyny",
     "Advanced settings" : "Ustawienia zaawansowane",
     "Allow users to mount external storage" : "Pozwól użytkownikom montować zewnętrzne zasoby dyskowe",
