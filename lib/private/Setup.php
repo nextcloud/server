@@ -519,6 +519,9 @@ class Setup {
 		$htaccessContent = file_get_contents($setupHelper->pathToHtaccess());
 		$content = "#### DO NOT CHANGE ANYTHING ABOVE THIS LINE ####\n";
 		$htaccessContent = explode($content, $htaccessContent, 2)[0];
+		
+		// 301 redirect for /favicon.ico
+		$content .= "\nRedirect 301 /favicon.ico /core/img/favicon.ico";
 
 		//custom 403 error page
 		$content .= "\nErrorDocument 403 " . $webRoot . '/';
