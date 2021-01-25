@@ -84,16 +84,14 @@
 				</ActionCheckbox>
 
 				<!-- expiration date -->
-				<ActionCheckbox
-					v-if="canHaveExpirationDate"
-					:checked.sync="hasExpirationDate"
+				<ActionCheckbox :checked.sync="hasExpirationDate"
 					:disabled="config.isDefaultInternalExpireDateEnforced || saving"
 					@uncheck="onExpirationDisable">
 					{{ config.isDefaultInternalExpireDateEnforced
 						? t('files_sharing', 'Expiration date enforced')
 						: t('files_sharing', 'Set expiration date') }}
 				</ActionCheckbox>
-				<ActionInput v-if="canHaveExpirationDate && hasExpirationDate"
+				<ActionInput v-if="hasExpirationDate"
 					ref="expireDate"
 					v-tooltip.auto="{
 						content: errors.expireDate,
@@ -224,16 +222,8 @@ export default {
 		},
 
 		canHaveNote() {
-			return !this.isRemoteShare
-		},
-
-		canHaveExpirationDate() {
-			return !this.isRemoteShare
-		},
-
-		isRemoteShare() {
-			return this.share.type === this.SHARE_TYPES.SHARE_TYPE_REMOTE
-				|| this.share.type === this.SHARE_TYPES.SHARE_TYPE_REMOTE_GROUP
+			return this.share.type !== this.SHARE_TYPES.SHARE_TYPE_REMOTE
+				&& this.share.type !== this.SHARE_TYPES.SHARE_TYPE_REMOTE_GROUP
 		},
 
 		/**

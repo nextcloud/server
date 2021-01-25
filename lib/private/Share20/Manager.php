@@ -751,6 +751,9 @@ class Manager implements IManager {
 
 				// Verify the expiration date
 				$share = $this->validateExpirationDateInternal($share);
+			} elseif ($share->getShareType() === IShare::TYPE_REMOTE || $share->getShareType() === IShare::TYPE_REMOTE_GROUP) {
+				//Verify the expiration date
+				$share = $this->validateExpirationDateInternal($share);
 			} elseif ($share->getShareType() === IShare::TYPE_LINK
 				|| $share->getShareType() === IShare::TYPE_EMAIL) {
 				$this->linkCreateChecks($share);
@@ -999,7 +1002,7 @@ class Manager implements IManager {
 			if (empty($plainTextPassword) && $share->getSendPasswordByTalk()) {
 				throw new \InvalidArgumentException('Can’t enable sending the password by Talk with an empty password');
 			}
-	
+
 			/**
 			 * If we're in a mail share, we need to force a password change
 			 * as either the user is not aware of the password or is already (received by mail)
@@ -1017,6 +1020,12 @@ class Manager implements IManager {
 			if ($share->getExpirationDate() != $originalShare->getExpirationDate()) {
 				// Verify the expiration date
 				$this->validateExpirationDateLink($share);
+				$expirationDateUpdated = true;
+			}
+		} elseif ($share->getShareType() === IShare::TYPE_REMOTE || $share->getShareType() === IShare::TYPE_REMOTE_GROUP) {
+			if ($share->getExpirationDate() != $originalShare->getExpirationDate()) {
+				//Verify the expiration date
+				$this->validateExpirationDateInternal($share);
 				$expirationDateUpdated = true;
 			}
 		}
