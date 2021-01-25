@@ -29,7 +29,7 @@ Enterprise? Public Sector or Education user? You may want to have a look into [*
 ## Get in touch 💬
 
 * [📋 Forum](https://help.nextcloud.com)
-* [👥 Facebook](https://facebook.com/nextclouders)
+* [👥 Facebook](https://www.facebook.com/nextclouders)
 * [🐣 Twitter](https://twitter.com/Nextclouders)
 * [🐘 Mastodon](https://mastodon.xyz/@nextcloud)
 
