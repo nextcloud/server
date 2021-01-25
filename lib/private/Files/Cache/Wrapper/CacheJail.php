@@ -47,6 +47,7 @@ class CacheJail extends CacheWrapper {
 	 * @var string
 	 */
 	protected $root;
+	protected $unjailedRoot;
 
 	/**
 	 * @param \OCP\Files\Cache\ICache $cache
@@ -57,10 +58,25 @@ class CacheJail extends CacheWrapper {
 		$this->root = $root;
 		$this->connection = \OC::$server->getDatabaseConnection();
 		$this->mimetypeLoader = \OC::$server->getMimeTypeLoader();
+
+		if ($cache instanceof CacheJail) {
+			$this->unjailedRoot = $cache->getSourcePath($root);
+		} else {
+			$this->unjailedRoot = $root;
+		}
 	}
 
 	protected function getRoot() {
 		return $this->root;
+	}
+
+	/**
+	 * Get the root path with any nested jails resolved
+	 *
+	 * @return string
+	 */
+	protected function getGetUnjailedRoot() {
+		return $this->unjailedRoot;
 	}
 
 	protected function getSourcePath($path) {
@@ -73,16 +89,20 @@ class CacheJail extends CacheWrapper {
 
 	/**
 	 * @param string $path
+	 * @param null|string $root
 	 * @return null|string the jailed path or null if the path is outside the jail
 	 */
-	protected function getJailedPath($path) {
-		if ($this->getRoot() === '') {
+	protected function getJailedPath(string $path, string $root = null) {
+		if ($root === null) {
+			$root = $this->getRoot();
+		}
+		if ($root === '') {
 			return $path;
 		}
-		$rootLength = strlen($this->getRoot()) + 1;
-		if ($path === $this->getRoot()) {
+		$rootLength = strlen($root) + 1;
+		if ($path === $root) {
 			return '';
-		} elseif (substr($path, 0, $rootLength) === $this->getRoot() . '/') {
+		} elseif (substr($path, 0, $rootLength) === $root . '/') {
 			return substr($path, $rootLength);
 		} else {
 			return null;
@@ -98,11 +118,6 @@ class CacheJail extends CacheWrapper {
 			$entry['path'] = $this->getJailedPath($entry['path']);
 		}
 		return $entry;
-	}
-
-	protected function filterCacheEntry($entry) {
-		$rootLength = strlen($this->getRoot()) + 1;
-		return $rootLength === 1 || ($entry['path'] === $this->getRoot()) || (substr($entry['path'], 0, $rootLength) === $this->getRoot() . '/');
 	}
 
 	/**
@@ -217,9 +232,10 @@ class CacheJail extends CacheWrapper {
 	}
 
 	private function formatSearchResults($results) {
-		$results = array_filter($results, [$this, 'filterCacheEntry']);
-		$results = array_values($results);
-		return array_map([$this, 'formatCacheEntry'], $results);
+		return array_map(function($entry) {
+			$entry['path'] = $this->getJailedPath($entry['path'], $this->getGetUnjailedRoot());
+			return $entry;
+		}, $results);
 	}
 
 	/**
@@ -240,8 +256,8 @@ class CacheJail extends CacheWrapper {
 		$query->selectFileCache()
 			->whereStorageId()
 			->andWhere($query->expr()->orX(
-				$query->expr()->like('path', $query->createNamedParameter($this->getRoot() . '/%')),
-				$query->expr()->eq('path_hash', $query->createNamedParameter(md5($this->getRoot()))),
+				$query->expr()->like('path', $query->createNamedParameter($this->getGetUnjailedRoot() . '/%')),
+				$query->expr()->eq('path_hash', $query->createNamedParameter(md5($this->getGetUnjailedRoot())))
 			))
 			->andWhere($query->expr()->iLike('name', $query->createNamedParameter($pattern)));
 
@@ -268,8 +284,8 @@ class CacheJail extends CacheWrapper {
 		$query->selectFileCache()
 			->whereStorageId()
 			->andWhere($query->expr()->orX(
-				$query->expr()->like('path', $query->createNamedParameter($this->getRoot() . '/%')),
-				$query->expr()->eq('path_hash', $query->createNamedParameter(md5($this->getRoot()))),
+				$query->expr()->like('path', $query->createNamedParameter($this->getGetUnjailedRoot() . '/%')),
+				$query->expr()->eq('path_hash', $query->createNamedParameter(md5($this->getGetUnjailedRoot())))
 			));
 
 		if (strpos($mimetype, '/')) {
@@ -292,12 +308,12 @@ class CacheJail extends CacheWrapper {
 		$prefixFilter = new SearchComparison(
 			ISearchComparison::COMPARE_LIKE,
 			'path',
-			$this->getRoot() . '/%'
+			$this->getGetUnjailedRoot() . '/%'
 		);
 		$rootFilter = new SearchComparison(
 			ISearchComparison::COMPARE_EQUAL,
 			'path',
-			$this->getRoot()
+			$this->getGetUnjailedRoot()
 		);
 		$operation = new SearchBinaryOperator(
 			ISearchBinaryOperator::OPERATOR_AND,
