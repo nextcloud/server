@@ -339,6 +339,8 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node implements \Sabre\DAV\ICol
 				$free
 			];
 			return $this->quotaInfo;
+		} catch (\OCP\Files\NotFoundException $e) {
+			return [0, 0];
 		} catch (\OCP\Files\StorageNotAvailableException $e) {
 			return [0, 0];
 		}
