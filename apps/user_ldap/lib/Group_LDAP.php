@@ -222,7 +222,7 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 			$pos = strpos($memberURLs[0], '(');
 			if ($pos !== false) {
 				$memberUrlFilter = substr($memberURLs[0], $pos);
-				$foundMembers = $this->access->searchUsers($memberUrlFilter, 'dn');
+				$foundMembers = $this->access->searchUsers($memberUrlFilter, ['dn']);
 				$dynamicMembers = [];
 				foreach ($foundMembers as $value) {
 					$dynamicMembers[$value['dn'][0]] = 1;
