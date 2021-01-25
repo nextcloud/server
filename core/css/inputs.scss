@@ -885,7 +885,7 @@ div.select2-container {
 }
 
 /* Progressbar */
-progress {
+progress:not(.vue) {
 	display: block;
 	width: 100%;
 	padding: 0;
