@@ -1,11 +1,8 @@
 <?php
+
+declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2016, Roger Szabo (roger.szabo@web.de)
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Roger Szabo <roger.szabo@web.de>
- * @author root <root@localhost.localdomain>
+ * @copyright Copyright (c) 2021 Robin Appelman <robin@icewind.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -20,29 +17,24 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
-namespace OCA\User_LDAP;
+namespace OC\LDAP;
 
 use OCP\IServerContainer;
-use OCP\LDAP\ILDAPProvider;
 use OCP\LDAP\ILDAPProviderFactory;
 
-class LDAPProviderFactory implements ILDAPProviderFactory {
-	/** * @var IServerContainer */
-	private $serverContainer;
-
+class NullLDAPProviderFactory implements ILDAPProviderFactory {
 	public function __construct(IServerContainer $serverContainer) {
-		$this->serverContainer = $serverContainer;
 	}
 
-	public function getLDAPProvider(): ILDAPProvider {
-		return $this->serverContainer->get(LDAPProvider::class);
+	public function getLDAPProvider() {
+		throw new \Exception("No LDAP provider is available");
 	}
 
 	public function isAvailable(): bool {
-		return true;
+		return false;
 	}
 }
