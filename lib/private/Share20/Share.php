@@ -31,7 +31,6 @@
 namespace OC\Share20;
 
 use OCP\Files\Cache\ICacheEntry;
-use OCP\Files\File;
 use OCP\Files\FileInfo;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
