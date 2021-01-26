@@ -25,6 +25,7 @@
 namespace OCA\Files_Sharing\Command;
 
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\Federation\ICloudIdManager;
 use OCP\IDBConnection;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -42,8 +43,14 @@ class CleanupRemoteStorages extends Command {
 	 */
 	protected $connection;
 
-	public function __construct(IDBConnection $connection) {
+	/**
+	 * @var ICloudIdManager
+	 */
+	private $cloudIdManager;
+
+	public function __construct(IDBConnection $connection, ICloudIdManager $cloudIdManager) {
 		$this->connection = $connection;
+		$this->cloudIdManager = $cloudIdManager;
 		parent::__construct();
 	}
 
@@ -166,14 +173,17 @@ class CleanupRemoteStorages extends Command {
 
 	public function getRemoteShareIds() {
 		$queryBuilder = $this->connection->getQueryBuilder();
-		$queryBuilder->select(['id', 'share_token', 'remote'])
+		$queryBuilder->select(['id', 'share_token', 'owner', 'remote'])
 			->from('share_external');
 		$query = $queryBuilder->execute();
 
 		$remoteShareIds = [];
 
 		while ($row = $query->fetch()) {
-			$remoteShareIds[$row['id']] = 'shared::' . md5($row['share_token'] . '@' . $row['remote']);
+			$cloudId = $this->cloudIdManager->getCloudId($row['owner'], $row['remote']);
+			$remote = $cloudId->getRemote();
+
+			$remoteShareIds[$row['id']] = 'shared::' . md5($row['share_token'] . '@' . $remote);
 		}
 
 		return $remoteShareIds;
