@@ -256,7 +256,10 @@ class TemplateManager implements ITemplateManager {
 			// Initial user setup without a provided path
 			if ($path === null) {
 				// All locations are default so we just need to rename the directory to the users language
-				if ($isDefaultSkeleton && $isDefaultTemplates && $userFolder->nodeExists('Templates')) {
+				if ($isDefaultSkeleton && $isDefaultTemplates) {
+					if (!$userFolder->nodeExists('Templates')) {
+						return '';
+					}
 					$newPath = $userFolder->getPath() . '/' . $userTemplatePath;
 					if ($newPath !== $userFolder->get('Templates')->getPath()) {
 						$userFolder->get('Templates')->move($newPath);
