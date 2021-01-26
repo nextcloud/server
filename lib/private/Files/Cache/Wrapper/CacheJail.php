@@ -231,7 +231,7 @@ class CacheJail extends CacheWrapper {
 	}
 
 	private function formatSearchResults($results) {
-		return array_map(function($entry) {
+		return array_map(function ($entry) {
 			$entry['path'] = $this->getJailedPath($entry['path'], $this->getGetUnjailedRoot());
 			return $entry;
 		}, $results);
