@@ -26,6 +26,7 @@ namespace Test\Share20;
 use OC\Share20\LegacyHooks;
 use OC\Share20\Manager;
 use OCP\Constants;
+use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\File;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\GenericEvent;
@@ -54,6 +55,9 @@ class LegacyHooksTest extends TestCase {
 		$path = $this->createMock(File::class);
 		$path->method('getId')->willReturn(1);
 
+		$info = $this->createMock(ICacheEntry::class);
+		$info->method('getMimeType')->willReturn('text/plain');
+
 		$share = $this->manager->newShare();
 		$share->setId(42)
 			->setProviderId('prov')
@@ -61,7 +65,8 @@ class LegacyHooksTest extends TestCase {
 			->setSharedWith('awesomeUser')
 			->setSharedBy('sharedBy')
 			->setNode($path)
-			->setTarget('myTarget');
+			->setTarget('myTarget')
+			->setNodeCacheEntry($info);
 
 		$hookListner = $this->getMockBuilder('Dummy')->setMethods(['pre'])->getMock();
 		\OCP\Util::connectHook('OCP\Share', 'pre_unshare', $hookListner, 'pre');
@@ -91,6 +96,9 @@ class LegacyHooksTest extends TestCase {
 		$path = $this->createMock(File::class);
 		$path->method('getId')->willReturn(1);
 
+		$info = $this->createMock(ICacheEntry::class);
+		$info->method('getMimeType')->willReturn('text/plain');
+
 		$share = $this->manager->newShare();
 		$share->setId(42)
 			->setProviderId('prov')
@@ -98,7 +106,8 @@ class LegacyHooksTest extends TestCase {
 			->setSharedWith('awesomeUser')
 			->setSharedBy('sharedBy')
 			->setNode($path)
-			->setTarget('myTarget');
+			->setTarget('myTarget')
+			->setNodeCacheEntry($info);
 
 		$hookListner = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
 		\OCP\Util::connectHook('OCP\Share', 'post_unshare', $hookListner, 'post');
@@ -142,6 +151,9 @@ class LegacyHooksTest extends TestCase {
 		$path = $this->createMock(File::class);
 		$path->method('getId')->willReturn(1);
 
+		$info = $this->createMock(ICacheEntry::class);
+		$info->method('getMimeType')->willReturn('text/plain');
+
 		$share = $this->manager->newShare();
 		$share->setId(42)
 			->setProviderId('prov')
@@ -149,7 +161,8 @@ class LegacyHooksTest extends TestCase {
 			->setSharedWith('awesomeUser')
 			->setSharedBy('sharedBy')
 			->setNode($path)
-			->setTarget('myTarget');
+			->setTarget('myTarget')
+			->setNodeCacheEntry($info);
 
 		$hookListner = $this->getMockBuilder('Dummy')->setMethods(['postFromSelf'])->getMock();
 		\OCP\Util::connectHook('OCP\Share', 'post_unshareFromSelf', $hookListner, 'postFromSelf');
