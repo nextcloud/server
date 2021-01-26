@@ -69,12 +69,18 @@ class RepairTree extends Command {
 			$output->writeln("Path of file ${row['fileid']} is ${row['path']} but should be ${row['parent_path']}/${row['name']} based on it's parent", OutputInterface::VERBOSITY_VERBOSE);
 
 			if ($fix) {
-				$query->setParameters([
-					'fileid' => $row['fileid'],
-					'path' => $row['parent_path'] . '/' . $row['name'],
-					'storage' => $row['parent_storage'],
-				]);
-				$query->execute();
+				$fileId = $this->getFileId($row['parent_storage'], $row['parent_path'] . '/' . $row['name']);
+				if ($fileId > 0) {
+					$output->writeln("Cache entry has already be recreated with id $fileId, deleting instead");
+					$this->deleteById($row['fileid']);
+				} else {
+					$query->setParameters([
+						'fileid' => $row['fileid'],
+						'path' => $row['parent_path'] . '/' . $row['name'],
+						'storage' => $row['parent_storage'],
+					]);
+					$query->execute();
+				}
 			}
 		}
 
@@ -83,6 +89,22 @@ class RepairTree extends Command {
 		}
 
 		return 0;
+	}
+
+	private function getFileId(int $storage, string $path) {
+		$query = $this->connection->getQueryBuilder();
+		$query->select('fileid')
+			->from('filecache')
+			->where($query->expr()->eq('storage', $query->createNamedParameter($storage)))
+			->andWhere($query->expr()->eq('path_hash', $query->createNamedParameter(md5($path))));
+		return $query->execute()->fetch(\PDO::FETCH_COLUMN);
+	}
+
+	private function deleteById(int $fileId) {
+		$query = $this->connection->getQueryBuilder();
+		$query->delete('filecache')
+			->where($query->expr()->eq('fileid', $query->createNamedParameter($fileId)));
+		$query->execute();
 	}
 
 	private function findBrokenTreeBits(): array {
