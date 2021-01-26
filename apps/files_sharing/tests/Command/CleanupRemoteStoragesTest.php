@@ -26,6 +26,8 @@
 namespace OCA\Files_Sharing\Tests\Command;
 
 use OCA\Files_Sharing\Command\CleanupRemoteStorages;
+use OCP\Federation\ICloudId;
+use OCP\Federation\ICloudIdManager;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
@@ -48,6 +50,11 @@ class CleanupRemoteStoragesTest extends TestCase {
 	 * @var \OCP\IDBConnection
 	 */
 	private $connection;
+
+	/**
+	 * @var ICloudIdManager|\PHPUnit\Framework\MockObject\MockObject
+	 */
+	private $cloudIdManager;
 
 	private $storages = [
 		['id' => 'shared::7b4a322b22f9d0047c38d77d471ce3cf', 'share_token' => 'f2c69dad1dc0649f26976fd210fc62e1', 'remote' => 'https://hostname.tld/owncloud1', 'user' => 'user1'],
@@ -109,7 +116,9 @@ class CleanupRemoteStoragesTest extends TestCase {
 			}
 		}
 
-		$this->command = new CleanupRemoteStorages($this->connection);
+		$this->cloudIdManager = $this->createMock(ICloudIdManager::class);
+
+		$this->command = new CleanupRemoteStorages($this->connection, $this->cloudIdManager);
 	}
 
 	protected function tearDown(): void {
@@ -190,6 +199,22 @@ class CleanupRemoteStoragesTest extends TestCase {
 			->expects($this->at($at++))
 			->method('writeln')
 			->with('5 remote share(s) exist');
+
+		$this->cloudIdManager
+			->expects($this->any())
+			->method('getCloudId')
+			->will($this->returnCallback(function (string $user, string $remote) {
+				$cloudIdMock = $this->createMock(ICloudId::class);
+
+				// The remotes are already sanitized in the original data, so
+				// they can be directly returned.
+				$cloudIdMock
+					->expects($this->any())
+					->method('getRemote')
+					->willReturn($remote);
+
+				return $cloudIdMock;
+			}));
 
 		$this->command->execute($input, $output);
 
