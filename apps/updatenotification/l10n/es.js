@@ -23,7 +23,6 @@ OC.L10N.register(
     "A non-default update server is in use to be checked for updates:" : "Se está usando un servidor de actualizaciones no estándar para comprobar las actualizaciones:",
     "Update channel:" : "Canal de actualización: ",
     "You can always update to a newer version. But you can never downgrade to a more stable version." : "Siempre puedes actualizar a una versión más reciente. Pero no podrás desactualizar a la versión anterior.",
-    "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "Nota: tras un nuevo lanzamiento, puede pasar algo de tiempo antes de que aparezca aquí. Escalonamos la difusión de nuevas versiones a nuestros usuarios y a veces saltamos una versión cuando aparecen problemas.",
     "Notify members of the following groups about available updates:" : "Notificar a los miembros de los siguientes grupos sobre actualizaciones disponibles:",
     "Only notification for app updates are available." : "Solo están disponibles las notificaciones para actualizaciones de apps",
     "The selected update channel makes dedicated notifications for the server obsolete." : "El canal de actualización seleccionado hace obsoletas las notificaciones dedicadas para el servidor.",
@@ -41,6 +40,7 @@ OC.L10N.register(
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "Es la versión estable más reciente. Es adecuada para uso en producción y siempre se actualizará a la última versión principal.",
     "Beta" : "Beta",
     "A pre-release version only for testing new features, not for production environments." : "Es la versión preliminar para poder probar nuevas características, no para entornos de producción.",
-    "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> app no dispone de actualización para esta versión.","<strong>%n</strong> apps no disponen de actualización para esta versión."]
+    "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> app no dispone de actualización para esta versión.","<strong>%n</strong> apps no disponen de actualización para esta versión."],
+    "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "Nota: tras un nuevo lanzamiento, puede pasar algo de tiempo antes de que aparezca aquí. Escalonamos la difusión de nuevas versiones a nuestros usuarios y a veces saltamos una versión cuando aparecen problemas."
 },
 "nplurals=2; plural=(n != 1);");

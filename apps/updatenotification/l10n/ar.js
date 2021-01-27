@@ -23,7 +23,6 @@ OC.L10N.register(
     "A non-default update server is in use to be checked for updates:" : "يتم استخدام خادم تحديث غير افتراضي للتحقق من وجود تحديثات:",
     "Update channel:" : "قناة التحديث:",
     "You can always update to a newer version. But you can never downgrade to a more stable version." : "يمكنك دائمًا التحديث إلى إصدار أحدث. لكن لا يمكنك الرجوع إلى إصدار أكثر استقرارًا.",
-    "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "لاحظ أنه بعد نزول إصدار جديد، قد يستغرق الأمر بعض الوقت قبل ظهوره هنا. نطرح إصدارات جديدة موزعة بمرور الوقت على مستخدمينا وأحيانًا نتخطى إصدارًا عند اكتشاف مشاكل.",
     "Notify members of the following groups about available updates:" : "إشعار أعضاء المجموعات التالية بتوفر التحديثات:",
     "Only notification for app updates are available." : "يتوفر إشعار فقط عن تحديثات التطبيق.",
     "The selected update channel makes dedicated notifications for the server obsolete." : "قناة التحديث المحددة تجعل الإشعارات المخصصة للخادم قديمة.",
@@ -41,6 +40,7 @@ OC.L10N.register(
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "أحدث نسخة مستقرة.  مناسبه للاستخدام المنتظم وسيتم تحديثه دائمًا إلى أحدث إصدار رئيسي.",
     "Beta" : "تجريبي",
     "A pre-release version only for testing new features, not for production environments." : "نسخة تجريبية فقط لاختبار الميزات الجديدة ، وليس لبيئات الإنتاجية.",
-    "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> تطبيق لا يوجد لديه تحديث لهذه النسخة","<strong>%n</strong> تطبيق لا يوجد لديه تحديث لهذه النسخة","<strong>%n</strong> تطبيقان لا يوجد لديهم تحديث لهذه النسخة","<strong>%n</strong> تطبيقات لا توجد لديها تحديث لهذه النسخة","<strong>%n</strong> تطبيقات لا توجد لديها تحديث لهذه النسخة","<strong>%n</strong>تطبيقات لا توجد لديها تحديث لهذه النسخة"]
+    "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> تطبيق لا يوجد لديه تحديث لهذه النسخة","<strong>%n</strong> تطبيق لا يوجد لديه تحديث لهذه النسخة","<strong>%n</strong> تطبيقان لا يوجد لديهم تحديث لهذه النسخة","<strong>%n</strong> تطبيقات لا توجد لديها تحديث لهذه النسخة","<strong>%n</strong> تطبيقات لا توجد لديها تحديث لهذه النسخة","<strong>%n</strong>تطبيقات لا توجد لديها تحديث لهذه النسخة"],
+    "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "لاحظ أنه بعد نزول إصدار جديد، قد يستغرق الأمر بعض الوقت قبل ظهوره هنا. نطرح إصدارات جديدة موزعة بمرور الوقت على مستخدمينا وأحيانًا نتخطى إصدارًا عند اكتشاف مشاكل."
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");
