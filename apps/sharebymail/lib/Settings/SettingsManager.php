@@ -38,7 +38,7 @@ class SettingsManager {
 
 	private $enforcePasswordProtectionDefault = 'no';
 
-	private $replyToInitiator = 'yes';
+	private $replyToInitiatorDefault = 'yes';
 
 	public function __construct(IConfig $config) {
 		$this->config = $config;
