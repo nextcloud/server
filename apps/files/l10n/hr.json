@@ -191,6 +191,8 @@
     "New text file.txt" : "Nova tekstna datoteka.txt",
     "Unshare" : "Prestani dijeliti",
     "Storage of {owner} is almost full ({usedSpacePercent}%)" : "Pohrana {owner} je skoro puna ({usedSpacePercent} %)",
+    "Group folder \"{mountPoint}\" is almost full ({usedSpacePercent}%)" : "Mapa grupe „{mountPoint}” je skoro puna ({usedSpacePercent} %)",
+    "External storage \"{mountPoint}\" is almost full ({usedSpacePercent}%)" : "Vanjsko spremište za pohranu „{mountPoint}” je skoro puno ({usedSpacePercent} %)",
     "Your storage is almost full ({usedSpacePercent}%)" : "Vaš prostor za pohranu gotovo je pun ({usedSpacePercent}%)",
     "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>" : "Datoteka ili mapa je <strong>promijenjena</strong> ili <strong>preimenovana</strong>",
     "A new file or folder has been <strong>created</strong>" : "Nova datoteka ili nova mapa je <strong>stvorena</strong>",

@@ -23,7 +23,6 @@ OC.L10N.register(
     "A non-default update server is in use to be checked for updates:" : "Ένας μή-προεπιλεγμένος διακομιστής είναι σε χρήση για έλεγχο ενημερώσεων:",
     "Update channel:" : "Ενημέρωση καναλιού:",
     "You can always update to a newer version. But you can never downgrade to a more stable version." : "Μπορείτε πάντα να ενημερώσετε σε μια νεότερη έκδοση. Αλλά δεν μπορείτε ποτέ να υποβαθμίσετε σε μια πιο σταθερή έκδοση.",
-    "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "Σημειώστε ότι μετά από μια νέα διανομή μπορεί να περάσει λίγος καιρός πριν εμφανιστεί εδώ. Κυκλοφορούμε κατά διαστήματα νέες εκδόσεις στους χρήστες μας και κάποιες φορές παραλείπουμε κάποια έκδοση αν βρεθούν προβλήματα.",
     "Notify members of the following groups about available updates:" : "Να ενημερωθούν τα μέλη των παρακάτω ομάδων σχετικά με τις διαθέσιμες ενημερώσεις:",
     "Only notification for app updates are available." : "Είναι μόνο διαθέσιμες οι ενημερώσεις για την εφαρμογή",
     "The selected update channel makes dedicated notifications for the server obsolete." : "Το συγκεκριμένο κανάλι ενημέρωσης καθιστά παρωχημένες τις ειδοποιήσεις που προορίζονται για τον διακομιστή.",
@@ -41,6 +40,7 @@ OC.L10N.register(
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "Η πιο πρόσφατη σταθερή έκδοση. Είναι κατάλληλη για τακτική χρήση και πάντα θα ενημερώνεται με την τελευταία μεγάλη έκδοση.",
     "Beta" : "Δοκιμαστικό",
     "A pre-release version only for testing new features, not for production environments." : "Μια προηγούμενη έκδοση μόνο για τη δοκιμή νέων λειτουργιών, όχι για περιβάλλοντα παραγωγής.",
-    "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["Η <strong>%n</strong> εφαρμογή  δεν έχει αναβάθμιση για αυτή την έκδοση διαθέσιμη","Οι <strong>%n</strong> εφαρμογές δεν έχουν αναβάθμιση για αυτή την έκδοση διαθέσιμη"]
+    "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["Η <strong>%n</strong> εφαρμογή  δεν έχει αναβάθμιση για αυτή την έκδοση διαθέσιμη","Οι <strong>%n</strong> εφαρμογές δεν έχουν αναβάθμιση για αυτή την έκδοση διαθέσιμη"],
+    "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "Σημειώστε ότι μετά από μια νέα διανομή μπορεί να περάσει λίγος καιρός πριν εμφανιστεί εδώ. Κυκλοφορούμε κατά διαστήματα νέες εκδόσεις στους χρήστες μας και κάποιες φορές παραλείπουμε κάποια έκδοση αν βρεθούν προβλήματα."
 },
 "nplurals=2; plural=(n != 1);");
