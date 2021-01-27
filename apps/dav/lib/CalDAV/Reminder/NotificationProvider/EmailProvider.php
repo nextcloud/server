@@ -114,6 +114,11 @@ class EmailProvider extends AbstractProvider {
 			$template->addFooter();
 
 			foreach ($emailAddresses as $emailAddress) {
+				if (!$this->mailer->validateMailAddress($emailAddress)) {
+					$this->logger->error('Email address {address} for reminder notification is incorrect', ['app' => 'dav', 'address' => $emailAddress]);
+					continue;
+				}
+
 				$message = $this->mailer->createMessage();
 				$message->setFrom([$fromEMail]);
 				if ($organizer) {
@@ -195,6 +200,10 @@ class EmailProvider extends AbstractProvider {
 		}
 
 		$organizerEMail = substr($organizer->getValue(), 7);
+
+		if (!$this->mailer->validateMailAddress($organizerEMail)) {
+			return null;
+		}
 
 		$name = $organizer->offsetGet('CN');
 		if ($name instanceof Parameter) {
