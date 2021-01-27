@@ -82,6 +82,7 @@ window.addEventListener('DOMContentLoaded', function() {
 					fileType: 'file',
 					actionHandler(name) {
 						initTemplatesFolder(name)
+						menu.removeMenuEntry('template-init')
 					},
 				})
 			},
