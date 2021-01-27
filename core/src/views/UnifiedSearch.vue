@@ -44,7 +44,7 @@
 					class="unified-search__form-input"
 					type="search"
 					:class="{'unified-search__form-input--with-reset': !!query}"
-					:placeholder="t('core', 'Search {types} …', { types: typesNames.join(', ').toLowerCase() })"
+					:placeholder="t('core', 'Search {types} …', { types: typesNames.join(', ') })"
 					@input="onInputDebounced"
 					@keypress.enter.prevent.stop="onInputEnter">
 
