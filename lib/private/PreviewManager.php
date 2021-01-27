@@ -4,7 +4,7 @@
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Olivier Paroz <github@oparoz.com>
@@ -379,6 +379,8 @@ class PreviewManager implements IPreview {
 				'EPS' => ['mimetype' => '/application\/postscript/', 'class' => Preview\Postscript::class],
 				'TTF' => ['mimetype' => '/application\/(?:font-sfnt|x-font$)/', 'class' => Preview\Font::class],
 				'HEIC' => ['mimetype' => '/image\/hei(f|c)/', 'class' => Preview\HEIC::class],
+				'TGA' => ['mimetype' => '/image\/t(ar)?ga/', 'class' => Preview\TGA::class],
+				'SGI' => ['mimetype' => '/image\/sgi/', 'class' => Preview\SGI::class],
 			];
 
 			foreach ($imagickProviders as $queryFormat => $provider) {
