@@ -21,7 +21,6 @@
     "A non-default update server is in use to be checked for updates:" : "Lehenetsia ez den eguneratze zerbitzari bat dago martxan, eguneratze berriak bilatzeko:",
     "Update channel:" : "Eguneraketa kanala:",
     "You can always update to a newer version. But you can never downgrade to a more stable version." : "Edozein unetan eguneratu dezakezu bertsio berri batera. Baina ezin da bertsio zahar egonkorrago batera itzuli.",
-    "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "Kontuan izan bertsio berriak ateratzean denbora behar izaten dutela hemen agertzeko. Denboran zehar tartekatuta zabaltzen ditugu bertsio berriak eta batzuetan bertsio bat saltatu egiten dugu, arazoak topatzen bazaizkio. ",
     "Notify members of the following groups about available updates:" : "Jakinarazi hurrengo taldeen kideei eskuragarri dauden eguneraketei buruz:",
     "Only notification for app updates are available." : "Aplikazioaren eguneraketen jakinarazpenak soilik daude eskuragarri.",
     "The selected update channel makes dedicated notifications for the server obsolete." : "Aukeratutako eguneraketa kanala zerbitzariaren jakinarazpen dedikatuak zaharkitzen ditu.",
@@ -39,6 +38,7 @@
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "Bertsio egonkor berriena. Eguneroko erabilerarako prest dago eta beti eguneratuko da azken bertsio garrantzitsuenera.",
     "Beta" : "Beta",
     "A pre-release version only for testing new features, not for production environments." : "Argitaratu aurreko bertsioa funtzionalitate berriak probatzeko soilik da, ez ekoizpen inguruneetarako.",
-    "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> aplikazioak ez du bertsio hau eskuragarri eguneratzeko","<strong>%n</strong> aplikazioek ez dute bertsio hau eskuragarri eguneratzeko"]
+    "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> aplikazioak ez du bertsio hau eskuragarri eguneratzeko","<strong>%n</strong> aplikazioek ez dute bertsio hau eskuragarri eguneratzeko"],
+    "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "Kontuan izan bertsio berriak ateratzean denbora behar izaten dutela hemen agertzeko. Denboran zehar tartekatuta zabaltzen ditugu bertsio berriak eta batzuetan bertsio bat saltatu egiten dugu, arazoak topatzen bazaizkio. "
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
