@@ -66,11 +66,13 @@
 use bantu\IniGetWrapper\IniGetWrapper;
 use OC\AppFramework\Http\Request;
 use OC\Files\Storage\LocalRootStorage;
+use OCP\Files\Template\ITemplateManager;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\ILogger;
 use OCP\IUser;
 use OCP\IUserSession;
+use Psr\Log\LoggerInterface;
 
 class OC_Util {
 	public static $scripts = [];
@@ -411,6 +413,9 @@ class OC_Util {
 	 * @suppress PhanDeprecatedFunction
 	 */
 	public static function copySkeleton($userId, \OCP\Files\Folder $userDirectory) {
+		/** @var LoggerInterface $logger */
+		$logger = \OC::$server->get(LoggerInterface::class);
+
 		$plainSkeletonDirectory = \OC::$server->getConfig()->getSystemValue('skeletondirectory', \OC::$SERVERROOT . '/core/skeleton');
 		$userLang = \OC::$server->getL10NFactory()->findLanguage();
 		$skeletonDirectory = str_replace('{lang}', $userLang, $plainSkeletonDirectory);
@@ -439,14 +444,14 @@ class OC_Util {
 		}
 
 		if (!empty($skeletonDirectory)) {
-			\OCP\Util::writeLog(
-				'files_skeleton',
-				'copying skeleton for '.$userId.' from '.$skeletonDirectory.' to '.$userDirectory->getFullPath('/'),
-				ILogger::DEBUG
-			);
+			$logger->debug('copying skeleton for '.$userId.' from '.$skeletonDirectory.' to '.$userDirectory->getFullPath('/'), ['app' => 'files_skeleton']);
 			self::copyr($skeletonDirectory, $userDirectory);
 			// update the file cache
 			$userDirectory->getStorage()->getScanner()->scan('', \OC\Files\Cache\Scanner::SCAN_RECURSIVE);
+
+			/** @var ITemplateManager $templateManager */
+			$templateManager = \OC::$server->get(ITemplateManager::class);
+			$templateManager->initializeTemplateDirectory(null, $userId);
 		}
 	}
 

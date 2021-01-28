@@ -7,6 +7,9 @@
 	--color-main-background: #{$color-main-background};
 	--color-main-background-translucent: #{$color-main-background-translucent};
 
+	// To use like this: background-image: linear-gradient(0, var(--gradient-main-background));
+	--gradient-main-background: var(--color-main-background) 0%, var(--color-main-background-translucent) 85%, transparent 100%;
+
 	--color-background-hover: #{$color-background-hover};
 	--color-background-dark: #{$color-background-dark};
 	--color-background-darker: #{$color-background-darker};

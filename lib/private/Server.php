@@ -95,6 +95,7 @@ use OC\Files\Node\HookConnector;
 use OC\Files\Node\LazyRoot;
 use OC\Files\Node\Root;
 use OC\Files\Storage\StorageFactory;
+use OC\Files\Template\TemplateManager;
 use OC\Files\Type\Loader;
 use OC\Files\View;
 use OC\FullTextSearch\FullTextSearchManager;
@@ -166,6 +167,7 @@ use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IStorageFactory;
+use OCP\Files\Template\ITemplateManager;
 use OCP\FullTextSearch\IFullTextSearchManager;
 use OCP\GlobalScale\IConfig;
 use OCP\Group\Events\BeforeGroupCreatedEvent;
@@ -289,6 +291,7 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerDeprecatedAlias('ContactsManager', \OCP\Contacts\IManager::class);
 
 		$this->registerAlias(\OCP\DirectEditing\IManager::class, \OC\DirectEditing\Manager::class);
+		$this->registerAlias(ITemplateManager::class, TemplateManager::class);
 
 		$this->registerAlias(IActionFactory::class, ActionFactory::class);
 
