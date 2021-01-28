@@ -77,6 +77,9 @@ class RegistrationContext {
 	/** @var array[] */
 	private $wellKnownHandlers = [];
 
+	/** @var array[] */
+	private $templateProviders = [];
+
 	/** @var ILogger */
 	private $logger;
 
@@ -186,6 +189,13 @@ class RegistrationContext {
 					$class
 				);
 			}
+
+			public function registerTemplateProvider(string $providerClass): void {
+				$this->context->registerTemplateProvider(
+					$this->appId,
+					$providerClass
+				);
+			}
 		};
 	}
 
@@ -274,6 +284,13 @@ class RegistrationContext {
 
 	public function registerWellKnown(string $appId, string $class): void {
 		$this->wellKnownHandlers[] = [
+			'appId' => $appId,
+			'class' => $class,
+		];
+	}
+
+	public function registerTemplateProvider(string $appId, string $class): void {
+		$this->templateProviders[] = [
 			'appId' => $appId,
 			'class' => $class,
 		];
@@ -451,7 +468,7 @@ class RegistrationContext {
 	}
 
 	/**
-	 * @erturn array[]
+	 * @return array[]
 	 */
 	public function getInitialStates(): array {
 		return $this->initialStates;
@@ -462,5 +479,9 @@ class RegistrationContext {
 	 */
 	public function getWellKnownHandlers(): array {
 		return $this->wellKnownHandlers;
+	}
+
+	public function getTemplateProviders(): array {
+		return $this->templateProviders;
 	}
 }

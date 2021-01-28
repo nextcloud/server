@@ -44,7 +44,7 @@ class TemplateController extends OCSController {
 	 * @NoAdminRequired
 	 */
 	public function list(): DataResponse {
-		return new DataResponse($this->templateManager->listCreators());
+		return new DataResponse($this->templateManager->listTemplates());
 	}
 
 	/**

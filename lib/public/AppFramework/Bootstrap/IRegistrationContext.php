@@ -31,6 +31,7 @@ namespace OCP\AppFramework\Bootstrap;
 
 use OCP\AppFramework\IAppContainer;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Template\ICustomTemplateProvider;
 use OCP\IContainer;
 
 /**
@@ -196,4 +197,14 @@ interface IRegistrationContext {
 	 * @since 21.0.0
 	 */
 	public function registerWellKnownHandler(string $class): void;
+
+	/**
+	 * Register a custom template provider class that is able to inject custom templates
+	 * in addition to the user defined ones
+	 *
+	 * @param string $providerClass
+	 * @psalm-param class-string<ICustomTemplateProvider> $providerClass
+	 * @since 21.0.0
+	 */
+	public function registerTemplateProvider(string $providerClass): void;
 }

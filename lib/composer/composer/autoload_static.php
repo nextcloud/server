@@ -344,7 +344,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OCP\\Files\\Storage\\IStorage' => __DIR__ . '/../../..' . '/lib/public/Files/Storage/IStorage.php',
         'OCP\\Files\\Storage\\IStorageFactory' => __DIR__ . '/../../..' . '/lib/public/Files/Storage/IStorageFactory.php',
         'OCP\\Files\\Storage\\IWriteStreamStorage' => __DIR__ . '/../../..' . '/lib/public/Files/Storage/IWriteStreamStorage.php',
-        'OCP\\Files\\Template\\CreatedFromTemplateEvent' => __DIR__ . '/../../..' . '/lib/public/Files/Template/CreatedFromTemplateEvent.php',
+        'OCP\\Files\\Template\\FileCreatedFromTemplateEvent' => __DIR__ . '/../../..' . '/lib/public/Files/Template/FileCreatedFromTemplateEvent.php',
         'OCP\\Files\\Template\\ICustomTemplateProvider' => __DIR__ . '/../../..' . '/lib/public/Files/Template/ICustomTemplateProvider.php',
         'OCP\\Files\\Template\\ITemplateManager' => __DIR__ . '/../../..' . '/lib/public/Files/Template/ITemplateManager.php',
         'OCP\\Files\\Template\\Template' => __DIR__ . '/../../..' . '/lib/public/Files/Template/Template.php',

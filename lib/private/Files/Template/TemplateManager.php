@@ -26,6 +26,7 @@ declare(strict_types=1);
 
 namespace OC\Files\Template;
 
+use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Files\Cache\Scanner;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Folder;
@@ -35,7 +36,7 @@ use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
-use OCP\Files\Template\CreatedFromTemplateEvent;
+use OCP\Files\Template\FileCreatedFromTemplateEvent;
 use OCP\Files\Template\ICustomTemplateProvider;
 use OCP\Files\Template\ITemplateManager;
 use OCP\Files\Template\Template;
@@ -48,10 +49,11 @@ use OCP\L10N\IFactory;
 use Psr\Log\LoggerInterface;
 
 class TemplateManager implements ITemplateManager {
+	private $registeredTypes = [];
 	private $types = [];
 
-	private $registeredProviders = [];
-	private $providers;
+	/** @var array|null */
+	private $providers = null;
 
 	private $serverContainer;
 	private $eventDispatcher;
@@ -62,10 +64,13 @@ class TemplateManager implements ITemplateManager {
 	private $logger;
 	private $userId;
 	private $l10nFactory;
+	/** @var Coordinator */
+	private $bootstrapCoordinator;
 
 	public function __construct(
 		IServerContainer $serverContainer,
 		IEventDispatcher $eventDispatcher,
+		Coordinator $coordinator,
 		IRootFolder $rootFolder,
 		IUserSession $userSession,
 		IPreview $previewManager,
@@ -75,6 +80,7 @@ class TemplateManager implements ITemplateManager {
 	) {
 		$this->serverContainer = $serverContainer;
 		$this->eventDispatcher = $eventDispatcher;
+		$this->bootstrapCoordinator = $coordinator;
 		$this->rootFolder = $rootFolder;
 		$this->previewManager = $previewManager;
 		$this->config = $config;
@@ -85,39 +91,45 @@ class TemplateManager implements ITemplateManager {
 		$this->userId = $user ? $user->getUID() : null;
 	}
 
-	public function registerTemplateFileCreator(TemplateFileCreator $templateType): void {
-		$this->types[] = $templateType;
-	}
-
-	public function registerTemplateProvider(string $providerClass): void {
-		$this->registeredProviders[] = $providerClass;
+	public function registerTemplateFileCreator(callable $callback): void {
+		$this->registeredTypes[] = $callback;
 	}
 
 	public function getRegisteredProviders(): array {
 		if ($this->providers !== null) {
 			return $this->providers;
 		}
+
+		$context = $this->bootstrapCoordinator->getRegistrationContext();
+
 		$this->providers = [];
-		foreach ($this->registeredProviders as $providerClass) {
-			$this->providers[$providerClass] = $this->serverContainer->get($providerClass);
+		foreach ($context->getTemplateProviders() as $provider) {
+			$this->providers[$provider['class']] = $this->serverContainer->get($provider['class']);
 		}
 		return $this->providers;
 	}
 
-	public function listCreators():? array {
-		if ($this->types === null) {
-			return null;
+	public function getTypes(): array {
+		foreach ($this->registeredTypes as $registeredType) {
+			$this->types[] = $registeredType();
 		}
+		return $this->types;
+	}
 
-		usort($this->types, function (TemplateFileCreator $a, TemplateFileCreator $b) {
+	public function listCreators(): array {
+		$types = $this->getTypes();
+		usort($types, function (TemplateFileCreator $a, TemplateFileCreator $b) {
 			return $a->getOrder() - $b->getOrder();
 		});
+		return $types;
+	}
 
+	public function listTemplates(): array {
 		return array_map(function (TemplateFileCreator $entry) {
 			return array_merge($entry->jsonSerialize(), [
 				'templates' => $this->getTemplateFiles($entry)
 			]);
-		}, $this->types);
+		}, $this->listCreators());
 	}
 
 	/**
@@ -148,7 +160,7 @@ class TemplateManager implements ITemplateManager {
 					$template->copy($targetFile->getPath());
 				}
 			}
-			$this->eventDispatcher->dispatchTyped(new CreatedFromTemplateEvent($template, $targetFile));
+			$this->eventDispatcher->dispatchTyped(new FileCreatedFromTemplateEvent($template, $targetFile));
 			return $this->formatFile($userFolder->get($filePath));
 		} catch (\Exception $e) {
 			$this->logger->error($e->getMessage(), ['exception' => $e]);

@@ -36,19 +36,18 @@ interface ITemplateManager {
 	/**
 	 * Register a template type support
 	 *
-	 * @param TemplateFileCreator $templateType
+	 * @param callable(): TemplateFileCreator $callback A callback which returns the TemplateFileCreator instance to register
 	 * @since 21.0.0
 	 */
-	public function registerTemplateFileCreator(TemplateFileCreator $templateType): void;
+	public function registerTemplateFileCreator(callable $callback): void;
 
 	/**
-	 * Register a custom template provider class that is able to inject custom templates
-	 * in addition to the user defined ones
+	 * Get a list of available file creators
 	 *
-	 * @param string $providerClass
+	 * @return array
 	 * @since 21.0.0
 	 */
-	public function registerTemplateProvider(string $providerClass): void;
+	public function listCreators(): array;
 
 	/**
 	 * Get a list of available file creators and their offered templates
@@ -56,7 +55,7 @@ interface ITemplateManager {
 	 * @return array
 	 * @since 21.0.0
 	 */
-	public function listCreators():? array;
+	public function listTemplates(): array;
 
 	/**
 	 * @return bool

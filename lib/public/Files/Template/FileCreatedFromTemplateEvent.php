@@ -32,7 +32,7 @@ use OCP\Files\File;
 /**
  * @since 21.0.0
  */
-class CreatedFromTemplateEvent extends Event {
+class FileCreatedFromTemplateEvent extends Event {
 	private $template;
 	private $target;
 
