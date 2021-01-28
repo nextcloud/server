@@ -31,17 +31,23 @@ use OCP\Files\File;
 /**
  * @since 21.0.0
  */
-class Template implements \JsonSerializable {
-	protected $templateType;
-	protected $templateId;
-	protected $file;
-	protected $hasPreview = false;
-	protected $previewUrl;
+final class Template implements \JsonSerializable {
+
+	/** @var string */
+	private $templateType;
+	/** @var string */
+	private $templateId;
+	/** @var File */
+	private $file;
+	/** @var bool */
+	private $hasPreview = false;
+	/** @var string|null */
+	private $previewUrl = null;
 
 	/**
 	 * @since 21.0.0
 	 */
-	final public function __construct(string $templateType, string $templateId, File $file) {
+	public function __construct(string $templateType, string $templateId, File $file) {
 		$this->templateType = $templateType;
 		$this->templateId = $templateId;
 		$this->file = $file;
@@ -50,21 +56,21 @@ class Template implements \JsonSerializable {
 	/**
 	 * @since 21.0.0
 	 */
-	final public function setCustomPreviewUrl(string $previewUrl): void {
+	public function setCustomPreviewUrl(string $previewUrl): void {
 		$this->previewUrl = $previewUrl;
 	}
 
 	/**
 	 * @since 21.0.0
 	 */
-	final public function setHasPreview(bool $hasPreview): void {
+	public function setHasPreview(bool $hasPreview): void {
 		$this->hasPreview = $hasPreview;
 	}
 
 	/**
 	 * @since 21.0.0
 	 */
-	final public function jsonSerialize() {
+	public function jsonSerialize() {
 		return [
 			'templateType' => $this->templateType,
 			'templateId' => $this->templateId,
