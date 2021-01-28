@@ -42,6 +42,8 @@ namespace Composer\Autoload;
  */
 class ClassLoader
 {
+    private $vendorDir;
+
     // PSR-4
     private $prefixLengthsPsr4 = array();
     private $prefixDirsPsr4 = array();
@@ -56,6 +58,13 @@ class ClassLoader
     private $classMapAuthoritative = false;
     private $missingClasses = array();
     private $apcuPrefix;
+
+    private static $registeredLoaders = array();
+
+    public function __construct($vendorDir = null)
+    {
+        $this->vendorDir = $vendorDir;
+    }
 
     public function getPrefixes()
     {
@@ -300,6 +309,15 @@ class ClassLoader
     public function register($prepend = false)
     {
         spl_autoload_register(array($this, 'loadClass'), true, $prepend);
+
+        if (null === $this->vendorDir) {
+            //no-op
+        } elseif ($prepend) {
+            self::$registeredLoaders = array($this->vendorDir => $this) + self::$registeredLoaders;
+        } else {
+            unset(self::$registeredLoaders[$this->vendorDir]);
+            self::$registeredLoaders[$this->vendorDir] = $this;
+        }
     }
 
     /**
@@ -308,6 +326,10 @@ class ClassLoader
     public function unregister()
     {
         spl_autoload_unregister(array($this, 'loadClass'));
+
+        if (null !== $this->vendorDir) {
+            unset(self::$registeredLoaders[$this->vendorDir]);
+        }
     }
 
     /**
@@ -365,6 +387,16 @@ class ClassLoader
         }
 
         return $file;
+    }
+
+    /**
+     * Returns the currently registered loaders indexed by their corresponding vendor directories.
+     *
+     * @return self[]
+     */
+    public static function getRegisteredLoaders()
+    {
+        return self::$registeredLoaders;
     }
 
     private function findFileWithExtension($class, $ext)
