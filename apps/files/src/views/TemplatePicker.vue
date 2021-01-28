@@ -267,6 +267,10 @@ export default {
 		position: sticky;
 		bottom: 0;
 		background-image: linear-gradient(0, var(--gradient-main-background));
+
+		button, input[type='submit'] {
+			height: 44px;
+		}
 	}
 
 	// Make sure we're relative for the loading emptycontent on top
