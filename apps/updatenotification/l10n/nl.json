@@ -26,6 +26,7 @@
     "The selected update channel makes dedicated notifications for the server obsolete." : "Het geselecteerde updatekanaal maakt overbodig om serverspecifieke meldingen apart te genereren.",
     "The selected update channel does not support updates of the server." : "Het geselecteerde updatekanaal ondersteunt geen updates voor de server.",
     "A new version is available: <strong>{newVersionString}</strong>" : "Er is een nieuwe versie beschikbaar: <strong>{newVersionString}</strong>",
+    "Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}" : "Let op dat na een nieuwe release de update pas verschijnt na de eerste secundaire release of later. We introduceren nieuwe versies verspreid over de tijd voor onze gebruikers en slaan soms een versie over wanneer er problemen worden gevonden. Lees meer over updates en releasekanalen op {link}",
     "Checked on {lastCheckedDate}" : "Gecontroleerd op {lastCheckedDate}",
     "Checking apps for compatible updates" : "Apps controleren op compatibele updates",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Zorg ervoor dat je in config.php <samp>appstoreenabled</samp> niet op 'false' zet.",

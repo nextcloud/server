@@ -28,6 +28,7 @@ OC.L10N.register(
     "The selected update channel makes dedicated notifications for the server obsolete." : "被选中的升级通道将会通知未更新的服务器。",
     "The selected update channel does not support updates of the server." : "选中的更新通道不支持服务器升级。",
     "A new version is available: <strong>{newVersionString}</strong>" : "有可用的新版本： <strong>{newVersionString}</strong>",
+    "Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}" : "注意，在新版本发布之后，更新只在第一个次要版本或更高版本之后出现。随着时间的推移，我们会向用户推出新的版本，有时会在发现问题时跳过某个版本。要了解关于更新和发布通道的更多信息，点击 {link}。",
     "Checked on {lastCheckedDate}" : "检查时间 {lastCheckedDate}",
     "Checking apps for compatible updates" : "检查应用以匹配更新",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "请确认 config.php 没有设置<samp>appstoreenabled </samp> 为 false。",
