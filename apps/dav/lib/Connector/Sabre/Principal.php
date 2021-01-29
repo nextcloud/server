@@ -43,6 +43,7 @@ use OCP\App\IAppManager;
 use OCP\AppFramework\QueryException;
 use OCP\Constants;
 use OCP\IConfig;
+use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -154,6 +155,7 @@ class Principal implements BackendInterface {
 	 */
 	public function getPrincipalByPath($path) {
 		list($prefix, $name) = \Sabre\Uri\split($path);
+		$decodedName = urldecode($name);
 
 		if ($name === 'calendar-proxy-write' || $name === 'calendar-proxy-read') {
 			list($prefix2, $name2) = \Sabre\Uri\split($prefix);
@@ -175,14 +177,28 @@ class Principal implements BackendInterface {
 			// is called either with a urlencoded version of the name or with a non-urlencoded one.
 			// The urldecode function replaces %## and +, both of which are forbidden in usernames.
 			// Hence there can be no ambiguity here and it is safe to call urldecode on all usernames
-			$user = $this->userManager->get(urldecode($name));
+			$user = $this->userManager->get($decodedName);
 
 			if ($user !== null) {
 				return $this->userToPrincipal($user);
 			}
 		} elseif ($prefix === 'principals/circles') {
 			if ($this->userSession->getUser() !== null) {
-				return $this->circleToPrincipal($name);
+				// At the time of writing - 2021-01-19 — a mixed state is possible.
+				// The second condition can be removed when this is fixed.
+				return $this->circleToPrincipal($decodedName)
+					?: $this->circleToPrincipal($name);
+			}
+		} elseif ($prefix === 'principals/groups') {
+			// At the time of writing - 2021-01-19 — a mixed state is possible.
+			// The second condition can be removed when this is fixed.
+			$group = $this->groupManager->get($decodedName)
+				?: $this->groupManager->get($name);
+			if ($group instanceof IGroup) {
+				return [
+					'uri' => 'principals/groups/' . $name,
+					'{DAV:}displayname' => $group->getDisplayName(),
+				];
 			}
 		}
 		return null;
