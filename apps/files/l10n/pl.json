@@ -15,7 +15,7 @@
     "Processing files …" : "Przetwarzam pliki…",
     "…" : "…",
     "Unable to upload {filename} as it is a directory or has 0 bytes" : "Nie można przesłać {filename} być może jest katalogiem lub posiada 0 bajtów",
-    "Not enough free space, you are uploading {size1} but only {size2} is left" : "Brak wolnej przestrzeni, przesyłasz {size1} a pozostało tylko {size2}",
+    "Not enough free space, you are uploading {size1} but only {size2} is left" : "Brak wolnej przestrzeni, wysyłasz {size1} a pozostało tylko {size2}",
     "Target folder \"{dir}\" does not exist any more" : "Katalog docelowy \"{dir}\" już nie istnieje",
     "Not enough free space" : "Za mało wolnego miejsca",
     "An unknown error has occurred" : "Wystąpił nieznany błąd",
