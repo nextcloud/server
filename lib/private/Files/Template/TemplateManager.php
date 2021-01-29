@@ -45,6 +45,7 @@ use OCP\Files\Template\TemplateFileCreator;
 use OCP\IConfig;
 use OCP\IPreview;
 use OCP\IServerContainer;
+use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use Psr\Log\LoggerInterface;
@@ -59,6 +60,7 @@ class TemplateManager implements ITemplateManager {
 	private $serverContainer;
 	private $eventDispatcher;
 	private $rootFolder;
+	private $userManager;
 	private $previewManager;
 	private $config;
 	private $l10n;
@@ -74,6 +76,7 @@ class TemplateManager implements ITemplateManager {
 		Coordinator $coordinator,
 		IRootFolder $rootFolder,
 		IUserSession $userSession,
+		IUserManager $userManager,
 		IPreview $previewManager,
 		IConfig $config,
 		IFactory $l10nFactory,
@@ -83,6 +86,7 @@ class TemplateManager implements ITemplateManager {
 		$this->eventDispatcher = $eventDispatcher;
 		$this->bootstrapCoordinator = $coordinator;
 		$this->rootFolder = $rootFolder;
+		$this->userManager = $userManager;
 		$this->previewManager = $previewManager;
 		$this->config = $config;
 		$this->l10nFactory = $l10nFactory;
@@ -259,7 +263,7 @@ class TemplateManager implements ITemplateManager {
 		$skeletonTemplatePath = $this->config->getSystemValue('templatedirectory', $defaultTemplateDirectory);
 		$isDefaultSkeleton = $skeletonPath === $defaultSkeletonDirectory;
 		$isDefaultTemplates = $skeletonTemplatePath === $defaultTemplateDirectory;
-		$userLang = $this->l10nFactory->getUserLanguage();
+		$userLang = $this->l10nFactory->getUserLanguage($this->userManager->get($this->userId));
 
 		try {
 			$l10n = $this->l10nFactory->get('lib', $userLang);
