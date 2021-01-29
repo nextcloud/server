@@ -308,7 +308,7 @@ class TemplateManager implements ITemplateManager {
 				$localizedSkeletonTemplatePath = $this->getLocalizedTemplatePath($skeletonTemplatePath, $userLang);
 				if (!empty($localizedSkeletonTemplatePath) && file_exists($localizedSkeletonTemplatePath)) {
 					\OC_Util::copyr($localizedSkeletonTemplatePath, $folder);
-					$userFolder->getStorage()->getScanner()->scan($userTemplatePath, Scanner::SCAN_RECURSIVE);
+					$userFolder->getStorage()->getScanner()->scan($folder->getInternalPath(), Scanner::SCAN_RECURSIVE);
 					$this->setTemplatePath($userTemplatePath);
 					return $userTemplatePath;
 				}
@@ -318,7 +318,7 @@ class TemplateManager implements ITemplateManager {
 				$localizedSkeletonPath = $this->getLocalizedTemplatePath($skeletonPath . '/Templates', $userLang);
 				if (!empty($localizedSkeletonPath) && file_exists($localizedSkeletonPath)) {
 					\OC_Util::copyr($localizedSkeletonPath, $folder);
-					$userFolder->getStorage()->getScanner()->scan($userTemplatePath, Scanner::SCAN_RECURSIVE);
+					$userFolder->getStorage()->getScanner()->scan($folder->getInternalPath(), Scanner::SCAN_RECURSIVE);
 					$this->setTemplatePath($userTemplatePath);
 					return $userTemplatePath;
 				}
