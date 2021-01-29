@@ -61,6 +61,7 @@ use OCP\Constants;
 use OCP\Files\EntityTooLargeException;
 use OCP\Files\Notify\IChange;
 use OCP\Files\Notify\IRenameChange;
+use OCP\Files\NotPermittedException;
 use OCP\Files\Storage\INotifyStorage;
 use OCP\Files\StorageAuthException;
 use OCP\Files\StorageNotAvailableException;
@@ -235,7 +236,11 @@ class SMB extends Common implements INotifyStorage {
 	protected function getFolderContents($path): iterable {
 		try {
 			$path = ltrim($this->buildPath($path), '/');
-			$files = $this->share->dir($path);
+			try {
+				$files = $this->share->dir($path);
+			} catch (ForbiddenException $e) {
+				throw new NotPermittedException();
+			}
 			foreach ($files as $file) {
 				$this->statCache[$path . '/' . $file->getName()] = $file;
 			}
@@ -595,7 +600,7 @@ class SMB extends Common implements INotifyStorage {
 			$files = $this->getFolderContents($path);
 		} catch (NotFoundException $e) {
 			return false;
-		} catch (ForbiddenException $e) {
+		} catch (NotPermittedException $e) {
 			return false;
 		}
 		$names = array_map(function ($info) {
