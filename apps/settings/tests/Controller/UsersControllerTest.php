@@ -184,27 +184,27 @@ class UsersControllerTest extends \Test\TestCase {
 		return [
 			IAccountManager::PROPERTY_DISPLAYNAME =>
 				[
-					'value' => 'Display name',
+					'value' => 'Default display name',
 					'scope' => IAccountManager::SCOPE_FEDERATED,
-					'verified' => IAccountManager::NOT_VERIFIED,
+					'verified' => IAccountManager::VERIFIED,
 				],
 			IAccountManager::PROPERTY_ADDRESS =>
 				[
-					'value' => '',
+					'value' => 'Default address',
 					'scope' => IAccountManager::SCOPE_LOCAL,
-					'verified' => IAccountManager::NOT_VERIFIED,
+					'verified' => IAccountManager::VERIFIED,
 				],
 			IAccountManager::PROPERTY_WEBSITE =>
 				[
-					'value' => '',
+					'value' => 'Default website',
 					'scope' => IAccountManager::SCOPE_LOCAL,
-					'verified' => IAccountManager::NOT_VERIFIED,
+					'verified' => IAccountManager::VERIFIED,
 				],
 			IAccountManager::PROPERTY_EMAIL =>
 				[
-					'value' => '',
+					'value' => 'Default email',
 					'scope' => IAccountManager::SCOPE_FEDERATED,
-					'verified' => IAccountManager::NOT_VERIFIED,
+					'verified' => IAccountManager::VERIFIED,
 				],
 			IAccountManager::PROPERTY_AVATAR =>
 				[
@@ -212,15 +212,15 @@ class UsersControllerTest extends \Test\TestCase {
 				],
 			IAccountManager::PROPERTY_PHONE =>
 				[
-					'value' => '',
+					'value' => 'Default phone',
 					'scope' => IAccountManager::SCOPE_LOCAL,
-					'verified' => IAccountManager::NOT_VERIFIED,
+					'verified' => IAccountManager::VERIFIED,
 				],
 			IAccountManager::PROPERTY_TWITTER =>
 				[
-					'value' => '',
+					'value' => 'Default twitter',
 					'scope' => IAccountManager::SCOPE_LOCAL,
-					'verified' => IAccountManager::NOT_VERIFIED,
+					'verified' => IAccountManager::VERIFIED,
 				],
 		];
 	}
