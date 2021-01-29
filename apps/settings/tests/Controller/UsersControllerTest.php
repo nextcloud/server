@@ -318,16 +318,12 @@ class UsersControllerTest extends \Test\TestCase {
 		$expectedProperties[IAccountManager::PROPERTY_AVATAR]['scope'] = $avatarScope;
 		$expectedProperties[IAccountManager::PROPERTY_PHONE]['value'] = $phone;
 		$expectedProperties[IAccountManager::PROPERTY_PHONE]['scope'] = $phoneScope;
-		unset($expectedProperties[IAccountManager::PROPERTY_PHONE]['verified']);
 		$expectedProperties[IAccountManager::PROPERTY_WEBSITE]['value'] = $website;
 		$expectedProperties[IAccountManager::PROPERTY_WEBSITE]['scope'] = $websiteScope;
-		unset($expectedProperties[IAccountManager::PROPERTY_WEBSITE]['verified']);
 		$expectedProperties[IAccountManager::PROPERTY_ADDRESS]['value'] = $address;
 		$expectedProperties[IAccountManager::PROPERTY_ADDRESS]['scope'] = $addressScope;
-		unset($expectedProperties[IAccountManager::PROPERTY_ADDRESS]['verified']);
 		$expectedProperties[IAccountManager::PROPERTY_TWITTER]['value'] = $twitter;
 		$expectedProperties[IAccountManager::PROPERTY_TWITTER]['scope'] = $twitterScope;
-		unset($expectedProperties[IAccountManager::PROPERTY_TWITTER]['verified']);
 
 		$this->mailer->expects($this->once())->method('validateMailAddress')
 			->willReturn(true);
@@ -391,10 +387,8 @@ class UsersControllerTest extends \Test\TestCase {
 		$expectedProperties[IAccountManager::PROPERTY_AVATAR]['scope'] = $avatarScope;
 		$expectedProperties[IAccountManager::PROPERTY_DISPLAYNAME]['value'] = $displayName;
 		$expectedProperties[IAccountManager::PROPERTY_DISPLAYNAME]['scope'] = $displayNameScope;
-		unset($expectedProperties[IAccountManager::PROPERTY_DISPLAYNAME]['verified']);
 		$expectedProperties[IAccountManager::PROPERTY_EMAIL]['value'] = $email;
 		$expectedProperties[IAccountManager::PROPERTY_EMAIL]['scope'] = $emailScope;
-		unset($expectedProperties[IAccountManager::PROPERTY_EMAIL]['verified']);
 
 		$this->mailer->expects($this->once())->method('validateMailAddress')
 			->willReturn(true);
