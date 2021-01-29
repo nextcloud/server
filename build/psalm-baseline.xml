@@ -2202,9 +2202,8 @@
     <ParadoxicalCondition occurrences="1"/>
   </file>
   <file src="apps/user_ldap/lib/Group_LDAP.php">
-    <InvalidArgument occurrences="2">
+    <InvalidArgument occurrences="1">
       <code>$this-&gt;cachedGroupsByMember[$uid]</code>
-      <code>'dn'</code>
     </InvalidArgument>
     <InvalidPropertyAssignmentValue occurrences="5">
       <code>$this-&gt;cachedGroupsByMember</code>
