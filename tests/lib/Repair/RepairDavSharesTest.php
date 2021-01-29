@@ -76,9 +76,8 @@ class RepairDavSharesTest extends TestCase {
 			->with('version', '0.0.0')
 			->willReturn('20.0.2');
 
-		$this->output->expects($this->once())
-			->method('info')
-			->with('Repaired DAV group shares');
+		$this->output->expects($this->atLeastOnce())
+			->method('info');
 
 		$existingGroups = [
 			'Innocent',
