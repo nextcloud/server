@@ -48,6 +48,8 @@ class RepairDavShares implements IRepairStep {
 	private $groupManager;
 	/** @var LoggerInterface */
 	private $logger;
+	/** @var bool */
+	private $hintInvalidShares = false;
 
 	public function __construct(
 		IConfig $config,
@@ -88,6 +90,7 @@ class RepairDavShares implements IRepairStep {
 				|| !$this->groupManager->groupExists($gid)
 				|| ($gid !== $decodedGid && $this->groupManager->groupExists($decodedGid))
 			) {
+				$this->hintInvalidShares = $this->hintInvalidShares || $gid !== $encodedGid;
 				continue;
 			}
 
@@ -127,6 +130,9 @@ class RepairDavShares implements IRepairStep {
 			&& $this->repairUnencodedGroupShares()
 		) {
 			$output->info('Repaired DAV group shares');
+			if ($this->hintInvalidShares) {
+				$output->info('Invalid shares might be left in the database, running "occ dav:remove-invalid-shares" can remove them.');
+			}
 		}
 	}
 }
