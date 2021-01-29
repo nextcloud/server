@@ -395,15 +395,21 @@ class UsersController extends Controller {
 
 		$data = $this->accountManager->getUser($user);
 		$beforeData = $data;
-		$data[IAccountManager::PROPERTY_AVATAR] = ['scope' => $avatarScope];
+		$data[IAccountManager::PROPERTY_AVATAR]['scope'] = $avatarScope;
 		if ($this->config->getSystemValue('allow_user_to_change_display_name', true) !== false) {
-			$data[IAccountManager::PROPERTY_DISPLAYNAME] = ['value' => $displayname, 'scope' => $displaynameScope];
-			$data[IAccountManager::PROPERTY_EMAIL] = ['value' => $email, 'scope' => $emailScope];
+			$data[IAccountManager::PROPERTY_DISPLAYNAME]['value'] = $displayname;
+			$data[IAccountManager::PROPERTY_DISPLAYNAME]['scope'] = $displaynameScope;
+			$data[IAccountManager::PROPERTY_EMAIL]['value'] = $email;
+			$data[IAccountManager::PROPERTY_EMAIL]['scope'] = $emailScope;
 		}
-		$data[IAccountManager::PROPERTY_WEBSITE] = ['value' => $website, 'scope' => $websiteScope];
-		$data[IAccountManager::PROPERTY_ADDRESS] = ['value' => $address, 'scope' => $addressScope];
-		$data[IAccountManager::PROPERTY_PHONE] = ['value' => $phone, 'scope' => $phoneScope];
-		$data[IAccountManager::PROPERTY_TWITTER] = ['value' => $twitter, 'scope' => $twitterScope];
+		$data[IAccountManager::PROPERTY_WEBSITE]['value'] = $website;
+		$data[IAccountManager::PROPERTY_WEBSITE]['scope'] = $websiteScope;
+		$data[IAccountManager::PROPERTY_ADDRESS]['value'] = $address;
+		$data[IAccountManager::PROPERTY_ADDRESS]['scope'] = $addressScope;
+		$data[IAccountManager::PROPERTY_PHONE]['value'] = $phone;
+		$data[IAccountManager::PROPERTY_PHONE]['scope'] = $phoneScope;
+		$data[IAccountManager::PROPERTY_TWITTER]['value'] = $twitter;
+		$data[IAccountManager::PROPERTY_TWITTER]['scope'] = $twitterScope;
 
 		try {
 			$data = $this->saveUserSettings($user, $data);
