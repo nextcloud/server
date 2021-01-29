@@ -172,6 +172,51 @@ class UsersControllerTest extends \Test\TestCase {
 		}
 	}
 
+	protected function getDefaultAccountManagerUserData() {
+		return [
+			IAccountManager::PROPERTY_DISPLAYNAME =>
+				[
+					'value' => 'Display name',
+					'scope' => IAccountManager::VISIBILITY_CONTACTS_ONLY,
+					'verified' => IAccountManager::NOT_VERIFIED,
+				],
+			IAccountManager::PROPERTY_ADDRESS =>
+				[
+					'value' => '',
+					'scope' => IAccountManager::VISIBILITY_PRIVATE,
+					'verified' => IAccountManager::NOT_VERIFIED,
+				],
+			IAccountManager::PROPERTY_WEBSITE =>
+				[
+					'value' => '',
+					'scope' => IAccountManager::VISIBILITY_PRIVATE,
+					'verified' => IAccountManager::NOT_VERIFIED,
+				],
+			IAccountManager::PROPERTY_EMAIL =>
+				[
+					'value' => '',
+					'scope' => IAccountManager::VISIBILITY_CONTACTS_ONLY,
+					'verified' => IAccountManager::NOT_VERIFIED,
+				],
+			IAccountManager::PROPERTY_AVATAR =>
+				[
+					'scope' => IAccountManager::VISIBILITY_CONTACTS_ONLY
+				],
+			IAccountManager::PROPERTY_PHONE =>
+				[
+					'value' => '',
+					'scope' => IAccountManager::VISIBILITY_PRIVATE,
+					'verified' => IAccountManager::NOT_VERIFIED,
+				],
+			IAccountManager::PROPERTY_TWITTER =>
+				[
+					'value' => '',
+					'scope' => IAccountManager::VISIBILITY_PRIVATE,
+					'verified' => IAccountManager::NOT_VERIFIED,
+				],
+		];
+	}
+
 	/**
 	 * @dataProvider dataTestSetUserSettings
 	 *
@@ -196,48 +241,7 @@ class UsersControllerTest extends \Test\TestCase {
 			$this->accountManager->expects($this->once())
 				->method('getUser')
 				->with($user)
-				->willReturn([
-					IAccountManager::PROPERTY_DISPLAYNAME =>
-						[
-							'value' => 'Display name',
-							'scope' => IAccountManager::VISIBILITY_CONTACTS_ONLY,
-							'verified' => IAccountManager::NOT_VERIFIED,
-						],
-					IAccountManager::PROPERTY_ADDRESS =>
-						[
-							'value' => '',
-							'scope' => IAccountManager::VISIBILITY_PRIVATE,
-							'verified' => IAccountManager::NOT_VERIFIED,
-						],
-					IAccountManager::PROPERTY_WEBSITE =>
-						[
-							'value' => '',
-							'scope' => IAccountManager::VISIBILITY_PRIVATE,
-							'verified' => IAccountManager::NOT_VERIFIED,
-						],
-					IAccountManager::PROPERTY_EMAIL =>
-						[
-							'value' => '',
-							'scope' => IAccountManager::VISIBILITY_CONTACTS_ONLY,
-							'verified' => IAccountManager::NOT_VERIFIED,
-						],
-					IAccountManager::PROPERTY_AVATAR =>
-						[
-							'scope' => IAccountManager::VISIBILITY_CONTACTS_ONLY
-						],
-					IAccountManager::PROPERTY_PHONE =>
-						[
-							'value' => '',
-							'scope' => IAccountManager::VISIBILITY_PRIVATE,
-							'verified' => IAccountManager::NOT_VERIFIED,
-						],
-					IAccountManager::PROPERTY_TWITTER =>
-						[
-							'value' => '',
-							'scope' => IAccountManager::VISIBILITY_PRIVATE,
-							'verified' => IAccountManager::NOT_VERIFIED,
-						],
-				]);
+				->willReturn($this->getDefaultAccountManagerUserData());
 
 			$controller->expects($this->once())->method('saveUserSettings');
 		} else {
