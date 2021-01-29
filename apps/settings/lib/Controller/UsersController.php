@@ -46,6 +46,7 @@ use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\Settings\BackgroundJobs\VerifyUserData;
 use OCA\Settings\Events\BeforeTemplateRenderedEvent;
 use OCA\User_LDAP\User_Proxy;
+use OCP\Accounts\IAccountManager;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\DataResponse;
@@ -374,18 +375,18 @@ class UsersController extends Controller {
 		}
 		$user = $this->userSession->getUser();
 		$data = $this->accountManager->getUser($user);
-		$data[AccountManager::PROPERTY_AVATAR] = ['scope' => $avatarScope];
+		$data[IAccountManager::PROPERTY_AVATAR] = ['scope' => $avatarScope];
 		if ($this->config->getSystemValue('allow_user_to_change_display_name', true) !== false) {
-			$data[AccountManager::PROPERTY_DISPLAYNAME] = ['value' => $displayname, 'scope' => $displaynameScope];
-			$data[AccountManager::PROPERTY_EMAIL] = ['value' => $email, 'scope' => $emailScope];
+			$data[IAccountManager::PROPERTY_DISPLAYNAME] = ['value' => $displayname, 'scope' => $displaynameScope];
+			$data[IAccountManager::PROPERTY_EMAIL] = ['value' => $email, 'scope' => $emailScope];
 		}
 		if ($this->appManager->isEnabledForUser('federatedfilesharing')) {
 			$shareProvider = \OC::$server->query(FederatedShareProvider::class);
 			if ($shareProvider->isLookupServerUploadEnabled()) {
-				$data[AccountManager::PROPERTY_WEBSITE] = ['value' => $website, 'scope' => $websiteScope];
-				$data[AccountManager::PROPERTY_ADDRESS] = ['value' => $address, 'scope' => $addressScope];
-				$data[AccountManager::PROPERTY_PHONE] = ['value' => $phone, 'scope' => $phoneScope];
-				$data[AccountManager::PROPERTY_TWITTER] = ['value' => $twitter, 'scope' => $twitterScope];
+				$data[IAccountManager::PROPERTY_WEBSITE] = ['value' => $website, 'scope' => $websiteScope];
+				$data[IAccountManager::PROPERTY_ADDRESS] = ['value' => $address, 'scope' => $addressScope];
+				$data[IAccountManager::PROPERTY_PHONE] = ['value' => $phone, 'scope' => $phoneScope];
+				$data[IAccountManager::PROPERTY_TWITTER] = ['value' => $twitter, 'scope' => $twitterScope];
 			}
 		}
 		try {
@@ -395,15 +396,15 @@ class UsersController extends Controller {
 					'status' => 'success',
 					'data' => [
 						'userId' => $user->getUID(),
-						'avatarScope' => $data[AccountManager::PROPERTY_AVATAR]['scope'],
-						'displayname' => $data[AccountManager::PROPERTY_DISPLAYNAME]['value'],
-						'displaynameScope' => $data[AccountManager::PROPERTY_DISPLAYNAME]['scope'],
-						'email' => $data[AccountManager::PROPERTY_EMAIL]['value'],
-						'emailScope' => $data[AccountManager::PROPERTY_EMAIL]['scope'],
-						'website' => $data[AccountManager::PROPERTY_WEBSITE]['value'],
-						'websiteScope' => $data[AccountManager::PROPERTY_WEBSITE]['scope'],
-						'address' => $data[AccountManager::PROPERTY_ADDRESS]['value'],
-						'addressScope' => $data[AccountManager::PROPERTY_ADDRESS]['scope'],
+						'avatarScope' => $data[IAccountManager::PROPERTY_AVATAR]['scope'],
+						'displayname' => $data[IAccountManager::PROPERTY_DISPLAYNAME]['value'],
+						'displaynameScope' => $data[IAccountManager::PROPERTY_DISPLAYNAME]['scope'],
+						'email' => $data[IAccountManager::PROPERTY_EMAIL]['value'],
+						'emailScope' => $data[IAccountManager::PROPERTY_EMAIL]['scope'],
+						'website' => $data[IAccountManager::PROPERTY_WEBSITE]['value'],
+						'websiteScope' => $data[IAccountManager::PROPERTY_WEBSITE]['scope'],
+						'address' => $data[IAccountManager::PROPERTY_ADDRESS]['value'],
+						'addressScope' => $data[IAccountManager::PROPERTY_ADDRESS]['scope'],
 						'message' => $this->l10n->t('Settings saved')
 					]
 				],

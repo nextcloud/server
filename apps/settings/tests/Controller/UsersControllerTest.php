@@ -31,6 +31,7 @@ use OC\Accounts\AccountManager;
 use OC\Encryption\Exceptions\ModuleDoesNotExistsException;
 use OC\Group\Manager;
 use OCA\Settings\Controller\UsersController;
+use OCP\Accounts\IAccountManager;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
 use OCP\BackgroundJob\IJobList;
@@ -196,45 +197,45 @@ class UsersControllerTest extends \Test\TestCase {
 				->method('getUser')
 				->with($user)
 				->willReturn([
-					AccountManager::PROPERTY_DISPLAYNAME =>
+					IAccountManager::PROPERTY_DISPLAYNAME =>
 						[
 							'value' => 'Display name',
-							'scope' => AccountManager::VISIBILITY_CONTACTS_ONLY,
-							'verified' => AccountManager::NOT_VERIFIED,
+							'scope' => IAccountManager::VISIBILITY_CONTACTS_ONLY,
+							'verified' => IAccountManager::NOT_VERIFIED,
 						],
-					AccountManager::PROPERTY_ADDRESS =>
+					IAccountManager::PROPERTY_ADDRESS =>
 						[
 							'value' => '',
-							'scope' => AccountManager::VISIBILITY_PRIVATE,
-							'verified' => AccountManager::NOT_VERIFIED,
+							'scope' => IAccountManager::VISIBILITY_PRIVATE,
+							'verified' => IAccountManager::NOT_VERIFIED,
 						],
-					AccountManager::PROPERTY_WEBSITE =>
+					IAccountManager::PROPERTY_WEBSITE =>
 						[
 							'value' => '',
-							'scope' => AccountManager::VISIBILITY_PRIVATE,
-							'verified' => AccountManager::NOT_VERIFIED,
+							'scope' => IAccountManager::VISIBILITY_PRIVATE,
+							'verified' => IAccountManager::NOT_VERIFIED,
 						],
-					AccountManager::PROPERTY_EMAIL =>
+					IAccountManager::PROPERTY_EMAIL =>
 						[
 							'value' => '',
-							'scope' => AccountManager::VISIBILITY_CONTACTS_ONLY,
-							'verified' => AccountManager::NOT_VERIFIED,
+							'scope' => IAccountManager::VISIBILITY_CONTACTS_ONLY,
+							'verified' => IAccountManager::NOT_VERIFIED,
 						],
-					AccountManager::PROPERTY_AVATAR =>
+					IAccountManager::PROPERTY_AVATAR =>
 						[
-							'scope' => AccountManager::VISIBILITY_CONTACTS_ONLY
+							'scope' => IAccountManager::VISIBILITY_CONTACTS_ONLY
 						],
-					AccountManager::PROPERTY_PHONE =>
-						[
-							'value' => '',
-							'scope' => AccountManager::VISIBILITY_PRIVATE,
-							'verified' => AccountManager::NOT_VERIFIED,
-						],
-					AccountManager::PROPERTY_TWITTER =>
+					IAccountManager::PROPERTY_PHONE =>
 						[
 							'value' => '',
-							'scope' => AccountManager::VISIBILITY_PRIVATE,
-							'verified' => AccountManager::NOT_VERIFIED,
+							'scope' => IAccountManager::VISIBILITY_PRIVATE,
+							'verified' => IAccountManager::NOT_VERIFIED,
+						],
+					IAccountManager::PROPERTY_TWITTER =>
+						[
+							'value' => '',
+							'scope' => IAccountManager::VISIBILITY_PRIVATE,
+							'verified' => IAccountManager::NOT_VERIFIED,
 						],
 				]);
 
