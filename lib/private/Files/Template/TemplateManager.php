@@ -28,6 +28,7 @@ namespace OC\Files\Template;
 
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Files\Cache\Scanner;
+use OC\Files\Filesystem;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Folder;
 use OCP\Files\File;
@@ -44,6 +45,7 @@ use OCP\Files\Template\TemplateFileCreator;
 use OCP\IConfig;
 use OCP\IPreview;
 use OCP\IServerContainer;
+use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use Psr\Log\LoggerInterface;
@@ -58,6 +60,7 @@ class TemplateManager implements ITemplateManager {
 	private $serverContainer;
 	private $eventDispatcher;
 	private $rootFolder;
+	private $userManager;
 	private $previewManager;
 	private $config;
 	private $l10n;
@@ -73,6 +76,7 @@ class TemplateManager implements ITemplateManager {
 		Coordinator $coordinator,
 		IRootFolder $rootFolder,
 		IUserSession $userSession,
+		IUserManager $userManager,
 		IPreview $previewManager,
 		IConfig $config,
 		IFactory $l10nFactory,
@@ -82,6 +86,7 @@ class TemplateManager implements ITemplateManager {
 		$this->eventDispatcher = $eventDispatcher;
 		$this->bootstrapCoordinator = $coordinator;
 		$this->rootFolder = $rootFolder;
+		$this->userManager = $userManager;
 		$this->previewManager = $previewManager;
 		$this->config = $config;
 		$this->l10nFactory = $l10nFactory;
@@ -258,7 +263,7 @@ class TemplateManager implements ITemplateManager {
 		$skeletonTemplatePath = $this->config->getSystemValue('templatedirectory', $defaultTemplateDirectory);
 		$isDefaultSkeleton = $skeletonPath === $defaultSkeletonDirectory;
 		$isDefaultTemplates = $skeletonTemplatePath === $defaultTemplateDirectory;
-		$userLang = $this->l10nFactory->getUserLanguage();
+		$userLang = $this->l10nFactory->getUserLanguage($this->userManager->get($this->userId));
 
 		try {
 			$l10n = $this->l10nFactory->get('lib', $userLang);
@@ -272,7 +277,7 @@ class TemplateManager implements ITemplateManager {
 					if (!$userFolder->nodeExists('Templates')) {
 						return '';
 					}
-					$newPath = $userFolder->getPath() . '/' . $userTemplatePath;
+					$newPath = Filesystem::normalizePath($userFolder->getPath() . '/' . $userTemplatePath);
 					if ($newPath !== $userFolder->get('Templates')->getPath()) {
 						$userFolder->get('Templates')->move($newPath);
 					}
@@ -303,7 +308,7 @@ class TemplateManager implements ITemplateManager {
 				$localizedSkeletonTemplatePath = $this->getLocalizedTemplatePath($skeletonTemplatePath, $userLang);
 				if (!empty($localizedSkeletonTemplatePath) && file_exists($localizedSkeletonTemplatePath)) {
 					\OC_Util::copyr($localizedSkeletonTemplatePath, $folder);
-					$userFolder->getStorage()->getScanner()->scan($userTemplatePath, Scanner::SCAN_RECURSIVE);
+					$userFolder->getStorage()->getScanner()->scan($folder->getInternalPath(), Scanner::SCAN_RECURSIVE);
 					$this->setTemplatePath($userTemplatePath);
 					return $userTemplatePath;
 				}
@@ -313,7 +318,7 @@ class TemplateManager implements ITemplateManager {
 				$localizedSkeletonPath = $this->getLocalizedTemplatePath($skeletonPath . '/Templates', $userLang);
 				if (!empty($localizedSkeletonPath) && file_exists($localizedSkeletonPath)) {
 					\OC_Util::copyr($localizedSkeletonPath, $folder);
-					$userFolder->getStorage()->getScanner()->scan($userTemplatePath, Scanner::SCAN_RECURSIVE);
+					$userFolder->getStorage()->getScanner()->scan($folder->getInternalPath(), Scanner::SCAN_RECURSIVE);
 					$this->setTemplatePath($userTemplatePath);
 					return $userTemplatePath;
 				}
