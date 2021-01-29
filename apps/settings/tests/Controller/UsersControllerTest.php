@@ -287,6 +287,166 @@ class UsersControllerTest extends \Test\TestCase {
 		];
 	}
 
+	public function testSetUserSettingsWhenUserDisplayNameChangeNotAllowed() {
+		$controller = $this->getController(false, ['saveUserSettings']);
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('johndoe');
+
+		$this->userSession->method('getUser')->willReturn($user);
+
+		$defaultProperties = $this->getDefaultAccountManagerUserData();
+
+		$this->accountManager->expects($this->once())
+			->method('getUser')
+			->with($user)
+			->willReturn($defaultProperties);
+
+		$this->config->expects($this->once())
+			->method('getSystemValue')
+			->with('allow_user_to_change_display_name')
+			->willReturn(false);
+
+		$this->appManager->expects($this->any())
+			->method('isEnabledForUser')
+			->with('federatedfilesharing')
+			->willReturn(true);
+
+		$avatarScope = IAccountManager::SCOPE_PUBLISHED;
+		$displayName = 'Display name';
+		$displayNameScope = IAccountManager::SCOPE_PUBLISHED;
+		$phone = '47658468';
+		$phoneScope = IAccountManager::SCOPE_PUBLISHED;
+		$email = 'john@example.com';
+		$emailScope = IAccountManager::SCOPE_PUBLISHED;
+		$website = 'nextcloud.com';
+		$websiteScope = IAccountManager::SCOPE_PUBLISHED;
+		$address = 'street and city';
+		$addressScope = IAccountManager::SCOPE_PUBLISHED;
+		$twitter = '@nextclouders';
+		$twitterScope = IAccountManager::SCOPE_PUBLISHED;
+
+		// Display name and email are not changed.
+		$expectedProperties = $defaultProperties;
+		$expectedProperties[IAccountManager::PROPERTY_AVATAR]['scope'] = $avatarScope;
+		$expectedProperties[IAccountManager::PROPERTY_PHONE]['value'] = $phone;
+		$expectedProperties[IAccountManager::PROPERTY_PHONE]['scope'] = $phoneScope;
+		unset($expectedProperties[IAccountManager::PROPERTY_PHONE]['verified']);
+		$expectedProperties[IAccountManager::PROPERTY_WEBSITE]['value'] = $website;
+		$expectedProperties[IAccountManager::PROPERTY_WEBSITE]['scope'] = $websiteScope;
+		unset($expectedProperties[IAccountManager::PROPERTY_WEBSITE]['verified']);
+		$expectedProperties[IAccountManager::PROPERTY_ADDRESS]['value'] = $address;
+		$expectedProperties[IAccountManager::PROPERTY_ADDRESS]['scope'] = $addressScope;
+		unset($expectedProperties[IAccountManager::PROPERTY_ADDRESS]['verified']);
+		$expectedProperties[IAccountManager::PROPERTY_TWITTER]['value'] = $twitter;
+		$expectedProperties[IAccountManager::PROPERTY_TWITTER]['scope'] = $twitterScope;
+		unset($expectedProperties[IAccountManager::PROPERTY_TWITTER]['verified']);
+
+		$this->mailer->expects($this->once())->method('validateMailAddress')
+			->willReturn(true);
+
+		$controller->expects($this->once())
+			->method('saveUserSettings')
+			->with($user, $expectedProperties)
+			->willReturnArgument(1);
+
+		$result = $controller->setUserSettings(
+			$avatarScope,
+			$displayName,
+			$displayNameScope,
+			$phone,
+			$phoneScope,
+			$email,
+			$emailScope,
+			$website,
+			$websiteScope,
+			$address,
+			$addressScope,
+			$twitter,
+			$twitterScope
+		);
+	}
+
+	public function testSetUserSettingsWhenFederatedFilesharingNotEnabled() {
+		$controller = $this->getController(false, ['saveUserSettings']);
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('johndoe');
+
+		$this->userSession->method('getUser')->willReturn($user);
+
+		$defaultProperties = $this->getDefaultAccountManagerUserData();
+
+		$this->accountManager->expects($this->once())
+			->method('getUser')
+			->with($user)
+			->willReturn($defaultProperties);
+
+		$this->appManager->expects($this->any())
+			->method('isEnabledForUser')
+			->with('federatedfilesharing')
+			->willReturn(false);
+
+		$avatarScope = IAccountManager::SCOPE_PUBLISHED;
+		$displayName = 'Display name';
+		$displayNameScope = IAccountManager::SCOPE_PUBLISHED;
+		$phone = '47658468';
+		$phoneScope = IAccountManager::SCOPE_PUBLISHED;
+		$email = 'john@example.com';
+		$emailScope = IAccountManager::SCOPE_PUBLISHED;
+		$website = 'nextcloud.com';
+		$websiteScope = IAccountManager::SCOPE_PUBLISHED;
+		$address = 'street and city';
+		$addressScope = IAccountManager::SCOPE_PUBLISHED;
+		$twitter = '@nextclouders';
+		$twitterScope = IAccountManager::SCOPE_PUBLISHED;
+
+		// All settings are changed (in the past phone, website, address and
+		// twitter were not changed).
+		$expectedProperties = $defaultProperties;
+		$expectedProperties[IAccountManager::PROPERTY_AVATAR]['scope'] = $avatarScope;
+		$expectedProperties[IAccountManager::PROPERTY_DISPLAYNAME]['value'] = $displayName;
+		$expectedProperties[IAccountManager::PROPERTY_DISPLAYNAME]['scope'] = $displayNameScope;
+		unset($expectedProperties[IAccountManager::PROPERTY_DISPLAYNAME]['verified']);
+		$expectedProperties[IAccountManager::PROPERTY_EMAIL]['value'] = $email;
+		$expectedProperties[IAccountManager::PROPERTY_EMAIL]['scope'] = $emailScope;
+		unset($expectedProperties[IAccountManager::PROPERTY_EMAIL]['verified']);
+		$expectedProperties[IAccountManager::PROPERTY_PHONE]['value'] = $phone;
+		$expectedProperties[IAccountManager::PROPERTY_PHONE]['scope'] = $phoneScope;
+		unset($expectedProperties[IAccountManager::PROPERTY_PHONE]['verified']);
+		$expectedProperties[IAccountManager::PROPERTY_WEBSITE]['value'] = $website;
+		$expectedProperties[IAccountManager::PROPERTY_WEBSITE]['scope'] = $websiteScope;
+		unset($expectedProperties[IAccountManager::PROPERTY_WEBSITE]['verified']);
+		$expectedProperties[IAccountManager::PROPERTY_ADDRESS]['value'] = $address;
+		$expectedProperties[IAccountManager::PROPERTY_ADDRESS]['scope'] = $addressScope;
+		unset($expectedProperties[IAccountManager::PROPERTY_ADDRESS]['verified']);
+		$expectedProperties[IAccountManager::PROPERTY_TWITTER]['value'] = $twitter;
+		$expectedProperties[IAccountManager::PROPERTY_TWITTER]['scope'] = $twitterScope;
+		unset($expectedProperties[IAccountManager::PROPERTY_TWITTER]['verified']);
+
+		$this->mailer->expects($this->once())->method('validateMailAddress')
+			->willReturn(true);
+
+		$controller->expects($this->once())
+			->method('saveUserSettings')
+			->with($user, $expectedProperties)
+			->willReturnArgument(1);
+
+		$result = $controller->setUserSettings(
+			$avatarScope,
+			$displayName,
+			$displayNameScope,
+			$phone,
+			$phoneScope,
+			$email,
+			$emailScope,
+			$website,
+			$websiteScope,
+			$address,
+			$addressScope,
+			$twitter,
+			$twitterScope
+		);
+	}
+
 	/**
 	 * @dataProvider dataTestSaveUserSettings
 	 *
