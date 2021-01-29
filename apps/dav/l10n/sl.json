@@ -76,6 +76,7 @@
     "Contacts" : "Stiki",
     "System in maintenance mode." : "Sistem je v vzdrževalnem načinu.",
     "Upgrade needed" : "Zahtevana je posodobitev",
+    "Your %s needs to be configured to use HTTPS in order to use CalDAV and CardDAV with iOS/macOS." : "Za uporabo CalDAV in CardDAV v okoljih iOS/macOS je treba %s nastaviti za uporabo HTTPS.",
     "Configures a CalDAV account" : "Nastavi račun CalDAV",
     "Configures a CardDAV account" : "Nastavi račun CardDAV",
     "Events" : "Dogodki",
