@@ -1334,6 +1334,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Repair\\Owncloud\\SaveAccountsTableData' => __DIR__ . '/../../..' . '/lib/private/Repair/Owncloud/SaveAccountsTableData.php',
         'OC\\Repair\\Owncloud\\UpdateLanguageCodes' => __DIR__ . '/../../..' . '/lib/private/Repair/Owncloud/UpdateLanguageCodes.php',
         'OC\\Repair\\RemoveLinkShares' => __DIR__ . '/../../..' . '/lib/private/Repair/RemoveLinkShares.php',
+        'OC\\Repair\\RepairDavShares' => __DIR__ . '/../../..' . '/lib/private/Repair/RepairDavShares.php',
         'OC\\Repair\\RepairInvalidShares' => __DIR__ . '/../../..' . '/lib/private/Repair/RepairInvalidShares.php',
         'OC\\Repair\\RepairMimeTypes' => __DIR__ . '/../../..' . '/lib/private/Repair/RepairMimeTypes.php',
         'OC\\Repair\\SqliteAutoincrement' => __DIR__ . '/../../..' . '/lib/private/Repair/SqliteAutoincrement.php',

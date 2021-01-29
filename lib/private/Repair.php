@@ -65,6 +65,7 @@ use OC\Repair\OldGroupMembershipShares;
 use OC\Repair\Owncloud\DropAccountTermsTable;
 use OC\Repair\Owncloud\SaveAccountsTableData;
 use OC\Repair\RemoveLinkShares;
+use OC\Repair\RepairDavShares;
 use OC\Repair\RepairInvalidShares;
 use OC\Repair\RepairMimeTypes;
 use OC\Repair\SqliteAutoincrement;
@@ -189,6 +190,7 @@ class Repair implements IOutput {
 			\OC::$server->get(ShippedDashboardEnable::class),
 			\OC::$server->get(AddBruteForceCleanupJob::class),
 			\OC::$server->get(AddCheckForUserCertificatesJob::class),
+			\OC::$server->get(RepairDavShares::class)
 		];
 	}
 
@@ -221,7 +223,7 @@ class Repair implements IOutput {
 			new Collation(\OC::$server->getConfig(), \OC::$server->getLogger(), $connectionAdapter, true),
 			new SqliteAutoincrement($connection),
 			new SaveAccountsTableData($connectionAdapter, $config),
-			new DropAccountTermsTable($connectionAdapter)
+			new DropAccountTermsTable($connectionAdapter),
 		];
 
 		return $steps;
