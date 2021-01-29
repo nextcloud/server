@@ -28,6 +28,7 @@ namespace OC\Files\Template;
 
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Files\Cache\Scanner;
+use OC\Files\Filesystem;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Folder;
 use OCP\Files\File;
@@ -272,7 +273,7 @@ class TemplateManager implements ITemplateManager {
 					if (!$userFolder->nodeExists('Templates')) {
 						return '';
 					}
-					$newPath = $userFolder->getPath() . '/' . $userTemplatePath;
+					$newPath = Filesystem::normalizePath($userFolder->getPath() . '/' . $userTemplatePath);
 					if ($newPath !== $userFolder->get('Templates')->getPath()) {
 						$userFolder->get('Templates')->move($newPath);
 					}
