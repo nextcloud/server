@@ -201,7 +201,7 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface, IGroupLD
 			$pos = strpos($memberURLs[0], '(');
 			if ($pos !== false) {
 				$memberUrlFilter = substr($memberURLs[0], $pos);
-				$foundMembers = $this->access->searchUsers($memberUrlFilter, 'dn');
+				$foundMembers = $this->access->searchUsers($memberUrlFilter, ['dn']);
 				$dynamicMembers = [];
 				foreach ($foundMembers as $value) {
 					$dynamicMembers[$value['dn'][0]] = 1;
@@ -1076,6 +1076,7 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface, IGroupLD
 		if (!$this->enabled) {
 			return [];
 		}
+		$search = $this->access->escapeFilterPart($search, true);
 		$cacheKey = 'getGroups-' . $search . '-' . $limit . '-' . $offset;
 
 		//Check cache before driving unnecessary searches
