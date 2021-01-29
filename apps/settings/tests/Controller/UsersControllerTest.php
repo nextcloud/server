@@ -170,27 +170,27 @@ class UsersControllerTest extends \Test\TestCase {
 		return [
 			IAccountManager::PROPERTY_DISPLAYNAME =>
 				[
-					'value' => 'Display name',
+					'value' => 'Default display name',
 					'scope' => IAccountManager::VISIBILITY_CONTACTS_ONLY,
-					'verified' => IAccountManager::NOT_VERIFIED,
+					'verified' => IAccountManager::VERIFIED,
 				],
 			IAccountManager::PROPERTY_ADDRESS =>
 				[
-					'value' => '',
+					'value' => 'Default address',
 					'scope' => IAccountManager::VISIBILITY_PRIVATE,
-					'verified' => IAccountManager::NOT_VERIFIED,
+					'verified' => IAccountManager::VERIFIED,
 				],
 			IAccountManager::PROPERTY_WEBSITE =>
 				[
-					'value' => '',
+					'value' => 'Default website',
 					'scope' => IAccountManager::VISIBILITY_PRIVATE,
-					'verified' => IAccountManager::NOT_VERIFIED,
+					'verified' => IAccountManager::VERIFIED,
 				],
 			IAccountManager::PROPERTY_EMAIL =>
 				[
-					'value' => '',
+					'value' => 'Default email',
 					'scope' => IAccountManager::VISIBILITY_CONTACTS_ONLY,
-					'verified' => IAccountManager::NOT_VERIFIED,
+					'verified' => IAccountManager::VERIFIED,
 				],
 			IAccountManager::PROPERTY_AVATAR =>
 				[
@@ -198,15 +198,15 @@ class UsersControllerTest extends \Test\TestCase {
 				],
 			IAccountManager::PROPERTY_PHONE =>
 				[
-					'value' => '',
+					'value' => 'Default phone',
 					'scope' => IAccountManager::VISIBILITY_PRIVATE,
-					'verified' => IAccountManager::NOT_VERIFIED,
+					'verified' => IAccountManager::VERIFIED,
 				],
 			IAccountManager::PROPERTY_TWITTER =>
 				[
-					'value' => '',
+					'value' => 'Default twitter',
 					'scope' => IAccountManager::VISIBILITY_PRIVATE,
-					'verified' => IAccountManager::NOT_VERIFIED,
+					'verified' => IAccountManager::VERIFIED,
 				],
 		];
 	}
