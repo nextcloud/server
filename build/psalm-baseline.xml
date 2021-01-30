@@ -707,7 +707,6 @@
       <code>string[]</code>
     </InvalidReturnType>
     <NullableReturnStatement occurrences="8">
-      <code>$this-&gt;circleToPrincipal($name)</code>
       <code>null</code>
       <code>null</code>
       <code>null</code>
@@ -2171,9 +2170,6 @@
       <code>!is_null($attr) &amp;&amp; !is_array($attr)</code>
       <code>isset($ldapRecord[$this-&gt;connection-&gt;$uuidAttr])</code>
     </TypeDoesNotContainType>
-    <UndefinedVariable occurrences="1">
-      <code>$uidsByDn</code>
-    </UndefinedVariable>
   </file>
   <file src="apps/user_ldap/lib/AppInfo/Application.php">
     <InvalidArgument occurrences="1">
