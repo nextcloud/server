@@ -380,7 +380,7 @@ class UsersController extends Controller {
 			);
 		}
 
-		$email = strtolower($email);
+		$email = !is_null($email) ? strtolower($email) : $email;
 		if (!empty($email) && !$this->mailer->validateMailAddress($email)) {
 			return new DataResponse(
 				[
