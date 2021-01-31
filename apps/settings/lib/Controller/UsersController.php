@@ -375,24 +375,50 @@ class UsersController extends Controller {
 		}
 		$user = $this->userSession->getUser();
 		$data = $this->accountManager->getUser($user);
-		$data[IAccountManager::PROPERTY_AVATAR]['scope'] = $avatarScope;
+		if (!is_null($avatarScope)) {
+			$data[IAccountManager::PROPERTY_AVATAR]['scope'] = $avatarScope;
+		}
 		if ($this->config->getSystemValue('allow_user_to_change_display_name', true) !== false) {
-			$data[IAccountManager::PROPERTY_DISPLAYNAME]['value'] = $displayname;
-			$data[IAccountManager::PROPERTY_DISPLAYNAME]['scope'] = $displaynameScope;
-			$data[IAccountManager::PROPERTY_EMAIL]['value'] = $email;
-			$data[IAccountManager::PROPERTY_EMAIL]['scope'] = $emailScope;
+			if (!is_null($displayname)) {
+				$data[IAccountManager::PROPERTY_DISPLAYNAME]['value'] = $displayname;
+			}
+			if (!is_null($displaynameScope)) {
+				$data[IAccountManager::PROPERTY_DISPLAYNAME]['scope'] = $displaynameScope;
+			}
+			if (!is_null($email)) {
+				$data[IAccountManager::PROPERTY_EMAIL]['value'] = $email;
+			}
+			if (!is_null($emailScope)) {
+				$data[IAccountManager::PROPERTY_EMAIL]['scope'] = $emailScope;
+			}
 		}
 		if ($this->appManager->isEnabledForUser('federatedfilesharing')) {
 			$shareProvider = \OC::$server->query(FederatedShareProvider::class);
 			if ($shareProvider->isLookupServerUploadEnabled()) {
-				$data[IAccountManager::PROPERTY_WEBSITE]['value'] = $website;
-				$data[IAccountManager::PROPERTY_WEBSITE]['scope'] = $websiteScope;
-				$data[IAccountManager::PROPERTY_ADDRESS]['value'] = $address;
-				$data[IAccountManager::PROPERTY_ADDRESS]['scope'] = $addressScope;
-				$data[IAccountManager::PROPERTY_PHONE]['value'] = $phone;
-				$data[IAccountManager::PROPERTY_PHONE]['scope'] = $phoneScope;
-				$data[IAccountManager::PROPERTY_TWITTER]['value'] = $twitter;
-				$data[IAccountManager::PROPERTY_TWITTER]['scope'] = $twitterScope;
+				if (!is_null($website)) {
+					$data[IAccountManager::PROPERTY_WEBSITE]['value'] = $website;
+				}
+				if (!is_null($websiteScope)) {
+					$data[IAccountManager::PROPERTY_WEBSITE]['scope'] = $websiteScope;
+				}
+				if (!is_null($address)) {
+					$data[IAccountManager::PROPERTY_ADDRESS]['value'] = $address;
+				}
+				if (!is_null($addressScope)) {
+					$data[IAccountManager::PROPERTY_ADDRESS]['scope'] = $addressScope;
+				}
+				if (!is_null($phone)) {
+					$data[IAccountManager::PROPERTY_PHONE]['value'] = $phone;
+				}
+				if (!is_null($phoneScope)) {
+					$data[IAccountManager::PROPERTY_PHONE]['scope'] = $phoneScope;
+				}
+				if (!is_null($twitter)) {
+					$data[IAccountManager::PROPERTY_TWITTER]['value'] = $twitter;
+				}
+				if (!is_null($twitterScope)) {
+					$data[IAccountManager::PROPERTY_TWITTER]['scope'] = $twitterScope;
+				}
 			}
 		}
 		try {
