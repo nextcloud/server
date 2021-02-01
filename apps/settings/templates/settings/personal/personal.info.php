@@ -70,7 +70,7 @@ script('settings', [
 					</div>
 				</div>
 				<span class="icon-checkmark hidden"></span>
-				<input type="hidden" id="avatarscope" value="<?php p($_['avatarScope']) ?>">
+				<input type="hidden" id="avatarscope" value="<?php p($_['avatarScope']) ?>"<?php if (is_null($_['avatarScope'])): ?> class="corrupted-scope-value"<?php endif ?>>
 			</form>
 		</div>
 		<div class="personal-settings-setting-box personal-settings-group-box section">
@@ -124,7 +124,7 @@ script('settings', [
 				<?php } ?>
 				<span class="icon-checkmark hidden"></span>
 				<span class="icon-error hidden" ></span>
-				<input type="hidden" id="displaynamescope" value="<?php p($_['displayNameScope']) ?>">
+				<input type="hidden" id="displaynamescope" value="<?php p($_['displayNameScope']) ?>"<?php if (is_null($_['displayNameScope'])): ?> class="corrupted-scope-value"<?php endif ?>>
 			</form>
 		</div>
 		<div class="personal-settings-setting-box">
@@ -172,7 +172,7 @@ script('settings', [
 				<?php if ($_['displayNameChangeSupported']) { ?>
 					<em><?php p($l->t('For password reset and notifications')); ?></em>
 				<?php } ?>
-				<input type="hidden" id="emailscope" value="<?php p($_['emailScope']) ?>">
+				<input type="hidden" id="emailscope" value="<?php p($_['emailScope']) ?>"<?php if (is_null($_['emailScope'])): ?> class="corrupted-scope-value"<?php endif ?>>
 			</form>
 		</div>
 		<?php if (!empty($_['phone']) || $_['lookupServerUploadEnabled']) { ?>
@@ -193,7 +193,7 @@ script('settings', [
 					   placeholder="<?php p($l->t('Your phone number')); ?>"
 				       autocomplete="on" autocapitalize="none" autocorrect="off" />
 				<span class="icon-checkmark hidden"></span>
-				<input type="hidden" id="phonescope" value="<?php p($_['phoneScope']) ?>">
+				<input type="hidden" id="phonescope" value="<?php p($_['phoneScope']) ?>"<?php if (is_null($_['phoneScope'])): ?> class="corrupted-scope-value"<?php endif ?>>
 			</form>
 		</div>
 		<?php } ?>
@@ -215,7 +215,7 @@ script('settings', [
 					   value="<?php p($_['address']) ?>"
 					   autocomplete="on" autocapitalize="none" autocorrect="off" />
 				<span class="icon-checkmark hidden"></span>
-				<input type="hidden" id="addressscope" value="<?php p($_['addressScope']) ?>">
+				<input type="hidden" id="addressscope" value="<?php p($_['addressScope']) ?>"<?php if (is_null($_['addressScope'])): ?> class="corrupted-scope-value"<?php endif ?>>
 			</form>
 		</div>
 		<?php } ?>
@@ -268,7 +268,7 @@ script('settings', [
 					}  ?>
 				/>
 				<span class="icon-checkmark hidden"></span>
-				<input type="hidden" id="websitescope" value="<?php p($_['websiteScope']) ?>">
+				<input type="hidden" id="websitescope" value="<?php p($_['websiteScope']) ?>"<?php if (is_null($_['websiteScope'])): ?> class="corrupted-scope-value"<?php endif ?>>
 			</form>
 		</div>
 		<?php } ?>
@@ -321,7 +321,7 @@ script('settings', [
 					}  ?>
 				/>
 				<span class="icon-checkmark hidden"></span>
-				<input type="hidden" id="twitterscope" value="<?php p($_['twitterScope']) ?>">
+				<input type="hidden" id="twitterscope" value="<?php p($_['twitterScope']) ?>"<?php if (is_null($_['twitterScope'])): ?> class="corrupted-scope-value"<?php endif ?>>
 			</form>
 		</div>
 		<?php } ?>
