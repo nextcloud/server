@@ -86,6 +86,8 @@ OC.L10N.register(
     "iPhone" : "iPhone",
     "iPad" : "iPad",
     "Nextcloud iOS app" : "Aplicacion Nextcloud iOS",
+    "Nextcloud Talk for iOS" : "Nextcloud Talk per iOS",
+    "Nextcloud Talk for Android" : "Nextcloud Talk per Android",
     "This session" : "Aquesta session",
     "Device" : "Periferic",
     "Last activity" : "Darrièra activitat",
