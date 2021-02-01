@@ -33,6 +33,7 @@ use OC\Repair;
 use OC_App;
 use OCP\BackgroundJob\IJobList;
 use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
@@ -92,7 +93,7 @@ class BackgroundRepair extends TimedJob {
 		}
 
 		$step = $argument['step'];
-		$repair = new Repair([], $this->dispatcher);
+		$repair = new Repair([], $this->dispatcher, \OC::$server->get(LoggerInterface::class));
 		try {
 			$repair->addStep($step);
 		} catch (\Exception $ex) {

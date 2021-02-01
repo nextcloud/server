@@ -45,6 +45,7 @@ use OC_App;
 use OCP\IConfig;
 use OCP\ILogger;
 use OCP\Util;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
@@ -243,7 +244,7 @@ class Updater extends BasicEmitter {
 		file_put_contents($this->config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data') . '/.ocdata', '');
 
 		// pre-upgrade repairs
-		$repair = new Repair(Repair::getBeforeUpgradeRepairSteps(), \OC::$server->getEventDispatcher());
+		$repair = new Repair(Repair::getBeforeUpgradeRepairSteps(), \OC::$server->getEventDispatcher(), \OC::$server->get(LoggerInterface::class));
 		$repair->run();
 
 		$this->doCoreUpgrade();
@@ -276,7 +277,7 @@ class Updater extends BasicEmitter {
 		}
 
 		// post-upgrade repairs
-		$repair = new Repair(Repair::getRepairSteps(), \OC::$server->getEventDispatcher());
+		$repair = new Repair(Repair::getRepairSteps(), \OC::$server->getEventDispatcher(), \OC::$server->get(LoggerInterface::class));
 		$repair->run();
 
 		//Invalidate update feed

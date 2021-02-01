@@ -61,6 +61,7 @@ use OCP\App\ManagerEvent;
 use OCP\AppFramework\QueryException;
 use OCP\Authentication\IAlternativeLogin;
 use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 
 /**
  * This class manages the apps. It allows them to register and integrate in the
@@ -1041,7 +1042,7 @@ class OC_App {
 		$dispatcher = OC::$server->getEventDispatcher();
 
 		// load the steps
-		$r = new Repair([], $dispatcher);
+		$r = new Repair([], $dispatcher, \OC::$server->get(LoggerInterface::class));
 		foreach ($steps as $step) {
 			try {
 				$r->addStep($step);
