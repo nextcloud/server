@@ -33,7 +33,7 @@ OC.L10N.register(
     "Move or copy" : "Przenieś lub kopiuj",
     "Download" : "Pobierz",
     "Delete" : "Usuń",
-    "You can upload into this folder" : "Możesz przesłać do tego katalogu",
+    "You can upload into this folder" : "Możesz wysłać do tego katalogu",
     "Terms of service" : "Warunki usługi",
     "No compatible server found at {remote}" : "Nie znaleziono kompatybilnego serwera na {remote}",
     "Invalid server URL" : "Błędny adres serwera",
