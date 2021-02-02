@@ -35,6 +35,7 @@ use OCA\User_LDAP\Connection;
 use OCA\User_LDAP\IGroupLDAP;
 use OCA\User_LDAP\IUserLDAP;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IServerContainer;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -78,7 +79,8 @@ class LDAPProviderTest extends \Test\TestCase {
 			->setConstructorArgs([
 				$this->createMock(IConfig::class),
 				$this->createMock(EventDispatcherInterface::class),
-				$this->createMock(IEventDispatcher::class)
+				$this->createMock(ICacheFactory::class),
+				$this->createMock(IEventDispatcher::class),
 			])
 			->getMock();
 		$userManager->expects($this->any())

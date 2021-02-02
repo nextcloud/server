@@ -38,6 +38,8 @@ use OC\HintException;
 use OC\Hooks\PublicEmitter;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\ICache;
+use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IUser;
@@ -84,14 +86,19 @@ class Manager extends PublicEmitter implements IUserManager {
 	/** @var EventDispatcherInterface */
 	private $dispatcher;
 
+	/** @var ICache */
+	private $cache;
+
 	/** @var IEventDispatcher */
 	private $eventDispatcher;
 
 	public function __construct(IConfig $config,
 								EventDispatcherInterface $oldDispatcher,
+								ICacheFactory $cacheFactory,
 								IEventDispatcher $eventDispatcher) {
 		$this->config = $config;
 		$this->dispatcher = $oldDispatcher;
+		$this->cache = $cacheFactory->createDistributed('user_backend_map');
 		$cachedUsers = &$this->cachedUsers;
 		$this->listen('\OC\User', 'postDelete', function ($user) use (&$cachedUsers) {
 			/** @var \OC\User\User $user */
@@ -150,8 +157,24 @@ class Manager extends PublicEmitter implements IUserManager {
 		if (isset($this->cachedUsers[$uid])) { //check the cache first to prevent having to loop over the backends
 			return $this->cachedUsers[$uid];
 		}
-		foreach ($this->backends as $backend) {
+
+		$cachedBackend = $this->cache->get($uid);
+		if ($cachedBackend !== null && isset($this->backends[$cachedBackend])) {
+			// Cache has the info of the user backend already, so ask that one directly
+			$backend = $this->backends[$cachedBackend];
 			if ($backend->userExists($uid)) {
+				return $this->getUserObject($uid, $backend);
+			}
+		}
+
+		foreach ($this->backends as $i => $backend) {
+			if ($i === $cachedBackend) {
+				// Tried that one already
+				continue;
+			}
+
+			if ($backend->userExists($uid)) {
+				$this->cache->set($uid, $i, 300);
 				return $this->getUserObject($uid, $backend);
 			}
 		}
