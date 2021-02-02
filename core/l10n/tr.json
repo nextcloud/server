@@ -365,16 +365,11 @@
     "This page will refresh itself when the instance is available again." : "Sistem yeniden kullanılabilir olduğunda bu sayfa kendiliğinden yenilenecek",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Bu ileti görüntülenmeye devam ediyor ya da beklenmedik şekilde ortaya çıkıyorsa BT yöneticinizle görüşün.",
     "Following apps have been disabled: %s" : "Aşağıdaki uygulamalar devre dışı bırakıldı: %s",
-    "You are currently running PHP 5.6. The current major version of Nextcloud is the last that is supported on PHP 5.6. It is recommended to upgrade the PHP version to 7.0+ to be able to upgrade to Nextcloud 14." : "PHP 5.6 sürümünü kullanıyorsunuz. Geçerli Nextcloud ana sürümü PHP 5.6 sürümünü destekleyen son sürüm olacak. Nextcloud 14 sürümünü kullanabilmek için PHP sürümünü 7.0 ve üzerine yükseltmeniz önerilir.",
     "Use of the the built in php mailer is no longer supported. <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">Please update your email server settings ↗<a/>." : "İç PHP e-posta gönderme uygulaması artık desteklenmiyor. <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">Lütfen e-posta sunucusu ayarlarınızı güncelleyin↗<a/>.",
-    "({scope})" : "({scope})",
     "Searching other places" : "Diğer konumlarda aranıyor",
     "No search results in other folders for {tag}{filter}{endtag}" : "{tag}{filter}{endtag} için diğer klasörlerde herhangi bir arama sonucu yok",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["Diğer klasörlerde {count} arama sonucu","Diğer klasörlerde {count} arama sonucu"],
     "Nextcloud {app}" : "Nextcloud {app}",
-    "Local document editing back-end used by the OnlyOffice app." : "OnlyOffice uygulaması ile yerel belge düzenleme altyapısı.",
-    "Saving..." : "Kaydediliyor...",
-    "Calendar, Contacts, Talk, Mail & OnlyOffice" : "Calendar, Contacts, Talk ve Mail ve OnlyOffice",
     "Search" : "Arama",
     "These apps will be updated:" : "Şu uygulamalar güncellenecek:"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"

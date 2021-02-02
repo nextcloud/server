@@ -201,8 +201,6 @@ OC.L10N.register(
     "A new file or folder has been <strong>created</strong>" : "Um novo arquivo ou pasta foi <strong>criado</strong>",
     "A file or folder has been <strong>deleted</strong>" : "Um arquivo ou pasta foi <strong>excluído</strong>",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Notificações de limite das criações e alterações em seus <strong>arquivos favoritos</strong> <em>(apenas Stream)</em>",
-    "A file or folder has been <strong>restored</strong>" : "Um arquivo ou pasta foi <strong>restaurado</strong>",
-    "Cannot transfter ownership of a file or folder you don't own" : "Não é possível transferir a propriedade de um arquivo ou pasta que você não é o dono",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Use este endereço para <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">acessar seus arquivos via WebDAV</a>"
+    "A file or folder has been <strong>restored</strong>" : "Um arquivo ou pasta foi <strong>restaurado</strong>"
 },
 "nplurals=2; plural=(n > 1);");

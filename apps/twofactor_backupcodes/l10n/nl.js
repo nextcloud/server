@@ -18,8 +18,6 @@ OC.L10N.register(
     "An error occurred while generating your backup codes" : "Er trad een fout op bij het genereren van je back-upcodes",
     "{name} backup codes" : "{name} back-upcodes",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Gebruik een van de back-upcodes die je bewaarde bij het inschakelen van de tweefactorauthenticatie.",
-    "Submit" : "Verwerken",
-    "_" : "_",
-    "_icon-loading-small_::_generate-backup-codes_" : ["icon-loading-small","back-upcodes-genereren"]
+    "Submit" : "Verwerken"
 },
 "nplurals=2; plural=(n != 1);");

@@ -327,13 +327,10 @@
     "This page will refresh itself when the instance is available again." : "인스턴스를 다시 사용할 수 있을 때 페이지를 자동으로 새로 고칩니다.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "이 메시지가 계속 표시되거나 예상하지 못하였을 때 표시된다면 시스템 관리자에게 연락하십시오.",
     "Following apps have been disabled: %s" : "다음 앱이 비활성화되었습니다: %s",
-    "You are currently running PHP 5.6. The current major version of Nextcloud is the last that is supported on PHP 5.6. It is recommended to upgrade the PHP version to 7.0+ to be able to upgrade to Nextcloud 14." : "PHP 5.6을 실행하고 있습니다. 현재 사용하고 있는 Nextcloud의 주 버전은 PHP 5.6을 지원하는 마지막 버전입니다. Nextcloud 14로 업그레이드하려면 PHP 7.0 이상으로 업그레이드하십시오.",
     "Use of the the built in php mailer is no longer supported. <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">Please update your email server settings ↗<a/>." : "PHP 내장 Mailer 모듈은 더 이상 지원되지 않습니다. <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">이메일 설정을 업데이트해 주십시오↗<a/>.",
-    "({scope})" : "({scope})",
     "Searching other places" : "다른 장소 찾는 중",
     "No search results in other folders for {tag}{filter}{endtag}" : "다른 폴더에 {tag}{filter}{endtag} 검색 결과가 없음",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["다른 폴더의 검색 결과 {count}개"],
-    "Saving..." : "저장 중...",
     "Search" : "검색",
     "These apps will be updated:" : "다음 앱을 업데이트합니다:"
 },"pluralForm" :"nplurals=1; plural=0;"

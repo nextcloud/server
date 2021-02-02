@@ -177,7 +177,6 @@ OC.L10N.register(
     "Upload files to %s" : "Upload filer til %s",
     "Note" : "Note",
     "Select or drop files" : "Vælg eller slip filer",
-    "Uploaded files:" : "Uploadede filer:",
-    "Uploading files…" : "Uploader filer ..."
+    "Uploaded files:" : "Uploadede filer:"
 },
 "nplurals=2; plural=(n != 1);");

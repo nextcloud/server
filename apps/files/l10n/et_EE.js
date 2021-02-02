@@ -149,7 +149,6 @@ OC.L10N.register(
     "A new file or folder has been <strong>created</strong>" : "Uus fail või kaust on <strong>loodud</strong>",
     "A file or folder has been <strong>deleted</strong>" : "Fail või kaust on <strong>kustutatud</strong>",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Piira loomise ja muutuste teavitus oma <strong>lemmikfailide</strong> kohta <em>(ainult voog)</em>",
-    "A file or folder has been <strong>restored</strong>" : "Fail või kaust on <strong>taastatud</strong>",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Kasuta seda aadressi, et <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">oma failidele WebDAV kaudu ligi pääseda</a>"
+    "A file or folder has been <strong>restored</strong>" : "Fail või kaust on <strong>taastatud</strong>"
 },
 "nplurals=2; plural=(n != 1);");

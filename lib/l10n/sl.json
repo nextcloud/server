@@ -226,14 +226,6 @@
     "Storage connection timeout. %s" : "Povezava do shrambe je časovno potekla. %s",
     "Following databases are supported: %s" : "Podprte so navedene podatkovne zbirke: %s",
     "Following platforms are supported: %s" : "Podprta so okolja: %s",
-    "Overview" : "Splošni pregled",
-    "Basic settings" : "Osnovne nastavitve",
-    "Sharing" : "Souporaba",
-    "Security" : "Varnost",
-    "Groupware" : "Skupinsko delo",
-    "Personal info" : "Osebni podatki",
-    "Mobile & desktop" : "Mobilni in namizni dostop",
-    "Invalid Federated Cloud ID" : "Neveljaven ID zveznega oblaka",
-    "This can usually be fixed by giving the webserver write access to the apps directory or disabling the appstore in the config file. See %s" : "Napako je mogoče odpraviti z dodelitvijo dovoljenja spletnemu strežniku za pisanje v mapo programov, ali pa z onemogočanjem zbirke programov v nastavitveni datoteki. Za več podrobnosti si oglejte %s."
+    "Invalid Federated Cloud ID" : "Neveljaven ID zveznega oblaka"
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }

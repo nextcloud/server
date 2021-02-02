@@ -14,7 +14,6 @@ OC.L10N.register(
     "Accessibility options for nextcloud" : "Erabilerraztasun aukerak nextcloudentzat",
     "Provides multiple accessibilities options to ease your use of Nextcloud" : "Nextcloud-en erabilera errazteko hainbat aukera eskaintzen ditu.",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Sarbide unibertsala oso garrantzitsua da guretzat. Web estadandarrak jarraitu eta sagu gabeko erabiltasuna egiaztatzen ditugu, pantaila-irakurle moduko software laguntzaileak barne. Helburu bezala jartzen dugu {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 AA mailan betetzea, kontraste altuko modua AAA mailaraino lortuz.",
-    "If you find any issues, don’t hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "Arazorik aurkitzen baduzu, bidali ezazu lasai {issuetracker}gure arazo-kontrolatzailera{linkend}. Eta parte hartu nahi baduzu, elkartu zaitez gurekin {designteam}gure diseinu taldera{linkend}!",
-    "Enable" : "Gaitu"
+    "If you find any issues, don’t hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "Arazorik aurkitzen baduzu, bidali ezazu lasai {issuetracker}gure arazo-kontrolatzailera{linkend}. Eta parte hartu nahi baduzu, elkartu zaitez gurekin {designteam}gure diseinu taldera{linkend}!"
 },
 "nplurals=2; plural=(n != 1);");

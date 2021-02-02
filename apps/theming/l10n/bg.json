@@ -28,7 +28,6 @@
     "Remove background image" : "Премахни фоновото изображение",
     "Advanced options" : "Допълнителни опции",
     "Header logo" : "Главно лого",
-    "Favicon" : "Фавиконка",
-    "Unsupported image type" : "Неподдържан тип изображение"
+    "Favicon" : "Фавиконка"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

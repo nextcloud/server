@@ -211,8 +211,6 @@ OC.L10N.register(
     "A new file or folder has been <strong>created</strong>" : "Yeni bir dosya ya da klasör <strong>eklendi</strong>",
     "A file or folder has been <strong>deleted</strong>" : "Bir dosya ya da klasör <strong>silindi</strong>",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "<strong>Sık kullanılan dosyalarınız</strong> ile ilgili ekleme ve değişiklik bildirimleri sınırlansın <em>(Yalnız akış)</em>",
-    "A file or folder has been <strong>restored</strong>" : "Bir dosya ya da klasör <strong>geri yüklendi</strong>",
-    "Cannot transfter ownership of a file or folder you don't own" : "Sahibi olmadığınız bir dosya ya da klasörün sahipliğini aktaramazsınız",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Dosyalarınıza WebDAV üzerinden erişmek için <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">bu adresi kullanın</a>"
+    "A file or folder has been <strong>restored</strong>" : "Bir dosya ya da klasör <strong>geri yüklendi</strong>"
 },
 "nplurals=2; plural=(n > 1);");

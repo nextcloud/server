@@ -167,7 +167,6 @@ OC.L10N.register(
     "A new file or folder has been <strong>created</strong>" : "Nova dosiero aŭ dosierujo <strong>kreiĝis</strong>",
     "A file or folder has been <strong>deleted</strong>" : "Dosiero aŭ dosierujo <strong>foriĝis</strong>",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Limigi sciigojn pri kreo aŭ ŝanĝo de viaj <strong>pliŝatataj dosieroj</strong> <em>(nur en la fluo)</em>",
-    "A file or folder has been <strong>restored</strong>" : "Dosiero aŭ dosierujo <strong>restaŭrita</strong>",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Uzu tiun adreson por <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">atingi viajn dosierojn per WebDAV</a>"
+    "A file or folder has been <strong>restored</strong>" : "Dosiero aŭ dosierujo <strong>restaŭrita</strong>"
 },
 "nplurals=2; plural=(n != 1);");

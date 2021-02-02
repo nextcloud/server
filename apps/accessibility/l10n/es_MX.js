@@ -10,7 +10,6 @@ OC.L10N.register(
     "Enable dyslexia font" : "Habilitar fuente para dislexia",
     "Accessibility" : "Accesibilidad",
     "Accessibility options for nextcloud" : "Opciones de accesibilidad para nextcloud",
-    "Provides multiple accessibilities options to ease your use of Nextcloud" : "Provee múltiples opciones de accesibilidad para facilitar su uso de Nextcloud",
-    "Enable" : "Habilitar"
+    "Provides multiple accessibilities options to ease your use of Nextcloud" : "Provee múltiples opciones de accesibilidad para facilitar su uso de Nextcloud"
 },
 "nplurals=2; plural=(n != 1);");

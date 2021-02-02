@@ -198,8 +198,6 @@ OC.L10N.register(
     "A new file or folder has been <strong>created</strong>" : "En ny fil eller mappe ble <strong>opprettet</strong>",
     "A file or folder has been <strong>deleted</strong>" : "En fil eller mappe ble <strong>slettet</strong>",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Begrens varsling om oppretting og endringer til <strong>favorittfilene</strong> dine <em>(Kun strøm)</em>",
-    "A file or folder has been <strong>restored</strong>" : "En fil eller mappe ble <strong>gjenopprettet</strong>",
-    "Cannot transfter ownership of a file or folder you don't own" : "Kan ikke overføre eierskap til en fil eller mappe du ikke eier",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Bruk adressen <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">for å få tilgang til dine filer via WebDAV</a>"
+    "A file or folder has been <strong>restored</strong>" : "En fil eller mappe ble <strong>gjenopprettet</strong>"
 },
 "nplurals=2; plural=(n != 1);");

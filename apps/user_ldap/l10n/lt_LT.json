@@ -172,7 +172,6 @@
     "UUID Attribute for Users:" : "UUID požymis naudotojams:",
     "UUID Attribute for Groups:" : "UUID požymis grupėms:",
     "Username-LDAP User Mapping" : "Naudotojo vardo - LDAP naudotojo sąsaja",
-    "Clear Username-LDAP User Mapping" : "Išvalyti naudotojo vardo - LDAP naudotojo sąsają",
-    "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "Palikite tuščią naudotojo vardui (numatytoji reikšmė).  Priešingu atveju, nurodykite LDAP/AD požymį."
+    "Clear Username-LDAP User Mapping" : "Išvalyti naudotojo vardo - LDAP naudotojo sąsają"
 },"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"
 }

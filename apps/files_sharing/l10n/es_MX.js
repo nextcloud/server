@@ -136,7 +136,6 @@ OC.L10N.register(
     "Upload files to %s" : "Cargar archivos a %s",
     "Note" : "Nota",
     "Select or drop files" : "Selecciona o suelta los archivos",
-    "Uploaded files:" : "Archivos cargados:",
-    "Uploading files…" : "Cargando archivos..."
+    "Uploaded files:" : "Archivos cargados:"
 },
 "nplurals=2; plural=(n != 1);");

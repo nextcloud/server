@@ -171,7 +171,6 @@ OC.L10N.register(
     "Upload files to %s" : "Laadi failid %s",
     "Note" : "Märge",
     "Select or drop files" : "Vali või lohista failid",
-    "Uploaded files:" : "Üleslaetud failid:",
-    "Uploading files…" : "Failide üleslaadimine…"
+    "Uploaded files:" : "Üleslaetud failid:"
 },
 "nplurals=2; plural=(n != 1);");

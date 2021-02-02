@@ -229,14 +229,6 @@
     "Storage connection timeout. %s" : "Timeout di connessione all'archiviazione. %s",
     "Following databases are supported: %s" : "I seguenti database sono supportati: %s",
     "Following platforms are supported: %s" : "Sono supportate le seguenti piattaforme: %s",
-    "Overview" : "Riepilogo",
-    "Basic settings" : "Impostazioni di base",
-    "Sharing" : "Condivisione",
-    "Security" : "Sicurezza",
-    "Groupware" : "Groupware",
-    "Personal info" : "Informazioni personali",
-    "Mobile & desktop" : "Mobile e desktop",
-    "Invalid Federated Cloud ID" : "ID di cloud federata non valido",
-    "This can usually be fixed by giving the webserver write access to the apps directory or disabling the appstore in the config file. See %s" : "Ciò può essere normalmente corretto fornendo al server web accesso in scrittura alla cartella delle applicazioni o disabilitando il negozio di applicazioni nel file di configurazione. Vedi %s"
+    "Invalid Federated Cloud ID" : "ID di cloud federata non valido"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

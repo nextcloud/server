@@ -178,7 +178,6 @@ OC.L10N.register(
     "Note" : "Minnispunktur",
     "Select or drop files" : "Veldu eða slepptu skrám",
     "Uploaded files:" : "Innsendar skrár:",
-    "By uploading files, you agree to the %1$sterms of service%2$s." : "Með því að senda inn skrár, samþykkir þú %1$sþjónustuskilmálana%2$s.",
-    "Uploading files…" : "Sendi inn skrár…"
+    "By uploading files, you agree to the %1$sterms of service%2$s." : "Með því að senda inn skrár, samþykkir þú %1$sþjónustuskilmálana%2$s."
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

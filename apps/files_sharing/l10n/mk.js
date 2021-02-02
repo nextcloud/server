@@ -234,7 +234,6 @@ OC.L10N.register(
     "Uploading files" : "Прикачување на датотеки",
     "Uploaded files:" : "Прикачени датотеки:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Со прикачување на датотеките, се согласувате со  %1$sусловите за користење%2$s.",
-    "Name, email, or federated cloud ID …" : "Име, е-пошта или федерален ИД ...",
-    "Uploading files…" : "Прикачување датотеки…"
+    "Name, email, or federated cloud ID …" : "Име, е-пошта или федерален ИД ..."
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

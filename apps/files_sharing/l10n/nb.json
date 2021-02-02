@@ -171,7 +171,6 @@
     "Note" : "Melding",
     "Select or drop files" : "Velg eller slipp filer",
     "Uploading files" : "Laster opp filer",
-    "Uploaded files:" : "Opplastede filer:",
-    "Uploading files…" : "Laster opp filer…"
+    "Uploaded files:" : "Opplastede filer:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

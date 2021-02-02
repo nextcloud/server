@@ -417,7 +417,6 @@ OC.L10N.register(
     "Visible to local users and to trusted servers" : "Gwelet a vez gant an implijourien diabarzh hag an implijourien fiziet",
     "Will be synced to a global and public address book" : "Kemprenet a vo d'ur lerv chom-lec'h publik ha hollek",
     "by" : "gant",
-    "{counter} apps have an update available" : "{counter} meziant a zo posupl adnevesaat",
     "SSL Root Certificates" : "SSL Sertifikad Gwrizienn",
     "Common Name" : "Anv Boutiñ",
     "Valid until" : "Gwir betek",

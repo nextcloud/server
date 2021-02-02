@@ -154,7 +154,6 @@ OC.L10N.register(
     "A new file or folder has been <strong>created</strong>" : "새 파일이나 폴더가 <strong>생성됨</strong>",
     "A file or folder has been <strong>deleted</strong>" : "파일이나 폴더가 <strong>삭제됨</strong>",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "<strong>즐겨찾는 파일</strong>의 생성 및 변경 사항에 대한 알림을 줄일 수 있습니다<em>(스트림에서만)</em>",
-    "A file or folder has been <strong>restored</strong>" : "파일이나 폴더가 <strong>복원됨</strong>",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "<a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">내 파일에 WebDAV로 접근</a>하려면 이 주소를 사용하십시오"
+    "A file or folder has been <strong>restored</strong>" : "파일이나 폴더가 <strong>복원됨</strong>"
 },
 "nplurals=1; plural=0;");

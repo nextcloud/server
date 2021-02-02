@@ -234,7 +234,6 @@ OC.L10N.register(
     "Uploading files" : "Dateien werden hochgeladen",
     "Uploaded files:" : "Hochgeladene Dateien: ",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Durch das Hochladen von Dateien stimmen Sie den %1$sNutzungsbedingungen%2$s zu.",
-    "Name, email, or federated cloud ID …" : "Name, E-Mail oder Federated-Cloud-ID …",
-    "Uploading files…" : "Dateien werden hochgeladen…"
+    "Name, email, or federated cloud ID …" : "Name, E-Mail oder Federated-Cloud-ID …"
 },
 "nplurals=2; plural=(n != 1);");

@@ -185,11 +185,6 @@
     "Storage connection timeout. %s" : "Tallennustilan yhteyden aikakatkaisu. %s",
     "Following databases are supported: %s" : "Seuraavat tietokannat ovat tuettuja: %s",
     "Following platforms are supported: %s" : "Seuraavat alustat ovat tuettuja: %s",
-    "Basic settings" : "Perusasetukset",
-    "Sharing" : "Jakaminen",
-    "Security" : "Turvallisuus",
-    "Personal info" : "Henkilökohtaiset tiedot",
-    "Mobile & desktop" : "Mobiili ja työpöytä",
     "Invalid Federated Cloud ID" : "Virheellinen federoidun pilven tunniste"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

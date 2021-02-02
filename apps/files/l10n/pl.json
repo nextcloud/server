@@ -209,8 +209,6 @@
     "A new file or folder has been <strong>created</strong>" : "Nowy plik lub katalog został <strong>utworzony</strong>",
     "A file or folder has been <strong>deleted</strong>" : "Plik lub katalog został <strong>usunięty</strong>",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Ogranicz powiadomienia o tworzeniu i zmianach w <strong>ulubionych plikach</strong> <em>(Tylko transmisja strumieniowa)</em>",
-    "A file or folder has been <strong>restored</strong>" : "Plik lub katalog został <strong>przywrócony</strong>",
-    "Cannot transfter ownership of a file or folder you don't own" : "Nie można przenieść prawa własności do pliku lub katalogu, którego nie jesteś właścicielem",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Użyj tego adresu, aby uzyskać <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">dostęp do swoich plików poprzez WebDAV</a>"
+    "A file or folder has been <strong>restored</strong>" : "Plik lub katalog został <strong>przywrócony</strong>"
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
 }

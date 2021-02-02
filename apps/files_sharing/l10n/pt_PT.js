@@ -145,7 +145,6 @@ OC.L10N.register(
     "Upload files to %s" : "Enviar ficheiros para %s",
     "Note" : "Nota",
     "Select or drop files" : "Seleccione ou solte ficheiros",
-    "Uploaded files:" : "Ficheiros enviados:",
-    "Uploading files…" : "A enviar ficheiros..."
+    "Uploaded files:" : "Ficheiros enviados:"
 },
 "nplurals=2; plural=(n != 1);");

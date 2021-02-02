@@ -11,7 +11,6 @@ OC.L10N.register(
     "OpenDyslexic is a free typeface/font designed to mitigate some of the common reading errors caused by dyslexia." : "اپن دیسلکسیک یک فونت و نمایه رایگان است که طراحی شده برای خواندن بعضی ایراد های دیسلکسیا",
     "Accessibility" : "در دسترس بودن",
     "Accessibility options for nextcloud" : "امکان در دسترس بودن برای نکس کلود",
-    "Provides multiple accessibilities options to ease your use of Nextcloud" : "امکان دسترسی امکانات از چند مسیر برای کار کردن راحت تر شما با نکست کلود قرارداده شده است.",
-    "Enable" : "فعال"
+    "Provides multiple accessibilities options to ease your use of Nextcloud" : "امکان دسترسی امکانات از چند مسیر برای کار کردن راحت تر شما با نکست کلود قرارداده شده است."
 },
 "nplurals=2; plural=(n > 1);");

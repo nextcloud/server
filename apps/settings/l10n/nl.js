@@ -431,7 +431,6 @@ OC.L10N.register(
     "Visible to local users and to trusted servers" : "Alleen zichtbaar voor lokale gebruikers en vertrouwde servers",
     "Will be synced to a global and public address book" : "Wordt gesynct met een globaal en openbaar adresboek",
     "by" : "door",
-    "{counter} apps have an update available" : "{counter} apps hebben een update beschikbaar",
     "SSL Root Certificates" : "SSL Root Certificaten",
     "Common Name" : "Common Name",
     "Valid until" : "Geldig tot",

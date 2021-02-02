@@ -164,6 +164,16 @@
     "Tags" : "Étiquettes",
     "Unable to change the favourite state of the file" : "Impossible de modifier l'état favori du fichier",
     "Error while loading the file data" : "Erreur lors du chargement du fichier de données",
+    "Pick a template for {name}" : "Choisissez un modèle pour {name}",
+    "Cancel" : "Annuler",
+    "Create" : "Créer",
+    "Create a new file with the selected template" : "Créer un nouveau fichier avec le modèle sélectionné",
+    "Creating file" : "Créer un fichier",
+    "Blank" : "Vide",
+    "Unable to create new file from template" : "Impossible de créer un nouveau fichier à partir du modèle",
+    "Set up templates folder" : "Configurer le dossier des modèles",
+    "Templates" : "Modèles",
+    "Unable to initialize the templates directory" : "Impossible d'initialiser le répertoire des modèles",
     "%s used" : "%s utilisés",
     "%s%% of %s used" : "%s%% de %s utilisé",
     "%1$s of %2$s used" : "%1$s utilisés sur %2$s",
@@ -199,8 +209,6 @@
     "A new file or folder has been <strong>created</strong>" : "Un nouveau fichier ou répertoire a été <strong>créé</strong>",
     "A file or folder has been <strong>deleted</strong>" : "Un fichier ou un dossier a été <strong>supprimé</strong>",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Limiter les notifications qui concernent les créations et les modifications à vos <strong>fichiers favoris</strong> <em>(Flux uniquement)</em>",
-    "A file or folder has been <strong>restored</strong>" : "Un fichier ou un dossier a été <strong>restauré</strong>",
-    "Cannot transfter ownership of a file or folder you don't own" : "Impossible de transférer la propriété d’un fichier ou d’un dossier que vous ne possédez pas",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Utilisez cette adresse pour <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">accéder à vos fichiers par WebDAV</a>"
+    "A file or folder has been <strong>restored</strong>" : "Un fichier ou un dossier a été <strong>restauré</strong>"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

@@ -135,8 +135,6 @@
     "Storage connection timeout. %s" : "หมดเวลาการเชื่อมต่อพื้นที่จัดเก็บข้อมูล %s",
     "Following databases are supported: %s" : "ฐานข้อมูลต่อไปนี้ได้รับการสนับสนุน: %s",
     "Following platforms are supported: %s" : "แพลตฟอร์มต่อไปนี้ได้รับการสนับสนุน: %s",
-    "Sharing" : "แชร์ข้อมูล",
-    "Personal info" : "ข้อมูลส่วนบุคคล",
     "Invalid Federated Cloud ID" : "ไอดีคลาวด์ในเครือไม่ถูกต้อง"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

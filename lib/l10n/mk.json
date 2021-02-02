@@ -226,14 +226,6 @@
     "Storage connection timeout. %s" : "Поврзувањето со складиштето не успеа. %s",
     "Following databases are supported: %s" : "Следниве бази со податоци се поддржани: %s",
     "Following platforms are supported: %s" : "Следниве платформи се поддржани: %s",
-    "Overview" : "Преглед",
-    "Basic settings" : "Основни параметри",
-    "Sharing" : "Споделување",
-    "Security" : "Безбедност",
-    "Groupware" : "Групни производи",
-    "Personal info" : "Лични податоци",
-    "Mobile & desktop" : "Мобилен & компјутер",
-    "Invalid Federated Cloud ID" : "Невалиден федерален ID",
-    "This can usually be fixed by giving the webserver write access to the apps directory or disabling the appstore in the config file. See %s" : "Ова најчесто се поправа со давање дозвола на веб серверот за запишување во папката со апликации или оневозможување на продавницата за апликации во кофигурациската датотека. Видете %s"
+    "Invalid Federated Cloud ID" : "Невалиден федерален ID"
 },"pluralForm" :"nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;"
 }

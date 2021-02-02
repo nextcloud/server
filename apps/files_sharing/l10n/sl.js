@@ -230,7 +230,6 @@ OC.L10N.register(
     "Uploading files" : "Pošiljanje datotek",
     "Uploaded files:" : "Poslane datoteke:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "S pošiljanjem datotek v oblak sprejemate tudi %1$spogoje uporabe storitve%2$s.",
-    "Name, email, or federated cloud ID …" : "Ime, elektronski naslov, ali ID zveznega oblaka ...",
-    "Uploading files…" : "Poteka pošiljanje datotek ..."
+    "Name, email, or federated cloud ID …" : "Ime, elektronski naslov, ali ID zveznega oblaka ..."
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

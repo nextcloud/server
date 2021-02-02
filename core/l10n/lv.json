@@ -262,13 +262,10 @@
     "This %s instance is currently in maintenance mode, which may take a while." : "Šis %s serveris pašlaik darbojas uzturēšanas režīmā, tas var ilgt kādu laiku.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Sazinieties ar sistēmas administratoru, ja šis ziņojums tiek rādīts.. vai parādījās negaidīti",
     "Following apps have been disabled: %s" : "Sekojošas lietotnes tika atslēgtas: %s",
-    "({scope})" : "({scope})",
     "Searching other places" : "Meklēt citās vietās",
     "No search results in other folders for {tag}{filter}{endtag}" : "Nav nekas atrasts citā mapēs {tag}{filter}{endtag}",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} meklēšanas rezultāti citās mapēs","{count} meklēšanas rezultāti citās mapēs","{count} meklēšanas rezultāti citās mapēs"],
     "Nextcloud {app}" : "Nextcloud {app}",
-    "Local document editing back-end used by the OnlyOffice app." : "Lokālo dokumentu rediģēšanas back-end, ko izmanto OnlyOffice lietojumprogramma.",
-    "Saving..." : "Saglabā...",
     "Search" : "Meklēt",
     "These apps will be updated:" : "Šīs lietotnes tiks atjauninātas:"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);"

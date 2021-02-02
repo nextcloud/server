@@ -47,7 +47,6 @@
     "Upload new header logo" : "上传新的顶栏图标",
     "Favicon" : "网站图标",
     "Upload new favicon" : "上传新图标",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "安装支持 SVG 图像的 PHP 扩展 Imagemagick，以根据上传的 logo 和颜色自动生成图标。",
-    "Unsupported image type" : "不支持图片格式"
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "安装支持 SVG 图像的 PHP 扩展 Imagemagick，以根据上传的 logo 和颜色自动生成图标。"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

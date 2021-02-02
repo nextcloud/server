@@ -136,7 +136,6 @@ OC.L10N.register(
     "Your storage is almost full ({usedSpacePercent}%)" : "U stoorspasie is amper vol ({usedSpacePercent}%)",
     "A new file or folder has been <strong>created</strong>" : "'n Lêer of gids is <strong>geskep</strong>",
     "A file or folder has been <strong>deleted</strong>" : "'n Lêer of gids is <strong>geskrap</strong>",
-    "A file or folder has been <strong>restored</strong>" : "'n Lêer of gids is <strong>herstel</strong>",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Gebruik dié adres vir <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">toegang tot lêers d.m.v. WebDAV</a>"
+    "A file or folder has been <strong>restored</strong>" : "'n Lêer of gids is <strong>herstel</strong>"
 },
 "nplurals=2; plural=(n != 1);");

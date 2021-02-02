@@ -365,16 +365,11 @@
     "This page will refresh itself when the instance is available again." : "Ova će se stranica osvježiti kada je instanca ponovno dostupna.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Obratite se administratoru sustava ako se ova poruka ponavlja ili se pojavila neočekivano.",
     "Following apps have been disabled: %s" : "Sljedeće aplikacije su onemogućene: %s",
-    "You are currently running PHP 5.6. The current major version of Nextcloud is the last that is supported on PHP 5.6. It is recommended to upgrade the PHP version to 7.0+ to be able to upgrade to Nextcloud 14." : "Trenutno upotrebljavate PHP 5.6. Trenutna glavna inačica Nextclouda ujedno je i posljednja koju podržava PHP 5.6. Preporučujemo da nadogradite inačicu PHP-a na 7.0+ kako biste mogli nadograditi sustav na Nextcloud 14.",
     "Use of the the built in php mailer is no longer supported. <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">Please update your email server settings ↗<a/>." : "Korištenje ugrađenog php mailera više nije podržano. <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">Ažurirajte postavke poslužitelja e-pošte ↗<a/>.",
-    "({scope})" : "({scope})",
     "Searching other places" : "Pretraživanje drugih lokacija",
     "No search results in other folders for {tag}{filter}{endtag}" : "Nema rezultata pretraživanja u drugim mapama za {tag}{filter}{endtag}",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} rezultat u drugoj mapi","{count} rezultata u ostalim mapama","{count} rezultata u ostalim mapama"],
     "Nextcloud {app}" : "Nextcloud {app}",
-    "Local document editing back-end used by the OnlyOffice app." : "Pozadinski sustav za uređivanje lokalnih dokumenata u aplikaciji OnlyOffice.",
-    "Saving..." : "Spremanje...",
-    "Calendar, Contacts, Talk, Mail & OnlyOffice" : "Calendar, Contacts, Talk, Mail i OnlyOffice",
     "Search" : "Traži",
     "These apps will be updated:" : "Sljedeće aplikacije bit će ažurirane:"
 },"pluralForm" :"nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;"

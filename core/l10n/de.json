@@ -365,16 +365,11 @@
     "This page will refresh itself when the instance is available again." : "Diese Seite aktualisiert sich automatisch, sobald Nextcloud wieder verfügbar ist.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Kontaktiere den Systemadministrator, wenn diese Meldung dauerhaft oder unerwartet erscheint.",
     "Following apps have been disabled: %s" : "Die folgenden Apps wurden deaktiviert: %s",
-    "You are currently running PHP 5.6. The current major version of Nextcloud is the last that is supported on PHP 5.6. It is recommended to upgrade the PHP version to 7.0+ to be able to upgrade to Nextcloud 14." : "Du verwendest PHP 5.6. Die aktuelle Version von Nextcloud ist die letzte Version, die PHP 5.6 unterstützt. Es empfiehlt sich die PHP-Version auf 7.0 oder höher zu aktualisieren, um in der Lage zu sein, auf Nextcloud 14 zu aktualisieren.",
     "Use of the the built in php mailer is no longer supported. <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">Please update your email server settings ↗<a/>." : "Die Verwendung des eingebauten PHP-Mailers wird nicht länger unterstützt. <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">Bitte aktualisiere die E-Mail-Server-Einstellungen ↗<a/>.",
-    "({scope})" : "({scope})",
     "Searching other places" : "Andere Orte durchsuchen",
     "No search results in other folders for {tag}{filter}{endtag}" : "Keine Suchergebnisse in anderen Ordnern für {tag}{filter}{endtag}",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} Suchergebnis im anderen Ordner","{count} Suchergebnisse in anderen Ordnern"],
     "Nextcloud {app}" : "Nextcloud {app}",
-    "Local document editing back-end used by the OnlyOffice app." : "Lokales Dokumentenbearbeitungs-Backend, das von der OnlyOffice-Anwendung verwendet wird.",
-    "Saving..." : "Speichere…",
-    "Calendar, Contacts, Talk, Mail & OnlyOffice" : "Kalender, Kontakte, Talk, Mail & OnlyOffice",
     "Search" : "Suche",
     "These apps will be updated:" : "Diese Apps werden aktualisiert:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

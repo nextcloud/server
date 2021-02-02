@@ -234,7 +234,6 @@ OC.L10N.register(
     "Uploading files" : "Caricamento file",
     "Uploaded files:" : "File caricati:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Caricando i file, accetti i %1$stermini del servizio%2$s.",
-    "Name, email, or federated cloud ID …" : "Nome, email o ID di cloud federata...",
-    "Uploading files…" : "Caricamento file in corso..."
+    "Name, email, or federated cloud ID …" : "Nome, email o ID di cloud federata..."
 },
 "nplurals=2; plural=(n != 1);");

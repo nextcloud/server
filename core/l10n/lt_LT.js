@@ -309,13 +309,10 @@ OC.L10N.register(
     "This page will refresh itself when the instance is available again." : "Šis puslapis bus įkeltas iš naujo, kai egzempliorius bus ir vėl prieinamas.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Susisiekite su savo sistemos administratoriumi, jei šis pranešimas nedingsta arba, jei jis pasirodė netikėtai.",
     "Following apps have been disabled: %s" : "Šios programėlės buvo išjungtos: %s",
-    "({scope})" : "({scope})",
     "Searching other places" : "Ieškoma kitose vietose",
     "No search results in other folders for {tag}{filter}{endtag}" : "Kituose aplankuose nėra paieškos rezultatų, skirtų {tag}{filter}{endtag}",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} paieškos rezultatas kitame aplanke","{count} paieškos rezultatai kitame aplanke","{count} paieškos rezultatų kitame aplanke","{count} paieškos rezultatas kitame aplanke"],
     "Nextcloud {app}" : "Nextcloud {app}",
-    "Saving..." : "Įrašoma...",
-    "Calendar, Contacts, Talk, Mail & OnlyOffice" : "Kalendorius, Adresatai, Pokalbiai ir OnlyOffice",
     "Search" : "Ieškoti",
     "These apps will be updated:" : "Bus atnaujintos šios programėlės:"
 },

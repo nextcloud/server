@@ -232,10 +232,8 @@ OC.L10N.register(
     "This page will refresh itself when the instance is available again." : "Страницата ще се зареди автоматично, когато е отново на линия.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Свържете се със системния администратор ако това съобщение се задържи твърде дълго или се е появило неочаквано.",
     "Following apps have been disabled: %s" : "Следните приложения са изключени: %s",
-    "({scope})" : "({scope})",
     "Searching other places" : "Търсене на друго място",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} търсен резултат в друга папка","{count} търсени резултати в други папки"],
-    "Saving..." : "Запазване...",
     "Search" : "Търсене",
     "These apps will be updated:" : "Следните добавки ще бъдат актуализирани:"
 },

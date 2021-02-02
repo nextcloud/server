@@ -28,7 +28,6 @@ OC.L10N.register(
     "Login image" : "Imaxe d'aniciu de sesión",
     "Upload new login background" : "Xubir fondu nuevu d'aniciu de sesión",
     "Remove background image" : "Desaniciar imaxe de fondu",
-    "Advanced options" : "Opciones avanzaes",
-    "Unsupported image type" : "Triba non sofitada d'imaxe"
+    "Advanced options" : "Opciones avanzaes"
 },
 "nplurals=2; plural=(n != 1);");

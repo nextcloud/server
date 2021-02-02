@@ -364,16 +364,11 @@
     "This page will refresh itself when the instance is available again." : "Эта страница обновится автоматически когда сервер снова станет доступен.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Обратитесь к вашему системному администратору если это сообщение не исчезает или появляется неожиданно.",
     "Following apps have been disabled: %s" : "Были отключены следующие приложения: %s",
-    "You are currently running PHP 5.6. The current major version of Nextcloud is the last that is supported on PHP 5.6. It is recommended to upgrade the PHP version to 7.0+ to be able to upgrade to Nextcloud 14." : "На этом сервере используется PHP версии 5.6. Текущая версия Nextcloud является последней из поддерживающих PHP версии 5.6. Для обновления до Nextcloud версии 14 рекомендуется  обновить PHP до версии 7.0 или более старшей.",
     "Use of the the built in php mailer is no longer supported. <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">Please update your email server settings ↗<a/>." : "Использование встроенного механизма отправления электронной почты на основе php более не поддерживается. <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">Обновите параметры сервера электронной почты ↗<a/>.",
-    "({scope})" : "({scope})",
     "Searching other places" : "Выполняется поиск в других местах",
     "No search results in other folders for {tag}{filter}{endtag}" : "Нет результатов поиска в других папках для {tag}{filter}{endtag}",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} результат в другой папке","{count} результата в другой папке","{count} результатов в другой папке","{count} результатов в других папках"],
     "Nextcloud {app}" : "Nextcloud {app}",
-    "Local document editing back-end used by the OnlyOffice app." : "Исполняемый на стороне клиента механизм для редактирования документов, используемый приложением OnlyOffice.",
-    "Saving..." : "Сохранение…",
-    "Calendar, Contacts, Talk, Mail & OnlyOffice" : "Календарь, Контакты, Talk, Почта и OnlyOffice",
     "Search" : "Найти",
     "These apps will be updated:" : "Следующие приложения будут обновлены:"
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"

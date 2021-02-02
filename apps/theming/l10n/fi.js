@@ -47,7 +47,6 @@ OC.L10N.register(
     "Header logo" : "Otsakelogo",
     "Upload new header logo" : "Lähetä uusi otsakelogo",
     "Favicon" : "Favicon",
-    "Upload new favicon" : "Lähetä uusi favicon",
-    "Unsupported image type" : "Ei-tuettu kuvatiedostomuoto"
+    "Upload new favicon" : "Lähetä uusi favicon"
 },
 "nplurals=2; plural=(n != 1);");

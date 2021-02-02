@@ -359,16 +359,11 @@
     "This page will refresh itself when the instance is available again." : "Aquesta pàgina s'actualitzarà automàticament quan la instància estigui disponible de nou.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Contacteu amb l'administrador del sistema si aquest missatge persisteix o apareix inesperadament.",
     "Following apps have been disabled: %s" : "S'han desactivat les aplicacions següents: %s",
-    "You are currently running PHP 5.6. The current major version of Nextcloud is the last that is supported on PHP 5.6. It is recommended to upgrade the PHP version to 7.0+ to be able to upgrade to Nextcloud 14." : "Actualment esteu executant PHP 5.6. La versió actual principal de Nextcloud és l'última que funciona a PHP 5.6. Es recomana actualitzar la versió PHP a 7.0+ per que es pugui actualitzar a Nextcloud 14.",
     "Use of the the built in php mailer is no longer supported. <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">Please update your email server settings ↗<a/>." : "L’ús de la missatgeria pròpia del PHP (php mailer) ja no és compatible. <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">Si us plau actualitzeu la configuració del vostre servidor de correu electrònic ↗<a/>.",
-    "({scope})" : "({scope})",
     "Searching other places" : "S'estan cercant altres ubicacions",
     "No search results in other folders for {tag}{filter}{endtag}" : "No hi ha resultats de la cerca en altres carpetes per {tag}{filter}{endtag}",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} resultat de cerca en altres carpetes","{count} resultats de cerca en altres carpetes"],
     "Nextcloud {app}" : "{app} del Nextcloud",
-    "Local document editing back-end used by the OnlyOffice app." : "Rerefons d'edició de documents local que utilitza l'aplicació OnlyOffice.",
-    "Saving..." : "S'està desant...",
-    "Calendar, Contacts, Talk, Mail & OnlyOffice" : "Calendari, Contactes, Parla, Correu i OnlyOffice",
     "Search" : "Cerca",
     "These apps will be updated:" : "Aquestes aplicacions s'actualitzaran:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

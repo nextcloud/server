@@ -225,7 +225,6 @@ OC.L10N.register(
     "Uploading files" : "Lähetetään tiedostoja",
     "Uploaded files:" : "Lähetetyt tiedostot:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Tiedostoja lähettämällä hyväksyt %1$skäyttöehdot%2$s.",
-    "Name, email, or federated cloud ID …" : "Nimi, sähköposti tai federoitu Cloud ID...",
-    "Uploading files…" : "Lähetetään tiedostoja…"
+    "Name, email, or federated cloud ID …" : "Nimi, sähköposti tai federoitu Cloud ID..."
 },
 "nplurals=2; plural=(n != 1);");

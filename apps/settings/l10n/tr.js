@@ -431,7 +431,6 @@ OC.L10N.register(
     "Visible to local users and to trusted servers" : "Yerel kullanıcı ve güvenilen sunucular görebilir",
     "Will be synced to a global and public address book" : "Genel ve herkese açık bir adres defteri ile eşitlenir",
     "by" : "Kişi:",
-    "{counter} apps have an update available" : "{counter} uygulama için güncelleme yayınlanmış",
     "SSL Root Certificates" : "SSL Kök Sertifikaları",
     "Common Name" : "Ortak Ad",
     "Valid until" : "Geçerlilik",
