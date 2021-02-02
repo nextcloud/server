@@ -32,6 +32,7 @@ namespace OC\Files\ObjectStore;
 
 use Aws\ClientResolver;
 use Aws\Credentials\CredentialProvider;
+use Aws\Credentials\EcsCredentialProvider;
 use Aws\Credentials\Credentials;
 use Aws\Exception\CredentialsException;
 use Aws\S3\Exception\S3Exception;
@@ -105,7 +106,10 @@ trait S3ConnectionTrait {
 			CredentialProvider::chain(
 				$this->paramCredentialProvider(),
 				CredentialProvider::env(),
-				CredentialProvider::instanceProfile()
+				CredentialProvider::assumeRoleWithWebIdentityCredentialProvider(),
+				!empty(getenv(EcsCredentialProvider::ENV_URI))
+					? CredentialProvider::ecsCredentials()
+					: CredentialProvider::instanceProfile()
 			)
 		);
 
