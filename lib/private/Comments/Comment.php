@@ -233,7 +233,7 @@ class Comment implements IComment {
 			return [];
 		}
 		$uids = array_unique($mentions[0]);
-		usort($uids, static function($uid1, $uid2) {
+		usort($uids, static function ($uid1, $uid2) {
 			return mb_strlen($uid2) <=> mb_strlen($uid1);
 		});
 		$result = [];
