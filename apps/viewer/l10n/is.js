@@ -10,7 +10,6 @@ OC.L10N.register(
     "Open sidebar" : "Opna hliðarspjald",
     "Delete" : "Eyða",
     "There is no plugin available to display this file type" : "Ekki er til nein viðbót til að birta þessa tegund af skrám",
-    "View" : "Skoða",
-    "Your browser does not support the video tag." : "Vafrinn þinn styður ekki myndskeiðamerkinguna."
+    "View" : "Skoða"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

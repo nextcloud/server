@@ -10,7 +10,6 @@ OC.L10N.register(
     "Open sidebar" : "Otvoriť bočný panel",
     "Delete" : "Zmazať",
     "There is no plugin available to display this file type" : "Pre zobrazenie tohto typu súboru nie je k dispozícii žiadny doplnok",
-    "View" : "Prezerať",
-    "Your browser does not support the video tag." : "Váš webový prehliadač nepodporuje značku videa."
+    "View" : "Prezerať"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

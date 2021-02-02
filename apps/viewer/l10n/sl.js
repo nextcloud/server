@@ -10,7 +10,6 @@ OC.L10N.register(
     "Open sidebar" : "Odpri bočno okno",
     "Delete" : "Odstrani",
     "There is no plugin available to display this file type" : "Ni vstavka, ki omogoča prikaz te vrste datotek",
-    "View" : "Poglej",
-    "Your browser does not support the video tag." : "Spletni brskalnik ne podpira oznak videa."
+    "View" : "Poglej"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

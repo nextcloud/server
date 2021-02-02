@@ -10,7 +10,6 @@ OC.L10N.register(
     "Open sidebar" : "Yan çubuğu aç",
     "Delete" : "Sil",
     "There is no plugin available to display this file type" : "Bu dosya türünü görüntüleyebilecek bir uygulama eki yok",
-    "View" : "Görüntüle",
-    "Your browser does not support the video tag." : "Web tarayıcınız video kod imini desteklemiyor."
+    "View" : "Görüntüle"
 },
 "nplurals=2; plural=(n > 1);");

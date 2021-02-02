@@ -8,7 +8,6 @@ OC.L10N.register(
     "Your browser does not support videos." : "Nettleseren din støtter ikke videoer.",
     "Open sidebar" : "Åpne sidepanel",
     "Delete" : "Slett",
-    "View" : "Vis",
-    "Your browser does not support the video tag." : "Nettleseren din støtter ikke videotaggen."
+    "View" : "Vis"
 },
 "nplurals=2; plural=(n != 1);");

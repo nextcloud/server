@@ -10,7 +10,6 @@ OC.L10N.register(
     "Open sidebar" : "Отвори бочну траку",
     "Delete" : "Избриши",
     "There is no plugin available to display this file type" : "Нема додатка којим може да се прикаже овај тип фајла",
-    "View" : "Погледај",
-    "Your browser does not support the video tag." : "Ваш прегледач не подржава видео ознаку."
+    "View" : "Погледај"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

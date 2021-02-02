@@ -10,7 +10,6 @@ OC.L10N.register(
     "Open sidebar" : "Ireki albo-barra",
     "Delete" : "Ezabatu",
     "There is no plugin available to display this file type" : "Ez dago plugin erabilgarririk fitxategi mota hau bistaratzeko",
-    "View" : "Ikusi",
-    "Your browser does not support the video tag." : "Zure nabigatzaileak ez du euskarririk video etiketarentzat"
+    "View" : "Ikusi"
 },
 "nplurals=2; plural=(n != 1);");

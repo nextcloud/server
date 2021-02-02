@@ -10,7 +10,6 @@ OC.L10N.register(
     "Open sidebar" : "Obre la barra lateral",
     "Delete" : "Suprimeix",
     "There is no plugin available to display this file type" : "No hi ha cap connector disponible per a mostrar aquest tipus de fitxer",
-    "View" : "Visualitza",
-    "Your browser does not support the video tag." : "El vostre navegador no és compatible amb l'etiqueta «video»."
+    "View" : "Visualitza"
 },
 "nplurals=2; plural=(n != 1);");

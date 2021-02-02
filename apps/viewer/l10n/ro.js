@@ -7,7 +7,6 @@ OC.L10N.register(
     "Error loading {name}" : "Eroare la încărcare {name}",
     "Open sidebar" : "Deschide bara laterală",
     "Delete" : "Șterge",
-    "View" : "Vizualizare",
-    "Your browser does not support the video tag." : "Browserul tău nu suportă etichete video."
+    "View" : "Vizualizare"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

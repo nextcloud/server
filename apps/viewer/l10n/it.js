@@ -10,7 +10,6 @@ OC.L10N.register(
     "Open sidebar" : "Apri la barra laterale",
     "Delete" : "Elimina",
     "There is no plugin available to display this file type" : "Non c'è alcuna estensione per visualizzare questo tipo di file",
-    "View" : "Visualizza",
-    "Your browser does not support the video tag." : "Il tuo browser non supporta il tag video."
+    "View" : "Visualizza"
 },
 "nplurals=2; plural=(n != 1);");

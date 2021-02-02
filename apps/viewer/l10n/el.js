@@ -10,7 +10,6 @@ OC.L10N.register(
     "Open sidebar" : "Άνοιγμα πλευρικής στήλης",
     "Delete" : "Διαγραφή",
     "There is no plugin available to display this file type" : "Δεν υπάρχει διαθέσιμο πρόσθετο για την προβολή αυτού του τύπου αρχείου",
-    "View" : "Προβολή",
-    "Your browser does not support the video tag." : "Το πρόγραμμα περιήγησης που χρησιμοποιείτε δεν υποστηρίζει την ετικέτα βίντεο."
+    "View" : "Προβολή"
 },
 "nplurals=2; plural=(n != 1);");

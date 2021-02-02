@@ -8,7 +8,6 @@
     "Open sidebar" : "פתיחת סרגל הצד",
     "Delete" : "מחיקה",
     "There is no plugin available to display this file type" : "אין תוסף זמין להצגת סוג הקובץ הזה",
-    "View" : "צפייה",
-    "Your browser does not support the video tag." : "הדפדפן שלך לא תומך בתגית video."
+    "View" : "צפייה"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;"
 }

@@ -8,7 +8,6 @@ OC.L10N.register(
     "Your browser does not support videos." : "Via retumilo ne subtenas la vidaĵojn",
     "Open sidebar" : "Malfermi flankopanelon",
     "Delete" : "Forigi",
-    "View" : "Vidi",
-    "Your browser does not support the video tag." : "Via retumilo ne subtenas la HTML-kodon „video“."
+    "View" : "Vidi"
 },
 "nplurals=2; plural=(n != 1);");

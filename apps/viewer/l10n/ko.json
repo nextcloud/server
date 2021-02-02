@@ -5,7 +5,6 @@
     "Error loading {name}" : "{name} 불러오기 오류",
     "Open sidebar" : "사이드바 열기",
     "Delete" : "삭제",
-    "View" : "보기",
-    "Your browser does not support the video tag." : "브라우저에서 video 태그를 지원하지 않습니다."
+    "View" : "보기"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

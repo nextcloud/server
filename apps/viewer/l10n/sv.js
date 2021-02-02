@@ -10,7 +10,6 @@ OC.L10N.register(
     "Open sidebar" : "Öppna sidofältet",
     "Delete" : "Ta bort",
     "There is no plugin available to display this file type" : "Det finns inget tillägg tillgängligt för att visa denna filtyp",
-    "View" : "Visa",
-    "Your browser does not support the video tag." : "Din webbläsare stöder inte videotaggen."
+    "View" : "Visa"
 },
 "nplurals=2; plural=(n != 1);");

@@ -10,7 +10,6 @@ OC.L10N.register(
     "Open sidebar" : "Openen zijbalk",
     "Delete" : "Verwijderen",
     "There is no plugin available to display this file type" : "Er is geen plugin beschikbaar om dit bestandstype weer te geven",
-    "View" : "Bekijken",
-    "Your browser does not support the video tag." : "Je browser ondersteunt de video tag niet."
+    "View" : "Bekijken"
 },
 "nplurals=2; plural=(n != 1);");

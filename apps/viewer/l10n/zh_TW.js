@@ -10,7 +10,6 @@ OC.L10N.register(
     "Open sidebar" : "開啟側邊攔",
     "Delete" : "刪除",
     "There is no plugin available to display this file type" : "沒有可以顯示這個檔案類型的外掛",
-    "View" : "檢視",
-    "Your browser does not support the video tag." : "您的瀏覽器不支援視訊標籤。"
+    "View" : "檢視"
 },
 "nplurals=1; plural=0;");
