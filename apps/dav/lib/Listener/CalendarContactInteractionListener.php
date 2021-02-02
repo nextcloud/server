@@ -26,11 +26,14 @@ declare(strict_types=1);
 namespace OCA\DAV\Listener;
 
 use OCA\DAV\Connector\Sabre\Principal;
+use OCA\DAV\Events\CalendarObjectCreatedEvent;
+use OCA\DAV\Events\CalendarObjectUpdatedEvent;
 use OCA\DAV\Events\CalendarShareUpdatedEvent;
 use OCP\Contacts\Events\ContactInteractedWithEvent;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\EventDispatcher\IEventListener;
+use OCP\IUser;
 use OCP\IUserSession;
 use Psr\Log\LoggerInterface;
 use function strlen;
@@ -68,6 +71,17 @@ class CalendarContactInteractionListener implements IEventListener {
 			return;
 		}
 
+		if ($event instanceof CalendarObjectCreatedEvent || $event instanceof CalendarObjectUpdatedEvent) {
+			// users: href => principal:principals/users/admin
+			// TODO: parse (email) attendees from the VCARD
+			foreach ($event->getShares() as $share) {
+				if (!isset($share['href'])) {
+					continue;
+				}
+				$this->emitFromUri($share['href'], $user);
+			}
+		}
+
 		if ($event instanceof CalendarShareUpdatedEvent && !empty($event->getAdded())) {
 			// group: href => principal:principals/groups/admin
 			// users: href => principal:principals/users/admin
@@ -76,21 +90,28 @@ class CalendarContactInteractionListener implements IEventListener {
 					// Nothing to work with
 					continue;
 				}
-				$principal = $this->principalConnector->findByUri(
-					$added['href'],
-					$this->principalConnector->getPrincipalPrefix()
-				);
-				if ($principal === null) {
-					// Invalid principal
-					continue;
-				}
-				if (strpos($principal, self::URI_USERS) === 0) {
-					$uid = substr($principal, strlen(self::URI_USERS));
-					$this->dispatcher->dispatchTyped(
-						(new ContactInteractedWithEvent($user))->setUid($uid)
-					);
-				}
+				$this->emitFromUri($added['href'], $user);
 			}
 		}
+	}
+
+	private function emitFromUri(string $uri, IUser $user): void {
+		$principal = $this->principalConnector->findByUri(
+			$uri,
+			$this->principalConnector->getPrincipalPrefix()
+		);
+		if ($principal === null) {
+			// Invalid principal
+			return;
+		}
+		if (strpos($principal, self::URI_USERS) !== 0) {
+			// Not a user principal
+			return;
+		}
+
+		$uid = substr($principal, strlen(self::URI_USERS));
+		$this->dispatcher->dispatchTyped(
+			(new ContactInteractedWithEvent($user))->setUid($uid)
+		);
 	}
 }

@@ -53,6 +53,8 @@ use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\CardDAV\ContactsManager;
 use OCA\DAV\CardDAV\PhotoCache;
 use OCA\DAV\CardDAV\SyncService;
+use OCA\DAV\Events\CalendarObjectCreatedEvent;
+use OCA\DAV\Events\CalendarObjectUpdatedEvent;
 use OCA\DAV\Events\CalendarShareUpdatedEvent;
 use OCA\DAV\HookManager;
 use OCA\DAV\Listener\CalendarContactInteractionListener;
@@ -112,6 +114,8 @@ class Application extends App implements IBootstrap {
 		/**
 		 * Register event listeners
 		 */
+		$context->registerEventListener(CalendarObjectCreatedEvent::class, CalendarContactInteractionListener::class);
+		$context->registerEventListener(CalendarObjectUpdatedEvent::class, CalendarContactInteractionListener::class);
 		$context->registerEventListener(CalendarShareUpdatedEvent::class, CalendarContactInteractionListener::class);
 	}
 
