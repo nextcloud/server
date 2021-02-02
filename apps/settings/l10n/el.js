@@ -431,7 +431,6 @@ OC.L10N.register(
     "Visible to local users and to trusted servers" : "Προσθήκη στη λίστα των έμπιστων διακομιστών",
     "Will be synced to a global and public address book" : "Θα συγχρονιστεί με παγκόσμιο και δημόσιο βιβλίο διευθύνσεων",
     "by" : "από",
-    "{counter} apps have an update available" : "{counter} εφαρμογές έχουν διαθέσιμη ενημέρωση",
     "SSL Root Certificates" : "Πιστοποιητικά SSL του Root",
     "Common Name" : "Κοινό Όνομα",
     "Valid until" : "Έγκυρο έως",

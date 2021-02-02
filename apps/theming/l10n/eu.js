@@ -41,7 +41,6 @@ OC.L10N.register(
     "Header logo" : "Goiburuaren logoa",
     "Upload new header logo" : "Kargatu goiburuaren logo berria",
     "Favicon" : "Gogoko-ikonoa",
-    "Upload new favicon" : "Kargatu gogoko-ikono berria",
-    "Unsupported image type" : "Irudi mota ez da onartzen"
+    "Upload new favicon" : "Kargatu gogoko-ikono berria"
 },
 "nplurals=2; plural=(n != 1);");

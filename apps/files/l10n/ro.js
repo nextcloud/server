@@ -162,7 +162,6 @@ OC.L10N.register(
     "A new file or folder has been <strong>created</strong>" : "Un nou fișier sau director a fost <strong>creat</strong>",
     "A file or folder has been <strong>deleted</strong>" : "Un fișier sau director a fost <strong>șters</strong>",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Limitează notificările despre crearea sau schimbările<strong> fișierelor tale favorite</strong> <em>(numai pentru flux)</em>  ",
-    "A file or folder has been <strong>restored</strong>" : "Un fișier sau dosar a fost <strong>restaurat</strong>",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Folosește această adresă <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">pentru a accesa Fișierele prin WebDAV</a>"
+    "A file or folder has been <strong>restored</strong>" : "Un fișier sau dosar a fost <strong>restaurat</strong>"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

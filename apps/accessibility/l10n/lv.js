@@ -11,7 +11,6 @@ OC.L10N.register(
     "OpenDyslexic is a free typeface/font designed to mitigate some of the common reading errors caused by dyslexia." : "OpenDyslexic ir bezmaksas fonts, kas veidots, lai mazinātu tipiskākos lasīšanas traucējumus, ko izraisa disleksija.",
     "Accessibility" : "Pieejamība",
     "Accessibility options for nextcloud" : "nextcloud Pieejamības uzstādījumi",
-    "Provides multiple accessibilities options to ease your use of Nextcloud" : "Piedāvā vairākus pieejamības uzstādījumus, kas atvieglo Nextcloud lietošanu.",
-    "Enable" : "Iespējo"
+    "Provides multiple accessibilities options to ease your use of Nextcloud" : "Piedāvā vairākus pieejamības uzstādījumus, kas atvieglo Nextcloud lietošanu."
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

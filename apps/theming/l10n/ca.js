@@ -49,7 +49,6 @@ OC.L10N.register(
     "Upload new header logo" : "Puja un logotip de capçalera nou",
     "Favicon" : "Icona de web",
     "Upload new favicon" : "Carrega un nou favicon",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Instal·leu l'extensió PHP de l'ImageMagick compatible amb imatges SVG per generar automàticament una icona de web a partir del logotip pujat i del color.",
-    "Unsupported image type" : "Tipus d'imatge no compatible"
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Instal·leu l'extensió PHP de l'ImageMagick compatible amb imatges SVG per generar automàticament una icona de web a partir del logotip pujat i del color."
 },
 "nplurals=2; plural=(n != 1);");

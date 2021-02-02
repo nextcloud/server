@@ -365,16 +365,11 @@
     "This page will refresh itself when the instance is available again." : "Cette page se rafraîchira d'elle-même lorsque le serveur sera de nouveau disponible.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Veuillez contacter votre administrateur système si ce message persiste ou apparaît de façon inattendue.",
     "Following apps have been disabled: %s" : "Les applications suivantes ont été désactivées : %s",
-    "You are currently running PHP 5.6. The current major version of Nextcloud is the last that is supported on PHP 5.6. It is recommended to upgrade the PHP version to 7.0+ to be able to upgrade to Nextcloud 14." : "Vous utiliser actuellement PHP 5.6. La version majeure actuelle de Nextcloud est la dernière qui est supportée sous PHP 5.6. Il est recommandé de mettre à niveau PHP vers la version 7.0+ pour pouvoir passer à Nextcloud 14.",
     "Use of the the built in php mailer is no longer supported. <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">Please update your email server settings ↗<a/>." : "L'utilisation de la fonctionnalité d'envoi d'e-mails native de PHP n'est plus supportée. <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">Merci de mettre à jour les paramètres d'envoi d'e-mails de votre serveur ↗ <a/>",
-    "({scope})" : "({scope})",
     "Searching other places" : "Recherche en cours dans d'autres emplacements",
     "No search results in other folders for {tag}{filter}{endtag}" : "Aucun résultat dans d'autres dossiers n'a été trouvé pour  {tag}{filter}{endtag}",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} résultat dans un autre dossier","{count} résultats dans d'autres dossiers"],
     "Nextcloud {app}" : "Nextcloud {app}",
-    "Local document editing back-end used by the OnlyOffice app." : "Moteur d'édition de documents locaux utilisé par l'application OnlyOffice.",
-    "Saving..." : "Enregistrement…",
-    "Calendar, Contacts, Talk, Mail & OnlyOffice" : "Agenda, Contacts, Discussion, Mail & OnlyOffice",
     "Search" : "Rechercher",
     "These apps will be updated:" : "Les applications suivantes seront mises à jour :"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"

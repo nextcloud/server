@@ -201,8 +201,6 @@ OC.L10N.register(
     "A new file or folder has been <strong>created</strong>" : "Byl <strong>vytvořen</strong> nový soubor nebo složka",
     "A file or folder has been <strong>deleted</strong>" : "Soubor nebo složka byla <strong>smazána</strong>",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Upozorňovat na vytváření a změny pouze u vašich <strong>oblíbených souborů</strong> <em>(pouze v Proud)</em>",
-    "A file or folder has been <strong>restored</strong>" : "Soubor nebo složka byla <strong>obnovena</strong>",
-    "Cannot transfter ownership of a file or folder you don't own" : "Není možné převést vlastnictví souboru nebo složky, která vám nenáleží",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Použijte tuto adresu pro <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">přístup k vašim souborům přes WebDAV</a>"
+    "A file or folder has been <strong>restored</strong>" : "Soubor nebo složka byla <strong>obnovena</strong>"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

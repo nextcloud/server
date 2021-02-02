@@ -173,7 +173,6 @@ OC.L10N.register(
     "Note" : "Melding",
     "Select or drop files" : "Velg eller slipp filer",
     "Uploading files" : "Laster opp filer",
-    "Uploaded files:" : "Opplastede filer:",
-    "Uploading files…" : "Laster opp filer…"
+    "Uploaded files:" : "Opplastede filer:"
 },
 "nplurals=2; plural=(n != 1);");

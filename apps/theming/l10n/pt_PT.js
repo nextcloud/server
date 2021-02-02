@@ -28,7 +28,6 @@ OC.L10N.register(
     "Upload new login background" : "Carregar imagem de segundo plano de Login",
     "Remove background image" : "Remover imagem de segundo plano",
     "Advanced options" : "Opções avançadas",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Instale a extensão PHP Imagemagick com suporte para imagens SVG para gerar automaticamente favicons com base na cor e no logotipo carregado.",
-    "Unsupported image type" : "Tipo de imagem não suportado"
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Instale a extensão PHP Imagemagick com suporte para imagens SVG para gerar automaticamente favicons com base na cor e no logotipo carregado."
 },
 "nplurals=2; plural=(n != 1);");

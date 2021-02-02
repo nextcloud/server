@@ -429,7 +429,6 @@
     "Visible to local users and to trusted servers" : "仅对本地用户和信任的服务器可见",
     "Will be synced to a global and public address book" : "将同步到全局和公开地址簿中",
     "by" : "由",
-    "{counter} apps have an update available" : "{counter} 个应用有可用的更新",
     "SSL Root Certificates" : "SSL 根证书",
     "Common Name" : "通用名称",
     "Valid until" : "有效期至",

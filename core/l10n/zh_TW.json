@@ -365,16 +365,11 @@
     "This page will refresh itself when the instance is available again." : "安裝恢復可用之後，本頁會自動重新整理",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "若這個訊息持續出現，請聯絡系統管理員",
     "Following apps have been disabled: %s" : "以下應用程式已經被停用：%s",
-    "You are currently running PHP 5.6. The current major version of Nextcloud is the last that is supported on PHP 5.6. It is recommended to upgrade the PHP version to 7.0+ to be able to upgrade to Nextcloud 14." : "您目前正運行 PHP 5.6 ，目前使用的 Nextcloud 將會是最後一個支援 PHP 5.6 的版本，建議您升級至 PHP 7.0 以上以使用 Nextcloud 14。",
     "Use of the the built in php mailer is no longer supported. <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">Please update your email server settings ↗<a/>." : "我們將不再支援使用 PHP mailer 發送電子郵件。<a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">請更新您電子郵件伺服器的相關設定<a/>。",
-    "({scope})" : "（{scope}）",
     "Searching other places" : "搜尋其他位置",
     "No search results in other folders for {tag}{filter}{endtag}" : "{tag}{filter}{endtag} 在其他資料夾中沒有相符的結果",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["在其他資料夾中有 {count} 筆結果"],
     "Nextcloud {app}" : "Nextcloud {app}",
-    "Local document editing back-end used by the OnlyOffice app." : "由 OnlyOffice 應用程式使用的本機文件編輯後端。",
-    "Saving..." : "儲存中……",
-    "Calendar, Contacts, Talk, Mail & OnlyOffice" : "行事曆、通訊錄、對話、郵件與 OnlyOffice",
     "Search" : "搜尋",
     "These apps will be updated:" : "將會更新這些應用程式"
 },"pluralForm" :"nplurals=1; plural=0;"

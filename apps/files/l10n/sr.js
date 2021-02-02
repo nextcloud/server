@@ -198,8 +198,6 @@ OC.L10N.register(
     "A new file or folder has been <strong>created</strong>" : "Нови фајл или фасцикла су <strong>направљени</strong>",
     "A file or folder has been <strong>deleted</strong>" : "Фајл или фасцикла су <strong>обрисани</strong>",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Ограничи обавештења о стварању и изменама на <strong>омиљене фајлове</strong> <em>(само у записнику)</em>",
-    "A file or folder has been <strong>restored</strong>" : "Фајл или фасцикла су <strong>враћени</strong>",
-    "Cannot transfter ownership of a file or folder you don't own" : "Не можете пренети власништво фајла или фасцикле које нису Ваше",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Користи ову адресу да <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">приступате Вашим фајловима преко ВебДАВа</a>"
+    "A file or folder has been <strong>restored</strong>" : "Фајл или фасцикла су <strong>враћени</strong>"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

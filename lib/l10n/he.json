@@ -200,14 +200,6 @@
     "Storage connection timeout. %s" : "פסק זמן חיבור אחסון. %s",
     "Following databases are supported: %s" : "מסדי הנתונים הבאים נתמכים: %s",
     "Following platforms are supported: %s" : "הפלטפורמות הבאות נתמכות: %s",
-    "Overview" : "סקירה",
-    "Basic settings" : "הגדרות בסיסיות",
-    "Sharing" : "שיתוף",
-    "Security" : "אבטחה",
-    "Groupware" : "קבוצתי",
-    "Personal info" : "פרטים אישיים",
-    "Mobile & desktop" : "נייד ושולחן עבודה",
-    "Invalid Federated Cloud ID" : "זיהוי ענן מאוגד לא חוקי",
-    "This can usually be fixed by giving the webserver write access to the apps directory or disabling the appstore in the config file. See %s" : "בדרך כלל ניתן לתקן זאת על ידי הענקת גישה לשרת לכתוב לתיקיית היישומונים או להשבית את חנות היישומונים בקובץ ההגדרות. נא לעיין ב־%s"
+    "Invalid Federated Cloud ID" : "זיהוי ענן מאוגד לא חוקי"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;"
 }

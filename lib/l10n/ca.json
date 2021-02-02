@@ -226,14 +226,6 @@
     "Storage connection timeout. %s" : "Temps d’espera exhaurit en la connexió d’emmagatzematge. %s",
     "Following databases are supported: %s" : "S'admeten les següents bases de dades: %s",
     "Following platforms are supported: %s" : "S'admeten les següents plataformes: %s",
-    "Overview" : "Resum",
-    "Basic settings" : "Configuració bàsica",
-    "Sharing" : "Compartició",
-    "Security" : "Seguretat",
-    "Groupware" : "Treball en grup",
-    "Personal info" : "Informació personal",
-    "Mobile & desktop" : "Mòbil i escriptori",
-    "Invalid Federated Cloud ID" : "ID de Núvol Federat no vàlid",
-    "This can usually be fixed by giving the webserver write access to the apps directory or disabling the appstore in the config file. See %s" : "Això normalment es pot solucionar donant al servidor web permís d'escriptura al directori d'aplicacions o desactivant el programa d’aplicació al fitxer de configuració. Vegeu %s"
+    "Invalid Federated Cloud ID" : "ID de Núvol Federat no vàlid"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -404,7 +404,6 @@ OC.L10N.register(
     "Visible to local users and to trusted servers" : "Bertako erabiltzaile eta zerbitzarien jendearentzat ikusgai",
     "Will be synced to a global and public address book" : "Helbide liburu global eta publikoan sinkronizatuko da",
     "by" : "Nork",
-    "{counter} apps have an update available" : "{counter} aplikaziok eguneraketaren bat dute prest",
     "SSL Root Certificates" : "SSL Root Certificates",
     "Common Name" : "Izen arrunta",
     "Valid until" : "Data hau arte baliogarria",

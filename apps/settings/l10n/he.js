@@ -431,7 +431,6 @@ OC.L10N.register(
     "Visible to local users and to trusted servers" : "גלוי למשתמשים מקומיים ולשרתים מהימנים",
     "Will be synced to a global and public address book" : "יסונכרן לספר כתובות גלובלי וציבורי",
     "by" : "מאת",
-    "{counter} apps have an update available" : "ל־{counter} יישומונים יש עדכון זמין",
     "SSL Root Certificates" : "אישורי אבטחת SSL לנתיב יסוד",
     "Common Name" : "שם משותף",
     "Valid until" : "בתוקף עד",

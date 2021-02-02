@@ -211,10 +211,8 @@
     "This %s instance is currently in maintenance mode, which may take a while." : "See %s instants on hetkel haldusrežiimis, mis võib kesta mõnda aega.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Kontakteeru oma süsteemihalduriga, kui see teade püsib või on tekkinud ootamatult.",
     "Following apps have been disabled: %s" : "Järgnevad rakendused on välja lülitatud: %s",
-    "({scope})" : "({scope})",
     "Searching other places" : "Otsi teistest kohtadest",
     "No search results in other folders for {tag}{filter}{endtag}" : "Teistest kaustadest ei leitud {tag}{filter}{endtag}",
-    "Saving..." : "Salvestamine...",
     "Search" : "Otsi",
     "These apps will be updated:" : "Neid rakendusi uuendatakse:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

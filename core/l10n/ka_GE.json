@@ -234,12 +234,9 @@
     "This %s instance is currently in maintenance mode, which may take a while." : "ეს %s ინსტანცია ამჟამად სარემონტო რეჟიმშია, ამან შეიძლება გასტანოს გარკვეული დრო.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "თუ ეს წერილი გამოჩნდა მოულოდნელად ან მისი გამოჩენა გრძელდება, დაუკავშირდით სისტემის ადმინისტრატორს.",
     "Following apps have been disabled: %s" : "შემდეგი აპლიკაციები გაითიშა: %s",
-    "You are currently running PHP 5.6. The current major version of Nextcloud is the last that is supported on PHP 5.6. It is recommended to upgrade the PHP version to 7.0+ to be able to upgrade to Nextcloud 14." : "თქვენთან ამ მომენტისთვის მოქმედია PHP 5.6. ამჟამინდელი Nextcloud-ის ძირითადი ვერსია ბოლოა, რომელიც მხარს უჭერს PHP 5.6-ს. Nextcloud 14-ზე განახლებისთვის, რეკომენდირებულია PHP განაახლოთ 7.0+ ვერსიამდე.",
-    "({scope})" : "({scope})",
     "Searching other places" : "ვეძებთ დანარჩენ ადგილებში",
     "No search results in other folders for {tag}{filter}{endtag}" : "ძიების შედეგები სხვა დირექტორიებში {tag}{filter}{endtag}-სთვის არაა",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} ძიების შედეგები სხვა დირექტორიებში","{count} ძიების შედეგები სხვა დირექტორიებში"],
-    "Saving..." : "შენახვა...",
     "Search" : "ძებნა",
     "These apps will be updated:" : "ეს აპლიკაციები განახლდება:"
 },"pluralForm" :"nplurals=2; plural=(n!=1);"

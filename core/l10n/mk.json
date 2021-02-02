@@ -354,13 +354,10 @@
     "This page will refresh itself when the instance is available again." : "Оваа веб страница ќе се рефрешира кога истанцата ќе биде повторно достапна.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Контактирајте го вашиот систем администратор до колку оваа порака продолжи да се појавува или пак се појавува ненадејно.",
     "Following apps have been disabled: %s" : "Следниве апликации се оневозможени: %s",
-    "({scope})" : "({scope})",
     "Searching other places" : "Пребарување на други места",
     "No search results in other folders for {tag}{filter}{endtag}" : "Нема резултати од пребарувањето на други места за {tag}{filter}{endtag}",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} резултат од пребарувањето во други директориуми","{count} резултати од пребарувањето во други директориуми"],
     "Nextcloud {app}" : "Nextcloud {app}",
-    "Saving..." : "Зачувува ...",
-    "Calendar, Contacts, Talk, Mail & OnlyOffice" : "Календар, контакти, разговор, Е-пошта & Документи",
     "Search" : "Барај",
     "These apps will be updated:" : "Следните апликации чќе бидат надградени:"
 },"pluralForm" :"nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;"

@@ -249,12 +249,9 @@ OC.L10N.register(
     "This %s instance is currently in maintenance mode, which may take a while." : "Esta instancia %s se encuentra actualmente en modo mantenimiento, que podría tomar algo de tiempo. ",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Contacta a tu administrador del sistema si este mensaje persiste o se presentó de manera inesperada.",
     "Following apps have been disabled: %s" : "Las siguientes aplicaciones han sido deshabilitadas: %s",
-    "You are currently running PHP 5.6. The current major version of Nextcloud is the last that is supported on PHP 5.6. It is recommended to upgrade the PHP version to 7.0+ to be able to upgrade to Nextcloud 14." : "Actualmente estás corriendo PHP 5.6. La versión principal actual de Nextcloud es la última que será soportada en PHPH 5.6. Te recomendamos actualizar la versión de PHP a la 7.0+ para que puedas actualizar a Nextcloud 14.",
-    "({scope})" : "({scope})",
     "Searching other places" : "Buscando en otras ubicaciones",
     "No search results in other folders for {tag}{filter}{endtag}" : "No hay resultados para la búsqueda {tag}{filter}{endtag} en otras carpetas",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} resultado de la búsqueda en otra carpeta","{count} resultados de la búsqueda en otras carpetas"],
-    "Saving..." : "Guardando...",
     "Search" : "Buscar",
     "These apps will be updated:" : "Las siguientes apllicaciones se actualizarán:"
 },

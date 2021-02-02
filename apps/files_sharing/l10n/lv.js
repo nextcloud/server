@@ -195,7 +195,6 @@ OC.L10N.register(
     "Select or drop files" : "Izvēlies vai ievelc datnes",
     "Uploading files" : "Augšupielādē datnes",
     "Uploaded files:" : "Augšupielādētas datnes:",
-    "By uploading files, you agree to the %1$sterms of service%2$s." : "Veicot datņu augšupielādi, jūs piekrītat %1$spakalpojuma noteikumiem%2$s.",
-    "Uploading files…" : "Augšupielādē datnes"
+    "By uploading files, you agree to the %1$sterms of service%2$s." : "Veicot datņu augšupielādi, jūs piekrītat %1$spakalpojuma noteikumiem%2$s."
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

@@ -408,7 +408,6 @@ OC.L10N.register(
     "Visible to local users and to trusted servers" : "Näkyvillä vain paikallisille käyttäjille ja luotetuille palvelimille",
     "Will be synced to a global and public address book" : "Synkronoidaan maailmanlaajuiseen ja julkiseen osoitekirjaan",
     "by" : " Kirjoittaja:",
-    "{counter} apps have an update available" : "{counter} sovellukselle on päivitys saatavilla",
     "SSL Root Certificates" : "SSL-juurivarmenteet",
     "Common Name" : "Yleinen nimi",
     "Valid until" : "Kelvollinen",

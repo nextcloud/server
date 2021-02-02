@@ -230,7 +230,6 @@
     "Uploading files" : "Envoi des fichiers en cours ...",
     "Uploaded files:" : "Fichiers envoyés :",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "En envoyant des fichiers, vous acceptez les %1$sconditions d'utilisation%2$s.",
-    "Name, email, or federated cloud ID …" : "Nom, adresse e-mail ou identifiant cloud fédéré…",
-    "Uploading files…" : "Envoi des fichiers..."
+    "Name, email, or federated cloud ID …" : "Nom, adresse e-mail ou identifiant cloud fédéré…"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

@@ -208,7 +208,6 @@ OC.L10N.register(
     "Uploading files" : "檔案上傳中",
     "Uploaded files:" : "已上傳的檔案：",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "上傳檔案即表示您同意 %1$s服務條款%2$s。 ",
-    "Name, email, or federated cloud ID …" : "名字，電郵地址或 federated cloud ID …",
-    "Uploading files…" : "上傳檔案中…"
+    "Name, email, or federated cloud ID …" : "名字，電郵地址或 federated cloud ID …"
 },
 "nplurals=1; plural=0;");

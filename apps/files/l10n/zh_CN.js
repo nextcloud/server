@@ -211,8 +211,6 @@ OC.L10N.register(
     "A new file or folder has been <strong>created</strong>" : "新的文件或文件夹已被 <strong>创建</strong>",
     "A file or folder has been <strong>deleted</strong>" : "一个文件或文件夹已被 <strong>删除</strong>",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "仅限 <strong>收藏文件</strong>的创建和更改通知 <em>（仅限流）</em>",
-    "A file or folder has been <strong>restored</strong>" : "一个文件或文件夹已被<strong>恢复</strong>",
-    "Cannot transfter ownership of a file or folder you don't own" : "无法转让您未拥有的文件或文件夹的所有权",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "使用这个地址 <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">通过 WebDAV 访问您的文件</a>"
+    "A file or folder has been <strong>restored</strong>" : "一个文件或文件夹已被<strong>恢复</strong>"
 },
 "nplurals=1; plural=0;");

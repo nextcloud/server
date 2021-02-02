@@ -340,14 +340,10 @@
     "This page will refresh itself when the instance is available again." : "Denna sida uppdaterar sig själv när instansen är tillgänglig igen.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Hör av dig till din systemadministratör om detta meddelande fortsätter eller visas oväntat.",
     "Following apps have been disabled: %s" : "Följande appar har inaktiverats: %s",
-    "You are currently running PHP 5.6. The current major version of Nextcloud is the last that is supported on PHP 5.6. It is recommended to upgrade the PHP version to 7.0+ to be able to upgrade to Nextcloud 14." : "Du kör för närvarande PHP 5.6. Den nuvarande omfattande versionen av Nextcloud är den sista som stöds på PHP 5.6. Det rekommenderas att uppgradera PHP-versionen till 7.0+ för att kunna uppgradera till Nextcloud 14.",
     "Use of the the built in php mailer is no longer supported. <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">Please update your email server settings ↗<a/>." : "Användning av den inbyggda php mailer stöds inte längre. <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">Vänligen uppdatera inställningarna för din e-postserver ↗<a/>.",
-    "({scope})" : "({scope})",
     "Searching other places" : "Söker på andra platser",
     "No search results in other folders for {tag}{filter}{endtag}" : "Inget sökresultat i andra mappar för {tag}{filter}{endtag}",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} sökresultat i en annan mapp","{count} sökresultat i andra mappar"],
-    "Saving..." : "Sparar...",
-    "Calendar, Contacts, Talk, Mail & OnlyOffice" : "Kalender, Kontakter, Talk, E-post & OnlyOffice",
     "Search" : "Sök",
     "These apps will be updated:" : "Dessa appar kommer att uppdateras:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

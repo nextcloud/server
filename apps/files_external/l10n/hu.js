@@ -126,7 +126,6 @@ OC.L10N.register(
     "Click to recheck the configuration" : "Kattints ide a konfiguráció újraellenőrzéséhez",
     "Add storage" : "Tároló becsatolása",
     "Advanced settings" : "Haladó beállítások",
-    "Allow users to mount external storage" : "Külső tárolók csatolásának  engedélyezése a felhasználók részére",
-    "Saving..." : "Mentés..."
+    "Allow users to mount external storage" : "Külső tárolók csatolásának  engedélyezése a felhasználók részére"
 },
 "nplurals=2; plural=(n != 1);");

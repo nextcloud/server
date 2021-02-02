@@ -234,7 +234,6 @@ OC.L10N.register(
     "Uploading files" : "Uploaden bestanden",
     "Uploaded files:" : "Geüploade bestanden",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Door het uploaden van bestanden stem je in met de %1$sgebruiksvoorwaarden%2$s.",
-    "Name, email, or federated cloud ID …" : "Naam, e-mailadres of gefedereerde Cloud ID …",
-    "Uploading files…" : "Uploaden bestanden..."
+    "Name, email, or federated cloud ID …" : "Naam, e-mailadres of gefedereerde Cloud ID …"
 },
 "nplurals=2; plural=(n != 1);");

@@ -431,7 +431,6 @@ OC.L10N.register(
     "Visible to local users and to trusted servers" : "Visíbel para usuarios locais e para servidores de confianza",
     "Will be synced to a global and public address book" : "Vai ser sincronizado cun caderno de enderezos global e público",
     "by" : "por",
-    "{counter} apps have an update available" : "{counter} aplicacións teñen unha actualización pendente.",
     "SSL Root Certificates" : "Certificados raíz SSL",
     "Common Name" : "Nome común",
     "Valid until" : "Válido ata",

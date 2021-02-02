@@ -49,7 +49,6 @@ OC.L10N.register(
     "Upload new header logo" : "Прикачи ново лого на заглавие",
     "Favicon" : "Фавикон",
     "Upload new favicon" : "Прикачи нов Фавикон",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Инсталирај Imagemagick додаток за PHP со што ќе се овозможи поддршка за SVG сликите автоматски да генерираат Фавикон базирано на прикаченото лого и боја.",
-    "Unsupported image type" : "Неподржан вид на слика"
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Инсталирај Imagemagick додаток за PHP со што ќе се овозможи поддршка за SVG сликите автоматски да генерираат Фавикон базирано на прикаченото лого и боја."
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

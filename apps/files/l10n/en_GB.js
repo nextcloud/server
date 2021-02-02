@@ -152,7 +152,6 @@ OC.L10N.register(
     "A new file or folder has been <strong>created</strong>" : "A new file or folder has been <strong>created</strong>",
     "A file or folder has been <strong>deleted</strong>" : "A file or folder has been <strong>deleted</strong>",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Limit notifications about creation and changes to your <strong>favourite files</strong> <em>(Stream only)</em>",
-    "A file or folder has been <strong>restored</strong>" : "A file or folder has been <strong>restored</strong>",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>"
+    "A file or folder has been <strong>restored</strong>" : "A file or folder has been <strong>restored</strong>"
 },
 "nplurals=2; plural=(n != 1);");

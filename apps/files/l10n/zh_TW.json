@@ -209,8 +209,6 @@
     "A new file or folder has been <strong>created</strong>" : "新的檔案或目錄已被<strong>建立</strong>",
     "A file or folder has been <strong>deleted</strong>" : "檔案或目錄已被<strong>刪除</strong>",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "僅顯示<strong>最愛檔案</strong>的動態通知<em>（僅限訊息串）</em>",
-    "A file or folder has been <strong>restored</strong>" : "檔案或目錄已被<strong>復原</strong>",
-    "Cannot transfter ownership of a file or folder you don't own" : "無法轉移非您擁有檔案或資料夾的所有權",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "使用此位置來<a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">透過 WebDAV 存取您的檔案</a>"
+    "A file or folder has been <strong>restored</strong>" : "檔案或目錄已被<strong>復原</strong>"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

@@ -165,7 +165,6 @@ OC.L10N.register(
     "A new file or folder has been <strong>created</strong>" : "Új fájl vagy mappa <strong>létrehozva</strong>",
     "A file or folder has been <strong>deleted</strong>" : "Fájl vagy mappa <strong>törölve</strong>",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Szűkítse le az értesítéseket a létrehozásról és a változásokról a <strong>kedvenc fájlok</strong> <em>(Stream only)</em> -ra",
-    "A file or folder has been <strong>restored</strong>" : "Egy új fájl vagy mappa <strong>visszaállítva</strong>",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Használd ezt a címet a <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">fájlok WebDAV-al való eléréséhez</a>"
+    "A file or folder has been <strong>restored</strong>" : "Egy új fájl vagy mappa <strong>visszaállítva</strong>"
 },
 "nplurals=2; plural=(n != 1);");

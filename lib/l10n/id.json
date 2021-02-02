@@ -147,11 +147,6 @@
     "Storage connection timeout. %s" : "Koneksi penyimpanan waktu-habis. %s",
     "Following databases are supported: %s" : "Berikut adalah basis data yang didukung: %s",
     "Following platforms are supported: %s" : "Berikut adalah platform yang didukung: %s",
-    "Overview" : "Ringkasan",
-    "Basic settings" : "Setelan dasar",
-    "Sharing" : "Berbagi",
-    "Security" : "Keamanan",
-    "Personal info" : "Info pribadi",
     "Invalid Federated Cloud ID" : "Federated Cloud ID tidak sah"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

@@ -232,7 +232,6 @@ OC.L10N.register(
     "Uploading files" : "Laddar upp filer",
     "Uploaded files:" : "Uppladdade filer:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Genom att ladda upp filer godkänner du %1$sanvändarvillkoren %2$s.",
-    "Name, email, or federated cloud ID …" : "Namn, e-post eller federerat moln-ID ...",
-    "Uploading files…" : "Laddar upp filer..."
+    "Name, email, or federated cloud ID …" : "Namn, e-post eller federerat moln-ID ..."
 },
 "nplurals=2; plural=(n != 1);");

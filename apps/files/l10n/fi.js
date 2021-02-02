@@ -199,8 +199,6 @@ OC.L10N.register(
     "A new file or folder has been <strong>created</strong>" : "Uusi tiedosto tai kansio on <strong>luotu</strong>",
     "A file or folder has been <strong>deleted</strong>" : "Tiedosto tai kansio on <strong>poistettu</strong>",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Rajoita luomis- ja muutosilmoitukset <strong>omiin suosikkitiedostoihin</strong> <em>(Vain listaus)</em>",
-    "A file or folder has been <strong>restored</strong>" : "Tiedosto tai kansio on <strong>palautettu</strong>",
-    "Cannot transfter ownership of a file or folder you don't own" : "Et voi siirtää sellaisen tiedoston tai kansion omistajuutta, jota et itse omista",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Käytä tätä osoitetta <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">käyttääksesi tiedostojasi WebDAV:in kautta</a>"
+    "A file or folder has been <strong>restored</strong>" : "Tiedosto tai kansio on <strong>palautettu</strong>"
 },
 "nplurals=2; plural=(n != 1);");

@@ -423,7 +423,6 @@
     "Visible to local users and to trusted servers" : "Visible per als usuaris locals i servidors de confiança",
     "Will be synced to a global and public address book" : "Se sincronitzarà amb una llibreta d'adreces global i pública",
     "by" : "per",
-    "{counter} apps have an update available" : "{counter} aplicacions tenen una actualització disponible",
     "SSL Root Certificates" : "Certificats Arrel SSL",
     "Common Name" : "Nom comú",
     "Valid until" : "Valid fins",

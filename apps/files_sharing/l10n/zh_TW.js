@@ -185,7 +185,6 @@ OC.L10N.register(
     "Upload files to %s" : "上傳檔案到 %s",
     "Note" : "筆記",
     "Select or drop files" : "選擇或拖曳檔案至此",
-    "Uploaded files:" : "已上傳的檔案：",
-    "Uploading files…" : "上傳檔案中…"
+    "Uploaded files:" : "已上傳的檔案："
 },
 "nplurals=1; plural=0;");
