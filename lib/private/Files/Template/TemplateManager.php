@@ -115,6 +115,9 @@ class TemplateManager implements ITemplateManager {
 	}
 
 	public function getTypes(): array {
+		if (!empty($this->types)) {
+			return $this->types;
+		}
 		foreach ($this->registeredTypes as $registeredType) {
 			$this->types[] = $registeredType();
 		}
