@@ -76,19 +76,6 @@ class DbalException extends Exception {
 
 	public function getReason(): ?int {
 		/**
-		 * Generic errors
-		 */
-		if ($this->original instanceof ConnectionException) {
-			return parent::REASON_CONNECTION_LOST;
-		}
-		if ($this->original instanceof DriverException) {
-			return parent::REASON_DRIVER;
-		}
-		if ($this->original instanceof InvalidArgumentException) {
-			return parent::REASON_INVALID_ARGUMENT;
-		}
-
-		/**
 		 * Constraint errors
 		 */
 		if ($this->original instanceof ForeignKeyConstraintViolationException) {
@@ -129,6 +116,19 @@ class DbalException extends Exception {
 		// The base server exception class comes last
 		if ($this->original instanceof ServerException) {
 			return parent::REASON_SERVER;
+		}
+
+		/**
+		 * Generic errors
+		 */
+		if ($this->original instanceof ConnectionException) {
+			return parent::REASON_CONNECTION_LOST;
+		}
+		if ($this->original instanceof InvalidArgumentException) {
+			return parent::REASON_INVALID_ARGUMENT;
+		}
+		if ($this->original instanceof DriverException) {
+			return parent::REASON_DRIVER;
 		}
 
 		return null;
