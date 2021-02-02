@@ -230,7 +230,6 @@
     "Uploading files" : "Fitxategiak kargatzen",
     "Uploaded files:" : "Igotako fitxategiak:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Fitxategiak kargatzean, %1$szerbitzu-baldintzak%2$s onartzen dituzu.",
-    "Name, email, or federated cloud ID …" : "Izena, posta, edo federatutako lainoaren IDa ...",
-    "Uploading files…" : "Fitxategiak igotzen…"
+    "Name, email, or federated cloud ID …" : "Izena, posta, edo federatutako lainoaren IDa ..."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

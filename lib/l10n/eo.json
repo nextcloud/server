@@ -226,14 +226,6 @@
     "Storage connection timeout. %s" : "Konekto al konservejo eltempiĝis. %s",
     "Following databases are supported: %s" : "La jenaj datumbazoj estas subtenataj: %s",
     "Following platforms are supported: %s" : "La jenaj platformoj estas subtenataj: %s",
-    "Overview" : "Superrigardo",
-    "Basic settings" : "Baza agordo",
-    "Sharing" : "Kunhavigo",
-    "Security" : "Sekurigo",
-    "Groupware" : "Grupa kunlaborado",
-    "Personal info" : "Persona informo",
-    "Mobile & desktop" : "Porteblaj kaj labortablaj aplikaĵoj",
-    "Invalid Federated Cloud ID" : "Nevalida federnuba identigilo",
-    "This can usually be fixed by giving the webserver write access to the apps directory or disabling the appstore in the config file. See %s" : "Igi la „apps“ dosierujon alirebla de la servilo aŭ malŝalti la aplikaĵejon en la agordodosiero kutime solvas tiun problemon. Vidu %s"
+    "Invalid Federated Cloud ID" : "Nevalida federnuba identigilo"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

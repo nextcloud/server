@@ -26,7 +26,6 @@ OC.L10N.register(
     "Login image" : "Imágen de inicio de sesión",
     "Upload new login background" : "Cargar nueva imagen de fondo para inicio de sesión",
     "Remove background image" : "Eliminar imagen de fondo",
-    "Advanced options" : "Opciones avanzadas",
-    "Unsupported image type" : "Tipo de imagen no soportado"
+    "Advanced options" : "Opciones avanzadas"
 },
 "nplurals=2; plural=(n != 1);");

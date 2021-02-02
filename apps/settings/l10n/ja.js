@@ -416,7 +416,6 @@ OC.L10N.register(
     "Visible to local users and to trusted servers" : "ローカルユーザーと信頼できるサーバーから見れます",
     "Will be synced to a global and public address book" : "グローバルなアドレス帳と公開アドレス帳に同期されます",
     "by" : "by",
-    "{counter} apps have an update available" : "{counter} 個のアプリに更新情報があります",
     "SSL Root Certificates" : "SSLルート証明書",
     "Common Name" : "コモンネーム",
     "Valid until" : "有効期限",

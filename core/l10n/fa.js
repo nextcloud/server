@@ -209,11 +209,9 @@ OC.L10N.register(
     "Detailed logs" : "Detailed logs",
     "Update needed" : "نیاز به روز رسانی دارد",
     "Following apps have been disabled: %s" : "برنامه های زیر غیر فعال شده اند %s",
-    "({scope})" : "({scope})",
     "Searching other places" : "جستجو در مکان‌های دیگر",
     "No search results in other folders for {tag}{filter}{endtag}" : "جستجو در پوشه های دیگر برای {tag}{filter}{endtag} یافت نشد",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} نتایج جستجو در پوشه های دیگر","{count} نتایج جستجو در پوشه های دیگر"],
-    "Saving..." : "در حال ذخیره سازی...",
     "Search" : "جست‌و‌جو",
     "These apps will be updated:" : "این برنامه‌ها بروزرسانی شده‌اند:"
 },

@@ -229,14 +229,6 @@
     "Storage connection timeout. %s" : "儲存空間連線逾時。%s",
     "Following databases are supported: %s" : "支援下列資料庫： %s",
     "Following platforms are supported: %s" : "支援下列平台： %s",
-    "Overview" : "概觀",
-    "Basic settings" : "基本設定",
-    "Sharing" : "分享",
-    "Security" : "安全性",
-    "Groupware" : "協作應用程式",
-    "Personal info" : "個人資訊",
-    "Mobile & desktop" : "行動裝置及桌面",
-    "Invalid Federated Cloud ID" : "無效的雲端聯邦 ID",
-    "This can usually be fixed by giving the webserver write access to the apps directory or disabling the appstore in the config file. See %s" : "開放網頁伺服器存取 apps 目錄，或是在設定檔中關閉 appstore 功能通常就可以修正這個問題，詳見 %s"
+    "Invalid Federated Cloud ID" : "無效的雲端聯邦 ID"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

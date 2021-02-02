@@ -185,11 +185,6 @@
     "Storage connection timeout. %s" : "საცავის კავშირის დროის ამოწურვა. %s",
     "Following databases are supported: %s" : "მხარდაჭერილია შემდეგი მონაცემთა ბაზები: %s",
     "Following platforms are supported: %s" : "მხარდაჭერია შემდეგი პლატფორმები: %s",
-    "Basic settings" : "ძირითადი პარამეტრები",
-    "Sharing" : "გაზიარება",
-    "Security" : "უსაფრთხოება",
-    "Personal info" : "პირადი ინფორმაცია",
-    "Invalid Federated Cloud ID" : "არასწორი ფედერალური ქლაუდ ID",
-    "This can usually be fixed by giving the webserver write access to the apps directory or disabling the appstore in the config file. See %s" : "ეს ჩვეულებრივ გამოსწორებადია ვებსერვერისთვის აპლიკაციების დირექტორიაზე წერის უფლების მინიჭებით ან appstore-ის კონფიგურაციის ფაილით გათიშვით. იხილეთ %s"
+    "Invalid Federated Cloud ID" : "არასწორი ფედერალური ქლაუდ ID"
 },"pluralForm" :"nplurals=2; plural=(n!=1);"
 }

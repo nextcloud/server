@@ -230,7 +230,6 @@
     "Uploading files" : "Μεταφόρτωση αρχείων",
     "Uploaded files:" : "Αποστολή αρχείων:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Με την μεταφόρτωση αρχείων, συμφωνείτε με %1$sόρους χρήσεως %2$s.",
-    "Name, email, or federated cloud ID …" : "Όνομα, διεύθυνση ηλεκτρονικού ταχυδρομείου ή Ομοσπονδιακό αναγνωριστικό Cloud…",
-    "Uploading files…" : "Αποστολή αρχείων ..."
+    "Name, email, or federated cloud ID …" : "Όνομα, διεύθυνση ηλεκτρονικού ταχυδρομείου ή Ομοσπονδιακό αναγνωριστικό Cloud…"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

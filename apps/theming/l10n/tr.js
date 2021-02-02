@@ -49,7 +49,6 @@ OC.L10N.register(
     "Upload new header logo" : "Yeni üst bilgi logosu yükle",
     "Favicon" : "Favicon",
     "Upload new favicon" : "Yeni favicon yükle",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Yüklenen logo ve renge göre otomatik olarak favicon üretilmesi için Imagemagick PHP eklentisini SVG desteği ile kurun.",
-    "Unsupported image type" : "Görsel türü desteklenmiyor"
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Yüklenen logo ve renge göre otomatik olarak favicon üretilmesi için Imagemagick PHP eklentisini SVG desteği ile kurun."
 },
 "nplurals=2; plural=(n > 1);");

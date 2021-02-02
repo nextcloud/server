@@ -201,7 +201,6 @@ OC.L10N.register(
     "Note" : "Noto",
     "Select or drop files" : "Elekti aŭ demeti dosierojn",
     "Uploaded files:" : "Alŝutitaj dosieroj:",
-    "By uploading files, you agree to the %1$sterms of service%2$s." : "Se vi alŝutas dosierojn, vi konsentas pri %1$skondiĉoj de uzado%2$s.",
-    "Uploading files…" : "Alŝutado de dosierojn..."
+    "By uploading files, you agree to the %1$sterms of service%2$s." : "Se vi alŝutas dosierojn, vi konsentas pri %1$skondiĉoj de uzado%2$s."
 },
 "nplurals=2; plural=(n != 1);");

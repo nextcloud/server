@@ -58,8 +58,6 @@
     "A valid password must be provided" : "Un contrasigno valide debe esser providite",
     "Authentication error" : "Error in authentication",
     "Storage is temporarily not available" : "Immagazinage es provisorimente non disponibile",
-    "Sharing" : "Compartente",
-    "Personal info" : "Information personal",
     "Invalid Federated Cloud ID" : "ID del Nube Federate"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

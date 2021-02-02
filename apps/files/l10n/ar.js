@@ -199,8 +199,6 @@ OC.L10N.register(
     "A new file or folder has been <strong>created</strong>" : "تم <strong>  إنشاء</strong> ملف جديد أو مجلد ",
     "A file or folder has been <strong>deleted</strong>" : "تم <strong>حذف </strong> ملف أو مجلد",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "تحديد تنبيهات حول تغييرات <strong>ملفاتك المفضلة</strong> <em>(البث فقط)</em>",
-    "A file or folder has been <strong>restored</strong>" : "تم <strong> استعادة </strong> ملف أو مجلد",
-    "Cannot transfter ownership of a file or folder you don't own" : "لا يمكن نقل ملكية ملف او مجلد لا تملكه انت",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "استخدم هذا العنوان قصد <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">الوصول إلى ملفاتك على WebDAV</a>"
+    "A file or folder has been <strong>restored</strong>" : "تم <strong> استعادة </strong> ملف أو مجلد"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

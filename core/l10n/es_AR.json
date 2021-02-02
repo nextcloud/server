@@ -238,12 +238,10 @@
     "This %s instance is currently in maintenance mode, which may take a while." : "Esta instancia %s se encuentra actualmente en modo mantenimiento, que podría tomar algo de tiempo. ",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Contacte a su administrador del sistema si este mensaje persiste o se presentó de manera inesperada.",
     "Following apps have been disabled: %s" : "Las siguientes aplicaciones han sido deshabilitadas: %s",
-    "({scope})" : "({scope})",
     "Searching other places" : "Buscando en otras ubicaciones",
     "No search results in other folders for {tag}{filter}{endtag}" : "No hay resultados para la búsqueda en otras carpetas para {tag}{filter}{endtag}",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} resultado de la búsqueda en otra carpeta","{count} resultados de la búsqueda en otras carpetas"],
     "Nextcloud {app}" : "Nextcloud {app}",
-    "Saving..." : "Guardando...",
     "Search" : "Buscar",
     "These apps will be updated:" : "Las siguientes apllicaciones se actualizarán:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

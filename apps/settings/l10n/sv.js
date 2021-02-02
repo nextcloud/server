@@ -417,7 +417,6 @@ OC.L10N.register(
     "Visible to local users and to trusted servers" : "Synlig för lokala användare och tillförlitliga servrar",
     "Will be synced to a global and public address book" : "Kommer att synkroniseras till global och offentlig adressbok",
     "by" : "av",
-    "{counter} apps have an update available" : "{counter} appar har en uppdatering tillgänglig",
     "SSL Root Certificates" : "SSL Root certifikat",
     "Common Name" : "Vanligt namn",
     "Valid until" : "Giltigt till",

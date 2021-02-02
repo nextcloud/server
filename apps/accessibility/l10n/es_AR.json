@@ -11,7 +11,6 @@
     "Accessibility" : "Accesibilidad",
     "Accessibility options for nextcloud" : "Opciones de accesibilidad para nextcloud",
     "Provides multiple accessibilities options to ease your use of Nextcloud" : "Proporciona múltiples opciones de accesibilidad para facilitar el uso de Nextcloud",
-    "If you find any issues, don’t hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "Si encuentra algún problema, no dude en informarlo en {issuetracker}nuestro rastreador de problemas {linkend}. Y si desea participar, ¡únase a {designteam}a nuestro equipo de diseño {linkend}!",
-    "Enable" : "Habilitar"
+    "If you find any issues, don’t hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "Si encuentra algún problema, no dude en informarlo en {issuetracker}nuestro rastreador de problemas {linkend}. Y si desea participar, ¡únase a {designteam}a nuestro equipo de diseño {linkend}!"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

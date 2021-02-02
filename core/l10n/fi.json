@@ -317,14 +317,11 @@
     "This page will refresh itself when the instance is available again." : "Tämä sivu päivittyy itsestään, kun instanssi on jälleen käytettävissä.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Ota yhteys järjestelmän ylläpitäjään, jos tämä viesti ilmenee uudelleen tai odottamatta.",
     "Following apps have been disabled: %s" : "Seuraavat sovellukset on poistettu käytöstä: %s",
-    "You are currently running PHP 5.6. The current major version of Nextcloud is the last that is supported on PHP 5.6. It is recommended to upgrade the PHP version to 7.0+ to be able to upgrade to Nextcloud 14." : "Käytössä on PHP 5.6. Nykyinen Nextcloudversio on viimeinen, mikä sitä tukee. Suositeltavaa on päivittää versioon 7.0+, jotta päivitys onnistuisi Nextcloud 14:än sen ilmestyessä.",
     "Use of the the built in php mailer is no longer supported. <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">Please update your email server settings ↗<a/>." : "Sisäänrakennetun php mailerin käyttö ei ole enää tuettua. <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">Päivitä sähköpostipalvelimesi asetukset ↗<a/>.",
-    "({scope})" : "({scope})",
     "Searching other places" : "Etsitään muista paikoista",
     "No search results in other folders for {tag}{filter}{endtag}" : "Ei hakutuloksia muissa kansioissa haulla {tag}{filter}{endtag}",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} hakutulos muussa kansiossa","{count} hakutulosta muissa kansioissa"],
     "Nextcloud {app}" : "Nextcloud {app}",
-    "Saving..." : "Tallennetaan...",
     "Search" : "Etsi",
     "These apps will be updated:" : "Nämä sovellukset päivitetään:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

@@ -229,14 +229,6 @@
     "Storage connection timeout. %s" : "Tiempo de conexión de almacenamiento agotado. %s",
     "Following databases are supported: %s" : "Las siguientes bases de datos están soportadas: %s",
     "Following platforms are supported: %s" : "Las siguientes plataformas están soportadas: %s",
-    "Overview" : "Vista general",
-    "Basic settings" : "Ajustes básicos",
-    "Sharing" : "Compartir",
-    "Security" : "Seguridad",
-    "Groupware" : "Groupware",
-    "Personal info" : "Información personal",
-    "Mobile & desktop" : "Móvil y escritorio",
-    "Invalid Federated Cloud ID" : "ID de Nube federada  no válida",
-    "This can usually be fixed by giving the webserver write access to the apps directory or disabling the appstore in the config file. See %s" : "Habitualmente, esto puede arreglarse dando al servidor web permisos de escritura al directorio de apps o desactivando la tienda de apps en el archivo de configuración. Véase %s"
+    "Invalid Federated Cloud ID" : "ID de Nube federada  no válida"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

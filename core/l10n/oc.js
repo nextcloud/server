@@ -338,8 +338,6 @@ OC.L10N.register(
     "Following apps have been disabled: %s" : "Las aplicacions seguentas son estadas desactivadas : %s",
     "Searching other places" : "Recèrca endacòm mai",
     "Nextcloud {app}" : "Nextcloud {app}",
-    "Saving..." : "Enregistrament...",
-    "Calendar, Contacts, Talk, Mail & OnlyOffice" : "Calendar, Contacts, Talk, Mail & OnlyOffice",
     "Search" : "Recercar",
     "These apps will be updated:" : "Aquestas aplicacions son estadas actualizadas :"
 },

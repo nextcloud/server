@@ -49,7 +49,6 @@ OC.L10N.register(
     "Upload new header logo" : "上傳新的頁首圖示",
     "Favicon" : "Favicon",
     "Upload new favicon" : "上傳新 favicon",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "安裝支援 SVG 圖片的 PHP ImageMagick 擴充元件，以上傳的圖示與顏色為基礎生成 favicons。",
-    "Unsupported image type" : "不支援的圖片類型"
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "安裝支援 SVG 圖片的 PHP ImageMagick 擴充元件，以上傳的圖示與顏色為基礎生成 favicons。"
 },
 "nplurals=1; plural=0;");

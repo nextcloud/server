@@ -226,14 +226,6 @@
     "Storage connection timeout. %s" : "Истекло время ожидания подключения к хранилищу. %s",
     "Following databases are supported: %s" : "Поддерживаются следующие СУБД: %s",
     "Following platforms are supported: %s" : "Поддерживаются следующие платформы: %s",
-    "Overview" : "Общие сведения",
-    "Basic settings" : "Основные параметры",
-    "Sharing" : "Общий доступ",
-    "Security" : "Безопасность",
-    "Groupware" : "ПО совместного использования",
-    "Personal info" : "Личная информация",
-    "Mobile & desktop" : "Клиенты для ПК и мобильных устройств",
-    "Invalid Federated Cloud ID" : "Неверный ID в объединении облачных хранилищ.",
-    "This can usually be fixed by giving the webserver write access to the apps directory or disabling the appstore in the config file. See %s" : "Обычно это можно исправить, предоставив веб-серверу права на запись в каталог приложений или отключив магазин приложений в файле конфигурации. Смотрите %s"
+    "Invalid Federated Cloud ID" : "Неверный ID в объединении облачных хранилищ."
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }

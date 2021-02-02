@@ -215,11 +215,9 @@
     "This %s instance is currently in maintenance mode, which may take a while." : "Bản cài đặt%s hiện tại đang trong chế độ \"bảo trì\", do vậy có thể bạn cần phải đợi thêm chút ít thời gian.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Liên hệ với người quản trị nếu lỗi này vẫn tồn tại hoặc xuất hiện bất ngờ.",
     "Following apps have been disabled: %s" : "Các ứng dụng sau bị vô hiệu hóa: %s",
-    "({scope})" : "({scope})",
     "Searching other places" : "Tìm kiếm các nơi khác",
     "No search results in other folders for {tag}{filter}{endtag}" : "Không có kết quả tìm kiếm trong các thư mục khác cho {tag} {filter} {endtag}",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} kết quả tìm kiếm trong các thư mục khác"],
-    "Saving..." : "Đang lưu...",
     "Search" : "Tìm kiếm",
     "These apps will be updated:" : "Những ứng dụng sẽ được cập nhật:"
 },"pluralForm" :"nplurals=1; plural=0;"

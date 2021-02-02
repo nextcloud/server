@@ -226,14 +226,6 @@
     "Storage connection timeout. %s" : "Vypršanie pripojenia k úložisku. %s",
     "Following databases are supported: %s" : "Podporované sú tieto databázy: %s",
     "Following platforms are supported: %s" : "Podporované sú nasledovné systémy: %s",
-    "Overview" : "Prehľad",
-    "Basic settings" : "Základné nastavenia",
-    "Sharing" : "Sprístupnenie",
-    "Security" : "Zabezpečenie",
-    "Groupware" : "Groupware",
-    "Personal info" : "Osobné informácie",
-    "Mobile & desktop" : "Mobil a počítač",
-    "Invalid Federated Cloud ID" : "Neplatné združené Cloud ID",
-    "This can usually be fixed by giving the webserver write access to the apps directory or disabling the appstore in the config file. See %s" : "Toto je zvyčajne možné opraviť tým, že udelíte webovému serveru oprávnenie na zápis do priečinka aplikácií alebo vypnete obchod s aplikáciami v konfiguračnom súbore. Viď %s"
+    "Invalid Federated Cloud ID" : "Neplatné združené Cloud ID"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);"
 }

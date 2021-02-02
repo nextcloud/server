@@ -431,7 +431,6 @@ OC.L10N.register(
     "Visible to local users and to trusted servers" : "Viditelné pro místní uživatele a důvěryhodné servery",
     "Will be synced to a global and public address book" : "Bude synchronizováno do globálního a veřejného adresáře kontaktů",
     "by" : "od",
-    "{counter} apps have an update available" : "pro {counter} aplikací je k dispozici aktualizace",
     "SSL Root Certificates" : "Kořenové certifikáty SSL",
     "Common Name" : "Common Name",
     "Valid until" : "Platný do",

@@ -30,7 +30,6 @@ OC.L10N.register(
     "Remove background image" : "Премахни фоновото изображение",
     "Advanced options" : "Допълнителни опции",
     "Header logo" : "Главно лого",
-    "Favicon" : "Фавиконка",
-    "Unsupported image type" : "Неподдържан тип изображение"
+    "Favicon" : "Фавиконка"
 },
 "nplurals=2; plural=(n != 1);");

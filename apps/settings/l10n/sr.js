@@ -422,7 +422,6 @@ OC.L10N.register(
     "Visible to local users and to trusted servers" : "Видљиво локалним корисницима и серверима од поверења",
     "Will be synced to a global and public address book" : "Биће синхронизовано на глобални и јавни адресар",
     "by" : "од",
-    "{counter} apps have an update available" : "{counter} апликација имају доступно ажурирање",
     "SSL Root Certificates" : "SSL корени сертификат",
     "Common Name" : "Уобичајено име",
     "Valid until" : "Важи до",

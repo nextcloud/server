@@ -49,7 +49,6 @@ OC.L10N.register(
     "Upload new header logo" : "Subir nuevo logo de la cabecera",
     "Favicon" : "Favicon",
     "Upload new favicon" : "Subir nuevo favicon",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Instala la extensión de PHP Imagemagick con soporte para imágenes SVG para generar automáticamente faviconos basados en el logo y color subidos.",
-    "Unsupported image type" : "Tipo de imagen no soportado"
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Instala la extensión de PHP Imagemagick con soporte para imágenes SVG para generar automáticamente faviconos basados en el logo y color subidos."
 },
 "nplurals=2; plural=(n != 1);");

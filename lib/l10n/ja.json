@@ -225,14 +225,6 @@
     "Storage connection timeout. %s" : "ストレージへの接続がタイムアウト。 %s",
     "Following databases are supported: %s" : "次のデータベースをサポートしています: %s",
     "Following platforms are supported: %s" : "次のプラットフォームをサポートしています: %s",
-    "Overview" : "概要",
-    "Basic settings" : "基本設定",
-    "Sharing" : "共有",
-    "Security" : "セキュリティ",
-    "Groupware" : "グループウェア",
-    "Personal info" : "個人情報",
-    "Mobile & desktop" : "モバイル & デスクトップ",
-    "Invalid Federated Cloud ID" : "無効なクラウド共有ID",
-    "This can usually be fixed by giving the webserver write access to the apps directory or disabling the appstore in the config file. See %s" : "多くの場合、これは Webサーバーにappsディレクトリへの書き込み権限を与えるか、設定ファイルでアプリストアを無効化することで直ります。%s を見てください。"
+    "Invalid Federated Cloud ID" : "無効なクラウド共有ID"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

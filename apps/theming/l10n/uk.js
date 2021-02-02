@@ -49,7 +49,6 @@ OC.L10N.register(
     "Upload new header logo" : "Завантажити новий логотип заголовка",
     "Favicon" : "Піктограма сайту",
     "Upload new favicon" : "Завантажити нову піктограму",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Встановіть розширення Imagemagick PHP з підтримкою SVG-зображень, щоб автоматично генерувати іконки сайту на основі завантаженого логотипу та кольору.",
-    "Unsupported image type" : "Цей тип зображення не підтримується"
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Встановіть розширення Imagemagick PHP з підтримкою SVG-зображень, щоб автоматично генерувати іконки сайту на основі завантаженого логотипу та кольору."
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

@@ -223,14 +223,6 @@
     "Storage connection timeout. %s" : "Lagringsutrymme lyckas inte ansluta \"timeout\". %s",
     "Following databases are supported: %s" : "Följande databastyper stöds: %s",
     "Following platforms are supported: %s" : "Följande plattformar stöds: %s",
-    "Overview" : "Översikt",
-    "Basic settings" : "Generella inställningar",
-    "Sharing" : "Delning",
-    "Security" : "Säkerhet",
-    "Groupware" : "Grupprogram",
-    "Personal info" : "Personlig information",
-    "Mobile & desktop" : "Mobil & skrivbord",
-    "Invalid Federated Cloud ID" : "Ogiltigt federerat moln-ID",
-    "This can usually be fixed by giving the webserver write access to the apps directory or disabling the appstore in the config file. See %s" : "Detta kan vanligtvis lösas genom att ge webbservern skrivåtkomst till mappen för appar eller genom att inaktivera appbutiken i konfigurationsfilen. Se %s"
+    "Invalid Federated Cloud ID" : "Ogiltigt federerat moln-ID"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

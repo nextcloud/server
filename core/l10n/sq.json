@@ -213,11 +213,9 @@
     "This %s instance is currently in maintenance mode, which may take a while." : "Kjo instancë %s hëpërhë gjendet nën mënyrën mirëmbajtje, çka mund të zgjasë ca.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Nëse ky mesazh shfaqet vazhdimisht ose u shfaq papritmas, lidhuni me përgjegjësin e sistemit.",
     "Following apps have been disabled: %s" : "Janë çaktivizuar aplikacionet vijuese : %s",
-    "({scope})" : "({scope})",
     "Searching other places" : "Duke kërkuar në vende të tjera",
     "No search results in other folders for {tag}{filter}{endtag}" : "Jo rezultate nga kërkimi në dosjet e tjera për '{etiketim}{filtrim}{përfundoetiketimin}'",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} përfundim kërkimi në një tjetër dosje","{count} përfundime kërkimi në dosje të tjera"],
-    "Saving..." : "Po ruhet …",
     "Search" : "Kërko",
     "These apps will be updated:" : "Do të përditësohen këto aplikacione:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

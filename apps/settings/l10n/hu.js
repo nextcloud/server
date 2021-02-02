@@ -416,7 +416,6 @@ OC.L10N.register(
     "Visible to local users and to trusted servers" : "Helyi felhasználók és megbízható kiszolgálók láthatják",
     "Will be synced to a global and public address book" : "Globális és nyilvános címjegyzékekkel lesz szinkronizálva",
     "by" : "által",
-    "{counter} apps have an update available" : "{counter} alkalmazás frissítése érhető el",
     "SSL Root Certificates" : "SSL Root tanusítványok",
     "Common Name" : "Általános név",
     "Valid until" : "Érvényes",

@@ -194,8 +194,6 @@ OC.L10N.register(
     "A new file or folder has been <strong>created</strong>" : "<strong>Sukurtas</strong> naujas failas ar aplankas",
     "A file or folder has been <strong>deleted</strong>" : "Failas ar aplankas <strong>ištrintas</strong>",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Riboti pranešimus apie jūsų <strong>mėgstamų failų</strong> sukūrimą ar pakeitimus <em>(Tik srautas)</em>",
-    "A file or folder has been <strong>restored</strong>" : "Failas ar aplankas <strong>atkurtas</strong>",
-    "Cannot transfter ownership of a file or folder you don't own" : "Negalima perduoti, failo aplanko, kuris jums nepriklauso, nuosavybės",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Naudokite šį adresą norėdami <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">gauti prieigą prie failų per WebDAV</a>"
+    "A file or folder has been <strong>restored</strong>" : "Failas ar aplankas <strong>atkurtas</strong>"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

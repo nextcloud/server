@@ -49,7 +49,6 @@ OC.L10N.register(
     "Upload new header logo" : "Fejléc logó feltöltése",
     "Favicon" : "Kedvencek ikon",
     "Upload new favicon" : "Kedvencek ikon feltöltése",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Telepítse az Imagemagick PHP kiterjesztést SVG képtámogatással, hogy automatikusan előállítsa a kedvencek ikont a feltöltött logó és szín alapján.",
-    "Unsupported image type" : "Nem támogatott képtípus"
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Telepítse az Imagemagick PHP kiterjesztést SVG képtámogatással, hogy automatikusan előállítsa a kedvencek ikont a feltöltött logó és szín alapján."
 },
 "nplurals=2; plural=(n != 1);");

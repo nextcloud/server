@@ -320,13 +320,10 @@ OC.L10N.register(
     "This page will refresh itself when the instance is available again." : "Tiu ĉi paĝo aktualiĝos mem, kiam la servilo redisponeblos.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Kontaktu vian administranton, se tiu ĉi mesaĝo daŭras aŭ aperas neatendite.",
     "Following apps have been disabled: %s" : "Jenaj aplikaĵoj estis malŝaltataj: %s",
-    "You are currently running PHP 5.6. The current major version of Nextcloud is the last that is supported on PHP 5.6. It is recommended to upgrade the PHP version to 7.0+ to be able to upgrade to Nextcloud 14." : "Vi uzas ĉi-momente la version 5.6 de PHP. La nuna ĉefa versio de Nextcloud estas la lasta, kiu uzeblos kun PHP versio 5.6. Estas rekomendita promocii al PHP versio 7.0 kaj pli por povi instali la version 14 de Nextcloud.",
     "Use of the the built in php mailer is no longer supported. <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">Please update your email server settings ↗<a/>." : "Uzo de la interna PHP-poŝtilo ne plu estas subtenata. <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">Bv. ĝisdatigi viajn agordojn pri retpoŝtilo ↗<a/>.",
-    "({scope})" : "({scope})",
     "Searching other places" : "Serĉo en aliaj lokoj",
     "No search results in other folders for {tag}{filter}{endtag}" : "Neniu serĉ-rezultoj en aliaj dosierujoj por {tag}{filter}{endtag}",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} serĉ-rezulto en alia dosierujo","{count} serĉ-rezultoj en aliaj dosierujoj"],
-    "Saving..." : "Konservado...",
     "Search" : "Serĉi",
     "These apps will be updated:" : "La jenajn aplikaĵoj ĝisdatiĝos:"
 },

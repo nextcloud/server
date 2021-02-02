@@ -365,16 +365,11 @@
     "This page will refresh itself when the instance is available again." : "Η σελίδα θα ανανεωθεί αυτόματα όταν η υπηρεσία είναι διαθέσιμη ξανά.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Επικοινωνήστε με το διαχειριστή του συστήματος αν αυτό το μήνυμα συνεχίζει να εμφανίζεται ή εμφανίστηκε απρόσμενα.",
     "Following apps have been disabled: %s" : "Οι ακόλουθες εφαρμογές έχουν απενεργοποιηθεί: %s",
-    "You are currently running PHP 5.6. The current major version of Nextcloud is the last that is supported on PHP 5.6. It is recommended to upgrade the PHP version to 7.0+ to be able to upgrade to Nextcloud 14." : "Έχετε εγκατεστημένη την PHP 5.6. Η τρέχουσα κύρια έκδοση του Nextcloud είναι η τελευταία που υποστηρίζεται από την PHP 5.6. Συνιστάται/απαιτείται η αναβάθμιση της έκδοσης της PHP σε 7.0+ ώστε να μπορέσετε να αναβαθμίσετε σε Nextcloud 14.",
     "Use of the the built in php mailer is no longer supported. <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">Please update your email server settings ↗<a/>." : "Δεν υποστηρίζεται πλέον η αλληλογραφία php. <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">Παρακαλώ ενημερώστε τον διακομιστή αλληλογραφίας σας ↗<a/>.",
-    "({scope})" : "({scope})",
     "Searching other places" : "Αναζήτηση σε άλλα σημεία",
     "No search results in other folders for {tag}{filter}{endtag}" : "Κανένα αποτέλεσμα αναζήτησης σε άλλους φακέλους για {tag}{filter}{endtag}",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} αποτέλεσμα αναζήτησης σε άλλο φάκελο","{count} αποτελέσματα αναζήτησης σε άλλους φακέλους"],
     "Nextcloud {app}" : "Nextcloud {app}",
-    "Local document editing back-end used by the OnlyOffice app." : "Επεξεργασία τοπικών εγγράφων με χρήση εφαρμογής OnlyOffice.",
-    "Saving..." : "Γίνεται αποθήκευση...",
-    "Calendar, Contacts, Talk, Mail & OnlyOffice" : "Ημερολόγιο, Επαφές, Συνομιλία, Αλληλογραφία & OnlyOffice",
     "Search" : "Αναζήτηση",
     "These apps will be updated:" : "Αυτές οι εφαρμογές θα ενημερωθούν:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

@@ -49,7 +49,6 @@ OC.L10N.register(
     "Upload new header logo" : "העלאת לוגו כותרת",
     "Favicon" : "סמל כותרת",
     "Upload new favicon" : "העלאת סמל כותרת חדש",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "יש להתקין את הרחבת ה־PHP של Imagemagick עם תמיכה בתמונות SVG כדי לייצר תמונות מועדפים אוטומטיות על בסיס הלוגו שהועלה והצבע.",
-    "Unsupported image type" : "סוג התמונה לא נתמך"
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "יש להתקין את הרחבת ה־PHP של Imagemagick עם תמיכה בתמונות SVG כדי לייצר תמונות מועדפים אוטומטיות על בסיס הלוגו שהועלה והצבע."
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");

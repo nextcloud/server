@@ -152,7 +152,6 @@
     "UUID Attribute for Groups:" : "群組的UUID值:",
     "Username-LDAP User Mapping" : "用戶名-LDAP 用戶 Mapping",
     "Clear Username-LDAP User Mapping" : "清除 用戶名-LDAP 用戶 Mapping",
-    "Clear Groupname-LDAP Group Mapping" : "清除 群組名稱-LDAP 群組 Mapping",
-    "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "用戶名稱請留白(預設)。若不留白請指定一個LDAP/AD屬性。"
+    "Clear Groupname-LDAP Group Mapping" : "清除 群組名稱-LDAP 群組 Mapping"
 },"pluralForm" :"nplurals=1; plural=0;"
 }
