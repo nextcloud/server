@@ -2,7 +2,7 @@ OC.L10N.register(
     "settings",
     {
     "Migration in progress. Please wait until the migration is finished" : "Migracion en cors. Mercés d’esperar fins que la migracion aja acabat",
-    "Migration started …" : "Migracion començaca…",
+    "Migration started …" : "Migracion començada…",
     "Saved" : "Enregistrat",
     "Not saved" : "Pas enregistrat",
     "Sending…" : "Mandadís…",
