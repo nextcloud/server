@@ -45,6 +45,7 @@ OC.L10N.register(
     "Invalid backend or authentication mechanism class" : "Netinkama programinio kodo klasė realizuoja prisijungimo mechanizmą",
     "Invalid mount point" : "Neteisingas prijungimo taškas",
     "Objectstore forbidden" : "Objektų saugykla yra neprieinama",
+    "Not permitted to use backend \"%s\"" : "Neleidžiama naudoti vidinės pusės „%s“",
     "Not permitted to use authentication mechanism \"%s\"" : "Neleidžiama naudoti tapatybės nustatymo mechanizmo „%s“",
     "Unsatisfied backend parameters" : " Netinkami posistemės parametrai",
     "Unsatisfied authentication mechanism parameters" : "Netinkami parametrai perduoti į prisijungimo mechanizmą",
