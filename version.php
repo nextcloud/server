@@ -37,7 +37,6 @@ $OC_VersionString = '22.0.0 alpha';
 
 $OC_VersionCanBeUpgradedFrom = [
 	'nextcloud' => [
-		'20.0' => true,
 		'21.0' => true,
 		'22.0' => true,
 	],
