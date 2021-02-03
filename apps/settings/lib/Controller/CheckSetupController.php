@@ -110,6 +110,8 @@ class CheckSetupController extends Controller {
 	private $iniGetWrapper;
 	/** @var IDBConnection */
 	private $connection;
+	/** @var OC\AppFramework\Maintenance\OptionalIndexManager */
+	private $indexManager;
 
 	public function __construct($AppName,
 								IRequest $request,
@@ -126,7 +128,8 @@ class CheckSetupController extends Controller {
 								MemoryInfo $memoryInfo,
 								ISecureRandom $secureRandom,
 								IniGetWrapper $iniGetWrapper,
-								IDBConnection $connection) {
+								IDBConnection $connection,
+								OC\AppFramework\Maintenance\OptionalIndexManager $indexManager) {
 		parent::__construct($AppName, $request);
 		$this->config = $config;
 		$this->clientService = $clientService;
@@ -142,6 +145,7 @@ class CheckSetupController extends Controller {
 		$this->secureRandom = $secureRandom;
 		$this->iniGetWrapper = $iniGetWrapper;
 		$this->connection = $connection;
+		$this->indexManager = $indexManager;
 	}
 
 	/**
@@ -465,6 +469,11 @@ Raw output
 		// Dispatch event so apps can also hint for pending index updates if needed
 		$event = new GenericEvent($indexInfo);
 		$this->dispatcher->dispatch(IDBConnection::CHECK_MISSING_INDEXES_EVENT, $event);
+
+		$indexes = $this->indexManager->getPending();
+		foreach ($indexes as $index) {
+			$indexInfo->addHintForMissingSubject($index->getTable(), $index->getName());
+		}
 
 		return $indexInfo->getListOfMissingIndexes();
 	}
