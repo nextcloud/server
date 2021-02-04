@@ -216,19 +216,19 @@ class ConnectionFactory {
 		}
 
 		// set default table creation options
-		$connectionParams['defaultTableOptions'] = [
-			'collate' => 'utf8_bin',
-			'tablePrefix' => $connectionParams['tablePrefix']
-		];
+		$connectionParams['defaultTableOptions'] = $this->config->getValue('dbdefaulttableoptions', [
+			'collate' => 'utf8_bin'
+		]);
 
-		if ($this->config->getValue('mysql.utf8mb4', false)) {
+		if ($this->config->getValue('mysql.utf8mb4', false) && is_null($this->config->getValue('dbdefaulttableoptions'))) {
 			$connectionParams['defaultTableOptions'] = [
 				'collate' => 'utf8mb4_bin',
 				'charset' => 'utf8mb4',
-				'row_format' => 'compressed',
-				'tablePrefix' => $connectionParams['tablePrefix']
+				'row_format' => 'compressed'
 			];
 		}
+
+		$connectionParams['defaultTableOptions']['tablePrefix'] = $connectionParams['tablePrefix'];
 
 		return $connectionParams;
 	}
