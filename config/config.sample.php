@@ -1513,18 +1513,17 @@ $CONFIG = [
 'mysql.utf8mb4' => false,
 
 /**
- * This configuration parameter can be used to override the default options used for table creation.
- * This parameter will take precedence over mysql.utf8mb4 if that is set to true.
+ * This configuration parameter can be used to add or change the default options used for table creation.
+ * For changing charset / collation see mysql.utf8mb4
  *
  * An example use for this parameter is where MariaDB page compression is enabled by default as the
  * COMPRESSED row format is not allowed there, and thus table creation will fail.
- * This option can then be used to override this and change/remove the row_format option.
+ * This option can then be used to override this and change the row_format option.
  *
  */
 'dbdefaulttableoptions' => [
-	'collate' => 'utf8mb4_bin',
-	'charset' => 'utf8mb4',
-	'row_format' => 'compressed'
+	'row_format' => 'dynamic',
+	'page_compressed' => '1'
 ],
 
 /**
