@@ -26,6 +26,7 @@
     "The selected update channel makes dedicated notifications for the server obsolete." : "Το συγκεκριμένο κανάλι ενημέρωσης καθιστά παρωχημένες τις ειδοποιήσεις που προορίζονται για τον διακομιστή.",
     "The selected update channel does not support updates of the server." : "Το συγκεκριμένο κανάλι ενημέρωσης δεν υποστηρίζει ενημερώσεις διακομιστή.",
     "A new version is available: <strong>{newVersionString}</strong>" : "Μία νέα έκδοση είναι διαθέσιμη: <strong>{newVersionString}</strong>",
+    "Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}" : "Σημειώστε ότι μετά από μια νέα έκδοση, η ενημέρωση εμφανίζεται μόνο μετά την πρώτη υποέκδοση ή αργότερα. Κυκλοφορούμε νέες εκδόσεις που διαμοιράζονται με την πάροδο του χρόνου στους χρήστες μας και μερικές φορές παραλείπουμε μια έκδοση όταν εντοπίζονται προβλήματα. Μάθετε περισσότερα σχετικά με τις ενημερώσεις και τα κανάλια κυκλοφορίας στη διεύθυνση {link}",
     "Checked on {lastCheckedDate}" : "Έγινε έλεγχος στις {lastCheckedDate}",
     "Checking apps for compatible updates" : "Έλεγχος εφαρμογών για συμβατές ενημερώσεις",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Σιγουρευτείτε πως το config.php δεν έχει οριστεί σε ψευδήςψ<samp>ενεργοποίησηαγοράςεφαρμογών</samp>.",

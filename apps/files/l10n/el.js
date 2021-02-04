@@ -166,6 +166,8 @@ OC.L10N.register(
     "Tags" : "Ετικέτες",
     "Unable to change the favourite state of the file" : "Αδυναμία αλλαγής αγαπημένης κατάστασης αρχείου",
     "Error while loading the file data" : "Σφάλμα κατά την φόρτωση αρχείου δεδομένων",
+    "Blank" : "Κενό",
+    "Templates" : "Πρότυπα",
     "%s used" : "%s σε χρήση",
     "%s%% of %s used" : "%s%% από %s σε χρήση",
     "%1$s of %2$s used" : "χρησιμοποιούνται %1$s από %2$s",
