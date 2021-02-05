@@ -41,6 +41,9 @@ class GenericEventWrapper extends GenericEvent {
 	/** @var string */
 	private $eventName;
 
+	/** @var bool */
+	private $deprecationNoticeLogged = false;
+
 	public function __construct(ILogger $logger, string $eventName, ?GenericEvent $event) {
 		parent::__construct($eventName);
 		$this->logger = $logger;
@@ -49,11 +52,16 @@ class GenericEventWrapper extends GenericEvent {
 	}
 
 	private function log() {
+		if ($this->deprecationNoticeLogged) {
+			return;
+		}
+
 		$class = ($this->event !== null && is_object($this->event)) ? get_class($this->event) : 'null';
 		$this->logger->info(
 			'Deprecated event type for {name}: {class} is used',
 			[ 'name' => $this->eventName, 'class' => $class]
 		);
+		$this->deprecationNoticeLogged = true;
 	}
 
 	public function isPropagationStopped(): bool {
