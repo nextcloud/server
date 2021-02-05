@@ -529,7 +529,7 @@ class Manager implements IManager {
 	 * Check for pre share requirements for user shares
 	 *
 	 * @param IShare $share
-	 * @throws GenericShareException
+	 * @throws \Exception
 	 */
 	protected function userCreateChecks(IShare $share) {
 		// Check if we can share with group members only
@@ -543,7 +543,8 @@ class Manager implements IManager {
 			);
 			if (empty($groups)) {
 				$message_t = $this->l->t('Sharing is only allowed with group members');
-				throw new GenericShareException($message_t, $message_t, 404);
+				// throw new GenericShareException($message_t, $message_t, 404);
+				throw new \Exception($message_t);
 			}
 		}
 
