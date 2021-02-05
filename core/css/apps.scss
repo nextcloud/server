@@ -588,7 +588,7 @@ kbd {
 	display: flex;
 	// padding is included in height
 	padding-top: $header-height;
-	min-height: 100%;
+	min-height: 100vh;
 }
 
 /* APP-CONTENT AND WRAPPER ------------------------------------------ */
