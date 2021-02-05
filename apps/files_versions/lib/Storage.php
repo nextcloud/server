@@ -53,6 +53,7 @@ use OCA\Files_Versions\Command\Expire;
 use OCA\Files_Versions\Events\CreateVersionEvent;
 use OCA\Files_Versions\Versions\IVersionManager;
 use OCP\Files\NotFoundException;
+use OCP\Files\StorageNotAvailableException;
 use OCP\IUser;
 use OCP\Lock\ILockingProvider;
 use OCP\User;
@@ -724,8 +725,14 @@ class Storage {
 
 			\OC_Util::setupFS($uid);
 
-			if (!Filesystem::file_exists($filename)) {
-				return false;
+			try {
+				if (!Filesystem::file_exists($filename)) {
+					return false;
+				}
+			} catch (StorageNotAvailableException $e) {
+				// if we can't check that the file hasn't been deleted we can only assume that it hasn't
+				// note that this `StorageNotAvailableException` is about the file the versions originate from,
+				// not the storage that the versions are stored on
 			}
 
 			if (empty($filename)) {
