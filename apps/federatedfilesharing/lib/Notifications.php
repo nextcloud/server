@@ -126,12 +126,14 @@ class Notifications {
 			} else {
 				\OC::$server->getLogger()->info(
 					"failed sharing $name with $shareWith",
-					[ 'app' => 'federatedfilesharing' ]);
+					['app' => 'federatedfilesharing']
+				);
 			}
 		} else {
 			\OC::$server->getLogger()->info(
 				"could not share $name, invalid contact $shareWith",
-				[ 'app' => 'federatedfilesharing' ]);
+				['app' => 'federatedfilesharing']
+			);
 		}
 
 		return false;
@@ -182,18 +184,21 @@ class Notifications {
 				$status['ocs']['data']['token'],
 				$status['ocs']['data']['remoteId']
 			];
-		} else if (! $validToken) {
-		    \OC::$server->getLogger()->info(
-			    "invalid or missing token requesting re-share for $filename to $remote",
-			    [ 'app' => 'federatedfilesharing' ]);
-		} else if (! $validRemoteId) {
-		    \OC::$server->getLogger()->info(
-			    "missing remote id requesting re-share for $filename to $remote",
-			    [ 'app' => 'federatedfilesharing' ]);
+		} elseif (!$validToken) {
+			\OC::$server->getLogger()->info(
+				"invalid or missing token requesting re-share for $filename to $remote",
+				['app' => 'federatedfilesharing']
+			);
+		} elseif (!$validRemoteId) {
+			\OC::$server->getLogger()->info(
+				"missing remote id requesting re-share for $filename to $remote",
+				['app' => 'federatedfilesharing']
+			);
 		} else {
-		    \OC::$server->getLogger()->info(
-			    "failed requesting re-share for $filename to $remote",
-			    [ 'app' => 'federatedfilesharing' ]);
+			\OC::$server->getLogger()->info(
+				"failed requesting re-share for $filename to $remote",
+				['app' => 'federatedfilesharing']
+			);
 		}
 
 		return false;
