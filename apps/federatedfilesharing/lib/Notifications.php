@@ -123,7 +123,15 @@ class Notifications {
 				$event = new FederatedShareAddedEvent($remote);
 				$this->eventDispatcher->dispatchTyped($event);
 				return true;
+			} else {
+				\OC::$server->getLogger()->info(
+					"failed sharing $name with $shareWith",
+					[ 'app' => 'federatedfilesharing' ]);
 			}
+		} else {
+			\OC::$server->getLogger()->info(
+				"could not share $name, invalid contact $shareWith",
+				[ 'app' => 'federatedfilesharing' ]);
 		}
 
 		return false;
@@ -174,6 +182,18 @@ class Notifications {
 				$status['ocs']['data']['token'],
 				$status['ocs']['data']['remoteId']
 			];
+		} else if (! $validToken) {
+		    \OC::$server->getLogger()->info(
+			    "invalid or missing token requesting re-share for $filename to $remote",
+			    [ 'app' => 'federatedfilesharing' ]);
+		} else if (! $validRemoteId) {
+		    \OC::$server->getLogger()->info(
+			    "missing remote id requesting re-share for $filename to $remote",
+			    [ 'app' => 'federatedfilesharing' ]);
+		} else {
+		    \OC::$server->getLogger()->info(
+			    "failed requesting re-share for $filename to $remote",
+			    [ 'app' => 'federatedfilesharing' ]);
 		}
 
 		return false;
