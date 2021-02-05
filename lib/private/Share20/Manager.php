@@ -543,7 +543,6 @@ class Manager implements IManager {
 			);
 			if (empty($groups)) {
 				$message_t = $this->l->t('Sharing is only allowed with group members');
-				// throw new GenericShareException($message_t, $message_t, 404);
 				throw new \Exception($message_t);
 			}
 		}
