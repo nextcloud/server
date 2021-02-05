@@ -3,7 +3,7 @@ OC.L10N.register(
     {
     "Dark theme" : "ダークテーマ",
     "Enable dark theme" : "ダークテーマを有効にする",
-    "A dark theme to ease your eyes by reducing the overall luminosity and brightness. It is still under development, so please report any issues you may find." : "ダークテーマは目の負担になりにくいです。このテーマは開発中のためバグを見つけたら報告してください。",
+    "A dark theme to ease your eyes by reducing the overall luminosity and brightness. It is still under development, so please report any issues you may find." : "ダークテーマは画面全体のの明るさを減らすため、目の負担を和らげることができます。このテーマは開発中のためバグを見つけたら報告してください。",
     "High contrast mode" : "ハイ・コントラストモード",
     "Enable high contrast mode" : "ハイ・コントラストモードを有効にする。",
     "A high contrast mode to ease your navigation. Visual quality will be reduced but clarity will be increased." : "操作をわかりやすくするためのハイ・コントラストモード。\n見た目の美しさは低下しますが、明確さが向上します。",
