@@ -38,6 +38,7 @@
     "%1$s shared »%2$s« with you and wants to add:" : "%1$s vam omogoča souporabo »%2$s« in želi dodati:",
     "%1$s shared »%2$s« with you and wants to add" : "%1$s vam omogoča souporabo »%2$s« in želi dodati",
     "»%s« added a note to a file shared with you" : "»%s« doda opombo k datoteki v souporabi",
+    "You just shared »%1$s« with %2$s. The share was already sent to the recipient. Due to the security policies defined by the administrator of %3$s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Omogočili ste skupno rabo datoteke »%1$s« (%2$s). Souporaba je že dodeljena, vendar je treba zaradi varnostnih pravil, ki jih je določil skrbnik %3$s, vsako mesto v souporabi zaščititi z geslom. Gesla tudi ni dovoljeno poslati neposredno prejemniku. Pošljite ga prek drugega kanala.",
     "Password to access »%1$s« shared by you with %2$s" : "%2$s vam pošilja geslo za dostop do datoteke »%1$s«.",
     "This is the password:" : "Geslo:",
     "You can choose a different password at any time in the share dialog." : "Geslo je mogoče kadarkoli spremeniti med nastavitvami souporabe.",
