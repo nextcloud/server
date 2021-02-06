@@ -34,6 +34,7 @@
 		:preserve-search="true"
 		:searchable="true"
 		:user-select="true"
+		open-direction="below"
 		@search-change="asyncFind"
 		@select="addShare">
 		<template #noOptions>
