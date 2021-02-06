@@ -39,7 +39,7 @@ OC.L10N.register(
     "Color" : "顏色",
     "Logo" : "Logo",
     "Upload new logo" : "上傳新的 Logo",
-    "Login image" : "登入圖片",
+    "Login image" : "登入圖像",
     "Upload new login background" : "上傳新的登入頁背景",
     "Remove background image" : "移除背景圖片",
     "Advanced options" : "進階選項",
