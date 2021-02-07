@@ -147,7 +147,7 @@ OC.L10N.register(
     "Note to recipient" : "給接收者的訊息",
     "Unshare" : "撤回分享",
     "group" : "群組",
-    "conversation" : "交談",
+    "conversation" : "對話",
     "remote" : "遠端",
     "remote group" : "遠端群組",
     "guest" : "訪客",

@@ -26,7 +26,7 @@ OC.L10N.register(
     "Saved" : "已儲存",
     "Saving …" : "儲存中 ...",
     "Save" : "儲存",
-    "Empty response from the server" : "服務器没有回應",
+    "Empty response from the server" : "伺服器没有回應",
     "Couldn't access. Please log out and in again to activate this mount point" : "無法存取，請登出後重新登入來啟用這個掛載點。",
     "Couldn't get the information from the remote server: {code} {type}" : "無法從遠程伺服器上獲取資料 : {code} {type}",
     "Couldn't get the list of external mount points: {type}" : "無法得到外部掛載點的列表: {type}",
