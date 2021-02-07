@@ -2641,6 +2641,11 @@
       <code>section</code>
     </UndefinedInterfaceMethod>
   </file>
+  <file src="core/Command/Preview/ResetRenderedTexts.php">
+    <InvalidReturnStatement occurrences="1">
+      <code>[]</code>
+    </InvalidReturnStatement>
+  </file>
   <file src="core/Command/Upgrade.php">
     <InvalidScalarArgument occurrences="11">
       <code>0</code>
