@@ -26,6 +26,7 @@
     "The selected update channel makes dedicated notifications for the server obsolete." : "Pro zvolený kanál aktualizací se už vyhrazená upozorňování pro server nepoužívají.",
     "The selected update channel does not support updates of the server." : "Vybraný kanál aktualizací nepodporuje aktualizace serveru.",
     "A new version is available: <strong>{newVersionString}</strong>" : "K dispozici je nová verze: <strong>{newVersionString}</strong>",
+    "Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}" : "Můžete si všimnout, že po vydání nové verze se aktualizace objeví až po vydání první opravné aktualizace. Nové verze totiž distribuujeme mezi uživatele postupně a občas, pokud jsou nalezeny chyby, danou verzi i přeskočíme. Zjištěte více o aktualizacích a kanálech aktualizací kliknutím na {link}",
     "Checked on {lastCheckedDate}" : "Zkontrolováno {lastCheckedDate}",
     "Checking apps for compatible updates" : "Zjišťuje se dostupnost kompatibilních aktualizací aplikací",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Ověřte, že v souboru s nastaveními config.php není volba <samp>appstoreenabled</samp> nastavena na hodnotu false.",
