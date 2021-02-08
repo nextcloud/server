@@ -97,7 +97,7 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 						return $this->query($resolveName);
 					} catch (QueryException $e2) {
 						// don't lose the error we got while trying to query by type
-						throw new QueryException($e2->getMessage(), $e2->getCode(), $e);
+						throw new QueryException($e2->getMessage(), (int) $e2->getCode(), $e);
 					}
 				}
 
