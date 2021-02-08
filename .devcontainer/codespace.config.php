@@ -2,8 +2,15 @@
 
 $cloudEnvironmentId = getenv('CLOUDENV_ENVIRONMENT_ID');
 
-if($cloudEnvironmentId !== false) {
-    $CONFIG = array (
-    'overwritehost' => $cloudEnvironmentId . '-80.apps.codespaces.githubusercontent.com',
-    );
+$CONFIG = [
+    'mail_from_address' => 'no-reply',
+    'mail_smtpmode' => 'smtp',
+    'mail_sendmailmode' => 'smtp',
+    'mail_domain' => 'example.com',
+    'mail_smtphost' => 'localhost',
+    'mail_smtpport' => '1025'
+];
+
+if($cloudEnvironmentId !== true) {
+    $CONFIG['overwritehost'] = $cloudEnvironmentId . '-80.apps.codespaces.githubusercontent.com';
 }
