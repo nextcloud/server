@@ -291,7 +291,7 @@
     "The app will be downloaded from the app store" : "Program bo prejet iz zbirke programov",
     "This app is not marked as compatible with your Nextcloud version. If you continue you will still be able to install the app. Note that the app might not work as expected." : "Ta program ni označen kot skladen z nameščeno različico oblaka Nextcloud. Če nameravate nadaljevati, boste program lahko namestili, vendar ta morda ne bo deloval po pričakovanjih, ali pa bo vplival na stabilnost sistema.",
     "Never" : "Nikoli",
-    "An error occured during the request. Unable to proceed." : "Prišlo je do napake med zahtevo. Nadaljevanje ni mogoče.",
+    "An error occured during the request. Unable to proceed." : "Med izvajanjem zahteve je prišlo do napake, zato ni mogoče nadaljevati.",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "Program je omogočen, vendar zahteva posodobitev. Po nekaj sekundah boste preusmerjeni na stran za posodobitev.",
     "App update" : "Posodobitev programa",
     "Error: This app can not be enabled because it makes the server unstable" : "Napaka: tega programa ni mogoče namestiti, ker povzroča nestabilnost strežnika.",

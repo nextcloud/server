@@ -127,6 +127,7 @@
     "Directory Settings" : "目錄設定",
     "User Display Name Field" : "使用者顯示名稱欄位",
     "The LDAP attribute to use to generate the user's display name." : "LDAP設定值，用於產生使用者的顯示名稱",
+    "2nd User Display Name Field" : "第二位用戶顯示名稱欄位",
     "Optional. An LDAP attribute to be added to the display name in brackets. Results in e.g. »John Doe (john.doe@example.org)«." : "選填。要加進顯示名稱中括號的 LDAP 屬性。例如 »John Doe (john.doe@example.org)«。",
     "Base User Tree" : "Base User Tree",
     "One User Base DN per line" : "一行一個使用者 Base DN",
