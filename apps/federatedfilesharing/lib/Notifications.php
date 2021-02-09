@@ -27,7 +27,6 @@
 
 namespace OCA\FederatedFileSharing;
 
-use OC;
 use OCA\FederatedFileSharing\Events\FederatedShareAddedEvent;
 use OCP\AppFramework\Http;
 use OCP\BackgroundJob\IJobList;
