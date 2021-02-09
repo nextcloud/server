@@ -1,9 +1,11 @@
 <?php
+
+declare(strict_types=1);
+
 /**
- * @copyright Copyright (c) 2016 Robin Appelman <robin@icewind.nl>
+ * @copyright Copyright (c) 2021, hosting.de, Johannes Leuker <j.leuker@hosting.de>
  *
- * @author Joas Schilling <coding@schilljs.com>
- * @author Robin Appelman <robin@icewind.nl>
+ * @author Johannes Leuker <j.leuker@hosting.de>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -27,11 +29,12 @@ namespace OC\Core\Command\Group;
 use OC\Core\Command\Base;
 use OCP\IGroup;
 use OCP\IGroupManager;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class ListCommand extends Base {
+class Info extends Base {
 	/** @var IGroupManager */
 	protected $groupManager;
 
@@ -45,25 +48,12 @@ class ListCommand extends Base {
 
 	protected function configure() {
 		$this
-			->setName('group:list')
-			->setDescription('list configured groups')
-			->addOption(
-				'limit',
-				'l',
-				InputOption::VALUE_OPTIONAL,
-				'Number of groups to retrieve',
-				500
-			)->addOption(
-				'offset',
-				'o',
-				InputOption::VALUE_OPTIONAL,
-				'Offset for retrieving groups',
-				0
-			)->addOption(
-				'info',
-				'i',
-				InputOption::VALUE_NONE,
-				'Show additional info (backend)'
+			->setName('group:info')
+			->setDescription('Show information about a group')
+			->addArgument(
+				'groupid',
+				InputArgument::REQUIRED,
+				'Group id'
 			)->addOption(
 				'output',
 				null,
@@ -74,32 +64,20 @@ class ListCommand extends Base {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-		$groups = $this->groupManager->search('', (int)$input->getOption('limit'), (int)$input->getOption('offset'));
-		$this->writeArrayInOutputFormat($input, $output, $this->formatGroups($groups, (bool)$input->getOption('info')));
-		return 0;
-	}
-
-	/**
-	 * @param IGroup[] $groups
-	 * @return array
-	 */
-	private function formatGroups(array $groups, bool $addInfo = false) {
-		$keys = array_map(function (IGroup $group) {
-			return $group->getGID();
-		}, $groups);
-
-		if ($addInfo) {
-			$values = array_map(function (IGroup $group) {
-				return [
-					'backends' => $group->getBackendNames(),
-					'users' => array_keys($group->getUsers()),
-				];
-			}, $groups);
+		$gid = $input->getArgument('groupid');
+		$group = $this->groupManager->get($gid);
+		if (!$group instanceof IGroup) {
+			$output->writeln('<error>Group "' . $gid . '" does not exist.</error>');
+			return 1;
 		} else {
-			$values = array_map(function (IGroup $group) {
-				return array_keys($group->getUsers());
-			}, $groups);
+			$groupOutput = [
+				'groupID' => $gid,
+				'displayName' => $group->getDisplayName(),
+				'backends' => $group->getBackendNames(),
+			];
+
+			$this->writeArrayInOutputFormat($input, $output, $groupOutput);
+			return 0;
 		}
-		return array_combine($keys, $values);
 	}
 }

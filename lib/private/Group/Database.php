@@ -55,6 +55,7 @@ use OCP\Group\Backend\IGetDisplayNameBackend;
 use OCP\Group\Backend\IGroupDetailsBackend;
 use OCP\Group\Backend\IRemoveFromGroupBackend;
 use OCP\Group\Backend\ISetDisplayNameBackend;
+use OCP\Group\Backend\INamedBackend;
 use OCP\IDBConnection;
 
 /**
@@ -69,7 +70,8 @@ class Database extends ABackend implements
 			   IGetDisplayNameBackend,
 			   IGroupDetailsBackend,
 			   IRemoveFromGroupBackend,
-			   ISetDisplayNameBackend {
+			   ISetDisplayNameBackend,
+			   INamedBackend {
 
 	/** @var string[] */
 	private $groupCache = [];
@@ -501,5 +503,14 @@ class Database extends ABackend implements
 		$query->execute();
 
 		return true;
+	}
+
+	/**
+	 * Backend name to be shown in group management
+	 * @return string the name of the backend to be shown
+	 * @since 21.0.0
+	 */
+	public function getBackendName(): string {
+		return 'Database';
 	}
 }
