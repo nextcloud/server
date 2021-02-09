@@ -38,6 +38,11 @@ use OCP\Http\Client\IClientService;
 use OCP\OCS\IDiscoveryService;
 use OCP\ILogger;
 
+/**
+ * Class Notifications
+ *
+ * @package OCA\FederatedFileSharing
+ */
 class Notifications {
 	public const RESPONSE_FORMAT = 'json'; // default response format for ocs calls
 
@@ -77,16 +82,14 @@ class Notifications {
 	 * @param ICloudFederationFactory $cloudFederationFactory
 	 * @param IEventDispatcher $eventDispatcher
 	 */
-	public function __construct(
-		AddressHandler $addressHandler,
+	public function __construct(AddressHandler $addressHandler,
 		IClientService $httpClientService,
 		IDiscoveryService $discoveryService,
 		ILogger $logger,
 		IJobList $jobList,
 		ICloudFederationProviderManager $federationProviderManager,
 		ICloudFederationFactory $cloudFederationFactory,
-		IEventDispatcher $eventDispatcher
-	) {
+		IEventDispatcher $eventDispatcher) {
 		$this->addressHandler = $addressHandler;
 		$this->httpClientService = $httpClientService;
 		$this->discoveryService = $discoveryService;
