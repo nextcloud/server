@@ -31,21 +31,22 @@ use Doctrine\DBAL\Driver;
 class ReconnectWrapper extends \Doctrine\DBAL\Connection {
 	public const CHECK_CONNECTION_INTERVAL = 60;
 
-	private $lastConnectionCheck = null;
+	private $lastQuery = null;
 
 	public function __construct(array $params, Driver $driver, Configuration $config = null, EventManager $eventManager = null) {
 		parent::__construct($params, $driver, $config, $eventManager);
-		$this->lastConnectionCheck = time();
+		$this->lastQuery = time();
 	}
 
 	public function connect() {
 		$now = time();
 		$checkTime = $now - self::CHECK_CONNECTION_INTERVAL;
 
-		if ($this->lastConnectionCheck > $checkTime || $this->isTransactionActive()) {
+		if ($this->lastQuery > $checkTime || $this->isTransactionActive()) {
+			$this->lastQuery = $now;
 			return parent::connect();
 		} else {
-			$this->lastConnectionCheck = $now;
+			$this->lastQuery = $now;
 			if (!$this->ping()) {
 				$this->close();
 			}
