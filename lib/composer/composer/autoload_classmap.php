@@ -992,7 +992,6 @@ return array(
     'OC\\DB\\QueryBuilder\\QueryBuilder' => $baseDir . '/lib/private/DB/QueryBuilder/QueryBuilder.php',
     'OC\\DB\\QueryBuilder\\QueryFunction' => $baseDir . '/lib/private/DB/QueryBuilder/QueryFunction.php',
     'OC\\DB\\QueryBuilder\\QuoteHelper' => $baseDir . '/lib/private/DB/QueryBuilder/QuoteHelper.php',
-    'OC\\DB\\ReconnectWrapper' => $baseDir . '/lib/private/DB/ReconnectWrapper.php',
     'OC\\DB\\ResultAdapter' => $baseDir . '/lib/private/DB/ResultAdapter.php',
     'OC\\DB\\SQLiteMigrator' => $baseDir . '/lib/private/DB/SQLiteMigrator.php',
     'OC\\DB\\SQLiteSessionInit' => $baseDir . '/lib/private/DB/SQLiteSessionInit.php',
