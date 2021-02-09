@@ -757,8 +757,8 @@ class Crypt {
 			}
 
 			return [
-				'keys' => $mappedShareKeys . $iv,
-				'data' => $sealed
+				'keys' => $mappedShareKeys,
+				'data' => $sealed . $iv,
 			];
 		}
 		throw new MultiKeyEncryptException('multikeyencryption failed ' . openssl_error_string());
