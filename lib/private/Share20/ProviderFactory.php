@@ -137,6 +137,7 @@ class ProviderFactory implements IProviderFactory {
 				$addressHandler,
 				$this->serverContainer->getHTTPClientService(),
 				$this->serverContainer->query(\OCP\OCS\IDiscoveryService::class),
+				$this->serverContainer->getLogger(),
 				$this->serverContainer->getJobList(),
 				\OC::$server->getCloudFederationProviderManager(),
 				\OC::$server->getCloudFederationFactory(),
