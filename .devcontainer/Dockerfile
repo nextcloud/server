@@ -17,7 +17,7 @@ RUN apt-get install --no-install-recommends -y \
     php7.4-intl \
     php7.4-imagick \
     php7.4-gmp \
-    php7.4-acpu \
+    php7.4-apcu \
     php7.4-bcmath \
     libmagickcore-6.q16-3-extra \
     curl \
