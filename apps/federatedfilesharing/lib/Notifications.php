@@ -65,10 +65,23 @@ class Notifications {
 	/** @var ILogger */
 	protected $logger;
 
+	/**
+	 * FederatedFileSharing constructor
+	 *
+	 * @param AddressHandler $addressHandler
+	 * @param IClientService $httpClientService
+	 * @param IDiscoveryServicee $discoveryService
+	 * @param ILogger $logger
+	 * @param IJobList $jobList
+	 * @param ICloudFederationProviderManager $federationProviderManager
+	 * @param ICloudFederationFactory $cloudFederationFactory
+	 * @param IEventDispatcher $eventDispatcher
+	 */
 	public function __construct(
 		AddressHandler $addressHandler,
 		IClientService $httpClientService,
 		IDiscoveryService $discoveryService,
+		ILogger $logger,
 		IJobList $jobList,
 		ICloudFederationProviderManager $federationProviderManager,
 		ICloudFederationFactory $cloudFederationFactory,
@@ -78,7 +91,7 @@ class Notifications {
 		$this->httpClientService = $httpClientService;
 		$this->discoveryService = $discoveryService;
 		$this->jobList = $jobList;
-		$this->logger = OC::$server->getLogger();
+		$this->logger = $logger;
 		$this->federationProviderManager = $federationProviderManager;
 		$this->cloudFederationFactory = $cloudFederationFactory;
 		$this->eventDispatcher = $eventDispatcher;
