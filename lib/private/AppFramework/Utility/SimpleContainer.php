@@ -93,7 +93,12 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 
 				if ($parameterType !== null && !$parameterType->isBuiltin()) {
 					$resolveName = $parameter->getName();
-					return $this->query($resolveName);
+					try {
+						return $this->query($resolveName);
+					} catch (QueryException $e2) {
+						// don't lose the error we got while trying to query by type
+						throw new QueryException($e2->getMessage(), (int) $e2->getCode(), $e);
+					}
 				}
 
 				throw $e;
