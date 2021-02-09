@@ -26,37 +26,36 @@ use OC\Core\Data\LoginFlowV2Credentials;
 use Test\TestCase;
 
 class LoginFlowV2CredentialsTest extends TestCase {
-	private function createInstance(string $server, string $loginName, string $appPassword) {
-		return new LoginFlowV2Credentials($server, $loginName, $appPassword);
+	/** @var \OC\Core\Data\LoginFlowV2Credentials */
+	private $fixture;
+
+	public function setUp(): void {
+		parent::setUp();
+
+		$this->fixture = new LoginFlowV2Credentials('server', 'login', 'pass');
 	}
 
 	public function testImplementsJsonSerializable() {
-		$fixture = $this->createInstance('server', 'login', 'pass');
-
-		$this->assertTrue($fixture instanceof JsonSerializable);
+		$this->assertTrue($this->fixture instanceof JsonSerializable);
 	}
 
 	/**
 	 * Test getter functions.
 	 */
 	public function testGetter() {
-		$fixture = $this->createInstance('server', 'login', 'pass');
-
-		$this->assertEquals('server', $fixture->getServer());
-		$this->assertEquals('login', $fixture->getLoginName());
-		$this->assertEquals('pass', $fixture->getAppPassword());
+		$this->assertEquals('server', $this->fixture->getServer());
+		$this->assertEquals('login', $this->fixture->getLoginName());
+		$this->assertEquals('pass', $this->fixture->getAppPassword());
 	}
 
 	public function testJsonSerialize() {
-		$fixture = $this->createInstance('server', 'login', 'pass');
-
 		$this->assertEquals(
 			[
 				'server' => 'server',
 				'loginName' => 'login',
 				'appPassword' => 'pass',
 			],
-			$fixture->jsonSerialize()
+			$this->fixture->jsonSerialize()
 		);
 	}
 }
