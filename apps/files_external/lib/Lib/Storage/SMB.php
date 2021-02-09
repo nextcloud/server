@@ -247,6 +247,12 @@ class SMB extends Common implements INotifyStorage {
 
 			foreach ($files as $file) {
 				try {
+					if ($file->isSystem()) {
+						// Ignore system files
+						$this->logger->debug('hiding system file ' . $file->getName());
+						continue;
+					}
+
 					// the isHidden check is done before checking the config boolean to ensure that the metadata is always fetch
 					// so we trigger the below exceptions where applicable
 					$hide = $file->isHidden() && !$this->showHidden;
