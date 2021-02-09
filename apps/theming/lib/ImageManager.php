@@ -41,7 +41,7 @@ use OCP\IURLGenerator;
 
 class ImageManager {
 
-	/** @var IConfig */
+/** @var IConfig */
 	private $config;
 	/** @var IAppData */
 	private $appData;
@@ -57,12 +57,12 @@ class ImageManager {
 	private $tempManager;
 
 	public function __construct(IConfig $config,
-								IAppData $appData,
-								IURLGenerator $urlGenerator,
-								ICacheFactory $cacheFactory,
-								ILogger $logger,
-								ITempManager $tempManager
-	) {
+							IAppData $appData,
+							IURLGenerator $urlGenerator,
+							ICacheFactory $cacheFactory,
+							ILogger $logger,
+							ITempManager $tempManager
+) {
 		$this->config = $config;
 		$this->appData = $appData;
 		$this->urlGenerator = $urlGenerator;
@@ -80,13 +80,13 @@ class ImageManager {
 		}
 
 		switch ($key) {
-			case 'logo':
-			case 'logoheader':
-			case 'favicon':
-				return $this->urlGenerator->imagePath('core', 'logo/logo.png') . '?v=' . $cacheBusterCounter;
-			case 'background':
-				return $this->urlGenerator->imagePath('core', 'background.png') . '?v=' . $cacheBusterCounter;
-		}
+		case 'logo':
+		case 'logoheader':
+		case 'favicon':
+			return $this->urlGenerator->imagePath('core', 'logo/logo.png') . '?v=' . $cacheBusterCounter;
+		case 'background':
+			return $this->urlGenerator->imagePath('core', 'background.png') . '?v=' . $cacheBusterCounter;
+	}
 	}
 
 	public function getImageUrlAbsolute(string $key, bool $useSvg = true): string {
@@ -102,9 +102,9 @@ class ImageManager {
 	 */
 	public function getImage(string $key, bool $useSvg = true): ISimpleFile {
 		$pngFile = null;
-		$logo = $this->config->getAppValue('theming', $key . 'Mime', false);
+		$logo = $this->config->getAppValue('theming', $key . 'Mime', '');
 		$folder = $this->appData->getFolder('images');
-		if ($logo === false || !$folder->fileExists($key)) {
+		if ($logo === '' || !$folder->fileExists($key)) {
 			throw new NotFoundException();
 		}
 		if (!$useSvg && $this->shouldReplaceIcons()) {
