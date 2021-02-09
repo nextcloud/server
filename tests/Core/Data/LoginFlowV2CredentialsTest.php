@@ -26,7 +26,6 @@ use OC\Core\Data\LoginFlowV2Credentials;
 use Test\TestCase;
 
 class LoginFlowV2CredentialsTest extends TestCase {
-
 	private function createInstance(string $server, string $loginName, string $appPassword) {
 		return new LoginFlowV2Credentials($server, $loginName, $appPassword);
 	}
