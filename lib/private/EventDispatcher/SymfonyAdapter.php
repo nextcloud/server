@@ -35,6 +35,8 @@ use OCP\EventDispatcher\Event;
 use OCP\ILogger;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use function is_object;
+use function is_string;
 
 /**
  * @deprecated 20.0.0 use \OCP\EventDispatcher\IEventDispatcher
@@ -54,6 +56,28 @@ class SymfonyAdapter implements EventDispatcherInterface {
 		$this->logger = $logger;
 	}
 
+	private static function detectEventAndName($a, $b) {
+		if (is_object($a) && (is_string($b) || $b === null)) {
+			// a is the event, the other one is the optional name
+			return [$a, $b];
+		}
+		if (is_object($b) && (is_string($a) || $a === null)) {
+			// b is the event, the other one is the optional name
+			return [$b, $a];
+		}
+		if (is_string($a) && $b === null) {
+			// a is a payload-less event
+			return [null, $a];
+		}
+		if (is_string($b) && $a === null) {
+			// b is a payload-less event
+			return [null, $b];
+		}
+
+		// Anything else we can't detect
+		return [$a, $b];
+	}
+
 	/**
 	 * Dispatches an event to all registered listeners.
 	 *
@@ -67,7 +91,13 @@ class SymfonyAdapter implements EventDispatcherInterface {
 	 * @deprecated 20.0.0
 	 */
 	public function dispatch($eventName, $event = null): object {
+		[$event, $eventName] = self::detectEventAndName($event, $eventName);
+
 		// type hinting is not possible, due to usage of GenericEvent
+		if ($event instanceof Event && $eventName === null) {
+			$this->eventDispatcher->dispatchTyped($event);
+			return $event;
+		}
 		if ($event instanceof Event) {
 			$this->eventDispatcher->dispatch($eventName, $event);
 			return $event;

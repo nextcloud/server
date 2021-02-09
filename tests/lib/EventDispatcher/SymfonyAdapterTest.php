@@ -100,6 +100,26 @@ class SymfonyAdapterTest extends TestCase {
 		self::assertEquals($result, $wrapped);
 	}
 
+	public function testDispatchOldSymfonyEventWithFlippedArgumentOrder(): void {
+		$event = new SymfonyEvent();
+		$eventName = 'symfony';
+		$symfonyDispatcher = $this->createMock(SymfonyDispatcher::class);
+		$this->eventDispatcher->expects(self::once())
+			->method('getSymfonyDispatcher')
+			->willReturn($symfonyDispatcher);
+		$symfonyDispatcher->expects(self::once())
+			->method('dispatch')
+			->with(
+				$event,
+				$eventName
+			)
+			->willReturnArgument(0);
+
+		$result = $this->adapter->dispatch($event, $eventName);
+
+		self::assertSame($result, $event);
+	}
+
 	public function testDispatchOldSymfonyEvent(): void {
 		$event = new SymfonyEvent();
 		$eventName = 'symfony';
@@ -116,6 +136,22 @@ class SymfonyAdapterTest extends TestCase {
 			->willReturnArgument(0);
 
 		$result = $this->adapter->dispatch($eventName, $event);
+
+		self::assertSame($result, $event);
+	}
+
+	public function testDispatchCustomGenericEventWithFlippedArgumentOrder(): void {
+		$event = new GenericEvent();
+		$eventName = 'symfony';
+		$this->eventDispatcher->expects(self::once())
+			->method('dispatch')
+			->with(
+				$eventName,
+				$event
+			)
+			->willReturnArgument(0);
+
+		$result = $this->adapter->dispatch($event, $eventName);
 
 		self::assertSame($result, $event);
 	}
