@@ -68,28 +68,30 @@ class Notifications {
 	private $eventDispatcher;
 
 	/** @var ILogger */
-	protected $logger;
+	private $logger;
 
 	/**
-	 * FederatedFileSharing constructor
+	 * Notifications constructor
 	 *
 	 * @param AddressHandler $addressHandler
 	 * @param IClientService $httpClientService
-	 * @param IDiscoveryServicee $discoveryService
+	 * @param IDiscoveryService $discoveryService
 	 * @param ILogger $logger
 	 * @param IJobList $jobList
 	 * @param ICloudFederationProviderManager $federationProviderManager
 	 * @param ICloudFederationFactory $cloudFederationFactory
 	 * @param IEventDispatcher $eventDispatcher
 	 */
-	public function __construct(AddressHandler $addressHandler,
+	public function __construct(
+		AddressHandler $addressHandler,
 		IClientService $httpClientService,
 		IDiscoveryService $discoveryService,
 		ILogger $logger,
 		IJobList $jobList,
 		ICloudFederationProviderManager $federationProviderManager,
 		ICloudFederationFactory $cloudFederationFactory,
-		IEventDispatcher $eventDispatcher) {
+		IEventDispatcher $eventDispatcher
+	) {
 		$this->addressHandler = $addressHandler;
 		$this->httpClientService = $httpClientService;
 		$this->discoveryService = $discoveryService;
