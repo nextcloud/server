@@ -271,10 +271,7 @@ class RegistrationContext {
 	}
 
 	public function registerTemplateProvider(string $appId, string $class): void {
-		$this->templateProviders[] = [
-			'appId' => $appId,
-			'class' => $class,
-		];
+		$this->templateProviders[] = new ServiceRegistration($appId, $class);
 	}
 
 	/**
