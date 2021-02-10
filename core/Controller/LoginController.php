@@ -337,7 +337,7 @@ class LoginController extends Controller {
 		$user, $originalUser, $redirect_url, string $loginMessage) {
 		// Read current user and append if possible we need to
 		// return the unmodified user otherwise we will leak the login name
-		$args = $user !== null ? ['user' => $originalUser] : [];
+		$args = $user !== null ? ['user' => $originalUser, 'direct' => 1] : [];
 		if ($redirect_url !== null) {
 			$args['redirect_url'] = $redirect_url;
 		}
