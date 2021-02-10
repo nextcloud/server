@@ -33,6 +33,7 @@
 namespace OCA\Files_Trashbin\Tests;
 
 use OC\Files\Filesystem;
+use OC\Files\Storage\Common;
 use OC\Files\Storage\Temporary;
 use OCA\Files_Trashbin\AppInfo\Application;
 use OCA\Files_Trashbin\Events\MoveToTrashEvent;
@@ -44,11 +45,23 @@ use OCP\Files\Cache\ICache;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
+use OCP\Files\Storage\IStorage;
 use OCP\ILogger;
 use OCP\IUserManager;
 use OCP\Lock\ILockingProvider;
 use OCP\Share\IShare;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Test\Traits\MountProviderTrait;
+
+class TemporaryNoCross extends Temporary {
+	public function copyFromStorage(IStorage $sourceStorage, $sourceInternalPath, $targetInternalPath, $preserveMtime = null) {
+		return Common::copyFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath, $preserveMtime);
+	}
+
+	public function moveFromStorage(IStorage $sourceStorage, $sourceInternalPath, $targetInternalPath) {
+		return Common::moveFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
+	}
+}
 
 /**
  * Class Storage
@@ -58,6 +71,8 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  * @package OCA\Files_Trashbin\Tests
  */
 class StorageTest extends \Test\TestCase {
+	use MountProviderTrait;
+
 	/**
 	 * @var string
 	 */
@@ -644,5 +659,19 @@ class StorageTest extends \Test\TestCase {
 
 		$this->assertEquals('foo', $this->rootView->file_get_contents($this->user . '/files_trashbin/files/test.txt.d1000'));
 		$this->assertEquals('bar', $this->rootView->file_get_contents($this->user . '/files_trashbin/files/test.txt.d1001'));
+	}
+
+	public function testMoveFromStoragePreserveFileId() {
+		$this->userView->file_put_contents('test.txt', 'foo');
+		$fileId = $this->userView->getFileInfo('test.txt')->getId();
+
+		$externalStorage = new TemporaryNoCross([]);
+		$externalStorage->getScanner()->scan('');
+		Filesystem::mount($externalStorage, [], "/" . $this->user . "/files/storage");
+
+		$this->assertTrue($this->userView->rename('test.txt', 'storage/test.txt'));
+		$this->assertTrue($externalStorage->file_exists('test.txt'));
+
+		$this->assertEquals($fileId, $this->userView->getFileInfo('storage/test.txt')->getId());
 	}
 }
