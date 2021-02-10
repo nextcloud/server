@@ -191,6 +191,7 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\Events\\AddressBookDeletedEvent' => __DIR__ . '/..' . '/../lib/Events/AddressBookDeletedEvent.php',
         'OCA\\DAV\\Events\\AddressBookShareUpdatedEvent' => __DIR__ . '/..' . '/../lib/Events/AddressBookShareUpdatedEvent.php',
         'OCA\\DAV\\Events\\AddressBookUpdatedEvent' => __DIR__ . '/..' . '/../lib/Events/AddressBookUpdatedEvent.php',
+        'OCA\\DAV\\Events\\BeforeFileDirectDownloadedEvent' => __DIR__ . '/..' . '/../lib/Events/BeforeFileDirectDownloadedEvent.php',
         'OCA\\DAV\\Events\\CachedCalendarObjectCreatedEvent' => __DIR__ . '/..' . '/../lib/Events/CachedCalendarObjectCreatedEvent.php',
         'OCA\\DAV\\Events\\CachedCalendarObjectDeletedEvent' => __DIR__ . '/..' . '/../lib/Events/CachedCalendarObjectDeletedEvent.php',
         'OCA\\DAV\\Events\\CachedCalendarObjectUpdatedEvent' => __DIR__ . '/..' . '/../lib/Events/CachedCalendarObjectUpdatedEvent.php',

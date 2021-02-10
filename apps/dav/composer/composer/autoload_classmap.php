@@ -176,6 +176,7 @@ return array(
     'OCA\\DAV\\Events\\AddressBookDeletedEvent' => $baseDir . '/../lib/Events/AddressBookDeletedEvent.php',
     'OCA\\DAV\\Events\\AddressBookShareUpdatedEvent' => $baseDir . '/../lib/Events/AddressBookShareUpdatedEvent.php',
     'OCA\\DAV\\Events\\AddressBookUpdatedEvent' => $baseDir . '/../lib/Events/AddressBookUpdatedEvent.php',
+    'OCA\\DAV\\Events\\BeforeFileDirectDownloadedEvent' => $baseDir . '/../lib/Events/BeforeFileDirectDownloadedEvent.php',
     'OCA\\DAV\\Events\\CachedCalendarObjectCreatedEvent' => $baseDir . '/../lib/Events/CachedCalendarObjectCreatedEvent.php',
     'OCA\\DAV\\Events\\CachedCalendarObjectDeletedEvent' => $baseDir . '/../lib/Events/CachedCalendarObjectDeletedEvent.php',
     'OCA\\DAV\\Events\\CachedCalendarObjectUpdatedEvent' => $baseDir . '/../lib/Events/CachedCalendarObjectUpdatedEvent.php',
