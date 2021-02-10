@@ -36,18 +36,18 @@ use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\App\IAppManager;
+use OCP\AppFramework\Services\IInitialState;
 use OCP\Dashboard\IManager;
 use OCP\Dashboard\IWidget;
 use OCP\Dashboard\RegisterWidgetEvent;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
-use OCP\IInitialStateService;
 use OCP\IRequest;
 
 class DashboardController extends Controller {
 
-	/** @var IInitialStateService */
-	private $inititalStateService;
+	/** @var IInitialState */
+	private $inititalState;
 	/** @var IEventDispatcher */
 	private $eventDispatcher;
 	/** @var IAppManager */
@@ -66,7 +66,7 @@ class DashboardController extends Controller {
 	public function __construct(
 		string $appName,
 		IRequest $request,
-		IInitialStateService $initialStateService,
+		IInitialState $initialState,
 		IEventDispatcher $eventDispatcher,
 		IAppManager $appManager,
 		IManager $dashboardManager,
@@ -76,7 +76,7 @@ class DashboardController extends Controller {
 	) {
 		parent::__construct($appName, $request);
 
-		$this->inititalStateService = $initialStateService;
+		$this->inititalState = $initialState;
 		$this->eventDispatcher = $eventDispatcher;
 		$this->appManager = $appManager;
 		$this->dashboardManager = $dashboardManager;
@@ -119,14 +119,14 @@ class DashboardController extends Controller {
 		$themingDefaultBackground = $this->appManager->isEnabledForUser('theming')
 			? $this->config->getAppValue('theming', 'backgroundMime', '')
 			: '';
-		$this->inititalStateService->provideInitialState('dashboard', 'themingDefaultBackground', $themingDefaultBackground);
-		$this->inititalStateService->provideInitialState('dashboard', 'panels', $widgets);
-		$this->inititalStateService->provideInitialState('dashboard', 'statuses', $statuses);
-		$this->inititalStateService->provideInitialState('dashboard', 'layout', $userLayout);
-		$this->inititalStateService->provideInitialState('dashboard', 'firstRun', $this->config->getUserValue($this->userId, 'dashboard', 'firstRun', '1') === '1');
-		$this->inititalStateService->provideInitialState('dashboard', 'shippedBackgrounds', BackgroundService::SHIPPED_BACKGROUNDS);
-		$this->inititalStateService->provideInitialState('dashboard', 'background', $this->config->getUserValue($this->userId, 'dashboard', 'background', 'default'));
-		$this->inititalStateService->provideInitialState('dashboard', 'version', $this->config->getUserValue($this->userId, 'dashboard', 'backgroundVersion', 0));
+		$this->inititalState->provideInitialState('themingDefaultBackground', $themingDefaultBackground);
+		$this->inititalState->provideInitialState('panels', $widgets);
+		$this->inititalState->provideInitialState('statuses', $statuses);
+		$this->inititalState->provideInitialState('layout', $userLayout);
+		$this->inititalState->provideInitialState('firstRun', $this->config->getUserValue($this->userId, 'dashboard', 'firstRun', '1') === '1');
+		$this->inititalState->provideInitialState('shippedBackgrounds', BackgroundService::SHIPPED_BACKGROUNDS);
+		$this->inititalState->provideInitialState('background', $this->config->getUserValue($this->userId, 'dashboard', 'background', 'default'));
+		$this->inititalState->provideInitialState('version', $this->config->getUserValue($this->userId, 'dashboard', 'backgroundVersion', 0));
 		$this->config->setUserValue($this->userId, 'dashboard', 'firstRun', '0');
 
 		$response = new TemplateResponse('dashboard', 'index');
@@ -199,7 +199,7 @@ class DashboardController extends Controller {
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
-	public function getBackground() {
+	public function getBackground(): Http\Response {
 		$file = $this->backgroundService->getBackground();
 		if ($file !== null) {
 			$response = new FileDisplayResponse($file, Http::STATUS_OK, ['Content-Type' => $file->getMimeType()]);
