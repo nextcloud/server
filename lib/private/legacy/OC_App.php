@@ -709,12 +709,12 @@ class OC_App {
 
 			try {
 				/** @var IAlternativeLogin $provider */
-				$provider = \OC::$server->query($registration['class']);
+				$provider = \OC::$server->query($registration->getService());
 			} catch (QueryException $e) {
 				\OC::$server->getLogger()->logException($e, [
 					'message' => 'Alternative login option {option} can not be initialised.',
-					'option' => $registration['class'],
-					'app' => $registration['app'],
+					'option' => $registration->getService(),
+					'app' => $registration->getAppId(),
 				]);
 			}
 
@@ -729,8 +729,8 @@ class OC_App {
 			} catch (Throwable $e) {
 				\OC::$server->getLogger()->logException($e, [
 					'message' => 'Alternative login option {option} had an error while loading.',
-					'option' => $registration['class'],
-					'app' => $registration['app'],
+					'option' => $registration->getService(),
+					'app' => $registration->getAppId(),
 				]);
 			}
 		}
