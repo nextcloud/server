@@ -27,6 +27,7 @@ namespace Test\Http\WellKnown;
 
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\AppFramework\Bootstrap\RegistrationContext;
+use OC\AppFramework\Bootstrap\ServiceRegistration;
 use OC\Http\WellKnown\RequestManager;
 use OCP\AppFramework\QueryException;
 use OCP\Http\WellKnown\IHandler;
@@ -102,9 +103,7 @@ class RequestManagerTest extends TestCase {
 		$registrationContext->expects(self::once())
 			->method('getWellKnownHandlers')
 			->willReturn([
-				[
-					'class' => get_class($handler),
-				],
+				new ServiceRegistration('test', get_class($handler)),
 			]);
 		$this->container->expects(self::once())
 			->method('get')
@@ -129,9 +128,7 @@ class RequestManagerTest extends TestCase {
 		$registrationContext->expects(self::once())
 			->method('getWellKnownHandlers')
 			->willReturn([
-				[
-					'class' => get_class($handler),
-				],
+				new ServiceRegistration('test', get_class($handler)),
 			]);
 		$this->container->expects(self::once())
 			->method('get')
@@ -159,9 +156,7 @@ class RequestManagerTest extends TestCase {
 		$registrationContext->expects(self::once())
 			->method('getWellKnownHandlers')
 			->willReturn([
-				[
-					'class' => get_class($handler),
-				],
+				new ServiceRegistration('test', get_class($handler)),
 			]);
 		$this->container->expects(self::once())
 			->method('get')

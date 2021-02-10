@@ -698,11 +698,11 @@ class OC_App {
 		$bootstrapCoordinator = \OC::$server->query(Coordinator::class);
 
 		foreach ($bootstrapCoordinator->getRegistrationContext()->getAlternativeLogins() as $registration) {
-			if (!in_array(IAlternativeLogin::class, class_implements($registration['class']), true)) {
+			if (!in_array(IAlternativeLogin::class, class_implements($registration->getService()), true)) {
 				\OC::$server->getLogger()->error('Alternative login option {option} does not implement {interface} and is therefore ignored.', [
-					'option' => $registration['class'],
+					'option' => $registration->getService(),
 					'interface' => IAlternativeLogin::class,
-					'app' => $registration['app'],
+					'app' => $registration->getAppId(),
 				]);
 				continue;
 			}
