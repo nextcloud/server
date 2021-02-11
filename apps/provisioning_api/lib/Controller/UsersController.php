@@ -441,6 +441,13 @@ class UsersController extends AUserData {
 				'app' => 'ocs_api',
 			]);
 			throw $e;
+		} catch (\InvalidArgumentException $e) {
+			$this->logger->logException($e, [
+				'message' => 'Failed addUser attempt with invalid argument exeption.',
+				'level' => ILogger::ERROR,
+				'app' => 'ocs_api',
+			]);
+			throw new OCSException($e->getMessage(), 101);
 		} catch (\Exception $e) {
 			$this->logger->logException($e, [
 				'message' => 'Failed addUser attempt with exception.',
