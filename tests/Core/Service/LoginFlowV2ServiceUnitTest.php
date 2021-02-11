@@ -26,6 +26,7 @@ use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\IToken;
 use OC\Core\Data\LoginFlowV2Credentials;
+use OC\Core\Data\LoginFlowV2Tokens;
 use OC\Core\Db\LoginFlowV2Mapper;
 use OC\Core\Db\LoginFlowV2;
 use OC\Core\Exception\LoginFlowV2NotFoundException;
@@ -379,5 +380,27 @@ class LoginFlowV2ServiceUnitTest extends TestCase {
 			'user_id'
 		);
 		$this->assertFalse($result);
+	}
+
+	/*
+	 * Tests for createTokens
+	 */
+
+	public function testCreateTokens() {
+		$this->config->expects($this->exactly(2))
+			->method('getSystemValue')
+			->willReturn($this->returnCallback(function ($key) {
+				// Note: \OCP\IConfig::getSystemValue returns either an array or string.
+				return 'openssl' == $key ? [] : '';
+			}));
+
+		$this->mapper->expects($this->once())
+			->method('insert');
+
+		$this->secureRandom->expects($this->exactly(2))
+			->method('generate');
+
+		$token = $this->subjectUnderTest->createTokens('user_agent');
+		$this->assertTrue($token instanceof LoginFlowV2Tokens);
 	}
 }
