@@ -1955,17 +1955,22 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @param string $calendarId
 	 * @param string $syncToken
 	 * @param int $syncLevel
-	 * @param int $limit
+	 * @param int|null $limit
 	 * @param int $calendarType
 	 * @return array
 	 */
 	public function getChangesForCalendar($calendarId, $syncToken, $syncLevel, $limit = null, $calendarType = self::CALENDAR_TYPE_CALENDAR) {
 		// Current synctoken
-		$stmt = $this->db->prepare('SELECT `synctoken` FROM `*PREFIX*calendars` WHERE `id` = ?');
-		$stmt->execute([ $calendarId ]);
+		$qb = $this->db->getQueryBuilder();
+		$qb->select('synctoken')
+			->from('calendars')
+			->where(
+				$qb->expr()->eq('id', $qb->createNamedParameter($calendarId))
+			);
+		$stmt = $qb->execute();
 		$currentToken = $stmt->fetchOne();
 
-		if (is_null($currentToken)) {
+		if ($currentToken === false) {
 			return null;
 		}
 
@@ -1977,14 +1982,24 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		];
 
 		if ($syncToken) {
-			$query = "SELECT `uri`, `operation` FROM `*PREFIX*calendarchanges` WHERE `synctoken` >= ? AND `synctoken` < ? AND `calendarid` = ? AND `calendartype` = ? ORDER BY `synctoken`";
-			if ($limit > 0) {
-				$query .= " LIMIT " . (int)$limit;
+			$qb = $this->db->getQueryBuilder();
+
+			$qb->select('uri', 'operation')
+				->from('calendarchanges')
+				->where(
+					$qb->expr()->andX(
+						$qb->expr()->gte('synctoken', $qb->createNamedParameter($syncToken)),
+						$qb->expr()->lt('synctoken', $qb->createNamedParameter($currentToken)),
+						$qb->expr()->eq('calendarid', $qb->createNamedParameter($calendarId)),
+						$qb->expr()->eq('calendartype', $qb->createNamedParameter($calendarType))
+					)
+				)->orderBy('synctoken');
+			if (is_int($limit) && $limit > 0) {
+				$qb->setMaxResults($limit);
 			}
 
 			// Fetching all changes
-			$stmt = $this->db->prepare($query);
-			$stmt->execute([$syncToken, $currentToken, $calendarId, $calendarType]);
+			$stmt = $qb->execute();
 
 			$changes = [];
 
@@ -2009,10 +2024,16 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			}
 		} else {
 			// No synctoken supplied, this is the initial sync.
-			$query = "SELECT `uri` FROM `*PREFIX*calendarobjects` WHERE `calendarid` = ? AND `calendartype` = ?";
-			$stmt = $this->db->prepare($query);
-			$stmt->execute([$calendarId, $calendarType]);
-
+			$qb = $this->db->getQueryBuilder();
+			$qb->select('uri')
+				->from('calendarobjects')
+				->where(
+					$qb->expr()->andX(
+						$qb->expr()->eq('calendarid', $qb->createNamedParameter($calendarId)),
+						$qb->expr()->eq('calendartype', $qb->createNamedParameter($calendarType))
+					)
+				);
+			$stmt = $qb->execute();
 			$result['added'] = $stmt->fetchAll(\PDO::FETCH_COLUMN);
 		}
 		return $result;
