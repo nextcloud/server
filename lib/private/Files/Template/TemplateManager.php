@@ -109,7 +109,8 @@ class TemplateManager implements ITemplateManager {
 
 		$this->providers = [];
 		foreach ($context->getTemplateProviders() as $provider) {
-			$this->providers[$provider['class']] = $this->serverContainer->get($provider['class']);
+			$class = $provider->getService();
+			$this->providers[$class] = $this->serverContainer->get($class);
 		}
 		return $this->providers;
 	}
