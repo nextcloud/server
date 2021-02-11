@@ -45,6 +45,7 @@
 // Move content up so it scrolls below navigation
 #content {
 	padding-top: 0 !important;
+	min-height: 100vh;
 }
 
 // Hide triangle indicators from navigation since they are out of place without the header bar
