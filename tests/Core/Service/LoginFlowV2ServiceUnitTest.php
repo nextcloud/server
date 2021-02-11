@@ -21,6 +21,7 @@
 
 namespace Tests\Core\Data;
 
+use Exception;
 use OC\Core\Service\LoginFlowV2Service;
 use OC\Core\Db\LoginFlowV2Mapper;
 use OC\Core\Exception\LoginFlowV2NotFoundException;
@@ -243,5 +244,44 @@ class LoginFlowV2ServiceUnitTest extends TestCase {
 			->willThrowException(new DoesNotExistException(''));
 
 		$this->subjectUnderTest->getByLoginToken('test_token');
+	}
+
+	/*
+	 * Tests for startLoginFlow
+	 */
+
+	public function testStartLoginFlow() {
+		$loginFlowV2 = new LoginFlowV2();
+
+		$this->mapper->expects($this->once())
+			->method('getByLoginToken')
+			->willReturn($loginFlowV2);
+
+		$this->mapper->expects($this->once())
+			->method('update');
+
+		$this->assertTrue($this->subjectUnderTest->startLoginFlow('test_token'));
+	}
+
+	public function testStartLoginFlowDoesNotExistException() {
+		$this->mapper->expects($this->once())
+			->method('getByLoginToken')
+			->willThrowException(new DoesNotExistException(''));
+
+		$this->assertFalse($this->subjectUnderTest->startLoginFlow('test_token'));
+	}
+
+	/**
+	 * If an exception not of type DoesNotExistException is thrown,
+	 * it is expected that it is not being handled by startLoginFlow.
+	 */
+	public function testStartLoginFlowException() {
+		$this->expectException(Exception::class);
+
+		$this->mapper->expects($this->once())
+			->method('getByLoginToken')
+			->willThrowException(new Exception(''));
+
+		$this->subjectUnderTest->startLoginFlow('test_token');
 	}
 }
