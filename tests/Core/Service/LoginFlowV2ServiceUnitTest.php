@@ -74,8 +74,7 @@ class LoginFlowV2ServiceUnitTest extends TestCase {
 	 *
 	 * Code was moved to separate function to keep setUp function small and clear.
 	 */
-	private function setupSubjectUnderTest(): void
-	{
+	private function setupSubjectUnderTest(): void {
 		$this->config = $this->getMockBuilder(IConfig::class)
 			->disableOriginalConstructor()->getMock();
 
@@ -115,7 +114,7 @@ class LoginFlowV2ServiceUnitTest extends TestCase {
 		// Create the private and public key
 		$res = openssl_pkey_new([
 			'digest_alg' => 'md5', // take fast algorithm for testing purposes
-			'private_key_bits' => 4096,
+			'private_key_bits' => 512,
 			'private_key_type' => OPENSSL_KEYTYPE_RSA,
 		]);
 
@@ -142,7 +141,7 @@ class LoginFlowV2ServiceUnitTest extends TestCase {
 
 		/*
 		 * Cannot be mocked, because functions like getLoginName are magic functions.
-		 * To be able to call it, we have to use the real class here.
+		 * To be able to set internal properties, we have to use the real class here.
 		 */
 		$loginFlowV2 = new LoginFlowV2();
 		$loginFlowV2->setLoginName('test');
@@ -184,7 +183,7 @@ class LoginFlowV2ServiceUnitTest extends TestCase {
 
 		/*
 		 * Cannot be mocked, because functions like getLoginName are magic functions.
-		 * To be able to call it, we have to use the real class here.
+		 * To be able to set internal properties, we have to use the real class here.
 		 */
 		$loginFlowV2 = new LoginFlowV2();
 		$loginFlowV2->setLoginName('test_login');
@@ -211,5 +210,38 @@ class LoginFlowV2ServiceUnitTest extends TestCase {
 			],
 			$credentials->jsonSerialize()
 		);
+	}
+
+	/*
+	 * Tests for getByLoginToken
+	 */
+
+	public function testGetByLoginToken() {
+		$loginFlowV2 = new LoginFlowV2();
+		$loginFlowV2->setLoginName('test_login');
+		$loginFlowV2->setServer('test_server');
+		$loginFlowV2->setAppPassword('test');
+
+		$this->mapper->expects($this->once())
+			->method('getByLoginToken')
+			->willReturn($loginFlowV2);
+
+		$result = $this->subjectUnderTest->getByLoginToken('test_token');
+
+		$this->assertTrue($result instanceof LoginFlowV2);
+		$this->assertEquals('test_server', $result->getServer());
+		$this->assertEquals('test_login', $result->getLoginName());
+		$this->assertEquals('test', $result->getAppPassword());
+	}
+
+	public function testGetByLoginTokenLoginTokenInvalid() {
+		$this->expectException(LoginFlowV2NotFoundException::class);
+		$this->expectExceptionMessage('Login token invalid');
+
+		$this->mapper->expects($this->once())
+			->method('getByLoginToken')
+			->willThrowException(new DoesNotExistException(''));
+
+		$this->subjectUnderTest->getByLoginToken('test_token');
 	}
 }
