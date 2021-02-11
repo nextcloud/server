@@ -23,6 +23,7 @@ $expectedFiles = [
 	'.',
 	'..',
 	'.codecov.yml',
+	'.devcontainer',
 	'.drone.yml',
 	'.editorconfig',
 	'.eslintrc.js',

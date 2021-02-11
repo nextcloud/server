@@ -27,6 +27,7 @@ declare(strict_types=1);
 namespace OC\Http\WellKnown;
 
 use OC\AppFramework\Bootstrap\Coordinator;
+use OC\AppFramework\Bootstrap\ServiceRegistration;
 use OCP\AppFramework\QueryException;
 use OCP\Http\WellKnown\IHandler;
 use OCP\Http\WellKnown\IRequestContext;
@@ -99,8 +100,9 @@ class RequestManager {
 		$this->logger->debug(count($registrations) . " well known handlers registered");
 
 		return array_filter(
-			array_map(function (array $registration) {
-				$class = $registration['class'];
+			array_map(function (ServiceRegistration $registration) {
+				/** @var ServiceRegistration<IHandler> $registration */
+				$class = $registration->getService();
 
 				try {
 					$handler = $this->container->get($class);
@@ -115,6 +117,7 @@ class RequestManager {
 				} catch (QueryException $e) {
 					$this->logger->error("Could not load well known handler $class", [
 						'exception' => $e,
+						'app' => $registration->getAppId(),
 					]);
 
 					return null;

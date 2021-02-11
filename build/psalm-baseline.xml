@@ -3432,11 +3432,6 @@
       <code>$string</code>
     </NullableReturnStatement>
   </file>
-  <file src="lib/private/DB/ReconnectWrapper.php">
-    <InternalMethod occurrences="1">
-      <code>parent::__construct($params, $driver, $config, $eventManager)</code>
-    </InternalMethod>
-  </file>
   <file src="lib/private/DateTimeFormatter.php">
     <FalsableReturnStatement occurrences="1"/>
     <InvalidDocblock occurrences="2">
@@ -3519,9 +3514,6 @@
     <ImplementedParamTypeMismatch occurrences="1">
       <code>$eventName</code>
     </ImplementedParamTypeMismatch>
-    <InvalidArgument occurrences="1">
-      <code>$eventName</code>
-    </InvalidArgument>
     <ParamNameMismatch occurrences="1">
       <code>$eventName</code>
     </ParamNameMismatch>

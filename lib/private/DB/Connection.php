@@ -53,7 +53,7 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\ILogger;
 use OCP\PreConditionNotMetException;
 
-class Connection extends ReconnectWrapper {
+class Connection extends \Doctrine\DBAL\Connection {
 	/** @var string */
 	protected $tablePrefix;
 
@@ -172,6 +172,9 @@ class Connection extends ReconnectWrapper {
 		if (!isset($params['tablePrefix'])) {
 			throw new \Exception('tablePrefix not set');
 		}
+		/**
+		 * @psalm-suppress InternalMethod
+		 */
 		parent::__construct($params, $driver, $config, $eventManager);
 		$this->adapter = new $params['adapter']($this);
 		$this->tablePrefix = $params['tablePrefix'];
