@@ -27,6 +27,7 @@ use OCP\Contacts\ContactsMenu\IActionFactory;
 use OCP\Contacts\ContactsMenu\IEntry;
 use OCP\Contacts\ContactsMenu\IProvider;
 use OCP\IURLGenerator;
+use OCP\IConfig;
 
 class EMailProvider implements IProvider {
 
@@ -36,13 +37,18 @@ class EMailProvider implements IProvider {
 	/** @var IURLGenerator */
 	private $urlGenerator;
 
+	/** @var IConfig */
+	private $serverConfig;
+
 	/**
 	 * @param IActionFactory $actionFactory
 	 * @param IURLGenerator $urlGenerator
+	 * @param IConfig $serverConfig
 	 */
-	public function __construct(IActionFactory $actionFactory, IURLGenerator $urlGenerator) {
+	public function __construct(IActionFactory $actionFactory, IURLGenerator $urlGenerator, IConfig $serverConfig) {
 		$this->actionFactory = $actionFactory;
 		$this->urlGenerator = $urlGenerator;
+		$this->serverConfig = $serverConfig;
 	}
 
 	/**
@@ -50,12 +56,13 @@ class EMailProvider implements IProvider {
 	 */
 	public function process(IEntry $entry) {
 		$iconUrl = $this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath('core', 'actions/mail.svg'));
+		$emailTemplate = $this->serverConfig->getAppValue('contacts', 'email_link_template', '') ?: null;
 		foreach ($entry->getEMailAddresses() as $address) {
 			if (empty($address)) {
 				// Skip
 				continue;
 			}
-			$action = $this->actionFactory->newEMailAction($iconUrl, $address, $address);
+			$action = $this->actionFactory->newEMailAction($iconUrl, $address, $address, $emailTemplate);
 			$entry->addAction($action);
 		}
 	}

@@ -48,7 +48,8 @@ interface IActionFactory {
 	 * @param string $icon full path to the action's icon
 	 * @param string $name localized name of the action
 	 * @param string $email target e-mail address
+	 * @param ?string $linkTemplate optional link template to use instead of 'mailto:'
 	 * @return ILinkAction
 	 */
-	public function newEMailAction($icon, $name, $email);
+	public function newEMailAction($icon, $name, $email, $linkTemplate);
 }

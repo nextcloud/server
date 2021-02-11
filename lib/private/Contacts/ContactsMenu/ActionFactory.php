@@ -47,9 +47,12 @@ class ActionFactory implements IActionFactory {
 	 * @param string $icon
 	 * @param string $name
 	 * @param string $email
+	 * @param ?string $linkTemplate
 	 * @return ILinkAction
 	 */
-	public function newEMailAction($icon, $name, $email) {
-		return $this->newLinkAction($icon, $name, 'mailto:' . $email);
+	public function newEMailAction($icon, $name, $email, $linkTemplate) {
+		return $linkTemplate
+			? $this->newLinkAction($icon, $name, str_replace('%s', $email, $linkTemplate))
+			: $this->newLinkAction($icon, $name, 'mailto:' . $email);
 	}
 }
