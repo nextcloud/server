@@ -22,12 +22,14 @@
 namespace Tests\Core\Data;
 
 use Exception;
-use OC\Core\Service\LoginFlowV2Service;
-use OC\Core\Db\LoginFlowV2Mapper;
-use OC\Core\Exception\LoginFlowV2NotFoundException;
+use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Token\IProvider;
+use OC\Authentication\Token\IToken;
 use OC\Core\Data\LoginFlowV2Credentials;
+use OC\Core\Db\LoginFlowV2Mapper;
 use OC\Core\Db\LoginFlowV2;
+use OC\Core\Exception\LoginFlowV2NotFoundException;
+use OC\Core\Service\LoginFlowV2Service;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
@@ -109,7 +111,9 @@ class LoginFlowV2ServiceUnitTest extends TestCase {
 	}
 
 	/**
+	 * Generates for a given password required OpenSSL parts.
 	 *
+	 * @return array Array contains encrypted password, private key and public key.
 	 */
 	private function getOpenSSLEncryptedAndPrivateKey(string $appPassword): array {
 		// Create the private and public key
@@ -129,7 +133,7 @@ class LoginFlowV2ServiceUnitTest extends TestCase {
 		// Encrypt the data to $encrypted using the public key
 		openssl_public_encrypt($appPassword, $encrypted, $publicKey, OPENSSL_PKCS1_OAEP_PADDING);
 
-		return [$encrypted, $privateKey];
+		return [$encrypted, $privateKey, $publicKey];
 	}
 
 	/*
@@ -283,5 +287,97 @@ class LoginFlowV2ServiceUnitTest extends TestCase {
 			->willThrowException(new Exception(''));
 
 		$this->subjectUnderTest->startLoginFlow('test_token');
+	}
+
+	/*
+	 * Tests for flowDone
+	 */
+
+	public function testFlowDone() {
+		list(,, $publicKey) = $this->getOpenSSLEncryptedAndPrivateKey('test_pass');
+
+		$loginFlowV2 = new LoginFlowV2();
+		$loginFlowV2->setPublicKey($publicKey);
+		$loginFlowV2->setClientName('client_name');
+
+		$this->mapper->expects($this->once())
+			->method('getByLoginToken')
+			->willReturn($loginFlowV2);
+
+		$this->mapper->expects($this->once())
+			->method('update');
+
+		$this->secureRandom->expects($this->once())
+			->method('generate')
+			->with(72, ISecureRandom::CHAR_UPPER.ISecureRandom::CHAR_LOWER.ISecureRandom::CHAR_DIGITS)
+			->willReturn('test_pass');
+
+		// session token
+		$sessionToken = $this->getMockBuilder(IToken::class)->disableOriginalConstructor()->getMock();
+		$sessionToken->expects($this->once())
+			->method('getLoginName')
+			->willReturn('login_name');
+
+		$this->tokenProvider->expects($this->once())
+			->method('getPassword')
+			->willReturn('test_pass');
+
+		$this->tokenProvider->expects($this->once())
+			->method('getToken')
+			->willReturn($sessionToken);
+
+		$this->tokenProvider->expects($this->once())
+			->method('generateToken')
+			->with(
+				'test_pass',
+				'user_id',
+				'login_name',
+				'test_pass',
+				'client_name',
+				IToken::PERMANENT_TOKEN,
+				IToken::DO_NOT_REMEMBER
+			);
+
+		$result = $this->subjectUnderTest->flowDone(
+			'login_token',
+			'session_id',
+			'server',
+			'user_id'
+		);
+		$this->assertTrue($result);
+
+		// app password is encrypted and must look like:
+		// ZACZOOzxTpKz4+KXL5kZ/gCK0xvkaVi/8yzupAn6Ui6+5qCSKvfPKGgeDRKs0sivvSLzk/XSp811SZCZmH0Y3g==
+		$this->assertRegExp('/[a-zA-Z\/0-9+=]+/', $loginFlowV2->getAppPassword());
+
+		$this->assertEquals('server', $loginFlowV2->getServer());
+	}
+
+	public function testFlowDoneDoesNotExistException() {
+		$this->mapper->expects($this->once())
+			->method('getByLoginToken')
+			->willThrowException(new DoesNotExistException(''));
+
+		$result = $this->subjectUnderTest->flowDone(
+			'login_token',
+			'session_id',
+			'server',
+			'user_id'
+		);
+		$this->assertFalse($result);
+	}
+
+	public function testFlowDonePasswordlessTokenException() {
+		$this->tokenProvider->expects($this->once())
+			->method('getToken')
+			->willThrowException(new InvalidTokenException(''));
+
+		$result = $this->subjectUnderTest->flowDone(
+			'login_token',
+			'session_id',
+			'server',
+			'user_id'
+		);
+		$this->assertFalse($result);
 	}
 }
