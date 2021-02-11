@@ -31,11 +31,12 @@ use OCP\IConfig;
 use OCP\ILogger;
 use OCP\Log\IDataLogger;
 use OCP\Log\ILogFactory;
+use Psr\Log\LoggerInterface;
 
 class Logger {
 	/** @var ILogger */
 	protected $generalLogger;
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	protected $flowLogger;
 	/** @var IConfig */
 	private $config;
@@ -54,7 +55,7 @@ class Logger {
 		$default = $this->config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data') . '/flow.log';
 		$logFile = trim((string)$this->config->getAppValue(Application::APP_ID, 'logfile', $default));
 		if ($logFile !== '') {
-			$this->flowLogger = $this->logFactory->getCustomLogger($logFile);
+			$this->flowLogger = $this->logFactory->getCustomPsrLogger($logFile);
 		}
 	}
 
