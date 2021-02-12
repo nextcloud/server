@@ -116,7 +116,7 @@ class LoginFlowV2ServiceUnitTest extends TestCase {
 	 *
 	 * @return array Array contains encrypted password, private key and public key.
 	 */
-	private function getOpenSSLEncryptedAndPrivateKey(string $appPassword): array {
+	private function getOpenSSLEncryptedPublicAndPrivateKey(string $appPassword): array {
 		// Create the private and public key
 		$res = openssl_pkey_new([
 			'digest_alg' => 'md5', // take fast algorithm for testing purposes
@@ -181,7 +181,7 @@ class LoginFlowV2ServiceUnitTest extends TestCase {
 	}
 
 	public function testPollRemoveDataFromDb() {
-		list($encrypted, $privateKey) = $this->getOpenSSLEncryptedAndPrivateKey('test_pass');
+		list($encrypted, $privateKey) = $this->getOpenSSLEncryptedPublicAndPrivateKey('test_pass');
 
 		$this->crypto->expects($this->once())
 			->method('decrypt')
@@ -295,7 +295,7 @@ class LoginFlowV2ServiceUnitTest extends TestCase {
 	 */
 
 	public function testFlowDone() {
-		list(,, $publicKey) = $this->getOpenSSLEncryptedAndPrivateKey('test_pass');
+		list(,, $publicKey) = $this->getOpenSSLEncryptedPublicAndPrivateKey('test_pass');
 
 		$loginFlowV2 = new LoginFlowV2();
 		$loginFlowV2->setPublicKey($publicKey);
