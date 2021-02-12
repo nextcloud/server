@@ -115,10 +115,10 @@ class AutoCompleteController extends Controller {
 				$output[] = [
 					'id' => (string) $result['value']['shareWith'],
 					'label' => $result['label'],
-					'icon' => $result['icon'],
+					'icon' => $result['icon'] ?? '',
 					'source' => $type,
-					'status' => $result['status'],
-					'subline' => $result['subline']
+					'status' => $result['status'] ?? '',
+					'subline' => $result['subline'] ?? '',
 				];
 			}
 		}
