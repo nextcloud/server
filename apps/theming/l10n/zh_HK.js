@@ -44,7 +44,7 @@ OC.L10N.register(
     "Remove background image" : "移除背景圖片",
     "Advanced options" : "進階選項",
     "Legal notice link" : "法律聲明連結",
-    "Privacy policy link" : "隱私權政策連結",
+    "Privacy policy link" : "私隱政策連結",
     "Header logo" : "頁首圖示",
     "Upload new header logo" : "上傳新的頁首圖示",
     "Favicon" : "Favicon",
