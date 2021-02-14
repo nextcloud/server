@@ -117,7 +117,7 @@ class ConfigController extends OCSController {
 			$highcontrast = [$this->accessibilityProvider->getHighContrast()];
 			$fonts = $this->accessibilityProvider->getFonts();
 
-			$availableOptions = array_map(function ($option) {
+			$availableOptions = array_map(function ($option): string {
 				return $option['id'];
 			}, array_merge($themes, $highcontrast, $fonts));
 
