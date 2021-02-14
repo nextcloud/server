@@ -2,10 +2,10 @@ OC.L10N.register(
     "accessibility",
     {
     "Dark theme" : "Tem teñval",
-    "Enable dark theme" : "Enaouiñ an tem teñval",
+    "Enable dark theme" : "Aotren an tem teñval",
     "A dark theme to ease your eyes by reducing the overall luminosity and brightness. It is still under development, so please report any issues you may find." : "Un tem teñval evit distanañ ho taoulagad en ur vihanaat ar sklêrijenn. War ziorren emañ c'hoazh, setu ma c'hallit kas deomp hoc'h evezhiadennoù.",
     "High contrast mode" : "Mod dargemm uhel",
-    "Enable high contrast mode" : "Enaouiñ an dargemm uhel",
+    "Enable high contrast mode" : "Aotren mod an dargemm uhel",
     "A high contrast mode to ease your navigation. Visual quality will be reduced but clarity will be increased." : "Ur mod dargemm uhel evit aesaat ho merdeiñ. Bihanaet e vo ar c'halite met brasaet e vo ar spisder eta.",
     "Dyslexia font" : "Font a-enep an dislegiezh",
     "Enable dyslexia font" : "Aotren ar font a-enep an dislegiezh",
