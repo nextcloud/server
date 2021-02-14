@@ -2514,9 +2514,6 @@
       <code>$this-&gt;manager-&gt;isUserScopeEnabled() ? 'workflow' : null</code>
     </NullableReturnStatement>
   </file>
-  <file src="core/Command/App/CheckCode.php">
-    <InvalidScalarArgument occurrences="1"/>
-  </file>
   <file src="core/Command/App/GetPath.php">
     <ImplementedReturnTypeMismatch occurrences="1">
       <code>null|int</code>
@@ -2829,17 +2826,6 @@
     <TooManyArguments occurrences="1">
       <code>fetch</code>
     </TooManyArguments>
-  </file>
-  <file src="lib/private/App/CodeChecker/MigrationSchemaChecker.php">
-    <InvalidPropertyAssignmentValue occurrences="2">
-      <code>$this-&gt;tableVariableNames</code>
-      <code>$this-&gt;tableVariableNames</code>
-    </InvalidPropertyAssignmentValue>
-  </file>
-  <file src="lib/private/App/CodeChecker/NodeVisitor.php">
-    <ImplicitToStringCast occurrences="1">
-      <code>$node-&gt;alias</code>
-    </ImplicitToStringCast>
   </file>
   <file src="lib/private/App/DependencyAnalyzer.php">
     <InvalidNullableReturnType occurrences="1">
