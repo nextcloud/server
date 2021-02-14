@@ -70,7 +70,7 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 	 */
 	private $userFolder;
 
-	/** @var IShare[] */
+	/** @var IShare[][] */
 	private $cachedShares = [];
 
 	private $cachedFolders = [];
