@@ -196,9 +196,8 @@ class GroupPrincipalBackend implements BackendInterface {
 		if ($prefixPath !== self::PRINCIPAL_PREFIX) {
 			return [];
 		}
-		// If sharing is disabled, return the empty array
-		$shareAPIEnabled = $this->shareManager->shareApiEnabled();
-		if (!$shareAPIEnabled) {
+		// If sharing or group sharing is disabled, return the empty array
+		if (!$this->groupSharingEnabled()) {
 			return [];
 		}
 
@@ -273,8 +272,7 @@ class GroupPrincipalBackend implements BackendInterface {
 	 */
 	public function findByUri($uri, $principalPrefix) {
 		// If sharing is disabled, return the empty array
-		$shareAPIEnabled = $this->shareManager->shareApiEnabled();
-		if (!$shareAPIEnabled) {
+		if (!$this->groupSharingEnabled()) {
 			return null;
 		}
 
@@ -339,5 +337,12 @@ class GroupPrincipalBackend implements BackendInterface {
 		}
 
 		return $principal;
+	}
+
+	/**
+	 * @return bool
+	 */
+	private function groupSharingEnabled(): bool {
+		return $this->shareManager->shareApiEnabled() && $this->shareManager->allowGroupSharing();
 	}
 }
