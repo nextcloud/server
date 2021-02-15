@@ -38,6 +38,7 @@ OC.L10N.register(
     "Federated Cloud Sharing" : "Federatutako Hodei Partekatzea",
     "Open documentation" : "Ireki dokumentazioa",
     "Adjust how people can share between servers." : "Pertsonen zerbitzarien arteko partekatzea konfiguratu",
+    "Allow users on this server to send shares to other servers (this option also allows WebDAV access to public shares)" : "Baimendu erabiltzaileei  zerbitzari honetan beste zerbitzari batzuetarako partekatzeak (aukera honek WebDAV sarbidea ere partekatze publikoetara baimentzen du )",
     "Allow users on this server to receive shares from other servers" : "Baimendu zerbitzari honetako erabiltzaileak beste zerbitzarietatik partekatutakoak jasotzen",
     "Allow users on this server to send shares to groups on other servers" : "Baimendu zerbitzari honetako erabiltzaileei beste zerbitzari batzuetako taldeei elementuak partekatzen.",
     "Allow users on this server to receive group shares from other servers" : "Baimendu zerbitzari honetako erabiltzaileek beste zerbitzari batzuetako talde-partekatzeak jasotzen.",
