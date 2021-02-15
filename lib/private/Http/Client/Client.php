@@ -57,6 +57,8 @@ class Client implements IClient {
 	private $logger;
 	/** @var ICertificateManager */
 	private $certificateManager;
+	/** @var bool */
+	private $localConnectionsAllowed = false;
 
 	public function __construct(
 		IConfig $config,
@@ -156,7 +158,8 @@ class Client implements IClient {
 	}
 
 	protected function preventLocalAddress(string $uri, array $options): void {
-		if (($options['nextcloud']['allow_local_address'] ?? false) ||
+		if ($this->localConnectionsAllowed ||
+			($options['nextcloud']['allow_local_address'] ?? false) ||
 			$this->config->getSystemValueBool('allow_local_remote_servers', false)) {
 			return;
 		}
@@ -200,6 +203,19 @@ class Client implements IClient {
 				throw new LocalServerException('Host violates local access rules');
 			}
 		}
+	}
+
+	/**
+	 * @internal
+	 *
+	 * Override allow_local_remote_servers config value
+	 * **Warning** Only use this method if you know what you are doing.
+	 *
+	 * @return IClient The client itself
+	 */
+	public function allowUnsafeLocalConnection_I_KNOW_WHAT_I_AM_DOING(): IClient {
+		$this->localConnectionsAllowed = true;
+		return $this;
 	}
 
 	/**

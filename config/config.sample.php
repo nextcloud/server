@@ -609,7 +609,7 @@ $CONFIG = [
  *
  * Defaults to false
  */
-'allow_local_remote_servers' => true,
+'allow_local_remote_servers' => false,
 
 /**
  * Deleted Items (trash bin)
