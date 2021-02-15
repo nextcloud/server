@@ -93,7 +93,7 @@ interface Storage extends \OCP\Files\Storage {
 
 	/**
 	 * @param string $path
-	 * @return array
+	 * @return array|null
 	 */
 	public function getMetaData($path);
 
