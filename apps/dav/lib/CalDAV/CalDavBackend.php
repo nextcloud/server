@@ -2158,10 +2158,10 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			->values($valuesToInsert)
 			->execute();
 
-		$subscriptionId = $this->db->lastInsertId('*PREFIX*calendarsubscriptions');
+		$subscriptionId = $query->getLastInsertId();
 
 		$subscriptionRow = $this->getSubscriptionById($subscriptionId);
-		$this->dispatcher->dispatchTyped(new SubscriptionCreatedEvent((int)$subscriptionId, $subscriptionRow));
+		$this->dispatcher->dispatchTyped(new SubscriptionCreatedEvent($subscriptionId, $subscriptionRow));
 		$this->legacyDispatcher->dispatch('\OCA\DAV\CalDAV\CalDavBackend::createSubscription', new GenericEvent(
 			'\OCA\DAV\CalDAV\CalDavBackend::createSubscription',
 			[
