@@ -227,15 +227,11 @@
     </UndefinedFunction>
   </file>
   <file src="apps/dav/lib/CalDAV/CalendarHome.php">
-    <InvalidClass occurrences="1">
-      <code>\Sabre\CalDAv\Notifications\Collection</code>
-    </InvalidClass>
     <InvalidReturnStatement occurrences="5">
       <code>$calendarPlugin-&gt;getCalendarInCalendarHome($this-&gt;principalInfo['uri'], $calendarUri)</code>
       <code>new Inbox($this-&gt;caldavBackend, $this-&gt;principalInfo['uri'])</code>
       <code>new Outbox($this-&gt;config, $this-&gt;principalInfo['uri'])</code>
       <code>new Subscription($this-&gt;caldavBackend, $subscription)</code>
-      <code>new \Sabre\CalDAv\Notifications\Collection($this-&gt;caldavBackend, $this-&gt;principalInfo['uri'])</code>
     </InvalidReturnStatement>
     <InvalidReturnType occurrences="1">
       <code>getChild</code>
