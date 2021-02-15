@@ -46,7 +46,7 @@ class MySqlExpressionBuilder extends ExpressionBuilder {
 	/**
 	 * @inheritdoc
 	 */
-	public function iLike($x, $y, $type = null) {
+	public function iLike($x, $y, $type = null): string {
 		$x = $this->helper->quoteColumnName($x);
 		$y = $this->helper->quoteColumnName($y);
 		return $this->expressionBuilder->comparison($x, ' COLLATE ' . $this->charset . '_general_ci LIKE', $y);
