@@ -56,7 +56,7 @@ class Scanner extends \OC\Files\Cache\Scanner {
 	 * @param int $parentId
 	 * @param array | null $cacheData existing data in the cache for the file to be scanned
 	 * @param bool $lock set to false to disable getting an additional read lock during scanning
-	 * @return array an array of metadata of the scanned file
+	 * @return array | null an array of metadata of the scanned file
 	 */
 	public function scanFile($file, $reuseExisting = 0, $parentId = -1, $cacheData = null, $lock = true, $data = null) {
 		try {

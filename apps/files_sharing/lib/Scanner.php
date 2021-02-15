@@ -45,7 +45,7 @@ class Scanner extends \OC\Files\Cache\Scanner {
 	 *
 	 * @param string $path path of the file for which to retrieve metadata
 	 *
-	 * @return array an array of metadata of the file
+	 * @return array|null an array of metadata of the file
 	 */
 	public function getData($path) {
 		$data = parent::getData($path);
