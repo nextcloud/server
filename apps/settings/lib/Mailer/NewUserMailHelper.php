@@ -172,9 +172,16 @@ class NewUserMailHelper {
 	 * @throws \Exception If mail could not be sent
 	 */
 	public function sendMail(IUser $user,
-							 IEMailTemplate $emailTemplate) {
+							 IEMailTemplate $emailTemplate): void {
+
+		// Be sure to never try to send to an empty e-mail
+		$email = $user->getEMailAddress();
+		if ($email === null) {
+			return;
+		}
+
 		$message = $this->mailer->createMessage();
-		$message->setTo([$user->getEMailAddress() => $user->getDisplayName()]);
+		$message->setTo([$email => $user->getDisplayName()]);
 		$message->setFrom([$this->fromAddress => $this->themingDefaults->getName()]);
 		$message->useTemplate($emailTemplate);
 		$this->mailer->send($message);
