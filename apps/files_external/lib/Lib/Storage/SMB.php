@@ -560,7 +560,13 @@ class SMB extends Common implements INotifyStorage {
 	}
 
 	public function getMetaData($path) {
-		$fileInfo = $this->getFileInfo($path);
+		try {
+			$fileInfo = $this->getFileInfo($path);
+		} catch (NotFoundException $e) {
+			return null;
+		} catch (ForbiddenException $e) {
+			return null;
+		}
 		if (!$fileInfo) {
 			return null;
 		}
