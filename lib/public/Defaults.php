@@ -142,16 +142,6 @@ class Defaults {
 	}
 
 	/**
-	 * logo claim
-	 * @return string
-	 * @since 6.0.0
-	 * @deprecated 13.0.0
-	 */
-	public function getLogoClaim() {
-		return '';
-	}
-
-	/**
 	 * footer, short version
 	 * @return string
 	 * @since 6.0.0
