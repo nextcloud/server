@@ -75,7 +75,7 @@
     "babel-plugin-add-module-exports": "^1.0.4",
     "browserslist-config-nextcloud": "0.1.0",
     "css-loader": "^4.3.0",
-    "cypress": "^6.3.0",
+    "cypress": "^6.5.0",
     "cypress-image-snapshot": "^4.0.1",
     "eslint": "^7.20.0",
     "eslint-config-standard": "^16.0.2",
