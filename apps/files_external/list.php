@@ -28,7 +28,7 @@ $config = \OC::$server->getConfig();
 $userSession = \OC::$server->getUserSession();
 
 $showgridview = $config->getUserValue($userSession->getUser()->getUID(), 'files', 'show_grid', true);
-$isIE = \OCP\Util::isIE();
+$isIE = OC_Util::isIe();
 
 $tmpl = new OCP\Template('files_external', 'list', '');
 
