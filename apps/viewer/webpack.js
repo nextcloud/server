@@ -30,6 +30,17 @@ const config = {
 					'webdav',
 					'toastify-js',
 				]),
+				options: {
+					plugins: ['add-module-exports'],
+					presets: [
+						/**
+						 * From "add-module-exports" documentation:
+						 * "webpack doesn't perform commonjs transformation for
+						 * codesplitting. Need to set commonjs conversion."
+						 */
+						['@babel/env', { modules: 'commonjs' }],
+					],
+				},
 			},
 		],
 	},
