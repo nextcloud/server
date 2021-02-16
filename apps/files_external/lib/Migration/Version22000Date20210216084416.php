@@ -3,11 +3,8 @@
 declare(strict_types=1);
 
 /**
+ * @copyright Copyright (c) 2021 Roeland Jago Douma <roeland@famdouma.nl>
  *
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
@@ -26,10 +23,10 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-namespace OCA\DAV\Migration;
+
+namespace OCA\Files_External\Migration;
 
 use Closure;
-use OCP\DB\Types;
 use OCP\DB\ISchemaWrapper;
 use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
@@ -37,41 +34,31 @@ use OCP\Migration\SimpleMigrationStep;
 /**
  * Auto-generated migration step: Please modify to your needs!
  */
-class Version1011Date20190806104428 extends SimpleMigrationStep {
+class Version22000Date20210216084416 extends SimpleMigrationStep {
 	/**
 	 * @param IOutput $output
 	 * @param Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
 	 * @param array $options
 	 * @return null|ISchemaWrapper
 	 */
-	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options) {
+	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options): ?ISchemaWrapper {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
 
-		$table = $schema->createTable('dav_cal_proxy');
-		$table->addColumn('id', Types::BIGINT, [
-			'autoincrement' => true,
-			'notnull' => true,
-			'length' => 11,
-			'unsigned' => true,
-		]);
-		$table->addColumn('owner_id', Types::STRING, [
-			'notnull' => true,
-			'length' => 64,
-		]);
-		$table->addColumn('proxy_id', Types::STRING, [
-			'notnull' => true,
-			'length' => 64,
-		]);
-		$table->addColumn('permissions', Types::INTEGER, [
-			'notnull' => false,
-			'length' => 4,
-			'unsigned' => true,
-		]);
+		$table = $schema->getTable('external_applicable');
+		if ($table->hasIndex('applicable_type_value')) {
+			$table->dropIndex('applicable_type_value');
+		}
 
-		$table->setPrimaryKey(['id']);
-		$table->addUniqueIndex(['owner_id', 'proxy_id', 'permissions'], 'dav_cal_proxy_uidx');
-		$table->addIndex(['proxy_id'], 'dav_cal_proxy_ipid');
+		$table = $schema->getTable('external_config');
+		if ($table->hasIndex('config_mount')) {
+			$table->dropIndex('config_mount');
+		}
+
+		$table = $schema->getTable('external_options');
+		if ($table->hasIndex('option_mount')) {
+			$table->dropIndex('option_mount');
+		}
 
 		return $schema;
 	}
