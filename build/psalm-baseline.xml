@@ -283,15 +283,13 @@
       <code>$l10n-&gt;l('time', $dt, ['width' =&gt; 'short'])</code>
       <code>$l10n-&gt;l('weekdayName', $dt, ['width' =&gt; 'abbreviated'])</code>
     </FalsableReturnStatement>
-    <InvalidReturnStatement occurrences="5">
+    <InvalidReturnStatement occurrences="4">
       <code>$l10n-&gt;l('date', $dt, ['width' =&gt; 'medium'])</code>
       <code>$l10n-&gt;l('datetime', $dt, ['width' =&gt; 'medium|short'])</code>
       <code>$l10n-&gt;l('time', $dt, ['width' =&gt; 'short'])</code>
       <code>$l10n-&gt;l('weekdayName', $dt, ['width' =&gt; 'abbreviated'])</code>
-      <code>[$organizerEMail =&gt; $name]</code>
     </InvalidReturnStatement>
-    <InvalidReturnType occurrences="5">
-      <code>array|null</code>
+    <InvalidReturnType occurrences="4">
       <code>string</code>
       <code>string</code>
       <code>string</code>
@@ -363,10 +361,6 @@
     <InvalidNullableReturnType occurrences="1">
       <code>string</code>
     </InvalidNullableReturnType>
-    <InvalidScalarArgument occurrences="2">
-      <code>[$recipient =&gt; $recipientName]</code>
-      <code>[$sender =&gt; $senderName]</code>
-    </InvalidScalarArgument>
     <NullableReturnStatement occurrences="1">
       <code>$lang-&gt;getValue()</code>
     </NullableReturnStatement>
@@ -1946,11 +1940,6 @@
     </TooManyArguments>
   </file>
   <file src="apps/settings/lib/Hooks.php">
-    <InvalidArgument occurrences="1">
-      <code>[$user-&gt;getEMailAddress() =&gt; $user-&gt;getDisplayName()]</code>
-    </InvalidArgument>
-  </file>
-  <file src="apps/settings/lib/Mailer/NewUserMailHelper.php">
     <InvalidArgument occurrences="1">
       <code>[$user-&gt;getEMailAddress() =&gt; $user-&gt;getDisplayName()]</code>
     </InvalidArgument>
