@@ -35,6 +35,8 @@ use OCP\DB\IResult;
 /**
  * This class provides a wrapper around Doctrine's QueryBuilder
  * @since 8.2.0
+ *
+ * @psalm-taint-specialize
  */
 interface IQueryBuilder {
 
@@ -306,6 +308,8 @@ interface IQueryBuilder {
 	 *
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
+	 *
+	 * @psalm-taint-sink sql $selects
 	 */
 	public function select(...$selects);
 
@@ -324,6 +328,9 @@ interface IQueryBuilder {
 	 *
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.1
+	 *
+	 * @psalm-taint-sink sql $select
+	 * @psalm-taint-sink sql $alias
 	 */
 	public function selectAlias($select, $alias);
 
@@ -340,6 +347,8 @@ interface IQueryBuilder {
 	 *
 	 * @return $this This QueryBuilder instance.
 	 * @since 9.0.0
+	 *
+	 * @psalm-taint-sink sql $select
 	 */
 	public function selectDistinct($select);
 
@@ -358,6 +367,8 @@ interface IQueryBuilder {
 	 *
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
+	 *
+	 * @psalm-taint-sink sql $select
 	 */
 	public function addSelect(...$select);
 
@@ -377,6 +388,8 @@ interface IQueryBuilder {
 	 *
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
+	 *
+	 * @psalm-taint-sink sql $delete
 	 */
 	public function delete($delete = null, $alias = null);
 
@@ -396,6 +409,8 @@ interface IQueryBuilder {
 	 *
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
+	 *
+	 * @psalm-taint-sink sql $update
 	 */
 	public function update($update = null, $alias = null);
 
@@ -418,6 +433,8 @@ interface IQueryBuilder {
 	 *
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
+	 *
+	 * @psalm-taint-sink sql $insert
 	 */
 	public function insert($insert = null);
 
@@ -436,6 +453,8 @@ interface IQueryBuilder {
 	 *
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
+	 *
+	 * @psalm-taint-sink sql $from
 	 */
 	public function from($from, $alias = null);
 
@@ -456,6 +475,11 @@ interface IQueryBuilder {
 	 *
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
+	 *
+	 * @psalm-taint-sink sql $fromAlias
+	 * @psalm-taint-sink sql $join
+	 * @psalm-taint-sink sql $alias
+	 * @psalm-taint-sink sql $condition
 	 */
 	public function join($fromAlias, $join, $alias, $condition = null);
 
@@ -476,6 +500,11 @@ interface IQueryBuilder {
 	 *
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
+	 *
+	 * @psalm-taint-sink sql $fromAlias
+	 * @psalm-taint-sink sql $join
+	 * @psalm-taint-sink sql $alias
+	 * @psalm-taint-sink sql $condition
 	 */
 	public function innerJoin($fromAlias, $join, $alias, $condition = null);
 
@@ -496,6 +525,11 @@ interface IQueryBuilder {
 	 *
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
+	 *
+	 * @psalm-taint-sink sql $fromAlias
+	 * @psalm-taint-sink sql $join
+	 * @psalm-taint-sink sql $alias
+	 * @psalm-taint-sink sql $condition
 	 */
 	public function leftJoin($fromAlias, $join, $alias, $condition = null);
 
@@ -516,6 +550,11 @@ interface IQueryBuilder {
 	 *
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
+	 *
+	 * @psalm-taint-sink sql $fromAlias
+	 * @psalm-taint-sink sql $join
+	 * @psalm-taint-sink sql $alias
+	 * @psalm-taint-sink sql $condition
 	 */
 	public function rightJoin($fromAlias, $join, $alias, $condition = null);
 
@@ -534,6 +573,9 @@ interface IQueryBuilder {
 	 *
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
+	 *
+	 * @psalm-taint-sink sql $key
+	 * @psalm-taint-sink sql $value
 	 */
 	public function set($key, $value);
 
@@ -563,6 +605,8 @@ interface IQueryBuilder {
 	 *
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
+	 *
+	 * @psalm-taint-sink sql $predicates
 	 */
 	public function where(...$predicates);
 
@@ -584,6 +628,8 @@ interface IQueryBuilder {
 	 *
 	 * @see where()
 	 * @since 8.2.0
+	 *
+	 * @psalm-taint-sink sql $where
 	 */
 	public function andWhere(...$where);
 
@@ -605,6 +651,8 @@ interface IQueryBuilder {
 	 *
 	 * @see where()
 	 * @since 8.2.0
+	 *
+	 * @psalm-taint-sink sql $where
 	 */
 	public function orWhere(...$where);
 
@@ -623,6 +671,8 @@ interface IQueryBuilder {
 	 *
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
+	 *
+	 * @psalm-taint-sink sql $groupBys
 	 */
 	public function groupBy(...$groupBys);
 
@@ -641,6 +691,8 @@ interface IQueryBuilder {
 	 *
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
+	 *
+	 * @psalm-taint-sink sql $groupby
 	 */
 	public function addGroupBy(...$groupBy);
 
@@ -663,6 +715,9 @@ interface IQueryBuilder {
 	 *
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
+	 *
+	 * @psalm-taint-sink sql $column
+	 * @psalm-taint-sink sql $value
 	 */
 	public function setValue($column, $value);
 
@@ -685,6 +740,8 @@ interface IQueryBuilder {
 	 *
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
+	 *
+	 * @psalm-taint-sink sql $values
 	 */
 	public function values(array $values);
 
@@ -696,6 +753,8 @@ interface IQueryBuilder {
 	 *
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
+	 *
+	 * @psalm-taint-sink sql $having
 	 */
 	public function having(...$having);
 
@@ -707,6 +766,8 @@ interface IQueryBuilder {
 	 *
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
+	 *
+	 * @psalm-taint-sink sql $andHaving
 	 */
 	public function andHaving(...$having);
 
@@ -718,6 +779,8 @@ interface IQueryBuilder {
 	 *
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
+	 *
+	 * @psalm-taint-sink sql $having
 	 */
 	public function orHaving(...$having);
 
@@ -730,6 +793,9 @@ interface IQueryBuilder {
 	 *
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
+	 *
+	 * @psalm-taint-sink sql $sort
+	 * @psalm-taint-sink sql $order
 	 */
 	public function orderBy($sort, $order = null);
 
@@ -741,6 +807,9 @@ interface IQueryBuilder {
 	 *
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
+	 *
+	 * @psalm-taint-sink sql $sort
+	 * @psalm-taint-sink sql $order
 	 */
 	public function addOrderBy($sort, $order = null);
 
@@ -811,6 +880,8 @@ interface IQueryBuilder {
 	 *
 	 * @return IParameter
 	 * @since 8.2.0
+	 *
+	 * @psalm-taint-escape sql
 	 */
 	public function createNamedParameter($value, $type = self::PARAM_STR, $placeHolder = null);
 
@@ -836,6 +907,8 @@ interface IQueryBuilder {
 	 *
 	 * @return IParameter
 	 * @since 8.2.0
+	 *
+	 * @psalm-taint-escape sql
 	 */
 	public function createPositionalParameter($value, $type = self::PARAM_STR);
 
@@ -855,6 +928,8 @@ interface IQueryBuilder {
 	 *
 	 * @return IParameter
 	 * @since 8.2.0
+	 *
+	 * @psalm-taint-escape sql
 	 */
 	public function createParameter($name);
 
@@ -881,6 +956,8 @@ interface IQueryBuilder {
 	 *
 	 * @return IQueryFunction
 	 * @since 8.2.0
+	 *
+	 * @psalm-taint-sink sql
 	 */
 	public function createFunction($call);
 

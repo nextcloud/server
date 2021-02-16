@@ -97,6 +97,8 @@ interface IDBConnection {
 	 * @return IPreparedStatement The prepared statement.
 	 * @since 6.0.0
 	 * @throws Exception since 21.0.0
+	 *
+	 * @psalm-taint-sink sql $sql
 	 */
 	public function prepare($sql, $limit = null, $offset = null): IPreparedStatement;
 
@@ -112,6 +114,8 @@ interface IDBConnection {
 	 * @return IResult The executed statement.
 	 * @since 8.0.0
 	 * @throws Exception since 21.0.0
+	 *
+	 * @psalm-taint-sink sql $sql
 	 */
 	public function executeQuery(string $sql, array $params = [], $types = []): IResult;
 
@@ -129,6 +133,8 @@ interface IDBConnection {
 	 * @throws Exception since 21.0.0
 	 *
 	 * @deprecated 21.0.0 use executeStatement
+	 *
+	 * @psalm-taint-sink sql $sql
 	 */
 	public function executeUpdate(string $sql, array $params = [], array $types = []): int;
 
@@ -144,6 +150,8 @@ interface IDBConnection {
 	 * @return int The number of affected rows.
 	 * @since 21.0.0
 	 * @throws Exception since 21.0.0
+	 *
+	 * @psalm-taint-sink sql $sql
 	 */
 	public function executeStatement($sql, array $params = [], array $types = []): int;
 
@@ -318,6 +326,8 @@ interface IDBConnection {
 	 * @param string $table table name without the prefix
 	 * @throws Exception since 21.0.0
 	 * @since 8.0.0
+	 *
+	 * @psalm-taint-sink sql $table
 	 */
 	public function dropTable(string $table): void;
 

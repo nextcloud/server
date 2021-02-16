@@ -32,6 +32,8 @@ use Doctrine\DBAL\Query\Expression\ExpressionBuilder;
 /**
  * This class provides a wrapper around Doctrine's ExpressionBuilder
  * @since 8.2.0
+ *
+ * @psalm-taint-specialize
  */
 interface IExpressionBuilder {
 	/**
@@ -73,6 +75,8 @@ interface IExpressionBuilder {
 	 *
 	 * @return \OCP\DB\QueryBuilder\ICompositeExpression
 	 * @since 8.2.0
+	 *
+	 * @psalm-taint-sink sql $x
 	 */
 	public function andX(...$x);
 
@@ -90,6 +94,8 @@ interface IExpressionBuilder {
 	 *
 	 * @return \OCP\DB\QueryBuilder\ICompositeExpression
 	 * @since 8.2.0
+	 *
+	 * @psalm-taint-sink sql $x
 	 */
 	public function orX(...$x);
 
@@ -104,6 +110,11 @@ interface IExpressionBuilder {
 	 *
 	 * @return string
 	 * @since 8.2.0 - Parameter $type was added in 9.0.0
+	 *
+	 * @psalm-taint-sink sql $x
+	 * @psalm-taint-sink sql $operator
+	 * @psalm-taint-sink sql $y
+	 * @psalm-taint-sink sql $type
 	 */
 	public function comparison($x, $operator, $y, $type = null);
 
@@ -124,6 +135,10 @@ interface IExpressionBuilder {
 	 *
 	 * @return string
 	 * @since 8.2.0 - Parameter $type was added in 9.0.0
+	 *
+	 * @psalm-taint-sink sql $x
+	 * @psalm-taint-sink sql $y
+	 * @psalm-taint-sink sql $type
 	 */
 	public function eq($x, $y, $type = null);
 
@@ -143,6 +158,10 @@ interface IExpressionBuilder {
 	 *
 	 * @return string
 	 * @since 8.2.0 - Parameter $type was added in 9.0.0
+	 *
+	 * @psalm-taint-sink sql $x
+	 * @psalm-taint-sink sql $y
+	 * @psalm-taint-sink sql $type
 	 */
 	public function neq($x, $y, $type = null);
 
@@ -162,6 +181,10 @@ interface IExpressionBuilder {
 	 *
 	 * @return string
 	 * @since 8.2.0 - Parameter $type was added in 9.0.0
+	 *
+	 * @psalm-taint-sink sql $x
+	 * @psalm-taint-sink sql $y
+	 * @psalm-taint-sink sql $type
 	 */
 	public function lt($x, $y, $type = null);
 
@@ -181,6 +204,10 @@ interface IExpressionBuilder {
 	 *
 	 * @return string
 	 * @since 8.2.0 - Parameter $type was added in 9.0.0
+	 *
+	 * @psalm-taint-sink sql $x
+	 * @psalm-taint-sink sql $y
+	 * @psalm-taint-sink sql $type
 	 */
 	public function lte($x, $y, $type = null);
 
@@ -200,6 +227,10 @@ interface IExpressionBuilder {
 	 *
 	 * @return string
 	 * @since 8.2.0 - Parameter $type was added in 9.0.0
+	 *
+	 * @psalm-taint-sink sql $x
+	 * @psalm-taint-sink sql $y
+	 * @psalm-taint-sink sql $type
 	 */
 	public function gt($x, $y, $type = null);
 
@@ -219,6 +250,10 @@ interface IExpressionBuilder {
 	 *
 	 * @return string
 	 * @since 8.2.0 - Parameter $type was added in 9.0.0
+	 *
+	 * @psalm-taint-sink sql $x
+	 * @psalm-taint-sink sql $y
+	 * @psalm-taint-sink sql $type
 	 */
 	public function gte($x, $y, $type = null);
 
@@ -229,6 +264,8 @@ interface IExpressionBuilder {
 	 *
 	 * @return string
 	 * @since 8.2.0
+	 *
+	 * @psalm-taint-sink sql $x
 	 */
 	public function isNull($x);
 
@@ -239,6 +276,8 @@ interface IExpressionBuilder {
 	 *
 	 * @return string
 	 * @since 8.2.0
+	 *
+	 * @psalm-taint-sink sql $x
 	 */
 	public function isNotNull($x);
 
@@ -252,6 +291,10 @@ interface IExpressionBuilder {
 	 *
 	 * @return string
 	 * @since 8.2.0 - Parameter $type was added in 9.0.0
+	 *
+	 * @psalm-taint-sink sql $x
+	 * @psalm-taint-sink sql $y
+	 * @psalm-taint-sink sql $type
 	 */
 	public function like($x, $y, $type = null);
 
@@ -265,6 +308,10 @@ interface IExpressionBuilder {
 	 *
 	 * @return string
 	 * @since 8.2.0 - Parameter $type was added in 9.0.0
+	 *
+	 * @psalm-taint-sink sql $x
+	 * @psalm-taint-sink sql $y
+	 * @psalm-taint-sink sql $type
 	 */
 	public function notLike($x, $y, $type = null);
 
@@ -278,6 +325,10 @@ interface IExpressionBuilder {
 	 *
 	 * @return string
 	 * @since 9.0.0
+	 *
+	 * @psalm-taint-sink sql $x
+	 * @psalm-taint-sink sql $y
+	 * @psalm-taint-sink sql $type
 	 */
 	public function iLike($x, $y, $type = null);
 
@@ -291,6 +342,10 @@ interface IExpressionBuilder {
 	 *
 	 * @return string
 	 * @since 8.2.0 - Parameter $type was added in 9.0.0
+	 *
+	 * @psalm-taint-sink sql $x
+	 * @psalm-taint-sink sql $y
+	 * @psalm-taint-sink sql $type
 	 */
 	public function in($x, $y, $type = null);
 
@@ -304,6 +359,10 @@ interface IExpressionBuilder {
 	 *
 	 * @return string
 	 * @since 8.2.0 - Parameter $type was added in 9.0.0
+	 *
+	 * @psalm-taint-sink sql $x
+	 * @psalm-taint-sink sql $y
+	 * @psalm-taint-sink sql $type
 	 */
 	public function notIn($x, $y, $type = null);
 
@@ -313,6 +372,8 @@ interface IExpressionBuilder {
 	 * @param string $x The field in string format to be inspected by the comparison.
 	 * @return string
 	 * @since 13.0.0
+	 *
+	 * @psalm-taint-sink sql $x
 	 */
 	public function emptyString($x);
 
@@ -322,6 +383,8 @@ interface IExpressionBuilder {
 	 * @param string $x The field in string format to be inspected by the comparison.
 	 * @return string
 	 * @since 13.0.0
+	 *
+	 * @psalm-taint-sink sql $x
 	 */
 	public function nonEmptyString($x);
 
@@ -333,6 +396,9 @@ interface IExpressionBuilder {
 	 * @param int $y Bitmap that must be set
 	 * @return IQueryFunction
 	 * @since 12.0.0
+	 *
+	 * @psalm-taint-sink sql $x
+	 * @psalm-taint-sink sql $y
 	 */
 	public function bitwiseAnd($x, $y);
 
@@ -343,6 +409,9 @@ interface IExpressionBuilder {
 	 * @param int $y Bitmap that must be set
 	 * @return IQueryFunction
 	 * @since 12.0.0
+	 *
+	 * @psalm-taint-sink sql $x
+	 * @psalm-taint-sink sql $y
 	 */
 	public function bitwiseOr($x, $y);
 
@@ -354,6 +423,9 @@ interface IExpressionBuilder {
 	 *
 	 * @return string
 	 * @since 8.2.0
+	 *
+	 * @psalm-taint-sink sql $input
+	 * @psalm-taint-sink sql $type
 	 */
 	public function literal($input, $type = null);
 
@@ -364,6 +436,9 @@ interface IExpressionBuilder {
 	 * @param mixed $type One of IQueryBuilder::PARAM_*
 	 * @return string
 	 * @since 9.0.0
+	 *
+	 * @psalm-taint-sink sql $column
+	 * @psalm-taint-sink sql $type
 	 */
 	public function castColumn($column, $type);
 }
