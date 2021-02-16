@@ -417,7 +417,7 @@ class EncryptAll {
 				$recipientDisplayName = $recipient->getDisplayName();
 				$to = $recipient->getEMailAddress();
 
-				if ($to === '') {
+				if ($to === '' || $to === null) {
 					$noMail[] = $uid;
 					continue;
 				}
