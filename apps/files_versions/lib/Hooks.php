@@ -129,7 +129,7 @@ class Hooks {
 	public static function pre_renameOrCopy_hook($params) {
 		// if we rename a movable mount point, then the versions don't have
 		// to be renamed
-		$absOldPath = Filesystem::normalizePath('/' . \OCP\User::getUser() . '/files' . $params['oldpath']);
+		$absOldPath = Filesystem::normalizePath('/' . \OC_User::getUser() . '/files' . $params['oldpath']);
 		$manager = Filesystem::getMountManager();
 		$mount = $manager->find($absOldPath);
 		$internalPath = $mount->getInternalPath($absOldPath);
@@ -137,7 +137,7 @@ class Hooks {
 			return;
 		}
 
-		$view = new View(\OCP\User::getUser() . '/files');
+		$view = new View(\OC_User::getUser() . '/files');
 		if ($view->file_exists($params['newpath'])) {
 			Storage::store($params['newpath']);
 		} else {

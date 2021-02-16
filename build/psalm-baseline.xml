@@ -1646,6 +1646,11 @@
       <code>dispatch</code>
     </TooManyArguments>
   </file>
+  <file src="apps/files_trashbin/lib/Hooks.php">
+    <InvalidScalarArgument occurrences="1">
+      <code>$user</code>
+    </InvalidScalarArgument>
+  </file>
   <file src="apps/files_trashbin/lib/Sabre/AbstractTrash.php">
     <InvalidNullableReturnType occurrences="1">
       <code>int</code>
@@ -1715,9 +1720,12 @@
     <FalsableReturnStatement occurrences="1">
       <code>false</code>
     </FalsableReturnStatement>
-    <InvalidScalarArgument occurrences="2">
+    <InvalidScalarArgument occurrences="5">
       <code>$timestamp</code>
       <code>$timestamp</code>
+      <code>$uid</code>
+      <code>$user</code>
+      <code>$user</code>
     </InvalidScalarArgument>
   </file>
   <file src="apps/files_versions/appinfo/routes.php">
@@ -1756,8 +1764,9 @@
     <InvalidArgument occurrences="1">
       <code>'OCA\Files_Versions::createVersion'</code>
     </InvalidArgument>
-    <InvalidScalarArgument occurrences="1">
+    <InvalidScalarArgument occurrences="2">
       <code>$timestamp</code>
+      <code>$uid</code>
     </InvalidScalarArgument>
     <TooManyArguments occurrences="2">
       <code>dispatch</code>
@@ -5071,14 +5080,6 @@
       <code>array</code>
       <code>array|bool</code>
       <code>mixed</code>
-    </InvalidReturnType>
-  </file>
-  <file src="lib/public/User.php">
-    <InvalidReturnStatement occurrences="1">
-      <code>\OC_User::getUser()</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
-      <code>string</code>
     </InvalidReturnType>
   </file>
   <file src="lib/public/Util.php">

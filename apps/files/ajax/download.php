@@ -29,7 +29,7 @@
  */
 
 // Check if we are a user
-OCP\User::checkLoggedIn();
+OC_Util::checkLoggedIn();
 \OC::$server->getSession()->close();
 
 $files = isset($_GET['files']) ? (string)$_GET['files'] : '';

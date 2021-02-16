@@ -44,7 +44,7 @@ class Hooks {
 	}
 
 	public static function post_write_hook($params) {
-		$user = \OCP\User::getUser();
+		$user = \OC_User::getUser();
 		if (!empty($user)) {
 			Trashbin::resizeTrash($user);
 		}
