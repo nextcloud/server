@@ -16,7 +16,7 @@
     "There was an error saving the status" : "儲存狀態時發生錯誤",
     "There was an error clearing the status" : "變更狀態時發生錯誤",
     "No recent status changes" : "最近沒有狀態變更",
-    "Away" : "外出",
+    "Away" : "離開",
     "Do not disturb" : "請勿打擾",
     "{status}, {timestamp}" : "{status}，{timestamp}",
     "Don't clear" : "不要清空",

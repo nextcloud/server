@@ -26,12 +26,14 @@ declare(strict_types=1);
  *
  */
 
-namespace OC\Files\Cache;
+namespace OCP\Files\Cache;
 
 use OCP\EventDispatcher\Event;
-use OCP\Files\Cache\ICacheEvent;
 use OCP\Files\Storage\IStorage;
 
+/**
+ * @since 22.0.0
+ */
 class AbstractCacheEvent extends Event implements ICacheEvent {
 	protected $storage;
 	protected $path;
@@ -42,7 +44,7 @@ class AbstractCacheEvent extends Event implements ICacheEvent {
 	 * @param IStorage $storage
 	 * @param string $path
 	 * @param int $fileId
-	 * @since 16.0.0
+	 * @since 22.0.0
 	 */
 	public function __construct(IStorage $storage, string $path, int $fileId, int $storageId) {
 		$this->storage = $storage;
@@ -53,7 +55,7 @@ class AbstractCacheEvent extends Event implements ICacheEvent {
 
 	/**
 	 * @return IStorage
-	 * @since 16.0.0
+	 * @since 22.0.0
 	 */
 	public function getStorage(): IStorage {
 		return $this->storage;
@@ -61,7 +63,7 @@ class AbstractCacheEvent extends Event implements ICacheEvent {
 
 	/**
 	 * @return string
-	 * @since 16.0.0
+	 * @since 22.0.0
 	 */
 	public function getPath(): string {
 		return $this->path;
@@ -69,7 +71,7 @@ class AbstractCacheEvent extends Event implements ICacheEvent {
 
 	/**
 	 * @param string $path
-	 * @since 19.0.0
+	 * @since 22.0.0
 	 */
 	public function setPath(string $path): void {
 		$this->path = $path;
@@ -77,7 +79,7 @@ class AbstractCacheEvent extends Event implements ICacheEvent {
 
 	/**
 	 * @return int
-	 * @since 16.0.0
+	 * @since 22.0.0
 	 */
 	public function getFileId(): int {
 		return $this->fileId;
@@ -85,7 +87,7 @@ class AbstractCacheEvent extends Event implements ICacheEvent {
 
 	/**
 	 * @return int
-	 * @since 21.0.0
+	 * @since 22.0.0
 	 */
 	public function getStorageId(): int {
 		return $this->storageId;

@@ -96,7 +96,6 @@ class Version1011Date20200630192246 extends SimpleMigrationStep {
 			]);
 			$table->setPrimaryKey(['applicable_id']);
 			$table->addIndex(['mount_id'], 'applicable_mount');
-			$table->addIndex(['type', 'value'], 'applicable_type_value');
 			$table->addUniqueIndex(['type', 'value', 'mount_id'], 'applicable_type_value_mount');
 		}
 
@@ -120,7 +119,6 @@ class Version1011Date20200630192246 extends SimpleMigrationStep {
 				'length' => 4096,
 			]);
 			$table->setPrimaryKey(['config_id']);
-			$table->addIndex(['mount_id'], 'config_mount');
 			$table->addUniqueIndex(['mount_id', 'key'], 'config_mount_key');
 		} else {
 			$table = $schema->getTable('external_config');
@@ -150,7 +148,6 @@ class Version1011Date20200630192246 extends SimpleMigrationStep {
 				'length' => 256,
 			]);
 			$table->setPrimaryKey(['option_id']);
-			$table->addIndex(['mount_id'], 'option_mount');
 			$table->addUniqueIndex(['mount_id', 'key'], 'option_mount_key');
 		}
 		return $schema;

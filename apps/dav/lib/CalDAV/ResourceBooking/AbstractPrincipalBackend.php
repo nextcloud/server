@@ -309,7 +309,7 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 						return $this->isAllowedToAccessResource($row, $usersGroups);
 					});
 
-					$results[] = array_map(function ($row) {
+					$results[] = array_map(function ($row): string {
 						return $row['uri'];
 					}, $filteredRows);
 
