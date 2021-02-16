@@ -14,4 +14,5 @@ $CONFIG = [
 
 if($cloudEnvironmentId !== true) {
     $CONFIG['overwritehost'] = $cloudEnvironmentId . '-80.apps.codespaces.githubusercontent.com';
+    $CONFIG['overwriteprotocol'] = 'https';
 }

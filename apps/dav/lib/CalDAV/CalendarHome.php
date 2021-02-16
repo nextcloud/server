@@ -138,7 +138,7 @@ class CalendarHome extends \Sabre\CalDAV\CalendarHome {
 			return new Outbox($this->config, $this->principalInfo['uri']);
 		}
 		if ($name === 'notifications' && $this->caldavBackend instanceof NotificationSupport) {
-			return new \Sabre\CalDAv\Notifications\Collection($this->caldavBackend, $this->principalInfo['uri']);
+			return new \Sabre\CalDAV\Notifications\Collection($this->caldavBackend, $this->principalInfo['uri']);
 		}
 
 		// Calendars

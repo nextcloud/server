@@ -105,7 +105,6 @@ class Version11300Date20201120141438 extends SimpleMigrationStep {
 				'default' => 0,
 			]);
 			$table->setPrimaryKey(['id']);
-			$table->addIndex(['user'], 'sh_external_user');
 			$table->addUniqueIndex(['user', 'mountpoint_hash'], 'sh_external_mp');
 		} else {
 			$table = $schema->getTable('share_external');

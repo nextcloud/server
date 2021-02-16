@@ -221,6 +221,10 @@ class Mailer implements IMailer {
 	 * @return bool True if the mail address is valid, false otherwise
 	 */
 	public function validateMailAddress(string $email): bool {
+		if ($email === '') {
+			// Shortcut: empty addresses are never valid
+			return false;
+		}
 		$validator = new EmailValidator();
 		$validation = new RFCValidation();
 

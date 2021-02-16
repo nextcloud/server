@@ -27,6 +27,8 @@ declare(strict_types=1);
 namespace OCA\DAV\Direct;
 
 use OCA\DAV\Db\Direct;
+use OCA\DAV\Events\BeforeFileDirectDownloadedEvent;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
 use OCP\Files\IRootFolder;
 use Sabre\DAV\Exception\Forbidden;
@@ -43,9 +45,12 @@ class DirectFile implements IFile {
 	/** @var File */
 	private $file;
 
-	public function __construct(Direct $direct, IRootFolder $rootFolder) {
+	private $eventDispatcher;
+
+	public function __construct(Direct $direct, IRootFolder $rootFolder, IEventDispatcher $eventDispatcher) {
 		$this->direct = $direct;
 		$this->rootFolder = $rootFolder;
+		$this->eventDispatcher = $eventDispatcher;
 	}
 
 	public function put($data) {
@@ -54,6 +59,8 @@ class DirectFile implements IFile {
 
 	public function get() {
 		$this->getFile();
+
+		$this->eventDispatcher->dispatchTyped(new BeforeFileDirectDownloadedEvent($this->file));
 
 		return $this->file->fopen('rb');
 	}

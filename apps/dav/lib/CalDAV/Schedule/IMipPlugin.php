@@ -178,6 +178,11 @@ class IMipPlugin extends SabreIMipPlugin {
 		// Strip off mailto:
 		$sender = substr($iTipMessage->sender, 7);
 		$recipient = substr($iTipMessage->recipient, 7);
+		if ($recipient === false || !$this->mailer->validateMailAddress($recipient)) {
+			// Nothing to send if the recipient doesn't have a valid email address
+			$iTipMessage->scheduleStatus = '5.0; EMail delivery failed';
+			return;
+		}
 
 		$senderName = $iTipMessage->senderName ?: null;
 		$recipientName = $iTipMessage->recipientName ?: null;
@@ -234,8 +239,11 @@ class IMipPlugin extends SabreIMipPlugin {
 
 		$message = $this->mailer->createMessage()
 			->setFrom([$fromEMail => $fromName])
-			->setReplyTo([$sender => $senderName])
 			->setTo([$recipient => $recipientName]);
+
+		if ($sender !== false) {
+			$message->setReplyTo([$sender => $senderName]);
+		}
 
 		$template = $this->mailer->createEMailTemplate('dav.calendarInvite.' . $method, $data);
 		$template->addHeader();

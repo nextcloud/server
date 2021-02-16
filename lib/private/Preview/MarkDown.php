@@ -126,7 +126,7 @@ class MarkDown extends TXT {
 					$nextLineStart -= $actualFontSize;
 				}
 			} else {
-				$y -= (int)$fontSize;
+				$y -= $fontSize;
 				imagestring($image, 1, $x, $y, $line, $textColor);
 				$nextLineStart = $fontSize;
 			}
