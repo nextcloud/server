@@ -2,6 +2,10 @@ OC.L10N.register(
     "user_status",
     {
     "In a meeting" : "Bilera batean",
+    "Commuting" : "Lanera bidean",
+    "Out sick" : "Gaixorik",
+    "Vacationing" : "Oporretan",
+    "User status" : "Erabiltzailearen egoera",
     "Clear status message after" : "Garbitu egoera mezua gero",
     "What's your status?" : "Zein da zure egoera?",
     "Set status" : "Ezarri egoera",

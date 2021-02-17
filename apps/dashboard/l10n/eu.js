@@ -5,6 +5,7 @@ OC.L10N.register(
     "Dashboard app" : "Mahaia aplikazioa",
     "Show something" : "Erakutsi zerbait",
     "Customize" : "Pertsonalizatu",
+    "Edit widgets" : "Editatu trepetak",
     "Weather" : "Eguraldia",
     "Status" : "Egoera",
     "Good morning" : "Egunon",
@@ -15,7 +16,9 @@ OC.L10N.register(
     "Good evening, {name}" : "Gabon, {name}",
     "Hello" : "Kaixo",
     "Hello, {name}" : "Kaixo, {name}",
+    "Default images" : "Irudi lehenetsiak",
     "Good night, {name}" : "Gabon, {name}",
-    "Good night" : "Gabon"
+    "Good night" : "Gabon",
+    "Pick from files" : "Aukeratu fitxategietatik"
 },
 "nplurals=2; plural=(n != 1);");
