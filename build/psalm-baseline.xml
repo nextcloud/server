@@ -1019,9 +1019,6 @@
     </TypeDoesNotContainType>
   </file>
   <file src="apps/encryption/lib/Crypto/EncryptAll.php">
-    <InvalidArgument occurrences="1">
-      <code>[$to =&gt; $recipientDisplayName]</code>
-    </InvalidArgument>
     <UndefinedInterfaceMethod occurrences="3">
       <code>setHtmlBody</code>
       <code>setPlainBody</code>
