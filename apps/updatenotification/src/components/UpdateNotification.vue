@@ -42,7 +42,7 @@
 				</template>
 
 				<div>
-					<a v-if="updaterEnabled"
+					<a v-if="updaterEnabled && webUpdaterEnabled"
 						href="#"
 						class="button primary"
 						@click="clickUpdaterButton">{{ t('updatenotification', 'Open updater') }}</a>
@@ -50,6 +50,9 @@
 						:href="downloadLink"
 						class="button"
 						:class="{ hidden: !updaterEnabled }">{{ t('updatenotification', 'Download now') }}</a>
+					<span v-if="updaterEnabled && !webUpdaterEnabled">
+						{{ t('updatenotification', 'Please use the command line updater to update.') }}
+					</span>
 					<div v-if="whatsNew" class="whatsNew">
 						<div class="toggleWhatsNew">
 							<a v-click-outside="hideMenu" class="button" @click="toggleMenu">{{ t('updatenotification', 'What\'s new?') }}</a>
@@ -132,6 +135,7 @@ export default {
 			newVersionString: '',
 			lastCheckedDate: '',
 			isUpdateChecked: false,
+			webUpdaterEnabled: true,
 			updaterEnabled: true,
 			versionIsEol: false,
 			downloadLink: '',
@@ -322,6 +326,7 @@ export default {
 		this.newVersionString = data.newVersionString
 		this.lastCheckedDate = data.lastChecked
 		this.isUpdateChecked = data.isUpdateChecked
+		this.webUpdaterEnabled = data.webUpdaterEnabled
 		this.updaterEnabled = data.updaterEnabled
 		this.downloadLink = data.downloadLink
 		this.isNewVersionAvailable = data.isNewVersionAvailable
