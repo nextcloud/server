@@ -38,7 +38,7 @@ use OCP\IRequest;
  */
 class ZipResponse extends Response implements ICallbackResponse {
 	/** @var resource[] Files to be added to the zip response */
-	private $resources;
+	private $resources = [];
 	/** @var string Filename that the zip file should have */
 	private $name;
 	private $request;
