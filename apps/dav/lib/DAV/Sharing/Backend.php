@@ -194,6 +194,7 @@ class Backend {
 			->from('dav_shares')
 			->where($query->expr()->eq('resourceid', $query->createNamedParameter($resourceId)))
 			->andWhere($query->expr()->eq('type', $query->createNamedParameter($this->resourceType)))
+			->groupBy(['principaluri', 'access'])
 			->execute();
 
 		$shares = [];
