@@ -32,6 +32,7 @@ declare(strict_types=1);
 namespace OCA\Provisioning_API\Controller;
 
 use OC\Accounts\AccountManager;
+use OC\Group\Manager;
 use OC\User\Backend;
 use OC\User\NoUserException;
 use OC_Helper;
@@ -55,7 +56,7 @@ abstract class AUserData extends OCSController {
 	protected $userManager;
 	/** @var IConfig */
 	protected $config;
-	/** @var IGroupManager|\OC\Group\Manager */ // FIXME Requires a method that is not on the interface
+	/** @var IGroupManager|Manager */ // FIXME Requires a method that is not on the interface
 	protected $groupManager;
 	/** @var IUserSession */
 	protected $userSession;
@@ -182,7 +183,7 @@ abstract class AUserData extends OCSController {
 	/**
 	 * @param string $userId
 	 * @return array
-	 * @throws \OCP\Files\NotFoundException
+	 * @throws OCSException
 	 */
 	protected function fillStorageInfo(string $userId): array {
 		try {
