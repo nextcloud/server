@@ -175,7 +175,7 @@ class RepairDavSharesTest extends TestCase {
 				['updatedPrincipalUri', 'principals/groups/' . urlencode('family friends')],
 				['shareId', 7],
 				['updatedPrincipalUri', 'principals/groups/' . urlencode('Wants Repair')],
-				['shareId', 1],
+				['shareId', 1]
 			)
 			->willReturnSelf();
 		$updateMock->expects($this->exactly(2))
