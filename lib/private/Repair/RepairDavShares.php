@@ -126,7 +126,7 @@ class RepairDavShares implements IRepairStep {
 	 */
 	public function run(IOutput $output) {
 		$versionFromBeforeUpdate = $this->config->getSystemValue('version', '0.0.0');
-		if (version_compare($versionFromBeforeUpdate, '20.0.7', '<')
+		if (version_compare($versionFromBeforeUpdate, '19.0.9', '<')
 			&& $this->repairUnencodedGroupShares()
 		) {
 			$output->info('Repaired DAV group shares');

@@ -74,7 +74,7 @@ class RepairDavSharesTest extends TestCase {
 		$this->config->expects($this->any())
 			->method('getSystemValue')
 			->with('version', '0.0.0')
-			->willReturn('20.0.2');
+			->willReturn('19.0.2');
 
 		$this->output->expects($this->atLeastOnce())
 			->method('info');
