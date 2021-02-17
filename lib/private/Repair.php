@@ -157,7 +157,7 @@ class Repair implements IOutput {
 			new RemoveLinkShares(\OC::$server->getDatabaseConnection(), \OC::$server->getConfig(), \OC::$server->getGroupManager(), \OC::$server->getNotificationManager(), \OC::$server->query(ITimeFactory::class)),
 			new ClearCollectionsAccessCache(\OC::$server->getConfig(), \OC::$server->query(IManager::class)),
 			\OC::$server->query(ResetGeneratedAvatarFlag::class),
-			\OC::$server->get(RepairDavShares::class)
+			\OC::$server->query(RepairDavShares::class)
 		];
 	}
 
