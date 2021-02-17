@@ -25,7 +25,7 @@ declare(strict_types=1);
 
 namespace OC\Repair;
 
-use OCP\DB\Exception;
+use Doctrine\DBAL\DBALException;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
@@ -112,7 +112,7 @@ class RepairDavShares implements IRepairStep {
 					->setParameter('shareId', $share['id'])
 					->execute();
 				$this->logger->info('Repaired principal for dav share {id} from {old} to {new}', $logParameters);
-			} catch (Exception $e) {
+			} catch (DBALException $e) {
 				$logParameters['message'] = $e->getMessage();
 				$logParameters['exception'] = $e;
 				$this->logger->info('Could not repair principal for dav share {id} from {old} to {new}: {message}', $logParameters);

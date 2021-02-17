@@ -25,8 +25,8 @@ declare(strict_types=1);
 
 namespace Test\Repair;
 
+use Doctrine\DBAL\Driver\Statement;
 use OC\Repair\RepairDavShares;
-use OCP\DB\IResult;
 use OCP\DB\QueryBuilder\IExpressionBuilder;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IConfig;
@@ -130,7 +130,7 @@ class RepairDavSharesTest extends TestCase {
 			],
 		];
 
-		$shareResults = $this->createMock(IResult::class);
+		$shareResults = $this->createMock(Statement::class);
 		$shareResults->expects($this->any())
 			->method('fetch')
 			->willReturnCallback(function () use (&$shareResultData) {
