@@ -191,7 +191,7 @@ OC.L10N.register(
     "Yes" : "是",
     "No files in here" : "沒有任何檔案",
     "New folder" : "新增資料夾",
-    "No more subfolders in here" : "這裡沒有其他子資料夾了",
+    "No more subfolders in here" : "沒有子資料夾",
     "Name" : "姓名",
     "Size" : "大小",
     "Modified" : "已修改",
