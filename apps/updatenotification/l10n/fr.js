@@ -28,6 +28,7 @@ OC.L10N.register(
     "The selected update channel makes dedicated notifications for the server obsolete." : "Le canal de mise à jour sélectionné rend obsolètes les notifications dédiées au serveur.",
     "The selected update channel does not support updates of the server." : "Le canal de mises à jour sélectionné ne supporte pas les mises à jour du serveur.",
     "A new version is available: <strong>{newVersionString}</strong>" : "Une nouvelle version est disponible : <strong>{newVersionString}</strong>",
+    "Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}" : "Notez qu’après une nouvelle version, la mise à jour n’apparaît qu’après la première version mineure ou ultérieure. Nous déployons de nouvelles versions réparties sur le temps à nos utilisateurs et nous sautons parfois une version lorsque des problèmes sont trouvés. Pour en savoir plus sur les mises à jour et les canaux de diffusion, visitez {link}",
     "Checked on {lastCheckedDate}" : "Vérifié le {lastCheckedDate}",
     "Checking apps for compatible updates" : "Vérification des applications pour des mises à jour compatibles",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Veuillez vous assurer que le paramètre <samp>appstoreenabled</samp> n'est pas défini à false dans votre config.php.",
