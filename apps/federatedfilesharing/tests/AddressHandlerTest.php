@@ -108,7 +108,7 @@ class AddressHandlerTest extends \Test\TestCase {
 			->method('search')
 			->willReturn([]);
 
-		list($remoteUser, $remoteUrl) = $this->addressHandler->splitUserRemote($remote);
+		[$remoteUser, $remoteUrl] = $this->addressHandler->splitUserRemote($remote);
 		$this->assertSame($expectedUser, $remoteUser);
 		$this->assertSame($expectedUrl, $remoteUrl);
 	}

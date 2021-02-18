@@ -408,7 +408,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 		// get the user for which the fs is setup
 		$view = Filesystem::getView();
 		if ($view) {
-			list(, $user) = explode('/', $view->getRoot());
+			[, $user] = explode('/', $view->getRoot());
 		} else {
 			$user = null;
 		}

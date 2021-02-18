@@ -633,7 +633,7 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage, IWriteStrea
 			return $storage->writeStream($path, $stream, $size);
 		} else {
 			$target = $this->fopen($path, 'w');
-			list($count, $result) = \OC_Helper::streamCopy($stream, $target);
+			[$count, $result] = \OC_Helper::streamCopy($stream, $target);
 			fclose($stream);
 			fclose($target);
 			return $count;

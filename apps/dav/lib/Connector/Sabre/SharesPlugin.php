@@ -151,7 +151,7 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 		if (isset($this->cachedShares[$sabreNode->getId()])) {
 			$shares = $this->cachedShares[$sabreNode->getId()];
 		} else {
-			list($parentPath,) = \Sabre\Uri\split($sabreNode->getPath());
+			[$parentPath,] = \Sabre\Uri\split($sabreNode->getPath());
 			if ($parentPath === '') {
 				$parentPath = '/';
 			}

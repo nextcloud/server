@@ -291,7 +291,7 @@ EOF;
 				}
 
 				if (strpos($principalUrl, 'principals/users') === 0) {
-					list(, $userId) = split($principalUrl);
+					[, $userId] = split($principalUrl);
 					$uri = $this->config->getUserValue($userId, 'dav', 'defaultCalendar', CalDavBackend::PERSONAL_CALENDAR_URI);
 					$displayName = CalDavBackend::PERSONAL_CALENDAR_NAME;
 				} elseif (strpos($principalUrl, 'principals/calendar-resources') === 0 ||

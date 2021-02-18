@@ -54,7 +54,7 @@ class LegacyDAVACL extends DavAclPlugin {
 	}
 
 	private function convertPrincipal($principal, $toV2) {
-		list(, $name) = \Sabre\Uri\split($principal);
+		[, $name] = \Sabre\Uri\split($principal);
 		if ($toV2) {
 			return "principals/users/$name";
 		}

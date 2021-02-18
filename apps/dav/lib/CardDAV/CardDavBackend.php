@@ -223,7 +223,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 				}
 			}
 
-			list(, $name) = \Sabre\Uri\split($row['principaluri']);
+			[, $name] = \Sabre\Uri\split($row['principaluri']);
 			$uri = $row['uri'] . '_shared_by_' . $name;
 			$displayName = $row['displayname'] . ' (' . $this->getUserDisplayName($name) . ')';
 
@@ -1338,7 +1338,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 
 	private function convertPrincipal($principalUri, $toV2) {
 		if ($this->principalBackend->getPrincipalPrefix() === 'principals') {
-			list(, $name) = \Sabre\Uri\split($principalUri);
+			[, $name] = \Sabre\Uri\split($principalUri);
 			if ($toV2 === true) {
 				return "principals/users/$name";
 			}

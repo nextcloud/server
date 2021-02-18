@@ -87,7 +87,7 @@ class RemotePlugin implements ISearchPlugin {
 						$cloudIdType = $cloudIdData['type'];
 					}
 					try {
-						list($remoteUser, $serverUrl) = $this->splitUserRemote($cloudId);
+						[$remoteUser, $serverUrl] = $this->splitUserRemote($cloudId);
 					} catch (\InvalidArgumentException $e) {
 						continue;
 					}
@@ -151,7 +151,7 @@ class RemotePlugin implements ISearchPlugin {
 		 */
 		if (!$searchResult->hasExactIdMatch($resultType) && $this->cloudIdManager->isValidCloudId($search) && $offset === 0) {
 			try {
-				list($remoteUser, $serverUrl) = $this->splitUserRemote($search);
+				[$remoteUser, $serverUrl] = $this->splitUserRemote($search);
 				$localUser = $this->userManager->get($remoteUser);
 				if ($localUser === null || $search !== $localUser->getCloudId()) {
 					$result['exact'][] = [

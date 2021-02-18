@@ -590,7 +590,7 @@ class IMipPlugin extends SabreIMipPlugin {
 			/** @var Property\ICalendar\CalAddress $organizer */
 			$organizer = $vevent->ORGANIZER;
 			$organizerURI = $organizer->getNormalizedValue();
-			list($scheme,$organizerEmail) = explode(':',$organizerURI,2); # strip off scheme mailto:
+			[$scheme,$organizerEmail] = explode(':',$organizerURI,2); # strip off scheme mailto:
 			/** @var string|null $organizerName */
 			$organizerName = isset($organizer['CN']) ? $organizer['CN'] : null;
 			$organizerHTML = sprintf('<a href="%s">%s</a>',
@@ -619,7 +619,7 @@ class IMipPlugin extends SabreIMipPlugin {
 		$attendeesText = [];
 		foreach ($attendees as $attendee) {
 			$attendeeURI = $attendee->getNormalizedValue();
-			list($scheme,$attendeeEmail) = explode(':',$attendeeURI,2); # strip off scheme mailto:
+			[$scheme,$attendeeEmail] = explode(':',$attendeeURI,2); # strip off scheme mailto:
 			$attendeeName = isset($attendee['CN']) ? $attendee['CN'] : null;
 			$attendeeHTML = sprintf('<a href="%s">%s</a>',
 				htmlspecialchars($attendeeURI),

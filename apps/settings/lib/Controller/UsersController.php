@@ -189,7 +189,7 @@ class UsersController extends Controller {
 		);
 
 		$groupsInfo->setSorting($sortGroupsBy);
-		list($adminGroup, $groups) = $groupsInfo->get();
+		[$adminGroup, $groups] = $groupsInfo->get();
 
 		if (!$isLDAPUsed && $this->appManager->isEnabledForUser('user_ldap')) {
 			$isLDAPUsed = (bool)array_reduce($this->userManager->getBackends(), function ($ldapFound, $backend) {

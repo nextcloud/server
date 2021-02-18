@@ -70,7 +70,7 @@ class RootCollection extends AbstractPrincipalCollection {
 	 * @return INode
 	 */
 	public function getChildForPrincipal(array $principalInfo) {
-		list(, $name) = \Sabre\Uri\split($principalInfo['uri']);
+		[, $name] = \Sabre\Uri\split($principalInfo['uri']);
 		$user = \OC::$server->getUserSession()->getUser();
 		if (is_null($user) || $name !== $user->getUID()) {
 			throw new \Sabre\DAV\Exception\Forbidden();

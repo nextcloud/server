@@ -111,7 +111,7 @@ class Verify extends Base {
 					$output->writeln('<error>Invalid mount configuration option "' . $configOption . '"</error>');
 					return;
 				}
-				list($key, $value) = explode('=', $configOption, 2);
+				[$key, $value] = explode('=', $configOption, 2);
 				$storage->setBackendOption($key, $value);
 			}
 

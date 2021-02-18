@@ -244,7 +244,7 @@ class Mailer implements IMailer {
 			return $email;
 		}
 
-		list($name, $domain) = explode('@', $email, 2);
+		[$name, $domain] = explode('@', $email, 2);
 		$domain = idn_to_ascii($domain, 0,INTL_IDNA_VARIANT_UTS46);
 		return $name.'@'.$domain;
 	}

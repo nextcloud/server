@@ -70,7 +70,7 @@ class File implements \OCP\Encryption\IFile {
 	public function getAccessList($path) {
 
 		// Make sure that a share key is generated for the owner too
-		list($owner, $ownerPath) = $this->util->getUidAndFilename($path);
+		[$owner, $ownerPath] = $this->util->getUidAndFilename($path);
 
 		// always add owner to the list of users with access to the file
 		$userIds = [$owner];

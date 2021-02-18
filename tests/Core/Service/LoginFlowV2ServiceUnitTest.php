@@ -181,7 +181,7 @@ class LoginFlowV2ServiceUnitTest extends TestCase {
 	}
 
 	public function testPollRemoveDataFromDb() {
-		list($encrypted, $privateKey) = $this->getOpenSSLEncryptedPublicAndPrivateKey('test_pass');
+		[$encrypted, $privateKey] = $this->getOpenSSLEncryptedPublicAndPrivateKey('test_pass');
 
 		$this->crypto->expects($this->once())
 			->method('decrypt')
@@ -295,7 +295,7 @@ class LoginFlowV2ServiceUnitTest extends TestCase {
 	 */
 
 	public function testFlowDone() {
-		list(,, $publicKey) = $this->getOpenSSLEncryptedPublicAndPrivateKey('test_pass');
+		[,, $publicKey] = $this->getOpenSSLEncryptedPublicAndPrivateKey('test_pass');
 
 		$loginFlowV2 = new LoginFlowV2();
 		$loginFlowV2->setPublicKey($publicKey);

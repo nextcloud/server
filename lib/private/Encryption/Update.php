@@ -87,7 +87,7 @@ class Update {
 		if ($this->encryptionManager->isEnabled()) {
 			if ($params['itemType'] === 'file' || $params['itemType'] === 'folder') {
 				$path = Filesystem::getPath($params['fileSource']);
-				list($owner, $ownerPath) = $this->getOwnerPath($path);
+				[$owner, $ownerPath] = $this->getOwnerPath($path);
 				$absPath = '/' . $owner . '/files/' . $ownerPath;
 				$this->update($absPath);
 			}
@@ -103,7 +103,7 @@ class Update {
 		if ($this->encryptionManager->isEnabled()) {
 			if ($params['itemType'] === 'file' || $params['itemType'] === 'folder') {
 				$path = Filesystem::getPath($params['fileSource']);
-				list($owner, $ownerPath) = $this->getOwnerPath($path);
+				[$owner, $ownerPath] = $this->getOwnerPath($path);
 				$absPath = '/' . $owner . '/files/' . $ownerPath;
 				$this->update($absPath);
 			}
@@ -136,7 +136,7 @@ class Update {
 			$this->encryptionManager->isEnabled() &&
 			dirname($source) !== dirname($target)
 		) {
-			list($owner, $ownerPath) = $this->getOwnerPath($target);
+			[$owner, $ownerPath] = $this->getOwnerPath($target);
 			$absPath = '/' . $owner . '/files/' . $ownerPath;
 			$this->update($absPath);
 		}

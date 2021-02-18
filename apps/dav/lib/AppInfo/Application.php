@@ -277,7 +277,7 @@ class Application extends App implements IBootstrap {
 			$config = $serverContainer->getConfig();
 			$principalUri = $event->getArgument('calendarData')['principaluri'];
 			if (strpos($principalUri, 'principals/users') === 0) {
-				list(, $UID) = \Sabre\Uri\split($principalUri);
+				[, $UID] = \Sabre\Uri\split($principalUri);
 				$uri = $event->getArgument('calendarData')['uri'];
 				if ($config->getUserValue($UID, 'dav', 'defaultCalendar') === $uri) {
 					$config->deleteUserValue($UID, 'dav', 'defaultCalendar');

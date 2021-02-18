@@ -96,7 +96,7 @@ class RouteParser {
 		if (count($split) !== 2) {
 			throw new \UnexpectedValueException('Invalid route name');
 		}
-		list($controller, $action) = $split;
+		[$controller, $action] = $split;
 
 		$controllerName = $this->buildControllerName($controller);
 		$actionName = $this->buildActionName($action);

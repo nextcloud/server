@@ -226,7 +226,7 @@ class PhotoCache {
 					return false;
 				}
 				if (substr_count($parsed['path'], ';') === 1) {
-					list($type) = explode(';', $parsed['path']);
+					[$type] = explode(';', $parsed['path']);
 				}
 				$val = file_get_contents($val);
 			} else {

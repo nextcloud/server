@@ -93,7 +93,7 @@ class RenewPasswordController extends Controller {
 		$errors = [];
 		$messages = [];
 		if (is_array($renewPasswordMessages)) {
-			list($errors, $messages) = $renewPasswordMessages;
+			[$errors, $messages] = $renewPasswordMessages;
 		}
 		$this->session->remove('renewPasswordMessages');
 		foreach ($errors as $value) {

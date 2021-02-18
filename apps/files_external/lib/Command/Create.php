@@ -153,7 +153,7 @@ class Create extends Base {
 				$output->writeln('<error>Invalid mount configuration option "' . $configOption . '"</error>');
 				return 1;
 			}
-			list($key, $value) = explode('=', $configOption, 2);
+			[$key, $value] = explode('=', $configOption, 2);
 			if (!$this->validateParam($key, $value, $storageBackend, $authBackend)) {
 				$output->writeln('<error>Unknown configuration for backends "' . $key . '"</error>');
 				return 1;

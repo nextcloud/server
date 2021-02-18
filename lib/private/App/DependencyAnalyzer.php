@@ -123,7 +123,7 @@ class DependencyAnalyzer {
 		// version string but null. In case one parameter is null normalization
 		// will therefore be skipped
 		if ($first !== null && $second !== null) {
-			list($first, $second) = $this->normalizeVersions($first, $second);
+			[$first, $second] = $this->normalizeVersions($first, $second);
 		}
 
 		return version_compare($first, $second, $operator);

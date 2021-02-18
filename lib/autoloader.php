@@ -110,7 +110,7 @@ class Autoloader {
 		} elseif (strpos($class, 'OC_') === 0) {
 			$paths[] = \OC::$SERVERROOT . '/lib/private/legacy/' . strtolower(str_replace('_', '/', substr($class, 3)) . '.php');
 		} elseif (strpos($class, 'OCA\\') === 0) {
-			list(, $app, $rest) = explode('\\', $class, 3);
+			[, $app, $rest] = explode('\\', $class, 3);
 			$app = strtolower($app);
 			$appPath = \OC_App::getAppPath($app);
 			if ($appPath && stream_resolve_include_path($appPath)) {

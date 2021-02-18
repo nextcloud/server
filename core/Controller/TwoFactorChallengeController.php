@@ -108,7 +108,7 @@ class TwoFactorChallengeController extends Controller {
 		$user = $this->userSession->getUser();
 		$providerSet = $this->twoFactorManager->getProviderSet($user);
 		$allProviders = $providerSet->getProviders();
-		list($providers, $backupProvider) = $this->splitProvidersAndBackupCodes($allProviders);
+		[$providers, $backupProvider] = $this->splitProvidersAndBackupCodes($allProviders);
 		$setupProviders = $this->twoFactorManager->getLoginSetupProviders($user);
 
 		$data = [

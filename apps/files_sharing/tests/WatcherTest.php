@@ -64,7 +64,7 @@ class WatcherTest extends TestCase {
 		$this->view->mkdir('container/shareddir');
 		$this->view->mkdir('container/shareddir/subdir');
 
-		list($this->ownerStorage, $internalPath) = $this->view->resolvePath('');
+		[$this->ownerStorage, $internalPath] = $this->view->resolvePath('');
 		$this->ownerCache = $this->ownerStorage->getCache();
 		$this->ownerStorage->getScanner()->scan('');
 
@@ -85,7 +85,7 @@ class WatcherTest extends TestCase {
 
 		// retrieve the shared storage
 		$secondView = new \OC\Files\View('/' . self::TEST_FILES_SHARING_API_USER2);
-		list($this->sharedStorage, $internalPath) = $secondView->resolvePath('files/shareddir');
+		[$this->sharedStorage, $internalPath] = $secondView->resolvePath('files/shareddir');
 		$this->sharedCache = $this->sharedStorage->getCache();
 	}
 

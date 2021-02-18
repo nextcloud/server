@@ -129,7 +129,7 @@ class Storage {
 	 * @param string $source source path
 	 */
 	public static function setSourcePathAndUser($source) {
-		list($uid, $path) = self::getUidAndFilename($source);
+		[$uid, $path] = self::getUidAndFilename($source);
 		self::$sourcePathAndUser[$source] = ['uid' => $uid, 'path' => $path];
 	}
 
@@ -179,7 +179,7 @@ class Storage {
 			return false;
 		}
 
-		list($uid, $filename) = self::getUidAndFilename($filename);
+		[$uid, $filename] = self::getUidAndFilename($filename);
 
 		$files_view = new View('/'.$uid .'/files');
 
@@ -214,7 +214,7 @@ class Storage {
 	 * @param string $path
 	 */
 	public static function markDeletedFile($path) {
-		list($uid, $filename) = self::getUidAndFilename($path);
+		[$uid, $filename] = self::getUidAndFilename($path);
 		self::$deletedFiles[$path] = [
 			'uid' => $uid,
 			'filename' => $filename];
@@ -232,7 +232,7 @@ class Storage {
 		 * @var \OC\Files\Storage\Storage $storage
 		 * @var string $internalPath
 		 */
-		list($storage, $internalPath) = $view->resolvePath($path);
+		[$storage, $internalPath] = $view->resolvePath($path);
 		$cache = $storage->getCache($internalPath);
 		$cache->remove($internalPath);
 	}
@@ -270,7 +270,7 @@ class Storage {
 	 * @param string $operation can be 'copy' or 'rename'
 	 */
 	public static function renameOrCopy($sourcePath, $targetPath, $operation) {
-		list($sourceOwner, $sourcePath) = self::getSourcePathAndUser($sourcePath);
+		[$sourceOwner, $sourcePath] = self::getSourcePathAndUser($sourcePath);
 
 		// it was a upload of a existing file if no old path exists
 		// in this case the pre-hook already called the store method and we can
@@ -279,7 +279,7 @@ class Storage {
 			return true;
 		}
 
-		list($targetOwner, $targetPath) = self::getUidAndFilename($targetPath);
+		[$targetOwner, $targetPath] = self::getUidAndFilename($targetPath);
 
 		$sourcePath = ltrim($sourcePath, '/');
 		$targetPath = ltrim($targetPath, '/');
@@ -399,9 +399,9 @@ class Storage {
 	 */
 	private static function copyFileContents($view, $path1, $path2) {
 		/** @var \OC\Files\Storage\Storage $storage1 */
-		list($storage1, $internalPath1) = $view->resolvePath($path1);
+		[$storage1, $internalPath1] = $view->resolvePath($path1);
 		/** @var \OC\Files\Storage\Storage $storage2 */
-		list($storage2, $internalPath2) = $view->resolvePath($path2);
+		[$storage2, $internalPath2] = $view->resolvePath($path2);
 
 		$view->lockFile($path1, ILockingProvider::LOCK_EXCLUSIVE);
 		$view->lockFile($path2, ILockingProvider::LOCK_EXCLUSIVE);
@@ -410,7 +410,7 @@ class Storage {
 		if ($storage1->instanceOfStorage('\OC\Files\ObjectStore\ObjectStoreStorage') || $storage2->instanceOfStorage('\OC\Files\ObjectStore\ObjectStoreStorage')) {
 			$source = $storage1->fopen($internalPath1, 'r');
 			$target = $storage2->fopen($internalPath2, 'w');
-			list(, $result) = \OC_Helper::streamCopy($source, $target);
+			[, $result] = \OC_Helper::streamCopy($source, $target);
 			fclose($source);
 			fclose($target);
 
@@ -611,7 +611,7 @@ class Storage {
 		$expiration = self::getExpiration();
 
 		if ($expiration->shouldAutoExpire()) {
-			list($toDelete, $size) = self::getAutoExpireList($time, $versions);
+			[$toDelete, $size] = self::getAutoExpireList($time, $versions);
 		} else {
 			$size = 0;
 			$toDelete = [];  // versions we want to delete
@@ -778,7 +778,7 @@ class Storage {
 			$allVersions = Storage::getVersions($uid, $filename);
 
 			$time = time();
-			list($toDelete, $sizeOfDeletedVersions) = self::getExpireList($time, $allVersions, $availableSpace <= 0);
+			[$toDelete, $sizeOfDeletedVersions] = self::getExpireList($time, $allVersions, $availableSpace <= 0);
 
 			$availableSpace = $availableSpace + $sizeOfDeletedVersions;
 			$versionsSize = $versionsSize - $sizeOfDeletedVersions;
@@ -789,7 +789,7 @@ class Storage {
 				$allVersions = $result['all'];
 
 				foreach ($result['by_file'] as $versions) {
-					list($toDeleteNew, $size) = self::getExpireList($time, $versions, $availableSpace <= 0);
+					[$toDeleteNew, $size] = self::getExpireList($time, $versions, $availableSpace <= 0);
 					$toDelete = array_merge($toDelete, $toDeleteNew);
 					$sizeOfDeletedVersions += $size;
 				}
