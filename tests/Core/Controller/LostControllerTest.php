@@ -95,6 +95,9 @@ class LostControllerTest extends \Test\TestCase {
 			->method('getUID')
 			->willReturn('ExistingUser');
 		$this->existingUser->expects($this->any())
+			->method('getDisplayName')
+			->willReturn('Existing User');
+		$this->existingUser->expects($this->any())
 			->method('isEnabled')
 			->willReturn(true);
 
@@ -345,7 +348,7 @@ class LostControllerTest extends \Test\TestCase {
 		$message
 			->expects($this->at(0))
 			->method('setTo')
-			->with(['test@example.com' => 'ExistingUser']);
+			->with(['test@example.com' => 'Existing User']);
 		$message
 			->expects($this->at(1))
 			->method('setFrom')
@@ -423,7 +426,7 @@ class LostControllerTest extends \Test\TestCase {
 		$message
 			->expects($this->at(0))
 			->method('setTo')
-			->with(['test@example.com' => 'ExistingUser']);
+			->with(['test@example.com' => 'Existing User']);
 		$message
 			->expects($this->at(1))
 			->method('setFrom')
@@ -495,7 +498,7 @@ class LostControllerTest extends \Test\TestCase {
 		$message
 			->expects($this->at(0))
 			->method('setTo')
-			->with(['test@example.com' => 'ExistingUser']);
+			->with(['test@example.com' => 'Existing User']);
 		$message
 			->expects($this->at(1))
 			->method('setFrom')
