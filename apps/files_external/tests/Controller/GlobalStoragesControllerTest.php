@@ -57,7 +57,7 @@ class GlobalStoragesControllerTest extends StoragesControllerTest {
 			$this->service,
 			$this->createMock(ILogger::class),
 			$session,
-			$this->createMock(IGroupManager::class),
+			$this->createMock(IGroupManager::class)
 		);
 	}
 }
