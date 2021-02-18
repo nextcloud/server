@@ -557,25 +557,25 @@ class MigrationService {
 				$sourceTable = $sourceSchema->getTable($table->getName());
 			} catch (SchemaException $e) {
 				if (\strlen($table->getName()) - $prefixLength > 27) {
-					throw new \InvalidArgumentException('Table name "'  . $table->getName() . '" is too long.');
+					throw new \InvalidArgumentException('Table name "' . $table->getName() . '" is too long.');
 				}
 				$sourceTable = null;
 			}
 
 			foreach ($table->getColumns() as $thing) {
 				if ((!$sourceTable instanceof Table || !$sourceTable->hasColumn($thing->getName())) && \strlen($thing->getName()) > 30) {
-					throw new \InvalidArgumentException('Column name "'  . $table->getName() . '"."' . $thing->getName() . '" is too long.');
+					throw new \InvalidArgumentException('Column name "' . $table->getName() . '"."' . $thing->getName() . '" is too long.');
 				}
 
 				if ($thing->getNotnull() && $thing->getDefault() === ''
 					&& $sourceTable instanceof Table && !$sourceTable->hasColumn($thing->getName())) {
-					throw new \InvalidArgumentException('Column name "'  . $table->getName() . '"."' . $thing->getName() . '" is NotNull, but has empty string or null as default.');
+					throw new \InvalidArgumentException('Column name "' . $table->getName() . '"."' . $thing->getName() . '" is NotNull, but has empty string or null as default.');
 				}
 			}
 
 			foreach ($table->getIndexes() as $thing) {
 				if ((!$sourceTable instanceof Table || !$sourceTable->hasIndex($thing->getName())) && \strlen($thing->getName()) > 30) {
-					throw new \InvalidArgumentException('Index name "'  . $table->getName() . '"."' . $thing->getName() . '" is too long.');
+					throw new \InvalidArgumentException('Index name "' . $table->getName() . '"."' . $thing->getName() . '" is too long.');
 				}
 			}
 
@@ -606,17 +606,17 @@ class MigrationService {
 				}
 
 				if (!$isUsingDefaultName && \strlen($indexName) > 30) {
-					throw new \InvalidArgumentException('Primary index name  on "'  . $table->getName() . '" is too long.');
+					throw new \InvalidArgumentException('Primary index name on "' . $table->getName() . '" is too long.');
 				}
 				if ($isUsingDefaultName && \strlen($table->getName()) - $prefixLength >= 23) {
-					throw new \InvalidArgumentException('Primary index name  on "'  . $table->getName() . '" is too long.');
+					throw new \InvalidArgumentException('Primary index name on "' . $table->getName() . '" is too long.');
 				}
 			}
 		}
 
 		foreach ($sequences as $sequence) {
 			if (!$sourceSchema->hasSequence($sequence->getName()) && \strlen($sequence->getName()) > 30) {
-				throw new \InvalidArgumentException('Sequence name "'  . $sequence->getName() . '" is too long.');
+				throw new \InvalidArgumentException('Sequence name "' . $sequence->getName() . '" is too long.');
 			}
 		}
 	}
