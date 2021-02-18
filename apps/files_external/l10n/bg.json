@@ -40,7 +40,7 @@
     "Credentials saving failed" : "Неуспешно запазване на идентификационни данни",
     "Credentials required" : "Нужни са идентификационни данни",
     "Storage with ID \"%d\" not found" : "Хранилище с идентификатор \"%d\" не е намерено",
-    "Invalid backend or authentication mechanism class" : "Невалиденсървър или клас на механизма за удостоверяване",
+    "Invalid backend or authentication mechanism class" : "Невалиден сървър или клас на механизма за удостоверяване",
     "Invalid mount point" : "Невалиден път за мониторане на файлова система",
     "Objectstore forbidden" : "Objectstore е забранен",
     "Invalid storage backend \"%s\"" : "Невалиден сървър \"%s\" на хранилище",
