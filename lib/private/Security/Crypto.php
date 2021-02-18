@@ -124,14 +124,14 @@ class Crypto implements ICrypto {
 			throw new \Exception('Authenticated ciphertext could not be decoded.');
 		}
 
-		$ciphertext = hex2bin($parts[0]);
+		$ciphertext = $this->hex2bin($parts[0]);
 		$iv = $parts[1];
-		$hmac = hex2bin($parts[2]);
+		$hmac = $this->hex2bin($parts[2]);
 
 		if ($partCount === 4) {
 			$version = $parts[3];
 			if ($version >= '2') {
-				$iv = hex2bin($iv);
+				$iv = $this->hex2bin($iv);
 			}
 
 			if ($version === '3') {
@@ -150,6 +150,22 @@ class Crypto implements ICrypto {
 		$result = $this->cipher->decrypt($ciphertext);
 		if ($result === false) {
 			throw new \Exception('Decryption failed');
+		}
+
+		return $result;
+	}
+
+	private function hex2bin(string $hex): string {
+		if (!ctype_xdigit($hex)) {
+			throw new \RuntimeException('String contains non hex chars: ' . $hex);
+		}
+		if (strlen($hex) % 2 !== 0) {
+			throw new \RuntimeException('Hex string is not of even length: ' . $hex);
+		}
+		$result = hex2bin($hex);
+
+		if ($result === false) {
+			throw new \RuntimeException('Hex to bin conversion failed: ' . $hex);
 		}
 
 		return $result;
