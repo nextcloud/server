@@ -17,7 +17,11 @@ style('sharebymail', 'settings-admin');
 		<input id="enforcePasswordProtection" type="checkbox" class="checkbox" <?php if ($_['enforcePasswordProtection']) {
 	p('checked');
 } ?> />
-		<label for="enforcePasswordProtection"><?php p($l->t('Enforce password protection')); ?></label>
+		<label for="enforcePasswordProtection"><?php p($l->t('Enforce password protection')); ?></label><br/>
+        <input id="replyToInitiator" type="checkbox" class="checkbox" <?php if ($_['replyToInitiator']) {
+	p('checked');
+} ?> />
+        <label for="replyToInitiator"><?php p($l->t('Reply to initiator')); ?></label>
 	</p>
 
 </div>
