@@ -1,5 +1,8 @@
 { "translations": {
+    "Authentication" : "සත්‍යාපනය",
+    "Invalid image" : "වලංගු නොවන පින්තූරයකි",
     "seconds ago" : "තත්පර කිහිපයකට පෙර",
+    "__language_name__" : "__language_name__",
     "Help" : "උපකාර",
     "Apps" : "යෙදුම්",
     "Settings" : "සැකසුම්",
