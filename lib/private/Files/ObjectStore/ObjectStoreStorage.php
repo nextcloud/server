@@ -39,6 +39,7 @@ use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\FileInfo;
 use OCP\Files\NotFoundException;
 use OCP\Files\ObjectStore\IObjectStore;
+use OCP\Files\Storage\IStorage;
 
 class ObjectStoreStorage extends \OC\Files\Storage\Common {
 	use CopyDirectory;
@@ -528,6 +529,19 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 
 	public function getObjectStore(): IObjectStore {
 		return $this->objectStore;
+	}
+
+	public function copyFromStorage(IStorage $sourceStorage, $sourceInternalPath, $targetInternalPath, $preserveMtime = false) {
+		if ($sourceStorage->instanceOfStorage(ObjectStoreStorage::class)) {
+			/** @var ObjectStoreStorage $sourceStorage */
+			if ($sourceStorage->getObjectStore()->getStorageId() === $this->getObjectStore()->getStorageId()) {
+				$sourceEntry = $sourceStorage->getCache()->get($sourceInternalPath);
+				$this->copyInner($sourceEntry, $targetInternalPath);
+				return true;
+			}
+		}
+
+		return parent::copyFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
 	}
 
 	public function copy($path1, $path2) {
