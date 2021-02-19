@@ -141,7 +141,7 @@ OC.L10N.register(
     "User disabled" : "用戶已遭停用",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "您的 IP 多次嘗試登入無效，下一次登入將會被延時 30 秒。",
     "Your account is not setup for passwordless login." : "你的帳號尚未設定免密碼登入。",
-    "Passwordless authentication is not supported in your browser." : "無密碼身份驗證不支援你使用的瀏覽器。",
+    "Passwordless authentication is not supported in your browser." : "你使用的瀏覽器不支援無密碼身份驗證。",
     "Passwordless authentication is only available over a secure connection." : "無密碼身份驗證僅支援經加密的連線。",
     "Reset password" : "重設密碼",
     "A password reset message has been sent to the e-mail address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "重設密碼資訊已寄至您的電子郵件。若您並未收到該信件，請確認您垃圾信箱，或請求管理員協助。",
