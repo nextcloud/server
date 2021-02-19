@@ -647,7 +647,7 @@ class Session implements IUserSession, Emitter {
 			// Ignore and use empty string instead
 		}
 
-		$this->manager->emit('\OC\User', 'preLogin', [$uid, $password]);
+		$this->manager->emit('\OC\User', 'preLogin', [$dbToken->getLoginName(), $password]);
 
 		$user = $this->manager->get($uid);
 		if (is_null($user)) {
