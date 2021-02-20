@@ -67,7 +67,7 @@
     "_%n file_::_%n files_" : ["%n 個檔案"],
     "{dirs} and {files}" : "{dirs} 和 {files}",
     "_including %n hidden_::_including %n hidden_" : ["包括 %n 個隱藏檔"],
-    "You don’t have permission to upload or create files here" : "您沒有權限在這裡上傳或建立檔案",
+    "You don’t have permission to upload or create files here" : "您無權限上傳或建立檔案",
     "_Uploading %n file_::_Uploading %n files_" : ["正在上傳 %n 個檔案"],
     "New" : "新增",
     "Select file range" : "選擇多個檔案",
