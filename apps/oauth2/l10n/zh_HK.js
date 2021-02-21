@@ -14,7 +14,7 @@ OC.L10N.register(
     "Add" : "新增",
     "Client Identifier" : "用戶識別",
     "Secret" : "密鑰",
-    "Show client secret" : "顯示密鑰",
+    "Show client secret" : "顯示客戶端密碼",
     "Delete" : "刪除"
 },
 "nplurals=1; plural=0;");
