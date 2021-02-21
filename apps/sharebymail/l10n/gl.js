@@ -49,6 +49,7 @@ OC.L10N.register(
     "Share provider which allows you to share files by mail" : "Provedor que permite compartirficheiros por correo",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Permite que os usuarios compartan unha ligazón personalizada ou un ficheiro ou cartafol enviándoo a un enderezo de correo.",
     "Send password by mail" : "Enviar contrasinal por correo",
-    "Enforce password protection" : "Forzar a protección por contrasinal"
+    "Enforce password protection" : "Forzar a protección por contrasinal",
+    "Reply to initiator" : "Resposta ao iniciador"
 },
 "nplurals=2; plural=(n != 1);");
