@@ -55,16 +55,14 @@
     "webdav": "^3.6.1"
   },
   "browserslist": [
-    "last 2 versions",
-    "ie >= 11",
-    "firefox ESR",
-    "not dead"
+    "extends @nextcloud/browserslist-config"
   ],
   "devDependencies": {
     "@babel/core": "^7.12.17",
     "@babel/plugin-proposal-class-properties": "^7.12.13",
     "@babel/plugin-syntax-dynamic-import": "^7.8.3",
     "@babel/preset-env": "^7.12.17",
+    "@cypress/browserify-preprocessor": "^3.0.1",
     "@nextcloud/browserslist-config": "^1.0.0",
     "@nextcloud/eslint-config": "^3.0.0",
     "@nextcloud/eslint-plugin": "^2.0.0",
@@ -73,7 +71,6 @@
     "babel-loader": "^8.2.2",
     "babel-loader-exclude-node-modules-except": "^1.1.2",
     "babel-plugin-add-module-exports": "^1.0.4",
-    "browserslist-config-nextcloud": "0.1.0",
     "css-loader": "^4.3.0",
     "cypress": "^6.5.0",
     "cypress-image-snapshot": "^4.0.1",
