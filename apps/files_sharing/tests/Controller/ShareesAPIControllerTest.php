@@ -282,7 +282,9 @@ class ShareesAPIControllerTest extends TestCase {
 				$config,
 				$urlGenerator,
 				$this->shareManager,
-				$this->collaboratorSearch
+				$this->collaboratorSearch,
+				$this->groupManager,
+				$this->userManager
 			])
 			->setMethods(['isRemoteSharingAllowed', 'shareProviderExists', 'isRemoteGroupSharingAllowed'])
 			->getMock();
@@ -377,7 +379,9 @@ class ShareesAPIControllerTest extends TestCase {
 				$config,
 				$urlGenerator,
 				$this->shareManager,
-				$this->collaboratorSearch
+				$this->collaboratorSearch,
+				$this->groupManager,
+				$this->userManager
 			])
 			->setMethods(['isRemoteSharingAllowed'])
 			->getMock();
