@@ -16,4 +16,7 @@
 		"felixfbecker.php-intellisense",
 		"ms-azuretools.vscode-docker"
 	],
+	"settings": {
+		"php.suggest.basic": false,
+	}
 }
