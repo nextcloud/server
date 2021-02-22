@@ -49,8 +49,10 @@ use OCP\Collaboration\Collaborators\ISearch;
 use OCP\Collaboration\Collaborators\ISearchResult;
 use OCP\Collaboration\Collaborators\SearchResultType;
 use OCP\IConfig;
+use OCP\IGroupManager;
 use OCP\IRequest;
 use OCP\IURLGenerator;
+use OCP\IUserManager;
 use OCP\Share\IShare;
 use OCP\Share\IManager;
 use function usort;
@@ -103,6 +105,12 @@ class ShareesAPIController extends OCSController {
 	/** @var ISearch */
 	private $collaboratorSearch;
 
+	/** @var IGroupManager */
+	private $groupManager;
+
+	/** @var IUserManager */
+	private $userManager;
+
 	/**
 	 * @param string $UserId
 	 * @param string $appName
@@ -119,7 +127,10 @@ class ShareesAPIController extends OCSController {
 		IConfig $config,
 		IURLGenerator $urlGenerator,
 		IManager $shareManager,
-		ISearch $collaboratorSearch
+		ISearch $collaboratorSearch,
+		IGroupManager $groupManager,
+		IUserManager $userManager
+
 	) {
 		parent::__construct($appName, $request);
 		$this->userId = $UserId;
@@ -127,6 +138,9 @@ class ShareesAPIController extends OCSController {
 		$this->urlGenerator = $urlGenerator;
 		$this->shareManager = $shareManager;
 		$this->collaboratorSearch = $collaboratorSearch;
+		$this->groupManager = $groupManager;
+		$this->userManager = $userManager;
+
 	}
 
 	/**
@@ -142,6 +156,18 @@ class ShareesAPIController extends OCSController {
 	 * @throws OCSBadRequestException
 	 */
 	public function search(string $search = '', string $itemType = null, int $page = 1, int $perPage = 200, $shareType = null, bool $lookup = true): DataResponse {
+
+		// if some groups are excluded, check the user is allowed to share
+		if ($this->config->getAppValue('core', 'shareapi_exclude_groups', 'no') === 'yes') {
+			$excludedGroups = $this->config->getAppValue('core', 'shareapi_exclude_groups_list', '');
+			$excludedGroupsArray = !is_null(json_decode($excludedGroups))
+				? json_decode($excludedGroups, true) : '';
+			$usersGroups = $this->groupManager->getUserGroupIds($this->userManager->get($this->userId));
+			if (array_intersect($usersGroups, $excludedGroupsArray) == $usersGroups) {
+				return new DataResponse($this->result);
+			}
+		}
+
 
 		// only search for string larger than a given threshold
 		$threshold = (int)$this->config->getSystemValue('sharing.minSearchStringLength', 0);
