@@ -49,6 +49,7 @@ OC.L10N.register(
     "Share provider which allows you to share files by mail" : "Poskytovatel sdílení umožňuje sdílet soubory pomocí e-mailu",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Dovoluje uživatelům odeslat personalizovaný odkaz na soubor nebo složku po zadání e-mailové adresy.",
     "Send password by mail" : "Odeslat heslo e-mailem",
-    "Enforce password protection" : "Vynutit ochranu heslem"
+    "Enforce password protection" : "Vynutit ochranu heslem",
+    "Reply to initiator" : "Odpovedět iniciátorovi"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");
