@@ -77,7 +77,7 @@ class FileMimeType extends AbstractStringCheck implements IFileCheck {
 	}
 
 	/**
-	 * The mimetype is only cached if the file exists. Otherwise files access
+	 * The mimetype is only cached if the file has a valid mimetype. Otherwise files access
 	 * control will cache "application/octet-stream" for all the target node on:
 	 * rename, move, copy and all other methods which create a new item
 	 *
@@ -92,7 +92,7 @@ class FileMimeType extends AbstractStringCheck implements IFileCheck {
 	 * @return string
 	 */
 	protected function cacheAndReturnMimeType(string $storageId, ?string $path, string $mimeType): string {
-		if ($path !== null && $this->storage->file_exists($path)) {
+		if ($path !== null && $mimeType !== 'application/octet-stream') {
 			$this->mimeType[$storageId][$path] = $mimeType;
 		}
 
