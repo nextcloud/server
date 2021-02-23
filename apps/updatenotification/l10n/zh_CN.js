@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "{version} is available. Get more information on how to update." : "新版本 {version} 已可以使用。获取更多升级相关信息。",
     "Channel updated" : "更新通道",
+    "Web updater is disabled" : "已禁用 web 更新器",
     "Update notifications" : "升级通知",
     "The update server could not be reached since %d days to check for new updates." : "更新服务器自 %d 天前起无法访问以检查更新。",
     "Please check the Nextcloud and server log files for errors." : "请检查 Nextcloud 和服务器的日志中的错误。",
@@ -17,6 +18,7 @@ OC.L10N.register(
     "Apps with available updates" : "有可用更新的应用",
     "Open updater" : "打开更新器",
     "Download now" : "开始下载",
+    "Please use the command line updater to update." : "请使用命令行更新器来更新",
     "What's new?" : "有哪些更新？",
     "The update check is not yet finished. Please refresh the page." : "更新检查未完成。请刷新页面。",
     "Your version is up to date." : "您的版本已是最新。",
