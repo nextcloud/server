@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "{version} is available. Get more information on how to update." : "{version} está dispoñíbel. Obteña máis información sobre como actualizar.",
     "Channel updated" : "Canle actualizada",
+    "Web updater is disabled" : "O actualizador web está desactivado",
     "Update notifications" : "Actualizar as notificacións",
     "The update server could not be reached since %d days to check for new updates." : "Non foi posíbel acadar o servidor de actualizacións dende hai %d días para comprobar se hai novas actualizacións.",
     "Please check the Nextcloud and server log files for errors." : "Revise os ficheiros de rexistro de Nextcloud e do servidor na busca de erros.",
@@ -17,6 +18,7 @@ OC.L10N.register(
     "Apps with available updates" : "Aplicacións con actualizacións dispoñíbeis",
     "Open updater" : "Abrir o actualizador",
     "Download now" : "Descargar agora",
+    "Please use the command line updater to update." : "Utilice o actualizador de liña de ordes para actualizar.",
     "What's new?" : "Que hai de novo?",
     "The update check is not yet finished. Please refresh the page." : "A comprobación de actualización aínda non rematou. Recargue a páxina.",
     "Your version is up to date." : "A súa versión está actualizada.",

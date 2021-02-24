@@ -1,6 +1,7 @@
 { "translations": {
     "{version} is available. Get more information on how to update." : "{version} ist verfügbar. Weitere Informationen zur Aktualisierung.",
     "Channel updated" : "Kanal aktualisiert",
+    "Web updater is disabled" : "Der Web-Updater ist deaktiviert",
     "Update notifications" : "Update-Benachrichtigungen",
     "The update server could not be reached since %d days to check for new updates." : "Der Aktualisierungsserver konnte seit %d Tagen nicht erreicht werden um auf verfügbare Aktualisierungen zu prüfen.",
     "Please check the Nextcloud and server log files for errors." : "Bitte überprüfe die Server- und Nextcloud-Logdateien auf Fehler.",
@@ -15,6 +16,7 @@
     "Apps with available updates" : "Für diese Apps gibt es Aktualisierungen",
     "Open updater" : "Updater öffnen",
     "Download now" : "Jetzt herunterladen",
+    "Please use the command line updater to update." : "Verwende zum Aktualisieren den Befehlszeilen-Updater.",
     "What's new?" : "Was ist neu?",
     "The update check is not yet finished. Please refresh the page." : "Die Aktualisierungsprüfung ist noch nicht abgeschlossen. Bitte die Seite neu laden.",
     "Your version is up to date." : "Deine Version ist aktuell.",
