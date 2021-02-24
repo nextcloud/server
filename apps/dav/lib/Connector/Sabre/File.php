@@ -680,9 +680,12 @@ class File extends Node implements IFile {
 	/**
 	 * Get the checksum for this file
 	 *
-	 * @return string
+	 * @return string|null
 	 */
 	public function getChecksum() {
+		if (!$this->info) {
+			return null;
+		}
 		return $this->info->getChecksum();
 	}
 
