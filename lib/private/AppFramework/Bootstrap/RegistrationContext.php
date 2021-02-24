@@ -46,6 +46,7 @@ use OCP\ILogger;
 use OCP\Search\IProvider;
 use OCP\Support\CrashReport\IReporter;
 use Throwable;
+use function array_shift;
 
 class RegistrationContext {
 
@@ -370,7 +371,7 @@ class RegistrationContext {
 			}
 		}
 
-		foreach ($this->aliases as $registration) {
+		while (($registration = array_shift($this->aliases)) !== null) {
 			try {
 				$apps[$registration->getAppId()]
 					->getContainer()
@@ -387,7 +388,7 @@ class RegistrationContext {
 			}
 		}
 
-		foreach ($this->parameters as $registration) {
+		while (($registration = array_shift($this->parameters)) !== null) {
 			try {
 				$apps[$registration->getAppId()]
 					->getContainer()
