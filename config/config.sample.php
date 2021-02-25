@@ -330,7 +330,7 @@ $CONFIG = [
  * ``skeletondirectory`` is defined, otherwise the shipped templates will be used
  * to create a template directory for the user.
  */
-'templatesdirectory' => '/path/to/nextcloud/templates',
+'templatedirectory' => '/path/to/nextcloud/templates',
 
 /**
  * If your user backend does not allow password resets (e.g. when it's a
