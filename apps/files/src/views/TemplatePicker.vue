@@ -213,10 +213,11 @@ export default {
 				// Run default action
 				const fileAction = OCA.Files.fileActions.getDefaultFileAction(fileInfo.mime, 'file', OC.PERMISSION_ALL)
 				fileAction.action(fileInfo.basename, {
-					$file: null,
+					$file: fileList?.findFileEl(this.name),
 					dir: currentDirectory,
 					fileList,
 					fileActions: fileList?.fileActions,
+					fileInfoModel: fileList?.getModelForFile(this.name),
 				})
 
 				this.close()
