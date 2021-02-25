@@ -1,6 +1,7 @@
 { "translations": {
     "{version} is available. Get more information on how to update." : "Доступна версия {version}. Получить дополнительную информацию о порядке обновления.",
     "Channel updated" : "Канал обновлен.",
+    "Web updater is disabled" : "Обновление с использование web-интерфейса отключено",
     "Update notifications" : "Уведомления об обновлениях",
     "The update server could not be reached since %d days to check for new updates." : "Сервер обновлений недоступен для проверки наличия обновлений дней: %d.",
     "Please check the Nextcloud and server log files for errors." : "Проверьте наличие ошибок в файлах журналов Nextcloud и сервера.",
@@ -15,6 +16,7 @@
     "Apps with available updates" : "Приложения с доступными обновлениями",
     "Open updater" : "Открыть окно обновления",
     "Download now" : "Скачать сейчас",
+    "Please use the command line updater to update." : "Для обновления воспользуйтесь инструментом для командной строки.",
     "What's new?" : "Что нового?",
     "The update check is not yet finished. Please refresh the page." : "Проверка обновлений ещё не закончена. Пожалуйста обновите страницу.",
     "Your version is up to date." : "Версия не требует обновления.",
