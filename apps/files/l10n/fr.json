@@ -41,7 +41,7 @@
     "Pending" : "En attente",
     "Unable to determine date" : "Impossible de déterminer la date",
     "This operation is forbidden" : "Cette opération est interdite",
-    "This directory is unavailable, please check the logs or contact the administrator" : "Ce répertoire est indisponnible, merci de consulter les journaux ou de contacter votre administrateur",
+    "This directory is unavailable, please check the logs or contact the administrator" : "Ce répertoire est indisponible, merci de consulter les journaux ou de contacter votre administrateur",
     "Could not move \"{file}\", target exists" : "Impossible de déplacer \"{file}\", la cible existe",
     "Could not move \"{file}\"" : "Impossible de déplacer \"{file}\"",
     "copy" : "copie",
