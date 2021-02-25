@@ -70,7 +70,7 @@ class SettingsManager {
 	 * @return bool
 	 */
 	public function replyToInitiator(): bool {
-		$replyToInitiator =  $this->config->getAppValue('sharebymail', 'replyToInitiator', $this->replyToInitiatorDefault);
+		$replyToInitiator = $this->config->getAppValue('sharebymail', 'replyToInitiator', $this->replyToInitiatorDefault);
 		return $replyToInitiator === 'yes';
 	}
 }
