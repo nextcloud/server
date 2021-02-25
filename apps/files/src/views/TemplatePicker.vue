@@ -208,6 +208,8 @@ export default {
 				const fileInfo = response.data.ocs.data
 				this.logger.debug('Created new file', fileInfo)
 
+				await fileList?.addAndFetchFileInfo(this.name)
+
 				// Run default action
 				const fileAction = OCA.Files.fileActions.getDefaultFileAction(fileInfo.mime, 'file', OC.PERMISSION_ALL)
 				fileAction.action(fileInfo.basename, {
@@ -216,9 +218,6 @@ export default {
 					fileList,
 					fileActions: fileList?.fileActions,
 				})
-
-				// Reload files list
-				fileList?.reload?.() || window.location.reload()
 
 				this.close()
 			} catch (error) {
