@@ -1,6 +1,6 @@
 { "translations": {
-    "Please select a file." : "يرجى تحديد ملف.",
-    "File is too big" : "الملف كبير جدا",
+    "Please select a file." : "من فضلك حدد الملف",
+    "File is too big" : "حجم الملف أكبر من المسموح",
     "The selected file is not an image." : "الملف المحدد ليس صورة ",
     "The selected file cannot be read." : "الملف المحدد لا يمكن قرأته",
     "Invalid file provided" : "تم تقديم ملف غير صالح",
