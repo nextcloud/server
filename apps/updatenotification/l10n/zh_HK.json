@@ -1,6 +1,7 @@
 { "translations": {
     "{version} is available. Get more information on how to update." : "{version} 釋出了，可以更新",
     "Channel updated" : "頻道已更新",
+    "Web updater is disabled" : "Web updater 已停用",
     "Update notifications" : "更新通告",
     "The update server could not be reached since %d days to check for new updates." : "更新伺服器在%d天前已經無法連線檢查更新",
     "Please check the Nextcloud and server log files for errors." : "請確認伺服器紀錄檔以檢視錯誤。",
@@ -15,6 +16,7 @@
     "Apps with available updates" : "有可用更新的應用程式",
     "Open updater" : "打開更新程式",
     "Download now" : "現在下載",
+    "Please use the command line updater to update." : "請使用命令行更新程序進行更新。",
     "What's new?" : "有什麼新鮮事？",
     "The update check is not yet finished. Please refresh the page." : "更新檢查未完成。請重新整理此頁面。",
     "Your version is up to date." : "您的版本是最新版。",
