@@ -423,7 +423,7 @@
     "An error occurred. Please upload an ASCII-encoded PEM certificate." : "發生錯誤。請您上傳 ASCII 編碼的 PEM 證書。",
     "Valid until {date}" : "{date} 前有效",
     "Local" : "本地",
-    "Only visible to local users" : "僅本地用戶可見",
+    "Only visible to local users" : "僅本地使用者可見",
     "Only visible to you" : "僅對您可見",
     "Contacts" : "聯絡人",
     "Visible to local users and to trusted servers" : "僅本地使用者與信任的伺服器可見",

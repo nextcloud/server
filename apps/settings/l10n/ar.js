@@ -20,6 +20,7 @@ OC.L10N.register(
     "Select a profile picture" : "اختر صورة الملف الشخصي ",
     "Week starts on {fdow}" : "بداية الأسبوع يوم {fdow}",
     "Groups" : "مجموعات",
+    "Group list is empty" : "قائمة المجموعة فارغة",
     "{actor} changed your password" : "{actor} قام بتغيير كلمتك السرية",
     "You changed your password" : "لقد قمت بتعديل كلمة مرورك",
     "Your password was reset by an administrator" : "قام أحد المدراء بإعادة تعيين كلمة مرورك",
