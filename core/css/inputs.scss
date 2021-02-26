@@ -368,7 +368,7 @@ input {
 			}
 			&:focus-visible + label {
 				outline-style: solid;
-				outline-color: var(--color-primary-element);
+				outline-color: var(--color-main-text);
 				outline-width: 1px;
 				outline-offset: 2px;
 			}
