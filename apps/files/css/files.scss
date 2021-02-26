@@ -290,6 +290,9 @@ table th#headerName {
 	height: 50px;
 }
 
+table th#headerSelection {
+	padding-top: 2px;
+}
 table th#headerSize, table td.filesize {
 	text-align: right;
 }
@@ -481,6 +484,10 @@ table td.selection {
 #fileList tr td.selection>.selectCheckBox + label,
 .select-all + label {
 	padding: 16px;
+}
+#fileList tr td.selection>.selectCheckBox:focus-visible + label,
+.select-all:focus-visible + label {
+	outline-offset: 0px;
 }
 
 #fileList tr td.filename {
