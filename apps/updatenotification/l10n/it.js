@@ -18,7 +18,7 @@ OC.L10N.register(
     "Apps with available updates" : "Applicazioni con aggiornamenti disponibili",
     "Open updater" : "Apri strumento di aggiornamento",
     "Download now" : "Scarica ora",
-    "Please use the command line updater to update." : "Usa l'updater da riga di comando per aggiornare.",
+    "Please use the command line updater to update." : "Usa lo strumento di aggiornamento da riga di comando per aggiornare.",
     "What's new?" : "Cosa c'è di nuovo?",
     "The update check is not yet finished. Please refresh the page." : "Il controllo degli aggiornamenti non è ancora terminato. Aggiorna la pagina.",
     "Your version is up to date." : "La tua versione è aggiornata.",

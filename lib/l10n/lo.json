@@ -4,6 +4,8 @@
     "seconds ago" : "ວິນາທີຜ່ານມາ",
     "Help" : "ການຊ່ວຍເຫຼືອ",
     "Apps" : "ແອັບພລິເຄຊັນ",
-    "Users" : "ຜູ້ໃຊ້"
+    "Settings" : "ການຕັ້ງຄ່າ",
+    "Users" : "ຜູ້ໃຊ້",
+    "User disabled" : "ປິດຊື່ຜູ້ໃຊ້"
 },"pluralForm" :"nplurals=1; plural=0;"
 }
