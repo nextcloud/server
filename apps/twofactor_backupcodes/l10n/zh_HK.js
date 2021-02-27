@@ -18,6 +18,6 @@ OC.L10N.register(
     "An error occurred while generating your backup codes" : "產生備用碼時發生錯誤。",
     "{name} backup codes" : "{name} 備用驗證碼",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "設定啟用兩階段驗證時，可輸入其中一個您已儲存的備用碼。",
-    "Submit" : "送出"
+    "Submit" : "遞交"
 },
 "nplurals=1; plural=0;");

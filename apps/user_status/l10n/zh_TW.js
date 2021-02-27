@@ -8,7 +8,7 @@ OC.L10N.register(
     "Vacationing" : "休假",
     "Working remotely" : "遠地工作",
     "User status" : "使用者狀態",
-    "Clear status message after" : "清空狀態訊息於...之後",
+    "Clear status message after" : "清空狀態訊息於……之後",
     "What's your status?" : "您現在的狀態？",
     "Set status" : "設定狀態",
     "Online status" : "線上狀態",
@@ -29,10 +29,10 @@ OC.L10N.register(
     "Offline" : "離線",
     "There was an error saving the new status" : "儲存新狀態時發生錯誤",
     "30 minutes" : "30分鐘",
-    "1 hour" : "1 小時",
-    "4 hours" : "4 小時",
+    "1 hour" : "1小時",
+    "4 hours" : "4小時",
     "Mute all notifications" : "所有通知靜音",
     "Appear offline" : "顯示為離線",
-    "Clear status after" : "清空狀態於...之後"
+    "Clear status after" : "清空狀態於……之後"
 },
 "nplurals=1; plural=0;");
