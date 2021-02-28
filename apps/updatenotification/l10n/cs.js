@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "{version} is available. Get more information on how to update." : "Je k dispozici {version}. Přečtěte informace o tom, jak aktualizovat.",
     "Channel updated" : "Kanál aktualizován",
+    "Web updater is disabled" : "Nástroj pro aktualizaci přes webové rozhraní je vypnutý",
     "Update notifications" : "Upozorňování na aktualizace",
     "The update server could not be reached since %d days to check for new updates." : "Aktualizační server nebyl %d dní dosažitelný pro kontrolu aktualizací.",
     "Please check the Nextcloud and server log files for errors." : "Podívejte se po chybách v záznamu událostí Nextcloud a serveru.",
@@ -17,6 +18,7 @@ OC.L10N.register(
     "Apps with available updates" : "Aplikace s dostupnými aktualizacemi",
     "Open updater" : "Otevřít nástroj pro aktualizaci",
     "Download now" : "Stáhnout nyní",
+    "Please use the command line updater to update." : "Aktualizujte přes příkazový řádek.",
     "What's new?" : "Co je nového?",
     "The update check is not yet finished. Please refresh the page." : "Kontrola aktualizací ještě neskončila. Načtěte stránku znovu.",
     "Your version is up to date." : "Používáte nejnovější verzi.",
