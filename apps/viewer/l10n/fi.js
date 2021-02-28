@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Viewer" : "Katselin",
     "Simple file viewer with slideshow for media" : "Yksinkertainen tiedostokatselin mahdollisuudella katsoa kuvia diaesityksenä",
+    "Your browser does not support audio." : "Selaimesi ei tue äänentoistoa.",
     "Error loading {name}" : "Virhe ladatessa {name}",
     "Your browser does not support videos." : "Selaimesi ei tue videoita.",
     "Open sidebar" : "Avaa sivupalkki",
