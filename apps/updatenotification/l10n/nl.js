@@ -17,6 +17,7 @@ OC.L10N.register(
     "Apps with available updates" : "Apps met beschikbare updates",
     "Open updater" : "Open updater",
     "Download now" : "Download nu",
+    "Please use the command line updater to update." : "Gebruik de commandoregel updater, om bij te werken.",
     "What's new?" : "Wat is nieuw?",
     "The update check is not yet finished. Please refresh the page." : "De updatecontrole is niet afgerond. Ververs de pagina.",
     "Your version is up to date." : "Je versie is up-to-date.",
