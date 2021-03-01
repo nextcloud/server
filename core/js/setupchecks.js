@@ -711,13 +711,13 @@
 					var minimumSeconds = 15552000;
 					if(isNaN(transportSecurityValidity) || transportSecurityValidity <= (minimumSeconds - 1)) {
 						messages.push({
-							msg: t('core', 'The "Strict-Transport-Security" HTTP header is not set to at least "{seconds}" seconds. For enhanced security, it is recommended to enable HSTS as described in the <a href="{docUrl}" rel="noreferrer noopener">security tips ↗</a>.', {'seconds': minimumSeconds, docUrl: tipsUrl}),
+							msg: t('core', 'The "Strict-Transport-Security" HTTP header is not set to at least "{seconds}" seconds. For enhanced security, it is recommended to enable HSTS as described in the <a target="_blank" rel="noreferrer noopener" href="{docUrl}">security tips ↗</a>.', {'seconds': minimumSeconds, docUrl: tipsUrl}),
 							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 						});
 					}
 				} else {
 					messages.push({
-						msg: t('core', 'Accessing site insecurely via HTTP. You are strongly advised to set up your server to require HTTPS instead, as described in the <a href="{docUrl}">security tips ↗</a>.', {docUrl:  tipsUrl}),
+						msg: t('core', 'Accessing site insecurely via HTTP. You are strongly advised to set up your server to require HTTPS instead, as described in the <a target="_blank" rel="noreferrer noopener" href="{docUrl}">security tips ↗</a>.', {docUrl:  tipsUrl}),
 						type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 					});
 				}
