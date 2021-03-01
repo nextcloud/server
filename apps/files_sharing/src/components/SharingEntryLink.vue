@@ -42,7 +42,7 @@
 		</Actions>
 
 		<!-- pending actions -->
-		<Actions v-if="!loading && (pendingPassword || pendingExpirationDate)"
+		<Actions v-if="!pending && (pendingPassword || pendingExpirationDate)"
 			class="sharing-entry__actions"
 			menu-align="right"
 			:open.sync="open"
@@ -284,7 +284,7 @@
 			<!-- Create new share -->
 			<ActionButton v-else-if="canReshare"
 				class="new-share-link"
-				icon="icon-add"
+				:icon="loading ? 'icon-loading-small' : 'icon-add'"
 				@click.prevent.stop="onNewLinkShare">
 				{{ t('files_sharing', 'Create a new share link') }}
 			</ActionButton>
@@ -348,6 +348,9 @@ export default {
 		return {
 			copySuccess: true,
 			copied: false,
+
+			// Are we waiting for password/expiration date
+			pending: false,
 
 			publicUploadRWValue: OC.PERMISSION_UPDATE | OC.PERMISSION_CREATE | OC.PERMISSION_READ | OC.PERMISSION_DELETE,
 			publicUploadRValue: OC.PERMISSION_READ,
@@ -586,6 +589,11 @@ export default {
 		 * Create a new share link and append it to the list
 		 */
 		async onNewLinkShare() {
+			// do not run again if already loading
+			if (this.loading) {
+				return
+			}
+
 			const shareDefaults = {
 				share_type: OC.Share.SHARE_TYPE_LINK,
 			}
@@ -598,11 +606,13 @@ export default {
 				shareDefaults.password = await this.generatePassword()
 			}
 
-			// do not push yet if we need a password or an expiration date
+			// do not push yet if we need a password or an expiration date: show pending menu
 			if (this.config.enforcePasswordForPublicLink || this.config.isDefaultExpireDateEnforced) {
-				this.loading = true
+				this.pending = true
+
 				// if a share already exists, pushing it
 				if (this.share && !this.share.id) {
+					// if the share is valid, create it on the server
 					if (this.checkShare(this.share)) {
 						await this.pushNewLinkShare(this.share, true)
 						return true
@@ -628,10 +638,10 @@ export default {
 				// open the menu on the
 				// freshly created share component
 				this.open = false
-				this.loading = false
+				this.pending = false
 				component.open = true
 
-			// Nothing enforced, creating share directly
+			// Nothing is enforced, creating share directly
 			} else {
 				const share = new Share(shareDefaults)
 				await this.pushNewLinkShare(share)
@@ -648,6 +658,11 @@ export default {
 		 */
 		async pushNewLinkShare(share, update) {
 			try {
+				// do nothing if we're already pending creation
+				if (this.loading) {
+					return true
+				}
+
 				this.loading = true
 				this.errors = {}
 
