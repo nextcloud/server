@@ -17,7 +17,7 @@
 
 				<template v-if="missingAppUpdates.length">
 					<h3 @click="toggleHideMissingUpdates">
-						{{ t('updatenotification', 'Apps missing updates') }}
+						{{ t('updatenotification', 'Apps missing compatible version') }}
 						<span v-if="!hideMissingUpdates" class="icon icon-triangle-n" />
 						<span v-if="hideMissingUpdates" class="icon icon-triangle-s" />
 					</h3>
@@ -30,7 +30,7 @@
 
 				<template v-if="availableAppUpdates.length">
 					<h3 @click="toggleHideAvailableUpdates">
-						{{ t('updatenotification', 'Apps with available updates') }}
+						{{ t('updatenotification', 'Apps with compatible version') }}
 						<span v-if="!hideAvailableUpdates" class="icon icon-triangle-n" />
 						<span v-if="hideAvailableUpdates" class="icon icon-triangle-s" />
 					</h3>
@@ -104,7 +104,7 @@
 				label="label"
 				track-by="value"
 				:tag-width="75" /><br>
-			<em v-if="currentChannel === 'daily' || currentChannel === 'git'">{{ t('updatenotification', 'Only notification for app updates are available.') }}</em>
+			<em v-if="currentChannel === 'daily' || currentChannel === 'git'">{{ t('updatenotification', 'Only notifications for app updates are available.') }}</em>
 			<em v-if="currentChannel === 'daily'">{{ t('updatenotification', 'The selected update channel makes dedicated notifications for the server obsolete.') }}</em>
 			<em v-if="currentChannel === 'git'">{{ t('updatenotification', 'The selected update channel does not support updates of the server.') }}</em>
 		</p>
@@ -174,7 +174,8 @@ export default {
 		},
 
 		noteDelayedStableString() {
-			return t('updatenotification', 'Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}').replace('{link}', '<a href="https://nextcloud.com/release-channels/">https://nextcloud.com/release-channels/</a>')
+			return t('updatenotification', 'Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}')
+				.replace('{link}', '<a href="https://nextcloud.com/release-channels/">https://nextcloud.com/release-channels/</a>')
 		},
 
 		lastCheckedOnString() {
@@ -185,7 +186,7 @@ export default {
 
 		statusText() {
 			if (!this.isListFetched) {
-				return t('updatenotification', 'Checking apps for compatible updates')
+				return t('updatenotification', 'Checking apps for compatible versions')
 			}
 
 			if (this.appStoreDisabled) {
@@ -197,8 +198,8 @@ export default {
 			}
 
 			return this.missingAppUpdates.length === 0
-				? t('updatenotification', '<strong>All</strong> apps have an update for this version available', this)
-				: n('updatenotification', '<strong>%n</strong> app has no update for this version available', '<strong>%n</strong> apps have no update for this version available', this.missingAppUpdates.length)
+				? t('updatenotification', '<strong>All</strong> apps have a compatible version for this Nextcloud version available', this)
+				: n('updatenotification', '<strong>%n</strong> app has no compatible version for this Nextcloud version available', '<strong>%n</strong> apps have no compatible version for this Nextcloud version available', this.missingAppUpdates.length)
 		},
 
 		whatsNew() {
