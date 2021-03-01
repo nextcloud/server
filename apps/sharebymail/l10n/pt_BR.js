@@ -14,7 +14,7 @@ OC.L10N.register(
     "Password for mail share sent to you" : "Senha do compartilhamento por e-mail foi enviado para você",
     "You shared %1$s with %2$s by mail" : "Você compartilhou %1$s com %2$s por e-mail",
     "You shared {file} with {email} by mail" : "Você compartilhou {file} com {email} por e-mail",
-    "%3$s shared %1$s with %2$s by mail" : "%3$s compartilou %1$s com %2$s por e-mail",
+    "%3$s shared %1$s with %2$s by mail" : "%3$s compartilhou %1$s com %2$s por e-mail",
     "{actor} shared {file} with {email} by mail" : "{actor} compartilhou {file} com {email} por e-mail",
     "You unshared %1$s from %2$s by mail" : "Você descompartilhou %1$s de %2$s por e-mail",
     "You unshared {file} from {email} by mail" : "Você descompartilhou {file} de {email} por e-mail",
@@ -29,11 +29,11 @@ OC.L10N.register(
     "Failed to send share by email" : "Falha ao enviar compartilhamento via e-mail",
     "%1$s shared »%2$s« with you" : "%1$s compartilhou »%2$s« com você",
     "%1$s shared »%2$s« with you." : "%1$s compartilhou »%2$s« com você.",
-    "Click the button below to open it." : "Clique no botão abaixo para abrí-lo.",
+    "Click the button below to open it." : "Clique no botão abaixo para abri-lo.",
     "Open »%s«" : "Abrir »%s«",
     "%1$s via %2$s" : "%1$s via %2$s",
     "%1$s shared »%2$s« with you.\nYou should have already received a separate mail with a link to access it.\n" : "%1$s compartilhou  »%2$s« com você.\nVocê receberá um e-mail com um link para acessá-lo.\n",
-    "%1$s shared »%2$s« with you. You should have already received a separate mail with a link to access it." : "%1$s compartilhou »%2$s« com  você. Você receberá um e-mail com um link para acessá-lo.",
+    "%1$s shared »%2$s« with you. You should have already received a separate mail with a link to access it." : "%1$s compartilhou »%2$s« com você. Você receberá um e-mail com um link para acessá-lo.",
     "Password to access »%1$s« shared to you by %2$s" : "Senha de acesso »%1$s« compartilhada com você por %2$s",
     "Password to access »%s«" : "Senha para acessar »%s«",
     "It is protected with the following password:" : "Está protegida com a seguinte senha:",
@@ -50,6 +50,6 @@ OC.L10N.register(
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Permite que os usuários compartilhem um link personalizado para um arquivo ou pasta, inserindo um endereço de e-mail.",
     "Send password by mail" : "Enviar senha por e-mail",
     "Enforce password protection" : "Reforce a proteção por senha",
-    "Reply to initiator" : "ENTRADAResposta ao iniciador "
+    "Reply to initiator" : "Responder ao iniciador"
 },
 "nplurals=2; plural=(n > 1);");
