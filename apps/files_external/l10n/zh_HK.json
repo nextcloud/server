@@ -106,7 +106,7 @@
     "Verify ACL access when listing files" : "列出檔案時驗證 ACL 存取",
     "Timeout" : "逾時",
     "SMB / CIFS using OC login" : "SMB / CIFS 使用 OC 登入",
-    "Username as share" : "以使用者名稱分享",
+    "Username as share" : "以用戶名稱分享",
     "OpenStack Object Storage" : "OpenStack 物件儲存",
     "Service name" : "服務名稱",
     "Request timeout (seconds)" : "請求超時 (秒)",
