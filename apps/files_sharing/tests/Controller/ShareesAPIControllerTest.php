@@ -254,11 +254,11 @@ class ShareesAPIControllerTest extends TestCase {
 		/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject $config */
 		$config = $this->createMock(IConfig::class);
 
-		// TODO: Add exclude groups config request
-		$config->expects($this->exactly(1))
+		$config->expects($this->exactly(2))
 			->method('getAppValue')
 			->with($this->anything(), $this->anything(), $this->anything())
 			->willReturnMap([
+				['core', 'shareapi_exclude_groups', 'no', 'no'],
 				['files_sharing', 'lookupServerEnabled', 'yes', 'yes'],
 			]);
 
@@ -360,8 +360,12 @@ class ShareesAPIControllerTest extends TestCase {
 
 		/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject $config */
 		$config = $this->createMock(IConfig::class);
-		$config->expects($this->never())
-			->method('getAppValue');
+		$config->expects($this->exactly(1))
+			->method('getAppValue')
+			->with($this->anything(), $this->anything(), $this->anything())
+			->willReturnMap([
+				['core', 'shareapi_exclude_groups', 'no', 'no'],
+			]);
 
 		/** @var string */
 		$uid = 'test123';
