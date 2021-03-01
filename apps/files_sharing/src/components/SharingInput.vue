@@ -223,7 +223,10 @@ export default {
 				.map(share => this.formatForMultiselect(share))
 				// sort by type so we can get user&groups first...
 				.sort((a, b) => a.shareType - b.shareType)
-			const suggestions = this.filterOutExistingShares(rawSuggestions)
+			const suggestions = (
+				this.filterOutMailsWhenRemoteIsPossible(
+					this.filterOutExistingShares(rawSuggestions)
+				))
 				.map(share => this.formatForMultiselect(share))
 				// sort by type so we can get user&groups first...
 				.sort((a, b) => a.shareType - b.shareType)
@@ -363,6 +366,20 @@ export default {
 					arr.push(share)
 				} catch {
 					return arr
+				}
+				return arr
+			}, [])
+		},
+
+		filterOutMailsWhenRemoteIsPossible(shares) {
+			return shares.reduce((arr, share) => {
+				if (share.value.shareType !== this.SHARE_TYPES.SHARE_TYPE_EMAIL) {
+					arr.push(share)
+					return arr
+				}
+				const remote = shares.find(item => item.value.shareType === this.SHARE_TYPES.SHARE_TYPE_REMOTE && item.value.uuid === share.value.uuid)
+				if (remote === undefined) {
+					arr.push(share)
 				}
 				return arr
 			}, [])
