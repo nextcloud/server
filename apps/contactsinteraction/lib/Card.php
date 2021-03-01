@@ -53,7 +53,7 @@ class Card implements ICard, IACL {
 	 * @inheritDoc
 	 */
 	public function getOwner(): ?string {
-		$this->principal;
+		return $this->principal;
 	}
 
 	/**
