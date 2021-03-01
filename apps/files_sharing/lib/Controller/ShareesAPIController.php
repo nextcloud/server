@@ -159,11 +159,9 @@ class ShareesAPIController extends OCSController {
 
 		// if some groups are excluded, check the user is allowed to share
 		if ($this->config->getAppValue('core', 'shareapi_exclude_groups', 'no') === 'yes') {
-			$excludedGroups = $this->config->getAppValue('core', 'shareapi_exclude_groups_list', '');
-			$excludedGroupsArray = !is_null(json_decode($excludedGroups))
-				? json_decode($excludedGroups, true) : '';
+			$excludedGroups = (array)json_decode($this->config->getAppValue('core', 'shareapi_exclude_groups_list', ''), true);
 			$usersGroups = $this->groupManager->getUserGroupIds($this->userManager->get($this->userId));
-			if (array_intersect($usersGroups, $excludedGroupsArray) == $usersGroups) {
+			if (array_intersect($usersGroups, $excludedGroups) == $usersGroups) {
 				return new DataResponse($this->result);
 			}
 		}
