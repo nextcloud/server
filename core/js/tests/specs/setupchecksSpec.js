@@ -397,7 +397,7 @@ describe('OC.SetupChecks tests', function() {
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: false,
-					securityDocs: 'https://docs.owncloud.org/myDocs.html',
+					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
 					serverHasInternetConnectionProblems: false,
 					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
@@ -427,7 +427,7 @@ describe('OC.SetupChecks tests', function() {
 
 			async.done(function( data, s, x ){
 				expect(data).toEqual([{
-					msg: 'No suitable source for randomness found by PHP which is highly discouraged for security reasons. Further information can be found in the <a target="_blank" rel="noreferrer noopener" class="external" href="https://docs.owncloud.org/myDocs.html">documentation ↗</a>.',
+					msg: 'No suitable source for randomness found by PHP which is highly discouraged for security reasons. Further information can be found in the <a target="_blank" rel="noreferrer noopener" class="external" href="https://docs.nextcloud.com/myDocs.html">documentation ↗</a>.',
 					type: OC.SetupChecks.MESSAGE_TYPE_ERROR
 				}]);
 				done();
@@ -450,7 +450,7 @@ describe('OC.SetupChecks tests', function() {
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: true,
-					securityDocs: 'https://docs.owncloud.org/myDocs.html',
+					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
 					serverHasInternetConnectionProblems: false,
 					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
@@ -503,7 +503,7 @@ describe('OC.SetupChecks tests', function() {
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: true,
-					securityDocs: 'https://docs.owncloud.org/myDocs.html',
+					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
 					serverHasInternetConnectionProblems: false,
 					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
@@ -561,7 +561,7 @@ describe('OC.SetupChecks tests', function() {
 					serverHasInternetConnectionProblems: false,
 					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: false,
-					reverseProxyDocs: 'https://docs.owncloud.org/foo/bar.html',
+					reverseProxyDocs: 'https://docs.nextcloud.com/foo/bar.html',
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
 					isOpcacheProperlySetup: true,
@@ -588,7 +588,7 @@ describe('OC.SetupChecks tests', function() {
 
 			async.done(function( data, s, x ){
 				expect(data).toEqual([{
-					msg: 'The reverse proxy header configuration is incorrect, or you are accessing Nextcloud from a trusted proxy. If not, this is a security issue and can allow an attacker to spoof their IP address as visible to the Nextcloud. Further information can be found in the <a target="_blank" rel="noreferrer noopener" class="external" href="https://docs.owncloud.org/foo/bar.html">documentation ↗</a>.',
+					msg: 'The reverse proxy header configuration is incorrect, or you are accessing Nextcloud from a trusted proxy. If not, this is a security issue and can allow an attacker to spoof their IP address as visible to the Nextcloud. Further information can be found in the <a target="_blank" rel="noreferrer noopener" class="external" href="https://docs.nextcloud.com/foo/bar.html">documentation ↗</a>.',
 					type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 				}]);
 				done();
@@ -614,7 +614,7 @@ describe('OC.SetupChecks tests', function() {
 					serverHasInternetConnectionProblems: false,
 					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
-					reverseProxyDocs: 'https://docs.owncloud.org/foo/bar.html',
+					reverseProxyDocs: 'https://docs.nextcloud.com/foo/bar.html',
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
 					isOpcacheProperlySetup: true,
@@ -667,7 +667,7 @@ describe('OC.SetupChecks tests', function() {
 					serverHasInternetConnectionProblems: false,
 					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
-					reverseProxyDocs: 'https://docs.owncloud.org/foo/bar.html',
+					reverseProxyDocs: 'https://docs.nextcloud.com/foo/bar.html',
 					isCorrectMemcachedPHPModuleInstalled: true,
 					hasPassedCodeIntegrityCheck: true,
 					isOpcacheProperlySetup: true,
@@ -737,7 +737,7 @@ describe('OC.SetupChecks tests', function() {
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: true,
-					securityDocs: 'https://docs.owncloud.org/myDocs.html',
+					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
 					serverHasInternetConnectionProblems: false,
 					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
@@ -791,7 +791,7 @@ describe('OC.SetupChecks tests', function() {
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: true,
-					securityDocs: 'https://docs.owncloud.org/myDocs.html',
+					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
 					serverHasInternetConnectionProblems: false,
 					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
@@ -845,7 +845,7 @@ describe('OC.SetupChecks tests', function() {
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: true,
-					securityDocs: 'https://docs.owncloud.org/myDocs.html',
+					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
 					serverHasInternetConnectionProblems: false,
 					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
@@ -899,7 +899,7 @@ describe('OC.SetupChecks tests', function() {
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: true,
-					securityDocs: 'https://docs.owncloud.org/myDocs.html',
+					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
 					serverHasInternetConnectionProblems: false,
 					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
@@ -953,7 +953,7 @@ describe('OC.SetupChecks tests', function() {
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: true,
-					securityDocs: 'https://docs.owncloud.org/myDocs.html',
+					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
 					serverHasInternetConnectionProblems: false,
 					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
@@ -1006,7 +1006,7 @@ describe('OC.SetupChecks tests', function() {
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: true,
-					securityDocs: 'https://docs.owncloud.org/myDocs.html',
+					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
 					serverHasInternetConnectionProblems: false,
 					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
@@ -1060,7 +1060,7 @@ describe('OC.SetupChecks tests', function() {
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: true,
-					securityDocs: 'https://docs.owncloud.org/myDocs.html',
+					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
 					serverHasInternetConnectionProblems: false,
 					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
@@ -1113,7 +1113,7 @@ describe('OC.SetupChecks tests', function() {
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: true,
-					securityDocs: 'https://docs.owncloud.org/myDocs.html',
+					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
 					serverHasInternetConnectionProblems: false,
 					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
