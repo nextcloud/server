@@ -51,12 +51,12 @@ use OCP\IConfig;
 use OCP\IDateTimeFormatter;
 use OCP\IDBConnection;
 use OCP\IL10N;
-use OCP\ILogger;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\Lock\ILockingProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Test\TestCase;
 
@@ -79,7 +79,7 @@ class CheckSetupControllerTest extends TestCase {
 	private $urlGenerator;
 	/** @var IL10N | \PHPUnit\Framework\MockObject\MockObject */
 	private $l10n;
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	private $logger;
 	/** @var Checker|\PHPUnit\Framework\MockObject\MockObject */
 	private $checker;
@@ -129,7 +129,7 @@ class CheckSetupControllerTest extends TestCase {
 			->disableOriginalConstructor()->getMock();
 		$this->checker = $this->getMockBuilder('\OC\IntegrityCheck\Checker')
 				->disableOriginalConstructor()->getMock();
-		$this->logger = $this->getMockBuilder(ILogger::class)->getMock();
+		$this->logger = $this->getMockBuilder(LoggerInterface::class)->getMock();
 		$this->db = $this->getMockBuilder(Connection::class)
 			->disableOriginalConstructor()->getMock();
 		$this->lockingProvider = $this->getMockBuilder(ILockingProvider::class)->getMock();

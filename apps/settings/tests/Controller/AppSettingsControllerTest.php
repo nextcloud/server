@@ -40,12 +40,12 @@ use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
 use OCP\IL10N;
-use OCP\ILogger;
 use OCP\INavigationManager;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 /**
@@ -80,7 +80,7 @@ class AppSettingsControllerTest extends TestCase {
 	private $installer;
 	/** @var IURLGenerator|MockObject */
 	private $urlGenerator;
-	/** @var ILogger|MockObject */
+	/** @var LoggerInterface|MockObject */
 	private $logger;
 
 	protected function setUp(): void {
@@ -100,7 +100,7 @@ class AppSettingsControllerTest extends TestCase {
 		$this->bundleFetcher = $this->createMock(BundleFetcher::class);
 		$this->installer = $this->createMock(Installer::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
-		$this->logger = $this->createMock(ILogger::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 
 		$this->appSettingsController = new AppSettingsController(
 			'settings',
