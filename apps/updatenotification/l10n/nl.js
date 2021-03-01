@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "{version} is available. Get more information on how to update." : "{version} is beschikbaar. Meer informatie over het bijwerken.",
     "Channel updated" : "Kanaal bijgewerkt",
+    "Web updater is disabled" : "Web-updater is uitgeschakeld",
     "Update notifications" : "Bijwerkmeldingen",
     "The update server could not be reached since %d days to check for new updates." : "De updateserver kon sinds %d dagen niet meer worden bereikt om op updates te controleren.",
     "Please check the Nextcloud and server log files for errors." : "Controleer de Nextcloud- en serverlogbestanden op fouten.",
