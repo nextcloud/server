@@ -46,12 +46,12 @@ use OCP\Activity\IManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
-use OCP\ILogger;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUserSession;
 use OCP\Security\ISecureRandom;
 use OCP\Session\Exceptions\SessionNotAvailableException;
+use Psr\Log\LoggerInterface;
 
 class AuthSettingsController extends Controller {
 
@@ -76,7 +76,7 @@ class AuthSettingsController extends Controller {
 	/** @var RemoteWipe */
 	private $remoteWipe;
 
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	private $logger;
 
 	/**
@@ -89,7 +89,7 @@ class AuthSettingsController extends Controller {
 	 * @param IUserSession $userSession
 	 * @param IManager $activityManager
 	 * @param RemoteWipe $remoteWipe
-	 * @param ILogger $logger
+	 * @param LoggerInterface $logger
 	 */
 	public function __construct(string $appName,
 								IRequest $request,
@@ -100,7 +100,7 @@ class AuthSettingsController extends Controller {
 								IUserSession $userSession,
 								IManager $activityManager,
 								RemoteWipe $remoteWipe,
-								ILogger $logger) {
+								LoggerInterface $logger) {
 		parent::__construct($appName, $request);
 		$this->tokenProvider = $tokenProvider;
 		$this->uid = $userId;
@@ -252,8 +252,7 @@ class AuthSettingsController extends Controller {
 		try {
 			$this->activityManager->publish($event);
 		} catch (BadMethodCallException $e) {
-			$this->logger->warning('could not publish activity');
-			$this->logger->logException($e);
+			$this->logger->warning('could not publish activity', ['exception' => $e]);
 		}
 	}
 
