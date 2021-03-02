@@ -248,7 +248,7 @@
 					}
 					if (data.cronInfo.diffInSeconds > 3600) {
 						messages.push({
-							msg: t('core', 'Last background job execution ran {relativeTime}. Something seems wrong. {linkstart}Check the background job settings ↗{linkend}', {relativeTime: data.cronInfo.relativeTime})
+							msg: t('core', 'Last background job execution ran {relativeTime}. Something seems wrong. {linkstart}Check the background job settings ↗{linkend}.', {relativeTime: data.cronInfo.relativeTime})
 									.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="' + data.cronInfo.backgroundJobsUrl + '">')
 									.replace('{linkend}', '</a>'),
 							type: OC.SetupChecks.MESSAGE_TYPE_ERROR
@@ -331,7 +331,7 @@
 						});
 					} else if(!data.isOpcacheProperlySetup) {
 						messages.push({
-							msg: t('core', 'The PHP OPcache is not properly configured. {linkstart}For better performance it is recommended ↗{linkend} to use the following settings in the <code>php.ini</code>:')
+							msg: t('core', 'The PHP OPcache module is not properly configured. {linkstart}For better performance it is recommended ↗{linkend} to use the following settings in the <code>php.ini</code>:')
 								.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="' + data.phpOpcacheDocumentation + '">')
 								.replace('{linkend}', '</a>') + "<pre><code>opcache.enable=1\nopcache.interned_strings_buffer=8\nopcache.max_accelerated_files=10000\nopcache.memory_consumption=128\nopcache.save_comments=1\nopcache.revalidate_freq=1</code></pre>",
 							type: OC.SetupChecks.MESSAGE_TYPE_INFO
