@@ -173,7 +173,7 @@ interface IManager {
 	/**
 	 * Return a list of the user's addressbooks
 	 *
-	 * @return IAddressBook[]
+	 * @return \OCP\IAddressBook[]
 	 * @since 16.0.0
 	 */
 	public function getUserAddressBooks();
