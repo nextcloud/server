@@ -56,7 +56,6 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IL10N;
-use OCP\ILogger;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUser;
@@ -68,6 +67,7 @@ use OCP\Security\Events\GenerateSecurePasswordEvent;
 use OCP\Security\ISecureRandom;
 use OCP\UserInterface;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class UsersControllerTest extends TestCase {
@@ -82,7 +82,7 @@ class UsersControllerTest extends TestCase {
 	protected $groupManager;
 	/** @var IUserSession|MockObject */
 	protected $userSession;
-	/** @var ILogger|MockObject */
+	/** @var LoggerInterface|MockObject */
 	protected $logger;
 	/** @var UsersController|MockObject */
 	protected $api;
@@ -113,7 +113,7 @@ class UsersControllerTest extends TestCase {
 		$this->appManager = $this->createMock(IAppManager::class);
 		$this->groupManager = $this->createMock(Manager::class);
 		$this->userSession = $this->createMock(IUserSession::class);
-		$this->logger = $this->createMock(ILogger::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->request = $this->createMock(IRequest::class);
 		$this->accountManager = $this->createMock(AccountManager::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
@@ -715,12 +715,13 @@ class UsersControllerTest extends TestCase {
 			->will($this->throwException($exception));
 		$this->logger
 			->expects($this->once())
-			->method('logException')
-			->with($exception, [
-				'message' => 'Failed addUser attempt with exception.',
-				'level' => ILogger::ERROR,
-				'app' => 'ocs_api',
-			]);
+			->method('error')
+			->with('Failed addUser attempt with exception.',
+				[
+					'app' => 'ocs_api',
+					'exception' => $exception
+				]
+			);
 		$loggedInUser = $this->getMockBuilder(IUser::class)
 			->disableOriginalConstructor()
 			->getMock();

@@ -42,16 +42,16 @@ use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
-use OCP\ILogger;
 use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
+use Psr\Log\LoggerInterface;
 
 class GroupsController extends AUserData {
 
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	private $logger;
 
 	public function __construct(string $appName,
@@ -62,7 +62,7 @@ class GroupsController extends AUserData {
 								IUserSession $userSession,
 								AccountManager $accountManager,
 								IFactory $l10nFactory,
-								ILogger $logger) {
+								LoggerInterface $logger) {
 		parent::__construct($appName,
 			$request,
 			$userManager,
