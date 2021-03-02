@@ -75,6 +75,11 @@ class ListConfigs extends Base {
 		$app = $input->getArgument('app');
 		$noSensitiveValues = !$input->getOption('private');
 
+		if (!is_string($app)) {
+			$output->writeln('<error>Invalid app value given</error>');
+			return 1;
+		}
+
 		switch ($app) {
 			case 'system':
 				$configs = [
