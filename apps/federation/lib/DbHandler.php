@@ -87,7 +87,7 @@ class DbHandler {
 		$result = $query->execute();
 
 		if ($result) {
-			return (int)$this->connection->lastInsertId('*PREFIX*'.$this->dbTable);
+			return $query->getLastInsertId();
 		}
 
 		$message = 'Internal failure, Could not add trusted server: ' . $url;
