@@ -32,6 +32,7 @@ return array(
     'OCA\\Settings\\Controller\\WebAuthnController' => $baseDir . '/../lib/Controller/WebAuthnController.php',
     'OCA\\Settings\\Events\\BeforeTemplateRenderedEvent' => $baseDir . '/../lib/Events/BeforeTemplateRenderedEvent.php',
     'OCA\\Settings\\Hooks' => $baseDir . '/../lib/Hooks.php',
+    'OCA\\Settings\\Listener\\AppPasswordCreatedActivityListener' => $baseDir . '/../lib/Listener/AppPasswordCreatedActivityListener.php',
     'OCA\\Settings\\Mailer\\NewUserMailHelper' => $baseDir . '/../lib/Mailer/NewUserMailHelper.php',
     'OCA\\Settings\\Middleware\\SubadminMiddleware' => $baseDir . '/../lib/Middleware/SubadminMiddleware.php',
     'OCA\\Settings\\Search\\AppSearch' => $baseDir . '/../lib/Search/AppSearch.php',

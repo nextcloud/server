@@ -662,6 +662,7 @@ return array(
     'OC\\Archive\\TAR' => $baseDir . '/lib/private/Archive/TAR.php',
     'OC\\Archive\\ZIP' => $baseDir . '/lib/private/Archive/ZIP.php',
     'OC\\Authentication\\Events\\ARemoteWipeEvent' => $baseDir . '/lib/private/Authentication/Events/ARemoteWipeEvent.php',
+    'OC\\Authentication\\Events\\AppPasswordCreatedEvent' => $baseDir . '/lib/private/Authentication/Events/AppPasswordCreatedEvent.php',
     'OC\\Authentication\\Events\\LoginFailed' => $baseDir . '/lib/private/Authentication/Events/LoginFailed.php',
     'OC\\Authentication\\Events\\RemoteWipeFinished' => $baseDir . '/lib/private/Authentication/Events/RemoteWipeFinished.php',
     'OC\\Authentication\\Events\\RemoteWipeStarted' => $baseDir . '/lib/private/Authentication/Events/RemoteWipeStarted.php',

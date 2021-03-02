@@ -691,6 +691,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Archive\\TAR' => __DIR__ . '/../../..' . '/lib/private/Archive/TAR.php',
         'OC\\Archive\\ZIP' => __DIR__ . '/../../..' . '/lib/private/Archive/ZIP.php',
         'OC\\Authentication\\Events\\ARemoteWipeEvent' => __DIR__ . '/../../..' . '/lib/private/Authentication/Events/ARemoteWipeEvent.php',
+        'OC\\Authentication\\Events\\AppPasswordCreatedEvent' => __DIR__ . '/../../..' . '/lib/private/Authentication/Events/AppPasswordCreatedEvent.php',
         'OC\\Authentication\\Events\\LoginFailed' => __DIR__ . '/../../..' . '/lib/private/Authentication/Events/LoginFailed.php',
         'OC\\Authentication\\Events\\RemoteWipeFinished' => __DIR__ . '/../../..' . '/lib/private/Authentication/Events/RemoteWipeFinished.php',
         'OC\\Authentication\\Events\\RemoteWipeStarted' => __DIR__ . '/../../..' . '/lib/private/Authentication/Events/RemoteWipeStarted.php',
