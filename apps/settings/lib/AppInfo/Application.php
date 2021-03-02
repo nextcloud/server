@@ -38,10 +38,11 @@ namespace OCA\Settings\AppInfo;
 use OC\AppFramework\Utility\TimeFactory;
 use OC\Authentication\Events\AppPasswordCreatedEvent;
 use OC\Authentication\Token\IProvider;
-use OC\Group\Manager;
 use OC\Server;
 use OCA\Settings\Hooks;
 use OCA\Settings\Listener\AppPasswordCreatedActivityListener;
+use OCA\Settings\Listener\UserAddedToGroupActivityListener;
+use OCA\Settings\Listener\UserRemovedFromGroupActivityListener;
 use OCA\Settings\Mailer\NewUserMailHelper;
 use OCA\Settings\Middleware\SubadminMiddleware;
 use OCA\Settings\Search\AppSearch;
@@ -52,10 +53,9 @@ use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\AppFramework\IAppContainer;
 use OCP\Defaults;
-use OCP\IGroup;
-use OCP\IGroupManager;
+use OCP\Group\Events\UserAddedEvent;
+use OCP\Group\Events\UserRemovedEvent;
 use OCP\IServerContainer;
-use OCP\IUser;
 use OCP\Settings\IManager;
 use OCP\Util;
 
@@ -78,6 +78,8 @@ class Application extends App implements IBootstrap {
 
 		// Register listeners
 		$context->registerEventListener(AppPasswordCreatedEvent::class, AppPasswordCreatedActivityListener::class);
+		$context->registerEventListener(UserAddedEvent::class, UserAddedToGroupActivityListener::class);
+		$context->registerEventListener(UserRemovedEvent::class, UserRemovedFromGroupActivityListener::class);
 
 		/**
 		 * Core class wrappers
@@ -129,26 +131,7 @@ class Application extends App implements IBootstrap {
 	public function boot(IBootContext $context): void {
 		Util::connectHook('OC_User', 'post_setPassword', $this, 'onChangePassword');
 		Util::connectHook('OC_User', 'changeUser', $this, 'onChangeInfo');
-
-		$context->injectFn(function (IGroupManager $groupManager) {
-			/** @var IGroupManager|Manager $groupManager */
-			$groupManager->listen('\OC\Group', 'postRemoveUser',  [$this, 'removeUserFromGroup']);
-			$groupManager->listen('\OC\Group', 'postAddUser',  [$this, 'addUserToGroup']);
-		});
 	}
-
-	public function addUserToGroup(IGroup $group, IUser $user): void {
-		/** @var Hooks $hooks */
-		$hooks = $this->getContainer()->query(Hooks::class);
-		$hooks->addUserToGroup($group, $user);
-	}
-
-	public function removeUserFromGroup(IGroup $group, IUser $user): void {
-		/** @var Hooks $hooks */
-		$hooks = $this->getContainer()->query(Hooks::class);
-		$hooks->removeUserFromGroup($group, $user);
-	}
-
 
 	/**
 	 * @param array $parameters
