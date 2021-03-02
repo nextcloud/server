@@ -234,6 +234,8 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 				)
 			);
 
+
+
 			$securityMiddleware = new SecurityMiddleware(
 				$c->get(IRequest::class),
 				$c->get(IControllerMethodReflector::class),
@@ -242,7 +244,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 				$server->query(ILogger::class),
 				$c->get('AppName'),
 				$server->getUserSession()->isLoggedIn(),
-				$server->getGroupManager()->isAdmin($this->getUserId()),
+				$this->getUserId() !== null && $server->getGroupManager()->isAdmin($this->getUserId()),
 				$server->getUserSession()->getUser() !== null && $server->query(ISubAdmin::class)->isSubAdmin($server->getUserSession()->getUser()),
 				$server->getAppManager(),
 				$server->getL10N('lib')

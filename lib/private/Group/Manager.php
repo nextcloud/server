@@ -276,7 +276,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 	 * @param string $uid the user id
 	 * @return \OC\Group\Group[]
 	 */
-	public function getUserIdGroups($uid) {
+	public function getUserIdGroups(string $uid): array {
 		$groups = [];
 
 		foreach ($this->getUserIdGroupIds($uid) as $groupId) {
@@ -321,17 +321,17 @@ class Manager extends PublicEmitter implements IGroupManager {
 	 * get a list of group ids for a user
 	 *
 	 * @param IUser $user
-	 * @return array with group ids
+	 * @return string[] with group ids
 	 */
-	public function getUserGroupIds(IUser $user) {
+	public function getUserGroupIds(IUser $user): array {
 		return $this->getUserIdGroupIds($user->getUID());
 	}
 
 	/**
 	 * @param string $uid the user id
-	 * @return GroupInterface[]
+	 * @return string[]
 	 */
-	private function getUserIdGroupIds($uid) {
+	private function getUserIdGroupIds(string $uid): array {
 		if (!isset($this->cachedUserGroups[$uid])) {
 			$groups = [];
 			foreach ($this->backends as $backend) {
