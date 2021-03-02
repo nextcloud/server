@@ -762,8 +762,6 @@
     </InvalidReturnType>
     <NullableReturnStatement occurrences="8">
       <code>null</code>
-      <code>$this-&gt;circleToPrincipal($name)</code>
-      <code>null</code>
       <code>null</code>
       <code>null</code>
       <code>null</code>
@@ -1227,7 +1225,6 @@
   </file>
   <file src="apps/federatedfilesharing/lib/Notifications.php">
     <InvalidReturnType occurrences="3">
-      <code>bool</code>
       <code>bool</code>
       <code>bool</code>
       <code>bool</code>
@@ -2327,10 +2324,6 @@
     <InvalidScalarArgument occurrences="1">
       <code>(int)$cacheBusterKey+1</code>
     </InvalidScalarArgument>
-    <NullArgument occurrences="2">
-      <code>null</code>
-      <code>null</code>
-    </NullArgument>
   </file>
   <file src="apps/theming/lib/Util.php">
     <InvalidReturnStatement occurrences="1">
@@ -2425,8 +2418,7 @@
     <InvalidReturnType occurrences="1">
       <code>string[]</code>
     </InvalidReturnType>
-    <InvalidScalarArgument occurrences="4">
-      <code>[$attr =&gt; $result['values']]</code>
+    <InvalidScalarArgument occurrences="3">
       <code>$key</code>
       <code>$key</code>
       <code>$e-&gt;getCode()</code>
@@ -2450,9 +2442,6 @@
       <code>!is_null($attr) &amp;&amp; !is_array($attr)</code>
       <code>isset($ldapRecord[$this-&gt;connection-&gt;$uuidAttr])</code>
     </TypeDoesNotContainType>
-    <UndefinedVariable occurrences="1">
-      <code>$uidsByDn</code>
-    </UndefinedVariable>
   </file>
   <file src="apps/user_ldap/lib/AppInfo/Application.php">
     <InvalidArgument occurrences="1">
@@ -2481,8 +2470,7 @@
     <ParadoxicalCondition occurrences="1"/>
   </file>
   <file src="apps/user_ldap/lib/Group_LDAP.php">
-    <InvalidArgument occurrences="2">
-      <code>'dn'</code>
+    <InvalidArgument occurrences="1">
       <code>$this-&gt;cachedGroupsByMember[$uid]</code>
     </InvalidArgument>
     <InvalidPropertyAssignmentValue occurrences="5">
@@ -3104,7 +3092,7 @@
   </file>
   <file src="core/routes.php">
     <InvalidScope occurrences="2">
-      <code>$this</code>
+      <code>$this-&gt;create('core_ajax_update', '/core/ajax/update.php')</code>
       <code>$this</code>
     </InvalidScope>
   </file>
@@ -4772,14 +4760,6 @@
       <code>true</code>
     </InvalidReturnType>
   </file>
-  <file src="lib/private/Files/Stream/Encryption.php">
-    <InvalidScalarArgument occurrences="1">
-      <code>$position</code>
-    </InvalidScalarArgument>
-    <UndefinedInterfaceMethod occurrences="1">
-      <code>offsetGet</code>
-    </UndefinedInterfaceMethod>
-  </file>
   <file src="lib/private/Files/Stream/SeekableHttpStream.php">
     <FalsableReturnStatement occurrences="3">
       <code>false</code>
@@ -5514,7 +5494,6 @@
       <code>$data</code>
     </InvalidArgument>
     <InvalidScalarArgument occurrences="2">
-      <code>$this-&gt;shareApiLinkDefaultExpireDays()</code>
       <code>$this-&gt;shareApiLinkDefaultExpireDays()</code>
       <code>$id</code>
     </InvalidScalarArgument>
