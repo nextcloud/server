@@ -77,13 +77,18 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 
 			$resolveName = $parameter->getName();
 
+			// Fallback since then we can only search for the name
+			if (!($parameterType instanceof \ReflectionNamedType)) {
+				return $this->query($resolveName);
+			}
+
 			// try to find out if it is a class or a simple parameter
-			if ($parameterType !== null && !$parameterType->isBuiltin()) {
+			if (!$parameterType->isBuiltin()) {
 				$resolveName = $parameterType->getName();
 			}
 
 			try {
-				$builtIn = $parameter->hasType() && $parameter->getType()->isBuiltin();
+				$builtIn = $parameter->hasType() && $parameterType->isBuiltin();
 				return $this->query($resolveName, !$builtIn);
 			} catch (QueryException $e) {
 				// Service not found, use the default value when available
@@ -91,7 +96,7 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 					return $parameter->getDefaultValue();
 				}
 
-				if ($parameterType !== null && !$parameterType->isBuiltin()) {
+				if (!$parameterType->isBuiltin()) {
 					$resolveName = $parameter->getName();
 					try {
 						return $this->query($resolveName);
