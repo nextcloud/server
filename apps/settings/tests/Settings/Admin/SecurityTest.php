@@ -32,7 +32,7 @@ use OC\Authentication\TwoFactorAuth\MandatoryTwoFactor;
 use OC\Encryption\Manager;
 use OCA\Settings\Settings\Admin\Security;
 use OCP\AppFramework\Http\TemplateResponse;
-use OCP\IInitialStateService;
+use OCP\AppFramework\Services\IInitialState;
 use OCP\IUserManager;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
@@ -46,7 +46,7 @@ class SecurityTest extends TestCase {
 	private $userManager;
 	/** @var MandatoryTwoFactor|MockObject */
 	private $mandatoryTwoFactor;
-	/** @var IInitialStateService|MockObject */
+	/** @var IInitialState|MockObject */
 	private $initialState;
 
 	protected function setUp(): void {
@@ -54,7 +54,7 @@ class SecurityTest extends TestCase {
 		$this->manager = $this->getMockBuilder(Manager::class)->disableOriginalConstructor()->getMock();
 		$this->userManager = $this->getMockBuilder(IUserManager::class)->getMock();
 		$this->mandatoryTwoFactor = $this->createMock(MandatoryTwoFactor::class);
-		$this->initialState = $this->createMock(IInitialStateService::class);
+		$this->initialState = $this->createMock(IInitialState::class);
 
 		$this->admin = new Security(
 			$this->manager,

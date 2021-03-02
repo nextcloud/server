@@ -29,8 +29,8 @@ namespace OCA\Settings\Settings\Admin;
 
 use OC\Authentication\TwoFactorAuth\MandatoryTwoFactor;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Services\IInitialState;
 use OCP\Encryption\IManager;
-use OCP\IInitialStateService;
 use OCP\IUserManager;
 use OCP\Settings\ISettings;
 
@@ -45,13 +45,13 @@ class Security implements ISettings {
 	/** @var MandatoryTwoFactor */
 	private $mandatoryTwoFactor;
 
-	/** @var IInitialStateService */
+	/** @var IInitialState */
 	private $initialState;
 
 	public function __construct(IManager $manager,
 								IUserManager $userManager,
 								MandatoryTwoFactor $mandatoryTwoFactor,
-								IInitialStateService $initialState) {
+								IInitialState $initialState) {
 		$this->manager = $manager;
 		$this->userManager = $userManager;
 		$this->mandatoryTwoFactor = $mandatoryTwoFactor;
@@ -61,7 +61,7 @@ class Security implements ISettings {
 	/**
 	 * @return TemplateResponse
 	 */
-	public function getForm() {
+	public function getForm(): TemplateResponse {
 		$encryptionModules = $this->manager->getEncryptionModules();
 		$defaultEncryptionModuleId = $this->manager->getDefaultEncryptionModuleId();
 		$encryptionModuleList = [];
@@ -74,7 +74,6 @@ class Security implements ISettings {
 		}
 
 		$this->initialState->provideInitialState(
-			'settings',
 			'mandatory2FAState',
 			$this->mandatoryTwoFactor->getState()
 		);
@@ -94,7 +93,7 @@ class Security implements ISettings {
 	/**
 	 * @return string the section ID, e.g. 'sharing'
 	 */
-	public function getSection() {
+	public function getSection(): string {
 		return 'security';
 	}
 
@@ -105,7 +104,7 @@ class Security implements ISettings {
 	 *
 	 * E.g.: 70
 	 */
-	public function getPriority() {
+	public function getPriority(): int {
 		return 10;
 	}
 }
