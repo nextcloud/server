@@ -6,6 +6,8 @@ OC.L10N.register(
     "High contrast mode" : "Mòde fòrt contraste",
     "Enable high contrast mode" : "Activar lo mòde fòrt contraste",
     "A high contrast mode to ease your navigation. Visual quality will be reduced but clarity will be increased." : "Un mòde fòrt contraste per facilitar la navegacion. La qualitat visuala baissarà mas la claror serà aumentada.",
+    "Dyslexia font" : "Poliça dyslexia",
+    "Enable dyslexia font" : "Activar la poliça dyslexia",
     "Accessibility" : "Accessibilitat",
     "Accessibility options for nextcloud" : "Opcions d’accessibilitat per nextcloud"
 },
