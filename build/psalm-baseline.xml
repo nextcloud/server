@@ -59,11 +59,6 @@
       <code>\Sabre\Uri\split($this-&gt;principalUri)</code>
     </UndefinedFunction>
   </file>
-  <file src="apps/contactsinteraction/lib/Card.php">
-    <InvalidReturnType occurrences="1">
-      <code>?string</code>
-    </InvalidReturnType>
-  </file>
   <file src="apps/dav/appinfo/v1/caldav.php">
     <TooManyArguments occurrences="1">
       <code>new \Sabre\DAV\Auth\Plugin($authBackend, 'ownCloud')</code>
