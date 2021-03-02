@@ -364,9 +364,8 @@ class CheckSetupController extends Controller {
 
 	/**
 	 * @NoCSRFRequired
-	 * @return DataResponse
 	 */
-	public function getFailedIntegrityCheckFiles() {
+	public function getFailedIntegrityCheckFiles(): DataDisplayResponse {
 		if (!$this->checker->isCodeCheckEnforced()) {
 			return new DataDisplayResponse('Integrity checker has been disabled. Integrity cannot be verified.');
 		}
@@ -410,15 +409,13 @@ Raw output
 		}
 
 
-		$response = new DataDisplayResponse(
+		return new DataDisplayResponse(
 			$formattedTextResponse,
 			Http::STATUS_OK,
 			[
 				'Content-Type' => 'text/plain',
 			]
 		);
-
-		return $response;
 	}
 
 	/**
