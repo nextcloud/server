@@ -258,7 +258,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 						->setType('remote_share')
 						->setSubject(RemoteShares::SUBJECT_REMOTE_SHARE_RECEIVED, [$ownerFederatedId, trim($name, '/')])
 						->setAffectedUser($shareWith)
-						->setObject('remote_share', (int)$shareId, $name);
+						->setObject('remote_share', $shareId, $name);
 					\OC::$server->getActivityManager()->publish($event);
 					$this->notifyAboutNewShare($shareWith, $shareId, $ownerFederatedId, $sharedByFederatedId, $name);
 				} else {
@@ -269,7 +269,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 							->setType('remote_share')
 							->setSubject(RemoteShares::SUBJECT_REMOTE_SHARE_RECEIVED, [$ownerFederatedId, trim($name, '/')])
 							->setAffectedUser($user->getUID())
-							->setObject('remote_share', (int)$shareId, $name);
+							->setObject('remote_share', $shareId, $name);
 						\OC::$server->getActivityManager()->publish($event);
 						$this->notifyAboutNewShare($user->getUID(), $shareId, $ownerFederatedId, $sharedByFederatedId, $name);
 					}
