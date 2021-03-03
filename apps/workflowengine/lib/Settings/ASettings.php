@@ -28,9 +28,9 @@ namespace OCA\WorkflowEngine\Settings;
 use OCA\WorkflowEngine\AppInfo\Application;
 use OCA\WorkflowEngine\Manager;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Services\IInitialState;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
-use OCP\IInitialStateService;
 use OCP\IL10N;
 use OCP\Settings\ISettings;
 use OCP\WorkflowEngine\Events\LoadSettingsScriptsEvent;
@@ -54,7 +54,7 @@ abstract class ASettings implements ISettings {
 	/** @var Manager */
 	protected $manager;
 
-	/** @var IInitialStateService */
+	/** @var IInitialState */
 	private $initialStateService;
 
 	/** @var IConfig */
@@ -65,7 +65,7 @@ abstract class ASettings implements ISettings {
 		IL10N $l,
 		IEventDispatcher $eventDispatcher,
 		Manager $manager,
-		IInitialStateService $initialStateService,
+		IInitialState $initialStateService,
 		IConfig $config
 	) {
 		$this->appName = $appName;
@@ -81,7 +81,7 @@ abstract class ASettings implements ISettings {
 	/**
 	 * @return TemplateResponse
 	 */
-	public function getForm() {
+	public function getForm(): TemplateResponse {
 		// @deprecated in 20.0.0: retire this one in favor of the typed event
 		$this->eventDispatcher->dispatch(
 			'OCP\WorkflowEngine::loadAdditionalSettingScripts',
@@ -91,33 +91,28 @@ abstract class ASettings implements ISettings {
 
 		$entities = $this->manager->getEntitiesList();
 		$this->initialStateService->provideInitialState(
-			Application::APP_ID,
 			'entities',
 			$this->entitiesToArray($entities)
 		);
 
 		$operators = $this->manager->getOperatorList();
 		$this->initialStateService->provideInitialState(
-			Application::APP_ID,
 			'operators',
 			$this->operatorsToArray($operators)
 		);
 
 		$checks = $this->manager->getCheckList();
 		$this->initialStateService->provideInitialState(
-			Application::APP_ID,
 			'checks',
 			$this->checksToArray($checks)
 		);
 
 		$this->initialStateService->provideInitialState(
-			Application::APP_ID,
 			'scope',
 			$this->getScope()
 		);
 
 		$this->initialStateService->provideInitialState(
-			Application::APP_ID,
 			'appstoreenabled',
 			$this->config->getSystemValueBool('appstoreenabled', true)
 		);
@@ -128,7 +123,7 @@ abstract class ASettings implements ISettings {
 	/**
 	 * @return string the section ID, e.g. 'sharing'
 	 */
-	public function getSection() {
+	public function getSection(): ?string {
 		return 'workflow';
 	}
 
@@ -139,7 +134,7 @@ abstract class ASettings implements ISettings {
 	 *
 	 * E.g.: 70
 	 */
-	public function getPriority() {
+	public function getPriority(): int {
 		return 0;
 	}
 
