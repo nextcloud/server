@@ -822,7 +822,7 @@ describe('OC.SetupChecks tests', function() {
 
 			async.done(function( data, s, x ){
 				expect(data).toEqual([{
-						msg: 'The PHP OPcache is not properly configured. <a target="_blank" rel="noreferrer noopener" class="external" href="https://example.org/link/to/doc">For better performance it is recommended ↗</a> to use the following settings in the <code>php.ini</code>:' + "<pre><code>opcache.enable=1\nopcache.interned_strings_buffer=8\nopcache.max_accelerated_files=10000\nopcache.memory_consumption=128\nopcache.save_comments=1\nopcache.revalidate_freq=1</code></pre>",
+						msg: 'The PHP OPcache module is not properly configured. <a target="_blank" rel="noreferrer noopener" class="external" href="https://example.org/link/to/doc">For better performance it is recommended ↗</a> to use the following settings in the <code>php.ini</code>:' + "<pre><code>opcache.enable=1\nopcache.interned_strings_buffer=8\nopcache.max_accelerated_files=10000\nopcache.memory_consumption=128\nopcache.save_comments=1\nopcache.revalidate_freq=1</code></pre>",
 						type: OC.SetupChecks.MESSAGE_TYPE_INFO
 					}]);
 				done();
