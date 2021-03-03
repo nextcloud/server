@@ -40,7 +40,6 @@ import { dav } from 'davclient.js'
 import Handlebars from 'handlebars'
 import 'jcrop/js/jquery.Jcrop'
 import 'jcrop/css/jquery.Jcrop.css'
-import jstimezonedetect from 'jstimezonedetect'
 import md5 from 'blueimp-md5'
 import moment from 'moment'
 import 'select2'
@@ -105,7 +104,6 @@ setDeprecatedProp('Backbone', () => Backbone, 'please ship your own, this will b
 setDeprecatedProp(['Clipboard', 'ClipboardJS'], () => ClipboardJS, 'please ship your own, this will be removed in Nextcloud 20')
 window.dav = dav
 setDeprecatedProp('Handlebars', () => Handlebars, 'please ship your own, this will be removed in Nextcloud 20')
-setDeprecatedProp(['jstz', 'jstimezonedetect'], () => jstimezonedetect, 'please ship your own, this will be removed in Nextcloud 20')
 setDeprecatedProp('md5', () => md5, 'please ship your own, this will be removed in Nextcloud 20')
 setDeprecatedProp('moment', () => moment, 'please ship your own, this will be removed in Nextcloud 20')
 
