@@ -60,7 +60,6 @@ use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
-use OCP\ILogger;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUser;
@@ -70,6 +69,7 @@ use OCP\L10N\IFactory;
 use OCP\Security\ISecureRandom;
 use OCP\Security\Events\GenerateSecurePasswordEvent;
 use OCP\EventDispatcher\IEventDispatcher;
+use Psr\Log\LoggerInterface;
 
 class UsersController extends AUserData {
 
@@ -77,7 +77,7 @@ class UsersController extends AUserData {
 	private $appManager;
 	/** @var IURLGenerator */
 	protected $urlGenerator;
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	private $logger;
 	/** @var IFactory */
 	protected $l10nFactory;
@@ -101,7 +101,7 @@ class UsersController extends AUserData {
 								IUserSession $userSession,
 								AccountManager $accountManager,
 								IURLGenerator $urlGenerator,
-								ILogger $logger,
+								LoggerInterface $logger,
 								IFactory $l10nFactory,
 								NewUserMailHelper $newUserMailHelper,
 								FederatedShareProviderFactory $federatedShareProviderFactory,
@@ -417,36 +417,40 @@ class UsersController extends AUserData {
 					} catch (\Exception $e) {
 						// Mail could be failing hard or just be plain not configured
 						// Logging error as it is the hardest of the two
-						$this->logger->logException($e, [
-							'message' => "Unable to send the invitation mail to $email",
-							'level' => ILogger::ERROR,
-							'app' => 'ocs_api',
-						]);
+						$this->logger->error("Unable to send the invitation mail to $email",
+							[
+								'app' => 'ocs_api',
+								'exception' => $e,
+							]
+						);
 					}
 				}
 			}
 
 			return new DataResponse(['id' => $userid]);
 		} catch (HintException $e) {
-			$this->logger->logException($e, [
-				'message' => 'Failed addUser attempt with hint exception.',
-				'level' => ILogger::WARN,
-				'app' => 'ocs_api',
-			]);
+			$this->logger->warning('Failed addUser attempt with hint exception.',
+				[
+					'app' => 'ocs_api',
+					'exception' => $e,
+				]
+			);
 			throw new OCSException($e->getHint(), 107);
 		} catch (OCSException $e) {
-			$this->logger->logException($e, [
-				'message' => 'Failed addUser attempt with ocs exeption.',
-				'level' => ILogger::ERROR,
-				'app' => 'ocs_api',
-			]);
+			$this->logger->warning('Failed addUser attempt with ocs exeption.',
+				[
+					'app' => 'ocs_api',
+					'exception' => $e,
+				]
+			);
 			throw $e;
 		} catch (\Exception $e) {
-			$this->logger->logException($e, [
-				'message' => 'Failed addUser attempt with exception.',
-				'level' => ILogger::ERROR,
-				'app' => 'ocs_api',
-			]);
+			$this->logger->error('Failed addUser attempt with exception.',
+				[
+					'app' => 'ocs_api',
+					'exception' => $e
+				]
+			);
 			throw new OCSException('Bad request', 101);
 		}
 	}
@@ -1047,11 +1051,12 @@ class UsersController extends AUserData {
 			$emailTemplate = $this->newUserMailHelper->generateTemplate($targetUser, false);
 			$this->newUserMailHelper->sendMail($targetUser, $emailTemplate);
 		} catch (\Exception $e) {
-			$this->logger->logException($e, [
-				'message' => "Can't send new user mail to $email",
-				'level' => ILogger::ERROR,
-				'app' => 'settings',
-			]);
+			$this->logger->error("Can't send new user mail to $email",
+				[
+					'app' => 'settings',
+					'exception' => $e,
+				]
+			);
 			throw new OCSException('Sending email failed', 102);
 		}
 

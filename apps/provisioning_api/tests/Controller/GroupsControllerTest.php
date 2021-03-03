@@ -37,13 +37,13 @@ use OC\User\NoUserException;
 use OCA\Provisioning_API\Controller\GroupsController;
 use OCP\Accounts\IAccountManager;
 use OCP\IConfig;
-use OCP\ILogger;
 use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\UserInterface;
+use Psr\Log\LoggerInterface;
 
 class GroupsControllerTest extends \Test\TestCase {
 
@@ -59,7 +59,7 @@ class GroupsControllerTest extends \Test\TestCase {
 	protected $userSession;
 	/** @var AccountManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $accountManager;
-	/** @var ILogger|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
 	protected $logger;
 	/** @var  SubAdmin|\PHPUnit\Framework\MockObject\MockObject */
 	protected $subAdminManager;
@@ -78,7 +78,7 @@ class GroupsControllerTest extends \Test\TestCase {
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->accountManager = $this->createMock(AccountManager::class);
 		$this->l10nFactory = $this->createMock(IFactory::class);
-		$this->logger = $this->createMock(ILogger::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 
 		$this->subAdminManager = $this->createMock(SubAdmin::class);
 
