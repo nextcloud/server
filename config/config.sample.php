@@ -306,6 +306,15 @@ $CONFIG = [
 'auth.webauthn.enabled' => true,
 
 /**
+ * By default the login form is always available. There are cases (SSO) where an
+ * admin wants to avoid users entering their credentials to the system if the SSO
+ * app is unavailable.
+ *
+ * This will show an error. But the the direct login still works with adding ?direct=1
+ */
+'hide_login_form' => false,
+
+/**
  * The directory where the skeleton files are located. These files will be
  * copied to the data directory of new users. Leave empty to not copy any
  * skeleton files.

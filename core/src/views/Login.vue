@@ -20,7 +20,7 @@
   -->
 
 <template>
-	<div>
+	<div v-if="!hideLoginForm || directLogin">
 		<transition name="fade" mode="out-in">
 			<div v-if="!passwordlessLogin && !resetPassword && resetPasswordTarget === ''"
 				key="login">
@@ -81,6 +81,15 @@
 					:reset-password-target="resetPasswordTarget"
 					:inverted-colors="invertedColors"
 					@done="passwordResetFinished" />
+			</div>
+		</transition>
+	</div>
+	<div v-else>
+		<transition name="fade" mode="out-in">
+			<div class="warning">
+				{{ t('core', 'Login form is disabled.') }}<br>
+				<small>{{ t('core', 'Please contact your administrator.') }}
+				</small>
 			</div>
 		</transition>
 	</div>
@@ -153,6 +162,10 @@ export default {
 			type: Boolean,
 			default: false,
 		},
+		hideLoginForm: {
+			type: Boolean,
+			default: false
+		}
 	},
 	data() {
 		return {
