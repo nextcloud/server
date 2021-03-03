@@ -29,7 +29,6 @@ use OC\AppFramework\Http;
 use OC\AppFramework\OCS\BaseResponse;
 use OC\AppFramework\OCS\V1Response;
 use OC\AppFramework\OCS\V2Response;
-use OCP\API;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\JSONResponse;
@@ -80,7 +79,7 @@ class OCSMiddleware extends Middleware {
 		if ($controller instanceof OCSController && $exception instanceof OCSException) {
 			$code = $exception->getCode();
 			if ($code === 0) {
-				$code = API::RESPOND_UNKNOWN_ERROR;
+				$code = \OCP\AppFramework\OCSController::RESPOND_UNKNOWN_ERROR;
 			}
 
 			return $this->buildNewResponse($controller, $code, $exception->getMessage());
@@ -109,7 +108,7 @@ class OCSMiddleware extends Middleware {
 					$message = $response->getData()['message'];
 				}
 
-				return $this->buildNewResponse($controller, API::RESPOND_UNAUTHORISED, $message);
+				return $this->buildNewResponse($controller, OCSController::RESPOND_UNAUTHORISED, $message);
 			}
 		}
 

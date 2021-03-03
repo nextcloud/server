@@ -67,14 +67,14 @@ try {
 	$format = \OC::$server->getRequest()->getParam('format', 'xml');
 	$txt = 'Invalid query, please check the syntax. API specifications are here:'
 		.' http://www.freedesktop.org/wiki/Specifications/open-collaboration-services.'."\n";
-	OC_API::respond(new \OC\OCS\Result(null, \OCP\API::RESPOND_NOT_FOUND, $txt), $format);
+	OC_API::respond(new \OC\OCS\Result(null, \OCP\AppFramework\OCSController::RESPOND_NOT_FOUND, $txt), $format);
 } catch (MethodNotAllowedException $e) {
 	OC_API::setContentType();
 	http_response_code(405);
 } catch (\OC\OCS\Exception $ex) {
 	OC_API::respond($ex->getResult(), OC_API::requestedFormat());
 } catch (\OC\User\LoginException $e) {
-	OC_API::respond(new \OC\OCS\Result(null, \OCP\API::RESPOND_UNAUTHORISED, 'Unauthorised'));
+	OC_API::respond(new \OC\OCS\Result(null, \OCP\AppFramework\OCSController::RESPOND_UNAUTHORISED, 'Unauthorised'));
 } catch (\Exception $e) {
 	\OC::$server->getLogger()->logException($e);
 	OC_API::setContentType();
@@ -82,5 +82,5 @@ try {
 	$format = \OC::$server->getRequest()->getParam('format', 'xml');
 	$txt = 'Invalid query, please check the syntax. API specifications are here:'
 		.' http://www.freedesktop.org/wiki/Specifications/open-collaboration-services.'."\n";
-	OC_API::respond(new \OC\OCS\Result(null, \OCP\API::RESPOND_NOT_FOUND, $txt), $format);
+	OC_API::respond(new \OC\OCS\Result(null, \OCP\AppFramework\OCSController::RESPOND_NOT_FOUND, $txt), $format);
 }

@@ -42,6 +42,10 @@ use OCP\IRequest;
  * @since 8.1.0
  */
 abstract class OCSController extends ApiController {
+	public const RESPOND_UNAUTHORISED = 997;
+	public const RESPOND_SERVER_ERROR = 996;
+	public const RESPOND_NOT_FOUND = 998;
+	public const RESPOND_UNKNOWN_ERROR = 999;
 
 	/** @var int */
 	private $ocsVersion;
