@@ -167,7 +167,7 @@ class JSConfigHelper {
 
 		$countOfDataLocation = 0;
 		$dataLocation = str_replace(\OC::$SERVERROOT . '/', '', $this->config->getSystemValue('datadirectory', ''), $countOfDataLocation);
-		if ($countOfDataLocation !== 1 || !$this->groupManager->isAdmin($uid)) {
+		if ($countOfDataLocation !== 1 || $uid === null || !$this->groupManager->isAdmin($uid)) {
 			$dataLocation = false;
 		}
 
@@ -198,7 +198,7 @@ class JSConfigHelper {
 
 		$array = [
 			"_oc_debug" => $this->config->getSystemValue('debug', false) ? 'true' : 'false',
-			"_oc_isadmin" => $this->groupManager->isAdmin($uid) ? 'true' : 'false',
+			"_oc_isadmin" => $uid !== null && $this->groupManager->isAdmin($uid) ? 'true' : 'false',
 			"backendAllowsPasswordConfirmation" => $userBackendAllowsPasswordConfirmation ? 'true' : 'false',
 			"oc_dataURL" => is_string($dataLocation) ? "\"" . $dataLocation . "\"" : 'false',
 			"_oc_webroot" => "\"" . \OC::$WEBROOT . "\"",
