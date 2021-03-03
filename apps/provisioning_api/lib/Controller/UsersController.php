@@ -57,6 +57,7 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
+use OCP\AppFramework\OCSController;
 use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
@@ -469,7 +470,7 @@ class UsersController extends AUserData {
 		$data = $this->getUserData($userId);
 		// getUserData returns empty array if not enough permissions
 		if (empty($data)) {
-			throw new OCSException('', \OCP\API::RESPOND_UNAUTHORISED);
+			throw new OCSException('', OCSController::RESPOND_UNAUTHORISED);
 		}
 		return new DataResponse($data);
 	}
@@ -494,7 +495,7 @@ class UsersController extends AUserData {
 			return new DataResponse($data);
 		}
 
-		throw new OCSException('', \OCP\API::RESPOND_UNAUTHORISED);
+		throw new OCSException('', OCSController::RESPOND_UNAUTHORISED);
 	}
 
 	/**
@@ -541,7 +542,7 @@ class UsersController extends AUserData {
 
 		$targetUser = $this->userManager->get($userId);
 		if ($targetUser === null) {
-			throw new OCSException('', \OCP\API::RESPOND_UNAUTHORISED);
+			throw new OCSException('', OCSController::RESPOND_UNAUTHORISED);
 		}
 
 		$permittedFields = [];
@@ -597,12 +598,12 @@ class UsersController extends AUserData {
 				$permittedFields[] = 'quota';
 			} else {
 				// No rights
-				throw new OCSException('', \OCP\API::RESPOND_UNAUTHORISED);
+				throw new OCSException('', OCSController::RESPOND_UNAUTHORISED);
 			}
 		}
 		// Check if permitted to edit this field
 		if (!in_array($key, $permittedFields)) {
-			throw new OCSException('', \OCP\API::RESPOND_UNAUTHORISED);
+			throw new OCSException('', OCSController::RESPOND_UNAUTHORISED);
 		}
 		// Process the edit
 		switch ($key) {
@@ -702,7 +703,7 @@ class UsersController extends AUserData {
 		// If not permitted
 		$subAdminManager = $this->groupManager->getSubAdmin();
 		if (!$this->groupManager->isAdmin($currentLoggedInUser->getUID()) && !$subAdminManager->isUserAccessible($currentLoggedInUser, $targetUser)) {
-			throw new OCSException('', \OCP\API::RESPOND_UNAUTHORISED);
+			throw new OCSException('', OCSController::RESPOND_UNAUTHORISED);
 		}
 
 		$this->remoteWipe->markAllTokensForWipe($targetUser);
@@ -730,7 +731,7 @@ class UsersController extends AUserData {
 		// If not permitted
 		$subAdminManager = $this->groupManager->getSubAdmin();
 		if (!$this->groupManager->isAdmin($currentLoggedInUser->getUID()) && !$subAdminManager->isUserAccessible($currentLoggedInUser, $targetUser)) {
-			throw new OCSException('', \OCP\API::RESPOND_UNAUTHORISED);
+			throw new OCSException('', OCSController::RESPOND_UNAUTHORISED);
 		}
 
 		// Go ahead with the delete
@@ -784,7 +785,7 @@ class UsersController extends AUserData {
 		// If not permitted
 		$subAdminManager = $this->groupManager->getSubAdmin();
 		if (!$this->groupManager->isAdmin($currentLoggedInUser->getUID()) && !$subAdminManager->isUserAccessible($currentLoggedInUser, $targetUser)) {
-			throw new OCSException('', \OCP\API::RESPOND_UNAUTHORISED);
+			throw new OCSException('', OCSController::RESPOND_UNAUTHORISED);
 		}
 
 		// enable/disable the user now
@@ -805,7 +806,7 @@ class UsersController extends AUserData {
 
 		$targetUser = $this->userManager->get($userId);
 		if ($targetUser === null) {
-			throw new OCSException('', \OCP\API::RESPOND_NOT_FOUND);
+			throw new OCSException('', OCSController::RESPOND_NOT_FOUND);
 		}
 
 		if ($targetUser->getUID() === $loggedInUser->getUID() || $this->groupManager->isAdmin($loggedInUser->getUID())) {
@@ -831,7 +832,7 @@ class UsersController extends AUserData {
 				return new DataResponse(['groups' => $groups]);
 			} else {
 				// Not permitted
-				throw new OCSException('', \OCP\API::RESPOND_UNAUTHORISED);
+				throw new OCSException('', OCSController::RESPOND_UNAUTHORISED);
 			}
 		}
 	}
@@ -1031,7 +1032,7 @@ class UsersController extends AUserData {
 
 		$targetUser = $this->userManager->get($userId);
 		if ($targetUser === null) {
-			throw new OCSException('', \OCP\API::RESPOND_NOT_FOUND);
+			throw new OCSException('', OCSController::RESPOND_NOT_FOUND);
 		}
 
 		// Check if admin / subadmin
@@ -1039,7 +1040,7 @@ class UsersController extends AUserData {
 		if (!$subAdminManager->isUserAccessible($currentLoggedInUser, $targetUser)
 			&& !$this->groupManager->isAdmin($currentLoggedInUser->getUID())) {
 			// No rights
-			throw new OCSException('', \OCP\API::RESPOND_UNAUTHORISED);
+			throw new OCSException('', OCSController::RESPOND_UNAUTHORISED);
 		}
 
 		$email = $targetUser->getEMailAddress();

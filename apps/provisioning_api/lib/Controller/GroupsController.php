@@ -39,6 +39,7 @@ use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
+use OCP\AppFramework\OCSController;
 use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
@@ -195,7 +196,7 @@ class GroupsController extends AUserData {
 		if ($group !== null) {
 			$isSubadminOfGroup = $this->groupManager->getSubAdmin()->isSubAdminOfGroup($currentUser, $group);
 		} else {
-			throw new OCSException('The requested group could not be found', \OCP\API::RESPOND_NOT_FOUND);
+			throw new OCSException('The requested group could not be found', OCSController::RESPOND_NOT_FOUND);
 		}
 
 		// Check subadmin has access to this group
@@ -224,7 +225,7 @@ class GroupsController extends AUserData {
 			return new DataResponse(['users' => $usersDetails]);
 		}
 
-		throw new OCSException('User does not have access to specified group', \OCP\API::RESPOND_UNAUTHORISED);
+		throw new OCSException('User does not have access to specified group', OCSController::RESPOND_UNAUTHORISED);
 	}
 
 	/**
@@ -270,7 +271,7 @@ class GroupsController extends AUserData {
 
 			throw new OCSException('Not supported by backend', 101);
 		} else {
-			throw new OCSException('', \OCP\API::RESPOND_UNAUTHORISED);
+			throw new OCSException('', OCSController::RESPOND_UNAUTHORISED);
 		}
 	}
 

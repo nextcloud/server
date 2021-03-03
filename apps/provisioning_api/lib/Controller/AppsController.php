@@ -31,7 +31,6 @@ declare(strict_types=1);
 namespace OCA\Provisioning_API\Controller;
 
 use OC_App;
-use OCP\API;
 use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\DataResponse;
@@ -93,7 +92,7 @@ class AppsController extends OCSController {
 			return new DataResponse($info);
 		}
 
-		throw new OCSException('The request app was not found', API::RESPOND_NOT_FOUND);
+		throw new OCSException('The request app was not found', OCSController::RESPOND_NOT_FOUND);
 	}
 
 	/**
@@ -106,7 +105,7 @@ class AppsController extends OCSController {
 		try {
 			$this->appManager->enableApp($app);
 		} catch (AppPathNotFoundException $e) {
-			throw new OCSException('The request app was not found', API::RESPOND_NOT_FOUND);
+			throw new OCSException('The request app was not found', OCSController::RESPOND_NOT_FOUND);
 		}
 		return new DataResponse();
 	}
