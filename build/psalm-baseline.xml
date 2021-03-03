@@ -1082,12 +1082,6 @@
     </TypeDoesNotContainNull>
   </file>
   <file src="apps/federatedfilesharing/lib/FederatedShareProvider.php">
-    <InvalidReturnStatement occurrences="1">
-      <code>$shares</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
-      <code>getSharesInFolder</code>
-    </InvalidReturnType>
     <InvalidScalarArgument occurrences="5">
       <code>$shareId</code>
       <code>$shareId</code>
@@ -1914,13 +1908,6 @@
     <InvalidOperand occurrences="1">
       <code>$lastCronRun</code>
     </InvalidOperand>
-    <InvalidReturnStatement occurrences="2">
-      <code>$response</code>
-      <code>new DataDisplayResponse('Integrity checker has been disabled. Integrity cannot be verified.')</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
-      <code>DataResponse</code>
-    </InvalidReturnType>
     <InvalidScalarArgument occurrences="2">
       <code>$lastCronRun</code>
       <code>0</code>
@@ -1974,12 +1961,6 @@
     </NullableReturnStatement>
   </file>
   <file src="apps/sharebymail/lib/ShareByMailProvider.php">
-    <InvalidReturnStatement occurrences="1">
-      <code>$shares</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
-      <code>getSharesInFolder</code>
-    </InvalidReturnType>
     <InvalidScalarArgument occurrences="4">
       <code>$share-&gt;getId()</code>
       <code>$shareId</code>
@@ -2662,22 +2643,6 @@
       <code>$input-&gt;getOption('default-value')</code>
     </InvalidScalarArgument>
   </file>
-  <file src="core/Controller/AppPasswordController.php">
-    <InvalidArgument occurrences="1">
-      <code>'app_password_created'</code>
-    </InvalidArgument>
-    <TooManyArguments occurrences="1">
-      <code>dispatch</code>
-    </TooManyArguments>
-  </file>
-  <file src="core/Controller/ClientFlowLoginController.php">
-    <InvalidArgument occurrences="1">
-      <code>'app_password_created'</code>
-    </InvalidArgument>
-    <TooManyArguments occurrences="1">
-      <code>dispatch</code>
-    </TooManyArguments>
-  </file>
   <file src="core/Controller/ClientFlowLoginV2Controller.php">
     <TypeDoesNotContainType occurrences="1">
       <code>!is_string($stateToken)</code>
@@ -3271,9 +3236,6 @@
     </NullableReturnStatement>
   </file>
   <file src="lib/private/ContactsManager.php">
-    <ImplementedReturnTypeMismatch occurrences="1">
-      <code>IAddressBook[]</code>
-    </ImplementedReturnTypeMismatch>
     <InvalidNullableReturnType occurrences="3">
       <code>IAddressBook</code>
       <code>array</code>
@@ -4774,12 +4736,6 @@
     </UndefinedInterfaceMethod>
   </file>
   <file src="lib/private/Share20/DefaultShareProvider.php">
-    <InvalidReturnStatement occurrences="1">
-      <code>$shares</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
-      <code>getSharesInFolder</code>
-    </InvalidReturnType>
     <InvalidScalarArgument occurrences="3">
       <code>$share-&gt;getId()</code>
       <code>$share-&gt;getId()</code>
@@ -4793,8 +4749,7 @@
     </UndefinedInterfaceMethod>
   </file>
   <file src="lib/private/Share20/Manager.php">
-    <InvalidArgument occurrences="7">
-      <code>$data</code>
+    <InvalidArgument occurrences="6">
       <code>'OCP\Share::postAcceptShare'</code>
       <code>'OCP\Share::postShare'</code>
       <code>'OCP\Share::postUnshare'</code>
@@ -5326,11 +5281,6 @@
     <MoreSpecificImplementedParamType occurrences="1">
       <code>$jobList</code>
     </MoreSpecificImplementedParamType>
-  </file>
-  <file src="lib/public/Contacts/IManager.php">
-    <UndefinedDocblockClass occurrences="1">
-      <code>IAddressBook[]</code>
-    </UndefinedDocblockClass>
   </file>
   <file src="lib/public/Dashboard/Model/WidgetTemplate.php">
     <InvalidNullableReturnType occurrences="1">
