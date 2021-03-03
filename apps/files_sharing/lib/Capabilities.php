@@ -116,7 +116,8 @@ class Capabilities implements ICapability {
 
 		// Sharee searches
 		$res['sharee'] = [
-			'query_lookup_default' => $this->config->getSystemValueBool('gs.enabled', false)
+			'query_lookup_default' => $this->config->getSystemValueBool('gs.enabled', false),
+			'always_show_unique' => $this->config->getAppValue('files_sharing', 'always_show_unique', 'yes') === 'yes',
 		];
 
 		return [
