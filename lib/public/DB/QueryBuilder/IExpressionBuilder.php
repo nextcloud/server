@@ -78,7 +78,7 @@ interface IExpressionBuilder {
 	 *
 	 * @psalm-taint-sink sql $x
 	 */
-	public function andX(...$x);
+	public function andX(...$x): ICompositeExpression;
 
 	/**
 	 * Creates a disjunction of the given boolean expressions.
@@ -97,7 +97,7 @@ interface IExpressionBuilder {
 	 *
 	 * @psalm-taint-sink sql $x
 	 */
-	public function orX(...$x);
+	public function orX(...$x): ICompositeExpression;
 
 	/**
 	 * Creates a comparison expression.
@@ -116,7 +116,7 @@ interface IExpressionBuilder {
 	 * @psalm-taint-sink sql $y
 	 * @psalm-taint-sink sql $type
 	 */
-	public function comparison($x, $operator, $y, $type = null);
+	public function comparison($x, string $operator, $y, $type = null): string;
 
 	/**
 	 * Creates an equality comparison expression with the given arguments.
@@ -140,7 +140,7 @@ interface IExpressionBuilder {
 	 * @psalm-taint-sink sql $y
 	 * @psalm-taint-sink sql $type
 	 */
-	public function eq($x, $y, $type = null);
+	public function eq($x, $y, $type = null): string;
 
 	/**
 	 * Creates a non equality comparison expression with the given arguments.
@@ -163,7 +163,7 @@ interface IExpressionBuilder {
 	 * @psalm-taint-sink sql $y
 	 * @psalm-taint-sink sql $type
 	 */
-	public function neq($x, $y, $type = null);
+	public function neq($x, $y, $type = null): string;
 
 	/**
 	 * Creates a lower-than comparison expression with the given arguments.
@@ -186,7 +186,7 @@ interface IExpressionBuilder {
 	 * @psalm-taint-sink sql $y
 	 * @psalm-taint-sink sql $type
 	 */
-	public function lt($x, $y, $type = null);
+	public function lt($x, $y, $type = null): string;
 
 	/**
 	 * Creates a lower-than-equal comparison expression with the given arguments.
@@ -209,7 +209,7 @@ interface IExpressionBuilder {
 	 * @psalm-taint-sink sql $y
 	 * @psalm-taint-sink sql $type
 	 */
-	public function lte($x, $y, $type = null);
+	public function lte($x, $y, $type = null): string;
 
 	/**
 	 * Creates a greater-than comparison expression with the given arguments.
@@ -232,7 +232,7 @@ interface IExpressionBuilder {
 	 * @psalm-taint-sink sql $y
 	 * @psalm-taint-sink sql $type
 	 */
-	public function gt($x, $y, $type = null);
+	public function gt($x, $y, $type = null): string;
 
 	/**
 	 * Creates a greater-than-equal comparison expression with the given arguments.
@@ -255,31 +255,31 @@ interface IExpressionBuilder {
 	 * @psalm-taint-sink sql $y
 	 * @psalm-taint-sink sql $type
 	 */
-	public function gte($x, $y, $type = null);
+	public function gte($x, $y, $type = null): string;
 
 	/**
 	 * Creates an IS NULL expression with the given arguments.
 	 *
-	 * @param string $x The field in string format to be restricted by IS NULL.
+	 * @param string|ILiteral|IParameter|IQueryFunction $x The field in string format to be restricted by IS NULL.
 	 *
 	 * @return string
 	 * @since 8.2.0
 	 *
 	 * @psalm-taint-sink sql $x
 	 */
-	public function isNull($x);
+	public function isNull($x): string;
 
 	/**
 	 * Creates an IS NOT NULL expression with the given arguments.
 	 *
-	 * @param string $x The field in string format to be restricted by IS NOT NULL.
+	 * @param string|ILiteral|IParameter|IQueryFunction $x The field in string format to be restricted by IS NOT NULL.
 	 *
 	 * @return string
 	 * @since 8.2.0
 	 *
 	 * @psalm-taint-sink sql $x
 	 */
-	public function isNotNull($x);
+	public function isNotNull($x): string;
 
 	/**
 	 * Creates a LIKE() comparison expression with the given arguments.
@@ -296,7 +296,7 @@ interface IExpressionBuilder {
 	 * @psalm-taint-sink sql $y
 	 * @psalm-taint-sink sql $type
 	 */
-	public function like($x, $y, $type = null);
+	public function like($x, $y, $type = null): string;
 
 	/**
 	 * Creates a NOT LIKE() comparison expression with the given arguments.
@@ -313,7 +313,7 @@ interface IExpressionBuilder {
 	 * @psalm-taint-sink sql $y
 	 * @psalm-taint-sink sql $type
 	 */
-	public function notLike($x, $y, $type = null);
+	public function notLike($x, $y, $type = null): string;
 
 	/**
 	 * Creates a ILIKE() comparison expression with the given arguments.
@@ -330,7 +330,7 @@ interface IExpressionBuilder {
 	 * @psalm-taint-sink sql $y
 	 * @psalm-taint-sink sql $type
 	 */
-	public function iLike($x, $y, $type = null);
+	public function iLike($x, $y, $type = null): string;
 
 	/**
 	 * Creates a IN () comparison expression with the given arguments.
@@ -347,7 +347,7 @@ interface IExpressionBuilder {
 	 * @psalm-taint-sink sql $y
 	 * @psalm-taint-sink sql $type
 	 */
-	public function in($x, $y, $type = null);
+	public function in($x, $y, $type = null): string;
 
 	/**
 	 * Creates a NOT IN () comparison expression with the given arguments.
@@ -364,29 +364,29 @@ interface IExpressionBuilder {
 	 * @psalm-taint-sink sql $y
 	 * @psalm-taint-sink sql $type
 	 */
-	public function notIn($x, $y, $type = null);
+	public function notIn($x, $y, $type = null): string;
 
 	/**
 	 * Creates a $x = '' statement, because Oracle needs a different check
 	 *
-	 * @param string $x The field in string format to be inspected by the comparison.
+	 * @param string|ILiteral|IParameter|IQueryFunction $x The field in string format to be inspected by the comparison.
 	 * @return string
 	 * @since 13.0.0
 	 *
 	 * @psalm-taint-sink sql $x
 	 */
-	public function emptyString($x);
+	public function emptyString($x): string;
 
 	/**
 	 * Creates a `$x <> ''` statement, because Oracle needs a different check
 	 *
-	 * @param string $x The field in string format to be inspected by the comparison.
+	 * @param string|ILiteral|IParameter|IQueryFunction $x The field in string format to be inspected by the comparison.
 	 * @return string
 	 * @since 13.0.0
 	 *
 	 * @psalm-taint-sink sql $x
 	 */
-	public function nonEmptyString($x);
+	public function nonEmptyString($x): string;
 
 
 	/**
@@ -400,7 +400,7 @@ interface IExpressionBuilder {
 	 * @psalm-taint-sink sql $x
 	 * @psalm-taint-sink sql $y
 	 */
-	public function bitwiseAnd($x, $y);
+	public function bitwiseAnd($x, int $y): IQueryFunction;
 
 	/**
 	 * Creates a bitwise OR comparison
@@ -413,7 +413,7 @@ interface IExpressionBuilder {
 	 * @psalm-taint-sink sql $x
 	 * @psalm-taint-sink sql $y
 	 */
-	public function bitwiseOr($x, $y);
+	public function bitwiseOr($x, int $y): IQueryFunction;
 
 	/**
 	 * Quotes a given input parameter.
@@ -421,24 +421,24 @@ interface IExpressionBuilder {
 	 * @param mixed $input The parameter to be quoted.
 	 * @param mixed|null $type One of the IQueryBuilder::PARAM_* constants
 	 *
-	 * @return string
+	 * @return ILiteral
 	 * @since 8.2.0
 	 *
 	 * @psalm-taint-sink sql $input
 	 * @psalm-taint-sink sql $type
 	 */
-	public function literal($input, $type = null);
+	public function literal($input, $type = null): ILiteral;
 
 	/**
 	 * Returns a IQueryFunction that casts the column to the given type
 	 *
 	 * @param string $column
 	 * @param mixed $type One of IQueryBuilder::PARAM_*
-	 * @return string
+	 * @return IQueryFunction
 	 * @since 9.0.0
 	 *
 	 * @psalm-taint-sink sql $column
 	 * @psalm-taint-sink sql $type
 	 */
-	public function castColumn($column, $type);
+	public function castColumn(string $column, $type): IQueryFunction;
 }
