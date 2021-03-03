@@ -398,7 +398,9 @@ export default {
 		 */
 		formatForMultiselect(result) {
 			let desc
-			if ((result.value.shareType === this.SHARE_TYPES.SHARE_TYPE_REMOTE
+			if (result.value.shareType === this.SHARE_TYPES.SHARE_TYPE_USER && this.config.shouldAlwaysShowUnique) {
+				desc = result.shareWithDisplayNameUnique ?? ''
+			} else if ((result.value.shareType === this.SHARE_TYPES.SHARE_TYPE_REMOTE
 					|| result.value.shareType === this.SHARE_TYPES.SHARE_TYPE_REMOTE_GROUP
 			) && result.value.server) {
 				desc = t('files_sharing', 'on {server}', { server: result.value.server })
