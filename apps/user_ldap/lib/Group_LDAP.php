@@ -245,6 +245,9 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 	private function _groupMembers(string $dnGroup, ?array &$seen = null): array {
 		if ($seen === null) {
 			$seen = [];
+			// the root entry has to be marked as processed to avoind infinit loops,
+			// but not included in the results laters on
+			$excludeFromResult = $dnGroup;
 		}
 		$allMembers = [];
 		if (array_key_exists($dnGroup, $seen)) {
@@ -290,13 +293,19 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 		$seen[$dnGroup] = 1;
 		$members = $this->access->readAttribute($dnGroup, $this->access->connection->ldapGroupMemberAssocAttr);
 		if (is_array($members)) {
-			$fetcher = function ($memberDN, &$seen) {
+			$fetcher = function ($memberDN) use (&$seen) {
 				return $this->_groupMembers($memberDN, $seen);
 			};
-			$allMembers = $this->walkNestedGroups($dnGroup, $fetcher, $members);
+			$allMembers = $this->walkNestedGroups($dnGroup, $fetcher, $members, $seen);
 		}
 
 		$allMembers += $this->getDynamicGroupMembers($dnGroup);
+		if (isset($excludeFromResult)) {
+			$index = array_search($excludeFromResult, $allMembers, true);
+			if ($index !== false) {
+				unset($allMembers[$index]);
+			}
+		}
 
 		$this->access->connection->writeToCache($cacheKey, $allMembers);
 		if (isset($attemptedLdapMatchingRuleInChain)
@@ -335,7 +344,7 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 		return $this->filterValidGroups($groups);
 	}
 
-	private function walkNestedGroups(string $dn, Closure $fetcher, array $list): array {
+	private function walkNestedGroups(string $dn, Closure $fetcher, array $list, array &$seen = []): array {
 		$nesting = (int)$this->access->connection->ldapNestedGroups;
 		// depending on the input, we either have a list of DNs or a list of LDAP records
 		// also, the output expects either DNs or records. Testing the first element should suffice.
@@ -354,19 +363,21 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 			return $list;
 		}
 
-		$seen = [];
 		while ($record = array_shift($list)) {
-			$recordDN = $recordMode ? $record['dn'][0] : $record;
+			$recordDN = $record['dn'][0] ?? $record;
 			if ($recordDN === $dn || array_key_exists($recordDN, $seen)) {
 				// Prevent loops
 				continue;
 			}
-			$fetched = $fetcher($record, $seen);
+			$fetched = $fetcher($record);
 			$list = array_merge($list, $fetched);
-			$seen[$recordDN] = $record;
+			if (!isset($seen[$recordDN]) || is_bool($seen[$recordDN]) && is_array($record)) {
+				$seen[$recordDN] = $record;
+			}
 		}
 
-		return $recordMode ? $seen : array_keys($seen);
+		// on record mode, filter out intermediate state
+		return $recordMode ? array_filter($seen, 'is_array') : array_keys($seen);
 	}
 
 	/**
@@ -841,7 +852,7 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 		$groups = $this->access->fetchListOfGroups($filter,
 			[strtolower($this->access->connection->ldapGroupMemberAssocAttr), $this->access->connection->ldapGroupDisplayName, 'dn']);
 		if (is_array($groups)) {
-			$fetcher = function ($dn, &$seen) {
+			$fetcher = function ($dn) use (&$seen) {
 				if (is_array($dn) && isset($dn['dn'][0])) {
 					$dn = $dn['dn'][0];
 				}
@@ -852,7 +863,7 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 				$dn = "";
 			}
 
-			$allGroups = $this->walkNestedGroups($dn, $fetcher, $groups);
+			$allGroups = $this->walkNestedGroups($dn, $fetcher, $groups, $seen);
 		}
 		$visibleGroups = $this->filterValidGroups($allGroups);
 		return array_intersect_key($allGroups, $visibleGroups);
