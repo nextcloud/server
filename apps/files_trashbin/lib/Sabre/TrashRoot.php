@@ -50,6 +50,9 @@ class TrashRoot implements ICollection {
 
 	public function delete() {
 		\OCA\Files_Trashbin\Trashbin::deleteAll();
+		foreach ($this->trashManager->listTrashRoot($this->user) as $trashItem) {
+			$this->trashManager->removeItem($trashItem);
+		}
 	}
 
 	public function getName(): string {
