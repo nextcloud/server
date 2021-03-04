@@ -181,9 +181,9 @@ class Migrator {
 			/** @var string|AbstractAsset $asset */
 			$filterExpression = $this->getFilterExpression();
 			if ($asset instanceof AbstractAsset) {
-				return preg_match($filterExpression, $asset->getName()) !== false;
+				return preg_match($filterExpression, $asset->getName()) === 1;
 			}
-			return preg_match($filterExpression, $asset) !== false;
+			return preg_match($filterExpression, $asset) === 1;
 		});
 		return $this->connection->getSchemaManager()->createSchema();
 	}
@@ -210,9 +210,9 @@ class Migrator {
 			/** @var string|AbstractAsset $asset */
 			$filterExpression = $this->getFilterExpression();
 			if ($asset instanceof AbstractAsset) {
-				return preg_match($filterExpression, $asset->getName()) !== false;
+				return preg_match($filterExpression, $asset->getName()) === 1;
 			}
-			return preg_match($filterExpression, $asset) !== false;
+			return preg_match($filterExpression, $asset) === 1;
 		});
 		$sourceSchema = $connection->getSchemaManager()->createSchema();
 
