@@ -45,7 +45,7 @@ class CompositeExpression implements ICompositeExpression, \Countable {
 	 *
 	 * @return \OCP\DB\QueryBuilder\ICompositeExpression
 	 */
-	public function addMultiple(array $parts = []) {
+	public function addMultiple(array $parts = []): ICompositeExpression {
 		$this->compositeExpression->addMultiple($parts);
 
 		return $this;
@@ -58,7 +58,7 @@ class CompositeExpression implements ICompositeExpression, \Countable {
 	 *
 	 * @return \OCP\DB\QueryBuilder\ICompositeExpression
 	 */
-	public function add($part) {
+	public function add($part): ICompositeExpression {
 		$this->compositeExpression->add($part);
 
 		return $this;
@@ -69,7 +69,7 @@ class CompositeExpression implements ICompositeExpression, \Countable {
 	 *
 	 * @return integer
 	 */
-	public function count() {
+	public function count(): int {
 		return $this->compositeExpression->count();
 	}
 
@@ -78,7 +78,7 @@ class CompositeExpression implements ICompositeExpression, \Countable {
 	 *
 	 * @return string
 	 */
-	public function getType() {
+	public function getType(): string {
 		return $this->compositeExpression->getType();
 	}
 
@@ -87,7 +87,7 @@ class CompositeExpression implements ICompositeExpression, \Countable {
 	 *
 	 * @return string
 	 */
-	public function __toString() {
+	public function __toString(): string {
 		return (string) $this->compositeExpression;
 	}
 }
