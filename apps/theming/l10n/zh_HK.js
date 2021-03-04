@@ -30,7 +30,7 @@ OC.L10N.register(
     "Privacy policy" : "隱私權政策",
     "Adjust the Nextcloud theme" : "調整 Nextcloud 佈景主題",
     "Open documentation" : "開啟說明文件",
-    "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "使用佈景主題來客製化網頁界面和客戶端程式的外觀（並非所有客戶端程式都支援佈景主題），外觀將會套用至所有使用者。",
+    "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "使用佈景主題來客製化網頁界面和客戶端程式的外觀（並非所有客戶端程式都支援佈景主題），外觀將會套用至所有用戶。",
     "Name" : "名稱",
     "Reset to default" : "恢復預設值",
     "Web link" : "網路連結",

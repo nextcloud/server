@@ -28,7 +28,7 @@
     "The selected update channel makes dedicated notifications for the server obsolete." : "選定的更新通道將會讓伺服器專用的通知過時。",
     "The selected update channel does not support updates of the server." : "選定的更新頻道不支援伺服器更新。",
     "A new version is available: <strong>{newVersionString}</strong>" : "新版本可用：<strong>{newVersionString}</strong>",
-    "Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}" : "請注意，新版本釋出後，僅會在有第一個次要版本或更新的版本時顯示。我們會逐步向使用者推送新版本，並在發現問題時跳過特定版本。在 {link} 取得關於更新與釋出頻道的更多資訊",
+    "Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}" : "請注意，新版本釋出後，僅會在有第一個次要版本或更新的版本時顯示。我們會逐步向用戶推送新版本，並在發現問題時跳過特定版本。在 {link} 取得關於更新與釋出頻道的更多資訊",
     "Checked on {lastCheckedDate}" : "上次檢查日期：{lastCheckedDate}",
     "Checking apps for compatible versions" : "檢查應用程式的兼容版本",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "請確定您的 config.php 中並沒有將 <samp>appstoreenabled</samp> 的值設定為 false。",
