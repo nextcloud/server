@@ -166,7 +166,7 @@ OC.L10N.register(
     "Tags" : "Etiquetas",
     "Unable to change the favourite state of the file" : "Não foi possível alterar o estado favorito do arquivo",
     "Error while loading the file data" : "Erro ao carregar os dados do arquivo",
-    "Pick a template for {name}" : "Escolha um modelo para  {name}",
+    "Pick a template for {name}" : "Escolha um modelo para {name}",
     "Cancel" : "Cancelar",
     "Create" : "Criar ",
     "Create a new file with the selected template" : "Crie um novo arquivo com o modelo selecionado ",
