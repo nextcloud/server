@@ -37,7 +37,7 @@ interface ICompositeExpression {
 	 * @return ICompositeExpression
 	 * @since 8.2.0
 	 */
-	public function addMultiple(array $parts = []);
+	public function addMultiple(array $parts = []): ICompositeExpression;
 
 	/**
 	 * Adds an expression to composite expression.
@@ -47,7 +47,7 @@ interface ICompositeExpression {
 	 * @return ICompositeExpression
 	 * @since 8.2.0
 	 */
-	public function add($part);
+	public function add($part): ICompositeExpression;
 
 	/**
 	 * Retrieves the amount of expressions on composite expression.
@@ -55,7 +55,7 @@ interface ICompositeExpression {
 	 * @return integer
 	 * @since 8.2.0
 	 */
-	public function count();
+	public function count(): int;
 
 	/**
 	 * Returns the type of this composite expression (AND/OR).
@@ -63,5 +63,5 @@ interface ICompositeExpression {
 	 * @return string
 	 * @since 8.2.0
 	 */
-	public function getType();
+	public function getType(): string;
 }
