@@ -321,7 +321,8 @@ class ShareByMailProvider implements IShareProvider {
 			$share->getToken(),
 			$share->getPassword(),
 			$share->getSendPasswordByTalk(),
-			$share->getHideDownload()
+			$share->getHideDownload(),
+			$share->getExpirationDate()
 		);
 
 		try {
@@ -649,9 +650,10 @@ class ShareByMailProvider implements IShareProvider {
 	 * @param string $password
 	 * @param bool $sendPasswordByTalk
 	 * @param bool $hideDownload
+	 * @param \DateTime|null $expirationTime
 	 * @return int
 	 */
-	protected function addShareToDB($itemSource, $itemType, $shareWith, $sharedBy, $uidOwner, $permissions, $token, $password, $sendPasswordByTalk, $hideDownload) {
+	protected function addShareToDB($itemSource, $itemType, $shareWith, $sharedBy, $uidOwner, $permissions, $token, $password, $sendPasswordByTalk, $hideDownload, $expirationTime) {
 		$qb = $this->dbConnection->getQueryBuilder();
 		$qb->insert('share')
 			->setValue('share_type', $qb->createNamedParameter(IShare::TYPE_EMAIL))
@@ -667,6 +669,10 @@ class ShareByMailProvider implements IShareProvider {
 			->setValue('password_by_talk', $qb->createNamedParameter($sendPasswordByTalk, IQueryBuilder::PARAM_BOOL))
 			->setValue('stime', $qb->createNamedParameter(time()))
 			->setValue('hide_download', $qb->createNamedParameter((int)$hideDownload, IQueryBuilder::PARAM_INT));
+
+		if ($expirationTime !== null) {
+			$qb->setValue('expiration', $qb->createNamedParameter($expirationTime, IQueryBuilder::PARAM_DATE));
+		}
 
 		/*
 		 * Added to fix https://github.com/owncloud/core/issues/22215
