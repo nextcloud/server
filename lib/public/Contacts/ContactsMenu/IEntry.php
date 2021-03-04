@@ -34,25 +34,25 @@ interface IEntry extends JsonSerializable {
 	 * @since 12.0
 	 * @return string
 	 */
-	public function getFullName();
+	public function getFullName(): string;
 
 	/**
 	 * @since 12.0
 	 * @return string[]
 	 */
-	public function getEMailAddresses();
+	public function getEMailAddresses(): array;
 
 	/**
 	 * @since 12.0
 	 * @return string|null image URI
 	 */
-	public function getAvatar();
+	public function getAvatar(): ?string;
 
 	/**
 	 * @since 12.0
 	 * @param IAction $action an action to show in the contacts menu
 	 */
-	public function addAction(IAction $action);
+	public function addAction(IAction $action): void;
 
 	/**
 	 * Get an arbitrary property from the contact
@@ -61,5 +61,5 @@ interface IEntry extends JsonSerializable {
 	 * @param string $key
 	 * @return mixed the value of the property or null
 	 */
-	public function getProperty($key);
+	public function getProperty(string $key);
 }
