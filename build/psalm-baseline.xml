@@ -1643,12 +1643,6 @@
     <InvalidArgument occurrences="1">
       <code>$exception-&gt;getMessage()</code>
     </InvalidArgument>
-    <InvalidReturnStatement occurrences="1">
-      <code>new JSONResponse($exception-&gt;getMessage(), 405)</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
-      <code>NotFoundResponse</code>
-    </InvalidReturnType>
   </file>
   <file src="apps/files_sharing/lib/Scanner.php">
     <InvalidNullableReturnType occurrences="1">
@@ -2464,14 +2458,6 @@
       <code>isUserScopeEnabled</code>
     </UndefinedInterfaceMethod>
   </file>
-  <file src="apps/workflowengine/lib/Settings/Personal.php">
-    <InvalidNullableReturnType occurrences="1">
-      <code>getSection</code>
-    </InvalidNullableReturnType>
-    <NullableReturnStatement occurrences="1">
-      <code>$this-&gt;manager-&gt;isUserScopeEnabled() ? 'workflow' : null</code>
-    </NullableReturnStatement>
-  </file>
   <file src="core/Command/App/GetPath.php">
     <ImplementedReturnTypeMismatch occurrences="1">
       <code>null|int</code>
@@ -3127,7 +3113,6 @@
     </UndefinedThisPropertyFetch>
   </file>
   <file src="lib/private/Collaboration/Resources/Manager.php">
-    <InvalidArgument occurrences="4"/>
     <RedundantCondition occurrences="1">
       <code>$user instanceof IUser</code>
     </RedundantCondition>
@@ -3159,7 +3144,6 @@
     </TypeDoesNotContainType>
   </file>
   <file src="lib/private/Comments/Manager.php">
-    <InvalidArgument occurrences="3"/>
     <InvalidDocblock occurrences="1">
       <code>public function getForObjectSince(</code>
     </InvalidDocblock>
@@ -3332,14 +3316,6 @@
     <InternalMethod occurrences="1">
       <code>getParams</code>
     </InternalMethod>
-  </file>
-  <file src="lib/private/DB/QueryBuilder/ExpressionBuilder/OCIExpressionBuilder.php">
-    <InvalidReturnStatement occurrences="1">
-      <code>parent::castColumn($column, $type)</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
-      <code>IQueryFunction</code>
-    </InvalidReturnType>
   </file>
   <file src="lib/private/DB/QueryBuilder/QueryBuilder.php">
     <InvalidNullableReturnType occurrences="1">
@@ -3576,7 +3552,6 @@
     </TypeDoesNotContainType>
   </file>
   <file src="lib/private/Files/Config/UserMountCache.php">
-    <InvalidArgument occurrences="1"/>
     <InvalidReturnType occurrences="2">
       <code>remoteStorageMounts</code>
       <code>removeUserStorageMount</code>
@@ -4211,7 +4186,6 @@
     </TypeDoesNotContainNull>
   </file>
   <file src="lib/private/Group/Database.php">
-    <InvalidArgument occurrences="1"/>
     <InvalidArrayOffset occurrences="1">
       <code>$this-&gt;groupCache[$gid]['displayname']</code>
     </InvalidArrayOffset>
@@ -4264,18 +4238,6 @@
     </UndefinedMethod>
   </file>
   <file src="lib/private/Group/Manager.php">
-    <InvalidArgument occurrences="1">
-      <code>$groupId</code>
-    </InvalidArgument>
-    <InvalidOperand occurrences="1">
-      <code>$groupId</code>
-    </InvalidOperand>
-    <InvalidReturnStatement occurrences="1">
-      <code>$groups</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
-      <code>\OC\Group\Group[]</code>
-    </InvalidReturnType>
     <UndefinedInterfaceMethod occurrences="3">
       <code>createGroup</code>
       <code>getGroupDetails</code>
@@ -4967,7 +4929,6 @@
     <ImplicitToStringCast occurrences="1">
       <code>$query-&gt;func()-&gt;lower('displayname')</code>
     </ImplicitToStringCast>
-    <InvalidArgument occurrences="1"/>
     <InvalidScalarArgument occurrences="2">
       <code>$offset</code>
       <code>$offset</code>
