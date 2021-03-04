@@ -265,6 +265,7 @@ class Database extends ABackend implements
 
 		$query = $this->dbConn->getQueryBuilder();
 
+		$displayNameParameter = '%' . implode('% %', array_map([$this->dbConn, 'escapeLikeParameter'], explode(' ', $search))) . '%';
 		$query->select('uid', 'displayname')
 			->from($this->table, 'u')
 			->leftJoin('u', 'preferences', 'p', $query->expr()->andX(
@@ -274,9 +275,20 @@ class Database extends ABackend implements
 			)
 			// sqlite doesn't like re-using a single named parameter here
 			->where($query->expr()->iLike('uid', $query->createPositionalParameter('%' . $this->dbConn->escapeLikeParameter($search) . '%')))
-			->orWhere($query->expr()->iLike('displayname', $query->createPositionalParameter('%' . $this->dbConn->escapeLikeParameter($search) . '%')))
-			->orWhere($query->expr()->iLike('configvalue', $query->createPositionalParameter('%' . $this->dbConn->escapeLikeParameter($search) . '%')))
-			->orderBy($query->func()->lower('displayname'), 'ASC')
+			->orWhere($query->expr()->iLike('displayname', $query->createPositionalParameter($displayNameParameter)))
+			->orWhere($query->expr()->iLike('configvalue', $query->createPositionalParameter('%' . $this->dbConn->escapeLikeParameter($search) . '%')));
+
+		$serverAbsolutePath = \OC::$server->getURLGenerator()->getAbsoluteURL('/');
+		$serverFederationPath = rtrim(\OC\Share\Share::removeProtocolFromUrl($serverAbsolutePath), '/');
+
+		/*
+		 * the given search looks like a local federation.
+		 */
+		if (mb_strpos($search, '@'.$serverFederationPath) !== false) {
+			$query->orWhere($query->expr()->eq('uid', $query->createPositionalParameter(explode('@', $search)[0])));
+		}
+
+		$query->orderBy($query->func()->lower('displayname'), 'ASC')
 			->orderBy('uid_lower', 'ASC')
 			->setMaxResults($limit)
 			->setFirstResult($offset);

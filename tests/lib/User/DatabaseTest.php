@@ -140,6 +140,12 @@ class DatabaseTest extends Backend {
 		$result = $this->backend->getDisplayNames('display');
 		$this->assertCount(1, $result);
 
+		$result = $this->backend->getDisplayNames('Use Dis');
+		$this->assertCount(1, $result);
+
+		$result = $this->backend->getDisplayNames($user1Obj->getCloudId());
+		$this->assertCount(1, $result);
+
 		$result = $this->backend->getDisplayNames(strtoupper($user1));
 		$this->assertCount(1, $result);
 
