@@ -990,7 +990,7 @@ interface IQueryBuilder {
 	 * @throws \BadMethodCallException When being called before an insert query has been run.
 	 * @since 9.0.0
 	 */
-	public function getLastInsertId();
+	public function getLastInsertId(): int;
 
 	/**
 	 * Returns the table name quoted and with database prefix as needed by the implementation
