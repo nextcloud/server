@@ -25,26 +25,31 @@
 namespace OCA\AdminAudit\BackgroundJobs;
 
 use OC\BackgroundJob\TimedJob;
+use OCP\IConfig;
 use OCP\Log\RotationTrait;
 
 class Rotate extends TimedJob {
 	use RotationTrait;
 
-	public function __construct() {
+	/** @var IConfig */
+	private $config;
+
+	public function __construct(IConfig  $config) {
+		$this->config = $config;
+
 		$this->setInterval(60 * 60 * 3);
 	}
 
 	protected function run($argument) {
-		$config = \OC::$server->getConfig();
-		$default = $config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data') . '/audit.log';
-		$this->filePath = $config->getAppValue('admin_audit', 'logfile', $default);
+		$default = $this->config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data') . '/audit.log';
+		$this->filePath = $this->config->getAppValue('admin_audit', 'logfile', $default);
 
 		if ($this->filePath === '') {
 			// default log file, nothing to do
 			return;
 		}
 
-		$this->maxSize = $config->getSystemValue('log_rotate_size', 100 * 1024 * 1024);
+		$this->maxSize = $this->config->getSystemValue('log_rotate_size', 100 * 1024 * 1024);
 
 		if ($this->shouldRotateBySize()) {
 			$this->rotate();
