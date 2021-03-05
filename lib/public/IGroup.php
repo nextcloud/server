@@ -130,6 +130,14 @@ interface IGroup {
 	public function searchDisplayName($search, $limit = null, $offset = null);
 
 	/**
+	 * Get the names of the backends the group is connected to
+	 *
+	 * @return string[]
+	 * @since 22.0.0
+	 */
+	public function getBackendNames();
+
+	/**
 	 * delete the group
 	 *
 	 * @return bool

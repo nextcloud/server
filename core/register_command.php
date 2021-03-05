@@ -186,6 +186,7 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 	$application->add(new OC\Core\Command\Group\ListCommand(\OC::$server->getGroupManager()));
 	$application->add(new OC\Core\Command\Group\AddUser(\OC::$server->getUserManager(), \OC::$server->getGroupManager()));
 	$application->add(new OC\Core\Command\Group\RemoveUser(\OC::$server->getUserManager(), \OC::$server->getGroupManager()));
+	$application->add(new OC\Core\Command\Group\Info(\OC::$server->get(\OCP\IGroupManager::class)));
 
 	$application->add(new OC\Core\Command\Security\ListCertificates(\OC::$server->getCertificateManager(), \OC::$server->getL10N('core')));
 	$application->add(new OC\Core\Command\Security\ImportCertificate(\OC::$server->getCertificateManager()));
