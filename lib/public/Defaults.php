@@ -104,12 +104,22 @@ class Defaults {
 	}
 
 	/**
-	 * name of your ownCloud instance
+	 * name of your Nextcloud instance (e.g. MyPrivateCloud)
 	 * @return string
 	 * @since 6.0.0
 	 */
 	public function getName(): string {
 		return $this->defaults->getName();
+	}
+
+	/**
+	 * Name of the software product (defaults to Nextcloud)
+	 *
+	 * @return string
+	 * @since 22.0.0
+	 */
+	public function getProductName(): string {
+		return $this->defaults->getProductName();
 	}
 
 	/**
