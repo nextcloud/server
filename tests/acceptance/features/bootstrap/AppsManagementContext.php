@@ -33,8 +33,8 @@ class AppsManagementContext implements Context, ActorAwareInterface {
 	 */
 	public static function enableButtonForApp($app) {
 		return Locator::forThe()->button("Enable")->
-			descendantOf(self::rowForApp($app))->
-			describedAs("Enable button in the app list for $app");
+				descendantOf(self::rowForApp($app))->
+				describedAs("Enable button in the app list for $app");
 	}
 
 	/**
@@ -42,8 +42,8 @@ class AppsManagementContext implements Context, ActorAwareInterface {
 	 */
 	public static function downloadAndEnableButtonForApp($app) {
 		return Locator::forThe()->button("Download and enable")->
-		descendantOf(self::rowForApp($app))->
-		describedAs("Download & enable button in the app list for $app");
+				descendantOf(self::rowForApp($app))->
+				describedAs("Download & enable button in the app list for $app");
 	}
 
 	/**
@@ -51,8 +51,8 @@ class AppsManagementContext implements Context, ActorAwareInterface {
 	 */
 	public static function disableButtonForApp($app) {
 		return Locator::forThe()->button("Disable")->
-		descendantOf(self::rowForApp($app))->
-		describedAs("Disable button in the app list for $app");
+				descendantOf(self::rowForApp($app))->
+				describedAs("Disable button in the app list for $app");
 	}
 
 	/**
@@ -60,7 +60,7 @@ class AppsManagementContext implements Context, ActorAwareInterface {
 	 */
 	public static function bundleButton($bundle) {
 		return Locator::forThe()->xpath("//main[@id='app-content' or contains(@class, 'app-content')]//div[@class='apps-header']/h2[normalize-space() = '$bundle']/input")->
-		describedAs("Button to enable / disable bundles");
+				describedAs("Button to enable / disable bundles");
 	}
 
 	/**
@@ -76,7 +76,7 @@ class AppsManagementContext implements Context, ActorAwareInterface {
 	 */
 	public static function emptyAppList() {
 		return Locator::forThe()->xpath("//main[@id='app-content' or contains(@class, 'app-content')]//div[@id='apps-list-empty']")->
-			describedAs("Empty apps list view");
+				describedAs("Empty apps list view");
 	}
 
 	/**
@@ -84,7 +84,7 @@ class AppsManagementContext implements Context, ActorAwareInterface {
 	 */
 	public static function appEntries() {
 		return Locator::forThe()->xpath("//main[@id='app-content' or contains(@class, 'app-content')]//div[@class='section']")->
-			describedAs("Entries in apps list");
+				describedAs("Entries in apps list");
 	}
 
 	/**
@@ -92,8 +92,8 @@ class AppsManagementContext implements Context, ActorAwareInterface {
 	 */
 	public static function disabledAppEntries() {
 		return Locator::forThe()->button("Disable")->
-		descendantOf(self::appEntries())->
-		describedAs("Disable button in the app list");
+				descendantOf(self::appEntries())->
+				describedAs("Disable button in the app list");
 	}
 
 	/**
@@ -101,8 +101,8 @@ class AppsManagementContext implements Context, ActorAwareInterface {
 	 */
 	public static function enabledAppEntries() {
 		return Locator::forThe()->button("Enable")->
-		descendantOf(self::appEntries())->
-		describedAs("Enable button in the app list");
+				descendantOf(self::appEntries())->
+				describedAs("Enable button in the app list");
 	}
 
 	/**
@@ -110,7 +110,7 @@ class AppsManagementContext implements Context, ActorAwareInterface {
 	 */
 	public static function sidebar() {
 		return Locator::forThe()->xpath("//*[@id=\"app-sidebar\" or contains(@class, 'app-sidebar')]")->
-		describedAs("Sidebar in apps management");
+				describedAs("Sidebar in apps management");
 	}
 
 
