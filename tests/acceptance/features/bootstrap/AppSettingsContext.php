@@ -95,6 +95,11 @@ class AppSettingsContext implements Context, ActorAwareInterface {
 	 * @Then I see that the settings are opened
 	 */
 	public function iSeeThatTheSettingsAreOpened() {
-		WaitFor::elementToBeEventuallyShown($this->actor, self::appSettingsContent());
+		if (!WaitFor::elementToBeEventuallyShown(
+				$this->actor,
+				self::appSettingsContent(),
+				$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
+			PHPUnit_Framework_Assert::fail("The app settings are not open yet after $timeout seconds");
+		}
 	}
 }
