@@ -736,22 +736,9 @@
     </InvalidScalarArgument>
   </file>
   <file src="apps/dav/lib/Connector/Sabre/SharesPlugin.php">
-    <InvalidReturnStatement occurrences="1">
-      <code>$shares</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
-      <code>array</code>
-    </InvalidReturnType>
     <UndefinedFunction occurrences="1">
       <code>\Sabre\Uri\split($sabreNode-&gt;getPath())</code>
     </UndefinedFunction>
-    <UndefinedInterfaceMethod occurrences="5">
-      <code>getId</code>
-      <code>getId</code>
-      <code>getId</code>
-      <code>getPath</code>
-      <code>getPath</code>
-    </UndefinedInterfaceMethod>
     <UndefinedPropertyAssignment occurrences="1">
       <code>$server-&gt;xml-&gt;namespacesMap</code>
     </UndefinedPropertyAssignment>
@@ -1678,19 +1665,9 @@
     <InvalidNullableReturnType occurrences="1">
       <code>ICacheEntry</code>
     </InvalidNullableReturnType>
-    <InvalidReturnStatement occurrences="5">
-      <code>$this-&gt;getPermissions($path) &amp; \OCP\Constants::PERMISSION_CREATE</code>
-      <code>$this-&gt;getPermissions($path) &amp; \OCP\Constants::PERMISSION_DELETE</code>
-      <code>$this-&gt;getPermissions($path) &amp; \OCP\Constants::PERMISSION_SHARE</code>
-      <code>$this-&gt;getPermissions($path) &amp; \OCP\Constants::PERMISSION_UPDATE</code>
+    <InvalidReturnStatement occurrences="1">
       <code>new FailedCache()</code>
     </InvalidReturnStatement>
-    <InvalidReturnType occurrences="4">
-      <code>isCreatable</code>
-      <code>isDeletable</code>
-      <code>isSharable</code>
-      <code>isUpdatable</code>
-    </InvalidReturnType>
     <NullableReturnStatement occurrences="1">
       <code>$this-&gt;sourceRootInfo</code>
     </NullableReturnStatement>
