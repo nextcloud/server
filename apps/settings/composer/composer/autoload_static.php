@@ -48,6 +48,8 @@ class ComposerStaticInitSettings
         'OCA\\Settings\\Events\\BeforeTemplateRenderedEvent' => __DIR__ . '/..' . '/../lib/Events/BeforeTemplateRenderedEvent.php',
         'OCA\\Settings\\Hooks' => __DIR__ . '/..' . '/../lib/Hooks.php',
         'OCA\\Settings\\Listener\\AppPasswordCreatedActivityListener' => __DIR__ . '/..' . '/../lib/Listener/AppPasswordCreatedActivityListener.php',
+        'OCA\\Settings\\Listener\\UserAddedToGroupActivityListener' => __DIR__ . '/..' . '/../lib/Listener/UserAddedToGroupActivityListener.php',
+        'OCA\\Settings\\Listener\\UserRemovedFromGroupActivityListener' => __DIR__ . '/..' . '/../lib/Listener/UserRemovedFromGroupActivityListener.php',
         'OCA\\Settings\\Mailer\\NewUserMailHelper' => __DIR__ . '/..' . '/../lib/Mailer/NewUserMailHelper.php',
         'OCA\\Settings\\Middleware\\SubadminMiddleware' => __DIR__ . '/..' . '/../lib/Middleware/SubadminMiddleware.php',
         'OCA\\Settings\\Search\\AppSearch' => __DIR__ . '/..' . '/../lib/Search/AppSearch.php',
