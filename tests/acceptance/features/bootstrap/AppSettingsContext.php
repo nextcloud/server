@@ -81,14 +81,7 @@ class AppSettingsContext implements Context, ActorAwareInterface {
 	 * @Given I toggle the :id checkbox in the settings
 	 */
 	public function iToggleTheCheckboxInTheSettingsTo($id) {
-		$locator = self::CheckboxInTheSettings($id);
-
-		// If locator is not visible, fallback to label
-		if (!$this->actor->find(self::CheckboxInTheSettings($id), 10)->isVisible()) {
-			$locator = self::checkboxLabelInTheSettings($id);
-		}
-
-		$this->actor->find($locator, 10)->click();
+		$this->actor->find(self::checkboxLabelInTheSettings($id), 10)->click();
 	}
 
 	/**
