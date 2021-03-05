@@ -170,7 +170,9 @@ class AppsManagementContext implements Context, ActorAwareInterface {
 	 */
 	public function iSeeThatTheAppHasBeenEnabled($app) {
 		// TODO: Find a way to check if the enable button is removed
-		$this->actor->find(self::disableButtonForApp($app), 10);
+		PHPUnit_Framework_Assert::assertTrue(
+			$this->actor->find(self::disableButtonForApp($app), 10)->isVisible()
+		);
 	}
 
 	/**
@@ -178,7 +180,9 @@ class AppsManagementContext implements Context, ActorAwareInterface {
 	 */
 	public function iSeeThatTheAppHasBeenDisabled($app) {
 		// TODO: Find a way to check if the disable button is removed
-		$this->actor->find(self::enableButtonForApp($app), 10);
+		PHPUnit_Framework_Assert::assertTrue(
+			$this->actor->find(self::enableButtonForApp($app), 10)->isVisible()
+		);
 	}
 
 	/**
@@ -237,8 +241,12 @@ class AppsManagementContext implements Context, ActorAwareInterface {
 	 * @Given /^I see the app bundles$/
 	 */
 	public function iSeeTheAppBundles() {
-		$this->actor->find(self::rowForApp('Auditing / Logging'), 2);
-		$this->actor->find(self::rowForApp('LDAP user and group backend'), 2);
+		PHPUnit_Framework_Assert::assertTrue(
+			$this->actor->find(self::rowForApp('Auditing / Logging'), 2)->isVisible()
+		);
+		PHPUnit_Framework_Assert::assertTrue(
+			$this->actor->find(self::rowForApp('LDAP user and group backend'), 2)->isVisible()
+		);
 	}
 
 	/**
