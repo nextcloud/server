@@ -531,10 +531,6 @@ class Encoding extends Wrapper {
 		return $result;
 	}
 
-	/**
-	 * @param string $path
-	 * @return array
-	 */
 	public function getMetaData($path) {
 		return $this->storage->getMetaData($this->findPathToUse($path));
 	}
