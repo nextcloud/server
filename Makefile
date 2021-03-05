@@ -1,7 +1,7 @@
 all: clean dev-setup build-js-production
 
 # Dev env management
-dev-setup: clean clean-dev npm-init
+dev-setup: clean npm-init
 
 npm-init:
 	npm ci
@@ -42,9 +42,6 @@ clean:
 	rm -rf apps/user_status/js/
 	rm -rf apps/workflowengine/js/
 	rm -rf core/js/dist
-
-clean-dev:
-	rm -rf node_modules
 
 clean-git: clean
 	git checkout -- apps/accessibility/js/
