@@ -54,13 +54,23 @@ class DialogContext implements Context, ActorAwareInterface {
 	 * @Then I see that the confirmation dialog is shown
 	 */
 	public function iSeeThatTheConfirmationDialogIsShown() {
-		WaitFor::elementToBeEventuallyShown($this->actor, self::theDialog());
+		if (!WaitFor::elementToBeEventuallyShown(
+				$this->actor,
+				self::theDialog(),
+				$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
+			PHPUnit_Framework_Assert::fail("The confirmation dialog was not shown yet after $timeout seconds");
+		}
 	}
 
 	/**
 	 * @Then I see that the confirmation dialog is not shown
 	 */
 	public function iSeeThatTheConfirmationDialogIsNotShown() {
-		WaitFor::elementToBeEventuallyNotShown($this->actor, self::theDialog());
+		if (!WaitFor::elementToBeEventuallyNotShown(
+				$this->actor,
+				self::theDialog(),
+				$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
+			PHPUnit_Framework_Assert::fail("The confirmation dialog is still shown after $timeout seconds");
+		}
 	}
 }
