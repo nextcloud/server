@@ -511,7 +511,8 @@ class ShareController extends AuthPublicShareController {
 			$download = new SimpleMenuAction('download', $this->l10n->t('Download'), 'icon-download', $shareTmpl['downloadURL'], 10, $shareTmpl['fileSize']);
 			$downloadAll = new SimpleMenuAction('download', $this->l10n->t('Download all files'), 'icon-download', $shareTmpl['downloadURL'], 10, $shareTmpl['fileSize']);
 			$directLink = new LinkMenuAction($this->l10n->t('Direct link'), 'icon-public', $shareTmpl['previewURL']);
-			$externalShare = new ExternalShareMenuAction($this->l10n->t('Add to your Nextcloud'), 'icon-external', $shareTmpl['owner'], $shareTmpl['shareOwner'], $shareTmpl['filename']);
+			// TRANSLATORS The placeholder refers to the software product name as in 'Add to your Nextcloud'
+			$externalShare = new ExternalShareMenuAction($this->l10n->t('Add to your %s', [$this->defaults->getProductName()]), 'icon-external', $shareTmpl['owner'], $shareTmpl['shareOwner'], $shareTmpl['filename']);
 
 			$responseComposer = [];
 
