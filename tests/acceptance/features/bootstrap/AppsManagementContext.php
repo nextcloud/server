@@ -84,10 +84,10 @@ class AppsManagementContext implements Context, ActorAwareInterface {
 	/**
 	 * @return Locator
 	 */
-	public static function bundleButton($bundle) {
-		return Locator::forThe()->xpath("//div[@class='apps-header']/h2[normalize-space() = '$bundle']/input")->
+	public static function enableAllBundleButton($bundle) {
+		return Locator::forThe()->xpath("//div[@class='apps-header']/h2[normalize-space() = '$bundle']/input[@value='Enable all']")->
 				descendantOf(self::appsList())->
-				describedAs("Button to enable / disable bundles");
+				describedAs("Button to enable bundles");
 	}
 
 	/**
@@ -245,14 +245,16 @@ class AppsManagementContext implements Context, ActorAwareInterface {
 	 * @When /^I enable all apps from the "([^"]*)"$/
 	 */
 	public function iEnableAllAppsFromThe($bundle) {
-		$this->actor->find(self::bundleButton($bundle), 2)->click();
+		$this->actor->find(self::enableAllBundleButton($bundle), 2)->click();
 	}
 
 	/**
 	 * @Given /^I see that the "([^"]*)" is disabled$/
 	 */
 	public function iSeeThatTheIsDisabled($bundle) {
-		PHPUnit\Framework\Assert::assertEquals('Enable all', $this->actor->find(self::bundleButton($bundle), 2)->getValue());
+		PHPUnit_Framework_Assert::assertTrue(
+			$this->actor->find(self::enableAllBundleButton($bundle), 2)->isVisible()
+		);
 	}
 
 	/**
