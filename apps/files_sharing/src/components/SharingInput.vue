@@ -23,7 +23,7 @@
 <template>
 	<Multiselect ref="multiselect"
 		class="sharing-input"
-		:clear-on-select="false"
+		:clear-on-select="true"
 		:disabled="!canReshare"
 		:hide-selected="true"
 		:internal-search="false"
