@@ -48,6 +48,15 @@ class AppsManagementContext implements Context, ActorAwareInterface {
 	/**
 	 * @return Locator
 	 */
+	public static function enableButtonForAnyApp() {
+		return Locator::forThe()->button("Enable")->
+				descendantOf(self::appsList())->
+				describedAs("Enable button in the app list for any app");
+	}
+
+	/**
+	 * @return Locator
+	 */
 	public static function downloadAndEnableButtonForApp($app) {
 		return Locator::forThe()->button("Download and enable")->
 				descendantOf(self::rowForApp($app))->
@@ -61,6 +70,15 @@ class AppsManagementContext implements Context, ActorAwareInterface {
 		return Locator::forThe()->button("Disable")->
 				descendantOf(self::rowForApp($app))->
 				describedAs("Disable button in the app list for $app");
+	}
+
+	/**
+	 * @return Locator
+	 */
+	public static function disableButtonForAnyApp() {
+		return Locator::forThe()->button("Disable")->
+				descendantOf(self::appsList())->
+				describedAs("Disable button in the app list for any app");
 	}
 
 	/**
@@ -195,16 +213,24 @@ class AppsManagementContext implements Context, ActorAwareInterface {
 	 * @Given /^I see that there are only disabled apps$/
 	 */
 	public function iSeeThatThereAreOnlyDisabledApps() {
-		$buttons = $this->actor->getSession()->getDriver()->find("//input[@value = 'Disable']");
-		PHPUnit\Framework\Assert::assertEmpty($buttons, 'Found disabled apps');
+		try {
+			$this->actor->find(self::disableButtonForAnyApp(), 2);
+
+			PHPUnit_Framework_Assert::fail("Found enabled apps");
+		} catch (NoSuchElementException $exception) {
+		}
 	}
 
 	/**
 	 * @Given /^I see that there are only enabled apps$/
 	 */
 	public function iSeeThatThereAreOnlyEnabledApps() {
-		$buttons = $this->actor->getSession()->getDriver()->find("//input[@value = 'Enable']");
-		PHPUnit\Framework\Assert::assertEmpty($buttons, 'Found disabled apps');
+		try {
+			$this->actor->find(self::enableButtonForAnyApp(), 2);
+
+			PHPUnit_Framework_Assert::fail("Found disabled apps");
+		} catch (NoSuchElementException $exception) {
+		}
 	}
 
 	/**
