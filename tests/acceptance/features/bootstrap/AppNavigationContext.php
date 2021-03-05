@@ -112,14 +112,24 @@ class AppNavigationContext implements Context, ActorAwareInterface {
 	 * @Then I see that the section :section is shown
 	 */
 	public function iSeeThatTheSectionIsShown($section) {
-		WaitFor::elementToBeEventuallyShown($this->actor, self::appNavigationSectionItemFor($section));
+		if (!WaitFor::elementToBeEventuallyShown(
+				$this->actor,
+				self::appNavigationSectionItemFor($section),
+				$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
+			PHPUnit_Framework_Assert::fail("The section $section in the app navigation is not shown yet after $timeout seconds");
+		}
 	}
 
 	/**
 	 * @Then I see that the section :section is not shown
 	 */
 	public function iSeeThatTheSectionIsNotShown($section) {
-		WaitFor::elementToBeEventuallyNotShown($this->actor, self::appNavigationSectionItemFor($section));
+		if (!WaitFor::elementToBeEventuallyNotShown(
+				$this->actor,
+				self::appNavigationSectionItemFor($section),
+				$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
+			PHPUnit_Framework_Assert::fail("The section $section in the app navigation is still shown after $timeout seconds");
+		}
 	}
 
 	/**

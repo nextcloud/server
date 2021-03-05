@@ -164,7 +164,12 @@ class AppsManagementContext implements Context, ActorAwareInterface {
 	 * @Then /^I see that there some apps listed from the app store$/
 	 */
 	public function iSeeThatThereSomeAppsListedFromTheAppStore() {
-		WaitFor::elementToBeEventuallyShown($this->actor, self::appEntries(), 10);
+		if (!WaitFor::elementToBeEventuallyShown(
+				$this->actor,
+				self::appEntries(),
+				$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
+			PHPUnit_Framework_Assert::fail("The apps from the app store were not shown yet after $timeout seconds");
+		}
 	}
 
 	/**
