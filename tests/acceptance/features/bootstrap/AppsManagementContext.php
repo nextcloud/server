@@ -31,6 +31,14 @@ class AppsManagementContext implements Context, ActorAwareInterface {
 	/**
 	 * @return Locator
 	 */
+	public static function appsList() {
+		return Locator::forThe()->xpath("//main[@id='app-content' or contains(@class, 'app-content')]//div[@id='apps-list']")->
+				describedAs("Apps list in Apps Management");
+	}
+
+	/**
+	 * @return Locator
+	 */
 	public static function enableButtonForApp($app) {
 		return Locator::forThe()->button("Enable")->
 				descendantOf(self::rowForApp($app))->
@@ -59,7 +67,8 @@ class AppsManagementContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function bundleButton($bundle) {
-		return Locator::forThe()->xpath("//main[@id='app-content' or contains(@class, 'app-content')]//div[@class='apps-header']/h2[normalize-space() = '$bundle']/input")->
+		return Locator::forThe()->xpath("//div[@class='apps-header']/h2[normalize-space() = '$bundle']/input")->
+				descendantOf(self::appsList())->
 				describedAs("Button to enable / disable bundles");
 	}
 
@@ -67,7 +76,8 @@ class AppsManagementContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function rowForApp($app) {
-		return Locator::forThe()->xpath("//main[@id='app-content' or contains(@class, 'app-content')]//div[@class='app-name'][normalize-space() = '$app']/..")->
+		return Locator::forThe()->xpath("//div[@class='app-name'][normalize-space() = '$app']/..")->
+				descendantOf(self::appsList())->
 				describedAs("Row for app $app in Apps Management");
 	}
 
@@ -75,7 +85,8 @@ class AppsManagementContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function emptyAppList() {
-		return Locator::forThe()->xpath("//main[@id='app-content' or contains(@class, 'app-content')]//div[@id='apps-list-empty']")->
+		return Locator::forThe()->xpath("//div[@id='apps-list-empty']")->
+				descendantOf(self::appsList())->
 				describedAs("Empty apps list view");
 	}
 
@@ -83,7 +94,8 @@ class AppsManagementContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function appEntries() {
-		return Locator::forThe()->xpath("//main[@id='app-content' or contains(@class, 'app-content')]//div[@class='section']")->
+		return Locator::forThe()->xpath("//div[@class='section']")->
+				descendantOf(self::appsList())->
 				describedAs("Entries in apps list");
 	}
 
