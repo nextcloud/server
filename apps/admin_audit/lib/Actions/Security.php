@@ -41,7 +41,7 @@ class Security extends Action {
 	 * @param IUser $user
 	 * @param array $params
 	 */
-	public function twofactorFailed(IUser $user, array $params) {
+	public function twofactorFailed(IUser $user, array $params): void {
 		$params['uid'] = $user->getUID();
 		$params['displayName'] = $user->getDisplayName();
 
@@ -62,7 +62,7 @@ class Security extends Action {
 	 * @param IUser $user
 	 * @param array $params
 	 */
-	public function twofactorSuccess(IUser $user, array $params) {
+	public function twofactorSuccess(IUser $user, array $params): void {
 		$params['uid'] = $user->getUID();
 		$params['displayName'] = $user->getDisplayName();
 

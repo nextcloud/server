@@ -50,7 +50,7 @@ class Action {
 	public function log(string $text,
 						array $params,
 						array $elements,
-						bool $obfuscateParameters = false) {
+						bool $obfuscateParameters = false): void {
 		foreach ($elements as $element) {
 			if (!isset($params[$element])) {
 				if ($obfuscateParameters) {

@@ -109,7 +109,7 @@ class Application extends App implements IBootstrap {
 	 * Register hooks in order to log them
 	 */
 	private function registerHooks(LoggerInterface $logger,
-									 IServerContainer $serverContainer) {
+									 IServerContainer $serverContainer): void {
 		$this->userManagementHooks($logger, $serverContainer->get(IUserSession::class));
 		$this->groupHooks($logger, $serverContainer->get(IGroupManager::class));
 		$this->authHooks($logger);
@@ -129,7 +129,7 @@ class Application extends App implements IBootstrap {
 	}
 
 	private function userManagementHooks(LoggerInterface $logger,
-										 IUserSession $userSession) {
+										 IUserSession $userSession): void {
 		$userActions = new UserManagement($logger);
 
 		Util::connectHook('OC_User', 'post_createUser', $userActions, 'create');
@@ -143,7 +143,7 @@ class Application extends App implements IBootstrap {
 	}
 
 	private function groupHooks(LoggerInterface $logger,
-								IGroupManager $groupManager) {
+								IGroupManager $groupManager): void {
 		$groupActions = new GroupManagement($logger);
 
 		assert($groupManager instanceof GroupManager);
@@ -153,7 +153,7 @@ class Application extends App implements IBootstrap {
 		$groupManager->listen('\OC\Group', 'postCreate', [$groupActions, 'createGroup']);
 	}
 
-	private function sharingHooks(LoggerInterface $logger) {
+	private function sharingHooks(LoggerInterface $logger): void {
 		$shareActions = new Sharing($logger);
 
 		Util::connectHook(Share::class, 'post_shared', $shareActions, 'shared');
@@ -165,7 +165,7 @@ class Application extends App implements IBootstrap {
 		Util::connectHook(Share::class, 'share_link_access', $shareActions, 'shareAccessed');
 	}
 
-	private function authHooks(LoggerInterface $logger) {
+	private function authHooks(LoggerInterface $logger): void {
 		$authActions = new Auth($logger);
 
 		Util::connectHook('OC_User', 'pre_login', $authActions, 'loginAttempt');
@@ -174,7 +174,7 @@ class Application extends App implements IBootstrap {
 	}
 
 	private function appHooks(LoggerInterface $logger,
-							  EventDispatcherInterface $eventDispatcher) {
+							  EventDispatcherInterface $eventDispatcher): void {
 		$eventDispatcher->addListener(ManagerEvent::EVENT_APP_ENABLE, function (ManagerEvent $event) use ($logger) {
 			$appActions = new AppManagement($logger);
 			$appActions->enableApp($event->getAppID());
@@ -190,7 +190,7 @@ class Application extends App implements IBootstrap {
 	}
 
 	private function consoleHooks(LoggerInterface $logger,
-								  EventDispatcherInterface $eventDispatcher) {
+								  EventDispatcherInterface $eventDispatcher): void {
 		$eventDispatcher->addListener(ConsoleEvent::EVENT_RUN, function (ConsoleEvent $event) use ($logger) {
 			$appActions = new Console($logger);
 			$appActions->runCommand($event->getArguments());
@@ -198,7 +198,7 @@ class Application extends App implements IBootstrap {
 	}
 
 	private function fileHooks(LoggerInterface $logger,
-							   EventDispatcherInterface $eventDispatcher) {
+							   EventDispatcherInterface $eventDispatcher): void {
 		$fileActions = new Files($logger);
 		$eventDispatcher->addListener(
 			IPreview::EVENT,
@@ -259,20 +259,20 @@ class Application extends App implements IBootstrap {
 		);
 	}
 
-	private function versionsHooks(LoggerInterface $logger) {
+	private function versionsHooks(LoggerInterface $logger): void {
 		$versionsActions = new Versions($logger);
 		Util::connectHook('\OCP\Versions', 'rollback', $versionsActions, 'rollback');
 		Util::connectHook('\OCP\Versions', 'delete', $versionsActions, 'delete');
 	}
 
-	private function trashbinHooks(LoggerInterface $logger) {
+	private function trashbinHooks(LoggerInterface $logger): void {
 		$trashActions = new Trashbin($logger);
 		Util::connectHook('\OCP\Trashbin', 'preDelete', $trashActions, 'delete');
 		Util::connectHook('\OCA\Files_Trashbin\Trashbin', 'post_restore', $trashActions, 'restore');
 	}
 
 	private function securityHooks(LoggerInterface $logger,
-								   EventDispatcherInterface $eventDispatcher) {
+								   EventDispatcherInterface $eventDispatcher): void {
 		$eventDispatcher->addListener(IProvider::EVENT_SUCCESS, function (GenericEvent $event) use ($logger) {
 			$security = new Security($logger);
 			$security->twofactorSuccess($event->getSubject(), $event->getArguments());

@@ -45,7 +45,7 @@ class GroupManagement extends Action {
 	 * @param IGroup $group
 	 * @param IUser $user
 	 */
-	public function addUser(IGroup $group, IUser $user) {
+	public function addUser(IGroup $group, IUser $user): void {
 		$this->log('User "%s" added to group "%s"',
 			[
 				'group' => $group->getGID(),
@@ -63,7 +63,7 @@ class GroupManagement extends Action {
 	 * @param IGroup $group
 	 * @param IUser $user
 	 */
-	public function removeUser(IGroup $group, IUser $user) {
+	public function removeUser(IGroup $group, IUser $user): void {
 		$this->log('User "%s" removed from group "%s"',
 			[
 				'group' => $group->getGID(),
@@ -74,13 +74,13 @@ class GroupManagement extends Action {
 			]
 		);
 	}
-	
+
 	/**
 	 * log create group to group event
 	 *
 	 * @param IGroup $group
 	 */
-	public function createGroup(IGroup $group) {
+	public function createGroup(IGroup $group): void {
 		$this->log('Group created: "%s"',
 			[
 				'group' => $group->getGID()
@@ -96,7 +96,7 @@ class GroupManagement extends Action {
 	 *
 	 * @param IGroup $group
 	 */
-	public function deleteGroup(IGroup $group) {
+	public function deleteGroup(IGroup $group): void {
 		$this->log('Group deleted: "%s"',
 			[
 				'group' => $group->getGID()

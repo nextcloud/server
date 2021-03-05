@@ -29,13 +29,13 @@ declare(strict_types=1);
 namespace OCA\AdminAudit\Actions;
 
 class Trashbin extends Action {
-	public function delete(array $params) {
+	public function delete(array $params): void {
 		$this->log('File "%s" deleted from trash bin.',
 			['path' => $params['path']], ['path']
 		);
 	}
 
-	public function restore(array $params) {
+	public function restore(array $params): void {
 		$this->log('File "%s" restored from trash bin.',
 			['path' => $params['filePath']], ['path']
 		);
