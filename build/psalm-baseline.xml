@@ -1427,9 +1427,6 @@
       <code>$e-&gt;getCode()</code>
       <code>$e-&gt;getCode()</code>
     </InvalidScalarArgument>
-    <NullableReturnStatement occurrences="1">
-      <code>null</code>
-    </NullableReturnStatement>
     <ParamNameMismatch occurrences="2">
       <code>$source</code>
       <code>$target</code>
@@ -1602,10 +1599,6 @@
     </InvalidDocblock>
   </file>
   <file src="apps/files_sharing/lib/External/Scanner.php">
-    <InvalidNullableReturnType occurrences="2">
-      <code>array</code>
-      <code>scan</code>
-    </InvalidNullableReturnType>
     <InvalidScalarArgument occurrences="1">
       <code>$recursive</code>
     </InvalidScalarArgument>
@@ -1630,14 +1623,6 @@
     <InvalidArgument occurrences="1">
       <code>$exception-&gt;getMessage()</code>
     </InvalidArgument>
-  </file>
-  <file src="apps/files_sharing/lib/Scanner.php">
-    <InvalidNullableReturnType occurrences="1">
-      <code>array</code>
-    </InvalidNullableReturnType>
-    <NullableReturnStatement occurrences="1">
-      <code>null</code>
-    </NullableReturnStatement>
   </file>
   <file src="apps/files_sharing/lib/ShareBackend/File.php">
     <InvalidScalarArgument occurrences="2">
@@ -3166,28 +3151,6 @@
       <code>!isset($info['contactsmenu']) || !isset($info['contactsmenu'])</code>
     </ParadoxicalCondition>
   </file>
-  <file src="lib/private/Contacts/ContactsMenu/ContactsStore.php">
-    <InvalidIterator occurrences="1">
-      <code>$mailAddresses</code>
-    </InvalidIterator>
-  </file>
-  <file src="lib/private/Contacts/ContactsMenu/Entry.php">
-    <ImplementedReturnTypeMismatch occurrences="1">
-      <code>string</code>
-    </ImplementedReturnTypeMismatch>
-    <InvalidNullableReturnType occurrences="1">
-      <code>string</code>
-    </InvalidNullableReturnType>
-    <InvalidReturnStatement occurrences="1">
-      <code>$this-&gt;emailAddresses</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
-      <code>string</code>
-    </InvalidReturnType>
-    <NullableReturnStatement occurrences="1">
-      <code>$this-&gt;avatar</code>
-    </NullableReturnStatement>
-  </file>
   <file src="lib/private/Contacts/ContactsMenu/Manager.php">
     <InvalidNullableReturnType occurrences="1">
       <code>IEntry</code>
@@ -3434,16 +3397,6 @@
       <code>$path</code>
     </MoreSpecificImplementedParamType>
   </file>
-  <file src="lib/private/Files/Cache/LocalRootScanner.php">
-    <InvalidNullableReturnType occurrences="2">
-      <code>scan</code>
-      <code>scanFile</code>
-    </InvalidNullableReturnType>
-    <NullableReturnStatement occurrences="2">
-      <code>null</code>
-      <code>null</code>
-    </NullableReturnStatement>
-  </file>
   <file src="lib/private/Files/Cache/QuerySearchHelper.php">
     <InvalidScalarArgument occurrences="4">
       <code>$value</code>
@@ -3453,9 +3406,6 @@
     </InvalidScalarArgument>
   </file>
   <file src="lib/private/Files/Cache/Scanner.php">
-    <InvalidNullableReturnType occurrences="1">
-      <code>array</code>
-    </InvalidNullableReturnType>
     <InvalidReturnStatement occurrences="1">
       <code>$existingChildren</code>
     </InvalidReturnStatement>
@@ -3466,12 +3416,6 @@
       <code>$path</code>
       <code>self::SCAN_RECURSIVE_INCOMPLETE</code>
     </InvalidScalarArgument>
-    <NullableReturnStatement occurrences="4">
-      <code>null</code>
-      <code>null</code>
-      <code>null</code>
-      <code>null</code>
-    </NullableReturnStatement>
     <TypeDoesNotContainType occurrences="1">
       <code>$data ?? $this-&gt;getData($file)</code>
     </TypeDoesNotContainType>
@@ -3820,9 +3764,8 @@
     <ImplementedReturnTypeMismatch occurrences="1">
       <code>string|false</code>
     </ImplementedReturnTypeMismatch>
-    <InvalidNullableReturnType occurrences="2">
+    <InvalidNullableReturnType occurrences="1">
       <code>array</code>
-      <code>getMetaData</code>
     </InvalidNullableReturnType>
     <InvalidOperand occurrences="2">
       <code>!$permissions</code>
@@ -3840,9 +3783,8 @@
       <code>$storage-&gt;updater</code>
       <code>$storage-&gt;updater</code>
     </NoInterfaceProperties>
-    <NullableReturnStatement occurrences="2">
+    <NullableReturnStatement occurrences="1">
       <code>$this-&gt;getStorageCache()-&gt;getAvailability()</code>
-      <code>null</code>
     </NullableReturnStatement>
   </file>
   <file src="lib/private/Files/Storage/DAV.php">
@@ -3926,9 +3868,6 @@
     <ImplicitToStringCast occurrences="1">
       <code>$file</code>
     </ImplicitToStringCast>
-    <InvalidNullableReturnType occurrences="1">
-      <code>getMetaData</code>
-    </InvalidNullableReturnType>
     <InvalidOperand occurrences="1">
       <code>$result</code>
     </InvalidOperand>
@@ -3940,9 +3879,8 @@
       <code>filesize</code>
       <code>free_space</code>
     </InvalidReturnType>
-    <NullableReturnStatement occurrences="2">
+    <NullableReturnStatement occurrences="1">
       <code>$helper-&gt;getFileSize($fullPath)</code>
-      <code>null</code>
     </NullableReturnStatement>
     <TypeDoesNotContainNull occurrences="2">
       <code>$space === false || is_null($space)</code>
@@ -3959,7 +3897,7 @@
     </NoInterfaceProperties>
   </file>
   <file src="lib/private/Files/Storage/Wrapper/Availability.php">
-    <InvalidNullableReturnType occurrences="35">
+    <InvalidNullableReturnType occurrences="34">
       <code>copy</code>
       <code>copyFromStorage</code>
       <code>file_exists</code>
@@ -3973,7 +3911,6 @@
       <code>getDirectDownload</code>
       <code>getETag</code>
       <code>getLocalFile</code>
-      <code>getMetaData</code>
       <code>getMimeType</code>
       <code>getOwner</code>
       <code>getPermissions</code>
@@ -4025,9 +3962,6 @@
       <code>$source</code>
       <code>$target</code>
     </InvalidArgument>
-    <InvalidNullableReturnType occurrences="1">
-      <code>array</code>
-    </InvalidNullableReturnType>
     <InvalidOperand occurrences="3">
       <code>$result</code>
       <code>$result</code>
@@ -4053,9 +3987,6 @@
       <code>$size</code>
       <code>$sourceStorage-&gt;filemtime($sourceInternalPath)</code>
     </InvalidScalarArgument>
-    <NullableReturnStatement occurrences="1">
-      <code>null</code>
-    </NullableReturnStatement>
   </file>
   <file src="lib/private/Files/Storage/Wrapper/Jail.php">
     <InvalidReturnStatement occurrences="1">
