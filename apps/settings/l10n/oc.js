@@ -98,7 +98,7 @@ OC.L10N.register(
     "Done" : "Done",
     "Copy" : "Copiar",
     "Add new password" : "Apondre senhal novèl",
-    "No language set" : "Cap de paquet de lenga",
+    "No language set" : "Cap de lenga pas definida",
     "Cancel" : "Anullar",
     "Display name" : "Nom afichat",
     "Email" : "Adreça corrièl",

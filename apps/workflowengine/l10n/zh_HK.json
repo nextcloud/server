@@ -68,7 +68,7 @@
     "iOS client" : "iOS 客戶端",
     "Desktop client" : "桌面客戶端",
     "Thunderbird & Outlook addons" : "Thunderbird & Outlook 插件",
-    "Custom user agent" : "自訂用戶 agent",
+    "Custom user agent" : "自訂 user agent",
     "At least one event must be selected" : "必須選擇至少一個活動",
     "Add new flow" : "添加新流程",
     "When" : "時間",
@@ -107,11 +107,11 @@
     "is not tagged with" : "没有標記為",
     "Request URL" : "請求網址",
     "Request time" : "請求時間",
-    "between" : "之間",
+    "between" : "介於",
     "not between" : "皆非",
-    "Request user agent" : "請求用戶代理",
-    "User group membership" : "用戶成員關係",
-    "is member of" : "是成員來自",
-    "is not member of" : "不是成員來自"
+    "Request user agent" : "請求 user agent",
+    "User group membership" : "用戶群組成員身份",
+    "is member of" : "是以下群組的成員：",
+    "is not member of" : "非以下群組的成員："
 },"pluralForm" :"nplurals=1; plural=0;"
 }
