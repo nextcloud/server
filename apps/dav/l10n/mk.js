@@ -86,6 +86,8 @@ OC.L10N.register(
     "Tasks" : "Задачи",
     "Untitled task" : "Неименувана задача",
     "Completed on %s" : "Завршена на %s",
+    "Due on %s by %s" : "Истекува на %s од %s",
+    "Due on %s" : "Истекува на %s",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "WebDAV крајна точка",
     "There was an error updating your attendance status." : "Настана грешка при ажурирање на вашето присуство.",

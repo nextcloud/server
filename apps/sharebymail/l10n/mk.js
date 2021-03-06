@@ -49,6 +49,7 @@ OC.L10N.register(
     "Share provider which allows you to share files by mail" : "Провајдер за споделување кој дозволува споделување преки е-пошта",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Дозволете им на корисниците да споделуваат персонални линкови до датотеки и папки со внесување на адреса на е-пошта.",
     "Send password by mail" : "Испрати лозинка преку е-пошта",
-    "Enforce password protection" : "Задолжителна заштита со лозинка"
+    "Enforce password protection" : "Задолжителна заштита со лозинка",
+    "Reply to initiator" : "Одговор до иницијаторот"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");
