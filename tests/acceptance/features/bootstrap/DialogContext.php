@@ -38,7 +38,7 @@ class DialogContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function theDialogButton($text) {
-		return Locator::forThe()->xpath("//button[normalize-space() = '$text']")->
+		return Locator::forThe()->xpath("//button[normalize-space() = \"$text\"]")->
 			descendantOf(self::theDialog())->
 			describedAs($text . " button of the dialog");
 	}
