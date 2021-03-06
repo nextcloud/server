@@ -82,7 +82,7 @@ class ContactsMenuContext implements Context, ActorAwareInterface {
 	 * @When I search for the user :user
 	 */
 	public function iSearchForTheUser($user) {
-		$this->actor->find(self::contactsMenuSearchInput(), 10)->setValue($user . "\r");
+		$this->actor->find(self::contactsMenuSearchInput(), 10)->setValue($user);
 	}
 
 	/**
