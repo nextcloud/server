@@ -1,7 +1,7 @@
 OC.L10N.register(
     "oauth2",
     {
-    "Your client is not authorized to connect. Please inform the administrator of your client." : "此應用程式無權連結，請通知此應用程式的管理員。",
+    "Your client is not authorized to connect. Please inform the administrator of your client." : "此客戶端無權連結，請通知此客戶端的管理員。",
     "Your redirect URL needs to be a full URL for example: https://yourdomain.com/path" : "重導向RUL必須為完整的URL，如範例所示：https://yourdomain.com/path",
     "OAuth 2.0" : "OAuth 2.0",
     "Allows OAuth2 compatible authentication from other web applications." : "允許相容於Oauth2的外部網頁應用程式驗證。",
