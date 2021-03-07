@@ -152,6 +152,7 @@ OC.L10N.register(
     "One Group Base DN per line" : "一行一個 Group Base DN",
     "Group Search Attributes" : "群組搜尋屬性",
     "Dynamic Group Member URL" : "動態組成員URL",
+    "Paging chunksize" : "分頁塊大小",
     "Enable LDAP password changes per user" : "啟用每個用戶的LDAP密碼更改",
     "(New password is sent as plain text to LDAP)" : "（新密碼以純文本格式發送到LDAP）",
     "Default password policy DN" : "默認密碼策略DN",
