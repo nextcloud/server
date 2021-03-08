@@ -180,6 +180,17 @@ interface ICache {
 	public function moveFromCache(ICache $sourceCache, $sourcePath, $targetPath);
 
 	/**
+	 * Copy a file or folder in the cache
+	 *
+	 * @param ICache $sourceCache
+	 * @param ICacheEntry $sourceEntry
+	 * @param string $targetPath
+	 * @return int fileid of copied entry
+	 * @since 22.0.0
+	 */
+	public function copyFromCache(ICache $sourceCache, ICacheEntry $sourceEntry, string $targetPath): int;
+
+	/**
 	 * Get the scan status of a file
 	 *
 	 * - ICache::NOT_FOUND: File is not in the cache
