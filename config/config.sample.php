@@ -249,6 +249,9 @@ $CONFIG = [
 /**
  * The lifetime of a session after inactivity.
  *
+ * The maximum possible time is limited by the session.gc_maxlifetime php.ini setting
+ * which would overwrite this option if it is less than the value in the config.php
+ *
  * Defaults to ``60*60*24`` seconds (24 hours)
  */
 'session_lifetime' => 60 * 60 * 24,
