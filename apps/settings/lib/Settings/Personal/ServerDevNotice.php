@@ -74,7 +74,7 @@ class ServerDevNotice implements ISettings {
 	/**
 	 * @return TemplateResponse
 	 */
-	public function getForm() {
+	public function getForm(): TemplateResponse {
 		$userFolder = $this->rootFolder->getUserFolder($this->userSession->getUser()->getUID());
 
 		$hasInitialState = false;
@@ -98,9 +98,9 @@ class ServerDevNotice implements ISettings {
 	}
 
 	/**
-	 * @return string the section ID, e.g. 'sharing'
+	 * @return string|null the section ID, e.g. 'sharing'
 	 */
-	public function getSection() {
+	public function getSection(): ?string {
 		if ($this->registry->delegateHasValidSubscription()) {
 			return null;
 		}
@@ -115,7 +115,7 @@ class ServerDevNotice implements ISettings {
 	 *
 	 * E.g.: 70
 	 */
-	public function getPriority() {
+	public function getPriority(): int {
 		return 1000;
 	}
 }
