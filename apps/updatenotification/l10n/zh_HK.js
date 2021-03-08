@@ -42,7 +42,7 @@ OC.L10N.register(
     "Stable" : "穩定",
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "最新的穩定版本。適於一般使用，一律更新到最新主要版本。",
     "Beta" : "Beta 測試版",
-    "A pre-release version only for testing new features, not for production environments." : "預發布版本僅用於測試新功能，不適用於生產環境。",
+    "A pre-release version only for testing new features, not for production environments." : "預發佈版本僅用於測試新功能，不適用於生產環境。",
     "_<strong>%n</strong> app has no compatible version for this Nextcloud version available_::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available_" : ["<strong>%n</strong> 個應用程式沒有適用於此 Nextcloud 版本的兼容版本"],
     "Apps missing updates" : "缺少更新的應用程式",
     "Apps with available updates" : "有可用更新的應用程式",
