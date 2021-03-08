@@ -32,7 +32,7 @@ class AppManagement extends Action {
 	/**
 	 * @param string $appName
 	 */
-	public function enableApp(string $appName) {
+	public function enableApp(string $appName): void {
 		$this->log('App "%s" enabled',
 			['app' => $appName],
 			['app']
@@ -43,7 +43,7 @@ class AppManagement extends Action {
 	 * @param string $appName
 	 * @param string[] $groups
 	 */
-	public function enableAppForGroups(string $appName, array $groups) {
+	public function enableAppForGroups(string $appName, array $groups): void {
 		$this->log('App "%1$s" enabled for groups: %2$s',
 			['app' => $appName, 'groups' => implode(', ', $groups)],
 			['app', 'groups']
@@ -53,7 +53,7 @@ class AppManagement extends Action {
 	/**
 	 * @param string $appName
 	 */
-	public function disableApp(string $appName) {
+	public function disableApp(string $appName): void {
 		$this->log('App "%s" disabled',
 			['app' => $appName],
 			['app']

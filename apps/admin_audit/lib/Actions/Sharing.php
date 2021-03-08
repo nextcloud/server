@@ -43,7 +43,7 @@ class Sharing extends Action {
 	 *
 	 * @param array $params
 	 */
-	public function shared(array $params) {
+	public function shared(array $params): void {
 		if ($params['shareType'] === IShare::TYPE_LINK) {
 			$this->log(
 				'The %s "%s" with ID "%s" has been shared via link with permissions "%s" (Share ID: %s)',
@@ -168,7 +168,7 @@ class Sharing extends Action {
 	 *
 	 * @param array $params
 	 */
-	public function unshare(array $params) {
+	public function unshare(array $params): void {
 		if ($params['shareType'] === IShare::TYPE_LINK) {
 			$this->log(
 				'The %s "%s" with ID "%s" has been unshared (Share ID: %s)',
@@ -284,7 +284,7 @@ class Sharing extends Action {
 	 *
 	 * @param array $params
 	 */
-	public function updatePermissions(array $params) {
+	public function updatePermissions(array $params): void {
 		$this->log(
 			'The permissions of the shared %s "%s" with ID "%s" have been changed to "%s"',
 			$params,
@@ -302,7 +302,7 @@ class Sharing extends Action {
 	 *
 	 * @param array $params
 	 */
-	public function updatePassword(array $params) {
+	public function updatePassword(array $params): void {
 		$this->log(
 			'The password of the publicly shared %s "%s" with ID "%s" has been changed',
 			$params,
@@ -319,7 +319,7 @@ class Sharing extends Action {
 	 *
 	 * @param array $params
 	 */
-	public function updateExpirationDate(array $params) {
+	public function updateExpirationDate(array $params): void {
 		$this->log(
 			'The expiration date of the publicly shared %s with ID "%s" has been changed to "%s"',
 			$params,
@@ -336,7 +336,7 @@ class Sharing extends Action {
 	 *
 	 * @param array $params
 	 */
-	public function shareAccessed(array $params) {
+	public function shareAccessed(array $params): void {
 		$this->log(
 			'The shared %s with the token "%s" by "%s" has been accessed.',
 			$params,

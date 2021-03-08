@@ -29,16 +29,13 @@ declare(strict_types=1);
 
 namespace OCA\AdminAudit\Actions;
 
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 
 class Action {
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	private $logger;
 
-	/**
-	 * @param ILogger $logger
-	 */
-	public function __construct(ILogger $logger) {
+	public function __construct(LoggerInterface $logger) {
 		$this->logger = $logger;
 	}
 
@@ -53,7 +50,7 @@ class Action {
 	public function log(string $text,
 						array $params,
 						array $elements,
-						bool $obfuscateParameters = false) {
+						bool $obfuscateParameters = false): void {
 		foreach ($elements as $element) {
 			if (!isset($params[$element])) {
 				if ($obfuscateParameters) {

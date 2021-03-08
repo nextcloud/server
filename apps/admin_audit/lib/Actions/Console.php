@@ -32,7 +32,7 @@ class Console extends Action {
 	/**
 	 * @param $arguments
 	 */
-	public function runCommand(array $arguments) {
+	public function runCommand(array $arguments): void {
 		if (!isset($arguments[1]) || $arguments[1] === '_completion') {
 			// Don't log autocompletion
 			return;

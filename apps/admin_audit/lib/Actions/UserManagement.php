@@ -44,7 +44,7 @@ class UserManagement extends Action {
 	 *
 	 * @param array $params
 	 */
-	public function create(array $params) {
+	public function create(array $params): void {
 		$this->log(
 			'User created: "%s"',
 			$params,
@@ -59,7 +59,7 @@ class UserManagement extends Action {
 	 *
 	 * @param string $uid
 	 */
-	public function assign(string $uid) {
+	public function assign(string $uid): void {
 		$this->log(
 		'UserID assigned: "%s"',
 			[ 'uid' => $uid ],
@@ -72,7 +72,7 @@ class UserManagement extends Action {
 	 *
 	 * @param array $params
 	 */
-	public function delete(array $params) {
+	public function delete(array $params): void {
 		$this->log(
 			'User deleted: "%s"',
 			$params,
@@ -87,7 +87,7 @@ class UserManagement extends Action {
 	 *
 	 * @param string $uid
 	 */
-	public function unassign(string $uid) {
+	public function unassign(string $uid): void {
 		$this->log(
 			'UserID unassigned: "%s"',
 			[ 'uid' => $uid ],
@@ -100,7 +100,7 @@ class UserManagement extends Action {
 	 *
 	 * @param array $params
 	 */
-	public function change(array $params) {
+	public function change(array $params): void {
 		switch ($params['feature']) {
 			case 'enabled':
 				$this->log(
@@ -130,7 +130,7 @@ class UserManagement extends Action {
 	 *
 	 * @param IUser $user
 	 */
-	public function setPassword(IUser $user) {
+	public function setPassword(IUser $user): void {
 		if ($user->getBackendClassName() === 'Database') {
 			$this->log(
 				'Password of user "%s" has been changed',
