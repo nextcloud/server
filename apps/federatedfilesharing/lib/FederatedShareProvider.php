@@ -393,9 +393,7 @@ class FederatedShareProvider implements IShareProvider {
 		$qb->setValue('file_target', $qb->createNamedParameter(''));
 
 		$qb->execute();
-		$id = $qb->getLastInsertId();
-
-		return (int)$id;
+		return $qb->getLastInsertId();
 	}
 
 	/**

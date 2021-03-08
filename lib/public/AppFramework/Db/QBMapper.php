@@ -136,7 +136,7 @@ abstract class QBMapper {
 
 		if ($entity->id === null) {
 			// When autoincrement is used id is always an int
-			$entity->setId((int)$qb->getLastInsertId());
+			$entity->setId($qb->getLastInsertId());
 		}
 
 		return $entity;
