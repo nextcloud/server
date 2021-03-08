@@ -32,6 +32,7 @@ namespace OC\Files\ObjectStore;
 use Icewind\Streams\CallbackWrapper;
 use Icewind\Streams\CountWrapper;
 use Icewind\Streams\IteratorDirectory;
+use OC\Files\Cache\Cache;
 use OC\Files\Cache\CacheEntry;
 use OC\Files\Storage\PolyFill\CopyDirectory;
 use OCP\Files\Cache\ICacheEntry;
@@ -556,14 +557,13 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 
 		$sourceUrn = $this->getURN($sourceEntry->getId());
 
-		$cache->copyFromCache($cache, $sourceEntry, $to);
-		$targetEntry = $cache->get($to);
-
-		if (!$targetEntry) {
-			throw new \Exception('Target not in cache after copy');
+		if (!$cache instanceof Cache) {
+			throw new \Exception("Invalid source cache for object store copy");
 		}
 
-		$targetUrn = $this->getURN($targetEntry->getId());
+		$targetId = $cache->copyFromCache($cache, $sourceEntry, $to);
+
+		$targetUrn = $this->getURN($targetId);
 
 		try {
 			$this->objectStore->copyObject($sourceUrn, $targetUrn);
