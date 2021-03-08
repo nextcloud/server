@@ -109,7 +109,7 @@ abstract class PublicShareController extends Controller {
 	 *
 	 * @since 14.0.0
 	 */
-	final public function isAuthenticated(): bool {
+	public function isAuthenticated(): bool {
 		// Always authenticated against non password protected shares
 		if (!$this->isPasswordProtected()) {
 			return true;
