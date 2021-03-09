@@ -285,7 +285,7 @@ script('settings', [
 			</form>
 		</div>
 		<?php } ?>
-		<?php if (!empty($_['twitter']) || $_['lookupServerUploadEnabled']) { ?>
+		<?php if ((!empty($_['twitter']) || $_['lookupServerUploadEnabled']) && $_['show-social-button']) { ?>
 		<div class="personal-settings-setting-box">
 			<form id="twitterform" class="section">
 				<h3>

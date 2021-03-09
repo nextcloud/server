@@ -31,6 +31,7 @@ use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\IRootFolder;
+use OCP\IConfig;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
 use OCP\Settings\ISettings;
@@ -38,6 +39,9 @@ use OCP\Support\Subscription\IRegistry;
 use OCP\Util;
 
 class ServerDevNotice implements ISettings {
+
+	/** @var IConfig */
+	private $config;
 
 	/** @var IRegistry */
 	private $registry;
@@ -62,7 +66,9 @@ class ServerDevNotice implements ISettings {
 								IRootFolder $rootFolder,
 								IUserSession $userSession,
 								IInitialState $initialState,
-								IURLGenerator $urlGenerator) {
+								IURLGenerator $urlGenerator,
+								IConfig $config) {
+		$this->config = $config;
 		$this->registry = $registry;
 		$this->eventDispatcher = $eventDispatcher;
 		$this->rootFolder = $rootFolder;
@@ -92,8 +98,12 @@ class ServerDevNotice implements ISettings {
 		Util::addScript('settings', 'vue-settings-nextcloud-pdf');
 		$this->initialState->provideInitialState('has-reasons-use-nextcloud-pdf', $hasInitialState);
 
+		$showReasonsUseNextCloud = $this->config->getSystemValue('show_reaons_use_nextcloud', true);
+		$showSocialButtons = $this->config->getSystemValue('show_social_buttons', true);
 		return new TemplateResponse('settings', 'settings/personal/development.notice', [
-			'reasons-use-nextcloud-pdf-link' => $this->urlGenerator->linkToRoute('settings.Reasons.getPdf')
+			'reasons-use-nextcloud-pdf-link' => $this->urlGenerator->linkToRoute('settings.Reasons.getPdf'),
+			'show-reasons-use-nextcloud' => $showReasonsUseNextCloud,
+			'show-social-button' => $showSocialButtons
 		]);
 	}
 
