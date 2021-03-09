@@ -63,6 +63,7 @@ use OCP\Security\Events\ValidatePasswordPolicyEvent;
 use OCP\Security\IHasher;
 use OCP\Security\ISecureRandom;
 use OCP\Share;
+use OCP\Share\Exceptions\AlreadySharedException;
 use OCP\Share\Exceptions\GenericShareException;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
@@ -566,7 +567,7 @@ class Manager implements IManager {
 
 			// Identical share already existst
 			if ($existingShare->getSharedWith() === $share->getSharedWith() && $existingShare->getShareType() === $share->getShareType()) {
-				throw new \Exception('Path is already shared with this user');
+				throw new AlreadySharedException('Path is already shared with this user', $existingShare);
 			}
 
 			// The share is already shared with this user via a group share
@@ -576,7 +577,7 @@ class Manager implements IManager {
 					$user = $this->userManager->get($share->getSharedWith());
 
 					if ($group->inGroup($user) && $existingShare->getShareOwner() !== $share->getShareOwner()) {
-						throw new \Exception('Path is already shared with this user');
+						throw new AlreadySharedException('Path is already shared with this user', $existingShare);
 					}
 				}
 			}
@@ -621,7 +622,7 @@ class Manager implements IManager {
 			}
 
 			if ($existingShare->getSharedWith() === $share->getSharedWith() && $existingShare->getShareType() === $share->getShareType()) {
-				throw new \Exception('Path is already shared with this group');
+				throw new AlreadySharedException('Path is already shared with this group', $existingShare);
 			}
 		}
 	}
@@ -735,77 +736,82 @@ class Manager implements IManager {
 			}
 		}
 
-		//Verify share type
-		if ($share->getShareType() === IShare::TYPE_USER) {
-			$this->userCreateChecks($share);
+		try {
+			//Verify share type
+			if ($share->getShareType() === IShare::TYPE_USER) {
+				$this->userCreateChecks($share);
 
-			//Verify the expiration date
-			$share = $this->validateExpirationDateInternal($share);
-		} elseif ($share->getShareType() === IShare::TYPE_GROUP) {
-			$this->groupCreateChecks($share);
+				//Verify the expiration date
+				$share = $this->validateExpirationDateInternal($share);
+			} elseif ($share->getShareType() === IShare::TYPE_GROUP) {
+				$this->groupCreateChecks($share);
 
-			//Verify the expiration date
-			$share = $this->validateExpirationDateInternal($share);
-		} elseif ($share->getShareType() === IShare::TYPE_LINK) {
-			$this->linkCreateChecks($share);
-			$this->setLinkParent($share);
+				//Verify the expiration date
+				$share = $this->validateExpirationDateInternal($share);
+			} elseif ($share->getShareType() === IShare::TYPE_LINK) {
+				$this->linkCreateChecks($share);
+				$this->setLinkParent($share);
 
-			/*
-			 * For now ignore a set token.
-			 */
-			$share->setToken(
-				$this->secureRandom->generate(
-					\OC\Share\Constants::TOKEN_LENGTH,
-					\OCP\Security\ISecureRandom::CHAR_HUMAN_READABLE
-				)
-			);
+				/*
+				 * For now ignore a set token.
+				 */
+				$share->setToken(
+					$this->secureRandom->generate(
+						\OC\Share\Constants::TOKEN_LENGTH,
+						\OCP\Security\ISecureRandom::CHAR_HUMAN_READABLE
+					)
+				);
 
-			//Verify the expiration date
-			$share = $this->validateExpirationDate($share);
+				//Verify the expiration date
+				$share = $this->validateExpirationDate($share);
 
-			//Verify the password
-			$this->verifyPassword($share->getPassword());
+				//Verify the password
+				$this->verifyPassword($share->getPassword());
 
-			// If a password is set. Hash it!
-			if ($share->getPassword() !== null) {
-				$share->setPassword($this->hasher->hash($share->getPassword()));
+				// If a password is set. Hash it!
+				if ($share->getPassword() !== null) {
+					$share->setPassword($this->hasher->hash($share->getPassword()));
+				}
+			} elseif ($share->getShareType() === IShare::TYPE_EMAIL) {
+				$share->setToken(
+					$this->secureRandom->generate(
+						\OC\Share\Constants::TOKEN_LENGTH,
+						\OCP\Security\ISecureRandom::CHAR_HUMAN_READABLE
+					)
+				);
 			}
-		} elseif ($share->getShareType() === IShare::TYPE_EMAIL) {
-			$share->setToken(
-				$this->secureRandom->generate(
-					\OC\Share\Constants::TOKEN_LENGTH,
-					\OCP\Security\ISecureRandom::CHAR_HUMAN_READABLE
-				)
-			);
-		}
 
-		// Cannot share with the owner
-		if ($share->getShareType() === IShare::TYPE_USER &&
-			$share->getSharedWith() === $share->getShareOwner()) {
-			throw new \InvalidArgumentException('Can’t share with the share owner');
-		}
+			// Cannot share with the owner
+			if ($share->getShareType() === IShare::TYPE_USER &&
+				$share->getSharedWith() === $share->getShareOwner()) {
+				throw new \InvalidArgumentException('Can’t share with the share owner');
+			}
 
-		// Generate the target
-		$target = $this->config->getSystemValue('share_folder', '/') .'/'. $share->getNode()->getName();
-		$target = \OC\Files\Filesystem::normalizePath($target);
-		$share->setTarget($target);
-
-		// Pre share event
-		$event = new GenericEvent($share);
-		$this->legacyDispatcher->dispatch('OCP\Share::preShare', $event);
-		if ($event->isPropagationStopped() && $event->hasArgument('error')) {
-			throw new \Exception($event->getArgument('error'));
-		}
-
-		$oldShare = $share;
-		$provider = $this->factory->getProviderForType($share->getShareType());
-		$share = $provider->create($share);
-		//reuse the node we already have
-		$share->setNode($oldShare->getNode());
-
-		// Reset the target if it is null for the new share
-		if ($share->getTarget() === '') {
+			// Generate the target
+			$target = $this->config->getSystemValue('share_folder', '/') . '/' . $share->getNode()->getName();
+			$target = \OC\Files\Filesystem::normalizePath($target);
 			$share->setTarget($target);
+
+			// Pre share event
+			$event = new GenericEvent($share);
+			$this->legacyDispatcher->dispatch('OCP\Share::preShare', $event);
+			if ($event->isPropagationStopped() && $event->hasArgument('error')) {
+				throw new \Exception($event->getArgument('error'));
+			}
+
+			$oldShare = $share;
+			$provider = $this->factory->getProviderForType($share->getShareType());
+			$share = $provider->create($share);
+			//reuse the node we already have
+			$share->setNode($oldShare->getNode());
+
+			// Reset the target if it is null for the new share
+			if ($share->getTarget() === '') {
+				$share->setTarget($target);
+			}
+		} catch (AlreadySharedException $e) {
+			// if a share for the same target already exists, dont create a new one, but do trigger the hooks and notifications again
+			$share = $e->getExistingShare();
 		}
 
 		// Post share event
