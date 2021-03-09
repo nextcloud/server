@@ -64,95 +64,28 @@ class SharingTest extends TestCase {
 
 	public function testGetFormWithoutExcludedGroups() {
 		$this->config
-			->expects($this->at(0))
 			->method('getAppValue')
-			->with('core', 'shareapi_exclude_groups_list', '')
-			->willReturn('');
-		$this->config
-			->expects($this->at(1))
-			->method('getAppValue')
-			->with('core', 'shareapi_allow_group_sharing', 'yes')
-			->willReturn('yes');
-		$this->config
-			->expects($this->at(2))
-			->method('getAppValue')
-			->with('core', 'shareapi_allow_links', 'yes')
-			->willReturn('yes');
-		$this->config
-			->expects($this->at(3))
-			->method('getAppValue')
-			->with('core', 'shareapi_allow_public_upload', 'yes')
-			->willReturn('yes');
-		$this->config
-			->expects($this->at(4))
-			->method('getAppValue')
-			->with('core', 'shareapi_allow_resharing', 'yes')
-			->willReturn('yes');
-		$this->config
-			->expects($this->at(5))
-			->method('getAppValue')
-			->with('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes')
-			->willReturn('yes');
-		$this->config
-			->expects($this->at(6))
-			->method('getAppValue')
-			->with('core', 'shareapi_restrict_user_enumeration_to_group', 'no')
-			->willReturn('no');
-		$this->config
-			->expects($this->at(7))
-			->method('getAppValue')
-			->with('core', 'shareapi_enabled', 'yes')
-			->willReturn('yes');
-		$this->config
-			->expects($this->at(8))
-			->method('getAppValue')
-			->with('core', 'shareapi_default_expire_date', 'no')
-			->willReturn('no');
-		$this->config
-			->expects($this->at(9))
-			->method('getAppValue')
-			->with('core', 'shareapi_expire_after_n_days', '7')
-			->willReturn('7');
-		$this->config
-			->expects($this->at(10))
-			->method('getAppValue')
-			->with('core', 'shareapi_enforce_expire_date', 'no')
-			->willReturn('no');
-		$this->config
-			->expects($this->at(11))
-			->method('getAppValue')
-			->with('core', 'shareapi_exclude_groups', 'no')
-			->willReturn('no');
-		$this->config
-			->expects($this->at(12))
-			->method('getAppValue')
-			->with('core', 'shareapi_public_link_disclaimertext', null)
-			->willReturn('Lorem ipsum');
-		$this->config
-			->expects($this->at(13))
-			->method('getAppValue')
-			->with('core', 'shareapi_enable_link_password_by_default', 'no')
-			->willReturn('yes');
-		$this->config
-			->expects($this->at(14))
-			->method('getAppValue')
-			->with('core', 'shareapi_default_permissions', Constants::PERMISSION_ALL)
-			->willReturn(Constants::PERMISSION_ALL);
-		$this->config
-			->expects($this->at(15))
-			->method('getAppValue')
-			->with('core', 'shareapi_default_internal_expire_date', 'no')
-			->willReturn('no');
-		$this->config
-			->expects($this->at(16))
-			->method('getAppValue')
-			->with('core', 'shareapi_internal_expire_after_n_days', '7')
-			->willReturn('7');
-		$this->config
-			->expects($this->at(17))
-			->method('getAppValue')
-			->with('core', 'shareapi_enforce_internal_expire_date', 'no')
-			->willReturn('no');
+			->willReturnMap([
+				['core', 'shareapi_exclude_groups_list', '', ''],
+				['core', 'shareapi_allow_group_sharing', 'yes', 'yes'],
+				['core', 'shareapi_allow_links', 'yes', 'yes'],
+				['core', 'shareapi_allow_public_upload', 'yes', 'yes'],
+				['core', 'shareapi_allow_resharing', 'yes', 'yes'],
+				['core', 'shareapi_allow_share_dialog_user_enumeration', 'yes', 'yes'],
+				['core', 'shareapi_restrict_user_enumeration_to_group', 'no', 'no'],
+				['core', 'shareapi_restrict_user_enumeration_to_phone', 'no', 'no'],
+				['core', 'shareapi_enabled', 'yes', 'yes'],
+				['core', 'shareapi_default_expire_date', 'no', 'no'],
+				['core', 'shareapi_expire_after_n_days', '7', '7'],
+				['core', 'shareapi_enforce_expire_date', 'no', 'no'],
+				['core', 'shareapi_exclude_groups', 'no', 'no'],
+				['core', 'shareapi_public_link_disclaimertext', null, 'Lorem ipsum'],
+				['core', 'shareapi_enable_link_password_by_default', 'no', 'yes'],
+				['core', 'shareapi_default_permissions', Constants::PERMISSION_ALL, Constants::PERMISSION_ALL],
+				['core', 'shareapi_default_internal_expire_date', 'no', 'no'],
+				['core', 'shareapi_internal_expire_after_n_days', '7', '7'],
+				['core', 'shareapi_enforce_internal_expire_date', 'no', 'no'],
+			]);
 
 		$expected = new TemplateResponse(
 			'settings',
@@ -164,6 +97,7 @@ class SharingTest extends TestCase {
 				'allowResharing' => 'yes',
 				'allowShareDialogUserEnumeration' => 'yes',
 				'restrictUserEnumerationToGroup' => 'no',
+				'restrictUserEnumerationToPhone' => 'no',
 				'enforceLinkPassword' => false,
 				'onlyShareWithGroupMembers' => false,
 				'shareAPIEnabled' => 'yes',
@@ -188,96 +122,28 @@ class SharingTest extends TestCase {
 
 	public function testGetFormWithExcludedGroups() {
 		$this->config
-			->expects($this->at(0))
 			->method('getAppValue')
-			->with('core', 'shareapi_exclude_groups_list', '')
-			->willReturn('["NoSharers","OtherNoSharers"]');
-		$this->config
-			->expects($this->at(1))
-			->method('getAppValue')
-			->with('core', 'shareapi_allow_group_sharing', 'yes')
-			->willReturn('yes');
-		$this->config
-			->expects($this->at(2))
-			->method('getAppValue')
-			->with('core', 'shareapi_allow_links', 'yes')
-			->willReturn('yes');
-		$this->config
-			->expects($this->at(3))
-			->method('getAppValue')
-			->with('core', 'shareapi_allow_public_upload', 'yes')
-			->willReturn('yes');
-		$this->config
-			->expects($this->at(4))
-			->method('getAppValue')
-			->with('core', 'shareapi_allow_resharing', 'yes')
-			->willReturn('yes');
-		$this->config
-			->expects($this->at(5))
-			->method('getAppValue')
-			->with('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes')
-			->willReturn('yes');
-		$this->config
-			->expects($this->at(6))
-			->method('getAppValue')
-			->with('core', 'shareapi_restrict_user_enumeration_to_group', 'no')
-			->willReturn('no');
-		$this->config
-			->expects($this->at(7))
-			->method('getAppValue')
-			->with('core', 'shareapi_enabled', 'yes')
-			->willReturn('yes');
-		$this->config
-			->expects($this->at(8))
-			->method('getAppValue')
-			->with('core', 'shareapi_default_expire_date', 'no')
-			->willReturn('no');
-		$this->config
-			->expects($this->at(9))
-			->method('getAppValue')
-			->with('core', 'shareapi_expire_after_n_days', '7')
-			->willReturn('7');
-		$this->config
-			->expects($this->at(10))
-			->method('getAppValue')
-			->with('core', 'shareapi_enforce_expire_date', 'no')
-			->willReturn('no');
-		$this->config
-			->expects($this->at(11))
-			->method('getAppValue')
-			->with('core', 'shareapi_exclude_groups', 'no')
-			->willReturn('yes');
-		$this->config
-			->expects($this->at(12))
-			->method('getAppValue')
-			->with('core', 'shareapi_public_link_disclaimertext', null)
-			->willReturn('Lorem ipsum');
-		$this->config
-			->expects($this->at(13))
-			->method('getAppValue')
-			->with('core', 'shareapi_enable_link_password_by_default', 'no')
-			->willReturn('yes');
-		$this->config
-			->expects($this->at(14))
-			->method('getAppValue')
-			->with('core', 'shareapi_default_permissions', Constants::PERMISSION_ALL)
-			->willReturn(Constants::PERMISSION_ALL);
-		$this->config
-			->expects($this->at(15))
-			->method('getAppValue')
-			->with('core', 'shareapi_default_internal_expire_date', 'no')
-			->willReturn('no');
-		$this->config
-			->expects($this->at(16))
-			->method('getAppValue')
-			->with('core', 'shareapi_internal_expire_after_n_days', '7')
-			->willReturn('7');
-		$this->config
-			->expects($this->at(17))
-			->method('getAppValue')
-			->with('core', 'shareapi_enforce_internal_expire_date', 'no')
-			->willReturn('no');
-
+			->willReturnMap([
+				['core', 'shareapi_exclude_groups_list', '', '["NoSharers","OtherNoSharers"]'],
+				['core', 'shareapi_allow_group_sharing', 'yes', 'yes'],
+				['core', 'shareapi_allow_links', 'yes', 'yes'],
+				['core', 'shareapi_allow_public_upload', 'yes', 'yes'],
+				['core', 'shareapi_allow_resharing', 'yes', 'yes'],
+				['core', 'shareapi_allow_share_dialog_user_enumeration', 'yes', 'yes'],
+				['core', 'shareapi_restrict_user_enumeration_to_group', 'no', 'no'],
+				['core', 'shareapi_restrict_user_enumeration_to_phone', 'no', 'no'],
+				['core', 'shareapi_enabled', 'yes', 'yes'],
+				['core', 'shareapi_default_expire_date', 'no', 'no'],
+				['core', 'shareapi_expire_after_n_days', '7', '7'],
+				['core', 'shareapi_enforce_expire_date', 'no', 'no'],
+				['core', 'shareapi_exclude_groups', 'no', 'yes'],
+				['core', 'shareapi_public_link_disclaimertext', null, 'Lorem ipsum'],
+				['core', 'shareapi_enable_link_password_by_default', 'no', 'yes'],
+				['core', 'shareapi_default_permissions', Constants::PERMISSION_ALL, Constants::PERMISSION_ALL],
+				['core', 'shareapi_default_internal_expire_date', 'no', 'no'],
+				['core', 'shareapi_internal_expire_after_n_days', '7', '7'],
+				['core', 'shareapi_enforce_internal_expire_date', 'no', 'no'],
+			]);
 
 		$expected = new TemplateResponse(
 			'settings',
@@ -289,6 +155,7 @@ class SharingTest extends TestCase {
 				'allowResharing' => 'yes',
 				'allowShareDialogUserEnumeration' => 'yes',
 				'restrictUserEnumerationToGroup' => 'no',
+				'restrictUserEnumerationToPhone' => 'no',
 				'enforceLinkPassword' => false,
 				'onlyShareWithGroupMembers' => false,
 				'shareAPIEnabled' => 'yes',
