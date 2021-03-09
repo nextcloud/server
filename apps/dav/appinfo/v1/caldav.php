@@ -27,6 +27,7 @@
  */
 
 // Backends
+use OC\KnownUser\KnownUserService;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\Connector\LegacyDAVACL;
 use OCA\DAV\CalDAV\CalendarRoot;
@@ -50,6 +51,7 @@ $principalBackend = new Principal(
 	\OC::$server->getUserSession(),
 	\OC::$server->getAppManager(),
 	\OC::$server->query(\OCA\DAV\CalDAV\Proxy\ProxyMapper::class),
+	\OC::$server->get(KnownUserService::class),
 	\OC::$server->getConfig(),
 	'principals/'
 );

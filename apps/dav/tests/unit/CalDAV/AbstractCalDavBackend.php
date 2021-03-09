@@ -27,6 +27,7 @@
 
 namespace OCA\DAV\Tests\unit\CalDAV;
 
+use OC\KnownUser\KnownUserService;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Proxy\ProxyMapper;
 use OCA\DAV\Connector\Sabre\Principal;
@@ -92,6 +93,7 @@ abstract class AbstractCalDavBackend extends TestCase {
 				$this->createMock(IUserSession::class),
 				$this->createMock(IAppManager::class),
 				$this->createMock(ProxyMapper::class),
+				$this->createMock(KnownUserService::class),
 				$this->createMock(IConfig::class),
 			])
 			->setMethods(['getPrincipalByPath', 'getGroupMembership'])

@@ -27,6 +27,7 @@
 
 namespace OC\Collaboration\Collaborators;
 
+use OC\KnownUser\KnownUserService;
 use OCP\Collaboration\Collaborators\ISearchPlugin;
 use OCP\Collaboration\Collaborators\ISearchResult;
 use OCP\Collaboration\Collaborators\SearchResultType;
@@ -40,8 +41,14 @@ use OCP\IUserSession;
 use OCP\Share\IShare;
 
 class MailPlugin implements ISearchPlugin {
-	protected $shareeEnumeration;
+	/* @var bool */
 	protected $shareWithGroupOnly;
+	/* @var bool */
+	protected $shareeEnumeration;
+	/* @var bool */
+	protected $shareeEnumerationInGroupOnly;
+	/* @var bool */
+	protected $shareeEnumerationPhone;
 
 	/** @var IManager */
 	private $contactsManager;
@@ -52,20 +59,28 @@ class MailPlugin implements ISearchPlugin {
 
 	/** @var IGroupManager */
 	private $groupManager;
-
+	/** @var KnownUserService */
+	private $knownUserService;
 	/** @var IUserSession */
 	private $userSession;
 
-	public function __construct(IManager $contactsManager, ICloudIdManager $cloudIdManager, IConfig $config, IGroupManager $groupManager, IUserSession $userSession) {
+	public function __construct(IManager $contactsManager,
+								ICloudIdManager $cloudIdManager,
+								IConfig $config,
+								IGroupManager $groupManager,
+								KnownUserService $knownUserService,
+								IUserSession $userSession) {
 		$this->contactsManager = $contactsManager;
 		$this->cloudIdManager = $cloudIdManager;
 		$this->config = $config;
 		$this->groupManager = $groupManager;
+		$this->knownUserService = $knownUserService;
 		$this->userSession = $userSession;
 
 		$this->shareeEnumeration = $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes';
 		$this->shareWithGroupOnly = $this->config->getAppValue('core', 'shareapi_only_share_with_group_members', 'no') === 'yes';
 		$this->shareeEnumerationInGroupOnly = $this->shareeEnumeration && $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_group', 'no') === 'yes';
+		$this->shareeEnumerationPhone = $this->shareeEnumeration && $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_phone', 'no') === 'yes';
 	}
 
 	/**
@@ -77,6 +92,8 @@ class MailPlugin implements ISearchPlugin {
 	 * @since 13.0.0
 	 */
 	public function search($search, $limit, $offset, ISearchResult $searchResult) {
+		$currentUserId = $this->userSession->getUser()->getUID();
+
 		$result = $userResults = ['wide' => [], 'exact' => []];
 		$userType = new SearchResultType('users');
 		$emailType = new SearchResultType('emails');
@@ -152,8 +169,12 @@ class MailPlugin implements ISearchPlugin {
 								continue;
 							}
 
-							$addToWide = !$this->shareeEnumerationInGroupOnly;
-							if ($this->shareeEnumerationInGroupOnly) {
+							$addToWide = !($this->shareeEnumerationInGroupOnly || $this->shareeEnumerationPhone);
+							if (!$addToWide && $this->shareeEnumerationPhone && $this->knownUserService->isKnownToUser($currentUserId, $contact['UID'])) {
+								$addToWide = true;
+							}
+
+							if (!$addToWide && $this->shareeEnumerationInGroupOnly) {
 								$addToWide = false;
 								$userGroups = $this->groupManager->getUserGroupIds($this->userSession->getUser());
 								foreach ($userGroups as $userGroup) {
@@ -181,7 +202,7 @@ class MailPlugin implements ISearchPlugin {
 					}
 
 					if ($exactEmailMatch
-						|| isset($contact['FN']) && strtolower($contact['FN']) === $lowerSearch) {
+						|| (isset($contact['FN']) && strtolower($contact['FN']) === $lowerSearch)) {
 						if ($exactEmailMatch) {
 							$searchResult->markExactIdMatch($emailType);
 						}

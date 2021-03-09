@@ -27,6 +27,7 @@
 
 namespace OCA\DAV\Command;
 
+use OC\KnownUser\KnownUserService;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Proxy\ProxyMapper;
 use OCA\DAV\Connector\Sabre\Principal;
@@ -86,6 +87,7 @@ class CreateCalendar extends Command {
 			\OC::$server->getUserSession(),
 			\OC::$server->getAppManager(),
 			\OC::$server->query(ProxyMapper::class),
+			\OC::$server->get(KnownUserService::class),
 			\OC::$server->getConfig()
 		);
 		$random = \OC::$server->getSecureRandom();

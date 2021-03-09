@@ -27,6 +27,7 @@
  */
 
 // Backends
+use OC\KnownUser\KnownUserService;
 use OCA\DAV\AppInfo\PluginManager;
 use OCA\DAV\CardDAV\AddressBookRoot;
 use OCA\DAV\CardDAV\CardDavBackend;
@@ -53,6 +54,7 @@ $principalBackend = new Principal(
 	\OC::$server->getUserSession(),
 	\OC::$server->getAppManager(),
 	\OC::$server->query(\OCA\DAV\CalDAV\Proxy\ProxyMapper::class),
+	\OC::$server->get(KnownUserService::class),
 	\OC::$server->getConfig(),
 	'principals/'
 );
