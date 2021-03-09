@@ -173,7 +173,7 @@ OC.L10N.register(
     "Unable to change the favourite state of the file" : "Nedaří se změnit stav „oblíbené“ souboru",
     "Error while loading the file data" : "Chyba při načítání dat souboru",
     "Pick a template for {name}" : "Vyberte si šablonu pro {name}",
-    "Cancel" : "Zrušit",
+    "Cancel" : "Storno",
     "Create" : "Vytvořit",
     "Create a new file with the selected template" : "Vytvořit nový soubor ze zvolené šablony",
     "Creating file" : "Vytváření souboru",
