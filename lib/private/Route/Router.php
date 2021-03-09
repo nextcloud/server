@@ -56,7 +56,7 @@ class Router implements IRouter {
 	protected $root = null;
 	/** @var null|UrlGenerator */
 	protected $generator = null;
-	/** @var string[] */
+	/** @var string[]|null */
 	protected $routingFiles;
 	/** @var bool */
 	protected $loaded = false;
@@ -95,7 +95,7 @@ class Router implements IRouter {
 	 * @return string[]
 	 */
 	public function getRoutingFiles() {
-		if (!isset($this->routingFiles)) {
+		if ($this->routingFiles === null) {
 			$this->routingFiles = [];
 			foreach (\OC_APP::getEnabledApps() as $app) {
 				$appPath = \OC_App::getAppPath($app);
