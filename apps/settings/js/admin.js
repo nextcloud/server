@@ -144,6 +144,7 @@ window.addEventListener('DOMContentLoaded', function(){
 
 	$('#shareapi_allow_share_dialog_user_enumeration').on('change', function() {
 		$('#shareapi_restrict_user_enumeration_to_group_setting').toggleClass('hidden', !this.checked);
+		$('#shareapi_restrict_user_enumeration_to_phone_setting').toggleClass('hidden', !this.checked);
 	})
 
 	$('#allowLinks').change(function() {

@@ -173,7 +173,17 @@
 			<?php if ($_['restrictUserEnumerationToGroup'] === 'yes') {
 	print_unescaped('checked="checked"');
 } ?> />
-		<label for="shareapi_restrict_user_enumeration_to_group"><?php p($l->t('Restrict username autocompletion to users within the same groups'));?></label><br />
+		<label for="shareapi_restrict_user_enumeration_to_group"><?php p($l->t('Allow username autocompletion to users within the same groups'));?></label><br />
+	</p>
+
+	<p id="shareapi_restrict_user_enumeration_to_phone_setting" class="indent <?php if ($_['shareAPIEnabled'] === 'no' || $_['allowShareDialogUserEnumeration'] === 'no') {
+	p('hidden');
+}?>">
+		<input type="checkbox" name="shareapi_restrict_user_enumeration_to_phone" value="1" id="shareapi_restrict_user_enumeration_to_phone" class="checkbox"
+			<?php if ($_['restrictUserEnumerationToPhone'] === 'yes') {
+	print_unescaped('checked="checked"');
+} ?> />
+		<label for="shareapi_restrict_user_enumeration_to_phone"><?php p($l->t('Allow username autocompletion to users based on phonebook matches'));?></label><br />
 	</p>
 
 	<p>

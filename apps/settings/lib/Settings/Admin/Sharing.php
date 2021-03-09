@@ -73,6 +73,7 @@ class Sharing implements ISettings {
 			'allowResharing' => $this->config->getAppValue('core', 'shareapi_allow_resharing', 'yes'),
 			'allowShareDialogUserEnumeration' => $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes'),
 			'restrictUserEnumerationToGroup' => $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_group', 'no'),
+			'restrictUserEnumerationToPhone' => $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_phone', 'no'),
 			'enforceLinkPassword' => Util::isPublicLinkPasswordRequired(),
 			'onlyShareWithGroupMembers' => $this->shareManager->shareWithGroupMembersOnly(),
 			'shareAPIEnabled' => $this->config->getAppValue('core', 'shareapi_enabled', 'yes'),
