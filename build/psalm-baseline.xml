@@ -1077,9 +1077,6 @@
       <code>$shareId</code>
       <code>(int)$data['id']</code>
     </InvalidScalarArgument>
-    <RedundantCast occurrences="1">
-      <code>(int)$id</code>
-    </RedundantCast>
   </file>
   <file src="apps/federatedfilesharing/lib/Notifications.php">
     <InvalidReturnType occurrences="3">
@@ -1560,9 +1557,6 @@
     <NullArgument occurrences="1">
       <code>null</code>
     </NullArgument>
-    <TypeDoesNotContainType occurrences="1">
-      <code>$date === false</code>
-    </TypeDoesNotContainType>
     <UndefinedClass occurrences="2">
       <code>\OCA\Circles\Api\v1\Circles</code>
       <code>\OCA\Circles\Api\v1\Circles</code>
@@ -1918,9 +1912,6 @@
       <code>$shareId</code>
       <code>(int)$data['id']</code>
     </InvalidScalarArgument>
-    <RedundantCast occurrences="1">
-      <code>(int)$id</code>
-    </RedundantCast>
   </file>
   <file src="apps/systemtags/lib/Activity/Listener.php">
     <InvalidScalarArgument occurrences="2">
@@ -2908,11 +2899,8 @@
     </MoreSpecificImplementedParamType>
   </file>
   <file src="lib/private/AppFramework/Utility/SimpleContainer.php">
-    <UndefinedMethod occurrences="4">
+    <UndefinedMethod occurrences="1">
       <code>getName</code>
-      <code>isBuiltin</code>
-      <code>isBuiltin</code>
-      <code>isBuiltin</code>
     </UndefinedMethod>
   </file>
   <file src="lib/private/Archive/TAR.php">
@@ -5146,11 +5134,6 @@
     <NullableReturnStatement occurrences="1">
       <code>$column</code>
     </NullableReturnStatement>
-  </file>
-  <file src="lib/public/AppFramework/Db/QBMapper.php">
-    <RedundantCast occurrences="1">
-      <code>(int)$qb-&gt;getLastInsertId()</code>
-    </RedundantCast>
   </file>
   <file src="lib/public/AppFramework/Http/JSONResponse.php">
     <InvalidReturnStatement occurrences="1">
