@@ -70,6 +70,7 @@
 <script>
 import { generateOcsUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
+import { loadState } from '@nextcloud/initial-state'
 import axios from '@nextcloud/axios'
 import VTooltip from 'v-tooltip'
 import Vue from 'vue'
@@ -226,7 +227,7 @@ export default {
 					itemType: 'files',
 					itemId: this.ressourceId,
 					sorter: 'commenters|share-recipients',
-					limit: OC.appConfig?.comments?.maxAutoCompleteResults || 25,
+					limit: loadState('comment', 'maxAutoCompleteResults'),
 				},
 			})
 			return callback(results.data.ocs.data)

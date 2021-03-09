@@ -31,10 +31,10 @@ use Closure;
 use OCA\Comments\Capabilities;
 use OCA\Comments\Controller\Notifications;
 use OCA\Comments\EventHandler;
-use OCA\Comments\JSSettingsHelper;
 use OCA\Comments\Listener\CommentsEntityEventListener;
 use OCA\Comments\Listener\LoadAdditionalScripts;
 use OCA\Comments\Listener\LoadSidebarScripts;
+use OCA\Comments\MaxAutoCompleteResultsInitialState;
 use OCA\Comments\Notification\Notifier;
 use OCA\Comments\Search\LegacyProvider;
 use OCA\Comments\Search\CommentsSearchProvider;
@@ -45,10 +45,8 @@ use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\Comments\CommentsEntityEvent;
-use OCP\IConfig;
 use OCP\ISearch;
 use OCP\IServerContainer;
-use OCP\Util;
 
 class Application extends App implements IBootstrap {
 	public const APP_ID = 'comments';
@@ -75,14 +73,13 @@ class Application extends App implements IBootstrap {
 			CommentsEntityEventListener::class
 		);
 		$context->registerSearchProvider(CommentsSearchProvider::class);
+
+		$context->registerInitialStateProvider(MaxAutoCompleteResultsInitialState::class);
 	}
 
 	public function boot(IBootContext $context): void {
 		$context->injectFn(Closure::fromCallable([$this, 'registerNotifier']));
 		$context->injectFn(Closure::fromCallable([$this, 'registerCommentsEventHandler']));
-
-		$jsSettingsHelper = new JSSettingsHelper($context->getAppContainer()->get(IConfig::class));
-		Util::connectHook('\OCP\Config', 'js', $jsSettingsHelper, 'extend');
 
 		$context->getServerContainer()->get(ISearch::class)->registerProvider(LegacyProvider::class, ['apps' => ['files']]);
 	}
