@@ -176,21 +176,21 @@ class UsersSettingsContext implements Context, ActorAwareInterface {
 	 * @When I click the New user button
 	 */
 	public function iClickTheNewUserButton() {
-		$this->actor->find(self::newUserButton())->click();
+		$this->actor->find(self::newUserButton(), 10)->click();
 	}
 
 	/**
 	 * @When I click the :action action in the :user actions menu
 	 */
 	public function iClickTheAction($action, $user) {
-		$this->actor->find(self::theAction($action, $user))->click();
+		$this->actor->find(self::theAction($action, $user), 10)->click();
 	}
 
 	/**
 	 * @When I open the actions menu for the user :user
 	 */
 	public function iOpenTheActionsMenuOf($user) {
-		$this->actor->find(self::actionsMenuOf($user))->click();
+		$this->actor->find(self::actionsMenuOf($user), 10)->click();
 	}
 
 	/**
@@ -267,14 +267,24 @@ class UsersSettingsContext implements Context, ActorAwareInterface {
 	 * @Then I see that the list of users contains the user :user
 	 */
 	public function iSeeThatTheListOfUsersContainsTheUser($user) {
-		WaitFor::elementToBeEventuallyShown($this->actor, self::rowForUser($user));
+		if (!WaitFor::elementToBeEventuallyShown(
+				$this->actor,
+				self::rowForUser($user),
+				$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
+			PHPUnit_Framework_Assert::fail("The user $user in the list of users is not shown yet after $timeout seconds");
+		}
 	}
 
 	/**
 	 * @Then I see that the list of users does not contains the user :user
 	 */
 	public function iSeeThatTheListOfUsersDoesNotContainsTheUser($user) {
-		WaitFor::elementToBeEventuallyNotShown($this->actor, self::rowForUser($user));
+		if (!WaitFor::elementToBeEventuallyNotShown(
+				$this->actor,
+				self::rowForUser($user),
+				$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
+			PHPUnit_Framework_Assert::fail("The user $user in the list of users is still shown after $timeout seconds");
+		}
 	}
 
 	/**
@@ -321,8 +331,26 @@ class UsersSettingsContext implements Context, ActorAwareInterface {
 	 * @Then I see that the :cell cell for user :user is done loading
 	 */
 	public function iSeeThatTheCellForUserIsDoneLoading($cell, $user) {
-		WaitFor::elementToBeEventuallyShown($this->actor, self::classCellForUser($cell . ' icon-loading-small', $user));
-		WaitFor::elementToBeEventuallyNotShown($this->actor, self::classCellForUser($cell . ' icon-loading-small', $user));
+		// It could happen that the cell for the user was done loading and thus
+		// the loading icon hidden again even before finding the loading icon
+		// started. Therefore, if the loading icon could not be found it is just
+		// assumed that it was already hidden again. Nevertheless, this check
+		// should be done anyway to ensure that the following scenario steps are
+		// not executed before the cell for the user was done loading.
+		try {
+			$this->actor->find(self::classCellForUser($cell . ' icon-loading-small', $user), 1);
+		} catch (NoSuchElementException $exception) {
+			echo "The loading icon for user $user was not found after " . (1 * $this->actor->getFindTimeoutMultiplier()) . " seconds, assumming that it was shown and hidden again before the check started and continuing";
+
+			return;
+		}
+
+		if (!WaitFor::elementToBeEventuallyNotShown(
+				$this->actor,
+				self::classCellForUser($cell . ' icon-loading-small', $user),
+				$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
+			PHPUnit_Framework_Assert::fail("The loading icon for user $user is still shown after $timeout seconds");
+		}
 	}
 
 	/**
@@ -337,6 +365,11 @@ class UsersSettingsContext implements Context, ActorAwareInterface {
 	 * @Then I see that the edit mode is on for user :user
 	 */
 	public function iSeeThatTheEditModeIsOn($user) {
-		WaitFor::elementToBeEventuallyShown($this->actor, self::editModeOn($user));
+		if (!WaitFor::elementToBeEventuallyShown(
+				$this->actor,
+				self::editModeOn($user),
+				$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
+			PHPUnit_Framework_Assert::fail("The edit mode for user $user in the list of users is not on yet after $timeout seconds");
+		}
 	}
 }

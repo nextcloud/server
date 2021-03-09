@@ -30,6 +30,7 @@ Feature: users
     And I open the actions menu for the user user0
     And I see that the "Delete user" action in the user0 actions menu is shown
     When I click the "Delete user" action in the user0 actions menu
+    And I click the "Delete user0's account" button of the confirmation dialog
     Then I see that the list of users does not contains the user user0
 
   Scenario: disable a user
