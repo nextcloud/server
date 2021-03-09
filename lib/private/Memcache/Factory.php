@@ -156,16 +156,6 @@ class Factory implements ICacheFactory {
 	}
 
 	/**
-	 * @see \OC\Memcache\Factory::createDistributed()
-	 * @param string $prefix
-	 * @return ICache
-	 * @deprecated 13.0.0 Use either createLocking, createDistributed or createLocal
-	 */
-	public function create(string $prefix = ''): ICache {
-		return $this->createDistributed($prefix);
-	}
-
-	/**
 	 * check memcache availability
 	 *
 	 * @return bool
