@@ -258,7 +258,7 @@ class ImageManager {
 	 * @return array
 	 */
 	private function getSupportedUploadImageFormats(string $key): array {
-		$supportedFormats = ['image/jpeg', 'image/png', 'image/gif'];
+		$supportedFormats = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
 
 		if ($key !== 'favicon' || $this->shouldReplaceIcons() === true) {
 			$supportedFormats[] = 'image/svg+xml';
