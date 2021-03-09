@@ -1168,6 +1168,7 @@ return array(
     'OC\\IntegrityCheck\\Iterator\\ExcludeFoldersByPathFilterIterator' => $baseDir . '/lib/private/IntegrityCheck/Iterator/ExcludeFoldersByPathFilterIterator.php',
     'OC\\KnownUser\\KnownUser' => $baseDir . '/lib/private/KnownUser/KnownUser.php',
     'OC\\KnownUser\\KnownUserMapper' => $baseDir . '/lib/private/KnownUser/KnownUserMapper.php',
+    'OC\\KnownUser\\KnownUserService' => $baseDir . '/lib/private/KnownUser/KnownUserService.php',
     'OC\\L10N\\Factory' => $baseDir . '/lib/private/L10N/Factory.php',
     'OC\\L10N\\L10N' => $baseDir . '/lib/private/L10N/L10N.php',
     'OC\\L10N\\L10NString' => $baseDir . '/lib/private/L10N/L10NString.php',

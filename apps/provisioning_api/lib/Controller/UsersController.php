@@ -49,8 +49,7 @@ use libphonenumber\PhoneNumberUtil;
 use OC\Accounts\AccountManager;
 use OC\Authentication\Token\RemoteWipe;
 use OC\HintException;
-use OC\KnownUser\KnownUser;
-use OC\KnownUser\KnownUserMapper;
+use OC\KnownUser\KnownUserService;
 use OCA\Provisioning_API\FederatedShareProviderFactory;
 use OCA\Settings\Mailer\NewUserMailHelper;
 use OCP\Accounts\IAccountManager;
@@ -92,8 +91,8 @@ class UsersController extends AUserData {
 	private $secureRandom;
 	/** @var RemoteWipe */
 	private $remoteWipe;
-	/** @var KnownUserMapper */
-	private $knownUserMapper;
+	/** @var KnownUserService */
+	private $knownUserService;
 	/** @var IEventDispatcher */
 	private $eventDispatcher;
 
@@ -112,7 +111,7 @@ class UsersController extends AUserData {
 								FederatedShareProviderFactory $federatedShareProviderFactory,
 								ISecureRandom $secureRandom,
 								RemoteWipe $remoteWipe,
-								KnownUserMapper $knownUserMapper,
+								KnownUserService $knownUserService,
 								IEventDispatcher $eventDispatcher) {
 		parent::__construct($appName,
 							$request,
@@ -131,7 +130,7 @@ class UsersController extends AUserData {
 		$this->federatedShareProviderFactory = $federatedShareProviderFactory;
 		$this->secureRandom = $secureRandom;
 		$this->remoteWipe = $remoteWipe;
-		$this->knownUserMapper = $knownUserMapper;
+		$this->knownUserService = $knownUserService;
 		$this->eventDispatcher = $eventDispatcher;
 	}
 
@@ -237,6 +236,13 @@ class UsersController extends AUserData {
 			return new DataResponse([], Http::STATUS_BAD_REQUEST);
 		}
 
+		/** @var IUser $user */
+		$user = $this->userSession->getUser();
+		$knownTo = $user->getUID();
+
+		// Cleanup all previous entries and only allow new matches
+		$this->knownUserService->deleteKnownTo($knownTo);
+
 		$normalizedNumberToKey = [];
 		foreach ($search as $key => $phoneNumbers) {
 			foreach ($phoneNumbers as $phone) {
@@ -271,25 +277,10 @@ class UsersController extends AUserData {
 		}
 
 		$matches = [];
-		$knownUsers = [];
 		foreach ($userMatches as $phone => $userId) {
 			// Not using the ICloudIdManager as that would run a search for each contact to find the display name in the address book
 			$matches[$normalizedNumberToKey[$phone]] = $userId . '@' . $cloudUrl;
-			$knownUsers[] = $userId;
-		}
-
-		/** @var IUser $user */
-		$user = $this->userSession->getUser();
-		$knownTo = $user->getUID();
-
-		// Cleanup all previous entries and only allow new matches
-		$this->knownUserMapper->deleteKnownTo($knownTo);
-
-		foreach ($knownUsers as $knownUser) {
-			$entity = new KnownUser();
-			$entity->setKnownTo($knownTo);
-			$entity->setKnownUser($knownUser);
-			$this->knownUserMapper->insert($entity);
+			$this->knownUserService->storeIsKnownToUser($knownTo, $userId);
 		}
 
 		return new DataResponse($matches);
@@ -701,7 +692,7 @@ class UsersController extends AUserData {
 						$this->accountManager->updateUser($targetUser, $userAccount, true);
 
 						if ($key === IAccountManager::PROPERTY_PHONE) {
-							$this->knownUserMapper->deleteKnownUser($targetUser->getUID());
+							$this->knownUserService->deleteKnownUser($targetUser->getUID());
 						}
 					} catch (\InvalidArgumentException $e) {
 						throw new OCSException('Invalid ' . $e->getMessage(), 102);

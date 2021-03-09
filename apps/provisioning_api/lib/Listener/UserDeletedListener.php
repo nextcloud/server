@@ -23,18 +23,18 @@ declare(strict_types=1);
 
 namespace OCA\Provisioning_API\Listener;
 
-use OC\KnownUser\KnownUserMapper;
+use OC\KnownUser\KnownUserService;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\User\Events\UserDeletedEvent;
 
 class UserDeletedListener implements IEventListener {
 
-	/** @var KnownUserMapper */
-	private $knownUserMapper;
+	/** @var KnownUserService */
+	private $service;
 
-	public function __construct(KnownUserMapper $knownUserMapper) {
-		$this->knownUserMapper = $knownUserMapper;
+	public function __construct(KnownUserService $service) {
+		$this->service = $service;
 	}
 
 	public function handle(Event $event): void {
@@ -46,9 +46,9 @@ class UserDeletedListener implements IEventListener {
 		$user = $event->getUser();
 
 		// Delete all entries of this user
-		$this->knownUserMapper->deleteKnownTo($user->getUID());
+		$this->service->deleteKnownTo($user->getUID());
 
 		// Delete all entries that other users know this user
-		$this->knownUserMapper->deleteKnownUser($user->getUID());
+		$this->service->deleteKnownUser($user->getUID());
 	}
 }
