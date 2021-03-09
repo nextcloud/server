@@ -35,6 +35,7 @@ use OC\Support\CrashReport\Registry;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\AppFramework\Middleware;
+use OCP\AppFramework\Services\InitialStateProvider;
 use OCP\Authentication\IAlternativeLogin;
 use OCP\Capabilities\ICapability;
 use OCP\Dashboard\IManager;
@@ -80,7 +81,7 @@ class RegistrationContext {
 	/** @var ServiceRegistration<IAlternativeLogin>[] */
 	private $alternativeLogins = [];
 
-	/** @var array[] */
+	/** @var ServiceRegistration<InitialStateProvider>[] */
 	private $initialStates = [];
 
 	/** @var ServiceRegistration<IHandler>[] */
@@ -261,10 +262,7 @@ class RegistrationContext {
 	}
 
 	public function registerInitialState(string $appId, string $class): void {
-		$this->initialStates[] = [
-			'appId' => $appId,
-			'class' => $class,
-		];
+		$this->initialStates[] = new ServiceRegistration($appId, $class);
 	}
 
 	public function registerWellKnown(string $appId, string $class): void {
@@ -440,7 +438,7 @@ class RegistrationContext {
 	}
 
 	/**
-	 * @return array[]
+	 * @return ServiceRegistration<InitialStateProvider>[]
 	 */
 	public function getInitialStates(): array {
 		return $this->initialStates;

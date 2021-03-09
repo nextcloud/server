@@ -115,25 +115,25 @@ class InitialStateService implements IInitialStateService {
 		$initialStates = $context->getInitialStates();
 		foreach ($initialStates as $initialState) {
 			try {
-				$provider = $this->container->query($initialState['class']);
+				$provider = $this->container->query($initialState->getService());
 			} catch (QueryException $e) {
 				// Log an continue. We can be fault tolerant here.
 				$this->logger->logException($e, [
 					'message' => 'Could not load initial state provider dynamically: ' . $e->getMessage(),
 					'level' => ILogger::ERROR,
-					'app' => $initialState['appId'],
+					'app' => $initialState->getAppId(),
 				]);
 				continue;
 			}
 
 			if (!($provider instanceof InitialStateProvider)) {
 				// Log an continue. We can be fault tolerant here.
-				$this->logger->error('Initial state provider is not an InitialStateProvider instance: ' . $initialState['class'], [
-					'app' => $initialState['appId'],
+				$this->logger->error('Initial state provider is not an InitialStateProvider instance: ' . $initialState->getService(), [
+					'app' => $initialState->getAppId(),
 				]);
 			}
 
-			$this->provideInitialState($initialState['appId'], $provider->getKey(), $provider);
+			$this->provideInitialState($initialState->getAppId(), $provider->getKey(), $provider);
 		}
 	}
 
