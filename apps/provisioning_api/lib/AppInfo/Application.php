@@ -34,20 +34,24 @@ use OC\Group\Manager as GroupManager;
 use OCA\Provisioning_API\Middleware\ProvisioningApiMiddleware;
 use OCA\Settings\Mailer\NewUserMailHelper;
 use OCP\AppFramework\App;
+use OCP\AppFramework\Bootstrap\IBootContext;
+use OCP\AppFramework\Bootstrap\IBootstrap;
+use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\AppFramework\Utility\IControllerMethodReflector;
 use OCP\Defaults;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\Util;
 
-class Application extends App {
+class Application extends App implements IBootstrap {
 	public function __construct(array $urlParams = []) {
 		parent::__construct('provisioning_api', $urlParams);
+	}
 
-		$container = $this->getContainer();
-		$server = $container->getServer();
+	public function register(IRegistrationContext $context): void {
+		$server = $this->getContainer()->getServer();
 
-		$container->registerService(NewUserMailHelper::class, function (SimpleContainer $c) use ($server) {
+		$context->registerService(NewUserMailHelper::class, function (SimpleContainer $c) use ($server) {
 			return new NewUserMailHelper(
 				$server->query(Defaults::class),
 				$server->getURLGenerator(),
@@ -60,7 +64,7 @@ class Application extends App {
 				Util::getDefaultEmailAddress('no-reply')
 			);
 		});
-		$container->registerService('ProvisioningApiMiddleware', function (SimpleContainer $c) use ($server) {
+		$context->registerService(ProvisioningApiMiddleware::class, function (SimpleContainer $c) use ($server) {
 			$user = $server->getUserManager()->get($c['UserId']);
 			$isAdmin = false;
 			$isSubAdmin = false;
@@ -78,6 +82,9 @@ class Application extends App {
 				$isSubAdmin
 			);
 		});
-		$container->registerMiddleWare('ProvisioningApiMiddleware');
+		$context->registerMiddleware(ProvisioningApiMiddleware::class);
+	}
+
+	public function boot(IBootContext $context): void {
 	}
 }
