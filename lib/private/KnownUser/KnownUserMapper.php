@@ -62,6 +62,19 @@ class KnownUserMapper extends QBMapper {
 		return (int) $query->execute();
 	}
 
+	/**
+	 * @param string $knownTo
+	 * @return KnownUser[]
+	 */
+	public function getKnownTo(string $knownTo): array {
+		$query = $this->db->getQueryBuilder();
+		$query->select('*')
+			->from($this->getTableName())
+			->where($query->expr()->eq('known_to', $query->createNamedParameter($knownTo)));
+
+		return $this->findEntities($query);
+	}
+
 	public function createKnownUserFromRow(array $row): KnownUser {
 		return $this->mapRowToEntity([
 			'id' => $row['s_id'],

@@ -44,6 +44,7 @@ use Exception;
 use OC\Accounts\AccountManager;
 use OC\Authentication\Token\RemoteWipe;
 use OC\Group\Manager;
+use OC\KnownUser\KnownUserService;
 use OC\SubAdmin;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\Provisioning_API\Controller\UsersController;
@@ -102,6 +103,8 @@ class UsersControllerTest extends TestCase {
 	private $secureRandom;
 	/** @var RemoteWipe|MockObject */
 	private $remoteWipe;
+	/** @var KnownUserService|MockObject */
+	private $knownUserService;
 	/** @var IEventDispatcher */
 	private $eventDispatcher;
 
@@ -122,6 +125,7 @@ class UsersControllerTest extends TestCase {
 		$this->federatedShareProviderFactory = $this->createMock(FederatedShareProviderFactory::class);
 		$this->secureRandom = $this->createMock(ISecureRandom::class);
 		$this->remoteWipe = $this->createMock(RemoteWipe::class);
+		$this->knownUserService = $this->createMock(KnownUserService::class);
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 
 		$this->api = $this->getMockBuilder(UsersController::class)
@@ -141,6 +145,7 @@ class UsersControllerTest extends TestCase {
 				$this->federatedShareProviderFactory,
 				$this->secureRandom,
 				$this->remoteWipe,
+				$this->knownUserService,
 				$this->eventDispatcher,
 			])
 			->setMethods(['fillStorageInfo'])
@@ -405,6 +410,7 @@ class UsersControllerTest extends TestCase {
 				$this->federatedShareProviderFactory,
 				$this->secureRandom,
 				$this->remoteWipe,
+				$this->knownUserService,
 				$this->eventDispatcher,
 			])
 			->setMethods(['editUser'])
@@ -1399,6 +1405,13 @@ class UsersControllerTest extends TestCase {
 	 * @param array $expected
 	 */
 	public function testSearchByPhoneNumbers(string $location, array $search, int $status, ?array $searchUsers, ?array $userMatches, array $expected) {
+		$knownTo = 'knownTo';
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')
+			->willReturn($knownTo);
+		$this->userSession->method('getUser')
+			->willReturn($user);
+
 		if ($searchUsers === null) {
 			$this->accountManager->expects($this->never())
 				->method('searchUsers');
@@ -1407,6 +1420,14 @@ class UsersControllerTest extends TestCase {
 				->method('searchUsers')
 				->with(IAccountManager::PROPERTY_PHONE, $searchUsers)
 				->willReturn($userMatches);
+
+			$this->knownUserService->expects($this->once())
+				->method('deleteKnownTo')
+				->with($knownTo);
+
+			$this->knownUserService->expects($this->exactly(count($expected)))
+				->method('storeIsKnownToUser')
+				->with($knownTo, $this->anything());
 		}
 
 		$this->urlGenerator->method('getAbsoluteURL')
@@ -3228,6 +3249,7 @@ class UsersControllerTest extends TestCase {
 				$this->federatedShareProviderFactory,
 				$this->secureRandom,
 				$this->remoteWipe,
+				$this->knownUserService,
 				$this->eventDispatcher,
 			])
 			->setMethods(['getUserData'])
@@ -3294,6 +3316,7 @@ class UsersControllerTest extends TestCase {
 				$this->federatedShareProviderFactory,
 				$this->secureRandom,
 				$this->remoteWipe,
+				$this->knownUserService,
 				$this->eventDispatcher,
 			])
 			->setMethods(['getUserData'])

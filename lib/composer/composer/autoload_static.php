@@ -1200,6 +1200,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\IntegrityCheck\\Iterator\\ExcludeFoldersByPathFilterIterator' => __DIR__ . '/../../..' . '/lib/private/IntegrityCheck/Iterator/ExcludeFoldersByPathFilterIterator.php',
         'OC\\KnownUser\\KnownUser' => __DIR__ . '/../../..' . '/lib/private/KnownUser/KnownUser.php',
         'OC\\KnownUser\\KnownUserMapper' => __DIR__ . '/../../..' . '/lib/private/KnownUser/KnownUserMapper.php',
+        'OC\\KnownUser\\KnownUserService' => __DIR__ . '/../../..' . '/lib/private/KnownUser/KnownUserService.php',
         'OC\\L10N\\Factory' => __DIR__ . '/../../..' . '/lib/private/L10N/Factory.php',
         'OC\\L10N\\L10N' => __DIR__ . '/../../..' . '/lib/private/L10N/L10N.php',
         'OC\\L10N\\L10NString' => __DIR__ . '/../../..' . '/lib/private/L10N/L10NString.php',
