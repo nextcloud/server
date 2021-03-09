@@ -28,6 +28,7 @@
 
 namespace OCA\DAV;
 
+use OC\KnownUser\KnownUserService;
 use OCA\DAV\AppInfo\PluginManager;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\CalendarRoot;
@@ -70,6 +71,7 @@ class RootCollection extends SimpleCollection {
 			\OC::$server->getUserSession(),
 			\OC::$server->getAppManager(),
 			$proxyMapper,
+			\OC::$server->get(KnownUserService::class),
 			\OC::$server->getConfig()
 		);
 		$groupPrincipalBackend = new GroupPrincipalBackend($groupManager, $userSession, $shareManager, $config);
