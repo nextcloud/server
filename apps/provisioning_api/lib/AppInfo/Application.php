@@ -29,6 +29,7 @@
 namespace OCA\Provisioning_API\AppInfo;
 
 use OC\Group\Manager as GroupManager;
+use OCA\Provisioning_API\Listener\UserDeletedListener;
 use OCA\Provisioning_API\Middleware\ProvisioningApiMiddleware;
 use OCA\Settings\Mailer\NewUserMailHelper;
 use OCP\AppFramework\App;
@@ -47,6 +48,7 @@ use OCP\L10N\IFactory;
 use OCP\Mail\IMailer;
 use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
+use OCP\User\Events\UserDeletedEvent;
 use OCP\Util;
 use Psr\Container\ContainerInterface;
 
@@ -56,6 +58,8 @@ class Application extends App implements IBootstrap {
 	}
 
 	public function register(IRegistrationContext $context): void {
+		$context->registerEventListener(UserDeletedEvent::class, UserDeletedListener::class);
+
 		$context->registerService(NewUserMailHelper::class, function (ContainerInterface $c) {
 			return new NewUserMailHelper(
 				$c->get(Defaults::class),

@@ -14,6 +14,7 @@ return array(
     'OCA\\Provisioning_API\\Controller\\GroupsController' => $baseDir . '/../lib/Controller/GroupsController.php',
     'OCA\\Provisioning_API\\Controller\\UsersController' => $baseDir . '/../lib/Controller/UsersController.php',
     'OCA\\Provisioning_API\\FederatedShareProviderFactory' => $baseDir . '/../lib/FederatedShareProviderFactory.php',
+    'OCA\\Provisioning_API\\Listener\\UserDeletedListener' => $baseDir . '/../lib/Listener/UserDeletedListener.php',
     'OCA\\Provisioning_API\\Middleware\\Exceptions\\NotSubAdminException' => $baseDir . '/../lib/Middleware/Exceptions/NotSubAdminException.php',
     'OCA\\Provisioning_API\\Middleware\\ProvisioningApiMiddleware' => $baseDir . '/../lib/Middleware/ProvisioningApiMiddleware.php',
 );
