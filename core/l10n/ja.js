@@ -352,6 +352,7 @@ OC.L10N.register(
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["他のフォルダーの検索件数 {count}"],
     "Nextcloud {app}" : "Nextcloud {app}",
     "Search" : "検索",
-    "These apps will be updated:" : "次のアプリがアップデートされます："
+    "These apps will be updated:" : "次のアプリがアップデートされます：",
+    "For more details see the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "詳細は <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">ドキュメンテーション</a> を参照してください。"
 },
 "nplurals=1; plural=0;");
