@@ -699,6 +699,10 @@ class UsersController extends AUserData {
 					$userAccount[$key]['value'] = $value;
 					try {
 						$this->accountManager->updateUser($targetUser, $userAccount, true);
+
+						if ($key === IAccountManager::PROPERTY_PHONE) {
+							$this->knownUserMapper->deleteKnownUser($targetUser->getUID());
+						}
 					} catch (\InvalidArgumentException $e) {
 						throw new OCSException('Invalid ' . $e->getMessage(), 102);
 					}
