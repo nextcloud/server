@@ -167,6 +167,7 @@
     "Forgot password?" : "Passwort vergessen?",
     "Log in with a device" : "Mit einem Gerät anmelden",
     "Back" : "Zurück",
+    "Login form is disabled." : "Das Anmeldeformular ist deaktiviert.",
     "Reset search" : "Suche zurücksetzen",
     "Search for {name} only" : "Nur nach {name} suchen",
     "No results for {query}" : "Keine Suchergebnisse zu {query}",
