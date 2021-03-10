@@ -133,7 +133,6 @@ class PersonalInfo implements ISettings {
 			'website' => $userData[IAccountManager::PROPERTY_WEBSITE]['value'],
 			'websiteScope' => $userData[IAccountManager::PROPERTY_WEBSITE]['scope'],
 			'websiteVerification' => $userData[IAccountManager::PROPERTY_WEBSITE]['verified'],
-			'show-social-buttons' => $this->config->getSystemValue('show_social_buttons', true),
 			'twitter' => $userData[IAccountManager::PROPERTY_TWITTER]['value'],
 			'twitterScope' => $userData[IAccountManager::PROPERTY_TWITTER]['scope'],
 			'twitterVerification' => $userData[IAccountManager::PROPERTY_TWITTER]['verified'],

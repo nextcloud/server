@@ -1,5 +1,5 @@
 <div class="section development-notice">
-	<?php if ($_['show-reasons-use-nextcloud'] == true) { ?>
+	<?php if ($_['show-reasons-use-nextcloud'] === true) { ?>
 	<p>
 		<a href="<?php p($_['reasons-use-nextcloud-pdf-link']); ?>" id="open-reasons-use-nextcloud-pdf" class="link-button icon-file" target="_blank"><?php p($l->t('Reasons to use Nextcloud in your organization'));?></a>
 	</p>
@@ -22,7 +22,7 @@
 		)); ?>
 	</p>
 
-	<?php if ($_['show-social-button'] == true) { ?>
+	<?php if ($_['show-social-button'] === true) { ?>
 	<p class="social-button">
 		<?php print_unescaped(str_replace(
 			[

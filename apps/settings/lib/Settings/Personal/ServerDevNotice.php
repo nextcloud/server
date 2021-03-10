@@ -98,11 +98,11 @@ class ServerDevNotice implements ISettings {
 		Util::addScript('settings', 'vue-settings-nextcloud-pdf');
 		$this->initialState->provideInitialState('has-reasons-use-nextcloud-pdf', $hasInitialState);
 
-		$showReasonsUseNextCloud = $this->config->getSystemValue('show_reaons_use_nextcloud', true);
-		$showSocialButtons = $this->config->getSystemValue('show_social_buttons', true);
+		$showReasonsUseNextcloud = $this->config->getSystemValue('show_reasons_use_nextcloud', 'yes') === 'yes';
+		$showSocialButtons = $this->config->getSystemValue('show_social_buttons', 'yes') === 'yes';
 		return new TemplateResponse('settings', 'settings/personal/development.notice', [
 			'reasons-use-nextcloud-pdf-link' => $this->urlGenerator->linkToRoute('settings.Reasons.getPdf'),
-			'show-reasons-use-nextcloud' => $showReasonsUseNextCloud,
+			'show-reasons-use-nextcloud' => $showReasonsUseNextcloud,
 			'show-social-button' => $showSocialButtons
 		]);
 	}
