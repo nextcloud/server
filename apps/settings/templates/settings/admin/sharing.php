@@ -185,6 +185,11 @@
 } ?> />
 		<label for="shareapi_restrict_user_enumeration_to_phone"><?php p($l->t('Allow username autocompletion to users based on phonebook matches'));?></label><br />
 	</p>
+	<p id="shareapi_restrict_user_enumeration_combinewarning_setting" class="indent <?php if ($_['shareAPIEnabled'] === 'no' || $_['allowShareDialogUserEnumeration'] === 'no') {
+	p('hidden');
+}?>">
+		<em><?php p($l->t('If autocompletion "same group" and "phonebook matches" are enabled a match in either is enough to show the user.'));?></em><br />
+	</p>
 
 	<p>
 		<input type="checkbox" id="publicShareDisclaimer" class="checkbox noJSAutoUpdate"
