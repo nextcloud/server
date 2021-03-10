@@ -165,21 +165,21 @@ class ContactsStore implements IContactsStore {
 						return false;
 					}
 
-					$filterUser = true;
+					$filterOutUser = true;
 
 					$mailAddresses = $entry->getEMailAddresses();
 					foreach ($mailAddresses as $mailAddress) {
 						if ($mailAddress === $filter) {
-							$filterUser = false;
+							$filterOutUser = false;
 							break;
 						}
 					}
 
 					if ($entry->getProperty('UID') && $entry->getProperty('UID') === $filter) {
-						$filterUser = false;
+						$filterOutUser = false;
 					}
 
-					if ($filterUser) {
+					if ($filterOutUser) {
 						return false;
 					}
 				} elseif ($restrictEnumerationPhone || $restrictEnumerationGroup) {
@@ -208,7 +208,7 @@ class ContactsStore implements IContactsStore {
 				if ($ownGroupsOnly && !$checkedCommonGroupAlready) {
 					$user = $this->userManager->get($entry->getProperty('UID'));
 
-					if ($user === null) {
+					if (!$user instanceof IUser) {
 						return false;
 					}
 
