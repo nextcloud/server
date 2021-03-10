@@ -169,6 +169,7 @@ OC.L10N.register(
     "Forgot password?" : "Esqueceu a senha?",
     "Log in with a device" : "Logar-se com um dispositivo",
     "Back" : "Voltar",
+    "Login form is disabled." : "O formulário de login está desativado.",
     "Reset search" : "Redefinir pesquisa",
     "Search for {name} only" : "Pesquisar somente por {nome}",
     "No results for {query}" : "Sem resultados para {query}",

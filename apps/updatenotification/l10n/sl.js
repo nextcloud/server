@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "{version} is available. Get more information on how to update." : "Na voljo je nova različica {version}. Oglejte si več podrobnosti o nadgradnji.",
     "Channel updated" : "Kanal je posodobljen",
+    "Web updater is disabled" : "Spletni posodabljalnik je onemogočen",
     "Update notifications" : "Obvestila o posodobitvah",
     "The update server could not be reached since %d days to check for new updates." : "Vzpostavitev povezave s strežnikom za posodobitve ni mogoče že %d dni.",
     "Please check the Nextcloud and server log files for errors." : "Preverite strežniške in sistemske dnevnike za napake.",
