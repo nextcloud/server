@@ -71,16 +71,16 @@ class SettingsContext implements Context, ActorAwareInterface {
 		// forThe()->checkbox("Restrict username...") can not be used here; that
 		// would return the checkbox itself, but the element that the user
 		// interacts with is the label.
-		return Locator::forThe()->xpath("//label[normalize-space() = 'Restrict username autocompletion to users within the same groups']")->
-				describedAs("Restrict username autocompletion to groups checkbox in Sharing section in Administration Sharing Settings");
+		return Locator::forThe()->xpath("//label[normalize-space() = 'Allow username autocompletion to users within the same groups']")->
+				describedAs("Allow username autocompletion to users within the same groups checkbox in Sharing section in Administration Sharing Settings");
 	}
 
 	/**
 	 * @return Locator
 	 */
 	public static function restrictUsernameAutocompletionToGroupsCheckboxInput() {
-		return Locator::forThe()->checkbox("Restrict username autocompletion to users within the same groups")->
-				describedAs("Restrict username autocompletion to groups checkbox input in Sharing section in Administration Sharing Settings");
+		return Locator::forThe()->checkbox("Allow username autocompletion to users within the same groups")->
+				describedAs("Allow username autocompletion to users within the same groups checkbox input in Sharing section in Administration Sharing Settings");
 	}
 
 	/**
