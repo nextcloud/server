@@ -49,6 +49,6 @@ class UserDeletedListener implements IEventListener {
 		$this->service->deleteKnownTo($user->getUID());
 
 		// Delete all entries that other users know this user
-		$this->service->deleteKnownUser($user->getUID());
+		$this->service->deleteByContactUserId($user->getUID());
 	}
 }
