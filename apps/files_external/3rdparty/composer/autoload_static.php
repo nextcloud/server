@@ -9,17 +9,12 @@ class ComposerStaticInit98fe9b281934250b3a93f69a5ce843b3
     public static $prefixLengthsPsr4 = array (
         'I' => 
         array (
-            'Icewind\\Streams\\Tests\\' => 22,
             'Icewind\\Streams\\' => 16,
             'Icewind\\SMB\\' => 12,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'Icewind\\Streams\\Tests\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/icewind/streams/tests',
-        ),
         'Icewind\\Streams\\' => 
         array (
             0 => __DIR__ . '/..' . '/icewind/streams/src',
@@ -31,6 +26,7 @@ class ComposerStaticInit98fe9b281934250b3a93f69a5ce843b3
     );
 
     public static $classMap = array (
+        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'Icewind\\SMB\\ACL' => __DIR__ . '/..' . '/icewind/smb/src/ACL.php',
         'Icewind\\SMB\\AbstractServer' => __DIR__ . '/..' . '/icewind/smb/src/AbstractServer.php',
         'Icewind\\SMB\\AbstractShare' => __DIR__ . '/..' . '/icewind/smb/src/AbstractShare.php',
@@ -82,6 +78,7 @@ class ComposerStaticInit98fe9b281934250b3a93f69a5ce843b3
         'Icewind\\SMB\\Native\\NativeWriteStream' => __DIR__ . '/..' . '/icewind/smb/src/Native/NativeWriteStream.php',
         'Icewind\\SMB\\Options' => __DIR__ . '/..' . '/icewind/smb/src/Options.php',
         'Icewind\\SMB\\ServerFactory' => __DIR__ . '/..' . '/icewind/smb/src/ServerFactory.php',
+        'Icewind\\SMB\\StringBuffer' => __DIR__ . '/..' . '/icewind/smb/src/StringBuffer.php',
         'Icewind\\SMB\\System' => __DIR__ . '/..' . '/icewind/smb/src/System.php',
         'Icewind\\SMB\\TimeZoneProvider' => __DIR__ . '/..' . '/icewind/smb/src/TimeZoneProvider.php',
         'Icewind\\SMB\\Wrapped\\Connection' => __DIR__ . '/..' . '/icewind/smb/src/Wrapped/Connection.php',
@@ -98,15 +95,19 @@ class ComposerStaticInit98fe9b281934250b3a93f69a5ce843b3
         'Icewind\\Streams\\DirectoryFilter' => __DIR__ . '/..' . '/icewind/streams/src/DirectoryFilter.php',
         'Icewind\\Streams\\DirectoryWrapper' => __DIR__ . '/..' . '/icewind/streams/src/DirectoryWrapper.php',
         'Icewind\\Streams\\File' => __DIR__ . '/..' . '/icewind/streams/src/File.php',
+        'Icewind\\Streams\\HashWrapper' => __DIR__ . '/..' . '/icewind/streams/src/HashWrapper.php',
         'Icewind\\Streams\\IteratorDirectory' => __DIR__ . '/..' . '/icewind/streams/src/IteratorDirectory.php',
         'Icewind\\Streams\\NullWrapper' => __DIR__ . '/..' . '/icewind/streams/src/NullWrapper.php',
         'Icewind\\Streams\\Path' => __DIR__ . '/..' . '/icewind/streams/src/Path.php',
         'Icewind\\Streams\\PathWrapper' => __DIR__ . '/..' . '/icewind/streams/src/PathWrapper.php',
+        'Icewind\\Streams\\ReadHashWrapper' => __DIR__ . '/..' . '/icewind/streams/src/ReadHashWrapper.php',
         'Icewind\\Streams\\RetryWrapper' => __DIR__ . '/..' . '/icewind/streams/src/RetryWrapper.php',
         'Icewind\\Streams\\SeekableWrapper' => __DIR__ . '/..' . '/icewind/streams/src/SeekableWrapper.php',
         'Icewind\\Streams\\Url' => __DIR__ . '/..' . '/icewind/streams/src/Url.php',
-        'Icewind\\Streams\\UrlCallback' => __DIR__ . '/..' . '/icewind/streams/src/UrlCallBack.php',
+        'Icewind\\Streams\\UrlCallback' => __DIR__ . '/..' . '/icewind/streams/src/UrlCallback.php',
         'Icewind\\Streams\\Wrapper' => __DIR__ . '/..' . '/icewind/streams/src/Wrapper.php',
+        'Icewind\\Streams\\WrapperHandler' => __DIR__ . '/..' . '/icewind/streams/src/WrapperHandler.php',
+        'Icewind\\Streams\\WriteHashWrapper' => __DIR__ . '/..' . '/icewind/streams/src/WriteHashWrapper.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
