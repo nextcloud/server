@@ -167,6 +167,7 @@
     "Forgot password?" : "忘記密碼？",
     "Log in with a device" : "使用免密碼裝置登入",
     "Back" : "返回",
+    "Login form is disabled." : "登入表單已停用。",
     "Reset search" : "重置搜尋",
     "Search for {name} only" : "僅搜尋 {name}",
     "No results for {query}" : "{query} 查詢沒有結果",

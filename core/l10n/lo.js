@@ -169,6 +169,7 @@ OC.L10N.register(
     "Forgot password?" : "ລືມລະຫັດຜ່ານ?",
     "Log in with a device" : "ເຂົ້າສູ່ລະບົບດ້ວຍອຸປະກອນ",
     "Back" : "ຫຼັງ",
+    "Login form is disabled." : "ຮູບແບບLogin ຖືກປິດ.",
     "Reset search" : "Reset ຄົ້ນຫາ",
     "Search for {name} only" : "ຄົ້ນຫາ {name} ເທົ່ານັ້ນ",
     "No results for {query}" : "ບໍ່ມີຜົນສໍາລັບ {query}",

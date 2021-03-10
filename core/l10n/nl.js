@@ -169,6 +169,7 @@ OC.L10N.register(
     "Forgot password?" : "Wachtwoord vergeten?",
     "Log in with a device" : "Inloggen met een toestel",
     "Back" : "Terug",
+    "Login form is disabled." : "Inlogscherm uitgeschakeld",
     "Reset search" : "Zoekopdracht wissen",
     "Search for {name} only" : "Zoek alleen naar {name}",
     "No results for {query}" : "Geen resultaten voor {query}",
