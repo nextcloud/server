@@ -28,56 +28,68 @@
 
 namespace OCA\Provisioning_API\AppInfo;
 
-use OC\AppFramework\Utility\SimpleContainer;
-use OC\AppFramework\Utility\TimeFactory;
 use OC\Group\Manager as GroupManager;
 use OCA\Provisioning_API\Middleware\ProvisioningApiMiddleware;
 use OCA\Settings\Mailer\NewUserMailHelper;
 use OCP\AppFramework\App;
+use OCP\AppFramework\Bootstrap\IBootContext;
+use OCP\AppFramework\Bootstrap\IBootstrap;
+use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\AppFramework\Utility\IControllerMethodReflector;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Defaults;
+use OCP\IConfig;
 use OCP\IGroupManager;
+use OCP\IURLGenerator;
 use OCP\IUser;
+use OCP\IUserManager;
+use OCP\L10N\IFactory;
+use OCP\Mail\IMailer;
+use OCP\Security\ICrypto;
+use OCP\Security\ISecureRandom;
 use OCP\Util;
+use Psr\Container\ContainerInterface;
 
-class Application extends App {
+class Application extends App implements IBootstrap {
 	public function __construct(array $urlParams = []) {
 		parent::__construct('provisioning_api', $urlParams);
+	}
 
-		$container = $this->getContainer();
-		$server = $container->getServer();
-
-		$container->registerService(NewUserMailHelper::class, function (SimpleContainer $c) use ($server) {
+	public function register(IRegistrationContext $context): void {
+		$context->registerService(NewUserMailHelper::class, function (ContainerInterface $c) {
 			return new NewUserMailHelper(
-				$server->query(Defaults::class),
-				$server->getURLGenerator(),
-				$server->getL10NFactory(),
-				$server->getMailer(),
-				$server->getSecureRandom(),
-				new TimeFactory(),
-				$server->getConfig(),
-				$server->getCrypto(),
+				$c->get(Defaults::class),
+				$c->get(IURLGenerator::class),
+				$c->get(IFactory::class),
+				$c->get(IMailer::class),
+				$c->get(ISecureRandom::class),
+				$c->get(ITimeFactory::class),
+				$c->get(IConfig::class),
+				$c->get(ICrypto::class),
 				Util::getDefaultEmailAddress('no-reply')
 			);
 		});
-		$container->registerService('ProvisioningApiMiddleware', function (SimpleContainer $c) use ($server) {
-			$user = $server->getUserManager()->get($c['UserId']);
+		$context->registerService(ProvisioningApiMiddleware::class, function (ContainerInterface $c) {
+			$user = $c->get(IUserManager::class)->get($c->get('UserId'));
 			$isAdmin = false;
 			$isSubAdmin = false;
 
 			if ($user instanceof IUser) {
-				$groupManager = $server->get(IGroupManager::class);
+				$groupManager = $c->get(IGroupManager::class);
 				assert($groupManager instanceof GroupManager);
 				$isAdmin = $groupManager->isAdmin($user->getUID());
 				$isSubAdmin = $groupManager->getSubAdmin()->isSubAdmin($user);
 			}
 
 			return new ProvisioningApiMiddleware(
-				$c->query(IControllerMethodReflector::class),
+				$c->get(IControllerMethodReflector::class),
 				$isAdmin,
 				$isSubAdmin
 			);
 		});
-		$container->registerMiddleWare('ProvisioningApiMiddleware');
+		$context->registerMiddleware(ProvisioningApiMiddleware::class);
+	}
+
+	public function boot(IBootContext $context): void {
 	}
 }
