@@ -45,7 +45,7 @@ use OCP\IUserSession;
 use Psr\Log\LoggerInterface;
 use ScssPhp\ScssPhp\Compiler;
 use ScssPhp\ScssPhp\Exception\ParserException;
-use ScssPhp\ScssPhp\Formatter\Crunched;
+use ScssPhp\ScssPhp\OutputStyle;
 
 class AccessibilityController extends Controller {
 
@@ -134,8 +134,7 @@ class AccessibilityController extends Controller {
 			]);
 
 			// Continue after throw
-			$scss->setIgnoreErrors(true);
-			$scss->setFormatter(Crunched::class);
+			$scss->setOutputStyle(OutputStyle::COMPRESSED);
 
 			// Import theme, variables and compile css4 variables
 			try {
