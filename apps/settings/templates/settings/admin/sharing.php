@@ -191,12 +191,12 @@
 		<em><?php p($l->t('If autocompletion "same group" and "phonebook matches" are enabled a match in either is enough to show the user.'));?></em><br />
 	</p>
 	<p id="shareapi_restrict_user_enumeration_full_match_setting" class="indent <?php if ($_['shareAPIEnabled'] === 'no') {
-		p('hidden');
-	}?>">
+	p('hidden');
+}?>">
 		<input type="checkbox" name="shareapi_restrict_user_enumeration_full_match" value="1" id="shareapi_restrict_user_enumeration_full_match" class="checkbox"
 				<?php if ($_['restrictUserEnumerationFullMatch'] === 'yes') {
-					print_unescaped('checked="checked"');
-				} ?> />
+	print_unescaped('checked="checked"');
+} ?> />
 		<label for="shareapi_restrict_user_enumeration_full_match"><?php p($l->t('Allow username autocompletion when entering the full name or email address (ignoring missing phonebook match and being in the same group)'));?></label><br />
 	</p>
 
