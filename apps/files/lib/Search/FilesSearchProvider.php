@@ -103,7 +103,7 @@ class FilesSearchProvider implements IProvider {
 		// Make sure we setup the users filesystem
 		$this->rootFolder->getUserFolder($user->getUID());
 
-		return SearchResult::complete(
+		return SearchResult::paginated(
 			$this->l10n->t('Files'),
 			array_map(function (FileResult $result) {
 				// Generate thumbnail url
@@ -121,7 +121,8 @@ class FilesSearchProvider implements IProvider {
 				$searchResultEntry->addAttribute('fileId', (string)$result->id);
 				$searchResultEntry->addAttribute('path', $result->path);
 				return $searchResultEntry;
-			}, $this->fileSearch->search($query->getTerm()))
+			}, $this->fileSearch->search($query->getTerm(), $query->getLimit(), (int)$query->getCursor())),
+			$query->getCursor() + $query->getLimit()
 		);
 	}
 

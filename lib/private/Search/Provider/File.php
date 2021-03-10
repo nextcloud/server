@@ -39,14 +39,23 @@ class File extends \OCP\Search\Provider {
 
 	/**
 	 * Search for files and folders matching the given query
+	 *
 	 * @param string $query
+	 * @param int|null $limit
+	 * @param int|null $offset
 	 * @return \OCP\Search\Result[]
 	 * @deprecated 20.0.0
 	 */
-	public function search($query) {
+	public function search($query, int $limit = null, int $offset = null) {
+		if ($offset === null) {
+			$offset = 0;
+		}
 		\OC_Util::setupFS();
 		$files = Filesystem::search($query);
 		$results = [];
+		if ($limit !== null) {
+			$files = array_slice($files, $offset, $offset + $limit);
+		}
 		// edit results
 		foreach ($files as $fileData) {
 			// skip versions
