@@ -53,6 +53,8 @@ class UserPlugin implements ISearchPlugin {
 	protected $shareeEnumerationInGroupOnly;
 	/* @var bool */
 	protected $shareeEnumerationPhone;
+	/* @var bool */
+	protected $shareeEnumerationFullMatch;
 
 	/** @var IConfig */
 	private $config;
@@ -85,6 +87,7 @@ class UserPlugin implements ISearchPlugin {
 		$this->shareeEnumeration = $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes';
 		$this->shareeEnumerationInGroupOnly = $this->shareeEnumeration && $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_group', 'no') === 'yes';
 		$this->shareeEnumerationPhone = $this->shareeEnumeration && $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_phone', 'no') === 'yes';
+		$this->shareeEnumerationFullMatch = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match', 'yes') === 'yes';
 	}
 
 	public function search($search, $limit, $offset, ISearchResult $searchResult) {
@@ -150,6 +153,7 @@ class UserPlugin implements ISearchPlugin {
 
 
 			if (
+				$this->shareeEnumerationFullMatch &&
 				$lowerSearch !== '' && (strtolower($uid) === $lowerSearch ||
 				strtolower($userDisplayName) === $lowerSearch ||
 				strtolower($userEmail) === $lowerSearch)
@@ -202,7 +206,7 @@ class UserPlugin implements ISearchPlugin {
 			}
 		}
 
-		if ($offset === 0 && !$foundUserById) {
+		if ($this->shareeEnumerationFullMatch && $offset === 0 && !$foundUserById) {
 			// On page one we try if the search result has a direct hit on the
 			// user id and if so, we add that to the exact match list
 			$user = $this->userManager->get($search);

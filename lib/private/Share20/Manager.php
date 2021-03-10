@@ -1834,6 +1834,10 @@ class Manager implements IManager {
 			$this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_phone', 'no') === 'yes';
 	}
 
+	public function allowEnumerationFullMatch(): bool {
+		return $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match', 'yes') === 'yes';
+	}
+
 	/**
 	 * Copied from \OC_Util::isSharingDisabledForUser
 	 *

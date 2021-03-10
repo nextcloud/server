@@ -570,6 +570,10 @@ class PrincipalTest extends TestCase {
 			->method('shareWithGroupMembersOnly')
 			->willReturn(false);
 
+		$this->shareManager->expects($this->once())
+			->method('allowEnumerationFullMatch')
+			->willReturn(true);
+
 		$user2 = $this->createMock(IUser::class);
 		$user2->method('getUID')->willReturn('user2');
 		$user2->method('getDisplayName')->willReturn('User 2');
@@ -592,6 +596,27 @@ class PrincipalTest extends TestCase {
 			['{DAV:}displayname' => 'User 2']));
 	}
 
+	public function testSearchPrincipalWithEnumerationDisabledDisplaynameOnFullMatch() {
+		$this->shareManager->expects($this->once())
+			->method('shareAPIEnabled')
+			->willReturn(true);
+
+		$this->shareManager->expects($this->once())
+			->method('allowEnumeration')
+			->willReturn(false);
+
+		$this->shareManager->expects($this->once())
+			->method('shareWithGroupMembersOnly')
+			->willReturn(false);
+
+		$this->shareManager->expects($this->once())
+			->method('allowEnumerationFullMatch')
+			->willReturn(false);
+
+		$this->assertEquals([], $this->connector->searchPrincipals('principals/users',
+			['{DAV:}displayname' => 'User 2']));
+	}
+
 	public function testSearchPrincipalWithEnumerationDisabledEmail() {
 		$this->shareManager->expects($this->once())
 			->method('shareAPIEnabled')
@@ -604,6 +629,10 @@ class PrincipalTest extends TestCase {
 		$this->shareManager->expects($this->once())
 			->method('shareWithGroupMembersOnly')
 			->willReturn(false);
+
+		$this->shareManager->expects($this->once())
+			->method('allowEnumerationFullMatch')
+			->willReturn(true);
 
 		$user2 = $this->createMock(IUser::class);
 		$user2->method('getUID')->willReturn('user2');
@@ -624,6 +653,28 @@ class PrincipalTest extends TestCase {
 			->willReturn([$user2, $user3, $user4]);
 
 		$this->assertEquals(['principals/users/user2'], $this->connector->searchPrincipals('principals/users',
+			['{http://sabredav.org/ns}email-address' => 'user2@foo.bar']));
+	}
+
+	public function testSearchPrincipalWithEnumerationDisabledEmailOnFullMatch() {
+		$this->shareManager->expects($this->once())
+			->method('shareAPIEnabled')
+			->willReturn(true);
+
+		$this->shareManager->expects($this->once())
+			->method('allowEnumeration')
+			->willReturn(false);
+
+		$this->shareManager->expects($this->once())
+			->method('shareWithGroupMembersOnly')
+			->willReturn(false);
+
+		$this->shareManager->expects($this->once())
+			->method('allowEnumerationFullMatch')
+			->willReturn(false);
+
+
+		$this->assertEquals([], $this->connector->searchPrincipals('principals/users',
 			['{http://sabredav.org/ns}email-address' => 'user2@foo.bar']));
 	}
 

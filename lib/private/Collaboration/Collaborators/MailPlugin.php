@@ -49,6 +49,8 @@ class MailPlugin implements ISearchPlugin {
 	protected $shareeEnumerationInGroupOnly;
 	/* @var bool */
 	protected $shareeEnumerationPhone;
+	/* @var bool */
+	protected $shareeEnumerationFullMatch;
 
 	/** @var IManager */
 	private $contactsManager;
@@ -81,6 +83,7 @@ class MailPlugin implements ISearchPlugin {
 		$this->shareWithGroupOnly = $this->config->getAppValue('core', 'shareapi_only_share_with_group_members', 'no') === 'yes';
 		$this->shareeEnumerationInGroupOnly = $this->shareeEnumeration && $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_group', 'no') === 'yes';
 		$this->shareeEnumerationPhone = $this->shareeEnumeration && $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_phone', 'no') === 'yes';
+		$this->shareeEnumerationFullMatch = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match', 'yes') === 'yes';
 	}
 
 	/**
@@ -137,7 +140,7 @@ class MailPlugin implements ISearchPlugin {
 								continue;
 							}
 						}
-						if ($exactEmailMatch) {
+						if ($exactEmailMatch && $this->shareeEnumerationFullMatch) {
 							try {
 								$cloud = $this->cloudIdManager->resolveCloudId($contact['CLOUD'][0]);
 							} catch (\InvalidArgumentException $e) {
