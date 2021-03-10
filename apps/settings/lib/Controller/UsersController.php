@@ -42,6 +42,7 @@ use OC\AppFramework\Http;
 use OC\Encryption\Exceptions\ModuleDoesNotExistsException;
 use OC\ForbiddenException;
 use OC\Group\Manager as GroupManager;
+use OC\KnownUser\KnownUserService;
 use OC\L10N\Factory;
 use OC\Security\IdentityProof\Manager;
 use OC\User\Manager as UserManager;
@@ -96,6 +97,8 @@ class UsersController extends Controller {
 	private $jobList;
 	/** @var IManager */
 	private $encryptionManager;
+	/** @var KnownUserService */
+	private $knownUserService;
 	/** @var IEventDispatcher */
 	private $dispatcher;
 
@@ -116,6 +119,7 @@ class UsersController extends Controller {
 		Manager $keyManager,
 		IJobList $jobList,
 		IManager $encryptionManager,
+		KnownUserService $knownUserService,
 		IEventDispatcher $dispatcher
 	) {
 		parent::__construct($appName, $request);
@@ -132,6 +136,7 @@ class UsersController extends Controller {
 		$this->keyManager = $keyManager;
 		$this->jobList = $jobList;
 		$this->encryptionManager = $encryptionManager;
+		$this->knownUserService = $knownUserService;
 		$this->dispatcher = $dispatcher;
 	}
 
@@ -363,6 +368,19 @@ class UsersController extends Controller {
 									?string $twitter = null,
 									?string $twitterScope = null
 	) {
+		$user = $this->userSession->getUser();
+		if (!$user instanceof IUser) {
+			return new DataResponse(
+				[
+					'status' => 'error',
+					'data' => [
+						'message' => $this->l10n->t('Invalid user')
+					]
+				],
+				Http::STATUS_UNAUTHORIZED
+			);
+		}
+
 		$email = strtolower($email);
 		if (!empty($email) && !$this->mailer->validateMailAddress($email)) {
 			return new DataResponse(
@@ -375,8 +393,9 @@ class UsersController extends Controller {
 				Http::STATUS_UNPROCESSABLE_ENTITY
 			);
 		}
-		$user = $this->userSession->getUser();
+
 		$data = $this->accountManager->getUser($user);
+		$beforeData = $data;
 		$data[IAccountManager::PROPERTY_AVATAR] = ['scope' => $avatarScope];
 		if ($this->config->getSystemValue('allow_user_to_change_display_name', true) !== false) {
 			$data[IAccountManager::PROPERTY_DISPLAYNAME] = ['value' => $displayname, 'scope' => $displaynameScope];
@@ -393,6 +412,9 @@ class UsersController extends Controller {
 		}
 		try {
 			$data = $this->saveUserSettings($user, $data);
+			if ($beforeData[IAccountManager::PROPERTY_PHONE]['value'] !== $data[IAccountManager::PROPERTY_PHONE]['value']) {
+				$this->knownUserService->deleteKnownUser($user->getUID());
+			}
 			return new DataResponse(
 				[
 					'status' => 'success',
