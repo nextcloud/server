@@ -124,6 +124,7 @@ class ContactsStore implements IContactsStore {
 		$disallowEnumeration = $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') !== 'yes';
 		$restrictEnumerationGroup = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_group', 'no') === 'yes';
 		$restrictEnumerationPhone = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_phone', 'no') === 'yes';
+		$allowEnumerationFullMatch = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match', 'yes') === 'yes';
 		$excludedGroups = $this->config->getAppValue('core', 'shareapi_exclude_groups', 'no') === 'yes';
 
 		// whether to filter out local users
@@ -146,7 +147,7 @@ class ContactsStore implements IContactsStore {
 
 		$selfUID = $self->getUID();
 
-		return array_values(array_filter($entries, function (IEntry $entry) use ($skipLocal, $ownGroupsOnly, $selfGroups, $selfUID, $disallowEnumeration, $restrictEnumerationGroup, $restrictEnumerationPhone, $filter) {
+		return array_values(array_filter($entries, function (IEntry $entry) use ($skipLocal, $ownGroupsOnly, $selfGroups, $selfUID, $disallowEnumeration, $restrictEnumerationGroup, $restrictEnumerationPhone, $allowEnumerationFullMatch, $filter) {
 			if ($entry->getProperty('UID') === $selfUID) {
 				return false;
 			}
@@ -160,6 +161,10 @@ class ContactsStore implements IContactsStore {
 
 				// Prevent enumerating local users
 				if ($disallowEnumeration) {
+					if (!$allowEnumerationFullMatch) {
+						return false;
+					}
+
 					$filterUser = true;
 
 					$mailAddresses = $entry->getEMailAddresses();

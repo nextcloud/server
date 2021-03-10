@@ -683,9 +683,12 @@ class ContactsStoreTest extends TestCase {
 	}
 
 	public function testGetContactsWithFilter() {
-		$this->config->expects($this->at(0))->method('getAppValue')
-			->with($this->equalTo('core'), $this->equalTo('shareapi_allow_share_dialog_user_enumeration'), $this->equalTo('yes'))
-			->willReturn('no');
+		$this->config
+			->method('getAppValue')
+			->willReturnMap([
+				['core', 'shareapi_allow_share_dialog_user_enumeration', 'yes', 'no'],
+				['core', 'shareapi_restrict_user_enumeration_full_match', 'yes', 'yes'],
+			]);
 
 		/** @var IUser|\PHPUnit\Framework\MockObject\MockObject $user */
 		$user = $this->createMock(IUser::class);
@@ -743,6 +746,90 @@ class ContactsStoreTest extends TestCase {
 		$this->assertEquals([
 			'anne@example.com'
 		], $entry[1]->getEMailAddresses());
+
+		// Partial match on email should not match
+		$entry = $this->contactsStore->getContacts($user, 'john@example.co');
+		$this->assertSame(1, count($entry));
+		$this->assertEquals([
+			'anne@example.com'
+		], $entry[0]->getEMailAddresses());
+
+		// Match on FN should not match
+		$entry = $this->contactsStore->getContacts($user, 'Darren Roner');
+		$this->assertSame(1, count($entry));
+		$this->assertEquals([
+			'anne@example.com'
+		], $entry[0]->getEMailAddresses());
+
+		// Don't filter users in local addressbook
+		$entry = $this->contactsStore->getContacts($user, 'Anne D');
+		$this->assertSame(1, count($entry));
+		$this->assertEquals([
+			'anne@example.com'
+		], $entry[0]->getEMailAddresses());
+	}
+
+	public function testGetContactsWithFilterWithoutFullMatch() {
+		$this->config
+			->method('getAppValue')
+			->willReturnMap([
+				['core', 'shareapi_allow_share_dialog_user_enumeration', 'yes', 'no'],
+				['core', 'shareapi_restrict_user_enumeration_full_match', 'yes', 'no'],
+			]);
+
+		/** @var IUser|\PHPUnit\Framework\MockObject\MockObject $user */
+		$user = $this->createMock(IUser::class);
+		$this->contactsManager->expects($this->any())
+			->method('search')
+			->willReturn([
+				[
+					'UID' => 'a567',
+					'FN' => 'Darren Roner',
+					'EMAIL' => [
+						'darren@roner.au',
+					],
+					'isLocalSystemBook' => true,
+				],
+				[
+					'UID' => 'john',
+					'FN' => 'John Doe',
+					'EMAIL' => [
+						'john@example.com',
+					],
+					'isLocalSystemBook' => true,
+				],
+				[
+					'FN' => 'Anne D',
+					'EMAIL' => [
+						'anne@example.com',
+					],
+					'isLocalSystemBook' => false,
+				],
+			]);
+		$user->expects($this->any())
+			->method('getUID')
+			->willReturn('user123');
+
+		// Complete match on UID should not match
+		$entry = $this->contactsStore->getContacts($user, 'a567');
+		$this->assertSame(1, count($entry));
+		$this->assertEquals([
+			'anne@example.com'
+		], $entry[0]->getEMailAddresses());
+
+		// Partial match on UID should not match
+		$entry = $this->contactsStore->getContacts($user, 'a56');
+		$this->assertSame(1, count($entry));
+		$this->assertEquals([
+			'anne@example.com'
+		], $entry[0]->getEMailAddresses());
+
+		// Complete match on email should not match
+		$entry = $this->contactsStore->getContacts($user, 'john@example.com');
+		$this->assertSame(1, count($entry));
+		$this->assertEquals([
+			'anne@example.com'
+		], $entry[0]->getEMailAddresses());
 
 		// Partial match on email should not match
 		$entry = $this->contactsStore->getContacts($user, 'john@example.co');

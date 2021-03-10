@@ -263,6 +263,7 @@ class Principal implements BackendInterface {
 		$allowEnumeration = $this->shareManager->allowEnumeration();
 		$limitEnumerationGroup = $this->shareManager->limitEnumerationToGroups();
 		$limitEnumerationPhone = $this->shareManager->limitEnumerationToPhone();
+		$allowEnumerationFullMatch = $this->shareManager->allowEnumerationFullMatch();
 
 		// If sharing is restricted to group members only,
 		// return only members that have groups in common
@@ -290,15 +291,19 @@ class Principal implements BackendInterface {
 		foreach ($searchProperties as $prop => $value) {
 			switch ($prop) {
 				case '{http://sabredav.org/ns}email-address':
-					$users = $this->userManager->getByEmail($value);
-
 					if (!$allowEnumeration) {
-						$users = \array_filter($users, static function (IUser $user) use ($value) {
-							return $user->getEMailAddress() === $value;
-						});
+						if ($allowEnumerationFullMatch) {
+							$users = $this->userManager->getByEmail($value);
+							$users = \array_filter($users, static function (IUser $user) use ($value) {
+								return $user->getEMailAddress() === $value;
+							});
+						} else {
+							$users = [];
+						}
 					} else {
-						$users = \array_filter($users, function (IUser $user) use ($currentUser, $value, $limitEnumerationPhone, $limitEnumerationGroup, $currentUserGroups) {
-							if ($user->getEMailAddress() === $value) {
+						$users = $this->userManager->getByEmail($value);
+						$users = \array_filter($users, function (IUser $user) use ($currentUser, $value, $limitEnumerationPhone, $limitEnumerationGroup, $allowEnumerationFullMatch, $currentUserGroups) {
+							if ($allowEnumerationFullMatch && $user->getEMailAddress() === $value) {
 								return true;
 							}
 
@@ -336,15 +341,20 @@ class Principal implements BackendInterface {
 					break;
 
 				case '{DAV:}displayname':
-					$users = $this->userManager->searchDisplayName($value, $searchLimit);
 
 					if (!$allowEnumeration) {
-						$users = \array_filter($users, static function (IUser $user) use ($value) {
-							return $user->getDisplayName() === $value;
-						});
+						if ($allowEnumerationFullMatch) {
+							$users = $this->userManager->searchDisplayName($value, $searchLimit);
+							$users = \array_filter($users, static function (IUser $user) use ($value) {
+								return $user->getDisplayName() === $value;
+							});
+						} else {
+							$users = [];
+						}
 					} else {
-						$users = \array_filter($users, function (IUser $user) use ($currentUser, $value, $limitEnumerationPhone, $limitEnumerationGroup, $currentUserGroups) {
-							if ($user->getDisplayName() === $value) {
+						$users = $this->userManager->searchDisplayName($value, $searchLimit);
+						$users = \array_filter($users, function (IUser $user) use ($currentUser, $value, $limitEnumerationPhone, $limitEnumerationGroup, $allowEnumerationFullMatch, $currentUserGroups) {
+							if ($allowEnumerationFullMatch && $user->getDisplayName() === $value) {
 								return true;
 							}
 

@@ -3,6 +3,7 @@ Feature: autocomplete
     Given using api version "2"
     And group "commongroup" exists
     And user "admin" belongs to group "commongroup"
+    And user "auto" exists
     And user "autocomplete" exists
     And user "autocomplete2" exists
     And user "autocomplete2" belongs to group "commongroup"
@@ -20,9 +21,15 @@ Feature: autocomplete
     When parameter "shareapi_allow_share_dialog_user_enumeration" of app "core" is set to "no"
     Then get autocomplete for "auto"
       | id | source |
+      | auto | users |
     Then get autocomplete for "autocomplete"
       | id | source |
       | autocomplete | users |
+    When parameter "shareapi_restrict_user_enumeration_full_match" of app "core" is set to "no"
+    Then get autocomplete for "auto"
+      | id | source |
+    Then get autocomplete for "autocomplete"
+      | id | source |
 
 
   Scenario: getting autocomplete with limited enumeration by group
@@ -30,10 +37,18 @@ Feature: autocomplete
     When parameter "shareapi_restrict_user_enumeration_to_group" of app "core" is set to "yes"
     Then get autocomplete for "auto"
       | id | source |
+      | auto | users |
       | autocomplete2 | users |
     Then get autocomplete for "autocomplete"
       | id | source |
       | autocomplete | users |
+      | autocomplete2 | users |
+    Then get autocomplete for "autocomplete2"
+      | id | source |
+      | autocomplete2 | users |
+    When parameter "shareapi_restrict_user_enumeration_full_match" of app "core" is set to "no"
+    Then get autocomplete for "autocomplete"
+      | id | source |
       | autocomplete2 | users |
     Then get autocomplete for "autocomplete2"
       | id | source |
@@ -45,6 +60,7 @@ Feature: autocomplete
     When parameter "shareapi_restrict_user_enumeration_to_phone" of app "core" is set to "yes"
     Then get autocomplete for "auto"
       | id | source |
+      | auto | users |
 
     # autocomplete stores their phone number
     Given As an "autocomplete"
@@ -57,10 +73,17 @@ Feature: autocomplete
     Given As an "admin"
     Then get autocomplete for "auto"
       | id | source |
+      | auto | users |
 
     # admin populates they have the phone number
     When search users by phone for region "DE" with
       | random-string1 | 0711 / 252 428-90 |
+    Then get autocomplete for "auto"
+      | id | source |
+      | auto | users |
+      | autocomplete | users |
+
+    When parameter "shareapi_restrict_user_enumeration_full_match" of app "core" is set to "no"
     Then get autocomplete for "auto"
       | id | source |
       | autocomplete | users |
@@ -83,6 +106,13 @@ Feature: autocomplete
     When search users by phone for region "DE" with
       | random-string1 | 0711 / 252 428-90 |
 
+    Then get autocomplete for "auto"
+      | id | source |
+      | auto | users |
+      | autocomplete | users |
+      | autocomplete2 | users |
+
+    When parameter "shareapi_restrict_user_enumeration_full_match" of app "core" is set to "no"
     Then get autocomplete for "auto"
       | id | source |
       | autocomplete | users |
@@ -108,6 +138,7 @@ Feature: autocomplete
 
     Then get autocomplete for "auto"
       | id | source |
+      | auto | users |
       | autocomplete | users |
       | autocomplete2 | users |
     When parameter "shareapi_only_share_with_group_members" of app "core" is set to "yes"
@@ -121,6 +152,7 @@ Feature: autocomplete
     When parameter "shareapi_restrict_user_enumeration_to_phone" of app "core" is set to "yes"
     Then get autocomplete for "auto"
       | id | source |
+      | auto | users |
 
     # autocomplete stores their phone number
     Given As an "autocomplete"
@@ -133,12 +165,14 @@ Feature: autocomplete
     Given As an "admin"
     Then get autocomplete for "auto"
       | id | source |
+      | auto | users |
 
     # admin populates they have the phone number
     When search users by phone for region "DE" with
       | random-string1 | 0711 / 252 428-90 |
     Then get autocomplete for "auto"
       | id | source |
+      | auto | users |
       | autocomplete | users |
 
     # autocomplete changes their phone number
@@ -152,12 +186,14 @@ Feature: autocomplete
     Given As an "admin"
     Then get autocomplete for "auto"
       | id | source |
+      | auto | users |
 
     # admin populates they have the new phone number
     When search users by phone for region "DE" with
       | random-string1 | 0711 / 252 428-91 |
     Then get autocomplete for "auto"
       | id | source |
+      | auto | users |
       | autocomplete | users |
 
 
