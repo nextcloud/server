@@ -267,6 +267,9 @@ class URLGenerator implements IURLGenerator {
 	 * @return string base url of the current request
 	 */
 	public function getBaseUrl(): string {
-		return $this->request->getServerProtocol() . '://' . $this->request->getServerHost() . \OC::$WEBROOT;
+		if ($this->baseUrl === null) {
+			$this->baseUrl = $this->request->getServerProtocol() . '://' . $this->request->getServerHost() . \OC::$WEBROOT;
+		}
+		return $this->baseUrl;
 	}
 }
