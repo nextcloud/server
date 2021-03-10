@@ -59,6 +59,8 @@ class URLGenerator implements IURLGenerator {
 	private $request;
 	/** @var IRouter*/
 	private $router;
+	/** @var null|string */
+	private $baseUrl = null;
 
 	public function __construct(IConfig $config,
 								ICacheFactory $cacheFactory,
@@ -269,6 +271,9 @@ class URLGenerator implements IURLGenerator {
 	 * @return string base url of the current request
 	 */
 	public function getBaseUrl(): string {
-		return $this->request->getServerProtocol() . '://' . $this->request->getServerHost() . \OC::$WEBROOT;
+		if ($this->baseUrl === null) {
+			$this->baseUrl = $this->request->getServerProtocol() . '://' . $this->request->getServerHost() . \OC::$WEBROOT;
+		}
+		return $this->baseUrl;
 	}
 }
