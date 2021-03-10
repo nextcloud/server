@@ -24,24 +24,16 @@ namespace Icewind\SMB;
 abstract class AbstractServer implements IServer {
 	const LOCALE = 'en_US.UTF-8';
 
-	/**
-	 * @var string $host
-	 */
+	/** @var string */
 	protected $host;
 
-	/**
-	 * @var IAuth $user
-	 */
+	/** @var IAuth */
 	protected $auth;
 
-	/**
-	 * @var ISystem
-	 */
+	/** @var ISystem */
 	protected $system;
 
-	/**
-	 * @var TimeZoneProvider
-	 */
+	/** @var ITimeZoneProvider */
 	protected $timezoneProvider;
 
 	/** @var IOptions */
@@ -51,10 +43,10 @@ abstract class AbstractServer implements IServer {
 	 * @param string $host
 	 * @param IAuth $auth
 	 * @param ISystem $system
-	 * @param TimeZoneProvider $timeZoneProvider
+	 * @param ITimeZoneProvider $timeZoneProvider
 	 * @param IOptions $options
 	 */
-	public function __construct($host, IAuth $auth, ISystem $system, TimeZoneProvider $timeZoneProvider, IOptions $options) {
+	public function __construct(string $host, IAuth $auth, ISystem $system, ITimeZoneProvider $timeZoneProvider, IOptions $options) {
 		$this->host = $host;
 		$this->auth = $auth;
 		$this->system = $system;
@@ -62,23 +54,23 @@ abstract class AbstractServer implements IServer {
 		$this->options = $options;
 	}
 
-	public function getAuth() {
+	public function getAuth(): IAuth {
 		return $this->auth;
 	}
 
-	public function getHost() {
+	public function getHost(): string {
 		return $this->host;
 	}
 
-	public function getTimeZone() {
+	public function getTimeZone(): string {
 		return $this->timezoneProvider->get($this->host);
 	}
 
-	public function getSystem() {
+	public function getSystem(): ISystem {
 		return $this->system;
 	}
 
-	public function getOptions() {
+	public function getOptions(): IOptions {
 		return $this->options;
 	}
 }

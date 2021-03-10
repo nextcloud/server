@@ -1,6 +1,8 @@
 <?php
+
+declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2018 Robin Appelman <robin@icewind.nl>
+ * @copyright Copyright (c) 2021 Robin Appelman <robin@icewind.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -21,36 +23,41 @@
 
 namespace Icewind\SMB;
 
-class Options implements IOptions {
+class StringBuffer {
+	/** @var string */
+	private $buffer = "";
 	/** @var int */
-	private $timeout = 20;
+	private $pos = 0;
 
-	/** @var string|null */
-	private $minProtocol;
-	/** @var string|null */
-	private $maxProtocol;
-
-	public function getTimeout(): int {
-		return $this->timeout;
+	public function clear(): void {
+		$this->buffer = "";
+		$this->pos = 0;
 	}
 
-	public function setTimeout(int $timeout): void {
-		$this->timeout = $timeout;
+	public function push(string $data): int {
+		$this->buffer = $this->flush() . $data;
+		return strlen($data);
 	}
 
-	public function getMinProtocol(): ?string {
-		return $this->minProtocol;
+	public function remaining(): int {
+		return strlen($this->buffer) - $this->pos;
 	}
 
-	public function setMinProtocol(?string $minProtocol): void {
-		$this->minProtocol = $minProtocol;
+	public function read(int $count): string {
+		$chunk = substr($this->buffer, $this->pos, $this->pos + $count);
+		$this->pos += strlen($chunk);
+		return $chunk;
 	}
 
-	public function getMaxProtocol(): ?string {
-		return $this->maxProtocol;
-	}
+	public function flush(): string {
+		if ($this->pos === 0) {
+			$remaining = $this->buffer;
+		} else {
+			$remaining = substr($this->buffer, $this->pos);
+		}
 
-	public function setMaxProtocol(?string $maxProtocol): void {
-		$this->maxProtocol = $maxProtocol;
+		$this->clear();
+
+		return $remaining;
 	}
 }
