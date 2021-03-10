@@ -63,10 +63,12 @@ class KnownUserMapper extends QBMapper {
 	}
 
 	/**
+	 * Returns all "known users" for the given "known to" user
+	 *
 	 * @param string $knownTo
 	 * @return KnownUser[]
 	 */
-	public function getKnownTo(string $knownTo): array {
+	public function getKnownUsers(string $knownTo): array {
 		$query = $this->db->getQueryBuilder();
 		$query->select('*')
 			->from($this->getTableName())

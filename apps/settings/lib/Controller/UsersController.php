@@ -413,7 +413,7 @@ class UsersController extends Controller {
 		try {
 			$data = $this->saveUserSettings($user, $data);
 			if ($beforeData[IAccountManager::PROPERTY_PHONE]['value'] !== $data[IAccountManager::PROPERTY_PHONE]['value']) {
-				$this->knownUserService->deleteKnownUser($user->getUID());
+				$this->knownUserService->deleteByContactUserId($user->getUID());
 			}
 			return new DataResponse(
 				[

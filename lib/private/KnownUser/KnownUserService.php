@@ -33,30 +33,55 @@ class KnownUserService {
 		$this->mapper = $mapper;
 	}
 
+	/**
+	 * Delete all matches where the given user is the owner of the phonebook
+	 *
+	 * @param string $knownTo
+	 * @return int Number of deleted matches
+	 */
 	public function deleteKnownTo(string $knownTo): int {
 		return $this->mapper->deleteKnownTo($knownTo);
 	}
 
-	public function deleteKnownUser(string $knownUser): int {
-		return $this->mapper->deleteKnownUser($knownUser);
+	/**
+	 * Delete all matches where the given user is the one in the phonebook
+	 *
+	 * @param string $contactUserId
+	 * @return int Number of deleted matches
+	 */
+	public function deleteByContactUserId(string $contactUserId): int {
+		return $this->mapper->deleteKnownUser($contactUserId);
 	}
 
-	public function storeIsKnownToUser(string $knownTo, string $knownUser): void {
+	/**
+	 * Store a match because $knownTo has $contactUserId in his phonebook
+	 *
+	 * @param string $knownTo User id of the owner of the phonebook
+	 * @param string $contactUserId User id of the contact in the phonebook
+	 */
+	public function storeIsKnownToUser(string $knownTo, string $contactUserId): void {
 		$entity = new KnownUser();
 		$entity->setKnownTo($knownTo);
-		$entity->setKnownUser($knownUser);
+		$entity->setKnownUser($contactUserId);
 		$this->mapper->insert($entity);
 	}
 
-	public function isKnownToUser(string $knownTo, string $user): bool {
+	/**
+	 * Check if $contactUserId is in the phonebook of $knownTo
+	 *
+	 * @param string $knownTo User id of the owner of the phonebook
+	 * @param string $contactUserId User id of the contact in the phonebook
+	 * @return bool
+	 */
+	public function isKnownToUser(string $knownTo, string $contactUserId): bool {
 		if (!isset($this->knownUsers[$knownTo])) {
-			$entities = $this->mapper->getKnownTo($knownTo);
+			$entities = $this->mapper->getKnownUsers($knownTo);
 			$this->knownUsers[$knownTo] = [];
 			foreach ($entities as $entity) {
 				$this->knownUsers[$knownTo][$entity->getKnownUser()] = true;
 			}
 		}
 
-		return isset($this->knownUsers[$knownTo][$user]);
+		return isset($this->knownUsers[$knownTo][$contactUserId]);
 	}
 }
