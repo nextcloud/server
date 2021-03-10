@@ -203,6 +203,40 @@ trait BasicStructure {
 	}
 
 	/**
+	 * @param string $verb
+	 * @param string $url
+	 * @param TableNode|array|null $body
+	 * @param array $headers
+	 */
+	protected function sendRequestForJSON(string $verb, string $url, $body = null, array $headers = []): void {
+		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php" . $url;
+		$client = new Client();
+		$options = [];
+		if ($this->currentUser === 'admin') {
+			$options['auth'] = ['admin', 'admin'];
+		} elseif (strpos($this->currentUser, 'guest') !== 0) {
+			$options['auth'] = [$this->currentUser, self::TEST_PASSWORD];
+		}
+		if ($body instanceof TableNode) {
+			$fd = $body->getRowsHash();
+			$options['form_params'] = $fd;
+		} elseif (is_array($body)) {
+			$options['form_params'] = $body;
+		}
+
+		$options['headers'] = array_merge($headers, [
+			'OCS-ApiRequest' => 'true',
+			'Accept' => 'application/json',
+		]);
+
+		try {
+			$this->response = $client->{$verb}($fullUrl, $options);
+		} catch (ClientException $ex) {
+			$this->response = $ex->getResponse();
+		}
+	}
+
+	/**
 	 * @When /^sending "([^"]*)" with exact url to "([^"]*)"$/
 	 * @param string $verb
 	 * @param string $url
