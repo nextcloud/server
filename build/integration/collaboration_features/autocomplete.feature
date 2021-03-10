@@ -12,6 +12,13 @@ Feature: autocomplete
     Given As an "admin"
     When get autocomplete for "auto"
       | id | source |
+      | auto | users |
+      | autocomplete | users |
+      | autocomplete2 | users |
+    When parameter "shareapi_restrict_user_enumeration_full_match" of app "core" is set to "no"
+    Then get autocomplete for "auto"
+      | id | source |
+      | auto | users |
       | autocomplete | users |
       | autocomplete2 | users |
 
