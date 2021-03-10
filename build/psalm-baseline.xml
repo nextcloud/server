@@ -1881,14 +1881,6 @@
       <code>null</code>
     </NullArgument>
   </file>
-  <file src="apps/settings/lib/Settings/Personal/Additional.php">
-    <InvalidReturnStatement occurrences="1">
-      <code>'5'</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
-      <code>int</code>
-    </InvalidReturnType>
-  </file>
   <file src="apps/settings/lib/Settings/Personal/PersonalInfo.php">
     <InvalidScalarArgument occurrences="1">
       <code>$uid</code>
@@ -1896,14 +1888,6 @@
     <UndefinedInterfaceMethod occurrences="1">
       <code>getLanguages</code>
     </UndefinedInterfaceMethod>
-  </file>
-  <file src="apps/settings/lib/Settings/Personal/ServerDevNotice.php">
-    <InvalidNullableReturnType occurrences="1">
-      <code>string</code>
-    </InvalidNullableReturnType>
-    <NullableReturnStatement occurrences="1">
-      <code>null</code>
-    </NullableReturnStatement>
   </file>
   <file src="apps/sharebymail/lib/ShareByMailProvider.php">
     <InvalidScalarArgument occurrences="4">
@@ -3064,9 +3048,6 @@
       <code>bool|mixed</code>
       <code>bool|mixed</code>
     </LessSpecificImplementedReturnType>
-    <RedundantPropertyInitializationCheck occurrences="1">
-      <code>isset($this-&gt;storage)</code>
-    </RedundantPropertyInitializationCheck>
   </file>
   <file src="lib/private/Collaboration/Collaborators/GroupPlugin.php">
     <UndefinedThisPropertyAssignment occurrences="1">
@@ -3805,9 +3786,6 @@
     <NullableReturnStatement occurrences="1">
       <code>null</code>
     </NullableReturnStatement>
-    <RedundantPropertyInitializationCheck occurrences="1">
-      <code>isset($this-&gt;authType)</code>
-    </RedundantPropertyInitializationCheck>
   </file>
   <file src="lib/private/Files/Storage/FailedStorage.php">
     <InvalidReturnStatement occurrences="2">
@@ -4489,9 +4467,6 @@
     <RedundantCondition occurrences="1">
       <code>$file !== false</code>
     </RedundantCondition>
-    <RedundantPropertyInitializationCheck occurrences="1">
-      <code>isset($this-&gt;routingFiles)</code>
-    </RedundantPropertyInitializationCheck>
   </file>
   <file src="lib/private/Search.php">
     <RedundantCondition occurrences="1">
@@ -4923,9 +4898,6 @@
     <NullableReturnStatement occurrences="1">
       <code>$this-&gt;backend</code>
     </NullableReturnStatement>
-    <RedundantPropertyInitializationCheck occurrences="1">
-      <code>isset($this-&gt;displayName)</code>
-    </RedundantPropertyInitializationCheck>
     <TooManyArguments occurrences="5">
       <code>dispatch</code>
       <code>dispatch</code>
