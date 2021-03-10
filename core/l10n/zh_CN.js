@@ -169,6 +169,7 @@ OC.L10N.register(
     "Forgot password?" : "忘记密码？",
     "Log in with a device" : "使用设备登录",
     "Back" : "返回",
+    "Login form is disabled." : "登录表单被禁用",
     "Reset search" : "重置搜索",
     "Search for {name} only" : "仅搜索 {name}",
     "No results for {query}" : "没有 '{query}' 的相关结果",
