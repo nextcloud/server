@@ -33,8 +33,11 @@ class ACL {
 	const FLAG_OBJECT_INHERIT = 0x1;
 	const FLAG_CONTAINER_INHERIT = 0x2;
 
+	/** @var int */
 	private $type;
+	/** @var int */
 	private $flags;
+	/** @var int */
 	private $mask;
 
 	public function __construct(int $type, int $flags, int $mask) {
