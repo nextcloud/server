@@ -150,8 +150,17 @@ export default class Share {
 			|| this.#share.share_with
 	}
 
+	/**
+	 * Unique display name in case of multiple
+	 * duplicates results with the same name.
+	 *
+	 * @returns {string}
+	 * @readonly
+	 * @memberof Share
+	 */
 	get shareWithDisplayNameUnique() {
-		return this.#share.share_with_displayname_unique || this.#share.share_with
+		return this.#share.share_with_displayname_unique
+			|| this.#share.share_with
 	}
 
 	/**

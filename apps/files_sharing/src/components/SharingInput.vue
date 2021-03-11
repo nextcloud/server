@@ -35,6 +35,8 @@
 		:searchable="true"
 		:user-select="true"
 		open-direction="below"
+		label="displayName"
+		track-by="id"
 		@search-change="asyncFind"
 		@select="addShare">
 		<template #noOptions>
@@ -233,6 +235,7 @@ export default {
 			const lookupEntry = []
 			if (data.lookupEnabled && !lookup) {
 				lookupEntry.push({
+					id: 'global-lookup',
 					isNoUser: true,
 					displayName: t('files_sharing', 'Search globally'),
 					lookup: true,
@@ -404,26 +407,27 @@ export default {
 		 * @returns {Object}
 		 */
 		formatForMultiselect(result) {
-			let desc
+			let subtitle
 			if (result.value.shareType === this.SHARE_TYPES.SHARE_TYPE_USER && this.config.shouldAlwaysShowUnique) {
-				desc = result.shareWithDisplayNameUnique ?? ''
+				subtitle = result.shareWithDisplayNameUnique ?? ''
 			} else if ((result.value.shareType === this.SHARE_TYPES.SHARE_TYPE_REMOTE
 					|| result.value.shareType === this.SHARE_TYPES.SHARE_TYPE_REMOTE_GROUP
 			) && result.value.server) {
-				desc = t('files_sharing', 'on {server}', { server: result.value.server })
+				subtitle = t('files_sharing', 'on {server}', { server: result.value.server })
 			} else if (result.value.shareType === this.SHARE_TYPES.SHARE_TYPE_EMAIL) {
-				desc = result.value.shareWith
+				subtitle = result.value.shareWith
 			} else {
-				desc = result.shareWithDescription ?? ''
+				subtitle = result.shareWithDescription ?? ''
 			}
 
 			return {
+				id: `${result.value.shareType}-${result.value.shareWith}`,
 				shareWith: result.value.shareWith,
 				shareType: result.value.shareType,
 				user: result.uuid || result.value.shareWith,
 				isNoUser: result.value.shareType !== this.SHARE_TYPES.SHARE_TYPE_USER,
 				displayName: result.name || result.label,
-				desc,
+				subtitle,
 				shareWithDisplayNameUnique: result.shareWithDisplayNameUnique || '',
 				icon: this.shareTypeToIcon(result.value.shareType),
 			}
