@@ -86,6 +86,10 @@ class AppFetcher extends Fetcher {
 	protected function fetch($ETag, $content, $allowUnstable = false) {
 		/** @var mixed[] $response */
 		$response = parent::fetch($ETag, $content);
+		
+		if (empty($response)) {
+			return [];
+		}
 
 		$allowPreReleases = $allowUnstable || $this->getChannel() === 'beta' || $this->getChannel() === 'daily';
 		$allowNightly = $allowUnstable || $this->getChannel() === 'daily';
