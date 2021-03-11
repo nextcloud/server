@@ -28,8 +28,6 @@ namespace OCA\User_LDAP;
 use OC\User\Backend;
 
 class UserPluginManager {
-	public $test = false;
-
 	private $respondToActions = 0;
 
 	private $which = [
@@ -42,6 +40,9 @@ class UserPluginManager {
 		Backend::COUNT_USERS => null,
 		'deleteUser' => null
 	];
+
+	/** @var bool */
+	private $suppressDeletion = false;
 
 	/**
 	 * @return int All implemented actions, except for 'deleteUser'
@@ -192,7 +193,7 @@ class UserPluginManager {
 	 * @return bool
 	 */
 	public function canDeleteUser() {
-		return $this->which['deleteUser'] !== null;
+		return !$this->suppressDeletion && $this->which['deleteUser'] !== null;
 	}
 
 	/**
@@ -203,8 +204,21 @@ class UserPluginManager {
 	public function deleteUser($uid) {
 		$plugin = $this->which['deleteUser'];
 		if ($plugin) {
+			if ($this->suppressDeletion) {
+				return false;
+			}
 			return $plugin->deleteUser($uid);
 		}
 		throw new \Exception('No plugin implements deleteUser in this LDAP Backend.');
+	}
+
+	/**
+	 * @param bool $value
+	 * @return bool – the value before the change
+	 */
+	public function setSuppressDeletion(bool $value): bool {
+		$old = $this->suppressDeletion;
+		$this->suppressDeletion = $value;
+		return $old;
 	}
 }
