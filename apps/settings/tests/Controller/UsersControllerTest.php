@@ -32,6 +32,7 @@ namespace OCA\Settings\Tests\Controller;
 use OC\Accounts\AccountManager;
 use OC\Encryption\Exceptions\ModuleDoesNotExistsException;
 use OC\Group\Manager;
+use OC\KnownUser\KnownUserService;
 use OCA\Settings\Controller\UsersController;
 use OCP\Accounts\IAccountManager;
 use OCP\App\IAppManager;
@@ -91,6 +92,8 @@ class UsersControllerTest extends \Test\TestCase {
 	private $securityManager;
 	/** @var  IManager | \PHPUnit\Framework\MockObject\MockObject */
 	private $encryptionManager;
+	/** @var KnownUserService|\PHPUnit\Framework\MockObject\MockObject */
+	private $knownUserService;
 	/** @var  IEncryptionModule  | \PHPUnit\Framework\MockObject\MockObject */
 	private $encryptionModule;
 	/** @var IEventDispatcher|\PHPUnit\Framework\MockObject\MockObject */
@@ -111,6 +114,7 @@ class UsersControllerTest extends \Test\TestCase {
 		$this->securityManager = $this->getMockBuilder(\OC\Security\IdentityProof\Manager::class)->disableOriginalConstructor()->getMock();
 		$this->jobList = $this->createMock(IJobList::class);
 		$this->encryptionManager = $this->createMock(IManager::class);
+		$this->knownUserService = $this->createMock(KnownUserService::class);
 		$this->dispatcher = $this->createMock(IEventDispatcher::class);
 
 		$this->l->method('t')
@@ -147,6 +151,7 @@ class UsersControllerTest extends \Test\TestCase {
 				$this->securityManager,
 				$this->jobList,
 				$this->encryptionManager,
+				$this->knownUserService,
 				$this->dispatcher
 			);
 		} else {
@@ -168,6 +173,7 @@ class UsersControllerTest extends \Test\TestCase {
 						$this->securityManager,
 						$this->jobList,
 						$this->encryptionManager,
+						$this->knownUserService,
 						$this->dispatcher
 					]
 				)->setMethods($mockedMethods)->getMock();

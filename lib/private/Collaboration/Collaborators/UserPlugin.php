@@ -32,6 +32,7 @@
 
 namespace OC\Collaboration\Collaborators;
 
+use OC\KnownUser\KnownUserService;
 use OCP\Collaboration\Collaborators\ISearchPlugin;
 use OCP\Collaboration\Collaborators\ISearchResult;
 use OCP\Collaboration\Collaborators\SearchResultType;
@@ -46,8 +47,14 @@ use OCP\UserStatus\IManager as IUserStatusManager;
 class UserPlugin implements ISearchPlugin {
 	/* @var bool */
 	protected $shareWithGroupOnly;
+	/* @var bool */
 	protected $shareeEnumeration;
+	/* @var bool */
 	protected $shareeEnumerationInGroupOnly;
+	/* @var bool */
+	protected $shareeEnumerationPhone;
+	/* @var bool */
+	protected $shareeEnumerationFullMatch;
 
 	/** @var IConfig */
 	private $config;
@@ -57,33 +64,30 @@ class UserPlugin implements ISearchPlugin {
 	private $userSession;
 	/** @var IUserManager */
 	private $userManager;
+	/** @var KnownUserService */
+	private $knownUserService;
 	/** @var IUserStatusManager */
 	private $userStatusManager;
 
-	/**
-	 * UserPlugin constructor.
-	 *
-	 * @param IConfig $config
-	 * @param IUserManager $userManager
-	 * @param IGroupManager $groupManager
-	 * @param IUserSession $userSession
-	 * @param IUserStatusManager $userStatusManager
-	 */
 	public function __construct(IConfig $config,
 								IUserManager $userManager,
 								IGroupManager $groupManager,
 								IUserSession $userSession,
+								KnownUserService $knownUserService,
 								IUserStatusManager $userStatusManager) {
 		$this->config = $config;
 
 		$this->groupManager = $groupManager;
 		$this->userSession = $userSession;
 		$this->userManager = $userManager;
+		$this->knownUserService = $knownUserService;
 		$this->userStatusManager = $userStatusManager;
 
 		$this->shareWithGroupOnly = $this->config->getAppValue('core', 'shareapi_only_share_with_group_members', 'no') === 'yes';
 		$this->shareeEnumeration = $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes';
 		$this->shareeEnumerationInGroupOnly = $this->shareeEnumeration && $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_group', 'no') === 'yes';
+		$this->shareeEnumerationPhone = $this->shareeEnumeration && $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_phone', 'no') === 'yes';
+		$this->shareeEnumerationFullMatch = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match', 'yes') === 'yes';
 	}
 
 	public function search($search, $limit, $offset, ISearchResult $searchResult) {
@@ -91,6 +95,7 @@ class UserPlugin implements ISearchPlugin {
 		$users = [];
 		$hasMoreResults = false;
 
+		$currentUserId = $this->userSession->getUser()->getUID();
 		$currentUserGroups = $this->groupManager->getUserGroupIds($this->userSession->getUser());
 		if ($this->shareWithGroupOnly) {
 			// Search in all the groups this user is part of
@@ -148,6 +153,7 @@ class UserPlugin implements ISearchPlugin {
 
 
 			if (
+				$this->shareeEnumerationFullMatch &&
 				$lowerSearch !== '' && (strtolower($uid) === $lowerSearch ||
 				strtolower($userDisplayName) === $lowerSearch ||
 				strtolower($userEmail) === $lowerSearch)
@@ -168,11 +174,16 @@ class UserPlugin implements ISearchPlugin {
 				];
 			} else {
 				$addToWideResults = false;
-				if ($this->shareeEnumeration && !$this->shareeEnumerationInGroupOnly) {
+				if ($this->shareeEnumeration &&
+					!($this->shareeEnumerationInGroupOnly || $this->shareeEnumerationPhone)) {
 					$addToWideResults = true;
 				}
 
-				if ($this->shareeEnumerationInGroupOnly) {
+				if ($this->shareeEnumerationPhone && $this->knownUserService->isKnownToUser($currentUserId, $user->getUID())) {
+					$addToWideResults = true;
+				}
+
+				if (!$addToWideResults && $this->shareeEnumerationInGroupOnly) {
 					$commonGroups = array_intersect($currentUserGroups, $this->groupManager->getUserGroupIds($user));
 					if (!empty($commonGroups)) {
 						$addToWideResults = true;
@@ -195,7 +206,7 @@ class UserPlugin implements ISearchPlugin {
 			}
 		}
 
-		if ($offset === 0 && !$foundUserById) {
+		if ($this->shareeEnumerationFullMatch && $offset === 0 && !$foundUserById) {
 			// On page one we try if the search result has a direct hit on the
 			// user id and if so, we add that to the exact match list
 			$user = $this->userManager->get($search);

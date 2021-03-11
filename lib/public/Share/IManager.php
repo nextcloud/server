@@ -385,6 +385,22 @@ interface IManager {
 	public function limitEnumerationToGroups(): bool;
 
 	/**
+	 * Check if user enumeration is limited to the phonebook matches
+	 *
+	 * @return bool
+	 * @since 21.0.1
+	 */
+	public function limitEnumerationToPhone(): bool;
+
+	/**
+	 * Check if user enumeration is allowed to return on full match
+	 *
+	 * @return bool
+	 * @since 21.0.1
+	 */
+	public function allowEnumerationFullMatch(): bool;
+
+	/**
 	 * Check if sharing is disabled for the given user
 	 *
 	 * @param string $userId
