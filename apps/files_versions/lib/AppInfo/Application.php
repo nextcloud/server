@@ -27,6 +27,7 @@
 
 namespace OCA\Files_Versions\AppInfo;
 
+use OC\KnownUser\KnownUserService;
 use OCA\DAV\CalDAV\Proxy\ProxyMapper;
 use OCA\DAV\Connector\Sabre\Principal;
 use OCA\Files\Event\LoadAdditionalScriptsEvent;
@@ -72,6 +73,7 @@ class Application extends App implements IBootstrap {
 				$server->getUserSession(),
 				$server->getAppManager(),
 				$server->get(ProxyMapper::class),
+				$server->get(KnownUserService::class),
 				$server->getConfig()
 			);
 		});

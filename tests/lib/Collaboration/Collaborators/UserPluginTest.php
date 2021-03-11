@@ -25,6 +25,7 @@ namespace Test\Collaboration\Collaborators;
 
 use OC\Collaboration\Collaborators\SearchResult;
 use OC\Collaboration\Collaborators\UserPlugin;
+use OC\KnownUser\KnownUserService;
 use OCP\Collaboration\Collaborators\ISearchResult;
 use OCP\IConfig;
 use OCP\IGroup;
@@ -48,6 +49,9 @@ class UserPluginTest extends TestCase {
 
 	/** @var  IUserSession|\PHPUnit\Framework\MockObject\MockObject */
 	protected $session;
+
+	/** @var  KnownUserService|\PHPUnit\Framework\MockObject\MockObject */
+	protected $knownUserService;
 
 	/** @var IUserStatusManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $userStatusManager;
@@ -78,6 +82,8 @@ class UserPluginTest extends TestCase {
 
 		$this->session = $this->createMock(IUserSession::class);
 
+		$this->knownUserService = $this->createMock(KnownUserService::class);
+
 		$this->userStatusManager = $this->createMock(IUserStatusManager::class);
 
 		$this->searchResult = new SearchResult();
@@ -93,6 +99,7 @@ class UserPluginTest extends TestCase {
 			$this->userManager,
 			$this->groupManager,
 			$this->session,
+			$this->knownUserService,
 			$this->userStatusManager
 		);
 	}

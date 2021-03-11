@@ -43,8 +43,9 @@ class SystemAddressbook extends AddressBook {
 
 	public function getChildren() {
 		$shareEnumeration = $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes';
-		$restrictShareEnumeration = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_group', 'no') === 'yes';
-		if (!$shareEnumeration || ($shareEnumeration && $restrictShareEnumeration)) {
+		$shareEnumerationGroup = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_group', 'no') === 'yes';
+		$shareEnumerationPhone = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_phone', 'no') === 'yes';
+		if (!$shareEnumeration || $shareEnumerationGroup || $shareEnumerationPhone) {
 			return [];
 		}
 

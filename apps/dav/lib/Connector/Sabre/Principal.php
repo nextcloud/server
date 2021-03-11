@@ -36,6 +36,7 @@
 
 namespace OCA\DAV\Connector\Sabre;
 
+use OC\KnownUser\KnownUserService;
 use OCA\Circles\Exceptions\CircleDoesNotExistException;
 use OCA\DAV\CalDAV\Proxy\ProxyMapper;
 use OCA\DAV\Traits\PrincipalProxyTrait;
@@ -82,27 +83,19 @@ class Principal implements BackendInterface {
 	/** @var ProxyMapper */
 	private $proxyMapper;
 
+	/** @var KnownUserService */
+	private $knownUserService;
+
 	/** @var IConfig */
 	private $config;
 
-	/**
-	 * Principal constructor.
-	 *
-	 * @param IUserManager $userManager
-	 * @param IGroupManager $groupManager
-	 * @param IShareManager $shareManager
-	 * @param IUserSession $userSession
-	 * @param IAppManager $appManager
-	 * @param ProxyMapper $proxyMapper
-	 * @param IConfig $config
-	 * @param string $principalPrefix
-	 */
 	public function __construct(IUserManager $userManager,
 								IGroupManager $groupManager,
 								IShareManager $shareManager,
 								IUserSession $userSession,
 								IAppManager $appManager,
 								ProxyMapper $proxyMapper,
+								KnownUserService $knownUserService,
 								IConfig $config,
 								string $principalPrefix = 'principals/users/') {
 		$this->userManager = $userManager;
@@ -113,6 +106,7 @@ class Principal implements BackendInterface {
 		$this->principalPrefix = trim($principalPrefix, '/');
 		$this->hasGroups = $this->hasCircles = ($principalPrefix === 'principals/users/');
 		$this->proxyMapper = $proxyMapper;
+		$this->knownUserService = $knownUserService;
 		$this->config = $config;
 	}
 
@@ -267,24 +261,25 @@ class Principal implements BackendInterface {
 		}
 
 		$allowEnumeration = $this->shareManager->allowEnumeration();
-		$limitEnumeration = $this->shareManager->limitEnumerationToGroups();
+		$limitEnumerationGroup = $this->shareManager->limitEnumerationToGroups();
+		$limitEnumerationPhone = $this->shareManager->limitEnumerationToPhone();
+		$allowEnumerationFullMatch = $this->shareManager->allowEnumerationFullMatch();
 
 		// If sharing is restricted to group members only,
 		// return only members that have groups in common
 		$restrictGroups = false;
+		$currentUser = $this->userSession->getUser();
 		if ($this->shareManager->shareWithGroupMembersOnly()) {
-			$user = $this->userSession->getUser();
-			if (!$user) {
+			if (!$currentUser instanceof IUser) {
 				return [];
 			}
 
-			$restrictGroups = $this->groupManager->getUserGroupIds($user);
+			$restrictGroups = $this->groupManager->getUserGroupIds($currentUser);
 		}
 
 		$currentUserGroups = [];
-		if ($limitEnumeration) {
-			$currentUser = $this->userSession->getUser();
-			if ($currentUser) {
+		if ($limitEnumerationGroup) {
+			if ($currentUser instanceof IUser) {
 				$currentUserGroups = $this->groupManager->getUserGroupIds($currentUser);
 			}
 		}
@@ -296,20 +291,38 @@ class Principal implements BackendInterface {
 		foreach ($searchProperties as $prop => $value) {
 			switch ($prop) {
 				case '{http://sabredav.org/ns}email-address':
-					$users = $this->userManager->getByEmail($value);
-
 					if (!$allowEnumeration) {
-						$users = \array_filter($users, static function (IUser $user) use ($value) {
-							return $user->getEMailAddress() === $value;
-						});
-					}
+						if ($allowEnumerationFullMatch) {
+							$users = $this->userManager->getByEmail($value);
+							$users = \array_filter($users, static function (IUser $user) use ($value) {
+								return $user->getEMailAddress() === $value;
+							});
+						} else {
+							$users = [];
+						}
+					} else {
+						$users = $this->userManager->getByEmail($value);
+						$users = \array_filter($users, function (IUser $user) use ($currentUser, $value, $limitEnumerationPhone, $limitEnumerationGroup, $allowEnumerationFullMatch, $currentUserGroups) {
+							if ($allowEnumerationFullMatch && $user->getEMailAddress() === $value) {
+								return true;
+							}
 
-					if ($limitEnumeration) {
-						$users = \array_filter($users, function (IUser $user) use ($currentUserGroups, $value) {
-							return !empty(array_intersect(
-									$this->groupManager->getUserGroupIds($user),
-									$currentUserGroups
-								)) || $user->getEMailAddress() === $value;
+							if ($limitEnumerationPhone
+								&& $currentUser instanceof IUser
+								&& $this->knownUserService->isKnownToUser($currentUser->getUID(), $user->getUID())) {
+								// Synced phonebook match
+								return true;
+							}
+
+							if (!$limitEnumerationGroup) {
+								// No limitation on enumeration, all allowed
+								return true;
+							}
+
+							return !empty($currentUserGroups) && !empty(array_intersect(
+								$this->groupManager->getUserGroupIds($user),
+								$currentUserGroups
+							));
 						});
 					}
 
@@ -328,20 +341,39 @@ class Principal implements BackendInterface {
 					break;
 
 				case '{DAV:}displayname':
-					$users = $this->userManager->searchDisplayName($value, $searchLimit);
 
 					if (!$allowEnumeration) {
-						$users = \array_filter($users, static function (IUser $user) use ($value) {
-							return $user->getDisplayName() === $value;
-						});
-					}
+						if ($allowEnumerationFullMatch) {
+							$users = $this->userManager->searchDisplayName($value, $searchLimit);
+							$users = \array_filter($users, static function (IUser $user) use ($value) {
+								return $user->getDisplayName() === $value;
+							});
+						} else {
+							$users = [];
+						}
+					} else {
+						$users = $this->userManager->searchDisplayName($value, $searchLimit);
+						$users = \array_filter($users, function (IUser $user) use ($currentUser, $value, $limitEnumerationPhone, $limitEnumerationGroup, $allowEnumerationFullMatch, $currentUserGroups) {
+							if ($allowEnumerationFullMatch && $user->getDisplayName() === $value) {
+								return true;
+							}
 
-					if ($limitEnumeration) {
-						$users = \array_filter($users, function (IUser $user) use ($currentUserGroups, $value) {
-							return !empty(array_intersect(
-									$this->groupManager->getUserGroupIds($user),
-									$currentUserGroups
-								)) || $user->getDisplayName() === $value;
+							if ($limitEnumerationPhone
+								&& $currentUser instanceof IUser
+								&& $this->knownUserService->isKnownToUser($currentUser->getUID(), $user->getUID())) {
+								// Synced phonebook match
+								return true;
+							}
+
+							if (!$limitEnumerationGroup) {
+								// No limitation on enumeration, all allowed
+								return true;
+							}
+
+							return !empty($currentUserGroups) && !empty(array_intersect(
+								$this->groupManager->getUserGroupIds($user),
+								$currentUserGroups
+							));
 						});
 					}
 
