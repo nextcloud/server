@@ -169,6 +169,7 @@ OC.L10N.register(
     "Forgot password?" : "Zapomněli jste heslo?",
     "Log in with a device" : "Přihlásit se pomocí zařízení",
     "Back" : "Zpět",
+    "Login form is disabled." : "Formulář pro přihlášení je vypnut",
     "Reset search" : "Resetovat hledání",
     "Search for {name} only" : "Hledat pouze {name}",
     "No results for {query}" : "Pro {query} nic nenalezeno",

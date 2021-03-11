@@ -149,6 +149,7 @@ OC.L10N.register(
     "No display name set" : "Cap de nom d’afichatge pas definit",
     "Your email address" : "Vòstra adreça electronica",
     "No email address set" : "Cap d’adreça pas definida",
+    "For password reset and notifications" : "Per reconfigurar lo senhal e recebre las notificacions",
     "Phone number" : "Numèro de telefòn",
     "Your phone number" : "Vòstre numèro de telefòn",
     "Address" : "Adreça",
