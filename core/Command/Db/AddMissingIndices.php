@@ -144,6 +144,13 @@ class AddMissingIndices extends Command {
 				$updated = true;
 				$output->writeln('<info>Filecache table updated successfully.</info>');
 			}
+			if (!$table->hasIndex('fs_storage_path_prefix')) {
+				$output->writeln('<info>Adding additional path index to the filecache table, this can take some time...</info>');
+				$table->addIndex(['storage', 'path'], 'fs_storage_path_prefix', [], ['lengths' => [null, 64]]);
+				$this->connection->migrateToSchema($schema->getWrappedSchema());
+				$updated = true;
+				$output->writeln('<info>Filecache table updated successfully.</info>');
+			}
 		}
 
 		$output->writeln('<info>Check indices of the twofactor_providers table.</info>');
