@@ -25,6 +25,7 @@ namespace OC\Encryption;
 
 use OC\Files\Filesystem;
 use OC\Files\View;
+use Psr\Log\LoggerInterface;
 
 class HookManager {
 	/**
@@ -67,6 +68,7 @@ class HookManager {
 				Filesystem::getMountManager(),
 				\OC::$server->getEncryptionManager(),
 				\OC::$server->getEncryptionFilesHelper(),
+				\OC::$server->get(LoggerInterface::class),
 				$uid
 			);
 		}
