@@ -30,12 +30,13 @@
 namespace OC\Search\Provider;
 
 use OC\Files\Filesystem;
+use OCP\Search\PagedProvider;
 
 /**
  * Provide search results from the 'files' app
  * @deprecated 20.0.0
  */
-class File extends \OCP\Search\Provider {
+class File extends PagedProvider {
 
 	/**
 	 * Search for files and folders matching the given query
@@ -87,5 +88,13 @@ class File extends \OCP\Search\Provider {
 		}
 		// return
 		return $results;
+	}
+
+	public function searchPaged($query, $page, $size) {
+		if ($size === 0) {
+			return $this->search($query);
+		} else {
+			return $this->search($query, $size, ($page - 1) * $size);
+		}
 	}
 }
