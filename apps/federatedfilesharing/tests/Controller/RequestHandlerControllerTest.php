@@ -36,11 +36,11 @@ use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Federation\ICloudFederationShare;
 use OCP\Federation\ICloudIdManager;
 use OCP\IDBConnection;
-use OCP\ILogger;
 use OCP\IRequest;
 use OCP\IUserManager;
 use OCP\Share;
 use OCP\Share\IShare;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class RequestHandlerTest
@@ -77,7 +77,7 @@ class RequestHandlerControllerTest extends \Test\TestCase {
 	/** @var  ICloudIdManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $cloudIdManager;
 
-	/** @var ILogger|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
 	private $logger;
 
 	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
@@ -127,7 +127,7 @@ class RequestHandlerControllerTest extends \Test\TestCase {
 		$this->cloudFederationShare = $this->createMock(ICloudFederationShare::class);
 
 
-		$this->logger = $this->createMock(ILogger::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 
 		$this->requestHandler = new RequestHandlerController(
 			'federatedfilesharing',
