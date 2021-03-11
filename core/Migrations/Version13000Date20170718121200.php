@@ -260,6 +260,7 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 			$table->addIndex(['storage', 'mimepart'], 'fs_storage_mimepart');
 			$table->addIndex(['storage', 'size', 'fileid'], 'fs_storage_size');
 			$table->addIndex(['mtime'], 'fs_mtime');
+			$table->addIndex(['storage', 'path'], 'fs_storage_path_prefix', [], ['lengths' => [null, 64]]);
 		}
 
 		if (!$schema->hasTable('group_user')) {
