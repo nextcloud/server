@@ -104,8 +104,6 @@ trait S3ObjectTrait {
 				throw $e;
 			}
 		}
-
-		fclose($countStream);
 	}
 
 	/**
