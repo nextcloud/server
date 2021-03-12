@@ -75,7 +75,7 @@
     "underscore": "^1.12.0",
     "url-search-params-polyfill": "^8.0.0",
     "v-click-outside": "^3.1.2",
-    "v-tooltip": "^2.0.3",
+    "v-tooltip": "^2.1.2",
     "vue": "^2.6.12",
     "vue-click-outside": "^1.1.0",
     "vue-clipboard2": "^0.3.1",
