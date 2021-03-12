@@ -229,19 +229,23 @@ class AccountManager implements IAccountManager {
 	}
 
 	public function searchUsers(string $property, array $values): array {
+		$chunks = array_chunk($values, 500);
 		$query = $this->connection->getQueryBuilder();
 		$query->select('*')
 			->from($this->dataTable)
 			->where($query->expr()->eq('name', $query->createNamedParameter($property)))
-			->andWhere($query->expr()->in('value', $query->createNamedParameter($values, IQueryBuilder::PARAM_STR_ARRAY)));
+			->andWhere($query->expr()->in('value', $query->createParameter('values')));
 
-		$result = $query->execute();
 		$matches = [];
+		foreach ($chunks as $chunk) {
+			$query->setParameter('values', $chunk, IQueryBuilder::PARAM_STR_ARRAY);
+			$result = $query->execute();
 
-		while ($row = $result->fetch()) {
-			$matches[$row['value']] = $row['uid'];
+			while ($row = $result->fetch()) {
+				$matches[$row['value']] = $row['uid'];
+			}
+			$result->closeCursor();
 		}
-		$result->closeCursor();
 
 		return $matches;
 	}
