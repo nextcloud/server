@@ -32,6 +32,7 @@ use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Proxy\ProxyMapper;
 use OCA\DAV\Connector\Sabre\Principal;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IUserManager;
@@ -94,9 +95,20 @@ class CreateCalendar extends Command {
 		$logger = \OC::$server->getLogger();
 		$dispatcher = \OC::$server->get(IEventDispatcher::class);
 		$legacyDispatcher = \OC::$server->getEventDispatcher();
+		$config = \OC::$server->get(IConfig::class);
 
 		$name = $input->getArgument('name');
-		$caldav = new CalDavBackend($this->dbConnection, $principalBackend, $this->userManager, $this->groupManager, $random, $logger, $dispatcher, $legacyDispatcher);
+		$caldav = new CalDavBackend(
+			$this->dbConnection,
+			$principalBackend,
+			$this->userManager,
+			$this->groupManager,
+			$random,
+			$logger,
+			$dispatcher,
+			$legacyDispatcher,
+			$config
+		);
 		$caldav->createCalendar("principals/users/$user", $name, []);
 		return 0;
 	}

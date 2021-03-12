@@ -86,6 +86,7 @@ class PublicCalendarRootTest extends TestCase {
 		$this->logger = $this->createMock(ILogger::class);
 		$dispatcher = $this->createMock(IEventDispatcher::class);
 		$legacyDispatcher = $this->createMock(EventDispatcherInterface::class);
+		$config = $this->createMock(IConfig::class);
 
 		$this->principal->expects($this->any())->method('getGroupMembership')
 			->withAnyParameters()
@@ -103,7 +104,8 @@ class PublicCalendarRootTest extends TestCase {
 			$this->random,
 			$this->logger,
 			$dispatcher,
-			$legacyDispatcher
+			$legacyDispatcher,
+			$config
 		);
 		$this->l10n = $this->getMockBuilder(IL10N::class)
 			->disableOriginalConstructor()->getMock();
@@ -129,7 +131,7 @@ class PublicCalendarRootTest extends TestCase {
 
 		$books = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER);
 		foreach ($books as $book) {
-			$this->backend->deleteCalendar($book['id']);
+			$this->backend->deleteCalendar($book['id'], true);
 		}
 	}
 

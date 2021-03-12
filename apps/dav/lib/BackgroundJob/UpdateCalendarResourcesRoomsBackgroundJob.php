@@ -415,7 +415,10 @@ class UpdateCalendarResourcesRoomsBackgroundJob extends TimedJob {
 			CalDavBackend::RESOURCE_BOOKING_CALENDAR_URI);
 
 		if ($calendar !== null) {
-			$this->calDavBackend->deleteCalendar($calendar['id']);
+			$this->calDavBackend->deleteCalendar(
+				$calendar['id'],
+				true // Because this wasn't deleted by a user
+			);
 		}
 	}
 

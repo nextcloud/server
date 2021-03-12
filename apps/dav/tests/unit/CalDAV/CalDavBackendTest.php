@@ -83,7 +83,7 @@ class CalDavBackendTest extends AbstractCalDavBackend {
 			->with(self::callback(function ($event) {
 				return $event instanceof CalendarDeletedEvent;
 			}));
-		$this->backend->deleteCalendar($calendars[0]['id']);
+		$this->backend->deleteCalendar($calendars[0]['id'], true);
 		$calendars = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER);
 		self::assertEmpty($calendars);
 	}
@@ -212,7 +212,7 @@ EOD;
 			->with(self::callback(function ($event) {
 				return $event instanceof CalendarDeletedEvent;
 			}));
-		$this->backend->deleteCalendar($calendars[0]['id']);
+		$this->backend->deleteCalendar($calendars[0]['id'], true);
 		$calendars = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER);
 		self::assertEmpty($calendars);
 	}

@@ -26,11 +26,16 @@ declare(strict_types=1);
 namespace OCA\DAV\Listener;
 
 use OCA\DAV\CalDAV\Activity\Backend as ActivityBackend;
+use OCA\DAV\DAV\Sharing\Plugin;
 use OCA\DAV\Events\CalendarCreatedEvent;
 use OCA\DAV\Events\CalendarDeletedEvent;
+use OCA\DAV\Events\CalendarMovedToTrashEvent;
 use OCA\DAV\Events\CalendarObjectCreatedEvent;
 use OCA\DAV\Events\CalendarObjectDeletedEvent;
+use OCA\DAV\Events\CalendarObjectMovedToTrashEvent;
+use OCA\DAV\Events\CalendarObjectRestoredEvent;
 use OCA\DAV\Events\CalendarObjectUpdatedEvent;
+use OCA\DAV\Events\CalendarRestoredEvent;
 use OCA\DAV\Events\CalendarUpdatedEvent;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
@@ -85,16 +90,55 @@ class ActivityUpdaterListener implements IEventListener {
 					'exception' => $e,
 				]);
 			}
-		} elseif ($event instanceof CalendarDeletedEvent) {
+		} elseif ($event instanceof CalendarMovedToTrashEvent) {
 			try {
-				$this->activityBackend->onCalendarDelete(
+				$this->activityBackend->onCalendarMovedToTrash(
 					$event->getCalendarData(),
 					$event->getShares()
 				);
 
 				$this->logger->debug(
-					sprintf('Activity generated for deleted calendar %d', $event->getCalendarId())
+					sprintf('Activity generated for changed calendar %d', $event->getCalendarId())
 				);
+			} catch (Throwable $e) {
+				// Any error with activities shouldn't abort the calendar update, so we just log it
+				$this->logger->error('Error generating activities for changed calendar: ' . $e->getMessage(), [
+					'exception' => $e,
+				]);
+			}
+		} elseif ($event instanceof CalendarRestoredEvent) {
+			try {
+				$this->activityBackend->onCalendarRestored(
+					$event->getCalendarData(),
+					$event->getShares()
+				);
+
+				$this->logger->debug(
+					sprintf('Activity generated for changed calendar %d', $event->getCalendarId())
+				);
+			} catch (Throwable $e) {
+				// Any error with activities shouldn't abort the calendar update, so we just log it
+				$this->logger->error('Error generating activities for changed calendar: ' . $e->getMessage(), [
+					'exception' => $e,
+				]);
+			}
+		} elseif ($event instanceof CalendarDeletedEvent) {
+			try {
+				$deletedProp = '{' . Plugin::NS_NEXTCLOUD . '}deleted-at';
+				if (isset($event->getCalendarData()[$deletedProp])) {
+					$this->logger->debug(
+						sprintf('Calendar %d was already in trashbin, skipping deletion activity', $event->getCalendarId())
+					);
+				} else {
+					$this->activityBackend->onCalendarDelete(
+						$event->getCalendarData(),
+						$event->getShares()
+					);
+
+					$this->logger->debug(
+						sprintf('Activity generated for deleted calendar %d', $event->getCalendarId())
+					);
+				}
 			} catch (Throwable $e) {
 				// Any error with activities shouldn't abort the calendar deletion, so we just log it
 				$this->logger->error('Error generating activities for a deleted calendar: ' . $e->getMessage(), [
@@ -137,18 +181,61 @@ class ActivityUpdaterListener implements IEventListener {
 					'exception' => $e,
 				]);
 			}
-		} elseif ($event instanceof CalendarObjectDeletedEvent) {
+		} elseif ($event instanceof CalendarObjectMovedToTrashEvent) {
 			try {
 				$this->activityBackend->onTouchCalendarObject(
-					\OCA\DAV\CalDAV\Activity\Provider\Event::SUBJECT_OBJECT_DELETE,
+					\OCA\DAV\CalDAV\Activity\Provider\Event::SUBJECT_OBJECT_MOVE_TO_TRASH,
 					$event->getCalendarData(),
 					$event->getShares(),
 					$event->getObjectData()
 				);
 
 				$this->logger->debug(
-					sprintf('Activity generated for deleted calendar object %d', $event->getCalendarId())
+					sprintf('Activity generated for a calendar object of calendar %d that is moved to trash', $event->getCalendarId())
 				);
+			} catch (Throwable $e) {
+				// Any error with activities shouldn't abort the calendar object creation, so we just log it
+				$this->logger->error('Error generating activity for a new calendar object: ' . $e->getMessage(), [
+					'exception' => $e,
+				]);
+			}
+		} elseif ($event instanceof CalendarObjectRestoredEvent) {
+			try {
+				$this->activityBackend->onTouchCalendarObject(
+					\OCA\DAV\CalDAV\Activity\Provider\Event::SUBJECT_OBJECT_RESTORE,
+					$event->getCalendarData(),
+					$event->getShares(),
+					$event->getObjectData()
+				);
+
+				$this->logger->debug(
+					sprintf('Activity generated for a restore calendar object of calendar %d', $event->getCalendarId())
+				);
+			} catch (Throwable $e) {
+				// Any error with activities shouldn't abort the calendar object restoration, so we just log it
+				$this->logger->error('Error generating activity for a restored calendar object: ' . $e->getMessage(), [
+					'exception' => $e,
+				]);
+			}
+		} elseif ($event instanceof CalendarObjectDeletedEvent) {
+			try {
+				$deletedProp = '{' . Plugin::NS_NEXTCLOUD . '}deleted-at';
+				if (isset($event->getObjectData()[$deletedProp])) {
+					$this->logger->debug(
+						sprintf('Calendar object in calendar %d was already in trashbin, skipping deletion activity', $event->getCalendarId())
+					);
+				} else {
+					$this->activityBackend->onTouchCalendarObject(
+						\OCA\DAV\CalDAV\Activity\Provider\Event::SUBJECT_OBJECT_DELETE,
+						$event->getCalendarData(),
+						$event->getShares(),
+						$event->getObjectData()
+					);
+
+					$this->logger->debug(
+						sprintf('Activity generated for deleted calendar object in calendar %d', $event->getCalendarId())
+					);
+				}
 			} catch (Throwable $e) {
 				// Any error with activities shouldn't abort the calendar deletion, so we just log it
 				$this->logger->error('Error generating activity for a deleted calendar object: ' . $e->getMessage(), [

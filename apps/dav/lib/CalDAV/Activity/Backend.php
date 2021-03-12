@@ -85,12 +85,32 @@ class Backend {
 	}
 
 	/**
+	 * Creates activities when a calendar was moved to trash
+	 *
+	 * @param array $calendarData
+	 * @param array $shares
+	 */
+	public function onCalendarMovedToTrash(array $calendarData, array $shares): void {
+		$this->triggerCalendarActivity(Calendar::SUBJECT_MOVE_TO_TRASH, $calendarData, $shares);
+	}
+
+	/**
+	 * Creates activities when a calendar was restored
+	 *
+	 * @param array $calendarData
+	 * @param array $shares
+	 */
+	public function onCalendarRestored(array $calendarData, array $shares): void {
+		$this->triggerCalendarActivity(Calendar::SUBJECT_RESTORE, $calendarData, $shares);
+	}
+
+	/**
 	 * Creates activities when a calendar was deleted
 	 *
 	 * @param array $calendarData
 	 * @param array $shares
 	 */
-	public function onCalendarDelete(array $calendarData, array $shares) {
+	public function onCalendarDelete(array $calendarData, array $shares): void {
 		$this->triggerCalendarActivity(Calendar::SUBJECT_DELETE, $calendarData, $shares);
 	}
 

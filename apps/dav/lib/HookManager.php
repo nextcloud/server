@@ -128,7 +128,10 @@ class HookManager {
 		}
 
 		foreach ($this->calendarsToDelete as $calendar) {
-			$this->calDav->deleteCalendar($calendar['id']);
+			$this->calDav->deleteCalendar(
+				$calendar['id'],
+				true // Make sure the data doesn't go into the trashbin, a new user with the same UID would later see it otherwise
+			);
 		}
 		$this->calDav->deleteAllSharesByUser('principals/users/' . $uid);
 
