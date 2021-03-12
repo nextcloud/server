@@ -496,11 +496,6 @@
       <code>$targetBookId</code>
     </InvalidScalarArgument>
   </file>
-  <file src="apps/dav/lib/CardDAV/SystemAddressbook.php">
-    <RedundantCondition occurrences="1">
-      <code>$shareEnumeration</code>
-    </RedundantCondition>
-  </file>
   <file src="apps/dav/lib/CardDAV/UserAddressBooks.php">
     <InvalidArgument occurrences="2">
       <code>$this-&gt;principalUri</code>
@@ -1805,14 +1800,6 @@
       <code>$this-&gt;request-&gt;server</code>
     </NoInterfaceProperties>
   </file>
-  <file src="apps/oauth2/lib/Controller/SettingsController.php">
-    <UndefinedMagicMethod occurrences="4">
-      <code>getClientIdentifier</code>
-      <code>getName</code>
-      <code>getRedirectUri</code>
-      <code>getSecret</code>
-    </UndefinedMagicMethod>
-  </file>
   <file src="apps/oauth2/lib/Db/AccessTokenMapper.php">
     <InvalidCatch occurrences="1"/>
   </file>
@@ -1957,14 +1944,6 @@
     <RedundantCondition occurrences="1">
       <code>$folder !== null</code>
     </RedundantCondition>
-  </file>
-  <file src="apps/twofactor_backupcodes/lib/BackgroundJob/CheckBackupCodes.php">
-    <InvalidPropertyAssignmentValue occurrences="1">
-      <code>$registry</code>
-    </InvalidPropertyAssignmentValue>
-    <UndefinedMethod occurrences="1">
-      <code>getProviderStates</code>
-    </UndefinedMethod>
   </file>
   <file src="apps/twofactor_backupcodes/lib/BackgroundJob/RememberBackupCodesJob.php">
     <InvalidArgument occurrences="1">
@@ -3055,14 +3034,6 @@
     </UndefinedThisPropertyAssignment>
     <UndefinedThisPropertyFetch occurrences="2">
       <code>$this-&gt;shareeEnumerationInGroupOnly</code>
-      <code>$this-&gt;shareeEnumerationInGroupOnly</code>
-    </UndefinedThisPropertyFetch>
-  </file>
-  <file src="lib/private/Collaboration/Collaborators/MailPlugin.php">
-    <UndefinedThisPropertyAssignment occurrences="1">
-      <code>$this-&gt;shareeEnumerationInGroupOnly</code>
-    </UndefinedThisPropertyAssignment>
-    <UndefinedThisPropertyFetch occurrences="1">
       <code>$this-&gt;shareeEnumerationInGroupOnly</code>
     </UndefinedThisPropertyFetch>
   </file>
