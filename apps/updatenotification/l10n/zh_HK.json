@@ -3,7 +3,7 @@
     "Channel updated" : "頻道已更新",
     "Web updater is disabled" : "Web updater 已停用",
     "Update notifications" : "更新通告",
-    "The update server could not be reached since %d days to check for new updates." : "更新伺服器在%d天前已經無法連線檢查更新",
+    "The update server could not be reached since %d days to check for new updates." : "已經有 %d 天無法連線更新伺服器以檢查是否有新更新。",
     "Please check the Nextcloud and server log files for errors." : "請確認伺服器紀錄檔以檢視錯誤。",
     "Update to %1$s is available." : "更新版 %1$s 已經釋出。",
     "Update for %1$s to version %2$s is available." : "%1$s 的更新版 %2$s 已推出。",

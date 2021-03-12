@@ -374,8 +374,6 @@
     "Restrict users to only share with users in their groups" : "Ograniči korisnike na dijeljenje samo s korisnicima unutar svoje grupe",
     "Exclude groups from sharing" : "Izuzmi grupe iz dijeljenja",
     "These groups will still be able to receive shares, but not to initiate them." : "Ove će grupe još uvijek moći primati dijeljene sadržaje, ali ih neće moći pokrenuti.",
-    "Allow username autocompletion in share dialog (if this is disabled the full username or email address needs to be entered)" : "Dopusti automatsko dovršavanje korisničkog imena u dijaloškom okviru za dijeljenje (ako je ova postavka onemogućena, potrebno je unijeti puno korisničko ime ili adresu e-pošte)",
-    "Restrict username autocompletion to users within the same groups" : "Ograniči automatsko dovršavanje korisničkog imena na korisnike iz istih grupa",
     "Show disclaimer text on the public link upload page (only shown when the file list is hidden)" : "Prikaži tekst izjave o odricanju od odgovornosti na stranici za otpremanje javnih poveznica (prikazuje se samo kad je popis datoteka skriven)",
     "This text will be shown on the public link upload page when the file list is hidden." : "Ovaj će tekst biti prikazan na stranici za otpremanje javnih poveznica kad je popis datoteka skriven.",
     "Default share permissions" : "Zadana dopuštenja za dijeljenje",
@@ -434,6 +432,8 @@
     "Import root certificate" : "Uvezi korijensku vjerodajnicu",
     "Execute one task with each page loaded" : "Izvršite jedan zadatak sa svakom učitanom stranicom",
     "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "Dopusti automatsko dovršavanje korisničkog imena u dijaloškom okviru za dijeljenje. Ako je ova postavka onemogućena, potrebno je unijeti puno korisničko ime ili adresu e-pošte.",
-    "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Prikaži tekst izjave o odricanju od odgovornosti na stranici za otpremanje javnih poveznica. (Prikazuje se samo kad je popis datoteka skriven.)"
+    "Restrict username autocompletion to users within the same groups" : "Ograniči automatsko dovršavanje korisničkog imena na korisnike iz istih grupa",
+    "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Prikaži tekst izjave o odricanju od odgovornosti na stranici za otpremanje javnih poveznica. (Prikazuje se samo kad je popis datoteka skriven.)",
+    "Allow username autocompletion in share dialog (if this is disabled the full username or email address needs to be entered)" : "Dopusti automatsko dovršavanje korisničkog imena u dijaloškom okviru za dijeljenje (ako je ova postavka onemogućena, potrebno je unijeti puno korisničko ime ili adresu e-pošte)"
 },"pluralForm" :"nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;"
 }

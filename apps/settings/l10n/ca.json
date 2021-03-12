@@ -371,8 +371,6 @@
     "Restrict users to only share with users in their groups" : "Restringeix als usuaris a compartir només amb usuaris del seu grup",
     "Exclude groups from sharing" : "Exclou grups de compartició",
     "These groups will still be able to receive shares, but not to initiate them." : "Aquests grups encara podran rebre comparticions, però no en podran iniciar.",
-    "Allow username autocompletion in share dialog (if this is disabled the full username or email address needs to be entered)" : "Permet la compleció automàtica en el diàleg de compartició (si es desactiva caldrà introduir el nom d'usuari complet i l'adreça de correu electrònic)",
-    "Restrict username autocompletion to users within the same groups" : "Restringeix autocompletar nom d'usuari per usuaris en els mateixos grups",
     "Show disclaimer text on the public link upload page (only shown when the file list is hidden)" : "Mostra el text de descàrrega de responsabilitat a la pàgina de l'enllaç públic de càrrega (només es mostra quan la llista de fitxers està oculta).",
     "This text will be shown on the public link upload page when the file list is hidden." : "Aquest text es mostrarà a la pàgina de càrrega d’enllaç públic quan la llista de fitxers estigui amagada.",
     "Default share permissions" : "Permisos de compatició per defecte",
@@ -431,6 +429,8 @@
     "Import root certificate" : "Importa certificat arrel",
     "Execute one task with each page loaded" : "Executa una tasca per cada pàgina carregada",
     "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "Permet la compleció automàtica del nom d’usuari en el diàleg de compartició. Si es desactiva, cal que s'introdueixi el nom d’usuari complet o l’adreça de correu electrònic.",
-    "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Mostra el text de renúncia a la pàgina de càrrega d’enllaços públics. (Només es mostra quan la llista de fitxers està oculta)."
+    "Restrict username autocompletion to users within the same groups" : "Restringeix autocompletar nom d'usuari per usuaris en els mateixos grups",
+    "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Mostra el text de renúncia a la pàgina de càrrega d’enllaços públics. (Només es mostra quan la llista de fitxers està oculta).",
+    "Allow username autocompletion in share dialog (if this is disabled the full username or email address needs to be entered)" : "Permet la compleció automàtica en el diàleg de compartició (si es desactiva caldrà introduir el nom d'usuari complet i l'adreça de correu electrònic)"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

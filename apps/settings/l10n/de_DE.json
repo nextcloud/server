@@ -377,8 +377,6 @@
     "Restrict users to only share with users in their groups" : "Benutzer auf das Teilen innerhalb ihrer Gruppen beschränken",
     "Exclude groups from sharing" : "Gruppen von Freigaben ausschließen",
     "These groups will still be able to receive shares, but not to initiate them." : "Diese Gruppen können weiterhin Freigaben empfangen, aber selbst keine mehr initiieren.",
-    "Allow username autocompletion in share dialog (if this is disabled the full username or email address needs to be entered)" : "Die Auto-Vervollständigung von Benutzernamen im Teilen-Dialog zulassen (Wenn dies deaktiviert ist, müssen der vollständige Benutzername oder die E-Mail-Adresse eingegeben werden)",
-    "Restrict username autocompletion to users within the same groups" : "Automatische Vervollständigung der Benutzernamen auf Benutzer innerhalb der gleichen Gruppen beschränken",
     "Show disclaimer text on the public link upload page (only shown when the file list is hidden)" : "Zeige Haftungsausschluss auf der öffentlichen Upload-Seite (Wird nur gezeigt wenn die Dateiliste nicht angezeigt wird.) ",
     "This text will be shown on the public link upload page when the file list is hidden." : "Dieser Text wird auf der öffentlichen Upload-Seite angezeigt wenn die Dateiliste nicht angezeigt wird.",
     "Default share permissions" : "Standardberechtigungen für das Teilen",
@@ -437,6 +435,8 @@
     "Import root certificate" : "Root-Zertifikat importieren",
     "Execute one task with each page loaded" : "Eine Aufgabe bei jedem Laden einer Seite ausführen",
     "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "Die Auto-Vervollständigung von Benutzernamen im Teilen-Dialog erlauben. Wenn dies deaktiviert ist, müssen Benutzername oder E-Mail-Adresse vollständig eingegeben werden.",
-    "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Zeige Haftungsausschluss auf der öffentlichen Upload-Seite. (Wird nur gezeigt wenn die Dateiliste nicht angezeigt wird.) "
+    "Restrict username autocompletion to users within the same groups" : "Automatische Vervollständigung der Benutzernamen auf Benutzer innerhalb der gleichen Gruppen beschränken",
+    "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Zeige Haftungsausschluss auf der öffentlichen Upload-Seite. (Wird nur gezeigt wenn die Dateiliste nicht angezeigt wird.) ",
+    "Allow username autocompletion in share dialog (if this is disabled the full username or email address needs to be entered)" : "Die Auto-Vervollständigung von Benutzernamen im Teilen-Dialog zulassen (Wenn dies deaktiviert ist, müssen der vollständige Benutzername oder die E-Mail-Adresse eingegeben werden)"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

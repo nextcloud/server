@@ -367,7 +367,6 @@
     "Restrict users to only share with users in their groups" : "Redia an implijourien da ranna nemet gant an implijourien en o strolladoù",
     "Exclude groups from sharing" : "Lemel ar strolladoù eus ar rannañ",
     "These groups will still be able to receive shares, but not to initiate them." : "Posupl vo d'ar strolad resev rannadennoù, mes ne vo ket posuple d'eo o krouiñ.",
-    "Restrict username autocompletion to users within the same groups" : "Aotreañ ar skrivañ otomatek eus anv an implijourien a zo er strollad nemetken.",
     "This text will be shown on the public link upload page when the file list is hidden." : "Diskouezet e vo an destenn war ar bajenn publik palkass liammoù pa eo kouachet ar roll restroù.",
     "Default share permissions" : "Aotreoù rannañ dre ziouer",
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "Digelet gant {communityopen}kummuniezh NExtcloud{linkclose}, ar {githubopen}c'hod orin{linkclose} a zo dindan aotre {licenseopen}AGPL{linkclose}.",
@@ -423,6 +422,7 @@
     "Import root certificate" : "Emporzhiañ sertifikad gwrizienn",
     "Execute one task with each page loaded" : "Ober un dra gant pep pajenn karget.",
     "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "Aotreañ ar skrivañ otamatek eus an anv implijourien er gemenadennoù rannet. M'a n'eo ket otreet e vo ret skrivañ tout an anv implijer pe ar chom-lec'h postel.",
+    "Restrict username autocompletion to users within the same groups" : "Aotreañ ar skrivañ otomatek eus anv an implijourien a zo er strollad nemetken.",
     "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Diskouez ur gemennadenn diwall war ar bajenn pellkas liammoù. (Na vez diskouezet nemet m'az eo kouachet ar roll restroù.)"
 },"pluralForm" :"nplurals=5; plural=((n%10 == 1) && (n%100 != 11) && (n%100 !=71) && (n%100 !=91) ? 0 :(n%10 == 2) && (n%100 != 12) && (n%100 !=72) && (n%100 !=92) ? 1 :(n%10 ==3 || n%10==4 || n%10==9) && (n%100 < 10 || n% 100 > 19) && (n%100 < 70 || n%100 > 79) && (n%100 < 90 || n%100 > 99) ? 2 :(n != 0 && n % 1000000 == 0) ? 3 : 4);"
 }

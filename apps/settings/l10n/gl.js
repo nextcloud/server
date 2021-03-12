@@ -379,8 +379,6 @@ OC.L10N.register(
     "Restrict users to only share with users in their groups" : "Restrinxir os usuarios a compartir só cos usuarios dos seus grupos",
     "Exclude groups from sharing" : "Excluír grupos da compartición",
     "These groups will still be able to receive shares, but not to initiate them." : "Estes grupos poderán recibir comparticións, mais non inicialas.",
-    "Allow username autocompletion in share dialog (if this is disabled the full username or email address needs to be entered)" : "Permitir autocompletar o nome de usuario na xanela de diálogo (se esta opción está desactivada, debera escribirse o nome de usuario completo ou o enderezo de correo-e) ",
-    "Restrict username autocompletion to users within the same groups" : "Restrinxir o completado automático de nome de usuario a usuarios dentro dos mesmos grupos",
     "Show disclaimer text on the public link upload page (only shown when the file list is hidden)" : "Amosar o texto de exención de responsabilidade na páxina de envío de ligazóns publicas (amosarase só cando a lista de ficheiros estea agochada)",
     "This text will be shown on the public link upload page when the file list is hidden." : "Este texto amosarase na páxina de envío das ligazóns públicas cando a lista de ficheiros estea agochada.",
     "Default share permissions" : "Permisos predeterminados para compartir",
@@ -439,6 +437,8 @@ OC.L10N.register(
     "Import root certificate" : "Importar o certificado raíz",
     "Execute one task with each page loaded" : "Executar unha tarefa con cada páxina cargada",
     "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "Permitir autocompletar o nome de usuario na xanela de diálogo. Se esta opción está desactivada, debera escribirse o nome de usuario completo ou o enderezo de correo-e. ",
-    "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Amosar o texto de exención de responsabilidade na páxina de envío de ligazóns publicas. (Amosarase só cando a lista de ficheiros estea agochada.)"
+    "Restrict username autocompletion to users within the same groups" : "Restrinxir o completado automático de nome de usuario a usuarios dentro dos mesmos grupos",
+    "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Amosar o texto de exención de responsabilidade na páxina de envío de ligazóns publicas. (Amosarase só cando a lista de ficheiros estea agochada.)",
+    "Allow username autocompletion in share dialog (if this is disabled the full username or email address needs to be entered)" : "Permitir autocompletar o nome de usuario na xanela de diálogo (se esta opción está desactivada, debera escribirse o nome de usuario completo ou o enderezo de correo-e) "
 },
 "nplurals=2; plural=(n != 1);");

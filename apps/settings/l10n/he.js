@@ -379,8 +379,6 @@ OC.L10N.register(
     "Restrict users to only share with users in their groups" : "הגבלת משתמשים לשתף רק עם משתמשים בקבוצה שלהם",
     "Exclude groups from sharing" : "מניעת קבוצות משיתוף",
     "These groups will still be able to receive shares, but not to initiate them." : "קבוצות אלו עדיין יוכלו לקבל שיתופים, אך לא לשתף בעצמם.",
-    "Allow username autocompletion in share dialog (if this is disabled the full username or email address needs to be entered)" : "לאפשר השלמת שמות משתמשים בתיבת דו־שיח השיתוף (אם האפשרות מושבתת יש להקליד את שם המשתמש או את כתובת הדוא״ל המלאים)",
-    "Restrict username autocompletion to users within the same groups" : "הגבלת השלמה אוטומטית של שמות משתמשים למשתמשים באותה הקבוצה.",
     "Show disclaimer text on the public link upload page (only shown when the file list is hidden)" : "הצגת טקסט הבהרה בעמוד ההעלאה בקישור הציבורי (מופיע רק כאשר רשימת הקבצים מוסתרת)",
     "This text will be shown on the public link upload page when the file list is hidden." : "טקסט זה יופיע בקישור עמוד ההעלאה של הקישור הציבורי כאשר רשימת הקבצים מוסתרת.",
     "Default share permissions" : "הרשאות שיתוף כבררת מחדל",
@@ -439,6 +437,8 @@ OC.L10N.register(
     "Import root certificate" : "יבוא אישור אבטחה לנתיב יסוד",
     "Execute one task with each page loaded" : "יש להפעיל משימה אחת עם כל עמוד שנטען",
     "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "לאפשר השלמת שם משתמש אוטומטית בתיבת השיתוף. אם האפשרות הזו מושבתת יש להקליד את שם המשתמש או את כתובת הדוא״ל במלואם.",
-    "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "הצגת טקסט ויתור בעמוד העלאת קישור ציבורי. (מופיע רק כאשר רשימת הקבצים מוסתרת.)"
+    "Restrict username autocompletion to users within the same groups" : "הגבלת השלמה אוטומטית של שמות משתמשים למשתמשים באותה הקבוצה.",
+    "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "הצגת טקסט ויתור בעמוד העלאת קישור ציבורי. (מופיע רק כאשר רשימת הקבצים מוסתרת.)",
+    "Allow username autocompletion in share dialog (if this is disabled the full username or email address needs to be entered)" : "לאפשר השלמת שמות משתמשים בתיבת דו־שיח השיתוף (אם האפשרות מושבתת יש להקליד את שם המשתמש או את כתובת הדוא״ל המלאים)"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");

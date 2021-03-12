@@ -379,8 +379,6 @@ OC.L10N.register(
     "Restrict users to only share with users in their groups" : "Limita gli utenti a condividere solo con gli utenti nei loro gruppi",
     "Exclude groups from sharing" : "Escludi gruppi dalla condivisione",
     "These groups will still be able to receive shares, but not to initiate them." : "Questi gruppi saranno in grado di ricevere condivisioni, ma non iniziarle.",
-    "Allow username autocompletion in share dialog (if this is disabled the full username or email address needs to be entered)" : "Consenti il completamento automatico del nome utente nella finestra di condivisione (se è disabilitata, è necessario inserire il nome utente completo o l'indirizzo di posta elettronica)",
-    "Restrict username autocompletion to users within the same groups" : "Limita il completamento del nome utente agli utenti degli stessi gruppi",
     "Show disclaimer text on the public link upload page (only shown when the file list is hidden)" : "Mostra il testo della liberatoria sulla pagina di caricamento del collegamento pubblico (visualizzato solo quando l'elenco dei file è nascosto)",
     "This text will be shown on the public link upload page when the file list is hidden." : "Questo testo sarà mostrato sulla pagina di caricamento del collegamento pubblico quando l'elenco dei file è nascosto.",
     "Default share permissions" : "Permessi predefiniti di condivisione",
@@ -439,6 +437,8 @@ OC.L10N.register(
     "Import root certificate" : "Importa certificato radice",
     "Execute one task with each page loaded" : "Esegui un'operazione con ogni pagina caricata",
     "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "Consenti il completamento del nome utente nella finestra di condivisione. Se è disabilitata, è necessario digitare il nome utente completo o l'indirizzo di posta.",
-    "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Mostra il testo di liberatoria sulla pagina di caricamento del collegamento pubblico. (Mostrato solo quando l'elenco dei file è nascosto)"
+    "Restrict username autocompletion to users within the same groups" : "Limita il completamento del nome utente agli utenti degli stessi gruppi",
+    "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Mostra il testo di liberatoria sulla pagina di caricamento del collegamento pubblico. (Mostrato solo quando l'elenco dei file è nascosto)",
+    "Allow username autocompletion in share dialog (if this is disabled the full username or email address needs to be entered)" : "Consenti il completamento automatico del nome utente nella finestra di condivisione (se è disabilitata, è necessario inserire il nome utente completo o l'indirizzo di posta elettronica)"
 },
 "nplurals=2; plural=(n != 1);");
