@@ -379,8 +379,6 @@ OC.L10N.register(
     "Restrict users to only share with users in their groups" : "Να επιτρέπεται σε χρήστες ο διαμοιρασμός μόνο με χρήστες που ανήκουν στις ομάδες τους",
     "Exclude groups from sharing" : "Εξαίρεση ομάδων από τον διαμοιρασμό",
     "These groups will still be able to receive shares, but not to initiate them." : "Αυτές οι ομάδες θα συνεχίσουν να λαμβάνουν διαμοιρασμούς, αλλά δεν θα είναι δυνατό να τους δημιουργήσουν.",
-    "Allow username autocompletion in share dialog (if this is disabled the full username or email address needs to be entered)" : "Να επιτρέπεται η αυτόματη συμπλήρωση ονόματος χρήστη στο παράθυρο διαλόγου κοινής χρήσης (εάν είναι απενεργοποιημένο, πρέπει να εισαχθεί το πλήρες όνομα χρήστη ή η διεύθυνση email)",
-    "Restrict username autocompletion to users within the same groups" : "Περιορισμός της αυτόματης συμπλήρωσης του ονόματος χρήστη  σε χρήστες της ίδιας ομάδας",
     "Show disclaimer text on the public link upload page (only shown when the file list is hidden)" : "Εμφάνιση κειμένου αποποίησης στη σελίδα μεταφόρτωσης δημόσιου συνδέσμου (εμφανίζεται μόνο όταν η λίστα αρχείων είναι κρυφή).",
     "This text will be shown on the public link upload page when the file list is hidden." : "Αυτό το κείμενο θα ",
     "Default share permissions" : "Προεπιλεγμένα δικαιώματα κοινόχρηστων",
@@ -439,6 +437,8 @@ OC.L10N.register(
     "Import root certificate" : "Εισαγωγή Πιστοποιητικού Root",
     "Execute one task with each page loaded" : "Εκτελεί μια διεργασία κάθε φορά που φορτώνεται μια σελίδα",
     "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "Να επιτρέπεται η χρήση αυτόματης συμπλήρωσης του ονόματος χρήστη στο πεδίο διαμοιρασμού. Αν η ρύθμιση αυτή είναι απενεργοποιημένη θα πρέπει να εισαχθεί το πλήρες όνομα χρήστη ή το email του. ",
-    "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Εμφάνιση κειμένου αποποίησης ευθυνών στη σελίδα δημοσίευσης συνδέσμων. (Εμφανίζεται μόνο όταν η λίστα αρχείων είναι κρυφή.)"
+    "Restrict username autocompletion to users within the same groups" : "Περιορισμός της αυτόματης συμπλήρωσης του ονόματος χρήστη  σε χρήστες της ίδιας ομάδας",
+    "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Εμφάνιση κειμένου αποποίησης ευθυνών στη σελίδα δημοσίευσης συνδέσμων. (Εμφανίζεται μόνο όταν η λίστα αρχείων είναι κρυφή.)",
+    "Allow username autocompletion in share dialog (if this is disabled the full username or email address needs to be entered)" : "Να επιτρέπεται η αυτόματη συμπλήρωση ονόματος χρήστη στο παράθυρο διαλόγου κοινής χρήσης (εάν είναι απενεργοποιημένο, πρέπει να εισαχθεί το πλήρες όνομα χρήστη ή η διεύθυνση email)"
 },
 "nplurals=2; plural=(n != 1);");

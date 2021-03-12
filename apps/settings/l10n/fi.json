@@ -355,8 +355,6 @@
     "Restrict users to only share with users in their groups" : "Salli käyttäjien jakaa vain omassa ryhmässä olevien henkilöiden kesken",
     "Exclude groups from sharing" : "Kiellä ryhmiä jakamasta",
     "These groups will still be able to receive shares, but not to initiate them." : "Nämä ryhmät kykenevät vastaanottamaan jakoja, mutta eivät kuitenkaan itse pysty luoda jakoja.",
-    "Allow username autocompletion in share dialog (if this is disabled the full username or email address needs to be entered)" : "Salli käyttäjänimen automaattinen täydentäminen jakemisikkunassa (jos tämä on pois käytöstä, tulee koko käyttäjänimi tai sähköpostiosoite kirjoittaa)",
-    "Restrict username autocompletion to users within the same groups" : "Rajoita käyttäjänimen automaattista täydentämistä samoihin ryhmiin kuuluviin käyttäjiin",
     "This text will be shown on the public link upload page when the file list is hidden." : "Tämä teksti näytetään julkisen linkin lähetyssivulla, kun tiedostolista on piilotettu.",
     "Default share permissions" : "Oletusjako-oikeudet",
     "Reasons to use Nextcloud in your organization" : "Nextcloudin käytön edut organisaatiossasi",
@@ -414,6 +412,8 @@
     "Import root certificate" : "Tuo juurivarmenne",
     "Execute one task with each page loaded" : "Suorita yksi tehtävä jokaista ladattua sivua kohden",
     "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "Salli käyttäjätunnusten automaattinen täydentäminen jakoikkunassa. Jos tämä asetus on pois käytöstä, tulee käyttäjän kirjoittaa käyttäjätunnus tai sähköpostiosoite kokonaan.",
-    "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Näytä vastuuvapauslauseke julkisen linkin lähetyssivulla. (Näytetään vain, kun tiedostolista on piilotettu.)"
+    "Restrict username autocompletion to users within the same groups" : "Rajoita käyttäjänimen automaattista täydentämistä samoihin ryhmiin kuuluviin käyttäjiin",
+    "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Näytä vastuuvapauslauseke julkisen linkin lähetyssivulla. (Näytetään vain, kun tiedostolista on piilotettu.)",
+    "Allow username autocompletion in share dialog (if this is disabled the full username or email address needs to be entered)" : "Salli käyttäjänimen automaattinen täydentäminen jakemisikkunassa (jos tämä on pois käytöstä, tulee koko käyttäjänimi tai sähköpostiosoite kirjoittaa)"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

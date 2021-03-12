@@ -356,7 +356,6 @@ OC.L10N.register(
     "Restrict users to only share with users in their groups" : "Mugatu partekatzeak taldeko erabiltzaileetara",
     "Exclude groups from sharing" : "Baztertu taldeak partekatzean",
     "These groups will still be able to receive shares, but not to initiate them." : "Talde hauek oraindik jaso ahal izango dute partekatzeak, baina ezingo dute partekatu",
-    "Restrict username autocompletion to users within the same groups" : "Erabiltzaile izenak automatikoki betetzea talde berdinetan dauden erabiltzaileei bakarrik utzi.",
     "This text will be shown on the public link upload page when the file list is hidden." : "Testu hau kargatzeko orriaren esteka publikoan erakutsiko da fitxategi zerrenda ezkutatuta dagoenean.",
     "Default share permissions" : "Defektuzko partekatze baimenak",
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "{communityopen}Nextcloud komunitateak{linkclose} garatuta, {githubopen}iturburu kodea{linkclose}  {licenseopen}AGPL{linkclose} lizentziapean banatzen da.",
@@ -412,6 +411,7 @@ OC.L10N.register(
     "Import root certificate" : "Inportatu root ziurtagiria",
     "Execute one task with each page loaded" : "Exekutatu zeregin bat orri karga bakoitzean",
     "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "Baimendu erabiltzaile-izenak automatikoki betetzea partekatze-leihoan. Hau desaktibatzen baduzu, erabiltzaile izena edo eposta helbide zehatza idatzi beharko dituzu.",
+    "Restrict username autocompletion to users within the same groups" : "Erabiltzaile izenak automatikoki betetzea talde berdinetan dauden erabiltzaileei bakarrik utzi.",
     "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Ohar mezua kargatzeko orriaren esteka publikoan erakutsi (fitxategi zerrenda ezkutatuta dagoenen bakarrik ikusten da.)"
 },
 "nplurals=2; plural=(n != 1);");

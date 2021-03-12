@@ -371,8 +371,6 @@ OC.L10N.register(
     "Restrict users to only share with users in their groups" : "Ограничи кориснике да могу да деле само унутар групе",
     "Exclude groups from sharing" : "Изузми групе из дељења",
     "These groups will still be able to receive shares, but not to initiate them." : "Ове групе ће моћи да примају дељења, али не и да их праве.",
-    "Allow username autocompletion in share dialog (if this is disabled the full username or email address needs to be entered)" : "Дозволи самодовршавање корисничких имена у дијалогу за дељење (ако је ово искључено, корисник ће морати да унесе пуно корисничко име или адресу е-поште)",
-    "Restrict username autocompletion to users within the same groups" : "Ограничи ауто-довршавање корисничких имена само за кориснике из исте групе",
     "Show disclaimer text on the public link upload page (only shown when the file list is hidden)" : "Прикажи текст о ограђивању на јавној страни за отпремање (приказан је само када је сакривена листа фајлова)",
     "This text will be shown on the public link upload page when the file list is hidden." : "Овај текст ће бити приказан на јавној страни отпремања када је скривен листа фајлова.",
     "Default share permissions" : "Подразумеване дозволе за дељење",
@@ -430,6 +428,8 @@ OC.L10N.register(
     "Import root certificate" : "Увоз кореног сертификата",
     "Execute one task with each page loaded" : "Изврши један задатак са сваком учитаном страницом",
     "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "Дозволи самодовршавање корисничких имена у дијалогу за дељење. Ако је ово искључено, корисник ће морати да унесе пуно корисничко име или адресу е-поште.",
-    "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Прикажи текст о ограђивању на јавној страни за отпремање (приказан је само када је сакривена листа фајлова)"
+    "Restrict username autocompletion to users within the same groups" : "Ограничи ауто-довршавање корисничких имена само за кориснике из исте групе",
+    "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Прикажи текст о ограђивању на јавној страни за отпремање (приказан је само када је сакривена листа фајлова)",
+    "Allow username autocompletion in share dialog (if this is disabled the full username or email address needs to be entered)" : "Дозволи самодовршавање корисничких имена у дијалогу за дељење (ако је ово искључено, корисник ће морати да унесе пуно корисничко име или адресу е-поште)"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");
