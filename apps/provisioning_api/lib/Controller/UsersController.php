@@ -240,9 +240,6 @@ class UsersController extends AUserData {
 		$user = $this->userSession->getUser();
 		$knownTo = $user->getUID();
 
-		// Cleanup all previous entries and only allow new matches
-		$this->knownUserService->deleteKnownTo($knownTo);
-
 		$normalizedNumberToKey = [];
 		foreach ($search as $key => $phoneNumbers) {
 			foreach ($phoneNumbers as $phone) {
@@ -262,6 +259,9 @@ class UsersController extends AUserData {
 		if (empty($phoneNumbers)) {
 			return new DataResponse();
 		}
+
+		// Cleanup all previous entries and only allow new matches
+		$this->knownUserService->deleteKnownTo($knownTo);
 
 		$userMatches = $this->accountManager->searchUsers(IAccountManager::PROPERTY_PHONE, $phoneNumbers);
 
