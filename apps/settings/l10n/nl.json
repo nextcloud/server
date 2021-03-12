@@ -377,8 +377,6 @@
     "Restrict users to only share with users in their groups" : "Laat gebruikers alleen delen met andere gebruikers in hun groepen",
     "Exclude groups from sharing" : "Sta bepaalde groepen niet toe om te delen",
     "These groups will still be able to receive shares, but not to initiate them." : "Deze groepen kunnen gedeelde mappen en bestanden ontvangen, maar kunnen zelf niks delen.",
-    "Allow username autocompletion in share dialog (if this is disabled the full username or email address needs to be entered)" : "Sta het automatisch aanvullen van de gebruikersnaam toe in het dialoogvenster voor delen (als dit is uitgeschakeld, moet de volledige gebruikersnaam of het e-mailadres worden ingevoerd)",
-    "Restrict username autocompletion to users within the same groups" : "Beperk het automatisch aanvullen van gebruikersnamen tot de gebruikers binnen dezelfde groepen.",
     "Show disclaimer text on the public link upload page (only shown when the file list is hidden)" : "Toon disclaimer tekst op de publieke link upload pagina (alleen getoond wanneer de bestandslijst verborgen is)",
     "This text will be shown on the public link upload page when the file list is hidden." : "Deze tekst wordt getoond op de openbare link uploadpagina als het bestandsoverzicht is verborgen.",
     "Default share permissions" : "Standaard delen autorisaties",
@@ -437,6 +435,8 @@
     "Import root certificate" : "Importeren root certificaat",
     "Execute one task with each page loaded" : "Bij laden van elke pagina één taak uitvoeren",
     "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "Automatisch afmaken gebruikersnaam bij het delen. Als dit is uitgeschakeld moet een volledige gebruiksnaam of volledig emailadres worden opgegeven.",
-    "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Toon disclaimer op de openbare link uploadpagina (alleen tonen als het bestandsoverzicht verborgen is)."
+    "Restrict username autocompletion to users within the same groups" : "Beperk het automatisch aanvullen van gebruikersnamen tot de gebruikers binnen dezelfde groepen.",
+    "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Toon disclaimer op de openbare link uploadpagina (alleen tonen als het bestandsoverzicht verborgen is).",
+    "Allow username autocompletion in share dialog (if this is disabled the full username or email address needs to be entered)" : "Sta het automatisch aanvullen van de gebruikersnaam toe in het dialoogvenster voor delen (als dit is uitgeschakeld, moet de volledige gebruikersnaam of het e-mailadres worden ingevoerd)"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

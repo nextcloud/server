@@ -368,7 +368,6 @@ OC.L10N.register(
     "Restrict users to only share with users in their groups" : "グループ内のユーザーでのみ共有するように制限する",
     "Exclude groups from sharing" : "共有可能なグループから除外する",
     "These groups will still be able to receive shares, but not to initiate them." : "このグループでは、フォルダー共有を開始することはできませんが、共有されたフォルダーを参照することはできます。",
-    "Restrict username autocompletion to users within the same groups" : "ユーザー名の自動補完を同じグループ内のユーザーに制限する",
     "This text will be shown on the public link upload page when the file list is hidden." : "このテキストは、ファイルリストが非表示になっているときに公開リンクのアップロードページに表示されます。",
     "Default share permissions" : "デフォルトの共有アクセス許可",
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "{communityopen} Nextcloudコミュニティ{linkclose}によって開発された{githubopen}ソースコード{linkclose}は、{licenseopen} AGPL {linkclose}でライセンスされています。",
@@ -424,6 +423,7 @@ OC.L10N.register(
     "Import root certificate" : "ルート証明書をインポート",
     "Execute one task with each page loaded" : "各ページの読み込み時にタスクを実行します。",
     "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "共有ダイアログ中でユーザー名の自動補完を許可する。この設定が無効の場合、完全なユーザー名またはメールアドレスを入力する必要があります。",
+    "Restrict username autocompletion to users within the same groups" : "ユーザー名の自動補完を同じグループ内のユーザーに制限する",
     "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "公開リンクのアップロードページに免責事項のテキストを表示する。 (ファイルリストが非表示のときのみ表示します)"
 },
 "nplurals=1; plural=0;");

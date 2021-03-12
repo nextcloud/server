@@ -379,8 +379,6 @@ OC.L10N.register(
     "Restrict users to only share with users in their groups" : "Запретить делиться с пользователями из других групп",
     "Exclude groups from sharing" : "Запретить публикацию указанным группам:",
     "These groups will still be able to receive shares, but not to initiate them." : "Эти группы смогут получать общие ресурсы, но не смогут их создавать.",
-    "Allow username autocompletion in share dialog (if this is disabled the full username or email address needs to be entered)" : "Разрешить автоматическое завершение имён при предоставлении доступа ( если его отключить, то имя пользователя или адрес email надо будет вводить вручную полностью)",
-    "Restrict username autocompletion to users within the same groups" : "Запретить автоматическое дополнение имён пользователей из других групп",
     "Show disclaimer text on the public link upload page (only shown when the file list is hidden)" : "Показывать текст отказа от ответственности на странице публичной ссылки (показывается только когда скрыт список файлов)",
     "This text will be shown on the public link upload page when the file list is hidden." : "Этот текст будет показан при переходе по открытой ссылке на страницу передачи файлов на сервер и только при скрытом списке файлов.",
     "Default share permissions" : "Права общего доступа по умолчанию",
@@ -439,6 +437,8 @@ OC.L10N.register(
     "Import root certificate" : "Импорт корневого сертификата",
     "Execute one task with each page loaded" : "Выполнять одно задание с каждой загруженной страницей",
     "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "Включить автоматическое завершение имён пользователей в диалоге предоставления общего доступа. Если отключено, то необходимо вводить полное имя или адрес эл. почты.",
-    "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Показывать текст об отказе от ответственности на странице доступа по открытой ссылке. Текст виден только при скрытом списке файлов."
+    "Restrict username autocompletion to users within the same groups" : "Запретить автоматическое дополнение имён пользователей из других групп",
+    "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Показывать текст об отказе от ответственности на странице доступа по открытой ссылке. Текст виден только при скрытом списке файлов.",
+    "Allow username autocompletion in share dialog (if this is disabled the full username or email address needs to be entered)" : "Разрешить автоматическое завершение имён при предоставлении доступа ( если его отключить, то имя пользователя или адрес email надо будет вводить вручную полностью)"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

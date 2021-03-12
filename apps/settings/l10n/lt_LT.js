@@ -368,8 +368,6 @@ OC.L10N.register(
     "Restrict users to only share with users in their groups" : "Apriboti naudotojus ir leisti jiems bendrinti tik su naudotojais savo grupėse",
     "Exclude groups from sharing" : "Išskirti grupes iš bendrinimo",
     "These groups will still be able to receive shares, but not to initiate them." : "Šios grupės vis tiek galės gauti viešinius, tačiau negalės jų inicijuoti.",
-    "Allow username autocompletion in share dialog (if this is disabled the full username or email address needs to be entered)" : "Leisti bendrinimo dialoge automatinį naudotojo vardų užbaigimą (jeigu tai išjungta, reikės įvesti pilną naudotojo vardą ar el. pašto adresą)",
-    "Restrict username autocompletion to users within the same groups" : "Apriboti naudotojo vardo automatinį užbaigimą kitiems tų pačių grupių naudotojams",
     "Show disclaimer text on the public link upload page (only shown when the file list is hidden)" : "Rodyti atsakomybės ribojimo tekstą įkėlimo per viešąją nuorodą puslapyje (rodomas tik tada, kai failų sąrašas yra paslėptas)",
     "This text will be shown on the public link upload page when the file list is hidden." : "Šis tekstas bus rodomas viešų nuorodų įkėlimo puslapyje, kai failų sąrašas bus paslėptas.",
     "Default share permissions" : "Numatytieji viešinių leidimai",
@@ -427,6 +425,8 @@ OC.L10N.register(
     "Import root certificate" : "Importuoti šakninius sertifikatus",
     "Execute one task with each page loaded" : "Įvykdyti vieną užduotį su kiekvieno puslapio įkėlimu",
     "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "Leisti bendrinimo dialoge automatinį naudotojo vardų užbaigimą. Jeigu tai išjungta, reikės įvesti pilną naudotojo vardą ar el. pašto adresą.",
-    "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Rodyti atsakomybės ribojimo tekstą įkėlimo per viešąją nuorodą puslapyje. (Rodomas tik tada, kai failų sąrašas yra paslėptas.)"
+    "Restrict username autocompletion to users within the same groups" : "Apriboti naudotojo vardo automatinį užbaigimą kitiems tų pačių grupių naudotojams",
+    "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Rodyti atsakomybės ribojimo tekstą įkėlimo per viešąją nuorodą puslapyje. (Rodomas tik tada, kai failų sąrašas yra paslėptas.)",
+    "Allow username autocompletion in share dialog (if this is disabled the full username or email address needs to be entered)" : "Leisti bendrinimo dialoge automatinį naudotojo vardų užbaigimą (jeigu tai išjungta, reikės įvesti pilną naudotojo vardą ar el. pašto adresą)"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

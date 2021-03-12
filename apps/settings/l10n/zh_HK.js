@@ -379,8 +379,6 @@ OC.L10N.register(
     "Restrict users to only share with users in their groups" : "限制用戶僅能與他們群組中的其他用戶分享",
     "Exclude groups from sharing" : "禁止特定群組分享檔案",
     "These groups will still be able to receive shares, but not to initiate them." : "這些群組仍然能接受其他人的分享，但是沒有辦法發起分享。",
-    "Allow username autocompletion in share dialog (if this is disabled the full username or email address needs to be entered)" : "在分享對話框中允許用戶名稱自動完成（如果停用此選項，則必須輸入完整的用戶名稱或電郵地址）",
-    "Restrict username autocompletion to users within the same groups" : "將使用戶名稱限制為僅相同群組的用戶可使用",
     "Show disclaimer text on the public link upload page (only shown when the file list is hidden)" : "在公開的檔案連結和上傳頁面顯示免責聲明（僅在檔案列表隱藏的時候才會顯示）",
     "This text will be shown on the public link upload page when the file list is hidden." : "這段文字會在公開檔案上傳頁面檔案列表被隱藏的時候顯示。",
     "Default share permissions" : "預設分享權限",
@@ -439,6 +437,8 @@ OC.L10N.register(
     "Import root certificate" : "匯入根憑證",
     "Execute one task with each page loaded" : "每個頁面載入時執行",
     "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "在分享對話框中允許用戶名自動完成。如果禁用此選項，則需要輸入完整的用戶名或電郵地址。",
-    "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "在公開的檔案連結和上傳頁面顯示免責聲明。（只有在檔案清單隱藏的時候才會顯示。）"
+    "Restrict username autocompletion to users within the same groups" : "將使用戶名稱限制為僅相同群組的用戶可使用",
+    "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "在公開的檔案連結和上傳頁面顯示免責聲明。（只有在檔案清單隱藏的時候才會顯示。）",
+    "Allow username autocompletion in share dialog (if this is disabled the full username or email address needs to be entered)" : "在分享對話框中允許用戶名稱自動完成（如果停用此選項，則必須輸入完整的用戶名稱或電郵地址）"
 },
 "nplurals=1; plural=0;");
