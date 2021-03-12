@@ -1002,6 +1002,9 @@ class Cache implements ICache {
 	 * @return int fileid of copied entry
 	 */
 	public function copyFromCache(ICache $sourceCache, ICacheEntry $sourceEntry, string $targetPath): int {
+		if ($sourceEntry->getId() < 0) {
+			throw new \RuntimeException("Invalid source cache entry on copyFromCache");
+		}
 		$data = $this->cacheEntryToArray($sourceEntry);
 		$fileId = $this->put($targetPath, $data);
 		if ($fileId <= 0) {
