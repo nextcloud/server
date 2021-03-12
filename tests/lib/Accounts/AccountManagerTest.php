@@ -34,12 +34,12 @@ use Symfony\Component\EventDispatcher\GenericEvent;
 use Test\TestCase;
 
 /**
- * Class AccountsManagerTest
+ * Class AccountManagerTest
  *
  * @group DB
  * @package Test\Accounts
  */
-class AccountsManagerTest extends TestCase {
+class AccountManagerTest extends TestCase {
 
 	/** @var  \OCP\IDBConnection */
 	private $connection;
