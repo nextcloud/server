@@ -379,8 +379,6 @@ OC.L10N.register(
     "Restrict users to only share with users in their groups" : "Kullanıcılar, yalnız kendi gruplarındaki kullanıcılarla paylaşabilsin",
     "Exclude groups from sharing" : "Gruplar paylaşıma katılmasın",
     "These groups will still be able to receive shares, but not to initiate them." : "Bu gruplar paylaşımları alabilir ancak başlatamaz.",
-    "Allow username autocompletion in share dialog (if this is disabled the full username or email address needs to be entered)" : "Bu seçenek etkinleştirildiğinde, paylaşma penceresindeki kullanıcı adı otomatik olarak tamamlanır (devre dışı bırakıldığında tam kullanıcı adının ya da e-posta adresinin yazılması gerekir)",
-    "Restrict username autocompletion to users within the same groups" : "Aynı gruplardaki kullanıcıların kullanıcı adlarının otomatik tamamlanması kısıtlansın",
     "Show disclaimer text on the public link upload page (only shown when the file list is hidden)" : "Herkese açık bağlantı yükleme sayfasındaki sorumluluk reddi bildirim metni (yalnız dosya listesi gizli iken görüntülenir)",
     "This text will be shown on the public link upload page when the file list is hidden." : "Dosya listesi gizli iken herkese açık bağlantı yükleme sayfasında görüntülenecek sorumluluk reddi bildirimi metni.",
     "Default share permissions" : "Varsayılan paylaşım izinleri",
@@ -439,6 +437,8 @@ OC.L10N.register(
     "Import root certificate" : "Kök sertifikasını içe aktar",
     "Execute one task with each page loaded" : "Her sayfa yüklemesinde bir görev yürütülsün",
     "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "Bu seçenek etkinleştirildiğinde, paylaşma penceresindeki kullanıcı adı otomatik olarak tamamlanır. Devre dışı bırakıldığında tam kullanıcı adının ya da e-posta adresinin yazılması gerekir.",
-    "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Herkese açık bağlantı yükleme sayfasındaki sorumluluk reddi bildirim metni (yalnız dosya listesi gizli iken görüntülenir)."
+    "Restrict username autocompletion to users within the same groups" : "Aynı gruplardaki kullanıcıların kullanıcı adlarının otomatik tamamlanması kısıtlansın",
+    "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Herkese açık bağlantı yükleme sayfasındaki sorumluluk reddi bildirim metni (yalnız dosya listesi gizli iken görüntülenir).",
+    "Allow username autocompletion in share dialog (if this is disabled the full username or email address needs to be entered)" : "Bu seçenek etkinleştirildiğinde, paylaşma penceresindeki kullanıcı adı otomatik olarak tamamlanır (devre dışı bırakıldığında tam kullanıcı adının ya da e-posta adresinin yazılması gerekir)"
 },
 "nplurals=2; plural=(n > 1);");

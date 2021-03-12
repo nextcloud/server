@@ -366,7 +366,6 @@
     "Restrict users to only share with users in their groups" : "A csoporttagok csak a saját csoportjukon belül oszthassanak meg anyagokat",
     "Exclude groups from sharing" : "Csoportok megosztási jogának tiltása",
     "These groups will still be able to receive shares, but not to initiate them." : "E csoportok tagjaival meg lehet osztani anyagokat, de ők nem hozhatnak létre megosztást.",
-    "Restrict username autocompletion to users within the same groups" : "Korlátozza a felhasználónevek automata kiegészítését azonos csoportokon belül",
     "This text will be shown on the public link upload page when the file list is hidden." : "Ez a szöveg jelenik meg a nyilvános feltöltési oldalon, amikor a fájl lista el van rejtve.",
     "Default share permissions" : "Alapértelmezett megosztási beállítások",
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "Fejleszti a {communityopen}Nextcloud közösség{linkclose}, a {githubopen}forráskódra{linkclose} az {licenseopen}AGPL{linkclose} licenc vonatkozik.",
@@ -422,6 +421,7 @@
     "Import root certificate" : "Gyökértanúsítvány importálása",
     "Execute one task with each page loaded" : "Egy-egy feladat végrehajtása minden alkalommal, amikor egy weboldalt letöltenek",
     "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "Felhasználónevek automatikus kiegészítésének engedélyezése a megosztási ablakban. Ha ki van kapcsolva, teljes felhasználóneveket vagy e-mail címeket kell begépelni.",
+    "Restrict username autocompletion to users within the same groups" : "Korlátozza a felhasználónevek automata kiegészítését azonos csoportokon belül",
     "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Nyilatkozat szövegének megjelenítése a nyilvános feltöltési oldalon. (Csak akkor jelenik meg, ha fájl lista rejtett.)"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

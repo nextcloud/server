@@ -368,7 +368,6 @@
     "Restrict users to only share with users in their groups" : "Begränsa användare till att enbart kunna dela med användare i deras grupper",
     "Exclude groups from sharing" : "Exkludera grupp från att dela",
     "These groups will still be able to receive shares, but not to initiate them." : "Dessa grupper kommer fortfarande kunna ta emot delningar, men inte skapa delningar.",
-    "Restrict username autocompletion to users within the same groups" : "Begränsa prediktion av användarnamn till användare inom samma grupper.",
     "This text will be shown on the public link upload page when the file list is hidden." : "Denna text kommer att visa på den offentliga uppladdnings-sidan när fil-listan är gömd.",
     "Default share permissions" : "Standardrättigheter för delning",
     "Reasons to use Nextcloud in your organization" : "Anledningar att använda Nextcloud i din organisation",
@@ -425,6 +424,7 @@
     "Import root certificate" : "Importera rotcertifikat",
     "Execute one task with each page loaded" : "Exekvera en uppgift vid varje sidladdning",
     "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "Tillåt autokomplettering av användarnamn i delningsdialogen. Om detta är inaktiverat måste fullständigt användarnamn och epostadress anges.",
+    "Restrict username autocompletion to users within the same groups" : "Begränsa prediktion av användarnamn till användare inom samma grupper.",
     "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Visa friskrivningstext på offentliga uppladdningssidan. (Visas endast när fil-listan är gömd.)"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -377,8 +377,6 @@
     "Restrict users to only share with users in their groups" : "限制用户只与他们组中的用户共享",
     "Exclude groups from sharing" : "在共享中排除组",
     "These groups will still be able to receive shares, but not to initiate them." : "这些组将仍可以获取共享，但无法向他人共享。",
-    "Allow username autocompletion in share dialog (if this is disabled the full username or email address needs to be entered)" : "允许在共享对话框中自动补全用户名。（如果被禁用，则需要输入完整的用户名或电子邮件地址。）",
-    "Restrict username autocompletion to users within the same groups" : "将用户名自动补全限制为相同组中的用户",
     "Show disclaimer text on the public link upload page (only shown when the file list is hidden)" : "在公开链接上传页中显示免责声明。（仅当文件列表隐藏时显示。）",
     "This text will be shown on the public link upload page when the file list is hidden." : "这些内容将在公开链接上传页中当文件列表隐藏时显示。",
     "Default share permissions" : "默认共享权限",
@@ -437,6 +435,8 @@
     "Import root certificate" : "导入根证书",
     "Execute one task with each page loaded" : "每个页面加载后执行一个任务",
     "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "在共享对话框中允许用户名自动完成。 如果被禁用，则需要输入完整的用户名或电子邮件地址。",
-    "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "在公开链接上传页中显示免责声明。（仅当文件列表隐藏时显示。）"
+    "Restrict username autocompletion to users within the same groups" : "将用户名自动补全限制为相同组中的用户",
+    "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "在公开链接上传页中显示免责声明。（仅当文件列表隐藏时显示。）",
+    "Allow username autocompletion in share dialog (if this is disabled the full username or email address needs to be entered)" : "允许在共享对话框中自动补全用户名。（如果被禁用，则需要输入完整的用户名或电子邮件地址。）"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

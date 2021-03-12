@@ -376,8 +376,6 @@
     "Restrict users to only share with users in their groups" : "Uporabnikom dovoli omogočanje souporabe le znotraj njihove skupine",
     "Exclude groups from sharing" : "Izbranim skupinam onemogoči omogočanje souporabe",
     "These groups will still be able to receive shares, but not to initiate them." : "Te skupine lahko sprejemajo mape v souporabo, nimajo pa dovoljenja za omogočanje souporabe.",
-    "Allow username autocompletion in share dialog (if this is disabled the full username or email address needs to be entered)" : "Dovoli samodejno dokončanje uporabniškega imena pri določanju souporabe (sicer je treba vpisati celotno ime ali elektronski naslov).",
-    "Restrict username autocompletion to users within the same groups" : "Omeji samodejno dokončanje uporabniškega imena na uporabnike znotraj iste skupine",
     "Show disclaimer text on the public link upload page (only shown when the file list is hidden)" : "Pokaži izjavo o omejitvi odgovornosti pri uporabi javnih povezav za pošiljanje (če je onemogočen prikaz seznama datotek).",
     "This text will be shown on the public link upload page when the file list is hidden." : "Besedilo izjave o omejitvi odgovornosti, ki bo izpisano v oknu za pošiljanje, ko je možnost prikaza seznama datotek onemogočena.",
     "Default share permissions" : "Privzeta dovoljenja souporabe",
@@ -436,6 +434,8 @@
     "Import root certificate" : "Uvozi korensko potrdilo",
     "Execute one task with each page loaded" : "Izvedi eno nalogo z vsako naloženo stranjo.",
     "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "Dovoli samodejno dokončanje uporabniškega imena v pogovornem oknu souporabe. Pri onemogočeni možnosti je treba za prikaz vpisati celotno uporabniško ime oziroma elektronski naslov.",
-    "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Pokaži besedilo izjave o omejitvi odgovornosti pri uporabi javnih povezav za pošiljanje (če je onemogočen prikaz seznama datotek)."
+    "Restrict username autocompletion to users within the same groups" : "Omeji samodejno dokončanje uporabniškega imena na uporabnike znotraj iste skupine",
+    "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Pokaži besedilo izjave o omejitvi odgovornosti pri uporabi javnih povezav za pošiljanje (če je onemogočen prikaz seznama datotek).",
+    "Allow username autocompletion in share dialog (if this is disabled the full username or email address needs to be entered)" : "Dovoli samodejno dokončanje uporabniškega imena pri določanju souporabe (sicer je treba vpisati celotno ime ali elektronski naslov)."
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }
