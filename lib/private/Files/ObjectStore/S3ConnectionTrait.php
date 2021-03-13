@@ -57,6 +57,9 @@ trait S3ConnectionTrait {
 	/** @var int */
 	protected $timeout;
 
+	/** @var string */
+	protected $proxy;
+
 	/** @var int */
 	protected $uploadPartSize;
 
@@ -71,6 +74,7 @@ trait S3ConnectionTrait {
 
 		$this->test = isset($params['test']);
 		$this->bucket = $params['bucket'];
+		$this->proxy = isset($params['proxy']) ? $params['proxy'] : false;
 		$this->timeout = !isset($params['timeout']) ? 15 : $params['timeout'];
 		$this->uploadPartSize = !isset($params['uploadPartSize']) ? 524288000 : $params['uploadPartSize'];
 		$params['region'] = empty($params['region']) ? 'eu-west-1' : $params['region'];
@@ -84,6 +88,10 @@ trait S3ConnectionTrait {
 
 	public function getBucket() {
 		return $this->bucket;
+	}
+
+	public function getProxy() {
+		return $this->proxy;
 	}
 
 	/**
@@ -124,7 +132,7 @@ trait S3ConnectionTrait {
 			'use_arn_region' => false,
 		];
 		if (isset($this->params['proxy'])) {
-			$options['request.options'] = ['proxy' => $this->params['proxy']];
+			$options['http'] = [ 'proxy' => $this->params['proxy'] ];
 		}
 		if (isset($this->params['legacy_auth']) && $this->params['legacy_auth']) {
 			$options['signature_version'] = 'v2';
