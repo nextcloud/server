@@ -76,6 +76,7 @@ OC.L10N.register(
     "Email could not be sent. Check your mail server log" : "Il messaggio non può essere inviato. Controlla il log del tuo server di posta",
     "A problem occurred while sending the email. Please revise your settings. (Error: %s)" : "Si è verificato un problema durante l'invio dell'email. Controlla le tue impostazioni. (Errore: %s)",
     "You need to set your user email before being able to send test emails." : "Devi impostare l'indirizzo del tuo utente prima di poter provare l'invio delle email.",
+    "Invalid user" : "Utente non valido",
     "Invalid mail address" : "Indirizzo email non valido",
     "Settings saved" : "Impostazioni salvate",
     "Unable to change full name" : "Impossibile cambiare il nome completo",
