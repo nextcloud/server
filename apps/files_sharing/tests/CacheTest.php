@@ -517,4 +517,40 @@ class CacheTest extends TestCase {
 
 		$this->assertTrue($sourceStorage->getCache()->inCache('jail/sub/bar.txt'));
 	}
+
+	public function testSearchShareJailedStorage() {
+		$sourceStorage = new Temporary();
+		$sourceStorage->mkdir('jail');
+		$sourceStorage->mkdir('jail/sub');
+		$sourceStorage->file_put_contents('jail/sub/foo.txt', 'foo');
+		$jailedSource = new Jail([
+			'storage' => $sourceStorage,
+			'root' => 'jail'
+		]);
+		$sourceStorage->getScanner()->scan('');
+		$this->registerMount(self::TEST_FILES_SHARING_API_USER1, $jailedSource, '/' . self::TEST_FILES_SHARING_API_USER1 . '/files/foo');
+
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
+
+		$rootFolder = \OC::$server->getUserFolder(self::TEST_FILES_SHARING_API_USER1);
+		$node = $rootFolder->get('foo/sub');
+		$share = $this->shareManager->newShare();
+		$share->setNode($node)
+			->setShareType(IShare::TYPE_USER)
+			->setSharedWith(self::TEST_FILES_SHARING_API_USER2)
+			->setSharedBy(self::TEST_FILES_SHARING_API_USER1)
+			->setPermissions(\OCP\Constants::PERMISSION_ALL);
+		$share = $this->shareManager->createShare($share);
+		$share->setStatus(IShare::STATUS_ACCEPTED);
+		$this->shareManager->updateShare($share);
+		\OC_Util::tearDownFS();
+
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
+
+		/** @var SharedStorage $sharedStorage */
+		list($sharedStorage) = \OC\Files\Filesystem::resolvePath('/' . self::TEST_FILES_SHARING_API_USER2 . '/files/sub');
+
+		$results = $sharedStorage->getCache()->search("foo.txt");
+		$this->assertCount(1, $results);
+	}
 }

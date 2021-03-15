@@ -89,6 +89,10 @@ class Cache extends CacheJail {
 		return $this->root;
 	}
 
+	protected function getGetUnjailedRoot() {
+		return $this->sourceRootInfo->getPath();
+	}
+
 	public function getCache() {
 		if (is_null($this->cache)) {
 			$sourceStorage = $this->storage->getSourceStorage();
