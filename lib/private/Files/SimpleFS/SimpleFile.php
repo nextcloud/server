@@ -180,4 +180,8 @@ class SimpleFile implements ISimpleFile {
 	public function write() {
 		return $this->file->fopen('w');
 	}
+
+	public function getId(): int {
+		return $this->file->getId();
+	}
 }
