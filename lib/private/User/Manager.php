@@ -642,6 +642,7 @@ class Manager extends PublicEmitter implements IUserManager {
 		if (\in_array($uid, [
 			'.htaccess',
 			'files_external',
+			'__groupfolders',
 			'.ocdata',
 			'owncloud.log',
 			'nextcloud.log',
