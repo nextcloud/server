@@ -26,14 +26,11 @@
 
 namespace OC\Encryption;
 
-use Exception;
 use InvalidArgumentException;
-use OC;
 use OC\Files\Filesystem;
 use OC\Files\Mount;
 use OC\Files\View;
 use OCP\Encryption\Exceptions\GenericEncryptionException;
-use OCP\ILogger;
 use Psr\Log\LoggerInterface;
 
 /**
