@@ -59,7 +59,7 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
 use OCP\Mail\IMailer;
-use OCP\Security\Events\ValidatePasswordPolicyEvent;
+use OCP\Security\Events\ValidateSharePasswordPolicyEvent;
 use OCP\Security\IHasher;
 use OCP\Security\ISecureRandom;
 use OCP\Share;
@@ -201,7 +201,7 @@ class Manager implements IManager {
 
 		// Let others verify the password
 		try {
-			$this->legacyDispatcher->dispatch(new ValidatePasswordPolicyEvent($password));
+			$this->legacyDispatcher->dispatch(new ValidateSharePasswordPolicyEvent($password));
 		} catch (HintException $e) {
 			throw new \Exception($e->getHint());
 		}

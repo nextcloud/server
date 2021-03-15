@@ -56,7 +56,7 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Mail\IMailer;
-use OCP\Security\Events\GenerateSecurePasswordEvent;
+use OCP\Security\Events\GenerateSecureSharePasswordEvent;
 use OCP\Security\IHasher;
 use OCP\Security\ISecureRandom;
 use OCP\Share\Exceptions\GenericShareException;
@@ -216,7 +216,7 @@ class ShareByMailProvider implements IShareProvider {
 			);
 		}
 
-		$passwordEvent = new GenerateSecurePasswordEvent();
+		$passwordEvent = new GenerateSecureSharePasswordEvent();
 		$this->eventDispatcher->dispatchTyped($passwordEvent);
 
 		$password = $passwordEvent->getPassword();

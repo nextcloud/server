@@ -84,7 +84,7 @@
 				:value.sync="share.password"
 				:disabled="saving"
 				:required="config.enableLinkPasswordByDefault || config.enforcePasswordForPublicLink"
-				:minlength="isPasswordPolicyEnabled && config.passwordPolicy.minLength"
+				:minlength="isPasswordPolicyEnabled && config.passwordPolicy.sharingMinLength"
 				icon=""
 				autocomplete="new-password"
 				@submit="onNewLinkShare">

@@ -35,9 +35,9 @@ const passwordSet = 'abcdefgijkmnopqrstwxyzABCDEFGHJKLMNPQRSTWXYZ23456789'
  */
 export default async function() {
 	// password policy is enabled, let's request a pass
-	if (config.passwordPolicy.api && config.passwordPolicy.api.generate) {
+	if (config.passwordPolicy.api && config.passwordPolicy.api.generateShare) {
 		try {
-			const request = await axios.get(config.passwordPolicy.api.generate)
+			const request = await axios.get(config.passwordPolicy.api.generateShare)
 			if (request.data.ocs.data.password) {
 				return request.data.ocs.data.password
 			}
