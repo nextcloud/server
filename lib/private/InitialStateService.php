@@ -69,7 +69,7 @@ class InitialStateService implements IInitialStateService {
 			return;
 		}
 
-		$this->logger->warning('Invalid data provided to provideInitialState by ' . $appName);
+		$this->logger->warning('Invalid '. $key . ' data provided to provideInitialState by ' . $appName);
 	}
 
 	public function provideLazyInitialState(string $appName, string $key, Closure $closure): void {
