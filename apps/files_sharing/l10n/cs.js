@@ -2,7 +2,7 @@ OC.L10N.register(
     "files_sharing",
     {
     "Shared with you" : "Sdíleno s vámi",
-    "Nothing shared with you yet" : "Zatím s vámi nikdo nic nesdílel",
+    "Nothing shared with you yet" : "Zatím vám nikdo nic nenasdílel",
     "Files and folders others share with you will show up here" : "Zde budou zobrazeny soubory a složky, které ostatní sdílí s vámi",
     "Shared with others" : "Sdíleno s ostatními",
     "Nothing shared yet" : "Zatím není nic sdíleno",
@@ -61,7 +61,7 @@ OC.L10N.register(
     "{actor} shared as public link" : "{actor} sdílel(a) jako veřejný odkaz",
     "{actor} removed public link" : "{actor} odstranil(a) veřejný odkaz",
     "Public link of {actor} expired" : "Platnost veřejného odkazu {actor} skončila",
-    "You shared {file} as public link" : "Sdílel(a) jste {file} jako veřejný odkaz",
+    "You shared {file} as public link" : "Nasdíleli jste {file} jako veřejný odkaz",
     "You removed public link for {file}" : "Odstranili jste veřejný odkaz pro {file}",
     "Public link expired for {file}" : "Platnost veřejného odkazu na  {file} skončila",
     "{actor} shared {file} as public link" : "{actor} sdílel(a) {file} jako veřejný odkaz",
