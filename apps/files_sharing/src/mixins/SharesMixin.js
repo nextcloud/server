@@ -248,11 +248,14 @@ export default {
 					try {
 						await this.updateShare(this.share.id, properties)
 
+						if (propertyNames.indexOf('password') >= 0) {
+							// reset password state after sync
+							this.$delete(this.share, 'newPassword')
+						}
+
 						// clear any previous errors
 						this.$delete(this.errors, propertyNames[0])
 
-						// reset password state after sync
-						this.$delete(this.share, 'newPassword')
 					} catch ({ message }) {
 						if (message && message !== '') {
 							this.onSyncError(propertyNames[0], message)
