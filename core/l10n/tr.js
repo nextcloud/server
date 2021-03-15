@@ -169,7 +169,7 @@ OC.L10N.register(
     "Forgot password?" : "Parolamı unuttum",
     "Log in with a device" : "Bir aygıt ile oturum açın",
     "Back" : "Geri",
-    "Login form is disabled." : "Giriş formu devre dışı.",
+    "Login form is disabled." : "Oturum açma formu devre dışı bırakılmış.",
     "Reset search" : "Aramayı sıfırla",
     "Search for {name} only" : "Yalnız {name} için aransın",
     "No results for {query}" : "{query} sorgusundan bir sonuç alınamadı",
