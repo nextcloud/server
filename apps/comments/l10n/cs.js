@@ -9,7 +9,7 @@ OC.L10N.register(
     "You commented on {file}" : "Okomentovali jste {file}",
     "%1$s commented on %2$s" : "%1$s okomentoval(a) %2$s",
     "{author} commented on {file}" : "{author} okomentoval(a) {file}",
-    "<strong>Comments</strong> for files" : "<strong>Komentáře</strong> souborů",
+    "<strong>Comments</strong> for files" : "<strong>Komentáře</strong> k souborům",
     "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Byli jste zmíněni v souboru „{file}“, v komentáři od uživatele, který byl později smazán",
     "{user} mentioned you in a comment on “{file}”" : "{user} vás zmínil(a) v komentáři u „{file}“",
     "Files app plugin to add comments to files" : "Zásuvný modul do aplikace Soubory pro přidávání komentářů k souborům",
