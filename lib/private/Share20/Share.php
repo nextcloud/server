@@ -30,8 +30,9 @@
 
 namespace OC\Share20;
 
-use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\File;
+use OCP\Files\Cache\ICacheEntry;
+use OCP\Files\FileInfo;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
@@ -233,8 +234,13 @@ class Share implements \OCP\Share\IShare {
 	 */
 	public function getNodeType() {
 		if ($this->nodeType === null) {
-			$node = $this->getNode();
-			$this->nodeType = $node instanceof File ? 'file' : 'folder';
+			if ($this->getNodeCacheEntry()) {
+				$info = $this->getNodeCacheEntry();
+				$this->nodeType = $info->getMimeType() === FileInfo::MIMETYPE_FOLDER ? 'folder' : 'file';
+			} else {
+				$node = $this->getNode();
+				$this->nodeType = $node instanceof File ? 'file' : 'folder';
+			}
 		}
 
 		return $this->nodeType;
