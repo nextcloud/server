@@ -629,7 +629,7 @@ class Cache implements ICache {
 	/**
 	 * Move a file or folder in the cache
 	 *
-	 * @param \OCP\Files\Cache\ICache $sourceCache
+	 * @param ICache $sourceCache
 	 * @param string $sourcePath
 	 * @param string $targetPath
 	 * @throws \OC\DatabaseException
@@ -1075,5 +1075,48 @@ class Cache implements ICache {
 	 */
 	public function normalize($path) {
 		return trim(\OC_Util::normalizeUnicode($path), '/');
+	}
+
+	/**
+	 * Copy a file or folder in the cache
+	 *
+	 * @param ICache $sourceCache
+	 * @param ICacheEntry $sourceEntry
+	 * @param string $targetPath
+	 * @return int fileid of copied entry
+	 */
+	public function copyFromCache(ICache $sourceCache, ICacheEntry $sourceEntry, string $targetPath): int {
+		if ($sourceEntry->getId() < 0) {
+			throw new \RuntimeException("Invalid source cache entry on copyFromCache");
+		}
+		$data = $this->cacheEntryToArray($sourceEntry);
+		$fileId = $this->put($targetPath, $data);
+		if ($fileId <= 0) {
+			throw new \RuntimeException("Failed to copy to " . $targetPath . " from cache with source data " . json_encode($data) . " ");
+		}
+		if ($sourceEntry->getMimeType() === ICacheEntry::DIRECTORY_MIMETYPE) {
+			$folderContent = $sourceCache->getFolderContentsById($sourceEntry->getId());
+			foreach ($folderContent as $subEntry) {
+				$subTargetPath = $targetPath . '/' . $subEntry->getName();
+				$this->copyFromCache($sourceCache, $subEntry, $subTargetPath);
+			}
+		}
+		return $fileId;
+	}
+
+	private function cacheEntryToArray(ICacheEntry $entry): array {
+		return [
+			'size' => $entry->getSize(),
+			'mtime' => $entry->getMTime(),
+			'storage_mtime' => $entry->getStorageMTime(),
+			'mimetype' => $entry->getMimeType(),
+			'mimepart' => $entry->getMimePart(),
+			'etag' => $entry->getEtag(),
+			'permissions' => $entry->getPermissions(),
+			'encrypted' => $entry->isEncrypted(),
+			'creation_time' => $entry->getCreationTime(),
+			'upload_time' => $entry->getUploadTime(),
+			'metadata_etag' => $entry->getMetadataEtag(),
+		];
 	}
 }
