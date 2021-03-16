@@ -97,6 +97,9 @@ class SMB extends Common implements INotifyStorage {
 	/** @var bool */
 	protected $checkAcl;
 
+	/** @var bool */
+	protected $rootWritable;
+
 	public function __construct($params) {
 		if (!isset($params['host'])) {
 			throw new \Exception('Invalid configuration, no host provided');
@@ -134,6 +137,7 @@ class SMB extends Common implements INotifyStorage {
 
 		$this->showHidden = isset($params['show_hidden']) && $params['show_hidden'];
 		$this->checkAcl = isset($params['check_acl']) && $params['check_acl'];
+		$this->rootWritable = isset($params['root_force_writable']) && $params['root_force_writable'];
 
 		$this->statCache = new CappedMemoryCache();
 		parent::__construct($params);
@@ -573,7 +577,11 @@ class SMB extends Common implements INotifyStorage {
 	private function getMetaDataFromFileInfo(IFileInfo $fileInfo) {
 		$permissions = Constants::PERMISSION_READ + Constants::PERMISSION_SHARE;
 
-		if (!$fileInfo->isReadOnly()) {
+		if (
+			!$fileInfo->isReadOnly() || (
+				$this->rootWritable && $fileInfo->getPath() == $this->buildPath('')
+			)
+		) {
 			$permissions += Constants::PERMISSION_DELETE;
 			$permissions += Constants::PERMISSION_UPDATE;
 			if ($fileInfo->isDirectory()) {
