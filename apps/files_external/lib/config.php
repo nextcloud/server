@@ -240,7 +240,7 @@ class OC_Mount_Config {
 	 * @param array $options backend configuration options
 	 * @param boolean $isPersonal
 	 * @return int see self::STATUS_*
-	 * @throws Exception
+	 * @throws \Exception
 	 */
 	public static function getBackendStatus($class, $options, $isPersonal, $testOnly = true) {
 		if (self::$skipTest) {
@@ -268,7 +268,7 @@ class OC_Mount_Config {
 					$storage->setAvailability(false);
 					throw $e;
 				}
-			} catch (Exception $exception) {
+			} catch (\Exception $exception) {
 				\OC::$server->getLogger()->logException($exception, ['app' => 'files_external']);
 				throw $exception;
 			}
