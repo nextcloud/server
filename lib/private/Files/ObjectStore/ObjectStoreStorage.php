@@ -61,6 +61,10 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 
 	private $logger;
 
+	protected $type = 'file_storage';
+	protected $genericObjectStore;
+	protected $appDataObjectStore;
+
 	public function __construct($params) {
 		if (isset($params['objectstore']) && $params['objectstore'] instanceof IObjectStore) {
 			$this->objectStore = $params['objectstore'];
@@ -78,6 +82,14 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 		//initialize cache with root directory in cache
 		if (!$this->is_dir('/')) {
 			$this->mkdir('/');
+		}
+
+		// bootstrap object store for app data
+		$systemConfig = \OC::$server->getSystemConfig();
+		$appDataStorageConfig = $systemConfig->getValue('appdata_objectstore_multibucket', null);
+		if ($appDataStorageConfig && isset($appDataStorageConfig['arguments'])) {
+			$this->genericObjectStore = $params['objectstore'];
+			$this->appDataObjectStore = new $appDataStorageConfig['class']($appDataStorageConfig['arguments']);
 		}
 
 		$this->logger = \OC::$server->getLogger();
@@ -206,6 +218,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 			if ($stat['mimetype'] === 'httpd/unix-directory') {
 				return $this->rmdir($path);
 			}
+			$this->verifyStorage($path);
 			try {
 				$this->objectStore->deleteObject($this->getURN($stat['fileid']));
 			} catch (\Exception $ex) {
@@ -289,7 +302,26 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 		}
 	}
 
+	/**
+	 * Verify and set the current object store for files and appdata files
+	 *
+	 * @param $path
+	 */
+	private function verifyStorage($path) {
+		if ($this->appDataObjectStore !== null) {
+			$isAppDataFile = $this->isAppDataFile($path);
+			if ($isAppDataFile && $this->type !== 'appdata_storage') {
+				$this->type = 'appdata_storage';
+				$this->objectStore = $this->appDataObjectStore;
+			} else if (!$isAppDataFile && $this->type !== 'file_storage') {
+				$this->type = 'file_storage';
+				$this->objectStore = $this->genericObjectStore;
+			}
+		}
+	}
+
 	public function fopen($path, $mode) {
+		$this->verifyStorage($path);
 		$path = $this->normalizePath($path);
 
 		if (strrpos($path, '.') !== false) {
@@ -447,6 +479,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 	}
 
 	public function writeStream(string $path, $stream, int $size = null): int {
+		$this->verifyStorage($path);
 		$stat = $this->stat($path);
 		if (empty($stat)) {
 			// create new file
@@ -528,6 +561,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 	}
 
 	public function getObjectStore(): IObjectStore {
+		$this->verifyStorage($path);
 		return $this->objectStore;
 	}
 
@@ -591,6 +625,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 		$targetUrn = $this->getURN($targetEntry->getId());
 
 		try {
+			$this->verifyStorage($path);
 			$this->objectStore->copyObject($sourceUrn, $targetUrn);
 		} catch (\Exception $e) {
 			$cache->remove($to);
