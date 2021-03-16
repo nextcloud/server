@@ -102,6 +102,11 @@ $application->registerRoutes(
 				'verb' => 'GET',
 			],
 			[
+				'name' => 'ajax#download',
+				'url' => '/ajax/download.php',
+				'verb' => 'POST',
+			],
+			[
 				'name' => 'API#toggleShowFolder',
 				'url' => '/api/v1/toggleShowFolder/{key}',
 				'verb' => 'POST'
@@ -174,7 +179,5 @@ $application->registerRoutes(
 
 /** @var $this \OC\Route\Router */
 
-$this->create('files_ajax_download', 'apps/files/ajax/download.php')
-	->actionInclude('files/ajax/download.php');
 $this->create('files_ajax_list', 'apps/files/ajax/list.php')
 	->actionInclude('files/ajax/list.php');

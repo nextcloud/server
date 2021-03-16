@@ -26,15 +26,22 @@ declare(strict_types=1);
 
 namespace OCA\Files\Controller;
 
+use OC_Files;
 use OCA\Files\Helper;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\Files\NotFoundException;
 use OCP\IRequest;
+use OCP\ISession;
 
 class AjaxController extends Controller {
-	public function __construct(string $appName, IRequest $request) {
+	/** @var ISession */
+	private $session;
+
+	public function __construct(string $appName, IRequest $request, ISession $session) {
 		parent::__construct($appName, $request);
+		$this->session = $session;
+		$this->request = $request;
 	}
 
 	/**
@@ -55,5 +62,31 @@ class AjaxController extends Controller {
 				],
 			]);
 		}
+	}
+
+	/**
+	 * @NoAdminRequired
+	 */
+	public function download($files, string $dir = '', string $downloadStartSecret = '') {
+		if (is_string($files)) {
+			$files = [$files];
+		} elseif (!is_array($files)) {
+			throw new \InvalidArgumentException('Invalid argument for files');
+		}
+
+		$this->session->close();
+
+		if (strlen($downloadStartSecret) <= 32
+			&& (preg_match('!^[a-zA-Z0-9]+$!', $downloadStartSecret) === 1)
+		) {
+			setcookie('ocDownloadStarted', $downloadStartSecret, time() + 20, '/');
+		}
+
+		$serverParams = [ 'head' => $this->request->getMethod() === 'HEAD' ];
+		if (isset($_SERVER['HTTP_RANGE'])) {
+			$serverParams['range'] = $this->request->getHeader('Range');
+		}
+
+		OC_Files::get($dir, $files, $serverParams);
 	}
 }
