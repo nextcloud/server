@@ -1,4 +1,5 @@
 import './app'
+import './templates'
 import './filesplugin'
 import './activitytabviewplugin'
 
