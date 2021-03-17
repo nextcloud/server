@@ -47,6 +47,7 @@ use OCP\IUserBackend;
 use OCP\IUserManager;
 use OCP\Support\Subscription\IRegistry;
 use OCP\User\Backend\IGetRealUIDBackend;
+use OCP\User\Backend\ISearchKnownUsersBackend;
 use OCP\User\Events\BeforeUserCreatedEvent;
 use OCP\User\Events\UserCreatedEvent;
 use OCP\UserInterface;
@@ -323,6 +324,41 @@ class Manager extends PublicEmitter implements IUserManager {
 			/**
 			 * @var \OC\User\User $a
 			 * @var \OC\User\User $b
+			 */
+			return strcasecmp($a->getDisplayName(), $b->getDisplayName());
+		});
+		return $users;
+	}
+
+	/**
+	 * Search known users (from phonebook sync) by displayName
+	 *
+	 * @param string $searcher
+	 * @param string $pattern
+	 * @param int|null $limit
+	 * @param int|null $offset
+	 * @return IUser[]
+	 */
+	public function searchKnownUsersByDisplayName(string $searcher, string $pattern, ?int $limit = null, ?int $offset = null): array {
+		$users = [];
+		foreach ($this->backends as $backend) {
+			if ($backend instanceof ISearchKnownUsersBackend) {
+				$backendUsers = $backend->searchKnownUsersByDisplayName($searcher, $pattern, $limit, $offset);
+			} else {
+				// Better than nothing, but filtering after pagination can remove lots of results.
+				$backendUsers = $backend->getDisplayNames($pattern, $limit, $offset);
+			}
+			if (is_array($backendUsers)) {
+				foreach ($backendUsers as $uid => $displayName) {
+					$users[] = $this->getUserObject($uid, $backend);
+				}
+			}
+		}
+
+		usort($users, function ($a, $b) {
+			/**
+			 * @var IUser $a
+			 * @var IUser $b
 			 */
 			return strcasecmp($a->getDisplayName(), $b->getDisplayName());
 		});
