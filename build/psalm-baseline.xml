@@ -1130,7 +1130,7 @@
     <FalsableReturnStatement occurrences="1">
       <code>$result</code>
     </FalsableReturnStatement>
-    <ImplementedParamTypeMismatch occurrences="3">
+    <ImplementedParamTypeMismatch occurrences="2">
       <code>$position</code>
       <code>$position</code>
       <code>$position</code>
@@ -2418,10 +2418,11 @@
     <InvalidReturnType occurrences="1">
       <code>string[]</code>
     </InvalidReturnType>
-    <InvalidScalarArgument occurrences="3">
-      <code>$key</code>
-      <code>$key</code>
+    <InvalidScalarArgument occurrences="4">
       <code>$e-&gt;getCode()</code>
+      <code>$key</code>
+      <code>$key</code>
+      <code>[$attr =&gt; $result['values']]</code>
     </InvalidScalarArgument>
     <NullArgument occurrences="1">
       <code>$cookie</code>
@@ -6013,6 +6014,11 @@
     <UndefinedClass occurrences="1">
       <code>'DateTimeFormatter'</code>
     </UndefinedClass>
+  </file>
+  <file src="lib/private/Files/Stream/Encryption.php">
+    <UndefinedInterfaceMethod occurrences="1">
+      <code>$cacheEntry</code>
+    </UndefinedInterfaceMethod>
   </file>
   <file src="lib/public/AppFramework/ApiController.php">
     <NoInterfaceProperties occurrences="1">
