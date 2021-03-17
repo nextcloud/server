@@ -71,15 +71,15 @@ class MDB2SchemaManager {
 		$config = \OC::$server->getConfig();
 		$dispatcher = \OC::$server->getEventDispatcher();
 		if ($platform instanceof SqlitePlatform) {
-			return new SQLiteMigrator($this->conn, $random, $config, $dispatcher);
+			return new SQLiteMigrator($this->conn, $config, $dispatcher);
 		} elseif ($platform instanceof OraclePlatform) {
-			return new OracleMigrator($this->conn, $random, $config, $dispatcher);
+			return new OracleMigrator($this->conn, $config, $dispatcher);
 		} elseif ($platform instanceof MySQLPlatform) {
-			return new MySQLMigrator($this->conn, $random, $config, $dispatcher);
+			return new MySQLMigrator($this->conn, $config, $dispatcher);
 		} elseif ($platform instanceof PostgreSQL94Platform) {
-			return new PostgreSqlMigrator($this->conn, $random, $config, $dispatcher);
+			return new PostgreSqlMigrator($this->conn, $config, $dispatcher);
 		} else {
-			return new Migrator($this->conn, $random, $config, $dispatcher);
+			return new Migrator($this->conn, $config, $dispatcher);
 		}
 	}
 

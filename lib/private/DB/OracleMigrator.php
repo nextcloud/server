@@ -205,14 +205,6 @@ class OracleMigrator extends Migrator {
 	}
 
 	/**
-	 * @param string $name
-	 * @return string
-	 */
-	protected function generateTemporaryTableName($name) {
-		return 'oc_' . uniqid();
-	}
-
-	/**
 	 * @param $statement
 	 * @return string
 	 */

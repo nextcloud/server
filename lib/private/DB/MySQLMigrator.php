@@ -27,7 +27,6 @@
 namespace OC\DB;
 
 use Doctrine\DBAL\Schema\Schema;
-use Doctrine\DBAL\Schema\Table;
 
 class MySQLMigrator extends Migrator {
 	/**
@@ -51,26 +50,5 @@ class MySQLMigrator extends Migrator {
 		}
 
 		return $schemaDiff;
-	}
-
-	/**
-	 * Speed up migration test by disabling autocommit and unique indexes check
-	 *
-	 * @param \Doctrine\DBAL\Schema\Table $table
-	 * @throws \OC\DB\MigrationException
-	 */
-	protected function checkTableMigrate(Table $table) {
-		$this->connection->exec('SET autocommit=0');
-		$this->connection->exec('SET unique_checks=0');
-
-		try {
-			parent::checkTableMigrate($table);
-		} catch (\Exception $e) {
-			$this->connection->exec('SET unique_checks=1');
-			$this->connection->exec('SET autocommit=1');
-			throw new MigrationException($table->getName(), $e->getMessage());
-		}
-		$this->connection->exec('SET unique_checks=1');
-		$this->connection->exec('SET autocommit=1');
 	}
 }
