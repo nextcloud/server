@@ -122,7 +122,6 @@
     "sinon": "^9.2.4",
     "sinon-chai": "^3.5.0",
     "style-loader": "^2.0.0",
-    "terser-webpack-plugin": "^5.1.1",
     "url-loader": "^4.1.1",
     "vue-loader": "^15.9.6",
     "vue-template-compiler": "^2.6.12",
