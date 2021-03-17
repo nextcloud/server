@@ -11,8 +11,8 @@
     "build": "NODE_ENV=production webpack --progress --config webpack.prod.js",
     "dev": "NODE_ENV=development webpack --progress --config webpack.dev.js",
     "watch": "NODE_ENV=development webpack --progress --watch --config webpack.dev.js",
-    "lint:fix": "ESLINT_FIX=true webpack --progress --config webpack.dev.js",
-    "lint:fix-watch": "ESLINT_FIX=true webpack --progress --watch --config webpack.dev.js",
+    "lint": "eslint '**/src/**/*.{vue,js}'",
+    "lint:fix": "eslint '**/*.{vue,js}' --fix",
     "test": "mochapack --webpack-config core/webpack.test.js --require core/src/tests/setup.js \"core/src/tests/**/*.spec.js\"",
     "test:watch": "mochapack -w --webpack-config core/webpack.test.js --require core/src/tests/setup.js \"core/src/tests/**/*.spec.js\""
   },
@@ -122,6 +122,7 @@
     "sinon": "^9.2.4",
     "sinon-chai": "^3.5.0",
     "style-loader": "^2.0.0",
+    "terser-webpack-plugin": "^5.1.1",
     "url-loader": "^4.1.1",
     "vue-loader": "^15.9.6",
     "vue-template-compiler": "^2.6.12",

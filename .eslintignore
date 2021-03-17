@@ -1,0 +1,7 @@
+# Ignoring folders for eslint
+node_modules/
+3rdparty/
+**/vendor/
+**/l10n/
+**/js/*
+*.config.js

@@ -72,13 +72,6 @@ module.exports = []
 					// no checks against vendors, modules or handlebar compiled files
 					exclude: /node_modules|vendor|templates\.js/,
 					enforce: 'pre',
-					options: {
-						// we cannot simply use the eslint binary as we
-						// don't want to parse all the js files so let's
-						// use it from within webpack and only check
-						// against our compiled files
-						fix: process.env.ESLINT_FIX === 'true',
-					},
 				},
 				{
 					test: /\.vue$/,
