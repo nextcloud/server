@@ -36,7 +36,7 @@ $legacyEventDispatcher = \OC::$server->getEventDispatcher();
 $eventDispatcher = \OC::$server->get(OCP\EventDispatcher\IEventDispatcher::class);
 
 $showgridview = $config->getUserValue($userSession->getUser()->getUID(), 'files', 'show_grid', false);
-$isIE = \OCP\Util::isIE();
+$isIE = OC_Util::isIe();
 
 $tmpl = new OCP\Template('files_sharing', 'list', '');
 
