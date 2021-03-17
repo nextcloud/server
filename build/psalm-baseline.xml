@@ -3092,7 +3092,6 @@
   </file>
   <file src="core/routes.php">
     <InvalidScope occurrences="2">
-      <code>$this-&gt;create('core_ajax_update', '/core/ajax/update.php')</code>
       <code>$this</code>
     </InvalidScope>
   </file>
@@ -3648,9 +3647,6 @@
     </NullableReturnStatement>
   </file>
   <file src="lib/private/ContactsManager.php">
-    <ImplementedReturnTypeMismatch occurrences="1">
-      <code>IAddressBook[]</code>
-    </ImplementedReturnTypeMismatch>
     <InvalidNullableReturnType occurrences="3">
       <code>bool</code>
       <code>array</code>
@@ -6071,11 +6067,6 @@
     <MoreSpecificImplementedParamType occurrences="1">
       <code>$jobList</code>
     </MoreSpecificImplementedParamType>
-  </file>
-  <file src="lib/public/Contacts/IManager.php">
-    <UndefinedDocblockClass occurrences="1">
-      <code>IAddressBook[]</code>
-    </UndefinedDocblockClass>
   </file>
   <file src="lib/public/Dashboard/Model/WidgetTemplate.php">
     <InvalidNullableReturnType occurrences="1">
