@@ -659,9 +659,10 @@ class UserPluginTest extends TestCase {
 	public function testSearchEnumerationLimit($search, $userGroups, $matchingUsers, $result) {
 		$this->mockConfig(false, true, true);
 
-		$userResults = array_map(function ($user) {
-			return $this->getUserMock($user['uid'], $user['uid']);
-		}, $matchingUsers);
+		$userResults = [];
+		foreach ($matchingUsers as $user) {
+			$userResults[$user['uid']] = $user['uid'];
+		}
 
 		$mappedResultExact = array_map(function ($user) {
 			return ['label' => $user, 'value' => ['shareType' => 0, 'shareWith' => $user], 'icon' => 'icon-user', 'subline' => null, 'status' => [], 'shareWithDisplayNameUnique' => $user];
@@ -670,9 +671,19 @@ class UserPluginTest extends TestCase {
 			return ['label' => $user, 'value' => ['shareType' => 0, 'shareWith' => $user], 'icon' => 'icon-user', 'subline' => null, 'status' => [], 'shareWithDisplayNameUnique' => $user];
 		}, $result['wide']);
 
-		$this->userManager->expects($this->once())
-			->method('searchDisplayName')
+		$this->userManager
+			->method('get')
+			->willReturnCallback(function ($userId) use ($userResults) {
+				if (isset($userResults[$userId])) {
+					return $this->getUserMock($userId, $userId);
+				}
+				return null;
+			});
+
+		$this->groupManager->method('displayNamesInGroup')
 			->willReturn($userResults);
+
+
 		$this->session->expects($this->any())
 			->method('getUser')
 			->willReturn($this->getUserMock('test', 'foo'));
