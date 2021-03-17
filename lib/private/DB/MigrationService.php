@@ -453,8 +453,6 @@ class MigrationService {
 			$toSchema = $instance->changeSchema($this->output, function () use ($toSchema) {
 				return $toSchema ?: new SchemaWrapper($this->connection);
 			}, ['tablePrefix' => $this->connection->getPrefix()]) ?: $toSchema;
-
-			$this->markAsExecuted($version);
 		}
 
 		if ($toSchema instanceof SchemaWrapper) {
@@ -465,6 +463,10 @@ class MigrationService {
 			}
 			$this->connection->migrateToSchema($targetSchema);
 			$toSchema->performDropTableCalls();
+		}
+
+		foreach ($toBeExecuted as $version) {
+			$this->markAsExecuted($version);
 		}
 	}
 
