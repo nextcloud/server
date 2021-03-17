@@ -102,7 +102,7 @@ interface IEncryptionModule {
 	 * decrypt data
 	 *
 	 * @param string $data you want to decrypt
-	 * @param string $position position of the block we want to decrypt
+	 * @param int|string $position position of the block we want to decrypt
 	 *
 	 * @return mixed decrypted data
 	 *

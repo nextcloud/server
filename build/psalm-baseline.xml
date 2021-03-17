@@ -762,8 +762,6 @@
     </InvalidReturnType>
     <NullableReturnStatement occurrences="8">
       <code>null</code>
-      <code>$this-&gt;circleToPrincipal($name)</code>
-      <code>null</code>
       <code>null</code>
       <code>null</code>
       <code>null</code>
@@ -1132,7 +1130,7 @@
     <FalsableReturnStatement occurrences="1">
       <code>$result</code>
     </FalsableReturnStatement>
-    <ImplementedParamTypeMismatch occurrences="3">
+    <ImplementedParamTypeMismatch occurrences="2">
       <code>$position</code>
       <code>$position</code>
       <code>$position</code>
@@ -1227,7 +1225,6 @@
   </file>
   <file src="apps/federatedfilesharing/lib/Notifications.php">
     <InvalidReturnType occurrences="3">
-      <code>bool</code>
       <code>bool</code>
       <code>bool</code>
       <code>bool</code>
@@ -2327,10 +2324,6 @@
     <InvalidScalarArgument occurrences="1">
       <code>(int)$cacheBusterKey+1</code>
     </InvalidScalarArgument>
-    <NullArgument occurrences="2">
-      <code>null</code>
-      <code>null</code>
-    </NullArgument>
   </file>
   <file src="apps/theming/lib/Util.php">
     <InvalidReturnStatement occurrences="1">
@@ -2426,10 +2419,10 @@
       <code>string[]</code>
     </InvalidReturnType>
     <InvalidScalarArgument occurrences="4">
-      <code>[$attr =&gt; $result['values']]</code>
-      <code>$key</code>
-      <code>$key</code>
       <code>$e-&gt;getCode()</code>
+      <code>$key</code>
+      <code>$key</code>
+      <code>[$attr =&gt; $result['values']]</code>
     </InvalidScalarArgument>
     <NullArgument occurrences="1">
       <code>$cookie</code>
@@ -2450,9 +2443,6 @@
       <code>!is_null($attr) &amp;&amp; !is_array($attr)</code>
       <code>isset($ldapRecord[$this-&gt;connection-&gt;$uuidAttr])</code>
     </TypeDoesNotContainType>
-    <UndefinedVariable occurrences="1">
-      <code>$uidsByDn</code>
-    </UndefinedVariable>
   </file>
   <file src="apps/user_ldap/lib/AppInfo/Application.php">
     <InvalidArgument occurrences="1">
@@ -2481,8 +2471,7 @@
     <ParadoxicalCondition occurrences="1"/>
   </file>
   <file src="apps/user_ldap/lib/Group_LDAP.php">
-    <InvalidArgument occurrences="2">
-      <code>'dn'</code>
+    <InvalidArgument occurrences="1">
       <code>$this-&gt;cachedGroupsByMember[$uid]</code>
     </InvalidArgument>
     <InvalidPropertyAssignmentValue occurrences="5">
@@ -3105,7 +3094,6 @@
   <file src="core/routes.php">
     <InvalidScope occurrences="2">
       <code>$this</code>
-      <code>$this</code>
     </InvalidScope>
   </file>
   <file src="core/templates/layout.public.php">
@@ -3660,9 +3648,6 @@
     </NullableReturnStatement>
   </file>
   <file src="lib/private/ContactsManager.php">
-    <ImplementedReturnTypeMismatch occurrences="1">
-      <code>IAddressBook[]</code>
-    </ImplementedReturnTypeMismatch>
     <InvalidNullableReturnType occurrences="3">
       <code>bool</code>
       <code>array</code>
@@ -4772,14 +4757,6 @@
       <code>true</code>
     </InvalidReturnType>
   </file>
-  <file src="lib/private/Files/Stream/Encryption.php">
-    <InvalidScalarArgument occurrences="1">
-      <code>$position</code>
-    </InvalidScalarArgument>
-    <UndefinedInterfaceMethod occurrences="1">
-      <code>offsetGet</code>
-    </UndefinedInterfaceMethod>
-  </file>
   <file src="lib/private/Files/Stream/SeekableHttpStream.php">
     <FalsableReturnStatement occurrences="3">
       <code>false</code>
@@ -5515,7 +5492,6 @@
     </InvalidArgument>
     <InvalidScalarArgument occurrences="2">
       <code>$this-&gt;shareApiLinkDefaultExpireDays()</code>
-      <code>$this-&gt;shareApiLinkDefaultExpireDays()</code>
       <code>$id</code>
     </InvalidScalarArgument>
     <TooManyArguments occurrences="7">
@@ -6039,6 +6015,11 @@
       <code>'DateTimeFormatter'</code>
     </UndefinedClass>
   </file>
+  <file src="lib/private/Files/Stream/Encryption.php">
+    <UndefinedInterfaceMethod occurrences="1">
+      <code>$cacheEntry</code>
+    </UndefinedInterfaceMethod>
+  </file>
   <file src="lib/public/AppFramework/ApiController.php">
     <NoInterfaceProperties occurrences="1">
       <code>$this-&gt;request-&gt;server</code>
@@ -6092,11 +6073,6 @@
     <MoreSpecificImplementedParamType occurrences="1">
       <code>$jobList</code>
     </MoreSpecificImplementedParamType>
-  </file>
-  <file src="lib/public/Contacts/IManager.php">
-    <UndefinedDocblockClass occurrences="1">
-      <code>IAddressBook[]</code>
-    </UndefinedDocblockClass>
   </file>
   <file src="lib/public/Dashboard/Model/WidgetTemplate.php">
     <InvalidNullableReturnType occurrences="1">
