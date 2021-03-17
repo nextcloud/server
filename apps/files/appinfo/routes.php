@@ -102,9 +102,14 @@ $application->registerRoutes(
 				'verb' => 'GET',
 			],
 			[
+				'name' => 'ajax#registerDownload',
+				'url' => '/registerDownload',
+				'verb' => 'POST',
+			],
+			[
 				'name' => 'ajax#download',
 				'url' => '/ajax/download.php',
-				'verb' => 'POST',
+				'verb' => 'GET',
 			],
 			[
 				'name' => 'API#toggleShowFolder',

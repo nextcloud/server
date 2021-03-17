@@ -20,7 +20,6 @@
  *
  */
 
-import fileDownload from 'js-file-download'
 import { generateUrl } from '@nextcloud/router'
 import axios from '@nextcloud/axios'
 
@@ -28,24 +27,22 @@ export default class Download {
 
 	export
 	const
-	async get(files, dir, downloadStartSecret) {
-		await axios.post(
-			generateUrl('apps/files/ajax/download.php'),
+	get(files, dir, downloadStartSecret) {
+		axios.post(
+			generateUrl('apps/files/registerDownload'),
 			{
 				files,
 				dir,
 				downloadStartSecret,
-			},
-			{
-				responseType: 'blob',
 			}
 		).then(res => {
-			const fileNameMatch = res.headers['content-disposition'].match(/filename="(.+)"/)
-			let fileName = ''
-			if (fileNameMatch.length === 2) {
-				fileName = fileNameMatch[1]
+			if (res.status === 200 && res.data.token) {
+				const dlUrl = generateUrl(
+					'apps/files/ajax/download.php?token={token}',
+					{ token: res.data.token }
+				)
+				OC.redirect(dlUrl)
 			}
-			fileDownload(res.data, fileName)
 		})
 	}
 
