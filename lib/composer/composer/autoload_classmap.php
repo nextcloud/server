@@ -950,6 +950,7 @@ return array(
     'OC\\Core\\Migrations\\Version21000Date20201202095923' => $baseDir . '/core/Migrations/Version21000Date20201202095923.php',
     'OC\\Core\\Migrations\\Version21000Date20210119195004' => $baseDir . '/core/Migrations/Version21000Date20210119195004.php',
     'OC\\Core\\Migrations\\Version21000Date20210309185126' => $baseDir . '/core/Migrations/Version21000Date20210309185126.php',
+    'OC\\Core\\Migrations\\Version21000Date20210309185127' => $baseDir . '/core/Migrations/Version21000Date20210309185127.php',
     'OC\\Core\\Migrations\\Version22000Date20210216080825' => $baseDir . '/core/Migrations/Version22000Date20210216080825.php',
     'OC\\Core\\Notification\\CoreNotifier' => $baseDir . '/core/Notification/CoreNotifier.php',
     'OC\\Core\\Service\\LoginFlowV2Service' => $baseDir . '/core/Service/LoginFlowV2Service.php',
