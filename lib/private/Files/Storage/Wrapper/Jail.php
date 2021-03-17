@@ -441,10 +441,6 @@ class Jail extends Wrapper {
 		return $this->getWrapperStorage()->getETag($this->getUnjailedPath($path));
 	}
 
-	/**
-	 * @param string $path
-	 * @return array
-	 */
 	public function getMetaData($path) {
 		return $this->getWrapperStorage()->getMetaData($this->getUnjailedPath($path));
 	}
