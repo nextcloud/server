@@ -89,7 +89,7 @@
     "node-sass": "^5.0.0",
     "sass-loader": "^10.1.1",
     "style-loader": "^2.0.0",
-    "stylelint": "^13.11.0",
+    "stylelint": "^13.12.0",
     "stylelint-config-recommended-scss": "^4.2.0",
     "stylelint-scss": "^3.19.0",
     "stylelint-webpack-plugin": "^2.1.1",
