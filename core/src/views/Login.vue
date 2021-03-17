@@ -164,8 +164,8 @@ export default {
 		},
 		hideLoginForm: {
 			type: Boolean,
-			default: false
-		}
+			default: false,
+		},
 	},
 	data() {
 		return {

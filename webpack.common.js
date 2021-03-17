@@ -37,7 +37,7 @@ const modules = {
 	weather_status,
 	twofactor_backupscodes,
 	updatenotification,
-	workflowengine
+	workflowengine,
 }
 
 const modulesToBuild = () => {
@@ -46,7 +46,7 @@ const modulesToBuild = () => {
 		if (!modules[MODULE]) {
 			throw new Error(`No module "${MODULE}" found`)
 		}
-		return [ modules[MODULE] ]
+		return [modules[MODULE]]
 	}
 	return Object.values(modules)
 }

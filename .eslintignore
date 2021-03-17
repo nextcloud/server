@@ -5,3 +5,4 @@ node_modules/
 **/l10n/
 **/js/*
 *.config.js
+tests/lib/

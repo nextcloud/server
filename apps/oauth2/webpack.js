@@ -6,6 +6,6 @@ module.exports = {
 		path: path.resolve(__dirname, './js'),
 		publicPath: '/js',
 		filename: 'oauth2.js',
-		jsonpFunction: 'webpackJsonpOauth'
-	}
+		jsonpFunction: 'webpackJsonpOauth',
+	},
 }
