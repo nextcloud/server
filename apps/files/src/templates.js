@@ -29,7 +29,6 @@ import axios from '@nextcloud/axios'
 import Vue from 'vue'
 
 import TemplatePickerView from './views/TemplatePicker'
-import { getCurrentUser } from '@nextcloud/auth'
 import { showError } from '@nextcloud/dialogs'
 
 // Set up logger

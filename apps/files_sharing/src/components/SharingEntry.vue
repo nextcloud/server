@@ -30,8 +30,8 @@
 			:menu-position="'left'"
 			:url="share.shareWithAvatar" />
 		<component :is="share.shareWithLink ? 'a' : 'div'"
-			:href="share.shareWithLink"
 			v-tooltip.auto="tooltip"
+			:href="share.shareWithLink"
 			class="sharing-entry__desc">
 			<h5>{{ title }}<span v-if="!isUnique" class="sharing-entry__desc-unique"> ({{ share.shareWithDisplayNameUnique }})</span></h5>
 			<p v-if="hasStatus">

@@ -11,8 +11,8 @@
     "build": "NODE_ENV=production webpack --progress --config webpack.prod.js",
     "dev": "NODE_ENV=development webpack --progress --config webpack.dev.js",
     "watch": "NODE_ENV=development webpack --progress --watch --config webpack.dev.js",
-    "lint:fix": "ESLINT_FIX=true webpack --progress --config webpack.dev.js",
-    "lint:fix-watch": "ESLINT_FIX=true webpack --progress --watch --config webpack.dev.js",
+    "lint": "eslint '**/src/**/*.{vue,js}'",
+    "lint:fix": "eslint '**/*.{vue,js}' --fix",
     "test": "mochapack --webpack-config core/webpack.test.js --require core/src/tests/setup.js \"core/src/tests/**/*.spec.js\"",
     "test:watch": "mochapack -w --webpack-config core/webpack.test.js --require core/src/tests/setup.js \"core/src/tests/**/*.spec.js\""
   },

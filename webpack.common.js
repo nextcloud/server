@@ -37,7 +37,7 @@ const modules = {
 	weather_status,
 	twofactor_backupscodes,
 	updatenotification,
-	workflowengine
+	workflowengine,
 }
 
 const modulesToBuild = () => {
@@ -46,7 +46,7 @@ const modulesToBuild = () => {
 		if (!modules[MODULE]) {
 			throw new Error(`No module "${MODULE}" found`)
 		}
-		return [ modules[MODULE] ]
+		return [modules[MODULE]]
 	}
 	return Object.values(modules)
 }
@@ -72,13 +72,6 @@ module.exports = []
 					// no checks against vendors, modules or handlebar compiled files
 					exclude: /node_modules|vendor|templates\.js/,
 					enforce: 'pre',
-					options: {
-						// we cannot simply use the eslint binary as we
-						// don't want to parse all the js files so let's
-						// use it from within webpack and only check
-						// against our compiled files
-						fix: process.env.ESLINT_FIX === 'true',
-					},
 				},
 				{
 					test: /\.vue$/,

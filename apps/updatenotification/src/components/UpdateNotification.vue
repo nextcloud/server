@@ -93,7 +93,7 @@
 		<span id="channel_save_msg" class="msg" /><br>
 		<p>
 			<em>{{ t('updatenotification', 'You can always update to a newer version. But you can never downgrade to a more stable version.') }}</em><br>
-			<em v-html="noteDelayedStableString"></em>
+			<em v-html="noteDelayedStableString" />
 		</p>
 
 		<p id="oca_updatenotification_groups">
