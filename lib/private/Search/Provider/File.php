@@ -30,23 +30,33 @@
 namespace OC\Search\Provider;
 
 use OC\Files\Filesystem;
+use OCP\Search\PagedProvider;
 
 /**
  * Provide search results from the 'files' app
  * @deprecated 20.0.0
  */
-class File extends \OCP\Search\Provider {
+class File extends PagedProvider {
 
 	/**
 	 * Search for files and folders matching the given query
+	 *
 	 * @param string $query
+	 * @param int|null $limit
+	 * @param int|null $offset
 	 * @return \OCP\Search\Result[]
 	 * @deprecated 20.0.0
 	 */
-	public function search($query) {
+	public function search($query, int $limit = null, int $offset = null) {
+		if ($offset === null) {
+			$offset = 0;
+		}
 		\OC_Util::setupFS();
 		$files = Filesystem::search($query);
 		$results = [];
+		if ($limit !== null) {
+			$files = array_slice($files, $offset, $offset + $limit);
+		}
 		// edit results
 		foreach ($files as $fileData) {
 			// skip versions
@@ -78,5 +88,13 @@ class File extends \OCP\Search\Provider {
 		}
 		// return
 		return $results;
+	}
+
+	public function searchPaged($query, $page, $size) {
+		if ($size === 0) {
+			return $this->search($query);
+		} else {
+			return $this->search($query, $size, ($page - 1) * $size);
+		}
 	}
 }
