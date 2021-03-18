@@ -230,6 +230,15 @@ export default class Config {
 	}
 
 	/**
+	 * @returns {boolean}
+	 * @readonly
+	 * @memberof Config
+	 */
+	get shouldAlwaysShowUnique() {
+		return (OC.getCapabilities().files_sharing?.sharee?.always_show_unique === true)
+	}
+
+	/**
 	 * Is sharing with groups allowed ?
 	 *
 	 * @returns {boolean}
