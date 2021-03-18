@@ -46,7 +46,6 @@ use OCP\Files\Search\ISearchComparison;
 use OCP\Files\Search\ISearchOperator;
 use OCP\Files\Search\ISearchQuery;
 use OCP\IUserManager;
-use OCP\IUserSession;
 
 class Folder extends Node implements \OCP\Files\Folder {
 	/**
