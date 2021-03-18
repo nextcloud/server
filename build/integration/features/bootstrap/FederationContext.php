@@ -37,6 +37,20 @@ require __DIR__ . '/../../vendor/autoload.php';
 class FederationContext implements Context, SnippetAcceptingContext {
 	use WebDav;
 	use AppConfiguration;
+	use CommandLine;
+
+	/**
+	 * @BeforeScenario
+	 */
+	public function cleanupRemoteStorages() {
+		// Ensure that dangling remote storages from previous tests will not
+		// interfere with the current scenario.
+		// The storages must be cleaned before each scenario; they can not be
+		// cleaned after each scenario, as this hook is executed before the hook
+		// that removes the users, so the shares would be still valid and thus
+		// the storages would not be dangling yet.
+		$this->runOcc(['sharing:cleanup-remote-storages']);
+	}
 
 	/**
 	 * @Given /^User "([^"]*)" from server "(LOCAL|REMOTE)" shares "([^"]*)" with user "([^"]*)" from server "(LOCAL|REMOTE)"$/
