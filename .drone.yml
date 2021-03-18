@@ -794,7 +794,7 @@ steps:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin
     - cd build/integration
-    - ./run.sh federation_features/federated.feature
+    - ./run.sh federation_features/
 
 trigger:
   branch:
