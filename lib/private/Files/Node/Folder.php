@@ -45,7 +45,6 @@ use OCP\Files\Search\ISearchComparison;
 use OCP\Files\Search\ISearchOperator;
 use OCP\Files\Search\ISearchQuery;
 use OCP\IUserManager;
-use OCP\IUserSession;
 
 class Folder extends Node implements \OCP\Files\Folder {
 	/**
@@ -206,10 +205,8 @@ class Folder extends Node implements \OCP\Files\Folder {
 	}
 
 	private function queryFromOperator(ISearchOperator $operator, string $uid = null): ISearchQuery {
-		if (!$uid) {
-			/** @var IUserSession $session */
-			$session = \OC::$server->query(IUserSession::class);
-			$user = $session->getUser();
+		if ($uid === null) {
+			$user = null;
 		} else {
 			/** @var IUserManager $userManager */
 			$userManager = \OC::$server->query(IUserManager::class);
@@ -229,10 +226,34 @@ class Folder extends Node implements \OCP\Files\Folder {
 			$query = $this->queryFromOperator(new SearchComparison(ISearchComparison::COMPARE_LIKE, 'name', '%' . $query . '%'));
 		}
 
+		// assume a setup where the root mount matches 15 items,
+		//   sub mount1 matches 7 items and mount2 matches 1 item
+		// a search with (0..10) returns 10 results from root with internal offset 0 and limit 10
+		// follow up search with (10..20) returns 5 results from root with internal offset 10 and limit 10
+		//   and 5 results from mount1 with internal offset 0 and limit 5
+		// next search with (20..30) return 0 results from root with internal offset 20 and limit 10
+		//   2 results from mount1 with internal offset 5[1] and limit 5
+		//   and 1 result from mount2 with internal offset 0[1] and limit 8
+		//
+		// Because of the difficulty of calculating the offset for a sub-query if the previous one returns no results
+		//   (we don't know how many results the previous sub-query has skipped with it's own offset)
+		// we instead discard the offset for the sub-queries and filter it afterwards and add the offset to limit.
+		// this is sub-optimal but shouldn't hurt to much since large offsets are uncommon in practice
+
 		$limitToHome = $query->limitToHome();
 		if ($limitToHome && count(explode('/', $this->path)) !== 3) {
 			throw new \InvalidArgumentException('searching by owner is only allows on the users home folder');
 		}
+
+		$subQueryLimit = $query->getLimit() > 0 ? $query->getLimit() + $query->getOffset() : PHP_INT_MAX;
+		$subQueryOffset = $query->getOffset();
+		$noLimitQuery = new SearchQuery(
+			$query->getSearchOperation(),
+			$subQueryLimit,
+			0,
+			$query->getOrder(),
+			$query->getUser()
+		);
 
 		$files = [];
 		$rootLength = strlen($this->path);
@@ -247,7 +268,12 @@ class Folder extends Node implements \OCP\Files\Folder {
 
 		$cache = $storage->getCache('');
 
-		$results = $cache->searchQuery($query);
+		$results = $cache->searchQuery($noLimitQuery);
+		$count = count($results);
+		$results = array_slice($results, $subQueryOffset, $subQueryLimit);
+		$subQueryOffset = max(0, $subQueryOffset - $count);
+		$subQueryLimit = max(0, $subQueryLimit - $count);
+
 		foreach ($results as $result) {
 			if ($internalRootLength === 0 or substr($result['path'], 0, $internalRootLength) === $internalPath) {
 				$result['internalPath'] = $result['path'];
@@ -260,12 +286,30 @@ class Folder extends Node implements \OCP\Files\Folder {
 		if (!$limitToHome) {
 			$mounts = $this->root->getMountsIn($this->path);
 			foreach ($mounts as $mount) {
+				if ($subQueryLimit <= 0) {
+					break;
+				}
+
+				$subQuery = new SearchQuery(
+					$query->getSearchOperation(),
+					$subQueryLimit,
+					0,
+					$query->getOrder(),
+					$query->getUser()
+				);
+
 				$storage = $mount->getStorage();
 				if ($storage) {
 					$cache = $storage->getCache('');
 
 					$relativeMountPoint = ltrim(substr($mount->getMountPoint(), $rootLength), '/');
-					$results = $cache->searchQuery($query);
+					$results = $cache->searchQuery($subQuery);
+
+					$count = count($results);
+					$results = array_slice($results, $subQueryOffset, $subQueryLimit);
+					$subQueryOffset -= $count;
+					$subQueryLimit -= $count;
+
 					foreach ($results as $result) {
 						$result['internalPath'] = $result['path'];
 						$result['path'] = $relativeMountPoint . $result['path'];
