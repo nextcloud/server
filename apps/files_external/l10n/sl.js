@@ -117,7 +117,7 @@ OC.L10N.register(
     "\"%1$s\" is not installed. Mounting of %2$s is not possible. Please ask your system administrator to install it." : "Paket »%1$s« ni nameščen. Priklapljanje %2$s zato ni mogoče. Stopite v stik s skrbnikom sistema, da namesti ustrezne pakete.",
     "External storage support" : "Podpora zunanji dhrambi",
     "Adds basic external storage support" : "Doda osnovno zunanjo podporo shrambe",
-    "No external storage configured or you don't have the permission to configure them" : "Ni nastavljene zunanje shrambe ali pa ni ustreznih dovoljenj za nastavljanje.",
+    "No external storage configured or you don't have the permission to configure them" : "Ni nastavljene zunanje shrambe oziroma ni ustreznih dovoljenj za uporabo.",
     "Name" : "Ime",
     "Storage type" : "Vrsta shrambe",
     "Scope" : "Obseg",

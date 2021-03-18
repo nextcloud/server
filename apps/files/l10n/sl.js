@@ -120,7 +120,7 @@ OC.L10N.register(
     "{user} created {file}" : "{user} ustvari datoteko {file}",
     "{user} created an encrypted file in {file}" : "{user} ustvari šifrirano datoteko v {file}",
     "{file} was created in a public folder" : "Datoteka {file} je ustvarjena v javni mapi",
-    "You changed {file}" : "Spremenite datoteko {file}",
+    "You changed {file}" : "Spremenite {file}",
     "You changed an encrypted file in {file}" : "Spremenite šifrirano datoteko v {file}",
     "{user} changed {file}" : "{user} spremeni datoteko {file}",
     "{user} changed an encrypted file in {file}" : "Uporabnik {user} spremeni šifrirano datoteko {file}",
