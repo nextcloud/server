@@ -305,10 +305,9 @@ class FolderTest extends NodeTest {
 			->willReturn('foo');
 
 		$cache->expects($this->once())
-			->method('search')
-			->with('%qw%')
+			->method('searchQuery')
 			->willReturn([
-				['fileid' => 3, 'path' => 'foo/qwerty', 'name' => 'qwerty', 'size' => 200, 'mtime' => 55, 'mimetype' => 'text/plain']
+				new CacheEntry(['fileid' => 3, 'path' => 'foo/qwerty', 'name' => 'qwerty', 'size' => 200, 'mtime' => 55, 'mimetype' => 'text/plain'])
 			]);
 
 		$root->expects($this->once())
@@ -358,11 +357,10 @@ class FolderTest extends NodeTest {
 			->willReturn($cache);
 
 		$cache->expects($this->once())
-			->method('search')
-			->with('%qw%')
+			->method('searchQuery')
 			->willReturn([
-				['fileid' => 3, 'path' => 'files/foo', 'name' => 'qwerty', 'size' => 200, 'mtime' => 55, 'mimetype' => 'text/plain'],
-				['fileid' => 3, 'path' => 'files_trashbin/foo2.d12345', 'name' => 'foo2.d12345', 'size' => 200, 'mtime' => 55, 'mimetype' => 'text/plain'],
+				new CacheEntry(['fileid' => 3, 'path' => 'files/foo', 'name' => 'qwerty', 'size' => 200, 'mtime' => 55, 'mimetype' => 'text/plain']),
+				new CacheEntry(['fileid' => 3, 'path' => 'files_trashbin/foo2.d12345', 'name' => 'foo2.d12345', 'size' => 200, 'mtime' => 55, 'mimetype' => 'text/plain']),
 			]);
 
 		$root->expects($this->once())
@@ -409,10 +407,9 @@ class FolderTest extends NodeTest {
 			->willReturn($cache);
 
 		$cache->expects($this->once())
-			->method('search')
-			->with('%qw%')
+			->method('searchQuery')
 			->willReturn([
-				['fileid' => 3, 'path' => 'foo/qwerty', 'name' => 'qwerty', 'size' => 200, 'mtime' => 55, 'mimetype' => 'text/plain']
+				new CacheEntry(['fileid' => 3, 'path' => 'foo/qwerty', 'name' => 'qwerty', 'size' => 200, 'mtime' => 55, 'mimetype' => 'text/plain'])
 			]);
 
 		$root->expects($this->once())
@@ -475,17 +472,15 @@ class FolderTest extends NodeTest {
 			->willReturn($subCache);
 
 		$cache->expects($this->once())
-			->method('search')
-			->with('%qw%')
+			->method('searchQuery')
 			->willReturn([
-				['fileid' => 3, 'path' => 'foo/qwerty', 'name' => 'qwerty', 'size' => 200, 'mtime' => 55, 'mimetype' => 'text/plain']
+				new CacheEntry(['fileid' => 3, 'path' => 'foo/qwerty', 'name' => 'qwerty', 'size' => 200, 'mtime' => 55, 'mimetype' => 'text/plain'])
 			]);
 
 		$subCache->expects($this->once())
-			->method('search')
-			->with('%qw%')
+			->method('searchQuery')
 			->willReturn([
-				['fileid' => 4, 'path' => 'asd/qweasd', 'name' => 'qweasd', 'size' => 200, 'mtime' => 55, 'mimetype' => 'text/plain']
+				new CacheEntry(['fileid' => 4, 'path' => 'asd/qweasd', 'name' => 'qweasd', 'size' => 200, 'mtime' => 55, 'mimetype' => 'text/plain'])
 			]);
 
 		$root->expects($this->once())
