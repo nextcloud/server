@@ -46,6 +46,8 @@
 
 /** @var Symfony\Component\Console\Application $application */
 
+use Psr\Log\LoggerInterface;
+
 $application->add(new \Stecman\Component\Symfony\Console\BashCompletion\CompletionCommand());
 $application->add(new OC\Core\Command\Status);
 $application->add(new OC\Core\Command\Check(\OC::$server->getSystemConfig()));
@@ -161,7 +163,7 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 
 	$application->add(new OC\Core\Command\Upgrade(\OC::$server->getConfig(), \OC::$server->getLogger(), \OC::$server->query(\OC\Installer::class)));
 	$application->add(new OC\Core\Command\Maintenance\Repair(
-		new \OC\Repair([], \OC::$server->getEventDispatcher()),
+		new \OC\Repair([], \OC::$server->getEventDispatcher(), \OC::$server->get(LoggerInterface::class)),
 		\OC::$server->getConfig(),
 		\OC::$server->getEventDispatcher(),
 		\OC::$server->getAppManager()

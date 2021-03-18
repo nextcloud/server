@@ -154,7 +154,7 @@ class Repair extends Command {
 				$this->output->writeln('     - WARNING: ' . $event->getArgument(0));
 				break;
 			case '\OC\Repair::error':
-				$this->output->writeln('     - ERROR: ' . $event->getArgument(0));
+				$this->output->writeln('<error>     - ERROR: ' . $event->getArgument(0) . '</error>');
 				break;
 		}
 	}
