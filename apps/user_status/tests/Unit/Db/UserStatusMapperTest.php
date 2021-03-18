@@ -25,9 +25,9 @@ declare(strict_types=1);
 
 namespace OCA\UserStatus\Tests\Db;
 
-use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use OCA\UserStatus\Db\UserStatus;
 use OCA\UserStatus\Db\UserStatusMapper;
+use OCP\DB\Exception;
 use Test\TestCase;
 
 class UserStatusMapperTest extends TestCase {
@@ -147,7 +147,7 @@ class UserStatusMapperTest extends TestCase {
 		$userStatus2->setStatusTimestamp(6000);
 		$userStatus2->setIsUserDefined(false);
 
-		$this->expectException(UniqueConstraintViolationException::class);
+		$this->expectException(Exception::class);
 
 		$this->mapper->insert($userStatus2);
 	}
