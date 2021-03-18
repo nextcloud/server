@@ -193,7 +193,7 @@ class Manager implements IManager {
 		if ($password === null) {
 			// No password is set, check if this is allowed.
 			if ($this->shareApiLinkEnforcePassword()) {
-				throw new \InvalidArgumentException('Passwords are enforced for link shares');
+				throw new \InvalidArgumentException('Passwords are enforced for link and mail shares');
 			}
 
 			return;
@@ -765,13 +765,14 @@ class Manager implements IManager {
 				);
 
 				// Verify the expiration date
-				$share = $this->validateExpirationDate($share);
+				$share = $this->validateExpirationDateLink($share);
 
 				// Verify the password
 				$this->verifyPassword($share->getPassword());
 
 				// If a password is set. Hash it!
-				if ($share->getPassword() !== null) {
+				if ($share->getShareType() === IShare::TYPE_LINK
+					&& $share->getPassword() !== null) {
 					$share->setPassword($this->hasher->hash($share->getPassword()));
 				}
 			}
@@ -986,14 +987,26 @@ class Manager implements IManager {
 			|| $share->getShareType() === IShare::TYPE_EMAIL) {
 			$this->linkCreateChecks($share);
 
-			// The new password is not set again if it is the same as the old one.
+			// The new password is not set again if it is the same as the old
+			// one, unless when switching from sending by Talk to sending by
+			// mail.
 			$plainTextPassword = $share->getPassword();
+			$updatedPassword = $this->updateSharePasswordIfNeeded($share, $originalShare);
 
-			if (empty($plainTextPassword)) {
+			/**
+			 * Cannot enable the getSendPasswordByTalk if there is no password set
+			 */
+			if (empty($plainTextPassword) && $share->getSendPasswordByTalk()) {
+				throw new \InvalidArgumentException('Can’t enable sending the password by Talk with an empty password');
+			}
+	
+			/**
+			 * If we're in a mail share, we need to force a password change
+			 * as either the user is not aware of the password or is already (received by mail)
+			 * Thus the SendPasswordByTalk feature would not make sense
+			 */
+			if (!$updatedPassword && $share->getShareType() === IShare::TYPE_EMAIL) {
 				if (!$originalShare->getSendPasswordByTalk() && $share->getSendPasswordByTalk()) {
-					// If the same password was already sent by mail the recipient
-					// would already have access to the share without having to call
-					// the sharer to verify her identity
 					throw new \InvalidArgumentException('Can’t enable sending the password by Talk without setting a new password');
 				}
 				if ($originalShare->getSendPasswordByTalk() && !$share->getSendPasswordByTalk()) {
@@ -1001,11 +1014,9 @@ class Manager implements IManager {
 				}
 			}
 
-			$this->updateSharePasswordIfNeeded($share, $originalShare);
-
 			if ($share->getExpirationDate() != $originalShare->getExpirationDate()) {
 				// Verify the expiration date
-				$this->validateExpirationDate($share);
+				$this->validateExpirationDateLink($share);
 				$expirationDateUpdated = true;
 			}
 		}
@@ -1105,9 +1116,13 @@ class Manager implements IManager {
 			$this->verifyPassword($share->getPassword());
 
 			// If a password is set. Hash it!
-			if ($share->getPassword() !== null) {
+			if (!empty($share->getPassword())) {
 				$share->setPassword($this->hasher->hash($share->getPassword()));
 
+				return true;
+			} else {
+				// Empty string and null are seen as NOT password protected
+				$share->setPassword(null);
 				return true;
 			}
 		} else {
