@@ -101,7 +101,7 @@ abstract class QBMapper {
 			->where(
 				$qb->expr()->eq('id', $qb->createNamedParameter($entity->getId(), $idType))
 			);
-		$qb->execute();
+		$qb->executeUpdate();
 		return $entity;
 	}
 
@@ -132,7 +132,7 @@ abstract class QBMapper {
 			$qb->setValue($column, $qb->createNamedParameter($value, $type));
 		}
 
-		$qb->execute();
+		$qb->executeUpdate();
 
 		if ($entity->id === null) {
 			// When autoincrement is used id is always an int
@@ -208,7 +208,7 @@ abstract class QBMapper {
 		$qb->where(
 			$qb->expr()->eq('id', $qb->createNamedParameter($id, $idType))
 		);
-		$qb->execute();
+		$qb->executeUpdate();
 
 		return $entity;
 	}
@@ -259,19 +259,19 @@ abstract class QBMapper {
 	 * @since 14.0.0
 	 */
 	protected function findOneQuery(IQueryBuilder $query): array {
-		$cursor = $query->execute();
+		$result = $query->executeQuery();
 
-		$row = $cursor->fetch();
+		$row = $result->fetch();
 		if ($row === false) {
-			$cursor->closeCursor();
+			$result->closeCursor();
 			$msg = $this->buildDebugMessage(
 				'Did expect one result but found none when executing', $query
 			);
 			throw new DoesNotExistException($msg);
 		}
 
-		$row2 = $cursor->fetch();
-		$cursor->closeCursor();
+		$row2 = $result->fetch();
+		$result->closeCursor();
 		if ($row2 !== false) {
 			$msg = $this->buildDebugMessage(
 				'Did not expect more than one result when executing', $query
@@ -317,15 +317,15 @@ abstract class QBMapper {
 	 * @since 14.0.0
 	 */
 	protected function findEntities(IQueryBuilder $query): array {
-		$cursor = $query->execute();
+		$result = $query->executeQuery();
 
 		$entities = [];
 
-		while ($row = $cursor->fetch()) {
+		while ($row = $result->fetch()) {
 			$entities[] = $this->mapRowToEntity($row);
 		}
 
-		$cursor->closeCursor();
+		$result->closeCursor();
 
 		return $entities;
 	}
