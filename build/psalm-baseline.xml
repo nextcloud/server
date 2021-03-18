@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.6.2@bca09d74adc704c4eaee36a3c3e9d379e290fc3b">
+<files psalm-version="4.6.4@97fe86c4e158b5a57c5150aa5055c38b5a809aab">
   <file src="3rdparty/sabre/dav/lib/CalDAV/Calendar.php">
     <MoreSpecificImplementedParamType occurrences="1">
       <code>$calendarData</code>
@@ -1462,12 +1462,6 @@
     <TooManyArguments occurrences="1">
       <code>test</code>
     </TooManyArguments>
-    <UndefinedClass occurrences="1">
-      <code>Exception</code>
-    </UndefinedClass>
-    <UndefinedDocblockClass occurrences="1">
-      <code>Exception</code>
-    </UndefinedDocblockClass>
   </file>
   <file src="apps/files_external/lib/Service/BackendService.php">
     <InvalidArgument occurrences="1">
@@ -2231,9 +2225,7 @@
     <ImplementedReturnTypeMismatch occurrences="1">
       <code>string|false</code>
     </ImplementedReturnTypeMismatch>
-    <InvalidScalarArgument occurrences="3">
-      <code>$limit</code>
-      <code>$offset</code>
+    <InvalidScalarArgument occurrences="1">
       <code>$path</code>
     </InvalidScalarArgument>
     <MoreSpecificImplementedParamType occurrences="2">
@@ -3187,11 +3179,10 @@
     </UndefinedThisPropertyFetch>
   </file>
   <file src="lib/private/DB/Migrator.php">
-    <InvalidArgument occurrences="2">
-      <code>'\OC\DB\Migrator::checkTable'</code>
+    <InvalidArgument occurrences="1">
       <code>'\OC\DB\Migrator::executeSql'</code>
     </InvalidArgument>
-    <TooManyArguments occurrences="2">
+    <TooManyArguments occurrences="1">
       <code>dispatch</code>
       <code>dispatch</code>
     </TooManyArguments>
@@ -4776,12 +4767,6 @@
       <code>time()</code>
     </InvalidScalarArgument>
   </file>
-  <file src="lib/private/User/Backend.php">
-    <InvalidScalarArgument occurrences="2">
-      <code>$limit</code>
-      <code>$offset</code>
-    </InvalidScalarArgument>
-  </file>
   <file src="lib/private/User/Database.php">
     <FalsableReturnStatement occurrences="1">
       <code>false</code>
@@ -4789,10 +4774,6 @@
     <ImplicitToStringCast occurrences="1">
       <code>$query-&gt;func()-&gt;lower('displayname')</code>
     </ImplicitToStringCast>
-    <InvalidScalarArgument occurrences="2">
-      <code>$offset</code>
-      <code>$offset</code>
-    </InvalidScalarArgument>
   </file>
   <file src="lib/private/User/Manager.php">
     <ImplementedReturnTypeMismatch occurrences="1">
@@ -4801,10 +4782,6 @@
     <InvalidNullableReturnType occurrences="1">
       <code>bool|IUser</code>
     </InvalidNullableReturnType>
-    <InvalidScalarArgument occurrences="2">
-      <code>$limit</code>
-      <code>$offset</code>
-    </InvalidScalarArgument>
     <NullableReturnStatement occurrences="2">
       <code>$this-&gt;createUserFromBackend($uid, $password, $backend)</code>
       <code>$this-&gt;createUserFromBackend($uid, $password, $backend)</code>
