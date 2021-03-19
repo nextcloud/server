@@ -50,7 +50,7 @@ class SMBNotifyHandler implements INotifyHandler {
 	 */
 	public function __construct(\Icewind\SMB\INotifyHandler $shareNotifyHandler, $root) {
 		$this->shareNotifyHandler = $shareNotifyHandler;
-		$this->root = $root;
+		$this->root = str_replace('\\', '/', $root);
 	}
 
 	private function relativePath($fullPath) {
