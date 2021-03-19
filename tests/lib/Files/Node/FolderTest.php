@@ -18,6 +18,7 @@ use OC\Files\Node\Folder;
 use OC\Files\Node\Node;
 use OC\Files\Node\Root;
 use OC\Files\Search\SearchComparison;
+use OC\Files\Search\SearchOrder;
 use OC\Files\Search\SearchQuery;
 use OC\Files\Storage\Temporary;
 use OC\Files\Storage\Wrapper\Jail;
@@ -25,6 +26,7 @@ use OC\Files\View;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\NotFoundException;
 use OCP\Files\Search\ISearchComparison;
+use OCP\Files\Search\ISearchOrder;
 use OCP\Files\Search\ISearchQuery;
 use OCP\Files\Storage;
 
@@ -929,22 +931,34 @@ class FolderTest extends NodeTest {
 
 	public function offsetLimitProvider() {
 		return [
-			[0, 10, [10, 11, 12, 13, 14, 15, 16, 17]],
-			[0, 5, [10, 11, 12, 13, 14]],
-			[0, 2, [10, 11]],
-			[3, 2, [13, 14]],
-			[3, 5, [13, 14, 15, 16, 17]],
-			[5, 2, [15, 16]],
-			[6, 2, [16, 17]],
-			[7, 2, [17]],
-			[10, 2, []]
+			[0, 10, [10, 11, 12, 13, 14, 15, 16, 17], []],
+			[0, 5, [10, 11, 12, 13, 14], []],
+			[0, 2, [10, 11], []],
+			[3, 2, [13, 14], []],
+			[3, 5, [13, 14, 15, 16, 17], []],
+			[5, 2, [15, 16], []],
+			[6, 2, [16, 17], []],
+			[7, 2, [17], []],
+			[10, 2, [], []],
+			[0, 5, [16, 10, 14, 11, 12], [new SearchOrder(ISearchOrder::DIRECTION_ASCENDING, 'mtime')]],
+			[3, 2, [11, 12], [new SearchOrder(ISearchOrder::DIRECTION_ASCENDING, 'mtime')]],
+			[0, 5, [14, 15, 16, 10, 11], [
+				new SearchOrder(ISearchOrder::DIRECTION_DESCENDING, 'size'),
+				new SearchOrder(ISearchOrder::DIRECTION_ASCENDING, 'mtime')
+			]],
 		];
 	}
 
 	/**
 	 * @dataProvider offsetLimitProvider
+	 * @param int $offset
+	 * @param int $limit
+	 * @param int[] $expectedIds
+	 * @param ISearchOrder[] $ordering
+	 * @throws NotFoundException
+	 * @throws \OCP\Files\InvalidPathException
 	 */
-	public function testSearchSubStoragesLimitOffset(int $offset, int $limit, array $expectedIds) {
+	public function testSearchSubStoragesLimitOffset(int $offset, int $limit, array $expectedIds, array $ordering) {
 		$manager = $this->createMock(Manager::class);
 		/**
 		 * @var \OC\Files\View | \PHPUnit\Framework\MockObject\MockObject $view
@@ -996,26 +1010,26 @@ class FolderTest extends NodeTest {
 		$cache->method('searchQuery')
 			->willReturnCallback(function (ISearchQuery $query) {
 				return array_slice([
-					new CacheEntry(['fileid' => 10, 'path' => 'foo/qwerty', 'name' => 'qwerty', 'size' => 200, 'mtime' => 55, 'mimetype' => 'text/plain']),
-					new CacheEntry(['fileid' => 11, 'path' => 'foo/qwerty', 'name' => 'qwerty', 'size' => 200, 'mtime' => 55, 'mimetype' => 'text/plain']),
-					new CacheEntry(['fileid' => 12, 'path' => 'foo/qwerty', 'name' => 'qwerty', 'size' => 200, 'mtime' => 55, 'mimetype' => 'text/plain']),
-					new CacheEntry(['fileid' => 13, 'path' => 'foo/qwerty', 'name' => 'qwerty', 'size' => 200, 'mtime' => 55, 'mimetype' => 'text/plain'])
+					new CacheEntry(['fileid' => 10, 'path' => 'foo/qwerty', 'name' => 'qwerty', 'size' => 200, 'mtime' => 10, 'mimetype' => 'text/plain']),
+					new CacheEntry(['fileid' => 11, 'path' => 'foo/qwerty', 'name' => 'qwerty', 'size' => 200, 'mtime' => 20, 'mimetype' => 'text/plain']),
+					new CacheEntry(['fileid' => 12, 'path' => 'foo/qwerty', 'name' => 'qwerty', 'size' => 200, 'mtime' => 30, 'mimetype' => 'text/plain']),
+					new CacheEntry(['fileid' => 13, 'path' => 'foo/qwerty', 'name' => 'qwerty', 'size' => 200, 'mtime' => 40, 'mimetype' => 'text/plain']),
 				], $query->getOffset(), $query->getOffset() + $query->getLimit());
 			});
 
 		$subCache1->method('searchQuery')
 			->willReturnCallback(function (ISearchQuery $query) {
 				return array_slice([
-					new CacheEntry(['fileid' => 14, 'path' => 'foo/qwerty', 'name' => 'qwerty', 'size' => 200, 'mtime' => 55, 'mimetype' => 'text/plain']),
-					new CacheEntry(['fileid' => 15, 'path' => 'foo/qwerty', 'name' => 'qwerty', 'size' => 200, 'mtime' => 55, 'mimetype' => 'text/plain']),
+					new CacheEntry(['fileid' => 14, 'path' => 'foo/qwerty', 'name' => 'qwerty', 'size' => 300, 'mtime' => 15, 'mimetype' => 'text/plain']),
+					new CacheEntry(['fileid' => 15, 'path' => 'foo/qwerty', 'name' => 'qwerty', 'size' => 300, 'mtime' => 50, 'mimetype' => 'text/plain']),
 				], $query->getOffset(), $query->getOffset() + $query->getLimit());
 			});
 
 		$subCache2->method('searchQuery')
 			->willReturnCallback(function (ISearchQuery $query) {
 				return array_slice([
-					new CacheEntry(['fileid' => 16, 'path' => 'foo/qwerty', 'name' => 'qwerty', 'size' => 200, 'mtime' => 55, 'mimetype' => 'text/plain']),
-					new CacheEntry(['fileid' => 17, 'path' => 'foo/qwerty', 'name' => 'qwerty', 'size' => 200, 'mtime' => 55, 'mimetype' => 'text/plain']),
+					new CacheEntry(['fileid' => 16, 'path' => 'foo/qwerty', 'name' => 'qwerty', 'size' => 200, 'mtime' => 5, 'mimetype' => 'text/plain']),
+					new CacheEntry(['fileid' => 17, 'path' => 'foo/qwerty', 'name' => 'qwerty', 'size' => 200, 'mtime' => 60, 'mimetype' => 'text/plain']),
 				], $query->getOffset(), $query->getOffset() + $query->getLimit());
 			});
 
@@ -1030,9 +1044,9 @@ class FolderTest extends NodeTest {
 
 		$node = new Folder($root, $view, '/bar/foo');
 		$comparison = new SearchComparison(ISearchComparison::COMPARE_LIKE, 'name', '%foo%');
-		$query = new SearchQuery($comparison, $limit, $offset, []);
+		$query = new SearchQuery($comparison, $limit, $offset, $ordering);
 		$result = $node->search($query);
-		$ids = array_map(function(Node $info) {
+		$ids = array_map(function (Node $info) {
 			return $info->getId();
 		}, $result);
 		$this->assertEquals($expectedIds, $ids);

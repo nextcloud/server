@@ -31,7 +31,6 @@
 namespace OC\Files\Node;
 
 use OC\DB\QueryBuilder\Literal;
-use OC\Files\Mount\MountPoint;
 use OC\Files\Search\SearchBinaryOperator;
 use OC\Files\Search\SearchComparison;
 use OC\Files\Search\SearchQuery;
@@ -231,23 +230,18 @@ class Folder extends Node implements \OCP\Files\Folder {
 			$query = $this->queryFromOperator(new SearchComparison(ISearchComparison::COMPARE_LIKE, 'name', '%' . $query . '%'));
 		}
 
-		// Limit+offset for queries without ordering
+		// Limit+offset for queries with ordering
 		//
-		// assume a setup where the root mount matches 15 items,
-		//   sub mount1 matches 7 items and mount2 matches 1 item
-		// a search with (0..10) returns 10 results from root with internal offset 0 and limit 10
-		// follow up search with (10..20) returns 5 results from root with internal offset 10 and limit 10
-		//   and 5 results from mount1 with internal offset 0 and limit 5
-		// next search with (20..30) return 0 results from root with internal offset 20 and limit 10
-		//   2 results from mount1 with internal offset 5[1] and limit 5
-		//   and 1 result from mount2 with internal offset 0[1] and limit 8
+		// Because we currently can't do ordering between the results from different storages in sql
+		// The only way to do ordering is requesting the $limit number of entries from all storages
+		// sorting them and returning the first $limit entries.
 		//
-		// Because of the difficulty of calculating the offset for a sub-query if the previous one returns no results
-		//   (we don't know how many results the previous sub-query has skipped with it's own offset)
-		// we instead discard the offset for the sub-queries and filter it afterwards and add the offset to limit.
-		// this is sub-optimal but shouldn't hurt to much since large offsets are uncommon in practice
+		// For offset we have the same problem, we don't know how many entries from each storage should be skipped
+		// by a given $offset, so instead we query $offset + $limit from each storage and return entries $offset..($offset+$limit)
+		// after merging and sorting them.
 		//
-		// All of this is only possible for queries without ordering
+		// This is suboptimal but because limit and offset tend to be fairly small in real world use cases it should
+		// still be significantly better than disabling paging altogether
 
 		$limitToHome = $query->limitToHome();
 		if ($limitToHome && count(explode('/', $this->path)) !== 3) {
@@ -263,13 +257,12 @@ class Folder extends Node implements \OCP\Files\Folder {
 			$internalPath = $internalPath . '/';
 		}
 
-		$subQueryLimit = $query->getLimit() > 0 ? $query->getLimit() + $query->getOffset() : PHP_INT_MAX;
-		$subQueryOffset = $query->getOffset();
+		$subQueryLimit = $query->getLimit() > 0 ? $query->getLimit() + $query->getOffset() : 0;
 		$rootQuery = new SearchQuery(
 			new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_AND, [
-					new SearchComparison(ISearchComparison::COMPARE_LIKE, 'path', $internalPath . '%'),
-					$query->getSearchOperation(),
-				]
+				new SearchComparison(ISearchComparison::COMPARE_LIKE, 'path', $internalPath . '%'),
+				$query->getSearchOperation(),
+			]
 			),
 			$subQueryLimit,
 			0,
@@ -282,11 +275,6 @@ class Folder extends Node implements \OCP\Files\Folder {
 		$cache = $storage->getCache('');
 
 		$results = $cache->searchQuery($rootQuery);
-		$count = count($results);
-		$results = array_slice($results, $subQueryOffset, $subQueryLimit);
-		$subQueryOffset = max(0, $subQueryOffset - $count);
-		$subQueryLimit = max(0, $subQueryLimit - $count);
-
 		foreach ($results as $result) {
 			$files[] = $this->cacheEntryToFileInfo($mount, '', $internalPath, $result);
 		}
@@ -294,10 +282,6 @@ class Folder extends Node implements \OCP\Files\Folder {
 		if (!$limitToHome) {
 			$mounts = $this->root->getMountsIn($this->path);
 			foreach ($mounts as $mount) {
-				if ($subQueryLimit <= 0) {
-					break;
-				}
-
 				$subQuery = new SearchQuery(
 					$query->getSearchOperation(),
 					$subQueryLimit,
@@ -312,18 +296,26 @@ class Folder extends Node implements \OCP\Files\Folder {
 
 					$relativeMountPoint = ltrim(substr($mount->getMountPoint(), $rootLength), '/');
 					$results = $cache->searchQuery($subQuery);
-
-					$count = count($results);
-					$results = array_slice($results, $subQueryOffset, $subQueryLimit);
-					$subQueryOffset -= $count;
-					$subQueryLimit -= $count;
-
 					foreach ($results as $result) {
 						$files[] = $this->cacheEntryToFileInfo($mount, $relativeMountPoint, '', $result);
 					}
 				}
 			}
 		}
+
+		$order = $query->getOrder();
+		if ($order) {
+			usort($files, function (FileInfo $a,FileInfo  $b) use ($order) {
+				foreach ($order as $orderField) {
+					$cmp = $orderField->sortFileInfo($a, $b);
+					if ($cmp !== 0) {
+						return $cmp;
+					}
+				}
+				return 0;
+			});
+		}
+		$files = array_values(array_slice($files, $query->getOffset(), $query->getLimit() > 0 ? $query->getLimit() : null));
 
 		return array_map(function (FileInfo $file) {
 			return $this->createNode($file->getPath(), $file);
