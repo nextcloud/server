@@ -31,11 +31,14 @@
 namespace OC\Files\Node;
 
 use OC\DB\QueryBuilder\Literal;
+use OC\Files\Mount\MountPoint;
 use OC\Files\Search\SearchComparison;
 use OC\Files\Search\SearchQuery;
 use OC\Files\Storage\Wrapper\Jail;
+use OC\Files\Storage\Storage;
 use OCA\Files_Sharing\SharedStorage;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Config\ICachedMountInfo;
 use OCP\Files\FileInfo;
 use OCP\Files\Mount\IMountPoint;
@@ -226,6 +229,8 @@ class Folder extends Node implements \OCP\Files\Folder {
 			$query = $this->queryFromOperator(new SearchComparison(ISearchComparison::COMPARE_LIKE, 'name', '%' . $query . '%'));
 		}
 
+		// Limit+offset for queries without ordering
+		//
 		// assume a setup where the root mount matches 15 items,
 		//   sub mount1 matches 7 items and mount2 matches 1 item
 		// a search with (0..10) returns 10 results from root with internal offset 0 and limit 10
@@ -239,6 +244,8 @@ class Folder extends Node implements \OCP\Files\Folder {
 		//   (we don't know how many results the previous sub-query has skipped with it's own offset)
 		// we instead discard the offset for the sub-queries and filter it afterwards and add the offset to limit.
 		// this is sub-optimal but shouldn't hurt to much since large offsets are uncommon in practice
+		//
+		// All of this is only possible for queries without ordering
 
 		$limitToHome = $query->limitToHome();
 		if ($limitToHome && count(explode('/', $this->path)) !== 3) {
@@ -276,10 +283,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 
 		foreach ($results as $result) {
 			if ($internalRootLength === 0 or substr($result['path'], 0, $internalRootLength) === $internalPath) {
-				$result['internalPath'] = $result['path'];
-				$result['path'] = substr($result['path'], $internalRootLength);
-				$result['storage'] = $storage;
-				$files[] = new \OC\Files\FileInfo($this->path . '/' . $result['path'], $storage, $result['internalPath'], $result, $mount);
+				$files[] = $this->cacheEntryToFileInfo($mount, '', $internalPath, $result);
 			}
 		}
 
@@ -311,11 +315,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 					$subQueryLimit -= $count;
 
 					foreach ($results as $result) {
-						$result['internalPath'] = $result['path'];
-						$result['path'] = $relativeMountPoint . $result['path'];
-						$result['storage'] = $storage;
-						$files[] = new \OC\Files\FileInfo($this->path . '/' . $result['path'], $storage,
-							$result['internalPath'], $result, $mount);
+						$files[] = $this->cacheEntryToFileInfo($mount, $relativeMountPoint, '', $result);
 					}
 				}
 			}
@@ -324,6 +324,13 @@ class Folder extends Node implements \OCP\Files\Folder {
 		return array_map(function (FileInfo $file) {
 			return $this->createNode($file->getPath(), $file);
 		}, $files);
+	}
+
+	private function cacheEntryToFileInfo(IMountPoint $mount, string $appendRoot, string $trimRoot, ICacheEntry $cacheEntry): FileInfo {
+		$trimLength = strlen($trimRoot);
+		$cacheEntry['internalPath'] = $cacheEntry['path'];
+		$cacheEntry['path'] = $appendRoot .  substr($cacheEntry['path'], $trimLength);
+		return new \OC\Files\FileInfo($this->path . '/' . $cacheEntry['path'], $mount->getStorage(), $cacheEntry['internalPath'], $cacheEntry, $mount);
 	}
 
 	/**
