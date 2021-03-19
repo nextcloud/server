@@ -468,6 +468,7 @@ return array(
     'OCP\\Share' => $baseDir . '/lib/public/Share.php',
     'OCP\\Share\\Events\\ShareCreatedEvent' => $baseDir . '/lib/public/Share/Events/ShareCreatedEvent.php',
     'OCP\\Share\\Events\\VerifyMountPointEvent' => $baseDir . '/lib/public/Share/Events/VerifyMountPointEvent.php',
+    'OCP\\Share\\Exceptions\\AlreadySharedException' => $baseDir . '/lib/public/Share/Exceptions/AlreadySharedException.php',
     'OCP\\Share\\Exceptions\\GenericShareException' => $baseDir . '/lib/public/Share/Exceptions/GenericShareException.php',
     'OCP\\Share\\Exceptions\\IllegalIDChangeException' => $baseDir . '/lib/public/Share/Exceptions/IllegalIDChangeException.php',
     'OCP\\Share\\Exceptions\\ShareNotFound' => $baseDir . '/lib/public/Share/Exceptions/ShareNotFound.php',
