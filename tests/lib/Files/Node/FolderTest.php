@@ -354,7 +354,6 @@ class FolderTest extends NodeTest {
 		$cache->method('searchQuery')
 			->willReturn([
 				new CacheEntry(['fileid' => 3, 'path' => 'files/foo', 'name' => 'qwerty', 'size' => 200, 'mtime' => 55, 'mimetype' => 'text/plain']),
-				new CacheEntry(['fileid' => 3, 'path' => 'files_trashbin/foo2.d12345', 'name' => 'foo2.d12345', 'size' => 200, 'mtime' => 55, 'mimetype' => 'text/plain']),
 			]);
 
 		$root->method('getMountsIn')

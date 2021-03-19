@@ -32,6 +32,7 @@ namespace OC\Files\Node;
 
 use OC\DB\QueryBuilder\Literal;
 use OC\Files\Mount\MountPoint;
+use OC\Files\Search\SearchBinaryOperator;
 use OC\Files\Search\SearchComparison;
 use OC\Files\Search\SearchQuery;
 use OC\Files\Storage\Wrapper\Jail;
@@ -44,6 +45,7 @@ use OCP\Files\FileInfo;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
+use OCP\Files\Search\ISearchBinaryOperator;
 use OCP\Files\Search\ISearchComparison;
 use OCP\Files\Search\ISearchOperator;
 use OCP\Files\Search\ISearchQuery;
@@ -252,17 +254,6 @@ class Folder extends Node implements \OCP\Files\Folder {
 			throw new \InvalidArgumentException('searching by owner is only allows on the users home folder');
 		}
 
-		$subQueryLimit = $query->getLimit() > 0 ? $query->getLimit() + $query->getOffset() : PHP_INT_MAX;
-		$subQueryOffset = $query->getOffset();
-		$noLimitQuery = new SearchQuery(
-			$query->getSearchOperation(),
-			$subQueryLimit,
-			0,
-			$query->getOrder(),
-			$query->getUser()
-		);
-
-		$files = [];
 		$rootLength = strlen($this->path);
 		$mount = $this->root->getMount($this->path);
 		$storage = $mount->getStorage();
@@ -271,20 +262,33 @@ class Folder extends Node implements \OCP\Files\Folder {
 		if ($internalPath !== '') {
 			$internalPath = $internalPath . '/';
 		}
-		$internalRootLength = strlen($internalPath);
+
+		$subQueryLimit = $query->getLimit() > 0 ? $query->getLimit() + $query->getOffset() : PHP_INT_MAX;
+		$subQueryOffset = $query->getOffset();
+		$rootQuery = new SearchQuery(
+			new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_AND, [
+					new SearchComparison(ISearchComparison::COMPARE_LIKE, 'path', $internalPath . '%'),
+					$query->getSearchOperation(),
+				]
+			),
+			$subQueryLimit,
+			0,
+			$query->getOrder(),
+			$query->getUser()
+		);
+
+		$files = [];
 
 		$cache = $storage->getCache('');
 
-		$results = $cache->searchQuery($noLimitQuery);
+		$results = $cache->searchQuery($rootQuery);
 		$count = count($results);
 		$results = array_slice($results, $subQueryOffset, $subQueryLimit);
 		$subQueryOffset = max(0, $subQueryOffset - $count);
 		$subQueryLimit = max(0, $subQueryLimit - $count);
 
 		foreach ($results as $result) {
-			if ($internalRootLength === 0 or substr($result['path'], 0, $internalRootLength) === $internalPath) {
-				$files[] = $this->cacheEntryToFileInfo($mount, '', $internalPath, $result);
-			}
+			$files[] = $this->cacheEntryToFileInfo($mount, '', $internalPath, $result);
 		}
 
 		if (!$limitToHome) {
@@ -329,7 +333,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 	private function cacheEntryToFileInfo(IMountPoint $mount, string $appendRoot, string $trimRoot, ICacheEntry $cacheEntry): FileInfo {
 		$trimLength = strlen($trimRoot);
 		$cacheEntry['internalPath'] = $cacheEntry['path'];
-		$cacheEntry['path'] = $appendRoot .  substr($cacheEntry['path'], $trimLength);
+		$cacheEntry['path'] = $appendRoot . substr($cacheEntry['path'], $trimLength);
 		return new \OC\Files\FileInfo($this->path . '/' . $cacheEntry['path'], $mount->getStorage(), $cacheEntry['internalPath'], $cacheEntry, $mount);
 	}
 
