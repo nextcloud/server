@@ -34,7 +34,6 @@ use OC\DB\QueryBuilder\Literal;
 use OC\Files\Search\SearchBinaryOperator;
 use OC\Files\Search\SearchComparison;
 use OC\Files\Search\SearchQuery;
-use OC\Files\Storage\Wrapper\Jail;
 use OC\Files\Storage\Storage;
 use OCA\Files_Sharing\SharedStorage;
 use OCP\DB\QueryBuilder\IQueryBuilder;
