@@ -458,7 +458,7 @@ class Manager implements IManager {
 	 * @throws \InvalidArgumentException
 	 * @throws \Exception
 	 */
-	protected function validateExpirationDate(\OCP\Share\IShare $share) {
+	protected function validateExpirationDateLink(\OCP\Share\IShare $share) {
 		$expirationDate = $share->getExpirationDate();
 
 		if ($expirationDate !== null) {
@@ -761,7 +761,7 @@ class Manager implements IManager {
 			);
 
 			//Verify the expiration date
-			$share = $this->validateExpirationDate($share);
+			$share = $this->validateExpirationDateLink($share);
 
 			//Verify the password
 			$this->verifyPassword($share->getPassword());
@@ -969,7 +969,7 @@ class Manager implements IManager {
 
 			if ($share->getExpirationDate() != $originalShare->getExpirationDate()) {
 				//Verify the expiration date
-				$this->validateExpirationDate($share);
+				$this->validateExpirationDateInternal($share);
 				$expirationDateUpdated = true;
 			}
 		} elseif ($share->getShareType() === \OCP\Share::SHARE_TYPE_GROUP) {
@@ -977,7 +977,7 @@ class Manager implements IManager {
 
 			if ($share->getExpirationDate() != $originalShare->getExpirationDate()) {
 				//Verify the expiration date
-				$this->validateExpirationDate($share);
+				$this->validateExpirationDateInternal($share);
 				$expirationDateUpdated = true;
 			}
 		} elseif ($share->getShareType() === \OCP\Share::SHARE_TYPE_LINK) {
@@ -993,7 +993,7 @@ class Manager implements IManager {
 
 			if ($share->getExpirationDate() != $originalShare->getExpirationDate()) {
 				//Verify the expiration date
-				$this->validateExpirationDate($share);
+				$this->validateExpirationDateLink($share);
 				$expirationDateUpdated = true;
 			}
 		} elseif ($share->getShareType() === \OCP\Share::SHARE_TYPE_EMAIL) {
