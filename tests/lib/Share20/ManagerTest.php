@@ -50,6 +50,7 @@ use OCP\Mail\IMailer;
 use OCP\Security\Events\ValidatePasswordPolicyEvent;
 use OCP\Security\IHasher;
 use OCP\Security\ISecureRandom;
+use OCP\Share\Exceptions\AlreadySharedException;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IProviderFactory;
 use OCP\Share\IShare;
@@ -1411,10 +1412,11 @@ class ManagerTest extends \Test\TestCase {
 
 
 	public function testUserCreateChecksIdenticalShareExists() {
-		$this->expectException(\Exception::class);
-		$this->expectExceptionMessage('Path is already shared with this user');
+		$this->expectException(AlreadySharedException::class);
+		$this->expectExceptionMessage('Sharing name.txt failed, because this item is already shared with user user');
 
 		$share  = $this->manager->newShare();
+		$share->setSharedWithDisplayName('user');
 		$share2 = $this->manager->newShare();
 
 		$sharedWith = $this->createMock(IUser::class);
@@ -1431,13 +1433,16 @@ class ManagerTest extends \Test\TestCase {
 			->with($path)
 			->willReturn([$share2]);
 
+		$path->method('getName')
+			->willReturn('name.txt');
+
 		self::invokePrivate($this->manager, 'userCreateChecks', [$share]);
 	}
 
 
 	public function testUserCreateChecksIdenticalPathSharedViaGroup() {
-		$this->expectException(\Exception::class);
-		$this->expectExceptionMessage('Path is already shared with this user');
+		$this->expectException(AlreadySharedException::class);
+		$this->expectExceptionMessage('Sharing name2.txt failed, because this item is already shared with user userName');
 
 		$share  = $this->manager->newShare();
 
@@ -1451,6 +1456,7 @@ class ManagerTest extends \Test\TestCase {
 		$share->setSharedWith('sharedWith')
 			->setNode($path)
 			->setShareOwner('shareOwner')
+			->setSharedWithDisplayName('userName')
 			->setProviderId('foo')
 			->setId('bar');
 
@@ -1472,6 +1478,9 @@ class ManagerTest extends \Test\TestCase {
 			->method('getSharesByPath')
 			->with($path)
 			->willReturn([$share2]);
+
+		$path->method('getName')
+			->willReturn('name2.txt');
 
 		self::invokePrivate($this->manager, 'userCreateChecks', [$share]);
 	}
