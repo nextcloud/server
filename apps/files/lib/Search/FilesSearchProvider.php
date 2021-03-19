@@ -29,12 +29,14 @@ declare(strict_types=1);
 namespace OCA\Files\Search;
 
 use OC\Files\Search\SearchComparison;
+use OC\Files\Search\SearchOrder;
 use OC\Files\Search\SearchQuery;
 use OCP\Files\FileInfo;
 use OCP\Files\IMimeTypeDetector;
 use OCP\Files\IRootFolder;
 use OCP\Files\Search\ISearchComparison;
 use OCP\Files\Node;
+use OCP\Files\Search\ISearchOrder;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\IUser;
@@ -103,7 +105,9 @@ class FilesSearchProvider implements IProvider {
 			new SearchComparison(ISearchComparison::COMPARE_LIKE, 'name', '%' . $query->getTerm() . '%'),
 			$query->getLimit(),
 			(int)$query->getCursor(),
-			[],
+			$query->getSortOrder() === ISearchQuery::SORT_DATE_DESC ? [
+				new SearchOrder(ISearchOrder::DIRECTION_DESCENDING, 'mtime'),
+			] : [],
 			$user
 		);
 
