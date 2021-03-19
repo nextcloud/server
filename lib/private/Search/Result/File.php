@@ -97,14 +97,13 @@ class File extends \OCP\Search\Result {
 	public function __construct(FileInfo $data) {
 		$path = $this->getRelativePath($data->getPath());
 
-		$info = pathinfo($path);
 		$this->id = $data->getId();
-		$this->name = $info['basename'];
+		$this->name = $data->getName();
 		$this->link = \OC::$server->getURLGenerator()->linkToRoute(
 			'files.view.index',
 			[
-				'dir' => $info['dirname'],
-				'scrollto' => $info['basename'],
+				'dir' => dirname($path),
+				'scrollto' => $data->getName(),
 			]
 		);
 		$this->permissions = $data->getPermissions();
