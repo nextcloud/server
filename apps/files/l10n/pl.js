@@ -8,7 +8,7 @@ OC.L10N.register(
     "Move or copy" : "Przenieś lub kopiuj",
     "Download" : "Pobierz",
     "Delete" : "Usuń",
-    "Home" : "Start",
+    "Home" : "Strona główna",
     "Close" : "Zamknij",
     "Favorites" : "Ulubione",
     "Could not create folder \"{dir}\"" : "Nie można utworzyć katalogu \"{dir}\"",
