@@ -119,6 +119,7 @@
     "Expiration date is in the past" : "到期日期已过",
     "Can’t set expiration date more than %s days in the future" : "无法将过期日期设置为超过 %s 天。",
     "Sharing is only allowed with group members" : "只允许与群组成员共享",
+    "Sharing %s failed, because this item is already shared with user %s" : "共享 %s 失败了，因为该项目已和用户 %s 进行了分享。",
     "%1$s shared »%2$s« with you" : "%1$s 对您共享了 »%2$s«",
     "%1$s shared »%2$s« with you." : "%1$s 对您共享了 »%2$s«。",
     "Click the button below to open it." : "点击下方按钮可打开它。",
