@@ -119,6 +119,7 @@
     "Expiration date is in the past" : "Das Ablaufdatum liegt in der Vergangenheit.",
     "Can’t set expiration date more than %s days in the future" : "Das Ablaufdatum kann nicht mehr als %s Tage in der Zukunft liegen",
     "Sharing is only allowed with group members" : "Teilen ist nur mit Gruppenmitgliedern erlaubt",
+    "Sharing %s failed, because this item is already shared with user %s" : "Freigabe von %s fehlgeschlagen, da dieses Element schon mit dem Benutzer %s geteilt wird",
     "%1$s shared »%2$s« with you" : "%1$s hat »%2$s« mit Dir geteilt",
     "%1$s shared »%2$s« with you." : "%1$s hat »%2$s« mit Dir geteilt.",
     "Click the button below to open it." : "Klicke zum Öffnen auf die untere Schaltfläche.",
