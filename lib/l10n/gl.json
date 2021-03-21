@@ -119,6 +119,7 @@
     "Expiration date is in the past" : "Xa pasou a data de caducidade",
     "Can’t set expiration date more than %s days in the future" : "Non é posíbel estabelecer a data de caducidade máis alo de %s días no futuro",
     "Sharing is only allowed with group members" : "Só se permite compartir cos membros do grupo",
+    "Sharing %s failed, because this item is already shared with user %s" : "Fallou a compartición de %s por mor de que este elemento xa foi compartido co usuario %s",
     "%1$s shared »%2$s« with you" : "%1$s compartiu «%2$s» con vostede",
     "%1$s shared »%2$s« with you." : "%1$s compartiu «%2$s» con vostede.",
     "Click the button below to open it." : "Prema no botón de embaixo para abrilo.",

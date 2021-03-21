@@ -24,7 +24,7 @@ OC.L10N.register(
     "Password to access {file} was sent to {email}" : "Hasło dostępu do {file} zostało wysłane do {email}",
     "Password to access %1$s was sent to you" : "Hasło dostępu do %1$s zostało do Ciebie wysłane",
     "Password to access {file} was sent to you" : "Hasło dostępu do {file} zostało do Ciebie wysłane",
-    "Sharing %1$s failed, this item is already shared with %2$s" : "Udostępnianie %1$s nie powiodło się, ponieważ ten element jest już współdzielony z %2$s",
+    "Sharing %1$s failed, this item is already shared with %2$s" : "Udostępnianie %1$s nie powiodło się, ponieważ ten element jest już udostępniony %2$s",
     "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Nie można wysłać automatycznie wygenerowanego hasła. Proszę ustawić prawidłowy adres e-mail w ustawieniach osobistych i spróbować ponownie.",
     "Failed to send share by email" : "Nie udało się wysłać linku udostępnienia e-mailem",
     "%1$s shared »%2$s« with you" : "%1$s udostępnił »%2$s«",
