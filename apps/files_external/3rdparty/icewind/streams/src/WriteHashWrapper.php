@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright Copyright (c) 2018 Robin Appelman <robin@icewind.nl>
+ * @copyright Copyright (c) 2019 Robin Appelman <robin@icewind.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -19,26 +19,19 @@
  *
  */
 
-namespace Icewind\SMB;
+namespace Icewind\Streams;
 
-class AnonymousAuth implements IAuth {
-	public function getUsername(): ?string {
-		return null;
-	}
-
-	public function getWorkgroup(): ?string {
-		return 'dummy';
-	}
-
-	public function getPassword(): ?string {
-		return null;
-	}
-
-	public function getExtraCommandLineArguments(): string {
-		return '-N';
-	}
-
-	public function setExtraSmbClientOptions($smbClientState): void {
-		smbclient_option_set($smbClientState, SMBCLIENT_OPT_AUTO_ANONYMOUS_LOGIN, true);
+/**
+ * Wrapper that calculates the hash on the stream on write
+ *
+ * The stream and hash should be passed in when wrapping the stream.
+ * On close the callback will be called with the calculated checksum.
+ *
+ * For supported hashes see: http://php.net/manual/en/function.hash-algos.php
+ */
+class WriteHashWrapper extends HashWrapper {
+	public function stream_write($data) {
+		$this->updateHash($data);
+		return parent::stream_write($data);
 	}
 }

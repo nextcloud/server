@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = $vendorDir;
 
 return array(
+    'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
     'Icewind\\SMB\\ACL' => $vendorDir . '/icewind/smb/src/ACL.php',
     'Icewind\\SMB\\AbstractServer' => $vendorDir . '/icewind/smb/src/AbstractServer.php',
     'Icewind\\SMB\\AbstractShare' => $vendorDir . '/icewind/smb/src/AbstractShare.php',
@@ -57,6 +58,7 @@ return array(
     'Icewind\\SMB\\Native\\NativeWriteStream' => $vendorDir . '/icewind/smb/src/Native/NativeWriteStream.php',
     'Icewind\\SMB\\Options' => $vendorDir . '/icewind/smb/src/Options.php',
     'Icewind\\SMB\\ServerFactory' => $vendorDir . '/icewind/smb/src/ServerFactory.php',
+    'Icewind\\SMB\\StringBuffer' => $vendorDir . '/icewind/smb/src/StringBuffer.php',
     'Icewind\\SMB\\System' => $vendorDir . '/icewind/smb/src/System.php',
     'Icewind\\SMB\\TimeZoneProvider' => $vendorDir . '/icewind/smb/src/TimeZoneProvider.php',
     'Icewind\\SMB\\Wrapped\\Connection' => $vendorDir . '/icewind/smb/src/Wrapped/Connection.php',
@@ -73,13 +75,17 @@ return array(
     'Icewind\\Streams\\DirectoryFilter' => $vendorDir . '/icewind/streams/src/DirectoryFilter.php',
     'Icewind\\Streams\\DirectoryWrapper' => $vendorDir . '/icewind/streams/src/DirectoryWrapper.php',
     'Icewind\\Streams\\File' => $vendorDir . '/icewind/streams/src/File.php',
+    'Icewind\\Streams\\HashWrapper' => $vendorDir . '/icewind/streams/src/HashWrapper.php',
     'Icewind\\Streams\\IteratorDirectory' => $vendorDir . '/icewind/streams/src/IteratorDirectory.php',
     'Icewind\\Streams\\NullWrapper' => $vendorDir . '/icewind/streams/src/NullWrapper.php',
     'Icewind\\Streams\\Path' => $vendorDir . '/icewind/streams/src/Path.php',
     'Icewind\\Streams\\PathWrapper' => $vendorDir . '/icewind/streams/src/PathWrapper.php',
+    'Icewind\\Streams\\ReadHashWrapper' => $vendorDir . '/icewind/streams/src/ReadHashWrapper.php',
     'Icewind\\Streams\\RetryWrapper' => $vendorDir . '/icewind/streams/src/RetryWrapper.php',
     'Icewind\\Streams\\SeekableWrapper' => $vendorDir . '/icewind/streams/src/SeekableWrapper.php',
     'Icewind\\Streams\\Url' => $vendorDir . '/icewind/streams/src/Url.php',
-    'Icewind\\Streams\\UrlCallback' => $vendorDir . '/icewind/streams/src/UrlCallBack.php',
+    'Icewind\\Streams\\UrlCallback' => $vendorDir . '/icewind/streams/src/UrlCallback.php',
     'Icewind\\Streams\\Wrapper' => $vendorDir . '/icewind/streams/src/Wrapper.php',
+    'Icewind\\Streams\\WrapperHandler' => $vendorDir . '/icewind/streams/src/WrapperHandler.php',
+    'Icewind\\Streams\\WriteHashWrapper' => $vendorDir . '/icewind/streams/src/WriteHashWrapper.php',
 );

@@ -25,23 +25,23 @@ namespace Icewind\SMB;
  * Use existing kerberos ticket to authenticate
  */
 class KerberosAuth implements IAuth {
-	public function getUsername() {
+	public function getUsername(): ?string {
 		return 'dummy';
 	}
 
-	public function getWorkgroup() {
+	public function getWorkgroup(): ?string {
 		return 'dummy';
 	}
 
-	public function getPassword() {
+	public function getPassword(): ?string {
 		return null;
 	}
 
-	public function getExtraCommandLineArguments() {
+	public function getExtraCommandLineArguments(): string {
 		return '-k';
 	}
 
-	public function setExtraSmbClientOptions($smbClientState) {
+	public function setExtraSmbClientOptions($smbClientState): void {
 		smbclient_option_set($smbClientState, SMBCLIENT_OPT_USE_KERBEROS, true);
 		smbclient_option_set($smbClientState, SMBCLIENT_OPT_FALLBACK_AFTER_KERBEROS, false);
 	}
