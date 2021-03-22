@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2019, Roeland Jago Douma <roeland@famdouma.nl>
+ * @copyright Copyright (c) 2021 Joas Schilling <coding@schilljs.com>
  *
- * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Joas Schilling <coding@schilljs.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -27,20 +27,17 @@ declare(strict_types=1);
 namespace OCP\User\Backend;
 
 /**
- * @since 17.0.0
+ * @since 21.0.1
  */
-interface IGetRealUIDBackend {
+interface ISearchKnownUsersBackend {
 
 	/**
-	 * Some backends accept different UIDs than what is the internal UID to be used.
-	 * For example the database backend accepts different cased UIDs in all the functions
-	 * but the internal UID that is to be used should be correctly cased.
-	 *
-	 * This little function makes sure that the used UID will be correct hen using the user object
-	 *
-	 * @since 17.0.0
-	 * @param string $uid
-	 * @return string
+	 * @param string $searcher
+	 * @param string $pattern
+	 * @param int|null $limit
+	 * @param int|null $offset
+	 * @return array
+	 * @since 21.0.1
 	 */
-	public function getRealUID(string $uid): string;
+	public function searchKnownUsersByDisplayName(string $searcher, string $pattern, ?int $limit = null, ?int $offset = null): array;
 }

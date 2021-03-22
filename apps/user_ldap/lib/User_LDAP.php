@@ -133,7 +133,7 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 			return false;
 		}
 	}
-	
+
 	/**
 	 * returns the username for the given LDAP DN, if available
 	 *
@@ -502,8 +502,8 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 	 * Get a list of all display names
 	 *
 	 * @param string $search
-	 * @param string|null $limit
-	 * @param string|null $offset
+	 * @param int|null $limit
+	 * @param int|null $offset
 	 * @return array an array of all displayNames (value) and the corresponding uids (key)
 	 */
 	public function getDisplayNames($search = '', $limit = null, $offset = null) {
@@ -574,7 +574,7 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 	public function getBackendName() {
 		return 'LDAP';
 	}
-	
+
 	/**
 	 * Return access for LDAP interaction.
 	 * @param string $uid
@@ -583,7 +583,7 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 	public function getLDAPAccess($uid) {
 		return $this->access;
 	}
-	
+
 	/**
 	 * Return LDAP connection resource from a cloned connection.
 	 * The cloned connection needs to be closed manually.

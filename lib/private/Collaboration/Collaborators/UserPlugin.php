@@ -97,7 +97,7 @@ class UserPlugin implements ISearchPlugin {
 
 		$currentUserId = $this->userSession->getUser()->getUID();
 		$currentUserGroups = $this->groupManager->getUserGroupIds($this->userSession->getUser());
-		if ($this->shareWithGroupOnly) {
+		if ($this->shareWithGroupOnly || $this->shareeEnumerationInGroupOnly) {
 			// Search in all the groups this user is part of
 			foreach ($currentUserGroups as $userGroupId) {
 				$usersInGroup = $this->groupManager->displayNamesInGroup($userGroupId, $search, $limit, $offset);
@@ -114,9 +114,32 @@ class UserPlugin implements ISearchPlugin {
 					$hasMoreResults = true;
 				}
 			}
+
+			if (!$this->shareWithGroupOnly && $this->shareeEnumerationPhone) {
+				$usersTmp = $this->userManager->searchKnownUsersByDisplayName($currentUserId, $search, $limit, $offset);
+				if (!empty($usersTmp)) {
+					foreach ($usersTmp as $user) {
+						if ($user->isEnabled()) { // Don't keep deactivated users
+							$users[$user->getUID()] = $user;
+						}
+					}
+
+					uasort($users, function ($a, $b) {
+						/**
+						 * @var \OC\User\User $a
+						 * @var \OC\User\User $b
+						 */
+						return strcasecmp($a->getDisplayName(), $b->getDisplayName());
+					});
+				}
+			}
 		} else {
 			// Search in all users
-			$usersTmp = $this->userManager->searchDisplayName($search, $limit, $offset);
+			if ($this->shareeEnumerationPhone) {
+				$usersTmp = $this->userManager->searchKnownUsersByDisplayName($currentUserId, $search, $limit, $offset);
+			} else {
+				$usersTmp = $this->userManager->searchDisplayName($search, $limit, $offset);
+			}
 			foreach ($usersTmp as $user) {
 				if ($user->isEnabled()) { // Don't keep deactivated users
 					$users[$user->getUID()] = $user;
