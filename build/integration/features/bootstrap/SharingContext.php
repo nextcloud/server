@@ -42,9 +42,9 @@ class SharingContext implements Context, SnippetAcceptingContext {
 		$this->deleteServerConfig('core', 'shareapi_default_internal_expire_date');
 		$this->deleteServerConfig('core', 'shareapi_internal_expire_after_n_days');
 		$this->deleteServerConfig('core', 'internal_defaultExpDays');
+		$this->deleteServerConfig('core', 'shareapi_enforce_links_password');
 		$this->deleteServerConfig('core', 'shareapi_default_expire_date');
 		$this->deleteServerConfig('core', 'shareapi_expire_after_n_days');
 		$this->deleteServerConfig('core', 'link_defaultExpDays');
-		$this->deleteServerConfig('sharebymail', 'enforcePasswordProtection');
 	}
 }

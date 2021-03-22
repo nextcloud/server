@@ -52,12 +52,14 @@
 
 			<!-- link shares list -->
 			<SharingLinkList v-if="!loading"
+				ref="linkShareList"
 				:can-reshare="canReshare"
 				:file-info="fileInfo"
 				:shares="linkShares" />
 
 			<!-- other shares list -->
 			<SharingList v-if="!loading"
+				ref="shareList"
 				:shares="shares"
 				:file-info="fileInfo" />
 
@@ -295,11 +297,13 @@ export default {
 		},
 
 		/**
-		 * Insert share at top of arrays
+		 * Add a new share into the shares list
+		 * and return the newly created share component
 		 *
-		 * @param {Share} share the share to insert
+		 * @param {Share} share the share to add to the array
+		 * @param {Function} resolve a function to run after the share is added and its component initialized
 		 */
-		addShare(share) {
+		addShare(share, resolve) {
 			// only catching share type MAIL as link shares are added differently
 			// meaning: not from the ShareInput
 			if (share.type === this.SHARE_TYPES.SHARE_TYPE_EMAIL) {
@@ -307,6 +311,31 @@ export default {
 			} else {
 				this.shares.unshift(share)
 			}
+			this.awaitForShare(share, resolve)
+		},
+
+		/**
+		 * Await for next tick and render after the list updated
+		 * Then resolve with the matched vue component of the
+		 * provided share object
+		 *
+		 * @param {Share} share newly created share
+		 * @param {Function} resolve a function to execute after
+		 */
+		awaitForShare(share, resolve) {
+			let listComponent = this.$refs.shareList
+			// Only mail shares comes from the input, link shares
+			// are managed internally in the SharingLinkList component
+			if (share.type === this.SHARE_TYPES.SHARE_TYPE_EMAIL) {
+				listComponent = this.$refs.linkShareList
+			}
+
+			this.$nextTick(() => {
+				const newShare = listComponent.$children.find(component => component.share === share)
+				if (newShare) {
+					resolve(newShare)
+				}
+			})
 		},
 	},
 }

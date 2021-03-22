@@ -433,7 +433,7 @@ interface IShare {
 	 * When the share is passed to the share manager to be created
 	 * or updated the password will be hashed.
 	 *
-	 * @param string $password
+	 * @param string|null $password
 	 * @return \OCP\Share\IShare The modified object
 	 * @since 9.0.0
 	 */

@@ -27,15 +27,15 @@ declare(strict_types=1);
 
 namespace OCA\ShareByMail;
 
-use OCA\ShareByMail\Settings\SettingsManager;
 use OCP\Capabilities\ICapability;
+use OCP\Share\IManager;
 
 class Capabilities implements ICapability {
 
-	/** @var SettingsManager */
+	/** @var IManager */
 	private $manager;
 
-	public function __construct(SettingsManager $manager) {
+	public function __construct(IManager $manager) {
 		$this->manager = $manager;
 	}
 
@@ -45,16 +45,17 @@ class Capabilities implements ICapability {
 				[
 					'sharebymail' =>
 						[
-							'enabled' => true,
+							'enabled' => $this->manager->shareApiAllowLinks(),
 							'upload_files_drop' => [
 								'enabled' => true,
 							],
 							'password' => [
 								'enabled' => true,
-								'enforced' => $this->manager->enforcePasswordProtection(),
+								'enforced' => $this->manager->shareApiLinkEnforcePassword(),
 							],
 							'expire_date' => [
 								'enabled' => true,
+								'enforced' => $this->manager->shareApiLinkDefaultExpireDateEnforced(),
 							],
 						]
 				]

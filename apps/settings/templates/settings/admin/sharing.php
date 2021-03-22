@@ -70,7 +70,7 @@
 			   value="1" <?php if ($_['allowLinks'] === 'yes') {
 	print_unescaped('checked="checked"');
 } ?> />
-		<label for="allowLinks"><?php p($l->t('Allow users to share via link'));?></label><br/>
+		<label for="allowLinks"><?php p($l->t('Allow users to share via link and emails'));?></label><br/>
 	</p>
 
 	<p id="publicLinkSettings" class="indent <?php if ($_['allowLinks'] !== 'yes' || $_['shareAPIEnabled'] === 'no') {
@@ -96,7 +96,7 @@
 			   value="1" <?php if ($_['shareDefaultExpireDateSet'] === 'yes') {
 	print_unescaped('checked="checked"');
 } ?> />
-		<label for="shareapiDefaultExpireDate"><?php p($l->t('Set default expiration date for link shares'));?></label><br/>
+		<label for="shareapiDefaultExpireDate"><?php p($l->t('Set default expiration date'));?></label><br/>
 
 	</p>
 	<p id="setDefaultExpireDate" class="double-indent <?php if ($_['allowLinks'] !== 'yes' || $_['shareDefaultExpireDateSet'] === 'no' || $_['shareAPIEnabled'] === 'no') {

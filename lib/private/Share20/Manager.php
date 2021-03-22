@@ -193,7 +193,7 @@ class Manager implements IManager {
 		if ($password === null) {
 			// No password is set, check if this is allowed.
 			if ($this->shareApiLinkEnforcePassword()) {
-				throw new \InvalidArgumentException('Passwords are enforced for link shares');
+				throw new \InvalidArgumentException('Passwords are enforced for link and mail shares');
 			}
 
 			return;
@@ -228,18 +228,19 @@ class Manager implements IManager {
 				throw new \InvalidArgumentException('SharedWith is not a valid group');
 			}
 		} elseif ($share->getShareType() === IShare::TYPE_LINK) {
+			// No check for TYPE_EMAIL here as we have a recipient for them
 			if ($share->getSharedWith() !== null) {
 				throw new \InvalidArgumentException('SharedWith should be empty');
+			}
+		} elseif ($share->getShareType() === IShare::TYPE_EMAIL) {
+			if ($share->getSharedWith() === null) {
+				throw new \InvalidArgumentException('SharedWith should not be empty');
 			}
 		} elseif ($share->getShareType() === IShare::TYPE_REMOTE) {
 			if ($share->getSharedWith() === null) {
 				throw new \InvalidArgumentException('SharedWith should not be empty');
 			}
 		} elseif ($share->getShareType() === IShare::TYPE_REMOTE_GROUP) {
-			if ($share->getSharedWith() === null) {
-				throw new \InvalidArgumentException('SharedWith should not be empty');
-			}
-		} elseif ($share->getShareType() === IShare::TYPE_EMAIL) {
 			if ($share->getSharedWith() === null) {
 				throw new \InvalidArgumentException('SharedWith should not be empty');
 			}
@@ -739,24 +740,23 @@ class Manager implements IManager {
 		}
 
 		try {
-			//Verify share type
+			// Verify share type
 			if ($share->getShareType() === IShare::TYPE_USER) {
 				$this->userCreateChecks($share);
 
-				//Verify the expiration date
+				// Verify the expiration date
 				$share = $this->validateExpirationDateInternal($share);
 			} elseif ($share->getShareType() === IShare::TYPE_GROUP) {
 				$this->groupCreateChecks($share);
 
-				//Verify the expiration date
+				// Verify the expiration date
 				$share = $this->validateExpirationDateInternal($share);
-			} elseif ($share->getShareType() === IShare::TYPE_LINK) {
+			} elseif ($share->getShareType() === IShare::TYPE_LINK
+				|| $share->getShareType() === IShare::TYPE_EMAIL) {
 				$this->linkCreateChecks($share);
 				$this->setLinkParent($share);
 
-				/*
-				 * For now ignore a set token.
-				 */
+				// For now ignore a set token.
 				$share->setToken(
 					$this->secureRandom->generate(
 						\OC\Share\Constants::TOKEN_LENGTH,
@@ -764,23 +764,17 @@ class Manager implements IManager {
 					)
 				);
 
-				//Verify the expiration date
+				// Verify the expiration date
 				$share = $this->validateExpirationDateLink($share);
 
-				//Verify the password
+				// Verify the password
 				$this->verifyPassword($share->getPassword());
 
 				// If a password is set. Hash it!
-				if ($share->getPassword() !== null) {
+				if ($share->getShareType() === IShare::TYPE_LINK
+					&& $share->getPassword() !== null) {
 					$share->setPassword($this->hasher->hash($share->getPassword()));
 				}
-			} elseif ($share->getShareType() === IShare::TYPE_EMAIL) {
-				$share->setToken(
-					$this->secureRandom->generate(
-						\OC\Share\Constants::TOKEN_LENGTH,
-						\OCP\Security\ISecureRandom::CHAR_HUMAN_READABLE
-					)
-				);
 			}
 
 			// Cannot share with the owner
@@ -804,7 +798,8 @@ class Manager implements IManager {
 			$oldShare = $share;
 			$provider = $this->factory->getProviderForType($share->getShareType());
 			$share = $provider->create($share);
-			//reuse the node we already have
+
+			// Reuse the node we already have
 			$share->setNode($oldShare->getNode());
 
 			// Reset the target if it is null for the new share
@@ -988,36 +983,41 @@ class Manager implements IManager {
 				$this->validateExpirationDateInternal($share);
 				$expirationDateUpdated = true;
 			}
-		} elseif ($share->getShareType() === IShare::TYPE_LINK) {
+		} elseif ($share->getShareType() === IShare::TYPE_LINK
+			|| $share->getShareType() === IShare::TYPE_EMAIL) {
 			$this->linkCreateChecks($share);
 
+			// The new password is not set again if it is the same as the old
+			// one, unless when switching from sending by Talk to sending by
+			// mail.
 			$plainTextPassword = $share->getPassword();
+			$updatedPassword = $this->updateSharePasswordIfNeeded($share, $originalShare);
 
-			$this->updateSharePasswordIfNeeded($share, $originalShare);
-
+			/**
+			 * Cannot enable the getSendPasswordByTalk if there is no password set
+			 */
 			if (empty($plainTextPassword) && $share->getSendPasswordByTalk()) {
 				throw new \InvalidArgumentException('Can’t enable sending the password by Talk with an empty password');
 			}
+	
+			/**
+			 * If we're in a mail share, we need to force a password change
+			 * as either the user is not aware of the password or is already (received by mail)
+			 * Thus the SendPasswordByTalk feature would not make sense
+			 */
+			if (!$updatedPassword && $share->getShareType() === IShare::TYPE_EMAIL) {
+				if (!$originalShare->getSendPasswordByTalk() && $share->getSendPasswordByTalk()) {
+					throw new \InvalidArgumentException('Can’t enable sending the password by Talk without setting a new password');
+				}
+				if ($originalShare->getSendPasswordByTalk() && !$share->getSendPasswordByTalk()) {
+					throw new \InvalidArgumentException('Can’t disable sending the password by Talk without setting a new password');
+				}
+			}
 
 			if ($share->getExpirationDate() != $originalShare->getExpirationDate()) {
-				//Verify the expiration date
+				// Verify the expiration date
 				$this->validateExpirationDateLink($share);
 				$expirationDateUpdated = true;
-			}
-		} elseif ($share->getShareType() === IShare::TYPE_EMAIL) {
-			// The new password is not set again if it is the same as the old
-			// one.
-			$plainTextPassword = $share->getPassword();
-			if (!empty($plainTextPassword) && !$this->updateSharePasswordIfNeeded($share, $originalShare)) {
-				$plainTextPassword = null;
-			}
-			if (empty($plainTextPassword) && !$originalShare->getSendPasswordByTalk() && $share->getSendPasswordByTalk()) {
-				// If the same password was already sent by mail the recipient
-				// would already have access to the share without having to call
-				// the sharer to verify her identity
-				throw new \InvalidArgumentException('Can’t enable sending the password by Talk without setting a new password');
-			} elseif (empty($plainTextPassword) && $originalShare->getSendPasswordByTalk() && !$share->getSendPasswordByTalk()) {
-				throw new \InvalidArgumentException('Can’t disable sending the password by Talk without setting a new password');
 			}
 		}
 
@@ -1116,9 +1116,13 @@ class Manager implements IManager {
 			$this->verifyPassword($share->getPassword());
 
 			// If a password is set. Hash it!
-			if ($share->getPassword() !== null) {
+			if (!empty($share->getPassword())) {
 				$share->setPassword($this->hasher->hash($share->getPassword()));
 
+				return true;
+			} else {
+				// Empty string and null are seen as NOT password protected
+				$share->setPassword(null);
 				return true;
 			}
 		} else {
@@ -1218,7 +1222,8 @@ class Manager implements IManager {
 	 * @inheritdoc
 	 */
 	public function moveShare(IShare $share, $recipientId) {
-		if ($share->getShareType() === IShare::TYPE_LINK) {
+		if ($share->getShareType() === IShare::TYPE_LINK
+			|| $share->getShareType() === IShare::TYPE_EMAIL) {
 			throw new \InvalidArgumentException('Can’t change target of link share');
 		}
 
@@ -1480,10 +1485,10 @@ class Manager implements IManager {
 		$this->checkExpireDate($share);
 
 		/*
-		 * Reduce the permissions for link shares if public upload is not enabled
+		 * Reduce the permissions for link or email shares if public upload is not enabled
 		 */
-		if ($share->getShareType() === IShare::TYPE_LINK &&
-			!$this->shareApiLinkAllowPublicUpload()) {
+		if (($share->getShareType() === IShare::TYPE_LINK || $share->getShareType() === IShare::TYPE_EMAIL)
+			&& !$this->shareApiLinkAllowPublicUpload()) {
 			$share->setPermissions($share->getPermissions() & ~(\OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_UPDATE));
 		}
 
