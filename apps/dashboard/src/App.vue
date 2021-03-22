@@ -199,7 +199,7 @@ export default {
 
 			// Figure out which greeting to show
 			const shouldShowName = this.displayName && this.uid !== this.displayName
-			return { text: shouldShowName ? good[partOfDay].withName : good[partOfDay].generic }
+			return { text: shouldShowName ? this.htmlDecode(good[partOfDay].withName) : good[partOfDay].generic }
 		},
 		isActive() {
 			return (panel) => this.layout.indexOf(panel.id) > -1
@@ -395,6 +395,11 @@ export default {
 			} else {
 				document.body.classList.remove('dashboard--scrolled')
 			}
+		},
+		htmlDecode(s) {
+			return s.replace(/&#(\d+);/g, (match, code) => {
+				return String.fromCharCode(code)
+			})
 		},
 	},
 }
