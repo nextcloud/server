@@ -289,7 +289,7 @@ OC.L10N.register(
     "Data folder" : "資料儲存位置",
     "Configure the database" : "設定數據庫",
     "Only %s is available." : "剩下 %s 可使用",
-    "Install and activate additional PHP modules to choose other database types." : "安裝並啟用相關 PHP 模組來使用其他種數據庫",
+    "Install and activate additional PHP modules to choose other database types." : "安裝並啟動相關 PHP 模組來使用其他種數據庫",
     "For more details check out the documentation." : "更多細節詳見說明文件",
     "Database user" : "數據庫用戶",
     "Database password" : "數據庫密碼",

@@ -205,7 +205,7 @@ OC.L10N.register(
     "OK" : "موافق",
     "Error loading message template: {error}" : "حصل خطأ في القالب: {error}",
     "read-only" : "قراءة فقط",
-    "_{count} file conflict_::_{count} file conflicts_" : ["لا يوجد تعارض","ملف متعارض","ملفان متعارضان","{count} ملفات متعارضة"," {count} ملفا متعارضا","{count} ملفات متعارضه"],
+    "_{count} file conflict_::_{count} file conflicts_" : ["لا يوجد تعارض","{count} ملف متعارض","ملفان متعارضان","{count} ملفات متعارضة"," {count} ملفا متعارضا","{count} ملفات متعارضه"],
     "One file conflict" : "تعارض ملف واحد",
     "New Files" : "ملفات جديدة",
     "Already existing files" : "المفات موجودة مسبقاً",
