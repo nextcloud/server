@@ -45,7 +45,7 @@ OC.L10N.register(
     "Search global and public address book for users" : "在全局和公共通訊錄中尋找用戶",
     "Allow users to publish their data to a global and public address book" : "允許用戶將其數據發佈到全球和公共通訊錄",
     "Federated Cloud" : "聯盟式雲端",
-    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "您可以和使用了 Nextcloud 伺服器或其他兼容 Open Cloud Mesh（OCM）的伺服器和服務的任何人分享 ！只需將他們的聯盟式雲端 ID 放在分享對話框中。聯盟式雲端 ID 看起來像 person@cloud.example.com",
+    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "您可以和使用了 Nextcloud 伺服器或其他兼容 Open Cloud Mesh（OCM）的伺服器和服務的任何人分享 ！只需將他們的聯盟式雲端 ID 放在分享對話框中。聯盟式雲端 ID 看起來像 person@cloud。example。com",
     "Your Federated Cloud ID:" : "您的雲端聯盟 ID：",
     "Share it so your friends can share files with you:" : "使用分享以便您的朋友可以與您分享檔案：",
     "Add to your website" : "新增至您的網站",
