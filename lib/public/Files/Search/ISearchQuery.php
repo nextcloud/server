@@ -62,7 +62,7 @@ interface ISearchQuery {
 	/**
 	 * The user that issued the search
 	 *
-	 * @return IUser
+	 * @return ?IUser
 	 * @since 12.0.0
 	 */
 	public function getUser();

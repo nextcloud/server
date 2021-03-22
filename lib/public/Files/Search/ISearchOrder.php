@@ -24,6 +24,8 @@
 
 namespace OCP\Files\Search;
 
+use OCP\Files\FileInfo;
+
 /**
  * @since 12.0.0
  */
@@ -46,4 +48,14 @@ interface ISearchOrder {
 	 * @since 12.0.0
 	 */
 	public function getField();
+
+	/**
+	 * Apply the sorting on 2 FileInfo objects
+	 *
+	 * @param FileInfo $a
+	 * @param FileInfo $b
+	 * @return int -1 if $a < $b, 0 if $a = $b, 1 if $a > $b (for ascending, reverse for descending)
+	 * @since 22.0.0
+	 */
+	public function sortFileInfo(FileInfo $a, FileInfo $b): int;
 }
