@@ -35,6 +35,7 @@ use OCP\Federation\ICloudFederationFactory;
 use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Http\Client\IClientService;
 use OCP\OCS\IDiscoveryService;
+use OCP\ILogger;
 
 class Notifications {
 	public const RESPONSE_FORMAT = 'json'; // default response format for ocs calls
@@ -60,10 +61,14 @@ class Notifications {
 	/** @var IEventDispatcher */
 	private $eventDispatcher;
 
+	/** @var ILogger */
+	private $logger;
+
 	public function __construct(
 		AddressHandler $addressHandler,
 		IClientService $httpClientService,
 		IDiscoveryService $discoveryService,
+		ILogger $logger,
 		IJobList $jobList,
 		ICloudFederationProviderManager $federationProviderManager,
 		ICloudFederationFactory $cloudFederationFactory,
@@ -73,6 +78,7 @@ class Notifications {
 		$this->httpClientService = $httpClientService;
 		$this->discoveryService = $discoveryService;
 		$this->jobList = $jobList;
+		$this->logger = $logger;
 		$this->federationProviderManager = $federationProviderManager;
 		$this->cloudFederationFactory = $cloudFederationFactory;
 		$this->eventDispatcher = $eventDispatcher;
@@ -123,7 +129,17 @@ class Notifications {
 				$event = new FederatedShareAddedEvent($remote);
 				$this->eventDispatcher->dispatchTyped($event);
 				return true;
+			} else {
+				$this->logger->info(
+					"failed sharing $name with $shareWith",
+					['app' => 'federatedfilesharing']
+				);
 			}
+		} else {
+			$this->logger->info(
+				"could not share $name, invalid contact $shareWith",
+				['app' => 'federatedfilesharing']
+			);
 		}
 
 		return false;
@@ -174,6 +190,21 @@ class Notifications {
 				$status['ocs']['data']['token'],
 				$status['ocs']['data']['remoteId']
 			];
+		} elseif (!$validToken) {
+			$this->logger->info(
+				"invalid or missing token requesting re-share for $filename to $remote",
+				['app' => 'federatedfilesharing']
+			);
+		} elseif (!$validRemoteId) {
+			$this->logger->info(
+				"missing remote id requesting re-share for $filename to $remote",
+				['app' => 'federatedfilesharing']
+			);
+		} else {
+			$this->logger->info(
+				"failed requesting re-share for $filename to $remote",
+				['app' => 'federatedfilesharing']
+			);
 		}
 
 		return false;
