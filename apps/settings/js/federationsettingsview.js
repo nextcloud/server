@@ -61,9 +61,26 @@
 
 		render: function() {
 			var self = this;
+			var fieldsWithV2Private = [
+				'avatar',
+				'phone',
+				'twitter',
+				'website',
+				'address',
+			];
+
 			_.each(this._inputFields, function(field) {
 				var $icon = self.$('#' + field + 'form h3 > .federation-menu');
-				var scopeMenu = new OC.Settings.FederationScopeMenu({field: field});
+				var excludedScopes = null
+
+				if (fieldsWithV2Private.indexOf(field) === -1) {
+					excludedScopes = ['v2-private']
+				}
+
+				var scopeMenu = new OC.Settings.FederationScopeMenu({
+					field: field,
+					excludedScopes: excludedScopes,
+				});
 
 				self.listenTo(scopeMenu, 'select:scope', function(scope) {
 					self._onScopeChanged(field, scope);
@@ -208,6 +225,7 @@
 
 			switch (scope) {
 				case 'private':
+				case 'v2-private':
 					$icon.addClass('icon-password');
 					$icon.removeClass('hidden');
 					break;

@@ -36,6 +36,7 @@ namespace OC\Avatar;
 
 use OC\User\Manager;
 use OC\User\NoUserException;
+use OCP\Accounts\IAccountManager;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
@@ -44,11 +45,15 @@ use OCP\IAvatarManager;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\ILogger;
+use OCP\IUserSession;
 
 /**
  * This class implements methods to access Avatar functionality
  */
 class AvatarManager implements IAvatarManager {
+
+	/** @var IUserSession */
+	private $userSession;
 
 	/** @var Manager */
 	private $userManager;
@@ -65,6 +70,9 @@ class AvatarManager implements IAvatarManager {
 	/** @var IConfig */
 	private $config;
 
+	/** @var IAccountManager */
+	private $accountManager;
+
 	/**
 	 * AvatarManager constructor.
 	 *
@@ -73,18 +81,23 @@ class AvatarManager implements IAvatarManager {
 	 * @param IL10N $l
 	 * @param ILogger $logger
 	 * @param IConfig $config
+	 * @param IUserSession $userSession
 	 */
 	public function __construct(
+			IUserSession $userSession,
 			Manager $userManager,
 			IAppData $appData,
 			IL10N $l,
 			ILogger $logger,
-			IConfig $config) {
+			IConfig $config,
+			IAccountManager $accountManager) {
+		$this->userSession = $userSession;
 		$this->userManager = $userManager;
 		$this->appData = $appData;
 		$this->l = $l;
 		$this->logger = $logger;
 		$this->config = $config;
+		$this->accountManager = $accountManager;
 	}
 
 	/**
@@ -103,6 +116,27 @@ class AvatarManager implements IAvatarManager {
 
 		// sanitize userID - fixes casing issue (needed for the filesystem stuff that is done below)
 		$userId = $user->getUID();
+
+		$requestingUser = null;
+		if ($this->userSession !== null) {
+			$requestingUser = $this->userSession->getUser();
+		}
+
+		$canShowRealAvatar = true;
+
+		// requesting in public page
+		if ($requestingUser === null) {
+			$account = $this->accountManager->getAccount($user);
+			$avatarProperties = $account->getProperty(IAccountManager::PROPERTY_AVATAR);
+			$avatarScope = $avatarProperties->getScope();
+
+			// v2-private scope hides the avatar from public access
+			if ($avatarScope === IAccountManager::SCOPE_PRIVATE) {
+				// FIXME: guest avatar is re-generated every time, use a cache instead
+				// see how UserAvatar caches the generated one
+				return $this->getGuestAvatar($userId);
+			}
+		}
 
 		try {
 			$folder = $this->appData->getFolder($userId);

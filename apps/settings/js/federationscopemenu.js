@@ -15,6 +15,8 @@
 	 * Construct a new FederationScopeMenu instance
 	 * @constructs FederationScopeMenu
 	 * @memberof OC.Settings
+	 * @param {object} options
+	 * @param {array.<string>} [options.excludedScopes] array of excluded scopes
 	 */
 	var FederationScopeMenu = OC.Backbone.View.extend({
 		tagName: 'div',
@@ -26,8 +28,15 @@
 			this.field = options.field;
 			this._scopes = [
 				{
-					name: 'private',
+					name: 'v2-private',
 					displayName: t('settings', 'Private'),
+					tooltip: t('settings', "Don't show via public link"),
+					iconClass: 'icon-password',
+					active: false
+				},
+				{
+					name: 'private',
+					displayName: t('settings', 'Local'),
 					tooltip: t('settings', "Don't synchronize to servers"),
 					iconClass: 'icon-password',
 					active: false
@@ -41,12 +50,18 @@
 				},
 				{
 					name: 'public',
-					displayName: t('settings', 'Public'),
+					displayName: t('settings', 'Published'),
 					tooltip: t('settings', 'Synchronize to trusted servers and the global and public address book'),
 					iconClass: 'icon-link',
 					active: false
 				}
 			];
+
+			if (options.excludedScopes) {
+				this._scopes = this._scopes.filter(function(scopeEntry) {
+					return options.excludedScopes.indexOf(scopeEntry.name) === -1;
+				})
+			}
 		},
 
 		/**
@@ -106,14 +121,17 @@
 			}
 
 			switch (currentlyActiveValue) {
-				case 'private':
+				case 'v2-private':
 					this._scopes[0].active = true;
 					break;
-				case 'contacts':
+				case 'private':
 					this._scopes[1].active = true;
 					break;
-				case 'public':
+				case 'contacts':
 					this._scopes[2].active = true;
+					break;
+				case 'public':
+					this._scopes[3].active = true;
 					break;
 			}
 
