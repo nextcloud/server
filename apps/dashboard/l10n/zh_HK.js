@@ -10,7 +10,7 @@ OC.L10N.register(
     "Change background image" : "變更背景圖片",
     "Weather service" : "天氣服務",
     "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "為了保護您的隱私，Nextcloud 會代您請求氣象資料，因此天氣服務不會收到您的個人資訊。",
-    "Weather data from Met.no" : "氣象資訊來自 Met.no",
+    "Weather data from Met.no" : "氣象資訊來自 Met。no",
     "geocoding with Nominatim" : "使用 Nominatim 來進行地理編碼",
     "elevation data from OpenTopoData" : "來自 OpenTopoData 的海拔資料",
     "Weather" : "天氣",
