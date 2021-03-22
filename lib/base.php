@@ -392,7 +392,12 @@ class OC {
 
 		$tmpl->assign('appsToUpgrade', $appManager->getAppsNeedingUpgrade($ocVersion));
 		$tmpl->assign('incompatibleAppsList', $incompatibleApps);
-		$tmpl->assign('productName', 'Nextcloud'); // for now
+		try {
+			$defaults = new \OC_Defaults();
+			$tmpl->assign('productName', $defaults->getName());
+		} catch (Throwable $error) {
+			$tmpl->assign('productName', 'Nextcloud');
+		}
 		$tmpl->assign('oldTheme', $oldTheme);
 		$tmpl->printPage();
 	}
