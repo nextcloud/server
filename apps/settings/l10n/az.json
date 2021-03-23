@@ -79,7 +79,6 @@
     "Expire after " : "Bitir sonra",
     "days" : "günlər",
     "Enforce expiration date" : "Bitmə tarixini həyata keçir",
-    "Allow users to share via link" : "Istifadəçilərə link üzərindən paylaşım etməyə izin vermək",
     "Allow public uploads" : "Ümumi yüklənmələrə izin vermək",
     "Enforce password protection" : "Şifrə müdafiəsini həyata keçirmək",
     "Allow resharing" : "Yenidən paylaşıma izin",
@@ -107,6 +106,7 @@
     "Issued By" : "Tərəfindən yaradılıb",
     "Valid until %s" : "Keçərlidir vaxtadək %s",
     "Import root certificate" : "root sertifikatı import et",
-    "Execute one task with each page loaded" : "Hər səhifə yüklənməsində bir işi yerinə yetir"
+    "Execute one task with each page loaded" : "Hər səhifə yüklənməsində bir işi yerinə yetir",
+    "Allow users to share via link" : "Istifadəçilərə link üzərindən paylaşım etməyə izin vermək"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

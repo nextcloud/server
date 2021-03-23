@@ -115,7 +115,6 @@ OC.L10N.register(
     "Expire after " : "Expirar post",
     "days" : "dies",
     "Enforce expiration date" : "Exiger data de expiration",
-    "Allow users to share via link" : "Permitter usatores compartir via ligamine",
     "Allow public uploads" : "Permitter incargas public",
     "Enforce password protection" : "Exiger protection per contrasigno",
     "Profile picture" : "Pictura de profilo",
@@ -152,6 +151,7 @@ OC.L10N.register(
     "Valid until" : "Valide usque",
     "Issued By" : "Emittite per",
     "Valid until %s" : "Valide usque %s",
-    "Import root certificate" : "Importar certificato root"
+    "Import root certificate" : "Importar certificato root",
+    "Allow users to share via link" : "Permitter usatores compartir via ligamine"
 },
 "nplurals=2; plural=(n != 1);");

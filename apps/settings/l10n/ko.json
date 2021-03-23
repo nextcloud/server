@@ -295,7 +295,6 @@
     "Expire after " : "다음 날짜 후 만료",
     "days" : "일",
     "Enforce expiration date" : "만료 날짜 강제",
-    "Allow users to share via link" : "사용자별 링크 공유 허용",
     "Allow public uploads" : "공개 업로드 허용",
     "Always ask for a password" : "항상 암호 묻기",
     "Enforce password protection" : "암호 보호 강제",
@@ -357,6 +356,7 @@
     "Valid until %s" : "%s까지 유효함",
     "Import root certificate" : "루트 인증서 가져오기",
     "Execute one task with each page loaded" : "개별 페이지를 불러올 때마다 실행",
+    "Allow users to share via link" : "사용자별 링크 공유 허용",
     "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "공유 대화 상자에서 사용자 이름을 자동으로 완성합니다. 이 설정을 사용하지 않으면 전체 사용자 이름이나 이메일 주소를 입력해야 합니다.",
     "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "공개 링크 업로드 페이지에 고지 사항 텍스트를 표시합니다.(파일 목록이 숨겨져 있는 경우에만 표시합니다.)"
 },"pluralForm" :"nplurals=1; plural=0;"

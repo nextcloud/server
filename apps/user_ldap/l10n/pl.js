@@ -54,7 +54,7 @@ OC.L10N.register(
     "Please provide a login name to test against" : "Wprowadź nazwę użytkownika, aby wykonać test ponownie",
     "The group box was disabled, because the LDAP / AD server does not support memberOf." : "Wpisy dla grup zostały wyłączone, ponieważ LDAP/AD nie wspiera memberOf.",
     "Password change rejected. Hint: " : "Zmiana hasła odrzucona: Wskazówka:",
-    "Please login with the new password" : "Proszę się zalogować z nowym hasłem",
+    "Please login with the new password" : "Zaloguj się przy użyciu nowego hasła",
     "LDAP User backend" : "Moduł użytkownika LDAP",
     "Your password will expire tomorrow." : "Twoje hasło wygasa jutro.",
     "Your password will expire today." : "Twoje hasło wygasa dzisiaj.",

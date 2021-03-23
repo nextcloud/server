@@ -24,7 +24,6 @@ OC.L10N.register(
     "Password to access {file} was sent to {email}" : "{file} dosyasına erişim parolası {email} adresine gönderildi",
     "Password to access %1$s was sent to you" : "%1$s dosyasına erişim parolası size gönderildi",
     "Password to access {file} was sent to you" : "{file} dosyasına erişim parolası size gönderildi",
-    "Sharing %1$s failed, this item is already shared with %2$s" : "%1$s paylaşılamadı, bu öge zaten %2$s ile paylaşılmış",
     "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Otomatik üretilen parola size gönderilemedi. Lütfen kişisel ayarlarınızdan geçerli bir e-posta adresi ayarlayın ve yeniden deneyin.",
     "Failed to send share by email" : "Paylaşım e-postası gönderilemedi",
     "%1$s shared »%2$s« with you" : "%1$s, sizinle »%2$s« ögesini paylaştı",
@@ -49,7 +48,7 @@ OC.L10N.register(
     "Share provider which allows you to share files by mail" : "Dosyaların e-posta ile paylaşılması için kullanılacak paylaşım hizmeti sağlayıcısı",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Kullanıcıların bir e-posta adresi yazarak bir dosya ya da klasör için kişisel bir bağlantı paylaşmasını sağlar.",
     "Send password by mail" : "Parolayı e-posta ile gönder",
-    "Enforce password protection" : "Parola koruması dayatılsın",
-    "Reply to initiator" : "Başlatanı yanıtla"
+    "Reply to initiator" : "Başlatanı yanıtla",
+    "Enforce password protection" : "Parola koruması dayatılsın"
 },
 "nplurals=2; plural=(n > 1);");

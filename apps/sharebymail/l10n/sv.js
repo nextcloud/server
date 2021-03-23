@@ -24,7 +24,6 @@ OC.L10N.register(
     "Password to access {file} was sent to {email}" : "Lösenord till {file} skickades till {email}",
     "Password to access %1$s was sent to you" : "Lösenord för att nå %1$s skickades till dig",
     "Password to access {file} was sent to you" : "Lösenord till {file} skickades till dig",
-    "Sharing %1$s failed, this item is already shared with %2$s" : "Delning %1$s misslyckades, är redan delad med %2$s",
     "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Vi kan inte skicka det autogenererade lösenordet till dig. Vänligen ange en giltig e-postadress i dina personliga inställningar och försök igen.",
     "Failed to send share by email" : "Det gick inte att skicka delning via e-post",
     "%1$s shared »%2$s« with you" : "%1$s delade »%2$s« med dig",

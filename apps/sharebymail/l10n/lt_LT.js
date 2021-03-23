@@ -24,7 +24,6 @@ OC.L10N.register(
     "Password to access {file} was sent to {email}" : "Slaptažodis, skirtas prieigai prie {file}, buvo išsiųstas į {email}",
     "Password to access %1$s was sent to you" : "Jums buvo išsiųstas slaptažodis, skirtas prieigai prie %1$s ",
     "Password to access {file} was sent to you" : "Jums buvo išsiųstas slaptažodis, skirtas prieigai prie {file}",
-    "Sharing %1$s failed, this item is already shared with %2$s" : "%1$s pasidalinti nepavyko, šis elementas jau yra pasidalintas su %2$s",
     "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Negalime atsiųsti automatiškai sugeneruoto slaptažodžio. Prašome nurodykite teisingą el. pašto adresą savo nustatymuose ir tada bandykite dar kartą.",
     "Failed to send share by email" : "Nepavyko pasidalinti el. paštu",
     "%1$s shared »%2$s« with you" : "%1$s pasidalino „%2$s“ su jumis",
@@ -49,7 +48,7 @@ OC.L10N.register(
     "Share provider which allows you to share files by mail" : "Bendrinimo teikėjas, kuris leidžia bendrinti failus el. paštu",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Leidžia naudotojams bendrinti asmeninę nuorodą į failą ar aplanką, įvedus el. pašto adresą.",
     "Send password by mail" : "Siųsti slaptažodį el. paštu",
-    "Enforce password protection" : "Priverstinė apsauga slaptažodžiu",
-    "Reply to initiator" : "Atsakyti iniciatoriui"
+    "Reply to initiator" : "Atsakyti iniciatoriui",
+    "Enforce password protection" : "Priverstinė apsauga slaptažodžiu"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

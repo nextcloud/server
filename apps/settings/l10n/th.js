@@ -111,7 +111,6 @@ OC.L10N.register(
     "Expire after " : "หลังจากหมดอายุ",
     "days" : "วัน",
     "Enforce expiration date" : "บังคับให้มีวันที่หมดอายุ",
-    "Allow users to share via link" : "อนุญาตให้ผู้ใช้สามารถแชร์ผ่านทางลิงค์",
     "Allow public uploads" : "อนุญาตให้อัพโหลดสาธารณะ",
     "Enforce password protection" : "บังคับใช้การป้องกันรหัสผ่าน",
     "Allow resharing" : "อนุญาตให้แชร์ข้อมูลซ้ำอีกครั้งได้",
@@ -147,6 +146,7 @@ OC.L10N.register(
     "Issued By" : "ปัญหาโดย",
     "Valid until %s" : "ใช้ได้จนถึง %s",
     "Import root certificate" : "นำเข้าใบรับรองหลัก",
-    "Execute one task with each page loaded" : "ประมวลผลหนึ่งงาน ในแต่ละครั้งที่มีการโหลดหน้าเว็บ"
+    "Execute one task with each page loaded" : "ประมวลผลหนึ่งงาน ในแต่ละครั้งที่มีการโหลดหน้าเว็บ",
+    "Allow users to share via link" : "อนุญาตให้ผู้ใช้สามารถแชร์ผ่านทางลิงค์"
 },
 "nplurals=1; plural=0;");

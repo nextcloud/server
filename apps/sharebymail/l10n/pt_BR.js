@@ -24,7 +24,6 @@ OC.L10N.register(
     "Password to access {file} was sent to {email}" : "A senha para acesso {file} foi enviada para {email}",
     "Password to access %1$s was sent to you" : "A senha para acesso  %1$s foi enviada para você",
     "Password to access {file} was sent to you" : "A senha para acesso {file} foi enviada para você",
-    "Sharing %1$s failed, this item is already shared with %2$s" : "O compartilhamento %1$s falhou, este item já está compartilhado com %2$s",
     "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Não pudemos enviar a você a senha auto-gerada. Defina um e-mail válido em sua configuração e tente novamente.",
     "Failed to send share by email" : "Falha ao enviar compartilhamento via e-mail",
     "%1$s shared »%2$s« with you" : "%1$s compartilhou »%2$s« com você",
@@ -49,7 +48,7 @@ OC.L10N.register(
     "Share provider which allows you to share files by mail" : "Provedor de compartilhamento que permite compartilhar arquivos por e-mail",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Permite que os usuários compartilhem um link personalizado para um arquivo ou pasta, inserindo um endereço de e-mail.",
     "Send password by mail" : "Enviar senha por e-mail",
-    "Enforce password protection" : "Reforce a proteção por senha",
-    "Reply to initiator" : "Responder ao iniciador"
+    "Reply to initiator" : "Responder ao iniciador",
+    "Enforce password protection" : "Reforce a proteção por senha"
 },
 "nplurals=2; plural=(n > 1);");

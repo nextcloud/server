@@ -326,11 +326,9 @@
     "Expire after " : "Rennur út eftir ",
     "days" : "daga",
     "Enforce expiration date" : "Krefjast dagsetningar á gildistíma",
-    "Allow users to share via link" : "Leyfa notendum að deila með tengli",
     "Allow public uploads" : "Leyfa opinberar innsendingar",
     "Always ask for a password" : "Alltaf biðja um lykilorð",
     "Enforce password protection" : "Krefjast verndunar með aðgangsorði",
-    "Set default expiration date for link shares" : "Setja sjálfgefinn gildistíma fyrir sameignartengla",
     "Allow resharing" : "Leyfa endurdeilingu",
     "Allow sharing with groups" : "Leyfa deilingu með hópum",
     "Restrict users to only share with users in their groups" : "Takmarka notendur við að deila með notendum í þeirra eigin hópum",
@@ -390,6 +388,8 @@
     "Valid until %s" : "Gildir til %s",
     "Import root certificate" : "Flytja inn rótarskilríki",
     "Execute one task with each page loaded" : "Framkvæma eitt verk með hverri innhlaðinni síðu",
+    "Allow users to share via link" : "Leyfa notendum að deila með tengli",
+    "Set default expiration date for link shares" : "Setja sjálfgefinn gildistíma fyrir sameignartengla",
     "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "Leyfa sjálfklárun notandanafns í deilingarglugga. Ef þetta er óvirkt þarf að setja inn fullt nafn eða tölvupóstfang notanda.",
     "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Birta fyrirvara á opinberu upphleðslusíðunni. (Birtist einungis þegar listi yfir skrár er falinn)."
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"

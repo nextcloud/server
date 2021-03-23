@@ -203,7 +203,6 @@ OC.L10N.register(
     "Expire after " : "ينتهي بعد",
     "days" : "أيام",
     "Enforce expiration date" : "فرض تاريخ نهاية صلاحية",
-    "Allow users to share via link" : "السماح للمستخدم بمشاركة الملف عن طريق رابط",
     "Allow public uploads" : "السماح بالرفع للعامة ",
     "Always ask for a password" : "أطلب دائما كلمة السر",
     "Enforce password protection" : "فرض الحماية بكلمة مرور",
@@ -257,6 +256,7 @@ OC.L10N.register(
     "Issued By" : "سُلّمت مِن طرف",
     "Valid until %s" : "صالحة إلى غاية %s",
     "Import root certificate" : "إستيراد شهادة جذرية",
-    "Execute one task with each page loaded" : "قم بتنفيذ مهمة واحدة مع كل صفحة تم تحميلها"
+    "Execute one task with each page loaded" : "قم بتنفيذ مهمة واحدة مع كل صفحة تم تحميلها",
+    "Allow users to share via link" : "السماح للمستخدم بمشاركة الملف عن طريق رابط"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

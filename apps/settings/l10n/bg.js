@@ -212,10 +212,8 @@ OC.L10N.register(
     "Expire after " : "Изтечи след",
     "days" : "дена",
     "Enforce expiration date" : "Изисквай срок на валидност",
-    "Allow users to share via link" : "Разреши потребителите да споделят с връзка",
     "Allow public uploads" : "Разреши общодостъпно качване",
     "Enforce password protection" : "Изискай защита с парола",
-    "Set default expiration date for link shares" : "Задай дата за изтичане по подразбиране за споделянията с линк",
     "Allow resharing" : "Може да споделя повторно",
     "Restrict users to only share with users in their groups" : "Ограничи потребителите, така че да могат да споделят само с други потребители в своите групи.",
     "Exclude groups from sharing" : "Забрани групи да споделят",
@@ -263,6 +261,8 @@ OC.L10N.register(
     "Valid until %s" : "Валиден до %s",
     "Import root certificate" : "Внасяне на основен сертификат",
     "Execute one task with each page loaded" : "Изпълнява една задача с всяка заредена страница.",
+    "Allow users to share via link" : "Разреши потребителите да споделят с връзка",
+    "Set default expiration date for link shares" : "Задай дата за изтичане по подразбиране за споделянията с линк",
     "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "Позволи автоматично довършване в диалога за споделяне. Ако това е забранено трябва да бъдe въведенo пълното потребителско име или email."
 },
 "nplurals=2; plural=(n != 1);");
