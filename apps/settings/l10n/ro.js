@@ -203,7 +203,6 @@ OC.L10N.register(
     "Expire after " : "Expiră după",
     "days" : "zile",
     "Enforce expiration date" : "Impune data de expirare",
-    "Allow users to share via link" : "Permite utilizatorilor să partajeze via link",
     "Allow public uploads" : "Permite încărcări publice",
     "Enforce password protection" : "Impune protecția prin parolă",
     "Allow resharing" : "Permite repartajarea",
@@ -246,6 +245,7 @@ OC.L10N.register(
     "Issued By" : "Emis de",
     "Valid until %s" : "Valabil până la %s",
     "Import root certificate" : "Importă certificat rădăcină",
-    "Execute one task with each page loaded" : "Execută o sarcină la fiecare pagină încărcată"
+    "Execute one task with each page loaded" : "Execută o sarcină la fiecare pagină încărcată",
+    "Allow users to share via link" : "Permite utilizatorilor să partajeze via link"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

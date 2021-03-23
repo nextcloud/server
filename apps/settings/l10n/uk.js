@@ -304,7 +304,6 @@ OC.L10N.register(
     "Expire after " : "Скінчиться через",
     "days" : "днів",
     "Enforce expiration date" : "Термін дії обов'язковий",
-    "Allow users to share via link" : "Дозволити користувачам ділитися через посилання",
     "Allow public uploads" : "Дозволити публічне завантаження",
     "Always ask for a password" : "Завжди запитувати пароль",
     "Enforce password protection" : "Захист паролем обов'язковий",
@@ -360,6 +359,7 @@ OC.L10N.register(
     "Valid until %s" : "Дійсно до %s",
     "Import root certificate" : "Імпортувати кореневий сертифікат",
     "Execute one task with each page loaded" : "Виконати одне завдання для кожної завантаженої сторінки ",
+    "Allow users to share via link" : "Дозволити користувачам ділитися через посилання",
     "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "Дозволити автоматичне доповнення користувача в діалозі обміну. Якщо вимкнено, потрібно ввести ім'я користувача чи електронну адресу повністю.",
     "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Показати текст відмови від відповідальності на сторінці завантаження загальнодоступного посилання. (Показується лише тоді, коли список файлів приховано.)"
 },

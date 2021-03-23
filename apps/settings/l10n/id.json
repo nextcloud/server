@@ -295,7 +295,6 @@
     "Expire after " : "Kadaluarsa setelah ",
     "days" : "hari",
     "Enforce expiration date" : "Berlakukan tanggal kadaluarsa",
-    "Allow users to share via link" : "Izinkan pengguna untuk membagikan via tautan",
     "Allow public uploads" : "Izinkan unggahan publik",
     "Always ask for a password" : "Selalu tanya kata sandi",
     "Enforce password protection" : "Berlakukan perlindungan sandi",
@@ -355,6 +354,7 @@
     "Valid until %s" : "Berlaku sampai %s",
     "Import root certificate" : "Impor sertifikat root",
     "Execute one task with each page loaded" : "Jalankan tugas setiap kali halaman dimuat",
+    "Allow users to share via link" : "Izinkan pengguna untuk membagikan via tautan",
     "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "Perbolehkan nama pengguna otomatis terisi didialog bagikan. Jikan ini dinonaktifkan, nama pengguna atau alamat email harus dimasukkan."
 },"pluralForm" :"nplurals=1; plural=0;"
 }

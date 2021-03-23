@@ -22,7 +22,6 @@
     "Password to access {file} was sent to {email}" : "Zaporka za pristupanje {file} poslana je {email}",
     "Password to access %1$s was sent to you" : "Poslana vam je zaporka za pristupanje %1$s",
     "Password to access {file} was sent to you" : "Poslana vam je zaporka za pristupanje {file}",
-    "Sharing %1$s failed, this item is already shared with %2$s" : "Dijeljenje %1$s nije uspjelo, ova se stavka već dijeli s %2$s",
     "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Ne možemo vam poslati automatski generiranu zaporku. U osobnim postavkama postavite valjanu adresu e-pošte i pokušajte ponovo.",
     "Failed to send share by email" : "Slanje dijeljenja putem e-pošte nije uspjelo",
     "%1$s shared »%2$s« with you" : "%1$s dijeli »%2$s« s vama",

@@ -24,7 +24,6 @@ OC.L10N.register(
     "Password to access {file} was sent to {email}" : "Пароль для доступа к «{file}» был отправлен на адрес {email}",
     "Password to access %1$s was sent to you" : "Вам был отправлен пароль для доступа к «%1$s»",
     "Password to access {file} was sent to you" : "Вам был отправлен пароль для доступа к «{file}»",
-    "Sharing %1$s failed, this item is already shared with %2$s" : "Не удалось открыть общий доступ к «%1$s», общий доступ для %2$s уже предоставлен",
     "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Не удаётся отправить вам автоматически созданный пароль. Укажите верный адрес email в своих личных настройках и попробуйте снова.",
     "Failed to send share by email" : "Не удалось предоставить общий доступ по адресу электронной почты",
     "%1$s shared »%2$s« with you" : "%1$s предоставил(а) вам доступ к «%2$s»",
@@ -49,7 +48,7 @@ OC.L10N.register(
     "Share provider which allows you to share files by mail" : "Приложение для обмена файлами с помощью электронной почты",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Позволяет пользователям делиться персонализированной ссылкой на файл или каталог, указав адрес электронной почты.",
     "Send password by mail" : "Отправлять пароль по электронной почте",
-    "Enforce password protection" : "Требовать защиту паролем",
-    "Reply to initiator" : "Направлять ответ инициатору"
+    "Reply to initiator" : "Направлять ответ инициатору",
+    "Enforce password protection" : "Требовать защиту паролем"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

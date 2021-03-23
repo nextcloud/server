@@ -24,7 +24,6 @@ OC.L10N.register(
     "Password to access {file} was sent to {email}" : "Ο κωδικός πρόσβασης για πρόσβαση στο {αρχείο} έχει αποσταλεί στο {email}",
     "Password to access %1$s was sent to you" : "Σας έχει αποσταλεί το συνθηματικό για πρόσβαση στο %1$s",
     "Password to access {file} was sent to you" : "Σας έχει αποσταλεί στο συνθηματικό για πρόσβαση {file}",
-    "Sharing %1$s failed, this item is already shared with %2$s" : "Ο διαμοιρασμός %1$s απέτυχε, αυτό το αντικείμενο είναι ήδη διαμοιρασμένο με %2$s",
     "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Δεν μπορούμε να σας στείλουμε αυτοδημιουργημένο συνθηματικό. Παρακαλούμε βάλτε μία έγκυρη διεύθυνση email στις προσωπικές σας ρυθμίσεις και προσπαθήστε ξανά.",
     "Failed to send share by email" : "Αποτυχία αποστολής συνδέσμου διαμοιρασμού μέσω Ηλ.ταχυδρομείου",
     "%1$s shared »%2$s« with you" : "Ο %1$s διαμοιράστηκε το »%2$s« με εσάς.",
