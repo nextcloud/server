@@ -154,6 +154,8 @@
     "Tags" : "タグ",
     "Unable to change the favourite state of the file" : "ファイルのお気に入りの状態を変更できません",
     "Error while loading the file data" : "ファイルデータの読み込み中にエラーが発生しました",
+    "Cancel" : "キャンセル",
+    "Create" : "作成",
     "%s used" : "%s 使用中",
     "%s%% of %s used" : "%s中%s%%が使われています。",
     "%1$s of %2$s used" : "%2$s 中%1$s が使われています。",

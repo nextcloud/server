@@ -213,11 +213,9 @@
     "Expire after " : "Aegu pärast",
     "days" : "päeva",
     "Enforce expiration date" : "Sunnitud aegumise kuupäev",
-    "Allow users to share via link" : "Luba kasutajatel lingiga jagamist ",
     "Allow public uploads" : "Luba avalikud üleslaadimised",
     "Always ask for a password" : "Alati küsi parooli",
     "Enforce password protection" : "Jõusta paroolikaitse",
-    "Set default expiration date for link shares" : "Määra lingi jagamise vaikimisi aegumiskuupäev",
     "Allow resharing" : "Luba edasijagamine",
     "Allow sharing with groups" : "Luba gruppidega jagamine",
     "Restrict users to only share with users in their groups" : "Luba kasutajatel jagada kasutajatega ainult oma grupi piires",
@@ -265,6 +263,8 @@
     "Valid until %s" : "Kehtib kuni %s",
     "Import root certificate" : "Impordi root sertifikaat",
     "Execute one task with each page loaded" : "Käivita toiming igal lehe laadimisel",
+    "Allow users to share via link" : "Luba kasutajatel lingiga jagamist ",
+    "Set default expiration date for link shares" : "Määra lingi jagamise vaikimisi aegumiskuupäev",
     "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "Luba kasutajanime automaatne lõpetamine jagamisdialoogis. Kui see on keelatud, tuleb sisestada täielik kasutajanimi või e-posti aadress.",
     "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Kuva avaliku lingiga üleslaadimise lehel lahtiütluste tekst. (Kuvatakse ainult siis, kui failide loend on peidetud.)"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

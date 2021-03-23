@@ -324,7 +324,6 @@ OC.L10N.register(
     "Expire after " : "Senvalidigita post",
     "days" : "tagoj",
     "Enforce expiration date" : "Devigi limdaton",
-    "Allow users to share via link" : "Permesi uzantojn kunhavigi ligile",
     "Allow public uploads" : "Permesi publikajn alŝutojn",
     "Always ask for a password" : "Ĉiam peti pasvorton",
     "Enforce password protection" : "Devigi pasvortan protekton ",
@@ -387,6 +386,7 @@ OC.L10N.register(
     "Valid until %s" : "Valida ĝis %s",
     "Import root certificate" : "Importi radikan atestilon",
     "Execute one task with each page loaded" : "Ruli unu taskon kun ĉiu ŝargo de paĝo",
+    "Allow users to share via link" : "Permesi uzantojn kunhavigi ligile",
     "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "Permesi aŭtomatan kompletigon de uzantnomo en kunhaviga dialogo. Se tio estas malŝatita, plenaj uzantnomo aŭ retpoŝtadreso bezonos esti entajpitaj.",
     "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Montri malgarantian tekston en la publika paĝo de alŝutado (nur montrita, kiam la dosierlisto estas kaŝita)."
 },

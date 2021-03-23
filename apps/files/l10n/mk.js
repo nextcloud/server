@@ -149,7 +149,7 @@ OC.L10N.register(
     "Accept" : "Прифати",
     "Reject" : "Одбиј",
     "Incoming ownership transfer from {user}" : "Барање за трансфер на сопственост од {user}",
-    "Do you want to accept {path}?\n\nNote: The transfer process after accepting may take up to 1 hour." : "Дали прифаќате {path}?\n\nЗабелешка: Процесот на трансфер одкога ќе прифатите може да трае и повеќе од 1 час.",
+    "Do you want to accept {path}?\n\nNote: The transfer process after accepting may take up to 1 hour." : "Дали прифаќате {path}?\n\nЗабелешка: Процесот на трансфер откога ќе прифатите може да трае и повеќе од 1 час.",
     "Ownership transfer failed" : "Неуспешен трансфер на сопственост",
     "Your ownership transfer of {path} to {user} failed." : "Неуспешен трансфер на сопственост на {path} до {user}.",
     "The ownership transfer of {path} from {user} failed." : "Неуспешен трансфер на сопственост на {path} од {user}.",

@@ -328,7 +328,6 @@ OC.L10N.register(
     "Expire after " : "Utløper etter",
     "days" : "dager",
     "Enforce expiration date" : "Krev utløpsdato",
-    "Allow users to share via link" : "Tillat brukere å dele via lenke",
     "Allow public uploads" : "Tillat offentlig opplasting",
     "Always ask for a password" : "Alltid spør om passord",
     "Enforce password protection" : "Krev passordbeskyttelse",
@@ -391,6 +390,7 @@ OC.L10N.register(
     "Valid until %s" : "Gyldig til %s",
     "Import root certificate" : "Importer rotsertifikat",
     "Execute one task with each page loaded" : "Utfør en oppgave med hver side som blir lastet",
+    "Allow users to share via link" : "Tillat brukere å dele via lenke",
     "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "Tillat automatisk fullføring i delingsdialogvindu. Dette kan skrus av hvis hele brukernavnet eller e-postadressen må skrives inn.",
     "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Vis ansvarsfraskrivelse på den offentlige opplastingssiden. (Vises kun nå fillisten er tom.)"
 },

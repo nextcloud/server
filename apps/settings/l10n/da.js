@@ -256,7 +256,6 @@ OC.L10N.register(
     "Expire after " : "Udløber efter",
     "days" : "dage",
     "Enforce expiration date" : "Påtving udløbsdato",
-    "Allow users to share via link" : "Tillad brugere at dele via link",
     "Allow public uploads" : "Tillad offentlig upload",
     "Always ask for a password" : "Spørg altid efter kodeord",
     "Enforce password protection" : "Gennemtving beskyttelse med kodeord",
@@ -314,6 +313,7 @@ OC.L10N.register(
     "Issued By" : "Udstedt af",
     "Valid until %s" : "Gyldig indtil %s",
     "Import root certificate" : "Importer rodcertifikat",
-    "Execute one task with each page loaded" : "Udføre en opgave med hver side indlæsning"
+    "Execute one task with each page loaded" : "Udføre en opgave med hver side indlæsning",
+    "Allow users to share via link" : "Tillad brugere at dele via link"
 },
 "nplurals=2; plural=(n != 1);");

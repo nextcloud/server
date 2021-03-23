@@ -24,7 +24,6 @@ OC.L10N.register(
     "Password to access {file} was sent to {email}" : "Hasło dostępu do {file} zostało wysłane do {email}",
     "Password to access %1$s was sent to you" : "Hasło dostępu do %1$s zostało do Ciebie wysłane",
     "Password to access {file} was sent to you" : "Hasło dostępu do {file} zostało do Ciebie wysłane",
-    "Sharing %1$s failed, this item is already shared with %2$s" : "Udostępnianie %1$s nie powiodło się, ponieważ ten element jest już udostępniony %2$s",
     "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Nie można wysłać automatycznie wygenerowanego hasła. Proszę ustawić prawidłowy adres e-mail w ustawieniach osobistych i spróbować ponownie.",
     "Failed to send share by email" : "Nie udało się wysłać linku udostępnienia e-mailem",
     "%1$s shared »%2$s« with you" : "%1$s udostępnił »%2$s«",
@@ -49,7 +48,7 @@ OC.L10N.register(
     "Share provider which allows you to share files by mail" : "Wskaż dostawcę, który umożliwia udostępnianie plików pocztą",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Umożliwia użytkownikom udostępnianie spersonalizowanego linku do pliku lub katalogu poprzez umieszczenie go w wiadomości e-mail.",
     "Send password by mail" : "Wyślij hasło e-mailem",
-    "Enforce password protection" : "Wymuś zabezpieczenie hasłem",
-    "Reply to initiator" : "Odpowiedz inicjatorowi"
+    "Reply to initiator" : "Odpowiedz inicjatorowi",
+    "Enforce password protection" : "Wymuś zabezpieczenie hasłem"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

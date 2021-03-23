@@ -24,7 +24,6 @@ OC.L10N.register(
     "Password to access {file} was sent to {email}" : "Geslo za dostop do datoteke {file} je bilo poslano na {email}.",
     "Password to access %1$s was sent to you" : "Geslo za dostop do datoteke %1$s je bilo poslano vaš elektronski naslov.",
     "Password to access {file} was sent to you" : "Geslo za dostop do datoteke {file} je bilo poslano vaš elektronski naslov.",
-    "Sharing %1$s failed, this item is already shared with %2$s" : "Souporaba %1$s je spodletela, ker je predmet že v souporabi pri %2$s",
     "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Samodejno ustvarjenega gesla ni mogoče poslati. Nastaviti je treba veljavni elektronski naslov med osebnimi nastavitvami.",
     "Failed to send share by email" : "Pošiljanje povezave po elektronski pošti je spodletelo.",
     "%1$s shared »%2$s« with you" : "%1$s vam omogoča souporabo »%2$s«",

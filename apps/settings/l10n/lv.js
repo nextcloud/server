@@ -146,7 +146,6 @@ OC.L10N.register(
     "Expire after " : "Nederīga pēc",
     "days" : "dienas",
     "Enforce expiration date" : "Uzspiest beigu termiņu",
-    "Allow users to share via link" : "Ļaut lietotājiem koplietot caur saitēm",
     "Allow public uploads" : "Atļaut publisko augšupielādi",
     "Enforce password protection" : "Ieviest paroles aizsardzību",
     "Allow resharing" : "Atļaut atkārtotu koplietošanu",
@@ -188,6 +187,7 @@ OC.L10N.register(
     "Issued By" : "Izsniedza",
     "Valid until %s" : "Derīgs līdz %s",
     "Import root certificate" : "Importēt root sertifikātu",
-    "Execute one task with each page loaded" : "Izpildīt vienu uzdevumu ar katru ielādēto lapu"
+    "Execute one task with each page loaded" : "Izpildīt vienu uzdevumu ar katru ielādēto lapu",
+    "Allow users to share via link" : "Ļaut lietotājiem koplietot caur saitēm"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

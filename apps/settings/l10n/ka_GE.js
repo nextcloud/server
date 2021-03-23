@@ -218,7 +218,6 @@ OC.L10N.register(
     "Expire after " : "ვადის ამოწურვა",
     "days" : "დღე",
     "Enforce expiration date" : "ვადის ამოწურვის თარიღის იძულება",
-    "Allow users to share via link" : "მიეცით მოხმარებლებს ბმულით გაზიარების უფლება",
     "Allow public uploads" : "საქვეყნო ატვირთების დაშვება",
     "Always ask for a password" : "ყოველთვის მოხდეს პაროლის მოთხოვნა",
     "Enforce password protection" : "პროლით დაცვის იძულება",
@@ -275,6 +274,7 @@ OC.L10N.register(
     "Valid until %s" : "ვარგისია %s-მდე",
     "Import root certificate" : "Root სერტიფიკატის იმპორტი",
     "Execute one task with each page loaded" : "გაუშვი თითო მოქმედება ყველა ჩატვირთულ გვერდზე",
+    "Allow users to share via link" : "მიეცით მოხმარებლებს ბმულით გაზიარების უფლება",
     "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "მიეცით მომხმარებლებს ავტოდასრულების უფლება გაზიარების დიალოგებში. იმ შემთხვევაში თუ ეს ფუნქცია არაა მოქმედი, საჭირო იქნება სრული მომხმარებლის სახელის ან ელ-ფოსტის მისამართის შეყვანა.",
     "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "პასუხისმგებლობის შეზღუდვის ტექსტის ჩვენება ღია ბმულის ატვირთვის გვერდზე. (ჩანს მხოლოდ მაშინ, როდესაც ფაილების სია დამალულია.)"
 },
