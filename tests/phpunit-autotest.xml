@@ -8,7 +8,7 @@
 >
 	<testsuite name='ownCloud'>
 		<directory suffix='.php'>lib/</directory>
-		<directory suffix='.php'>core/</directory>
+		<directory suffix='.php'>Core/</directory>
 		<directory suffix='.php'>ocs-provider/</directory>
 		<file>apps.php</file>
 	</testsuite>
@@ -32,4 +32,3 @@
 		<listener class="StartSessionListener" file="startsessionlistener.php" />
 	</listeners>
 </phpunit>
-
