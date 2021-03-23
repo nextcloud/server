@@ -10,6 +10,13 @@
 (function(_, $, OC) {
 	'use strict';
 
+	/**
+	 * Construct a new FederationScopeMenu instance
+	 * @constructs FederationScopeMenu
+	 * @memberof OC.Settings
+	 * @param {object} options
+	 * @param {bool} [options.lookupServerUploadEnabled=false] whether uploading to the lookup server is enabled
+	 */
 	var FederationSettingsView = OC.Backbone.View.extend({
 		_inputFields: undefined,
 
@@ -24,6 +31,7 @@
 			} else {
 				this._config = new OC.Settings.UserSettings();
 			}
+			this.showFederationScopes = !!options.showFederationScopes;
 
 			this._inputFields = [
 				'displayname',
@@ -71,10 +79,15 @@
 
 			_.each(this._inputFields, function(field) {
 				var $icon = self.$('#' + field + 'form h3 > .federation-menu');
-				var excludedScopes = null
+				var excludedScopes = []
 
 				if (fieldsWithV2Private.indexOf(field) === -1) {
-					excludedScopes = ['v2-private']
+					excludedScopes.push('v2-private');
+				}
+
+				if (!self.showFederationScopes) {
+					excludedScopes.push('contacts');
+					excludedScopes.push('public');
 				}
 
 				var scopeMenu = new OC.Settings.FederationScopeMenu({
