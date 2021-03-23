@@ -24,11 +24,11 @@ namespace Test\DB\QueryBuilder;
 use Doctrine\DBAL\Query\Expression\CompositeExpression;
 use Doctrine\DBAL\Query\QueryException;
 use Doctrine\DBAL\Result;
+use OC\DB\ConnectionAdapter;
 use OC\DB\QueryBuilder\Literal;
 use OC\DB\QueryBuilder\Parameter;
 use OC\DB\QueryBuilder\QueryBuilder;
 use OC\SystemConfig;
-use OCP\IDBConnection;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -42,7 +42,7 @@ class QueryBuilderTest extends \Test\TestCase {
 	/** @var QueryBuilder */
 	protected $queryBuilder;
 
-	/** @var IDBConnection */
+	/** @var ConnectionAdapter */
 	protected $connection;
 
 	/** @var SystemConfig|\PHPUnit\Framework\MockObject\MockObject */
@@ -54,7 +54,7 @@ class QueryBuilderTest extends \Test\TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->connection = \OC::$server->getDatabaseConnection();
+		$this->connection = \OC::$server->get(ConnectionAdapter::class);
 		$this->config = $this->createMock(SystemConfig::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->queryBuilder = new QueryBuilder($this->connection, $this->config, $this->logger);
@@ -178,7 +178,9 @@ class QueryBuilderTest extends \Test\TestCase {
 	}
 
 	public function dataSelect() {
-		$queryBuilder = new QueryBuilder(\OC::$server->getDatabaseConnection(), $this->config, $this->logger);
+		$config = $this->createMock(SystemConfig::class);
+		$logger = $this->createMock(LoggerInterface::class);
+		$queryBuilder = new QueryBuilder(\OC::$server->get(ConnectionAdapter::class), $config, $logger);
 		return [
 			// select('column1')
 			[['configvalue'], ['configvalue' => '99']],
@@ -244,7 +246,9 @@ class QueryBuilderTest extends \Test\TestCase {
 	}
 
 	public function dataSelectAlias() {
-		$queryBuilder = new QueryBuilder(\OC::$server->getDatabaseConnection(), $this->config, $this->logger);
+		$config = $this->createMock(SystemConfig::class);
+		$logger = $this->createMock(LoggerInterface::class);
+		$queryBuilder = new QueryBuilder(\OC::$server->get(ConnectionAdapter::class), $config, $logger);
 		return [
 			['configvalue', 'cv', ['cv' => '99']],
 			[$queryBuilder->expr()->literal('column1'), 'thing', ['thing' => 'column1']],
@@ -351,7 +355,9 @@ class QueryBuilderTest extends \Test\TestCase {
 	}
 
 	public function dataAddSelect() {
-		$queryBuilder = new QueryBuilder(\OC::$server->getDatabaseConnection(), $this->config, $this->logger);
+		$config = $this->createMock(SystemConfig::class);
+		$logger = $this->createMock(LoggerInterface::class);
+		$queryBuilder = new QueryBuilder(\OC::$server->get(ConnectionAdapter::class), $config, $logger);
 		return [
 			// addSelect('column1')
 			[['configvalue'], ['appid' => 'testFirstResult', 'configvalue' => '99']],
