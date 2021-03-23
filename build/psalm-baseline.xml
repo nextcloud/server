@@ -1543,9 +1543,6 @@
       <code>$code</code>
       <code>Constants::PERMISSION_ALL</code>
     </InvalidScalarArgument>
-    <NullArgument occurrences="1">
-      <code>null</code>
-    </NullArgument>
     <UndefinedClass occurrences="2">
       <code>\OCA\Circles\Api\v1\Circles</code>
       <code>\OCA\Circles\Api\v1\Circles</code>
