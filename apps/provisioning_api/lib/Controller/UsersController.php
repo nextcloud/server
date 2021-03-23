@@ -50,7 +50,6 @@ use OC\Accounts\AccountManager;
 use OC\Authentication\Token\RemoteWipe;
 use OC\HintException;
 use OC\KnownUser\KnownUserService;
-use OCA\Provisioning_API\FederatedShareProviderFactory;
 use OCA\Settings\Mailer\NewUserMailHelper;
 use OCP\Accounts\IAccountManager;
 use OCP\App\IAppManager;
@@ -85,8 +84,6 @@ class UsersController extends AUserData {
 	protected $l10nFactory;
 	/** @var NewUserMailHelper */
 	private $newUserMailHelper;
-	/** @var FederatedShareProviderFactory */
-	private $federatedShareProviderFactory;
 	/** @var ISecureRandom */
 	private $secureRandom;
 	/** @var RemoteWipe */
@@ -108,7 +105,6 @@ class UsersController extends AUserData {
 								LoggerInterface $logger,
 								IFactory $l10nFactory,
 								NewUserMailHelper $newUserMailHelper,
-								FederatedShareProviderFactory $federatedShareProviderFactory,
 								ISecureRandom $secureRandom,
 								RemoteWipe $remoteWipe,
 								KnownUserService $knownUserService,
@@ -127,7 +123,6 @@ class UsersController extends AUserData {
 		$this->logger = $logger;
 		$this->l10nFactory = $l10nFactory;
 		$this->newUserMailHelper = $newUserMailHelper;
-		$this->federatedShareProviderFactory = $federatedShareProviderFactory;
 		$this->secureRandom = $secureRandom;
 		$this->remoteWipe = $remoteWipe;
 		$this->knownUserService = $knownUserService;
@@ -532,15 +527,10 @@ class UsersController extends AUserData {
 			$permittedFields[] = IAccountManager::PROPERTY_EMAIL;
 		}
 
-		if ($this->appManager->isEnabledForUser('federatedfilesharing')) {
-			$shareProvider = $this->federatedShareProviderFactory->get();
-			if ($shareProvider->isLookupServerUploadEnabled()) {
-				$permittedFields[] = IAccountManager::PROPERTY_PHONE;
-				$permittedFields[] = IAccountManager::PROPERTY_ADDRESS;
-				$permittedFields[] = IAccountManager::PROPERTY_WEBSITE;
-				$permittedFields[] = IAccountManager::PROPERTY_TWITTER;
-			}
-		}
+		$permittedFields[] = IAccountManager::PROPERTY_PHONE;
+		$permittedFields[] = IAccountManager::PROPERTY_ADDRESS;
+		$permittedFields[] = IAccountManager::PROPERTY_WEBSITE;
+		$permittedFields[] = IAccountManager::PROPERTY_TWITTER;
 
 		return new DataResponse($permittedFields);
 	}
@@ -586,15 +576,10 @@ class UsersController extends AUserData {
 				$permittedFields[] = 'locale';
 			}
 
-			if ($this->appManager->isEnabledForUser('federatedfilesharing')) {
-				$shareProvider = $this->federatedShareProviderFactory->get();
-				if ($shareProvider->isLookupServerUploadEnabled()) {
-					$permittedFields[] = IAccountManager::PROPERTY_PHONE;
-					$permittedFields[] = IAccountManager::PROPERTY_ADDRESS;
-					$permittedFields[] = IAccountManager::PROPERTY_WEBSITE;
-					$permittedFields[] = IAccountManager::PROPERTY_TWITTER;
-				}
-			}
+			$permittedFields[] = IAccountManager::PROPERTY_PHONE;
+			$permittedFields[] = IAccountManager::PROPERTY_ADDRESS;
+			$permittedFields[] = IAccountManager::PROPERTY_WEBSITE;
+			$permittedFields[] = IAccountManager::PROPERTY_TWITTER;
 
 			// If admin they can edit their own quota
 			if ($this->groupManager->isAdmin($currentLoggedInUser->getUID())) {
