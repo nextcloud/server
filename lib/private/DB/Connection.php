@@ -50,8 +50,8 @@ use Doctrine\DBAL\Statement;
 use OC\DB\QueryBuilder\QueryBuilder;
 use OC\SystemConfig;
 use OCP\DB\QueryBuilder\IQueryBuilder;
-use OCP\ILogger;
 use OCP\PreConditionNotMetException;
+use Psr\Log\LoggerInterface;
 
 class Connection extends \Doctrine\DBAL\Connection {
 	/** @var string */
@@ -63,7 +63,7 @@ class Connection extends \Doctrine\DBAL\Connection {
 	/** @var SystemConfig */
 	private $systemConfig;
 
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	private $logger;
 
 	protected $lockedTable = null;
@@ -113,7 +113,7 @@ class Connection extends \Doctrine\DBAL\Connection {
 	 */
 	public function createQueryBuilder() {
 		$backtrace = $this->getCallerBacktrace();
-		\OC::$server->getLogger()->debug('Doctrine QueryBuilder retrieved in {backtrace}', ['app' => 'core', 'backtrace' => $backtrace]);
+		$this->logger->debug('Doctrine QueryBuilder retrieved in {backtrace}', ['app' => 'core', 'backtrace' => $backtrace]);
 		$this->queriesBuilt++;
 		return parent::createQueryBuilder();
 	}
@@ -126,7 +126,7 @@ class Connection extends \Doctrine\DBAL\Connection {
 	 */
 	public function getExpressionBuilder() {
 		$backtrace = $this->getCallerBacktrace();
-		\OC::$server->getLogger()->debug('Doctrine ExpressionBuilder retrieved in {backtrace}', ['app' => 'core', 'backtrace' => $backtrace]);
+		$this->logger->debug('Doctrine ExpressionBuilder retrieved in {backtrace}', ['app' => 'core', 'backtrace' => $backtrace]);
 		$this->queriesBuilt++;
 		return parent::getExpressionBuilder();
 	}
@@ -180,7 +180,7 @@ class Connection extends \Doctrine\DBAL\Connection {
 		$this->tablePrefix = $params['tablePrefix'];
 
 		$this->systemConfig = \OC::$server->getSystemConfig();
-		$this->logger = \OC::$server->getLogger();
+		$this->logger = \OC::$server->get(LoggerInterface::class);
 	}
 
 	/**
