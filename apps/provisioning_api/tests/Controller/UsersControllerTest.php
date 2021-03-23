@@ -46,9 +46,7 @@ use OC\Authentication\Token\RemoteWipe;
 use OC\Group\Manager;
 use OC\KnownUser\KnownUserService;
 use OC\SubAdmin;
-use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\Provisioning_API\Controller\UsersController;
-use OCA\Provisioning_API\FederatedShareProviderFactory;
 use OCA\Settings\Mailer\NewUserMailHelper;
 use OCP\Accounts\IAccountManager;
 use OCP\App\IAppManager;
@@ -97,8 +95,6 @@ class UsersControllerTest extends TestCase {
 	private $l10nFactory;
 	/** @var NewUserMailHelper|MockObject */
 	private $newUserMailHelper;
-	/** @var FederatedShareProviderFactory|MockObject */
-	private $federatedShareProviderFactory;
 	/** @var ISecureRandom|MockObject */
 	private $secureRandom;
 	/** @var RemoteWipe|MockObject */
@@ -122,7 +118,6 @@ class UsersControllerTest extends TestCase {
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->l10nFactory = $this->createMock(IFactory::class);
 		$this->newUserMailHelper = $this->createMock(NewUserMailHelper::class);
-		$this->federatedShareProviderFactory = $this->createMock(FederatedShareProviderFactory::class);
 		$this->secureRandom = $this->createMock(ISecureRandom::class);
 		$this->remoteWipe = $this->createMock(RemoteWipe::class);
 		$this->knownUserService = $this->createMock(KnownUserService::class);
@@ -142,7 +137,6 @@ class UsersControllerTest extends TestCase {
 				$this->logger,
 				$this->l10nFactory,
 				$this->newUserMailHelper,
-				$this->federatedShareProviderFactory,
 				$this->secureRandom,
 				$this->remoteWipe,
 				$this->knownUserService,
@@ -407,7 +401,6 @@ class UsersControllerTest extends TestCase {
 				$this->logger,
 				$this->l10nFactory,
 				$this->newUserMailHelper,
-				$this->federatedShareProviderFactory,
 				$this->secureRandom,
 				$this->remoteWipe,
 				$this->knownUserService,
@@ -3246,7 +3239,6 @@ class UsersControllerTest extends TestCase {
 				$this->logger,
 				$this->l10nFactory,
 				$this->newUserMailHelper,
-				$this->federatedShareProviderFactory,
 				$this->secureRandom,
 				$this->remoteWipe,
 				$this->knownUserService,
@@ -3313,7 +3305,6 @@ class UsersControllerTest extends TestCase {
 				$this->logger,
 				$this->l10nFactory,
 				$this->newUserMailHelper,
-				$this->federatedShareProviderFactory,
 				$this->secureRandom,
 				$this->remoteWipe,
 				$this->knownUserService,
@@ -3638,18 +3629,13 @@ class UsersControllerTest extends TestCase {
 
 	public function dataGetEditableFields() {
 		return [
-			[false, false, []],
-			[false,  true, [
+			[false, [
 				IAccountManager::PROPERTY_PHONE,
 				IAccountManager::PROPERTY_ADDRESS,
 				IAccountManager::PROPERTY_WEBSITE,
 				IAccountManager::PROPERTY_TWITTER,
 			]],
-			[ true, false, [
-				IAccountManager::PROPERTY_DISPLAYNAME,
-				IAccountManager::PROPERTY_EMAIL,
-			]],
-			[ true,  true ,[
+			[ true, [
 				IAccountManager::PROPERTY_DISPLAYNAME,
 				IAccountManager::PROPERTY_EMAIL,
 				IAccountManager::PROPERTY_PHONE,
@@ -3664,27 +3650,15 @@ class UsersControllerTest extends TestCase {
 	 * @dataProvider dataGetEditableFields
 	 *
 	 * @param bool $allowedToChangeDisplayName
-	 * @param bool $federatedSharingEnabled
 	 * @param array $expected
 	 */
-	public function testGetEditableFields(bool $allowedToChangeDisplayName, bool $federatedSharingEnabled, array $expected) {
+	public function testGetEditableFields(bool $allowedToChangeDisplayName, array $expected) {
 		$this->config
 			->method('getSystemValue')
 			->with(
 				$this->equalTo('allow_user_to_change_display_name'),
 				$this->anything()
 			)->willReturn($allowedToChangeDisplayName);
-		$this->appManager
-			->method('isEnabledForUser')
-			->with($this->equalTo('federatedfilesharing'))
-			->willReturn($federatedSharingEnabled);
-
-		$shareprovider = $this->createMock(FederatedShareProvider::class);
-		$shareprovider->method('isLookupServerUploadEnabled')->willReturn(true);
-
-		$this->federatedShareProviderFactory
-			->method('get')
-			->willReturn($shareprovider);
 
 		$expectedResp = new DataResponse($expected);
 		$this->assertEquals($expectedResp, $this->api->getEditableFields());

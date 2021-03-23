@@ -190,6 +190,7 @@ class UsersControllerTest extends \Test\TestCase {
 	public function testSetUserSettings($email, $validEmail, $expectedStatus) {
 		$controller = $this->getController(false, ['saveUserSettings']);
 		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('johndoe');
 
 		$this->userSession->method('getUser')->willReturn($user);
 
