@@ -57,7 +57,7 @@
 				}
 			];
 
-			if (options.excludedScopes) {
+			if (options.excludedScopes && options.excludedScopes.length) {
 				this._scopes = this._scopes.filter(function(scopeEntry) {
 					return options.excludedScopes.indexOf(scopeEntry.name) === -1;
 				})
@@ -117,22 +117,11 @@
 			var currentlyActiveValue = $('#'+context.target.closest('form').id).find('input[type="hidden"]')[0].value;
 
 			for(var i in this._scopes) {
-				this._scopes[i].active = false;
-			}
-
-			switch (currentlyActiveValue) {
-				case 'v2-private':
-					this._scopes[0].active = true;
-					break;
-				case 'private':
-					this._scopes[1].active = true;
-					break;
-				case 'contacts':
-					this._scopes[2].active = true;
-					break;
-				case 'public':
-					this._scopes[3].active = true;
-					break;
+				if (this._scopes[i].name === currentlyActiveValue) {
+					this._scopes[i].active = true;
+				} else {
+					this._scopes[i].active = false;
+				}
 			}
 
 			this.render();
