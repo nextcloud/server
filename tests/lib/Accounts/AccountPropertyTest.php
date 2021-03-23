@@ -37,12 +37,12 @@ class AccountPropertyTest extends TestCase {
 		$accountProperty = new AccountProperty(
 			IAccountManager::PROPERTY_WEBSITE,
 			'https://example.com',
-			IAccountManager::VISIBILITY_PUBLIC,
+			IAccountManager::SCOPE_PUBLISHED,
 			IAccountManager::VERIFIED
 		);
 		$this->assertEquals(IAccountManager::PROPERTY_WEBSITE, $accountProperty->getName());
 		$this->assertEquals('https://example.com', $accountProperty->getValue());
-		$this->assertEquals(IAccountManager::VISIBILITY_PUBLIC, $accountProperty->getScope());
+		$this->assertEquals(IAccountManager::SCOPE_PUBLISHED, $accountProperty->getScope());
 		$this->assertEquals(IAccountManager::VERIFIED, $accountProperty->getVerified());
 	}
 
@@ -50,7 +50,7 @@ class AccountPropertyTest extends TestCase {
 		$accountProperty = new AccountProperty(
 			IAccountManager::PROPERTY_WEBSITE,
 			'https://example.com',
-			IAccountManager::VISIBILITY_PUBLIC,
+			IAccountManager::SCOPE_PUBLISHED,
 			IAccountManager::VERIFIED
 		);
 		$actualReturn = $accountProperty->setValue('https://example.org');
@@ -62,19 +62,48 @@ class AccountPropertyTest extends TestCase {
 		$accountProperty = new AccountProperty(
 			IAccountManager::PROPERTY_WEBSITE,
 			'https://example.com',
-			IAccountManager::VISIBILITY_PUBLIC,
+			IAccountManager::SCOPE_PUBLISHED,
 			IAccountManager::VERIFIED
 		);
-		$actualReturn = $accountProperty->setScope(IAccountManager::VISIBILITY_PRIVATE);
-		$this->assertEquals(IAccountManager::VISIBILITY_PRIVATE, $accountProperty->getScope());
-		$this->assertEquals(IAccountManager::VISIBILITY_PRIVATE, $actualReturn->getScope());
+		$actualReturn = $accountProperty->setScope(IAccountManager::SCOPE_LOCAL);
+		$this->assertEquals(IAccountManager::SCOPE_LOCAL, $accountProperty->getScope());
+		$this->assertEquals(IAccountManager::SCOPE_LOCAL, $actualReturn->getScope());
+	}
+
+	public function scopesProvider() {
+		return [
+			// current values
+			[IAccountManager::SCOPE_PRIVATE, IAccountManager::SCOPE_PRIVATE],
+			[IAccountManager::SCOPE_LOCAL, IAccountManager::SCOPE_LOCAL],
+			[IAccountManager::SCOPE_PUBLISHED, IAccountManager::SCOPE_PUBLISHED],
+			// legacy values
+			[IAccountManager::VISIBILITY_PRIVATE, IAccountManager::SCOPE_LOCAL],
+			[IAccountManager::VISIBILITY_CONTACTS_ONLY, IAccountManager::SCOPE_FEDERATED],
+			[IAccountManager::VISIBILITY_PUBLIC, IAccountManager::SCOPE_PUBLISHED],
+			// fallback
+			['', IAccountManager::SCOPE_LOCAL],
+			['unknown', IAccountManager::SCOPE_LOCAL],
+		];
+	}
+
+	/**
+	 * @dataProvider scopesProvider
+	 */
+	public function testSetScopeMapping($storedScope, $returnedScope) {
+		$accountProperty = new AccountProperty(
+			IAccountManager::PROPERTY_WEBSITE,
+			'https://example.com',
+			$storedScope,
+			IAccountManager::VERIFIED
+		);
+		$this->assertEquals($returnedScope, $accountProperty->getScope());
 	}
 
 	public function testSetVerified() {
 		$accountProperty = new AccountProperty(
 			IAccountManager::PROPERTY_WEBSITE,
 			'https://example.com',
-			IAccountManager::VISIBILITY_PUBLIC,
+			IAccountManager::SCOPE_PUBLISHED,
 			IAccountManager::VERIFIED
 		);
 		$actualReturn = $accountProperty->setVerified(IAccountManager::NOT_VERIFIED);
@@ -86,13 +115,13 @@ class AccountPropertyTest extends TestCase {
 		$accountProperty = new AccountProperty(
 			IAccountManager::PROPERTY_WEBSITE,
 			'https://example.com',
-			IAccountManager::VISIBILITY_PUBLIC,
+			IAccountManager::SCOPE_PUBLISHED,
 			IAccountManager::VERIFIED
 		);
 		$this->assertEquals([
 			'name' => IAccountManager::PROPERTY_WEBSITE,
 			'value' => 'https://example.com',
-			'scope' => IAccountManager::VISIBILITY_PUBLIC,
+			'scope' => IAccountManager::SCOPE_PUBLISHED,
 			'verified' => IAccountManager::VERIFIED
 		], $accountProperty->jsonSerialize());
 	}

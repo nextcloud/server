@@ -71,8 +71,8 @@ class Converter {
 
 		foreach ($userData as $property => $value) {
 			$shareWithTrustedServers =
-				$value['scope'] === AccountManager::VISIBILITY_CONTACTS_ONLY ||
-				$value['scope'] === AccountManager::VISIBILITY_PUBLIC;
+				$value['scope'] === AccountManager::SCOPE_FEDERATED ||
+				$value['scope'] === AccountManager::SCOPE_PUBLISHED;
 
 			$emptyValue = !isset($value['value']) || $value['value'] === '';
 

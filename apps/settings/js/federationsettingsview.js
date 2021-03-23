@@ -86,8 +86,8 @@
 				}
 
 				if (!self.showFederationScopes) {
-					excludedScopes.push('contacts');
-					excludedScopes.push('public');
+					excludedScopes.push('v2-federated');
+					excludedScopes.push('v2-published');
 				}
 
 				var scopeMenu = new OC.Settings.FederationScopeMenu({
@@ -237,16 +237,16 @@
 			$icon.addClass('hidden');
 
 			switch (scope) {
-				case 'private':
 				case 'v2-private':
+				case 'v2-local':
 					$icon.addClass('icon-password');
 					$icon.removeClass('hidden');
 					break;
-				case 'contacts':
+				case 'v2-federated':
 					$icon.addClass('icon-contacts-dark');
 					$icon.removeClass('hidden');
 					break;
-				case 'public':
+				case 'v2-published':
 					$icon.addClass('icon-link');
 					$icon.removeClass('hidden');
 					break;
