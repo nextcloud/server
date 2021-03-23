@@ -455,4 +455,30 @@ class AccountManagerTest extends TestCase {
 			self::assertEquals($phoneNumber, self::invokePrivate($instance, 'parsePhoneNumber', [$phoneInput]));
 		}
 	}
+
+	public function dataParseWebsite(): array {
+		return [
+			['https://nextcloud.com', 'https://nextcloud.com'],
+			['http://nextcloud.com', 'http://nextcloud.com'],
+			['ftp://nextcloud.com', null],
+			['//nextcloud.com/', null],
+			['https:///?query', null],
+		];
+	}
+
+	/**
+	 * @dataProvider dataParseWebsite
+	 * @param string $websiteInput
+	 * @param string|null $websiteOutput
+	 */
+	public function testParseWebsite(string $websiteInput, ?string $websiteOutput): void {
+		$instance = $this->getInstance();
+
+		if ($websiteOutput === null) {
+			$this->expectException(\InvalidArgumentException::class);
+			self::invokePrivate($instance, 'parseWebsite', [$websiteInput]);
+		} else {
+			self::assertEquals($websiteOutput, self::invokePrivate($instance, 'parseWebsite', [$websiteInput]));
+		}
+	}
 }
