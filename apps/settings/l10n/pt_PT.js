@@ -223,7 +223,6 @@ OC.L10N.register(
     "Expire after " : "Expira após",
     "days" : "dias",
     "Enforce expiration date" : "Forçar a data de expiração",
-    "Allow users to share via link" : "Permitir que os utilizadores partilhem através de hiperligação",
     "Allow public uploads" : "Permitir Envios Públicos",
     "Always ask for a password" : "Pedir sempre a senha",
     "Enforce password protection" : "Forçar proteção por palavra-passe",
@@ -278,6 +277,7 @@ OC.L10N.register(
     "Valid until %s" : "Válido até %s",
     "Import root certificate" : "Importar certificado root",
     "Execute one task with each page loaded" : "Executar uma tarefa com cada página carregada",
+    "Allow users to share via link" : "Permitir que os utilizadores partilhem através de hiperligação",
     "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "permitir completar automáticamente nome do utilizador no diálogo de partilha. Se isto estiver inactivo é necessário introduzir o nome do utilizador ou o endereço de e-mail completo. ",
     "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Mostrar aviso legal na página de carregamento de ligações públicas. (Mostrar apenas quando a lista de ficheiros estiver oculta.)"
 },

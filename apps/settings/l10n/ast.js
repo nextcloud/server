@@ -192,7 +192,6 @@ OC.L10N.register(
     "Expire after " : "Caduca dempués de",
     "days" : "díes",
     "Enforce expiration date" : "Facer cumplir la data de caducidá",
-    "Allow users to share via link" : "Permitir a los usuarios compartir vía enllaz",
     "Allow public uploads" : "Permitir xubes públiques",
     "Always ask for a password" : "Pidir siempres la contraseña",
     "Enforce password protection" : "Ameyora la proteición por contraseña.",
@@ -239,6 +238,7 @@ OC.L10N.register(
     "Issued By" : "Emitíu por",
     "Valid until %s" : "Válidu hasta'l %s",
     "Import root certificate" : "Importar certificáu raigañu",
-    "Execute one task with each page loaded" : "Executar una xera con cada páxina cargada"
+    "Execute one task with each page loaded" : "Executar una xera con cada páxina cargada",
+    "Allow users to share via link" : "Permitir a los usuarios compartir vía enllaz"
 },
 "nplurals=2; plural=(n != 1);");

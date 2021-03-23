@@ -222,7 +222,6 @@ OC.L10N.register(
     "Expire after " : "Skadon pas ",
     "days" : "ditësh",
     "Enforce expiration date" : "Detyro datë skadimi",
-    "Allow users to share via link" : "Lejoji përdoruesit të ndajnë me të tjerët përmes lidhjesh",
     "Allow public uploads" : "Lejo ngarkime publike",
     "Always ask for a password" : "Gjithmonë pyet për një fjalëkalim",
     "Enforce password protection" : "Detyro mbrojtje me fjalëkalim",
@@ -279,6 +278,7 @@ OC.L10N.register(
     "Valid until %s" : "E vlefshme deri më %s",
     "Import root certificate" : "Importoni dëshmi rrënjë",
     "Execute one task with each page loaded" : "Kryeni vetëm një veprim me secilën prej faqeve të ngarkuara",
+    "Allow users to share via link" : "Lejoji përdoruesit të ndajnë me të tjerët përmes lidhjesh",
     "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Shfaqni tekstin e mospranimit në linkun publik të faqes së ngarkuar. (Shfaqet vetëm kur lista e skedarit është e fshehur.)"
 },
 "nplurals=2; plural=(n != 1);");
