@@ -1,9 +1,11 @@
 <?php
+
+declare(strict_types=1);
+
 /**
- * @copyright Copyright (c) 2017 Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @copyright Copyright (c) 2021 Roeland Jago Douma <roeland@famdouma.nl>
  *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -24,22 +26,23 @@
 
 namespace OCA\Comments;
 
+use OCP\AppFramework\Services\InitialStateProvider;
 use OCP\IConfig;
 
-class JSSettingsHelper {
-	/** @var IConfig */
-	private $c;
+class MaxAutoCompleteResultsInitialState extends InitialStateProvider {
 
-	public function __construct(IConfig $c) {
-		$this->c = $c;
+	/** @var IConfig */
+	private $config;
+
+	public function __construct(IConfig $config) {
+		$this->config = $config;
 	}
 
-	public function extend(array $settings) {
-		$appConfig = json_decode($settings['array']['oc_appconfig'], true);
+	public function getKey(): string {
+		return 'maxAutoCompleteResults';
+	}
 
-		$value = (int)$this->c->getAppValue('comments', 'maxAutoCompleteResults', 10);
-		$appConfig['comments']['maxAutoCompleteResults'] = $value;
-
-		$settings['array']['oc_appconfig'] = json_encode($appConfig);
+	public function getData(): int {
+		return (int)$this->config->getAppValue('comments', 'maxAutoCompleteResults', '10');
 	}
 }
