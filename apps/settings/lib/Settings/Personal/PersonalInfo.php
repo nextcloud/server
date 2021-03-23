@@ -37,6 +37,7 @@ namespace OCA\Settings\Settings\Personal;
 
 use OC\Accounts\AccountManager;
 use OCA\FederatedFileSharing\FederatedShareProvider;
+use OCP\Accounts\IAccount;
 use OCP\Accounts\IAccountManager;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\TemplateResponse;
@@ -96,7 +97,7 @@ class PersonalInfo implements ISettings {
 
 		$uid = \OC_User::getUser();
 		$user = $this->userManager->get($uid);
-		$userData = $this->accountManager->getUser($user);
+		$account = $this->accountManager->getAccount($user);
 
 		// make sure FS is setup before querying storage related stuff...
 		\OC_Util::setupFS($user->getUID());
@@ -110,7 +111,7 @@ class PersonalInfo implements ISettings {
 
 		$languageParameters = $this->getLanguages($user);
 		$localeParameters = $this->getLocales($user);
-		$messageParameters = $this->getMessageParameters($userData);
+		$messageParameters = $this->getMessageParameters($account);
 
 		$parameters = [
 			'total_space' => $totalSpace,
@@ -119,23 +120,23 @@ class PersonalInfo implements ISettings {
 			'quota' => $storageInfo['quota'],
 			'avatarChangeSupported' => $user->canChangeAvatar(),
 			'lookupServerUploadEnabled' => $lookupServerUploadEnabled,
-			'avatarScope' => $userData[IAccountManager::PROPERTY_AVATAR]['scope'],
+			'avatarScope' => $account->getProperty(IAccountManager::PROPERTY_AVATAR)->getScope(),
 			'displayNameChangeSupported' => $user->canChangeDisplayName(),
-			'displayName' => $userData[IAccountManager::PROPERTY_DISPLAYNAME]['value'],
-			'displayNameScope' => $userData[IAccountManager::PROPERTY_DISPLAYNAME]['scope'],
-			'email' => $userData[IAccountManager::PROPERTY_EMAIL]['value'],
-			'emailScope' => $userData[IAccountManager::PROPERTY_EMAIL]['scope'],
-			'emailVerification' => $userData[IAccountManager::PROPERTY_EMAIL]['verified'],
-			'phone' => $userData[IAccountManager::PROPERTY_PHONE]['value'],
-			'phoneScope' => $userData[IAccountManager::PROPERTY_PHONE]['scope'],
-			'address' => $userData[IAccountManager::PROPERTY_ADDRESS]['value'],
-			'addressScope' => $userData[IAccountManager::PROPERTY_ADDRESS]['scope'],
-			'website' => $userData[IAccountManager::PROPERTY_WEBSITE]['value'],
-			'websiteScope' => $userData[IAccountManager::PROPERTY_WEBSITE]['scope'],
-			'websiteVerification' => $userData[IAccountManager::PROPERTY_WEBSITE]['verified'],
-			'twitter' => $userData[IAccountManager::PROPERTY_TWITTER]['value'],
-			'twitterScope' => $userData[IAccountManager::PROPERTY_TWITTER]['scope'],
-			'twitterVerification' => $userData[IAccountManager::PROPERTY_TWITTER]['verified'],
+			'displayName' => $account->getProperty(IAccountManager::PROPERTY_DISPLAYNAME)->getValue(),
+			'displayNameScope' => $account->getProperty(IAccountManager::PROPERTY_DISPLAYNAME)->getScope(),
+			'email' => $account->getProperty(IAccountManager::PROPERTY_EMAIL)->getValue(),
+			'emailScope' => $account->getProperty(IAccountManager::PROPERTY_EMAIL)->getScope(),
+			'emailVerification' => $account->getProperty(IAccountManager::PROPERTY_EMAIL)->getVerified(),
+			'phone' => $account->getProperty(IAccountManager::PROPERTY_PHONE)->getValue(),
+			'phoneScope' => $account->getProperty(IAccountManager::PROPERTY_PHONE)->getScope(),
+			'address' => $account->getProperty(IAccountManager::PROPERTY_ADDRESS)->getValue(),
+			'addressScope' => $account->getProperty(IAccountManager::PROPERTY_ADDRESS)->getScope(),
+			'website' => $account->getProperty(IAccountManager::PROPERTY_WEBSITE)->getValue(),
+			'websiteScope' => $account->getProperty(IAccountManager::PROPERTY_WEBSITE)->getScope(),
+			'websiteVerification' => $account->getProperty(IAccountManager::PROPERTY_WEBSITE)->getVerified(),
+			'twitter' => $account->getProperty(IAccountManager::PROPERTY_TWITTER)->getValue(),
+			'twitterScope' => $account->getProperty(IAccountManager::PROPERTY_TWITTER)->getScope(),
+			'twitterVerification' => $account->getProperty(IAccountManager::PROPERTY_TWITTER)->getVerified(),
 			'groups' => $this->getGroups($user),
 		] + $messageParameters + $languageParameters + $localeParameters;
 
@@ -263,14 +264,14 @@ class PersonalInfo implements ISettings {
 	}
 
 	/**
-	 * @param array $userData
+	 * @param IAccount $account
 	 * @return array
 	 */
-	private function getMessageParameters(array $userData): array {
+	private function getMessageParameters(IAccount $account): array {
 		$needVerifyMessage = [IAccountManager::PROPERTY_EMAIL, IAccountManager::PROPERTY_WEBSITE, IAccountManager::PROPERTY_TWITTER];
 		$messageParameters = [];
 		foreach ($needVerifyMessage as $property) {
-			switch ($userData[$property]['verified']) {
+			switch ($account->getProperty($property)->getVerified()) {
 				case AccountManager::VERIFIED:
 					$message = $this->l->t('Verifying');
 					break;

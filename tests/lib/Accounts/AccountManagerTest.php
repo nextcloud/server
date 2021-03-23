@@ -278,26 +278,26 @@ class AccountManagerTest extends TestCase {
 			IAccountManager::PROPERTY_TWITTER =>
 				[
 					'value' => '@twitterhandle',
-					'scope' => IAccountManager::VISIBILITY_PRIVATE,
+					'scope' => IAccountManager::SCOPE_LOCAL,
 					'verified' => IAccountManager::NOT_VERIFIED,
 				],
 			IAccountManager::PROPERTY_EMAIL =>
 				[
 					'value' => 'test@example.com',
-					'scope' => IAccountManager::VISIBILITY_PUBLIC,
+					'scope' => IAccountManager::SCOPE_PUBLISHED,
 					'verified' => IAccountManager::VERIFICATION_IN_PROGRESS,
 				],
 			IAccountManager::PROPERTY_WEBSITE =>
 				[
 					'value' => 'https://example.com',
-					'scope' => IAccountManager::VISIBILITY_CONTACTS_ONLY,
+					'scope' => IAccountManager::SCOPE_FEDERATED,
 					'verified' => IAccountManager::VERIFIED,
 				],
 		];
 		$expected = new Account($user);
-		$expected->setProperty(IAccountManager::PROPERTY_TWITTER, '@twitterhandle', IAccountManager::VISIBILITY_PRIVATE, IAccountManager::NOT_VERIFIED);
-		$expected->setProperty(IAccountManager::PROPERTY_EMAIL, 'test@example.com', IAccountManager::VISIBILITY_PUBLIC, IAccountManager::VERIFICATION_IN_PROGRESS);
-		$expected->setProperty(IAccountManager::PROPERTY_WEBSITE, 'https://example.com', IAccountManager::VISIBILITY_CONTACTS_ONLY, IAccountManager::VERIFIED);
+		$expected->setProperty(IAccountManager::PROPERTY_TWITTER, '@twitterhandle', IAccountManager::SCOPE_LOCAL, IAccountManager::NOT_VERIFIED);
+		$expected->setProperty(IAccountManager::PROPERTY_EMAIL, 'test@example.com', IAccountManager::SCOPE_PUBLISHED, IAccountManager::VERIFICATION_IN_PROGRESS);
+		$expected->setProperty(IAccountManager::PROPERTY_WEBSITE, 'https://example.com', IAccountManager::SCOPE_FEDERATED, IAccountManager::VERIFIED);
 
 		$accountManager->expects($this->once())
 			->method('getUser')

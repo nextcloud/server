@@ -35,21 +35,21 @@
 					active: false
 				},
 				{
-					name: 'private',
+					name: 'v2-local',
 					displayName: t('settings', 'Local'),
 					tooltip: t('settings', "Don't synchronize to servers"),
 					iconClass: 'icon-password',
 					active: false
 				},
 				{
-					name: 'contacts',
-					displayName: t('settings', 'Trusted'),
+					name: 'v2-federated',
+					displayName: t('settings', 'Federated'),
 					tooltip: t('settings', 'Only synchronize to trusted servers'),
 					iconClass: 'icon-contacts-dark',
 					active: false
 				},
 				{
-					name: 'public',
+					name: 'v2-published',
 					displayName: t('settings', 'Published'),
 					tooltip: t('settings', 'Synchronize to trusted servers and the global and public address book'),
 					iconClass: 'icon-link',

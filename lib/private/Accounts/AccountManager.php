@@ -421,41 +421,41 @@ class AccountManager implements IAccountManager {
 			self::PROPERTY_DISPLAYNAME =>
 				[
 					'value' => $user->getDisplayName(),
-					'scope' => self::VISIBILITY_CONTACTS_ONLY,
+					'scope' => self::SCOPE_FEDERATED,
 					'verified' => self::NOT_VERIFIED,
 				],
 			self::PROPERTY_ADDRESS =>
 				[
 					'value' => '',
-					'scope' => self::VISIBILITY_PRIVATE,
+					'scope' => self::SCOPE_LOCAL,
 					'verified' => self::NOT_VERIFIED,
 				],
 			self::PROPERTY_WEBSITE =>
 				[
 					'value' => '',
-					'scope' => self::VISIBILITY_PRIVATE,
+					'scope' => self::SCOPE_LOCAL,
 					'verified' => self::NOT_VERIFIED,
 				],
 			self::PROPERTY_EMAIL =>
 				[
 					'value' => $user->getEMailAddress(),
-					'scope' => self::VISIBILITY_CONTACTS_ONLY,
+					'scope' => self::SCOPE_FEDERATED,
 					'verified' => self::NOT_VERIFIED,
 				],
 			self::PROPERTY_AVATAR =>
 				[
-					'scope' => self::VISIBILITY_CONTACTS_ONLY
+					'scope' => self::SCOPE_FEDERATED
 				],
 			self::PROPERTY_PHONE =>
 				[
 					'value' => '',
-					'scope' => self::VISIBILITY_PRIVATE,
+					'scope' => self::SCOPE_LOCAL,
 					'verified' => self::NOT_VERIFIED,
 				],
 			self::PROPERTY_TWITTER =>
 				[
 					'value' => '',
-					'scope' => self::VISIBILITY_PRIVATE,
+					'scope' => self::SCOPE_LOCAL,
 					'verified' => self::NOT_VERIFIED,
 				],
 		];
@@ -464,7 +464,7 @@ class AccountManager implements IAccountManager {
 	private function parseAccountData(IUser $user, $data): Account {
 		$account = new Account($user);
 		foreach ($data as $property => $accountData) {
-			$account->setProperty($property, $accountData['value'] ?? '', $accountData['scope'] ?? self::VISIBILITY_PRIVATE, $accountData['verified'] ?? self::NOT_VERIFIED);
+			$account->setProperty($property, $accountData['value'] ?? '', $accountData['scope'] ?? self::SCOPE_LOCAL, $accountData['verified'] ?? self::NOT_VERIFIED);
 		}
 		return $account;
 	}

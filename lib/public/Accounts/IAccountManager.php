@@ -50,14 +50,14 @@ interface IAccountManager {
 	 *
 	 * @since 21.0.1
 	 */
-	public const SCOPE_LOCAL = 'private';
+	public const SCOPE_LOCAL = 'v2-local';
 
 	/**
 	 * Contact details visible locally, through public link access and on trusted federated servers.
 	 *
 	 * @since 21.0.1
 	 */
-	public const SCOPE_FEDERATED = 'federated';
+	public const SCOPE_FEDERATED = 'v2-federated';
 
 	/**
 	 * Contact details visible locally, through public link access, on trusted federated servers
@@ -65,7 +65,7 @@ interface IAccountManager {
 	 *
 	 * @since 21.0.1
 	 */
-	public const SCOPE_PUBLISHED = 'public';
+	public const SCOPE_PUBLISHED = 'v2-published';
 
 	/**
 	 * Contact details only visible locally
