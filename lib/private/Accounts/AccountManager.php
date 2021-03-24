@@ -144,6 +144,37 @@ class AccountManager implements IAccountManager {
 			}
 		}
 
+		$allowedScopes = [
+			self::SCOPE_PRIVATE,
+			self::SCOPE_LOCAL,
+			self::SCOPE_FEDERATED,
+			self::SCOPE_PUBLISHED,
+			self::VISIBILITY_PRIVATE,
+			self::VISIBILITY_CONTACTS_ONLY,
+			self::VISIBILITY_PUBLIC,
+		];
+
+		// validate and convert scope values
+		foreach ($data as $propertyName => $propertyData) {
+			if (isset($propertyData['scope'])) {
+				if ($throwOnData && !in_array($propertyData['scope'], $allowedScopes, true)) {
+					throw new \InvalidArgumentException('scope');
+				}
+
+				if (
+					$propertyData['scope'] === self::SCOPE_PRIVATE
+					&& ($propertyName === self::PROPERTY_DISPLAYNAME || $propertyName === self::PROPERTY_EMAIL)
+				) {
+					// v2-private is not available for these fields
+					throw new \InvalidArgumentException('scope');
+				}
+
+				// migrate scope values to the new format
+				// invalid scopes are mapped to a default value
+				$data[$propertyName]['scope'] = AccountProperty::mapScopeToV2($propertyData['scope']);
+			}
+		}
+
 		if (empty($userData)) {
 			$this->insertNewUser($user, $data);
 		} elseif ($userData !== $data) {
@@ -405,7 +436,7 @@ class AccountManager implements IAccountManager {
 			}
 
 			$query->setParameter('name', $propertyName)
-				->setParameter('value', $property['value']);
+				->setParameter('value', $property['value'] ?? '');
 			$query->execute();
 		}
 	}

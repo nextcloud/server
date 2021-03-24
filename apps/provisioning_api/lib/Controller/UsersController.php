@@ -470,7 +470,13 @@ class UsersController extends AUserData {
 	 * @throws OCSException
 	 */
 	public function getUser(string $userId): DataResponse {
-		$data = $this->getUserData($userId);
+		$includeScopes = false;
+		$currentUser = $this->userSession->getUser();
+		if ($currentUser && $currentUser->getUID() === $userId) {
+			$includeScopes = true;
+		}
+
+		$data = $this->getUserData($userId, $includeScopes);
 		// getUserData returns empty array if not enough permissions
 		if (empty($data)) {
 			throw new OCSException('', \OCP\API::RESPOND_UNAUTHORISED);
@@ -490,7 +496,7 @@ class UsersController extends AUserData {
 	public function getCurrentUser(): DataResponse {
 		$user = $this->userSession->getUser();
 		if ($user) {
-			$data = $this->getUserData($user->getUID());
+			$data = $this->getUserData($user->getUID(), true);
 			// rename "displayname" to "display-name" only for this call to keep
 			// the API stable.
 			$data['display-name'] = $data['displayname'];
@@ -552,6 +558,9 @@ class UsersController extends AUserData {
 				$permittedFields[] = IAccountManager::PROPERTY_EMAIL;
 			}
 
+			$permittedFields[] = IAccountManager::PROPERTY_DISPLAYNAME . self::SCOPE_SUFFIX;
+			$permittedFields[] = IAccountManager::PROPERTY_EMAIL . self::SCOPE_SUFFIX;
+
 			$permittedFields[] = 'password';
 			if ($this->config->getSystemValue('force_language', false) === false ||
 				$this->groupManager->isAdmin($currentLoggedInUser->getUID())) {
@@ -567,6 +576,10 @@ class UsersController extends AUserData {
 			$permittedFields[] = IAccountManager::PROPERTY_ADDRESS;
 			$permittedFields[] = IAccountManager::PROPERTY_WEBSITE;
 			$permittedFields[] = IAccountManager::PROPERTY_TWITTER;
+			$permittedFields[] = IAccountManager::PROPERTY_PHONE . self::SCOPE_SUFFIX;
+			$permittedFields[] = IAccountManager::PROPERTY_ADDRESS . self::SCOPE_SUFFIX;
+			$permittedFields[] = IAccountManager::PROPERTY_WEBSITE . self::SCOPE_SUFFIX;
+			$permittedFields[] = IAccountManager::PROPERTY_TWITTER . self::SCOPE_SUFFIX;
 
 			// If admin they can edit their own quota
 			if ($this->groupManager->isAdmin($currentLoggedInUser->getUID())) {
@@ -666,6 +679,23 @@ class UsersController extends AUserData {
 						if ($key === IAccountManager::PROPERTY_PHONE) {
 							$this->knownUserService->deleteByContactUserId($targetUser->getUID());
 						}
+					} catch (\InvalidArgumentException $e) {
+						throw new OCSException('Invalid ' . $e->getMessage(), 102);
+					}
+				}
+				break;
+			case IAccountManager::PROPERTY_DISPLAYNAME . self::SCOPE_SUFFIX:
+			case IAccountManager::PROPERTY_EMAIL . self::SCOPE_SUFFIX:
+			case IAccountManager::PROPERTY_PHONE . self::SCOPE_SUFFIX:
+			case IAccountManager::PROPERTY_ADDRESS . self::SCOPE_SUFFIX:
+			case IAccountManager::PROPERTY_WEBSITE . self::SCOPE_SUFFIX:
+			case IAccountManager::PROPERTY_TWITTER . self::SCOPE_SUFFIX:
+				$propertyName = substr($key, 0, strlen($key) - strlen(self::SCOPE_SUFFIX));
+				$userAccount = $this->accountManager->getUser($targetUser);
+				if ($userAccount[$propertyName]['scope'] !== $value) {
+					$userAccount[$propertyName]['scope'] = $value;
+					try {
+						$this->accountManager->updateUser($targetUser, $userAccount, true);
 					} catch (\InvalidArgumentException $e) {
 						throw new OCSException('Invalid ' . $e->getMessage(), 102);
 					}

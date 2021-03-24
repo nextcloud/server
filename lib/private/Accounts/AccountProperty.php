@@ -128,7 +128,7 @@ class AccountProperty implements IAccountProperty {
 		return $this->scope;
 	}
 
-	private function mapScopeToV2($scope) {
+	public static function mapScopeToV2($scope) {
 		if (strpos($scope, 'v2-') === 0) {
 			return $scope;
 		}
