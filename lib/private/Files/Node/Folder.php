@@ -32,6 +32,7 @@
 namespace OC\Files\Node;
 
 use OC\DB\QueryBuilder\Literal;
+use OC\Files\Cache\CacheEntry;
 use OC\Files\Search\SearchBinaryOperator;
 use OC\Files\Search\SearchComparison;
 use OC\Files\Search\SearchQuery;
@@ -39,7 +40,6 @@ use OC\Files\Storage\Wrapper\Jail;
 use OC\Files\Storage\Storage;
 use OCA\Files_Sharing\SharedStorage;
 use OCP\DB\QueryBuilder\IQueryBuilder;
-use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Config\ICachedMountInfo;
 use OCP\Files\FileInfo;
 use OCP\Files\Mount\IMountPoint;
@@ -323,7 +323,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 		}, $files);
 	}
 
-	private function cacheEntryToFileInfo(IMountPoint $mount, string $appendRoot, string $trimRoot, ICacheEntry $cacheEntry): FileInfo {
+	private function cacheEntryToFileInfo(IMountPoint $mount, string $appendRoot, string $trimRoot, CacheEntry $cacheEntry): FileInfo {
 		$trimLength = strlen($trimRoot);
 		$cacheEntry['internalPath'] = $cacheEntry['path'];
 		$cacheEntry['path'] = $appendRoot . substr($cacheEntry['path'], $trimLength);
@@ -364,7 +364,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 	public function getById($id) {
 		$mountCache = $this->root->getUserMountCache();
 		if (strpos($this->getPath(), '/', 1) > 0) {
-			list(, $user) = explode('/', $this->getPath());
+			[, $user] = explode('/', $this->getPath());
 		} else {
 			$user = null;
 		}

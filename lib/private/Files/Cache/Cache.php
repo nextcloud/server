@@ -811,6 +811,10 @@ class Cache implements ICache {
 		}, $files);
 	}
 
+	/**
+	 * @param ISearchQuery $searchQuery
+	 * @return CacheEntry[]
+	 */
 	public function searchQuery(ISearchQuery $searchQuery) {
 		$builder = $this->getQueryBuilder();
 
