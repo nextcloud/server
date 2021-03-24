@@ -594,6 +594,8 @@ class UsersController extends AUserData {
 			$permittedFields[] = IAccountManager::PROPERTY_WEBSITE . self::SCOPE_SUFFIX;
 			$permittedFields[] = IAccountManager::PROPERTY_TWITTER . self::SCOPE_SUFFIX;
 
+			$permittedFields[] = IAccountManager::PROPERTY_AVATAR . self::SCOPE_SUFFIX;
+
 			// If admin they can edit their own quota
 			if ($this->groupManager->isAdmin($currentLoggedInUser->getUID())) {
 				$permittedFields[] = 'quota';
@@ -703,6 +705,7 @@ class UsersController extends AUserData {
 			case IAccountManager::PROPERTY_ADDRESS . self::SCOPE_SUFFIX:
 			case IAccountManager::PROPERTY_WEBSITE . self::SCOPE_SUFFIX:
 			case IAccountManager::PROPERTY_TWITTER . self::SCOPE_SUFFIX:
+			case IAccountManager::PROPERTY_AVATAR . self::SCOPE_SUFFIX:
 				$propertyName = substr($key, 0, strlen($key) - strlen(self::SCOPE_SUFFIX));
 				$userAccount = $this->accountManager->getUser($targetUser);
 				if ($userAccount[$propertyName]['scope'] !== $value) {
