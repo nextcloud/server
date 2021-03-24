@@ -32,15 +32,24 @@
 namespace OC\Files\Node;
 
 use OC\DB\QueryBuilder\Literal;
+use OC\Files\Search\SearchBinaryOperator;
+use OC\Files\Search\SearchComparison;
+use OC\Files\Search\SearchQuery;
 use OC\Files\Storage\Wrapper\Jail;
+use OC\Files\Storage\Storage;
 use OCA\Files_Sharing\SharedStorage;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Config\ICachedMountInfo;
 use OCP\Files\FileInfo;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
+use OCP\Files\Search\ISearchBinaryOperator;
+use OCP\Files\Search\ISearchComparison;
+use OCP\Files\Search\ISearchOperator;
 use OCP\Files\Search\ISearchQuery;
+use OCP\IUserManager;
 
 class Folder extends Node implements \OCP\Files\Folder {
 	/**
@@ -96,8 +105,8 @@ class Folder extends Node implements \OCP\Files\Folder {
 	/**
 	 * get the content of this directory
 	 *
-	 * @throws \OCP\Files\NotFoundException
 	 * @return Node[]
+	 * @throws \OCP\Files\NotFoundException
 	 */
 	public function getDirectoryListing() {
 		$folderContent = $this->view->getDirectoryContent($this->path);
@@ -200,6 +209,17 @@ class Folder extends Node implements \OCP\Files\Folder {
 		throw new NotPermittedException('No create permission for path');
 	}
 
+	private function queryFromOperator(ISearchOperator $operator, string $uid = null): ISearchQuery {
+		if ($uid === null) {
+			$user = null;
+		} else {
+			/** @var IUserManager $userManager */
+			$userManager = \OC::$server->query(IUserManager::class);
+			$user = $userManager->get($uid);
+		}
+		return new SearchQuery($operator, 0, 0, [], $user);
+	}
+
 	/**
 	 * search for files with the name matching $query
 	 *
@@ -208,10 +228,106 @@ class Folder extends Node implements \OCP\Files\Folder {
 	 */
 	public function search($query) {
 		if (is_string($query)) {
-			return $this->searchCommon('search', ['%' . $query . '%']);
-		} else {
-			return $this->searchCommon('searchQuery', [$query]);
+			$query = $this->queryFromOperator(new SearchComparison(ISearchComparison::COMPARE_LIKE, 'name', '%' . $query . '%'));
 		}
+
+		// Limit+offset for queries with ordering
+		//
+		// Because we currently can't do ordering between the results from different storages in sql
+		// The only way to do ordering is requesting the $limit number of entries from all storages
+		// sorting them and returning the first $limit entries.
+		//
+		// For offset we have the same problem, we don't know how many entries from each storage should be skipped
+		// by a given $offset, so instead we query $offset + $limit from each storage and return entries $offset..($offset+$limit)
+		// after merging and sorting them.
+		//
+		// This is suboptimal but because limit and offset tend to be fairly small in real world use cases it should
+		// still be significantly better than disabling paging altogether
+
+		$limitToHome = $query->limitToHome();
+		if ($limitToHome && count(explode('/', $this->path)) !== 3) {
+			throw new \InvalidArgumentException('searching by owner is only allows on the users home folder');
+		}
+
+		$rootLength = strlen($this->path);
+		$mount = $this->root->getMount($this->path);
+		$storage = $mount->getStorage();
+		$internalPath = $mount->getInternalPath($this->path);
+		$internalPath = rtrim($internalPath, '/');
+		if ($internalPath !== '') {
+			$internalPath = $internalPath . '/';
+		}
+
+		$subQueryLimit = $query->getLimit() > 0 ? $query->getLimit() + $query->getOffset() : 0;
+		$rootQuery = new SearchQuery(
+			new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_AND, [
+				new SearchComparison(ISearchComparison::COMPARE_LIKE, 'path', $internalPath . '%'),
+				$query->getSearchOperation(),
+			]
+			),
+			$subQueryLimit,
+			0,
+			$query->getOrder(),
+			$query->getUser()
+		);
+
+		$files = [];
+
+		$cache = $storage->getCache('');
+
+		$results = $cache->searchQuery($rootQuery);
+		foreach ($results as $result) {
+			$files[] = $this->cacheEntryToFileInfo($mount, '', $internalPath, $result);
+		}
+
+		if (!$limitToHome) {
+			$mounts = $this->root->getMountsIn($this->path);
+			foreach ($mounts as $mount) {
+				$subQuery = new SearchQuery(
+					$query->getSearchOperation(),
+					$subQueryLimit,
+					0,
+					$query->getOrder(),
+					$query->getUser()
+				);
+
+				$storage = $mount->getStorage();
+				if ($storage) {
+					$cache = $storage->getCache('');
+
+					$relativeMountPoint = ltrim(substr($mount->getMountPoint(), $rootLength), '/');
+					$results = $cache->searchQuery($subQuery);
+					foreach ($results as $result) {
+						$files[] = $this->cacheEntryToFileInfo($mount, $relativeMountPoint, '', $result);
+					}
+				}
+			}
+		}
+
+		$order = $query->getOrder();
+		if ($order) {
+			usort($files, function (FileInfo $a,FileInfo  $b) use ($order) {
+				foreach ($order as $orderField) {
+					$cmp = $orderField->sortFileInfo($a, $b);
+					if ($cmp !== 0) {
+						return $cmp;
+					}
+				}
+				return 0;
+			});
+		}
+		$files = array_values(array_slice($files, $query->getOffset(), $query->getLimit() > 0 ? $query->getLimit() : null));
+
+		return array_map(function (FileInfo $file) {
+			return $this->createNode($file->getPath(), $file);
+		}, $files);
+	}
+
+	private function cacheEntryToFileInfo(IMountPoint $mount, string $appendRoot, string $trimRoot, ICacheEntry $cacheEntry): FileInfo {
+		$trimLength = strlen($trimRoot);
+		$cacheEntry['internalPath'] = $cacheEntry['path'];
+		$cacheEntry['path'] = $appendRoot . substr($cacheEntry['path'], $trimLength);
+		return new \OC\Files\FileInfo($this->path . '/' . $cacheEntry['path'], $mount->getStorage(), $cacheEntry['internalPath'], $cacheEntry, $mount);
 	}
 
 	/**
@@ -221,7 +337,12 @@ class Folder extends Node implements \OCP\Files\Folder {
 	 * @return Node[]
 	 */
 	public function searchByMime($mimetype) {
-		return $this->searchCommon('searchByMime', [$mimetype]);
+		if (strpos($mimetype, '/') === false) {
+			$query = $this->queryFromOperator(new SearchComparison(ISearchComparison::COMPARE_LIKE, 'mimetype', $mimetype . '/%'));
+		} else {
+			$query = $this->queryFromOperator(new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'mimetype', $mimetype));
+		}
+		return $this->search($query);
 	}
 
 	/**
@@ -232,66 +353,8 @@ class Folder extends Node implements \OCP\Files\Folder {
 	 * @return Node[]
 	 */
 	public function searchByTag($tag, $userId) {
-		return $this->searchCommon('searchByTag', [$tag, $userId]);
-	}
-
-	/**
-	 * @param string $method cache method
-	 * @param array $args call args
-	 * @return \OC\Files\Node\Node[]
-	 */
-	private function searchCommon($method, $args) {
-		$limitToHome = ($method === 'searchQuery')? $args[0]->limitToHome(): false;
-		if ($limitToHome && count(explode('/', $this->path)) !== 3) {
-			throw new \InvalidArgumentException('searching by owner is only allows on the users home folder');
-		}
-
-		$files = [];
-		$rootLength = strlen($this->path);
-		$mount = $this->root->getMount($this->path);
-		$storage = $mount->getStorage();
-		$internalPath = $mount->getInternalPath($this->path);
-		$internalPath = rtrim($internalPath, '/');
-		if ($internalPath !== '') {
-			$internalPath = $internalPath . '/';
-		}
-		$internalRootLength = strlen($internalPath);
-
-		$cache = $storage->getCache('');
-
-		$results = call_user_func_array([$cache, $method], $args);
-		foreach ($results as $result) {
-			if ($internalRootLength === 0 or substr($result['path'], 0, $internalRootLength) === $internalPath) {
-				$result['internalPath'] = $result['path'];
-				$result['path'] = substr($result['path'], $internalRootLength);
-				$result['storage'] = $storage;
-				$files[] = new \OC\Files\FileInfo($this->path . '/' . $result['path'], $storage, $result['internalPath'], $result, $mount);
-			}
-		}
-
-		if (!$limitToHome) {
-			$mounts = $this->root->getMountsIn($this->path);
-			foreach ($mounts as $mount) {
-				$storage = $mount->getStorage();
-				if ($storage) {
-					$cache = $storage->getCache('');
-
-					$relativeMountPoint = ltrim(substr($mount->getMountPoint(), $rootLength), '/');
-					$results = call_user_func_array([$cache, $method], $args);
-					foreach ($results as $result) {
-						$result['internalPath'] = $result['path'];
-						$result['path'] = $relativeMountPoint . $result['path'];
-						$result['storage'] = $storage;
-						$files[] = new \OC\Files\FileInfo($this->path . '/' . $result['path'], $storage,
-							$result['internalPath'], $result, $mount);
-					}
-				}
-			}
-		}
-
-		return array_map(function (FileInfo $file) {
-			return $this->createNode($file->getPath(), $file);
-		}, $files);
+		$query = $this->queryFromOperator(new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'tagname', $tag), $userId);
+		return $this->search($query);
 	}
 
 	/**
@@ -320,7 +383,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 
 		if (count($mountsContainingFile) === 0) {
 			if ($user === $this->getAppDataDirectoryName()) {
-				return $this->getByIdInRootMount((int) $id);
+				return $this->getByIdInRootMount((int)$id);
 			}
 			return [];
 		}
@@ -383,11 +446,11 @@ class Folder extends Node implements \OCP\Files\Folder {
 
 		return [$this->root->createNode(
 			$absolutePath, new \OC\Files\FileInfo(
-				$absolutePath,
-				$mount->getStorage(),
-				$cacheEntry->getPath(),
-				$cacheEntry,
-				$mount
+			$absolutePath,
+			$mount->getStorage(),
+			$cacheEntry->getPath(),
+			$cacheEntry,
+			$mount
 		))];
 	}
 
@@ -518,10 +581,10 @@ class Folder extends Node implements \OCP\Files\Folder {
 		$query->andWhere($storageFilters);
 
 		$query->andWhere($builder->expr()->orX(
-			// handle non empty folders separate
-				$builder->expr()->neq('f.mimetype', $builder->createNamedParameter($folderMimetype, IQueryBuilder::PARAM_INT)),
-				$builder->expr()->eq('f.size', new Literal(0))
-			))
+		// handle non empty folders separate
+			$builder->expr()->neq('f.mimetype', $builder->createNamedParameter($folderMimetype, IQueryBuilder::PARAM_INT)),
+			$builder->expr()->eq('f.size', new Literal(0))
+		))
 			->andWhere($builder->expr()->notLike('f.path', $builder->createNamedParameter('files_versions/%')))
 			->andWhere($builder->expr()->notLike('f.path', $builder->createNamedParameter('files_trashbin/%')))
 			->orderBy('f.mtime', 'DESC')
