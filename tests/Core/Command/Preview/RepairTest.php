@@ -9,6 +9,7 @@ use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\IConfig;
 use OCP\ILogger;
+use OCP\Lock\ILockingProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Console\Formatter\OutputFormatterInterface;
 use Symfony\Component\Console\Input\InputInterface;
@@ -43,7 +44,13 @@ class RepairTest extends TestCase {
 			->getMock();
 		$this->iniGetWrapper = $this->getMockBuilder(IniGetWrapper::class)
 			->getMock();
-		$this->repair = new Repair($this->config, $this->rootFolder, $this->logger, $this->iniGetWrapper);
+		$this->repair = new Repair(
+			$this->config,
+			$this->rootFolder,
+			$this->logger,
+			$this->iniGetWrapper,
+			$this->createMock(ILockingProvider::class)
+		);
 		$this->input = $this->getMockBuilder(InputInterface::class)
 			->getMock();
 		$this->input->expects($this->any())
