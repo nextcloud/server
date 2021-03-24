@@ -627,6 +627,10 @@ class Cache implements ICache {
 			$targetPath = $this->normalize($targetPath);
 
 			$sourceData = $sourceCache->get($sourcePath);
+			if ($sourceData === false) {
+				throw new \Exception('Invalid source storage path: ' . $sourcePath);
+			}
+
 			$sourceId = $sourceData['fileid'];
 			$newParentId = $this->getParentId($targetPath);
 
