@@ -72,7 +72,7 @@
     "babel-loader-exclude-node-modules-except": "^1.1.2",
     "babel-plugin-add-module-exports": "^1.0.4",
     "css-loader": "^4.3.0",
-    "cypress": "^6.6.0",
+    "cypress": "^6.8.0",
     "cypress-image-snapshot": "^4.0.1",
     "eslint": "^7.22.0",
     "eslint-config-standard": "^16.0.2",
