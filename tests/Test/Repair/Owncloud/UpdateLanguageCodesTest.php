@@ -86,6 +86,7 @@ class UpdateLanguageCodesTest extends TestCase {
 			->from('preferences')
 			->where($qb->expr()->eq('appid', $qb->createNamedParameter('core')))
 			->andWhere($qb->expr()->eq('configkey', $qb->createNamedParameter('lang')))
+			->orderBy('userid')
 			->execute();
 
 		$rows = $result->fetchAll();
