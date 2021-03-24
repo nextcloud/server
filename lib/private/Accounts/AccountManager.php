@@ -165,13 +165,18 @@ class AccountManager implements IAccountManager {
 					$propertyData['scope'] === self::SCOPE_PRIVATE
 					&& ($propertyName === self::PROPERTY_DISPLAYNAME || $propertyName === self::PROPERTY_EMAIL)
 				) {
-					// v2-private is not available for these fields
-					throw new \InvalidArgumentException('scope');
+					if ($throwOnData) {
+						// v2-private is not available for these fields
+						throw new \InvalidArgumentException('scope');
+					} else {
+						// default to local
+						$data[$propertyName]['scope'] = self::SCOPE_LOCAL;
+					}
+				} else {
+					// migrate scope values to the new format
+					// invalid scopes are mapped to a default value
+					$data[$propertyName]['scope'] = AccountProperty::mapScopeToV2($propertyData['scope']);
 				}
-
-				// migrate scope values to the new format
-				// invalid scopes are mapped to a default value
-				$data[$propertyName]['scope'] = AccountProperty::mapScopeToV2($propertyData['scope']);
 			}
 		}
 
@@ -229,6 +234,8 @@ class AccountManager implements IAccountManager {
 	 *
 	 * @param IUser $user
 	 * @return array
+	 *
+	 * @deprecated use getAccount instead to make sure migrated properties work correctly
 	 */
 	public function getUser(IUser $user) {
 		$uid = $user->getUID();
