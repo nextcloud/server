@@ -243,7 +243,6 @@ class ConvertType extends Command implements CompletionAwareInterface {
 			$toMS->migrate($currentMigration);
 		}
 
-		$schemaManager = new \OC\DB\MDB2SchemaManager($toDB);
 		$apps = $input->getOption('all-apps') ? \OC_App::getAllApps() : \OC_App::getEnabledApps();
 		foreach ($apps as $app) {
 			$output->writeln('<info> - '.$app.'</info>');

@@ -109,7 +109,6 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 	$application->add(new OC\Core\Command\Db\Migrations\StatusCommand(\OC::$server->get(\OC\DB\Connection::class)));
 	$application->add(new OC\Core\Command\Db\Migrations\MigrateCommand(\OC::$server->get(\OC\DB\Connection::class)));
 	$application->add(new OC\Core\Command\Db\Migrations\GenerateCommand(\OC::$server->get(\OC\DB\Connection::class), \OC::$server->getAppManager()));
-	$application->add(new OC\Core\Command\Db\Migrations\GenerateFromSchemaFileCommand(\OC::$server->getConfig(), \OC::$server->getAppManager(), \OC::$server->get(\OC\DB\Connection::class)));
 	$application->add(new OC\Core\Command\Db\Migrations\ExecuteCommand(\OC::$server->get(\OC\DB\Connection::class), \OC::$server->getConfig()));
 
 	$application->add(new OC\Core\Command\Encryption\Disable(\OC::$server->getConfig()));

@@ -12,9 +12,15 @@ namespace Test\DB;
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Platforms\MySQLPlatform;
 use Doctrine\DBAL\Platforms\OraclePlatform;
+use Doctrine\DBAL\Platforms\PostgreSQL94Platform;
 use Doctrine\DBAL\Platforms\SqlitePlatform;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\SchemaConfig;
+use OC\DB\Migrator;
+use OC\DB\MySQLMigrator;
+use OC\DB\OracleMigrator;
+use OC\DB\PostgreSqlMigrator;
+use OC\DB\SQLiteMigrator;
 use OCP\IConfig;
 
 /**
@@ -29,11 +35,6 @@ class MigratorTest extends \Test\TestCase {
 	 * @var \Doctrine\DBAL\Connection $connection
 	 */
 	private $connection;
-
-	/**
-	 * @var \OC\DB\MDB2SchemaManager
-	 */
-	private $manager;
 
 	/**
 	 * @var IConfig
@@ -54,9 +55,25 @@ class MigratorTest extends \Test\TestCase {
 		if ($this->connection->getDatabasePlatform() instanceof OraclePlatform) {
 			$this->markTestSkipped('DB migration tests are not supported on OCI');
 		}
-		$this->manager = new \OC\DB\MDB2SchemaManager($this->connection);
+
 		$this->tableName = $this->getUniqueTableName();
 		$this->tableNameTmp = $this->getUniqueTableName();
+	}
+
+	private function getMigrator(): Migrator {
+		$platform = $this->connection->getDatabasePlatform();
+		$random = \OC::$server->getSecureRandom();
+		$dispatcher = \OC::$server->getEventDispatcher();
+		if ($platform instanceof SqlitePlatform) {
+			return new SQLiteMigrator($this->connection, $this->config, $dispatcher);
+		} elseif ($platform instanceof OraclePlatform) {
+			return new OracleMigrator($this->connection, $this->config, $dispatcher);
+		} elseif ($platform instanceof MySQLPlatform) {
+			return new MySQLMigrator($this->connection, $this->config, $dispatcher);
+		} elseif ($platform instanceof PostgreSQL94Platform) {
+			return new PostgreSqlMigrator($this->connection, $this->config, $dispatcher);
+		}
+		return new Migrator($this->connection, $this->config, $dispatcher);
 	}
 
 	private function getUniqueTableName() {
@@ -132,7 +149,7 @@ class MigratorTest extends \Test\TestCase {
 
 	public function testUpgrade() {
 		[$startSchema, $endSchema] = $this->getDuplicateKeySchemas();
-		$migrator = $this->manager->getMigrator();
+		$migrator = $this->getMigrator();
 		$migrator->migrate($startSchema);
 
 		$this->connection->insert($this->tableName, ['id' => 1, 'name' => 'foo']);
@@ -150,7 +167,7 @@ class MigratorTest extends \Test\TestCase {
 		$this->tableName = strtolower($this->getUniqueID($this->config->getSystemValue('dbtableprefix') . 'test_'));
 
 		[$startSchema, $endSchema] = $this->getDuplicateKeySchemas();
-		$migrator = $this->manager->getMigrator();
+		$migrator = $this->getMigrator();
 		$migrator->migrate($startSchema);
 
 		$this->connection->insert($this->tableName, ['id' => 1, 'name' => 'foo']);
@@ -165,7 +182,7 @@ class MigratorTest extends \Test\TestCase {
 
 	public function testInsertAfterUpgrade() {
 		[$startSchema, $endSchema] = $this->getDuplicateKeySchemas();
-		$migrator = $this->manager->getMigrator();
+		$migrator = $this->getMigrator();
 		$migrator->migrate($startSchema);
 
 		$migrator->migrate($endSchema);
@@ -192,7 +209,7 @@ class MigratorTest extends \Test\TestCase {
 		$table->addColumn('name', 'string');
 		$table->setPrimaryKey(['id']);
 
-		$migrator = $this->manager->getMigrator();
+		$migrator = $this->getMigrator();
 		$migrator->migrate($startSchema);
 
 		$migrator->migrate($endSchema);
@@ -213,7 +230,7 @@ class MigratorTest extends \Test\TestCase {
 		$table->addColumn('user', 'string', ['length' => 64]);
 		$table->setPrimaryKey(['id']);
 
-		$migrator = $this->manager->getMigrator();
+		$migrator = $this->getMigrator();
 		$migrator->migrate($startSchema);
 
 		$migrator->migrate($endSchema);
@@ -234,7 +251,7 @@ class MigratorTest extends \Test\TestCase {
 		$tableFk->addColumn('name', 'string');
 		$tableFk->addForeignKeyConstraint($this->tableName, ['fk_id'], ['id'], [], $fkName);
 
-		$migrator = $this->manager->getMigrator();
+		$migrator = $this->getMigrator();
 		$migrator->migrate($startSchema);
 
 
