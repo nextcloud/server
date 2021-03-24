@@ -183,6 +183,7 @@ OC.L10N.register(
     "Create a new share link" : "Neuen Freigabe-Link erstellen",
     "{shareWith} by {initiator}" : "{shareWith} von {initiator}",
     "Shared via link by {initiator}" : "Geteilt mittels Link von {initiator}",
+    "Mail share ({label})" : "Mail-Freigabe ({label})",
     "Share link ({label})" : "Link teilen ({label})",
     "Share link" : "Link teilen",
     "Error, please enter proper password and/or expiration date" : "Fehler. Bitte gebe das richtige Passwort und/oder Ablaufdatum ein",
