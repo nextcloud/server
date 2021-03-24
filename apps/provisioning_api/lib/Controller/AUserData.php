@@ -138,6 +138,11 @@ abstract class AUserData extends OCSController {
 		$data['backend'] = $targetUserObject->getBackendClassName();
 		$data['subadmin'] = $this->getUserSubAdminGroupsData($targetUserObject->getUID());
 		$data['quota'] = $this->fillStorageInfo($targetUserObject->getUID());
+
+		if ($includeScopes) {
+			$data[IAccountManager::PROPERTY_AVATAR . self::SCOPE_SUFFIX] = $userAccount->getProperty(IAccountManager::PROPERTY_AVATAR)->getScope();
+		}
+
 		$data[IAccountManager::PROPERTY_EMAIL] = $targetUserObject->getEMailAddress();
 		if ($includeScopes) {
 			$data[IAccountManager::PROPERTY_EMAIL . self::SCOPE_SUFFIX] = $userAccount->getProperty(IAccountManager::PROPERTY_EMAIL)->getScope();
@@ -159,6 +164,7 @@ abstract class AUserData extends OCSController {
 				$data[$propertyName . self::SCOPE_SUFFIX] = $property->getScope();
 			}
 		}
+
 		$data['groups'] = $gids;
 		$data['language'] = $this->l10nFactory->getUserLanguage($targetUserObject);
 		$data['locale'] = $this->config->getUserValue($targetUserObject->getUID(), 'core', 'locale');
