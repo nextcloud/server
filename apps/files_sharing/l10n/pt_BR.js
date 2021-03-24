@@ -183,6 +183,7 @@ OC.L10N.register(
     "Create a new share link" : "Criar um novo link de compartilhamento",
     "{shareWith} by {initiator}" : "{shareWith} por {initiator}",
     "Shared via link by {initiator}" : "Compartilhado via link por {initiator}",
+    "Mail share ({label})" : "Compartilhar por e-mail ({label})",
     "Share link ({label})" : "Compartilhar link ({label})",
     "Share link" : "Link de compartilhamento",
     "Error, please enter proper password and/or expiration date" : "Erro, digite a senha correta e/ou a data de validade",

@@ -124,6 +124,8 @@
     "Please reload the page." : "请重新加载页面。",
     "The update was unsuccessful. For more information <a href=\"{url}\">check our forum post</a> covering this issue." : "更新不成功。有关此问题的更多信息请<a href=\"{url}\">查看我们的论坛帖子</a>。",
     "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Nextcloud community</a>." : "升级失败。请将此问题报告给 <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Nextcloud 社区</a>。",
+    "Continue to {productName}" : "继续到 {productName}",
+    "_The update was successful. Redirecting you to {productName} in %n second._::_The update was successful. Redirecting you to {productName} in %n seconds._" : ["更新成功。%n 秒内将把你重定向到 {productName}"],
     "Log in" : "登录",
     "Logging in …" : "正在登录 …",
     "Server side authentication failed!" : "服务端认证失败！",
