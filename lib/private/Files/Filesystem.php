@@ -312,7 +312,7 @@ class Filesystem {
 	 * get the storage mounted at $mountPoint
 	 *
 	 * @param string $mountPoint
-	 * @return \OC\Files\Storage\Storage
+	 * @return \OC\Files\Storage\Storage|null
 	 */
 	public static function getStorage($mountPoint) {
 		if (!self::$mounts) {

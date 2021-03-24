@@ -191,7 +191,7 @@ class Util {
 	 * get storage of path
 	 *
 	 * @param string $path
-	 * @return \OC\Files\Storage\Storage
+	 * @return \OC\Files\Storage\Storage|null
 	 */
 	public function getStorage($path) {
 		return $this->files->getMount($path)->getStorage();
