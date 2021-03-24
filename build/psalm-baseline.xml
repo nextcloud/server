@@ -44,11 +44,6 @@
       <code>!is_array($notification)</code>
     </TypeDoesNotContainType>
   </file>
-  <file src="apps/comments/lib/JSSettingsHelper.php">
-    <InvalidScalarArgument occurrences="1">
-      <code>10</code>
-    </InvalidScalarArgument>
-  </file>
   <file src="apps/comments/lib/Search/Result.php">
     <InvalidScalarArgument occurrences="1">
       <code>(int) $comment-&gt;getId()</code>
