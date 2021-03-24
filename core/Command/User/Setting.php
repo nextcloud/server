@@ -4,7 +4,7 @@
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
- * @author Johannes Leuker <j.leuker@hosting.de>
+ * @author Johannes Leuker <developers@hosting.de>
  * @author Kim Brose <kim.brose@rwth-aachen.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *

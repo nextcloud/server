@@ -1,8 +1,8 @@
 <?php
 /**
- * @copyright Copyright (c) 2021, hosting.de, Johannes Leuker <j.leuker@hosting.de>.
+ * @copyright Copyright (c) 2021, hosting.de, Johannes Leuker <developers@hosting.de>.
  *
- * @author Johannes Leuker <j.leuker@hosting.de>.
+ * @author Johannes Leuker <developers@hosting.de>.
  *
  * @license AGPL-3.0
  *
