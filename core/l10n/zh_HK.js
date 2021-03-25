@@ -126,6 +126,8 @@ OC.L10N.register(
     "Please reload the page." : "請重新整理頁面",
     "The update was unsuccessful. For more information <a href=\"{url}\">check our forum post</a> covering this issue." : "更新失敗，檢視<a href=\"{url}\">論壇上的文章</a>來瞭解更多",
     "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Nextcloud community</a>." : "更新不成功。請在<a href=\"https：//github。com/nextcloud/server/issues\" target=\"_blank\">Nextcloud社群</a>舉報此問題。",
+    "Continue to {productName}" : "前往 {productName}",
+    "_The update was successful. Redirecting you to {productName} in %n second._::_The update was successful. Redirecting you to {productName} in %n seconds._" : ["更新成功，將在 %n 秒後重導向至 Nextcloud。"],
     "Log in" : "登入",
     "Logging in …" : "正在登入…",
     "Server side authentication failed!" : "伺服器端認證失敗！",

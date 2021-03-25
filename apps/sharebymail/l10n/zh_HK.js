@@ -24,6 +24,7 @@ OC.L10N.register(
     "Password to access {file} was sent to {email}" : "訪問 {file} 的密碼已發送給 {email}",
     "Password to access %1$s was sent to you" : "訪問 %1$s 的密碼已發送給您",
     "Password to access {file} was sent to you" : "訪問 {file} 的密碼已發送給您",
+    "Sharing %1$s failed, because this item is already shared with user %2$s" : "分享 %1$s 失敗，此項目已經與用戶 %2$s 分享",
     "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "我們無法將自動生成的密碼發送與您。請在您的個人設置中提供有效的電郵地址後重試。",
     "Failed to send share by email" : "通過電郵發送分享失敗",
     "%1$s shared »%2$s« with you" : "%1$s 與您分享了 »%2$s«",

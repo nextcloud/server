@@ -3,7 +3,7 @@ OC.L10N.register(
     {
     "Update" : "Përditëso",
     "Create" : "Krijo",
-    "Select tag…" : "Përzgjidh etiketën...",
+    "Select tag …" : "Zgjidh etiketimin",
     "Added system tag {systemtag}" : "Tagu i shtuar i sistemit{systemtag}",
     "Added system tag %1$s" : "U shtua etiketa %1$s e sistemit ",
     "%1$s added system tag %2$s" : "%1$s shtoi etiketën %2$s të sistemit ",
@@ -42,7 +42,6 @@ OC.L10N.register(
     "No tags found" : "Asnjë etiket nuk u gjet",
     "Please select tags to filter by" : "Ju lutemi, përzgjidhni etiketa sipas të cilat të bëhet filtrimi",
     "No files found for the selected tags" : "S’u gjetën kartela për etiketat e përzgjedhura",
-    "Select tag …" : "Zgjidh etiketimin",
     "Create a new tag" : "Krijo një etiketë të re",
     "Name" : "Emër",
     "Public" : "Publik",
