@@ -27,6 +27,7 @@ namespace Test\Avatar;
 use OC\Avatar\AvatarManager;
 use OC\Avatar\PlaceholderAvatar;
 use OC\Avatar\UserAvatar;
+use OC\KnownUser\KnownUserService;
 use OC\User\Manager;
 use OCP\Accounts\IAccount;
 use OCP\Accounts\IAccountManager;
@@ -59,6 +60,8 @@ class AvatarManagerTest extends \Test\TestCase {
 	private $accountManager;
 	/** @var AvatarManager | \PHPUnit\Framework\MockObject\MockObject */
 	private $avatarManager;
+	/** @var KnownUserService | \PHPUnit\Framework\MockObject\MockObject */
+	private $knownUserService;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -70,6 +73,7 @@ class AvatarManagerTest extends \Test\TestCase {
 		$this->logger = $this->createMock(ILogger::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->accountManager = $this->createMock(IAccountManager::class);
+		$this->knownUserService = $this->createMock(KnownUserService::class);
 
 		$this->avatarManager = new AvatarManager(
 			$this->userSession,
@@ -78,7 +82,8 @@ class AvatarManagerTest extends \Test\TestCase {
 			$this->l10n,
 			$this->logger,
 			$this->config,
-			$this->accountManager
+			$this->accountManager,
+			$this->knownUserService
 		);
 	}
 
@@ -95,26 +100,45 @@ class AvatarManagerTest extends \Test\TestCase {
 		$this->avatarManager->getAvatar('invalidUser');
 	}
 
-	public function testGetAvatarValidUser() {
+	public function testGetAvatarForSelf() {
+		$user = $this->createMock(IUser::class);
+		$user
+			->expects($this->any())
+			->method('getUID')
+			->willReturn('valid-user');
+
 		// requesting user
 		$this->userSession->expects($this->once())
 			->method('getUser')
-			->willReturn($this->createMock(IUser::class));
+			->willReturn($user);
 
-		// we skip account scope check for logged in user
-		$this->accountManager->expects($this->never())
-			->method('getAccount');
-
-		$user = $this->createMock(IUser::class);
-		$user
-			->expects($this->once())
-			->method('getUID')
-			->willReturn('valid-user');
 		$this->userManager
 			->expects($this->once())
 			->method('get')
 			->with('valid-user')
 			->willReturn($user);
+
+		$account = $this->createMock(IAccount::class);
+		$this->accountManager->expects($this->once())
+			->method('getAccount')
+			->with($user)
+			->willReturn($account);
+
+		$property = $this->createMock(IAccountProperty::class);
+		$account->expects($this->once())
+			->method('getProperty')
+			->with(IAccountManager::PROPERTY_AVATAR)
+			->willReturn($property);
+
+		$property->expects($this->once())
+			->method('getScope')
+			->willReturn(IAccountManager::SCOPE_PRIVATE);
+
+		$this->knownUserService->expects($this->any())
+			 ->method('isKnownToUser')
+			 ->with('valid-user', 'valid-user')
+			 ->willReturn(true);
+
 		$folder = $this->createMock(ISimpleFolder::class);
 		$this->appData
 			->expects($this->once())
@@ -148,7 +172,36 @@ class AvatarManagerTest extends \Test\TestCase {
 		$this->assertEquals($expected, $this->avatarManager->getAvatar('vaLid-USER'));
 	}
 
-	public function testGetAvatarPrivateScope() {
+	public function knownUnknownProvider() {
+		return [
+			[IAccountManager::SCOPE_LOCAL, false, false, false],
+			[IAccountManager::SCOPE_LOCAL, true, false, false],
+
+			// public access cannot see real avatar
+			[IAccountManager::SCOPE_PRIVATE, true, false, true],
+			// unknown users cannot see real avatar
+			[IAccountManager::SCOPE_PRIVATE, false, false, true],
+			// known users can see real avatar
+			[IAccountManager::SCOPE_PRIVATE, false, true, false],
+		];
+	}
+
+	/**
+	 * @dataProvider knownUnknownProvider
+	 */
+	public function testGetAvatarScopes($avatarScope, $isPublicCall, $isKnownUser, $expectedPlaceholder) {
+		if ($isPublicCall) {
+			$requestingUser = null;
+		} else {
+			$requestingUser = $this->createMock(IUser::class);
+			$requestingUser->method('getUID')->willReturn('requesting-user');
+		}
+
+		// requesting user
+		$this->userSession->expects($this->once())
+			->method('getUser')
+			->willReturn($requestingUser);
+
 		$user = $this->createMock(IUser::class);
 		$user
 			->expects($this->once())
@@ -159,13 +212,6 @@ class AvatarManagerTest extends \Test\TestCase {
 			->method('get')
 			->with('valid-user')
 			->willReturn($user);
-
-		$folder = $this->createMock(ISimpleFolder::class);
-		$this->appData
-			->expects($this->once())
-			->method('getFolder')
-			->with('valid-user')
-			->willReturn($folder);
 
 		$account = $this->createMock(IAccount::class);
 		$this->accountManager->expects($this->once())
@@ -181,9 +227,30 @@ class AvatarManagerTest extends \Test\TestCase {
 
 		$property->expects($this->once())
 			->method('getScope')
-			->willReturn(IAccountManager::SCOPE_PRIVATE);
+			->willReturn($avatarScope);
 
-		$expected = new PlaceholderAvatar($folder, $user, $this->createMock(ILogger::class));
+		$folder = $this->createMock(ISimpleFolder::class);
+		$this->appData
+			->expects($this->once())
+			->method('getFolder')
+			->with('valid-user')
+			->willReturn($folder);
+
+		if (!$isPublicCall) {
+			$this->knownUserService->expects($this->any())
+				 ->method('isKnownToUser')
+				 ->with('requesting-user', 'valid-user')
+				 ->willReturn($isKnownUser);
+		} else {
+			$this->knownUserService->expects($this->never())
+				 ->method('isKnownToUser');
+		}
+
+		if ($expectedPlaceholder) {
+			$expected = new PlaceholderAvatar($folder, $user, $this->createMock(ILogger::class));
+		} else {
+			$expected = new UserAvatar($folder, $this->l10n, $user, $this->logger, $this->config);
+		}
 		$this->assertEquals($expected, $this->avatarManager->getAvatar('valid-user'));
 	}
 }
