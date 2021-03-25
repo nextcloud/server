@@ -86,6 +86,13 @@ class Capabilities implements ICapability {
 					$public['expire_date_internal']['enforced'] = $this->config->getAppValue('core', 'shareapi_enforce_internal_expire_date', 'no') === 'yes';
 				}
 
+				$public['expire_date_remote'] = [];
+				$public['expire_date_remote']['enabled'] = $this->config->getAppValue('core', 'shareapi_default_remote_expire_date', 'no') === 'yes';
+				if ($public['expire_date_remote']['enabled']) {
+					$public['expire_date_remote']['days'] = $this->config->getAppValue('core', 'shareapi_remote_expire_after_n_days', '7');
+					$public['expire_date_remote']['enforced'] = $this->config->getAppValue('core', 'shareapi_enforce_remote_expire_date', 'no') === 'yes';
+				}
+
 				$public['send_mail'] = $this->config->getAppValue('core', 'shareapi_allow_public_notification', 'no') === 'yes';
 				$public['upload'] = $this->config->getAppValue('core', 'shareapi_allow_public_upload', 'yes') === 'yes';
 				$public['upload_files_drop'] = $public['upload'];

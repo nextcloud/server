@@ -90,6 +90,9 @@ class Sharing implements ISettings {
 			'shareDefaultInternalExpireDateSet' => $this->config->getAppValue('core', 'shareapi_default_internal_expire_date', 'no'),
 			'shareInternalExpireAfterNDays' => $this->config->getAppValue('core', 'shareapi_internal_expire_after_n_days', '7'),
 			'shareInternalEnforceExpireDate' => $this->config->getAppValue('core', 'shareapi_enforce_internal_expire_date', 'no'),
+			'shareDefaultRemoteExpireDateSet' => $this->config->getAppValue('core', 'shareapi_default_remote_expire_date', 'no'),
+			'shareRemoteExpireAfterNDays' => $this->config->getAppValue('core', 'shareapi_remote_expire_after_n_days', '7'),
+			'shareRemoteEnforceExpireDate' => $this->config->getAppValue('core', 'shareapi_enforce_remote_expire_date', 'no'),
 		];
 
 		return new TemplateResponse('settings', 'settings/admin/sharing', $parameters, '');

@@ -385,6 +385,8 @@ class Manager implements IManager {
 	 * @throws \Exception
 	 */
 	protected function validateExpirationDateInternal(IShare $share) {
+		$isRemote = $share->getShareType() === IShare::TYPE_REMOTE || $share->getShareType() === IShare::TYPE_REMOTE_GROUP;
+
 		$expirationDate = $share->getExpirationDate();
 
 		if ($expirationDate !== null) {
@@ -407,28 +409,39 @@ class Manager implements IManager {
 			// This is a new share
 		}
 
-		if ($fullId === null && $expirationDate === null && $this->shareApiInternalDefaultExpireDate()) {
+		if ($isRemote) {
+			$defaultExpireDate = $this->shareApiRemoteDefaultExpireDate();
+			$defaultExpireDays = $this->shareApiRemoteDefaultExpireDays();
+			$configProp = 'remote_defaultExpDays';
+			$isEnforced = $this->shareApiRemoteDefaultExpireDateEnforced();
+		} else {
+			$defaultExpireDate = $this->shareApiInternalDefaultExpireDate();
+			$defaultExpireDays = $this->shareApiInternalDefaultExpireDays();
+			$configProp = 'internal_defaultExpDays';
+			$isEnforced = $this->shareApiInternalDefaultExpireDateEnforced();
+		}
+		if ($fullId === null && $expirationDate === null && $defaultExpireDate) {
 			$expirationDate = new \DateTime();
 			$expirationDate->setTime(0,0,0);
 
-			$days = (int)$this->config->getAppValue('core', 'internal_defaultExpDays', (string)$this->shareApiInternalDefaultExpireDays());
-			if ($days > $this->shareApiInternalDefaultExpireDays()) {
-				$days = $this->shareApiInternalDefaultExpireDays();
+			$days = (int)$this->config->getAppValue('core', $configProp, (string)$defaultExpireDays);
+			if ($days > $defaultExpireDays) {
+				$days = $defaultExpireDays;
 			}
 			$expirationDate->add(new \DateInterval('P'.$days.'D'));
 		}
 
 		// If we enforce the expiration date check that is does not exceed
-		if ($this->shareApiInternalDefaultExpireDateEnforced()) {
+		if ($isEnforced) {
 			if ($expirationDate === null) {
 				throw new \InvalidArgumentException('Expiration date is enforced');
 			}
 
 			$date = new \DateTime();
 			$date->setTime(0, 0, 0);
-			$date->add(new \DateInterval('P' . $this->shareApiInternalDefaultExpireDays() . 'D'));
+			$date->add(new \DateInterval('P' . $defaultExpireDays . 'D'));
 			if ($date < $expirationDate) {
-				$message = $this->l->t('Can’t set expiration date more than %s days in the future', [$this->shareApiInternalDefaultExpireDays()]);
+				$message = $this->l->t('Can’t set expiration date more than %s days in the future', [$defaultExpireDays]);
 				throw new GenericShareException($message, $message, 404);
 			}
 		}
@@ -1793,8 +1806,17 @@ class Manager implements IManager {
 	}
 
 	/**
+	 * Is default remote expire date enabled
+	 *
+	 * @return bool
+	 */
+	public function shareApiRemoteDefaultExpireDate(): bool {
+		return $this->config->getAppValue('core', 'shareapi_default_remote_expire_date', 'no') === 'yes';
+	}
+
+	/**
 	 * Is default expire date enforced
-	 *`
+	 *
 	 * @return bool
 	 */
 	public function shareApiInternalDefaultExpireDateEnforced(): bool {
@@ -1802,6 +1824,15 @@ class Manager implements IManager {
 			$this->config->getAppValue('core', 'shareapi_enforce_internal_expire_date', 'no') === 'yes';
 	}
 
+	/**
+	 * Is default expire date enforced for remote shares
+	 *
+	 * @return bool
+	 */
+	public function shareApiRemoteDefaultExpireDateEnforced(): bool {
+		return $this->shareApiRemoteDefaultExpireDate() &&
+			$this->config->getAppValue('core', 'shareapi_enforce_remote_expire_date', 'no') === 'yes';
+	}
 
 	/**
 	 * Number of default expire days
@@ -1809,6 +1840,14 @@ class Manager implements IManager {
 	 */
 	public function shareApiInternalDefaultExpireDays(): int {
 		return (int)$this->config->getAppValue('core', 'shareapi_internal_expire_after_n_days', '7');
+	}
+
+	/**
+	 * Number of default expire days for remote shares
+	 * @return int
+	 */
+	public function shareApiRemoteDefaultExpireDays(): int {
+		return (int)$this->config->getAppValue('core', 'shareapi_remote_expire_after_n_days', '7');
 	}
 
 	/**

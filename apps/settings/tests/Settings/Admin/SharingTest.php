@@ -86,6 +86,9 @@ class SharingTest extends TestCase {
 				['core', 'shareapi_default_internal_expire_date', 'no', 'no'],
 				['core', 'shareapi_internal_expire_after_n_days', '7', '7'],
 				['core', 'shareapi_enforce_internal_expire_date', 'no', 'no'],
+				['core', 'shareapi_default_remote_expire_date', 'no', 'no'],
+				['core', 'shareapi_remote_expire_after_n_days', '7', '7'],
+				['core', 'shareapi_enforce_remote_expire_date', 'no', 'no'],
 			]);
 
 		$expected = new TemplateResponse(
@@ -115,6 +118,9 @@ class SharingTest extends TestCase {
 				'shareDefaultInternalExpireDateSet' => 'no',
 				'shareInternalExpireAfterNDays' => '7',
 				'shareInternalEnforceExpireDate' => 'no',
+				'shareDefaultRemoteExpireDateSet' => 'no',
+				'shareRemoteExpireAfterNDays' => '7',
+				'shareRemoteEnforceExpireDate' => 'no',
 			],
 			''
 		);
@@ -146,6 +152,9 @@ class SharingTest extends TestCase {
 				['core', 'shareapi_default_internal_expire_date', 'no', 'no'],
 				['core', 'shareapi_internal_expire_after_n_days', '7', '7'],
 				['core', 'shareapi_enforce_internal_expire_date', 'no', 'no'],
+				['core', 'shareapi_default_remote_expire_date', 'no', 'no'],
+				['core', 'shareapi_remote_expire_after_n_days', '7', '7'],
+				['core', 'shareapi_enforce_remote_expire_date', 'no', 'no'],
 			]);
 
 		$expected = new TemplateResponse(
@@ -175,6 +184,9 @@ class SharingTest extends TestCase {
 				'shareDefaultInternalExpireDateSet' => 'no',
 				'shareInternalExpireAfterNDays' => '7',
 				'shareInternalEnforceExpireDate' => 'no',
+				'shareDefaultRemoteExpireDateSet' => 'no',
+				'shareRemoteExpireAfterNDays' => '7',
+				'shareRemoteEnforceExpireDate' => 'no',
 			],
 			''
 		);

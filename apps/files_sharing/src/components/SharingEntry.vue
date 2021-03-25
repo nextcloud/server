@@ -222,8 +222,12 @@ export default {
 		},
 
 		canHaveNote() {
-			return this.share.type !== this.SHARE_TYPES.SHARE_TYPE_REMOTE
-				&& this.share.type !== this.SHARE_TYPES.SHARE_TYPE_REMOTE_GROUP
+			return !this.isRemote
+		},
+
+		isRemote() {
+			return this.share.type === this.SHARE_TYPES.SHARE_TYPE_REMOTE
+				|| this.share.type === this.SHARE_TYPES.SHARE_TYPE_REMOTE_GROUP
 		},
 
 		/**
@@ -348,8 +352,13 @@ export default {
 		},
 
 		dateMaxEnforced() {
-			return this.config.isDefaultInternalExpireDateEnforced
-				&& moment().add(1 + this.config.defaultInternalExpireDate, 'days')
+			if (!this.isRemote) {
+				return this.config.isDefaultInternalExpireDateEnforced
+					&& moment().add(1 + this.config.defaultInternalExpireDate, 'days')
+			} else {
+				return this.config.isDefaultRemoteExpireDateEnforced
+					&& moment().add(1 + this.config.defaultRemoteExpireDate, 'days')
+			}
 		},
 
 		/**
