@@ -74,6 +74,10 @@ class KnownUserService {
 	 * @return bool
 	 */
 	public function isKnownToUser(string $knownTo, string $contactUserId): bool {
+		if ($knownTo === $contactUserId) {
+			return true;
+		}
+
 		if (!isset($this->knownUsers[$knownTo])) {
 			$entities = $this->mapper->getKnownUsers($knownTo);
 			$this->knownUsers[$knownTo] = [];

@@ -34,6 +34,7 @@ declare(strict_types=1);
 
 namespace OC\Avatar;
 
+use OC\KnownUser\KnownUserService;
 use OC\User\Manager;
 use OC\User\NoUserException;
 use OCP\Accounts\IAccountManager;
@@ -73,6 +74,9 @@ class AvatarManager implements IAvatarManager {
 	/** @var IAccountManager */
 	private $accountManager;
 
+	/** @var KnownUserService */
+	private $knownUserService;
+
 	/**
 	 * AvatarManager constructor.
 	 *
@@ -90,7 +94,9 @@ class AvatarManager implements IAvatarManager {
 			IL10N $l,
 			ILogger $logger,
 			IConfig $config,
-			IAccountManager $accountManager) {
+			IAccountManager $accountManager,
+			KnownUserService $knownUserService
+	) {
 		$this->userSession = $userSession;
 		$this->userManager = $userManager;
 		$this->appData = $appData;
@@ -98,6 +104,7 @@ class AvatarManager implements IAvatarManager {
 		$this->logger = $logger;
 		$this->config = $config;
 		$this->accountManager = $accountManager;
+		$this->knownUserService = $knownUserService;
 	}
 
 	/**
@@ -128,17 +135,21 @@ class AvatarManager implements IAvatarManager {
 			$folder = $this->appData->newFolder($userId);
 		}
 
-		// requesting in public page
-		if ($requestingUser === null) {
-			$account = $this->accountManager->getAccount($user);
-			$avatarProperties = $account->getProperty(IAccountManager::PROPERTY_AVATAR);
-			$avatarScope = $avatarProperties->getScope();
+		$account = $this->accountManager->getAccount($user);
+		$avatarProperties = $account->getProperty(IAccountManager::PROPERTY_AVATAR);
+		$avatarScope = $avatarProperties->getScope();
 
-			// v2-private scope hides the avatar from public access
-			if ($avatarScope === IAccountManager::SCOPE_PRIVATE) {
-				// use a placeholder avatar which caches the generated images
-				return new PlaceholderAvatar($folder, $user, $this->logger);
-			}
+		if (
+			// v2-private scope hides the avatar from public access and from unknown users
+			$avatarScope === IAccountManager::SCOPE_PRIVATE
+			&& (
+				// accessing from public link
+				$requestingUser === null
+				// logged in, but unknown to user
+				|| !$this->knownUserService->isKnownToUser($requestingUser->getUID(), $userId)
+			)) {
+			// use a placeholder avatar which caches the generated images
+			return new PlaceholderAvatar($folder, $user, $this->logger);
 		}
 
 		return new UserAvatar($folder, $this->l, $user, $this->logger, $this->config);
