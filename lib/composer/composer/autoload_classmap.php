@@ -738,6 +738,7 @@ return array(
     'OC\\Avatar\\Avatar' => $baseDir . '/lib/private/Avatar/Avatar.php',
     'OC\\Avatar\\AvatarManager' => $baseDir . '/lib/private/Avatar/AvatarManager.php',
     'OC\\Avatar\\GuestAvatar' => $baseDir . '/lib/private/Avatar/GuestAvatar.php',
+    'OC\\Avatar\\PlaceholderAvatar' => $baseDir . '/lib/private/Avatar/PlaceholderAvatar.php',
     'OC\\Avatar\\UserAvatar' => $baseDir . '/lib/private/Avatar/UserAvatar.php',
     'OC\\BackgroundJob\\Job' => $baseDir . '/lib/private/BackgroundJob/Job.php',
     'OC\\BackgroundJob\\JobList' => $baseDir . '/lib/private/BackgroundJob/JobList.php',
