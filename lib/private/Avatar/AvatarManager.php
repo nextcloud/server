@@ -122,7 +122,11 @@ class AvatarManager implements IAvatarManager {
 			$requestingUser = $this->userSession->getUser();
 		}
 
-		$canShowRealAvatar = true;
+		try {
+			$folder = $this->appData->getFolder($userId);
+		} catch (NotFoundException $e) {
+			$folder = $this->appData->newFolder($userId);
+		}
 
 		// requesting in public page
 		if ($requestingUser === null) {
@@ -132,16 +136,9 @@ class AvatarManager implements IAvatarManager {
 
 			// v2-private scope hides the avatar from public access
 			if ($avatarScope === IAccountManager::SCOPE_PRIVATE) {
-				// FIXME: guest avatar is re-generated every time, use a cache instead
-				// see how UserAvatar caches the generated one
-				return $this->getGuestAvatar($userId);
+				// use a placeholder avatar which caches the generated images
+				return new PlaceholderAvatar($folder, $user, $this->logger);
 			}
-		}
-
-		try {
-			$folder = $this->appData->getFolder($userId);
-		} catch (NotFoundException $e) {
-			$folder = $this->appData->newFolder($userId);
 		}
 
 		return new UserAvatar($folder, $this->l, $user, $this->logger, $this->config);

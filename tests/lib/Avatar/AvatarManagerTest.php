@@ -25,7 +25,7 @@
 namespace Test\Avatar;
 
 use OC\Avatar\AvatarManager;
-use OC\Avatar\GuestAvatar;
+use OC\Avatar\PlaceholderAvatar;
 use OC\Avatar\UserAvatar;
 use OC\User\Manager;
 use OCP\Accounts\IAccount;
@@ -159,10 +159,13 @@ class AvatarManagerTest extends \Test\TestCase {
 			->method('get')
 			->with('valid-user')
 			->willReturn($user);
+
 		$folder = $this->createMock(ISimpleFolder::class);
 		$this->appData
-			->expects($this->never())
-			->method('getFolder');
+			->expects($this->once())
+			->method('getFolder')
+			->with('valid-user')
+			->willReturn($folder);
 
 		$account = $this->createMock(IAccount::class);
 		$this->accountManager->expects($this->once())
@@ -180,7 +183,7 @@ class AvatarManagerTest extends \Test\TestCase {
 			->method('getScope')
 			->willReturn(IAccountManager::SCOPE_PRIVATE);
 
-		$expected = new GuestAvatar('valid-user', $this->createMock(ILogger::class));
+		$expected = new PlaceholderAvatar($folder, $user, $this->createMock(ILogger::class));
 		$this->assertEquals($expected, $this->avatarManager->getAvatar('valid-user'));
 	}
 }
