@@ -3,7 +3,7 @@ OC.L10N.register(
     {
     "Update" : "업데이트",
     "Create" : "만들기",
-    "Select tag…" : "태그 선택…",
+    "Select tag …" : "태그 선택 …",
     "System tag %1$s added by the system" : "시스템에서 시스템 태그 %1$s을(를) 추가함",
     "Added system tag {systemtag}" : "시스템 태그 {systemtag}을(를) 추가함",
     "Added system tag %1$s" : "시스템 태그 %1$s을(를) 추가함",
@@ -51,7 +51,6 @@ OC.L10N.register(
     "Please select tags to filter by" : "필터링할 태그를 선택하십시오",
     "No files found for the selected tags" : "선택한 태그가 붙은 파일을 찾을 수 없음",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "모든 사용자가 사용할 수 있는 협업 태그입니다. 제한된 태그는 사용자에게 표시되지만 할당할 수는 없습니다. 숨겨진 태그는 내부용으로 사용되며, 사용자는 보거나 할당할 수 없습니다.",
-    "Select tag …" : "태그 선택 …",
     "Create a new tag" : "새 태그 만들기",
     "Name" : "이름",
     "Public" : "공개",
