@@ -288,16 +288,14 @@ class Local extends \OC\Files\Storage\Common {
 		}
 	}
 
-	private function treeContainsBlacklistedFile(string $path): bool {
+	private function checkTreeForForbiddenItems(string $path) {
 		$iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path));
 		foreach ($iterator as $file) {
 			/** @var \SplFileInfo $file */
 			if (Filesystem::isFileBlacklisted($file->getBasename())) {
-				return true;
+				throw new ForbiddenException('Invalid path: ' . $file->getPathname(), false);
 			}
 		}
-
-		return false;
 	}
 
 	public function rename($path1, $path2) {
@@ -337,9 +335,7 @@ class Local extends \OC\Files\Storage\Common {
 				return $result;
 			}
 
-			if ($this->treeContainsBlacklistedFile($this->getSourcePath($path1))) {
-				throw new ForbiddenException('Invalid path', false);
-			}
+			$this->checkTreeForForbiddenItems($this->getSourcePath($path1));
 		}
 
 		return rename($this->getSourcePath($path1), $this->getSourcePath($path2));
@@ -437,7 +433,7 @@ class Local extends \OC\Files\Storage\Common {
 	 */
 	public function getSourcePath($path) {
 		if (Filesystem::isFileBlacklisted($path)) {
-			throw new ForbiddenException('Invalid path', false);
+			throw new ForbiddenException('Invalid path: ' . $path, false);
 		}
 
 		$fullPath = $this->datadir . $path;
