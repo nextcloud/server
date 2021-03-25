@@ -3,7 +3,7 @@ OC.L10N.register(
     {
     "Update" : "Oppdater",
     "Create" : "Opprett",
-    "Select tag…" : "Velg merkelapp…",
+    "Select tag …" : "Velg merkelapp…",
     "Added system tag {systemtag}" : "La til system-merkelapp {systemtag}",
     "Added system tag %1$s" : "La til system-merkelapp %1$s",
     "%1$s added system tag %2$s" : "%1$s  la til system-merkelapp %2$s",
@@ -42,7 +42,6 @@ OC.L10N.register(
     "No tags found" : "Fant ingen merkelapper",
     "Please select tags to filter by" : "Velg merkelapper å filtrere etter",
     "No files found for the selected tags" : "Ingen filer funnet for de valgte merkelappene",
-    "Select tag …" : "Velg merkelapp…",
     "Create a new tag" : "Lag en ny merkelapp",
     "Name" : "Navn",
     "Public" : "Offentlig",

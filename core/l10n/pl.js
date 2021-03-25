@@ -5,7 +5,7 @@ OC.L10N.register(
     "File is too big" : "Plik jest za duży",
     "The selected file is not an image." : "Wybrany plik nie jest obrazem.",
     "The selected file cannot be read." : "Wybrany plik nie może być odczytany.",
-    "Invalid file provided" : "Wskazano niepoprawny plik",
+    "Invalid file provided" : "Wskazano nieprawidłowy plik",
     "No image or file provided" : "Brak obrazu lub pliku",
     "Unknown filetype" : "Nieznany typ pliku",
     "Invalid image" : "Nieprawidłowy obraz",
