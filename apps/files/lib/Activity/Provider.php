@@ -196,8 +196,23 @@ class Provider implements IProvider {
 				$subject = $this->l->t('{user} created an encrypted file in {file}');
 			}
 			$this->setIcon($event, 'add-color');
+		} elseif ($event->getSubject() === 'upload_self') {
+			$subject = $this->l->t('You upload {file}');
+			if ($this->fileIsEncrypted) {
+				$subject = $this->l->t('You upload an encrypted file in {file}');
+			}
+			$this->setIcon($event, 'add-color');
+		} elseif ($event->getSubject() === 'upload_by') {
+			$subject = $this->l->t('{user} upload {file}');
+			if ($this->fileIsEncrypted) {
+				$subject = $this->l->t('{user} uploaded an encrypted file in {file}');
+			}
+			$this->setIcon($event, 'add-color');
 		} elseif ($event->getSubject() === 'created_public') {
 			$subject = $this->l->t('{file} was created in a public folder');
+			$this->setIcon($event, 'add-color');
+		} elseif ($event->getSubject() === 'uploaded_public') {
+			$subject = $this->l->t('{file} was uploaded in a public folder');
 			$this->setIcon($event, 'add-color');
 		} elseif ($event->getSubject() === 'changed_self') {
 			$subject = $this->l->t('You changed {file}');
@@ -330,7 +345,9 @@ class Provider implements IProvider {
 		$parameters = $event->getSubjectParameters();
 		switch ($event->getSubject()) {
 			case 'created_self':
+			case 'upload_self':
 			case 'created_public':
+			case 'upload_public':
 			case 'changed_self':
 			case 'deleted_self':
 			case 'restored_self':
@@ -338,6 +355,7 @@ class Provider implements IProvider {
 					'file' => $this->getFile($parameters[0], $event),
 				];
 			case 'created_by':
+			case 'upload_by':
 			case 'changed_by':
 			case 'deleted_by':
 			case 'restored_by':
