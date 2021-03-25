@@ -22,39 +22,26 @@ declare(strict_types=1);
  *
  */
 
-namespace OCA\files\lib\BackgroundJob;
+namespace OC\Core\BackgroundJobs;
 
 use OC\BackgroundJob\TimedJob;
-use OCA\Files\AppInfo\Application;
+use OC\Files\Utils\DownloadManager;
 use OCP\IConfig;
 
 class CleanupDownloadTokens extends TimedJob {
 	private const INTERVAL_MINUTES = 24 * 60;
 	/** @var IConfig */
 	private $config;
+	/** @var DownloadManager */
+	private $downloadManager;
 
-	public function __construct(IConfig $config) {
+	public function __construct(IConfig $config, DownloadManager $downloadManager) {
 		$this->interval = self::INTERVAL_MINUTES;
 		$this->config = $config;
+		$this->downloadManager = $downloadManager;
 	}
 
 	protected function run($argument) {
-		$appKeys = $this->config->getAppKeys(Application::APP_ID);
-		foreach ($appKeys as $key) {
-			if (strpos($key, Application::DL_TOKEN_PREFIX) !== 0) {
-				continue;
-			}
-			$dataStr = $this->config->getAppValue(Application::APP_ID, $key, '');
-			if ($dataStr === '') {
-				$this->config->deleteAppValue(Application::APP_ID, $key);
-				continue;
-			}
-			$data = \json_decode($dataStr, true);
-			if (!isset($data['lastActivity']) || (time() - $data['lastActivity']) > 24 * 60 * 2) {
-				// deletes tokens that have not seen activity for 2 days
-				// the period is chosen to allow continue of downloads with network interruptions in minde
-				$this->config->deleteAppValue(Application::APP_ID, $key);
-			}
-		}
+		$this->downloadManager->cleanupTokens();
 	}
 }

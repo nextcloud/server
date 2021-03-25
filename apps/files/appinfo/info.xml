@@ -26,7 +26,6 @@
 		<job>OCA\Files\BackgroundJob\ScanFiles</job>
 		<job>OCA\Files\BackgroundJob\DeleteOrphanedItems</job>
 		<job>OCA\Files\BackgroundJob\CleanupFileLocks</job>
-		<job>OCA\Files\BackgroundJob\CleanupDownloadTokens</job>
 		<job>OCA\Files\BackgroundJob\CleanupDirectEditingTokens</job>
 	</background-jobs>
 

@@ -27,18 +27,14 @@ declare(strict_types=1);
 namespace OCA\Files\Controller;
 
 use OC_Files;
-use OCA\Files\AppInfo\Application;
 use OCA\Files\Helper;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\JSONResponse;
-use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\Files\NotFoundException;
+use OCP\Files\Utils\IDownloadManager;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\ISession;
-use OCP\Security\ISecureRandom;
-use function json_decode;
-use function json_encode;
 
 class AjaxController extends Controller {
 	/** @var ISession */
@@ -46,21 +42,21 @@ class AjaxController extends Controller {
 	/** @var IConfig */
 	private $config;
 
-	/** @var ISecureRandom */
-	private $secureRandom;
+	/** @var IDownloadManager */
+	private $downloadManager;
 
 	public function __construct(
 		string $appName,
 		IRequest $request,
 		ISession $session,
 		IConfig $config,
-		ISecureRandom $secureRandom
+		IDownloadManager $downloadManager
 	) {
 		parent::__construct($appName, $request);
 		$this->session = $session;
 		$this->request = $request;
 		$this->config = $config;
-		$this->secureRandom = $secureRandom;
+		$this->downloadManager = $downloadManager;
 	}
 
 	/**
@@ -93,25 +89,11 @@ class AjaxController extends Controller {
 			throw new \InvalidArgumentException('Invalid argument for files');
 		}
 
-		$attempts = 0;
-		do {
-			if ($attempts === 10) {
-				throw new \RuntimeException('Failed to create unique download token');
-			}
-			$token = $this->secureRandom->generate(15);
-			$attempts++;
-		} while ($this->config->getAppValue(Application::APP_ID, Application::DL_TOKEN_PREFIX . $token, '') !== '');
-
-		$this->config->setAppValue(
-			Application::APP_ID,
-			Application::DL_TOKEN_PREFIX . $token,
-			json_encode([
-				'files' => $files,
-				'dir' => $dir,
-				'downloadStartSecret' => $downloadStartSecret,
-				'lastActivity' => time()
-			])
-		);
+		$token = $this->downloadManager->register([
+			'files' => $files,
+			'dir' => $dir,
+			'downloadStartSecret' => $downloadStartSecret,
+		]);
 
 		return new JSONResponse(['token' => $token]);
 	}
@@ -121,15 +103,9 @@ class AjaxController extends Controller {
 	 * @NoCSRFRequired
 	 */
 	public function download(string $token) {
-		$dataStr = $this->config->getAppValue(Application::APP_ID, Application::DL_TOKEN_PREFIX . $token, '');
-		if ($dataStr === '') {
-			return new NotFoundResponse();
-		}
-		$this->session->close();
 
-		$data = json_decode($dataStr, true);
-		$data['lastActivity'] = time();
-		$this->config->setAppValue(Application::APP_ID, Application::DL_TOKEN_PREFIX . $token, json_encode($data));
+		$data = $this->downloadManager->retrieve($token);
+		$this->session->close();
 
 		if (strlen($data['downloadStartSecret']) <= 32
 			&& (preg_match('!^[a-zA-Z0-9]+$!', $data['downloadStartSecret']) === 1)
