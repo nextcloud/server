@@ -157,7 +157,11 @@ trait Provisioning {
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/cloud/users/$user";
 		$client = new Client();
 		$options = [];
-		$options['auth'] = $this->adminUser;
+		if ($this->currentUser === 'admin') {
+			$options['auth'] = $this->adminUser;
+		} else {
+			$options['auth'] = [$this->currentUser, $this->regularUser];
+		}
 		$options['headers'] = [
 			'OCS-APIREQUEST' => 'true',
 		];
