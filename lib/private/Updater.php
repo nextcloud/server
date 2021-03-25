@@ -538,12 +538,6 @@ class Updater extends BasicEmitter {
 		$this->listen('\OC\Updater', 'dbUpgrade', function () use ($log) {
 			$log->info('\OC\Updater::dbUpgrade: Updated database', ['app' => 'updater']);
 		});
-		$this->listen('\OC\Updater', 'dbSimulateUpgradeBefore', function () use ($log) {
-			$log->info('\OC\Updater::dbSimulateUpgradeBefore: Checking whether the database schema can be updated (this can take a long time depending on the database size)', ['app' => 'updater']);
-		});
-		$this->listen('\OC\Updater', 'dbSimulateUpgrade', function () use ($log) {
-			$log->info('\OC\Updater::dbSimulateUpgrade: Checked database schema update', ['app' => 'updater']);
-		});
 		$this->listen('\OC\Updater', 'incompatibleAppDisabled', function ($app) use ($log) {
 			$log->info('\OC\Updater::incompatibleAppDisabled: Disabled incompatible app: ' . $app, ['app' => 'updater']);
 		});
@@ -556,14 +550,8 @@ class Updater extends BasicEmitter {
 		$this->listen('\OC\Updater', 'checkAppStoreApp', function ($app) use ($log) {
 			$log->info('\OC\Updater::checkAppStoreApp: Checked for update of app "' . $app . '" in appstore', ['app' => 'updater']);
 		});
-		$this->listen('\OC\Updater', 'appUpgradeCheckBefore', function () use ($log) {
-			$log->info('\OC\Updater::appUpgradeCheckBefore: Checking updates of apps', ['app' => 'updater']);
-		});
 		$this->listen('\OC\Updater', 'appSimulateUpdate', function ($app) use ($log) {
 			$log->info('\OC\Updater::appSimulateUpdate: Checking whether the database schema for <' . $app . '> can be updated (this can take a long time depending on the database size)', ['app' => 'updater']);
-		});
-		$this->listen('\OC\Updater', 'appUpgradeCheck', function () use ($log) {
-			$log->info('\OC\Updater::appUpgradeCheck: Checked database schema update for apps', ['app' => 'updater']);
 		});
 		$this->listen('\OC\Updater', 'appUpgradeStarted', function ($app) use ($log) {
 			$log->info('\OC\Updater::appUpgradeStarted: Updating <' . $app . '> ...', ['app' => 'updater']);
