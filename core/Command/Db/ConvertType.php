@@ -243,21 +243,16 @@ class ConvertType extends Command implements CompletionAwareInterface {
 			$toMS->migrate($currentMigration);
 		}
 
-		$schemaManager = new \OC\DB\MDB2SchemaManager($toDB);
 		$apps = $input->getOption('all-apps') ? \OC_App::getAllApps() : \OC_App::getEnabledApps();
 		foreach ($apps as $app) {
 			$output->writeln('<info> - '.$app.'</info>');
-			if (file_exists(\OC_App::getAppPath($app).'/appinfo/database.xml')) {
-				$schemaManager->createDbFromStructure(\OC_App::getAppPath($app).'/appinfo/database.xml');
-			} else {
-				// Make sure autoloading works...
-				\OC_App::loadApp($app);
-				$fromMS = new MigrationService($app, $fromDB);
-				$currentMigration = $fromMS->getMigration('current');
-				if ($currentMigration !== '0') {
-					$toMS = new MigrationService($app, $toDB);
-					$toMS->migrate($currentMigration, true);
-				}
+			// Make sure autoloading works...
+			\OC_App::loadApp($app);
+			$fromMS = new MigrationService($app, $fromDB);
+			$currentMigration = $fromMS->getMigration('current');
+			if ($currentMigration !== '0') {
+				$toMS = new MigrationService($app, $toDB);
+				$toMS->migrate($currentMigration, true);
 			}
 		}
 	}
