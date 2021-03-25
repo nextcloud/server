@@ -97,9 +97,6 @@ class SMB extends Common implements INotifyStorage {
 	/** @var bool */
 	protected $checkAcl;
 
-	/** @var bool */
-	protected $rootWritable;
-
 	public function __construct($params) {
 		if (!isset($params['host'])) {
 			throw new \Exception('Invalid configuration, no host provided');
@@ -137,7 +134,6 @@ class SMB extends Common implements INotifyStorage {
 
 		$this->showHidden = isset($params['show_hidden']) && $params['show_hidden'];
 		$this->checkAcl = isset($params['check_acl']) && $params['check_acl'];
-		$this->rootWritable = isset($params['root_force_writable']) && $params['root_force_writable'];
 
 		$this->statCache = new CappedMemoryCache();
 		parent::__construct($params);
@@ -578,9 +574,7 @@ class SMB extends Common implements INotifyStorage {
 		$permissions = Constants::PERMISSION_READ + Constants::PERMISSION_SHARE;
 
 		if (
-			!$fileInfo->isReadOnly() || (
-				$this->rootWritable && $fileInfo->getPath() == $this->buildPath('')
-			)
+			!$fileInfo->isReadOnly() || $fileInfo->isDirectory()
 		) {
 			$permissions += Constants::PERMISSION_DELETE;
 			$permissions += Constants::PERMISSION_UPDATE;
@@ -683,7 +677,7 @@ class SMB extends Common implements INotifyStorage {
 			$info = $this->getFileInfo($path);
 			// following windows behaviour for read-only folders: they can be written into
 			// (https://support.microsoft.com/en-us/kb/326549 - "cause" section)
-			return ($this->showHidden || !$info->isHidden()) && (!$info->isReadOnly() || $this->is_dir($path));
+			return ($this->showHidden || !$info->isHidden()) && (!$info->isReadOnly() || $info->isDirectory());
 		} catch (NotFoundException $e) {
 			return false;
 		} catch (ForbiddenException $e) {
