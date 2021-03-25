@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Update" : "Actualisation",
     "Create" : "Crear",
-    "Select tag…" : "Selectionar etiquetta...",
     "Added system tag {systemtag}" : "Etiquetta de systema {systemtag} addite",
     "Added system tag %1$s" : "Etiquetta de systema %1$s addite",
     "%1$s added system tag %2$s" : "%1$s addeva le etiquetta de systema %2$s",

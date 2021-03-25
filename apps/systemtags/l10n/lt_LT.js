@@ -3,7 +3,7 @@ OC.L10N.register(
     {
     "Update" : "Atnaujinti",
     "Create" : "Sukurti",
-    "Select tag…" : "Pasirinkti žymę...",
+    "Select tag …" : "Pasirinkite žymę…",
     "System tag %1$s added by the system" : "Sistema pridėjo sistemos žymę %1$s",
     "Added system tag {systemtag}" : "Pridėta sistemos žymė {systemtag}",
     "Added system tag %1$s" : "Pridėta sistemos žymė %1$s",
@@ -45,7 +45,6 @@ OC.L10N.register(
     "Please select tags to filter by" : "Pasirinkite žymes, pagal kurias filtruoti",
     "No files found for the selected tags" : "Pasirinktai žymei, nerasti jokie failai.",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Bendradarbiavimo žymės yra prieinamos visiems naudotojams. Apribotos žymės yra matomos naudotojams, tačiau naudotojai negali jų priskirinėti. Nematomos žymės yra vidiniam naudojimui, nes naudotojai negali jų nei matyti, nei priskirinėti.",
-    "Select tag …" : "Pasirinkite žymę…",
     "Create a new tag" : "Sukurti naują žymę",
     "Name" : "Pavadinimas",
     "Public" : "Vieša",

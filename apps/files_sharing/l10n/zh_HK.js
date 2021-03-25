@@ -183,6 +183,7 @@ OC.L10N.register(
     "Create a new share link" : "建立新分享連結",
     "{shareWith} by {initiator}" : "{initiator} 分享了 {shareWith}",
     "Shared via link by {initiator}" : "由 {initiator} 透過連結分享",
+    "Mail share ({label})" : "分享郵件（{label}）",
     "Share link ({label})" : "分享連結（{label})",
     "Share link" : "分享連結",
     "Error, please enter proper password and/or expiration date" : "錯誤，請輸入正確的密碼和/或有效期",

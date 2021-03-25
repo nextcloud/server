@@ -119,6 +119,7 @@
     "Expiration date is in the past" : "Son kullanma tarihi geçmişte",
     "Can’t set expiration date more than %s days in the future" : "Son kullanma tarihi %sgünden sonrası olarak ayarlanamaz",
     "Sharing is only allowed with group members" : "Paylaşım yalnız grup üyeleri ile yapılabilir",
+    "Sharing %s failed, because this item is already shared with user %s" : "%s paylaşılamadı. Bu öge zaten %s kullanıcısı ile paylaşılmış",
     "%1$s shared »%2$s« with you" : "%1$s, sizinle »%2$s« ögesini paylaştı",
     "%1$s shared »%2$s« with you." : "%1$s, sizinle »%2$s« ögesini paylaştı.",
     "Click the button below to open it." : "Açmak için aşağıdaki düğmeye tıklayın.",

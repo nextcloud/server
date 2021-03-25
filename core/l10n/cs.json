@@ -124,6 +124,8 @@
     "Please reload the page." : "Načtěte stránku znovu.",
     "The update was unsuccessful. For more information <a href=\"{url}\">check our forum post</a> covering this issue." : "Aktualizace nebyla úspěšná. Další informace <a href=\"{url}\">se dočtete v příspěvku na diskuzním fóru</a>, pojednávajícím o tomto problému.",
     "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Nextcloud community</a>." : "Aktualizace nebyla úspěšná. Nahlaste problém <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">komunitě kolem Nextcloud</a>",
+    "Continue to {productName}" : "Pokračujte k {productName}",
+    "_The update was successful. Redirecting you to {productName} in %n second._::_The update was successful. Redirecting you to {productName} in %n seconds._" : ["Aktualizace proběhla úspěšně. Za %n vteřinu budete přesměřováni na {productName}","Aktualizace proběhla úspěšně. Za %n vteřiny budete přesměřováni na {productName}","Aktualizace proběhla úspěšně. Za %n vteřin budete přesměřováni na {productName}","Aktualizace proběhla úspěšně. Za %n vteřin budete přesměřováni na {productName}"],
     "Log in" : "Přihlásit",
     "Logging in …" : "Přihlašování…",
     "Server side authentication failed!" : "Ověření se na straně serveru se nezdařilo!",
