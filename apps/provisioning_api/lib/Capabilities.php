@@ -44,7 +44,7 @@ class Capabilities implements ICapability {
 		return [
 			'provisioning_api' => [
 				'version' => $this->appManager->getAppVersion('provisioning_api'),
-				'hasAccountPropertyScopes' => true,
+				'AccountPropertyScopesVersion' => 2,
 			]
 		];
 	}
