@@ -75,6 +75,7 @@ use OCP\IUser;
 use OCP\User\Events\UserDeletedEvent;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
+use function foo\func;
 
 require_once __DIR__ . '/../../3rdparty/autoload.php';
 
@@ -90,20 +91,6 @@ class Application extends App implements IBackendProvider, IAuthMechanismProvide
 	 */
 	public function __construct(array $urlParams = []) {
 		parent::__construct('files_external', $urlParams);
-
-		$container = $this->getContainer();
-
-		/** @var BackendService $backendService */
-		$backendService = $container->query(BackendService::class);
-		$backendService->registerBackendProvider($this);
-		$backendService->registerAuthMechanismProvider($this);
-		$backendService->registerConfigHandler('user', function () use ($container) {
-			return $container->query(UserPlaceholderHandler::class);
-		});
-
-		// force-load auth mechanisms since some will register hooks
-		// TODO: obsolete these and use the TokenProvider to get the user's password from the session
-		$this->getAuthMechanisms();
 	}
 
 	public function register(IRegistrationContext $context): void {
@@ -125,7 +112,17 @@ class Application extends App implements IBackendProvider, IAuthMechanismProvide
 				'name' => $l->t('External storages'),
 			];
 		});
-		$context->injectFn([$this, 'registerListeners']);
+		$context->injectFn(function(BackendService $backendService, UserPlaceholderHandler $userConfigHandler) {
+			$backendService->registerBackendProvider($this);
+			$backendService->registerAuthMechanismProvider($this);
+			$backendService->registerConfigHandler('user', function () use ($userConfigHandler) {
+				return $userConfigHandler;
+			});
+		});
+
+		// force-load auth mechanisms since some will register hooks
+		// TODO: obsolete these and use the TokenProvider to get the user's password from the session
+		$this->getAuthMechanisms();
 	}
 
 	/**
