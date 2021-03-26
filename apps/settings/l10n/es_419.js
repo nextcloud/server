@@ -56,7 +56,7 @@ OC.L10N.register(
     "%1$s changed your password on %2$s." : "%1$s cambió tu contraseña el %2$s.",
     "Your password on %s was changed." : "Tu contraseña de %s fue cambiada. ",
     "Your password on %s was reset by an administrator." : "Tu contraseña de %s fue restablecida por un administrador.",
-    "Password for %1$s changed on %2$s" : "La contraseña para %1$s fue cambiada el %2$s",
+    "Password for %1$s changed on %2$s" : "La contraseña para %1$s fue cambiada en %2$s",
     "Password changed for %s" : "La contraseña fue cambiada para %s",
     "If you did not request this, please contact an administrator." : "Si no lo solicitaste, por favor contacta a un administrador. ",
     "Your email address on %s was changed." : "Tu dirección de correo electrónico en %s fue cambiada. ",

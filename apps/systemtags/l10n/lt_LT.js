@@ -1,6 +1,7 @@
 OC.L10N.register(
     "systemtags",
     {
+    "Tag name is empty" : "Žymės pavadinimas yra tuščias",
     "Update" : "Atnaujinti",
     "Create" : "Sukurti",
     "Select tag …" : "Pasirinkite žymę…",
