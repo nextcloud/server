@@ -30,13 +30,11 @@ declare(strict_types=1);
 namespace OCA\Files_External\Controller;
 
 use OCA\Files_External\Lib\StorageConfig;
-use OCA\Files_External\MountConfig;
 use OCA\Files_External\Service\UserGlobalStoragesService;
 use OCA\Files_External\Service\UserStoragesService;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;
 use OCP\IRequest;
-use OCP\IUserManager;
 use OCP\IUserSession;
 
 class ApiController extends OCSController {

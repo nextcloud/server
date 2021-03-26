@@ -29,6 +29,7 @@
  */
 namespace OCA\Files_External\AppInfo;
 
+use OCA\Files_External\Config\ConfigAdapter;
 use OCA\Files_External\Config\UserPlaceholderHandler;
 use OCA\Files_External\Service\DBConfigService;
 use OCA\Files_External\Lib\Auth\AmazonS3\AccessKey;
@@ -62,14 +63,21 @@ use OCA\Files_External\Lib\Config\IAuthMechanismProvider;
 use OCA\Files_External\Lib\Config\IBackendProvider;
 use OCA\Files_External\Service\BackendService;
 use OCP\AppFramework\App;
+use OCP\AppFramework\Bootstrap\IBootContext;
+use OCP\AppFramework\Bootstrap\IBootstrap;
+use OCP\AppFramework\Bootstrap\IRegistrationContext;
+use OCP\Files\Config\IMountProviderCollection;
 use OCP\IGroup;
 use OCP\IUser;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
+
+require_once __DIR__ . '/../../3rdparty/autoload.php';
 
 /**
  * @package OCA\Files_External\AppInfo
  */
-class Application extends App implements IBackendProvider, IAuthMechanismProvider {
+class Application extends App implements IBackendProvider, IAuthMechanismProvider, IBootstrap {
 
 	/**
 	 * Application constructor.
@@ -94,8 +102,29 @@ class Application extends App implements IBackendProvider, IAuthMechanismProvide
 		$this->getAuthMechanisms();
 	}
 
-	public function registerListeners() {
-		$dispatcher = $this->getContainer()->getServer()->getEventDispatcher();
+	public function register(IRegistrationContext $context): void {
+		// TODO: Implement register() method.
+	}
+
+	public function boot(IBootContext $context): void {
+		$context->injectFn(function (IMountProviderCollection $mountProviderCollection, ConfigAdapter $configAdapter) {
+			$mountProviderCollection->registerProvider($configAdapter);
+		});
+		\OCA\Files\App::getNavigationManager()->add(function () {
+			$l = \OC::$server->getL10N('files_external');
+			return [
+				'id' => 'extstoragemounts',
+				'appname' => 'files_external',
+				'script' => 'list.php',
+				'order' => 30,
+				'name' => $l->t('External storages'),
+			];
+		});
+		$context->injectFn([$this, 'registerListeners']);
+	}
+
+
+	public function registerListeners(EventDispatcherInterface $dispatcher) {
 		$dispatcher->addListener(
 			IUser::class . '::postDelete',
 			function (GenericEvent $event) {
