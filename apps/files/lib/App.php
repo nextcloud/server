@@ -25,31 +25,16 @@
 
 namespace OCA\Files;
 
-class App {
-	/**
-	 * @var \OCP\INavigationManager
-	 */
-	private static $navigationManager;
+use OCP\INavigationManager;
 
+class App {
 	/**
 	 * Returns the app's navigation manager
 	 *
-	 * @return \OCP\INavigationManager
+	 * @return INavigationManager
 	 */
-	public static function getNavigationManager() {
-		// TODO: move this into a service in the Application class
-		if (self::$navigationManager === null) {
-			self::$navigationManager = new \OC\NavigationManager(
-				\OC::$server->getAppManager(),
-				\OC::$server->getURLGenerator(),
-				\OC::$server->getL10NFactory(),
-				\OC::$server->getUserSession(),
-				\OC::$server->getGroupManager(),
-				\OC::$server->getConfig()
-			);
-			self::$navigationManager->clear(false);
-		}
-		return self::$navigationManager;
+	public static function getNavigationManager(): INavigationManager {
+		return \OC::$server->get(SidebarNavigationManager::class);
 	}
 
 	public static function extendJsConfig($settings) {
