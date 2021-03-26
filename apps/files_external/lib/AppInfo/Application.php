@@ -31,6 +31,8 @@ namespace OCA\Files_External\AppInfo;
 
 use OCA\Files_External\Config\ConfigAdapter;
 use OCA\Files_External\Config\UserPlaceholderHandler;
+use OCA\Files_External\Listener\GroupDeletedListener;
+use OCA\Files_External\Listener\UserDeletedListener;
 use OCA\Files_External\Service\DBConfigService;
 use OCA\Files_External\Lib\Auth\AmazonS3\AccessKey;
 use OCA\Files_External\Lib\Auth\Builtin;
@@ -67,8 +69,10 @@ use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\Files\Config\IMountProviderCollection;
+use OCP\Group\Events\GroupDeletedEvent;
 use OCP\IGroup;
 use OCP\IUser;
+use OCP\User\Events\UserDeletedEvent;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
@@ -103,7 +107,8 @@ class Application extends App implements IBackendProvider, IAuthMechanismProvide
 	}
 
 	public function register(IRegistrationContext $context): void {
-		// TODO: Implement register() method.
+		$context->registerEventListener(UserDeletedEvent::class, UserDeletedListener::class);
+		$context->registerEventListener(GroupDeletedEvent::class, GroupDeletedListener::class);
 	}
 
 	public function boot(IBootContext $context): void {
@@ -121,30 +126,6 @@ class Application extends App implements IBackendProvider, IAuthMechanismProvide
 			];
 		});
 		$context->injectFn([$this, 'registerListeners']);
-	}
-
-
-	public function registerListeners(EventDispatcherInterface $dispatcher) {
-		$dispatcher->addListener(
-			IUser::class . '::postDelete',
-			function (GenericEvent $event) {
-				/** @var IUser $user */
-				$user = $event->getSubject();
-				/** @var DBConfigService $config */
-				$config = $this->getContainer()->query(DBConfigService::class);
-				$config->modifyMountsOnUserDelete($user->getUID());
-			}
-		);
-		$dispatcher->addListener(
-			IGroup::class . '::postDelete',
-			function (GenericEvent $event) {
-				/** @var IGroup $group */
-				$group = $event->getSubject();
-				/** @var DBConfigService $config */
-				$config = $this->getContainer()->query(DBConfigService::class);
-				$config->modifyMountsOnGroupDelete($group->getGID());
-			}
-		);
 	}
 
 	/**
