@@ -39,7 +39,6 @@ use OC\Search\Provider\File;
 use OCA\Files\Capabilities;
 use OCA\Files\Collaboration\Resources\Listener;
 use OCA\Files\Collaboration\Resources\ResourceProvider;
-use OCA\Files\Controller\ApiController;
 use OCA\Files\Event\LoadAdditionalScriptsEvent;
 use OCA\Files\Event\LoadSidebar;
 use OCA\Files\Listener\LegacyLoadAdditionalScriptsAdapter;
@@ -54,16 +53,12 @@ use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\Collaboration\Resources\IProviderManager;
-use OCP\IConfig;
 use OCP\IL10N;
-use OCP\IPreview;
 use OCP\ISearch;
-use OCP\IRequest;
 use OCP\IServerContainer;
 use OCP\ITagManager;
 use OCP\IUserSession;
 use OCP\Notification\IManager;
-use OCP\Share\IManager as IShareManager;
 use OCP\Util;
 use Psr\Container\ContainerInterface;
 
@@ -75,25 +70,6 @@ class Application extends App implements IBootstrap {
 	}
 
 	public function register(IRegistrationContext $context): void {
-		/**
-		 * Controllers
-		 */
-		$context->registerService('APIController', function (ContainerInterface $c) {
-			/** @var IServerContainer $server */
-			$server = $c->get(IServerContainer::class);
-
-			return new ApiController(
-				$c->get('AppName'),
-				$c->get(IRequest::class),
-				$c->get(IUserSession::class),
-				$c->get(TagService::class),
-				$c->get(IPreview::class),
-				$c->get(IShareManager::class),
-				$c->get(IConfig::class),
-				$server->getUserFolder()
-			);
-		});
-
 		/**
 		 * Services
 		 */
