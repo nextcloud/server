@@ -2446,11 +2446,6 @@
       <code>1</code>
     </InvalidScalarArgument>
   </file>
-  <file src="core/Command/Db/Migrations/GenerateFromSchemaFileCommand.php">
-    <InvalidScalarArgument occurrences="1">
-      <code>$column-&gt;getLength()</code>
-    </InvalidScalarArgument>
-  </file>
   <file src="core/Command/Encryption/Enable.php">
     <NullArgument occurrences="1">
       <code>null</code>
@@ -3151,11 +3146,6 @@
     <ParamNameMismatch occurrences="1">
       <code>$statement</code>
     </ParamNameMismatch>
-  </file>
-  <file src="lib/private/DB/MDB2SchemaReader.php">
-    <InvalidScalarArgument occurrences="1">
-      <code>$options['default']</code>
-    </InvalidScalarArgument>
   </file>
   <file src="lib/private/DB/MigrationService.php">
     <InvalidOperand occurrences="2">
