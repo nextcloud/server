@@ -23,6 +23,7 @@
 
 namespace OCA\Provisioning_API;
 
+use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCP\App\IAppManager;
 use OCP\Capabilities\ICapability;
 
@@ -41,10 +42,20 @@ class Capabilities implements ICapability {
 	 * @return array Array containing the apps capabilities
 	 */
 	public function getCapabilities() {
+		$federationScopesEnabled = false;
+
+		$federatedFileSharingEnabled = $this->appManager->isEnabledForUser('federatedfilesharing');
+		if ($federatedFileSharingEnabled) {
+			/** @var FederatedShareProvider $shareProvider */
+			$shareProvider = \OC::$server->query(FederatedShareProvider::class);
+			$federationScopesEnabled = $shareProvider->isLookupServerUploadEnabled();
+		}
+
 		return [
 			'provisioning_api' => [
 				'version' => $this->appManager->getAppVersion('provisioning_api'),
 				'AccountPropertyScopesVersion' => 2,
+				'AccountPropertyScopesFederationEnabled' => $federationScopesEnabled,
 			]
 		];
 	}
