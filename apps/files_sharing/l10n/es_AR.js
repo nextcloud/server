@@ -72,7 +72,7 @@ OC.L10N.register(
     "Wrong share ID, share doesn't exist" : "ID del elemento compartido equivocado, el elemento compartido no existe",
     "Could not delete share" : "No fue posible borrar el elemento compartido",
     "Please specify a file or folder path" : "Favor de especificar un archivo o ruta de carpeta",
-    "Wrong path, file/folder doesn't exist" : "La ruta es incorrecta, el correo / carpeta no existe ",
+    "Wrong path, file/folder doesn't exist" : "La ruta es incorrecta, el archivo/carpeta no existe",
     "Could not create share" : "no fue posible crear el elemento compartido",
     "invalid permissions" : "permisos inválidos",
     "Please specify a valid user" : "Favor de especificar un usuario válido",
