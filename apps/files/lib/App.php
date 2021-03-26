@@ -25,15 +25,14 @@
 
 namespace OCA\Files;
 
-use OCP\INavigationManager;
-
 class App {
 	/**
 	 * Returns the app's navigation manager
 	 *
-	 * @return INavigationManager
+	 * @return SidebarNavigationManager
+	 * @deprecated query OCA\Files\SidebarNavigationManager from a container instead
 	 */
-	public static function getNavigationManager(): INavigationManager {
+	public static function getNavigationManager(): SidebarNavigationManager {
 		return \OC::$server->get(SidebarNavigationManager::class);
 	}
 
