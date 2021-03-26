@@ -98,14 +98,14 @@ class StorageConfig implements \JsonSerializable {
 	/**
 	 * List of users who have access to this storage
 	 *
-	 * @var array
+	 * @var string[]
 	 */
 	private $applicableUsers = [];
 
 	/**
 	 * List of groups that have access to this storage
 	 *
-	 * @var array
+	 * @var string[]
 	 */
 	private $applicableGroups = [];
 
@@ -272,7 +272,7 @@ class StorageConfig implements \JsonSerializable {
 	/**
 	 * Returns the users for which to mount this storage
 	 *
-	 * @return array applicable users
+	 * @return string[] applicable users
 	 */
 	public function getApplicableUsers() {
 		return $this->applicableUsers;
@@ -281,7 +281,7 @@ class StorageConfig implements \JsonSerializable {
 	/**
 	 * Sets the users for which to mount this storage
 	 *
-	 * @param array|null $applicableUsers applicable users
+	 * @param string[]|null $applicableUsers applicable users
 	 */
 	public function setApplicableUsers($applicableUsers) {
 		if (is_null($applicableUsers)) {
@@ -293,7 +293,7 @@ class StorageConfig implements \JsonSerializable {
 	/**
 	 * Returns the groups for which to mount this storage
 	 *
-	 * @return array applicable groups
+	 * @return string[] applicable groups
 	 */
 	public function getApplicableGroups() {
 		return $this->applicableGroups;
@@ -302,7 +302,7 @@ class StorageConfig implements \JsonSerializable {
 	/**
 	 * Sets the groups for which to mount this storage
 	 *
-	 * @param array|null $applicableGroups applicable groups
+	 * @param string[]|null $applicableGroups applicable groups
 	 */
 	public function setApplicableGroups($applicableGroups) {
 		if (is_null($applicableGroups)) {

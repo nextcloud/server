@@ -31,10 +31,10 @@ use OCA\Files_External\Config\ConfigAdapter;
 require_once __DIR__ . '/../3rdparty/autoload.php';
 
 // register Application object singleton
-\OCA\Files_External\MountConfig::$app = \OC::$server->query(\OCA\Files_External\AppInfo\Application::class);
-\OCA\Files_External\MountConfig::$app->registerListeners();
+$app = \OC::$server->query(\OCA\Files_External\AppInfo\Application::class);
+$app->registerListeners();
 
-$appContainer = \OCA\Files_External\MountConfig::$app->getContainer();
+$appContainer = $app->getContainer();
 
 \OCA\Files\App::getNavigationManager()->add(function () {
 	$l = \OC::$server->getL10N('files_external');

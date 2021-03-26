@@ -154,6 +154,7 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 			});
 		$this->backendService->method('getBackends')
 			->willReturn($backends);
+		$this->overwriteService(BackendService::class, $this->backendService);
 
 		\OCP\Util::connectHook(
 			Filesystem::CLASSNAME,
@@ -171,12 +172,6 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 					return $this->backendService;
 				}
 			});
-
-		\OCA\Files_External\MountConfig::$app = $this->getMockBuilder('\OCA\Files_External\Appinfo\Application')
-			->disableOriginalConstructor()
-			->getMock();
-		\OCA\Files_External\MountConfig::$app->method('getContainer')
-			->willReturn($containerMock);
 	}
 
 	protected function tearDown(): void {
