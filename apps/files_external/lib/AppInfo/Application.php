@@ -33,7 +33,6 @@ use OCA\Files_External\Config\ConfigAdapter;
 use OCA\Files_External\Config\UserPlaceholderHandler;
 use OCA\Files_External\Listener\GroupDeletedListener;
 use OCA\Files_External\Listener\UserDeletedListener;
-use OCA\Files_External\Service\DBConfigService;
 use OCA\Files_External\Lib\Auth\AmazonS3\AccessKey;
 use OCA\Files_External\Lib\Auth\Builtin;
 use OCA\Files_External\Lib\Auth\NullMechanism;
@@ -70,12 +69,7 @@ use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\Files\Config\IMountProviderCollection;
 use OCP\Group\Events\GroupDeletedEvent;
-use OCP\IGroup;
-use OCP\IUser;
 use OCP\User\Events\UserDeletedEvent;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
-use function foo\func;
 
 require_once __DIR__ . '/../../3rdparty/autoload.php';
 
@@ -112,7 +106,7 @@ class Application extends App implements IBackendProvider, IAuthMechanismProvide
 				'name' => $l->t('External storages'),
 			];
 		});
-		$context->injectFn(function(BackendService $backendService, UserPlaceholderHandler $userConfigHandler) {
+		$context->injectFn(function (BackendService $backendService, UserPlaceholderHandler $userConfigHandler) {
 			$backendService->registerBackendProvider($this);
 			$backendService->registerAuthMechanismProvider($this);
 			$backendService->registerConfigHandler('user', function () use ($userConfigHandler) {
