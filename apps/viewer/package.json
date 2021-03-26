@@ -50,7 +50,7 @@
     "path-parse": "^1.0.6",
     "vue": "^2.6.12",
     "vue-async-computed": "^3.9.0",
-    "webdav": "^3.6.1"
+    "webdav": "^4.2.1"
   },
   "browserslist": [
     "extends @nextcloud/browserslist-config"
