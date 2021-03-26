@@ -47,6 +47,7 @@ use OCA\Files\Listener\LoadSidebarListener;
 use OCA\Files\Notification\Notifier;
 use OCA\Files\Search\FilesSearchProvider;
 use OCA\Files\Service\TagService;
+use OCA\Files\SidebarNavigationManager;
 use OCP\Activity\IManager as IActivityManager;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
@@ -149,8 +150,8 @@ class Application extends App implements IBootstrap {
 		$templateManager->registerTemplate('application/vnd.oasis.opendocument.spreadsheet', 'core/templates/filetemplates/template.ods');
 	}
 
-	private function registerNavigation(IL10N $l10n): void {
-		\OCA\Files\App::getNavigationManager()->add(function () use ($l10n) {
+	private function registerNavigation(IL10N $l10n, SidebarNavigationManager $navigation): void {
+		$navigation->add(function () use ($l10n) {
 			return [
 				'id' => 'files',
 				'appname' => 'files',
@@ -159,7 +160,7 @@ class Application extends App implements IBootstrap {
 				'name' => $l10n->t('All files')
 			];
 		});
-		\OCA\Files\App::getNavigationManager()->add(function () use ($l10n) {
+		$navigation->add(function () use ($l10n) {
 			return [
 				'id' => 'recent',
 				'appname' => 'files',
@@ -168,7 +169,7 @@ class Application extends App implements IBootstrap {
 				'name' => $l10n->t('Recent')
 			];
 		});
-		\OCA\Files\App::getNavigationManager()->add(function () use ($l10n) {
+		$navigation->add(function () use ($l10n) {
 			return [
 				'id' => 'favorites',
 				'appname' => 'files',

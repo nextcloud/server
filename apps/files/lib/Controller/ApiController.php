@@ -39,6 +39,7 @@ namespace OCA\Files\Controller;
 
 use OC\Files\Node\Node;
 use OCA\Files\Service\TagService;
+use OCA\Files\SidebarNavigationManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
@@ -73,6 +74,8 @@ class ApiController extends Controller {
 	private $config;
 	/** @var Folder */
 	private $userFolder;
+	/** @var SidebarNavigationManager */
+	private $navigationManager;
 
 	/**
 	 * @param string $appName
@@ -84,14 +87,17 @@ class ApiController extends Controller {
 	 * @param IConfig $config
 	 * @param Folder $userFolder
 	 */
-	public function __construct($appName,
-								IRequest $request,
-								IUserSession $userSession,
-								TagService $tagService,
-								IPreview $previewManager,
-								IManager $shareManager,
-								IConfig $config,
-								Folder $userFolder) {
+	public function __construct(
+		$appName,
+		IRequest $request,
+		IUserSession $userSession,
+		TagService $tagService,
+		IPreview $previewManager,
+		IManager $shareManager,
+		IConfig $config,
+		Folder $userFolder,
+		SidebarNavigationManager $navigationManager
+	) {
 		parent::__construct($appName, $request);
 		$this->userSession = $userSession;
 		$this->tagService = $tagService;
@@ -99,6 +105,7 @@ class ApiController extends Controller {
 		$this->shareManager = $shareManager;
 		$this->config = $config;
 		$this->userFolder = $userFolder;
+		$this->navigationManager = $navigationManager;
 	}
 
 	/**
@@ -331,7 +338,7 @@ class ApiController extends Controller {
 	 */
 	public function toggleShowFolder(int $show, string $key) {
 		// ensure the edited key exists
-		$navItems = \OCA\Files\App::getNavigationManager()->getAll();
+		$navItems = $this->navigationManager->getAll();
 		foreach ($navItems as $item) {
 			// check if data is valid
 			if (($show === 0 || $show === 1) && isset($item['expandedState']) && $key === $item['expandedState']) {
