@@ -39,7 +39,7 @@ class ErrorHandler {
 	 * @return string
 	 */
 	protected static function removePassword($msg) {
-		return preg_replace('/\/\/(.*):(.*)@/', '//xxx:xxx@', $msg);
+		return preg_replace('#//(.*):(.*)@#', '//xxx:xxx@', $msg);
 	}
 
 	public static function register($debug = false) {
