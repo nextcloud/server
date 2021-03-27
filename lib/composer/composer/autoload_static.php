@@ -1027,6 +1027,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Core\\Controller\\SetupController' => __DIR__ . '/../../..' . '/core/Controller/SetupController.php',
         'OC\\Core\\Controller\\TwoFactorChallengeController' => __DIR__ . '/../../..' . '/core/Controller/TwoFactorChallengeController.php',
         'OC\\Core\\Controller\\UnifiedSearchController' => __DIR__ . '/../../..' . '/core/Controller/UnifiedSearchController.php',
+        'OC\\Core\\Controller\\UnsupportedBrowserController' => __DIR__ . '/../../..' . '/core/Controller/UnsupportedBrowserController.php',
         'OC\\Core\\Controller\\UserController' => __DIR__ . '/../../..' . '/core/Controller/UserController.php',
         'OC\\Core\\Controller\\WalledGardenController' => __DIR__ . '/../../..' . '/core/Controller/WalledGardenController.php',
         'OC\\Core\\Controller\\WebAuthnController' => __DIR__ . '/../../..' . '/core/Controller/WebAuthnController.php',

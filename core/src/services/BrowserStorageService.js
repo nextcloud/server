@@ -1,10 +1,9 @@
 /**
- * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @copyright 2021 John Molakvoæ <skjnldsv@protonmail.com>
  *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
- * @license AGPL-3.0-or-later
+ * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -17,15 +16,13 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
-// fix device width on windows phone
-if ('-ms-user-select' in document.documentElement.style && navigator.userAgent.match(/IEMobile\/10\.0/)) {
-	const msViewportStyle = document.createElement('style')
-	msViewportStyle.appendChild(
-		document.createTextNode('@-ms-viewport{width:auto!important}')
-	)
-	document.getElementsByTagName('head')[0].appendChild(msViewportStyle)
-}
+import { getBuilder } from '@nextcloud/browser-storage'
+
+export default getBuilder('nextcloud')
+	.clearOnLogout()
+	.persist()
+	.build()
