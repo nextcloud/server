@@ -3495,12 +3495,10 @@
     <InvalidNullableReturnType occurrences="1">
       <code>string</code>
     </InvalidNullableReturnType>
-    <InvalidReturnStatement occurrences="2">
-      <code>$this-&gt;root-&gt;get($this-&gt;getFullPath($path))</code>
+    <InvalidReturnStatement occurrences="1">
       <code>new NonExistingFolder($this-&gt;root, $this-&gt;view, $path)</code>
     </InvalidReturnStatement>
-    <InvalidReturnType occurrences="2">
-      <code>\OC\Files\Node\Node</code>
+    <InvalidReturnType occurrences="1">
       <code>string</code>
     </InvalidReturnType>
     <MoreSpecificImplementedParamType occurrences="1">
@@ -3579,15 +3577,7 @@
     <InvalidNullableReturnType occurrences="1">
       <code>int</code>
     </InvalidNullableReturnType>
-    <InvalidReturnStatement occurrences="3">
-      <code>$targetNode</code>
-      <code>$targetNode</code>
-      <code>$this-&gt;root-&gt;get($newPath)</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="4">
-      <code>Node</code>
-      <code>\OC\Files\Node\Node</code>
-      <code>\OC\Files\Node\Node</code>
+    <InvalidReturnType occurrences="1">
       <code>getChecksum</code>
     </InvalidReturnType>
     <NullableReturnStatement occurrences="1">
@@ -3601,9 +3591,8 @@
     </UndefinedInterfaceMethod>
   </file>
   <file src="lib/private/Files/Node/Root.php">
-    <ImplementedReturnTypeMismatch occurrences="2">
+    <ImplementedReturnTypeMismatch occurrences="1">
       <code>Node</code>
-      <code>string</code>
     </ImplementedReturnTypeMismatch>
     <InvalidNullableReturnType occurrences="7">
       <code>\OC\Files\Mount\MountPoint</code>
@@ -3614,12 +3603,6 @@
       <code>int</code>
       <code>string</code>
     </InvalidNullableReturnType>
-    <InvalidReturnStatement occurrences="1">
-      <code>$this-&gt;createNode($fullPath, $fileInfo)</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
-      <code>string</code>
-    </InvalidReturnType>
     <NullableReturnStatement occurrences="7">
       <code>$this-&gt;mountManager-&gt;find($mountPoint)</code>
       <code>$this-&gt;user</code>
