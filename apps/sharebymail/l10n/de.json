@@ -22,6 +22,7 @@
     "Password to access {file} was sent to {email}" : "Passwort für den Zugriff auf {file} wurde an {email} versandt ",
     "Password to access %1$s was sent to you" : " Passwort für den Zugriff auf %1$s wurde an Dich versandt ",
     "Password to access {file} was sent to you" : " Passwort für den Zugriff auf {file} wurde an Dich versandt ",
+    "Sharing %1$s failed, because this item is already shared with user %2$s" : "Freigabe von %1$s fehlgeschlagen, da dieses Element bereits für den Benutzer freigegeben ist %2$s",
     "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Automatisch erzeugtes Passwort kann nicht versandt werden. Bitte gebe in Deinen persönlichen Einstellungen eine gültige E-Mail-Adresse ein und versuche es erneut.",
     "Failed to send share by email" : "Fehler beim Senden der Freigabe per E-Mail",
     "%1$s shared »%2$s« with you" : "%1$s hat »%2$s« mit Dir geteilt",
