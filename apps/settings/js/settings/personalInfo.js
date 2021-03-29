@@ -199,10 +199,12 @@ window.addEventListener('DOMContentLoaded', function () {
 	});
 
 
+	var settingsEl = $('#personal-settings')
 	var userSettings = new OC.Settings.UserSettings();
 	var federationSettingsView = new OC.Settings.FederationSettingsView({
-		el: '#personal-settings',
-		config: userSettings
+		el: settingsEl,
+		config: userSettings,
+		showFederationScopes: !!settingsEl.data('lookup-server-upload-enabled'),
 	});
 
 	userSettings.on("sync", function() {

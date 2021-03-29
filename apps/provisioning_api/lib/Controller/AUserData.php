@@ -51,6 +51,7 @@ use OCP\User\Backend\ISetDisplayNameBackend;
 use OCP\User\Backend\ISetPasswordBackend;
 
 abstract class AUserData extends OCSController {
+	public const SCOPE_SUFFIX = 'Scope';
 
 	/** @var IUserManager */
 	protected $userManager;
@@ -87,12 +88,13 @@ abstract class AUserData extends OCSController {
 	 * creates a array with all user data
 	 *
 	 * @param string $userId
+	 * @param bool $includeScopes
 	 * @return array
 	 * @throws NotFoundException
 	 * @throws OCSException
 	 * @throws OCSNotFoundException
 	 */
-	protected function getUserData(string $userId): array {
+	protected function getUserData(string $userId, bool $includeScopes = false): array {
 		$currentLoggedInUser = $this->userSession->getUser();
 
 		$data = [];
@@ -115,7 +117,7 @@ abstract class AUserData extends OCSController {
 		}
 
 		// Get groups data
-		$userAccount = $this->accountManager->getUser($targetUserObject);
+		$userAccount = $this->accountManager->getAccount($targetUserObject);
 		$groups = $this->groupManager->getUserGroups($targetUserObject);
 		$gids = [];
 		foreach ($groups as $group) {
@@ -137,12 +139,33 @@ abstract class AUserData extends OCSController {
 		$data['backend'] = $targetUserObject->getBackendClassName();
 		$data['subadmin'] = $this->getUserSubAdminGroupsData($targetUserObject->getUID());
 		$data['quota'] = $this->fillStorageInfo($targetUserObject->getUID());
+
+		if ($includeScopes) {
+			$data[IAccountManager::PROPERTY_AVATAR . self::SCOPE_SUFFIX] = $userAccount->getProperty(IAccountManager::PROPERTY_AVATAR)->getScope();
+		}
+
 		$data[IAccountManager::PROPERTY_EMAIL] = $targetUserObject->getEMailAddress();
+		if ($includeScopes) {
+			$data[IAccountManager::PROPERTY_EMAIL . self::SCOPE_SUFFIX] = $userAccount->getProperty(IAccountManager::PROPERTY_EMAIL)->getScope();
+		}
 		$data[IAccountManager::PROPERTY_DISPLAYNAME] = $targetUserObject->getDisplayName();
-		$data[IAccountManager::PROPERTY_PHONE] = $userAccount[IAccountManager::PROPERTY_PHONE]['value'];
-		$data[IAccountManager::PROPERTY_ADDRESS] = $userAccount[IAccountManager::PROPERTY_ADDRESS]['value'];
-		$data[IAccountManager::PROPERTY_WEBSITE] = $userAccount[IAccountManager::PROPERTY_WEBSITE]['value'];
-		$data[IAccountManager::PROPERTY_TWITTER] = $userAccount[IAccountManager::PROPERTY_TWITTER]['value'];
+		if ($includeScopes) {
+			$data[IAccountManager::PROPERTY_DISPLAYNAME . self::SCOPE_SUFFIX] = $userAccount->getProperty(IAccountManager::PROPERTY_DISPLAYNAME)->getScope();
+		}
+
+		foreach ([
+			IAccountManager::PROPERTY_PHONE,
+			IAccountManager::PROPERTY_ADDRESS,
+			IAccountManager::PROPERTY_WEBSITE,
+			IAccountManager::PROPERTY_TWITTER,
+		] as $propertyName) {
+			$property = $userAccount->getProperty($propertyName);
+			$data[$propertyName] = $property->getValue();
+			if ($includeScopes) {
+				$data[$propertyName . self::SCOPE_SUFFIX] = $property->getScope();
+			}
+		}
+
 		$data['groups'] = $gids;
 		$data['language'] = $this->l10nFactory->getUserLanguage($targetUserObject);
 		$data['locale'] = $this->config->getUserValue($targetUserObject->getUID(), 'core', 'locale');

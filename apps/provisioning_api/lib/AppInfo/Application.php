@@ -29,6 +29,7 @@
 namespace OCA\Provisioning_API\AppInfo;
 
 use OC\Group\Manager as GroupManager;
+use OCA\Provisioning_API\Capabilities;
 use OCA\Provisioning_API\Listener\UserDeletedListener;
 use OCA\Provisioning_API\Middleware\ProvisioningApiMiddleware;
 use OCA\Settings\Mailer\NewUserMailHelper;
@@ -92,6 +93,7 @@ class Application extends App implements IBootstrap {
 			);
 		});
 		$context->registerMiddleware(ProvisioningApiMiddleware::class);
+		$context->registerCapability(Capabilities::class);
 	}
 
 	public function boot(IBootContext $context): void {

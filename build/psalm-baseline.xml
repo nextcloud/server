@@ -2981,6 +2981,14 @@
       <code>InMemoryFile</code>
     </ImplementedReturnTypeMismatch>
   </file>
+  <file src="lib/private/Avatar/PlaceholderAvatar.php">
+    <ImplementedReturnTypeMismatch occurrences="1">
+      <code>ISimpleFile</code>
+    </ImplementedReturnTypeMismatch>
+    <InvalidScalarArgument occurrences="1">
+      <code>$data</code>
+    </InvalidScalarArgument>
+  </file>
   <file src="lib/private/Avatar/UserAvatar.php">
     <ImplementedReturnTypeMismatch occurrences="1">
       <code>ISimpleFile</code>

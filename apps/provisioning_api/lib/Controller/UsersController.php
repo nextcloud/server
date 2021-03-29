@@ -50,7 +50,6 @@ use OC\Accounts\AccountManager;
 use OC\Authentication\Token\RemoteWipe;
 use OC\HintException;
 use OC\KnownUser\KnownUserService;
-use OCA\Provisioning_API\FederatedShareProviderFactory;
 use OCA\Settings\Mailer\NewUserMailHelper;
 use OCP\Accounts\IAccountManager;
 use OCP\App\IAppManager;
@@ -85,8 +84,6 @@ class UsersController extends AUserData {
 	protected $l10nFactory;
 	/** @var NewUserMailHelper */
 	private $newUserMailHelper;
-	/** @var FederatedShareProviderFactory */
-	private $federatedShareProviderFactory;
 	/** @var ISecureRandom */
 	private $secureRandom;
 	/** @var RemoteWipe */
@@ -108,7 +105,6 @@ class UsersController extends AUserData {
 								LoggerInterface $logger,
 								IFactory $l10nFactory,
 								NewUserMailHelper $newUserMailHelper,
-								FederatedShareProviderFactory $federatedShareProviderFactory,
 								ISecureRandom $secureRandom,
 								RemoteWipe $remoteWipe,
 								KnownUserService $knownUserService,
@@ -127,7 +123,6 @@ class UsersController extends AUserData {
 		$this->logger = $logger;
 		$this->l10nFactory = $l10nFactory;
 		$this->newUserMailHelper = $newUserMailHelper;
-		$this->federatedShareProviderFactory = $federatedShareProviderFactory;
 		$this->secureRandom = $secureRandom;
 		$this->remoteWipe = $remoteWipe;
 		$this->knownUserService = $knownUserService;
@@ -488,7 +483,13 @@ class UsersController extends AUserData {
 	 * @throws OCSException
 	 */
 	public function getUser(string $userId): DataResponse {
-		$data = $this->getUserData($userId);
+		$includeScopes = false;
+		$currentUser = $this->userSession->getUser();
+		if ($currentUser && $currentUser->getUID() === $userId) {
+			$includeScopes = true;
+		}
+
+		$data = $this->getUserData($userId, $includeScopes);
 		// getUserData returns empty array if not enough permissions
 		if (empty($data)) {
 			throw new OCSException('', OCSController::RESPOND_UNAUTHORISED);
@@ -508,7 +509,7 @@ class UsersController extends AUserData {
 	public function getCurrentUser(): DataResponse {
 		$user = $this->userSession->getUser();
 		if ($user) {
-			$data = $this->getUserData($user->getUID());
+			$data = $this->getUserData($user->getUID(), true);
 			// rename "displayname" to "display-name" only for this call to keep
 			// the API stable.
 			$data['display-name'] = $data['displayname'];
@@ -532,15 +533,10 @@ class UsersController extends AUserData {
 			$permittedFields[] = IAccountManager::PROPERTY_EMAIL;
 		}
 
-		if ($this->appManager->isEnabledForUser('federatedfilesharing')) {
-			$shareProvider = $this->federatedShareProviderFactory->get();
-			if ($shareProvider->isLookupServerUploadEnabled()) {
-				$permittedFields[] = IAccountManager::PROPERTY_PHONE;
-				$permittedFields[] = IAccountManager::PROPERTY_ADDRESS;
-				$permittedFields[] = IAccountManager::PROPERTY_WEBSITE;
-				$permittedFields[] = IAccountManager::PROPERTY_TWITTER;
-			}
-		}
+		$permittedFields[] = IAccountManager::PROPERTY_PHONE;
+		$permittedFields[] = IAccountManager::PROPERTY_ADDRESS;
+		$permittedFields[] = IAccountManager::PROPERTY_WEBSITE;
+		$permittedFields[] = IAccountManager::PROPERTY_TWITTER;
 
 		return new DataResponse($permittedFields);
 	}
@@ -575,6 +571,9 @@ class UsersController extends AUserData {
 				$permittedFields[] = IAccountManager::PROPERTY_EMAIL;
 			}
 
+			$permittedFields[] = IAccountManager::PROPERTY_DISPLAYNAME . self::SCOPE_SUFFIX;
+			$permittedFields[] = IAccountManager::PROPERTY_EMAIL . self::SCOPE_SUFFIX;
+
 			$permittedFields[] = 'password';
 			if ($this->config->getSystemValue('force_language', false) === false ||
 				$this->groupManager->isAdmin($currentLoggedInUser->getUID())) {
@@ -586,15 +585,16 @@ class UsersController extends AUserData {
 				$permittedFields[] = 'locale';
 			}
 
-			if ($this->appManager->isEnabledForUser('federatedfilesharing')) {
-				$shareProvider = $this->federatedShareProviderFactory->get();
-				if ($shareProvider->isLookupServerUploadEnabled()) {
-					$permittedFields[] = IAccountManager::PROPERTY_PHONE;
-					$permittedFields[] = IAccountManager::PROPERTY_ADDRESS;
-					$permittedFields[] = IAccountManager::PROPERTY_WEBSITE;
-					$permittedFields[] = IAccountManager::PROPERTY_TWITTER;
-				}
-			}
+			$permittedFields[] = IAccountManager::PROPERTY_PHONE;
+			$permittedFields[] = IAccountManager::PROPERTY_ADDRESS;
+			$permittedFields[] = IAccountManager::PROPERTY_WEBSITE;
+			$permittedFields[] = IAccountManager::PROPERTY_TWITTER;
+			$permittedFields[] = IAccountManager::PROPERTY_PHONE . self::SCOPE_SUFFIX;
+			$permittedFields[] = IAccountManager::PROPERTY_ADDRESS . self::SCOPE_SUFFIX;
+			$permittedFields[] = IAccountManager::PROPERTY_WEBSITE . self::SCOPE_SUFFIX;
+			$permittedFields[] = IAccountManager::PROPERTY_TWITTER . self::SCOPE_SUFFIX;
+
+			$permittedFields[] = IAccountManager::PROPERTY_AVATAR . self::SCOPE_SUFFIX;
 
 			// If admin they can edit their own quota
 			if ($this->groupManager->isAdmin($currentLoggedInUser->getUID())) {
@@ -694,6 +694,24 @@ class UsersController extends AUserData {
 						if ($key === IAccountManager::PROPERTY_PHONE) {
 							$this->knownUserService->deleteByContactUserId($targetUser->getUID());
 						}
+					} catch (\InvalidArgumentException $e) {
+						throw new OCSException('Invalid ' . $e->getMessage(), 102);
+					}
+				}
+				break;
+			case IAccountManager::PROPERTY_DISPLAYNAME . self::SCOPE_SUFFIX:
+			case IAccountManager::PROPERTY_EMAIL . self::SCOPE_SUFFIX:
+			case IAccountManager::PROPERTY_PHONE . self::SCOPE_SUFFIX:
+			case IAccountManager::PROPERTY_ADDRESS . self::SCOPE_SUFFIX:
+			case IAccountManager::PROPERTY_WEBSITE . self::SCOPE_SUFFIX:
+			case IAccountManager::PROPERTY_TWITTER . self::SCOPE_SUFFIX:
+			case IAccountManager::PROPERTY_AVATAR . self::SCOPE_SUFFIX:
+				$propertyName = substr($key, 0, strlen($key) - strlen(self::SCOPE_SUFFIX));
+				$userAccount = $this->accountManager->getUser($targetUser);
+				if ($userAccount[$propertyName]['scope'] !== $value) {
+					$userAccount[$propertyName]['scope'] = $value;
+					try {
+						$this->accountManager->updateUser($targetUser, $userAccount, true);
 					} catch (\InvalidArgumentException $e) {
 						throw new OCSException('Invalid ' . $e->getMessage(), 102);
 					}

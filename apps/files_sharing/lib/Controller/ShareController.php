@@ -343,7 +343,7 @@ class ShareController extends AuthPublicShareController {
 			$ownerAccount = $this->accountManager->getAccount($owner);
 
 			$ownerName = $ownerAccount->getProperty(IAccountManager::PROPERTY_DISPLAYNAME);
-			if ($ownerName->getScope() === IAccountManager::VISIBILITY_PUBLIC) {
+			if ($ownerName->getScope() === IAccountManager::SCOPE_PUBLISHED) {
 				$shareTmpl['owner'] = $owner->getUID();
 				$shareTmpl['shareOwner'] = $owner->getDisplayName();
 			}

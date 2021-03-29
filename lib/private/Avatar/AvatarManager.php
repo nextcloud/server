@@ -34,8 +34,10 @@ declare(strict_types=1);
 
 namespace OC\Avatar;
 
+use OC\KnownUser\KnownUserService;
 use OC\User\Manager;
 use OC\User\NoUserException;
+use OCP\Accounts\IAccountManager;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
@@ -44,11 +46,15 @@ use OCP\IAvatarManager;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\ILogger;
+use OCP\IUserSession;
 
 /**
  * This class implements methods to access Avatar functionality
  */
 class AvatarManager implements IAvatarManager {
+
+	/** @var IUserSession */
+	private $userSession;
 
 	/** @var Manager */
 	private $userManager;
@@ -65,6 +71,12 @@ class AvatarManager implements IAvatarManager {
 	/** @var IConfig */
 	private $config;
 
+	/** @var IAccountManager */
+	private $accountManager;
+
+	/** @var KnownUserService */
+	private $knownUserService;
+
 	/**
 	 * AvatarManager constructor.
 	 *
@@ -73,18 +85,26 @@ class AvatarManager implements IAvatarManager {
 	 * @param IL10N $l
 	 * @param ILogger $logger
 	 * @param IConfig $config
+	 * @param IUserSession $userSession
 	 */
 	public function __construct(
+			IUserSession $userSession,
 			Manager $userManager,
 			IAppData $appData,
 			IL10N $l,
 			ILogger $logger,
-			IConfig $config) {
+			IConfig $config,
+			IAccountManager $accountManager,
+			KnownUserService $knownUserService
+	) {
+		$this->userSession = $userSession;
 		$this->userManager = $userManager;
 		$this->appData = $appData;
 		$this->l = $l;
 		$this->logger = $logger;
 		$this->config = $config;
+		$this->accountManager = $accountManager;
+		$this->knownUserService = $knownUserService;
 	}
 
 	/**
@@ -104,10 +124,32 @@ class AvatarManager implements IAvatarManager {
 		// sanitize userID - fixes casing issue (needed for the filesystem stuff that is done below)
 		$userId = $user->getUID();
 
+		$requestingUser = null;
+		if ($this->userSession !== null) {
+			$requestingUser = $this->userSession->getUser();
+		}
+
 		try {
 			$folder = $this->appData->getFolder($userId);
 		} catch (NotFoundException $e) {
 			$folder = $this->appData->newFolder($userId);
+		}
+
+		$account = $this->accountManager->getAccount($user);
+		$avatarProperties = $account->getProperty(IAccountManager::PROPERTY_AVATAR);
+		$avatarScope = $avatarProperties->getScope();
+
+		if (
+			// v2-private scope hides the avatar from public access and from unknown users
+			$avatarScope === IAccountManager::SCOPE_PRIVATE
+			&& (
+				// accessing from public link
+				$requestingUser === null
+				// logged in, but unknown to user
+				|| !$this->knownUserService->isKnownToUser($requestingUser->getUID(), $userId)
+			)) {
+			// use a placeholder avatar which caches the generated images
+			return new PlaceholderAvatar($folder, $user, $this->logger);
 		}
 
 		return new UserAvatar($folder, $this->l, $user, $this->logger, $this->config);

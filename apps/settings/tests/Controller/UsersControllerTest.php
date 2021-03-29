@@ -190,6 +190,7 @@ class UsersControllerTest extends \Test\TestCase {
 	public function testSetUserSettings($email, $validEmail, $expectedStatus) {
 		$controller = $this->getController(false, ['saveUserSettings']);
 		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('johndoe');
 
 		$this->userSession->method('getUser')->willReturn($user);
 
@@ -208,41 +209,41 @@ class UsersControllerTest extends \Test\TestCase {
 					IAccountManager::PROPERTY_DISPLAYNAME =>
 						[
 							'value' => 'Display name',
-							'scope' => AccountManager::VISIBILITY_CONTACTS_ONLY,
+							'scope' => AccountManager::SCOPE_FEDERATED,
 							'verified' => AccountManager::NOT_VERIFIED,
 						],
 					IAccountManager::PROPERTY_ADDRESS =>
 						[
 							'value' => '',
-							'scope' => AccountManager::VISIBILITY_PRIVATE,
+							'scope' => AccountManager::SCOPE_LOCAL,
 							'verified' => AccountManager::NOT_VERIFIED,
 						],
 					IAccountManager::PROPERTY_WEBSITE =>
 						[
 							'value' => '',
-							'scope' => AccountManager::VISIBILITY_PRIVATE,
+							'scope' => AccountManager::SCOPE_LOCAL,
 							'verified' => AccountManager::NOT_VERIFIED,
 						],
 					IAccountManager::PROPERTY_EMAIL =>
 						[
 							'value' => '',
-							'scope' => AccountManager::VISIBILITY_CONTACTS_ONLY,
+							'scope' => AccountManager::SCOPE_FEDERATED,
 							'verified' => AccountManager::NOT_VERIFIED,
 						],
 					IAccountManager::PROPERTY_AVATAR =>
 						[
-							'scope' => AccountManager::VISIBILITY_CONTACTS_ONLY
+							'scope' => AccountManager::SCOPE_FEDERATED
 						],
 					IAccountManager::PROPERTY_PHONE =>
 						[
 							'value' => '',
-							'scope' => AccountManager::VISIBILITY_PRIVATE,
+							'scope' => AccountManager::SCOPE_LOCAL,
 							'verified' => AccountManager::NOT_VERIFIED,
 						],
 					IAccountManager::PROPERTY_TWITTER =>
 						[
 							'value' => '',
-							'scope' => AccountManager::VISIBILITY_PRIVATE,
+							'scope' => AccountManager::SCOPE_LOCAL,
 							'verified' => AccountManager::NOT_VERIFIED,
 						],
 				]);
@@ -255,19 +256,19 @@ class UsersControllerTest extends \Test\TestCase {
 		}
 
 		$result = $controller->setUserSettings(//
-			AccountManager::VISIBILITY_CONTACTS_ONLY,
+			AccountManager::SCOPE_FEDERATED,
 			'displayName',
-			AccountManager::VISIBILITY_CONTACTS_ONLY,
+			AccountManager::SCOPE_FEDERATED,
 			'47658468',
-			AccountManager::VISIBILITY_CONTACTS_ONLY,
+			AccountManager::SCOPE_FEDERATED,
 			$email,
-			AccountManager::VISIBILITY_CONTACTS_ONLY,
+			AccountManager::SCOPE_FEDERATED,
 			'nextcloud.com',
-			AccountManager::VISIBILITY_CONTACTS_ONLY,
+			AccountManager::SCOPE_FEDERATED,
 			'street and city',
-			AccountManager::VISIBILITY_CONTACTS_ONLY,
+			AccountManager::SCOPE_FEDERATED,
 			'@nextclouders',
-			AccountManager::VISIBILITY_CONTACTS_ONLY
+			AccountManager::SCOPE_FEDERATED
 		);
 
 		$this->assertSame($expectedStatus, $result->getStatus());
