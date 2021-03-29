@@ -30,14 +30,14 @@
 				{
 					name: 'v2-private',
 					displayName: t('settings', 'Private'),
-					tooltip: t('settings', "Don't show via public link"),
-					iconClass: 'icon-password',
+					tooltip: t('settings', 'Only visible to people matched via phone number integration through Talk on mobile'),
+					iconClass: 'icon-phone',
 					active: false
 				},
 				{
 					name: 'v2-local',
 					displayName: t('settings', 'Local'),
-					tooltip: t('settings', "Don't synchronize to servers"),
+					tooltip: t('settings', 'Only visible to people on this instance and guests'),
 					iconClass: 'icon-password',
 					active: false
 				},
