@@ -56,8 +56,8 @@
 
 <script>
 import Vue from 'vue'
-import VuePlyr from 'vue-plyr'
-import 'vue-plyr/dist/vue-plyr.css'
+import VuePlyr from '@skjnldsv/vue-plyr'
+import '@skjnldsv/vue-plyr/dist/vue-plyr.css'
 
 const liveExt = ['jpg', 'jpeg', 'png']
 const liveExtRegex = new RegExp(`\\.(${liveExt.join('|')})$`, 'i')

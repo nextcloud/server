@@ -145,41 +145,43 @@ export default {
 
 	mixins: [isMobile, isFullscreen],
 
-	data: () => ({
-		// Reactivity bindings
-		Viewer: OCA.Viewer.state,
-		Sidebar: null,
-		handlers: OCA.Viewer.availableHandlers,
+	data() {
+		return {
+			// Reactivity bindings
+			Viewer: OCA.Viewer.state,
+			Sidebar: null,
+			handlers: OCA.Viewer.availableHandlers,
 
-		// Viewer variables
-		components: {},
-		mimeGroups: {},
-		registeredHandlers: [],
+			// Viewer variables
+			components: {},
+			mimeGroups: {},
+			registeredHandlers: [],
 
-		// Files variables
-		currentIndex: 0,
-		previousFile: {},
-		currentFile: {},
-		nextFile: {},
-		fileList: [],
+			// Files variables
+			currentIndex: 0,
+			previousFile: {},
+			currentFile: {},
+			nextFile: {},
+			fileList: [],
 
-		// States
-		isLoaded: false,
-		initiated: false,
+			// States
+			isLoaded: false,
+			initiated: false,
 
-		// cancellable requests
-		cancelRequestFile: () => {},
-		cancelRequestFolder: () => {},
+			// cancellable requests
+			cancelRequestFile: () => {},
+			cancelRequestFolder: () => {},
 
-		// Flags
-		sidebarWidth: 0,
-		isSidebarShown: false,
-		canSwipe: true,
-		isStandalone: !(OCA && OCA.Files && 'fileActions' in OCA.Files),
-		isTesting,
+			// Flags
+			sidebarWidth: 0,
+			isSidebarShown: false,
+			canSwipe: true,
+			isStandalone: !(OCA && OCA.Files && 'fileActions' in OCA.Files),
+			isTesting,
 
-		root: getRootPath(),
-	}),
+			root: getRootPath(),
+		}
+	},
 
 	computed: {
 		hasPrevious() {
