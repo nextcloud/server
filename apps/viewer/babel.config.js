@@ -1,5 +1,6 @@
 module.exports = {
 	plugins: [
+		'add-module-exports',
 		'@babel/plugin-syntax-dynamic-import',
 		['@babel/plugin-proposal-class-properties', { loose: true }],
 	],
@@ -9,6 +10,7 @@ module.exports = {
 			{
 				corejs: 3,
 				useBuiltIns: 'entry',
+				modules: 'commonjs',
 			},
 		],
 	],
