@@ -1627,10 +1627,15 @@ $CONFIG = [
 'theme' => '',
 
 /**
- * The default cipher for encrypting files. Currently AES-128-CFB and
- * AES-256-CFB are supported.
+ * The default cipher for encrypting files. Currently supported are:
+ *  - AES-256-CTR
+ *  - AES-128-CTR
+ *  - AES-256-CFB
+ *  - AES-128-CFB
+ *
+ * Defaults to ``AES-256-CTR``
  */
-'cipher' => 'AES-256-CFB',
+'cipher' => 'AES-256-CTR',
 
 /**
  * The minimum Nextcloud desktop client version that will be allowed to sync with
