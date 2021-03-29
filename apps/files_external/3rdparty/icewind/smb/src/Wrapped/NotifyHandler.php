@@ -14,16 +14,13 @@ use Icewind\SMB\Exception\RevisionMismatchException;
 use Icewind\SMB\INotifyHandler;
 
 class NotifyHandler implements INotifyHandler {
-	/**
-	 * @var Connection
-	 */
+	/** @var Connection */
 	private $connection;
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private $path;
 
+	/** @var bool */
 	private $listening = true;
 
 	// see error.h
@@ -35,7 +32,7 @@ class NotifyHandler implements INotifyHandler {
 	 * @param Connection $connection
 	 * @param string $path
 	 */
-	public function __construct(Connection $connection, $path) {
+	public function __construct(Connection $connection, string $path) {
 		$this->connection = $connection;
 		$this->path = $path;
 	}
@@ -45,17 +42,17 @@ class NotifyHandler implements INotifyHandler {
 	 *
 	 * @return Change[]
 	 */
-	public function getChanges() {
+	public function getChanges(): array {
 		if (!$this->listening) {
 			return [];
 		}
-		stream_set_blocking($this->connection->getOutputStream(), 0);
+		stream_set_blocking($this->connection->getOutputStream(), false);
 		$lines = [];
 		while (($line = $this->connection->readLine())) {
 			$this->checkForError($line);
 			$lines[] = $line;
 		}
-		stream_set_blocking($this->connection->getOutputStream(), 1);
+		stream_set_blocking($this->connection->getOutputStream(), true);
 		return array_values(array_filter(array_map([$this, 'parseChangeLine'], $lines)));
 	}
 
@@ -64,21 +61,24 @@ class NotifyHandler implements INotifyHandler {
 	 *
 	 * Note that this is a blocking process and will cause the process to block forever if not explicitly terminated
 	 *
-	 * @param callable $callback
+	 * @param callable(Change):?bool $callback
 	 */
-	public function listen($callback) {
+	public function listen(callable $callback): void {
 		if ($this->listening) {
-			$this->connection->read(function ($line) use ($callback) {
+			$this->connection->read(function (string $line) use ($callback): bool {
 				$this->checkForError($line);
 				$change = $this->parseChangeLine($line);
 				if ($change) {
-					return $callback($change);
+					$result = $callback($change);
+					return $result === false ? false : true;
+				} else {
+					return true;
 				}
 			});
 		}
 	}
 
-	private function parseChangeLine($line) {
+	private function parseChangeLine(string $line): ?Change {
 		$code = (int)substr($line, 0, 4);
 		if ($code === 0) {
 			return null;
@@ -91,14 +91,14 @@ class NotifyHandler implements INotifyHandler {
 		}
 	}
 
-	private function checkForError($line) {
+	private function checkForError(string $line): void {
 		if (substr($line, 0, 16) === 'notify returned ') {
 			$error = substr($line, 16);
 			throw Exception::fromMap(array_merge(self::EXCEPTION_MAP, Parser::EXCEPTION_MAP), $error, 'Notify is not supported with the used smb version');
 		}
 	}
 
-	public function stop() {
+	public function stop(): void {
 		$this->listening = false;
 		$this->connection->close();
 	}
