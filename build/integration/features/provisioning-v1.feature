@@ -103,6 +103,82 @@ Feature: provisioning
 			| website | https://nextcloud.com |
 			| twitter | Nextcloud |
 
+	Scenario: Edit a user account properties scopes
+		Given user "brand-new-user" exists
+    And As an "brand-new-user"
+		When sending "PUT" to "/cloud/users/brand-new-user" with
+			| key | phoneScope |
+			| value | v2-private |
+		Then the OCS status code should be "100"
+		And the HTTP status code should be "200"
+		When sending "PUT" to "/cloud/users/brand-new-user" with
+			| key | twitterScope |
+			| value | v2-local |
+		Then the OCS status code should be "100"
+		And the HTTP status code should be "200"
+		When sending "PUT" to "/cloud/users/brand-new-user" with
+			| key | addressScope |
+			| value | v2-federated |
+		Then the OCS status code should be "100"
+		And the HTTP status code should be "200"
+		When sending "PUT" to "/cloud/users/brand-new-user" with
+			| key | emailScope |
+			| value | v2-published |
+		Then the OCS status code should be "100"
+		And the HTTP status code should be "200"
+		When sending "PUT" to "/cloud/users/brand-new-user" with
+			| key | websiteScope |
+			| value | public |
+		Then the OCS status code should be "100"
+		And the HTTP status code should be "200"
+		When sending "PUT" to "/cloud/users/brand-new-user" with
+			| key | displaynameScope |
+			| value | contacts |
+		Then the OCS status code should be "100"
+		And the HTTP status code should be "200"
+		When sending "PUT" to "/cloud/users/brand-new-user" with
+			| key | avatarScope |
+			| value | private |
+		Then the OCS status code should be "100"
+		And the HTTP status code should be "200"
+		Then user "brand-new-user" has
+			| id | brand-new-user |
+			| phoneScope | v2-private |
+			| twitterScope | v2-local |
+			| addressScope | v2-federated |
+			| emailScope | v2-published |
+			| websiteScope | v2-published |
+			| displaynameScope | v2-federated |
+			| avatarScope | v2-local |
+
+	Scenario: Edit a user account properties scopes with invalid or unsupported value
+		Given user "brand-new-user" exists
+    And As an "brand-new-user"
+		When sending "PUT" to "/cloud/users/brand-new-user" with
+			| key | phoneScope |
+			| value | invalid |
+		Then the OCS status code should be "102"
+		And the HTTP status code should be "200"
+		When sending "PUT" to "/cloud/users/brand-new-user" with
+			| key | displaynameScope |
+			| value | v2-private |
+		Then the OCS status code should be "102"
+		And the HTTP status code should be "200"
+		When sending "PUT" to "/cloud/users/brand-new-user" with
+			| key | emailScope |
+			| value | v2-private |
+		Then the OCS status code should be "102"
+		And the HTTP status code should be "200"
+
+	Scenario: An admin cannot edit user account property scopes
+    Given As an "admin"
+		And user "brand-new-user" exists
+		When sending "PUT" to "/cloud/users/brand-new-user" with
+			| key | phoneScope |
+			| value | v2-private |
+		Then the OCS status code should be "997"
+		And the HTTP status code should be "401"
+
 	Scenario: Search by phone number
 		Given As an "admin"
 		And user "phone-user" exists
@@ -612,4 +688,3 @@ Feature: provisioning
 		And As an "user0"
 		When sending "GET" with exact url to "/index.php/apps/files"
 		And the HTTP status code should be "403"
-

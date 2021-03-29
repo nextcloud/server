@@ -46,7 +46,6 @@ use OC\KnownUser\KnownUserService;
 use OC\L10N\Factory;
 use OC\Security\IdentityProof\Manager;
 use OC\User\Manager as UserManager;
-use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\Settings\BackgroundJobs\VerifyUserData;
 use OCA\Settings\Events\BeforeTemplateRenderedEvent;
 use OCA\User_LDAP\User_Proxy;
@@ -401,15 +400,11 @@ class UsersController extends Controller {
 			$data[IAccountManager::PROPERTY_DISPLAYNAME] = ['value' => $displayname, 'scope' => $displaynameScope];
 			$data[IAccountManager::PROPERTY_EMAIL] = ['value' => $email, 'scope' => $emailScope];
 		}
-		if ($this->appManager->isEnabledForUser('federatedfilesharing')) {
-			$shareProvider = \OC::$server->query(FederatedShareProvider::class);
-			if ($shareProvider->isLookupServerUploadEnabled()) {
-				$data[IAccountManager::PROPERTY_WEBSITE] = ['value' => $website, 'scope' => $websiteScope];
-				$data[IAccountManager::PROPERTY_ADDRESS] = ['value' => $address, 'scope' => $addressScope];
-				$data[IAccountManager::PROPERTY_PHONE] = ['value' => $phone, 'scope' => $phoneScope];
-				$data[IAccountManager::PROPERTY_TWITTER] = ['value' => $twitter, 'scope' => $twitterScope];
-			}
-		}
+		$data[IAccountManager::PROPERTY_WEBSITE] = ['value' => $website, 'scope' => $websiteScope];
+		$data[IAccountManager::PROPERTY_ADDRESS] = ['value' => $address, 'scope' => $addressScope];
+		$data[IAccountManager::PROPERTY_PHONE] = ['value' => $phone, 'scope' => $phoneScope];
+		$data[IAccountManager::PROPERTY_TWITTER] = ['value' => $twitter, 'scope' => $twitterScope];
+
 		try {
 			$data = $this->saveUserSettings($user, $data);
 			if ($beforeData[IAccountManager::PROPERTY_PHONE]['value'] !== $data[IAccountManager::PROPERTY_PHONE]['value']) {

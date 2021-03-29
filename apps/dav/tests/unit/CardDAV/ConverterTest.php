@@ -53,36 +53,36 @@ class ConverterTest extends TestCase {
 				IAccountManager::PROPERTY_DISPLAYNAME =>
 					[
 						'value' => $user->getDisplayName(),
-						'scope' => AccountManager::VISIBILITY_CONTACTS_ONLY,
+						'scope' => AccountManager::SCOPE_FEDERATED,
 					],
 				IAccountManager::PROPERTY_ADDRESS =>
 					[
 						'value' => '',
-						'scope' => AccountManager::VISIBILITY_PRIVATE,
+						'scope' => AccountManager::SCOPE_LOCAL,
 					],
 				IAccountManager::PROPERTY_WEBSITE =>
 					[
 						'value' => '',
-						'scope' => AccountManager::VISIBILITY_PRIVATE,
+						'scope' => AccountManager::SCOPE_LOCAL,
 					],
 				IAccountManager::PROPERTY_EMAIL =>
 					[
 						'value' => $user->getEMailAddress(),
-						'scope' => AccountManager::VISIBILITY_CONTACTS_ONLY,
+						'scope' => AccountManager::SCOPE_FEDERATED,
 					],
 				IAccountManager::PROPERTY_AVATAR =>
 					[
-						'scope' => AccountManager::VISIBILITY_CONTACTS_ONLY
+						'scope' => AccountManager::SCOPE_FEDERATED
 					],
 				IAccountManager::PROPERTY_PHONE =>
 					[
 						'value' => '',
-						'scope' => AccountManager::VISIBILITY_PRIVATE,
+						'scope' => AccountManager::SCOPE_LOCAL,
 					],
 				IAccountManager::PROPERTY_TWITTER =>
 					[
 						'value' => '',
-						'scope' => AccountManager::VISIBILITY_PRIVATE,
+						'scope' => AccountManager::SCOPE_LOCAL,
 					],
 			]
 		);

@@ -153,6 +153,129 @@ class AccountManagerTest extends TestCase {
 		];
 	}
 
+	public function updateUserSetScopeProvider() {
+		return [
+			// regular scope switching
+			[
+				[
+					IAccountManager::PROPERTY_DISPLAYNAME => ['value' => 'Display Name', 'scope' => IAccountManager::SCOPE_PUBLISHED],
+					IAccountManager::PROPERTY_EMAIL => ['value' => 'test@example.org', 'scope' => IAccountManager::SCOPE_PUBLISHED],
+					IAccountManager::PROPERTY_AVATAR => ['value' => '@sometwitter', 'scope' => IAccountManager::SCOPE_PUBLISHED],
+					IAccountManager::PROPERTY_TWITTER => ['value' => '@sometwitter', 'scope' => IAccountManager::SCOPE_PUBLISHED],
+					IAccountManager::PROPERTY_PHONE => ['value' => '+491601231212', 'scope' => IAccountManager::SCOPE_FEDERATED],
+					IAccountManager::PROPERTY_ADDRESS => ['value' => 'some street', 'scope' => IAccountManager::SCOPE_LOCAL],
+					IAccountManager::PROPERTY_WEBSITE => ['value' => 'https://example.org', 'scope' => IAccountManager::SCOPE_PRIVATE],
+				],
+				[
+					IAccountManager::PROPERTY_DISPLAYNAME => ['value' => 'Display Name', 'scope' => IAccountManager::SCOPE_LOCAL],
+					IAccountManager::PROPERTY_EMAIL => ['value' => 'test@example.org', 'scope' => IAccountManager::SCOPE_FEDERATED],
+					IAccountManager::PROPERTY_TWITTER => ['value' => '@sometwitter', 'scope' => IAccountManager::SCOPE_PRIVATE],
+					IAccountManager::PROPERTY_PHONE => ['value' => '+491601231212', 'scope' => IAccountManager::SCOPE_LOCAL],
+					IAccountManager::PROPERTY_ADDRESS => ['value' => 'some street', 'scope' => IAccountManager::SCOPE_FEDERATED],
+					IAccountManager::PROPERTY_WEBSITE => ['value' => 'https://example.org', 'scope' => IAccountManager::SCOPE_PUBLISHED],
+				],
+				[
+					IAccountManager::PROPERTY_DISPLAYNAME => ['value' => 'Display Name', 'scope' => IAccountManager::SCOPE_LOCAL],
+					IAccountManager::PROPERTY_EMAIL => ['value' => 'test@example.org', 'scope' => IAccountManager::SCOPE_FEDERATED],
+					IAccountManager::PROPERTY_TWITTER => ['value' => '@sometwitter', 'scope' => IAccountManager::SCOPE_PRIVATE],
+					IAccountManager::PROPERTY_PHONE => ['value' => '+491601231212', 'scope' => IAccountManager::SCOPE_LOCAL],
+					IAccountManager::PROPERTY_ADDRESS => ['value' => 'some street', 'scope' => IAccountManager::SCOPE_FEDERATED],
+					IAccountManager::PROPERTY_WEBSITE => ['value' => 'https://example.org', 'scope' => IAccountManager::SCOPE_PUBLISHED],
+				],
+			],
+			// legacy scope mapping, the given visibility values get converted to scopes
+			[
+				[
+					IAccountManager::PROPERTY_TWITTER => ['value' => '@sometwitter', 'scope' => IAccountManager::SCOPE_PUBLISHED],
+					IAccountManager::PROPERTY_PHONE => ['value' => '+491601231212', 'scope' => IAccountManager::SCOPE_FEDERATED],
+					IAccountManager::PROPERTY_WEBSITE => ['value' => 'https://example.org', 'scope' => IAccountManager::SCOPE_PRIVATE],
+				],
+				[
+					IAccountManager::PROPERTY_TWITTER => ['value' => '@sometwitter', 'scope' => IAccountManager::VISIBILITY_PUBLIC],
+					IAccountManager::PROPERTY_PHONE => ['value' => '+491601231212', 'scope' => IAccountManager::VISIBILITY_CONTACTS_ONLY],
+					IAccountManager::PROPERTY_WEBSITE => ['value' => 'https://example.org', 'scope' => IAccountManager::VISIBILITY_PRIVATE],
+				],
+				[
+					IAccountManager::PROPERTY_TWITTER => ['value' => '@sometwitter', 'scope' => IAccountManager::SCOPE_PUBLISHED],
+					IAccountManager::PROPERTY_PHONE => ['value' => '+491601231212', 'scope' => IAccountManager::SCOPE_FEDERATED],
+					IAccountManager::PROPERTY_WEBSITE => ['value' => 'https://example.org', 'scope' => IAccountManager::SCOPE_LOCAL],
+				],
+			],
+			// invalid or unsupported scope values get converted to SCOPE_LOCAL
+			[
+				[
+					IAccountManager::PROPERTY_DISPLAYNAME => ['value' => 'Display Name', 'scope' => IAccountManager::SCOPE_PUBLISHED],
+					IAccountManager::PROPERTY_EMAIL => ['value' => 'test@example.org', 'scope' => IAccountManager::SCOPE_PUBLISHED],
+					IAccountManager::PROPERTY_TWITTER => ['value' => '@sometwitter', 'scope' => IAccountManager::SCOPE_PUBLISHED],
+					IAccountManager::PROPERTY_PHONE => ['value' => '+491601231212', 'scope' => IAccountManager::SCOPE_FEDERATED],
+				],
+				[
+					// SCOPE_PRIVATE is not allowed for display name and email
+					IAccountManager::PROPERTY_DISPLAYNAME => ['value' => 'Display Name', 'scope' => IAccountManager::SCOPE_PRIVATE],
+					IAccountManager::PROPERTY_EMAIL => ['value' => 'test@example.org', 'scope' => IAccountManager::SCOPE_PRIVATE],
+					IAccountManager::PROPERTY_TWITTER => ['value' => '@sometwitter', 'scope' => 'invalid'],
+					IAccountManager::PROPERTY_PHONE => ['value' => '+491601231212', 'scope' => ''],
+				],
+				[
+					IAccountManager::PROPERTY_DISPLAYNAME => ['value' => 'Display Name', 'scope' => IAccountManager::SCOPE_LOCAL],
+					IAccountManager::PROPERTY_EMAIL => ['value' => 'test@example.org', 'scope' => IAccountManager::SCOPE_LOCAL],
+					IAccountManager::PROPERTY_TWITTER => ['value' => '@sometwitter', 'scope' => IAccountManager::SCOPE_LOCAL],
+					IAccountManager::PROPERTY_PHONE => ['value' => '+491601231212', 'scope' => IAccountManager::SCOPE_LOCAL],
+				],
+				// don't throw but fall back
+				false, false,
+			],
+			// invalid or unsupported scope values throw an exception when passing $throwOnData=true
+			[
+				[IAccountManager::PROPERTY_DISPLAYNAME => ['value' => 'Display Name', 'scope' => IAccountManager::SCOPE_PUBLISHED]],
+				[IAccountManager::PROPERTY_DISPLAYNAME => ['value' => 'Display Name', 'scope' => IAccountManager::SCOPE_PRIVATE]],
+				null,
+				// throw exception
+				true, true,
+			],
+			[
+				[IAccountManager::PROPERTY_EMAIL => ['value' => 'test@example.org', 'scope' => IAccountManager::SCOPE_PUBLISHED]],
+				[IAccountManager::PROPERTY_EMAIL => ['value' => 'test@example.org', 'scope' => IAccountManager::SCOPE_PRIVATE]],
+				null,
+				// throw exception
+				true, true,
+			],
+			[
+				[IAccountManager::PROPERTY_TWITTER => ['value' => '@sometwitter', 'scope' => IAccountManager::SCOPE_PUBLISHED]],
+				[IAccountManager::PROPERTY_TWITTER => ['value' => '@sometwitter', 'scope' => 'invalid']],
+				null,
+				// throw exception
+				true, true,
+			],
+		];
+	}
+
+	/**
+	 * @dataProvider updateUserSetScopeProvider
+	 */
+	public function testUpdateUserSetScope($oldData, $newData, $savedData, $throwOnData = true, $expectedThrow = false) {
+		$accountManager = $this->getInstance(['getUser', 'insertNewUser', 'updateExistingUser', 'updateVerifyStatus', 'checkEmailVerification']);
+		/** @var IUser $user */
+		$user = $this->createMock(IUser::class);
+
+		$accountManager->expects($this->once())->method('getUser')->with($user)->willReturn($oldData);
+
+		if ($expectedThrow) {
+			$accountManager->expects($this->never())->method('updateExistingUser');
+			$this->expectException(\InvalidArgumentException::class);
+			$this->expectExceptionMessage('scope');
+		} else {
+			$accountManager->expects($this->once())->method('checkEmailVerification')
+				->with($oldData, $savedData, $user)->willReturn($savedData);
+			$accountManager->expects($this->once())->method('updateVerifyStatus')
+				->with($oldData, $savedData)->willReturn($savedData);
+			$accountManager->expects($this->once())->method('updateExistingUser')
+				->with($user, $savedData);
+			$accountManager->expects($this->never())->method('insertNewUser');
+		}
+
+		$accountManager->updateUser($user, $newData, $throwOnData);
+	}
 
 	/**
 	 * @dataProvider dataTestGetUser
@@ -278,26 +401,26 @@ class AccountManagerTest extends TestCase {
 			IAccountManager::PROPERTY_TWITTER =>
 				[
 					'value' => '@twitterhandle',
-					'scope' => IAccountManager::VISIBILITY_PRIVATE,
+					'scope' => IAccountManager::SCOPE_LOCAL,
 					'verified' => IAccountManager::NOT_VERIFIED,
 				],
 			IAccountManager::PROPERTY_EMAIL =>
 				[
 					'value' => 'test@example.com',
-					'scope' => IAccountManager::VISIBILITY_PUBLIC,
+					'scope' => IAccountManager::SCOPE_PUBLISHED,
 					'verified' => IAccountManager::VERIFICATION_IN_PROGRESS,
 				],
 			IAccountManager::PROPERTY_WEBSITE =>
 				[
 					'value' => 'https://example.com',
-					'scope' => IAccountManager::VISIBILITY_CONTACTS_ONLY,
+					'scope' => IAccountManager::SCOPE_FEDERATED,
 					'verified' => IAccountManager::VERIFIED,
 				],
 		];
 		$expected = new Account($user);
-		$expected->setProperty(IAccountManager::PROPERTY_TWITTER, '@twitterhandle', IAccountManager::VISIBILITY_PRIVATE, IAccountManager::NOT_VERIFIED);
-		$expected->setProperty(IAccountManager::PROPERTY_EMAIL, 'test@example.com', IAccountManager::VISIBILITY_PUBLIC, IAccountManager::VERIFICATION_IN_PROGRESS);
-		$expected->setProperty(IAccountManager::PROPERTY_WEBSITE, 'https://example.com', IAccountManager::VISIBILITY_CONTACTS_ONLY, IAccountManager::VERIFIED);
+		$expected->setProperty(IAccountManager::PROPERTY_TWITTER, '@twitterhandle', IAccountManager::SCOPE_LOCAL, IAccountManager::NOT_VERIFIED);
+		$expected->setProperty(IAccountManager::PROPERTY_EMAIL, 'test@example.com', IAccountManager::SCOPE_PUBLISHED, IAccountManager::VERIFICATION_IN_PROGRESS);
+		$expected->setProperty(IAccountManager::PROPERTY_WEBSITE, 'https://example.com', IAccountManager::SCOPE_FEDERATED, IAccountManager::VERIFIED);
 
 		$accountManager->expects($this->once())
 			->method('getUser')

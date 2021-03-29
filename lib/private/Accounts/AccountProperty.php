@@ -26,6 +26,7 @@ declare(strict_types=1);
 
 namespace OC\Accounts;
 
+use OCP\Accounts\IAccountManager;
 use OCP\Accounts\IAccountProperty;
 
 class AccountProperty implements IAccountProperty {
@@ -42,7 +43,7 @@ class AccountProperty implements IAccountProperty {
 	public function __construct(string $name, string $value, string $scope, string $verified) {
 		$this->name = $name;
 		$this->value = $value;
-		$this->scope = $scope;
+		$this->scope = $this->mapScopeToV2($scope);
 		$this->verified = $verified;
 	}
 
@@ -77,7 +78,7 @@ class AccountProperty implements IAccountProperty {
 	 * @return IAccountProperty
 	 */
 	public function setScope(string $scope): IAccountProperty {
-		$this->scope = $scope;
+		$this->scope = $this->mapScopeToV2($scope);
 		return $this;
 	}
 
@@ -125,6 +126,23 @@ class AccountProperty implements IAccountProperty {
 	 */
 	public function getScope(): string {
 		return $this->scope;
+	}
+
+	public static function mapScopeToV2($scope) {
+		if (strpos($scope, 'v2-') === 0) {
+			return $scope;
+		}
+
+		switch ($scope) {
+		case IAccountManager::VISIBILITY_PRIVATE:
+			return IAccountManager::SCOPE_LOCAL;
+		case IAccountManager::VISIBILITY_CONTACTS_ONLY:
+			return IAccountManager::SCOPE_FEDERATED;
+		case IAccountManager::VISIBILITY_PUBLIC:
+			return IAccountManager::SCOPE_PUBLISHED;
+		}
+
+		return IAccountManager::SCOPE_LOCAL;
 	}
 
 	/**

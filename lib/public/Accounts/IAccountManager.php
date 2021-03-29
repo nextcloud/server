@@ -38,11 +38,54 @@ use OCP\IUser;
  */
 interface IAccountManager {
 
-	/** nobody can see my account details */
+	/**
+	 * Contact details visible locally only
+	 *
+	 * @since 21.0.1
+	 */
+	public const SCOPE_PRIVATE = 'v2-private';
+
+	/**
+	 * Contact details visible locally and through public link access on local instance
+	 *
+	 * @since 21.0.1
+	 */
+	public const SCOPE_LOCAL = 'v2-local';
+
+	/**
+	 * Contact details visible locally, through public link access and on trusted federated servers.
+	 *
+	 * @since 21.0.1
+	 */
+	public const SCOPE_FEDERATED = 'v2-federated';
+
+	/**
+	 * Contact details visible locally, through public link access, on trusted federated servers
+	 * and published to the public lookup server.
+	 *
+	 * @since 21.0.1
+	 */
+	public const SCOPE_PUBLISHED = 'v2-published';
+
+	/**
+	 * Contact details only visible locally
+	 *
+	 * @deprecated 21.0.1
+	 */
 	public const VISIBILITY_PRIVATE = 'private';
-	/** only contacts, especially trusted servers can see my contact details */
+
+	/**
+	 * Contact details visible on trusted federated servers.
+	 *
+	 * @deprecated 21.0.1
+	 */
 	public const VISIBILITY_CONTACTS_ONLY = 'contacts';
-	/** every body ca see my contact detail, will be published to the lookup server */
+
+	/**
+	 * Contact details visible on trusted federated servers and in the public lookup server.
+	 *
+	 * @deprecated 21.0.1
+	 */
 	public const VISIBILITY_PUBLIC = 'public';
 
 	public const PROPERTY_AVATAR = 'avatar';

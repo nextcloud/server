@@ -270,6 +270,7 @@ class UserAvatar extends Avatar {
 				throw new NotFoundException;
 			}
 
+			// TODO: rework to integrate with the PlaceholderAvatar in a compatible way
 			if ($this->folder->fileExists('generated')) {
 				if (!$data = $this->generateAvatarFromSvg($size)) {
 					$data = $this->generateAvatar($this->getDisplayName(), $size);
