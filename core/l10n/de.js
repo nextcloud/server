@@ -122,6 +122,8 @@ OC.L10N.register(
     "Please reload the page." : "Bitte die Seite neu laden.",
     "The update was unsuccessful. For more information <a href=\"{url}\">check our forum post</a> covering this issue." : "Das Update war nicht erfolgreich. Für mehr Informationen <a href=\"{url}\">lese bitte diesen Forenbeitrag</a> zu diesem Thema.",
     "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Nextcloud community</a>." : "Das Update ist fehlgeschlagen. Bitte melde dieses Problem an die <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Nextcloud Community</a>.",
+    "Continue to {productName}" : "Fortfahren zu {productName}",
+    "_The update was successful. Redirecting you to {productName} in %n second._::_The update was successful. Redirecting you to {productName} in %n seconds._" : ["Die Aktualisierung war erfolgreich. Du wirst in %n Sekunden zu {productName} weitergeleitet.","Die Aktualisierung war erfolgreich. Du wirst in %n Sekunden zu {productName} weitergeleitet."],
     "Log in" : "Anmelden",
     "Logging in …" : "Melde an…",
     "Server side authentication failed!" : "Serverseitige Authentifizierung fehlgeschlagen!",
