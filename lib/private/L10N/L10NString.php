@@ -59,12 +59,6 @@ class L10NString implements \JsonSerializable {
 
 	public function __toString(): string {
 		$translations = $this->l10n->getTranslations();
-
-		$pipeCheck = implode('', $translations[$this->text]);
-		if (strpos($pipeCheck, '|') !== false) {
-			return 'Can not use pipe character in translations';
-		}
-
 		$identityTranslator = $this->l10n->getIdentityTranslator();
 
 		$parameters = $this->parameters;
@@ -72,7 +66,22 @@ class L10NString implements \JsonSerializable {
 		$parameters['%count%'] = $this->count;
 
 		// Use the indexed version as per \Symfony\Contracts\Translation\TranslatorInterface
-		$identity = implode('|', $translations[$this->text]);
+		$identity = $this->text;
+		if (array_key_exists($this->text, $translations)) {
+			$identity = $translations[$this->text];
+		}
+
+		if (is_array($identity)) {
+			$pipeCheck = implode('', $identity);
+			if (strpos($pipeCheck, '|') !== false) {
+				return 'Can not use pipe character in translations';
+			}
+
+			$identity = implode('|', $identity);
+		} else if (strpos($identity, '|') !== false) {
+			return 'Can not use pipe character in translations';
+		}
+
 		$identity = str_replace('%n', '%count%', $identity);
 
 		return $identityTranslator->trans($identity, $parameters);
