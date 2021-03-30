@@ -26,20 +26,20 @@ import Audios from '../models/audios'
 
 export default class Viewer {
 
-	#state;
-	#mimetypes;
+	_state;
+	_mimetypes;
 
 	constructor() {
-		this.#mimetypes = []
-		this.#state = {}
-		this.#state.file = ''
-		this.#state.files = []
-		this.#state.loadMore = () => ([])
-		this.#state.onPrev = () => {}
-		this.#state.onNext = () => {}
-		this.#state.onClose = () => {}
-		this.#state.canLoop = true
-		this.#state.handlers = []
+		this._mimetypes = []
+		this._state = {}
+		this._state.file = ''
+		this._state.files = []
+		this._state.loadMore = () => ([])
+		this._state.onPrev = () => {}
+		this._state.onNext = () => {}
+		this._state.onClose = () => {}
+		this._state.canLoop = true
+		this._state.handlers = []
 
 		// ! built-in handlers
 		this.registerHandler(Images)
@@ -50,25 +50,13 @@ export default class Viewer {
 	}
 
 	/**
-	 * Get the sidebar state
-	 * DO NOT EDIT properties within
-	 *
-	 * @readonly
-	 * @memberof Sidebar
-	 * @returns {Object} the data state
-	 */
-	get state() {
-		return this.#state
-	}
-
-	/**
 	 * Return the registered handlers
 	 *
 	 * @readonly
 	 * @memberof Viewer
 	 */
 	get availableHandlers() {
-		return this.#state.handlers
+		return this._state.handlers
 	}
 
 	/**
@@ -78,8 +66,8 @@ export default class Viewer {
 	 * @param {Object} handler a new unregistered handler
 	 */
 	registerHandler(handler) {
-		this.#state.handlers.push(handler)
-		this.#mimetypes.push.apply(this.#mimetypes, handler.mimes)
+		this._state.handlers.push(handler)
+		this._mimetypes.push.apply(this._mimetypes, handler.mimes)
 	}
 
 	/**
@@ -89,7 +77,17 @@ export default class Viewer {
 	 * @returns {string} the currently opened file
 	 */
 	get file() {
-		return this.#state.file
+		return this._state.file
+	}
+
+	/**
+	 * Get the current files list
+	 *
+	 * @memberof Viewer
+	 * @returns {Object[]} the currently opened file
+	 */
+	get files() {
+		return this._state.files
 	}
 
 	/**
@@ -99,7 +97,57 @@ export default class Viewer {
 	 * @returns {array} list of mimetype strings that the viewer can open
 	 */
 	get mimetypes() {
-		return this.#mimetypes
+		return this._mimetypes
+	}
+
+	/**
+	 * Return the method provided to fetch more results
+	 *
+	 * @memberof Viewer
+	 * @returns {Function}
+	 */
+	get loadMore() {
+		return this._state.loadMore
+	}
+
+	/**
+	 * Get the method to run on previous navigation
+	 *
+	 * @memberof Viewer
+	 * @returns {Function}
+	 */
+	get onPrev() {
+		return this._state.onPrev
+	}
+
+	/**
+	 * Get the method to run on next navigation
+	 *
+	 * @memberof Viewer
+	 * @returns {Function}
+	 */
+	get onNext() {
+		return this._state.onNext
+	}
+
+	/**
+	 * Get the method to run on viewer close
+	 *
+	 * @memberof Viewer
+	 * @returns {Function}
+	 */
+	get onClose() {
+		return this._state.onClose
+	}
+
+	/**
+	 * Is looping over the provided list allowed?
+	 *
+	 * @memberof Viewer
+	 * @returns {boolean}
+	 */
+	get canLoop() {
+		return this._state.canLoop
 	}
 
 	/**
@@ -109,11 +157,11 @@ export default class Viewer {
 	 * @param {Object} options Options for opening the viewer
 	 * @param {string} options.path path of the file to open
 	 * @param {Object[]} [options.list] the list of files as objects (fileinfo) format
-	 * @param {function} options.loadMore callback for loading more files
+	 * @param {Function} options.loadMore callback for loading more files
 	 * @param {boolean} options.canLoop can the viewer loop over the array
-	 * @param {function} options.onPrev callback when navigating back to previous file
-	 * @param {function} options.onNext callback when navigation forward to next file
-	 * @param {function} options.onClose callback when closing the viewer
+	 * @param {Function} options.onPrev callback when navigating back to previous file
+	 * @param {Function} options.onNext callback when navigation forward to next file
+	 * @param {Function} options.onClose callback when closing the viewer
 	 */
 	open({ path, list = [], loadMore = () => ([]), canLoop = true, onPrev = () => {}, onNext = () => {}, onClose = () => {} } = {}) {
 		// TODO: remove legacy method in NC 20 ?
@@ -134,13 +182,13 @@ export default class Viewer {
 			throw new Error('The loadMore method must be a function')
 		}
 
-		this.#state.file = path
-		this.#state.files = list
-		this.#state.loadMore = loadMore
-		this.#state.onPrev = onPrev
-		this.#state.onNext = onNext
-		this.#state.onClose = onClose
-		this.#state.canLoop = canLoop
+		this._state.file = path
+		this._state.files = list
+		this._state.loadMore = loadMore
+		this._state.onPrev = onPrev
+		this._state.onNext = onNext
+		this._state.onClose = onClose
+		this._state.canLoop = canLoop
 	}
 
 	/**
@@ -149,10 +197,10 @@ export default class Viewer {
 	 * @memberof Viewer
 	 */
 	close() {
-		this.#state.file = ''
-		this.#state.files = []
-		this.#state.canLoop = true
-		this.#state.loadMore = () => ([])
+		this._state.file = ''
+		this._state.files = []
+		this._state.canLoop = true
+		this._state.loadMore = () => ([])
 	}
 
 }

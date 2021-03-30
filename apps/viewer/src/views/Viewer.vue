@@ -148,7 +148,7 @@ export default {
 	data() {
 		return {
 			// Reactivity bindings
-			Viewer: OCA.Viewer.state,
+			Viewer: OCA.Viewer,
 			Sidebar: null,
 			handlers: OCA.Viewer.availableHandlers,
 
@@ -731,7 +731,7 @@ export default {
 		},
 
 		onNext(info, oldFileInfo) {
-			this.Viewer.onNext(oldFileInfo)
+			this.Viewer.onNext(info, oldFileInfo)
 		},
 
 		onClose() {
