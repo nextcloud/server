@@ -83,6 +83,9 @@ class Crypt {
 	/** @var IL10N */
 	private $l;
 
+	/** @var string */
+	private $currentCipher;
+
 	/** @var array */
 	private $supportedCiphersAndKeySize = [
 		'AES-256-CTR' => 32,
@@ -106,8 +109,24 @@ class Crypt {
 		$this->config = $config;
 		$this->l = $l;
 		$this->supportedKeyFormats = ['hash', 'password'];
-
 		$this->supportLegacy = $this->config->getSystemValueBool('encryption.legacy_format_support', false);
+
+		// Get cipher either from config.php or the default cipher defined in this class
+		$cipher = $config->getSystemValue('cipher', self::DEFAULT_CIPHER);
+		if (!isset(self::SUPPORTED_CIPHERS_AND_KEY_SIZE[$cipher])) {
+			$logger->warning(
+				sprintf(
+					'Unsupported cipher (%s) defined in config.php supported. Falling back to %s',
+					$cipher,
+					self::DEFAULT_CIPHER
+				),
+				['app' => 'encryption']
+			);
+			$cipher = self::DEFAULT_CIPHER;
+		}
+
+		// Remember current cipher to avoid frequent lookups
+		$this->currentCipher = $cipher;
 	}
 
 	/**
@@ -258,19 +277,7 @@ class Crypt {
 	 * @return string
 	 */
 	public function getCipher() {
-		$cipher = $this->config->getSystemValue('cipher', self::DEFAULT_CIPHER);
-		if (!isset($this->supportedCiphersAndKeySize[$cipher])) {
-			$this->logger->warning(
-					sprintf(
-							'Unsupported cipher (%s) defined in config.php supported. Falling back to %s',
-							$cipher,
-							self::DEFAULT_CIPHER
-					),
-				['app' => 'encryption']);
-			$cipher = self::DEFAULT_CIPHER;
-		}
-
-		return $cipher;
+		return $this->currentCipher = $cipher;
 	}
 
 	/**
@@ -580,7 +587,7 @@ class Crypt {
 			throw new GenericEncryptionException('Missing Signature', $this->l->t('Missing Signature'));
 		}
 
-		// enforce signature for the new 'CTR' ciphers
+		// Enforce signature for the new 'CTR' ciphers
 		if (!$skipSignatureCheck && $signaturePosition === false && stripos($cipher, 'ctr') !== false) {
 			throw new GenericEncryptionException('Missing Signature', $this->l->t('Missing Signature'));
 		}
