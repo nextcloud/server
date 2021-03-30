@@ -59,6 +59,12 @@ class L10NString implements \JsonSerializable {
 
 	public function __toString(): string {
 		$translations = $this->l10n->getTranslations();
+
+		$pipeCheck = implode('', $translations[$this->text]);
+		if (strpos($pipeCheck, '|') !== false) {
+			return 'Can not use pipe character in translations';
+		}
+
 		$identityTranslator = $this->l10n->getIdentityTranslator();
 
 		$parameters = $this->parameters;
