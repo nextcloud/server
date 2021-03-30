@@ -133,7 +133,11 @@ class File extends \OCP\Search\Result {
 			$userID = $userSession->getUser()->getUID();
 			self::$userFolderCache = \OC::$server->getUserFolder($userID);
 		}
-		return self::$userFolderCache->getRelativePath($path);
+		$relativePath = self::$userFolderCache->getRelativePath($path);
+		if ($relativePath === null) {
+			throw new \Exception("Search result not in user folder");
+		}
+		return $relativePath;
 	}
 
 	/**

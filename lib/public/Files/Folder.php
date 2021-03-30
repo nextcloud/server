@@ -55,7 +55,7 @@ interface Folder extends Node {
 	 *
 	 * @param string $path absolute path of an item in the folder
 	 * @throws \OCP\Files\NotFoundException
-	 * @return string
+	 * @return string|null
 	 * @since 6.0.0
 	 */
 	public function getRelativePath($path);

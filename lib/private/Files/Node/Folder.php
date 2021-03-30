@@ -76,7 +76,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 
 	/**
 	 * @param string $path
-	 * @return string
+	 * @return string|null
 	 */
 	public function getRelativePath($path) {
 		if ($this->path === '' or $this->path === '/') {
@@ -494,7 +494,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 		$mounts[] = $this->getMountPoint();
 
 		$mounts = array_filter($mounts, function (IMountPoint $mount) {
-			return $mount->getStorage();
+			return $mount->getStorage() !== null;
 		});
 		$storageIds = array_map(function (IMountPoint $mount) {
 			return $mount->getStorage()->getCache()->getNumericStorageId();

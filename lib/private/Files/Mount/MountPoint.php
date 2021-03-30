@@ -39,7 +39,7 @@ use OCP\ILogger;
 
 class MountPoint implements IMountPoint {
 	/**
-	 * @var \OC\Files\Storage\Storage $storage
+	 * @var \OC\Files\Storage\Storage|null $storage
 	 */
 	protected $storage = null;
 	protected $class;
@@ -167,7 +167,7 @@ class MountPoint implements IMountPoint {
 	}
 
 	/**
-	 * @return \OC\Files\Storage\Storage
+	 * @return \OC\Files\Storage\Storage|null
 	 */
 	public function getStorage() {
 		if (is_null($this->storage)) {
