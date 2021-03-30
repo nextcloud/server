@@ -6,10 +6,8 @@
     "Sending…" : "Испраќа…",
     "Email sent" : "Е-порака пратена",
     "Private" : "Приватност",
-    "Don't synchronize to servers" : "Не синхронизирај со сервери",
-    "Trusted" : "Доверлив",
+    "Local" : "Локално",
     "Only synchronize to trusted servers" : "Синхронизирај само со доверливи сервери",
-    "Public" : "Јавно",
     "Synchronize to trusted servers and the global and public address book" : "Синхронизирај само со доверливи сервери и со глобални и јавни адресари",
     "Verify" : "Потврди",
     "Verifying …" : "Потврдување …",
@@ -418,11 +416,11 @@
     "If you use third party applications to connect to Nextcloud, please make sure to create and configure an app password for each before enabling second factor authentication." : "Доколку користите друга апликација за поврзување на Nextcloud, осигурајте се дека имате креирано лозинка за секоја апликација пред да овозможите втор фактор.",
     "An error occurred. Please upload an ASCII-encoded PEM certificate." : "Настана грешка. Ве молиме прикачете го PEM сертификатот во ASCII-кодна форма.",
     "Valid until {date}" : "Валидно до {date}",
-    "Local" : "Локално",
     "Only visible to local users" : "Видливо само за локални корисници",
     "Only visible to you" : "Видливо само за вас",
     "Contacts" : "Контакти",
     "Visible to local users and to trusted servers" : "Видливо за локални корисници и доверливи сервери.",
+    "Public" : "Јавно",
     "Will be synced to a global and public address book" : "Ќе биде синхронизирано на глобалниот и јавниот адресар",
     "by" : "од",
     "SSL Root Certificates" : "SSL Root сертификати",
@@ -437,6 +435,8 @@
     "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "Дозволи автоматско комплетирање во лентата за споделување. Доколку ова е оневозможено потребно е да се внесе целосно корисничко име или адреса на е-пошта.",
     "Restrict username autocompletion to users within the same groups" : "Ограничи ги корисниците од одредени групи за автоматско комплетирање",
     "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Покажете го текстот за одрекување од одговорност на страницата за поставување јавен линк. (Се прикажува само кога листата со датотеки е скриена.)",
+    "Don't synchronize to servers" : "Не синхронизирај со сервери",
+    "Trusted" : "Доверлив",
     "Allow username autocompletion in share dialog (if this is disabled the full username or email address needs to be entered)" : "Дозволи автоматско комплетирање во лентата за споделување. (Доколку ова е оневозможено потребно е да се внесе целосно корисничко име или адреса на е-пошта)"
 },"pluralForm" :"nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;"
 }

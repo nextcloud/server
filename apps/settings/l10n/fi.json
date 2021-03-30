@@ -6,10 +6,8 @@
     "Sending…" : "Lähetetään…",
     "Email sent" : "Sähköposti lähetetty",
     "Private" : "Yksityinen",
-    "Don't synchronize to servers" : "Älä synkronoi palvelimille",
-    "Trusted" : "Luotettu",
+    "Local" : "Paikallinen",
     "Only synchronize to trusted servers" : "Synkronoi vain luotetulle palvelimelle",
-    "Public" : "Julkinen",
     "Verify" : "Vahvista",
     "Verifying …" : "Vahvistetaan…",
     "Unable to change password" : "Salasanan vaihto ei onnistunut",
@@ -395,11 +393,11 @@
     "If you use third party applications to connect to Nextcloud, please make sure to create and configure an app password for each before enabling second factor authentication." : "Jos yhdistät kolmannen osapuolen ohjelmia Nextcloudiin, määritä niille sovellussalasanat ennen kaksiosaisen todentamismenetelmän käyttöönottoa.",
     "An error occurred. Please upload an ASCII-encoded PEM certificate." : "Tapahtu virhe. Lähetä ASCII-koodattu PEM-varmenne.",
     "Valid until {date}" : "Kelvollinen {date} asti",
-    "Local" : "Paikallinen",
     "Only visible to local users" : "Näkyvillä vain paikallisille käyttäjille",
     "Only visible to you" : "Näkyvillä vain sinulle",
     "Contacts" : "Yhteystiedot",
     "Visible to local users and to trusted servers" : "Näkyvillä vain paikallisille käyttäjille ja luotetuille palvelimille",
+    "Public" : "Julkinen",
     "Will be synced to a global and public address book" : "Synkronoidaan maailmanlaajuiseen ja julkiseen osoitekirjaan",
     "by" : " Kirjoittaja:",
     "SSL Root Certificates" : "SSL-juurivarmenteet",
@@ -414,6 +412,8 @@
     "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "Salli käyttäjätunnusten automaattinen täydentäminen jakoikkunassa. Jos tämä asetus on pois käytöstä, tulee käyttäjän kirjoittaa käyttäjätunnus tai sähköpostiosoite kokonaan.",
     "Restrict username autocompletion to users within the same groups" : "Rajoita käyttäjänimen automaattista täydentämistä samoihin ryhmiin kuuluviin käyttäjiin",
     "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Näytä vastuuvapauslauseke julkisen linkin lähetyssivulla. (Näytetään vain, kun tiedostolista on piilotettu.)",
+    "Don't synchronize to servers" : "Älä synkronoi palvelimille",
+    "Trusted" : "Luotettu",
     "Allow username autocompletion in share dialog (if this is disabled the full username or email address needs to be entered)" : "Salli käyttäjänimen automaattinen täydentäminen jakemisikkunassa (jos tämä on pois käytöstä, tulee koko käyttäjänimi tai sähköpostiosoite kirjoittaa)"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

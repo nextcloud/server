@@ -2,7 +2,6 @@
     "Saved" : "Хадгалагдсан",
     "Sending…" : "Илгээх...",
     "Private" : "Далд",
-    "Public" : "Нийтийн",
     "Verify" : "Шалнгах",
     "Unable to change password" : "Нууц үг солих боломжгүй",
     "Very weak password" : "маш муу нууц үг",
@@ -104,6 +103,7 @@
     "Current password" : "Одоогийн нууц үг",
     "New password" : "Шинэ нууц үг",
     "Change password" : "Нууц үг солих",
-    "Contacts" : "Харилцагчид"
+    "Contacts" : "Харилцагчид",
+    "Public" : "Нийтийн"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

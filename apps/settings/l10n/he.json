@@ -6,10 +6,8 @@
     "Sending…" : "בשליחה…",
     "Email sent" : "הודעת הדואר האלקטרוני נשלחה",
     "Private" : "פרטי",
-    "Don't synchronize to servers" : "לא לסנכרן מול השרתים",
-    "Trusted" : "מהימן",
+    "Local" : "מקומ",
     "Only synchronize to trusted servers" : "לסנכרן מול שרתים מהימנים בלבד",
-    "Public" : "ציבורי",
     "Synchronize to trusted servers and the global and public address book" : "לסנכרן מול שרתים מהימנים וספר הכתובות הגלובלי והציבורי",
     "Verify" : "אימות",
     "Verifying …" : "מתבצע אימות…",
@@ -421,11 +419,11 @@
     "If you use third party applications to connect to Nextcloud, please make sure to create and configure an app password for each before enabling second factor authentication." : "אם משמשים אותך יישומי צד־שלישי להתחברות אל Nextcloud, נא לוודא יצירת והגדרת ססמה ליישומון לכל אחד מהם בטרם הפעלת אימות דו־שלבי.",
     "An error occurred. Please upload an ASCII-encoded PEM certificate." : "אירעה שגיאה. יש להעלות תעודת ASCII-encoded PEM.",
     "Valid until {date}" : "בתוקף עד ל- {date}",
-    "Local" : "מקומ",
     "Only visible to local users" : "גלוי למשתמשים מקומיים בלבד",
     "Only visible to you" : "גלוי רק לך",
     "Contacts" : "אנשי קשר",
     "Visible to local users and to trusted servers" : "גלוי למשתמשים מקומיים ולשרתים מהימנים",
+    "Public" : "ציבורי",
     "Will be synced to a global and public address book" : "יסונכרן לספר כתובות גלובלי וציבורי",
     "by" : "מאת",
     "SSL Root Certificates" : "אישורי אבטחת SSL לנתיב יסוד",
@@ -440,6 +438,8 @@
     "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "לאפשר השלמת שם משתמש אוטומטית בתיבת השיתוף. אם האפשרות הזו מושבתת יש להקליד את שם המשתמש או את כתובת הדוא״ל במלואם.",
     "Restrict username autocompletion to users within the same groups" : "הגבלת השלמה אוטומטית של שמות משתמשים למשתמשים באותה הקבוצה.",
     "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "הצגת טקסט ויתור בעמוד העלאת קישור ציבורי. (מופיע רק כאשר רשימת הקבצים מוסתרת.)",
+    "Don't synchronize to servers" : "לא לסנכרן מול השרתים",
+    "Trusted" : "מהימן",
     "Allow username autocompletion in share dialog (if this is disabled the full username or email address needs to be entered)" : "לאפשר השלמת שמות משתמשים בתיבת דו־שיח השיתוף (אם האפשרות מושבתת יש להקליד את שם המשתמש או את כתובת הדוא״ל המלאים)"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;"
 }

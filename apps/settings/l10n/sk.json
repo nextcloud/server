@@ -6,10 +6,8 @@
     "Sending…" : "Odosielam...",
     "Email sent" : "Email odoslaný",
     "Private" : "Súkromný",
-    "Don't synchronize to servers" : "Nesynchronizovať so servermi",
-    "Trusted" : "Dôveryhodné",
+    "Local" : "Lokálny",
     "Only synchronize to trusted servers" : "Synchronizovať iba s dôveryhodnými servermi",
-    "Public" : "Verejné",
     "Synchronize to trusted servers and the global and public address book" : "Synchronizovať s dôveryhodnými servermi a globálnym a verejným adresárom",
     "Verify" : "Overiť",
     "Verifying …" : "Overovanie ...",
@@ -412,11 +410,11 @@
     "If you use third party applications to connect to Nextcloud, please make sure to create and configure an app password for each before enabling second factor authentication." : "Ak na pripojenie k NextCloudu používate aplikácie tretích strán, pred povolením dvojstupňového overovania totožnosti, nezabudnite pre každú z nich vytvoriť a nastaviť heslo aplikácie.",
     "An error occurred. Please upload an ASCII-encoded PEM certificate." : "Vyskytla sa chyba. Nahrajte prosím PEM certifikát v ASCII kódovaní.",
     "Valid until {date}" : "Platný do {date}",
-    "Local" : "Lokálny",
     "Only visible to local users" : "Viditeľné iba pre lokálnych používateľov",
     "Only visible to you" : "Viditeľné iba pre seba",
     "Contacts" : "Kontakty",
     "Visible to local users and to trusted servers" : "Viditeľné pre lokálnych používateľov a dôveryhodné servery",
+    "Public" : "Verejné",
     "Will be synced to a global and public address book" : "Bude synchronizované s globálnym a verejným adresárom",
     "by" : "od",
     "SSL Root Certificates" : "Koreňové certifikáty SSL",
@@ -431,6 +429,8 @@
     "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "Umožni automatické dopĺňanie používateľského mena pri sprístupňovaní. Ak je vypnuté, musí byť zadané celé meno alebo emailová adresa používateľa.",
     "Restrict username autocompletion to users within the same groups" : "Obmedziť automatické dopĺňanie používateľského mena na používateľov v rámci rovnakých skupín",
     "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Zobraziť text upozornenia na stránke pre nahrávanie verejného odkazu (zobraziť len ak je zoznam súborov skrytý).",
+    "Don't synchronize to servers" : "Nesynchronizovať so servermi",
+    "Trusted" : "Dôveryhodné",
     "Allow username autocompletion in share dialog (if this is disabled the full username or email address needs to be entered)" : "Umožni automatické dopĺňanie používateľského mena pri sprístupňovaní (ak je vypnuté, musí byť zadané celé meno alebo emailová adresa používateľa)"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);"
 }
