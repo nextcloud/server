@@ -37,6 +37,9 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Authentication\TwoFactorAuth\IActivatableAtLogin;
 use OCP\Authentication\TwoFactorAuth\IProvider;
 use OCP\Authentication\TwoFactorAuth\IRegistry;
+use OCP\Authentication\TwoFactorAuth\TwoFactorProviderForUserDisabled;
+use OCP\Authentication\TwoFactorAuth\TwoFactorProviderForUserEnabled;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\ISession;
 use OCP\IUser;
@@ -79,8 +82,11 @@ class Manager {
 	/** @var ITimeFactory */
 	private $timeFactory;
 
-	/** @var EventDispatcherInterface */
+	/** @var IEventDispatcher */
 	private $dispatcher;
+
+	/** @var EventDispatcherInterface */
+	private $legacyDispatcher;
 
 	public function __construct(ProviderLoader $providerLoader,
 								IRegistry $providerRegistry,
@@ -91,7 +97,8 @@ class Manager {
 								LoggerInterface $logger,
 								TokenProvider $tokenProvider,
 								ITimeFactory $timeFactory,
-								EventDispatcherInterface $eventDispatcher) {
+								IEventDispatcher $eventDispatcher,
+								EventDispatcherInterface $legacyDispatcher) {
 		$this->providerLoader = $providerLoader;
 		$this->providerRegistry = $providerRegistry;
 		$this->mandatoryTwoFactor = $mandatoryTwoFactor;
@@ -102,6 +109,7 @@ class Manager {
 		$this->tokenProvider = $tokenProvider;
 		$this->timeFactory = $timeFactory;
 		$this->dispatcher = $eventDispatcher;
+		$this->legacyDispatcher = $legacyDispatcher;
 	}
 
 	/**
@@ -267,14 +275,18 @@ class Manager {
 			$this->config->deleteUserValue($user->getUID(), 'login_token_2fa', $tokenId);
 
 			$dispatchEvent = new GenericEvent($user, ['provider' => $provider->getDisplayName()]);
-			$this->dispatcher->dispatch(IProvider::EVENT_SUCCESS, $dispatchEvent);
+			$this->legacyDispatcher->dispatch(IProvider::EVENT_SUCCESS, $dispatchEvent);
+
+			$this->dispatcher->dispatchTyped(new TwoFactorProviderForUserEnabled($user, $provider));
 
 			$this->publishEvent($user, 'twofactor_success', [
 				'provider' => $provider->getDisplayName(),
 			]);
 		} else {
 			$dispatchEvent = new GenericEvent($user, ['provider' => $provider->getDisplayName()]);
-			$this->dispatcher->dispatch(IProvider::EVENT_FAILED, $dispatchEvent);
+			$this->legacyDispatcher->dispatch(IProvider::EVENT_FAILED, $dispatchEvent);
+
+			$this->dispatcher->dispatchTyped(new TwoFactorProviderForUserDisabled($user, $provider));
 
 			$this->publishEvent($user, 'twofactor_failed', [
 				'provider' => $provider->getDisplayName(),
