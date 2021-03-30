@@ -32,7 +32,7 @@
 namespace OC\L10N;
 
 class L10NString implements \JsonSerializable {
-	/** @var \OC\L10N\L10N */
+	/** @var L10N */
 	protected $l10n;
 
 	/** @var string */
@@ -45,38 +45,31 @@ class L10NString implements \JsonSerializable {
 	protected $count;
 
 	/**
-	 * @param \OC\L10N\L10N $l10n
+	 * @param L10N $l10n
 	 * @param string|string[] $text
 	 * @param array $parameters
 	 * @param int $count
 	 */
-	public function __construct(\OC\L10N\L10N $l10n, $text, $parameters, $count = 1) {
+	public function __construct(L10N $l10n, $text, array $parameters, int $count = 1) {
 		$this->l10n = $l10n;
 		$this->text = $text;
 		$this->parameters = $parameters;
 		$this->count = $count;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function __toString() {
+	public function __toString(): string {
 		$translations = $this->l10n->getTranslations();
+		$identityTranslator = $this->l10n->getIdentityTranslator();
 
-		$text = $this->text;
-		if (array_key_exists($this->text, $translations)) {
-			if (is_array($translations[$this->text])) {
-				$fn = $this->l10n->getPluralFormFunction();
-				$id = $fn($this->count);
-				$text = $translations[$this->text][$id];
-			} else {
-				$text = $translations[$this->text];
-			}
-		}
+		$parameters = $this->parameters;
+		// Add $count as %count% as per \Symfony\Contracts\Translation\TranslatorInterface
+		$parameters['%count%'] = $this->count;
 
-		// Replace %n first (won't interfere with vsprintf)
-		$text = str_replace('%n', (string)$this->count, $text);
-		return vsprintf($text, $this->parameters);
+		// Use the indexed version as per \Symfony\Contracts\Translation\TranslatorInterface
+		$identity = implode('|', $translations[$this->text]);
+		$identity = str_replace('%n', '%count%', $identity);
+
+		return $identityTranslator->trans($identity, $parameters);
 	}
 
 
