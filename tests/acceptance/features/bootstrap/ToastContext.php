@@ -22,6 +22,7 @@
  */
 
 use Behat\Behat\Context\Context;
+use PHPUnit\Framework\Assert;
 
 class ToastContext implements Context, ActorAwareInterface {
 	use ActorAware;
@@ -47,7 +48,7 @@ class ToastContext implements Context, ActorAwareInterface {
 	 * @Then I see that the :message toast is shown
 	 */
 	public function iSeeThatTheToastIsShown($message) {
-		PHPUnit_Framework_Assert::assertTrue($this->actor->find(
+		Assert::assertTrue($this->actor->find(
 				self::toastMessage($message), 10)->isVisible());
 	}
 }

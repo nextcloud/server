@@ -2,7 +2,7 @@ default:
   suites:
     default:
       paths:
-        - %paths.base%/../features
+        - "%paths.base%/../features"
       contexts:
         - ActorContext
         - NextcloudTestServerContext
@@ -31,7 +31,7 @@ default:
         tags: "~@apache"
     apache:
       paths:
-        - %paths.base%/../features
+        - "%paths.base%/../features"
       contexts:
         - ActorContext
         - NextcloudTestServerContext:
