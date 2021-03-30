@@ -6,10 +6,8 @@
     "Sending…" : "Invio in corso...",
     "Email sent" : "Email inviata",
     "Private" : "Privato",
-    "Don't synchronize to servers" : "Non sincronizzazione con i server",
-    "Trusted" : "Affidabili",
+    "Local" : "Locale",
     "Only synchronize to trusted servers" : "Sincronizzazione solo con i server affidabili",
-    "Public" : "Pubblico",
     "Synchronize to trusted servers and the global and public address book" : "Sincronizza con server affidabili e la rubrica globale e pubblica",
     "Verify" : "Verifica",
     "Verifying …" : "Verifica in corso...",
@@ -419,11 +417,11 @@
     "If you use third party applications to connect to Nextcloud, please make sure to create and configure an app password for each before enabling second factor authentication." : "Se utilizzi applicazioni di terze parti per connetterti a Nextcloud, assicurati di creare e configurare una password per ciascuna applicazione prima di abilitare l'autenticazione a due fattori.",
     "An error occurred. Please upload an ASCII-encoded PEM certificate." : "Si è verificato un errore. Carica un certificato PEM codificato in ASCII.",
     "Valid until {date}" : "Valido fino al {date}",
-    "Local" : "Locale",
     "Only visible to local users" : "Visibile solo agli utenti locali",
     "Only visible to you" : "Visibile solo a te",
     "Contacts" : "Contatti",
     "Visible to local users and to trusted servers" : "Visibile agli utenti locali e ai server affidabili",
+    "Public" : "Pubblico",
     "Will be synced to a global and public address book" : "Sarà sincronizzato con una rubrica globale e pubblica",
     "by" : "di",
     "SSL Root Certificates" : "Certificati radice SSL",
@@ -438,6 +436,8 @@
     "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "Consenti il completamento del nome utente nella finestra di condivisione. Se è disabilitata, è necessario digitare il nome utente completo o l'indirizzo di posta.",
     "Restrict username autocompletion to users within the same groups" : "Limita il completamento del nome utente agli utenti degli stessi gruppi",
     "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Mostra il testo di liberatoria sulla pagina di caricamento del collegamento pubblico. (Mostrato solo quando l'elenco dei file è nascosto)",
+    "Don't synchronize to servers" : "Non sincronizzazione con i server",
+    "Trusted" : "Affidabili",
     "Allow username autocompletion in share dialog (if this is disabled the full username or email address needs to be entered)" : "Consenti il completamento automatico del nome utente nella finestra di condivisione (se è disabilitata, è necessario inserire il nome utente completo o l'indirizzo di posta elettronica)"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

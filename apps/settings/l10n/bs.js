@@ -3,7 +3,7 @@ OC.L10N.register(
     {
     "Saved" : "Spremljeno",
     "Email sent" : "E-pošta je poslana",
-    "Public" : "Javno",
+    "Local" : "Lokalno",
     "Unable to change password" : "Promjena lozinke nije moguća",
     "Very weak password" : "Veoma slaba lozinka",
     "Weak password" : "Slaba lozinka",
@@ -91,8 +91,8 @@ OC.L10N.register(
     "New password" : "Nova lozinka",
     "Change password" : "Promijeni lozinku",
     "Valid until {date}" : "Validno do {date}",
-    "Local" : "Lokalno",
     "Contacts" : "Kontakti",
+    "Public" : "Javno",
     "by" : "od strane",
     "Common Name" : "Opće Ime",
     "Valid until" : "Validno do",

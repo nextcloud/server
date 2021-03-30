@@ -8,10 +8,7 @@ OC.L10N.register(
     "Sending…" : "Mandadís…",
     "Email sent" : "Corrièl mandat",
     "Private" : "Privat",
-    "Don't synchronize to servers" : "Sincronizar pas als servidors",
-    "Trusted" : "Fisable",
     "Only synchronize to trusted servers" : "Sincronizar pas qu’als servidors fisables",
-    "Public" : "Public",
     "Synchronize to trusted servers and the global and public address book" : "Sincronizar als servidors fisables e los annuaris d’adreças globals e publics",
     "Verify" : "Verificar",
     "Verifying …" : "Verificacion…",
@@ -223,9 +220,12 @@ OC.L10N.register(
     "Change password" : "Cambiar de senhal",
     "Only visible to you" : "Sonque visible per vos",
     "Contacts" : "Contactes",
+    "Public" : "Public",
     "by" : "per",
     "Valid until" : "Valid fins a",
     "Issued By" : "Emés per",
-    "Valid until %s" : "Valid fins a %s"
+    "Valid until %s" : "Valid fins a %s",
+    "Don't synchronize to servers" : "Sincronizar pas als servidors",
+    "Trusted" : "Fisable"
 },
 "nplurals=2; plural=(n > 1);");

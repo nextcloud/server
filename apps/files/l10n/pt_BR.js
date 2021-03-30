@@ -186,7 +186,7 @@ OC.L10N.register(
     "%s%% of %s used" : "%s%% usados de %s",
     "%1$s of %2$s used" : "%1$s usados de %2$s",
     "Settings" : "Configurações",
-    "Show hidden files" : "Exibir arquivos ocultos",
+    "Show hidden files" : "Mostrar arquivos ocultos",
     "Crop image previews" : "Cortar visualizações de imagem",
     "WebDAV" : "WebDAV",
     "Use this address to access your Files via WebDAV" : "Use este endereço para acessar seus Arquivos via WebDAV",

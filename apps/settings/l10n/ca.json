@@ -6,10 +6,8 @@
     "Sending…" : "S'està enviant…",
     "Email sent" : "S'ha enviat el correu electrònic",
     "Private" : "Privat",
-    "Don't synchronize to servers" : "No sincronitzeu amb els servidors",
-    "Trusted" : "De confiança",
+    "Local" : "Local",
     "Only synchronize to trusted servers" : "Sincronitza només amb servidors de confiança",
-    "Public" : "Públic",
     "Synchronize to trusted servers and the global and public address book" : "Sincronitza amb servidors de confiança i amb la llibreta d'adreces global i pública",
     "Verify" : "Verifica",
     "Verifying …" : "S'està verificant …",
@@ -412,11 +410,11 @@
     "If you use third party applications to connect to Nextcloud, please make sure to create and configure an app password for each before enabling second factor authentication." : "Si utilitzeu aplicacions de tercers per a connectar-vos a Nextcloud, assegureu-vos de crear i configurar una contrasenya d'aplicació per a cadascuna abans d'habilitar l'autenticació de segon factor.",
     "An error occurred. Please upload an ASCII-encoded PEM certificate." : "S'ha produït un error. Si us plau, carregueu un certificat PEM codificat en ASCII.",
     "Valid until {date}" : "Vàlid fins {date}",
-    "Local" : "Local",
     "Only visible to local users" : "Només visible per a usuaris locals",
     "Only visible to you" : "Només visible per mi",
     "Contacts" : "Contactes",
     "Visible to local users and to trusted servers" : "Visible per als usuaris locals i servidors de confiança",
+    "Public" : "Públic",
     "Will be synced to a global and public address book" : "Se sincronitzarà amb una llibreta d'adreces global i pública",
     "by" : "per",
     "SSL Root Certificates" : "Certificats Arrel SSL",
@@ -431,6 +429,8 @@
     "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "Permet la compleció automàtica del nom d’usuari en el diàleg de compartició. Si es desactiva, cal que s'introdueixi el nom d’usuari complet o l’adreça de correu electrònic.",
     "Restrict username autocompletion to users within the same groups" : "Restringeix autocompletar nom d'usuari per usuaris en els mateixos grups",
     "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Mostra el text de renúncia a la pàgina de càrrega d’enllaços públics. (Només es mostra quan la llista de fitxers està oculta).",
+    "Don't synchronize to servers" : "No sincronitzeu amb els servidors",
+    "Trusted" : "De confiança",
     "Allow username autocompletion in share dialog (if this is disabled the full username or email address needs to be entered)" : "Permet la compleció automàtica en el diàleg de compartició (si es desactiva caldrà introduir el nom d'usuari complet i l'adreça de correu electrònic)"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

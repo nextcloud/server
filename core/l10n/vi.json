@@ -23,7 +23,7 @@
     "Click the following button to reset your password. If you have not requested the password reset, then ignore this email." : "Nhấp vào nút sau để đặt lại mật khẩu. Nếu bạn không yêu cầu đặt lại mật khẩu, hãy bỏ qua email này.",
     "Click the following link to reset your password. If you have not requested the password reset, then ignore this email." : "Nhấp vào liên kết sau để đặt lại mật khẩu của bạn. Nếu bạn không yêu cầu đặt lại mật khẩu, hãy bỏ qua email này.",
     "Reset your password" : "Đổi mật khẩu",
-    "Nextcloud Server" : "Máy chủ Nextcloud",
+    "Nextcloud Server" : "Máy chủ vWorkspace",
     "Preparing update" : "Đang chuẩn bị cập nhật",
     "[%d / %d]: %s" : "[%d / %d]: %s",
     "Please use the command line updater because automatic updating is disabled in the config.php." : "Xin vui lòng sử dụng câu lệnh cập nhật bằng dòng lệnh do cập nhật tự động bị vô hiệu hóa trong file config.php",
