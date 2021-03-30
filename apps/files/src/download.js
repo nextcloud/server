@@ -20,10 +20,9 @@
  *
  */
 
-import Download from './services/Download'
+import download from './services/Download'
 
-// Init Sidebar Service
 if (!window.OCA.Files) {
 	window.OCA.Files = {}
 }
-Object.assign(window.OCA.Files, { Download: new Download() })
+Object.assign(window.OCA.Files, { download })

@@ -23,27 +23,21 @@
 import { generateUrl } from '@nextcloud/router'
 import axios from '@nextcloud/axios'
 
-export default class Download {
-
-	export
-	const
-	get(files, dir, downloadStartSecret) {
-		axios.post(
-			generateUrl('apps/files/registerDownload'),
-			{
-				files,
-				dir,
-				downloadStartSecret,
-			}
-		).then(res => {
-			if (res.status === 200 && res.data.token) {
-				const dlUrl = generateUrl(
-					'apps/files/ajax/download.php?token={token}',
-					{ token: res.data.token }
-				)
-				OC.redirect(dlUrl)
-			}
-		})
-	}
-
+export default function(files, dir, downloadStartSecret) {
+	axios.post(
+		generateUrl('apps/files/registerDownload'),
+		{
+			files,
+			dir,
+			downloadStartSecret,
+		}
+	).then(res => {
+		if (res.status === 200 && res.data.token) {
+			const dlUrl = generateUrl(
+				'apps/files/ajax/download.php?token={token}',
+				{ token: res.data.token }
+			)
+			OC.redirect(dlUrl)
+		}
+	})
 }

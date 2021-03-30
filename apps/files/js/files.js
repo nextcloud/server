@@ -380,7 +380,7 @@
 					}
 				};
 
-			OCA.Files.Download.get(files, dir, randomToken);
+			OCA.Files.download(files, dir, randomToken);
 			OC.Util.waitFor(checkForDownloadCookie, 500);
 		}
 	};
