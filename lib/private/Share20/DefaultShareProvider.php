@@ -470,7 +470,8 @@ class DefaultShareProvider implements IShareProvider {
 			}
 
 			if (!$group->inGroup($user)) {
-				throw new ProviderException('Recipient not in receiving group');
+				// nothing left to do
+				return;
 			}
 
 			// Try to fetch user specific share
