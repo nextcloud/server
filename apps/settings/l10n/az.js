@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Saved" : "Saxlanıldı",
     "Email sent" : "Məktub göndərildi",
+    "Local" : "Yerli",
     "Unable to change password" : "Şifrəni dəyişmək olmur",
     "Very weak password" : "Çox asan şifrə",
     "Weak password" : "Asan şifrə",
@@ -100,7 +101,6 @@ OC.L10N.register(
     "New password" : "Yeni şifrə",
     "Change password" : "Şifrəni dəyiş",
     "Valid until {date}" : "Müddətədək keçərlidir {date}",
-    "Local" : "Yerli",
     "Contacts" : "Əlaqələr",
     "by" : "onunla",
     "Common Name" : "Ümumi ad",

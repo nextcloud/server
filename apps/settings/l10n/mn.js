@@ -4,7 +4,6 @@ OC.L10N.register(
     "Saved" : "Хадгалагдсан",
     "Sending…" : "Илгээх...",
     "Private" : "Далд",
-    "Public" : "Нийтийн",
     "Verify" : "Шалнгах",
     "Unable to change password" : "Нууц үг солих боломжгүй",
     "Very weak password" : "маш муу нууц үг",
@@ -106,6 +105,7 @@ OC.L10N.register(
     "Current password" : "Одоогийн нууц үг",
     "New password" : "Шинэ нууц үг",
     "Change password" : "Нууц үг солих",
-    "Contacts" : "Харилцагчид"
+    "Contacts" : "Харилцагчид",
+    "Public" : "Нийтийн"
 },
 "nplurals=2; plural=(n != 1);");

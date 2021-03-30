@@ -6,10 +6,8 @@
     "Sending…" : "Γινεται αποστολή...",
     "Email sent" : "Το Email απεστάλη ",
     "Private" : "Ιδιωτικά",
-    "Don't synchronize to servers" : "Να μη γίνει συγχρονισμός με τους διακομιστές.",
-    "Trusted" : "Έμπιστος",
+    "Local" : "Τοπικά",
     "Only synchronize to trusted servers" : "Συγχρονισμός μόνο με έμπιστους διακομιστές.",
-    "Public" : "Δημόσιο",
     "Synchronize to trusted servers and the global and public address book" : "Συγχρονισμός με αξιόπιστους διακομιστές του γενικού και δημόσιου βιβλίου διευθύνσεων",
     "Verify" : "Επαλήθευση",
     "Verifying …" : "Γίνεται επαλήθευση ...",
@@ -418,11 +416,11 @@
     "If you use third party applications to connect to Nextcloud, please make sure to create and configure an app password for each before enabling second factor authentication." : "Εάν χρησιμοποιείτε εφαρμογές τρίτων για σύνδεση στο Nextcloud, βεβαιωθείτε ότι έχετε δημιουργήσει και διαμορφώσει έναν κωδικό πρόσβασης εφαρμογής για κάθε έναν προτού ενεργοποιήσετε τον έλεγχο ταυτότητας δεύτερου παράγοντα.",
     "An error occurred. Please upload an ASCII-encoded PEM certificate." : "Προέκυψε σφάλμα. Παρακαλούμε μεταφορτώστε ένα πιστοποιητικό PEM κωδικοποιημένο κατά ASCII.",
     "Valid until {date}" : "Έγκυρο έως {date}",
-    "Local" : "Τοπικά",
     "Only visible to local users" : "Εμφανές μόνο σε τοπικούς χρήστες",
     "Only visible to you" : "Εμφανές μόνο σε εσάς",
     "Contacts" : "Επαφές",
     "Visible to local users and to trusted servers" : "Προσθήκη στη λίστα των έμπιστων διακομιστών",
+    "Public" : "Δημόσιο",
     "Will be synced to a global and public address book" : "Θα συγχρονιστεί με παγκόσμιο και δημόσιο βιβλίο διευθύνσεων",
     "by" : "από",
     "SSL Root Certificates" : "Πιστοποιητικά SSL του Root",
@@ -437,6 +435,8 @@
     "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "Να επιτρέπεται η χρήση αυτόματης συμπλήρωσης του ονόματος χρήστη στο πεδίο διαμοιρασμού. Αν η ρύθμιση αυτή είναι απενεργοποιημένη θα πρέπει να εισαχθεί το πλήρες όνομα χρήστη ή το email του. ",
     "Restrict username autocompletion to users within the same groups" : "Περιορισμός της αυτόματης συμπλήρωσης του ονόματος χρήστη  σε χρήστες της ίδιας ομάδας",
     "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Εμφάνιση κειμένου αποποίησης ευθυνών στη σελίδα δημοσίευσης συνδέσμων. (Εμφανίζεται μόνο όταν η λίστα αρχείων είναι κρυφή.)",
+    "Don't synchronize to servers" : "Να μη γίνει συγχρονισμός με τους διακομιστές.",
+    "Trusted" : "Έμπιστος",
     "Allow username autocompletion in share dialog (if this is disabled the full username or email address needs to be entered)" : "Να επιτρέπεται η αυτόματη συμπλήρωση ονόματος χρήστη στο παράθυρο διαλόγου κοινής χρήσης (εάν είναι απενεργοποιημένο, πρέπει να εισαχθεί το πλήρες όνομα χρήστη ή η διεύθυνση email)"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -396,7 +396,7 @@ OC.L10N.register(
     "No search results in other folders for {tag}{filter}{endtag}" : "Brak wyników wyszukiwania w innych katalogach dla {tag}{filter}{endtag}",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} wynik wyszukiwania w innych katalogach","{count} wyniki wyszukiwania w innych katalogach","{count} wyników wyszukiwania w innych katalogach","{count} wyników wyszukiwania w innych katalogach"],
     "Nextcloud {app}" : "Nextcloud {app}",
-    "Search" : "Wyszukaj",
+    "Search" : "Szukaj",
     "These apps will be updated:" : "Następujące aplikacje zostaną zaktualizowane:",
     "For more details see the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "Więcej informacji można znaleźć w <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">dokumentacji</a>."
 },
