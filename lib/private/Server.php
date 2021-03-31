@@ -104,6 +104,7 @@ use OC\IntegrityCheck\Checker;
 use OC\IntegrityCheck\Helpers\AppLocator;
 use OC\IntegrityCheck\Helpers\EnvironmentHelper;
 use OC\IntegrityCheck\Helpers\FileAccessHelper;
+use OC\LDAP\NullLDAPProviderFactory;
 use OC\KnownUser\KnownUserService;
 use OC\Lock\DBLockingProvider;
 use OC\Lock\MemcacheLockingProvider;
@@ -206,6 +207,8 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
+use OCP\LDAP\ILDAPProvider;
+use OCP\LDAP\ILDAPProviderFactory;
 use OCP\Lock\ILockingProvider;
 use OCP\Log\ILogFactory;
 use OCP\Mail\IMailer;
@@ -1003,14 +1006,20 @@ class Server extends ServerContainer implements IServerContainer {
 		/** @deprecated 19.0.0 */
 		$this->registerDeprecatedAlias('Mailer', IMailer::class);
 
-		$this->registerService('LDAPProvider', function (ContainerInterface $c) {
+		/** @deprecated 21.0.0 */
+		$this->registerDeprecatedAlias('LDAPProvider', ILDAPProvider::class);
+
+		$this->registerService(ILDAPProviderFactory::class, function (ContainerInterface $c) {
 			$config = $c->get(\OCP\IConfig::class);
 			$factoryClass = $config->getSystemValue('ldapProviderFactory', null);
 			if (is_null($factoryClass)) {
-				throw new \Exception('ldapProviderFactory not set');
+				return new NullLDAPProviderFactory($this);
 			}
 			/** @var \OCP\LDAP\ILDAPProviderFactory $factory */
-			$factory = new $factoryClass($this);
+			return new $factoryClass($this);
+		});
+		$this->registerService(ILDAPProvider::class, function (ContainerInterface $c) {
+			$factory = $c->get(ILDAPProviderFactory::class);
 			return $factory->getLDAPProvider();
 		});
 		$this->registerService(ILockingProvider::class, function (ContainerInterface $c) {
