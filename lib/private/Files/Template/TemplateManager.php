@@ -36,7 +36,6 @@ use OCP\Files\GenericFileException;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
-use OCP\Files\NotPermittedException;
 use OCP\Files\Template\FileCreatedFromTemplateEvent;
 use OCP\Files\Template\ICustomTemplateProvider;
 use OCP\Files\Template\ITemplateManager;
@@ -299,9 +298,10 @@ class TemplateManager implements ITemplateManager {
 			}
 
 			try {
-				$folder = $userFolder->newFolder($userTemplatePath);
-			} catch (NotPermittedException $e) {
 				$folder = $userFolder->get($userTemplatePath);
+			} catch (NotFoundException $e) {
+				$folder = $userFolder->get(dirname($userTemplatePath));
+				$folder = $folder->newFolder(basename($userTemplatePath));
 			}
 
 			$folderIsEmpty = count($folder->getDirectoryListing()) === 0;
