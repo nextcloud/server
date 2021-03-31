@@ -8,8 +8,12 @@ OC.L10N.register(
     "Sending…" : "Senden…",
     "Email sent" : "E-Mail gesendet",
     "Private" : "Privat",
+    "Only visible to people matched via phone number integration through Talk on mobile" : "Nur sichtbar für Personen, die über Rufnummernintegration von Talk on mobile abgeglichen wurden.",
     "Local" : "Lokal",
+    "Only visible to people on this instance and guests" : "Nur für Personen dieser Instanz und Gästen sichtbar",
+    "Federated" : "Federated",
     "Only synchronize to trusted servers" : "Nur mit vertrauenswürdigen Servern synchronisieren",
+    "Published" : "Veröffentlicht",
     "Synchronize to trusted servers and the global and public address book" : "Mit vertrauenswürdigen Servern und dem globalen und öffentlichen Adressbuch synchronisieren",
     "Verify" : "Überprüfen",
     "Verifying …" : "Überprüfe…",
@@ -380,6 +384,8 @@ OC.L10N.register(
     "These groups will still be able to receive shares, but not to initiate them." : "Diese Gruppen können weiterhin Freigaben empfangen, aber selbst keine mehr initiieren.",
     "Allow username autocompletion in share dialog" : "Automatische Vervollständigung der Benutzernamen im Teilen-Dialog erlauben",
     "Allow username autocompletion to users within the same groups" : "Automatische Vervollständigung der Benutzernamen auf Benutzer innerhalb der gleichen Gruppen erlauben",
+    "Allow username autocompletion to users based on phone number integration" : "Automatische Vervollständigung des Benutzernamens für Benutzer basierend auf der Rufnummernintegration zulassen",
+    "If autocompletion \"same group\" and \"phone number integration\" are enabled a match in either is enough to show the user." : "Wenn die Autovervollständigung \"gleiche Gruppe\" und \"Rufnummernintegration\" aktiviert ist, reicht eine Übereinstimmung in einem der beiden Bereiche aus, um den Benutzer anzuzeigen.",
     "Allow username autocompletion when entering the full name or email address (ignoring missing phonebook match and being in the same group)" : "Ermöglicht die automatische Vervollständigung des Benutzernamens, wenn der vollständigen Namen oder die E-Mail-Adresse eingeben wird (ignoriert fehlende Telefonbuchübereinstimmungen und gleiche Gruppenzugehörigkeiten).",
     "Show disclaimer text on the public link upload page (only shown when the file list is hidden)" : "Zeige Haftungsausschluss auf der öffentlichen Upload-Seite (Wird nur gezeigt wenn die Dateiliste nicht angezeigt wird.) ",
     "This text will be shown on the public link upload page when the file list is hidden." : "Dieser Text wird auf der öffentlichen Upload-Seite angezeigt wenn die Dateiliste nicht angezeigt wird.",
@@ -445,8 +451,6 @@ OC.L10N.register(
     "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Zeige Haftungsausschluss auf der öffentlichen Upload-Seite. (Wird nur gezeigt wenn die Dateiliste nicht angezeigt wird.) ",
     "Don't synchronize to servers" : "Nicht mit Servern synchronisieren",
     "Trusted" : "Vertrauenswürdig",
-    "Allow username autocompletion in share dialog (if this is disabled the full username or email address needs to be entered)" : "Die Auto-Vervollständigung von Benutzernamen im Teilen-Dialog zulassen (Wenn dies deaktiviert ist, müssen der vollständige Benutzername oder die E-Mail-Adresse eingegeben werden)",
-    "Allow username autocompletion to users based on phonebook matches" : "Automatische Vervollständigung der Benutzernamen anhand passender Telefonbucheinträge erlauben",
-    "If autocompletion \"same group\" and \"phonebook matches\" are enabled a match in either is enough to show the user." : "Wenn die automatische Vervollständigung \"gleiche Gruppe\" und \"Telefonbuchübereinstimmungen\" aktiviert sind, reicht eine Übereinstimmung in beiden Gruppen aus, um den Benutzer anzuzeigen. "
+    "Allow username autocompletion in share dialog (if this is disabled the full username or email address needs to be entered)" : "Die Auto-Vervollständigung von Benutzernamen im Teilen-Dialog zulassen (Wenn dies deaktiviert ist, müssen der vollständige Benutzername oder die E-Mail-Adresse eingegeben werden)"
 },
 "nplurals=2; plural=(n != 1);");

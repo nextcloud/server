@@ -445,8 +445,6 @@ OC.L10N.register(
     "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Zeige Haftungsausschluss auf der öffentlichen Upload-Seite. (Wird nur gezeigt wenn die Dateiliste nicht angezeigt wird.) ",
     "Don't synchronize to servers" : "Nicht mit Servern synchronisieren",
     "Trusted" : "Vertrauenswürdig",
-    "Allow username autocompletion in share dialog (if this is disabled the full username or email address needs to be entered)" : "Die Auto-Vervollständigung von Benutzernamen im Teilen-Dialog zulassen (Wenn dies deaktiviert ist, müssen der vollständige Benutzername oder die E-Mail-Adresse eingegeben werden)",
-    "Allow username autocompletion to users based on phonebook matches" : "Automatische Vervollständigung der Benutzernamen anhand passender Telefonbucheinträge erlauben",
-    "If autocompletion \"same group\" and \"phonebook matches\" are enabled a match in either is enough to show the user." : "Wenn die automatische Vervollständigung \"gleiche Gruppe\" und \"Telefonbuchübereinstimmungen\" aktiviert sind, reicht eine Übereinstimmung in beiden Gruppen aus, um den Benutzer anzuzeigen. "
+    "Allow username autocompletion in share dialog (if this is disabled the full username or email address needs to be entered)" : "Die Auto-Vervollständigung von Benutzernamen im Teilen-Dialog zulassen (Wenn dies deaktiviert ist, müssen der vollständige Benutzername oder die E-Mail-Adresse eingegeben werden)"
 },
 "nplurals=2; plural=(n != 1);");

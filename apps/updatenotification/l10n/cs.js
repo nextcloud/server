@@ -18,7 +18,7 @@ OC.L10N.register(
     "Apps with compatible version" : "Aplikace, které existují v kompatibilní verzi",
     "Open updater" : "Otevřít nástroj pro aktualizaci",
     "Download now" : "Stáhnout nyní",
-    "Please use the command line updater to update." : "Aktualizujte přes příkazový řádek.",
+    "Please use the command line updater to update." : "Aktualizaci proveďte nástrojem z příkazového řádku.",
     "What's new?" : "Co je nového?",
     "The update check is not yet finished. Please refresh the page." : "Kontrola aktualizací ještě neskončila. Načtěte stránku znovu.",
     "Your version is up to date." : "Používáte nejnovější verzi.",
