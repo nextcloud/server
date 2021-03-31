@@ -443,8 +443,6 @@ OC.L10N.register(
     "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Amosar o texto de exención de responsabilidade na páxina de envío de ligazóns publicas. (Amosarase só cando a lista de ficheiros estea agochada.)",
     "Don't synchronize to servers" : "Non sincronizar con servidores",
     "Trusted" : "De confianza",
-    "Allow username autocompletion in share dialog (if this is disabled the full username or email address needs to be entered)" : "Permitir autocompletar o nome de usuario na xanela de diálogo (se esta opción está desactivada, debera escribirse o nome de usuario completo ou o enderezo de correo-e) ",
-    "Allow username autocompletion to users based on phonebook matches" : "Permitir autocompletar o nome de usuario aos usuarios baseandose nas coincidencias da lista de teléfonos",
-    "If autocompletion \"same group\" and \"phonebook matches\" are enabled a match in either is enough to show the user." : "Se os autocompletados «mesmo grupo» e «coincidencias da lista de teléfonos» están activados, unha coincidencia en calquera dos dous abonda para amosar ao usuario."
+    "Allow username autocompletion in share dialog (if this is disabled the full username or email address needs to be entered)" : "Permitir autocompletar o nome de usuario na xanela de diálogo (se esta opción está desactivada, debera escribirse o nome de usuario completo ou o enderezo de correo-e) "
 },
 "nplurals=2; plural=(n != 1);");

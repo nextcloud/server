@@ -445,8 +445,6 @@ OC.L10N.register(
     "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Herkese açık bağlantı yükleme sayfasındaki sorumluluk reddi bildirim metni (yalnız dosya listesi gizli iken görüntülenir).",
     "Don't synchronize to servers" : "Sunucular ile eşitlenmesin",
     "Trusted" : "Güvenilen",
-    "Allow username autocompletion in share dialog (if this is disabled the full username or email address needs to be entered)" : "Bu seçenek etkinleştirildiğinde, paylaşma penceresindeki kullanıcı adı otomatik olarak tamamlanır (devre dışı bırakıldığında tam kullanıcı adının ya da e-posta adresinin yazılması gerekir)",
-    "Allow username autocompletion to users based on phonebook matches" : "Telefon defterindeki eşleşmelere göre kullanıcı adları otomatik olarak tamamlanabilsin",
-    "If autocompletion \"same group\" and \"phonebook matches\" are enabled a match in either is enough to show the user." : "\"Aynı grup\" ve \"telefon defteri eşleşmeleri\" etkinleştirilmiş ise. Kullanıcının görüntülenmesi için ikisinden birinde eşleşme olması yeterlidir."
+    "Allow username autocompletion in share dialog (if this is disabled the full username or email address needs to be entered)" : "Bu seçenek etkinleştirildiğinde, paylaşma penceresindeki kullanıcı adı otomatik olarak tamamlanır (devre dışı bırakıldığında tam kullanıcı adının ya da e-posta adresinin yazılması gerekir)"
 },
 "nplurals=2; plural=(n > 1);");

@@ -22,6 +22,7 @@
     "Password to access {file} was sent to {email}" : "La password per accedere a {file} ti è stata inviata a {email}",
     "Password to access %1$s was sent to you" : "La password per accedere a %1$s ti è stata inviata",
     "Password to access {file} was sent to you" : "La password per accedere a {file} ti è stata inviata",
+    "Sharing %1$s failed, because this item is already shared with user %2$s" : "Condivisione di %1$s non riuscita, poiché l'oggetto è già condiviso con l'utente %2$s",
     "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Non possiamo inviarti la password generata automaticamente. Imposta un indirizzo di posta valido nelle impostazioni personali e prova ancora.",
     "Failed to send share by email" : "Invio non riuscito della condivisione tramite email",
     "%1$s shared »%2$s« with you" : "%1$s ha condiviso «%2$s» con te",

@@ -6,8 +6,12 @@
     "Sending…" : "Wysyłam…",
     "Email sent" : "E-mail został wysłany",
     "Private" : "Prywatny",
+    "Only visible to people matched via phone number integration through Talk on mobile" : "Widoczne tylko dla osób dopasowanych poprzez integrację numeru telefonu za pomocą Talka na telefonie komórkowym",
     "Local" : "Lokalny",
+    "Only visible to people on this instance and guests" : "Widoczne tylko dla osób w tej instancji i gości",
+    "Federated" : "Sfederowane",
     "Only synchronize to trusted servers" : "Synchronizuj tylko z zaufanymi serwerami",
+    "Published" : "Opublikowane",
     "Synchronize to trusted servers and the global and public address book" : "Synchronizuj z zaufanymi serwerami oraz globalną i publiczną książką adresową",
     "Verify" : "Zweryfikuj",
     "Verifying …" : "Weryfikacja…",
@@ -378,6 +382,8 @@
     "These groups will still be able to receive shares, but not to initiate them." : "Grupy te nadal będą mogły otrzymywać udostępnienia, ale nie będą mogły ich tworzyć.",
     "Allow username autocompletion in share dialog" : "Zezwalaj na automatyczne uzupełnianie nazwy użytkownika w oknie udostępniania",
     "Allow username autocompletion to users within the same groups" : "Zezwalaj na automatyczne uzupełnianie nazwy użytkownika dla użytkowników w tych samych grupach",
+    "Allow username autocompletion to users based on phone number integration" : "Zezwalaj na automatyczne uzupełnianie nazw użytkowników na podstawie integracji numeru telefonu",
+    "If autocompletion \"same group\" and \"phone number integration\" are enabled a match in either is enough to show the user." : "Jeśli automatyczne uzupełnianie \"ta sama grupa\" i \"integracja numeru telefonu\" są włączone, wystarczy dopasowanie w jednej z nich, aby pokazać użytkownikowi.",
     "Allow username autocompletion when entering the full name or email address (ignoring missing phonebook match and being in the same group)" : "Zezwalaj na automatyczne uzupełnianie nazwy użytkownika podczas wpisywania imienia i nazwiska lub adresu e-mail (ignorowanie brakującego dopasowania w książce telefonicznej i przynależności do tej samej grupy)",
     "Show disclaimer text on the public link upload page (only shown when the file list is hidden)" : "Pokaż tekst zastrzeżenia na stronie przesyłania linków publicznych (wyświetlane tylko wtedy, gdy lista plików jest ukryta)",
     "This text will be shown on the public link upload page when the file list is hidden." : "Ten tekst zostanie wyświetlony na stronie przesyłania linków publicznych, gdy lista plików jest ukryta.",
@@ -443,8 +449,6 @@
     "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Pokaż tekst zastrzeżenia na stronie przesyłania linków publicznych. (Wyświetlane tylko, gdy lista plików jest ukryta).",
     "Don't synchronize to servers" : "Nie synchronizuj z serwerami",
     "Trusted" : "Zaufany",
-    "Allow username autocompletion in share dialog (if this is disabled the full username or email address needs to be entered)" : "Zezwalaj na automatyczne uzupełnianie nazwy użytkownika w oknie udostępniania (jeśli ta opcja będzie wyłączona, wymagane będzie wprowadzanie pełnej nazwy użytkownika lub adres e-mail)",
-    "Allow username autocompletion to users based on phonebook matches" : "Zezwalaj na automatyczne uzupełnianie nazwy użytkownika na podstawie użytkowników dopasowanych w książce telefonicznej",
-    "If autocompletion \"same group\" and \"phonebook matches\" are enabled a match in either is enough to show the user." : "Jeśli automatyczne uzupełnianie \"ta sama grupa\" i \"dopasowania w książce telefonicznej\" są włączone, wystarczy dopasowanie w jednej z nich, aby pokazać użytkownikowi."
+    "Allow username autocompletion in share dialog (if this is disabled the full username or email address needs to be entered)" : "Zezwalaj na automatyczne uzupełnianie nazwy użytkownika w oknie udostępniania (jeśli ta opcja będzie wyłączona, wymagane będzie wprowadzanie pełnej nazwy użytkownika lub adres e-mail)"
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
 }
