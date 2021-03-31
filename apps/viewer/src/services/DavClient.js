@@ -20,19 +20,20 @@
  *
  */
 
-import webdav from 'webdav'
+import { createClient, getPatcher } from 'webdav'
 import axios from '@nextcloud/axios'
+
 import { getRootPath, getToken, isPublic } from '../utils/davUtils'
 
 // Add this so the server knows it is an request from the browserg
 axios.defaults.headers['X-Requested-With'] = 'XMLHttpRequest'
 
 // force our axios
-const patcher = webdav.getPatcher()
+const patcher = getPatcher()
 patcher.patch('request', axios)
 
 // init webdav client
-const client = webdav.createClient(getRootPath(), isPublic()
+const client = createClient(getRootPath(), isPublic()
 	? { username: getToken(), password: '' }
 	: {}
 )
