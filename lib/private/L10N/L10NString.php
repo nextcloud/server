@@ -74,7 +74,7 @@ class L10NString implements \JsonSerializable {
 			}
 
 			$identity = implode('|', $identity);
-		} else if (strpos($identity, '|') !== false) {
+		} elseif (strpos($identity, '|') !== false) {
 			return 'Can not use pipe character in translations';
 		}
 
