@@ -441,7 +441,7 @@ class Manager implements IManager {
 			$date->setTime(0, 0, 0);
 			$date->add(new \DateInterval('P' . $defaultExpireDays . 'D'));
 			if ($date < $expirationDate) {
-				$message = $this->l->t('Can’t set expiration date more than %s days in the future', [$defaultExpireDays]);
+				$message = $this->l->n('Can’t set expiration date more than %n day in the future', 'Can’t set expiration date more than %n days in the future', $defaultExpireDays);
 				throw new GenericShareException($message, $message, 404);
 			}
 		}
@@ -517,7 +517,7 @@ class Manager implements IManager {
 			$date->setTime(0, 0, 0);
 			$date->add(new \DateInterval('P' . $this->shareApiLinkDefaultExpireDays() . 'D'));
 			if ($date < $expirationDate) {
-				$message = $this->l->t('Can’t set expiration date more than %s days in the future', [$this->shareApiLinkDefaultExpireDays()]);
+				$message = $this->l->n('Can’t set expiration date more than %n day in the future', 'Can’t set expiration date more than %n days in the future', $this->shareApiLinkDefaultExpireDays());
 				throw new GenericShareException($message, $message, 404);
 			}
 		}
