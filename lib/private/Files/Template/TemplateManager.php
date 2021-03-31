@@ -154,7 +154,11 @@ class TemplateManager implements ITemplateManager {
 		} catch (NotFoundException $e) {
 		}
 		try {
-			$targetFile = $userFolder->newFile($filePath);
+			if (!$userFolder->nodeExists(dirname($filePath))) {
+				throw new GenericFileException($this->l10n->t('Invalid path'));
+			}
+			$folder = $userFolder->get(dirname($filePath));
+			$targetFile = $folder->newFile(basename($filePath));
 			if ($templateType === 'user' && $templateId !== '') {
 				$template = $userFolder->get($templateId);
 				$template->copy($targetFile->getPath());
