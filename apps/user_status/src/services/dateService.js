@@ -20,11 +20,6 @@
  *
  */
 
-/**
- * Returns a new Date object
- *
- * @returns {Date}
- */
 const dateFactory = () => {
 	return new Date()
 }
