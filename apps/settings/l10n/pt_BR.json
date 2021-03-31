@@ -443,8 +443,6 @@
     "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Exibir o texto de aviso na página pública do link de envio (só é mostrado quando a lista de arquivos está oculta).",
     "Don't synchronize to servers" : "Não sincronize com servidores",
     "Trusted" : "Confiável",
-    "Allow username autocompletion in share dialog (if this is disabled the full username or email address needs to be entered)" : "Permitir autocompletar o nome do usuário na tela de compartilhamento (se desabilitado, o nome completo ou e-mail deverá ser digitado)",
-    "Allow username autocompletion to users based on phonebook matches" : "Permitir a execução automática do nome de usuário aos usuários com base em correspondências de livros telefônicos",
-    "If autocompletion \"same group\" and \"phonebook matches\" are enabled a match in either is enough to show the user." : "Se a autocompleção \"mesmo grupo\" e \"correspondências de lista telefônica\" forem habilitadas, uma correspondência em ambos será suficiente para mostrar ao usuário."
+    "Allow username autocompletion in share dialog (if this is disabled the full username or email address needs to be entered)" : "Permitir autocompletar o nome do usuário na tela de compartilhamento (se desabilitado, o nome completo ou e-mail deverá ser digitado)"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }
