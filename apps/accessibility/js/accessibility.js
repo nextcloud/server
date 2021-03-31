@@ -23,7 +23,8 @@ var r=Object.freeze({});function o(e){return null==e}function i(e){return null!=
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 o.a.prototype.OC=OC,o.a.prototype.t=t;var d=Object(i.loadState)("accessibility","available-config"),v=Object(i.loadState)("accessibility","user-config");new(o.a.extend(p))({propsData:{availableConfig:d,userConfig:v}}).$mount("#accessibility")}]);
 //# sourceMappingURL=accessibility.js.map

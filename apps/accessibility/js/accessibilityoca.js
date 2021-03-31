@@ -2,7 +2,7 @@
 /**
  * @copyright Copyright (c) 2020 Roeland Jago Douma <roeland@famdouma.nl>
  *
- * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Jan C. Borchardt <hey@jancborchardt.net>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
  * @license GNU AGPL version 3 or any later version
@@ -18,7 +18,8 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 OCA.Accessibility=Object(e.loadState)("accessibility","data"),!1!==OCA.Accessibility.theme?document.body.classList.add("theme--".concat(OCA.Accessibility.theme)):document.body.classList.add("theme--light"),!1!==OCA.Accessibility.highcontrast&&document.body.classList.add("theme--highcontrast")}]);
 //# sourceMappingURL=accessibilityoca.js.map

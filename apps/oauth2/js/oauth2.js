@@ -8,6 +8,8 @@ var r=Object.freeze({});function o(t){return null==t}function i(t){return null!=
 /**
  * @copyright Copyright (c) 2018 Roeland Jago Douma <roeland@famdouma.nl>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version

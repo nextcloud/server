@@ -346,6 +346,9 @@ t.exports=function(t){return null!=t&&(n(t)||function(t){return"function"==typeo
 /**
  * @copyright Copyright (c) 2018 Joas Schilling <coding@schilljs.com>
  *
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -359,7 +362,7 @@ t.exports=function(t){return null!=t&&(n(t)||function(t){return"function"==typeo
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 i.default.mixin({methods:{t:function(t,e,n,r,o){return OC.L10N.translate(t,e,n,r,o)},n:function(t,e,n,r,o,i){return OC.L10N.translatePlural(t,e,n,r,o,i)}}}),new i.default({el:"#updatenotification",render:function(t){return t(x)}})}]);

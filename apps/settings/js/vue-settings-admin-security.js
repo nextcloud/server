@@ -339,7 +339,8 @@ Object(r.a)(o.a),e.default=o.a},function(t,e){t.exports=n(303)}])},,,,,,,,,,,,,,
 /**
  * @copyright 2019 Roeland Jago Douma <roeland@famdouma.nl>
  *
- * @author 2019 Roeland Jago Douma <roeland@famdouma.nl>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -354,7 +355,32 @@ Object(r.a)(o.a),e.default=o.a},function(t,e){t.exports=n(303)}])},,,,,,,,,,,,,,
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
  */
-i.default.use(b.a);var x={setEnforced:function(t,e){i.default.set(t,"enforced",e)},setEnforcedGroups:function(t,e){i.default.set(t,"enforcedGroups",e)},setExcludedGroups:function(t,e){i.default.set(t,"excludedGroups",e)}},w=new b.a.Store({strict:!1,state:{enforced:!1,enforcedGroups:[],excludedGroups:[]},mutations:x});r.nc=btoa(OC.requestToken),i.default.prototype.t=t,window.OC=window.OC||{},window.OC.Settings=window.OC.Settings||{},w.replaceState(Object(o.loadState)("settings","mandatory2FAState")),new(i.default.extend(y))({store:w}).$mount("#two-factor-auth-settings")}]);
-//# sourceMappingURL=vue-settings-admin-security.js.map?v=9bcaffb8833fa716e8ce
+i.default.use(b.a);var x={setEnforced:function(t,e){i.default.set(t,"enforced",e)},setEnforcedGroups:function(t,e){i.default.set(t,"enforcedGroups",e)},setExcludedGroups:function(t,e){i.default.set(t,"excludedGroups",e)}},w=new b.a.Store({strict:!1,state:{enforced:!1,enforcedGroups:[],excludedGroups:[]},mutations:x});
+/**
+ * @copyright Copyright (c) 2016 Christoph Wurst <christoph@winzerhof-wurst.at>
+ *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ *
+ * @license GNU AGPL version 3 or any later version
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+r.nc=btoa(OC.requestToken),i.default.prototype.t=t,window.OC=window.OC||{},window.OC.Settings=window.OC.Settings||{},w.replaceState(Object(o.loadState)("settings","mandatory2FAState")),new(i.default.extend(y))({store:w}).$mount("#two-factor-auth-settings")}]);
+//# sourceMappingURL=vue-settings-admin-security.js.map?v=7dc458d08bae661ca1a9

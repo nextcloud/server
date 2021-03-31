@@ -8,7 +8,7 @@ var r=Object.freeze({});function o(t){return null==t}function i(t){return null!=
 /**
  * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
- * @author 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -23,7 +23,8 @@ var r=Object.freeze({});function o(t){return null==t}function i(t){return null!=
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 n.nc=btoa(Object(o.getRequestToken)()),n.p=Object(i.generateFilePath)("core","","js/"),s.default.mixin({methods:{t:a.translate}}),(new(s.default.extend(O))).$mount("#recommended-apps"),u.debug("recommended apps view rendered")},94:function(t,e,n){var r=n(62),o=Function.toString;"function"!=typeof r.inspectSource&&(r.inspectSource=function(t){return o.call(t)}),t.exports=r.inspectSource},95:function(t,e){e.f=Object.getOwnPropertySymbols},96:function(t,e,n){var r=n(6),o=n(38),i=n(13),a=r("unscopables"),s=Array.prototype;null==s[a]&&i.f(s,a,{configurable:!0,value:o(null)}),t.exports=function(t){s[a][t]=!0}},97:function(t,e,n){var r=n(75),o=n(32),i=n(6)("iterator");t.exports=function(t){if(null!=t)return t[i]||t["@@iterator"]||o[r(t)]}},98:function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0}),Object.defineProperty(e,"getRequestToken",{enumerable:!0,get:function(){return r.getRequestToken}}),Object.defineProperty(e,"onRequestTokenUpdate",{enumerable:!0,get:function(){return r.onRequestTokenUpdate}}),Object.defineProperty(e,"getCurrentUser",{enumerable:!0,get:function(){return o.getCurrentUser}});var r=n(188),o=n(189)},99:function(t,e,n){var r=n(11),o=n(4),i=n(93);t.exports=!r&&!o((function(){return 7!=Object.defineProperty(i("div"),"a",{get:function(){return 7}}).a}))}});
 //# sourceMappingURL=recommendedapps.js.map
