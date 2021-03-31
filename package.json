@@ -12,7 +12,7 @@
     "dev": "NODE_ENV=development webpack --progress --config webpack.dev.js",
     "watch": "NODE_ENV=development webpack --progress --watch --config webpack.dev.js",
     "lint": "eslint '**/src/**/*.{vue,js}'",
-    "lint:fix": "eslint '**/*.{vue,js}' --fix",
+    "lint:fix": "eslint '**/src/**/*.{vue,js}' --fix",
     "test": "mochapack --webpack-config core/webpack.test.js --require core/src/tests/setup.js \"core/src/tests/**/*.spec.js\"",
     "test:watch": "mochapack -w --webpack-config core/webpack.test.js --require core/src/tests/setup.js \"core/src/tests/**/*.spec.js\""
   },

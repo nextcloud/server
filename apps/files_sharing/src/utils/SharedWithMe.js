@@ -1,6 +1,7 @@
 /**
  * @copyright Copyright (c) 2019 John Molakvoæ <skjnldsv@protonmail.com>
  *
+ * @author Joas Schilling <coding@schilljs.com>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
  * @license GNU AGPL version 3 or any later version
@@ -20,12 +21,6 @@
  *
  */
 
-/**
- * Get the shared with me title
- *
- * @param {Share} share current share
- * @returns {string} the title
- */
 const shareWithTitle = function(share) {
 	if (share.type === OC.Share.SHARE_TYPE_GROUP) {
 		return t(
