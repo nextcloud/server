@@ -234,6 +234,7 @@ class UsersController extends AUserData {
 		/** @var IUser $user */
 		$user = $this->userSession->getUser();
 		$knownTo = $user->getUID();
+		$defaultPhoneRegion = $this->config->getSystemValueString('default_phone_region');
 
 		$normalizedNumberToKey = [];
 		foreach ($search as $key => $phoneNumbers) {
@@ -245,6 +246,20 @@ class UsersController extends AUserData {
 						$normalizedNumberToKey[$normalizedNumber] = (string) $key;
 					}
 				} catch (NumberParseException $e) {
+				}
+
+				if ($defaultPhoneRegion !== '' && $defaultPhoneRegion !== $location && strpos($phone, '0') === 0) {
+					// If the number has a leading zero (no country code),
+					// we also check the default phone region of the instance,
+					// when it's different to the user's given region.
+					try {
+						$phoneNumber = $phoneUtil->parse($phone, $defaultPhoneRegion);
+						if ($phoneNumber instanceof PhoneNumber && $phoneUtil->isValidNumber($phoneNumber)) {
+							$normalizedNumber = $phoneUtil->format($phoneNumber, PhoneNumberFormat::E164);
+							$normalizedNumberToKey[$normalizedNumber] = (string) $key;
+						}
+					} catch (NumberParseException $e) {
+					}
 				}
 			}
 		}
