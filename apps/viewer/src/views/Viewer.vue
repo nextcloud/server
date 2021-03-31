@@ -51,7 +51,8 @@
 				{{ t('viewer', 'Open sidebar') }}
 			</ActionButton>
 			<ActionLink
-				download
+				v-if="canDownload"
+				:download="currentFile.basename"
 				icon="icon-download"
 				:close-after-click="true"
 				:href="currentFile.davPath">
@@ -134,6 +135,7 @@ import Modal from '@nextcloud/vue/dist/Components/Modal'
 
 import { extractFilePaths, sortCompare } from '../utils/fileUtils'
 import { getRootPath } from '../utils/davUtils'
+import canDownload from '../utils/canDownload'
 import cancelableRequest from '../utils/CancelableRequest'
 import Error from '../components/Error'
 import File from '../models/file'
@@ -217,6 +219,7 @@ export default {
 		isEndOfList() {
 			return this.currentIndex === this.fileList.length - 1
 		},
+
 		/**
 		 * Returns the path to the current opened file in the sidebar.
 		 *
@@ -229,8 +232,21 @@ export default {
 		sidebarFile() {
 			return this.Sidebar && this.Sidebar.file
 		},
+
+		/**
+		 * Is the current user allowed to delete the file?
+		 * @returns {boolean}
+		 */
 		canDelete() {
 			return this.currentFile?.permissions?.includes('D')
+		},
+
+		/**
+		 * Is the current user allowed to download the file in public mode?
+		 * @returns {boolean}
+		 */
+		canDownload() {
+			return canDownload()
 		},
 	},
 

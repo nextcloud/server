@@ -1,5 +1,6 @@
+
 /**
- * @copyright Copyright (c) 2019 John Molakvoæ <skjnldsv@protonmail.com>
+ * @copyright Copyright (c) 2020 John Molakvoæ <skjnldsv@protonmail.com>
  *
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
@@ -20,14 +21,6 @@
  *
  */
 
-export const getSearchParams = url => {
-	return url
-		.split(/[?&]/)
-		.reduce((acc, cur) => {
-			const parts = cur.split('=')
-			parts[1] && (acc[parts[0]] = parts[1])
-			return acc
-		}, {})
-}
-
-export const randHash = () => Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 10)
+const hideDownloadElmt = document.getElementById('hideDownload')
+// true = hidden download
+export default () => !hideDownloadElmt || (hideDownloadElmt && hideDownloadElmt.value !== 'true')
