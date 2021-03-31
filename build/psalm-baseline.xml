@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.6.4@97fe86c4e158b5a57c5150aa5055c38b5a809aab">
+<files psalm-version="4.7.0@d4377c0baf3ffbf0b1ec6998e8d1be2a40971005">
   <file src="3rdparty/sabre/dav/lib/CalDAV/Calendar.php">
     <MoreSpecificImplementedParamType occurrences="1">
       <code>$calendarData</code>
@@ -3500,9 +3500,6 @@
   </file>
   <file src="lib/private/Files/Node/Folder.php">
     <InvalidArgument occurrences="1"/>
-    <InvalidNullableReturnType occurrences="1">
-      <code>string</code>
-    </InvalidNullableReturnType>
     <InvalidReturnStatement occurrences="1">
       <code>new NonExistingFolder($this-&gt;root, $this-&gt;view, $path)</code>
     </InvalidReturnStatement>
@@ -3512,9 +3509,6 @@
     <MoreSpecificImplementedParamType occurrences="1">
       <code>$node</code>
     </MoreSpecificImplementedParamType>
-    <NullableReturnStatement occurrences="1">
-      <code>null</code>
-    </NullableReturnStatement>
     <UndefinedInterfaceMethod occurrences="2">
       <code>getSourceStorage</code>
       <code>getUnJailedPath</code>
@@ -4000,10 +3994,9 @@
       <code>null</code>
       <code>null</code>
     </NullableReturnStatement>
-    <RedundantCondition occurrences="4">
+    <RedundantCondition occurrences="3">
       <code>$data</code>
       <code>$result &amp;&amp; in_array('delete', $hooks) and $result</code>
-      <code>$storage1</code>
       <code>is_resource($source)</code>
     </RedundantCondition>
     <UndefinedDocblockClass occurrences="2">
