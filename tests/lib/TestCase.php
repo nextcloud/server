@@ -33,7 +33,6 @@ use OCP\Defaults;
 use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\Security\ISecureRandom;
-use PHPUnit\Util\Test;
 
 abstract class TestCase extends \PHPUnit\Framework\TestCase {
 	/** @var \OC\Command\QueueBus */
