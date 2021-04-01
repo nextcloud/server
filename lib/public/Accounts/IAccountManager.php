@@ -111,6 +111,16 @@ interface IAccountManager {
 	public function getAccount(IUser $user): IAccount;
 
 	/**
+	 * Update the account data with for the user
+	 *
+	 * @since 21.0.1
+	 *
+	 * @param IAccount $account
+	 * @throws \InvalidArgumentException Message is the property that was invalid
+	 */
+	public function updateAccount(IAccount $account): void;
+
+	/**
 	 * Search for users based on account data
 	 *
 	 * @param string $property
