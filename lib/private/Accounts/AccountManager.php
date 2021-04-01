@@ -510,4 +510,18 @@ class AccountManager implements IAccountManager {
 	public function getAccount(IUser $user): IAccount {
 		return $this->parseAccountData($user, $this->getUser($user));
 	}
+
+	public function updateAccount(IAccount $account): void {
+		$data = [];
+
+		foreach ($account->getProperties() as $property) {
+			$data[$property->getName()] = [
+				'value' => $property->getValue(),
+				'scope' => $property->getScope(),
+				'verified' => $property->getVerified(),
+			];
+		}
+
+		$this->updateUser($account->getUser(), $data, true);
+	}
 }
