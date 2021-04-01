@@ -319,7 +319,7 @@ class CheckSetupController extends Controller {
 			return false;
 		}
 
-		if (\is_array($trustedProxies) && \in_array($remoteAddress, $trustedProxies, true)) {
+		if (\is_array($trustedProxies) && \in_array($remoteAddress, $trustedProxies, true) && $remoteAddress !== '127.0.0.1') {
 			return $remoteAddress !== $this->request->getRemoteAddress();
 		}
 
