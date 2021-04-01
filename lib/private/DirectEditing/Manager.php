@@ -27,6 +27,7 @@
 namespace OC\DirectEditing;
 
 use Doctrine\DBAL\FetchMode;
+use OC\Files\Node\Folder;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\TemplateResponse;
@@ -130,7 +131,12 @@ class Manager implements IManager {
 		if ($userFolder->nodeExists($path)) {
 			throw new \RuntimeException('File already exists');
 		} else {
-			$file = $userFolder->newFile($path);
+			if (!$userFolder->nodeExists(dirname($path))) {
+				throw new \RuntimeException('Invalid path');
+			}
+			/** @var Folder $folder */
+			$folder = $userFolder->get(dirname($path));
+			$file = $folder->newFile(basename($path));
 			$editor = $this->getEditor($editorId);
 			$creators = $editor->getCreators();
 			foreach ($creators as $creator) {
