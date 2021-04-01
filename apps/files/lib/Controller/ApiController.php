@@ -67,9 +67,9 @@ class ApiController extends Controller {
 	private $shareManager;
 	/** @var IPreview */
 	private $previewManager;
-	/** IUserSession */
+	/** @var IUserSession */
 	private $userSession;
-	/** IConfig */
+	/** @var IConfig */
 	private $config;
 	/** @var Folder */
 	private $userFolder;
