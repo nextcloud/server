@@ -188,10 +188,10 @@ class Cache implements ICache {
 		}
 		$data['permissions'] = (int)$data['permissions'];
 		if (isset($data['creation_time'])) {
-			$data['creation_time'] = (int) $data['creation_time'];
+			$data['creation_time'] = (int)$data['creation_time'];
 		}
 		if (isset($data['upload_time'])) {
-			$data['upload_time'] = (int) $data['upload_time'];
+			$data['upload_time'] = (int)$data['upload_time'];
 		}
 		return new CacheEntry($data);
 	}
@@ -792,6 +792,10 @@ class Cache implements ICache {
 		$query->whereStorageId();
 
 		if ($this->querySearchHelper->shouldJoinTags($searchQuery->getSearchOperation())) {
+			$user = $searchQuery->getUser();
+			if ($user === null) {
+				throw new \InvalidArgumentException("Searching by tag requires the user to be set in the query");
+			}
 			$query
 				->innerJoin('file', 'vcategory_to_object', 'tagmap', $builder->expr()->eq('file.fileid', 'tagmap.objid'))
 				->innerJoin('tagmap', 'vcategory', 'tag', $builder->expr()->andX(
@@ -799,7 +803,7 @@ class Cache implements ICache {
 					$builder->expr()->eq('tagmap.categoryid', 'tag.id')
 				))
 				->andWhere($builder->expr()->eq('tag.type', $builder->createNamedParameter('files')))
-				->andWhere($builder->expr()->eq('tag.uid', $builder->createNamedParameter($searchQuery->getUser()->getUID())));
+				->andWhere($builder->expr()->eq('tag.uid', $builder->createNamedParameter($user->getUID())));
 		}
 
 		$searchExpr = $this->querySearchHelper->searchOperatorToDBExpr($builder, $searchQuery->getSearchOperation());

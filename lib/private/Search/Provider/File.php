@@ -28,7 +28,14 @@
 
 namespace OC\Search\Provider;
 
-use OC\Files\Filesystem;
+use OC\Files\Search\SearchComparison;
+use OC\Files\Search\SearchOrder;
+use OC\Files\Search\SearchQuery;
+use OCP\Files\FileInfo;
+use OCP\Files\IRootFolder;
+use OCP\Files\Search\ISearchComparison;
+use OCP\Files\Search\ISearchOrder;
+use OCP\IUserSession;
 use OCP\Search\PagedProvider;
 
 /**
@@ -45,35 +52,38 @@ class File extends PagedProvider {
 	 * @return \OCP\Search\Result[]
 	 */
 	public function search($query, int $limit = null, int $offset = null) {
-		if ($offset === null) {
-			$offset = 0;
+		/** @var IRootFolder $rootFolder */
+		$rootFolder = \OC::$server->query(IRootFolder::class);
+		/** @var IUserSession $userSession */
+		$userSession = \OC::$server->query(IUserSession::class);
+		$user = $userSession->getUser();
+		if (!$user) {
+			return [];
 		}
-		\OC_Util::setupFS();
-		$files = Filesystem::search($query);
+		$userFolder = $rootFolder->getUserFolder($user->getUID());
+		$fileQuery = new SearchQuery(
+			new SearchComparison(ISearchComparison::COMPARE_LIKE, 'name', '%' . $query . '%'),
+			(int)$limit,
+			(int)$offset,
+			[
+				new SearchOrder(ISearchOrder::DIRECTION_DESCENDING, 'mtime'),
+			],
+			$user
+		);
+		$files = $userFolder->search($fileQuery);
 		$results = [];
-		if ($limit !== null) {
-			$files = array_slice($files, $offset, $offset + $limit);
-		}
 		// edit results
 		foreach ($files as $fileData) {
-			// skip versions
-			if (strpos($fileData['path'], '_versions') === 0) {
-				continue;
-			}
-			// skip top-level folder
-			if ($fileData['name'] === 'files' && $fileData['parent'] === -1) {
-				continue;
-			}
 			// create audio result
-			if ($fileData['mimepart'] === 'audio') {
+			if ($fileData->getMimePart() === 'audio') {
 				$result = new \OC\Search\Result\Audio($fileData);
 			}
 			// create image result
-			elseif ($fileData['mimepart'] === 'image') {
+			elseif ($fileData->getMimePart() === 'image') {
 				$result = new \OC\Search\Result\Image($fileData);
 			}
 			// create folder result
-			elseif ($fileData['mimetype'] === 'httpd/unix-directory') {
+			elseif ($fileData->getMimetype() === FileInfo::MIMETYPE_FOLDER) {
 				$result = new \OC\Search\Result\Folder($fileData);
 			}
 			// or create file result
