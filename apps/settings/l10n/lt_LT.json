@@ -71,6 +71,7 @@
     "Email could not be sent. Check your mail server log" : "El. laiškas nebuvo išsiųstas. Peržiūrėkite savo pašto serverio žurnalą.",
     "A problem occurred while sending the email. Please revise your settings. (Error: %s)" : "Siunčiant el. laišką atsirado problemų. Peržiūrėkite savo nustatymus. (Klaida: %s)",
     "You need to set your user email before being able to send test emails." : "Prieš galėdami siųsti bandomuosius el. laiškus, turite nusistatyti savo naudotojo el. paštą.",
+    "Invalid user" : "Neteisingas naudotojas",
     "Invalid mail address" : "Neteisingas pašto adresas",
     "Settings saved" : "Nustatymai įrašyti",
     "Unable to change full name" : "Nepavyko pakeisti vardo ir pavardės",
