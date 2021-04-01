@@ -49,7 +49,7 @@ foreach ($directories as $dir) {
 		$json = json_decode($content, true);
 
 		$translations = json_encode($json['translations']);
-		if (strpos($content, '|') !== false) {
+		if (strpos($translations, '|') !== false) {
 			$errors[] = $file->getPathname() . "\n" . '  ' . 'Contains a | in the translations' . "\n";
 		}
 
