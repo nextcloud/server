@@ -459,7 +459,7 @@ class MigrationService {
 			$targetSchema = $toSchema->getWrappedSchema();
 			if ($this->checkOracle) {
 				$beforeSchema = $this->connection->createSchema();
-				$this->ensureOracleIdentifierLengthLimit($beforeSchema, $targetSchema, strlen($this->connection->getPrefix()));
+				$this->ensureOracleConstraints($beforeSchema, $targetSchema, strlen($this->connection->getPrefix()));
 			}
 			$this->connection->migrateToSchema($targetSchema);
 			$toSchema->performDropTableCalls();
@@ -536,7 +536,7 @@ class MigrationService {
 			$targetSchema = $toSchema->getWrappedSchema();
 			if ($this->checkOracle) {
 				$sourceSchema = $this->connection->createSchema();
-				$this->ensureOracleIdentifierLengthLimit($sourceSchema, $targetSchema, strlen($this->connection->getPrefix()));
+				$this->ensureOracleConstraints($sourceSchema, $targetSchema, strlen($this->connection->getPrefix()));
 			}
 			$this->connection->migrateToSchema($targetSchema);
 			$toSchema->performDropTableCalls();
@@ -551,7 +551,25 @@ class MigrationService {
 		$this->markAsExecuted($version);
 	}
 
-	public function ensureOracleIdentifierLengthLimit(Schema $sourceSchema, Schema $targetSchema, int $prefixLength) {
+	/**
+	 * Naming constraints:
+	 * - Tables names must be 30 chars or shorter (27 + oc_ prefix)
+	 * - Column names must be 30 chars or shorter
+	 * - Index names must be 30 chars or shorter
+	 * - Sequence names must be 30 chars or shorter
+	 * - Primary key names must be set or the table name 23 chars or shorter
+	 *
+	 * Data constraints:
+	 * - Columns with "NotNull" can not have empty string as default value
+	 * - Columns with "NotNull" can not have number 0 as default value
+	 * - Columns with type "bool" (which is in fact integer of length 1) can not be "NotNull" as it can not store 0/false
+	 *
+	 * @param Schema $sourceSchema
+	 * @param Schema $targetSchema
+	 * @param int $prefixLength
+	 * @throws \Doctrine\DBAL\Exception
+	 */
+	public function ensureOracleConstraints(Schema $sourceSchema, Schema $targetSchema, int $prefixLength) {
 		$sequences = $targetSchema->getSequences();
 
 		foreach ($targetSchema->getTables() as $table) {
@@ -571,7 +589,11 @@ class MigrationService {
 
 				if ($thing->getNotnull() && $thing->getDefault() === ''
 					&& $sourceTable instanceof Table && !$sourceTable->hasColumn($thing->getName())) {
-					throw new \InvalidArgumentException('Column name "' . $table->getName() . '"."' . $thing->getName() . '" is NotNull, but has empty string or null as default.');
+					throw new \InvalidArgumentException('Column "' . $table->getName() . '"."' . $thing->getName() . '" is NotNull, but has empty string or null as default.');
+				}
+
+				if ($thing->getNotnull() && $thing->getType()->getName() === Types::BOOLEAN) {
+					throw new \InvalidArgumentException('Column "' . $table->getName() . '"."' . $thing->getName() . '" is type Bool and also NotNull, so it can not store "false".');
 				}
 			}
 
@@ -583,7 +605,7 @@ class MigrationService {
 
 			foreach ($table->getForeignKeys() as $thing) {
 				if ((!$sourceTable instanceof Table || !$sourceTable->hasForeignKey($thing->getName())) && \strlen($thing->getName()) > 30) {
-					throw new \InvalidArgumentException('Foreign key name "'  . $table->getName() . '"."' . $thing->getName() . '" is too long.');
+					throw new \InvalidArgumentException('Foreign key name "' . $table->getName() . '"."' . $thing->getName() . '" is too long.');
 				}
 			}
 
