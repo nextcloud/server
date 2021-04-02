@@ -154,11 +154,16 @@ class ManagerTest extends TestCase {
 		$this->random->expects($this->once())
 			->method('generate')
 			->willReturn($expectedToken);
+		$folder = $this->createMock(Folder::class);
 		$this->userFolder
 			->method('nodeExists')
-			->with('/File.txt')
-			->willReturn(false);
-		$this->userFolder->expects($this->once())
+			->withConsecutive(['/File.txt'], ['/'])
+			->willReturnOnConsecutiveCalls(false, true);
+		$this->userFolder
+			->method('get')
+			->with('/')
+			->willReturn($folder);
+		$folder->expects($this->once())
 			->method('newFile')
 			->willReturn($file);
 		$token = $this->manager->create('/File.txt', 'testeditor', 'createEmpty');
@@ -174,11 +179,16 @@ class ManagerTest extends TestCase {
 		$this->random->expects($this->once())
 			->method('generate')
 			->willReturn($expectedToken);
+		$folder = $this->createMock(Folder::class);
 		$this->userFolder
 			->method('nodeExists')
-			->with('/File.txt')
-			->willReturn(false);
-		$this->userFolder->expects($this->once())
+			->withConsecutive(['/File.txt'], ['/'])
+			->willReturnOnConsecutiveCalls(false, true);
+		$this->userFolder
+			->method('get')
+			->with('/')
+			->willReturn($folder);
+		$folder->expects($this->once())
 			->method('newFile')
 			->willReturn($file);
 		$this->manager->create('/File.txt', 'testeditor', 'createEmpty');
