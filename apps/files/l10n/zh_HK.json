@@ -1,7 +1,7 @@
 { "translations": {
     "Storage is temporarily not available" : "儲存空間暫時無法使用",
     "Storage invalid" : "無效的儲存空間",
-    "Unknown error" : "錯誤不詳",
+    "Unknown error" : "未知錯誤",
     "File could not be found" : "找不到檔案",
     "Move or copy" : "移動或複製",
     "Download" : "下載",
@@ -18,7 +18,7 @@
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "可用空間不足，你正要上傳 {size1} 可是只剩下 {size2}",
     "Target folder \"{dir}\" does not exist any more" : "資料夾 \"{dir}\" 不存在",
     "Not enough free space" : "空間不足",
-    "An unknown error has occurred" : "發生了不詳的錯誤",
+    "An unknown error has occurred" : "發生了未知的錯誤",
     "Uploading …" : "上傳中。。。",
     "{loadedSize} of {totalSize} ({bitrate})" : "{totalSize} 中的 {loadedSize}（{bitrate})",
     "Uploading that item is not supported" : "不支援上傳該項目",
