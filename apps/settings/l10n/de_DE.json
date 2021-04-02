@@ -246,7 +246,7 @@
     "Last login" : "Letzte Anmeldung",
     "No users in here" : "Keine Benutzer vorhanden",
     "Default quota" : "Standard Speicherkontingent ",
-    "Common languages" : "Gängige Sprachen",
+    "Common languages" : "Gebräuchliche Sprachen",
     "All languages" : "Alle Sprachen",
     "Password change is disabled because the master key is disabled" : "Das Ändern des Passwortes ist deaktiviert, da der Master-Schlüssel deaktiviert ist",
     "Passwordless authentication requires a secure connection." : "Die Anmeldung ohne Passwort erfordert eine sichere Verbindung.",
