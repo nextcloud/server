@@ -70,6 +70,7 @@
     "Empty file" : "空文件",
     "Module with ID: %s does not exist. Please enable it in your apps settings or contact your administrator." : "模块：%s不存在。请在 App 设置中开启或联系管理员。",
     "File already exists" : "文件已存在",
+    "Invalid path" : "无效的路径",
     "Failed to create file from template" : "从模板创建文件失败",
     "Templates" : "模板",
     "File name is a reserved word" : "文件名包含敏感字符",
