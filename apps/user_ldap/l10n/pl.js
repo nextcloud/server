@@ -130,7 +130,7 @@ OC.L10N.register(
     "Expert" : "Eksperckie",
     "Advanced" : "Zaawansowane",
     "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." : "<b>Ostrzeżenie:</b> Moduł PHP LDAP jest niezainstalowany i nie będzie działał. Poproś administratora systemu o zainstalowanie go.",
-    "Connection Settings" : "Konfiguracja połączeń",
+    "Connection Settings" : "Ustawienia połączenia",
     "Configuration Active" : "Konfiguracja archiwum",
     "When unchecked, this configuration will be skipped." : "Gdy niezaznaczone, ta konfiguracja zostanie pominięta.",
     "Backup (Replica) Host" : "Kopia zapasowa (repliki) host",
