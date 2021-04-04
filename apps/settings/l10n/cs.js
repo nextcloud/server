@@ -40,7 +40,7 @@ OC.L10N.register(
     "{actor} removed {user} from group {group}" : "{actor} odebral(a) {user} ze skupiny {group}",
     "An administrator removed you from group {group}" : "Správce vás odebral ze skupiny {group}",
     "An administrator removed {user} from group {group}" : "Správce odebral {user} ze skupiny {group}",
-    "Your <strong>group memberships</strong> were modified" : "Vaše <strong>členství ve skupinách</strong> bylo upraveno",
+    "Your <strong>group memberships</strong> were modified" : "Vaše <strong>členství ve skupinách</strong> byla upravena",
     "{actor} changed your password" : "{actor} změnil(a) vaše heslo",
     "You changed your password" : "Změnili jste si své heslo",
     "Your password was reset by an administrator" : "Vaše heslo bylo resetováno správcem",
