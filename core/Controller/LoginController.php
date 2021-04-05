@@ -156,7 +156,7 @@ class LoginController extends Controller {
 
 		$loginMessages = $this->session->get('loginMessages');
 		if (is_array($loginMessages)) {
-			list($errors, $messages) = $loginMessages;
+			[$errors, $messages] = $loginMessages;
 			$this->initialStateService->provideInitialState('core', 'loginMessages', $messages);
 			$this->initialStateService->provideInitialState('core', 'loginErrors', $errors);
 		}
@@ -190,6 +190,8 @@ class LoginController extends Controller {
 		$this->setPasswordResetInitialState($user);
 
 		$this->initialStateService->provideInitialState('core', 'webauthn-available', $this->webAuthnManager->isWebAuthnAvailable());
+
+		$this->initialStateService->provideInitialState('core', 'hideLoginForm', $this->config->getSystemValueBool('hide_login_form', false));
 
 		// OpenGraph Support: http://ogp.me/
 		Util::addHeader('meta', ['property' => 'og:title', 'content' => Util::sanitizeHTML($this->defaults->getName())]);

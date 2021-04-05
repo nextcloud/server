@@ -1,7 +1,13 @@
 /**
  * @copyright Copyright (c) 2018 John Molakvoæ <skjnldsv@protonmail.com>
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Julius Härtl <jus@bitgrid.net>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -220,7 +226,7 @@ const actions = {
 				.then((response) => {
 					if (Object.keys(response.data.ocs.data.users).length > 0) {
 						context.commit('appendUsers', response.data.ocs.data.users)
-						return Object.keys(response.data.ocs.data.users).length === limit
+						return Object.keys(response.data.ocs.data.users).length >= limit
 					}
 					return false
 				})
@@ -237,7 +243,7 @@ const actions = {
 			.then((response) => {
 				if (Object.keys(response.data.ocs.data.users).length > 0) {
 					context.commit('appendUsers', response.data.ocs.data.users)
-					return Object.keys(response.data.ocs.data.users).length === limit
+					return Object.keys(response.data.ocs.data.users).length >= limit
 				}
 				return false
 			})

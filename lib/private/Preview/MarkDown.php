@@ -75,8 +75,8 @@ class MarkDown extends TXT {
 		imagecolorallocate($image, 255, 255, 255);
 		$textColor = imagecolorallocate($image, 0, 0, 0);
 
-		$fontFile  = __DIR__ . '/../../../core/fonts/NotoSans-Regular.ttf';
-		$fontFileBold  = __DIR__ . '/../../../core/fonts/NotoSans-Bold.ttf';
+		$fontFile = __DIR__ . '/../../../core/fonts/NotoSans-Regular.ttf';
+		$fontFileBold = __DIR__ . '/../../../core/fonts/NotoSans-Bold.ttf';
 
 		$canUseTTF = function_exists('imagettftext');
 
@@ -126,7 +126,7 @@ class MarkDown extends TXT {
 					$nextLineStart -= $actualFontSize;
 				}
 			} else {
-				$y -= (int)$fontSize;
+				$y -= $fontSize;
 				imagestring($image, 1, $x, $y, $line, $textColor);
 				$nextLineStart = $fontSize;
 			}

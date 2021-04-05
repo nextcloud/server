@@ -23,7 +23,7 @@
 <template>
 	<Multiselect ref="multiselect"
 		class="sharing-input"
-		:clear-on-select="false"
+		:clear-on-select="true"
 		:disabled="!canReshare"
 		:hide-selected="true"
 		:internal-search="false"
@@ -34,6 +34,9 @@
 		:preserve-search="true"
 		:searchable="true"
 		:user-select="true"
+		open-direction="below"
+		label="displayName"
+		track-by="id"
 		@search-change="asyncFind"
 		@select="addShare">
 		<template #noOptions>
@@ -53,6 +56,7 @@ import debounce from 'debounce'
 import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
 
 import Config from '../services/ConfigService'
+import GeneratePassword from '../utils/GeneratePassword'
 import Share from '../models/Share'
 import ShareRequests from '../mixins/ShareRequests'
 import ShareTypes from '../mixins/ShareTypes'
@@ -232,6 +236,7 @@ export default {
 			const lookupEntry = []
 			if (data.lookupEnabled && !lookup) {
 				lookupEntry.push({
+					id: 'global-lookup',
 					isNoUser: true,
 					displayName: t('files_sharing', 'Search globally'),
 					lookup: true,
@@ -403,24 +408,27 @@ export default {
 		 * @returns {Object}
 		 */
 		formatForMultiselect(result) {
-			let desc
-			if ((result.value.shareType === this.SHARE_TYPES.SHARE_TYPE_REMOTE
+			let subtitle
+			if (result.value.shareType === this.SHARE_TYPES.SHARE_TYPE_USER && this.config.shouldAlwaysShowUnique) {
+				subtitle = result.shareWithDisplayNameUnique ?? ''
+			} else if ((result.value.shareType === this.SHARE_TYPES.SHARE_TYPE_REMOTE
 					|| result.value.shareType === this.SHARE_TYPES.SHARE_TYPE_REMOTE_GROUP
 			) && result.value.server) {
-				desc = t('files_sharing', 'on {server}', { server: result.value.server })
+				subtitle = t('files_sharing', 'on {server}', { server: result.value.server })
 			} else if (result.value.shareType === this.SHARE_TYPES.SHARE_TYPE_EMAIL) {
-				desc = result.value.shareWith
+				subtitle = result.value.shareWith
 			} else {
-				desc = result.shareWithDescription ?? ''
+				subtitle = result.shareWithDescription ?? ''
 			}
 
 			return {
+				id: `${result.value.shareType}-${result.value.shareWith}`,
 				shareWith: result.value.shareWith,
 				shareType: result.value.shareType,
 				user: result.uuid || result.value.shareWith,
 				isNoUser: result.value.shareType !== this.SHARE_TYPES.SHARE_TYPE_USER,
 				displayName: result.name || result.label,
-				desc,
+				subtitle,
 				shareWithDisplayNameUnique: result.shareWithDisplayNameUnique || '',
 				icon: this.shareTypeToIcon(result.value.shareType),
 			}
@@ -441,9 +449,6 @@ export default {
 				return true
 			}
 
-			// TODO: reset the search string when done
-			// https://github.com/shentao/vue-multiselect/issues/633
-
 			// handle externalResults from OCA.Sharing.ShareSearch
 			if (value.handler) {
 				const share = await value.handler(this)
@@ -452,25 +457,55 @@ export default {
 			}
 
 			this.loading = true
+			console.debug('Adding a new share from the input for', value)
 			try {
+				let password = null
+
+				if (this.config.enforcePasswordForPublicLink
+					&& value.shareType === this.SHARE_TYPES.SHARE_TYPE_EMAIL) {
+					password = await GeneratePassword()
+				}
+
 				const path = (this.fileInfo.path + '/' + this.fileInfo.name).replace('//', '/')
 				const share = await this.createShare({
 					path,
 					shareType: value.shareType,
 					shareWith: value.shareWith,
+					password,
 					permissions: this.fileInfo.sharePermissions & OC.getCapabilities().files_sharing.default_permissions,
 				})
-				this.$emit('add:share', share)
 
-				this.getRecommendations()
+				// If we had a password, we need to show it to the user as it was generated
+				if (password) {
+					share.newPassword = password
+					// Wait for the newly added share
+					const component = await new Promise(resolve => {
+						this.$emit('add:share', share, resolve)
+					})
 
-			} catch (response) {
+					// open the menu on the
+					// freshly created share component
+					component.open = true
+				} else {
+					// Else we just add it normally
+					this.$emit('add:share', share)
+				}
+
+				// reset the search string when done
+				// FIXME: https://github.com/shentao/vue-multiselect/issues/633
+				if (this.$refs.multiselect?.$refs?.VueMultiselect?.search) {
+					this.$refs.multiselect.$refs.VueMultiselect.search = ''
+				}
+
+				await this.getRecommendations()
+			} catch (error) {
 				// focus back if any error
 				const input = this.$refs.multiselect.$el.querySelector('input')
 				if (input) {
 					input.focus()
 				}
 				this.query = value.shareWith
+				console.error('Error while adding new share', error)
 			} finally {
 				this.loading = false
 			}

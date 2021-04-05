@@ -30,8 +30,8 @@
 			:menu-position="'left'"
 			:url="share.shareWithAvatar" />
 		<component :is="share.shareWithLink ? 'a' : 'div'"
-			:href="share.shareWithLink"
 			v-tooltip.auto="tooltip"
+			:href="share.shareWithLink"
 			class="sharing-entry__desc">
 			<h5>{{ title }}<span v-if="!isUnique" class="sharing-entry__desc-unique"> ({{ share.shareWithDisplayNameUnique }})</span></h5>
 			<p v-if="hasStatus">
@@ -84,14 +84,16 @@
 				</ActionCheckbox>
 
 				<!-- expiration date -->
-				<ActionCheckbox :checked.sync="hasExpirationDate"
+				<ActionCheckbox
+					v-if="canHaveExpirationDate"
+					:checked.sync="hasExpirationDate"
 					:disabled="config.isDefaultInternalExpireDateEnforced || saving"
 					@uncheck="onExpirationDisable">
 					{{ config.isDefaultInternalExpireDateEnforced
 						? t('files_sharing', 'Expiration date enforced')
 						: t('files_sharing', 'Set expiration date') }}
 				</ActionCheckbox>
-				<ActionInput v-if="hasExpirationDate"
+				<ActionInput v-if="canHaveExpirationDate && hasExpirationDate"
 					ref="expireDate"
 					v-tooltip.auto="{
 						content: errors.expireDate,
@@ -207,7 +209,7 @@ export default {
 					// todo: strong or italic?
 					// but the t function escape any html from the data :/
 					user: this.share.shareWithDisplayName,
-					owner: this.share.owner,
+					owner: this.share.ownerDisplayName,
 				}
 
 				if (this.share.type === this.SHARE_TYPES.SHARE_TYPE_GROUP) {
@@ -222,8 +224,16 @@ export default {
 		},
 
 		canHaveNote() {
-			return this.share.type !== this.SHARE_TYPES.SHARE_TYPE_REMOTE
-				&& this.share.type !== this.SHARE_TYPES.SHARE_TYPE_REMOTE_GROUP
+			return !this.isRemoteShare
+		},
+
+		canHaveExpirationDate() {
+			return !this.isRemoteShare
+		},
+
+		isRemoteShare() {
+			return this.share.type === this.SHARE_TYPES.SHARE_TYPE_REMOTE
+				|| this.share.type === this.SHARE_TYPES.SHARE_TYPE_REMOTE_GROUP
 		},
 
 		/**

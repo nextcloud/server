@@ -181,6 +181,7 @@
     "Create a new share link" : "Yeni bir paylaşım bağlantısı ekle",
     "{shareWith} by {initiator}" : "{initiator} tarafından {shareWith}",
     "Shared via link by {initiator}" : "{initiator} tarafından bağlantı ile paylaşıldı",
+    "Mail share ({label})" : "E-posta paylaşımı ({label})",
     "Share link ({label})" : "Bağlantıyı paylaş ({label})",
     "Share link" : "Paylaşım bağlantısı",
     "Error, please enter proper password and/or expiration date" : "Hata. Lütfen uygun bir parola ya da son kullanma tarihi yazın",

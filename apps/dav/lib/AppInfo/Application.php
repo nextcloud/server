@@ -143,7 +143,7 @@ class Application extends App implements IBootstrap {
 			}
 		});
 
-		$birthdayListener = function ($event) use ($container) {
+		$birthdayListener = function ($event) use ($container): void {
 			if ($event instanceof GenericEvent) {
 				/** @var BirthdayService $b */
 				$b = $container->query(BirthdayService::class);
@@ -168,7 +168,7 @@ class Application extends App implements IBootstrap {
 			}
 		});
 
-		$clearPhotoCache = function ($event) use ($container) {
+		$clearPhotoCache = function ($event) use ($container): void {
 			if ($event instanceof GenericEvent) {
 				/** @var PhotoCache $p */
 				$p = $container->query(PhotoCache::class);
@@ -240,7 +240,7 @@ class Application extends App implements IBootstrap {
 			);
 		});
 
-		$listener = function (GenericEvent $event, $eventName) use ($container) {
+		$listener = function (GenericEvent $event, $eventName) use ($container): void {
 			/** @var Backend $backend */
 			$backend = $container->query(Backend::class);
 
@@ -277,7 +277,7 @@ class Application extends App implements IBootstrap {
 			$config = $serverContainer->getConfig();
 			$principalUri = $event->getArgument('calendarData')['principaluri'];
 			if (strpos($principalUri, 'principals/users') === 0) {
-				list(, $UID) = \Sabre\Uri\split($principalUri);
+				[, $UID] = \Sabre\Uri\split($principalUri);
 				$uri = $event->getArgument('calendarData')['uri'];
 				if ($config->getUserValue($UID, 'dav', 'defaultCalendar') === $uri) {
 					$config->deleteUserValue($UID, 'dav', 'defaultCalendar');
@@ -336,7 +336,7 @@ class Application extends App implements IBootstrap {
 			}
 		);
 
-		$eventHandler = function () use ($container, $serverContainer) {
+		$eventHandler = function () use ($container, $serverContainer): void {
 			try {
 				/** @var UpdateCalendarResourcesRoomsBackgroundJob $job */
 				$job = $container->query(UpdateCalendarResourcesRoomsBackgroundJob::class);

@@ -556,7 +556,13 @@ class SMB extends Common implements INotifyStorage {
 	}
 
 	public function getMetaData($path) {
-		$fileInfo = $this->getFileInfo($path);
+		try {
+			$fileInfo = $this->getFileInfo($path);
+		} catch (NotFoundException $e) {
+			return null;
+		} catch (ForbiddenException $e) {
+			return null;
+		}
 		if (!$fileInfo) {
 			return null;
 		}
@@ -567,7 +573,9 @@ class SMB extends Common implements INotifyStorage {
 	private function getMetaDataFromFileInfo(IFileInfo $fileInfo) {
 		$permissions = Constants::PERMISSION_READ + Constants::PERMISSION_SHARE;
 
-		if (!$fileInfo->isReadOnly()) {
+		if (
+			!$fileInfo->isReadOnly() || $fileInfo->isDirectory()
+		) {
 			$permissions += Constants::PERMISSION_DELETE;
 			$permissions += Constants::PERMISSION_UPDATE;
 			if ($fileInfo->isDirectory()) {
@@ -669,7 +677,7 @@ class SMB extends Common implements INotifyStorage {
 			$info = $this->getFileInfo($path);
 			// following windows behaviour for read-only folders: they can be written into
 			// (https://support.microsoft.com/en-us/kb/326549 - "cause" section)
-			return ($this->showHidden || !$info->isHidden()) && (!$info->isReadOnly() || $this->is_dir($path));
+			return ($this->showHidden || !$info->isHidden()) && (!$info->isReadOnly() || $info->isDirectory());
 		} catch (NotFoundException $e) {
 			return false;
 		} catch (ForbiddenException $e) {

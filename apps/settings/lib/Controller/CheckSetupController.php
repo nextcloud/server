@@ -73,11 +73,11 @@ use OCP\IConfig;
 use OCP\IDateTimeFormatter;
 use OCP\IDBConnection;
 use OCP\IL10N;
-use OCP\ILogger;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\Lock\ILockingProvider;
 use OCP\Security\ISecureRandom;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
@@ -92,7 +92,7 @@ class CheckSetupController extends Controller {
 	private $l10n;
 	/** @var Checker */
 	private $checker;
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	private $logger;
 	/** @var EventDispatcherInterface */
 	private $dispatcher;
@@ -118,7 +118,7 @@ class CheckSetupController extends Controller {
 								IURLGenerator $urlGenerator,
 								IL10N $l10n,
 								Checker $checker,
-								ILogger $logger,
+								LoggerInterface $logger,
 								EventDispatcherInterface $dispatcher,
 								Connection $db,
 								ILockingProvider $lockingProvider,
@@ -178,7 +178,10 @@ class CheckSetupController extends Controller {
 			$client->get($httpSiteName);
 			$client->get($httpsSiteName);
 		} catch (\Exception $e) {
-			$this->logger->logException($e, ['app' => 'internet_connection_check']);
+			$this->logger->error('Cannot connect to: ' . $sitename, [
+				'app' => 'internet_connection_check',
+				'exception' => $e,
+			]);
 			return false;
 		}
 		return true;
@@ -273,7 +276,10 @@ class CheckSetupController extends Controller {
 					return $this->l10n->t('cURL is using an outdated %1$s version (%2$s). Please update your operating system or features such as %3$s will not work reliably.', ['NSS', $versionString, $features]);
 				}
 			} catch (\Exception $e) {
-				$this->logger->logException($e, ['app' => 'settings', 'level' => \OCP\ILogger::WARN]);
+				$this->logger->warning('error checking curl', [
+					'app' => 'settings',
+					'exception' => $e,
+				]);
 				return $this->l10n->t('Could not determine if TLS version of cURL is outdated or not because an error happened during the HTTPS request against https://nextcloud.com. Please check the nextcloud log file for more details.');
 			}
 		}
@@ -313,7 +319,7 @@ class CheckSetupController extends Controller {
 			return false;
 		}
 
-		if (\is_array($trustedProxies) && \in_array($remoteAddress, $trustedProxies, true)) {
+		if (\is_array($trustedProxies) && \in_array($remoteAddress, $trustedProxies, true) && $remoteAddress !== '127.0.0.1') {
 			return $remoteAddress !== $this->request->getRemoteAddress();
 		}
 
@@ -364,9 +370,8 @@ class CheckSetupController extends Controller {
 
 	/**
 	 * @NoCSRFRequired
-	 * @return DataResponse
 	 */
-	public function getFailedIntegrityCheckFiles() {
+	public function getFailedIntegrityCheckFiles(): DataDisplayResponse {
 		if (!$this->checker->isCodeCheckEnforced()) {
 			return new DataDisplayResponse('Integrity checker has been disabled. Integrity cannot be verified.');
 		}
@@ -410,15 +415,13 @@ Raw output
 		}
 
 
-		$response = new DataDisplayResponse(
+		return new DataDisplayResponse(
 			$formattedTextResponse,
 			Http::STATUS_OK,
 			[
 				'Content-Type' => 'text/plain',
 			]
 		);
-
-		return $response;
 	}
 
 	/**

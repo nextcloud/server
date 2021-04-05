@@ -59,7 +59,7 @@ abstract class Office extends ProviderV2 {
 		//create imagick object from png
 		$pngPreview = null;
 		try {
-			list($dirname, , , $filename) = array_values(pathinfo($absPath));
+			[$dirname, , , $filename] = array_values(pathinfo($absPath));
 			$pngPreview = $tmpDir . '/' . $filename . '.png';
 
 			$png = new \imagick($pngPreview . '[0]');

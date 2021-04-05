@@ -41,4 +41,8 @@ class LDAPProviderFactory implements ILDAPProviderFactory {
 	public function getLDAPProvider(): ILDAPProvider {
 		return $this->serverContainer->get(LDAPProvider::class);
 	}
+
+	public function isAvailable(): bool {
+		return true;
+	}
 }

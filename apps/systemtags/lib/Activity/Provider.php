@@ -317,7 +317,7 @@ class Provider implements IProvider {
 	protected function getSystemTagParameter($parameter) {
 		$tagData = json_decode($parameter, true);
 		if ($tagData === null) {
-			list($name, $status) = explode('|||', substr($parameter, 3, -3));
+			[$name, $status] = explode('|||', substr($parameter, 3, -3));
 			$tagData = [
 				'id' => 0,// No way to recover the ID
 				'name' => $name,

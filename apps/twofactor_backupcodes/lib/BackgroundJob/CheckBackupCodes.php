@@ -43,7 +43,7 @@ class CheckBackupCodes extends QueuedJob {
 	/** @var IJobList */
 	private $jobList;
 
-	/** @var Manager */
+	/** @var IRegistry */
 	private $registry;
 
 	/** @var Manager */

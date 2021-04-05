@@ -8,7 +8,7 @@ OC.L10N.register(
     "Sending…" : "Sūta …",
     "Email sent" : "Vēstule nosūtīta",
     "Private" : "Privāts",
-    "Public" : "Publisks",
+    "Local" : "Lokāls",
     "Verify" : "Verificēt",
     "Unable to change password" : "Nav iespējams nomainīt paroli",
     "Very weak password" : "Ļoti vāja parole",
@@ -146,7 +146,6 @@ OC.L10N.register(
     "Expire after " : "Nederīga pēc",
     "days" : "dienas",
     "Enforce expiration date" : "Uzspiest beigu termiņu",
-    "Allow users to share via link" : "Ļaut lietotājiem koplietot caur saitēm",
     "Allow public uploads" : "Atļaut publisko augšupielādi",
     "Enforce password protection" : "Ieviest paroles aizsardzību",
     "Allow resharing" : "Atļaut atkārtotu koplietošanu",
@@ -175,11 +174,11 @@ OC.L10N.register(
     "New password" : "Jauna parole",
     "Change password" : "Mainīt paroli",
     "Valid until {date}" : "Valīds līdz {date}",
-    "Local" : "Lokāls",
     "Only visible to local users" : "Redzami tikai lokālajiem lietotājiem",
     "Only visible to you" : "Redzams tikai jums",
     "Contacts" : "Kontakti",
     "Visible to local users and to trusted servers" : "Redzama uz vietējiem lietotājiem un uzticamiem serveriem",
+    "Public" : "Publisks",
     "Will be synced to a global and public address book" : "Tiks sinhronizēts ar globālu un publisku adrešu grāmatu",
     "by" : "līdz",
     "SSL Root Certificates" : "SSL Root Sertifikāti",
@@ -188,6 +187,7 @@ OC.L10N.register(
     "Issued By" : "Izsniedza",
     "Valid until %s" : "Derīgs līdz %s",
     "Import root certificate" : "Importēt root sertifikātu",
-    "Execute one task with each page loaded" : "Izpildīt vienu uzdevumu ar katru ielādēto lapu"
+    "Execute one task with each page loaded" : "Izpildīt vienu uzdevumu ar katru ielādēto lapu",
+    "Allow users to share via link" : "Ļaut lietotājiem koplietot caur saitēm"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

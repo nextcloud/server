@@ -112,10 +112,10 @@ interface IGroupManager {
 
 	/**
 	 * @param \OCP\IUser $user
-	 * @return array with group names
+	 * @return string[] with group names
 	 * @since 8.0.0
 	 */
-	public function getUserGroupIds(IUser $user);
+	public function getUserGroupIds(IUser $user): array;
 
 	/**
 	 * get a list of all display names in a group

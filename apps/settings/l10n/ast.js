@@ -7,6 +7,7 @@ OC.L10N.register(
     "Not saved" : "Nun se guardó",
     "Sending…" : "Unviando...",
     "Email sent" : "Corréu-e unviáu",
+    "Local" : "Llocal",
     "Verify" : "Verificar",
     "Verifying …" : "Verificando...",
     "Unable to change password" : "Nun pue camudase la contraseña",
@@ -192,7 +193,6 @@ OC.L10N.register(
     "Expire after " : "Caduca dempués de",
     "days" : "díes",
     "Enforce expiration date" : "Facer cumplir la data de caducidá",
-    "Allow users to share via link" : "Permitir a los usuarios compartir vía enllaz",
     "Allow public uploads" : "Permitir xubes públiques",
     "Always ask for a password" : "Pidir siempres la contraseña",
     "Enforce password protection" : "Ameyora la proteición por contraseña.",
@@ -228,7 +228,6 @@ OC.L10N.register(
     "Change password" : "Camudar contraseña",
     "An error occurred. Please upload an ASCII-encoded PEM certificate." : "Asocedió un fallu. Xubi un certificáu PEM con codificación ASCII, por favor.",
     "Valid until {date}" : "Válidu fasta {date}",
-    "Local" : "Llocal",
     "Only visible to local users" : "Namái visible pa usuarios llocales",
     "Only visible to you" : "Namái visible pa ti",
     "Contacts" : "Contautos",
@@ -239,6 +238,7 @@ OC.L10N.register(
     "Issued By" : "Emitíu por",
     "Valid until %s" : "Válidu hasta'l %s",
     "Import root certificate" : "Importar certificáu raigañu",
-    "Execute one task with each page loaded" : "Executar una xera con cada páxina cargada"
+    "Execute one task with each page loaded" : "Executar una xera con cada páxina cargada",
+    "Allow users to share via link" : "Permitir a los usuarios compartir vía enllaz"
 },
 "nplurals=2; plural=(n != 1);");

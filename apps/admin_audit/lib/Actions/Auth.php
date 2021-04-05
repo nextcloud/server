@@ -33,7 +33,7 @@ namespace OCA\AdminAudit\Actions;
  * @package OCA\AdminAudit\Actions
  */
 class Auth extends Action {
-	public function loginAttempt(array $params) {
+	public function loginAttempt(array $params): void {
 		$this->log(
 			'Login attempt: "%s"',
 			$params,
@@ -44,7 +44,7 @@ class Auth extends Action {
 		);
 	}
 
-	public function loginSuccessful(array $params) {
+	public function loginSuccessful(array $params): void {
 		$this->log(
 			'Login successful: "%s"',
 			$params,
@@ -55,7 +55,7 @@ class Auth extends Action {
 		);
 	}
 
-	public function logout(array $params) {
+	public function logout(array $params): void {
 		$this->log(
 			'Logout occurred',
 			[],

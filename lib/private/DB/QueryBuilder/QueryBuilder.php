@@ -48,6 +48,7 @@ use OC\DB\QueryBuilder\FunctionBuilder\SqliteFunctionBuilder;
 use OC\DB\ResultAdapter;
 use OC\SystemConfig;
 use OCP\DB\IResult;
+use OCP\DB\QueryBuilder\ICompositeExpression;
 use OCP\DB\QueryBuilder\ILiteral;
 use OCP\DB\QueryBuilder\IParameter;
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -282,13 +283,50 @@ class QueryBuilder implements IQueryBuilder {
 				'app' => 'core',
 			]);
 		}
-		
+
 		$result = $this->queryBuilder->execute();
 		if (is_int($result)) {
 			return $result;
 		}
 		return new ResultAdapter($result);
 	}
+
+	public function executeQuery(): IResult {
+		if ($this->getType() !== \Doctrine\DBAL\Query\QueryBuilder::SELECT) {
+			throw new \RuntimeException('Invalid query type, expected SELECT query');
+		}
+
+		try {
+			$result = $this->execute();
+		} catch (\Doctrine\DBAL\Exception $e) {
+			throw \OC\DB\Exceptions\DbalException::wrap($e);
+		}
+
+		if ($result instanceof IResult) {
+			return $result;
+		}
+
+		throw new \RuntimeException('Invalid return type for query');
+	}
+
+	public function executeUpdate(): int {
+		if ($this->getType() === \Doctrine\DBAL\Query\QueryBuilder::SELECT) {
+			throw new \RuntimeException('Invalid query type, expected INSERT, DELETE or UPDATE query');
+		}
+
+		try {
+			$result = $this->execute();
+		} catch (\Doctrine\DBAL\Exception $e) {
+			throw \OC\DB\Exceptions\DbalException::wrap($e);
+		}
+
+		if (!is_int($result)) {
+			throw new \RuntimeException('Invalid return type for query');
+		}
+
+		return $result;
+	}
+
 
 	/**
 	 * Gets the complete SQL string formed by the current specifications of this QueryBuilder.
@@ -664,7 +702,7 @@ class QueryBuilder implements IQueryBuilder {
 	 * @param string $fromAlias The alias that points to a from clause.
 	 * @param string $join The table name to join.
 	 * @param string $alias The alias of the join table.
-	 * @param string $condition The condition for the join.
+	 * @param string|ICompositeExpression|null $condition The condition for the join.
 	 *
 	 * @return $this This QueryBuilder instance.
 	 */
@@ -692,7 +730,7 @@ class QueryBuilder implements IQueryBuilder {
 	 * @param string $fromAlias The alias that points to a from clause.
 	 * @param string $join The table name to join.
 	 * @param string $alias The alias of the join table.
-	 * @param string $condition The condition for the join.
+	 * @param string|ICompositeExpression|null $condition The condition for the join.
 	 *
 	 * @return $this This QueryBuilder instance.
 	 */
@@ -720,7 +758,7 @@ class QueryBuilder implements IQueryBuilder {
 	 * @param string $fromAlias The alias that points to a from clause.
 	 * @param string $join The table name to join.
 	 * @param string $alias The alias of the join table.
-	 * @param string $condition The condition for the join.
+	 * @param string|ICompositeExpression|null $condition The condition for the join.
 	 *
 	 * @return $this This QueryBuilder instance.
 	 */
@@ -748,7 +786,7 @@ class QueryBuilder implements IQueryBuilder {
 	 * @param string $fromAlias The alias that points to a from clause.
 	 * @param string $join The table name to join.
 	 * @param string $alias The alias of the join table.
-	 * @param string $condition The condition for the join.
+	 * @param string|ICompositeExpression|null $condition The condition for the join.
 	 *
 	 * @return $this This QueryBuilder instance.
 	 */
@@ -1233,11 +1271,11 @@ class QueryBuilder implements IQueryBuilder {
 	 * @return int
 	 * @throws \BadMethodCallException When being called before an insert query has been run.
 	 */
-	public function getLastInsertId() {
+	public function getLastInsertId(): int {
 		if ($this->getType() === \Doctrine\DBAL\Query\QueryBuilder::INSERT && $this->lastInsertedTable) {
 			// lastInsertId() needs the prefix but no quotes
 			$table = $this->prefixTableName($this->lastInsertedTable);
-			return (int) $this->connection->lastInsertId($table);
+			return $this->connection->lastInsertId($table);
 		}
 
 		throw new \BadMethodCallException('Invalid call to getLastInsertId without using insert() before.');

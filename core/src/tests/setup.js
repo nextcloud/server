@@ -1,7 +1,8 @@
-/*
+/**
  * @copyright 2018 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
- * @author 2018 Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -16,13 +17,14 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 
 require('jsdom-global')()
 const chai = require('chai')
-var sinon = require('sinon')
-var sinonChai = require('sinon-chai');
+const sinon = require('sinon')
+const sinonChai = require('sinon-chai')
 
 chai.use(sinonChai)
 global.expect = chai.expect

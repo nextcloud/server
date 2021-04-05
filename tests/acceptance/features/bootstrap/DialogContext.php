@@ -22,6 +22,7 @@
  */
 
 use Behat\Behat\Context\Context;
+use PHPUnit\Framework\Assert;
 
 class DialogContext implements Context, ActorAwareInterface {
 	use ActorAware;
@@ -38,7 +39,7 @@ class DialogContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function theDialogButton($text) {
-		return Locator::forThe()->xpath("//button[normalize-space() = '$text']")->
+		return Locator::forThe()->xpath("//button[normalize-space() = \"$text\"]")->
 			descendantOf(self::theDialog())->
 			describedAs($text . " button of the dialog");
 	}
@@ -54,13 +55,23 @@ class DialogContext implements Context, ActorAwareInterface {
 	 * @Then I see that the confirmation dialog is shown
 	 */
 	public function iSeeThatTheConfirmationDialogIsShown() {
-		WaitFor::elementToBeEventuallyShown($this->actor, self::theDialog());
+		if (!WaitFor::elementToBeEventuallyShown(
+				$this->actor,
+				self::theDialog(),
+				$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
+			Assert::fail("The confirmation dialog was not shown yet after $timeout seconds");
+		}
 	}
 
 	/**
 	 * @Then I see that the confirmation dialog is not shown
 	 */
 	public function iSeeThatTheConfirmationDialogIsNotShown() {
-		WaitFor::elementToBeEventuallyNotShown($this->actor, self::theDialog());
+		if (!WaitFor::elementToBeEventuallyNotShown(
+				$this->actor,
+				self::theDialog(),
+				$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
+			Assert::fail("The confirmation dialog is still shown after $timeout seconds");
+		}
 	}
 }

@@ -29,10 +29,15 @@ declare(strict_types=1);
 
 namespace OCA\Files\Search;
 
-use OC\Search\Provider\File;
-use OC\Search\Result\File as FileResult;
+use OC\Files\Search\SearchComparison;
+use OC\Files\Search\SearchOrder;
+use OC\Files\Search\SearchQuery;
+use OCP\Files\FileInfo;
 use OCP\Files\IMimeTypeDetector;
 use OCP\Files\IRootFolder;
+use OCP\Files\Search\ISearchComparison;
+use OCP\Files\Node;
+use OCP\Files\Search\ISearchOrder;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\IUser;
@@ -42,9 +47,6 @@ use OCP\Search\SearchResult;
 use OCP\Search\SearchResultEntry;
 
 class FilesSearchProvider implements IProvider {
-
-	/** @var File */
-	private $fileSearch;
 
 	/** @var IL10N */
 	private $l10n;
@@ -58,13 +60,13 @@ class FilesSearchProvider implements IProvider {
 	/** @var IRootFolder */
 	private $rootFolder;
 
-	public function __construct(File $fileSearch,
-								IL10N $l10n,
-								IURLGenerator $urlGenerator,
-								IMimeTypeDetector $mimeTypeDetector,
-								IRootFolder $rootFolder) {
+	public function __construct(
+		IL10N $l10n,
+		IURLGenerator $urlGenerator,
+		IMimeTypeDetector $mimeTypeDetector,
+		IRootFolder $rootFolder
+	) {
 		$this->l10n = $l10n;
-		$this->fileSearch = $fileSearch;
 		$this->urlGenerator = $urlGenerator;
 		$this->mimeTypeDetector = $mimeTypeDetector;
 		$this->rootFolder = $rootFolder;
@@ -99,45 +101,59 @@ class FilesSearchProvider implements IProvider {
 	 * @inheritDoc
 	 */
 	public function search(IUser $user, ISearchQuery $query): SearchResult {
+		$userFolder = $this->rootFolder->getUserFolder($user->getUID());
+		$fileQuery = new SearchQuery(
+			new SearchComparison(ISearchComparison::COMPARE_LIKE, 'name', '%' . $query->getTerm() . '%'),
+			$query->getLimit(),
+			(int)$query->getCursor(),
+			$query->getSortOrder() === ISearchQuery::SORT_DATE_DESC ? [
+				new SearchOrder(ISearchOrder::DIRECTION_DESCENDING, 'mtime'),
+			] : [],
+			$user
+		);
 
-		// Make sure we setup the users filesystem
-		$this->rootFolder->getUserFolder($user->getUID());
-
-		return SearchResult::complete(
+		return SearchResult::paginated(
 			$this->l10n->t('Files'),
-			array_map(function (FileResult $result) {
+			array_map(function (Node $result) use ($userFolder) {
 				// Generate thumbnail url
-				$thumbnailUrl = $result->has_preview
-					? $this->urlGenerator->linkToRouteAbsolute('core.Preview.getPreviewByFileId', ['x' => 32, 'y' => 32, 'fileId' => $result->id])
-					: '';
+				$thumbnailUrl = $this->urlGenerator->linkToRouteAbsolute('core.Preview.getPreviewByFileId', ['x' => 32, 'y' => 32, 'fileId' => $result->getId()]);
+				$path = $userFolder->getRelativePath($result->getPath());
+				$link = $this->urlGenerator->linkToRoute(
+					'files.view.index',
+					[
+						'dir' => dirname($path),
+						'scrollto' => $result->getName(),
+					]
+				);
 
 				$searchResultEntry = new SearchResultEntry(
 					$thumbnailUrl,
-					$result->name,
-					$this->formatSubline($result),
-					$this->urlGenerator->getAbsoluteURL($result->link),
-					$result->type === 'folder' ? 'icon-folder' : $this->mimeTypeDetector->mimeTypeIcon($result->mime_type)
+					$result->getName(),
+					$this->formatSubline($path),
+					$this->urlGenerator->getAbsoluteURL($link),
+					$result->getMimetype() === FileInfo::MIMETYPE_FOLDER ? 'icon-folder' : $this->mimeTypeDetector->mimeTypeIcon($result->getMimetype())
 				);
-				$searchResultEntry->addAttribute('fileId', (string)$result->id);
-				$searchResultEntry->addAttribute('path', $result->path);
+				$searchResultEntry->addAttribute('fileId', (string)$result->getId());
+				$searchResultEntry->addAttribute('path', $path);
 				return $searchResultEntry;
-			}, $this->fileSearch->search($query->getTerm()))
+			}, $userFolder->search($fileQuery)),
+			$query->getCursor() + $query->getLimit()
 		);
 	}
 
 	/**
 	 * Format subline for files
 	 *
-	 * @param FileResult $result
+	 * @param string $path
 	 * @return string
 	 */
-	private function formatSubline($result): string {
+	private function formatSubline(string $path): string {
 		// Do not show the location if the file is in root
-		if ($result->path === '/' . $result->name) {
+		if (strrpos($path, '/') > 0) {
+			$path = ltrim(dirname($path), '/');
+			return $this->l10n->t('in %s', [$path]);
+		} else {
 			return '';
 		}
-
-		$path = ltrim(dirname($result->path), '/');
-		return $this->l10n->t('in %s', [$path]);
 	}
 }

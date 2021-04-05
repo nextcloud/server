@@ -27,7 +27,7 @@ $config = \OC::$server->getConfig();
 $userSession = \OC::$server->getUserSession();
 
 $showgridview = $config->getUserValue($userSession->getUser()->getUID(), 'files', 'show_grid', false);
-$isIE = \OCP\Util::isIE();
+$isIE = OC_Util::isIe();
 
 // renders the controls and table headers template
 $tmpl = new OCP\Template('files', 'simplelist', '');

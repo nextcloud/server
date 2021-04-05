@@ -17,7 +17,7 @@ OC.L10N.register(
     "Today" : "오늘",
     "This week" : "이번 주",
     "Online" : "접속 중",
-    "Invisible" : "숨어있기",
+    "Invisible" : "숨겨짐",
     "Offline" : "오프라인",
     "30 minutes" : "30 분",
     "1 hour" : "한 시간",

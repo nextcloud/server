@@ -40,12 +40,12 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
-use OCP\ILogger;
 use OCP\IRequest;
 use OCP\IUserSession;
+use Psr\Log\LoggerInterface;
 use ScssPhp\ScssPhp\Compiler;
 use ScssPhp\ScssPhp\Exception\ParserException;
-use ScssPhp\ScssPhp\Formatter\Crunched;
+use ScssPhp\ScssPhp\OutputStyle;
 
 class AccessibilityController extends Controller {
 
@@ -58,7 +58,7 @@ class AccessibilityController extends Controller {
 	/** @var IConfig */
 	private $config;
 
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	private $logger;
 
 	/** @var ITimeFactory */
@@ -82,7 +82,7 @@ class AccessibilityController extends Controller {
 	public function __construct(string $appName,
 								IRequest $request,
 								IConfig $config,
-								ILogger $logger,
+								LoggerInterface $logger,
 								ITimeFactory $timeFactory,
 								IUserSession $userSession,
 								IAppManager $appManager,
@@ -134,8 +134,7 @@ class AccessibilityController extends Controller {
 			]);
 
 			// Continue after throw
-			$scss->setIgnoreErrors(true);
-			$scss->setFormatter(Crunched::class);
+			$scss->setOutputStyle(OutputStyle::COMPRESSED);
 
 			// Import theme, variables and compile css4 variables
 			try {
@@ -146,7 +145,12 @@ class AccessibilityController extends Controller {
 					'@import "css-variables.scss";'
 				);
 			} catch (ParserException $e) {
-				$this->logger->error($e->getMessage(), ['app' => 'core']);
+				$this->logger->error($e->getMessage(),
+					[
+						'app' => 'core',
+						'exception' => $e,
+					]
+				);
 			}
 		}
 
@@ -255,7 +259,12 @@ class AccessibilityController extends Controller {
 			$scss->compile($variables);
 			$this->injectedVariables = $variables;
 		} catch (ParserException $e) {
-			$this->logger->logException($e, ['app' => 'core']);
+			$this->logger->error($e->getMessage(),
+				[
+					'app' => 'core',
+					'exception' => $e,
+				]
+			);
 		}
 		return $variables;
 	}

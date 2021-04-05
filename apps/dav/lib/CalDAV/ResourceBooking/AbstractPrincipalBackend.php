@@ -163,9 +163,9 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 		if (strpos($path, $this->principalPrefix) !== 0) {
 			return null;
 		}
-		list(, $name) = \Sabre\Uri\split($path);
+		[, $name] = \Sabre\Uri\split($path);
 
-		list($backendId, $resourceId) = explode('-',  $name, 2);
+		[$backendId, $resourceId] = explode('-',  $name, 2);
 
 		$query = $this->db->getQueryBuilder();
 		$query->select(['id', 'backend_id', 'resource_id', 'email', 'displayname'])
@@ -309,7 +309,7 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 						return $this->isAllowedToAccessResource($row, $usersGroups);
 					});
 
-					$results[] = array_map(function ($row) {
+					$results[] = array_map(function ($row): string {
 						return $row['uri'];
 					}, $filteredRows);
 
@@ -404,8 +404,8 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 				return null;
 			}
 
-			list(, $name) = \Sabre\Uri\split($path);
-			list($backendId, $resourceId) = explode('-',  $name, 2);
+			[, $name] = \Sabre\Uri\split($path);
+			[$backendId, $resourceId] = explode('-',  $name, 2);
 
 			$query = $this->db->getQueryBuilder();
 			$query->select(['id', 'backend_id', 'resource_id', 'email', 'displayname', 'group_restrictions'])

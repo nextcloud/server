@@ -378,7 +378,7 @@ class LostController extends Controller {
 
 		try {
 			$message = $this->mailer->createMessage();
-			$message->setTo([$email => $user->getUID()]);
+			$message->setTo([$email => $user->getDisplayName()]);
 			$message->setFrom([$this->from => $this->defaults->getName()]);
 			$message->useTemplate($emailTemplate);
 			$this->mailer->send($message);

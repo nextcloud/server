@@ -27,8 +27,8 @@ namespace OCA\Accessibility\Settings;
 
 use OCA\Accessibility\AccessibilityProvider;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Services\IInitialState;
 use OCP\IConfig;
-use OCP\IInitialStateService;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
@@ -55,26 +55,16 @@ class Personal implements ISettings {
 	/** @var AccessibilityProvider */
 	private $accessibilityProvider;
 
-	/** @var IInitialStateService */
+	/** @var IInitialState */
 	private $initialStateService;
 
-	/**
-	 * Settings constructor.
-	 *
-	 * @param string $appName
-	 * @param IConfig $config
-	 * @param IUserSession $userSession
-	 * @param IL10N $l
-	 * @param IURLGenerator $urlGenerator
-	 * @param AccessibilityProvider $accessibilityProvider
-	 */
 	public function __construct(string $appName,
 								IConfig $config,
 								IUserSession $userSession,
 								IL10N $l,
 								IURLGenerator $urlGenerator,
 								AccessibilityProvider $accessibilityProvider,
-								IInitialStateService $initialStateService) {
+								IInitialState $initialStateService) {
 		$this->appName = $appName;
 		$this->config = $config;
 		$this->userSession = $userSession;
@@ -88,7 +78,7 @@ class Personal implements ISettings {
 	 * @return TemplateResponse returns the instance with all parameters set, ready to be rendered
 	 * @since 9.1
 	 */
-	public function getForm() {
+	public function getForm(): TemplateResponse {
 		Util::addScript('accessibility', 'accessibility');
 		Util::addStyle('accessibility', 'style');
 
@@ -104,8 +94,8 @@ class Personal implements ISettings {
 			'font' => $this->config->getUserValue($this->userSession->getUser()->getUID(), $this->appName, 'font', false)
 		];
 
-		$this->initialStateService->provideInitialState($this->appName, 'available-config', $availableConfig);
-		$this->initialStateService->provideInitialState($this->appName, 'user-config', $userConfig);
+		$this->initialStateService->provideInitialState('available-config', $availableConfig);
+		$this->initialStateService->provideInitialState('user-config', $userConfig);
 
 		return new TemplateResponse($this->appName, 'settings-personal');
 	}
@@ -114,7 +104,7 @@ class Personal implements ISettings {
 	 * @return string the section ID, e.g. 'sharing'
 	 * @since 9.1
 	 */
-	public function getSection() {
+	public function getSection(): string {
 		return $this->appName;
 	}
 
@@ -126,7 +116,7 @@ class Personal implements ISettings {
 	 * E.g.: 70
 	 * @since 9.1
 	 */
-	public function getPriority() {
+	public function getPriority(): int {
 		return 40;
 	}
 }

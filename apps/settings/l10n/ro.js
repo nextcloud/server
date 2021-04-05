@@ -8,7 +8,7 @@ OC.L10N.register(
     "Sending…" : "Se trimite...",
     "Email sent" : "Mesajul a fost expediat",
     "Private" : "Privat",
-    "Public" : "Public",
+    "Local" : "Local",
     "Verify" : "Verifică",
     "Verifying …" : "Se verifică ...",
     "Unable to change password" : "Imposibil de schimbat parola",
@@ -203,7 +203,6 @@ OC.L10N.register(
     "Expire after " : "Expiră după",
     "days" : "zile",
     "Enforce expiration date" : "Impune data de expirare",
-    "Allow users to share via link" : "Permite utilizatorilor să partajeze via link",
     "Allow public uploads" : "Permite încărcări publice",
     "Enforce password protection" : "Impune protecția prin parolă",
     "Allow resharing" : "Permite repartajarea",
@@ -233,11 +232,11 @@ OC.L10N.register(
     "Change password" : "Schimbă parola",
     "An error occurred. Please upload an ASCII-encoded PEM certificate." : "A apărut o eroare. Te rugăm să uploadezi un certificat PEM în format ASCII.",
     "Valid until {date}" : "Valabil până la {date}",
-    "Local" : "Local",
     "Only visible to local users" : "Vizibil userilor locali",
     "Only visible to you" : "Vizibil doar pentru tine",
     "Contacts" : "Contacte",
     "Visible to local users and to trusted servers" : "Vizibil userilor locali si serverelor de încredere",
+    "Public" : "Public",
     "Will be synced to a global and public address book" : "Va fi sincronizat cu o agendă de adrese publice și globale",
     "by" : "de",
     "SSL Root Certificates" : "Certificate SSL rădăcină",
@@ -246,6 +245,7 @@ OC.L10N.register(
     "Issued By" : "Emis de",
     "Valid until %s" : "Valabil până la %s",
     "Import root certificate" : "Importă certificat rădăcină",
-    "Execute one task with each page loaded" : "Execută o sarcină la fiecare pagină încărcată"
+    "Execute one task with each page loaded" : "Execută o sarcină la fiecare pagină încărcată",
+    "Allow users to share via link" : "Permite utilizatorilor să partajeze via link"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

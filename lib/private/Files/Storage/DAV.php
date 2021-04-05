@@ -69,7 +69,7 @@ class DAV extends Common {
 	protected $password;
 	/** @var string */
 	protected $user;
-	/** @var string */
+	/** @var string|null */
 	protected $authType;
 	/** @var string */
 	protected $host;
@@ -143,7 +143,7 @@ class DAV extends Common {
 			'userName' => $this->user,
 			'password' => $this->password,
 		];
-		if (isset($this->authType)) {
+		if ($this->authType !== null) {
 			$settings['authType'] = $this->authType;
 		}
 

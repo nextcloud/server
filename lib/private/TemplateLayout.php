@@ -80,7 +80,7 @@ class TemplateLayout extends \OC_Template {
 		/** @var IInitialStateService */
 		$this->initialState = \OC::$server->get(IInitialStateService::class);
 
-		if (Util::isIE()) {
+		if (\OC_Util::isIe()) {
 			Util::addStyle('ie');
 		}
 

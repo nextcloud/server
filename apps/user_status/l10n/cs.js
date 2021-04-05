@@ -25,7 +25,7 @@ OC.L10N.register(
     "Today" : "Dnes",
     "This week" : "Tento týden",
     "Online" : "Online",
-    "Invisible" : "Neviditelné",
+    "Invisible" : "Neviditelný",
     "Offline" : "Offline",
     "There was an error saving the new status" : "Při ukládání nového stavu došlo k chybě",
     "30 minutes" : "30 minut",

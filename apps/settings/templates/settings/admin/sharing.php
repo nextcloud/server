@@ -70,7 +70,7 @@
 			   value="1" <?php if ($_['allowLinks'] === 'yes') {
 	print_unescaped('checked="checked"');
 } ?> />
-		<label for="allowLinks"><?php p($l->t('Allow users to share via link'));?></label><br/>
+		<label for="allowLinks"><?php p($l->t('Allow users to share via link and emails'));?></label><br/>
 	</p>
 
 	<p id="publicLinkSettings" class="indent <?php if ($_['allowLinks'] !== 'yes' || $_['shareAPIEnabled'] === 'no') {
@@ -96,7 +96,7 @@
 			   value="1" <?php if ($_['shareDefaultExpireDateSet'] === 'yes') {
 	print_unescaped('checked="checked"');
 } ?> />
-		<label for="shareapiDefaultExpireDate"><?php p($l->t('Set default expiration date for link shares'));?></label><br/>
+		<label for="shareapiDefaultExpireDate"><?php p($l->t('Set default expiration date'));?></label><br/>
 
 	</p>
 	<p id="setDefaultExpireDate" class="double-indent <?php if ($_['allowLinks'] !== 'yes' || $_['shareDefaultExpireDateSet'] === 'no' || $_['shareAPIEnabled'] === 'no') {
@@ -163,7 +163,7 @@
 			<?php if ($_['allowShareDialogUserEnumeration'] === 'yes') {
 	print_unescaped('checked="checked"');
 } ?> />
-		<label for="shareapi_allow_share_dialog_user_enumeration"><?php p($l->t('Allow username autocompletion in share dialog (if this is disabled the full username or email address needs to be entered)'));?></label><br />
+		<label for="shareapi_allow_share_dialog_user_enumeration"><?php p($l->t('Allow username autocompletion in share dialog'));?></label><br />
 	</p>
 
 	<p id="shareapi_restrict_user_enumeration_to_group_setting" class="indent <?php if ($_['shareAPIEnabled'] === 'no' || $_['allowShareDialogUserEnumeration'] === 'no') {
@@ -173,7 +173,31 @@
 			<?php if ($_['restrictUserEnumerationToGroup'] === 'yes') {
 	print_unescaped('checked="checked"');
 } ?> />
-		<label for="shareapi_restrict_user_enumeration_to_group"><?php p($l->t('Restrict username autocompletion to users within the same groups'));?></label><br />
+		<label for="shareapi_restrict_user_enumeration_to_group"><?php p($l->t('Allow username autocompletion to users within the same groups'));?></label><br />
+	</p>
+
+	<p id="shareapi_restrict_user_enumeration_to_phone_setting" class="indent <?php if ($_['shareAPIEnabled'] === 'no' || $_['allowShareDialogUserEnumeration'] === 'no') {
+	p('hidden');
+}?>">
+		<input type="checkbox" name="shareapi_restrict_user_enumeration_to_phone" value="1" id="shareapi_restrict_user_enumeration_to_phone" class="checkbox"
+			<?php if ($_['restrictUserEnumerationToPhone'] === 'yes') {
+	print_unescaped('checked="checked"');
+} ?> />
+		<label for="shareapi_restrict_user_enumeration_to_phone"><?php p($l->t('Allow username autocompletion to users based on phone number integration'));?></label><br />
+	</p>
+	<p id="shareapi_restrict_user_enumeration_combinewarning_setting" class="indent <?php if ($_['shareAPIEnabled'] === 'no' || $_['allowShareDialogUserEnumeration'] === 'no') {
+	p('hidden');
+}?>">
+		<em><?php p($l->t('If autocompletion "same group" and "phone number integration" are enabled a match in either is enough to show the user.'));?></em><br />
+	</p>
+	<p id="shareapi_restrict_user_enumeration_full_match_setting" class="indent <?php if ($_['shareAPIEnabled'] === 'no') {
+	p('hidden');
+}?>">
+		<input type="checkbox" name="shareapi_restrict_user_enumeration_full_match" value="1" id="shareapi_restrict_user_enumeration_full_match" class="checkbox"
+				<?php if ($_['restrictUserEnumerationFullMatch'] === 'yes') {
+	print_unescaped('checked="checked"');
+} ?> />
+		<label for="shareapi_restrict_user_enumeration_full_match"><?php p($l->t('Allow username autocompletion when entering the full name or email address (ignoring missing phonebook match and being in the same group)'));?></label><br />
 	</p>
 
 	<p>

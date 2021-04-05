@@ -16,6 +16,7 @@ OC.L10N.register(
     "Edit comment" : "Редактировать комментарий",
     "Delete comment" : "Удалить комментарий",
     "Cancel edit" : "Отменить правку",
+    "Post comment" : "Опубликовать комментарий",
     "No comments yet, start the conversation!" : "Комментарии отсутствуют, начните обсуждение!",
     "No more messages" : "Сообщений нет",
     "Retry" : "Повторить",

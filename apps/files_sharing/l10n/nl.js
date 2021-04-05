@@ -183,6 +183,7 @@ OC.L10N.register(
     "Create a new share link" : "Creëer een nieuwe deellink",
     "{shareWith} by {initiator}" : "{shareWith} door {initiator}",
     "Shared via link by {initiator}" : "Gedeeld via link door {initiator}",
+    "Mail share ({label})" : "Mail share ({label})",
     "Share link ({label})" : "Link delen ({label})",
     "Share link" : "Delen link",
     "Error, please enter proper password and/or expiration date" : "Fout. geef een geldig wachtwoord op en/of een vervaldatum",

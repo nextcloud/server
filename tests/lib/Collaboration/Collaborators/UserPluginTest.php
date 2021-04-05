@@ -25,6 +25,7 @@ namespace Test\Collaboration\Collaborators;
 
 use OC\Collaboration\Collaborators\SearchResult;
 use OC\Collaboration\Collaborators\UserPlugin;
+use OC\KnownUser\KnownUserService;
 use OCP\Collaboration\Collaborators\ISearchResult;
 use OCP\IConfig;
 use OCP\IGroup;
@@ -48,6 +49,9 @@ class UserPluginTest extends TestCase {
 
 	/** @var  IUserSession|\PHPUnit\Framework\MockObject\MockObject */
 	protected $session;
+
+	/** @var  KnownUserService|\PHPUnit\Framework\MockObject\MockObject */
+	protected $knownUserService;
 
 	/** @var IUserStatusManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $userStatusManager;
@@ -78,6 +82,8 @@ class UserPluginTest extends TestCase {
 
 		$this->session = $this->createMock(IUserSession::class);
 
+		$this->knownUserService = $this->createMock(KnownUserService::class);
+
 		$this->userStatusManager = $this->createMock(IUserStatusManager::class);
 
 		$this->searchResult = new SearchResult();
@@ -93,21 +99,24 @@ class UserPluginTest extends TestCase {
 			$this->userManager,
 			$this->groupManager,
 			$this->session,
+			$this->knownUserService,
 			$this->userStatusManager
 		);
 	}
 
-	public function mockConfig($shareWithGroupOnly, $shareeEnumeration, $shareeEnumerationLimitToGroup) {
+	public function mockConfig($shareWithGroupOnly, $shareeEnumeration, $shareeEnumerationLimitToGroup, $shareeEnumerationPhone = false) {
 		$this->config->expects($this->any())
 			->method('getAppValue')
 			->willReturnCallback(
-				function ($appName, $key, $default) use ($shareWithGroupOnly, $shareeEnumeration, $shareeEnumerationLimitToGroup) {
+				function ($appName, $key, $default) use ($shareWithGroupOnly, $shareeEnumeration, $shareeEnumerationLimitToGroup, $shareeEnumerationPhone) {
 					if ($appName === 'core' && $key === 'shareapi_only_share_with_group_members') {
 						return $shareWithGroupOnly ? 'yes' : 'no';
 					} elseif ($appName === 'core' && $key === 'shareapi_allow_share_dialog_user_enumeration') {
 						return $shareeEnumeration ? 'yes' : 'no';
 					} elseif ($appName === 'core' && $key === 'shareapi_restrict_user_enumeration_to_group') {
 						return $shareeEnumerationLimitToGroup ? 'yes' : 'no';
+					} elseif ($appName === 'core' && $key === 'shareapi_restrict_user_enumeration_to_phone') {
+						return $shareeEnumerationPhone ? 'yes' : 'no';
 					}
 					return $default;
 				}
@@ -258,6 +267,28 @@ class UserPluginTest extends TestCase {
 				],
 				false,
 				false,
+			],
+			[
+				'test',
+				false,
+				true,
+				[],
+				[
+					$this->getUserMock('test0', 'Test'),
+					$this->getUserMock('test1', 'Test One'),
+					$this->getUserMock('test2', 'Test Two'),
+				],
+				[
+					['label' => 'Test', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test0'], 'icon' => 'icon-user', 'subline' => null, 'status' => [], 'shareWithDisplayNameUnique' => 'test0'],
+				],
+				[
+					['label' => 'Test One', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test1'], 'icon' => 'icon-user', 'subline' => null, 'status' => [], 'shareWithDisplayNameUnique' => 'test1'],
+					['label' => 'Test Two', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test2'], 'icon' => 'icon-user', 'subline' => null, 'status' => [], 'shareWithDisplayNameUnique' => 'test2'],
+				],
+				false,
+				false,
+				[],
+				true,
 			],
 			[
 				'test',
@@ -436,9 +467,10 @@ class UserPluginTest extends TestCase {
 		array $expected,
 		$reachedEnd,
 		$singleUser,
-		array $users = []
+		array $users = [],
+		$shareeEnumerationPhone = false
 	) {
-		$this->mockConfig($shareWithGroupOnly, $shareeEnumeration, false);
+		$this->mockConfig($shareWithGroupOnly, $shareeEnumeration, false, $shareeEnumerationPhone);
 		$this->instantiatePlugin();
 
 		$this->session->expects($this->any())
@@ -446,10 +478,24 @@ class UserPluginTest extends TestCase {
 			->willReturn($this->user);
 
 		if (!$shareWithGroupOnly) {
-			$this->userManager->expects($this->once())
-				->method('searchDisplayName')
-				->with($searchTerm, $this->limit, $this->offset)
-				->willReturn($userResponse);
+			if ($shareeEnumerationPhone) {
+				$this->userManager->expects($this->once())
+					->method('searchKnownUsersByDisplayName')
+					->with($this->user->getUID(), $searchTerm, $this->limit, $this->offset)
+					->willReturn($userResponse);
+
+				$this->knownUserService->method('isKnownToUser')
+					->willReturnMap([
+						[$this->user->getUID(), 'test0', true],
+						[$this->user->getUID(), 'test1', true],
+						[$this->user->getUID(), 'test2', true],
+					]);
+			} else {
+				$this->userManager->expects($this->once())
+					->method('searchDisplayName')
+					->with($searchTerm, $this->limit, $this->offset)
+					->willReturn($userResponse);
+			}
 		} else {
 			$this->groupManager->method('getUserGroupIds')
 				->with($this->user)
@@ -613,9 +659,10 @@ class UserPluginTest extends TestCase {
 	public function testSearchEnumerationLimit($search, $userGroups, $matchingUsers, $result) {
 		$this->mockConfig(false, true, true);
 
-		$userResults = array_map(function ($user) {
-			return $this->getUserMock($user['uid'], $user['uid']);
-		}, $matchingUsers);
+		$userResults = [];
+		foreach ($matchingUsers as $user) {
+			$userResults[$user['uid']] = $user['uid'];
+		}
 
 		$mappedResultExact = array_map(function ($user) {
 			return ['label' => $user, 'value' => ['shareType' => 0, 'shareWith' => $user], 'icon' => 'icon-user', 'subline' => null, 'status' => [], 'shareWithDisplayNameUnique' => $user];
@@ -624,9 +671,19 @@ class UserPluginTest extends TestCase {
 			return ['label' => $user, 'value' => ['shareType' => 0, 'shareWith' => $user], 'icon' => 'icon-user', 'subline' => null, 'status' => [], 'shareWithDisplayNameUnique' => $user];
 		}, $result['wide']);
 
-		$this->userManager->expects($this->once())
-			->method('searchDisplayName')
+		$this->userManager
+			->method('get')
+			->willReturnCallback(function ($userId) use ($userResults) {
+				if (isset($userResults[$userId])) {
+					return $this->getUserMock($userId, $userId);
+				}
+				return null;
+			});
+
+		$this->groupManager->method('displayNamesInGroup')
 			->willReturn($userResults);
+
+
 		$this->session->expects($this->any())
 			->method('getUser')
 			->willReturn($this->getUserMock('test', 'foo'));

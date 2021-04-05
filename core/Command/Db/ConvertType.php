@@ -243,20 +243,16 @@ class ConvertType extends Command implements CompletionAwareInterface {
 			$toMS->migrate($currentMigration);
 		}
 
-		$schemaManager = new \OC\DB\MDB2SchemaManager($toDB);
 		$apps = $input->getOption('all-apps') ? \OC_App::getAllApps() : \OC_App::getEnabledApps();
 		foreach ($apps as $app) {
-			if (file_exists(\OC_App::getAppPath($app).'/appinfo/database.xml')) {
-				$schemaManager->createDbFromStructure(\OC_App::getAppPath($app).'/appinfo/database.xml');
-			} else {
-				// Make sure autoloading works...
-				\OC_App::loadApp($app);
-				$fromMS = new MigrationService($app, $fromDB);
-				$currentMigration = $fromMS->getMigration('current');
-				if ($currentMigration !== '0') {
-					$toMS = new MigrationService($app, $toDB);
-					$toMS->migrate($currentMigration, true);
-				}
+			$output->writeln('<info> - '.$app.'</info>');
+			// Make sure autoloading works...
+			\OC_App::loadApp($app);
+			$fromMS = new MigrationService($app, $fromDB);
+			$currentMigration = $fromMS->getMigration('current');
+			if ($currentMigration !== '0') {
+				$toMS = new MigrationService($app, $toDB);
+				$toMS->migrate($currentMigration, true);
 			}
 		}
 	}
@@ -327,6 +323,7 @@ class ConvertType extends Command implements CompletionAwareInterface {
 		}
 
 		$progress = new ProgressBar($output, $count);
+		$progress->setFormat('very_verbose');
 		$progress->start();
 		$redraw = $count > $chunkSize ? 100 : ($count > 100 ? 5 : 1);
 		$progress->setRedrawFrequency($redraw);
@@ -382,6 +379,7 @@ class ConvertType extends Command implements CompletionAwareInterface {
 			$result->closeCursor();
 		}
 		$progress->finish();
+		$output->writeln('');
 	}
 
 	protected function getColumnType(Table $table, $columnName) {
@@ -414,7 +412,7 @@ class ConvertType extends Command implements CompletionAwareInterface {
 		try {
 			// copy table rows
 			foreach ($tables as $table) {
-				$output->writeln($table);
+				$output->writeln('<info> - '.$table.'</info>');
 				$this->copyTable($fromDB, $toDB, $schema->getTable($table), $input, $output);
 			}
 			if ($input->getArgument('type') === 'pgsql') {

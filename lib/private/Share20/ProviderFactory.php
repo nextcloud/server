@@ -43,6 +43,7 @@ use OCA\ShareByMail\ShareByMailProvider;
 use OCP\Defaults;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IServerContainer;
+use OCP\Share\IManager;
 use OCP\Share\IProviderFactory;
 use OCP\Share\IShare;
 use OCP\Share\IShareProvider;
@@ -137,6 +138,7 @@ class ProviderFactory implements IProviderFactory {
 				$addressHandler,
 				$this->serverContainer->getHTTPClientService(),
 				$this->serverContainer->query(\OCP\OCS\IDiscoveryService::class),
+				$this->serverContainer->getLogger(),
 				$this->serverContainer->getJobList(),
 				\OC::$server->getCloudFederationProviderManager(),
 				\OC::$server->getCloudFederationFactory(),
@@ -195,7 +197,8 @@ class ProviderFactory implements IProviderFactory {
 				$settingsManager,
 				$this->serverContainer->query(Defaults::class),
 				$this->serverContainer->getHasher(),
-				$this->serverContainer->get(IEventDispatcher::class)
+				$this->serverContainer->get(IEventDispatcher::class),
+				$this->serverContainer->get(IManager::class)
 			);
 		}
 

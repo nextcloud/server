@@ -27,7 +27,7 @@ namespace OC\Remote\Api;
 use GuzzleHttp\Exception\ClientException;
 use OC\ForbiddenException;
 use OC\Remote\User;
-use OCP\API;
+use OCP\AppFramework\OCSController;
 use OCP\Remote\Api\ICapabilitiesApi;
 use OCP\Remote\Api\IUserApi;
 
@@ -58,10 +58,10 @@ class OCS extends ApiBase implements ICapabilitiesApi, IUserApi {
 		if (!isset($response['ocs']) || !isset($response['ocs']['meta'])) {
 			throw new \Exception('Invalid ocs response');
 		}
-		if ($response['ocs']['meta']['statuscode'] === API::RESPOND_UNAUTHORISED) {
+		if ($response['ocs']['meta']['statuscode'] === OCSController::RESPOND_UNAUTHORISED) {
 			throw new ForbiddenException();
 		}
-		if ($response['ocs']['meta']['statuscode'] === API::RESPOND_NOT_FOUND) {
+		if ($response['ocs']['meta']['statuscode'] === OCSController::RESPOND_NOT_FOUND) {
 			throw new NotFoundException();
 		}
 		if ($response['ocs']['meta']['status'] !== 'ok') {

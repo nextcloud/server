@@ -93,7 +93,7 @@ class OCSController extends \OCP\AppFramework\OCSController {
 	 */
 	public function getCapabilities() {
 		$result = [];
-		list($major, $minor, $micro) = \OCP\Util::getVersion();
+		[$major, $minor, $micro] = \OCP\Util::getVersion();
 		$result['version'] = [
 			'major' => $major,
 			'minor' => $minor,

@@ -142,6 +142,8 @@ class DirectControllerTest extends TestCase {
 				$this->assertSame(101, $direct->getFileId());
 				$this->assertSame('superduperlongtoken', $direct->getToken());
 				$this->assertSame(42 + 60 * 60 * 8, $direct->getExpiration());
+
+				return $direct;
 			});
 
 		$this->urlGenerator->method('getAbsoluteURL')

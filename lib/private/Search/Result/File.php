@@ -97,14 +97,13 @@ class File extends \OCP\Search\Result {
 	public function __construct(FileInfo $data) {
 		$path = $this->getRelativePath($data->getPath());
 
-		$info = pathinfo($path);
 		$this->id = $data->getId();
-		$this->name = $info['basename'];
+		$this->name = $data->getName();
 		$this->link = \OC::$server->getURLGenerator()->linkToRoute(
 			'files.view.index',
 			[
-				'dir' => $info['dirname'],
-				'scrollto' => $info['basename'],
+				'dir' => dirname($path),
+				'scrollto' => $data->getName(),
 			]
 		);
 		$this->permissions = $data->getPermissions();
@@ -134,7 +133,11 @@ class File extends \OCP\Search\Result {
 			$userID = $userSession->getUser()->getUID();
 			self::$userFolderCache = \OC::$server->getUserFolder($userID);
 		}
-		return self::$userFolderCache->getRelativePath($path);
+		$relativePath = self::$userFolderCache->getRelativePath($path);
+		if ($relativePath === null) {
+			throw new \Exception("Search result not in user folder");
+		}
+		return $relativePath;
 	}
 
 	/**

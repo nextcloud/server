@@ -100,7 +100,7 @@ class Manager {
 	 * @throws \RuntimeException
 	 */
 	protected function generateKey(string $id): Key {
-		list($publicKey, $privateKey) = $this->generateKeyPair();
+		[$publicKey, $privateKey] = $this->generateKeyPair();
 
 		// Write the private and public key to the disk
 		try {

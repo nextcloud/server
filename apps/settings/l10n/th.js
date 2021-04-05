@@ -6,6 +6,7 @@ OC.L10N.register(
     "Saved" : "บันทึกแล้ว",
     "Sending…" : "กำลังส่ง....",
     "Email sent" : "ส่งอีเมลแล้ว",
+    "Local" : "ต้นทาง",
     "Unable to change password" : "ไม่สามารถเปลี่ยนรหัสผ่าน",
     "Very weak password" : "รหัสผ่านระดับต่ำมาก",
     "Weak password" : "รหัสผ่านระดับต่ำ",
@@ -111,7 +112,6 @@ OC.L10N.register(
     "Expire after " : "หลังจากหมดอายุ",
     "days" : "วัน",
     "Enforce expiration date" : "บังคับให้มีวันที่หมดอายุ",
-    "Allow users to share via link" : "อนุญาตให้ผู้ใช้สามารถแชร์ผ่านทางลิงค์",
     "Allow public uploads" : "อนุญาตให้อัพโหลดสาธารณะ",
     "Enforce password protection" : "บังคับใช้การป้องกันรหัสผ่าน",
     "Allow resharing" : "อนุญาตให้แชร์ข้อมูลซ้ำอีกครั้งได้",
@@ -138,7 +138,6 @@ OC.L10N.register(
     "Change password" : "เปลี่ยนรหัสผ่าน",
     "An error occurred. Please upload an ASCII-encoded PEM certificate." : "เกิดข้อผิดพลาด กรุณาอัพโหลดใบรับรองเข้ารหัส ASCII PEM",
     "Valid until {date}" : "ใช้ได้จนถึงวันที่ {date}",
-    "Local" : "ต้นทาง",
     "Contacts" : "ข้อมูลผู้ติดต่อ",
     "by" : "โดย",
     "SSL Root Certificates" : "ใบรับรอง SSL",
@@ -147,6 +146,7 @@ OC.L10N.register(
     "Issued By" : "ปัญหาโดย",
     "Valid until %s" : "ใช้ได้จนถึง %s",
     "Import root certificate" : "นำเข้าใบรับรองหลัก",
-    "Execute one task with each page loaded" : "ประมวลผลหนึ่งงาน ในแต่ละครั้งที่มีการโหลดหน้าเว็บ"
+    "Execute one task with each page loaded" : "ประมวลผลหนึ่งงาน ในแต่ละครั้งที่มีการโหลดหน้าเว็บ",
+    "Allow users to share via link" : "อนุญาตให้ผู้ใช้สามารถแชร์ผ่านทางลิงค์"
 },
 "nplurals=1; plural=0;");

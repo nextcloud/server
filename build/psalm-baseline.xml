@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.2.1@ea9cb72143b77e7520c52fa37290bd8d8bc88fd9">
+<files psalm-version="4.7.0@d4377c0baf3ffbf0b1ec6998e8d1be2a40971005">
   <file src="3rdparty/sabre/dav/lib/CalDAV/Calendar.php">
     <MoreSpecificImplementedParamType occurrences="1">
       <code>$calendarData</code>
@@ -44,11 +44,6 @@
       <code>!is_array($notification)</code>
     </TypeDoesNotContainType>
   </file>
-  <file src="apps/comments/lib/JSSettingsHelper.php">
-    <InvalidScalarArgument occurrences="1">
-      <code>10</code>
-    </InvalidScalarArgument>
-  </file>
   <file src="apps/comments/lib/Search/Result.php">
     <InvalidScalarArgument occurrences="1">
       <code>(int) $comment-&gt;getId()</code>
@@ -58,11 +53,6 @@
     <UndefinedFunction occurrences="1">
       <code>\Sabre\Uri\split($this-&gt;principalUri)</code>
     </UndefinedFunction>
-  </file>
-  <file src="apps/contactsinteraction/lib/Card.php">
-    <InvalidReturnType occurrences="1">
-      <code>?string</code>
-    </InvalidReturnType>
   </file>
   <file src="apps/dav/appinfo/v1/caldav.php">
     <TooManyArguments occurrences="1">
@@ -202,6 +192,9 @@
       <code>null</code>
       <code>null</code>
     </NullableReturnStatement>
+    <RedundantCast occurrences="1">
+      <code>(int)$calendarId</code>
+    </RedundantCast>
     <TooManyArguments occurrences="15">
       <code>dispatch</code>
       <code>dispatch</code>
@@ -227,15 +220,12 @@
     </UndefinedFunction>
   </file>
   <file src="apps/dav/lib/CalDAV/CalendarHome.php">
-    <InvalidClass occurrences="1">
-      <code>\Sabre\CalDAv\Notifications\Collection</code>
-    </InvalidClass>
     <InvalidReturnStatement occurrences="5">
       <code>$calendarPlugin-&gt;getCalendarInCalendarHome($this-&gt;principalInfo['uri'], $calendarUri)</code>
       <code>new Inbox($this-&gt;caldavBackend, $this-&gt;principalInfo['uri'])</code>
       <code>new Outbox($this-&gt;config, $this-&gt;principalInfo['uri'])</code>
       <code>new Subscription($this-&gt;caldavBackend, $subscription)</code>
-      <code>new \Sabre\CalDAv\Notifications\Collection($this-&gt;caldavBackend, $this-&gt;principalInfo['uri'])</code>
+      <code>new \Sabre\CalDAV\Notifications\Collection($this-&gt;caldavBackend, $this-&gt;principalInfo['uri'])</code>
     </InvalidReturnStatement>
     <InvalidReturnType occurrences="1">
       <code>getChild</code>
@@ -287,15 +277,13 @@
       <code>$l10n-&gt;l('time', $dt, ['width' =&gt; 'short'])</code>
       <code>$l10n-&gt;l('weekdayName', $dt, ['width' =&gt; 'abbreviated'])</code>
     </FalsableReturnStatement>
-    <InvalidReturnStatement occurrences="5">
+    <InvalidReturnStatement occurrences="4">
       <code>$l10n-&gt;l('date', $dt, ['width' =&gt; 'medium'])</code>
       <code>$l10n-&gt;l('datetime', $dt, ['width' =&gt; 'medium|short'])</code>
       <code>$l10n-&gt;l('time', $dt, ['width' =&gt; 'short'])</code>
       <code>$l10n-&gt;l('weekdayName', $dt, ['width' =&gt; 'abbreviated'])</code>
-      <code>[$organizerEMail =&gt; $name]</code>
     </InvalidReturnStatement>
-    <InvalidReturnType occurrences="5">
-      <code>array|null</code>
+    <InvalidReturnType occurrences="4">
       <code>string</code>
       <code>string</code>
       <code>string</code>
@@ -367,17 +355,10 @@
     <InvalidNullableReturnType occurrences="1">
       <code>string</code>
     </InvalidNullableReturnType>
-    <InvalidScalarArgument occurrences="2">
-      <code>[$recipient =&gt; $recipientName]</code>
-      <code>[$sender =&gt; $senderName]</code>
-    </InvalidScalarArgument>
     <NullableReturnStatement occurrences="1">
       <code>$lang-&gt;getValue()</code>
     </NullableReturnStatement>
     <UndefinedMethod occurrences="10">
-      <code>getDateTime</code>
-      <code>getDateTime</code>
-      <code>getDateTime</code>
       <code>getDateTime</code>
       <code>getDateTime</code>
       <code>getDateTime</code>
@@ -463,6 +444,9 @@
     <NullableReturnStatement occurrences="1">
       <code>null</code>
     </NullableReturnStatement>
+    <RedundantCast occurrences="1">
+      <code>(int)$addressBookId</code>
+    </RedundantCast>
     <TooManyArguments occurrences="3">
       <code>dispatch</code>
       <code>dispatch</code>
@@ -506,11 +490,6 @@
     <InvalidScalarArgument occurrences="1">
       <code>$targetBookId</code>
     </InvalidScalarArgument>
-  </file>
-  <file src="apps/dav/lib/CardDAV/SystemAddressbook.php">
-    <RedundantCondition occurrences="1">
-      <code>$shareEnumeration</code>
-    </RedundantCondition>
   </file>
   <file src="apps/dav/lib/CardDAV/UserAddressBooks.php">
     <InvalidArgument occurrences="2">
@@ -751,22 +730,9 @@
     </InvalidScalarArgument>
   </file>
   <file src="apps/dav/lib/Connector/Sabre/SharesPlugin.php">
-    <InvalidReturnStatement occurrences="1">
-      <code>$shares</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
-      <code>array</code>
-    </InvalidReturnType>
     <UndefinedFunction occurrences="1">
       <code>\Sabre\Uri\split($sabreNode-&gt;getPath())</code>
     </UndefinedFunction>
-    <UndefinedInterfaceMethod occurrences="5">
-      <code>getId</code>
-      <code>getId</code>
-      <code>getId</code>
-      <code>getPath</code>
-      <code>getPath</code>
-    </UndefinedInterfaceMethod>
     <UndefinedPropertyAssignment occurrences="1">
       <code>$server-&gt;xml-&gt;namespacesMap</code>
     </UndefinedPropertyAssignment>
@@ -913,8 +879,6 @@
     <UndefinedMethod occurrences="5">
       <code>getDateTime</code>
       <code>getDateTime</code>
-      <code>getDateTime</code>
-      <code>getDateTime</code>
       <code>hasTime</code>
       <code>isFloating</code>
       <code>isFloating</code>
@@ -1029,9 +993,6 @@
     </TypeDoesNotContainType>
   </file>
   <file src="apps/encryption/lib/Crypto/EncryptAll.php">
-    <InvalidArgument occurrences="1">
-      <code>[$to =&gt; $recipientDisplayName]</code>
-    </InvalidArgument>
     <UndefinedInterfaceMethod occurrences="3">
       <code>setHtmlBody</code>
       <code>setPlainBody</code>
@@ -1059,8 +1020,7 @@
     <InvalidThrow occurrences="1">
       <code>throw $exception;</code>
     </InvalidThrow>
-    <RedundantCondition occurrences="2">
-      <code>$encryptedFileKey</code>
+    <RedundantCondition occurrences="1">
       <code>$userSession</code>
     </RedundantCondition>
   </file>
@@ -1100,12 +1060,6 @@
     </TypeDoesNotContainNull>
   </file>
   <file src="apps/federatedfilesharing/lib/FederatedShareProvider.php">
-    <InvalidReturnStatement occurrences="1">
-      <code>$shares</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
-      <code>getSharesInFolder</code>
-    </InvalidReturnType>
     <InvalidScalarArgument occurrences="5">
       <code>$shareId</code>
       <code>$shareId</code>
@@ -1464,9 +1418,6 @@
       <code>$e-&gt;getCode()</code>
       <code>$e-&gt;getCode()</code>
     </InvalidScalarArgument>
-    <NullableReturnStatement occurrences="1">
-      <code>null</code>
-    </NullableReturnStatement>
     <ParamNameMismatch occurrences="2">
       <code>$source</code>
       <code>$target</code>
@@ -1506,12 +1457,6 @@
     <TooManyArguments occurrences="1">
       <code>test</code>
     </TooManyArguments>
-    <UndefinedClass occurrences="1">
-      <code>Exception</code>
-    </UndefinedClass>
-    <UndefinedDocblockClass occurrences="1">
-      <code>Exception</code>
-    </UndefinedDocblockClass>
   </file>
   <file src="apps/files_external/lib/Service/BackendService.php">
     <InvalidArgument occurrences="1">
@@ -1593,12 +1538,6 @@
       <code>$code</code>
       <code>Constants::PERMISSION_ALL</code>
     </InvalidScalarArgument>
-    <NullArgument occurrences="1">
-      <code>null</code>
-    </NullArgument>
-    <TypeDoesNotContainType occurrences="1">
-      <code>$date === false</code>
-    </TypeDoesNotContainType>
     <UndefinedClass occurrences="2">
       <code>\OCA\Circles\Api\v1\Circles</code>
       <code>\OCA\Circles\Api\v1\Circles</code>
@@ -1639,10 +1578,6 @@
     </InvalidDocblock>
   </file>
   <file src="apps/files_sharing/lib/External/Scanner.php">
-    <InvalidNullableReturnType occurrences="2">
-      <code>array</code>
-      <code>scan</code>
-    </InvalidNullableReturnType>
     <InvalidScalarArgument occurrences="1">
       <code>$recursive</code>
     </InvalidScalarArgument>
@@ -1667,20 +1602,6 @@
     <InvalidArgument occurrences="1">
       <code>$exception-&gt;getMessage()</code>
     </InvalidArgument>
-    <InvalidReturnStatement occurrences="1">
-      <code>new JSONResponse($exception-&gt;getMessage(), 405)</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
-      <code>NotFoundResponse</code>
-    </InvalidReturnType>
-  </file>
-  <file src="apps/files_sharing/lib/Scanner.php">
-    <InvalidNullableReturnType occurrences="1">
-      <code>array</code>
-    </InvalidNullableReturnType>
-    <NullableReturnStatement occurrences="1">
-      <code>null</code>
-    </NullableReturnStatement>
   </file>
   <file src="apps/files_sharing/lib/ShareBackend/File.php">
     <InvalidScalarArgument occurrences="2">
@@ -1708,19 +1629,9 @@
     <InvalidNullableReturnType occurrences="1">
       <code>ICacheEntry</code>
     </InvalidNullableReturnType>
-    <InvalidReturnStatement occurrences="5">
-      <code>$this-&gt;getPermissions($path) &amp; \OCP\Constants::PERMISSION_CREATE</code>
-      <code>$this-&gt;getPermissions($path) &amp; \OCP\Constants::PERMISSION_DELETE</code>
-      <code>$this-&gt;getPermissions($path) &amp; \OCP\Constants::PERMISSION_SHARE</code>
-      <code>$this-&gt;getPermissions($path) &amp; \OCP\Constants::PERMISSION_UPDATE</code>
+    <InvalidReturnStatement occurrences="1">
       <code>new FailedCache()</code>
     </InvalidReturnStatement>
-    <InvalidReturnType occurrences="4">
-      <code>isCreatable</code>
-      <code>isDeletable</code>
-      <code>isSharable</code>
-      <code>isUpdatable</code>
-    </InvalidReturnType>
     <NullableReturnStatement occurrences="1">
       <code>$this-&gt;sourceRootInfo</code>
     </NullableReturnStatement>
@@ -1863,17 +1774,8 @@
     </TooManyArguments>
   </file>
   <file src="apps/lookup_server_connector/lib/BackgroundJobs/RetryJob.php">
-    <InvalidArrayOffset occurrences="10">
-      <code>$publicData[IAccountManager::PROPERTY_ADDRESS]['value']</code>
+    <InvalidArrayOffset occurrences="1">
       <code>$publicData[IAccountManager::PROPERTY_DISPLAYNAME]['value']</code>
-      <code>$publicData[IAccountManager::PROPERTY_EMAIL]['value']</code>
-      <code>$publicData[IAccountManager::PROPERTY_PHONE]['value']</code>
-      <code>$publicData[IAccountManager::PROPERTY_TWITTER]['signature']</code>
-      <code>$publicData[IAccountManager::PROPERTY_TWITTER]['value']</code>
-      <code>$publicData[IAccountManager::PROPERTY_TWITTER]['verified']</code>
-      <code>$publicData[IAccountManager::PROPERTY_WEBSITE]['signature']</code>
-      <code>$publicData[IAccountManager::PROPERTY_WEBSITE]['value']</code>
-      <code>$publicData[IAccountManager::PROPERTY_WEBSITE]['verified']</code>
     </InvalidArrayOffset>
     <InvalidScalarArgument occurrences="1">
       <code>$this-&gt;retries + 1</code>
@@ -1883,14 +1785,6 @@
     <NoInterfaceProperties occurrences="1">
       <code>$this-&gt;request-&gt;server</code>
     </NoInterfaceProperties>
-  </file>
-  <file src="apps/oauth2/lib/Controller/SettingsController.php">
-    <UndefinedMagicMethod occurrences="4">
-      <code>getClientIdentifier</code>
-      <code>getName</code>
-      <code>getRedirectUri</code>
-      <code>getSecret</code>
-    </UndefinedMagicMethod>
   </file>
   <file src="apps/oauth2/lib/Db/AccessTokenMapper.php">
     <InvalidCatch occurrences="1"/>
@@ -1932,13 +1826,6 @@
     <InvalidOperand occurrences="1">
       <code>$lastCronRun</code>
     </InvalidOperand>
-    <InvalidReturnStatement occurrences="2">
-      <code>$response</code>
-      <code>new DataDisplayResponse('Integrity checker has been disabled. Integrity cannot be verified.')</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
-      <code>DataResponse</code>
-    </InvalidReturnType>
     <InvalidScalarArgument occurrences="2">
       <code>$lastCronRun</code>
       <code>0</code>
@@ -1950,14 +1837,9 @@
     </TooManyArguments>
   </file>
   <file src="apps/settings/lib/Hooks.php">
-    <InvalidArgument occurrences="1">
+    <InvalidArrayOffset occurrences="1">
       <code>[$user-&gt;getEMailAddress() =&gt; $user-&gt;getDisplayName()]</code>
-    </InvalidArgument>
-  </file>
-  <file src="apps/settings/lib/Mailer/NewUserMailHelper.php">
-    <InvalidArgument occurrences="1">
-      <code>[$user-&gt;getEMailAddress() =&gt; $user-&gt;getDisplayName()]</code>
-    </InvalidArgument>
+    </InvalidArrayOffset>
   </file>
   <file src="apps/settings/lib/Settings/Admin/Security.php">
     <UndefinedInterfaceMethod occurrences="1">
@@ -1972,14 +1854,6 @@
       <code>null</code>
     </NullArgument>
   </file>
-  <file src="apps/settings/lib/Settings/Personal/Additional.php">
-    <InvalidReturnStatement occurrences="1">
-      <code>'5'</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
-      <code>int</code>
-    </InvalidReturnType>
-  </file>
   <file src="apps/settings/lib/Settings/Personal/PersonalInfo.php">
     <InvalidScalarArgument occurrences="1">
       <code>$uid</code>
@@ -1988,21 +1862,7 @@
       <code>getLanguages</code>
     </UndefinedInterfaceMethod>
   </file>
-  <file src="apps/settings/lib/Settings/Personal/ServerDevNotice.php">
-    <InvalidNullableReturnType occurrences="1">
-      <code>string</code>
-    </InvalidNullableReturnType>
-    <NullableReturnStatement occurrences="1">
-      <code>null</code>
-    </NullableReturnStatement>
-  </file>
   <file src="apps/sharebymail/lib/ShareByMailProvider.php">
-    <InvalidReturnStatement occurrences="1">
-      <code>$shares</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
-      <code>getSharesInFolder</code>
-    </InvalidReturnType>
     <InvalidScalarArgument occurrences="4">
       <code>$share-&gt;getId()</code>
       <code>$shareId</code>
@@ -2071,14 +1931,6 @@
       <code>$folder !== null</code>
     </RedundantCondition>
   </file>
-  <file src="apps/twofactor_backupcodes/lib/BackgroundJob/CheckBackupCodes.php">
-    <InvalidPropertyAssignmentValue occurrences="1">
-      <code>$registry</code>
-    </InvalidPropertyAssignmentValue>
-    <UndefinedMethod occurrences="1">
-      <code>getProviderStates</code>
-    </UndefinedMethod>
-  </file>
   <file src="apps/twofactor_backupcodes/lib/BackgroundJob/RememberBackupCodesJob.php">
     <InvalidArgument occurrences="1">
       <code>bool</code>
@@ -2140,6 +1992,9 @@
     <InvalidArgument occurrences="1">
       <code>$record</code>
     </InvalidArgument>
+    <InvalidArrayOffset occurrences="1">
+      <code>[$attr =&gt; $result['values']]</code>
+    </InvalidArrayOffset>
     <InvalidReturnStatement occurrences="2">
       <code>$uuid</code>
       <code>$values</code>
@@ -2147,11 +2002,10 @@
     <InvalidReturnType occurrences="1">
       <code>string[]</code>
     </InvalidReturnType>
-    <InvalidScalarArgument occurrences="4">
+    <InvalidScalarArgument occurrences="3">
       <code>$e-&gt;getCode()</code>
       <code>$key</code>
       <code>$key</code>
-      <code>[$attr =&gt; $result['values']]</code>
     </InvalidScalarArgument>
     <NullArgument occurrences="1">
       <code>$cookie</code>
@@ -2168,7 +2022,7 @@
     </TypeDoesNotContainNull>
     <TypeDoesNotContainType occurrences="2">
       <code>!is_null($attr) &amp;&amp; !is_array($attr)</code>
-      <code>isset($ldapRecord[$this-&gt;connection-&gt;$uuidAttr])</code>
+      <code>count($usedNames) === 0</code>
     </TypeDoesNotContainType>
   </file>
   <file src="apps/user_ldap/lib/AppInfo/Application.php">
@@ -2325,6 +2179,12 @@
     <InvalidOperand occurrences="1">
       <code>$result</code>
     </InvalidOperand>
+    <RedundantCondition occurrences="1">
+      <code>isset($qb)</code>
+    </RedundantCondition>
+    <TypeDoesNotContainNull occurrences="1">
+      <code>isset($qb)</code>
+    </TypeDoesNotContainNull>
   </file>
   <file src="apps/user_ldap/lib/Proxy.php">
     <InvalidDocblock occurrences="1">
@@ -2357,9 +2217,7 @@
     <ImplementedReturnTypeMismatch occurrences="1">
       <code>string|false</code>
     </ImplementedReturnTypeMismatch>
-    <InvalidScalarArgument occurrences="3">
-      <code>$limit</code>
-      <code>$offset</code>
+    <InvalidScalarArgument occurrences="1">
       <code>$path</code>
     </InvalidScalarArgument>
     <MoreSpecificImplementedParamType occurrences="2">
@@ -2506,17 +2364,6 @@
       <code>isUserScopeEnabled</code>
     </UndefinedInterfaceMethod>
   </file>
-  <file src="apps/workflowengine/lib/Settings/Personal.php">
-    <InvalidNullableReturnType occurrences="1">
-      <code>getSection</code>
-    </InvalidNullableReturnType>
-    <NullableReturnStatement occurrences="1">
-      <code>$this-&gt;manager-&gt;isUserScopeEnabled() ? 'workflow' : null</code>
-    </NullableReturnStatement>
-  </file>
-  <file src="core/Command/App/CheckCode.php">
-    <InvalidScalarArgument occurrences="1"/>
-  </file>
   <file src="core/Command/App/GetPath.php">
     <ImplementedReturnTypeMismatch occurrences="1">
       <code>null|int</code>
@@ -2599,11 +2446,6 @@
       <code>1</code>
     </InvalidScalarArgument>
   </file>
-  <file src="core/Command/Db/Migrations/GenerateFromSchemaFileCommand.php">
-    <InvalidScalarArgument occurrences="1">
-      <code>$column-&gt;getLength()</code>
-    </InvalidScalarArgument>
-  </file>
   <file src="core/Command/Encryption/Enable.php">
     <NullArgument occurrences="1">
       <code>null</code>
@@ -2662,6 +2504,11 @@
       <code>section</code>
     </UndefinedInterfaceMethod>
   </file>
+  <file src="core/Command/Preview/ResetRenderedTexts.php">
+    <InvalidReturnStatement occurrences="1">
+      <code>[]</code>
+    </InvalidReturnStatement>
+  </file>
   <file src="core/Command/Upgrade.php">
     <InvalidScalarArgument occurrences="11">
       <code>0</code>
@@ -2687,22 +2534,6 @@
     <InvalidScalarArgument occurrences="1">
       <code>$input-&gt;getOption('default-value')</code>
     </InvalidScalarArgument>
-  </file>
-  <file src="core/Controller/AppPasswordController.php">
-    <InvalidArgument occurrences="1">
-      <code>'app_password_created'</code>
-    </InvalidArgument>
-    <TooManyArguments occurrences="1">
-      <code>dispatch</code>
-    </TooManyArguments>
-  </file>
-  <file src="core/Controller/ClientFlowLoginController.php">
-    <InvalidArgument occurrences="1">
-      <code>'app_password_created'</code>
-    </InvalidArgument>
-    <TooManyArguments occurrences="1">
-      <code>dispatch</code>
-    </TooManyArguments>
   </file>
   <file src="core/Controller/ClientFlowLoginV2Controller.php">
     <TypeDoesNotContainType occurrences="1">
@@ -2750,6 +2581,7 @@
   </file>
   <file src="core/routes.php">
     <InvalidScope occurrences="2">
+      <code>$this</code>
       <code>$this</code>
     </InvalidScope>
   </file>
@@ -2830,17 +2662,6 @@
       <code>fetch</code>
     </TooManyArguments>
   </file>
-  <file src="lib/private/App/CodeChecker/MigrationSchemaChecker.php">
-    <InvalidPropertyAssignmentValue occurrences="2">
-      <code>$this-&gt;tableVariableNames</code>
-      <code>$this-&gt;tableVariableNames</code>
-    </InvalidPropertyAssignmentValue>
-  </file>
-  <file src="lib/private/App/CodeChecker/NodeVisitor.php">
-    <ImplicitToStringCast occurrences="1">
-      <code>$node-&gt;alias</code>
-    </ImplicitToStringCast>
-  </file>
   <file src="lib/private/App/DependencyAnalyzer.php">
     <InvalidNullableReturnType occurrences="1">
       <code>bool</code>
@@ -2889,6 +2710,11 @@
     <InvalidPropertyAssignmentValue occurrences="1">
       <code>$this-&gt;bootedApps</code>
     </InvalidPropertyAssignmentValue>
+  </file>
+  <file src="lib/private/AppFramework/Bootstrap/FunctionInjector.php">
+    <UndefinedMethod occurrences="1">
+      <code>getName</code>
+    </UndefinedMethod>
   </file>
   <file src="lib/private/AppFramework/DependencyInjection/DIContainer.php">
     <ImplementedReturnTypeMismatch occurrences="1">
@@ -3018,6 +2844,11 @@
     <MoreSpecificImplementedParamType occurrences="1">
       <code>$default</code>
     </MoreSpecificImplementedParamType>
+  </file>
+  <file src="lib/private/AppFramework/Utility/SimpleContainer.php">
+    <UndefinedMethod occurrences="1">
+      <code>getName</code>
+    </UndefinedMethod>
   </file>
   <file src="lib/private/Archive/TAR.php">
     <InvalidReturnStatement occurrences="1">
@@ -3150,6 +2981,14 @@
       <code>InMemoryFile</code>
     </ImplementedReturnTypeMismatch>
   </file>
+  <file src="lib/private/Avatar/PlaceholderAvatar.php">
+    <ImplementedReturnTypeMismatch occurrences="1">
+      <code>ISimpleFile</code>
+    </ImplementedReturnTypeMismatch>
+    <InvalidScalarArgument occurrences="1">
+      <code>$data</code>
+    </InvalidScalarArgument>
+  </file>
   <file src="lib/private/Avatar/UserAvatar.php">
     <ImplementedReturnTypeMismatch occurrences="1">
       <code>ISimpleFile</code>
@@ -3190,16 +3029,7 @@
       <code>$this-&gt;shareeEnumerationInGroupOnly</code>
     </UndefinedThisPropertyFetch>
   </file>
-  <file src="lib/private/Collaboration/Collaborators/MailPlugin.php">
-    <UndefinedThisPropertyAssignment occurrences="1">
-      <code>$this-&gt;shareeEnumerationInGroupOnly</code>
-    </UndefinedThisPropertyAssignment>
-    <UndefinedThisPropertyFetch occurrences="1">
-      <code>$this-&gt;shareeEnumerationInGroupOnly</code>
-    </UndefinedThisPropertyFetch>
-  </file>
   <file src="lib/private/Collaboration/Resources/Manager.php">
-    <InvalidArgument occurrences="4"/>
     <RedundantCondition occurrences="1">
       <code>$user instanceof IUser</code>
     </RedundantCondition>
@@ -3231,7 +3061,6 @@
     </TypeDoesNotContainType>
   </file>
   <file src="lib/private/Comments/Manager.php">
-    <InvalidArgument occurrences="3"/>
     <InvalidDocblock occurrences="1">
       <code>public function getForObjectSince(</code>
     </InvalidDocblock>
@@ -3272,33 +3101,6 @@
       <code>$this-&gt;application</code>
     </UndefinedThisPropertyFetch>
   </file>
-  <file src="lib/private/Contacts/ContactsMenu/ActionProviderStore.php">
-    <ParadoxicalCondition occurrences="1">
-      <code>!isset($info['contactsmenu']) || !isset($info['contactsmenu'])</code>
-    </ParadoxicalCondition>
-  </file>
-  <file src="lib/private/Contacts/ContactsMenu/ContactsStore.php">
-    <InvalidIterator occurrences="1">
-      <code>$mailAddresses</code>
-    </InvalidIterator>
-  </file>
-  <file src="lib/private/Contacts/ContactsMenu/Entry.php">
-    <ImplementedReturnTypeMismatch occurrences="1">
-      <code>string</code>
-    </ImplementedReturnTypeMismatch>
-    <InvalidNullableReturnType occurrences="1">
-      <code>string</code>
-    </InvalidNullableReturnType>
-    <InvalidReturnStatement occurrences="1">
-      <code>$this-&gt;emailAddresses</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
-      <code>string</code>
-    </InvalidReturnType>
-    <NullableReturnStatement occurrences="1">
-      <code>$this-&gt;avatar</code>
-    </NullableReturnStatement>
-  </file>
   <file src="lib/private/Contacts/ContactsMenu/Manager.php">
     <InvalidNullableReturnType occurrences="1">
       <code>IEntry</code>
@@ -3308,9 +3110,6 @@
     </NullableReturnStatement>
   </file>
   <file src="lib/private/ContactsManager.php">
-    <ImplementedReturnTypeMismatch occurrences="1">
-      <code>IAddressBook[]</code>
-    </ImplementedReturnTypeMismatch>
     <InvalidNullableReturnType occurrences="3">
       <code>IAddressBook</code>
       <code>array</code>
@@ -3356,11 +3155,6 @@
       <code>$statement</code>
     </ParamNameMismatch>
   </file>
-  <file src="lib/private/DB/MDB2SchemaReader.php">
-    <InvalidScalarArgument occurrences="1">
-      <code>$options['default']</code>
-    </InvalidScalarArgument>
-  </file>
   <file src="lib/private/DB/MigrationService.php">
     <InvalidOperand occurrences="2">
       <code>$offset</code>
@@ -3380,11 +3174,10 @@
     </UndefinedThisPropertyFetch>
   </file>
   <file src="lib/private/DB/Migrator.php">
-    <InvalidArgument occurrences="2">
-      <code>'\OC\DB\Migrator::checkTable'</code>
+    <InvalidArgument occurrences="1">
       <code>'\OC\DB\Migrator::executeSql'</code>
     </InvalidArgument>
-    <TooManyArguments occurrences="2">
+    <TooManyArguments occurrences="1">
       <code>dispatch</code>
       <code>dispatch</code>
     </TooManyArguments>
@@ -3408,14 +3201,6 @@
       <code>getParams</code>
     </InternalMethod>
   </file>
-  <file src="lib/private/DB/QueryBuilder/ExpressionBuilder/OCIExpressionBuilder.php">
-    <InvalidReturnStatement occurrences="1">
-      <code>parent::castColumn($column, $type)</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
-      <code>IQueryFunction</code>
-    </InvalidReturnType>
-  </file>
   <file src="lib/private/DB/QueryBuilder/QueryBuilder.php">
     <InvalidNullableReturnType occurrences="1">
       <code>string</code>
@@ -3431,11 +3216,6 @@
     <NullableReturnStatement occurrences="1">
       <code>$string</code>
     </NullableReturnStatement>
-  </file>
-  <file src="lib/private/DB/ReconnectWrapper.php">
-    <InternalMethod occurrences="1">
-      <code>parent::__construct($params, $driver, $config, $eventManager)</code>
-    </InternalMethod>
   </file>
   <file src="lib/private/DateTimeFormatter.php">
     <FalsableReturnStatement occurrences="1"/>
@@ -3519,9 +3299,6 @@
     <ImplementedParamTypeMismatch occurrences="1">
       <code>$eventName</code>
     </ImplementedParamTypeMismatch>
-    <InvalidArgument occurrences="1">
-      <code>$eventName</code>
-    </InvalidArgument>
     <ParamNameMismatch occurrences="1">
       <code>$eventName</code>
     </ParamNameMismatch>
@@ -3564,16 +3341,6 @@
       <code>$path</code>
     </MoreSpecificImplementedParamType>
   </file>
-  <file src="lib/private/Files/Cache/LocalRootScanner.php">
-    <InvalidNullableReturnType occurrences="2">
-      <code>scan</code>
-      <code>scanFile</code>
-    </InvalidNullableReturnType>
-    <NullableReturnStatement occurrences="2">
-      <code>null</code>
-      <code>null</code>
-    </NullableReturnStatement>
-  </file>
   <file src="lib/private/Files/Cache/QuerySearchHelper.php">
     <InvalidScalarArgument occurrences="4">
       <code>$value</code>
@@ -3583,9 +3350,6 @@
     </InvalidScalarArgument>
   </file>
   <file src="lib/private/Files/Cache/Scanner.php">
-    <InvalidNullableReturnType occurrences="1">
-      <code>array</code>
-    </InvalidNullableReturnType>
     <InvalidReturnStatement occurrences="1">
       <code>$existingChildren</code>
     </InvalidReturnStatement>
@@ -3596,15 +3360,6 @@
       <code>$path</code>
       <code>self::SCAN_RECURSIVE_INCOMPLETE</code>
     </InvalidScalarArgument>
-    <NullableReturnStatement occurrences="4">
-      <code>null</code>
-      <code>null</code>
-      <code>null</code>
-      <code>null</code>
-    </NullableReturnStatement>
-    <TypeDoesNotContainType occurrences="1">
-      <code>$data ?? $this-&gt;getData($file)</code>
-    </TypeDoesNotContainType>
   </file>
   <file src="lib/private/Files/Cache/Storage.php">
     <InvalidNullableReturnType occurrences="1">
@@ -3659,7 +3414,6 @@
     </TypeDoesNotContainType>
   </file>
   <file src="lib/private/Files/Config/UserMountCache.php">
-    <InvalidArgument occurrences="1"/>
     <InvalidReturnType occurrences="2">
       <code>remoteStorageMounts</code>
       <code>removeUserStorageMount</code>
@@ -3746,23 +3500,15 @@
   </file>
   <file src="lib/private/Files/Node/Folder.php">
     <InvalidArgument occurrences="1"/>
-    <InvalidNullableReturnType occurrences="1">
-      <code>string</code>
-    </InvalidNullableReturnType>
-    <InvalidReturnStatement occurrences="2">
-      <code>$this-&gt;root-&gt;get($this-&gt;getFullPath($path))</code>
+    <InvalidReturnStatement occurrences="1">
       <code>new NonExistingFolder($this-&gt;root, $this-&gt;view, $path)</code>
     </InvalidReturnStatement>
-    <InvalidReturnType occurrences="2">
-      <code>\OC\Files\Node\Node</code>
+    <InvalidReturnType occurrences="1">
       <code>string</code>
     </InvalidReturnType>
     <MoreSpecificImplementedParamType occurrences="1">
       <code>$node</code>
     </MoreSpecificImplementedParamType>
-    <NullableReturnStatement occurrences="1">
-      <code>null</code>
-    </NullableReturnStatement>
     <UndefinedInterfaceMethod occurrences="2">
       <code>getSourceStorage</code>
       <code>getUnJailedPath</code>
@@ -3833,15 +3579,7 @@
     <InvalidNullableReturnType occurrences="1">
       <code>int</code>
     </InvalidNullableReturnType>
-    <InvalidReturnStatement occurrences="3">
-      <code>$targetNode</code>
-      <code>$targetNode</code>
-      <code>$this-&gt;root-&gt;get($newPath)</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="4">
-      <code>Node</code>
-      <code>\OC\Files\Node\Node</code>
-      <code>\OC\Files\Node\Node</code>
+    <InvalidReturnType occurrences="1">
       <code>getChecksum</code>
     </InvalidReturnType>
     <NullableReturnStatement occurrences="1">
@@ -3855,9 +3593,8 @@
     </UndefinedInterfaceMethod>
   </file>
   <file src="lib/private/Files/Node/Root.php">
-    <ImplementedReturnTypeMismatch occurrences="2">
+    <ImplementedReturnTypeMismatch occurrences="1">
       <code>Node</code>
-      <code>string</code>
     </ImplementedReturnTypeMismatch>
     <InvalidNullableReturnType occurrences="7">
       <code>\OC\Files\Mount\MountPoint</code>
@@ -3868,12 +3605,6 @@
       <code>int</code>
       <code>string</code>
     </InvalidNullableReturnType>
-    <InvalidReturnStatement occurrences="1">
-      <code>$this-&gt;createNode($fullPath, $fileInfo)</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
-      <code>string</code>
-    </InvalidReturnType>
     <NullableReturnStatement occurrences="7">
       <code>$this-&gt;mountManager-&gt;find($mountPoint)</code>
       <code>$this-&gt;user</code>
@@ -3951,14 +3682,11 @@
     <ImplementedReturnTypeMismatch occurrences="1">
       <code>string|false</code>
     </ImplementedReturnTypeMismatch>
-    <InvalidNullableReturnType occurrences="2">
+    <InvalidNullableReturnType occurrences="1">
       <code>array</code>
-      <code>getMetaData</code>
     </InvalidNullableReturnType>
     <InvalidOperand occurrences="2">
       <code>!$permissions</code>
-      <code>$result</code>
-      <code>$result</code>
       <code>$result</code>
     </InvalidOperand>
     <NoInterfaceProperties occurrences="8">
@@ -3971,9 +3699,8 @@
       <code>$storage-&gt;updater</code>
       <code>$storage-&gt;updater</code>
     </NoInterfaceProperties>
-    <NullableReturnStatement occurrences="2">
+    <NullableReturnStatement occurrences="1">
       <code>$this-&gt;getStorageCache()-&gt;getAvailability()</code>
-      <code>null</code>
     </NullableReturnStatement>
   </file>
   <file src="lib/private/Files/Storage/DAV.php">
@@ -4057,9 +3784,6 @@
     <ImplicitToStringCast occurrences="1">
       <code>$file</code>
     </ImplicitToStringCast>
-    <InvalidNullableReturnType occurrences="1">
-      <code>getMetaData</code>
-    </InvalidNullableReturnType>
     <InvalidOperand occurrences="1">
       <code>$result</code>
     </InvalidOperand>
@@ -4071,9 +3795,8 @@
       <code>filesize</code>
       <code>free_space</code>
     </InvalidReturnType>
-    <NullableReturnStatement occurrences="2">
+    <NullableReturnStatement occurrences="1">
       <code>$helper-&gt;getFileSize($fullPath)</code>
-      <code>null</code>
     </NullableReturnStatement>
     <TypeDoesNotContainNull occurrences="2">
       <code>$space === false || is_null($space)</code>
@@ -4090,7 +3813,7 @@
     </NoInterfaceProperties>
   </file>
   <file src="lib/private/Files/Storage/Wrapper/Availability.php">
-    <InvalidNullableReturnType occurrences="35">
+    <InvalidNullableReturnType occurrences="34">
       <code>copy</code>
       <code>copyFromStorage</code>
       <code>file_exists</code>
@@ -4104,7 +3827,6 @@
       <code>getDirectDownload</code>
       <code>getETag</code>
       <code>getLocalFile</code>
-      <code>getMetaData</code>
       <code>getMimeType</code>
       <code>getOwner</code>
       <code>getPermissions</code>
@@ -4156,9 +3878,6 @@
       <code>$source</code>
       <code>$target</code>
     </InvalidArgument>
-    <InvalidNullableReturnType occurrences="1">
-      <code>array</code>
-    </InvalidNullableReturnType>
     <InvalidOperand occurrences="3">
       <code>$result</code>
       <code>$result</code>
@@ -4184,9 +3903,6 @@
       <code>$size</code>
       <code>$sourceStorage-&gt;filemtime($sourceInternalPath)</code>
     </InvalidScalarArgument>
-    <NullableReturnStatement occurrences="1">
-      <code>null</code>
-    </NullableReturnStatement>
   </file>
   <file src="lib/private/Files/Storage/Wrapper/Jail.php">
     <InvalidReturnStatement occurrences="1">
@@ -4279,8 +3995,8 @@
       <code>null</code>
     </NullableReturnStatement>
     <RedundantCondition occurrences="3">
+      <code>$data</code>
       <code>$result &amp;&amp; in_array('delete', $hooks) and $result</code>
-      <code>$storage1</code>
       <code>is_resource($source)</code>
     </RedundantCondition>
     <UndefinedDocblockClass occurrences="2">
@@ -4294,7 +4010,6 @@
     </TypeDoesNotContainNull>
   </file>
   <file src="lib/private/Group/Database.php">
-    <InvalidArgument occurrences="1"/>
     <InvalidArrayOffset occurrences="1">
       <code>$this-&gt;groupCache[$gid]['displayname']</code>
     </InvalidArrayOffset>
@@ -4347,18 +4062,6 @@
     </UndefinedMethod>
   </file>
   <file src="lib/private/Group/Manager.php">
-    <InvalidArgument occurrences="1">
-      <code>$groupId</code>
-    </InvalidArgument>
-    <InvalidOperand occurrences="1">
-      <code>$groupId</code>
-    </InvalidOperand>
-    <InvalidReturnStatement occurrences="1">
-      <code>$groups</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
-      <code>\OC\Group\Group[]</code>
-    </InvalidReturnType>
     <UndefinedInterfaceMethod occurrences="3">
       <code>createGroup</code>
       <code>getGroupDetails</code>
@@ -4527,9 +4230,6 @@
     <RedundantCondition occurrences="1">
       <code>method_exists(self::$cache, 'deleteMulti')</code>
     </RedundantCondition>
-    <TypeDoesNotContainType occurrences="1">
-      <code>\Memcached::HAVE_IGBINARY</code>
-    </TypeDoesNotContainType>
   </file>
   <file src="lib/private/Memcache/Redis.php">
     <InvalidMethodCall occurrences="2">
@@ -4782,8 +4482,9 @@
       <code>microtime(true)</code>
       <code>microtime(true)</code>
     </InvalidScalarArgument>
-    <RedundantCondition occurrences="1">
+    <RedundantCondition occurrences="2">
       <code>$content !== ''</code>
+      <code>$type === 'pdo'</code>
     </RedundantCondition>
   </file>
   <file src="lib/private/Setup/AbstractDatabase.php">
@@ -4819,12 +4520,6 @@
     </UndefinedInterfaceMethod>
   </file>
   <file src="lib/private/Share20/DefaultShareProvider.php">
-    <InvalidReturnStatement occurrences="1">
-      <code>$shares</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
-      <code>getSharesInFolder</code>
-    </InvalidReturnType>
     <InvalidScalarArgument occurrences="3">
       <code>$share-&gt;getId()</code>
       <code>$share-&gt;getId()</code>
@@ -4838,8 +4533,7 @@
     </UndefinedInterfaceMethod>
   </file>
   <file src="lib/private/Share20/Manager.php">
-    <InvalidArgument occurrences="7">
-      <code>$data</code>
+    <InvalidArgument occurrences="6">
       <code>'OCP\Share::postAcceptShare'</code>
       <code>'OCP\Share::postShare'</code>
       <code>'OCP\Share::postUnshare'</code>
@@ -5044,12 +4738,6 @@
       <code>time()</code>
     </InvalidScalarArgument>
   </file>
-  <file src="lib/private/User/Backend.php">
-    <InvalidScalarArgument occurrences="2">
-      <code>$limit</code>
-      <code>$offset</code>
-    </InvalidScalarArgument>
-  </file>
   <file src="lib/private/User/Database.php">
     <FalsableReturnStatement occurrences="1">
       <code>false</code>
@@ -5057,11 +4745,6 @@
     <ImplicitToStringCast occurrences="1">
       <code>$query-&gt;func()-&gt;lower('displayname')</code>
     </ImplicitToStringCast>
-    <InvalidArgument occurrences="1"/>
-    <InvalidScalarArgument occurrences="2">
-      <code>$offset</code>
-      <code>$offset</code>
-    </InvalidScalarArgument>
   </file>
   <file src="lib/private/User/Manager.php">
     <ImplementedReturnTypeMismatch occurrences="1">
@@ -5070,10 +4753,6 @@
     <InvalidNullableReturnType occurrences="1">
       <code>bool|IUser</code>
     </InvalidNullableReturnType>
-    <InvalidScalarArgument occurrences="2">
-      <code>$limit</code>
-      <code>$offset</code>
-    </InvalidScalarArgument>
     <NullableReturnStatement occurrences="2">
       <code>$this-&gt;createUserFromBackend($uid, $password, $backend)</code>
       <code>$this-&gt;createUserFromBackend($uid, $password, $backend)</code>
@@ -5107,6 +4786,9 @@
     <TooManyArguments occurrences="1">
       <code>dispatch</code>
     </TooManyArguments>
+    <UndefinedMethod occurrences="1">
+      <code>getByEmail</code>
+    </UndefinedMethod>
   </file>
   <file src="lib/private/User/User.php">
     <InvalidArgument occurrences="5">
@@ -5371,11 +5053,6 @@
     <MoreSpecificImplementedParamType occurrences="1">
       <code>$jobList</code>
     </MoreSpecificImplementedParamType>
-  </file>
-  <file src="lib/public/Contacts/IManager.php">
-    <UndefinedDocblockClass occurrences="1">
-      <code>IAddressBook[]</code>
-    </UndefinedDocblockClass>
   </file>
   <file src="lib/public/Dashboard/Model/WidgetTemplate.php">
     <InvalidNullableReturnType occurrences="1">

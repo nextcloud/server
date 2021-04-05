@@ -31,7 +31,7 @@
 		@update:starred="toggleStarred"
 		@[defaultActionListener].stop.prevent="onDefaultAction">
 		<!-- TODO: create a standard to allow multiple elements here? -->
-		<template v-if="fileInfo" #primary-actions>
+		<template v-if="fileInfo" #description>
 			<LegacyView v-for="view in views"
 				:key="view.cid"
 				:component="view"

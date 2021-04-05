@@ -101,7 +101,7 @@ class AvatarHome implements ICollection {
 	}
 
 	public function getName() {
-		list(,$name) = Uri\split($this->principalInfo['uri']);
+		[,$name] = Uri\split($this->principalInfo['uri']);
 		return $name;
 	}
 

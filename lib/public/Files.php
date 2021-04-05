@@ -91,7 +91,7 @@ class Files {
 	 * @deprecated 14.0.0
 	 */
 	public static function streamCopy($source, $target) {
-		list($count, ) = \OC_Helper::streamCopy($source, $target);
+		[$count, ] = \OC_Helper::streamCopy($source, $target);
 		return $count;
 	}
 

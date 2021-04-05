@@ -26,11 +26,13 @@
 namespace Tests\Contacts\ContactsMenu;
 
 use OC\Contacts\ContactsMenu\ContactsStore;
+use OC\KnownUser\KnownUserService;
 use OCP\Contacts\IManager;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserManager;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class ContactsStoreTest extends TestCase {
@@ -44,6 +46,8 @@ class ContactsStoreTest extends TestCase {
 	private $groupManager;
 	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
+	/** @var KnownUserService|MockObject */
+	private $knownUserService;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -52,7 +56,14 @@ class ContactsStoreTest extends TestCase {
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->config = $this->createMock(IConfig::class);
-		$this->contactsStore = new ContactsStore($this->contactsManager, $this->config, $this->userManager, $this->groupManager);
+		$this->knownUserService = $this->createMock(KnownUserService::class);
+		$this->contactsStore = new ContactsStore(
+			$this->contactsManager,
+			$this->config,
+			$this->userManager,
+			$this->groupManager,
+			$this->knownUserService
+		);
 	}
 
 	public function testGetContactsWithoutFilter() {
@@ -171,29 +182,16 @@ class ContactsStoreTest extends TestCase {
 	}
 
 	public function testGetContactsWhenUserIsInExcludeGroups() {
-		$this->config->expects($this->at(0))->method('getAppValue')
-			->with($this->equalTo('core'), $this->equalTo('shareapi_allow_share_dialog_user_enumeration'), $this->equalTo('yes'))
-			->willReturn('yes');
-
-		$this->config->expects($this->at(1))
+		$this->config
 			->method('getAppValue')
-			->with($this->equalTo('core'), $this->equalTo('shareapi_restrict_user_enumeration_to_group'), $this->equalTo('no'))
-			->willReturn('no');
-
-		$this->config->expects($this->at(2))
-			->method('getAppValue')
-			->with($this->equalTo('core'), $this->equalTo('shareapi_exclude_groups'), $this->equalTo('no'))
-			->willReturn('yes');
-
-		$this->config->expects($this->at(3))
-			->method('getAppValue')
-			->with($this->equalTo('core'), $this->equalTo('shareapi_only_share_with_group_members'), $this->equalTo('no'))
-			->willReturn('yes');
-
-		$this->config->expects($this->at(4))
-			->method('getAppValue')
-			->with($this->equalTo('core'), $this->equalTo('shareapi_exclude_groups_list'), $this->equalTo(''))
-			->willReturn('["group1", "group5", "group6"]');
+			->willReturnMap([
+				['core', 'shareapi_allow_share_dialog_user_enumeration', 'yes', 'yes'],
+				['core', 'shareapi_restrict_user_enumeration_to_group', 'no', 'no'],
+				['core', 'shareapi_restrict_user_enumeration_to_phone', 'no', 'no'],
+				['core', 'shareapi_exclude_groups', 'no', 'yes'],
+				['core', 'shareapi_only_share_with_group_members', 'no', 'yes'],
+				['core', 'shareapi_exclude_groups_list', '', '["group1", "group5", "group6"]'],
+			]);
 
 		/** @var IUser|\PHPUnit\Framework\MockObject\MockObject $currentUser */
 		$currentUser = $this->createMock(IUser::class);
@@ -228,22 +226,15 @@ class ContactsStoreTest extends TestCase {
 	}
 
 	public function testGetContactsOnlyShareIfInTheSameGroup() {
-		$this->config->expects($this->at(0))->method('getAppValue')
-			->with($this->equalTo('core'), $this->equalTo('shareapi_allow_share_dialog_user_enumeration'), $this->equalTo('yes'))
-			->willReturn('yes');
-
-		$this->config->expects($this->at(1)) ->method('getAppValue')
-			->with($this->equalTo('core'), $this->equalTo('shareapi_restrict_user_enumeration_to_group'), $this->equalTo('no'))
-			->willReturn('no');
-
-		$this->config->expects($this->at(2)) ->method('getAppValue')
-			->with($this->equalTo('core'), $this->equalTo('shareapi_exclude_groups'), $this->equalTo('no'))
-			->willReturn('no');
-
-		$this->config->expects($this->at(3))
+		$this->config
 			->method('getAppValue')
-			->with($this->equalTo('core'), $this->equalTo('shareapi_only_share_with_group_members'), $this->equalTo('no'))
-			->willReturn('yes');
+			->willReturnMap([
+				['core', 'shareapi_allow_share_dialog_user_enumeration', 'yes', 'yes'],
+				['core', 'shareapi_restrict_user_enumeration_to_group', 'no', 'no'],
+				['core', 'shareapi_restrict_user_enumeration_to_phone', 'no', 'no'],
+				['core', 'shareapi_exclude_groups', 'no', 'no'],
+				['core', 'shareapi_only_share_with_group_members', 'no', 'yes'],
+			]);
 
 		/** @var IUser|\PHPUnit\Framework\MockObject\MockObject $currentUser */
 		$currentUser = $this->createMock(IUser::class);
@@ -314,22 +305,15 @@ class ContactsStoreTest extends TestCase {
 	}
 
 	public function testGetContactsOnlyEnumerateIfInTheSameGroup() {
-		$this->config->expects($this->at(0))->method('getAppValue')
-			->with($this->equalTo('core'), $this->equalTo('shareapi_allow_share_dialog_user_enumeration'), $this->equalTo('yes'))
-			->willReturn('yes');
-
-		$this->config->expects($this->at(1)) ->method('getAppValue')
-			->with($this->equalTo('core'), $this->equalTo('shareapi_restrict_user_enumeration_to_group'), $this->equalTo('no'))
-			->willReturn('yes');
-
-		$this->config->expects($this->at(2)) ->method('getAppValue')
-			->with($this->equalTo('core'), $this->equalTo('shareapi_exclude_groups'), $this->equalTo('no'))
-			->willReturn('no');
-
-		$this->config->expects($this->at(3))
+		$this->config
 			->method('getAppValue')
-			->with($this->equalTo('core'), $this->equalTo('shareapi_only_share_with_group_members'), $this->equalTo('no'))
-			->willReturn('no');
+			->willReturnMap([
+				['core', 'shareapi_allow_share_dialog_user_enumeration', 'yes', 'yes'],
+				['core', 'shareapi_restrict_user_enumeration_to_group', 'no', 'yes'],
+				['core', 'shareapi_restrict_user_enumeration_to_phone', 'no', 'no'],
+				['core', 'shareapi_exclude_groups', 'no', 'no'],
+				['core', 'shareapi_only_share_with_group_members', 'no', 'yes'],
+			]);
 
 		/** @var IUser|\PHPUnit\Framework\MockObject\MockObject $currentUser */
 		$currentUser = $this->createMock(IUser::class);
@@ -399,10 +383,312 @@ class ContactsStoreTest extends TestCase {
 		$this->assertEquals('contact', $entries[2]->getProperty('UID'));
 	}
 
+	public function testGetContactsOnlyEnumerateIfPhoneBookMatch() {
+		$this->config
+			->method('getAppValue')
+			->willReturnMap([
+				['core', 'shareapi_allow_share_dialog_user_enumeration', 'yes', 'yes'],
+				['core', 'shareapi_restrict_user_enumeration_to_group', 'no', 'no'],
+				['core', 'shareapi_restrict_user_enumeration_to_phone', 'no', 'yes'],
+				['core', 'shareapi_exclude_groups', 'no', 'no'],
+				['core', 'shareapi_only_share_with_group_members', 'no', 'no'],
+			]);
+
+		/** @var IUser|\PHPUnit\Framework\MockObject\MockObject $currentUser */
+		$currentUser = $this->createMock(IUser::class);
+		$currentUser->expects($this->once())
+			->method('getUID')
+			->willReturn('user001');
+
+		$this->groupManager->expects($this->at(0))
+			->method('getUserGroupIds')
+			->with($this->equalTo($currentUser))
+			->willReturn(['group1', 'group2', 'group3']);
+
+		$this->knownUserService->method('isKnownToUser')
+			->willReturnMap([
+				['user001', 'user1', true],
+				['user001', 'user2', true],
+				['user001', 'user3', false],
+			]);
+
+		$this->contactsManager->expects($this->once())
+			->method('search')
+			->with($this->equalTo(''), $this->equalTo(['FN', 'EMAIL']))
+			->willReturn([
+				[
+					'UID' => 'user1',
+					'isLocalSystemBook' => true
+				],
+				[
+					'UID' => 'user2',
+					'isLocalSystemBook' => true
+				],
+				[
+					'UID' => 'user3',
+					'isLocalSystemBook' => true
+				],
+				[
+					'UID' => 'contact',
+				],
+			]);
+
+		$entries = $this->contactsStore->getContacts($currentUser, '');
+
+		$this->assertCount(3, $entries);
+		$this->assertEquals('user1', $entries[0]->getProperty('UID'));
+		$this->assertEquals('user2', $entries[1]->getProperty('UID'));
+		$this->assertEquals('contact', $entries[2]->getProperty('UID'));
+	}
+
+	public function testGetContactsOnlyEnumerateIfPhoneBookMatchWithOwnGroupsOnly() {
+		$this->config
+			->method('getAppValue')
+			->willReturnMap([
+				['core', 'shareapi_allow_share_dialog_user_enumeration', 'yes', 'yes'],
+				['core', 'shareapi_restrict_user_enumeration_to_group', 'no', 'no'],
+				['core', 'shareapi_restrict_user_enumeration_to_phone', 'no', 'yes'],
+				['core', 'shareapi_exclude_groups', 'no', 'no'],
+				['core', 'shareapi_only_share_with_group_members', 'no', 'yes'],
+			]);
+
+		/** @var IUser|\PHPUnit\Framework\MockObject\MockObject $currentUser */
+		$currentUser = $this->createMock(IUser::class);
+		$currentUser->expects($this->once())
+			->method('getUID')
+			->willReturn('user001');
+
+		$this->groupManager->expects($this->at(0))
+			->method('getUserGroupIds')
+			->with($this->equalTo($currentUser))
+			->willReturn(['group1', 'group2', 'group3']);
+
+		$user1 = $this->createMock(IUser::class);
+		$this->userManager->expects($this->at(0))
+			->method('get')
+			->with('user1')
+			->willReturn($user1);
+		$this->groupManager->expects($this->at(1))
+			->method('getUserGroupIds')
+			->with($this->equalTo($user1))
+			->willReturn(['group1']);
+		$user2 = $this->createMock(IUser::class);
+		$this->userManager->expects($this->at(1))
+			->method('get')
+			->with('user2')
+			->willReturn($user2);
+		$this->groupManager->expects($this->at(2))
+			->method('getUserGroupIds')
+			->with($this->equalTo($user2))
+			->willReturn(['group2', 'group3']);
+		$user3 = $this->createMock(IUser::class);
+		$this->userManager->expects($this->at(2))
+			->method('get')
+			->with('user3')
+			->willReturn($user3);
+		$this->groupManager->expects($this->at(3))
+			->method('getUserGroupIds')
+			->with($this->equalTo($user3))
+			->willReturn(['group8', 'group9']);
+
+		$this->knownUserService->method('isKnownToUser')
+			->willReturnMap([
+				['user001', 'user1', true],
+				['user001', 'user2', true],
+				['user001', 'user3', true],
+			]);
+
+		$this->contactsManager->expects($this->once())
+			->method('search')
+			->with($this->equalTo(''), $this->equalTo(['FN', 'EMAIL']))
+			->willReturn([
+				[
+					'UID' => 'user1',
+					'isLocalSystemBook' => true
+				],
+				[
+					'UID' => 'user2',
+					'isLocalSystemBook' => true
+				],
+				[
+					'UID' => 'user3',
+					'isLocalSystemBook' => true
+				],
+				[
+					'UID' => 'contact',
+				],
+			]);
+
+		$entries = $this->contactsStore->getContacts($currentUser, '');
+
+		$this->assertCount(3, $entries);
+		$this->assertEquals('user1', $entries[0]->getProperty('UID'));
+		$this->assertEquals('user2', $entries[1]->getProperty('UID'));
+		$this->assertEquals('contact', $entries[2]->getProperty('UID'));
+	}
+
+	public function testGetContactsOnlyEnumerateIfPhoneBookOrSameGroup() {
+		$this->config
+			->method('getAppValue')
+			->willReturnMap([
+				['core', 'shareapi_allow_share_dialog_user_enumeration', 'yes', 'yes'],
+				['core', 'shareapi_restrict_user_enumeration_to_group', 'no', 'yes'],
+				['core', 'shareapi_restrict_user_enumeration_to_phone', 'no', 'yes'],
+				['core', 'shareapi_exclude_groups', 'no', 'no'],
+				['core', 'shareapi_only_share_with_group_members', 'no', 'no'],
+			]);
+
+		/** @var IUser|\PHPUnit\Framework\MockObject\MockObject $currentUser */
+		$currentUser = $this->createMock(IUser::class);
+		$currentUser->expects($this->once())
+			->method('getUID')
+			->willReturn('user001');
+
+		$this->groupManager->expects($this->at(0))
+			->method('getUserGroupIds')
+			->with($this->equalTo($currentUser))
+			->willReturn(['group1', 'group2', 'group3']);
+
+		$user1 = $this->createMock(IUser::class);
+		$this->userManager->expects($this->at(0))
+			->method('get')
+			->with('user1')
+			->willReturn($user1);
+		$this->groupManager->expects($this->at(1))
+			->method('getUserGroupIds')
+			->with($this->equalTo($user1))
+			->willReturn(['group1']);
+
+		$this->knownUserService->method('isKnownToUser')
+			->willReturnMap([
+				['user001', 'user1', false],
+				['user001', 'user2', true],
+				['user001', 'user3', true],
+			]);
+
+		$this->contactsManager->expects($this->once())
+			->method('search')
+			->with($this->equalTo(''), $this->equalTo(['FN', 'EMAIL']))
+			->willReturn([
+				[
+					'UID' => 'user1',
+					'isLocalSystemBook' => true
+				],
+				[
+					'UID' => 'user2',
+					'isLocalSystemBook' => true
+				],
+				[
+					'UID' => 'user3',
+					'isLocalSystemBook' => true
+				],
+				[
+					'UID' => 'contact',
+				],
+			]);
+
+		$entries = $this->contactsStore->getContacts($currentUser, '');
+
+		$this->assertCount(4, $entries);
+		$this->assertEquals('user1', $entries[0]->getProperty('UID'));
+		$this->assertEquals('user2', $entries[1]->getProperty('UID'));
+		$this->assertEquals('user3', $entries[2]->getProperty('UID'));
+		$this->assertEquals('contact', $entries[3]->getProperty('UID'));
+	}
+
+	public function testGetContactsOnlyEnumerateIfPhoneBookOrSameGroupInOwnGroupsOnly() {
+		$this->config
+			->method('getAppValue')
+			->willReturnMap([
+				['core', 'shareapi_allow_share_dialog_user_enumeration', 'yes', 'yes'],
+				['core', 'shareapi_restrict_user_enumeration_to_group', 'no', 'yes'],
+				['core', 'shareapi_restrict_user_enumeration_to_phone', 'no', 'yes'],
+				['core', 'shareapi_exclude_groups', 'no', 'no'],
+				['core', 'shareapi_only_share_with_group_members', 'no', 'yes'],
+			]);
+
+		/** @var IUser|\PHPUnit\Framework\MockObject\MockObject $currentUser */
+		$currentUser = $this->createMock(IUser::class);
+		$currentUser->expects($this->once())
+			->method('getUID')
+			->willReturn('user001');
+
+		$this->groupManager->expects($this->at(0))
+			->method('getUserGroupIds')
+			->with($this->equalTo($currentUser))
+			->willReturn(['group1', 'group2', 'group3']);
+
+		$user1 = $this->createMock(IUser::class);
+		$this->userManager->expects($this->at(0))
+			->method('get')
+			->with('user1')
+			->willReturn($user1);
+		$this->groupManager->expects($this->at(1))
+			->method('getUserGroupIds')
+			->with($this->equalTo($user1))
+			->willReturn(['group1']);
+		$user2 = $this->createMock(IUser::class);
+		$this->userManager->expects($this->at(1))
+			->method('get')
+			->with('user2')
+			->willReturn($user2);
+		$this->groupManager->expects($this->at(2))
+			->method('getUserGroupIds')
+			->with($this->equalTo($user2))
+			->willReturn(['group2', 'group3']);
+		$user3 = $this->createMock(IUser::class);
+		$this->userManager->expects($this->at(2))
+			->method('get')
+			->with('user3')
+			->willReturn($user3);
+		$this->groupManager->expects($this->at(3))
+			->method('getUserGroupIds')
+			->with($this->equalTo($user3))
+			->willReturn(['group8', 'group9']);
+
+		$this->knownUserService->method('isKnownToUser')
+			->willReturnMap([
+				['user001', 'user1', false],
+				['user001', 'user2', true],
+				['user001', 'user3', true],
+			]);
+
+		$this->contactsManager->expects($this->once())
+			->method('search')
+			->with($this->equalTo(''), $this->equalTo(['FN', 'EMAIL']))
+			->willReturn([
+				[
+					'UID' => 'user1',
+					'isLocalSystemBook' => true
+				],
+				[
+					'UID' => 'user2',
+					'isLocalSystemBook' => true
+				],
+				[
+					'UID' => 'user3',
+					'isLocalSystemBook' => true
+				],
+				[
+					'UID' => 'contact',
+				],
+			]);
+
+		$entries = $this->contactsStore->getContacts($currentUser, '');
+
+		$this->assertCount(3, $entries);
+		$this->assertEquals('user1', $entries[0]->getProperty('UID'));
+		$this->assertEquals('user2', $entries[1]->getProperty('UID'));
+		$this->assertEquals('contact', $entries[2]->getProperty('UID'));
+	}
+
 	public function testGetContactsWithFilter() {
-		$this->config->expects($this->at(0))->method('getAppValue')
-			->with($this->equalTo('core'), $this->equalTo('shareapi_allow_share_dialog_user_enumeration'), $this->equalTo('yes'))
-			->willReturn('no');
+		$this->config
+			->method('getAppValue')
+			->willReturnMap([
+				['core', 'shareapi_allow_share_dialog_user_enumeration', 'yes', 'no'],
+				['core', 'shareapi_restrict_user_enumeration_full_match', 'yes', 'yes'],
+			]);
 
 		/** @var IUser|\PHPUnit\Framework\MockObject\MockObject $user */
 		$user = $this->createMock(IUser::class);
@@ -460,6 +746,90 @@ class ContactsStoreTest extends TestCase {
 		$this->assertEquals([
 			'anne@example.com'
 		], $entry[1]->getEMailAddresses());
+
+		// Partial match on email should not match
+		$entry = $this->contactsStore->getContacts($user, 'john@example.co');
+		$this->assertSame(1, count($entry));
+		$this->assertEquals([
+			'anne@example.com'
+		], $entry[0]->getEMailAddresses());
+
+		// Match on FN should not match
+		$entry = $this->contactsStore->getContacts($user, 'Darren Roner');
+		$this->assertSame(1, count($entry));
+		$this->assertEquals([
+			'anne@example.com'
+		], $entry[0]->getEMailAddresses());
+
+		// Don't filter users in local addressbook
+		$entry = $this->contactsStore->getContacts($user, 'Anne D');
+		$this->assertSame(1, count($entry));
+		$this->assertEquals([
+			'anne@example.com'
+		], $entry[0]->getEMailAddresses());
+	}
+
+	public function testGetContactsWithFilterWithoutFullMatch() {
+		$this->config
+			->method('getAppValue')
+			->willReturnMap([
+				['core', 'shareapi_allow_share_dialog_user_enumeration', 'yes', 'no'],
+				['core', 'shareapi_restrict_user_enumeration_full_match', 'yes', 'no'],
+			]);
+
+		/** @var IUser|\PHPUnit\Framework\MockObject\MockObject $user */
+		$user = $this->createMock(IUser::class);
+		$this->contactsManager->expects($this->any())
+			->method('search')
+			->willReturn([
+				[
+					'UID' => 'a567',
+					'FN' => 'Darren Roner',
+					'EMAIL' => [
+						'darren@roner.au',
+					],
+					'isLocalSystemBook' => true,
+				],
+				[
+					'UID' => 'john',
+					'FN' => 'John Doe',
+					'EMAIL' => [
+						'john@example.com',
+					],
+					'isLocalSystemBook' => true,
+				],
+				[
+					'FN' => 'Anne D',
+					'EMAIL' => [
+						'anne@example.com',
+					],
+					'isLocalSystemBook' => false,
+				],
+			]);
+		$user->expects($this->any())
+			->method('getUID')
+			->willReturn('user123');
+
+		// Complete match on UID should not match
+		$entry = $this->contactsStore->getContacts($user, 'a567');
+		$this->assertSame(1, count($entry));
+		$this->assertEquals([
+			'anne@example.com'
+		], $entry[0]->getEMailAddresses());
+
+		// Partial match on UID should not match
+		$entry = $this->contactsStore->getContacts($user, 'a56');
+		$this->assertSame(1, count($entry));
+		$this->assertEquals([
+			'anne@example.com'
+		], $entry[0]->getEMailAddresses());
+
+		// Complete match on email should not match
+		$entry = $this->contactsStore->getContacts($user, 'john@example.com');
+		$this->assertSame(1, count($entry));
+		$this->assertEquals([
+			'anne@example.com'
+		], $entry[0]->getEMailAddresses());
 
 		// Partial match on email should not match
 		$entry = $this->contactsStore->getContacts($user, 'john@example.co');

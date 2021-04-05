@@ -118,6 +118,7 @@ class Defaults {
 	 * name of your ownCloud instance containing HTML styles
 	 * @return string
 	 * @since 8.0.0
+	 * @depreacted 22.0.0
 	 */
 	public function getHTMLName() {
 		return $this->defaults->getHTMLName();
@@ -139,16 +140,6 @@ class Defaults {
 	 */
 	public function getSlogan(?string $lang = null) {
 		return $this->defaults->getSlogan($lang);
-	}
-
-	/**
-	 * logo claim
-	 * @return string
-	 * @since 6.0.0
-	 * @deprecated 13.0.0
-	 */
-	public function getLogoClaim() {
-		return '';
 	}
 
 	/**

@@ -61,7 +61,7 @@ class User implements IUser {
 	/** @var string */
 	private $uid;
 
-	/** @var string */
+	/** @var string|null */
 	private $displayName;
 
 	/** @var UserInterface|null */
@@ -128,7 +128,7 @@ class User implements IUser {
 	 * @return string
 	 */
 	public function getDisplayName() {
-		if (!isset($this->displayName)) {
+		if ($this->displayName === null) {
 			$displayName = '';
 			if ($this->backend && $this->backend->implementsActions(Backend::GET_DISPLAYNAME)) {
 				// get display name and strip whitespace from the beginning and end of it

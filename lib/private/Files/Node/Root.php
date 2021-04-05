@@ -192,7 +192,7 @@ class Root extends Folder implements IRootFolder {
 	 * @param string $path
 	 * @throws \OCP\Files\NotFoundException
 	 * @throws \OCP\Files\NotPermittedException
-	 * @return string
+	 * @return Node
 	 */
 	public function get($path) {
 		$path = $this->normalizePath($path);

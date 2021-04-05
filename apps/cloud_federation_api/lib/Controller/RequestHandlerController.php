@@ -38,11 +38,11 @@ use OCP\Federation\ICloudFederationFactory;
 use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Federation\ICloudIdManager;
 use OCP\IGroupManager;
-use OCP\ILogger;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\Share\Exceptions\ShareNotFound;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class RequestHandlerController
@@ -53,7 +53,7 @@ use OCP\Share\Exceptions\ShareNotFound;
  */
 class RequestHandlerController extends Controller {
 
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	private $logger;
 
 	/** @var IUserManager */
@@ -79,7 +79,7 @@ class RequestHandlerController extends Controller {
 
 	public function __construct($appName,
 								IRequest $request,
-								ILogger $logger,
+								LoggerInterface $logger,
 								IUserManager $userManager,
 								IGroupManager $groupManager,
 								IURLGenerator $urlGenerator,

@@ -1,7 +1,7 @@
 /**
  * @copyright Copyright (c) 2020 John Molakvoæ <skjnldsv@protonmail.com>
  *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Jan C. Borchardt <hey@jancborchardt.net>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -19,6 +19,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 import { loadState } from '@nextcloud/initial-state'
 
 const hasPdf = loadState('settings', 'has-reasons-use-nextcloud-pdf') === true

@@ -28,9 +28,7 @@
 		<table v-if="clients.length > 0" class="grid">
 			<thead>
 				<tr>
-					<th id="headerContent">
-
-					</th>
+					<th id="headerContent" />
 					<th id="headerRemove">
 &nbsp;
 					</th>

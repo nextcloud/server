@@ -32,6 +32,7 @@ namespace OCA\Settings\Tests\Controller;
 use OC\Accounts\AccountManager;
 use OC\Encryption\Exceptions\ModuleDoesNotExistsException;
 use OC\Group\Manager;
+use OC\KnownUser\KnownUserService;
 use OCA\Settings\Controller\UsersController;
 use OCP\Accounts\IAccountManager;
 use OCP\App\IAppManager;
@@ -91,6 +92,8 @@ class UsersControllerTest extends \Test\TestCase {
 	private $securityManager;
 	/** @var  IManager | \PHPUnit\Framework\MockObject\MockObject */
 	private $encryptionManager;
+	/** @var KnownUserService|\PHPUnit\Framework\MockObject\MockObject */
+	private $knownUserService;
 	/** @var  IEncryptionModule  | \PHPUnit\Framework\MockObject\MockObject */
 	private $encryptionModule;
 	/** @var IEventDispatcher|\PHPUnit\Framework\MockObject\MockObject */
@@ -111,6 +114,7 @@ class UsersControllerTest extends \Test\TestCase {
 		$this->securityManager = $this->getMockBuilder(\OC\Security\IdentityProof\Manager::class)->disableOriginalConstructor()->getMock();
 		$this->jobList = $this->createMock(IJobList::class);
 		$this->encryptionManager = $this->createMock(IManager::class);
+		$this->knownUserService = $this->createMock(KnownUserService::class);
 		$this->dispatcher = $this->createMock(IEventDispatcher::class);
 
 		$this->l->method('t')
@@ -147,6 +151,7 @@ class UsersControllerTest extends \Test\TestCase {
 				$this->securityManager,
 				$this->jobList,
 				$this->encryptionManager,
+				$this->knownUserService,
 				$this->dispatcher
 			);
 		} else {
@@ -168,6 +173,7 @@ class UsersControllerTest extends \Test\TestCase {
 						$this->securityManager,
 						$this->jobList,
 						$this->encryptionManager,
+						$this->knownUserService,
 						$this->dispatcher
 					]
 				)->setMethods($mockedMethods)->getMock();
@@ -184,6 +190,7 @@ class UsersControllerTest extends \Test\TestCase {
 	public function testSetUserSettings($email, $validEmail, $expectedStatus) {
 		$controller = $this->getController(false, ['saveUserSettings']);
 		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('johndoe');
 
 		$this->userSession->method('getUser')->willReturn($user);
 
@@ -202,41 +209,41 @@ class UsersControllerTest extends \Test\TestCase {
 					IAccountManager::PROPERTY_DISPLAYNAME =>
 						[
 							'value' => 'Display name',
-							'scope' => AccountManager::VISIBILITY_CONTACTS_ONLY,
+							'scope' => AccountManager::SCOPE_FEDERATED,
 							'verified' => AccountManager::NOT_VERIFIED,
 						],
 					IAccountManager::PROPERTY_ADDRESS =>
 						[
 							'value' => '',
-							'scope' => AccountManager::VISIBILITY_PRIVATE,
+							'scope' => AccountManager::SCOPE_LOCAL,
 							'verified' => AccountManager::NOT_VERIFIED,
 						],
 					IAccountManager::PROPERTY_WEBSITE =>
 						[
 							'value' => '',
-							'scope' => AccountManager::VISIBILITY_PRIVATE,
+							'scope' => AccountManager::SCOPE_LOCAL,
 							'verified' => AccountManager::NOT_VERIFIED,
 						],
 					IAccountManager::PROPERTY_EMAIL =>
 						[
 							'value' => '',
-							'scope' => AccountManager::VISIBILITY_CONTACTS_ONLY,
+							'scope' => AccountManager::SCOPE_FEDERATED,
 							'verified' => AccountManager::NOT_VERIFIED,
 						],
 					IAccountManager::PROPERTY_AVATAR =>
 						[
-							'scope' => AccountManager::VISIBILITY_CONTACTS_ONLY
+							'scope' => AccountManager::SCOPE_FEDERATED
 						],
 					IAccountManager::PROPERTY_PHONE =>
 						[
 							'value' => '',
-							'scope' => AccountManager::VISIBILITY_PRIVATE,
+							'scope' => AccountManager::SCOPE_LOCAL,
 							'verified' => AccountManager::NOT_VERIFIED,
 						],
 					IAccountManager::PROPERTY_TWITTER =>
 						[
 							'value' => '',
-							'scope' => AccountManager::VISIBILITY_PRIVATE,
+							'scope' => AccountManager::SCOPE_LOCAL,
 							'verified' => AccountManager::NOT_VERIFIED,
 						],
 				]);
@@ -249,19 +256,19 @@ class UsersControllerTest extends \Test\TestCase {
 		}
 
 		$result = $controller->setUserSettings(//
-			AccountManager::VISIBILITY_CONTACTS_ONLY,
+			AccountManager::SCOPE_FEDERATED,
 			'displayName',
-			AccountManager::VISIBILITY_CONTACTS_ONLY,
+			AccountManager::SCOPE_FEDERATED,
 			'47658468',
-			AccountManager::VISIBILITY_CONTACTS_ONLY,
+			AccountManager::SCOPE_FEDERATED,
 			$email,
-			AccountManager::VISIBILITY_CONTACTS_ONLY,
+			AccountManager::SCOPE_FEDERATED,
 			'nextcloud.com',
-			AccountManager::VISIBILITY_CONTACTS_ONLY,
+			AccountManager::SCOPE_FEDERATED,
 			'street and city',
-			AccountManager::VISIBILITY_CONTACTS_ONLY,
+			AccountManager::SCOPE_FEDERATED,
 			'@nextclouders',
-			AccountManager::VISIBILITY_CONTACTS_ONLY
+			AccountManager::SCOPE_FEDERATED
 		);
 
 		$this->assertSame($expectedStatus, $result->getStatus());

@@ -102,7 +102,7 @@ class EventMerger implements IEventMerger {
 
 		// Other parameters are not the same => can not combine
 		try {
-			list($combined, $parameters) = $this->combineParameters($mergeParameter, $event, $previousEvent);
+			[$combined, $parameters] = $this->combineParameters($mergeParameter, $event, $previousEvent);
 		} catch (\UnexpectedValueException $e) {
 			return $event;
 		}

@@ -213,17 +213,11 @@ class Provider implements IProvider {
 					continue;
 				}
 
-				$pattern = '/(^|\s)(' . '@' . $mention['id'] . ')(\b)/';
-				if (strpos($mention['id'], ' ') !== false) {
-					$pattern = '/(^|\s)(' . '@"' . $mention['id'] . '"' . ')(\b)?/';
+				$message = str_replace('@"' . $mention['id'] . '"', '{mention' . $mentionCount . '}', $message);
+				if (strpos($mention['id'], ' ') === false && strpos($mention['id'], 'guest/') !== 0) {
+					$message = str_replace('@' . $mention['id'], '{mention' . $mentionCount . '}', $message);
 				}
 
-				$message = preg_replace(
-					$pattern,
-					//'${1}' . $this->regexSafeUser($mention['id'], $displayName) . '${3}',
-					'${1}' . '{mention' . $mentionCount . '}' . '${3}',
-					$message
-				);
 				$mentions['mention' . $mentionCount] = $this->generateUserParameter($mention['id']);
 				$mentionCount++;
 			}

@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Saved" : "Saxlanıldı",
     "Email sent" : "Məktub göndərildi",
+    "Local" : "Yerli",
     "Unable to change password" : "Şifrəni dəyişmək olmur",
     "Very weak password" : "Çox asan şifrə",
     "Weak password" : "Asan şifrə",
@@ -81,7 +82,6 @@ OC.L10N.register(
     "Expire after " : "Bitir sonra",
     "days" : "günlər",
     "Enforce expiration date" : "Bitmə tarixini həyata keçir",
-    "Allow users to share via link" : "Istifadəçilərə link üzərindən paylaşım etməyə izin vermək",
     "Allow public uploads" : "Ümumi yüklənmələrə izin vermək",
     "Enforce password protection" : "Şifrə müdafiəsini həyata keçirmək",
     "Allow resharing" : "Yenidən paylaşıma izin",
@@ -101,7 +101,6 @@ OC.L10N.register(
     "New password" : "Yeni şifrə",
     "Change password" : "Şifrəni dəyiş",
     "Valid until {date}" : "Müddətədək keçərlidir {date}",
-    "Local" : "Yerli",
     "Contacts" : "Əlaqələr",
     "by" : "onunla",
     "Common Name" : "Ümumi ad",
@@ -109,6 +108,7 @@ OC.L10N.register(
     "Issued By" : "Tərəfindən yaradılıb",
     "Valid until %s" : "Keçərlidir vaxtadək %s",
     "Import root certificate" : "root sertifikatı import et",
-    "Execute one task with each page loaded" : "Hər səhifə yüklənməsində bir işi yerinə yetir"
+    "Execute one task with each page loaded" : "Hər səhifə yüklənməsində bir işi yerinə yetir",
+    "Allow users to share via link" : "Istifadəçilərə link üzərindən paylaşım etməyə izin vermək"
 },
 "nplurals=2; plural=(n != 1);");

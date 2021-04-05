@@ -1,7 +1,8 @@
-/*
+/**
  * @copyright 2020 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
- * @author 2020 Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -16,13 +17,14 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 
-import {JSDOM} from 'jsdom'
-import {subscribe, unsubscribe} from '@nextcloud/event-bus'
+import { JSDOM } from 'jsdom'
+import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 
-import {manageToken, setToken} from '../../OC/requesttoken'
+import { manageToken, setToken } from '../../OC/requesttoken'
 
 describe('request token', () => {
 
@@ -66,7 +68,7 @@ describe('request token', () => {
 		it('fires off an event for @nextcloud/auth', () => {
 			setToken('123')
 
-			expect(listener).to.have.been.calledWith({token: '123'})
+			expect(listener).to.have.been.calledWith({ token: '123' })
 		})
 	})
 

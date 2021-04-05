@@ -174,7 +174,7 @@ class LegacyHelperTest extends \Test\TestCase {
 			$target = fopen($target, 'w');
 		}
 
-		list($count, $result) = \OC_Helper::streamCopy($source, $target);
+		[$count, $result] = \OC_Helper::streamCopy($source, $target);
 
 		if (is_resource($source)) {
 			fclose($source);

@@ -138,7 +138,7 @@ class MountPublicLinkController extends Controller {
 		}
 
 		try {
-			list(, $server) = $this->addressHandler->splitUserRemote($shareWith);
+			[, $server] = $this->addressHandler->splitUserRemote($shareWith);
 			$share = $this->shareManager->getShareByToken($token);
 		} catch (HintException $e) {
 			return new JSONResponse(['message' => $e->getHint()], Http::STATUS_BAD_REQUEST);

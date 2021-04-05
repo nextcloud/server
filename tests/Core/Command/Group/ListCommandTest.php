@@ -55,17 +55,6 @@ class ListCommandTest extends TestCase {
 			->getMock();
 
 		$this->input = $this->createMock(InputInterface::class);
-		$this->input->method('getOption')
-			->willReturnCallback(function ($arg) {
-				if ($arg === 'limit') {
-					return '100';
-				} elseif ($arg === 'offset') {
-					return '42';
-				}
-				throw new \Exception();
-			});
-
-
 		$this->output = $this->createMock(OutputInterface::class);
 	}
 
@@ -83,7 +72,7 @@ class ListCommandTest extends TestCase {
 			->with(
 				'',
 				100,
-				42
+				42,
 			)->willReturn([$group1, $group2, $group3]);
 
 		$group1->method('getUsers')
@@ -102,6 +91,18 @@ class ListCommandTest extends TestCase {
 				'user3' => $user,
 			]);
 
+		$this->input->method('getOption')
+			->willReturnCallback(function ($arg) {
+				if ($arg === 'limit') {
+					return '100';
+				} elseif ($arg === 'offset') {
+					return '42';
+				} elseif ($arg === 'info') {
+					return null;
+				}
+				throw new \Exception();
+			});
+
 		$this->command->expects($this->once())
 			->method('writeArrayInOutputFormat')
 			->with(
@@ -117,6 +118,90 @@ class ListCommandTest extends TestCase {
 					'group3' => [
 						'user1',
 						'user3',
+					]
+				]
+			);
+
+		$this->invokePrivate($this->command, 'execute', [$this->input, $this->output]);
+	}
+
+	public function testInfo() {
+		$group1 = $this->createMock(IGroup::class);
+		$group1->method('getGID')->willReturn('group1');
+		$group2 = $this->createMock(IGroup::class);
+		$group2->method('getGID')->willReturn('group2');
+		$group3 = $this->createMock(IGroup::class);
+		$group3->method('getGID')->willReturn('group3');
+
+		$user = $this->createMock(IUser::class);
+
+		$this->groupManager->method('search')
+			->with(
+				'',
+				100,
+				42,
+			)->willReturn([$group1, $group2, $group3]);
+
+		$group1->method('getUsers')
+			->willReturn([
+				'user1' => $user,
+				'user2' => $user,
+			]);
+
+		$group1->method('getBackendNames')
+			->willReturn(['Database']);
+
+		$group2->method('getUsers')
+			->willReturn([
+			]);
+
+		$group2->method('getBackendNames')
+			->willReturn(['Database']);
+
+		$group3->method('getUsers')
+			->willReturn([
+				'user1' => $user,
+				'user3' => $user,
+			]);
+
+		$group3->method('getBackendNames')
+			->willReturn(['LDAP']);
+
+		$this->input->method('getOption')
+			->willReturnCallback(function ($arg) {
+				if ($arg === 'limit') {
+					return '100';
+				} elseif ($arg === 'offset') {
+					return '42';
+				} elseif ($arg === 'info') {
+					return true;
+				}
+				throw new \Exception();
+			});
+
+		$this->command->expects($this->once())
+			->method('writeArrayInOutputFormat')
+			->with(
+				$this->equalTo($this->input),
+				$this->equalTo($this->output),
+				[
+					'group1' => [
+						'backends' => ['Database'],
+						'users' => [
+							'user1',
+							'user2',
+						],
+					],
+					'group2' => [
+						'backends' => ['Database'],
+						'users' => [],
+					],
+					'group3' => [
+						'backends' => ['LDAP'],
+						'users' => [
+							'user1',
+							'user3',
+						],
 					]
 				]
 			);

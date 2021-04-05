@@ -42,10 +42,12 @@ abstract class TimedJob extends Job {
 	/**
 	 * set the interval for the job
 	 *
+	 * @param int $seconds the time to pass between two runs of the same job in seconds
+	 *
 	 * @since 15.0.0
 	 */
-	public function setInterval(int $interval) {
-		$this->interval = $interval;
+	public function setInterval(int $seconds) {
+		$this->interval = $seconds;
 	}
 
 	/**

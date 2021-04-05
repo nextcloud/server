@@ -417,13 +417,13 @@ class EncryptAll {
 				$recipientDisplayName = $recipient->getDisplayName();
 				$to = $recipient->getEMailAddress();
 
-				if ($to === '') {
+				if ($to === '' || $to === null) {
 					$noMail[] = $uid;
 					continue;
 				}
 
 				$subject = $this->l->t('one-time password for server-side-encryption');
-				list($htmlBody, $textBody) = $this->createMailBody($password);
+				[$htmlBody, $textBody] = $this->createMailBody($password);
 
 				// send it out now
 				try {

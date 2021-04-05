@@ -13,6 +13,8 @@ OC.L10N.register(
     "Favorites" : "Избранное",
     "{temperature} {unit} Clear sky at {time}" : "{temperature} {unit}, ясно в {time}",
     "{temperature} {unit} Cloudy at {time}" : "{temperature} {unit}, облачно в {time}",
+    "{temperature} {unit} Fair day at {time}" : "{temperature} {unit}, безоблачно в {time}",
+    "{temperature} {unit} Fair night at {time}" : "{temperature} {unit}, безоблачно в {time}",
     "{temperature} {unit} Partly cloudy at {time}" : "{temperature} {unit}, переменная облачность в {time}",
     "{temperature} {unit} Foggy at {time}" : "{temperature} {unit}, туман в {time}",
     "{temperature} {unit} Light rain at {time}" : "{temperature} {unit}, небольшой дождь в {time}",

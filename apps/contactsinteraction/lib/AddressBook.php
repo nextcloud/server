@@ -170,7 +170,7 @@ class AddressBook extends ExternalAddressBook implements IACL {
 	}
 
 	private function getUid(): string {
-		list(, $uid) = \Sabre\Uri\split($this->principalUri);
+		[, $uid] = \Sabre\Uri\split($this->principalUri);
 		return $uid;
 	}
 }

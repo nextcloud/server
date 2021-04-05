@@ -203,12 +203,6 @@ class Upgrade extends Command {
 			$updater->listen('\OC\Updater', 'dbUpgrade', function () use ($output) {
 				$output->writeln('<info>Updated database</info>');
 			});
-			$updater->listen('\OC\Updater', 'dbSimulateUpgradeBefore', function () use ($output) {
-				$output->writeln('<info>Checking whether the database schema can be updated (this can take a long time depending on the database size)</info>');
-			});
-			$updater->listen('\OC\Updater', 'dbSimulateUpgrade', function () use ($output) {
-				$output->writeln('<info>Checked database schema update</info>');
-			});
 			$updater->listen('\OC\Updater', 'incompatibleAppDisabled', function ($app) use ($output) {
 				$output->writeln('<comment>Disabled incompatible app: ' . $app . '</comment>');
 			});
@@ -221,14 +215,8 @@ class Upgrade extends Command {
 			$updater->listen('\OC\Updater', 'checkAppStoreApp', function ($app) use ($output) {
 				$output->writeln('<info>Checked for update of app "' . $app . '" in appstore </info>');
 			});
-			$updater->listen('\OC\Updater', 'appUpgradeCheckBefore', function () use ($output) {
-				$output->writeln('<info>Checking updates of apps</info>');
-			});
 			$updater->listen('\OC\Updater', 'appSimulateUpdate', function ($app) use ($output) {
 				$output->writeln("<info>Checking whether the database schema for <$app> can be updated (this can take a long time depending on the database size)</info>");
-			});
-			$updater->listen('\OC\Updater', 'appUpgradeCheck', function () use ($output) {
-				$output->writeln('<info>Checked database schema update for apps</info>');
 			});
 			$updater->listen('\OC\Updater', 'appUpgradeStarted', function ($app, $version) use ($output) {
 				$output->writeln("<info>Updating <$app> ...</info>");

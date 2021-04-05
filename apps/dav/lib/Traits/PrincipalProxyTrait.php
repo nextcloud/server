@@ -77,7 +77,7 @@ trait PrincipalProxyTrait {
 	 * @throws Exception
 	 */
 	public function getGroupMembership($principal, $needGroups = false) {
-		list($prefix, $name) = \Sabre\Uri\split($principal);
+		[$prefix, $name] = \Sabre\Uri\split($principal);
 
 		if ($prefix !== $this->principalPrefix) {
 			return [];
@@ -113,7 +113,7 @@ trait PrincipalProxyTrait {
 	 * @throws Exception
 	 */
 	public function setGroupMemberSet($principal, array $members) {
-		list($principalUri, $target) = \Sabre\Uri\split($principal);
+		[$principalUri, $target] = \Sabre\Uri\split($principal);
 
 		if ($target !== 'calendar-proxy-write' && $target !== 'calendar-proxy-read') {
 			throw new Exception('Setting members of the group is not supported yet');
@@ -129,11 +129,11 @@ trait PrincipalProxyTrait {
 			$permission |= ProxyMapper::PERMISSION_WRITE;
 		}
 
-		list($prefix, $owner) = \Sabre\Uri\split($principalUri);
+		[$prefix, $owner] = \Sabre\Uri\split($principalUri);
 		$proxies = $this->proxyMapper->getProxiesOf($principalUri);
 
 		foreach ($members as $member) {
-			list($prefix, $name) = \Sabre\Uri\split($member);
+			[$prefix, $name] = \Sabre\Uri\split($member);
 
 			if ($prefix !== $this->principalPrefix) {
 				throw new Exception('Invalid member group prefix: ' . $prefix);
@@ -182,8 +182,8 @@ trait PrincipalProxyTrait {
 	 * @return bool
 	 */
 	private function isProxyPrincipal(string $principalUri):bool {
-		list($realPrincipalUri, $proxy) = \Sabre\Uri\split($principalUri);
-		list($prefix, $userId) = \Sabre\Uri\split($realPrincipalUri);
+		[$realPrincipalUri, $proxy] = \Sabre\Uri\split($principalUri);
+		[$prefix, $userId] = \Sabre\Uri\split($realPrincipalUri);
 
 		if (!isset($prefix) || !isset($userId)) {
 			return false;
@@ -201,7 +201,7 @@ trait PrincipalProxyTrait {
 	 * @return bool
 	 */
 	private function isReadProxyPrincipal(string $principalUri):bool {
-		list(, $proxy) = \Sabre\Uri\split($principalUri);
+		[, $proxy] = \Sabre\Uri\split($principalUri);
 		return $proxy === 'calendar-proxy-read';
 	}
 
@@ -210,7 +210,7 @@ trait PrincipalProxyTrait {
 	 * @return bool
 	 */
 	private function isWriteProxyPrincipal(string $principalUri):bool {
-		list(, $proxy) = \Sabre\Uri\split($principalUri);
+		[, $proxy] = \Sabre\Uri\split($principalUri);
 		return $proxy === 'calendar-proxy-write';
 	}
 
@@ -219,7 +219,7 @@ trait PrincipalProxyTrait {
 	 * @return string
 	 */
 	private function getPrincipalUriFromProxyPrincipal(string $principalUri):string {
-		list($realPrincipalUri, ) = \Sabre\Uri\split($principalUri);
+		[$realPrincipalUri, ] = \Sabre\Uri\split($principalUri);
 		return $realPrincipalUri;
 	}
 }

@@ -245,13 +245,13 @@ class TagsPlugin extends \Sabre\DAV\ServerPlugin {
 		$isFav = null;
 
 		$propFind->handle(self::TAGS_PROPERTYNAME, function () use (&$isFav, $node) {
-			list($tags, $isFav) = $this->getTagsAndFav($node->getId());
+			[$tags, $isFav] = $this->getTagsAndFav($node->getId());
 			return new TagList($tags);
 		});
 
 		$propFind->handle(self::FAVORITE_PROPERTYNAME, function () use ($isFav, $node) {
 			if (is_null($isFav)) {
-				list(, $isFav) = $this->getTagsAndFav($node->getId());
+				[, $isFav] = $this->getTagsAndFav($node->getId());
 			}
 			if ($isFav) {
 				return 1;

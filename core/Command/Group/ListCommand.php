@@ -60,6 +60,11 @@ class ListCommand extends Base {
 				'Offset for retrieving groups',
 				0
 			)->addOption(
+				'info',
+				'i',
+				InputOption::VALUE_NONE,
+				'Show additional info (backend)'
+			)->addOption(
 				'output',
 				null,
 				InputOption::VALUE_OPTIONAL,
@@ -70,7 +75,7 @@ class ListCommand extends Base {
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$groups = $this->groupManager->search('', (int)$input->getOption('limit'), (int)$input->getOption('offset'));
-		$this->writeArrayInOutputFormat($input, $output, $this->formatGroups($groups));
+		$this->writeArrayInOutputFormat($input, $output, $this->formatGroups($groups, (bool)$input->getOption('info')));
 		return 0;
 	}
 
@@ -78,13 +83,23 @@ class ListCommand extends Base {
 	 * @param IGroup[] $groups
 	 * @return array
 	 */
-	private function formatGroups(array $groups) {
+	private function formatGroups(array $groups, bool $addInfo = false) {
 		$keys = array_map(function (IGroup $group) {
 			return $group->getGID();
 		}, $groups);
-		$values = array_map(function (IGroup $group) {
-			return array_keys($group->getUsers());
-		}, $groups);
+
+		if ($addInfo) {
+			$values = array_map(function (IGroup $group) {
+				return [
+					'backends' => $group->getBackendNames(),
+					'users' => array_keys($group->getUsers()),
+				];
+			}, $groups);
+		} else {
+			$values = array_map(function (IGroup $group) {
+				return array_keys($group->getUsers());
+			}, $groups);
+		}
 		return array_combine($keys, $values);
 	}
 }

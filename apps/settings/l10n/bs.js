@@ -3,7 +3,7 @@ OC.L10N.register(
     {
     "Saved" : "Spremljeno",
     "Email sent" : "E-pošta je poslana",
-    "Public" : "Javno",
+    "Local" : "Lokalno",
     "Unable to change password" : "Promjena lozinke nije moguća",
     "Very weak password" : "Veoma slaba lozinka",
     "Weak password" : "Slaba lozinka",
@@ -74,7 +74,6 @@ OC.L10N.register(
     "Expire after " : "Istek nakon",
     "days" : "dana",
     "Enforce expiration date" : "Nametni datum isteka",
-    "Allow users to share via link" : "Dozvoli korisnicima dijeljenje putem veze",
     "Allow public uploads" : "Dozvoli javno učitavanje",
     "Enforce password protection" : "Nametni zaštitu lozinke",
     "Allow resharing" : "Dopustite ponovno dijeljenje",
@@ -92,13 +91,14 @@ OC.L10N.register(
     "New password" : "Nova lozinka",
     "Change password" : "Promijeni lozinku",
     "Valid until {date}" : "Validno do {date}",
-    "Local" : "Lokalno",
     "Contacts" : "Kontakti",
+    "Public" : "Javno",
     "by" : "od strane",
     "Common Name" : "Opće Ime",
     "Valid until" : "Validno do",
     "Issued By" : "Izdano od",
     "Valid until %s" : "Validno do %s",
-    "Execute one task with each page loaded" : "Izvrši jedan zadatak sa svakom učitanom stranicom"
+    "Execute one task with each page loaded" : "Izvrši jedan zadatak sa svakom učitanom stranicom",
+    "Allow users to share via link" : "Dozvoli korisnicima dijeljenje putem veze"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

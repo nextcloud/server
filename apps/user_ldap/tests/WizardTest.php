@@ -98,7 +98,7 @@ class WizardTest extends TestCase {
 	}
 
 	public function testCumulativeSearchOnAttributeLimited() {
-		list($wizard, $configuration, $ldap) = $this->getWizardAndMocks();
+		[$wizard, $configuration, $ldap] = $this->getWizardAndMocks();
 
 		$configuration->expects($this->any())
 			->method('__get')
@@ -158,7 +158,7 @@ class WizardTest extends TestCase {
 	}
 
 	public function testCumulativeSearchOnAttributeUnlimited() {
-		list($wizard, $configuration, $ldap) = $this->getWizardAndMocks();
+		[$wizard, $configuration, $ldap] = $this->getWizardAndMocks();
 
 		$configuration->expects($this->any())
 			->method('__get')
@@ -234,7 +234,7 @@ class WizardTest extends TestCase {
 	}
 
 	public function testDetectEmailAttributeAlreadySet() {
-		list($wizard, $configuration, $ldap, $access)
+		[$wizard, $configuration, $ldap, $access]
 			= $this->getWizardAndMocks();
 
 		$configuration->expects($this->any())
@@ -256,7 +256,7 @@ class WizardTest extends TestCase {
 	}
 
 	public function testDetectEmailAttributeOverrideSet() {
-		list($wizard, $configuration, $ldap, $access)
+		[$wizard, $configuration, $ldap, $access]
 			= $this->getWizardAndMocks();
 
 		$configuration->expects($this->any())
@@ -295,7 +295,7 @@ class WizardTest extends TestCase {
 	}
 
 	public function testDetectEmailAttributeFind() {
-		list($wizard, $configuration, $ldap, $access)
+		[$wizard, $configuration, $ldap, $access]
 			= $this->getWizardAndMocks();
 
 		$configuration->expects($this->any())
@@ -334,7 +334,7 @@ class WizardTest extends TestCase {
 	}
 
 	public function testDetectEmailAttributeFindNothing() {
-		list($wizard, $configuration, $ldap, $access)
+		[$wizard, $configuration, $ldap, $access]
 			= $this->getWizardAndMocks();
 
 		$configuration->expects($this->any())
@@ -374,7 +374,7 @@ class WizardTest extends TestCase {
 	public function testCumulativeSearchOnAttributeSkipReadDN() {
 		// tests that there is no infinite loop, when skipping already processed
 		// DNs (they can be returned multiple times for multiple filters )
-		list($wizard, $configuration, $ldap) = $this->getWizardAndMocks();
+		[$wizard, $configuration, $ldap] = $this->getWizardAndMocks();
 
 		$configuration->expects($this->any())
 			->method('__get')

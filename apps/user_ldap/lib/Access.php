@@ -1254,7 +1254,7 @@ class Access extends LDAPUtility {
 				if ($search === false) {
 					return $counter > 0 ? $counter : false;
 				}
-				list($sr, $pagedSearchOK) = $search;
+				[$sr, $pagedSearchOK] = $search;
 
 				/* ++ Fixing RHDS searches with pages with zero results ++
 				 * countEntriesInSearchResults() method signature changed
@@ -1321,7 +1321,7 @@ class Access extends LDAPUtility {
 			if ($search === false) {
 				return [];
 			}
-			list($sr, $pagedSearchOK) = $search;
+			[$sr, $pagedSearchOK] = $search;
 			$cr = $this->connection->getConnectionResource();
 
 			if ($skipHandling) {

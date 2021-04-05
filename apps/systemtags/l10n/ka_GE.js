@@ -3,7 +3,7 @@ OC.L10N.register(
     {
     "Update" : "განახლება",
     "Create" : "შექმნა",
-    "Select tag…" : "ტეგის არჩევა…",
+    "Select tag …" : "ტეგის არჩევა …",
     "Added system tag {systemtag}" : "სისტემური ტეგის დამატება {systemtag}",
     "Added system tag %1$s" : "სისტემური ტეგის დამატება %1$s",
     "%1$s added system tag %2$s" : " %1$s მომხმარებელმა დაამატა სისტემური ტეგი %2$s",
@@ -42,7 +42,6 @@ OC.L10N.register(
     "No tags found" : "ტეგები ვერ მოიძებნა",
     "Please select tags to filter by" : "ფილტრაციისთვის გთხოვთ აირჩიოთ ტეგები",
     "No files found for the selected tags" : "არჩეული ტეგების მიხედვით ფაილების პოვნა ვერ მოხერხდა",
-    "Select tag …" : "ტეგის არჩევა …",
     "Create a new tag" : "ახალი ტეგის შექმნა",
     "Name" : "სახელი",
     "Public" : "ღია",

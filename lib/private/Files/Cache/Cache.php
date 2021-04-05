@@ -121,7 +121,7 @@ class Cache implements ICache {
 		$this->querySearchHelper = new QuerySearchHelper($this->mimetypeLoader);
 	}
 
-	private function getQueryBuilder() {
+	protected function getQueryBuilder() {
 		return new CacheQueryBuilder(
 			$this->connection,
 			\OC::$server->getSystemConfig(),
@@ -198,10 +198,10 @@ class Cache implements ICache {
 		}
 		$data['permissions'] = (int)$data['permissions'];
 		if (isset($data['creation_time'])) {
-			$data['creation_time'] = (int) $data['creation_time'];
+			$data['creation_time'] = (int)$data['creation_time'];
 		}
 		if (isset($data['upload_time'])) {
-			$data['upload_time'] = (int) $data['upload_time'];
+			$data['upload_time'] = (int)$data['upload_time'];
 		}
 		return new CacheEntry($data);
 	}
@@ -629,7 +629,7 @@ class Cache implements ICache {
 	/**
 	 * Move a file or folder in the cache
 	 *
-	 * @param \OCP\Files\Cache\ICache $sourceCache
+	 * @param ICache $sourceCache
 	 * @param string $sourcePath
 	 * @param string $targetPath
 	 * @throws \OC\DatabaseException
@@ -642,6 +642,10 @@ class Cache implements ICache {
 			$targetPath = $this->normalize($targetPath);
 
 			$sourceData = $sourceCache->get($sourcePath);
+			if ($sourceData === false) {
+				throw new \Exception('Invalid source storage path: ' . $sourcePath);
+			}
+
 			$sourceId = $sourceData['fileid'];
 			$newParentId = $this->getParentId($targetPath);
 
@@ -841,6 +845,10 @@ class Cache implements ICache {
 		$query->whereStorageId();
 
 		if ($this->querySearchHelper->shouldJoinTags($searchQuery->getSearchOperation())) {
+			$user = $searchQuery->getUser();
+			if ($user === null) {
+				throw new \InvalidArgumentException("Searching by tag requires the user to be set in the query");
+			}
 			$query
 				->innerJoin('file', 'vcategory_to_object', 'tagmap', $builder->expr()->eq('file.fileid', 'tagmap.objid'))
 				->innerJoin('tagmap', 'vcategory', 'tag', $builder->expr()->andX(
@@ -848,7 +856,7 @@ class Cache implements ICache {
 					$builder->expr()->eq('tagmap.categoryid', 'tag.id')
 				))
 				->andWhere($builder->expr()->eq('tag.type', $builder->createNamedParameter('files')))
-				->andWhere($builder->expr()->eq('tag.uid', $builder->createNamedParameter($searchQuery->getUser()->getUID())));
+				->andWhere($builder->expr()->eq('tag.uid', $builder->createNamedParameter($user->getUID())));
 		}
 
 		$searchExpr = $this->querySearchHelper->searchOperatorToDBExpr($builder, $searchQuery->getSearchOperation());
@@ -1031,7 +1039,7 @@ class Cache implements ICache {
 			return null;
 		}
 
-		return (string) $path;
+		return (string)$path;
 	}
 
 	/**
@@ -1075,5 +1083,48 @@ class Cache implements ICache {
 	 */
 	public function normalize($path) {
 		return trim(\OC_Util::normalizeUnicode($path), '/');
+	}
+
+	/**
+	 * Copy a file or folder in the cache
+	 *
+	 * @param ICache $sourceCache
+	 * @param ICacheEntry $sourceEntry
+	 * @param string $targetPath
+	 * @return int fileid of copied entry
+	 */
+	public function copyFromCache(ICache $sourceCache, ICacheEntry $sourceEntry, string $targetPath): int {
+		if ($sourceEntry->getId() < 0) {
+			throw new \RuntimeException("Invalid source cache entry on copyFromCache");
+		}
+		$data = $this->cacheEntryToArray($sourceEntry);
+		$fileId = $this->put($targetPath, $data);
+		if ($fileId <= 0) {
+			throw new \RuntimeException("Failed to copy to " . $targetPath . " from cache with source data " . json_encode($data) . " ");
+		}
+		if ($sourceEntry->getMimeType() === ICacheEntry::DIRECTORY_MIMETYPE) {
+			$folderContent = $sourceCache->getFolderContentsById($sourceEntry->getId());
+			foreach ($folderContent as $subEntry) {
+				$subTargetPath = $targetPath . '/' . $subEntry->getName();
+				$this->copyFromCache($sourceCache, $subEntry, $subTargetPath);
+			}
+		}
+		return $fileId;
+	}
+
+	private function cacheEntryToArray(ICacheEntry $entry): array {
+		return [
+			'size' => $entry->getSize(),
+			'mtime' => $entry->getMTime(),
+			'storage_mtime' => $entry->getStorageMTime(),
+			'mimetype' => $entry->getMimeType(),
+			'mimepart' => $entry->getMimePart(),
+			'etag' => $entry->getEtag(),
+			'permissions' => $entry->getPermissions(),
+			'encrypted' => $entry->isEncrypted(),
+			'creation_time' => $entry->getCreationTime(),
+			'upload_time' => $entry->getUploadTime(),
+			'metadata_etag' => $entry->getMetadataEtag(),
+		];
 	}
 }

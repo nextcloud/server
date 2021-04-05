@@ -42,13 +42,13 @@ use OCA\Settings\Controller\AuthSettingsController;
 use OCP\Activity\IEvent;
 use OCP\Activity\IManager;
 use OCP\AppFramework\Http\JSONResponse;
-use OCP\ILogger;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUserSession;
 use OCP\Security\ISecureRandom;
 use OCP\Session\Exceptions\SessionNotAvailableException;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class AuthSettingsControllerTest extends TestCase {
@@ -81,8 +81,8 @@ class AuthSettingsControllerTest extends TestCase {
 		$this->secureRandom = $this->createMock(ISecureRandom::class);
 		$this->activityManager = $this->createMock(IManager::class);
 		$this->remoteWipe = $this->createMock(RemoteWipe::class);
-		/** @var ILogger|MockObject $logger */
-		$logger = $this->createMock(ILogger::class);
+		/** @var LoggerInterface|MockObject $logger */
+		$logger = $this->createMock(LoggerInterface::class);
 
 		$this->controller = new AuthSettingsController(
 			'core',

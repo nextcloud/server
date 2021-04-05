@@ -36,7 +36,7 @@ class SettingsManager {
 
 	private $sendPasswordByMailDefault = 'yes';
 
-	private $enforcePasswordProtectionDefault = 'no';
+	private $replyToInitiatorDefault = 'yes';
 
 	public function __construct(IConfig $config) {
 		$this->config = $config;
@@ -53,12 +53,12 @@ class SettingsManager {
 	}
 
 	/**
-	 * do we require a share by mail to be password protected
+	 * should add reply to with initiator mail
 	 *
 	 * @return bool
 	 */
-	public function enforcePasswordProtection(): bool {
-		$enforcePassword = $this->config->getAppValue('sharebymail', 'enforcePasswordProtection', $this->enforcePasswordProtectionDefault);
-		return $enforcePassword === 'yes';
+	public function replyToInitiator(): bool {
+		$replyToInitiator = $this->config->getAppValue('sharebymail', 'replyToInitiator', $this->replyToInitiatorDefault);
+		return $replyToInitiator === 'yes';
 	}
 }

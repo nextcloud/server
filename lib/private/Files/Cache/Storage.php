@@ -30,6 +30,7 @@
 namespace OC\Files\Cache;
 
 use OCP\Files\Storage\IStorage;
+use Psr\Log\LoggerInterface;
 
 /**
  * Handle the mapping between the string and numeric storage ids
@@ -77,7 +78,7 @@ class Storage {
 			$connection = \OC::$server->getDatabaseConnection();
 			$available = $isAvailable ? 1 : 0;
 			if ($connection->insertIfNotExist('*PREFIX*storages', ['id' => $this->storageId, 'available' => $available])) {
-				$this->numericId = (int)$connection->lastInsertId('*PREFIX*storages');
+				$this->numericId = $connection->lastInsertId('*PREFIX*storages');
 			} else {
 				if ($row = self::getStorageById($this->storageId)) {
 					$this->numericId = (int)$row['numeric_id'];
@@ -175,6 +176,9 @@ class Storage {
 	 */
 	public function setAvailability($isAvailable, int $delay = 0) {
 		$available = $isAvailable ? 1 : 0;
+		if (!$isAvailable) {
+			\OC::$server->get(LoggerInterface::class)->info('Storage with ' . $this->storageId . ' marked as unavailable', ['app' => 'lib']);
+		}
 
 		$query = \OC::$server->getDatabaseConnection()->getQueryBuilder();
 		$query->update('storages')

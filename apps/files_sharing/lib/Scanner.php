@@ -45,7 +45,7 @@ class Scanner extends \OC\Files\Cache\Scanner {
 	 *
 	 * @param string $path path of the file for which to retrieve metadata
 	 *
-	 * @return array an array of metadata of the file
+	 * @return array|null an array of metadata of the file
 	 */
 	public function getData($path) {
 		$data = parent::getData($path);
@@ -63,7 +63,7 @@ class Scanner extends \OC\Files\Cache\Scanner {
 		}
 		if ($this->storage->instanceOfStorage('\OCA\Files_Sharing\SharedStorage')) {
 			/** @var \OC\Files\Storage\Storage $storage */
-			list($storage) = $this->storage->resolvePath('');
+			[$storage] = $this->storage->resolvePath('');
 			$this->sourceScanner = $storage->getScanner();
 			return $this->sourceScanner;
 		} else {

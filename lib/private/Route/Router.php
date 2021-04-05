@@ -56,7 +56,7 @@ class Router implements IRouter {
 	protected $root = null;
 	/** @var null|UrlGenerator */
 	protected $generator = null;
-	/** @var string[] */
+	/** @var string[]|null */
 	protected $routingFiles;
 	/** @var bool */
 	protected $loaded = false;
@@ -95,7 +95,7 @@ class Router implements IRouter {
 	 * @return string[]
 	 */
 	public function getRoutingFiles() {
-		if (!isset($this->routingFiles)) {
+		if ($this->routingFiles === null) {
 			$this->routingFiles = [];
 			foreach (\OC_APP::getEnabledApps() as $app) {
 				$appPath = \OC_App::getAppPath($app);
@@ -237,14 +237,14 @@ class Router implements IRouter {
 	public function findMatchingRoute(string $url): array {
 		if (substr($url, 0, 6) === '/apps/') {
 			// empty string / 'apps' / $app / rest of the route
-			list(, , $app,) = explode('/', $url, 4);
+			[, , $app,] = explode('/', $url, 4);
 
 			$app = \OC_App::cleanAppId($app);
 			\OC::$REQUESTEDAPP = $app;
 			$this->loadRoutes($app);
 		} elseif (substr($url, 0, 13) === '/ocsapp/apps/') {
 			// empty string / 'ocsapp' / 'apps' / $app / rest of the route
-			list(, , , $app,) = explode('/', $url, 5);
+			[, , , $app,] = explode('/', $url, 5);
 
 			$app = \OC_App::cleanAppId($app);
 			\OC::$REQUESTEDAPP = $app;
@@ -347,7 +347,7 @@ class Router implements IRouter {
 		}
 		$name = $this->fixLegacyRootName($name);
 		if (strpos($name, '.') !== false) {
-			list($appName, $other) = explode('.', $name, 3);
+			[$appName, $other] = explode('.', $name, 3);
 			// OCS routes are prefixed with "ocs."
 			if ($appName === 'ocs') {
 				$appName = $other;

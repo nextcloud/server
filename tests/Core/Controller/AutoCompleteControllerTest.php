@@ -75,8 +75,8 @@ class AutoCompleteControllerTest extends TestCase {
 				],
 				// expected
 				[
-					[ 'id' => 'alice', 'label' => 'Alice A.', 'source' => 'users'],
-					[ 'id' => 'bob', 'label' => 'Bob Y.', 'source' => 'users'],
+					[ 'id' => 'alice', 'label' => 'Alice A.', 'icon' => '', 'source' => 'users', 'status' => '', 'subline' => ''],
+					[ 'id' => 'bob', 'label' => 'Bob Y.', 'icon' => '', 'source' => 'users', 'status' => '', 'subline' => ''],
 				],
 				'',
 				'files',
@@ -96,8 +96,8 @@ class AutoCompleteControllerTest extends TestCase {
 				],
 				// expected
 				[
-					[ 'id' => 'alice', 'label' => 'Alice A.', 'source' => 'users'],
-					[ 'id' => 'bob', 'label' => 'Bob Y.', 'source' => 'users'],
+					[ 'id' => 'alice', 'label' => 'Alice A.', 'icon' => '', 'source' => 'users', 'status' => '', 'subline' => ''],
+					[ 'id' => 'bob', 'label' => 'Bob Y.', 'icon' => '', 'source' => 'users', 'status' => '', 'subline' => ''],
 				],
 				'',
 				null,
@@ -117,8 +117,8 @@ class AutoCompleteControllerTest extends TestCase {
 				],
 				// expected
 				[
-					[ 'id' => 'alice', 'label' => 'Alice A.', 'source' => 'users'],
-					[ 'id' => 'bob', 'label' => 'Bob Y.', 'source' => 'users'],
+					[ 'id' => 'alice', 'label' => 'Alice A.', 'icon' => '', 'source' => 'users', 'status' => '', 'subline' => ''],
+					[ 'id' => 'bob', 'label' => 'Bob Y.', 'icon' => '', 'source' => 'users', 'status' => '', 'subline' => ''],
 				],
 				'',
 				'files',
@@ -138,8 +138,8 @@ class AutoCompleteControllerTest extends TestCase {
 					],
 				],
 				[
-					[ 'id' => 'bob', 'label' => 'Bob Y.', 'source' => 'users'],
-					[ 'id' => 'bobby', 'label' => 'Robert R.', 'source' => 'users'],
+					[ 'id' => 'bob', 'label' => 'Bob Y.', 'icon' => '', 'source' => 'users', 'status' => '', 'subline' => ''],
+					[ 'id' => 'bobby', 'label' => 'Robert R.', 'icon' => '', 'source' => 'users', 'status' => '', 'subline' => ''],
 				],
 				'bob',
 				'files',

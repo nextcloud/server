@@ -312,7 +312,7 @@ class FileSearchBackend implements ISearchBackend {
 	 * @return ISearchOperator
 	 */
 	private function transformSearchOperation(Operator $operator) {
-		list(, $trimmedType) = explode('}', $operator->type);
+		[, $trimmedType] = explode('}', $operator->type);
 		switch ($operator->type) {
 			case Operator::OPERATION_AND:
 			case Operator::OPERATION_OR:

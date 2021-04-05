@@ -193,7 +193,7 @@ class ManagerTest extends TestCase {
 		$manager = $this->getManager();
 		$data = 'MyTestData';
 
-		list($resultPublicKey, $resultPrivateKey) = self::invokePrivate($manager, 'generateKeyPair');
+		[$resultPublicKey, $resultPrivateKey] = self::invokePrivate($manager, 'generateKeyPair');
 		openssl_sign($data, $signature, $resultPrivateKey);
 		$details = openssl_pkey_get_details(openssl_pkey_get_public($resultPublicKey));
 

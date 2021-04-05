@@ -87,8 +87,9 @@ class Local extends \OC\Files\Storage\Common {
 
 	public function mkdir($path) {
 		$sourcePath = $this->getSourcePath($path);
+		$oldMask = umask(022);
 		$result = @mkdir($sourcePath, 0777, true);
-		chmod($sourcePath, 0755);
+		umask($oldMask);
 		return $result;
 	}
 
@@ -258,11 +259,13 @@ class Local extends \OC\Files\Storage\Common {
 		if ($this->file_exists($path) and !$this->isUpdatable($path)) {
 			return false;
 		}
+		$oldMask = umask(022);
 		if (!is_null($mtime)) {
 			$result = @touch($this->getSourcePath($path), $mtime);
 		} else {
 			$result = @touch($this->getSourcePath($path));
 		}
+		umask($oldMask);
 		if ($result) {
 			clearstatcache(true, $this->getSourcePath($path));
 		}
@@ -275,7 +278,10 @@ class Local extends \OC\Files\Storage\Common {
 	}
 
 	public function file_put_contents($path, $data) {
-		return file_put_contents($this->getSourcePath($path), $data);
+		$oldMask = umask(022);
+		$result = file_put_contents($this->getSourcePath($path), $data);
+		umask($oldMask);
+		return $result;
 	}
 
 	public function unlink($path) {
@@ -288,16 +294,14 @@ class Local extends \OC\Files\Storage\Common {
 		}
 	}
 
-	private function treeContainsBlacklistedFile(string $path): bool {
+	private function checkTreeForForbiddenItems(string $path) {
 		$iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path));
 		foreach ($iterator as $file) {
 			/** @var \SplFileInfo $file */
 			if (Filesystem::isFileBlacklisted($file->getBasename())) {
-				return true;
+				throw new ForbiddenException('Invalid path: ' . $file->getPathname(), false);
 			}
 		}
-
-		return false;
 	}
 
 	public function rename($path1, $path2) {
@@ -337,9 +341,7 @@ class Local extends \OC\Files\Storage\Common {
 				return $result;
 			}
 
-			if ($this->treeContainsBlacklistedFile($this->getSourcePath($path1))) {
-				throw new ForbiddenException('Invalid path', false);
-			}
+			$this->checkTreeForForbiddenItems($this->getSourcePath($path1));
 		}
 
 		return rename($this->getSourcePath($path1), $this->getSourcePath($path2));
@@ -349,12 +351,18 @@ class Local extends \OC\Files\Storage\Common {
 		if ($this->is_dir($path1)) {
 			return parent::copy($path1, $path2);
 		} else {
-			return copy($this->getSourcePath($path1), $this->getSourcePath($path2));
+			$oldMask = umask(022);
+			$result = copy($this->getSourcePath($path1), $this->getSourcePath($path2));
+			umask($oldMask);
+			return $result;
 		}
 	}
 
 	public function fopen($path, $mode) {
-		return fopen($this->getSourcePath($path), $mode);
+		$oldMask = umask(022);
+		$result = fopen($this->getSourcePath($path), $mode);
+		umask($oldMask);
+		return $result;
 	}
 
 	public function hash($type, $path, $raw = false) {
@@ -437,7 +445,7 @@ class Local extends \OC\Files\Storage\Common {
 	 */
 	public function getSourcePath($path) {
 		if (Filesystem::isFileBlacklisted($path)) {
-			throw new ForbiddenException('Invalid path', false);
+			throw new ForbiddenException('Invalid path: ' . $path, false);
 		}
 
 		$fullPath = $this->datadir . $path;

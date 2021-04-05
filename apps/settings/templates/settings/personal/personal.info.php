@@ -34,8 +34,8 @@ script('settings', [
 ]);
 ?>
 
-<div id="personal-settings">
-	<div id="personal-settings-avatar-container" class="personal-settings-container">
+<div id="personal-settings" data-lookup-server-upload-enabled="<?php p($_['lookupServerUploadEnabled'] ? 'true' : 'false') ?>">
+<div id="personal-settings-avatar-container" class="personal-settings-container">
 		<div>
 			<form id="avatarform" class="section" method="post" action="<?php p(\OC::$server->getURLGenerator()->linkToRoute('core.avatar.postAvatar')); ?>">
 				<h3>
@@ -68,9 +68,7 @@ script('settings', [
 				</div>
 				<span class="icon-checkmark hidden"></span>
 				<span class="icon-error hidden" ></span>
-				<?php if ($_['lookupServerUploadEnabled']) { ?>
 				<input type="hidden" id="avatarscope" value="<?php p($_['avatarScope']) ?>">
-				<?php } ?>
 			</form>
 		</div>
 		<div class="personal-settings-setting-box personal-settings-group-box section">
@@ -125,7 +123,7 @@ script('settings', [
 				<span class="icon-checkmark hidden"></span>
 				<span class="icon-error hidden" ></span>
 				<?php if ($_['lookupServerUploadEnabled']) { ?>
-					<input type="hidden" id="displaynamescope" value="<?php p($_['displayNameScope']) ?>">
+				<input type="hidden" id="displaynamescope" value="<?php p($_['displayNameScope']) ?>">
 				<?php } ?>
 			</form>
 		</div>
@@ -179,7 +177,6 @@ script('settings', [
 				<?php } ?>
 			</form>
 		</div>
-		<?php if (!empty($_['phone']) || $_['lookupServerUploadEnabled']) { ?>
 		<div class="personal-settings-setting-box">
 			<form id="phoneform" class="section">
 				<h3>
@@ -190,21 +187,15 @@ script('settings', [
 						</span>
 					</div>
 				</h3>
-				<input type="tel" id="phone" name="phone" <?php if (!$_['lookupServerUploadEnabled']) {
-						print_unescaped('disabled="1"');
-					} ?>
+				<input type="tel" id="phone" name="phone"
 					   value="<?php p($_['phone']) ?>"
 					   placeholder="<?php p($l->t('Your phone number')); ?>"
 				       autocomplete="on" autocapitalize="none" autocorrect="off" />
 				<span class="icon-checkmark hidden"></span>
 				<span class="icon-error hidden" ></span>
-				<?php if ($_['lookupServerUploadEnabled']) { ?>
 				<input type="hidden" id="phonescope" value="<?php p($_['phoneScope']) ?>">
-				<?php } ?>
 			</form>
 		</div>
-		<?php } ?>
-		<?php if (!empty($_['address']) || $_['lookupServerUploadEnabled']) { ?>
 		<div class="personal-settings-setting-box">
 			<form id="addressform" class="section">
 				<h3>
@@ -215,21 +206,15 @@ script('settings', [
 						</span>
 					</div>
 				</h3>
-				<input type="text" id="address" name="address" <?php if (!$_['lookupServerUploadEnabled']) {
-						print_unescaped('disabled="1"');
-					}  ?>
+				<input type="text" id="address" name="address"
 					   placeholder="<?php p($l->t('Your postal address')); ?>"
 					   value="<?php p($_['address']) ?>"
 					   autocomplete="on" autocapitalize="none" autocorrect="off" />
 				<span class="icon-checkmark hidden"></span>
 				<span class="icon-error hidden" ></span>
-				<?php if ($_['lookupServerUploadEnabled']) { ?>
 				<input type="hidden" id="addressscope" value="<?php p($_['addressScope']) ?>">
-				<?php } ?>
 			</form>
 		</div>
-		<?php } ?>
-		<?php if (!empty($_['website']) || $_['lookupServerUploadEnabled']) { ?>
 		<div class="personal-settings-setting-box">
 			<form id="websiteform" class="section">
 				<h3>
@@ -273,19 +258,12 @@ script('settings', [
 				<input type="url" name="website" id="website" value="<?php p($_['website']); ?>"
 				       placeholder="<?php p($l->t('Link https://…')); ?>"
 				       autocomplete="on" autocapitalize="none" autocorrect="off"
-					   <?php if (!$_['lookupServerUploadEnabled']) {
-						print_unescaped('disabled="1"');
-					}  ?>
 				/>
 				<span class="icon-checkmark hidden"></span>
 				<span class="icon-error hidden" ></span>
-				<?php if ($_['lookupServerUploadEnabled']) { ?>
 				<input type="hidden" id="websitescope" value="<?php p($_['websiteScope']) ?>">
-				<?php } ?>
 			</form>
 		</div>
-		<?php } ?>
-		<?php if (!empty($_['twitter']) || $_['lookupServerUploadEnabled']) { ?>
 		<div class="personal-settings-setting-box">
 			<form id="twitterform" class="section">
 				<h3>
@@ -329,18 +307,12 @@ script('settings', [
 				<input type="text" name="twitter" id="twitter" value="<?php p($_['twitter']); ?>"
 					   placeholder="<?php p($l->t('Twitter handle @…')); ?>"
 					   autocomplete="on" autocapitalize="none" autocorrect="off"
-					   <?php if (!$_['lookupServerUploadEnabled']) {
-						print_unescaped('disabled="1"');
-					}  ?>
 				/>
 				<span class="icon-checkmark hidden"></span>
 				<span class="icon-error hidden" ></span>
-				<?php if ($_['lookupServerUploadEnabled']) { ?>
 				<input type="hidden" id="twitterscope" value="<?php p($_['twitterScope']) ?>">
-				<?php } ?>
 			</form>
 		</div>
-		<?php } ?>
 	</div>
 
 	<div class="profile-settings-container">

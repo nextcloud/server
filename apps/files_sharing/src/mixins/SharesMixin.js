@@ -1,7 +1,12 @@
 /**
  * @copyright Copyright (c) 2019 John Molakvoæ <skjnldsv@protonmail.com>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
+ * @author Gary Kim <gary@garykim.dev>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Julius Härtl <jus@bitgrid.net>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -248,11 +253,14 @@ export default {
 					try {
 						await this.updateShare(this.share.id, properties)
 
+						if (propertyNames.indexOf('password') >= 0) {
+							// reset password state after sync
+							this.$delete(this.share, 'newPassword')
+						}
+
 						// clear any previous errors
 						this.$delete(this.errors, propertyNames[0])
 
-						// reset password state after sync
-						this.$delete(this.share, 'newPassword')
 					} catch ({ message }) {
 						if (message && message !== '') {
 							this.onSyncError(propertyNames[0], message)

@@ -14,10 +14,11 @@ style('sharebymail', 'settings-admin');
 	p('checked');
 } ?> />
 		<label for="sendPasswordMail"><?php p($l->t('Send password by mail')); ?></label><br/>
-		<input id="enforcePasswordProtection" type="checkbox" class="checkbox" <?php if ($_['enforcePasswordProtection']) {
+
+		<input id="replyToInitiator" type="checkbox" class="checkbox" <?php if ($_['replyToInitiator']) {
 	p('checked');
 } ?> />
-		<label for="enforcePasswordProtection"><?php p($l->t('Enforce password protection')); ?></label>
+		<label for="replyToInitiator"><?php p($l->t('Reply to initiator')); ?></label>
 	</p>
 
 </div>

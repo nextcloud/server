@@ -35,18 +35,6 @@ namespace OCP;
  */
 interface ICacheFactory {
 	/**
-	 * Get a distributed memory cache instance
-	 *
-	 * All entries added trough the cache instance will be namespaced by $prefix to prevent collisions between apps
-	 *
-	 * @param string $prefix
-	 * @return ICache
-	 * @since 7.0.0
-	 * @deprecated 13.0.0 Use either createLocking, createDistributed or createLocal
-	 */
-	public function create(string $prefix = ''): ICache;
-
-	/**
 	 * Check if any memory cache backend is available
 	 *
 	 * @return bool

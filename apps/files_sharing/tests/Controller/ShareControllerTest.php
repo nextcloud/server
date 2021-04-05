@@ -234,7 +234,7 @@ class ShareControllerTest extends \Test\TestCase {
 
 		$accountName = $this->createMock(IAccountProperty::class);
 		$accountName->method('getScope')
-			->willReturn(IAccountManager::VISIBILITY_PUBLIC);
+			->willReturn(IAccountManager::SCOPE_PUBLISHED);
 		$account = $this->createMock(IAccount::class);
 		$account->method('getProperty')
 			->with(IAccountManager::PROPERTY_DISPLAYNAME)
@@ -381,7 +381,7 @@ class ShareControllerTest extends \Test\TestCase {
 
 		$accountName = $this->createMock(IAccountProperty::class);
 		$accountName->method('getScope')
-			->willReturn(IAccountManager::VISIBILITY_PRIVATE);
+			->willReturn(IAccountManager::SCOPE_LOCAL);
 		$account = $this->createMock(IAccount::class);
 		$account->method('getProperty')
 			->with(IAccountManager::PROPERTY_DISPLAYNAME)
@@ -528,7 +528,7 @@ class ShareControllerTest extends \Test\TestCase {
 
 		$accountName = $this->createMock(IAccountProperty::class);
 		$accountName->method('getScope')
-			->willReturn(IAccountManager::VISIBILITY_PUBLIC);
+			->willReturn(IAccountManager::SCOPE_PUBLISHED);
 		$account = $this->createMock(IAccount::class);
 		$account->method('getProperty')
 			->with(IAccountManager::PROPERTY_DISPLAYNAME)
@@ -688,7 +688,7 @@ class ShareControllerTest extends \Test\TestCase {
 
 		$accountName = $this->createMock(IAccountProperty::class);
 		$accountName->method('getScope')
-			->willReturn(IAccountManager::VISIBILITY_PUBLIC);
+			->willReturn(IAccountManager::SCOPE_PUBLISHED);
 		$account = $this->createMock(IAccount::class);
 		$account->method('getProperty')
 			->with(IAccountManager::PROPERTY_DISPLAYNAME)

@@ -223,7 +223,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 				}
 			}
 
-			list(, $name) = \Sabre\Uri\split($row['principaluri']);
+			[, $name] = \Sabre\Uri\split($row['principaluri']);
 			$uri = $row['uri'] . '_shared_by_' . $name;
 			$displayName = $row['displayname'] . ' (' . $this->getUserDisplayName($name) . ')';
 
@@ -857,14 +857,20 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * @param string $addressBookId
 	 * @param string $syncToken
 	 * @param int $syncLevel
-	 * @param int $limit
+	 * @param int|null $limit
 	 * @return array
 	 */
 	public function getChangesForAddressBook($addressBookId, $syncToken, $syncLevel, $limit = null) {
 		// Current synctoken
-		$stmt = $this->db->prepare('SELECT `synctoken` FROM `*PREFIX*addressbooks` WHERE `id` = ?');
-		$stmt->execute([$addressBookId]);
+		$qb = $this->db->getQueryBuilder();
+		$qb->select('synctoken')
+			->from('addressbooks')
+			->where(
+				$qb->expr()->eq('id', $qb->createNamedParameter($addressBookId))
+			);
+		$stmt = $qb->execute();
 		$currentToken = $stmt->fetchOne();
+		$stmt->closeCursor();
 
 		if (is_null($currentToken)) {
 			return null;
@@ -878,14 +884,23 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		];
 
 		if ($syncToken) {
-			$query = "SELECT `uri`, `operation` FROM `*PREFIX*addressbookchanges` WHERE `synctoken` >= ? AND `synctoken` < ? AND `addressbookid` = ? ORDER BY `synctoken`";
-			if ($limit > 0) {
-				$query .= " LIMIT " . (int)$limit;
+			$qb = $this->db->getQueryBuilder();
+			$qb->select('uri', 'operation')
+				->from('addressbookchanges')
+				->where(
+					$qb->expr()->andX(
+						$qb->expr()->gte('synctoken', $qb->createNamedParameter($syncToken)),
+						$qb->expr()->lt('synctoken', $qb->createNamedParameter($currentToken)),
+						$qb->expr()->eq('addressbookid', $qb->createNamedParameter($addressBookId))
+					)
+				)->orderBy('synctoken');
+
+			if (is_int($limit) && $limit > 0) {
+				$qb->setMaxResults($limit);
 			}
 
 			// Fetching all changes
-			$stmt = $this->db->prepare($query);
-			$stmt->execute([$syncToken, $currentToken, $addressBookId]);
+			$stmt = $qb->execute();
 
 			$changes = [];
 
@@ -894,6 +909,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
 				$changes[$row['uri']] = $row['operation'];
 			}
+			$stmt->closeCursor();
 
 			foreach ($changes as $uri => $operation) {
 				switch ($operation) {
@@ -909,12 +925,16 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 				}
 			}
 		} else {
+			$qb = $this->db->getQueryBuilder();
+			$qb->select('uri')
+				->from('cards')
+				->where(
+					$qb->expr()->eq('addressbookid', $qb->createNamedParameter($addressBookId))
+				);
 			// No synctoken supplied, this is the initial sync.
-			$query = "SELECT `uri` FROM `*PREFIX*cards` WHERE `addressbookid` = ?";
-			$stmt = $this->db->prepare($query);
-			$stmt->execute([$addressBookId]);
-
+			$stmt = $qb->execute();
 			$result['added'] = $stmt->fetchAll(\PDO::FETCH_COLUMN);
+			$stmt->closeCursor();
 		}
 		return $result;
 	}
@@ -1318,7 +1338,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 
 	private function convertPrincipal($principalUri, $toV2) {
 		if ($this->principalBackend->getPrincipalPrefix() === 'principals') {
-			list(, $name) = \Sabre\Uri\split($principalUri);
+			[, $name] = \Sabre\Uri\split($principalUri);
 			if ($toV2 === true) {
 				return "principals/users/$name";
 			}

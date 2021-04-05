@@ -22,6 +22,7 @@
  */
 
 use Behat\Behat\Context\Context;
+use PHPUnit\Framework\Assert;
 
 class FilesAppSharingContext implements Context, ActorAwareInterface {
 	use ActorAware;
@@ -371,8 +372,8 @@ class FilesAppSharingContext implements Context, ActorAwareInterface {
 				self::shareLinkMenu($shareLinkMenuTriggerElement),
 				$timeout = 2 * $this->actor->getFindTimeoutMultiplier())) {
 			// It may not be possible to click on the menu button (due to the
-			// menu itself covering it), so "Esc" key is pressed instead.
-			$this->actor->find(self::shareLinkMenu($shareLinkMenuTriggerElement), 2)->getWrappedElement()->keyPress(27);
+			// menu itself covering it), so "Enter" key is pressed instead.
+			$this->actor->find(self::shareLinkMenuButton(), 2)->getWrappedElement()->keyPress(13);
 		}
 
 		$this->actor->find(self::copyLinkButton(), 10)->click();
@@ -513,7 +514,7 @@ class FilesAppSharingContext implements Context, ActorAwareInterface {
 	 * @Then I see that the file is shared with me by :sharedByName
 	 */
 	public function iSeeThatTheFileIsSharedWithMeBy($sharedByName) {
-		PHPUnit_Framework_Assert::assertEquals(
+		Assert::assertEquals(
 				$this->actor->find(self::sharedByLabel(), 10)->getText(), "Shared with you by $sharedByName");
 	}
 
@@ -521,7 +522,7 @@ class FilesAppSharingContext implements Context, ActorAwareInterface {
 	 * @Then I see that the file is shared with :sharedWithName
 	 */
 	public function iSeeThatTheFileIsSharedWith($sharedWithName) {
-		PHPUnit_Framework_Assert::assertTrue(
+		Assert::assertTrue(
 				$this->actor->find(self::sharedWithRow($sharedWithName), 10)->isVisible());
 	}
 
@@ -533,7 +534,7 @@ class FilesAppSharingContext implements Context, ActorAwareInterface {
 				$this->actor,
 				self::sharedWithRow($sharedWithName),
 				$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
-			PHPUnit_Framework_Assert::fail("The shared with $sharedWithName row is still shown after $timeout seconds");
+			Assert::fail("The shared with $sharedWithName row is still shown after $timeout seconds");
 		}
 	}
 
@@ -541,9 +542,9 @@ class FilesAppSharingContext implements Context, ActorAwareInterface {
 	 * @Then I see that resharing the file is not allowed
 	 */
 	public function iSeeThatResharingTheFileIsNotAllowed() {
-		PHPUnit_Framework_Assert::assertEquals(
+		Assert::assertEquals(
 				$this->actor->find(self::shareWithInput(), 10)->getWrappedElement()->getAttribute("disabled"), "disabled");
-		PHPUnit_Framework_Assert::assertEquals(
+		Assert::assertEquals(
 				$this->actor->find(self::shareWithInput(), 10)->getWrappedElement()->getAttribute("placeholder"), "Resharing is not allowed");
 	}
 
@@ -555,7 +556,7 @@ class FilesAppSharingContext implements Context, ActorAwareInterface {
 				$this->actor,
 				self::shareLinkAddNewButton(),
 				$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
-			PHPUnit_Framework_Assert::fail("The add new share link button is still shown after $timeout seconds");
+			Assert::fail("The add new share link button is still shown after $timeout seconds");
 		}
 	}
 
@@ -566,7 +567,7 @@ class FilesAppSharingContext implements Context, ActorAwareInterface {
 		$this->showShareWithMenuIfNeeded($sharedWithName);
 
 		$shareWithMenuTriggerElement = $this->actor->find(self::shareWithMenuTrigger($sharedWithName), 10);
-		PHPUnit_Framework_Assert::assertEquals(
+		Assert::assertEquals(
 				$this->actor->find(self::canEditCheckboxInput($sharedWithName, $shareWithMenuTriggerElement), 10)->getWrappedElement()->getAttribute("disabled"), "disabled");
 	}
 
@@ -577,7 +578,7 @@ class FilesAppSharingContext implements Context, ActorAwareInterface {
 		$this->showShareWithMenuIfNeeded($sharedWithName);
 
 		$shareWithMenuTriggerElement = $this->actor->find(self::shareWithMenuTrigger($sharedWithName), 10);
-		PHPUnit_Framework_Assert::assertTrue(
+		Assert::assertTrue(
 				$this->actor->find(self::canEditCheckboxInput($sharedWithName, $shareWithMenuTriggerElement), 10)->isChecked());
 	}
 
@@ -588,7 +589,7 @@ class FilesAppSharingContext implements Context, ActorAwareInterface {
 		$this->showShareWithMenuIfNeeded($sharedWithName);
 
 		$shareWithMenuTriggerElement = $this->actor->find(self::shareWithMenuTrigger($sharedWithName), 10);
-		PHPUnit_Framework_Assert::assertFalse(
+		Assert::assertFalse(
 				$this->actor->find(self::canEditCheckboxInput($sharedWithName, $shareWithMenuTriggerElement), 10)->isChecked());
 	}
 
@@ -599,7 +600,7 @@ class FilesAppSharingContext implements Context, ActorAwareInterface {
 		$this->showShareWithMenuIfNeeded($sharedWithName);
 
 		$shareWithMenuTriggerElement = $this->actor->find(self::shareWithMenuTrigger($sharedWithName), 10);
-		PHPUnit_Framework_Assert::assertEquals(
+		Assert::assertEquals(
 				$this->actor->find(self::canCreateCheckboxInput($sharedWithName, $shareWithMenuTriggerElement), 10)->getWrappedElement()->getAttribute("disabled"), "disabled");
 	}
 
@@ -610,7 +611,7 @@ class FilesAppSharingContext implements Context, ActorAwareInterface {
 		$this->showShareWithMenuIfNeeded($sharedWithName);
 
 		$shareWithMenuTriggerElement = $this->actor->find(self::shareWithMenuTrigger($sharedWithName), 10);
-		PHPUnit_Framework_Assert::assertTrue(
+		Assert::assertTrue(
 				$this->actor->find(self::canCreateCheckboxInput($sharedWithName, $shareWithMenuTriggerElement), 10)->isChecked());
 	}
 
@@ -621,7 +622,7 @@ class FilesAppSharingContext implements Context, ActorAwareInterface {
 		$this->showShareWithMenuIfNeeded($sharedWithName);
 
 		$shareWithMenuTriggerElement = $this->actor->find(self::shareWithMenuTrigger($sharedWithName), 10);
-		PHPUnit_Framework_Assert::assertFalse(
+		Assert::assertFalse(
 				$this->actor->find(self::canCreateCheckboxInput($sharedWithName, $shareWithMenuTriggerElement), 10)->isChecked());
 	}
 
@@ -636,7 +637,7 @@ class FilesAppSharingContext implements Context, ActorAwareInterface {
 				$this->actor,
 				self::canReshareCheckbox($sharedWithName, $shareWithMenuTriggerElement),
 				$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
-			PHPUnit_Framework_Assert::fail("The resharing checkbox for $sharedWithName is still shown after $timeout seconds");
+			Assert::fail("The resharing checkbox for $sharedWithName is still shown after $timeout seconds");
 		}
 	}
 
@@ -647,7 +648,7 @@ class FilesAppSharingContext implements Context, ActorAwareInterface {
 		$this->showShareWithMenuIfNeeded($sharedWithName);
 
 		$shareWithMenuTriggerElement = $this->actor->find(self::shareWithMenuTrigger($sharedWithName), 10);
-		PHPUnit_Framework_Assert::assertTrue(
+		Assert::assertTrue(
 				$this->actor->find(self::canReshareCheckboxInput($sharedWithName, $shareWithMenuTriggerElement), 10)->isChecked());
 	}
 
@@ -658,7 +659,7 @@ class FilesAppSharingContext implements Context, ActorAwareInterface {
 		$this->showShareWithMenuIfNeeded($sharedWithName);
 
 		$shareWithMenuTriggerElement = $this->actor->find(self::shareWithMenuTrigger($sharedWithName), 10);
-		PHPUnit_Framework_Assert::assertFalse(
+		Assert::assertFalse(
 				$this->actor->find(self::canReshareCheckboxInput($sharedWithName, $shareWithMenuTriggerElement), 10)->isChecked());
 	}
 
@@ -669,7 +670,7 @@ class FilesAppSharingContext implements Context, ActorAwareInterface {
 		$this->showShareLinkMenuIfNeeded();
 
 		$shareLinkMenuTriggerElement = $this->actor->find(self::shareLinkMenuTrigger(), 10);
-		PHPUnit_Framework_Assert::assertTrue($this->actor->find(self::hideDownloadCheckboxInput($shareLinkMenuTriggerElement), 10)->isChecked());
+		Assert::assertTrue($this->actor->find(self::hideDownloadCheckboxInput($shareLinkMenuTriggerElement), 10)->isChecked());
 	}
 
 	/**
@@ -679,7 +680,7 @@ class FilesAppSharingContext implements Context, ActorAwareInterface {
 		$this->showShareLinkMenuIfNeeded();
 
 		$shareLinkMenuTriggerElement = $this->actor->find(self::shareLinkMenuTrigger(), 10);
-		PHPUnit_Framework_Assert::assertFalse($this->actor->find(self::hideDownloadCheckboxInput($shareLinkMenuTriggerElement), 10)->isChecked());
+		Assert::assertFalse($this->actor->find(self::hideDownloadCheckboxInput($shareLinkMenuTriggerElement), 10)->isChecked());
 	}
 
 	/**
@@ -708,7 +709,7 @@ class FilesAppSharingContext implements Context, ActorAwareInterface {
 				$this->actor,
 				self::disabledPasswordProtectField($shareLinkMenuTriggerElement),
 				$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
-			PHPUnit_Framework_Assert::fail("The password protect field is still disabled after $timeout seconds");
+			Assert::fail("The password protect field is still disabled after $timeout seconds");
 		}
 	}
 
@@ -719,8 +720,8 @@ class FilesAppSharingContext implements Context, ActorAwareInterface {
 		$this->showShareLinkMenuIfNeeded();
 
 		$shareLinkMenuTriggerElement = $this->actor->find(self::shareLinkMenuTrigger(), 10);
-		PHPUnit_Framework_Assert::assertTrue($this->actor->find(self::passwordProtectCheckboxInput($shareLinkMenuTriggerElement), 10)->isChecked(), "Password protect checkbox is checked");
-		PHPUnit_Framework_Assert::assertTrue($this->actor->find(self::passwordProtectField($shareLinkMenuTriggerElement), 10)->isVisible(), "Password protect field is visible");
+		Assert::assertTrue($this->actor->find(self::passwordProtectCheckboxInput($shareLinkMenuTriggerElement), 10)->isChecked(), "Password protect checkbox is checked");
+		Assert::assertTrue($this->actor->find(self::passwordProtectField($shareLinkMenuTriggerElement), 10)->isVisible(), "Password protect field is visible");
 	}
 
 	/**
@@ -730,7 +731,7 @@ class FilesAppSharingContext implements Context, ActorAwareInterface {
 		$this->showShareLinkMenuIfNeeded();
 
 		$shareLinkMenuTriggerElement = $this->actor->find(self::shareLinkMenuTrigger(), 10);
-		PHPUnit_Framework_Assert::assertTrue($this->actor->find(self::passwordProtectByTalkCheckboxInput($shareLinkMenuTriggerElement), 10)->isChecked());
+		Assert::assertTrue($this->actor->find(self::passwordProtectByTalkCheckboxInput($shareLinkMenuTriggerElement), 10)->isChecked());
 	}
 
 	/**
@@ -740,7 +741,7 @@ class FilesAppSharingContext implements Context, ActorAwareInterface {
 		$this->showShareLinkMenuIfNeeded();
 
 		$shareLinkMenuTriggerElement = $this->actor->find(self::shareLinkMenuTrigger(), 10);
-		PHPUnit_Framework_Assert::assertFalse($this->actor->find(self::passwordProtectByTalkCheckboxInput($shareLinkMenuTriggerElement), 10)->isChecked());
+		Assert::assertFalse($this->actor->find(self::passwordProtectByTalkCheckboxInput($shareLinkMenuTriggerElement), 10)->isChecked());
 	}
 
 	/**
@@ -751,7 +752,7 @@ class FilesAppSharingContext implements Context, ActorAwareInterface {
 
 		$shareLinkMenuTriggerElement = $this->actor->find(self::shareLinkMenuTrigger(), 10);
 		try {
-			PHPUnit_Framework_Assert::assertFalse(
+			Assert::assertFalse(
 					$this->actor->find(self::passwordProtectByTalkCheckbox($shareLinkMenuTriggerElement))->isVisible());
 		} catch (NoSuchElementException $exception) {
 		}

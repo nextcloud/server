@@ -144,6 +144,42 @@ class AccountManager implements IAccountManager {
 			}
 		}
 
+		$allowedScopes = [
+			self::SCOPE_PRIVATE,
+			self::SCOPE_LOCAL,
+			self::SCOPE_FEDERATED,
+			self::SCOPE_PUBLISHED,
+			self::VISIBILITY_PRIVATE,
+			self::VISIBILITY_CONTACTS_ONLY,
+			self::VISIBILITY_PUBLIC,
+		];
+
+		// validate and convert scope values
+		foreach ($data as $propertyName => $propertyData) {
+			if (isset($propertyData['scope'])) {
+				if ($throwOnData && !in_array($propertyData['scope'], $allowedScopes, true)) {
+					throw new \InvalidArgumentException('scope');
+				}
+
+				if (
+					$propertyData['scope'] === self::SCOPE_PRIVATE
+					&& ($propertyName === self::PROPERTY_DISPLAYNAME || $propertyName === self::PROPERTY_EMAIL)
+				) {
+					if ($throwOnData) {
+						// v2-private is not available for these fields
+						throw new \InvalidArgumentException('scope');
+					} else {
+						// default to local
+						$data[$propertyName]['scope'] = self::SCOPE_LOCAL;
+					}
+				} else {
+					// migrate scope values to the new format
+					// invalid scopes are mapped to a default value
+					$data[$propertyName]['scope'] = AccountProperty::mapScopeToV2($propertyData['scope']);
+				}
+			}
+		}
+
 		if (empty($userData)) {
 			$this->insertNewUser($user, $data);
 		} elseif ($userData !== $data) {
@@ -198,6 +234,8 @@ class AccountManager implements IAccountManager {
 	 *
 	 * @param IUser $user
 	 * @return array
+	 *
+	 * @deprecated use getAccount instead to make sure migrated properties work correctly
 	 */
 	public function getUser(IUser $user) {
 		$uid = $user->getUID();
@@ -229,19 +267,23 @@ class AccountManager implements IAccountManager {
 	}
 
 	public function searchUsers(string $property, array $values): array {
+		$chunks = array_chunk($values, 500);
 		$query = $this->connection->getQueryBuilder();
 		$query->select('*')
 			->from($this->dataTable)
 			->where($query->expr()->eq('name', $query->createNamedParameter($property)))
-			->andWhere($query->expr()->in('value', $query->createNamedParameter($values, IQueryBuilder::PARAM_STR_ARRAY)));
+			->andWhere($query->expr()->in('value', $query->createParameter('values')));
 
-		$result = $query->execute();
 		$matches = [];
+		foreach ($chunks as $chunk) {
+			$query->setParameter('values', $chunk, IQueryBuilder::PARAM_STR_ARRAY);
+			$result = $query->execute();
 
-		while ($row = $result->fetch()) {
-			$matches[$row['value']] = $row['uid'];
+			while ($row = $result->fetch()) {
+				$matches[$row['value']] = $row['uid'];
+			}
+			$result->closeCursor();
 		}
-		$result->closeCursor();
 
 		return $matches;
 	}
@@ -401,7 +443,7 @@ class AccountManager implements IAccountManager {
 			}
 
 			$query->setParameter('name', $propertyName)
-				->setParameter('value', $property['value']);
+				->setParameter('value', $property['value'] ?? '');
 			$query->execute();
 		}
 	}
@@ -417,41 +459,41 @@ class AccountManager implements IAccountManager {
 			self::PROPERTY_DISPLAYNAME =>
 				[
 					'value' => $user->getDisplayName(),
-					'scope' => self::VISIBILITY_CONTACTS_ONLY,
+					'scope' => self::SCOPE_FEDERATED,
 					'verified' => self::NOT_VERIFIED,
 				],
 			self::PROPERTY_ADDRESS =>
 				[
 					'value' => '',
-					'scope' => self::VISIBILITY_PRIVATE,
+					'scope' => self::SCOPE_LOCAL,
 					'verified' => self::NOT_VERIFIED,
 				],
 			self::PROPERTY_WEBSITE =>
 				[
 					'value' => '',
-					'scope' => self::VISIBILITY_PRIVATE,
+					'scope' => self::SCOPE_LOCAL,
 					'verified' => self::NOT_VERIFIED,
 				],
 			self::PROPERTY_EMAIL =>
 				[
 					'value' => $user->getEMailAddress(),
-					'scope' => self::VISIBILITY_CONTACTS_ONLY,
+					'scope' => self::SCOPE_FEDERATED,
 					'verified' => self::NOT_VERIFIED,
 				],
 			self::PROPERTY_AVATAR =>
 				[
-					'scope' => self::VISIBILITY_CONTACTS_ONLY
+					'scope' => self::SCOPE_FEDERATED
 				],
 			self::PROPERTY_PHONE =>
 				[
 					'value' => '',
-					'scope' => self::VISIBILITY_PRIVATE,
+					'scope' => self::SCOPE_LOCAL,
 					'verified' => self::NOT_VERIFIED,
 				],
 			self::PROPERTY_TWITTER =>
 				[
 					'value' => '',
-					'scope' => self::VISIBILITY_PRIVATE,
+					'scope' => self::SCOPE_LOCAL,
 					'verified' => self::NOT_VERIFIED,
 				],
 		];
@@ -460,12 +502,26 @@ class AccountManager implements IAccountManager {
 	private function parseAccountData(IUser $user, $data): Account {
 		$account = new Account($user);
 		foreach ($data as $property => $accountData) {
-			$account->setProperty($property, $accountData['value'] ?? '', $accountData['scope'] ?? self::VISIBILITY_PRIVATE, $accountData['verified'] ?? self::NOT_VERIFIED);
+			$account->setProperty($property, $accountData['value'] ?? '', $accountData['scope'] ?? self::SCOPE_LOCAL, $accountData['verified'] ?? self::NOT_VERIFIED);
 		}
 		return $account;
 	}
 
 	public function getAccount(IUser $user): IAccount {
 		return $this->parseAccountData($user, $this->getUser($user));
+	}
+
+	public function updateAccount(IAccount $account): void {
+		$data = [];
+
+		foreach ($account->getProperties() as $property) {
+			$data[$property->getName()] = [
+				'value' => $property->getValue(),
+				'scope' => $property->getScope(),
+				'verified' => $property->getVerified(),
+			];
+		}
+
+		$this->updateUser($account->getUser(), $data, true);
 	}
 }

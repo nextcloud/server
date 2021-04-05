@@ -76,6 +76,7 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Collaboration\Resources\IManager;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
@@ -90,15 +91,18 @@ class Repair implements IOutput {
 	/** @var string */
 	private $currentStep;
 
+	private $logger;
+
 	/**
 	 * Creates a new repair step runner
 	 *
 	 * @param IRepairStep[] $repairSteps array of RepairStep instances
 	 * @param EventDispatcherInterface $dispatcher
 	 */
-	public function __construct(array $repairSteps, EventDispatcherInterface $dispatcher) {
+	public function __construct(array $repairSteps, EventDispatcherInterface $dispatcher, LoggerInterface $logger) {
 		$this->repairSteps = $repairSteps;
 		$this->dispatcher = $dispatcher;
+		$this->logger = $logger;
 	}
 
 	/**
@@ -114,7 +118,12 @@ class Repair implements IOutput {
 		foreach ($this->repairSteps as $step) {
 			$this->currentStep = $step->getName();
 			$this->emit('\OC\Repair', 'step', [$this->currentStep]);
-			$step->run($this);
+			try {
+				$step->run($this);
+			} catch (\Exception $e) {
+				$this->logger->error("Exception while executing repair step " . $step->getName(), ['exception' => $e]);
+				$this->emit('\OC\Repair', 'error', [$e->getMessage()]);
+			}
 		}
 	}
 

@@ -49,7 +49,7 @@ use libphonenumber\PhoneNumberUtil;
 use OC\Accounts\AccountManager;
 use OC\Authentication\Token\RemoteWipe;
 use OC\HintException;
-use OCA\Provisioning_API\FederatedShareProviderFactory;
+use OC\KnownUser\KnownUserService;
 use OCA\Settings\Mailer\NewUserMailHelper;
 use OCP\Accounts\IAccountManager;
 use OCP\App\IAppManager;
@@ -57,10 +57,10 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
+use OCP\AppFramework\OCSController;
 use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
-use OCP\ILogger;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUser;
@@ -70,6 +70,7 @@ use OCP\L10N\IFactory;
 use OCP\Security\ISecureRandom;
 use OCP\Security\Events\GenerateSecurePasswordEvent;
 use OCP\EventDispatcher\IEventDispatcher;
+use Psr\Log\LoggerInterface;
 
 class UsersController extends AUserData {
 
@@ -77,18 +78,18 @@ class UsersController extends AUserData {
 	private $appManager;
 	/** @var IURLGenerator */
 	protected $urlGenerator;
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	private $logger;
 	/** @var IFactory */
 	protected $l10nFactory;
 	/** @var NewUserMailHelper */
 	private $newUserMailHelper;
-	/** @var FederatedShareProviderFactory */
-	private $federatedShareProviderFactory;
 	/** @var ISecureRandom */
 	private $secureRandom;
 	/** @var RemoteWipe */
 	private $remoteWipe;
+	/** @var KnownUserService */
+	private $knownUserService;
 	/** @var IEventDispatcher */
 	private $eventDispatcher;
 
@@ -101,12 +102,12 @@ class UsersController extends AUserData {
 								IUserSession $userSession,
 								AccountManager $accountManager,
 								IURLGenerator $urlGenerator,
-								ILogger $logger,
+								LoggerInterface $logger,
 								IFactory $l10nFactory,
 								NewUserMailHelper $newUserMailHelper,
-								FederatedShareProviderFactory $federatedShareProviderFactory,
 								ISecureRandom $secureRandom,
 								RemoteWipe $remoteWipe,
+								KnownUserService $knownUserService,
 								IEventDispatcher $eventDispatcher) {
 		parent::__construct($appName,
 							$request,
@@ -122,9 +123,9 @@ class UsersController extends AUserData {
 		$this->logger = $logger;
 		$this->l10nFactory = $l10nFactory;
 		$this->newUserMailHelper = $newUserMailHelper;
-		$this->federatedShareProviderFactory = $federatedShareProviderFactory;
 		$this->secureRandom = $secureRandom;
 		$this->remoteWipe = $remoteWipe;
+		$this->knownUserService = $knownUserService;
 		$this->eventDispatcher = $eventDispatcher;
 	}
 
@@ -230,6 +231,11 @@ class UsersController extends AUserData {
 			return new DataResponse([], Http::STATUS_BAD_REQUEST);
 		}
 
+		/** @var IUser $user */
+		$user = $this->userSession->getUser();
+		$knownTo = $user->getUID();
+		$defaultPhoneRegion = $this->config->getSystemValueString('default_phone_region');
+
 		$normalizedNumberToKey = [];
 		foreach ($search as $key => $phoneNumbers) {
 			foreach ($phoneNumbers as $phone) {
@@ -241,6 +247,20 @@ class UsersController extends AUserData {
 					}
 				} catch (NumberParseException $e) {
 				}
+
+				if ($defaultPhoneRegion !== '' && $defaultPhoneRegion !== $location && strpos($phone, '0') === 0) {
+					// If the number has a leading zero (no country code),
+					// we also check the default phone region of the instance,
+					// when it's different to the user's given region.
+					try {
+						$phoneNumber = $phoneUtil->parse($phone, $defaultPhoneRegion);
+						if ($phoneNumber instanceof PhoneNumber && $phoneUtil->isValidNumber($phoneNumber)) {
+							$normalizedNumber = $phoneUtil->format($phoneNumber, PhoneNumberFormat::E164);
+							$normalizedNumberToKey[$normalizedNumber] = (string) $key;
+						}
+					} catch (NumberParseException $e) {
+					}
+				}
 			}
 		}
 
@@ -249,6 +269,9 @@ class UsersController extends AUserData {
 		if (empty($phoneNumbers)) {
 			return new DataResponse();
 		}
+
+		// Cleanup all previous entries and only allow new matches
+		$this->knownUserService->deleteKnownTo($knownTo);
 
 		$userMatches = $this->accountManager->searchUsers(IAccountManager::PROPERTY_PHONE, $phoneNumbers);
 
@@ -267,6 +290,7 @@ class UsersController extends AUserData {
 		foreach ($userMatches as $phone => $userId) {
 			// Not using the ICloudIdManager as that would run a search for each contact to find the display name in the address book
 			$matches[$normalizedNumberToKey[$phone]] = $userId . '@' . $cloudUrl;
+			$this->knownUserService->storeIsKnownToUser($knownTo, $userId);
 		}
 
 		return new DataResponse($matches);
@@ -417,36 +441,48 @@ class UsersController extends AUserData {
 					} catch (\Exception $e) {
 						// Mail could be failing hard or just be plain not configured
 						// Logging error as it is the hardest of the two
-						$this->logger->logException($e, [
-							'message' => "Unable to send the invitation mail to $email",
-							'level' => ILogger::ERROR,
-							'app' => 'ocs_api',
-						]);
+						$this->logger->error("Unable to send the invitation mail to $email",
+							[
+								'app' => 'ocs_api',
+								'exception' => $e,
+							]
+						);
 					}
 				}
 			}
 
 			return new DataResponse(['id' => $userid]);
 		} catch (HintException $e) {
-			$this->logger->logException($e, [
-				'message' => 'Failed addUser attempt with hint exception.',
-				'level' => ILogger::WARN,
-				'app' => 'ocs_api',
-			]);
+			$this->logger->warning('Failed addUser attempt with hint exception.',
+				[
+					'app' => 'ocs_api',
+					'exception' => $e,
+				]
+			);
 			throw new OCSException($e->getHint(), 107);
 		} catch (OCSException $e) {
-			$this->logger->logException($e, [
-				'message' => 'Failed addUser attempt with ocs exeption.',
-				'level' => ILogger::ERROR,
-				'app' => 'ocs_api',
-			]);
+			$this->logger->warning('Failed addUser attempt with ocs exeption.',
+				[
+					'app' => 'ocs_api',
+					'exception' => $e,
+				]
+			);
 			throw $e;
+		} catch (\InvalidArgumentException $e) {
+			$this->logger->error('Failed addUser attempt with invalid argument exeption.',
+				[
+					'app' => 'ocs_api',
+					'exception' => $e,
+				]
+			);
+			throw new OCSException($e->getMessage(), 101);
 		} catch (\Exception $e) {
-			$this->logger->logException($e, [
-				'message' => 'Failed addUser attempt with exception.',
-				'level' => ILogger::ERROR,
-				'app' => 'ocs_api',
-			]);
+			$this->logger->error('Failed addUser attempt with exception.',
+				[
+					'app' => 'ocs_api',
+					'exception' => $e
+				]
+			);
 			throw new OCSException('Bad request', 101);
 		}
 	}
@@ -462,10 +498,16 @@ class UsersController extends AUserData {
 	 * @throws OCSException
 	 */
 	public function getUser(string $userId): DataResponse {
-		$data = $this->getUserData($userId);
+		$includeScopes = false;
+		$currentUser = $this->userSession->getUser();
+		if ($currentUser && $currentUser->getUID() === $userId) {
+			$includeScopes = true;
+		}
+
+		$data = $this->getUserData($userId, $includeScopes);
 		// getUserData returns empty array if not enough permissions
 		if (empty($data)) {
-			throw new OCSException('', \OCP\API::RESPOND_UNAUTHORISED);
+			throw new OCSException('', OCSController::RESPOND_UNAUTHORISED);
 		}
 		return new DataResponse($data);
 	}
@@ -482,7 +524,7 @@ class UsersController extends AUserData {
 	public function getCurrentUser(): DataResponse {
 		$user = $this->userSession->getUser();
 		if ($user) {
-			$data = $this->getUserData($user->getUID());
+			$data = $this->getUserData($user->getUID(), true);
 			// rename "displayname" to "display-name" only for this call to keep
 			// the API stable.
 			$data['display-name'] = $data['displayname'];
@@ -490,7 +532,7 @@ class UsersController extends AUserData {
 			return new DataResponse($data);
 		}
 
-		throw new OCSException('', \OCP\API::RESPOND_UNAUTHORISED);
+		throw new OCSException('', OCSController::RESPOND_UNAUTHORISED);
 	}
 
 	/**
@@ -506,15 +548,10 @@ class UsersController extends AUserData {
 			$permittedFields[] = IAccountManager::PROPERTY_EMAIL;
 		}
 
-		if ($this->appManager->isEnabledForUser('federatedfilesharing')) {
-			$shareProvider = $this->federatedShareProviderFactory->get();
-			if ($shareProvider->isLookupServerUploadEnabled()) {
-				$permittedFields[] = IAccountManager::PROPERTY_PHONE;
-				$permittedFields[] = IAccountManager::PROPERTY_ADDRESS;
-				$permittedFields[] = IAccountManager::PROPERTY_WEBSITE;
-				$permittedFields[] = IAccountManager::PROPERTY_TWITTER;
-			}
-		}
+		$permittedFields[] = IAccountManager::PROPERTY_PHONE;
+		$permittedFields[] = IAccountManager::PROPERTY_ADDRESS;
+		$permittedFields[] = IAccountManager::PROPERTY_WEBSITE;
+		$permittedFields[] = IAccountManager::PROPERTY_TWITTER;
 
 		return new DataResponse($permittedFields);
 	}
@@ -537,7 +574,7 @@ class UsersController extends AUserData {
 
 		$targetUser = $this->userManager->get($userId);
 		if ($targetUser === null) {
-			throw new OCSException('', \OCP\API::RESPOND_UNAUTHORISED);
+			throw new OCSException('', OCSController::RESPOND_UNAUTHORISED);
 		}
 
 		$permittedFields = [];
@@ -548,6 +585,9 @@ class UsersController extends AUserData {
 				$permittedFields[] = IAccountManager::PROPERTY_DISPLAYNAME;
 				$permittedFields[] = IAccountManager::PROPERTY_EMAIL;
 			}
+
+			$permittedFields[] = IAccountManager::PROPERTY_DISPLAYNAME . self::SCOPE_SUFFIX;
+			$permittedFields[] = IAccountManager::PROPERTY_EMAIL . self::SCOPE_SUFFIX;
 
 			$permittedFields[] = 'password';
 			if ($this->config->getSystemValue('force_language', false) === false ||
@@ -560,15 +600,16 @@ class UsersController extends AUserData {
 				$permittedFields[] = 'locale';
 			}
 
-			if ($this->appManager->isEnabledForUser('federatedfilesharing')) {
-				$shareProvider = $this->federatedShareProviderFactory->get();
-				if ($shareProvider->isLookupServerUploadEnabled()) {
-					$permittedFields[] = IAccountManager::PROPERTY_PHONE;
-					$permittedFields[] = IAccountManager::PROPERTY_ADDRESS;
-					$permittedFields[] = IAccountManager::PROPERTY_WEBSITE;
-					$permittedFields[] = IAccountManager::PROPERTY_TWITTER;
-				}
-			}
+			$permittedFields[] = IAccountManager::PROPERTY_PHONE;
+			$permittedFields[] = IAccountManager::PROPERTY_ADDRESS;
+			$permittedFields[] = IAccountManager::PROPERTY_WEBSITE;
+			$permittedFields[] = IAccountManager::PROPERTY_TWITTER;
+			$permittedFields[] = IAccountManager::PROPERTY_PHONE . self::SCOPE_SUFFIX;
+			$permittedFields[] = IAccountManager::PROPERTY_ADDRESS . self::SCOPE_SUFFIX;
+			$permittedFields[] = IAccountManager::PROPERTY_WEBSITE . self::SCOPE_SUFFIX;
+			$permittedFields[] = IAccountManager::PROPERTY_TWITTER . self::SCOPE_SUFFIX;
+
+			$permittedFields[] = IAccountManager::PROPERTY_AVATAR . self::SCOPE_SUFFIX;
 
 			// If admin they can edit their own quota
 			if ($this->groupManager->isAdmin($currentLoggedInUser->getUID())) {
@@ -593,12 +634,12 @@ class UsersController extends AUserData {
 				$permittedFields[] = 'quota';
 			} else {
 				// No rights
-				throw new OCSException('', \OCP\API::RESPOND_UNAUTHORISED);
+				throw new OCSException('', OCSController::RESPOND_UNAUTHORISED);
 			}
 		}
 		// Check if permitted to edit this field
 		if (!in_array($key, $permittedFields)) {
-			throw new OCSException('', \OCP\API::RESPOND_UNAUTHORISED);
+			throw new OCSException('', OCSController::RESPOND_UNAUTHORISED);
 		}
 		// Process the edit
 		switch ($key) {
@@ -664,6 +705,28 @@ class UsersController extends AUserData {
 					$userAccount[$key]['value'] = $value;
 					try {
 						$this->accountManager->updateUser($targetUser, $userAccount, true);
+
+						if ($key === IAccountManager::PROPERTY_PHONE) {
+							$this->knownUserService->deleteByContactUserId($targetUser->getUID());
+						}
+					} catch (\InvalidArgumentException $e) {
+						throw new OCSException('Invalid ' . $e->getMessage(), 102);
+					}
+				}
+				break;
+			case IAccountManager::PROPERTY_DISPLAYNAME . self::SCOPE_SUFFIX:
+			case IAccountManager::PROPERTY_EMAIL . self::SCOPE_SUFFIX:
+			case IAccountManager::PROPERTY_PHONE . self::SCOPE_SUFFIX:
+			case IAccountManager::PROPERTY_ADDRESS . self::SCOPE_SUFFIX:
+			case IAccountManager::PROPERTY_WEBSITE . self::SCOPE_SUFFIX:
+			case IAccountManager::PROPERTY_TWITTER . self::SCOPE_SUFFIX:
+			case IAccountManager::PROPERTY_AVATAR . self::SCOPE_SUFFIX:
+				$propertyName = substr($key, 0, strlen($key) - strlen(self::SCOPE_SUFFIX));
+				$userAccount = $this->accountManager->getUser($targetUser);
+				if ($userAccount[$propertyName]['scope'] !== $value) {
+					$userAccount[$propertyName]['scope'] = $value;
+					try {
+						$this->accountManager->updateUser($targetUser, $userAccount, true);
 					} catch (\InvalidArgumentException $e) {
 						throw new OCSException('Invalid ' . $e->getMessage(), 102);
 					}
@@ -698,7 +761,7 @@ class UsersController extends AUserData {
 		// If not permitted
 		$subAdminManager = $this->groupManager->getSubAdmin();
 		if (!$this->groupManager->isAdmin($currentLoggedInUser->getUID()) && !$subAdminManager->isUserAccessible($currentLoggedInUser, $targetUser)) {
-			throw new OCSException('', \OCP\API::RESPOND_UNAUTHORISED);
+			throw new OCSException('', OCSController::RESPOND_UNAUTHORISED);
 		}
 
 		$this->remoteWipe->markAllTokensForWipe($targetUser);
@@ -726,7 +789,7 @@ class UsersController extends AUserData {
 		// If not permitted
 		$subAdminManager = $this->groupManager->getSubAdmin();
 		if (!$this->groupManager->isAdmin($currentLoggedInUser->getUID()) && !$subAdminManager->isUserAccessible($currentLoggedInUser, $targetUser)) {
-			throw new OCSException('', \OCP\API::RESPOND_UNAUTHORISED);
+			throw new OCSException('', OCSController::RESPOND_UNAUTHORISED);
 		}
 
 		// Go ahead with the delete
@@ -780,7 +843,7 @@ class UsersController extends AUserData {
 		// If not permitted
 		$subAdminManager = $this->groupManager->getSubAdmin();
 		if (!$this->groupManager->isAdmin($currentLoggedInUser->getUID()) && !$subAdminManager->isUserAccessible($currentLoggedInUser, $targetUser)) {
-			throw new OCSException('', \OCP\API::RESPOND_UNAUTHORISED);
+			throw new OCSException('', OCSController::RESPOND_UNAUTHORISED);
 		}
 
 		// enable/disable the user now
@@ -801,7 +864,7 @@ class UsersController extends AUserData {
 
 		$targetUser = $this->userManager->get($userId);
 		if ($targetUser === null) {
-			throw new OCSException('', \OCP\API::RESPOND_NOT_FOUND);
+			throw new OCSException('', OCSController::RESPOND_NOT_FOUND);
 		}
 
 		if ($targetUser->getUID() === $loggedInUser->getUID() || $this->groupManager->isAdmin($loggedInUser->getUID())) {
@@ -827,7 +890,7 @@ class UsersController extends AUserData {
 				return new DataResponse(['groups' => $groups]);
 			} else {
 				// Not permitted
-				throw new OCSException('', \OCP\API::RESPOND_UNAUTHORISED);
+				throw new OCSException('', OCSController::RESPOND_UNAUTHORISED);
 			}
 		}
 	}
@@ -1027,7 +1090,7 @@ class UsersController extends AUserData {
 
 		$targetUser = $this->userManager->get($userId);
 		if ($targetUser === null) {
-			throw new OCSException('', \OCP\API::RESPOND_NOT_FOUND);
+			throw new OCSException('', OCSController::RESPOND_NOT_FOUND);
 		}
 
 		// Check if admin / subadmin
@@ -1035,7 +1098,7 @@ class UsersController extends AUserData {
 		if (!$subAdminManager->isUserAccessible($currentLoggedInUser, $targetUser)
 			&& !$this->groupManager->isAdmin($currentLoggedInUser->getUID())) {
 			// No rights
-			throw new OCSException('', \OCP\API::RESPOND_UNAUTHORISED);
+			throw new OCSException('', OCSController::RESPOND_UNAUTHORISED);
 		}
 
 		$email = $targetUser->getEMailAddress();
@@ -1047,11 +1110,12 @@ class UsersController extends AUserData {
 			$emailTemplate = $this->newUserMailHelper->generateTemplate($targetUser, false);
 			$this->newUserMailHelper->sendMail($targetUser, $emailTemplate);
 		} catch (\Exception $e) {
-			$this->logger->logException($e, [
-				'message' => "Can't send new user mail to $email",
-				'level' => ILogger::ERROR,
-				'app' => 'settings',
-			]);
+			$this->logger->error("Can't send new user mail to $email",
+				[
+					'app' => 'settings',
+					'exception' => $e,
+				]
+			);
 			throw new OCSException('Sending email failed', 102);
 		}
 

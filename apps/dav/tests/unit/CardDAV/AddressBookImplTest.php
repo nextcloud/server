@@ -201,7 +201,7 @@ class AddressBookImplTest extends TestCase {
 			->willReturn(['carddata' => 'data']);
 		$addressBookImpl->expects($this->once())->method('readCard')
 			->with('data')->willReturn($this->vCard);
-		$this->vCard->expects($this->exactly(count($properties)-1))
+		$this->vCard->expects($this->exactly(count($properties) - 1))
 			->method('createProperty');
 		$this->backend->expects($this->never())->method('createCard');
 		$this->backend->expects($this->once())->method('updateCard');
@@ -237,7 +237,7 @@ class AddressBookImplTest extends TestCase {
 		$addressBookImpl->expects($this->once())->method('readCard')
 			->with('data')->willReturn($this->vCard);
 		$this->vCard->method('createProperty')->willReturn($textProperty);
-		$this->vCard->expects($this->exactly(count($properties)-1))
+		$this->vCard->expects($this->exactly(count($properties) - 1))
 			->method('createProperty');
 		$this->vCard->expects($this->once())->method('remove')
 			->with('ADR');

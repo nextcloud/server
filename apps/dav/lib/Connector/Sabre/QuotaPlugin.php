@@ -152,7 +152,7 @@ class QuotaPlugin extends \Sabre\DAV\ServerPlugin {
 		}
 
 		if ($length) {
-			list($parentPath, $newName) = \Sabre\Uri\split($path);
+			[$parentPath, $newName] = \Sabre\Uri\split($path);
 			if (is_null($parentPath)) {
 				$parentPath = '';
 			}

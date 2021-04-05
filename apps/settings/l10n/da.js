@@ -8,7 +8,7 @@ OC.L10N.register(
     "Sending…" : "Sender...",
     "Email sent" : "E-mail afsendt",
     "Private" : "Privat",
-    "Public" : "Offentlig",
+    "Local" : "Lokal",
     "Verify" : "Bekræft",
     "Verifying …" : "Bekræfter.....",
     "Unable to change password" : "Kunne ikke ændre kodeord",
@@ -256,7 +256,6 @@ OC.L10N.register(
     "Expire after " : "Udløber efter",
     "days" : "dage",
     "Enforce expiration date" : "Påtving udløbsdato",
-    "Allow users to share via link" : "Tillad brugere at dele via link",
     "Allow public uploads" : "Tillad offentlig upload",
     "Always ask for a password" : "Spørg altid efter kodeord",
     "Enforce password protection" : "Gennemtving beskyttelse med kodeord",
@@ -302,11 +301,11 @@ OC.L10N.register(
     "Use a second factor besides your password to increase security for your account." : "Brug to-faktor godkendelse for at øge sikkerheden for din konto.",
     "An error occurred. Please upload an ASCII-encoded PEM certificate." : "Der opstod en fejl. Upload venligst et ASCII-indkodet PEM-certifikat.",
     "Valid until {date}" : "Gyldig indtil {date}",
-    "Local" : "Lokal",
     "Only visible to local users" : "Kun synlig for lokale brugere",
     "Only visible to you" : "Kun synlig for dig",
     "Contacts" : "Kontakter",
     "Visible to local users and to trusted servers" : "Tilgængelig for lokale brugere og godkendte servere",
+    "Public" : "Offentlig",
     "by" : "af",
     "SSL Root Certificates" : "SSL rodcertifikater",
     "Common Name" : "Almindeligt navn",
@@ -314,6 +313,7 @@ OC.L10N.register(
     "Issued By" : "Udstedt af",
     "Valid until %s" : "Gyldig indtil %s",
     "Import root certificate" : "Importer rodcertifikat",
-    "Execute one task with each page loaded" : "Udføre en opgave med hver side indlæsning"
+    "Execute one task with each page loaded" : "Udføre en opgave med hver side indlæsning",
+    "Allow users to share via link" : "Tillad brugere at dele via link"
 },
 "nplurals=2; plural=(n != 1);");

@@ -556,13 +556,13 @@ class ShareAPIController extends OCSController {
 			}
 
 			// Only share by mail have a recipient
-			if ($shareType === IShare::TYPE_EMAIL) {
+			if (is_string($shareWith) && $shareType === IShare::TYPE_EMAIL) {
 				$share->setSharedWith($shareWith);
-			} else {
-				// Only link share have a label
-				if (!empty($label)) {
-					$share->setLabel($label);
-				}
+			}
+
+			// If we have a label, use it
+			if (!empty($label)) {
+				$share->setLabel($label);
 			}
 
 			if ($sendPasswordByTalk === 'true') {
@@ -631,9 +631,11 @@ class ShareAPIController extends OCSController {
 		try {
 			$share = $this->shareManager->createShare($share);
 		} catch (GenericShareException $e) {
+			\OC::$server->getLogger()->logException($e);
 			$code = $e->getCode() === 0 ? 403 : $e->getCode();
 			throw new OCSException($e->getHint(), $code);
 		} catch (\Exception $e) {
+			\OC::$server->getLogger()->logException($e);
 			throw new OCSForbiddenException($e->getMessage(), $e);
 		}
 
@@ -1125,8 +1127,7 @@ class ShareAPIController extends OCSController {
 				$share->setPassword($password);
 			}
 
-			// only link shares have labels
-			if ($share->getShareType() === IShare::TYPE_LINK && $label !== null) {
+			if ($label !== null) {
 				if (strlen($label) > 255) {
 					throw new OCSBadRequestException("Maxmimum label length is 255");
 				}
@@ -1455,10 +1456,6 @@ class ShareAPIController extends OCSController {
 			throw new \Exception('Invalid date. Format must be YYYY-MM-DD');
 		}
 
-		if ($date === false) {
-			throw new \Exception('Invalid date. Format must be YYYY-MM-DD');
-		}
-
 		$date->setTime(0, 0, 0);
 
 		return $date;
@@ -1593,7 +1590,6 @@ class ShareAPIController extends OCSController {
 			IShare::TYPE_USER,
 			IShare::TYPE_GROUP,
 			IShare::TYPE_LINK,
-			IShare::TYPE_EMAIL,
 			IShare::TYPE_EMAIL,
 			IShare::TYPE_CIRCLE,
 			IShare::TYPE_ROOM,

@@ -25,6 +25,8 @@ declare(strict_types=1);
  *
  */
 
+use \OCA\DAV\Direct\ServerFactory;
+
 // no php execution timeout for webdav
 if (strpos(@ini_get('disable_functions'), 'set_time_limit') === false) {
 	@set_time_limit(0);
@@ -36,7 +38,8 @@ ignore_user_abort(true);
 
 $requestUri = \OC::$server->getRequest()->getRequestUri();
 
-$serverFactory = new \OCA\DAV\Direct\ServerFactory(\OC::$server->getConfig(), \OC::$server->getL10N('dav'));
+/** @var ServerFactory $serverFactory */
+$serverFactory = \OC::$server->query(ServerFactory::class);
 $server = $serverFactory->createServer(
 	$baseuri,
 	$requestUri,

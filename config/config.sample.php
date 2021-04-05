@@ -249,6 +249,9 @@ $CONFIG = [
 /**
  * The lifetime of a session after inactivity.
  *
+ * The maximum possible time is limited by the session.gc_maxlifetime php.ini setting
+ * which would overwrite this option if it is less than the value in the config.php
+ *
  * Defaults to ``60*60*24`` seconds (24 hours)
  */
 'session_lifetime' => 60 * 60 * 24,
@@ -306,6 +309,15 @@ $CONFIG = [
 'auth.webauthn.enabled' => true,
 
 /**
+ * By default the login form is always available. There are cases (SSO) where an
+ * admin wants to avoid users entering their credentials to the system if the SSO
+ * app is unavailable.
+ *
+ * This will show an error. But the the direct login still works with adding ?direct=1
+ */
+'hide_login_form' => false,
+
+/**
  * The directory where the skeleton files are located. These files will be
  * copied to the data directory of new users. Leave empty to not copy any
  * skeleton files.
@@ -330,7 +342,7 @@ $CONFIG = [
  * ``skeletondirectory`` is defined, otherwise the shipped templates will be used
  * to create a template directory for the user.
  */
-'templatesdirectory' => '/path/to/nextcloud/templates',
+'templatedirectory' => '/path/to/nextcloud/templates',
 
 /**
  * If your user backend does not allow password resets (e.g. when it's a
@@ -1615,10 +1627,15 @@ $CONFIG = [
 'theme' => '',
 
 /**
- * The default cipher for encrypting files. Currently AES-128-CFB and
- * AES-256-CFB are supported.
+ * The default cipher for encrypting files. Currently supported are:
+ *  - AES-256-CTR
+ *  - AES-128-CTR
+ *  - AES-256-CFB
+ *  - AES-128-CFB
+ *
+ * Defaults to ``AES-256-CTR``
  */
-'cipher' => 'AES-256-CFB',
+'cipher' => 'AES-256-CTR',
 
 /**
  * The minimum Nextcloud desktop client version that will be allowed to sync with

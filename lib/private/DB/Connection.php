@@ -44,6 +44,9 @@ use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Exception\ConstraintViolationException;
 use Doctrine\DBAL\Exception\NotNullConstraintViolationException;
 use Doctrine\DBAL\Platforms\MySQLPlatform;
+use Doctrine\DBAL\Platforms\OraclePlatform;
+use Doctrine\DBAL\Platforms\PostgreSQL94Platform;
+use Doctrine\DBAL\Platforms\SqlitePlatform;
 use Doctrine\DBAL\Result;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Statement;
@@ -53,7 +56,7 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\ILogger;
 use OCP\PreConditionNotMetException;
 
-class Connection extends ReconnectWrapper {
+class Connection extends \Doctrine\DBAL\Connection {
 	/** @var string */
 	protected $tablePrefix;
 
@@ -172,6 +175,9 @@ class Connection extends ReconnectWrapper {
 		if (!isset($params['tablePrefix'])) {
 			throw new \Exception('tablePrefix not set');
 		}
+		/**
+		 * @psalm-suppress InternalMethod
+		 */
 		parent::__construct($params, $driver, $config, $eventManager);
 		$this->adapter = new $params['adapter']($this);
 		$this->tablePrefix = $params['tablePrefix'];
@@ -506,8 +512,7 @@ class Connection extends ReconnectWrapper {
 	 * @throws Exception
 	 */
 	public function createSchema() {
-		$schemaManager = new MDB2SchemaManager($this);
-		$migrator = $schemaManager->getMigrator();
+		$migrator = $this->getMigrator();
 		return $migrator->createSchema();
 	}
 
@@ -519,8 +524,26 @@ class Connection extends ReconnectWrapper {
 	 * @throws Exception
 	 */
 	public function migrateToSchema(Schema $toSchema) {
-		$schemaManager = new MDB2SchemaManager($this);
-		$migrator = $schemaManager->getMigrator();
+		$migrator = $this->getMigrator();
 		$migrator->migrate($toSchema);
+	}
+
+	private function getMigrator() {
+		// TODO properly inject those dependencies
+		$random = \OC::$server->getSecureRandom();
+		$platform = $this->getDatabasePlatform();
+		$config = \OC::$server->getConfig();
+		$dispatcher = \OC::$server->getEventDispatcher();
+		if ($platform instanceof SqlitePlatform) {
+			return new SQLiteMigrator($this, $config, $dispatcher);
+		} elseif ($platform instanceof OraclePlatform) {
+			return new OracleMigrator($this, $config, $dispatcher);
+		} elseif ($platform instanceof MySQLPlatform) {
+			return new MySQLMigrator($this, $config, $dispatcher);
+		} elseif ($platform instanceof PostgreSQL94Platform) {
+			return new PostgreSqlMigrator($this, $config, $dispatcher);
+		} else {
+			return new Migrator($this, $config, $dispatcher);
+		}
 	}
 }

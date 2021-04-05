@@ -129,7 +129,7 @@ class QuerySearchHelper {
 	private function searchComparisonToDBExpr(IQueryBuilder $builder, ISearchComparison $comparison, array $operatorMap) {
 		$this->validateComparison($comparison);
 
-		list($field, $value, $type) = $this->getOperatorFieldAndValue($comparison);
+		[$field, $value, $type] = $this->getOperatorFieldAndValue($comparison);
 		if (isset($operatorMap[$type])) {
 			$queryOperator = $operatorMap[$type];
 			return $builder->expr()->$queryOperator($field, $this->getParameterForValue($builder, $value));
@@ -166,6 +166,9 @@ class QuerySearchHelper {
 			$field = 'tag.category';
 		} elseif ($field === 'fileid') {
 			$field = 'file.fileid';
+		} elseif ($field === 'path' && $type === ISearchComparison::COMPARE_EQUAL) {
+			$field = 'path_hash';
+			$value = md5((string)$value);
 		}
 		return [$field, $value, $type];
 	}
@@ -175,6 +178,7 @@ class QuerySearchHelper {
 			'mimetype' => 'string',
 			'mtime' => 'integer',
 			'name' => 'string',
+			'path' => 'string',
 			'size' => 'integer',
 			'tagname' => 'string',
 			'favorite' => 'boolean',
@@ -184,6 +188,7 @@ class QuerySearchHelper {
 			'mimetype' => ['eq', 'like'],
 			'mtime' => ['eq', 'gt', 'lt', 'gte', 'lte'],
 			'name' => ['eq', 'like'],
+			'path' => ['eq', 'like'],
 			'size' => ['eq', 'gt', 'lt', 'gte', 'lte'],
 			'tagname' => ['eq', 'like'],
 			'favorite' => ['eq'],

@@ -31,6 +31,7 @@ use OCP\ILogger;
 use OCP\IServerContainer;
 use OCP\Log\ILogFactory;
 use OCP\Log\IWriter;
+use Psr\Log\LoggerInterface;
 
 class LogFactory implements ILogFactory {
 	/** @var IServerContainer */
@@ -68,6 +69,13 @@ class LogFactory implements ILogFactory {
 	public function getCustomLogger(string $path):ILogger {
 		$log = $this->buildLogFile($path);
 		return new Log($log, $this->systemConfig);
+	}
+
+	public function getCustomPsrLogger(string $path): LoggerInterface {
+		$log = $this->buildLogFile($path);
+		return new PsrLoggerAdapter(
+			new Log($log, $this->systemConfig)
+		);
 	}
 
 	protected function buildLogFile(string $logFile = ''):File {

@@ -156,8 +156,9 @@ abstract class Avatar implements IAvatar {
 			$avatar->readImageBlob($svg);
 			$avatar->setImageFormat('png');
 			$image = new OC_Image();
-			$image->loadFromData($avatar);
-			return $image->data();
+			$image->loadFromData((string)$avatar);
+			$data = $image->data();
+			return $data === null ? false : $data;
 		} catch (\Exception $e) {
 			return false;
 		}
@@ -187,7 +188,7 @@ abstract class Avatar implements IAvatar {
 		$font = __DIR__ . '/../../../core/fonts/NotoSans-Regular.ttf';
 
 		$fontSize = $size * 0.4;
-		list($x, $y) = $this->imageTTFCenter(
+		[$x, $y] = $this->imageTTFCenter(
 			$im, $text, $font, (int)$fontSize
 		);
 

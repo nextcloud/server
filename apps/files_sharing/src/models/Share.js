@@ -1,7 +1,12 @@
 /**
  * @copyright Copyright (c) 2019 John Molakvoæ <skjnldsv@protonmail.com>
  *
+ * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
+ * @author Gary Kim <gary@garykim.dev>
+ * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Julius Härtl <jus@bitgrid.net>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -150,8 +155,17 @@ export default class Share {
 			|| this.#share.share_with
 	}
 
+	/**
+	 * Unique display name in case of multiple
+	 * duplicates results with the same name.
+	 *
+	 * @returns {string}
+	 * @readonly
+	 * @memberof Share
+	 */
 	get shareWithDisplayNameUnique() {
-		return this.#share.share_with_displayname_unique || this.#share.share_with
+		return this.#share.share_with_displayname_unique
+			|| this.#share.share_with
 	}
 
 	/**

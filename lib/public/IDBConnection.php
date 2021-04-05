@@ -51,11 +51,34 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
  * @since 6.0.0
  */
 interface IDBConnection {
+	/**
+	 * @deprecated 22.0.0 this is an internal event
+	 */
 	public const ADD_MISSING_INDEXES_EVENT = self::class . '::ADD_MISSING_INDEXES';
+
+	/**
+	 * @deprecated 22.0.0 this is an internal event
+	 */
 	public const CHECK_MISSING_INDEXES_EVENT = self::class . '::CHECK_MISSING_INDEXES';
+
+	/**
+	 * @deprecated 22.0.0 this is an internal event
+	 */
 	public const ADD_MISSING_PRIMARY_KEYS_EVENT = self::class . '::ADD_MISSING_PRIMARY_KEYS';
+
+	/**
+	 * @deprecated 22.0.0 this is an internal event
+	 */
 	public const CHECK_MISSING_PRIMARY_KEYS_EVENT = self::class . '::CHECK_MISSING_PRIMARY_KEYS';
+
+	/**
+	 * @deprecated 22.0.0 this is an internal event
+	 */
 	public const ADD_MISSING_COLUMNS_EVENT = self::class . '::ADD_MISSING_COLUMNS';
+
+	/**
+	 * @deprecated 22.0.0 this is an internal event
+	 */
 	public const CHECK_MISSING_COLUMNS_EVENT = self::class . '::CHECK_MISSING_COLUMNS';
 
 	/**
@@ -74,6 +97,8 @@ interface IDBConnection {
 	 * @return IPreparedStatement The prepared statement.
 	 * @since 6.0.0
 	 * @throws Exception since 21.0.0
+	 *
+	 * @psalm-taint-sink sql $sql
 	 */
 	public function prepare($sql, $limit = null, $offset = null): IPreparedStatement;
 
@@ -89,6 +114,8 @@ interface IDBConnection {
 	 * @return IResult The executed statement.
 	 * @since 8.0.0
 	 * @throws Exception since 21.0.0
+	 *
+	 * @psalm-taint-sink sql $sql
 	 */
 	public function executeQuery(string $sql, array $params = [], $types = []): IResult;
 
@@ -106,6 +133,8 @@ interface IDBConnection {
 	 * @throws Exception since 21.0.0
 	 *
 	 * @deprecated 21.0.0 use executeStatement
+	 *
+	 * @psalm-taint-sink sql $sql
 	 */
 	public function executeUpdate(string $sql, array $params = [], array $types = []): int;
 
@@ -121,6 +150,8 @@ interface IDBConnection {
 	 * @return int The number of affected rows.
 	 * @since 21.0.0
 	 * @throws Exception since 21.0.0
+	 *
+	 * @psalm-taint-sink sql $sql
 	 */
 	public function executeStatement($sql, array $params = [], array $types = []): int;
 
@@ -295,6 +326,8 @@ interface IDBConnection {
 	 * @param string $table table name without the prefix
 	 * @throws Exception since 21.0.0
 	 * @since 8.0.0
+	 *
+	 * @psalm-taint-sink sql $table
 	 */
 	public function dropTable(string $table): void;
 

@@ -9,6 +9,7 @@
 namespace Test;
 
 use OCP\Migration\IRepairStep;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class RepairStepTest implements IRepairStep {
@@ -41,7 +42,7 @@ class RepairTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 		$dispatcher = new EventDispatcher();
-		$this->repair = new \OC\Repair([], $dispatcher);
+		$this->repair = new \OC\Repair([], $dispatcher, $this->createMock(LoggerInterface::class));
 
 		$dispatcher->addListener('\OC\Repair::warning', function ($event) {
 			/** @var \Symfony\Component\EventDispatcher\GenericEvent $event */

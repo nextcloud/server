@@ -33,6 +33,7 @@
 
 namespace OCA\DAV\Tests\unit\CardDAV;
 
+use OC\KnownUser\KnownUserService;
 use OCA\DAV\CalDAV\Proxy\ProxyMapper;
 use OCA\DAV\CardDAV\AddressBook;
 use OCA\DAV\CardDAV\CardDavBackend;
@@ -139,6 +140,7 @@ class CardDavBackendTest extends TestCase {
 				$this->createMock(IUserSession::class),
 				$this->createMock(IAppManager::class),
 				$this->createMock(ProxyMapper::class),
+				$this->createMock(KnownUserService::class),
 				$this->createMock(IConfig::class),
 			])
 			->setMethods(['getPrincipalByPath', 'getGroupMembership'])

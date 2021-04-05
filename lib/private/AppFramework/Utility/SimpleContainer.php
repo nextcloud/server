@@ -52,11 +52,11 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 		$this->container = new Container();
 	}
 
-	public function get($id) {
+	public function get(string $id) {
 		return $this->query($id);
 	}
 
-	public function has($id): bool {
+	public function has(string $id): bool {
 		// If a service is no registered but is an existing class, we can probably load it
 		return isset($this->container[$id]) || class_exists($id);
 	}
@@ -93,7 +93,12 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 
 				if ($parameterType !== null && !$parameterType->isBuiltin()) {
 					$resolveName = $parameter->getName();
-					return $this->query($resolveName);
+					try {
+						return $this->query($resolveName);
+					} catch (QueryException $e2) {
+						// don't lose the error we got while trying to query by type
+						throw new QueryException($e2->getMessage(), (int) $e2->getCode(), $e);
+					}
 				}
 
 				throw $e;

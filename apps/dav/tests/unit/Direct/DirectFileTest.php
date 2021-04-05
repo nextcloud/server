@@ -29,6 +29,7 @@ namespace OCA\DAV\Tests\Unit\Direct;
 
 use OCA\DAV\Db\Direct;
 use OCA\DAV\Direct\DirectFile;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
@@ -52,6 +53,9 @@ class DirectFileTest extends TestCase {
 	/** @var DirectFile */
 	private $directFile;
 
+	/** @var IEventDispatcher */
+	private $eventDispatcher;
+
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -73,7 +77,9 @@ class DirectFileTest extends TestCase {
 			->with(42)
 			->willReturn([$this->file]);
 
-		$this->directFile = new DirectFile($this->direct, $this->rootFolder);
+		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
+
+		$this->directFile = new DirectFile($this->direct, $this->rootFolder, $this->eventDispatcher);
 	}
 
 	public function testPut() {

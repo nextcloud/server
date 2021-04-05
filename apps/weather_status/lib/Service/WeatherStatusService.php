@@ -72,9 +72,6 @@ class WeatherStatusService {
 	/** @var IAppManager */
 	private $appManager;
 
-	/** @var ICacheFactory */
-	private $cacheFactory;
-
 	/** @var ICache */
 	private $cache;
 
@@ -116,9 +113,7 @@ class WeatherStatusService {
 		$this->version = $appManager->getAppVersion(Application::APP_ID);
 		$this->clientService = $clientService;
 		$this->client = $clientService->newClient();
-		if ($cacheFactory->isAvailable()) {
-			$this->cache = $cacheFactory->createDistributed();
-		}
+		$this->cache = $cacheFactory->createDistributed('weatherstatus');
 	}
 
 	/**
@@ -397,12 +392,12 @@ class WeatherStatusService {
 	 * @return array which contains the error message or the parsed JSON result
 	 */
 	private function requestJSON(string $url, array $params = []): array {
-		if (isset($this->cache)) {
-			$cacheKey = $url . '|' . implode(',', $params) . '|' . implode(',', array_keys($params));
-			if ($this->cache->hasKey($cacheKey)) {
-				return $this->cache->get($cacheKey);
-			}
+		$cacheKey = $url . '|' . implode(',', $params) . '|' . implode(',', array_keys($params));
+		$cacheValue = $this->cache->get($cacheKey);
+		if ($cacheValue !== null) {
+			return $cacheValue;
 		}
+
 		try {
 			$options = [
 				'headers' => [
@@ -425,20 +420,20 @@ class WeatherStatusService {
 				return ['error' => $this->l10n->t('Error')];
 			} else {
 				$json = json_decode($body, true);
-				if (isset($this->cache)) {
-					// default cache duration is one hour
-					$cacheDuration = 60 * 60;
-					if (isset($headers['Expires']) && count($headers['Expires']) > 0) {
-						// if the Expires response header is set, use it to define cache duration
-						$expireTs = (new \Datetime($headers['Expires'][0]))->getTimestamp();
-						$nowTs = (new \Datetime())->getTimestamp();
-						$duration = $expireTs - $nowTs;
-						if ($duration > $cacheDuration) {
-							$cacheDuration = $duration;
-						}
+
+				// default cache duration is one hour
+				$cacheDuration = 60 * 60;
+				if (isset($headers['Expires']) && count($headers['Expires']) > 0) {
+					// if the Expires response header is set, use it to define cache duration
+					$expireTs = (new \Datetime($headers['Expires'][0]))->getTimestamp();
+					$nowTs = (new \Datetime())->getTimestamp();
+					$duration = $expireTs - $nowTs;
+					if ($duration > $cacheDuration) {
+						$cacheDuration = $duration;
 					}
-					$this->cache->set($cacheKey, $json, $cacheDuration);
 				}
+				$this->cache->set($cacheKey, $json, $cacheDuration);
+
 				return $json;
 			}
 		} catch (\Exception $e) {

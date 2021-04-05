@@ -53,7 +53,7 @@ try {
 		$service = $request->getParam('service', '');
 	} else {
 		$pathInfo = trim($pathInfo, '/');
-		list($service) = explode('/', $pathInfo);
+		[$service] = explode('/', $pathInfo);
 	}
 	$file = \OC::$server->getConfig()->getAppValue('core', 'public_' . strip_tags($service));
 	if ($file === '') {
