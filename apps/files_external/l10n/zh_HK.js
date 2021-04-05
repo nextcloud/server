@@ -25,7 +25,7 @@ OC.L10N.register(
     "Are you sure you want to delete this external storage?" : "您確定要刪除此外部儲存嗎？",
     "Delete storage?" : "刪除空間",
     "Saved" : "已儲存",
-    "Saving …" : "儲存中 。。。",
+    "Saving …" : "儲存中 ...",
     "Save" : "儲存",
     "Empty response from the server" : "伺服器没有回應",
     "Couldn't access. Please log out and in again to activate this mount point" : "無法存取，請登出後重新登入來啟動這個掛載點。",
