@@ -74,7 +74,7 @@ OC.L10N.register(
     "Attendees:" : "參加者：",
     "Accept" : "接受",
     "Decline" : "拒絕",
-    "More options …" : "更多選項 。。。",
+    "More options …" : "更多選項 ...",
     "More options at %s" : "%s有更多選項",
     "Contacts" : "聯絡人",
     "System in maintenance mode." : "系統處於維護模式。",
