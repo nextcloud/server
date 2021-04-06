@@ -36,7 +36,8 @@ class DnsPinMiddleware {
 
 	public function __construct(
 		NegativeDnsCache $negativeDnsCache,
-		LocalAddressChecker $localAddressChecker) {
+		LocalAddressChecker $localAddressChecker
+	) {
 		$this->negativeDnsCache = $negativeDnsCache;
 		$this->localAddressChecker = $localAddressChecker;
 	}
@@ -106,7 +107,7 @@ class DnsPinMiddleware {
 					'443',
 				];
 
-				if ($port != null) {
+				if ($port !== null) {
 					$ports[] = (string)$port;
 				}
 
