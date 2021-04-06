@@ -31,6 +31,7 @@ use OC\Memcache\ArrayCache;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage;
 use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class EncryptionWrapper
@@ -100,6 +101,7 @@ class EncryptionWrapper {
 				Filesystem::getMountManager(),
 				$this->manager,
 				$fileHelper,
+				\OC::$server->get(LoggerInterface::class),
 				$uid
 			);
 			return new Encryption(
