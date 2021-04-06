@@ -24,6 +24,7 @@ OC.L10N.register(
     "Password to access {file} was sent to {email}" : "Лозинката за пристап до {file} е испратена на {email}",
     "Password to access %1$s was sent to you" : "Лозинката за пристап до %1$s е испратена до вас",
     "Password to access {file} was sent to you" : "Лозинката за пристап до {file}  е испратена до вас",
+    "Sharing %1$s failed, because this item is already shared with user %2$s" : "Споделувањето на %1$s е неуспешно, бидејќи истото веќе е споделено со корисникот %2$s",
     "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Неможе да се испрати автоматски генерирана лозинка. Ве молиме внесете ја вашата е-пошта адреса во параметрите за лични податоци и обидете се повторно.",
     "Failed to send share by email" : "Неуспешно испраќање на споделување по е-пошта.",
     "%1$s shared »%2$s« with you" : "%1$s сподели »%2$s« со вас",
