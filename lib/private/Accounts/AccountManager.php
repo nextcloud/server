@@ -144,6 +144,17 @@ class AccountManager implements IAccountManager {
 			}
 		}
 
+		// set a max length
+		foreach ($data as $propertyName => $propertyData) {
+			if (isset($data[$propertyName]) && isset($data[$propertyName]['value']) && strlen($data[$propertyName]['value']) > 2048) {
+				if ($throwOnData) {
+					throw new \InvalidArgumentException($propertyName);
+				} else {
+					$data[$propertyName]['value'] = '';
+				}
+			}
+		}
+
 		$allowedScopes = [
 			self::SCOPE_PRIVATE,
 			self::SCOPE_LOCAL,
