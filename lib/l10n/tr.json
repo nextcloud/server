@@ -70,6 +70,7 @@
     "Empty file" : "Dosya boş",
     "Module with ID: %s does not exist. Please enable it in your apps settings or contact your administrator." : "%s kodlu modül bulunamadı. Lütfen uygulamalarınız içinden modülü etkinleştirin ya da BT yöneticinizle görüşün.",
     "File already exists" : "Dosya zaten var",
+    "Invalid path" : "Yol geçersiz",
     "Failed to create file from template" : "Kalıptan dosya oluşturulamadı",
     "Templates" : "Kalıplar",
     "File name is a reserved word" : "Bu dosya adı sistem kullanıma ayrılmıştır",
