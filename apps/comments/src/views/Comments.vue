@@ -227,7 +227,7 @@ export default {
 					itemType: 'files',
 					itemId: this.ressourceId,
 					sorter: 'commenters|share-recipients',
-					limit: loadState('comment', 'maxAutoCompleteResults'),
+					limit: loadState('comments', 'maxAutoCompleteResults'),
 				},
 			})
 			return callback(results.data.ocs.data)
