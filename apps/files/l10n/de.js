@@ -172,7 +172,7 @@ OC.L10N.register(
     "Tags" : "Tags",
     "Unable to change the favourite state of the file" : "Der favorisierte Status der Datei kann nicht geändert werden",
     "Error while loading the file data" : "Fehler beim Laden der Datei-Daten",
-    "Pick a template for {name}" : "Eine Vorlage für {Name} wählen",
+    "Pick a template for {name}" : "Eine Vorlage für {name} wählen",
     "Cancel" : "Abbrechen",
     "Create" : "Erstellen",
     "Create a new file with the selected template" : "Eine neue Datei anhand der ausgewählten Vorlage erstellen",
