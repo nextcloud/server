@@ -137,6 +137,11 @@ video {
 }
 
 ::v-deep {
+	.plyr:-webkit-full-screen video,
+	.plyr:fullscreen video {
+		height: 100% !important;
+		width: 100% !important;
+	}
 	.plyr__progress__container {
 		flex: 1 1;
 	}
