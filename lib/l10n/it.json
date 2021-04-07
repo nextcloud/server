@@ -70,6 +70,7 @@
     "Empty file" : "File vuoto",
     "Module with ID: %s does not exist. Please enable it in your apps settings or contact your administrator." : "Il modulo con ID: %s non esiste. Abilitalo nelle impostazioni delle applicazioni o contatta il tuo amministratore.",
     "File already exists" : "Il file esiste già",
+    "Invalid path" : "Percorso non valido",
     "Failed to create file from template" : "Impossibile creare un file dal modello",
     "Templates" : "Modelli",
     "File name is a reserved word" : "Il nome del file è una parola riservata",

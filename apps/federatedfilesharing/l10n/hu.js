@@ -38,6 +38,7 @@ OC.L10N.register(
     "Federated Cloud Sharing" : "Föderált felhőmegosztás",
     "Open documentation" : "Dokumentáció megnyitása",
     "Adjust how people can share between servers." : "Az emberek kiszolgálók közötti megosztásának beállítása.",
+    "Allow users on this server to send shares to other servers (this option also allows WebDAV access to public shares)" : "Engedélyezze a szerveren lévő felhasználóknak, hogy megosztásokat küldjenek más szerverekre (ez az opció lehetővé teszi a WebDAV hozzáférését a nyilvános megosztásokhoz is)",
     "Allow users on this server to receive shares from other servers" : "Engedélyezze ezen kiszolgáló felhasználóinak, hogy megosztásokat fogadjanak más kiszolgálóktól",
     "Allow users on this server to send shares to groups on other servers" : "Engedélyezze ezen kiszolgáló felhasználóinak, hogy megosztásokat küldjenek más kiszolgálók csoportjainak",
     "Allow users on this server to receive group shares from other servers" : "Engedélyezi ezen kiszolgáló felhasználóinak, hogy csoportmegosztásokat fogadjanak más kiszolgálóktól",
