@@ -70,6 +70,7 @@ use OCP\L10N\IFactory;
 use OCP\Security\ISecureRandom;
 use OCP\Security\Events\GenerateSecurePasswordEvent;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\User\Backend\ISetDisplayNameBackend;
 use Psr\Log\LoggerInterface;
 
 class UsersController extends AUserData {
@@ -538,13 +539,38 @@ class UsersController extends AUserData {
 	/**
 	 * @NoAdminRequired
 	 * @NoSubAdminRequired
+	 *
+	 * @return DataResponse
+	 * @throws OCSException
 	 */
-	public function getEditableFields(): DataResponse {
+	public function getEditableFields(?string $userId = null): DataResponse {
+		$currentLoggedInUser = $this->userSession->getUser();
+		if (!$currentLoggedInUser instanceof IUser) {
+			throw new OCSException('', OCSController::RESPOND_NOT_FOUND);
+		}
+
 		$permittedFields = [];
+
+		if ($userId !== $currentLoggedInUser->getUID()) {
+			$targetUser = $this->userManager->get($userId);
+			if (!$targetUser instanceof IUser) {
+				throw new OCSException('', OCSController::RESPOND_NOT_FOUND);
+			}
+
+			$subAdminManager = $this->groupManager->getSubAdmin();
+			if (!$this->groupManager->isAdmin($currentLoggedInUser->getUID())
+				&& !$subAdminManager->isUserAccessible($currentLoggedInUser, $targetUser)) {
+				throw new OCSException('', OCSController::RESPOND_NOT_FOUND);
+			}
+		} else {
+			$targetUser = $currentLoggedInUser;
+		}
 
 		// Editing self (display, email)
 		if ($this->config->getSystemValue('allow_user_to_change_display_name', true) !== false) {
-			$permittedFields[] = IAccountManager::PROPERTY_DISPLAYNAME;
+			if ($targetUser->getBackend() instanceof ISetDisplayNameBackend) {
+				$permittedFields[] = IAccountManager::PROPERTY_DISPLAYNAME;
+			}
 			$permittedFields[] = IAccountManager::PROPERTY_EMAIL;
 		}
 
@@ -581,8 +607,10 @@ class UsersController extends AUserData {
 		if ($targetUser->getUID() === $currentLoggedInUser->getUID()) {
 			// Editing self (display, email)
 			if ($this->config->getSystemValue('allow_user_to_change_display_name', true) !== false) {
-				$permittedFields[] = 'display';
-				$permittedFields[] = IAccountManager::PROPERTY_DISPLAYNAME;
+				if ($targetUser->getBackend() instanceof ISetDisplayNameBackend) {
+					$permittedFields[] = 'display';
+					$permittedFields[] = IAccountManager::PROPERTY_DISPLAYNAME;
+				}
 				$permittedFields[] = IAccountManager::PROPERTY_EMAIL;
 			}
 
@@ -621,8 +649,10 @@ class UsersController extends AUserData {
 			if ($this->groupManager->isAdmin($currentLoggedInUser->getUID())
 			|| $subAdminManager->isUserAccessible($currentLoggedInUser, $targetUser)) {
 				// They have permissions over the user
-				$permittedFields[] = 'display';
-				$permittedFields[] = IAccountManager::PROPERTY_DISPLAYNAME;
+				if ($targetUser->getBackend() instanceof ISetDisplayNameBackend) {
+					$permittedFields[] = 'display';
+					$permittedFields[] = IAccountManager::PROPERTY_DISPLAYNAME;
+				}
 				$permittedFields[] = IAccountManager::PROPERTY_EMAIL;
 				$permittedFields[] = 'password';
 				$permittedFields[] = 'language';
