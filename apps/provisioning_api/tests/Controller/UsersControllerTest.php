@@ -67,6 +67,8 @@ use OCP\L10N\IFactory;
 use OCP\Mail\IEMailTemplate;
 use OCP\Security\Events\GenerateSecurePasswordEvent;
 use OCP\Security\ISecureRandom;
+use OCP\User\Backend\IGetDisplayNameBackend;
+use OCP\User\Backend\ISetDisplayNameBackend;
 use OCP\UserInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
@@ -1443,6 +1445,10 @@ class UsersControllerTest extends TestCase {
 			->method('get')
 			->with('UserToEdit')
 			->willReturn($targetUser);
+		$targetUser
+			->expects($this->once())
+			->method('getBackend')
+			->willReturn($this->createMock(ISetDisplayNameBackend::class));
 		$targetUser
 			->expects($this->once())
 			->method('setDisplayName')
@@ -3716,20 +3722,27 @@ class UsersControllerTest extends TestCase {
 
 	public function dataGetEditableFields() {
 		return [
-			[false, [
+			[false, ISetDisplayNameBackend::class, [
 				IAccountManager::PROPERTY_PHONE,
 				IAccountManager::PROPERTY_ADDRESS,
 				IAccountManager::PROPERTY_WEBSITE,
 				IAccountManager::PROPERTY_TWITTER,
 			]],
-			[ true, [
+			[true, ISetDisplayNameBackend::class, [
 				IAccountManager::PROPERTY_DISPLAYNAME,
 				IAccountManager::PROPERTY_EMAIL,
 				IAccountManager::PROPERTY_PHONE,
 				IAccountManager::PROPERTY_ADDRESS,
 				IAccountManager::PROPERTY_WEBSITE,
 				IAccountManager::PROPERTY_TWITTER,
-			]]
+			]],
+			[true, IGetDisplayNameBackend::class, [
+				IAccountManager::PROPERTY_EMAIL,
+				IAccountManager::PROPERTY_PHONE,
+				IAccountManager::PROPERTY_ADDRESS,
+				IAccountManager::PROPERTY_WEBSITE,
+				IAccountManager::PROPERTY_TWITTER,
+			]],
 		];
 	}
 
@@ -3737,9 +3750,10 @@ class UsersControllerTest extends TestCase {
 	 * @dataProvider dataGetEditableFields
 	 *
 	 * @param bool $allowedToChangeDisplayName
+	 * @param string $userBackend
 	 * @param array $expected
 	 */
-	public function testGetEditableFields(bool $allowedToChangeDisplayName, array $expected) {
+	public function testGetEditableFields(bool $allowedToChangeDisplayName, string $userBackend, array $expected) {
 		$this->config
 			->method('getSystemValue')
 			->with(
@@ -3747,8 +3761,19 @@ class UsersControllerTest extends TestCase {
 				$this->anything()
 			)->willReturn($allowedToChangeDisplayName);
 
+		$user = $this->createMock(IUser::class);
+		$this->userSession->method('getUser')
+			->willReturn($user);
+
+		$backend = $this->createMock($userBackend);
+
+		$user->method('getUID')
+			->willReturn('userId');
+		$user->method('getBackend')
+			->willReturn($backend);
+
 		$expectedResp = new DataResponse($expected);
-		$this->assertEquals($expectedResp, $this->api->getEditableFields());
+		$this->assertEquals($expectedResp, $this->api->getEditableFields('userId'));
 	}
 
 	private function mockAccount($targetUser, $accountProperties) {
