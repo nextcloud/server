@@ -231,6 +231,7 @@
 		_setFieldScopeIcon: function(field, scope) {
 			var $icon = this.$('#' + field + 'form > h3 .icon-federation-menu');
 
+			$icon.removeClass('icon-phone');
 			$icon.removeClass('icon-password');
 			$icon.removeClass('icon-contacts-dark');
 			$icon.removeClass('icon-link');
@@ -238,6 +239,9 @@
 
 			switch (scope) {
 				case 'v2-private':
+					$icon.addClass('icon-phone');
+					$icon.removeClass('hidden');
+					break;
 				case 'v2-local':
 					$icon.addClass('icon-password');
 					$icon.removeClass('hidden');
