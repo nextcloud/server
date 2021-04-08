@@ -28,6 +28,7 @@
  */
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
+use Behat\Gherkin\Node\TableNode;
 
 require __DIR__ . '/../../vendor/autoload.php';
 
@@ -94,6 +95,37 @@ class FederationContext implements Context, SnippetAcceptingContext {
 		$previous = $this->usingServer($sharerServer);
 		$this->createShare($sharerUser, $sharerPath, 9, $shareWith, null, null, null);
 		$this->usingServer($previous);
+	}
+
+	/**
+	 * @Then remote share :count is returned with
+	 *
+	 * @param int $number
+	 * @param TableNode $body
+	 */
+	public function remoteShareXIsReturnedWith(int $number, TableNode $body) {
+		$this->theHTTPStatusCodeShouldBe('200');
+		$this->theOCSStatusCodeShouldBe('100');
+
+		if (!($body instanceof TableNode)) {
+			return;
+		}
+
+		$returnedShare = $this->getXmlResponse()->data[0];
+		if ($returnedShare->element) {
+			$returnedShare = $returnedShare->element[$number];
+		}
+
+		$defaultExpectedFields = [
+			'id' => 'A_NUMBER',
+			'remote_id' => 'A_NUMBER',
+			'accepted' => '1',
+		];
+		$expectedFields = array_merge($defaultExpectedFields, $body->getRowsHash());
+
+		foreach ($expectedFields as $field => $value) {
+			$this->assertFieldIsInReturnedShare($field, $value, $returnedShare);
+		}
 	}
 
 	/**
