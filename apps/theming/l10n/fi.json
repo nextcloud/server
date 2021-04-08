@@ -22,6 +22,7 @@
     "Could not write file to disk" : "Tiedostoa ei voitu kirjoittaa levylle",
     "A PHP extension stopped the file upload" : "PHP-laajennus pysäytti tiedoston lähettämisen",
     "No file uploaded" : "Ei tiedostoa lähetetty",
+    "You are already using a custom theme. Theming app settings might be overwritten by that." : "Käytät jo mukautettua teemaa. Teemoitussovelluksen asetukset saatetaan ohittaa.",
     "Theming" : "Teema",
     "Legal notice" : "Lainopillinen huomautus",
     "Privacy policy" : "Yksityisyyskäytäntö",
