@@ -3,7 +3,7 @@ OC.L10N.register(
     {
     "Dashboard" : "Pannellu de controllu",
     "Dashboard app" : "Aplicatzione de su pannellu de controllu",
-    "Show something" : "Ammustra calicuna cosa",
+    "Show something" : "Mustra calicuna cosa",
     "Customize" : "Personaliza",
     "Edit widgets" : "Modìfica ordìngios",
     "Get more widgets from the app store" : "Otene àteros ordìngios dae sa butega de is aplicatziones",
