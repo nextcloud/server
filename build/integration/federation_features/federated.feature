@@ -278,6 +278,48 @@ Feature: federated
 
 
 
+	Scenario: List federated share from another server not accepted yet
+		Given Using server "LOCAL"
+		And user "user0" exists
+		Given Using server "REMOTE"
+		And user "user1" exists
+		# Rename file so it has a unique name in the target server (as the target
+		# server may have its own /textfile0.txt" file)
+		And User "user1" copies file "/textfile0.txt" to "/remote-share.txt"
+		And User "user1" from server "REMOTE" shares "/remote-share.txt" with user "user0" from server "LOCAL"
+		And Using server "LOCAL"
+		When As an "user0"
+		And sending "GET" to "/apps/files_sharing/api/v1/remote_shares"
+		Then the list of returned shares has 0 shares
+
+	Scenario: List federated share from another server
+		Given Using server "LOCAL"
+		And user "user0" exists
+		Given Using server "REMOTE"
+		And user "user1" exists
+		# Rename file so it has a unique name in the target server (as the target
+		# server may have its own /textfile0.txt" file)
+		And User "user1" copies file "/textfile0.txt" to "/remote-share.txt"
+		And User "user1" from server "REMOTE" shares "/remote-share.txt" with user "user0" from server "LOCAL"
+		And Using server "LOCAL"
+		And User "user0" from server "LOCAL" accepts last pending share
+		When As an "user0"
+		And sending "GET" to "/apps/files_sharing/api/v1/remote_shares"
+		Then the list of returned shares has 1 shares
+		And remote share 0 is returned with
+			| remote      | http://localhost:8180/ |
+			| name        | /remote-share.txt |
+			| owner       | user1 |
+			| user        | user0 |
+			| mountpoint  | /remote-share.txt |
+			| mimetype    | text/plain |
+			| mtime        | A_NUMBER |
+			| permissions | 27 |
+			| type        | file |
+			| file_id     | A_NUMBER |
+
+
+
 	Scenario: Delete federated share with another server
 		Given Using server "LOCAL"
 		And user "user0" exists
