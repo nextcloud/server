@@ -50,8 +50,7 @@ trait S3ObjectTrait {
 	 */
 	public function readObject($urn) {
 		return SeekableHttpStream::open(function ($range) use ($urn) {
-			$connection = $this->getConnection();
-			$command = $connection->getCommand('GetObject', [
+			$command = $this->getConnection()->getCommand('GetObject', [
 				'Bucket' => $this->bucket,
 				'Key' => $urn,
 				'Range' => 'bytes=' . $range,
@@ -70,8 +69,9 @@ trait S3ObjectTrait {
 				],
 			];
 
-			if ($connection->getProxy()) {
-				$opts['http']['proxy'] = $connection->getProxy();
+			if ($this->getProxy()) {
+				$opts['http']['proxy'] = $this->getProxy();
+				$opts['http']['request_fulluri'] = true;
 			}
 
 			$context = stream_context_create($opts);
