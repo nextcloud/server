@@ -24,7 +24,7 @@ declare(strict_types=1);
  *
  */
 
-namespace OCP\Log;
+namespace OCP\Log\Audit;
 
 use OCP\EventDispatcher\Event;
 
@@ -33,7 +33,7 @@ use OCP\EventDispatcher\Event;
  *
  * @since 22.0.0
  */
-class AuditEvent extends Event {
+class CriticalActionPerformedEvent extends Event {
 
 	/** @var string */
 	private $logMessage;

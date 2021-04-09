@@ -26,11 +26,11 @@ namespace OCA\AdminAudit\Listener;
 use OCA\AdminAudit\Actions\Action;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
-use OCP\Log\AuditEvent;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 
-class AuditEventListener extends Action implements IEventListener {
+class CriticalActionPerformedEventListener extends Action implements IEventListener {
 	public function handle(Event $event): void {
-		if (!($event instanceof AuditEvent)) {
+		if (!($event instanceof CriticalActionPerformedEvent)) {
 			return;
 		}
 
