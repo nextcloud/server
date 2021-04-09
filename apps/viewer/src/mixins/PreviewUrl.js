@@ -21,8 +21,8 @@
  *
  */
 import { generateUrl } from '@nextcloud/router'
-import { getRootPath, getToken, isPublic } from '../utils/davUtils'
-import { encodeFilePath } from '../utils/fileUtils'
+import { getToken, isPublic } from '../utils/davUtils'
+import { encodeFilePath, getDavPath } from '../utils/fileUtils'
 
 export default {
 	computed: {
@@ -44,13 +44,12 @@ export default {
 		 * @returns {string}
 		 */
 		davPath() {
-			// TODO: allow proper dav access without the need of basic auth
-			// https://github.com/nextcloud/server/issues/19700
-			if (isPublic()) {
-				return generateUrl(`/s/${getToken()}/download?path=${this.filename.replace(this.basename, '')}&files=${this.basename}`)
-			}
-			return getRootPath() + this.filename
+			return getDavPath({
+				filename: this.filename,
+				basename: this.basename,
+			})
 		},
+
 	},
 	methods: {
 		/**

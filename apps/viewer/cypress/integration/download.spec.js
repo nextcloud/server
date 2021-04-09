@@ -1,7 +1,7 @@
 /**
- * @copyright Copyright (c) 2019 John Molakvoæ <skjnldsv@protonmail.com>
+ * @copyright Copyright (c) 2020 Florent Fayolle <florent@zeteo.me>
  *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Florent Fayolle <florent@zeteo.me>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -20,33 +20,37 @@
  *
  */
 
-import { randHash } from '../utils/'
-const randUser = randHash()
+import { randHash } from '../utils'
+import * as path from 'path'
 
-describe('Open image.png in viewer', function() {
+const randUser = randHash()
+const fileName = 'image.png'
+
+describe(`Download ${fileName} in viewer`, function() {
 	before(function() {
 		// Init user
 		cy.nextcloudCreateUser(randUser, 'password')
 		cy.login(randUser, 'password')
 
 		// Upload test files
-		cy.uploadFile('image.png', 'image/png')
+		cy.uploadFile(fileName, 'image/png')
 		cy.visit('/apps/files')
 
 		// wait a bit for things to be settled
 		cy.wait(1000)
 	})
+
 	after(function() {
 		cy.logout()
 	})
 
-	it('See image.png in the list', function() {
-		cy.get('#fileList tr[data-file="image.png"]', { timeout: 10000 })
-			.should('contain', 'image.png')
+	it(`See "${fileName}" in the list`, function() {
+		cy.get(`#fileList tr[data-file="${fileName}"]`, { timeout: 10000 })
+			.should('contain', fileName)
 	})
 
 	it('Open the viewer on file click', function() {
-		cy.openFile('image.png')
+		cy.openFile(fileName)
 		cy.get('body > .viewer').should('be.visible')
 	})
 
@@ -57,22 +61,27 @@ describe('Open image.png in viewer', function() {
 			.and('not.have.class', 'icon-loading')
 	})
 
-	it('Is not in mobile fullscreen mode', function() {
-		cy.get('body > .viewer .modal-wrapper').should('not.have.class', 'modal-wrapper--full')
+	it('Download the image', function() {
+		// open the menu
+		cy.get('body > .viewer .modal-header button.action-item__menutoggle').click()
+		// download the file
+		cy.get('.action-link__icon.icon-download').click()
 	})
 
-	it('See the menu icon and title on the viewer header', function() {
-		cy.get('body > .viewer .modal-title').should('contain', 'image.png')
-		cy.get('body > .viewer .modal-header button.action-item__menutoggle').should('be.visible')
-		cy.get('body > .viewer .modal-header button.icon-close').should('be.visible')
-	})
+	it('Compare downloaded file with asset by size', function() {
+		const downloadsFolder = Cypress.config('downloadsFolder')
+		const fixturesFolder = Cypress.config('fixturesFolder')
 
-	it('Does not see navigation arrows', function() {
-		cy.get('body > .viewer a.prev').should('not.be.visible')
-		cy.get('body > .viewer a.next').should('not.be.visible')
-	})
+		const downloadedFilePath = path.join(downloadsFolder, fileName)
+		const fixtureFilePath = path.join(fixturesFolder, fileName)
 
-	it('Does not have any visual regression', function() {
-		// cy.matchImageSnapshot()
+		cy.readFile(fixtureFilePath, 'binary', { timeout: 5000 }).then(fixtureBuffer => {
+			cy.readFile(downloadedFilePath, 'binary', { timeout: 5000 })
+				.should(downloadedBuffer => {
+					if (downloadedBuffer.length !== fixtureBuffer.length) {
+						throw new Error(`File size ${downloadedBuffer.length} is not ${fixtureBuffer.length}`)
+					}
+				})
+		})
 	})
 })
