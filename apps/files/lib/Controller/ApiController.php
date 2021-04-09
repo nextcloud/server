@@ -291,8 +291,8 @@ class ApiController extends Controller {
 	 * @return Response
 	 * @throws \OCP\PreConditionNotMetException
 	 */
-	public function showHiddenFiles($show) {
-		$this->config->setUserValue($this->userSession->getUser()->getUID(), 'files', 'show_hidden', (int)$show);
+	public function showHiddenFiles(bool $show): Response {
+		$this->config->setUserValue($this->userSession->getUser()->getUID(), 'files', 'show_hidden', $show ? '1' : '0');
 		return new Response();
 	}
 
@@ -305,8 +305,8 @@ class ApiController extends Controller {
 	 * @return Response
 	 * @throws \OCP\PreConditionNotMetException
 	 */
-	public function cropImagePreviews($crop) {
-		$this->config->setUserValue($this->userSession->getUser()->getUID(), 'files', 'crop_image_previews', (int)$crop);
+	public function cropImagePreviews(bool $crop): Response {
+		$this->config->setUserValue($this->userSession->getUser()->getUID(), 'files', 'crop_image_previews', $crop ? '1' : '0');
 		return new Response();
 	}
 
@@ -319,8 +319,8 @@ class ApiController extends Controller {
 	 * @return Response
 	 * @throws \OCP\PreConditionNotMetException
 	 */
-	public function showGridView($show) {
-		$this->config->setUserValue($this->userSession->getUser()->getUID(), 'files', 'show_grid', (int)$show);
+	public function showGridView(bool $show): Response {
+		$this->config->setUserValue($this->userSession->getUser()->getUID(), 'files', 'show_grid', $show ? '1' : '0');
 		return new Response();
 	}
 
@@ -345,13 +345,13 @@ class ApiController extends Controller {
 	 * @return Response
 	 * @throws \OCP\PreConditionNotMetException
 	 */
-	public function toggleShowFolder(int $show, string $key) {
+	public function toggleShowFolder(int $show, string $key): Response {
 		// ensure the edited key exists
 		$navItems = \OCA\Files\App::getNavigationManager()->getAll();
 		foreach ($navItems as $item) {
 			// check if data is valid
 			if (($show === 0 || $show === 1) && isset($item['expandedState']) && $key === $item['expandedState']) {
-				$this->config->setUserValue($this->userSession->getUser()->getUID(), 'files', $key, $show);
+				$this->config->setUserValue($this->userSession->getUser()->getUID(), 'files', $key, (string)$show);
 				return new Response();
 			}
 		}
