@@ -51,7 +51,7 @@
 			</div>
 			<p v-if="message === 'send-success'"
 				class="update">
-				{{ t('core', 'A password reset message has been sent to the e-mail address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help.') }}
+				{{ t('core', 'A password reset message has been sent to the email address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help.') }}
 				<br>
 				{{ t('core', 'If it is not there ask your local administrator.') }}
 			</p>
@@ -133,7 +133,7 @@ export default {
 					this.message = 'send-success'
 				})
 				.catch(e => {
-					console.error('could not send reset e-mail request', e)
+					console.error('could not send reset email request', e)
 
 					this.error = true
 					this.message = 'send-error'
