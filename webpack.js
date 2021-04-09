@@ -155,13 +155,5 @@ module.exports = []
 				// make sure to use the handlebar runtime when importing
 				handlebars: 'handlebars/runtime',
 			},
-			// polyfill node modules
-			fallback: {
-				buffer: require.resolve('buffer/'),
-				crypto: require.resolve('crypto-browserify'),
-				path: require.resolve('path-browserify'),
-				stream: require.resolve('stream-browserify'),
-				util: require.resolve('util/'),
-			},
 		},
 	}, config))
