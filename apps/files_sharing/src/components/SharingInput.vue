@@ -197,19 +197,20 @@ export default {
 				shareType.push(this.SHARE_TYPES.SHARE_TYPE_EMAIL)
 			}
 
-			const request = await axios.get(generateOcsUrl('apps/files_sharing/api/v1') + 'sharees', {
-				params: {
-					format: 'json',
-					itemType: this.fileInfo.type === 'dir' ? 'folder' : 'file',
-					search,
-					lookup,
-					perPage: this.config.maxAutocompleteResults,
-					shareType,
-				},
-			})
-
-			if (request.data.ocs.meta.statuscode !== 100) {
-				console.error('Error fetching suggestions', request)
+			let request = null
+			try {
+				request = await axios.get(generateOcsUrl('apps/files_sharing/api/v1', 2) + 'sharees', {
+					params: {
+						format: 'json',
+						itemType: this.fileInfo.type === 'dir' ? 'folder' : 'file',
+						search,
+						lookup,
+						perPage: this.config.maxAutocompleteResults,
+						shareType,
+					},
+				})
+			} catch (error) {
+				console.error('Error fetching suggestions', error)
 				return
 			}
 
@@ -287,24 +288,25 @@ export default {
 		async getRecommendations() {
 			this.loading = true
 
-			const request = await axios.get(generateOcsUrl('apps/files_sharing/api/v1') + 'sharees_recommended', {
-				params: {
-					format: 'json',
-					itemType: this.fileInfo.type,
-				},
-			})
-
-			if (request.data.ocs.meta.statuscode !== 100) {
-				console.error('Error fetching recommendations', request)
+			let request = null
+			try {
+				request = await axios.get(generateOcsUrl('apps/files_sharing/api/v1', 2) + 'sharees_recommended', {
+					params: {
+						format: 'json',
+						itemType: this.fileInfo.type,
+					},
+				})
+			} catch (error) {
+				console.error('Error fetching recommendations', error)
 				return
 			}
 
+			// Add external results from the OCA.Sharing.ShareSearch api
 			const externalResults = this.externalResults.filter(result => !result.condition || result.condition(this))
 
-			const exact = request.data.ocs.data.exact
-
 			// flatten array of arrays
-			const rawRecommendations = Object.values(exact).reduce((arr, elem) => arr.concat(elem), [])
+			const rawRecommendations = Object.values(request.data.ocs.data.exact)
+				.reduce((arr, elem) => arr.concat(elem), [])
 
 			// remove invalid data and format to user-select layout
 			this.recommendations = this.filterOutExistingShares(rawRecommendations)
