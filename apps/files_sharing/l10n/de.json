@@ -162,7 +162,7 @@
     "Copy to clipboard" : "In die Zwischenablage kopieren",
     "Only works for users with access to this folder" : "Funktioniert nur für Benutzer, die Zugriff auf diesen Ordner haben",
     "Only works for users with access to this file" : "Funktioniert nur für Benutzer, die Zugriff auf diese Datei haben",
-    "Please enter the following required information before creating the share" : "Bitte gebe die benötigten Informationen ein bevor die Freigabe erstellt wird",
+    "Please enter the following required information before creating the share" : "Bitte gib die benötigten Informationen ein bevor die Freigabe erstellt wird",
     "Password protection (enforced)" : "Passwortschutz (erzwungen)",
     "Password protection" : "Passwortschutz",
     "Enter a password" : "Passwort eingeben",
