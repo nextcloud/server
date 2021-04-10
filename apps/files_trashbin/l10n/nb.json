@@ -1,0 +1,17 @@
+{ "translations": {
+    "Deleted files" : "Slettede filer",
+    "restored" : "gjenopprettet",
+    "Restore" : "Gjenopprett",
+    "Delete permanently" : "Slett permanent",
+    "This operation is forbidden" : "Operasjonen er forbudt",
+    "This directory is unavailable, please check the logs or contact the administrator" : "Denne mappen er utilgjengelig. Sjekk loggene eller kontakt administrator",
+    "No deleted files" : "Ingen slettede filer",
+    "You will be able to recover deleted files from here" : "Du vil kunne gjenopprette slettede filer herfra",
+    "No entries found in this folder" : "Ingen oppføringer funnet i denne mappen",
+    "Select all" : "Velg alle",
+    "Name" : "Navn",
+    "Actions" : "Handlinger",
+    "Deleted" : "Slettet",
+    "Delete" : "Slett"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

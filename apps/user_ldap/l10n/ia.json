@@ -1,0 +1,10 @@
+{ "translations": {
+    "Users" : "Usatores",
+    "Groups" : "Gruppos",
+    "Help" : "Adjuta",
+    "Password" : "Contrasigno",
+    "Back" : "Retro",
+    "Continue" : "Continuar",
+    "Advanced" : "Avantiate"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

@@ -1,0 +1,9 @@
+{ "translations": {
+    "Contact birthdays" : "Ulang tahun kontak",
+    "Personal" : "Pribadi",
+    "Contacts" : "Kontak",
+    "Technical details" : "Rincian teknis",
+    "Remote Address: %s" : "Alamat remote: %s",
+    "Request ID: %s" : "ID Permintaan: %s"
+},"pluralForm" :"nplurals=1; plural=0;"
+}

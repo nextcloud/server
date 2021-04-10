@@ -1,0 +1,26 @@
+OC.L10N.register(
+    "files_trashbin",
+    {
+    "Deleted files" : "Törölt fájlok",
+    "restored" : "visszaállítva",
+    "This application enables users to restore files that were deleted from the system." : "Ez az alkalmazás lehetővé teszi a felhasználók számára, hogy visszaállítson rendszerből már törölt fájlokat.",
+    "This application enables users to restore files that were deleted from the system. It displays a list of deleted files in the web interface, and has options to restore those deleted files back to the users file directories or remove them permanently from the system. Restoring a file also restores related file versions, if the versions application is enabled. When a file is deleted from a share, it can be restored in the same manner, though it is no longer shared. By default, these files remain in the trash bin for 30 days.\nTo prevent a user from running out of disk space, the Deleted files app will not utilize more than 50% of the currently available free quota for deleted files. If the deleted files exceed this limit, the app deletes the oldest files until it gets below this limit. More information is available in the Deleted Files documentation." : "Ez az alkalmazás lehetővé teszi a felhasználók számára, hogy visszaállítsanak a rendszerből törölt fájlokat. Webes felületen sorolja fel a törölt fájlokat, és azok visszahelyezhetőek a felhasználók könyvtáraiba, vagy véglegesen törölhetőek. Egy fájllal együtt annak korábbi verzióit is visszaállítja, amennyiben ez be van kapcsolva a rendszerben. Ha egy megosztásból lett törölve a fájl, ugyanígy visszaállítható, de már nem lesz megosztva. Ezek a fájlok alapértelmezetten 30 napig maradnak a kukában.\nHogy a felhasználó ne fusson ki az elérhető tárhelyből, a Törölt fájlok alkalmazás legfeljebb az elérhető terület 50%-át használja tárolásra. Ha ennél több fájl kerül bele, az alkalmazás törli a legrégebbi fájlokat, amíg a határértéken belülre nem kerül. További információ a Törölt fájlok dokumentációjában található.",
+    "Restore" : "Visszaállítás",
+    "Delete permanently" : "Végleges törlés",
+    "Error while restoring file from trashbin" : "Hiba a fájl kukából történő visszaállítása során",
+    "Error while removing file from trashbin" : "Hiba a fájl kukából történő eltávolítása során",
+    "Error while restoring files from trashbin" : "Hiba a fájlok kukából történő visszaállítása során",
+    "Error while emptying trashbin" : "Hiba a kuka ürítése során",
+    "Error while removing files from trashbin" : "Hiba a fájlok kukából történő eltávolítása során",
+    "This operation is forbidden" : "Tiltott művelet",
+    "This directory is unavailable, please check the logs or contact the administrator" : "Ez a könyvtár nem elérhető, kérem nézze meg a naplófájlokat vagy keresse a rendszergazdát",
+    "No deleted files" : "Nincs törölt fájl",
+    "You will be able to recover deleted files from here" : "Innen vissza tudja állítani a törölt fáljait.",
+    "No entries found in this folder" : "Nincsenek bejegyzések ebben a mappában",
+    "Select all" : "Összes kijelölése",
+    "Name" : "Név",
+    "Actions" : "Műveletek",
+    "Deleted" : "Törölve",
+    "Delete" : "Törlés"
+},
+"nplurals=2; plural=(n != 1);");

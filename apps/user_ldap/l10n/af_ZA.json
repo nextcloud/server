@@ -1,0 +1,8 @@
+{ "translations": {
+    "Users" : "Gebruikers",
+    "Help" : "Hulp",
+    "Password" : "Wagwoord",
+    "Continue" : "Gaan voort",
+    "Advanced" : "Gevorderd"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

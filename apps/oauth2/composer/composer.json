@@ -1,0 +1,13 @@
+{
+    "config" : {
+        "vendor-dir": ".",
+        "optimize-autoloader": true,
+        "classmap-authoritative": true,
+        "autoloader-suffix": "OAuth2"
+    },
+    "autoload" : {
+        "psr-4": {
+            "OCA\\OAuth2\\": "../lib/"
+        }
+    }
+}

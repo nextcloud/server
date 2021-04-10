@@ -1,0 +1,12 @@
+{ "translations": {
+    "Users" : "ئىشلەتكۈچىلەر",
+    "Groups" : "گۇرۇپپا",
+    "Help" : "ياردەم",
+    "Host" : "باش ئاپپارات",
+    "Port" : "ئېغىز",
+    "Password" : "ئىم",
+    "Advanced" : "ئالىي",
+    "Connection Settings" : "باغلىنىش تەڭشىكى",
+    "Configuration Active" : "سەپلىمە ئاكتىپ"
+},"pluralForm" :"nplurals=1; plural=0;"
+}

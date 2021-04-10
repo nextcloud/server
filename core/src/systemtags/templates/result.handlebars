@@ -1,0 +1,13 @@
+<span class="systemtags-item{{#if isNew}} new-item{{/if}}" data-id="{{id}}">
+<span class="checkmark icon icon-checkmark"></span>
+	{{#if isAdmin}}
+		<span class="label">{{{tagMarkup}}}</span>
+	{{else}}
+		<span class="label">{{name}}</span>
+	{{/if}}
+	{{#allowActions}}
+		<span class="systemtags-actions">
+			<a href="#" class="rename icon icon-rename" title="{{renameTooltip}}"></a>
+		</span>
+	{{/allowActions}}
+</span>

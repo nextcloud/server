@@ -1,0 +1,7 @@
+{ "translations": {
+    "Users" : "उपयोगकर्ता",
+    "Help" : "सहयोग",
+    "Password" : "पासवर्ड",
+    "Advanced" : "उन्नत"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

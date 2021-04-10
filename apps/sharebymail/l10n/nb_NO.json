@@ -1,0 +1,22 @@
+{ "translations": {
+    "Shared with %1$s" : "Delt med %1$s",
+    "Shared with {email}" : "Delt med {email}",
+    "Shared with %1$s by %2$s" : "Delt med %1$s via %2$s",
+    "Shared with {email} by {actor}" : "Delt med {email} av {actor}",
+    "You shared %1$s with %2$s by mail" : "Du delte %1$s med %2$s via epost",
+    "You shared {file} with {email} by mail" : "Du delte {file} med {email} via epost",
+    "%3$s shared %1$s with %2$s by mail" : "%3$s delte %1$s med %2$s via epost",
+    "{actor} shared {file} with {email} by mail" : "{actor} delte {file} med {email} via epost",
+    "Sharing %s failed, this item is already shared with %s" : "Deling %s feilet, dette elementet er allerede delt med %s",
+    "Failed to send share by E-mail" : "Feilet når delingen skulle sendes på epost",
+    "%s shared »%s« with you" : "%s delte »%s« med deg",
+    "%s shared »%s« with you on behalf of %s" : "%s delte »%s« med deg på vegne av %s",
+    "Failed to create the E-mail" : "Feilet ved opprettelse av epost",
+    "Could not find share" : "Delingen ble ikke funnet",
+    "Hey there,\n\n%s shared »%s« with you on behalf of %s.\n\n%s\n\n" : "Hei,\n\n%s delte »%s« med deg på vegne av %s.\n\n%s\n\n",
+    "Hey there,\n\n%s shared »%s« with you.\n\n%s\n\n" : "Hei,\n\n%s delte »%s« med deg.\n\n%s\n\n",
+    "Cheers!" : "Skål!",
+    "Hey there,<br><br>%s shared <a href=\"%s\">%s</a> with you on behalf of %s.<br><br>" : "Hei,<br><br>%s delte <a href=\"%s\">%s</a> med deg på vegne av %s.<br><br>",
+    "Hey there,<br><br>%s shared <a href=\"%s\">%s</a> with you.<br><br>" : "Hei,<br><br>%s delte <a href=\"%s\">%s</a> med deg.<br><br>"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<D:sync-collection xmlns:D="DAV:">
+<D:sync-token/>
+<D:sync-level>0</D:sync-level>
+<D:limit><D:nresults>10</D:nresults></D:limit>
+<D:prop/>
+</D:sync-collection>

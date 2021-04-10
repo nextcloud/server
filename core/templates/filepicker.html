@@ -1,0 +1,64 @@
+<div id="{dialog_name}" title="{title}">
+	<span class="dirtree breadcrumb">
+		<span class="actions creatable"><a href="#" class="icon icon-add button button-add"></a>
+			<nav class="menu popovermenu bubble menu-left newFolderMenu">
+				<ul><li>
+				<form class="filenameform">
+					<input type="text" value={newtext}>
+					<input class="icon-confirm" type="submit" value="">
+				</form>
+				</li></ul>
+			</nav>
+		</span>
+
+	</span>
+
+	<input type="checkbox" class="hidden-visually" id="picker-showgridview" checked="checked" />
+	<label id="picker-view-toggle" for="picker-showgridview" class="button icon-toggle-filelist"></label>
+	<div class="filelist-container">
+		<div class="emptycontent">
+			<div class="icon-folder"></div>
+			<h2>{emptytext}</h2>
+		</div>
+		<table id="picker-filestable" class="filelist list-container view-grid">
+			<thead>
+				<tr>
+					<th id="headerName" class="column-name">
+						<div id="headerName-container">
+							<a class="name sort columntitle" data-sort="name">
+								<span>{nameCol}</span>
+								<span class="sort-indicator hidden icon-triangle-n"></span>
+							</a>
+						</div>
+					</th>
+					<th id="headerSize" class="column-size">
+						<a class="size sort columntitle" data-sort="size">
+							<span>{sizeCol}</span>
+							<span class="sort-indicator hidden icon-triangle-n"></span></a>
+					</th>
+					<th id="headerDate" class="column-mtime">
+						<a id="modified" class="columntitle" data-sort="mtime">
+							<span>{modifiedCol}</span>
+							<span class="sort-indicator hidden icon-triangle-n"></span></a>
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr data-entryname="{filename}" data-type="{type}">
+					<td class="filename"
+						style="background-image:url({icon})">
+						<span class="filename-parts">
+							<span class="filename-parts__first">{filename1}</span>
+							<span class="filename-parts__last">{filename2}</span>
+						</span>
+					</td>
+					<td class="filesize"
+						style="color:rgb({sizeColor}, {sizeColor}, {sizeColor})">
+						{size}
+					</td>
+					<td class="date">{date}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>

@@ -1,0 +1,15 @@
+.systemtag-input {
+	display: flex;
+	flex-wrap: wrap;
+}
+#systemtags .select2-container {
+	width: 100%;
+	max-width: 400px;
+}
+#systemtags .select2-container .select2-choice {
+	height: auto;
+}
+#systemtag_name {
+	width: 100%;
+	max-width: 400px;
+}

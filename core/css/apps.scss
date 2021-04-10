@@ -1,0 +1,1292 @@
+/**
+ * @copyright Copyright (c) 2016-2017, John Molakvoæ <skjnldsv@protonmail.com>
+ * @copyright Copyright (c) 2016, Julius Haertl <jus@bitgrid.net>
+ * @copyright Copyright (c) 2016, Morris Jobke <hey@morrisjobke.de>
+ * @copyright Copyright (c) 2016, pgys <info@pexlab.space>
+ * @copyright Copyright (c) 2016, Lukas Reschke <lukas@statuscode.ch>
+ * @copyright Copyright (c) 2016, Stefan Weil <sw@weilnetz.de>
+ * @copyright Copyright (c) 2016, Roeland Jago Douma <rullzer@owncloud.com>
+ * @copyright Copyright (c) 2016, jowi <sjw@gmx.ch>
+ * @copyright Copyright (c) 2015, Hendrik Leppelsack <hendrik@leppelsack.de>
+ * @copyright Copyright (c) 2015, Thomas Müller <thomas.mueller@tmit.eu>
+ * @copyright Copyright (c) 2015, Vincent Petry <pvince81@owncloud.com>
+ * @copyright Copyright (c) 2014-2017, Jan-Christoph Borchardt <hey@jancborchardt.net>
+ *
+ * @license GNU AGPL version 3 or any later version
+ *
+ */
+
+/* BASE STYLING ------------------------------------------------------------ */
+// no h1 allowed since h1 = logo
+h2 {
+	font-weight: bold;
+	font-size: 20px;
+	margin-bottom: 12px;
+	line-height: 30px;
+	color: var(--color-text-light);
+}
+
+h3 {
+	font-size: 16px;
+	margin: 12px 0;
+	color: var(--color-text-light);
+}
+
+h4 {
+	font-size: 14px;
+}
+
+/* do not use italic typeface style, instead lighter color */
+em {
+	font-style: normal;
+	color: var(--color-text-lighter);
+}
+
+dl {
+	padding: 12px 0;
+}
+
+dt,
+dd {
+	display: inline-block;
+	padding: 12px;
+	padding-left: 0;
+}
+
+dt {
+	width: 130px;
+	white-space: nowrap;
+	text-align: right;
+}
+
+kbd {
+	padding: 4px 10px;
+	border: 1px solid #ccc;
+	box-shadow: 0 1px 0 rgba(0, 0, 0, .2);
+	border-radius: var(--border-radius);
+	display: inline-block;
+	white-space: nowrap;
+}
+
+
+/* APP STYLING ------------------------------------------------------------ */
+
+#content[class*='app-'] * {
+	box-sizing: border-box;
+}
+
+/* APP-NAVIGATION ------------------------------------------------------------ */
+/* Navigation: folder like structure */
+#app-navigation:not(.vue) {
+	width: $navigation-width;
+	position: fixed;
+	top: $header-height;
+	left: 0;
+	z-index: 500;
+	overflow-y: auto;
+	overflow-x: hidden;
+	// Do not use vh because of mobile headers
+	// are included in the calculation
+	height: calc(100% - #{$header-height});
+	box-sizing: border-box;
+	background-color: var(--color-main-background);
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	border-right: 1px solid var(--color-border);
+	display: flex;
+	flex-direction: column;
+	flex-grow: 0;
+	flex-shrink: 0;
+
+	/* 'New' button */
+	.app-navigation-new {
+		display: block;
+		padding: 10px;
+		button {
+			display: inline-block;
+			width: 100%;
+			padding: 10px;
+			padding-left: 34px;
+			background-position: 10px center;
+			text-align: left;
+			margin: 0;
+		}
+	}
+
+	li {
+		position: relative;
+	}
+	> ul {
+		position: relative;
+		height: 100%;
+		width: inherit;
+		overflow-x: hidden;
+		overflow-y: auto;
+		box-sizing: border-box;
+		display: flex;
+		flex-direction: column;
+		> li {
+			display: inline-flex;
+			flex-wrap: wrap;
+			order: 1;
+			flex-shrink: 0;
+
+			/* Pinned-to-bottom entries */
+			&.pinned {
+				order: 2;
+				&.first-pinned {
+					margin-top: auto !important;
+				}
+			}
+
+			> .app-navigation-entry-deleted {
+				/* Ugly hack for overriding the main entry link */
+				padding-left: 44px !important;
+			}
+			> .app-navigation-entry-edit {
+				/* Ugly hack for overriding the main entry link */
+				/* align the input correctly with the link text
+				   44px-6px padding for the input */
+				padding-left: 38px !important;
+			}
+
+			a:hover,
+			a:focus {
+				&,
+				> a {
+					background-color: var(--color-background-hover);
+				}
+			}
+			&.active,
+			a:active,
+			a.selected ,
+			a.active {
+				&,
+				> a {
+					background-color: var(--color-primary-light);
+				}
+			}
+
+			/* align loader */
+			&.icon-loading-small:after {
+				left: 22px;
+				top: 22px;
+			}
+
+			/* hide deletion/collapse of subitems */
+			&.deleted,
+			&.collapsible:not(.open) {
+				> ul {
+					// NO ANIMATE because if not really hidden, we can still tab through it
+					display: none;
+				}
+			}
+
+			&.app-navigation-caption {
+				font-weight: bold;
+				line-height: 44px;
+				padding: 0 44px;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+				box-shadow: none !important;
+				user-select: none;
+				pointer-events:none;
+
+				&:not(:first-child) {
+					margin-top: 22px;
+				}
+			}
+
+			/* Second level nesting for lists */
+			> ul {
+				flex: 0 1 auto;
+				width: 100%;
+				position: relative;
+				> li {
+					display: inline-flex;
+					flex-wrap: wrap;
+					padding-left: 44px;
+					&:hover,
+					&:focus {
+						&,
+						> a {
+							background-color: var(--color-background-hover);
+						}
+					}
+					&.active,
+					a.selected {
+						&,
+						> a {
+							background-color: var(--color-primary-light);
+						}
+					}
+
+					/* align loader */
+					&.icon-loading-small:after {
+						left: 22px; /* 44px / 2 */
+					}
+
+					> .app-navigation-entry-deleted {
+						/* margin to keep active indicator visible */
+						margin-left: 4px;
+						padding-left: 84px;
+					}
+
+					> .app-navigation-entry-edit {
+						/* margin to keep active indicator visible */
+						margin-left: 4px;
+						/* align the input correctly with the link text
+						44px+44px-4px-6px padding for the input */
+						padding-left: 78px !important;
+					}
+				}
+			}
+		}
+		/* Menu and submenu */
+		> li,
+		> li > ul > li {
+			position: relative;
+			width: 100%;
+			box-sizing: border-box;
+			/* hide icons if loading */
+			&.icon-loading-small {
+				> a,
+				> .app-navigation-entry-bullet {
+					/* hide icon or bullet if loading state*/
+					background: transparent !important;
+				}
+			}
+			/* Main entry link */
+			> a {
+				background-size: 16px 16px;
+				background-position: 14px center;
+				background-repeat: no-repeat;
+				display: block;
+				justify-content: space-between;
+				line-height: 44px;
+				min-height: 44px;
+				padding: 0 12px 0 44px;
+				overflow: hidden;
+				box-sizing: border-box;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+				color: var(--color-main-text);
+				opacity: .8;
+				flex: 1 1 0px;
+				z-index: 100; /* above the bullet to allow click*/
+				/* TODO: forbid using img as icon in menu? */
+				&:first-child img {
+				    margin-right: 11px;
+				    width: 16px;
+				    height: 16px;
+				    margin-left: -30px;
+				}
+
+				/* counter can also be inside the link */
+				> .app-navigation-entry-utils  {
+					display: inline-block;
+					float: right;
+					.app-navigation-entry-utils-counter {
+						padding-right: 0 !important;
+					}
+				}
+			}
+			/* Bullet icon */
+			> .app-navigation-entry-bullet {
+				position: absolute;
+				display: block;
+				margin: 16px;
+				width: 12px;
+				height: 12px;
+				border: none;
+				border-radius: 50%;
+				cursor: pointer;
+				transition: background 100ms ease-in-out;
+
+				+ a {
+					/* hide icon if bullet, can't have both */
+					background: transparent !important;
+				}
+			}
+
+			/* popover fix the flex positionning of the li parent */
+			> .app-navigation-entry-menu {
+				top: 44px;
+			}
+
+			/* show edit/undo field if editing/deleted */
+			&.editing .app-navigation-entry-edit {
+				opacity: 1;
+				z-index: 250;
+			}
+			&.deleted .app-navigation-entry-deleted {
+				transform: translateX(0);
+				z-index: 250;
+			}
+		}
+	}
+	&.hidden {
+		display: none;
+	}
+
+	/**
+	 * Button styling for menu, edit and undo
+	 */
+	.app-navigation-entry-utils .app-navigation-entry-utils-menu-button > button,
+	.app-navigation-entry-deleted .app-navigation-entry-deleted-button {
+		border: 0;
+		opacity: 0.5;
+		background-color: transparent;
+		background-repeat: no-repeat;
+		background-position: center;
+		&:hover,
+		&:focus {
+			background-color: transparent;
+			opacity: 1;
+		}
+	}
+
+	/**
+	 * Collapsible menus
+	 */
+	.collapsible {
+		/* Fallback for old collapse button.
+		   TODO: to be removed. Leaved here for retro compatibility */
+		.collapse {
+			opacity: 0;
+			position: absolute;
+			width: 44px;
+			height: 44px;
+			margin: 0;
+			z-index: 110;
+
+			/* Needed for IE11; otherwise the button appears to the right of the
+			 * link. */
+			left: 0;
+		}
+		&:before {
+			position: absolute;
+			height: 44px;
+			width: 44px;
+			margin: 0;
+			padding: 0;
+			background: none;
+			@include icon-color('triangle-s', 'actions', $color-black, 1, true);
+			background-size: 16px;
+			background-repeat: no-repeat;
+			background-position: center;
+			border: none;
+			border-radius: 0;
+			outline: none !important;
+			box-shadow: none;
+			content: ' ';
+			opacity: 0;
+			-webkit-transform: rotate(-90deg);
+			-ms-transform: rotate(-90deg);
+			transform: rotate(-90deg);
+			z-index: 105; // above a, under button
+			background-color: var(--color-background-hover);
+			border-radius: 50%;
+			transition: opacity $animation-quick ease-in-out;
+		}
+
+		/* force padding on link no matter if 'a' has an icon class */
+		> a:first-child {
+			padding-left: 44px;
+		}
+		&:hover,
+		&:focus {
+			&:before {
+				opacity: 1;
+			}
+			> .app-navigation-entry-bullet {
+				background: transparent !important;
+			}
+		}
+		&.open {
+			&:before {
+				-webkit-transform: rotate(0);
+				-ms-transform: rotate(0);
+				transform: rotate(0);
+			}
+		}
+	}
+
+	/**
+	 * App navigation utils, buttons and counters for drop down menu
+	 */
+	.app-navigation-entry-utils {
+		flex: 0 1 auto;
+		ul {
+			display: flex !important;
+			align-items: center;
+			justify-content: flex-end;
+		}
+		li {
+			width: 44px !important;
+			height: 44px;
+		}
+		button {
+			height: 100%;
+			width: 100%;
+			margin: 0;
+			box-shadow: none;
+		}
+		.app-navigation-entry-utils-menu-button {
+			/* Prevent bg img override if an icon class is set */
+			button:not([class^='icon-']):not([class*=' icon-']) {
+				@include icon-color('more', 'actions', $color-black, 1, true);
+			}
+			&:hover button,
+			&:focus button {
+				background-color: transparent;
+				opacity: 1;
+			}
+		}
+		.app-navigation-entry-utils-counter {
+			overflow: hidden;
+			text-align: right;
+			font-size: 9pt;
+			line-height: 44px;
+			padding: 0 12px; /* Same padding as all li > a in the app-navigation */
+
+			&.highlighted {
+				padding: 0;
+				text-align: center;
+				span {
+					padding: 2px 5px;
+					border-radius: 10px;
+					background-color: var(--color-primary);
+					color: var(--color-primary-text);
+				}
+			}
+		}
+	}
+
+	/**
+	 * Editable entries
+	 */
+	.app-navigation-entry-edit {
+		padding-left: 5px;
+		padding-right: 5px;
+		display: block;
+		width: calc(100% - 1px); /* Avoid border overlapping */
+		transition: opacity 250ms ease-in-out;
+		opacity: 0;
+		position: absolute;
+		background-color: var(--color-main-background);
+		z-index: -1;
+		form,
+		div {
+			display: inline-flex;
+			width: 100%;
+		}
+		input {
+			padding: 5px;
+			margin-right: 0;
+			height: 38px;
+			&:hover,
+			&:focus {
+				/* overlapp borders */
+				z-index: 1;
+			}
+		}
+		input[type='text'] {
+			width: 100%;
+			min-width: 0; /* firefox hack: override auto */
+			border-bottom-right-radius: 0;
+			border-top-right-radius: 0;
+		}
+		button,
+		input:not([type='text']) {
+			width: 36px;
+			height: 38px;
+			flex: 0 0 36px;
+			&:not(:last-child) {
+				border-radius: 0 !important;
+			}
+			&:not(:first-child) {
+				margin-left: -1px;
+			}
+			&:last-child {
+				border-bottom-right-radius: var(--border-radius);
+				border-top-right-radius: var(--border-radius);
+				border-bottom-left-radius: 0;
+				border-top-left-radius: 0;
+			}
+		}
+	}
+
+	/**
+	 * Deleted entries with undo button
+	 */
+	.app-navigation-entry-deleted {
+		display: inline-flex;
+		padding-left: 44px;
+		transform: translateX(#{$navigation-width});
+		.app-navigation-entry-deleted-description {
+			position: relative;
+			white-space: nowrap;
+			text-overflow: ellipsis;
+			overflow: hidden;
+			flex: 1 1 0px;
+			line-height: 44px;
+		}
+		.app-navigation-entry-deleted-button {
+			margin: 0;
+			height: 44px;
+			width: 44px;
+			line-height: 44px;
+			&:hover,
+			&:focus {
+				opacity: 1;
+			}
+		}
+	}
+
+	/**
+	 * Common rules for animation of undo and edit entries
+	 */
+	.app-navigation-entry-edit,
+	.app-navigation-entry-deleted  {
+		width: calc(100% - 1px); /* Avoid border overlapping */
+		transition: transform 250ms ease-in-out,
+					opacity 250ms ease-in-out,
+					z-index 250ms ease-in-out;
+		position: absolute;
+		left: 0;
+		background-color: var(--color-main-background);
+		box-sizing: border-box;
+	}
+
+	/**
+	 * drag and drop
+	 */
+	.drag-and-drop {
+		-webkit-transition: padding-bottom 500ms ease 0s;
+		transition: padding-bottom 500ms ease 0s;
+		padding-bottom: 40px;
+	}
+
+	.error {
+		color: var(--color-error);
+	}
+
+	.app-navigation-entry-utils ul,
+	.app-navigation-entry-menu ul {
+		list-style-type: none;
+	}
+}
+
+
+/* CONTENT  --------------------------------------------------------- */
+#content {
+	box-sizing: border-box;
+	position: relative;
+	display: flex;
+	// padding is included in height
+	padding-top: $header-height;
+	min-height: 100%;
+}
+
+/* APP-CONTENT AND WRAPPER ------------------------------------------ */
+/* Part where the content will be loaded into */
+
+/**
+ * !Important. We are defining the minimum requirement we want for flex
+ * Just before the mobile breakpoint we have $breakpoint-mobile (1024px) - $navigation-width
+ * -> 468px. In that case we want 200px for the list and 268px for the content
+ */
+$min-content-width: $breakpoint-mobile - $navigation-width - $list-min-width;
+
+#app-content {
+	z-index: 1000;
+	background-color: var(--color-main-background);
+	position: relative;
+	flex-basis: 100vw;
+	min-height: 100%;
+	/* margin if navigation element is here */
+	#app-navigation:not(.hidden) + & {
+		margin-left: $navigation-width;
+	}
+	/* no top border for first settings item */
+	> .section:first-child {
+		border-top: none;
+	}
+
+	/* if app-content-list is present */
+	#app-content-wrapper {
+		display: flex;
+		position: relative;
+		align-items: stretch;
+		/* make sure we have at least full height for loaders or such
+		   no need for list/details since we have a flex stretch */
+		min-height: 100%;
+
+		/* CONTENT DETAILS AFTER LIST*/
+		.app-content-details {
+			/* grow full width */
+			flex: 1 1 $min-content-width;
+			#app-navigation-toggle-back {
+				display: none;
+			}
+		}
+	}
+}
+
+/* APP-SIDEBAR ------------------------------------------------------------ */
+/*
+	Sidebar: a sidebar to be used within #content
+	#app-content will be shrinked properly
+*/
+#app-sidebar {
+	width: 27vw;
+	min-width: $sidebar-min-width;
+	max-width: $sidebar-max-width;
+	display: block;
+	@include position('sticky');
+	top: $header-height;
+	right:0;
+	overflow-y: auto;
+	overflow-x: hidden;
+	z-index: 1500;
+	height: calc(100vh - #{$header-height});
+	background: var(--color-main-background);
+	border-left: 1px solid var(--color-border);
+	flex-shrink: 0;
+	// no animations possible, use OC.Apps.showAppSidebar
+	&.disappear {
+		display: none;
+	}
+}
+
+
+/* APP-SETTINGS ------------------------------------------------------------ */
+/* settings area */
+#app-settings {
+	// To the bottom w/ flex
+	margin-top: auto;
+	&.open,
+	&.opened {
+		#app-settings-content {
+			display: block;
+		}
+	}
+}
+
+#app-settings-content {
+	display: none;
+	padding: 10px;
+	background-color: var(--color-main-background);
+	/* restrict height of settings and make scrollable */
+	max-height: 300px;
+	overflow-y: auto;
+	box-sizing: border-box;
+
+	/* display input fields at full width */
+	input[type='text'] {
+		width: 93%;
+	}
+
+	.info-text {
+		padding: 5px 0 7px 22px;
+		color: var(--color-text-lighter);
+	}
+	input {
+		&[type='checkbox'],
+		&[type='radio'] {
+			&.radio,
+			&.checkbox {
+				+ label {
+					display: inline-block;
+					width: 100%;
+					padding: 5px 0;
+				}
+			}
+		}
+	}
+}
+
+#app-settings-header {
+	box-sizing: border-box;
+	background-color: var(--color-main-background);
+}
+
+
+#app-settings-header .settings-button {
+	display: block;
+	height: 44px;
+	width: 100%;
+	padding: 0;
+	margin: 0;
+	background-color: var(--color-main-background);
+	@include icon-color('settings-dark', 'actions', $color-black, 1, true);
+	background-position: 14px center;
+	background-repeat: no-repeat;
+	box-shadow: none;
+	border: 0;
+	border-radius: 0;
+	text-align: left;
+	padding-left: 42px;
+	font-weight: normal;
+
+	/* like app-navigation a */
+	color: var(--color-main-text);
+
+	&.opened {
+		border-top: solid 1px var(--color-border);
+		background-color: var(--color-main-background);
+	}
+	&:hover,
+	&:focus {
+		background-color: var(--color-background-hover);
+	}
+}
+
+/* GENERAL SECTION ------------------------------------------------------------ */
+.section {
+	display: block;
+	padding: 30px;
+	margin-bottom: 24px;
+	&.hidden {
+		display: none !important;
+	}
+	/* slight position correction of checkboxes and radio buttons */
+	input {
+		&[type='checkbox'],
+		&[type='radio'] {
+			vertical-align: -2px;
+			margin-right: 4px;
+		}
+	}
+}
+.sub-section {
+	position: relative;
+	margin-top: 10px;
+	margin-left: 27px;
+	margin-bottom: 10px;
+}
+
+.appear {
+	opacity: 1;
+	-webkit-transition: opacity 500ms ease 0s;
+	-moz-transition: opacity 500ms ease 0s;
+	-ms-transition: opacity 500ms ease 0s;
+	-o-transition: opacity 500ms ease 0s;
+	transition: opacity 500ms ease 0s;
+	&.transparent {
+		opacity: 0;
+	}
+}
+
+/* TABS ------------------------------------------------------------ */
+.tabHeaders {
+	display: flex;
+	margin-bottom: 16px;
+
+	.tabHeader {
+		display: flex;
+		flex-direction: column;
+		flex-grow: 1;
+		text-align: center;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		cursor: pointer;
+		color: var(--color-text-lighter);
+		margin-bottom: 1px;
+		padding: 5px;
+
+		&.hidden {
+			display: none;
+		}
+
+		/* Use same amount as sidebar padding */
+		&:first-child {
+			padding-left: 15px;
+		}
+		&:last-child {
+			padding-right: 15px;
+		}
+
+		.icon {
+			display: inline-block;
+			width: 100%;
+			height: 16px;
+			background-size: 16px;
+			vertical-align: middle;
+			margin-top: -2px;
+			margin-right: 3px;
+			opacity: .7;
+			cursor: pointer;
+		}
+
+		a {
+			color: var(--color-text-lighter);
+			margin-bottom: 1px;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+		&.selected {
+			font-weight: bold;
+		}
+		&.selected,
+		&:hover,
+		&:focus {
+			margin-bottom: 0px;
+			color: var(--color-main-text);
+			border-bottom: 1px solid var(--color-text-lighter);
+		}
+	}
+}
+.tabsContainer {
+	clear: left;
+	.tab {
+		padding: 0 15px 15px;
+	}
+}
+
+/* POPOVER MENU ------------------------------------------------------------ */
+$popoveritem-height: 44px;
+$popovericon-size: 16px;
+$outter-margin: ($popoveritem-height - $popovericon-size) / 2;
+
+.ie,
+.edge {
+	.bubble, .bubble:after,
+	.popovermenu, .popovermenu:after,
+	#app-navigation .app-navigation-entry-menu,
+	#app-navigation .app-navigation-entry-menu:after {
+		border: 1px solid var(--color-border);
+	}
+}
+
+.bubble,
+.app-navigation-entry-menu,
+.popovermenu {
+	position: absolute;
+	background-color: var(--color-main-background);
+	color: var(--color-main-text);
+	border-radius: var(--border-radius);
+	z-index: 110;
+	margin: 5px;
+	margin-top: -5px;
+	right: 0;
+	filter: drop-shadow(0 1px 3px var(--color-box-shadow));
+	display: none;
+	will-change: filter;
+
+	&:after {
+		bottom: 100%;
+		// Required right-distance is half menu icon size + right padding
+		// = 16px/2 + 14px = 22px
+		// popover right margin is 5px, arrow width is 9px to center and border is 1px
+		// 22px - 9px - 5px - 1px = 7px
+		right: 7px;
+		/* change this to adjust the arrow position */
+		border: solid transparent;
+		content: ' ';
+		height: 0;
+		width: 0;
+		position: absolute;
+		pointer-events: none;
+		border-bottom-color: var(--color-main-background);
+		border-width: 9px;
+	}
+	/* Center the popover */
+	&.menu-center {
+		transform: translateX(50%);
+		right: 50%;
+		margin-right: 0;
+		&:after {
+			right: 50%;
+			transform: translateX(50%);
+		}
+	}
+	/* Align the popover to the left */
+	&.menu-left {
+		right: auto;
+		left: 0;
+		margin-right: 0;
+		&:after {
+			left: 6px;
+			right: auto;
+		}
+	}
+
+	&.open {
+		display: block;
+	}
+
+	&.contactsmenu-popover {
+		margin: 0;
+	}
+
+	ul {
+		/* Overwrite #app-navigation > ul ul */
+		display: flex !important;
+		flex-direction: column;
+	}
+	li {
+		display: flex;
+		flex: 0 0 auto;
+
+		&.hidden {
+			display: none;
+		}
+
+		> button,
+		> a,
+		> .menuitem {
+			cursor: pointer;
+			line-height: $popoveritem-height;
+			border: 0;
+			border-radius: 0; // otherwise Safari will cut the border-radius area
+			background-color: transparent;
+			display: flex;
+			align-items: flex-start;
+			height: auto;
+			margin: 0;
+			font-weight: normal;
+			box-shadow: none;
+			width: 100%;
+			color: var(--color-main-text);
+			white-space: nowrap;
+
+			span[class^='icon-'],
+			span[class*=' icon-'],
+			&[class^='icon-'],
+			&[class*=' icon-'] {
+				min-width: 0; /* Overwrite icons*/
+				min-height: 0;
+				background-position: #{($popoveritem-height - $popovericon-size) / 2} center;
+				background-size: $popovericon-size;
+			}
+			span[class^='icon-'],
+			span[class*=' icon-'] {
+				/* Keep padding to define the width to
+				 assure correct position of a possible text */
+				padding: #{$popoveritem-height / 2} 0 #{$popoveritem-height / 2} $popoveritem-height;
+			}
+			// If no icons set, force left margin to align
+			&:not([class^='icon-']):not([class*='icon-']) {
+				> span,
+				> input,
+				> form {
+					&:not([class^='icon-']):not([class*='icon-']):first-child {
+						margin-left: $popoveritem-height;
+					}
+				}
+			}
+			&[class^='icon-'],
+			&[class*=' icon-'] {
+				padding: 0 #{($popoveritem-height - $popovericon-size) / 2} 0 $popoveritem-height !important;
+			}
+			&:hover,
+			&:focus {
+				background-color: var(--color-background-hover);
+			}
+			&.active {
+				background-color: var(--color-primary-light);
+			}
+			/* prevent .action class to break the design */
+			&.action {
+				padding: inherit !important;
+			}
+			> span {
+				cursor: pointer;
+				white-space: nowrap;
+			}
+			> p {
+				width: 150px;
+				line-height: 1.6em;
+				padding: 8px 0;
+				white-space: normal;
+			}
+			> select {
+				margin: 0;
+				margin-left: 6px;
+			}
+			/* Add padding if contains icon+text */
+			&:not(:empty) {
+				padding-right: $outter-margin !important;
+			}
+			/* DEPRECATED! old img in popover fallback
+			 * TODO: to remove */
+			> img {
+				width: $popovericon-size;
+				padding: #{($popoveritem-height - $popovericon-size) / 2};
+			}
+			/* checkbox/radio fixes */
+			> input.radio + label,
+			> input.checkbox + label {
+				padding: 0 !important;
+				width: 100%;
+			}
+			> input.checkbox + label::before {
+				margin: -2px 13px 0;
+			}
+			> input.radio + label::before {
+				margin: -2px 12px 0;
+			}
+			> input:not([type=radio]):not([type=checkbox]):not([type=image]) {
+				width: 150px;
+			}
+			form {
+				display: flex;
+				flex: 1 1 auto;
+				/* put a small space between text and form
+				   if there is an element before */
+				&:not(:first-child)  {
+					margin-left: 5px;
+				}
+			}
+			/* no margin if hidden span before */
+			> span.hidden + form,
+			> span[style*='display:none'] + form {
+				margin-left: 0;
+			}
+			/* Inputs inside popover supports text, submit & reset */
+			input {
+				min-width: $popoveritem-height;
+				max-height: #{$popoveritem-height - 4px}; /* twice the element margin-y */
+				margin: 2px 0;
+				flex: 1 1 auto;
+				// space between inline inputs
+				&:not(:first-child) {
+					margin-left: 5px;
+				}
+			}
+		}
+		/* css hack, only first not hidden */
+		&:not(.hidden):not([style*='display:none']) {
+			&:first-of-type {
+				> button, > a, > .menuitem {
+					> form, > input {
+						margin-top: $outter-margin - 2px; // minus the input margin
+					}
+				}
+			}
+			&:last-of-type {
+				> button, > a, > .menuitem {
+					> form, > input {
+						margin-bottom: $outter-margin - 2px; // minus the input margin
+					}
+				}
+			}
+		}
+		> button {
+			padding: 0;
+			span {
+				opacity: 1;
+			}
+		}
+
+	}
+}
+
+/* "app-*" descendants use border-box sizing, so the height of the icon must be
+ * set to the height of the item (as well as its width to make it squared). */
+#content[class*='app-'] {
+	.bubble,
+	.app-navigation-entry-menu,
+	.popovermenu {
+		li {
+			> button,
+			> a,
+			> .menuitem {
+				/* DEPRECATED! old img in popover fallback
+				* TODO: to remove */
+				> img {
+					width: $popoveritem-height;
+					height: $popoveritem-height;
+				}
+			}
+		}
+	}
+}
+
+/* CONTENT LIST ------------------------------------------------------------ */
+.app-content-list {
+	@include position('sticky');
+	top: $header-height;
+	border-right: 1px solid var(--color-border);
+	display: flex;
+	flex-direction: column;
+	transition: transform 250ms ease-in-out;
+	min-height: calc(100vh - #{$header-height});
+	max-height: calc(100vh - #{$header-height});
+	overflow-y: auto;
+	overflow-x: hidden;
+	flex: 1 1 $list-min-width;
+	min-width: $list-min-width;
+	max-width: $list-max-width;
+
+	/* Default item */
+	.app-content-list-item {
+		position: relative;
+		height: 68px;
+		cursor: pointer;
+		padding: 10px 7px;
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		flex: 0 0 auto;
+
+		/* Icon fixes */
+		&,
+		> .app-content-list-item-menu {
+			> [class^='icon-'],
+			> [class*=' icon-'] {
+				order: 4;
+				width: 24px;
+				height: 24px;
+				margin: -7px; // right padding of item
+				padding: 22px;
+				opacity: .3;
+				cursor: pointer;
+				&:hover,
+				&:focus {
+					opacity: .7;
+				}
+				&[class^='icon-star'],
+				&[class*=' icon-star'] {
+					opacity: .7;
+					&:hover,
+					&:focus {
+						opacity: 1 ;
+					}
+
+				}
+				&.icon-starred {
+					opacity: 1 ;
+				}
+			}
+		}
+
+		&:hover,
+		&:focus,
+		&.active {
+			background-color: var(--color-background-dark);
+			// display checkbox on hover/focus/active
+			.app-content-list-item-checkbox.checkbox + label {
+				display: flex;
+			}
+		}
+
+		.app-content-list-item-checkbox.checkbox + label,
+		.app-content-list-item-star {
+			position: absolute;
+			height: 40px;
+			width: 40px;
+			z-index: 50;
+		}
+
+		.app-content-list-item-checkbox.checkbox {
+			&:checked,
+			&:hover,
+			&:focus,
+			&.active {
+				+ label {
+					// display checkbox if checked
+					display: flex;
+					// if checked, lower the opacity of the avatar
+					+ .app-content-list-item-icon {
+						opacity: .7;
+					}
+				}
+			}
+			+ label {
+				top: 14px;
+				left: 7px;
+				// hidden by default, only chown on hover-focus or if checked
+				display: none;
+				&::before {
+					margin: 0;
+				}
+				/* Hide the star, priority to the checkbox */
+				~ .app-content-list-item-star {
+					display: none;
+				}
+			}
+		}
+
+		.app-content-list-item-star {
+			display: flex;
+			top: 10px;
+			left: 32px;
+			background-size: 16px;
+			height: 20px;
+			width: 20px;
+			margin: 0;
+			padding: 0;
+		}
+
+		.app-content-list-item-icon {
+			position: absolute;
+			display: inline-block;
+			height: 40px;
+			width: 40px;
+			line-height: 40px;
+			border-radius: 50%;
+			vertical-align: middle;
+			margin-right: 10px;
+			color: #fff;
+			text-align: center;
+			font-size: 1.5em;
+			text-transform: capitalize;
+			object-fit: cover;
+			user-select: none;
+			cursor: pointer;
+			top: 50%;
+			margin-top: -20px;
+		}
+
+		.app-content-list-item-line-one,
+		.app-content-list-item-line-two {
+			display: block;
+			padding-left: 50px;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			order: 1;
+			flex: 1 1 0px;
+			padding-right: 10px;
+			cursor: pointer;
+		}
+
+		.app-content-list-item-line-two {
+			opacity: .5;
+			order: 3;
+			flex: 1 0;
+			flex-basis: calc(100% - 44px);
+		}
+
+		.app-content-list-item-details {
+			order: 2;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			max-width: 100px;
+			opacity: .5;
+			font-size: 80%;
+			user-select: none;
+		}
+
+		.app-content-list-item-menu {
+			order: 4;
+			position: relative;
+			.popovermenu {
+				margin: 0;
+				// action icon have -7px margin
+				// default popover is normally 5px
+				right: -2px;
+			}
+		}
+	}
+	&.selection .app-content-list-item-checkbox.checkbox + label {
+		display: flex;
+	}
+}

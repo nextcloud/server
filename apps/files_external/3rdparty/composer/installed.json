@@ -1,0 +1,104 @@
+{
+    "packages": [
+        {
+            "name": "icewind/smb",
+            "version": "v3.4.0",
+            "version_normalized": "3.4.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/icewind1991/SMB.git",
+                "reference": "b5c6921f2e91229c9f71556a4713b4fac91fd394"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/icewind1991/SMB/zipball/b5c6921f2e91229c9f71556a4713b4fac91fd394",
+                "reference": "b5c6921f2e91229c9f71556a4713b4fac91fd394",
+                "shasum": ""
+            },
+            "require": {
+                "icewind/streams": ">=0.7.3",
+                "php": ">=7.2"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^2.16",
+                "phpstan/phpstan": "^0.12.57",
+                "phpunit/phpunit": "^8.5|^9.3.8",
+                "psalm/phar": "^4.3"
+            },
+            "time": "2021-03-10T14:00:37+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "Icewind\\SMB\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Robin Appelman",
+                    "email": "icewind@owncloud.com"
+                }
+            ],
+            "description": "php wrapper for smbclient and libsmbclient-php",
+            "support": {
+                "issues": "https://github.com/icewind1991/SMB/issues",
+                "source": "https://github.com/icewind1991/SMB/tree/v3.4.0"
+            },
+            "install-path": "../icewind/smb"
+        },
+        {
+            "name": "icewind/streams",
+            "version": "v0.7.3",
+            "version_normalized": "0.7.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/icewind1991/Streams.git",
+                "reference": "22ef9fc5b50d645dbc202206a656cc4dde28f95c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/icewind1991/Streams/zipball/22ef9fc5b50d645dbc202206a656cc4dde28f95c",
+                "reference": "22ef9fc5b50d645dbc202206a656cc4dde28f95c",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^2",
+                "phpstan/phpstan": "^0.12",
+                "phpunit/phpunit": "^9"
+            },
+            "time": "2021-03-02T19:33:35+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "Icewind\\Streams\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Robin Appelman",
+                    "email": "icewind@owncloud.com"
+                }
+            ],
+            "description": "A set of generic stream wrappers",
+            "support": {
+                "issues": "https://github.com/icewind1991/Streams/issues",
+                "source": "https://github.com/icewind1991/Streams/tree/v0.7.3"
+            },
+            "install-path": "../icewind/streams"
+        }
+    ],
+    "dev": true,
+    "dev-package-names": []
+}

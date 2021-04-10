@@ -1,0 +1,14 @@
+{ "translations": {
+    "Cannot write into \"config\" directory!" : "\"Config\" katalogiga yozish mumkin emas!",
+    "Unknown filetype" : "Noma'lum filetype",
+    "Invalid image" : "Tasdiqlanmagan tasvir",
+    "seconds ago" : "soniya oldin",
+    "Help" : "Yordam",
+    "Apps" : "Ilovalar",
+    "Settings" : "Sozlamalar",
+    "Users" : "Foydalanuvchilar",
+    "Unknown user" : "Noma'lum foydalanuvchi",
+    "January" : "Yanvar",
+    "Storage is temporarily not available" : "Saqlash vaqti-vaqti bilan mavjud emas"
+},"pluralForm" :"nplurals=1; plural=0;"
+}

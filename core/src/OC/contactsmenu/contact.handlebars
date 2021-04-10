@@ -1,0 +1,34 @@
+{{#if contact.avatar}}
+<img src="{{contact.avatar}}&size=32" class="avatar" srcset="{{contact.avatar}}&size=32 1x, {{contact.avatar}}&size=64 2x, {{contact.avatar}}&size=128 4x" alt="">
+{{else}}
+<div class="avatar"></div>
+{{/if}}
+<div class="body">
+	<div class="full-name">{{contact.fullName}}</div>
+	<div class="last-message">{{contact.lastMessage}}</div>
+</div>
+{{#if contact.topAction}}
+<a class="top-action" href="{{contact.topAction.hyperlink}}" title="{{contact.topAction.title}}">
+	<img src="{{contact.topAction.icon}}" alt="{{contact.topAction.title}}">
+</a>
+{{/if}}
+{{#if contact.hasTwoActions}}
+<a class="second-action" href="{{contact.secondAction.hyperlink}}" title="{{contact.secondAction.title}}">
+	<img src="{{contact.secondAction.icon}}" alt="{{contact.secondAction.title}}">
+</a>
+{{/if}}
+{{#if contact.hasManyActions}}
+	<span class="other-actions icon-more"></span>
+	<div class="menu popovermenu">
+		<ul>
+			{{#each contact.actions}}
+			<li>
+				<a href="{{hyperlink}}">
+					<img src="{{icon}}" alt="">
+					<span>{{title}}</span>
+				</a>
+			</li>
+			{{/each}}
+		</ul>
+	</div>
+{{/if}}

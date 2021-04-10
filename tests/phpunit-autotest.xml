@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<phpunit bootstrap="bootstrap.php"
+		 verbose="true"
+		 backupGlobals="false"
+		 timeoutForSmallTests="900"
+		 timeoutForMediumTests="900"
+		 timeoutForLargeTests="900"
+>
+	<testsuite name='ownCloud'>
+		<directory suffix='.php'>lib/</directory>
+		<directory suffix='.php'>Core/</directory>
+		<directory suffix='.php'>Test/</directory>
+		<file>apps.php</file>
+	</testsuite>
+	<!-- filters for code coverage -->
+	<filter>
+		<!-- whitelist processUncoveredFilesFromWhitelist="true" -->
+		<whitelist>
+			<directory suffix=".php">..</directory>
+			<exclude>
+				<directory suffix=".php">../3rdparty</directory>
+				<directory suffix=".php">../apps/*/composer</directory>
+				<directory suffix=".php">../apps/*/tests</directory>
+				<directory suffix=".php">../apps/files_external/3rdparty</directory>
+				<directory suffix=".php">../build</directory>
+				<directory suffix=".php">../lib/composer</directory>
+				<directory suffix=".php">../tests</directory>
+			</exclude>
+		</whitelist>
+	</filter>
+	<listeners>
+		<listener class="StartSessionListener" file="startsessionlistener.php" />
+	</listeners>
+</phpunit>
