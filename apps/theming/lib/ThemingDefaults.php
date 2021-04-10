@@ -86,6 +86,8 @@ class ThemingDefaults extends \OC_Defaults {
 	private $iOSClientUrl;
 	/** @var string */
 	private $AndroidClientUrl;
+	/** @var string */
+	private $FDroidClientUrl;
 
 	/**
 	 * ThemingDefaults constructor.
@@ -125,6 +127,7 @@ class ThemingDefaults extends \OC_Defaults {
 		$this->iTunesAppId = parent::getiTunesAppId();
 		$this->iOSClientUrl = parent::getiOSClientUrl();
 		$this->AndroidClientUrl = parent::getAndroidClientUrl();
+		$this->FDroidClientUrl = parent::getFDroidClientUrl();
 	}
 
 	public function getName() {
@@ -286,6 +289,12 @@ class ThemingDefaults extends \OC_Defaults {
 		return $this->config->getAppValue('theming', 'AndroidClientUrl', $this->AndroidClientUrl);
 	}
 
+	/**
+	 * @return string
+	 */
+	public function getFDroidClientUrl() {
+		return $this->config->getAppValue('theming', 'FDroidClientUrl', $this->FDroidClientUrl);
+	}
 
 	/**
 	 * @return array scss variables to overwrite
