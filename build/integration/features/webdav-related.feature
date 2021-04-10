@@ -253,7 +253,7 @@ Feature: webdav-related
 			|X-Frame-Options|SAMEORIGIN|
 			|X-Permitted-Cross-Domain-Policies|none|
 			|X-Robots-Tag|none|
-			|X-XSS-Protection|1; mode=block|
+			|X-XSS-Protection|0|
 		And Downloaded content should start with "Welcome to your Nextcloud account!"
 
 	Scenario: Doing a GET with a web login should work without CSRF token on the old backend

@@ -48,7 +48,7 @@ Feature: carddav
         |X-Frame-Options|SAMEORIGIN|
         |X-Permitted-Cross-Domain-Policies|none|
         |X-Robots-Tag|none|
-        |X-XSS-Protection|1; mode=block|
+        |X-XSS-Protection|0|
 
   Scenario: Exporting the picture of ones own contact
     Given "admin" creates an addressbook named "MyAddressbook" with statuscode "201"
@@ -63,4 +63,4 @@ Feature: carddav
       |X-Frame-Options|SAMEORIGIN|
       |X-Permitted-Cross-Domain-Policies|none|
       |X-Robots-Tag|none|
-      |X-XSS-Protection|1; mode=block|
+      |X-XSS-Protection|0|
