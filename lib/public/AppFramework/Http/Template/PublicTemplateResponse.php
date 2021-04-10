@@ -97,7 +97,7 @@ class PublicTemplateResponse extends TemplateResponse {
 			$this->headerActions[] = $action;
 		}
 		usort($this->headerActions, function (IMenuAction $a, IMenuAction $b) {
-			return $a->getPriority() > $b->getPriority();
+			return $a->getPriority() <=> $b->getPriority();
 		});
 	}
 
