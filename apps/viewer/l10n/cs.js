@@ -8,6 +8,7 @@ OC.L10N.register(
     "Error loading {name}" : "Chyba načítání {name}",
     "Your browser does not support videos." : "Vámi používaný webový prohlížeč nepodporuje videa.",
     "Open sidebar" : "Otevřít postranní panel",
+    "Download" : "Stáhnout",
     "Delete" : "Smazat",
     "There is no plugin available to display this file type" : "Pro zobrazení tohoto typu souboru není k dispozici žádný zásuvný modul",
     "View" : "Zobrazit"

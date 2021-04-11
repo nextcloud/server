@@ -8,6 +8,7 @@ OC.L10N.register(
     "Error loading {name}" : "Fehler beim Laden von {name}",
     "Your browser does not support videos." : "Ihr Browser unterstützt keine Videos.",
     "Open sidebar" : "Seitenleiste öffnen",
+    "Download" : "Herunterladen",
     "Delete" : "Löschen",
     "There is no plugin available to display this file type" : "Es ist kein Plugin zum Anzeigen dieses Dateityps verfügbar",
     "View" : "Ansicht"

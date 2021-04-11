@@ -8,6 +8,7 @@ OC.L10N.register(
     "Error loading {name}" : "加载 {name} 出错",
     "Your browser does not support videos." : "您的浏览器不支持视频。",
     "Open sidebar" : "打开侧边栏",
+    "Download" : "下载",
     "Delete" : "删除",
     "There is no plugin available to display this file type" : "没有可用于显示此文件类型的插件",
     "View" : "查看"

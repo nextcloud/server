@@ -8,6 +8,7 @@ OC.L10N.register(
     "Error loading {name}" : "Klaida įkeliant {name}",
     "Your browser does not support videos." : "Jūsų naršyklė nepalaiko vaizdo įrašų. ",
     "Open sidebar" : "Atverti šoninę juostą",
+    "Download" : "Atsisiųsti",
     "Delete" : "Ištrinti",
     "There is no plugin available to display this file type" : "Nėra prieinamo įskiepio, skirto atvaizduoti šį failo tipą",
     "View" : "Rodyti"
