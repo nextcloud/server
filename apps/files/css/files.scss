@@ -683,12 +683,14 @@ a.action > img {
 }
 
 .summary {
-	opacity: .3;
+	color: var(--color-text-maxcontrast);
 	/* add whitespace to bottom of files list to correctly show dropdowns */
 	height: 250px;
 }
 #filestable .filesummary {
 	width: 100%;
+	/* Width of checkbox and file preview */
+	padding-left: 101px;
 }
 /* Less whitespace needed on link share page
  * as there is a footer and action menus have fewer entries.
@@ -707,8 +709,8 @@ table tr.summary td {
 	vertical-align: top;
 	padding-top: 20px;
 }
-.summary .info {
-	margin-left: 2px;
+.summary td:first-child {
+	padding: 0;
 }
 .hiddeninfo {
 	white-space: pre-line;
