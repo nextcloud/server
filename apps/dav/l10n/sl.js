@@ -85,6 +85,7 @@ OC.L10N.register(
     "Tasks" : "Naloge",
     "Untitled task" : "Neimenovana naloga",
     "Completed on %s" : "Končana %s",
+    "Due on %s by %s" : "Poteče %s ob %s",
     "Due on %s" : "Poteče %s",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "Končna točka WebDAV",

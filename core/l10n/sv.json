@@ -103,7 +103,6 @@
     "Passwordless authentication is not supported in your browser." : "Lösenordsfri autentisering stöds inte i din webbläsare.",
     "Passwordless authentication is only available over a secure connection." : "Lösenordsfri autentisering är endast tillgänglig via en säker anslutning.",
     "Reset password" : "Återställ lösenord",
-    "A password reset message has been sent to the e-mail address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Ett meddelande om lösenordsåterställning har skickats till e-postadressen för det här kontot. Om du får det, kontrollera dina spam/skräp -mappar eller fråga din lokala administratör om hjälp.",
     "If it is not there ask your local administrator." : "Om det inte finns, fråga din lokala administratör.",
     "Couldn't send reset email. Please contact your administrator." : "Kunde inte skicka återställningsmejl. Vänligen kontakta din administratör.",
     "Password can not be changed. Please contact your administrator." : "Lösenordet kan inte ändras. Vänligen kontakta din administratör.",
@@ -344,6 +343,7 @@
     "Searching other places" : "Söker på andra platser",
     "No search results in other folders for {tag}{filter}{endtag}" : "Inget sökresultat i andra mappar för {tag}{filter}{endtag}",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} sökresultat i en annan mapp","{count} sökresultat i andra mappar"],
+    "A password reset message has been sent to the e-mail address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Ett meddelande om lösenordsåterställning har skickats till e-postadressen för det här kontot. Om du får det, kontrollera dina spam/skräp -mappar eller fråga din lokala administratör om hjälp.",
     "Search" : "Sök",
     "These apps will be updated:" : "Dessa appar kommer att uppdateras:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
