@@ -93,7 +93,7 @@ class IpAddress {
 	}
 
 	/**
-	 * Gets either the /32 (IPv4) or the /128 (IPv6) subnet of an IP address
+	 * Gets either the /32 (IPv4) or the /64 (IPv6) subnet of an IP address
 	 *
 	 * @return string
 	 */
@@ -106,7 +106,7 @@ class IpAddress {
 		}
 		return $this->getIPv6Subnet(
 			$this->ip,
-			128
+			64
 		);
 	}
 
