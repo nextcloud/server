@@ -303,7 +303,7 @@ class Setup {
 
 		// validate the data directory
 		if ((!is_dir($dataDir) && !mkdir($dataDir)) || !is_writable($dataDir)) {
-			$error[] = $l->t("Can't create or write into the data directory %s", [$dataDir]);
+			$error[] = $l->t("Cannot create or write into the data directory %s", [$dataDir]);
 		}
 
 		if (!empty($error)) {
