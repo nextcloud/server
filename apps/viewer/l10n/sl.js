@@ -8,6 +8,7 @@ OC.L10N.register(
     "Error loading {name}" : "Prišlo je do napake med nalaganjem {name}",
     "Your browser does not support videos." : "Spletni brskalnik ne podpira predvajanja video posnetkov.",
     "Open sidebar" : "Odpri bočno okno",
+    "Download" : "Prejmi",
     "Delete" : "Odstrani",
     "There is no plugin available to display this file type" : "Ni vstavka, ki omogoča prikaz te vrste datotek",
     "View" : "Poglej"
