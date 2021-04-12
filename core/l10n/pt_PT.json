@@ -97,7 +97,6 @@
     "User disabled" : "Utilizador desativado",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Detectamos múltiplas tentativas falhadas de login do seu IP. Por esse motivo, o seu próximo login será adiado por, até, 30 segundos. ",
     "Reset password" : "Repor palavra-passe",
-    "A password reset message has been sent to the e-mail address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Foi enviada, para o seu endereço de e-mail, uma mensagem para fazer reset à password desta conta. Se não a receber, verifique as pastas de spam/junk ou peça ajuda ao seu administrador.",
     "If it is not there ask your local administrator." : "Se não estiver aí pergunte ao seu administrador local.",
     "Couldn't send reset email. Please contact your administrator." : "Não foi possível enviar a mensagem de reposição. Por favor, contacte o seu administrador.",
     "Password can not be changed. Please contact your administrator." : "A palavra-passe não pode ser alterada. Por favor, contacte o seu administrador.",
@@ -305,6 +304,7 @@
     "Searching other places" : "A pesquisar noutros lugares",
     "No search results in other folders for {tag}{filter}{endtag}" : "Nenhum resultado encontrado noutras pastas para {tag}{filter}{endtag}",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} resultado de pesquisa noutra pasta","{count} resultados de pesquisa noutras pastas"],
+    "A password reset message has been sent to the e-mail address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Foi enviada, para o seu endereço de e-mail, uma mensagem para fazer reset à password desta conta. Se não a receber, verifique as pastas de spam/junk ou peça ajuda ao seu administrador.",
     "Search" : "Procurar",
     "These apps will be updated:" : "Estas aplicações irão ser atualizadas."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
