@@ -366,8 +366,8 @@ class Encryption implements IEncryptionModule {
 	 */
 	public function decrypt($data, $position = 0) {
 		if (empty($this->fileKey)) {
-			$msg = 'Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you.';
-			$hint = $this->l->t('Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you.');
+			$msg = 'Cannot decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you.';
+			$hint = $this->l->t('Cannot decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you.');
 			$this->logger->error($msg);
 
 			throw new DecryptionFailedException($msg, $hint);
@@ -492,7 +492,7 @@ class Encryption implements IEncryptionModule {
 				// valid private/public key
 				$msg = 'Encryption module "' . $this->getDisplayName() .
 					'" is not able to read ' . $path;
-				$hint = $this->l->t('Can not read this file, probably this is a shared file. Please ask the file owner to reshare the file with you.');
+				$hint = $this->l->t('Cannot read this file, probably this is a shared file. Please ask the file owner to reshare the file with you.');
 				$this->logger->warning($msg);
 				throw new DecryptionFailedException($msg, $hint);
 			}
