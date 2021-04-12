@@ -48,7 +48,7 @@ class CriticalActionPerformedEvent extends Event {
 	 * @param string $logMessage
 	 * @param array $parameters
 	 * @param bool $obfuscateParameters
-	 * @since 18.0.0
+	 * @since 22.0.0
 	 */
 	public function __construct(string $logMessage,
 								array $parameters = [],
