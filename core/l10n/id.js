@@ -108,7 +108,6 @@ OC.L10N.register(
     "Passwordless authentication is not supported in your browser." : "Autentikasi tanpa kata sandi tidak didukung peramban Anda.",
     "Passwordless authentication is only available over a secure connection." : "Autentikasi tanpa kata sandi hanya tersedia melalui koneksi aman.",
     "Reset password" : "Setel ulang kata sandi",
-    "A password reset message has been sent to the e-mail address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Pesan setel ulang kata sandi telah terkirim ke alamat surel akun ini. Jika Anda tidak menerimanya, silakan periksa folder spam/junk atau minta bantuan administrator Anda.",
     "If it is not there ask your local administrator." : "Jika Anda tidak mendapatkannya, hubungi administrator Anda.",
     "Couldn't send reset email. Please contact your administrator." : "Tidak dapat mengirim email setel ulang. Silakan hubungi administrator Anda.",
     "Password can not be changed. Please contact your administrator." : "Kata sandi tidak dapat diubah. Silakan hubungi administrator Anda",
@@ -351,6 +350,7 @@ OC.L10N.register(
     "Searching other places" : "Mencari tempat lainnya",
     "No search results in other folders for {tag}{filter}{endtag}" : "Hasil pencarian tidak ditemukan di folder lainnya untuk '{tag}{filter}{endtag}'",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} hasil pencarian di folder lain"],
+    "A password reset message has been sent to the e-mail address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Pesan setel ulang kata sandi telah terkirim ke alamat surel akun ini. Jika Anda tidak menerimanya, silakan periksa folder spam/junk atau minta bantuan administrator Anda.",
     "Nextcloud {app}" : "{app} Nextcloud",
     "Search" : "Cari",
     "These apps will be updated:" : "Aplikasi berikut akan diperbarui:"
