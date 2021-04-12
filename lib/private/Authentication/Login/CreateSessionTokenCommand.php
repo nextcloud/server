@@ -46,7 +46,7 @@ class CreateSessionTokenCommand extends ALoginCommand {
 
 	public function process(LoginData $loginData): LoginResult {
 		$tokenType = IToken::REMEMBER;
-		if ((int)$this->config->getSystemValue('remember_login_cookie_lifetime', 60 * 60 * 24 * 15) === 0) {
+		if ($this->config->getSystemValueInt('remember_login_cookie_lifetime', 60 * 60 * 24 * 15) === 0) {
 			$loginData->setRememberLogin(false);
 			$tokenType = IToken::DO_NOT_REMEMBER;
 		}
