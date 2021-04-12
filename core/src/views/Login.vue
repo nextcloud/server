@@ -46,7 +46,9 @@
 					{{ t('core', 'Forgot password?') }}
 				</a>
 				<br>
-				<a v-if="hasPasswordless" @click.prevent="passwordlessLogin = true">
+				<a v-if="hasPasswordless"
+					href="#"
+					@click.prevent="passwordlessLogin = true">
 					{{ t('core', 'Log in with a device') }}
 				</a>
 			</div>
@@ -61,7 +63,7 @@
 					:is-https="isHttps"
 					:has-public-key-credential="hasPublicKeyCredential"
 					@submit="loading = true" />
-				<a @click.prevent="passwordlessLogin = false">
+				<a @click.prevent="passwordlessLogin = false" href="#">
 					{{ t('core', 'Back') }}
 				</a>
 			</div>
