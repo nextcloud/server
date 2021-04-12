@@ -115,7 +115,6 @@ OC.L10N.register(
     "Passwordless authentication is not supported in your browser." : "Senpasvorta aŭtentigo ne eblas per via retumilo.",
     "Passwordless authentication is only available over a secure connection." : "Senpasvorta aŭtentigo eblas nur pere de sekura konekto.",
     "Reset password" : "Restarigi pasvorton",
-    "A password reset message has been sent to the e-mail address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Mesaĝo por restarigi la pasvorton estis sendita al la retpoŝtadreso de tiu konto. Se vi ne ricevas ĝin baldaŭ, vidu vian spamujon aŭ pridemandu vian administranton.",
     "If it is not there ask your local administrator." : "Se tio ne estas tie, kontaktu vian lokan administranton.",
     "Couldn't send reset email. Please contact your administrator." : "Ne eblas sendi retpoŝton pri restarigo. Bonvolu kontakti vian administranton.",
     "Password can not be changed. Please contact your administrator." : "Pasvorto ne eblas esti ŝanĝita. Bonvolu kontakti vian administranton.",
@@ -346,6 +345,7 @@ OC.L10N.register(
     "Searching other places" : "Serĉo en aliaj lokoj",
     "No search results in other folders for {tag}{filter}{endtag}" : "Neniu serĉ-rezultoj en aliaj dosierujoj por {tag}{filter}{endtag}",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} serĉ-rezulto en alia dosierujo","{count} serĉ-rezultoj en aliaj dosierujoj"],
+    "A password reset message has been sent to the e-mail address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Mesaĝo por restarigi la pasvorton estis sendita al la retpoŝtadreso de tiu konto. Se vi ne ricevas ĝin baldaŭ, vidu vian spamujon aŭ pridemandu vian administranton.",
     "Search" : "Serĉi",
     "These apps will be updated:" : "La jenajn aplikaĵoj ĝisdatiĝos:",
     "For more details see the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "Por pli da detaloj, vidu la <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">dokumentaron</a>."
