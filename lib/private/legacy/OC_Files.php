@@ -216,13 +216,13 @@ class OC_Files {
 			self::unlockAllTheFiles($dir, $files, $getType, $view, $filename);
 			OC::$server->getLogger()->logException($ex);
 			$l = \OC::$server->getL10N('lib');
-			\OC_Template::printErrorPage($l->t('Can\'t read file'), $ex->getMessage(), 200);
+			\OC_Template::printErrorPage($l->t('Cannot read file'), $ex->getMessage(), 200);
 		} catch (\Exception $ex) {
 			self::unlockAllTheFiles($dir, $files, $getType, $view, $filename);
 			OC::$server->getLogger()->logException($ex);
 			$l = \OC::$server->getL10N('lib');
 			$hint = method_exists($ex, 'getHint') ? $ex->getHint() : '';
-			\OC_Template::printErrorPage($l->t('Can\'t read file'), $hint, 200);
+			\OC_Template::printErrorPage($l->t('Cannot read file'), $hint, 200);
 		}
 	}
 
