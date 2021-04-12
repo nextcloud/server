@@ -285,8 +285,14 @@ input[type='password'].password-with-toggle, input[type='text'].password-with-to
 }
 .toggle-password {
 	position: absolute;
-	top: 17px;
-	right: 20px;
+	top: 1px;
+	right: 5px;
+	padding: 14px;
+	height: 16px;
+}
+.toggle-password:hover,
+.toggle-password:focus {
+	opacity: .6;
 }
 input.login {
 	width: 260px;
