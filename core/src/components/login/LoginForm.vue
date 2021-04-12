@@ -82,7 +82,7 @@
 				<label for="password"
 					class="infield">{{ t('Password') }}</label>
 				<a href="#" class="toggle-password" @click.stop.prevent="togglePassword">
-					<img :src="toggleIcon">
+					<img :src="toggleIcon" :alt="t('core', 'Toggle password visibility')">
 				</a>
 			</p>
 
