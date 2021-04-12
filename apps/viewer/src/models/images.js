@@ -33,6 +33,7 @@ export default {
 		'image/x-xbitmap',
 		'image/bmp',
 		'image/svg+xml',
+		'image/webp',
 	],
 	component: Images,
 }
