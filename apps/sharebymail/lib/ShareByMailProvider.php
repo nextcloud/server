@@ -212,7 +212,7 @@ class ShareByMailProvider implements IShareProvider {
 
 		if ($initiatorEMailAddress === null && !$allowPasswordByMail) {
 			throw new \Exception(
-				$this->l->t("We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again.")
+				$this->l->t("We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again.")
 			);
 		}
 
@@ -574,7 +574,7 @@ class ShareByMailProvider implements IShareProvider {
 
 		if ($initiatorEMailAddress === null) {
 			throw new \Exception(
-				$this->l->t("We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again.")
+				$this->l->t("We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again.")
 			);
 		}
 
