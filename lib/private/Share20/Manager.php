@@ -245,9 +245,8 @@ class Manager implements IManager {
 				throw new \InvalidArgumentException('SharedWith should not be empty');
 			}
 		} elseif ($share->getShareType() === IShare::TYPE_CIRCLE) {
-			$circle = \OCA\Circles\Api\v1\Circles::detailsCircle($share->getSharedWith());
-			if ($circle === null) {
-				throw new \InvalidArgumentException('SharedWith is not a valid circle');
+			if ($share->getSharedWith() === null) {
+				throw new \InvalidArgumentException('SharedWith should not be empty');
 			}
 		} elseif ($share->getShareType() === IShare::TYPE_ROOM) {
 		} elseif ($share->getShareType() === IShare::TYPE_DECK) {
@@ -999,7 +998,7 @@ class Manager implements IManager {
 			if (empty($plainTextPassword) && $share->getSendPasswordByTalk()) {
 				throw new \InvalidArgumentException('Can’t enable sending the password by Talk with an empty password');
 			}
-	
+
 			/**
 			 * If we're in a mail share, we need to force a password change
 			 * as either the user is not aware of the password or is already (received by mail)
