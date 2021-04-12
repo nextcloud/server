@@ -100,6 +100,9 @@ use OC\Files\Type\Loader;
 use OC\Files\View;
 use OC\FullTextSearch\FullTextSearchManager;
 use OC\Http\Client\ClientService;
+use OC\Http\Client\DnsPinMiddleware;
+use OC\Http\Client\LocalAddressChecker;
+use OC\Http\Client\NegativeDnsCache;
 use OC\IntegrityCheck\Checker;
 use OC\IntegrityCheck\Helpers\AppLocator;
 use OC\IntegrityCheck\Helpers\EnvironmentHelper;
@@ -822,6 +825,22 @@ class Server extends ServerContainer implements IServerContainer {
 
 		$this->registerAlias(ICertificateManager::class, CertificateManager::class);
 		$this->registerAlias(IClientService::class, ClientService::class);
+		$this->registerService(LocalAddressChecker::class, function (ContainerInterface $c) {
+			return new LocalAddressChecker(
+				$c->get(ILogger::class),
+			);
+		});
+		$this->registerService(NegativeDnsCache::class, function (ContainerInterface $c) {
+			return new NegativeDnsCache(
+				$c->get(ICacheFactory::class),
+			);
+		});
+		$this->registerService(DnsPinMiddleware::class, function (ContainerInterface $c) {
+			return new DnsPinMiddleware(
+				$c->get(NegativeDnsCache::class),
+				$c->get(LocalAddressChecker::class)
+			);
+		});
 		$this->registerDeprecatedAlias('HttpClientService', IClientService::class);
 		$this->registerService(IEventLogger::class, function (ContainerInterface $c) {
 			$eventLogger = new EventLogger();

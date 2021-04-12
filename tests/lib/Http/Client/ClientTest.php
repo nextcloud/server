@@ -10,6 +10,7 @@ namespace Test\Http\Client;
 
 use GuzzleHttp\Psr7\Response;
 use OC\Http\Client\Client;
+use OC\Http\Client\LocalAddressChecker;
 use OC\Security\CertificateManager;
 use OCP\Http\Client\LocalServerException;
 use OCP\ICertificateManager;
@@ -31,6 +32,8 @@ class ClientTest extends \Test\TestCase {
 	private $config;
 	/** @var ILogger|MockObject */
 	private $logger;
+	/** @var LocalAddressChecker|MockObject */
+	private $localAddressChecker;
 	/** @var array */
 	private $defaultRequestOptions;
 
@@ -40,17 +43,18 @@ class ClientTest extends \Test\TestCase {
 		$this->logger = $this->createMock(ILogger::class);
 		$this->guzzleClient = $this->createMock(\GuzzleHttp\Client::class);
 		$this->certificateManager = $this->createMock(ICertificateManager::class);
+		$this->localAddressChecker = $this->createMock(LocalAddressChecker::class);
 		$this->client = new Client(
 			$this->config,
 			$this->logger,
 			$this->certificateManager,
-			$this->guzzleClient
+			$this->guzzleClient,
+			$this->localAddressChecker
 		);
 	}
 
 	public function testGetProxyUri(): void {
 		$this->config
-			->expects($this->at(0))
 			->method('getSystemValue')
 			->with('proxy', null)
 			->willReturn(null);
@@ -58,21 +62,16 @@ class ClientTest extends \Test\TestCase {
 	}
 
 	public function testGetProxyUriProxyHostEmptyPassword(): void {
+		$map = [
+			['proxy', '', 'foo'],
+			['proxyuserpwd', '', null],
+			['proxyexclude', [], []],
+		];
+
 		$this->config
-			->expects($this->at(0))
 			->method('getSystemValue')
-			->with('proxy', null)
-			->willReturn('foo');
-		$this->config
-			->expects($this->at(1))
-			->method('getSystemValue')
-			->with('proxyuserpwd', null)
-			->willReturn(null);
-		$this->config
-			->expects($this->at(2))
-			->method('getSystemValue')
-			->with('proxyexclude', [])
-			->willReturn([]);
+			->will($this->returnValueMap($map));
+
 		$this->assertEquals([
 			'http' => 'foo',
 			'https' => 'foo'
@@ -178,15 +177,6 @@ class ClientTest extends \Test\TestCase {
 	 * @dataProvider dataPreventLocalAddress
 	 * @param string $uri
 	 */
-	public function testPreventLocalAddress(string $uri): void {
-		$this->expectException(LocalServerException::class);
-		self::invokePrivate($this->client, 'preventLocalAddress', ['http://' . $uri, []]);
-	}
-
-	/**
-	 * @dataProvider dataPreventLocalAddress
-	 * @param string $uri
-	 */
 	public function testPreventLocalAddressDisabledByGlobalConfig(string $uri): void {
 		$this->config->expects($this->once())
 			->method('getSystemValueBool')
@@ -219,6 +209,12 @@ class ClientTest extends \Test\TestCase {
 	 */
 	public function testPreventLocalAddressOnGet(string $uri): void {
 		$this->expectException(LocalServerException::class);
+		$this->localAddressChecker
+			->expects($this->once())
+			->method('ThrowIfLocalAddress')
+			->with('http://' . $uri)
+			->will($this->throwException(new LocalServerException()));
+
 		$this->client->get('http://' . $uri);
 	}
 
@@ -228,6 +224,12 @@ class ClientTest extends \Test\TestCase {
 	 */
 	public function testPreventLocalAddressOnHead(string $uri): void {
 		$this->expectException(LocalServerException::class);
+		$this->localAddressChecker
+			->expects($this->once())
+			->method('ThrowIfLocalAddress')
+			->with('http://' . $uri)
+			->will($this->throwException(new LocalServerException()));
+
 		$this->client->head('http://' . $uri);
 	}
 
@@ -237,6 +239,12 @@ class ClientTest extends \Test\TestCase {
 	 */
 	public function testPreventLocalAddressOnPost(string $uri): void {
 		$this->expectException(LocalServerException::class);
+		$this->localAddressChecker
+		->expects($this->once())
+		->method('ThrowIfLocalAddress')
+		->with('http://' . $uri)
+		->will($this->throwException(new LocalServerException()));
+	
 		$this->client->post('http://' . $uri);
 	}
 
@@ -246,6 +254,12 @@ class ClientTest extends \Test\TestCase {
 	 */
 	public function testPreventLocalAddressOnPut(string $uri): void {
 		$this->expectException(LocalServerException::class);
+		$this->localAddressChecker
+			->expects($this->once())
+			->method('ThrowIfLocalAddress')
+			->with('http://' . $uri)
+			->will($this->throwException(new LocalServerException()));
+		
 		$this->client->put('http://' . $uri);
 	}
 
@@ -255,29 +269,30 @@ class ClientTest extends \Test\TestCase {
 	 */
 	public function testPreventLocalAddressOnDelete(string $uri): void {
 		$this->expectException(LocalServerException::class);
+		$this->localAddressChecker
+			->expects($this->once())
+			->method('ThrowIfLocalAddress')
+			->with('http://' . $uri)
+			->will($this->throwException(new LocalServerException()));
+
 		$this->client->delete('http://' . $uri);
 	}
 
 	private function setUpDefaultRequestOptions(): void {
-		$this->config->expects($this->once())
+		$map = [
+			['proxy', '', 'foo'],
+			['proxyuserpwd', '', null],
+			['proxyexclude', [], []],
+		];
+
+		$this->config
+			->method('getSystemValue')
+			->will($this->returnValueMap($map));
+		$this->config
 			->method('getSystemValueBool')
-			->with('allow_local_remote_servers', false)
-			->willReturn(true);
-		$this->config
-			->expects($this->at(1))
-			->method('getSystemValue')
-			->with('proxy', null)
-			->willReturn('foo');
-		$this->config
-			->expects($this->at(2))
-			->method('getSystemValue')
-			->with('proxyuserpwd', null)
-			->willReturn(null);
-		$this->config
-			->expects($this->at(3))
-			->method('getSystemValue')
-			->with('proxyexclude', [])
-			->willReturn([]);
+		 ->with('allow_local_remote_servers', false)
+		 ->willReturn(true);
+	
 		$this->certificateManager
 			->expects($this->once())
 			->method('getAbsoluteBundlePath')
@@ -295,6 +310,9 @@ class ClientTest extends \Test\TestCase {
 				'Accept-Encoding' => 'gzip',
 			],
 			'timeout' => 30,
+			'nextcloud' => [
+				'allow_local_address' => true,
+			],
 		];
 	}
 
@@ -471,6 +489,17 @@ class ClientTest extends \Test\TestCase {
 				'Accept-Encoding' => 'gzip',
 			],
 			'timeout' => 30,
+			'nextcloud' => [
+				'allow_local_address' => false,
+			],
+			'allow_redirects' => [
+				'on_redirect' => function (
+					\Psr\Http\Message\RequestInterface $request,
+					\Psr\Http\Message\ResponseInterface $response,
+					\Psr\Http\Message\UriInterface $uri
+				) {
+				},
+			],
 		], self::invokePrivate($this->client, 'buildRequestOptions', [[]]));
 	}
 
@@ -507,6 +536,17 @@ class ClientTest extends \Test\TestCase {
 				'Accept-Encoding' => 'gzip',
 			],
 			'timeout' => 30,
+			'nextcloud' => [
+				'allow_local_address' => false,
+			],
+			'allow_redirects' => [
+				'on_redirect' => function (
+					\Psr\Http\Message\RequestInterface $request,
+					\Psr\Http\Message\ResponseInterface $response,
+					\Psr\Http\Message\UriInterface $uri
+				) {
+				},
+			],
 		], self::invokePrivate($this->client, 'buildRequestOptions', [[]]));
 	}
 
@@ -544,6 +584,17 @@ class ClientTest extends \Test\TestCase {
 				'Accept-Encoding' => 'gzip',
 			],
 			'timeout' => 30,
+			'nextcloud' => [
+				'allow_local_address' => false,
+			],
+			'allow_redirects' => [
+				'on_redirect' => function (
+					\Psr\Http\Message\RequestInterface $request,
+					\Psr\Http\Message\ResponseInterface $response,
+					\Psr\Http\Message\UriInterface $uri
+				) {
+				},
+			],
 		], self::invokePrivate($this->client, 'buildRequestOptions', [[]]));
 	}
 }
