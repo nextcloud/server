@@ -70,7 +70,7 @@
     "You don’t have permission to upload or create files here" : "Vous n'avez pas la permission d'envoyer ou de créer des fichiers ici",
     "_Uploading %n file_::_Uploading %n files_" : ["Téléversement de %n fichier","Téléversement de %n fichiers"],
     "New" : "Nouveau",
-    "Select file range" : "Sélectionner une plage de fichiers",
+    "Select file range" : "Activer la sélection d'une plage de fichiers",
     "{used} of {quota} used" : "{used} utilisés sur {quota}",
     "{used} used" : "{used} utilisés",
     "\"{name}\" is an invalid file name." : "\"{name}\" n'est pas un nom de fichier valide.",

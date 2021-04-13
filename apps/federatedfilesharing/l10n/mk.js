@@ -18,7 +18,6 @@ OC.L10N.register(
     "Federated Share request sent, you will receive an invitation. Check your notifications." : "Испратено е барање за федерално споделување, ќе добиете покана. Проверете ги известувањата.",
     "Couldn't establish a federated share, it looks like the server to federate with is too old (Nextcloud <= 9)." : "Неможе да се воспостави федерално споделување, изгледа дека Федералноиот сервер има премногу стара верзија (<= 9).",
     "It is not allowed to send federated group shares from this server." : "Не е овозможено да испратите федерално групно споделување од овој сервер.",
-    "Sharing %1$s failed, because this item is already shared with %2$s" : "Споделувањето на %1$s е неуспешно, бидејќи истото веќе е споделено со %2$s",
     "Not allowed to create a federated share with the same user" : "Не е овозможено да креирате федерално споделување со ист корисник",
     "File is already shared with %s" : "Датотеката е веќе споделена со %s",
     "Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable or uses a self-signed certificate." : "Споделувањето на %1$s е неуспешно, неможе да се пронајде %2$s, можеби серверот моментално не е достапен или користи недоверлив сертификат.",

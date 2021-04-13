@@ -9,7 +9,11 @@ OC.L10N.register(
     "Email sent" : "Eposta bidalia",
     "Private" : "Pribatua",
     "Local" : "Lokala",
+    "Only visible to people on this instance and guests" : "Soilik instantzia honetako erabiltzaile eta gonbidatuentzat ikusgai",
     "Federated" : "Federatua",
+    "Only synchronize to trusted servers" : "Sinkronizatu zerbitzari fidagarriekin soilik",
+    "Published" : "Argitaratuta",
+    "Synchronize to trusted servers and the global and public address book" : "Sinkronizatu zerbitzari fidagarriekin eta helbide liburu publiko eta globalarekin",
     "Verify" : "Egiaztatu",
     "Verifying …" : "Egiaztatzen...",
     "Unable to change password" : "Ezin izan da pasahitza aldatu",
@@ -414,6 +418,7 @@ OC.L10N.register(
     "Set default expiration date for link shares" : "Esteka bidezko partekatzeentzat iraungitze data ezarri",
     "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "Baimendu erabiltzaile-izenak automatikoki betetzea partekatze-leihoan. Hau desaktibatzen baduzu, erabiltzaile izena edo eposta helbide zehatza idatzi beharko dituzu.",
     "Restrict username autocompletion to users within the same groups" : "Erabiltzaile izenak automatikoki betetzea talde berdinetan dauden erabiltzaileei bakarrik utzi.",
-    "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Ohar mezua kargatzeko orriaren esteka publikoan erakutsi (fitxategi zerrenda ezkutatuta dagoenen bakarrik ikusten da.)"
+    "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Ohar mezua kargatzeko orriaren esteka publikoan erakutsi (fitxategi zerrenda ezkutatuta dagoenen bakarrik ikusten da.)",
+    "Trusted" : "Fidagarria"
 },
 "nplurals=2; plural=(n != 1);");
