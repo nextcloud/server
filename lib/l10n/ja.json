@@ -212,7 +212,7 @@
     "Check the value of \"datadirectory\" in your configuration" : "設定ファイル内の \"datadirectory\" の値を確認してください。",
     "Your data directory is invalid" : "データディレクトリが無効です",
     "Ensure there is a file called \".ocdata\" in the root of the data directory." : "データディレクトリの直下に \".ocdata\" ファイルがあるのを確認してください。",
-    "Action \"%s\" not supported or implemented." : "アクション「%s」はサポートされていないか、実装されていません。",
+    "Action \"%s\" not supported or implemented." : "アクション「%s」は対応していないか、実装されていません。",
     "Authentication failed, wrong token or provider ID given" : "認証できませんでした。トークンまたはプロバイダIDが間違っています",
     "Parameters missing in order to complete the request. Missing Parameters: \"%s\"" : "要求を完了するためのパラメータがありません。欠落したパラメータ:「%s」",
     "ID \"%1$s\" already used by cloud federation provider \"%2$s\"" : "ID｢%1$s｣はクラウドフェデレーションプロバイダ｢%2$s｣によって既に使用されています",
@@ -223,8 +223,8 @@
     "Storage connection error. %s" : "ストレージへの接続エラー｡ %s",
     "Storage is temporarily not available" : "ストレージは一時的に利用できません",
     "Storage connection timeout. %s" : "ストレージへの接続がタイムアウト。 %s",
-    "Following databases are supported: %s" : "次のデータベースをサポートしています: %s",
-    "Following platforms are supported: %s" : "次のプラットフォームをサポートしています: %s",
+    "Following databases are supported: %s" : "次のデータベースに対応しています: %s",
+    "Following platforms are supported: %s" : "次のプラットフォームに対応しています: %s",
     "Invalid Federated Cloud ID" : "無効なクラウド共有ID"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

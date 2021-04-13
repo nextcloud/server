@@ -18,7 +18,6 @@ OC.L10N.register(
     "Federated Share request sent, you will receive an invitation. Check your notifications." : "Birleşik paylaşım isteği gönderildi. Bir çağrı alacaksınız. Bildirimlerinizi denetleyin.",
     "Couldn't establish a federated share, it looks like the server to federate with is too old (Nextcloud <= 9)." : "Birleşik bir paylaşım oluşturulamadı. Birleşik çalışılacak sunucunun sürümü çok eski gibi görünüyor (Nextcloud <= 9).",
     "It is not allowed to send federated group shares from this server." : "Bu sunucudan birleşik grup paylaşımları gönderilemez",
-    "Sharing %1$s failed, because this item is already shared with %2$s" : "%1$sögesi %2$s ile zaten paylaşılmış olduğundan paylaşılamadı",
     "Not allowed to create a federated share with the same user" : "Aynı kullanıcı ile bir birleşik paylaşım oluşturulamaz",
     "File is already shared with %s" : "Dosya %s ile zaten paylaşılmış",
     "Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable or uses a self-signed certificate." : "%1$s paylaşılamadı. %2$s bulunamadı. Sunucuya erişilemiyor ya da sunucu kendinden imzalı bir güvenlik sertifikası kullanıyor olabilir.",

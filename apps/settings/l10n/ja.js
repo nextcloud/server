@@ -155,7 +155,7 @@ OC.L10N.register(
     "Admin documentation" : "管理者ドキュメント",
     "Developer documentation" : "開発者ドキュメント",
     "This app is supported via your current Nextcloud subscription." : "このアプリは、現行のNextcloudサブスクリプションでサポートされています。",
-    "Supported" : "サポート",
+    "Supported" : "対応しています",
     "Featured apps are developed by and within the community. They offer central functionality and are ready for production use." : "注目のアプリはコミュニティ内で開発されています。これらのアプリは主要な機能を提供しており、すぐに本番で使用することができます。",
     "Featured" : "注目",
     "Update to {update}" : "{update} にアップデート",
