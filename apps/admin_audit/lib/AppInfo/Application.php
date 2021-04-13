@@ -49,6 +49,7 @@ use OCA\AdminAudit\Actions\Sharing;
 use OCA\AdminAudit\Actions\Trashbin;
 use OCA\AdminAudit\Actions\UserManagement;
 use OCA\AdminAudit\Actions\Versions;
+use OCA\AdminAudit\Listener\CriticalActionPerformedEventListener;
 use OCP\App\ManagerEvent;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
@@ -61,6 +62,7 @@ use OCP\IGroupManager;
 use OCP\IPreview;
 use OCP\IServerContainer;
 use OCP\IUserSession;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\Log\ILogFactory;
 use OCP\Share;
 use OCP\Util;
@@ -78,6 +80,7 @@ class Application extends App implements IBootstrap {
 	}
 
 	public function register(IRegistrationContext $context): void {
+		$context->registerEventListener(CriticalActionPerformedEvent::class, CriticalActionPerformedEventListener::class);
 	}
 
 	public function boot(IBootContext $context): void {

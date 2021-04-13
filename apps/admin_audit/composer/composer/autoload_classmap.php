@@ -20,4 +20,5 @@ return array(
     'OCA\\AdminAudit\\Actions\\Versions' => $baseDir . '/../lib/Actions/Versions.php',
     'OCA\\AdminAudit\\AppInfo\\Application' => $baseDir . '/../lib/AppInfo/Application.php',
     'OCA\\AdminAudit\\BackgroundJobs\\Rotate' => $baseDir . '/../lib/BackgroundJobs/Rotate.php',
+    'OCA\\AdminAudit\\Listener\\CriticalActionPerformedEventListener' => $baseDir . '/../lib/Listener/CriticalActionPerformedEventListener.php',
 );
