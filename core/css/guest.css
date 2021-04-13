@@ -285,8 +285,14 @@ input[type='password'].password-with-toggle, input[type='text'].password-with-to
 }
 .toggle-password {
 	position: absolute;
-	top: 17px;
-	right: 20px;
+	top: 1px;
+	right: 5px;
+	padding: 14px;
+	height: 16px;
+}
+.toggle-password:hover,
+.toggle-password:focus {
+	opacity: .6;
 }
 input.login {
 	width: 260px;
@@ -334,7 +340,9 @@ button.primary:not(:disabled):hover,
 button.primary:not(:disabled):focus,
 a.primary:not(:disabled):hover,
 a.primary:not(:disabled):focus {
-	color: rgba(255, 255, 255, .8);
+	color: rgba(255, 255, 255, 1);
+	background-image: linear-gradient(40deg, #0082c9 0%, #30b6ff 100%);
+	background-position: initial;
 }
 
 /* Checkboxes - white only for login */
