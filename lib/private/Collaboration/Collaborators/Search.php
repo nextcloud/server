@@ -81,8 +81,8 @@ class Search implements ISearch {
 
 		// sanitizing, could go into the plugins as well
 
-		// if we have a exact match, either for the federated cloud id or for the
-		// email address we only return the exact match. It is highly unlikely
+		// if we have an exact match, either for the federated cloud id or for the
+		// email address, we only return the exact match. It is highly unlikely
 		// that the exact same email address and federated cloud id exists
 		$emailType = new SearchResultType('emails');
 		$remoteType = new SearchResultType('remotes');
@@ -91,6 +91,8 @@ class Search implements ISearch {
 		} elseif (!$searchResult->hasExactIdMatch($emailType) && $searchResult->hasExactIdMatch($remoteType)) {
 			$searchResult->unsetResult($emailType);
 		}
+
+		$this->dropMailSharesWhereRemoteShareIsPossible($searchResult);
 
 		// if we have an exact local user match with an email-a-like query,
 		// there is no need to show the remote and email matches.
@@ -109,5 +111,35 @@ class Search implements ISearch {
 			throw new \InvalidArgumentException('Provided ShareType is invalid');
 		}
 		$this->pluginList[$shareType][] = $pluginInfo['class'];
+	}
+
+	protected function dropMailSharesWhereRemoteShareIsPossible(ISearchResult $searchResult): void {
+		$allResults = $searchResult->asArray();
+
+		$emailType = new SearchResultType('emails');
+		$remoteType = new SearchResultType('remotes');
+
+		if (!isset($allResults[$remoteType->getLabel()])
+			|| !isset($allResults[$emailType->getLabel()])) {
+			return;
+		}
+
+		$mailIdMap = [];
+		foreach ($allResults[$emailType->getLabel()] as $mailRow) {
+			// sure, array_reduce looks nicer, but foreach needs less resources and is faster
+			if (!isset($mailRow['uuid'])) {
+				continue;
+			}
+			$mailIdMap[$mailRow['uuid']] = $mailRow['value']['shareWith'];
+		}
+
+		foreach ($allResults[$remoteType->getLabel()] as $resultRow) {
+			if (!isset($resultRow['uuid'])) {
+				continue;
+			}
+			if (isset($mailIdMap[$resultRow['uuid']])) {
+				$searchResult->removeCollaboratorResult($emailType, $mailIdMap[$resultRow['uuid']]);
+			}
+		}
 	}
 }

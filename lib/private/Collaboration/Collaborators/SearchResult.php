@@ -85,4 +85,24 @@ class SearchResult implements ISearchResult {
 			$this->result['exact'][$type] = [];
 		}
 	}
+
+	public function removeCollaboratorResult(SearchResultType $type, string $collaboratorId): bool {
+		$type = $type->getLabel();
+		if (!isset($this->result[$type])) {
+			return false;
+		}
+
+		$actionDone = false;
+		$resultArrays = [&$this->result['exact'][$type], &$this->result[$type]];
+		foreach ($resultArrays as &$resultArray) {
+			foreach ($resultArray as $k => $result) {
+				if ($result['value']['shareWith'] === $collaboratorId) {
+					unset($resultArray[$k]);
+					$actionDone = true;
+				}
+			}
+		}
+
+		return $actionDone;
+	}
 }
