@@ -18,7 +18,6 @@ OC.L10N.register(
     "Federated Share request sent, you will receive an invitation. Check your notifications." : "Požiadavka na združené zdieľanie bola odoslaná, obdržíte pozvánku. Skontrolujte oznámenia.",
     "Couldn't establish a federated share, it looks like the server to federate with is too old (Nextcloud <= 9)." : "Nepodarilo sa nadviazať združené zdieľanie, pravdepodobne je verzia servera s ktorým chcete zdieľať príliš zastaraná (Nextcloud <= 9).",
     "It is not allowed to send federated group shares from this server." : "Z tohto servera nie je povolené odosielať združené sprístupnenia.",
-    "Sharing %1$s failed, because this item is already shared with %2$s" : "Sprístupnenie %1$s zlyhalo, pretože táto položka už je prístupná pre %2$s",
     "Not allowed to create a federated share with the same user" : "Nie je možné vytvoriť združené sprístupnenie so sebou samým",
     "File is already shared with %s" : "Súbor je už sprístupnený používateľovi %s",
     "Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable or uses a self-signed certificate." : "Zdieľanie %1$s s zlyhalo, nepodarilo sa nájsť %2$s, možno je server momentálne nedostupný alebo používa certifikát s vlastným podpisom.",

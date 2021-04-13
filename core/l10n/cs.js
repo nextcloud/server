@@ -147,6 +147,7 @@ OC.L10N.register(
     "Passwordless authentication is not supported in your browser." : "Přihlašování se bez hesla není ve vámi používaném prohlížeči podporováno.",
     "Passwordless authentication is only available over a secure connection." : "Ověření se bez hesla je k dispozici pouze přes zabezpečené připojení.",
     "Reset password" : "Resetovat heslo",
+    "A password reset message has been sent to the email address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Na e-mailovou adresu, vedenou k tomuto účtu, byla odeslána zpráva s pokyny pro znovunastavení hesla. Pokud jste ji neobdrželi, podívejte se také do složek s nevyžádanou poštou (spam) a/nebo požádejte svého místního správce o pomoc.",
     "If it is not there ask your local administrator." : "Pokud se tam nenachází, zeptejte se svého místního správce.",
     "Couldn't send reset email. Please contact your administrator." : "Nepodařilo se odeslat e-mail pro změnu hesla. Obraťte se na správce.",
     "Password can not be changed. Please contact your administrator." : "Heslo nelze změnit. Obraťte se na svého správce systému.",
