@@ -46,6 +46,6 @@ class NegativeDnsCache {
 	}
 
 	public function isNegativeCached(string $domain, int $type) : bool {
-		return $this->cache->hasKey($this->createCacheKey($domain, $type));
+		return (bool)$this->cache->hasKey($this->createCacheKey($domain, $type));
 	}
 }
