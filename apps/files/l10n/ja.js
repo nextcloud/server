@@ -23,7 +23,7 @@ OC.L10N.register(
     "An unknown error has occurred" : "不明なエラーが発生しました",
     "Uploading …" : "アップロード中...",
     "{loadedSize} of {totalSize} ({bitrate})" : "{totalSize} 中 {loadedSize} ({bitrate})",
-    "Uploading that item is not supported" : "そのアイテムのアップロードはサポートされていません",
+    "Uploading that item is not supported" : "そのアイテムのアップロードに対応していません",
     "Target folder does not exist any more" : "対象フォルダーがもう存在しません",
     "Operation is blocked by access control" : "アクセス制御により操作がブロックされました",
     "Error when assembling chunks, status code {status}" : "チャンクを組み立てる際のエラー、ステータスコード{status}",

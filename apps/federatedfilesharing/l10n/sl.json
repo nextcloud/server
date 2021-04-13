@@ -16,7 +16,6 @@
     "Federated Share request sent, you will receive an invitation. Check your notifications." : "Zahteva za zvezno souporabo je poslana, prejeli boste povabilo. Preverite obvestila.",
     "Couldn't establish a federated share, it looks like the server to federate with is too old (Nextcloud <= 9)." : "Zvezne povezave za souporabo ni mogoče ustvariti. Kaže, da je podana zahteva za povezavo z nepodprto staro različico oblaka (Nextzcloud ≤ 9).",
     "It is not allowed to send federated group shares from this server." : "S tega strežnika ni dovoljeno pošiljati povabil za skupinsko souporabo prek zvezne povezave.",
-    "Sharing %1$s failed, because this item is already shared with %2$s" : "Nastavljanje souporabe %1$s je spodletelo, ker ima uporabnik %2$s predmet že v souporabi.",
     "Not allowed to create a federated share with the same user" : "Ni dovoljeno ustvariti mesta souporabe zveznega oblaka z istim uporabnikom",
     "File is already shared with %s" : "Datoteka je že v souporabi pri %s",
     "Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable or uses a self-signed certificate." : "Omogočanje souporabe %1$s je spodletelo, ker ni mogoče najti %2$s. Najverjetneje je strežnik nedosegljiv, ali pa je v uporabo neustrezno potrdilo podpisa.",

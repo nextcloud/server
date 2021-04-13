@@ -145,6 +145,7 @@
     "Passwordless authentication is not supported in your browser." : "Uwierzytelnianie bez hasła nie jest obsługiwane w przeglądarce.",
     "Passwordless authentication is only available over a secure connection." : "Uwierzytelnianie bez hasła jest dostępne tylko przez bezpieczne połączenie.",
     "Reset password" : "Zresetuj hasło",
+    "A password reset message has been sent to the email address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Wiadomość o zresetowaniu hasła została wysłana na adres e-mail tego konta. Jeśli go nie otrzymałeś, sprawdź katalogi spam/kosz lub poproś lokalnego administratora o pomoc.",
     "If it is not there ask your local administrator." : "Jeśli nie ma, skontaktuj się z lokalnym administratorem.",
     "Couldn't send reset email. Please contact your administrator." : "Nie mogę wysłać e-maila resetującego hasło. Skontaktuj się z administratorem.",
     "Password can not be changed. Please contact your administrator." : "Hasło nie może zostać zmienione. Skontaktuj się z administratorem.",

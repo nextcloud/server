@@ -16,7 +16,6 @@
     "Federated Share request sent, you will receive an invitation. Check your notifications." : "Poslan je zahtjev za udruženo dijeljenje i primit ćete poziv. Provjerite svoje obavijesti.",
     "Couldn't establish a federated share, it looks like the server to federate with is too old (Nextcloud <= 9)." : "Nije moguće uspostaviti udruženo dijeljenje, čini se da je poslužitelj s kojim se udružuje prestar (Nextcloud <= 9).",
     "It is not allowed to send federated group shares from this server." : "Nije dopušteno slanje udruženih grupnih dijeljenja s ovog poslužitelja.",
-    "Sharing %1$s failed, because this item is already shared with %2$s" : "Dijeljenje %1$s nije uspjelo jer je ova stavka već podijeljena s %2$s",
     "Not allowed to create a federated share with the same user" : "Nije dopušteno stvaranje udruženog dijeljenja s istim korisnikom",
     "File is already shared with %s" : "Datoteka je već dijeljena s %s",
     "Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable or uses a self-signed certificate." : "Dijeljenje %1$s nije uspjelo, nije bilo moguće pronaći %2$s, možda je poslužitelj trenutno nedostupan ili koristi vjerodajnicu koju je sam potpisao.",

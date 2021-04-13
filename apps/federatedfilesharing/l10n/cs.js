@@ -18,7 +18,6 @@ OC.L10N.register(
     "Federated Share request sent, you will receive an invitation. Check your notifications." : "Požadavek na federované sdílení byl odeslán, obdržíte pozvánku. Podívejte se do upozornění pro vás.",
     "Couldn't establish a federated share, it looks like the server to federate with is too old (Nextcloud <= 9)." : "Nepodařilo se ustavit federované sdílení – vypadá to, že server, se kterým má být federováno, je příliš starý (Nextcloud verze 9 a starší).",
     "It is not allowed to send federated group shares from this server." : "Z tohoto serveru není povoleno posílat federovaná skupinová sdílení.",
-    "Sharing %1$s failed, because this item is already shared with %2$s" : "Sdílení %1$s se nezdařilo, protože tato položka už je sdílena s %2$s",
     "Not allowed to create a federated share with the same user" : "Není možné vytvářet federované sdílení mezi jedním a tím samým uživatelem",
     "File is already shared with %s" : "Soubor už je sdílen s %s",
     "Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable or uses a self-signed certificate." : "Sdílení %1$s se nezdařilo, %2$s se nepodařilo nalézt, server pravděpodobně právě není dostupný nebo používá self-signed certifikát.",
