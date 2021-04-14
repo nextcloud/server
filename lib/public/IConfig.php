@@ -257,4 +257,15 @@ interface IConfig {
 	 * @since 8.0.0
 	 */
 	public function getUsersForUserValue($appName, $key, $value);
+
+	/**
+	 * Returns all user configs set for an appid-key pair
+	 *
+	 * @param string $appId the app ID to get the app configs from
+	 * @param string $key thekey to get the app configs from
+	 * @return array<string, string> - array with the following structure:
+	 *     [ $userId => $value ]
+	 * @since 22.0.0
+	 */
+	public function getUserValuesForKey(string $appId, string $key): array;
 }

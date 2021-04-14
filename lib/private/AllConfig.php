@@ -535,6 +535,30 @@ class AllConfig implements \OCP\IConfig {
 		return $userIDs;
 	}
 
+	/**
+	 * Returns all user configs set for an appid-key pair
+	 *
+	 * @param string $appId the app ID to get the app configs from
+	 * @param string $key thekey to get the app configs from
+	 * @return array<string, string> - array with the following structure:
+	 *     [ $userId => $value ]
+	 */
+	public function getUserValuesForKey(string $appId, string $key): array {
+		// TODO - FIXME
+		$this->fixDIInit();
+
+		$data = [];
+		$query = $this->connection->getQueryBuilder();
+		$query->select('userid', 'configvalue')
+			->from('preferences')
+			->where($query->expr()->eq('appid', $query->createNamedParameter($appId)))
+			->andWhere($query->expr()->eq('configkey', $query->createNamedParameter($key)));
+		$result = $query->execute()->fetchAll();
+		$userIds = array_column($result, 'userid');
+		$values = array_column($result, 'configvalue');
+		return array_combine($userIds, $values);
+	}
+
 	public function getSystemConfig() {
 		return $this->systemConfig;
 	}
