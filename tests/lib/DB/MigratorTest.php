@@ -10,6 +10,7 @@
 namespace Test\DB;
 
 use Doctrine\DBAL\Exception;
+use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Platforms\MySQLPlatform;
 use Doctrine\DBAL\Platforms\OraclePlatform;
 use Doctrine\DBAL\Platforms\PostgreSQL94Platform;
@@ -21,6 +22,7 @@ use OC\DB\MySQLMigrator;
 use OC\DB\OracleMigrator;
 use OC\DB\PostgreSqlMigrator;
 use OC\DB\SQLiteMigrator;
+use OCP\DB\Types;
 use OCP\IConfig;
 
 /**
@@ -52,9 +54,6 @@ class MigratorTest extends \Test\TestCase {
 
 		$this->config = \OC::$server->getConfig();
 		$this->connection = \OC::$server->get(\OC\DB\Connection::class);
-		if ($this->connection->getDatabasePlatform() instanceof OraclePlatform) {
-			$this->markTestSkipped('DB migration tests are not supported on OCI');
-		}
 
 		$this->tableName = $this->getUniqueTableName();
 		$this->tableNameTmp = $this->getUniqueTableName();
@@ -256,5 +255,36 @@ class MigratorTest extends \Test\TestCase {
 
 
 		$this->assertTrue($startSchema->getTable($this->tableNameTmp)->hasForeignKey($fkName));
+	}
+
+	public function testNotNullBoolean() {
+		$startSchema = new Schema([], [], $this->getSchemaConfig());
+		$table = $startSchema->createTable($this->tableName);
+		$table->addColumn('id', Types::BIGINT);
+		$table->addColumn('will_it_blend', Types::BOOLEAN, [
+			'notnull' => true,
+		]);
+		$table->addIndex(['id'], $this->tableName . '_id');
+
+		$migrator = $this->getMigrator();
+		$migrator->migrate($startSchema);
+
+		$this->connection->insert(
+			$this->tableName,
+			['id' => 1, 'will_it_blend' => true],
+			['id' => ParameterType::INTEGER, 'will_it_blend' => ParameterType::BOOLEAN],
+		);
+		$this->connection->insert(
+			$this->tableName,
+			['id' => 2, 'will_it_blend' => false],
+			['id' => ParameterType::INTEGER, 'will_it_blend' => ParameterType::BOOLEAN],
+		);
+		$this->connection->insert(
+			$this->tableName,
+			['id' => 3, 'will_it_blend' => true],
+			['id' => ParameterType::INTEGER, 'will_it_blend' => ParameterType::BOOLEAN],
+		);
+
+		$this->addToAssertionCount(1);
 	}
 }
