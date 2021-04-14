@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2018, Tobia De Koninck (tobia@ledfan.be)
  *
@@ -56,7 +59,7 @@ class Check extends Command {
 		$this->updateChecker = $updateChecker;
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName('update:check')
 			->setDescription('Check for server and app updates')
