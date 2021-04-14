@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
@@ -53,7 +56,7 @@ class Provider implements IProvider {
 		$this->l10n = $l10n;
 	}
 
-	public function parse($language, IEvent $event, IEvent $previousEvent = null) {
+	public function parse($language, IEvent $event, IEvent $previousEvent = null): IEvent {
 		if ($event->getApp() !== 'twofactor_backupcodes') {
 			throw new InvalidArgumentException();
 		}

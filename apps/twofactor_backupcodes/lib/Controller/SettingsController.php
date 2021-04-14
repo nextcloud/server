@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  *
  *
@@ -56,7 +59,7 @@ class SettingsController extends Controller {
 	 *
 	 * @return JSONResponse
 	 */
-	public function createCodes() {
+	public function createCodes(): JSONResponse {
 		$user = $this->userSession->getUser();
 		$codes = $this->storage->createCodes($user);
 		return new JSONResponse([

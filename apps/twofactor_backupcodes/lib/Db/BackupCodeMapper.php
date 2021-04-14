@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  *
  *
@@ -42,7 +45,7 @@ class BackupCodeMapper extends QBMapper {
 	 * @param IUser $user
 	 * @return BackupCode[]
 	 */
-	public function getBackupCodes(IUser $user) {
+	public function getBackupCodes(IUser $user): array {
 		/* @var IQueryBuilder $qb */
 		$qb = $this->db->getQueryBuilder();
 
@@ -56,14 +59,14 @@ class BackupCodeMapper extends QBMapper {
 	/**
 	 * @param IUser $user
 	 */
-	public function deleteCodes(IUser $user) {
+	public function deleteCodes(IUser $user): void {
 		$this->deleteCodesByUserId($user->getUID());
 	}
 
 	/**
 	 * @param string $uid
 	 */
-	public function deleteCodesByUserId($uid) {
+	public function deleteCodesByUserId(string $uid): void {
 		/* @var IQueryBuilder $qb */
 		$qb = $this->db->getQueryBuilder();
 
