@@ -257,11 +257,30 @@ class MigratorTest extends \Test\TestCase {
 		$this->assertTrue($startSchema->getTable($this->tableNameTmp)->hasForeignKey($fkName));
 	}
 
-	public function testNotNullBoolean() {
+	public function dataNotNullEmptyValuesFailOracle(): array {
+		return [
+			[ParameterType::BOOLEAN, true, Types::BOOLEAN, false],
+			[ParameterType::BOOLEAN, false, Types::BOOLEAN, true],
+			[ParameterType::STRING, 'foo', Types::STRING, false],
+			[ParameterType::STRING, '', Types::STRING, true],
+			[ParameterType::INTEGER, 1234, Types::INTEGER, false],
+			[ParameterType::INTEGER, 0, Types::INTEGER, true],
+		];
+	}
+
+	/**
+	 * @dataProvider dataNotNullEmptyValuesFailOracle
+	 *
+	 * @param int $parameterType
+	 * @param bool|int|string $value
+	 * @param string $columnType
+	 * @param bool $oracleThrows
+	 */
+	public function testNotNullEmptyValuesFailOracle(int $parameterType, $value, string $columnType, bool $oracleThrows): void {
 		$startSchema = new Schema([], [], $this->getSchemaConfig());
 		$table = $startSchema->createTable($this->tableName);
 		$table->addColumn('id', Types::BIGINT);
-		$table->addColumn('will_it_blend', Types::BOOLEAN, [
+		$table->addColumn('will_it_blend', $columnType, [
 			'notnull' => true,
 		]);
 		$table->addIndex(['id'], $this->tableName . '_id');
@@ -269,20 +288,15 @@ class MigratorTest extends \Test\TestCase {
 		$migrator = $this->getMigrator();
 		$migrator->migrate($startSchema);
 
+		if ($oracleThrows && $this->connection->getDatabasePlatform() instanceof OraclePlatform) {
+			// Oracle can not store false|empty string in notnull columns
+			$this->expectException(\Doctrine\DBAL\Exception\NotNullConstraintViolationException::class);
+		}
+
 		$this->connection->insert(
 			$this->tableName,
-			['id' => 1, 'will_it_blend' => true],
-			['id' => ParameterType::INTEGER, 'will_it_blend' => ParameterType::BOOLEAN],
-		);
-		$this->connection->insert(
-			$this->tableName,
-			['id' => 2, 'will_it_blend' => false],
-			['id' => ParameterType::INTEGER, 'will_it_blend' => ParameterType::BOOLEAN],
-		);
-		$this->connection->insert(
-			$this->tableName,
-			['id' => 3, 'will_it_blend' => true],
-			['id' => ParameterType::INTEGER, 'will_it_blend' => ParameterType::BOOLEAN],
+			['id' => 1, 'will_it_blend' => $value],
+			['id' => ParameterType::INTEGER, 'will_it_blend' => $parameterType],
 		);
 
 		$this->addToAssertionCount(1);
