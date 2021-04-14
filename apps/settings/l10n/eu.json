@@ -6,6 +6,7 @@
     "Sending…" : "Bidaltzen...",
     "Email sent" : "Eposta bidalia",
     "Private" : "Pribatua",
+    "Only visible to people matched via phone number integration through Talk on mobile" : "Ikusgarri soilik mugikorrean Talk bidez telefono zenbaki integrazioarekin bat egin duten pertsonentzat",
     "Local" : "Lokala",
     "Only visible to people on this instance and guests" : "Soilik instantzia honetako erabiltzaile eta gonbidatuentzat ikusgai",
     "Federated" : "Federatua",
