@@ -44,6 +44,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Template\ICustomTemplateProvider;
 use OCP\Http\WellKnown\IHandler;
 use OCP\ILogger;
+use OCP\Notification\INotifier;
 use OCP\Search\IProvider;
 use OCP\Support\CrashReport\IReporter;
 use Throwable;
@@ -89,6 +90,9 @@ class RegistrationContext {
 
 	/** @var ServiceRegistration<ICustomTemplateProvider>[] */
 	private $templateProviders = [];
+
+	/** @var ServiceRegistration<INotifier>[] */
+	private $notifierServices;
 
 	/** @var ILogger */
 	private $logger;
@@ -206,6 +210,13 @@ class RegistrationContext {
 					$providerClass
 				);
 			}
+
+			public function registerNotifierService(string $notifierClass): void {
+				$this->context->registerNotifierService(
+					$this->appId,
+					$notifierClass
+				);
+			}
 		};
 	}
 
@@ -271,6 +282,10 @@ class RegistrationContext {
 
 	public function registerTemplateProvider(string $appId, string $class): void {
 		$this->templateProviders[] = new ServiceRegistration($appId, $class);
+	}
+
+	public function registerNotifierService(string $appId, string $class): void {
+		$this->notifierServices[] = new ServiceRegistration($appId, $class);
 	}
 
 	/**
@@ -456,5 +471,12 @@ class RegistrationContext {
 	 */
 	public function getTemplateProviders(): array {
 		return $this->templateProviders;
+	}
+
+	/**
+	 * @return ServiceRegistration<INotifier>[]
+	 */
+	public function getNotifierServices(): array {
+		return $this->notifierServices;
 	}
 }
