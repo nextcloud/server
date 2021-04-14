@@ -128,6 +128,7 @@
     "Please reload the page." : "Mesedez birkargatu orria.",
     "The update was unsuccessful. For more information <a href=\"{url}\">check our forum post</a> covering this issue." : "Eguneraketak huts egin du. Informazio gehiagorako <a href=\"{url}\">begiratu gure  foroan arazoari buruzko sarrera</a>.",
     "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Nextcloud community</a>." : "Eguneraketak huts egin du. Mesedez, jakinarazi arazoa <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Nextcloud komunitateari</a>.",
+    "Continue to {productName}" : "Jarraitu hona: {productName}",
     "Log in" : "Hasi saioa",
     "Logging in …" : "Saioa hasten...",
     "Server side authentication failed!" : "Zerbitzari aldeko autentifikazioak huts egin du!",
