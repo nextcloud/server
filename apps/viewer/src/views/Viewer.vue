@@ -850,7 +850,7 @@ export default {
 }
 
 // force white icon on single buttons
-.action-item--single.icon-menu-sidebar {
+#viewer .action-item--single.icon-menu-sidebar {
 	background-image: url('../assets/menu-sidebar-white.svg');
 }
 
