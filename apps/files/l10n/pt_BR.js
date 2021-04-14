@@ -207,7 +207,7 @@ OC.L10N.register(
     "Deleted shares" : "Compartilhamentos excluídos",
     "Pending shares" : "Compartilhamentos pendentes",
     "Text file" : "Arquivo texto",
-    "New text file.txt" : "Novo texto file.txt",
+    "New text file.txt" : "Novo arquivo.txt",
     "Unshare" : "Descompartilhar",
     "Storage of {owner} is almost full ({usedSpacePercent}%)" : "O armazenamento do {owner} está quase cheio ({usedSpacePercent}%)",
     "Group folder \"{mountPoint}\" is almost full ({usedSpacePercent}%)" : "A pasta de grupo \"{mountPoint}\" está quase cheia ({usedSpacePercent}%)",
