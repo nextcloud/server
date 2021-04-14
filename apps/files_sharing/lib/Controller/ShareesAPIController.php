@@ -144,7 +144,7 @@ class ShareesAPIController extends OCSController {
 	public function search(string $search = '', string $itemType = null, int $page = 1, int $perPage = 200, $shareType = null, bool $lookup = true): DataResponse {
 
 		// only search for string larger than a given threshold
-		$threshold = (int)$this->config->getSystemValue('sharing.minSearchStringLength', 0);
+		$threshold = $this->config->getSystemValueInt('sharing.minSearchStringLength', 0);
 		if (strlen($search) < $threshold) {
 			return new DataResponse($this->result);
 		}
