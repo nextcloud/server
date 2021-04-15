@@ -140,6 +140,7 @@ OC.L10N.register(
     "Please try again or contact your administrator." : "Bitte versuchen Sie es noch einmal oder kontaktieren Sie Ihren Administrator.",
     "Username or email" : "Benutzername oder E-Mail",
     "Password" : "Passwort",
+    "Toggle password visibility" : "Passwortsichtbarkeit umschalten",
     "Wrong username or password." : "Falscher Benutzername oder Passwort.",
     "User disabled" : "Benutzer deaktiviert",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Es wurden mehrere ungültige Anmeldeversuche von Ihrer IP-Adresse festgestellt. Daher wird die nächste Anmeldung um 30 Sekunden verzögert.",

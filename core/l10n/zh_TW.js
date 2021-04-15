@@ -140,6 +140,7 @@ OC.L10N.register(
     "Please try again or contact your administrator." : "請重試或聯絡系統管理員",
     "Username or email" : "使用者名稱或電子郵件",
     "Password" : "密碼",
+    "Toggle password visibility" : "切換密碼可見度",
     "Wrong username or password." : "錯誤的使用者名稱 或 密碼",
     "User disabled" : "使用者已遭停用",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "您的 IP 多次嘗試登入無效。因此下一次登入將會被延時30秒。",
