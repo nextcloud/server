@@ -55,6 +55,9 @@ input {
 #uploadavatarbutton, #selectavatar, #removeavatar {
 	padding: 21px;
 }
+#selectavatar, #removeavatar {
+	vertical-align: top;
+}
 
 .jcrop-holder {
 	z-index: 500;

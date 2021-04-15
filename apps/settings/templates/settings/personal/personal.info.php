@@ -39,7 +39,7 @@ script('settings', [
 		<div>
 			<form id="avatarform" class="section" method="post" action="<?php p(\OC::$server->getURLGenerator()->linkToRoute('core.avatar.postAvatar')); ?>">
 				<h3>
-					<label><?php p($l->t('Profile picture')); ?></label>
+					<?php p($l->t('Profile picture')); ?>
 					<div class="federation-menu" tabindex="0" aria-label="<?php p($l->t('Change privacy level of profile picture')); ?>">
 						<span class="icon-federation-menu icon-password">
 							<span class="icon-triangle-s"></span>
@@ -50,9 +50,9 @@ script('settings', [
 					<div class="avatardiv"></div>
 					<div class="warning hidden"></div>
 					<?php if ($_['avatarChangeSupported']): ?>
-						<label for="uploadavatar" class="inlineblock button icon-upload svg" id="uploadavatarbutton" title="<?php p($l->t('Upload new')); ?>"></label>
-						<div class="inlineblock button icon-folder svg" id="selectavatar" title="<?php p($l->t('Select from Files')); ?>"></div>
-						<div class="hidden button icon-delete svg" id="removeavatar" title="<?php p($l->t('Remove image')); ?>"></div>
+						<label for="uploadavatar" class="inlineblock button icon-upload svg" id="uploadavatarbutton" title="<?php p($l->t('Upload new')); ?>" tabindex="0"></label>
+						<button class="inlineblock button icon-folder svg" id="selectavatar" title="<?php p($l->t('Select from Files')); ?>"></button>
+						<button class="hidden button icon-delete svg" id="removeavatar" title="<?php p($l->t('Remove image')); ?>"></button>
 						<input type="file" name="files[]" id="uploadavatar" class="hiddenuploadfield" accept="image/*">
 						<p><em><?php p($l->t('png or jpg, max. 20 MB')); ?></em></p>
 					<?php else: ?>
