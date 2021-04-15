@@ -186,7 +186,7 @@ OC.L10N.register(
     "%s%% of %s used" : "%s%% trong %s đã sử dụng",
     "%1$s of %2$s used" : "%1$s trên %2$s đã sử dụng",
     "Settings" : "Cài đặt",
-    "Show hidden files" : "Hiển thị cac file bị ẩn",
+    "Show hidden files" : "Hiển thị các file bị ẩn",
     "Crop image previews" : "‎Xén ảnh ‎bản xem trước",
     "WebDAV" : "WebDAV",
     "Use this address to access your Files via WebDAV" : "‎Sử dụng địa chỉ này để truy cập tệp của bạn thông qua WebDAV‎",
