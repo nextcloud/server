@@ -3,7 +3,7 @@ OC.L10N.register(
     {
     "Storage is temporarily not available" : "O almacenamento non está dispoñíbel temporalmente",
     "Storage invalid" : "Almacenamento incorrecto",
-    "Unknown error" : "Produciuse un erro descoñecido",
+    "Unknown error" : "Erro descoñecido",
     "File could not be found" : "Non foi posíbel atopar o ficheiro",
     "Move or copy" : "Mover ou copiar",
     "Download" : "Descargar",

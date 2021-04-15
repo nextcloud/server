@@ -18,6 +18,7 @@ OC.L10N.register(
     "Federated Share request sent, you will receive an invitation. Check your notifications." : "Enviouse a solicitude dunha compartición federada, vostede recibirá unha notificación. Comprobe as súas notificacións.",
     "Couldn't establish a federated share, it looks like the server to federate with is too old (Nextcloud <= 9)." : "Non foi posíbel estabelecer unha compartición federada, semella que o servidor  federar é antigo de máis (Nextcloud <= 9).",
     "It is not allowed to send federated group shares from this server." : "Non está permitido enviar unha compartición de grupos federados  dende este servidor.",
+    "Sharing %1$s failed, because this item is already shared with user %2$s" : "Fallou a compartición de %1$s por mor de que este elemento xa foi compartido co usuario %2$s",
     "Not allowed to create a federated share with the same user" : "Non está permitido crear unha compartición federada co mesmo usuario",
     "File is already shared with %s" : "O ficheiro xa está a ser compartido con %s",
     "Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable or uses a self-signed certificate." : "Produciuse un fallo ao compartir %1$s Non foi posíbel atopar %2$s, quizais haxa un problema de conexión co servidor  ou emprega un certificado autoasinado.",

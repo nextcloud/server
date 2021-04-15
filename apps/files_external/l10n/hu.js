@@ -74,6 +74,7 @@ OC.L10N.register(
     "Log-in credentials, save in database" : "Bejelentkezési azonosítók, mentés az adatbázisban",
     "Username and password" : "Felhasználónév és jelszó",
     "Log-in credentials, save in session" : "Bejelentkezési azonosítók, mentés az munkamenetben",
+    "Global credentials, user entered" : "Globális hitelesítő adatok, a felhasználó által megadott",
     "User entered, store in database" : "Felhasználó megadva, tárolás az adatbázisban",
     "RSA public key" : "RSA nyilvános kulcs",
     "Public key" : "Nyilvános kulcs",
@@ -113,11 +114,13 @@ OC.L10N.register(
     "The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "A cURL támogatás, a PHP-ban nincs engedélyezve vagy telepítve. %s csatolása lehetetlen. Kérd meg a rendszergazdádat, hogy telepítse.",
     "The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "Az FTP támogatás, a PHP-ban nincs engedélyezve vagy telepítve. %s csatolása lehetetlen. Kérd meg a rendszergazdádat, hogy telepítse.",
     "External storage support" : "Külső tároló támogatás",
+    "Adds basic external storage support" : "Külső tároló támogatás hozzáadása",
     "No external storage configured or you don't have the permission to configure them" : "Nincsenek külső tárolók beállítva, vagy nincs hozzáférésed a beállításaikhoz",
     "Name" : "Név",
     "Storage type" : "Tároló típusa",
     "Scope" : "Hatáskör",
     "Open documentation" : "Dokumentáció megnyitása",
+    "External storage enables you to mount external storage services and devices as secondary Nextcloud storage devices. You may also allow users to mount their own external storage services." : "A külső tárhely lehetővé teszi külső tárolási szolgáltatások és eszközök másodlagos Nextcloud tárolóeszközként történő csatlakoztatását. Lehetővé teheti a felhasználók számára, hogy saját külső tároló szolgáltatásukat is csatlakoztassák.",
     "Folder name" : "Mappa neve",
     "External storage" : "Külső tárolók",
     "Authentication" : "Hitelesítés",
@@ -126,6 +129,7 @@ OC.L10N.register(
     "Click to recheck the configuration" : "Kattints ide a konfiguráció újraellenőrzéséhez",
     "Add storage" : "Tároló becsatolása",
     "Advanced settings" : "Haladó beállítások",
-    "Allow users to mount external storage" : "Külső tárolók csatolásának  engedélyezése a felhasználók részére"
+    "Allow users to mount external storage" : "Külső tárolók csatolásának  engedélyezése a felhasználók részére",
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "A globális hitelesítő adatokkal azonos külső hitelesítő adatokkal rendelkező külső tárhelyek hitelesíthetők."
 },
 "nplurals=2; plural=(n != 1);");

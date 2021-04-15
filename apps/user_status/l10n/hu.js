@@ -1,6 +1,7 @@
 OC.L10N.register(
     "user_status",
     {
+    "Recent statuses" : "Legutóbbi állapotok",
     "In a meeting" : "Találkozón",
     "Commuting" : "Ingázás",
     "Out sick" : "Beteg szabadság",
