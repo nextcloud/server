@@ -102,7 +102,7 @@ const setDeprecatedProp = (global, cb, msg) => {
 }
 
 window._ = _
-setDeprecatedProp(['$', 'jQuery'], () => $, 'The global jQuery is deprecated. It will be updated to v3.x in Nextcloud 21. In later versions of Nextcloud it might be removed completely. Please ship your own.')
+setDeprecatedProp(['$', 'jQuery'], () => $, 'The global jQuery is deprecated. It will be removed in a later versions without another warning. Please ship your own.')
 setDeprecatedProp('autosize', () => autosize, 'please ship your own, this will be removed in Nextcloud 20')
 setDeprecatedProp('Backbone', () => Backbone, 'please ship your own, this will be removed in Nextcloud 20')
 setDeprecatedProp(['Clipboard', 'ClipboardJS'], () => ClipboardJS, 'please ship your own, this will be removed in Nextcloud 20')
