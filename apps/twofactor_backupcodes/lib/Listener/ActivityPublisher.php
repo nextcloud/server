@@ -3,8 +3,6 @@
 declare(strict_types=1);
 
 /**
- *
- *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  *
  * @license GNU AGPL version 3 or any later version

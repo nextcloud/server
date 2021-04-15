@@ -3,8 +3,6 @@
 declare(strict_types=1);
 
 /**
- *
- *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Roeland Jago Douma <roeland@famdouma.nl>

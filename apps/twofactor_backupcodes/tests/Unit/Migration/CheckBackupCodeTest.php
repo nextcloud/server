@@ -3,8 +3,6 @@
 declare(strict_types=1);
 
 /**
- *
- *
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
