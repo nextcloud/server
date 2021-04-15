@@ -53,7 +53,7 @@ class SearchTest extends TestCase {
 		string $searchTerm,
 		array $shareTypes,
 		int $page,
-		int  $perPage,
+		int $perPage,
 		array $mockedUserResult,
 		array $mockedGroupsResult,
 		array $mockedRemotesResult,
