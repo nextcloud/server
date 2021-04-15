@@ -88,6 +88,7 @@ class Updater {
 				continue;
 			}
 			$share->setShareOwner($newOwner);
+			$share->setPermissions($share->getPermissions() & $dstMount->getShare()->getPermissions());
 			$shareManager->updateShare($share);
 		}
 	}
