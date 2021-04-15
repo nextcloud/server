@@ -93,4 +93,19 @@ class SystemTag implements ISystemTag {
 	public function isUserAssignable(): bool {
 		return $this->userAssignable;
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getAccessLevel(): int {
+		if ($this->userVisible) {
+			if ($this->userAssignable) {
+				return self::ACCESS_LEVEL_PUBLIC;
+			} else {
+				return self::ACCESS_LEVEL_RESTRICTED;
+			}
+		} else {
+			return self::ACCESS_LEVEL_INVISIBLE;
+		}
+	}
 }
