@@ -125,7 +125,7 @@
 			:open.sync="open"
 			@close="onMenuClose">
 			<template v-if="share">
-				<template v-if="share.canEdit">
+				<template v-if="share.canEdit && canReshare">
 					<!-- Custom Label -->
 					<ActionInput
 						ref="label"
