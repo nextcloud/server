@@ -7,7 +7,7 @@ namespace Composer\Autoload;
 class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
 {
     public static $prefixLengthsPsr4 = array (
-        'O' => 
+        'O' =>
         array (
             'OC\\Core\\' => 8,
             'OC\\' => 3,
@@ -16,15 +16,15 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
     );
 
     public static $prefixDirsPsr4 = array (
-        'OC\\Core\\' => 
+        'OC\\Core\\' =>
         array (
             0 => __DIR__ . '/../../..' . '/core',
         ),
-        'OC\\' => 
+        'OC\\' =>
         array (
             0 => __DIR__ . '/../../..' . '/lib/private',
         ),
-        'OCP\\' => 
+        'OCP\\' =>
         array (
             0 => __DIR__ . '/../../..' . '/lib/public',
         ),
@@ -896,6 +896,10 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Core\\Command\\Security\\RemoveCertificate' => __DIR__ . '/../../..' . '/core/Command/Security/RemoveCertificate.php',
         'OC\\Core\\Command\\Security\\ResetBruteforceAttempts' => __DIR__ . '/../../..' . '/core/Command/Security/ResetBruteforceAttempts.php',
         'OC\\Core\\Command\\Status' => __DIR__ . '/../../..' . '/core/Command/Status.php',
+        'OC\\Core\\Command\\SystemTag\\Add' => __DIR__ . '/../../..' . '/core/Command/SystemTag/Add.php',
+        'OC\\Core\\Command\\SystemTag\\Delete' => __DIR__ . '/../../..' . '/core/Command/SystemTag/Delete.php',
+        'OC\\Core\\Command\\SystemTag\\Edit' => __DIR__ . '/../../..' . '/core/Command/SystemTag/Edit.php',
+        'OC\\Core\\Command\\SystemTag\\ListCommand' => __DIR__ . '/../../..' . '/core/Command/SystemTag/ListCommand.php',
         'OC\\Core\\Command\\TwoFactorAuth\\Base' => __DIR__ . '/../../..' . '/core/Command/TwoFactorAuth/Base.php',
         'OC\\Core\\Command\\TwoFactorAuth\\Cleanup' => __DIR__ . '/../../..' . '/core/Command/TwoFactorAuth/Cleanup.php',
         'OC\\Core\\Command\\TwoFactorAuth\\Disable' => __DIR__ . '/../../..' . '/core/Command/TwoFactorAuth/Disable.php',
