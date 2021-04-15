@@ -96,6 +96,24 @@ export default class Config {
 	}
 
 	/**
+	 * Get the default remote expiration date as string
+	 *
+	 * @returns {string}
+	 * @readonly
+	 * @memberof Config
+	 */
+	get defaultRemoteExpirationDateString() {
+		let expireDateString = ''
+		if (this.isDefaultRemoteExpireDateEnabled) {
+			const date = window.moment.utc()
+			const expireAfterDays = this.defaultRemoteExpireDate
+			date.add(expireAfterDays, 'days')
+			expireDateString = date.format('YYYY-MM-DD')
+		}
+		return expireDateString
+	}
+
+	/**
 	 * Are link shares password-enforced ?
 	 *
 	 * @returns {boolean}
@@ -148,6 +166,17 @@ export default class Config {
 	 */
 	get isDefaultInternalExpireDateEnforced() {
 		return OC.appConfig.core.defaultInternalExpireDateEnforced === true
+	}
+
+	/**
+	 * Is remote shares expiration enforced ?
+	 *
+	 * @returns {boolean}
+	 * @readonly
+	 * @memberof Config
+	 */
+	get isDefaultRemoteExpireDateEnforced() {
+		return OC.appConfig.core.defaultRemoteExpireDateEnforced === true
 	}
 
 	/**
@@ -207,6 +236,17 @@ export default class Config {
 	 */
 	get defaultInternalExpireDate() {
 		return OC.appConfig.core.defaultInternalExpireDate
+	}
+
+	/**
+	 * Get the default days to remote shares expiration
+	 *
+	 * @returns {int}
+	 * @readonly
+	 * @memberof Config
+	 */
+	get defaultRemoteExpireDate() {
+		return OC.appConfig.core.defaultRemoteExpireDate
 	}
 
 	/**

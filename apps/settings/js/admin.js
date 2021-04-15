@@ -90,6 +90,10 @@ window.addEventListener('DOMContentLoaded', function(){
 		$("#setDefaultInternalExpireDate").toggleClass('hidden', !this.checked);
 	});
 
+	$('#shareapiDefaultRemoteExpireDate').change(function() {
+		$("#setDefaultRemoteExpireDate").toggleClass('hidden', !this.checked);
+	});
+
 	$('#publicShareDisclaimer').change(function() {
 		$("#publicShareDisclaimerText").toggleClass('hidden', !this.checked);
 		if(!this.checked) {

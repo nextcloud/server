@@ -285,4 +285,11 @@ class CapabilitiesTest extends \Test\TestCase {
 		$this->assertArrayHasKey('federation', $result);
 		$this->assertFalse($result['federation']['outgoing']);
 	}
+
+	public function testFederatedSharingExpirationDate() {
+		$result = $this->getResults([]);
+		$this->assertArrayHasKey('federation', $result);
+		$this->assertEquals(['enabled' => true], $result['federation']['expire_date']);
+		$this->assertEquals(['enabled' => true], $result['federation']['expire_date_supported']);
+	}
 }

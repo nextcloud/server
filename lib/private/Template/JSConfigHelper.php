@@ -165,6 +165,13 @@ class JSConfigHelper {
 			$defaultInternalExpireDateEnforced = $this->config->getAppValue('core', 'shareapi_enforce_internal_expire_date', 'no') === 'yes';
 		}
 
+		$defaultRemoteExpireDateEnabled = $this->config->getAppValue('core', 'shareapi_default_remote_expire_date', 'no') === 'yes';
+		$defaultRemoteExpireDate = $defaultRemoteExpireDateEnforced = null;
+		if ($defaultRemoteExpireDateEnabled) {
+			$defaultRemoteExpireDate = (int)$this->config->getAppValue('core', 'shareapi_remote_expire_after_n_days', '7');
+			$defaultRemoteExpireDateEnforced = $this->config->getAppValue('core', 'shareapi_enforce_remote_expire_date', 'no') === 'yes';
+		}
+
 		$countOfDataLocation = 0;
 		$dataLocation = str_replace(\OC::$SERVERROOT . '/', '', $this->config->getSystemValue('datadirectory', ''), $countOfDataLocation);
 		if ($countOfDataLocation !== 1 || $uid === null || !$this->groupManager->isAdmin($uid)) {
@@ -278,6 +285,9 @@ class JSConfigHelper {
 					'defaultInternalExpireDateEnabled' => $defaultInternalExpireDateEnabled,
 					'defaultInternalExpireDate' => $defaultInternalExpireDate,
 					'defaultInternalExpireDateEnforced' => $defaultInternalExpireDateEnforced,
+					'defaultRemoteExpireDateEnabled' => $defaultRemoteExpireDateEnabled,
+					'defaultRemoteExpireDate' => $defaultRemoteExpireDate,
+					'defaultRemoteExpireDateEnforced' => $defaultRemoteExpireDateEnforced,
 				]
 			]),
 			"_theme" => json_encode([
