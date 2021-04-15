@@ -8,6 +8,7 @@ OC.L10N.register(
     "Error loading {name}" : "Hiba a(z) {name} betöltésekor",
     "Your browser does not support videos." : "A böngészője nem támogatja a videókat.",
     "Open sidebar" : "Oldalsáv megnyitása",
+    "Download" : "Letöltés",
     "Delete" : "Törlés",
     "There is no plugin available to display this file type" : "Nincs elérhető plugin a fájltípus megjelenítésére",
     "View" : "Megtekintés"
