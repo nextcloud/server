@@ -181,6 +181,7 @@
     "Create a new share link" : "Új megosztási hivatkozás létrehozása",
     "{shareWith} by {initiator}" : "{shareWith} {initiator} által",
     "Shared via link by {initiator}" : "Megosztva hivatkozással {initiator} által",
+    "Mail share ({label})" : "E-mail megosztás ({label})",
     "Share link ({label})" : "Megosztás hivatkozás ({label})",
     "Share link" : "Hivatkozás megosztása",
     "Error, please enter proper password and/or expiration date" : "Hiba, kérjük, írja be a megfelelő jelszót és / vagy a lejárati dátumot",

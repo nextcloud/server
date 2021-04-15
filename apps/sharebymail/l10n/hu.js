@@ -5,6 +5,7 @@ OC.L10N.register(
     "Shared with {email}" : "Megosztva: {email}",
     "Shared with %1$s by %2$s" : "%2$s megosztotta vele: %1$s",
     "Shared with {email} by {actor}" : "Shared with {email} by {actor}",
+    "Unshared from {email}" : "Megosztás visszavonása tőle: {email}",
     "Password for mail share sent to %1$s" : "A levelezési megosztáshoz szükséges jelszó elküldve ide: %1$s",
     "Password for mail share sent to {email}" : "A levelezési megosztáshoz szükséges jelszó elküldve ide: {email}",
     "Password for mail share sent to you" : "A levelezési megosztáshoz szükséges jelszó elküldve neked",
@@ -32,8 +33,10 @@ OC.L10N.register(
     "You can choose a different password at any time in the share dialog." : "Bármikor választhatsz másik jelszót a megosztási ablakban.",
     "Could not find share" : "Nem található a megosztás",
     "Share by mail" : "Küldés e-mailben",
+    "Share provider which allows you to share files by mail" : "Megosztás szolgáltató, amely lehetővé teszi fájlok megosztását e-mailben",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Segítségével személyre szabott megosztási linket hozhatsz létre egy fájlhoz vagy mappához az e-mail cím beleírásával.",
     "Send password by mail" : "Jelszó kiküldése e-mailben",
+    "Reply to initiator" : "Megválaszolva {initiator} által",
     "Enforce password protection" : "Jelszóvédelem kényszerítése"
 },
 "nplurals=2; plural=(n != 1);");
