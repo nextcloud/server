@@ -27,6 +27,7 @@
 
 namespace OCA\Files_Sharing;
 
+use OCP\Constants;
 use OCP\Share\IShare;
 
 class Updater {
@@ -82,6 +83,10 @@ class Updater {
 		//Ownership is moved over
 		foreach ($shares as $share) {
 			/** @var IShare $share */
+			if (!($dstMount->getShare()->getPermissions() & Constants::PERMISSION_SHARE)) {
+				$shareManager->deleteShare($share);
+				continue;
+			}
 			$share->setShareOwner($newOwner);
 			$shareManager->updateShare($share);
 		}
