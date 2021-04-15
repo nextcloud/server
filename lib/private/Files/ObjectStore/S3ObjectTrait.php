@@ -78,10 +78,11 @@ trait S3ObjectTrait {
 	/**
 	 * @param string $urn the unified resource name used to identify the object
 	 * @param resource $stream stream with the data to write
+	 * @param string|null $mimetype the mimetype to set for the remove object @since 22.0.0
 	 * @throws \Exception when something goes wrong, message will be logged
 	 * @since 7.0.0
 	 */
-	public function writeObject($urn, $stream) {
+	public function writeObject($urn, $stream, string $mimetype = null) {
 		$count = 0;
 		$countStream = CallbackWrapper::wrap($stream, function ($read) use (&$count) {
 			$count += $read;
@@ -91,6 +92,9 @@ trait S3ObjectTrait {
 			'bucket' => $this->bucket,
 			'key' => $urn,
 			'part_size' => $this->uploadPartSize,
+			'params' => [
+				'ContentType' => $mimetype
+			]
 		]);
 
 		try {
