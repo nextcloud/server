@@ -261,10 +261,12 @@ class MigratorTest extends \Test\TestCase {
 		return [
 			[ParameterType::BOOLEAN, true, Types::BOOLEAN, false],
 			[ParameterType::BOOLEAN, false, Types::BOOLEAN, true],
+
 			[ParameterType::STRING, 'foo', Types::STRING, false],
 			[ParameterType::STRING, '', Types::STRING, true],
+
 			[ParameterType::INTEGER, 1234, Types::INTEGER, false],
-			[ParameterType::INTEGER, 0, Types::INTEGER, true],
+			[ParameterType::INTEGER, 0, Types::INTEGER, false], // Integer 0 is not stored as Null and therefor works
 		];
 	}
 
