@@ -34,8 +34,8 @@ use OC\DB\ConnectionFactory;
 use OC\DB\MigrationService;
 use OC\SystemConfig;
 use OCP\IL10N;
-use OCP\ILogger;
 use OCP\Security\ISecureRandom;
+use Psr\Log\LoggerInterface;
 
 abstract class AbstractDatabase {
 
@@ -55,12 +55,12 @@ abstract class AbstractDatabase {
 	protected $tablePrefix;
 	/** @var SystemConfig */
 	protected $config;
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	protected $logger;
 	/** @var ISecureRandom */
 	protected $random;
 
-	public function __construct(IL10N $trans, SystemConfig $config, ILogger $logger, ISecureRandom $random) {
+	public function __construct(IL10N $trans, SystemConfig $config, LoggerInterface $logger, ISecureRandom $random) {
 		$this->trans = $trans;
 		$this->config = $config;
 		$this->logger = $logger;

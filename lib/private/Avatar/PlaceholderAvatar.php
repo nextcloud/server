@@ -38,7 +38,7 @@ use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\IConfig;
 use OCP\IImage;
 use OCP\IL10N;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 
 /**
  * This class represents a registered user's placeholder avatar.
@@ -60,12 +60,12 @@ class PlaceholderAvatar extends Avatar {
 	 * @param ISimpleFolder $folder The avatar files folder
 	 * @param IL10N $l The localization helper
 	 * @param User $user The user this class manages the avatar for
-	 * @param ILogger $logger The logger
+	 * @param LoggerInterface $logger The logger
 	 */
 	public function __construct(
 		ISimpleFolder $folder,
 		$user,
-		ILogger $logger) {
+		LoggerInterface $logger) {
 		parent::__construct($logger);
 
 		$this->folder = $folder;

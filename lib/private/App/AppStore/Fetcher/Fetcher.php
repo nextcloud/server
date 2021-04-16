@@ -39,7 +39,7 @@ use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 
 abstract class Fetcher {
 	public const INVALIDATE_AFTER_SECONDS = 3600;
@@ -53,7 +53,7 @@ abstract class Fetcher {
 	protected $timeFactory;
 	/** @var IConfig */
 	protected $config;
-	/** @var Ilogger */
+	/** @var LoggerInterface */
 	protected $logger;
 	/** @var string */
 	protected $fileName;
@@ -64,18 +64,11 @@ abstract class Fetcher {
 	/** @var string */
 	protected $channel;
 
-	/**
-	 * @param Factory $appDataFactory
-	 * @param IClientService $clientService
-	 * @param ITimeFactory $timeFactory
-	 * @param IConfig $config
-	 * @param ILogger $logger
-	 */
 	public function __construct(Factory $appDataFactory,
 								IClientService $clientService,
 								ITimeFactory $timeFactory,
 								IConfig $config,
-								ILogger $logger) {
+								LoggerInterface $logger) {
 		$this->appData = $appDataFactory->get('appstore');
 		$this->clientService = $clientService;
 		$this->timeFactory = $timeFactory;
@@ -202,7 +195,10 @@ abstract class Fetcher {
 			$this->logger->warning('Could not connect to appstore: ' . $e->getMessage(), ['app' => 'appstoreFetcher']);
 			return [];
 		} catch (\Exception $e) {
-			$this->logger->logException($e, ['app' => 'appstoreFetcher', 'level' => ILogger::WARN]);
+			$this->logger->warning($e->getMessage(), [
+				'exception' => $e,
+				'app' => 'appstoreFetcher',
+			]);
 			return [];
 		}
 	}

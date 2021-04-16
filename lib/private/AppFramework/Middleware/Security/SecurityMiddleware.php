@@ -55,11 +55,11 @@ use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Middleware;
 use OCP\AppFramework\OCSController;
 use OCP\IL10N;
-use OCP\ILogger;
 use OCP\INavigationManager;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\Util;
+use Psr\Log\LoggerInterface;
 
 /**
  * Used to do all the authentication and checking stuff for a controller method
@@ -78,7 +78,7 @@ class SecurityMiddleware extends Middleware {
 	private $appName;
 	/** @var IURLGenerator */
 	private $urlGenerator;
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	private $logger;
 	/** @var bool */
 	private $isLoggedIn;
@@ -95,7 +95,7 @@ class SecurityMiddleware extends Middleware {
 								ControllerMethodReflector $reflector,
 								INavigationManager $navigationManager,
 								IURLGenerator $urlGenerator,
-								ILogger $logger,
+								LoggerInterface $logger,
 								string $appName,
 								bool $isLoggedIn,
 								bool $isAdminUser,
@@ -233,9 +233,8 @@ class SecurityMiddleware extends Middleware {
 				}
 			}
 
-			$this->logger->logException($exception, [
-				'level' => ILogger::DEBUG,
-				'app' => 'core',
+			$this->logger->debug($exception->getMessage(), [
+				'exception' => $exception,
 			]);
 			return $response;
 		}

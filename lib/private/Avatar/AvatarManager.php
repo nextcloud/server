@@ -45,8 +45,8 @@ use OCP\IAvatar;
 use OCP\IAvatarManager;
 use OCP\IConfig;
 use OCP\IL10N;
-use OCP\ILogger;
 use OCP\IUserSession;
+use Psr\Log\LoggerInterface;
 
 /**
  * This class implements methods to access Avatar functionality
@@ -65,7 +65,7 @@ class AvatarManager implements IAvatarManager {
 	/** @var IL10N */
 	private $l;
 
-	/** @var ILogger  */
+	/** @var LoggerInterface */
 	private $logger;
 
 	/** @var IConfig */
@@ -77,22 +77,12 @@ class AvatarManager implements IAvatarManager {
 	/** @var KnownUserService */
 	private $knownUserService;
 
-	/**
-	 * AvatarManager constructor.
-	 *
-	 * @param Manager $userManager
-	 * @param IAppData $appData
-	 * @param IL10N $l
-	 * @param ILogger $logger
-	 * @param IConfig $config
-	 * @param IUserSession $userSession
-	 */
 	public function __construct(
 			IUserSession $userSession,
 			Manager $userManager,
 			IAppData $appData,
 			IL10N $l,
-			ILogger $logger,
+			LoggerInterface $logger,
 			IConfig $config,
 			IAccountManager $accountManager,
 			KnownUserService $knownUserService
