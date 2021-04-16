@@ -8,6 +8,7 @@ OC.L10N.register(
     "Error loading {name}" : "Erreur au chargement de {name}",
     "Your browser does not support videos." : "Votre navigateur ne prend pas en charge les vidéos.",
     "Open sidebar" : "Ouvrir la barre latérale",
+    "Download" : "Télécharger",
     "Delete" : "Supprimer",
     "There is no plugin available to display this file type" : "Il n'y a pas d'extension disponible pour afficher ce type de fichier.",
     "View" : "Afficher"

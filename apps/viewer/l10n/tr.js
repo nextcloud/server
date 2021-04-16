@@ -8,6 +8,7 @@ OC.L10N.register(
     "Error loading {name}" : "{name} yüklenirken sorun çıktı",
     "Your browser does not support videos." : "Web tarayıcınız görüntüleri desteklemiyor.",
     "Open sidebar" : "Yan çubuğu aç",
+    "Download" : "İndir",
     "Delete" : "Sil",
     "There is no plugin available to display this file type" : "Bu dosya türünü görüntüleyebilecek bir uygulama eki yok",
     "View" : "Görüntüle"
