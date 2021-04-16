@@ -18,6 +18,7 @@ OC.L10N.register(
     "Federated Share request sent, you will receive an invitation. Check your notifications." : "Föderált megosztási kérés elküldve, kapni fog egy meghívót. Ellenőrizze az értesítéseit.",
     "Couldn't establish a federated share, it looks like the server to federate with is too old (Nextcloud <= 9)." : "A föderált megosztás nem hozható létre, úgy tűnik, hogy a föderálandó kiszolgáló túl régi. (Nextcloud <= 9).",
     "It is not allowed to send federated group shares from this server." : "Nem küldhet föderált csoportmegosztást erről a kiszolgálóról.",
+    "Sharing %1$s failed, because this item is already shared with user %2$s" : "%1$s megosztása sikertelen, mert már meg van osztva %2$s felhasználóval",
     "Not allowed to create a federated share with the same user" : "Azonos felhasználóval nem lehet föderált megosztást létrehozni",
     "File is already shared with %s" : "A fájl már meg van osztva vele: %s",
     "Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable or uses a self-signed certificate." : "A(z) %1$s megosztása sikertelen, a(z) %2$s nem található, talán a kiszolgáló jelenleg nem érhető el vagy önaláírt tanúsítványt használ.",
