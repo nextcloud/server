@@ -76,7 +76,7 @@ class ProviderLoader {
 			}
 		}
 
-		$registeredProviders = $this->coordinator->getRegistrationContext()->getTwoFactorProvider();
+		$registeredProviders = $this->coordinator->getRegistrationContext()->getTwoFactorProviders();
 		foreach ($registeredProviders as $provider) {
 			try {
 				$this->loadTwoFactorApp($provider->getAppId());

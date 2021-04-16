@@ -5,7 +5,7 @@
 	<name>Two factor backup codes</name>
 	<summary>A two-factor auth backup codes provider</summary>
 	<description>A two-factor auth backup codes provider</description>
-	<version>1.10.0</version>
+	<version>1.10.1</version>
 	<licence>agpl</licence>
 	<author>Christoph Wurst</author>
 	<namespace>TwoFactorBackupCodes</namespace>
@@ -21,10 +21,6 @@
 			<step>OCA\TwoFactorBackupCodes\Migration\CheckBackupCodes</step>
 		</post-migration>
 	</repair-steps>
-
-	<two-factor-providers>
-		<provider>OCA\TwoFactorBackupCodes\Provider\BackupCodesProvider</provider>
-	</two-factor-providers>
 
 	<activity>
 		<providers>
