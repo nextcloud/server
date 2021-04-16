@@ -377,7 +377,7 @@ OC.L10N.register(
     "Always ask for a password" : "Zawsze pytaj o hasło",
     "Enforce password protection" : "Wymuszaj zabezpieczenie hasłem",
     "Set default expiration date" : "Ustaw domyślną datę wygaśnięcia",
-    "Allow resharing" : "Zezwalaj na ponowne udostępnianie",
+    "Allow resharing" : "Zezwalaj na udostępnianie dalej",
     "Allow sharing with groups" : "Zezwalaj na udostępnianie grupom",
     "Restrict users to only share with users in their groups" : "Ogranicz użytkownikom możliwość udostępniania, pozwól tylko w swoich grupach",
     "Exclude groups from sharing" : "Wyklucz grupy z udostępniania",
