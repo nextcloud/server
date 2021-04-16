@@ -22,6 +22,7 @@
     "Password to access {file} was sent to {email}" : "{file} にアクセスするパスワードを {email} に送信しました",
     "Password to access %1$s was sent to you" : "%1$sにアクセスするパスワードを あなたに送信しました",
     "Password to access {file} was sent to you" : "{file} にアクセスするパスワードを あなたに送信しました",
+    "Sharing %1$s failed, because this item is already shared with user %2$s" : "ユーザー%2$sによりすでに共有されているため%1$s を共有できませんでした。",
     "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "自動生成パスワードを送信できませんでした。個人設定画面から正しいメールアドレスを設定して再度実施してください。",
     "Failed to send share by email" : "メールで共有の送信に失敗しました",
     "%1$s shared »%2$s« with you" : "%1$sが あなたと >> %2$s <<を共有しました",
