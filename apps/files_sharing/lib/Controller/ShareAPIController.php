@@ -588,7 +588,7 @@ class ShareAPIController extends OCSController {
 			}
 
 			if ($shareWith === null) {
-				throw new OCSNotFoundException($this->l->t('Please specify a valid federated user id'));
+				throw new OCSNotFoundException($this->l->t('Please specify a valid federated user ID'));
 			}
 
 			$share->setSharedWith($shareWith);
@@ -607,7 +607,7 @@ class ShareAPIController extends OCSController {
 			}
 
 			if ($shareWith === null) {
-				throw new OCSNotFoundException($this->l->t('Please specify a valid federated group id'));
+				throw new OCSNotFoundException($this->l->t('Please specify a valid federated group ID'));
 			}
 
 			$share->setSharedWith($shareWith);
