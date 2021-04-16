@@ -81,6 +81,7 @@ class Application extends App implements IBootstrap {
 	}
 
 	public function register(IRegistrationContext $context): void {
+		$context->registerNotifierService(Notifier::class);
 	}
 
 	public function boot(IBootContext $context): void {
@@ -96,8 +97,6 @@ class Application extends App implements IBootstrap {
 		) {
 			$configPrefixes = $helper->getServerConfigurationPrefixes(true);
 			if (count($configPrefixes) > 0) {
-				$notificationManager->registerNotifierService(Notifier::class);
-
 				$userPluginManager = $appContainer->get(UserPluginManager::class);
 				$groupPluginManager = $appContainer->get(GroupPluginManager::class);
 

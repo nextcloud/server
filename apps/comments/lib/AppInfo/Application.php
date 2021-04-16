@@ -75,17 +75,14 @@ class Application extends App implements IBootstrap {
 		$context->registerSearchProvider(CommentsSearchProvider::class);
 
 		$context->registerInitialStateProvider(MaxAutoCompleteResultsInitialState::class);
+
+		$context->registerNotifierService(Notifier::class);
 	}
 
 	public function boot(IBootContext $context): void {
-		$context->injectFn(Closure::fromCallable([$this, 'registerNotifier']));
 		$context->injectFn(Closure::fromCallable([$this, 'registerCommentsEventHandler']));
 
 		$context->getServerContainer()->get(ISearch::class)->registerProvider(LegacyProvider::class, ['apps' => ['files']]);
-	}
-
-	protected function registerNotifier(IServerContainer $container) {
-		$container->getNotificationManager()->registerNotifierService(Notifier::class);
 	}
 
 	protected function registerCommentsEventHandler(IServerContainer $container) {
