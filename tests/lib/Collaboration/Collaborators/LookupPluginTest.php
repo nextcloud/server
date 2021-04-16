@@ -97,7 +97,7 @@ class LookupPluginTest extends TestCase {
 			->willReturn(false);
 
 		$this->config->expects($this->at(2))
-			->method('getSystemValue')
+			->method('getSystemValueBool')
 			->with('has_internet_connection', true)
 			->willReturn(true);
 		$this->config->expects($this->at(3))
@@ -125,7 +125,7 @@ class LookupPluginTest extends TestCase {
 			->willReturn(false);
 
 		$this->config->expects($this->at(2))
-			->method('getSystemValue')
+			->method('getSystemValueBool')
 			->with('has_internet_connection', true)
 			->willReturn(false);
 
@@ -161,7 +161,7 @@ class LookupPluginTest extends TestCase {
 			->willReturn(false);
 
 		$this->config->expects($this->at(2))
-			->method('getSystemValue')
+			->method('getSystemValueBool')
 			->with('has_internet_connection', true)
 			->willReturn(true);
 		$this->config->expects($this->at(3))
@@ -224,7 +224,7 @@ class LookupPluginTest extends TestCase {
 				->with($type, $searchParams['expectedResult'], []);
 
 			$this->config->expects($this->at(2))
-				->method('getSystemValue')
+				->method('getSystemValueBool')
 				->with('has_internet_connection', true)
 				->willReturn(true);
 			$this->config->expects($this->at(3))
