@@ -28,7 +28,6 @@ declare(strict_types=1);
 
 namespace OCA\TwoFactorBackupCodes\AppInfo;
 
-use Closure;
 use OCA\TwoFactorBackupCodes\Db\BackupCodeMapper;
 use OCA\TwoFactorBackupCodes\Event\CodesGenerated;
 use OCA\TwoFactorBackupCodes\Listener\ActivityPublisher;
@@ -42,7 +41,6 @@ use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\Authentication\TwoFactorAuth\IRegistry;
-use OCP\Notification\IManager;
 use OCP\Util;
 
 class Application extends App implements IBootstrap {
@@ -54,12 +52,12 @@ class Application extends App implements IBootstrap {
 
 	public function register(IRegistrationContext $context): void {
 		$this->registerHooksAndEvents($context);
+
+		$context->registerNotifierService(Notifier::class);
 	}
 
 	public function boot(IBootContext $context): void {
 		Util::connectHook('OC_User', 'post_deleteUser', $this, 'deleteUser');
-
-		$context->injectFn(Closure::fromCallable([$this, 'registerNotification']));
 	}
 
 	/**
@@ -71,10 +69,6 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(CodesGenerated::class, ClearNotifications::class);
 		$context->registerEventListener(IRegistry::EVENT_PROVIDER_ENABLED, ProviderEnabled::class);
 		$context->registerEventListener(IRegistry::EVENT_PROVIDER_DISABLED, ProviderDisabled::class);
-	}
-
-	private function registerNotification(IManager $manager) {
-		$manager->registerNotifierService(Notifier::class);
 	}
 
 	public function deleteUser($params) {

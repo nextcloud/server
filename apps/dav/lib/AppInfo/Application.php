@@ -72,7 +72,6 @@ use OCP\IConfig;
 use OCP\ILogger;
 use OCP\IServerContainer;
 use OCP\IUser;
-use OCP\Notification\IManager as INotificationManager;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
@@ -117,6 +116,8 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(CalendarObjectCreatedEvent::class, CalendarContactInteractionListener::class);
 		$context->registerEventListener(CalendarObjectUpdatedEvent::class, CalendarContactInteractionListener::class);
 		$context->registerEventListener(CalendarShareUpdatedEvent::class, CalendarContactInteractionListener::class);
+
+		$context->registerNotifierService(Notifier::class);
 	}
 
 	public function boot(IBootContext $context): void {
@@ -126,7 +127,6 @@ class Application extends App implements IBootstrap {
 		$context->injectFn([$this, 'registerHooks']);
 		$context->injectFn([$this, 'registerContactsManager']);
 		$context->injectFn([$this, 'registerCalendarManager']);
-		$context->injectFn([$this, 'registerNotifier']);
 		$context->injectFn([$this, 'registerCalendarReminders']);
 	}
 
@@ -394,10 +394,6 @@ class Application extends App implements IBootstrap {
 										   $userId) {
 		$cm = $container->query(CalendarManager::class);
 		$cm->setupCalendarProvider($calendarManager, $userId);
-	}
-
-	public function registerNotifier(INotificationManager $manager): void {
-		$manager->registerNotifierService(Notifier::class);
 	}
 
 	public function registerCalendarReminders(NotificationProviderManager $manager,

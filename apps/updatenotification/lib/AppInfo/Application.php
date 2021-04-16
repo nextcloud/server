@@ -43,7 +43,6 @@ use OCP\IGroupManager;
 use OCP\ILogger;
 use OCP\IUser;
 use OCP\IUserSession;
-use OCP\Notification\IManager as INotificationManager;
 use OCP\Util;
 
 class Application extends App implements IBootstrap {
@@ -52,11 +51,11 @@ class Application extends App implements IBootstrap {
 	}
 
 	public function register(IRegistrationContext $context): void {
+		$context->registerNotifierService(Notifier::class);
 	}
 
 	public function boot(IBootContext $context): void {
 		$context->injectFn(function (IConfig $config,
-									 INotificationManager $notificationsManager,
 									 IUserSession $userSession,
 									 IAppManager $appManager,
 									 IGroupManager $groupManager,
@@ -66,9 +65,6 @@ class Application extends App implements IBootstrap {
 				// Updater check is disabled
 				return;
 			}
-
-			// Always register the notifier, so background jobs (without a user) can send push notifications
-			$notificationsManager->registerNotifierService(Notifier::class);
 
 			$user = $userSession->getUser();
 			if (!$user instanceof IUser) {

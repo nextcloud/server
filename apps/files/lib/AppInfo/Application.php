@@ -61,7 +61,6 @@ use OCP\IRequest;
 use OCP\IServerContainer;
 use OCP\ITagManager;
 use OCP\IUserSession;
-use OCP\Notification\IManager;
 use OCP\Share\IManager as IShareManager;
 use OCP\Util;
 use Psr\Container\ContainerInterface;
@@ -118,12 +117,13 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(LoadSidebar::class, LoadSidebarListener::class);
 
 		$context->registerSearchProvider(FilesSearchProvider::class);
+
+		$context->registerNotifierService(Notifier::class);
 	}
 
 	public function boot(IBootContext $context): void {
 		$context->injectFn(Closure::fromCallable([$this, 'registerCollaboration']));
 		$context->injectFn([Listener::class, 'register']);
-		$context->injectFn(Closure::fromCallable([$this, 'registerNotification']));
 		$context->injectFn(Closure::fromCallable([$this, 'registerSearchProvider']));
 		$this->registerTemplates();
 		$context->injectFn(Closure::fromCallable([$this, 'registerNavigation']));
@@ -132,10 +132,6 @@ class Application extends App implements IBootstrap {
 
 	private function registerCollaboration(IProviderManager $providerManager): void {
 		$providerManager->registerResourceProvider(ResourceProvider::class);
-	}
-
-	private function registerNotification(IManager $notifications): void {
-		$notifications->registerNotifierService(Notifier::class);
 	}
 
 	private function registerSearchProvider(ISearch $search): void {
