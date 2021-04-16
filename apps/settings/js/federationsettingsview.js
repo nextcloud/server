@@ -15,7 +15,8 @@
 	 * @constructs FederationScopeMenu
 	 * @memberof OC.Settings
 	 * @param {object} options
-	 * @param {bool} [options.lookupServerUploadEnabled=false] whether uploading to the lookup server is enabled
+	 * @param {bool} [options.showPublishedScope=false] whether show the
+	 *        "v2-published" scope or not
 	 */
 	var FederationSettingsView = OC.Backbone.View.extend({
 		_inputFields: undefined,
@@ -31,7 +32,7 @@
 			} else {
 				this._config = new OC.Settings.UserSettings();
 			}
-			this.showFederationScopes = !!options.showFederationScopes;
+			this.showPublishedScope = !!options.showPublishedScope;
 
 			this._inputFields = [
 				'displayname',
@@ -85,8 +86,7 @@
 					excludedScopes.push('v2-private');
 				}
 
-				if (!self.showFederationScopes) {
-					excludedScopes.push('v2-federated');
+				if (!self.showPublishedScope) {
 					excludedScopes.push('v2-published');
 				}
 
