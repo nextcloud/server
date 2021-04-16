@@ -1,7 +1,8 @@
 <?php
+
+declare(strict_types=1);
+
 /**
- *
- *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  *
@@ -56,7 +57,7 @@ class SettingsController extends Controller {
 	 *
 	 * @return JSONResponse
 	 */
-	public function createCodes() {
+	public function createCodes(): JSONResponse {
 		$user = $this->userSession->getUser();
 		$codes = $this->storage->createCodes($user);
 		return new JSONResponse([

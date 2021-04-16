@@ -1,7 +1,8 @@
 <?php
+
+declare(strict_types=1);
+
 /**
- *
- *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
