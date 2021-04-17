@@ -372,6 +372,7 @@ OC.L10N.register(
     "Expire after " : "过期于",
     "days" : "天",
     "Enforce expiration date" : "强制过期日期",
+    "Set default expiration date for shares to other servers" : "为共享给其他服务器的文件设置默认到期日",
     "Allow users to share via link and emails" : "允许用户通过链接和电子邮件分享 ",
     "Allow public uploads" : "允许公开上传",
     "Always ask for a password" : "一直要求输入密码",
