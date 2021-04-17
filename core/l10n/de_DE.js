@@ -35,7 +35,7 @@ OC.L10N.register(
     "Click the following link to reset your password. If you have not requested the password reset, then ignore this email." : "Klicken Sie zum Zurücksetzen des Passworts auf den folgenden Link. Wenn Sie das Zurücksetzen des Passworts nicht angefordert haben, ignorieren Sie bitte diese E-Mail.",
     "Reset your password" : "Setzen Sie Ihr Passwort zurück",
     "Nextcloud Server" : "Nextcloud-Server",
-    "Some of your link shares have been removed" : "Einige Links zu Ihren Freigaben wurden entfernt",
+    "Some of your link shares have been removed" : "Einige Ihrer Freigabe-Links wurden entfernt",
     "Due to a security bug we had to remove some of your link shares. Please see the link for more information." : "Aufgrund eines Sicherheitsfehlers mussten einige Link-Freigaben entfernt werden. Für weitere Informationen siehe Link.",
     "The user limit of this instance is reached." : "Die Benutzergrenze dieser Instanz ist erreicht.",
     "Enter your subscription key to increase the user limit. For more information about Nextcloud Enterprise see our website." : "Geben Sie Ihren Abonnementschlüssel ein, um die Benutzergrenze zu erhöhen. Weitere Informationen über Nextcloud für Unternehmen (Enterprise) finden Sie auf unserer Webssite.",
