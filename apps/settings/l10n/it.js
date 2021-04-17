@@ -372,6 +372,7 @@ OC.L10N.register(
     "Expire after " : "Scadenza dopo",
     "days" : "giorni",
     "Enforce expiration date" : "Forza la data di scadenza",
+    "Set default expiration date for shares to other servers" : "Imposta data di scadenza predefinita per le condivisioni di altri servizi",
     "Allow users to share via link and emails" : "Consenti agli utenti di condividere tramite collegamento e email",
     "Allow public uploads" : "Consenti caricamenti pubblici",
     "Always ask for a password" : "Chiedi sempre una password",
