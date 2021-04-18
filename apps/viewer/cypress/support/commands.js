@@ -69,21 +69,32 @@ Cypress.Commands.add('nextcloudCreateUser', (user, password) => {
 	})
 })
 
-Cypress.Commands.add('uploadFile', (fileName, mimeType, path = '') => {
+/**
+ * cy.uploadedFile - uploads a file from the fixtures folder
+ *
+ * @param {string} fixtureFileName
+ * @param {string} mimeType eg. image/png
+ * @param {string} path  to the folder in which this file should be uploaded
+ * @param {string} uploadedFileName  alternative name to give the file while uploading
+ */
+Cypress.Commands.add('uploadFile', (fixtureFileName, mimeType, path = '', uploadedFileName = null) => {
+	if(uploadedFileName === null){
+		uploadedFileName = fixtureFileName;
+	}
 	// get fixture
-	return cy.fixture(fileName, 'base64').then(file => {
+	return cy.fixture(fixtureFileName, 'base64').then(file => {
 		// convert the logo base64 string to a blob
 		const blob = Cypress.Blob.base64StringToBlob(file, mimeType)
 		try {
-			const file = new File([blob], fileName, { type: mimeType })
+			const file = new File([blob], uploadedFileName, { type: mimeType })
 			return cy.window().then(async window => {
-				await axios.put(`${Cypress.env('baseUrl')}/remote.php/webdav${path}/${fileName}`, file, {
+				await axios.put(`${Cypress.env('baseUrl')}/remote.php/webdav${path.split("/").map(encodeURIComponent).join("/")}/${encodeURIComponent(uploadedFileName)}`, file, {
 					headers: {
 						requesttoken: window.OC.requestToken,
 						'Content-Type': mimeType,
 					}
 				}).then(response => {
-					cy.log(`Uploaded ${fileName}`, response)
+					cy.log(`Uploaded ${fixtureFileName} as ${uploadedFileName}`, response)
 				})
 			})
 		} catch (error) {
@@ -103,18 +114,18 @@ Cypress.Commands.add('createFolder', dirName => {
 })
 
 Cypress.Commands.add('openFile', fileName => {
-	cy.get(`#fileList tr[data-file="${fileName}"] a.name`).click()
+	cy.get(`#fileList tr[data-file="${CSS.escape(fileName)}"] a.name`).click()
 	cy.wait(250)
 })
 
 Cypress.Commands.add('getFileId', fileName => {
-	return cy.get(`#fileList tr[data-file="${fileName}"]`)
+	return cy.get(`#fileList tr[data-file="${CSS.escape(fileName)}"]`)
 		.should('have.attr', 'data-id')
 })
 
 Cypress.Commands.add('deleteFile', fileName => {
-	cy.get(`#fileList tr[data-file="${fileName}"] a.name .action-menu`).click()
-	cy.get(`#fileList tr[data-file="${fileName}"] a.name + .popovermenu .action-delete`).click()
+	cy.get(`#fileList tr[data-file="${CSS.escape(fileName)}"] a.name .action-menu`).click()
+	cy.get(`#fileList tr[data-file="${CSS.escape(fileName)}"] a.name + .popovermenu .action-delete`).click()
 })
 
 /**
