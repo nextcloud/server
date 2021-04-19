@@ -97,14 +97,13 @@ class NativeState {
 		/** @var resource $state */
 		$state = smbclient_state_new();
 		$this->state = $state;
+		/** @psalm-suppress UnusedFunctionCall */
 		smbclient_option_set($this->state, SMBCLIENT_OPT_AUTO_ANONYMOUS_LOGIN, false);
+		/** @psalm-suppress UnusedFunctionCall */
 		smbclient_option_set($this->state, SMBCLIENT_OPT_TIMEOUT, $options->getTimeout() * 1000);
 
 		if (function_exists('smbclient_client_protocols')) {
-			$maxProtocol = $options->getMaxProtocol();
-			$minProtocol = $options->getMinProtocol();
-
-			smbclient_client_protocols($this->state, $minProtocol, $maxProtocol);
+			smbclient_client_protocols($this->state, $options->getMinProtocol(), $options->getMaxProtocol());
 		}
 
 		$auth->setExtraSmbClientOptions($this->state);
@@ -357,7 +356,9 @@ class NativeState {
 
 	public function __destruct() {
 		if ($this->connected) {
-			smbclient_state_free($this->state);
+			if (smbclient_state_free($this->state) === false) {
+				throw new Exception("Failed to free smb state");
+			}
 		}
 	}
 }
