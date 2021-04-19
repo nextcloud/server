@@ -3515,7 +3515,7 @@ class ManagerTest extends \Test\TestCase {
 		$manager->expects($this->once())->method('canShare')->willReturn(true);
 		$manager->expects($this->once())->method('getShareById')->with('foo:42')->willReturn($originalShare);
 		$manager->expects($this->once())->method('generalCreateChecks')->with($share);
-		$manager->expects($this->never())->method('verifyPassword');
+		$manager->expects($this->once())->method('verifyPassword');
 		$manager->expects($this->never())->method('pathCreateChecks');
 		$manager->expects($this->never())->method('linkCreateChecks');
 		$manager->expects($this->never())->method('validateExpirationDateLink');
@@ -3587,7 +3587,7 @@ class ManagerTest extends \Test\TestCase {
 		$manager->expects($this->once())->method('canShare')->willReturn(true);
 		$manager->expects($this->once())->method('getShareById')->with('foo:42')->willReturn($originalShare);
 		$manager->expects($this->once())->method('generalCreateChecks')->with($share);
-		$manager->expects($this->never())->method('verifyPassword');
+		$manager->expects($this->once())->method('verifyPassword');
 		$manager->expects($this->never())->method('pathCreateChecks');
 		$manager->expects($this->never())->method('linkCreateChecks');
 		$manager->expects($this->never())->method('validateExpirationDateLink');
