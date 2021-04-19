@@ -88,7 +88,7 @@ class Server extends AbstractServer {
 		$shareNames = $parser->parseListShares($output);
 
 		$shares = [];
-		foreach ($shareNames as $name => $description) {
+		foreach ($shareNames as $name => $_description) {
 			$shares[] = $this->getShare($name);
 		}
 		return $shares;

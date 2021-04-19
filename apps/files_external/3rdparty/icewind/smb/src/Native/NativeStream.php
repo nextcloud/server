@@ -52,7 +52,9 @@ abstract class NativeStream implements File {
 	 * @return resource
 	 */
 	protected static function wrapClass(NativeState $state, $smbStream, string $mode, string $url, string $class) {
-		stream_wrapper_register('nativesmb', $class);
+		if (stream_wrapper_register('nativesmb', $class) === false) {
+			throw new Exception("Failed to register stream wrapper");
+		}
 		$context = stream_context_create([
 			'nativesmb' => [
 				'state'  => $state,
@@ -61,7 +63,9 @@ abstract class NativeStream implements File {
 			]
 		]);
 		$fh = fopen('nativesmb://', $mode, false, $context);
-		stream_wrapper_unregister('nativesmb');
+		if (stream_wrapper_unregister('nativesmb') === false) {
+			throw new Exception("Failed to unregister stream wrapper");
+		}
 		return $fh;
 	}
 
