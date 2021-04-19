@@ -175,13 +175,12 @@ class Coordinator {
 				$application->boot($context);
 			}
 		} catch (QueryException $e) {
-			$this->logger->logException($e, [
-				'message' => "Could not boot $appId" . $e->getMessage(),
+			$this->logger->error("Could not boot $appId" . $e->getMessage(), [
+				'exception' => $e,
 			]);
 		} catch (Throwable $e) {
-			$this->logger->logException($e, [
-				'message' => "Could not boot $appId" . $e->getMessage(),
-				'level' => ILogger::FATAL,
+			$this->logger->emergency("Could not boot $appId" . $e->getMessage(), [
+				'exception' => $e,
 			]);
 		}
 	}

@@ -187,7 +187,7 @@ abstract class TestCase extends \Test\TestCase {
 			$userObject = $userManager->createUser($user, $password);
 			$group = $groupManager->createGroup('group');
 
-			if ($group and $userObject) {
+			if ($group && $userObject) {
 				$group->addUser($userObject);
 			}
 		}

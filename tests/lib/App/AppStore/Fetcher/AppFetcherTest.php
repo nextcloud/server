@@ -34,7 +34,7 @@ use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\Http\Client\IResponse;
 use OCP\IConfig;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class AppFetcherTest extends TestCase {
@@ -48,7 +48,7 @@ class AppFetcherTest extends TestCase {
 	protected $config;
 	/** @var CompareVersion|\PHPUnit\Framework\MockObject\MockObject */
 	protected $compareVersion;
-	/** @var ILogger|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
 	protected $logger;
 	/** @var AppFetcher */
 	protected $fetcher;
@@ -1848,7 +1848,7 @@ EJL3BaQAQaASSsvFrcozYxrQG4VzEg==
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->compareVersion = new CompareVersion();
-		$this->logger = $this->createMock(ILogger::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 
 		$this->fetcher = new AppFetcher(
 			$factory,

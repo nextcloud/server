@@ -27,12 +27,12 @@ use OC\Collaboration\Resources\Manager;
 use OCP\Collaboration\Resources\IManager;
 use OCP\Collaboration\Resources\IProviderManager;
 use OCP\IDBConnection;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class ManagerTest extends TestCase {
 
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	protected $logger;
 	/** @var IProviderManager */
 	protected $providerManager;
@@ -42,14 +42,14 @@ class ManagerTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->logger = $this->createMock(ILogger::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->providerManager = $this->createMock(IProviderManager::class);
 
 		/** @var IDBConnection $connection */
 		$connection = $this->createMock(IDBConnection::class);
 		$this->manager = new Manager($connection, $this->providerManager, $this->logger);
 	}
-	
+
 	public function testRegisterResourceProvider(): void {
 		$this->logger->expects($this->once())
 			->method('debug')

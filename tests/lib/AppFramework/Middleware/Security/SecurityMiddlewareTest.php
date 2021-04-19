@@ -39,11 +39,11 @@ use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
 use OCP\IL10N;
-use OCP\ILogger;
 use OCP\INavigationManager;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\Security\ISecureRandom;
+use Psr\Log\LoggerInterface;
 
 class SecurityMiddlewareTest extends \Test\TestCase {
 
@@ -59,7 +59,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 	private $request;
 	/** @var ControllerMethodReflector */
 	private $reader;
-	/** @var ILogger|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
 	private $logger;
 	/** @var INavigationManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $navigationManager;
@@ -75,7 +75,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 
 		$this->controller = $this->createMock(Controller::class);
 		$this->reader = new ControllerMethodReflector();
-		$this->logger = $this->createMock(ILogger::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->navigationManager = $this->createMock(INavigationManager::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->request = $this->createMock(IRequest::class);

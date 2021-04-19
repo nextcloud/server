@@ -29,13 +29,13 @@ use OC\AppFramework\Bootstrap\RegistrationContext;
 use OCP\AppFramework\App;
 use OCP\AppFramework\IAppContainer;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\ILogger;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class RegistrationContextTest extends TestCase {
 
-	/** @var ILogger|MockObject */
+	/** @var LoggerInterface|MockObject */
 	private $logger;
 
 	/** @var RegistrationContext */
@@ -44,7 +44,7 @@ class RegistrationContextTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->logger = $this->createMock(ILogger::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 
 		$this->context = new RegistrationContext(
 			$this->logger
