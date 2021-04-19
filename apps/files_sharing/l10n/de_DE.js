@@ -120,7 +120,7 @@ OC.L10N.register(
     "Sharing %s failed because the back end does not support room shares" : "Freigabe von %s fehlgeschlagen, da das Backend die Freigabe von Räumen nicht unterstützt",
     "Unknown share type" : "Unbekannter Freigabetyp",
     "Not a directory" : "Kein Verzeichnis",
-    "Could not lock node" : "Node konnte nicht gesperrt werden",
+    "Could not lock node" : "Knotenpunkt konnte nicht gesperrt werden",
     "Could not lock path" : "Pfad konnte nicht gesperrt werden",
     "Wrong or no update parameter given" : "Es wurde ein falscher oder kein Updateparameter angegeben",
     "Can't change permissions for public share links" : "Berechtigungen für öffentlich freigegebene Links konnten nicht geändert werden",

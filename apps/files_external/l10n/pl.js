@@ -65,7 +65,7 @@ OC.L10N.register(
     "Client secret" : "Sekret klienta",
     "OpenStack v2" : "OpenStack v2",
     "Tenant name" : "Nazwa dzierżawcy",
-    "Identity endpoint URL" : "Adres końcówki identyfikującej",
+    "Identity endpoint URL" : "Adres URL punktu końcowego tożsamości",
     "OpenStack v3" : "OpenStack v3",
     "Domain" : "Domena",
     "Rackspace" : "Rackspace",
