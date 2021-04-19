@@ -141,7 +141,7 @@ class ShareesAPIController extends OCSController {
 	 * @return DataResponse
 	 * @throws OCSBadRequestException
 	 */
-	public function search(string $search = '', string $itemType = null, int $page = 1, int $perPage = 200, $shareType = null, bool $lookup = true): DataResponse {
+	public function search(string $search = '', string $itemType = null, int $page = 1, int $perPage = 200, $shareType = null, bool $lookup = false): DataResponse {
 
 		// only search for string larger than a given threshold
 		$threshold = (int)$this->config->getSystemValue('sharing.minSearchStringLength', 0);
