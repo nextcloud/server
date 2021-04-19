@@ -450,6 +450,18 @@ export default class Share {
 	}
 
 	// PERMISSIONS Shortcuts
+
+	/**
+	 * Does this share have READ permissions
+	 *
+	 * @returns {boolean}
+	 * @readonly
+	 * @memberof Share
+	 */
+	get hasReadPermission() {
+		return !!((this.permissions & OC.PERMISSION_READ))
+	}
+
 	/**
 	 * Does this share have CREATE permissions
 	 *

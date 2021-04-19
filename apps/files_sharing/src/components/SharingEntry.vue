@@ -327,6 +327,16 @@ export default {
 		},
 
 		/**
+		 * Is this share readable
+		 * Needed for some federated shares that might have been added from file drop links
+		 */
+		hasRead: {
+			get() {
+				return this.share.hasReadPermission
+			},
+		},
+
+		/**
 		 * Is the current share a folder ?
 		 * @returns {boolean}
 		 */
@@ -377,7 +387,8 @@ export default {
 	methods: {
 		updatePermissions({ isEditChecked = this.canEdit, isCreateChecked = this.canCreate, isDeleteChecked = this.canDelete, isReshareChecked = this.canReshare } = {}) {
 			// calc permissions if checked
-			const permissions = this.permissionsRead
+			const permissions = 0
+				| (this.hasRead ? this.permissionsRead : 0)
 				| (isCreateChecked ? this.permissionsCreate : 0)
 				| (isDeleteChecked ? this.permissionsDelete : 0)
 				| (isEditChecked ? this.permissionsEdit : 0)
