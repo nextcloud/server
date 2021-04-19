@@ -37,6 +37,7 @@ use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
+use OCP\Constants;
 use OCP\Federation\ICloudIdManager;
 use OCP\Http\Client\IClientService;
 use OCP\IL10N;
@@ -151,6 +152,15 @@ class MountPublicLinkController extends Controller {
 		if (!empty($storedPassword) && !$authenticated) {
 			$response = new JSONResponse(
 				['message' => 'No permission to access the share'],
+				Http::STATUS_BAD_REQUEST
+			);
+			$response->throttle();
+			return $response;
+		}
+
+		if (($share->getPermissions() & Constants::PERMISSION_READ) === 0) {
+			$response = new JSONResponse(
+				['message' => 'Mounting file drop not supported'],
 				Http::STATUS_BAD_REQUEST
 			);
 			$response->throttle();
