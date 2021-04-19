@@ -10,6 +10,7 @@
 namespace Test\DB;
 
 use Doctrine\DBAL\Exception;
+use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Platforms\MySQLPlatform;
 use Doctrine\DBAL\Platforms\OraclePlatform;
 use Doctrine\DBAL\Platforms\PostgreSQL94Platform;
@@ -21,6 +22,7 @@ use OC\DB\MySQLMigrator;
 use OC\DB\OracleMigrator;
 use OC\DB\PostgreSqlMigrator;
 use OC\DB\SQLiteMigrator;
+use OCP\DB\Types;
 use OCP\IConfig;
 
 /**
@@ -52,9 +54,6 @@ class MigratorTest extends \Test\TestCase {
 
 		$this->config = \OC::$server->getConfig();
 		$this->connection = \OC::$server->get(\OC\DB\Connection::class);
-		if ($this->connection->getDatabasePlatform() instanceof OraclePlatform) {
-			$this->markTestSkipped('DB migration tests are not supported on OCI');
-		}
 
 		$this->tableName = $this->getUniqueTableName();
 		$this->tableNameTmp = $this->getUniqueTableName();
@@ -256,5 +255,52 @@ class MigratorTest extends \Test\TestCase {
 
 
 		$this->assertTrue($startSchema->getTable($this->tableNameTmp)->hasForeignKey($fkName));
+	}
+
+	public function dataNotNullEmptyValuesFailOracle(): array {
+		return [
+			[ParameterType::BOOLEAN, true, Types::BOOLEAN, false],
+			[ParameterType::BOOLEAN, false, Types::BOOLEAN, true],
+
+			[ParameterType::STRING, 'foo', Types::STRING, false],
+			[ParameterType::STRING, '', Types::STRING, true],
+
+			[ParameterType::INTEGER, 1234, Types::INTEGER, false],
+			[ParameterType::INTEGER, 0, Types::INTEGER, false], // Integer 0 is not stored as Null and therefor works
+		];
+	}
+
+	/**
+	 * @dataProvider dataNotNullEmptyValuesFailOracle
+	 *
+	 * @param int $parameterType
+	 * @param bool|int|string $value
+	 * @param string $columnType
+	 * @param bool $oracleThrows
+	 */
+	public function testNotNullEmptyValuesFailOracle(int $parameterType, $value, string $columnType, bool $oracleThrows): void {
+		$startSchema = new Schema([], [], $this->getSchemaConfig());
+		$table = $startSchema->createTable($this->tableName);
+		$table->addColumn('id', Types::BIGINT);
+		$table->addColumn('will_it_blend', $columnType, [
+			'notnull' => true,
+		]);
+		$table->addIndex(['id'], $this->tableName . '_id');
+
+		$migrator = $this->getMigrator();
+		$migrator->migrate($startSchema);
+
+		if ($oracleThrows && $this->connection->getDatabasePlatform() instanceof OraclePlatform) {
+			// Oracle can not store false|empty string in notnull columns
+			$this->expectException(\Doctrine\DBAL\Exception\NotNullConstraintViolationException::class);
+		}
+
+		$this->connection->insert(
+			$this->tableName,
+			['id' => 1, 'will_it_blend' => $value],
+			['id' => ParameterType::INTEGER, 'will_it_blend' => $parameterType],
+		);
+
+		$this->addToAssertionCount(1);
 	}
 }
