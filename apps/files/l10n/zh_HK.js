@@ -27,7 +27,7 @@ OC.L10N.register(
     "Target folder does not exist any more" : "目標資料夾已經不存在了",
     "Operation is blocked by access control" : "操作已被存取控制封鎖",
     "Error when assembling chunks, status code {status}" : "重組檔案片段時出錯，狀態代碼 {status}",
-    "Actions" : "動作",
+    "Actions" : "操作",
     "Rename" : "重新命名",
     "Copy" : "複製",
     "Choose target folder" : "選擇目標資料夾",
