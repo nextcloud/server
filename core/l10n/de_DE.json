@@ -36,7 +36,7 @@
     "Some of your link shares have been removed" : "Einige Ihrer Freigabe-Links wurden entfernt",
     "Due to a security bug we had to remove some of your link shares. Please see the link for more information." : "Aufgrund eines Sicherheitsfehlers mussten einige Link-Freigaben entfernt werden. Für weitere Informationen siehe Link.",
     "The user limit of this instance is reached." : "Die Benutzergrenze dieser Instanz ist erreicht.",
-    "Enter your subscription key to increase the user limit. For more information about Nextcloud Enterprise see our website." : "Geben Sie Ihren Abonnementschlüssel ein, um die Benutzergrenze zu erhöhen. Weitere Informationen über Nextcloud für Unternehmen (Enterprise) finden Sie auf unserer Webssite.",
+    "Enter your subscription key to increase the user limit. For more information about Nextcloud Enterprise see our website." : "Geben Sie Ihren Abonnementschlüssel ein, um die Benutzergrenze zu erhöhen. Weitere Informationen über Nextcloud für Unternehmen (Enterprise) finden Sie auf unserer Webseite.",
     "Preparing update" : "Update vorbereiten",
     "[%d / %d]: %s" : "[%d / %d]: %s",
     "Repair step:" : "Reparaturschritt:",

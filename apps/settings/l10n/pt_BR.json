@@ -370,6 +370,7 @@
     "Expire after " : "Expirar depois de",
     "days" : "dias",
     "Enforce expiration date" : "Fazer cumprir a data de expiração",
+    "Set default expiration date for shares to other servers" : "Defina a data de expiração padrão para compartilhamentos com outros servidores",
     "Allow users to share via link and emails" : "Permitir que os usuários compartilhem via link e e-mails",
     "Allow public uploads" : "Permitir envio público",
     "Always ask for a password" : "Sempre pedir a senha",
