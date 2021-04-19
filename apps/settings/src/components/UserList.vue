@@ -93,7 +93,7 @@
 					:disabled="loading.groups||loading.all"
 					:multiple="true"
 					:options="canAddGroups"
-					:placeholder="t('settings', 'Add user in group')"
+					:placeholder="t('settings', 'Add user to group')"
 					:tag-width="60"
 					:taggable="true"
 					class="multiselect-vue"
