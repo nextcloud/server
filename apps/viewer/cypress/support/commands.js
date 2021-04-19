@@ -65,7 +65,11 @@ Cypress.Commands.add('nextcloudCreateUser', (user, password) => {
 			Authorization: `Basic ${btoa('admin:admin')}`,
 		},
 	}).then(response => {
-		cy.log(`Created user ${user}`, response.status)
+		if(response.body.ocs.meta.status.toLowerCase() == "ok"){
+			cy.log(`Created user ${user}`, response.status)
+		} else {
+			throw new Error(`Unable to create user`)
+		}
 	})
 })
 
