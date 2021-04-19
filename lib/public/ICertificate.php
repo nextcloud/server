@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -33,47 +36,47 @@ interface ICertificate {
 	 * @return string
 	 * @since 8.0.0
 	 */
-	public function getName();
+	public function getName(): string;
 
 	/**
-	 * @return string
+	 * @return string|null
 	 * @since 8.0.0
 	 */
-	public function getCommonName();
+	public function getCommonName(): ?string;
 
 	/**
-	 * @return string
+	 * @return string|null
 	 * @since 8.0.0
 	 */
-	public function getOrganization();
-
-	/**
-	 * @return \DateTime
-	 * @since 8.0.0
-	 */
-	public function getIssueDate();
+	public function getOrganization(): ?string;
 
 	/**
 	 * @return \DateTime
 	 * @since 8.0.0
 	 */
-	public function getExpireDate();
+	public function getIssueDate(): \DateTime;
+
+	/**
+	 * @return \DateTime
+	 * @since 8.0.0
+	 */
+	public function getExpireDate(): \DateTime;
 
 	/**
 	 * @return bool
 	 * @since 8.0.0
 	 */
-	public function isExpired();
+	public function isExpired(): bool;
 
 	/**
-	 * @return string
+	 * @return string|null
 	 * @since 8.0.0
 	 */
-	public function getIssuerName();
+	public function getIssuerName(): ?string;
 
 	/**
-	 * @return string
+	 * @return string|null
 	 * @since 8.0.0
 	 */
-	public function getIssuerOrganization();
+	public function getIssuerOrganization(): ?string;
 }

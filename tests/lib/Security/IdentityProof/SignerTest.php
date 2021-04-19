@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright 2016, Roeland Jago Douma <roeland@famdouma.nl>
  *
