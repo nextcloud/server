@@ -208,7 +208,7 @@ OC.L10N.register(
     "Continue" : "Sighi",
     "(all selected)" : "(totu seletzionadu)",
     "({count} selected)" : "({count} seletzionadu)",
-    "Pending" : "In isetu",
+    "Pending" : "In suspesu",
     "Copy to {folder}" : "Còpia in {folder}",
     "Move to {folder}" : "Tràmuda a {folder}",
     "Saving …" : "Sarvende …",
