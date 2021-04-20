@@ -20,7 +20,7 @@ OC.L10N.register(
     "No comments yet, start the conversation!" : "Ancora perunu cummentu, cumintza sa cunversatzione!",
     "No more messages" : "Perunu àteru messàgiu",
     "Retry" : "Torra a proare",
-    "Unable to load the comments list" : "Impossìbile a carrigare sa lista de cummentos",
+    "Unable to load the comments list" : "Non faghet a carrigare sa lista de cummentos",
     "_%n unread comment_::_%n unread comments_" : ["%n cummentu non lèghidu","%n cummentos non lèghidos"],
     "_1 new comment_::_{unread} new comments_" : ["1 cummentu nou","{unread} cummentos noos"],
     "Comment" : "Cummenta",
