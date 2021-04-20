@@ -306,6 +306,13 @@ window.addEventListener('DOMContentLoaded', function () {
 
 	$('#uploadavatar').fileupload(uploadparms);
 
+	// Trigger upload action also with keyboard navigation on enter
+	$('#uploadavatarbutton').on('keyup', function(event) {
+		if (event.key === ' ' || event.key === 'Enter') {
+			$('#uploadavatar').trigger('click');
+		}
+	});
+
 	$('#selectavatar').click(function () {
 		OC.dialogs.filepicker(
 			t('settings', "Select a profile picture"),
