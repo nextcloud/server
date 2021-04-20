@@ -29,6 +29,7 @@ namespace OCA\DAV\Tests\unit\DAV\Migration;
 use OCA\DAV\BackgroundJob\RefreshWebcalJob;
 use OCA\DAV\Migration\RefreshWebcalJobRegistrar;
 use OCP\BackgroundJob\IJobList;
+use OCP\DB\IResult;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\Migration\IOutput;
@@ -62,7 +63,7 @@ class RefreshWebcalJobRegistrarTest extends TestCase {
 		$output = $this->createMock(IOutput::class);
 
 		$queryBuilder = $this->createMock(IQueryBuilder::class);
-		$statement = $this->createMock(\Doctrine\DBAL\Driver\Statement::class);
+		$statement = $this->createMock(IResult::class);
 
 		$this->db->expects($this->once())
 			->method('getQueryBuilder')

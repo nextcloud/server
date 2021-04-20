@@ -34,6 +34,8 @@ use OCA\DAV\CalDAV\InvitationResponse\InvitationResponseServer;
 use OCA\DAV\Controller\InvitationResponseController;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\DB\IResult;
+use OCP\DB\QueryBuilder\IExpressionBuilder;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\IRequest;
@@ -408,8 +410,8 @@ EOF;
 
 	private function buildQueryExpects($token, $return, $time) {
 		$queryBuilder = $this->createMock(IQueryBuilder::class);
-		$stmt = $this->createMock(\Doctrine\DBAL\Driver\Statement::class);
-		$expr = $this->createMock(\OCP\DB\QueryBuilder\IExpressionBuilder::class);
+		$stmt = $this->createMock(IResult::class);
+		$expr = $this->createMock(IExpressionBuilder::class);
 
 		$this->dbConnection->expects($this->once())
 			->method('getQueryBuilder')
