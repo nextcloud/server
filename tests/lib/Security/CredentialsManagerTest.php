@@ -21,14 +21,11 @@
 
 namespace Test\Security;
 
-use OC\DB\ConnectionAdapter;
 use OC\Security\CredentialsManager;
-use OC\SystemConfig;
 use OCP\DB\IResult;
 use OCP\DB\QueryBuilder\IExpressionBuilder;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
-use OCP\ILogger;
 use OCP\Security\ICrypto;
 
 /**
