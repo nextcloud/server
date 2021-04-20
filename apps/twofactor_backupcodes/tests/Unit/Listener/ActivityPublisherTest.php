@@ -89,8 +89,7 @@ class ActivityPublisherTest extends TestCase {
 			->with('fritz')
 			->willReturnSelf();
 		$this->activityManager->expects($this->once())
-			->method('publish')
-			->willReturn($activityEvent);
+			->method('publish');
 
 		$this->listener->handle($event);
 	}
