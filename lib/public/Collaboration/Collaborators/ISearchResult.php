@@ -46,6 +46,14 @@ interface ISearchResult {
 	public function hasResult(SearchResultType $type, $collaboratorId);
 
 	/**
+	 * Removes all result where $collaborationId exactly matches shareWith of
+	 * any of wide and exact result matches of the given type.
+	 *
+	 * @since 22.0.0
+	 */
+	public function removeCollaboratorResult(SearchResultType $type, string $collaboratorId): bool;
+
+	/**
 	 * @param SearchResultType $type
 	 * @since 13.0.0
 	 */
