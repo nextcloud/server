@@ -257,7 +257,7 @@ class SMB extends Common implements INotifyStorage {
 						// additionally, it's better to have false negatives here then false positives
 						if ($acl->denies(ACL::MASK_READ) || $acl->denies(ACL::MASK_EXECUTE)) {
 							$this->logger->debug('Hiding non readable entry ' . $file->getName());
-							return false;
+							continue;
 						}
 					}
 
