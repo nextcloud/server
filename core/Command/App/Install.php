@@ -50,11 +50,18 @@ class Install extends Command {
 				InputOption::VALUE_NONE,
 				'don\'t enable the app afterwards'
 			)
+			->addOption(
+				'force',
+				'f',
+				InputOption::VALUE_NONE,
+				'install the app regardless of the Nextcloud version requirement'
+			)
 		;
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$appId = $input->getArgument('app-id');
+		$forceEnable = (bool) $input->getOption('force');
 
 		if (\OC_App::getAppPath($appId)) {
 			$output->writeln($appId . ' already installed');
@@ -65,7 +72,7 @@ class Install extends Command {
 			/** @var Installer $installer */
 			$installer = \OC::$server->query(Installer::class);
 			$installer->downloadApp($appId);
-			$result = $installer->installApp($appId);
+			$result = $installer->installApp($appId, $forceEnable);
 		} catch (\Exception $e) {
 			$output->writeln('Error: ' . $e->getMessage());
 			return 1;
