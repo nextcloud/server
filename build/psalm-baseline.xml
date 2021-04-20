@@ -1615,9 +1615,6 @@
       <code>$e-&gt;getCode()</code>
       <code>$e-&gt;getCode()</code>
     </InvalidScalarArgument>
-    <NullableReturnStatement occurrences="1">
-      <code>null</code>
-    </NullableReturnStatement>
     <ParamNameMismatch occurrences="2">
       <code>$source</code>
       <code>$target</code>
@@ -1660,12 +1657,6 @@
     <TooManyArguments occurrences="1">
       <code>test</code>
     </TooManyArguments>
-    <UndefinedClass occurrences="1">
-      <code>Exception</code>
-    </UndefinedClass>
-    <UndefinedDocblockClass occurrences="1">
-      <code>Exception</code>
-    </UndefinedDocblockClass>
   </file>
   <file src="apps/files_external/lib/Service/BackendService.php">
     <InvalidArgument occurrences="1">
@@ -1838,10 +1829,6 @@
     </InvalidDocblock>
   </file>
   <file src="apps/files_sharing/lib/External/Scanner.php">
-    <InvalidNullableReturnType occurrences="2">
-      <code>scan</code>
-      <code>array</code>
-    </InvalidNullableReturnType>
     <InvalidScalarArgument occurrences="1">
       <code>$recursive</code>
     </InvalidScalarArgument>
@@ -1881,14 +1868,6 @@
     <ImplicitToStringCast occurrences="1">
       <code>$query-&gt;createNamedParameter([IShare::TYPE_USER, IShare::TYPE_GROUP, IShare::TYPE_USERGROUP], IQueryBuilder::PARAM_INT_ARRAY)</code>
     </ImplicitToStringCast>
-  </file>
-  <file src="apps/files_sharing/lib/Scanner.php">
-    <InvalidNullableReturnType occurrences="1">
-      <code>array</code>
-    </InvalidNullableReturnType>
-    <NullableReturnStatement occurrences="1">
-      <code>null</code>
-    </NullableReturnStatement>
   </file>
   <file src="apps/files_sharing/lib/ShareBackend/File.php">
     <InvalidScalarArgument occurrences="2">
@@ -3959,16 +3938,6 @@
       <code>$data</code>
     </UndefinedInterfaceMethod>
   </file>
-  <file src="lib/private/Files/Cache/LocalRootScanner.php">
-    <InvalidNullableReturnType occurrences="2">
-      <code>scanFile</code>
-      <code>scan</code>
-    </InvalidNullableReturnType>
-    <NullableReturnStatement occurrences="2">
-      <code>null</code>
-      <code>null</code>
-    </NullableReturnStatement>
-  </file>
   <file src="lib/private/Files/Cache/Propagator.php">
     <ImplicitToStringCast occurrences="4">
       <code>$builder-&gt;func()-&gt;greatest('mtime', $builder-&gt;createNamedParameter((int)$time, IQueryBuilder::PARAM_INT))</code>
@@ -3985,9 +3954,6 @@
     </InvalidScalarArgument>
   </file>
   <file src="lib/private/Files/Cache/Scanner.php">
-    <InvalidNullableReturnType occurrences="1">
-      <code>array</code>
-    </InvalidNullableReturnType>
     <InvalidReturnStatement occurrences="1">
       <code>$existingChildren</code>
     </InvalidReturnStatement>
@@ -3998,12 +3964,6 @@
       <code>$path</code>
       <code>self::SCAN_RECURSIVE_INCOMPLETE</code>
     </InvalidScalarArgument>
-    <NullableReturnStatement occurrences="4">
-      <code>null</code>
-      <code>null</code>
-      <code>null</code>
-      <code>null</code>
-    </NullableReturnStatement>
     <TypeDoesNotContainType occurrences="1">
       <code>$data ?? $this-&gt;getData($file)</code>
     </TypeDoesNotContainType>
@@ -4399,8 +4359,7 @@
     <ImplementedReturnTypeMismatch occurrences="1">
       <code>string|false</code>
     </ImplementedReturnTypeMismatch>
-    <InvalidNullableReturnType occurrences="2">
-      <code>getMetaData</code>
+    <InvalidNullableReturnType occurrences="1">
       <code>array</code>
     </InvalidNullableReturnType>
     <InvalidOperand occurrences="1">
@@ -4422,8 +4381,7 @@
       <code>$storage-&gt;updater</code>
       <code>$storage-&gt;updater</code>
     </NoInterfaceProperties>
-    <NullableReturnStatement occurrences="2">
-      <code>null</code>
+    <NullableReturnStatement occurrences="1">
       <code>$this-&gt;getStorageCache()-&gt;getAvailability()</code>
     </NullableReturnStatement>
   </file>
@@ -4527,9 +4485,6 @@
     <ImplicitToStringCast occurrences="1">
       <code>$file</code>
     </ImplicitToStringCast>
-    <InvalidNullableReturnType occurrences="1">
-      <code>getMetaData</code>
-    </InvalidNullableReturnType>
     <InvalidReturnStatement occurrences="3">
       <code>$helper-&gt;getFileSize($fullPath)</code>
       <code>file_put_contents($this-&gt;getSourcePath($path), $data)</code>
@@ -4540,8 +4495,7 @@
       <code>file_put_contents</code>
       <code>free_space</code>
     </InvalidReturnType>
-    <NullableReturnStatement occurrences="2">
-      <code>null</code>
+    <NullableReturnStatement occurrences="1">
       <code>$helper-&gt;getFileSize($fullPath)</code>
     </NullableReturnStatement>
     <TypeDoesNotContainNull occurrences="2">
@@ -4559,7 +4513,7 @@
     </NoInterfaceProperties>
   </file>
   <file src="lib/private/Files/Storage/Wrapper/Availability.php">
-    <InvalidNullableReturnType occurrences="34">
+    <InvalidNullableReturnType occurrences="33">
       <code>mkdir</code>
       <code>rmdir</code>
       <code>opendir</code>
@@ -4593,7 +4547,6 @@
       <code>getDirectDownload</code>
       <code>copyFromStorage</code>
       <code>moveFromStorage</code>
-      <code>getMetaData</code>
     </InvalidNullableReturnType>
     <InvalidReturnType occurrences="1">
       <code>\Traversable</code>
@@ -4654,9 +4607,6 @@
       <code>$source</code>
       <code>$target</code>
     </InvalidArgument>
-    <InvalidNullableReturnType occurrences="1">
-      <code>array</code>
-    </InvalidNullableReturnType>
     <InvalidReturnStatement occurrences="2">
       <code>$written</code>
       <code>$newUnencryptedSize</code>
@@ -4669,9 +4619,6 @@
       <code>$lastChunkPos</code>
       <code>$newUnencryptedSize</code>
     </InvalidScalarArgument>
-    <NullableReturnStatement occurrences="1">
-      <code>null</code>
-    </NullableReturnStatement>
     <UndefinedInterfaceMethod occurrences="7">
       <code>$info</code>
       <code>$info</code>
@@ -5112,12 +5059,6 @@
       <code>exec</code>
       <code>exec</code>
     </InvalidMethodCall>
-    <InvalidReturnStatement occurrences="1">
-      <code>self::$cache-&gt;exists($this-&gt;getNameSpace() . $key)</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
-      <code>hasKey</code>
-    </InvalidReturnType>
   </file>
   <file src="lib/private/Migration/BackgroundRepair.php">
     <MoreSpecificImplementedParamType occurrences="1">
