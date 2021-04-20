@@ -4,6 +4,7 @@
     "See %s" : "Ikusi %s",
     "Sample configuration detected" : "Adibide-ezarpena detektatua",
     "It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php" : "Detektatu da adibide-ezarpena kopiatu dela. Honek zure instalazioa apur dezake eta ez da onartzen. Irakurri dokumentazioa config.php fitxategia aldatu aurretik.",
+    "Other activities" : "Beste jarduerak",
     "%1$s and %2$s" : "%1$s eta %2$s",
     "%1$s, %2$s and %3$s" : "%1$s, %2$s eta %3$s",
     "%1$s, %2$s, %3$s and %4$s" : "%1$s, %2$s, %3$s eta %4$s",
