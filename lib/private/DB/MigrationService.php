@@ -587,12 +587,12 @@ class MigrationService {
 					throw new \InvalidArgumentException('Column name "' . $table->getName() . '"."' . $thing->getName() . '" is too long.');
 				}
 
-				if ($thing->getNotnull() && $thing->getDefault() === ''
+				if ((!$sourceTable instanceof Table || !$sourceTable->hasColumn($thing->getName())) && $thing->getNotnull() && $thing->getDefault() === ''
 					&& $sourceTable instanceof Table && !$sourceTable->hasColumn($thing->getName())) {
 					throw new \InvalidArgumentException('Column "' . $table->getName() . '"."' . $thing->getName() . '" is NotNull, but has empty string or null as default.');
 				}
 
-				if ($thing->getNotnull() && $thing->getType()->getName() === Types::BOOLEAN) {
+				if ((!$sourceTable instanceof Table || !$sourceTable->hasColumn($thing->getName())) && $thing->getNotnull() && $thing->getType()->getName() === Types::BOOLEAN) {
 					throw new \InvalidArgumentException('Column "' . $table->getName() . '"."' . $thing->getName() . '" is type Bool and also NotNull, so it can not store "false".');
 				}
 			}
