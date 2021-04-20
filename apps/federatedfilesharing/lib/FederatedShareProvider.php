@@ -35,6 +35,7 @@ namespace OCA\FederatedFileSharing;
 
 use OC\Share20\Exception\InvalidShare;
 use OC\Share20\Share;
+use OCP\Constants;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Federation\ICloudIdManager;
@@ -204,6 +205,13 @@ class FederatedShareProvider implements IShareProvider {
 			throw new \Exception($message_t);
 		}
 
+		// Federated shares always have read permissions
+		if (($share->getPermissions() & Constants::PERMISSION_READ) === 0) {
+			$message = 'Federated shares require read permissions';
+			$message_t = $this->l->t('Federated shares require read permissions');
+			$this->logger->debug($message, ['app' => 'Federated File Sharing']);
+			throw new \Exception($message_t);
+		}
 
 		$share->setSharedWith($cloudId->getId());
 
