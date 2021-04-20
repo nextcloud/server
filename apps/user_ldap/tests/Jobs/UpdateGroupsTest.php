@@ -26,9 +26,9 @@ declare(strict_types=1);
 
 namespace OCA\user_ldap\tests\Jobs;
 
-use Doctrine\DBAL\Driver\Statement;
 use OCA\User_LDAP\Group_Proxy;
 use OCA\User_LDAP\Jobs\UpdateGroups;
+use OCP\DB\IResult;
 use OCP\DB\QueryBuilder\IExpressionBuilder;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -124,7 +124,7 @@ class UpdateGroupsTest extends TestCase {
 			->method('expr')
 			->willReturn($this->createMock(IExpressionBuilder::class));
 
-		$stmt = $this->createMock(Statement::class);
+		$stmt = $this->createMock(IResult::class);
 		$stmt->expects($this->once())
 			->method('fetchAll')
 			->willReturn($knownGroupsDB);
