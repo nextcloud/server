@@ -24,6 +24,9 @@ namespace Test\Security;
 use OC\DB\ConnectionAdapter;
 use OC\Security\CredentialsManager;
 use OC\SystemConfig;
+use OCP\DB\IResult;
+use OCP\DB\QueryBuilder\IExpressionBuilder;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\ILogger;
 use OCP\Security\ICrypto;
@@ -39,9 +42,6 @@ class CredentialsManagerTest extends \Test\TestCase {
 	/** @var IDBConnection */
 	protected $dbConnection;
 
-	/** @var ConnectionAdapter */
-	protected $dbConnectionAdapter;
-
 	/** @var CredentialsManager */
 	protected $manager;
 
@@ -51,16 +51,11 @@ class CredentialsManagerTest extends \Test\TestCase {
 		$this->dbConnection = $this->getMockBuilder(IDBConnection::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$this->dbConnectionAdapter = $this->getMockBuilder(ConnectionAdapter::class)
-			->disableOriginalConstructor()
-			->getMock();
 		$this->manager = new CredentialsManager($this->crypto, $this->dbConnection);
 	}
 
 	private function getQueryResult($row) {
-		$result = $this->getMockBuilder('\Doctrine\DBAL\Driver\Statement')
-			->disableOriginalConstructor()
-			->getMock();
+		$result = $this->createMock(IResult::class);
 
 		$result->expects($this->any())
 			->method('fetch')
@@ -98,19 +93,17 @@ class CredentialsManagerTest extends \Test\TestCase {
 			->with('baz')
 			->willReturn(json_encode('bar'));
 
-		$qb = $this->getMockBuilder(\OC\DB\QueryBuilder\QueryBuilder::class)
-			->setConstructorArgs([
-				$this->dbConnectionAdapter,
-				$this->createMock(SystemConfig::class),
-				$this->createMock(ILogger::class),
-			])
-			->setMethods(['execute'])
-			->getMock();
+		$eb = $this->createMock(IExpressionBuilder::class);
+		$qb = $this->createMock(IQueryBuilder::class);
+		$qb->method('select')->willReturnSelf();
+		$qb->method('from')->willReturnSelf();
+		$qb->method('where')->willReturnSelf();
+		$qb->method('expr')->willReturn($eb);
 		$qb->expects($this->once())
 			->method('execute')
 			->willReturn($this->getQueryResult(['credentials' => 'baz']));
 
-		$this->dbConnectionAdapter->expects($this->once())
+		$this->dbConnection->expects($this->once())
 			->method('getQueryBuilder')
 			->willReturn($qb);
 
