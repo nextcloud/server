@@ -1008,7 +1008,8 @@ class Manager implements IManager {
 			// The new password is not set again if it is the same as the old
 			// one.
 			$plainTextPassword = $share->getPassword();
-			if (!empty($plainTextPassword) && !$this->updateSharePasswordIfNeeded($share, $originalShare)) {
+			$updatedPassword = $this->updateSharePasswordIfNeeded($share, $originalShare);
+			if (!empty($plainTextPassword) && !$updatedPassword) {
 				$plainTextPassword = null;
 			}
 			if (empty($plainTextPassword) && !$originalShare->getSendPasswordByTalk() && $share->getSendPasswordByTalk()) {
@@ -1116,9 +1117,13 @@ class Manager implements IManager {
 			$this->verifyPassword($share->getPassword());
 
 			// If a password is set. Hash it!
-			if ($share->getPassword() !== null) {
+			if (!empty($share->getPassword())) {
 				$share->setPassword($this->hasher->hash($share->getPassword()));
 
+				return true;
+			} else {
+				// Empty string and null are seen as NOT password protected
+				$share->setPassword(null);
 				return true;
 			}
 		} else {
