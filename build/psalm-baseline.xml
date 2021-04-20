@@ -59,11 +59,6 @@
       <code>\Sabre\Uri\split($this-&gt;principalUri)</code>
     </UndefinedFunction>
   </file>
-  <file src="apps/contactsinteraction/lib/Card.php">
-    <InvalidReturnType occurrences="1">
-      <code>?string</code>
-    </InvalidReturnType>
-  </file>
   <file src="apps/dav/appinfo/v1/caldav.php">
     <TooManyArguments occurrences="1">
       <code>new \Sabre\DAV\Auth\Plugin($authBackend, 'ownCloud')</code>
@@ -506,11 +501,6 @@
     <InvalidScalarArgument occurrences="1">
       <code>$targetBookId</code>
     </InvalidScalarArgument>
-  </file>
-  <file src="apps/dav/lib/CardDAV/SystemAddressbook.php">
-    <RedundantCondition occurrences="1">
-      <code>$shareEnumeration</code>
-    </RedundantCondition>
   </file>
   <file src="apps/dav/lib/CardDAV/UserAddressBooks.php">
     <InvalidArgument occurrences="2">
@@ -1464,9 +1454,6 @@
       <code>$e-&gt;getCode()</code>
       <code>$e-&gt;getCode()</code>
     </InvalidScalarArgument>
-    <NullableReturnStatement occurrences="1">
-      <code>null</code>
-    </NullableReturnStatement>
     <ParamNameMismatch occurrences="2">
       <code>$source</code>
       <code>$target</code>
@@ -1506,12 +1493,6 @@
     <TooManyArguments occurrences="1">
       <code>test</code>
     </TooManyArguments>
-    <UndefinedClass occurrences="1">
-      <code>Exception</code>
-    </UndefinedClass>
-    <UndefinedDocblockClass occurrences="1">
-      <code>Exception</code>
-    </UndefinedDocblockClass>
   </file>
   <file src="apps/files_external/lib/Service/BackendService.php">
     <InvalidArgument occurrences="1">
@@ -1639,10 +1620,6 @@
     </InvalidDocblock>
   </file>
   <file src="apps/files_sharing/lib/External/Scanner.php">
-    <InvalidNullableReturnType occurrences="2">
-      <code>array</code>
-      <code>scan</code>
-    </InvalidNullableReturnType>
     <InvalidScalarArgument occurrences="1">
       <code>$recursive</code>
     </InvalidScalarArgument>
@@ -1673,14 +1650,6 @@
     <InvalidReturnType occurrences="1">
       <code>NotFoundResponse</code>
     </InvalidReturnType>
-  </file>
-  <file src="apps/files_sharing/lib/Scanner.php">
-    <InvalidNullableReturnType occurrences="1">
-      <code>array</code>
-    </InvalidNullableReturnType>
-    <NullableReturnStatement occurrences="1">
-      <code>null</code>
-    </NullableReturnStatement>
   </file>
   <file src="apps/files_sharing/lib/ShareBackend/File.php">
     <InvalidScalarArgument occurrences="2">
@@ -2357,9 +2326,7 @@
     <ImplementedReturnTypeMismatch occurrences="1">
       <code>string|false</code>
     </ImplementedReturnTypeMismatch>
-    <InvalidScalarArgument occurrences="3">
-      <code>$limit</code>
-      <code>$offset</code>
+    <InvalidScalarArgument occurrences="1">
       <code>$path</code>
     </InvalidScalarArgument>
     <MoreSpecificImplementedParamType occurrences="2">
@@ -3203,16 +3170,7 @@
       <code>$this-&gt;shareeEnumerationInGroupOnly</code>
     </UndefinedThisPropertyFetch>
   </file>
-  <file src="lib/private/Collaboration/Collaborators/MailPlugin.php">
-    <UndefinedThisPropertyAssignment occurrences="1">
-      <code>$this-&gt;shareeEnumerationInGroupOnly</code>
-    </UndefinedThisPropertyAssignment>
-    <UndefinedThisPropertyFetch occurrences="1">
-      <code>$this-&gt;shareeEnumerationInGroupOnly</code>
-    </UndefinedThisPropertyFetch>
-  </file>
   <file src="lib/private/Collaboration/Resources/Manager.php">
-    <InvalidArgument occurrences="4"/>
     <RedundantCondition occurrences="1">
       <code>$user instanceof IUser</code>
     </RedundantCondition>
@@ -3244,7 +3202,6 @@
     </TypeDoesNotContainType>
   </file>
   <file src="lib/private/Comments/Manager.php">
-    <InvalidArgument occurrences="3"/>
     <InvalidDocblock occurrences="1">
       <code>public function getForObjectSince(</code>
     </InvalidDocblock>
@@ -3321,9 +3278,6 @@
     </NullableReturnStatement>
   </file>
   <file src="lib/private/ContactsManager.php">
-    <ImplementedReturnTypeMismatch occurrences="1">
-      <code>IAddressBook[]</code>
-    </ImplementedReturnTypeMismatch>
     <InvalidNullableReturnType occurrences="3">
       <code>IAddressBook</code>
       <code>array</code>
@@ -3577,16 +3531,6 @@
       <code>$path</code>
     </MoreSpecificImplementedParamType>
   </file>
-  <file src="lib/private/Files/Cache/LocalRootScanner.php">
-    <InvalidNullableReturnType occurrences="2">
-      <code>scan</code>
-      <code>scanFile</code>
-    </InvalidNullableReturnType>
-    <NullableReturnStatement occurrences="2">
-      <code>null</code>
-      <code>null</code>
-    </NullableReturnStatement>
-  </file>
   <file src="lib/private/Files/Cache/QuerySearchHelper.php">
     <InvalidScalarArgument occurrences="4">
       <code>$value</code>
@@ -3596,9 +3540,6 @@
     </InvalidScalarArgument>
   </file>
   <file src="lib/private/Files/Cache/Scanner.php">
-    <InvalidNullableReturnType occurrences="1">
-      <code>array</code>
-    </InvalidNullableReturnType>
     <InvalidReturnStatement occurrences="1">
       <code>$existingChildren</code>
     </InvalidReturnStatement>
@@ -3609,12 +3550,6 @@
       <code>$path</code>
       <code>self::SCAN_RECURSIVE_INCOMPLETE</code>
     </InvalidScalarArgument>
-    <NullableReturnStatement occurrences="4">
-      <code>null</code>
-      <code>null</code>
-      <code>null</code>
-      <code>null</code>
-    </NullableReturnStatement>
     <TypeDoesNotContainType occurrences="1">
       <code>$data ?? $this-&gt;getData($file)</code>
     </TypeDoesNotContainType>
@@ -3964,9 +3899,8 @@
     <ImplementedReturnTypeMismatch occurrences="1">
       <code>string|false</code>
     </ImplementedReturnTypeMismatch>
-    <InvalidNullableReturnType occurrences="2">
+    <InvalidNullableReturnType occurrences="1">
       <code>array</code>
-      <code>getMetaData</code>
     </InvalidNullableReturnType>
     <InvalidOperand occurrences="2">
       <code>!$permissions</code>
@@ -3984,9 +3918,8 @@
       <code>$storage-&gt;updater</code>
       <code>$storage-&gt;updater</code>
     </NoInterfaceProperties>
-    <NullableReturnStatement occurrences="2">
+    <NullableReturnStatement occurrences="1">
       <code>$this-&gt;getStorageCache()-&gt;getAvailability()</code>
-      <code>null</code>
     </NullableReturnStatement>
   </file>
   <file src="lib/private/Files/Storage/DAV.php">
@@ -4070,9 +4003,6 @@
     <ImplicitToStringCast occurrences="1">
       <code>$file</code>
     </ImplicitToStringCast>
-    <InvalidNullableReturnType occurrences="1">
-      <code>getMetaData</code>
-    </InvalidNullableReturnType>
     <InvalidOperand occurrences="1">
       <code>$result</code>
     </InvalidOperand>
@@ -4084,9 +4014,8 @@
       <code>filesize</code>
       <code>free_space</code>
     </InvalidReturnType>
-    <NullableReturnStatement occurrences="2">
+    <NullableReturnStatement occurrences="1">
       <code>$helper-&gt;getFileSize($fullPath)</code>
-      <code>null</code>
     </NullableReturnStatement>
     <TypeDoesNotContainNull occurrences="2">
       <code>$space === false || is_null($space)</code>
@@ -4103,7 +4032,7 @@
     </NoInterfaceProperties>
   </file>
   <file src="lib/private/Files/Storage/Wrapper/Availability.php">
-    <InvalidNullableReturnType occurrences="35">
+    <InvalidNullableReturnType occurrences="34">
       <code>copy</code>
       <code>copyFromStorage</code>
       <code>file_exists</code>
@@ -4117,7 +4046,6 @@
       <code>getDirectDownload</code>
       <code>getETag</code>
       <code>getLocalFile</code>
-      <code>getMetaData</code>
       <code>getMimeType</code>
       <code>getOwner</code>
       <code>getPermissions</code>
@@ -4169,9 +4097,6 @@
       <code>$source</code>
       <code>$target</code>
     </InvalidArgument>
-    <InvalidNullableReturnType occurrences="1">
-      <code>array</code>
-    </InvalidNullableReturnType>
     <InvalidOperand occurrences="3">
       <code>$result</code>
       <code>$result</code>
@@ -4197,9 +4122,6 @@
       <code>$size</code>
       <code>$sourceStorage-&gt;filemtime($sourceInternalPath)</code>
     </InvalidScalarArgument>
-    <NullableReturnStatement occurrences="1">
-      <code>null</code>
-    </NullableReturnStatement>
   </file>
   <file src="lib/private/Files/Storage/Wrapper/Jail.php">
     <InvalidReturnStatement occurrences="1">
@@ -4307,7 +4229,6 @@
     </TypeDoesNotContainNull>
   </file>
   <file src="lib/private/Group/Database.php">
-    <InvalidArgument occurrences="1"/>
     <InvalidArrayOffset occurrences="1">
       <code>$this-&gt;groupCache[$gid]['displayname']</code>
     </InvalidArrayOffset>
@@ -5058,12 +4979,6 @@
       <code>time()</code>
     </InvalidScalarArgument>
   </file>
-  <file src="lib/private/User/Backend.php">
-    <InvalidScalarArgument occurrences="2">
-      <code>$limit</code>
-      <code>$offset</code>
-    </InvalidScalarArgument>
-  </file>
   <file src="lib/private/User/Database.php">
     <FalsableReturnStatement occurrences="1">
       <code>false</code>
@@ -5071,11 +4986,6 @@
     <ImplicitToStringCast occurrences="1">
       <code>$query-&gt;func()-&gt;lower('displayname')</code>
     </ImplicitToStringCast>
-    <InvalidArgument occurrences="1"/>
-    <InvalidScalarArgument occurrences="2">
-      <code>$offset</code>
-      <code>$offset</code>
-    </InvalidScalarArgument>
   </file>
   <file src="lib/private/User/Manager.php">
     <ImplementedReturnTypeMismatch occurrences="1">
@@ -5084,10 +4994,6 @@
     <InvalidNullableReturnType occurrences="1">
       <code>bool|IUser</code>
     </InvalidNullableReturnType>
-    <InvalidScalarArgument occurrences="2">
-      <code>$limit</code>
-      <code>$offset</code>
-    </InvalidScalarArgument>
     <NullableReturnStatement occurrences="2">
       <code>$this-&gt;createUserFromBackend($uid, $password, $backend)</code>
       <code>$this-&gt;createUserFromBackend($uid, $password, $backend)</code>
@@ -5385,11 +5291,6 @@
     <MoreSpecificImplementedParamType occurrences="1">
       <code>$jobList</code>
     </MoreSpecificImplementedParamType>
-  </file>
-  <file src="lib/public/Contacts/IManager.php">
-    <UndefinedDocblockClass occurrences="1">
-      <code>IAddressBook[]</code>
-    </UndefinedDocblockClass>
   </file>
   <file src="lib/public/Dashboard/Model/WidgetTemplate.php">
     <InvalidNullableReturnType occurrences="1">
