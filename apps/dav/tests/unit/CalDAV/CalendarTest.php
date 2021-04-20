@@ -437,7 +437,8 @@ EOD;
 				->with('Busy')
 				->willReturn("Translated busy");
 		} else {
-			$l10n->expects($this->never());
+			$l10n->expects($this->never())
+				->method('t');
 		}
 		$c = new Calendar($backend, $calendarInfo, $l10n, $this->config);
 
