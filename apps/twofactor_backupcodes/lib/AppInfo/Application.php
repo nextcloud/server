@@ -36,6 +36,7 @@ use OCA\TwoFactorBackupCodes\Listener\ProviderEnabled;
 use OCA\TwoFactorBackupCodes\Listener\RegistryUpdater;
 use OCA\TwoFactorBackupCodes\Listener\UserDeleted;
 use OCA\TwoFactorBackupCodes\Notifications\Notifier;
+use OCA\TwoFactorBackupCodes\Provider\BackupCodesProvider;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
@@ -59,6 +60,9 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(IRegistry::EVENT_PROVIDER_ENABLED, ProviderEnabled::class);
 		$context->registerEventListener(IRegistry::EVENT_PROVIDER_DISABLED, ProviderDisabled::class);
 		$context->registerEventListener(UserDeletedEvent::class, UserDeleted::class);
+
+
+		$context->registerTwoFactorProvider(BackupCodesProvider::class);
 	}
 
 	public function boot(IBootContext $context): void {

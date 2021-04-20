@@ -40,8 +40,12 @@ class ProviderLoader {
 	/** @var IAppManager */
 	private $appManager;
 
-	public function __construct(IAppManager $appManager) {
+	/** @var OC\AppFramework\Bootstrap\Coordinator */
+	private $coordinator;
+
+	public function __construct(IAppManager $appManager, OC\AppFramework\Bootstrap\Coordinator $coordinator) {
 		$this->appManager = $appManager;
+		$this->coordinator = $coordinator;
 	}
 
 	/**
@@ -69,6 +73,18 @@ class ProviderLoader {
 						throw new Exception("Could not load two-factor auth provider $class");
 					}
 				}
+			}
+		}
+
+		$registeredProviders = $this->coordinator->getRegistrationContext()->getTwoFactorProviders();
+		foreach ($registeredProviders as $provider) {
+			try {
+				$this->loadTwoFactorApp($provider->getAppId());
+				$provider = OC::$server->query($provider->getService());
+				$providers[$provider->getId()] = $provider;
+			} catch (QueryException $exc) {
+				// Provider class can not be resolved
+				throw new Exception('Could not load two-factor auth provider ' . $provider->getService());
 			}
 		}
 

@@ -92,7 +92,10 @@ class RegistrationContext {
 	private $templateProviders = [];
 
 	/** @var ServiceRegistration<INotifier>[] */
-	private $notifierServices;
+	private $notifierServices = [];
+
+	/** @var ServiceRegistration<\OCP\Authentication\TwoFactorAuth\IProvider>[] */
+	private $twoFactorProviders = [];
 
 	/** @var ILogger */
 	private $logger;
@@ -217,6 +220,13 @@ class RegistrationContext {
 					$notifierClass
 				);
 			}
+
+			public function registerTwoFactorProvider(string $twoFactorProviderClass): void {
+				$this->context->registerTwoFactorProvider(
+					$this->appId,
+					$twoFactorProviderClass
+				);
+			}
 		};
 	}
 
@@ -286,6 +296,10 @@ class RegistrationContext {
 
 	public function registerNotifierService(string $appId, string $class): void {
 		$this->notifierServices[] = new ServiceRegistration($appId, $class);
+	}
+
+	public function registerTwoFactorProvider(string $appId, string $class): void {
+		$this->twoFactorProviders[] = new ServiceRegistration($appId, $class);
 	}
 
 	/**
@@ -478,5 +492,12 @@ class RegistrationContext {
 	 */
 	public function getNotifierServices(): array {
 		return $this->notifierServices;
+	}
+
+	/**
+	 * @return ServiceRegistration<\OCP\Authentication\TwoFactorAuth\IProvider>[]
+	 */
+	public function getTwoFactorProviders(): array {
+		return $this->twoFactorProviders;
 	}
 }
