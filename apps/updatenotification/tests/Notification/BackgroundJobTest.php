@@ -331,8 +331,7 @@ class BackgroundJobTest extends TestCase {
 				\call_user_func_array([$mockedMethod, 'withConsecutive'], $userNotifications);
 
 				$this->notificationManager->expects($this->exactly(\count($userNotifications)))
-					->method('notify')
-					->willReturn($notification);
+					->method('notify');
 			}
 
 			$this->notificationManager->expects($this->once())
