@@ -66,6 +66,11 @@
  * exception instead of an ElementNotVisible exception, so those cases are
  * handled like ElementNotVisible exceptions.
  *
+ * ElementNotInteractable exceptions are thrown in Selenium 3 when the command
+ * needs to interact with an element but that is not possible. This could be a
+ * transitive situation (for example, due to an animation), so the command is
+ * executed again after a small timeout.
+ *
  * Despite the automatic handling it is possible for the commands to throw those
  * exceptions when they are executed again; this class does not handle cases
  * like an element becoming stale several times in a row (uncommon) or an
@@ -73,7 +78,10 @@
  * that the timeout is too short or that the test has to, indeed, fail). In a
  * similar way, MoveTargetOutOfBounds exceptions would be thrown again if
  * originally they were thrown because the element was visible but "out of
- * reach".
+ * reach". ElementNotInteractable exceptions would be thrown again if it is not
+ * possible to interact yet with the element after the wait (which could mean
+ * that the test has to, indeed, fail, although it could mean too that the
+ * automatic handling needs to be improved).
  *
  * If needed, automatically handling failed commands can be disabled calling
  * "doNotHandleFailedCommands()"; as it returns the ElementWrapper it can be
@@ -279,6 +287,13 @@ class ElementWrapper {
 	 * If an ElementNotVisible or a MoveTargetOutOfBounds exception is thrown it
 	 * is waited for the wrapped element to be visible and, then, the command is
 	 * executed again.
+	 * If an ElementNotInteractable exception is thrown it is also waited for
+	 * the wrapped element to be visible. It is very likely that the element was
+	 * visible already, but it is not possible to easily check if the element
+	 * can be interacted with, retrying will be only useful if it was a
+	 * transitive situation that resolves itself with a wait (for example, due
+	 * to an animation) and waiting for the element to be visible will always
+	 * start with a wait.
 	 *
 	 * @param \Closure $commandCallback the command to execute.
 	 * @param string $errorMessage an error message that describes the failed
@@ -294,6 +309,14 @@ class ElementWrapper {
 		} catch (\WebDriver\Exception\ElementNotVisible $exception) {
 			$this->printFailedCommandMessage($exception, $errorMessage);
 		} catch (\WebDriver\Exception\MoveTargetOutOfBounds $exception) {
+			$this->printFailedCommandMessage($exception, $errorMessage);
+		} catch (\Exception $exception) {
+			// The "ElementNotInteractable" exception is not available yet in
+			// the current "instaclick/php-webdriver" version, so it is thrown
+			// as a generic exception with a specific message.
+			if (stripos($exception->getMessage(), "element not interactable") === false) {
+				throw $exception;
+			}
 			$this->printFailedCommandMessage($exception, $errorMessage);
 		}
 

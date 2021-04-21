@@ -108,12 +108,12 @@ function prepareSelenium() {
 	SELENIUM_CONTAINER=selenium-nextcloud-local-test-acceptance
 
 	echo "Starting Selenium server"
-	docker run --detach --name=$SELENIUM_CONTAINER --publish 4444:4444 --publish 5900:5900 $DOCKER_OPTIONS selenium/standalone-firefox-debug:2.53.1-beryllium
+	docker run --detach --name=$SELENIUM_CONTAINER --publish 4444:4444 --publish 5900:5900 $DOCKER_OPTIONS selenium/standalone-chrome-debug:3.141.59
 
 	echo "Waiting for Selenium server to be ready"
 	if ! $TIMEOUT 10s bash -c "while ! curl 127.0.0.1:4444 >/dev/null 2>&1; do sleep 1; done"; then
 		echo "Could not start Selenium server; running" \
-		     "\"docker run --rm --publish 4444:4444 --publish 5900:5900 $DOCKER_OPTIONS selenium/standalone-firefox-debug:2.53.1-beryllium\"" \
+		     "\"docker run --rm --publish 4444:4444 --publish 5900:5900 $DOCKER_OPTIONS selenium/standalone-chrome-debug:3.141.59\"" \
 		     "could give you a hint of the problem"
 
 		exit 1

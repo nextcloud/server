@@ -25,6 +25,7 @@
 
 use Behat\Behat\Context\Context;
 use PHPUnit\Framework\Assert;
+use WebDriver\Key;
 
 class UsersSettingsContext implements Context, ActorAwareInterface {
 	use ActorAware;
@@ -242,7 +243,7 @@ class UsersSettingsContext implements Context, ActorAwareInterface {
 	 * @When I set the :field for :user to :value
 	 */
 	public function iSetTheFieldForUserTo($field, $user, $value) {
-		$this->actor->find(self::inputForUserInCell($field, $user), 2)->setValue($value . "\r");
+		$this->actor->find(self::inputForUserInCell($field, $user), 2)->setValue($value . Key::ENTER);
 	}
 
 	/**

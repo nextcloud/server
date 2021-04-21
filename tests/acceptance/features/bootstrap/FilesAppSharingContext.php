@@ -23,6 +23,7 @@
 
 use Behat\Behat\Context\Context;
 use PHPUnit\Framework\Assert;
+use WebDriver\Key;
 
 class FilesAppSharingContext implements Context, ActorAwareInterface {
 	use ActorAware;
@@ -427,7 +428,7 @@ class FilesAppSharingContext implements Context, ActorAwareInterface {
 		$shareLinkMenuTriggerElement = $this->actor->find(self::shareLinkMenuTrigger(), 2);
 		$this->actor->find(self::passwordProtectCheckbox($shareLinkMenuTriggerElement), 2)->click();
 
-		$this->actor->find(self::passwordProtectField($shareLinkMenuTriggerElement), 2)->setValue($password . "\r");
+		$this->actor->find(self::passwordProtectField($shareLinkMenuTriggerElement), 2)->setValue($password . Key::ENTER);
 	}
 
 	/**
