@@ -53,6 +53,7 @@
   </FilesMatch>
 </IfModule>
 
+# PHP 7.x
 <IfModule mod_php7.c>
   php_value mbstring.func_overload 0
   php_value default_charset 'UTF-8'
@@ -62,7 +63,8 @@
   </IfModule>
 </IfModule>
 
-<IfModule mod_php8.c>
+# PHP 8+
+<IfModule mod_php.c>
   php_value mbstring.func_overload 0
   php_value default_charset 'UTF-8'
   php_value output_buffering 0
