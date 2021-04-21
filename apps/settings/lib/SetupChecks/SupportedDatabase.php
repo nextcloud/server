@@ -74,7 +74,7 @@ class SupportedDatabase {
 					}
 				} else {
 					if (version_compare($version, '8', '<')) {
-						$this->description = $this->l10n->t('MySQL version "%s" is used. Nextcloud 21 will no longer support this version and requires MySQL 8 or higher.', $row['Value']);
+						$this->description = $this->l10n->t('MySQL version "%s" is used. Nextcloud 21 will no longer support this version and requires MySQL 8.0 or MariaDB 10.2 or higher.', $row['Value']);
 						return;
 					}
 				}
