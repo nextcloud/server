@@ -74,7 +74,7 @@ class UsersSettingsContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function createNewUserButton() {
-		return Locator::forThe()->xpath("//form[@id = 'new-user']//input[@type = 'submit']")->
+		return Locator::forThe()->xpath("//form[@id = 'new-user']//button[@type = 'submit']")->
 			describedAs("Create user button in Users Settings");
 	}
 

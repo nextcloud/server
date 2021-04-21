@@ -26,7 +26,9 @@
 			<AppNavigationNew button-id="new-user-button"
 				:text="t('settings','New user')"
 				button-class="icon-add"
-				@click="toggleNewUserMenu" />
+				@click="showNewUserMenu"
+				@keyup.enter="showNewUserMenu"
+				@keyup.space="showNewUserMenu" />
 			<template #list>
 				<AppNavigationItem
 					id="addgroup"
@@ -348,8 +350,8 @@ export default {
 		})
 	},
 	methods: {
-		toggleNewUserMenu() {
-			this.showConfig.showNewUserForm = !this.showConfig.showNewUserForm
+		showNewUserMenu() {
+			this.showConfig.showNewUserForm = true
 			if (this.showConfig.showNewUserForm) {
 				Vue.nextTick(() => {
 					window.newusername.focus()
