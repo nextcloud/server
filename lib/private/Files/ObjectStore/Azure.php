@@ -24,6 +24,7 @@
 namespace OC\Files\ObjectStore;
 
 use MicrosoftAzure\Storage\Blob\BlobRestProxy;
+use MicrosoftAzure\Storage\Blob\Models\CreateBlockBlobOptions;
 use MicrosoftAzure\Storage\Common\Exceptions\ServiceException;
 use OCP\Files\ObjectStore\IObjectStore;
 
@@ -100,13 +101,12 @@ class Azure implements IObjectStore {
 		return $blob->getContentStream();
 	}
 
-	/**
-	 * @param string $urn the unified resource name used to identify the object
-	 * @param resource $stream stream with the data to write
-	 * @throws \Exception when something goes wrong, message will be logged
-	 */
-	public function writeObject($urn, $stream) {
-		$this->getBlobClient()->createBlockBlob($this->containerName, $urn, $stream);
+	public function writeObject($urn, $stream, string $mimetype = null) {
+		$options = new CreateBlockBlobOptions();
+		if ($mimetype) {
+			$options->setContentType($mimetype);
+		}
+		$this->getBlobClient()->createBlockBlob($this->containerName, $urn, $stream, $options);
 	}
 
 	/**

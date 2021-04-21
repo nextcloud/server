@@ -486,13 +486,13 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 					]);
 					$size = $writtenSize;
 				});
-				$this->objectStore->writeObject($urn, $countStream);
+				$this->objectStore->writeObject($urn, $countStream, $mimetype);
 				if (is_resource($countStream)) {
 					fclose($countStream);
 				}
 				$stat['size'] = $size;
 			} else {
-				$this->objectStore->writeObject($urn, $stream);
+				$this->objectStore->writeObject($urn, $stream, $mimetype);
 			}
 		} catch (\Exception $ex) {
 			if (!$exists) {

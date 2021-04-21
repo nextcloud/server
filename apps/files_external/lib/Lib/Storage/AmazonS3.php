@@ -50,6 +50,7 @@ use OC\Files\Cache\CacheEntry;
 use OC\Files\ObjectStore\S3ConnectionTrait;
 use OC\Files\ObjectStore\S3ObjectTrait;
 use OCP\Constants;
+use OCP\Files\IMimeTypeDetector;
 
 class AmazonS3 extends \OC\Files\Storage\Common {
 	use S3ConnectionTrait;
@@ -68,12 +69,16 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 	/** @var CappedMemoryCache|array */
 	private $filesCache;
 
+	/** @var IMimeTypeDetector */
+	private $mimeDetector;
+
 	public function __construct($parameters) {
 		parent::__construct($parameters);
 		$this->parseParams($parameters);
 		$this->objectCache = new CappedMemoryCache();
 		$this->directoryCache = new CappedMemoryCache();
 		$this->filesCache = new CappedMemoryCache();
+		$this->mimeDetector = \OC::$server->get(IMimeTypeDetector::class);
 	}
 
 	/**
@@ -573,7 +578,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 
 		try {
 			if (!$this->file_exists($path)) {
-				$mimeType = \OC::$server->getMimeTypeDetector()->detectPath($path);
+				$mimeType = $this->mimeDetector->detectPath($path);
 				$this->getConnection()->putObject([
 					'Bucket' => $this->bucket,
 					'Key' => $this->cleanKey($path),
@@ -684,7 +689,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 	public function writeBack($tmpFile, $path) {
 		try {
 			$source = fopen($tmpFile, 'r');
-			$this->writeObject($path, $source);
+			$this->writeObject($path, $source, $this->mimeDetector->detectPath($path));
 			$this->invalidateCache($path);
 
 			unlink($tmpFile);

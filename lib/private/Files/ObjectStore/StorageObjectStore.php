@@ -65,13 +65,7 @@ class StorageObjectStore implements IObjectStore {
 		throw new \Exception();
 	}
 
-	/**
-	 * @param string $urn the unified resource name used to identify the object
-	 * @param resource $stream stream with the data to write
-	 * @throws \Exception when something goes wrong, message will be logged
-	 * @since 7.0.0
-	 */
-	public function writeObject($urn, $stream) {
+	public function writeObject($urn, $stream, string $mimetype = null) {
 		$handle = $this->storage->fopen($urn, 'w');
 		if ($handle) {
 			stream_copy_to_stream($stream, $handle);
