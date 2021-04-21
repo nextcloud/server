@@ -5427,6 +5427,7 @@
     </UndefinedInterfaceMethod>
   </file>
   <file src="lib/private/Share20/Manager.php">
+    <NullArgument occurrences="1"/>
     <InvalidArgument occurrences="7">
       <code>'OCP\Share::preShare'</code>
       <code>'OCP\Share::postShare'</code>
