@@ -773,6 +773,10 @@ class FolderTest extends NodeTest {
 		$folderInfo->expects($this->any())
 			->method('getMountPoint')
 			->willReturn($mount);
+		$root->method('getMount')
+			->willReturn($mount);
+		$root->method('getMountsIn')
+			->willReturn([]);
 
 		$cache = $storage->getCache();
 
@@ -837,6 +841,11 @@ class FolderTest extends NodeTest {
 		$folderInfo->expects($this->any())
 			->method('getMountPoint')
 			->willReturn($mount);
+
+		$root->method('getMount')
+			->willReturn($mount);
+		$root->method('getMountsIn')
+			->willReturn([]);
 
 		$cache = $storage->getCache();
 
@@ -903,6 +912,10 @@ class FolderTest extends NodeTest {
 		$folderInfo->expects($this->any())
 			->method('getMountPoint')
 			->willReturn($mount);
+		$root->method('getMount')
+			->willReturn($mount);
+		$root->method('getMountsIn')
+			->willReturn([]);
 
 		$cache = $storage->getCache();
 

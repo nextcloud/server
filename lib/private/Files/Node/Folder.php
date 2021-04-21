@@ -35,7 +35,6 @@ use OC\Files\Search\SearchBinaryOperator;
 use OC\Files\Search\SearchComparison;
 use OC\Files\Search\SearchOrder;
 use OC\Files\Search\SearchQuery;
-use OC\Files\Storage\Storage;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Config\ICachedMountInfo;
 use OCP\Files\FileInfo;
