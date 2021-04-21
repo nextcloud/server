@@ -225,7 +225,7 @@ class GroupsController extends AUserData {
 			return new DataResponse(['users' => $usersDetails]);
 		}
 
-		throw new OCSException('User does not have access to specified group', OCSController::RESPOND_UNAUTHORISED);
+		throw new OCSException('The requested group could not be found', OCSController::RESPOND_NOT_FOUND);
 	}
 
 	/**
@@ -271,7 +271,7 @@ class GroupsController extends AUserData {
 
 			throw new OCSException('Not supported by backend', 101);
 		} else {
-			throw new OCSException('', OCSController::RESPOND_UNAUTHORISED);
+			throw new OCSException('', OCSController::RESPOND_UNKNOWN_ERROR);
 		}
 	}
 

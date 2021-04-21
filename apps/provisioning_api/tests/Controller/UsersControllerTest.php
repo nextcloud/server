@@ -1208,7 +1208,7 @@ class UsersControllerTest extends TestCase {
 
 	public function testGetUserDataAsSubAdminAndUserIsNotAccessible() {
 		$this->expectException(\OCP\AppFramework\OCS\OCSException::class);
-		$this->expectExceptionCode(997);
+		$this->expectExceptionCode(998);
 
 		$loggedInUser = $this->getMockBuilder(IUser::class)
 			->disableOriginalConstructor()
@@ -1681,7 +1681,7 @@ class UsersControllerTest extends TestCase {
 
 	public function testEditUserRegularUserSelfEditChangeQuota() {
 		$this->expectException(\OCP\AppFramework\OCS\OCSException::class);
-		$this->expectExceptionCode(997);
+		$this->expectExceptionCode(103);
 
 		$loggedInUser = $this->getMockBuilder(IUser::class)
 			->disableOriginalConstructor()
@@ -1759,7 +1759,7 @@ class UsersControllerTest extends TestCase {
 	public function testEditUserAdminUserSelfEditChangeInvalidQuota() {
 		$this->expectException(\OCP\AppFramework\OCS\OCSException::class);
 		$this->expectExceptionMessage('Invalid quota value ABC');
-		$this->expectExceptionCode(103);
+		$this->expectExceptionCode(102);
 
 		$loggedInUser = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
 		$loggedInUser
@@ -2091,7 +2091,7 @@ class UsersControllerTest extends TestCase {
 
 	public function testEditUserSubadminUserInaccessible() {
 		$this->expectException(\OCP\AppFramework\OCS\OCSException::class);
-		$this->expectExceptionCode(997);
+		$this->expectExceptionCode(998);
 
 		$loggedInUser = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
 		$loggedInUser
@@ -2131,7 +2131,7 @@ class UsersControllerTest extends TestCase {
 
 	public function testDeleteUserNotExistingUser() {
 		$this->expectException(\OCP\AppFramework\OCS\OCSException::class);
-		$this->expectExceptionCode(101);
+		$this->expectExceptionCode(998);
 
 		$loggedInUser = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
 		$loggedInUser
@@ -2344,7 +2344,7 @@ class UsersControllerTest extends TestCase {
 
 	public function testDeleteUserAsSubAdminAndUserIsNotAccessible() {
 		$this->expectException(\OCP\AppFramework\OCS\OCSException::class);
-		$this->expectExceptionCode(997);
+		$this->expectExceptionCode(998);
 
 		$loggedInUser = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
 		$loggedInUser
@@ -2525,7 +2525,7 @@ class UsersControllerTest extends TestCase {
 
 	public function testGetUsersGroupsForSubAdminUserAndUserIsInaccessible() {
 		$this->expectException(\OCP\AppFramework\OCS\OCSException::class);
-		$this->expectExceptionCode(997);
+		$this->expectExceptionCode(998);
 
 		$loggedInUser = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
 		$loggedInUser
@@ -3526,7 +3526,7 @@ class UsersControllerTest extends TestCase {
 
 	public function testResendWelcomeMessageAsSubAdminAndUserIsNotAccessible() {
 		$this->expectException(\OCP\AppFramework\OCS\OCSException::class);
-		$this->expectExceptionCode(997);
+		$this->expectExceptionCode(998);
 
 		$loggedInUser = $this->getMockBuilder(IUser::class)
 			->disableOriginalConstructor()

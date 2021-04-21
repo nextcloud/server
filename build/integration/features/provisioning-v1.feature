@@ -176,8 +176,8 @@ Feature: provisioning
 		When sending "PUT" to "/cloud/users/brand-new-user" with
 			| key | phoneScope |
 			| value | v2-private |
-		Then the OCS status code should be "997"
-		And the HTTP status code should be "401"
+		Then the OCS status code should be "103"
+		And the HTTP status code should be "200"
 
 	Scenario: Search by phone number
 		Given As an "admin"
@@ -234,11 +234,12 @@ Feature: provisioning
 		And the HTTP status code should be "200"
 
 	Scenario: adding user to a group without privileges
-		Given As an "brand-new-user"
+		Given user "brand-new-user" exists
+		And As an "brand-new-user"
 		When sending "POST" to "/cloud/users/brand-new-user/groups" with
 			| groupid | new-group |
-		Then the OCS status code should be "997"
-		And the HTTP status code should be "401"
+		Then the OCS status code should be "403"
+		And the HTTP status code should be "200"
 
 	Scenario: adding user to a group
 		Given As an "admin"
@@ -523,8 +524,8 @@ Feature: provisioning
 		And Assure user "subadmin" is subadmin of group "new-group"
 		And As an "subadmin"
 		When sending "PUT" to "/cloud/users/user1/disable"
-		Then the OCS status code should be "997"
-		Then the HTTP status code should be "401"
+		Then the OCS status code should be "998"
+		Then the HTTP status code should be "200"
 		And As an "admin"
 		And user "user1" is enabled
 
@@ -539,8 +540,8 @@ Feature: provisioning
 		And Assure user "subadmin" is subadmin of group "new-group"
 		And As an "subadmin"
 		When sending "PUT" to "/cloud/users/another-admin/disable"
-		Then the OCS status code should be "997"
-		Then the HTTP status code should be "401"
+		Then the OCS status code should be "998"
+		Then the HTTP status code should be "200"
 		And As an "admin"
 		And user "another-admin" is enabled
 
@@ -615,8 +616,8 @@ Feature: provisioning
 		And user "user2" exists
 		And As an "user1"
 		When sending "PUT" to "/cloud/users/user2/disable"
-		Then the OCS status code should be "997"
-		And the HTTP status code should be "401"
+		Then the OCS status code should be "403"
+		And the HTTP status code should be "200"
 		And As an "admin"
 		And user "user2" is enabled
 
@@ -627,8 +628,8 @@ Feature: provisioning
 		And assure user "user2" is disabled
 		And As an "user1"
 		When sending "PUT" to "/cloud/users/user2/enable"
-		Then the OCS status code should be "997"
-		And the HTTP status code should be "401"
+		Then the OCS status code should be "403"
+		And the HTTP status code should be "200"
 		And As an "admin"
 		And user "user2" is disabled
 

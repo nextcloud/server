@@ -919,7 +919,7 @@ Feature: sharing
     And As an "user1"
     When Deleting last share
     Then the OCS status code should be "403"
-    And the HTTP status code should be "401"
+    And the HTTP status code should be "200"
 
   Scenario: Keep usergroup shares (#22143)
     Given As an "admin"
