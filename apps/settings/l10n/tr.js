@@ -214,6 +214,7 @@ OC.L10N.register(
     "You do not have permissions to see the details of this user" : "Bu kullanıcının ayrıntılarını görüntüleme izniniz yok",
     "Add new password" : "Yeni parola ekle",
     "Add new email address" : "Yeni e-posta adresi ekle",
+    "Add user to group" : "Gruba kullanıcı ekle",
     "Set user as admin for" : "Kullanıcıyı şurada yönetici yap",
     "Select user quota" : "Kullanıcı kotasını seçin",
     "No language set" : "Herhangi bir dil ayarlanmamış",

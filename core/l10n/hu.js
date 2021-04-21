@@ -181,6 +181,7 @@ OC.L10N.register(
     "Start typing to search" : "Kezdjen el gépelni a kereséshez",
     "Loading more results …" : "További eredmények betöltése ...",
     "Load more results" : "További eredmények betöltése",
+    "Search" : "Keresés",
     "An error occurred while searching for {type}" : "Hiba történt a(z) {type} keresése közben",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["A kereséshez írjon be a legalább {minSearchLength} karaktert","A kereséshez írjon be a legalább {minSearchLength} karaktert"],
     "Search {types} …" : "{types} keresése …",
@@ -406,7 +407,6 @@ OC.L10N.register(
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} találat egy másik mappában","{count} találat más mappákban"],
     "A password reset message has been sent to the e-mail address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Egy jelszó visszaállítási e-mail lett küldve a fiók e-mail címére. Ha nem kapta meg, akkor ellenőrizze a levélszemét mappát, vagy kérje a helyi rendszergazda segítségét.",
     "Nextcloud {app}" : "Nextcloud {app}",
-    "Search" : "Keresés",
     "These apps will be updated:" : "A következő alkalmazások lesznek frissítve:",
     "For more details see the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "További részletekért lásd a <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\"> dokumentációt </a>."
 },

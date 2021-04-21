@@ -81,6 +81,7 @@ OC.L10N.register(
     "Cancel" : "Anuloje",
     "Forgot password?" : "Keni harruar fjalëkalimin?",
     "Back" : "Prapa",
+    "Search" : "Kërko",
     "Settings" : "Rregullime",
     "Search contacts …" : "Kërko kontakte ...",
     "No contacts found" : "Nuk jane gjetur kontakte",
@@ -218,7 +219,6 @@ OC.L10N.register(
     "Searching other places" : "Duke kërkuar në vende të tjera",
     "No search results in other folders for {tag}{filter}{endtag}" : "Jo rezultate nga kërkimi në dosjet e tjera për '{etiketim}{filtrim}{përfundoetiketimin}'",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} përfundim kërkimi në një tjetër dosje","{count} përfundime kërkimi në dosje të tjera"],
-    "Search" : "Kërko",
     "These apps will be updated:" : "Do të përditësohen këto aplikacione:"
 },
 "nplurals=2; plural=(n != 1);");

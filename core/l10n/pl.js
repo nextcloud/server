@@ -181,6 +181,7 @@ OC.L10N.register(
     "Start typing to search" : "Zacznij pisać, aby wyszukać",
     "Loading more results …" : "Wczytuję więcej wyników…",
     "Load more results" : "Załaduj więcej wyników",
+    "Search" : "Szukaj",
     "An error occurred while searching for {type}" : "Wystąpił błąd podczas wyszukiwania {type}",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Aby wyszukać, wprowadź co najmniej {minSearchLength} znak","Aby wyszukać, wprowadź co najmniej {minSearchLength} znaki","Aby wyszukać, wprowadź co najmniej {minSearchLength} znaków","Aby wyszukać, wprowadź co najmniej {minSearchLength} znaków"],
     "Search {types} …" : "Wyszukaj {types}…",
@@ -406,7 +407,6 @@ OC.L10N.register(
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} wynik wyszukiwania w innych katalogach","{count} wyniki wyszukiwania w innych katalogach","{count} wyników wyszukiwania w innych katalogach","{count} wyników wyszukiwania w innych katalogach"],
     "A password reset message has been sent to the e-mail address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Wiadomość o zresetowaniu hasła została wysłana na adres e-mail tego konta. Jeśli go nie otrzymałeś, sprawdź katalogi spam/kosz lub poproś lokalnego administratora o pomoc.",
     "Nextcloud {app}" : "Nextcloud {app}",
-    "Search" : "Szukaj",
     "These apps will be updated:" : "Następujące aplikacje zostaną zaktualizowane:",
     "For more details see the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "Więcej informacji można znaleźć w <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">dokumentacji</a>."
 },

@@ -144,6 +144,7 @@ OC.L10N.register(
     "Start typing to search" : "Start å skrive for å søke",
     "Loading more results …" : "Laster flere resultater ...",
     "Load more results" : "Last flere resultater",
+    "Search" : "Søk",
     "An error occurred while searching for {type}" : "Det oppstod en feil ved søk etter {type}",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Skriv minst {minSearchLength} bokstav for å søke","Skriv minst {minSearchLength} bokstaver for å søke"],
     "Search {types} …" : "Søk {types} ...",
@@ -369,7 +370,6 @@ OC.L10N.register(
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} søkeresultat i en annen mappe","{count} søkeresultater i andre mapper"],
     "A password reset message has been sent to the e-mail address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Melding om tilbakestilling av passord har blitt send til e-postadressen til denne kontoen. Hvis du ikke mottak den, burde du sjekke såam/søppelpost mappene eller spørre din lokale administrator om hjelp.",
     "Nextcloud {app}" : "Nextcloud {app} ",
-    "Search" : "Søk",
     "These apps will be updated:" : "Disse appene vil bli oppdatert:",
     "For more details see the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "For flere detaljer, les <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\"> dokumentasjonen</a>."
 },

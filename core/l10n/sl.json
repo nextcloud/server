@@ -179,6 +179,7 @@
     "Start typing to search" : "Začnite tipkati za iskanje",
     "Loading more results …" : "Poteka nalaganje več zadetkov ...",
     "Load more results" : "Naloži več zadetkov",
+    "Search" : "Poišči",
     "An error occurred while searching for {type}" : "Prišlo je do napake med iskanjem vrste {type}.",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Vpisati je treba vsaj {minSearchLength} znak za začetek iskanja","Vpisati je treba vsaj {minSearchLength} znaka za začetek iskanja","Vpisati je treba vsaj {minSearchLength} znake za začetek iskanja","Vpisati je treba vsaj {minSearchLength} znakov za začetek iskanja"],
     "Search {types} …" : "Poišči {types} …",
@@ -404,7 +405,6 @@
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} rezultat v drugih mapah","{count} rezultata v drugih mapah","{count} rezultatov v drugih mapah","{count} rezultatov v drugih mapah"],
     "A password reset message has been sent to the e-mail address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Sporočilo za ponastavitev gesla je bila poslana na elektronski naslov računa. Če sporočila v kratkem ne prejmete, preverite mape neželene pošte ali pa za pomoč prosite krajevnega skrbnika sistema.",
     "Nextcloud {app}" : "Nextcloud {app}",
-    "Search" : "Poišči",
     "These apps will be updated:" : "Posodobljeni bodo programi:",
     "For more details see the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "Za več podrobnosti si oglejte <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">dokumentacijo</a>."
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"

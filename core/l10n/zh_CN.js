@@ -181,6 +181,7 @@ OC.L10N.register(
     "Start typing to search" : "开始输入搜索内容",
     "Loading more results …" : "加载更多结果...",
     "Load more results" : "加载更多结果",
+    "Search" : "搜索",
     "An error occurred while searching for {type}" : "搜索 {type} 时出错",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["请输入 {minSearchLength} 个字符或更多字符以进行搜索"],
     "Search {types} …" : "搜索 {类型} …",
@@ -406,7 +407,6 @@ OC.L10N.register(
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["在其他文件夹中找到 {count} 条搜索结果"],
     "A password reset message has been sent to the e-mail address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "密码重置的电子邮件发送到此账号的电子邮件地址。 如果您未在合理的时间内收到，请优先检查您的垃圾邮件/垃圾邮件文件夹。如果不存在此电子邮件，请咨询系统管理员。",
     "Nextcloud {app}" : "Nextcloud {app}",
-    "Search" : "搜索",
     "These apps will be updated:" : "以下应用将被更新：",
     "For more details see the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "获取更多详情，请查看<a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">文档</a>。"
 },

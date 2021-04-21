@@ -181,6 +181,7 @@ OC.L10N.register(
     "Start typing to search" : "Comece a digitar para pesquisar",
     "Loading more results …" : "Carregando mais resultados...",
     "Load more results" : "Carregar mais resultados",
+    "Search" : "Pesquisar",
     "An error occurred while searching for {type}" : "Ocorreu um erro ao pesquisar por {type}",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Digite {minSearchLength} caractere ou mais para pesquisar","Digite {minSearchLength} caracteres ou mais para pesquisar"],
     "Search {types} …" : "Pesquisar {types}…",
@@ -406,7 +407,6 @@ OC.L10N.register(
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} resultado da pesquisa em outras pastas","{count} resultados da pesquisa em outras pastas"],
     "A password reset message has been sent to the e-mail address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Uma mensagem de redefinição de senha foi enviada para o e-mail dessa conta. Se você não receber, verifique suas pastas de spam/lixo ou peça ajuda ao administrador.",
     "Nextcloud {app}" : "Nextcloud {app}",
-    "Search" : "Pesquisar",
     "These apps will be updated:" : "Estes aplicativos serão atualizados:",
     "For more details see the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "Para mais detalhes, veja a <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentação</a>."
 },
