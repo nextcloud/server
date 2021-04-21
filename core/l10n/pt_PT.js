@@ -117,6 +117,7 @@ OC.L10N.register(
     "Forgot password?" : "Senha esquecida?",
     "Back" : "Anterior",
     "Reset search" : "Repor procura",
+    "Search" : "Procurar",
     "Settings" : "Definições",
     "Could not load your contacts" : "Não foi possível carregar os seus contactos",
     "Search contacts …" : "Pesquisar contactos ...",
@@ -314,7 +315,6 @@ OC.L10N.register(
     "No search results in other folders for {tag}{filter}{endtag}" : "Nenhum resultado encontrado noutras pastas para {tag}{filter}{endtag}",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} resultado de pesquisa noutra pasta","{count} resultados de pesquisa noutras pastas"],
     "A password reset message has been sent to the e-mail address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Foi enviada, para o seu endereço de e-mail, uma mensagem para fazer reset à password desta conta. Se não a receber, verifique as pastas de spam/junk ou peça ajuda ao seu administrador.",
-    "Search" : "Procurar",
     "These apps will be updated:" : "Estas aplicações irão ser atualizadas."
 },
 "nplurals=2; plural=(n != 1);");

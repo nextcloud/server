@@ -92,6 +92,7 @@ OC.L10N.register(
     "Forgot password?" : "Forgot password?",
     "Back" : "Back",
     "Reset search" : "Reset search",
+    "Search" : "Search",
     "Settings" : "Settings",
     "Could not load your contacts" : "Could not load your contacts",
     "Search contacts …" : "Search contacts …",
@@ -251,7 +252,6 @@ OC.L10N.register(
     "Searching other places" : "Searching other places",
     "No search results in other folders for {tag}{filter}{endtag}" : "No search results in other folders for {tag}{filter}{endtag}",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} search result in another folder","{count} search results in other folders"],
-    "Search" : "Search",
     "These apps will be updated:" : "These apps will be updated:"
 },
 "nplurals=2; plural=(n != 1);");

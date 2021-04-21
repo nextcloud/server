@@ -85,6 +85,7 @@ OC.L10N.register(
     "Simple email app nicely integrated with Files, Contacts and Calendar." : "برنامه ایمیل ساده با پرونده ها ، مخاطبین و تقویم یکپارچه شده است.",
     "Forgot password?" : "رمز فراموش شده؟",
     "Back" : "بازگشت",
+    "Search" : "جست‌و‌جو",
     "Settings" : "تنظیمات",
     "Search contacts …" : "جستجو مخاطبین ...",
     "No contacts found" : "مخاطبین یافت نشد",
@@ -212,7 +213,6 @@ OC.L10N.register(
     "Searching other places" : "جستجو در مکان‌های دیگر",
     "No search results in other folders for {tag}{filter}{endtag}" : "جستجو در پوشه های دیگر برای {tag}{filter}{endtag} یافت نشد",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} نتایج جستجو در پوشه های دیگر","{count} نتایج جستجو در پوشه های دیگر"],
-    "Search" : "جست‌و‌جو",
     "These apps will be updated:" : "این برنامه‌ها بروزرسانی شده‌اند:"
 },
 "nplurals=2; plural=(n > 1);");

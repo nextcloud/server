@@ -18,6 +18,7 @@
     "It is not allowed to send federated group shares from this server." : "不允许从此服务器发送联合云分组共享。",
     "Sharing %1$s failed, because this item is already shared with user %2$s" : "分享 %1$s 失败，因为该项目已经和用户 %2$s 进行了分享",
     "Not allowed to create a federated share with the same user" : "不能给您自己共享文件",
+    "Federated shares require read permissions" : "联邦式共享需要读取权限",
     "File is already shared with %s" : "文件已经共享与 %s",
     "Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable or uses a self-signed certificate." : "共享 %1$s 失败，无法找到 %2$s，可能该服务器当前无法访问或者使用了自签名证书。",
     "Could not find share" : "没有发现共享",

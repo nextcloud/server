@@ -214,6 +214,7 @@ OC.L10N.register(
     "You do not have permissions to see the details of this user" : "您没有权限查看该用户的详细信息",
     "Add new password" : "添加新的密码",
     "Add new email address" : "添加新的电子邮件地址",
+    "Add user to group" : "添加用户到组",
     "Set user as admin for" : "设置用户为管理员",
     "Select user quota" : "选择用户容量限额",
     "No language set" : "没有设置语言",

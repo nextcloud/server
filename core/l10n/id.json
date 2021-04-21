@@ -132,6 +132,7 @@
     "Log in with a device" : "Log masuk dengan perangkat",
     "Back" : "Kembali",
     "Reset search" : "Ulang pencarian",
+    "Search" : "Cari",
     "Settings" : "Pengaturan",
     "Could not load your contacts" : "Tidak dapat memuat kontak Anda",
     "Search contacts …" : "Cari kontak ...",
@@ -350,7 +351,6 @@
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} hasil pencarian di folder lain"],
     "A password reset message has been sent to the e-mail address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Pesan setel ulang kata sandi telah terkirim ke alamat surel akun ini. Jika Anda tidak menerimanya, silakan periksa folder spam/junk atau minta bantuan administrator Anda.",
     "Nextcloud {app}" : "{app} Nextcloud",
-    "Search" : "Cari",
     "These apps will be updated:" : "Aplikasi berikut akan diperbarui:"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

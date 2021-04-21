@@ -89,6 +89,7 @@ OC.L10N.register(
     "Forgot password?" : "დაგავიწყდათ პაროლი?",
     "Back" : "უკან",
     "Reset search" : "ძიების შედეგები",
+    "Search" : "ძებნა",
     "Settings" : "პარამეტრები",
     "Could not load your contacts" : "თქვენი კონტაქტების ჩატვირთვა ვერ მოხერხდა",
     "Search contacts …" : "მოძებნეთ კონტაქტები ...",
@@ -239,7 +240,6 @@ OC.L10N.register(
     "Searching other places" : "ვეძებთ დანარჩენ ადგილებში",
     "No search results in other folders for {tag}{filter}{endtag}" : "ძიების შედეგები სხვა დირექტორიებში {tag}{filter}{endtag}-სთვის არაა",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} ძიების შედეგები სხვა დირექტორიებში","{count} ძიების შედეგები სხვა დირექტორიებში"],
-    "Search" : "ძებნა",
     "These apps will be updated:" : "ეს აპლიკაციები განახლდება:"
 },
 "nplurals=2; plural=(n!=1);");

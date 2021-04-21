@@ -146,6 +146,7 @@ OC.L10N.register(
     "Start typing to search" : "Начините вводить символы для поиска",
     "Loading more results …" : "Загрузка дополнительных результатов…",
     "Load more results" : "Загрузить дополнительные результаты",
+    "Search" : "Найти",
     "An error occurred while searching for {type}" : "Произошла ошибка при поиске {type}",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Чтобы начать поиск необходимо ввести как минимум  {minSearchLength} символ","Чтобы начать поиск необходимо ввести как минимум {minSearchLength} символа","Чтобы начать поиск необходимо ввести как минимум {minSearchLength} символов","Чтобы начать поиск необходимо ввести как минимум {minSearchLength} символа"],
     "Search {types} …" : "Поиск {types}…",
@@ -371,7 +372,6 @@ OC.L10N.register(
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} результат в другой папке","{count} результата в другой папке","{count} результатов в другой папке","{count} результатов в других папках"],
     "A password reset message has been sent to the e-mail address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Письмо с инструкциями по сбросу пароля отправлено на адрес электронной почты этой учётной записи. Если это письмо не будет получено, проверьте папку «Спам» или сообщите об этом администратору системы.",
     "Nextcloud {app}" : "Nextcloud {app}",
-    "Search" : "Найти",
     "These apps will be updated:" : "Следующие приложения будут обновлены:",
     "For more details see the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "Более подробные сведения содержатся в <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">документации</a>."
 },

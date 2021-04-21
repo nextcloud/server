@@ -138,6 +138,7 @@ OC.L10N.register(
     "Start typing to search" : "Krogit da skrivañ evit klask",
     "Loading more results …" : "O kargañ muioc'h a zisoc'hoù ...",
     "Load more results" : "Kagañ muioc'h a disoc'hoù",
+    "Search" : "Klask",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Lakait {minSearchLength} arouez pe muioc'h evit klask","Lakait {minSearchLength} arouez pe muioc'h evit klask","Lakait {minSearchLength} arouez pe muioc'h evit klask","Lakait {minSearchLength} arouez pe muioc'h evit klask","Lakait  {minSearchLength} arouez pe muioc'h evit klask"],
     "Search {types} …" : "Klask {types} ...",
     "Settings" : "Arventennoù",
@@ -361,7 +362,6 @@ OC.L10N.register(
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} disoc'h en un teuliad all","{count} disoc'h en un teuliad all","{count} disoc'h en un teuliad all","{count} disoc'h en un teuliad all","{count} disoc'h en un teuliad all"],
     "A password reset message has been sent to the e-mail address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Ur gemenadenn cheñch ger-tremenn a zo bet kaset da chom-lec'h bostel ar c'hont. Ma n'ho peus ket resevet anezhañ, gwiriit en ho spam/boubelenn pe goulennit d'ho merour sikour.",
     "Nextcloud {app}" : "Nextcloud {app}",
-    "Search" : "Klask",
     "These apps will be updated:" : "Ar meziantoù mañ a vo adnevezet :",
     "For more details see the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "Avit muioc'h a munudoù sellit ouzh an <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">diellvadur</a>."
 },

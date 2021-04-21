@@ -178,6 +178,7 @@ OC.L10N.register(
     "Start typing to search" : "Hasi idazten bilatzeko",
     "Loading more results …" : "Emaitza gehiago kargatzen ...",
     "Load more results" : "Kargatu emaitza gehiago ",
+    "Search" : "Bilatu",
     "An error occurred while searching for {type}" : "Errorea gertatu da {type} bilatzean",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Sartu karaktere {minSearchLength} edo gehiago bilatzeko","Sartu {minSearchLength} karaktere edo gehiago bilatzeko"],
     "Search {types} …" : "Bilatu  {types} …",
@@ -403,7 +404,6 @@ OC.L10N.register(
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} bilaketa-emaitza beste karpeta batean","{count} bilaketa-emaitza beste karpetetan"],
     "A password reset message has been sent to the e-mail address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Pasahitza berrezartzeko mezu bat bidali da kontu honen helbide elektronikora. Ez baduzu jasotzen, egiaztatu spam/zabor karpetak edo eskatu laguntza zure administratzaile lokalari.",
     "Nextcloud {app}" : "Nextcloud {app}",
-    "Search" : "Bilatu",
     "These apps will be updated:" : "Aplikazio hauek eguneratuko dira:",
     "For more details see the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "Xehetasun gehiagorako ikus <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">dokumentazioa </a>."
 },

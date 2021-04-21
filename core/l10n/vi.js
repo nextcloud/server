@@ -81,6 +81,7 @@ OC.L10N.register(
     "Forgot password?" : "Quên mật khẩu sao?",
     "Back" : "Quay lại",
     "Reset search" : "Đặt lại tìm kiếm",
+    "Search" : "Tìm kiếm",
     "Settings" : "Cài đặt",
     "Could not load your contacts" : "Không thể tải liên hệ của bạn",
     "Search contacts …" : "Tìm liên hệ ...",
@@ -225,7 +226,6 @@ OC.L10N.register(
     "Searching other places" : "Tìm kiếm các nơi khác",
     "No search results in other folders for {tag}{filter}{endtag}" : "Không có kết quả tìm kiếm trong các thư mục khác cho {tag} {filter} {endtag}",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} kết quả tìm kiếm trong các thư mục khác"],
-    "Search" : "Tìm kiếm",
     "These apps will be updated:" : "Những ứng dụng sẽ được cập nhật:"
 },
 "nplurals=1; plural=0;");

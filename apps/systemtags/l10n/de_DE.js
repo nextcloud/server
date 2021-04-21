@@ -34,7 +34,7 @@ OC.L10N.register(
     "%1$s added system tag %3$s to %2$s" : "%1$s hat den System-Tag %3$s zu %2$s hinzugefügt",
     "{actor} added system tag {systemtag} to {file}" : "{actor} hat den System-Tag {systemtag} zu {file} hinzugefügt",
     "System tag %2$s was removed from %1$s by the system" : "System-Tag %2$s wurde vom System aus %1$s entfernt",
-    "System tag {systemtag} was removed from {file} by the system" : "System-Tag {systemtag} wurde vom System aus {file} entfernt",
+    "System tag {systemtag} was removed from {file} by the system" : "System-Tag {systemtag} wurde vom System von {file} entfernt",
     "You removed system tag %2$s from %1$s" : "Sie haben den System-Tag %2$s von %1$s entfernt",
     "You removed system tag {systemtag} from {file}" : "Sie haben den System-Tag {systemtag} von {file} entfernt",
     "%1$s removed system tag %3$s from %2$s" : "%1$s hat den System-Tag %3$s von %2$s entfernt",

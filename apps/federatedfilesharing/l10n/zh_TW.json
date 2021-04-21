@@ -18,6 +18,7 @@
     "It is not allowed to send federated group shares from this server." : "不允許從此伺服器傳送聯盟式群組分享。",
     "Sharing %1$s failed, because this item is already shared with user %2$s" : "分享 %1$s 失敗，因為此項目已與使用者 %2$s 分享",
     "Not allowed to create a federated share with the same user" : "不允許與同一個使用者建立聯盟式分享",
+    "Federated shares require read permissions" : "聯盟分享需要讀取權限",
     "File is already shared with %s" : "檔案已與 %s 分享",
     "Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable or uses a self-signed certificate." : "分享 %1$s 失敗，找不到 %2$s，或許伺服器目前無法存取或使用自行簽署的憑證。",
     "Could not find share" : "找不到分享",

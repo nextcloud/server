@@ -181,6 +181,7 @@ OC.L10N.register(
     "Start typing to search" : "Beginnen Sie mit der Eingabe, um zu suchen",
     "Loading more results …" : "Lade weitere Ergebnisse…",
     "Load more results" : "Weitere Ergebnisse laden",
+    "Search" : "Suche",
     "An error occurred while searching for {type}" : "Es ist ein Fehler beim Suchen nach {type} aufgetreten",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Bitte geben Sie {minSearchLength} Zeichen oder mehr ein nach denen gesucht werden soll","Bitte geben Sie {minSearchLength} Zeichen oder mehr ein nach denen gesucht werden soll"],
     "Search {types} …" : "Suche {types}…",
@@ -406,7 +407,6 @@ OC.L10N.register(
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} Suchergebnis in anderen Ordnern","{count} Suchergebnisse in anderen Ordnern"],
     "A password reset message has been sent to the e-mail address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Eine Nachricht zum Zurücksetzen des Passworts wurde an die in diesem Konto hinterlegte E-Mail-Adresse gesendet. Wenn Sie diese nicht erhalten haben, prüfen Sie bitte den Spam/Junk-Ordner oder kontaktieren Sie Ihren lokalen Administrator für weitere Hilfe.",
     "Nextcloud {app}" : "Nextcloud {app}",
-    "Search" : "Suche",
     "These apps will be updated:" : "Diese Apps werden aktualisiert:",
     "For more details see the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "Für weitere Einzelheiten sehen Sie bitte in die <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">Dokumentation</a>."
 },

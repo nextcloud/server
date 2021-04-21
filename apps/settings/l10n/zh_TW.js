@@ -214,6 +214,7 @@ OC.L10N.register(
     "You do not have permissions to see the details of this user" : "您沒有檢視此使用者詳細資料的權限",
     "Add new password" : "新增密碼",
     "Add new email address" : "新增電子郵件",
+    "Add user to group" : "新增使用者到群組",
     "Set user as admin for" : "將使用者設定為管理員",
     "Select user quota" : "選取使用者配額",
     "No language set" : "未設定語言",

@@ -87,6 +87,7 @@ OC.L10N.register(
     "Forgot password?" : "¿Olvidaste tu contraseña?",
     "Back" : "Atrás",
     "Reset search" : "Reestablecer búsqueda",
+    "Search" : "Buscar",
     "Settings" : "Configuraciones ",
     "Search contacts …" : "Buscar contactos ...",
     "No contacts found" : "No se encontraron contactos",
@@ -235,7 +236,6 @@ OC.L10N.register(
     "Searching other places" : "Buscando en otras ubicaciones",
     "No search results in other folders for {tag}{filter}{endtag}" : "No hay resultados para la búsqueda {tag}{filter}{endtag} en otras carpetas",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} resultado de la búsqueda en otra carpeta","{count} resultados de la búsqueda en otras carpetas"],
-    "Search" : "Buscar",
     "These apps will be updated:" : "Las siguientes apllicaciones se actualizarán:"
 },
 "nplurals=2; plural=(n != 1);");

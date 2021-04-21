@@ -181,6 +181,7 @@ OC.L10N.register(
     "Start typing to search" : "入力して検索を開始します",
     "Loading more results …" : "次の結果を読み込み中 ...",
     "Load more results" : "次の結果を読み込む",
+    "Search" : "検索",
     "An error occurred while searching for {type}" : "{type} の検索中にエラーが発生しました",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["検索には、{minSearchLength}文字以上が必要です"],
     "Search {types} …" : "{types} を検索…",
@@ -406,7 +407,6 @@ OC.L10N.register(
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["他のフォルダーの検索件数 {count}"],
     "A password reset message has been sent to the e-mail address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "このアカウントのメールアドレスにパスワードをリセットするメールが送信されました。 メールが届かなかった場合はあなたのスパム/ジャンクフォルダーをチェックするか、管理者に問い合わせてください。",
     "Nextcloud {app}" : "Nextcloud {app}",
-    "Search" : "検索",
     "These apps will be updated:" : "次のアプリがアップデートされます：",
     "For more details see the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "詳細は <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">ドキュメンテーション</a> を参照してください。"
 },
