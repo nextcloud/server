@@ -1,9 +1,7 @@
 /**
- * @copyright Copyright (c) 2016 John Molakvoæ <skjnldsv@protonmail.com>
+ * @copyright Copyright (c) 2019 John Molakvoæ <skjnldsv@protonmail.com>
  *
  * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -14,7 +12,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -22,18 +20,11 @@
  *
  */
 
-const path = require('path')
-
-module.exports = {
-	entry: {
-		 // files_versions : path.join(__dirname, 'src', 'files_versions.js'),
-		files_versions_tab : path.join(__dirname, 'src', 'files_versions_tab.js'),
-	},
-	output: {
-		path: path.resolve(__dirname, './js'),
-		publicPath: '/js/',
-		filename: '[name].js',
-		chunkFilename: 'files_versions.[id].js?v=[chunkhash]',
-		jsonpFunction: 'webpackJsonpFilesVersions',
-	},
+const isNumber = function(num) {
+	if (!num) {
+		return false
+	}
+	return Number(num).toString() === num.toString()
 }
+
+export { isNumber }
