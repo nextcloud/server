@@ -169,6 +169,7 @@ OC.L10N.register(
     "Start typing to search" : "ເລີ່ມພິມເພື່ອຄົ້ນຫາ",
     "Loading more results …" : "ຜົນການດາວໂຫຼດເພີ່ມເຕີມ ...",
     "Load more results" : "ຜົນLoad ເພີ່ມເຕີມ",
+    "Search" : "ຄົ້ນຫາ",
     "An error occurred while searching for {type}" : "ເກີດຂໍ້ຜິດພາດໃນຂະນະທີ່ຊອກຫາ {ປະເພດ}",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["ກະລຸນາໃສ່ {minSearchLength} ຕົວອັກສອນຫຼືຫຼາຍກວ່ານັ້ນເພື່ອຄົ້ນຫາ"],
     "Search {types} …" : "ຄົ້ນຫາ {ປະເພດ} ...",
@@ -394,7 +395,6 @@ OC.L10N.register(
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} ຜົນການຄົ້ນຫາໃນໂຟນເດີອື່ນໆ"],
     "A password reset message has been sent to the e-mail address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "ມີການສົ່ງຂໍ້ຄວາມການຕັ້ງລະຫັດຜ່ານໄປຫາທີ່ຢູ່ອີເມວຂອງບັນຊີນີ້. ຖ້າທ່ານບໍ່ໄດ້ຮັບ, ໃຫ້ກວດເບິ່ງໂຟນເດີ spam/junk ຂອງທ່ານ ຫຼື ຂໍຄວາມຊ່ວຍເຫຼືອຈາກເບີ່ງລະບົບຂອງທ່ານ.",
     "Nextcloud {app}" : "Nextcloud {app}",
-    "Search" : "ຄົ້ນຫາ",
     "These apps will be updated:" : "ແອັບເຫຼົ່ານີ້ຈະໄດ້ຮັບການປັບປຸງ:",
     "For more details see the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "ສໍາລັບລາຍລະອຽດເພີ່ມເຕີມເບິ່ງ <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">ເອກະສານ</a>."
 },

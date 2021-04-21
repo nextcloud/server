@@ -181,6 +181,7 @@ OC.L10N.register(
     "Start typing to search" : "Aramak için yazmaya başlayın",
     "Loading more results …" : "Diğer sonuçlar yükleniyor…",
     "Load more results" : "Diğer sonuçları yükle",
+    "Search" : "Arama",
     "An error occurred while searching for {type}" : "{type} aranırken bir sorun çıktı",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Lütfen aramak için en az {minSearchLength} karakter yazın","Lütfen aramak için en az {minSearchLength} karakter yazın"],
     "Search {types} …" : "{types} arama…",
@@ -406,7 +407,6 @@ OC.L10N.register(
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["Diğer klasörlerde {count} arama sonucu","Diğer klasörlerde {count} arama sonucu"],
     "A password reset message has been sent to the e-mail address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Bu hesabın e-posta adresine bir parola sıfırlama iletisi gönderildi. Bir e-posta almazsanız gelen kutunuzdaki spam/gereksiz klasörlerine bakın ya da yardım almak için BT yöneticinizle görüşün.",
     "Nextcloud {app}" : "Nextcloud {app}",
-    "Search" : "Arama",
     "These apps will be updated:" : "Şu uygulamalar güncellenecek:",
     "For more details see the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "Ayrıntılı bilgi almak için, <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">belgelere</a> bakın."
 },

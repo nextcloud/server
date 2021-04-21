@@ -75,6 +75,7 @@ OC.L10N.register(
     "Forgot password?" : "Unustasid parooli?",
     "Back" : "Tagasi",
     "Reset search" : "Lähtesta otsing",
+    "Search" : "Otsi",
     "Settings" : "Seaded",
     "Could not load your contacts" : "Sinu kontaktide laadimine ebaõnnestus",
     "Search contacts …" : "Otsi kontakte",
@@ -215,7 +216,6 @@ OC.L10N.register(
     "Continue to Nextcloud" : "Edasi Nextcloudi",
     "Searching other places" : "Otsi teistest kohtadest",
     "No search results in other folders for {tag}{filter}{endtag}" : "Teistest kaustadest ei leitud {tag}{filter}{endtag}",
-    "Search" : "Otsi",
     "These apps will be updated:" : "Neid rakendusi uuendatakse:"
 },
 "nplurals=2; plural=(n != 1);");

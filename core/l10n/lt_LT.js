@@ -114,6 +114,7 @@ OC.L10N.register(
     "Start typing to search" : "Norėdami atlikti paiešką, pradėkite rašyti",
     "Loading more results …" : "Įkeliama daugiau rezultatų…",
     "Load more results" : "Įkelti daugiau rezultatų",
+    "Search" : "Ieškoti",
     "An error occurred while searching for {type}" : "Ieškant {type}, įvyko klaida",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Norėdami atlikti paiešką, įveskite {minSearchLength} ar daugiau simbolių","Norėdami atlikti paiešką, įveskite {minSearchLength} ar daugiau simbolių","Norėdami atlikti paiešką, įveskite {minSearchLength} ar daugiau simbolių","Norėdami atlikti paiešką, įveskite {minSearchLength} ar daugiau simbolių"],
     "Search {types} …" : "Ieškoti {types}…",
@@ -314,7 +315,6 @@ OC.L10N.register(
     "No search results in other folders for {tag}{filter}{endtag}" : "Kituose aplankuose nėra paieškos rezultatų, skirtų {tag}{filter}{endtag}",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} paieškos rezultatas kitame aplanke","{count} paieškos rezultatai kitame aplanke","{count} paieškos rezultatų kitame aplanke","{count} paieškos rezultatas kitame aplanke"],
     "Nextcloud {app}" : "Nextcloud {app}",
-    "Search" : "Ieškoti",
     "These apps will be updated:" : "Bus atnaujintos šios programėlės:",
     "For more details see the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "Išsamesnei informacijai, žiūrėkite <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">dokumentaciją</a>."
 },

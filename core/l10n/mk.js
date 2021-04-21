@@ -140,6 +140,7 @@ OC.L10N.register(
     "Start typing to search" : "Напишете нешто за пребарување",
     "Loading more results …" : "Вчитување на повеќе резултати ...",
     "Load more results" : "Вчитај повеќе резултати",
+    "Search" : "Барај",
     "An error occurred while searching for {type}" : "Настана грешка при пребарување за {type}",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Внесете најмалку {minSearchLength} карактер за да пребарувате","Внесете најмалку {minSearchLength} карактери или повеќе за да пребарувате"],
     "Search {types} …" : "Пребарување {types} …",
@@ -359,7 +360,6 @@ OC.L10N.register(
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} резултат од пребарувањето во други директориуми","{count} резултати од пребарувањето во други директориуми"],
     "A password reset message has been sent to the e-mail address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Порака за ресетирање на лозинката е испратена на е-пошта на оваа сметка. Доколку не сте ја добиле, проверете во spam/junk папката или прашајте го вашиот локален администратор за помош.",
     "Nextcloud {app}" : "Nextcloud {app}",
-    "Search" : "Барај",
     "These apps will be updated:" : "Следните апликации чќе бидат надградени:",
     "For more details see the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "За повеќе детали погледнете во <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">документацијата</a>."
 },

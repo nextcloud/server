@@ -180,6 +180,7 @@ OC.L10N.register(
     "Start typing to search" : "Hledejte psaním",
     "Loading more results …" : "Načítání dalších výsledků…",
     "Load more results" : "Načíst další výsledky",
+    "Search" : "Hledat",
     "An error occurred while searching for {type}" : "Došlo k chybě při hledání pro {type}",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Aby bylo možné vyhledávat, zadejte alespoň {minSearchLength} znak","Aby bylo možné vyhledávat, zadejte alespoň {minSearchLength} znaky","Aby bylo možné vyhledávat, zadejte alespoň {minSearchLength} znaků","Aby bylo možné vyhledávat, zadejte alespoň {minSearchLength} znaky"],
     "Search {types} …" : "Hledat {types}…",
@@ -405,7 +406,6 @@ OC.L10N.register(
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} nález v další složce","{count} nálezy v dalších složkách","{count} nálezů v dalších složkách","{count} nálezy v dalších složkách"],
     "A password reset message has been sent to the e-mail address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Na e-mailovou adresu, vedenou k tomuto účtu, byla odeslána zpráva s pokyny pro znovunastavení hesla. Pokud jste ji neobdrželi, podívejte se také do složek s nevyžádanou poštou (spam) a/nebo požádejte svého místního správce o pomoc.",
     "Nextcloud {app}" : "Nextcloud {app}",
-    "Search" : "Hledat",
     "These apps will be updated:" : "Tyto aplikace budou aktualizovány:",
     "For more details see the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "Další podrobnosti naleznete v <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">dokumentaci</a>."
 },

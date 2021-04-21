@@ -88,6 +88,7 @@ OC.L10N.register(
     "Forgot password?" : "¿Contraseña olvidada?",
     "Back" : "Atrás",
     "Reset search" : "Restablecer búsqueda",
+    "Search" : "Buscar",
     "Settings" : "Configuraciones ",
     "Could not load your contacts" : "No se pudieron cargar tus contactos",
     "Search contacts …" : "Buscar contactos ...",
@@ -244,7 +245,6 @@ OC.L10N.register(
     "No search results in other folders for {tag}{filter}{endtag}" : "No hay resultados para la búsqueda en otras carpetas para {tag}{filter}{endtag}",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} resultado de la búsqueda en otra carpeta","{count} resultados de la búsqueda en otras carpetas"],
     "Nextcloud {app}" : "Nextcloud {app}",
-    "Search" : "Buscar",
     "These apps will be updated:" : "Las siguientes apllicaciones se actualizarán:"
 },
 "nplurals=2; plural=(n != 1);");

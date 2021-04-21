@@ -140,6 +140,7 @@ OC.L10N.register(
     "Start typing to search" : "Почните да куцате да бисте претраживали",
     "Loading more results …" : "Учитавам још резултата…",
     "Load more results" : "Учитај још резултата",
+    "Search" : "Претражи",
     "An error occurred while searching for {type}" : "Десила се грешка приликом тражења за {type}",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Унесите {minSearchLength} или више карактера да бисте претраживали","Унесите {minSearchLength} или више карактера да бисте претраживали","Унесите {minSearchLength} или више карактера да бисте претраживали"],
     "Search {types} …" : "Претражи {types}…",
@@ -364,7 +365,6 @@ OC.L10N.register(
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} резултат претраге у осталим фасциклама","{count} резултата претраге у осталим фасциклама","{count} резултата претраге у осталим фасциклама"],
     "A password reset message has been sent to the e-mail address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Порука за ресетовање лозинке је послата на е-мејл адресу овог налога. Ако је не примите, проверите фасцикле за нежељену пошту или питајте за помоћ локалног администратора.",
     "Nextcloud {app}" : "Некстклауд апликација {app}",
-    "Search" : "Претражи",
     "These apps will be updated:" : "Следеће апликације ће бити ажуриране:",
     "For more details see the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "За више детаља, погледајте <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">документацију</a>."
 },
