@@ -178,6 +178,7 @@ OC.L10N.register(
     "Start typing to search" : "اكتب هنا للبحث",
     "Loading more results …" : "جاري عرض المزيد من النتائج…",
     "Load more results" : " عرض المزيد من النتائج",
+    "Search" : "البحث",
     "An error occurred while searching for {type}" : "حدث خطأ أثناء البحث عن {type}",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["من فضلك ادخل أحرف {minSearchLength} أو أكثر للبحث","من فضلك ادخل أحرف {minSearchLength} أو أكثر للبحث","من فضلك ادخل أحرف {minSearchLength} أو أكثر للبحث","من فضلك ادخل أحرف {minSearchLength} أو أكثر للبحث","من فضلك ادخل أحرف {minSearchLength} أو أكثر للبحث","من فضلك ادخل أحرف {minSearchLength}  أو أكثر للبحث"],
     "Search {types} …" : "بحث {types} …",
@@ -403,7 +404,6 @@ OC.L10N.register(
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} نتائج البحث في مجلدات اخرى","{count} نتائج البحث في مجلدات اخرى","{count} نتائج البحث في مجلدات اخرى","{count} نتائج البحث في مجلدات اخرى","{count} نتائج البحث في مجلدات اخرى","{count} نتائج البحث في مجلدات اخرى"],
     "A password reset message has been sent to the e-mail address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "تم إرسال رسالة إعادة تعيين كلمة المرور إلى عنوان البريد الإلكتروني لهذا الحساب. إذا لم تستلمها ، فتحقق من مجلدات البريد الغير هام / غير المرغوب فيه أو اطلب المساعدة من المسؤول المحلي.",
     "Nextcloud {app}" : "نكست كلاود {app} ",
-    "Search" : "البحث",
     "These apps will be updated:" : "سوف يتم تحديث هذه التطبيقات :",
     "For more details see the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "لمزيد من التفاصيل انظر <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">التعليمات</a>."
 },

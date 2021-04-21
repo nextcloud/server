@@ -85,6 +85,7 @@ OC.L10N.register(
     "Forgot password?" : "Ai uitat parola?",
     "Back" : "Înapoi",
     "Reset search" : "Resetează căutarea",
+    "Search" : "Căutare",
     "Settings" : "Setări",
     "Could not load your contacts" : "Nu pot încarca contactele",
     "Search contacts …" : "Caută contacte ...",
@@ -250,7 +251,6 @@ OC.L10N.register(
     "Searching other places" : "Se caută în alte locuri",
     "No search results in other folders for {tag}{filter}{endtag}" : "Nu au fost găsite rezultate în alte directoare pentru {tag}{filter}{endtag}",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} rezultat al căutării în alte directoare","{count} rezultate ale căutării în alte directoare","{count} rezultate ale căutării în alte directoare"],
-    "Search" : "Căutare",
     "These apps will be updated:" : "Aceste aplicații vor fi actualizate:"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

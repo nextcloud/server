@@ -145,6 +145,7 @@ OC.L10N.register(
     "Start typing to search" : "להתחלת החיפוש יש להקליד",
     "Loading more results …" : "נטענות תוצאות נוספות…",
     "Load more results" : "לטעון עוד תוצאות",
+    "Search" : "חיפוש",
     "An error occurred while searching for {type}" : "אירעה שגיאה בחיפוש אחר {type}",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["נא להקליד לפחות תו אחד כדי לחפש","נא להקליד לפחות {minSearchLength} תווים כדי לחפש","נא להקליד לפחות {minSearchLength} תווים כדי לחפש","נא להקליד לפחות {minSearchLength} תווים כדי לחפש"],
     "Search {types} …" : "חפש {types} ...",
@@ -370,7 +371,6 @@ OC.L10N.register(
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} תוצאת חיפוש בתיקייה אחרות","{count} תוצאות חיפוש בתיקיות אחרות","{count} תוצאות חיפוש בתיקיות אחרות","{count} תוצאות חיפוש בתיקיות אחרות"],
     "A password reset message has been sent to the e-mail address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "הודעת איפוס סיסמה נשלחה לכתובת הדואר האלקטרוני של חשבון זה. אם אינך מקבל אותו, בדוק את תיקיות דואר הספאם/זבל שלך, או בקש עזרה ממנהל המקומי שלך.",
     "Nextcloud {app}" : "{app} מבית Nextcloud",
-    "Search" : "חיפוש",
     "These apps will be updated:" : "יישומים אלו יעודכנו:",
     "For more details see the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "לפרטים נוספים, עיין<a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\"> בתיעוד</a>."
 },

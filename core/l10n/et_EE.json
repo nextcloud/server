@@ -73,6 +73,7 @@
     "Forgot password?" : "Unustasid parooli?",
     "Back" : "Tagasi",
     "Reset search" : "Lähtesta otsing",
+    "Search" : "Otsi",
     "Settings" : "Seaded",
     "Could not load your contacts" : "Sinu kontaktide laadimine ebaõnnestus",
     "Search contacts …" : "Otsi kontakte",
@@ -213,7 +214,6 @@
     "Continue to Nextcloud" : "Edasi Nextcloudi",
     "Searching other places" : "Otsi teistest kohtadest",
     "No search results in other folders for {tag}{filter}{endtag}" : "Teistest kaustadest ei leitud {tag}{filter}{endtag}",
-    "Search" : "Otsi",
     "These apps will be updated:" : "Neid rakendusi uuendatakse:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

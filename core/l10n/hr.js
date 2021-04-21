@@ -180,6 +180,7 @@ OC.L10N.register(
     "Start typing to search" : "Počnite unositi tekst za pretraživanje",
     "Loading more results …" : "Učitavanje više rezultata…",
     "Load more results" : "Učitaj više rezultata",
+    "Search" : "Traži",
     "An error occurred while searching for {type}" : "Došlo je do pogreške pri traženju {type}",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Unesite {minSearchLength} ili više znakova za pretraživanje","Unesite {minSearchLength} ili više znakova za pretraživanje","Unesite {minSearchLength} ili više znakova za pretraživanje"],
     "Search {types} …" : "Traži {types}…",
@@ -405,7 +406,6 @@ OC.L10N.register(
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} rezultat u drugoj mapi","{count} rezultata u ostalim mapama","{count} rezultata u ostalim mapama"],
     "A password reset message has been sent to the e-mail address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Poslana je poruka e-pošte za resetiranje zaporke na adresu e-pošte za ovaj račun. Ako je niste primili, provjerite mape neželjena pošta/smeće ili se obratite svom lokalnom administratoru.",
     "Nextcloud {app}" : "Nextcloud {app}",
-    "Search" : "Traži",
     "These apps will be updated:" : "Sljedeće aplikacije bit će ažurirane:",
     "For more details see the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "Više informacija potražite u <a target=\"_blank\" rel=\"noreferrer noopener\" href=“{docLink}“>dokumentaciji</a>."
 },

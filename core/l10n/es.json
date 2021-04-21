@@ -179,6 +179,7 @@
     "Start typing to search" : "Empieza a escribir para buscar",
     "Loading more results …" : "Cargando más resultados …",
     "Load more results" : "Cargar más resultados",
+    "Search" : "Buscar",
     "An error occurred while searching for {type}" : "Ha ocurrido un error al buscar {type}",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Por favor, introduce {minSearchLength} carácter o más para buscar","Por favor, introduce {minSearchLength} caracteres o más para buscar"],
     "Search {types} …" : "Buscar {types}…",
@@ -404,7 +405,6 @@
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} resultado de búsqueda en otra carpeta","{count} resultados de búsqueda en otras carpetas"],
     "A password reset message has been sent to the e-mail address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Se ha enviado a tu dirección de correo un mensaje para reiniciar la contraseña. Si no lo recibes, comprueba si está en el buzón de Correo No Deseado (Spam) o pide ayuda a tu administrador local.",
     "Nextcloud {app}" : "Nextcloud {app}",
-    "Search" : "Buscar",
     "These apps will be updated:" : "Estas aplicaciones serán actualizadas:",
     "For more details see the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "Para más detalles, consulta la <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentación</a>."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

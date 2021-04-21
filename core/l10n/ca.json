@@ -139,6 +139,7 @@
     "Start typing to search" : "Comença a escriure per cercar",
     "Loading more results …" : "S'estan carregant més resultats ...",
     "Load more results" : "Carregar més resultats",
+    "Search" : "Cerca",
     "An error occurred while searching for {type}" : "S'ha produït un error mentre es buscava {type}",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Introduïu el caràcter {minSearchLength} o més per cercar","Introduïu {minSearchLength} caràcters o més per cercar"],
     "Search {types} …" : "Cerca {tipus} ...",
@@ -363,7 +364,6 @@
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} resultat de cerca en altres carpetes","{count} resultats de cerca en altres carpetes"],
     "A password reset message has been sent to the e-mail address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "S'ha enviat un missatge de reinici de contrasenya a l'adreça electrònica d'aquest compte. Si no el rebeu, comproveu les vostres carpetes de correu brossa o demaneu ajuda al vostre administrador local.",
     "Nextcloud {app}" : "{app} del Nextcloud",
-    "Search" : "Cerca",
     "These apps will be updated:" : "Aquestes aplicacions s'actualitzaran:",
     "For more details see the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "Per a més detalls consulteu <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">la documentació</a>."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

@@ -138,6 +138,7 @@ OC.L10N.register(
     "Start typing to search" : "Començatz de picar per recercar",
     "Loading more results …" : "Cargament de mai de resultats...",
     "Load more results" : "Cargar mai de resultats",
+    "Search" : "Recercar",
     "An error occurred while searching for {type}" : "Una error s’es producha en cercant {type}",
     "Search {types} …" : "Recèrca {types}…",
     "Settings" : "Paramètres",
@@ -356,7 +357,6 @@ OC.L10N.register(
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} resultat de recèrca dins d’autres dossièrs","{count} resultats de recèrca dins d’autres dossièrs"],
     "A password reset message has been sent to the e-mail address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Un messatge de reïnicializacion del senhal es estat enviat a l’adreça electronica d’aqueste compte., Se lo recebètz pas, verificatz lo dossièr dels indesirables/porrièrs o demandatz d’ajuda a vòstre administrator local.",
     "Nextcloud {app}" : "Nextcloud {app}",
-    "Search" : "Recercar",
     "These apps will be updated:" : "Aquestas aplicacions son estadas actualizadas :",
     "For more details see the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "Per mai de detalhs vejatz la <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentacion</a>."
 },

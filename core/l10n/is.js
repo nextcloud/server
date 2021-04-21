@@ -136,6 +136,7 @@ OC.L10N.register(
     "Start typing to search" : "Skrifaðu hér til að leita",
     "Loading more results …" : "Hleð inn fleiri niðurstöðum …",
     "Load more results" : "Hlaða inn fleiri niðurstöðum",
+    "Search" : "Leita",
     "An error occurred while searching for {type}" : "Villa kom upp við leit að {type}",
     "Search {types} …" : "Leita að {types} …",
     "Settings" : "Stillingar",
@@ -353,7 +354,6 @@ OC.L10N.register(
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} leitarniðurstöður í annarri möppu","{count} leitarniðurstöður í öðrum möppum"],
     "A password reset message has been sent to the e-mail address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Tengill til að endurstilla lykilorðið þitt hefur verið sendur á netfang þessa notandaaðgangs. Ef þú færð ekki póstinn, athugaðu þá ruslpóstmöppurnar þínar eða spurðu kerfisstjórann þinn um mögulegar ástæður þess.",
     "Nextcloud {app}" : "Nextcloud {app}",
-    "Search" : "Leita",
     "These apps will be updated:" : "Eftirfarandi öpp verða uppfærð:",
     "For more details see the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "Frekari upplýsingar má sjá í <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">hjálparskjölunum</a>."
 },

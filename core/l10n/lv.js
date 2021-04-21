@@ -112,6 +112,7 @@ OC.L10N.register(
     "Forgot password?" : "Aizmirsi paroli?",
     "Log in with a device" : "Pieslēgties izmantojot ierīci",
     "Back" : "Atpakaļ",
+    "Search" : "Meklēt",
     "Settings" : "Iestatījumi",
     "Could not load your contacts" : "Nevarēja ielādēt visas jūsu kontaktpersonas",
     "Search contacts …" : "Meklēt kontaktpersonu",
@@ -268,7 +269,6 @@ OC.L10N.register(
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} meklēšanas rezultāti citās mapēs","{count} meklēšanas rezultāti citās mapēs","{count} meklēšanas rezultāti citās mapēs"],
     "A password reset message has been sent to the e-mail address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Paroles atiestatīšanas ziņojums ir nosūtīts uz šī konta e-pasta adresi. Ja to nesaņemat, pārbaudiet mēstuļu mapes vai lūdziet palīdzību savam vietējam administratoram.",
     "Nextcloud {app}" : "Nextcloud {app}",
-    "Search" : "Meklēt",
     "These apps will be updated:" : "Šīs lietotnes tiks atjauninātas:"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

@@ -123,6 +123,7 @@ OC.L10N.register(
     "Back" : "뒤로",
     "Reset search" : "검색 초기화",
     "Start typing to search" : "검색어 입력",
+    "Search" : "검색",
     "An error occurred while searching for {type}" : "{type} 탐색중 오류 발생",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["{minSearchLength}개 이상의 문자를 입럭하시오"],
     "Settings" : "설정",
@@ -334,7 +335,6 @@ OC.L10N.register(
     "Searching other places" : "다른 장소 찾는 중",
     "No search results in other folders for {tag}{filter}{endtag}" : "다른 폴더에 {tag}{filter}{endtag} 검색 결과가 없음",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["다른 폴더의 검색 결과 {count}개"],
-    "Search" : "검색",
     "These apps will be updated:" : "다음 앱을 업데이트합니다:"
 },
 "nplurals=1; plural=0;");

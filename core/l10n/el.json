@@ -144,6 +144,7 @@
     "Start typing to search" : "Ξεκινήστε την πληκτρολόγηση για αναζήτηση",
     "Loading more results …" : "Γίνεται φόρτωση περισσότερων αποτελεσμάτων …",
     "Load more results" : "Φόρτωση περισσοτέρων αποτελεσμάτων",
+    "Search" : "Αναζήτηση",
     "An error occurred while searching for {type}" : "Παρουσιάστηκε σφάλμα κατά την αναζήτηση για {πληκτρολογήστε}",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Παρακαλούμε προσθέστε τουλάχιστον {minSearchLength}  χαρακτήρα ή περισσότερους για αναζήτηση.","Παρακαλούμε προσθέστε τουλάχιστον {minSearchLength}  χαρακτήρες ή περισσότερους για αναζήτηση."],
     "Search {types} …" : "Αναζήτηση {types} …",
@@ -369,7 +370,6 @@
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} αποτέλεσμα αναζήτησης σε άλλο φάκελο","{count} αποτελέσματα αναζήτησης σε άλλους φακέλους"],
     "A password reset message has been sent to the e-mail address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Ένα μύνημα επαναφοράς κωδικού απεστάλει στο e-mail σας. Εάν δεν το λάβατε, ελέγξτε τα ανεπιθύμητα/διεγραμένα σας ή ζητήστε βοήθεια απο τον διαχειριστή.",
     "Nextcloud {app}" : "Nextcloud {app}",
-    "Search" : "Αναζήτηση",
     "These apps will be updated:" : "Αυτές οι εφαρμογές θα ενημερωθούν:",
     "For more details see the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "Για περισσότερες λεπτομέρειες δείτε την <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">τεκμηρίωση</a>."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

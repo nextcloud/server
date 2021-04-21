@@ -169,6 +169,7 @@ OC.L10N.register(
     "Start typing to search" : "Comece a escribir para buscar",
     "Loading more results …" : "Cargando máis resultados…",
     "Load more results" : "Cargando máis resultados",
+    "Search" : "Buscar",
     "An error occurred while searching for {type}" : "Produciuse un erro ao buscar por {type}",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Introduza {minSearchLength} carácter ou máis para buscar","Introduza {minSearchLength} caracteres ou máis para buscar"],
     "Search {types} …" : "Buscando {types}…",
@@ -394,7 +395,6 @@ OC.L10N.register(
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} resultado de busca noutro cartafol","{count} resultados de busca noutros cartafoles"],
     "A password reset message has been sent to the e-mail address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Enviouse unha mensaxe de restabelecemento do contrasinal ao enderezo de correo electrónico desta conta. Se non o recibe, comprobe os seus cartafoles de correo non desexado/lixo ou pregunte ao seu administrador local.",
     "Nextcloud {app}" : "Nextcloud {app}",
-    "Search" : "Buscar",
     "These apps will be updated:" : "Actualizaranse estas aplicacións:",
     "For more details see the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "Para máis detalles vexa a <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentación</a>."
 },

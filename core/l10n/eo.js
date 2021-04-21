@@ -134,6 +134,7 @@ OC.L10N.register(
     "Forgot password?" : "Ĉu vi forgesis vian pasvorton?",
     "Back" : "Antaŭen",
     "Reset search" : "Restarigi serĉon",
+    "Search" : "Serĉi",
     "Settings" : "Agordo",
     "Could not load your contacts" : "Ne eblis ŝargi viajn kontaktojn",
     "Search contacts …" : "Serĉi kontaktojn…",
@@ -346,7 +347,6 @@ OC.L10N.register(
     "No search results in other folders for {tag}{filter}{endtag}" : "Neniu serĉ-rezultoj en aliaj dosierujoj por {tag}{filter}{endtag}",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} serĉ-rezulto en alia dosierujo","{count} serĉ-rezultoj en aliaj dosierujoj"],
     "A password reset message has been sent to the e-mail address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Mesaĝo por restarigi la pasvorton estis sendita al la retpoŝtadreso de tiu konto. Se vi ne ricevas ĝin baldaŭ, vidu vian spamujon aŭ pridemandu vian administranton.",
-    "Search" : "Serĉi",
     "These apps will be updated:" : "La jenajn aplikaĵoj ĝisdatiĝos:",
     "For more details see the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "Por pli da detaloj, vidu la <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">dokumentaron</a>."
 },
