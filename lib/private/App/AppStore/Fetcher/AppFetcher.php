@@ -36,7 +36,6 @@ use OC\Files\AppData\Factory;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
-use OCP\ILogger;
 use Psr\Log\LoggerInterface;
 
 class AppFetcher extends Fetcher {
