@@ -11,7 +11,6 @@ OC.L10N.register(
     "Generate keys" : "生成密钥",
     "Error generating key pair" : "生成密钥对错误",
     "All users. Type to select user or group." : "全部用户。点击选择用户或分组。",
-    "(group)" : "（分组）",
     "Compatibility with Mac NFD encoding (slow)" : "兼用 Mac NFD 编码（慢）",
     "Enable encryption" : "启用加密",
     "Enable previews" : "启用预览",
@@ -134,6 +133,7 @@ OC.L10N.register(
     "Add storage" : "增加存储",
     "Advanced settings" : "高级选项",
     "Allow users to mount external storage" : "允许用户挂载外部存储",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "全局凭据可用于使用具有相同凭据的多个外部存储进行身份验证。"
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "全局凭据可用于使用具有相同凭据的多个外部存储进行身份验证。",
+    "(group)" : "（分组）"
 },
 "nplurals=1; plural=0;");

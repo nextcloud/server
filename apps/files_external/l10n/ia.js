@@ -11,7 +11,6 @@ OC.L10N.register(
     "Generate keys" : "Generar claves",
     "Error generating key pair" : "Error durante creation de par de claves",
     "All users. Type to select user or group." : "Tote usatores. Scribe pro selectionar usator o gruppo.",
-    "(group)" : "(gruppo)",
     "Enable encryption" : "Activar cryptographia",
     "Enable previews" : "Activar previsualisationes",
     "Enable sharing" : "Activar compartimento",
@@ -76,6 +75,7 @@ OC.L10N.register(
     "Available for" : "Disponibile a",
     "Add storage" : "Adder immagazinage",
     "Advanced settings" : "Configurationes avantiate",
-    "Allow users to mount external storage" : "Permitter usatores montar immagazinage externe"
+    "Allow users to mount external storage" : "Permitter usatores montar immagazinage externe",
+    "(group)" : "(gruppo)"
 },
 "nplurals=2; plural=(n != 1);");

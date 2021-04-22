@@ -11,7 +11,6 @@ OC.L10N.register(
     "Generate keys" : "Ustvari ključe",
     "Error generating key pair" : "Prišlo je do napake med ustvarjanjem para ključev",
     "All users. Type to select user or group." : "Vsi uporabniki. Skupino ali uporabnika je mogoče tudi izbrati.",
-    "(group)" : "(skupina)",
     "Compatibility with Mac NFD encoding (slow)" : " Usklajenost s šifriranjem Mac NFD (počasno)",
     "Enable encryption" : "Omogoči šifriranje",
     "Enable previews" : "Omogoči predoglede",
@@ -134,6 +133,7 @@ OC.L10N.register(
     "Add storage" : "Dodaj shrambo",
     "Advanced settings" : "Napredne nastavitve",
     "Allow users to mount external storage" : "Dovoli uporabnikom priklapljanje zunanje shrambe",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Splošna poverila je mogoče uporabiti za overitev z več zunanjimi shrambami, ki uporabljajo enaka poverila."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Splošna poverila je mogoče uporabiti za overitev z več zunanjimi shrambami, ki uporabljajo enaka poverila.",
+    "(group)" : "(skupina)"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

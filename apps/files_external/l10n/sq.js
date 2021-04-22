@@ -11,7 +11,6 @@ OC.L10N.register(
     "Generate keys" : "Prodho kyçe",
     "Error generating key pair" : "Gabim gjatë prodhimit të çiftit të kyçeve",
     "All users. Type to select user or group." : "Krejt përdoruesit. Shtypni që të përzgjidhet përdorues ose grup.",
-    "(group)" : "(grup)",
     "Compatibility with Mac NFD encoding (slow)" : "Pëerputhshmëri me kodim Mac NFD (e ngadaltë)",
     "Enable encryption" : "Aktivizoni fshehtëzim",
     "Enable previews" : "Aktivizoni paraparje",
@@ -114,6 +113,7 @@ OC.L10N.register(
     "Available for" : "E gatshme për",
     "Add storage" : "Shtoni depozitë",
     "Advanced settings" : "Rregullime të mëtejshme",
-    "Allow users to mount external storage" : "Lejoju përdoruesve të montojnë depozita të jashtme"
+    "Allow users to mount external storage" : "Lejoju përdoruesve të montojnë depozita të jashtme",
+    "(group)" : "(grup)"
 },
 "nplurals=2; plural=(n != 1);");
