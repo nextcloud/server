@@ -126,6 +126,10 @@ class ManagerTest extends \Test\TestCase {
 			->willReturnCallback(function ($text, $parameters = []) {
 				return vsprintf($text, $parameters);
 			});
+		$this->l->method('n')
+			->willReturnCallback(function ($singular, $plural, $count, $parameters = []) {
+				return vsprintf(str_replace('%n', $count, ($count === 1) ? $singular : $plural), $parameters);
+			});
 
 		$this->factory = new DummyFactory(\OC::$server);
 
@@ -1957,7 +1961,7 @@ class ManagerTest extends \Test\TestCase {
 		$data = [];
 
 		// No exclude groups
-		$data[] = ['no', null, null, null, false];
+		$data[] = ['no', null, null, [], false];
 
 		// empty exclude list, user no groups
 		$data[] = ['yes', '', json_encode(['']), [], false];
