@@ -9,7 +9,7 @@ on:
 
 jobs:
   phpunit-oci8:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     strategy:
       # do not stop on another job's failure
