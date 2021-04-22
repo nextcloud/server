@@ -24,24 +24,21 @@
 
 import Vue from 'vue'
 import VueClipboard from 'vue-clipboard2'
-import {translate as t, translatePlural as n } from '@nextcloud/l10n'
+import { translate as t, translatePlural as n } from '@nextcloud/l10n'
 
 import VersionTab from '../../files_versions/src/views/VersionTab'
 import TabSections from '../../files_versions/src/services/TabSections'
 
-
-
 // Init Version Tab Service
-if(!window.OCA.Versions) {
+if (!window.OCA.Versions) {
 	window.OCA.Versions = {}
 }
 
-Object.assign(window.OCA.Versions, { VersionTabSections: new TabSections() });
+Object.assign(window.OCA.Versions, { VersionTabSections: new TabSections() })
 
 Vue.prototype.t = t
 Vue.prototype.n = n
 Vue.use(VueClipboard)
-
 
 // Init Sharing tab component
 const View = Vue.extend(VersionTab)
@@ -50,14 +47,9 @@ let TabInstance = null
 window.addEventListener('DOMContentLoaded', function() {
 	if (OCA.Files && OCA.Files.Sidebar) {
 		OCA.Files.Sidebar.registerTab(new OCA.Files.Sidebar.Tab({
-
-			_fileInfo: null,
-
-			_currentUser: null,
-
-			_client: null,
-
-
+			id: 'versions',
+			name: t('files_versions', 'version'),
+			icon: 'icon-version',
 			async mount(el, fileInfo, context) {
 				if (TabInstance) {
 					TabInstance.$destroy()
