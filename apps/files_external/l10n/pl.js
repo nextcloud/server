@@ -11,7 +11,6 @@ OC.L10N.register(
     "Generate keys" : "Wygeneruj klucze",
     "Error generating key pair" : "Błąd podczas generowania pary kluczy",
     "All users. Type to select user or group." : "Wszyscy użytkownicy. Zacznij pisać, aby wybrać użytkownika lub grupę.",
-    "(group)" : "(grupa)",
     "Compatibility with Mac NFD encoding (slow)" : "Zgodność z kodowaniem Mac NFD (powolny)",
     "Enable encryption" : "Włącz szyfrowanie",
     "Enable previews" : "Włącz podgląd",
@@ -134,6 +133,7 @@ OC.L10N.register(
     "Add storage" : "Dodaj zewnętrzne magazyny",
     "Advanced settings" : "Ustawienia zaawansowane",
     "Allow users to mount external storage" : "Pozwól użytkownikom montować zewnętrzne zasoby dyskowe",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Poświadczenia globalne mogą być używane do uwierzytelniania z wieloma zewnętrznymi magazynami, o ile posiadają takie same poświadczenia."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Poświadczenia globalne mogą być używane do uwierzytelniania z wieloma zewnętrznymi magazynami, o ile posiadają takie same poświadczenia.",
+    "(group)" : "(grupa)"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

@@ -11,7 +11,6 @@ OC.L10N.register(
     "Generate keys" : "Generi ŝlosilojn",
     "Error generating key pair" : "Eraro dum generado de ŝlosila paro",
     "All users. Type to select user or group." : "Ĉiuj uzantoj. Entajpu por elekti uzanton aŭ grupon.",
-    "(group)" : "(grupo)",
     "Compatibility with Mac NFD encoding (slow)" : "Kongrueco kun Makintoŝa „NFD“ signara kodoprezento (malrapide)",
     "Enable encryption" : "Ŝalti ĉifradon",
     "Enable previews" : "Ŝalti antaŭrigardojn",
@@ -132,6 +131,7 @@ OC.L10N.register(
     "Add storage" : "Aldoni konservejon",
     "Advanced settings" : "Altanivela agordo",
     "Allow users to mount external storage" : "Permesi al uzantoj surmeti eksteran konservejon",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Ĝeneralaj akreditiloj utilas, kiam pluraj eksteraj konservejoj kunuzas la samajn akreditilojn."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Ĝeneralaj akreditiloj utilas, kiam pluraj eksteraj konservejoj kunuzas la samajn akreditilojn.",
+    "(group)" : "(grupo)"
 },
 "nplurals=2; plural=(n != 1);");

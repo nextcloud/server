@@ -11,7 +11,6 @@ OC.L10N.register(
     "Generate keys" : "Generar llaves",
     "Error generating key pair" : "Se presentó un error al generar el juego de llaves",
     "All users. Type to select user or group." : "Todos los usuarios. Escribe para seleccionar el usuario o grupo",
-    "(group)" : "(grupo)",
     "Compatibility with Mac NFD encoding (slow)" : "Compatibilidad con codificación Mac NFD (lenta)",
     "Enable encryption" : "Habilitar encripción",
     "Enable previews" : "Habilitar vistas previas",
@@ -121,6 +120,7 @@ OC.L10N.register(
     "Click to recheck the configuration" : "Haz click para volver a marcar la configuración",
     "Add storage" : "Agregar almacenamiento",
     "Advanced settings" : "Configuraciones avanzadas",
-    "Allow users to mount external storage" : "Permitir a los usuarios montar almacenamiento externo"
+    "Allow users to mount external storage" : "Permitir a los usuarios montar almacenamiento externo",
+    "(group)" : "(grupo)"
 },
 "nplurals=2; plural=(n != 1);");

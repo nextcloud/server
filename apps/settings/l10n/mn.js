@@ -58,7 +58,6 @@ OC.L10N.register(
     "Cancel" : "Цуцлах",
     "Display name" : "Харагдах нэр",
     "Email" : "Цахим шуудан",
-    "Close" : "Хаах",
     "Quota" : " хувь хэмжээ",
     "Language" : "Хэл",
     "Last login" : "Сүүлд нэвтэрсэн огноо",
@@ -106,6 +105,7 @@ OC.L10N.register(
     "New password" : "Шинэ нууц үг",
     "Change password" : "Нууц үг солих",
     "Contacts" : "Харилцагчид",
-    "Public" : "Нийтийн"
+    "Public" : "Нийтийн",
+    "Close" : "Хаах"
 },
 "nplurals=2; plural=(n != 1);");

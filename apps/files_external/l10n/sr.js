@@ -11,7 +11,6 @@ OC.L10N.register(
     "Generate keys" : "Генериши кључеве",
     "Error generating key pair" : "Грешка при генерисању пара кључева",
     "All users. Type to select user or group." : "Сви корисници. Куцајте за избор корисника или групе.",
-    "(group)" : "(група)",
     "Compatibility with Mac NFD encoding (slow)" : "Компатибилност са NFD кодирањем (споро)",
     "Enable encryption" : "Укључи шифровање",
     "Enable previews" : "Укључи прегледе",
@@ -134,6 +133,7 @@ OC.L10N.register(
     "Add storage" : "Додај складиште",
     "Advanced settings" : "Напредне поставке",
     "Allow users to mount external storage" : "Дозволи корисницима да монтирају спољашња складишта",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Глобални акредитиви се могу користити за пријављивање на више спољних складишта које примају исте акредитиве."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Глобални акредитиви се могу користити за пријављивање на више спољних складишта које примају исте акредитиве.",
+    "(group)" : "(група)"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

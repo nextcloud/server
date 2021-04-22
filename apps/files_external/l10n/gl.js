@@ -11,7 +11,6 @@ OC.L10N.register(
     "Generate keys" : "Xerar claves",
     "Error generating key pair" : "Produciuse un erro ao xerar o par de clave",
     "All users. Type to select user or group." : "Todos os usuarios. Escriba para seleccionar usuario ou grupo.",
-    "(group)" : "(grupo)",
     "Compatibility with Mac NFD encoding (slow)" : "Compatibilidade coa codificación Mac MFD (lenta)",
     "Enable encryption" : "Activar o cifrado",
     "Enable previews" : "Activar as vistas previas",
@@ -134,6 +133,7 @@ OC.L10N.register(
     "Add storage" : "Engadir almacenamento",
     "Advanced settings" : "Axustes avanzados",
     "Allow users to mount external storage" : "Permitirlle aos usuarios montar almacenamento externo",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Poden empregarse credenciais globais para autenticar con múltiples almacenamentos externos que teñan as mesmas credenciais."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Poden empregarse credenciais globais para autenticar con múltiples almacenamentos externos que teñan as mesmas credenciais.",
+    "(group)" : "(grupo)"
 },
 "nplurals=2; plural=(n != 1);");

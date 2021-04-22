@@ -52,7 +52,7 @@ OC.L10N.register(
     "e.g. httpd/unix-directory" : "z.B. httpd/unix-directory",
     "Folder" : "Ordner",
     "Images" : "Bilder",
-    "Office documents" : "Office Dokumente",
+    "Office documents" : "Office-Dokumente",
     "PDF documents" : "PDF-Dokumente",
     "Custom mimetype" : "Benutzerdefinierter Mime-Typ",
     "Select a tag" : "Schlagwort auswählen",

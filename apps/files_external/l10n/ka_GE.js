@@ -11,7 +11,6 @@ OC.L10N.register(
     "Generate keys" : "გასაღებების გენერირება",
     "Error generating key pair" : "გასაღების წყვილის გენერირებისას წარმოიშვა შეცდომა",
     "All users. Type to select user or group." : "ყველა მომხმარებელი. მოხმარებლის ან ჯგუფის ასარჩევად დაიწყეთ ბეჭდვა.",
-    "(group)" : "(ჯგუფი)",
     "Compatibility with Mac NFD encoding (slow)" : "Mac NFD-სთან თავსებადობა (ნელი)",
     "Enable encryption" : "შიფრაციის ამოქმედება",
     "Enable previews" : "პრევიუების ამოქმედება",
@@ -120,6 +119,7 @@ OC.L10N.register(
     "Click to recheck the configuration" : "დააწკაპუნეთ კონფიგურაციის ხელახალი შემოწმებისთვის",
     "Add storage" : "საცავის დამატება",
     "Advanced settings" : "დამატებითი პარამეტრები",
-    "Allow users to mount external storage" : "მივცეთ მომხმარებლებს გარე საცავის მონტაჟის უფლება"
+    "Allow users to mount external storage" : "მივცეთ მომხმარებლებს გარე საცავის მონტაჟის უფლება",
+    "(group)" : "(ჯგუფი)"
 },
 "nplurals=2; plural=(n!=1);");

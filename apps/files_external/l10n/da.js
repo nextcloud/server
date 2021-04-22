@@ -11,7 +11,6 @@ OC.L10N.register(
     "Generate keys" : "Opret nøgler.",
     "Error generating key pair" : "Fejl under oprettelse af nøglepar",
     "All users. Type to select user or group." : "Alle brugere. Indtast for at vælge bruger eller gruppe.",
-    "(group)" : "(gruppe)",
     "Compatibility with Mac NFD encoding (slow)" : "Kompatibilitet med Mac NFD encoding (langsom)",
     "Enable encryption" : "Slå kryptering til",
     "Enable previews" : "Slå forhåndsvisninger til",
@@ -123,6 +122,7 @@ OC.L10N.register(
     "Available for" : "Tilgængelig for",
     "Add storage" : "Tilføj lager",
     "Advanced settings" : "Avancerede indstillinger",
-    "Allow users to mount external storage" : "Tillad brugere at montere eksternt lager"
+    "Allow users to mount external storage" : "Tillad brugere at montere eksternt lager",
+    "(group)" : "(gruppe)"
 },
 "nplurals=2; plural=(n != 1);");
