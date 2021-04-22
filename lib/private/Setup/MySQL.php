@@ -34,7 +34,6 @@ namespace OC\Setup;
 use OC\DB\ConnectionAdapter;
 use OC\DB\MySqlTools;
 use OCP\IDBConnection;
-use OCP\ILogger;
 use Doctrine\DBAL\Platforms\MySQL80Platform;
 use OCP\Security\ISecureRandom;
 
