@@ -11,7 +11,6 @@ OC.L10N.register(
     "Generate keys" : "Hasilkan kunci",
     "Error generating key pair" : "Kesalahan saat menghasilkan pasangan kunci",
     "All users. Type to select user or group." : "Semua pengguna. Ketik untuk memilih pengguna atau grup.",
-    "(group)" : "(grup)",
     "Compatibility with Mac NFD encoding (slow)" : "Kecocokan dengan pengkodean Mac NFD (lambat)",
     "Enable encryption" : "Aktifkan enkripsi",
     "Enable previews" : "Aktifkan pratinjau",
@@ -110,6 +109,7 @@ OC.L10N.register(
     "Available for" : "Tersedia untuk",
     "Add storage" : "Tambahkan penyimpanan",
     "Advanced settings" : "Pengaturan Lanjutan",
-    "Allow users to mount external storage" : "Izinkan pengguna untuk mengaitkan penyimpanan eksternal"
+    "Allow users to mount external storage" : "Izinkan pengguna untuk mengaitkan penyimpanan eksternal",
+    "(group)" : "(grup)"
 },
 "nplurals=1; plural=0;");

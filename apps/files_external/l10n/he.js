@@ -11,7 +11,6 @@ OC.L10N.register(
     "Generate keys" : "יצירת מפתחות",
     "Error generating key pair" : "שגיאה ביצירת זוג מפתחות",
     "All users. Type to select user or group." : "כל המשתמשים. יש להקיש לבחירת משתמש או קבוצה.",
-    "(group)" : "(קבוצה)",
     "Compatibility with Mac NFD encoding (slow)" : "תואם של קידוד Mac NFD (איטי)",
     "Enable encryption" : "אפשר הצפנה",
     "Enable previews" : "מאפשר תצוגות מקדימות",
@@ -134,6 +133,7 @@ OC.L10N.register(
     "Add storage" : "הוספת אחסון",
     "Advanced settings" : "הגדרות מתקדמות",
     "Allow users to mount external storage" : "מאפשר למשתמשים לחבר אחסון חיצוני",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "ניתן להשתמש בפרטי גישה גלובליים עם מגוון אמצעי אחסון חיצוניים שיש להם את אותם פרטי הגישה."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "ניתן להשתמש בפרטי גישה גלובליים עם מגוון אמצעי אחסון חיצוניים שיש להם את אותם פרטי הגישה.",
+    "(group)" : "(קבוצה)"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");

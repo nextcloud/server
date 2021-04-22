@@ -11,7 +11,6 @@ OC.L10N.register(
     "Generate keys" : "تولید کلید",
     "Error generating key pair" : "خطا در تولید جفت کلید",
     "All users. Type to select user or group." : "همه کاربران. کاربر یا گروه را برای انتخاب تایپ کنید",
-    "(group)" : "(گروه)",
     "Compatibility with Mac NFD encoding (slow)" : "سازگاری با رمزگذاری Mac NFD (کند)",
     "Enable encryption" : "فعال کردن رمزگذاری",
     "Enable previews" : "فعال سازی پیش نمایش",
@@ -131,6 +130,7 @@ OC.L10N.register(
     "Add storage" : "اضافه کردن حافظه",
     "Advanced settings" : "تنظیمات پیشرفته",
     "Allow users to mount external storage" : "به کاربران اجازه دهید حافظه خارجی را نصب کنند.",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "از اعتبار جهانی می توان برای تأیید اعتبار با چندین انبار خارجی که دارای اعتبار یکسانی هستند استفاده کرد."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "از اعتبار جهانی می توان برای تأیید اعتبار با چندین انبار خارجی که دارای اعتبار یکسانی هستند استفاده کرد.",
+    "(group)" : "(گروه)"
 },
 "nplurals=2; plural=(n > 1);");

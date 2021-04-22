@@ -11,7 +11,6 @@ OC.L10N.register(
     "Generate keys" : "キーを生成",
     "Error generating key pair" : "キーペアの生成エラー",
     "All users. Type to select user or group." : "すべてのユーザー。ユーザー、グループを追加",
-    "(group)" : "(グループ)",
     "Compatibility with Mac NFD encoding (slow)" : "Mac NFD エンコード互換 (遅い)",
     "Enable encryption" : "暗号化を有効に",
     "Enable previews" : "プレビューを有効に",
@@ -134,6 +133,7 @@ OC.L10N.register(
     "Add storage" : "ストレージを追加",
     "Advanced settings" : "詳細設定",
     "Allow users to mount external storage" : "ユーザーに外部ストレージの接続を許可する",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "グローバル資格情報を使用して、同じ資格情報を持つ複数の外部記憶装置で認証することができます。"
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "グローバル資格情報を使用して、同じ資格情報を持つ複数の外部記憶装置で認証することができます。",
+    "(group)" : "(グループ)"
 },
 "nplurals=1; plural=0;");

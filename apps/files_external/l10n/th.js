@@ -10,7 +10,6 @@ OC.L10N.register(
     "Generate keys" : "สร้างคีย์",
     "Error generating key pair" : "ข้อผิดพลาดในการสร้างคีย์แบบเป็นคู่",
     "All users. Type to select user or group." : "ผู้ใช้ทุกคน พิมพ์เพื่อเลือกผู้ใช้หรือกลุ่ม",
-    "(group)" : "(กลุ่ม)",
     "Enable encryption" : "เปิดใช้งานการเข้ารหัส",
     "Enable previews" : "เปิดใช้งานการแสดงตัวอย่าง",
     "Enable sharing" : "เปิดให้สามารถแชร์ได้",
@@ -99,6 +98,7 @@ OC.L10N.register(
     "Available for" : "สามารถใช้ได้สำหรับ",
     "Add storage" : "เพิ่มพื้นที่จัดเก็บข้อมูล",
     "Advanced settings" : "ตั้งค่าขั้นสูง",
-    "Allow users to mount external storage" : "อนุญาตให้ผู้ใช้ติดตั้งการจัดเก็บข้อมูลภายนอก"
+    "Allow users to mount external storage" : "อนุญาตให้ผู้ใช้ติดตั้งการจัดเก็บข้อมูลภายนอก",
+    "(group)" : "(กลุ่ม)"
 },
 "nplurals=1; plural=0;");

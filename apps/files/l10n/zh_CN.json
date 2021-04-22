@@ -188,6 +188,7 @@
     "Crop image previews" : "裁剪图片预览",
     "WebDAV" : "WebDAV",
     "Use this address to access your Files via WebDAV" : "使用此地址通过 WebDAV 访问您的文件",
+    "Toggle %1$s sublist" : "切换 %1$s 子列表",
     "Toggle grid view" : "切换网格视图",
     "No files in here" : "这里没有文件",
     "Upload some content or sync with your devices!" : "上传一些内容或与您的设备同步！",

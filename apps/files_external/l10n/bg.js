@@ -11,7 +11,6 @@ OC.L10N.register(
     "Generate keys" : "Генериране на криптографски ключове",
     "Error generating key pair" : "Грешка при генериране на криптографски ключове",
     "All users. Type to select user or group." : "Всички потребители. Пишете, за да изберете потребител или група.",
-    "(group)" : "(група)",
     "Compatibility with Mac NFD encoding (slow)" : "Съвместимост с кодиране на Mac NFD (бавно)",
     "Enable encryption" : "Включване на криптиране",
     "Enable previews" : "Активиране на визуализациите",
@@ -134,6 +133,7 @@ OC.L10N.register(
     "Add storage" : "Добави хранилище",
     "Advanced settings" : "Допълнителни настройки",
     "Allow users to mount external storage" : "Разреши на потребителите да монтират външни хранилища",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Глобалните идентификационни данни могат да се използват за удостоверяване с множество външни хранилища, които имат едни и същи идентификационни данни."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Глобалните идентификационни данни могат да се използват за удостоверяване с множество външни хранилища, които имат едни и същи идентификационни данни.",
+    "(group)" : "(група)"
 },
 "nplurals=2; plural=(n != 1);");
