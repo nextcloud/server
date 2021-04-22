@@ -46,11 +46,23 @@
 					{{ t('core', 'Forgot password?') }}
 				</a>
 				<br>
-				<a v-if="hasPasswordless"
-					href="#"
-					@click.prevent="passwordlessLogin = true">
-					{{ t('core', 'Log in with a device') }}
-				</a>
+				<template v-if="hasPasswordless">
+					<div v-if="countAlternativeLogins"
+						class="alternative-logins">
+						<a v-if="hasPasswordless"
+							class="button"
+							:class="{ 'single-alt-login-option': countAlternativeLogins }"
+							href="#"
+							@click.prevent="passwordlessLogin = true">
+							{{ t('core', 'Log in with a device') }}
+						</a>
+					</div>
+					<a v-else
+						href="#"
+						@click.prevent="passwordlessLogin = true">
+						{{ t('core', 'Log in with a device') }}
+					</a>
+				</template>
 			</div>
 			<div v-else-if="!loading && passwordlessLogin"
 				key="reset"
@@ -63,7 +75,7 @@
 					:is-https="isHttps"
 					:has-public-key-credential="hasPublicKeyCredential"
 					@submit="loading = true" />
-				<a @click.prevent="passwordlessLogin = false" href="#">
+				<a href="#" @click.prevent="passwordlessLogin = false">
 					{{ t('core', 'Back') }}
 				</a>
 			</div>
@@ -155,6 +167,10 @@ export default {
 		hasPasswordless: {
 			type: Boolean,
 			default: false,
+		},
+		countAlternativeLogins: {
+			type: Number,
+			default: 0,
 		},
 		isHttps: {
 			type: Boolean,

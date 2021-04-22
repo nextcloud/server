@@ -204,6 +204,9 @@ class LoginController extends Controller {
 		$parameters = [
 			'alt_login' => OC_App::getAlternativeLogIns(),
 		];
+
+		$this->initialStateService->provideInitialState('core', 'countAlternativeLogins', count($parameters['alt_login']));
+
 		return new TemplateResponse(
 			$this->appName, 'login', $parameters, 'guest'
 		);

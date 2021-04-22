@@ -69,6 +69,7 @@ new View({
 		resetPasswordUser: fromStateOr('resetPasswordUser', ''),
 		directLogin: query.direct === '1',
 		hasPasswordless: fromStateOr('webauthn-available', false),
+		countAlternativeLogins: fromStateOr('countAlternativeLogins', false),
 		isHttps: window.location.protocol === 'https:',
 		hasPublicKeyCredential: typeof (window.PublicKeyCredential) !== 'undefined',
 		hideLoginForm: fromStateOr('hideLoginForm', false),
