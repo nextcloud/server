@@ -929,7 +929,7 @@ class OC {
 				\OC::$server->get(\bantu\IniGetWrapper\IniGetWrapper::class),
 				\OC::$server->getL10N('lib'),
 				\OC::$server->query(\OCP\Defaults::class),
-				\OC::$server->getLogger(),
+				\OC::$server->get(\Psr\Log\LoggerInterface::class),
 				\OC::$server->getSecureRandom(),
 				\OC::$server->query(\OC\Installer::class)
 			);

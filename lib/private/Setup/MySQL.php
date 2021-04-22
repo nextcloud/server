@@ -66,7 +66,9 @@ class MySQL extends AbstractDatabase {
 		try {
 			$connection->connect();
 		} catch (\Exception $e) {
-			$this->logger->logException($e);
+			$this->logger->error($e->getMessage(), [
+				'exception' => $e,
+			]);
 			throw new \OC\DatabaseSetupException($this->trans->t('MySQL username and/or password not valid'),
 				$this->trans->t('You need to enter details of an existing account.'), 0, $e);
 		}
@@ -177,9 +179,8 @@ class MySQL extends AbstractDatabase {
 				}
 			}
 		} catch (\Exception $ex) {
-			$this->logger->logException($ex, [
-				'message' => 'Can not create a new MySQL user, will continue with the provided user.',
-				'level' => ILogger::INFO,
+			$this->logger->info('Can not create a new MySQL user, will continue with the provided user.', [
+				'exception' => $ex,
 				'app' => 'mysql.setup',
 			]);
 		}

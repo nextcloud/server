@@ -117,7 +117,7 @@ if (\OCP\Util::needUpgrade()) {
 	// avoid side effects
 	\OC_User::setIncognitoMode(true);
 
-	$logger = \OC::$server->getLogger();
+	$logger = \OC::$server->get(\Psr\Log\LoggerInterface::class);
 	$config = \OC::$server->getConfig();
 	$updater = new \OC\Updater(
 			$config,

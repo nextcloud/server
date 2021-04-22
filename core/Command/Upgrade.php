@@ -37,8 +37,8 @@ use OC\Console\TimestampFormatter;
 use OC\Installer;
 use OC\Updater;
 use OCP\IConfig;
-use OCP\ILogger;
 use OCP\Util;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
@@ -56,15 +56,13 @@ class Upgrade extends Command {
 	/** @var IConfig */
 	private $config;
 
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	private $logger;
 
-	/**
-	 * @param IConfig $config
-	 * @param ILogger $logger
-	 * @param Installer $installer
-	 */
-	public function __construct(IConfig $config, ILogger $logger, Installer $installer) {
+	/** @var Installer */
+	private $installer;
+
+	public function __construct(IConfig $config, LoggerInterface $logger, Installer $installer) {
 		parent::__construct();
 		$this->config = $config;
 		$this->logger = $logger;
