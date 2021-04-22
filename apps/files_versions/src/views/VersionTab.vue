@@ -27,35 +27,21 @@
 			<div class="icon icon-error" />
 			<h2>{{ error }}</h2>
 		</div>
-
-		<!-- Version content -->
 		<template>
 			<!-- Version information -->
-			<ListItemIcon :versions="versionsList"
-				icon="icon-text"
-				title="10 days ago"
-				subtitle="< 1KB">
-				<Actions>
-					<ActionButton icon="icon-edit" @click="alert('Edit')">
-						{{ version.timestamp }}Restore
-					</ActionButton>
-					<ActionButton icon="icon-delete" @click="alert('Delete')">
-						Download
-					</ActionButton>
-				</Actions>
-			</ListItemIcon>
+			<VersionEntry :versions="versionsList" />
 		</template>
 	</div>
 </template>
 
 <script>
-// import { CollectionList } from 'nextcloud-vue-collections'
 
-import Avatar from '@nextcloud/vue/dist/Components/Avatar'
 import axios from '@nextcloud/axios'
 import { generateRemoteUrl } from '@nextcloud/router'
 import { ListItemIcon } from '@nextcloud/vue'
 import { getCurrentUser } from '@nextcloud/auth'
+
+import VersionEntry from '../components/VersionEntry'
 
 export default {
 	name: 'VersionTab',

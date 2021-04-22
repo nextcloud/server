@@ -19,18 +19,19 @@
   -->
 
 <template>
-	<li class="version-entry">
-		<slot name="avatar" />
-		<div v-tooltip="tooltip" class="sharing-entry__desc">
-			<h5>{{ title }}</h5>
-			<p v-if="subtitle">
-				{{ subtitle }}
-			</p>
-		</div>
-		<Actions v-if="$slots['default']" menu-align="right" class="version-entry__actions">
-			<slot />
+	<ListItemIcon class="version-entry"
+		icon="icon-text"
+		title="10 days ago"
+		subtitle="< 1KB">
+		<Actions>
+			<ActionButton icon="icon-edit" @click="alert('Edit')">
+				{{ version.timestamp }}Restore
+			</ActionButton>
+			<ActionButton icon="icon-delete" @click="alert('Delete')">
+				Download
+			</ActionButton>
 		</Actions>
-	</li>
+	</ListItemIcon>
 </template>
 
 <script>
@@ -42,29 +43,15 @@ export default {
 
 	components: {
 		Actions,
+
 	},
 
 	directives: {
 		Tooltip,
 	},
-
 	props: {
-		title: {
-			type: String,
-			default: '',
-			required: true,
-		},
-		tooltip: {
-			type: String,
-			default: '',
-		},
-		subtitle: {
-			type: String,
-			default: '',
-		},
-		isUnique: {
-			type: Boolean,
-			default: true,
+		versions: {
+
 		},
 	},
 
