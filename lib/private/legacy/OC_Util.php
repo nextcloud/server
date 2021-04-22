@@ -955,7 +955,7 @@ class OC_Util {
 		if (!self::isAnnotationsWorking()) {
 			$errors[] = [
 				'error' => $l->t('PHP is apparently set up to strip inline doc blocks. This will make several core apps inaccessible.'),
-				'hint' => $l->t('This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator.')
+				'hint' => $l->t('This is probably caused by a cache / accelerator such as Zend OPcache or eAccelerator.')
 			];
 		}
 
