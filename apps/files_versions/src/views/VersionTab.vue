@@ -31,13 +31,19 @@
 		<!-- Version content -->
 		<template>
 			<!-- Version information -->
-			<ListItemIcon :versions="versionsList" icon="icon-text" title="10 days ago" subtitle="< 1KB">
+			<ListItemIcon :versions="versionsList"
+				icon="icon-text"
+				title="10 days ago"
+				subtitle="< 1KB">
 				<Actions>
-					<ActionButton icon="icon-edit" @click="alert('Edit')">{{version.timestamp}}Restore</ActionButton>
-					<ActionButton icon="icon-delete" @click="alert('Delete')">Download</ActionButton>
+					<ActionButton icon="icon-edit" @click="alert('Edit')">
+						{{ version.timestamp }}Restore
+					</ActionButton>
+					<ActionButton icon="icon-delete" @click="alert('Delete')">
+						Download
+					</ActionButton>
 				</Actions>
 			</ListItemIcon>
-
 		</template>
 	</div>
 </template>
@@ -47,17 +53,18 @@
 
 import Avatar from '@nextcloud/vue/dist/Components/Avatar'
 import axios from '@nextcloud/axios'
-import { generateRemoteUrl} from "@nextcloud/router";
+import { generateRemoteUrl } from '@nextcloud/router'
 import { ListItemIcon } from '@nextcloud/vue'
+import { getCurrentUser } from '@nextcloud/auth'
+import { sendHeartbeat } from '../../../user_status/src/services/heartbeatService'
 
 export default {
 	name: 'VersionTab',
 
 	components: {
 
-		Avatar,
 		ListItemIcon,
-		VersionEntry
+		VersionEntry,
 	},
 
 	data() {
@@ -76,35 +83,34 @@ export default {
 
 			// version object
 			versionsList: [],
-	}
+		}
 	},
 
-
 	methods: {
-		setFileInfo (fileInfo) {
+		setFileInfo(fileInfo) {
 			this._fileInfo = fileInfo
 		},
 
-		getFileInfo () {
+		getFileInfo() {
 			return this._fileInfo
 		},
 
-		setCurrentUser (user) {
+		setCurrentUser(user) {
 			this._currentUser = user
 		},
 
-		getCurrentUser () {
-			return this._currentUser || OC.getCurrentUser().uid
+		getCurrentUser() {
+			return this._currentUser || getCurrentUser().uid
 		},
 
-		setClient (client) {
+		setClient(client) {
 			this._client = client
 		},
 		/**
 		 * Update current fileInfo and fetch new data
 		 * @param {Object} fileInfo the current file FileInfo
 		 */
-		async update (fileInfo) {
+		async update(fileInfo) {
 			fileInfo = this.fileInfo
 			name = this._fileInfo.get('name')
 		},
@@ -116,19 +122,19 @@ export default {
 		/**
 		 * Get the existing shares infos
 		 */
-		async getVersions () {
+		async getVersions() {
 			try {
 				this.loading = true
-
 				// init params
 				const shareUrl = generateRemoteUrl('dav') + this.getCurrentUser() + '/versions/' + this._fileInfo.get('id')
 				const format = 'json'
-                console.log('Shareurl:', shareUrl);
+				console.log('Shareurl:', shareUrl)
 				// TODO: replace with proper getFUllpath implementation of our own FileInfo model
 				const path = (this.fileInfo.path + '/' + this.fileInfo.name).replace('//', '/')
 
-				console.log(path);
+				console.log(path)
 				// fetch version
+
 				const fetchVersion = await axios.get(shareUrl, {
 					params: {
 						format,
@@ -139,7 +145,7 @@ export default {
 				this.loading = false
 				// process results
 				this.versionList = fetchVersion.data
-				console.log(versionList);
+				console.log(versionList)
 				this.version.fullPath = fullPath
 				this.version.fileId = fileId
 				this.version.name = name
@@ -155,9 +161,9 @@ export default {
 				console.error('Error loading the version list', error)
 			}
 		},
-		mounted(){
-			this.getVersions();
-		}
-	}
+		mounted() {
+			this.getVersions()
+		},
+	},
 }
 </script>

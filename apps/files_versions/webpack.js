@@ -26,8 +26,8 @@ const path = require('path')
 
 module.exports = {
 	entry: {
-		 // files_versions : path.join(__dirname, 'src', 'files_versions.js'),
-		files_versions_tab : path.join(__dirname, 'src', 'files_versions_tab.js'),
+		files_versions: path.join(__dirname, 'src', 'files_versions.js'),
+		files_versions_tab: path.join(__dirname, 'src', 'files_versions_tab.js'),
 	},
 	output: {
 		path: path.resolve(__dirname, './js'),
