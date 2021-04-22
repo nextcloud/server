@@ -32,15 +32,16 @@ use OC\AppFramework\Bootstrap\ServiceRegistration;
 use OC\Authentication\TwoFactorAuth\ProviderLoader;
 use OCP\App\IAppManager;
 use OCP\Authentication\TwoFactorAuth\IProvider;
+use OCP\IUser;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class ProviderLoaderTest extends TestCase {
 
-	/** @var IAppManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IAppManager|MockObject */
 	private $appManager;
 
-	/** @var \OCP\IUser|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IUser|MockObject */
 	private $user;
 
 	/** @var RegistrationContext|MockObject */
@@ -53,7 +54,7 @@ class ProviderLoaderTest extends TestCase {
 		parent::setUp();
 
 		$this->appManager = $this->createMock(IAppManager::class);
-		$this->user = $this->createMock(\OCP\IUser::class);
+		$this->user = $this->createMock(IUser::class);
 
 		$this->registrationContext = $this->createMock(RegistrationContext::class);
 		$coordinator = $this->createMock(Coordinator::class);
@@ -123,7 +124,7 @@ class ProviderLoaderTest extends TestCase {
 			->with($this->user)
 			->willReturn([]);
 
-		$this->registrationContext->method('getTwoFactorProvider')
+		$this->registrationContext->method('getTwoFactorProviders')
 			->willReturn([
 				new ServiceRegistration('twofactor_test', '\\OCA\\TwoFactorTest\\Provider')
 			]);
