@@ -250,7 +250,7 @@ class Setup {
 					'Use it at your own risk! ',
 					[$this->defaults->getName()]
 				),
-				'hint' => $this->l10n->t('For the best results, please consider using a GNU/Linux server instead.'),
+				'hint' => $this->l10n->t('For the best results, please consider using a GNU / Linux server instead.'),
 			];
 		}
 
