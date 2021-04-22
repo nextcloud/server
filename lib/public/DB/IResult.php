@@ -66,7 +66,7 @@ interface IResult {
 	public function fetchColumn();
 
 	/**
-	 * @param int $columnIndex
+	 * Returns the first value of the next row of the result or FALSE if there are no more rows.
 	 *
 	 * @return false|mixed
 	 *
