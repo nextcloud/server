@@ -45,7 +45,7 @@ class SMB extends Backend {
 			->setIdentifier('smb')
 			->addIdentifierAlias('\OC\Files\Storage\SMB')// legacy compat
 			->setStorageClass('\OCA\Files_External\Lib\Storage\SMB')
-			->setText($l->t('SMB / CIFS'))
+			->setText($l->t('SMB/CIFS'))
 			->addParameters([
 				new DefinitionParameter('host', $l->t('Host')),
 				new DefinitionParameter('share', $l->t('Share')),
