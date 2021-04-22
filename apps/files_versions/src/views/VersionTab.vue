@@ -56,7 +56,6 @@ import axios from '@nextcloud/axios'
 import { generateRemoteUrl } from '@nextcloud/router'
 import { ListItemIcon } from '@nextcloud/vue'
 import { getCurrentUser } from '@nextcloud/auth'
-import { sendHeartbeat } from '../../../user_status/src/services/heartbeatService'
 
 export default {
 	name: 'VersionTab',
