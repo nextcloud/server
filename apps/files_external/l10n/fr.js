@@ -11,7 +11,6 @@ OC.L10N.register(
     "Generate keys" : "Générer des clés",
     "Error generating key pair" : "Erreur lors de la génération des clés",
     "All users. Type to select user or group." : "Tous les utilisateurs. Cliquez ici pour restreindre.",
-    "(group)" : "(groupe)",
     "Compatibility with Mac NFD encoding (slow)" : "Compatibilité avec l'encodage Mac NFD (lent)",
     "Enable encryption" : "Activer le chiffrement",
     "Enable previews" : "Activer les prévisualisations",
@@ -134,6 +133,7 @@ OC.L10N.register(
     "Add storage" : "Ajouter un support de stockage",
     "Advanced settings" : "Paramètres avancés",
     "Allow users to mount external storage" : "Autoriser les utilisateurs à monter des espaces de stockage externes",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Les identifiants globaux peuvent être utilisés pour s'authentifier auprès de multiples stockages externes qui ont les mêmes identifiants."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Les identifiants globaux peuvent être utilisés pour s'authentifier auprès de multiples stockages externes qui ont les mêmes identifiants.",
+    "(group)" : "(groupe)"
 },
 "nplurals=2; plural=(n > 1);");

@@ -11,7 +11,6 @@ OC.L10N.register(
     "Generate keys" : "Generera nycklar",
     "Error generating key pair" : "Fel vid generering av nyckelpar",
     "All users. Type to select user or group." : "Alla användare. Skriv för att välja användare eller grupp.",
-    "(group)" : "(grupp)",
     "Compatibility with Mac NFD encoding (slow)" : "Kompatibilitet med Mac NFD kodning (slö)",
     "Enable encryption" : "Aktivera kryptering",
     "Enable previews" : "Aktivera förhandsgranskningar",
@@ -132,6 +131,7 @@ OC.L10N.register(
     "Add storage" : "Lägg till lagring",
     "Advanced settings" : "Avancerade inställningar",
     "Allow users to mount external storage" : "Tillåt användare att montera extern lagring",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globala användaruppgifter kan användas för att autentisera med flera externa lagrings-instanser som använder samma användaruppgifter."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globala användaruppgifter kan användas för att autentisera med flera externa lagrings-instanser som använder samma användaruppgifter.",
+    "(group)" : "(grupp)"
 },
 "nplurals=2; plural=(n != 1);");

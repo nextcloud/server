@@ -11,7 +11,6 @@ OC.L10N.register(
     "Generate keys" : "Generate keys",
     "Error generating key pair" : "Error generating key pair",
     "All users. Type to select user or group." : "All users. Type to select user or group.",
-    "(group)" : "(group)",
     "Compatibility with Mac NFD encoding (slow)" : "Compatibility with Mac NFD encoding (slow)",
     "Enable encryption" : "Enable encryption",
     "Enable previews" : "Enable previews",
@@ -126,6 +125,7 @@ OC.L10N.register(
     "Click to recheck the configuration" : "Click to recheck the configuration",
     "Add storage" : "Add storage",
     "Advanced settings" : "Advanced settings",
-    "Allow users to mount external storage" : "Allow users to mount external storage"
+    "Allow users to mount external storage" : "Allow users to mount external storage",
+    "(group)" : "(group)"
 },
 "nplurals=2; plural=(n != 1);");

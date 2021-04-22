@@ -11,7 +11,6 @@ OC.L10N.register(
     "Generate keys" : "Vytvoriť kľúče",
     "Error generating key pair" : "Chyba pri vytváraní dvojice kľúčov",
     "All users. Type to select user or group." : "Všetci používatelia. Začnite písať pre výber používateľa alebo skupinu.",
-    "(group)" : "(skupina)",
     "Compatibility with Mac NFD encoding (slow)" : "Kompatibilita s Mac NFD enkódovaním (pomalé)",
     "Enable encryption" : "Povoliť šifrovanie",
     "Enable previews" : "Povoliť náhľady",
@@ -134,6 +133,7 @@ OC.L10N.register(
     "Add storage" : "Pridať úložisko",
     "Advanced settings" : "Rozšírené nastavenia",
     "Allow users to mount external storage" : "Povoliť používateľom pripojiť externé úložiská",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globálne prihlasovacie údaje je možné použiť pre overenie s viacerými externými úložiskami, ktoré majú rovnaké prihlasovacie údaje."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globálne prihlasovacie údaje je možné použiť pre overenie s viacerými externými úložiskami, ktoré majú rovnaké prihlasovacie údaje.",
+    "(group)" : "(skupina)"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

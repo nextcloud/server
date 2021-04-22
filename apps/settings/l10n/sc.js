@@ -174,11 +174,11 @@ OC.L10N.register(
     "Cancel" : "Annulla",
     "Account deletion" : "Cantzelladura de su contu",
     "Edit User" : "Modìfica utente",
+    "New user" : "Utèntzia noa",
     "Display name" : "Ammustra nùmene",
     "Email" : "Posta eletrònica",
     "Default language" : "Limba predefinida",
     "Add a new user" : "Agiunghe un'utèntzia noa",
-    "Close" : "Serra",
     "Language" : "Limba",
     "Storage location" : "Positzione de s'archiviatzione",
     "Last login" : "Ùrtimu atzessu",
@@ -193,7 +193,6 @@ OC.L10N.register(
     "Updates" : "Agiornamentos",
     "Details" : "Detàllios",
     "by {author}\n{license}" : "de {author}\n{license}",
-    "New user" : "Utèntzia noa",
     "Enter group name" : "Inserta nùmene de su grupu",
     "Add group" : "Agiunghe grupu",
     "Everyone" : "Chie chi siat",
@@ -210,6 +209,7 @@ OC.L10N.register(
     "Documentation" : "Documentatzione",
     "Save" : "Sarva",
     "Change password" : "Càmbia crae",
-    "Contacts" : "Cuntatos"
+    "Contacts" : "Cuntatos",
+    "Close" : "Serra"
 },
 "nplurals=2; plural=(n != 1);");

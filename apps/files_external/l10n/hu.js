@@ -11,7 +11,6 @@ OC.L10N.register(
     "Generate keys" : "Kulcsok generálása",
     "Error generating key pair" : "Hiba történt a kulcspár generálása közben",
     "All users. Type to select user or group." : "Összes felhasználó. Írj be egy felhasználót vagy csoportot.",
-    "(group)" : "(csoport)",
     "Compatibility with Mac NFD encoding (slow)" : "Kompatibilitás a Mac NFD kódolással (lassú)",
     "Enable encryption" : "Titkosítás engedélyezése",
     "Enable previews" : "Előnézet engedélyezése",
@@ -134,6 +133,7 @@ OC.L10N.register(
     "Add storage" : "Tároló becsatolása",
     "Advanced settings" : "Haladó beállítások",
     "Allow users to mount external storage" : "Külső tárolók csatolásának  engedélyezése a felhasználók részére",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "A globális hitelesítő adatokkal azonos külső hitelesítő adatokkal rendelkező külső tárhelyek hitelesíthetők."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "A globális hitelesítő adatokkal azonos külső hitelesítő adatokkal rendelkező külső tárhelyek hitelesíthetők.",
+    "(group)" : "(csoport)"
 },
 "nplurals=2; plural=(n != 1);");

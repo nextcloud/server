@@ -11,7 +11,6 @@ OC.L10N.register(
     "Generate keys" : "Genereer sleutels",
     "Error generating key pair" : "Fout bij genereren sleutelpaar",
     "All users. Type to select user or group." : "Alle gebruikers. Tikken om een gebruiker of groep te selecteren.",
-    "(group)" : "(groep)",
     "Compatibility with Mac NFD encoding (slow)" : "Compatibiliteit met Mac NFD encoding (traag)",
     "Enable encryption" : "Versleuteling inschakelen",
     "Enable previews" : "Activeren voorbeelden",
@@ -134,6 +133,7 @@ OC.L10N.register(
     "Add storage" : "Toevoegen opslag",
     "Advanced settings" : "Geavanceerde instellingen",
     "Allow users to mount external storage" : "Sta gebruikers toe om een externe opslag aan te koppelen",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globale inloggegevens kunnen worden gebruikt met meerdere externe opslagsystemen met dezelfde inloggegevens."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globale inloggegevens kunnen worden gebruikt met meerdere externe opslagsystemen met dezelfde inloggegevens.",
+    "(group)" : "(groep)"
 },
 "nplurals=2; plural=(n != 1);");

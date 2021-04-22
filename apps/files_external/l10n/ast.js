@@ -10,7 +10,6 @@ OC.L10N.register(
     "Generate keys" : "Xenerar claves",
     "Error generating key pair" : "Fallu xenerando'l par de claves",
     "All users. Type to select user or group." : "Tolos usuarios. Escribe pa seleccionar usuariu o grupu.",
-    "(group)" : "(grupu)",
     "Enable encryption" : "Habilitar cifráu",
     "Never" : "Enxamás",
     "Read only" : "Namái llectura",
@@ -74,6 +73,7 @@ OC.L10N.register(
     "Configuration" : "Configuración",
     "Available for" : "Disponible pa",
     "Add storage" : "Amestar almacenamientu",
-    "Advanced settings" : "Axustes avanzaos"
+    "Advanced settings" : "Axustes avanzaos",
+    "(group)" : "(grupu)"
 },
 "nplurals=2; plural=(n != 1);");
