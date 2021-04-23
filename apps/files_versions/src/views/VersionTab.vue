@@ -39,9 +39,8 @@
 import axios from '@nextcloud/axios'
 import { generateRemoteUrl } from '@nextcloud/router'
 import { ListItemIcon } from '@nextcloud/vue'
-import { getCurrentUser } from '@nextcloud/auth'
-
 import VersionEntry from '../components/VersionEntry'
+import FileVersion from "../services/FileVersion";
 
 export default {
 	name: 'VersionTab',
@@ -83,11 +82,6 @@ export default {
 		setCurrentUser(user) {
 			this._currentUser = user
 		},
-
-		getCurrentUser() {
-			return this._currentUser || getCurrentUser().uid
-		},
-
 		setClient(client) {
 			this._client = client
 		},
@@ -110,42 +104,13 @@ export default {
 		async getVersions() {
 			try {
 				this.loading = true
-				// init params
-				const shareUrl = generateRemoteUrl('dav') + this.getCurrentUser() + '/versions/' + this._fileInfo.get('id')
-				const format = 'json'
-				console.log('Shareurl:', shareUrl)
-				// TODO: replace with proper getFUllpath implementation of our own FileInfo model
-				const path = (this.fileInfo.path + '/' + this.fileInfo.name).replace('//', '/')
-
-				console.log(path)
-				// fetch version
-
-				const fetchVersion = await axios.get(shareUrl, {
-					params: {
-						format,
-						path,
-					},
-				})
-				// wait for data
-				this.loading = false
-				// process results
-				this.versionList = fetchVersion.data
-				console.log(versionList)
-				this.version.fullPath = fullPath
-				this.version.fileId = fileId
-				this.version.name = name
-				this.version.timestamp = parseInt(moment(new Date(version.timestamp)).format('X'), 10)
-				this.version.id = OC.basename(version.href)
-				this.version.size = parseInt(version.size, 10)
-				this.version.user = user
-				this.version.client = client
-				return version
-			} catch (error) {
-				this.error = t('files_version', 'Unable to load the version list')
-				this.loading = false
-				console.error('Error loading the version list', error)
+				const fetchVersion = FileVersion(Client);
+				fetchVersion();
 			}
-		},
+			catch(e){
+                console.log(error);
+			}
+		}
 		mounted() {
 			this.getVersions()
 		},
