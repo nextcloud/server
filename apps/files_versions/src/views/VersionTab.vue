@@ -41,6 +41,7 @@ import { generateRemoteUrl } from '@nextcloud/router'
 import { ListItemIcon } from '@nextcloud/vue'
 import VersionEntry from '../components/VersionEntry'
 import FileVersion from "../services/FileVersion";
+import fetchFileVersions from "../services/FileVersion";
 
 export default {
 	name: 'VersionTab',
@@ -104,8 +105,8 @@ export default {
 		async getVersions() {
 			try {
 				this.loading = true
-				const fetchVersion = FileVersion(Client);
-				fetchVersion();
+				const fetchVersions = fetchFileVersions(this._fileInfo.get('id'));
+				fetchVersions();
 			}
 			catch(e){
                 console.log(error);

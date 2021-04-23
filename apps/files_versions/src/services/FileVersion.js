@@ -44,7 +44,7 @@ export default async function(client) {
 	// TODO: replace with proper getFUllpath implementation of our own FileInfo model
 	const path = (this.fileInfo.path + '/' + this.fileInfo.name).replace('//', '/')
     // Fetch Version
-	const fetchVersion = await axios.get(shareUrl, {
+	const fetchFileVersions = await axios.get(shareUrl, {
 		params: {
 			format,
 			path,
