@@ -438,7 +438,6 @@ OC.L10N.register(
     "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Εμφάνιση κειμένου αποποίησης ευθυνών στη σελίδα δημοσίευσης συνδέσμων. (Εμφανίζεται μόνο όταν η λίστα αρχείων είναι κρυφή.)",
     "Don't synchronize to servers" : "Να μη γίνει συγχρονισμός με τους διακομιστές.",
     "Trusted" : "Έμπιστος",
-    "MySQL version \"%s\" is used. Nextcloud 21 will no longer support this version and requires MySQL 8 or higher." : "Χρησιμοποιείται η έκδοση \"%s\" της MySQL. Το Nextcloud 21 δεν θα υποστηρίζει πλέον αυτή την έκδοση και θα απαιτείται η έκδοση MySQL 8 ή νεότερο.",
     "Allow username autocompletion in share dialog (if this is disabled the full username or email address needs to be entered)" : "Να επιτρέπεται η αυτόματη συμπλήρωση ονόματος χρήστη στο παράθυρο διαλόγου κοινής χρήσης (εάν είναι απενεργοποιημένο, πρέπει να εισαχθεί το πλήρες όνομα χρήστη ή η διεύθυνση email)"
 },
 "nplurals=2; plural=(n != 1);");

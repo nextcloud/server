@@ -127,6 +127,7 @@
     "There are some user imported SSL certificates present, that are not used anymore with Nextcloud 21. They can be imported on the command line via \"occ security:certificates:import\" command. Their paths inside the data directory are shown below." : "目前存在一些用户导入的 SSL 证书，这在 Nextcloud 21 中已经不使用了。它们可以通过 \"occ security:certificates:import\" 命令在命令行导入。它们在数据目录下的路径如下所示。",
     "The old server-side-encryption format is enabled. We recommend disabling this." : "旧的服务器端加密格式已启用。我们建议禁用此功能。",
     "MariaDB version \"%s\" is used. Nextcloud 21 will no longer support this version and requires MariaDB 10.2 or higher." : "使用了 MariaDB \"%s\" 版本。Nextcloud 21将不再支持此版本，需要 MariaDB 10.2 或更高版本。",
+    "MySQL version \"%s\" is used. Nextcloud 21 will no longer support this version and requires MySQL 8.0 or MariaDB 10.2 or higher." : "使用了 MySQL 版本 \"%s\"。Nextcloud 21将不再支持这个版本，需要MySQL 8.0或MariaDB 10.2或更高。",
     "PostgreSQL version \"%s\" is used. Nextcloud 21 will no longer support this version and requires PostgreSQL 9.6 or higher." : "使用了 PostgreSQL \"%s\" 版本。Nextcloud 21将不再支持此版本，要求 PostgreSQL 9.6 或更高版本。",
     "Nextcloud settings" : "Nextcloud 设置",
     "Two-factor authentication can be enforced for all users and specific groups. If they do not have a two-factor provider configured, they will be unable to log into the system." : "两步验证可以对于所有用户和特定分组启用。如果没有设置两步验证提供者，他们则不能登录到系统。",
@@ -457,7 +458,6 @@
     "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "在公开链接上传页中显示免责声明。（仅当文件列表隐藏时显示。）",
     "Don't synchronize to servers" : "不要同步到服务器",
     "Trusted" : "受信任",
-    "MySQL version \"%s\" is used. Nextcloud 21 will no longer support this version and requires MySQL 8 or higher." : "使用了 MySQL \"%s\" 版本。Nextcloud 21将不再支持这个版本，需要 MySQL 8 或更高版本。",
     "Allow username autocompletion in share dialog (if this is disabled the full username or email address needs to be entered)" : "允许在共享对话框中自动补全用户名。（如果被禁用，则需要输入完整的用户名或电子邮件地址。）"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

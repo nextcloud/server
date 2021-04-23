@@ -444,7 +444,6 @@
     "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Покажете го текстот за одрекување од одговорност на страницата за поставување јавен линк. (Се прикажува само кога листата со датотеки е скриена.)",
     "Don't synchronize to servers" : "Не синхронизирај со сервери",
     "Trusted" : "Доверлив",
-    "MySQL version \"%s\" is used. Nextcloud 21 will no longer support this version and requires MySQL 8 or higher." : "Се користи MySQL верзија\"%s\". Nextcloud 21 повеќе нема да ја поддржува оваа верзија и потебно е да ја ажурирате на верзија 8 или понова.",
     "Allow username autocompletion in share dialog (if this is disabled the full username or email address needs to be entered)" : "Дозволи автоматско комплетирање во лентата за споделување. (Доколку ова е оневозможено потребно е да се внесе целосно корисничко име или адреса на е-пошта)"
 },"pluralForm" :"nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;"
 }

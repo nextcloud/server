@@ -9,6 +9,7 @@
     "Generate keys" : "生成密钥",
     "Error generating key pair" : "生成密钥对错误",
     "All users. Type to select user or group." : "全部用户。点击选择用户或分组。",
+    "(Group)" : "(群组)",
     "Compatibility with Mac NFD encoding (slow)" : "兼用 Mac NFD 编码（慢）",
     "Enable encryption" : "启用加密",
     "Enable previews" : "启用预览",

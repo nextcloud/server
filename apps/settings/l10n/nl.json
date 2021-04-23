@@ -448,7 +448,6 @@
     "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Toon disclaimer op de openbare link uploadpagina (alleen tonen als het bestandsoverzicht verborgen is).",
     "Don't synchronize to servers" : "Niet synchroniseren met de servers",
     "Trusted" : "Vertrouwd",
-    "MySQL version \"%s\" is used. Nextcloud 21 will no longer support this version and requires MySQL 8 or higher." : "MySQL versie \"%s\" wordt gebruikt. Nextcloud 21 ondersteunt deze versie niet langer en vereist MySQL 8 of hoger.",
     "Allow username autocompletion in share dialog (if this is disabled the full username or email address needs to be entered)" : "Sta het automatisch aanvullen van de gebruikersnaam toe in het dialoogvenster voor delen (als dit is uitgeschakeld, moet de volledige gebruikersnaam of het e-mailadres worden ingevoerd)"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

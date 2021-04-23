@@ -117,7 +117,6 @@
     "Files can’t be shared with delete permissions" : "Datoteke se ne mogu dijeliti s dopuštenjima za brisanje",
     "Files can’t be shared with create permissions" : "Datoteke se ne mogu dijeliti s dopuštenjima za stvaranje",
     "Expiration date is in the past" : "Datum isteka je u prošlosti",
-    "Can’t set expiration date more than %s days in the future" : "Ne može se postaviti datum isteka više od %s dana u budućnosti",
     "Sharing is only allowed with group members" : "Dijeljenje je dopušteno samo članovima grupe",
     "Sharing %s failed, because this item is already shared with user %s" : "Dijeljenje %s nije uspjelo jer je ova stavka već podijeljena s korisnikom %s",
     "%1$s shared »%2$s« with you" : "%1$s dijeli »%2$s« s vama",
@@ -231,6 +230,7 @@
     "Storage connection timeout. %s" : "Istek veze pohrane. %s",
     "Following databases are supported: %s" : "Podržane su sljedeće baze podataka: %s",
     "Following platforms are supported: %s" : "Podržane su sljedeće platforme: %s",
-    "Invalid Federated Cloud ID" : "Nevažeći ID udruženog oblaka"
+    "Invalid Federated Cloud ID" : "Nevažeći ID udruženog oblaka",
+    "Can’t set expiration date more than %s days in the future" : "Ne može se postaviti datum isteka više od %s dana u budućnosti"
 },"pluralForm" :"nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;"
 }

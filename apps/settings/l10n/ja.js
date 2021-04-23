@@ -450,7 +450,6 @@ OC.L10N.register(
     "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "公開リンクのアップロードページに免責事項のテキストを表示する。 (ファイルリストが非表示のときのみ表示します)",
     "Don't synchronize to servers" : "サーバーと同期しない",
     "Trusted" : "信頼できる",
-    "MySQL version \"%s\" is used. Nextcloud 21 will no longer support this version and requires MySQL 8 or higher." : "Nextcloud 21 はMySQL バージョン \"%s\"をサポートしなくなりました。MySQL 8 もしくはそれ以上のバージョンのものを使用してください。",
     "Allow username autocompletion in share dialog (if this is disabled the full username or email address needs to be entered)" : "共有ダイアログ中でユーザー名の自動補完を許可する。(この設定が無効の場合、完全なユーザー名またはメールアドレスを入力する必要があります)"
 },
 "nplurals=1; plural=0;");

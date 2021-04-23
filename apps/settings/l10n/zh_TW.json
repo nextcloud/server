@@ -458,7 +458,6 @@
     "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "在公開的檔案連結和上傳頁面顯示免責聲明。（只有在檔案清單隱藏的時候才會顯示。）",
     "Don't synchronize to servers" : "不要同步至伺服器",
     "Trusted" : "受信任",
-    "MySQL version \"%s\" is used. Nextcloud 21 will no longer support this version and requires MySQL 8 or higher." : "正在使用 MySQL 版本「%s」。Nextcloud 21 不再支援此版本，並需要 MySQL 8 或更新版本。",
     "Allow username autocompletion in share dialog (if this is disabled the full username or email address needs to be entered)" : "在分享對話框中允許使用者名稱自動完成（如果停用此選項，則必須輸入完整的使用者名稱或電子郵件地址）"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

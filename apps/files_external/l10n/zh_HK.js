@@ -11,6 +11,7 @@ OC.L10N.register(
     "Generate keys" : "產生密鑰",
     "Error generating key pair" : "產生密鑰對錯誤",
     "All users. Type to select user or group." : "所有人都可以使用，鍵入以選擇用戶或群組。",
+    "(Group)" : "（群組）",
     "Compatibility with Mac NFD encoding (slow)" : "與 Mac 的 NFD 編碼格式相容（較慢）",
     "Enable encryption" : "啟用加密",
     "Enable previews" : "啟動預覽",

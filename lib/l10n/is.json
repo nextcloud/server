@@ -106,7 +106,6 @@
     "Files can’t be shared with delete permissions" : "Ekki er hægt að deila skrá með eyða-heimildum",
     "Files can’t be shared with create permissions" : "Ekki er hægt að deila skrá með búa-til-heimildum",
     "Expiration date is in the past" : "Gildistíminn er þegar runninn út",
-    "Can’t set expiration date more than %s days in the future" : "Ekki er hægt að setja lokadagsetningu meira en %s daga fram í tímann",
     "%1$s shared »%2$s« with you" : "%1$s deildi »%2$s« með þér",
     "%1$s shared »%2$s« with you." : "%1$s deildi »%2$s« með þér.",
     "Click the button below to open it." : "Smelltu á hnappinn hér fyrir neðan til að opna það.",
@@ -216,6 +215,7 @@
     "Storage connection timeout. %s" : "Gagnageymsla féll á tíma. %s",
     "Following databases are supported: %s" : "Eftirfarandi gagnagrunnar eru studdir: %s",
     "Following platforms are supported: %s" : "Eftirfarandi stýrikerfi eru studd: %s",
-    "Invalid Federated Cloud ID" : "Ógilt skýjasambandsauðkenni (Federated Cloud ID)"
+    "Invalid Federated Cloud ID" : "Ógilt skýjasambandsauðkenni (Federated Cloud ID)",
+    "Can’t set expiration date more than %s days in the future" : "Ekki er hægt að setja lokadagsetningu meira en %s daga fram í tímann"
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"
 }

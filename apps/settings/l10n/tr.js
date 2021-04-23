@@ -452,7 +452,6 @@ OC.L10N.register(
     "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Herkese açık bağlantı yükleme sayfasındaki sorumluluk reddi bildirim metni (yalnız dosya listesi gizli iken görüntülenir).",
     "Don't synchronize to servers" : "Sunucular ile eşitlenmesin",
     "Trusted" : "Güvenilen",
-    "MySQL version \"%s\" is used. Nextcloud 21 will no longer support this version and requires MySQL 8 or higher." : "MySQL \"%s\" sürümü kullanılıyor. Nextcloud 21 sürümünde bu sürüm desteklenmiyor. MySQL 8 ya da üzerindeki bir sürüm kullanılmalıdır.",
     "Allow username autocompletion in share dialog (if this is disabled the full username or email address needs to be entered)" : "Bu seçenek etkinleştirildiğinde, paylaşma penceresindeki kullanıcı adı otomatik olarak tamamlanır (devre dışı bırakıldığında tam kullanıcı adının ya da e-posta adresinin yazılması gerekir)"
 },
 "nplurals=2; plural=(n > 1);");
