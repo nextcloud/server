@@ -1,5 +1,5 @@
 window.addEventListener('DOMContentLoaded', function(){
-	$('#excludedGroups').each(function (index, element) {
+	$('#excludedGroups,#linksExcludedGroups').each(function (index, element) {
 		OC.Settings.setupGroupsSelect($(element));
 		$(element).change(function(ev) {
 			var groups = ev.val || [];

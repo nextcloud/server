@@ -138,6 +138,14 @@
 	<p class="<?php if ($_['shareAPIEnabled'] === 'no') {
 	p('hidden');
 }?>">
+	<p class="indent">
+		<?php p($l->t('Exclude groups from creating link shares:'));?>
+	</p>
+	<p id="selectLinksExcludedGroups" class="indent <?php if ($_['allowLinks'] === 'no') {
+	p('hidden');
+} ?>">
+		<input name="shareapi_allow_links_exclude_groups" type="hidden" id="linksExcludedGroups" value="<?php p($_['allowLinksExcludeGroups']) ?>" style="width: 400px" class="noJSAutoUpdate"/>
+	</p>
 		<input type="checkbox" name="shareapi_allow_resharing" id="allowResharing" class="checkbox"
 			   value="1" <?php if ($_['allowResharing'] === 'yes') {
 	print_unescaped('checked="checked"');
@@ -176,7 +184,7 @@
 } ?>">
 		<input name="shareapi_exclude_groups_list" type="hidden" id="excludedGroups" value="<?php p($_['shareExcludedGroupsList']) ?>" style="width: 400px" class="noJSAutoUpdate"/>
 		<br />
-		<em><?php p($l->t('These groups will still be able to receive shares, but not to initiate them.')); ?></em>
+		 <em><?php p($l->t('These groups will still be able to receive shares, but not to initiate them.')); ?></em>
 	</p>
 
 	<p class="<?php if ($_['shareAPIEnabled'] === 'no') {

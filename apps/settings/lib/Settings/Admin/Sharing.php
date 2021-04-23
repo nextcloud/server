@@ -64,11 +64,15 @@ class Sharing implements ISettings {
 		$excludedGroups = $this->config->getAppValue('core', 'shareapi_exclude_groups_list', '');
 		$excludeGroupsList = !is_null(json_decode($excludedGroups))
 			? implode('|', json_decode($excludedGroups, true)) : '';
+		$linksExcludedGroups = $this->config->getAppValue('core', 'shareapi_allow_links_exclude_groups', '');
+		$linksExcludeGroupsList = !is_null(json_decode($linksExcludedGroups))
+			? implode('|', json_decode($linksExcludedGroups, true)) : '';
 
 		$parameters = [
 			// Built-In Sharing
 			'allowGroupSharing' => $this->config->getAppValue('core', 'shareapi_allow_group_sharing', 'yes'),
 			'allowLinks' => $this->config->getAppValue('core', 'shareapi_allow_links', 'yes'),
+			'allowLinksExcludeGroups' => $linksExcludeGroupsList,
 			'allowPublicUpload' => $this->config->getAppValue('core', 'shareapi_allow_public_upload', 'yes'),
 			'allowResharing' => $this->config->getAppValue('core', 'shareapi_allow_resharing', 'yes'),
 			'allowShareDialogUserEnumeration' => $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes'),
