@@ -439,7 +439,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			->orderBy('calendarorder', 'ASC');
 		$stmt = $query->execute();
 		$calendars = [];
-		while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+		while ($row = $stmt->fetch()) {
 			$row['principaluri'] = (string) $row['principaluri'];
 			$components = [];
 			if ($row['components']) {
@@ -569,7 +569,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			->andWhere($query->expr()->eq('s.publicuri', $query->createNamedParameter($uri)))
 			->execute();
 
-		$row = $result->fetch(\PDO::FETCH_ASSOC);
+		$row = $result->fetch();
 
 		$result->closeCursor();
 
@@ -628,7 +628,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			->setMaxResults(1);
 		$stmt = $query->execute();
 
-		$row = $stmt->fetch(\PDO::FETCH_ASSOC);
+		$row = $stmt->fetch();
 		$stmt->closeCursor();
 		if ($row === false) {
 			return null;
@@ -679,7 +679,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			->setMaxResults(1);
 		$stmt = $query->execute();
 
-		$row = $stmt->fetch(\PDO::FETCH_ASSOC);
+		$row = $stmt->fetch();
 		$stmt->closeCursor();
 		if ($row === false) {
 			return null;
@@ -729,7 +729,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			->orderBy('calendarorder', 'asc');
 		$stmt = $query->execute();
 
-		$row = $stmt->fetch(\PDO::FETCH_ASSOC);
+		$row = $stmt->fetch();
 		$stmt->closeCursor();
 		if ($row === false) {
 			return null;
@@ -971,7 +971,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		$stmt = $query->execute();
 
 		$result = [];
-		foreach ($stmt->fetchAll(\PDO::FETCH_ASSOC) as $row) {
+		foreach ($stmt->fetchAll() as $row) {
 			$result[] = [
 				'id' => $row['id'],
 				'uri' => $row['uri'],
@@ -1013,7 +1013,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			->andWhere($query->expr()->eq('uri', $query->createNamedParameter($objectUri)))
 			->andWhere($query->expr()->eq('calendartype', $query->createNamedParameter($calendarType)));
 		$stmt = $query->execute();
-		$row = $stmt->fetch(\PDO::FETCH_ASSOC);
+		$row = $stmt->fetch();
 		$stmt->closeCursor();
 
 		if (!$row) {
@@ -1423,7 +1423,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		$stmt = $query->execute();
 
 		$result = [];
-		while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+		while ($row = $stmt->fetch()) {
 			if ($requirePostFilter) {
 				// validateFilterForObject will parse the calendar data
 				// catch parsing errors
@@ -1568,7 +1568,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		$stmt = $query->execute();
 
 		$result = [];
-		while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+		while ($row = $stmt->fetch()) {
 			$path = $uriMapper[$row['calendarid']] . '/' . $row['uri'];
 			if (!in_array($path, $result)) {
 				$result[] = $path;
@@ -1895,7 +1895,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 
 		$stmt = $query->execute();
 
-		if ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+		if ($row = $stmt->fetch()) {
 			return $row['calendaruri'] . '/' . $row['objecturi'];
 		}
 
@@ -2005,7 +2005,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 
 			// This loop ensures that any duplicates are overwritten, only the
 			// last change on a node is relevant.
-			while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+			while ($row = $stmt->fetch()) {
 				$changes[$row['uri']] = $row['operation'];
 			}
 
@@ -2088,7 +2088,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		$stmt = $query->execute();
 
 		$subscriptions = [];
-		while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+		while ($row = $stmt->fetch()) {
 			$subscription = [
 				'id' => $row['id'],
 				'uri' => $row['uri'],
@@ -2293,7 +2293,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			->andWhere($query->expr()->eq('uri', $query->createNamedParameter($objectUri)))
 			->execute();
 
-		$row = $stmt->fetch(\PDO::FETCH_ASSOC);
+		$row = $stmt->fetch();
 
 		if (!$row) {
 			return null;
@@ -2327,7 +2327,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				->execute();
 
 		$result = [];
-		foreach ($stmt->fetchAll(\PDO::FETCH_ASSOC) as $row) {
+		foreach ($stmt->fetchAll() as $row) {
 			$result[] = [
 				'calendardata' => $row['calendardata'],
 				'uri' => $row['uri'],
@@ -2733,7 +2733,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		$stmt = $query->execute();
 
 		$uris = [];
-		foreach ($stmt->fetchAll(\PDO::FETCH_ASSOC) as $row) {
+		foreach ($stmt->fetchAll() as $row) {
 			$uris[] = $row['uri'];
 		}
 		$stmt->closeCursor();
