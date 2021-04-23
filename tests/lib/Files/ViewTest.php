@@ -1689,8 +1689,6 @@ class ViewTest extends \Test\TestCase {
 			->setSharedBy($this->user)
 			->setShareType(IShare::TYPE_USER)
 			->setPermissions(\OCP\Constants::PERMISSION_READ)
-			->setId(42)
-			->setProviderId('foo')
 			->setNode($shareDir);
 		$shareManager->createShare($share);
 
