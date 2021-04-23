@@ -56,7 +56,6 @@
     "Sharing backend for %s not found" : "Споделянето на сървъра за %s не е открито.",
     "Open »%s«" : "Отвори »%s«",
     "You are not allowed to share %s" : "Не ти е разрешено да споделяш %s.",
-    "Can’t set expiration date more than %s days in the future" : "Неуспешно задаване на срок на валидност повече от %s дни в бъдещето",
     "%1$s shared »%2$s« with you" : "%1$s сподели »%2$s« с вас",
     "%1$s shared »%2$s« with you." : "%1$s сподели »%2$s« с вас.",
     "Could not find category \"%s\"" : "Невъзможно откриване на категорията \"%s\".",
@@ -133,6 +132,7 @@
     "Storage is temporarily not available" : "Временно хранилището не е налично",
     "Following databases are supported: %s" : "Следните бази данни са поддържани: %s",
     "Following platforms are supported: %s" : "Поддържани са следните платформи: %s",
-    "Invalid Federated Cloud ID" : "Невалиден Federated Cloud ID"
+    "Invalid Federated Cloud ID" : "Невалиден Federated Cloud ID",
+    "Can’t set expiration date more than %s days in the future" : "Неуспешно задаване на срок на валидност повече от %s дни в бъдещето"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

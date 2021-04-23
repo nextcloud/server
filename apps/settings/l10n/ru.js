@@ -438,7 +438,6 @@ OC.L10N.register(
     "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Показывать текст об отказе от ответственности на странице доступа по открытой ссылке. Текст виден только при скрытом списке файлов.",
     "Don't synchronize to servers" : "Не выполнять синхронизацию с серверами",
     "Trusted" : "Доверенный",
-    "MySQL version \"%s\" is used. Nextcloud 21 will no longer support this version and requires MySQL 8 or higher." : "Используется mySQL версии %s.  В Nextcloud версии 21 эта версия не поддерживается, а для работы требуется MySQL версии 8 или старше.",
     "Allow username autocompletion in share dialog (if this is disabled the full username or email address needs to be entered)" : "Разрешить автоматическое завершение имён при предоставлении доступа ( если его отключить, то имя пользователя или адрес email надо будет вводить вручную полностью)"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

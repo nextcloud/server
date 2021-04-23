@@ -91,7 +91,6 @@
     "Files can’t be shared with delete permissions" : "Failai negali būti bendrinami su trynimo leidimu.",
     "Files can’t be shared with create permissions" : "Failai negali būti bendrinami su sukūrimo leidimu.",
     "Expiration date is in the past" : "Bendrinimo pabaigos data yra praėjęs laikas",
-    "Can’t set expiration date more than %s days in the future" : "Negalima nustatyti galiojimo laiko ilgesnio nei %s dienos.",
     "%1$s shared »%2$s« with you" : "%1$s pasidalino „%2$s“ su jumis",
     "%1$s shared »%2$s« with you." : "%1$s pasidalino „%2$s“ su jumis.",
     "Click the button below to open it." : "Norėdami atverti failą, spustelėkite mygtuką žemiau.",
@@ -195,6 +194,7 @@
     "Storage connection timeout. %s" : "Sujungimo su saugykla laikas baigėsi. %s",
     "Following databases are supported: %s" : "Yra palaikomos šios duomenų bazės: %s",
     "Following platforms are supported: %s" : "Yra palaikomos šios platformos: %s",
-    "Invalid Federated Cloud ID" : "Neteisingas federacinės debesijos ID"
+    "Invalid Federated Cloud ID" : "Neteisingas federacinės debesijos ID",
+    "Can’t set expiration date more than %s days in the future" : "Negalima nustatyti galiojimo laiko ilgesnio nei %s dienos."
 },"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"
 }

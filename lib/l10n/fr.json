@@ -114,7 +114,6 @@
     "Files can’t be shared with delete permissions" : "Les fichiers ne peuvent pas être partagés avec les autorisations de suppression",
     "Files can’t be shared with create permissions" : "Les fichiers ne peuvent pas être partagés avec les autorisations de création",
     "Expiration date is in the past" : "La date d'expiration est dans le passé",
-    "Can’t set expiration date more than %s days in the future" : "Impossible de définir la date d'expiration à plus de %s jours dans le futur",
     "%1$s shared »%2$s« with you" : "%1$s a partagé « %2$s » avec vous",
     "%1$s shared »%2$s« with you." : "%1$s a partagé « %2$s » avec vous.",
     "Click the button below to open it." : "Cliquez sur le bouton ci-dessous pour l'ouvrir",
@@ -226,6 +225,7 @@
     "Storage connection timeout. %s" : "Le délai d'attente pour la connexion à l'espace de stockage a été dépassé. %s",
     "Following databases are supported: %s" : "Les bases de données suivantes sont supportées : %s",
     "Following platforms are supported: %s" : "Les plateformes suivantes sont prises en charge : %s",
-    "Invalid Federated Cloud ID" : "ID Federated Cloud incorrect"
+    "Invalid Federated Cloud ID" : "ID Federated Cloud incorrect",
+    "Can’t set expiration date more than %s days in the future" : "Impossible de définir la date d'expiration à plus de %s jours dans le futur"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

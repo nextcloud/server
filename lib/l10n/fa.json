@@ -103,7 +103,6 @@
     "Files can’t be shared with delete permissions" : "فایلها را نمی توان با مجوزهای حذف حذف کرد",
     "Files can’t be shared with create permissions" : "فایلها را نمی توان با ایجاد مجوزها به اشتراک گذاشت",
     "Expiration date is in the past" : "تاریخ انقضا در گذشته است",
-    "Can’t set expiration date more than %s days in the future" : "نمی توان تاریخ انقضا را بیش%s از روزها در آینده تعیین کرد",
     "%1$s shared »%2$s« with you" : "%1$s به اشتراک گذاشته » %2$s« با شما",
     "%1$s shared »%2$s« with you." : "%1$s به اشتراک گذاشته » %2$s« با شما",
     "Click the button below to open it." : "برای باز کردن آن روی دکمه زیر کلیک کنید.",
@@ -212,6 +211,7 @@
     "Storage connection timeout. %s" : "مدت زمان اتصال ذخیره سازی%s",
     "Following databases are supported: %s" : "پایگاه‌داده‌ های ذکر شده مورد نیاز است: %s",
     "Following platforms are supported: %s" : "سیستم عامل های زیر پشتیبانی می شوند%s",
-    "Invalid Federated Cloud ID" : "شناسه فدرال شده با ابر Cloud"
+    "Invalid Federated Cloud ID" : "شناسه فدرال شده با ابر Cloud",
+    "Can’t set expiration date more than %s days in the future" : "نمی توان تاریخ انقضا را بیش%s از روزها در آینده تعیین کرد"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

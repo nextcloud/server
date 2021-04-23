@@ -450,7 +450,6 @@ OC.L10N.register(
     "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Nyilatkozat szövegének megjelenítése a nyilvános feltöltési oldalon. (Csak akkor jelenik meg, ha fájl lista rejtett.)",
     "Don't synchronize to servers" : "Ne szinkronizáljon kiszolgálókkal",
     "Trusted" : "Megbízható",
-    "MySQL version \"%s\" is used. Nextcloud 21 will no longer support this version and requires MySQL 8 or higher." : "A MySQL \"% s\" verziót használják. A Nextcloud 21 már nem támogatja ezt a verziót, és a MySQL 8 vagy újabb verzió szükséges. ",
     "Allow username autocompletion in share dialog (if this is disabled the full username or email address needs to be entered)" : "Felhasználónevek automatikus kiegészítésének engedélyezése a megosztási ablakban. Ha ki van kapcsolva, teljes felhasználóneveket vagy e-mail címeket kell begépelni."
 },
 "nplurals=2; plural=(n != 1);");
