@@ -72,6 +72,7 @@ use OCP\IGroupManager;
 use OCP\ILogger;
 use OCP\IUser;
 use OCP\IUserSession;
+use OCP\Share\IManager;
 use Psr\Log\LoggerInterface;
 
 class OC_Util {
@@ -336,8 +337,9 @@ class OC_Util {
 	 * @suppress PhanDeprecatedFunction
 	 */
 	public static function isPublicLinkPasswordRequired() {
-		$enforcePassword = \OC::$server->getConfig()->getAppValue('core', 'shareapi_enforce_links_password', 'no');
-		return $enforcePassword === 'yes';
+		/** @var IManager $shareManager */
+		$shareManager = \OC::$server->get(IManager::class);
+		return $shareManager->shareApiLinkEnforcePassword();
 	}
 
 	/**
@@ -348,25 +350,10 @@ class OC_Util {
 	 * @return bool
 	 */
 	public static function isSharingDisabledForUser(IConfig $config, IGroupManager $groupManager, $user) {
-		if ($config->getAppValue('core', 'shareapi_exclude_groups', 'no') === 'yes') {
-			$groupsList = $config->getAppValue('core', 'shareapi_exclude_groups_list', '');
-			$excludedGroups = json_decode($groupsList);
-			if (is_null($excludedGroups)) {
-				$excludedGroups = explode(',', $groupsList);
-				$newValue = json_encode($excludedGroups);
-				$config->setAppValue('core', 'shareapi_exclude_groups_list', $newValue);
-			}
-			$usersGroups = $groupManager->getUserGroupIds($user);
-			if (!empty($usersGroups)) {
-				$remainingGroups = array_diff($usersGroups, $excludedGroups);
-				// if the user is only in groups which are disabled for sharing then
-				// sharing is also disabled for the user
-				if (empty($remainingGroups)) {
-					return true;
-				}
-			}
-		}
-		return false;
+		/** @var IManager $shareManager */
+		$shareManager = \OC::$server->get(IManager::class);
+		$userId = $user ? $user->getUID() : null;
+		return $shareManager->sharingDisabledForUser($userId);
 	}
 
 	/**
@@ -376,14 +363,9 @@ class OC_Util {
 	 * @suppress PhanDeprecatedFunction
 	 */
 	public static function isDefaultExpireDateEnforced() {
-		$isDefaultExpireDateEnabled = \OC::$server->getConfig()->getAppValue('core', 'shareapi_default_expire_date', 'no');
-		$enforceDefaultExpireDate = false;
-		if ($isDefaultExpireDateEnabled === 'yes') {
-			$value = \OC::$server->getConfig()->getAppValue('core', 'shareapi_enforce_expire_date', 'no');
-			$enforceDefaultExpireDate = $value === 'yes';
-		}
-
-		return $enforceDefaultExpireDate;
+		/** @var IManager $shareManager */
+		$shareManager = \OC::$server->get(IManager::class);
+		return $shareManager->shareApiLinkDefaultExpireDateEnforced();
 	}
 
 	/**

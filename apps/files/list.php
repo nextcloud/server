@@ -22,10 +22,14 @@
  *
  */
 
+use OCP\Share\IManager;
+
 $config = \OC::$server->getConfig();
 $userSession = \OC::$server->getUserSession();
 // TODO: move this to the generated config.js
-$publicUploadEnabled = $config->getAppValue('core', 'shareapi_allow_public_upload', 'yes');
+/** @var IManager $shareManager */
+$shareManager = \OC::$server->get(IManager::class);
+$publicUploadEnabled = $shareManager->shareApiLinkAllowPublicUpload() ? 'yes' : 'no';;
 
 $showgridview = $config->getUserValue($userSession->getUser()->getUID(), 'files', 'show_grid', false);
 $isIE = OC_Util::isIe();

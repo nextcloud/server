@@ -48,6 +48,7 @@ use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserSession;
+use OCP\Share\IManager;
 use OCP\Template;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Test\TestCase;
@@ -84,6 +85,8 @@ class ViewControllerTest extends TestCase {
 	private $initialState;
 	/** @var ITemplateManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $templateManager;
+	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
+	private $shareManager;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -105,6 +108,7 @@ class ViewControllerTest extends TestCase {
 		$this->activityHelper = $this->createMock(Helper::class);
 		$this->initialState = $this->createMock(IInitialState::class);
 		$this->templateManager = $this->createMock(ITemplateManager::class);
+		$this->shareManager = $this->createMock(IManager::class);
 		$this->viewController = $this->getMockBuilder('\OCA\Files\Controller\ViewController')
 			->setConstructorArgs([
 				'files',
@@ -119,6 +123,7 @@ class ViewControllerTest extends TestCase {
 				$this->activityHelper,
 				$this->initialState,
 				$this->templateManager,
+				$this->shareManager,
 			])
 		->setMethods([
 			'getStorageInfo',
@@ -153,6 +158,8 @@ class ViewControllerTest extends TestCase {
 				->expects($this->any())
 				->method('getAppValue')
 				->willReturnArgument(2);
+		$this->shareManager->method('shareApiAllowLinks')
+			->willReturn(true);
 
 		$nav = new Template('files', 'appnavigation');
 		$nav->assign('usage_relative', 123);

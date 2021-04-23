@@ -56,7 +56,9 @@ use OCP\Group\Events\UserAddedEvent;
 use OCP\IDBConnection;
 use OCP\IGroup;
 use OCP\IServerContainer;
+use OCP\IUserSession;
 use OCP\Share\Events\ShareCreatedEvent;
+use OCP\Share\IManager;
 use OCP\Util;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -166,20 +168,24 @@ class Application extends App {
 	}
 
 	protected function setupSharingMenus() {
-		$config = \OC::$server->getConfig();
+		/** @var IManager $shareManager */
+		$shareManager = \OC::$server->get(IManager::class);
 
-		if ($config->getAppValue('core', 'shareapi_enabled', 'yes') !== 'yes' || !class_exists('\OCA\Files\App')) {
+		if (!$shareManager->shareApiEnabled() || !class_exists('\OCA\Files\App')) {
 			return;
 		}
 
 		// show_Quick_Access stored as string
-		\OCA\Files\App::getNavigationManager()->add(function () {
-			$config = \OC::$server->getConfig();
+		\OCA\Files\App::getNavigationManager()->add(function () use ($shareManager) {
 			$l = \OC::$server->getL10N('files_sharing');
+			/** @var IUserSession $userSession */
+			$userSession = \OC::$server->get(IUserSession::class);
+			$user = $userSession->getUser();
+			$userId = $user ? $user->getUID() : null;
 
 			$sharingSublistArray = [];
 
-			if (\OCP\Util::isSharingDisabledForUser() === false) {
+			if ($shareManager->sharingDisabledForUser($userId) === false) {
 				$sharingSublistArray[] = [
 					'id' => 'sharingout',
 					'appname' => 'files_sharing',
@@ -197,9 +203,9 @@ class Application extends App {
 				'name' => $l->t('Shared with you'),
 			];
 
-			if (\OCP\Util::isSharingDisabledForUser() === false) {
+			if ($shareManager->sharingDisabledForUser($userId) === false) {
 				// Check if sharing by link is enabled
-				if ($config->getAppValue('core', 'shareapi_allow_links', 'yes') === 'yes') {
+				if ($shareManager->shareApiAllowLinks()) {
 					$sharingSublistArray[] = [
 						'id' => 'sharinglinks',
 						'appname' => 'files_sharing',
