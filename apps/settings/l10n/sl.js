@@ -458,7 +458,6 @@ OC.L10N.register(
     "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Pokaži besedilo izjave o omejitvi odgovornosti pri uporabi javnih povezav za pošiljanje (če je onemogočen prikaz seznama datotek).",
     "Don't synchronize to servers" : "Ne usklajuj s strežniki",
     "Trusted" : "Varni strežniki",
-    "MySQL version \"%s\" is used. Nextcloud 21 will no longer support this version and requires MySQL 8 or higher." : "V uporabi je različica podatkovne zbirke MySQL »%s«. Z namestitvijo Nextcloud 21 ta ni več podprta. Sistem zahteva nadgradnjo zbirke na različico MySQL 8 ali višjo.",
     "Allow username autocompletion in share dialog (if this is disabled the full username or email address needs to be entered)" : "Dovoli samodejno dokončanje uporabniškega imena pri določanju souporabe (sicer je treba vpisati celotno ime ali elektronski naslov)."
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

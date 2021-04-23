@@ -442,7 +442,6 @@ OC.L10N.register(
     "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Amosar o texto de exención de responsabilidade na páxina de envío de ligazóns publicas. (Amosarase só cando a lista de ficheiros estea agochada.)",
     "Don't synchronize to servers" : "Non sincronizar con servidores",
     "Trusted" : "De confianza",
-    "MySQL version \"%s\" is used. Nextcloud 21 will no longer support this version and requires MySQL 8 or higher." : "Úsase a versión «%s» de MySQL. Nextcloud 21 deixará de ser compatíbel con esta versión e require MySQL 8 ou superior.",
     "Allow username autocompletion in share dialog (if this is disabled the full username or email address needs to be entered)" : "Permitir autocompletar o nome de usuario na xanela de diálogo (se esta opción está desactivada, debera escribirse o nome de usuario completo ou o enderezo de correo-e) "
 },
 "nplurals=2; plural=(n != 1);");

@@ -326,7 +326,7 @@
     "Confirm your password" : "パスワードを確認",
     "Connect to your account" : "あなたのアカウントに接続する",
     "Please log in before granting %1$s access to your %2$s account." : "あなたの %2$s アカウントに %1$s アクセスを許可する前にログインしてください。",
-    "If you are not trying to set up a new device or app, someone is trying to trick you into granting them access to your data. In this case do not proceed and instead contact your system administrator." : "今、あなたが新しいデバイスやアプリを設定しようとしていない場合は、誰かがあなたを騙してデータへのアクセス許可を獲得しようとしています。このような場合は、先に進まず、システム管理者に連絡してください。",
+    "If you are not trying to set up a new device or app, someone is trying to trick you into granting them access to your data. In this case do not proceed and instead contact your system administrator." : "新しいデバイスやアプリを設定しようとしていないのに、今この画面が表示された場合、誰かがあなたを騙してデータへのアクセス権を奪取しようとしています。その場合は、ここで止めてシステム管理者に連絡してください。",
     "App token" : "アプリのトークン",
     "Grant access" : "アクセスを許可",
     "Alternative log in using app token" : "アプリトークンを使って代替ログイン",

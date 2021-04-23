@@ -190,6 +190,7 @@ OC.L10N.register(
     "Crop image previews" : "圖片裁剪預覽",
     "WebDAV" : "WebDAV",
     "Use this address to access your Files via WebDAV" : "用這位址使用 WebDAV 存取你的檔案。",
+    "Toggle %1$s sublist" : "切換 %1$s 子列表",
     "Toggle grid view" : "切換網格檢視",
     "No files in here" : "沒有任何檔案",
     "Upload some content or sync with your devices!" : "在您的裝置同步或上傳一些內容！",

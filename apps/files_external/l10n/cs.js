@@ -11,6 +11,7 @@ OC.L10N.register(
     "Generate keys" : "Vytvořit klíče",
     "Error generating key pair" : "Chyba při vytváření páru klíčů",
     "All users. Type to select user or group." : "Všichni uživatelé. Začněte psát pro výběr uživatelů a skupin.",
+    "(Group)" : "(Skupina)",
     "Compatibility with Mac NFD encoding (slow)" : "Kompatibilita s Mac NFD kódováním (pomalé)",
     "Enable encryption" : "Šifrovat",
     "Enable previews" : "Zapnout náhledy",

@@ -118,7 +118,6 @@
     "Files can’t be shared with delete permissions" : "Non é posíbel compartir ficheiros con permisos de eliminación",
     "Files can’t be shared with create permissions" : "Non é posíbel compartir ficheiros con permisos de creación",
     "Expiration date is in the past" : "Xa pasou a data de caducidade",
-    "Can’t set expiration date more than %s days in the future" : "Non é posíbel estabelecer a data de caducidade máis alo de %s días no futuro",
     "Sharing is only allowed with group members" : "Só se permite compartir cos membros do grupo",
     "Sharing %s failed, because this item is already shared with user %s" : "Fallou a compartición de %s por mor de que este elemento xa foi compartido co usuario %s",
     "%1$s shared »%2$s« with you" : "%1$s compartiu «%2$s» con vostede",
@@ -232,6 +231,7 @@
     "Storage connection timeout. %s" : "Esgotouse o tempo de conexión co almacenamento. %s",
     "Following databases are supported: %s" : "Admítense as seguintes bases de datos: %s",
     "Following platforms are supported: %s" : "Admítense as seguintes plataformas: %s",
-    "Invalid Federated Cloud ID" : "ID de nube federada incorrecto"
+    "Invalid Federated Cloud ID" : "ID de nube federada incorrecto",
+    "Can’t set expiration date more than %s days in the future" : "Non é posíbel estabelecer a data de caducidade máis alo de %s días no futuro"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
