@@ -29,6 +29,7 @@ namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OCA\DAV\Connector\Sabre\CopyEtagHeaderPlugin;
 use OCA\DAV\Connector\Sabre\File;
+use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\Server;
 use Sabre\DAV\Tree;
 use Test\TestCase;
@@ -71,6 +72,19 @@ class CopyEtagHeaderPluginTest extends TestCase {
 		$this->plugin->afterMethod($request, $response);
 
 		$this->assertNull($response->getHeader('OC-Etag'));
+	}
+
+	public function testAfterMoveNodeNotFound(): void {
+		$tree = $this->createMock(Tree::class);
+		$tree->expects(self::once())
+			->method('getNodeForPath')
+			->with('test.txt')
+			->willThrowException(new NotFound());
+
+		$this->server->tree = $tree;
+		$this->plugin->afterMove('', 'test.txt');
+
+		// Nothing to assert, we are just testing if the exception is handled
 	}
 
 	public function testAfterMove() {
