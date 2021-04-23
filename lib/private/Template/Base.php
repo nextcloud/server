@@ -168,7 +168,9 @@ class Base {
 		if (!is_null($additionalParams)) {
 			$_ = array_merge($additionalParams, $this->vars);
 			foreach ($_ as $var => $value) {
-				${$var} = $value;
+				if (!isset(${$var})) {
+					${$var} = $value;
+				}
 			}
 		}
 
