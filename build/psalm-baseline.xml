@@ -4112,15 +4112,6 @@
       <code>array|mixed</code>
     </LessSpecificImplementedReturnType>
   </file>
-  <file src="lib/private/L10N/L10N.php">
-    <InvalidPropertyAssignmentValue occurrences="1"/>
-    <InvalidReturnStatement occurrences="1">
-      <code>$this-&gt;pluralFormFunction</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
-      <code>\Closure</code>
-    </InvalidReturnType>
-  </file>
   <file src="lib/private/LargeFileHelper.php">
     <InvalidOperand occurrences="2">
       <code>$matches[1]</code>
