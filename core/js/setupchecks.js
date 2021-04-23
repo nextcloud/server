@@ -487,7 +487,7 @@
 							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 						})
 					}
-					if (window.location.protocol === 'http:' && data.reverseProxyGeneratedURL.split('/')[0] !== 'https:') {
+					if (window.location.protocol === 'https:' && data.reverseProxyGeneratedURL.split('/')[0] !== 'https:') {
 						messages.push({
 							msg: t('core', 'You are accessing your instance over a secure connection, however your instance is generating insecure URLs. This most likely means that you are behind a reverse proxy and the overwrite config variables are not set correctly. Please read {linkstart}the documentation page about this ↗{linkend}.')
 								.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="' + data.reverseProxyDocs + '">')
