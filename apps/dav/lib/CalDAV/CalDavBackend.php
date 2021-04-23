@@ -1894,8 +1894,9 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			->andWhere($query->expr()->eq('co.uid', $query->createNamedParameter($uid)));
 
 		$stmt = $query->executeQuery();
-
-		if ($row = $stmt->fetch()) {
+		$row = $stmt->fetch();
+		$stmt->closeCursor();
+		if ($row) {
 			return $row['calendaruri'] . '/' . $row['objecturi'];
 		}
 
@@ -2000,7 +2001,6 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 
 			// Fetching all changes
 			$stmt = $qb->executeQuery();
-
 			$changes = [];
 
 			// This loop ensures that any duplicates are overwritten, only the
@@ -2008,6 +2008,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			while ($row = $stmt->fetch()) {
 				$changes[$row['uri']] = $row['operation'];
 			}
+			$stmt->closeCursor();
 
 			foreach ($changes as $uri => $operation) {
 				switch ($operation) {
@@ -2035,6 +2036,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				);
 			$stmt = $qb->executeQuery();
 			$result['added'] = $stmt->fetchAll(\PDO::FETCH_COLUMN);
+			$stmt->closeCursor();
 		}
 		return $result;
 	}
