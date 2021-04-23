@@ -441,7 +441,6 @@ OC.L10N.register(
     "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "הצגת טקסט ויתור בעמוד העלאת קישור ציבורי. (מופיע רק כאשר רשימת הקבצים מוסתרת.)",
     "Don't synchronize to servers" : "לא לסנכרן מול השרתים",
     "Trusted" : "מהימן",
-    "MySQL version \"%s\" is used. Nextcloud 21 will no longer support this version and requires MySQL 8 or higher." : "נעשה שימוש ב־MySQL בגרסה „%s”.‏ Nextcloud 21 לא יתמוך עוד בגרסה הזאת וידרוש MySQL 8 ומעלה.",
     "Allow username autocompletion in share dialog (if this is disabled the full username or email address needs to be entered)" : "לאפשר השלמת שמות משתמשים בתיבת דו־שיח השיתוף (אם האפשרות מושבתת יש להקליד את שם המשתמש או את כתובת הדוא״ל המלאים)"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");

@@ -127,6 +127,7 @@
     "There are some user imported SSL certificates present, that are not used anymore with Nextcloud 21. They can be imported on the command line via \"occ security:certificates:import\" command. Their paths inside the data directory are shown below." : "Es sind einige vom Benutzer importierte SSL-Zertifikate vorhanden, die von Nextcloud 21 nicht mehr verwendet werden. Sie können über den Befehl \"occ security:certificates:import\" in der Befehlszeile importiert werden. Ihre Pfade innerhalb des Datenverzeichnisses werden unten angezeigt.",
     "The old server-side-encryption format is enabled. We recommend disabling this." : "Das alte serverseitige Verschlüsselungsformat ist aktiviert. Wir empfehlen, es zu deaktivieren.",
     "MariaDB version \"%s\" is used. Nextcloud 21 will no longer support this version and requires MariaDB 10.2 or higher." : "Es wird die MariaDB-Version \"%s\" verwendet. Nextcloud 21 wird diese Version nicht mehr unterstützen und benötigt MariaDB 10.2 oder höher.",
+    "MySQL version \"%s\" is used. Nextcloud 21 will no longer support this version and requires MySQL 8.0 or MariaDB 10.2 or higher." : "Es wird die MySQL-Version \"%s\" verwendet. Nextcloud 21 wird diese Version nicht mehr unterstützen und benötigt MySQL 8.0, MariaDB 10.2 oder höher.",
     "PostgreSQL version \"%s\" is used. Nextcloud 21 will no longer support this version and requires PostgreSQL 9.6 or higher." : "Es wird die PostgreSQL-Version \"%s\" verwendet. Nextcloud 21 wird diese Version nicht mehr unterstützen und benötigt PostgreSQL 9.6 oder höher.",
     "Nextcloud settings" : "Nextcloud-Einstellungen",
     "Two-factor authentication can be enforced for all users and specific groups. If they do not have a two-factor provider configured, they will be unable to log into the system." : "Zwei-Faktor-Authentifizierung kann für alle Benutzer und Gruppen erzwungen werden. Dann können Benutzer für die keine Zwei-Faktor-Authentifizierung eingerichtet ist, sich nicht am System anmelden.",
@@ -457,7 +458,6 @@
     "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Zeige Haftungsausschluss auf der öffentlichen Upload-Seite. (Wird nur gezeigt wenn die Dateiliste nicht angezeigt wird.) ",
     "Don't synchronize to servers" : "Nicht mit Servern synchronisieren",
     "Trusted" : "Vertrauenswürdig",
-    "MySQL version \"%s\" is used. Nextcloud 21 will no longer support this version and requires MySQL 8 or higher." : "Es wird die MySQL-Version \"%s\" verwendet. Nextcloud 21 wird diese Version nicht mehr unterstützen und benötigt MySQL 8 oder höher.",
     "Allow username autocompletion in share dialog (if this is disabled the full username or email address needs to be entered)" : "Die Auto-Vervollständigung von Benutzernamen im Teilen-Dialog zulassen (Wenn dies deaktiviert ist, müssen der vollständige Benutzername oder die E-Mail-Adresse eingegeben werden)"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

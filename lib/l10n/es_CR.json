@@ -84,7 +84,6 @@
     "Files can’t be shared with delete permissions" : "Los archivos no se pueden compartir con permisos de borrado",
     "Files can’t be shared with create permissions" : "Los archivos no se pueden compartir con permisos de creación",
     "Expiration date is in the past" : "La fecha de expiración se encuentra en el pasado",
-    "Can’t set expiration date more than %s days in the future" : "No es posible establecer la fecha de expiración más allá de %s días en el futuro",
     "Click the button below to open it." : "Haz click en el botón inferior para abrirlo. ",
     "The requested share does not exist anymore" : "El recurso compartido solicitado ya no existe",
     "Could not find category \"%s\"" : "No fue posible encontrar la categoria \"%s\"",
@@ -185,6 +184,7 @@
     "Storage connection timeout. %s" : "El tiempo de la conexión del almacenamiento se agotó. %s",
     "Following databases are supported: %s" : "Las siguientes bases de datos están soportadas: %s",
     "Following platforms are supported: %s" : "Las siguientes plataformas están soportadas: %s",
-    "Invalid Federated Cloud ID" : "ID Inválido"
+    "Invalid Federated Cloud ID" : "ID Inválido",
+    "Can’t set expiration date more than %s days in the future" : "No es posible establecer la fecha de expiración más allá de %s días en el futuro"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -118,7 +118,6 @@
     "Files can’t be shared with delete permissions" : "Souporaba datotek z nastavljenim dovoljenjem za brisanje, ni mogoča",
     "Files can’t be shared with create permissions" : "Souporaba datotek z nastavljenim dovoljenjem za ustvarjanje, ni mogoča",
     "Expiration date is in the past" : "Datum preteka je že mimo!",
-    "Can’t set expiration date more than %s days in the future" : "Datuma pretaka ni mogoče nastaviti za več kot %s dni v prihodnost.",
     "Sharing is only allowed with group members" : "Souporaba je dovoljena le med člani skupine",
     "Sharing %s failed, because this item is already shared with user %s" : "Nastavljanje souporabe %s je spodletelo, ker je predmet že v souporabi z uporabnikom %s.",
     "%1$s shared »%2$s« with you" : "%1$s vam omogoča souporabo »%2$s«",
@@ -232,6 +231,7 @@
     "Storage connection timeout. %s" : "Povezava do shrambe je časovno potekla. %s",
     "Following databases are supported: %s" : "Podprte so navedene podatkovne zbirke: %s",
     "Following platforms are supported: %s" : "Podprta so okolja: %s",
-    "Invalid Federated Cloud ID" : "Neveljaven ID zveznega oblaka"
+    "Invalid Federated Cloud ID" : "Neveljaven ID zveznega oblaka",
+    "Can’t set expiration date more than %s days in the future" : "Datuma pretaka ni mogoče nastaviti za več kot %s dni v prihodnost."
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }

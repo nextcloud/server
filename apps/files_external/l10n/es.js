@@ -11,6 +11,7 @@ OC.L10N.register(
     "Generate keys" : "Generar claves",
     "Error generating key pair" : "Error al generar el par de claves",
     "All users. Type to select user or group." : "Todos los usuarios. Teclee para seleccionar un usuario o grupo.",
+    "(Group)" : "(Grupo)",
     "Compatibility with Mac NFD encoding (slow)" : "Compatibilidad con codificación Mac MFD (lento)",
     "Enable encryption" : "Habilitar cifrado",
     "Enable previews" : "Habilitar previsualizaciones",

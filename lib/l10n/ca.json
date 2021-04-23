@@ -114,7 +114,6 @@
     "Files can’t be shared with delete permissions" : "No es poden compartir els fitxers amb permisos de supressió",
     "Files can’t be shared with create permissions" : "No es poden compartir els fitxers amb permisos de creació",
     "Expiration date is in the past" : "La data de caducitat és del passat",
-    "Can’t set expiration date more than %s days in the future" : "No es pot establir la data de caducitat més de %s dies en el futur",
     "%1$s shared »%2$s« with you" : "%1$s us ha compartit »%2$s«",
     "%1$s shared »%2$s« with you." : "%1$s us ha compartit »%2$s«.",
     "Click the button below to open it." : "Feu clic al botó de sota per obrir-lo.",
@@ -226,6 +225,7 @@
     "Storage connection timeout. %s" : "Temps d’espera exhaurit en la connexió d’emmagatzematge. %s",
     "Following databases are supported: %s" : "S'admeten les següents bases de dades: %s",
     "Following platforms are supported: %s" : "S'admeten les següents plataformes: %s",
-    "Invalid Federated Cloud ID" : "ID de Núvol Federat no vàlid"
+    "Invalid Federated Cloud ID" : "ID de Núvol Federat no vàlid",
+    "Can’t set expiration date more than %s days in the future" : "No es pot establir la data de caducitat més de %s dies en el futur"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
