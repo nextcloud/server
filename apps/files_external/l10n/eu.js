@@ -11,6 +11,7 @@ OC.L10N.register(
     "Generate keys" : "Sortu gakoak",
     "Error generating key pair" : "Errorea gako bikotea sortzean",
     "All users. Type to select user or group." : "Erabiltzaile guztiak. Idatzi erabiltzaile edo taldea hautatzeko.",
+    "(Group)" : "(Taldea)",
     "Compatibility with Mac NFD encoding (slow)" : "Mac NFD kodeketarekin bateragarritasuna (mantsoa)",
     "Enable encryption" : "Gaitu zifratzea",
     "Enable previews" : "Gaitu aurrebistak",

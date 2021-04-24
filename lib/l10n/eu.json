@@ -48,6 +48,7 @@
     "seconds ago" : "duela segundu batzuk",
     "Empty file" : "Fitxategi hutsa",
     "File already exists" : "Badago izen bereko fitxategi bat",
+    "Invalid path" : "Bide-izen baliogabea",
     "Templates" : "Txantiloiak",
     "File name is a reserved word" : "Fitxategi izena hitz erreserbatua da",
     "File name contains at least one invalid character" : "Fitxategi izenak karaktere baliogabe bat du gutxienez ",
