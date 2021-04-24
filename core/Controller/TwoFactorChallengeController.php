@@ -115,7 +115,6 @@ class TwoFactorChallengeController extends Controller {
 			'providers' => $providers,
 			'backupProvider' => $backupProvider,
 			'providerMissing' => $providerSet->isProviderMissing(),
-			'redirect_url' => $redirect_url,
 			'logout_url' => $this->getLogoutUrl(),
 			'hasSetupProviders' => !empty($setupProviders),
 		];
