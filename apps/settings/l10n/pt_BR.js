@@ -213,6 +213,7 @@ OC.L10N.register(
     "You do not have permissions to see the details of this user" : "Você não tem permissão para ver os detalhes deste usuário",
     "Add new password" : "Adicionar nova senha",
     "Add new email address" : "Adicionar novo endereço de e-mail",
+    "Add user to group" : "Adicionar usuário ao grupo",
     "Set user as admin for" : "Definir o usuário como administrador para",
     "Select user quota" : "Selecionar a cota de usuário",
     "No language set" : "Nenhum conjunto de idiomas",
