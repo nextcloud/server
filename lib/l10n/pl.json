@@ -118,6 +118,7 @@
     "Files can’t be shared with delete permissions" : "Pliki nie mogą zostać udostępnione z prawem do usuwania",
     "Files can’t be shared with create permissions" : "Pliki nie mogą zostać udostępnione z prawem do tworzenia",
     "Expiration date is in the past" : "Data ważności już minęła",
+    "_Can’t set expiration date more than %n day in the future_::_Can’t set expiration date more than %n days in the future_" : ["Nie można ustawić daty ważności na dłuższą niż %n dzień ","Nie można ustawić daty ważności na dłuższą niż %n dni","Nie można ustawić daty ważności na dłuższą niż %n dni","Nie można ustawić daty ważności na dłuższą niż %n dni"],
     "Sharing is only allowed with group members" : "Udostępnianie jest dozwolone tylko członkom grupy",
     "Sharing %s failed, because this item is already shared with user %s" : "Udostępnianie %s nie powiodło się, ponieważ element jest już udostępniony użytkownikowi %s",
     "%1$s shared »%2$s« with you" : "%1$s udostępnił Tobie »%2$s«",

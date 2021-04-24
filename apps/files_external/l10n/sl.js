@@ -11,6 +11,7 @@ OC.L10N.register(
     "Generate keys" : "Ustvari ključe",
     "Error generating key pair" : "Prišlo je do napake med ustvarjanjem para ključev",
     "All users. Type to select user or group." : "Vsi uporabniki. Skupino ali uporabnika je mogoče tudi izbrati.",
+    "(Group)" : "(skupina)",
     "Compatibility with Mac NFD encoding (slow)" : " Usklajenost s šifriranjem Mac NFD (počasno)",
     "Enable encryption" : "Omogoči šifriranje",
     "Enable previews" : "Omogoči predoglede",
