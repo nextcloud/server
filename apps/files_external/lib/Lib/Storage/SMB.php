@@ -142,7 +142,7 @@ class SMB extends Common implements INotifyStorage {
 	private function splitUser($user) {
 		if (strpos($user, '/')) {
 			return explode('/', $user, 2);
-		} elseif (strpos($user, '\\')) {
+		} elseif (strpos($user, '\\') !== false) {
 			return explode('\\', $user);
 		} else {
 			return [null, $user];
