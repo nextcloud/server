@@ -329,11 +329,15 @@ class Manager implements IManager {
 			$incomingShares = array_merge($incomingShares, $this->getSharedWith($share->getSharedBy(), IShare::TYPE_ROOM, $userMountPoint, -1, 0));
 
 			/** @var IShare[] $incomingShares */
-			if (!empty($incomingShares)) {
+			if (empty($incomingShares)) {
+				$permissions = $share->getNode()->getPermissions();
+			} else {
+				$permissions = 0;
 				foreach ($incomingShares as $incomingShare) {
 					$permissions |= $incomingShare->getPermissions();
 				}
 			}
+			
 		} else {
 			/*
 			 * Quick fix for #23536
