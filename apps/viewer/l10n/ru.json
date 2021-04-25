@@ -6,6 +6,7 @@
     "Error loading {name}" : "Ошибка при загрузке {name}",
     "Your browser does not support videos." : "Используемый браузер не поддерживает воспроизведение видео.",
     "Open sidebar" : "Открыть боковую панель",
+    "Download" : "Скачать",
     "Delete" : "Удалить",
     "There is no plugin available to display this file type" : "Нет доступного плагина для отображения этого типа файла",
     "View" : "Просмотр"
