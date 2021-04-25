@@ -17,6 +17,8 @@ OC.L10N.register(
     "So-so password" : "كلمة سر غير فعالة",
     "Good password" : "كلمة السر جيدة",
     "Strong password" : "كلمة السر قوية",
+    "An error occurred while changing your language. Please reload the page and try again." : "حدث خطأ أثناء تغيير إعدادات اللغة الخاصة بك. يرجى إعادة تحميل الصفحة والمحاوله مرة أخرى.",
+    "An error occurred while changing your locale. Please reload the page and try again." : "حدث خطأ أثناء تغيير الإعدادات المحلية الخاصة بك. يرجى إعادة تحميل الصفحة والمحاوله مرة أخرى.",
     "Select a profile picture" : "اختر صورة الملف الشخصي ",
     "Week starts on {fdow}" : "بداية الأسبوع يوم {fdow}",
     "Groups" : "مجموعات",
