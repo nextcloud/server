@@ -31,6 +31,7 @@ namespace OCA\FederatedFileSharing\OCM;
 
 use OC\AppFramework\Http;
 use OC\Files\Filesystem;
+use OC\HintException;
 use OCA\FederatedFileSharing\AddressHandler;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\Files_Sharing\Activity\Providers\RemoteShares;
@@ -678,24 +679,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 	 * @throws BadRequestException
 	 */
 	protected function updateResharePermissions($id, array $notification) {
-		if (!isset($notification['sharedSecret'])) {
-			throw new BadRequestException(['sharedSecret']);
-		}
-		$token = $notification['sharedSecret'];
-
-		if (!isset($notification['permission'])) {
-			throw new BadRequestException(['permission']);
-		}
-		$ocmPermissions = $notification['permission'];
-
-		$share = $this->federatedShareProvider->getShareById($id);
-
-		$ncPermission = $this->ocmPermissions2ncPermissions($ocmPermissions);
-
-		$this->verifyShare($share, $token);
-		$this->updatePermissionsInDatabase($share, $ncPermission);
-
-		return [];
+		throw new HintException('Updating reshares not allowed');
 	}
 
 	/**
