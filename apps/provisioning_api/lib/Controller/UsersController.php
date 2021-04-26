@@ -50,6 +50,7 @@ use OC\Accounts\AccountManager;
 use OC\Authentication\Token\RemoteWipe;
 use OC\HintException;
 use OC\KnownUser\KnownUserService;
+use OC\User\Backend;
 use OCA\Settings\Mailer\NewUserMailHelper;
 use OCP\Accounts\IAccountManager;
 use OCP\App\IAppManager;
@@ -568,7 +569,8 @@ class UsersController extends AUserData {
 
 		// Editing self (display, email)
 		if ($this->config->getSystemValue('allow_user_to_change_display_name', true) !== false) {
-			if ($targetUser->getBackend() instanceof ISetDisplayNameBackend) {
+			if ($targetUser->getBackend() instanceof ISetDisplayNameBackend
+				|| $targetUser->getBackend()->implementsActions(Backend::SET_DISPLAYNAME)) {
 				$permittedFields[] = IAccountManager::PROPERTY_DISPLAYNAME;
 			}
 			$permittedFields[] = IAccountManager::PROPERTY_EMAIL;
@@ -607,7 +609,8 @@ class UsersController extends AUserData {
 		if ($targetUser->getUID() === $currentLoggedInUser->getUID()) {
 			// Editing self (display, email)
 			if ($this->config->getSystemValue('allow_user_to_change_display_name', true) !== false) {
-				if ($targetUser->getBackend() instanceof ISetDisplayNameBackend) {
+				if ($targetUser->getBackend() instanceof ISetDisplayNameBackend
+					|| $targetUser->getBackend()->implementsActions(Backend::SET_DISPLAYNAME)) {
 					$permittedFields[] = 'display';
 					$permittedFields[] = IAccountManager::PROPERTY_DISPLAYNAME;
 				}
@@ -649,7 +652,8 @@ class UsersController extends AUserData {
 			if ($this->groupManager->isAdmin($currentLoggedInUser->getUID())
 			|| $subAdminManager->isUserAccessible($currentLoggedInUser, $targetUser)) {
 				// They have permissions over the user
-				if ($targetUser->getBackend() instanceof ISetDisplayNameBackend) {
+				if ($targetUser->getBackend() instanceof ISetDisplayNameBackend
+					|| $targetUser->getBackend()->implementsActions(Backend::SET_DISPLAYNAME)) {
 					$permittedFields[] = 'display';
 					$permittedFields[] = IAccountManager::PROPERTY_DISPLAYNAME;
 				}
