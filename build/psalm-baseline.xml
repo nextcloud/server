@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.7.0@d4377c0baf3ffbf0b1ec6998e8d1be2a40971005">
+<files psalm-version="4.7.1@cd53e047a58f71f646dd6bf45476076ab07b5d44">
   <file src="3rdparty/sabre/dav/lib/CalDAV/Calendar.php">
     <MoreSpecificImplementedParamType occurrences="1">
       <code>$calendarData</code>
@@ -1797,9 +1797,6 @@
       <code>$groupid === null</code>
       <code>$groupid === null</code>
     </TypeDoesNotContainNull>
-    <UndefinedInterfaceMethod occurrences="1">
-      <code>getSubAdmin</code>
-    </UndefinedInterfaceMethod>
   </file>
   <file src="apps/settings/lib/AppInfo/Application.php">
     <InvalidScalarArgument occurrences="1">
