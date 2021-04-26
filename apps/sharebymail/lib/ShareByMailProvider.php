@@ -642,7 +642,7 @@ class ShareByMailProvider implements IShareProvider {
 			->andWhere($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_EMAIL)))
 			->orderBy('id');
 
-		$cursor = $qb->execute();
+		$cursor = $qb->executeQuery();
 		while ($data = $cursor->fetch()) {
 			$children[] = $this->createShareObject($data);
 		}
@@ -696,7 +696,7 @@ class ShareByMailProvider implements IShareProvider {
 		 */
 		$qb->setValue('file_target', $qb->createNamedParameter(''));
 
-		$qb->execute();
+		$qb->executeUpdate();
 		return $qb->getLastInsertId();
 	}
 
@@ -732,7 +732,7 @@ class ShareByMailProvider implements IShareProvider {
 			->set('expiration', $qb->createNamedParameter($share->getExpirationDate(), IQueryBuilder::PARAM_DATE))
 			->set('note', $qb->createNamedParameter($share->getNote()))
 			->set('hide_download', $qb->createNamedParameter((int)$share->getHideDownload(), IQueryBuilder::PARAM_INT))
-			->execute();
+			->executeUpdate();
 
 		if ($originalShare->getNote() !== $share->getNote() && $share->getNote() !== '') {
 			$this->sendNote($share);
@@ -822,7 +822,7 @@ class ShareByMailProvider implements IShareProvider {
 		$qb->setFirstResult($offset);
 		$qb->orderBy('id');
 
-		$cursor = $qb->execute();
+		$cursor = $qb->executeQuery();
 		$shares = [];
 		while ($data = $cursor->fetch()) {
 			$shares[] = $this->createShareObject($data);
@@ -843,7 +843,7 @@ class ShareByMailProvider implements IShareProvider {
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($id)))
 			->andWhere($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_EMAIL)));
 
-		$cursor = $qb->execute();
+		$cursor = $qb->executeQuery();
 		$data = $cursor->fetch();
 		$cursor->closeCursor();
 
@@ -873,7 +873,7 @@ class ShareByMailProvider implements IShareProvider {
 			->from('share')
 			->andWhere($qb->expr()->eq('file_source', $qb->createNamedParameter($path->getId())))
 			->andWhere($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_EMAIL)))
-			->execute();
+			->executeQuery();
 
 		$shares = [];
 		while ($data = $cursor->fetch()) {
@@ -913,7 +913,7 @@ class ShareByMailProvider implements IShareProvider {
 			$qb->andWhere($qb->expr()->eq('file_source', $qb->createNamedParameter($node->getId())));
 		}
 
-		$cursor = $qb->execute();
+		$cursor = $qb->executeQuery();
 
 		while ($data = $cursor->fetch()) {
 			$shares[] = $this->createShareObject($data);
@@ -938,7 +938,7 @@ class ShareByMailProvider implements IShareProvider {
 			->from('share')
 			->where($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_EMAIL)))
 			->andWhere($qb->expr()->eq('token', $qb->createNamedParameter($token)))
-			->execute();
+			->executeQuery();
 
 		$data = $cursor->fetch();
 
@@ -964,7 +964,7 @@ class ShareByMailProvider implements IShareProvider {
 		$qb = $this->dbConnection->getQueryBuilder();
 		$qb->delete('share')
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($shareId)));
-		$qb->execute();
+		$qb->executeUpdate();
 	}
 
 	/**
@@ -1058,7 +1058,7 @@ class ShareByMailProvider implements IShareProvider {
 		$qb->delete('share')
 			->where($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_EMAIL)))
 			->andWhere($qb->expr()->eq('uid_owner', $qb->createNamedParameter($uid)))
-			->execute();
+			->executeUpdate();
 	}
 
 	/**
@@ -1093,7 +1093,7 @@ class ShareByMailProvider implements IShareProvider {
 			->from('share')
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($id)));
 
-		$cursor = $qb->execute();
+		$cursor = $qb->executeQuery();
 		$data = $cursor->fetch();
 		$cursor->closeCursor();
 
@@ -1135,7 +1135,7 @@ class ShareByMailProvider implements IShareProvider {
 
 		$qb->orderBy('id');
 
-		$cursor = $qb->execute();
+		$cursor = $qb->executeQuery();
 		$shares = [];
 		while ($data = $cursor->fetch()) {
 			$shares[$data['fileid']][] = $this->createShareObject($data);
@@ -1164,7 +1164,7 @@ class ShareByMailProvider implements IShareProvider {
 				$qb->expr()->eq('item_type', $qb->createNamedParameter('folder'))
 			))
 			->setMaxResults(1);
-		$cursor = $qb->execute();
+		$cursor = $qb->executeQuery();
 
 		$mail = $cursor->fetch() !== false;
 		$cursor->closeCursor();
@@ -1183,7 +1183,7 @@ class ShareByMailProvider implements IShareProvider {
 				)
 			);
 
-		$cursor = $qb->execute();
+		$cursor = $qb->executeQuery();
 		while ($data = $cursor->fetch()) {
 			try {
 				$share = $this->createShareObject($data);
