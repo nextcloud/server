@@ -309,7 +309,10 @@ class Installer {
 				// Check if the signature actually matches the downloaded content
 				$certificate = openssl_get_publickey($app['certificate']);
 				$verified = (bool)openssl_verify(file_get_contents($tempFile), base64_decode($app['releases'][0]['signature']), $certificate, OPENSSL_ALGO_SHA512);
-				openssl_free_key($certificate);
+				// PHP 8+ deprecates openssl_free_key and automatically destroys the key instance when it goes out of scope
+				if ((PHP_VERSION_ID < 80000)) {
+					openssl_free_key($certificate);
+				}
 
 				if ($verified === true) {
 					// Seems to match, let's proceed
@@ -341,9 +344,13 @@ class Installer {
 						}
 
 						// Check if appinfo/info.xml has the same app ID as well
-						$loadEntities = libxml_disable_entity_loader(false);
-						$xml = simplexml_load_file($extractDir . '/' . $folders[0] . '/appinfo/info.xml');
-						libxml_disable_entity_loader($loadEntities);
+						if ((PHP_VERSION_ID < 80000)) {
+							$loadEntities = libxml_disable_entity_loader(false);
+							$xml = simplexml_load_file($extractDir . '/' . $folders[0] . '/appinfo/info.xml');
+							libxml_disable_entity_loader($loadEntities);
+						} else {
+							$xml = simplexml_load_file($extractDir . '/' . $folders[0] . '/appinfo/info.xml');
+						}
 						if ((string)$xml->id !== $appId) {
 							throw new \Exception(
 								sprintf(
