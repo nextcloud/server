@@ -28,7 +28,6 @@
 namespace OCA\Federation\AppInfo;
 
 use OCA\Federation\DAV\FedAuth;
-use OCA\Federation\Hooks;
 use OCA\Federation\Middleware\AddServerMiddleware;
 use OCP\AppFramework\App;
 use OCP\SabrePluginEvent;
@@ -53,20 +52,8 @@ class Application extends App {
 		$container->registerMiddleWare('AddServerMiddleware');
 	}
 
-	/**
-	 * listen to federated_share_added hooks to auto-add new servers to the
-	 * list of trusted servers.
-	 */
 	public function registerHooks() {
 		$container = $this->getContainer();
-		$hooksManager = $container->query(Hooks::class);
-
-		Util::connectHook(
-				Share::class,
-				'federated_share_added',
-				$hooksManager,
-				'addServerHook'
-		);
 
 		$dispatcher = $container->getServer()->getEventDispatcher();
 		$dispatcher->addListener('OCA\DAV\Connector\Sabre::authInit', function ($event) use ($container) {

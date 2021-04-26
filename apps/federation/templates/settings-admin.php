@@ -10,13 +10,6 @@ style('federation', 'settings-admin')
 	<h2><?php p($l->t('Trusted servers')); ?></h2>
 	<p class="settings-hint"><?php p($l->t('Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing.')); ?></p>
 
-	<p>
-		<input id="autoAddServers" type="checkbox" class="checkbox" <?php if ($_['autoAddServers']) {
-	p('checked');
-} ?> />
-		<label for="autoAddServers"><?php p($l->t('Add server automatically once a federated share was created successfully')); ?></label>
-	</p>
-
 	<ul id="listOfTrustedServers">
 		<?php foreach ($_['trustedServers'] as $trustedServer) { ?>
 			<li id="<?php p($trustedServer['id']); ?>">
