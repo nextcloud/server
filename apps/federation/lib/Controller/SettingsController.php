@@ -88,16 +88,6 @@ class SettingsController extends Controller {
 	}
 
 	/**
-	 * enable/disable to automatically add servers to the list of trusted servers
-	 * once a federated share was created and accepted successfully
-	 *
-	 * @param bool $autoAddServers
-	 */
-	public function autoAddServers($autoAddServers) {
-		$this->trustedServers->setAutoAddServers($autoAddServers);
-	}
-
-	/**
 	 * check if the server should be added to the list of trusted servers or not
 	 *
 	 * @param string $url
