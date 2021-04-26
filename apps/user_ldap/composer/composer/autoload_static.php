@@ -76,7 +76,6 @@ class ComposerStaticInitUser_LDAP
         'OCA\\User_LDAP\\Migration\\Version1010Date20200630192842' => __DIR__ . '/..' . '/../lib/Migration/Version1010Date20200630192842.php',
         'OCA\\User_LDAP\\Notification\\Notifier' => __DIR__ . '/..' . '/../lib/Notification/Notifier.php',
         'OCA\\User_LDAP\\PagedResults\\IAdapter' => __DIR__ . '/..' . '/../lib/PagedResults/IAdapter.php',
-        'OCA\\User_LDAP\\PagedResults\\Php54' => __DIR__ . '/..' . '/../lib/PagedResults/Php54.php',
         'OCA\\User_LDAP\\PagedResults\\Php73' => __DIR__ . '/..' . '/../lib/PagedResults/Php73.php',
         'OCA\\User_LDAP\\PagedResults\\TLinkId' => __DIR__ . '/..' . '/../lib/PagedResults/TLinkId.php',
         'OCA\\User_LDAP\\Proxy' => __DIR__ . '/..' . '/../lib/Proxy.php',

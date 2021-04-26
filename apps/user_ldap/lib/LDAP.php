@@ -36,7 +36,6 @@ namespace OCA\User_LDAP;
 use OC\ServerNotAvailableException;
 use OCA\User_LDAP\Exceptions\ConstraintViolationException;
 use OCA\User_LDAP\PagedResults\IAdapter;
-use OCA\User_LDAP\PagedResults\Php54;
 use OCA\User_LDAP\PagedResults\Php73;
 
 class LDAP implements ILDAPWrapper {
@@ -47,11 +46,7 @@ class LDAP implements ILDAPWrapper {
 	protected $pagedResultsAdapter;
 
 	public function __construct() {
-		if (version_compare(PHP_VERSION, '7.3', '<') === true) {
-			$this->pagedResultsAdapter = new Php54();
-		} else {
-			$this->pagedResultsAdapter = new Php73();
-		}
+		$this->pagedResultsAdapter = new Php73();
 	}
 
 	/**
