@@ -90,13 +90,30 @@ class ErrorHandler {
 		}
 		$msg = $message . ' at ' . $file . '#' . $line;
 		$e = new \Error(self::removePassword($msg));
-		self::$logger->logException($e, ['app' => 'PHP']);
+		self::$logger->logException($e, ['app' => 'PHP', 'level' => self::errnoToLogLevel($number)]);
 	}
 
 	//Recoverable handler which catch all errors, warnings and notices
 	public static function onAll($number, $message, $file, $line) {
 		$msg = $message . ' at ' . $file . '#' . $line;
 		$e = new \Error(self::removePassword($msg));
-		self::$logger->logException($e, ['app' => 'PHP', 'level' => 0]);
+		self::$logger->logException($e, ['app' => 'PHP', 'level' => self::errnoToLogLevel($number)]);
+	}
+
+	public static function errnoToLogLevel(int $errno): int {
+		switch ($errno) {
+			case E_USER_WARNING:
+				return ILogger::WARN;
+
+			case E_USER_DEPRECATED:
+				return ILogger::DEBUG;
+
+			case E_USER_NOTICE:
+				return ILogger::INFO;
+
+			case E_USER_ERROR:
+			default:
+				return ILogger::ERROR;
+		}
 	}
 }
