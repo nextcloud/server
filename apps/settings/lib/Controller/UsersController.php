@@ -491,6 +491,9 @@ class UsersController extends Controller {
 			if ($e->getMessage() === IAccountManager::PROPERTY_PHONE) {
 				throw new \InvalidArgumentException($this->l10n->t('Unable to set invalid phone number'));
 			}
+			if ($e->getMessage() === IAccountManager::PROPERTY_WEBSITE) {
+				throw new \InvalidArgumentException($this->l10n->t('Unable to set invalid website'));
+			}
 			throw new \InvalidArgumentException($this->l10n->t('Some account data was invalid'));
 		}
 	}
