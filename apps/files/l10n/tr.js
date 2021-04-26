@@ -190,6 +190,7 @@ OC.L10N.register(
     "Crop image previews" : "Görsel ön izlemeleri kırpılsın",
     "WebDAV" : "WebDAV",
     "Use this address to access your Files via WebDAV" : "Dosyalarınıza WebDAV üzerinden erişmek için bu adresi kullanın",
+    "Toggle %1$s sublist" : "%1$s alt listesini aç/kapat",
     "Toggle grid view" : "Tablo görünümünü değiştir",
     "No files in here" : "Burada herhangi bir dosya yok",
     "Upload some content or sync with your devices!" : "Bir şeyler yükleyin ya da aygıtlarınızla eşitleyin!",
