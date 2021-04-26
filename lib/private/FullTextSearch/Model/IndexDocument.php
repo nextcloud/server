@@ -722,7 +722,7 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 	 * @param string $excerpt
 	 * @return string
 	 */
-	final private function cleanExcerpt(string $excerpt): string {
+	private function cleanExcerpt(string $excerpt): string {
 		$excerpt = str_replace("\\n", ' ', $excerpt);
 		$excerpt = str_replace("\\r", ' ', $excerpt);
 		$excerpt = str_replace("\\t", ' ', $excerpt);
