@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -65,7 +68,7 @@ class Defaults {
 	 * @return string
 	 * @since 6.0.0
 	 */
-	public function getBaseUrl() {
+	public function getBaseUrl(): string {
 		return $this->defaults->getBaseUrl();
 	}
 
@@ -74,7 +77,7 @@ class Defaults {
 	 * @return string
 	 * @since 6.0.0
 	 */
-	public function getSyncClientUrl() {
+	public function getSyncClientUrl(): string {
 		return $this->defaults->getSyncClientUrl();
 	}
 
@@ -83,7 +86,7 @@ class Defaults {
 	 * @return string
 	 * @since 8.0.0
 	 */
-	public function getiOSClientUrl() {
+	public function getiOSClientUrl(): string {
 		return $this->defaults->getiOSClientUrl();
 	}
 
@@ -92,7 +95,7 @@ class Defaults {
 	 * @return string
 	 * @since 8.0.0
 	 */
-	public function getAndroidClientUrl() {
+	public function getAndroidClientUrl(): string {
 		return $this->defaults->getAndroidClientUrl();
 	}
 
@@ -101,7 +104,7 @@ class Defaults {
 	 * @return string
 	 * @since 6.0.0
 	 */
-	public function getDocBaseUrl() {
+	public function getDocBaseUrl(): string {
 		return $this->defaults->getDocBaseUrl();
 	}
 
@@ -110,7 +113,7 @@ class Defaults {
 	 * @return string
 	 * @since 6.0.0
 	 */
-	public function getName() {
+	public function getName(): string {
 		return $this->defaults->getName();
 	}
 
@@ -120,7 +123,7 @@ class Defaults {
 	 * @since 8.0.0
 	 * @depreacted 22.0.0
 	 */
-	public function getHTMLName() {
+	public function getHTMLName(): string {
 		return $this->defaults->getHTMLName();
 	}
 
@@ -129,7 +132,7 @@ class Defaults {
 	 * @return string
 	 * @since 6.0.0
 	 */
-	public function getEntity() {
+	public function getEntity(): string {
 		return $this->defaults->getEntity();
 	}
 
@@ -138,7 +141,7 @@ class Defaults {
 	 * @return string
 	 * @since 6.0.0
 	 */
-	public function getSlogan(?string $lang = null) {
+	public function getSlogan(?string $lang = null): string {
 		return $this->defaults->getSlogan($lang);
 	}
 
@@ -147,7 +150,7 @@ class Defaults {
 	 * @return string
 	 * @since 6.0.0
 	 */
-	public function getShortFooter() {
+	public function getShortFooter(): string {
 		return $this->defaults->getShortFooter();
 	}
 
@@ -156,7 +159,7 @@ class Defaults {
 	 * @return string
 	 * @since 6.0.0
 	 */
-	public function getLongFooter() {
+	public function getLongFooter(): string {
 		return $this->defaults->getLongFooter();
 	}
 
@@ -165,7 +168,7 @@ class Defaults {
 	 * @return string AppId
 	 * @since 8.0.0
 	 */
-	public function getiTunesAppId() {
+	public function getiTunesAppId(): string {
 		return $this->defaults->getiTunesAppId();
 	}
 
@@ -176,7 +179,7 @@ class Defaults {
 	 * @return string
 	 * @since 12.0.0
 	 */
-	public function getLogo($useSvg = true) {
+	public function getLogo(bool $useSvg = true): string {
 		return $this->defaults->getLogo($useSvg);
 	}
 
@@ -185,7 +188,7 @@ class Defaults {
 	 * @return string
 	 * @since 12.0.0
 	 */
-	public function getColorPrimary() {
+	public function getColorPrimary(): string {
 		return $this->defaults->getColorPrimary();
 	}
 
@@ -194,7 +197,7 @@ class Defaults {
 	 * @return string URL to doc with key
 	 * @since 12.0.0
 	 */
-	public function buildDocLinkToKey($key) {
+	public function buildDocLinkToKey(string $key): string {
 		return $this->defaults->buildDocLinkToKey($key);
 	}
 
@@ -203,7 +206,7 @@ class Defaults {
 	 * @return string title
 	 * @since 12.0.0
 	 */
-	public function getTitle() {
+	public function getTitle(): string {
 		return $this->defaults->getTitle();
 	}
 
@@ -212,7 +215,7 @@ class Defaults {
 	 * @return string
 	 * @since 13.0.0
 	 */
-	public function getTextColorPrimary() {
+	public function getTextColorPrimary(): string {
 		return $this->defaults->getTextColorPrimary();
 	}
 }

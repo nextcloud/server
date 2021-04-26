@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @copyright Copyright (c) 2016, Lukas Reschke <lukas@statuscode.ch>
@@ -101,7 +104,7 @@ class Updater extends BasicEmitter {
 	 *
 	 * @return bool true if the operation succeeded, false otherwise
 	 */
-	public function upgrade() {
+	public function upgrade(): bool {
 		$this->emitRepairEvents();
 		$this->logAllEvents();
 
@@ -162,7 +165,7 @@ class Updater extends BasicEmitter {
 	 *
 	 * @return array allowed previous versions per vendor
 	 */
-	private function getAllowedPreviousVersions() {
+	private function getAllowedPreviousVersions(): array {
 		// this should really be a JSON file
 		require \OC::$SERVERROOT . '/version.php';
 		/** @var array $OC_VersionCanBeUpgradedFrom */
@@ -174,7 +177,7 @@ class Updater extends BasicEmitter {
 	 *
 	 * @return string Get the vendor
 	 */
-	private function getVendor() {
+	private function getVendor(): string {
 		// this should really be a JSON file
 		require \OC::$SERVERROOT . '/version.php';
 		/** @var string $vendor */
@@ -188,7 +191,7 @@ class Updater extends BasicEmitter {
 	 * @param array $allowedPreviousVersions
 	 * @return bool
 	 */
-	public function isUpgradePossible($oldVersion, $newVersion, array $allowedPreviousVersions) {
+	public function isUpgradePossible(string $oldVersion, string $newVersion, array $allowedPreviousVersions): bool {
 		$version = explode('.', $oldVersion);
 		$majorMinor = $version[0] . '.' . $version[1];
 
@@ -223,7 +226,7 @@ class Updater extends BasicEmitter {
 	 *
 	 * @throws \Exception
 	 */
-	private function doUpgrade($currentVersion, $installedVersion) {
+	private function doUpgrade(string $currentVersion, string $installedVersion): void {
 		// Stop update if the update is over several major versions
 		$allowedPreviousVersions = $this->getAllowedPreviousVersions();
 		if (!$this->isUpgradePossible($installedVersion, $currentVersion, $allowedPreviousVersions)) {
@@ -295,7 +298,7 @@ class Updater extends BasicEmitter {
 		$this->config->setAppValue('core', 'vendor', $this->getVendor());
 	}
 
-	protected function doCoreUpgrade() {
+	protected function doCoreUpgrade(): void {
 		$this->emit('\OC\Updater', 'dbUpgradeBefore');
 
 		// execute core migrations
@@ -311,7 +314,7 @@ class Updater extends BasicEmitter {
 	 *
 	 * @throws NeedsUpdateException
 	 */
-	protected function doAppUpgrade() {
+	protected function doAppUpgrade(): void {
 		$apps = \OC_App::getEnabledApps();
 		$priorityTypes = ['authentication', 'filesystem', 'logging'];
 		$pseudoOtherType = 'other';
@@ -360,7 +363,7 @@ class Updater extends BasicEmitter {
 	 * @return array
 	 * @throws \Exception
 	 */
-	private function checkAppsRequirements() {
+	private function checkAppsRequirements(): array {
 		$isCoreUpgrade = $this->isCodeUpgrade();
 		$apps = OC_App::getEnabledApps();
 		$version = implode('.', Util::getVersion());
@@ -395,7 +398,7 @@ class Updater extends BasicEmitter {
 	/**
 	 * @return bool
 	 */
-	private function isCodeUpgrade() {
+	private function isCodeUpgrade(): bool {
 		$installedVersion = $this->config->getSystemValue('version', '0.0.0');
 		$currentVersion = implode('.', Util::getVersion());
 		if (version_compare($currentVersion, $installedVersion, '>')) {
@@ -409,7 +412,7 @@ class Updater extends BasicEmitter {
 	 * @param bool $reenable
 	 * @throws \Exception
 	 */
-	private function upgradeAppStoreApps(array $disabledApps, $reenable = false) {
+	private function upgradeAppStoreApps(array $disabledApps, bool $reenable = false): void {
 		foreach ($disabledApps as $app) {
 			try {
 				$this->emit('\OC\Updater', 'checkAppStoreAppBefore', [$app]);
@@ -432,7 +435,7 @@ class Updater extends BasicEmitter {
 	/**
 	 * Forward messages emitted by the repair routine
 	 */
-	private function emitRepairEvents() {
+	private function emitRepairEvents(): void {
 		$dispatcher = \OC::$server->getEventDispatcher();
 		$dispatcher->addListener('\OC\Repair::warning', function ($event) {
 			if ($event instanceof GenericEvent) {
@@ -456,7 +459,7 @@ class Updater extends BasicEmitter {
 		});
 	}
 
-	private function logAllEvents() {
+	private function logAllEvents(): void {
 		$log = $this->log;
 
 		$dispatcher = \OC::$server->getEventDispatcher();
