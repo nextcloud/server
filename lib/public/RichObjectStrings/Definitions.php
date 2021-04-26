@@ -418,6 +418,37 @@ class Definitions {
 				],
 			],
 		],
+		'geo-location' => [
+			'author' => 'Nextcloud',
+			'app' => 'core',
+			'since' => '22.0.0',
+			'parameters' => [
+				'id' => [
+					'since' => '22.0.0',
+					'required' => true,
+					'description' => 'The geo URI (https://en.wikipedia.org/wiki/Geo_URI_scheme) to identify the location',
+					'example' => 'geo:52.5450511,13.3741463',
+				],
+				'name' => [
+					'since' => '22.0.0',
+					'required' => true,
+					'description' => 'A description of the location',
+					'example' => 'Nextcloud Berlin Office',
+				],
+				'latitude' => [
+					'since' => '22.0.0',
+					'required' => true,
+					'description' => 'The latitude of the location MUST be the same as in the id',
+					'example' => '52.5450511',
+				],
+				'longitude' => [
+					'since' => '22.0.0',
+					'required' => true,
+					'description' => 'The longitude of the location MUST be the same as in the id',
+					'example' => '13.3741463',
+				],
+			],
+		],
 		'open-graph' => [
 			'author' => 'Maxence Lange',
 			'app' => 'mood',
