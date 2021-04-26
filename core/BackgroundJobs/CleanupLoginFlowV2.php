@@ -42,7 +42,7 @@ class CleanupLoginFlowV2 extends TimedJob {
 		$this->setInterval(3600);
 	}
 
-	protected function run($argument) {
+	protected function run($argument): void {
 		$this->loginFlowV2Mapper->cleanup();
 	}
 }
