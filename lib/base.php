@@ -404,7 +404,7 @@ class OC {
 
 	public static function initSession() {
 		if (self::$server->getRequest()->getServerProtocol() === 'https') {
-			ini_set('session.cookie_secure', true);
+			ini_set('session.cookie_secure', 'true');
 		}
 
 		// prevents javascript from accessing php session cookies
