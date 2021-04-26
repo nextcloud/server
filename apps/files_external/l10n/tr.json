@@ -9,6 +9,7 @@
     "Generate keys" : "Anahtarları üret",
     "Error generating key pair" : "Anahtar çifti üretilirken sorun çıktı",
     "All users. Type to select user or group." : "Tüm kullanıcılar. Kullanıcı ya da grup seçmek için yazın.",
+    "(Group)" : "(Grup)",
     "Compatibility with Mac NFD encoding (slow)" : "Mac NFD şifrelemesiyle uyumlu (yavaş)",
     "Enable encryption" : "Şifreleme kullanılsın",
     "Enable previews" : "Ön izlemeler kullanılsın",
