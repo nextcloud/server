@@ -88,7 +88,7 @@ OC.L10N.register(
     "Back" : "Atrás",
     "Reset search" : "Reestablecer búsqueda",
     "Search" : "Buscar",
-    "Settings" : "Configuraciones ",
+    "Settings" : "Ajustes",
     "Search contacts …" : "Buscar contactos ...",
     "No contacts found" : "No se encontraron contactos",
     "Show all contacts …" : "Mostrar todos los contactos ...",
