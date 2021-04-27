@@ -31,8 +31,6 @@ use OCA\Federation\DAV\FedAuth;
 use OCA\Federation\Middleware\AddServerMiddleware;
 use OCP\AppFramework\App;
 use OCP\SabrePluginEvent;
-use OCP\Share;
-use OCP\Util;
 use Sabre\DAV\Auth\Plugin;
 use Sabre\DAV\Server;
 
