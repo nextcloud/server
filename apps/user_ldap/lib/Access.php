@@ -52,6 +52,7 @@ use OC\HintException;
 use OC\Hooks\PublicEmitter;
 use OC\ServerNotAvailableException;
 use OCA\User_LDAP\Exceptions\ConstraintViolationException;
+use OCA\User_LDAP\Exceptions\NoMoreResults;
 use OCA\User_LDAP\Mapping\AbstractMapping;
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\User\Manager;
@@ -264,7 +265,14 @@ class Access extends LDAPUtility {
 	 * @throws ServerNotAvailableException
 	 */
 	public function executeRead($cr, $dn, $attribute, $filter, $maxResults) {
-		$this->initPagedSearch($filter, $dn, [$attribute], $maxResults, 0);
+		try {
+			$this->initPagedSearch($filter, $dn, [$attribute], $maxResults, 0);
+		} catch (NoMoreResults $e) {
+			// does not happen, no pagination here since offset is 0, but the
+			// previous call is needed for a potential reset of the state.
+			// Tools would still point out a possible NoMoreResults exception.
+			return false;
+		}
 		$dn = $this->helper->DNasBaseParameter($dn);
 		$rr = @$this->invokeLDAPMethod('read', $cr, $dn, $filter, [$attribute]);
 		if (!$this->ldap->isResource($rr)) {
@@ -1143,7 +1151,12 @@ class Access extends LDAPUtility {
 		}
 
 		//check whether paged search should be attempted
-		$pagedSearchOK = $this->initPagedSearch($filter, $base, $attr, (int)$limit, (int)$offset);
+		try {
+			$pagedSearchOK = $this->initPagedSearch($filter, $base, $attr, (int)$limit, (int)$offset);
+		} catch (NoMoreResults $e) {
+			// beyond last results page
+			return false;
+		}
 
 		$sr = $this->invokeLDAPMethod('search', $cr, $base, $filter, $attr);
 		// cannot use $cr anymore, might have changed in the previous call!
@@ -1996,6 +2009,7 @@ class Access extends LDAPUtility {
 	 * @param int $offset
 	 * @return bool|true
 	 * @throws ServerNotAvailableException
+	 * @throws NoMoreResults
 	 */
 	private function initPagedSearch(
 		string $filter,
@@ -2027,7 +2041,7 @@ class Access extends LDAPUtility {
 				if (!$this->hasMoreResults()) {
 					// when the cookie is reset with != 0 offset, there are no further
 					// results, so stop.
-					return false;
+					throw new NoMoreResults();
 				}
 			}
 			if ($this->lastCookie !== '' && $offset === 0) {
