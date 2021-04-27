@@ -146,7 +146,7 @@ OC.L10N.register(
     "Allow deleting" : "Zezwalaj na usuwanie",
     "Allow resharing" : "Zezwalaj na udostępnianie dalej",
     "Expiration date enforced" : "Wymuszona data wygaśnięcia",
-    "Set expiration date" : "Ustaw datę ważności",
+    "Set expiration date" : "Ustaw datę wygaśnięcia",
     "Enter a date" : "Podaj datę",
     "Note to recipient" : "Informacja dla odbiorcy",
     "Unshare" : "Zatrzymaj udostępnianie",
