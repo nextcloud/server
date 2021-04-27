@@ -156,45 +156,6 @@ class TrustedServersTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataTrueFalse
-	 *
-	 * @param bool $status
-	 */
-	public function testSetAutoAddServers($status) {
-		if ($status) {
-			$this->config->expects($this->once())->method('setAppValue')
-				->with('federation', 'autoAddServers', '1');
-		} else {
-			$this->config->expects($this->once())->method('setAppValue')
-				->with('federation', 'autoAddServers', '0');
-		}
-
-		$this->trustedServers->setAutoAddServers($status);
-	}
-
-	/**
-	 * @dataProvider dataTestGetAutoAddServers
-	 *
-	 * @param string $status
-	 * @param bool $expected
-	 */
-	public function testGetAutoAddServers($status, $expected) {
-		$this->config->expects($this->once())->method('getAppValue')
-			->with('federation', 'autoAddServers', '0')->willReturn($status);
-
-		$this->assertSame($expected,
-			$this->trustedServers->getAutoAddServers()
-		);
-	}
-
-	public function dataTestGetAutoAddServers() {
-		return [
-			['1', true],
-			['0', false]
-		];
-	}
-
 	public function testAddSharedSecret() {
 		$this->dbHandler->expects($this->once())->method('addSharedSecret')
 			->with('url', 'secret');

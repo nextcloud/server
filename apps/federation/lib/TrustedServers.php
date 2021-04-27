@@ -131,28 +131,6 @@ class TrustedServers {
 	}
 
 	/**
-	 * enable/disable to automatically add servers to the list of trusted servers
-	 * once a federated share was created and accepted successfully
-	 *
-	 * @param bool $status
-	 */
-	public function setAutoAddServers($status) {
-		$value = $status ? '1' : '0';
-		$this->config->setAppValue('federation', 'autoAddServers', $value);
-	}
-
-	/**
-	 * return if we automatically add servers to the list of trusted servers
-	 * once a federated share was created and accepted successfully
-	 *
-	 * @return bool
-	 */
-	public function getAutoAddServers() {
-		$value = $this->config->getAppValue('federation', 'autoAddServers', '0');
-		return $value === '1';
-	}
-
-	/**
 	 * get shared secret for the given server
 	 *
 	 * @param string $url
