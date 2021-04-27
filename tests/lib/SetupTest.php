@@ -14,26 +14,27 @@ use OC\Setup;
 use OC\SystemConfig;
 use OCP\Defaults;
 use OCP\IL10N;
-use OCP\ILogger;
 use OCP\Security\ISecureRandom;
+use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 
 class SetupTest extends \Test\TestCase {
 
-	/** @var SystemConfig|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var SystemConfig|MockObject */
 	protected $config;
-	/** @var \bantu\IniGetWrapper\IniGetWrapper|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var \bantu\IniGetWrapper\IniGetWrapper|MockObject */
 	private $iniWrapper;
-	/** @var \OCP\IL10N|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var \OCP\IL10N|MockObject */
 	private $l10n;
-	/** @var Defaults|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var Defaults|MockObject */
 	private $defaults;
-	/** @var \OC\Setup|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var \OC\Setup|MockObject */
 	protected $setupClass;
-	/** @var \OCP\ILogger|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var LoggerInterface|MockObject */
 	protected $logger;
-	/** @var \OCP\Security\ISecureRandom|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var \OCP\Security\ISecureRandom|MockObject */
 	protected $random;
-	/** @var Installer|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var Installer|MockObject */
 	protected $installer;
 
 	protected function setUp(): void {
@@ -43,7 +44,7 @@ class SetupTest extends \Test\TestCase {
 		$this->iniWrapper = $this->createMock(IniGetWrapper::class);
 		$this->l10n = $this->createMock(IL10N::class);
 		$this->defaults = $this->createMock(Defaults::class);
-		$this->logger = $this->createMock(ILogger::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->random = $this->createMock(ISecureRandom::class);
 		$this->installer = $this->createMock(Installer::class);
 		$this->setupClass = $this->getMockBuilder(Setup::class)

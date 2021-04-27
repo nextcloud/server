@@ -36,7 +36,7 @@ use OC\Files\AppData\Factory;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 
 class AppFetcher extends Fetcher {
 
@@ -46,20 +46,12 @@ class AppFetcher extends Fetcher {
 	/** @var bool */
 	private $ignoreMaxVersion;
 
-	/**
-	 * @param Factory $appDataFactory
-	 * @param IClientService $clientService
-	 * @param ITimeFactory $timeFactory
-	 * @param IConfig $config
-	 * @param CompareVersion $compareVersion
-	 * @param ILogger $logger
-	 */
 	public function __construct(Factory $appDataFactory,
 								IClientService $clientService,
 								ITimeFactory $timeFactory,
 								IConfig $config,
 								CompareVersion $compareVersion,
-								ILogger $logger) {
+								LoggerInterface $logger) {
 		parent::__construct(
 			$appDataFactory,
 			$clientService,
@@ -86,7 +78,7 @@ class AppFetcher extends Fetcher {
 	protected function fetch($ETag, $content, $allowUnstable = false) {
 		/** @var mixed[] $response */
 		$response = parent::fetch($ETag, $content);
-		
+
 		if (empty($response)) {
 			return [];
 		}
@@ -134,7 +126,9 @@ class AppFetcher extends Fetcher {
 							$releases[] = $release;
 						}
 					} catch (\InvalidArgumentException $e) {
-						$this->logger->logException($e, ['app' => 'appstoreFetcher', 'level' => ILogger::WARN]);
+						$this->logger->warning($e->getMessage(), [
+							'exception' => $e,
+						]);
 					}
 				}
 			}

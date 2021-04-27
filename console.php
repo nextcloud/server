@@ -93,7 +93,7 @@ try {
 		\OC::$server->getConfig(),
 		\OC::$server->getEventDispatcher(),
 		\OC::$server->getRequest(),
-		\OC::$server->getLogger(),
+		\OC::$server->get(\Psr\Log\LoggerInterface::class),
 		\OC::$server->query(\OC\MemoryInfo::class)
 	);
 	$application->loadCommands(new ArgvInput(), new ConsoleOutput());

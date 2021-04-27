@@ -36,8 +36,8 @@ use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\QueryException;
 use OCP\Dashboard\IManager;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\ILogger;
 use OCP\IServerContainer;
+use Psr\Log\LoggerInterface;
 use Throwable;
 use function class_exists;
 use function class_implements;
@@ -57,7 +57,7 @@ class Coordinator {
 	/** @var IEventDispatcher */
 	private $eventDispatcher;
 
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	private $logger;
 
 	/** @var RegistrationContext|null */
@@ -70,7 +70,7 @@ class Coordinator {
 								Registry $registry,
 								IManager $dashboardManager,
 								IEventDispatcher $eventListener,
-								ILogger $logger) {
+								LoggerInterface $logger) {
 		$this->serverContainer = $container;
 		$this->registry = $registry;
 		$this->dashboardManager = $dashboardManager;
@@ -124,9 +124,8 @@ class Coordinator {
 				try {
 					$application->register($this->registrationContext->for($appId));
 				} catch (Throwable $e) {
-					$this->logger->logException($e, [
-						'message' => 'Error during app service registration: ' . $e->getMessage(),
-						'level' => ILogger::FATAL,
+					$this->logger->emergency('Error during app service registration: ' . $e->getMessage(), [
+						'exception' => $e,
 					]);
 				}
 			}
@@ -176,13 +175,12 @@ class Coordinator {
 				$application->boot($context);
 			}
 		} catch (QueryException $e) {
-			$this->logger->logException($e, [
-				'message' => "Could not boot $appId" . $e->getMessage(),
+			$this->logger->error("Could not boot $appId" . $e->getMessage(), [
+				'exception' => $e,
 			]);
 		} catch (Throwable $e) {
-			$this->logger->logException($e, [
-				'message' => "Could not boot $appId" . $e->getMessage(),
-				'level' => ILogger::FATAL,
+			$this->logger->emergency("Could not boot $appId" . $e->getMessage(), [
+				'exception' => $e,
 			]);
 		}
 	}

@@ -27,15 +27,15 @@ use OC\Collaboration\Resources\ProviderManager;
 use OCA\Files\Collaboration\Resources\ResourceProvider;
 use OCP\AppFramework\QueryException;
 use OCP\Collaboration\Resources\IProviderManager;
-use OCP\ILogger;
 use OCP\IServerContainer;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class ProviderManagerTest extends TestCase {
 
 	/** @var IServerContainer */
 	protected $serverContainer;
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	protected $logger;
 	/** @var IProviderManager */
 	protected $providerManager;
@@ -44,7 +44,7 @@ class ProviderManagerTest extends TestCase {
 		parent::setUp();
 
 		$this->serverContainer = $this->createMock(IServerContainer::class);
-		$this->logger = $this->createMock(ILogger::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 
 		$this->providerManager = new class($this->serverContainer, $this->logger) extends ProviderManager {
 			public function countProviders(): int {

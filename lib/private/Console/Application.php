@@ -37,8 +37,8 @@ use OC_App;
 use OCP\AppFramework\QueryException;
 use OCP\Console\ConsoleEvent;
 use OCP\IConfig;
-use OCP\ILogger;
 use OCP\IRequest;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Application as SymfonyApplication;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -53,22 +53,15 @@ class Application {
 	private $dispatcher;
 	/** @var IRequest */
 	private $request;
-	/** @var ILogger  */
+	/** @var LoggerInterface */
 	private $logger;
 	/** @var MemoryInfo */
 	private $memoryInfo;
 
-	/**
-	 * @param IConfig $config
-	 * @param EventDispatcherInterface $dispatcher
-	 * @param IRequest $request
-	 * @param ILogger $logger
-	 * @param MemoryInfo $memoryInfo
-	 */
 	public function __construct(IConfig $config,
 								EventDispatcherInterface $dispatcher,
 								IRequest $request,
-								ILogger $logger,
+								LoggerInterface $logger,
 								MemoryInfo $memoryInfo) {
 		$defaults = \OC::$server->getThemingDefaults();
 		$this->config = $config;
@@ -142,7 +135,9 @@ class Application {
 							try {
 								require $file;
 							} catch (\Exception $e) {
-								$this->logger->logException($e);
+								$this->logger->error($e->getMessage(), [
+									'exception' => $e,
+								]);
 							}
 						}
 					}

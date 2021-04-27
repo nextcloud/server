@@ -34,7 +34,6 @@ namespace OC\Setup;
 use OC\DB\ConnectionAdapter;
 use OC\DB\MySqlTools;
 use OCP\IDBConnection;
-use OCP\ILogger;
 use Doctrine\DBAL\Platforms\MySQL80Platform;
 use OCP\Security\ISecureRandom;
 
@@ -66,7 +65,9 @@ class MySQL extends AbstractDatabase {
 		try {
 			$connection->connect();
 		} catch (\Exception $e) {
-			$this->logger->logException($e);
+			$this->logger->error($e->getMessage(), [
+				'exception' => $e,
+			]);
 			throw new \OC\DatabaseSetupException($this->trans->t('MySQL username and/or password not valid'),
 				$this->trans->t('You need to enter details of an existing account.'), 0, $e);
 		}
@@ -84,9 +85,8 @@ class MySQL extends AbstractDatabase {
 			$query = "CREATE DATABASE IF NOT EXISTS `$name` CHARACTER SET $characterSet COLLATE ${characterSet}_bin;";
 			$connection->executeUpdate($query);
 		} catch (\Exception $ex) {
-			$this->logger->logException($ex, [
-				'message' => 'Database creation failed.',
-				'level' => ILogger::ERROR,
+			$this->logger->error('Database creation failed.', [
+				'exception' => $ex,
 				'app' => 'mysql.setup',
 			]);
 			return;
@@ -97,9 +97,8 @@ class MySQL extends AbstractDatabase {
 			$query = "GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, REFERENCES, INDEX, ALTER, CREATE TEMPORARY TABLES, LOCK TABLES, EXECUTE, CREATE VIEW, SHOW VIEW, CREATE ROUTINE, ALTER ROUTINE, EVENT, TRIGGER ON `$name` . * TO '$user'";
 			$connection->executeUpdate($query);
 		} catch (\Exception $ex) {
-			$this->logger->logException($ex, [
-				'message' => 'Could not automatically grant privileges, this can be ignored if database user already had privileges.',
-				'level' => ILogger::DEBUG,
+			$this->logger->debug('Could not automatically grant privileges, this can be ignored if database user already had privileges.', [
+				'exception' => $ex,
 				'app' => 'mysql.setup',
 			]);
 		}
@@ -128,9 +127,8 @@ class MySQL extends AbstractDatabase {
 				$connection->executeUpdate($query);
 			}
 		} catch (\Exception $ex) {
-			$this->logger->logException($ex, [
-				'message' => 'Database user creation failed.',
-				'level' => ILogger::ERROR,
+			$this->logger->error('Database user creation failed.',[
+				'exception' => $ex,
 				'app' => 'mysql.setup',
 			]);
 		}
@@ -180,9 +178,8 @@ class MySQL extends AbstractDatabase {
 				}
 			}
 		} catch (\Exception $ex) {
-			$this->logger->logException($ex, [
-				'message' => 'Can not create a new MySQL user, will continue with the provided user.',
-				'level' => ILogger::INFO,
+			$this->logger->info('Can not create a new MySQL user, will continue with the provided user.', [
+				'exception' => $ex,
 				'app' => 'mysql.setup',
 			]);
 		}

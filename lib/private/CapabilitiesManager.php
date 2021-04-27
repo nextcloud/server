@@ -32,17 +32,17 @@ namespace OC;
 use OCP\AppFramework\QueryException;
 use OCP\Capabilities\ICapability;
 use OCP\Capabilities\IPublicCapability;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 
 class CapabilitiesManager {
 
 	/** @var \Closure[] */
 	private $capabilities = [];
 
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	private $logger;
 
-	public function __construct(ILogger $logger) {
+	public function __construct(LoggerInterface $logger) {
 		$this->logger = $logger;
 	}
 
@@ -59,10 +59,8 @@ class CapabilitiesManager {
 			try {
 				$c = $capability();
 			} catch (QueryException $e) {
-				$this->logger->logException($e, [
-					'message' => 'CapabilitiesManager',
-					'level' => ILogger::ERROR,
-					'app' => 'core',
+				$this->logger->error('CapabilitiesManager', [
+					'exception' => $e,
 				]);
 				continue;
 			}

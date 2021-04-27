@@ -54,6 +54,7 @@ use OCP\IConfig;
 use OCP\ILogger;
 use OCP\ITempManager;
 use phpseclib\File\X509;
+use Psr\Log\LoggerInterface;
 
 /**
  * This class provides the functionality needed to install, update and remove apps
@@ -65,7 +66,7 @@ class Installer {
 	private $clientService;
 	/** @var ITempManager */
 	private $tempManager;
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	private $logger;
 	/** @var IConfig */
 	private $config;
@@ -76,18 +77,11 @@ class Installer {
 	/** @var bool */
 	private $isCLI;
 
-	/**
-	 * @param AppFetcher $appFetcher
-	 * @param IClientService $clientService
-	 * @param ITempManager $tempManager
-	 * @param ILogger $logger
-	 * @param IConfig $config
-	 */
 	public function __construct(
 		AppFetcher $appFetcher,
 		IClientService $clientService,
 		ITempManager $tempManager,
-		ILogger $logger,
+		LoggerInterface $logger,
 		IConfig $config,
 		bool $isCLI
 	) {
@@ -201,9 +195,8 @@ class Installer {
 			try {
 				$this->downloadApp($appId, $allowUnstable);
 			} catch (\Exception $e) {
-				$this->logger->logException($e, [
-					'level' => ILogger::ERROR,
-					'app' => 'core',
+				$this->logger->error($e->getMessage(), [
+					'exception' => $e,
 				]);
 				return false;
 			}

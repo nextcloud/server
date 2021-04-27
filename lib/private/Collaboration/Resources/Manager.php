@@ -38,8 +38,8 @@ use OCP\Collaboration\Resources\IResource;
 use OCP\Collaboration\Resources\ResourceException;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
-use OCP\ILogger;
 use OCP\IUser;
+use Psr\Log\LoggerInterface;
 
 class Manager implements IManager {
 	public const TABLE_COLLECTIONS = 'collres_collections';
@@ -50,14 +50,14 @@ class Manager implements IManager {
 	protected $connection;
 	/** @var IProviderManager */
 	protected $providerManager;
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	protected $logger;
 
 	/** @var string[] */
 	protected $providers = [];
 
 
-	public function __construct(IDBConnection $connection, IProviderManager $providerManager, ILogger $logger) {
+	public function __construct(IDBConnection $connection, IProviderManager $providerManager, LoggerInterface $logger) {
 		$this->connection = $connection;
 		$this->providerManager = $providerManager;
 		$this->logger = $logger;

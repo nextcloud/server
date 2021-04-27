@@ -160,7 +160,7 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 	$application->add(new OC\Core\Command\Maintenance\UpdateHtaccess());
 	$application->add(new OC\Core\Command\Maintenance\UpdateTheme(\OC::$server->getMimeTypeDetector(), \OC::$server->getMemCacheFactory()));
 
-	$application->add(new OC\Core\Command\Upgrade(\OC::$server->getConfig(), \OC::$server->getLogger(), \OC::$server->query(\OC\Installer::class)));
+	$application->add(new OC\Core\Command\Upgrade(\OC::$server->getConfig(), \OC::$server->get(LoggerInterface::class), \OC::$server->query(\OC\Installer::class)));
 	$application->add(new OC\Core\Command\Maintenance\Repair(
 		new \OC\Repair([], \OC::$server->getEventDispatcher(), \OC::$server->get(LoggerInterface::class)),
 		\OC::$server->getConfig(),

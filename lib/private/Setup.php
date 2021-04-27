@@ -60,8 +60,8 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Defaults;
 use OCP\IGroup;
 use OCP\IL10N;
-use OCP\ILogger;
 use OCP\Security\ISecureRandom;
+use Psr\Log\LoggerInterface;
 
 class Setup {
 	/** @var SystemConfig */
@@ -72,28 +72,19 @@ class Setup {
 	protected $l10n;
 	/** @var Defaults */
 	protected $defaults;
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	protected $logger;
 	/** @var ISecureRandom */
 	protected $random;
 	/** @var Installer */
 	protected $installer;
 
-	/**
-	 * @param SystemConfig $config
-	 * @param IniGetWrapper $iniWrapper
-	 * @param IL10N $l10n
-	 * @param Defaults $defaults
-	 * @param ILogger $logger
-	 * @param ISecureRandom $random
-	 * @param Installer $installer
-	 */
 	public function __construct(
 		SystemConfig $config,
 		IniGetWrapper $iniWrapper,
 		IL10N $l10n,
 		Defaults $defaults,
-		ILogger $logger,
+		LoggerInterface $logger,
 		ISecureRandom $random,
 		Installer $installer
 	) {
@@ -511,7 +502,7 @@ class Setup {
 			\OC::$server->get(IniGetWrapper::class),
 			\OC::$server->getL10N('lib'),
 			\OC::$server->query(Defaults::class),
-			\OC::$server->getLogger(),
+			\OC::$server->get(LoggerInterface::class),
 			\OC::$server->getSecureRandom(),
 			\OC::$server->query(Installer::class)
 		);

@@ -59,7 +59,7 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  */
 class Updater extends BasicEmitter {
 
-	/** @var ILogger $log */
+	/** @var LoggerInterface */
 	private $log;
 
 	/** @var IConfig */
@@ -79,15 +79,9 @@ class Updater extends BasicEmitter {
 		4 => 'Fatal',
 	];
 
-	/**
-	 * @param IConfig $config
-	 * @param Checker $checker
-	 * @param ILogger $log
-	 * @param Installer $installer
-	 */
 	public function __construct(IConfig $config,
 								Checker $checker,
-								ILogger $log = null,
+								?LoggerInterface $log,
 								Installer $installer) {
 		$this->log = $log;
 		$this->config = $config;
@@ -132,11 +126,15 @@ class Updater extends BasicEmitter {
 		try {
 			$this->doUpgrade($currentVersion, $installedVersion);
 		} catch (HintException $exception) {
-			$this->log->logException($exception, ['app' => 'core']);
+			$this->log->error($exception->getMessage(), [
+				'exception' => $exception,
+			]);
 			$this->emit('\OC\Updater', 'failure', [$exception->getMessage() . ': ' .$exception->getHint()]);
 			$success = false;
 		} catch (\Exception $exception) {
-			$this->log->logException($exception, ['app' => 'core']);
+			$this->log->error($exception->getMessage(), [
+				'exception' => $exception,
+			]);
 			$this->emit('\OC\Updater', 'failure', [get_class($exception) . ': ' .$exception->getMessage()]);
 			$success = false;
 		}
@@ -272,7 +270,10 @@ class Updater extends BasicEmitter {
 		$errors = Installer::installShippedApps(true);
 		foreach ($errors as $appId => $exception) {
 			/** @var \Exception $exception */
-			$this->log->logException($exception, ['app' => $appId]);
+			$this->log->error($exception->getMessage(), [
+				'exception' => $exception,
+				'app' => $appId,
+			]);
 			$this->emit('\OC\Updater', 'failure', [$appId . ': ' . $exception->getMessage()]);
 		}
 
@@ -424,7 +425,9 @@ class Updater extends BasicEmitter {
 					$ocApp->enable($app);
 				}
 			} catch (\Exception $ex) {
-				$this->log->logException($ex, ['app' => 'core']);
+				$this->log->error($ex->getMessage(), [
+					'exception' => $ex,
+				]);
 			}
 		}
 	}

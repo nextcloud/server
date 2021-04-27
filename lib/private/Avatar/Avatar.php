@@ -43,14 +43,14 @@ use OC\Color;
 use OC_Image;
 use OCP\Files\NotFoundException;
 use OCP\IAvatar;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 
 /**
  * This class gets and sets users avatars.
  */
 abstract class Avatar implements IAvatar {
 
-	/** @var ILogger  */
+	/** @var LoggerInterface  */
 	protected $logger;
 
 	/**
@@ -69,12 +69,7 @@ abstract class Avatar implements IAvatar {
 			<text x="50%" y="350" style="font-weight:normal;font-size:280px;font-family:\'Noto Sans\';text-anchor:middle;fill:#fff">{letter}</text>
 		</svg>';
 
-	/**
-	 * The base avatar constructor.
-	 *
-	 * @param ILogger $logger The logger
-	 */
-	public function __construct(ILogger $logger) {
+	public function __construct(LoggerInterface $logger) {
 		$this->logger = $logger;
 	}
 
