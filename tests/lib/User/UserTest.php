@@ -521,6 +521,9 @@ class UserTest extends TestCase {
 		$commentsManager = $this->createMock(ICommentsManager::class);
 		$notificationManager = $this->createMock(INotificationManager::class);
 
+		$config->method('getSystemValue')
+			->willReturnArgument(1);
+
 		if ($result) {
 			$config->expects($this->once())
 				->method('deleteAllUserValues')
