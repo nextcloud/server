@@ -138,7 +138,13 @@ class RemoteContext implements Context {
 	 * @param string $value
 	 */
 	public function hasCapability($key, $value) {
-		$capabilities = $this->getApiClient()->getCapabilities();
+		try {
+			$capabilities = $this->getApiClient()->getCapabilities();
+		} catch (\Exception $e) {
+			Assert::assertInstanceOf($value, $e);
+			$this->lastException = $e;
+			return;
+		}
 		$current = $capabilities;
 		$parts = explode('.', $key);
 		foreach ($parts as $part) {
