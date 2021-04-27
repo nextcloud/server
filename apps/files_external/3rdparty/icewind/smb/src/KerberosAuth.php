@@ -21,6 +21,8 @@
 
 namespace Icewind\SMB;
 
+use Icewind\SMB\Exception\Exception;
+
 /**
  * Use existing kerberos ticket to authenticate
  */
@@ -42,7 +44,11 @@ class KerberosAuth implements IAuth {
 	}
 
 	public function setExtraSmbClientOptions($smbClientState): void {
-		smbclient_option_set($smbClientState, SMBCLIENT_OPT_USE_KERBEROS, true);
-		smbclient_option_set($smbClientState, SMBCLIENT_OPT_FALLBACK_AFTER_KERBEROS, false);
+		$success = (bool)smbclient_option_set($smbClientState, SMBCLIENT_OPT_USE_KERBEROS, true);
+		$success = $success && smbclient_option_set($smbClientState, SMBCLIENT_OPT_FALLBACK_AFTER_KERBEROS, false);
+
+		if (!$success) {
+			throw new Exception("Failed to set smbclient options for kerberos auth");
+		}
 	}
 }
