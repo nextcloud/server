@@ -34,11 +34,6 @@ return [
 			'url' => '/trusted-servers/{id}',
 			'verb' => 'DELETE'
 		],
-		[
-			'name' => 'Settings#autoAddServers',
-			'url' => '/auto-add-servers',
-			'verb' => 'POST'
-		],
 	],
 	'ocs' => [
 		// old endpoints, only used by Nextcloud and ownCloud
