@@ -48,14 +48,9 @@ class AdminTest extends TestCase {
 			->expects($this->once())
 			->method('getServers')
 			->willReturn(['myserver', 'secondserver']);
-		$this->trustedServers
-			->expects($this->once())
-			->method('getAutoAddServers')
-			->willReturn(['autoserver1', 'autoserver2']);
 
 		$params = [
 			'trustedServers' => ['myserver', 'secondserver'],
-			'autoAddServers' => ['autoserver1', 'autoserver2'],
 		];
 		$expected = new TemplateResponse('federation', 'settings-admin', $params, '');
 		$this->assertEquals($expected, $this->admin->getForm());

@@ -42,7 +42,6 @@ class Admin implements ISettings {
 	public function getForm() {
 		$parameters = [
 			'trustedServers' => $this->trustedServers->getServers(),
-			'autoAddServers' => $this->trustedServers->getAutoAddServers(),
 		];
 
 		return new TemplateResponse('federation', 'settings-admin', $parameters, '');
