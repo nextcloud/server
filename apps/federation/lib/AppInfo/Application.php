@@ -26,8 +26,6 @@
 namespace OCA\Federation\AppInfo;
 
 use OCA\DAV\Events\SabrePluginAuthInitEvent;
-use OCA\FederatedFileSharing\Events\FederatedShareAddedEvent;
-use OCA\Federation\Listener\FederatedShareAddedListener;
 use OCA\Federation\Listener\SabrePluginAuthInitListener;
 use OCA\Federation\Middleware\AddServerMiddleware;
 use OCP\AppFramework\App;
@@ -47,7 +45,6 @@ class Application extends App implements IBootstrap {
 	public function register(IRegistrationContext $context): void {
 		$context->registerMiddleware(AddServerMiddleware::class);
 
-		$context->registerEventListener(FederatedShareAddedEvent::class, FederatedShareAddedListener::class);
 		$context->registerEventListener(SabrePluginAuthInitEvent::class, SabrePluginAuthInitListener::class);
 	}
 
