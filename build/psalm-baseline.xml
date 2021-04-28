@@ -2517,12 +2517,6 @@
       <code>1</code>
       <code>1</code>
     </InvalidScalarArgument>
-    <UndefinedThisPropertyAssignment occurrences="1">
-      <code>$this-&gt;installer</code>
-    </UndefinedThisPropertyAssignment>
-    <UndefinedThisPropertyFetch occurrences="1">
-      <code>$this-&gt;installer</code>
-    </UndefinedThisPropertyFetch>
   </file>
   <file src="core/Command/User/Setting.php">
     <InvalidScalarArgument occurrences="1">
