@@ -40,6 +40,7 @@ class ComposerStaticInitUser_LDAP
         'OCA\\User_LDAP\\Controller\\RenewPasswordController' => __DIR__ . '/..' . '/../lib/Controller/RenewPasswordController.php',
         'OCA\\User_LDAP\\Exceptions\\AttributeNotSet' => __DIR__ . '/..' . '/../lib/Exceptions/AttributeNotSet.php',
         'OCA\\User_LDAP\\Exceptions\\ConstraintViolationException' => __DIR__ . '/..' . '/../lib/Exceptions/ConstraintViolationException.php',
+        'OCA\\User_LDAP\\Exceptions\\NoMoreResults' => __DIR__ . '/..' . '/../lib/Exceptions/NoMoreResults.php',
         'OCA\\User_LDAP\\Exceptions\\NotOnLDAP' => __DIR__ . '/..' . '/../lib/Exceptions/NotOnLDAP.php',
         'OCA\\User_LDAP\\FilesystemHelper' => __DIR__ . '/..' . '/../lib/FilesystemHelper.php',
         'OCA\\User_LDAP\\GroupPluginManager' => __DIR__ . '/..' . '/../lib/GroupPluginManager.php',

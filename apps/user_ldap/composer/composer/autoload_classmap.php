@@ -25,6 +25,7 @@ return array(
     'OCA\\User_LDAP\\Controller\\RenewPasswordController' => $baseDir . '/../lib/Controller/RenewPasswordController.php',
     'OCA\\User_LDAP\\Exceptions\\AttributeNotSet' => $baseDir . '/../lib/Exceptions/AttributeNotSet.php',
     'OCA\\User_LDAP\\Exceptions\\ConstraintViolationException' => $baseDir . '/../lib/Exceptions/ConstraintViolationException.php',
+    'OCA\\User_LDAP\\Exceptions\\NoMoreResults' => $baseDir . '/../lib/Exceptions/NoMoreResults.php',
     'OCA\\User_LDAP\\Exceptions\\NotOnLDAP' => $baseDir . '/../lib/Exceptions/NotOnLDAP.php',
     'OCA\\User_LDAP\\FilesystemHelper' => $baseDir . '/../lib/FilesystemHelper.php',
     'OCA\\User_LDAP\\GroupPluginManager' => $baseDir . '/../lib/GroupPluginManager.php',
