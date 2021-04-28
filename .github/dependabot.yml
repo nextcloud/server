@@ -1,0 +1,134 @@
+version: 2
+updates:
+- package-ecosystem: gitsubmodule
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "03:00"
+    timezone: Europe/Paris
+  open-pull-requests-limit: 10
+  reviewers:
+  - rullzer
+  - MorrisJobke
+  - ChristophWurst
+  - blizzz
+- package-ecosystem: composer
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "03:00"
+    timezone: Europe/Paris
+  open-pull-requests-limit: 10
+  reviewers:
+  - MorrisJobke
+  - rullzer
+  ignore:
+  - dependency-name: vimeo/psalm
+    versions:
+    - 4.3.0
+    - 4.5.0
+    - 4.5.1
+    - 4.5.2
+    - 4.6.0
+    - 4.6.1
+    - 4.6.3
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: weekly
+    day: saturday
+    time: "03:00"
+    timezone: Europe/Paris
+  open-pull-requests-limit: 10
+  reviewers:
+  - juliushaertl
+  - skjnldsv
+  labels:
+  - 3. to review
+  - "feature: dependencies"
+  - javascript
+  ignore:
+  - dependency-name: query-string
+    versions:
+    - ">= 6.a, < 7"
+  - dependency-name: webdav
+    versions:
+    - ">= 4.a, < 5"
+  - dependency-name: "@nextcloud/capabilities"
+    versions:
+    - 1.0.3
+  - dependency-name: core-js
+    versions:
+    - 3.10.0
+    - 3.9.0
+  - dependency-name: "@nextcloud/vue"
+    versions:
+    - 3.5.4
+    - 3.6.0
+    - 3.7.0
+    - 3.8.0
+  - dependency-name: "@nextcloud/browserslist-config"
+    versions:
+    - 2.0.0
+  - dependency-name: v-tooltip
+    versions:
+    - 2.1.2
+  - dependency-name: "@babel/preset-env"
+    versions:
+    - 7.12.17
+    - 7.13.8
+  - dependency-name: "@babel/core"
+    versions:
+    - 7.12.17
+  - dependency-name: css-loader
+    versions:
+    - 5.0.2
+  - dependency-name: marked
+    versions:
+    - 1.2.9
+- package-ecosystem: npm
+  directory: "/build"
+  schedule:
+    interval: weekly
+    day: saturday
+    time: "03:00"
+    timezone: Europe/Paris
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: puppeteer
+    versions:
+    - 7.0.1
+    - 7.1.0
+    - 8.0.0
+    - 9.0.0
+  - dependency-name: sinon
+    versions:
+    - 10.0.0
+    - 10.0.1
+    - 9.2.4
+  - dependency-name: karma
+    versions:
+    - 6.0.3
+    - 6.1.0
+    - 6.1.1
+    - 6.2.0
+    - 6.3.1
+    - 6.3.2
+  - dependency-name: jasmine-core
+    versions:
+    - 3.7.1
+- package-ecosystem: composer
+  directory: "/build/integration"
+  schedule:
+    interval: weekly
+    day: saturday
+    time: "03:00"
+    timezone: Europe/Paris
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: guzzlehttp/guzzle
+    versions:
+    - 7.3.0
+  - dependency-name: sabre/dav
+    versions:
+    - 4.1.5
