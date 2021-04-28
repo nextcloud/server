@@ -477,7 +477,7 @@ class ShareAPIController extends OCSController {
 		}
 
 		if ($permissions < 0 || $permissions > Constants::PERMISSION_ALL) {
-			throw new OCSNotFoundException($this->l->t('invalid permissions'));
+			throw new OCSNotFoundException($this->l->t('Invalid permissions'));
 		}
 
 		// Shares always require read permissions
