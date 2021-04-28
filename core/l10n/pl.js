@@ -20,7 +20,7 @@ OC.L10N.register(
     "An error occurred. Please contact your admin." : "Wystąpił błąd. Skontaktuj się z administratorem.",
     "No temporary profile picture available, try again" : "Brak tymczasowego zdjęcia profilowego, spróbuj ponownie",
     "No crop data provided" : "Brak danych do przycięcia",
-    "No valid crop data provided" : "Brak poprawnych danych do przycięcia",
+    "No valid crop data provided" : "Brak prawidłowych danych do przycięcia",
     "Crop is not square" : "Przycięcie nie jest kwadratowe",
     "State token does not match" : "Token nie pasuje",
     "Invalid app password" : "Nieprawidłowe hasło do aplikacji",
