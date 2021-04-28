@@ -68,7 +68,7 @@ class Autoloader {
 	 *
 	 * @param string $root
 	 */
-	public function addValidRoot(string $root) {
+	public function addValidRoot(string $root): void {
 		$root = stream_resolve_include_path($root);
 		$this->validRoots[$root] = true;
 	}
@@ -76,14 +76,14 @@ class Autoloader {
 	/**
 	 * disable the usage of the global classpath \OC::$CLASSPATH
 	 */
-	public function disableGlobalClassPath() {
+	public function disableGlobalClassPath(): void {
 		$this->useGlobalClassPath = false;
 	}
 
 	/**
 	 * enable the usage of the global classpath \OC::$CLASSPATH
 	 */
-	public function enableGlobalClassPath() {
+	public function enableGlobalClassPath(): void {
 		$this->useGlobalClassPath = true;
 	}
 
@@ -184,7 +184,7 @@ class Autoloader {
 	 *
 	 * @param \OC\Memcache\Cache $memoryCache Instance of memory cache.
 	 */
-	public function setMemoryCache(\OC\Memcache\Cache $memoryCache = null) {
+	public function setMemoryCache(\OC\Memcache\Cache $memoryCache = null): void {
 		$this->memoryCache = $memoryCache;
 	}
 }
