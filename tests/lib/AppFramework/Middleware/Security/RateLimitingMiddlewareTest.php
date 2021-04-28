@@ -232,7 +232,7 @@ class RateLimitingMiddlewareTest extends TestCase {
 		$this->rateLimitingMiddleware->beforeController($controller, 'testMethod');
 	}
 
-	
+
 	public function testAfterExceptionWithOtherException() {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('My test exception');
@@ -272,7 +272,7 @@ class RateLimitingMiddlewareTest extends TestCase {
 			'core',
 			'429',
 			[],
-			TemplateResponse::RENDER_AS_GUEST
+			'guest'
 		);
 		$expected->setStatus(429);
 		$this->assertEquals($expected, $result);

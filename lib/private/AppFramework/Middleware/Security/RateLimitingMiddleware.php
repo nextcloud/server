@@ -116,7 +116,7 @@ class RateLimitingMiddleware extends Middleware {
 					'core',
 					'429',
 					[],
-					TemplateResponse::RENDER_AS_GUEST
+					'guest'
 				);
 				$response->setStatus($exception->getCode());
 			}
