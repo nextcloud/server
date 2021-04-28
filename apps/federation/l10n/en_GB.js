@@ -10,9 +10,9 @@ OC.L10N.register(
     "Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "Federation allows you to connect with other trusted servers to exchange the user directory. For example: to auto-complete external users for federated sharing.",
     "Trusted servers" : "Trusted servers",
     "Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing. It is not necessary to add a server as trusted server in order to create a federated share." : "Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing. It is not necessary to add a server as trusted server in order to create a federated share.",
-    "Add server automatically once a federated share was created successfully" : "Automatically add server once a federated share is successfully created",
     "+ Add trusted server" : "+ Add trusted server",
     "Trusted server" : "Trusted server",
-    "Add" : "Add"
+    "Add" : "Add",
+    "Add server automatically once a federated share was created successfully" : "Automatically add server once a federated share is successfully created"
 },
 "nplurals=2; plural=(n != 1);");

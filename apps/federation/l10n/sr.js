@@ -10,9 +10,9 @@ OC.L10N.register(
     "Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "Здруживање омогућава да се повежете са другим серверима од поверења и да мењате корисничке директоријуме.",
     "Trusted servers" : "Сервери од поверења",
     "Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing. It is not necessary to add a server as trusted server in order to create a federated share." : "Здруживање омогућава да се повежете са другим серверима од поверења и да мењате корисничке директоријуме. На пример, федерација ће се користити за налажење спољних корисника код креирања здруженог дељења. Није потребно додати сервер као сервер од поверења да бисте направили здружено дељење.",
-    "Add server automatically once a federated share was created successfully" : "Додај сервер аутоматски по успешном прављењу здруженог дељења",
     "+ Add trusted server" : "+ Додај сервер од поверења",
     "Trusted server" : "Сервер од поверења",
-    "Add" : "Додај"
+    "Add" : "Додај",
+    "Add server automatically once a federated share was created successfully" : "Додај сервер аутоматски по успешном прављењу здруженог дељења"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");
