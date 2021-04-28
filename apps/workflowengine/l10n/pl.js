@@ -2,7 +2,7 @@ OC.L10N.register(
     "workflowengine",
     {
     "The given operator is invalid" : "Dana operacja jest nieprawidłowa",
-    "The given regular expression is invalid" : "Podane wyrażenie regularne jest błędne",
+    "The given regular expression is invalid" : "Podane wyrażenie regularne jest nieprawidłowe",
     "The given file size is invalid" : "Podany rozmiar pliku jest nieprawidłowy",
     "The given tag id is invalid" : "Podane id etykiety jest nieprawidłowe",
     "The given IP range is invalid" : "Podany zakres adresów IP jest nieprawidłowy",

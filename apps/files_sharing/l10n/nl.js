@@ -209,7 +209,7 @@ OC.L10N.register(
     "Error updating the share: {errorMessage}" : "Fout bij aanpassen van de share: {errorMessage}",
     "Error updating the share" : "Fout tijdens bijwerken share",
     "Shared" : "Gedeeld",
-    "Share" : "Deel",
+    "Share" : "Delen",
     "Shared with" : "Gedeeld met",
     "Shared with you and the group {group} by {owner}" : "Met jou en de groep {group} gedeeld door {owner}",
     "Shared with you and {circle} by {owner}" : "Gedeeld met jou en {circle} door {owner}",
