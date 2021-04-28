@@ -1602,7 +1602,7 @@ class ShareAPIControllerTest extends TestCase {
 
 	public function testCreateShareInvalidPermissions() {
 		$this->expectException(\OCP\AppFramework\OCS\OCSNotFoundException::class);
-		$this->expectExceptionMessage('invalid permissions');
+		$this->expectExceptionMessage('Invalid permissions');
 
 		$share = $this->newShare();
 		$this->shareManager->method('newShare')->willReturn($share);
