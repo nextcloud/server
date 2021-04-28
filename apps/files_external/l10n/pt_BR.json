@@ -9,6 +9,7 @@
     "Generate keys" : "Gerar chaves",
     "Error generating key pair" : "Erro ao gerar o par de chaves",
     "All users. Type to select user or group." : "Todos os usuários. Digite para selecionar usuário ou grupo.",
+    "(Group)" : "(Grupo)",
     "Compatibility with Mac NFD encoding (slow)" : "Compatibilidade com a codificação Mac NFD (lento)",
     "Enable encryption" : "Ativar criptografia",
     "Enable previews" : "Ativar visualizações prévias",

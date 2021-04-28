@@ -10,9 +10,9 @@ OC.L10N.register(
     "Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "連携では他の信頼済サーバーとユーザーリストをやり取りすること許可します。例えば、連携共有時で他のサーバーのユーザーのIDを自動補完します。",
     "Trusted servers" : "信頼済サーバー",
     "Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing. It is not necessary to add a server as trusted server in order to create a federated share." : "Nextcloud連携では、他の信頼できるサーバーと接続して、ユーザーリストをやりとりすることができます。例えば、これにより他のサーバーのユーザーが連携共有の時に自動的に補完されます。フェデレーション共有を行うときには、信頼できるサーバーとして追加する必要はありません。",
-    "Add server automatically once a federated share was created successfully" : "連携共有の作成に成功したら自動的にサーバーを追加する",
     "+ Add trusted server" : "+ 信頼済サーバーに追加",
     "Trusted server" : "信頼済サーバー",
-    "Add" : "追加"
+    "Add" : "追加",
+    "Add server automatically once a federated share was created successfully" : "連携共有の作成に成功したら自動的にサーバーを追加する"
 },
 "nplurals=1; plural=0;");

@@ -190,6 +190,7 @@ OC.L10N.register(
     "Crop image previews" : "Moztu irudien aurrebistak",
     "WebDAV" : "WebDAV",
     "Use this address to access your Files via WebDAV" : "Erabili helbide hau WebDAV bidez zure fitxategietara sartzeko",
+    "Toggle %1$s sublist" : "Txandakatu %1$sazpizerrenda",
     "Toggle grid view" : "Txandakatu sareta ikuspegia",
     "No files in here" : "Ez dago fitxategirik hemen",
     "Upload some content or sync with your devices!" : "Kargatu edukiren bat edo sinkronizatu zure gailuekin!",
