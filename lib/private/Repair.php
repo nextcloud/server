@@ -45,6 +45,7 @@ use OC\Repair\ClearFrontendCaches;
 use OC\Repair\ClearGeneratedAvatarCache;
 use OC\Repair\Collation;
 use OC\Repair\MoveUpdaterStepFile;
+use OC\Repair\NC22\LookupServerSendCheck;
 use OC\Repair\Owncloud\CleanPreviews;
 use OC\Repair\NC11\FixMountStorages;
 use OC\Repair\Owncloud\MoveAvatars;
@@ -199,7 +200,8 @@ class Repair implements IOutput {
 			\OC::$server->get(ShippedDashboardEnable::class),
 			\OC::$server->get(AddBruteForceCleanupJob::class),
 			\OC::$server->get(AddCheckForUserCertificatesJob::class),
-			\OC::$server->get(RepairDavShares::class)
+			\OC::$server->get(RepairDavShares::class),
+			\OC::$server->get(LookupServerSendCheck::class),
 		];
 	}
 
