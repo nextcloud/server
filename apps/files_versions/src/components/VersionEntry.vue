@@ -37,12 +37,13 @@
 <script>
 import Actions from '@nextcloud/vue/dist/Components/Actions'
 import Tooltip from '@nextcloud/vue/dist/Directives/Tooltip'
-
+import ListItemIcon from '@nextcloud/vue/dist/Components/ListItemIcon'
 export default {
 	name: 'VersionEntry',
 
 	components: {
 		Actions,
+		ListItemIcon
 
 	},
 

@@ -26,7 +26,7 @@ import { getCurrentUser } from '@nextcloud/auth'
 
 const getRootPath = function() {
 	if (getCurrentUser()) {
-		return generateRemoteUrl(`dav/files/${getCurrentUser().uid}`)
+		return generateRemoteUrl(`dav/versions/${getCurrentUser().uid}`)
 	} else {
 		return generateRemoteUrl('webdav').replace('/remote.php', '/public.php')
 	}

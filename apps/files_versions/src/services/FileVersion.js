@@ -21,9 +21,29 @@
 
 import client from './DavClient'
 import { genFileInfo } from '../utils/fileUtils'
-import axios from "@nextcloud/axios";
-import {generateRemoteUrl} from "@nextcloud/router";
-import { getCurrentUser } from '@nextcloud/auth';
+import { getCurrentUser } from '@nextcloud/auth'
+
+let FileVersion = async function(fileId) {
+
+
+	// init params
+	const VersionsUrl = '/versions/' + fileId
+	const response = await client.getDirectoryContents(VersionsUrl,{
+		data: `<?xml version="1.0"?>
+<d:propfind  xmlns:d="DAV:" xmlns:oc="http://owncloud.org/ns">
+  <d:prop>
+    <d:getcontentlength />
+    <d:getcontenttype />
+    <d:getlastmodified />
+  </d:prop>
+</d:propfind>`,
+		details: true,
+	})
+ console.log(response);
+	/** return response.data.map(FileVersion); */
+
+	return response.data
+};
 /**
  * Retrieve the files list
  *
@@ -31,55 +51,4 @@ import { getCurrentUser } from '@nextcloud/auth';
  * @param {Object} [options] optional options for axios
  * @returns {Array} the file list
  */
-export default async function(client) {
-	// getDirectoryContents doesn't accept / for root
-	getCurrentUser(){
-		return this._currentUser || getCurrentUser().uid
-	}
-
-	// init params
-	const shareUrl = generateRemoteUrl('dav') + this.getCurrentUser() + '/versions/' + this._fileInfo.get('id')
-	const format = 'json'
-
-	// TODO: replace with proper getFUllpath implementation of our own FileInfo model
-	const path = (this.fileInfo.path + '/' + this.fileInfo.name).replace('//', '/')
-    // Fetch Version
-	const fetchFileVersions = await axios.get(shareUrl, {
-		params: {
-			format,
-			path,
-		},
-	})
-	// wait for data
-	const response = await client.getDirectoryContents(fixedPath, Object.assign({
-		data: `<?xml version="1.0"?>
-			<d:propfind  xmlns:d="DAV:"
-				xmlns:oc="http://owncloud.org/ns"
-				xmlns:nc="http://nextcloud.org/ns"
-				xmlns:ocs="http://open-collaboration-services.org/ns">
-				<d:prop>
-					<d:getlastmodified />
-					<d:getetag />
-					<d:getcontenttype />
-					<d:resourcetype />
-					<oc:fileid />
-					<oc:permissions />
-					<oc:size />
-					<d:getcontentlength />
-					<nc:has-preview />
-					<nc:mount-type />
-					<nc:is-encrypted />
-					<ocs:share-permissions />
-					<oc:tags />
-					<oc:favorite />
-					<oc:comments-unread />
-					<oc:owner-id />
-					<oc:owner-display-name />
-					<oc:share-types />
-				</d:prop>
-			</d:propfind>`,
-		details: true,
-	}, options))
-
-	return response.data.map(FileVersion)
-}
+export default FileVersion;

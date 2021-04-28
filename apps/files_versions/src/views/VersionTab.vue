@@ -29,92 +29,72 @@
 		</div>
 		<template>
 			<!-- Version information -->
-			<VersionEntry :versions="versionsList" />
-		</template>
-	</div>
-</template>
+			<!--	<VersionEntry :versions="versionsList" /> -->
+			{{versionsList}}
+			</template>
+		</div>
+	</template>
 
-<script>
+	<script>
 
-import axios from '@nextcloud/axios'
-import { generateRemoteUrl } from '@nextcloud/router'
-import { ListItemIcon } from '@nextcloud/vue'
-import VersionEntry from '../components/VersionEntry'
-import FileVersion from "../services/FileVersion";
-import fetchFileVersions from "../services/FileVersion";
+	import { ListItemIcon } from '@nextcloud/vue'
+	import VersionEntry from '../components/VersionEntry'
+	import fetchFileVersions from "../services/FileVersion";
 
-export default {
-	name: 'VersionTab',
+	export default {
+		name: 'VersionTab',
 
-	components: {
-
-		ListItemIcon,
-		VersionEntry,
-	},
-
-	data() {
-		return {
-			config: new Config(),
-
-			error: '',
-			expirationInterval: null,
-			loading: true,
-
-			fileInfo: null,
-
-			currentUser: null,
-
-			client: null,
-
-			// version object
-			versionsList: [],
-		}
-	},
-
-	methods: {
-		setFileInfo(fileInfo) {
-			this._fileInfo = fileInfo
+		components: {
+			ListItemIcon,
+			VersionEntry,
 		},
 
-		getFileInfo() {
-			return this._fileInfo
-		},
+		data() {
+			return {
+				error: '',
+				loading: true,
+				client: null,
+				_fileInfo: null,
 
-		setCurrentUser(user) {
-			this._currentUser = user
-		},
-		setClient(client) {
-			this._client = client
-		},
-		/**
-		 * Update current fileInfo and fetch new data
-		 * @param {Object} fileInfo the current file FileInfo
-		 */
-		async update(fileInfo) {
-			fileInfo = this.fileInfo
-			name = this._fileInfo.get('name')
-		},
-
-		/**
-		 * Get the Version infos
-		 */
-
-		/**
-		 * Get the existing shares infos
-		 */
-		async getVersions() {
-			try {
-				this.loading = true
-				const fetchVersions = fetchFileVersions(this._fileInfo.get('id'));
-				fetchVersions();
+				// version object
+				versionsList: [],
 			}
-			catch(e){
-                console.log(error);
-			}
-		}
-		mounted() {
-			this.getVersions()
 		},
-	},
-}
-</script>
+
+		methods: {
+			setFileInfo(fileInfo) {
+				this._fileInfo = fileInfo
+			},
+			getFileInfo() {
+				return this._fileInfo
+			},
+			setClient(client) {
+				this._client = client
+			},
+			/**
+			 * Update current fileInfo and fetch new data
+			 * @param {Object} fileInfo the current file FileInfo
+			 */
+			async update(fileInfo) {
+				this._fileInfo = fileInfo
+				/** 	name = this._fileInfo.get('name') */
+			},
+
+			async getVersions() {
+				try {
+					this.loading = true
+					const fetchVersions = await fetchFileVersions(this._fileInfo.get('id'));
+					this.versionsList = fetchVersions;
+				}
+				catch(e){
+					console.log(error);
+				}
+				this.loading = false
+			}
+
+		},
+	  mounted() {
+		this.getVersions()
+	}
+	}
+	</script>
