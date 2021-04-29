@@ -27,7 +27,7 @@ namespace OC\AppFramework\Middleware\Security;
 use OC\AppFramework\Utility\ControllerMethodReflector;
 use OC\Security\RateLimiting\Exception\RateLimitExceededException;
 use OC\Security\RateLimiting\Limiter;
-use OCP\AppFramework\Http\JSONResponse;
+use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Middleware;
 use OCP\IRequest;
@@ -110,21 +110,16 @@ class RateLimitingMiddleware extends Middleware {
 	public function afterException($controller, $methodName, \Exception $exception) {
 		if ($exception instanceof RateLimitExceededException) {
 			if (stripos($this->request->getHeader('Accept'),'html') === false) {
-				$response = new JSONResponse(
+				$response = new DataResponse([], $exception->getCode());
+			} else {
+				$response = new TemplateResponse(
+					'core',
+					'403',
 					[
 						'message' => $exception->getMessage(),
 					],
-					$exception->getCode()
+					'guest'
 				);
-			} else {
-				$response = new TemplateResponse(
-						'core',
-						'403',
-							[
-								'file' => $exception->getMessage()
-							],
-						'guest'
-					);
 				$response->setStatus($exception->getCode());
 			}
 
