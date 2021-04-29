@@ -103,7 +103,6 @@ OC.L10N.register(
     "Please specify a file or folder path" : "Изберете датотека или патека до папка",
     "Wrong path, file/folder doesn't exist" : "Погрешна патека, датотеката/папката не постои",
     "Could not create share" : "Неможе да се креира споделување",
-    "invalid permissions" : "неважечка дозвола",
     "Please specify a valid user" : "Изберете корисник",
     "Group sharing is disabled by the administrator" : "Споделување во групата е оневозможено од страна на администраторот",
     "Please specify a valid group" : "Изберете група",
@@ -234,6 +233,7 @@ OC.L10N.register(
     "Uploading files" : "Прикачување на датотеки",
     "Uploaded files:" : "Прикачени датотеки:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Со прикачување на датотеките, се согласувате со  %1$sусловите за користење%2$s.",
+    "invalid permissions" : "неважечка дозвола",
     "Name, email, or federated cloud ID …" : "Име, е-пошта или федерален ИД ..."
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

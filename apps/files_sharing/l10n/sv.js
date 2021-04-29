@@ -103,7 +103,6 @@ OC.L10N.register(
     "Please specify a file or folder path" : "Vänligen ange sökväg till filen eller mappen",
     "Wrong path, file/folder doesn't exist" : "Fel sökväg, fil/mapp finns inte",
     "Could not create share" : "Kunde inte skapa delning",
-    "invalid permissions" : "ogiltiga behörigheter",
     "Please specify a valid user" : "Vänligen ange en giltig användare",
     "Group sharing is disabled by the administrator" : "Gruppdelning är avstängt",
     "Please specify a valid group" : "Vänligen ange en giltig grupp",
@@ -232,6 +231,7 @@ OC.L10N.register(
     "Uploading files" : "Laddar upp filer",
     "Uploaded files:" : "Uppladdade filer:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Genom att ladda upp filer godkänner du %1$sanvändarvillkoren %2$s.",
+    "invalid permissions" : "ogiltiga behörigheter",
     "Name, email, or federated cloud ID …" : "Namn, e-post eller federerat moln-ID ..."
 },
 "nplurals=2; plural=(n != 1);");

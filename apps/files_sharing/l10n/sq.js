@@ -74,7 +74,6 @@ OC.L10N.register(
     "Please specify a file or folder path" : "Ju lutemi, tregoni një shteg kartele ose dosjeje",
     "Wrong path, file/folder doesn't exist" : "Shteg i gabuar, kratela/dosja s’ekziston",
     "Could not create share" : "Ndarja nuk u krijua dot",
-    "invalid permissions" : "leje e pavlefshme",
     "Please specify a valid user" : "Ju lutemi, tregoni një përdorues të vlefshëm",
     "Group sharing is disabled by the administrator" : "Ndarja në grup është çaktivizuar nga përgjegjësi",
     "Please specify a valid group" : "Ju lutemi, tregoni një grup të vlefshëm",
@@ -137,6 +136,7 @@ OC.L10N.register(
     "Upload files to %s" : "Ngrako skedarët tek %s",
     "Note" : "Shënim",
     "Select or drop files" : "Përzgjidh ose hiq skedarët",
-    "Uploaded files:" : "Skedarët e ngarkuar:"
+    "Uploaded files:" : "Skedarët e ngarkuar:",
+    "invalid permissions" : "leje e pavlefshme"
 },
 "nplurals=2; plural=(n != 1);");

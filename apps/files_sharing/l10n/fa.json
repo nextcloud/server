@@ -99,7 +99,6 @@
     "Please specify a file or folder path" : "لطفاً مسیر فایل یا پوشه را مشخص کنید",
     "Wrong path, file/folder doesn't exist" : "مسیر ، پرونده / پوشه اشتباه وجود ندارد",
     "Could not create share" : "امکان ایجاد اشتراک گذاری وجود ندارد",
-    "invalid permissions" : "مجوزات نامعتبر",
     "Please specify a valid user" : "لطفاً یک کاربر معتبر را مشخص کنید",
     "Group sharing is disabled by the administrator" : "اشتراک گروه توسط مدیر غیرفعال شده است.",
     "Please specify a valid group" : "لطفا یک گروه معتبر انتخاب کنید",
@@ -219,6 +218,7 @@
     "Note" : "یادداشت",
     "Select or drop files" : "پرونده ها را انتخاب یا رها کنید",
     "Uploaded files:" : "پرونده های بارگذاری شده:",
-    "By uploading files, you agree to the %1$sterms of service%2$s." : "%2$sبا بارگذاری پرونده ها ، شما با %1$sشرایط خدمات موافقت می کنید"
+    "By uploading files, you agree to the %1$sterms of service%2$s." : "%2$sبا بارگذاری پرونده ها ، شما با %1$sشرایط خدمات موافقت می کنید",
+    "invalid permissions" : "مجوزات نامعتبر"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

@@ -101,7 +101,6 @@
     "Please specify a file or folder path" : "Молимо одаберите путању до фајла или фасцикле",
     "Wrong path, file/folder doesn't exist" : "Погрешна путања, фајл/фасцикла не постоји",
     "Could not create share" : "Не могу да направим дељење",
-    "invalid permissions" : "Неисправне дозволе",
     "Please specify a valid user" : "Одаберите исправног корисника",
     "Group sharing is disabled by the administrator" : "Администратор је забранио дељење са групом",
     "Please specify a valid group" : "Одаберите исправну групу",
@@ -227,6 +226,7 @@
     "Uploading files" : "Отпремам фајлове",
     "Uploaded files:" : "Отпремљени фајлови:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Отпремањем фајлова, слажете се са %1$sусловима коришћења%2$s.",
+    "invalid permissions" : "Неисправне дозволе",
     "Name, email, or federated cloud ID …" : "Име, адреса е-поште или ID здруженог облака…"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }

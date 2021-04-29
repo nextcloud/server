@@ -101,7 +101,6 @@
     "Please specify a file or folder path" : "請指定檔案或資料夾路徑",
     "Wrong path, file/folder doesn't exist" : "錯誤的路徑，該檔案或資料夾不存在",
     "Could not create share" : "無法建立分享",
-    "invalid permissions" : "無效的權限",
     "Please specify a valid user" : "請指定有效使用者",
     "Group sharing is disabled by the administrator" : "群組分享已被管理員停用",
     "Please specify a valid group" : "請指定有效的群組",
@@ -235,6 +234,7 @@
     "Uploading files" : "正在上傳檔案",
     "Uploaded files:" : "已上傳的檔案：",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "上傳檔案即表示您同意%1$s服務條款%2$s。",
+    "invalid permissions" : "無效的權限",
     "Name, email, or federated cloud ID …" : "名稱、電子郵件或雲端聯盟 ID……"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

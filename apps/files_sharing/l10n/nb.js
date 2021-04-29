@@ -96,7 +96,6 @@ OC.L10N.register(
     "Please specify a file or folder path" : "Oppgi en fil eller mappesti",
     "Wrong path, file/folder doesn't exist" : "Feil filbane, filen/mappen finnes ikke",
     "Could not create share" : "Kunne ikke opprette ressurs",
-    "invalid permissions" : "Ugyldige rettigheter",
     "Please specify a valid user" : "Oppgi en gyldig bruker",
     "Group sharing is disabled by the administrator" : "Gruppedeling er deaktivert av administratoren",
     "Please specify a valid group" : "Oppgi en gyldig gruppe",
@@ -173,6 +172,7 @@ OC.L10N.register(
     "Note" : "Melding",
     "Select or drop files" : "Velg eller slipp filer",
     "Uploading files" : "Laster opp filer",
-    "Uploaded files:" : "Opplastede filer:"
+    "Uploaded files:" : "Opplastede filer:",
+    "invalid permissions" : "Ugyldige rettigheter"
 },
 "nplurals=2; plural=(n != 1);");

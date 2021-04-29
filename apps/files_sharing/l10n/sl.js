@@ -103,7 +103,6 @@ OC.L10N.register(
     "Please specify a file or folder path" : "Določiti je treba datoteko ali pot do mape",
     "Wrong path, file/folder doesn't exist" : "Napačna pot; datoteka ali mapa ne obstaja",
     "Could not create share" : "Mesta souporabe ni mogoče ustvariti",
-    "invalid permissions" : "neustrezna dovoljenja",
     "Please specify a valid user" : "Navesti je treba veljavnega uporabnika.",
     "Group sharing is disabled by the administrator" : "Skupinska souporaba je skrbniško onemogočena",
     "Please specify a valid group" : "Navesti je treba veljavno skupino",
@@ -235,6 +234,7 @@ OC.L10N.register(
     "Uploading files" : "Pošiljanje datotek",
     "Uploaded files:" : "Poslane datoteke:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "S pošiljanjem datotek v oblak sprejemate tudi %1$spogoje uporabe storitve%2$s.",
+    "invalid permissions" : "neustrezna dovoljenja",
     "Name, email, or federated cloud ID …" : "Ime, elektronski naslov, ali ID zveznega oblaka ..."
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

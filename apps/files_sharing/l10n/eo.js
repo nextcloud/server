@@ -93,7 +93,6 @@ OC.L10N.register(
     "Please specify a file or folder path" : "Bv. entajpi vojon al dosiero aŭ dosierujo",
     "Wrong path, file/folder doesn't exist" : "Neĝusta vojo, dosiero aŭ dosierujo ne ekzistas",
     "Could not create share" : "Ne eblis krei kunhavon",
-    "invalid permissions" : "nevalidaj permesoj",
     "Please specify a valid user" : "Bv. doni validan uzanton",
     "Group sharing is disabled by the administrator" : "Grup-kunhavigon malebligis la administranto",
     "Please specify a valid group" : "Bv. doni validan grupon",
@@ -201,6 +200,7 @@ OC.L10N.register(
     "Note" : "Noto",
     "Select or drop files" : "Elekti aŭ demeti dosierojn",
     "Uploaded files:" : "Alŝutitaj dosieroj:",
-    "By uploading files, you agree to the %1$sterms of service%2$s." : "Se vi alŝutas dosierojn, vi konsentas pri %1$skondiĉoj de uzado%2$s."
+    "By uploading files, you agree to the %1$sterms of service%2$s." : "Se vi alŝutas dosierojn, vi konsentas pri %1$skondiĉoj de uzado%2$s.",
+    "invalid permissions" : "nevalidaj permesoj"
 },
 "nplurals=2; plural=(n != 1);");

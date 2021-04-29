@@ -103,7 +103,6 @@ OC.L10N.register(
     "Please specify a file or folder path" : "Lütfen bir dosya ya da klasör yolu belirtin",
     "Wrong path, file/folder doesn't exist" : "Yol yanlış. Dosya ya da klasör bulunamadı",
     "Could not create share" : "Paylaşılamadı",
-    "invalid permissions" : "izinler geçersiz",
     "Please specify a valid user" : "Lütfen geçerli bir kullanıcı belirtin",
     "Group sharing is disabled by the administrator" : "Grup paylaşımı BT yöneticisi tarafından devre dışı bırakılmış",
     "Please specify a valid group" : "Lütfen geçerli bir grup belirtin",
@@ -237,6 +236,7 @@ OC.L10N.register(
     "Uploading files" : "Dosyalar yükleniyor",
     "Uploaded files:" : "Yüklenmiş dosyalar:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Dosya yükleyerek %1$shizmet koşullarını%2$s kabul etmiş olursunuz.",
+    "invalid permissions" : "izinler geçersiz",
     "Name, email, or federated cloud ID …" : "Ad, e-posta ya da Birleşik Bulut Kodu …"
 },
 "nplurals=2; plural=(n > 1);");

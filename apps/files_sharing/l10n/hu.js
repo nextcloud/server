@@ -103,7 +103,6 @@ OC.L10N.register(
     "Please specify a file or folder path" : "Adj meg egy fájl vagy mappa útvonalat",
     "Wrong path, file/folder doesn't exist" : "Hibás útvonal, a fájl/mappa nem létezik",
     "Could not create share" : "A megosztás nem hozható létre",
-    "invalid permissions" : "érvénytelen jogosultságok",
     "Please specify a valid user" : "Kérlek adj meg egy érvényes felhasználót",
     "Group sharing is disabled by the administrator" : "A csoportos megosztást letiltotta a rendszergazda",
     "Please specify a valid group" : "Kérlek adj meg egy érvényes csoportot",
@@ -235,6 +234,7 @@ OC.L10N.register(
     "Uploading files" : "Fájlok frissítése",
     "Uploaded files:" : "Feltöltött fájlok:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Fájlok feltöltésével elfogadja a %1$sszolgáltatási feltételek %2$s.",
+    "invalid permissions" : "érvénytelen jogosultságok",
     "Name, email, or federated cloud ID …" : "Név, e-mail vagy egyesített felhőazonosító …"
 },
 "nplurals=2; plural=(n != 1);");

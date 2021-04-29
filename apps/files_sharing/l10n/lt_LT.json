@@ -101,7 +101,6 @@
     "Please specify a file or folder path" : "Nurodykite kelią iki duomenų",
     "Wrong path, file/folder doesn't exist" : "Neteisingas kelias, failo/aplanko nėra",
     "Could not create share" : "Nepavyko sukurti viešinio",
-    "invalid permissions" : "neteisingi leidimai",
     "Please specify a valid user" : "Nurodykite naudotoją",
     "Group sharing is disabled by the administrator" : "Administratorius išjungė bendrinimą su grupėmis",
     "Please specify a valid group" : "Nurodykite teisingą grupę",
@@ -231,6 +230,7 @@
     "Uploading files" : "Įkeliami failai",
     "Uploaded files:" : "Įkelti failai:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Įkeldami failus, sutinkate su %1$snaudojimosi sąlygomis%2$s.",
+    "invalid permissions" : "neteisingi leidimai",
     "Name, email, or federated cloud ID …" : "Vardas, el. paštas ar federacinės debesijos ID…"
 },"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"
 }
