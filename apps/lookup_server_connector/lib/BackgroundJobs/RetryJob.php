@@ -152,7 +152,14 @@ class RetryJob extends Job {
 
 		try {
 			if (count($data) === 1) {
-				// No public data, just the federation Id
+				$dataOnLookupServer = $this->config->getUserValue($user->getUID(), 'lookup_server_connector', 'dataSend', '0') === '1';
+
+				if (!$dataOnLookupServer) {
+					// We never send data to the lookupserver so no need to delete it
+					return;
+				}
+
+				// There is data on the lookup server so we must delete it
 				$client->delete($this->lookupServer,
 					[
 						'body' => json_encode($signedData),
@@ -160,6 +167,8 @@ class RetryJob extends Job {
 						'connect_timeout' => 3,
 					]
 				);
+
+				$this->config->setUserValue($user->getUID(), 'lookup_server_connector', 'dataSend', '0');
 			} else {
 				$client->post($this->lookupServer,
 					[
@@ -168,6 +177,7 @@ class RetryJob extends Job {
 						'connect_timeout' => 3,
 					]
 				);
+				$this->config->setUserValue($user->getUID(), 'lookup_server_connector', 'dataSend', '1');
 			}
 
 			// Reset retry counter
