@@ -100,7 +100,6 @@ OC.L10N.register(
     "Could not delete share" : "Kunne ikke slette deling",
     "Please specify a file or folder path" : "Præciser venligst en fil eller mappesti",
     "Wrong path, file/folder doesn't exist" : "Forkert sti, fil/mappe findes ikke",
-    "invalid permissions" : "Ugyldige rettigheder",
     "Please specify a valid user" : "Angiv en gyldig bruger",
     "Group sharing is disabled by the administrator" : "Gruppedeling er deaktiveret af administratoren",
     "Please specify a valid group" : "Angiv en gyldig gruppe",
@@ -177,6 +176,7 @@ OC.L10N.register(
     "Upload files to %s" : "Upload filer til %s",
     "Note" : "Note",
     "Select or drop files" : "Vælg eller slip filer",
-    "Uploaded files:" : "Uploadede filer:"
+    "Uploaded files:" : "Uploadede filer:",
+    "invalid permissions" : "Ugyldige rettigheder"
 },
 "nplurals=2; plural=(n != 1);");

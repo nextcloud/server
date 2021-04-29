@@ -72,7 +72,6 @@ OC.L10N.register(
     "Please specify a file or folder path" : "გთხოვთ მიუთითოთ ფაილის ან დირექტორიის მისამართი",
     "Wrong path, file/folder doesn't exist" : "არასწორი მისამართი, ფაილი/დირქტორია არ არსებობს",
     "Could not create share" : "გაზიარება ვერ შეიქმნა",
-    "invalid permissions" : "არასწორი უფლებები",
     "Please specify a valid user" : "გთხოვთ მიუთითოთ სწორი მომხმარებელი",
     "Group sharing is disabled by the administrator" : "ჯგუფური გაზიარება ადმინისტრატორის მიერ არაა ამოქმედებული",
     "Please specify a valid group" : "გთხოვთ მიუთითოთ სწორი ჯგუფი",
@@ -128,6 +127,7 @@ OC.L10N.register(
     "Download %s" : "%s-ის ჩამოტვირთვა",
     "Upload files to %s" : "ფაილების ატვირთვა %s-ში",
     "Select or drop files" : "აირჩიეთ ან გადმოიტანეთ ფაილები",
-    "Uploaded files:" : "ფაილების ატვირთვა:"
+    "Uploaded files:" : "ფაილების ატვირთვა:",
+    "invalid permissions" : "არასწორი უფლებები"
 },
 "nplurals=2; plural=(n!=1);");

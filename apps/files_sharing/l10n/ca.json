@@ -101,7 +101,6 @@
     "Please specify a file or folder path" : "Si us plau, especifiqueu un camí de fitxer o carpeta",
     "Wrong path, file/folder doesn't exist" : "El camí és erroni, el fitxer o la carpeta no existeixen",
     "Could not create share" : "No s'ha pogut crear la compartició",
-    "invalid permissions" : "permisos no vàlids",
     "Please specify a valid user" : "Si us plau, especifiqueu un usuari vàlid",
     "Group sharing is disabled by the administrator" : "L'administrador ha desactivat l'opció per compartir grups",
     "Please specify a valid group" : "Si us plau, especifiqueu un grup vàlid",
@@ -229,6 +228,7 @@
     "Uploading files" : "Càrregant fitxers",
     "Uploaded files:" : "Fitxers carregats:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Si carregueu els fitxers accepteu les %1$scondicions del servei%2$s.",
+    "invalid permissions" : "permisos no vàlids",
     "Name, email, or federated cloud ID …" : "Nom, correu o ID de núvol federat …"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -94,7 +94,6 @@ OC.L10N.register(
     "Please specify a file or folder path" : "파일이나 폴더 경로를 지정하십시오",
     "Wrong path, file/folder doesn't exist" : "잘못된 경로, 파일/폴더가 존재하지 않음",
     "Could not create share" : "공유를 만들 수 없음",
-    "invalid permissions" : "잘못된 권한",
     "Please specify a valid user" : "올바른 사용자를 지정하십시오",
     "Group sharing is disabled by the administrator" : "관리자가 그룹 공유를 비활성화함",
     "Please specify a valid group" : "올바른 그룹을 지정하십시오",
@@ -181,6 +180,7 @@ OC.L10N.register(
     "Select or drop files" : "파일을 선택하거나 끌어다 놓기",
     "Uploading files" : "파일 업로드",
     "Uploaded files:" : "업로드한 파일:",
-    "By uploading files, you agree to the %1$sterms of service%2$s." : "파일을 업로드하면 %1$s이용 약관%2$s에 동의하는 것을 의미합니다."
+    "By uploading files, you agree to the %1$sterms of service%2$s." : "파일을 업로드하면 %1$s이용 약관%2$s에 동의하는 것을 의미합니다.",
+    "invalid permissions" : "잘못된 권한"
 },
 "nplurals=1; plural=0;");

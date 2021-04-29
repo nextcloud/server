@@ -101,7 +101,6 @@
     "Please specify a file or folder path" : "Укажите путь к файлу или каталогу",
     "Wrong path, file/folder doesn't exist" : "Неверный путь, файл или каталог не существует",
     "Could not create share" : "Не удалось создать общий ресурс",
-    "invalid permissions" : "неверные права доступа",
     "Please specify a valid user" : "Укажите верного пользователя",
     "Group sharing is disabled by the administrator" : "Возможность делиться с группами отключена администратором",
     "Please specify a valid group" : "Укажите верную группу",
@@ -235,6 +234,7 @@
     "Uploading files" : "Загрузка файлов",
     "Uploaded files:" : "Отправленные файлы:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Передачей файлов на сервер, вы принимаете %1$sусловия обслуживания%2$s.",
+    "invalid permissions" : "неверные права доступа",
     "Name, email, or federated cloud ID …" : "Имя или ID межсерверного обмена…"
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }

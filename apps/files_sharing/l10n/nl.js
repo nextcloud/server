@@ -103,7 +103,6 @@ OC.L10N.register(
     "Please specify a file or folder path" : "Geef een bestand of pad van een map op",
     "Wrong path, file/folder doesn't exist" : "Onjuist pad, bestand/map bestaat niet",
     "Could not create share" : "Kan gedeelde folder niet aanmaken",
-    "invalid permissions" : "Ongeldige rechten",
     "Please specify a valid user" : "Geef een geldige gebruiker op",
     "Group sharing is disabled by the administrator" : "Delen voor groepen is uitgeschakeld door de beheerder",
     "Please specify a valid group" : "Geef een geldige groep op",
@@ -235,6 +234,7 @@ OC.L10N.register(
     "Uploading files" : "Uploaden bestanden",
     "Uploaded files:" : "Geüploade bestanden",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Door het uploaden van bestanden stem je in met de %1$sgebruiksvoorwaarden%2$s.",
+    "invalid permissions" : "Ongeldige rechten",
     "Name, email, or federated cloud ID …" : "Naam, e-mailadres of gefedereerde Cloud ID …"
 },
 "nplurals=2; plural=(n != 1);");

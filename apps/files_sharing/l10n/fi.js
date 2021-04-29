@@ -103,7 +103,6 @@ OC.L10N.register(
     "Please specify a file or folder path" : "Määritä tiedoston tai kansion polku",
     "Wrong path, file/folder doesn't exist" : "Väärä polku, tiedostoa tai kansiota ei ole olemassa",
     "Could not create share" : "Jaon luominen epäonnistui",
-    "invalid permissions" : "vialliset oikeudet",
     "Please specify a valid user" : "Määritä kelvollinen käyttäjä",
     "Group sharing is disabled by the administrator" : "Ylläpitäjä on estänyt ryhmäjakamisen",
     "Please specify a valid group" : "Määritä kelvollinen ryhmä",
@@ -225,6 +224,7 @@ OC.L10N.register(
     "Uploading files" : "Lähetetään tiedostoja",
     "Uploaded files:" : "Lähetetyt tiedostot:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Tiedostoja lähettämällä hyväksyt %1$skäyttöehdot%2$s.",
+    "invalid permissions" : "vialliset oikeudet",
     "Name, email, or federated cloud ID …" : "Nimi, sähköposti tai federoitu Cloud ID..."
 },
 "nplurals=2; plural=(n != 1);");

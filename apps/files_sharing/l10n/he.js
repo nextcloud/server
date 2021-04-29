@@ -103,7 +103,6 @@ OC.L10N.register(
     "Please specify a file or folder path" : "יש לספק נתיב לקובץ או תיקייה",
     "Wrong path, file/folder doesn't exist" : "נתיב שגוי, קובץ/תיקייה אינם קיימים",
     "Could not create share" : "לא ניתן ליצור שיתוף",
-    "invalid permissions" : "הרשאות שגויות",
     "Please specify a valid user" : "יש לספק משתמש חוקי",
     "Group sharing is disabled by the administrator" : "שיתוף קבוצתי מנוטרל על ידי המנהל",
     "Please specify a valid group" : "יש לספק קבוצה חוקית",
@@ -232,6 +231,7 @@ OC.L10N.register(
     "Uploading files" : "מועלים קבצים",
     "Uploaded files:" : "קבצים שהועלו:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "עצם העלאתם של קבצים מביעה את הסכמתך ל%1$sתנאי השירות%2$s.",
+    "invalid permissions" : "הרשאות שגויות",
     "Name, email, or federated cloud ID …" : "שם, דוא\"ל או ID ענן מאוחד..."
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");

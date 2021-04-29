@@ -101,7 +101,6 @@
     "Please specify a file or folder path" : "يرجى تحديد مسار ملف او مجلد",
     "Wrong path, file/folder doesn't exist" : "مسار الملف/المجد غير موجود",
     "Could not create share" : "لا يمكن انشاء مشاركة",
-    "invalid permissions" : "صلاحيات مفقودة",
     "Please specify a valid user" : "يرجى تحديد مستخدم صحيح",
     "Group sharing is disabled by the administrator" : "مشاركة المجموعة معطل من قبل الادارة",
     "Please specify a valid group" : "يرجى تحديد مجموعة صحيحة",
@@ -229,6 +228,7 @@
     "Uploading files" : "جاري رفع ملفات",
     "Uploaded files:" : "تم رفع ملفات:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "برفع الملفات ، فإنك توافق على %1$s شروط الخدمة %2$s.",
+    "invalid permissions" : "صلاحيات مفقودة",
     "Name, email, or federated cloud ID …" : "اسم، بريد، معرف السحابة المتحدة…"
 },"pluralForm" :"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"
 }
