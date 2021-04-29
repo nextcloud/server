@@ -84,6 +84,7 @@ OC.L10N.register(
     "Unable to change full name" : "無法更改全名",
     "Unable to change email address" : "無法更改電郵地址",
     "Unable to set invalid phone number" : "無法設定無效的電話號碼",
+    "Unable to set invalid website" : "無法設定無效的網站",
     "Some account data was invalid" : "某些賬戶資料無效",
     "In order to verify your Twitter account, post the following tweet on Twitter (please make sure to post it without any line breaks):" : "為了驗證您的推特賬戶，請在推特上發佈下列推文（請確認推文內容沒有斷行）：",
     "In order to verify your Website, store the following content in your web-root at '.well-known/CloudIdVerificationCode.txt' (please make sure that the complete text is in one line):" : "為了驗證您的網站，請將下列內容存至您網站的根目錄下路徑為「。well-known/CloudIdVerificationCode。txt」的檔案（請確保全文以一行的格式儲存）",

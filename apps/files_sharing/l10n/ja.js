@@ -103,7 +103,6 @@ OC.L10N.register(
     "Please specify a file or folder path" : "ファイルかフォルダーのパスを指定してください",
     "Wrong path, file/folder doesn't exist" : "パスが間違っています。ファイル/フォルダーがありません",
     "Could not create share" : "共有を作成できませんでした",
-    "invalid permissions" : "無効なパーミッション",
     "Please specify a valid user" : "正しいユーザーを指定してください",
     "Group sharing is disabled by the administrator" : "グループ共有が管理者によって無効にされています。",
     "Please specify a valid group" : "正しいグループを指定してください",
@@ -235,6 +234,7 @@ OC.L10N.register(
     "Uploading files" : "ファイルをアップロード中",
     "Uploaded files:" : "アップロード済ファイル:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "ファイルをアップロードすると、%1$s のサービス条件 %2$s に同意したことになります。",
+    "invalid permissions" : "無効なパーミッション",
     "Name, email, or federated cloud ID …" : "名前、電子メール、またはクラウド連携ID…"
 },
 "nplurals=1; plural=0;");

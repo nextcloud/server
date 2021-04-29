@@ -101,7 +101,6 @@
     "Please specify a file or folder path" : "Podaj ścieżkę do pliku lub katalogu",
     "Wrong path, file/folder doesn't exist" : "Ścieżka nieprawidłowa, plik/katalog nie istnieje",
     "Could not create share" : "Nie można utworzyć udostępnienia",
-    "invalid permissions" : "nieprawidłowe uprawnienia",
     "Please specify a valid user" : "Podaj prawidłowego użytkownika",
     "Group sharing is disabled by the administrator" : "Udostępnianie grupowe jest wyłączone przez administratora",
     "Please specify a valid group" : "Podaj prawidłową grupę",
@@ -235,6 +234,7 @@
     "Uploading files" : "Wysyłanie plików",
     "Uploaded files:" : "Wysłane pliki:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Wysyłając pliki, zgadzasz się na %1$swarunki korzystania z usługi%2$s.",
+    "invalid permissions" : "nieprawidłowe uprawnienia",
     "Name, email, or federated cloud ID …" : "Nazwa, adres e-mail lub ID Chmury Federacyjnej…"
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
 }

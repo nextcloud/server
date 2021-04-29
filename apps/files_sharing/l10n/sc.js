@@ -103,7 +103,6 @@ OC.L10N.register(
     "Please specify a file or folder path" : "Ispetzìfica unu percursu de una cartella o un'archìviu",
     "Wrong path, file/folder doesn't exist" : "Percursu isballiadu, s'archìviu/cartella no esistit",
     "Could not create share" : "No at fatu a creare sa cumpartzidura",
-    "invalid permissions" : "permissos non vàlidos",
     "Please specify a valid user" : "Ispetzìfica un'utèntzia vàlida",
     "Group sharing is disabled by the administrator" : "Sa cumpartzidura de grupu est disativada dae s'amministratzione",
     "Please specify a valid group" : "Ispetzìfica unu grupu vàlidu",
@@ -237,6 +236,7 @@ OC.L10N.register(
     "Uploading files" : "Carrighende archìvios",
     "Uploaded files:" : "Archìvios carrigados:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Carrighende is archìvios, cuncordas cun is %1$scunditziones de servìtziu%2$s.",
+    "invalid permissions" : "permissos non vàlidos",
     "Name, email, or federated cloud ID …" : "Nùmene, indiritzu de posta o ID de sa nue federada ..."
 },
 "nplurals=2; plural=(n != 1);");

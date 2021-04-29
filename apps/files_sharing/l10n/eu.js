@@ -103,7 +103,6 @@ OC.L10N.register(
     "Please specify a file or folder path" : "Zehaztu fitxategi edo karpetaren bide bat",
     "Wrong path, file/folder doesn't exist" : "Bide okerra, fitxategia/karpeta ez da existitzen",
     "Could not create share" : "Ezin izan da partekatzea sortu",
-    "invalid permissions" : "baimen baliogabeak",
     "Please specify a valid user" : "Zehaztu baliozko erabiltzaile bat",
     "Group sharing is disabled by the administrator" : "Administratzaileak taldeekin partekatzea desgaitu du",
     "Please specify a valid group" : "Zehaztu baliozko talde bat",
@@ -182,7 +181,7 @@ OC.L10N.register(
     "Video verification" : "Bideo egiaztapena",
     "Enter a note for the share recipient" : "Sartu ohar bat partekatzearen hartzailearentzat",
     "Add another link" : "Gehitu beste esteka bat",
-    "Create a new share link" : "Sortu partekatze esteka berri bat",
+    "Create a new share link" : "Sortu partekatze esteka berria",
     "{shareWith} by {initiator}" : "{initiator} erabiltzaileak {shareWith} ",
     "Shared via link by {initiator}" : "{initiator} erabiltzaileak esteka bidez partekatua",
     "Mail share ({label})" : "Posta partekatzea ({label})",
@@ -237,6 +236,7 @@ OC.L10N.register(
     "Uploading files" : "Fitxategiak kargatzen",
     "Uploaded files:" : "Igotako fitxategiak:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Fitxategiak kargatzean, %1$szerbitzu-baldintzak%2$s onartzen dituzu.",
+    "invalid permissions" : "baimen baliogabeak",
     "Name, email, or federated cloud ID …" : "Izena, posta, edo federatutako lainoaren IDa ..."
 },
 "nplurals=2; plural=(n != 1);");

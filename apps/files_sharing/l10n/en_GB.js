@@ -73,7 +73,6 @@ OC.L10N.register(
     "Please specify a file or folder path" : "Please specify a file or folder path",
     "Wrong path, file/folder doesn't exist" : "Wrong path, file/folder doesn't exist",
     "Could not create share" : "Could not create share",
-    "invalid permissions" : "invalid permissions",
     "Please specify a valid user" : "Please specify a valid user",
     "Group sharing is disabled by the administrator" : "Group sharing is disabled by the administrator",
     "Please specify a valid group" : "Please specify a valid group",
@@ -138,6 +137,7 @@ OC.L10N.register(
     "Upload files to %s" : "Upload files to %s",
     "Note" : "Note",
     "Select or drop files" : "Select or drop files",
-    "Uploaded files:" : "Uploaded files:"
+    "Uploaded files:" : "Uploaded files:",
+    "invalid permissions" : "invalid permissions"
 },
 "nplurals=2; plural=(n != 1);");

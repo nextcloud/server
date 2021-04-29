@@ -103,7 +103,6 @@ OC.L10N.register(
     "Please specify a file or folder path" : "请指定一个文件或文件夹路径",
     "Wrong path, file/folder doesn't exist" : "路径错误，文件或文件夹不存在",
     "Could not create share" : "无法创建共享",
-    "invalid permissions" : "无效的权限",
     "Please specify a valid user" : "请指定一个有效的用户",
     "Group sharing is disabled by the administrator" : "群组共享已被管理员禁用",
     "Please specify a valid group" : "请指定一个有效的组",
@@ -237,6 +236,7 @@ OC.L10N.register(
     "Uploading files" : "正在上传文件",
     "Uploaded files:" : "上传的文件： ",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "通过上传文件，您同意了 %1$s 服务条款 %2$s。",
+    "invalid permissions" : "无效的权限",
     "Name, email, or federated cloud ID …" : "名称，电子邮件或联合云 ID ..."
 },
 "nplurals=1; plural=0;");

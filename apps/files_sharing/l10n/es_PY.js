@@ -74,7 +74,6 @@ OC.L10N.register(
     "Please specify a file or folder path" : "Por favor especifica un archivo o ruta de carpeta",
     "Wrong path, file/folder doesn't exist" : "La ruta es incorrecta, el correo / carpeta no existe ",
     "Could not create share" : "No fue posible crear el elemento compartido",
-    "invalid permissions" : "permisos inválidos",
     "Please specify a valid user" : "Por favor especifica un usuario válido",
     "Group sharing is disabled by the administrator" : "Compartir en grupos está deshabilitado por el administrador",
     "Please specify a valid group" : "Por favor especifica un grupo válido",
@@ -129,6 +128,7 @@ OC.L10N.register(
     "Download %s" : "Descargar %s",
     "Upload files to %s" : "Cargar archivos a %s",
     "Select or drop files" : "Selecciona o suelta los archivos",
-    "Uploaded files:" : "Archivos cargados:"
+    "Uploaded files:" : "Archivos cargados:",
+    "invalid permissions" : "permisos inválidos"
 },
 "nplurals=2; plural=(n != 1);");

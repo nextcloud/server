@@ -103,7 +103,6 @@ OC.L10N.register(
     "Please specify a file or folder path" : "Veuillez indiquer un fichier ou un chemin",
     "Wrong path, file/folder doesn't exist" : "Mauvais chemin, Le fichier/dossier n'existe pas",
     "Could not create share" : "Impossible de créer le partage",
-    "invalid permissions" : "permissions invalides",
     "Please specify a valid user" : "Veuillez entrer un utilisateur valide",
     "Group sharing is disabled by the administrator" : "Le partage de groupe a été désactivé par l'administrateur",
     "Please specify a valid group" : "Veuillez entrer un groupe valide",
@@ -232,6 +231,7 @@ OC.L10N.register(
     "Uploading files" : "Envoi des fichiers en cours ...",
     "Uploaded files:" : "Fichiers envoyés :",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "En envoyant des fichiers, vous acceptez les %1$sconditions d'utilisation%2$s.",
+    "invalid permissions" : "permissions invalides",
     "Name, email, or federated cloud ID …" : "Nom, adresse e-mail ou identifiant cloud fédéré…"
 },
 "nplurals=2; plural=(n > 1);");

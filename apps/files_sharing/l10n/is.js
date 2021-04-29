@@ -89,7 +89,6 @@ OC.L10N.register(
     "Please specify a file or folder path" : "Tiltaktu skrá eða slóð á möppu",
     "Wrong path, file/folder doesn't exist" : "Röng slóð, skrá/mappa er ekki til",
     "Could not create share" : "Ekki tókst að búa til sameign",
-    "invalid permissions" : "Ógildar aðgangsheimildir",
     "Please specify a valid user" : "Settu inn gilt notandanafn",
     "Group sharing is disabled by the administrator" : "Deiling innan hóps hefur verið gerð óvirk af kerfisstjóra.",
     "Please specify a valid group" : "Settu inn gildan hóp",
@@ -178,6 +177,7 @@ OC.L10N.register(
     "Note" : "Minnispunktur",
     "Select or drop files" : "Veldu eða slepptu skrám",
     "Uploaded files:" : "Innsendar skrár:",
-    "By uploading files, you agree to the %1$sterms of service%2$s." : "Með því að senda inn skrár, samþykkir þú %1$sþjónustuskilmálana%2$s."
+    "By uploading files, you agree to the %1$sterms of service%2$s." : "Með því að senda inn skrár, samþykkir þú %1$sþjónustuskilmálana%2$s.",
+    "invalid permissions" : "Ógildar aðgangsheimildir"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");
