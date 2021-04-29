@@ -117,6 +117,17 @@
 					break;
 			}
 
+			var lookupServerUploadEnabled = $('#lookupServerUploadEnabled').val();
+			if (!lookupServerUploadEnabled && !this._scopes[2].active) {
+				this._scopes[2].hidden = true
+			} else if (!lookupServerUploadEnabled && this._scopes[2].active) {
+				this._scopes[2].hidden = false
+				this._scopes[2].disabled = true
+			} else {
+				this._scopes[2].hidden = false
+				this._scopes[2].disabled = false
+			}
+
 			this.render();
 			this.$el.removeClass('hidden');
 
