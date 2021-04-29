@@ -103,7 +103,6 @@ OC.L10N.register(
     "Please specify a file or folder path" : "Zvoľte prosím súbor alebo cestu k priečinku",
     "Wrong path, file/folder doesn't exist" : "Neplatná cesta, súbor alebo priečinok neexistuje",
     "Could not create share" : "Nie je možné sprístupniť",
-    "invalid permissions" : "neplatné oprávnenia",
     "Please specify a valid user" : "Zvoľte prosím platného používateľa",
     "Group sharing is disabled by the administrator" : "Skupinové zdieľanie je zakázané administrátorom",
     "Please specify a valid group" : "Zvoľte prosím platnú skupinu",
@@ -231,6 +230,7 @@ OC.L10N.register(
     "Uploading files" : "Nahrávanie súborov",
     "Uploaded files:" : "Nahrané súbory...",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Nahraním súborov vyjadrujete súhlas so všeobecnými podmienkami %1$s %2$s.",
+    "invalid permissions" : "neplatné oprávnenia",
     "Name, email, or federated cloud ID …" : "Meno, e-mail alebo ID združeného cloudu …"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

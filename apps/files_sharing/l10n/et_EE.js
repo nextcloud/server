@@ -93,7 +93,6 @@ OC.L10N.register(
     "Please specify a file or folder path" : "Palun määra faili või kausta rada",
     "Wrong path, file/folder doesn't exist" : "Vale rada, faili/kausta ei leitud",
     "Could not create share" : "Ei saanud jagamist luua",
-    "invalid permissions" : "valed õigused",
     "Please specify a valid user" : "Palun määra kehtiv kasutaja",
     "Group sharing is disabled by the administrator" : "Grupiga jagamine on administraatori poolt keelatud",
     "Please specify a valid group" : "Palun määra kehtiv grupp",
@@ -171,6 +170,7 @@ OC.L10N.register(
     "Upload files to %s" : "Laadi failid %s",
     "Note" : "Märge",
     "Select or drop files" : "Vali või lohista failid",
-    "Uploaded files:" : "Üleslaetud failid:"
+    "Uploaded files:" : "Üleslaetud failid:",
+    "invalid permissions" : "valed õigused"
 },
 "nplurals=2; plural=(n != 1);");

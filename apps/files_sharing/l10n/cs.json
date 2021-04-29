@@ -101,7 +101,6 @@
     "Please specify a file or folder path" : "Zadejte popis umístění souboru či složky",
     "Wrong path, file/folder doesn't exist" : "Nesprávný popis umístění – soubor/složka neexistuje",
     "Could not create share" : "Nelze vytvořit sdílení",
-    "invalid permissions" : "neplatná oprávnění",
     "Please specify a valid user" : "Zadejte platného uživatele",
     "Group sharing is disabled by the administrator" : "Skupinové sdílení bylo zakázáno správcem",
     "Please specify a valid group" : "Zadejte platnou skupinu",
@@ -235,6 +234,7 @@
     "Uploading files" : "Nahrávání souborů",
     "Uploaded files:" : "Nahrané soubory:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Nahráním souborů vyjadřujete souhlas s %1$svšeobecnými podmínkami%2$s.",
+    "invalid permissions" : "neplatná oprávnění",
     "Name, email, or federated cloud ID …" : "Jméno, e-mail nebo identifikátor ve federovaném cloudu…"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;"
 }

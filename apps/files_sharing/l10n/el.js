@@ -103,7 +103,6 @@ OC.L10N.register(
     "Please specify a file or folder path" : "Παρακαλούμε καθορίστε την διαδρομή για το αρχείο ή τον φάκελο",
     "Wrong path, file/folder doesn't exist" : "Λάθος διαδρομή, αρχείο/φάκελος δεν υπάρχει",
     "Could not create share" : "Αδυναμία δημιουργίας κοινόχρηστου",
-    "invalid permissions" : "μη έγκυρα δικαιόματα",
     "Please specify a valid user" : "Παρακαλούμε καθορίστε έναν έγκυρο χρήστη",
     "Group sharing is disabled by the administrator" : "Διαμοιρασμός σε ομάδες είναι απενεργοποιημένος από τον διαχειρηστή",
     "Please specify a valid group" : "Παρακαλούμε καθορίστε μια έγκυρη ομάδα",
@@ -232,6 +231,7 @@ OC.L10N.register(
     "Uploading files" : "Μεταφόρτωση αρχείων",
     "Uploaded files:" : "Αποστολή αρχείων:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Με την μεταφόρτωση αρχείων, συμφωνείτε με %1$sόρους χρήσεως %2$s.",
+    "invalid permissions" : "μη έγκυρα δικαιόματα",
     "Name, email, or federated cloud ID …" : "Όνομα, διεύθυνση ηλεκτρονικού ταχυδρομείου ή Ομοσπονδιακό αναγνωριστικό Cloud…"
 },
 "nplurals=2; plural=(n != 1);");

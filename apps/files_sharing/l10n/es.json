@@ -101,7 +101,6 @@
     "Please specify a file or folder path" : "Por favor, especifica la ubicación de un archivo o carpeta",
     "Wrong path, file/folder doesn't exist" : "Ubicación incorrecta, el archivo/carpeta no existe",
     "Could not create share" : "No se ha podido compartir",
-    "invalid permissions" : "Permisos incorrectos",
     "Please specify a valid user" : "Por favor, especifica un usuario válido",
     "Group sharing is disabled by the administrator" : "Compartir en grupo está deshabilitado por el administrador",
     "Please specify a valid group" : "Por favor, especifica un grupo válido",
@@ -235,6 +234,7 @@
     "Uploading files" : "Subiendo archivos",
     "Uploaded files:" : "Archivos subidos:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Al subir archivos, aceptas los %1$stérminos del servicio%2$s.",
+    "invalid permissions" : "Permisos incorrectos",
     "Name, email, or federated cloud ID …" : "Nombre, correo electrónico o ID de nube federada …"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
