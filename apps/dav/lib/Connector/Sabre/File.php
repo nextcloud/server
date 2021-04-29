@@ -224,6 +224,7 @@ class File extends Node implements IFile {
 				}
 				list($count, $result) = \OC_Helper::streamCopy($data, $target);
 				fclose($target);
+				fclose($data);
 			}
 
 			if ($result === false) {
