@@ -2591,9 +2591,6 @@
     <InvalidArgument occurrences="1">
       <code>$restrictions</code>
     </InvalidArgument>
-    <InvalidScalarArgument occurrences="1">
-      <code>true</code>
-    </InvalidScalarArgument>
     <RedundantCondition occurrences="1">
       <code>((array)$request-&gt;getParam('appid')) !== ''</code>
     </RedundantCondition>
