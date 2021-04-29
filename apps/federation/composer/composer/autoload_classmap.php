@@ -14,7 +14,6 @@ return array(
     'OCA\\Federation\\Controller\\SettingsController' => $baseDir . '/../lib/Controller/SettingsController.php',
     'OCA\\Federation\\DAV\\FedAuth' => $baseDir . '/../lib/DAV/FedAuth.php',
     'OCA\\Federation\\DbHandler' => $baseDir . '/../lib/DbHandler.php',
-    'OCA\\Federation\\Hooks' => $baseDir . '/../lib/Hooks.php',
     'OCA\\Federation\\Middleware\\AddServerMiddleware' => $baseDir . '/../lib/Middleware/AddServerMiddleware.php',
     'OCA\\Federation\\Settings\\Admin' => $baseDir . '/../lib/Settings/Admin.php',
     'OCA\\Federation\\SyncFederationAddressBooks' => $baseDir . '/../lib/SyncFederationAddressBooks.php',

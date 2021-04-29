@@ -29,7 +29,6 @@ class ComposerStaticInitFederation
         'OCA\\Federation\\Controller\\SettingsController' => __DIR__ . '/..' . '/../lib/Controller/SettingsController.php',
         'OCA\\Federation\\DAV\\FedAuth' => __DIR__ . '/..' . '/../lib/DAV/FedAuth.php',
         'OCA\\Federation\\DbHandler' => __DIR__ . '/..' . '/../lib/DbHandler.php',
-        'OCA\\Federation\\Hooks' => __DIR__ . '/..' . '/../lib/Hooks.php',
         'OCA\\Federation\\Middleware\\AddServerMiddleware' => __DIR__ . '/..' . '/../lib/Middleware/AddServerMiddleware.php',
         'OCA\\Federation\\Settings\\Admin' => __DIR__ . '/..' . '/../lib/Settings/Admin.php',
         'OCA\\Federation\\SyncFederationAddressBooks' => __DIR__ . '/..' . '/../lib/SyncFederationAddressBooks.php',
