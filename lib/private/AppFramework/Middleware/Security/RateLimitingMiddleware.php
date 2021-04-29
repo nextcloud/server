@@ -114,8 +114,10 @@ class RateLimitingMiddleware extends Middleware {
 			} else {
 				$response = new TemplateResponse(
 					'core',
-					'429',
-					[],
+					'403',
+					[
+						'message' => $exception->getMessage(),
+					],
 					'guest'
 				);
 				$response->setStatus($exception->getCode());

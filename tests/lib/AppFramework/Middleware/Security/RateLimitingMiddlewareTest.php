@@ -270,8 +270,10 @@ class RateLimitingMiddlewareTest extends TestCase {
 		$result = $this->rateLimitingMiddleware->afterException($controller, 'testMethod', new RateLimitExceededException());
 		$expected = new TemplateResponse(
 			'core',
-			'429',
-			[],
+			'403',
+			[
+				'message' => 'Rate limit exceeded',
+			],
 			'guest'
 		);
 		$expected->setStatus(429);

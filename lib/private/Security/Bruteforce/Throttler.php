@@ -212,6 +212,10 @@ class Throttler {
 			return 0;
 		}
 
+		if ($ip === '') {
+			return 0;
+		}
+
 		$cutoffTime = (new \DateTime())
 			->sub($this->getCutoff(43200))
 			->getTimestamp();
