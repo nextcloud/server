@@ -36,6 +36,7 @@ use DateTime;
 use DateTimeZone;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Calendar;
+use OCA\DAV\Events\CalendarDeletedEvent;
 use OCP\IConfig;
 use OCP\IL10N;
 use Sabre\DAV\Exception\NotFound;
@@ -72,12 +73,14 @@ class CalDavBackendTest extends AbstractCalDavBackend {
 		$this->assertEquals('User\'s displayname', $calendars[0]['{http://nextcloud.com/ns}owner-displayname']);
 
 		// delete the address book
-		$this->legacyDispatcher->expects($this->at(0))
-			->method('dispatch')
-			->with('\OCA\DAV\CalDAV\CalDavBackend::deleteCalendar');
+		$this->dispatcher->expects(self::once())
+			->method('dispatchTyped')
+			->with(self::callback(function ($event) {
+				return $event instanceof CalendarDeletedEvent;
+			}));
 		$this->backend->deleteCalendar($calendars[0]['id']);
 		$calendars = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER);
-		$this->assertCount(0, $calendars);
+		self::assertEmpty($calendars);
 	}
 
 	public function providesSharingData() {
@@ -196,13 +199,15 @@ EOD;
 		$this->assertAccess($userCanRead, self::UNIT_TEST_USER1, '{DAV:}read', $acl);
 		$this->assertAccess($userCanWrite, self::UNIT_TEST_USER1, '{DAV:}write', $acl);
 
-		// delete the address book
-		$this->legacyDispatcher->expects($this->at(0))
-			->method('dispatch')
-			->with('\OCA\DAV\CalDAV\CalDavBackend::deleteCalendar');
+		// delete the calendar
+		$this->dispatcher->expects(self::once())
+			->method('dispatchTyped')
+			->with(self::callback(function ($event) {
+				return $event instanceof CalendarDeletedEvent;
+			}));
 		$this->backend->deleteCalendar($calendars[0]['id']);
 		$calendars = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER);
-		$this->assertCount(0, $calendars);
+		self::assertEmpty($calendars);
 	}
 
 	public function testCalendarObjectsOperations() {
