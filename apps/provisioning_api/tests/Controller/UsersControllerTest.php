@@ -67,6 +67,7 @@ use OCP\L10N\IFactory;
 use OCP\Mail\IEMailTemplate;
 use OCP\Security\Events\GenerateSecurePasswordEvent;
 use OCP\Security\ISecureRandom;
+use OCP\User\Backend\ISetDisplayNameBackend;
 use OCP\UserInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
@@ -1445,6 +1446,10 @@ class UsersControllerTest extends TestCase {
 			->willReturn($targetUser);
 		$targetUser
 			->expects($this->once())
+			->method('getBackend')
+			->willReturn($this->createMock(ISetDisplayNameBackend::class));
+		$targetUser
+			->expects($this->once())
 			->method('setDisplayName')
 			->with('NewDisplayName');
 		$targetUser
@@ -1484,6 +1489,12 @@ class UsersControllerTest extends TestCase {
 			->method('getUID')
 			->willReturn('UID');
 
+		$backend = $this->createMock(UserInterface::class);
+		$targetUser
+			->expects($this->any())
+			->method('getBackend')
+			->willReturn($backend);
+
 		$this->assertEquals([], $this->api->editUser('UserToEdit', 'email', 'demo@nextcloud.com')->getData());
 	}
 
@@ -1517,6 +1528,12 @@ class UsersControllerTest extends TestCase {
 			->method('getUID')
 			->willReturn('UID');
 
+		$backend = $this->createMock(UserInterface::class);
+		$targetUser
+			->expects($this->any())
+			->method('getBackend')
+			->willReturn($backend);
+
 		$this->api->editUser('UserToEdit', 'email', 'demo.org');
 	}
 
@@ -1549,6 +1566,12 @@ class UsersControllerTest extends TestCase {
 			->method('get')
 			->with('UserToEdit')
 			->willReturn($loggedInUser);
+
+		$backend = $this->createMock(UserInterface::class);
+		$loggedInUser
+			->expects($this->any())
+			->method('getBackend')
+			->willReturn($backend);
 
 		$this->accountManager->expects($this->once())
 			->method('getUser')
@@ -1594,6 +1617,12 @@ class UsersControllerTest extends TestCase {
 			->with('UserToEdit')
 			->willReturn($loggedInUser);
 
+		$backend = $this->createMock(UserInterface::class);
+		$loggedInUser
+			->expects($this->any())
+			->method('getBackend')
+			->willReturn($backend);
+
 		$this->accountManager->expects($this->once())
 			->method('getUser')
 			->with($loggedInUser)
@@ -1638,6 +1667,12 @@ class UsersControllerTest extends TestCase {
 			->method('getUID')
 			->willReturn('UID');
 
+		$backend = $this->createMock(UserInterface::class);
+		$targetUser
+			->expects($this->any())
+			->method('getBackend')
+			->willReturn($backend);
+
 		$this->assertEquals([], $this->api->editUser('UserToEdit', 'password', 'NewPassword')->getData());
 	}
 
@@ -1671,6 +1706,12 @@ class UsersControllerTest extends TestCase {
 			->method('getUID')
 			->willReturn('UID');
 
+		$backend = $this->createMock(UserInterface::class);
+		$targetUser
+			->expects($this->any())
+			->method('getBackend')
+			->willReturn($backend);
+
 		$this->api->editUser('UserToEdit', 'quota', 'NewQuota');
 	}
 
@@ -1702,6 +1743,12 @@ class UsersControllerTest extends TestCase {
 			->expects($this->any())
 			->method('getUID')
 			->willReturn('UID');
+
+		$backend = $this->createMock(UserInterface::class);
+		$targetUser
+			->expects($this->any())
+			->method('getBackend')
+			->willReturn($backend);
 
 		$this->assertEquals([], $this->api->editUser('UserToEdit', 'quota', '3042824')->getData());
 	}
@@ -1737,6 +1784,12 @@ class UsersControllerTest extends TestCase {
 			->expects($this->any())
 			->method('getUID')
 			->willReturn('UID');
+
+		$backend = $this->createMock(UserInterface::class);
+		$targetUser
+			->expects($this->any())
+			->method('getBackend')
+			->willReturn($backend);
 
 		$this->api->editUser('UserToEdit', 'quota', 'ABC');
 	}
@@ -1776,6 +1829,12 @@ class UsersControllerTest extends TestCase {
 			->expects($this->any())
 			->method('getUID')
 			->willReturn('UID');
+
+		$backend = $this->createMock(UserInterface::class);
+		$targetUser
+			->expects($this->any())
+			->method('getBackend')
+			->willReturn($backend);
 
 		$this->assertEquals([], $this->api->editUser('UserToEdit', 'quota', '3042824')->getData());
 	}
@@ -1818,6 +1877,12 @@ class UsersControllerTest extends TestCase {
 			->expects($this->any())
 			->method('getUID')
 			->willReturn('UserToEdit');
+
+		$backend = $this->createMock(UserInterface::class);
+		$targetUser
+			->expects($this->any())
+			->method('getBackend')
+			->willReturn($backend);
 
 		$this->assertEquals([], $this->api->editUser('UserToEdit', 'language', 'de')->getData());
 	}
@@ -1869,6 +1934,12 @@ class UsersControllerTest extends TestCase {
 			->method('getUID')
 			->willReturn('UserToEdit');
 
+		$backend = $this->createMock(UserInterface::class);
+		$targetUser
+			->expects($this->any())
+			->method('getBackend')
+			->willReturn($backend);
+
 		$this->assertEquals([], $this->api->editUser('UserToEdit', 'language', 'de')->getData());
 	}
 
@@ -1909,6 +1980,12 @@ class UsersControllerTest extends TestCase {
 			->expects($this->any())
 			->method('getUID')
 			->willReturn('UserToEdit');
+
+		$backend = $this->createMock(UserInterface::class);
+		$targetUser
+			->expects($this->any())
+			->method('getBackend')
+			->willReturn($backend);
 
 		$this->assertEquals([], $this->api->editUser('UserToEdit', 'language', 'de')->getData());
 	}
@@ -1956,6 +2033,12 @@ class UsersControllerTest extends TestCase {
 			->method('getUID')
 			->willReturn('UserToEdit');
 
+		$backend = $this->createMock(UserInterface::class);
+		$targetUser
+			->expects($this->any())
+			->method('getBackend')
+			->willReturn($backend);
+
 		$this->assertEquals([], $this->api->editUser('UserToEdit', 'language', 'ru')->getData());
 	}
 
@@ -1994,6 +2077,12 @@ class UsersControllerTest extends TestCase {
 			->expects($this->any())
 			->method('getUID')
 			->willReturn('UID');
+
+		$backend = $this->createMock(UserInterface::class);
+		$targetUser
+			->expects($this->any())
+			->method('getBackend')
+			->willReturn($backend);
 
 		$this->assertEquals([], $this->api->editUser('UserToEdit', 'quota', '3042824')->getData());
 	}
@@ -3716,20 +3805,27 @@ class UsersControllerTest extends TestCase {
 
 	public function dataGetEditableFields() {
 		return [
-			[false, [
+			[false, ISetDisplayNameBackend::class, [
 				IAccountManager::PROPERTY_PHONE,
 				IAccountManager::PROPERTY_ADDRESS,
 				IAccountManager::PROPERTY_WEBSITE,
 				IAccountManager::PROPERTY_TWITTER,
 			]],
-			[ true, [
+			[true, ISetDisplayNameBackend::class, [
 				IAccountManager::PROPERTY_DISPLAYNAME,
 				IAccountManager::PROPERTY_EMAIL,
 				IAccountManager::PROPERTY_PHONE,
 				IAccountManager::PROPERTY_ADDRESS,
 				IAccountManager::PROPERTY_WEBSITE,
 				IAccountManager::PROPERTY_TWITTER,
-			]]
+			]],
+			[true, UserInterface::class, [
+				IAccountManager::PROPERTY_EMAIL,
+				IAccountManager::PROPERTY_PHONE,
+				IAccountManager::PROPERTY_ADDRESS,
+				IAccountManager::PROPERTY_WEBSITE,
+				IAccountManager::PROPERTY_TWITTER,
+			]],
 		];
 	}
 
@@ -3737,9 +3833,10 @@ class UsersControllerTest extends TestCase {
 	 * @dataProvider dataGetEditableFields
 	 *
 	 * @param bool $allowedToChangeDisplayName
+	 * @param string $userBackend
 	 * @param array $expected
 	 */
-	public function testGetEditableFields(bool $allowedToChangeDisplayName, array $expected) {
+	public function testGetEditableFields(bool $allowedToChangeDisplayName, string $userBackend, array $expected) {
 		$this->config
 			->method('getSystemValue')
 			->with(
@@ -3747,8 +3844,19 @@ class UsersControllerTest extends TestCase {
 				$this->anything()
 			)->willReturn($allowedToChangeDisplayName);
 
+		$user = $this->createMock(IUser::class);
+		$this->userSession->method('getUser')
+			->willReturn($user);
+
+		$backend = $this->createMock($userBackend);
+
+		$user->method('getUID')
+			->willReturn('userId');
+		$user->method('getBackend')
+			->willReturn($backend);
+
 		$expectedResp = new DataResponse($expected);
-		$this->assertEquals($expectedResp, $this->api->getEditableFields());
+		$this->assertEquals($expectedResp, $this->api->getEditableFields('userId'));
 	}
 
 	private function mockAccount($targetUser, $accountProperties) {
