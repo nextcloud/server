@@ -43,7 +43,14 @@
 				if (!scopeOnly) {
 					self._config.set(field, $('#' + field).val());
 				}
-				self._config.set(field + 'Scope', $('#' + field + 'scope').val());
+				// A scope could have been stored as null due to a previous bug.
+				// Null values should be kept as such until the user explicitly
+				// sets the right value, but they will be returned as empty
+				// strings in the template (which would overwrite the null value
+				// if sent). Due to this an extra class is needed to
+				// differentiate them.
+				var initialScopeValue = $('#' + field + 'scope').hasClass('corrupted-scope-value') ? undefined : $('#' + field + 'scope').val();
+				self._config.set(field + 'Scope', initialScopeValue);
 
 				// Set inputs whenever model values change
 				if (!scopeOnly) {
@@ -217,6 +224,12 @@
 					break;
 				case 'public':
 					$icon.addClass('icon-link');
+					$icon.removeClass('hidden');
+					break;
+				case '':
+				case null:
+				case undefined:
+					$icon.addClass('icon-error');
 					$icon.removeClass('hidden');
 					break;
 			}

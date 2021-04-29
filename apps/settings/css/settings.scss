@@ -372,6 +372,18 @@ select {
 						font-weight: bold;
 					}
 				}
+
+				&.disabled {
+					/* !important is needed to override important opacity of
+					 * ".popovermenu li > .menuitem.active" */
+					opacity: .5 !important;
+
+					cursor: default;
+
+					span {
+						cursor: default;
+					}
+				}
 			}
 		}
 	}
