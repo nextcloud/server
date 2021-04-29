@@ -31,6 +31,7 @@ use OC\KnownUser\KnownUserService;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Proxy\ProxyMapper;
 use OCA\DAV\Connector\Sabre\Principal;
+use OCA\DAV\Events\CalendarDeletedEvent;
 use OCP\App\IAppManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
@@ -133,11 +134,12 @@ abstract class AbstractCalDavBackend extends TestCase {
 
 	private function cleanupForPrincipal($principal): void {
 		$calendars = $this->backend->getCalendarsForUser($principal);
+		$this->legacyDispatcher->expects(self::exactly(count($calendars)))
+			->method('dispatchTyped')
+			->with(self::callback(function ($event) {
+				return $event instanceof CalendarDeletedEvent;
+			}));
 		foreach ($calendars as $calendar) {
-			$this->legacyDispatcher->expects($this->at(0))
-				->method('dispatch')
-				->with('\OCA\DAV\CalDAV\CalDavBackend::deleteCalendar');
-
 			$this->backend->deleteCalendar($calendar['id']);
 		}
 		$subscriptions = $this->backend->getSubscriptionsForUser($principal);

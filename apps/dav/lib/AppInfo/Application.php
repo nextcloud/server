@@ -40,7 +40,6 @@ use OCA\DAV\CalDAV\Activity\Provider\Event;
 use OCA\DAV\CalDAV\BirthdayService;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\CalendarManager;
-use OCA\DAV\CalDAV\Reminder\Backend as ReminderBackend;
 use OCA\DAV\CalDAV\Reminder\NotificationProvider\AudioProvider;
 use OCA\DAV\CalDAV\Reminder\NotificationProvider\EmailProvider;
 use OCA\DAV\CalDAV\Reminder\NotificationProvider\PushProvider;
@@ -53,11 +52,15 @@ use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\CardDAV\ContactsManager;
 use OCA\DAV\CardDAV\PhotoCache;
 use OCA\DAV\CardDAV\SyncService;
+use OCA\DAV\Events\CalendarDeletedEvent;
 use OCA\DAV\Events\CalendarObjectCreatedEvent;
 use OCA\DAV\Events\CalendarObjectUpdatedEvent;
 use OCA\DAV\Events\CalendarShareUpdatedEvent;
 use OCA\DAV\HookManager;
 use OCA\DAV\Listener\CalendarContactInteractionListener;
+use OCA\DAV\Listener\CalendarDeletionActivityUpdaterListener;
+use OCA\DAV\Listener\CalendarDeletionDefaultUpdaterListener;
+use OCA\DAV\Listener\CalendarDeletionReminderUpdaterListener;
 use OCA\DAV\Search\ContactsSearchProvider;
 use OCA\DAV\Search\EventsSearchProvider;
 use OCA\DAV\Search\TasksSearchProvider;
@@ -68,7 +71,6 @@ use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\AppFramework\IAppContainer;
 use OCP\Calendar\IManager as ICalendarManager;
 use OCP\Contacts\IManager as IContactsManager;
-use OCP\IConfig;
 use OCP\ILogger;
 use OCP\IServerContainer;
 use OCP\IUser;
@@ -77,7 +79,6 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Throwable;
 use function is_null;
-use function strpos;
 
 class Application extends App implements IBootstrap {
 	public const APP_ID = 'dav';
@@ -113,6 +114,9 @@ class Application extends App implements IBootstrap {
 		/**
 		 * Register event listeners
 		 */
+		$context->registerEventListener(CalendarDeletedEvent::class, CalendarDeletionActivityUpdaterListener::class);
+		$context->registerEventListener(CalendarDeletedEvent::class, CalendarDeletionReminderUpdaterListener::class);
+		$context->registerEventListener(CalendarDeletedEvent::class, CalendarDeletionDefaultUpdaterListener::class);
 		$context->registerEventListener(CalendarObjectCreatedEvent::class, CalendarContactInteractionListener::class);
 		$context->registerEventListener(CalendarObjectUpdatedEvent::class, CalendarContactInteractionListener::class);
 		$context->registerEventListener(CalendarShareUpdatedEvent::class, CalendarContactInteractionListener::class);
@@ -204,20 +208,6 @@ class Application extends App implements IBootstrap {
 				$event->getArgument('propertyMutations')
 			);
 		});
-		$dispatcher->addListener('\OCA\DAV\CalDAV\CalDavBackend::deleteCalendar', function (GenericEvent $event) use ($container) {
-			/** @var Backend $backend */
-			$backend = $container->query(Backend::class);
-			$backend->onCalendarDelete(
-				$event->getArgument('calendarData'),
-				$event->getArgument('shares')
-			);
-
-			/** @var ReminderBackend $reminderBackend */
-			$reminderBackend = $container->query(ReminderBackend::class);
-			$reminderBackend->cleanRemindersForCalendar(
-				(int) $event->getArgument('calendarId')
-			);
-		});
 		$dispatcher->addListener('\OCA\DAV\CalDAV\CalDavBackend::updateShares', function (GenericEvent $event) use ($container) {
 			/** @var Backend $backend */
 			$backend = $container->query(Backend::class);
@@ -268,22 +258,6 @@ class Application extends App implements IBootstrap {
 		$dispatcher->addListener('\OCA\DAV\CalDAV\CalDavBackend::createCalendarObject', $listener);
 		$dispatcher->addListener('\OCA\DAV\CalDAV\CalDavBackend::updateCalendarObject', $listener);
 		$dispatcher->addListener('\OCA\DAV\CalDAV\CalDavBackend::deleteCalendarObject', $listener);
-
-		/**
-		 * In case the user has set their default calendar to this one
-		 */
-		$dispatcher->addListener('\OCA\DAV\CalDAV\CalDavBackend::deleteCalendar', function (GenericEvent $event) use ($serverContainer) {
-			/** @var IConfig $config */
-			$config = $serverContainer->getConfig();
-			$principalUri = $event->getArgument('calendarData')['principaluri'];
-			if (strpos($principalUri, 'principals/users') === 0) {
-				[, $UID] = \Sabre\Uri\split($principalUri);
-				$uri = $event->getArgument('calendarData')['uri'];
-				if ($config->getUserValue($UID, 'dav', 'defaultCalendar') === $uri) {
-					$config->deleteUserValue($UID, 'dav', 'defaultCalendar');
-				}
-			}
-		});
 
 		$dispatcher->addListener('OCP\Federation\TrustedServerEvent::remove',
 			function (GenericEvent $event) {

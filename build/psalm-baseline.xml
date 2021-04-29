@@ -112,9 +112,6 @@
     </MissingFile>
   </file>
   <file src="apps/dav/lib/AppInfo/Application.php">
-    <UndefinedFunction occurrences="1">
-      <code>\Sabre\Uri\split($principalUri)</code>
-    </UndefinedFunction>
     <UndefinedInterfaceMethod occurrences="1">
       <code>getAppDataDir</code>
     </UndefinedInterfaceMethod>
@@ -164,13 +161,12 @@
     </NullableReturnStatement>
   </file>
   <file src="apps/dav/lib/CalDAV/CalDavBackend.php">
-    <InvalidArgument occurrences="14">
+    <InvalidArgument occurrences="13">
       <code>'\OCA\DAV\CalDAV\CalDavBackend::createCachedCalendarObject'</code>
       <code>'\OCA\DAV\CalDAV\CalDavBackend::createCalendar'</code>
       <code>'\OCA\DAV\CalDAV\CalDavBackend::createCalendarObject'</code>
       <code>'\OCA\DAV\CalDAV\CalDavBackend::createSubscription'</code>
       <code>'\OCA\DAV\CalDAV\CalDavBackend::deleteCachedCalendarObject'</code>
-      <code>'\OCA\DAV\CalDAV\CalDavBackend::deleteCalendar'</code>
       <code>'\OCA\DAV\CalDAV\CalDavBackend::deleteCalendarObject'</code>
       <code>'\OCA\DAV\CalDAV\CalDavBackend::deleteSubscription'</code>
       <code>'\OCA\DAV\CalDAV\CalDavBackend::publishCalendar'</code>
@@ -195,8 +191,7 @@
     <RedundantCast occurrences="1">
       <code>(int)$calendarId</code>
     </RedundantCast>
-    <TooManyArguments occurrences="15">
-      <code>dispatch</code>
+    <TooManyArguments occurrences="14">
       <code>dispatch</code>
       <code>dispatch</code>
       <code>dispatch</code>
@@ -860,6 +855,11 @@
       <code>$this-&gt;usersToDelete</code>
     </InvalidPropertyAssignmentValue>
   </file>
+  <file src="apps/dav/lib/Listener/CalendarDeletionDefaultUpdaterListener.php">
+    <UndefinedFunction occurrences="1">
+      <code>\Sabre\Uri\split($principalUri)</code>
+    </UndefinedFunction>
+  </file>
   <file src="apps/dav/lib/RootCollection.php">
     <UndefinedPropertyAssignment occurrences="1">
       <code>$publicCalendarRoot-&gt;disableListing</code>
@@ -1083,7 +1083,6 @@
       <code>string</code>
     </InvalidReturnType>
     <InvalidScalarArgument occurrences="5">
-      <code>$id</code>
       <code>$id</code>
       <code>$id</code>
       <code>$id</code>
@@ -3163,7 +3162,6 @@
       <code>'\OC\DB\Migrator::executeSql'</code>
     </InvalidArgument>
     <TooManyArguments occurrences="1">
-      <code>dispatch</code>
       <code>dispatch</code>
     </TooManyArguments>
   </file>

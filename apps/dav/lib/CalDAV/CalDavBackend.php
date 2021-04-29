@@ -890,14 +890,6 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		$calendarData = $this->getCalendarById($calendarId);
 		$shares = $this->getShares($calendarId);
 
-		$this->legacyDispatcher->dispatch('\OCA\DAV\CalDAV\CalDavBackend::deleteCalendar', new GenericEvent(
-			'\OCA\DAV\CalDAV\CalDavBackend::deleteCalendar',
-			[
-				'calendarId' => $calendarId,
-				'calendarData' => $calendarData,
-				'shares' => $shares,
-			]));
-
 		$stmt = $this->db->prepare('DELETE FROM `*PREFIX*calendarobjects` WHERE `calendarid` = ? AND `calendartype` = ?');
 		$stmt->execute([$calendarId, self::CALENDAR_TYPE_CALENDAR]);
 
@@ -915,6 +907,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			->andWhere($query->expr()->eq('calendartype', $query->createNamedParameter(self::CALENDAR_TYPE_CALENDAR)))
 			->executeUpdate();
 
+		// Only dispatch if we actually deleted anything
 		if ($calendarData) {
 			$this->dispatcher->dispatchTyped(new CalendarDeletedEvent((int)$calendarId, $calendarData, $shares));
 		}
