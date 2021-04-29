@@ -71,6 +71,7 @@ use OCP\L10N\IFactory;
 use OCP\Security\ISecureRandom;
 use OCP\Security\Events\GenerateSecurePasswordEvent;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\User\Backend\ISetDisplayNameBackend;
 
 class UsersController extends AUserData {
 
@@ -533,7 +534,7 @@ class UsersController extends AUserData {
 	public function getEditableFields(?string $userId = null): DataResponse {
 		$currentLoggedInUser = $this->userSession->getUser();
 		if (!$currentLoggedInUser instanceof IUser) {
-			throw new OCSException('', OCSController::RESPOND_NOT_FOUND);
+			throw new OCSException('', \OCP\API::RESPOND_NOT_FOUND);
 		}
 
 		$permittedFields = [];
@@ -541,13 +542,13 @@ class UsersController extends AUserData {
 		if ($userId !== $currentLoggedInUser->getUID()) {
 			$targetUser = $this->userManager->get($userId);
 			if (!$targetUser instanceof IUser) {
-				throw new OCSException('', OCSController::RESPOND_NOT_FOUND);
+				throw new OCSException('', \OCP\API::RESPOND_NOT_FOUND);
 			}
 
 			$subAdminManager = $this->groupManager->getSubAdmin();
 			if (!$this->groupManager->isAdmin($currentLoggedInUser->getUID())
 				&& !$subAdminManager->isUserAccessible($currentLoggedInUser, $targetUser)) {
-				throw new OCSException('', OCSController::RESPOND_NOT_FOUND);
+				throw new OCSException('', \OCP\API::RESPOND_NOT_FOUND);
 			}
 		} else {
 			$targetUser = $currentLoggedInUser;
