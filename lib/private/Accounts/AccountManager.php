@@ -93,6 +93,14 @@ class AccountManager implements IAccountManager {
 	public function updateUser(IUser $user, $data) {
 		$userData = $this->getUser($user);
 		$updated = true;
+
+		// set a max length
+		foreach ($data as $propertyName => $propertyData) {
+			if (isset($data[$propertyName]) && isset($data[$propertyName]['value']) && strlen($data[$propertyName]['value']) > 2048) {
+				$data[$propertyName]['value'] = '';
+			}
+		}
+
 		if (empty($userData)) {
 			$this->insertNewUser($user, $data);
 		} elseif ($userData !== $data) {
