@@ -154,11 +154,20 @@ class AddressBookImplTest extends TestCase {
 			->setMethods(['vCard2Array', 'createUid', 'createEmptyVCard'])
 			->getMock();
 
+		$expectedProperties = 0;
+		foreach ($properties as $data) {
+			if (is_string($data)) {
+				$expectedProperties++;
+			} else {
+				$expectedProperties += count($data);
+			}
+		}
+
 		$addressBookImpl->expects($this->once())->method('createUid')
 			->willReturn($uid);
 		$addressBookImpl->expects($this->once())->method('createEmptyVCard')
 			->with($uid)->willReturn($this->vCard);
-		$this->vCard->expects($this->exactly(count($properties)))
+		$this->vCard->expects($this->exactly($expectedProperties))
 			->method('createProperty');
 		$this->backend->expects($this->once())->method('createCard');
 		$this->backend->expects($this->never())->method('updateCard');
@@ -172,7 +181,8 @@ class AddressBookImplTest extends TestCase {
 	public function dataTestCreate() {
 		return [
 			[[]],
-			[['FN' => 'John Doe']]
+			[['FN' => 'John Doe']],
+			[['FN' => 'John Doe', 'EMAIL' => ['john@doe.cloud', 'john.doe@example.org']]],
 		];
 	}
 
