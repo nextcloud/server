@@ -55,7 +55,7 @@ try {
 		OC_Template::printExceptionErrorPage($ex, 500);
 	}
 } catch (\OC\User\LoginException $ex) {
-	OC_Template::printErrorPage($ex->getMessage(), $ex->getMessage(), 403);
+	OC_Template::printErrorPage($ex->getMessage(), $ex->getMessage(), 401);
 } catch (Exception $ex) {
 	\OC::$server->getLogger()->logException($ex, ['app' => 'index']);
 
