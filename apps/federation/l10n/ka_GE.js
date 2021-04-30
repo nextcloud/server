@@ -10,7 +10,6 @@ OC.L10N.register(
     "Trusted servers" : "სანდო სერვერები",
     "+ Add trusted server" : "+ სანდო სერვერის დამატება",
     "Trusted server" : "სანდო სერვერი",
-    "Add" : "დამატება",
-    "Add server automatically once a federated share was created successfully" : "სერვერის ავტომატურად დამატება, როდესაც ფედერალური გაზიარება წარმატებით შეიქმნება"
+    "Add" : "დამატება"
 },
 "nplurals=2; plural=(n!=1);");

@@ -10,7 +10,6 @@
     "Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing. It is not necessary to add a server as trusted server in order to create a federated share." : "Федерация позволяет подключаться к другим доверенным серверам для обмена каталогом пользователей. Например, это будет использоваться для автоматического заполнения внешних пользователей для федеративного общего доступа. Нет необходимости добавлять сервер в качестве доверенного сервера для создания федеративного общего ресурса.",
     "+ Add trusted server" : "+ Добавить доверенный сервер",
     "Trusted server" : "Доверенный сервер",
-    "Add" : "Добавить",
-    "Add server automatically once a federated share was created successfully" : "Добавить сервер автоматически после успешного создания  федеративного ресурса общего доступа"
+    "Add" : "Добавить"
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }

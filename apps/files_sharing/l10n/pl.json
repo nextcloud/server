@@ -101,6 +101,7 @@
     "Please specify a file or folder path" : "Podaj ścieżkę do pliku lub katalogu",
     "Wrong path, file/folder doesn't exist" : "Ścieżka nieprawidłowa, plik/katalog nie istnieje",
     "Could not create share" : "Nie można utworzyć udostępnienia",
+    "Invalid permissions" : "Nieprawidłowe uprawnienia",
     "Please specify a valid user" : "Podaj prawidłowego użytkownika",
     "Group sharing is disabled by the administrator" : "Udostępnianie grupowe jest wyłączone przez administratora",
     "Please specify a valid group" : "Podaj prawidłową grupę",

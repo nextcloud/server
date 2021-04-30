@@ -60,7 +60,7 @@ OC.L10N.register(
     "Delete" : "Usuń",
     "Reset" : "Reset",
     "No files in here" : "Brak plików",
-    "No entries found in this folder" : "Brak wpisów w tym folderze",
+    "No entries found in this folder" : "Brak wpisów w tym katalogu",
     "Size" : "Rozmiar",
     "Modified" : "Modyfikacja"
 },

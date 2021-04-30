@@ -103,6 +103,7 @@ OC.L10N.register(
     "Please specify a file or folder path" : "Por favor especifique um arquivo ou um caminho de pasta",
     "Wrong path, file/folder doesn't exist" : "Caminho errado, o arquivo ou pasta não existe",
     "Could not create share" : "Não foi possível criar o compartilhamento",
+    "Invalid permissions" : "Permissões inválidas",
     "Please specify a valid user" : "Por favor especifique um usuário válido",
     "Group sharing is disabled by the administrator" : "O compartilhamento para grupos foi desabilitado pelo administrador",
     "Please specify a valid group" : "Por favor especifique um grupo válido",

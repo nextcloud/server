@@ -103,6 +103,7 @@ OC.L10N.register(
     "Please specify a file or folder path" : "請指定檔案或資料夾路徑",
     "Wrong path, file/folder doesn't exist" : "錯誤的路徑，該檔案或資料夾不存在",
     "Could not create share" : "無法建立分享",
+    "Invalid permissions" : "無效的權限",
     "Please specify a valid user" : "請指定有效使用者",
     "Group sharing is disabled by the administrator" : "群組分享已被管理員停用",
     "Please specify a valid group" : "請指定有效的群組",

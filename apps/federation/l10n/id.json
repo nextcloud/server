@@ -8,7 +8,6 @@
     "Trusted servers" : "Server terpercaya",
     "+ Add trusted server" : "+ Tambah server terpercaya",
     "Trusted server" : "Server terpercaya",
-    "Add" : "Tambah",
-    "Add server automatically once a federated share was created successfully" : "Tambah server secara otomatis saat pembagian terfederasi dibuat"
+    "Add" : "Tambah"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

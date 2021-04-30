@@ -12,7 +12,6 @@ OC.L10N.register(
     "Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing. It is not necessary to add a server as trusted server in order to create a federated share." : "La Federación le permite conectarse con otros servidores de confianza para intercambiar el directorio de usuarios. Por ejemplo, esto se utilizará para autocompletar a los usuarios externos para el intercambio federado. No es necesario añadir un servidor como servidor de confianza para crear una recurso compartido federado.",
     "+ Add trusted server" : "+ Añadir servidor de confianza",
     "Trusted server" : "Servidor de confianza",
-    "Add" : "Añadir",
-    "Add server automatically once a federated share was created successfully" : "Añadir el servidor automáticamente una vez que un compartido federado se haya creado exitosamente"
+    "Add" : "Añadir"
 },
 "nplurals=2; plural=(n != 1);");

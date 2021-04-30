@@ -10,7 +10,6 @@ OC.L10N.register(
     "Trusted servers" : "Servera të besuar",
     "+ Add trusted server" : "+ Shto server-a të besuar",
     "Trusted server" : "Server i besuar",
-    "Add" : "Shto",
-    "Add server automatically once a federated share was created successfully" : "Shtoje vetvetiu server-in pasi të jetë krijuar me sukses një ndarje e federuar"
+    "Add" : "Shto"
 },
 "nplurals=2; plural=(n != 1);");
