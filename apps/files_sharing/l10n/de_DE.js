@@ -103,6 +103,7 @@ OC.L10N.register(
     "Please specify a file or folder path" : "Bitte Datei oder Ordner-Pfad eingeben",
     "Wrong path, file/folder doesn't exist" : "Falscher Pfad, Datei/Ordner existiert nicht",
     "Could not create share" : "Freigabe konnte nicht erstellt werden",
+    "Invalid permissions" : "Ungültige Berechtigungen",
     "Please specify a valid user" : "Bitte geben Sie einen gültigen Benutzer an",
     "Group sharing is disabled by the administrator" : "Die Gruppenfreigabe ist durch den Administrator deaktiviert",
     "Please specify a valid group" : "Bitte geben Sie eine gültige Gruppe an",

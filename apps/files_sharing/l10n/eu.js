@@ -103,6 +103,7 @@ OC.L10N.register(
     "Please specify a file or folder path" : "Zehaztu fitxategi edo karpetaren bide bat",
     "Wrong path, file/folder doesn't exist" : "Bide okerra, fitxategia/karpeta ez da existitzen",
     "Could not create share" : "Ezin izan da partekatzea sortu",
+    "Invalid permissions" : "Baimen baliogabeak",
     "Please specify a valid user" : "Zehaztu baliozko erabiltzaile bat",
     "Group sharing is disabled by the administrator" : "Administratzaileak taldeekin partekatzea desgaitu du",
     "Please specify a valid group" : "Zehaztu baliozko talde bat",
