@@ -11,7 +11,6 @@ OC.L10N.register(
     "Trusted servers" : "Luotetut palvelimet",
     "+ Add trusted server" : "+ Lisää luotettu palvelin",
     "Trusted server" : "Luotettu palvelin",
-    "Add" : "Lisää",
-    "Add server automatically once a federated share was created successfully" : "Lisää palvelin automaattisesti, kun federoitu jako on luotu onnistuneesti"
+    "Add" : "Lisää"
 },
 "nplurals=2; plural=(n != 1);");

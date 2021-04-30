@@ -103,6 +103,7 @@ OC.L10N.register(
     "Please specify a file or folder path" : "Določiti je treba datoteko ali pot do mape",
     "Wrong path, file/folder doesn't exist" : "Napačna pot; datoteka ali mapa ne obstaja",
     "Could not create share" : "Mesta souporabe ni mogoče ustvariti",
+    "Invalid permissions" : "Neustrezna dovoljenja",
     "Please specify a valid user" : "Navesti je treba veljavnega uporabnika.",
     "Group sharing is disabled by the administrator" : "Skupinska souporaba je skrbniško onemogočena",
     "Please specify a valid group" : "Navesti je treba veljavno skupino",

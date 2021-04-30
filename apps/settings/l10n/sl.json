@@ -82,6 +82,7 @@
     "Unable to change full name" : "Ni mogoče spremeniti polnega imena",
     "Unable to change email address" : "Ni mogoče spremeniti elektronskega naslova",
     "Unable to set invalid phone number" : "Ni mogoče nastaviti neveljavne telefonske številke",
+    "Unable to set invalid website" : "Ni mogoče nastaviti neveljavnega spletnega mesta",
     "Some account data was invalid" : "Nekateri podatki računa niso veljavni",
     "In order to verify your Twitter account, post the following tweet on Twitter (please make sure to post it without any line breaks):" : "Za overitev računa Twitter, objavite sporočilo (prepričajte se, da ni nobenega preloma vrstice):",
     "In order to verify your Website, store the following content in your web-root at '.well-known/CloudIdVerificationCode.txt' (please make sure that the complete text is in one line):" : "Za overitev spletne strani, shranite navedeno vsebino v spletni korenski mapi v ».well-known/CloudIdVerificationCode.txt« (prepričajte se, da je celotno besedilo v eni vrstici): ",

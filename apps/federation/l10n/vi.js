@@ -11,7 +11,6 @@ OC.L10N.register(
     "Trusted servers" : "Các máy chủ được tin tưởng",
     "+ Add trusted server" : "+ Thêm máy chủ được tin cậy",
     "Trusted server" : "Máy chủ được tin cậy",
-    "Add" : "Thêm",
-    "Add server automatically once a federated share was created successfully" : "Thêm máy chủ một cách tự động mỗi khi một chia sẻ Liên Bang được tạo thành công"
+    "Add" : "Thêm"
 },
 "nplurals=1; plural=0;");

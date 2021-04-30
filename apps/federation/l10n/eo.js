@@ -11,7 +11,6 @@ OC.L10N.register(
     "Trusted servers" : "Fidindaj serviloj",
     "+ Add trusted server" : "+ Aldoni fidindan servilon",
     "Trusted server" : "Fidinda servilo",
-    "Add" : "Aldoni",
-    "Add server automatically once a federated share was created successfully" : "Aldoni servilon aŭtomate, kiam federa kunhavo sukcese kreiĝis"
+    "Add" : "Aldoni"
 },
 "nplurals=2; plural=(n != 1);");
