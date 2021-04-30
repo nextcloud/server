@@ -118,6 +118,7 @@
     "Files can’t be shared with delete permissions" : "削除権限つきでファイルを共有できません。",
     "Files can’t be shared with create permissions" : "作成権限つきでファイルを共有できません。",
     "Expiration date is in the past" : "有効期限が切れています",
+    "_Can’t set expiration date more than %n day in the future_::_Can’t set expiration date more than %n days in the future_" : ["有効期限を%n日以降に設定できません。"],
     "Sharing is only allowed with group members" : "共有はグループメンバーにのみ許可されます",
     "Sharing %s failed, because this item is already shared with user %s" : "このアイテム%sはすでにユーザー%sと共有されているため、共有に失敗しました",
     "%1$s shared »%2$s« with you" : "%1$s は »%2$s« をあなたと共有しました",

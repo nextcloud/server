@@ -10,7 +10,6 @@ OC.L10N.register(
     "Trusted servers" : "Server terpercaya",
     "+ Add trusted server" : "+ Tambah server terpercaya",
     "Trusted server" : "Server terpercaya",
-    "Add" : "Tambah",
-    "Add server automatically once a federated share was created successfully" : "Tambah server secara otomatis saat pembagian terfederasi dibuat"
+    "Add" : "Tambah"
 },
 "nplurals=1; plural=0;");

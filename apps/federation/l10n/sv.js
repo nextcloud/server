@@ -11,7 +11,6 @@ OC.L10N.register(
     "Trusted servers" : "Betrodda servrar",
     "+ Add trusted server" : "+ Lägg till betrodd server",
     "Trusted server" : "Betrodd server",
-    "Add" : "Lägg till",
-    "Add server automatically once a federated share was created successfully" : "Lägg till servern automatiskt så fort en lyckad federerad delning skapats"
+    "Add" : "Lägg till"
 },
 "nplurals=2; plural=(n != 1);");

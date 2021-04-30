@@ -101,6 +101,7 @@
     "Please specify a file or folder path" : "Por favor, especifica la ubicación de un archivo o carpeta",
     "Wrong path, file/folder doesn't exist" : "Ubicación incorrecta, el archivo/carpeta no existe",
     "Could not create share" : "No se ha podido compartir",
+    "Invalid permissions" : "Permisos no válidos",
     "Please specify a valid user" : "Por favor, especifica un usuario válido",
     "Group sharing is disabled by the administrator" : "Compartir en grupo está deshabilitado por el administrador",
     "Please specify a valid group" : "Por favor, especifica un grupo válido",

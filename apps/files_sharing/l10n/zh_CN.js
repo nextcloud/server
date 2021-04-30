@@ -103,6 +103,7 @@ OC.L10N.register(
     "Please specify a file or folder path" : "请指定一个文件或文件夹路径",
     "Wrong path, file/folder doesn't exist" : "路径错误，文件或文件夹不存在",
     "Could not create share" : "无法创建共享",
+    "Invalid permissions" : "无效的权限 ",
     "Please specify a valid user" : "请指定一个有效的用户",
     "Group sharing is disabled by the administrator" : "群组共享已被管理员禁用",
     "Please specify a valid group" : "请指定一个有效的组",
