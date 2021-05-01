@@ -57,6 +57,10 @@ class QuoteHelper {
 		if ($string === null || $string === 'null' || $string === '*') {
 			return $string;
 		}
+		
+		if ($string instanceof \Doctrine\DBAL\Schema\Column) {
+			return $string->getName();
+		}
 
 		if (!is_string($string)) {
 			throw new \InvalidArgumentException('Only strings, Literals and Parameters are allowed');
