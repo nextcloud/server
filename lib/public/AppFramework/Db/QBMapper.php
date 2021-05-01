@@ -223,10 +223,10 @@ abstract class QBMapper {
 	 * @param Entity $entity   The entity to get the types from
 	 * @psalm-param T $entity
 	 * @param string $property The property of $entity to get the type for
-	 * @return int
+	 * @return int|string
 	 * @since 16.0.0
 	 */
-	protected function getParameterTypeForProperty(Entity $entity, string $property): int {
+	protected function getParameterTypeForProperty(Entity $entity, string $property) {
 		$types = $entity->getFieldTypes();
 
 		if (!isset($types[ $property ])) {
@@ -244,6 +244,8 @@ abstract class QBMapper {
 				return IQueryBuilder::PARAM_BOOL;
 			case 'blob':
 				return IQueryBuilder::PARAM_LOB;
+			case 'datetime':
+				return IQueryBuilder::PARAM_DATE;
 		}
 
 		return IQueryBuilder::PARAM_STR;
