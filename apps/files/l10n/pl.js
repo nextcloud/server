@@ -84,7 +84,7 @@ OC.L10N.register(
     "External storage \"{mountPoint}\" is full, files can not be updated or synced anymore!" : "Pamięć zewnętrzna \"{mountPoint}\" jest pełna. Nie można już aktualizować ani synchronizować plików!",
     "Your storage is full, files can not be updated or synced anymore!" : "Magazyn jest pełny. Nie można już zaktualizować ani zsynchronizować plików!",
     "Storage of {owner} is almost full ({usedSpacePercent}%)." : "Magazyn dla {owner} jest pawie pełny ({usedSpacePercent}%).",
-    "Group folder \"{mountPoint}\" is almost full ({usedSpacePercent}%)." : "Folder grupowy \"{mountPoint}\" jest prawie pełny ({usedSpacePercent}%).",
+    "Group folder \"{mountPoint}\" is almost full ({usedSpacePercent}%)." : "Katalog grupowy \"{mountPoint}\" jest prawie pełny ({usedSpacePercent}%).",
     "External storage \"{mountPoint}\" is almost full ({usedSpacePercent}%)." : "Pamięć zewnętrzna \"{mountPoint}\" jest prawie pełna ({usedSpacePercent}%).",
     "Your storage is almost full ({usedSpacePercent}%)." : "Twój magazyn jest prawie pełny ({usedSpacePercent}%).",
     "_matches '{filter}'_::_match '{filter}'_" : ["pasujący '{filter}'","pasujące '{filter}'","pasujących '{filter}'","pasujących '{filter}'"],
