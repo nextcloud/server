@@ -5,6 +5,7 @@ OC.L10N.register(
     "File is too big" : "Фајл је превелик",
     "The selected file is not an image." : "Изабрани фајл није слика.",
     "The selected file cannot be read." : "Није могуће читати изабрани фајл.",
+    "The file was uploaded" : "Фајл је отпремљен",
     "Invalid file provided" : "Понуђени фајл није исправан",
     "No image or file provided" : "Нису понуђени ни слика ни фајл",
     "Unknown filetype" : "Непознат тип фајла",

@@ -27,7 +27,7 @@ OC.L10N.register(
     "%s accessed %s" : "%s(e)k %s atzitu du",
     "%s renamed %s" : "%s(e)k %s izenez aldatu du",
     "%s copied %s" : "%s(e)k %s kopiatu du",
-    "%s assigned %s to %s" : "%s(e)k %s esleitu dio %s(e)ri",
+    "%s assigned %s to %s" : "%s(e)k %s esleitu dio %s(r)i",
     "Operation #%s does not exist" : "Ez dago #%s eragiketarik",
     "Entity %s does not exist" : "Ez dago %s entitaterik",
     "Entity %s is invalid" : "%s entitatea baliogabea da",
