@@ -8,6 +8,7 @@ OC.L10N.register(
     "Error loading {name}" : "S'ha produït un error en carregar {name}",
     "Your browser does not support videos." : "El vostre navegador web no és compatible amb els vídeos.",
     "Open sidebar" : "Obre la barra lateral",
+    "Download" : "Baixa",
     "Delete" : "Suprimeix",
     "There is no plugin available to display this file type" : "No hi ha cap connector disponible per a mostrar aquest tipus de fitxer",
     "View" : "Visualitza"
