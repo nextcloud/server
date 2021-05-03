@@ -27,6 +27,8 @@ use OCP\DB\QueryBuilder\ILiteral;
 use OCP\DB\QueryBuilder\IParameter;
 use OCP\DB\QueryBuilder\IQueryFunction;
 
+use Doctrine\DBAL\Schema\Column;
+
 class QuoteHelper {
 	/**
 	 * @param array|string|ILiteral|IParameter|IQueryFunction $strings string, Literal or Parameter
