@@ -16,8 +16,9 @@
         "ext-libxml": "*",
         "ext-pdo": "*",
         "ext-simplexml": "*",
-        "ext-xmlreader": "*"
-	},
+        "ext-xmlreader": "*",
+        "ext-zip": "*"
+    },
     "require-dev": {
         "nextcloud/coding-standard": "^0.5.0",
         "vimeo/psalm": "^4.0"

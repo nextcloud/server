@@ -19,6 +19,7 @@ jobs:
         uses: docker://vimeo/psalm-github-actions
         continue-on-error: true
         with:
+          composer_ignore_platform_reqs: false
           report_file: results.sarif
       - name: Upload Analysis results to GitHub
         uses: github/codeql-action/upload-sarif@v1
