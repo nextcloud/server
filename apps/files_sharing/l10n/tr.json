@@ -101,6 +101,7 @@
     "Please specify a file or folder path" : "Lütfen bir dosya ya da klasör yolu belirtin",
     "Wrong path, file/folder doesn't exist" : "Yol yanlış. Dosya ya da klasör bulunamadı",
     "Could not create share" : "Paylaşılamadı",
+    "Invalid permissions" : "İzinler geçersiz",
     "Please specify a valid user" : "Lütfen geçerli bir kullanıcı belirtin",
     "Group sharing is disabled by the administrator" : "Grup paylaşımı BT yöneticisi tarafından devre dışı bırakılmış",
     "Please specify a valid group" : "Lütfen geçerli bir grup belirtin",
