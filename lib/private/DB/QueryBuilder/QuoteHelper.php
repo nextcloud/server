@@ -58,7 +58,7 @@ class QuoteHelper {
 			return $string;
 		}
 		
-		if ($string instanceof \Doctrine\DBAL\Schema\Column) {
+		if ($string instanceof Column) {
 			return $string->getName();
 		}
 
