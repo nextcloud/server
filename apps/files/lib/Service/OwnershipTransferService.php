@@ -100,12 +100,15 @@ class OwnershipTransferService {
 		$destinationUid = $destinationUser->getUID();
 		$sourcePath = rtrim($sourceUid . '/files/' . $path, '/');
 
-		// target user has to be ready
-		if ($destinationUser->getLastLogin() === 0 || !$this->encryptionManager->isReadyForUser($destinationUid)) {
+		// If encryption is on we have to ensure the user has logged in before and that all encryption modules are ready
+		if (($this->encryptionManager->isEnabled() && $destinationUser->getLastLogin() === 0)
+			|| !$this->encryptionManager->isReadyForUser($destinationUid)) {
 			throw new TransferOwnershipException("The target user is not ready to accept files. The user has at least to have logged in once.", 2);
 		}
 
 		// setup filesystem
+		// Requesting the user folder will set it up if the user hasn't logged in before
+		\OC::$server->getUserFolder($destinationUser->getUID());
 		Filesystem::initMountPoints($sourceUid);
 		Filesystem::initMountPoints($destinationUid);
 
