@@ -22,6 +22,8 @@
  */
 namespace OCP\Files\Cache;
 
+use OCP\DB\QueryBuilder\ICompositeExpression;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\Search\ISearchQuery;
 
 /**
@@ -264,4 +266,31 @@ interface ICache {
 	 * @since 9.0.0
 	 */
 	public function normalize($path);
+
+	/**
+	 * Get the query expression required to filter files within this storage.
+	 *
+	 * In the most basic case this is just `$builder->expr()->eq('storage', $this->getNumericStorageId())`
+	 * but storage wrappers can add additional expressions to filter down things further
+	 *
+	 * @param IQueryBuilder $builder
+	 * @return string|ICompositeExpression
+	 * @since 22.0.0
+	 */
+	public function getQueryFilterForStorage(IQueryBuilder $builder);
+
+	/**
+	 * Construct a cache entry from a search result row *if* the entry belongs to this storage.
+	 *
+	 * This method will be called for every item in the search results, including results from different storages.
+	 * It's the responsibility of this method to return `null` for all results that don't belong to this storage.
+	 *
+	 * Additionally some implementations might need to further process the resulting entry such as modifying the path
+	 * or permissions of the result.
+	 *
+	 * @param ICacheEntry $rawEntry
+	 * @return ICacheEntry|null
+	 * @since 22.0.0
+	 */
+	public function getCacheEntryFromSearchResult(ICacheEntry $rawEntry): ?ICacheEntry;
 }

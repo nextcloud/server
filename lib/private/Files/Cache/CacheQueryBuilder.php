@@ -35,13 +35,10 @@ use OCP\ILogger;
  * Query builder with commonly used helpers for filecache queries
  */
 class CacheQueryBuilder extends QueryBuilder {
-	private $cache;
 	private $alias = null;
 
-	public function __construct(IDBConnection $connection, SystemConfig $systemConfig, ILogger $logger, Cache $cache) {
+	public function __construct(IDBConnection $connection, SystemConfig $systemConfig, ILogger $logger) {
 		parent::__construct($connection, $systemConfig, $logger);
-
-		$this->cache = $cache;
 	}
 
 	public function selectFileCache(string $alias = null) {
@@ -56,8 +53,8 @@ class CacheQueryBuilder extends QueryBuilder {
 		return $this;
 	}
 
-	public function whereStorageId() {
-		$this->andWhere($this->expr()->eq('storage', $this->createNamedParameter($this->cache->getNumericStorageId(), IQueryBuilder::PARAM_INT)));
+	public function whereStorageId(int $storageId) {
+		$this->andWhere($this->expr()->eq('storage', $this->createNamedParameter($storageId, IQueryBuilder::PARAM_INT)));
 
 		return $this;
 	}

@@ -31,6 +31,7 @@ namespace OCA\Files_Sharing;
 use OC\Files\Cache\FailedCache;
 use OC\Files\Cache\Wrapper\CacheJail;
 use OC\Files\Storage\Wrapper\Jail;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\StorageNotAvailableException;
 
@@ -181,19 +182,18 @@ class Cache extends CacheJail {
 		// Not a valid action for Shared Cache
 	}
 
-	public function search($pattern) {
-		// Do the normal search on the whole storage for non files
+	public function getQueryFilterForStorage(IQueryBuilder $builder) {
+		// Do the normal jail behavior for non files
 		if ($this->storage->getItemType() !== 'file') {
-			return parent::search($pattern);
+			return parent::getQueryFilterForStorage($builder);
 		}
 
-		$regex = '/' . str_replace('%', '.*', $pattern) . '/i';
-
-		$data = $this->get('');
-		if (preg_match($regex, $data->getName()) === 1) {
-			return [$data];
-		}
-
-		return [];
+		// for single file shares we don't need to do the LIKE
+		return $builder->expr()->andX(
+			parent::getQueryFilterForStorage($builder),
+			$builder->expr()->orX(
+				$builder->expr()->eq('path_hash', $builder->createNamedParameter(md5($this->getGetUnjailedRoot()))),
+			)
+		);
 	}
 }

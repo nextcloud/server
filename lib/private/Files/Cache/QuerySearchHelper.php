@@ -25,12 +25,17 @@
  */
 namespace OC\Files\Cache;
 
+use OC\SystemConfig;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\Files\Cache\ICache;
 use OCP\Files\IMimeTypeLoader;
 use OCP\Files\Search\ISearchBinaryOperator;
 use OCP\Files\Search\ISearchComparison;
 use OCP\Files\Search\ISearchOperator;
 use OCP\Files\Search\ISearchOrder;
+use OCP\Files\Search\ISearchQuery;
+use OCP\IDBConnection;
+use OCP\ILogger;
 
 /**
  * Tools for transforming search queries into database queries
@@ -58,14 +63,23 @@ class QuerySearchHelper {
 
 	/** @var IMimeTypeLoader */
 	private $mimetypeLoader;
+	/** @var IDBConnection */
+	private $connection;
+	/** @var SystemConfig */
+	private $systemConfig;
+	/** @var ILogger */
+	private $logger;
 
-	/**
-	 * QuerySearchUtil constructor.
-	 *
-	 * @param IMimeTypeLoader $mimetypeLoader
-	 */
-	public function __construct(IMimeTypeLoader $mimetypeLoader) {
+	public function __construct(
+		IMimeTypeLoader $mimetypeLoader,
+		IDBConnection $connection,
+		SystemConfig $systemConfig,
+		ILogger $logger
+	) {
 		$this->mimetypeLoader = $mimetypeLoader;
+		$this->connection = $connection;
+		$this->systemConfig = $systemConfig;
+		$this->logger = $logger;
 	}
 
 	/**
@@ -226,5 +240,98 @@ class QuerySearchHelper {
 		foreach ($orders as $order) {
 			$query->addOrderBy($order->getField(), $order->getDirection());
 		}
+	}
+
+	protected function getQueryBuilder() {
+		return new CacheQueryBuilder(
+			$this->connection,
+			$this->systemConfig,
+			$this->logger
+		);
+	}
+
+	/**
+	 * @param ISearchQuery $searchQuery
+	 * @param ICache[] $caches
+	 * @return CacheEntry[]
+	 */
+	public function searchInCaches(ISearchQuery $searchQuery, array $caches): array {
+		// search in multiple caches at once by creating one query in the following format
+		// SELECT ... FROM oc_filecache WHERE
+		//     <filter expressions from the search query>
+		// AND (
+		//     <filter expression for storage1> OR
+		//     <filter expression for storage2> OR
+		//     ...
+		// );
+		//
+		// This gives us all the files matching the search query from all caches
+		//
+		// while the resulting rows don't have a way to tell what storage they came from (multiple storages/caches can share storage_id)
+		// we can just ask every cache if the row belongs to them and give them the cache to do any post processing on the result.
+
+		$builder = $this->getQueryBuilder();
+
+		$query = $builder->selectFileCache('file');
+
+		$storageFilters = array_map(function (ICache $cache) use ($builder) {
+			return $cache->getQueryFilterForStorage($builder);
+		}, $caches);
+
+		$query->andWhere($query->expr()->orX(...$storageFilters));
+
+		if ($this->shouldJoinTags($searchQuery->getSearchOperation())) {
+			$user = $searchQuery->getUser();
+			if ($user === null) {
+				throw new \InvalidArgumentException("Searching by tag requires the user to be set in the query");
+			}
+			$query
+				->innerJoin('file', 'vcategory_to_object', 'tagmap', $builder->expr()->eq('file.fileid', 'tagmap.objid'))
+				->innerJoin('tagmap', 'vcategory', 'tag', $builder->expr()->andX(
+					$builder->expr()->eq('tagmap.type', 'tag.type'),
+					$builder->expr()->eq('tagmap.categoryid', 'tag.id')
+				))
+				->andWhere($builder->expr()->eq('tag.type', $builder->createNamedParameter('files')))
+				->andWhere($builder->expr()->eq('tag.uid', $builder->createNamedParameter($user->getUID())));
+		}
+
+		$searchExpr = $this->searchOperatorToDBExpr($builder, $searchQuery->getSearchOperation());
+		if ($searchExpr) {
+			$query->andWhere($searchExpr);
+		}
+
+		if ($searchQuery->limitToHome() && ($this instanceof HomeCache)) {
+			$query->andWhere($builder->expr()->like('path', $query->expr()->literal('files/%')));
+		}
+
+		$this->addSearchOrdersToQuery($query, $searchQuery->getOrder());
+
+		if ($searchQuery->getLimit()) {
+			$query->setMaxResults($searchQuery->getLimit());
+		}
+		if ($searchQuery->getOffset()) {
+			$query->setFirstResult($searchQuery->getOffset());
+		}
+
+		$result = $query->execute();
+		$files = $result->fetchAll();
+
+		$rawEntries = array_map(function (array $data) {
+			return Cache::cacheEntryFromData($data, $this->mimetypeLoader);
+		}, $files);
+
+		$result->closeCursor();
+
+		// loop trough all caches for each result to see if the result matches that storage
+		$results = [];
+		foreach ($rawEntries as $rawEntry) {
+			foreach ($caches as $cache) {
+				$entry = $cache->getCacheEntryFromSearchResult($rawEntry);
+				if ($entry) {
+					$results[] = $entry;
+				}
+			}
+		}
+		return $results;
 	}
 }

@@ -22,6 +22,7 @@
 namespace OC\Files\Cache;
 
 use OCP\Constants;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\Cache\ICache;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Search\ISearchQuery;
@@ -137,5 +138,13 @@ class FailedCache implements ICache {
 
 	public function copyFromCache(ICache $sourceCache, ICacheEntry $sourceEntry, string $targetPath): int {
 		throw new \Exception("Invalid cache");
+	}
+
+	public function getQueryFilterForStorage(IQueryBuilder $builder) {
+		return 'false';
+	}
+
+	public function getCacheEntryFromSearchResult(ICacheEntry $rawEntry): ?ICacheEntry {
+		return null;
 	}
 }

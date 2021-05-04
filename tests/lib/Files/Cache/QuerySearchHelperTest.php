@@ -25,11 +25,14 @@ use OC\DB\QueryBuilder\Literal;
 use OC\Files\Cache\QuerySearchHelper;
 use OC\Files\Search\SearchBinaryOperator;
 use OC\Files\Search\SearchComparison;
+use OC\SystemConfig;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\IMimeTypeLoader;
 use OCP\Files\Search\ISearchBinaryOperator;
 use OCP\Files\Search\ISearchComparison;
 use OCP\Files\Search\ISearchOperator;
+use OCP\IDBConnection;
+use OCP\ILogger;
 use Test\TestCase;
 
 /**
@@ -75,7 +78,15 @@ class QuerySearchHelperTest extends TestCase {
 				[6, 'image']
 			]);
 
-		$this->querySearchHelper = new QuerySearchHelper($this->mimetypeLoader);
+		$systemConfig = $this->createMock(SystemConfig::class);
+		$logger = $this->createMock(ILogger::class);
+
+		$this->querySearchHelper = new QuerySearchHelper(
+			$this->mimetypeLoader,
+			\OC::$server->get(IDBConnection::class),
+			$systemConfig,
+			$logger
+		);
 		$this->numericStorageId = 10000;
 
 		$this->builder->select(['fileid'])

@@ -24,6 +24,7 @@ namespace OC\Lockdown\Filesystem;
 
 use OC\Files\Cache\CacheEntry;
 use OCP\Constants;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\Cache\ICache;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\FileInfo;
@@ -125,5 +126,13 @@ class NullCache implements ICache {
 
 	public function copyFromCache(ICache $sourceCache, ICacheEntry $sourceEntry, string $targetPath): int {
 		throw new \OC\ForbiddenException('This request is not allowed to access the filesystem');
+	}
+
+	public function getQueryFilterForStorage(IQueryBuilder $builder) {
+		return 'false';
+	}
+
+	public function getCacheEntryFromSearchResult(ICacheEntry $rawEntry): ?ICacheEntry {
+		return null;
 	}
 }
