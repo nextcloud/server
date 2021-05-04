@@ -132,9 +132,10 @@ const getDavPath = function({ filename, basename }) {
 	// TODO: allow proper dav access without the need of basic auth
 	// https://github.com/nextcloud/server/issues/19700
 	if (isPublic()) {
-		return generateUrl(`/s/${getToken()}/download?path=${encodeURIComponent(dirname(filename))}&files=${encodeURIComponent(basename)}`)
+		return generateUrl(`/s/${getToken()}/download?path={dirname}&files={basename}`,
+			{ dirname: dirname(filename), basename })
 	}
-	return getRootPath() + filename.split('/').map((x) => encodeURIComponent(x)).join('/')
+	return getRootPath() + encodeFilePath(filename)
 }
 
 export { encodeFilePath, extractFilePaths, sortCompare, genFileInfo, getDavPath }

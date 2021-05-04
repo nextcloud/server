@@ -44,6 +44,12 @@ function naughtyFileName(realName) {
 	)
 }
 
+let failsLeft = 5
+Cypress.on('fail', (error, runnable) => {
+	failsLeft--
+	throw error // throw error to have test still fail
+})
+
 export default function(file, type) {
 
 	const placedName = naughtyFileName(file)
@@ -59,6 +65,11 @@ export default function(file, type) {
 
 	describe(`Open ${file} in viewer with a naughty name`, function() {
 		before(function() {
+			// fail fast
+			if (failsLeft < 0) {
+				throw new Error('Too many previous tests failed')
+			}
+
 			// Init user
 			cy.nextcloudCreateUser(randUser, 'password')
 			cy.login(randUser, 'password')
@@ -77,6 +88,26 @@ export default function(file, type) {
 			// no need to log out we do this in the test to check the public link
 		})
 
+		function noLoadingAnimation() {
+			cy.get('body > .viewer', { timeout: 10000 })
+				.should('be.visible')
+				.and('have.class', 'modal-mask')
+				.and('not.have.class', 'icon-loading')
+		}
+
+		function menuOk() {
+			cy.get('body > .viewer .icon-error').should('not.exist')
+			cy.get('body > .viewer .modal-title').should('contain', placedName)
+			cy.get('body > .viewer .modal-header button.icon-close').should(
+				'be.visible'
+			)
+		}
+
+		function arrowsOK() {
+			cy.get('body > .viewer a.prev').should('not.be.visible')
+			cy.get('body > .viewer a.next').should('not.be.visible')
+		}
+
 		it(`See ${file} as ${placedName} in the list`, function() {
 			cy.get(`#fileList tr[data-file="${placedNameCss}"]`, {
 				timeout: 10000,
@@ -88,27 +119,9 @@ export default function(file, type) {
 			cy.get('body > .viewer').should('be.visible')
 		})
 
-		it('Does not see a loading animation', function() {
-			cy.get('body > .viewer', { timeout: 10000 })
-				.should('be.visible')
-				.and('have.class', 'modal-mask')
-				.and('not.have.class', 'icon-loading')
-		})
-
-		it('See the menu icon and title on the viewer header', function() {
-			cy.get('body > .viewer .modal-title').should('contain', placedName)
-			cy.get(
-				'body > .viewer .modal-header button.action-item__menutoggle'
-			).should('be.visible')
-			cy.get('body > .viewer .modal-header button.icon-close').should(
-				'be.visible'
-			)
-		})
-
-		it('Does not see navigation arrows', function() {
-			cy.get('body > .viewer a.prev').should('not.be.visible')
-			cy.get('body > .viewer a.next').should('not.be.visible')
-		})
+		it('Does not see a loading animation', noLoadingAnimation)
+		it('See the menu icon and title on the viewer header', menuOk)
+		it('Does not see navigation arrows', arrowsOK)
 
 		it('Share the folder with a share link and access the share link', function() {
 			cy.createLinkShare(folderName).then((token) => {
@@ -122,23 +135,8 @@ export default function(file, type) {
 			cy.get('body > .viewer').should('be.visible')
 		})
 
-		it('Does not see a loading animation (public)', function() {
-			cy.get('body > .viewer', { timeout: 10000 })
-				.should('be.visible')
-				.and('have.class', 'modal-mask')
-				.and('not.have.class', 'icon-loading')
-		})
-
-		it('See the menu icon and title on the viewer header (public)', function() {
-			cy.get('body > .viewer .modal-title').should('contain', placedName)
-			cy.get('body > .viewer .modal-header button.icon-close').should(
-				'be.visible'
-			)
-		})
-
-		it('Does not see navigation arrows (public)', function() {
-			cy.get('body > .viewer a.prev').should('not.be.visible')
-			cy.get('body > .viewer a.next').should('not.be.visible')
-		})
+		it('Does not see a loading animation (public)', noLoadingAnimation)
+		it('See the menu icon and title on the viewer header (public)', menuOk)
+		it('Does not see navigation arrows (public)', arrowsOK)
 	})
 }
