@@ -82,6 +82,7 @@
     "Unable to change full name" : "Nedaří se změnit celé jméno",
     "Unable to change email address" : "Nepodařilo se změnit e-mailovou adresu",
     "Unable to set invalid phone number" : "Do nastavení zadáno neplatné telefonní číslo",
+    "Unable to set invalid website" : "Nelze nastavit neplatnou webovou stránku",
     "Some account data was invalid" : "Některé údaje v účtu nejsou platné",
     "In order to verify your Twitter account, post the following tweet on Twitter (please make sure to post it without any line breaks):" : "Pokud chcete ověřit váš Twitter účet, napište následující tweet (ujistěte se, že ho zasíláte bez zalomení řádků):",
     "In order to verify your Website, store the following content in your web-root at '.well-known/CloudIdVerificationCode.txt' (please make sure that the complete text is in one line):" : "Pro ověřování vašich webových stránek uložte následující obsah v kořenovém adresáři webové prezentace v umístění „.well-known/CloudIdVerificationCode.txt“ (ujistěte se, že byl text vložen jako jediný řádek)",

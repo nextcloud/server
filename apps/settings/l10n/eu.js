@@ -422,6 +422,7 @@ OC.L10N.register(
     "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "Baimendu erabiltzaile-izenak automatikoki betetzea partekatze-leihoan. Hau desaktibatzen baduzu, erabiltzaile izena edo eposta helbide zehatza idatzi beharko dituzu.",
     "Restrict username autocompletion to users within the same groups" : "Erabiltzaile izenak automatikoki betetzea talde berdinetan dauden erabiltzaileei bakarrik utzi.",
     "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Ohar mezua kargatzeko orriaren esteka publikoan erakutsi (fitxategi zerrenda ezkutatuta dagoenen bakarrik ikusten da.)",
+    "Don't synchronize to servers" : "Ez sinkronizatu zerbitzariekin",
     "Trusted" : "Fidagarria"
 },
 "nplurals=2; plural=(n != 1);");
