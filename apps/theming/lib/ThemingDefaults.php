@@ -223,8 +223,10 @@ class ThemingDefaults extends \OC_Defaults {
 	 * @param bool $useSvg Whether to point to the SVG image or a fallback
 	 * @return string
 	 */
-	public function getLogo($useSvg = true): string {
-		$logo = $this->config->getAppValue('theming', 'logoMime', '');
+	public function getLogo($useSvg = true, $emailLogo = false): string {
+		$logoKey = $emailLogo ? 'emailLogo' : 'logo';
+		$logo = $this->config->getAppValue('theming', $logoKey . 'Mime', '');
+		$cacheBusterCounter = $this->config->getAppValue('theming', 'cachebuster', '0');
 
 		// short cut to avoid setting up the filesystem just to check if the logo is there
 		//
@@ -235,14 +237,23 @@ class ThemingDefaults extends \OC_Defaults {
 			$logoExists = true;
 		} else {
 			try {
-				$this->imageManager->getImage('logo', $useSvg);
+				$this->imageManager->getImage($logoKey, $useSvg);
 				$logoExists = true;
 			} catch (\Exception $e) {
 				$logoExists = false;
 			}
-		}
 
-		$cacheBusterCounter = $this->config->getAppValue('theming', 'cachebuster', '0');
+			if (!$logoExists) {
+				try {
+					$logoKey = 'logo';
+					$logo = $this->config->getAppValue('theming', $logoKey . 'Mime', '');
+					$this->imageManager->getImage($logoKey, $useSvg);
+					$logoExists = true;
+				} catch (\Exception $e) {
+					$logoExists = false;
+				}
+			}
+		}
 
 		if (!$logo || !$logoExists) {
 			if ($useSvg) {
@@ -253,7 +264,7 @@ class ThemingDefaults extends \OC_Defaults {
 			return $logo . '?v=' . $cacheBusterCounter;
 		}
 
-		return $this->urlGenerator->linkToRoute('theming.Theming.getImage', [ 'key' => 'logo', 'useSvg' => $useSvg, 'v' => $cacheBusterCounter ]);
+		return $this->urlGenerator->linkToRoute('theming.Theming.getImage', [ 'key' => $logoKey, 'useSvg' => $useSvg, 'v' => $cacheBusterCounter ]);
 	}
 
 	/**
@@ -300,12 +311,14 @@ class ThemingDefaults extends \OC_Defaults {
 		$variables = [
 			'theming-cachebuster' => "'" . $cacheBuster . "'",
 			'theming-logo-mime' => "'" . $this->config->getAppValue('theming', 'logoMime') . "'",
+			'theming-email-logo-mime' => "'" . $this->config->getAppValue('theming', 'emailLogoMime') . "'",
 			'theming-background-mime' => "'" . $this->config->getAppValue('theming', 'backgroundMime') . "'",
 			'theming-logoheader-mime' => "'" . $this->config->getAppValue('theming', 'logoheaderMime') . "'",
 			'theming-favicon-mime' => "'" . $this->config->getAppValue('theming', 'faviconMime') . "'"
 		];
 
 		$variables['image-logo'] = "url('".$this->imageManager->getImageUrl('logo')."')";
+		$variables['image-email-logo'] = "url('".$this->imageManager->getImageUrl('emailLogo')."')";
 		$variables['image-logoheader'] = "url('".$this->imageManager->getImageUrl('logoheader')."')";
 		$variables['image-favicon'] = "url('".$this->imageManager->getImageUrl('favicon')."')";
 		$variables['image-login-background'] = "url('".$this->imageManager->getImageUrl('background')."')";
@@ -424,6 +437,7 @@ class ThemingDefaults extends \OC_Defaults {
 				$returnValue = $this->getColorPrimary();
 				break;
 			case 'logo':
+			case 'emailLogo':
 			case 'logoheader':
 			case 'background':
 			case 'favicon':
