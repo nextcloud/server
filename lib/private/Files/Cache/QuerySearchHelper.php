@@ -25,6 +25,7 @@
  */
 namespace OC\Files\Cache;
 
+use OC\Files\Search\SearchBinaryOperator;
 use OC\SystemConfig;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\Cache\ICache;
@@ -47,7 +48,7 @@ class QuerySearchHelper {
 		ISearchComparison::COMPARE_GREATER_THAN => 'gt',
 		ISearchComparison::COMPARE_GREATER_THAN_EQUAL => 'gte',
 		ISearchComparison::COMPARE_LESS_THAN => 'lt',
-		ISearchComparison::COMPARE_LESS_THAN_EQUAL => 'lte'
+		ISearchComparison::COMPARE_LESS_THAN_EQUAL => 'lte',
 	];
 
 	protected static $searchOperatorNegativeMap = [
@@ -56,7 +57,7 @@ class QuerySearchHelper {
 		ISearchComparison::COMPARE_GREATER_THAN => 'lte',
 		ISearchComparison::COMPARE_GREATER_THAN_EQUAL => 'lt',
 		ISearchComparison::COMPARE_LESS_THAN => 'gte',
-		ISearchComparison::COMPARE_LESS_THAN_EQUAL => 'lt'
+		ISearchComparison::COMPARE_LESS_THAN_EQUAL => 'lt',
 	];
 
 	public const TAG_FAVORITE = '_$!<Favorite>!$_';
@@ -124,7 +125,7 @@ class QuerySearchHelper {
 					} else {
 						throw new \InvalidArgumentException('Binary operators inside "not" is not supported');
 					}
-					// no break
+				// no break
 				case ISearchBinaryOperator::OPERATOR_AND:
 					return call_user_func_array([$expr, 'andX'], $this->searchOperatorArrayToDBExprArray($builder, $operator->getArguments()));
 				case ISearchBinaryOperator::OPERATOR_OR:
@@ -195,7 +196,8 @@ class QuerySearchHelper {
 			'size' => 'integer',
 			'tagname' => 'string',
 			'favorite' => 'boolean',
-			'fileid' => 'integer'
+			'fileid' => 'integer',
+			'storage' => 'integer',
 		];
 		$comparisons = [
 			'mimetype' => ['eq', 'like'],
@@ -205,7 +207,8 @@ class QuerySearchHelper {
 			'size' => ['eq', 'gt', 'lt', 'gte', 'lte'],
 			'tagname' => ['eq', 'like'],
 			'favorite' => ['eq'],
-			'fileid' => ['eq']
+			'fileid' => ['eq'],
+			'storage' => ['eq'],
 		];
 
 		if (!isset($types[$operator->getField()])) {
@@ -274,12 +277,6 @@ class QuerySearchHelper {
 
 		$query = $builder->selectFileCache('file');
 
-		$storageFilters = array_map(function (ICache $cache) use ($builder) {
-			return $cache->getQueryFilterForStorage($builder);
-		}, $caches);
-
-		$query->andWhere($query->expr()->orX(...$storageFilters));
-
 		if ($this->shouldJoinTags($searchQuery->getSearchOperation())) {
 			$user = $searchQuery->getUser();
 			if ($user === null) {
@@ -299,6 +296,11 @@ class QuerySearchHelper {
 		if ($searchExpr) {
 			$query->andWhere($searchExpr);
 		}
+
+		$storageFilters = array_map(function (ICache $cache) {
+			return $cache->getQueryFilterForStorage();
+		}, $caches);
+		$query->andWhere($this->searchOperatorToDBExpr($builder, new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_OR, $storageFilters)));
 
 		if ($searchQuery->limitToHome() && ($this instanceof HomeCache)) {
 			$query->andWhere($builder->expr()->like('path', $query->expr()->literal('files/%')));

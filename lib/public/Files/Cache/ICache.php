@@ -22,8 +22,7 @@
  */
 namespace OCP\Files\Cache;
 
-use OCP\DB\QueryBuilder\ICompositeExpression;
-use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\Files\Search\ISearchOperator;
 use OCP\Files\Search\ISearchQuery;
 
 /**
@@ -270,14 +269,13 @@ interface ICache {
 	/**
 	 * Get the query expression required to filter files within this storage.
 	 *
-	 * In the most basic case this is just `$builder->expr()->eq('storage', $this->getNumericStorageId())`
+	 * In the most basic case this is just comparing the storage id
 	 * but storage wrappers can add additional expressions to filter down things further
 	 *
-	 * @param IQueryBuilder $builder
-	 * @return string|ICompositeExpression
+	 * @return ISearchOperator
 	 * @since 22.0.0
 	 */
-	public function getQueryFilterForStorage(IQueryBuilder $builder);
+	public function getQueryFilterForStorage(): ISearchOperator;
 
 	/**
 	 * Construct a cache entry from a search result row *if* the entry belongs to this storage.

@@ -28,8 +28,12 @@
 namespace OC\Files\Cache\Wrapper;
 
 use OC\Files\Cache\Cache;
-use OCP\DB\QueryBuilder\IQueryBuilder;
+use OC\Files\Search\SearchBinaryOperator;
+use OC\Files\Search\SearchComparison;
 use OCP\Files\Cache\ICacheEntry;
+use OCP\Files\Search\ISearchBinaryOperator;
+use OCP\Files\Search\ISearchComparison;
+use OCP\Files\Search\ISearchOperator;
 
 /**
  * Jail to a subdirectory of the wrapped cache
@@ -301,15 +305,17 @@ class CacheJail extends CacheWrapper {
 		return $this->getCache()->moveFromCache($sourceCache, $sourcePath, $this->getSourcePath($targetPath));
 	}
 
-	public function getQueryFilterForStorage(IQueryBuilder $builder) {
-		$escapedRoot = $builder->getConnection()->escapeLikeParameter($this->getGetUnjailedRoot());
-
-		return $builder->expr()->andX(
-			$this->getCache()->getQueryFilterForStorage($builder),
-			$builder->expr()->orX(
-				$builder->expr()->eq('path_hash', $builder->createNamedParameter(md5($this->getGetUnjailedRoot()))),
-				$builder->expr()->like('path', $builder->createNamedParameter($escapedRoot . '/%')),
-			)
+	public function getQueryFilterForStorage(): ISearchOperator {
+		return new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_AND,
+			[
+				$this->getCache()->getQueryFilterForStorage(),
+				new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_OR,
+					[
+						new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'path', $this->getGetUnjailedRoot()),
+						new SearchComparison(ISearchComparison::COMPARE_LIKE, 'path', $this->getGetUnjailedRoot() . '/%'),
+					],
+				)
+			]
 		);
 	}
 

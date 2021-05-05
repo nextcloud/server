@@ -54,6 +54,7 @@ use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\FileInfo;
 use OCP\Files\IMimeTypeLoader;
 use OCP\Files\Search\ISearchComparison;
+use OCP\Files\Search\ISearchOperator;
 use OCP\Files\Search\ISearchQuery;
 use OCP\Files\Storage\IStorage;
 use OCP\IDBConnection;
@@ -1050,8 +1051,8 @@ class Cache implements ICache {
 		];
 	}
 
-	public function getQueryFilterForStorage(IQueryBuilder $builder) {
-		return $builder->expr()->eq('storage', $builder->createNamedParameter($this->getNumericStorageId(), IQueryBuilder::PARAM_INT));
+	public function getQueryFilterForStorage(): ISearchOperator {
+		return new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'storage', $this->getNumericStorageId());
 	}
 
 	public function getCacheEntryFromSearchResult(ICacheEntry $rawEntry): ?ICacheEntry {

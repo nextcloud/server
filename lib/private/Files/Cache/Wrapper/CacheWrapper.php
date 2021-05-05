@@ -31,9 +31,9 @@ namespace OC\Files\Cache\Wrapper;
 
 use OC\Files\Cache\Cache;
 use OC\Files\Cache\QuerySearchHelper;
-use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\Cache\ICache;
 use OCP\Files\Cache\ICacheEntry;
+use OCP\Files\Search\ISearchOperator;
 use OCP\Files\Search\ISearchQuery;
 
 class CacheWrapper extends Cache {
@@ -309,8 +309,8 @@ class CacheWrapper extends Cache {
 		return parent::getById($id);
 	}
 
-	public function getQueryFilterForStorage(IQueryBuilder $builder) {
-		return $this->getCache()->getQueryFilterForStorage($builder);
+	public function getQueryFilterForStorage(): ISearchOperator {
+		return $this->getCache()->getQueryFilterForStorage();
 	}
 
 	public function getCacheEntryFromSearchResult(ICacheEntry $rawEntry): ?ICacheEntry {
