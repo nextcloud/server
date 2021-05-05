@@ -82,7 +82,7 @@ class MaintenancePlugin extends ServerPlugin {
 	 */
 	public function checkMaintenanceMode() {
 		if ($this->config->getSystemValueBool('maintenance')) {
-			throw new ServiceUnavailable($this->l10n->t('System in maintenance mode.'));
+			throw new ServiceUnavailable($this->l10n->t('System is in maintenance mode.'));
 		}
 		if (Util::needUpgrade()) {
 			throw new ServiceUnavailable($this->l10n->t('Upgrade needed'));
