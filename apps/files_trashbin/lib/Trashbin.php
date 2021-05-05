@@ -226,7 +226,7 @@ class Trashbin {
 				->setValue('timestamp', $query->createNamedParameter($timestamp))
 				->setValue('location', $query->createNamedParameter($targetLocation))
 				->setValue('user', $query->createNamedParameter($user));
-			$result = $query->executeUpdate();
+			$result = $query->executeStatement();
 			if (!$result) {
 				\OC::$server->getLogger()->error('trash bin database couldn\'t be updated for the files owner', ['app' => 'files_trashbin']);
 			}
@@ -353,7 +353,7 @@ class Trashbin {
 				->setValue('timestamp', $query->createNamedParameter($timestamp))
 				->setValue('location', $query->createNamedParameter($location))
 				->setValue('user', $query->createNamedParameter($owner));
-			$result = $query->executeUpdate();
+			$result = $query->executeStatement();
 			if (!$result) {
 				\OC::$server->getLogger()->error('trash bin database couldn\'t be updated', ['app' => 'files_trashbin']);
 			}
@@ -516,7 +516,7 @@ class Trashbin {
 					->where($query->expr()->eq('user', $query->createNamedParameter($user)))
 					->andWhere($query->expr()->eq('id', $query->createNamedParameter($filename)))
 					->andWhere($query->expr()->eq('timestamp', $query->createNamedParameter($timestamp)));
-				$query->executeUpdate();
+				$query->executeStatement();
 			}
 
 			return true;
@@ -606,7 +606,7 @@ class Trashbin {
 		$query = \OC::$server->getDatabaseConnection()->getQueryBuilder();
 		$query->delete('files_trash')
 			->where($query->expr()->eq('user', $query->createNamedParameter($user)));
-		$query->executeUpdate();
+		$query->executeStatement();
 
 		// Bulk PostDelete-Hook
 		\OC_Hook::emit('\OCP\Trashbin', 'deleteAll', ['paths' => $filePaths]);
@@ -660,7 +660,7 @@ class Trashbin {
 				->where($query->expr()->eq('user', $query->createNamedParameter($user)))
 				->andWhere($query->expr()->eq('id', $query->createNamedParameter($filename)))
 				->andWhere($query->expr()->eq('timestamp', $query->createNamedParameter($timestamp)));
-			$query->executeUpdate();
+			$query->executeStatement();
 
 			$file = $filename . '.d' . $timestamp;
 		} else {
@@ -746,7 +746,7 @@ class Trashbin {
 		$query = \OC::$server->getDatabaseConnection()->getQueryBuilder();
 		$query->delete('files_trash')
 			->where($query->expr()->eq('user', $query->createNamedParameter($uid)));
-		return (bool) $query->executeUpdate();
+		return (bool) $query->executeStatement();
 	}
 
 	/**

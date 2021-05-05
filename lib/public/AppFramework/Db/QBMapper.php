@@ -101,7 +101,7 @@ abstract class QBMapper {
 			->where(
 				$qb->expr()->eq('id', $qb->createNamedParameter($entity->getId(), $idType))
 			);
-		$qb->executeUpdate();
+		$qb->executeStatement();
 		return $entity;
 	}
 
@@ -132,7 +132,7 @@ abstract class QBMapper {
 			$qb->setValue($column, $qb->createNamedParameter($value, $type));
 		}
 
-		$qb->executeUpdate();
+		$qb->executeStatement();
 
 		if ($entity->id === null) {
 			// When autoincrement is used id is always an int
@@ -211,7 +211,7 @@ abstract class QBMapper {
 		$qb->where(
 			$qb->expr()->eq('id', $qb->createNamedParameter($id, $idType))
 		);
-		$qb->executeUpdate();
+		$qb->executeStatement();
 
 		return $entity;
 	}
