@@ -105,15 +105,16 @@ class Coordinator {
 			 */
 			$appNameSpace = App::buildAppNamespace($appId);
 			$applicationClassName = $appNameSpace . '\\AppInfo\\Application';
-			if (class_exists($applicationClassName) && in_array(IBootstrap::class, class_implements($applicationClassName), true)) {
-				try {
-					/** @var IBootstrap|App $application */
-					$apps[$appId] = $application = $this->serverContainer->query($applicationClassName);
-				} catch (QueryException $e) {
-					// Weird, but ok
-					continue;
-				}
-				try {
+			try {
+				if (class_exists($applicationClassName) && in_array(IBootstrap::class, class_implements($applicationClassName), true)) {
+					try {
+						/** @var IBootstrap|App $application */
+						$apps[$appId] = $application = $this->serverContainer->query($applicationClassName);
+					} catch (QueryException $e) {
+						// Weird, but ok
+						continue;
+					}
+
 					$application->register($this->registrationContext->for($appId));
 				} catch (Throwable $e) {
 					$this->logger->logException($e, [
@@ -121,6 +122,12 @@ class Coordinator {
 						'level' => ILogger::FATAL,
 					]);
 				}
+			} catch (Throwable $e) {
+				$this->logger->emergency('Error during app service registration: ' . $e->getMessage(), [
+					'exception' => $e,
+					'app' => $appId,
+				]);
+				continue;
 			}
 		}
 

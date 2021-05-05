@@ -128,7 +128,14 @@ class OC_App {
 		ob_start();
 		foreach ($apps as $app) {
 			if (!isset(self::$loadedApps[$app]) && ($types === [] || self::isType($app, $types))) {
-				self::loadApp($app);
+				try {
+					self::loadApp($app);
+				} catch (\Throwable $e) {
+					\OC::$server->get(LoggerInterface::class)->emergency('Error during app loading: ' . $e->getMessage(), [
+						'exception' => $e,
+						'app' => $app,
+					]);
+				}
 			}
 		}
 		ob_end_clean();
