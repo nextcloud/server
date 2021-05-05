@@ -696,7 +696,7 @@ class ShareByMailProvider implements IShareProvider {
 		 */
 		$qb->setValue('file_target', $qb->createNamedParameter(''));
 
-		$qb->executeUpdate();
+		$qb->executeStatement();
 		return $qb->getLastInsertId();
 	}
 
@@ -732,7 +732,7 @@ class ShareByMailProvider implements IShareProvider {
 			->set('expiration', $qb->createNamedParameter($share->getExpirationDate(), IQueryBuilder::PARAM_DATE))
 			->set('note', $qb->createNamedParameter($share->getNote()))
 			->set('hide_download', $qb->createNamedParameter((int)$share->getHideDownload(), IQueryBuilder::PARAM_INT))
-			->executeUpdate();
+			->executeStatement();
 
 		if ($originalShare->getNote() !== $share->getNote() && $share->getNote() !== '') {
 			$this->sendNote($share);
@@ -964,7 +964,7 @@ class ShareByMailProvider implements IShareProvider {
 		$qb = $this->dbConnection->getQueryBuilder();
 		$qb->delete('share')
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($shareId)));
-		$qb->executeUpdate();
+		$qb->executeStatement();
 	}
 
 	/**
@@ -1058,7 +1058,7 @@ class ShareByMailProvider implements IShareProvider {
 		$qb->delete('share')
 			->where($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_EMAIL)))
 			->andWhere($qb->expr()->eq('uid_owner', $qb->createNamedParameter($uid)))
-			->executeUpdate();
+			->executeStatement();
 	}
 
 	/**

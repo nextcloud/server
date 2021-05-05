@@ -77,6 +77,6 @@ class AccessTokenMapper extends QBMapper {
 		$qb
 			->delete($this->tableName)
 			->where($qb->expr()->eq('client_id', $qb->createNamedParameter($id, IQueryBuilder::PARAM_INT)));
-		$qb->executeUpdate();
+		$qb->executeStatement();
 	}
 }
