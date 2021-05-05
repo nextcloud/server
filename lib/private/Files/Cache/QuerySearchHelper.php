@@ -29,6 +29,7 @@ use OC\Files\Search\SearchBinaryOperator;
 use OC\SystemConfig;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\Cache\ICache;
+use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\IMimeTypeLoader;
 use OCP\Files\Search\ISearchBinaryOperator;
 use OCP\Files\Search\ISearchComparison;
@@ -254,9 +255,10 @@ class QuerySearchHelper {
 	}
 
 	/**
+	 * @template T of array-key
 	 * @param ISearchQuery $searchQuery
-	 * @param ICache[] $caches
-	 * @return CacheEntry[]
+	 * @param array<T, ICache> $caches
+	 * @return array<T, ICacheEntry[]>
 	 */
 	public function searchInCaches(ISearchQuery $searchQuery, array $caches): array {
 		// search in multiple caches at once by creating one query in the following format
@@ -297,9 +299,9 @@ class QuerySearchHelper {
 			$query->andWhere($searchExpr);
 		}
 
-		$storageFilters = array_map(function (ICache $cache) {
+		$storageFilters = array_values(array_map(function (ICache $cache) {
 			return $cache->getQueryFilterForStorage();
-		}, $caches);
+		}, $caches));
 		$query->andWhere($this->searchOperatorToDBExpr($builder, new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_OR, $storageFilters)));
 
 		if ($searchQuery->limitToHome() && ($this instanceof HomeCache)) {
@@ -325,12 +327,12 @@ class QuerySearchHelper {
 		$result->closeCursor();
 
 		// loop trough all caches for each result to see if the result matches that storage
-		$results = [];
+		$results = array_fill_keys(array_keys($caches), []);
 		foreach ($rawEntries as $rawEntry) {
-			foreach ($caches as $cache) {
+			foreach ($caches as $cacheKey => $cache) {
 				$entry = $cache->getCacheEntryFromSearchResult($rawEntry);
 				if ($entry) {
-					$results[] = $entry;
+					$results[$cacheKey][] = $entry;
 				}
 			}
 		}

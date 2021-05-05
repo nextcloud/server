@@ -30,6 +30,10 @@
  */
 namespace OC\Files\Node;
 
+use OC\DB\QueryBuilder\Literal;
+use OC\Files\Cache\QuerySearchHelper;
+use OC\Files\Search\SearchBinaryOperator;
+use OC\Files\Cache\Wrapper\CacheJail;
 use OC\Files\Search\SearchBinaryOperator;
 use OC\Files\Search\SearchComparison;
 use OC\Files\Search\SearchOrder;
@@ -252,69 +256,34 @@ class Folder extends Node implements \OCP\Files\Folder {
 		$mount = $this->root->getMount($this->path);
 		$storage = $mount->getStorage();
 		$internalPath = $mount->getInternalPath($this->path);
-		$internalPath = rtrim($internalPath, '/');
-		if ($internalPath !== '') {
-			$internalPath = $internalPath . '/';
-		}
 
-		$subQueryLimit = $query->getLimit() > 0 ? $query->getLimit() + $query->getOffset() : 0;
-		$rootQuery = new SearchQuery(
-			new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_AND, [
-				new SearchComparison(ISearchComparison::COMPARE_LIKE, 'path', $internalPath . '%'),
-				$query->getSearchOperation(),
-			]),
-			$subQueryLimit,
-			0,
-			$query->getOrder(),
-			$query->getUser()
-		);
-
-		$files = [];
-
-		$cache = $storage->getCache('');
-
-		$results = $cache->searchQuery($rootQuery);
-		foreach ($results as $result) {
-			$files[] = $this->cacheEntryToFileInfo($mount, '', $internalPath, $result);
-		}
+		$caches = ['' => new CacheJail($storage->getCache(''), $internalPath)];
+		/** @var array{IMountPoint, string}[] $infoParams */
+		$infoParams = [
+			'' => [$mount, '']
+		];
 
 		if (!$limitToHome) {
 			$mounts = $this->root->getMountsIn($this->path);
 			foreach ($mounts as $mount) {
-				$subQuery = new SearchQuery(
-					$query->getSearchOperation(),
-					$subQueryLimit,
-					0,
-					$query->getOrder(),
-					$query->getUser()
-				);
-
 				$storage = $mount->getStorage();
 				if ($storage) {
-					$cache = $storage->getCache('');
-
 					$relativeMountPoint = ltrim(substr($mount->getMountPoint(), $rootLength), '/');
-					$results = $cache->searchQuery($subQuery);
-					foreach ($results as $result) {
-						$files[] = $this->cacheEntryToFileInfo($mount, $relativeMountPoint, '', $result);
-					}
+					$caches[$relativeMountPoint] = $storage->getCache('');
+					$infoParams[$relativeMountPoint] = [$mount, ''];
 				}
 			}
 		}
 
-		$order = $query->getOrder();
-		if ($order) {
-			usort($files, function (FileInfo $a, FileInfo $b) use ($order) {
-				foreach ($order as $orderField) {
-					$cmp = $orderField->sortFileInfo($a, $b);
-					if ($cmp !== 0) {
-						return $cmp;
-					}
-				}
-				return 0;
-			});
-		}
-		$files = array_values(array_slice($files, $query->getOffset(), $query->getLimit() > 0 ? $query->getLimit() : null));
+		/** @var QuerySearchHelper $searchHelper */
+		$searchHelper = \OC::$server->get(QuerySearchHelper::class);
+		$resultsPerCache = $searchHelper->searchInCaches($query, $caches);
+		$files = array_merge(...array_map(function(array $results, $relativeMountPoint) use ($infoParams) {
+			$params = $infoParams[$relativeMountPoint];
+			return array_map(function(ICacheEntry $result) use ($relativeMountPoint, $params) {
+				return $this->cacheEntryToFileInfo($params[0], $relativeMountPoint, $params[1], $result);
+			}, $results);
+		}, array_values($resultsPerCache), array_keys($resultsPerCache)));
 
 		return array_map(function (FileInfo $file) {
 			return $this->createNode($file->getPath(), $file);

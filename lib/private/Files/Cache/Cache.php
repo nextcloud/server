@@ -803,7 +803,7 @@ class Cache implements ICache {
 	}
 
 	public function searchQuery(ISearchQuery $searchQuery) {
-		return $this->querySearchHelper->searchInCaches($searchQuery, [$this]);
+		return current($this->querySearchHelper->searchInCaches($searchQuery, [$this]));
 	}
 
 	/**
