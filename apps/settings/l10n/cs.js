@@ -410,7 +410,7 @@ OC.L10N.register(
     "You are using <strong>%s</strong>" : "Vaše data zabírají <strong>%s</strong>",
     "You are using <strong>%1$s</strong> of <strong>%2$s</strong> (<strong>%3$s %%</strong>)" : "Používáte <strong>%1$s</strong> z <strong>%2$s</strong> (<strong>%3$s %%</strong>)",
     "Full name" : "Celé jméno",
-    "Change privacy level of full name" : "Změnit úroveň soukromí jména",
+    "Change privacy level of full name" : "Změnit úroveň soukromí pro celé jméno",
     "No display name set" : "Nenastaveno žádné zobrazované jméno",
     "Change privacy level of email" : "Změnit úroveň soukromí e-mailu",
     "Your email address" : "Vaše e-mailová adresa",
