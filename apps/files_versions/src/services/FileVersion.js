@@ -1,7 +1,9 @@
 /**
  * @copyright Copyright (c) 2019 John Molakvoæ <skjnldsv@protonmail.com>
+ *
  * @author Enoch <enoch@nextcloud.com>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
+ *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,32 +24,22 @@
 import client from './DavClient'
 import { genFileInfo } from '../utils/fileUtils'
 
-const FileVersion = async function(fileId) {
+export const fetchFileVersions = async function(fileId) {
 
 	// init params
 	const VersionsUrl = '/versions/' + fileId
 	const response = await client.getDirectoryContents(VersionsUrl, {
 		data: `<?xml version="1.0"?>
-<d:propfind  xmlns:d="DAV:" xmlns:oc="http://owncloud.org/ns">
-  <d:prop>
-    <d:getcontentlength />
-    <d:getcontenttype />
-    <d:getlastmodified />
-  </d:prop>
-</d:propfind>`,
+			<d:propfind  xmlns:d="DAV:" xmlns:oc="http://owncloud.org/ns">
+			<d:prop>
+				<d:getcontentlength />
+				<d:getcontenttype />
+				<d:getlastmodified />
+			</d:prop>
+			</d:propfind>`,
 		details: true,
 	})
 
 	/** return response.data.map(FileVersion); */
-
 	return response.data.map(genFileInfo)
-
 }
-/**
- * Retrieve the files list
- *
- * @param {String} path the path relative to the user root
- * @param {Object} [options] optional options for axios
- * @returns {Array} the file list
- */
-export default FileVersion

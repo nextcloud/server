@@ -23,26 +23,35 @@
 <template>
 	<div :class="{ 'icon-loading': loading }">
 		<!-- error message -->
-		<div v-if="error" class="emptycontent">
-			<div class="icon icon-error" />
-			<h2>{{ error }}</h2>
-		</div>
+		<EmptyContent v-if="error" icon="icon-error">
+			{{ t('files_versions', 'Cannot load versions list') }}
+			<template #desc>
+				{{ error }}
+			</template>
+		</EmptyContent>
+
+		<!-- Versions list  -->
 		<ul>
-			<!-- Version information  -->
-			<VersionEntry v-for="version in versionsList" :file-info="_fileInfo" :version="version" />
+			<VersionEntry v-for="version in versionsList"
+				:key="version.basename"
+				:file-info="fileInfo"
+				:version="version" />
 		</ul>
 	</div>
 </template>
 
 <script>
+import { showError } from '@nextcloud/dialogs'
+import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
 
 import VersionEntry from '../components/VersionEntry'
-import fetchFileVersions from '../services/FileVersion'
+import { fetchFileVersions } from '../services/FileVersion'
 
 export default {
 	name: 'VersionTab',
 
 	components: {
+		EmptyContent,
 		VersionEntry,
 	},
 
@@ -50,48 +59,43 @@ export default {
 		return {
 			error: '',
 			loading: true,
-			client: null,
-			_fileInfo: null,
+			fileInfo: null,
 
 			// version object
 			versionsList: [],
 		}
 	},
-		  mounted() {
+
+	beforeMount() {
 		this.getVersions()
 	},
 
 	methods: {
-		setFileInfo(fileInfo) {
-			this._fileInfo = fileInfo
-		},
-		getFileInfo() {
-			return this._fileInfo
-		},
-		setClient(client) {
-			this._client = client
-		},
 		/**
-				 * Update current fileInfo and fetch new data
-				 * @param {Object} fileInfo the current file FileInfo
-				 */
+		 * Update current fileInfo and fetch new data
+		 * @param {Object} fileInfo the current file FileInfo
+		 */
 		async update(fileInfo) {
-			this._fileInfo = fileInfo
-			/** 	name = this._fileInfo.get('name') */
+			this.fileInfo = fileInfo
 		},
 
 		async getVersions() {
-			try {
-				this.loading = true
-				const fetchVersions = await fetchFileVersions(this._fileInfo.get('id'))
-				this.versionsList = fetchVersions
-				console.log(fetchVersions)
-			} catch (e) {
-				console.log(error)
-			}
-			this.loading = false
-		},
+			this.loading = true
 
+			try {
+				const fetchVersions = await fetchFileVersions(this.fileInfo.id)
+				this.versionsList = fetchVersions
+				console.debug(fetchVersions)
+			} catch (error) {
+				this.error = t('files_versions', 'There was an error fetching the list of versions for the file {file}', {
+					file: this.fileInfo.basename,
+				})
+				showError(this.error)
+				console.error(error)
+			} finally {
+				this.loading = false
+			}
+		},
 	},
 }
 </script>
