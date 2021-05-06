@@ -179,7 +179,7 @@ trait BasicStructure {
 			$options['auth'] = [$this->currentUser, $this->regularUser];
 		}
 		$options['headers'] = [
-			'OCS_APIREQUEST' => 'true'
+			'OCS-APIRequest' => 'true'
 		];
 		if ($body instanceof TableNode) {
 			$fd = $body->getRowsHash();
@@ -306,7 +306,7 @@ trait BasicStructure {
 	 * @param string $user
 	 */
 	public function loggingInUsingWebAs($user) {
-		$loginUrl = substr($this->baseUrl, 0, -5) . '/login';
+		$loginUrl = substr($this->baseUrl, 0, -5) . '/index.php/login';
 		// Request a new session and extract CSRF token
 		$client = new Client();
 		$response = $client->get(

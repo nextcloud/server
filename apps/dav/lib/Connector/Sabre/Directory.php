@@ -38,6 +38,7 @@ use OC\Metadata\FileMetadata;
 use OCA\DAV\Connector\Sabre\Exception\FileLocked;
 use OCA\DAV\Connector\Sabre\Exception\Forbidden;
 use OCA\DAV\Connector\Sabre\Exception\InvalidPath;
+use OCA\DAV\Upload\FutureFile;
 use OCP\Files\FileInfo;
 use OCP\Files\Folder;
 use OCP\Files\ForbiddenException;

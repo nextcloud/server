@@ -71,9 +71,11 @@ use OCA\DAV\Profiler\ProfilerPlugin;
 use OCA\DAV\Provisioning\Apple\AppleProvisioningPlugin;
 use OCA\DAV\SystemTag\SystemTagPlugin;
 use OCA\DAV\Upload\ChunkingPlugin;
+use OCA\DAV\Upload\ChunkingV2Plugin;
 use OCP\AppFramework\Http\Response;
 use OCP\Diagnostics\IEventLogger;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\ICacheFactory;
 use OCP\IRequest;
 use OCP\Profiler\IProfiler;
 use OCP\SabrePluginEvent;
@@ -218,6 +220,7 @@ class Server {
 
 		$this->server->addPlugin(new CopyEtagHeaderPlugin());
 		$this->server->addPlugin(new RequestIdHeaderPlugin(\OC::$server->get(IRequest::class)));
+		$this->server->addPlugin(new ChunkingV2Plugin(\OCP\Server::get(ICacheFactory::class)));
 		$this->server->addPlugin(new ChunkingPlugin());
 
 		// allow setup of additional plugins
