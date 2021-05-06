@@ -75,7 +75,6 @@
     "More options …" : "他のオプション …",
     "More options at %s" : "%s のその他のオプション",
     "Contacts" : "連絡先",
-    "System in maintenance mode." : "システムはメンテナンスモードです。",
     "Upgrade needed" : "アップグレードが必要です",
     "Your %s needs to be configured to use HTTPS in order to use CalDAV and CardDAV with iOS/macOS." : "iOS / macOSでCalDAVおよびCardDAVを使用するには、%sにHTTPSを設定する必要があります。",
     "Configures a CalDAV account" : "CalDAVアカウントを設定します",

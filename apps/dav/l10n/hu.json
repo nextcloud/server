@@ -74,7 +74,6 @@
     "More options …" : "További opciók …",
     "More options at %s" : "További opciók itt: %s",
     "Contacts" : "Névjegyek",
-    "System in maintenance mode." : "A rendszer karbantartási módban van.",
     "Upgrade needed" : "Frissítés szükséges",
     "Your %s needs to be configured to use HTTPS in order to use CalDAV and CardDAV with iOS/macOS." : "A %s naptárat úgy kell beállítani, hogy HTTPS-t használjon a CalDAVés és a CardDAV eléréséhez iOS / macOS rendszeren.",
     "Configures a CalDAV account" : "Konfigurálja a CalDAV fiókot",
