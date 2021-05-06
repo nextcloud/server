@@ -21,14 +21,12 @@
 
 import client from './DavClient'
 import { genFileInfo } from '../utils/fileUtils'
-import { getCurrentUser } from '@nextcloud/auth'
 
-let FileVersion = async function(fileId) {
-
+const FileVersion = async function(fileId) {
 
 	// init params
 	const VersionsUrl = '/versions/' + fileId
-	const response = await client.getDirectoryContents(VersionsUrl,{
+	const response = await client.getDirectoryContents(VersionsUrl, {
 		data: `<?xml version="1.0"?>
 <d:propfind  xmlns:d="DAV:" xmlns:oc="http://owncloud.org/ns">
   <d:prop>
@@ -39,11 +37,12 @@ let FileVersion = async function(fileId) {
 </d:propfind>`,
 		details: true,
 	})
- console.log(response);
+
 	/** return response.data.map(FileVersion); */
 
-	return response.data
-};
+	return response.data.map(genFileInfo)
+
+}
 /**
  * Retrieve the files list
  *
@@ -51,4 +50,4 @@ let FileVersion = async function(fileId) {
  * @param {Object} [options] optional options for axios
  * @returns {Array} the file list
  */
-export default FileVersion;
+export default FileVersion

@@ -19,69 +19,100 @@
   -->
 
 <template>
-	<ListItemIcon class="version-entry"
-		icon="icon-text"
-		title="10 days ago"
-		subtitle="< 1KB">
-		<Actions>
-			<ActionButton icon="icon-edit" @click="alert('Edit')">
-				{{ version.timestamp }}Restore
-			</ActionButton>
-			<ActionButton icon="icon-delete" @click="alert('Delete')">
-				Download
-			</ActionButton>
-		</Actions>
-	</ListItemIcon>
+	<ul>
+		<ListItemIcon
+			:title="version.lastmod"
+			:subtitle="version.size">
+			<Actions
+				menu-align="right"
+				class="version-entry__actions">
+				<ActionButton icon="icon-history" @click="alert('Edit')">
+					{{ t('files_versions','Restore') }}
+				</ActionButton>
+			</Actions>
+		</ListItemIcon>
+	</ul>
 </template>
 
 <script>
+import Avatar from '@nextcloud/vue/dist/Components/Avatar'
 import Actions from '@nextcloud/vue/dist/Components/Actions'
 import Tooltip from '@nextcloud/vue/dist/Directives/Tooltip'
 import ListItemIcon from '@nextcloud/vue/dist/Components/ListItemIcon'
+import moment from '@nextcloud/moment'
+
 export default {
 	name: 'VersionEntry',
 
 	components: {
 		Actions,
-		ListItemIcon
-
+		ListItemIcon,
+		Avatar,
 	},
 
 	directives: {
 		Tooltip,
 	},
-	props: {
-		versions: {
 
+	props: {
+		fileInfo: {
+			type: Object,
+			required: true,
+		},
+		version: {
+			type: Object,
+			required: true,
 		},
 	},
-
+	data() {
+		return {
+			iconUrl,
+			version: {},
+			moment,
+		}
+	},
+	computed: {
+		iconUrl() {
+			return OC.MimeType.getIconUrl(this.MimeType)
+			console.log(iconUrl)
+		},
+		relativeDate() {
+			return (timestamp) => {
+				const diff = moment(this.$root.time).diff(moment(timestamp))
+				if (diff >= 0 && diff < 45000) {
+					return t('core', 'seconds ago')
+				}
+				return moment(timestamp).fromNow()
+			}
+		},
+	},
 }
+
 </script>
 
-<style lang="scss" scoped>
-.version-entry {
-	display: flex;
-	align-items: center;
-	min-height: 44px;
-	&__desc {
-		padding: 8px;
-		line-height: 1.2em;
-		position: relative;
-		flex: 1 1;
-		min-width: 0;
-		h5 {
-			white-space: nowrap;
-			text-overflow: ellipsis;
-			overflow: hidden;
-			max-width: inherit;
+	<style lang="scss" scoped>
+	.version-entry {
+		display: flex;
+		align-items: center;
+		min-height: 44px;
+		&__desc {
+			padding: 8px;
+			line-height: 1.2em;
+			position: relative;
+			flex: 1 1;
+			min-width: 0;
+			h5 {
+				white-space: nowrap;
+				text-overflow: ellipsis;
+				overflow: hidden;
+				max-width: inherit;
+			}
+			p {
+				color: var(--color-text-maxcontrast);
+			}
 		}
-		p {
-			color: var(--color-text-maxcontrast);
+		&__actions {
+			margin-left: auto !important;
 		}
 	}
-	&__actions {
-		margin-left: auto !important;
-	}
-}
-</style>
+	</style>
