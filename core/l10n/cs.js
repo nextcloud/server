@@ -8,7 +8,7 @@ OC.L10N.register(
     "The file was uploaded" : "Soubor byl nahrán",
     "The uploaded file exceeds the upload_max_filesize directive in php.ini" : "Velikost nahrávaného souboru překračuje limit nastavení direktivou upload_max_filesize v php.ini",
     "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" : "Nahraný soubor překračuje nastavení MAX_FILE_SIZE, které bylo zadáno v HTML formuláři",
-    "The file was only partially uploaded" : "Soubor byl nahrán pouze částečně",
+    "The file was only partially uploaded" : "Soubor byl nahrán pouze z části",
     "No file was uploaded" : "Nebyl nahrán žádný soubor",
     "Missing a temporary folder" : "Chybí složka pro dočasné soubory",
     "Could not write file to disk" : "Soubor se nedaří zapsat na úložiště",

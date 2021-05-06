@@ -73,7 +73,6 @@
     "More options …" : "Lisää valintoja…",
     "More options at %s" : "Lisää valintoja kohteessa %s",
     "Contacts" : "Yhteystiedot",
-    "System in maintenance mode." : "Järjestelmä on huoltotilassa.",
     "Upgrade needed" : "Päivitys tarvitaan",
     "Your %s needs to be configured to use HTTPS in order to use CalDAV and CardDAV with iOS/macOS." : "%s tulee asettaa käyttämään HTTPS-yhteyttä, jotta CalDAVia ja CardDAVia voi käyttää iOSilla tai macOS:llä.",
     "Configures a CalDAV account" : "Määrittää CalDAV-tilin",
