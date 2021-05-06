@@ -28,26 +28,18 @@ use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\IFile;
 
 /**
- * Class FutureFile
- *
- * The FutureFile is a SabreDav IFile which connects the chunked upload directory
- * with the AssemblyStream, who does the final assembly job
- *
- * @package OCA\DAV\Upload
+ * This class represents an Upload part which is not present on the storage itself
+ * but handled directly by external storage services like S3 with Multipart Upload
  */
-class FutureFile implements \Sabre\DAV\IFile {
+class PartFile implements IFile {
 	/** @var Directory */
 	private $root;
-	/** @var string */
-	private $name;
+	/** @var array */
+	private $partInfo;
 
-	/**
-	 * @param Directory $root
-	 * @param string $name
-	 */
-	public function __construct(Directory $root, $name) {
+	public function __construct(Directory $root, array $partInfo) {
 		$this->root = $root;
-		$this->name = $name;
+		$this->partInfo = $partInfo;
 	}
 
 	/**
@@ -61,12 +53,11 @@ class FutureFile implements \Sabre\DAV\IFile {
 	 * @inheritdoc
 	 */
 	public function get() {
-		$nodes = $this->root->getChildren();
-		return AssemblyStream::wrap($nodes);
+		throw new Forbidden('Permission denied to get this file');
 	}
 
 	public function getPath() {
-		return $this->root->getFileInfo()->getInternalPath() . '/.file';
+		return $this->root->getFileInfo()->getInternalPath() . '/' . $this->partInfo['PartNumber'];
 	}
 
 	/**
@@ -80,20 +71,14 @@ class FutureFile implements \Sabre\DAV\IFile {
 	 * @inheritdoc
 	 */
 	public function getETag() {
-		return $this->root->getETag();
+		return $this->partInfo['ETag'];
 	}
 
 	/**
 	 * @inheritdoc
 	 */
 	public function getSize() {
-		$children = $this->root->getChildren();
-		$sizes = array_map(function ($node) {
-			/** @var IFile $node */
-			return $node->getSize();
-		}, $children);
-
-		return array_sum($sizes);
+		return $this->partInfo['Size'];
 	}
 
 	/**
@@ -107,7 +92,7 @@ class FutureFile implements \Sabre\DAV\IFile {
 	 * @inheritdoc
 	 */
 	public function getName() {
-		return $this->name;
+		return $this->partInfo['PartNumber'];
 	}
 
 	/**
@@ -121,6 +106,6 @@ class FutureFile implements \Sabre\DAV\IFile {
 	 * @inheritdoc
 	 */
 	public function getLastModified() {
-		return $this->root->getLastModified();
+		return $this->partInfo['LastModified'];
 	}
 }

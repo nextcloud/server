@@ -29,6 +29,8 @@
  */
 namespace OC\Files\ObjectStore;
 
+use Aws\S3\Exception\S3Exception;
+use Aws\S3\Exception\S3MultipartUploadException;
 use Icewind\Streams\CallbackWrapper;
 use Icewind\Streams\CountWrapper;
 use Icewind\Streams\IteratorDirectory;
@@ -37,11 +39,14 @@ use OC\Files\Cache\CacheEntry;
 use OC\Files\Storage\PolyFill\CopyDirectory;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\FileInfo;
+use OCP\Files\GenericFileException;
 use OCP\Files\NotFoundException;
 use OCP\Files\ObjectStore\IObjectStore;
+use OCP\Files\ObjectStore\IObjectStoreMultiPartUpload;
+use OCP\Files\Storage\IChunkedFileWrite;
 use OCP\Files\Storage\IStorage;
 
-class ObjectStoreStorage extends \OC\Files\Storage\Common {
+class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFileWrite {
 	use CopyDirectory;
 
 	/**
@@ -91,7 +96,6 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 
 	public function mkdir($path) {
 		$path = $this->normalizePath($path);
-
 		if ($this->file_exists($path)) {
 			return false;
 		}
@@ -626,5 +630,73 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 
 			throw $e;
 		}
+	}
+
+	public function startChunkedWrite(string $targetPath): string {
+		if (!$this->objectStore instanceof IObjectStoreMultiPartUpload) {
+			throw new GenericFileException('Object store does not support multipart upload');
+		}
+		$cacheEntry = $this->getCache()->get($targetPath);
+		$urn = $this->getURN($cacheEntry->getId());
+		return $this->objectStore->initiateMultipartUpload($urn);
+	}
+
+	/**
+	 *
+	 * @throws GenericFileException
+	 */
+	public function putChunkedWritePart(string $targetPath, string $writeToken, string $chunkId, $data, $size = null): ?array {
+		if (!$this->objectStore instanceof IObjectStoreMultiPartUpload) {
+			throw new GenericFileException('Object store does not support multipart upload');
+		}
+		$cacheEntry = $this->getCache()->get($targetPath);
+		$urn = $this->getURN($cacheEntry->getId());
+
+		$result = $this->objectStore->uploadMultipartPart($urn, $writeToken, (int)$chunkId, $data, $size);
+
+		$parts[$chunkId] = [
+			'PartNumber' => $chunkId,
+			'ETag' => trim($result->get('ETag'), '"')
+		];
+		return $parts[$chunkId];
+	}
+
+	public function completeChunkedWrite(string $targetPath, string $writeToken): int {
+		if (!$this->objectStore instanceof IObjectStoreMultiPartUpload) {
+			throw new GenericFileException('Object store does not support multipart upload');
+		}
+		$cacheEntry = $this->getCache()->get($targetPath);
+		$urn = $this->getURN($cacheEntry->getId());
+		$parts = $this->objectStore->getMultipartUploads($urn, $writeToken);
+		$sortedParts = array_values($parts);
+		sort($sortedParts);
+		try {
+			$size = $this->objectStore->completeMultipartUpload($urn, $writeToken, $sortedParts);
+			$stat = $this->stat($targetPath);
+			$mtime = time();
+			if (is_array($stat)) {
+				$stat['size'] = $size;
+				$stat['mtime'] = $mtime;
+				$stat['mimetype'] = $this->getMimeType($targetPath);
+				$this->getCache()->update($stat['fileid'], $stat);
+			}
+		} catch (S3MultipartUploadException | S3Exception $e) {
+			$this->objectStore->abortMultipartUpload($urn, $writeToken);
+			$this->logger->logException($e, [
+				'app' => 'objectstore',
+				'message' => 'Could not compete multipart upload ' . $urn. ' with uploadId ' . $writeToken
+			]);
+			throw new GenericFileException('Could not write chunked file');
+		}
+		return $size;
+	}
+
+	public function cancelChunkedWrite(string $targetPath, string $writeToken): void {
+		if (!$this->objectStore instanceof IObjectStoreMultiPartUpload) {
+			throw new GenericFileException('Object store does not support multipart upload');
+		}
+		$cacheEntry = $this->getCache()->get($targetPath);
+		$urn = $this->getURN($cacheEntry->getId());
+		$this->objectStore->abortMultipartUpload($urn, $writeToken);
 	}
 }
