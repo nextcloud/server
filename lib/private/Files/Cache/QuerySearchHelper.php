@@ -255,6 +255,11 @@ class QuerySearchHelper {
 	}
 
 	/**
+	 * Perform a file system search in multiple caches
+	 *
+	 * the results will be grouped by the same array keys as the $caches argument to allow
+	 * post-processing based on which cache the result came from
+	 *
 	 * @template T of array-key
 	 * @param ISearchQuery $searchQuery
 	 * @param array<T, ICache> $caches
@@ -304,10 +309,6 @@ class QuerySearchHelper {
 		}, $caches));
 		$query->andWhere($this->searchOperatorToDBExpr($builder, new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_OR, $storageFilters)));
 
-		if ($searchQuery->limitToHome() && ($this instanceof HomeCache)) {
-			$query->andWhere($builder->expr()->like('path', $query->expr()->literal('files/%')));
-		}
-
 		$this->addSearchOrdersToQuery($query, $searchQuery->getOrder());
 
 		if ($searchQuery->getLimit()) {
@@ -327,6 +328,7 @@ class QuerySearchHelper {
 		$result->closeCursor();
 
 		// loop trough all caches for each result to see if the result matches that storage
+		// results are grouped by the same array keys as the caches argument to allow the caller to distringuish the source of the results
 		$results = array_fill_keys(array_keys($caches), []);
 		foreach ($rawEntries as $rawEntry) {
 			foreach ($caches as $cacheKey => $cache) {
