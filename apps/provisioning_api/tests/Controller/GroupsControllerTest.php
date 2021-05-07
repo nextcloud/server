@@ -30,7 +30,6 @@
 
 namespace OCA\Provisioning_API\Tests\Controller;
 
-use OC\Accounts\AccountManager;
 use OC\Group\Manager;
 use OC\SubAdmin;
 use OC\User\NoUserException;
@@ -57,7 +56,7 @@ class GroupsControllerTest extends \Test\TestCase {
 	protected $groupManager;
 	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
 	protected $userSession;
-	/** @var AccountManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IAccountManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $accountManager;
 	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
 	protected $logger;
@@ -76,7 +75,7 @@ class GroupsControllerTest extends \Test\TestCase {
 		$this->config = $this->createMock(IConfig::class);
 		$this->groupManager = $this->createMock(Manager::class);
 		$this->userSession = $this->createMock(IUserSession::class);
-		$this->accountManager = $this->createMock(AccountManager::class);
+		$this->accountManager = $this->createMock(IAccountManager::class);
 		$this->l10nFactory = $this->createMock(IFactory::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 
@@ -178,19 +177,6 @@ class GroupsControllerTest extends \Test\TestCase {
 					return true;
 				}
 				return false;
-			});
-	}
-
-	private function useAccountManager() {
-		$this->accountManager->expects($this->any())
-			->method('getUser')
-			->willReturnCallback(function (IUser $user) {
-				return [
-					IAccountManager::PROPERTY_PHONE => ['value' => '0800-call-' . $user->getUID()],
-					IAccountManager::PROPERTY_ADDRESS => ['value' => 'Holzweg 99, 0601 Herrera, Panama'],
-					IAccountManager::PROPERTY_WEBSITE => ['value' => 'https://' . $user->getUid() . '.pa'],
-					IAccountManager::PROPERTY_TWITTER => ['value' => '@' . $user->getUID()],
-				];
 			});
 	}
 
@@ -505,7 +491,6 @@ class GroupsControllerTest extends \Test\TestCase {
 		$gid = 'ncg1';
 
 		$this->asAdmin();
-		$this->useAccountManager();
 
 		$users = [
 			'ncu1' => $this->createUser('ncu1'), # regular
@@ -551,7 +536,6 @@ class GroupsControllerTest extends \Test\TestCase {
 		$gid = 'Department A/B C/D';
 
 		$this->asAdmin();
-		$this->useAccountManager();
 
 		$users = [
 			'ncu1' => $this->createUser('ncu1'), # regular
