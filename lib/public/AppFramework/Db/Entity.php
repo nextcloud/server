@@ -115,7 +115,14 @@ abstract class Entity {
 					// (B)LOB is treated as string when we read from the DB
 					$type = 'string';
 				}
-				settype($args[0], $type);
+
+				if ($type === 'datetime') {
+					if (!$args[0] instanceof \DateTime) {
+						$args[0] = new \DateTime($args[0]);
+					}
+				} else {
+					settype($args[0], $type);
+				}
 			}
 			$this->$name = $args[0];
 		} else {
