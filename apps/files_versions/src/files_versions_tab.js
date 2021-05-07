@@ -53,6 +53,7 @@ window.addEventListener('DOMContentLoaded', function() {
 				await TabInstance.update(fileInfo)
 				TabInstance.$mount(el)
 			},
+
 			update(fileInfo) {
 				TabInstance.update(fileInfo)
 			},

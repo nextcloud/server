@@ -1,7 +1,9 @@
 /**
  * @copyright Copyright (c) 2019 John Molakvoæ <skjnldsv@protonmail.com>
+ *
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Enoch <enoch@nextcloud.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
+ *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -11,7 +13,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -29,11 +31,11 @@ export const fetchFileVersions = async function(fileId) {
 	const response = await client.getDirectoryContents(VersionsUrl, {
 		data: `<?xml version="1.0"?>
 			<d:propfind  xmlns:d="DAV:" xmlns:oc="http://owncloud.org/ns">
-			  <d:prop>
+			<d:prop>
 				<d:getcontentlength />
 				<d:getcontenttype />
 				<d:getlastmodified />
-			  </d:prop>
+			</d:prop>
 			</d:propfind>`,
 		details: true,
 	})
@@ -41,4 +43,3 @@ export const fetchFileVersions = async function(fileId) {
 	/** return response.data.map(FileVersion); */
 	return response.data.map(genFileInfo)
 }
-

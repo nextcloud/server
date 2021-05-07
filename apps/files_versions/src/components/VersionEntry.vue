@@ -20,7 +20,6 @@
 
 <template>
 	<li>
-
 		<ListItemIcon
 			v-if="!isLatestChange"
 			:title="relativeDate"
@@ -36,12 +35,12 @@
 				</ActionLink>
 			</Actions>
 		</ListItemIcon>
-		</div>
 	</li>
 </template>
 
 <script>
 import moment from '@nextcloud/moment'
+
 import Actions from '@nextcloud/vue/dist/Components/Actions'
 import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
 import ActionLink from '@nextcloud/vue/dist/Components/ActionLink'
@@ -50,8 +49,6 @@ import ListItemIcon from '@nextcloud/vue/dist/Components/ListItemIcon'
 
 import { generateUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
-import client from "../services/DavClient";
-
 
 export default {
 	name: 'VersionEntry',
@@ -61,7 +58,6 @@ export default {
 		ActionButton,
 		ActionLink,
 		ListItemIcon,
-
 	},
 
 	directives: {
@@ -77,18 +73,15 @@ export default {
 			type: Object,
 			required: true,
 		},
-		tooltip: {
-			type: String,
-			default: '',
-		},
 	},
 
 	computed: {
 		// Does the current user have permissions to revert this file
-		canRevert () {
+		canRevert() {
 			// TODO: implement permission check
 			return true
 		},
+
 		/**
 		 * If the basename is just the file id,
 		 * this is the latest file version entry
@@ -97,6 +90,7 @@ export default {
 		isLatestChange() {
 			return this.fileInfo.id === this.version.basename
 		},
+
 		versionUrl() {
 			return generateUrl('/remote.php/dav/versions/{user}' + this.version.filename, {
 				user: getCurrentUser().uid,
@@ -105,51 +99,30 @@ export default {
 		iconUrl() {
 			return OC.MimeType.getIconUrl(this.fileInfo.mimetype)
 		},
+
 		formattedSize() {
 			return OC.Util.humanFileSize(this.version.size, true)
 		},
+
 		relativeDate() {
 			return moment(this.version.lastmod).fromNow()
 		},
 	},
+
 	methods: {
-             // Restores the original file to this revision
-		 restoreVersion () {
+		restoreVersion() {
 			// TODO: implement restore request and loading
-			return client.move('/remote.php/dav/versions/{user}' + this.version.basename, {
-				user: getCurrentUser().uid,
-			},'/restore/target', true)
 		},
 	},
 }
 
 </script>
 
-	<style lang="scss" scoped>
-	.version-entry {
-		display: flex;
-		align-items: center;
-		height: 44px;
-		&__desc {
-			display: flex;
-			flex-direction: column;
-			justify-content: space-between;
-			padding: 8px;
-			line-height: 1.6em;
-			p {
-				color: var(--color-text-maxcontrast);
-			}
-			&-unique {
-				color: var(--color-text-maxcontrast);
-			}
-		}
-		&__actions {
-			margin-left: auto;
-		}
-		// Remove avatar border-radius around file type icon
-		::v-deep .avatardiv img {
-			border-radius: 0;
-		}
-
+<style lang="scss" scoped>
+.version-entry {
+	// Remove avatar border-radius around file type icon
+	::v-deep .avatardiv img {
+		border-radius: 0;
 	}
-	</style>
+}
+</style>

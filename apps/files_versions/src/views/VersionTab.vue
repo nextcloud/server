@@ -24,35 +24,35 @@
 	<div :class="{ 'icon-loading': loading }">
 		<!-- error message -->
 		<EmptyContent v-if="error" icon="icon-error">
-         {{ t('files_versions', 'Cannot load versions list')}}
+			{{ t('files_versions', 'Cannot load versions list') }}
 			<template #desc>
-				{{error}}
+				{{ error }}
 			</template>
 		</EmptyContent>
+
+		<!-- Versions list  -->
 		<ul>
-			<!-- Version information  -->
 			<VersionEntry v-for="version in versionsList"
-						  :key="version.basename"
-						  :file-info="fileInfo"
-						  :version="version" />
+				:key="version.basename"
+				:file-info="fileInfo"
+				:version="version" />
 		</ul>
 	</div>
 </template>
 
 <script>
-import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
 import { showError } from '@nextcloud/dialogs'
+import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
 
 import VersionEntry from '../components/VersionEntry'
 import { fetchFileVersions } from '../services/FileVersion'
-
 
 export default {
 	name: 'VersionTab',
 
 	components: {
-		VersionEntry,
 		EmptyContent,
+		VersionEntry,
 	},
 
 	data() {
@@ -65,21 +65,23 @@ export default {
 			versionsList: [],
 		}
 	},
-		beforeMount(){
+
+	beforeMount() {
 		this.getVersions()
 	},
 
 	methods: {
 		/**
-				 * Update current fileInfo and fetch new data
-				 * @param {Object} fileInfo the current file FileInfo
-				 */
+		 * Update current fileInfo and fetch new data
+		 * @param {Object} fileInfo the current file FileInfo
+		 */
 		async update(fileInfo) {
 			this.fileInfo = fileInfo
 		},
 
 		async getVersions() {
 			this.loading = true
+
 			try {
 				const fetchVersions = await fetchFileVersions(this.fileInfo.id)
 				this.versionsList = fetchVersions
