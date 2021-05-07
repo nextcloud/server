@@ -40,6 +40,7 @@ window.addEventListener('DOMContentLoaded', function() {
 			id: 'version_new',
 			name: t('files_versions', 'VueVersions'),
 			icon: 'icon-version',
+
 			async mount(el, fileInfo, context) {
 				if (TabInstance) {
 					TabInstance.$destroy()

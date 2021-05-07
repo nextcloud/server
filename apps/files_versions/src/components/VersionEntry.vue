@@ -1,5 +1,5 @@
 <!--
- - @copyright Copyright (c) 2021 Enoch <enoch@nextcloud.com>
+  - @copyright Copyright (c) 2021 Enoch <enoch@nextcloud.com>
   -
   - @author Enoch <enoch@nextcloud.com>
   -
@@ -19,35 +19,49 @@
   -->
 
 <template>
-	<ul>
+	<li>
+
 		<ListItemIcon
-			:title="version.lastmod"
-			:subtitle="version.size">
-			<Actions
-				menu-align="right"
-				class="version-entry__actions">
-				<ActionButton icon="icon-history" @click="alert('Edit')">
+			v-if="!isLatestChange"
+			:title="relativeDate"
+			:subtitle="formattedSize"
+			:url="iconUrl"
+			class="version-entry">
+			<Actions class="version-entry__actions">
+				<ActionButton v-if="canRevert" icon="icon-history" @click="restoreVersion">
 					{{ t('files_versions','Restore') }}
 				</ActionButton>
+				<ActionLink icon="icon-download" :href="versionUrl">
+					{{ t('files_versions','Download') }}
+				</ActionLink>
 			</Actions>
 		</ListItemIcon>
-	</ul>
+		</div>
+	</li>
 </template>
 
 <script>
-import Avatar from '@nextcloud/vue/dist/Components/Avatar'
+import moment from '@nextcloud/moment'
 import Actions from '@nextcloud/vue/dist/Components/Actions'
+import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
+import ActionLink from '@nextcloud/vue/dist/Components/ActionLink'
 import Tooltip from '@nextcloud/vue/dist/Directives/Tooltip'
 import ListItemIcon from '@nextcloud/vue/dist/Components/ListItemIcon'
-import moment from '@nextcloud/moment'
+
+import { generateUrl } from '@nextcloud/router'
+import { getCurrentUser } from '@nextcloud/auth'
+import client from "../services/DavClient";
+
 
 export default {
 	name: 'VersionEntry',
 
 	components: {
 		Actions,
+		ActionButton,
+		ActionLink,
 		ListItemIcon,
-		Avatar,
+
 	},
 
 	directives: {
@@ -63,27 +77,48 @@ export default {
 			type: Object,
 			required: true,
 		},
+		tooltip: {
+			type: String,
+			default: '',
+		},
 	},
-	data() {
-		return {
-			iconUrl,
-			version: {},
-			moment,
-		}
-	},
+
 	computed: {
+		// Does the current user have permissions to revert this file
+		canRevert () {
+			// TODO: implement permission check
+			return true
+		},
+		/**
+		 * If the basename is just the file id,
+		 * this is the latest file version entry
+		 * @returns {boolean}
+		 */
+		isLatestChange() {
+			return this.fileInfo.id === this.version.basename
+		},
+		versionUrl() {
+			return generateUrl('/remote.php/dav/versions/{user}' + this.version.filename, {
+				user: getCurrentUser().uid,
+			})
+		},
 		iconUrl() {
-			return OC.MimeType.getIconUrl(this.MimeType)
-			console.log(iconUrl)
+			return OC.MimeType.getIconUrl(this.fileInfo.mimetype)
+		},
+		formattedSize() {
+			return OC.Util.humanFileSize(this.version.size, true)
 		},
 		relativeDate() {
-			return (timestamp) => {
-				const diff = moment(this.$root.time).diff(moment(timestamp))
-				if (diff >= 0 && diff < 45000) {
-					return t('core', 'seconds ago')
-				}
-				return moment(timestamp).fromNow()
-			}
+			return moment(this.version.lastmod).fromNow()
+		},
+	},
+	methods: {
+             // Restores the original file to this revision
+		 restoreVersion () {
+			// TODO: implement restore request and loading
+			return client.move('/remote.php/dav/versions/{user}' + this.version.basename, {
+				user: getCurrentUser().uid,
+			},'/restore/target', true)
 		},
 	},
 }
@@ -94,25 +129,27 @@ export default {
 	.version-entry {
 		display: flex;
 		align-items: center;
-		min-height: 44px;
+		height: 44px;
 		&__desc {
+			display: flex;
+			flex-direction: column;
+			justify-content: space-between;
 			padding: 8px;
-			line-height: 1.2em;
-			position: relative;
-			flex: 1 1;
-			min-width: 0;
-			h5 {
-				white-space: nowrap;
-				text-overflow: ellipsis;
-				overflow: hidden;
-				max-width: inherit;
-			}
+			line-height: 1.6em;
 			p {
+				color: var(--color-text-maxcontrast);
+			}
+			&-unique {
 				color: var(--color-text-maxcontrast);
 			}
 		}
 		&__actions {
-			margin-left: auto !important;
+			margin-left: auto;
 		}
+		// Remove avatar border-radius around file type icon
+		::v-deep .avatardiv img {
+			border-radius: 0;
+		}
+
 	}
 	</style>
