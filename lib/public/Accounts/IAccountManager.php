@@ -96,6 +96,8 @@ interface IAccountManager {
 	public const PROPERTY_ADDRESS = 'address';
 	public const PROPERTY_TWITTER = 'twitter';
 
+	public const COLLECTION_EMAIL = 'additional_mail';
+
 	public const NOT_VERIFIED = '0';
 	public const VERIFICATION_IN_PROGRESS = '1';
 	public const VERIFIED = '2';
@@ -123,7 +125,10 @@ interface IAccountManager {
 	/**
 	 * Search for users based on account data
 	 *
-	 * @param string $property
+	 * @param string $property - property or property collection name – since
+	 * NC 22 the implementation MAY add a fitting property collection into the
+	 * search even if a property name was given e.g. email property and email
+	 * collection)
 	 * @param string[] $values
 	 * @return array
 	 *
