@@ -32,6 +32,7 @@ use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Proxy\ProxyMapper;
 use OCA\DAV\Connector\Sabre\Principal;
 use OCA\DAV\Events\CalendarDeletedEvent;
+use OCA\DAV\Events\CalendarObjectCreatedEvent;
 use OCP\App\IAppManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
@@ -206,9 +207,11 @@ END:VCALENDAR
 EOD;
 		$uri0 = $this->getUniqueID('event');
 
-		$this->legacyDispatcher->expects($this->at(0))
-			->method('dispatch')
-			->with('\OCA\DAV\CalDAV\CalDavBackend::createCalendarObject');
+		$this->dispatcher->expects(self::once())
+			->method('dispatchTyped')
+			->with(self::callback(function ($event) {
+				return $event instanceof CalendarObjectCreatedEvent;
+			}));
 
 		$this->backend->createCalendarObject($calendarId, $uri0, $calData);
 

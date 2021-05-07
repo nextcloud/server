@@ -27,6 +27,7 @@ namespace OCA\DAV\Listener;
 
 use OCA\DAV\CalDAV\Activity\Backend as ActivityBackend;
 use OCA\DAV\Events\CalendarDeletedEvent;
+use OCA\DAV\Events\CalendarObjectCreatedEvent;
 use OCA\DAV\Events\CalendarObjectDeletedEvent;
 use OCA\DAV\Events\CalendarObjectUpdatedEvent;
 use OCP\EventDispatcher\Event;
@@ -63,6 +64,24 @@ class ActivityUpdaterListener implements IEventListener {
 			} catch (Throwable $e) {
 				// Any error with activities shouldn't abort the calendar deletion, so we just log it
 				$this->logger->error('Error generating activities for a deleted calendar: ' . $e->getMessage(), [
+					'exception' => $e,
+				]);
+			}
+		} elseif ($event instanceof CalendarObjectCreatedEvent) {
+			try {
+				$this->activityBackend->onTouchCalendarObject(
+					\OCA\DAV\CalDAV\Activity\Provider\Event::SUBJECT_OBJECT_ADD,
+					$event->getCalendarData(),
+					$event->getShares(),
+					$event->getObjectData()
+				);
+
+				$this->logger->debug(
+					sprintf('Activity generated for new calendar object in calendar %d', $event->getCalendarId())
+				);
+			} catch (Throwable $e) {
+				// Any error with activities shouldn't abort the calendar object creation, so we just log it
+				$this->logger->error('Error generating activity for a new calendar object: ' . $e->getMessage(), [
 					'exception' => $e,
 				]);
 			}

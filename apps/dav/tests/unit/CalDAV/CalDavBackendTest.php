@@ -37,6 +37,7 @@ use DateTimeZone;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Calendar;
 use OCA\DAV\Events\CalendarDeletedEvent;
+use OCA\DAV\Events\CalendarObjectCreatedEvent;
 use OCA\DAV\Events\CalendarUpdatedEvent;
 use OCP\IConfig;
 use OCP\IL10N;
@@ -187,9 +188,11 @@ END:VEVENT
 END:VCALENDAR
 EOD;
 
-		$this->legacyDispatcher->expects($this->at(0))
-			->method('dispatch')
-			->with('\OCA\DAV\CalDAV\CalDavBackend::createCalendarObject');
+		$this->dispatcher->expects(self::once())
+			->method('dispatchTyped')
+			->with(self::callback(function ($event) {
+				return $event instanceof CalendarObjectCreatedEvent;
+			}));
 		$this->backend->createCalendarObject($calendarId, $uri, $calData);
 
 		/** @var IACL $child */
@@ -233,9 +236,11 @@ END:VEVENT
 END:VCALENDAR
 EOD;
 
-		$this->legacyDispatcher->expects($this->at(0))
-			->method('dispatch')
-			->with('\OCA\DAV\CalDAV\CalDavBackend::createCalendarObject');
+		$this->dispatcher->expects(self::once())
+			->method('dispatchTyped')
+			->with(self::callback(function ($event) {
+				return $event instanceof CalendarObjectCreatedEvent;
+			}));
 		$this->backend->createCalendarObject($calendarId, $uri, $calData);
 
 		// get all the cards
@@ -378,19 +383,25 @@ END:VCALENDAR
 EOD;
 
 		$uri0 = static::getUniqueID('card');
-		$this->legacyDispatcher->expects($this->at(0))
-			->method('dispatch')
-			->with('\OCA\DAV\CalDAV\CalDavBackend::createCalendarObject');
+		$this->dispatcher->expects(self::once())
+			->method('dispatchTyped')
+			->with(self::callback(function ($event) {
+				return $event instanceof CalendarObjectCreatedEvent;
+			}));
 		$this->backend->createCalendarObject($calendarId, $uri0, $calData[0]);
 		$uri1 = static::getUniqueID('card');
-		$this->legacyDispatcher->expects($this->at(0))
-			->method('dispatch')
-			->with('\OCA\DAV\CalDAV\CalDavBackend::createCalendarObject');
+		$this->dispatcher->expects(self::once())
+			->method('dispatchTyped')
+			->with(self::callback(function ($event) {
+				return $event instanceof CalendarObjectCreatedEvent;
+			}));
 		$this->backend->createCalendarObject($calendarId, $uri1, $calData[1]);
 		$uri2 = static::getUniqueID('card');
-		$this->legacyDispatcher->expects($this->at(0))
-			->method('dispatch')
-			->with('\OCA\DAV\CalDAV\CalDavBackend::createCalendarObject');
+		$this->dispatcher->expects(self::once())
+			->method('dispatchTyped')
+			->with(self::callback(function ($event) {
+				return $event instanceof CalendarObjectCreatedEvent;
+			}));
 		$this->backend->createCalendarObject($calendarId, $uri2, $calData[2]);
 
 		// get all the cards
