@@ -74,8 +74,7 @@ class CalendarObjectReminderUpdaterListener implements IEventListener {
 			}
 		} elseif ($event instanceof CalendarObjectCreatedEvent) {
 			try {
-				$this->reminderService->onTouchCalendarObject(
-					'\OCA\DAV\CalDAV\CalDavBackend::createCalendarObject',
+				$this->reminderService->onCalendarObjectCreate(
 					$event->getObjectData()
 				);
 
@@ -90,8 +89,7 @@ class CalendarObjectReminderUpdaterListener implements IEventListener {
 			}
 		} elseif ($event instanceof CalendarObjectUpdatedEvent) {
 			try {
-				$this->reminderService->onTouchCalendarObject(
-					'\OCA\DAV\CalDAV\CalDavBackend::updateCalendarObject',
+				$this->reminderService->onCalendarObjectEdit(
 					$event->getObjectData()
 				);
 
@@ -106,8 +104,7 @@ class CalendarObjectReminderUpdaterListener implements IEventListener {
 			}
 		} elseif ($event instanceof CalendarObjectDeletedEvent) {
 			try {
-				$this->reminderService->onTouchCalendarObject(
-					'\OCA\DAV\CalDAV\CalDavBackend::deleteCalendarObject',
+				$this->reminderService->onCalendarObjectDelete(
 					$event->getObjectData()
 				);
 
