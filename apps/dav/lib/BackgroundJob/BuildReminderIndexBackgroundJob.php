@@ -125,7 +125,7 @@ class BuildReminderIndexBackgroundJob extends QueuedJob {
 			$row['component'] = $row['componenttype'];
 
 			try {
-				$this->reminderService->onTouchCalendarObject('\OCA\DAV\CalDAV\CalDavBackend::createCalendarObject', $row);
+				$this->reminderService->onCalendarObjectCreate($row);
 			} catch (\Exception $ex) {
 				$this->logger->logException($ex);
 			}

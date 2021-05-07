@@ -44,6 +44,7 @@ use Sabre\VObject\InvalidDataException;
 use Sabre\VObject\ParseException;
 use Sabre\VObject\Recur\EventIterator;
 use Sabre\VObject\Recur\NoInstancesException;
+use function strcasecmp;
 
 class ReminderService {
 
@@ -154,39 +155,15 @@ class ReminderService {
 	}
 
 	/**
-	 * @param string $action
 	 * @param array $objectData
 	 * @throws VObject\InvalidDataException
 	 */
-	public function onTouchCalendarObject(string $action,
-										  array $objectData):void {
+	public function onCalendarObjectCreate(array $objectData):void {
 		// We only support VEvents for now
 		if (strcasecmp($objectData['component'], 'vevent') !== 0) {
 			return;
 		}
 
-		switch ($action) {
-			case '\OCA\DAV\CalDAV\CalDavBackend::createCalendarObject':
-				$this->onCalendarObjectCreate($objectData);
-				break;
-
-			case '\OCA\DAV\CalDAV\CalDavBackend::updateCalendarObject':
-				$this->onCalendarObjectEdit($objectData);
-				break;
-
-			case '\OCA\DAV\CalDAV\CalDavBackend::deleteCalendarObject':
-				$this->onCalendarObjectDelete($objectData);
-				break;
-
-			default:
-				break;
-		}
-	}
-
-	/**
-	 * @param array $objectData
-	 */
-	private function onCalendarObjectCreate(array $objectData):void {
 		$calendarData = is_resource($objectData['calendardata'])
 			? stream_get_contents($objectData['calendardata'])
 			: $objectData['calendardata'];
@@ -307,8 +284,9 @@ class ReminderService {
 
 	/**
 	 * @param array $objectData
+	 * @throws VObject\InvalidDataException
 	 */
-	private function onCalendarObjectEdit(array $objectData):void {
+	public function onCalendarObjectEdit(array $objectData):void {
 		// TODO - this can be vastly improved
 		//  - get cached reminders
 		//  - ...
@@ -319,8 +297,14 @@ class ReminderService {
 
 	/**
 	 * @param array $objectData
+	 * @throws VObject\InvalidDataException
 	 */
-	private function onCalendarObjectDelete(array $objectData):void {
+	public function onCalendarObjectDelete(array $objectData):void {
+		// We only support VEvents for now
+		if (strcasecmp($objectData['component'], 'vevent') !== 0) {
+			return;
+		}
+
 		$this->backend->cleanRemindersForEvent((int) $objectData['id']);
 	}
 

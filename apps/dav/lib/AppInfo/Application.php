@@ -36,7 +36,6 @@ namespace OCA\DAV\AppInfo;
 use Exception;
 use OCA\DAV\BackgroundJob\UpdateCalendarResourcesRoomsBackgroundJob;
 use OCA\DAV\CalDAV\Activity\Backend;
-use OCA\DAV\CalDAV\Activity\Provider\Event;
 use OCA\DAV\CalDAV\BirthdayService;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\CalendarManager;
@@ -45,7 +44,7 @@ use OCA\DAV\CalDAV\Reminder\NotificationProvider\EmailProvider;
 use OCA\DAV\CalDAV\Reminder\NotificationProvider\PushProvider;
 use OCA\DAV\CalDAV\Reminder\NotificationProviderManager;
 use OCA\DAV\CalDAV\Reminder\Notifier;
-use OCA\DAV\CalDAV\Reminder\ReminderService;
+
 use OCA\DAV\CalDAV\WebcalCaching\RefreshWebcalService;
 use OCA\DAV\Capabilities;
 use OCA\DAV\CardDAV\CardDavBackend;
@@ -54,13 +53,14 @@ use OCA\DAV\CardDAV\PhotoCache;
 use OCA\DAV\CardDAV\SyncService;
 use OCA\DAV\Events\CalendarDeletedEvent;
 use OCA\DAV\Events\CalendarObjectCreatedEvent;
+use OCA\DAV\Events\CalendarObjectDeletedEvent;
 use OCA\DAV\Events\CalendarObjectUpdatedEvent;
 use OCA\DAV\Events\CalendarShareUpdatedEvent;
 use OCA\DAV\HookManager;
+use OCA\DAV\Listener\ActivityUpdaterListener;
 use OCA\DAV\Listener\CalendarContactInteractionListener;
-use OCA\DAV\Listener\CalendarDeletionActivityUpdaterListener;
 use OCA\DAV\Listener\CalendarDeletionDefaultUpdaterListener;
-use OCA\DAV\Listener\CalendarDeletionReminderUpdaterListener;
+use OCA\DAV\Listener\CalendarObjectReminderUpdaterListener;
 use OCA\DAV\Search\ContactsSearchProvider;
 use OCA\DAV\Search\EventsSearchProvider;
 use OCA\DAV\Search\TasksSearchProvider;
@@ -114,11 +114,17 @@ class Application extends App implements IBootstrap {
 		/**
 		 * Register event listeners
 		 */
-		$context->registerEventListener(CalendarDeletedEvent::class, CalendarDeletionActivityUpdaterListener::class);
-		$context->registerEventListener(CalendarDeletedEvent::class, CalendarDeletionReminderUpdaterListener::class);
+		$context->registerEventListener(CalendarDeletedEvent::class, ActivityUpdaterListener::class);
+		$context->registerEventListener(CalendarDeletedEvent::class, CalendarObjectReminderUpdaterListener::class);
 		$context->registerEventListener(CalendarDeletedEvent::class, CalendarDeletionDefaultUpdaterListener::class);
+		$context->registerEventListener(CalendarObjectCreatedEvent::class, ActivityUpdaterListener::class);
 		$context->registerEventListener(CalendarObjectCreatedEvent::class, CalendarContactInteractionListener::class);
+		$context->registerEventListener(CalendarObjectCreatedEvent::class, CalendarObjectReminderUpdaterListener::class);
+		$context->registerEventListener(CalendarObjectUpdatedEvent::class, ActivityUpdaterListener::class);
 		$context->registerEventListener(CalendarObjectUpdatedEvent::class, CalendarContactInteractionListener::class);
+		$context->registerEventListener(CalendarObjectUpdatedEvent::class, CalendarObjectReminderUpdaterListener::class);
+		$context->registerEventListener(CalendarObjectDeletedEvent::class, ActivityUpdaterListener::class);
+		$context->registerEventListener(CalendarObjectDeletedEvent::class, CalendarObjectReminderUpdaterListener::class);
 		$context->registerEventListener(CalendarShareUpdatedEvent::class, CalendarContactInteractionListener::class);
 
 		$context->registerNotifierService(Notifier::class);
@@ -230,34 +236,6 @@ class Application extends App implements IBootstrap {
 			);
 		});
 
-		$listener = function (GenericEvent $event, $eventName) use ($container): void {
-			/** @var Backend $backend */
-			$backend = $container->query(Backend::class);
-
-			$subject = Event::SUBJECT_OBJECT_ADD;
-			if ($eventName === '\OCA\DAV\CalDAV\CalDavBackend::updateCalendarObject') {
-				$subject = Event::SUBJECT_OBJECT_UPDATE;
-			} elseif ($eventName === '\OCA\DAV\CalDAV\CalDavBackend::deleteCalendarObject') {
-				$subject = Event::SUBJECT_OBJECT_DELETE;
-			}
-			$backend->onTouchCalendarObject(
-				$subject,
-				$event->getArgument('calendarData'),
-				$event->getArgument('shares'),
-				$event->getArgument('objectData')
-			);
-
-			/** @var ReminderService $reminderBackend */
-			$reminderService = $container->query(ReminderService::class);
-
-			$reminderService->onTouchCalendarObject(
-				$eventName,
-				$event->getArgument('objectData')
-			);
-		};
-		$dispatcher->addListener('\OCA\DAV\CalDAV\CalDavBackend::createCalendarObject', $listener);
-		$dispatcher->addListener('\OCA\DAV\CalDAV\CalDavBackend::updateCalendarObject', $listener);
-		$dispatcher->addListener('\OCA\DAV\CalDAV\CalDavBackend::deleteCalendarObject', $listener);
 
 		$dispatcher->addListener('OCP\Federation\TrustedServerEvent::remove',
 			function (GenericEvent $event) {
