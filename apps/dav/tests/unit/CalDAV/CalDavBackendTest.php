@@ -63,9 +63,11 @@ class CalDavBackendTest extends AbstractCalDavBackend {
 			'{DAV:}displayname' => 'Unit test',
 			'{urn:ietf:params:xml:ns:caldav}calendar-description' => 'Calendar used for unit testing'
 		]);
-		$this->legacyDispatcher->expects($this->at(0))
-			->method('dispatch')
-			->with('\OCA\DAV\CalDAV\CalDavBackend::updateCalendar');
+		$this->dispatcher->expects(self::once())
+			->method('dispatchTyped')
+			->with(self::callback(function ($event) {
+				return $event instanceof CalendarUpdatedEvent;
+			}));
 		$this->backend->updateCalendar($calendarId, $patch);
 		$patch->commit();
 		$this->assertEquals(1, $this->backend->getCalendarsForUserCount(self::UNIT_TEST_USER));

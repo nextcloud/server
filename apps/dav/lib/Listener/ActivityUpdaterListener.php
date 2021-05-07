@@ -31,6 +31,7 @@ use OCA\DAV\Events\CalendarDeletedEvent;
 use OCA\DAV\Events\CalendarObjectCreatedEvent;
 use OCA\DAV\Events\CalendarObjectDeletedEvent;
 use OCA\DAV\Events\CalendarObjectUpdatedEvent;
+use OCA\DAV\Events\CalendarUpdatedEvent;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use Psr\Log\LoggerInterface;
@@ -67,7 +68,24 @@ class ActivityUpdaterListener implements IEventListener {
 					'exception' => $e,
 				]);
 			}
-		} else if ($event instanceof CalendarDeletedEvent) {
+		} elseif ($event instanceof CalendarUpdatedEvent) {
+			try {
+				$this->activityBackend->onCalendarUpdate(
+					$event->getCalendarData(),
+					$event->getShares(),
+					$event->getMutations()
+				);
+
+				$this->logger->debug(
+					sprintf('Activity generated for changed calendar %d', $event->getCalendarId())
+				);
+			} catch (Throwable $e) {
+				// Any error with activities shouldn't abort the calendar update, so we just log it
+				$this->logger->error('Error generating activities for changed calendar: ' . $e->getMessage(), [
+					'exception' => $e,
+				]);
+			}
+		} elseif ($event instanceof CalendarDeletedEvent) {
 			try {
 				$this->activityBackend->onCalendarDelete(
 					$event->getCalendarData(),
