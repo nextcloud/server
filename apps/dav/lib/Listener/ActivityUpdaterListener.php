@@ -27,16 +27,14 @@ namespace OCA\DAV\Listener;
 
 use OCA\DAV\CalDAV\Activity\Backend as ActivityBackend;
 use OCA\DAV\Events\CalendarDeletedEvent;
+use OCA\DAV\Events\CalendarObjectDeletedEvent;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use Psr\Log\LoggerInterface;
 use Throwable;
 use function sprintf;
 
-/**
- * @template-implements IEventListener<\OCA\DAV\Events\CalendarDeletedEvent>
- */
-class CalendarDeletionActivityUpdaterListener implements IEventListener {
+class ActivityUpdaterListener implements IEventListener {
 
 	/** @var ActivityBackend */
 	private $activityBackend;
@@ -51,25 +49,40 @@ class CalendarDeletionActivityUpdaterListener implements IEventListener {
 	}
 
 	public function handle(Event $event): void {
-		if (!($event instanceof CalendarDeletedEvent)) {
-			// Not what we subscribed to
-			return;
-		}
+		if ($event instanceof CalendarDeletedEvent) {
+			try {
+				$this->activityBackend->onCalendarDelete(
+					$event->getCalendarData(),
+					$event->getShares()
+				);
 
-		try {
-			$this->activityBackend->onCalendarDelete(
-				$event->getCalendarData(),
-				$event->getShares()
-			);
+				$this->logger->debug(
+					sprintf('Activity generated for deleted calendar %d', $event->getCalendarId())
+				);
+			} catch (Throwable $e) {
+				// Any error with activities shouldn't abort the calendar deletion, so we just log it
+				$this->logger->error('Error generating activities for a deleted calendar: ' . $e->getMessage(), [
+					'exception' => $e,
+				]);
+			}
+		} elseif ($event instanceof CalendarObjectDeletedEvent) {
+			try {
+				$this->activityBackend->onTouchCalendarObject(
+					\OCA\DAV\CalDAV\Activity\Provider\Event::SUBJECT_OBJECT_DELETE,
+					$event->getCalendarData(),
+					$event->getShares(),
+					$event->getObjectData()
+				);
 
-			$this->logger->debug(
-				sprintf('Activity generated for deleted calendar %d', $event->getCalendarId())
-			);
-		} catch (Throwable $e) {
-			// Any error with activities shouldn't abort the calendar deletion, so we just log it
-			$this->logger->error('Error generating activities for a deleted calendar: ' . $e->getMessage(), [
-				'exception' => $e,
-			]);
+				$this->logger->debug(
+					sprintf('Activity generated for deleted calendar object %d', $event->getCalendarId())
+				);
+			} catch (Throwable $e) {
+				// Any error with activities shouldn't abort the calendar deletion, so we just log it
+				$this->logger->error('Error generating activity for a deleted calendar object: ' . $e->getMessage(), [
+					'exception' => $e,
+				]);
+			}
 		}
 	}
 }

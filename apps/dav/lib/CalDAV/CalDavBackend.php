@@ -1278,15 +1278,6 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				$shares = $this->getShares($calendarId);
 
 				$this->dispatcher->dispatchTyped(new CalendarObjectDeletedEvent((int)$calendarId, $calendarRow, $shares, $data));
-				$this->legacyDispatcher->dispatch('\OCA\DAV\CalDAV\CalDavBackend::deleteCalendarObject', new GenericEvent(
-					'\OCA\DAV\CalDAV\CalDavBackend::deleteCalendarObject',
-					[
-						'calendarId' => $calendarId,
-						'calendarData' => $calendarRow,
-						'shares' => $shares,
-						'objectData' => $data,
-					]
-				));
 			} else {
 				$subscriptionRow = $this->getSubscriptionById($calendarId);
 

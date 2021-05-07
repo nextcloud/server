@@ -278,9 +278,11 @@ EOD;
 		$this->assertEquals($calData, $calendarObject['calendardata']);
 
 		// delete the card
-		$this->legacyDispatcher->expects($this->at(0))
-			->method('dispatch')
-			->with('\OCA\DAV\CalDAV\CalDavBackend::deleteCalendarObject');
+		$this->dispatcher->expects(self::once())
+			->method('dispatchTyped')
+			->with(self::callback(function ($event) {
+				return $event instanceof CalendarDeletedEvent;
+			}));
 		$this->backend->deleteCalendarObject($calendarId, $uri);
 		$calendarObjects = $this->backend->getCalendarObjects($calendarId);
 		$this->assertCount(0, $calendarObjects);
@@ -412,17 +414,23 @@ EOD;
 		$this->assertEquals($calData[2], $calendarObjects[1]['calendardata']);
 
 		// delete the card
-		$this->legacyDispatcher->expects($this->at(0))
-			->method('dispatch')
-			->with('\OCA\DAV\CalDAV\CalDavBackend::deleteCalendarObject');
+		$this->dispatcher->expects(self::once())
+			->method('dispatchTyped')
+			->with(self::callback(function ($event) {
+				return $event instanceof CalendarDeletedEvent;
+			}));
 		$this->backend->deleteCalendarObject($calendarId, $uri0);
-		$this->legacyDispatcher->expects($this->at(0))
-			->method('dispatch')
-			->with('\OCA\DAV\CalDAV\CalDavBackend::deleteCalendarObject');
+		$this->dispatcher->expects(self::once())
+			->method('dispatchTyped')
+			->with(self::callback(function ($event) {
+				return $event instanceof CalendarDeletedEvent;
+			}));
 		$this->backend->deleteCalendarObject($calendarId, $uri1);
-		$this->legacyDispatcher->expects($this->at(0))
-			->method('dispatch')
-			->with('\OCA\DAV\CalDAV\CalDavBackend::deleteCalendarObject');
+		$this->dispatcher->expects(self::once())
+			->method('dispatchTyped')
+			->with(self::callback(function ($event) {
+				return $event instanceof CalendarDeletedEvent;
+			}));
 		$this->backend->deleteCalendarObject($calendarId, $uri2);
 		$calendarObjects = $this->backend->getCalendarObjects($calendarId);
 		$this->assertCount(0, $calendarObjects);
