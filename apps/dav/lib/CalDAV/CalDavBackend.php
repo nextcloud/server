@@ -810,12 +810,6 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 
 		$calendarData = $this->getCalendarById($calendarId);
 		$this->dispatcher->dispatchTyped(new CalendarCreatedEvent((int)$calendarId, $calendarData));
-		$this->legacyDispatcher->dispatch('\OCA\DAV\CalDAV\CalDavBackend::createCalendar', new GenericEvent(
-			'\OCA\DAV\CalDAV\CalDavBackend::createCalendar',
-			[
-				'calendarId' => $calendarId,
-				'calendarData' => $calendarData,
-			]));
 
 		return $calendarId;
 	}

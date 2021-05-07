@@ -36,6 +36,7 @@ use DateTime;
 use DateTimeZone;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Calendar;
+use OCA\DAV\Events\CalendarCreatedEvent;
 use OCA\DAV\Events\CalendarDeletedEvent;
 use OCA\DAV\Events\CalendarObjectCreatedEvent;
 use OCA\DAV\Events\CalendarUpdatedEvent;
@@ -527,9 +528,11 @@ EOD;
 	}
 
 	public function testPublications() {
-		$this->legacyDispatcher->expects($this->at(0))
-			->method('dispatch')
-			->with('\OCA\DAV\CalDAV\CalDavBackend::createCalendar');
+		$this->dispatcher->expects(self::once())
+			->method('dispatchTyped')
+			->with(self::callback(function ($event) {
+				return $event instanceof CalendarCreatedEvent;
+			}));
 
 		$this->backend->createCalendar(self::UNIT_TEST_USER, 'Example', []);
 

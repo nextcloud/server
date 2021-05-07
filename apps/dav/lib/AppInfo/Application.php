@@ -51,6 +51,7 @@ use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\CardDAV\ContactsManager;
 use OCA\DAV\CardDAV\PhotoCache;
 use OCA\DAV\CardDAV\SyncService;
+use OCA\DAV\Events\CalendarCreatedEvent;
 use OCA\DAV\Events\CalendarDeletedEvent;
 use OCA\DAV\Events\CalendarObjectCreatedEvent;
 use OCA\DAV\Events\CalendarObjectDeletedEvent;
@@ -114,6 +115,7 @@ class Application extends App implements IBootstrap {
 		/**
 		 * Register event listeners
 		 */
+		$context->registerEventListener(CalendarCreatedEvent::class, ActivityUpdaterListener::class);
 		$context->registerEventListener(CalendarDeletedEvent::class, ActivityUpdaterListener::class);
 		$context->registerEventListener(CalendarDeletedEvent::class, CalendarObjectReminderUpdaterListener::class);
 		$context->registerEventListener(CalendarDeletedEvent::class, CalendarDeletionDefaultUpdaterListener::class);
@@ -198,13 +200,6 @@ class Application extends App implements IBootstrap {
 			$syncService->updateUser($user);
 		});
 
-		$dispatcher->addListener('\OCA\DAV\CalDAV\CalDavBackend::createCalendar', function (GenericEvent $event) use ($container) {
-			/** @var Backend $backend */
-			$backend = $container->query(Backend::class);
-			$backend->onCalendarAdd(
-				$event->getArgument('calendarData')
-			);
-		});
 		$dispatcher->addListener('\OCA\DAV\CalDAV\CalDavBackend::updateCalendar', function (GenericEvent $event) use ($container) {
 			/** @var Backend $backend */
 			$backend = $container->query(Backend::class);
