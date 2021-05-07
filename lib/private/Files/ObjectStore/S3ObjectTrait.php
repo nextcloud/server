@@ -96,7 +96,7 @@ trait S3ObjectTrait {
 	 * @throws \Exception when something goes wrong, message will be logged
 	 * @since 7.0.0
 	 */
-	public function writeObject($urn, $stream, string $mimetype = null)
+	public function writeObject($urn, $stream, string $mimetype = null) {
 		$count = 0;
 		$countStream = CallbackWrapper::wrap($stream, function ($read) use (&$count) {
 			$count += $read;
