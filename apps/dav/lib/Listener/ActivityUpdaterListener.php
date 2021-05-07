@@ -26,10 +26,12 @@ declare(strict_types=1);
 namespace OCA\DAV\Listener;
 
 use OCA\DAV\CalDAV\Activity\Backend as ActivityBackend;
+use OCA\DAV\Events\CalendarCreatedEvent;
 use OCA\DAV\Events\CalendarDeletedEvent;
 use OCA\DAV\Events\CalendarObjectCreatedEvent;
 use OCA\DAV\Events\CalendarObjectDeletedEvent;
 use OCA\DAV\Events\CalendarObjectUpdatedEvent;
+use OCA\DAV\Events\CalendarUpdatedEvent;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use Psr\Log\LoggerInterface;
@@ -51,7 +53,39 @@ class ActivityUpdaterListener implements IEventListener {
 	}
 
 	public function handle(Event $event): void {
-		if ($event instanceof CalendarDeletedEvent) {
+		if ($event instanceof CalendarCreatedEvent) {
+			try {
+				$this->activityBackend->onCalendarAdd(
+					$event->getCalendarData()
+				);
+
+				$this->logger->debug(
+					sprintf('Activity generated for new calendar %d', $event->getCalendarId())
+				);
+			} catch (Throwable $e) {
+				// Any error with activities shouldn't abort the calendar creation, so we just log it
+				$this->logger->error('Error generating activities for a new calendar: ' . $e->getMessage(), [
+					'exception' => $e,
+				]);
+			}
+		} elseif ($event instanceof CalendarUpdatedEvent) {
+			try {
+				$this->activityBackend->onCalendarUpdate(
+					$event->getCalendarData(),
+					$event->getShares(),
+					$event->getMutations()
+				);
+
+				$this->logger->debug(
+					sprintf('Activity generated for changed calendar %d', $event->getCalendarId())
+				);
+			} catch (Throwable $e) {
+				// Any error with activities shouldn't abort the calendar update, so we just log it
+				$this->logger->error('Error generating activities for changed calendar: ' . $e->getMessage(), [
+					'exception' => $e,
+				]);
+			}
+		} elseif ($event instanceof CalendarDeletedEvent) {
 			try {
 				$this->activityBackend->onCalendarDelete(
 					$event->getCalendarData(),

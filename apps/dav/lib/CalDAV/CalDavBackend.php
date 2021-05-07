@@ -810,12 +810,6 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 
 		$calendarData = $this->getCalendarById($calendarId);
 		$this->dispatcher->dispatchTyped(new CalendarCreatedEvent((int)$calendarId, $calendarData));
-		$this->legacyDispatcher->dispatch('\OCA\DAV\CalDAV\CalDavBackend::createCalendar', new GenericEvent(
-			'\OCA\DAV\CalDAV\CalDavBackend::createCalendar',
-			[
-				'calendarId' => $calendarId,
-				'calendarData' => $calendarData,
-			]));
 
 		return $calendarId;
 	}
@@ -867,14 +861,6 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			$calendarData = $this->getCalendarById($calendarId);
 			$shares = $this->getShares($calendarId);
 			$this->dispatcher->dispatchTyped(new CalendarUpdatedEvent((int)$calendarId, $calendarData, $shares, $mutations));
-			$this->legacyDispatcher->dispatch('\OCA\DAV\CalDAV\CalDavBackend::updateCalendar', new GenericEvent(
-				'\OCA\DAV\CalDAV\CalDavBackend::updateCalendar',
-				[
-					'calendarId' => $calendarId,
-					'calendarData' => $calendarData,
-					'shares' => $shares,
-					'propertyMutations' => $mutations,
-				]));
 
 			return true;
 		});

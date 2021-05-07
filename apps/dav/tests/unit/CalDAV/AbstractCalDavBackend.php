@@ -31,6 +31,7 @@ use OC\KnownUser\KnownUserService;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Proxy\ProxyMapper;
 use OCA\DAV\Connector\Sabre\Principal;
+use OCA\DAV\Events\CalendarCreatedEvent;
 use OCA\DAV\Events\CalendarDeletedEvent;
 use OCA\DAV\Events\CalendarObjectCreatedEvent;
 use OCP\App\IAppManager;
@@ -150,9 +151,11 @@ abstract class AbstractCalDavBackend extends TestCase {
 	}
 
 	protected function createTestCalendar() {
-		$this->legacyDispatcher->expects($this->at(0))
-			->method('dispatch')
-			->with('\OCA\DAV\CalDAV\CalDavBackend::createCalendar');
+		$this->dispatcher->expects(self::once())
+			->method('dispatchTyped')
+			->with(self::callback(function ($event) {
+				return $event instanceof CalendarCreatedEvent;
+			}));
 
 		$this->backend->createCalendar(self::UNIT_TEST_USER, 'Example', [
 			'{http://apple.com/ns/ical/}calendar-color' => '#1C4587FF'

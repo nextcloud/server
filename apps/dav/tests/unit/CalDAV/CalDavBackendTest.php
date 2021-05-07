@@ -36,6 +36,7 @@ use DateTime;
 use DateTimeZone;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Calendar;
+use OCA\DAV\Events\CalendarCreatedEvent;
 use OCA\DAV\Events\CalendarDeletedEvent;
 use OCA\DAV\Events\CalendarObjectCreatedEvent;
 use OCA\DAV\Events\CalendarUpdatedEvent;
@@ -62,9 +63,11 @@ class CalDavBackendTest extends AbstractCalDavBackend {
 			'{DAV:}displayname' => 'Unit test',
 			'{urn:ietf:params:xml:ns:caldav}calendar-description' => 'Calendar used for unit testing'
 		]);
-		$this->legacyDispatcher->expects($this->at(0))
-			->method('dispatch')
-			->with('\OCA\DAV\CalDAV\CalDavBackend::updateCalendar');
+		$this->dispatcher->expects(self::once())
+			->method('dispatchTyped')
+			->with(self::callback(function ($event) {
+				return $event instanceof CalendarUpdatedEvent;
+			}));
 		$this->backend->updateCalendar($calendarId, $patch);
 		$patch->commit();
 		$this->assertEquals(1, $this->backend->getCalendarsForUserCount(self::UNIT_TEST_USER));
@@ -527,9 +530,11 @@ EOD;
 	}
 
 	public function testPublications() {
-		$this->legacyDispatcher->expects($this->at(0))
-			->method('dispatch')
-			->with('\OCA\DAV\CalDAV\CalDavBackend::createCalendar');
+		$this->dispatcher->expects(self::once())
+			->method('dispatchTyped')
+			->with(self::callback(function ($event) {
+				return $event instanceof CalendarCreatedEvent;
+			}));
 
 		$this->backend->createCalendar(self::UNIT_TEST_USER, 'Example', []);
 
