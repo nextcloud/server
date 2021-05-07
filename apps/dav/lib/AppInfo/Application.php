@@ -118,8 +118,12 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(CalendarDeletedEvent::class, ActivityUpdaterListener::class);
 		$context->registerEventListener(CalendarDeletedEvent::class, CalendarObjectReminderUpdaterListener::class);
 		$context->registerEventListener(CalendarDeletedEvent::class, CalendarDeletionDefaultUpdaterListener::class);
+
 		$context->registerEventListener(CalendarObjectCreatedEvent::class, CalendarContactInteractionListener::class);
+
+		$context->registerEventListener(CalendarObjectUpdatedEvent::class, ActivityUpdaterListener::class);
 		$context->registerEventListener(CalendarObjectUpdatedEvent::class, CalendarContactInteractionListener::class);
+		$context->registerEventListener(CalendarObjectUpdatedEvent::class, CalendarObjectReminderUpdaterListener::class);
 		$context->registerEventListener(CalendarObjectDeletedEvent::class, ActivityUpdaterListener::class);
 		$context->registerEventListener(CalendarObjectDeletedEvent::class, CalendarObjectReminderUpdaterListener::class);
 		$context->registerEventListener(CalendarShareUpdatedEvent::class, CalendarContactInteractionListener::class);
@@ -237,12 +241,8 @@ class Application extends App implements IBootstrap {
 			/** @var Backend $backend */
 			$backend = $container->query(Backend::class);
 
-			$subject = Event::SUBJECT_OBJECT_ADD;
-			if ($eventName === '\OCA\DAV\CalDAV\CalDavBackend::updateCalendarObject') {
-				$subject = Event::SUBJECT_OBJECT_UPDATE;
-			}
 			$backend->onTouchCalendarObject(
-				$subject,
+				Event::SUBJECT_OBJECT_ADD,
 				$event->getArgument('calendarData'),
 				$event->getArgument('shares'),
 				$event->getArgument('objectData')
@@ -257,7 +257,6 @@ class Application extends App implements IBootstrap {
 			);
 		};
 		$dispatcher->addListener('\OCA\DAV\CalDAV\CalDavBackend::createCalendarObject', $listener);
-		$dispatcher->addListener('\OCA\DAV\CalDAV\CalDavBackend::updateCalendarObject', $listener);
 
 		$dispatcher->addListener('OCP\Federation\TrustedServerEvent::remove',
 			function (GenericEvent $event) {

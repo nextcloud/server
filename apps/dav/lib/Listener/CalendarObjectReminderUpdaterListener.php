@@ -29,6 +29,7 @@ use OCA\DAV\CalDAV\Reminder\Backend as ReminderBackend;
 use OCA\DAV\CalDAV\Reminder\ReminderService;
 use OCA\DAV\Events\CalendarDeletedEvent;
 use OCA\DAV\Events\CalendarObjectDeletedEvent;
+use OCA\DAV\Events\CalendarObjectUpdatedEvent;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use Psr\Log\LoggerInterface;
@@ -67,6 +68,22 @@ class CalendarObjectReminderUpdaterListener implements IEventListener {
 			} catch (Throwable $e) {
 				// Any error with activities shouldn't abort the calendar deletion, so we just log it
 				$this->logger->error('Error cleaning up reminders of a deleted calendar: ' . $e->getMessage(), [
+					'exception' => $e,
+				]);
+			}
+		} elseif ($event instanceof CalendarObjectUpdatedEvent) {
+			try {
+				$this->reminderService->onTouchCalendarObject(
+					'\OCA\DAV\CalDAV\CalDavBackend::updateCalendarObject',
+					$event->getObjectData()
+				);
+
+				$this->logger->debug(
+					sprintf('Reminders of calendar object of calendar %d cleaned up', $event->getCalendarId())
+				);
+			} catch (Throwable $e) {
+				// Any error with activities shouldn't abort the calendar object deletion, so we just log it
+				$this->logger->error('Error cleaning up reminders of a calendar object: ' . $e->getMessage(), [
 					'exception' => $e,
 				]);
 			}

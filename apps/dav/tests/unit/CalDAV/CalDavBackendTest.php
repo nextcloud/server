@@ -37,6 +37,7 @@ use DateTimeZone;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Calendar;
 use OCA\DAV\Events\CalendarDeletedEvent;
+use OCA\DAV\Events\CalendarUpdatedEvent;
 use OCP\IConfig;
 use OCP\IL10N;
 use Sabre\DAV\Exception\NotFound;
@@ -270,9 +271,11 @@ DTEND;VALUE=DATE-TIME:20130912T140000Z
 END:VEVENT
 END:VCALENDAR
 EOD;
-		$this->legacyDispatcher->expects($this->at(0))
-			->method('dispatch')
-			->with('\OCA\DAV\CalDAV\CalDavBackend::updateCalendarObject');
+		$this->dispatcher->expects(self::once())
+			->method('dispatchTyped')
+			->with(self::callback(function ($event) {
+				return $event instanceof CalendarUpdatedEvent;
+			}));
 		$this->backend->updateCalendarObject($calendarId, $uri, $calData);
 		$calendarObject = $this->backend->getCalendarObject($calendarId, $uri);
 		$this->assertEquals($calData, $calendarObject['calendardata']);
