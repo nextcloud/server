@@ -2550,10 +2550,9 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 
 	/**
 	 * @param int $resourceId
-	 * @param int $calendarType
 	 * @return array
 	 */
-	public function getShares($resourceId, $calendarType = self::CALENDAR_TYPE_CALENDAR) {
+	public function getShares($resourceId) {
 		return $this->calendarSharingBackend->getShares($resourceId);
 	}
 
