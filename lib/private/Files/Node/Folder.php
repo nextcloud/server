@@ -30,11 +30,9 @@
  */
 namespace OC\Files\Node;
 
-use OC\DB\QueryBuilder\Literal;
 use OC\Files\Cache\QuerySearchHelper;
 use OC\Files\Search\SearchBinaryOperator;
 use OC\Files\Cache\Wrapper\CacheJail;
-use OC\Files\Search\SearchBinaryOperator;
 use OC\Files\Search\SearchComparison;
 use OC\Files\Search\SearchOrder;
 use OC\Files\Search\SearchQuery;
@@ -250,7 +248,12 @@ class Folder extends Node implements \OCP\Files\Folder {
 		// collect all caches for this folder, indexed by their mountpoint relative to this folder
 		// and save the mount which is needed later to construct the FileInfo objects
 
-		$caches = ['' => new CacheJail($storage->getCache(''), $internalPath)]; // a temporary CacheJail is used to handle filtering down the results to within this folder
+		if ($internalPath !== '') {
+			// a temporary CacheJail is used to handle filtering down the results to within this folder
+			$caches = ['' => new CacheJail($storage->getCache(''), $internalPath)];
+		} else {
+			$caches = ['' => $storage->getCache('')];
+		}
 		$mountByMountPoint = ['' => $mount];
 
 		if (!$limitToHome) {
@@ -270,12 +273,26 @@ class Folder extends Node implements \OCP\Files\Folder {
 		$resultsPerCache = $searchHelper->searchInCaches($query, $caches);
 
 		// loop trough all results per-cache, constructing the FileInfo object from the CacheEntry and merge them all
-		$files = array_merge(...array_map(function(array $results, $relativeMountPoint) use ($mountByMountPoint) {
+		$files = array_merge(...array_map(function (array $results, $relativeMountPoint) use ($mountByMountPoint) {
 			$mount = $mountByMountPoint[$relativeMountPoint];
-			return array_map(function(ICacheEntry $result) use ($relativeMountPoint, $mount) {
+			return array_map(function (ICacheEntry $result) use ($relativeMountPoint, $mount) {
 				return $this->cacheEntryToFileInfo($mount, $relativeMountPoint, $result);
 			}, $results);
 		}, array_values($resultsPerCache), array_keys($resultsPerCache)));
+
+		// since results were returned per-cache, they are no longer fully sorted
+		$order = $query->getOrder();
+		if ($order) {
+			usort($files, function (FileInfo $a, FileInfo $b) use ($order) {
+				foreach ($order as $orderField) {
+					$cmp = $orderField->sortFileInfo($a, $b);
+					if ($cmp !== 0) {
+						return $cmp;
+					}
+				}
+				return 0;
+			});
+		}
 
 		return array_map(function (FileInfo $file) {
 			return $this->createNode($file->getPath(), $file);

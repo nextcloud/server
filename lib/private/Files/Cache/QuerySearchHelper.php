@@ -242,7 +242,11 @@ class QuerySearchHelper {
 	 */
 	public function addSearchOrdersToQuery(IQueryBuilder $query, array $orders) {
 		foreach ($orders as $order) {
-			$query->addOrderBy($order->getField(), $order->getDirection());
+			$field = $order->getField();
+			if ($field === 'fileid') {
+				$field = 'file.fileid';
+			}
+			$query->addOrderBy($field, $order->getDirection());
 		}
 	}
 
