@@ -81,13 +81,13 @@ class EmailProvider extends AbstractProvider {
 	 * @param VEvent $vevent
 	 * @param string $calendarDisplayName
 	 * @param array $users
-	 * @param IUser $userOfReminder
+	 * @param IUser $reminderOwner
 	 * @throws \Exception
 	 */
 	public function send(VEvent $vevent,
 						 string $calendarDisplayName,
 						 array $users = [],
-						 IUser $userOfReminder = null):void {
+						 IUser $reminderOwner = null):void {
 		$fallbackLanguage = $this->getFallbackLanguage();
 
 		$emailAddressesOfSharees = $this->getEMailAddressesOfAllUsersWithWriteAccessToCalendar($users);
@@ -96,7 +96,7 @@ class EmailProvider extends AbstractProvider {
 
 		$emailAddressesOfAttendees = [];
 
-		if ($userOfReminder && strcasecmp($userOfReminder->getEMailAddress(), key($organizer)) == 0) {
+		if ($organizer !== null && $reminderOwner instanceof IUser && strcasecmp($reminderOwner->getEMailAddress(), key($organizer)) === 0) {
 			$emailAddressesOfAttendees = $this->getAllEMailAddressesFromEvent($vevent);
 		}
 
@@ -205,7 +205,7 @@ class EmailProvider extends AbstractProvider {
 		}
 
 		$organizer = $vevent->ORGANIZER;
-		if (!str_starts_with($organizer->getValue(), 'mailto:')) {
+		if (strcasecmp($organizer->getValue(), 'mailto:') !== 0) {
 			return null;
 		}
 
