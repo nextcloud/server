@@ -139,6 +139,7 @@
     "Enforced groups" : "Obvezno za skupine",
     "Two-factor authentication is not enforced for members of the following groups." : "Dvo-stopenjsko overjanje ni obvezno za člane navedenih skupin.",
     "Excluded groups" : "Izločene skupine",
+    "When groups are selected/excluded, they use the following logic to determine if a user has 2FA enforced: If no groups are selected, 2FA is enabled for everyone except members of the excluded groups. If groups are selected, 2FA is enabled for all members of these. If a user is both in a selected and excluded group, the selected takes precedence and 2FA is enforced." : "Ko so skupine izbrane/izključene, je v uporabi protokol za ugotavljanje, ali ima uporabnik vsiljeno uporabo dvostopenjskega overjanja 2FA. Če ni izbrane skupine, je 2FA omogočeno za vse, razen za člane izključenih skupin. Če skupine so izbrane, je 2FA omogočeno za vse člane teh skupin, če pa je uporabnik v izbrani in tudi v izključeni skupini, ima izbrana skupina prednost in 2FA se izvaja.",
     "Save changes" : "Shrani spremembe",
     "All" : "Vsi",
     "Limit app usage to groups" : "Omeji uporabo programa na skupine",
