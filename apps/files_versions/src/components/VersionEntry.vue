@@ -47,7 +47,7 @@ import ActionLink from '@nextcloud/vue/dist/Components/ActionLink'
 import Tooltip from '@nextcloud/vue/dist/Directives/Tooltip'
 import ListItemIcon from '@nextcloud/vue/dist/Components/ListItemIcon'
 
-import { generateUrl } from '@nextcloud/router'
+import { generateRemoteUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
 import { move } from '../services/DavClient'
 import { showError } from '@nextcloud/dialogs'
@@ -101,9 +101,7 @@ export default {
 		},
 
 		versionUrl() {
-			return generateUrl('/remote.php/dav/versions/{user}' + this.version.filename, {
-				user: getCurrentUser().uid,
-			})
+			return generateRemoteUrl(`dav/versions/${getCurrentUser().uid}` + this.version.filename)
 		},
 		iconUrl() {
 			return OC.MimeType.getIconUrl(this.fileInfo.mimetype)
@@ -122,10 +120,9 @@ export default {
 		async restoreVersion() {
 			// TODO: implement restore request and loading
 			try {
-				const revert = await move('/remote.php/dav/versions/{user}' + this.version.basename, {
-					user: getCurrentUser().uid,
-				}, '/restore/target', true)
+				const revert = await move(generateRemoteUrl(`dav/versions/${getCurrentUser().uid}` + this.version.filename, '/restore/target', true))
 				this.revert = revert
+				return this.revert
 			} catch (error) {
 				this.error = t('files_versions', 'There was an error reverting the version {file}', {
 					file: this.fileInfo.basename,
