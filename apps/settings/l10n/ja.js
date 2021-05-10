@@ -14,7 +14,7 @@ OC.L10N.register(
     "Federated" : "連携",
     "Only synchronize to trusted servers" : "信頼できるサーバーのみと同期する",
     "Published" : "公開",
-    "Synchronize to trusted servers and the global and public address book" : "信頼できるサーバーとグローバルおよびパブリックアドレスブックへの同期",
+    "Synchronize to trusted servers and the global and public address book" : "信頼できるサーバーへ、グローバルおよびパブリックアドレスブックを同期",
     "Verify" : "検証",
     "Verifying …" : "検証中",
     "Unable to change password" : "パスワードを変更できません",
