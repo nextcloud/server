@@ -49,6 +49,8 @@ import ListItemIcon from '@nextcloud/vue/dist/Components/ListItemIcon'
 
 import { generateUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
+import { move } from '../services/DavClient'
+import { showError } from '@nextcloud/dialogs'
 
 export default {
 	name: 'VersionEntry',
@@ -73,6 +75,13 @@ export default {
 			type: Object,
 			required: true,
 		},
+	},
+	data() {
+		return {
+			error: '',
+			revert: '',
+			file: '',
+		}
 	},
 
 	computed: {
@@ -110,8 +119,19 @@ export default {
 	},
 
 	methods: {
-		restoreVersion() {
+		async restoreVersion() {
 			// TODO: implement restore request and loading
+			try {
+				const revert = await move('/remote.php/dav/versions/{user}' + this.version.basename, {
+					user: getCurrentUser().uid,
+				}, '/restore/target', true)
+				this.revert = revert
+			} catch (error) {
+				this.error = t('files_versions', 'There was an error reverting the version {file}', {
+					file: this.fileInfo.basename,
+				})
+				showError(this.error)
+			}
 		},
 	},
 }
