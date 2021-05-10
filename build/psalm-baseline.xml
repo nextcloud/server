@@ -161,18 +161,13 @@
     </NullableReturnStatement>
   </file>
   <file src="apps/dav/lib/CalDAV/CalDavBackend.php">
-    <InvalidArgument occurrences="13">
+    <InvalidArgument occurrences="8">
       <code>'\OCA\DAV\CalDAV\CalDavBackend::createCachedCalendarObject'</code>
-      <code>'\OCA\DAV\CalDAV\CalDavBackend::createCalendar'</code>
-      <code>'\OCA\DAV\CalDAV\CalDavBackend::createCalendarObject'</code>
       <code>'\OCA\DAV\CalDAV\CalDavBackend::createSubscription'</code>
       <code>'\OCA\DAV\CalDAV\CalDavBackend::deleteCachedCalendarObject'</code>
-      <code>'\OCA\DAV\CalDAV\CalDavBackend::deleteCalendarObject'</code>
       <code>'\OCA\DAV\CalDAV\CalDavBackend::deleteSubscription'</code>
       <code>'\OCA\DAV\CalDAV\CalDavBackend::publishCalendar'</code>
       <code>'\OCA\DAV\CalDAV\CalDavBackend::updateCachedCalendarObject'</code>
-      <code>'\OCA\DAV\CalDAV\CalDavBackend::updateCalendar'</code>
-      <code>'\OCA\DAV\CalDAV\CalDavBackend::updateCalendarObject'</code>
       <code>'\OCA\DAV\CalDAV\CalDavBackend::updateShares'</code>
       <code>'\OCA\DAV\CalDAV\CalDavBackend::updateSubscription'</code>
     </InvalidArgument>
@@ -191,7 +186,7 @@
     <RedundantCast occurrences="1">
       <code>(int)$calendarId</code>
     </RedundantCast>
-    <TooManyArguments occurrences="14">
+    <TooManyArguments occurrences="9">
       <code>dispatch</code>
       <code>dispatch</code>
       <code>dispatch</code>
