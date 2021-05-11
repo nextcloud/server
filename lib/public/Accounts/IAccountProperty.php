@@ -26,6 +26,8 @@ declare(strict_types=1);
 
 namespace OCP\Accounts;
 
+use InvalidArgumentException;
+
 /**
  * Interface IAccountProperty
  *
@@ -50,6 +52,7 @@ interface IAccountProperty extends \JsonSerializable {
 	 *
 	 * @param string $scope
 	 * @return IAccountProperty
+	 * @throws InvalidArgumentException (since 22.0.0)
 	 */
 	public function setScope(string $scope): IAccountProperty;
 

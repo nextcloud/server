@@ -759,8 +759,8 @@ class UsersController extends AUserData {
 				$userAccount = $this->accountManager->getAccount($targetUser);
 				$userProperty = $userAccount->getProperty($propertyName);
 				if ($userProperty->getScope() !== $value) {
-					$userProperty->setScope($value);
 					try {
+						$userProperty->setScope($value);
 						$this->accountManager->updateAccount($userAccount);
 					} catch (\InvalidArgumentException $e) {
 						throw new OCSException('Invalid ' . $e->getMessage(), 102);

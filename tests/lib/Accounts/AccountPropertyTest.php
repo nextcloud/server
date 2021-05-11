@@ -80,16 +80,20 @@ class AccountPropertyTest extends TestCase {
 			[IAccountManager::VISIBILITY_PRIVATE, IAccountManager::SCOPE_LOCAL],
 			[IAccountManager::VISIBILITY_CONTACTS_ONLY, IAccountManager::SCOPE_FEDERATED],
 			[IAccountManager::VISIBILITY_PUBLIC, IAccountManager::SCOPE_PUBLISHED],
-			// fallback
-			['', IAccountManager::SCOPE_LOCAL],
-			['unknown', IAccountManager::SCOPE_LOCAL],
+			// invalid values
+			['', null],
+			['unknown', null],
+			['v2-unknown', null],
 		];
 	}
 
 	/**
 	 * @dataProvider scopesProvider
 	 */
-	public function testSetScopeMapping($storedScope, $returnedScope) {
+	public function testSetScopeMapping(string $storedScope, ?string $returnedScope) {
+		if ($returnedScope === null) {
+			$this->expectException(\InvalidArgumentException::class);
+		}
 		$accountProperty = new AccountProperty(
 			IAccountManager::PROPERTY_WEBSITE,
 			'https://example.com',
