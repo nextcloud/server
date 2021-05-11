@@ -59,7 +59,7 @@
     "jquery-ui": "^1.12.1",
     "jquery-ui-dist": "^1.12.1",
     "jstimezonedetect": "^1.0.7",
-    "lodash": "^4.17.20",
+    "lodash": "^4.17.21",
     "marked": "^1.1.1",
     "moment": "^2.27.0",
     "moment-timezone": "^0.5.31",
