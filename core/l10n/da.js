@@ -5,6 +5,7 @@ OC.L10N.register(
     "File is too big" : "Filen er for stor",
     "The selected file is not an image." : "Den valgte fil er ikke et billede.",
     "The selected file cannot be read." : "Den valgte fil kan ikke læses.",
+    "The file was uploaded" : "Filen blev uploadet",
     "Invalid file provided" : "Der er angivet en ugyldig fil",
     "No image or file provided" : "Ingen fil eller billede givet",
     "Unknown filetype" : "Ukendt filtype",
