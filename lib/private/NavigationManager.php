@@ -49,6 +49,8 @@ class NavigationManager implements INavigationManager {
 	protected $entries = [];
 	protected $closureEntries = [];
 	protected $activeEntry;
+	protected $unreadCounters = [];
+
 	/** @var bool */
 	protected $init = false;
 	/** @var IAppManager|AppManager */
@@ -97,7 +99,11 @@ class NavigationManager implements INavigationManager {
 		if (!isset($entry['type'])) {
 			$entry['type'] = 'link';
 		}
-		$this->entries[$entry['id']] = $entry;
+
+		$id = $entry['id'];
+		$entry['unread'] = isset($this->unreadCounters[$id]) ? $this->unreadCounters[$id] : 0;
+
+		$this->entries[$id] = $entry;
 	}
 
 	/**
@@ -318,5 +324,9 @@ class NavigationManager implements INavigationManager {
 			return $this->groupManager->getSubAdmin()->isSubAdmin($user);
 		}
 		return false;
+	}
+
+	public function setUnreadCounter(string $id, int $unreadCounter): void {
+		$this->unreadCounters[$id] = $unreadCounter;
 	}
 }

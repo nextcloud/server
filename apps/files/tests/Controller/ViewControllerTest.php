@@ -178,6 +178,7 @@ class ViewControllerTest extends TestCase {
 				'icon' => '',
 				'type' => 'link',
 				'classes' => '',
+				'unread' => 0,
 			],
 			'recent' => [
 				'id' => 'recent',
@@ -189,6 +190,7 @@ class ViewControllerTest extends TestCase {
 				'icon' => '',
 				'type' => 'link',
 				'classes' => '',
+				'unread' => 0,
 			],
 			'favorites' => [
 				'id' => 'favorites',
@@ -247,7 +249,8 @@ class ViewControllerTest extends TestCase {
 					],
 				],
 				'defaultExpandedState' => false,
-				'expandedState' => 'show_Quick_Access'
+				'expandedState' => 'show_Quick_Access',
+				'unread' => 0,
 			],
 			'systemtagsfilter' => [
 				'id' => 'systemtagsfilter',
@@ -259,6 +262,7 @@ class ViewControllerTest extends TestCase {
 				'icon' => '',
 				'type' => 'link',
 				'classes' => '',
+				'unread' => 0,
 			],
 			'trashbin' => [
 				'id' => 'trashbin',
@@ -270,6 +274,7 @@ class ViewControllerTest extends TestCase {
 				'icon' => '',
 				'type' => 'link',
 				'classes' => 'pinned',
+				'unread' => 0,
 			],
 			'shareoverview' => [
 				'id' => 'shareoverview',
@@ -320,6 +325,7 @@ class ViewControllerTest extends TestCase {
 				'type' => 'link',
 				'expandedState' => 'show_sharing_menu',
 				'defaultExpandedState' => false,
+				'unread' => 0,
 			]
 		]);
 

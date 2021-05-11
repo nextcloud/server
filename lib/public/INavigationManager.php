@@ -90,4 +90,13 @@ interface INavigationManager {
 	 * @since 14.0.0
 	 */
 	public function getAll(string $type = self::TYPE_APPS): array;
+
+	/**
+	 * Set an unread counter for navigation entries
+	 *
+	 * @param string $id id of the navigation entry
+	 * @param int $unreadCounter Number of unread entries (0 to hide the counter which is the default)
+	 * @since 22.0.0
+	 */
+	public function setUnreadCounter(string $id, int $unreadCounter): void;
 }

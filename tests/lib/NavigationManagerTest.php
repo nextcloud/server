@@ -72,7 +72,8 @@ class NavigationManagerTest extends TestCase {
 					'icon' => 'optional',
 					'href' => 'url',
 					'type' => 'settings',
-					'classes' => ''
+					'classes' => '',
+					'unread' => 0
 				],
 				'entry id2' => [
 					'id' => 'entry id',
@@ -82,7 +83,8 @@ class NavigationManagerTest extends TestCase {
 					'href' => 'url',
 					'active' => false,
 					'type' => 'settings',
-					'classes' => ''
+					'classes' => '',
+					'unread' => 0
 				]
 			],
 			[
@@ -92,7 +94,8 @@ class NavigationManagerTest extends TestCase {
 					'order' => 1,
 					//'icon'	=> 'optional',
 					'href' => 'url',
-					'active' => true
+					'active' => true,
+					'unread' => 0
 				],
 				'entry id2' => [
 					'id' => 'entry id',
@@ -102,7 +105,8 @@ class NavigationManagerTest extends TestCase {
 					'href' => 'url',
 					'active' => false,
 					'type' => 'link',
-					'classes' => ''
+					'classes' => '',
+					'unread' => 0
 				]
 			]
 		];
@@ -250,7 +254,8 @@ class NavigationManagerTest extends TestCase {
 				'name' => 'Apps',
 				'active' => false,
 				'type' => 'settings',
-				'classes' => ''
+				'classes' => '',
+				'unread' => 0
 			]
 		];
 		$defaults = [
@@ -262,7 +267,8 @@ class NavigationManagerTest extends TestCase {
 				'name' => 'Settings',
 				'active' => false,
 				'type' => 'settings',
-				'classes' => ''
+				'classes' => '',
+				'unread' => 0
 			],
 			'logout' => [
 				'id' => 'logout',
@@ -272,7 +278,8 @@ class NavigationManagerTest extends TestCase {
 				'name' => 'Log out',
 				'active' => false,
 				'type' => 'settings',
-				'classes' => ''
+				'classes' => '',
+				'unread' => 0
 			]
 		];
 
@@ -288,7 +295,8 @@ class NavigationManagerTest extends TestCase {
 						'name' => 'Test',
 						'active' => false,
 						'type' => 'link',
-						'classes' => ''
+						'classes' => '',
+						'unread' => 0
 					]],
 					['logout' => $defaults['logout']]
 				),
@@ -309,7 +317,8 @@ class NavigationManagerTest extends TestCase {
 						'name' => 'Test',
 						'active' => false,
 						'type' => 'settings',
-						'classes' => ''
+						'classes' => '',
+						'unread' => 0
 					]],
 					['logout' => $defaults['logout']]
 				),
@@ -331,7 +340,8 @@ class NavigationManagerTest extends TestCase {
 						'name' => 'Test',
 						'active' => false,
 						'type' => 'link',
-						'classes' => ''
+						'classes' => '',
+						'unread' => 0
 					]],
 					['logout' => $defaults['logout']]
 				),
