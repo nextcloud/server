@@ -142,7 +142,9 @@ class MountPublicLinkController extends Controller {
 			list(, $server) = $this->addressHandler->splitUserRemote($shareWith);
 			$share = $this->shareManager->getShareByToken($token);
 		} catch (HintException $e) {
-			return new JSONResponse(['message' => $e->getHint()], Http::STATUS_BAD_REQUEST);
+			$response = new JSONResponse(['message' => $e->getHint()], Http::STATUS_BAD_REQUEST);
+			$response->throttle();
+			return $response;
 		}
 
 		// make sure that user is authenticated in case of a password protected link
