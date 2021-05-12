@@ -132,7 +132,7 @@ trait S3ConnectionTrait {
 				'ServerSideEncryption' => 'aws:kms',
 				'SSEKMSKeyId' => $this->sseKmsBucketKeyId,
 			];
-		} elseif !(empty($this->sseKmsKeyId)) {
+		} elseif (!empty($this->sseKmsKeyId)) {
 			return [
 				'ServerSideEncryption' => 'aws:kms',
 				'SSEKMSKeyId' => $this->sseKmsKeyId,
