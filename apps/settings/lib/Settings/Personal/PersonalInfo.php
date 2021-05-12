@@ -35,7 +35,6 @@ declare(strict_types=1);
 
 namespace OCA\Settings\Settings\Personal;
 
-use OC\Accounts\AccountManager;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCP\Accounts\IAccount;
 use OCP\Accounts\IAccountManager;
@@ -57,7 +56,7 @@ class PersonalInfo implements ISettings {
 	private $config;
 	/** @var IUserManager */
 	private $userManager;
-	/** @var AccountManager */
+	/** @var IAccountManager */
 	private $accountManager;
 	/** @var IGroupManager */
 	private $groupManager;
@@ -72,7 +71,7 @@ class PersonalInfo implements ISettings {
 		IConfig $config,
 		IUserManager $userManager,
 		IGroupManager $groupManager,
-		AccountManager $accountManager,
+		IAccountManager $accountManager,
 		IAppManager $appManager,
 		IFactory $l10nFactory,
 		IL10N $l
@@ -272,10 +271,10 @@ class PersonalInfo implements ISettings {
 		$messageParameters = [];
 		foreach ($needVerifyMessage as $property) {
 			switch ($account->getProperty($property)->getVerified()) {
-				case AccountManager::VERIFIED:
+				case IAccountManager::VERIFIED:
 					$message = $this->l->t('Verifying');
 					break;
-				case AccountManager::VERIFICATION_IN_PROGRESS:
+				case IAccountManager::VERIFICATION_IN_PROGRESS:
 					$message = $this->l->t('Verifying …');
 					break;
 				default:
