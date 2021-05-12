@@ -22,6 +22,7 @@
 	<li>
 		<ListItemIcon
 			v-if="!isLatestChange"
+			v-tooltip="version.lastmod"
 			:title="relativeDate"
 			:subtitle="formattedSize"
 			:url="iconUrl"
@@ -49,7 +50,8 @@ import ListItemIcon from '@nextcloud/vue/dist/Components/ListItemIcon'
 
 import { generateRemoteUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
-import { move } from '../services/DavClient'
+import { client } from '../services/DavClient'
+
 import { showError } from '@nextcloud/dialogs'
 
 export default {
@@ -85,6 +87,7 @@ export default {
 	},
 
 	computed: {
+
 		// Does the current user have permissions to revert this file
 		canRevert() {
 			// TODO: implement permission check
@@ -119,14 +122,11 @@ export default {
 	methods: {
 		async restoreVersion() {
 			// TODO: implement restore request and loading
-			try {
-				const revert = await move(generateRemoteUrl(`dav/versions/${getCurrentUser().uid}` + this.version.filename, '/restore/target', true))
-				this.revert = revert
-				return this.revert
-			} catch (error) {
-				this.error = t('files_versions', 'There was an error reverting the version {file}', {
-					file: this.fileInfo.basename,
-				})
+			 try {
+				const revertVersion = await client.move(`dav/versions/${getCurrentUser().uid}` + this.version.filename, '/restore/target', true)
+				 return revertVersion
+			    } catch (error) {
+				this.error = t('files_versions', 'There was an error reverting the version {this.fileInfo.filename}')
 				showError(this.error)
 			}
 		},
@@ -140,6 +140,25 @@ export default {
 	// Remove avatar border-radius around file type icon
 	::v-deep .avatardiv img {
 		border-radius: 0;
+	}
+	display: flex;
+	align-items: center;
+	height: 44px;
+	&__desc {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		padding: 8px;
+		line-height: 1.2em;
+		p {
+			color: var(--color-text-maxcontrast);
+		}
+		&-unique {
+			color: var(--color-text-maxcontrast);
+		}
+	}
+	&__actions {
+		margin-left: auto;
 	}
 }
 </style>
