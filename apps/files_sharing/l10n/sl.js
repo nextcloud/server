@@ -157,6 +157,7 @@ OC.L10N.register(
     "guest" : "gost",
     "Shared with the group {user} by {owner}" : "{owner} omogoči souporabo s člani skupine {user}",
     "Shared with the conversation {user} by {owner}" : "{owner} omogoči souporabo z udeleženci pogovora",
+    "Shared with {user} by {owner}" : "Souporabo z {user} omogoča {owner}",
     "Added by {initiator}" : "Dodano: {initiator}",
     "Via “{folder}”" : "Prek mape »{folder}«",
     "Internal link" : "Notranja povezava",
