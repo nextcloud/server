@@ -43,7 +43,7 @@ class AccountProperty implements IAccountProperty {
 	public function __construct(string $name, string $value, string $scope, string $verified) {
 		$this->name = $name;
 		$this->value = $value;
-		$this->scope = $this->mapScopeToV2($scope);
+		$this->setScope($scope);
 		$this->verified = $verified;
 	}
 
@@ -78,7 +78,16 @@ class AccountProperty implements IAccountProperty {
 	 * @return IAccountProperty
 	 */
 	public function setScope(string $scope): IAccountProperty {
-		$this->scope = $this->mapScopeToV2($scope);
+		$newScope = $this->mapScopeToV2($scope);
+		if (!in_array($newScope, [
+			IAccountManager::SCOPE_LOCAL,
+			IAccountManager::SCOPE_FEDERATED,
+			IAccountManager::SCOPE_PRIVATE,
+			IAccountManager::SCOPE_PUBLISHED
+		])) {
+			throw new \InvalidArgumentException('Invalid scope');
+		}
+		$this->scope = $newScope;
 		return $this;
 	}
 
@@ -128,21 +137,21 @@ class AccountProperty implements IAccountProperty {
 		return $this->scope;
 	}
 
-	public static function mapScopeToV2($scope) {
+	public static function mapScopeToV2(string $scope): string {
 		if (strpos($scope, 'v2-') === 0) {
 			return $scope;
 		}
 
 		switch ($scope) {
-		case IAccountManager::VISIBILITY_PRIVATE:
-			return IAccountManager::SCOPE_LOCAL;
-		case IAccountManager::VISIBILITY_CONTACTS_ONLY:
-			return IAccountManager::SCOPE_FEDERATED;
-		case IAccountManager::VISIBILITY_PUBLIC:
-			return IAccountManager::SCOPE_PUBLISHED;
+			case IAccountManager::VISIBILITY_PRIVATE:
+				return IAccountManager::SCOPE_LOCAL;
+			case IAccountManager::VISIBILITY_CONTACTS_ONLY:
+				return IAccountManager::SCOPE_FEDERATED;
+			case IAccountManager::VISIBILITY_PUBLIC:
+				return IAccountManager::SCOPE_PUBLISHED;
+			default:
+				return $scope;
 		}
-
-		return IAccountManager::SCOPE_LOCAL;
 	}
 
 	/**

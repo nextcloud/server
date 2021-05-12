@@ -34,7 +34,7 @@ declare(strict_types=1);
 
 namespace OCA\Provisioning_API\Controller;
 
-use OC\Accounts\AccountManager;
+use OCP\Accounts\IAccountManager;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
@@ -61,7 +61,7 @@ class GroupsController extends AUserData {
 								IConfig $config,
 								IGroupManager $groupManager,
 								IUserSession $userSession,
-								AccountManager $accountManager,
+								IAccountManager $accountManager,
 								IFactory $l10nFactory,
 								LoggerInterface $logger) {
 		parent::__construct($appName,

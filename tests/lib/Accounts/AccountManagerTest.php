@@ -213,8 +213,8 @@ class AccountManagerTest extends TestCase {
 					// SCOPE_PRIVATE is not allowed for display name and email
 					IAccountManager::PROPERTY_DISPLAYNAME => ['value' => 'Display Name', 'scope' => IAccountManager::SCOPE_PRIVATE],
 					IAccountManager::PROPERTY_EMAIL => ['value' => 'test@example.org', 'scope' => IAccountManager::SCOPE_PRIVATE],
-					IAccountManager::PROPERTY_TWITTER => ['value' => '@sometwitter', 'scope' => 'invalid'],
-					IAccountManager::PROPERTY_PHONE => ['value' => '+491601231212', 'scope' => ''],
+					IAccountManager::PROPERTY_TWITTER => ['value' => '@sometwitter', 'scope' => IAccountManager::SCOPE_LOCAL],
+					IAccountManager::PROPERTY_PHONE => ['value' => '+491601231212', 'scope' => IAccountManager::SCOPE_LOCAL],
 				],
 				[
 					IAccountManager::PROPERTY_DISPLAYNAME => ['value' => 'Display Name', 'scope' => IAccountManager::SCOPE_LOCAL],
@@ -222,8 +222,22 @@ class AccountManagerTest extends TestCase {
 					IAccountManager::PROPERTY_TWITTER => ['value' => '@sometwitter', 'scope' => IAccountManager::SCOPE_LOCAL],
 					IAccountManager::PROPERTY_PHONE => ['value' => '+491601231212', 'scope' => IAccountManager::SCOPE_LOCAL],
 				],
-				// don't throw but fall back
 				false, false,
+			],
+			// illegal scope values
+			[
+				[
+					IAccountManager::PROPERTY_PHONE => ['value' => '+491601231212', 'scope' => IAccountManager::SCOPE_FEDERATED],
+					IAccountManager::PROPERTY_ADDRESS => ['value' => 'some street', 'scope' => IAccountManager::SCOPE_LOCAL],
+					IAccountManager::PROPERTY_WEBSITE => ['value' => 'https://example.org', 'scope' => IAccountManager::SCOPE_PRIVATE],
+				],
+				[
+					IAccountManager::PROPERTY_PHONE => ['value' => '+491601231212', 'scope' => ''],
+					IAccountManager::PROPERTY_ADDRESS => ['value' => 'some street', 'scope' => 'v2-invalid'],
+					IAccountManager::PROPERTY_WEBSITE => ['value' => 'https://example.org', 'scope' => 'invalid'],
+				],
+				[],
+				true, true
 			],
 			// invalid or unsupported scope values throw an exception when passing $throwOnData=true
 			[

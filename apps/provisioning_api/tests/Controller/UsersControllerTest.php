@@ -41,7 +41,6 @@
 namespace OCA\Provisioning_API\Tests\Controller;
 
 use Exception;
-use OC\Accounts\AccountManager;
 use OC\Authentication\Token\RemoteWipe;
 use OC\Group\Manager;
 use OC\KnownUser\KnownUserService;
@@ -88,7 +87,7 @@ class UsersControllerTest extends TestCase {
 	protected $logger;
 	/** @var UsersController|MockObject */
 	protected $api;
-	/** @var AccountManager|MockObject */
+	/** @var IAccountManager|MockObject */
 	protected $accountManager;
 	/** @var IURLGenerator|MockObject */
 	protected $urlGenerator;
@@ -117,7 +116,7 @@ class UsersControllerTest extends TestCase {
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->request = $this->createMock(IRequest::class);
-		$this->accountManager = $this->createMock(AccountManager::class);
+		$this->accountManager = $this->createMock(IAccountManager::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->l10nFactory = $this->createMock(IFactory::class);
 		$this->newUserMailHelper = $this->createMock(NewUserMailHelper::class);
@@ -1574,13 +1573,34 @@ class UsersControllerTest extends TestCase {
 			->method('getBackend')
 			->willReturn($backend);
 
-		$this->accountManager->expects($this->once())
-			->method('getUser')
+		$propertyMock = $this->createMock(IAccountProperty::class);
+		$propertyMock->expects($this->any())
+			->method('getName')
+			->willReturn($propertyName);
+		$propertyMock->expects($this->any())
+			->method('getValue')
+			->willReturn($oldValue);
+		$propertyMock->expects($this->once())
+			->method('setValue')
+			->with($newValue)
+			->willReturnSelf();
+		$propertyMock->expects($this->any())
+			->method('getScope')
+			->willReturn(IAccountManager::SCOPE_LOCAL);
+
+		$accountMock = $this->createMock(IAccount::class);
+		$accountMock->expects($this->any())
+			->method('getProperty')
+			->with($propertyName)
+			->willReturn($propertyMock);
+
+		$this->accountManager->expects($this->atLeastOnce())
+			->method('getAccount')
 			->with($loggedInUser)
-			->willReturn([$propertyName => ['value' => $oldValue, 'scope' => IAccountManager::SCOPE_LOCAL]]);
+			->willReturn($accountMock);
 		$this->accountManager->expects($this->once())
-			->method('updateUser')
-			->with($loggedInUser, [$propertyName => ['value' => $newValue, 'scope' => IAccountManager::SCOPE_LOCAL]], true);
+			->method('updateAccount')
+			->with($accountMock);
 
 		$this->assertEquals([], $this->api->editUser('UserToEdit', $propertyName, $newValue)->getData());
 	}
@@ -1624,13 +1644,34 @@ class UsersControllerTest extends TestCase {
 			->method('getBackend')
 			->willReturn($backend);
 
-		$this->accountManager->expects($this->once())
-			->method('getUser')
+		$propertyMock = $this->createMock(IAccountProperty::class);
+		$propertyMock->expects($this->any())
+			->method('getName')
+			->willReturn($propertyName);
+		$propertyMock->expects($this->any())
+			->method('getValue')
+			->willReturn('somevalue');
+		$propertyMock->expects($this->any())
+			->method('getScope')
+			->willReturn($oldScope);
+		$propertyMock->expects($this->atLeastOnce())
+			->method('setScope')
+			->with($newScope)
+			->willReturnSelf();
+
+		$accountMock = $this->createMock(IAccount::class);
+		$accountMock->expects($this->any())
+			->method('getProperty')
+			->with($propertyName)
+			->willReturn($propertyMock);
+
+		$this->accountManager->expects($this->atLeastOnce())
+			->method('getAccount')
 			->with($loggedInUser)
-			->willReturn([$propertyName => ['value' => 'somevalue', 'scope' => $oldScope]]);
+			->willReturn($accountMock);
 		$this->accountManager->expects($this->once())
-			->method('updateUser')
-			->with($loggedInUser, [$propertyName => ['value' => 'somevalue', 'scope' => $newScope]], true);
+			->method('updateAccount')
+			->with($accountMock);
 
 		$this->assertEquals([], $this->api->editUser('UserToEdit', $propertyName . 'Scope', $newScope)->getData());
 	}

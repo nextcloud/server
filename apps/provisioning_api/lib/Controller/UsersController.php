@@ -46,7 +46,6 @@ use libphonenumber\NumberParseException;
 use libphonenumber\PhoneNumber;
 use libphonenumber\PhoneNumberFormat;
 use libphonenumber\PhoneNumberUtil;
-use OC\Accounts\AccountManager;
 use OC\Authentication\Token\RemoteWipe;
 use OC\HintException;
 use OC\KnownUser\KnownUserService;
@@ -102,7 +101,7 @@ class UsersController extends AUserData {
 								IAppManager $appManager,
 								IGroupManager $groupManager,
 								IUserSession $userSession,
-								AccountManager $accountManager,
+								IAccountManager $accountManager,
 								IURLGenerator $urlGenerator,
 								LoggerInterface $logger,
 								IFactory $l10nFactory,
@@ -734,13 +733,14 @@ class UsersController extends AUserData {
 			case IAccountManager::PROPERTY_ADDRESS:
 			case IAccountManager::PROPERTY_WEBSITE:
 			case IAccountManager::PROPERTY_TWITTER:
-				$userAccount = $this->accountManager->getUser($targetUser);
-				if ($userAccount[$key]['value'] !== $value) {
-					$userAccount[$key]['value'] = $value;
+				$userAccount = $this->accountManager->getAccount($targetUser);
+				$userProperty = $userAccount->getProperty($key);
+				if ($userProperty->getValue() !== $value) {
 					try {
-						$this->accountManager->updateUser($targetUser, $userAccount, true);
+						$userProperty->setValue($value);
+						$this->accountManager->updateAccount($userAccount);
 
-						if ($key === IAccountManager::PROPERTY_PHONE) {
+						if ($userProperty->getName() === IAccountManager::PROPERTY_PHONE) {
 							$this->knownUserService->deleteByContactUserId($targetUser->getUID());
 						}
 					} catch (\InvalidArgumentException $e) {
@@ -756,11 +756,12 @@ class UsersController extends AUserData {
 			case IAccountManager::PROPERTY_TWITTER . self::SCOPE_SUFFIX:
 			case IAccountManager::PROPERTY_AVATAR . self::SCOPE_SUFFIX:
 				$propertyName = substr($key, 0, strlen($key) - strlen(self::SCOPE_SUFFIX));
-				$userAccount = $this->accountManager->getUser($targetUser);
-				if ($userAccount[$propertyName]['scope'] !== $value) {
-					$userAccount[$propertyName]['scope'] = $value;
+				$userAccount = $this->accountManager->getAccount($targetUser);
+				$userProperty = $userAccount->getProperty($propertyName);
+				if ($userProperty->getScope() !== $value) {
 					try {
-						$this->accountManager->updateUser($targetUser, $userAccount, true);
+						$userProperty->setScope($value);
+						$this->accountManager->updateAccount($userAccount);
 					} catch (\InvalidArgumentException $e) {
 						throw new OCSException('Invalid ' . $e->getMessage(), 102);
 					}
