@@ -122,7 +122,7 @@ class AddAppPassword extends Command {
 		$this->tokenProvider->generateToken(
 			$token,
 			$user->getUID(),
-			$user->getDisplayName(),
+			$user->getUID(),
 			$password,
 			'cli',
 			IToken::PERMANENT_TOKEN,
