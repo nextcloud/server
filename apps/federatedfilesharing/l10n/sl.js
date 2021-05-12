@@ -25,6 +25,8 @@ OC.L10N.register(
     "Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable or uses a self-signed certificate." : "Omogočanje souporabe %1$s je spodletelo, ker ni mogoče najti %2$s. Najverjetneje je strežnik nedosegljiv, ali pa je v uporabo neustrezno potrdilo podpisa.",
     "Could not find share" : "Mape v souporabi ni mogoče najti",
     "Federated sharing" : "Souporaba v zveznem oblaku",
+    "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Povezavo do {share} ste prejeli kot oddaljeno mesto uporabnika {user} (v imenu {behalf})",
+    "You received {share} as a remote share from {user}" : "Povezavo do {share} ste prejeli kot oddaljeno mesto uporabnika {user}",
     "Accept" : "Sprejmi",
     "Decline" : "Zavrni",
     "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Omogoči souporabo prek #Določila ID zveznega oblaka Nextcloud; več na %s",
