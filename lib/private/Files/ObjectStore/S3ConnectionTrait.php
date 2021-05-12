@@ -105,11 +105,11 @@ trait S3ConnectionTrait {
 	 * @return array with encryption parameters
 	 */
 	public function getSseKmsPutParameters(): array {
-		if (empty($this->sseKmsBucketKeyId)) {
+		if (!empty($this->sseKmsBucketKeyId)) {
 			return [
 				'ServerSideEncryption' => 'aws:kms',
 			];
-		} elseif (empty($this->sseKmsKeyId)) {
+		} elseif (!empty($this->sseKmsKeyId)) {
 			return [
 				'ServerSideEncryption' => 'aws:kms',
 				'SSEKMSKeyId' => $this->sseKmsKeyId,
@@ -127,12 +127,12 @@ trait S3ConnectionTrait {
 	 * @return array with encryption parameters
 	 */
 	public function getSseKmsGetParameters(): array {
-		if (empty($this->sseKmsBucketKeyId)) {
+		if (!empty($this->sseKmsBucketKeyId)) {
 			return [
 				'ServerSideEncryption' => 'aws:kms',
 				'SSEKMSKeyId' => $this->sseKmsBucketKeyId,
 			];
-		} elseif (empty($this->sseKmsKeyId)) {
+		} elseif !(empty($this->sseKmsKeyId)) {
 			return [
 				'ServerSideEncryption' => 'aws:kms',
 				'SSEKMSKeyId' => $this->sseKmsKeyId,
