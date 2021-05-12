@@ -22,7 +22,6 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
  */
 namespace OC\Files\ObjectStore;
 
@@ -43,6 +42,12 @@ trait S3ObjectTrait {
 	 */
 	abstract protected function getConnection();
 
+	/* compute configured encryption headers for put operations */
+	abstract protected function getSseKmsPutParameters();
+
+	/* compute configured encryption headers for get operations */
+	abstract protected function getSseKmsGetParameters();
+
 	/**
 	 * @param string $urn the unified resource name used to identify the object
 	 * @return resource stream with the read data
@@ -55,7 +60,7 @@ trait S3ObjectTrait {
 				'Bucket' => $this->bucket,
 				'Key' => $urn,
 				'Range' => 'bytes=' . $range,
-			]);
+			] + $this->getSseKmsGetParameters());
 			$request = \Aws\serialize($command);
 			$headers = [];
 			foreach ($request->getHeaders() as $key => $values) {
@@ -95,6 +100,7 @@ trait S3ObjectTrait {
 			'Body' => $stream,
 			'ACL' => 'private',
 			'ContentType' => $mimetype,
+			'params' => $this->getSseKmsPutParameters()
 		]);
 	}
 
@@ -114,7 +120,7 @@ trait S3ObjectTrait {
 			'part_size' => $this->uploadPartSize,
 			'params' => [
 				'ContentType' => $mimetype
-			],
+			] + $this->getSseKmsPutParameters(),
 		]);
 
 		try {
@@ -173,6 +179,8 @@ trait S3ObjectTrait {
 	}
 
 	public function copyObject($from, $to) {
-		$this->getConnection()->copy($this->getBucket(), $from, $this->getBucket(), $to);
+		$this->getConnection()->copy($this->getBucket(), $from, $this->getBucket(), $to, 'private', [
+			'params' => $this->getSseKmsPutParameters(),
+		]);
 	}
 }

@@ -39,7 +39,7 @@ use Aws\S3\Exception\S3Exception;
 use Aws\S3\S3Client;
 use GuzzleHttp\Promise;
 use GuzzleHttp\Promise\RejectedPromise;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 
 trait S3ConnectionTrait {
 	/** @var array */
@@ -63,11 +63,17 @@ trait S3ConnectionTrait {
 	/** @var int */
 	protected $uploadPartSize;
 
+	/** @var string */
+	protected $sseKmsKeyId;
+
+	/** @var bool */
+	protected $sseUseBucketKey;
+
 	protected $test;
 
 	protected function parseParams($params) {
 		if (empty($params['bucket'])) {
-			throw new \Exception("Bucket has to be configured.");
+			throw new \Exception('Bucket has to be configured.');
 		}
 
 		$this->id = 'amazon::' . $params['bucket'];
@@ -82,7 +88,11 @@ trait S3ConnectionTrait {
 		if (!isset($params['port']) || $params['port'] === '') {
 			$params['port'] = (isset($params['use_ssl']) && $params['use_ssl'] === false) ? 80 : 443;
 		}
-		$params['verify_bucket_exists'] = empty($params['verify_bucket_exists']) ? true : $params['verify_bucket_exists'];
+		$params['autocreate'] = $params['autocreate'] ?? false;
+
+		$this->sseKmsKeyId = $params['ssekmskeyid'] ?? null;
+		$this->sseUseBucketKey = $params['sseusebucketkey'] ?? false;
+
 		$this->params = $params;
 	}
 
@@ -95,7 +105,118 @@ trait S3ConnectionTrait {
 	}
 
 	/**
-	 * Returns the connection
+	 * Add the SSE KMS parameterdepending on the
+	 * KMS encryption strategy (bucket, individual or
+	 * no encryption) for object creations.
+	 *
+	 * @return array with encryption parameters
+	 */
+	public function getSseKmsPutParameters(): array {
+		if ($this->sseUseBucketKey) {
+			return [
+				'ServerSideEncryption' => 'aws:kms',
+				'BucketKeyEnabled' => true,
+			];
+		}
+
+		if (!empty($this->sseKmsKeyId)) {
+			return [
+				'ServerSideEncryption' => 'aws:kms',
+				'BucketKeyEnabled' => false,
+				'SSEKMSKeyId' => $this->sseKmsKeyId,
+			];
+		}
+
+		return [];
+	}
+
+	/**
+	 * Add the SSE KMS parameter depending on the
+	 * KMS encryption strategy (bucket, individual or
+	 * no encryption) for object read.
+	 *
+	 * @return array with encryption parameters
+	 */
+	public function getSseKmsGetParameters(): array {
+		if ($this->sseUseBucketKey || !empty($this->sseKmsKeyId)) {
+			return [
+				'ServerSideEncryption' => 'aws:kms',
+			];
+		}
+		return [];
+	}
+
+	/**
+	 * Create the required bucket
+	 *
+	 * @throws \Exception if bucket creation fails
+	 */
+	protected function createNewBucket() {
+		$logger = \OC::$server->get(LoggerInterface::class);
+		try {
+			$logger->info('Bucket "'.$this->bucket.'" does not exist - creating it.', ['app' => 'objectstore']);
+			if (!$this->connection::isBucketDnsCompatible($this->bucket)) {
+				throw new \Exception('The bucket will not be created because the name is not dns compatible, please correct it: '.$this->bucket);
+			}
+			$this->connection->createBucket(['Bucket' => $this->bucket]);
+			$this->testTimeout();
+		} catch (S3Exception $e) {
+			$logger->error('Invalid remote storage.', [
+				'exception' => $e,
+				'app' => 'objectstore',
+			]);
+			throw new \Exception('Creation of bucket "'.$this->bucket.'" failed. '.$e->getMessage());
+		}
+	}
+
+	/**
+	 * Check bucket key consistency or put bucket key if missing
+	 * This operation only works for bucket owner or with
+	 * s3:GetEncryptionConfiguration/s3:PutEncryptionConfiguration permission
+	 *
+	 * We recommend to use autocreate only on initial setup and
+	 * use an S3:user only with object operation permission and no bucket operation permissions
+	 * later with autocreate=false
+	 *
+	 * @throws \Exception if bucket key config is inconsistent or if putting the key fails
+	 */
+	protected function checkOrPutBucketKey() {
+		$logger = \OC::$server->get(LoggerInterface::class);
+
+		try {
+			$encryptState = $this->connection->getBucketEncryption([
+				'Bucket' => $this->bucket,
+			]);
+		} catch (S3Exception $e) {
+			try {
+				$logger->info('Bucket key for "'.$this->bucket.'" is not set - adding it.', ['app' => 'objectstore']);
+				$this->connection->putBucketEncryption([
+					'Bucket' => $this->bucket,
+					'ServerSideEncryptionConfiguration' => [
+						'Rules' => [
+							[
+								'ApplyServerSideEncryptionByDefault' => [
+									'SSEAlgorithm' => 'aws:kms',
+									'KMSMasterKeyID' => $this->sseKmsKeyId,
+								],
+							],
+						],
+					],
+				]);
+				$this->testTimeout();
+			} catch (S3Exception $e) {
+				$logger->error('Bucket key problem.', [
+					'exception' => $e,
+					'app' => 'objectstore',
+				]);
+				throw new \Exception('Putting configured bucket key to "' . $this->bucket . '" failed. ' . $e->getMessage());
+			}
+		}
+	}
+
+
+	/**
+	 * Returns the connection.
 	 *
 	 * @return S3Client connected client
 	 * @throws \Exception if connection could not be made
@@ -145,23 +266,12 @@ trait S3ConnectionTrait {
 					 ['app' => 'objectstore']);
 		}
 
-		if ($this->params['verify_bucket_exists'] && !$this->connection->doesBucketExist($this->bucket)) {
-			$logger = \OC::$server->getLogger();
-			try {
-				$logger->info('Bucket "' . $this->bucket . '" does not exist - creating it.', ['app' => 'objectstore']);
-				if (!$this->connection::isBucketDnsCompatible($this->bucket)) {
-					throw new \Exception("The bucket will not be created because the name is not dns compatible, please correct it: " . $this->bucket);
-				}
-				$this->connection->createBucket(['Bucket' => $this->bucket]);
-				$this->testTimeout();
-			} catch (S3Exception $e) {
-				$logger->logException($e, [
-					'message' => 'Invalid remote storage.',
-					'level' => ILogger::DEBUG,
-					'app' => 'objectstore',
-				]);
-				throw new \Exception('Creation of bucket "' . $this->bucket . '" failed. ' . $e->getMessage());
-			}
+		if ($this->params['autocreate'] && !$this->connection->doesBucketExist($this->bucket)) {
+			$this->createNewBucket();
+		}
+
+		if ($this->params['autocreate'] && $this->sseUseBucketKey) {
+			$this->checkOrPutBucketKey();
 		}
 
 		// google cloud's s3 compatibility doesn't like the EncodingType parameter
