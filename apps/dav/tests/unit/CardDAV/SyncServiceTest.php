@@ -28,11 +28,9 @@
 
 namespace OCA\DAV\Tests\unit\CardDAV;
 
-use OC\Accounts\AccountManager;
 use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\CardDAV\Converter;
 use OCA\DAV\CardDAV\SyncService;
-use OCP\Accounts\IAccountManager;
 use OCP\ILogger;
 use OCP\IUser;
 use OCP\IUserManager;
