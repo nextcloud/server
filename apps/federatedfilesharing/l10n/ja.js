@@ -29,7 +29,7 @@ OC.L10N.register(
     "You received \"%3$s\" as a remote share from %4$s (%1$s)" : "  %4$s (%1$s)からリモート共有として \"%3$s\" を受け取りました",
     "You received {share} as a remote share from {user}" : "{user} から {file} のリモート共有が届いています",
     "Accept" : "承諾",
-    "Decline" : "拒否《はてなキーワード》",
+    "Decline" : "拒否",
     "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "#Nextcloud の「クラウド共有ID」で私と共有できます。こちらを見てください。%s",
     "Share with me through my #Nextcloud Federated Cloud ID" : "#Nextcloud の「クラウド共有ID」で私と共有できます。",
     "Sharing" : "共有中",
