@@ -97,17 +97,20 @@
 							name: 'copyMove',
 							displayName:  t('files', 'Move or copy'),
 							iconClass: 'icon-external',
+							order: 10,
 						},
 						{
 							name: 'download',
 							displayName:  t('files', 'Download'),
 							iconClass: 'icon-download',
+							order: 10,
 						},
 						OCA.Files.FileList.MultiSelectMenuActions.ToggleSelectionModeAction,
 						{
 							name: 'delete',
 							displayName: t('files', 'Delete'),
 							iconClass: 'icon-delete',
+							order: 99,
 						},
 					],
 					sorting: {
