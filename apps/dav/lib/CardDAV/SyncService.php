@@ -54,8 +54,8 @@ class SyncService {
 	/** @var array */
 	private $localSystemAddressBook;
 
-	/** @var AccountManager */
-	private $accountManager;
+	/** @var Converter */
+	private $converter;
 
 	/** @var string */
 	protected $certPath;
@@ -68,11 +68,11 @@ class SyncService {
 	 * @param ILogger $logger
 	 * @param AccountManager $accountManager
 	 */
-	public function __construct(CardDavBackend $backend, IUserManager $userManager, ILogger $logger, AccountManager $accountManager) {
+	public function __construct(CardDavBackend $backend, IUserManager $userManager, ILogger $logger, Converter $converter) {
 		$this->backend = $backend;
 		$this->userManager = $userManager;
 		$this->logger = $logger;
-		$this->accountManager = $accountManager;
+		$this->converter = $converter;
 		$this->certPath = '';
 	}
 
@@ -265,7 +265,6 @@ class SyncService {
 	public function updateUser(IUser $user) {
 		$systemAddressBook = $this->getLocalSystemAddressBook();
 		$addressBookId = $systemAddressBook['id'];
-		$converter = new Converter($this->accountManager);
 		$name = $user->getBackendClassName();
 		$userId = $user->getUID();
 
@@ -273,12 +272,12 @@ class SyncService {
 		$card = $this->backend->getCard($addressBookId, $cardId);
 		if ($user->isEnabled()) {
 			if ($card === false) {
-				$vCard = $converter->createCardFromUser($user);
+				$vCard = $this->converter->createCardFromUser($user);
 				if ($vCard !== null) {
 					$this->backend->createCard($addressBookId, $cardId, $vCard->serialize());
 				}
 			} else {
-				$vCard = $converter->createCardFromUser($user);
+				$vCard = $this->converter->createCardFromUser($user);
 				if (is_null($vCard)) {
 					$this->backend->deleteCard($addressBookId, $cardId);
 				} else {
