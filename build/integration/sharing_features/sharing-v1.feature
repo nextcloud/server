@@ -54,7 +54,7 @@ Feature: sharing
       | shareWith | a-room-token |
       | shareType | 10 |
     Then the OCS status code should be "403"
-    And the HTTP status code should be "401"
+    And the HTTP status code should be "200"
 
   Scenario: Creating a new mail share
     Given dummy mail server is listening

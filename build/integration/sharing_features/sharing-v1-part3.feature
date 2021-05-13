@@ -403,7 +403,7 @@ Feature: sharing
     And Updating last share with
       | permissions | 19 |
     Then the OCS status code should be "403"
-    And the HTTP status code should be "401"
+    And the HTTP status code should be "200"
 
   Scenario: do not allow to increase permissions on non received share with user with resharing rights
     Given As an "admin"
@@ -427,7 +427,7 @@ Feature: sharing
     And Updating last share with
       | permissions | 19 |
     Then the OCS status code should be "403"
-    And the HTTP status code should be "401"
+    And the HTTP status code should be "200"
 
   Scenario: do not allow to increase link share permissions on reshare
     Given As an "admin"

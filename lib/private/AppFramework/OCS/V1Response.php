@@ -37,7 +37,7 @@ class V1Response extends BaseResponse {
 	 */
 	public function getStatus() {
 		$status = parent::getStatus();
-		if ($status === Http::STATUS_FORBIDDEN || $status === OCSController::RESPOND_UNAUTHORISED) {
+		if ($status === OCSController::RESPOND_UNAUTHORISED) {
 			return Http::STATUS_UNAUTHORIZED;
 		}
 

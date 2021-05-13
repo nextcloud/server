@@ -27,8 +27,8 @@ namespace OCA\Provisioning_API\Tests\Middleware;
 use OCA\Provisioning_API\Middleware\Exceptions\NotSubAdminException;
 use OCA\Provisioning_API\Middleware\ProvisioningApiMiddleware;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http;
 use OCP\AppFramework\OCS\OCSException;
-use OCP\AppFramework\OCSController;
 use OCP\AppFramework\Utility\IControllerMethodReflector;
 use Test\TestCase;
 
@@ -115,7 +115,7 @@ class ProvisioningApiMiddlewareTest extends TestCase {
 		} catch (OCSException $e) {
 			$this->assertFalse($forwared);
 			$this->assertSame($exception->getMessage(), $e->getMessage());
-			$this->assertSame(OCSController::RESPOND_UNAUTHORISED, $e->getCode());
+			$this->assertSame(Http::STATUS_FORBIDDEN, $e->getCode());
 		} catch (\Exception $e) {
 			$this->assertTrue($forwared);
 			$this->assertSame($exception, $e);

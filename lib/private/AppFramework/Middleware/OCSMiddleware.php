@@ -100,8 +100,7 @@ class OCSMiddleware extends Middleware {
 		 * we need to catch the response and convert it to a proper OCS response.
 		 */
 		if ($controller instanceof OCSController && !($response instanceof BaseResponse)) {
-			if ($response->getStatus() === Http::STATUS_UNAUTHORIZED ||
-				$response->getStatus() === Http::STATUS_FORBIDDEN) {
+			if ($response->getStatus() === Http::STATUS_UNAUTHORIZED) {
 				$message = '';
 				if ($response instanceof JSONResponse) {
 					/** @var DataResponse $response */
@@ -109,6 +108,15 @@ class OCSMiddleware extends Middleware {
 				}
 
 				return $this->buildNewResponse($controller, OCSController::RESPOND_UNAUTHORISED, $message);
+			}
+			if ($response->getStatus() === Http::STATUS_FORBIDDEN) {
+				$message = '';
+				if ($response instanceof JSONResponse) {
+					/** @var DataResponse $response */
+					$message = $response->getData()['message'];
+				}
+
+				return $this->buildNewResponse($controller, Http::STATUS_FORBIDDEN, $message);
 			}
 		}
 
