@@ -190,6 +190,7 @@ OC.L10N.register(
     "Crop image previews" : "Bildvorschauen zuschneiden",
     "WebDAV" : "WebDAV",
     "Use this address to access your Files via WebDAV" : "Diese Adresse benutzen, um über WebDAV auf Deine Dateien zuzugreifen",
+    "Toggle %1$s sublist" : "Unterliste %1$s umschalten",
     "Toggle grid view" : "Rasteransicht umschalten",
     "No files in here" : "Keine Dateien vorhanden",
     "Upload some content or sync with your devices!" : "Inhalte hochladen oder mit Deinen Geräten synchronisieren!",
