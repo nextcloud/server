@@ -237,7 +237,7 @@ class Storage extends Wrapper {
 				/** @var Storage $sourceStorage */
 				$sourceStorage->disableTrash();
 			}
-			$result = $this->getWrapperStorage()->moveFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
+			$result = parent::moveFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
 			if ($sourceIsTrashbin) {
 				/** @var Storage $sourceStorage */
 				$sourceStorage->enableTrash();
