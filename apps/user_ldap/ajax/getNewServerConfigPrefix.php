@@ -25,6 +25,9 @@
  */
 
 // Check user and app status
+
+require_once($_SERVER['DOCUMENT_ROOT'].'/lib/base.php');
+
 \OC_JSON::checkAdminUser();
 \OC_JSON::checkAppEnabled('user_ldap');
 \OC_JSON::callCheck();

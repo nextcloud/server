@@ -25,6 +25,8 @@
  *
  */
 
+require_once($_SERVER['DOCUMENT_ROOT'].'/lib/base.php');
+
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\Mapping\GroupMapping;
 
