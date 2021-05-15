@@ -120,6 +120,7 @@ OC.L10N.register(
     "Please try again or contact your administrator." : "Veuillez réessayer ou contactez votre administrateur.",
     "Username or email" : "Utilisateur ou email",
     "Password" : "Mot de passe",
+    "Toggle password visibility" : "Activer/désactiver la visibilité du mot de passe",
     "Wrong username or password." : "Utilisateur ou mot de passe incorrect.",
     "User disabled" : "Utilisateur désactivé",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Nous avons détecté plusieurs tentatives de connexion invalides depuis votre adresse IP. C'est pourquoi votre prochaine connexion sera retardée de 30 secondes.",
