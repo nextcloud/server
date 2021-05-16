@@ -20,6 +20,7 @@ OC.L10N.register(
     "It is not allowed to send federated group shares from this server." : "Das Erstellen einer Federated Cloud Freigabe ist von diesem Server aus nicht erlaubt.",
     "Sharing %1$s failed, because this item is already shared with user %2$s" : "Das Teilen von %1$s ist fehlgeschlagen, da dieses Objekt bereits mit Benutzer %2$s geteilt wird",
     "Not allowed to create a federated share with the same user" : "Das Erstellen einer Federated Cloud Freigabe mit dem gleichen Benutzer ist nicht erlaubt",
+    "Federated shares require read permissions" : "Federated-Shares benötigen Leseberechtigungen",
     "File is already shared with %s" : "Datei wird bereits mit %s geteilt",
     "Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable or uses a self-signed certificate." : "Freigabe von %1$s fehlgeschlagen, da %2$s nicht gefunden wurde. Möglicherweise ist der Server nicht erreichbar oder nutzt ein selbst zertifiziertes Zertifikat.",
     "Could not find share" : "Freigabe konnte nicht gefunden werden",
