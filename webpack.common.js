@@ -8,6 +8,7 @@ const accessibility = require('./apps/accessibility/webpack')
 const comments = require('./apps/comments/webpack')
 const core = require('./core/webpack')
 const dashboard = require('./apps/dashboard/webpack')
+const dav = require('./apps/dav/webpack')
 const files = require('./apps/files/webpack')
 const files_sharing = require('./apps/files_sharing/webpack')
 const files_trashbin = require('./apps/files_trashbin/webpack')
@@ -26,6 +27,7 @@ const modules = {
 	comments,
 	core,
 	dashboard,
+	dav,
 	files,
 	files_sharing,
 	files_trashbin,

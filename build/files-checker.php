@@ -37,6 +37,7 @@ $expectedFiles = [
 	'.idea',
 	'.jshintrc',
 	'.mailmap',
+	'.npmignore',
 	'.php_cs.dist',
 	'.scrutinizer.yml',
 	'.tag',

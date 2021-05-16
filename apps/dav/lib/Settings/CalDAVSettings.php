@@ -5,6 +5,7 @@
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Thomas Citharel <nextcloud@tcit.fr>
+ * @author François Freitag <mail@franek.fr>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -25,8 +26,10 @@
 
 namespace OCA\DAV\Settings;
 
+use OCA\DAV\AppInfo\Application;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
+use OCP\AppFramework\Services\IInitialState;
 use OCP\Settings\ISettings;
 
 class CalDAVSettings implements ISettings {
@@ -34,27 +37,32 @@ class CalDAVSettings implements ISettings {
 	/** @var IConfig */
 	private $config;
 
+	/** @var IInitialState */
+	private $initialState;
+
 	/**
 	 * CalDAVSettings constructor.
 	 *
 	 * @param IConfig $config
+	 * @param IInitialState $initialState
 	 */
-	public function __construct(IConfig $config) {
+	public function __construct(IConfig $config, IInitialState $initialState) {
 		$this->config = $config;
+		$this->initialState = $initialState;
 	}
 
-	/**
-	 * @return TemplateResponse
-	 */
-	public function getForm() {
-		$parameters = [
-			'send_invitations' => $this->config->getAppValue('dav', 'sendInvitations', 'yes'),
-			'generate_birthday_calendar' => $this->config->getAppValue('dav', 'generateBirthdayCalendar', 'yes'),
-			'send_reminders_notifications' => $this->config->getAppValue('dav', 'sendEventReminders', 'yes'),
-			'send_reminders_notifications_push' => $this->config->getAppValue('dav', 'sendEventRemindersPush', 'no'),
+	public function getForm(): TemplateResponse {
+		$defaults = [
+			'sendInvitations' => 'yes',
+			'generateBirthdayCalendar' => 'yes',
+			'sendEventReminders' => 'yes',
+			'sendEventRemindersPush' => 'no',
 		];
-
-		return new TemplateResponse('dav', 'settings-admin-caldav', $parameters);
+		foreach ($defaults as $key => $default) {
+			$value = $this->config->getAppValue(Application::APP_ID, $key, $default);
+			$this->initialState->provideInitialState($key, $value === 'yes');
+		}
+		return new TemplateResponse(Application::APP_ID, 'settings-admin-caldav');
 	}
 
 	/**
