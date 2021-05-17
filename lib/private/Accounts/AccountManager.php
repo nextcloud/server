@@ -139,6 +139,61 @@ class AccountManager implements IAccountManager {
 		return $input;
 	}
 
+	protected function sanitizeLength(array &$propertyData, bool $throwOnData = false): void {
+		if (isset($propertyData) && isset($propertyData['value']) && strlen($propertyData['value']) > 2048) {
+			if ($throwOnData) {
+				throw new \InvalidArgumentException();
+			} else {
+				$propertyData['value'] = '';
+			}
+		}
+	}
+
+	protected function testValueLengths(array &$data, bool $throwOnData = false): void {
+		try {
+			foreach ($data as $propertyName => &$propertyData) {
+				if ($this->isCollection($propertyName)) {
+					$this->testValueLengths($propertyData, $throwOnData);
+				} else {
+					$this->sanitizeLength($propertyData, $throwOnData);
+				}
+			}
+		} catch (\InvalidArgumentException $e) {
+			throw new \InvalidArgumentException($propertyName);
+		}
+	}
+
+	protected function testPropertyScopes(array &$data, array $allowedScopes, bool $throwOnData = false, string $parentPropertyName = null): void {
+		foreach ($data as $propertyNameOrIndex => &$propertyData) {
+			if ($this->isCollection($propertyNameOrIndex)) {
+				$this->testPropertyScopes($propertyData, $allowedScopes, $throwOnData);
+			} else if (isset($propertyData['scope'])) {
+				$effectivePropertyName = $parentPropertyName ?? $propertyNameOrIndex;
+
+				if ($throwOnData && !in_array($propertyData['scope'], $allowedScopes, true)) {
+					throw new \InvalidArgumentException('scope');
+				}
+
+				if (
+					$propertyData['scope'] === self::SCOPE_PRIVATE
+					&& ($effectivePropertyName === self::PROPERTY_DISPLAYNAME || $effectivePropertyName === self::PROPERTY_EMAIL)
+				) {
+					if ($throwOnData) {
+						// v2-private is not available for these fields
+						throw new \InvalidArgumentException('scope');
+					} else {
+						// default to local
+						$data[$propertyNameOrIndex]['scope'] = self::SCOPE_LOCAL;
+					}
+				} else {
+					// migrate scope values to the new format
+					// invalid scopes are mapped to a default value
+					$data[$propertyNameOrIndex]['scope'] = AccountProperty::mapScopeToV2($propertyData['scope']);
+				}
+			}
+		}
+	}
+
 	/**
 	 * update user record
 	 *
@@ -166,16 +221,7 @@ class AccountManager implements IAccountManager {
 			}
 		}
 
-		// set a max length
-		foreach ($data as $propertyName => $propertyData) {
-			if (isset($data[$propertyName]) && isset($data[$propertyName]['value']) && strlen($data[$propertyName]['value']) > 2048) {
-				if ($throwOnData) {
-					throw new \InvalidArgumentException($propertyName);
-				} else {
-					$data[$propertyName]['value'] = '';
-				}
-			}
-		}
+		$this->testValueLengths($data);
 
 		if (isset($data[self::PROPERTY_WEBSITE]) && $data[self::PROPERTY_WEBSITE]['value'] !== '') {
 			try {
@@ -198,31 +244,7 @@ class AccountManager implements IAccountManager {
 			self::VISIBILITY_PUBLIC,
 		];
 
-		// validate and convert scope values
-		foreach ($data as $propertyName => $propertyData) {
-			if (isset($propertyData['scope'])) {
-				if ($throwOnData && !in_array($propertyData['scope'], $allowedScopes, true)) {
-					throw new \InvalidArgumentException('scope');
-				}
-
-				if (
-					$propertyData['scope'] === self::SCOPE_PRIVATE
-					&& ($propertyName === self::PROPERTY_DISPLAYNAME || $propertyName === self::PROPERTY_EMAIL)
-				) {
-					if ($throwOnData) {
-						// v2-private is not available for these fields
-						throw new \InvalidArgumentException('scope');
-					} else {
-						// default to local
-						$data[$propertyName]['scope'] = self::SCOPE_LOCAL;
-					}
-				} else {
-					// migrate scope values to the new format
-					// invalid scopes are mapped to a default value
-					$data[$propertyName]['scope'] = AccountProperty::mapScopeToV2($propertyData['scope']);
-				}
-			}
-		}
+		$this->testPropertyScopes($data, $allowedScopes, $throwOnData);
 
 		if (empty($userData)) {
 			$this->insertNewUser($user, $data);
