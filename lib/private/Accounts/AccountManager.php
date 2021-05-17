@@ -45,6 +45,7 @@ use OCP\IUser;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
+use function array_flip;
 use function json_decode;
 use function json_last_error;
 
@@ -298,12 +299,9 @@ class AccountManager implements IAccountManager {
 	/**
 	 * get stored data from a given user
 	 *
-	 * @param IUser $user
-	 * @return array
-	 *
 	 * @deprecated use getAccount instead to make sure migrated properties work correctly
 	 */
-	public function getUser(IUser $user) {
+	public function getUser(IUser $user, bool $insertIfNotExists = true): array {
 		$uid = $user->getUID();
 		$query = $this->connection->getQueryBuilder();
 		$query->select('data')
@@ -316,7 +314,9 @@ class AccountManager implements IAccountManager {
 
 		if (empty($accountData)) {
 			$userData = $this->buildDefaultUserRecord($user);
-			$this->insertNewUser($user, $userData);
+			if ($insertIfNotExists) {
+				$this->insertNewUser($user, $userData);
+			}
 			return $userData;
 		}
 
@@ -327,9 +327,7 @@ class AccountManager implements IAccountManager {
 			return $this->buildDefaultUserRecord($user);
 		}
 
-		$userDataArray = $this->addMissingDefaultValues($userDataArray);
-
-		return $userDataArray;
+		return $this->addMissingDefaultValues($userDataArray);
 	}
 
 	public function searchUsers(string $property, array $values): array {
@@ -346,12 +344,23 @@ class AccountManager implements IAccountManager {
 			$result = $query->execute();
 
 			while ($row = $result->fetch()) {
-				$matches[$row['value']] = $row['uid'];
+				$matches[$row['uid']] = $row['value'];
 			}
 			$result->closeCursor();
 		}
 
-		return $matches;
+		$result = array_merge($matches, $this->searchUsersForRelatedCollection($property, $values));
+
+		return array_flip($result);
+	}
+
+	protected function searchUsersForRelatedCollection(string $property, array $values): array {
+		switch ($property) {
+			case IAccountManager::PROPERTY_EMAIL:
+				return array_flip($this->searchUsers(IAccountManager::COLLECTION_EMAIL, $values));
+			default:
+				return [];
+		}
 	}
 
 	/**
@@ -362,7 +371,7 @@ class AccountManager implements IAccountManager {
 	 * @param IUser $user
 	 * @return array
 	 */
-	protected function checkEmailVerification($oldData, $newData, IUser $user) {
+	protected function checkEmailVerification($oldData, $newData, IUser $user): array {
 		if ($oldData[self::PROPERTY_EMAIL]['value'] !== $newData[self::PROPERTY_EMAIL]['value']) {
 			$this->jobList->add(VerifyUserData::class,
 				[
@@ -403,7 +412,7 @@ class AccountManager implements IAccountManager {
 	 * @param array $newData
 	 * @return array
 	 */
-	protected function updateVerifyStatus($oldData, $newData) {
+	protected function updateVerifyStatus(array $oldData, array $newData): array {
 
 		// which account was already verified successfully?
 		$twitterVerified = isset($oldData[self::PROPERTY_TWITTER]['verified']) && $oldData[self::PROPERTY_TWITTER]['verified'] === self::VERIFIED;
@@ -503,12 +512,20 @@ class AccountManager implements IAccountManager {
 					'value' => $query->createParameter('value'),
 				]
 			);
+		$this->writeUserDataProperties($query, $data);
+	}
+
+	protected function writeUserDataProperties(IQueryBuilder $query, array $data, string $parentPropertyName = null): void {
 		foreach ($data as $propertyName => $property) {
-			if ($propertyName === self::PROPERTY_AVATAR) {
+			if ($this->isCollection($propertyName)) {
+				$this->writeUserDataProperties($query, $property, $propertyName);
+				continue;
+			}
+			if (($parentPropertyName ?? $propertyName) === self::PROPERTY_AVATAR) {
 				continue;
 			}
 
-			$query->setParameter('name', $propertyName)
+			$query->setParameter('name', $parentPropertyName ?? $propertyName)
 				->setParameter('value', $property['value'] ?? '');
 			$query->execute();
 		}
@@ -589,5 +606,13 @@ class AccountManager implements IAccountManager {
 		}
 
 		$this->updateUser($account->getUser(), $data, true);
+	}
+
+	protected function isCollection(string $propertyName): bool {
+		return in_array($propertyName,
+			[
+				IAccountManager::COLLECTION_EMAIL,
+			]
+		);
 	}
 }
