@@ -26,6 +26,7 @@ use OC\Accounts\AccountManager;
 use OCP\Accounts\IAccountManager;
 use OCP\BackgroundJob\IJobList;
 use OCP\IConfig;
+use OCP\IDBConnection;
 use OCP\IUser;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
@@ -59,19 +60,114 @@ class AccountManagerTest extends TestCase {
 	/** @var LoggerInterface|MockObject */
 	private $logger;
 
+	/** @var AccountManager */
+	private $accountManager;
+
 	protected function setUp(): void {
 		parent::setUp();
 		$this->eventDispatcher = $this->createMock(EventDispatcherInterface::class);
-		$this->connection = \OC::$server->getDatabaseConnection();
+		$this->connection = \OC::$server->get(IDBConnection::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->jobList = $this->createMock(IJobList::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
+
+		$this->accountManager = new AccountManager(
+			$this->connection,
+			$this->config,
+			$this->eventDispatcher,
+			$this->jobList,
+			$this->logger,
+		);
 	}
 
 	protected function tearDown(): void {
 		parent::tearDown();
 		$query = $this->connection->getQueryBuilder();
 		$query->delete($this->table)->execute();
+	}
+
+	protected function makeUser(string $uid, string $name, string $email = null): IUser {
+		$user = $this->createMock(IUser::class);
+		$user->expects($this->any())
+			->method('getUid')
+			->willReturn($uid);
+		$user->expects($this->any())
+			->method('getDisplayName')
+			->willReturn($name);
+		if ($email !== null) {
+			$user->expects($this->any())
+				->method('getEMailAddress')
+				->willReturn($email);
+		}
+
+		return $user;
+	}
+
+	protected function populateOrUpdate(): void {
+		$users = [
+			[
+				'user' => $this->makeUser('j.doe', 'Jane Doe', 'jane.doe@acme.com'),
+				'data' => [
+					IAccountManager::PROPERTY_DISPLAYNAME => ['value' => 'Jane Doe', 'scope' => IAccountManager::SCOPE_PUBLISHED],
+					IAccountManager::PROPERTY_EMAIL => ['value' => 'jane.doe@acme.com', 'scope' => IAccountManager::SCOPE_LOCAL],
+					IAccountManager::PROPERTY_TWITTER => ['value' => '@sometwitter', 'scope' => IAccountManager::SCOPE_PUBLISHED],
+					IAccountManager::PROPERTY_PHONE => ['value' => '+491601231212', 'scope' => IAccountManager::SCOPE_FEDERATED],
+					IAccountManager::PROPERTY_ADDRESS => ['value' => 'some street', 'scope' => IAccountManager::SCOPE_LOCAL],
+					IAccountManager::PROPERTY_WEBSITE => ['value' => 'https://acme.com', 'scope' => IAccountManager::SCOPE_PRIVATE],
+				],
+			],
+			[
+				'user' => $this->makeUser('a.allison', 'Alice Allison', 'a.allison@example.org'),
+				'data' => [
+					IAccountManager::PROPERTY_DISPLAYNAME => ['value' => 'Alice Allison', 'scope' => IAccountManager::SCOPE_LOCAL],
+					IAccountManager::PROPERTY_EMAIL => ['value' => 'a.allison@example.org', 'scope' => IAccountManager::SCOPE_LOCAL],
+					IAccountManager::PROPERTY_TWITTER => ['value' => '@a_alice', 'scope' => IAccountManager::SCOPE_FEDERATED],
+					IAccountManager::PROPERTY_PHONE => ['value' => '+491602312121', 'scope' => IAccountManager::SCOPE_LOCAL],
+					IAccountManager::PROPERTY_ADDRESS => ['value' => 'Dundee Road 45', 'scope' => IAccountManager::SCOPE_LOCAL],
+					IAccountManager::PROPERTY_WEBSITE => ['value' => 'https://example.org', 'scope' => IAccountManager::SCOPE_LOCAL],
+				],
+			],
+			[
+				'user' => $this->makeUser('b32c5a5b-1084-4380-8856-e5223b16de9f', 'Armel Oliseh', 'oliseh@example.com'),
+				'data' => [
+					IAccountManager::PROPERTY_DISPLAYNAME => ['value' => 'Armel Oliseh', 'scope' => IAccountManager::SCOPE_PUBLISHED],
+					IAccountManager::PROPERTY_EMAIL => ['value' => 'oliseh@example.com', 'scope' => IAccountManager::SCOPE_PUBLISHED],
+					IAccountManager::PROPERTY_TWITTER => ['value' => '', 'scope' => IAccountManager::SCOPE_LOCAL],
+					IAccountManager::PROPERTY_PHONE => ['value' => '+491603121212', 'scope' => IAccountManager::SCOPE_PUBLISHED],
+					IAccountManager::PROPERTY_ADDRESS => ['value' => 'Sunflower Blvd. 77', 'scope' => IAccountManager::SCOPE_PUBLISHED],
+					IAccountManager::PROPERTY_WEBSITE => ['value' => 'https://example.com', 'scope' => IAccountManager::SCOPE_PUBLISHED],
+				],
+			],
+			[
+				'user' => $this->makeUser('31b5316a-9b57-4b17-970a-315a4cbe73eb', 'K. Cheng', 'cheng@emca.com'),
+				'data' => [
+					IAccountManager::PROPERTY_DISPLAYNAME => ['value' => 'K. Cheng', 'scope' => IAccountManager::SCOPE_FEDERATED],
+					IAccountManager::PROPERTY_EMAIL => ['value' => 'cheng@emca.com', 'scope' => IAccountManager::SCOPE_FEDERATED],
+					IAccountManager::PROPERTY_TWITTER => ['value' => '', 'scope' => IAccountManager::SCOPE_LOCAL],
+					IAccountManager::PROPERTY_PHONE => ['value' => '+71601212123', 'scope' => IAccountManager::SCOPE_LOCAL],
+					IAccountManager::PROPERTY_ADDRESS => ['value' => 'Pinapple Street 22', 'scope' => IAccountManager::SCOPE_LOCAL],
+					IAccountManager::PROPERTY_WEBSITE => ['value' => 'https://emca.com', 'scope' => IAccountManager::SCOPE_FEDERATED],
+					IAccountManager::COLLECTION_EMAIL => [
+						['value' => 'k.cheng@emca.com', 'scope' => IAccountManager::SCOPE_LOCAL],
+						['value' => 'kai.cheng@emca.com', 'scope' => IAccountManager::SCOPE_LOCAL],
+					],
+				],
+			],
+			[
+				'user' => $this->makeUser('goodpal@elpmaxe.org', 'Goodpal, Kim', 'goodpal@elpmaxe.org'),
+				'data' => [
+					IAccountManager::PROPERTY_DISPLAYNAME => ['value' => 'Goodpal, Kim', 'scope' => IAccountManager::SCOPE_PUBLISHED],
+					IAccountManager::PROPERTY_EMAIL => ['value' => 'goodpal@elpmaxe.org', 'scope' => IAccountManager::SCOPE_PUBLISHED],
+					IAccountManager::PROPERTY_TWITTER => ['value' => '', 'scope' => IAccountManager::SCOPE_LOCAL],
+					IAccountManager::PROPERTY_PHONE => ['value' => '+71602121231', 'scope' => IAccountManager::SCOPE_FEDERATED],
+					IAccountManager::PROPERTY_ADDRESS => ['value' => 'Octopus Ave 17', 'scope' => IAccountManager::SCOPE_FEDERATED],
+					IAccountManager::PROPERTY_WEBSITE => ['value' => 'https://elpmaxe.org', 'scope' => IAccountManager::SCOPE_PUBLISHED],
+				],
+			],
+		];
+		foreach ($users as $userInfo) {
+			$this->accountManager->updateUser($userInfo['user'], $userInfo['data'], false);
+		}
 	}
 
 	/**
@@ -340,9 +436,8 @@ class AccountManagerTest extends TestCase {
 		$oldData = ['key' => ['value' => 'value']];
 		$newData = ['newKey' => ['value' => 'newValue']];
 
-		$accountManager = $this->getInstance();
 		$this->addDummyValuesToTable('uid', $oldData);
-		$this->invokePrivate($accountManager, 'updateExistingUser', [$user, $newData]);
+		$this->invokePrivate($this->accountManager, 'updateExistingUser', [$user, $newData]);
 		$newDataFromTable = $this->getDataFromTable('uid');
 		$this->assertEquals($newData, $newDataFromTable);
 	}
@@ -352,18 +447,15 @@ class AccountManagerTest extends TestCase {
 		$uid = 'uid';
 		$data = ['key' => ['value' => 'value']];
 
-		$accountManager = $this->getInstance();
 		$user->expects($this->atLeastOnce())->method('getUID')->willReturn($uid);
 		$this->assertNull($this->getDataFromTable($uid));
-		$this->invokePrivate($accountManager, 'insertNewUser', [$user, $data]);
+		$this->invokePrivate($this->accountManager, 'insertNewUser', [$user, $data]);
 
 		$dataFromDb = $this->getDataFromTable($uid);
 		$this->assertEquals($data, $dataFromDb);
 	}
 
 	public function testAddMissingDefaultValues() {
-		$accountManager = $this->getInstance();
-
 		$input = [
 			'key1' => ['value' => 'value1', 'verified' => '0'],
 			'key2' => ['value' => 'value1'],
@@ -374,7 +466,7 @@ class AccountManagerTest extends TestCase {
 			'key2' => ['value' => 'value1', 'verified' => '0'],
 		];
 
-		$result = $this->invokePrivate($accountManager, 'addMissingDefaultValues', [$input]);
+		$result = $this->invokePrivate($this->accountManager, 'addMissingDefaultValues', [$input]);
 
 		$this->assertSame($expected, $result);
 	}
@@ -461,13 +553,11 @@ class AccountManagerTest extends TestCase {
 		$this->config->method('getSystemValueString')
 			->willReturn($defaultRegion);
 
-		$instance = $this->getInstance();
-
 		if ($phoneNumber === null) {
 			$this->expectException(\InvalidArgumentException::class);
-			self::invokePrivate($instance, 'parsePhoneNumber', [$phoneInput]);
+			self::invokePrivate($this->accountManager, 'parsePhoneNumber', [$phoneInput]);
 		} else {
-			self::assertEquals($phoneNumber, self::invokePrivate($instance, 'parsePhoneNumber', [$phoneInput]));
+			self::assertEquals($phoneNumber, self::invokePrivate($this->accountManager, 'parsePhoneNumber', [$phoneInput]));
 		}
 	}
 
@@ -487,13 +577,73 @@ class AccountManagerTest extends TestCase {
 	 * @param string|null $websiteOutput
 	 */
 	public function testParseWebsite(string $websiteInput, ?string $websiteOutput): void {
-		$instance = $this->getInstance();
-
 		if ($websiteOutput === null) {
 			$this->expectException(\InvalidArgumentException::class);
-			self::invokePrivate($instance, 'parseWebsite', [$websiteInput]);
+			self::invokePrivate($this->accountManager, 'parseWebsite', [$websiteInput]);
 		} else {
-			self::assertEquals($websiteOutput, self::invokePrivate($instance, 'parseWebsite', [$websiteInput]));
+			self::assertEquals($websiteOutput, self::invokePrivate($this->accountManager, 'parseWebsite', [$websiteInput]));
 		}
+	}
+
+	/**
+	 * @dataProvider searchDataProvider
+	 */
+	public function testSearchUsers(string $property, array $values, array $expected): void {
+		$this->populateOrUpdate();
+
+		$matchedUsers = $this->accountManager->searchUsers($property, $values);
+		$this->assertSame($expected, $matchedUsers);
+	}
+
+	public function searchDataProvider(): array {
+		return [
+			[ #0 Search for an existing name
+				IAccountManager::PROPERTY_DISPLAYNAME,
+				['Jane Doe'],
+				['Jane Doe' => 'j.doe']
+			],
+			[ #1 Search for part of a name (no result)
+				IAccountManager::PROPERTY_DISPLAYNAME,
+				['Jane'],
+				[]
+			],
+			[ #2 Search for part of a name (no result, test wildcard)
+				IAccountManager::PROPERTY_DISPLAYNAME,
+				['Jane%'],
+				[]
+			],
+			[ #3 Search for phone
+				IAccountManager::PROPERTY_PHONE,
+				['+491603121212'],
+				['+491603121212' => 'b32c5a5b-1084-4380-8856-e5223b16de9f'],
+			],
+			[ #4 Search for twitter handles
+				IAccountManager::PROPERTY_TWITTER,
+				['@sometwitter', '@a_alice', '@unseen'],
+				['@sometwitter' => 'j.doe', '@a_alice' => 'a.allison'],
+			],
+			[ #5 Search for email
+				IAccountManager::PROPERTY_EMAIL,
+				['cheng@emca.com'],
+				['cheng@emca.com' => '31b5316a-9b57-4b17-970a-315a4cbe73eb'],
+			],
+			[ #6 Search for email by additional email
+				IAccountManager::PROPERTY_EMAIL,
+				['kai.cheng@emca.com'],
+				['kai.cheng@emca.com' => '31b5316a-9b57-4b17-970a-315a4cbe73eb'],
+			],
+			[ #7 Search for additional email
+				IAccountManager::COLLECTION_EMAIL,
+				['kai.cheng@emca.com', 'cheng@emca.com'],
+				['kai.cheng@emca.com' => '31b5316a-9b57-4b17-970a-315a4cbe73eb'],
+			],
+			[ #8 Search for email by additional email (two valid search values, but the same user)
+				IAccountManager::PROPERTY_EMAIL,
+				['kai.cheng@emca.com', 'cheng@emca.com'],
+				[
+					'kai.cheng@emca.com' => '31b5316a-9b57-4b17-970a-315a4cbe73eb',
+				],
+			],
+		];
 	}
 }
