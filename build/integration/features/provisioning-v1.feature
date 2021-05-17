@@ -688,4 +688,4 @@ Feature: provisioning
 		And assure user "user0" is disabled
 		And As an "user0"
 		When sending "GET" with exact url to "/index.php/apps/files"
-		And the HTTP status code should be "403"
+		And the HTTP status code should be "401"
