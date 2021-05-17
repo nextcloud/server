@@ -1016,4 +1016,4 @@ t.exports=function(){return e={134:function(t,e,n){"use strict";n.d(e,{default:f
  *
  */
 o.nc=btoa(OC.requestToken),i.default.use(s.a),i.default.use(c.default,{defaultHtml:!1}),i.default.prototype.t=t,new(i.default.extend(R))({propsData:{tokens:Object(r.loadState)("settings","app_tokens"),canCreateToken:Object(r.loadState)("settings","can_create_app_token")}}).$mount("#security-authtokens")}]);
-//# sourceMappingURL=vue-settings-personal-security.js.map?v=bf5c7fee0edfb822a0e3
+//# sourceMappingURL=vue-settings-personal-security.js.map?v=b67291dac7fc64963cf9
