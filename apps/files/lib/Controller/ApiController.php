@@ -177,9 +177,9 @@ class ApiController extends Controller {
 	 * @return array
 	 */
 	private function formatNodes(array $nodes) {
-		return array_values(array_map(function (Node $node) {
-			/** @var \OC\Files\Node\Node $shareTypes */
-			$shareTypes = $this->getShareTypes($node);
+		$shareTypesForNodes = $this->getShareTypesForNodes($nodes);
+		return array_values(array_map(function (Node $node) use ($shareTypesForNodes) {
+			$shareTypes = $shareTypesForNodes[$node->getId()] ?? [];
 			$file = \OCA\Files\Helper::formatFileInfo($node->getFileInfo());
 			$file['hasPreview'] = $this->previewManager->isAvailable($node);
 			$parts = explode('/', dirname($node->getPath()), 4);
@@ -196,6 +196,57 @@ class ApiController extends Controller {
 	}
 
 	/**
+	 * Get the share types for each node
+	 *
+	 * @param \OCP\Files\Node[] $nodes
+	 * @return array<int, int[]> list of share types for each fileid
+	 */
+	private function getShareTypesForNodes(array $nodes): array {
+		$userId = $this->userSession->getUser()->getUID();
+		$requestedShareTypes = [
+			IShare::TYPE_USER,
+			IShare::TYPE_GROUP,
+			IShare::TYPE_LINK,
+			IShare::TYPE_REMOTE,
+			IShare::TYPE_EMAIL,
+			IShare::TYPE_ROOM,
+			IShare::TYPE_DECK,
+		];
+		$shareTypes = [];
+
+		$nodeIds = array_map(function (Node $node) {
+			return $node->getId();
+		}, $nodes);
+
+		foreach ($requestedShareTypes as $shareType) {
+			$nodesLeft = array_combine($nodeIds, array_fill(0, count($nodeIds), true));
+			$offset = 0;
+
+			// fetch shares until we've either found shares for all nodes or there are no more shares left
+			while (count($nodesLeft) > 0) {
+				$shares = $this->shareManager->getSharesBy($userId, $shareType, null, false, 100, $offset);
+				foreach ($shares as $share) {
+					$fileId = $share->getNodeId();
+					if (isset($nodesLeft[$fileId])) {
+						if (!isset($shareTypes[$fileId])) {
+							$shareTypes[$fileId] = [];
+						}
+						$shareTypes[$fileId][] = $shareType;
+						unset($nodesLeft[$fileId]);
+					}
+				}
+
+				if (count($shares) < 100) {
+					break;
+				} else {
+					$offset += count($shares);
+				}
+			}
+		}
+		return $shareTypes;
+	}
+
+	/**
 	 * Returns a list of recently modifed files.
 	 *
 	 * @NoAdminRequired
@@ -206,41 +257,6 @@ class ApiController extends Controller {
 		$nodes = $this->userFolder->getRecent(100);
 		$files = $this->formatNodes($nodes);
 		return new DataResponse(['files' => $files]);
-	}
-
-	/**
-	 * Return a list of share types for outgoing shares
-	 *
-	 * @param Node $node file node
-	 *
-	 * @return int[] array of share types
-	 */
-	private function getShareTypes(Node $node) {
-		$userId = $this->userSession->getUser()->getUID();
-		$shareTypes = [];
-		$requestedShareTypes = [
-			IShare::TYPE_USER,
-			IShare::TYPE_GROUP,
-			IShare::TYPE_LINK,
-			IShare::TYPE_REMOTE,
-			IShare::TYPE_EMAIL,
-			IShare::TYPE_ROOM,
-			IShare::TYPE_DECK,
-		];
-		foreach ($requestedShareTypes as $requestedShareType) {
-			// one of each type is enough to find out about the types
-			$shares = $this->shareManager->getSharesBy(
-				$userId,
-				$requestedShareType,
-				$node,
-				false,
-				1
-			);
-			if (!empty($shares)) {
-				$shareTypes[] = $requestedShareType;
-			}
-		}
-		return $shareTypes;
 	}
 
 	/**
