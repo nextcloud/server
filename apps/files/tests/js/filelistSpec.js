@@ -1251,7 +1251,7 @@ describe('OCA.Files.FileList tests', function() {
 			expect($summary.hasClass('hidden')).toEqual(false);
 			expect($summary.find('.dirinfo').text()).toEqual('1 folder');
 			expect($summary.find('.fileinfo').text()).toEqual('2 files');
-			expect($summary.find('.filter').text()).toEqual(" match 'e'");
+			expect($summary.find('.filter').text()).toEqual(" match \"e\"");
 			expect($nofilterresults.hasClass('hidden')).toEqual(true);
 
 			fileList.setFilter('ee');
@@ -1260,7 +1260,7 @@ describe('OCA.Files.FileList tests', function() {
 			expect($summary.hasClass('hidden')).toEqual(false);
 			expect($summary.find('.dirinfo').hasClass('hidden')).toEqual(true);
 			expect($summary.find('.fileinfo').text()).toEqual('1 file');
-			expect($summary.find('.filter').text()).toEqual(" matches 'ee'");
+			expect($summary.find('.filter').text()).toEqual(" matches \"ee\"");
 			expect($nofilterresults.hasClass('hidden')).toEqual(true);
 
 			fileList.setFilter('eee');
@@ -1275,7 +1275,7 @@ describe('OCA.Files.FileList tests', function() {
 			expect($summary.hasClass('hidden')).toEqual(false);
 			expect($summary.find('.dirinfo').hasClass('hidden')).toEqual(true);
 			expect($summary.find('.fileinfo').text()).toEqual('1 file');
-			expect($summary.find('.filter').text()).toEqual(" matches 'ee'");
+			expect($summary.find('.filter').text()).toEqual(" matches \"ee\"");
 			expect($nofilterresults.hasClass('hidden')).toEqual(true);
 
 			fileList.setFilter('e');
@@ -1284,7 +1284,7 @@ describe('OCA.Files.FileList tests', function() {
 			expect($summary.hasClass('hidden')).toEqual(false);
 			expect($summary.find('.dirinfo').text()).toEqual('1 folder');
 			expect($summary.find('.fileinfo').text()).toEqual('2 files');
-			expect($summary.find('.filter').text()).toEqual(" match 'e'");
+			expect($summary.find('.filter').text()).toEqual(" match \"e\"");
 			expect($nofilterresults.hasClass('hidden')).toEqual(true);
 
 			fileList.setFilter('');
@@ -1305,7 +1305,7 @@ describe('OCA.Files.FileList tests', function() {
 			expect($summary.hasClass('hidden')).toEqual(false);
 			expect($summary.find('.dirinfo').hasClass('hidden')).toEqual(true);
 			expect($summary.find('.fileinfo').text()).toEqual('1 file');
-			expect($summary.find('.filter').text()).toEqual(" matches '63'");
+			expect($summary.find('.filter').text()).toEqual(" matches \"63\"");
 			expect($nofilterresults.hasClass('hidden')).toEqual(true);
 		});
 		it('hides the emptyfiles notice when using filter()', function() {
