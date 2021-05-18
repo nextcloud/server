@@ -729,4 +729,29 @@ class Manager extends PublicEmitter implements IUserManager {
 
 		return !file_exists(rtrim($dataDirectory, '/') . '/' . $uid);
 	}
+
+	public function createNewUser($userId, $email, $displayName = '', $language = '', $initialPassword = null){
+		$password = $initialPassword;
+		
+		$localBackends = [];
+		foreach ($this->backends as $backend) {
+			if ($backend instanceof Database) {
+				// First check if there is another user backend
+				$localBackends[] = $backend;
+				continue;
+			}
+			if ($backend->implementsActions(Backend::CREATE_USER)) {
+				$user = $backend->createUser($userId, $password);
+				//$user = $this->createUserFromBackend($userId, $password, $backend);
+			}
+		}
+		foreach ($localBackends as $backend) {
+			if ($backend->implementsActions(Backend::CREATE_USER)) {
+				$user = $backend->createUser($userId, $password);
+				//$user = $this->createUserFromBackend($userId, $password, $backend);
+			}
+		}
+
+		return $user; 
+	}
 }
