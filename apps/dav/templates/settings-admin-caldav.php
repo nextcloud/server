@@ -21,9 +21,7 @@
  *
  */
 
-script('dav', [
-	'settings-admin-caldav'
-]);
+script('dav', 'settings-admin-caldav');
 
 /** @var \OCP\IL10N $l */
 /** @var array $_ */

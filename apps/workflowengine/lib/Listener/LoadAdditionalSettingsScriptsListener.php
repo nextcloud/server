@@ -40,9 +40,7 @@ class LoadAdditionalSettingsScriptsListener implements IEventListener {
 			class_exists(Template::class, true);
 		}
 
-		script('core', [
-			'dist/systemtags',
-		]);
+		script('core', 'dist/systemtags');
 
 		script(Application::APP_ID, [
 			'workflowengine',
