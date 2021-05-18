@@ -1,8 +1,6 @@
 <?php /** @var \OCP\IL10N $l */ ?>
 <?php
-script('user_ldap', [
-	'renewPassword',
-]);
+script('user_ldap', 'renewPassword');
 style('user_ldap', 'renewPassword');
 ?>
 
