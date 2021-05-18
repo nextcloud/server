@@ -49,6 +49,7 @@ use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Federation\ICloudFederationShare;
 use OCP\Federation\ICloudIdManager;
 use OCP\Files\NotFoundException;
+use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\ILogger;
@@ -105,6 +106,9 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 	/** @var IGroupManager */
 	private $groupManager;
 
+	/** @var IConfig */
+	private $config;
+
 	/**
 	 * CloudFederationProvider constructor.
 	 *
@@ -136,7 +140,8 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 								ICloudFederationFactory $cloudFederationFactory,
 								ICloudFederationProviderManager $cloudFederationProviderManager,
 								IDBConnection $connection,
-								IGroupManager $groupManager
+								IGroupManager $groupManager,
+								IConfig $config
 	) {
 		$this->appManager = $appManager;
 		$this->federatedShareProvider = $federatedShareProvider;
@@ -152,6 +157,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 		$this->cloudFederationProviderManager = $cloudFederationProviderManager;
 		$this->connection = $connection;
 		$this->groupManager = $groupManager;
+		$this->config = $config;
 	}
 
 
@@ -641,6 +647,11 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 		$senderId = $notification['senderId'];
 
 		$share = $this->federatedShareProvider->getShareById($id);
+
+		// We have to respect the default share permissions
+		$permissions = $share->getPermissions() & (int)$this->config->getAppValue('core', 'shareapi_default_permissions', (string)Constants::PERMISSION_ALL);
+		$share->setPermissions($permissions);
+
 		// don't allow to share a file back to the owner
 		try {
 			list($user, $remote) = $this->addressHandler->splitUserRemote($shareWith);
