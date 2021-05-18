@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2017 Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -46,7 +49,7 @@ class Capabilities implements IPublicCapability {
 		$this->throttler = $throttler;
 	}
 
-	public function getCapabilities() {
+	public function getCapabilities(): array {
 		if (version_compare(\OC::$server->getConfig()->getSystemValue('version', '0.0.0.0'), '12.0.0.0', '<')) {
 			return [];
 		}

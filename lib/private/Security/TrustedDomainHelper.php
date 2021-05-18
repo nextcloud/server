@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -51,7 +54,7 @@ class TrustedDomainHelper {
 	 * @param string $host
 	 * @return string $host without appended port
 	 */
-	private function getDomainWithoutPort($host) {
+	private function getDomainWithoutPort(string $host): string {
 		$pos = strrpos($host, ':');
 		if ($pos !== false) {
 			$port = substr($host, $pos + 1);
@@ -71,7 +74,7 @@ class TrustedDomainHelper {
 	 * @return bool true if the given domain is trusted or if no trusted domains
 	 * have been configured
 	 */
-	public function isTrustedDomain($domainWithPort) {
+	public function isTrustedDomain(string $domainWithPort): bool {
 		// overwritehost is always trusted
 		if ($this->config->getSystemValue('overwritehost') !== '') {
 			return true;
