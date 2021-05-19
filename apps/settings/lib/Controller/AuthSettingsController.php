@@ -121,6 +121,10 @@ class AuthSettingsController extends Controller {
 	 * @return JSONResponse
 	 */
 	public function create($name) {
+		if ($this->checkAppToken()) {
+			return $this->getServiceNotAvailableResponse();
+		}
+
 		try {
 			$sessionId = $this->session->getId();
 		} catch (SessionNotAvailableException $ex) {
@@ -181,6 +185,10 @@ class AuthSettingsController extends Controller {
 		return implode('-', $groups);
 	}
 
+	private function checkAppToken(): bool {
+		return $this->session->exists('app_password');
+	}
+
 	/**
 	 * @NoAdminRequired
 	 * @NoSubadminRequired
@@ -189,6 +197,10 @@ class AuthSettingsController extends Controller {
 	 * @return array|JSONResponse
 	 */
 	public function destroy($id) {
+		if ($this->checkAppToken()) {
+			return new JSONResponse([], Http::STATUS_BAD_REQUEST);
+		}
+
 		try {
 			$token = $this->findTokenByIdAndUser($id);
 		} catch (WipeTokenException $e) {
@@ -213,6 +225,10 @@ class AuthSettingsController extends Controller {
 	 * @return array|JSONResponse
 	 */
 	public function update($id, array $scope, string $name) {
+		if ($this->checkAppToken()) {
+			return new JSONResponse([], Http::STATUS_BAD_REQUEST);
+		}
+
 		try {
 			$token = $this->findTokenByIdAndUser($id);
 		} catch (InvalidTokenException $e) {
@@ -287,6 +303,10 @@ class AuthSettingsController extends Controller {
 	 * @throws \OC\Authentication\Exceptions\ExpiredTokenException
 	 */
 	public function wipe(int $id): JSONResponse {
+		if ($this->checkAppToken()) {
+			return new JSONResponse([], Http::STATUS_BAD_REQUEST);
+		}
+
 		try {
 			$token = $this->findTokenByIdAndUser($id);
 		} catch (InvalidTokenException $e) {
