@@ -159,6 +159,7 @@ class TemplateManager implements ITemplateManager {
 			}
 			$folder = $userFolder->get(dirname($filePath));
 			$targetFile = $folder->newFile(basename($filePath));
+			$template = null;
 			if ($templateType === 'user' && $templateId !== '') {
 				$template = $userFolder->get($templateId);
 				$template->copy($targetFile->getPath());
