@@ -112,8 +112,6 @@ OC.L10N.register(
     "Sharing %s sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Не удалось отправить пароль для доступа к «%s»: приложение Nextcloud Talk отключено.",
     "Invalid date, date format must be YYYY-MM-DD" : "Неверная дата, формат даты должен быть ГГГГ-ММ-ДД",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Не удалось предоставить общий доступ к  «%1$s», поскольку механизм удалённого обмена не разрешает публикации типа %2$s",
-    "Please specify a valid federated user id" : "Укажите действительный идентификатор федеративного пользователя",
-    "Please specify a valid federated group id" : "Укажите действительный идентификатор федеративной группы",
     "You cannot share to a Circle if the app is not enabled" : "Вы не можете поделиться с кругом, если приложение «Круг» не включено",
     "Please specify a valid circle" : "Укажите верный круг",
     "Sharing %s failed because the back end does not support room shares" : "Не удалось предоставить общий доступ к  «%s» поскольку механизм обмена не поддерживает общий доступ такого типа",
