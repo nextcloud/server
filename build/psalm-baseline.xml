@@ -3487,10 +3487,6 @@
     <MoreSpecificImplementedParamType occurrences="1">
       <code>$node</code>
     </MoreSpecificImplementedParamType>
-    <UndefinedInterfaceMethod occurrences="2">
-      <code>getSourceStorage</code>
-      <code>getUnJailedPath</code>
-    </UndefinedInterfaceMethod>
     <UndefinedThisPropertyAssignment occurrences="1">
       <code>$this-&gt;exists</code>
     </UndefinedThisPropertyAssignment>
@@ -4392,13 +4388,6 @@
     <NoInterfaceProperties occurrences="1">
       <code>$this-&gt;request-&gt;server</code>
     </NoInterfaceProperties>
-  </file>
-  <file src="lib/private/Security/Certificate.php">
-    <ImplementedReturnTypeMismatch occurrences="3">
-      <code>string|null</code>
-      <code>string|null</code>
-      <code>string|null</code>
-    </ImplementedReturnTypeMismatch>
   </file>
   <file src="lib/private/Security/CredentialsManager.php">
     <InvalidReturnStatement occurrences="2">
