@@ -290,7 +290,7 @@ trigger:
 
 ---
 kind: pipeline
-name: 10.2-php7.3
+name: mariadb10.2-php7.3
 
 steps:
 - name: submodules
