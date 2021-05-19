@@ -111,8 +111,6 @@
     "Sharing %s sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Nextcloud Talk etkinleştirilmemiş olduğundan, Nextcloud Talk ile parola gönderilerek %s paylaşılamadı",
     "Invalid date, date format must be YYYY-MM-DD" : "Tarih geçersiz. Tarih biçimi YYYY-AA-GG olmalıdır",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Yönetim bölümünden %2$s türündeki paylaşımlar yapılamadığından %1$s paylaşılamadı",
-    "Please specify a valid federated user id" : "Lütfen geçerli bir birleşmiş kullanıcı kodu belirtin",
-    "Please specify a valid federated group id" : "Lütfen geçerli bir birleşmiş grup kodu belirtin",
     "You cannot share to a Circle if the app is not enabled" : "Uygulama etkinleştirilmemiş ise bir Çevre ile paylaşamazsınız",
     "Please specify a valid circle" : "Lütfen geçerli bir çevre belirtin",
     "Sharing %s failed because the back end does not support room shares" : "Arka uç oda paylaşımlarına izin vermediğinden %s paylaşılamadı",
