@@ -113,8 +113,6 @@ OC.L10N.register(
     "Sharing %s sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "%s Freigeben: Senden des Passwortes über Nextcloud Talk gescheitert, da Nextcloud Talk nicht aktiviert ist",
     "Invalid date, date format must be YYYY-MM-DD" : "Ungültiges Datum, zulässiges Datumsformat: JJJJ-MM-TT",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Freigabe von %1$s fehlgeschlagen, da das Backend die Freigabe vom Typ %2$s nicht erlaubt",
-    "Please specify a valid federated user id" : "Bitte geben Sie eine gültige Federated-Benutzer-ID ein",
-    "Please specify a valid federated group id" : "Bitte geben Sie eine gültige Federated-Gruppen-ID ein",
     "You cannot share to a Circle if the app is not enabled" : "Sie können nichts mit einem Kreis teilen, wenn die App nicht aktiviert ist",
     "Please specify a valid circle" : "Bitte einen gültigen Kreis angeben",
     "Sharing %s failed because the back end does not support room shares" : "Freigabe von %s fehlgeschlagen, da das Backend die Freigabe von Räumen nicht unterstützt",
