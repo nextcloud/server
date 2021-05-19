@@ -44,9 +44,10 @@ interface IAccount extends \JsonSerializable {
 	 * @param string $value
 	 * @param string $scope Must be one of the VISIBILITY_ prefixed constants of \OCP\Accounts\IAccountManager
 	 * @param string $verified \OCP\Accounts\IAccountManager::NOT_VERIFIED | \OCP\Accounts\IAccountManager::VERIFICATION_IN_PROGRESS | \OCP\Accounts\IAccountManager::VERIFIED
+	 * @param string $verificationData Optional, defaults to empty string. Since @22.0.0.
 	 * @return IAccount
 	 */
-	public function setProperty(string $property, string $value, string $scope, string $verified): IAccount;
+	public function setProperty(string $property, string $value, string $scope, string $verified, string $verificationData = ''): IAccount;
 
 	/**
 	 * Get a property by its key
@@ -60,7 +61,7 @@ interface IAccount extends \JsonSerializable {
 	public function getProperty(string $property): IAccountProperty;
 
 	/**
-	 * Get all properties of an account
+	 * Get all properties of an account. Array indices are property names.
 	 *
 	 * @since 15.0.0
 	 *
