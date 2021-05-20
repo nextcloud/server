@@ -129,7 +129,7 @@
 						:class="{ error: errors.note}"
 						:disabled="saving"
 						:value="share.newNote || share.note"
-						icon="icon-edit"
+						icon="icon-checkmark"
 						@update:value="onNoteChange"
 						@submit="onNoteSubmit" />
 				</template>
