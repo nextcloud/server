@@ -43,7 +43,7 @@ $appContainer = \OCA\Files_External\MountConfig::$app->getContainer();
 		'appname' => 'files_external',
 		'script' => 'list.php',
 		'order' => 30,
-		'name' => $l->t('External storages'),
+		'name' => $l->t('External storage'),
 	];
 });
 

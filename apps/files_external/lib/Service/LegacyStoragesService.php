@@ -97,7 +97,7 @@ abstract class LegacyStoragesService {
 	}
 
 	/**
-	 * Read the external storages config
+	 * Read the external storage config
 	 *
 	 * @return StorageConfig[] map of storage id to storage config
 	 */

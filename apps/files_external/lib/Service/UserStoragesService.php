@@ -36,7 +36,7 @@ use OCP\Files\Config\IUserMountCache;
 use OCP\IUserSession;
 
 /**
- * Service class to manage user external storages
+ * Service class to manage user external storage
  * (aka personal storages)
  */
 class UserStoragesService extends StoragesService {

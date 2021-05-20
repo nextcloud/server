@@ -1665,7 +1665,7 @@ class Manager implements IManager {
 			return $al;
 		}
 
-		//Get node for the owner and correct the owner in case of external storages
+		//Get node for the owner and correct the owner in case of external storage
 		$userFolder = $this->rootFolder->getUserFolder($owner);
 		if ($path->getId() !== $userFolder->getId() && !$userFolder->isSubNode($path)) {
 			$nodes = $userFolder->getById($path->getId());

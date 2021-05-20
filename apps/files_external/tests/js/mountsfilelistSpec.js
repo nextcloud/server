@@ -72,7 +72,7 @@ describe('OCA.Files_External.FileList tests', function() {
 		alertStub.restore();
 	});
 
-	describe('loading file list for external storages', function() {
+	describe('loading file list for external storage', function() {
 		var ocsResponse;
 		var reloading;
 
