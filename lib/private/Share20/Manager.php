@@ -252,7 +252,7 @@ class Manager implements IManager {
 		} elseif ($share->getShareType() === IShare::TYPE_ROOM) {
 		} elseif ($share->getShareType() === IShare::TYPE_DECK) {
 		} else {
-			// We can't handle other types yet
+			// We cannot handle other types yet
 			throw new \InvalidArgumentException('unknown share type');
 		}
 
@@ -264,7 +264,7 @@ class Manager implements IManager {
 		// Cannot share with yourself
 		if ($share->getShareType() === IShare::TYPE_USER &&
 			$share->getSharedWith() === $share->getSharedBy()) {
-			throw new \InvalidArgumentException('Can’t share with yourself');
+			throw new \InvalidArgumentException('Cannot share with yourself');
 		}
 
 		// The path should be set
@@ -278,14 +278,14 @@ class Manager implements IManager {
 			throw new \InvalidArgumentException('Path should be either a file or a folder');
 		}
 
-		// And you can't share your rootfolder
+		// And you cannot share your rootfolder
 		if ($this->userManager->userExists($share->getSharedBy())) {
 			$userFolder = $this->rootFolder->getUserFolder($share->getSharedBy());
 		} else {
 			$userFolder = $this->rootFolder->getUserFolder($share->getShareOwner());
 		}
 		if ($userFolder->getId() === $share->getNode()->getId()) {
-			throw new \InvalidArgumentException('You can’t share your root folder');
+			throw new \InvalidArgumentException('You cannot share your root folder');
 		}
 
 		// Check if we actually have share permissions
@@ -349,7 +349,7 @@ class Manager implements IManager {
 		// Check that we do not share with more permissions than we have
 		if ($share->getPermissions() & ~$permissions) {
 			$path = $userFolder->getRelativePath($share->getNode()->getPath());
-			$message_t = $this->l->t('Can’t increase permissions of %s', [$path]);
+			$message_t = $this->l->t('Cannot increase permissions of %s', [$path]);
 			throw new GenericShareException($message_t, $message_t, 404);
 		}
 
@@ -365,11 +365,11 @@ class Manager implements IManager {
 
 		if ($share->getNode() instanceof \OCP\Files\File) {
 			if ($share->getPermissions() & \OCP\Constants::PERMISSION_DELETE) {
-				$message_t = $this->l->t('Files can’t be shared with delete permissions');
+				$message_t = $this->l->t('Files cannot be shared with delete permissions');
 				throw new GenericShareException($message_t);
 			}
 			if ($share->getPermissions() & \OCP\Constants::PERMISSION_CREATE) {
-				$message_t = $this->l->t('Files can’t be shared with create permissions');
+				$message_t = $this->l->t('Files cannot be shared with create permissions');
 				throw new GenericShareException($message_t);
 			}
 		}
@@ -441,7 +441,7 @@ class Manager implements IManager {
 			$date->setTime(0, 0, 0);
 			$date->add(new \DateInterval('P' . $defaultExpireDays . 'D'));
 			if ($date < $expirationDate) {
-				$message = $this->l->n('Can’t set expiration date more than %n day in the future', 'Can’t set expiration date more than %n days in the future', $defaultExpireDays);
+				$message = $this->l->n('Cannot set expiration date more than %n day in the future', 'Cannot set expiration date more than %n days in the future', $defaultExpireDays);
 				throw new GenericShareException($message, $message, 404);
 			}
 		}
@@ -517,7 +517,7 @@ class Manager implements IManager {
 			$date->setTime(0, 0, 0);
 			$date->add(new \DateInterval('P' . $this->shareApiLinkDefaultExpireDays() . 'D'));
 			if ($date < $expirationDate) {
-				$message = $this->l->n('Can’t set expiration date more than %n day in the future', 'Can’t set expiration date more than %n days in the future', $this->shareApiLinkDefaultExpireDays());
+				$message = $this->l->n('Cannot set expiration date more than %n day in the future', 'Cannot set expiration date more than %n days in the future', $this->shareApiLinkDefaultExpireDays());
 				throw new GenericShareException($message, $message, 404);
 			}
 		}
@@ -796,7 +796,7 @@ class Manager implements IManager {
 			// Cannot share with the owner
 			if ($share->getShareType() === IShare::TYPE_USER &&
 				$share->getSharedWith() === $share->getShareOwner()) {
-				throw new \InvalidArgumentException('Can’t share with the share owner');
+				throw new \InvalidArgumentException('Cannot share with the share owner');
 			}
 
 			// Generate the target
@@ -964,9 +964,9 @@ class Manager implements IManager {
 			throw new \InvalidArgumentException('Share does not have a full id');
 		}
 
-		// We can't change the share type!
+		// We cannot change the share type!
 		if ($share->getShareType() !== $originalShare->getShareType()) {
-			throw new \InvalidArgumentException('Can’t change share type');
+			throw new \InvalidArgumentException('Cannot change share type');
 		}
 
 		// We can only change the recipient on user shares
@@ -978,7 +978,7 @@ class Manager implements IManager {
 		// Cannot share with the owner
 		if ($share->getShareType() === IShare::TYPE_USER &&
 			$share->getSharedWith() === $share->getShareOwner()) {
-			throw new \InvalidArgumentException('Can’t share with the share owner');
+			throw new \InvalidArgumentException('Cannot share with the share owner');
 		}
 
 		$this->generalCreateChecks($share);
@@ -1013,7 +1013,7 @@ class Manager implements IManager {
 			 * Cannot enable the getSendPasswordByTalk if there is no password set
 			 */
 			if (empty($plainTextPassword) && $share->getSendPasswordByTalk()) {
-				throw new \InvalidArgumentException('Can’t enable sending the password by Talk with an empty password');
+				throw new \InvalidArgumentException('Cannot enable sending the password by Talk with an empty password');
 			}
 
 			/**
@@ -1023,10 +1023,10 @@ class Manager implements IManager {
 			 */
 			if (!$updatedPassword && $share->getShareType() === IShare::TYPE_EMAIL) {
 				if (!$originalShare->getSendPasswordByTalk() && $share->getSendPasswordByTalk()) {
-					throw new \InvalidArgumentException('Can’t enable sending the password by Talk without setting a new password');
+					throw new \InvalidArgumentException('Cannot enable sending the password by Talk without setting a new password');
 				}
 				if ($originalShare->getSendPasswordByTalk() && !$share->getSendPasswordByTalk()) {
-					throw new \InvalidArgumentException('Can’t disable sending the password by Talk without setting a new password');
+					throw new \InvalidArgumentException('Cannot disable sending the password by Talk without setting a new password');
 				}
 			}
 
@@ -1246,7 +1246,7 @@ class Manager implements IManager {
 	public function moveShare(IShare $share, $recipientId) {
 		if ($share->getShareType() === IShare::TYPE_LINK
 			|| $share->getShareType() === IShare::TYPE_EMAIL) {
-			throw new \InvalidArgumentException('Can’t change target of link share');
+			throw new \InvalidArgumentException('Cannot change target of link share');
 		}
 
 		if ($share->getShareType() === IShare::TYPE_USER && $share->getSharedWith() !== $recipientId) {
@@ -1447,7 +1447,7 @@ class Manager implements IManager {
 	 * @throws ShareNotFound
 	 */
 	public function getShareByToken($token) {
-		// tokens can't be valid local user names
+		// tokens cannot be valid local user names
 		if ($this->userManager->userExists($token)) {
 			throw new ShareNotFound();
 		}

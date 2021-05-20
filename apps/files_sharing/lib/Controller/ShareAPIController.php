@@ -1103,7 +1103,7 @@ class ShareAPIController extends OCSController {
 					Constants::PERMISSION_READ | Constants::PERMISSION_UPDATE, // allow to edit single files
 				], true)
 			) {
-				throw new OCSBadRequestException($this->l->t('Can\'t change permissions for public share links'));
+				throw new OCSBadRequestException($this->l->t('Cannot change permissions for public share links'));
 			}
 
 			if (

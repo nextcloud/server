@@ -3475,13 +3475,13 @@ class ShareAPIControllerTest extends TestCase {
 		$this->shareManager->expects($this->once())
 			->method('updateShare')
 			->with($share)
-			->willThrowException(new GenericShareException('Can’t increase permissions of path/file', 'Can’t increase permissions of path/file', 404));
+			->willThrowException(new GenericShareException('Cannot increase permissions of path/file', 'Cannot increase permissions of path/file', 404));
 
 		try {
 			$ocs->updateShare(42, 31);
 			$this->fail();
 		} catch (OCSException $e) {
-			$this->assertEquals('Can’t increase permissions of path/file', $e->getMessage());
+			$this->assertEquals('Cannot increase permissions of path/file', $e->getMessage());
 		}
 	}
 

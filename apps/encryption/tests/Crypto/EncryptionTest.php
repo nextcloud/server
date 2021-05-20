@@ -431,7 +431,7 @@ class EncryptionTest extends TestCase {
 
 	public function testDecrypt() {
 		$this->expectException(\OC\Encryption\Exceptions\DecryptionFailedException::class);
-		$this->expectExceptionMessage('Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you.');
+		$this->expectExceptionMessage('Cannot decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you.');
 
 		$this->instance->decrypt('abc');
 	}
