@@ -113,6 +113,8 @@ OC.L10N.register(
     "Sharing %s sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "由于 Nextcloud Talk 没有启用，所以通过 Nextcloud Talk 发送 %s 共享密码失败。",
     "Invalid date, date format must be YYYY-MM-DD" : "无效的日期，日期格式必须是 YYYY-MM-DD",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "共享 %1$s 失败，后端不允许类型为 %2$s 的共享",
+    "Please specify a valid federated user ID" : "请指定一个有效的联邦用户 ID",
+    "Please specify a valid federated group ID" : "请指定一个有效的联邦群组 ID",
     "You cannot share to a Circle if the app is not enabled" : "如果这个应用程序不可用，您不能共享到圈子",
     "Please specify a valid circle" : "请指明一个可用圈子",
     "Sharing %s failed because the back end does not support room shares" : "由于后端不支持房间共享，所以共享 %s 失败。",
