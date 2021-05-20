@@ -87,6 +87,7 @@ OC.L10N.register(
     "Group folder \"{mountPoint}\" is almost full ({usedSpacePercent}%)." : "Katalog grupowy \"{mountPoint}\" jest prawie pełny ({usedSpacePercent}%).",
     "External storage \"{mountPoint}\" is almost full ({usedSpacePercent}%)." : "Pamięć zewnętrzna \"{mountPoint}\" jest prawie pełna ({usedSpacePercent}%).",
     "Your storage is almost full ({usedSpacePercent}%)." : "Twój magazyn jest prawie pełny ({usedSpacePercent}%).",
+    "_matches \"{filter}\"_::_match \"{filter}\"_" : ["pasuje do \"{filter}\"","pasują do \"{filter}\"","pasują do \"{filter}\"","pasują do \"{filter}\""],
     "View in folder" : "Zobacz w katalogu",
     "Copied!" : "Skopiowano!",
     "Copy direct link (only works for users who have access to this file/folder)" : "Skopiuj bezpośredni link (działa tylko dla użytkowników, którzy mają dostęp do tego pliku/katalogu)",
