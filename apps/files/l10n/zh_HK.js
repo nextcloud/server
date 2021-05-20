@@ -87,6 +87,7 @@ OC.L10N.register(
     "Group folder \"{mountPoint}\" is almost full ({usedSpacePercent}%)." : "群組資料夾 \"{mountPoint}\" 將近已滿（{usedSpacePercent}%)。",
     "External storage \"{mountPoint}\" is almost full ({usedSpacePercent}%)." : "外部儲存空間 \"{mountPoint}\" 將近已滿（{usedSpacePercent}%)。",
     "Your storage is almost full ({usedSpacePercent}%)." : "您的儲存空間將近已滿（{usedSpacePercent}%)。",
+    "_matches \"{filter}\"_::_match \"{filter}\"_" : ["符合「{filter}」"],
     "View in folder" : "在資料夾中檢視",
     "Copied!" : "已複製",
     "Copy direct link (only works for users who have access to this file/folder)" : "複製直接連結(只對能存取的用戶有用)",
