@@ -768,7 +768,7 @@ class OC_Util {
 				$errors[] = [
 					'error' => $l->t('Cannot write into "apps" directory'),
 					'hint' => $l->t('This can usually be fixed by giving the webserver write access to the apps directory'
-						. ' or disabling the appstore in the config file.')
+						. ' or disabling the App Store in the config file.')
 				];
 			}
 		}
