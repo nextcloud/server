@@ -29,6 +29,7 @@ declare(strict_types=1);
 namespace OCA\DAV\CardDAV\Activity;
 
 use OCA\DAV\CardDAV\Activity\Provider\Addressbook;
+use OCA\DAV\CardDAV\Activity\Provider\Card;
 use OCP\Activity\IEvent;
 use OCP\Activity\IManager as IActivityManager;
 use OCP\App\IAppManager;
@@ -384,19 +385,19 @@ class Backend {
 	}
 
 	/**
-	 * Creates activities when a calendar object was created/updated/deleted
+	 * Creates activities when a card was created/updated/deleted
 	 *
 	 * @param string $action
-	 * @param array $calendarData
+	 * @param array $addressbookData
 	 * @param array $shares
-	 * @param array $objectData
+	 * @param array $cardData
 	 */
-	public function onTouchCalendarObject($action, array $calendarData, array $shares, array $objectData) {
-		if (!isset($calendarData['principaluri'])) {
+	public function triggerCardActivity(string $action, array $addressbookData, array $shares, array $cardData): void {
+		if (!isset($addressbookData['principaluri'])) {
 			return;
 		}
 
-		$principal = explode('/', $calendarData['principaluri']);
+		$principal = explode('/', $addressbookData['principaluri']);
 		$owner = array_pop($principal);
 
 		$currentUser = $this->userSession->getUser();
@@ -406,20 +407,12 @@ class Backend {
 			$currentUser = $owner;
 		}
 
-		$classification = $objectData['classification'] ?? CalDavBackend::CLASSIFICATION_PUBLIC;
-		$object = $this->getObjectNameAndType($objectData);
-		$action = $action . '_' . $object['type'];
-
-		if ($object['type'] === 'todo' && strpos($action, Event::SUBJECT_OBJECT_UPDATE) === 0 && $object['status'] === 'COMPLETED') {
-			$action .= '_completed';
-		} elseif ($object['type'] === 'todo' && strpos($action, Event::SUBJECT_OBJECT_UPDATE) === 0 && $object['status'] === 'NEEDS-ACTION') {
-			$action .= '_needs_action';
-		}
+		$card = $this->getCardNameAndId($cardData);
 
 		$event = $this->activityManager->generateEvent();
 		$event->setApp('dav')
-			->setObject('calendar', (int) $calendarData['id'])
-			->setType($object['type'] === 'event' ? 'calendar_event' : 'calendar_todo')
+			->setObject('addressbook', (int) $addressbookData['id'])
+			->setType('card')
 			->setAuthor($currentUser);
 
 		$users = $this->getUsersForShares($shares);
@@ -427,30 +420,18 @@ class Backend {
 
 		// Users for share can return the owner itself if the calendar is published
 		foreach (array_unique($users) as $user) {
-			if ($classification === CalDavBackend::CLASSIFICATION_PRIVATE && $user !== $owner) {
-				// Private events are only shown to the owner
-				continue;
-			}
-
 			$params = [
 				'actor' => $event->getAuthor(),
-				'calendar' => [
-					'id' => (int) $calendarData['id'],
-					'uri' => $calendarData['uri'],
-					'name' => $calendarData['{DAV:}displayname'],
+				'addressbook' => [
+					'id' => (int) $addressbookData['id'],
+					'uri' => $addressbookData['uri'],
+					'name' => $addressbookData['{DAV:}displayname'],
 				],
-				'object' => [
-					'id' => $object['id'],
-					'name' => $classification === CalDavBackend::CLASSIFICATION_CONFIDENTIAL && $user !== $owner ? 'Busy' : $object['name'],
-					'classified' => $classification === CalDavBackend::CLASSIFICATION_CONFIDENTIAL && $user !== $owner,
+				'card' => [
+					'id' => $card['id'],
+					'name' => $card['name'],
 				],
 			];
-
-			if ($object['type'] === 'event' && strpos($action, Event::SUBJECT_OBJECT_DELETE) === false && $this->appManager->isEnabledForUser('calendar')) {
-				$params['object']['link']['object_uri'] = $objectData['uri'];
-				$params['object']['link']['calendar_uri'] = $calendarData['uri'];
-				$params['object']['link']['owner'] = $owner;
-			}
 
 
 			$event->setAffectedUser($user)
@@ -464,28 +445,12 @@ class Backend {
 	}
 
 	/**
-	 * @param array $objectData
-	 * @return string[]|bool
+	 * @param array $cardData
+	 * @return string[]
 	 */
-	protected function getObjectNameAndType(array $objectData) {
-		$vObject = Reader::read($objectData['calendardata']);
-		$component = $componentType = null;
-		foreach ($vObject->getComponents() as $component) {
-			if (in_array($component->name, ['VEVENT', 'VTODO'])) {
-				$componentType = $component->name;
-				break;
-			}
-		}
-
-		if (!$componentType) {
-			// Calendar objects must have a VEVENT or VTODO component
-			return false;
-		}
-
-		if ($componentType === 'VEVENT') {
-			return ['id' => (string) $component->UID, 'name' => (string) $component->SUMMARY, 'type' => 'event'];
-		}
-		return ['id' => (string) $component->UID, 'name' => (string) $component->SUMMARY, 'type' => 'todo', 'status' => (string) $component->STATUS];
+	protected function getCardNameAndId(array $cardData): array {
+		$vObject = Reader::read($cardData['carddata']);
+		return ['id' => (string) $vObject->UID, 'name' => (string) ($vObject->FN ?? '')];
 	}
 
 	/**

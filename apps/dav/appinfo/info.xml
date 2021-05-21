@@ -77,6 +77,7 @@
 			<provider>OCA\DAV\CalDAV\Activity\Provider\Event</provider>
 			<provider>OCA\DAV\CalDAV\Activity\Provider\Todo</provider>
 			<provider>OCA\DAV\CardDAV\Activity\Provider\Addressbook</provider>
+			<provider>OCA\DAV\CardDAV\Activity\Provider\Card</provider>
 		</providers>
 	</activity>
 

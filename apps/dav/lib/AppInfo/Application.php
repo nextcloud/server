@@ -62,12 +62,16 @@ use OCA\DAV\Events\CalendarObjectDeletedEvent;
 use OCA\DAV\Events\CalendarObjectUpdatedEvent;
 use OCA\DAV\Events\CalendarShareUpdatedEvent;
 use OCA\DAV\Events\CalendarUpdatedEvent;
+use OCA\DAV\Events\CardCreatedEvent;
+use OCA\DAV\Events\CardDeletedEvent;
+use OCA\DAV\Events\CardUpdatedEvent;
 use OCA\DAV\HookManager;
 use OCA\DAV\Listener\ActivityUpdaterListener;
 use OCA\DAV\Listener\AddressbookListener;
 use OCA\DAV\Listener\CalendarContactInteractionListener;
 use OCA\DAV\Listener\CalendarDeletionDefaultUpdaterListener;
 use OCA\DAV\Listener\CalendarObjectReminderUpdaterListener;
+use OCA\DAV\Listener\CardListener;
 use OCA\DAV\Search\ContactsSearchProvider;
 use OCA\DAV\Search\EventsSearchProvider;
 use OCA\DAV\Search\TasksSearchProvider;
@@ -141,6 +145,9 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(AddressBookDeletedEvent::class, AddressbookListener::class);
 		$context->registerEventListener(AddressBookUpdatedEvent::class, AddressbookListener::class);
 		$context->registerEventListener(AddressBookShareUpdatedEvent::class, AddressbookListener::class);
+		$context->registerEventListener(CardCreatedEvent::class, CardListener::class);
+		$context->registerEventListener(CardDeletedEvent::class, CardListener::class);
+		$context->registerEventListener(CardUpdatedEvent::class, CardListener::class);
 
 		$context->registerNotifierService(Notifier::class);
 	}
