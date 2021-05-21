@@ -26,7 +26,7 @@
 			{{ t('core', 'Loading apps …') }}
 		</p>
 		<p v-else-if="loadingAppsError" class="loading-error text-center">
-			{{ t('core', 'Could not fetch list of apps from the app store.') }}
+			{{ t('core', 'Could not fetch list of apps from the App Store.') }}
 		</p>
 		<p v-else class="text-center">
 			{{ t('core', 'Installing apps …') }}
