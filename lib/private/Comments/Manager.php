@@ -30,7 +30,6 @@ namespace OC\Comments;
 
 use Doctrine\DBAL\Exception\DriverException;
 use Doctrine\DBAL\Exception\InvalidFieldNameException;
-use OCA\Comments\AppInfo\Application;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Comments\CommentsEvent;
 use OCP\Comments\IComment;
@@ -1304,7 +1303,7 @@ class Manager implements ICommentsManager {
 	 * @since 21.0.0
 	 */
 	public function load(): void {
-		$this->initialStateService->provideInitialState(Application::APP_ID, 'max-message-length', IComment::MAX_MESSAGE_LENGTH);
-		Util::addScript(Application::APP_ID, 'comments-app');
+		$this->initialStateService->provideInitialState('comments', 'max-message-length', IComment::MAX_MESSAGE_LENGTH);
+		Util::addScript('comments', 'comments-app');
 	}
 }
