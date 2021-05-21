@@ -68,6 +68,7 @@
 		<filters>
 			<filter>OCA\DAV\CalDAV\Activity\Filter\Calendar</filter>
 			<filter>OCA\DAV\CalDAV\Activity\Filter\Todo</filter>
+			<filter>OCA\DAV\CardDAV\Activity\Filter</filter>
 		</filters>
 
 		<providers>
