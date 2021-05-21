@@ -86,6 +86,7 @@ return array(
     'OCA\\DAV\\CalDAV\\WebcalCaching\\RefreshWebcalService' => $baseDir . '/../lib/CalDAV/WebcalCaching/RefreshWebcalService.php',
     'OCA\\DAV\\Capabilities' => $baseDir . '/../lib/Capabilities.php',
     'OCA\\DAV\\CardDAV\\Activity\\Filter' => $baseDir . '/../lib/CardDAV/Activity/Filter.php',
+    'OCA\\DAV\\CardDAV\\Activity\\Setting' => $baseDir . '/../lib/CardDAV/Activity/Setting.php',
     'OCA\\DAV\\CardDAV\\AddressBook' => $baseDir . '/../lib/CardDAV/AddressBook.php',
     'OCA\\DAV\\CardDAV\\AddressBookImpl' => $baseDir . '/../lib/CardDAV/AddressBookImpl.php',
     'OCA\\DAV\\CardDAV\\AddressBookRoot' => $baseDir . '/../lib/CardDAV/AddressBookRoot.php',

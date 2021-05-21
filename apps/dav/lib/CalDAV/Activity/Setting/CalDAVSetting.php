@@ -45,6 +45,6 @@ abstract class CalDAVSetting extends ActivitySettings {
 	}
 
 	public function getGroupName() {
-		return $this->l->t('Calendar and tasks');
+		return $this->l->t('Calendar, contacts and tasks');
 	}
 }

@@ -101,6 +101,7 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\CalDAV\\WebcalCaching\\RefreshWebcalService' => __DIR__ . '/..' . '/../lib/CalDAV/WebcalCaching/RefreshWebcalService.php',
         'OCA\\DAV\\Capabilities' => __DIR__ . '/..' . '/../lib/Capabilities.php',
         'OCA\\DAV\\CardDAV\\Activity\\Filter' => __DIR__ . '/..' . '/../lib/CardDAV/Activity/Filter.php',
+        'OCA\\DAV\\CardDAV\\Activity\\Setting' => __DIR__ . '/..' . '/../lib/CardDAV/Activity/Setting.php',
         'OCA\\DAV\\CardDAV\\AddressBook' => __DIR__ . '/..' . '/../lib/CardDAV/AddressBook.php',
         'OCA\\DAV\\CardDAV\\AddressBookImpl' => __DIR__ . '/..' . '/../lib/CardDAV/AddressBookImpl.php',
         'OCA\\DAV\\CardDAV\\AddressBookRoot' => __DIR__ . '/..' . '/../lib/CardDAV/AddressBookRoot.php',
