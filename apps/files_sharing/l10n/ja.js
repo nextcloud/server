@@ -120,7 +120,6 @@ OC.L10N.register(
     "Could not lock node" : "ノードをロックできませんでした",
     "Could not lock path" : "パスをロックできませんでした",
     "Wrong or no update parameter given" : "間違っているか、またはパラメータが更新されていません",
-    "Can't change permissions for public share links" : "URLリンク共有のパーミッションを変更できません",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Nextcloud Talkが有効になっていないため、Nextcloud Talkによるパスワードの共有に失敗しました",
     "shared by %s" : "%s が共有",
     "Download all files" : "すべてのファイルをダウンロード",
@@ -235,6 +234,7 @@ OC.L10N.register(
     "Uploaded files:" : "アップロード済ファイル:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "ファイルをアップロードすると、%1$s のサービス条件 %2$s に同意したことになります。",
     "invalid permissions" : "無効なパーミッション",
+    "Can't change permissions for public share links" : "URLリンク共有のパーミッションを変更できません",
     "Name, email, or federated cloud ID …" : "名前、電子メール、またはクラウド連携ID…"
 },
 "nplurals=1; plural=0;");

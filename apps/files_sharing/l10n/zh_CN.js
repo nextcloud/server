@@ -123,7 +123,6 @@ OC.L10N.register(
     "Could not lock node" : "无法锁定节点",
     "Could not lock path" : "无法锁定路径",
     "Wrong or no update parameter given" : "错误或没有更新参数给出",
-    "Can't change permissions for public share links" : "不能改变公共共享链接权限",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "由于 Nextcloud Talk 没有启用，所以通过 Nextcloud Talk 发送共享密码失败。",
     "shared by %s" : "共享者 %s",
     "Download all files" : "下载所有文件",
@@ -238,6 +237,7 @@ OC.L10N.register(
     "Uploaded files:" : "上传的文件： ",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "通过上传文件，您同意了 %1$s 服务条款 %2$s。",
     "invalid permissions" : "无效的权限",
+    "Can't change permissions for public share links" : "不能改变公共共享链接权限",
     "Name, email, or federated cloud ID …" : "名称，电子邮件或联合云 ID ..."
 },
 "nplurals=1; plural=0;");

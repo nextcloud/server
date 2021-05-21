@@ -120,7 +120,6 @@ OC.L10N.register(
     "A password reset message has been sent to the email address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Foi enviada uma mensagem de reposição da sua palavra-passe para o endereço de email desta conta. Se não a receber, verifique as pastas de spam/lixo ou entre em contacto com o administrador local para ajuda.",
     "If it is not there ask your local administrator." : "Se não estiver aí pergunte ao seu administrador local.",
     "Couldn't send reset email. Please contact your administrator." : "Não foi possível enviar a mensagem de reposição. Por favor, contacte o seu administrador.",
-    "Password can not be changed. Please contact your administrator." : "A palavra-passe não pode ser alterada. Por favor, contacte o seu administrador.",
     "Back to login" : "Voltar à entrada",
     "New password" : "Nova palavra-passe",
     "Your files are encrypted. There will be no way to get your data back after your password is reset. If you are not sure what to do, please contact your administrator before you continue. Do you really want to continue?" : "Os seus ficheiros estão cifrados. Não será possível aceder aos seus dados após a palavra-passe ser alterada. Se não tiver a certeza do que fazer, contacte o administrador do sistema antes de continuar. Tem a certeza que quer continuar?",
@@ -330,6 +329,7 @@ OC.L10N.register(
     "No search results in other folders for {tag}{filter}{endtag}" : "Nenhum resultado encontrado noutras pastas para {tag}{filter}{endtag}",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} resultado de pesquisa noutra pasta","{count} resultados de pesquisa noutras pastas"],
     "A password reset message has been sent to the e-mail address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Foi enviada, para o seu endereço de e-mail, uma mensagem para fazer reset à password desta conta. Se não a receber, verifique as pastas de spam/junk ou peça ajuda ao seu administrador.",
+    "Password can not be changed. Please contact your administrator." : "A palavra-passe não pode ser alterada. Por favor, contacte o seu administrador.",
     "These apps will be updated:" : "Estas aplicações irão ser atualizadas."
 },
 "nplurals=2; plural=(n != 1);");

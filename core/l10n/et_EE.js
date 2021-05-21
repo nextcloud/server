@@ -68,7 +68,6 @@ OC.L10N.register(
     "User disabled" : "Kasutaja deaktiveeritud",
     "Reset password" : "Lähtesta parool",
     "Couldn't send reset email. Please contact your administrator." : "Ei suutnud lähtestada e-maili. Palun kontakteeru süsteemihalduriga.",
-    "Password can not be changed. Please contact your administrator." : "Parooli ei saa muuta. Palun kontakteeru oma süsteemihalduriga.",
     "New password" : "Uus parool",
     "I know what I'm doing" : "Ma tean mida teen",
     "Cancel" : "Loobu",
@@ -216,6 +215,7 @@ OC.L10N.register(
     "Continue to Nextcloud" : "Edasi Nextcloudi",
     "Searching other places" : "Otsi teistest kohtadest",
     "No search results in other folders for {tag}{filter}{endtag}" : "Teistest kaustadest ei leitud {tag}{filter}{endtag}",
+    "Password can not be changed. Please contact your administrator." : "Parooli ei saa muuta. Palun kontakteeru oma süsteemihalduriga.",
     "These apps will be updated:" : "Neid rakendusi uuendatakse:"
 },
 "nplurals=2; plural=(n != 1);");

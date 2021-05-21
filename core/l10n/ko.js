@@ -104,7 +104,6 @@ OC.L10N.register(
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "사용 중인 IP에서 여러 번의 잘못된 로그인 시도를 감지했습니다. 30초 후에 다시 로그인할 수 있습니다.",
     "Reset password" : "암호 재설정",
     "Couldn't send reset email. Please contact your administrator." : "재설정 메일을 보낼 수 없습니다. 관리자에게 문의하십시오.",
-    "Password can not be changed. Please contact your administrator." : "암호를 변경할 수 없습니다. 관리자에게 문의하십시오.",
     "Back to login" : "로그인으로 돌아가기",
     "New password" : "새 암호",
     "I know what I'm doing" : "지금 하려는 것을 알고 있습니다",
@@ -114,8 +113,6 @@ OC.L10N.register(
     "Could not fetch list of apps from the app store." : "앱스토어로부터 앱 목록을 가져올 수 없음",
     "Installing apps …" : "앱 설치중...",
     "App download or installation failed" : "앱 다운로드 또는 설치에 실패함",
-    "Can't install this app because it is not compatible" : "호환되지 않아 앱을 설치할 수 없습니다.",
-    "Can't install this app" : "앱을 설치할 수 없음",
     "Cancel" : "취소",
     "Simple email app nicely integrated with Files, Contacts and Calendar." : "파일 연락처 달력과 통합되는 간단한 이메일 앱",
     "Chatting, video calls, screensharing, online meetings and web conferencing – in your browser and with mobile apps." : "당신의 브라우저와 모바일 앱 속의  채팅, 영상 통화, 화면 공유, 온라인 미팅 그리고 웹 회의",
@@ -335,6 +332,9 @@ OC.L10N.register(
     "Searching other places" : "다른 장소 찾는 중",
     "No search results in other folders for {tag}{filter}{endtag}" : "다른 폴더에 {tag}{filter}{endtag} 검색 결과가 없음",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["다른 폴더의 검색 결과 {count}개"],
+    "Password can not be changed. Please contact your administrator." : "암호를 변경할 수 없습니다. 관리자에게 문의하십시오.",
+    "Can't install this app because it is not compatible" : "호환되지 않아 앱을 설치할 수 없습니다.",
+    "Can't install this app" : "앱을 설치할 수 없음",
     "These apps will be updated:" : "다음 앱을 업데이트합니다:"
 },
 "nplurals=1; plural=0;");

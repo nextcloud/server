@@ -74,7 +74,6 @@ OC.L10N.register(
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "از این آی پی چندین بار تلاش ناموفق برای ورود انجام شده است فلذا برای ورود مجدد حداقل ۳۰ ثانیه باید صبر کنید.",
     "Reset password" : "تنظیم مجدد رمز عبور",
     "Couldn't send reset email. Please contact your administrator." : "ارسال ایمیل مجدد با مشکل مواجه شد . لطفا با مدیر سیستم تماس بگیرید .",
-    "Password can not be changed. Please contact your administrator." : "رمز عبور نمی تواند تغییر بکند . لطفا با مدیر سیستم تماس بگیرید .",
     "New password" : "گذرواژه جدید",
     "I know what I'm doing" : "اطلاع از انجام این کار دارم",
     "Resetting password" : "در حال ریست کردن کلمه عبور...",
@@ -213,6 +212,7 @@ OC.L10N.register(
     "Searching other places" : "جستجو در مکان‌های دیگر",
     "No search results in other folders for {tag}{filter}{endtag}" : "جستجو در پوشه های دیگر برای {tag}{filter}{endtag} یافت نشد",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} نتایج جستجو در پوشه های دیگر","{count} نتایج جستجو در پوشه های دیگر"],
+    "Password can not be changed. Please contact your administrator." : "رمز عبور نمی تواند تغییر بکند . لطفا با مدیر سیستم تماس بگیرید .",
     "These apps will be updated:" : "این برنامه‌ها بروزرسانی شده‌اند:"
 },
 "nplurals=2; plural=(n > 1);");

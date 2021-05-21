@@ -76,7 +76,6 @@ OC.L10N.register(
     "User disabled" : "Utilizator dezactivat",
     "Reset password" : "Resetează parola",
     "Couldn't send reset email. Please contact your administrator." : "Expedierea email-ului de resetare a eşuat. Vă rugăm să contactaţi administratorul dvs.",
-    "Password can not be changed. Please contact your administrator." : "Parola nu poate fi modificată. Vă rugăm să contactați administratorul dvs.",
     "Back to login" : "Înapoi la autentificare",
     "New password" : "Noua parolă",
     "I know what I'm doing" : "Știu ce fac",
@@ -251,6 +250,7 @@ OC.L10N.register(
     "Searching other places" : "Se caută în alte locuri",
     "No search results in other folders for {tag}{filter}{endtag}" : "Nu au fost găsite rezultate în alte directoare pentru {tag}{filter}{endtag}",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} rezultat al căutării în alte directoare","{count} rezultate ale căutării în alte directoare","{count} rezultate ale căutării în alte directoare"],
+    "Password can not be changed. Please contact your administrator." : "Parola nu poate fi modificată. Vă rugăm să contactați administratorul dvs.",
     "These apps will be updated:" : "Aceste aplicații vor fi actualizate:"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

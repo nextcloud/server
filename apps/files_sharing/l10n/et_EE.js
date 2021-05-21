@@ -106,7 +106,6 @@ OC.L10N.register(
     "Not a directory" : "Ei ole kaust",
     "Could not lock path" : "Ei saanud rada lukustada",
     "Wrong or no update parameter given" : "Antud vale või aegunud parameeter",
-    "Can't change permissions for public share links" : "Avalikult jagatud linkide õigusi muuta ei saa",
     "shared by %s" : "jagas %s",
     "Download all files" : "Lae kõik failid alla",
     "Direct link" : "Otsene link",
@@ -171,6 +170,7 @@ OC.L10N.register(
     "Note" : "Märge",
     "Select or drop files" : "Vali või lohista failid",
     "Uploaded files:" : "Üleslaetud failid:",
-    "invalid permissions" : "valed õigused"
+    "invalid permissions" : "valed õigused",
+    "Can't change permissions for public share links" : "Avalikult jagatud linkide õigusi muuta ei saa"
 },
 "nplurals=2; plural=(n != 1);");

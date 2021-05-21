@@ -50,7 +50,6 @@
     "Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP." : "Моля, премахтене настройката за open_basedir от вашия php.ini или преминете към 64-битово PHP.",
     "Set an admin username." : "Задайте потребителско име за администратор.",
     "Set an admin password." : "Задай парола за администратор.",
-    "Can't create or write into the data directory %s" : "Неуспешно създаване или записване в \"data\" папката %s",
     "Sharing backend %s must implement the interface OCP\\Share_Backend" : "Споделянето на сървърния %s трябва да поддържа OCP\\Share_Backend интерфейс.",
     "Sharing backend %s not found" : "Споделянето на сървърния %s не е открито.",
     "Sharing backend for %s not found" : "Споделянето на сървъра за %s не е открито.",
@@ -111,7 +110,6 @@
     "The username is already being used" : "Потребителското име е вече заето.",
     "User disabled" : "Потребителят е деактивиран",
     "a safe home for all your data" : "безопасен дом за всички ваши данни",
-    "Can't read file" : "Файлът не може да бъде прочетен",
     "Application is not enabled" : "Приложението не е включено",
     "Authentication error" : "Грешка при удостоверяването",
     "Token expired. Please reload page." : "Изтекла сесия. Моля, презареди страницата.",
@@ -132,7 +130,9 @@
     "Storage is temporarily not available" : "Временно хранилището не е налично",
     "Following databases are supported: %s" : "Следните бази данни са поддържани: %s",
     "Following platforms are supported: %s" : "Поддържани са следните платформи: %s",
+    "Can't create or write into the data directory %s" : "Неуспешно създаване или записване в \"data\" папката %s",
     "Invalid Federated Cloud ID" : "Невалиден Federated Cloud ID",
-    "Can’t set expiration date more than %s days in the future" : "Неуспешно задаване на срок на валидност повече от %s дни в бъдещето"
+    "Can’t set expiration date more than %s days in the future" : "Неуспешно задаване на срок на валидност повече от %s дни в бъдещето",
+    "Can't read file" : "Файлът не може да бъде прочетен"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

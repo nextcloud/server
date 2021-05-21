@@ -115,7 +115,6 @@ OC.L10N.register(
     "Could not lock node" : "Nevarēja bloķēt",
     "Could not lock path" : "Nevarēja bloķēt ceļu",
     "Wrong or no update parameter given" : "Nepareizs atjaunināšanas parametrs vai tas nav norādīts",
-    "Can't change permissions for public share links" : "Publiskai koplietošanas saitei nevar mainīt tiesības",
     "shared by %s" : "Koplietoja %s",
     "Download all files" : "Lejupielādēt visas datnes",
     "Direct link" : "Tiešā saite",
@@ -195,6 +194,7 @@ OC.L10N.register(
     "Uploading files" : "Augšupielādē datnes",
     "Uploaded files:" : "Augšupielādētas datnes:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Veicot datņu augšupielādi, jūs piekrītat %1$spakalpojuma noteikumiem%2$s.",
-    "invalid permissions" : "Nederīgas atļaujas"
+    "invalid permissions" : "Nederīgas atļaujas",
+    "Can't change permissions for public share links" : "Publiskai koplietošanas saitei nevar mainīt tiesības"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

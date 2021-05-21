@@ -104,7 +104,6 @@
     "Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP." : "Por favor, quite el ajuste de open_basedir —dentro de su php.ini— o pásese a PHP de 64 bits.",
     "Set an admin username." : "Configurar un nombre de usuario del administrador",
     "Set an admin password." : "Configurar la contraseña del administrador.",
-    "Can't create or write into the data directory %s" : "No es posible crear o escribir en el directorio de datos %s",
     "Sharing backend %s must implement the interface OCP\\Share_Backend" : "El motor compartido %s debe implementar la interfaz OCP\\Share_Backend",
     "Sharing backend %s not found" : "El motor compartido %s no se ha encontrado",
     "Sharing backend for %s not found" : "Motor compartido para %s no encontrado",
@@ -114,11 +113,7 @@
     "Open »%s«" : "Abrir »%s« ",
     "%1$s via %2$s" : "%1$s vía %2$s",
     "You are not allowed to share %s" : "Usted no está autorizado para compartir %s",
-    "Can’t increase permissions of %s" : "No se pueden aumentar los permisos de %s",
-    "Files can’t be shared with delete permissions" : "Los archivos no se pueden compartir con permisos de borrado",
-    "Files can’t be shared with create permissions" : "Los archivos no se pueden compartir con permisos de creación",
     "Expiration date is in the past" : "Ha pasado la fecha de caducidad",
-    "_Can’t set expiration date more than %n day in the future_::_Can’t set expiration date more than %n days in the future_" : ["No se puede establecer una fecha de caducidad de más de %n día hacia el futuro","No se puede establecer una fecha de caducidad de más de %n días hacia el futuro"],
     "Sharing is only allowed with group members" : "Sólo está permitido compartir a los integrantes del grupo",
     "Sharing %s failed, because this item is already shared with user %s" : "No se pudo compartir %s, porque este elemento ya está compartido con el usuario %s",
     "%1$s shared »%2$s« with you" : "%1$s ha compartido «%2$s» contigo",
@@ -185,7 +180,6 @@
     "App \"%1$s\" cannot be installed because the following dependencies are not fulfilled: %2$s" : "No se ha podido instlaar la app «%1$s» porque no se cumplen las siguientes dependencias: %2$s",
     "a safe home for all your data" : "un hogar seguro para todos tus datos",
     "File is currently busy, please try again later" : "El archivo se encuentra actualmente ocupado, por favor inténtelo de nuevo más tarde",
-    "Can't read file" : "No se puede leer archivo",
     "Application is not enabled" : "La aplicación no está habilitada",
     "Authentication error" : "Error de autenticación",
     "Token expired. Please reload page." : "Token caducado. Por favor, recarge la página.",
@@ -232,7 +226,12 @@
     "Storage connection timeout. %s" : "Tiempo de conexión de almacenamiento agotado. %s",
     "Following databases are supported: %s" : "Las siguientes bases de datos están soportadas: %s",
     "Following platforms are supported: %s" : "Las siguientes plataformas están soportadas: %s",
+    "Can't create or write into the data directory %s" : "No es posible crear o escribir en el directorio de datos %s",
     "Invalid Federated Cloud ID" : "ID de Nube federada  no válida",
-    "Can’t set expiration date more than %s days in the future" : "No se puede establecer la fecha de expiración a más de %s días en el futuro"
+    "Can’t increase permissions of %s" : "No se pueden aumentar los permisos de %s",
+    "Files can’t be shared with delete permissions" : "Los archivos no se pueden compartir con permisos de borrado",
+    "Files can’t be shared with create permissions" : "Los archivos no se pueden compartir con permisos de creación",
+    "Can’t set expiration date more than %s days in the future" : "No se puede establecer la fecha de expiración a más de %s días en el futuro",
+    "Can't read file" : "No se puede leer archivo"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

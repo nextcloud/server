@@ -149,7 +149,6 @@
     "A password reset message has been sent to the email address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Na e-mailovou adresu, vedenou k tomuto účtu, byla odeslána zpráva s pokyny pro znovunastavení hesla. Pokud jste ji neobdrželi, podívejte se také do složek s nevyžádanou poštou (spam) a/nebo požádejte svého místního správce o pomoc.",
     "If it is not there ask your local administrator." : "Pokud se tam nenachází, zeptejte se svého místního správce.",
     "Couldn't send reset email. Please contact your administrator." : "Nepodařilo se odeslat e-mail pro změnu hesla. Obraťte se na správce.",
-    "Password can not be changed. Please contact your administrator." : "Heslo nelze změnit. Obraťte se na svého správce systému.",
     "Back to login" : "Zpět na přihlášení",
     "New password" : "Nové heslo",
     "Your files are encrypted. There will be no way to get your data back after your password is reset. If you are not sure what to do, please contact your administrator before you continue. Do you really want to continue?" : "Vaše soubory jsou šifrované. Vyresetováním hesla nebude způsob, jak získat vaše data zpět. Pokud nevíte, co dělat, nepokračujte a obraťte se na svého správce. Opravdu chcete pokračovat?",
@@ -160,8 +159,6 @@
     "Could not fetch list of apps from the app store." : "Nedaří se získat seznam aplikací z katalogu.",
     "Installing apps …" : "Instalace aplikací…",
     "App download or installation failed" : "Stažení aplikace nebo její instalace se nezdařilo",
-    "Can't install this app because it is not compatible" : "Tuto aplikaci nelze nainstalovat, protože není kompatibilní",
-    "Can't install this app" : "Tuto aplikaci nelze nainstalovat",
     "Cancel" : "Storno",
     "Schedule work & meetings, synced with all your devices." : "Plánujte si práci a schůzky – synchronizováno napříč všemi vašimi zařízeními.",
     "Keep your colleagues and friends in one place without leaking their private info." : "Uchovávejte si údaje svých kolegů a přátel na jednom místě, aniž by k jejim osobním údajům získal přístup někdo jiný.",
@@ -404,7 +401,10 @@
     "No search results in other folders for {tag}{filter}{endtag}" : "Žádné výsledky v dalších složkách pro {tag}{filter}{endtag}",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} nález v další složce","{count} nálezy v dalších složkách","{count} nálezů v dalších složkách","{count} nálezy v dalších složkách"],
     "A password reset message has been sent to the e-mail address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Na e-mailovou adresu, vedenou k tomuto účtu, byla odeslána zpráva s pokyny pro znovunastavení hesla. Pokud jste ji neobdrželi, podívejte se také do složek s nevyžádanou poštou (spam) a/nebo požádejte svého místního správce o pomoc.",
+    "Password can not be changed. Please contact your administrator." : "Heslo nelze změnit. Obraťte se na svého správce systému.",
     "Nextcloud {app}" : "Nextcloud {app}",
+    "Can't install this app because it is not compatible" : "Tuto aplikaci nelze nainstalovat, protože není kompatibilní",
+    "Can't install this app" : "Tuto aplikaci nelze nainstalovat",
     "These apps will be updated:" : "Tyto aplikace budou aktualizovány:",
     "For more details see the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "Další podrobnosti naleznete v <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">dokumentaci</a>."
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;"

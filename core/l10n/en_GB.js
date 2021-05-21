@@ -84,7 +84,6 @@ OC.L10N.register(
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds.",
     "Reset password" : "Reset password",
     "Couldn't send reset email. Please contact your administrator." : "Couldn't send reset email. Please contact your administrator.",
-    "Password can not be changed. Please contact your administrator." : "Password can not be changed. Please contact your administrator.",
     "Back to login" : "Back to login",
     "New password" : "New password",
     "I know what I'm doing" : "I know what I'm doing",
@@ -252,6 +251,7 @@ OC.L10N.register(
     "Searching other places" : "Searching other places",
     "No search results in other folders for {tag}{filter}{endtag}" : "No search results in other folders for {tag}{filter}{endtag}",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} search result in another folder","{count} search results in other folders"],
+    "Password can not be changed. Please contact your administrator." : "Password can not be changed. Please contact your administrator.",
     "These apps will be updated:" : "These apps will be updated:"
 },
 "nplurals=2; plural=(n != 1);");

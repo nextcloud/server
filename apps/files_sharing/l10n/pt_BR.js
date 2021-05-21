@@ -123,7 +123,6 @@ OC.L10N.register(
     "Could not lock node" : "Não foi possível bloquear o nó",
     "Could not lock path" : "Não foi possível bloquear o caminho",
     "Wrong or no update parameter given" : "O parâmetro da atualização fornecido está errado ou não existe",
-    "Can't change permissions for public share links" : "Não foi possível alterar as permissões para links de compartilhamento público",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "O compartilhamento falhou ao enviar a senha ao Nextcloud Talk porque este não está ativado",
     "shared by %s" : "compartilhado por %s",
     "Download all files" : "Baixar todos os arquivos",
@@ -238,6 +237,7 @@ OC.L10N.register(
     "Uploaded files:" : "Arquivos enviados:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Ao enviar arquivos, você concorda com os %1$stermos de serviço%2$s.",
     "invalid permissions" : "permissões inválidas",
+    "Can't change permissions for public share links" : "Não foi possível alterar as permissões para links de compartilhamento público",
     "Name, email, or federated cloud ID …" : "Nome, e-mail, ou ID da nuvem federada..."
 },
 "nplurals=2; plural=(n > 1);");

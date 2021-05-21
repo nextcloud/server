@@ -54,7 +54,6 @@
     "Open »%s«" : "Deschide »%s«",
     "%1$s via %2$s" : "%1$sprin %2$s",
     "You are not allowed to share %s" : "Nu există permisiunea de partajare %s",
-    "Files can’t be shared with delete permissions" : "Fișierele nu pot fi partajate cu permisiuni de ștergere",
     "Expiration date is in the past" : "Data expirării este în trecut",
     "%1$s shared »%2$s« with you." : "%1$sa partajat »%2$s« cu tine.",
     "Click the button below to open it." : "Apasă pe butonul de jos pentru a deschide.",
@@ -125,6 +124,7 @@
     "Storage is temporarily not available" : "Spațiu de stocare este indisponibil temporar",
     "Following databases are supported: %s" : "Următoarele baze de date sunt suportate: %s",
     "Following platforms are supported: %s" : "Sunt suportate următoarele platforme: %s",
-    "Invalid Federated Cloud ID" : "ID invalid cloud federalizat"
+    "Invalid Federated Cloud ID" : "ID invalid cloud federalizat",
+    "Files can’t be shared with delete permissions" : "Fișierele nu pot fi partajate cu permisiuni de ștergere"
 },"pluralForm" :"nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));"
 }
