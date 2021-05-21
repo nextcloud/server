@@ -551,7 +551,6 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OCP\\SystemTag\\TagAlreadyExistsException' => __DIR__ . '/../../..' . '/lib/public/SystemTag/TagAlreadyExistsException.php',
         'OCP\\SystemTag\\TagNotFoundException' => __DIR__ . '/../../..' . '/lib/public/SystemTag/TagNotFoundException.php',
         'OCP\\Template' => __DIR__ . '/../../..' . '/lib/public/Template.php',
-        'OCP\\User' => __DIR__ . '/../../..' . '/lib/public/User.php',
         'OCP\\UserInterface' => __DIR__ . '/../../..' . '/lib/public/UserInterface.php',
         'OCP\\UserStatus\\IManager' => __DIR__ . '/../../..' . '/lib/public/UserStatus/IManager.php',
         'OCP\\UserStatus\\IProvider' => __DIR__ . '/../../..' . '/lib/public/UserStatus/IProvider.php',

@@ -522,7 +522,6 @@ return array(
     'OCP\\SystemTag\\TagAlreadyExistsException' => $baseDir . '/lib/public/SystemTag/TagAlreadyExistsException.php',
     'OCP\\SystemTag\\TagNotFoundException' => $baseDir . '/lib/public/SystemTag/TagNotFoundException.php',
     'OCP\\Template' => $baseDir . '/lib/public/Template.php',
-    'OCP\\User' => $baseDir . '/lib/public/User.php',
     'OCP\\UserInterface' => $baseDir . '/lib/public/UserInterface.php',
     'OCP\\UserStatus\\IManager' => $baseDir . '/lib/public/UserStatus/IManager.php',
     'OCP\\UserStatus\\IProvider' => $baseDir . '/lib/public/UserStatus/IProvider.php',
