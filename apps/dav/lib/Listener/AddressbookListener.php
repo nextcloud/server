@@ -1,7 +1,6 @@
 <?php
 
 declare(strict_types=1);
-
 /**
  * @copyright Copyright (c) 2021 Joas Schilling <coding@schilljs.com>
  *
@@ -37,7 +36,6 @@ use Throwable;
 use function sprintf;
 
 class AddressbookListener implements IEventListener {
-
 	/** @var ActivityBackend */
 	private $activityBackend;
 
@@ -66,7 +64,7 @@ class AddressbookListener implements IEventListener {
 					'exception' => $e,
 				]);
 			}
-		} else if ($event instanceof AddressBookUpdatedEvent) {
+		} elseif ($event instanceof AddressBookUpdatedEvent) {
 			try {
 				$this->activityBackend->onAddressbookUpdate(
 					$event->getAddressBookData(),
@@ -83,7 +81,7 @@ class AddressbookListener implements IEventListener {
 					'exception' => $e,
 				]);
 			}
-		} else if ($event instanceof AddressBookDeletedEvent) {
+		} elseif ($event instanceof AddressBookDeletedEvent) {
 			try {
 				$this->activityBackend->onAddressbookDelete(
 					$event->getAddressBookData(),
@@ -99,7 +97,7 @@ class AddressbookListener implements IEventListener {
 					'exception' => $e,
 				]);
 			}
-		} else if ($event instanceof AddressBookShareUpdatedEvent) {
+		} elseif ($event instanceof AddressBookShareUpdatedEvent) {
 			try {
 				$this->activityBackend->onAddressbookUpdateShares(
 					$event->getAddressBookData(),

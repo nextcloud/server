@@ -29,7 +29,6 @@ declare(strict_types=1);
 namespace OCA\DAV\CardDAV\Activity;
 
 use OCA\DAV\CardDAV\Activity\Provider\Addressbook;
-use OCA\DAV\CardDAV\Activity\Provider\Card;
 use OCP\Activity\IEvent;
 use OCP\Activity\IManager as IActivityManager;
 use OCP\App\IAppManager;
@@ -102,7 +101,7 @@ class Backend {
 	 * @param array $shares
 	 * @param array $changedProperties
 	 */
-	protected function triggerAddressbookActivity($action, array $addressbookData, array $shares = [], array $changedProperties = []) {
+	protected function triggerAddressbookActivity(string $action, array $addressbookData, array $shares = [], array $changedProperties = []): void {
 		if (!isset($addressbookData['principaluri'])) {
 			return;
 		}
@@ -160,7 +159,7 @@ class Backend {
 	 * @param array $add
 	 * @param array $remove
 	 */
-	public function onAddressbookUpdateShares(array $addressbookData, array $shares, array $add, array $remove) {
+	public function onAddressbookUpdateShares(array $addressbookData, array $shares, array $add, array $remove): void {
 		$principal = explode('/', $addressbookData['principaluri']);
 		$owner = $principal[2];
 

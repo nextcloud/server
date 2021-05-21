@@ -43,9 +43,6 @@ class Card extends Base {
 	/** @var IFactory */
 	protected $languageFactory;
 
-	/** @var IL10N */
-	protected $l;
-
 	/** @var IManager */
 	protected $activityManager;
 
@@ -77,12 +74,12 @@ class Card extends Base {
 	 * @throws \InvalidArgumentException
 	 * @since 11.0.0
 	 */
-	public function parse($language, IEvent $event, IEvent $previousEvent = null) {
+	public function parse($language, IEvent $event, IEvent $previousEvent = null): IEvent {
 		if ($event->getApp() !== 'dav' || $event->getType() !== 'card') {
 			throw new \InvalidArgumentException();
 		}
 
-		$this->l = $this->languageFactory->get('dav', $language);
+		$l = $this->languageFactory->get('dav', $language);
 
 		if ($this->activityManager->getRequirePNG()) {
 			$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'places/contacts-dark.png')));
@@ -91,29 +88,29 @@ class Card extends Base {
 		}
 
 		if ($event->getSubject() === self::SUBJECT_ADD) {
-			$subject = $this->l->t('{actor} created contact {card} in addressbook {addressbook}');
+			$subject = $l->t('{actor} created contact {card} in addressbook {addressbook}');
 		} elseif ($event->getSubject() === self::SUBJECT_ADD . '_self') {
-			$subject = $this->l->t('You created contact {card} in addressbook {addressbook}');
+			$subject = $l->t('You created contact {card} in addressbook {addressbook}');
 		} elseif ($event->getSubject() === self::SUBJECT_DELETE ) {
-			$subject = $this->l->t('{actor} deleted contact {card} from addressbook {addressbook}');
+			$subject = $l->t('{actor} deleted contact {card} from addressbook {addressbook}');
 		} elseif ($event->getSubject() === self::SUBJECT_DELETE . '_self') {
-			$subject = $this->l->t('You deleted contact {card} from addressbook {addressbook}');
+			$subject = $l->t('You deleted contact {card} from addressbook {addressbook}');
 		} elseif ($event->getSubject() === self::SUBJECT_UPDATE) {
-			$subject = $this->l->t('{actor} updated contact {card} in addressbook {addressbook}');
+			$subject = $l->t('{actor} updated contact {card} in addressbook {addressbook}');
 		} elseif ($event->getSubject() === self::SUBJECT_UPDATE . '_self') {
-			$subject = $this->l->t('You updated contact {card} in addressbook {addressbook}');
+			$subject = $l->t('You updated contact {card} in addressbook {addressbook}');
 		} else {
 			throw new \InvalidArgumentException();
 		}
 
-		$parsedParameters = $this->getParameters($event);
+		$parsedParameters = $this->getParameters($event, $l);
 		$this->setSubjects($event, $subject, $parsedParameters);
 
 		$event = $this->eventMerger->mergeEvents('card', $event, $previousEvent);
 		return $event;
 	}
 
-	protected function getParameters(IEvent $event): array {
+	protected function getParameters(IEvent $event, IL10N $l): array {
 		$subject = $event->getSubject();
 		$parameters = $event->getSubjectParameters();
 
@@ -123,14 +120,14 @@ class Card extends Base {
 			case self::SUBJECT_UPDATE:
 				return [
 					'actor' => $this->generateUserParameter($parameters['actor']),
-					'addressbook' => $this->generateAddressbookParameter($parameters['addressbook'], $this->l),
+					'addressbook' => $this->generateAddressbookParameter($parameters['addressbook'], $l),
 					'card' => $this->generateCardParameter($parameters['card']),
 				];
 			case self::SUBJECT_ADD . '_self':
 			case self::SUBJECT_DELETE . '_self':
 			case self::SUBJECT_UPDATE . '_self':
 				return [
-					'addressbook' => $this->generateAddressbookParameter($parameters['addressbook'], $this->l),
+					'addressbook' => $this->generateAddressbookParameter($parameters['addressbook'], $l),
 					'card' => $this->generateCardParameter($parameters['card']),
 				];
 		}
@@ -143,7 +140,6 @@ class Card extends Base {
 			'type' => 'addressbook-contact',
 			'id' => $cardData['id'],
 			'name' => $cardData['name'],
-
 		];
 	}
 }

@@ -46,9 +46,6 @@ class Addressbook extends Base {
 	/** @var IFactory */
 	protected $languageFactory;
 
-	/** @var IL10N */
-	protected $l;
-
 	/** @var IManager */
 	protected $activityManager;
 
@@ -88,7 +85,7 @@ class Addressbook extends Base {
 			throw new \InvalidArgumentException();
 		}
 
-		$this->l = $this->languageFactory->get('dav', $language);
+		$l = $this->languageFactory->get('dav', $language);
 
 		if ($this->activityManager->getRequirePNG()) {
 			$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'places/contacts-dark.png')));
@@ -97,44 +94,44 @@ class Addressbook extends Base {
 		}
 
 		if ($event->getSubject() === self::SUBJECT_ADD) {
-			$subject = $this->l->t('{actor} created addressbook {addressbook}');
+			$subject = $l->t('{actor} created addressbook {addressbook}');
 		} elseif ($event->getSubject() === self::SUBJECT_ADD . '_self') {
-			$subject = $this->l->t('You created addressbook {addressbook}');
+			$subject = $l->t('You created addressbook {addressbook}');
 		} elseif ($event->getSubject() === self::SUBJECT_DELETE) {
-			$subject = $this->l->t('{actor} deleted addressbook {addressbook}');
+			$subject = $l->t('{actor} deleted addressbook {addressbook}');
 		} elseif ($event->getSubject() === self::SUBJECT_DELETE . '_self') {
-			$subject = $this->l->t('You deleted addressbook {addressbook}');
+			$subject = $l->t('You deleted addressbook {addressbook}');
 		} elseif ($event->getSubject() === self::SUBJECT_UPDATE) {
-			$subject = $this->l->t('{actor} updated addressbook {addressbook}');
+			$subject = $l->t('{actor} updated addressbook {addressbook}');
 		} elseif ($event->getSubject() === self::SUBJECT_UPDATE . '_self') {
-			$subject = $this->l->t('You updated addressbook {addressbook}');
+			$subject = $l->t('You updated addressbook {addressbook}');
 		} elseif ($event->getSubject() === self::SUBJECT_SHARE_USER) {
-			$subject = $this->l->t('{actor} shared addressbook {addressbook} with you');
+			$subject = $l->t('{actor} shared addressbook {addressbook} with you');
 		} elseif ($event->getSubject() === self::SUBJECT_SHARE_USER . '_you') {
-			$subject = $this->l->t('You shared addressbook {addressbook} with {user}');
+			$subject = $l->t('You shared addressbook {addressbook} with {user}');
 		} elseif ($event->getSubject() === self::SUBJECT_SHARE_USER . '_by') {
-			$subject = $this->l->t('{actor} shared addressbook {addressbook} with {user}');
+			$subject = $l->t('{actor} shared addressbook {addressbook} with {user}');
 		} elseif ($event->getSubject() === self::SUBJECT_UNSHARE_USER) {
-			$subject = $this->l->t('{actor} unshared addressbook {addressbook} from you');
+			$subject = $l->t('{actor} unshared addressbook {addressbook} from you');
 		} elseif ($event->getSubject() === self::SUBJECT_UNSHARE_USER . '_you') {
-			$subject = $this->l->t('You unshared addressbook {addressbook} from {user}');
+			$subject = $l->t('You unshared addressbook {addressbook} from {user}');
 		} elseif ($event->getSubject() === self::SUBJECT_UNSHARE_USER . '_by') {
-			$subject = $this->l->t('{actor} unshared addressbook {addressbook} from {user}');
+			$subject = $l->t('{actor} unshared addressbook {addressbook} from {user}');
 		} elseif ($event->getSubject() === self::SUBJECT_UNSHARE_USER . '_self') {
-			$subject = $this->l->t('{actor} unshared addressbook {addressbook} from themselves');
+			$subject = $l->t('{actor} unshared addressbook {addressbook} from themselves');
 		} elseif ($event->getSubject() === self::SUBJECT_SHARE_GROUP . '_you') {
-			$subject = $this->l->t('You shared addressbook {addressbook} with group {group}');
+			$subject = $l->t('You shared addressbook {addressbook} with group {group}');
 		} elseif ($event->getSubject() === self::SUBJECT_SHARE_GROUP . '_by') {
-			$subject = $this->l->t('{actor} shared addressbook {addressbook} with group {group}');
+			$subject = $l->t('{actor} shared addressbook {addressbook} with group {group}');
 		} elseif ($event->getSubject() === self::SUBJECT_UNSHARE_GROUP . '_you') {
-			$subject = $this->l->t('You unshared addressbook {addressbook} from group {group}');
+			$subject = $l->t('You unshared addressbook {addressbook} from group {group}');
 		} elseif ($event->getSubject() === self::SUBJECT_UNSHARE_GROUP . '_by') {
-			$subject = $this->l->t('{actor} unshared addressbook {addressbook} from group {group}');
+			$subject = $l->t('{actor} unshared addressbook {addressbook} from group {group}');
 		} else {
 			throw new \InvalidArgumentException();
 		}
 
-		$parsedParameters = $this->getParameters($event);
+		$parsedParameters = $this->getParameters($event, $l);
 		$this->setSubjects($event, $subject, $parsedParameters);
 
 		$event = $this->eventMerger->mergeEvents('addressbook', $event, $previousEvent);
@@ -152,7 +149,7 @@ class Addressbook extends Base {
 		return $event;
 	}
 
-	protected function getParameters(IEvent $event): array {
+	protected function getParameters(IEvent $event, IL10N $l): array {
 		$subject = $event->getSubject();
 		$parameters = $event->getSubjectParameters();
 
@@ -168,32 +165,32 @@ class Addressbook extends Base {
 			case self::SUBJECT_UNSHARE_USER . '_self':
 				return [
 					'actor' => $this->generateUserParameter($parameters['actor']),
-					'addressbook' => $this->generateAddressbookParameter($parameters['addressbook'], $this->l),
+					'addressbook' => $this->generateAddressbookParameter($parameters['addressbook'], $l),
 				];
 			case self::SUBJECT_SHARE_USER . '_you':
 			case self::SUBJECT_UNSHARE_USER . '_you':
 				return [
-					'addressbook' => $this->generateAddressbookParameter($parameters['addressbook'], $this->l),
+					'addressbook' => $this->generateAddressbookParameter($parameters['addressbook'], $l),
 					'user' => $this->generateUserParameter($parameters['user']),
 				];
 			case self::SUBJECT_SHARE_USER . '_by':
 			case self::SUBJECT_UNSHARE_USER . '_by':
 				return [
 					'actor' => $this->generateUserParameter($parameters['actor']),
-					'addressbook' => $this->generateAddressbookParameter($parameters['addressbook'], $this->l),
+					'addressbook' => $this->generateAddressbookParameter($parameters['addressbook'], $l),
 					'user' => $this->generateUserParameter($parameters['user']),
 				];
 			case self::SUBJECT_SHARE_GROUP . '_you':
 			case self::SUBJECT_UNSHARE_GROUP . '_you':
 				return [
-					'addressbook' => $this->generateAddressbookParameter($parameters['addressbook'], $this->l),
+					'addressbook' => $this->generateAddressbookParameter($parameters['addressbook'], $l),
 					'group' => $this->generateGroupParameter($parameters['group']),
 				];
 			case self::SUBJECT_SHARE_GROUP . '_by':
 			case self::SUBJECT_UNSHARE_GROUP . '_by':
 				return [
 					'actor' => $this->generateUserParameter($parameters['actor']),
-					'addressbook' => $this->generateAddressbookParameter($parameters['addressbook'], $this->l),
+					'addressbook' => $this->generateAddressbookParameter($parameters['addressbook'], $l),
 					'group' => $this->generateGroupParameter($parameters['group']),
 				];
 		}
