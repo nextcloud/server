@@ -28,8 +28,6 @@ OC.L10N.register(
     "Bad Signature" : "ცუდი ხელმოწერა",
     "Missing Signature" : "ხელმოწერა აკლია",
     "one-time password for server-side-encryption" : "ერთჯერადი პაროლი სერვერული მხარის შიფრაციისთვის",
-    "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "ამ ფაილის გაშიფვრა ვერ ხერხდება, ალბათ ის გაზიარებული ფაილია. გთხოვთ სთხოვოთ ფაილის მფლობელს ახლიდან გააზიაროს ის თქვენთან.",
-    "Can not read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "ამ ფაილის წაკითხვა არ ხერხდება, ალბათ ის გაზიარებული ფაილია. გთხოვთ სთხოვოთ ფაილის მფლობელს ახლიდან გააზიაროს ის თქვენთან.",
     "Default encryption module" : "საწყისი შიფრაციის მოდული",
     "The share will expire on %s." : "გაზიარება გაუქმდება %s-ზე.",
     "Cheers!" : "წარმატებები!",
@@ -58,6 +56,8 @@ OC.L10N.register(
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "ამ არჩევნის ამოქმედება, პაროლის დაკარგვის შემთხვევაში, საშუალებას მოგცემთ ახლიდან მოიპოვოთ წვდომა თქვენს დაშიფრულ ფაილებზე",
     "Enabled" : "მოქმედია",
     "Disabled" : "არაა მოქმედი",
+    "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "ამ ფაილის გაშიფვრა ვერ ხერხდება, ალბათ ის გაზიარებული ფაილია. გთხოვთ სთხოვოთ ფაილის მფლობელს ახლიდან გააზიაროს ის თქვენთან.",
+    "Can not read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "ამ ფაილის წაკითხვა არ ხერხდება, ალბათ ის გაზიარებული ფაილია. გთხოვთ სთხოვოთ ფაილის მფლობელს ახლიდან გააზიაროს ის თქვენთან.",
     "Hey there,\n\nthe admin enabled server-side-encryption. Your files were encrypted using the password '%s'.\n\nPlease login to the web interface, go to the section 'basic encryption module' of your personal settings and update your encryption password by entering this password into the 'old log-in password' field and your current login-password.\n\n" : "გამარჯობა,\n\nადმინისტრატორმა აამოქმედა სერვერული მხარის შიფრაცია. თქვენი ფაილების შიფრაცია მოხდა პაროლით '%s'.\n\nგთხოვთ ვებ-ინტერფეისში გაიაროთ ავტორიზაცია, პირად პარამეტრებში გადახვიდეთ სექციაზე 'მარტივი შიფრაციის მოდული' და განაახლოთ შიფრაციის პაროლი, 'ძველი ლოგინის პაროლისა' და ამჟამინდელი ლოგინის პაროლის შეყვანით.\n\n"
 },
 "nplurals=2; plural=(n!=1);");

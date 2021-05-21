@@ -109,7 +109,6 @@ OC.L10N.register(
     "Not a directory" : "Ikke en mappe",
     "Could not lock path" : "Kunne ikke låse sti",
     "Wrong or no update parameter given" : "Feil eller ingen parametre for oppdatering er angitt",
-    "Can't change permissions for public share links" : "Kan ikke endre rettigheter for offentlige lenker",
     "shared by %s" : "delt av %s",
     "Download all files" : "Last ned alle filer",
     "Direct link" : "Direkte lenke",
@@ -173,6 +172,7 @@ OC.L10N.register(
     "Select or drop files" : "Velg eller slipp filer",
     "Uploading files" : "Laster opp filer",
     "Uploaded files:" : "Opplastede filer:",
-    "invalid permissions" : "Ugyldige rettigheter"
+    "invalid permissions" : "Ugyldige rettigheter",
+    "Can't change permissions for public share links" : "Kan ikke endre rettigheter for offentlige lenker"
 },
 "nplurals=2; plural=(n != 1);");

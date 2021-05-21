@@ -110,7 +110,6 @@
     "Reset password" : "Ресетуј лозинку",
     "If it is not there ask your local administrator." : "Ако није ни тамо, контактирајте вашег администратора.",
     "Couldn't send reset email. Please contact your administrator." : "Не могу да пошаљем поруку за ресетовање. Контактирајте администратора.",
-    "Password can not be changed. Please contact your administrator." : "Лозинка се не може променити. Контактирајте администратора.",
     "Back to login" : "Назад на пријаву",
     "New password" : "Нова лозинка",
     "Your files are encrypted. There will be no way to get your data back after your password is reset. If you are not sure what to do, please contact your administrator before you continue. Do you really want to continue?" : "Ваши фајлови су шифровани. Не постоји ниједан начин да се Ваши подаци поврате ако се лозинка сад ресетује. Уколико нисте сигурни шта да радите, контактирајте Вашег администратора пре него што наставите. Да ли стварно желите да наставите?",
@@ -121,8 +120,6 @@
     "Could not fetch list of apps from the app store." : "Не могу да добавим листу апликација из продавнице.",
     "Installing apps …" : "Инсталирам апликације…",
     "App download or installation failed" : "Скидање или инсталирање апликације није успело",
-    "Can't install this app because it is not compatible" : "Не могу да инсталирам ову апликација зато што није компатибилна",
-    "Can't install this app" : "Не могу да инсталирам ову апликацију",
     "Cancel" : "Одустани",
     "Schedule work & meetings, synced with all your devices." : "Закажите посао & састанке, синхронизовано на све ваше уређаје.",
     "Keep your colleagues and friends in one place without leaking their private info." : "Држите колеге и пријатеље на једном месту без цурења приватних података.",
@@ -363,7 +360,10 @@
     "No search results in other folders for {tag}{filter}{endtag}" : "Нема резултата претраге у осталим фасциклама за {tag}{filter}{endtag}",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} резултат претраге у осталим фасциклама","{count} резултата претраге у осталим фасциклама","{count} резултата претраге у осталим фасциклама"],
     "A password reset message has been sent to the e-mail address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Порука за ресетовање лозинке је послата на е-мејл адресу овог налога. Ако је не примите, проверите фасцикле за нежељену пошту или питајте за помоћ локалног администратора.",
+    "Password can not be changed. Please contact your administrator." : "Лозинка се не може променити. Контактирајте администратора.",
     "Nextcloud {app}" : "Некстклауд апликација {app}",
+    "Can't install this app because it is not compatible" : "Не могу да инсталирам ову апликација зато што није компатибилна",
+    "Can't install this app" : "Не могу да инсталирам ову апликацију",
     "These apps will be updated:" : "Следеће апликације ће бити ажуриране:",
     "For more details see the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "За више детаља, погледајте <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">документацију</a>."
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"

@@ -149,7 +149,6 @@
     "A password reset message has been sent to the email address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "密码重置消息已发送到该帐户的电子邮件地址。如果您没有收到，请检查您的垃圾邮件/垃圾文件夹或向您的本地管理员寻求帮助。 ",
     "If it is not there ask your local administrator." : "如果它不在此处，请询问您的本地管理员。",
     "Couldn't send reset email. Please contact your administrator." : "未能成功发送重置邮件，请联系管理员。",
-    "Password can not be changed. Please contact your administrator." : "无法修改密码，请联系管理员。",
     "Back to login" : "返回登录",
     "New password" : "新密码",
     "Your files are encrypted. There will be no way to get your data back after your password is reset. If you are not sure what to do, please contact your administrator before you continue. Do you really want to continue?" : "您的文件已经加密。您的密码重置后就没有任何方式能恢复您的数据了。如果您不确定，请在继续前联系您的管理员。您是否真的要继续？",
@@ -160,8 +159,6 @@
     "Could not fetch list of apps from the app store." : "无法从应用商店中获取应用列表。",
     "Installing apps …" : "正在安装应用...",
     "App download or installation failed" : "应用下载或安装失败",
-    "Can't install this app because it is not compatible" : "无法安装此应用，因为不兼容",
-    "Can't install this app" : "无法安装此应用",
     "Cancel" : "取消",
     "Schedule work & meetings, synced with all your devices." : "安排工作和会议，并与您的所有设备同步。",
     "Keep your colleagues and friends in one place without leaking their private info." : "将您的同事和朋友放在一个地方，而不会泄漏他们的私人信息。",
@@ -404,7 +401,10 @@
     "No search results in other folders for {tag}{filter}{endtag}" : "在其它的文件夹里没有关于 {tag}{filter}{endtag} 的搜索结果",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["在其他文件夹中找到 {count} 条搜索结果"],
     "A password reset message has been sent to the e-mail address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "密码重置的电子邮件发送到此账号的电子邮件地址。 如果您未在合理的时间内收到，请优先检查您的垃圾邮件/垃圾邮件文件夹。如果不存在此电子邮件，请咨询系统管理员。",
+    "Password can not be changed. Please contact your administrator." : "无法修改密码，请联系管理员。",
     "Nextcloud {app}" : "Nextcloud {app}",
+    "Can't install this app because it is not compatible" : "无法安装此应用，因为不兼容",
+    "Can't install this app" : "无法安装此应用",
     "These apps will be updated:" : "以下应用将被更新：",
     "For more details see the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "获取更多详情，请查看<a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">文档</a>。"
 },"pluralForm" :"nplurals=1; plural=0;"

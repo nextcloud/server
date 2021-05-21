@@ -110,7 +110,6 @@ OC.L10N.register(
     "Reset password" : "Setel ulang kata sandi",
     "If it is not there ask your local administrator." : "Jika Anda tidak mendapatkannya, hubungi administrator Anda.",
     "Couldn't send reset email. Please contact your administrator." : "Tidak dapat mengirim email setel ulang. Silakan hubungi administrator Anda.",
-    "Password can not be changed. Please contact your administrator." : "Kata sandi tidak dapat diubah. Silakan hubungi administrator Anda",
     "Back to login" : "Kembali ke log masuk",
     "New password" : "Kata sandi baru",
     "Your files are encrypted. There will be no way to get your data back after your password is reset. If you are not sure what to do, please contact your administrator before you continue. Do you really want to continue?" : "Berkas Anda terenkripsi. Tidak memungkinkan untuk mendapatkan kembali data anda setelah kata sandi disetel ulang. Jika tidak yakin, silakan hubungi administrator Anda sebelum melanjutkan. Apa anda ingin melanjutkan?",
@@ -121,8 +120,6 @@ OC.L10N.register(
     "Could not fetch list of apps from the app store." : "Tidak dapat mengambil daftar aplikasi dari toko.",
     "Installing apps …" : "Instalasi aplikasi ...",
     "App download or installation failed" : "Unduh aplikasi atau gagal instalasi",
-    "Can't install this app because it is not compatible" : "Instalasi aplikasi gagal karena tidak kompatibel",
-    "Can't install this app" : "Instalasi aplikasi gagal",
     "Cancel" : "Batal",
     "Schedule work & meetings, synced with all your devices." : "Penjadwalan rapat & pekerjaan, tersinkronisasi dengan gawai Anda.",
     "Keep your colleagues and friends in one place without leaking their private info." : "Simpan info teman dan kolega Anda dalam satu tempat, tanpa membocorkan privat mereka.",
@@ -352,7 +349,10 @@ OC.L10N.register(
     "No search results in other folders for {tag}{filter}{endtag}" : "Hasil pencarian tidak ditemukan di folder lainnya untuk '{tag}{filter}{endtag}'",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} hasil pencarian di folder lain"],
     "A password reset message has been sent to the e-mail address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Pesan setel ulang kata sandi telah terkirim ke alamat surel akun ini. Jika Anda tidak menerimanya, silakan periksa folder spam/junk atau minta bantuan administrator Anda.",
+    "Password can not be changed. Please contact your administrator." : "Kata sandi tidak dapat diubah. Silakan hubungi administrator Anda",
     "Nextcloud {app}" : "{app} Nextcloud",
+    "Can't install this app because it is not compatible" : "Instalasi aplikasi gagal karena tidak kompatibel",
+    "Can't install this app" : "Instalasi aplikasi gagal",
     "These apps will be updated:" : "Aplikasi berikut akan diperbarui:"
 },
 "nplurals=1; plural=0;");

@@ -120,7 +120,6 @@ OC.L10N.register(
     "Could not lock node" : "Kunde inte låsa nod",
     "Could not lock path" : "Kunde inte låsa sökvägen",
     "Wrong or no update parameter given" : "Fel eller ingen uppdateringsparameter angiven",
-    "Can't change permissions for public share links" : "Det går inte att ändra behörigheterna för offentliga länkar",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Delning och skicka lösenordet via Nextcloud Talk går inte eftersom Nextcloud Talk är inte aktiverad",
     "shared by %s" : "delad av %s",
     "Download all files" : "Hämta alla filer",
@@ -232,6 +231,7 @@ OC.L10N.register(
     "Uploaded files:" : "Uppladdade filer:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Genom att ladda upp filer godkänner du %1$sanvändarvillkoren %2$s.",
     "invalid permissions" : "ogiltiga behörigheter",
+    "Can't change permissions for public share links" : "Det går inte att ändra behörigheterna för offentliga länkar",
     "Name, email, or federated cloud ID …" : "Namn, e-post eller federerat moln-ID ..."
 },
 "nplurals=2; plural=(n != 1);");

@@ -123,7 +123,6 @@ OC.L10N.register(
     "Could not lock node" : "Nie można zablokować powiązania",
     "Could not lock path" : "Nie można zablokować ścieżki",
     "Wrong or no update parameter given" : "Brakujący lub błędny parametr aktualizacji",
-    "Can't change permissions for public share links" : "Nie można zmienić uprawnień dla publicznych udostępnień",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Udostępnienie hasła przez Nextcloud Talk nie powiodło się, ponieważ usługa Nextcloud Talk jest wyłączona",
     "shared by %s" : "udostępnione przez %s",
     "Download all files" : "Pobierz wszystkie pliki",
@@ -238,6 +237,7 @@ OC.L10N.register(
     "Uploaded files:" : "Wysłane pliki:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Wysyłając pliki, zgadzasz się na %1$swarunki korzystania z usługi%2$s.",
     "invalid permissions" : "nieprawidłowe uprawnienia",
+    "Can't change permissions for public share links" : "Nie można zmienić uprawnień dla publicznych udostępnień",
     "Name, email, or federated cloud ID …" : "Nazwa, adres e-mail lub ID Chmury Federacyjnej…"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

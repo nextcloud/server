@@ -73,7 +73,6 @@ OC.L10N.register(
     "User disabled" : "Vô hiệu hóa sử dụng",
     "Reset password" : "Khôi phục mật khẩu",
     "Couldn't send reset email. Please contact your administrator." : "Không thể gửi thư điện tử yêu cầu thiết lập lại. Xin vui lòng liên hệ quản trị hệ thống",
-    "Password can not be changed. Please contact your administrator." : "Không thể thay đổi được mật khẩu. Xin vui lòng liên hệ người quản trị hệ thống.",
     "Back to login" : "Quay lại trang đăng nhập",
     "New password" : "Mật khẩu mới",
     "I know what I'm doing" : "Tôi biết tôi đang làm gì",
@@ -226,6 +225,7 @@ OC.L10N.register(
     "Searching other places" : "Tìm kiếm các nơi khác",
     "No search results in other folders for {tag}{filter}{endtag}" : "Không có kết quả tìm kiếm trong các thư mục khác cho {tag} {filter} {endtag}",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} kết quả tìm kiếm trong các thư mục khác"],
+    "Password can not be changed. Please contact your administrator." : "Không thể thay đổi được mật khẩu. Xin vui lòng liên hệ người quản trị hệ thống.",
     "These apps will be updated:" : "Những ứng dụng sẽ được cập nhật:"
 },
 "nplurals=1; plural=0;");

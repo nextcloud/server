@@ -121,7 +121,6 @@ OC.L10N.register(
     "Could not lock node" : "Kon de node niet blokkeren",
     "Could not lock path" : "Kan pad niet blokkeren",
     "Wrong or no update parameter given" : "Verkeerde of geen update parameter opgegeven",
-    "Can't change permissions for public share links" : "Kan rechten voor openbaar gedeelde links niet wijzigen",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Delen versturen van het wachtwoord via Nextcloud Talk is mislukt omdat Nextcloud Talk niet is ingeschakeld",
     "shared by %s" : "Gedeeld door %s",
     "Download all files" : "Download alle bestanden",
@@ -236,6 +235,7 @@ OC.L10N.register(
     "Uploaded files:" : "Geüploade bestanden",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Door het uploaden van bestanden stem je in met de %1$sgebruiksvoorwaarden%2$s.",
     "invalid permissions" : "Ongeldige rechten",
+    "Can't change permissions for public share links" : "Kan rechten voor openbaar gedeelde links niet wijzigen",
     "Name, email, or federated cloud ID …" : "Naam, e-mailadres of gefedereerde Cloud ID …"
 },
 "nplurals=2; plural=(n != 1);");

@@ -111,7 +111,6 @@ OC.L10N.register(
     "Reset password" : "Obnovenie hesla",
     "If it is not there ask your local administrator." : "Ak tam nie je, pýtajte sa vášho lokálneho administrátora.",
     "Couldn't send reset email. Please contact your administrator." : "Nemožno poslať email pre obnovu. Kontaktujte prosím vášho administrátora.",
-    "Password can not be changed. Please contact your administrator." : "Heslo nemožno zmeniť. Kontaktujte prosím vášho administrátora.",
     "Back to login" : "Späť na prihlásenie",
     "New password" : "Nové heslo",
     "Your files are encrypted. There will be no way to get your data back after your password is reset. If you are not sure what to do, please contact your administrator before you continue. Do you really want to continue?" : "Vaše súbory sú šifrované. Po obnovení hesla nebude možné dostať sa k vašim údajom. Ak neviete, čo robíte, kontaktujte vášho administrátora a až potom pokračujte. Naozaj chcete pokračovať?",
@@ -122,8 +121,6 @@ OC.L10N.register(
     "Could not fetch list of apps from the app store." : "Nepodarilo sa načítať zoznam apiek z katalógu.",
     "Installing apps …" : "Inštalácia apiek...",
     "App download or installation failed" : "Nepodarilo sa prevziať alebo nainštalovať apku",
-    "Can't install this app because it is not compatible" : "Táto apka sa nedá nainštalovať, nie je kompatibilná",
-    "Can't install this app" : "Táto apka sa nedá nainštalovať",
     "Cancel" : "Zrušiť",
     "Schedule work & meetings, synced with all your devices." : "Naplánujte si prácu a stretnutia, synchronizované so všetkými vašimi zariadeniami.",
     "Keep your colleagues and friends in one place without leaking their private info." : "Udržujte si údaje o svojich kolegoch a priateľoch na jednom mieste bez hrozby úniku ich súkromných informácií tretím stranám.",
@@ -358,7 +355,10 @@ OC.L10N.register(
     "No search results in other folders for {tag}{filter}{endtag}" : "Žiadne výsledky vyhľadávania v ostatných priečinkoch pre {tag}{filter}{endtag}",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} výsledok vyhľadávania v ostatných priečinkoch","{count} výsledky vyhľadávania v ostatných priečinkoch","{count} výsledkov vyhľadávania v ostatných priečinkoch","{count} výsledkov vyhľadávania v ostatných priečinkoch"],
     "A password reset message has been sent to the e-mail address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Správa s informáciami na zmenu hesla bola zaslaná na email uvedený v tomto účte. Ak tam nie je, skontrolujte si priečinok nevyžiadanej pošty a kôš, alebo požiadajte svojho administrátora o pomoc.",
+    "Password can not be changed. Please contact your administrator." : "Heslo nemožno zmeniť. Kontaktujte prosím vášho administrátora.",
     "Nextcloud {app}" : "Nextcloud {app}",
+    "Can't install this app because it is not compatible" : "Táto apka sa nedá nainštalovať, nie je kompatibilná",
+    "Can't install this app" : "Táto apka sa nedá nainštalovať",
     "These apps will be updated:" : "Tieto aplikácie budú aktualizované:"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

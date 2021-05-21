@@ -149,7 +149,6 @@
     "A password reset message has been sent to the email address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Est istadu imbiadu unu messàgiu pro su risprìstinu de sa crae a s'indiritzu de posta eletrònica de custu contu. Si non ddu retzis, controlla in is cartellas de s'àliga o pide agiudu a s'amministratzione.",
     "If it is not there ask your local administrator." : "Si no est in cue, dimanda a s'amministratzione locale tua.",
     "Couldn't send reset email. Please contact your administrator." : "No at fatu a ripristinare sa posta eletrònica. Cuntata s'amministratzione.",
-    "Password can not be changed. Please contact your administrator." : "Sa crae non faghet a dda cambiare. Cuntata s'amministratzione.",
     "Back to login" : "Torra a s'autenticatzione",
     "New password" : "Crae noa",
     "Your files are encrypted. There will be no way to get your data back after your password is reset. If you are not sure what to do, please contact your administrator before you continue. Do you really want to continue?" : "Is archìvios sunt critografados. Non ddoe at a èssere manera pro tènnere is datos a pustis de su riprìstinu de sa crae. Si tenes dudas, cuntata s'amministratzione in antis. A beru boles sighire?",
@@ -160,8 +159,6 @@
     "Could not fetch list of apps from the app store." : "No at fatu a recuperare sa lista dae sa butega de is aplicatziones.",
     "Installing apps …" : "Installende aplicatziones ...",
     "App download or installation failed" : "Iscarrigamentu de s'aplicatzione o installatzione faddida",
-    "Can't install this app because it is not compatible" : "Non faghet a installare custa aplicatzione ca no est cumpatìbile",
-    "Can't install this app" : "Non faghet a installare custa aplicatzione",
     "Cancel" : "Cantzella",
     "Schedule work & meetings, synced with all your devices." : "Programma atividades e addòbios, sincronizados cun is dispositivos tuos.",
     "Keep your colleagues and friends in one place without leaking their private info." : "Mantene is collegas e is amistades tuas in unu logu chene ammustrare is datos privados issoro.",
@@ -404,7 +401,10 @@
     "No search results in other folders for {tag}{filter}{endtag}" : "Perunu resurtadu in àteras cartellas pro {tag}{filter}{endtag}",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{contu} resurtadu de chirca in un'àtera cartella","{count} resurtados de chirca in àteras cartellas"],
     "A password reset message has been sent to the e-mail address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Est istadu imbiadu unu messàgiu pro su risprìstinu de sa crae a s'indiritzu de posta eletrònica de custu contu. Si non ddu retzis, controlla in is cartellas de s'àliga o pide agiudu a s'amministratzione.",
+    "Password can not be changed. Please contact your administrator." : "Sa crae non faghet a dda cambiare. Cuntata s'amministratzione.",
     "Nextcloud {app}" : "Nextcloud {app}",
+    "Can't install this app because it is not compatible" : "Non faghet a installare custa aplicatzione ca no est cumpatìbile",
+    "Can't install this app" : "Non faghet a installare custa aplicatzione",
     "These apps will be updated:" : "Custas aplicatziones ant a èssere agiornadas:",
     "For more details see the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "Pro àteros detàllios càstia sa <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentatzione</a>."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
