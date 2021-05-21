@@ -163,13 +163,13 @@ if (\OCP\Util::needUpgrade()) {
 		$eventSource->send('success', $l->t('Updated database'));
 	});
 	$updater->listen('\OC\Updater', 'checkAppStoreAppBefore', function ($app) use ($eventSource, $l) {
-		$eventSource->send('success', $l->t('Checking for update of app "%s" in appstore', [$app]));
+		$eventSource->send('success', $l->t('Checking for update of app "%s" in App Store', [$app]));
 	});
 	$updater->listen('\OC\Updater', 'upgradeAppStoreApp', function ($app) use ($eventSource, $l) {
-		$eventSource->send('success', $l->t('Update app "%s" from appstore', [$app]));
+		$eventSource->send('success', $l->t('Update app "%s" from App Store', [$app]));
 	});
 	$updater->listen('\OC\Updater', 'checkAppStoreApp', function ($app) use ($eventSource, $l) {
-		$eventSource->send('success', $l->t('Checked for update of app "%s" in appstore', [$app]));
+		$eventSource->send('success', $l->t('Checked for update of app "%s" in App Store', [$app]));
 	});
 	$updater->listen('\OC\Updater', 'appSimulateUpdate', function ($app) use ($eventSource, $l) {
 		$eventSource->send('success', $l->t('Checking whether the database schema for %s can be updated (this can take a long time depending on the database size)', [$app]));
