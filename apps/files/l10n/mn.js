@@ -70,8 +70,6 @@ OC.L10N.register(
     "\"{name}\" is an invalid file name." : "\"{name}\" нь хүчин төгөлдөр бус файлын нэр",
     "File name cannot be empty." : "Файлын нэр хоосон байж болохгүй.",
     "\"/\" is not allowed inside a file name." : "файлын нэр \"/\" агуулж болохгүй",
-    "Storage of {owner} is full, files can not be updated or synced anymore!" : "{owner}-ий багтаамж дүүрсэн байна",
-    "Your storage is full, files can not be updated or synced anymore!" : "Таны багтаамж дүүрсэн байна!",
     "Storage of {owner} is almost full ({usedSpacePercent}%)." : "{owner}-ий багтаамж удахгүй дүүрэх гэж байна. ({usedSpacePercent}%)",
     "Group folder \"{mountPoint}\" is almost full ({usedSpacePercent}%)." : "Хамт-ийн фолдер \"{mountPoint}\" удахгүй дүйрэх гэж байна {usedSpacePercent}%)",
     "Your storage is almost full ({usedSpacePercent}%)." : "Таны багтаамж дүүрэх дөхөж байна! ({usedSpacePercent}%)",
@@ -132,6 +130,8 @@ OC.L10N.register(
     "Text file" : "текст файл",
     "New text file.txt" : "шинэ текст file.txt",
     "Unshare" : "Түгээлтийг зогсоох",
+    "Storage of {owner} is full, files can not be updated or synced anymore!" : "{owner}-ий багтаамж дүүрсэн байна",
+    "Your storage is full, files can not be updated or synced anymore!" : "Таны багтаамж дүүрсэн байна!",
     "A file or folder has been <strong>deleted</strong>" : "Файл эсвэл хавтас амжилттай <strong>устгагдлаа</strong>",
     "A file or folder has been <strong>restored</strong>" : "Файл эсвэл хавтас амжилттай <strong>сэргээгдлээ</strong>"
 },

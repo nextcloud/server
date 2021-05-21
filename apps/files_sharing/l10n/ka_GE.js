@@ -85,7 +85,6 @@ OC.L10N.register(
     "Not a directory" : "არაა დირექტორია",
     "Could not lock path" : "მისამართი ვერ ჩაიკეტა",
     "Wrong or no update parameter given" : "არასწორი ან განახლების პარამეტრის არარსებობა",
-    "Can't change permissions for public share links" : "უფლებები საზოგადოდ გაზიარებულ ბმულზე ვერ შეიცვალა",
     "shared by %s" : "გააზიარა მომხმარებელმა %s",
     "Direct link" : "პირდაპირი ბმული",
     "Add to your Nextcloud" : "თქვენს Nextcloud-ში დამატება",
@@ -128,6 +127,7 @@ OC.L10N.register(
     "Upload files to %s" : "ფაილების ატვირთვა %s-ში",
     "Select or drop files" : "აირჩიეთ ან გადმოიტანეთ ფაილები",
     "Uploaded files:" : "ფაილების ატვირთვა:",
-    "invalid permissions" : "არასწორი უფლებები"
+    "invalid permissions" : "არასწორი უფლებები",
+    "Can't change permissions for public share links" : "უფლებები საზოგადოდ გაზიარებულ ბმულზე ვერ შეიცვალა"
 },
 "nplurals=2; plural=(n!=1);");

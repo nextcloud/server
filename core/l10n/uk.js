@@ -95,7 +95,6 @@ OC.L10N.register(
     "Reset password" : "Перевстановити пароль",
     "If it is not there ask your local administrator." : "У разі відсутності зверніться до адміністратора системи",
     "Couldn't send reset email. Please contact your administrator." : "Не можу надіслати електронного листа для перевстановлення пароля. Будь ласка, сконтактуйте з адміністратором.",
-    "Password can not be changed. Please contact your administrator." : "Пароль не може бути змінено. Будь ласка, зверніться до вашого адміністратора",
     "Back to login" : "Повернутися на сторінку входу",
     "New password" : "Новий пароль",
     "Your files are encrypted. There will be no way to get your data back after your password is reset. If you are not sure what to do, please contact your administrator before you continue. Do you really want to continue?" : "Ваші файли зашифровано. У разі перевстановлення паролю ви не зможете отримати доступ до них. Якщо ви не впевнені, що робити, будь ласка, сконтактуйте з адміністратором перед продовженням. Дійсно продовжити?",
@@ -106,8 +105,6 @@ OC.L10N.register(
     "Could not fetch list of apps from the app store." : "Неможливо отримати перелік застосунків з крамниці застосунків",
     "Installing apps …" : "Встановлення застосунків ...",
     "App download or installation failed" : "Помилка із звантаженням або встановленням застосунку",
-    "Can't install this app because it is not compatible" : "Неможливо встановити цей застосунок через несумісність",
-    "Can't install this app" : "Неможливо встановити цей застосунок",
     "Cancel" : "Скасувати",
     "Schedule work & meetings, synced with all your devices." : "Планування роботи та зустрічей із синхронізацією зі всіма вашими пристроями",
     "Keep your colleagues and friends in one place without leaking their private info." : "Створіть спільний безпечний простір для співпраці та обміну даними з вашими колегами та друзями.",
@@ -315,7 +312,10 @@ OC.L10N.register(
     "No search results in other folders for {tag}{filter}{endtag}" : "Нічого не знайдено в інших теках за запитом {tag}{filter}{endtag}",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} результат пошуку в інших теках","{count} результатів пошуку в інших теках","{count} результатів пошуку в інших теках","{count} результатів пошуку в інших теках"],
     "A password reset message has been sent to the e-mail address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Повідомлення про перевстановлення пароля було надіслано на електронну скриньку цього облікового запису. У разі неотримання листа, будь ласка, перевірте теку зі спамом або зверніться до вашого адміністратора.",
+    "Password can not be changed. Please contact your administrator." : "Пароль не може бути змінено. Будь ласка, зверніться до вашого адміністратора",
     "Nextcloud {app}" : "Nextcloud {app}",
+    "Can't install this app because it is not compatible" : "Неможливо встановити цей застосунок через несумісність",
+    "Can't install this app" : "Неможливо встановити цей застосунок",
     "These apps will be updated:" : "Ці застосунки буде оновлено:"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

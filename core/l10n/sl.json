@@ -149,7 +149,6 @@
     "A password reset message has been sent to the email address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Sporočilo za ponastavitev gesla je bilo poslano na elektronski naslov računa. Če sporočila v kratkem ne prejmete, preverite mape neželene pošte ali pa za pomoč prosite krajevnega skrbnika sistema.",
     "If it is not there ask your local administrator." : "Če sporočila ni, stopite v stik s skrbnikom sistema.",
     "Couldn't send reset email. Please contact your administrator." : "Ni mogoče poslati elektronskega sporočila za ponastavitev. Stopite v stik s skrbnikom sistema.",
-    "Password can not be changed. Please contact your administrator." : "Gesla ni mogoče spremeniti. Stopite v stik s skrbnikom.",
     "Back to login" : "Nazaj na prijavo",
     "New password" : "Novo geslo",
     "Your files are encrypted. There will be no way to get your data back after your password is reset. If you are not sure what to do, please contact your administrator before you continue. Do you really want to continue?" : "Datoteke so šifrirane. Če niste omogočili obnovitvenega ključa, po ponastavitvi gesla dostop do datotek ne bo več mogoč.<br />Če niste prepričani, kaj storiti, stopite v stik s skrbnikom sistema.<br />Ali res želite nadaljevati?",
@@ -160,8 +159,6 @@
     "Could not fetch list of apps from the app store." : "Ni mogoče pridobiti seznama programov iz trgovine.",
     "Installing apps …" : "Poteka nameščanje programov ...",
     "App download or installation failed" : "Prejem oziroma namestitev programa je spodletela.",
-    "Can't install this app because it is not compatible" : "Programa ni mogoče namestiti, ker ni skladen z različico okolja.",
-    "Can't install this app" : "Programa ni mogoče namestiti.",
     "Cancel" : "Prekliči",
     "Schedule work & meetings, synced with all your devices." : "Načrtujte delo in sestanke, ki se samodejno usklajujejo z vsemi vašimi napravami.",
     "Keep your colleagues and friends in one place without leaking their private info." : "Združite sodelavce in prijatelje na enem mestu brez skrbi za njihove zasebne podatke.",
@@ -404,7 +401,10 @@
     "No search results in other folders for {tag}{filter}{endtag}" : "Za iskalni niz {tag}{filter}{endtag} ni zadetkov v nobeni mapi",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} rezultat v drugih mapah","{count} rezultata v drugih mapah","{count} rezultatov v drugih mapah","{count} rezultatov v drugih mapah"],
     "A password reset message has been sent to the e-mail address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Sporočilo za ponastavitev gesla je bila poslana na elektronski naslov računa. Če sporočila v kratkem ne prejmete, preverite mape neželene pošte ali pa za pomoč prosite krajevnega skrbnika sistema.",
+    "Password can not be changed. Please contact your administrator." : "Gesla ni mogoče spremeniti. Stopite v stik s skrbnikom.",
     "Nextcloud {app}" : "Nextcloud {app}",
+    "Can't install this app because it is not compatible" : "Programa ni mogoče namestiti, ker ni skladen z različico okolja.",
+    "Can't install this app" : "Programa ni mogoče namestiti.",
     "These apps will be updated:" : "Posodobljeni bodo programi:",
     "For more details see the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "Za več podrobnosti si oglejte <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">dokumentacijo</a>."
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"

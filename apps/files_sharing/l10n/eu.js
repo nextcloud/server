@@ -121,7 +121,6 @@ OC.L10N.register(
     "Could not lock node" : "Ezin izan da nodoa blokeatu",
     "Could not lock path" : "Ezin izan da bidea blokeatu",
     "Wrong or no update parameter given" : "Eguneraketa parametrorik ez da eman edo okerra da",
-    "Can't change permissions for public share links" : "Publikoki partekatutako esteken baimenak ezin dira aldatu",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Nextcloud Talk-etik pasahitza bidaliz partekatzeak huts egin du, Nextcloud Talk ez dagoelako gaituta",
     "shared by %s" : "%s erabiltzaileak partekatua",
     "Download all files" : "Deskargatu fitxategi guztiak",
@@ -236,6 +235,7 @@ OC.L10N.register(
     "Uploaded files:" : "Igotako fitxategiak:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Fitxategiak kargatzean, %1$szerbitzu-baldintzak%2$s onartzen dituzu.",
     "invalid permissions" : "baimen baliogabeak",
+    "Can't change permissions for public share links" : "Publikoki partekatutako esteken baimenak ezin dira aldatu",
     "Name, email, or federated cloud ID …" : "Izena, posta, edo federatutako lainoaren IDa ..."
 },
 "nplurals=2; plural=(n != 1);");

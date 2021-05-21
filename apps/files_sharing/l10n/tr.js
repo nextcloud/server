@@ -121,7 +121,6 @@ OC.L10N.register(
     "Could not lock node" : "Düğüm kilitlenemedi",
     "Could not lock path" : "Yol kilitlenemedi",
     "Wrong or no update parameter given" : "Parametre yanlış ya da herhangi bir parametre belirtilmemiş",
-    "Can't change permissions for public share links" : "Herkese açık paylaşılan bağlantıların erişim hakları değiştirilemez",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Nextcloud Talk etkinleştirilmemiş olduğundan, Nextcloud Talk ile parola gönderilerek paylaşılamadı",
     "shared by %s" : "%s tarafından paylaşıldı",
     "Download all files" : "Tüm dosyaları indir",
@@ -236,6 +235,7 @@ OC.L10N.register(
     "Uploaded files:" : "Yüklenmiş dosyalar:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Dosya yükleyerek %1$shizmet koşullarını%2$s kabul etmiş olursunuz.",
     "invalid permissions" : "izinler geçersiz",
+    "Can't change permissions for public share links" : "Herkese açık paylaşılan bağlantıların erişim hakları değiştirilemez",
     "Name, email, or federated cloud ID …" : "Ad, e-posta ya da Birleşik Bulut Kodu …"
 },
 "nplurals=2; plural=(n > 1);");

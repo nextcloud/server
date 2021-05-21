@@ -149,7 +149,6 @@
     "A password reset message has been sent to the email address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Egy jelszó visszaállítási e-mail lett küldve a fiók e-mail címére. Ha nem kapta meg, akkor ellenőrizze a levélszemét mappát, vagy kérje a helyi rendszergazda segítségét.",
     "If it is not there ask your local administrator." : "Ha nincs ott, akkor kérdezze a helyi rendszergazdát.",
     "Couldn't send reset email. Please contact your administrator." : "Nem küldhető visszaállítási e-mail. Lépjen kapcsolatba a rendszergazdával.",
-    "Password can not be changed. Please contact your administrator." : "A jelszó nem módosítható. Lépjen kapcsolatba a rendszergazdával.",
     "Back to login" : "Vissza a bejelentkezéshez",
     "New password" : "Új jelszó",
     "Your files are encrypted. There will be no way to get your data back after your password is reset. If you are not sure what to do, please contact your administrator before you continue. Do you really want to continue?" : "A fájljai titkosítva vannak. A jelszó visszaállítása után sehogy sem fogja tudja visszaszerezni azokat. Ha nem tudja mi a teendő, akkor beszéljen a helyi rendszergazdával. Biztos, hogy folytatja?",
@@ -160,8 +159,6 @@
     "Could not fetch list of apps from the app store." : "Az alkalmazások listája nem kérhető le az alkalmazásbolttól.",
     "Installing apps …" : "Alkalmazások telepítése…",
     "App download or installation failed" : "Alkalmazás letöltése vagy telepítése sikertelen",
-    "Can't install this app because it is not compatible" : "Az alkalmazás nem telepíthető, mert nem kompatibilis",
-    "Can't install this app" : "Az alkalmazás nem telepíthető",
     "Cancel" : "Mégse",
     "Schedule work & meetings, synced with all your devices." : "Ütemezett munkáját és találkozóit, szinkronizálva az összes eszközén.",
     "Keep your colleagues and friends in one place without leaking their private info." : "Tartsa egy helyen kollégáit és barátait, anélkül hogy kiszivárogtatná a személyes adataikat.",
@@ -404,7 +401,10 @@
     "No search results in other folders for {tag}{filter}{endtag}" : "Ehhez nincsenek találatok más mappákban: {tag}{filter}{endtag}",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} találat egy másik mappában","{count} találat más mappákban"],
     "A password reset message has been sent to the e-mail address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Egy jelszó visszaállítási e-mail lett küldve a fiók e-mail címére. Ha nem kapta meg, akkor ellenőrizze a levélszemét mappát, vagy kérje a helyi rendszergazda segítségét.",
+    "Password can not be changed. Please contact your administrator." : "A jelszó nem módosítható. Lépjen kapcsolatba a rendszergazdával.",
     "Nextcloud {app}" : "Nextcloud {app}",
+    "Can't install this app because it is not compatible" : "Az alkalmazás nem telepíthető, mert nem kompatibilis",
+    "Can't install this app" : "Az alkalmazás nem telepíthető",
     "These apps will be updated:" : "A következő alkalmazások lesznek frissítve:",
     "For more details see the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "További részletekért lásd a <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\"> dokumentációt </a>."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

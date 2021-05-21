@@ -300,7 +300,6 @@ OC.L10N.register(
     "An error occured during the request. Unable to proceed." : "Ddoe at àpidu un'errore in sa dimanda. Impossìbile a sighire.",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "S'aplicatzione est istada ativada ma tenet bisòngiu de un'agiornamentu. T'amus a deretare a sa pàgina de agiornamentu tra 5 segundos.",
     "App update" : "Agiornamentu de s'aplicatzione",
-    "Error: This app can not be enabled because it makes the server unstable" : "Errore: Custa aplicatzione non si podet ativare ca faghet su serbidore no istàbile",
     "Administrator documentation" : "Documentatzione amministratzione",
     "Documentation" : "Documentatzione",
     "Forum" : "Forum",
@@ -341,6 +340,7 @@ OC.L10N.register(
     "Server-side encryption" : "Tzifradura ladu serbidore",
     "Change password" : "Càmbia crae",
     "Contacts" : "Cuntatos",
-    "Close" : "Serra"
+    "Close" : "Serra",
+    "Error: This app can not be enabled because it makes the server unstable" : "Errore: Custa aplicatzione non si podet ativare ca faghet su serbidore no istàbile"
 },
 "nplurals=2; plural=(n != 1);");

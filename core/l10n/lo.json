@@ -137,7 +137,6 @@
     "Reset password" : "ຕັ້ງລະຫັດຄືນໃຫມ່",
     "If it is not there ask your local administrator." : "ຖ້າບໍ່ໄດ້ຖາມຜູ້ເບິ່ງລະບົບຂອງທ່ານ.",
     "Couldn't send reset email. Please contact your administrator." : "ບໍ່ສາມາດຕັ້ງຄ່າສົ່ງອີເມວຄືນ ໄດ້. ກະລຸນາຕິດຕໍ່ຜູ້ເບິ່ງລະບົບຂອງທ່ານ.",
-    "Password can not be changed. Please contact your administrator." : "ບໍ່ສາມາດປ່ຽນລະຫັດຜ່ານໄດ້. ກະລຸນາຕິດຕໍ່ຜູ້ເບິ່ງລະບົບຂອງທ່ານ.",
     "Back to login" : "ກັບຄືນເຂົ້າສູ່ລະບົບ",
     "New password" : "ລະຫັດຜ່ານໃຫມ່",
     "Your files are encrypted. There will be no way to get your data back after your password is reset. If you are not sure what to do, please contact your administrator before you continue. Do you really want to continue?" : "ເຂົ້າລະຫັດຟາຍຂອງທ່ານ . ຈະບໍ່ໄດ້ຮັບຂໍ້ມູນຂອງທ່ານພາຍຫຼັງ ທີ່ລະຫັດຜ່ານຂອງທ່ານ ໄດ້ຮັບການຕັ້ງຄ່າໃຫມ່ . ຖ້າທ່ານບໍ່ແນ່ໃຈ, ກະລຸນາຕິດຕໍ່ຜູ້ເບິ່ງລະບົບຂອງທ່ານ ກ່ອນທີ່ທ່ານຈະສືບຕໍ່. ທ່ານຕ້ອງການທີ່ຈະສືບຕໍ່ແທ້ໆບໍ?",
@@ -148,8 +147,6 @@
     "Could not fetch list of apps from the app store." : "ບໍ່ສາມາດເກັບລາຍຊື່ແອັບ ຈາກບ່ອນເກັບແອັບໄດ້.",
     "Installing apps …" : "ກໍາລັງຕິດຕັ້ງແອັບ ...",
     "App download or installation failed" : "ການດາວໂຫລດApp ຫຼືການຕິດຕັ້ງຫຼົ້ມເຫລວ",
-    "Can't install this app because it is not compatible" : "ບໍ່ສາມາດຕິດຕັ້ງແອັບນີ້ໄດ້ ເພາະມັນບໍ່ເຂົ້າກັນໄດ້",
-    "Can't install this app" : "ບໍ່ສາມາດຕິດຕັ້ງແອັບນີ້ໄດ້",
     "Cancel" : "ຍົກເລີກ",
     "Schedule work & meetings, synced with all your devices." : "ຕາຕະລາງການເຮັດວຽກ & ການປະຊຸມ, synced ກັບອຸປະກອນທັງຫມົດຂອງທ່ານ.",
     "Keep your colleagues and friends in one place without leaking their private info." : "ຮັກສາເພື່ອນຮ່ວມງານ ແລະ ຫມູ່ ເພື່ອນ ຂອງ ທ່ານ ໄວ້ ໃນບ່ອນດຽວໂດຍບໍ່ໄດ້ ໃຫ້ຂໍ້ ຄວາມ ສ່ວນ ຕົວ ຂອງ ເຂົາ ເຈົ້າຮົ່ວໄຫຼ .",
@@ -392,7 +389,10 @@
     "No search results in other folders for {tag}{filter}{endtag}" : "ບໍ່ມີຜົນການຄົ້ນຫາໃນໂຟນເດີອື່ນໆສໍາລັບ {tag}{filter}{endtag}",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} ຜົນການຄົ້ນຫາໃນໂຟນເດີອື່ນໆ"],
     "A password reset message has been sent to the e-mail address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "ມີການສົ່ງຂໍ້ຄວາມການຕັ້ງລະຫັດຜ່ານໄປຫາທີ່ຢູ່ອີເມວຂອງບັນຊີນີ້. ຖ້າທ່ານບໍ່ໄດ້ຮັບ, ໃຫ້ກວດເບິ່ງໂຟນເດີ spam/junk ຂອງທ່ານ ຫຼື ຂໍຄວາມຊ່ວຍເຫຼືອຈາກເບີ່ງລະບົບຂອງທ່ານ.",
+    "Password can not be changed. Please contact your administrator." : "ບໍ່ສາມາດປ່ຽນລະຫັດຜ່ານໄດ້. ກະລຸນາຕິດຕໍ່ຜູ້ເບິ່ງລະບົບຂອງທ່ານ.",
     "Nextcloud {app}" : "Nextcloud {app}",
+    "Can't install this app because it is not compatible" : "ບໍ່ສາມາດຕິດຕັ້ງແອັບນີ້ໄດ້ ເພາະມັນບໍ່ເຂົ້າກັນໄດ້",
+    "Can't install this app" : "ບໍ່ສາມາດຕິດຕັ້ງແອັບນີ້ໄດ້",
     "These apps will be updated:" : "ແອັບເຫຼົ່ານີ້ຈະໄດ້ຮັບການປັບປຸງ:",
     "For more details see the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "ສໍາລັບລາຍລະອຽດເພີ່ມເຕີມເບິ່ງ <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">ເອກະສານ</a>."
 },"pluralForm" :"nplurals=1; plural=0;"

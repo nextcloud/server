@@ -107,7 +107,6 @@ OC.L10N.register(
     "Reset password" : "Återställ lösenord",
     "If it is not there ask your local administrator." : "Om det inte finns, fråga din lokala administratör.",
     "Couldn't send reset email. Please contact your administrator." : "Kunde inte skicka återställningsmejl. Vänligen kontakta din administratör.",
-    "Password can not be changed. Please contact your administrator." : "Lösenordet kan inte ändras. Vänligen kontakta din administratör.",
     "Back to login" : "Tillbaka till inloggning",
     "New password" : "Nytt lösenord",
     "Your files are encrypted. There will be no way to get your data back after your password is reset. If you are not sure what to do, please contact your administrator before you continue. Do you really want to continue?" : "Dina filer är krypterade. Det kommer inte att finnas något sätt att få tillbaka dina data efter att ditt lösenord har återställs. Om du är osäker på hur du ska göra, kontakta din administratör innan du fortsätter. Är du verkligen säker på att du vill fortsätta?",
@@ -117,8 +116,6 @@ OC.L10N.register(
     "Loading apps …" : "Läser in appar …",
     "Installing apps …" : "Installerar appar ...",
     "App download or installation failed" : "Hämtning eller installation av appen misslyckades",
-    "Can't install this app because it is not compatible" : "Appen kan inte installeras eftersom den inte är kompatibel",
-    "Can't install this app" : "Appen kan inte installeras",
     "Cancel" : "Avbryt",
     "Schedule work & meetings, synced with all your devices." : "Planera arbete och möten, synkronisera med alla dina enheter.",
     "Keep your colleagues and friends in one place without leaking their private info." : "Håll dina kollegor och vänner på ett ställe utan att läcka deras privata info.",
@@ -347,6 +344,9 @@ OC.L10N.register(
     "No search results in other folders for {tag}{filter}{endtag}" : "Inget sökresultat i andra mappar för {tag}{filter}{endtag}",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} sökresultat i en annan mapp","{count} sökresultat i andra mappar"],
     "A password reset message has been sent to the e-mail address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Ett meddelande om lösenordsåterställning har skickats till e-postadressen för det här kontot. Om du får det, kontrollera dina spam/skräp -mappar eller fråga din lokala administratör om hjälp.",
+    "Password can not be changed. Please contact your administrator." : "Lösenordet kan inte ändras. Vänligen kontakta din administratör.",
+    "Can't install this app because it is not compatible" : "Appen kan inte installeras eftersom den inte är kompatibel",
+    "Can't install this app" : "Appen kan inte installeras",
     "These apps will be updated:" : "Dessa appar kommer att uppdateras:"
 },
 "nplurals=2; plural=(n != 1);");

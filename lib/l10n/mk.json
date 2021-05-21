@@ -104,7 +104,6 @@
     "Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP." : "Отстранете го параметарот open_basedir од php.ini или преминете на 64-битна PHP средина.",
     "Set an admin username." : "Постави администраторско корисничко име",
     "Set an admin password." : "Постави администраторска лозинка.",
-    "Can't create or write into the data directory %s" : "Неможете да креирате или да запишувате во оваа папка %s",
     "Sharing backend %s must implement the interface OCP\\Share_Backend" : "За позадинското споделување %s мора се имплементира интерфејсот OCP\\Share_Backend",
     "Sharing backend %s not found" : "Не е пронајдено позадинско споделување %s",
     "Sharing backend for %s not found" : "Не е пронајдено позадинско споделување за %s.",
@@ -114,9 +113,6 @@
     "Open »%s«" : "Отвори »%s«",
     "%1$s via %2$s" : "%1$s преку %2$s",
     "You are not allowed to share %s" : "Не сте овластени да ја споделите %s",
-    "Can’t increase permissions of %s" : "Неможат да се зголемат дозволите на %s",
-    "Files can’t be shared with delete permissions" : "Датотеки неможат да бидат споделени со дозвола за бришење",
-    "Files can’t be shared with create permissions" : "Датотеки неможат да бидат споделени со дозвола за креирање",
     "Expiration date is in the past" : "Рокот на траење е во минато време",
     "Sharing is only allowed with group members" : "Споделувањето е овозможено само со членови на групата",
     "Sharing %s failed, because this item is already shared with user %s" : "Споделувањето на %s е неуспешно, бидејќи истото веќе е споделено со корисникот %s",
@@ -184,7 +180,6 @@
     "App \"%1$s\" cannot be installed because the following dependencies are not fulfilled: %2$s" : "Апликацијата \"%1$s\" не може да се инсталира затоа што следниве зависности не се исполнети: %2$s",
     "a safe home for all your data" : "безбеден дом за сите ваши податоци",
     "File is currently busy, please try again later" : "Датотеката моментално е зафатена, обидете се повторно",
-    "Can't read file" : "Неможе да се прочита датотеката",
     "Application is not enabled" : "Апликацијата не е овозможена",
     "Authentication error" : "Грешка во автентикација",
     "Token expired. Please reload page." : "Жетонот е истечен. Ве молам превчитајте ја страницата.",
@@ -231,7 +226,12 @@
     "Storage connection timeout. %s" : "Поврзувањето со складиштето не успеа. %s",
     "Following databases are supported: %s" : "Следниве бази со податоци се поддржани: %s",
     "Following platforms are supported: %s" : "Следниве платформи се поддржани: %s",
+    "Can't create or write into the data directory %s" : "Неможете да креирате или да запишувате во оваа папка %s",
     "Invalid Federated Cloud ID" : "Невалиден федерален ID",
-    "Can’t set expiration date more than %s days in the future" : "Неможе да се постави рок на траење повеќе од %s дена"
+    "Can’t increase permissions of %s" : "Неможат да се зголемат дозволите на %s",
+    "Files can’t be shared with delete permissions" : "Датотеки неможат да бидат споделени со дозвола за бришење",
+    "Files can’t be shared with create permissions" : "Датотеки неможат да бидат споделени со дозвола за креирање",
+    "Can’t set expiration date more than %s days in the future" : "Неможе да се постави рок на траење повеќе од %s дена",
+    "Can't read file" : "Неможе да се прочита датотеката"
 },"pluralForm" :"nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;"
 }

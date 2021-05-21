@@ -90,7 +90,6 @@ OC.L10N.register(
     "Reset password" : "Mainīt paroli",
     "If it is not there ask your local administrator." : "Ja tas tur nav tad jautājiet savam vietējam administratoram.",
     "Couldn't send reset email. Please contact your administrator." : "Nevarēja nosūtīt maiņas e-pastu. Lūdzu sazinies ar savu administratoru.",
-    "Password can not be changed. Please contact your administrator." : "Paroli, nevar nomainīt. Lūdzu kontaktēties ar savu administratoru.",
     "Back to login" : "Atpakaļ uz pieteikšanos",
     "New password" : "Jauna parole",
     "Your files are encrypted. There will be no way to get your data back after your password is reset. If you are not sure what to do, please contact your administrator before you continue. Do you really want to continue?" : "Jūsu faili ir šifrēti. Pēc paroles atiestatīšanas nebūs iespējams atgūt datus. Ja nezināt, kā rīkoties, pirms turpināt, sazinieties ar administratoru. Vai tiešām vēlaties turpināt?",
@@ -101,8 +100,6 @@ OC.L10N.register(
     "Could not fetch list of apps from the app store." : "Nevarēja ielādēt lietotņu sarakstu no lietotņu veikala.",
     "Installing apps …" : "Notiek lietotņu instalēšana ...",
     "App download or installation failed" : "Lietotnes lejupielāde vai instalēšana neizdevās",
-    "Can't install this app because it is not compatible" : "Nevar instalēt šo lietotni, jo tā nav savietojama",
-    "Can't install this app" : "Nevar instalēt šo lietotni",
     "Cancel" : "Atcelt",
     "Schedule work & meetings, synced with all your devices." : "Ieplāno darbu un sapulces, kas sinhronizētas ar visām jūsu ierīcēm.",
     "Keep your colleagues and friends in one place without leaking their private info." : "Turiet savus kolēģus un draugus vienuviet, neizpludinot viņu privāto informāciju.",
@@ -268,7 +265,10 @@ OC.L10N.register(
     "No search results in other folders for {tag}{filter}{endtag}" : "Nav nekas atrasts citā mapēs {tag}{filter}{endtag}",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} meklēšanas rezultāti citās mapēs","{count} meklēšanas rezultāti citās mapēs","{count} meklēšanas rezultāti citās mapēs"],
     "A password reset message has been sent to the e-mail address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Paroles atiestatīšanas ziņojums ir nosūtīts uz šī konta e-pasta adresi. Ja to nesaņemat, pārbaudiet mēstuļu mapes vai lūdziet palīdzību savam vietējam administratoram.",
+    "Password can not be changed. Please contact your administrator." : "Paroli, nevar nomainīt. Lūdzu kontaktēties ar savu administratoru.",
     "Nextcloud {app}" : "Nextcloud {app}",
+    "Can't install this app because it is not compatible" : "Nevar instalēt šo lietotni, jo tā nav savietojama",
+    "Can't install this app" : "Nevar instalēt šo lietotni",
     "These apps will be updated:" : "Šīs lietotnes tiks atjauninātas:"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

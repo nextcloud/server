@@ -114,7 +114,6 @@
     "Reset password" : "איפוס ססמה",
     "If it is not there ask your local administrator." : "אם זה לא נמצא, שאל את המנהל המקומי שלך.",
     "Couldn't send reset email. Please contact your administrator." : "לא ניתן היה לשלוח דואר אלקטרוני לאיפוס. יש לפנות למנהל שלך.",
-    "Password can not be changed. Please contact your administrator." : "לא ניתן לשנות את הססמה. יש לפנות למנהל שלך.",
     "Back to login" : "חזרה לכניסה",
     "New password" : "ססמה חדשה",
     "Your files are encrypted. There will be no way to get your data back after your password is reset. If you are not sure what to do, please contact your administrator before you continue. Do you really want to continue?" : "הקבצים שלך מוצפנים. לא תהיה שום דרך להחזיר את הנתונים לאחר איפוס הסיסמה. אם אינך בטוח מה לעשות, פנה למנהל המערכת לפני שתמשיך. האם אתה באמת רוצה להמשיך?",
@@ -125,8 +124,6 @@
     "Could not fetch list of apps from the app store." : "לא ניתן לקבל את רשימת היישומונים מחנות היישומונים.",
     "Installing apps …" : "היישומונים מותקנים…",
     "App download or installation failed" : "הורדת או התקנת היישומון נכשלה",
-    "Can't install this app because it is not compatible" : "לא ניתן להתקין את היישומון הזה כיוון שאינו נתמך.",
-    "Can't install this app" : " לא ניתן להתקין את היישומון הזה",
     "Cancel" : "ביטול",
     "Schedule work & meetings, synced with all your devices." : "תזמון עבודה ופגישות בסנכרון עם כל המכשירים שלך.",
     "Keep your colleagues and friends in one place without leaking their private info." : "עמיתים לעבודה וחברים מרוכזים במקום אחד מבלי זליגה של הפרטים האישיים שלהם.",
@@ -368,7 +365,10 @@
     "No search results in other folders for {tag}{filter}{endtag}" : "אין תוצאות חיפוש בתיקיות אחרות עבור {tag}{filter}{endtag}",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} תוצאת חיפוש בתיקייה אחרות","{count} תוצאות חיפוש בתיקיות אחרות","{count} תוצאות חיפוש בתיקיות אחרות","{count} תוצאות חיפוש בתיקיות אחרות"],
     "A password reset message has been sent to the e-mail address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "הודעת איפוס סיסמה נשלחה לכתובת הדואר האלקטרוני של חשבון זה. אם אינך מקבל אותו, בדוק את תיקיות דואר הספאם/זבל שלך, או בקש עזרה ממנהל המקומי שלך.",
+    "Password can not be changed. Please contact your administrator." : "לא ניתן לשנות את הססמה. יש לפנות למנהל שלך.",
     "Nextcloud {app}" : "{app} מבית Nextcloud",
+    "Can't install this app because it is not compatible" : "לא ניתן להתקין את היישומון הזה כיוון שאינו נתמך.",
+    "Can't install this app" : " לא ניתן להתקין את היישומון הזה",
     "These apps will be updated:" : "יישומים אלו יעודכנו:",
     "For more details see the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "לפרטים נוספים, עיין<a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\"> בתיעוד</a>."
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;"

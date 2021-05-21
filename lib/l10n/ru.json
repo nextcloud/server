@@ -104,7 +104,6 @@
     "Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP." : "Пожалуйста, удалите директиву open_basedir из файла php.ini или смените PHP на 64-разрядную сборку.",
     "Set an admin username." : "Задать имя пользователя для администратора.",
     "Set an admin password." : "Задать пароль для admin.",
-    "Can't create or write into the data directory %s" : "Невозможно создать или записать в каталог данных %s",
     "Sharing backend %s must implement the interface OCP\\Share_Backend" : "Бэкенд общего доступа %s должен реализовывать интерфейс OCP\\Share_Backend",
     "Sharing backend %s not found" : "Механизм предоставления общего доступа %s не найден",
     "Sharing backend for %s not found" : "Не найден механизм предоставления общего доступа для %s ",
@@ -114,11 +113,7 @@
     "Open »%s«" : "Открыть «%s»",
     "%1$s via %2$s" : "%1$s через %2$s",
     "You are not allowed to share %s" : "Вам не разрешено делиться %s",
-    "Can’t increase permissions of %s" : "Невозможно увеличить права доступа для %s",
-    "Files can’t be shared with delete permissions" : "Файлы не могут иметь общий доступ с правами на удаление",
-    "Files can’t be shared with create permissions" : "Файлы не могут иметь общий доступ с правами на создание",
     "Expiration date is in the past" : "Дата окончания срока действия уже прошла",
-    "_Can’t set expiration date more than %n day in the future_::_Can’t set expiration date more than %n days in the future_" : ["Невозможно установить дату окончания срока действия более %n дня","Невозможно установить дату окончания срока действия более %n дней","Невозможно установить дату окончания срока действия более %n дней","Невозможно установить дату окончания срока действия более %n дней"],
     "Sharing is only allowed with group members" : "Разрешено публиковать только для участников группы",
     "Sharing %s failed, because this item is already shared with user %s" : "Не удалось поделиться %s, так как элемент находится в общем доступе у %s",
     "%1$s shared »%2$s« with you" : "%1$s предоставил(а) вам доступ к «%2$s»",
@@ -185,7 +180,6 @@
     "App \"%1$s\" cannot be installed because the following dependencies are not fulfilled: %2$s" : "Приложение «%1$s» не может быть установлено, так как не удовлетворены следующие зависимости: %2$s",
     "a safe home for all your data" : "надёжный дом для всех ваших данных",
     "File is currently busy, please try again later" : "Файл в данный момент используется, повторите попытку позже.",
-    "Can't read file" : "Не удается прочитать файл",
     "Application is not enabled" : "Приложение не разрешено",
     "Authentication error" : "Ошибка аутентификации",
     "Token expired. Please reload page." : "Токен просрочен. Перезагрузите страницу.",
@@ -232,7 +226,12 @@
     "Storage connection timeout. %s" : "Истекло время ожидания подключения к хранилищу. %s",
     "Following databases are supported: %s" : "Поддерживаются следующие СУБД: %s",
     "Following platforms are supported: %s" : "Поддерживаются следующие платформы: %s",
+    "Can't create or write into the data directory %s" : "Невозможно создать или записать в каталог данных %s",
     "Invalid Federated Cloud ID" : "Неверный ID в объединении облачных хранилищ.",
-    "Can’t set expiration date more than %s days in the future" : "Невозможно установить дату окончания срока действия более %s дней"
+    "Can’t increase permissions of %s" : "Невозможно увеличить права доступа для %s",
+    "Files can’t be shared with delete permissions" : "Файлы не могут иметь общий доступ с правами на удаление",
+    "Files can’t be shared with create permissions" : "Файлы не могут иметь общий доступ с правами на создание",
+    "Can’t set expiration date more than %s days in the future" : "Невозможно установить дату окончания срока действия более %s дней",
+    "Can't read file" : "Не удается прочитать файл"
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }

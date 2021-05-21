@@ -104,7 +104,6 @@
     "Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP." : "Usuń ustawienie open_basedir w php.ini lub przełącz na PHP 64-bitowe.",
     "Set an admin username." : "Ustaw nazwę administratora.",
     "Set an admin password." : "Ustaw hasło administratora.",
-    "Can't create or write into the data directory %s" : "Nie można tworzyć ani zapisywać w katalogu %s",
     "Sharing backend %s must implement the interface OCP\\Share_Backend" : "Zaplecze do udostępniania %s musi implementować interfejs OCP\\Share_Backend",
     "Sharing backend %s not found" : "Zaplecze %s do udostępniania nie zostało znalezione",
     "Sharing backend for %s not found" : "Zaplecze do udostępniania dla %s nie zostało znalezione",
@@ -114,11 +113,7 @@
     "Open »%s«" : "Otwórz »%s«",
     "%1$s via %2$s" : "%1$s przez %2$s",
     "You are not allowed to share %s" : "Nie możesz udostępnić %s",
-    "Can’t increase permissions of %s" : "Nie można zwiększyć uprawnień %s",
-    "Files can’t be shared with delete permissions" : "Pliki nie mogą zostać udostępnione z prawem do usuwania",
-    "Files can’t be shared with create permissions" : "Pliki nie mogą zostać udostępnione z prawem do tworzenia",
     "Expiration date is in the past" : "Data ważności już minęła",
-    "_Can’t set expiration date more than %n day in the future_::_Can’t set expiration date more than %n days in the future_" : ["Nie można ustawić daty wygaśnięcia na dłuższą niż %n dzień","Nie można ustawić daty wygaśnięcia na dłuższą niż %n dni","Nie można ustawić daty wygaśnięcia na dłuższą niż %n dni","Nie można ustawić daty wygaśnięcia na dłuższą niż %n dni"],
     "Sharing is only allowed with group members" : "Udostępnianie jest dozwolone tylko członkom grupy",
     "Sharing %s failed, because this item is already shared with user %s" : "Udostępnianie %s nie powiodło się, ponieważ element jest już udostępniony użytkownikowi %s",
     "%1$s shared »%2$s« with you" : "%1$s udostępnił Tobie »%2$s«",
@@ -185,7 +180,6 @@
     "App \"%1$s\" cannot be installed because the following dependencies are not fulfilled: %2$s" : "Nie można zainstalować aplikacji \"%1$s\", ponieważ nie są spełnione następujące zależności: %2$s",
     "a safe home for all your data" : "bezpieczny dom dla wszystkich danych",
     "File is currently busy, please try again later" : "Plik jest obecnie niedostępny, spróbuj później",
-    "Can't read file" : "Nie można odczytać pliku",
     "Application is not enabled" : "Aplikacja nie jest włączona",
     "Authentication error" : "Błąd uwierzytelniania",
     "Token expired. Please reload page." : "Token wygasł. Przeładuj stronę.",
@@ -232,7 +226,12 @@
     "Storage connection timeout. %s" : "Limit czasu połączenia do magazynu. %s",
     "Following databases are supported: %s" : "Obsługiwane są następujące bazy danych: %s",
     "Following platforms are supported: %s" : "Obsługiwane są następujące platformy: %s",
+    "Can't create or write into the data directory %s" : "Nie można tworzyć ani zapisywać w katalogu %s",
     "Invalid Federated Cloud ID" : "Nieprawidłowy ID Chmury Federacyjnej",
-    "Can’t set expiration date more than %s days in the future" : "Nie można ustawić daty wygaśnięcia na dłuższą niż %s dni"
+    "Can’t increase permissions of %s" : "Nie można zwiększyć uprawnień %s",
+    "Files can’t be shared with delete permissions" : "Pliki nie mogą zostać udostępnione z prawem do usuwania",
+    "Files can’t be shared with create permissions" : "Pliki nie mogą zostać udostępnione z prawem do tworzenia",
+    "Can’t set expiration date more than %s days in the future" : "Nie można ustawić daty wygaśnięcia na dłuższą niż %s dni",
+    "Can't read file" : "Nie można odczytać pliku"
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
 }

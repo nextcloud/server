@@ -113,7 +113,6 @@
     "Reset password" : "Tilbakestill passord",
     "If it is not there ask your local administrator." : "Spør din lokale administrator hvis den ikke er der. ",
     "Couldn't send reset email. Please contact your administrator." : "Klarte ikke å sende e-post for tilbakestilling. Kontakt administratoren.",
-    "Password can not be changed. Please contact your administrator." : "Passordet kan ikke endres. Kontakt administratoren din.",
     "Back to login" : "Tilbake til innlogging",
     "New password" : "Nytt passord",
     "Your files are encrypted. There will be no way to get your data back after your password is reset. If you are not sure what to do, please contact your administrator before you continue. Do you really want to continue?" : "Dine filer er kryptert. Det finnes ingen måte å få dine data tilbake etter at passordet er nullstilt. Hvis du er usikker på hva du skal gjøre, vennligst kontakt din administrator før du fortsetter. Er du helt sikker på at du vil fortsette?",
@@ -124,8 +123,6 @@
     "Could not fetch list of apps from the app store." : "Kunne ikke hente liste med apper fra appbutikken. ",
     "Installing apps …" : "Installerer apper ... ",
     "App download or installation failed" : "Nedlasting eller installasjon av app feilet ",
-    "Can't install this app because it is not compatible" : "Kan ikke installere denne appen fordi den ikke er kompatibel",
-    "Can't install this app" : "Kan ikke installere denne appen",
     "Cancel" : "Avbryt",
     "Schedule work & meetings, synced with all your devices." : "Planlegg jobb og møter, synkronisert med alle dine enheter.",
     "Keep your colleagues and friends in one place without leaking their private info." : "Ha dine kollegaer og venner på en plass uten å lekke deres private info.",
@@ -367,7 +364,10 @@
     "No search results in other folders for {tag}{filter}{endtag}" : "Ingen søkeresultater i andre mapper etter {tag}{filter}{endtag}",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} søkeresultat i en annen mappe","{count} søkeresultater i andre mapper"],
     "A password reset message has been sent to the e-mail address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Melding om tilbakestilling av passord har blitt send til e-postadressen til denne kontoen. Hvis du ikke mottak den, burde du sjekke såam/søppelpost mappene eller spørre din lokale administrator om hjelp.",
+    "Password can not be changed. Please contact your administrator." : "Passordet kan ikke endres. Kontakt administratoren din.",
     "Nextcloud {app}" : "Nextcloud {app} ",
+    "Can't install this app because it is not compatible" : "Kan ikke installere denne appen fordi den ikke er kompatibel",
+    "Can't install this app" : "Kan ikke installere denne appen",
     "These apps will be updated:" : "Disse appene vil bli oppdatert:",
     "For more details see the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "For flere detaljer, les <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\"> dokumentasjonen</a>."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

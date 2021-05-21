@@ -80,7 +80,6 @@ OC.L10N.register(
     "User disabled" : "Usuario deshabilitado",
     "Reset password" : "Restablecer contraseña",
     "Couldn't send reset email. Please contact your administrator." : "No fue posible enviar el correo de restauración. Por favor contacta a tu adminsitrador. ",
-    "Password can not be changed. Please contact your administrator." : "Las contraseñas no se pueden cambiar. Por favor contacta a tu adminstrador",
     "New password" : "Nueva contraseña",
     "I know what I'm doing" : "Sé lo que estoy haciendo",
     "Cancel" : "Cancelar",
@@ -237,6 +236,7 @@ OC.L10N.register(
     "Searching other places" : "Buscando en otras ubicaciones",
     "No search results in other folders for {tag}{filter}{endtag}" : "No hay resultados para la búsqueda {tag}{filter}{endtag} en otras carpetas",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} resultado de la búsqueda en otra carpeta","{count} resultados de la búsqueda en otras carpetas"],
+    "Password can not be changed. Please contact your administrator." : "Las contraseñas no se pueden cambiar. Por favor contacta a tu adminstrador",
     "These apps will be updated:" : "Las siguientes apllicaciones se actualizarán:"
 },
 "nplurals=2; plural=(n != 1);");

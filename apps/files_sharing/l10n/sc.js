@@ -120,7 +120,6 @@ OC.L10N.register(
     "Could not lock node" : "No at fatu a blocare su nodu",
     "Could not lock path" : "No at fatu a blocare su percursu",
     "Wrong or no update parameter given" : "Su paràmetru frunidu est isballiadu o no agiornadu",
-    "Can't change permissions for public share links" : "Non faghet a cambiare is permissos pro is ligòngios de cumpartzidura pùblicos",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Sa cumpartzidura cun s'imbiu de sa crae dae Nextcloud Talk est faddida ca Nextcloud Talk est disativadu",
     "shared by %s" : "cumpartzidu dae %s",
     "Download all files" : "Iscàrriga totu is archìvios",
@@ -235,6 +234,7 @@ OC.L10N.register(
     "Uploaded files:" : "Archìvios carrigados:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Carrighende is archìvios, cuncordas cun is %1$scunditziones de servìtziu%2$s.",
     "invalid permissions" : "permissos non vàlidos",
+    "Can't change permissions for public share links" : "Non faghet a cambiare is permissos pro is ligòngios de cumpartzidura pùblicos",
     "Name, email, or federated cloud ID …" : "Nùmene, indiritzu de posta o ID de sa nue federada ..."
 },
 "nplurals=2; plural=(n != 1);");

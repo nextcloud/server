@@ -19,7 +19,7 @@ OC.L10N.register(
     "No entries found in this folder" : "在此資料夾中沒有任何項目",
     "Select all" : "全選",
     "Name" : "名稱",
-    "Actions" : "可用的操作",
+    "Actions" : "操作",
     "Deleted" : "已刪除",
     "Delete" : "刪除"
 },

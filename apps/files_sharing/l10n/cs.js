@@ -121,7 +121,6 @@ OC.L10N.register(
     "Could not lock node" : "Uzel se nedaří uzamknout",
     "Could not lock path" : "Nepodařilo se uzamknout popis umístění",
     "Wrong or no update parameter given" : "Chyba nebo žádná aktualizace dle zadaných parametrů",
-    "Can't change permissions for public share links" : "Nelze změnit oprávnění pro veřejně sdílené odkazy",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Sdílení posláním hesla prostřednictvím Nextcloud Talk se nezdařilo protože Nextcloud Talk není zapnutý",
     "shared by %s" : "sdílí %s",
     "Download all files" : "Stáhnout všechny soubory",
@@ -236,6 +235,7 @@ OC.L10N.register(
     "Uploaded files:" : "Nahrané soubory:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Nahráním souborů vyjadřujete souhlas s %1$svšeobecnými podmínkami%2$s.",
     "invalid permissions" : "neplatná oprávnění",
+    "Can't change permissions for public share links" : "Nelze změnit oprávnění pro veřejně sdílené odkazy",
     "Name, email, or federated cloud ID …" : "Jméno, e-mail nebo identifikátor ve federovaném cloudu…"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

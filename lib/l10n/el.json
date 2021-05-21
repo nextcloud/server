@@ -100,7 +100,6 @@
     "Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP." : "Παρακαλούμε αφαιρέστε την ρύθμιση open_basedir μέσα στο αρχείο php.ini ή αλλάξτε σε 64-bit PHP.",
     "Set an admin username." : "Εισάγετε όνομα χρήστη διαχειριστή.",
     "Set an admin password." : "Εισάγετε συνθηματικό διαχειριστή.",
-    "Can't create or write into the data directory %s" : "Αδύνατη η δημιουργία ή συγγραφή στον κατάλογο δεδομένων %s",
     "Sharing backend %s must implement the interface OCP\\Share_Backend" : "Το σύστημα διαμοιρασμού %s πρέπει να υλοποιεί την διεπαφή OCP\\Share_Backend",
     "Sharing backend %s not found" : "Το σύστημα διαμοιρασμού %s δεν βρέθηκε",
     "Sharing backend for %s not found" : "Το σύστημα διαμοιρασμού για το %s δεν βρέθηκε",
@@ -110,9 +109,6 @@
     "Open »%s«" : "Άνοιγμα »%s«",
     "%1$s via %2$s" : "%1$s μέσω %2$s",
     "You are not allowed to share %s" : "Δεν σας επιτρέπεται ο επαναδιαμοιρασμός %s",
-    "Can’t increase permissions of %s" : "Αδυναμία αύξησης των δικαιωμάτων του %s",
-    "Files can’t be shared with delete permissions" : "Δεν μπορεί να γίνει διαμοιρασμός αρχείων με δικαιώματα διαγραφής",
-    "Files can’t be shared with create permissions" : "Δεν μπορεί να γίνει διαμοιρασμός αρχείων με δικαιώματα δημιουργίας",
     "Expiration date is in the past" : "Η ημερομηνία λήξης είναι στο παρελθόν",
     "%1$s shared »%2$s« with you" : "Ο %1$s διαμοιράστηκε το »%2$s« με εσάς.",
     "%1$s shared »%2$s« with you." : "%1$s διαμοιράστηκε »%2$s« με εσάς.",
@@ -178,7 +174,6 @@
     "App \"%1$s\" cannot be installed because the following dependencies are not fulfilled: %2$s" : "Η εφαρμογή \"%1$s\" δεν μπορεί να εγκατασταθεί επειδή δεν πληρούνται τα προαπαιτούμενα: %2$s",
     "a safe home for all your data" : "ένα ασφαλές μέρος για όλα τα δεδομένα σας",
     "File is currently busy, please try again later" : "Το αρχείο χρησιμοποιείται αυτή τη στιγμή, παρακαλούμε προσπαθήστε αργότερα",
-    "Can't read file" : "Αδυναμία ανάγνωσης αρχείου",
     "Application is not enabled" : "Δεν ενεργοποιήθηκε η εφαρμογή",
     "Authentication error" : "Σφάλμα πιστοποίησης",
     "Token expired. Please reload page." : "Το αναγνωριστικό έληξε. Παρακαλούμε φορτώστε ξανά την σελίδα.",
@@ -225,7 +220,12 @@
     "Storage connection timeout. %s" : "Λήξη χρονικού ορίου σύνδεσης με αποθηκευτικό χώρο.%s",
     "Following databases are supported: %s" : " Υποστηρίζονται οι ακόλουθες βάσεις δεδομένων: %s",
     "Following platforms are supported: %s" : "Οι ακόλουθες πλατφόρμες υποστηρίζονται: %s",
+    "Can't create or write into the data directory %s" : "Αδύνατη η δημιουργία ή συγγραφή στον κατάλογο δεδομένων %s",
     "Invalid Federated Cloud ID" : "Μη έγκυρο Federated Cloud ID",
-    "Can’t set expiration date more than %s days in the future" : "Δεν είναι δυνατό να τεθεί η ημερομηνία λήξης σε περισσότερες από %s ημέρες στο μέλλον"
+    "Can’t increase permissions of %s" : "Αδυναμία αύξησης των δικαιωμάτων του %s",
+    "Files can’t be shared with delete permissions" : "Δεν μπορεί να γίνει διαμοιρασμός αρχείων με δικαιώματα διαγραφής",
+    "Files can’t be shared with create permissions" : "Δεν μπορεί να γίνει διαμοιρασμός αρχείων με δικαιώματα δημιουργίας",
+    "Can’t set expiration date more than %s days in the future" : "Δεν είναι δυνατό να τεθεί η ημερομηνία λήξης σε περισσότερες από %s ημέρες στο μέλλον",
+    "Can't read file" : "Αδυναμία ανάγνωσης αρχείου"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

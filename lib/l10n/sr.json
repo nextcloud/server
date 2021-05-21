@@ -100,7 +100,6 @@
     "Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP." : "Уклоните open_basedir поставку из php.ini фајла или пређите на 64-битни PHP.",
     "Set an admin username." : "Поставите име за администратора.",
     "Set an admin password." : "Поставите лозинку за администратора.",
-    "Can't create or write into the data directory %s" : "Не могу креирати или уписивати у директоријум података %s",
     "Sharing backend %s must implement the interface OCP\\Share_Backend" : "Позадина дељења %s мора користити корисничко окружење OCP\\Share_Backend",
     "Sharing backend %s not found" : "Позадина за дељење %s није пронађена",
     "Sharing backend for %s not found" : "Позадина за дељење за %s није пронађена",
@@ -110,9 +109,6 @@
     "Open »%s«" : "Отвори „%s“",
     "%1$s via %2$s" : "%1$s преко %2$s",
     "You are not allowed to share %s" : "Није вам дозвољено да делите %s",
-    "Can’t increase permissions of %s" : "Не могу да повећам дозволе за %s",
-    "Files can’t be shared with delete permissions" : "Фајлови не могу бити дељени са дозволама за брисање",
-    "Files can’t be shared with create permissions" : "Фајлови не могу бити дељени са дозволама за креирање",
     "Expiration date is in the past" : "Датум истека је у прошлости",
     "%1$s shared »%2$s« with you" : "%1$s је поделио „%2$s“ са Вама",
     "%1$s shared »%2$s« with you." : "%1$s је поделио „%2$s“ са Вама.",
@@ -177,7 +173,6 @@
     "App \"%1$s\" cannot be installed because the following dependencies are not fulfilled: %2$s" : "Апликација „%1$s“ не може бити инсталирана јер следеће зависности нису испуњене: %2$s",
     "a safe home for all your data" : "сигурно место за све Ваше податке",
     "File is currently busy, please try again later" : "Фајл је тренутно заузет, покушајте поново касније",
-    "Can't read file" : "Не могу да читам фајл",
     "Application is not enabled" : "Апликација није укључена",
     "Authentication error" : "Грешка при провери идентитета",
     "Token expired. Please reload page." : "Жетон је истекао. Поново учитајте страницу.",
@@ -224,7 +219,12 @@
     "Storage connection timeout. %s" : "Истекло је време за повезивање на складиште. %s",
     "Following databases are supported: %s" : "Подржане су следеће базе података: %s",
     "Following platforms are supported: %s" : "Подржане су следеће платформе: %s",
+    "Can't create or write into the data directory %s" : "Не могу креирати или уписивати у директоријум података %s",
     "Invalid Federated Cloud ID" : "Неисправан ИД Здруженог облака",
-    "Can’t set expiration date more than %s days in the future" : "Не могу да поставим датум истека више од %s дана у будућност"
+    "Can’t increase permissions of %s" : "Не могу да повећам дозволе за %s",
+    "Files can’t be shared with delete permissions" : "Фајлови не могу бити дељени са дозволама за брисање",
+    "Files can’t be shared with create permissions" : "Фајлови не могу бити дељени са дозволама за креирање",
+    "Can’t set expiration date more than %s days in the future" : "Не могу да поставим датум истека више од %s дана у будућност",
+    "Can't read file" : "Не могу да читам фајл"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }

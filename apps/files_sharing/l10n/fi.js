@@ -118,7 +118,6 @@ OC.L10N.register(
     "Not a directory" : "Ei hakemisto",
     "Could not lock path" : "Polun lukitseminen ei onnistunut",
     "Wrong or no update parameter given" : "Päivitettävä parametri puuttuu tai on väärin",
-    "Can't change permissions for public share links" : "Julkisten jakolinkkien käyttöoikeuksia ei voi muuttaa",
     "shared by %s" : "%s jakama",
     "Download all files" : "Lataa kaikki tiedostot",
     "Direct link" : "Suora linkki",
@@ -225,6 +224,7 @@ OC.L10N.register(
     "Uploaded files:" : "Lähetetyt tiedostot:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Tiedostoja lähettämällä hyväksyt %1$skäyttöehdot%2$s.",
     "invalid permissions" : "vialliset oikeudet",
+    "Can't change permissions for public share links" : "Julkisten jakolinkkien käyttöoikeuksia ei voi muuttaa",
     "Name, email, or federated cloud ID …" : "Nimi, sähköposti tai federoitu Cloud ID..."
 },
 "nplurals=2; plural=(n != 1);");

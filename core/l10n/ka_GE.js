@@ -82,7 +82,6 @@ OC.L10N.register(
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "თქვენი IP მისამართით შევნიშნეთ არაერთი წარუმატებელი ავტორიზაციის მცდელობა. აქედან გამომდინარე თქვენი შემდეგი ავტორიზაციის მცდელობა შეიზღუდება დაახლოებით 30 წამით.",
     "Reset password" : "პაროლის შეცვლა",
     "Couldn't send reset email. Please contact your administrator." : "აღდგენის ელ-წერილი ვერ გაიგზავნა. გთხოვთ დაუკავშირდეთ თქვენს ადმინისტრატორს.",
-    "Password can not be changed. Please contact your administrator." : "პაროლი ვერ იცვლება. დაუკავშირდით თქვენს ადმინისტრატორს.",
     "New password" : "ახალი პაროლი",
     "I know what I'm doing" : "ვიცი რასაც ვაკეთებ",
     "Cancel" : "უარყოფა",
@@ -240,6 +239,7 @@ OC.L10N.register(
     "Searching other places" : "ვეძებთ დანარჩენ ადგილებში",
     "No search results in other folders for {tag}{filter}{endtag}" : "ძიების შედეგები სხვა დირექტორიებში {tag}{filter}{endtag}-სთვის არაა",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} ძიების შედეგები სხვა დირექტორიებში","{count} ძიების შედეგები სხვა დირექტორიებში"],
+    "Password can not be changed. Please contact your administrator." : "პაროლი ვერ იცვლება. დაუკავშირდით თქვენს ადმინისტრატორს.",
     "These apps will be updated:" : "ეს აპლიკაციები განახლდება:"
 },
 "nplurals=2; plural=(n!=1);");
