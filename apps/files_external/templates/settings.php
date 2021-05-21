@@ -101,7 +101,7 @@ $canCreateMounts = $_['visibilityType'] === BackendService::VISIBILITY_ADMIN || 
 </div>
 
 <form data-can-create="<?php echo $canCreateMounts?'true':'false' ?>" id="files_external" class="section" data-encryption-enabled="<?php echo $_['encryptionEnabled']?'true': 'false'; ?>">
-	<h2 class="inlineblock" data-anchor-name="external-storage"><?php p($l->t('External storages')); ?></h2>
+	<h2 class="inlineblock" data-anchor-name="external-storage"><?php p($l->t('External storage')); ?></h2>
 	<a target="_blank" rel="noreferrer" class="icon-info" title="<?php p($l->t('Open documentation'));?>" href="<?php p(link_to_docs('admin-external-storage')); ?>"></a>
 	<p class="settings-hint"><?php p($l->t('External storage enables you to mount external storage services and devices as secondary Nextcloud storage devices. You may also allow users to mount their own external storage services.')); ?></p>
 	<?php if (isset($_['dependencies']) and ($_['dependencies'] !== '') and $canCreateMounts) {
@@ -207,7 +207,7 @@ $canCreateMounts = $_['visibilityType'] === BackendService::VISIBILITY_ADMIN || 
 	<form autocomplete="false" action="#"
 		  id="global_credentials" method="post">
 		<h2><?php p($l->t('Global credentials')); ?></h2>
-		<p class="settings-hint"><?php p($l->t('Global credentials can be used to authenticate with multiple external storages that have the same credentials.')); ?></p>
+		<p class="settings-hint"><?php p($l->t('Global credentials can be used to authenticate with multiple external storage that have the same credentials.')); ?></p>
 		<input type="text" name="username"
 			   autocomplete="false"
 			   value="<?php p($_['globalCredentials']['user']); ?>"

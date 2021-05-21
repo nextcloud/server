@@ -111,7 +111,7 @@ interface IUserMountCache {
 	 * Get the used space for users
 	 *
 	 * Note that this only includes the space in their home directory,
-	 * not any incoming shares or external storages.
+	 * not any incoming shares or external storage.
 	 *
 	 * @param IUser[] $users
 	 * @return int[] [$userId => $userSpace]

@@ -71,7 +71,7 @@ class Mount extends MountPoint implements MoveableMount {
 	}
 
 	/**
-	 * Get the type of mount point, used to distinguish things like shares and external storages
+	 * Get the type of mount point, used to distinguish things like shares and external storage
 	 * in the web interface
 	 *
 	 * @return string

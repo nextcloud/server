@@ -57,10 +57,10 @@ class SectionTest extends TestCase {
 		$this->l
 			->expects($this->once())
 			->method('t')
-			->with('External storages')
-			->willReturn('External storages');
+			->with('External storage')
+			->willReturn('External storage');
 
-		$this->assertSame('External storages', $this->section->getName());
+		$this->assertSame('External storage', $this->section->getName());
 	}
 
 	public function testGetPriority() {

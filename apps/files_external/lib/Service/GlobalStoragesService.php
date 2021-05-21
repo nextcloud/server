@@ -33,7 +33,7 @@ use OC\Files\Filesystem;
 use OCA\Files_External\Lib\StorageConfig;
 
 /**
- * Service class to manage global external storages
+ * Service class to manage global external storage
  */
 class GlobalStoragesService extends StoragesService {
 	/**

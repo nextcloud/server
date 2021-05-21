@@ -60,7 +60,7 @@ class Section implements IIconSection {
 	 * @return string
 	 */
 	public function getName() {
-		return $this->l->t('External storages');
+		return $this->l->t('External storage');
 	}
 
 	/**
