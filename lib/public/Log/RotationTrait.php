@@ -58,7 +58,7 @@ trait RotationTrait {
 	 * @since 14.0.0
 	 */
 	protected function shouldRotateBySize():bool {
-		if ((int)$this->maxSize > 0) {
+		if ((int)$this->maxSize > 0 && file_exists($this->filePath)) {
 			$filesize = @filesize($this->filePath);
 			if ($filesize >= (int)$this->maxSize) {
 				return true;
