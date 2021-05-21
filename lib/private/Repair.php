@@ -159,7 +159,7 @@ class Repair implements IOutput {
 			new ClearCollectionsAccessCache(\OC::$server->getConfig(), \OC::$server->query(IManager::class)),
 			\OC::$server->query(ResetGeneratedAvatarFlag::class),
 			\OC::$server->query(RepairDavShares::class),
-			\OC::$server->get(LookupServerSendCheck::class),
+			\OC::$server->query(LookupServerSendCheck::class),
 		];
 	}
 
