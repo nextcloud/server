@@ -347,6 +347,54 @@ interface IManager {
 	public function shareApiLinkDefaultExpireDays();
 
 	/**
+	 * Is default internal expire date enabled
+	 *
+	 * @return bool
+	 * @since 22.0.0
+	 */
+	public function shareApiInternalDefaultExpireDate(): bool;
+
+	/**
+	 * Is default remote expire date enabled
+	 *
+	 * @return bool
+	 * @since 22.0.0
+	 */
+	public function shareApiRemoteDefaultExpireDate(): bool;
+
+	/**
+	 * Is default expire date enforced
+	 *
+	 * @return bool
+	 * @since 22.0.0
+	 */
+	public function shareApiInternalDefaultExpireDateEnforced(): bool;
+
+	/**
+	 * Is default expire date enforced for remote shares
+	 *
+	 * @return bool
+	 * @since 22.0.0
+	 */
+	public function shareApiRemoteDefaultExpireDateEnforced(): bool;
+
+	/**
+	 * Number of default expire days
+	 *
+	 * @return int
+	 * @since 22.0.0
+	 */
+	public function shareApiInternalDefaultExpireDays(): int;
+
+	/**
+	 * Number of default expire days for remote shares
+	 *
+	 * @return int
+	 * @since 22.0.0
+	 */
+	public function shareApiRemoteDefaultExpireDays(): int;
+
+	/**
 	 * Allow public upload on link shares
 	 *
 	 * @return bool

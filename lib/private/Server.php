@@ -1234,7 +1234,8 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->get(IMailer::class),
 				$c->get(IURLGenerator::class),
 				$c->get('ThemingDefaults'),
-				$c->get(IEventDispatcher::class)
+				$c->get(IEventDispatcher::class),
+				$c->get(IUserSession::class)
 			);
 
 			return $manager;

@@ -55,6 +55,7 @@ use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
+use OCP\Share\IManager;
 
 /**
  * Class ViewController
@@ -86,6 +87,8 @@ class ViewController extends Controller {
 	private $initialState;
 	/** @var ITemplateManager */
 	private $templateManager;
+	/** @var IManager */
+	private $shareManager;
 
 	public function __construct(string $appName,
 		IRequest $request,
@@ -98,7 +101,8 @@ class ViewController extends Controller {
 		IRootFolder $rootFolder,
 		Helper $activityHelper,
 		IInitialState $initialState,
-		ITemplateManager $templateManager
+		ITemplateManager $templateManager,
+		IManager $shareManager
 	) {
 		parent::__construct($appName, $request);
 		$this->appName = $appName;
@@ -113,6 +117,7 @@ class ViewController extends Controller {
 		$this->activityHelper = $activityHelper;
 		$this->initialState = $initialState;
 		$this->templateManager = $templateManager;
+		$this->shareManager = $shareManager;
 	}
 
 	/**
@@ -302,7 +307,7 @@ class ViewController extends Controller {
 		$params['owner'] = $storageInfo['owner'] ?? '';
 		$params['ownerDisplayName'] = $storageInfo['ownerDisplayName'] ?? '';
 		$params['isPublic'] = false;
-		$params['allowShareWithLink'] = $this->config->getAppValue('core', 'shareapi_allow_links', 'yes');
+		$params['allowShareWithLink'] = $this->shareManager->shareApiAllowLinks() ? 'yes' : 'no';
 		$params['defaultFileSorting'] = $this->config->getUserValue($user, 'files', 'file_sorting', 'name');
 		$params['defaultFileSortingDirection'] = $this->config->getUserValue($user, 'files', 'file_sorting_direction', 'asc');
 		$params['showgridview'] = $this->config->getUserValue($user, 'files', 'show_grid', false);
