@@ -22,7 +22,6 @@ OC.L10N.register(
     "Private key password successfully updated." : "Privaatse võtme parool edukalt uuendatud.",
     "Bad Signature" : "Vigane allkiri",
     "Missing Signature" : "Allkiri puudub",
-    "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Sa ei saa seda faili dekrüpteerida, see on tõenäoliselt jagatud fail. Palun lase omanikul seda faili sinuga uuesti jagada.",
     "The share will expire on %s." : "Jagamine aegub %s.",
     "Cheers!" : "Terekest!",
     "Enable recovery key" : "Luba taastevõtme kasutamine",
@@ -43,6 +42,7 @@ OC.L10N.register(
     "Enable password recovery:" : "Luba parooli taaste:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Valiku lubamine võimaldab taastada ligipääsu krüpteeritud failidele kui parooli kaotuse puhul",
     "Enabled" : "Sisse lülitatud",
-    "Disabled" : "Väljalülitatud"
+    "Disabled" : "Väljalülitatud",
+    "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Sa ei saa seda faili dekrüpteerida, see on tõenäoliselt jagatud fail. Palun lase omanikul seda faili sinuga uuesti jagada."
 },
 "nplurals=2; plural=(n != 1);");

@@ -128,7 +128,6 @@
     "Reset password" : "Réinitialiser le mot de passe",
     "If it is not there ask your local administrator." : "Si ce n'est pas le cas, veuillez contacter votre administrateur.",
     "Couldn't send reset email. Please contact your administrator." : "Impossible d'envoyer le courriel de réinitialisation. Veuillez contacter votre administrateur.",
-    "Password can not be changed. Please contact your administrator." : "Le mot de passe ne peut être modifié. Veuillez contacter votre administrateur.",
     "Back to login" : "Retour à la page de connexion",
     "New password" : "Nouveau mot de passe",
     "Your files are encrypted. There will be no way to get your data back after your password is reset. If you are not sure what to do, please contact your administrator before you continue. Do you really want to continue?" : "Vos fichiers sont chiffrés. Il n'y aura aucun moyen de récupérer vos données après la réinitialisation de votre mot de passe. Si vous n'êtes pas sûr de ce que vous faîtes, veuillez contacter votre administrateur avant de continuer. Voulez-vous vraiment continuer ?",
@@ -139,8 +138,6 @@
     "Could not fetch list of apps from the app store." : "Impossible de récupérer la liste des applications depuis l'app store.",
     "Installing apps …" : "Installation des applis en cours ...",
     "App download or installation failed" : "Échec lors du téléchargement ou de l'installation de l'appli",
-    "Can't install this app because it is not compatible" : "Impossible d'installer cette appli car elle n'est pas compatible",
-    "Can't install this app" : "Impossible d'installer cette appli",
     "Cancel" : "Annuler",
     "Schedule work & meetings, synced with all your devices." : "Planifiez votre travail et des réunions, synchronisées avec tous vos appareils.",
     "Keep your colleagues and friends in one place without leaking their private info." : "Gardez les contacts de vos collègues et amis au même endroit sans divulguer leurs informations personnelles.",
@@ -383,7 +380,10 @@
     "No search results in other folders for {tag}{filter}{endtag}" : "Aucun résultat dans d'autres dossiers n'a été trouvé pour  {tag}{filter}{endtag}",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} résultat dans un autre dossier","{count} résultats dans d'autres dossiers"],
     "A password reset message has been sent to the e-mail address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Un e-mail de réinitialisation de mot de passe a été envoyé à l'adresse e-mail du compte. Si vous ne le recevez pas, vérifiez vos dossiers de courrier indésirable/pourriel/spam ou demandez de l'aide à votre administrateur local.",
+    "Password can not be changed. Please contact your administrator." : "Le mot de passe ne peut être modifié. Veuillez contacter votre administrateur.",
     "Nextcloud {app}" : "Nextcloud {app}",
+    "Can't install this app because it is not compatible" : "Impossible d'installer cette appli car elle n'est pas compatible",
+    "Can't install this app" : "Impossible d'installer cette appli",
     "These apps will be updated:" : "Les applications suivantes seront mises à jour :",
     "For more details see the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "Pour plus de détails consultez la <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>."
 },"pluralForm" :"nplurals=2; plural=(n > 1);"

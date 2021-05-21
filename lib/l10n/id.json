@@ -52,7 +52,6 @@
     "Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP." : "Mohon hapus pengaturan open_basedir didalam php.ini atau beralih ke PHP 64-bit.",
     "Set an admin username." : "Tetapkan nama pengguna admin.",
     "Set an admin password." : "Tetapkan kata sandi admin.",
-    "Can't create or write into the data directory %s" : "Tidak dapat membuat atau menulis kedalam direktori data %s",
     "Sharing backend %s must implement the interface OCP\\Share_Backend" : "Backend berbagi %s harus mengimplementasi antarmuka OCP\\Share_Backend",
     "Sharing backend %s not found" : "Backend berbagi %s tidak ditemukan",
     "Sharing backend for %s not found" : "Backend berbagi untuk %s tidak ditemukan",
@@ -114,7 +113,6 @@
     "Login canceled by app" : "Log masuk dibatalkan oleh aplikasi",
     "a safe home for all your data" : "rumah yang aman untuk semua datamu",
     "File is currently busy, please try again later" : "Berkas sedang sibuk, mohon coba lagi nanti",
-    "Can't read file" : "Tidak dapat membaca berkas",
     "Application is not enabled" : "aplikasi tidak diaktifkan",
     "Authentication error" : "Galat saat otentikasi",
     "Token expired. Please reload page." : "Token sudah kedaluwarsa. Silakan muat ulang halaman.",
@@ -147,6 +145,8 @@
     "Storage connection timeout. %s" : "Koneksi penyimpanan waktu-habis. %s",
     "Following databases are supported: %s" : "Berikut adalah basis data yang didukung: %s",
     "Following platforms are supported: %s" : "Berikut adalah platform yang didukung: %s",
-    "Invalid Federated Cloud ID" : "Federated Cloud ID tidak sah"
+    "Can't create or write into the data directory %s" : "Tidak dapat membuat atau menulis kedalam direktori data %s",
+    "Invalid Federated Cloud ID" : "Federated Cloud ID tidak sah",
+    "Can't read file" : "Tidak dapat membaca berkas"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

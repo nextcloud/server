@@ -48,7 +48,6 @@
     "Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP." : "กรุณาลบการตั้งค่า open_basedir ภายใน php.ini ของหรือเปลี่ยนไปใช้ PHP รุ่น 64 บิตแทน",
     "Set an admin username." : "ตั้งค่าชื่อผู้ดูแลระบบ",
     "Set an admin password." : "ตั้งค่ารหัสผ่านผู้ดูแลระบบ",
-    "Can't create or write into the data directory %s" : "ไม่สามารถสร้างหรือเขียนลงในข้อมูลไดเรกทอรี %s",
     "Sharing backend %s must implement the interface OCP\\Share_Backend" : "การแชร์แบ็กเอนด์ %s ต้องใช้อินเตอร์เฟซ OCP\\Share_Backend",
     "Sharing backend %s not found" : "ไม่พบการแชร์แบ็กเอนด์ %s",
     "Sharing backend for %s not found" : "ไม่พบการแชร์แบ็กเอนด์สำหรับ %s",
@@ -105,7 +104,6 @@
     "A valid password must be provided" : "รหัสผ่านที่ถูกต้องจะต้องให้",
     "The username is already being used" : "มีคนใช้ชื่อผู้ใช้นี้ไปแล้ว",
     "File is currently busy, please try again later" : "ขณะนี้ไฟล์กำลังใช้งานอยู่ โปรดลองอีกครั้งในภายหลัง",
-    "Can't read file" : "ไม่สามารถอ่านไฟล์",
     "Application is not enabled" : "แอพพลิเคชั่นดังกล่าวยังไม่ได้เปิดใช้งาน",
     "Authentication error" : "เกิดข้อผิดพลาดในสิทธิ์การเข้าใช้งาน",
     "Token expired. Please reload page." : "รหัสยืนยันความถูกต้องหมดอายุแล้ว กรุณาโหลดหน้าเว็บใหม่อีกครั้ง",
@@ -135,6 +133,8 @@
     "Storage connection timeout. %s" : "หมดเวลาการเชื่อมต่อพื้นที่จัดเก็บข้อมูล %s",
     "Following databases are supported: %s" : "ฐานข้อมูลต่อไปนี้ได้รับการสนับสนุน: %s",
     "Following platforms are supported: %s" : "แพลตฟอร์มต่อไปนี้ได้รับการสนับสนุน: %s",
-    "Invalid Federated Cloud ID" : "ไอดีคลาวด์ในเครือไม่ถูกต้อง"
+    "Can't create or write into the data directory %s" : "ไม่สามารถสร้างหรือเขียนลงในข้อมูลไดเรกทอรี %s",
+    "Invalid Federated Cloud ID" : "ไอดีคลาวด์ในเครือไม่ถูกต้อง",
+    "Can't read file" : "ไม่สามารถอ่านไฟล์"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

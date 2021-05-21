@@ -105,7 +105,6 @@ OC.L10N.register(
     "Not a directory" : "Er ekki mappa",
     "Could not lock path" : "Gat ekki læst slóð",
     "Wrong or no update parameter given" : "Rangt eða ekkert uppfærsluviðfang gefið",
-    "Can't change permissions for public share links" : "Ekki tókst að breyta aðgangsheimildum fyrir opinbera deilingartengla",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Deiling með því að senda lykilorð með Nextcloud Talk mistókst því að Nextcloud Talk er ekki virkt",
     "shared by %s" : "Deilt af %s",
     "Download all files" : "Sækja allar skrár",
@@ -178,6 +177,7 @@ OC.L10N.register(
     "Select or drop files" : "Veldu eða slepptu skrám",
     "Uploaded files:" : "Innsendar skrár:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Með því að senda inn skrár, samþykkir þú %1$sþjónustuskilmálana%2$s.",
-    "invalid permissions" : "Ógildar aðgangsheimildir"
+    "invalid permissions" : "Ógildar aðgangsheimildir",
+    "Can't change permissions for public share links" : "Ekki tókst að breyta aðgangsheimildum fyrir opinbera deilingartengla"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

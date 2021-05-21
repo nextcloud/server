@@ -104,7 +104,6 @@
     "Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP." : "Kérlek távolítsd el az open_basedir beállítást a php.ini-ből, vagy válts 64bit-es PHP-ra.",
     "Set an admin username." : "Állítson be egy rendszergazdai felhasználónevet!",
     "Set an admin password." : "Állítson be egy rendszergazdai jelszót!",
-    "Can't create or write into the data directory %s" : "Nem sikerült  létrehozni vagy irni  a \"data\" könyvtárba %s",
     "Sharing backend %s must implement the interface OCP\\Share_Backend" : "Az %s megosztási alrendszernek támogatnia kell az OCP\\Share_Backend interface-t",
     "Sharing backend %s not found" : "A %s megosztási alrendszer nem található",
     "Sharing backend for %s not found" : "%s megosztási alrendszere nem található",
@@ -114,9 +113,6 @@
     "Open »%s«" : "»%s« megnyitása",
     "%1$s via %2$s" : "%1$s - %2$s",
     "You are not allowed to share %s" : "Nincs jogosultságod %s megosztására",
-    "Can’t increase permissions of %s" : "A(z) %s engedélyei nem kibővíthetők",
-    "Files can’t be shared with delete permissions" : "A fájlok nem megoszthatók törlési joggal",
-    "Files can’t be shared with create permissions" : "Fájlok nem oszthatók meg létrehozási joggal",
     "Expiration date is in the past" : "A lejárati dátum már elmúlt",
     "Sharing is only allowed with group members" : "A megosztás csak a csoport tagjaival engedélyezett",
     "Sharing %s failed, because this item is already shared with user %s" : "A(z) %s megosztása nem sikerült, mert ez az elem már meg van osztva a(z) %s felhasználóval",
@@ -184,7 +180,6 @@
     "App \"%1$s\" cannot be installed because the following dependencies are not fulfilled: %2$s" : "\"%1$s\" alkalmazást nem lehet telepíteni, mert a következő függőségek nem teljesülnek: %2$s",
     "a safe home for all your data" : "egy biztonságos hely az adataidnak",
     "File is currently busy, please try again later" : "A fájl jelenleg elfoglalt, kérjük próbáld újra később!",
-    "Can't read file" : "Nem olvasható a fájl",
     "Application is not enabled" : "Az alkalmazás nincs engedélyezve",
     "Authentication error" : "Azonosítási hiba",
     "Token expired. Please reload page." : "A token lejárt. Frissítse az oldalt.",
@@ -231,7 +226,12 @@
     "Storage connection timeout. %s" : "Tároló kapcsolat időtúllépés. %s",
     "Following databases are supported: %s" : "A következő adatbázisok támogatottak: %s",
     "Following platforms are supported: %s" : "Ezek a platformok támogatottak: %s",
+    "Can't create or write into the data directory %s" : "Nem sikerült  létrehozni vagy irni  a \"data\" könyvtárba %s",
     "Invalid Federated Cloud ID" : "Érvénytelen Egyesített Felhő Azonosító",
-    "Can’t set expiration date more than %s days in the future" : "Nem lehet  %s napnál későbbi lejáratot megadni"
+    "Can’t increase permissions of %s" : "A(z) %s engedélyei nem kibővíthetők",
+    "Files can’t be shared with delete permissions" : "A fájlok nem megoszthatók törlési joggal",
+    "Files can’t be shared with create permissions" : "Fájlok nem oszthatók meg létrehozási joggal",
+    "Can’t set expiration date more than %s days in the future" : "Nem lehet  %s napnál későbbi lejáratot megadni",
+    "Can't read file" : "Nem olvasható a fájl"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -86,7 +86,6 @@ OC.L10N.register(
     "Not a directory" : "Not a directory",
     "Could not lock path" : "Could not lock path",
     "Wrong or no update parameter given" : "Wrong or no update parameter given",
-    "Can't change permissions for public share links" : "Can't change permissions for public share links",
     "shared by %s" : "shared by %s",
     "Direct link" : "Direct link",
     "Add to your Nextcloud" : "Add to your Nextcloud",
@@ -138,6 +137,7 @@ OC.L10N.register(
     "Note" : "Note",
     "Select or drop files" : "Select or drop files",
     "Uploaded files:" : "Uploaded files:",
-    "invalid permissions" : "invalid permissions"
+    "invalid permissions" : "invalid permissions",
+    "Can't change permissions for public share links" : "Can't change permissions for public share links"
 },
 "nplurals=2; plural=(n != 1);");

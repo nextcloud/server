@@ -74,7 +74,6 @@ OC.L10N.register(
     "User disabled" : "Usuario deshabilitado",
     "Reset password" : "Restablecer contraseña",
     "Couldn't send reset email. Please contact your administrator." : "No fue posible enviar el correo de restauración. Favor de contactar a su adminsitrador. ",
-    "Password can not be changed. Please contact your administrator." : "Las contraseñas no se pueden cambiar. Favor de contactar a su adminstrador",
     "Back to login" : "Volver para iniciar sesión",
     "New password" : "Nueva contraseña",
     "I know what I'm doing" : "Sé lo que estoy haciendo",
@@ -82,8 +81,6 @@ OC.L10N.register(
     "Recommended apps" : "Apps recomendadas",
     "Loading apps …" : "Cargando apps ...",
     "App download or installation failed" : "App descargada o instalación fallida",
-    "Can't install this app because it is not compatible" : "No se puede instalar esta app porque no es compatible",
-    "Can't install this app" : "No se puede instalar esta app",
     "Cancel" : "Cancelar",
     "Forgot password?" : "¿Contraseña olvidada?",
     "Back" : "Atrás",
@@ -244,7 +241,10 @@ OC.L10N.register(
     "Searching other places" : "Buscando en otras ubicaciones",
     "No search results in other folders for {tag}{filter}{endtag}" : "No hay resultados para la búsqueda en otras carpetas para {tag}{filter}{endtag}",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} resultado de la búsqueda en otra carpeta","{count} resultados de la búsqueda en otras carpetas"],
+    "Password can not be changed. Please contact your administrator." : "Las contraseñas no se pueden cambiar. Favor de contactar a su adminstrador",
     "Nextcloud {app}" : "Nextcloud {app}",
+    "Can't install this app because it is not compatible" : "No se puede instalar esta app porque no es compatible",
+    "Can't install this app" : "No se puede instalar esta app",
     "These apps will be updated:" : "Las siguientes apllicaciones se actualizarán:"
 },
 "nplurals=2; plural=(n != 1);");

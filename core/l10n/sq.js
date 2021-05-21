@@ -75,7 +75,6 @@ OC.L10N.register(
     "User disabled" : "Përdorues i çaktivizuar",
     "Reset password" : "Ricaktoni fjalëkalimin",
     "Couldn't send reset email. Please contact your administrator." : "S’u dërgua dot email-i i ricaktimit. Ju lutemi, lidhuni me përgjegjësin tuaj.",
-    "Password can not be changed. Please contact your administrator." : "Fjalëkalimi nuk mund të ndryshohet. Ju lutemi, lidhuni me përgjegjësin tuaj.",
     "New password" : "Fjalëkalim i ri",
     "I know what I'm doing" : "E di se ç’bëj",
     "Cancel" : "Anuloje",
@@ -219,6 +218,7 @@ OC.L10N.register(
     "Searching other places" : "Duke kërkuar në vende të tjera",
     "No search results in other folders for {tag}{filter}{endtag}" : "Jo rezultate nga kërkimi në dosjet e tjera për '{etiketim}{filtrim}{përfundoetiketimin}'",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} përfundim kërkimi në një tjetër dosje","{count} përfundime kërkimi në dosje të tjera"],
+    "Password can not be changed. Please contact your administrator." : "Fjalëkalimi nuk mund të ndryshohet. Ju lutemi, lidhuni me përgjegjësin tuaj.",
     "These apps will be updated:" : "Do të përditësohen këto aplikacione:"
 },
 "nplurals=2; plural=(n != 1);");

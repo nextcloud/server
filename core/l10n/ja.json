@@ -149,7 +149,6 @@
     "A password reset message has been sent to the email address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "このアカウントのメールアドレスにパスワードリセットメッセージを送信しました。届かない場合は、スパム/ジャンクフォルダを確認するか、ローカル管理者にサポートを依頼してください。",
     "If it is not there ask your local administrator." : "もしそうでない場合は、管理者に問い合わせてください。",
     "Couldn't send reset email. Please contact your administrator." : "リセットメールを送信できませんでした。管理者に問い合わせてください。",
-    "Password can not be changed. Please contact your administrator." : "パスワードは変更できません。管理者に問い合わせてください。",
     "Back to login" : "ログインに戻る",
     "New password" : "新しいパスワードを入力",
     "Your files are encrypted. There will be no way to get your data back after your password is reset. If you are not sure what to do, please contact your administrator before you continue. Do you really want to continue?" : "ファイルが暗号化されます。パスワードがリセットされた後は、データを元に戻すことはできません。対処方法がわからない場合は、続行する前に管理者に問い合わせてください。本当に続行しますか?",
@@ -160,8 +159,6 @@
     "Could not fetch list of apps from the app store." : "App Storeからアプリのリストを取得できませんでした。",
     "Installing apps …" : "アプリをインストールしています…",
     "App download or installation failed" : "アプリのダウンロードまたはインストールに失敗しました",
-    "Can't install this app because it is not compatible" : "アプリの互換性がないため、インストールできません",
-    "Can't install this app" : "このアプリはインストールできません",
     "Cancel" : "キャンセル",
     "Schedule work & meetings, synced with all your devices." : "すべての端末と同期して、仕事と会議をスケジュールに組み込みます",
     "Keep your colleagues and friends in one place without leaking their private info." : "個人情報を漏らさずに、同僚や友人をまとめて保管します。",
@@ -404,7 +401,10 @@
     "No search results in other folders for {tag}{filter}{endtag}" : "他のフォルダーに {tag}{filter}{endtag} の検索結果はありません",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["他のフォルダーの検索件数 {count}"],
     "A password reset message has been sent to the e-mail address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "このアカウントのメールアドレスにパスワードをリセットするメールが送信されました。 メールが届かなかった場合はあなたのスパム/ジャンクフォルダーをチェックするか、管理者に問い合わせてください。",
+    "Password can not be changed. Please contact your administrator." : "パスワードは変更できません。管理者に問い合わせてください。",
     "Nextcloud {app}" : "Nextcloud {app}",
+    "Can't install this app because it is not compatible" : "アプリの互換性がないため、インストールできません",
+    "Can't install this app" : "このアプリはインストールできません",
     "These apps will be updated:" : "次のアプリがアップデートされます：",
     "For more details see the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "詳細は <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">ドキュメンテーション</a> を参照してください。"
 },"pluralForm" :"nplurals=1; plural=0;"
