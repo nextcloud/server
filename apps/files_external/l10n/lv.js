@@ -1,7 +1,7 @@
 OC.L10N.register(
     "files_external",
     {
-    "External storages" : "Ārējās krātuves",
+    "External storage" : "Ārējā krātuve",
     "Personal" : "Personīgi",
     "System" : "Sistēma",
     "Grant access" : "Piešķirt pieeju",
@@ -73,13 +73,13 @@ OC.L10N.register(
     "Scope" : "Darbības joma",
     "Open documentation" : "Atvērt dokumentāciju",
     "Folder name" : "Mapes nosaukums",
-    "External storage" : "Ārējā krātuve",
     "Authentication" : "Autentifikācija",
     "Configuration" : "Konfigurācija",
     "Available for" : "Pieejams",
     "Add storage" : "Pievienot krātuvi",
     "Advanced settings" : "Paplašināti iestatījumi",
     "Allow users to mount external storage" : "Atļaut lietotājiem uzstādīt ārējās krātuves",
+    "External storages" : "Ārējās krātuves",
     "(group)" : "(grupa)"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

@@ -1,5 +1,5 @@
 { "translations": {
-    "External storages" : "حافظه خارجی",
+    "External storage" : "حافظه خارجی",
     "Personal" : "شخصی",
     "System" : "سیستم",
     "Grant access" : " مجوز اعطا دسترسی",
@@ -120,7 +120,6 @@
     "Open documentation" : "مستندات باز",
     "External storage enables you to mount external storage services and devices as secondary Nextcloud storage devices. You may also allow users to mount their own external storage services." : "فضای ذخیره سازی خارجی شما را قادر می سازد خدمات و دستگاههای ذخیره سازی خارجی را به عنوان دستگاههای ذخیره سازی ثانویه Cloud نصب کنید. همچنین ممکن است به کاربران اجازه دهید خدمات ذخیره سازی خارجی خود را سوار کنند.",
     "Folder name" : "نام پوشه",
-    "External storage" : "حافظه خارجی",
     "Authentication" : "احراز هویت",
     "Configuration" : "پیکربندی",
     "Available for" : "در دسترس برای",
@@ -128,7 +127,8 @@
     "Add storage" : "اضافه کردن حافظه",
     "Advanced settings" : "تنظیمات پیشرفته",
     "Allow users to mount external storage" : "به کاربران اجازه دهید حافظه خارجی را نصب کنند.",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "از اعتبار جهانی می توان برای تأیید اعتبار با چندین انبار خارجی که دارای اعتبار یکسانی هستند استفاده کرد.",
-    "(group)" : "(گروه)"
+    "External storages" : "حافظه خارجی",
+    "(group)" : "(گروه)",
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "از اعتبار جهانی می توان برای تأیید اعتبار با چندین انبار خارجی که دارای اعتبار یکسانی هستند استفاده کرد."
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }
