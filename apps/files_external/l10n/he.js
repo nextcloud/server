@@ -1,7 +1,7 @@
 OC.L10N.register(
     "files_external",
     {
-    "External storages" : "התקני אחסון חיצוניים",
+    "External storage" : "אחסון חיצוני",
     "Personal" : "אישי",
     "System" : "מערכת",
     "Grant access" : "הענקת גישה",
@@ -125,7 +125,6 @@ OC.L10N.register(
     "Open documentation" : "פתיחת תיעוד",
     "External storage enables you to mount external storage services and devices as secondary Nextcloud storage devices. You may also allow users to mount their own external storage services." : "אחסון חיצוני מאפשר לך לעגן שירותי אחסון והתקנים כהתקני אחסון משניים ב־Nextcloud. ישנה גם אפשרות לאפשר למשתמשים לעגן שירותי אחסון חיצוניים משלהם.",
     "Folder name" : "שם התיקייה",
-    "External storage" : "אחסון חיצוני",
     "Authentication" : "אימות",
     "Configuration" : "הגדרות",
     "Available for" : "זמין עבור",
@@ -133,7 +132,8 @@ OC.L10N.register(
     "Add storage" : "הוספת אחסון",
     "Advanced settings" : "הגדרות מתקדמות",
     "Allow users to mount external storage" : "מאפשר למשתמשים לחבר אחסון חיצוני",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "ניתן להשתמש בפרטי גישה גלובליים עם מגוון אמצעי אחסון חיצוניים שיש להם את אותם פרטי הגישה.",
-    "(group)" : "(קבוצה)"
+    "External storages" : "התקני אחסון חיצוניים",
+    "(group)" : "(קבוצה)",
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "ניתן להשתמש בפרטי גישה גלובליים עם מגוון אמצעי אחסון חיצוניים שיש להם את אותם פרטי הגישה."
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");

@@ -1,4 +1,5 @@
 { "translations": {
+    "External storage" : "Stocare externă",
     "Personal" : "Personal",
     "System" : "Sistem",
     "Grant access" : "Permite accesul",
@@ -72,7 +73,6 @@
     "Scope" : "Scop",
     "Open documentation" : "Deschide documentația",
     "Folder name" : "Denumire director",
-    "External storage" : "Stocare externă",
     "Authentication" : "Autentificare",
     "Configuration" : "Configurație",
     "Available for" : "Disponibil pentru",

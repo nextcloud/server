@@ -1,7 +1,7 @@
 OC.L10N.register(
     "files_external",
     {
-    "External storages" : "Ekstern lagring",
+    "External storage" : "Ekstern lagring",
     "Personal" : "Personlig",
     "System" : "System",
     "Grant access" : "Gi tilgang",
@@ -117,7 +117,6 @@ OC.L10N.register(
     "Scope" : "Omfang",
     "Open documentation" : "Åpne dokumentasjon",
     "Folder name" : "Mappenavn",
-    "External storage" : "Ekstern lagring",
     "Authentication" : "Autentisering",
     "Configuration" : "Oppsett",
     "Available for" : "Tilgjengelig for",
@@ -125,6 +124,7 @@ OC.L10N.register(
     "Add storage" : "Legg til lagringsplass",
     "Advanced settings" : "Avanserte innstillinger",
     "Allow users to mount external storage" : "Tillat at brukere kobler opp eksterne lagre",
+    "External storages" : "Ekstern lagring",
     "(group)" : "(gruppe)"
 },
 "nplurals=2; plural=(n != 1);");

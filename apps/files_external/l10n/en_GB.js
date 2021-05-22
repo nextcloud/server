@@ -1,7 +1,7 @@
 OC.L10N.register(
     "files_external",
     {
-    "External storages" : "External storages",
+    "External storage" : "External storage",
     "Personal" : "Personal",
     "System" : "System",
     "Grant access" : "Grant access",
@@ -118,7 +118,6 @@ OC.L10N.register(
     "Scope" : "Scope",
     "Open documentation" : "Open documentation",
     "Folder name" : "Folder name",
-    "External storage" : "External storage",
     "Authentication" : "Authentication",
     "Configuration" : "Configuration",
     "Available for" : "Available for",
@@ -126,6 +125,7 @@ OC.L10N.register(
     "Add storage" : "Add storage",
     "Advanced settings" : "Advanced settings",
     "Allow users to mount external storage" : "Allow users to mount external storage",
+    "External storages" : "External storages",
     "(group)" : "(group)"
 },
 "nplurals=2; plural=(n != 1);");

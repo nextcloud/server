@@ -1,5 +1,5 @@
 { "translations": {
-    "External storages" : "გარე საცავები",
+    "External storage" : "ექსტერნალური საცავი",
     "Personal" : "პირადი",
     "System" : "სისტემა",
     "Grant access" : "წვდომის მინიჭება",
@@ -110,7 +110,6 @@
     "Scope" : "ფარგლები",
     "Open documentation" : "ღია დოკუმენტაცია",
     "Folder name" : "დირექტორიის სახელი",
-    "External storage" : "ექსტერნალური საცავი",
     "Authentication" : "აუტენტიფიკაცია",
     "Configuration" : "კონფიგურაცია",
     "Available for" : "ხელმისაწვდომია რომ",
@@ -118,6 +117,7 @@
     "Add storage" : "საცავის დამატება",
     "Advanced settings" : "დამატებითი პარამეტრები",
     "Allow users to mount external storage" : "მივცეთ მომხმარებლებს გარე საცავის მონტაჟის უფლება",
+    "External storages" : "გარე საცავები",
     "(group)" : "(ჯგუფი)"
 },"pluralForm" :"nplurals=2; plural=(n!=1);"
 }

@@ -1,7 +1,7 @@
 OC.L10N.register(
     "files_external",
     {
-    "External storages" : "Kanpoko biltegiratzeak",
+    "External storage" : "Kanpoko biltegiratzea",
     "Personal" : "Pertsonala",
     "System" : "Sistema",
     "Grant access" : "Baimendu sarrera",
@@ -126,7 +126,6 @@ OC.L10N.register(
     "Open documentation" : "Ireki dokumentazioa",
     "External storage enables you to mount external storage services and devices as secondary Nextcloud storage devices. You may also allow users to mount their own external storage services." : "Kanpoko biltegiratzeak aukera ematen dizu kanpoko biltegiratze zerbitzuak eta gailuak erabiltzeko Nextlcloudeko bigarren mailako biltegiratze gailu bezala. Gainera, aukera eman diezaiekezu erabiltzaileei beren kanpoko biltegiratze zerbitzuak muntatzeko.",
     "Folder name" : "Karpetaren izena",
-    "External storage" : "Kanpoko biltegiratzea",
     "Authentication" : "Autentifikazioa",
     "Configuration" : "Konfigurazioa",
     "Available for" : "Hauentzat eskuragarri",
@@ -134,7 +133,8 @@ OC.L10N.register(
     "Add storage" : "Gehitu biltegiratzea",
     "Advanced settings" : "Ezarpen aurreratuak",
     "Allow users to mount external storage" : "Baimendu erabiltzaileek kanpoko biltegiratze zerbitzuak muntatzea",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Kredentzial globalak erabil daitezke kredentzial berdinak dituzten kanpoko hainbat biltegiratzerekin autentifikatzeko.",
-    "(group)" : "(taldea)"
+    "External storages" : "Kanpoko biltegiratzeak",
+    "(group)" : "(taldea)",
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Kredentzial globalak erabil daitezke kredentzial berdinak dituzten kanpoko hainbat biltegiratzerekin autentifikatzeko."
 },
 "nplurals=2; plural=(n != 1);");

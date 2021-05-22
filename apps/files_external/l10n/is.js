@@ -1,7 +1,7 @@
 OC.L10N.register(
     "files_external",
     {
-    "External storages" : "Utanáliggjandi gagnageymslur",
+    "External storage" : "Ytri gagnageymsla",
     "Personal" : "Einka",
     "System" : "Kerfi",
     "Grant access" : "Veita aðgengi",
@@ -120,7 +120,6 @@ OC.L10N.register(
     "Scope" : "Umfang",
     "Open documentation" : "Opna hjálparskjöl",
     "Folder name" : "Nafn möppu",
-    "External storage" : "Ytri gagnageymsla",
     "Authentication" : "Auðkenning",
     "Configuration" : "Uppsetning",
     "Available for" : "Tiltækt fyrir",
@@ -128,6 +127,7 @@ OC.L10N.register(
     "Add storage" : "Bæta við gagnahirslu",
     "Advanced settings" : "Ítarlegri valkostir",
     "Allow users to mount external storage" : "Leyfa notendum að tengja ytri gagnageymslur í skráakerfi",
+    "External storages" : "Utanáliggjandi gagnageymslur",
     "(group)" : "(hópur)"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

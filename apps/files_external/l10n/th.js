@@ -1,6 +1,7 @@
 OC.L10N.register(
     "files_external",
     {
+    "External storage" : "จัดเก็บข้อมูลภายนอก",
     "Personal" : "ส่วนตัว",
     "System" : "ระบบ",
     "Grant access" : "อนุญาตให้เข้าถึงได้",
@@ -92,7 +93,6 @@ OC.L10N.register(
     "Scope" : "ขอบเขต",
     "Open documentation" : "เปิดเอกสาร",
     "Folder name" : "ชื่อโฟลเดอร์",
-    "External storage" : "จัดเก็บข้อมูลภายนอก",
     "Authentication" : "รับรองความถูกต้อง",
     "Configuration" : "การกำหนดค่า",
     "Available for" : "สามารถใช้ได้สำหรับ",

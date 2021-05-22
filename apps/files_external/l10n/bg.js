@@ -1,7 +1,7 @@
 OC.L10N.register(
     "files_external",
     {
-    "External storages" : "Външни хранилища",
+    "External storage" : "Външно хранилище",
     "Personal" : "Личен",
     "System" : "Системен",
     "Grant access" : "Разреши достъпa",
@@ -125,7 +125,6 @@ OC.L10N.register(
     "Open documentation" : "Отвори документацията",
     "External storage enables you to mount external storage services and devices as secondary Nextcloud storage devices. You may also allow users to mount their own external storage services." : "Външното хранилище ви позволява да монтирате външни услуги и хранилища, както и вторични устройства за съхранение на Nextcloud. Можете също така да позволите на потреби телите да монтират свои собствени външни услуги за съхранение.",
     "Folder name" : "Име на папката",
-    "External storage" : "Външно хранилище",
     "Authentication" : "Удостоверяване",
     "Configuration" : "Настройки",
     "Available for" : "Достъпно за",
@@ -133,7 +132,8 @@ OC.L10N.register(
     "Add storage" : "Добави хранилище",
     "Advanced settings" : "Допълнителни настройки",
     "Allow users to mount external storage" : "Разреши на потребителите да монтират външни хранилища",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Глобалните идентификационни данни могат да се използват за удостоверяване с множество външни хранилища, които имат едни и същи идентификационни данни.",
-    "(group)" : "(група)"
+    "External storages" : "Външни хранилища",
+    "(group)" : "(група)",
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Глобалните идентификационни данни могат да се използват за удостоверяване с множество външни хранилища, които имат едни и същи идентификационни данни."
 },
 "nplurals=2; plural=(n != 1);");

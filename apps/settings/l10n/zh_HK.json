@@ -298,6 +298,7 @@
     "An error occured during the request. Unable to proceed." : "請求時發生錯誤。無法繼續。",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "應用程式已啟用但是需要更新。您將會在5秒內被重新導向至更新頁面。",
     "App update" : "應用程式更新",
+    "Error: This app cannot be enabled because it makes the server unstable" : "錯誤：此應用程序無法啟用，因為它造成伺服器不穩定",
     "Administrator documentation" : "管理員使用手冊",
     "Documentation" : "使用手冊",
     "Forum" : "論壇",

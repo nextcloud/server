@@ -1,5 +1,5 @@
 { "translations": {
-    "External storages" : "Magazyny zewnętrzne",
+    "External storage" : "Zewnętrzne zasoby dyskowe",
     "Personal" : "Osobiste",
     "System" : "System",
     "Grant access" : "Udziel dostępu",
@@ -124,7 +124,6 @@
     "Open documentation" : "Otwórz dokumentację",
     "External storage enables you to mount external storage services and devices as secondary Nextcloud storage devices. You may also allow users to mount their own external storage services." : "Magazyny zewnętrzne umożliwiają podłączanie zewnętrznych usług pamięci masowej i urządzeń jako dodatkowych urządzeń magazynujących Nextcloud. Możesz także zezwolić użytkownikom na montowanie własnych magazynów zewnętrznych.",
     "Folder name" : "Nazwa katalogu",
-    "External storage" : "Zewnętrzne zasoby dyskowe",
     "Authentication" : "Uwierzytelnienie",
     "Configuration" : "Konfiguracja",
     "Available for" : "Dostępne dla",
@@ -132,7 +131,8 @@
     "Add storage" : "Dodaj zewnętrzne magazyny",
     "Advanced settings" : "Ustawienia zaawansowane",
     "Allow users to mount external storage" : "Pozwól użytkownikom montować zewnętrzne zasoby dyskowe",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Poświadczenia globalne mogą być używane do uwierzytelniania z wieloma zewnętrznymi magazynami, o ile posiadają takie same poświadczenia.",
-    "(group)" : "(grupa)"
+    "External storages" : "Magazyny zewnętrzne",
+    "(group)" : "(grupa)",
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Poświadczenia globalne mogą być używane do uwierzytelniania z wieloma zewnętrznymi magazynami, o ile posiadają takie same poświadczenia."
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
 }

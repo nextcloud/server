@@ -1,7 +1,7 @@
 OC.L10N.register(
     "files_external",
     {
-    "External storages" : "გარე საცავები",
+    "External storage" : "ექსტერნალური საცავი",
     "Personal" : "პირადი",
     "System" : "სისტემა",
     "Grant access" : "წვდომის მინიჭება",
@@ -112,7 +112,6 @@ OC.L10N.register(
     "Scope" : "ფარგლები",
     "Open documentation" : "ღია დოკუმენტაცია",
     "Folder name" : "დირექტორიის სახელი",
-    "External storage" : "ექსტერნალური საცავი",
     "Authentication" : "აუტენტიფიკაცია",
     "Configuration" : "კონფიგურაცია",
     "Available for" : "ხელმისაწვდომია რომ",
@@ -120,6 +119,7 @@ OC.L10N.register(
     "Add storage" : "საცავის დამატება",
     "Advanced settings" : "დამატებითი პარამეტრები",
     "Allow users to mount external storage" : "მივცეთ მომხმარებლებს გარე საცავის მონტაჟის უფლება",
+    "External storages" : "გარე საცავები",
     "(group)" : "(ჯგუფი)"
 },
 "nplurals=2; plural=(n!=1);");

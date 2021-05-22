@@ -1,7 +1,7 @@
 OC.L10N.register(
     "files_external",
     {
-    "External storages" : "Внешние хранилища",
+    "External storage" : "Внешнее хранилище",
     "Personal" : "Личное",
     "System" : "Система",
     "Grant access" : "Предоставить доступ",
@@ -126,7 +126,6 @@ OC.L10N.register(
     "Open documentation" : "Открыть документацию",
     "External storage enables you to mount external storage services and devices as secondary Nextcloud storage devices. You may also allow users to mount their own external storage services." : "Внешнее хранилище позволяет подключать внешние устройства хранения и устройства в качестве вторичных устройств хранения Nextcloud. Вы также можете разрешить пользователям устанавливать собственные внешние службы хранения.",
     "Folder name" : "Имя папки",
-    "External storage" : "Внешнее хранилище",
     "Authentication" : "Способ авторизации",
     "Configuration" : "Конфигурация",
     "Available for" : "Доступно для",
@@ -134,7 +133,8 @@ OC.L10N.register(
     "Add storage" : "Добавить хранилище",
     "Advanced settings" : "Расширенные настройки",
     "Allow users to mount external storage" : "Разрешить пользователями подключать внешние хранилища",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Глобальные учетные данные могут использоваться для аутентификации с несколькими внешними хранилищами, которые имеют одинаковые учетные данные.",
-    "(group)" : "(группа)"
+    "External storages" : "Внешние хранилища",
+    "(group)" : "(группа)",
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Глобальные учетные данные могут использоваться для аутентификации с несколькими внешними хранилищами, которые имеют одинаковые учетные данные."
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

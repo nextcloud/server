@@ -1,7 +1,7 @@
 OC.L10N.register(
     "files_external",
     {
-    "External storages" : "Archiviazioni esterne",
+    "External storage" : "Archiviazione esterna",
     "Personal" : "Personale",
     "System" : "Sistema",
     "Grant access" : "Concedi l'accesso",
@@ -126,7 +126,6 @@ OC.L10N.register(
     "Open documentation" : "Apri la documentazione",
     "External storage enables you to mount external storage services and devices as secondary Nextcloud storage devices. You may also allow users to mount their own external storage services." : "Archiviazioni esterne ti consente di montare servizi di archiviazione esterna e dispositivi come dispositivi di archiviazione secondari di Nextcloud. Puoi anche permettere agli utenti di montare i propri servizi di archiviazione esterna.",
     "Folder name" : "Nome della cartella",
-    "External storage" : "Archiviazione esterna",
     "Authentication" : "Autenticazione",
     "Configuration" : "Configurazione",
     "Available for" : "Disponibile per",
@@ -134,7 +133,8 @@ OC.L10N.register(
     "Add storage" : "Aggiungi archiviazione",
     "Advanced settings" : "Impostazioni avanzate",
     "Allow users to mount external storage" : "Consenti agli utenti di montare archiviazioni esterne",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Le credenziali globali possono essere utilizzate anche per l'autenticazione con più archiviazioni esterne che hanno le stesse credenziali.",
-    "(group)" : "(gruppo)"
+    "External storages" : "Archiviazioni esterne",
+    "(group)" : "(gruppo)",
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Le credenziali globali possono essere utilizzate anche per l'autenticazione con più archiviazioni esterne che hanno le stesse credenziali."
 },
 "nplurals=2; plural=(n != 1);");

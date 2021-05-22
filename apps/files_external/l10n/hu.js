@@ -1,7 +1,7 @@
 OC.L10N.register(
     "files_external",
     {
-    "External storages" : "Külső tárolók",
+    "External storage" : "Külső tárolók",
     "Personal" : "Személyes",
     "System" : "Rendszer",
     "Grant access" : "Megadom a hozzáférést",
@@ -125,7 +125,6 @@ OC.L10N.register(
     "Open documentation" : "Dokumentáció megnyitása",
     "External storage enables you to mount external storage services and devices as secondary Nextcloud storage devices. You may also allow users to mount their own external storage services." : "A külső tárhely lehetővé teszi külső tárolási szolgáltatások és eszközök másodlagos Nextcloud tárolóeszközként történő csatlakoztatását. Lehetővé teheti a felhasználók számára, hogy saját külső tároló szolgáltatásukat is csatlakoztassák.",
     "Folder name" : "Mappa neve",
-    "External storage" : "Külső tárolók",
     "Authentication" : "Hitelesítés",
     "Configuration" : "Beállítások",
     "Available for" : "Elérhető számukra",
@@ -133,7 +132,8 @@ OC.L10N.register(
     "Add storage" : "Tároló becsatolása",
     "Advanced settings" : "Haladó beállítások",
     "Allow users to mount external storage" : "Külső tárolók csatolásának  engedélyezése a felhasználók részére",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "A globális hitelesítő adatokkal azonos külső hitelesítő adatokkal rendelkező külső tárhelyek hitelesíthetők.",
-    "(group)" : "(csoport)"
+    "External storages" : "Külső tárolók",
+    "(group)" : "(csoport)",
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "A globális hitelesítő adatokkal azonos külső hitelesítő adatokkal rendelkező külső tárhelyek hitelesíthetők."
 },
 "nplurals=2; plural=(n != 1);");

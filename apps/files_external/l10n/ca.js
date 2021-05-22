@@ -1,7 +1,7 @@
 OC.L10N.register(
     "files_external",
     {
-    "External storages" : "Emmagatzematges externs",
+    "External storage" : "Emmagatzematge extern",
     "Personal" : "Personal",
     "System" : "Sistema",
     "Grant access" : "Concedeix accés",
@@ -125,7 +125,6 @@ OC.L10N.register(
     "Open documentation" : "Obre la documentació",
     "External storage enables you to mount external storage services and devices as secondary Nextcloud storage devices. You may also allow users to mount their own external storage services." : "L’emmagatzematge extern us permet muntar serveis i dispositius d’emmagatzematge externs com a dispositius d’emmagatzematge secundaris de Nextcloud. També podeu permetre als usuaris muntar els seus propis serveis d’emmagatzematge extern.",
     "Folder name" : "Nom de la carpeta",
-    "External storage" : "Emmagatzematge extern",
     "Authentication" : "Autenticació",
     "Configuration" : "Configuració",
     "Available for" : "Disponible per",
@@ -133,7 +132,8 @@ OC.L10N.register(
     "Add storage" : "Afegeix emmagatzematge",
     "Advanced settings" : "Paràmetres avançats",
     "Allow users to mount external storage" : "Permet als usuaris muntar emmagatzematge extern",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Les credencials globals es poden utilitzar per autenticar-se amb múltiples emmagatzematges externs que tenen les mateixes credencials.",
-    "(group)" : "(grup)"
+    "External storages" : "Emmagatzematges externs",
+    "(group)" : "(grup)",
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Les credencials globals es poden utilitzar per autenticar-se amb múltiples emmagatzematges externs que tenen les mateixes credencials."
 },
 "nplurals=2; plural=(n != 1);");
