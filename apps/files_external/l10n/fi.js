@@ -1,7 +1,7 @@
 OC.L10N.register(
     "files_external",
     {
-    "External storages" : "Erilliset tallennustilat",
+    "External storage" : "Erillinen tallennustila",
     "Personal" : "Henkilökohtainen",
     "System" : "Järjestelmä",
     "Grant access" : "Salli pääsy",
@@ -121,7 +121,6 @@ OC.L10N.register(
     "Scope" : "Näkyvyysalue",
     "Open documentation" : "Avaa dokumentaatio",
     "Folder name" : "Kansion nimi",
-    "External storage" : "Erillinen tallennustila",
     "Authentication" : "Tunnistautuminen",
     "Configuration" : "Asetukset",
     "Available for" : "Saatavuus",
@@ -129,7 +128,8 @@ OC.L10N.register(
     "Add storage" : "Lisää tallennustila",
     "Advanced settings" : "Lisäasetukset",
     "Allow users to mount external storage" : "Salli käyttäjien liittää erillisiä tallennustiloja",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Yleisiä tunnistetietoja voidaan käyttää useisiin ulkoisiin tallennustiloihin tunnistautumiseen, joissa käytetään samoja tunnistetietoja.",
-    "(group)" : "(ryhmä)"
+    "External storages" : "Erilliset tallennustilat",
+    "(group)" : "(ryhmä)",
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Yleisiä tunnistetietoja voidaan käyttää useisiin ulkoisiin tallennustiloihin tunnistautumiseen, joissa käytetään samoja tunnistetietoja."
 },
 "nplurals=2; plural=(n != 1);");

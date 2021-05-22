@@ -1,5 +1,5 @@
 { "translations": {
-    "External storages" : "Externí úložiště",
+    "External storage" : "Externí úložiště",
     "Personal" : "Osobní",
     "System" : "Systém",
     "Grant access" : "Udělit přístup",
@@ -124,7 +124,6 @@
     "Open documentation" : "Otevřít dokumentaci",
     "External storage enables you to mount external storage services and devices as secondary Nextcloud storage devices. You may also allow users to mount their own external storage services." : "Externí úložiště umožňuje připojit úložiště externích služeb a zařízení jako vedlejší úložná zařízení pro Nextcloud. Je také možné umožnit uživatelům připojovat jejich vlastní externí úložiště.",
     "Folder name" : "Název složky",
-    "External storage" : "Externí úložiště",
     "Authentication" : "Ověření",
     "Configuration" : "Nastavení",
     "Available for" : "Dostupné pro",
@@ -132,7 +131,8 @@
     "Add storage" : "Přidat úložiště",
     "Advanced settings" : "Pokročilá nastavení",
     "Allow users to mount external storage" : "Povolit uživatelům připojení externího úložiště",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globální přihlašovací údaje je možné použít pro ověření s vícero vnějšími úložišti které mají stejné přihlašovací údaje.",
-    "(group)" : "(skupina)"
+    "External storages" : "Externí úložiště",
+    "(group)" : "(skupina)",
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globální přihlašovací údaje je možné použít pro ověření s vícero vnějšími úložišti které mají stejné přihlašovací údaje."
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;"
 }

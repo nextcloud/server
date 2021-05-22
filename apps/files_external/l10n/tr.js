@@ -1,7 +1,7 @@
 OC.L10N.register(
     "files_external",
     {
-    "External storages" : "Dış depolama",
+    "External storage" : "Dış depolama",
     "Personal" : "Kişisel",
     "System" : "Sistem",
     "Grant access" : "Erişim ver",
@@ -126,7 +126,6 @@ OC.L10N.register(
     "Open documentation" : "Belgeleri aç",
     "External storage enables you to mount external storage services and devices as secondary Nextcloud storage devices. You may also allow users to mount their own external storage services." : "Dış depolama özelliği, dış depolama hizmet ve aygıtlarını ikincil Nextcloud depolama aygıtları olarak ekleyebilmenizi sağlar. Ayrıca kullanıcıların kendi dış depolama aygıtlarını ekleyebilmesine izin verebilirsiniz.",
     "Folder name" : "Klasör adı",
-    "External storage" : "Dış depolama",
     "Authentication" : "Kimlik Doğrulama",
     "Configuration" : "Yapılandırma",
     "Available for" : "Kullanabilecekler",
@@ -134,7 +133,8 @@ OC.L10N.register(
     "Add storage" : "Depolama ekle",
     "Advanced settings" : "Gelişmiş ayarlar",
     "Allow users to mount external storage" : "Kullanıcılar dış depolama bağlayabilsin",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Aynı kimlik doğrulama bilgilerini kullanan bir çok dış depolama aygıtına genel kimlik doğrulama bilgileri ile erişebilirsiniz.",
-    "(group)" : "(grup)"
+    "External storages" : "Dış depolama",
+    "(group)" : "(grup)",
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Aynı kimlik doğrulama bilgilerini kullanan bir çok dış depolama aygıtına genel kimlik doğrulama bilgileri ile erişebilirsiniz."
 },
 "nplurals=2; plural=(n > 1);");

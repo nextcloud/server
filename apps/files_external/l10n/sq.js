@@ -1,7 +1,7 @@
 OC.L10N.register(
     "files_external",
     {
-    "External storages" : "Kujtesë e jashtëme",
+    "External storage" : "Depozitë e jashtme",
     "Personal" : "Personale",
     "System" : "Sistem",
     "Grant access" : "Akordoji hyrje",
@@ -107,13 +107,13 @@ OC.L10N.register(
     "Scope" : "Shtrirje",
     "Open documentation" : "Dokumentacion i hapur",
     "Folder name" : "Emër dosjeje",
-    "External storage" : "Depozitë e jashtme",
     "Authentication" : "Mirëfilltësim",
     "Configuration" : "Formësim",
     "Available for" : "E gatshme për",
     "Add storage" : "Shtoni depozitë",
     "Advanced settings" : "Rregullime të mëtejshme",
     "Allow users to mount external storage" : "Lejoju përdoruesve të montojnë depozita të jashtme",
+    "External storages" : "Kujtesë e jashtëme",
     "(group)" : "(grup)"
 },
 "nplurals=2; plural=(n != 1);");

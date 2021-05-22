@@ -1,7 +1,7 @@
 OC.L10N.register(
     "files_external",
     {
-    "External storages" : "Externé úložiská",
+    "External storage" : "Externé úložisko",
     "Personal" : "Osobné",
     "System" : "Systém",
     "Grant access" : "Povoliť prístup",
@@ -125,7 +125,6 @@ OC.L10N.register(
     "Open documentation" : "Otvoriť dokumentáciu",
     "External storage enables you to mount external storage services and devices as secondary Nextcloud storage devices. You may also allow users to mount their own external storage services." : "Externé úložisko umožňuje pripojiť služby externých úložísk a zariadení ako sekundárne zariadenia na ukladanie pre Nextcloud. Môžete tiež umožniť používateľom pripájať ich vlastné služby externých úložísk.",
     "Folder name" : "Názov priečinka",
-    "External storage" : "Externé úložisko",
     "Authentication" : "Autentifikácia",
     "Configuration" : "Nastavenia",
     "Available for" : "K dispozícii pre",
@@ -133,7 +132,8 @@ OC.L10N.register(
     "Add storage" : "Pridať úložisko",
     "Advanced settings" : "Rozšírené nastavenia",
     "Allow users to mount external storage" : "Povoliť používateľom pripojiť externé úložiská",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globálne prihlasovacie údaje je možné použiť pre overenie s viacerými externými úložiskami, ktoré majú rovnaké prihlasovacie údaje.",
-    "(group)" : "(skupina)"
+    "External storages" : "Externé úložiská",
+    "(group)" : "(skupina)",
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globálne prihlasovacie údaje je možné použiť pre overenie s viacerými externými úložiskami, ktoré majú rovnaké prihlasovacie údaje."
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

@@ -1,7 +1,7 @@
 OC.L10N.register(
     "files_external",
     {
-    "External storages" : "Εξωτερική αποθήκευση",
+    "External storage" : "Εξωτερική αποθήκευση",
     "Personal" : "Προσωπικά",
     "System" : "Σύστημα",
     "Grant access" : "Παροχή πρόσβασης",
@@ -125,7 +125,6 @@ OC.L10N.register(
     "Open documentation" : "Άνοιγμα τεκμηρίωσης",
     "External storage enables you to mount external storage services and devices as secondary Nextcloud storage devices. You may also allow users to mount their own external storage services." : "Ο εξωτερικός χώρος αποθήκευσης σάς επιτρέπει να συνδέσετε εξωτερικές υπηρεσίες και συσκευές αποθήκευσης ως δευτερεύουσες συσκευές αποθήκευσης Nextcloud. Μπορείτε επίσης να επιτρέψετε στους χρήστες να εγκαταστήσουν τις δικές τους υπηρεσίες εξωτερικής αποθήκευσης.",
     "Folder name" : "Όνομα φακέλου",
-    "External storage" : "Εξωτερική αποθήκευση",
     "Authentication" : "Πιστοποίηση",
     "Configuration" : "Ρυθμίσεις",
     "Available for" : "Διαθέσιμο για",
@@ -133,7 +132,8 @@ OC.L10N.register(
     "Add storage" : "Προσθηκη αποθηκευσης",
     "Advanced settings" : "Ρυθμίσεις για προχωρημένους",
     "Allow users to mount external storage" : "Να επιτρέπεται στους χρήστες η σύνδεση εξωτερικού χώρου",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Τα δημόσια διαπιστευτήρια μπορούν να χρησιμοποιηθούν για τον έλεγχο ταυτότητας με διάφορους εξωτερικούς χώρους αποθήκευσης με ίδια διαπιστευτήρια.",
-    "(group)" : "(ομάδα)"
+    "External storages" : "Εξωτερική αποθήκευση",
+    "(group)" : "(ομάδα)",
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Τα δημόσια διαπιστευτήρια μπορούν να χρησιμοποιηθούν για τον έλεγχο ταυτότητας με διάφορους εξωτερικούς χώρους αποθήκευσης με ίδια διαπιστευτήρια."
 },
 "nplurals=2; plural=(n != 1);");

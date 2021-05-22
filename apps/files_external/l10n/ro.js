@@ -1,6 +1,7 @@
 OC.L10N.register(
     "files_external",
     {
+    "External storage" : "Stocare externă",
     "Personal" : "Personal",
     "System" : "Sistem",
     "Grant access" : "Permite accesul",
@@ -74,7 +75,6 @@ OC.L10N.register(
     "Scope" : "Scop",
     "Open documentation" : "Deschide documentația",
     "Folder name" : "Denumire director",
-    "External storage" : "Stocare externă",
     "Authentication" : "Autentificare",
     "Configuration" : "Configurație",
     "Available for" : "Disponibil pentru",

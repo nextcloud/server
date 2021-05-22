@@ -1,7 +1,7 @@
 OC.L10N.register(
     "files_external",
     {
-    "External storages" : "Penyimpanan Eksternal",
+    "External storage" : "Penyimpanan eksternal",
     "Personal" : "Pribadi",
     "System" : "Sistem",
     "Grant access" : "Berikan hak akses",
@@ -103,13 +103,13 @@ OC.L10N.register(
     "Scope" : "Skop",
     "Open documentation" : "Buka dokumentasi",
     "Folder name" : "Nama folder",
-    "External storage" : "Penyimpanan eksternal",
     "Authentication" : "Otentikasi",
     "Configuration" : "Konfigurasi",
     "Available for" : "Tersedia untuk",
     "Add storage" : "Tambahkan penyimpanan",
     "Advanced settings" : "Pengaturan Lanjutan",
     "Allow users to mount external storage" : "Izinkan pengguna untuk mengaitkan penyimpanan eksternal",
+    "External storages" : "Penyimpanan Eksternal",
     "(group)" : "(grup)"
 },
 "nplurals=1; plural=0;");
