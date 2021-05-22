@@ -123,6 +123,7 @@ OC.L10N.register(
     "Could not lock node" : "无法锁定节点",
     "Could not lock path" : "无法锁定路径",
     "Wrong or no update parameter given" : "错误或没有更新参数给出",
+    "Cannot change permissions for public share links" : "无法更改公共共享链接的权限 ",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "由于 Nextcloud Talk 没有启用，所以通过 Nextcloud Talk 发送共享密码失败。",
     "shared by %s" : "共享者 %s",
     "Download all files" : "下载所有文件",

@@ -1,7 +1,7 @@
 OC.L10N.register(
     "files_external",
     {
-    "External storages" : "Vanjsko spremište za pohranu",
+    "External storage" : "Vanjsko spremište za pohranu",
     "Personal" : "Osobno",
     "System" : "Sustav",
     "Grant access" : "Dodijeli pristup",
@@ -125,7 +125,6 @@ OC.L10N.register(
     "Open documentation" : "Otvori dokumentaciju",
     "External storage enables you to mount external storage services and devices as secondary Nextcloud storage devices. You may also allow users to mount their own external storage services." : "Vanjska pohrana omogućuje vam postavljanje vanjskih servisa i uređaja za pohranu kao pomoćnih uređaja za pohranu sustava Nextcloud. Također možete omogućiti korisnicima postavljanje vlastitih vanjskih servisa za pohranu.",
     "Folder name" : "Naziv mape",
-    "External storage" : "Vanjsko spremište za pohranu",
     "Authentication" : "Autentifikacija",
     "Configuration" : "Konfiguracija",
     "Available for" : "Dostupno za",
@@ -133,7 +132,8 @@ OC.L10N.register(
     "Add storage" : "Dodaj pohranu",
     "Advanced settings" : "Napredne postavke",
     "Allow users to mount external storage" : "Dopusti korisnicima postavljanje vanjske pohrane",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globalne vjerodajnice mogu se upotrebljavati za provođenje autentifikacije na više vanjskih pohrana koje imaju iste vjerodajnice.",
-    "(group)" : "(grupa)"
+    "External storages" : "Vanjsko spremište za pohranu",
+    "(group)" : "(grupa)",
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globalne vjerodajnice mogu se upotrebljavati za provođenje autentifikacije na više vanjskih pohrana koje imaju iste vjerodajnice."
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

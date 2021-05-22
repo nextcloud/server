@@ -123,6 +123,7 @@ OC.L10N.register(
     "Could not lock node" : "Knotenpunkt konnte nicht gesperrt werden",
     "Could not lock path" : "Pfad konnte nicht gesperrt werden",
     "Wrong or no update parameter given" : "Es wurde ein falscher oder kein Updateparameter angegeben",
+    "Cannot change permissions for public share links" : "Berechtigungen für öffentlich freigegebene Links konnten nicht geändert werden",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Freigeben: Senden des Passwortes über Nextcloud Talk gescheitert, da Nextcloud Talk nicht verfügbar ist",
     "shared by %s" : "von %s geteilt",
     "Download all files" : "Alle Dateien herunterladen",

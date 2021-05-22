@@ -1,7 +1,7 @@
 OC.L10N.register(
     "files_external",
     {
-    "External storages" : "Externe opslag",
+    "External storage" : "Externe opslag",
     "Personal" : "Persoonlijk",
     "System" : "Systeem",
     "Grant access" : "Sta toegang toe",
@@ -126,7 +126,6 @@ OC.L10N.register(
     "Open documentation" : "Documentatie openen",
     "External storage enables you to mount external storage services and devices as secondary Nextcloud storage devices. You may also allow users to mount their own external storage services." : "Externe opslag laat je externe opslag diensten en apparaten aankoppelen als secundaire Nextcloud opslag. Je kunt ook toestaan dat gebruikers hun eigen externe opslagdiensten aankoppelen.",
     "Folder name" : "Mapnaam",
-    "External storage" : "Externe opslag",
     "Authentication" : "Authenticatie",
     "Configuration" : "Configuratie",
     "Available for" : "Beschikbaar voor",
@@ -134,7 +133,8 @@ OC.L10N.register(
     "Add storage" : "Toevoegen opslag",
     "Advanced settings" : "Geavanceerde instellingen",
     "Allow users to mount external storage" : "Sta gebruikers toe om een externe opslag aan te koppelen",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globale inloggegevens kunnen worden gebruikt met meerdere externe opslagsystemen met dezelfde inloggegevens.",
-    "(group)" : "(groep)"
+    "External storages" : "Externe opslag",
+    "(group)" : "(groep)",
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globale inloggegevens kunnen worden gebruikt met meerdere externe opslagsystemen met dezelfde inloggegevens."
 },
 "nplurals=2; plural=(n != 1);");

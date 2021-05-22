@@ -1,7 +1,7 @@
 OC.L10N.register(
     "files_external",
     {
-    "External storages" : "Välised andmehoidlad",
+    "External storage" : "Väline andmehoidla",
     "Personal" : "Isiklik",
     "System" : "Süsteem",
     "Grant access" : "Anna ligipääs",
@@ -81,12 +81,12 @@ OC.L10N.register(
     "Scope" : "Skoop",
     "Open documentation" : "Ava dokumentatsioon",
     "Folder name" : "Kausta nimi",
-    "External storage" : "Väline andmehoidla",
     "Authentication" : "Autentimine",
     "Configuration" : "Seadistamine",
     "Available for" : "Saadaval",
     "Add storage" : "Lisa andmehoidla",
     "Advanced settings" : "Lisavalikud",
+    "External storages" : "Välised andmehoidlad",
     "(group)" : "(grupp)"
 },
 "nplurals=2; plural=(n != 1);");

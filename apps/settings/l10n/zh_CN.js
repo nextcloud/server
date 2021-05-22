@@ -300,6 +300,7 @@ OC.L10N.register(
     "An error occured during the request. Unable to proceed." : "请求期间发生错误。 无法继续。",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "该应用已启用，但是需要更新。5秒后将跳转到更新页面。",
     "App update" : "更新应用",
+    "Error: This app cannot be enabled because it makes the server unstable" : "错误:这个应用程序不能被启用，因为它使服务器不稳定 ",
     "Administrator documentation" : "管理员文档",
     "Documentation" : "文档",
     "Forum" : "论坛",

@@ -77,6 +77,7 @@
     "File name cannot be empty." : "Fitxategi-izena ezin da hutsa izan.",
     "\"/\" is not allowed inside a file name." : "\"/\" ez da onartzen fitxategi-izenen barnean.",
     "\"{name}\" is not an allowed filetype" : "\"{name}\" fitxategi-mota ez da onartzen",
+    "Storage of {owner} is full, files cannot be updated or synced anymore!" : "{owner} erabiltzailearen biltegia beteta dago, fitxategiak ezin dira jada eguneratu edo sinkronizatu!",
     "Storage of {owner} is almost full ({usedSpacePercent}%)." : "{owner}-(r)en biltegia betetzear dago ({usedSpacePercent}%).",
     "Group folder \"{mountPoint}\" is almost full ({usedSpacePercent}%)." : "\"{mountPoint}\" talde karpeta betetzear dago ({usedSpacePercent}%).",
     "External storage \"{mountPoint}\" is almost full ({usedSpacePercent}%)." : "\"{mountPoint}\" kanpoko biltegia betetzear dago ({usedSpacePercent}%).",

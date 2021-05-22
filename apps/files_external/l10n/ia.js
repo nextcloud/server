@@ -1,7 +1,7 @@
 OC.L10N.register(
     "files_external",
     {
-    "External storages" : "Immagazinages externe",
+    "External storage" : "Immagazinage externe",
     "Personal" : "Personal",
     "System" : "Systema",
     "Grant access" : "Conceder accesso",
@@ -69,13 +69,13 @@ OC.L10N.register(
     "Storage type" : "Typo de immagazinage",
     "Open documentation" : "Aperir documentation",
     "Folder name" : "Nomine de dossier",
-    "External storage" : "Immagazinage externe",
     "Authentication" : "Authentication",
     "Configuration" : "Configuration",
     "Available for" : "Disponibile a",
     "Add storage" : "Adder immagazinage",
     "Advanced settings" : "Configurationes avantiate",
     "Allow users to mount external storage" : "Permitter usatores montar immagazinage externe",
+    "External storages" : "Immagazinages externe",
     "(group)" : "(gruppo)"
 },
 "nplurals=2; plural=(n != 1);");

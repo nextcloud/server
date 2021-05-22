@@ -1,7 +1,7 @@
 OC.L10N.register(
     "files_external",
     {
-    "External storages" : "外部儲存",
+    "External storage" : "外部儲存",
     "Personal" : "個人",
     "System" : "系統",
     "Grant access" : "允許存取",
@@ -126,7 +126,6 @@ OC.L10N.register(
     "Open documentation" : "開啟說明文件",
     "External storage enables you to mount external storage services and devices as secondary Nextcloud storage devices. You may also allow users to mount their own external storage services." : "外部存儲使您可以將外部存儲服務和設備掛載為次要的Nextcloud存儲設備。 您還可以允許用戶安裝他們自己的外部存儲服務。",
     "Folder name" : "資料夾名稱",
-    "External storage" : "外部儲存",
     "Authentication" : "驗證",
     "Configuration" : "配置",
     "Available for" : "可用的",
@@ -134,7 +133,8 @@ OC.L10N.register(
     "Add storage" : "增加儲存區",
     "Advanced settings" : "進階設定",
     "Allow users to mount external storage" : "允許用戶能自行掛載外部儲存",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "全球身分驗證可用於驗證與有相同身分驗證的多個外部存儲器。",
-    "(group)" : "（群組）"
+    "External storages" : "外部儲存",
+    "(group)" : "（群組）",
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "全球身分驗證可用於驗證與有相同身分驗證的多個外部存儲器。"
 },
 "nplurals=1; plural=0;");
