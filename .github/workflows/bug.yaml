@@ -1,0 +1,35 @@
+name: Bug
+on:
+  issues:
+    types:
+      - labeled
+jobs:
+  add-comment:
+    if: github.event.label.name == 'bug'
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      # https://docs.github.com/en/actions/guides/commenting-on-an-issue-when-a-label-is-added
+      - name: Add comment
+        uses: peter-evans/create-or-update-comment@v1
+        with:
+          issue-number: ${{ github.event.issue.number }}
+          body: |
+            Hello 👋
+            Thank you for opening this bug report and welcome to Nextcloud! ❤
+
+            Please search for already existing issues and if the same bug report already exists, add your 👍 to that because it will have a higher chance to get fixed faster. Then you should also close this issue.
+            
+            If it doesn't already exist, make sure to fill out the requested issue template completely that you can also find [here](https://raw.githubusercontent.com/nextcloud/server/master/.github/ISSUE_TEMPLATE/Bug_report.md) and add it to the description of this issue. 
+            To make this easier for you, you can use the [issue template app](https://apps.nextcloud.com/apps/issuetemplate) to easily collect all needed data.
+            We need this to be able to debug your issue!
+
+            Afterwards, feel free to ping `@szaimen` who will remove the `needs info` tag.
+            Thanks for your effort! 😊
+      # https://docs.github.com/en/actions/guides/adding-labels-to-issues
+      - name: Label issues
+        uses: andymckay/labeler@1.0.2
+        with:
+          add-labels: "needs info"
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
