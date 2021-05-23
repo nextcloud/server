@@ -378,6 +378,7 @@ OC.L10N.register(
     "Always ask for a password" : "一直要求输入密码",
     "Enforce password protection" : "强制密码保护",
     "Set default expiration date" : "设置默认到期日",
+    "Exclude groups from creating link shares:" : "将群排除在创建链接分享外：",
     "Allow resharing" : "允许二次共享",
     "Allow sharing with groups" : "允许群组共享",
     "Restrict users to only share with users in their groups" : "限制用户只与他们组中的用户共享",
