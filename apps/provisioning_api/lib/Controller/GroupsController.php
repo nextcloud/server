@@ -248,7 +248,7 @@ class GroupsController extends AUserData {
 		}
 		$group = $this->groupManager->createGroup($groupid);
 		if ($displayname !== '') {
-		    $group->setDisplayName($displayname);
+			$group->setDisplayName($displayname);
 		}
 		return new DataResponse();
 	}
