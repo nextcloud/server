@@ -1523,6 +1523,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		// Make sure this change is tracked in the changes table
 		$qb2 = $this->db->getQueryBuilder();
 		$selectObject = $qb2->select('calendardata', 'uri', 'calendarid', 'calendartype')
+			->selectAlias('componenttype', 'component')
 			->from('calendarobjects')
 			->where($qb2->expr()->eq('id', $qb2->createNamedParameter($id, IQueryBuilder::PARAM_INT), IQueryBuilder::PARAM_INT));
 		$result = $selectObject->executeQuery();
