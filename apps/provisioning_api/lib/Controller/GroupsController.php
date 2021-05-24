@@ -232,10 +232,11 @@ class GroupsController extends AUserData {
 	 * @PasswordConfirmationRequired
 	 *
 	 * @param string $groupid
+	 * @param string $displayname
 	 * @return DataResponse
 	 * @throws OCSException
 	 */
-	public function addGroup(string $groupid): DataResponse {
+	public function addGroup(string $groupid, string $displayname = ''): DataResponse {
 		// Validate name
 		if (empty($groupid)) {
 			$this->logger->error('Group name not supplied', ['app' => 'provisioning_api']);
@@ -245,7 +246,10 @@ class GroupsController extends AUserData {
 		if ($this->groupManager->groupExists($groupid)) {
 			throw new OCSException('group exists', 102);
 		}
-		$this->groupManager->createGroup($groupid);
+		$group = $this->groupManager->createGroup($groupid);
+		if ($displayname !== '') {
+		    $group->setDisplayName($displayname);
+		}
 		return new DataResponse();
 	}
 
