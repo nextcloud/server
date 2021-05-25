@@ -142,6 +142,7 @@ use OC\Share20\ShareHelper;
 use OC\SystemTag\ManagerFactory as SystemTagManagerFactory;
 use OC\Tagging\TagMapper;
 use OC\Template\JSCombiner;
+use OC\User\UserDeletedListener;
 use OCA\Theming\ImageManager;
 use OCA\Theming\ThemingDefaults;
 use OCA\Theming\Util;
@@ -1445,6 +1446,7 @@ class Server extends ServerContainer implements IServerContainer {
 		$eventDispatched = $this->get(IEventDispatcher::class);
 		$eventDispatched->addServiceListener(LoginFailed::class, LoginFailedListener::class);
 		$eventDispatched->addServiceListener(PostLoginEvent::class, UserLoggedInListener::class);
+		$eventDispatched->addServiceListener(UserDeletedEvent::class, UserDeletedListener::class);
 	}
 
 	/**
