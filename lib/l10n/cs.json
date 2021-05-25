@@ -113,6 +113,7 @@
     "Open »%s«" : "Otevřít „%s“",
     "%1$s via %2$s" : "%1$s prostřednictvím %2$s",
     "You are not allowed to share %s" : "Nemáte povoleno sdílet %s",
+    "Cannot increase permissions of %s" : "Nelze navýšit oprávnění  u %s",
     "Expiration date is in the past" : "Datum skončení platnosti je v minulosti",
     "Sharing is only allowed with group members" : "Je povoleno pouze sdílení s členy skupiny",
     "Sharing %s failed, because this item is already shared with user %s" : "Sdílení %s se nezdařilo, protože tato položka už je sdílena s uživatelem %s",
