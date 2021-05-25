@@ -56,7 +56,7 @@
     "A login attempt using two-factor authentication failed (%1$s)" : "二要素認証を使用したログイン試行に失敗しました (%1$s)",
     "Remote wipe was started on %1$s" : "%1$sでリモートワイプが開始されました",
     "Remote wipe has finished on %1$s" : "%1$sのリモートワイプが完了しました",
-    "Your <strong>password</strong> or <strong>email</strong> was modified" : "<strong> パスワード </strong> または、<strong> メールアドレス</strong>が更新されました",
+    "Your <strong>password</strong> or <strong>email</strong> was modified" : "<strong> パスワード </strong> または<strong> メールアドレス</strong>が更新されたとき",
     "Couldn't remove app." : "アプリが削除できませんでした。",
     "Couldn't update app." : "アプリをアップデートできませんでした。",
     "Wrong password" : "パスワードが間違っています",

@@ -235,10 +235,14 @@ OC.L10N.register(
     "Port" : "Cổng",
     "Credentials" : "Giấy chứng nhận",
     "Save" : "Lưu",
+    "Send email" : "Gửi email",
     "Security & setup warnings" : "Bảo mật và thiết lập cảnh báo",
     "Version" : "Phiên bản",
+    "Enable encryption" : "Bật mã hóa",
     "Allow apps to use the Share API" : "Cho phép các ứng dụng sử dụng chia sẻ API",
     "days" : "ngày",
+    "Enforce expiration date" : "Buộc có ngày hết hạn",
+    "Allow public uploads" : "Cho phép upload công cộng",
     "Allow resharing" : "Cho phép chia sẻ lại",
     "Upload new" : "Tải lên",
     "Remove image" : "Xóa ",
@@ -268,6 +272,7 @@ OC.L10N.register(
     "Issued By" : "Phát hành bởi",
     "Valid until %s" : "Có hiệu lực đến %s",
     "Import root certificate" : "Nhập root certificate",
-    "Execute one task with each page loaded" : "Thực thi tác vụ mỗi khi trang được tải"
+    "Execute one task with each page loaded" : "Thực thi tác vụ mỗi khi trang được tải",
+    "Allow users to share via link" : "Cho phép người dùng chia sẻ qua liên kết"
 },
 "nplurals=1; plural=0;");
