@@ -106,6 +106,7 @@ class AccountManagerTest extends TestCase {
 		/** @var IUser $user */
 		$user = $this->createMock(IUser::class);
 
+		// FIXME: should be an integration test instead of this abomination
 		$accountManager->expects($this->once())->method('getUser')->with($user)->willReturn($oldData);
 
 		if ($updateExisting) {
@@ -147,9 +148,9 @@ class AccountManagerTest extends TestCase {
 
 	public function dataTrueFalse() {
 		return [
-			[['newData'], ['oldData'], false, true],
-			[['newData'], [], true, false],
-			[['oldData'], ['oldData'], false, false]
+			[['myProperty' => ['value' => 'newData']], ['myProperty' => ['value' => 'oldData']], false, true],
+			[['myProperty' => ['value' => 'newData']], [], true, false],
+			[['myProperty' => ['value' => 'oldData']], ['myProperty' => ['value' => 'oldData']], false, false]
 		];
 	}
 

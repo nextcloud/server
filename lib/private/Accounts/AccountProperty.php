@@ -39,12 +39,15 @@ class AccountProperty implements IAccountProperty {
 	private $scope;
 	/** @var string */
 	private $verified;
+	/** @var string */
+	private $verificationData;
 
-	public function __construct(string $name, string $value, string $scope, string $verified) {
+	public function __construct(string $name, string $value, string $scope, string $verified, string $verificationData) {
 		$this->name = $name;
 		$this->value = $value;
 		$this->setScope($scope);
 		$this->verified = $verified;
+		$this->verificationData = $verificationData;
 	}
 
 	public function jsonSerialize() {
@@ -52,7 +55,8 @@ class AccountProperty implements IAccountProperty {
 			'name' => $this->getName(),
 			'value' => $this->getValue(),
 			'scope' => $this->getScope(),
-			'verified' => $this->getVerified()
+			'verified' => $this->getVerified(),
+			'verificationData' => $this->getVerificationData(),
 		];
 	}
 
@@ -163,5 +167,14 @@ class AccountProperty implements IAccountProperty {
 	 */
 	public function getVerified(): string {
 		return $this->verified;
+	}
+
+	public function setVerificationData(string $verificationData): IAccountProperty {
+		$this->verificationData = $verificationData;
+		return $this;
+	}
+
+	public function getVerificationData(): string {
+		return $this->verificationData;
 	}
 }

@@ -101,4 +101,18 @@ interface IAccountProperty extends \JsonSerializable {
 	 * @return string
 	 */
 	public function getVerified(): string;
+
+	/**
+	 * Sets data for verification purposes.
+	 *
+	 * @since 22.0.0
+	 */
+	public function setVerificationData(string $verificationData): IAccountProperty;
+
+	/**
+	 * Retrieves data for verification purposes.
+	 *
+	 * @since 22.0.0
+	 */
+	public function getVerificationData(): string;
 }

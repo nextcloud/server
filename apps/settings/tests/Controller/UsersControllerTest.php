@@ -31,10 +31,14 @@ namespace OCA\Settings\Tests\Controller;
 
 use OC\Accounts\AccountManager;
 use OC\Encryption\Exceptions\ModuleDoesNotExistsException;
+use OC\ForbiddenException;
 use OC\Group\Manager;
 use OC\KnownUser\KnownUserService;
 use OCA\Settings\Controller\UsersController;
+use OCP\Accounts\IAccount;
 use OCP\Accounts\IAccountManager;
+use OCP\Accounts\IAccountProperty;
+use OCP\Accounts\PropertyDoesNotExistException;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
 use OCP\BackgroundJob\IJobList;
@@ -53,6 +57,7 @@ use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Mail\IMailer;
 use OCP\Security\ISecureRandom;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * @group DB
@@ -180,49 +185,77 @@ class UsersControllerTest extends \Test\TestCase {
 		}
 	}
 
-	protected function getDefaultAccountManagerUserData() {
-		return [
-			IAccountManager::PROPERTY_DISPLAYNAME =>
-				[
-					'value' => 'Default display name',
-					'scope' => IAccountManager::SCOPE_FEDERATED,
-					'verified' => IAccountManager::VERIFIED,
-				],
-			IAccountManager::PROPERTY_ADDRESS =>
-				[
-					'value' => 'Default address',
-					'scope' => IAccountManager::SCOPE_LOCAL,
-					'verified' => IAccountManager::VERIFIED,
-				],
-			IAccountManager::PROPERTY_WEBSITE =>
-				[
-					'value' => 'Default website',
-					'scope' => IAccountManager::SCOPE_LOCAL,
-					'verified' => IAccountManager::VERIFIED,
-				],
-			IAccountManager::PROPERTY_EMAIL =>
-				[
-					'value' => 'Default email',
-					'scope' => IAccountManager::SCOPE_FEDERATED,
-					'verified' => IAccountManager::VERIFIED,
-				],
-			IAccountManager::PROPERTY_AVATAR =>
-				[
-					'scope' => IAccountManager::SCOPE_FEDERATED
-				],
-			IAccountManager::PROPERTY_PHONE =>
-				[
-					'value' => 'Default phone',
-					'scope' => IAccountManager::SCOPE_LOCAL,
-					'verified' => IAccountManager::VERIFIED,
-				],
-			IAccountManager::PROPERTY_TWITTER =>
-				[
-					'value' => 'Default twitter',
-					'scope' => IAccountManager::SCOPE_LOCAL,
-					'verified' => IAccountManager::VERIFIED,
-				],
+	protected function buildPropertyMock(string $name, string $value, string $scope, string $verified = IAccountManager::VERIFIED): MockObject {
+		$property = $this->createMock(IAccountProperty::class);
+		$property->expects($this->any())
+			->method('getName')
+			->willReturn($name);
+		$property->expects($this->any())
+			->method('getValue')
+			->willReturn($value);
+		$property->expects($this->any())
+			->method('getScope')
+			->willReturn($scope);
+		$property->expects($this->any())
+			->method('getVerified')
+			->willReturn($verified);
+
+		return $property;
+	}
+
+	protected function getDefaultAccountMock(bool $useDefaultValues = true): MockObject {
+		$propertyMocks = [
+			IAccountManager::PROPERTY_DISPLAYNAME => $this->buildPropertyMock(
+				IAccountManager::PROPERTY_DISPLAYNAME,
+				'Default display name',
+				IAccountManager::SCOPE_FEDERATED,
+			),
+			IAccountManager::PROPERTY_ADDRESS => $this->buildPropertyMock(
+				IAccountManager::PROPERTY_ADDRESS,
+				'Default address',
+				IAccountManager::SCOPE_LOCAL,
+			),
+			IAccountManager::PROPERTY_WEBSITE => $this->buildPropertyMock(
+				IAccountManager::PROPERTY_WEBSITE,
+				'Default website',
+				IAccountManager::SCOPE_LOCAL,
+			),
+			IAccountManager::PROPERTY_EMAIL => $this->buildPropertyMock(
+				IAccountManager::PROPERTY_EMAIL,
+				'Default email',
+				IAccountManager::SCOPE_FEDERATED,
+			),
+			IAccountManager::PROPERTY_AVATAR => $this->buildPropertyMock(
+				IAccountManager::PROPERTY_AVATAR,
+				'',
+				IAccountManager::SCOPE_FEDERATED,
+			),
+			IAccountManager::PROPERTY_PHONE => $this->buildPropertyMock(
+				IAccountManager::PROPERTY_PHONE,
+				'Default phone',
+				IAccountManager::SCOPE_LOCAL,
+			),
+			IAccountManager::PROPERTY_TWITTER => $this->buildPropertyMock(
+				IAccountManager::PROPERTY_TWITTER,
+				'Default twitter',
+				IAccountManager::SCOPE_LOCAL,
+			),
 		];
+
+		$account = $this->createMock(IAccount::class);
+		$account->expects($this->any())
+			->method('getProperty')
+			->willReturnCallback(function (string $propertyName) use ($propertyMocks) {
+				if (isset($propertyMocks[$propertyName])) {
+					return $propertyMocks[$propertyName];
+				}
+				throw new PropertyDoesNotExistException($propertyName);
+			});
+		$account->expects($this->any())
+			->method('getProperties')
+			->willReturn($propertyMocks);
+
+		return $account;
 	}
 
 	/**
@@ -248,13 +281,12 @@ class UsersControllerTest extends \Test\TestCase {
 
 		if ($saveData) {
 			$this->accountManager->expects($this->once())
-				->method('getUser')
+				->method('getAccount')
 				->with($user)
-				->willReturn($this->getDefaultAccountManagerUserData());
+				->willReturn($this->getDefaultAccountMock());
 
 			$controller->expects($this->once())
-				->method('saveUserSettings')
-				->willReturnArgument(1);
+				->method('saveUserSettings');
 		} else {
 			$controller->expects($this->never())->method('saveUserSettings');
 		}
@@ -289,27 +321,6 @@ class UsersControllerTest extends \Test\TestCase {
 
 	public function testSetUserSettingsWhenUserDisplayNameChangeNotAllowed() {
 		$controller = $this->getController(false, ['saveUserSettings']);
-		$user = $this->createMock(IUser::class);
-		$user->method('getUID')->willReturn('johndoe');
-
-		$this->userSession->method('getUser')->willReturn($user);
-
-		$defaultProperties = $this->getDefaultAccountManagerUserData();
-
-		$this->accountManager->expects($this->once())
-			->method('getUser')
-			->with($user)
-			->willReturn($defaultProperties);
-
-		$this->config->expects($this->once())
-			->method('getSystemValue')
-			->with('allow_user_to_change_display_name')
-			->willReturn(false);
-
-		$this->appManager->expects($this->any())
-			->method('isEnabledForUser')
-			->with('federatedfilesharing')
-			->willReturn(true);
 
 		$avatarScope = IAccountManager::SCOPE_PUBLISHED;
 		$displayName = 'Display name';
@@ -325,27 +336,67 @@ class UsersControllerTest extends \Test\TestCase {
 		$twitter = '@nextclouders';
 		$twitterScope = IAccountManager::SCOPE_PUBLISHED;
 
-		// Display name and email are not changed.
-		$expectedProperties = $defaultProperties;
-		$expectedProperties[IAccountManager::PROPERTY_AVATAR]['scope'] = $avatarScope;
-		$expectedProperties[IAccountManager::PROPERTY_PHONE]['value'] = $phone;
-		$expectedProperties[IAccountManager::PROPERTY_PHONE]['scope'] = $phoneScope;
-		$expectedProperties[IAccountManager::PROPERTY_WEBSITE]['value'] = $website;
-		$expectedProperties[IAccountManager::PROPERTY_WEBSITE]['scope'] = $websiteScope;
-		$expectedProperties[IAccountManager::PROPERTY_ADDRESS]['value'] = $address;
-		$expectedProperties[IAccountManager::PROPERTY_ADDRESS]['scope'] = $addressScope;
-		$expectedProperties[IAccountManager::PROPERTY_TWITTER]['value'] = $twitter;
-		$expectedProperties[IAccountManager::PROPERTY_TWITTER]['scope'] = $twitterScope;
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('johndoe');
+
+		$this->userSession->method('getUser')->willReturn($user);
+
+		/** @var MockObject|IAccount $userAccount */
+		$userAccount = $this->getDefaultAccountMock();
+		$this->accountManager->expects($this->once())
+			->method('getAccount')
+			->with($user)
+			->willReturn($userAccount);
+
+		/** @var MockObject|IAccountProperty $avatarProperty */
+		$avatarProperty = $userAccount->getProperty(IAccountManager::PROPERTY_AVATAR);
+		$avatarProperty->expects($this->atLeastOnce())
+			->method('setScope')
+			->with($avatarScope)
+			->willReturnSelf();
+
+		/** @var MockObject|IAccountProperty $avatarProperty */
+		$avatarProperty = $userAccount->getProperty(IAccountManager::PROPERTY_ADDRESS);
+		$avatarProperty->expects($this->atLeastOnce())
+			->method('setScope')
+			->with($addressScope)
+			->willReturnSelf();
+		$avatarProperty->expects($this->atLeastOnce())
+			->method('setValue')
+			->with($address)
+			->willReturnSelf();
+
+		/** @var MockObject|IAccountProperty $emailProperty */
+		$emailProperty = $userAccount->getProperty(IAccountManager::PROPERTY_EMAIL);
+		$emailProperty->expects($this->never())
+			->method('setValue');
+		$emailProperty->expects($this->never())
+			->method('setScope');
+
+		/** @var MockObject|IAccountProperty $emailProperty */
+		$emailProperty = $userAccount->getProperty(IAccountManager::PROPERTY_DISPLAYNAME);
+		$emailProperty->expects($this->never())
+			->method('setValue');
+		$emailProperty->expects($this->never())
+			->method('setScope');
+
+		$this->config->expects($this->once())
+			->method('getSystemValueBool')
+			->with('allow_user_to_change_display_name')
+			->willReturn(false);
+
+		$this->appManager->expects($this->any())
+			->method('isEnabledForUser')
+			->with('federatedfilesharing')
+			->willReturn(true);
 
 		$this->mailer->expects($this->once())->method('validateMailAddress')
 			->willReturn(true);
 
 		$controller->expects($this->once())
-			->method('saveUserSettings')
-			->with($user, $expectedProperties)
-			->willReturnArgument(1);
+			->method('saveUserSettings');
 
-		$result = $controller->setUserSettings(
+		$controller->setUserSettings(
 			$avatarScope,
 			$displayName,
 			$displayNameScope,
@@ -369,12 +420,13 @@ class UsersControllerTest extends \Test\TestCase {
 
 		$this->userSession->method('getUser')->willReturn($user);
 
-		$defaultProperties = $this->getDefaultAccountManagerUserData();
+		$defaultProperties = []; //$this->getDefaultAccountMock();
 
+		$userAccount = $this->getDefaultAccountMock();
 		$this->accountManager->expects($this->once())
-			->method('getUser')
+			->method('getAccount')
 			->with($user)
-			->willReturn($defaultProperties);
+			->willReturn($userAccount);
 
 		$this->appManager->expects($this->any())
 			->method('isEnabledForUser')
@@ -417,10 +469,9 @@ class UsersControllerTest extends \Test\TestCase {
 
 		$controller->expects($this->once())
 			->method('saveUserSettings')
-			->with($user, $expectedProperties)
-			->willReturnArgument(1);
+			->with($userAccount);
 
-		$result = $controller->setUserSettings(
+		$controller->setUserSettings(
 			$avatarScope,
 			$displayName,
 			$displayNameScope,
@@ -450,12 +501,13 @@ class UsersControllerTest extends \Test\TestCase {
 
 		$this->userSession->method('getUser')->willReturn($user);
 
-		$defaultProperties = $this->getDefaultAccountManagerUserData();
+		/** @var IAccount|MockObject $userAccount */
+		$userAccount = $this->getDefaultAccountMock();
 
 		$this->accountManager->expects($this->once())
-			->method('getUser')
+			->method('getAccount')
 			->with($user)
-			->willReturn($defaultProperties);
+			->willReturn($userAccount);
 
 		$avatarScope = ($property === 'avatarScope') ? $propertyValue : null;
 		$displayName = ($property === 'displayName') ? $propertyValue : null;
@@ -471,46 +523,43 @@ class UsersControllerTest extends \Test\TestCase {
 		$twitter = ($property === 'twitter') ? $propertyValue : null;
 		$twitterScope = ($property === 'twitterScope') ? $propertyValue : null;
 
-		$expectedProperties = $defaultProperties;
-		if ($property === 'avatarScope') {
-			$expectedProperties[IAccountManager::PROPERTY_AVATAR]['scope'] = $propertyValue;
+		/** @var IAccountProperty[]|MockObject[] $expectedProperties */
+		$expectedProperties = $userAccount->getProperties();
+		$isScope = strrpos($property, 'Scope') === strlen($property) - strlen(5);
+		switch ($property) {
+			case 'avatarScope':
+				$propertyId = IAccountManager::PROPERTY_AVATAR;
+				break;
+			case 'displayName':
+			case 'displayNameScope':
+				$propertyId = IAccountManager::PROPERTY_DISPLAYNAME;
+				break;
+			case 'phone':
+			case 'phoneScope':
+				$propertyId = IAccountManager::PROPERTY_PHONE;
+				break;
+			case 'email':
+			case 'emailScope':
+				$propertyId = IAccountManager::PROPERTY_EMAIL;
+				break;
+			case 'website':
+			case 'websiteScope':
+				$propertyId = IAccountManager::PROPERTY_WEBSITE;
+				break;
+			case 'address':
+			case 'addressScope':
+				$propertyId = IAccountManager::PROPERTY_ADDRESS;
+				break;
+			case 'twitter':
+			case 'twitterScope':
+				$propertyId = IAccountManager::PROPERTY_TWITTER;
+				break;
+			default:
+				$propertyId = '404';
 		}
-		if ($property === 'displayName') {
-			$expectedProperties[IAccountManager::PROPERTY_DISPLAYNAME]['value'] = $propertyValue;
-		}
-		if ($property === 'displayNameScope') {
-			$expectedProperties[IAccountManager::PROPERTY_DISPLAYNAME]['scope'] = $propertyValue;
-		}
-		if ($property === 'phone') {
-			$expectedProperties[IAccountManager::PROPERTY_PHONE]['value'] = $propertyValue;
-		}
-		if ($property === 'phoneScope') {
-			$expectedProperties[IAccountManager::PROPERTY_PHONE]['scope'] = $propertyValue;
-		}
-		if ($property === 'email') {
-			$expectedProperties[IAccountManager::PROPERTY_EMAIL]['value'] = $propertyValue;
-		}
-		if ($property === 'emailScope') {
-			$expectedProperties[IAccountManager::PROPERTY_EMAIL]['scope'] = $propertyValue;
-		}
-		if ($property === 'website') {
-			$expectedProperties[IAccountManager::PROPERTY_WEBSITE]['value'] = $propertyValue;
-		}
-		if ($property === 'websiteScope') {
-			$expectedProperties[IAccountManager::PROPERTY_WEBSITE]['scope'] = $propertyValue;
-		}
-		if ($property === 'address') {
-			$expectedProperties[IAccountManager::PROPERTY_ADDRESS]['value'] = $propertyValue;
-		}
-		if ($property === 'addressScope') {
-			$expectedProperties[IAccountManager::PROPERTY_ADDRESS]['scope'] = $propertyValue;
-		}
-		if ($property === 'twitter') {
-			$expectedProperties[IAccountManager::PROPERTY_TWITTER]['value'] = $propertyValue;
-		}
-		if ($property === 'twitterScope') {
-			$expectedProperties[IAccountManager::PROPERTY_TWITTER]['scope'] = $propertyValue;
-		}
+		$expectedProperties[$propertyId]->expects($this->any())
+			->method($isScope ? 'getScope' : 'getValue')
+			->willReturn($propertyValue);
 
 		if (!empty($email)) {
 			$this->mailer->expects($this->once())->method('validateMailAddress')
@@ -519,10 +568,9 @@ class UsersControllerTest extends \Test\TestCase {
 
 		$controller->expects($this->once())
 			->method('saveUserSettings')
-			->with($user, $expectedProperties)
-			->willReturnArgument(1);
+			->with($userAccount);
 
-		$result = $controller->setUserSettings(
+		$controller->setUserSettings(
 			$avatarScope,
 			$displayName,
 			$displayNameScope,
@@ -593,10 +641,33 @@ class UsersControllerTest extends \Test\TestCase {
 				->willReturn(true);
 		}
 
-		$this->accountManager->expects($this->once())->method('updateUser')
-			->with($user, $data);
+		$properties = [];
+		foreach ($data as $propertyName => $propertyData) {
+			$properties[$propertyName] = $this->createMock(IAccountProperty::class);
+			$properties[$propertyName]->expects($this->any())
+				->method('getValue')
+				->willReturn($propertyData['value']);
+		}
 
-		$this->invokePrivate($controller, 'saveUserSettings', [$user, $data]);
+		$account = $this->createMock(IAccount::class);
+		$account->expects($this->any())
+			->method('getUser')
+			->willReturn($user);
+		$account->expects($this->any())
+			->method('getProperty')
+			->willReturnCallback(function (string $propertyName) use ($properties) {
+				return $properties[$propertyName];
+			});
+
+		$this->accountManager->expects($this->any())
+			->method('getAccount')
+			->willReturn($account);
+
+		$this->accountManager->expects($this->once())
+			->method('updateAccount')
+			->with($account);
+
+		$this->invokePrivate($controller, 'saveUserSettings', [$account]);
 	}
 
 	public function dataTestSaveUserSettings() {
@@ -655,27 +726,37 @@ class UsersControllerTest extends \Test\TestCase {
 
 	/**
 	 * @dataProvider dataTestSaveUserSettingsException
-	 *
-	 * @param array $data
-	 * @param string $oldEmailAddress
-	 * @param string $oldDisplayName
-	 * @param bool $setDisplayNameResult
-	 * @param bool $canChangeEmail
-	 *
 	 */
-	public function testSaveUserSettingsException($data,
-												  $oldEmailAddress,
-												  $oldDisplayName,
-												  $setDisplayNameResult,
-												  $canChangeEmail
+	public function testSaveUserSettingsException(
+		array $data,
+		string $oldEmailAddress,
+		string $oldDisplayName,
+		bool  $setDisplayNameResult,
+		bool $canChangeEmail
 	) {
-		$this->expectException(\OC\ForbiddenException::class);
+		$this->expectException(ForbiddenException::class);
 
 		$controller = $this->getController();
 		$user = $this->createMock(IUser::class);
 
 		$user->method('getDisplayName')->willReturn($oldDisplayName);
 		$user->method('getEMailAddress')->willReturn($oldEmailAddress);
+
+		/** @var MockObject|IAccount $userAccount */
+		$userAccount = $this->createMock(IAccount::class);
+		$userAccount->expects($this->any())
+			->method('getUser')
+			->willReturn($user);
+		$propertyMocks = [];
+		foreach ($data as $propertyName => $propertyData) {
+			/** @var MockObject|IAccountProperty $property */
+			$propertyMocks[$propertyName] = $this->buildPropertyMock($propertyName, $propertyData['value'], '');
+		}
+		$userAccount->expects($this->any())
+			->method('getProperty')
+			->willReturnCallback(function (string $propertyName) use ($propertyMocks) {
+				return $propertyMocks[$propertyName];
+			});
 
 		if ($data[IAccountManager::PROPERTY_EMAIL]['value'] !== $oldEmailAddress) {
 			$user->method('canChangeDisplayName')
@@ -688,7 +769,7 @@ class UsersControllerTest extends \Test\TestCase {
 				->willReturn($setDisplayNameResult);
 		}
 
-		$this->invokePrivate($controller, 'saveUserSettings', [$user, $data]);
+		$this->invokePrivate($controller, 'saveUserSettings', [$userAccount]);
 	}
 
 
@@ -748,15 +829,34 @@ class UsersControllerTest extends \Test\TestCase {
 		$controller = $this->getController(false, ['signMessage', 'getCurrentTime']);
 
 		$user = $this->createMock(IUser::class);
+
+		$property = $this->buildPropertyMock($type, $dataBefore[$type]['value'], '', IAccountManager::NOT_VERIFIED);
+		$property->expects($this->atLeastOnce())
+			->method('setVerified')
+			->with(IAccountManager::VERIFICATION_IN_PROGRESS)
+			->willReturnSelf();
+		$property->expects($this->atLeastOnce())
+			->method('setVerificationData')
+			->with($signature)
+			->willReturnSelf();
+
+		$userAccount = $this->createMock(IAccount::class);
+		$userAccount->expects($this->any())
+			->method('getUser')
+			->willReturn($user);
+		$userAccount->expects($this->any())
+			->method('getProperty')
+			->willReturn($property);
+
 		$this->userSession->expects($this->once())->method('getUser')->willReturn($user);
-		$this->accountManager->expects($this->once())->method('getUser')->with($user)->willReturn($dataBefore);
+		$this->accountManager->expects($this->once())->method('getAccount')->with($user)->willReturn($userAccount);
 		$user->expects($this->any())->method('getCloudId')->willReturn('user@nextcloud.com');
 		$user->expects($this->any())->method('getUID')->willReturn('uid');
 		$controller->expects($this->once())->method('signMessage')->with($user, $message)->willReturn($signature);
 		$controller->expects($this->any())->method('getCurrentTime')->willReturn(1234567);
 
 		if ($onlyVerificationCode === false) {
-			$this->accountManager->expects($this->once())->method('updateUser')->with($user, $expectedData)->willReturnArgument(1);
+			$this->accountManager->expects($this->once())->method('updateAccount')->with($userAccount)->willReturnArgument(1);
 			$this->jobList->expects($this->once())->method('add')
 				->with('OCA\Settings\BackgroundJobs\VerifyUserData',
 					[

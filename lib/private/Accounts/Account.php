@@ -44,8 +44,8 @@ class Account implements IAccount {
 		$this->user = $user;
 	}
 
-	public function setProperty(string $property, string $value, string $scope, string $verified): IAccount {
-		$this->properties[$property] = new AccountProperty($property, $value, $scope, $verified);
+	public function setProperty(string $property, string $value, string $scope, string $verified, string $verificationData = ''): IAccount {
+		$this->properties[$property] = new AccountProperty($property, $value, $scope, $verified, $verificationData);
 		return $this;
 	}
 
