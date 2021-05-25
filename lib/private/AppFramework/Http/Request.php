@@ -78,19 +78,6 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	public const USER_AGENT_FREEBOX = '#^Mozilla/5\.0$#';
 	public const REGEX_LOCALHOST = '/^(127\.0\.0\.1|localhost|\[::1\])$/';
 
-	/**
-	 * @deprecated use \OCP\IRequest::USER_AGENT_CLIENT_IOS instead
-	 */
-	public const USER_AGENT_OWNCLOUD_IOS = '/^Mozilla\/5\.0 \(iOS\) (ownCloud|Nextcloud)\-iOS.*$/';
-	/**
-	 * @deprecated use \OCP\IRequest::USER_AGENT_CLIENT_ANDROID instead
-	 */
-	public const USER_AGENT_OWNCLOUD_ANDROID = '/^Mozilla\/5\.0 \(Android\) ownCloud\-android.*$/';
-	/**
-	 * @deprecated use \OCP\IRequest::USER_AGENT_CLIENT_DESKTOP instead
-	 */
-	public const USER_AGENT_OWNCLOUD_DESKTOP = '/^Mozilla\/5\.0 \([A-Za-z ]+\) (mirall|csyncoC)\/.*$/';
-
 	protected $inputStream;
 	protected $content;
 	protected $items = [];
