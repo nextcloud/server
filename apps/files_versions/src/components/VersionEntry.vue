@@ -28,7 +28,7 @@
 			:url="iconUrl"
 			class="version-entry">
 			<Actions class="version-entry__actions">
-				<ActionButton v-if="canRevert" icon="icon-history" @click="restoreVersion">
+				<ActionButton v-if="canRevert" icon="icon-history" @click="restoreVersion()">
 					{{ t('files_versions','Restore') }}
 				</ActionButton>
 				<ActionLink icon="icon-download" :href="versionUrl">
@@ -48,11 +48,12 @@ import ActionLink from '@nextcloud/vue/dist/Components/ActionLink'
 import Tooltip from '@nextcloud/vue/dist/Directives/Tooltip'
 import ListItemIcon from '@nextcloud/vue/dist/Components/ListItemIcon'
 
-import { generateRemoteUrl } from '@nextcloud/router'
+import { generateOcsUrl, generateRemoteUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
-import { client } from '../services/DavClient'
+import { move } from '../../../files/js/filelist'
 
 import { showError } from '@nextcloud/dialogs'
+import { moveFile } from '../services/DavClient'
 
 export default {
 	name: 'VersionEntry',
@@ -117,15 +118,16 @@ export default {
 		relativeDate() {
 			return moment(this.version.lastmod).fromNow()
 		},
+
 	},
 
 	methods: {
-		async restoreVersion() {
-			// TODO: implement restore request and loading
-			 try {
-				const revertVersion = await client.move(`dav/versions/${getCurrentUser().uid}` + this.version.filename, '/restore/target', true)
-				 return revertVersion
-			    } catch (error) {
+		restoreVersion() {
+			try {
+				const currentPath = generateRemoteUrl(`dav/versions/${getCurrentUser().uid}` + this.version.filename)
+				const destinationPath = generateUrl('apps/files_sharing/api/v1', 2) + 'shares'
+				return moveFile(currentPath, destinationPath, '/restore/target', true)
+			} catch (error) {
 				this.error = t('files_versions', 'There was an error reverting the version {this.fileInfo.filename}')
 				showError(this.error)
 			}
