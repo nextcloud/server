@@ -94,7 +94,7 @@ OC.L10N.register(
     "Copy current configuration into new directory binding" : "Copiar a configuração atual em um novo diretório vinculado",
     "Delete the current configuration" : "Excluir a configuração atual",
     "Host" : "Host",
-    "You can omit the protocol, unless you require SSL. If so, start with ldaps://" : "Você pode omitir o protocolo a menos que o SSL seja requerido. Se sim, inicie com ldaps://",
+    "You can omit the protocol, unless you require SSL. If so, start with ldaps://" : "Você pode omitir o protocolo a menos que o SSL seja obrigatório. Se sim, inicie com ldaps://",
     "Port" : "Porta",
     "Detect Port" : "Detectar Porta",
     "User DN" : "DN do usuário",

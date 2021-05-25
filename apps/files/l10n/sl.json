@@ -77,6 +77,8 @@
     "File name cannot be empty." : "Ime datoteke ne sme biti prazno polje.",
     "\"/\" is not allowed inside a file name." : "znak » / « v imenu datoteke ni dovoljen.",
     "\"{name}\" is not an allowed filetype" : "Ime »{name}« ni dovoljena vrsta datoteke.",
+    "Storage of {owner} is full, files cannot be updated or synced anymore!" : "Shramba uporabnika {owner} je polna, zato datotek ni več mogoče posodabljati in usklajevati!",
+    "Group folder \"{mountPoint}\" is full, files cannot be updated or synced anymore!" : "Skupinska mapa »{mountPoint}« je do konca zasedena, zato datotek ni mogoče več posodobiti in usklajevati!",
     "Storage of {owner} is almost full ({usedSpacePercent}%)." : "Shramba uporabnika {owner} je do konca zasedena ({usedSpacePercent}%).",
     "Group folder \"{mountPoint}\" is almost full ({usedSpacePercent}%)." : "Skupinska mapa »{mountPoint}« je skoraj do konca zasedena ({usedSpacePercent}%).",
     "External storage \"{mountPoint}\" is almost full ({usedSpacePercent}%)." : "Zunanja shramba »{mountPoint}« je skoraj do konca zasedena ({usedSpacePercent}%).",
