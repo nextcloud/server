@@ -23,6 +23,7 @@
     "Password to access %1$s was sent to you" : "%1$s dosyasına erişim parolası size gönderildi",
     "Password to access {file} was sent to you" : "{file} dosyasına erişim parolası size gönderildi",
     "Sharing %1$s failed, because this item is already shared with user %2$s" : "%1$s ögesi %2$s kullanıcısı ile zaten paylaşılmış olduğundan paylaşılamadı",
+    "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Otomatik üretilen parola size gönderilemedi. Lütfen kişisel ayarlarınızdan geçerli bir e-posta adresi ayarlayın ve yeniden deneyin.",
     "Failed to send share by email" : "Paylaşım e-postası gönderilemedi",
     "%1$s shared »%2$s« with you" : "%1$s, sizinle »%2$s« ögesini paylaştı",
     "%1$s shared »%2$s« with you." : "%1$s, sizinle »%2$s« ögesini paylaştı.",
