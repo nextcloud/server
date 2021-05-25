@@ -30,7 +30,6 @@ use OCA\DAV\CalDAV\Activity\Setting\CalDAVSetting;
 class Setting extends CalDAVSetting {
 	/**
 	 * @return string Lowercase a-z and underscore only identifier
-	 * @since 11.0.0
 	 */
 	public function getIdentifier(): string {
 		return 'contacts';
@@ -38,7 +37,6 @@ class Setting extends CalDAVSetting {
 
 	/**
 	 * @return string A translated string
-	 * @since 11.0.0
 	 */
 	public function getName(): string {
 		return $this->l->t('A <strong>contact</strong> or <strong>addressbook</strong> was modified');
@@ -48,7 +46,6 @@ class Setting extends CalDAVSetting {
 	 * @return int whether the filter should be rather on the top or bottom of
 	 * the admin section. The filters are arranged in ascending order of the
 	 * priority values. It is required to return a value between 0 and 100.
-	 * @since 11.0.0
 	 */
 	public function getPriority(): int {
 		return 50;
@@ -56,7 +53,6 @@ class Setting extends CalDAVSetting {
 
 	/**
 	 * @return bool True when the option can be changed for the stream
-	 * @since 11.0.0
 	 */
 	public function canChangeStream(): bool {
 		return true;
@@ -64,7 +60,6 @@ class Setting extends CalDAVSetting {
 
 	/**
 	 * @return bool True when the option can be changed for the stream
-	 * @since 11.0.0
 	 */
 	public function isDefaultEnabledStream(): bool {
 		return true;
@@ -72,7 +67,6 @@ class Setting extends CalDAVSetting {
 
 	/**
 	 * @return bool True when the option can be changed for the mail
-	 * @since 11.0.0
 	 */
 	public function canChangeMail(): bool {
 		return true;
@@ -80,7 +74,6 @@ class Setting extends CalDAVSetting {
 
 	/**
 	 * @return bool True when the option can be changed for the stream
-	 * @since 11.0.0
 	 */
 	public function isDefaultEnabledMail(): bool {
 		return false;

@@ -52,14 +52,6 @@ class Addressbook extends Base {
 	/** @var IEventMerger */
 	protected $eventMerger;
 
-	/**
-	 * @param IFactory $languageFactory
-	 * @param IURLGenerator $url
-	 * @param IManager $activityManager
-	 * @param IUserManager $userManager
-	 * @param IGroupManager $groupManager
-	 * @param IEventMerger $eventMerger
-	 */
 	public function __construct(IFactory $languageFactory,
 								IURLGenerator $url,
 								IManager $activityManager,
@@ -78,7 +70,6 @@ class Addressbook extends Base {
 	 * @param IEvent|null $previousEvent
 	 * @return IEvent
 	 * @throws \InvalidArgumentException
-	 * @since 11.0.0
 	 */
 	public function parse($language, IEvent $event, IEvent $previousEvent = null): IEvent {
 		if ($event->getApp() !== 'dav' || $event->getType() !== 'addressbook') {

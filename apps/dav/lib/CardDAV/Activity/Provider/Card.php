@@ -72,7 +72,6 @@ class Card extends Base {
 	 * @param IEvent|null $previousEvent
 	 * @return IEvent
 	 * @throws \InvalidArgumentException
-	 * @since 11.0.0
 	 */
 	public function parse($language, IEvent $event, IEvent $previousEvent = null): IEvent {
 		if ($event->getApp() !== 'dav' || $event->getType() !== 'card') {
@@ -91,7 +90,7 @@ class Card extends Base {
 			$subject = $l->t('{actor} created contact {card} in addressbook {addressbook}');
 		} elseif ($event->getSubject() === self::SUBJECT_ADD . '_self') {
 			$subject = $l->t('You created contact {card} in addressbook {addressbook}');
-		} elseif ($event->getSubject() === self::SUBJECT_DELETE ) {
+		} elseif ($event->getSubject() === self::SUBJECT_DELETE) {
 			$subject = $l->t('{actor} deleted contact {card} from addressbook {addressbook}');
 		} elseif ($event->getSubject() === self::SUBJECT_DELETE . '_self') {
 			$subject = $l->t('You deleted contact {card} from addressbook {addressbook}');

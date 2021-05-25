@@ -52,12 +52,9 @@ abstract class Base implements IProvider {
 	/** @var IURLGenerator */
 	protected $url;
 
-	/**
-	 * @param IUserManager $userManager
-	 * @param IGroupManager $groupManager
-	 * @param IURLGenerator $urlGenerator
-	 */
-	public function __construct(IUserManager $userManager, IGroupManager $groupManager, IURLGenerator $urlGenerator) {
+	public function __construct(IUserManager $userManager,
+								IGroupManager $groupManager,
+								IURLGenerator $urlGenerator) {
 		$this->userManager = $userManager;
 		$this->groupManager = $groupManager;
 		$this->url = $urlGenerator;

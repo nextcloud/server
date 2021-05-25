@@ -75,22 +75,22 @@ class Backend {
 	/**
 	 * Creates activities when a calendar was updated
 	 *
-	 * @param array $calendarData
+	 * @param array $addressbookData
 	 * @param array $shares
 	 * @param array $properties
 	 */
-	public function onAddressbookUpdate(array $calendarData, array $shares, array $properties): void {
-		$this->triggerAddressbookActivity(Addressbook::SUBJECT_UPDATE, $calendarData, $shares, $properties);
+	public function onAddressbookUpdate(array $addressbookData, array $shares, array $properties): void {
+		$this->triggerAddressbookActivity(Addressbook::SUBJECT_UPDATE, $addressbookData, $shares, $properties);
 	}
 
 	/**
 	 * Creates activities when a calendar was deleted
 	 *
-	 * @param array $calendarData
+	 * @param array $addressbookData
 	 * @param array $shares
 	 */
-	public function onAddressbookDelete(array $calendarData, array $shares): void {
-		$this->triggerAddressbookActivity(Addressbook::SUBJECT_DELETE, $calendarData, $shares);
+	public function onAddressbookDelete(array $addressbookData, array $shares): void {
+		$this->triggerAddressbookActivity(Addressbook::SUBJECT_DELETE, $addressbookData, $shares);
 	}
 
 	/**
@@ -458,7 +458,7 @@ class Backend {
 	 * @param array $shares
 	 * @return string[]
 	 */
-	protected function getUsersForShares(array $shares) {
+	protected function getUsersForShares(array $shares): array {
 		$users = $groups = [];
 		foreach ($shares as $share) {
 			$principal = explode('/', $share['{http://owncloud.org/ns}principal']);
