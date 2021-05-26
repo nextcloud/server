@@ -21,9 +21,9 @@ use Psr\Log\LoggerInterface;
  * @group DB
  */
 class AppTest extends \Test\TestCase {
-	public const TEST_USER1 = 'user1';
-	public const TEST_USER2 = 'user2';
-	public const TEST_USER3 = 'user3';
+	public $TEST_USER1 = 'user1-';
+	public $TEST_USER2 = 'user2-';
+	public $TEST_USER3 = 'user3-';
 	public const TEST_GROUP1 = 'group1';
 	public const TEST_GROUP2 = 'group2';
 
@@ -304,6 +304,13 @@ class AppTest extends \Test\TestCase {
 		];
 	}
 
+	public function setUp(): void {
+		parent::setUp();
+		$this->TEST_USER1 = $this->TEST_USER1 . uniqid('', true);
+		$this->TEST_USER2 = $this->TEST_USER2 . uniqid('', true);
+		$this->TEST_USER3 = $this->TEST_USER3 . uniqid('', true);
+	}
+
 	/**
 	 * @dataProvider appVersionsProvider
 	 */
@@ -332,7 +339,7 @@ class AppTest extends \Test\TestCase {
 		return [
 			// logged in user1
 			[
-				self::TEST_USER1,
+				$this->TEST_USER1,
 				[
 					'files',
 					'app1',
@@ -354,7 +361,7 @@ class AppTest extends \Test\TestCase {
 			],
 			// logged in user2
 			[
-				self::TEST_USER2,
+				$this->TEST_USER2,
 				[
 					'files',
 					'app1',
@@ -376,7 +383,7 @@ class AppTest extends \Test\TestCase {
 			],
 			// logged in user3
 			[
-				self::TEST_USER3,
+				$this->TEST_USER3,
 				[
 					'files',
 					'app1',
@@ -422,7 +429,7 @@ class AppTest extends \Test\TestCase {
 			],
 			//  user given, but ask for all
 			[
-				self::TEST_USER1,
+				$this->TEST_USER1,
 				[
 					'files',
 					'app1',
@@ -446,17 +453,32 @@ class AppTest extends \Test\TestCase {
 		];
 	}
 
+	private function mapDataProviderUserIds($user) {
+		if ($user === 'user1-') {
+			$user = $this->TEST_USER1;
+		} else if ($user === 'user2-') {
+			$user = $this->TEST_USER2;
+		} else if ($user === 'user3-') {
+			$user = $this->TEST_USER3;
+		}
+
+		return $user;
+	}
+
 	/**
 	 * Test enabled apps
 	 *
 	 * @dataProvider appConfigValuesProvider
 	 */
 	public function testEnabledApps($user, $expectedApps, $forceAll) {
+		$user = $this->mapDataProviderUserIds($user);
+
 		$userManager = \OC::$server->getUserManager();
 		$groupManager = \OC::$server->getGroupManager();
-		$user1 = $userManager->createUser(self::TEST_USER1, self::TEST_USER1);
-		$user2 = $userManager->createUser(self::TEST_USER2, self::TEST_USER2);
-		$user3 = $userManager->createUser(self::TEST_USER3, self::TEST_USER3);
+
+		$user1 = $userManager->createUser($this->TEST_USER1, $this->TEST_USER1);
+		$user2 = $userManager->createUser($this->TEST_USER2, $this->TEST_USER2);
+		$user3 = $userManager->createUser($this->TEST_USER3, $this->TEST_USER3);
 
 		$group1 = $groupManager->createGroup(self::TEST_GROUP1);
 		$group1->addUser($user1);
@@ -502,9 +524,9 @@ class AppTest extends \Test\TestCase {
 	 */
 	public function testEnabledAppsCache() {
 		$userManager = \OC::$server->getUserManager();
-		$user1 = $userManager->createUser(self::TEST_USER1, self::TEST_USER1);
+		$user1 = $userManager->createUser($this->TEST_USER1, $this->TEST_USER1);
 
-		\OC_User::setUserId(self::TEST_USER1);
+		\OC_User::setUserId($this->TEST_USER1);
 
 		$this->setupAppConfigMock()->expects($this->once())
 			->method('getValues')

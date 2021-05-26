@@ -79,7 +79,7 @@ class FileTest extends TestCase {
 
 		\OC_Hook::clear();
 
-		$this->user = 'test_user';
+		$this->user = 'test_user' . uniqid('', true);
 		$this->createUser($this->user, 'pass');
 
 		$this->loginAsUser($this->user);
