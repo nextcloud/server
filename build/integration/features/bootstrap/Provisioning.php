@@ -414,6 +414,15 @@ trait Provisioning {
 		$this->response = $client->put($fullUrl, $options);
 	}
 
+	private function flushDeletedUserList() {
+		$previousUser = $this->currentUser;
+		$this->currentUser = 'admin';
+		$this->sendingTo('POST', "/cloud/apps/testing");
+		$this->sendingTo('POST', "/apps/testing/api/v1/flushDupeUsernames");
+		$this->sendingTo('DELETE', "/cloud/apps/testing");
+		$this->currentUser = $previousUser;
+	}
+
 	/**
 	 * @When /^Deleting the user "([^"]*)"$/
 	 * @param string $user
@@ -908,6 +917,8 @@ trait Provisioning {
 	 * @AfterScenario
 	 */
 	public function cleanupUsers() {
+		$this->flushDeletedUserList();
+
 		$previousServer = $this->currentServer;
 		$this->usingServer('LOCAL');
 		foreach ($this->createdUsers as $user) {
