@@ -378,6 +378,7 @@ OC.L10N.register(
     "Always ask for a password" : "Sempre pedir a senha",
     "Enforce password protection" : "Aplicar proteção por senha",
     "Set default expiration date" : "Definir data de expiração padrão",
+    "Exclude groups from creating link shares:" : "Impedir que grupos criem compartilhamentos de linques:",
     "Allow resharing" : "Permitir o recompartilhamento",
     "Allow sharing with groups" : "Permitir o compartilhamento com grupos",
     "Restrict users to only share with users in their groups" : "Restringir os usuários para compartilhar apenas com usuários em seus grupos",

@@ -13,6 +13,8 @@ OC.L10N.register(
     "Favorites" : "Suosikit",
     "{temperature} {unit} Clear sky at {time}" : "{temperature} {unit} Kirkas taivas klo {time}",
     "{temperature} {unit} Cloudy at {time}" : "{temperature} {unit} Pilvistä klo {time}",
+    "{temperature} {unit} Fair day at {time}" : "{temperature} {unit} Pilvetöntä klo {time}",
+    "{temperature} {unit} Fair night at {time}" : "{temperature} {unit} Pilvetöntä {time}",
     "{temperature} {unit} Partly cloudy at {time}" : "{temperature} {unit} Puolipilvistä klo {time}",
     "{temperature} {unit} Foggy at {time}" : "{temperature} {unit} Sumuista klo {time}",
     "{temperature} {unit} Light rain at {time}" : "{temperature} {unit} Kevyttä sadetta klo {time}",
