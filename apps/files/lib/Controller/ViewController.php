@@ -179,10 +179,11 @@ class ViewController extends Controller {
 	 * @param string $view
 	 * @param string $fileid
 	 * @param bool $fileNotFound
+	 * @param string $openfile
 	 * @return TemplateResponse|RedirectResponse
 	 * @throws NotFoundException
 	 */
-	public function index($dir = '', $view = '', $fileid = null, $fileNotFound = false) {
+	public function index($dir = '', $view = '', $fileid = null, $fileNotFound = false, $openfile = null) {
 		if ($fileid !== null) {
 			try {
 				return $this->redirectToFile($fileid);
@@ -331,7 +332,59 @@ class ViewController extends Controller {
 		$policy->addAllowedFrameDomain('\'self\'');
 		$response->setContentSecurityPolicy($policy);
 
+		$this->provideInitialState($dir, $openfile);
+
 		return $response;
+	}
+
+	/**
+	 * Add openFileInfo in initialState if $openfile is set.
+	 * @param string $dir - the ?dir= URL param
+	 * @param string $openfile - the ?openfile= URL param
+	 * @return void
+	 */
+	private function provideInitialState(string $dir, ?string $openfile): void {
+		if ($openfile === null) {
+			return;
+		}
+
+		$user = $this->userSession->getUser();
+
+		if ($user === null) {
+			return;
+		}
+
+		$uid = $user->getUID();
+		$userFolder = $this->rootFolder->getUserFolder($uid);
+		$nodes = $userFolder->getById((int) $openfile);
+		$node = array_shift($nodes);
+
+		if ($node === null) {
+			return;
+		}
+
+		// properly format full path and make sure
+		// we're relative to the user home folder
+		$isRoot = $node === $userFolder;
+		$path = $userFolder->getRelativePath($node->getPath());
+		$directory = $userFolder->getRelativePath($node->getParent()->getPath());
+
+		// Prevent opening a file from another folder.
+		if ($dir !== $directory) {
+			return;
+		}
+
+		$this->initialState->provideInitialState(
+			'openFileInfo', [
+				'id' => $node->getId(),
+				'name' => $isRoot ? '' : $node->getName(),
+				'path' => $path,
+				'directory' => $directory,
+				'mime' => $node->getMimetype(),
+				'type' => $node->getType(),
+				'permissions' => $node->getPermissions(),
+			]
+		);
 	}
 
 	/**

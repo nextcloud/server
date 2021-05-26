@@ -91,6 +91,7 @@
 					fileActions: fileActions,
 					allowLegacyActions: true,
 					scrollTo: urlParams.scrollto,
+					openFile: urlParams.openfile,
 					filesClient: OC.Files.getClient(),
 					multiSelectMenu: [
 						{
