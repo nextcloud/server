@@ -1061,6 +1061,7 @@ return array(
     'OC\\Files\\Cache\\Propagator' => $baseDir . '/lib/private/Files/Cache/Propagator.php',
     'OC\\Files\\Cache\\QuerySearchHelper' => $baseDir . '/lib/private/Files/Cache/QuerySearchHelper.php',
     'OC\\Files\\Cache\\Scanner' => $baseDir . '/lib/private/Files/Cache/Scanner.php',
+    'OC\\Files\\Cache\\SearchBuilder' => $baseDir . '/lib/private/Files/Cache/SearchBuilder.php',
     'OC\\Files\\Cache\\Storage' => $baseDir . '/lib/private/Files/Cache/Storage.php',
     'OC\\Files\\Cache\\StorageGlobal' => $baseDir . '/lib/private/Files/Cache/StorageGlobal.php',
     'OC\\Files\\Cache\\Updater' => $baseDir . '/lib/private/Files/Cache/Updater.php',
