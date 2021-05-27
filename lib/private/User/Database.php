@@ -147,7 +147,7 @@ class Database extends ABackend implements
 			$result = $qb->execute();
 
 			// Clear cache
-			unset($this->cache[$uid]);
+			unset($this->cache[mb_strtolower($uid)]);
 
 			return $result ? true : false;
 		}
@@ -172,8 +172,8 @@ class Database extends ABackend implements
 			->where($query->expr()->eq('uid_lower', $query->createNamedParameter(mb_strtolower($uid))));
 		$result = $query->execute();
 
-		if (isset($this->cache[$uid])) {
-			unset($this->cache[$uid]);
+		if (isset($this->cache[mb_strtolower($uid)])) {
+			unset($this->cache[mb_strtolower($uid)]);
 		}
 
 		return $result ? true : false;
@@ -232,7 +232,7 @@ class Database extends ABackend implements
 				->where($query->expr()->eq('uid_lower', $query->createNamedParameter(mb_strtolower($uid))));
 			$query->execute();
 
-			$this->cache[$uid]['displayname'] = $displayName;
+			$this->cache[mb_strtolower($uid)]['displayname'] = $displayName;
 
 			return true;
 		}
@@ -249,7 +249,7 @@ class Database extends ABackend implements
 	public function getDisplayName($uid): string {
 		$uid = (string)$uid;
 		$this->loadUser($uid);
-		return empty($this->cache[$uid]['displayname']) ? $uid : $this->cache[$uid]['displayname'];
+		return empty($this->cache[mb_strtolower($uid)]['displayname']) ? $uid : $this->cache[mb_strtolower($uid)]['displayname'];
 	}
 
 	/**
@@ -381,10 +381,10 @@ class Database extends ABackend implements
 		$this->fixDI();
 
 		$uid = (string)$uid;
-		if (!isset($this->cache[$uid])) {
+		if (!isset($this->cache[mb_strtolower($uid)])) {
 			//guests $uid could be NULL or ''
 			if ($uid === '') {
-				$this->cache[$uid] = false;
+				$this->cache[mb_strtolower($uid)] = false;
 				return true;
 			}
 
@@ -400,12 +400,12 @@ class Database extends ABackend implements
 			$row = $result->fetch();
 			$result->closeCursor();
 
-			$this->cache[$uid] = false;
+			$this->cache[mb_strtolower($uid)] = false;
 
 			// "uid" is primary key, so there can only be a single result
 			if ($row !== false) {
-				$this->cache[$uid]['uid'] = (string)$row['uid'];
-				$this->cache[$uid]['displayname'] = (string)$row['displayname'];
+				$this->cache[mb_strtolower($uid)]['uid'] = (string)$row['uid'];
+				$this->cache[mb_strtolower($uid)]['displayname'] = (string)$row['displayname'];
 			} else {
 				return false;
 			}
@@ -441,7 +441,7 @@ class Database extends ABackend implements
 	 */
 	public function userExists($uid) {
 		$this->loadUser($uid);
-		return $this->cache[$uid] !== false;
+		return $this->cache[mb_strtolower($uid)] !== false;
 	}
 
 	/**
@@ -489,7 +489,7 @@ class Database extends ABackend implements
 	 */
 	public function loginName2UserName($loginName) {
 		if ($this->userExists($loginName)) {
-			return $this->cache[$loginName]['uid'];
+			return $this->cache[mb_strtolower($loginName)]['uid'];
 		}
 
 		return false;
@@ -527,7 +527,7 @@ class Database extends ABackend implements
 			throw new \RuntimeException($uid . ' does not exist');
 		}
 
-		return $this->cache[$uid]['uid'];
+		return $this->cache[mb_strtolower($uid)]['uid'];
 	}
 
 	private function fixLimit($limit) {
