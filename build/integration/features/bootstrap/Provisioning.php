@@ -178,6 +178,36 @@ trait Provisioning {
 	}
 
 	/**
+	 * @Then /^user "([^"]*)" has editable fields$/
+	 *
+	 * @param string $user
+	 * @param \Behat\Gherkin\Node\TableNode|null $fields
+	 */
+	public function userHasEditableFields($user, $fields) {
+		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/cloud/user/fields";
+		if ($user !== 'self') {
+			$fullUrl .= '/' . $user;
+		}
+		$client = new Client();
+		$options = [];
+		if ($this->currentUser === 'admin') {
+			$options['auth'] = $this->adminUser;
+		} else {
+			$options['auth'] = [$this->currentUser, $this->regularUser];
+		}
+		$options['headers'] = [
+			'OCS-APIREQUEST' => 'true',
+		];
+
+		$response = $client->get($fullUrl, $options);
+		$fieldsArray = json_decode(json_encode(simplexml_load_string($response->getBody())->data->element), 1);
+
+		$expectedFields = $fields->getRows();
+		$expectedFields = $this->simplifyArray($expectedFields);
+		Assert::assertEquals($expectedFields, $fieldsArray);
+	}
+
+	/**
 	 * @Then /^search users by phone for region "([^"]*)" with$/
 	 *
 	 * @param string $user
