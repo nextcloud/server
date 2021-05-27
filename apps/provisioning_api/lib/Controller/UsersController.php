@@ -543,7 +543,24 @@ class UsersController extends AUserData {
 	 * @return DataResponse
 	 * @throws OCSException
 	 */
-	public function getEditableFields(?string $userId = null): DataResponse {
+	public function getEditableFields(): DataResponse {
+		$currentLoggedInUser = $this->userSession->getUser();
+		if (!$currentLoggedInUser instanceof IUser) {
+			throw new OCSException('', OCSController::RESPOND_NOT_FOUND);
+		}
+
+		return $this->getEditableFieldsForUser($currentLoggedInUser->getUID());
+	}
+
+	/**
+	 * @NoAdminRequired
+	 * @NoSubAdminRequired
+	 *
+	 * @param string $userId
+	 * @return DataResponse
+	 * @throws OCSException
+	 */
+	public function getEditableFieldsForUser(string $userId): DataResponse {
 		$currentLoggedInUser = $this->userSession->getUser();
 		if (!$currentLoggedInUser instanceof IUser) {
 			throw new OCSException('', OCSController::RESPOND_NOT_FOUND);
