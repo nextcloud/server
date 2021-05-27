@@ -35,6 +35,9 @@
     Header onsuccess unset X-XSS-Protection
     Header always set X-XSS-Protection "1; mode=block"
 
+    Header onsuccess unset Permissions-Policy
+    Header always set Permissions-Policy "interest-cohort=()"
+
     SetEnv modHeadersAvailable true
   </IfModule>
 
