@@ -34,6 +34,7 @@
 						:size="44"
 						:user="item.avatarUsername"
 						:display-name="item.mainText"
+						:show-user-status="false"
 						:show-user-status-compact="false" />
 				</template>
 			</DashboardWidgetItem>
