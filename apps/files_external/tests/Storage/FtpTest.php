@@ -48,12 +48,11 @@ class FtpTest extends \Test\Files\Storage\Storage {
 		if (! is_array($this->config) or ! $this->config['run']) {
 			$this->markTestSkipped('FTP backend not configured');
 		}
-		$rootInstace = new FTP($this->config);
-		$rootInstace->mkdir($id);
+		$rootInstance = new FTP($this->config);
+		$rootInstance->mkdir($id);
 
 		$this->config['root'] .= '/' . $id; //make sure we have an new empty folder to work in
 		$this->instance = new FTP($this->config);
-		$this->instance->mkdir('/');
 	}
 
 	protected function tearDown(): void {
@@ -62,39 +61,5 @@ class FtpTest extends \Test\Files\Storage\Storage {
 		}
 
 		parent::tearDown();
-	}
-
-	public function testConstructUrl() {
-		$config = [ 'host' => 'localhost',
-			'user' => 'ftp',
-			'password' => 'ftp',
-			'root' => '/',
-			'secure' => false ];
-		$instance = new FTP($config);
-		$this->assertEquals('ftp://ftp:ftp@localhost/', $instance->constructUrl(''));
-
-		$config['secure'] = true;
-		$instance = new FTP($config);
-		$this->assertEquals('ftps://ftp:ftp@localhost/', $instance->constructUrl(''));
-
-		$config['secure'] = 'false';
-		$instance = new FTP($config);
-		$this->assertEquals('ftp://ftp:ftp@localhost/', $instance->constructUrl(''));
-
-		$config['secure'] = 'true';
-		$instance = new FTP($config);
-		$this->assertEquals('ftps://ftp:ftp@localhost/', $instance->constructUrl(''));
-
-		$config['root'] = '';
-		$instance = new FTP($config);
-		$this->assertEquals('ftps://ftp:ftp@localhost/somefile.txt', $instance->constructUrl('somefile.txt'));
-
-		$config['root'] = '/abc';
-		$instance = new FTP($config);
-		$this->assertEquals('ftps://ftp:ftp@localhost/abc/somefile.txt', $instance->constructUrl('somefile.txt'));
-
-		$config['root'] = '/abc/';
-		$instance = new FTP($config);
-		$this->assertEquals('ftps://ftp:ftp@localhost/abc/somefile.txt', $instance->constructUrl('somefile.txt'));
 	}
 }
