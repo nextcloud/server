@@ -23,7 +23,7 @@
     "karma-viewport": "^1.0.8",
     "node-sass": "~6.0.0",
     "puppeteer": "^5.5.0",
-    "sinon": "<= 5.0.7"
+    "sinon": "<= 11.1.2"
   },
   "engine": "node >= 6.9"
 }
