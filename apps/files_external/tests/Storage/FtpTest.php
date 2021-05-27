@@ -48,6 +48,9 @@ class FtpTest extends \Test\Files\Storage\Storage {
 		if (! is_array($this->config) or ! $this->config['run']) {
 			$this->markTestSkipped('FTP backend not configured');
 		}
+		$rootInstace = new FTP($this->config);
+		$rootInstace->mkdir($id);
+
 		$this->config['root'] .= '/' . $id; //make sure we have an new empty folder to work in
 		$this->instance = new FTP($this->config);
 		$this->instance->mkdir('/');
@@ -55,7 +58,7 @@ class FtpTest extends \Test\Files\Storage\Storage {
 
 	protected function tearDown(): void {
 		if ($this->instance) {
-			\OCP\Files::rmdirr($this->instance->constructUrl(''));
+			$this->instance->rmdir('');
 		}
 
 		parent::tearDown();
