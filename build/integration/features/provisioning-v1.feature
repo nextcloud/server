@@ -56,6 +56,32 @@ Feature: provisioning
 			| brand-new-user |
 			| admin |
 
+  Scenario: Get editable fields
+    Given As an "admin"
+    And user "brand-new-user" exists
+    Then user "brand-new-user" has editable fields
+      | displayname |
+      | email |
+      | phone |
+      | address |
+      | website |
+      | twitter |
+    Given As an "brand-new-user"
+    Then user "brand-new-user" has editable fields
+      | displayname |
+      | email |
+      | phone |
+      | address |
+      | website |
+      | twitter |
+    Then user "self" has editable fields
+      | displayname |
+      | email |
+      | phone |
+      | address |
+      | website |
+      | twitter |
+
 	Scenario: Edit a user
 		Given As an "admin"
 		And user "brand-new-user" exists
