@@ -7,7 +7,7 @@ steps:
   commands:
     - git submodule update --init
 - name: checkers
-  image: nextcloudci/php7.3:php7.3-5
+  image: ghcr.io/nextcloud/continuous-integration-php7.3:php7.3-5
   commands:
     - ./autotest-checkers.sh
   secrets: [ github_token ]
@@ -224,7 +224,7 @@ steps:
   commands:
     - git submodule update --init
 - name: nodb-php7.3
-  image: nextcloudci/php7.3:php7.3-5
+  image: ghcr.io/nextcloud/continuous-integration-php7.3:php7.3-5
   commands:
     - bash tests/drone-run-php-tests.sh || exit 0
     - NOCOVERAGE=true TEST_SELECTION=NODB ./autotest.sh sqlite
@@ -261,7 +261,7 @@ steps:
   commands:
     - git submodule update --init
 - name: sqlite-php7.3
-  image: nextcloudci/php7.3:php7.3-5
+  image: ghcr.io/nextcloud/continuous-integration-php7.3:php7.3-5
   commands:
     - bash tests/drone-run-php-tests.sh || exit 0
     - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh sqlite
@@ -298,7 +298,7 @@ steps:
   commands:
     - git submodule update --init
 - name: mariadb10.1-php7.3
-  image: nextcloudci/php7.3:php7.3-5
+  image: ghcr.io/nextcloud/continuous-integration-php7.3:php7.3-5
   commands:
     - bash tests/drone-run-php-tests.sh || exit 0
     - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mariadb
@@ -334,7 +334,7 @@ steps:
   commands:
     - git submodule update --init
 - name: mariadb10.2-php7.3
-  image: nextcloudci/php7.3:php7.3-5
+  image: ghcr.io/nextcloud/continuous-integration-php7.3:php7.3-5
   commands:
     - bash tests/drone-run-php-tests.sh || exit 0
     - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mariadb
@@ -369,7 +369,7 @@ steps:
   commands:
     - git submodule update --init
 - name: mariadb10.3-php7.3
-  image: nextcloudci/php7.3:php7.3-5
+  image: ghcr.io/nextcloud/continuous-integration-php7.3:php7.3-5
   commands:
     - bash tests/drone-run-php-tests.sh || exit 0
     - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mariadb
@@ -483,7 +483,7 @@ steps:
   commands:
     - git submodule update --init
 - name: postgres-php7.3
-  image: nextcloudci/php7.3:php7.3-5
+  image: ghcr.io/nextcloud/continuous-integration-php7.3:php7.3-5
   commands:
     - bash tests/drone-run-php-tests.sh || exit 0
     - sleep 10 # gives the database enough time to initialize
@@ -519,7 +519,7 @@ steps:
   commands:
     - git submodule update --init
 - name: postgres-php7.3
-  image: nextcloudci/php7.3:php7.3-5
+  image: ghcr.io/nextcloud/continuous-integration-php7.3:php7.3-5
   commands:
     - bash tests/drone-run-php-tests.sh || exit 0
     - sleep 10 # gives the database enough time to initialize
@@ -703,7 +703,7 @@ steps:
   commands:
     - git submodule update --init
 - name: mysqlmb4-php7.3
-  image: nextcloudci/php7.3:php7.3-5
+  image: ghcr.io/nextcloud/continuous-integration-php7.3:php7.3-5
   commands:
     - bash tests/drone-run-php-tests.sh || exit 0
     - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysqlmb4
@@ -2287,7 +2287,7 @@ trigger:
 #  commands:
 #    - git submodule update --init
 #- name: memcache-redis-cluster
-#  image: nextcloudci/php7.3:php7.3-5
+#  image: ghcr.io/nextcloud/continuous-integration-php7.3:php7.3-5
 #  commands:
 #    - phpenmod xdebug
 #    - sleep 20
