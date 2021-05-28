@@ -204,7 +204,7 @@ steps:
 
 services:
 - name: cache
-  image: redis
+  image: ghcr.io/nextcloud/continuous-integration-redis:latest
 
 trigger:
   branch:
@@ -241,7 +241,7 @@ steps:
 
 services:
 - name: cache
-  image: redis
+  image: ghcr.io/nextcloud/continuous-integration-redis:latest
 
 trigger:
   branch:
@@ -278,7 +278,7 @@ steps:
 
 services:
 - name: cache
-  image: redis
+  image: ghcr.io/nextcloud/continuous-integration-redis:latest
 
 trigger:
   branch:
@@ -305,7 +305,7 @@ steps:
 
 services:
 - name: cache
-  image: redis
+  image: ghcr.io/nextcloud/continuous-integration-redis:latest
 - name: mariadb
   image: mariadb:10.1
   environment:
@@ -341,7 +341,7 @@ steps:
 
 services:
 - name: cache
-  image: redis
+  image: ghcr.io/nextcloud/continuous-integration-redis:latest
 - name: mariadb
   image: mariadb:10.2
   environment:
@@ -376,7 +376,7 @@ steps:
 
 services:
 - name: cache
-  image: redis
+  image: ghcr.io/nextcloud/continuous-integration-redis:latest
 - name: mariadb
   image: mariadb:10.3
   environment:
@@ -417,7 +417,7 @@ steps:
 
 services:
 - name: cache
-  image: redis
+  image: ghcr.io/nextcloud/continuous-integration-redis:latest
 - name: mariadb
   image: mariadb:10.4
   environment:
@@ -453,9 +453,9 @@ steps:
 
 services:
 - name: cache
-  image: redis
+  image: ghcr.io/nextcloud/continuous-integration-redis:latest
 - name: mysql
-  image: mysql:8.0
+  image: ghcr.io/nextcloud/continuous-integration-mysql-8.0:mysql-8.0
   command: [ "--default-authentication-plugin=mysql_native_password" ]
   environment:
     MYSQL_ROOT_PASSWORD: owncloud
@@ -491,7 +491,7 @@ steps:
 
 services:
 - name: cache
-  image: redis
+  image: ghcr.io/nextcloud/continuous-integration-redis:latest
 - name: postgres-9
   image: postgres:9.6
   environment:
@@ -527,7 +527,7 @@ steps:
 
 services:
 - name: cache
-  image: redis
+  image: ghcr.io/nextcloud/continuous-integration-redis:latest
 - name: postgres-10
   image: postgres:10
   environment:
@@ -562,7 +562,7 @@ steps:
 
 services:
 - name: cache
-  image: redis
+  image: ghcr.io/nextcloud/continuous-integration-redis:latest
 - name: postgres-11
   image: postgres:11
   environment:
@@ -598,7 +598,7 @@ steps:
 
 services:
 - name: cache
-  image: redis
+  image: ghcr.io/nextcloud/continuous-integration-redis:latest
 - name: postgres-12
   image: postgres:12
   environment:
@@ -634,7 +634,7 @@ steps:
 
 services:
 - name: cache
-  image: redis
+  image: ghcr.io/nextcloud/continuous-integration-redis:latest
 - name: postgres-13
   image: postgres:13
   environment:
@@ -674,9 +674,9 @@ steps:
 
 services:
 - name: cache
-  image: redis
+  image: ghcr.io/nextcloud/continuous-integration-redis:latest
 - name: mysqlmb4
-  image: mysql:5.7.22
+  image: ghcr.io/nextcloud/continuous-integration-mysql-5.7:mysql-5.7.22
   environment:
     MYSQL_ROOT_PASSWORD: owncloud
     MYSQL_USER: oc_autotest
@@ -710,9 +710,9 @@ steps:
 
 services:
 - name: cache
-  image: redis
+  image: ghcr.io/nextcloud/continuous-integration-redis:latest
 - name: mysqlmb4
-  image: mysql:5.7.22
+  image: ghcr.io/nextcloud/continuous-integration-mysql-5.7:mysql-5.7.22
   environment:
     MYSQL_ROOT_PASSWORD: owncloud
     MYSQL_USER: oc_autotest
@@ -904,7 +904,7 @@ steps:
 
 services:
 - name: cache
-  image: redis
+  image: ghcr.io/nextcloud/continuous-integration-redis:latest
 
 trigger:
   branch:
@@ -1543,7 +1543,7 @@ steps:
 
 services:
 - name: cache
-  image: redis
+  image: ghcr.io/nextcloud/continuous-integration-redis:latest
 - name: openldap
   image: ghcr.io/nextcloud/continuous-integration-openldap:openldap-7
   environment:
@@ -1584,7 +1584,7 @@ steps:
 
 services:
     - name: cache
-      image: redis
+      image: ghcr.io/nextcloud/continuous-integration-redis:latest
     - name: openldap
       image: ghcr.io/nextcloud/continuous-integration-openldap:openldap-7
       environment:
@@ -1626,7 +1626,7 @@ steps:
 
 services:
 - name: cache
-  image: redis
+  image: ghcr.io/nextcloud/continuous-integration-redis:latest
 - name: openldap
   image: ghcr.io/nextcloud/continuous-integration-openldap:openldap-7
   environment:
@@ -2070,7 +2070,7 @@ steps:
 
 services:
 - name: cache
-  image: redis
+  image: ghcr.io/nextcloud/continuous-integration-redis:latest
 
 trigger:
   branch:
@@ -2101,7 +2101,7 @@ steps:
 
 services:
 - name: cache
-  image: redis
+  image: ghcr.io/nextcloud/continuous-integration-redis:latest
 
 trigger:
   branch:
