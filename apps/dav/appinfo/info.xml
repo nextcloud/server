@@ -63,17 +63,21 @@
 			<setting>OCA\DAV\CalDAV\Activity\Setting\Calendar</setting>
 			<setting>OCA\DAV\CalDAV\Activity\Setting\Event</setting>
 			<setting>OCA\DAV\CalDAV\Activity\Setting\Todo</setting>
+			<setting>OCA\DAV\CardDAV\Activity\Setting</setting>
 		</settings>
 
 		<filters>
 			<filter>OCA\DAV\CalDAV\Activity\Filter\Calendar</filter>
 			<filter>OCA\DAV\CalDAV\Activity\Filter\Todo</filter>
+			<filter>OCA\DAV\CardDAV\Activity\Filter</filter>
 		</filters>
 
 		<providers>
 			<provider>OCA\DAV\CalDAV\Activity\Provider\Calendar</provider>
 			<provider>OCA\DAV\CalDAV\Activity\Provider\Event</provider>
 			<provider>OCA\DAV\CalDAV\Activity\Provider\Todo</provider>
+			<provider>OCA\DAV\CardDAV\Activity\Provider\Addressbook</provider>
+			<provider>OCA\DAV\CardDAV\Activity\Provider\Card</provider>
 		</providers>
 	</activity>
 
