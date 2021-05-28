@@ -2097,6 +2097,7 @@ steps:
 - name: object-store
   image: nextcloudci/php7.4:php7.4-3
   environment:
+      OBJECT_STORE: s3
       CODECOV_TOKEN:
           from_secret: CODECOV_TOKEN
   commands:
@@ -2130,6 +2131,7 @@ steps:
 - name: object-store
   image: nextcloudci/php7.4:php7.4-3
   environment:
+      OBJECT_STORE: azure
       CODECOV_TOKEN:
           from_secret: CODECOV_TOKEN
   commands:
