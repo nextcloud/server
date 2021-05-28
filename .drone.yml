@@ -2090,6 +2090,15 @@ kind: pipeline
 name: object-store-s3
 
 steps:
+- name: minio
+  image: ghcr.io/nextcloud/continuous-integration-minio:latest
+  detach: true
+  commands:
+    - mkdir /s3data
+    - minio server /s3data
+  environment:
+    MINIO_ROOT_USER: nextcloud
+    MINIO_ROOT_PASSWORD: nextcloud
 - name: submodules
   image: docker:git
   commands:
