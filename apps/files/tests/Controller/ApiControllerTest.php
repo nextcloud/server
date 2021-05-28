@@ -239,7 +239,7 @@ class ApiControllerTest extends TestCase {
 
 		$this->config->expects($this->once())
 			->method('setUserValue')
-			->with($this->user->getUID(), 'files', 'show_hidden', $show);
+			->with($this->user->getUID(), 'files', 'show_hidden', '0');
 
 		$expected = new Http\Response();
 		$actual = $this->apiController->showHiddenFiles($show);
