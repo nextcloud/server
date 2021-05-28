@@ -3,7 +3,7 @@ name: checkers
 
 steps:
 - name: submodules
-  image: docker:git
+  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
 - name: checkers
@@ -26,7 +26,7 @@ name: litmus
 
 steps:
 - name: submodules
-  image: docker:git
+  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
 - name: litmus-v1
@@ -54,7 +54,7 @@ name: caldavtester-new-endpoint
 
 steps:
 - name: submodules
-  image: docker:git
+  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
 - name: caldavtester-new-endpoint
@@ -78,7 +78,7 @@ name: caldavtester-old-endpoint
 
 steps:
 - name: submodules
-  image: docker:git
+  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
 - name: caldavtester-old-endpoint
@@ -102,7 +102,7 @@ name: carddavtester-new-endpoint
 
 steps:
 - name: submodules
-  image: docker:git
+  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
 - name: carddavtester-new-endpoint
@@ -126,7 +126,7 @@ name: carddavtester-old-endpoint
 
 steps:
 - name: submodules
-  image: docker:git
+  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
 - name: carddavtester-old-endpoint
@@ -150,7 +150,7 @@ name: samba
 
 steps:
 - name: submodules
-  image: docker:git
+  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
 - name: sqlite-php7.3-samba-native
@@ -188,7 +188,7 @@ name: sqlite-php7.3-webdav-apache
 
 steps:
 - name: submodules
-  image: docker:git
+  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
 - name: sqlite-php7.3-webdav-apache
@@ -220,7 +220,7 @@ name: nodb
 
 steps:
 - name: submodules
-  image: docker:git
+  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
 - name: nodb-php7.3
@@ -257,7 +257,7 @@ name: sqlite
 
 steps:
 - name: submodules
-  image: docker:git
+  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
 - name: sqlite-php7.3
@@ -294,7 +294,7 @@ name: mariadb10.1-php7.3
 
 steps:
 - name: submodules
-  image: docker:git
+  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
 - name: mariadb10.1-php7.3
@@ -330,7 +330,7 @@ name: mariadb10.2-php7.3
 
 steps:
 - name: submodules
-  image: docker:git
+  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
 - name: mariadb10.2-php7.3
@@ -365,7 +365,7 @@ name: mariadb10.3-php7.3
 
 steps:
 - name: submodules
-  image: docker:git
+  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
 - name: mariadb10.3-php7.3
@@ -401,7 +401,7 @@ name: mariadb10.4-php7.4
 
 steps:
 - name: submodules
-  image: docker:git
+  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
 - name: mariadb10.4-php7.4
@@ -442,7 +442,7 @@ name: mysql8.0-php7.4
 
 steps:
 - name: submodules
-  image: docker:git
+  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
 - name: mysql-php7.4
@@ -479,7 +479,7 @@ name: postgres9.6-php7.3
 
 steps:
 - name: submodules
-  image: docker:git
+  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
 - name: postgres-php7.3
@@ -515,7 +515,7 @@ name: postgres10-php7.3
 
 steps:
 - name: submodules
-  image: docker:git
+  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
 - name: postgres-php7.3
@@ -550,7 +550,7 @@ name: postgres11-php7.4
 
 steps:
 - name: submodules
-  image: docker:git
+  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
 - name: postgres-php7.4
@@ -586,7 +586,7 @@ name: postgres12-php7.4
 
 steps:
 - name: submodules
-  image: docker:git
+  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
 - name: postgres-php7.4
@@ -622,7 +622,7 @@ name: postgres13-php7.4
 
 steps:
 - name: submodules
-  image: docker:git
+  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
 - name: postgres-php7.4
@@ -658,7 +658,7 @@ name: mysqlmb4-php7.4
 
 steps:
 - name: submodules
-  image: docker:git
+  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
 - name: mysqlmb4-php7.4
@@ -699,7 +699,7 @@ name: mysqlmb4-php7.3
 
 steps:
 - name: submodules
-  image: docker:git
+  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
 - name: mysqlmb4-php7.3
@@ -735,7 +735,7 @@ name: integration-capabilities_features
 
 steps:
 - name: submodules
-  image: docker:git
+  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
 - name: integration-capabilities_features
@@ -760,7 +760,7 @@ name: integration-collaboration_features
 
 steps:
 - name: submodules
-  image: docker:git
+  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
 - name: integration-collaboration_features
@@ -785,7 +785,7 @@ name: integration-federation_features
 
 steps:
 - name: submodules
-  image: docker:git
+  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
 - name: integration-federation_features
@@ -810,7 +810,7 @@ name: integration-auth
 
 steps:
 - name: submodules
-  image: docker:git
+  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
 - name: integration-auth
@@ -835,7 +835,7 @@ name: integration-avatar
 
 steps:
 - name: submodules
-  image: docker:git
+  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
 - name: integration-avatar
@@ -860,7 +860,7 @@ name: integration-maintenance-mode
 
 steps:
 - name: submodules
-  image: docker:git
+  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
 - name: integration-maintenance-mode
@@ -885,7 +885,7 @@ name: integration-ratelimiting
 
 steps:
 - name: submodules
-  image: docker:git
+  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
 - name: integration-ratelimiting
@@ -920,7 +920,7 @@ name: integration-carddav
 
 steps:
 - name: submodules
-  image: docker:git
+  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
 - name: integration-carddav
@@ -945,7 +945,7 @@ name: integration-dav-v2
 
 steps:
 - name: submodules
-  image: docker:git
+  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
 - name: integration-dav-v2
@@ -970,7 +970,7 @@ name: integration-ocs-v1
 
 steps:
 - name: submodules
-  image: docker:git
+  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
 - name: integration-ocs-v1
@@ -995,7 +995,7 @@ name: integration-checksums-v1
 
 steps:
 - name: submodules
-  image: docker:git
+  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
 - name: integration-checksums-v1
@@ -1020,7 +1020,7 @@ name: integration-external-storage
 
 steps:
 - name: submodules
-  image: docker:git
+  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
 - name: integration-external-storage
@@ -1045,7 +1045,7 @@ name: integration-provisioning-v1
 
 steps:
 - name: submodules
-  image: docker:git
+  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
 - name: integration-provisioning-v1
@@ -1070,7 +1070,7 @@ name: integration-tags
 
 steps:
 - name: submodules
-  image: docker:git
+  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
 - name: integration-tags
@@ -1095,7 +1095,7 @@ name: integration-caldav
 
 steps:
 - name: submodules
-  image: docker:git
+  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
 - name: integration-caldav
@@ -1120,7 +1120,7 @@ name: integration-comments
 
 steps:
 - name: submodules
-  image: docker:git
+  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
 - name: integration-comments
@@ -1145,7 +1145,7 @@ name: integration-comments-search
 
 steps:
 - name: submodules
-  image: docker:git
+  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
 - name: integration-comments-search
@@ -1170,7 +1170,7 @@ name: integration-contacts-menu
 
 steps:
 - name: submodules
-  image: docker:git
+  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
 - name: integration-contacts-menu
@@ -1195,7 +1195,7 @@ name: integration-favorites
 
 steps:
 - name: submodules
-  image: docker:git
+  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
 - name: integration-favorites
@@ -1220,7 +1220,7 @@ name: integration-provisioning-v2
 
 steps:
 - name: submodules
-  image: docker:git
+  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
 - name: integration-provisioning-v2
@@ -1245,7 +1245,7 @@ name: integration-webdav-related
 
 steps:
 - name: submodules
-  image: docker:git
+  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
 - name: integration-webdav-related
@@ -1270,7 +1270,7 @@ name: integration-sharees-features
 
 steps:
 - name: submodules
-  image: docker:git
+  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
 - name: integration-sharees-features
@@ -1295,7 +1295,7 @@ name: integration-sharees-v2-features
 
 steps:
 - name: submodules
-  image: docker:git
+  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
 - name: integration-sharees-v2-features
@@ -1320,7 +1320,7 @@ name: integration-sharing-v1
 
 steps:
 - name: submodules
-  image: docker:git
+  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
 - name: integration-sharing-v1
@@ -1345,7 +1345,7 @@ name: integration-sharing-v1-part2
 
 steps:
 - name: submodules
-  image: docker:git
+  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
 - name: integration-sharing-v1-part2
@@ -1370,7 +1370,7 @@ name: integration-sharing-v1-part3
 
 steps:
 - name: submodules
-  image: docker:git
+  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
 - name: integration-sharing-v1-part3
@@ -1395,11 +1395,11 @@ name: integration-sharing-v1-video-verification
 
 steps:
 - name: submodules
-  image: docker:git
+  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
 - name: install-talk
-  image: docker:git
+  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     # JavaScript files are not used in integration tests so it is not needed to
     # build them.
@@ -1426,7 +1426,7 @@ name: integration-setup-features
 
 steps:
 - name: submodules
-  image: docker:git
+  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
 - name: integration-setup-features
@@ -1450,7 +1450,7 @@ name: integration-filesdrop-features
 
 steps:
 - name: submodules
-  image: docker:git
+  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
 - name: integration-filesdrop-features
@@ -1475,7 +1475,7 @@ name: integration-transfer-ownership-features
 
 steps:
 - name: submodules
-  image: docker:git
+  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
 - name: integration-transfer-ownership-features
@@ -1500,7 +1500,7 @@ name: integration-ldap-features
 
 steps:
 - name: submodules
-  image: docker:git
+  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
 - name: integration-ldap-features
@@ -1525,7 +1525,7 @@ name: integration-ldap-openldap-features
 
 steps:
 - name: submodules
-  image: docker:git
+  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
 - name: integration-ldap-openldap-features
@@ -1566,7 +1566,7 @@ name: integration-ldap-openldap-uid-features
 
 steps:
     - name: submodules
-      image: docker:git
+      image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
       commands:
           - git submodule update --init
     - name: integration-ldap-openldap-uid-features
@@ -1608,7 +1608,7 @@ name: integration-ldap-openldap-numerical-id-features
 
 steps:
 - name: submodules
-  image: docker:git
+  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
 - name: integration-ldap-openldap-numerical-id-features
@@ -1649,7 +1649,7 @@ name: integration-trashbin
 
 steps:
 - name: submodules
-  image: docker:git
+  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
 - name: integration-trashbin
@@ -1674,7 +1674,7 @@ name: integration-remote-api
 
 steps:
 - name: submodules
-  image: docker:git
+  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
 - name: integration-remote-api
@@ -1699,7 +1699,7 @@ name: integration-download
 
 steps:
 - name: submodules
-  image: docker:git
+  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
 - name: integration-download
@@ -1724,7 +1724,7 @@ name: acceptance-access-levels
 
 steps:
 - name: submodules
-  image: docker:git
+  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
 - name: acceptance-access-levels
@@ -1754,7 +1754,7 @@ trigger:
 #
 #steps:
 #- name: submodules
-#  image: docker:git
+#  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
 #  commands:
 #    - git submodule update --init
 #- name: acceptance-app-comments
@@ -1784,7 +1784,7 @@ name: acceptance-app-files
 
 steps:
 - name: submodules
-  image: docker:git
+  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
 - name: acceptance-app-files
@@ -1814,7 +1814,7 @@ name: acceptance-app-files-sharing
 
 steps:
 - name: submodules
-  image: docker:git
+  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
 - name: acceptance-app-files-sharing
@@ -1844,7 +1844,7 @@ name: acceptance-app-files-sharing-link
 
 steps:
 - name: submodules
-  image: docker:git
+  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
 - name: acceptance-app-files-sharing-link
@@ -1874,7 +1874,7 @@ name: acceptance-app-files-tags
 
 steps:
 - name: submodules
-  image: docker:git
+  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
 - name: acceptance-app-files-tags
@@ -1904,7 +1904,7 @@ name: acceptance-app-theming
 
 steps:
 - name: submodules
-  image: docker:git
+  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
 - name: acceptance-app-theming
@@ -1934,7 +1934,7 @@ name: acceptance-header
 
 steps:
 - name: submodules
-  image: docker:git
+  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
 - name: acceptance-header
@@ -1964,7 +1964,7 @@ name: acceptance-login
 
 steps:
 - name: submodules
-  image: docker:git
+  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
 - name: acceptance-login
@@ -1994,7 +1994,7 @@ name: acceptance-users
 
 steps:
 - name: submodules
-  image: docker:git
+  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
 - name: acceptance-users
@@ -2024,7 +2024,7 @@ name: acceptance-apps
 
 steps:
 - name: submodules
-  image: docker:git
+  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
 - name: acceptance-apps
@@ -2054,7 +2054,7 @@ name: nodb-codecov
 
 steps:
 - name: submodules
-  image: docker:git
+  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
 - name: nodb-codecov
@@ -2085,7 +2085,7 @@ name: db-codecov
 
 steps:
 - name: submodules
-  image: docker:git
+  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
 - name: db-codecov
@@ -2116,7 +2116,7 @@ name: object-store-s3
 
 steps:
 - name: submodules
-  image: docker:git
+  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
 - name: object-store
@@ -2149,7 +2149,7 @@ name: object-store-azure
 
 steps:
 - name: submodules
-  image: docker:git
+  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
 - name: object-store
@@ -2187,7 +2187,7 @@ trigger:
 #
 #steps:
 #- name: submodules
-#  image: docker:git
+#  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
 #  commands:
 #    - git submodule update --init
 #- name: object-store
@@ -2223,7 +2223,7 @@ trigger:
 #
 #steps:
 #- name: submodules
-#  image: docker:git
+#  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
 #  commands:
 #    - git submodule update --init
 #- name: object-store
@@ -2256,7 +2256,7 @@ name: memcache-memcached
 
 steps:
 - name: submodules
-  image: docker:git
+  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
     - git submodule update --init
 - name: memcache-memcached
@@ -2283,7 +2283,7 @@ trigger:
 #
 #steps:
 #- name: submodules
-#  image: docker:git
+#  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
 #  commands:
 #    - git submodule update --init
 #- name: memcache-redis-cluster
