@@ -52,7 +52,7 @@
 	<p id="setDefaultInternalExpireDate" class="double-indent <?php if ($_['shareDefaultInternalExpireDateSet'] === 'no' || $_['shareAPIEnabled'] === 'no') {
 	p('hidden');
 }?>">
-		<?php p($l->t('Expire after ')); ?>
+		<?php p($l->t('Expire after') . ' '); ?>
 		<input type="text" name='shareapi_internal_expire_after_n_days' id="shareapiInternalExpireAfterNDays" placeholder="<?php p('7')?>"
 			   value='<?php p($_['shareInternalExpireAfterNDays']) ?>' />
 		<?php p($l->t('days')); ?>
@@ -75,7 +75,7 @@
 	<p id="setDefaultRemoteExpireDate" class="double-indent <?php if ($_['shareDefaultRemoteExpireDateSet'] === 'no' || $_['shareAPIEnabled'] === 'no') {
 	p('hidden');
 }?>">
-		<?php p($l->t('Expire after ')); ?>
+		<?php p($l->t('Expire after'). ' '); ?>
 		<input type="text" name='shareapi_remote_expire_after_n_days' id="shareapiRemoteExpireAfterNDays" placeholder="<?php p('7')?>"
 			   value='<?php p($_['shareRemoteExpireAfterNDays']) ?>' />
 		<?php p($l->t('days')); ?>
@@ -125,7 +125,7 @@
 	<p id="setDefaultExpireDate" class="double-indent <?php if ($_['allowLinks'] !== 'yes' || $_['shareDefaultExpireDateSet'] === 'no' || $_['shareAPIEnabled'] === 'no') {
 	p('hidden');
 }?>">
-		<?php p($l->t('Expire after ')); ?>
+		<?php p($l->t('Expire after'). ' '); ?>
 		<input type="text" name='shareapi_expire_after_n_days' id="shareapiExpireAfterNDays" placeholder="<?php p('7')?>"
 			   value='<?php p($_['shareExpireAfterNDays']) ?>' />
 		<?php p($l->t('days')); ?>
