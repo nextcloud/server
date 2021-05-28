@@ -122,7 +122,7 @@
     "You changed an encrypted file in {file}" : "Você alterou um arquivo criptografado em {file}",
     "{user} changed {file}" : "{user} modificou {file}",
     "{user} changed an encrypted file in {file}" : "{user} alterou um arquivo criptografado em {file}",
-    "You deleted {file}" : "Você excluiu o arquivo {file}",
+    "You deleted {file}" : "Você excluiu {file}",
     "You deleted an encrypted file in {file}" : "Você excluiu um arquivo criptografado em {file}",
     "{user} deleted {file}" : "{user} excluiu o arquivo {file}",
     "{user} deleted an encrypted file in {file}" : "{user} excluiu um arquivo criptografado em {file}",
