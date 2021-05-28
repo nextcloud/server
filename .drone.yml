@@ -1728,7 +1728,7 @@ steps:
   commands:
     - git submodule update --init
 - name: acceptance-access-levels
-  image: nextcloudci/acceptance-php7.3:acceptance-php7.3-2
+  image: ghcr.io/nextcloud/continuous-integration-acceptance-php7.3:acceptance-php7.3-2
   commands:
     - tests/acceptance/run-local.sh --timeout-multiplier 10 --nextcloud-server-domain acceptance-access-levels --selenium-server selenium:4444 allow-git-repository-modifications features/access-levels.feature
 
@@ -1758,7 +1758,7 @@ trigger:
 #  commands:
 #    - git submodule update --init
 #- name: acceptance-app-comments
-#  image: nextcloudci/acceptance-php7.3:acceptance-php7.3-2
+#  image: ghcr.io/nextcloud/continuous-integration-acceptance-php7.3:acceptance-php7.3-2
 #  commands:
 #    - tests/acceptance/run-local.sh --timeout-multiplier 10 --nextcloud-server-domain acceptance-app-comments --selenium-server selenium:4444 allow-git-repository-modifications features/app-comments.feature
 #
@@ -1788,7 +1788,7 @@ steps:
   commands:
     - git submodule update --init
 - name: acceptance-app-files
-  image: nextcloudci/acceptance-php7.3:acceptance-php7.3-2
+  image: ghcr.io/nextcloud/continuous-integration-acceptance-php7.3:acceptance-php7.3-2
   commands:
     - tests/acceptance/run-local.sh --timeout-multiplier 10 --nextcloud-server-domain acceptance-app-files --selenium-server selenium:4444 allow-git-repository-modifications features/app-files.feature
 
@@ -1818,7 +1818,7 @@ steps:
   commands:
     - git submodule update --init
 - name: acceptance-app-files-sharing
-  image: nextcloudci/acceptance-php7.3:acceptance-php7.3-2
+  image: ghcr.io/nextcloud/continuous-integration-acceptance-php7.3:acceptance-php7.3-2
   commands:
     - tests/acceptance/run-local.sh --timeout-multiplier 10 --nextcloud-server-domain acceptance-app-files-sharing --selenium-server selenium:4444 allow-git-repository-modifications features/app-files-sharing.feature
 
@@ -1848,7 +1848,7 @@ steps:
   commands:
     - git submodule update --init
 - name: acceptance-app-files-sharing-link
-  image: nextcloudci/acceptance-php7.3:acceptance-php7.3-2
+  image: ghcr.io/nextcloud/continuous-integration-acceptance-php7.3:acceptance-php7.3-2
   commands:
     - tests/acceptance/run-local.sh --timeout-multiplier 10 --nextcloud-server-domain acceptance-app-files-sharing-link --selenium-server selenium:4444 allow-git-repository-modifications features/app-files-sharing-link.feature
 
@@ -1878,7 +1878,7 @@ steps:
   commands:
     - git submodule update --init
 - name: acceptance-app-files-tags
-  image: nextcloudci/acceptance-php7.3:acceptance-php7.3-2
+  image: ghcr.io/nextcloud/continuous-integration-acceptance-php7.3:acceptance-php7.3-2
   commands:
     - tests/acceptance/run-local.sh --timeout-multiplier 10 --nextcloud-server-domain acceptance-app-files-tags --selenium-server selenium:4444 allow-git-repository-modifications features/app-files-tags.feature
 
@@ -1908,7 +1908,7 @@ steps:
   commands:
     - git submodule update --init
 - name: acceptance-app-theming
-  image: nextcloudci/acceptance-php7.3:acceptance-php7.3-2
+  image: ghcr.io/nextcloud/continuous-integration-acceptance-php7.3:acceptance-php7.3-2
   commands:
     - tests/acceptance/run-local.sh --timeout-multiplier 10 --nextcloud-server-domain acceptance-app-theming --selenium-server selenium:4444 allow-git-repository-modifications features/app-theming.feature
 
@@ -1938,7 +1938,7 @@ steps:
   commands:
     - git submodule update --init
 - name: acceptance-header
-  image: nextcloudci/acceptance-php7.3:acceptance-php7.3-2
+  image: ghcr.io/nextcloud/continuous-integration-acceptance-php7.3:acceptance-php7.3-2
   commands:
     - tests/acceptance/run-local.sh --timeout-multiplier 10 --nextcloud-server-domain acceptance-header --selenium-server selenium:4444 allow-git-repository-modifications features/header.feature
 
@@ -1968,7 +1968,7 @@ steps:
   commands:
     - git submodule update --init
 - name: acceptance-login
-  image: nextcloudci/acceptance-php7.3:acceptance-php7.3-2
+  image: ghcr.io/nextcloud/continuous-integration-acceptance-php7.3:acceptance-php7.3-2
   commands:
     - tests/acceptance/run-local.sh --timeout-multiplier 10 --nextcloud-server-domain acceptance-login --selenium-server selenium:4444 allow-git-repository-modifications features/login.feature
 
@@ -1998,7 +1998,7 @@ steps:
   commands:
     - git submodule update --init
 - name: acceptance-users
-  image: nextcloudci/acceptance-php7.3:acceptance-php7.3-2
+  image: ghcr.io/nextcloud/continuous-integration-acceptance-php7.3:acceptance-php7.3-2
   commands:
     - tests/acceptance/run-local.sh --timeout-multiplier 10 --nextcloud-server-domain acceptance-users --selenium-server selenium:4444 allow-git-repository-modifications features/users.feature
 
@@ -2028,7 +2028,7 @@ steps:
   commands:
     - git submodule update --init
 - name: acceptance-apps
-  image: nextcloudci/acceptance-php7.3:acceptance-php7.3-2
+  image: ghcr.io/nextcloud/continuous-integration-acceptance-php7.3:acceptance-php7.3-2
   commands:
     - tests/acceptance/run-local.sh --timeout-multiplier 10 --nextcloud-server-domain acceptance-apps --selenium-server selenium:4444 allow-git-repository-modifications features/apps.feature
 
