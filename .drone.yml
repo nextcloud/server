@@ -2133,7 +2133,7 @@ steps:
 
 services:
 - name: fake-s3
-  image: lphoward/fake-s3:latest
+  image: ghcr.io/nextcloud/continuous-integration-fake-s3:latest
 
 trigger:
   branch:
@@ -2166,7 +2166,7 @@ steps:
 
 services:
 - name: azurite
-  image: arafato/azurite:latest
+  image: ghcr.io/nextcloud/continuous-integration-azurite:latest
   environment:
     executable: blob
 
