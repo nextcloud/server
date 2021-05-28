@@ -47,13 +47,9 @@ import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
 import ActionLink from '@nextcloud/vue/dist/Components/ActionLink'
 import Tooltip from '@nextcloud/vue/dist/Directives/Tooltip'
 import ListItemIcon from '@nextcloud/vue/dist/Components/ListItemIcon'
-
-import { generateOcsUrl, generateRemoteUrl } from '@nextcloud/router'
+import { generateUrl, generateRemoteUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
-import { move } from '../../../files/js/filelist'
-
 import { showError } from '@nextcloud/dialogs'
-import { moveFile } from '../services/DavClient'
 
 export default {
 	name: 'VersionEntry',
@@ -122,13 +118,20 @@ export default {
 	},
 
 	methods: {
+		async update(fileInfo) {
+			this.fileInfo = fileInfo
+		},
 		restoreVersion() {
 			try {
 				const currentPath = generateRemoteUrl(`dav/versions/${getCurrentUser().uid}` + this.version.filename)
+
 				const destinationPath = generateUrl('apps/files_sharing/api/v1', 2) + 'shares'
-				return moveFile(currentPath, destinationPath, '/restore/target', true)
+
+				return OC.Files.getClient.move(currentPath, destinationPath, '/restore/target', true)
 			} catch (error) {
-				this.error = t('files_versions', 'There was an error reverting the version {this.fileInfo.filename}')
+				this.error = t('files_versions', 'There was an error fetching the list of versions for the file {file}', {
+					file: this.fileInfo.basename,
+				})
 				showError(this.error)
 			}
 		},
