@@ -11,6 +11,8 @@ updates:
   labels:
     - "3. to review"
     - "feature: dependencies"
+  reviewers:
+    - "nextcloud/server-dependabot"
 
 # Main master npm
 - package-ecosystem: npm
@@ -24,6 +26,8 @@ updates:
   labels:
     - "3. to review"
     - "feature: dependencies"
+  reviewers:
+    - "nextcloud/server-dependabot"
 
 # Testing master npm
 - package-ecosystem: npm
@@ -62,6 +66,8 @@ updates:
   labels:
     - "3. to review"
     - "feature: dependencies"
+  reviewers:
+    - "nextcloud/server-dependabot"
   ignore:
     # ignore all GitHub linguist patch updates
     - dependency-name: "*"
@@ -78,6 +84,8 @@ updates:
   labels:
     - "3. to review"
     - "feature: dependencies"
+  reviewers:
+    - "nextcloud/server-dependabot"
   ignore:
     # ignore all GitHub linguist patch updates
     - dependency-name: "*"
@@ -94,6 +102,8 @@ updates:
   labels:
     - "3. to review"
     - "feature: dependencies"
+  reviewers:
+    - "nextcloud/server-dependabot"
   ignore:
     # ignore all GitHub linguist patch updates
     - dependency-name: "*"
@@ -111,6 +121,8 @@ updates:
   labels:
     - "3. to review"
     - "feature: dependencies"
+  reviewers:
+    - "nextcloud/server-dependabot"
   ignore:
     # ignore all GitHub linguist patch updates
     - dependency-name: "*"
@@ -127,6 +139,8 @@ updates:
   labels:
     - "3. to review"
     - "feature: dependencies"
+  reviewers:
+    - "nextcloud/server-dependabot"
   ignore:
     # ignore all GitHub linguist patch updates
     - dependency-name: "*"
@@ -143,6 +157,8 @@ updates:
   labels:
     - "3. to review"
     - "feature: dependencies"
+  reviewers:
+    - "nextcloud/server-dependabot"
   ignore:
     # ignore all GitHub linguist patch updates
     - dependency-name: "*"
