@@ -274,7 +274,7 @@ export default {
 	}
 
 	// Make sure we're relative for the loading emptycontent on top
-	/deep/ .modal-container {
+	::v-deep .modal-container {
 		position: relative;
 		overflow-y: auto !important;
 	}
