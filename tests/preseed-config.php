@@ -25,10 +25,10 @@ if (getenv('OBJECT_STORE') === 's3') {
 		'arguments' => [
 			'bucket' => 'nextcloud',
 			'autocreate' => true,
-			'key' => 'dummy',
-			'secret' => 'dummy',
-			'hostname' => getenv('DRONE') === 'true' ? 'fake-s3' : 'localhost',
-			'port' => 4569,
+			'key' => 'nextcloud',
+			'secret' => 'nextcloud',
+			'hostname' => getenv('DRONE') === 'true' ? 'minio' : 'localhost',
+			'port' => 9000,
 			'use_ssl' => false,
 			// required for some non amazon s3 implementations
 			'use_path_style' => true
