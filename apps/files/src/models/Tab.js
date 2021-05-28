@@ -22,14 +22,14 @@
 
 export default class Tab {
 
-	#id
-	#name
-	#icon
-	#mount
-	#update
-	#destroy
-	#enabled
-	#scrollBottomReached
+	_id
+	_name
+	_icon
+	_mount
+	_update
+	_destroy
+	_enabled
+	_scrollBottomReached
 
 	/**
 	 * Create a new tab instance
@@ -78,47 +78,47 @@ export default class Tab {
 			throw new Error('The scrollBottomReached argument should be a function')
 		}
 
-		this.#id = id
-		this.#name = name
-		this.#icon = icon
-		this.#mount = mount
-		this.#update = update
-		this.#destroy = destroy
-		this.#enabled = enabled
-		this.#scrollBottomReached = scrollBottomReached
+		this._id = id
+		this._name = name
+		this._icon = icon
+		this._mount = mount
+		this._update = update
+		this._destroy = destroy
+		this._enabled = enabled
+		this._scrollBottomReached = scrollBottomReached
 
 	}
 
 	get id() {
-		return this.#id
+		return this._id
 	}
 
 	get name() {
-		return this.#name
+		return this._name
 	}
 
 	get icon() {
-		return this.#icon
+		return this._icon
 	}
 
 	get mount() {
-		return this.#mount
+		return this._mount
 	}
 
 	get update() {
-		return this.#update
+		return this._update
 	}
 
 	get destroy() {
-		return this.#destroy
+		return this._destroy
 	}
 
 	get enabled() {
-		return this.#enabled
+		return this._enabled
 	}
 
 	get scrollBottomReached() {
-		return this.#scrollBottomReached
+		return this._scrollBottomReached
 	}
 
 }
