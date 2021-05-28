@@ -119,7 +119,7 @@
     "mochapack": "^2.0.6",
     "sass": "^1.34.0",
     "sass-loader": "^10.1.1",
-    "sinon": "^9.2.4",
+    "sinon": "^10.0.0",
     "sinon-chai": "^3.6.0",
     "style-loader": "^2.0.0",
     "url-loader": "^4.1.1",
