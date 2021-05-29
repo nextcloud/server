@@ -204,7 +204,7 @@ steps:
 
 services:
 - name: cache
-  image: redis
+  image: ghcr.io/nextcloud/continuous-integration-redis:latest
 
 trigger:
   branch:
@@ -241,7 +241,7 @@ steps:
 
 services:
 - name: cache
-  image: redis
+  image: ghcr.io/nextcloud/continuous-integration-redis:latest
 
 trigger:
   branch:
@@ -278,7 +278,7 @@ steps:
 
 services:
 - name: cache
-  image: redis
+  image: ghcr.io/nextcloud/continuous-integration-redis:latest
 
 trigger:
   branch:
@@ -305,9 +305,9 @@ steps:
 
 services:
 - name: cache
-  image: redis
+  image: ghcr.io/nextcloud/continuous-integration-redis:latest
 - name: mariadb
-  image: mariadb:10.1
+  image: ghcr.io/nextcloud/continuous-integration-mariadb-10.1:10.1
   environment:
     MYSQL_ROOT_PASSWORD: owncloud
     MYSQL_USER: oc_autotest
@@ -341,9 +341,9 @@ steps:
 
 services:
 - name: cache
-  image: redis
+  image: ghcr.io/nextcloud/continuous-integration-redis:latest
 - name: mariadb
-  image: mariadb:10.2
+  image: ghcr.io/nextcloud/continuous-integration-mariadb-10.2:10.2
   environment:
     MYSQL_ROOT_PASSWORD: owncloud
     MYSQL_USER: oc_autotest
@@ -376,9 +376,9 @@ steps:
 
 services:
 - name: cache
-  image: redis
+  image: ghcr.io/nextcloud/continuous-integration-redis:latest
 - name: mariadb
-  image: mariadb:10.3
+  image: ghcr.io/nextcloud/continuous-integration-mariadb-10.3:10.3
   environment:
     MYSQL_ROOT_PASSWORD: owncloud
     MYSQL_USER: oc_autotest
@@ -417,9 +417,9 @@ steps:
 
 services:
 - name: cache
-  image: redis
+  image: ghcr.io/nextcloud/continuous-integration-redis:latest
 - name: mariadb
-  image: mariadb:10.4
+  image: ghcr.io/nextcloud/continuous-integration-mariadb-10.4:10.4
   environment:
     MYSQL_ROOT_PASSWORD: owncloud
     MYSQL_USER: oc_autotest
@@ -453,9 +453,9 @@ steps:
 
 services:
 - name: cache
-  image: redis
+  image: ghcr.io/nextcloud/continuous-integration-redis:latest
 - name: mysql
-  image: mysql:8.0
+  image: ghcr.io/nextcloud/continuous-integration-mysql-8.0:mysql-8.0
   command: [ "--default-authentication-plugin=mysql_native_password" ]
   environment:
     MYSQL_ROOT_PASSWORD: owncloud
@@ -491,9 +491,9 @@ steps:
 
 services:
 - name: cache
-  image: redis
+  image: ghcr.io/nextcloud/continuous-integration-redis:latest
 - name: postgres-9
-  image: postgres:9.6
+  image: ghcr.io/nextcloud/continuous-integration-postgres-9:postgres-9.6
   environment:
     POSTGRES_USER: oc_autotest
     POSTGRES_DB: oc_autotest_dummy
@@ -527,9 +527,9 @@ steps:
 
 services:
 - name: cache
-  image: redis
+  image: ghcr.io/nextcloud/continuous-integration-redis:latest
 - name: postgres-10
-  image: postgres:10
+  image: ghcr.io/nextcloud/continuous-integration-postgres-10:postgres-10
   environment:
     POSTGRES_USER: oc_autotest
     POSTGRES_DB: oc_autotest_dummy
@@ -562,9 +562,9 @@ steps:
 
 services:
 - name: cache
-  image: redis
+  image: ghcr.io/nextcloud/continuous-integration-redis:latest
 - name: postgres-11
-  image: postgres:11
+  image: ghcr.io/nextcloud/continuous-integration-postgres-11:postgres-11
   environment:
     POSTGRES_USER: oc_autotest
     POSTGRES_DB: oc_autotest_dummy
@@ -598,9 +598,9 @@ steps:
 
 services:
 - name: cache
-  image: redis
+  image: ghcr.io/nextcloud/continuous-integration-redis:latest
 - name: postgres-12
-  image: postgres:12
+  image: ghcr.io/nextcloud/continuous-integration-postgres-12:postgres-12
   environment:
     POSTGRES_USER: oc_autotest
     POSTGRES_DB: oc_autotest_dummy
@@ -634,9 +634,9 @@ steps:
 
 services:
 - name: cache
-  image: redis
+  image: ghcr.io/nextcloud/continuous-integration-redis:latest
 - name: postgres-13
-  image: postgres:13
+  image: ghcr.io/nextcloud/continuous-integration-postgres-13:postgres-13
   environment:
     POSTGRES_USER: oc_autotest
     POSTGRES_DB: oc_autotest_dummy
@@ -674,9 +674,9 @@ steps:
 
 services:
 - name: cache
-  image: redis
+  image: ghcr.io/nextcloud/continuous-integration-redis:latest
 - name: mysqlmb4
-  image: mysql:5.7.22
+  image: ghcr.io/nextcloud/continuous-integration-mysql-5.7:mysql-5.7.22
   environment:
     MYSQL_ROOT_PASSWORD: owncloud
     MYSQL_USER: oc_autotest
@@ -710,9 +710,9 @@ steps:
 
 services:
 - name: cache
-  image: redis
+  image: ghcr.io/nextcloud/continuous-integration-redis:latest
 - name: mysqlmb4
-  image: mysql:5.7.22
+  image: ghcr.io/nextcloud/continuous-integration-mysql-5.7:mysql-5.7.22
   environment:
     MYSQL_ROOT_PASSWORD: owncloud
     MYSQL_USER: oc_autotest
@@ -904,7 +904,7 @@ steps:
 
 services:
 - name: cache
-  image: redis
+  image: ghcr.io/nextcloud/continuous-integration-redis:latest
 
 trigger:
   branch:
@@ -1543,7 +1543,7 @@ steps:
 
 services:
 - name: cache
-  image: redis
+  image: ghcr.io/nextcloud/continuous-integration-redis:latest
 - name: openldap
   image: ghcr.io/nextcloud/continuous-integration-openldap:openldap-7
   environment:
@@ -1584,7 +1584,7 @@ steps:
 
 services:
     - name: cache
-      image: redis
+      image: ghcr.io/nextcloud/continuous-integration-redis:latest
     - name: openldap
       image: ghcr.io/nextcloud/continuous-integration-openldap:openldap-7
       environment:
@@ -1626,7 +1626,7 @@ steps:
 
 services:
 - name: cache
-  image: redis
+  image: ghcr.io/nextcloud/continuous-integration-redis:latest
 - name: openldap
   image: ghcr.io/nextcloud/continuous-integration-openldap:openldap-7
   environment:
@@ -2070,7 +2070,7 @@ steps:
 
 services:
 - name: cache
-  image: redis
+  image: ghcr.io/nextcloud/continuous-integration-redis:latest
 
 trigger:
   branch:
@@ -2101,7 +2101,7 @@ steps:
 
 services:
 - name: cache
-  image: redis
+  image: ghcr.io/nextcloud/continuous-integration-redis:latest
 
 trigger:
   branch:
