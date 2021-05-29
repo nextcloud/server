@@ -1,6 +1,5 @@
+name: Pull request fixup commit check
 on: pull_request
-
-name: Pull request checks
 
 jobs:
   commit-message-check:
