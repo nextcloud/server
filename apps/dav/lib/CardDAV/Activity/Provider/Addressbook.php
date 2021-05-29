@@ -85,39 +85,39 @@ class Addressbook extends Base {
 		}
 
 		if ($event->getSubject() === self::SUBJECT_ADD) {
-			$subject = $l->t('{actor} created addressbook {addressbook}');
+			$subject = $l->t('{actor} created address book {addressbook}');
 		} elseif ($event->getSubject() === self::SUBJECT_ADD . '_self') {
-			$subject = $l->t('You created addressbook {addressbook}');
+			$subject = $l->t('You created address book {addressbook}');
 		} elseif ($event->getSubject() === self::SUBJECT_DELETE) {
-			$subject = $l->t('{actor} deleted addressbook {addressbook}');
+			$subject = $l->t('{actor} deleted address book {addressbook}');
 		} elseif ($event->getSubject() === self::SUBJECT_DELETE . '_self') {
-			$subject = $l->t('You deleted addressbook {addressbook}');
+			$subject = $l->t('You deleted address book {addressbook}');
 		} elseif ($event->getSubject() === self::SUBJECT_UPDATE) {
-			$subject = $l->t('{actor} updated addressbook {addressbook}');
+			$subject = $l->t('{actor} updated address book {addressbook}');
 		} elseif ($event->getSubject() === self::SUBJECT_UPDATE . '_self') {
-			$subject = $l->t('You updated addressbook {addressbook}');
+			$subject = $l->t('You updated address book {addressbook}');
 		} elseif ($event->getSubject() === self::SUBJECT_SHARE_USER) {
-			$subject = $l->t('{actor} shared addressbook {addressbook} with you');
+			$subject = $l->t('{actor} shared address book {addressbook} with you');
 		} elseif ($event->getSubject() === self::SUBJECT_SHARE_USER . '_you') {
-			$subject = $l->t('You shared addressbook {addressbook} with {user}');
+			$subject = $l->t('You shared address book {addressbook} with {user}');
 		} elseif ($event->getSubject() === self::SUBJECT_SHARE_USER . '_by') {
-			$subject = $l->t('{actor} shared addressbook {addressbook} with {user}');
+			$subject = $l->t('{actor} shared address book {addressbook} with {user}');
 		} elseif ($event->getSubject() === self::SUBJECT_UNSHARE_USER) {
-			$subject = $l->t('{actor} unshared addressbook {addressbook} from you');
+			$subject = $l->t('{actor} unshared address book {addressbook} from you');
 		} elseif ($event->getSubject() === self::SUBJECT_UNSHARE_USER . '_you') {
-			$subject = $l->t('You unshared addressbook {addressbook} from {user}');
+			$subject = $l->t('You unshared address book {addressbook} from {user}');
 		} elseif ($event->getSubject() === self::SUBJECT_UNSHARE_USER . '_by') {
-			$subject = $l->t('{actor} unshared addressbook {addressbook} from {user}');
+			$subject = $l->t('{actor} unshared address book {addressbook} from {user}');
 		} elseif ($event->getSubject() === self::SUBJECT_UNSHARE_USER . '_self') {
-			$subject = $l->t('{actor} unshared addressbook {addressbook} from themselves');
+			$subject = $l->t('{actor} unshared address book {addressbook} from themselves');
 		} elseif ($event->getSubject() === self::SUBJECT_SHARE_GROUP . '_you') {
-			$subject = $l->t('You shared addressbook {addressbook} with group {group}');
+			$subject = $l->t('You shared address book {addressbook} with group {group}');
 		} elseif ($event->getSubject() === self::SUBJECT_SHARE_GROUP . '_by') {
-			$subject = $l->t('{actor} shared addressbook {addressbook} with group {group}');
+			$subject = $l->t('{actor} shared address book {addressbook} with group {group}');
 		} elseif ($event->getSubject() === self::SUBJECT_UNSHARE_GROUP . '_you') {
-			$subject = $l->t('You unshared addressbook {addressbook} from group {group}');
+			$subject = $l->t('You unshared address book {addressbook} from group {group}');
 		} elseif ($event->getSubject() === self::SUBJECT_UNSHARE_GROUP . '_by') {
-			$subject = $l->t('{actor} unshared addressbook {addressbook} from group {group}');
+			$subject = $l->t('{actor} unshared address book {addressbook} from group {group}');
 		} else {
 			throw new \InvalidArgumentException();
 		}
