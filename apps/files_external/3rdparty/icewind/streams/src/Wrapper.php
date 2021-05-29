@@ -97,7 +97,6 @@ abstract class Wrapper extends WrapperHandler implements File, Directory {
 			
 		// Silently return true if source is not a resource
 		return true;
-		return fclose($this->source);
 	}
 
 	public function dir_readdir() {
