@@ -20,7 +20,7 @@
  *
  */
 
-import { parseXML, prepareFileFromProps } from 'webdav/dist/node/interface/dav'
+import { parseXML, prepareFileFromProps } from 'webdav/dist/node/tools/dav'
 import { processResponsePayload } from 'webdav/dist/node/response'
 import client from './DavClient'
 
