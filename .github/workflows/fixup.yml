@@ -1,4 +1,4 @@
-name: Pull request fixup commit check
+name: Pull request checks
 on: pull_request
 
 jobs:
