@@ -207,7 +207,6 @@ OC.L10N.register(
     "The cron.php needs to be executed by the system user \"%s\"." : "Необходимо е cron.php да се стартира от системния потребител \"%s\".",
     "Allow apps to use the Share API" : "Разреши приложенията да използват Share API",
     "Set default expiration date for shares" : "Задай дата за изтичане по подразбиране за споделянията",
-    "Expire after " : "Изтечи след",
     "days" : "дена",
     "Enforce expiration date" : "Изисквай срок на валидност",
     "Allow public uploads" : "Разреши общодостъпно качване",
@@ -261,6 +260,7 @@ OC.L10N.register(
     "Valid until %s" : "Валиден до %s",
     "Import root certificate" : "Внасяне на основен сертификат",
     "Execute one task with each page loaded" : "Изпълнява една задача с всяка заредена страница.",
+    "Expire after " : "Изтечи след",
     "Allow users to share via link" : "Разреши потребителите да споделят с връзка",
     "Set default expiration date for link shares" : "Задай дата за изтичане по подразбиране за споделянията с линк",
     "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "Позволи автоматично довършване в диалога за споделяне. Ако това е забранено трябва да бъдe въведенo пълното потребителско име или email."

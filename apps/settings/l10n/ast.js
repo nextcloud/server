@@ -188,7 +188,6 @@ OC.L10N.register(
     "Background job didn’t run yet!" : "¡Entá nun s'executó'l trabayu de fondu!",
     "The cron.php needs to be executed by the system user \"%s\"." : "cron.php precisa executalu l'usuariu del sistema «%s».",
     "Allow apps to use the Share API" : "Permitir a les aplicaciones usar la API de Compartición",
-    "Expire after " : "Caduca dempués de",
     "days" : "díes",
     "Enforce expiration date" : "Facer cumplir la data de caducidá",
     "Allow public uploads" : "Permitir xubes públiques",
@@ -239,6 +238,7 @@ OC.L10N.register(
     "Valid until %s" : "Válidu hasta'l %s",
     "Import root certificate" : "Importar certificáu raigañu",
     "Execute one task with each page loaded" : "Executar una xera con cada páxina cargada",
+    "Expire after " : "Caduca dempués de",
     "Allow users to share via link" : "Permitir a los usuarios compartir vía enllaz"
 },
 "nplurals=2; plural=(n != 1);");

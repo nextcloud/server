@@ -40,7 +40,6 @@ OC.L10N.register(
     "You solved todo {todo} in list {calendar}" : " {calendar} zerrendan {todo} zeregina bukatu duzu.",
     "{actor} reopened todo {todo} in list {calendar}" : "{actor} erabiltzaileak {calendar} zerrendan {todo} zeregina berrireki du.",
     "You reopened todo {todo} in list {calendar}" : "{calendar} egutegian {todo} zeregina berrireki duzu. ",
-    "Calendar and tasks" : "Egutegia eta atazak",
     "A <strong>calendar</strong> was modified" : "Egutegia aldatu da",
     "A calendar <strong>event</strong> was modified" : "Egutegiaren <strong>gertaera</strong> bat aldatu da",
     "A calendar <strong>todo</strong> was modified" : "Egutegiaren zeregin bat aldatu da",
@@ -110,6 +109,7 @@ OC.L10N.register(
     "The meeting »%1$s« with %2$s was canceled." : "»%1$s« bilera %2$s(r)ekin bertan behera utzi da.",
     "The meeting »%1$s« with %2$s was updated." : "»%1$s« bilera %2$s(r)ekin eguneratu egin da.",
     "%1$s invited you to »%2$s«" : "%1$s(e)k »%2$s(e)ra« gonbidatu zaitu",
-    "When:" : "Noiz:"
+    "When:" : "Noiz:",
+    "Calendar and tasks" : "Egutegia eta atazak"
 },
 "nplurals=2; plural=(n != 1);");

@@ -40,7 +40,6 @@ OC.L10N.register(
     "You solved todo {todo} in list {calendar}" : "Izvršili ste zadatak {todo} u popisu {calendar}",
     "{actor} reopened todo {todo} in list {calendar}" : "{actor} je ponovno otvorio zadatak {todo} u popisu {calendar}",
     "You reopened todo {todo} in list {calendar}" : "Ponovno ste otvorili zadatak {todo} u popisu {calendar}",
-    "Calendar and tasks" : "Kalendar i zadaci",
     "A <strong>calendar</strong> was modified" : "Izmijenjen je <strong>kalendar</strong>",
     "A calendar <strong>event</strong> was modified" : "Izmijenjen je <strong>događaj</strong> u kalendaru",
     "A calendar <strong>todo</strong> was modified" : "Izmijenjen je <strong>zadatak</strong> u kalendaru",
@@ -109,6 +108,7 @@ OC.L10N.register(
     "The meeting »%1$s« with %2$s was canceled." : "Otkazan je sastanak »%1$s« s %2$s.",
     "The meeting »%1$s« with %2$s was updated." : "Ažuriran je sastanak »%1$s« s %2$s.",
     "%1$s invited you to »%2$s«" : "%1$s vas je pozvao na »%2$s«",
-    "When:" : "Kada:"
+    "When:" : "Kada:",
+    "Calendar and tasks" : "Kalendar i zadaci"
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

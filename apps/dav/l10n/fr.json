@@ -38,7 +38,6 @@
     "You solved todo {todo} in list {calendar}" : "Vous avez terminé la tâche {todo} de la liste {calendar}",
     "{actor} reopened todo {todo} in list {calendar}" : "{actor} a réouvert la tâche {todo} dans la liste {calendar}",
     "You reopened todo {todo} in list {calendar}" : "Vous avez réouvert la tâche {todo} dans la liste {calendar}",
-    "Calendar and tasks" : "Agenda et tâches",
     "A <strong>calendar</strong> was modified" : "Un <strong>agenda</strong> a été modifié",
     "A calendar <strong>event</strong> was modified" : "Un <strong>événement</strong> de l'agenda a été modifié",
     "A calendar <strong>todo</strong> was modified" : "Une <strong>liste de tâches</strong> de l'agenda a été modifiée",
@@ -108,6 +107,7 @@
     "The meeting »%1$s« with %2$s was canceled." : "La réunion «%1$s» avec %2$s a été annulée.",
     "The meeting »%1$s« with %2$s was updated." : "La réunion «%1$s» avec %2$s a été mise à jour.",
     "%1$s invited you to »%2$s«" : "%1$s vous a invité à «%2$s»",
-    "When:" : "Quand :"
+    "When:" : "Quand :",
+    "Calendar and tasks" : "Agenda et tâches"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

@@ -78,7 +78,6 @@ OC.L10N.register(
     "Security & setup warnings" : "Təhlükəsizlik & işə salma xəbərdarlıqları",
     "Version" : "Versiya",
     "Allow apps to use the Share API" : "Proqramlara izin verin ki, Paylaşım API-sindən istifadə edə bilsinlər.",
-    "Expire after " : "Bitir sonra",
     "days" : "günlər",
     "Enforce expiration date" : "Bitmə tarixini həyata keçir",
     "Allow public uploads" : "Ümumi yüklənmələrə izin vermək",
@@ -109,6 +108,7 @@ OC.L10N.register(
     "Valid until %s" : "Keçərlidir vaxtadək %s",
     "Import root certificate" : "root sertifikatı import et",
     "Execute one task with each page loaded" : "Hər səhifə yüklənməsində bir işi yerinə yetir",
+    "Expire after " : "Bitir sonra",
     "Allow users to share via link" : "Istifadəçilərə link üzərindən paylaşım etməyə izin vermək"
 },
 "nplurals=2; plural=(n != 1);");

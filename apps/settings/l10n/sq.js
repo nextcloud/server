@@ -217,7 +217,6 @@ OC.L10N.register(
     "To run this you need the PHP POSIX extension. See {linkstart}PHP documentation{linkend} for more details." : "Për të bërë këtë ekzekutim ju duhet shtesa PHP POSIX. Shikoni {linkstart} dokumentacionin e PHP {linkend} pë më shumë detaje.",
     "As admin you can fine-tune the sharing behavior. Please see the documentation for more information." : "Si admin ju mund të rregulloni mirë sjelljen e ndarjes. Ju lutem shih dokumentacionin për më shumë informacion.",
     "Allow apps to use the Share API" : "Lejoni aplikacionet të përdorin API Share",
-    "Expire after " : "Skadon pas ",
     "days" : "ditësh",
     "Enforce expiration date" : "Detyro datë skadimi",
     "Allow public uploads" : "Lejo ngarkime publike",
@@ -278,6 +277,7 @@ OC.L10N.register(
     "Valid until %s" : "E vlefshme deri më %s",
     "Import root certificate" : "Importoni dëshmi rrënjë",
     "Execute one task with each page loaded" : "Kryeni vetëm një veprim me secilën prej faqeve të ngarkuara",
+    "Expire after " : "Skadon pas ",
     "Allow users to share via link" : "Lejoji përdoruesit të ndajnë me të tjerët përmes lidhjesh",
     "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Shfaqni tekstin e mospranimit në linkun publik të faqes së ngarkuar. (Shfaqet vetëm kur lista e skedarit është e fshehur.)"
 },
