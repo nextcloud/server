@@ -250,7 +250,6 @@ OC.L10N.register(
     "Background jobs" : "Baggrundsjobs",
     "Last job ran %s." : "Seneste job blev udført: %s.",
     "Allow apps to use the Share API" : "Tillad apps til at bruge Share API",
-    "Expire after " : "Udløber efter",
     "days" : "dage",
     "Enforce expiration date" : "Påtving udløbsdato",
     "Allow public uploads" : "Tillad offentlig upload",
@@ -314,6 +313,7 @@ OC.L10N.register(
     "Valid until %s" : "Gyldig indtil %s",
     "Import root certificate" : "Importer rodcertifikat",
     "Execute one task with each page loaded" : "Udføre en opgave med hver side indlæsning",
+    "Expire after " : "Udløber efter",
     "Allow users to share via link" : "Tillad brugere at dele via link"
 },
 "nplurals=2; plural=(n != 1);");

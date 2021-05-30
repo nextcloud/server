@@ -201,7 +201,6 @@ OC.L10N.register(
     "Start migration" : "إبدأ الدمج",
     "Background jobs" : "الأنشطة في الخلفية",
     "Allow apps to use the Share API" : "السماح للتطبيقات بالمشاركة عن طريق الAPI",
-    "Expire after " : "ينتهي بعد",
     "days" : "أيام",
     "Enforce expiration date" : "فرض تاريخ نهاية صلاحية",
     "Allow public uploads" : "السماح بالرفع للعامة ",
@@ -259,6 +258,7 @@ OC.L10N.register(
     "Valid until %s" : "صالحة إلى غاية %s",
     "Import root certificate" : "إستيراد شهادة جذرية",
     "Execute one task with each page loaded" : "قم بتنفيذ مهمة واحدة مع كل صفحة تم تحميلها",
+    "Expire after " : "ينتهي بعد",
     "Allow users to share via link" : "السماح للمستخدم بمشاركة الملف عن طريق رابط"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

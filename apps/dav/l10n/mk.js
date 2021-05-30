@@ -40,7 +40,6 @@ OC.L10N.register(
     "You solved todo {todo} in list {calendar}" : "Го решивте задолжението {todo} во листата {calendar}",
     "{actor} reopened todo {todo} in list {calendar}" : "{actor} повторно го отвори задолжението {todo} во листата {calendar}",
     "You reopened todo {todo} in list {calendar}" : "Повторно го отворивте задолжението {todo} во листата {calendar}",
-    "Calendar and tasks" : "Календар и задачи",
     "A <strong>calendar</strong> was modified" : "<strong>Календарот</strong> е променет",
     "A calendar <strong>event</strong> was modified" : "Изменет е <strong>настан</strong> во календарот",
     "A calendar <strong>todo</strong> was modified" : "Изменета е <strong>задача</strong> во календарот",
@@ -109,6 +108,7 @@ OC.L10N.register(
     "The meeting »%1$s« with %2$s was canceled." : "Состанокот »%1$s« со %2$s е откажан.",
     "The meeting »%1$s« with %2$s was updated." : "Состанокот »%1$s« со %2$s е ажуриран.",
     "%1$s invited you to »%2$s«" : "%1$s ве покани вас »%2$s«",
-    "When:" : "Кога:"
+    "When:" : "Кога:",
+    "Calendar and tasks" : "Календар и задачи"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

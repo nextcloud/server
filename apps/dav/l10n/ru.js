@@ -40,7 +40,6 @@ OC.L10N.register(
     "You solved todo {todo} in list {calendar}" : "Вы завершили задачу «{todo}» из списка «{calendar}»",
     "{actor} reopened todo {todo} in list {calendar}" : "{actor} повторно(а) открыл задачу «{todo}» из списка «{calendar}»",
     "You reopened todo {todo} in list {calendar}" : "Вы повторно открыли задачу «{todo}» из списка «{calendar}»",
-    "Calendar and tasks" : "Календарь и задачи",
     "A <strong>calendar</strong> was modified" : "Изменения <strong>календаря</strong> ",
     "A calendar <strong>event</strong> was modified" : "В календаре изменено <strong>событие</strong>",
     "A calendar <strong>todo</strong> was modified" : "В календаре изменена <strong>задача</strong>",
@@ -109,6 +108,7 @@ OC.L10N.register(
     "The meeting »%1$s« with %2$s was canceled." : "Встреча «%1$s» с %2$s отменена.",
     "The meeting »%1$s« with %2$s was updated." : "Встреча «%1$s» с %2$s обновлена.",
     "%1$s invited you to »%2$s«" : "%1$s приглашает вас в «%2$s»",
-    "When:" : "Когда:"
+    "When:" : "Когда:",
+    "Calendar and tasks" : "Календарь и задачи"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");
