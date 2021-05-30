@@ -126,10 +126,10 @@ window.addEventListener('DOMContentLoaded', function(){
 	var savePublicShareDisclaimerText = _.debounce(function(value) {
 		var options = {
 			success: function() {
-				OC.msg.finishedSuccess('#publicShareDisclaimerStatus', t('core', 'Saved'));
+				OC.msg.finishedSuccess('#publicShareDisclaimerStatus', t('settings', 'Saved'));
 			},
 			error: function() {
-				OC.msg.finishedError('#publicShareDisclaimerStatus', t('core', 'Not saved'));
+				OC.msg.finishedError('#publicShareDisclaimerStatus', t('settings', 'Not saved'));
 			}
 		};
 
