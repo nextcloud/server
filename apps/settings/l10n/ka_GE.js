@@ -216,7 +216,6 @@ OC.L10N.register(
     "To run this you need the PHP POSIX extension. See {linkstart}PHP documentation{linkend} for more details." : "ამის გასაშვებად საჭიროა გქონდეთ PHP POSIX გაფართოება. მეტი დეტალებისთვის იხილეთ {linkstart}PHP დოკუმენტაცია{linkend}. ",
     "As admin you can fine-tune the sharing behavior. Please see the documentation for more information." : "როგორც ადმინისტრატორს შეგიძლიათ გაზიარების ქცევის კორექტირება. დამატებითი ინფორმაციისთვის იხილეთ დოკუმენტაცია.",
     "Allow apps to use the Share API" : "დაუშვი აპლიკაციების უფლება  Share API –ზე",
-    "Expire after " : "ვადის ამოწურვა",
     "days" : "დღე",
     "Enforce expiration date" : "ვადის ამოწურვის თარიღის იძულება",
     "Allow public uploads" : "საქვეყნო ატვირთების დაშვება",
@@ -277,6 +276,7 @@ OC.L10N.register(
     "Valid until %s" : "ვარგისია %s-მდე",
     "Import root certificate" : "Root სერტიფიკატის იმპორტი",
     "Execute one task with each page loaded" : "გაუშვი თითო მოქმედება ყველა ჩატვირთულ გვერდზე",
+    "Expire after " : "ვადის ამოწურვა",
     "Allow users to share via link" : "მიეცით მოხმარებლებს ბმულით გაზიარების უფლება",
     "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "მიეცით მომხმარებლებს ავტოდასრულების უფლება გაზიარების დიალოგებში. იმ შემთხვევაში თუ ეს ფუნქცია არაა მოქმედი, საჭირო იქნება სრული მომხმარებლის სახელის ან ელ-ფოსტის მისამართის შეყვანა.",
     "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "პასუხისმგებლობის შეზღუდვის ტექსტის ჩვენება ღია ბმულის ატვირთვის გვერდზე. (ჩანს მხოლოდ მაშინ, როდესაც ფაილების სია დამალულია.)"

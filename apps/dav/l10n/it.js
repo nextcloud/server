@@ -40,7 +40,6 @@ OC.L10N.register(
     "You solved todo {todo} in list {calendar}" : "Hai risolto la cosa da fare {todo} nell'elenco {calendar}",
     "{actor} reopened todo {todo} in list {calendar}" : "{actor} ha riaperto la cosa da fare {todo} nell'elenco {calendar}",
     "You reopened todo {todo} in list {calendar}" : "Hai riaperto la cosa da fare {todo} nell'elenco {calendar}",
-    "Calendar and tasks" : "Calendario e attività",
     "A <strong>calendar</strong> was modified" : "Un <strong>calendario</strong> è stato modificato",
     "A calendar <strong>event</strong> was modified" : "Un <strong>evento</strong> del calendario è stato modificato",
     "A calendar <strong>todo</strong> was modified" : "Una <strong>cosa da fare</strong> del calendario è stata modificata",
@@ -110,6 +109,7 @@ OC.L10N.register(
     "The meeting »%1$s« with %2$s was canceled." : "L'incontro «%1$s» con %2$s è stato annullato.",
     "The meeting »%1$s« with %2$s was updated." : "L'incontro «%1$s» con %2$s è stato aggiornato.",
     "%1$s invited you to »%2$s«" : "%1$s ti ha invitato a «%2$s»",
-    "When:" : "Quando:"
+    "When:" : "Quando:",
+    "Calendar and tasks" : "Calendario e attività"
 },
 "nplurals=2; plural=(n != 1);");

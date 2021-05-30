@@ -40,7 +40,6 @@ OC.L10N.register(
     "You solved todo {todo} in list {calendar}" : "As isortu sa cosa de fàghere {todo} in s'elencu {calendar}",
     "{actor} reopened todo {todo} in list {calendar}" : "{actor} at torradu a abèrrere sa cosa de fàghere {todo} in s'elencu {calendar}",
     "You reopened todo {todo} in list {calendar}" : "As torradu a abèrrere sa cosa de fàghere {todo} in s'elecu {calendar}",
-    "Calendar and tasks" : "Calendàrios e fainas",
     "A <strong>calendar</strong> was modified" : "Unu <strong>calendàriu</strong> est istadu modificadu",
     "A calendar <strong>event</strong> was modified" : "Unu <strong>eventu</strong> de su calendàriu est istadu modificadu",
     "A calendar <strong>todo</strong> was modified" : "Una <strong>cosa de fàghere</strong> de su calendàriu est istada modificada",
@@ -109,6 +108,7 @@ OC.L10N.register(
     "The meeting »%1$s« with %2$s was canceled." : "S'addòbiu »%1$s« cun %2$s est istadu cantzelladu.",
     "The meeting »%1$s« with %2$s was updated." : "S'addòbiu »%1$s« cun %2$s est istadu agiornadu.",
     "%1$s invited you to »%2$s«" : "%1$s t'at invitadu »%2$s«",
-    "When:" : "Cando:"
+    "When:" : "Cando:",
+    "Calendar and tasks" : "Calendàrios e fainas"
 },
 "nplurals=2; plural=(n != 1);");

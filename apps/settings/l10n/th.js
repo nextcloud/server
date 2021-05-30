@@ -108,7 +108,6 @@ OC.L10N.register(
     "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one." : "คุณจำเป็นต้องโอนย้ายคีย์การเข้ารหัสลับของคุณจากการเข้ารหัสเก่า (ownCloud <= 8.0) ไปใหม่",
     "Start migration" : "เริ่มการโยกย้าย",
     "Allow apps to use the Share API" : "อนุญาตให้แอปฯสามารถใช้ API สำหรับแชร์ข้อมูลได้",
-    "Expire after " : "หลังจากหมดอายุ",
     "days" : "วัน",
     "Enforce expiration date" : "บังคับให้มีวันที่หมดอายุ",
     "Allow public uploads" : "อนุญาตให้อัพโหลดสาธารณะ",
@@ -147,6 +146,7 @@ OC.L10N.register(
     "Valid until %s" : "ใช้ได้จนถึง %s",
     "Import root certificate" : "นำเข้าใบรับรองหลัก",
     "Execute one task with each page loaded" : "ประมวลผลหนึ่งงาน ในแต่ละครั้งที่มีการโหลดหน้าเว็บ",
+    "Expire after " : "หลังจากหมดอายุ",
     "Allow users to share via link" : "อนุญาตให้ผู้ใช้สามารถแชร์ผ่านทางลิงค์"
 },
 "nplurals=1; plural=0;");

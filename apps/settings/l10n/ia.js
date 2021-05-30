@@ -111,7 +111,6 @@ OC.L10N.register(
     "Enable encryption" : "Activar cryptographia",
     "Select default encryption module:" : "Selectionar modulo de cryptographia standard",
     "Start migration" : "Initiar migration",
-    "Expire after " : "Expirar post",
     "days" : "dies",
     "Enforce expiration date" : "Exiger data de expiration",
     "Allow public uploads" : "Permitter incargas public",
@@ -152,6 +151,7 @@ OC.L10N.register(
     "Issued By" : "Emittite per",
     "Valid until %s" : "Valide usque %s",
     "Import root certificate" : "Importar certificato root",
+    "Expire after " : "Expirar post",
     "Allow users to share via link" : "Permitter usatores compartir via ligamine"
 },
 "nplurals=2; plural=(n != 1);");

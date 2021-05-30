@@ -40,7 +40,6 @@ OC.L10N.register(
     "You solved todo {todo} in list {calendar}" : "リスト{calendar}のtodo {todo}を解決しました。",
     "{actor} reopened todo {todo} in list {calendar}" : "{actor}リスト{calendar}のToDo {todo}を再開しました",
     "You reopened todo {todo} in list {calendar}" : "リスト{calendar}のtodo {todo}を再開しました",
-    "Calendar and tasks" : "カレンダーとタスク",
     "A <strong>calendar</strong> was modified" : "<strong>カレンダー</strong>が変更されたとき",
     "A calendar <strong>event</strong> was modified" : "カレンダーの<strong>イベント</strong>が変更されたとき",
     "A calendar <strong>todo</strong> was modified" : "カレンダーの<strong>ToDo</strong>が変更されたとき",
@@ -109,6 +108,7 @@ OC.L10N.register(
     "The meeting »%1$s« with %2$s was canceled." : "会議%1$s « %2$s がキャンセルされました。",
     "The meeting »%1$s« with %2$s was updated." : "会議 %1$s« %2$s が更新されました。",
     "%1$s invited you to »%2$s«" : "%1$s があなたを »%2$s« に招待しました",
-    "When:" : "いつ:"
+    "When:" : "いつ:",
+    "Calendar and tasks" : "カレンダーとタスク"
 },
 "nplurals=1; plural=0;");

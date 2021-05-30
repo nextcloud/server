@@ -40,7 +40,6 @@ OC.L10N.register(
     "You solved todo {todo} in list {calendar}" : "Επίλυσες την εκκρεμότητα {todo} στην λίστα {calendar}",
     "{actor} reopened todo {todo} in list {calendar}" : "{actor} άνοιξε ξανά την εκκρεμότητα {todo} στην λίστα {calendar}",
     "You reopened todo {todo} in list {calendar}" : "Άνοιξες ξανά την εκκρεμότητα {todo} στην λίστα {calendar}",
-    "Calendar and tasks" : "Ημερολόγιο και εργασίες",
     "A <strong>calendar</strong> was modified" : "Τροποποιήθηκε ένα <strong>ημερολόγιο</strong> ",
     "A calendar <strong>event</strong> was modified" : "Τροποποιήθηκε ένα <strong>γεγονός</strong> του ημερολογίου",
     "A calendar <strong>todo</strong> was modified" : "Ενός ημερολογίου η <strong>εκκρεμότητα</strong> τροποποιήθηκε",
@@ -109,6 +108,7 @@ OC.L10N.register(
     "The meeting »%1$s« with %2$s was canceled." : "Το meeting »%1$s« με τον/την %2$s ακυρώθηκε.",
     "The meeting »%1$s« with %2$s was updated." : "Το meeting » %1$s« με τον/την %2$s ενημερώθηκε.",
     "%1$s invited you to »%2$s«" : "Ο %1$s σας προσκάλεσε στο »%2$s«",
-    "When:" : "Πότε:"
+    "When:" : "Πότε:",
+    "Calendar and tasks" : "Ημερολόγιο και εργασίες"
 },
 "nplurals=2; plural=(n != 1);");

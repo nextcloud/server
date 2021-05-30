@@ -241,7 +241,6 @@ OC.L10N.register(
     "To run this you need the PHP POSIX extension. See {linkstart}PHP documentation{linkend} for more details." : "To run this you need the PHP POSIX extension. See {linkstart}PHP documentation{linkend} for more details.",
     "As admin you can fine-tune the sharing behavior. Please see the documentation for more information." : "As admin you can fine-tune the sharing behavior. Please see the documentation for more information.",
     "Allow apps to use the Share API" : "Allow apps to use the Share API",
-    "Expire after " : "Expire after ",
     "days" : "days",
     "Enforce expiration date" : "Enforce expiry date",
     "Allow public uploads" : "Allow public uploads",
@@ -303,6 +302,7 @@ OC.L10N.register(
     "Valid until %s" : "Valid until %s",
     "Import root certificate" : "Import root certificate",
     "Execute one task with each page loaded" : "Execute one task with each page loaded",
+    "Expire after " : "Expire after ",
     "Allow users to share via link" : "Allow users to share via link",
     "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered.",
     "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)"
