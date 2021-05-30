@@ -291,7 +291,6 @@ OC.L10N.register(
     "Background job didn’t run yet!" : "Pekerjaan latar belakang belum berjalan!",
     "Pick background job setting" : "Pilih pengaturan pekerjaan latar belakang",
     "Allow apps to use the Share API" : "Izinkan aplikasi untuk menggunakan API Pembagian",
-    "Expire after " : "Kadaluarsa setelah ",
     "days" : "hari",
     "Enforce expiration date" : "Berlakukan tanggal kadaluarsa",
     "Allow public uploads" : "Izinkan unggahan publik",
@@ -356,6 +355,7 @@ OC.L10N.register(
     "Valid until %s" : "Berlaku sampai %s",
     "Import root certificate" : "Impor sertifikat root",
     "Execute one task with each page loaded" : "Jalankan tugas setiap kali halaman dimuat",
+    "Expire after " : "Kadaluarsa setelah ",
     "Allow users to share via link" : "Izinkan pengguna untuk membagikan via tautan",
     "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "Perbolehkan nama pengguna otomatis terisi didialog bagikan. Jikan ini dinonaktifkan, nama pengguna atau alamat email harus dimasukkan."
 },

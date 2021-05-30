@@ -33,7 +33,7 @@
     "{actor} added {user} to group {group}" : "{actor} dodał {user} do grupy {group}",
     "An administrator added you to group {group}" : "Administrator dodał Cię do grupy {group}",
     "An administrator added {user} to group {group}" : "Administrator dodał {user} do grupy {group}",
-    "{actor} removed you from group {group}" : "{actor} usunął Cię z grupy {group}",
+    "{actor} removed you from group {group}" : "{actor} usunął Ciebie z grupy {group}",
     "You removed {user} from group {group}" : "Usunąłeś {user} z grupy {group}",
     "{actor} removed {user} from group {group}" : "{actor} usunął {user} z grupy {group}",
     "An administrator removed you from group {group}" : "Administrator usunął Cię z grupy {group}",
@@ -367,7 +367,7 @@
     "As admin you can fine-tune the sharing behavior. Please see the documentation for more information." : "Jako administrator możesz zoptymalizować ustawienia udostępniania. Szczegółowe informacje znajdziesz w dokumentacji.",
     "Allow apps to use the Share API" : "Zezwalaj aplikacjom na korzystanie z API udostępniania",
     "Set default expiration date for shares" : "Ustaw domyślną datę ważności udostępnień",
-    "Expire after " : "Wygaś po ",
+    "Expire after" : "Wygasa po",
     "days" : "dniach",
     "Enforce expiration date" : "Wymuszaj datę wygaśnięcia",
     "Set default expiration date for shares to other servers" : "Ustaw domyślną datę ważności udostępnień na innych serwerach",
@@ -382,7 +382,7 @@
     "Restrict users to only share with users in their groups" : "Ogranicz użytkownikom możliwość udostępniania, pozwól tylko w swoich grupach",
     "Exclude groups from sharing" : "Wyklucz grupy z udostępniania",
     "These groups will still be able to receive shares, but not to initiate them." : "Grupy te nadal będą mogły otrzymywać udostępnienia, ale nie będą mogły ich tworzyć.",
-    "Allow username autocompletion in share dialog" : "Zezwalaj na automatyczne uzupełnianie nazwy użytkownika w oknie udostępniania",
+    "Allow username autocompletion in share dialog" : "Zezwalaj na automatyczne uzupełnianie nazwy użytkownika w oknie udostępnienia",
     "Allow username autocompletion to users within the same groups" : "Zezwalaj na automatyczne uzupełnianie nazwy użytkownika dla użytkowników w tych samych grupach",
     "Allow username autocompletion to users based on phone number integration" : "Zezwalaj na automatyczne uzupełnianie nazw użytkowników na podstawie integracji numeru telefonu",
     "If autocompletion \"same group\" and \"phone number integration\" are enabled a match in either is enough to show the user." : "Jeśli automatyczne uzupełnianie \"ta sama grupa\" i \"integracja numeru telefonu\" są włączone, wystarczy dopasowanie w jednej z nich, aby pokazać użytkownikowi.",
@@ -454,6 +454,7 @@
     "Valid until %s" : "Ważny do %s",
     "Import root certificate" : "Importuj certyfikat główny",
     "Execute one task with each page loaded" : "Wykonuj jedno zadanie wraz z każdą wczytaną stroną.",
+    "Expire after " : "Wygaś po ",
     "Allow users to share via link" : "Zezwalaj użytkownikom na udostępnianie za pośrednictwem linku",
     "Set default expiration date for link shares" : "Ustaw domyślną datę ważności dla udostępnień linku",
     "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "Zezwalaj na automatyczne uzupełnianie nazwy użytkownika w oknie dialogowym udostępniania. Przy wyłączonej opcji wymagać będzie podania pełnej nazwy użytkownika lub adres e-mail.",
@@ -461,6 +462,6 @@
     "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Pokaż tekst zastrzeżenia na stronie przesyłania linków publicznych. (Wyświetlane tylko, gdy lista plików jest ukryta).",
     "Don't synchronize to servers" : "Nie synchronizuj z serwerami",
     "Trusted" : "Zaufany",
-    "Allow username autocompletion in share dialog (if this is disabled the full username or email address needs to be entered)" : "Zezwalaj na automatyczne uzupełnianie nazwy użytkownika w oknie udostępniania (jeśli ta opcja będzie wyłączona, wymagane będzie wprowadzanie pełnej nazwy użytkownika lub adres e-mail)"
+    "Allow username autocompletion in share dialog (if this is disabled the full username or email address needs to be entered)" : "Zezwalaj na automatyczne uzupełnianie nazwy użytkownika w oknie udostępnienia (jeśli ta opcja będzie wyłączona, wymagane będzie wprowadzanie pełnej nazwy użytkownika lub adres e-mail)"
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
 }

@@ -85,7 +85,6 @@ OC.L10N.register(
     "SMTP Password" : "Энгийн мэйл дамжуулах протокол-ийн нууц үг",
     "Save" : "Хадгалах",
     "Version" : "Хувилбар",
-    "Expire after " : " Дуусах хугацаа",
     "days" : "өдрийн дараа",
     "Always ask for a password" : "Үргэлж нууц үг асуух",
     "Enforce password protection" : "Нууц үгийн хамгаалалтыг хэрэгжүүлэх",
@@ -106,6 +105,7 @@ OC.L10N.register(
     "Change password" : "Нууц үг солих",
     "Contacts" : "Харилцагчид",
     "Public" : "Нийтийн",
-    "Close" : "Хаах"
+    "Close" : "Хаах",
+    "Expire after " : " Дуусах хугацаа"
 },
 "nplurals=2; plural=(n != 1);");

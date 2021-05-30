@@ -40,7 +40,6 @@ OC.L10N.register(
     "You solved todo {todo} in list {calendar}" : "פתרת משימה לביצוע {todo} ברשימה {calendar}",
     "{actor} reopened todo {todo} in list {calendar}" : "המשימה לביצוע {todo} ברשימה {calendar} נפתחה מחדש על ידי {actor}",
     "You reopened todo {todo} in list {calendar}" : "פתחת מחדש את המשימה לביצוע {todo} ברשימה {calendar}",
-    "Calendar and tasks" : "לוח שנה ומשימות",
     "A <strong>calendar</strong> was modified" : " <strong>יומן</strong> נערך",
     "A calendar <strong>event</strong> was modified" : "<strong>אירוע</strong> ביומן נערך",
     "A calendar <strong>todo</strong> was modified" : "נערכה <strong>מטלה</strong> בלוח שנה",
@@ -107,6 +106,7 @@ OC.L10N.register(
     "The meeting »%1$s« with %2$s was canceled." : "הפגישה »%1$s« עם %2$s בוטלה.",
     "The meeting »%1$s« with %2$s was updated." : "הפגישה »%1$s« עם %2$s עודכנה.",
     "%1$s invited you to »%2$s«" : "הוזמנת על ידי %1$s אל „%2$s”",
-    "When:" : "מתי:"
+    "When:" : "מתי:",
+    "Calendar and tasks" : "לוח שנה ומשימות"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");

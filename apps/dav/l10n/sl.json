@@ -38,7 +38,6 @@
     "You solved todo {todo} in list {calendar}" : "Razrešite nalogo {todo} v seznamu {calendar}",
     "{actor} reopened todo {todo} in list {calendar}" : "{actor} ponovno odpre nalogo {todo} v koledarju {calendar}",
     "You reopened todo {todo} in list {calendar}" : "Ponovno odprete nalogo {todo} v seznamu {calendar}",
-    "Calendar and tasks" : "Koledar in naloge",
     "A <strong>calendar</strong> was modified" : "V <strong>koledar</strong> je vpisana sprememba",
     "A calendar <strong>event</strong> was modified" : "Spremenjen je <strong>dogodek</strong> v koledarju",
     "A calendar <strong>todo</strong> was modified" : "Spremenjena je <strong>naloga</strong> koledarja",
@@ -108,6 +107,7 @@
     "The meeting »%1$s« with %2$s was canceled." : "Sestanek »%1$s« z uporabnikom %2$s je preklican.",
     "The meeting »%1$s« with %2$s was updated." : "Sestanek »%1$s« z uporabnikom %2$s je spremenjen.",
     "%1$s invited you to »%2$s«" : "%1$s vas vabi na »%2$s«",
-    "When:" : "Kdaj:"
+    "When:" : "Kdaj:",
+    "Calendar and tasks" : "Koledar in naloge"
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }

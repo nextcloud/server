@@ -195,7 +195,7 @@ OC.L10N.register(
     "on {server}" : "{server} に",
     "Others with access" : "アクセス権を持つ他のユーザー",
     "No other users with access found" : "アクセス権を持つ他のユーザーは見つかりませんでした",
-    "Toggle list of others with access to this directory" : "このフォルダへのアクセス権を持つ他のユーザーリストを切り替えます",
+    "Toggle list of others with access to this directory" : "このフォルダーへのアクセス権を持つ他のユーザーリストを切り替えます",
     "Toggle list of others with access to this file" : "このファイルへのアクセス権を持つ他のユーザーのリストを切り替えます",
     "Unable to fetch inherited shares" : "継承された共有を取得できません",
     "Unable to load the shares list" : "共有リストを読み込めません",

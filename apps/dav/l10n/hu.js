@@ -40,7 +40,6 @@ OC.L10N.register(
     "You solved todo {todo} in list {calendar}" : "Elintézted ezt a teendőt: {todo} ebben a listában: {calendar}",
     "{actor} reopened todo {todo} in list {calendar}" : "{actor} újranyitotta ezt a teendőt: {todo} ebben a listában: {calendar}",
     "You reopened todo {todo} in list {calendar}" : "Újranyitottad ezt a teendőt: {todo} ebben a listában: {calendar}",
-    "Calendar and tasks" : "Naptár és feladatok",
     "A <strong>calendar</strong> was modified" : "Egy <strong>naptár</strong> megváltozott",
     "A calendar <strong>event</strong> was modified" : "Egy naptár <strong>esemény</strong> megváltozott",
     "A calendar <strong>todo</strong> was modified" : "Egy naptár <strong>teendő</strong> megváltozott",
@@ -108,6 +107,7 @@ OC.L10N.register(
     "The meeting »%1$s« with %2$s was canceled." : "A »%1$s« találkozó vele: %2$s lemondásra került.",
     "The meeting »%1$s« with %2$s was updated." : "A »%1$s« találkozó vele:%2$s módosult.",
     "%1$s invited you to »%2$s«" : "%1$s meghívott ide: »%2$s«",
-    "When:" : "Mikor:"
+    "When:" : "Mikor:",
+    "Calendar and tasks" : "Naptár és feladatok"
 },
 "nplurals=2; plural=(n != 1);");
