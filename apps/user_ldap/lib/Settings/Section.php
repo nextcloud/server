@@ -55,13 +55,13 @@ class Section implements IIconSection {
 	}
 
 	/**
-	 * returns the translated name as it should be displayed, e.g. 'LDAP / AD
+	 * returns the translated name as it should be displayed, e.g. 'LDAP/AD
 	 * integration'. Use the L10N service to translate it.
 	 *
 	 * @return string
 	 */
 	public function getName() {
-		return $this->l->t('LDAP / AD integration');
+		return $this->l->t('LDAP/AD integration');
 	}
 
 	/**

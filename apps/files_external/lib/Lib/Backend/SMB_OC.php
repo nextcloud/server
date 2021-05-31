@@ -43,7 +43,7 @@ class SMB_OC extends Backend {
 		$this
 			->setIdentifier('\OC\Files\Storage\SMB_OC')
 			->setStorageClass('\OCA\Files_External\Lib\Storage\SMB')
-			->setText($l->t('SMB / CIFS using OC login'))
+			->setText($l->t('SMB/CIFS using OC login'))
 			->addParameters([
 				new DefinitionParameter('host', $l->t('Host')),
 				(new DefinitionParameter('username_as_share', $l->t('Username as share')))
