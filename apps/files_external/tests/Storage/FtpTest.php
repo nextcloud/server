@@ -63,4 +63,48 @@ class FtpTest extends \Test\Files\Storage\Storage {
 
 		parent::tearDown();
 	}
+
+	/**
+	 * ftp has no proper way to handle spaces at the end of file names
+	 */
+	public function directoryProvider() {
+		return array_filter(parent::directoryProvider(), function ($item) {
+			return substr($item[0], -1) !== ' ';
+		});
+	}
+
+
+	/**
+	 * mtime for folders is only with a minute resolution
+	 */
+	public function testStat() {
+		$textFile = \OC::$SERVERROOT . '/tests/data/lorem.txt';
+		$ctimeStart = time();
+		$this->instance->file_put_contents('/lorem.txt', file_get_contents($textFile));
+		$this->assertTrue($this->instance->isReadable('/lorem.txt'));
+		$ctimeEnd = time();
+		$mTime = $this->instance->filemtime('/lorem.txt');
+		$this->assertTrue($this->instance->hasUpdated('/lorem.txt', $ctimeStart - 5));
+		$this->assertTrue($this->instance->hasUpdated('/', $ctimeStart - 61));
+
+		// check that ($ctimeStart - 5) <= $mTime <= ($ctimeEnd + 1)
+		$this->assertGreaterThanOrEqual(($ctimeStart - 5), $mTime);
+		$this->assertLessThanOrEqual(($ctimeEnd + 1), $mTime);
+		$this->assertEquals(filesize($textFile), $this->instance->filesize('/lorem.txt'));
+
+		$stat = $this->instance->stat('/lorem.txt');
+		//only size and mtime are required in the result
+		$this->assertEquals($stat['size'], $this->instance->filesize('/lorem.txt'));
+		$this->assertEquals($stat['mtime'], $mTime);
+
+		if ($this->instance->touch('/lorem.txt', 100) !== false) {
+			$mTime = $this->instance->filemtime('/lorem.txt');
+			$this->assertEquals($mTime, 100);
+		}
+
+		$mtimeStart = time();
+
+		$this->instance->unlink('/lorem.txt');
+		$this->assertTrue($this->instance->hasUpdated('/', $mtimeStart - 61));
+	}
 }
