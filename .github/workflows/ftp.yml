@@ -67,3 +67,7 @@ jobs:
         run: |
           echo "<?php return ['run' => true,'host' => 'localhost','user' => 'test','password' => 'test', 'root' => ''];" > apps/${{ env.APP_NAME }}/tests/config.ftp.php
           phpunit --configuration tests/phpunit-autotest-external.xml apps/files_external/tests/Storage/FtpTest.php
+      - name: ftpd logs
+        if: always()
+        run: |
+          docker logs ftp
