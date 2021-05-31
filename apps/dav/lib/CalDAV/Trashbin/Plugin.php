@@ -25,9 +25,12 @@ declare(strict_types=1);
 
 namespace OCA\DAV\CalDAV\Trashbin;
 
+use Closure;
 use OCA\DAV\CalDAV\Calendar;
 use OCP\IRequest;
 use Sabre\DAV\Exception\NotFound;
+use Sabre\DAV\INode;
+use Sabre\DAV\PropFind;
 use Sabre\DAV\Server;
 use Sabre\DAV\ServerPlugin;
 use Sabre\HTTP\RequestInterface;
@@ -35,10 +38,8 @@ use Sabre\HTTP\ResponseInterface;
 use function array_slice;
 use function implode;
 
-/**
- * Conditional logic to bypass the calendar trashbin
- */
 class Plugin extends ServerPlugin {
+	public const PROPERTY_DELETED_AT = '{http://nextcloud.com/ns}deleted-at';
 
 	/** @var bool */
 	private $disableTrashbin;
@@ -53,6 +54,7 @@ class Plugin extends ServerPlugin {
 	public function initialize(Server $server): void {
 		$this->server = $server;
 		$server->on('beforeMethod:*', [$this, 'beforeMethod']);
+		$server->on('propFind', Closure::fromCallable([$this, 'propFind']));
 	}
 
 	public function beforeMethod(RequestInterface $request, ResponseInterface $response): void {
@@ -83,6 +85,16 @@ class Plugin extends ServerPlugin {
 			$calendar->disableTrashbin();
 		} catch (NotFound $ex) {
 			return;
+		}
+	}
+
+	private function propFind(
+		PropFind $propFind,
+		INode $node): void {
+		if ($node instanceof DeletedCalendarObject) {
+			$propFind->handle(self::PROPERTY_DELETED_AT, function () use ($node) {
+				return $node->getDeletedAt();
+			});
 		}
 	}
 
