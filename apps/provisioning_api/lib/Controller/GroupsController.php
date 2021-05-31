@@ -247,6 +247,9 @@ class GroupsController extends AUserData {
 			throw new OCSException('group exists', 102);
 		}
 		$group = $this->groupManager->createGroup($groupid);
+		if ($group === null) {
+			throw new OCSException('Not supported by backend', 103);
+		}
 		if ($displayname !== '') {
 			$group->setDisplayName($displayname);
 		}
