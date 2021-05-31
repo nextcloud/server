@@ -27,8 +27,6 @@ namespace OC\Core\Command\Background;
 
 use OCP\BackgroundJob\IJob;
 use OCP\BackgroundJob\IJobList;
-use OCP\DB\QueryBuilder\IQueryBuilder;
-use OCP\IDBConnection;
 use OCP\ILogger;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -39,17 +37,13 @@ use Symfony\Component\Console\Output\OutputInterface;
 class Job extends Command {
 	/** @var IJobList */
 	protected $jobList;
-	/** @var IDBConnection */
-	protected $connection;
 	/** @var ILogger */
 	protected $logger;
 
 	public function __construct(IJobList $jobList,
-								IDBConnection $connection,
 								ILogger $logger) {
 		parent::__construct();
 		$this->jobList = $jobList;
-		$this->connection = $connection;
 		$this->logger = $logger;
 	}
 
@@ -86,14 +80,7 @@ class Job extends Command {
 			$output->writeln('');
 			$output->writeln('<comment>Forcing execution of the job</comment>');
 
-			$query = $this->connection->getQueryBuilder();
-			$query->update('jobs')
-				->set('last_run',  $query->createNamedParameter(0, IQueryBuilder::PARAM_INT))
-				->set('reserved_at',  $query->createNamedParameter(0, IQueryBuilder::PARAM_INT))
-				->where($query->expr()->eq('id', $query->createNamedParameter($jobId), IQueryBuilder::PARAM_INT));
-
-			$query->executeUpdate();
-
+			$this->jobList->resetBackgroundJob($job);
 			$job = $this->jobList->getById($jobId);
 			$job->execute($this->jobList, $this->logger);
 			$this->jobList->setLastJob($job);
@@ -110,15 +97,7 @@ class Job extends Command {
 	}
 
 	protected function printJobInfo(int $jobId, IJob $job, OutputInterface$output): void {
-
-		$query = $this->connection->getQueryBuilder();
-		$query->select('*')
-			->from('jobs')
-			->where($query->expr()->eq('id', $query->createNamedParameter($jobId), IQueryBuilder::PARAM_INT));
-
-		$result = $query->executeQuery();
-		$row = $result->fetch();
-		$result->closeCursor();
+		$row = $this->jobList->getDetailsById($jobId);
 
 		$lastRun = new \DateTime();
 		$lastRun->setTimestamp((int) $row['last_run']);
