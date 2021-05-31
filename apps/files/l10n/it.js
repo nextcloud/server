@@ -81,6 +81,8 @@ OC.L10N.register(
     "\"{name}\" is not an allowed filetype" : "\"{name}\" non è un tipo di file valido",
     "Storage of {owner} is full, files cannot be updated or synced anymore!" : "Lo spazio di archiviazione di {owner} è pieno, i file non possono essere più aggiornati o sincronizzati!",
     "Group folder \"{mountPoint}\" is full, files cannot be updated or synced anymore!" : "La cartella di gruppo \"{mountPoint}\" è piena, i file non possono più essere aggiornati o sincronizzati!",
+    "External storage \"{mountPoint}\" is full, files cannot be updated or synced anymore!" : "L'archiviazione esterna \"{mountPoint}\" è piena, i file non possono più essere caricati o sincronizzati!",
+    "Your storage is full, files cannot be updated or synced anymore!" : "Lo spazio di archiviazione è pieno, i file non possono essere più caricati o sincronizzati!",
     "Storage of {owner} is almost full ({usedSpacePercent}%)." : "Lo spazio di archiviazione di {owner} è quasi pieno ({usedSpacePercent}%).",
     "Group folder \"{mountPoint}\" is almost full ({usedSpacePercent}%)." : "La cartella di gruppo \"{mountPoint}\" è quasi piena ({usedSpacePercent}%).",
     "External storage \"{mountPoint}\" is almost full ({usedSpacePercent}%)." : "L'archiviazione esterna \"{mountPoint}\" è quasi piena ({usedSpacePercent}%).",

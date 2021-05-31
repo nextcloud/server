@@ -211,7 +211,7 @@
     "OK" : "OK",
     "Error loading message template: {error}" : "Błąd podczas ładowania szablonu wiadomości: {error}",
     "read-only" : "tylko odczyt",
-    "_{count} file conflict_::_{count} file conflicts_" : ["{count} konflikt pliku","{count} konflikty plików","{count} konfliktów plików","{count} konfliktów plików"],
+    "_{count} file conflict_::_{count} file conflicts_" : ["{count} konflikt pliku","{count} konflikty pliku","{count} konfliktów pliku","{count} konfliktów pliku"],
     "One file conflict" : "Konflikt pliku",
     "New Files" : "Nowe pliki",
     "Already existing files" : "Już istniejące pliki",
