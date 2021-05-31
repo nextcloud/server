@@ -257,6 +257,40 @@ class ThemingDefaults extends \OC_Defaults {
 	}
 
 	/**
+	 * Themed email logo url
+	 *
+	 * @return string
+	 */
+	public function getEmailLogo(): string {
+		$logoKey = 'emailLogo';
+		$emailLogo = $this->config->getAppValue('theming', $logoKey . 'Mime', '');
+		$cacheBusterCounter = $this->config->getAppValue('theming', 'cachebuster', '0');
+
+		// short cut to avoid setting up the filesystem just to check if the logo is there
+		//
+		// explanation: if an SVG is requested and the app config value for logoMime is set then the logo is there.
+		// otherwise we need to check it and maybe also generate a PNG from the SVG (that's done in getImage() which
+		// needs to be called then)
+		if ($emailLogo !== false) {
+			$logoExists = true;
+		} else {
+			try {
+				$this->imageManager->getImage($logoKey, false);
+				$logoExists = true;
+			} catch (\Exception $e) {
+				$logoExists = false;
+			}
+		}
+
+		if (!$emailLogo || !$logoExists) {
+			$emailLogo = $this->urlGenerator->imagePath('core', 'logo/logo.png');
+			return $emailLogo . '?v=' . $cacheBusterCounter;
+		}
+
+		return $this->urlGenerator->linkToRoute('theming.Theming.getImage', [ 'key' => $logoKey, 'useSvg' => false, 'v' => $cacheBusterCounter ]);
+	}
+
+	/**
 	 * Themed background image url
 	 *
 	 * @return string

@@ -649,7 +649,7 @@ class ThemingDefaultsTest extends TestCase {
 			->method('linkToRoute')
 			->with('theming.Theming.getImage')
 			->willReturn('custom-email-logo?v=0');
-		$this->assertEquals('custom-email-logo' . '?v=0', $this->template->getLogo(false, true));
+		$this->assertEquals('custom-email-logo' . '?v=0', $this->template->getEmailLogo());
 	}
 
 	public function testGetScssVariablesCached() {

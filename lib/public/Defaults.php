@@ -180,8 +180,18 @@ class Defaults {
 	 * @return string
 	 * @since 12.0.0
 	 */
-	public function getLogo(bool $useSvg = true, $emailLogo = false): string {
-		return $this->defaults->getLogo($useSvg, $emailLogo);
+	public function getLogo(bool $useSvg = true): string {
+		return $this->defaults->getLogo($useSvg);
+	}
+
+	/**
+	 * Themed email logo url
+	 *
+	 * @return string
+	 * @since 12.0.0
+	 */
+	public function getEmailLogo(): string {
+		return $this->defaults->getEmailLogo();
 	}
 
 	/**
