@@ -145,7 +145,7 @@ OC.L10N.register(
     "A favorite file or folder has been <strong>changed</strong>" : "Ulubiony plik lub katalog został <strong>zmieniony</strong>",
     "All files" : "Wszystkie pliki",
     "Unlimited" : "Brak limitu",
-    "Upload (max. %s)" : "Wysyłka (max. %s)",
+    "Upload (max. %s)" : "Wysyłanie (maks. %s)",
     "Accept" : "Akceptuj",
     "Reject" : "Odrzuć",
     "Incoming ownership transfer from {user}" : "Przychodzące przeniesienie własności od {user}",

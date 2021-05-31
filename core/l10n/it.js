@@ -53,7 +53,7 @@ OC.L10N.register(
     "Updating database schema" : "Aggiornamento schema database",
     "Updated database" : "Database aggiornato",
     "Checking for update of app \"%s\" in appstore" : "Controllo degli aggiornamenti dell'applicazione \"%s\" nel negozio delle applicazioni",
-    "Update app \"%s\" from appstore" : "Aggiorna l'applicazione \"%s\" dal negozio di applicazioni",
+    "Update app \"%s\" from appstore" : "Aggiorna l'applicazione \"%s\" dal negozio delle applicazioni",
     "Checked for update of app \"%s\" in appstore" : "Verificati aggiornamento dell'applicazione \"%s\" nel negozio delle applicazioni",
     "Checking whether the database schema for %s can be updated (this can take a long time depending on the database size)" : "Controllo che lo schema del database di %s possa essere aggiornato (ciò potrebbe richiedere molto tempo in base alla dimensione del database)",
     "Updated \"%1$s\" to %2$s" : "Aggiornato \"%1$s\" a %2$s",

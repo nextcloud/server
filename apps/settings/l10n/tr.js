@@ -369,6 +369,7 @@ OC.L10N.register(
     "As admin you can fine-tune the sharing behavior. Please see the documentation for more information." : "Yönetici olarak paylaşma davranışı ile ilgili ince ayarları yapabilirsiniz. Ayrıntılı bilgi almak için belgelere bakabilirsiniz.",
     "Allow apps to use the Share API" : "Uygulamalar Paylaşım API kullanabilsin",
     "Set default expiration date for shares" : "Paylaşımların varsayılan kullanma süresi sonu",
+    "Expire after" : "Kullanım süresi",
     "days" : "gün sonra dolsun",
     "Enforce expiration date" : "Son kullanma tarihi dayatılsın",
     "Set default expiration date for shares to other servers" : "Diğer sunuculara yapılan paylaşımların varsayılan kullanma süresi sonu",
