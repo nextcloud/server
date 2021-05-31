@@ -193,7 +193,7 @@
     "Cannot write into \"config\" directory" : "Impossibile scrivere nella cartella \"config\"",
     "This can usually be fixed by giving the webserver write access to the config directory. See %s" : "Ciò può essere normalmente corretto fornendo al server web accesso in scrittura alla cartella di configurazione. Vedi %s",
     "Cannot write into \"apps\" directory" : "Impossibile scrivere nella cartella \"apps\"",
-    "This can usually be fixed by giving the webserver write access to the apps directory or disabling the appstore in the config file." : "Questo può essere normalmente corretto fornendo al server web accesso in scrittura alla cartella \"apps\" o disabilitando il negozio di applicazioni nel file di configurazione.",
+    "This can usually be fixed by giving the webserver write access to the apps directory or disabling the appstore in the config file." : "Questo può essere normalmente corretto fornendo al server web accesso in scrittura alla cartella \"apps\" o disabilitando il negozio delle applicazioni nel file di configurazione.",
     "Cannot create \"data\" directory" : "Impossibile creare la cartella \"data\"",
     "This can usually be fixed by giving the webserver write access to the root directory. See %s" : "Ciò può essere normalmente corretto fornendo al server web accesso in scrittura alla cartella radice. Vedi %s",
     "Permissions can usually be fixed by giving the webserver write access to the root directory. See %s." : "I permessi possono essere normalmente corretti fornendo al server web accesso in scrittura alla cartella radice. Vedi %s.",
