@@ -96,15 +96,13 @@ class BirthdayCalendarControllerTest extends TestCase {
 				$closure($user3);
 			});
 
-		$this->jobList->expects($this->at(0))
+		$this->jobList->expects($this->exactly(3))
 			->method('add')
-			->with(GenerateBirthdayCalendarBackgroundJob::class, ['userId' => 'uid1']);
-		$this->jobList->expects($this->at(1))
-			->method('add')
-			->with(GenerateBirthdayCalendarBackgroundJob::class, ['userId' => 'uid2']);
-		$this->jobList->expects($this->at(2))
-			->method('add')
-			->with(GenerateBirthdayCalendarBackgroundJob::class, ['userId' => 'uid3']);
+			->withConsecutive(
+				[GenerateBirthdayCalendarBackgroundJob::class, ['userId' => 'uid1']],
+				[GenerateBirthdayCalendarBackgroundJob::class, ['userId' => 'uid2']],
+				[GenerateBirthdayCalendarBackgroundJob::class, ['userId' => 'uid3']],
+			);
 
 		$response = $this->controller->enable();
 		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $response);

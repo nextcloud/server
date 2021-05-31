@@ -82,7 +82,7 @@ class EnablePluginTest extends TestCase {
 
 		$plugin = new EnablePlugin($this->config, $this->birthdayService);
 
-		$server->expects($this->at(0))
+		$server->expects($this->once())
 			->method('on')
 			->with('method:POST', [$plugin, 'httpPost']);
 
@@ -120,11 +120,11 @@ class EnablePluginTest extends TestCase {
 			->with('/bar/foo')
 			->willReturn($calendarHome);
 
-		$this->request->expects($this->at(0))
+		$this->request->expects($this->once())
 			->method('getBodyAsString')
 			->willReturn('<nc:disable-birthday-calendar xmlns:nc="http://nextcloud.com/ns"/>');
 
-		$this->request->expects($this->at(1))
+		$this->request->expects($this->once())
 			->method('getUrl')
 			->willReturn('url_abc');
 
@@ -158,11 +158,11 @@ class EnablePluginTest extends TestCase {
 			->method('getOwner')
 			->willReturn('principals/users/BlaBlub');
 
-		$this->request->expects($this->at(0))
+		$this->request->expects($this->once())
 			->method('getBodyAsString')
 			->willReturn('<nc:enable-birthday-calendar xmlns:nc="http://nextcloud.com/ns"/>');
 
-		$this->request->expects($this->at(1))
+		$this->request->expects($this->once())
 			->method('getUrl')
 			->willReturn('url_abc');
 
