@@ -40,6 +40,7 @@ use function implode;
 
 class Plugin extends ServerPlugin {
 	public const PROPERTY_DELETED_AT = '{http://nextcloud.com/ns}deleted-at';
+	public const PROPERTY_CALENDAR_URI = '{http://nextcloud.com/ns}calendar-uri';
 
 	/** @var bool */
 	private $disableTrashbin;
@@ -94,6 +95,9 @@ class Plugin extends ServerPlugin {
 		if ($node instanceof DeletedCalendarObject) {
 			$propFind->handle(self::PROPERTY_DELETED_AT, function () use ($node) {
 				return $node->getDeletedAt();
+			});
+			$propFind->handle(self::PROPERTY_CALENDAR_URI, function () use ($node) {
+				return $node->getCalendarUri();
 			});
 		}
 	}

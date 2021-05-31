@@ -1101,6 +1101,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	public function getDeletedCalendarObjectsByPrincipal(string $principalUri): array {
 		$query = $this->db->getQueryBuilder();
 		$query->select(['co.id', 'co.uri', 'co.lastmodified', 'co.etag', 'co.calendarid', 'co.size', 'co.componenttype', 'co.classification', 'co.deleted_at'])
+			->selectAlias('c.uri', 'calendaruri')
 			->from('calendarobjects', 'co')
 			->join('co', 'calendars', 'c', $query->expr()->eq('c.id', 'co.calendarid', IQueryBuilder::PARAM_INT))
 			->where($query->expr()->eq('principaluri', $query->createNamedParameter($principalUri)))
@@ -1111,10 +1112,11 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		while ($row = $stmt->fetch()) {
 			$result[] = [
 				'id' => $row['id'],
-				'uri' => $row['uri'],
+				'uri' => $row['co.uri'],
 				'lastmodified' => $row['lastmodified'],
 				'etag' => '"' . $row['etag'] . '"',
 				'calendarid' => $row['calendarid'],
+				'calendaruri' => $row['calendaruri'],
 				'size' => (int)$row['size'],
 				'component' => strtolower($row['componenttype']),
 				'classification' => (int)$row['classification'],
@@ -2139,6 +2141,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	public function getCalendarObjectById(string $principalUri, int $id): ?array {
 		$query = $this->db->getQueryBuilder();
 		$query->select(['co.id', 'co.uri', 'co.lastmodified', 'co.etag', 'co.calendarid', 'co.size', 'co.calendardata', 'co.componenttype', 'co.classification', 'co.deleted_at'])
+			->selectAlias('c.uri', 'calendaruri')
 			->from('calendarobjects', 'co')
 			->join('co', 'calendars', 'c', $query->expr()->eq('c.id', 'co.calendarid', IQueryBuilder::PARAM_INT))
 			->where($query->expr()->eq('c.principaluri', $query->createNamedParameter($principalUri)))
@@ -2153,10 +2156,11 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 
 		return [
 			'id' => $row['id'],
-			'uri' => $row['uri'],
+			'uri' => $row['c.uri'],
 			'lastmodified' => $row['lastmodified'],
 			'etag' => '"' . $row['etag'] . '"',
 			'calendarid' => $row['calendarid'],
+			'calendaruri' => $row['calendaruri'],
 			'size' => (int)$row['size'],
 			'calendardata' => $this->readBlob($row['calendardata']),
 			'component' => strtolower($row['componenttype']),

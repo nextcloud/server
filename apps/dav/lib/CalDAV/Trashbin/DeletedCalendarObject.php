@@ -97,4 +97,8 @@ class DeletedCalendarObject implements ICalendarObject, IRestorable {
 	public function getDeletedAt(): ?int {
 		return $this->objectData['deleted_at'] ? (int) $this->objectData['deleted_at'] : null;
 	}
+
+	public function getCalendarUri(): string {
+		return $this->objectData['calendaruri'];
+	}
 }
