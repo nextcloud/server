@@ -113,7 +113,18 @@ abstract class AbstractCalDavBackend extends TestCase {
 		$db = \OC::$server->getDatabaseConnection();
 		$this->random = \OC::$server->getSecureRandom();
 		$this->logger = $this->createMock(ILogger::class);
-		$this->backend = new CalDavBackend($db, $this->principal, $this->userManager, $this->groupManager, $this->random, $this->logger, $this->dispatcher, $this->legacyDispatcher);
+		$this->config = $this->createMock(IConfig::class);
+		$this->backend = new CalDavBackend(
+			$db,
+			$this->principal,
+			$this->userManager,
+			$this->groupManager,
+			$this->random,
+			$this->logger,
+			$this->dispatcher,
+			$this->legacyDispatcher,
+			$this->config
+		);
 
 		$this->cleanUpBackend();
 	}
@@ -142,7 +153,7 @@ abstract class AbstractCalDavBackend extends TestCase {
 				return $event instanceof CalendarDeletedEvent;
 			}));
 		foreach ($calendars as $calendar) {
-			$this->backend->deleteCalendar($calendar['id']);
+			$this->backend->deleteCalendar($calendar['id'], true);
 		}
 		$subscriptions = $this->backend->getSubscriptionsForUser($principal);
 		foreach ($subscriptions as $subscription) {

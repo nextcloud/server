@@ -82,6 +82,10 @@ class CalendarObject extends \Sabre\CalDAV\CalendarObject {
 		return $vObject->serialize();
 	}
 
+	public function getId(): int {
+		return (int) $this->objectData['id'];
+	}
+
 	protected function isShared() {
 		if (!isset($this->calendarInfo['{http://owncloud.org/ns}owner-principal'])) {
 			return false;

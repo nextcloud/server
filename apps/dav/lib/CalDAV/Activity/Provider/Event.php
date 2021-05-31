@@ -40,6 +40,8 @@ use OCP\L10N\IFactory;
 class Event extends Base {
 	public const SUBJECT_OBJECT_ADD = 'object_add';
 	public const SUBJECT_OBJECT_UPDATE = 'object_update';
+	public const SUBJECT_OBJECT_MOVE_TO_TRASH = 'object_move_to_trash';
+	public const SUBJECT_OBJECT_RESTORE = 'object_restore';
 	public const SUBJECT_OBJECT_DELETE = 'object_delete';
 
 	/** @var IFactory */
@@ -143,6 +145,14 @@ class Event extends Base {
 			$subject = $this->l->t('{actor} updated event {event} in calendar {calendar}');
 		} elseif ($event->getSubject() === self::SUBJECT_OBJECT_UPDATE . '_event_self') {
 			$subject = $this->l->t('You updated event {event} in calendar {calendar}');
+		} elseif ($event->getSubject() === self::SUBJECT_OBJECT_MOVE_TO_TRASH . '_event') {
+			$subject = $this->l->t('{actor} deleted event {event} from calendar {calendar}');
+		} elseif ($event->getSubject() === self::SUBJECT_OBJECT_MOVE_TO_TRASH . '_event_self') {
+			$subject = $this->l->t('You deleted event {event} from calendar {calendar}');
+		} elseif ($event->getSubject() === self::SUBJECT_OBJECT_RESTORE . '_event') {
+			$subject = $this->l->t('{actor} restored event {event} of calendar {calendar}');
+		} elseif ($event->getSubject() === self::SUBJECT_OBJECT_RESTORE . '_event_self') {
+			$subject = $this->l->t('You restored event {event} of calendar {calendar}');
 		} else {
 			throw new \InvalidArgumentException();
 		}
@@ -169,6 +179,8 @@ class Event extends Base {
 				case self::SUBJECT_OBJECT_ADD . '_event':
 				case self::SUBJECT_OBJECT_DELETE . '_event':
 				case self::SUBJECT_OBJECT_UPDATE . '_event':
+				case self::SUBJECT_OBJECT_MOVE_TO_TRASH . '_event':
+				case self::SUBJECT_OBJECT_RESTORE . '_event':
 					return [
 						'actor' => $this->generateUserParameter($parameters['actor']),
 						'calendar' => $this->generateCalendarParameter($parameters['calendar'], $this->l),
@@ -177,6 +189,8 @@ class Event extends Base {
 				case self::SUBJECT_OBJECT_ADD . '_event_self':
 				case self::SUBJECT_OBJECT_DELETE . '_event_self':
 				case self::SUBJECT_OBJECT_UPDATE . '_event_self':
+				case self::SUBJECT_OBJECT_MOVE_TO_TRASH . '_event_self':
+				case self::SUBJECT_OBJECT_RESTORE . '_event_self':
 					return [
 						'calendar' => $this->generateCalendarParameter($parameters['calendar'], $this->l),
 						'event' => $this->generateClassifiedObjectParameter($parameters['object']),

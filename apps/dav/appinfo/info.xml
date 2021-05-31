@@ -5,7 +5,7 @@
 	<name>WebDAV</name>
 	<summary>WebDAV endpoint</summary>
 	<description>WebDAV endpoint</description>
-	<version>1.17.2</version>
+	<version>1.18.0</version>
 	<licence>agpl</licence>
 	<author>owncloud.org</author>
 	<namespace>DAV</namespace>
@@ -24,6 +24,7 @@
 		<job>OCA\DAV\BackgroundJob\UpdateCalendarResourcesRoomsBackgroundJob</job>
 		<job>OCA\DAV\BackgroundJob\CleanupInvitationTokenJob</job>
 		<job>OCA\DAV\BackgroundJob\EventReminderJob</job>
+		<job>OCA\DAV\BackgroundJob\CalendarRetentionJob</job>
 	</background-jobs>
 
 	<repair-steps>
@@ -48,6 +49,7 @@
 		<command>OCA\DAV\Command\CreateCalendar</command>
 		<command>OCA\DAV\Command\MoveCalendar</command>
 		<command>OCA\DAV\Command\ListCalendars</command>
+		<command>OCA\DAV\Command\RetentionCleanupCommand</command>
 		<command>OCA\DAV\Command\SendEventReminders</command>
 		<command>OCA\DAV\Command\SyncBirthdayCalendar</command>
 		<command>OCA\DAV\Command\SyncSystemAddressBook</command>

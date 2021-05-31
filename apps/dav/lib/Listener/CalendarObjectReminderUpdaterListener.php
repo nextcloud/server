@@ -25,12 +25,17 @@ declare(strict_types=1);
 
 namespace OCA\DAV\Listener;
 
+use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Reminder\Backend as ReminderBackend;
 use OCA\DAV\CalDAV\Reminder\ReminderService;
 use OCA\DAV\Events\CalendarDeletedEvent;
+use OCA\DAV\Events\CalendarMovedToTrashEvent;
 use OCA\DAV\Events\CalendarObjectCreatedEvent;
 use OCA\DAV\Events\CalendarObjectDeletedEvent;
+use OCA\DAV\Events\CalendarObjectMovedToTrashEvent;
+use OCA\DAV\Events\CalendarObjectRestoredEvent;
 use OCA\DAV\Events\CalendarObjectUpdatedEvent;
+use OCA\DAV\Events\CalendarRestoredEvent;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use Psr\Log\LoggerInterface;
@@ -45,19 +50,39 @@ class CalendarObjectReminderUpdaterListener implements IEventListener {
 	/** @var ReminderService */
 	private $reminderService;
 
+	/** @var CalDavBackend */
+	private $calDavBackend;
+
 	/** @var LoggerInterface */
 	private $logger;
 
 	public function __construct(ReminderBackend $reminderBackend,
 								ReminderService $reminderService,
+								CalDavBackend $calDavBackend,
 								LoggerInterface $logger) {
 		$this->reminderBackend = $reminderBackend;
 		$this->reminderService = $reminderService;
+		$this->calDavBackend = $calDavBackend;
 		$this->logger = $logger;
 	}
 
 	public function handle(Event $event): void {
-		if ($event instanceof CalendarDeletedEvent) {
+		if ($event instanceof CalendarMovedToTrashEvent) {
+			try {
+				$this->reminderBackend->cleanRemindersForCalendar(
+					$event->getCalendarId()
+				);
+
+				$this->logger->debug(
+					sprintf('Reminders of calendar %d cleaned up after move into trashbin', $event->getCalendarId())
+				);
+			} catch (Throwable $e) {
+				// Any error with reminders shouldn't abort the calendar move, so we just log it
+				$this->logger->error('Error cleaning up reminders of a calendar moved into trashbin: ' . $e->getMessage(), [
+					'exception' => $e,
+				]);
+			}
+		} elseif ($event instanceof CalendarDeletedEvent) {
 			try {
 				$this->reminderBackend->cleanRemindersForCalendar(
 					$event->getCalendarId()
@@ -69,6 +94,27 @@ class CalendarObjectReminderUpdaterListener implements IEventListener {
 			} catch (Throwable $e) {
 				// Any error with activities shouldn't abort the calendar deletion, so we just log it
 				$this->logger->error('Error cleaning up reminders of a deleted calendar: ' . $e->getMessage(), [
+					'exception' => $e,
+				]);
+			}
+		} elseif ($event instanceof CalendarRestoredEvent) {
+			try {
+				$objects = $this->calDavBackend->getCalendarObjects($event->getCalendarId());
+				$this->logger->debug(sprintf('Restoring calendar reminder objects for %d items', count($objects)));
+				foreach ($objects as $object) {
+					$fullObject = $this->calDavBackend->getCalendarObject(
+						$event->getCalendarId(),
+						$object['uri']
+					);
+					$this->reminderService->onCalendarObjectCreate($fullObject);
+				}
+
+				$this->logger->debug(
+					sprintf('Reminders of calendar %d restored', $event->getCalendarId())
+				);
+			} catch (Throwable $e) {
+				// Any error with reminders shouldn't abort the calendar deletion, so we just log it
+				$this->logger->error('Error restoring reminders of a calendar: ' . $e->getMessage(), [
 					'exception' => $e,
 				]);
 			}
@@ -99,6 +145,36 @@ class CalendarObjectReminderUpdaterListener implements IEventListener {
 			} catch (Throwable $e) {
 				// Any error with activities shouldn't abort the calendar object deletion, so we just log it
 				$this->logger->error('Error cleaning up reminders of a calendar object: ' . $e->getMessage(), [
+					'exception' => $e,
+				]);
+			}
+		} elseif ($event instanceof CalendarObjectMovedToTrashEvent) {
+			try {
+				$this->reminderService->onCalendarObjectDelete(
+					$event->getObjectData()
+				);
+
+				$this->logger->debug(
+					sprintf('Reminders of restored calendar object of calendar %d deleted', $event->getCalendarId())
+				);
+			} catch (Throwable $e) {
+				// Any error with reminders shouldn't abort the calendar object deletion, so we just log it
+				$this->logger->error('Error deleting reminders of a calendar object: ' . $e->getMessage(), [
+					'exception' => $e,
+				]);
+			}
+		} elseif ($event instanceof CalendarObjectRestoredEvent) {
+			try {
+				$this->reminderService->onCalendarObjectCreate(
+					$event->getObjectData()
+				);
+
+				$this->logger->debug(
+					sprintf('Reminders of restored calendar object of calendar %d restored', $event->getCalendarId())
+				);
+			} catch (Throwable $e) {
+				// Any error with reminders shouldn't abort the calendar object deletion, so we just log it
+				$this->logger->error('Error restoring reminders of a calendar object: ' . $e->getMessage(), [
 					'exception' => $e,
 				]);
 			}

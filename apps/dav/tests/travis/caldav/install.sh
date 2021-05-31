@@ -11,8 +11,12 @@ if [ ! -f pycalendar/setup.py ]; then
     git clone https://github.com/apple/ccs-pycalendar.git pycalendar
 fi
 
-# create test user
 cd "$SCRIPTPATH/../../../../../"
+
+# disable the trashbin, so recurrent deletion of the same object works
+php occ config:app:set dav calendarRetentionObligation --value=0
+
+# create test user
 OC_PASS=user01 php occ user:add --password-from-env user01
 php occ dav:create-calendar user01 calendar
 php occ dav:create-calendar user01 shared

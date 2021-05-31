@@ -1,0 +1,96 @@
+<?php
+
+declare(strict_types=1);
+
+/**
+ * @copyright 2021 Christoph Wurst <christoph@winzerhof-wurst.at>
+ *
+ * @author 2021 Christoph Wurst <christoph@winzerhof-wurst.at>
+ *
+ * @license GNU AGPL version 3 or any later version
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+namespace OCA\DAV\CalDAV\Trashbin;
+
+use OCA\DAV\CalDAV\Calendar;
+use OCP\IRequest;
+use Sabre\DAV\Exception\NotFound;
+use Sabre\DAV\Server;
+use Sabre\DAV\ServerPlugin;
+use Sabre\HTTP\RequestInterface;
+use Sabre\HTTP\ResponseInterface;
+use function array_slice;
+use function implode;
+
+/**
+ * Conditional logic to bypass the calendar trashbin
+ */
+class Plugin extends ServerPlugin {
+
+	/** @var bool */
+	private $disableTrashbin;
+
+	/** @var Server */
+	private $server;
+
+	public function __construct(IRequest $request) {
+		$this->disableTrashbin = $request->getHeader('X-NC-CalDAV-No-Trashbin') === '1';
+	}
+
+	public function initialize(Server $server): void {
+		$this->server = $server;
+		$server->on('beforeMethod:*', [$this, 'beforeMethod']);
+	}
+
+	public function beforeMethod(RequestInterface $request, ResponseInterface $response): void {
+		if (!$this->disableTrashbin) {
+			return;
+		}
+
+		$path = $request->getPath();
+		$pathParts = explode('/', ltrim($path, '/'));
+		if (\count($pathParts) < 3) {
+			// We are looking for a path like calendars/username/calendarname
+			return;
+		}
+
+		// $calendarPath will look like calendars/username/calendarname
+		$calendarPath = implode(
+			'/',
+			array_slice($pathParts, 0, 3)
+		);
+		try {
+			$calendar = $this->server->tree->getNodeForPath($calendarPath);
+			if (!($calendar instanceof Calendar)) {
+				// This is odd
+				return;
+			}
+
+			/** @var Calendar $calendar */
+			$calendar->disableTrashbin();
+		} catch (NotFound $ex) {
+			return;
+		}
+	}
+
+	public function getFeatures(): array {
+		return ['nc-calendar-trashbin'];
+	}
+
+	public function getPluginName(): string {
+		return 'nc-calendar-trashbin';
+	}
+}

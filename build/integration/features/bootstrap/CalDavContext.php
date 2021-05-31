@@ -70,6 +70,9 @@ class CalDavContext implements \Behat\Behat\Context\Context {
 						'admin',
 						'admin',
 					],
+					'headers' => [
+						'X-NC-CalDAV-No-Trashbin' => '1',
+					]
 				]
 			);
 		} catch (\GuzzleHttp\Exception\ClientException $e) {
