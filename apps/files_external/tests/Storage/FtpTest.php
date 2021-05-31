@@ -59,6 +59,7 @@ class FtpTest extends \Test\Files\Storage\Storage {
 		if ($this->instance) {
 			$this->instance->rmdir('');
 		}
+		$this->instance = null;
 
 		parent::tearDown();
 	}
