@@ -101,13 +101,11 @@ OC.L10N.register(
     "SFTP" : "SFTP",
     "Root" : "Root",
     "SFTP with secret key login" : "SFTP с таен ключ за вход ",
-    "SMB / CIFS" : "SMB / CIFS",
     "Share" : "Споделяне",
     "Show hidden files" : "Показване и на скрити файлове",
     "Verify ACL access when listing files" : "Проверка на ACL достъп при подреждане на файлове",
     "Check the ACL's of each file or folder inside a directory to filter out items where the user has no read permissions, comes with a performance penalty" : "Проверете ACL на всеки файл или папка в дадена директория, за да филтрирате елементи, при които потребителят няма права за четене и ще получи наказание за производителност",
     "Timeout" : "Време за изчакване",
-    "SMB / CIFS using OC login" : "SMB / CIFS използвайки OC профил",
     "Username as share" : "Потребителско име като споделена папка",
     "OpenStack Object Storage" : "OpenStack Object Storage",
     "Service name" : "Име на услугата",
@@ -134,6 +132,8 @@ OC.L10N.register(
     "Allow users to mount external storage" : "Разреши на потребителите да монтират външни хранилища",
     "External storages" : "Външни хранилища",
     "(group)" : "(група)",
+    "SMB / CIFS" : "SMB / CIFS",
+    "SMB / CIFS using OC login" : "SMB / CIFS използвайки OC профил",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Глобалните идентификационни данни могат да се използват за удостоверяване с множество външни хранилища, които имат едни и същи идентификационни данни."
 },
 "nplurals=2; plural=(n != 1);");

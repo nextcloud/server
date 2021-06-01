@@ -69,10 +69,8 @@ OC.L10N.register(
     "SFTP" : "SFTP",
     "Root" : "Juur",
     "SFTP with secret key login" : "SFTP koos salajase võtmega logimisega",
-    "SMB / CIFS" : "SMB / CIFS",
     "Share" : "Jaga",
     "Show hidden files" : "Näita peidetud faile",
-    "SMB / CIFS using OC login" : "SMB / CIFS kasutades OC logimist",
     "Username as share" : "Kasutajanimi kui jagamine",
     "OpenStack Object Storage" : "OpenStack Object Storage",
     "Service name" : "Teenuse nimi",
@@ -87,6 +85,8 @@ OC.L10N.register(
     "Add storage" : "Lisa andmehoidla",
     "Advanced settings" : "Lisavalikud",
     "External storages" : "Välised andmehoidlad",
-    "(group)" : "(grupp)"
+    "(group)" : "(grupp)",
+    "SMB / CIFS" : "SMB / CIFS",
+    "SMB / CIFS using OC login" : "SMB / CIFS kasutades OC logimist"
 },
 "nplurals=2; plural=(n != 1);");

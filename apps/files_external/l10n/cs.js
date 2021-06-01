@@ -102,13 +102,11 @@ OC.L10N.register(
     "SFTP" : "SFTP",
     "Root" : "Kořen",
     "SFTP with secret key login" : "SFTP login s tajným klíčem",
-    "SMB / CIFS" : "SMB / CIFS",
     "Share" : "Sdílet",
     "Show hidden files" : "Zobrazit skryté soubory",
     "Verify ACL access when listing files" : "Ověřovat ACL přístup při vypisování souborů",
     "Check the ACL's of each file or folder inside a directory to filter out items where the user has no read permissions, comes with a performance penalty" : "Kontrola ACL seznamů každého souboru či podsložky uvnitř složky pro vyfiltrování položek, ke kterým uživatel nemá oprávnění pro čtení, poznamená výkon",
     "Timeout" : "Časový limit",
-    "SMB / CIFS using OC login" : "SMB / CIFS za použití přihlašovacího jména OC",
     "Username as share" : "Uživatelské jméno jako sdílená složka",
     "OpenStack Object Storage" : "OpenStack objektové úložiště",
     "Service name" : "Název služby",
@@ -135,6 +133,8 @@ OC.L10N.register(
     "Allow users to mount external storage" : "Povolit uživatelům připojení externího úložiště",
     "External storages" : "Externí úložiště",
     "(group)" : "(skupina)",
+    "SMB / CIFS" : "SMB / CIFS",
+    "SMB / CIFS using OC login" : "SMB / CIFS za použití přihlašovacího jména OC",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globální přihlašovací údaje je možné použít pro ověření s vícero vnějšími úložišti které mají stejné přihlašovací údaje."
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

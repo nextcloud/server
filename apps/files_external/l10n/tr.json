@@ -100,13 +100,11 @@
     "SFTP" : "SFTP",
     "Root" : "Kök",
     "SFTP with secret key login" : "Gizli oturum açma anahtarı ile SFTP",
-    "SMB / CIFS" : "SMB / CIFS",
     "Share" : "Paylaş",
     "Show hidden files" : "Gizli dosyaları görüntüle",
     "Verify ACL access when listing files" : "Dosyalar listelenirken EDL denetlensin",
     "Check the ACL's of each file or folder inside a directory to filter out items where the user has no read permissions, comes with a performance penalty" : "Tüm dosya ve klasörler için Erişim Denetimi Listesine bakılarak kullanıcının okuma yetkisi olmayan ögeler görüntülenmez. Bu özelliğin kullanılması başarımı düşürür",
     "Timeout" : "Zaman aşımı",
-    "SMB / CIFS using OC login" : "OC oturum açma ile SMB / CIFS",
     "Username as share" : "Paylaşım olarak kullanıcı adı",
     "OpenStack Object Storage" : "OpenStack Nesne Depolama",
     "Service name" : "Hizmet adı",
@@ -134,6 +132,8 @@
     "Global credentials can be used to authenticate with multiple external storage that have the same credentials." : "Aynı kimlik doğrulama bilgilerini kullanan birkaç dış depolama aygıtına genel kimlik doğrulama bilgileri ile erişebilirsiniz.",
     "External storages" : "Dış depolama",
     "(group)" : "(grup)",
+    "SMB / CIFS" : "SMB / CIFS",
+    "SMB / CIFS using OC login" : "OC oturum açma ile SMB / CIFS",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Aynı kimlik doğrulama bilgilerini kullanan bir çok dış depolama aygıtına genel kimlik doğrulama bilgileri ile erişebilirsiniz."
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

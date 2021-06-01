@@ -61,7 +61,6 @@ OC.L10N.register(
     "Nextcloud" : "Nextcloud",
     "SFTP" : "SFTP",
     "Root" : "Root",
-    "SMB / CIFS" : "SMB / CIFS",
     "Share" : "Compartir",
     "Show hidden files" : "Monstrar files occultate",
     "Service name" : "Nomine del servicio",
@@ -76,6 +75,7 @@ OC.L10N.register(
     "Advanced settings" : "Configurationes avantiate",
     "Allow users to mount external storage" : "Permitter usatores montar immagazinage externe",
     "External storages" : "Immagazinages externe",
-    "(group)" : "(gruppo)"
+    "(group)" : "(gruppo)",
+    "SMB / CIFS" : "SMB / CIFS"
 },
 "nplurals=2; plural=(n != 1);");

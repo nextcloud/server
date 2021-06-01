@@ -75,7 +75,6 @@
     "Share" : "Поділитися",
     "Show hidden files" : "Показати приховані файли",
     "Timeout" : "Час вичерпано",
-    "SMB / CIFS using OC login" : "SMB / CIFS з використанням логіна OC",
     "Username as share" : "Ім'я для відкритого доступу",
     "OpenStack Object Storage" : "OpenStack Object Storage",
     "Service name" : "Назва служби",
@@ -92,6 +91,7 @@
     "Advanced settings" : "Розширені налаштування",
     "Allow users to mount external storage" : "Дозволити користувачам монтувати зовнішні сховища",
     "External storages" : "Зовнішні сховища",
-    "(group)" : "(група)"
+    "(group)" : "(група)",
+    "SMB / CIFS using OC login" : "SMB / CIFS з використанням логіна OC"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);"
 }

@@ -102,13 +102,11 @@ OC.L10N.register(
     "SFTP" : "SFTP",
     "Root" : "Root",
     "SFTP with secret key login" : "Logowanie sekretnym kluczem do SFTP",
-    "SMB / CIFS" : "SMB/CIFS",
     "Share" : "Udostępnij",
     "Show hidden files" : "Pokaż ukryte pliki",
     "Verify ACL access when listing files" : "Zweryfikuj dostęp ACL podczas wyświetlania plików",
     "Check the ACL's of each file or folder inside a directory to filter out items where the user has no read permissions, comes with a performance penalty" : "Sprawdź listy ACL każdego pliku lub katalogu w katalogu, aby odfiltrować elementy, w których użytkownik nie ma uprawnień do odczytu, wiąże się to z obniżeniem wydajności",
     "Timeout" : "Przekroczono limit czasu",
-    "SMB / CIFS using OC login" : "SMB/CIFS za pomocą logowania OC",
     "Username as share" : "Nazwa użytkownika jako udostępniona",
     "OpenStack Object Storage" : "Magazyn obiektów OpenStack",
     "Service name" : "Nazwa usługi",
@@ -136,6 +134,8 @@ OC.L10N.register(
     "Global credentials can be used to authenticate with multiple external storage that have the same credentials." : "Poświadczenia globalne mogą służyć do uwierzytelniania z wieloma zewnętrznymi magazynami, które mają te same poświadczenia.",
     "External storages" : "Magazyny zewnętrzne",
     "(group)" : "(grupa)",
+    "SMB / CIFS" : "SMB/CIFS",
+    "SMB / CIFS using OC login" : "SMB/CIFS za pomocą logowania OC",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Poświadczenia globalne mogą być używane do uwierzytelniania z wieloma zewnętrznymi magazynami, o ile posiadają takie same poświadczenia."
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

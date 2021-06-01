@@ -101,13 +101,11 @@ OC.L10N.register(
     "SFTP" : "SFTP",
     "Root" : "Корен",
     "SFTP with secret key login" : "SFTP са пријавом помоћу тајног кључа",
-    "SMB / CIFS" : "SMB / CIFS",
     "Share" : "Дели",
     "Show hidden files" : "Прикажи скривене фајлове",
     "Verify ACL access when listing files" : "Провери ACL (листу контроле приступа) приликом излиставања фајлова",
     "Check the ACL's of each file or folder inside a directory to filter out items where the user has no read permissions, comes with a performance penalty" : "Провери ACL (листу контроле приступа) сваког фајла или фасцикле унутар директоријума да исфилтрираш ставке где корисник нема право читања, али уз удар на перформансе",
     "Timeout" : "Истек времена",
-    "SMB / CIFS using OC login" : "SMB / CIFS користећи Некстклауд пријаву",
     "Username as share" : "Корисничко име као дељење",
     "OpenStack Object Storage" : "OpenStack Object Storage",
     "Service name" : "Назив услуге",
@@ -134,6 +132,8 @@ OC.L10N.register(
     "Allow users to mount external storage" : "Дозволи корисницима да монтирају спољашња складишта",
     "External storages" : "Спољашње складиште",
     "(group)" : "(група)",
+    "SMB / CIFS" : "SMB / CIFS",
+    "SMB / CIFS using OC login" : "SMB / CIFS користећи Некстклауд пријаву",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Глобални акредитиви се могу користити за пријављивање на више спољних складишта које примају исте акредитиве."
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");
