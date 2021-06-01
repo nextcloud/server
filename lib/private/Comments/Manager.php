@@ -654,16 +654,16 @@ class Manager implements ICommentsManager {
 			$query->andWhere($query->expr()->eq('c.verb', $query->createNamedParameter($verb)));
 		}
 
+		$unreadComments = array_fill_keys($objectIds, 0);
 		foreach (array_chunk($objectIds, 1000) as $chunk) {
 			$query->setParameter('ids', $chunk, IQueryBuilder::PARAM_INT_ARRAY);
-			$result = $query->execute();
 
-			$unreadComments += array_fill_keys($objectIds, 0);
+			$result = $query->executeQuery();
 			while ($row = $result->fetch()) {
 				$unreadComments[$row['object_id']] = (int) $row['num_comments'];
 			}
+			$result->closeCursor();
 		}
-		$result->closeCursor();
 
 		return $unreadComments;
 	}
