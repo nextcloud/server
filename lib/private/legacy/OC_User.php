@@ -36,7 +36,10 @@
  *
  */
 
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ILogger;
+use OCP\IUserManager;
+use OCP\User\Events\UserLoggedInEvent;
 
 /**
  * This class provides wrapper methods for user management. Multiple backends are
@@ -186,6 +189,15 @@ class OC_User {
 						'isTokenLogin' => false,
 					]
 				);
+				/** @var IEventDispatcher $dispatcher */
+				$dispatcher = \OC::$server->get(IEventDispatcher::class);
+				$dispatcher->dispatchTyped(new UserLoggedInEvent(
+						\OC::$server->get(IUserManager::class)->get($uid),
+						$uid,
+						'',
+						false)
+				);
+
 				//trigger creation of user home and /files folder
 				\OC::$server->getUserFolder($uid);
 			}
