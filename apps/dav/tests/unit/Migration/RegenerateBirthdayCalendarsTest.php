@@ -62,7 +62,7 @@ class RegenerateBirthdayCalendarsTest extends TestCase {
 	}
 
 	public function testRun() {
-		$this->config->expects($this->at(0))
+		$this->config->expects($this->once())
 			->method('getAppValue')
 			->with('dav', 'regeneratedBirthdayCalendarsForYearFix')
 			->willReturn(null);
@@ -72,11 +72,11 @@ class RegenerateBirthdayCalendarsTest extends TestCase {
 			->method('info')
 			->with('Adding background jobs to regenerate birthday calendar');
 
-		$this->jobList->expects($this->at(0))
+		$this->jobList->expects($this->once())
 			->method('add')
 			->with(RegisterRegenerateBirthdayCalendars::class);
 
-		$this->config->expects($this->at(1))
+		$this->config->expects($this->once())
 			->method('setAppValue')
 			->with('dav', 'regeneratedBirthdayCalendarsForYearFix', 'yes');
 
