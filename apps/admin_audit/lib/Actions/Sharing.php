@@ -322,7 +322,7 @@ class Sharing extends Action {
 	public function updateExpirationDate(array $params): void {
 		if ($params['date'] === null) {
 			$this->log(
-				'The expiration date of the publicly shared %s with ID "%s" has been changed removed',
+				'The expiration date of the publicly shared %s with ID "%s" has been removed',
 				$params,
 				[
 					'itemType',
