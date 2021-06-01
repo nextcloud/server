@@ -91,10 +91,8 @@ OC.L10N.register(
     "SFTP" : "SFTP",
     "Root" : "Rrënjë",
     "SFTP with secret key login" : "SFTP me hyrje me kyç të fshehtë",
-    "SMB / CIFS" : "SMB / CIFS",
     "Share" : "Ndajeni me të tjerët",
     "Show hidden files" : "Shfaq skedarët e fshehur",
-    "SMB / CIFS using OC login" : "SMB / CIFS me përdorim hyrjeje OC",
     "Username as share" : "Emër përdoruesi si emër ndarjeje",
     "OpenStack Object Storage" : "Depozitë OpenStack Object",
     "Service name" : "Emër shërbimi",
@@ -114,6 +112,8 @@ OC.L10N.register(
     "Advanced settings" : "Rregullime të mëtejshme",
     "Allow users to mount external storage" : "Lejoju përdoruesve të montojnë depozita të jashtme",
     "External storages" : "Kujtesë e jashtëme",
-    "(group)" : "(grup)"
+    "(group)" : "(grup)",
+    "SMB / CIFS" : "SMB / CIFS",
+    "SMB / CIFS using OC login" : "SMB / CIFS me përdorim hyrjeje OC"
 },
 "nplurals=2; plural=(n != 1);");

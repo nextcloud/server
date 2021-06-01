@@ -53,8 +53,6 @@ OC.L10N.register(
     "LDAP Filter:" : "LDAP фільтр:",
     "The filter specifies which LDAP groups shall have access to the %s instance." : "Фільтр визначає, які LDAP групи повинні мати доступ до %s примірника.",
     "Verify settings and count the groups" : "Перевірити налаштування та порахувати групи",
-    "LDAP / AD Username:" : "ім'я користувача LDAP/AD:",
-    "LDAP / AD Email Address:" : "LDAP / AD Email адреса:",
     "Other Attributes:" : "Інші Атрибути:",
     "Test Loginname" : "Тестове ім'я при вході",
     "Verify settings" : "Перевірити налаштування",
@@ -136,6 +134,8 @@ OC.L10N.register(
     "UUID Attribute for Groups:" : "UUID Атрибут для груп:",
     "Username-LDAP User Mapping" : "Картографія Імен користувачів-LDAP ",
     "Clear Username-LDAP User Mapping" : "Очистити картографію Імен користувачів-LDAP",
-    "Clear Groupname-LDAP Group Mapping" : "Очистити картографію Імен груп-LDAP"
+    "Clear Groupname-LDAP Group Mapping" : "Очистити картографію Імен груп-LDAP",
+    "LDAP / AD Username:" : "ім'я користувача LDAP/AD:",
+    "LDAP / AD Email Address:" : "LDAP / AD Email адреса:"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

@@ -99,13 +99,11 @@
     "SFTP" : "SFTP",
     "Root" : "ルート",
     "SFTP with secret key login" : "秘密鍵でSFTPログイン",
-    "SMB / CIFS" : "SMB / CIFS",
     "Share" : "共有",
     "Show hidden files" : "隠しファイルを表示",
     "Verify ACL access when listing files" : "ファイルをリストアップする際に ACL アクセスを確認する",
     "Check the ACL's of each file or folder inside a directory to filter out items where the user has no read permissions, comes with a performance penalty" : "ディレクトリ内の各ファイルまたはフォルダーのACLをチェックして、ユーザーが読み取り権限を持たないアイテムを除外すると、パフォーマンスが低下します",
     "Timeout" : "タイムアウト",
-    "SMB / CIFS using OC login" : "Nextcloud ログインを利用したSMB / CIFS",
     "Username as share" : "共有名",
     "OpenStack Object Storage" : "OpenStack ObjectStorage",
     "Service name" : "サービス名",
@@ -132,6 +130,8 @@
     "Allow users to mount external storage" : "ユーザーに外部ストレージの接続を許可する",
     "External storages" : "外部ストレージ",
     "(group)" : "(グループ)",
+    "SMB / CIFS" : "SMB / CIFS",
+    "SMB / CIFS using OC login" : "Nextcloud ログインを利用したSMB / CIFS",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "グローバル資格情報を使用して、同じ資格情報を持つ複数の外部記憶装置で認証することができます。"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

@@ -56,10 +56,8 @@ OC.L10N.register(
     "Nextcloud" : "Nextcloud",
     "SFTP" : "SFTP",
     "Root" : "Raíz",
-    "SMB / CIFS" : "SMB / CIFS",
     "Share" : "Compartir",
     "Show hidden files" : "Amosar ficheros anubríos",
-    "SMB / CIFS using OC login" : "SMB / CIFS usando accesu OC",
     "Username as share" : "Nome d'usuariu como Compartición",
     "OpenStack Object Storage" : "OpenStack Object Storage",
     "Service name" : "Nome del serviciu",
@@ -74,6 +72,8 @@ OC.L10N.register(
     "Add storage" : "Amestar almacenamientu",
     "Advanced settings" : "Axustes avanzaos",
     "External storages" : "Almacenamientos internos",
-    "(group)" : "(grupu)"
+    "(group)" : "(grupu)",
+    "SMB / CIFS" : "SMB / CIFS",
+    "SMB / CIFS using OC login" : "SMB / CIFS usando accesu OC"
 },
 "nplurals=2; plural=(n != 1);");

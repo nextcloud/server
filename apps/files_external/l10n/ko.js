@@ -100,11 +100,9 @@ OC.L10N.register(
     "SFTP" : "SFTP",
     "Root" : "루트",
     "SFTP with secret key login" : "비밀 키 로그인을 사용하는 SFTP",
-    "SMB / CIFS" : "SMB/CIFS",
     "Share" : "공유",
     "Show hidden files" : "숨김 파일 표시",
     "Timeout" : "시간 초과",
-    "SMB / CIFS using OC login" : "OC 로그인을 사용하는 SMB/CIFS",
     "Username as share" : "사용자 이름으로 공유",
     "OpenStack Object Storage" : "OpenStack 객체 저장소",
     "Service name" : "서비스 이름",
@@ -131,6 +129,8 @@ OC.L10N.register(
     "Allow users to mount external storage" : "사용자가 외부 저장소를 마운트하도록 허용",
     "External storages" : "외부 저장소",
     "(group)" : "(그룹)",
+    "SMB / CIFS" : "SMB/CIFS",
+    "SMB / CIFS using OC login" : "OC 로그인을 사용하는 SMB/CIFS",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "전역 인증 정보를 사용하여 같은 인증 정보를 사용하는 여러 외부 저장소에 인증할 수 있습니다."
 },
 "nplurals=1; plural=0;");

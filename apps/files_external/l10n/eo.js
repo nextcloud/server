@@ -101,11 +101,9 @@ OC.L10N.register(
     "SFTP" : "SFTP",
     "Root" : "Radiko",
     "SFTP with secret key login" : "SFTP kun sekretoŝlosila ensaluto",
-    "SMB / CIFS" : "SMB / CIFS",
     "Share" : "Kunhavigi",
     "Show hidden files" : "Montri kaŝitajn dosierojn",
     "Timeout" : "Eltempiĝo",
-    "SMB / CIFS using OC login" : "SMB / CIFS uzante OC-ensaluto",
     "Username as share" : "Uzantonmo kiel kunhavo",
     "OpenStack Object Storage" : "OpenStack Object Storage",
     "Service name" : "Servonomo",
@@ -132,6 +130,8 @@ OC.L10N.register(
     "Allow users to mount external storage" : "Permesi al uzantoj surmeti eksteran konservejon",
     "External storages" : "Eksteraj konservejoj",
     "(group)" : "(grupo)",
+    "SMB / CIFS" : "SMB / CIFS",
+    "SMB / CIFS using OC login" : "SMB / CIFS uzante OC-ensaluto",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Ĝeneralaj akreditiloj utilas, kiam pluraj eksteraj konservejoj kunuzas la samajn akreditilojn."
 },
 "nplurals=2; plural=(n != 1);");

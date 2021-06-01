@@ -100,13 +100,11 @@
     "SFTP" : "SFTP",
     "Root" : "根路径",
     "SFTP with secret key login" : "包含 secret key 的 SFTP",
-    "SMB / CIFS" : "SMB / CIFS",
     "Share" : "共享",
     "Show hidden files" : "显示隐藏文件",
     "Verify ACL access when listing files" : "列出文件时验证 ACL 访问",
     "Check the ACL's of each file or folder inside a directory to filter out items where the user has no read permissions, comes with a performance penalty" : "检查目录中每个文件或文件夹的 ACL，以过滤掉用户没有读取权限的项目，这会带来性能损失",
     "Timeout" : "超时",
-    "SMB / CIFS using OC login" : "SMB / CIFS 使用 OC 登录信息",
     "Username as share" : "以用户名作为共享名",
     "OpenStack Object Storage" : "OpenStack 对象存储",
     "Service name" : "服务名称",
@@ -134,6 +132,8 @@
     "Global credentials can be used to authenticate with multiple external storage that have the same credentials." : "可以使用全局凭据对具有相同凭据的多个外部存储进行身份验证。",
     "External storages" : "外部存储",
     "(group)" : "（分组）",
+    "SMB / CIFS" : "SMB / CIFS",
+    "SMB / CIFS using OC login" : "SMB / CIFS 使用 OC 登录信息",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "全局凭据可用于使用具有相同凭据的多个外部存储进行身份验证。"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

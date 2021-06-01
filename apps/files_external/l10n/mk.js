@@ -87,7 +87,6 @@ OC.L10N.register(
     "SFTP" : "SFTP",
     "Root" : "Корен",
     "SFTP with secret key login" : "SFTP најава со безбедносен клуч",
-    "SMB / CIFS" : "SMB / CIFS",
     "Share" : "Сподели",
     "Show hidden files" : "Прикажи сокриени датотеки",
     "Timeout" : "Времето истече",
@@ -112,6 +111,7 @@ OC.L10N.register(
     "Allow users to mount external storage" : "Дозволи на корисниците да монтираат надворешни складишта",
     "External storages" : "Надворешни складишта",
     "(group)" : "(group)",
+    "SMB / CIFS" : "SMB / CIFS",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Глобалните акредитиви можат да се искористат за пристапување во повеќе надворешни складишта кој користат исти акредитиви."
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

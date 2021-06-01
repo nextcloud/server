@@ -99,11 +99,9 @@ OC.L10N.register(
     "SFTP" : "SFTP",
     "Root" : "Rot",
     "SFTP with secret key login" : "SFTP med hemmelig nøkkel for pålogging",
-    "SMB / CIFS" : "SMB / CIFS",
     "Share" : "Delt ressurs",
     "Show hidden files" : "Vis skjulte filer",
     "Timeout" : "Tidsavbrudd",
-    "SMB / CIFS using OC login" : "SMB / CIFS med OC-pålogging",
     "Username as share" : "Brukernavn som delt ressurs",
     "OpenStack Object Storage" : "OpenStack objektlager",
     "Service name" : "Tjenestenavn",
@@ -125,6 +123,8 @@ OC.L10N.register(
     "Advanced settings" : "Avanserte innstillinger",
     "Allow users to mount external storage" : "Tillat at brukere kobler opp eksterne lagre",
     "External storages" : "Ekstern lagring",
-    "(group)" : "(gruppe)"
+    "(group)" : "(gruppe)",
+    "SMB / CIFS" : "SMB / CIFS",
+    "SMB / CIFS using OC login" : "SMB / CIFS med OC-pålogging"
 },
 "nplurals=2; plural=(n != 1);");
