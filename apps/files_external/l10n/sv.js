@@ -101,11 +101,9 @@ OC.L10N.register(
     "SFTP" : "SFTP",
     "Root" : "Root",
     "SFTP with secret key login" : "SFTP-inloggning med hemlig nyckel",
-    "SMB / CIFS" : "SMB / CIFS",
     "Share" : "Dela",
     "Show hidden files" : "Visa gömda filer",
     "Timeout" : "Timeout",
-    "SMB / CIFS using OC login" : "SMB / CIFS använder OC-inloggning",
     "Username as share" : "Användarnamn till utdelning",
     "OpenStack Object Storage" : "OpenStack Object Storage",
     "Service name" : "Namn på tjänst",
@@ -132,6 +130,8 @@ OC.L10N.register(
     "Allow users to mount external storage" : "Tillåt användare att montera extern lagring",
     "External storages" : "Extern lagring",
     "(group)" : "(grupp)",
+    "SMB / CIFS" : "SMB / CIFS",
+    "SMB / CIFS using OC login" : "SMB / CIFS använder OC-inloggning",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globala användaruppgifter kan användas för att autentisera med flera externa lagrings-instanser som använder samma användaruppgifter."
 },
 "nplurals=2; plural=(n != 1);");

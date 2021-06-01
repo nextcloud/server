@@ -99,10 +99,8 @@ OC.L10N.register(
     "SFTP" : "SFTP",
     "Root" : "Root",
     "SFTP with secret key login" : "SFTP with secret key login",
-    "SMB / CIFS" : "SMB / CIFS",
     "Share" : "Share",
     "Show hidden files" : "Show hidden files",
-    "SMB / CIFS using OC login" : "SMB / CIFS using OC login",
     "Username as share" : "Username as share",
     "OpenStack Object Storage" : "OpenStack Object Storage",
     "Service name" : "Service name",
@@ -126,6 +124,8 @@ OC.L10N.register(
     "Advanced settings" : "Advanced settings",
     "Allow users to mount external storage" : "Allow users to mount external storage",
     "External storages" : "External storages",
-    "(group)" : "(group)"
+    "(group)" : "(group)",
+    "SMB / CIFS" : "SMB / CIFS",
+    "SMB / CIFS using OC login" : "SMB / CIFS using OC login"
 },
 "nplurals=2; plural=(n != 1);");

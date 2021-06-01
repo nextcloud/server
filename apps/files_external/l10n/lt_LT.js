@@ -97,11 +97,9 @@ OC.L10N.register(
     "SFTP" : "SFTP",
     "Root" : "Šaknis",
     "SFTP with secret key login" : "SFTP protokolas su prisijungimu",
-    "SMB / CIFS" : "SMB / CIFS",
     "Share" : "Dalintis",
     "Show hidden files" : "Rodyti paslėptus failus",
     "Timeout" : "Pasibaigė laikas",
-    "SMB / CIFS using OC login" : "SMB / CIFS, naudojant OC prisijungimą",
     "Username as share" : "Dalinimosi vardas kaip ir vartotojo vardas",
     "Service name" : "Paslaugos vardas",
     "Request timeout (seconds)" : "Prisijungimo laikas (sekundėmis)",
@@ -123,6 +121,8 @@ OC.L10N.register(
     "Advanced settings" : "Išplėstiniai nustatymai",
     "Allow users to mount external storage" : "Leisti naudotojams prijungti išorines saugyklas",
     "External storages" : "Išorinės saugyklos",
-    "(group)" : "(grupė)"
+    "(group)" : "(grupė)",
+    "SMB / CIFS" : "SMB / CIFS",
+    "SMB / CIFS using OC login" : "SMB / CIFS, naudojant OC prisijungimą"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

@@ -62,10 +62,8 @@ OC.L10N.register(
     "SFTP" : "SFTP",
     "Root" : "Root",
     "SFTP with secret key login" : "SFTP pieteikšanās ar slepeno atslēgu",
-    "SMB / CIFS" : "SMB / CIFS",
     "Share" : "Koplietot",
     "Show hidden files" : "Rādīt slēptās datnes",
-    "SMB / CIFS using OC login" : "SMB / CIFS lietojot OC lietotāju",
     "OpenStack Object Storage" : "OpenStack Object krātuve",
     "Service name" : "Servisa nosaukums",
     "Name" : "Nosaukums",
@@ -80,6 +78,8 @@ OC.L10N.register(
     "Advanced settings" : "Paplašināti iestatījumi",
     "Allow users to mount external storage" : "Atļaut lietotājiem uzstādīt ārējās krātuves",
     "External storages" : "Ārējās krātuves",
-    "(group)" : "(grupa)"
+    "(group)" : "(grupa)",
+    "SMB / CIFS" : "SMB / CIFS",
+    "SMB / CIFS using OC login" : "SMB / CIFS lietojot OC lietotāju"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

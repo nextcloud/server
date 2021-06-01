@@ -102,13 +102,11 @@ OC.L10N.register(
     "SFTP" : "安全檔案傳輸協定-SFTP",
     "Root" : "Root",
     "SFTP with secret key login" : "以密碼密鑰登入SFTP",
-    "SMB / CIFS" : "SMB / CIFS",
     "Share" : "分享",
     "Show hidden files" : "顯示隱藏的檔案",
     "Verify ACL access when listing files" : "列出檔案時驗證 ACL 存取",
     "Check the ACL's of each file or folder inside a directory to filter out items where the user has no read permissions, comes with a performance penalty" : "檢查目錄中每個檔案或資料夾的ACL，以過濾掉用戶沒有讀取權限的項目，但這會帶來性能損失。",
     "Timeout" : "逾時",
-    "SMB / CIFS using OC login" : "SMB / CIFS 使用 OC 登入",
     "Username as share" : "以用戶名稱分享",
     "OpenStack Object Storage" : "OpenStack 物件儲存",
     "Service name" : "服務名稱",
@@ -136,6 +134,8 @@ OC.L10N.register(
     "Global credentials can be used to authenticate with multiple external storage that have the same credentials." : "全球身分驗證可用於驗證與有相同身分驗證的多個外部存儲器。",
     "External storages" : "外部儲存",
     "(group)" : "（群組）",
+    "SMB / CIFS" : "SMB / CIFS",
+    "SMB / CIFS using OC login" : "SMB / CIFS 使用 OC 登入",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "全球身分驗證可用於驗證與有相同身分驗證的多個外部存儲器。"
 },
 "nplurals=1; plural=0;");

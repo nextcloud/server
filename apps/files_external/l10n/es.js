@@ -102,13 +102,11 @@ OC.L10N.register(
     "SFTP" : "SFTP",
     "Root" : "Raíz",
     "SFTP with secret key login" : "Inicio de sesión SFTP con clave secreta",
-    "SMB / CIFS" : "SMB / CIFS",
     "Share" : "Compartir",
     "Show hidden files" : "Mostrar archivos ocultos",
     "Verify ACL access when listing files" : "Verificar acceso ACL al listar archivos",
     "Check the ACL's of each file or folder inside a directory to filter out items where the user has no read permissions, comes with a performance penalty" : "Comprobar los ACL de cada archivo o carpeta en un directorio para filtrar los ítems en los que el usuario no tiene permisos de lectura. Provoca un descenso en el rendimiento.",
     "Timeout" : "Se agotó el tiempo",
-    "SMB / CIFS using OC login" : "SMB / CIFS que usan acceso OC",
     "Username as share" : "Nombre de usuario como compartir",
     "OpenStack Object Storage" : "Almacenamiento de objeto OpenStack",
     "Service name" : "Nombre del servicio",
@@ -136,6 +134,8 @@ OC.L10N.register(
     "Global credentials can be used to authenticate with multiple external storage that have the same credentials." : "Las credenciales globales se pueden usar para autenticar múltiples almacenamientos externos que tengan las mismas credenciales.",
     "External storages" : "Almacenamiento externo",
     "(group)" : "(grupo)",
+    "SMB / CIFS" : "SMB / CIFS",
+    "SMB / CIFS using OC login" : "SMB / CIFS que usan acceso OC",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Se pueden usar credenciales globales para autenticar con múltiples almacenamientos externos que tengan las mismas credenciales."
 },
 "nplurals=2; plural=(n != 1);");

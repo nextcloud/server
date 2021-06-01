@@ -95,10 +95,8 @@ OC.L10N.register(
     "SFTP" : "SFTP",
     "Root" : "Root",
     "SFTP with secret key login" : "SFTP საიდუმლო გასაღების ლოგინით",
-    "SMB / CIFS" : "SMB / CIFS",
     "Share" : "გაზიარება",
     "Show hidden files" : "დამალული ფაილების ჩვენება",
-    "SMB / CIFS using OC login" : "SMB / CIFS OC ლოგინით",
     "Username as share" : "მომხმარებლის სახელი გაზიარებად",
     "OpenStack Object Storage" : "OpenStack ობიექტ საცავი",
     "Service name" : "სერვისის სახელი",
@@ -120,6 +118,8 @@ OC.L10N.register(
     "Advanced settings" : "დამატებითი პარამეტრები",
     "Allow users to mount external storage" : "მივცეთ მომხმარებლებს გარე საცავის მონტაჟის უფლება",
     "External storages" : "გარე საცავები",
-    "(group)" : "(ჯგუფი)"
+    "(group)" : "(ჯგუფი)",
+    "SMB / CIFS" : "SMB / CIFS",
+    "SMB / CIFS using OC login" : "SMB / CIFS OC ლოგინით"
 },
 "nplurals=2; plural=(n!=1);");
