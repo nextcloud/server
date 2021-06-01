@@ -2062,6 +2062,7 @@ steps:
   environment:
       CODECOV_TOKEN:
           from_secret: CODECOV_TOKEN
+      XDEBUG_MODE: coverage
   commands:
     - phpenmod xdebug
     - TEST_SELECTION=NODB ./autotest.sh sqlite
@@ -2093,6 +2094,7 @@ steps:
   environment:
       CODECOV_TOKEN:
           from_secret: CODECOV_TOKEN
+      XDEBUG_MODE: coverage
   commands:
     - phpenmod xdebug
     - TEST_SELECTION=QUICKDB ./autotest.sh sqlite
