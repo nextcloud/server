@@ -1112,7 +1112,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		while ($row = $stmt->fetch()) {
 			$result[] = [
 				'id' => $row['id'],
-				'uri' => $row['co.uri'],
+				'uri' => $row['uri'],
 				'lastmodified' => $row['lastmodified'],
 				'etag' => '"' . $row['etag'] . '"',
 				'calendarid' => $row['calendarid'],
@@ -2156,7 +2156,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 
 		return [
 			'id' => $row['id'],
-			'uri' => $row['c.uri'],
+			'uri' => $row['uri'],
 			'lastmodified' => $row['lastmodified'],
 			'etag' => '"' . $row['etag'] . '"',
 			'calendarid' => $row['calendarid'],
