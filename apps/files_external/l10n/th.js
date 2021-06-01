@@ -80,10 +80,8 @@ OC.L10N.register(
     "SFTP" : "SFTP",
     "Root" : "รูท",
     "SFTP with secret key login" : "SFTP กับคีย์ลับสำหรับเข้าสู่ระบบ",
-    "SMB / CIFS" : "SMB / CIFS",
     "Share" : "แชร์",
     "Show hidden files" : "แสดงไฟล์ที่ซ่อนอยู่",
-    "SMB / CIFS using OC login" : "SMB/CIFS กำลังใช้ OC เข้าสู่ระบบ",
     "Username as share" : "ชื่อผู้ใช้ที่แชร์",
     "OpenStack Object Storage" : "OpenStack Object Storage",
     "Service name" : "ชื่อบริการ",
@@ -99,6 +97,8 @@ OC.L10N.register(
     "Add storage" : "เพิ่มพื้นที่จัดเก็บข้อมูล",
     "Advanced settings" : "ตั้งค่าขั้นสูง",
     "Allow users to mount external storage" : "อนุญาตให้ผู้ใช้ติดตั้งการจัดเก็บข้อมูลภายนอก",
-    "(group)" : "(กลุ่ม)"
+    "(group)" : "(กลุ่ม)",
+    "SMB / CIFS" : "SMB / CIFS",
+    "SMB / CIFS using OC login" : "SMB/CIFS กำลังใช้ OC เข้าสู่ระบบ"
 },
 "nplurals=1; plural=0;");
