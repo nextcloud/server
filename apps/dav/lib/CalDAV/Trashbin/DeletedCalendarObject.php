@@ -29,8 +29,11 @@ use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\IRestorable;
 use Sabre\CalDAV\ICalendarObject;
 use Sabre\DAV\Exception\Forbidden;
+use Sabre\DAVACL\ACLTrait;
+use Sabre\DAVACL\IACL;
 
-class DeletedCalendarObject implements ICalendarObject, IRestorable {
+class DeletedCalendarObject implements IACL, ICalendarObject, IRestorable {
+	use ACLTrait;
 
 	/** @var string */
 	private $name;
@@ -38,19 +41,29 @@ class DeletedCalendarObject implements ICalendarObject, IRestorable {
 	/** @var mixed[] */
 	private $objectData;
 
+	/** @var string */
+	private $principalUri;
+
 	/** @var CalDavBackend */
 	private $calDavBackend;
 
 	public function __construct(string $name,
 								array $objectData,
+								string $principalUri,
 								CalDavBackend $calDavBackend) {
 		$this->name = $name;
 		$this->objectData = $objectData;
 		$this->calDavBackend = $calDavBackend;
+		$this->principalUri = $principalUri;
 	}
 
 	public function delete() {
-		throw new Forbidden();
+		$this->calDavBackend->deleteCalendarObject(
+			$this->objectData['calendarid'],
+			$this->objectData['uri'],
+			CalDavBackend::CALENDAR_TYPE_CALENDAR,
+			true
+		);
 	}
 
 	public function getName() {
@@ -100,5 +113,24 @@ class DeletedCalendarObject implements ICalendarObject, IRestorable {
 
 	public function getCalendarUri(): string {
 		return $this->objectData['calendaruri'];
+	}
+
+	public function getACL(): array {
+		return [
+			[
+				'privilege' => '{DAV:}read', // For queries
+				'principal' => $this->getOwner(),
+				'protected' => true,
+			],
+			[
+				'privilege' => '{DAV:}unbind', // For moving and deletion
+				'principal' => '{DAV:}owner',
+				'protected' => true,
+			],
+		];
+	}
+
+	public function getOwner() {
+		return $this->principalUri;
 	}
 }

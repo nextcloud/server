@@ -78,6 +78,7 @@ class DeletedCalendarObjectsCollection implements ICalendarObjectContainer {
 		return new DeletedCalendarObject(
 			$this->getRelativeObjectPath($data),
 			$data,
+			$this->principalInfo['uri'],
 			$this->caldavBackend
 		);
 	}
@@ -117,8 +118,8 @@ class DeletedCalendarObjectsCollection implements ICalendarObjectContainer {
 	}
 
 	public function calendarQuery(array $filters) {
-		return array_map(function (array $calendarInfo) {
-			return $this->getRelativeObjectPath($calendarInfo);
+		return array_map(function (array $calendarObjectInfo) {
+			return $this->getRelativeObjectPath($calendarObjectInfo);
 		}, $this->caldavBackend->getDeletedCalendarObjectsByPrincipal($this->principalInfo['uri']));
 	}
 
