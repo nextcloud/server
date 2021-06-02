@@ -34,13 +34,13 @@ use Test\TestCase;
 
 class UserDeletedListenerTest extends TestCase {
 	public function testHandle() {
-		/** @var UsernameDuplicationPreventionManager|PHPUnit_Framework_MockObject_MockObject $usernameDuplicationPreventionManager */
+		/** @var UsernameDuplicationPreventionManager|MockObject $usernameDuplicationPreventionManager */
 		$usernameDuplicationPreventionManager = $this->createMock(UsernameDuplicationPreventionManager::class);
 		$usernameDuplicationPreventionManager
 			->expects($this->once())
 			->method('markUsed')
 			->with($this->equalTo('ThisIsTheUsername'));
-		/** @var IUser|PHPUnit_Framework_MockObject_MockObject $mockUser */
+		/** @var IUser|MockObject $mockUser */
 		$mockUser = $this->createMock(IUser::class);
 		$mockUser
 			->expects($this->once())
