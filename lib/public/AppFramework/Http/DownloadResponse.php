@@ -30,20 +30,16 @@ namespace OCP\AppFramework\Http;
  * @since 7.0.0
  */
 class DownloadResponse extends Response {
-	private $filename;
-	private $contentType;
-
 	/**
 	 * Creates a response that prompts the user to download the file
 	 * @param string $filename the name that the downloaded file should have
 	 * @param string $contentType the mimetype that the downloaded file should have
 	 * @since 7.0.0
 	 */
-	public function __construct($filename, $contentType) {
+	public function __construct(string $filename, string $contentType) {
 		parent::__construct();
 
-		$this->filename = $filename;
-		$this->contentType = $contentType;
+		$filename = strtr($filename, ['"' => '\\"', '\\' => '\\\\']);
 
 		$this->addHeader('Content-Disposition', 'attachment; filename="' . $filename . '"');
 		$this->addHeader('Content-Type', $contentType);
