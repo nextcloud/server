@@ -31,6 +31,7 @@ use OC\User\UsernameDuplicationPreventionManager;
 use OCP\IUser;
 use OCP\User\Events\UserDeletedEvent;
 use Test\TestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class UserDeletedListenerTest extends TestCase {
 	public function testHandle() {
