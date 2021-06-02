@@ -295,7 +295,6 @@ class RegistrationContext {
 
 	public function registerInitialState(string $appId, string $class): void {
 		$this->initialStates[] = new ServiceRegistration($appId, $class);
-
 	}
 
 	public function registerWellKnown(string $appId, string $class): void {
@@ -524,4 +523,3 @@ class RegistrationContext {
 		return $this->twoFactorProviders;
 	}
 }
-

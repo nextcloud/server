@@ -240,4 +240,3 @@ interface IRegistrationContext {
 	 */
 	public function registerTwoFactorProvider(string $twoFactorProviderClass): void;
 }
-
