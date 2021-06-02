@@ -116,7 +116,6 @@ OC.L10N.register(
     "Send mode" : "Sūtīšanas metode",
     "Encryption" : "Šifrēšana",
     "From address" : "No adreses",
-    "mail" : "e-pasts",
     "Authentication method" : "Autentifikācijas metode",
     "Authentication required" : "Nepieciešama autentifikācija",
     "Server address" : "Servera adrese",
@@ -186,6 +185,7 @@ OC.L10N.register(
     "Issued By" : "Izsniedza",
     "Valid until %s" : "Derīgs līdz %s",
     "Import root certificate" : "Importēt root sertifikātu",
+    "mail" : "e-pasts",
     "Execute one task with each page loaded" : "Izpildīt vienu uzdevumu ar katru ielādēto lapu",
     "Expire after " : "Nederīga pēc",
     "Allow users to share via link" : "Ļaut lietotājiem koplietot caur saitēm"

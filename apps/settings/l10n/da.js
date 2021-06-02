@@ -220,7 +220,6 @@ OC.L10N.register(
     "Send mode" : "Tilstand for afsendelse",
     "Encryption" : "Kryptering",
     "From address" : "Fra adresse",
-    "mail" : "mail",
     "Authentication method" : "Godkendelsesmetode",
     "Authentication required" : "Godkendelse påkrævet",
     "Server address" : "Serveradresse",
@@ -312,6 +311,7 @@ OC.L10N.register(
     "Issued By" : "Udstedt af",
     "Valid until %s" : "Gyldig indtil %s",
     "Import root certificate" : "Importer rodcertifikat",
+    "mail" : "mail",
     "Execute one task with each page loaded" : "Udføre en opgave med hver side indlæsning",
     "Expire after " : "Udløber efter",
     "Allow users to share via link" : "Tillad brugere at dele via link"

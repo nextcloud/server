@@ -77,7 +77,6 @@
     "STARTTLS" : "STARTTLS",
     "Email server" : "T-post ambætara",
     "From address" : "Frá adressu",
-    "mail" : "post",
     "SMTP Username" : "SMTP Brúkaranavn",
     "SMTP Password" : "SMTP Loyniorð",
     "Send email" : "Send t-post",
@@ -98,6 +97,7 @@
     "Current password" : "Núverandi loyniorð",
     "New password" : "Nýtt loyniorð",
     "Change password" : "Broyd loyniorð",
-    "Public" : "Alment"
+    "Public" : "Alment",
+    "mail" : "post"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
