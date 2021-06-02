@@ -534,7 +534,7 @@ class UsersController extends AUserData {
 	public function getEditableFields(): DataResponse {
 		$currentLoggedInUser = $this->userSession->getUser();
 		if (!$currentLoggedInUser instanceof IUser) {
-			throw new OCSException('', OCSController::RESPOND_NOT_FOUND);
+			throw new OCSException('', \OCP\API::RESPOND_NOT_FOUND);
 		}
 
 		return $this->getEditableFieldsForUser($currentLoggedInUser->getUID());
