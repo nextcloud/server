@@ -78,7 +78,6 @@ OC.L10N.register(
     "None" : "юу ч үгүй",
     "Login" : "Нэвтрэх",
     "Open documentation" : "бичиг баримт нээх",
-    "mail" : "и-мэйл",
     "Server address" : "хүлээн авагчийн хаяг",
     "Port" : "порт",
     "Credentials" : "Итгэмжлэл",
@@ -106,6 +105,7 @@ OC.L10N.register(
     "Contacts" : "Харилцагчид",
     "Public" : "Нийтийн",
     "Close" : "Хаах",
+    "mail" : "и-мэйл",
     "Expire after " : " Дуусах хугацаа"
 },
 "nplurals=2; plural=(n != 1);");
