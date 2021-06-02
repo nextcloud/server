@@ -94,7 +94,7 @@ class AddMissingIndices extends Command {
 		$indexes = $this->indexManager->getPending();
 
 		foreach ($indexes as $index) {
-			$output->writeln('<info>Adding additonal ' . $index->getName() . ' index to the ' . $index->getTable() . ' this can take some time..</info>');
+			$output->writeln('<info>Adding additional ' . $index->getName() . ' index to the ' . $index->getTable() . ' this can take some time …</info>');
 			$index->add();
 		}
 	}
