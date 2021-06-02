@@ -64,7 +64,6 @@ OC.L10N.register(
     "Send mode" : "Göndərmə rejimi",
     "Encryption" : "Şifrələnmə",
     "From address" : "Ünvandan",
-    "mail" : "poçt",
     "Authentication method" : "Qeydiyyat metodikası",
     "Authentication required" : "Qeydiyyat tələb edilir",
     "Server address" : "Server ünvanı",
@@ -107,6 +106,7 @@ OC.L10N.register(
     "Issued By" : "Tərəfindən yaradılıb",
     "Valid until %s" : "Keçərlidir vaxtadək %s",
     "Import root certificate" : "root sertifikatı import et",
+    "mail" : "poçt",
     "Execute one task with each page loaded" : "Hər səhifə yüklənməsində bir işi yerinə yetir",
     "Expire after " : "Bitir sonra",
     "Allow users to share via link" : "Istifadəçilərə link üzərindən paylaşım etməyə izin vermək"

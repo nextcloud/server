@@ -80,7 +80,6 @@ OC.L10N.register(
     "Send mode" : "โหมดการส่ง",
     "Encryption" : "การเข้ารหัส",
     "From address" : "จากที่อยู่",
-    "mail" : "อีเมล",
     "Authentication method" : "วิธีการตรวจสอบ",
     "Authentication required" : "จำเป็นต้องตรวจสอบความถูกต้อง",
     "Server address" : "ที่อยู่เซิร์ฟเวอร์",
@@ -145,6 +144,7 @@ OC.L10N.register(
     "Issued By" : "ปัญหาโดย",
     "Valid until %s" : "ใช้ได้จนถึง %s",
     "Import root certificate" : "นำเข้าใบรับรองหลัก",
+    "mail" : "อีเมล",
     "Execute one task with each page loaded" : "ประมวลผลหนึ่งงาน ในแต่ละครั้งที่มีการโหลดหน้าเว็บ",
     "Expire after " : "หลังจากหมดอายุ",
     "Allow users to share via link" : "อนุญาตให้ผู้ใช้สามารถแชร์ผ่านทางลิงค์"

@@ -79,7 +79,6 @@ OC.L10N.register(
     "STARTTLS" : "STARTTLS",
     "Email server" : "T-post ambætara",
     "From address" : "Frá adressu",
-    "mail" : "post",
     "SMTP Username" : "SMTP Brúkaranavn",
     "SMTP Password" : "SMTP Loyniorð",
     "Send email" : "Send t-post",
@@ -100,6 +99,7 @@ OC.L10N.register(
     "Current password" : "Núverandi loyniorð",
     "New password" : "Nýtt loyniorð",
     "Change password" : "Broyd loyniorð",
-    "Public" : "Alment"
+    "Public" : "Alment",
+    "mail" : "post"
 },
 "nplurals=2; plural=(n != 1);");
