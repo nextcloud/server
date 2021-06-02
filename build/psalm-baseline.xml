@@ -3003,15 +3003,6 @@
       <code>bool|mixed</code>
     </LessSpecificImplementedReturnType>
   </file>
-  <file src="lib/private/Collaboration/Collaborators/GroupPlugin.php">
-    <UndefinedThisPropertyAssignment occurrences="1">
-      <code>$this-&gt;shareeEnumerationInGroupOnly</code>
-    </UndefinedThisPropertyAssignment>
-    <UndefinedThisPropertyFetch occurrences="2">
-      <code>$this-&gt;shareeEnumerationInGroupOnly</code>
-      <code>$this-&gt;shareeEnumerationInGroupOnly</code>
-    </UndefinedThisPropertyFetch>
-  </file>
   <file src="lib/private/Collaboration/Resources/Manager.php">
     <RedundantCondition occurrences="1">
       <code>$user instanceof IUser</code>
