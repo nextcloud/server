@@ -165,7 +165,7 @@ class Server {
 				$this->server->addPlugin(\OC::$server->query(\OCA\DAV\CalDAV\Schedule\IMipPlugin::class));
 			}
 
-			$this->server->addPlugin(new \OCA\DAV\CalDAV\Trashbin\Plugin($request));
+			$this->server->addPlugin(\OC::$server->get(\OCA\DAV\CalDAV\Trashbin\Plugin::class));
 			$this->server->addPlugin(new \OCA\DAV\CalDAV\WebcalCaching\Plugin($request));
 			$this->server->addPlugin(new \Sabre\CalDAV\Subscriptions\Plugin());
 
