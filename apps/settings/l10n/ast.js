@@ -160,7 +160,6 @@ OC.L10N.register(
     "Send mode" : "Mou d'unviu",
     "Encryption" : "Cifráu",
     "From address" : "Dende la direición",
-    "mail" : "corréu",
     "Authentication method" : "Métodu d'autenticación",
     "Authentication required" : "Necesítase autenticación",
     "Server address" : "Direición del sirvidor",
@@ -237,6 +236,7 @@ OC.L10N.register(
     "Issued By" : "Emitíu por",
     "Valid until %s" : "Válidu hasta'l %s",
     "Import root certificate" : "Importar certificáu raigañu",
+    "mail" : "corréu",
     "Execute one task with each page loaded" : "Executar una xera con cada páxina cargada",
     "Expire after " : "Caduca dempués de",
     "Allow users to share via link" : "Permitir a los usuarios compartir vía enllaz"

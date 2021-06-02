@@ -170,7 +170,6 @@ OC.L10N.register(
     "Send mode" : "وضعية الإرسال",
     "Encryption" : "التشفير",
     "From address" : "عنوان الإرسال",
-    "mail" : "البريد",
     "Authentication method" : "أسلوب التطابق",
     "Authentication required" : "المصادقة مطلوبة",
     "Server address" : "عنوان الخادم",
@@ -257,6 +256,7 @@ OC.L10N.register(
     "Issued By" : "سُلّمت مِن طرف",
     "Valid until %s" : "صالحة إلى غاية %s",
     "Import root certificate" : "إستيراد شهادة جذرية",
+    "mail" : "البريد",
     "Execute one task with each page loaded" : "قم بتنفيذ مهمة واحدة مع كل صفحة تم تحميلها",
     "Expire after " : "ينتهي بعد",
     "Allow users to share via link" : "السماح للمستخدم بمشاركة الملف عن طريق رابط"

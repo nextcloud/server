@@ -79,6 +79,7 @@ OC.L10N.register(
     "File name cannot be empty." : "Je třeba vyplnit název souboru.",
     "\"/\" is not allowed inside a file name." : "„/“ není povolený znak v názvu souboru.",
     "\"{name}\" is not an allowed filetype" : "„{name}“ není povolený typ souboru",
+    "Your storage is full, files cannot be updated or synced anymore!" : "Vaše úložiště je plné – nelze aktualizovat ani synchronizovat soubory!.",
     "Storage of {owner} is almost full ({usedSpacePercent}%)." : "Úložiště {owner} je téměř plné ({usedSpacePercent}%).",
     "Group folder \"{mountPoint}\" is almost full ({usedSpacePercent}%)." : "Skupinová složka „{mountPoint}“ je téměř plná ({usedSpacePercent}%).",
     "External storage \"{mountPoint}\" is almost full ({usedSpacePercent}%)." : "Externí úložiště „{mountPoint}“ je téměř plné ({usedSpacePercent}%).",

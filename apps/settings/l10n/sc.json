@@ -314,7 +314,6 @@
     "Encryption" : "Tzifradura",
     "Sendmail mode" : "Modalidade de imbiu de posta",
     "From address" : "Indiritzu de chie imbiat",
-    "mail" : "posta",
     "Authentication method" : "Mètodu de autenticatzione",
     "Authentication required" : "Autenticatzione recherta",
     "Server address" : "Indiritzu de su serbidore",
@@ -339,6 +338,7 @@
     "Change password" : "Càmbia crae",
     "Contacts" : "Cuntatos",
     "Close" : "Serra",
-    "Error: This app can not be enabled because it makes the server unstable" : "Errore: Custa aplicatzione non si podet ativare ca faghet su serbidore no istàbile"
+    "Error: This app can not be enabled because it makes the server unstable" : "Errore: Custa aplicatzione non si podet ativare ca faghet su serbidore no istàbile",
+    "mail" : "posta"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

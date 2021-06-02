@@ -57,7 +57,6 @@ OC.L10N.register(
     "Send mode" : "Način rada za slanje",
     "Encryption" : "Šifriranje",
     "From address" : "S adrese",
-    "mail" : "pošta",
     "Authentication method" : "Metoda autentifikacije",
     "Authentication required" : "Potrebna autentifikacija",
     "Server address" : "Adresa servera",
@@ -97,6 +96,7 @@ OC.L10N.register(
     "Valid until" : "Validno do",
     "Issued By" : "Izdano od",
     "Valid until %s" : "Validno do %s",
+    "mail" : "pošta",
     "Execute one task with each page loaded" : "Izvrši jedan zadatak sa svakom učitanom stranicom",
     "Expire after " : "Istek nakon",
     "Allow users to share via link" : "Dozvoli korisnicima dijeljenje putem veze"

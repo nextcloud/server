@@ -205,7 +205,7 @@ OC.L10N.register(
     "Unable to load the shares list" : "Não foi possível carregar a lista de compartilhamentos",
     "Expires {relativetime}" : "Expira {relativetime}",
     "this share just expired." : "esse compartilhamento acabou de expirar.",
-    "Link to a file" : "Linkar para um arquivo",
+    "Link to a file" : "Criar link para um arquivo",
     "Error creating the share: {errorMessage}" : "Erro ao criar o compartilhamento: {errorMessage}",
     "Error creating the share" : "Erro ao criar o compartilhamento",
     "Error updating the share: {errorMessage}" : "Erro ao atualizar o compartilhamento: {errorMessage}",

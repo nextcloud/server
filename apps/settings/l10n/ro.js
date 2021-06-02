@@ -177,7 +177,6 @@ OC.L10N.register(
     "Send mode" : "Modul de expediere",
     "Encryption" : "Încriptare",
     "From address" : "De la adresa",
-    "mail" : "poștă",
     "Authentication method" : "Modul de autentificare",
     "Authentication required" : "Autentificare necesară",
     "Server address" : "Adresa server-ului",
@@ -244,6 +243,7 @@ OC.L10N.register(
     "Issued By" : "Emis de",
     "Valid until %s" : "Valabil până la %s",
     "Import root certificate" : "Importă certificat rădăcină",
+    "mail" : "poștă",
     "Execute one task with each page loaded" : "Execută o sarcină la fiecare pagină încărcată",
     "Expire after " : "Expiră după",
     "Allow users to share via link" : "Permite utilizatorilor să partajeze via link"
