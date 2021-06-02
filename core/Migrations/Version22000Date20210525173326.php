@@ -20,14 +20,14 @@ class Version22000Date20210525173326 extends SimpleMigrationStep {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
 
-		$table = $schema->createTable('previously_used_userids');
-
-		$table->addColumn('user_id_hash', \OCP\DB\Types::STRING, [
-			'notnull' => true,
-			'length' => 128,
-		]);
-
-		$table->setPrimaryKey(['user_id_hash'], 'uid_hash_idx');
+		if (!$schema->hasTable('previously_used_userids')) {
+			$table = $schema->createTable('previously_used_userids');
+			$table->addColumn('user_id_hash', \OCP\DB\Types::STRING, [
+				'notnull' => true,
+				'length' => 128,
+			]);
+			$table->setPrimaryKey(['user_id_hash'], 'uid_hash_idx');
+		}
 
 		return $schema;
 	}
