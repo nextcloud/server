@@ -71,7 +71,7 @@ class FileCacheTest extends TestCache {
 		\OC_User::useBackend(new \Test\Util\User\Dummy());
 
 		//login
-		$this->userId = 'test' . uniqid('', true);
+		$this->userId = self::getUniqueID('test');
 		\OC::$server->getUserManager()->createUser($this->userId, 'test');
 
 		$this->user = \OC_User::getUser();

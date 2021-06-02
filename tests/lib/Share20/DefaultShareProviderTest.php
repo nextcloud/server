@@ -2492,9 +2492,9 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 		$password = md5(time());
 
-		$u1 = $userManager->createUser(uniqid('testShare1', true), $password);
-		$u2 = $userManager->createUser(uniqid('testShare2', true), $password);
-		$u3 = $userManager->createUser(uniqid('testShare3', true), $password);
+		$u1 = $userManager->createUser(self::getUniqueID('testShare1'), $password);
+		$u2 = $userManager->createUser(self::getUniqueID('testShare2'), $password);
+		$u3 = $userManager->createUser(self::getUniqueID('testShare3'), $password);
 
 		$g1 = $groupManager->createGroup('group1');
 
@@ -2588,11 +2588,11 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			$this->config
 		);
 
-		$u1 = $userManager->createUser(uniqid('testShare1', true), 'test');
-		$u2 = $userManager->createUser(uniqid('testShare2', true), 'test');
-		$u3 = $userManager->createUser(uniqid('testShare3', true),'test');
-		$u4 = $userManager->createUser(uniqid('testShare4', true), 'test');
-		$u5 = $userManager->createUser(uniqid('testShare5', true), 'test');
+		$u1 = $userManager->createUser(self::getUniqueID('testShare1'), 'test');
+		$u2 = $userManager->createUser(self::getUniqueID('testShare2'), 'test');
+		$u3 = $userManager->createUser(self::getUniqueID('testShare3'),'test');
+		$u4 = $userManager->createUser(self::getUniqueID('testShare4'), 'test');
+		$u5 = $userManager->createUser(self::getUniqueID('testShare5'), 'test');
 
 		$g1 = $groupManager->createGroup('group1');
 		$g1->addUser($u3);
@@ -2684,11 +2684,11 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			$this->config
 		);
 
-		$u1 = $userManager->createUser(uniqid('testShare1', true), 'test');
-		$u2 = $userManager->createUser(uniqid('testShare2', true), 'test');
-		$u3 = $userManager->createUser(uniqid('testShare3', true), 'test');
-		$u4 = $userManager->createUser(uniqid('testShare4', true), 'test');
-		$u5 = $userManager->createUser(uniqid('testShare5', true),'test');
+		$u1 = $userManager->createUser(self::getUniqueID('testShare1'), 'test');
+		$u2 = $userManager->createUser(self::getUniqueID('testShare2'), 'test');
+		$u3 = $userManager->createUser(self::getUniqueID('testShare3'), 'test');
+		$u4 = $userManager->createUser(self::getUniqueID('testShare4'), 'test');
+		$u5 = $userManager->createUser(self::getUniqueID('testShare5'),'test');
 
 		$g1 = $groupManager->createGroup('group1');
 		$g1->addUser($u3);

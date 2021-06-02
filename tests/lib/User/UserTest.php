@@ -504,7 +504,7 @@ class UserTest extends TestCase {
 			->method('deleteUser')
 			->willReturn($result);
 		$emitter = new PublicEmitter();
-		$userId = uniqid('foo', true);
+		$userId = self::getUniqueID('foo');
 		$user = new User($userId, $backend, $this->dispatcher, $emitter);
 
 		/**

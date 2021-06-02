@@ -306,9 +306,9 @@ class AppTest extends \Test\TestCase {
 
 	public function setUp(): void {
 		parent::setUp();
-		$this->TEST_USER1 = $this->TEST_USER1 . uniqid('', true);
-		$this->TEST_USER2 = $this->TEST_USER2 . uniqid('', true);
-		$this->TEST_USER3 = $this->TEST_USER3 . uniqid('', true);
+		$this->TEST_USER1 = self::getUniqueID($this->TEST_USER1);
+		$this->TEST_USER2 = self::getUniqueID($this->TEST_USER2);
+		$this->TEST_USER3 = self::getUniqueID($this->TEST_USER3);
 	}
 
 	/**

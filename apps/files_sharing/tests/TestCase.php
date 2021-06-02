@@ -83,10 +83,10 @@ abstract class TestCase extends \Test\TestCase {
 		\OC::registerShareHooks(\OC::$server->getSystemConfig());
 
 		// User Prefix
-		$this->TEST_FILES_SHARING_API_USER1 = $this->TEST_FILES_SHARING_API_USER1 . uniqid("", true);
-		$this->TEST_FILES_SHARING_API_USER2 = $this->TEST_FILES_SHARING_API_USER2 . uniqid("", true);
-		$this->TEST_FILES_SHARING_API_USER3 = $this->TEST_FILES_SHARING_API_USER3 . uniqid("", true);
-		$this->TEST_FILES_SHARING_API_USER4 = $this->TEST_FILES_SHARING_API_USER4 . uniqid("", true);
+		$this->TEST_FILES_SHARING_API_USER1 = self::getUniqueID($this->TEST_FILES_SHARING_API_USER1);
+		$this->TEST_FILES_SHARING_API_USER2 = self::getUniqueID($this->TEST_FILES_SHARING_API_USER2);
+		$this->TEST_FILES_SHARING_API_USER3 = self::getUniqueID($this->TEST_FILES_SHARING_API_USER3);
+		$this->TEST_FILES_SHARING_API_USER4 = self::getUniqueID($this->TEST_FILES_SHARING_API_USER4);
 
 		// create users
 		$backend = new \Test\Util\User\Dummy();
