@@ -38,7 +38,6 @@ namespace OC\User;
 
 use OC\Accounts\AccountManager;
 use OC\Avatar\AvatarManager;
-use OC\Files\Cache\Storage;
 use OC\Hooks\Emitter;
 use OC_Helper;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -221,8 +220,6 @@ class User implements IUser {
 			$this->emitter->emit('\OC\User', 'preDelete', [$this]);
 		}
 		$this->dispatcher->dispatchTyped(new BeforeUserDeletedEvent($this));
-		// get the home now because it won't return it after user deletion
-		$homePath = $this->getHome();
 		$result = $this->backend->deleteUser($this->uid);
 		if ($result) {
 
@@ -240,16 +237,6 @@ class User implements IUser {
 			}
 			// Delete the user's keys in preferences
 			\OC::$server->getConfig()->deleteAllUserValues($this->uid);
-
-			// Delete user files in /data/
-			if ($homePath !== false) {
-				// FIXME: this operates directly on FS, should use View instead...
-				// also this is not testable/mockable...
-				\OC_Helper::rmdirr($homePath);
-			}
-
-			// Delete the users entry in the storage table
-			Storage::remove('home::' . $this->uid);
 
 			\OC::$server->getCommentsManager()->deleteReferencesOfActor('users', $this->uid);
 			\OC::$server->getCommentsManager()->deleteReadMarksFromUser($this);
