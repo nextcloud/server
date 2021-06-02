@@ -247,7 +247,7 @@ class CheckSetupController extends Controller {
 			return '';
 		}
 
-		$features = $this->l10n->t('installing and updating apps via the app store or Federated Cloud Sharing');
+		$features = $this->l10n->t('installing and updating apps via the App Store or Federated Cloud Sharing');
 		if (!$this->config->getSystemValue('appstoreenabled', true)) {
 			$features = $this->l10n->t('Federated Cloud Sharing');
 		}

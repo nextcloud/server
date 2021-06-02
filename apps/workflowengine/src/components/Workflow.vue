@@ -20,7 +20,7 @@
 					<div class="icon icon-add" />
 					<div class="actions__item__description">
 						<h3>{{ t('workflowengine', 'More flows') }}</h3>
-						<small>{{ t('workflowengine', 'Browse the app store') }}</small>
+						<small>{{ t('workflowengine', 'Browse the App Store') }}</small>
 					</div>
 				</a>
 			</transition-group>
