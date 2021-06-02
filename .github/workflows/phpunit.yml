@@ -7,6 +7,9 @@ on:
       - master
       - stable*
 
+env:
+  php-extensions: ctype,curl,dom,fileinfo,gd,iconv,intl,json,mbstring,oci8,openssl,pdo_sqlite,posix,sqlite,xml,zip
+
 jobs:
   phpunit-nodb:
     runs-on: ubuntu-20.04
@@ -22,7 +25,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-versions }}
-          extensions: ctype,curl,dom,fileinfo,gd,iconv,intl,json,mbstring,oci8,openssl,pdo_sqlite,posix,sqlite,xml,zip
+          extensions: ${{ env.php-extensions }}
           tools: phpunit:9.5.4
           coverage: none
       - name: PHPUnit
@@ -31,8 +34,31 @@ jobs:
           TEST_SELECTION: NODB
         run: bash autotest.sh sqlite
 
+  phpunit-sqlite:
+    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        php-versions: [ '7.3', '7.4', '8.0' ]
+    steps:
+      - name: Checkout server
+        uses: actions/checkout@v2
+        with:
+          submodules: true
+      - name: Set up php ${{ matrix.php-versions }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-versions }}
+          extensions: ${{ env.php-extensions }}
+          tools: phpunit:9.5.4
+          coverage: none
+      - name: PHPUnit
+        env:
+          NOCOVERAGE: true
+        run: bash autotest.sh sqlite
+
   phpunit-oci8:
     runs-on: ubuntu-20.04
+    needs: phpunit-sqlite
 
     strategy:
       matrix:
@@ -57,7 +83,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-versions }}
-          extensions: ctype,curl,dom,fileinfo,gd,iconv,intl,json,mbstring,oci8,openssl,pdo_sqlite,posix,sqlite,xml,zip
+          extensions: ${{ env.php-extensions }}
           tools: phpunit:8.5.2
           coverage: none
 
