@@ -8,12 +8,30 @@ on:
       - stable*
 
 jobs:
+  phpunit-nodb:
+    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        php-versions: [ '7.3', '7.4', '8.0' ]
+    steps:
+      - name: Checkout server
+        uses: actions/checkout@v2
+        with:
+          submodules: true
+      - name: Set up php ${{ matrix.php-versions }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-versions }}
+          extensions: ctype,curl,dom,fileinfo,gd,iconv,intl,json,mbstring,oci8,openssl,pdo_sqlite,posix,sqlite,xml,zip
+          tools: phpunit:8.5.2
+          coverage: none
+      - name: PHPUnit
+        run: NOCOVERAGE=true TEST_SELECTION=NODB ./autotest.sh sqlite
+
   phpunit-oci8:
     runs-on: ubuntu-20.04
 
     strategy:
-      # do not stop on another job's failure
-      fail-fast: false
       matrix:
         php-versions: [ '7.4' ]
         databases: [ 'oci' ]
@@ -29,13 +47,8 @@ jobs:
     steps:
       - name: Checkout server
         uses: actions/checkout@v2
-
-      - name: Checkout submodules
-        shell: bash
-        run: |
-          auth_header="$(git config --local --get http.https://github.com/.extraheader)"
-          git submodule sync --recursive
-          git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --force --recursive --depth=1
+        with:
+          submodules: true
 
       - name: Set up php ${{ matrix.php-versions }}
         uses: shivammathur/setup-php@v2
