@@ -456,9 +456,9 @@ class AppTest extends \Test\TestCase {
 	private function mapDataProviderUserIds($user) {
 		if ($user === 'user1-') {
 			$user = $this->TEST_USER1;
-		} else if ($user === 'user2-') {
+		} elseif ($user === 'user2-') {
 			$user = $this->TEST_USER2;
-		} else if ($user === 'user3-') {
+		} elseif ($user === 'user3-') {
 			$user = $this->TEST_USER3;
 		}
 
