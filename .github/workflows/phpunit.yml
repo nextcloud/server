@@ -34,6 +34,17 @@ jobs:
           TEST_SELECTION: NODB
         run: bash autotest.sh sqlite
 
+    services:
+      redis:
+        image: redis
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - "6379:6379"
+
   phpunit-sqlite:
     runs-on: ubuntu-20.04
     strategy:
