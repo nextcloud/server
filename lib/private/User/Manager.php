@@ -380,7 +380,7 @@ class Manager extends PublicEmitter implements IUserManager {
 
 		if (\OC::$server->get(UsernameDuplicationPreventionManager::class)->wasUsed($uid)) {
 			$l = \OC::$server->getL10N('lib');
-			throw new HintException($l->t("The user name has already been used previously."));
+			throw new HintException($l->t('The user name has already been used previously.'));
 		}
 		$localBackends = [];
 		foreach ($this->backends as $backend) {
