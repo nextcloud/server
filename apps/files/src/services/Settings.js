@@ -22,10 +22,10 @@
 
 export default class Settings {
 
-	#settings
+	_settings
 
 	constructor() {
-		this.#settings = []
+		this._settings = []
 		console.debug('OCA.Files.Settings initialized')
 	}
 
@@ -37,11 +37,11 @@ export default class Settings {
 	 * @returns {boolean} whether registering was successful
 	 */
 	register(view) {
-		if (this.#settings.filter(e => e.name === view.name).length > 0) {
+		if (this._settings.filter(e => e.name === view.name).length > 0) {
 			console.error('A setting with the same name is already registered')
 			return false
 		}
-		this.#settings.push(view)
+		this._settings.push(view)
 		return true
 	}
 
@@ -50,7 +50,7 @@ export default class Settings {
 	 * @returns {OCA.Files.Settings.Setting[]} All currently registered settings
 	 */
 	get settings() {
-		return this.#settings
+		return this._settings
 	}
 
 }

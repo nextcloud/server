@@ -23,10 +23,10 @@
 
 export default class Setting {
 
-	#close
-	#el
-	#name
-	#open
+	_close
+	_el
+	_name
+	_open
 
 	/**
 	 * Create a new files app setting
@@ -38,32 +38,34 @@ export default class Setting {
 	 * @param {Function} [component.close] callback for when setting is closed
 	 */
 	constructor(name, { el, open, close }) {
-		this.#name = name
-		this.#el = el
-		this.#open = open
-		this.#close = close
-		if (typeof this.#open !== 'function') {
-			this.#open = () => {}
+		this._name = name
+		this._el = el
+		this._open = open
+		this._close = close
+
+		if (typeof this._open !== 'function') {
+			this._open = () => {}
 		}
-		if (typeof this.#close !== 'function') {
-			this.#close = () => {}
+
+		if (typeof this._close !== 'function') {
+			this._close = () => {}
 		}
 	}
 
 	get name() {
-		return this.#name
+		return this._name
 	}
 
 	get el() {
-		return this.#el
+		return this._el
 	}
 
 	get open() {
-		return this.#open
+		return this._open
 	}
 
 	get close() {
-		return this.#close
+		return this._close
 	}
 
 }

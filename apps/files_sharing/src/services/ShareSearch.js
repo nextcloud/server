@@ -22,14 +22,14 @@
 
 export default class ShareSearch {
 
-	#state;
+	_state;
 
 	constructor() {
 		// init empty state
-		this.#state = {}
+		this._state = {}
 
 		// init default values
-		this.#state.results = []
+		this._state.results = []
 		console.debug('OCA.Sharing.ShareSearch initialized')
 	}
 
@@ -41,7 +41,7 @@ export default class ShareSearch {
 	 * @returns {Object} the data state
 	 */
 	get state() {
-		return this.#state
+		return this._state
 	}
 
 	/**
@@ -61,7 +61,7 @@ export default class ShareSearch {
 	addNewResult(result) {
 		if (result.displayName.trim() !== ''
 			&& typeof result.handler === 'function') {
-			this.#state.results.push(result)
+			this._state.results.push(result)
 			return true
 		}
 		console.error('Invalid search result provided', result)
