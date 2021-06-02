@@ -460,10 +460,6 @@ class OC_App {
 	 * @return string|false
 	 */
 	public static function getInstallPath() {
-		if (\OC::$server->getSystemConfig()->getValue('appstoreenabled', true) == false) {
-			return false;
-		}
-
 		foreach (OC::$APPSROOTS as $dir) {
 			if (isset($dir['writable']) && $dir['writable'] === true) {
 				return $dir['path'];
