@@ -26,7 +26,10 @@ jobs:
           tools: phpunit:8.5.2
           coverage: none
       - name: PHPUnit
-        run: NOCOVERAGE=true TEST_SELECTION=NODB ./autotest.sh sqlite
+        env:
+          NOCOVERAGE: true
+          TEST_SELECTION: NODB
+        run: bash autotest.sh sqlite
 
   phpunit-oci8:
     runs-on: ubuntu-20.04
