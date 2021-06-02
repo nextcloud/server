@@ -337,6 +337,29 @@ class AppTest extends \Test\TestCase {
 	 */
 	public function appConfigValuesProvider() {
 		return [
+			//  no user, returns all apps
+			[
+				null,
+				[
+					'files',
+					'app1',
+					'app3',
+					'appforgroup1',
+					'appforgroup12',
+					'appforgroup2',
+					'cloud_federation_api',
+					'dav',
+					'federatedfilesharing',
+					'lookup_server_connector',
+					'oauth2',
+					'provisioning_api',
+					'settings',
+					'twofactor_backupcodes',
+					'viewer',
+					'workflowengine',
+				],
+				false,
+			],
 			// logged in user1
 			[
 				$this->TEST_USER1,
@@ -404,29 +427,6 @@ class AppTest extends \Test\TestCase {
 				],
 				false
 			],
-			//  no user, returns all apps
-			[
-				null,
-				[
-					'files',
-					'app1',
-					'app3',
-					'appforgroup1',
-					'appforgroup12',
-					'appforgroup2',
-					'cloud_federation_api',
-					'dav',
-					'federatedfilesharing',
-					'lookup_server_connector',
-					'oauth2',
-					'provisioning_api',
-					'settings',
-					'twofactor_backupcodes',
-					'viewer',
-					'workflowengine',
-				],
-				false,
-			],
 			//  user given, but ask for all
 			[
 				$this->TEST_USER1,
@@ -453,7 +453,7 @@ class AppTest extends \Test\TestCase {
 		];
 	}
 
-	private function mapDataProviderUserIds($user) {
+	private function mapDataProviderUserIds(?string $user): ?string {
 		if ($user === 'user1-') {
 			$user = $this->TEST_USER1;
 		} elseif ($user === 'user2-') {
