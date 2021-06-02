@@ -417,9 +417,34 @@ trait Provisioning {
 	private function flushDeletedUserList() {
 		$previousUser = $this->currentUser;
 		$this->currentUser = 'admin';
-		$this->sendingTo('POST', "/cloud/apps/testing");
+
+		$fullUrl = $this->baseUrl . "v2.php/cloud/apps?filter=disabled";
+		$client = new Client();
+		$options = [];
+		if ($this->currentUser === 'admin') {
+			$options['auth'] = $this->adminUser;
+		}
+		$options['headers'] = [
+			'OCS-APIREQUEST' => 'true',
+		];
+
+		$response = $client->get($fullUrl, $options);
+		$respondedArray = $this->getArrayOfAppsResponded($response);
+		$isTestingAppEnabled = true;
+		if (array_key_exists('testing', $respondedArray)) {
+			$isTestingAppEnabled = false;
+		}
+
+		if (!$isTestingAppEnabled) {
+			$this->sendingTo('POST', "/cloud/apps/testing");
+		}
+
 		$this->sendingTo('POST', "/apps/testing/api/v1/flushDupeUsernames");
-		$this->sendingTo('DELETE', "/cloud/apps/testing");
+
+		if (!$isTestingAppEnabled) {
+			$this->sendingTo('DELETE', "/cloud/apps/testing");
+		}
+
 		$this->currentUser = $previousUser;
 	}
 
