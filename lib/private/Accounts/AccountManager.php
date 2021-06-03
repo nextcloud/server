@@ -142,7 +142,7 @@ class AccountManager implements IAccountManager {
 	}
 
 	protected function sanitizeLength(array &$propertyData, bool $throwOnData = false): void {
-		if (isset($propertyData) && isset($propertyData['value']) && strlen($propertyData['value']) > 2048) {
+		if (isset($propertyData['value']) && strlen($propertyData['value']) > 2048) {
 			if ($throwOnData) {
 				throw new \InvalidArgumentException();
 			} else {

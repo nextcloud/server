@@ -59,7 +59,7 @@ class Account implements IAccount {
 		if ($this->isCollection($property)) {
 			throw new \InvalidArgumentException('getProperty cannot retrieve an IAccountsPropertyCollection');
 		}
-		if (!array_key_exists($property, $this->properties)) {
+		if (!array_key_exists($property, $this->properties) || !$this->properties[$property] instanceof IAccountProperty) {
 			throw new PropertyDoesNotExistException($property);
 		}
 		return $this->properties[$property];
