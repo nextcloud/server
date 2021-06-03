@@ -137,7 +137,10 @@ video {
 }
 
 ::v-deep {
-	.plyr:-webkit-full-screen video,
+	.plyr:-webkit-full-screen video {
+		height: 100% !important;
+		width: 100% !important;
+	}
 	.plyr:fullscreen video {
 		height: 100% !important;
 		width: 100% !important;
