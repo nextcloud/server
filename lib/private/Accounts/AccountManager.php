@@ -58,6 +58,7 @@ use function json_last_error;
  * @package OC\Accounts
  */
 class AccountManager implements IAccountManager {
+	use TAccountsHelper;
 
 	/** @var  IDBConnection database connection */
 	private $connection;
@@ -606,13 +607,5 @@ class AccountManager implements IAccountManager {
 		}
 
 		$this->updateUser($account->getUser(), $data, true);
-	}
-
-	protected function isCollection(string $propertyName): bool {
-		return in_array($propertyName,
-			[
-				IAccountManager::COLLECTION_EMAIL,
-			]
-		);
 	}
 }

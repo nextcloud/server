@@ -613,6 +613,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Accounts\\AccountProperty' => __DIR__ . '/../../..' . '/lib/private/Accounts/AccountProperty.php',
         'OC\\Accounts\\AccountPropertyCollection' => __DIR__ . '/../../..' . '/lib/private/Accounts/AccountPropertyCollection.php',
         'OC\\Accounts\\Hooks' => __DIR__ . '/../../..' . '/lib/private/Accounts/Hooks.php',
+        'OC\\Accounts\\TAccountsHelper' => __DIR__ . '/../../..' . '/lib/private/Accounts/TAccountsHelper.php',
         'OC\\Activity\\ActivitySettingsAdapter' => __DIR__ . '/../../..' . '/lib/private/Activity/ActivitySettingsAdapter.php',
         'OC\\Activity\\Event' => __DIR__ . '/../../..' . '/lib/private/Activity/Event.php',
         'OC\\Activity\\EventMerger' => __DIR__ . '/../../..' . '/lib/private/Activity/EventMerger.php',

@@ -39,6 +39,13 @@ use JsonSerializable;
 interface IAccountPropertyCollection extends JsonSerializable {
 
 	/**
+	 * retuns the collection name
+	 *
+	 * @since 22.0.0
+	 */
+	public function getName(): string;
+
+	/**
 	 * set properties of this collection
 	 *
 	 * @param IAccountProperty[] $properties

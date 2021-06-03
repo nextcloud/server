@@ -584,6 +584,7 @@ return array(
     'OC\\Accounts\\AccountProperty' => $baseDir . '/lib/private/Accounts/AccountProperty.php',
     'OC\\Accounts\\AccountPropertyCollection' => $baseDir . '/lib/private/Accounts/AccountPropertyCollection.php',
     'OC\\Accounts\\Hooks' => $baseDir . '/lib/private/Accounts/Hooks.php',
+    'OC\\Accounts\\TAccountsHelper' => $baseDir . '/lib/private/Accounts/TAccountsHelper.php',
     'OC\\Activity\\ActivitySettingsAdapter' => $baseDir . '/lib/private/Activity/ActivitySettingsAdapter.php',
     'OC\\Activity\\Event' => $baseDir . '/lib/private/Activity/Event.php',
     'OC\\Activity\\EventMerger' => $baseDir . '/lib/private/Activity/EventMerger.php',
