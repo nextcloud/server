@@ -47,6 +47,7 @@
     "Consider narrowing your search, as it encompassed many users, only the first one of whom will be able to log in." : "Erwägen Sie, Ihre Suche einzugrenzen, da sie viele Benutzer umfaßte. Nur der erste wird sich anmelden können.",
     "An unspecified error occurred. Please check log and settings." : "Ein nicht näher spezifizierter Fehler ist aufgetreten. Bitte prüfen Sie die Protokolldatei und die Einstellungen.",
     "The search filter is invalid, probably due to syntax issues like uneven number of opened and closed brackets. Please revise." : "Der Suchfilter ist ungültig, möglicherweise bestehen Eingabefehler wie z.B. eine ungerade Anzahl von geöffneten und geschlossenen Klammern. Bitte überarbeiten.",
+    "A connection error to LDAP/AD occurred. Please check host, port and credentials." : "Es ist ein Verbindungsfehler zum LDAP/AD aufgetreten, bitte überprüfen Sie Host, Port und Anmeldeinformationen.",
     "The \"%uid\" placeholder is missing. It will be replaced with the login name when querying LDAP/AD." : "Der \"%u id\" Platzhalter fehlt. Er wird durch den Anmeldenamen ersetzt, wenn LDAP/AD abgefragt wird.",
     "Please provide a login name to test against" : "Bitte geben Sie einen Benutzernamen an, um gegen diesen zu testen",
     "The group box was disabled, because the LDAP/AD server does not support memberOf." : "Das Gruppenfeld wurde deaktiviert, da der LDAP/AD-Server memberOf nicht unterstützt.",

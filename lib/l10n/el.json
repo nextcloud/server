@@ -181,7 +181,6 @@
     "Cannot write into \"config\" directory" : "Αδυναμία εγγραφής στον κατάλογο \"config\"",
     "This can usually be fixed by giving the webserver write access to the config directory. See %s" : "Αυτό μπορεί συνήθως να διορθωθεί δίνοντας στον διακομιστή γραπτή πρόσβαση στον κατάλογο εκχώρησης. Βλέπε%s",
     "Cannot write into \"apps\" directory" : "Αδυναμία εγγραφής στον κατάλογο \"apps\"",
-    "This can usually be fixed by giving the webserver write access to the apps directory or disabling the appstore in the config file." : "Αυτό μπορεί συνήθως να διορθωθεί δίνοντας δικαιώματα εγγραφής για τον κατάλογο εφαρμογών στον διακομιστή ιστού ή απενεργοποιώντας το κέντρο εφαρμογών στο αρχείο config.",
     "Cannot create \"data\" directory" : "Αδυναμία δημιουργίας του καταλόγου \"data\"",
     "This can usually be fixed by giving the webserver write access to the root directory. See %s" : "Αυτό μπορεί συνήθως να διορθωθεί δίνοντας στον διακομιστή ιστού δικαιώματα εγγραφής στον βασικό κατάλογο. Δείτε το%s",
     "Permissions can usually be fixed by giving the webserver write access to the root directory. See %s." : "Τα δικαιώματα πρόσβασης μπορούν συνήθως να διορθωθούν δίνοντας δικαιώματα εγγραφής στον βασικό κατάλογο στον διακομιστή ιστού. Δείτε το%s.",
@@ -226,6 +225,7 @@
     "Files can’t be shared with delete permissions" : "Δεν μπορεί να γίνει διαμοιρασμός αρχείων με δικαιώματα διαγραφής",
     "Files can’t be shared with create permissions" : "Δεν μπορεί να γίνει διαμοιρασμός αρχείων με δικαιώματα δημιουργίας",
     "Can’t set expiration date more than %s days in the future" : "Δεν είναι δυνατό να τεθεί η ημερομηνία λήξης σε περισσότερες από %s ημέρες στο μέλλον",
-    "Can't read file" : "Αδυναμία ανάγνωσης αρχείου"
+    "Can't read file" : "Αδυναμία ανάγνωσης αρχείου",
+    "This can usually be fixed by giving the webserver write access to the apps directory or disabling the appstore in the config file." : "Αυτό μπορεί συνήθως να διορθωθεί δίνοντας δικαιώματα εγγραφής για τον κατάλογο εφαρμογών στον διακομιστή ιστού ή απενεργοποιώντας το κέντρο εφαρμογών στο αρχείο config."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -6,7 +6,6 @@ OC.L10N.register(
     "Show something" : "แสดงบางอย่าง",
     "Customize" : "ปรับแต่ง",
     "Edit widgets" : "แก้ไข วิดเจ็ต",
-    "Get more widgets from the app store" : "เพิ่ม วิดเจ็ต จาก แอปสโตร์",
     "Change background image" : "เปลี่ยน รูปภาพ พื้นหลัง",
     "Weather service" : "บริการ สภาพอากาศ",
     "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "สำหรับความเป็นส่วนตัวของ ข้อมูลสภาพอากาศเป็นการร้องขอในนาม Nextcloud เซิร์ฟเวอร์ ของคุณ ดังนั้นบริการสภาพอากาศจึงไม่ได้รับ หรือจัดเก็บ ข้อมูลส่วนบุคคล",
@@ -24,6 +23,7 @@ OC.L10N.register(
     "Default images" : "รูปภาพเริ่มต้น",
     "Plain background" : "พื้นหลังธรรมดา",
     "Insert from {productName}" : "แทรกจาก {productName}",
+    "Get more widgets from the app store" : "เพิ่ม วิดเจ็ต จาก แอปสโตร์",
     "Good night, {name}" : "ราตรีสวัสดิ์ {name}",
     "Good night" : "ราตรีสวัสดิ์",
     "Pick from files" : "เลือกจากไฟล์"

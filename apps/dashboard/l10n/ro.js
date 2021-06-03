@@ -6,7 +6,6 @@ OC.L10N.register(
     "Show something" : "Arata ceva",
     "Customize" : "Personalizeaza",
     "Edit widgets" : "Editeaza widget",
-    "Get more widgets from the app store" : "Obtine mai multe widgeturi din Magazinul de Aplicatii",
     "Change background image" : "Schimba imaginea de fundal",
     "Weather service" : "Serviciu de vreme",
     "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Pentru securitatea ta, datele despre vreme sunt cerute de catre serverul Nextcloud din partea ta pentru ca serviciul de vreme sa nu primeasca date confidentiale.",
@@ -27,6 +26,7 @@ OC.L10N.register(
     "Default images" : "Imagini implicite",
     "Plain background" : "Fundal simplu",
     "Insert from {productName}" : "Introduce din {productName}",
+    "Get more widgets from the app store" : "Obtine mai multe widgeturi din Magazinul de Aplicatii",
     "Good night, {name}" : "Seara buna, {nume}",
     "Good night" : "Seara buna",
     "Pick from files" : "Alege din fisere"

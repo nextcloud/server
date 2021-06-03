@@ -6,7 +6,6 @@ OC.L10N.register(
     "Show something" : "Δείξε οτιδήποτε",
     "Customize" : "Προσαρμογή",
     "Edit widgets" : "Επεξεργασία μικροεφαρμογών",
-    "Get more widgets from the app store" : "Λάβετε περισσότερες μικροεφαρμογές από το App Store",
     "Change background image" : "Αλλαγή φωτογραφίας παρασκηνίου",
     "Weather service" : "Υπηρεσία καιρού",
     "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Για το απόρρητό σας, τα δεδομένα καιρού ζητούνται από τον διακομιστή Nextcloud για λογαριασμό σας, ώστε η υπηρεσία καιρού να μην λαμβάνει προσωπικά στοιχεία.",
@@ -27,6 +26,7 @@ OC.L10N.register(
     "Default images" : "Προεπιλεγμένες εικόνες",
     "Plain background" : "Απλό παρασκήνιο",
     "Insert from {productName}" : "Εισαγωγή από {productName}",
+    "Get more widgets from the app store" : "Λάβετε περισσότερες μικροεφαρμογές από το App Store",
     "Good night, {name}" : "Καληνύχτα, {name}",
     "Good night" : "Καληνύχτα",
     "Pick from files" : "Επιλογή από τα αρχεία"

@@ -83,7 +83,6 @@ OC.L10N.register(
     "Available flows" : "Доступные обработки",
     "For details on how to write your own flow, check out the development documentation." : "За дополнительными сведениями о написании собственных обработок, обратитесь к документации.",
     "More flows" : "Дополнительные обработки",
-    "Browse the app store" : "Перейти в магазин приложений",
     "Show less" : "Показывать меньше",
     "Show more" : "Показывать больше",
     "Configured flows" : "Настроенные обработки",
@@ -114,6 +113,7 @@ OC.L10N.register(
     "Request user agent" : "Используемое приложение (user agent)",
     "User group membership" : "Участие в группе пользователей",
     "is member of" : "является участником",
-    "is not member of" : "не является участником"
+    "is not member of" : "не является участником",
+    "Browse the app store" : "Перейти в магазин приложений"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

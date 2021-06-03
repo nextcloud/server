@@ -75,7 +75,7 @@ OC.L10N.register(
     "Select file range" : "選擇多個檔案",
     "{used} of {quota} used" : "已使用 {quota} 當中的 {used}",
     "{used} used" : "已使用 {used}",
-    "\"{name}\" is an invalid file name." : "{name} 是無效的檔名",
+    "\"{name}\" is an invalid file name." : "\"{name}\" 是無效的檔案名稱。",
     "File name cannot be empty." : "檔名不能為空",
     "\"/\" is not allowed inside a file name." : "不允許檔名中出現 \"/\"",
     "\"{name}\" is not an allowed filetype" : "\"{name}\" 是不允許的檔案類型",
