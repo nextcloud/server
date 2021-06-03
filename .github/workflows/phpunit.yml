@@ -13,14 +13,17 @@ env:
 jobs:
   phpunit-nodb:
     runs-on: ubuntu-20.04
+
     strategy:
       matrix:
-        php-versions: [ '7.3', '7.4', '8.0' ]
+        php-versions: ["7.3", "7.4", "8.0"]
+
     steps:
       - name: Checkout server
         uses: actions/checkout@v2
         with:
           submodules: true
+
       - name: Set up php ${{ matrix.php-versions }}
         uses: shivammathur/setup-php@v2
         with:
@@ -28,6 +31,7 @@ jobs:
           extensions: ${{ env.php-extensions }}
           tools: phpunit:9.5.4
           coverage: none
+
       - name: PHPUnit
         env:
           NOCOVERAGE: true
@@ -47,14 +51,17 @@ jobs:
 
   phpunit-sqlite:
     runs-on: ubuntu-20.04
+
     strategy:
       matrix:
-        php-versions: [ '7.3', '7.4', '8.0' ]
+        php-versions: ["7.3", "7.4", "8.0"]
+
     steps:
       - name: Checkout server
         uses: actions/checkout@v2
         with:
           submodules: true
+
       - name: Set up php ${{ matrix.php-versions }}
         uses: shivammathur/setup-php@v2
         with:
@@ -62,6 +69,7 @@ jobs:
           extensions: ${{ env.php-extensions }}
           tools: phpunit:9.5.4
           coverage: none
+
       - name: PHPUnit
         env:
           NOCOVERAGE: true
@@ -69,14 +77,12 @@ jobs:
 
   phpunit-oci8:
     runs-on: ubuntu-20.04
-    needs: phpunit-sqlite
+    # oci takes more time
+    needs: [phpunit-nodb, phpunit-sqlite]
 
     strategy:
       matrix:
-        php-versions: [ '7.4' ]
-        databases: [ 'oci' ]
-
-    name: php${{ matrix.php-versions }}-${{ matrix.databases }}
+        php-versions: ["7.4"]
 
     services:
       oracle:
