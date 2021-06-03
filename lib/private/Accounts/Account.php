@@ -37,7 +37,7 @@ use OCP\IUser;
 class Account implements IAccount {
 	use TAccountsHelper;
 
-	/** @var IAccountProperty[] */
+	/** @var IAccountPropertyCollection[]|IAccountProperty[] */
 	private $properties = [];
 
 	/** @var IUser */
