@@ -27,6 +27,7 @@ namespace OCA\DAV\CalDAV\Trashbin;
 
 use Closure;
 use OCA\DAV\CalDAV\Calendar;
+use OCA\DAV\CalDAV\RetentionService;
 use OCP\IRequest;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\INode;
@@ -41,15 +42,21 @@ use function implode;
 class Plugin extends ServerPlugin {
 	public const PROPERTY_DELETED_AT = '{http://nextcloud.com/ns}deleted-at';
 	public const PROPERTY_CALENDAR_URI = '{http://nextcloud.com/ns}calendar-uri';
+	public const PROPERTY_RETENTION_DURATION = '{http://nextcloud.com/ns}trash-bin-retention-duration';
 
 	/** @var bool */
 	private $disableTrashbin;
 
+	/** @var RetentionService */
+	private $retentionService;
+
 	/** @var Server */
 	private $server;
 
-	public function __construct(IRequest $request) {
+	public function __construct(IRequest $request,
+								RetentionService $retentionService) {
 		$this->disableTrashbin = $request->getHeader('X-NC-CalDAV-No-Trashbin') === '1';
+		$this->retentionService = $retentionService;
 	}
 
 	public function initialize(Server $server): void {
@@ -98,6 +105,11 @@ class Plugin extends ServerPlugin {
 			});
 			$propFind->handle(self::PROPERTY_CALENDAR_URI, function () use ($node) {
 				return $node->getCalendarUri();
+			});
+		}
+		if ($node instanceof TrashbinHome) {
+			$propFind->handle(self::PROPERTY_RETENTION_DURATION, function () use ($node) {
+				return $this->retentionService->getDuration();
 			});
 		}
 	}

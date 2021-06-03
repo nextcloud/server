@@ -51,8 +51,8 @@ class RetentionService {
 		$this->calDavBackend = $calDavBackend;
 	}
 
-	public function cleanUp(): void {
-		$retentionTime = max(
+	public function getDuration(): int {
+		return max(
 			(int) $this->config->getAppValue(
 				Application::APP_ID,
 				self::RETENTION_CONFIG_KEY,
@@ -60,6 +60,10 @@ class RetentionService {
 			),
 			0 // Just making sure we don't delete things in the future when a negative number is passed
 		);
+	}
+
+	public function cleanUp(): void {
+		$retentionTime = $this->getDuration();
 		$now = $this->time->getTime();
 
 		$calendars = $this->calDavBackend->getDeletedCalendars($now - $retentionTime);
