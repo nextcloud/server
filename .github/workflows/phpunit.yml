@@ -48,6 +48,10 @@ jobs:
           --health-retries 5
         ports:
           - "6379:6379"
+      memcached:
+        image: memcached
+        ports:
+          - "11211:11211"
 
   phpunit-sqlite:
     runs-on: ubuntu-20.04
