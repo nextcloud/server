@@ -8,7 +8,7 @@ on:
       - stable*
 
 env:
-  php-extensions: cli,ctype,curl,dom,fileinfo,gd,iconv,intl,json,ldap,mbstring,memcached,mysql,oci8,openssl,pdo_sqlite,pgsql,posix,redis,sqlite,xml,zip
+  php-extensions: apcu,cli,ctype,curl,dom,fileinfo,gd,iconv,intl,json,ldap,mbstring,memcached,mysql,oci8,openssl,pdo_sqlite,pgsql,posix,redis,sqlite,xml,zip
 
 jobs:
   phpunit-nodb:
