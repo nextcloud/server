@@ -34,7 +34,6 @@ OC.L10N.register(
     "Checked on {lastCheckedDate}" : "Comprobado el {lastCheckedDate}",
     "Checking apps for compatible versions" : "Comprobando las versiones comatibles de las apps ",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Por favor, asegúrate de que tu config.php no tiene configurado <samp>appstoreenabled</samp> como 'false'.",
-    "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "No se ha podido conectar con la appstore o no ha devuelto ninguna actualización. Busca actualizaciones manualmente o asegúrate de que tu servidor tiene acceso a internet y puede conectarse a la appstore.",
     "<strong>All</strong> apps have a compatible version for this Nextcloud version available" : "<strong>Todas</strong> las apps son compatibles con la versión de Nextcloud disponible",
     "View changelog" : "Ver registro de cambios",
     "Enterprise" : "Empresa",
@@ -49,6 +48,7 @@ OC.L10N.register(
     "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "Nota: tras un nuevo lanzamiento, puede pasar algo de tiempo antes de que aparezca aquí. Escalonamos la difusión de nuevas versiones a nuestros usuarios y a veces saltamos una versión cuando aparecen problemas.",
     "Only notification for app updates are available." : "Solo están disponibles las notificaciones para actualizaciones de apps",
     "Checking apps for compatible updates" : "Comprobando que las apps tengan actualizaciones compatibles",
+    "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "No se ha podido conectar con la appstore o no ha devuelto ninguna actualización. Busca actualizaciones manualmente o asegúrate de que tu servidor tiene acceso a internet y puede conectarse a la appstore.",
     "<strong>All</strong> apps have an update for this version available" : "<strong>Todas</strong> las apps tienen disponible una actualización para esta versión",
     "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> app no dispone de actualización para esta versión.","<strong>%n</strong> apps no disponen de actualización para esta versión."]
 },

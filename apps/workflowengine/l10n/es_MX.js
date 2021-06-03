@@ -33,7 +33,6 @@ OC.L10N.register(
     "Cancel" : "Cancelar",
     "Delete" : "Borrar",
     "Save" : "Guardar",
-    "Browse the app store" : "Navega la tienda de aplicaciones",
     "matches" : "coincide",
     "does not match" : "No coincide",
     "is" : "es",
@@ -60,6 +59,7 @@ OC.L10N.register(
     "Request user agent" : "Solicitar agente de usuario",
     "User group membership" : "Membresia al grupo de usuarios",
     "is member of" : "es miembro de",
-    "is not member of" : "no es miembro de"
+    "is not member of" : "no es miembro de",
+    "Browse the app store" : "Navega la tienda de aplicaciones"
 },
 "nplurals=2; plural=(n != 1);");

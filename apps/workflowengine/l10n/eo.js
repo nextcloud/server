@@ -64,7 +64,6 @@ OC.L10N.register(
     "Delete" : "Forigi",
     "The configuration is invalid" : "La agordo ne validas",
     "Save" : "Konservi",
-    "Browse the app store" : "Esplori la aplikaĵejon",
     "Show less" : "Montri malpli",
     "Show more" : "Montri pli",
     "matches" : "kongruas kun",
@@ -93,6 +92,7 @@ OC.L10N.register(
     "Request user agent" : "Retumil-identigilo („user-agent“)",
     "User group membership" : "Grupano",
     "is member of" : "estas membro de",
-    "is not member of" : "ne estas membro de"
+    "is not member of" : "ne estas membro de",
+    "Browse the app store" : "Esplori la aplikaĵejon"
 },
 "nplurals=2; plural=(n != 1);");

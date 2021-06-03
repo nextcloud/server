@@ -83,7 +83,6 @@ OC.L10N.register(
     "Available flows" : "Dostupni tijekovi",
     "For details on how to write your own flow, check out the development documentation." : "Više informacija o pisanju vlastitog tijeka možete pronaći u razvojnoj dokumentaciji.",
     "More flows" : "Više tijekova",
-    "Browse the app store" : "Pretraži trgovinu aplikacijama",
     "Show less" : "Prikaži manje",
     "Show more" : "Prikaži više",
     "Configured flows" : "Konfigurirani tijekovi",
@@ -114,6 +113,7 @@ OC.L10N.register(
     "Request user agent" : "Zatraži korisničkog agenta",
     "User group membership" : "Članstvo u grupi korisnika",
     "is member of" : "je član",
-    "is not member of" : "nije član"
+    "is not member of" : "nije član",
+    "Browse the app store" : "Pretraži trgovinu aplikacijama"
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

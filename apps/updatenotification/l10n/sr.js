@@ -27,7 +27,6 @@ OC.L10N.register(
     "A new version is available: <strong>{newVersionString}</strong>" : "Доступна је нова верзија: <strong>{newVersionString}</strong>",
     "Checked on {lastCheckedDate}" : "Проверено {lastCheckedDate}",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Проверите да у config.php фајлу немате <samp>appstoreenabled</samp> постављено на „false“.",
-    "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "Не могу да се повежем на продавницу апликација или продавница нема ниједно ажурирање. Претражите ручно ажурирања или проверите да ли сервер има везу са интернетом",
     "View changelog" : "Погледајте дневник измена",
     "Enterprise" : "Предузетничка",
     "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package." : "За предузећа. Пружа најновији ниво закрпа, али неће одмах да ажурира аутоматски на следећу главну верзију. То ажурирање ће се десити када Nextcloud GmbH обави додатне провере и тестирања на великим и критичним системима. Овај канал је доступан само муштеријама и пружа  Nextcloud Enterprise пакет.",
@@ -40,6 +39,7 @@ OC.L10N.register(
     "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "После издавања нове верзије, може да прође неко време пре него што се верзија појави овде. Ми избацујемо нове верзије постепено и можемо некад да прескочимо верзију ако наиђемо на проблеме.",
     "Only notification for app updates are available." : "Доступна су само обавештења о новим верзијама апликација.",
     "Checking apps for compatible updates" : "Проверавам компатибилна ажурирања за апликације",
+    "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "Не могу да се повежем на продавницу апликација или продавница нема ниједно ажурирање. Претражите ручно ажурирања или проверите да ли сервер има везу са интернетом",
     "<strong>All</strong> apps have an update for this version available" : "<strong>Све</strong> апликације имају доступна ажурирања за ову верзију",
     "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> апликација имају доступна ажурирања за ову верзију","<strong>%n</strong> апликације имају доступна ажурирања за ову верзију","<strong>%n</strong> апликација имају доступна ажурирања за ову верзију"]
 },

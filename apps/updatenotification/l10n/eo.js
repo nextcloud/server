@@ -27,7 +27,6 @@ OC.L10N.register(
     "A new version is available: <strong>{newVersionString}</strong>" : "Nova versio disponeblas: <strong>{newVersionString}</strong>",
     "Checked on {lastCheckedDate}" : "Kontrolita je {lastCheckedDate}",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Bv. certigi, ke via dosiero „config.php“ ne agordas <samp>appstoreenabled</samp> al malvero („false“).",
-    "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "Ne eblis konektiĝi al aplikaĵejo, aŭ la aplikaĵejo sendis neniun ĝisdatigojn. Serĉu permane pri ĝisdatigoj, aŭ certigu, ke via servilo povas aliri al la interreto kaj povas konektiĝi al la aplikaĵejo.",
     "View changelog" : "Vidi ŝanĝoprotokolon",
     "Enterprise" : "Firmao",
     "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package." : "Por firmaa uzo. Ĝi uzas ĉiam la plej freŝan flikaĵon, sed ĝi ne tuj ĝisdatiĝos al la sekva ĉefversio. Transiro al la sekva ĉefversio okazos, kiam  Nextcloud GmbH faros plifortigaĵojn kaj pliajn testojn rilate al uzo en granda kaj grava kunteksto. Ĝi nur disponeblas por klientoj kaj ĝi estas la Nextcloud-a firmapakaĵo.",
@@ -40,6 +39,7 @@ OC.L10N.register(
     "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "Rimarku, ke, post nova eldono, necesos iom da tempo, antaŭ ol ĝi montriĝos ĉi tie. Ni eldonas novajn versiojn laŭgrade al niaj uzantoj, kaj ni kelkfoje preterlasas version, kiam oni trovas problemojn.",
     "Only notification for app updates are available." : "Nur sciigoj pri aplikaĵaj ĝisdatigoj disponeblas.",
     "Checking apps for compatible updates" : "Kontrolado de aplikaĵoj pri kongruaj ĝisdatigoj",
+    "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "Ne eblis konektiĝi al aplikaĵejo, aŭ la aplikaĵejo sendis neniun ĝisdatigojn. Serĉu permane pri ĝisdatigoj, aŭ certigu, ke via servilo povas aliri al la interreto kaj povas konektiĝi al la aplikaĵejo.",
     "<strong>All</strong> apps have an update for this version available" : "<strong>Ĉiuj</strong> aplikaĵoj havas ĝisdatigon por tiu ĉi versio",
     "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> aplikaĵo havas neniun ĝisdatigon por tiu versio","<strong>%n</strong> aplikaĵoj havas neniun ĝisdatigon por tiu versio"]
 },
