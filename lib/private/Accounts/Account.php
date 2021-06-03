@@ -75,7 +75,7 @@ class Account implements IAccount {
 		foreach ($this->properties as $propertyObject) {
 			if ($propertyObject instanceof IAccountProperty) {
 				yield $propertyObject;
-			} else if ($propertyObject instanceof IAccountPropertyCollection) {
+			} elseif ($propertyObject instanceof IAccountPropertyCollection) {
 				foreach ($propertyObject->getProperties() as $property) {
 					yield $property;
 				}

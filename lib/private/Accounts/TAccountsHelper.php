@@ -26,7 +26,6 @@ declare(strict_types=1);
 
 namespace OC\Accounts;
 
-
 use OCP\Accounts\IAccountManager;
 
 trait TAccountsHelper {

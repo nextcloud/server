@@ -169,7 +169,7 @@ class AccountManager implements IAccountManager {
 		foreach ($data as $propertyNameOrIndex => &$propertyData) {
 			if ($this->isCollection($propertyNameOrIndex)) {
 				$this->testPropertyScopes($propertyData, $allowedScopes, $throwOnData);
-			} else if (isset($propertyData['scope'])) {
+			} elseif (isset($propertyData['scope'])) {
 				$effectivePropertyName = $parentPropertyName ?? $propertyNameOrIndex;
 
 				if ($throwOnData && !in_array($propertyData['scope'], $allowedScopes, true)) {
