@@ -6,7 +6,6 @@ OC.L10N.register(
     "Show something" : "何か表示されます",
     "Customize" : "カスタマイズ",
     "Edit widgets" : "ウィジェットを編集",
-    "Get more widgets from the app store" : "アプリストアで他のウィジェットを入手",
     "Change background image" : "背景画像を変更",
     "Weather service" : "ウェザーサービス",
     "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "あなたのプライバシーを保護するため、あなたに変わって Nextcloud サーバーが気象データをウェザーサービスに要求します。そのため、ウェザーサービスはあなたの個人情報を受け取ることはありません。",
@@ -27,6 +26,7 @@ OC.L10N.register(
     "Default images" : "デフォルトの画像",
     "Plain background" : "シンプルな背景",
     "Insert from {productName}" : "{productName} から挿入",
+    "Get more widgets from the app store" : "アプリストアで他のウィジェットを入手",
     "Good night, {name}" : "こんばんは、{name} さん",
     "Good night" : "こんばんは",
     "Pick from files" : "ファイルから選択"

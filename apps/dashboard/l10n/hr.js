@@ -6,7 +6,6 @@ OC.L10N.register(
     "Show something" : "Prikaži nešto",
     "Customize" : "Uredi",
     "Edit widgets" : "Uredi widgete",
-    "Get more widgets from the app store" : "Pronađite više widgeta u trgovini aplikacijama",
     "Change background image" : "Promijenite sliku pozadinu",
     "Weather service" : "Davatelj vremenske prognoze",
     "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Radi zaštite vaše privatnosti, podatke o vremenskoj prognozi zahtijeva vaš Nextcloud poslužitelj u vaše ime kako davatelj vremenske prognoze ne bi primio vaše osobne podatke.",
@@ -27,6 +26,7 @@ OC.L10N.register(
     "Default images" : "Zadane slike",
     "Plain background" : "Obična pozadina",
     "Insert from {productName}" : "Umetni iz {productName}",
+    "Get more widgets from the app store" : "Pronađite više widgeta u trgovini aplikacijama",
     "Good night, {name}" : "Dobro večer, {name}",
     "Good night" : "Dobro večer",
     "Pick from files" : "Odaberi iz datoteka"

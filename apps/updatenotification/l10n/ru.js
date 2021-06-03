@@ -34,7 +34,6 @@ OC.L10N.register(
     "Checked on {lastCheckedDate}" : "Проверено {lastCheckedDate}",
     "Checking apps for compatible versions" : "Проверка приложений на совместимость версий",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Убедитесь, что значением параметра <samp>appstoreenabled</samp> в файле «config.php» не является «false».",
-    "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "Не удалось установить соединение с магазином приложений, либо магазин приложений не предоставляет информации об обновлениях. Выполните поиск обновлений вручную, или убедитесь, что сервер имеет подключение к Интернет и магазин приложений доступен.",
     "<strong>All</strong> apps have a compatible version for this Nextcloud version available" : "<strong>Все</strong> приложения имеют версию, совместимую с этой версией Nextcloud.",
     "View changelog" : "Просмотреть изменения",
     "Enterprise" : "Использование на предприятии (Enterprise)",
@@ -49,6 +48,7 @@ OC.L10N.register(
     "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "Обратите внимание, что с момента выпуска новой версии до её появления здесь может пройти   некоторое время. Мы растягиваем во времени распространение новых версий и иногда, при обнаружении проблем, пропускаем версию.",
     "Only notification for app updates are available." : "Только уведомления об обновлении приложений доступны.",
     "Checking apps for compatible updates" : "Проверка приложений на совместимые обновления",
+    "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "Не удалось установить соединение с магазином приложений, либо магазин приложений не предоставляет информации об обновлениях. Выполните поиск обновлений вручную, или убедитесь, что сервер имеет подключение к Интернет и магазин приложений доступен.",
     "<strong>All</strong> apps have an update for this version available" : "<strong>Все</strong> приложения имеют доступные обновления для этой версии",
     "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["Для <strong>%n</strong> приложения отсутствует обновление, совместимое с этой версией.","Для <strong>%n</strong> приложений отсутствуют обновления, совместимые с этой версией.","Для <strong>%n</strong> приложений отсутствуют обновления, совместимые с этой версией.","Для <strong>%n</strong> приложений отсутствуют обновления, совместимые с этой версией."]
 },

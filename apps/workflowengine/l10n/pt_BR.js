@@ -83,7 +83,6 @@ OC.L10N.register(
     "Available flows" : "Fluxos disponíveis",
     "For details on how to write your own flow, check out the development documentation." : "Para detalhes sobre como escrever seu próprio fluxo, consulte a documentação de desenvolvimento.",
     "More flows" : "Mais fluxos",
-    "Browse the app store" : "Navegar pela loja de aplicativos",
     "Show less" : "Mostrar menos",
     "Show more" : "Mostrar mais",
     "Configured flows" : "Fluxos configurados",
@@ -114,6 +113,7 @@ OC.L10N.register(
     "Request user agent" : "Solicitar usuário agente",
     "User group membership" : "Adesão de grupo de usuário",
     "is member of" : "é membro de",
-    "is not member of" : "não é membro de"
+    "is not member of" : "não é membro de",
+    "Browse the app store" : "Navegar pela loja de aplicativos"
 },
 "nplurals=2; plural=(n > 1);");

@@ -187,7 +187,6 @@
     "Cannot write into \"config\" directory" : "\"config\" ディレクトリに書き込みができません",
     "This can usually be fixed by giving the webserver write access to the config directory. See %s" : "多くの場合、Webサーバーの configディレクトリ に書き込み権限を与えることで直ります。%s を見てください",
     "Cannot write into \"apps\" directory" : "\"apps\" ディレクトリに書き込みができません",
-    "This can usually be fixed by giving the webserver write access to the apps directory or disabling the appstore in the config file." : "多くの場合、これはWebサーバーにappsディレクトリへの書き込み権限を与えるか、設定ファイルでアプリストアを無効化することで解決できます。",
     "Cannot create \"data\" directory" : "\"data\" ディレクトリを作成できません",
     "This can usually be fixed by giving the webserver write access to the root directory. See %s" : "多くの場合、Webサーバーのルートディレクトリに書き込み権限を与えることで直ります。%s を見てください。",
     "Permissions can usually be fixed by giving the webserver write access to the root directory. See %s." : "Webサーバーのルートディレクトリに書き込み権限パーミッションが必要です。%s を見てください。",
@@ -232,6 +231,7 @@
     "Files can’t be shared with delete permissions" : "削除権限つきでファイルを共有できません。",
     "Files can’t be shared with create permissions" : "作成権限つきでファイルを共有できません。",
     "Can’t set expiration date more than %s days in the future" : "有効期限を%s日以降に設定できません。",
-    "Can't read file" : "ファイルを読み込めません"
+    "Can't read file" : "ファイルを読み込めません",
+    "This can usually be fixed by giving the webserver write access to the apps directory or disabling the appstore in the config file." : "多くの場合、これはWebサーバーにappsディレクトリへの書き込み権限を与えるか、設定ファイルでアプリストアを無効化することで解決できます。"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

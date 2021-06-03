@@ -6,7 +6,6 @@ OC.L10N.register(
     "Show something" : "Bir şeyler görüntüle",
     "Customize" : "Özelleştir",
     "Edit widgets" : "Pano bileşenlerini düzenle",
-    "Get more widgets from the app store" : "Uygulama mağazasından başka pano bileşenleri alın",
     "Change background image" : "Arka plan görselini değiştir",
     "Weather service" : "Hava durumu",
     "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Kişisel gizliliğinizi korumak için Nextcloud sunucunuz hava durumu verilerini sizin adınıza ister. Böylece hava durumu hizmetine hiçbir kişisel bilgi aktarılmaz.",
@@ -27,6 +26,7 @@ OC.L10N.register(
     "Default images" : "Varsayılan görseller",
     "Plain background" : "Düz arka plan",
     "Insert from {productName}" : "{productName} üzerinden ekle",
+    "Get more widgets from the app store" : "Uygulama mağazasından başka pano bileşenleri alın",
     "Good night, {name}" : "İyi geceler, {name}",
     "Good night" : "İyi geceler",
     "Pick from files" : "Dosyalardan seçin"
