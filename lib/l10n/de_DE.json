@@ -193,7 +193,6 @@
     "Cannot write into \"config\" directory" : "Schreiben in das „config“-Verzeichnis ist nicht möglich",
     "This can usually be fixed by giving the webserver write access to the config directory. See %s" : "Dies kann zumeist behoben werden, indem dem Web-Server Schreibzugriff auf das Konfigurationsverzeichnis eingeräumt wird. Siehe auch %s",
     "Cannot write into \"apps\" directory" : "Schreiben in das „apps“-Verzeichnis ist nicht möglich",
-    "This can usually be fixed by giving the webserver write access to the apps directory or disabling the appstore in the config file." : "Dies kann normalerweise behoben werden, indem dem Webserver Schreibzugriff auf das App-Verzeichnis gegeben wird oder der App Store in der Konfigurationsdatei deaktiviert wird.",
     "Cannot create \"data\" directory" : "Kann das \"Daten\"-Verzeichnis nicht erstellen",
     "This can usually be fixed by giving the webserver write access to the root directory. See %s" : "Dies kann zumeist behoben werden, indem dem Web-Server Schreibzugriff auf das Wurzel-Verzeichnis eingeräumt wird. Siehe auch %s",
     "Permissions can usually be fixed by giving the webserver write access to the root directory. See %s." : "Berechtigungen können zumeist korrigiert werden indem dem Web-Server Schreibzugriff auf das Wurzel-Verzeichnis eingeräumt wird. Siehe auch %s. ",
@@ -238,6 +237,7 @@
     "Files can’t be shared with delete permissions" : "Dateien mit Lösch-Berechtigungen können nicht geteilt werden",
     "Files can’t be shared with create permissions" : "Dateien mit Erstell-Berechtigungen können nicht geteilt werden",
     "Can’t set expiration date more than %s days in the future" : "Das Ablaufdatum kann nicht mehr als %s Tage in der Zukunft liegen",
-    "Can't read file" : "Datei kann nicht gelesen werden"
+    "Can't read file" : "Datei kann nicht gelesen werden",
+    "This can usually be fixed by giving the webserver write access to the apps directory or disabling the appstore in the config file." : "Dies kann normalerweise behoben werden, indem dem Webserver Schreibzugriff auf das App-Verzeichnis gegeben wird oder der App Store in der Konfigurationsdatei deaktiviert wird."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

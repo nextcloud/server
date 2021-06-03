@@ -34,7 +34,6 @@ OC.L10N.register(
     "Delete" : "حذف",
     "Active" : "فعال کردن",
     "Save" : "ذخیره",
-    "Browse the app store" : "فروشگاه برنامه را مرور کنید",
     "matches" : "مطابق است",
     "does not match" : "مطابق نیست",
     "is" : "هست ",
@@ -60,6 +59,7 @@ OC.L10N.register(
     "Request user agent" : "درخواست سفیر کاربر",
     "User group membership" : "عضویت کاربر در گروه",
     "is member of" : "عضو است در ",
-    "is not member of" : "عضو نیست در "
+    "is not member of" : "عضو نیست در ",
+    "Browse the app store" : "فروشگاه برنامه را مرور کنید"
 },
 "nplurals=2; plural=(n > 1);");

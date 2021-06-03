@@ -49,6 +49,7 @@ OC.L10N.register(
     "Consider narrowing your search, as it encompassed many users, only the first one of whom will be able to log in." : "Çok sayıda kullanıcı bulunduğundan ve yalnız birinci kullanıcı oturum açabileceğinden arama ölçütlerinizi sıkılaştırmayı deneyin.",
     "An unspecified error occurred. Please check log and settings." : "Bilinmeyen bir sorun çıktı. Lütfen günlüğü ve ayarları denetleyin.",
     "The search filter is invalid, probably due to syntax issues like uneven number of opened and closed brackets. Please revise." : "Arama süzgeci, açılmış ve kapatılmış parantez sayılarının eşit olmaması gibi bir söz dizimi sorunu nedeniyle geçersiz. Lütfen gözden geçirin.",
+    "A connection error to LDAP/AD occurred. Please check host, port and credentials." : "Bir LDAP/AD bağlantı sorunu çıktı. Lütfen istemci, kapı numarası ve kimlik doğrulama bilgilerini denetleyin.",
     "The \"%uid\" placeholder is missing. It will be replaced with the login name when querying LDAP/AD." : "LDAP/AD sorgularında kullanıcı adı ile değiştirilecek \"%uid\" yer belirleyicisi eksik. ",
     "Please provide a login name to test against" : "Lütfen deneme için kullanılacak bir kullanıcı adı yazın",
     "The group box was disabled, because the LDAP/AD server does not support memberOf." : "LDAP/AD sunucusu memberOf parametresini desteklemediğinden grup kutusu devre dışı.",

@@ -6,7 +6,6 @@ OC.L10N.register(
     "Show something" : "Mustra calicuna cosa",
     "Customize" : "Personaliza",
     "Edit widgets" : "Modìfica ordìngios",
-    "Get more widgets from the app store" : "Otene àteros ordìngios dae sa butega de is aplicatziones",
     "Change background image" : "Càmbia immàgine de isfundu",
     "Weather service" : "Servìtziu de su tempus",
     "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Pro sa riservadesa tua, su serbidore Nextcloud rechedet is datos de su tempus pro tene, duncas su servìtziu de su tempus no retzit informatziones personales.",
@@ -23,6 +22,7 @@ OC.L10N.register(
     "Default images" : "Immàgines predefinidas",
     "Plain background" : "Isfundu simpre",
     "Insert from {productName}" : "Inserta dae {productName}",
+    "Get more widgets from the app store" : "Otene àteros ordìngios dae sa butega de is aplicatziones",
     "Good night, {name}" : "Bonu note, {name}",
     "Good night" : "Bonu note",
     "Pick from files" : "Sèbera dae archìvios"

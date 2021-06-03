@@ -6,7 +6,6 @@ OC.L10N.register(
     "Show something" : "نمایش چیزی",
     "Customize" : "سفارشی‌سازی",
     "Edit widgets" : "ویرایش ابزارک‌ها",
-    "Get more widgets from the app store" : "ابزارک‌های بیشتر را از فروشگاه برنامه دریافت کنید",
     "Change background image" : "تغییر تصویر زمینه",
     "Weather service" : "سامانه هواشناسی",
     "Weather" : "آب و هوا",
@@ -19,6 +18,7 @@ OC.L10N.register(
     "Good evening, {name}" : "{name} عصرتان بخیر",
     "Default images" : "تصاویر پیش‌فرض",
     "Plain background" : "تصویر زمینه ساده",
+    "Get more widgets from the app store" : "ابزارک‌های بیشتر را از فروشگاه برنامه دریافت کنید",
     "Good night, {name}" : "{name} شبتان بخیر",
     "Good night" : "شب بخیر",
     "Pick from files" : "از میان پرونده‌ها انتخاب کنم"

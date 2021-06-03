@@ -102,6 +102,7 @@ OC.L10N.register(
     "SFTP" : "SFTP",
     "Root" : "Kořen",
     "SFTP with secret key login" : "SFTP login s tajným klíčem",
+    "SMB/CIFS" : "SMB/CIFS",
     "Share" : "Sdílet",
     "Show hidden files" : "Zobrazit skryté soubory",
     "Verify ACL access when listing files" : "Ověřovat ACL přístup při vypisování souborů",

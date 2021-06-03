@@ -83,7 +83,6 @@ OC.L10N.register(
     "Available flows" : "可用的流程",
     "For details on how to write your own flow, check out the development documentation." : "有關如何編寫自己的流程的詳細信息，請查看開發說明文件。",
     "More flows" : "更多流程",
-    "Browse the app store" : "瀏覽應用程式商店",
     "Show less" : "顯示較少",
     "Show more" : "顯示更多",
     "Configured flows" : "配置流程",
@@ -114,6 +113,7 @@ OC.L10N.register(
     "Request user agent" : "請求 user agent",
     "User group membership" : "用戶群組成員身分",
     "is member of" : "是以下群組的成員：",
-    "is not member of" : "非以下群組的成員："
+    "is not member of" : "非以下群組的成員：",
+    "Browse the app store" : "瀏覽應用程式商店"
 },
 "nplurals=1; plural=0;");

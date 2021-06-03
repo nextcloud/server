@@ -83,7 +83,6 @@ OC.L10N.register(
     "Available flows" : "Fluxu erabilgarriak",
     "For details on how to write your own flow, check out the development documentation." : "Zeure fluxua idazten jakiteko informazioa lortzeko, begiratu garatzaileen dokumentazioa.",
     "More flows" : "Fluxu gehiago",
-    "Browse the app store" : "Arakatu aplikazio biltegia",
     "Show less" : "Erakutsi gutxiago",
     "Show more" : "Erakutsi gehiago",
     "Configured flows" : "Konfiguratutako fluxuak",
@@ -114,6 +113,7 @@ OC.L10N.register(
     "Request user agent" : "Eskatu erabiltzaile-agentea",
     "User group membership" : "Erabiltzailearen talde-kidetza",
     "is member of" : "hemengo kide da:",
-    "is not member of" : "ez da hemengo kide:"
+    "is not member of" : "ez da hemengo kide:",
+    "Browse the app store" : "Arakatu aplikazio biltegia"
 },
 "nplurals=2; plural=(n != 1);");

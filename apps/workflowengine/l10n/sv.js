@@ -80,7 +80,6 @@ OC.L10N.register(
     "Available flows" : "Tillgängliga flöden",
     "For details on how to write your own flow, check out the development documentation." : "För information om hur du skriver ditt eget flöde, se utvecklingsdokumentationen.",
     "More flows" : "Fler flöden",
-    "Browse the app store" : "Bläddra i appbutiken",
     "Show less" : "Visa mindre",
     "Show more" : "Visa mer",
     "Configured flows" : "Konfigurerade flöden",
@@ -111,6 +110,7 @@ OC.L10N.register(
     "Request user agent" : "Begär användaragent",
     "User group membership" : "Användargruppsmedlemskap",
     "is member of" : "är medlem i",
-    "is not member of" : "är inte medlem i"
+    "is not member of" : "är inte medlem i",
+    "Browse the app store" : "Bläddra i appbutiken"
 },
 "nplurals=2; plural=(n != 1);");

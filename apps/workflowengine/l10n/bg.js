@@ -32,7 +32,6 @@ OC.L10N.register(
     "Cancel" : "Отказ",
     "Delete" : "Изтриване",
     "Save" : "Запази",
-    "Browse the app store" : "Прегледай магазина за приложения",
     "matches" : "съвпадения",
     "does not match" : "не съвпада",
     "is" : "е",
@@ -59,6 +58,7 @@ OC.L10N.register(
     "Request user agent" : "Потребителски агент на заявка",
     "User group membership" : "Членство към потребителска група",
     "is member of" : "е член на",
-    "is not member of" : "не е член на"
+    "is not member of" : "не е член на",
+    "Browse the app store" : "Прегледай магазина за приложения"
 },
 "nplurals=2; plural=(n != 1);");

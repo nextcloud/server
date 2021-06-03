@@ -181,7 +181,6 @@
     "Cannot write into \"config\" directory" : "Ne skribeblas la dosierujo „config“",
     "This can usually be fixed by giving the webserver write access to the config directory. See %s" : "Igi la agordodosierujon alirebla de la servilo kutime solvas tiun problemon. Vidu %s",
     "Cannot write into \"apps\" directory" : "Ne skribeblas la dosierujo „apps“",
-    "This can usually be fixed by giving the webserver write access to the apps directory or disabling the appstore in the config file." : "Igi la dosierujojn de aplikaĵo ŝanĝebla por la servilo aŭ  malŝalti aplikaĵfonton en agorda dosiero kutime solvas tiun problemon",
     "Cannot create \"data\" directory" : "Ne kreeblas la dosierujo „data“",
     "This can usually be fixed by giving the webserver write access to the root directory. See %s" : "Igi la radikan dosierujon alirebla de la servilo kutime solvas tiun problemon. Vidu %s",
     "Permissions can usually be fixed by giving the webserver write access to the root directory. See %s." : "Igi la radikan dosierujon skribebla de la servilo kutime solvas tiun problemon. Vidu %s.",
@@ -226,6 +225,7 @@
     "Files can’t be shared with delete permissions" : "Dosieroj ne estas kunhavigitaj kun permesoj de forigo",
     "Files can’t be shared with create permissions" : "Dosieroj ne estas kunhavigitaj kun permesoj de kreado",
     "Can’t set expiration date more than %s days in the future" : "Ne eblas agordi limdaton pli ol %s tagojn en la estonteco",
-    "Can't read file" : "Ne povas legi dosieron"
+    "Can't read file" : "Ne povas legi dosieron",
+    "This can usually be fixed by giving the webserver write access to the apps directory or disabling the appstore in the config file." : "Igi la dosierujojn de aplikaĵo ŝanĝebla por la servilo aŭ  malŝalti aplikaĵfonton en agorda dosiero kutime solvas tiun problemon"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

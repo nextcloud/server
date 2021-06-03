@@ -49,6 +49,7 @@ OC.L10N.register(
     "Consider narrowing your search, as it encompassed many users, only the first one of whom will be able to log in." : "Rozważ zawężenie wyszukiwania, gdyż obejmuje ono wielu użytkowników, z tylko pierwszy będzie mógł się zalogować.",
     "An unspecified error occurred. Please check log and settings." : "Wystąpił nieoczekiwany błąd. Sprawdź logi i ustawienia.",
     "The search filter is invalid, probably due to syntax issues like uneven number of opened and closed brackets. Please revise." : "Filtr szukania jest nieprawidłowy, prawdopodobnie przez problem składniowy taki jak nierówna liczba otwartych i zamkniętych nawiasów. Zweryfikuj to.",
+    "A connection error to LDAP/AD occurred. Please check host, port and credentials." : "Wystąpił błąd połączenia z LDAP/AD. Sprawdź hosta, port i poświadczenia.",
     "The \"%uid\" placeholder is missing. It will be replaced with the login name when querying LDAP/AD." : "Brak symbolu zastępczego \"%uid\". Zostanie zastąpiony nazwą logowania podczas odpytywania LDAP/AD.",
     "Please provide a login name to test against" : "Wprowadź nazwę użytkownika, aby wykonać test ponownie",
     "The group box was disabled, because the LDAP/AD server does not support memberOf." : "Pole do wpisu dla grupy zostało wyłączone, ponieważ LDAP/AD nie obsługuje memberOf.",
