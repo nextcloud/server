@@ -355,6 +355,10 @@ class StatusService {
 	 * @param UserStatus $status
 	 */
 	private function cleanStatus(UserStatus $status): void {
+		if ($status->getStatus() === IUserStatus::OFFLINE && !$status->getIsUserDefined()) {
+			return;
+		}
+
 		$status->setStatus(IUserStatus::OFFLINE);
 		$status->setStatusTimestamp($this->timeFactory->getTime());
 		$status->setIsUserDefined(false);
