@@ -32,6 +32,7 @@
     "Checked on {lastCheckedDate}" : "检查时间 {lastCheckedDate}",
     "Checking apps for compatible versions" : "正在检查应用程序的兼容版本",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "请确认 config.php 没有设置<samp>appstoreenabled </samp> 为 false。",
+    "Could not connect to the App Store or no updates have been returned at all. Search manually for updates or make sure your server has access to the internet and can connect to the App Store." : "无法连接到应用商店或没有返回任何更新。手动搜索更新，或者确保你的服务器可以上网且可以连接到应用商店。",
     "<strong>All</strong> apps have a compatible version for this Nextcloud version available" : "<strong>所有</strong>应用都有一个与这个 Nextcloud 版本兼容的版本可用",
     "View changelog" : "查看更新记录",
     "Enterprise" : "企业级",

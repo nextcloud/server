@@ -6,6 +6,7 @@ OC.L10N.register(
     "Show something" : "顯示一些東西",
     "Customize" : "自訂",
     "Edit widgets" : "編輯小工具",
+    "Get more widgets from the App Store" : "從 App Store 取得更多小工具",
     "Change background image" : "變更背景圖片",
     "Weather service" : "天氣服務",
     "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "為了保護您的隱私，Nextcloud 會代您請求氣象資料，因此天氣服務不會收到您的個人資訊。",
