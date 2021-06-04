@@ -23,7 +23,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\User_LDAP\Command;
 
 use OCA\User_LDAP\Helper;

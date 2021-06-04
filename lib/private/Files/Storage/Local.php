@@ -11,6 +11,7 @@
  * @author J0WI <J0WI@users.noreply.github.com>
  * @author Jakob Sack <mail@jakobsack.de>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Johannes Leuker <j.leuker@hosting.de>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Klaas Freitag <freitag@owncloud.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
@@ -39,7 +40,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Files\Storage;
 
 use OC\Files\Filesystem;

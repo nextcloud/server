@@ -8,11 +8,12 @@
  * @author fnuesse <felix.nuesse@t-online.de>
  * @author fnuesse <fnuesse@techfak.uni-bielefeld.de>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Max Kovalenko <mxss1998@yandex.ru>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Nina Pypchenko <22447785+nina-py@users.noreply.github.com>
  * @author Richard Steinmetz <richard@steinmetz.cloud>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -34,7 +35,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files\Controller;
 
 use OC\Files\Node\Node;

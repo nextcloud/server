@@ -5,6 +5,7 @@
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Ole Ostergaard <ole.c.ostergaard@gmail.com>
  * @author Robin Appelman <robin@icewind.nl>
@@ -27,13 +28,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
-/**
- * Public interface of ownCloud for apps to use.
- * DBConnection interface
- *
- */
-
 // use OCP namespace for all classes that are considered public.
 // This means that they should be used by apps instead of the internal ownCloud classes
 

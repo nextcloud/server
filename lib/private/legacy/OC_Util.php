@@ -23,7 +23,7 @@
  * @author Individual IT Services <info@individual-it.net>
  * @author Jakob Sack <mail@jakobsack.de>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Kawohl <john@owncloud.com>
@@ -43,6 +43,7 @@
  * @author Stefan Weil <sw@weilnetz.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Thomas Tanghus <thomas@tanghus.net>
+ * @author Valdnet <47037905+Valdnet@users.noreply.github.com>
  * @author Victor Dubiniuk <dubiniuk@owncloud.com>
  * @author Vincent Petry <vincent@nextcloud.com>
  * @author Volkan Gezer <volkangezer@gmail.com>
@@ -62,7 +63,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 use bantu\IniGetWrapper\IniGetWrapper;
 use OC\AppFramework\Http\Request;
 use OC\Files\Storage\LocalRootStorage;

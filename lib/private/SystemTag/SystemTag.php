@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Johannes Leuker <j.leuker@hosting.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Vincent Petry <vincent@nextcloud.com>
  *
@@ -24,7 +25,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\SystemTag;
 
 use OCP\SystemTag\ISystemTag;

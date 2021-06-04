@@ -22,7 +22,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\User_LDAP\Tests\Integration\Lib;
 
 use OCA\User_LDAP\Mapping\UserMapping;

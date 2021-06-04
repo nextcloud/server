@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud GmbH.
  *
+ * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Morris Jobke <hey@morrisjobke.de>
@@ -22,7 +23,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_Sharing\Tests\Command;
 
 use OCA\Files_Sharing\Command\CleanupRemoteStorages;

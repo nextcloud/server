@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author J0WI <J0WI@users.noreply.github.com>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  *
  * @license AGPL-3.0
@@ -23,7 +24,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\Security;
 
 /**

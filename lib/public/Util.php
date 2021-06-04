@@ -12,7 +12,6 @@
  * @author J0WI <J0WI@users.noreply.github.com>
  * @author Jens-Christian Fischer <jens-christian.fischer@switch.ch>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
@@ -41,13 +40,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
-/**
- * Public interface of ownCloud for apps to use.
- * Utility Class.
- *
- */
-
 // use OCP namespace for all classes that are considered public.
 // This means that they should be used by apps instead of the internal ownCloud classes
 

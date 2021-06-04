@@ -8,7 +8,6 @@
  * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Julius Härtl <jus@bitgrid.net>
- * @author Morris Jobke <hey@morrisjobke.de>
  *
  * @license AGPL-3.0
  *
@@ -25,7 +24,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Share;
 
 use OCP\Share\IShare;

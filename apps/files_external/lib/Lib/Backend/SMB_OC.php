@@ -5,6 +5,7 @@
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Valdnet <47037905+Valdnet@users.noreply.github.com>
  *
  * @license AGPL-3.0
  *
@@ -21,7 +22,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_External\Lib\Backend;
 
 use OCA\Files_External\Lib\Auth\AuthMechanism;

@@ -28,7 +28,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 // no php execution timeout for webdav
 if (strpos(@ini_get('disable_functions'), 'set_time_limit') === false) {
 	@set_time_limit(0);

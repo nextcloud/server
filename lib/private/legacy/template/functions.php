@@ -31,11 +31,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
-/**
- * Prints a sanitized string
- * @param string $string the string which will be escaped and printed
- */
 function p($string) {
 	print(\OCP\Util::sanitizeHTML($string));
 }

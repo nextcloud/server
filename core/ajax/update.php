@@ -3,7 +3,6 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Björn Schießle <bjoern@schiessle.org>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Ko- <k.stoffelen@cs.ru.nl>
@@ -31,7 +30,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 use OCP\ILogger;
 use Symfony\Component\EventDispatcher\GenericEvent;
 

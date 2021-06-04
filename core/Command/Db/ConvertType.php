@@ -12,7 +12,7 @@
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Sander Ruitenbeek <sander@grids.be>
- * @author tbelau666 <thomas.belau@gmx.de>
+ * @author Simon Spannagel <simonspa@kth.se>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @license AGPL-3.0
@@ -30,7 +30,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Core\Command\Db;
 
 use Doctrine\DBAL\Exception;

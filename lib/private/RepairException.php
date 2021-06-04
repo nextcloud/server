@@ -2,7 +2,6 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
- * @author Morris Jobke <hey@morrisjobke.de>
  * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
@@ -20,7 +19,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC;
 
 /**

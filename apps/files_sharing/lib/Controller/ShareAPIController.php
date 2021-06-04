@@ -6,13 +6,14 @@ declare(strict_types=1);
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Bjoern Schiessle <bjoern@schiessle.org>
+ * @author castillo92 <37965565+castillo92@users.noreply.github.com>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Gary Kim <gary@garykim.dev>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Maxence Lange <maxence@artificial-owl.com>
@@ -22,6 +23,7 @@ declare(strict_types=1);
  * @author Richard Steinmetz <richard@steinmetz.cloud>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Valdnet <47037905+Valdnet@users.noreply.github.com>
  * @author Vincent Petry <vincent@nextcloud.com>
  * @author waleczny <michal@walczak.xyz>
  *
@@ -40,7 +42,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_Sharing\Controller;
 
 use OCA\Files_Sharing\Exceptions\SharingRightsException;

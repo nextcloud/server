@@ -22,7 +22,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Comments\Tests\Unit\AppInfo;
 
 use OCA\Comments\AppInfo\Application;

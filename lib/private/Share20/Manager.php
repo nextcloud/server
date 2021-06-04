@@ -10,7 +10,7 @@
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Maxence Lange <maxence@artificial-owl.com>
@@ -19,6 +19,9 @@
  * @author Pauli Järvinen <pauli.jarvinen@gmail.com>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Samuel <faust64@gmail.com>
+ * @author szaimen <szaimen@e.mail.de>
+ * @author Valdnet <47037905+Valdnet@users.noreply.github.com>
  * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
@@ -36,7 +39,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Share20;
 
 use OC\Cache\CappedMemoryCache;

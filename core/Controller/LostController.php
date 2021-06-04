@@ -33,7 +33,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Core\Controller;
 
 use function array_filter;

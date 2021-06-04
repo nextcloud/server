@@ -6,6 +6,7 @@
  * @author Christopher Schäpers <kondou@ts.unde.re>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Johannes Leuker <j.leuker@hosting.de>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Vinicius Cubas Brand <vinicius@eita.org.br>
@@ -25,7 +26,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\User_LDAP;
 
 use OCP\Group\Backend\INamedBackend;

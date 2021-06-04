@@ -1,6 +1,8 @@
 <?php
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
+ * @copyright Copyright (C) 2012 entreCables S.L. All rights reserved.
+ * @copyright Copyright (C) 2012 entreCables S.L. All rights reserved.
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Felix Moeller <mail@felixmoeller.de>
@@ -26,7 +28,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Connector\Sabre;
 
 use OCA\DAV\Upload\FutureFile;

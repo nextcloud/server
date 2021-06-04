@@ -10,7 +10,7 @@
  * @author Guillaume COMPAGNON <gcompagnon@outlook.com>
  * @author Hendrik Leppelsack <hendrik@leppelsack.de>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Julius Haertl <jus@bitgrid.net>
  * @author Julius Härtl <jus@bitgrid.net>
@@ -40,7 +40,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC;
 
 use bantu\IniGetWrapper\IniGetWrapper;

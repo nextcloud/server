@@ -9,7 +9,6 @@ declare(strict_types=1);
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author MichaIng <micha@dietpi.com>
- * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
@@ -27,7 +26,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Security;
 
 use OCP\IConfig;

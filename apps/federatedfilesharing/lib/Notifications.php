@@ -8,6 +8,7 @@
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Samuel <faust64@gmail.com>
  *
  * @license AGPL-3.0
  *
@@ -24,7 +25,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\FederatedFileSharing;
 
 use OCA\FederatedFileSharing\Events\FederatedShareAddedEvent;

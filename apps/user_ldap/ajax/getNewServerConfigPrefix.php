@@ -23,7 +23,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 // Check user and app status
 \OC_JSON::checkAdminUser();
 \OC_JSON::checkAppEnabled('user_ldap');

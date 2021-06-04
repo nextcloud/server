@@ -11,12 +11,16 @@
  * @author exner104 <59639860+exner104@users.noreply.github.com>
  * @author Frederic Werner <frederic-github@werner-net.work>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Nicolas SIMIDE <2083596+dems54@users.noreply.github.com>
  * @author Robin Appelman <robin@icewind.nl>
+ * @author robottod <83244577+robottod@users.noreply.github.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author rubo77 <github@r.z11.de>
  * @author Stephan Müller <mail@stephanmueller.eu>
+ * @author Valdnet <47037905+Valdnet@users.noreply.github.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -27,14 +31,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\ShareByMail;
 
 use OC\HintException;

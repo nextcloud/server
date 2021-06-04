@@ -1,6 +1,6 @@
 <?php
 /**
- *
+ * @copyright Copyright (c) 2016 Sergio Bertolin <sbertolin@solidgear.es>
  *
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
@@ -19,7 +19,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License

@@ -21,7 +21,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Comments\Notification;
 
 use OCP\Comments\CommentsEvent;

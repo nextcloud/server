@@ -16,6 +16,7 @@ declare(strict_types=1);
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author mmccarn <mmccarn-github@mmsionline.us>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
@@ -36,7 +37,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC;
 
 use OC\Route\Router;

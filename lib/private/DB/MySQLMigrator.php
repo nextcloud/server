@@ -2,11 +2,8 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Victor Dubiniuk <dubiniuk@owncloud.com>
  *
  * @license AGPL-3.0
  *
@@ -23,7 +20,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\DB;
 
 use Doctrine\DBAL\Schema\Schema;

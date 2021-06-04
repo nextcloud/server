@@ -23,7 +23,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Files\Storage;
 
 use OC\Files\Cache\HomePropagator;

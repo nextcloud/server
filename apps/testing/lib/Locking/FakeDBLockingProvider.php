@@ -21,7 +21,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Testing\Locking;
 
 use OCP\AppFramework\Utility\ITimeFactory;

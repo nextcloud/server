@@ -28,9 +28,7 @@ declare(strict_types=1);
  *
  */
 
-/**
- * This file defines common constants used in ownCloud
- */
+// This file defines common constants used in ownCloud
 
 namespace OCP;
 

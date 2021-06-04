@@ -2,6 +2,8 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @copyright Copyright (c) 2017, Georg Ehrke
+ * @copyright Copyright (C) 2007-2015 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) 2007-2015 fruux GmbH (https://fruux.com/).
  *
  * @author brad2014 <brad2014@users.noreply.github.com>
  * @author Brad Rubenstein <brad@wbr.tech>
@@ -9,6 +11,7 @@
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Leon Klingele <leon@struktur.de>
+ * @author Nick Sweeting <git@sweeting.me>
  * @author rakekniven <mark.ziegler@rakekniven.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Citharel <nextcloud@tcit.fr>
@@ -29,7 +32,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\CalDAV\Schedule;
 
 use OCP\AppFramework\Utility\ITimeFactory;

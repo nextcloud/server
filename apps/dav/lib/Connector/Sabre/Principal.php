@@ -10,8 +10,10 @@
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Jakob Sack <mail@jakobsack.de>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Maxence Lange <maxence@artificial-owl.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
@@ -33,7 +35,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Connector\Sabre;
 
 use OC\KnownUser\KnownUserService;

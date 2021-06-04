@@ -7,6 +7,7 @@
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Markus Goetz <markus@woboq.com>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Richard Steinmetz <richard@steinmetz.cloud>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -28,7 +29,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Memcache;
 
 use OCP\ICache;

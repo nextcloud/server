@@ -9,7 +9,6 @@
  * @author Joas Schilling <coding@schilljs.com>
  * @author Michael Göhler <somebody.here@gmx.de>
  * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <vincent@nextcloud.com>
  *
@@ -28,7 +27,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Setup;
 
 use OC\DB\ConnectionAdapter;

@@ -43,7 +43,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 use bantu\IniGetWrapper\IniGetWrapper;
 use OCP\Files\Mount\IMountPoint;
 use OCP\IUser;

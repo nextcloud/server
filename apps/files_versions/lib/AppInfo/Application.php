@@ -3,7 +3,8 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -24,7 +25,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_Versions\AppInfo;
 
 use OC\KnownUser\KnownUserService;

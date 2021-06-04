@@ -4,7 +4,6 @@
  *
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
@@ -25,7 +24,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_External\Lib\Storage;
 
 abstract class StreamWrapper extends \OC\Files\Storage\Common {
