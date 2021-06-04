@@ -32,6 +32,7 @@
     "Checked on {lastCheckedDate}" : "Geprüft am {lastCheckedDate}",
     "Checking apps for compatible versions" : "Es werden alle Apps auf kompatible Versionen geprüft",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Bitte stellen Sie sicher, dass in der \"config.php\"-Datei die Variable <samp>appstoreenabled</samp>nicht auf \"false\" steht.",
+    "Could not connect to the App Store or no updates have been returned at all. Search manually for updates or make sure your server has access to the internet and can connect to the App Store." : "Es konnte keine Verbindung zum App-Store hergestellt werden oder es wurden keine Updates zurückgegeben. Suchen Sie manuell nach Updates oder stellen Sie sicher, dass Ihr Server Zugang zum Internet hat und eine Verbindung zum App-Store herstellen kann.",
     "<strong>All</strong> apps have a compatible version for this Nextcloud version available" : "Für <strong>alle</strong> Apps steht eine kompatible Version zur Verfügung",
     "View changelog" : "Liste der Änderungen anschauen",
     "Enterprise" : "Version für Unternehmen",

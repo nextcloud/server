@@ -25,6 +25,7 @@ OC.L10N.register(
     "Password to access %1$s was sent to you" : "Heslo pro přístup k %1$s vám bylo zasláno",
     "Password to access {file} was sent to you" : "Heslo pro přístupu k {file} vám bylo zasláno",
     "Sharing %1$s failed, because this item is already shared with user %2$s" : "Sdílení položky %1$s se nezdařilo, protože ta je už s uživatelem %2$s sdílena",
+    "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Nemůžeme vám zaslat automaticky vytvořené heslo. Nastavte si v osobním nastavení platnou e-mailovou adresu a zkuste to znovu.",
     "Failed to send share by email" : "Sdílení e-mailem se nezdařilo",
     "%1$s shared »%2$s« with you" : "%1$s s vámi sdílí „%2$s“",
     "%1$s shared »%2$s« with you." : "%1$s vám nasdílel(a) „%2$s“.",
