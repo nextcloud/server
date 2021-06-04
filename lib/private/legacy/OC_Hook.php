@@ -28,10 +28,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
-/**
- * @deprecated 18.0.0 use events and the \OCP\EventDispatcher\IEventDispatcher service
- */
 class OC_Hook {
 	public static $thrownExceptions = [];
 

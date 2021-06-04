@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2017, ownCloud GmbH
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  *
  * @license AGPL-3.0
@@ -19,7 +20,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Core\Command\Db\Migrations;
 
 use OC\DB\Connection;

@@ -6,10 +6,10 @@ declare(strict_types=1);
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author J0WI <J0WI@users.noreply.github.com>
  * @author Johannes Ernst <jernst@indiecomputing.com>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
@@ -27,7 +27,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Security;
 
 use OC\AppFramework\Http\Request;

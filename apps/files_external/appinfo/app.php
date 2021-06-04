@@ -8,6 +8,7 @@
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
+ * @author szaimen <szaimen@e.mail.de>
  * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
@@ -25,7 +26,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 use OCA\Files_External\Config\ConfigAdapter;
 
 require_once __DIR__ . '/../3rdparty/autoload.php';

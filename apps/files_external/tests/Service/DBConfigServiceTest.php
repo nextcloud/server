@@ -21,7 +21,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_External\Tests\Service;
 
 use OCA\Files_External\Service\DBConfigService;

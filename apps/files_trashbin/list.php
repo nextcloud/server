@@ -4,7 +4,8 @@
  *
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Björn Schießle <bjoern@schiessle.org>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Vincent Petry <vincent@nextcloud.com>
  *

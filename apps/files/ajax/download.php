@@ -5,12 +5,12 @@
  * @author Andreas Fischer <bantu@owncloud.com>
  * @author Björn Schießle <bjoern@schiessle.org>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Frank Karlitschek <frank@karlitschek.de>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Piotr Filiciak <piotr@filiciak.pl>
  * @author Robin Appelman <robin@icewind.nl>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
  *
@@ -27,7 +27,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 // Check if we are a user
 OC_Util::checkLoggedIn();
 \OC::$server->getSession()->close();

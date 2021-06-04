@@ -10,7 +10,7 @@
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author j3l11234 <297259024@qq.com>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Jonas Sulzer <jonas@violoncello.ch>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
@@ -40,7 +40,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_Sharing\Controller;
 
 use OC_Files;

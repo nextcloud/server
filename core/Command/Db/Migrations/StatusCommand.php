@@ -21,7 +21,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Core\Command\Db\Migrations;
 
 use OC\DB\Connection;

@@ -21,7 +21,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\Share;
 
 use OC\Share20\Exception\ProviderException;

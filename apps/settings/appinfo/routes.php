@@ -9,7 +9,6 @@ declare(strict_types=1);
  * @author Jan C. Borchardt <hey@jancborchardt.net>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
@@ -27,7 +26,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 return [
 	'resources' => [
 		'AuthSettings' => ['url' => '/settings/personal/authtokens' , 'root' => ''],

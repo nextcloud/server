@@ -2,7 +2,8 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Vincent Petry <vincent@nextcloud.com>

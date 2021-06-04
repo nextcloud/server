@@ -11,7 +11,6 @@
  * @author Joel S <joel.devbox@protonmail.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author martin.mattel@diemattels.at <martin.mattel@diemattels.at>
- * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
@@ -32,7 +31,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files\Command;
 
 use OC\Core\Command\Base;

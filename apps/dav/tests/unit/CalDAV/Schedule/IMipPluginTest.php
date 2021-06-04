@@ -27,7 +27,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Tests\unit\CalDAV\Schedule;
 
 use OCA\DAV\CalDAV\Schedule\IMipPlugin;

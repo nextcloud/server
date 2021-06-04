@@ -6,10 +6,9 @@
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Jakob Sack <mail@jakobsack.de>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Robin Appelman <robin@icewind.nl>
  *
  * @license AGPL-3.0
  *
@@ -26,7 +25,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Search\Provider;
 
 use OC\Files\Search\SearchComparison;

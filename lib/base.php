@@ -16,12 +16,13 @@
  * @author Eric Masseran <rico.masseran@gmail.com>
  * @author Florin Peter <github@florin-peter.de>
  * @author Greta Doci <gretadoci@gmail.com>
+ * @author J0WI <J0WI@users.noreply.github.com>
  * @author Jakob Sack <mail@jakobsack.de>
  * @author jaltek <jaltek@mailbox.org>
  * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
  * @author Joachim Sokolowski <github@sokolowski.org>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Jose Quinteiro <github@quinteiro.org>
  * @author Juan Pablo Villafáñez <jvillafanez@solidgear.es>
@@ -60,7 +61,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Group\Events\UserRemovedEvent;
 use OCP\ILogger;

@@ -9,22 +9,24 @@ declare(strict_types=1);
  * @author Björn Schießle <bjoern@schiessle.org>
  * @author Christian Kampka <christian@kampka.net>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Denis Mosolov <denismosolov@gmail.com>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Johannes Leuker <j.leuker@hosting.de>
  * @author Johannes Riedel <joeried@users.noreply.github.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author michag86 <micha_g@arcor.de>
- * @author MichaIng <micha@dietpi.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Patrik Kernstock <info@pkern.at>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Ruben Homs <ruben@homs.codes>
+ * @author Sean Molenaar <sean@seanmolenaar.eu>
  * @author sualko <klaus@jsxc.org>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Thomas Pulzer <t.pulzer@kniel.de>
@@ -46,9 +48,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
-/** @var Symfony\Component\Console\Application $application */
-
 use Psr\Log\LoggerInterface;
 
 $application->add(new \Stecman\Component\Symfony\Console\BashCompletion\CompletionCommand());

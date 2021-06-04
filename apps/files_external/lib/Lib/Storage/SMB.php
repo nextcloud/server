@@ -8,6 +8,7 @@
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Juan Pablo Villafañez <jvillafanez@solidgear.es>
  * @author Juan Pablo Villafáñez <jvillafanez@solidgear.es>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Philipp Kapfer <philipp.kapfer@gmx.at>
@@ -33,7 +34,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_External\Lib\Storage;
 
 use Icewind\SMB\ACL;

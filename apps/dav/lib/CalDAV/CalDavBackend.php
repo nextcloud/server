@@ -4,11 +4,12 @@
  * @copyright Copyright (c) 2018 Georg Ehrke
  * @copyright Copyright (c) 2020, leith abdulla (<online-nextcloud@eleith.com>)
  *
+ * @author Chih-Hsuan Yen <yan12125@gmail.com>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author dartcafe <github@dartcafe.de>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author leith abdulla <online-nextcloud@eleith.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
@@ -35,7 +36,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\CalDAV;
 
 use DateTime;

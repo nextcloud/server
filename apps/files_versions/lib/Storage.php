@@ -37,13 +37,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
-/**
- * Versions
- *
- * A class to handle the versioning of files.
- */
-
 namespace OCA\Files_Versions;
 
 use OC_User;

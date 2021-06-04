@@ -5,6 +5,7 @@
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
+ * @author szaimen <szaimen@e.mail.de>
  *
  * @license AGPL-3.0
  *
@@ -21,7 +22,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\Files\Config;
 
 use OCP\Files\Mount\IMountPoint;

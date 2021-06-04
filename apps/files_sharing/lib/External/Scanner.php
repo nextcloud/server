@@ -4,7 +4,6 @@
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
  * @author Olivier Paroz <github@oparoz.com>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Vincent Petry <vincent@nextcloud.com>
@@ -24,7 +23,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_Sharing\External;
 
 use OC\ForbiddenException;

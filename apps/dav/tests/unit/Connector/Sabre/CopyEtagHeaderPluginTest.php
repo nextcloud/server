@@ -1,7 +1,10 @@
 <?php
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
+ * Copyright (c) 2015 Vincent Petry <pvince81@owncloud.com>
+ * Copyright (c) 2015 Vincent Petry <pvince81@owncloud.com>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
@@ -24,7 +27,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OCA\DAV\Connector\Sabre\CopyEtagHeaderPlugin;

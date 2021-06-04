@@ -3,12 +3,12 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Bart Visscher <bartv@thisnet.nl>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author eduardo <eduardo@vnexu.net>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Vitor Mattos <vitor@php.rio>
  *
  * @license AGPL-3.0
@@ -26,7 +26,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Setup;
 
 use OC\DatabaseException;

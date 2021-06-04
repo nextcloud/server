@@ -2,8 +2,8 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
- * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
@@ -21,7 +21,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 // TODO: move to handlebars
 $config = \OC::$server->getConfig();
 $userSession = \OC::$server->getUserSession();

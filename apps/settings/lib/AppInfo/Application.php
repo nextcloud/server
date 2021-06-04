@@ -8,7 +8,6 @@ declare(strict_types=1);
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Björn Schießle <bjoern@schiessle.org>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
@@ -32,7 +31,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Settings\AppInfo;
 
 use OC\AppFramework\Utility\TimeFactory;

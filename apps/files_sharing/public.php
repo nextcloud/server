@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  *
@@ -22,7 +22,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 // This file is just used to redirect the legacy sharing URLs (< ownCloud 8) to the new ones
 
 $urlGenerator = \OC::$server->getURLGenerator();
