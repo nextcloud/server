@@ -83,6 +83,7 @@ OC.L10N.register(
     "Available flows" : "Verfügbare Abläufe",
     "For details on how to write your own flow, check out the development documentation." : "Informationen wie eigene Abläufe erstellt werden, finden Sie in der Entwickler-Dokumentation.",
     "More flows" : "Weitere Abläufe",
+    "Browse the App Store" : "App-Store durchsuchen",
     "Show less" : "Weniger anzeigen",
     "Show more" : "Mehr anzeigen",
     "Configured flows" : "Konfigurierte Abläufe",

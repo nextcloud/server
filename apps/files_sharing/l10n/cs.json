@@ -121,6 +121,7 @@
     "Could not lock node" : "Uzel se nedaří uzamknout",
     "Could not lock path" : "Nepodařilo se uzamknout popis umístění",
     "Wrong or no update parameter given" : "Chyba nebo žádná aktualizace dle zadaných parametrů",
+    "Cannot change permissions for public share links" : "Nelze změnit oprávnění pro veřejně sdílené odkazy",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Sdílení posláním hesla prostřednictvím Nextcloud Talk se nezdařilo protože Nextcloud Talk není zapnutý",
     "shared by %s" : "sdílí %s",
     "Download all files" : "Stáhnout všechny soubory",

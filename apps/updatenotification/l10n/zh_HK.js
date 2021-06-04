@@ -34,6 +34,7 @@ OC.L10N.register(
     "Checked on {lastCheckedDate}" : "上次檢查日期：{lastCheckedDate}",
     "Checking apps for compatible versions" : "檢查應用程式的兼容版本",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "請確定您的 config.php 中並沒有將 <samp>appstoreenabled</samp> 的值設定為 false。",
+    "Could not connect to the App Store or no updates have been returned at all. Search manually for updates or make sure your server has access to the internet and can connect to the App Store." : "無法連接到 App Store 或根本沒有返回任何更新。手動搜索更新或確保您的伺服器可以訪問互聯網並且可以連接到 App Store。",
     "<strong>All</strong> apps have a compatible version for this Nextcloud version available" : "<strong>所有</strong>應用程式都具有適用於此Nextcloud版本的兼容版本",
     "View changelog" : "檢視版本更新紀錄",
     "Enterprise" : "企業",

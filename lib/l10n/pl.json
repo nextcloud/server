@@ -193,6 +193,7 @@
     "Cannot write into \"config\" directory" : "Nie można zapisać do katalogu \"config\"",
     "This can usually be fixed by giving the webserver write access to the config directory. See %s" : "Zwykle można to naprawić, nadając serwerowi WWW dostęp do zapisu do katalogu config. Zobacz %s",
     "Cannot write into \"apps\" directory" : "Nie można zapisać do katalogu \"apps\"",
+    "This can usually be fixed by giving the webserver write access to the apps directory or disabling the App Store in the config file." : "Zwykle można to naprawić, przyznając serwerowi dostęp do zapisu do katalogu aplikacji lub wyłączając sklep z aplikacjami w pliku konfiguracyjnym.",
     "Cannot create \"data\" directory" : "Nie mozna utworzyć katalogu \"data\"",
     "This can usually be fixed by giving the webserver write access to the root directory. See %s" : "Zwykle można to naprawić, nadając serwerowi WWW dostęp do zapisu do katalogu głównego. Zobacz %s",
     "Permissions can usually be fixed by giving the webserver write access to the root directory. See %s." : "Uprawnienia można zazwyczaj naprawić, nadając serwerowi WWW dostęp do zapisu do katalogu głównego. Zobacz %s.",
