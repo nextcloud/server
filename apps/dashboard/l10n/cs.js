@@ -6,6 +6,7 @@ OC.L10N.register(
     "Show something" : "Zobrazit něco",
     "Customize" : "Přizpůsobit si",
     "Edit widgets" : "Upravit ovládací prvky",
+    "Get more widgets from the App Store" : "Získejte další ovládací prvky z katalogu aplikací",
     "Change background image" : "Změnit obrázek na pozadí",
     "Weather service" : "Služba předpovědi počasí",
     "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Z důvodu ochrany vašeho soukromí, jsou údaje o počasí pro vás vyžádány vámi využívaným Nextcloud serverem, takže služba, poskytující tato data, neobdrží žádné osobní údaje.",

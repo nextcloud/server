@@ -165,7 +165,7 @@ OC.L10N.register(
     "Collaboratively edit office documents." : "Office 文書を共同で編集します。",
     "Local document editing back-end used by the Collabora Online app." : "Collabora Onlineアプリで使用されるローカルドキュメント編集バックエンド",
     "Forgot password?" : "パスワードをお忘れですか?",
-    "Log in with a device" : "デバイスを使ってログインします。",
+    "Log in with a device" : "デバイスを使ってログインする",
     "Back" : "戻る",
     "Login form is disabled." : "ログインフォームは無効です。",
     "Reset search" : "検索をリセットする",

@@ -136,7 +136,7 @@ OC.L10N.register(
     "You moved {oldfile} to {newfile}" : "{oldfile} を {newfile} に移動しました",
     "{user} moved {oldfile} to {newfile}" : "{user} が {oldfile} を {newfile} に移動しました",
     "A file has been added to or removed from your <strong>favorites</strong>" : "<strong>お気に入り</strong>にファイルが追加または削除されたとき",
-    "A file or folder has been <strong>changed</strong>" : "ファイルまたはフォルダーを<strong>変更</strong>したとき",
+    "A file or folder has been <strong>changed</strong>" : "ファイルまたはフォルダーが<strong>変更</strong>されたとき",
     "A favorite file or folder has been <strong>changed</strong>" : "お気に入りのファイルまたはフォルダーが <strong>変更</strong>されたとき",
     "All files" : "すべてのファイル",
     "Unlimited" : "無制限",
