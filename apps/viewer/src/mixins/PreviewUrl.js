@@ -63,12 +63,17 @@ export default {
 		 * @returns {String} the absolute url
 		 */
 		getPreviewIfAny({ fileid, filename, hasPreview, davPath }) {
+			const searchParams = `fileId=${fileid}`
+				+ `&x=${Math.floor(screen.width * devicePixelRatio)}`
+				+ `&y=${Math.floor(screen.height * devicePixelRatio)}`
+				+ '&a=true'
+
 			if (hasPreview) {
 				// TODO: find a nicer standard way of doing this?
 				if (isPublic()) {
-					return generateUrl(`/apps/files_sharing/publicpreview/${getToken()}?fileId=${fileid}&file=${encodeFilePath(filename)}&x=${screen.width}&y=${screen.height}&a=true`)
+					return generateUrl(`/apps/files_sharing/publicpreview/${getToken()}?file=${encodeFilePath(filename)}&${searchParams}`)
 				}
-				return generateUrl(`/core/preview?fileId=${fileid}&x=${screen.width}&y=${screen.height}&a=true`)
+				return generateUrl(`/core/preview?${searchParams}`)
 			}
 			return davPath
 		},
