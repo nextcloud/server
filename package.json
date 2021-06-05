@@ -98,6 +98,9 @@
     "@nextcloud/browserslist-config": "^2.1.0",
     "@nextcloud/eslint-config": "^2.2.0",
     "@nextcloud/eslint-plugin": "^1.5.0",
+    "@testing-library/jest-dom": "^5.12.0",
+    "@testing-library/user-event": "^13.1.9",
+    "@testing-library/vue": "^5.6.2",
     "babel-eslint": "^10.1.0",
     "babel-jest": "^26.6.3",
     "babel-loader": "^8.2.2",
@@ -120,6 +123,7 @@
     "sass-loader": "^10.1.1",
     "style-loader": "^2.0.0",
     "url-loader": "^4.1.1",
+    "vue-jest": "^4.0.1",
     "vue-loader": "^15.9.7",
     "vue-template-compiler": "^2.6.12",
     "webpack": "^4.46.0",
@@ -134,8 +138,16 @@
     "node": ">=10.0.0"
   },
   "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "vue"
+    ],
+    "setupFilesAfterEnv": [
+      "<rootDir>/tests/jestSetup.js"
+    ],
     "transform": {
-      "^.+\\.js$": "<rootDir>/tests/jestBabelTransformer.js"
+      "^.+\\.js$": "<rootDir>/tests/jestBabelTransformer.js",
+      "^.+\\.vue$": "vue-jest"
     }
   }
 }

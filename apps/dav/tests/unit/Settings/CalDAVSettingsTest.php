@@ -27,12 +27,16 @@ namespace OCA\DAV\Tests\Unit\DAV\Settings;
 
 use OCA\DAV\Settings\CalDAVSettings;
 use OCP\IConfig;
+use OCP\AppFramework\Services\IInitialState;
 use Test\TestCase;
 
 class CalDAVSettingsTest extends TestCase {
 
 	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
+
+	/** @var OCP\AppFramework\Services\IInitialState|\PHPUnit\Framework\MockObject\MockObject */
+	private $initialState;
 
 	/** @var CalDAVSettings */
 	private $settings;
@@ -41,10 +45,26 @@ class CalDAVSettingsTest extends TestCase {
 		parent::setUp();
 
 		$this->config = $this->createMock(IConfig::class);
-		$this->settings = new CalDAVSettings($this->config);
+		$this->initialState = $this->createMock(IInitialState::class);
+		$this->settings = new CalDAVSettings($this->config, $this->initialState);
 	}
 
 	public function testGetForm() {
+		$this->config->method('getAppValue')
+		   ->withConsecutive(
+			   ['dav', 'sendInvitations', 'yes'],
+			   ['dav', 'generateBirthdayCalendar', 'yes'],
+			   ['dav', 'sendEventReminders', 'yes'],
+			   ['dav', 'sendEventRemindersPush', 'no'],
+		   )
+		   ->will($this->onConsecutiveCalls('yes', 'no', 'yes', 'yes'));
+		$this->initialState->method('provideInitialState')
+			->withConsecutive(
+				['sendInvitations', true],
+				['generateBirthdayCalendar', false],
+				['sendEventReminders', true],
+				['sendEventRemindersPush', true],
+			);
 		$result = $this->settings->getForm();
 
 		$this->assertInstanceOf('OCP\AppFramework\Http\TemplateResponse', $result);
