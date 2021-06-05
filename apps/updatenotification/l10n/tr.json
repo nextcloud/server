@@ -32,6 +32,7 @@
     "Checked on {lastCheckedDate}" : "Son denetim: {lastCheckedDate}",
     "Checking apps for compatible versions" : "Uygulamalar uyumlu sürümler için denetleniyor",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Lütfen config.php dosyasındaki <samp>appstoreenabled</samp> seçeneğinin false olarak ayarlanmadığından emin olun.",
+    "Could not connect to the App Store or no updates have been returned at all. Search manually for updates or make sure your server has access to the internet and can connect to the App Store." : "Uygulama mağazası ile bağlantı kurulamadı ya da uygulama mağazasında herhangi bir güncelleme yok. Güncellemeleri el ile arayın ya da sunucunuzun İnternet ve uygulama mağazası ile bağlantı kurabildiğinden emin olun.",
     "<strong>All</strong> apps have a compatible version for this Nextcloud version available" : "<strong>Tüm</strong> uygulamaların bu Nextcloud sürümü ile uyumlu bir sürümü var",
     "View changelog" : "Değişiklik günlüğünü görüntüle",
     "Enterprise" : "Kurumsal",
