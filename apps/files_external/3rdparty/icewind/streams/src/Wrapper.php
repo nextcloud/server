@@ -92,7 +92,7 @@ abstract class Wrapper extends WrapperHandler implements File, Directory {
 	}
 
 	public function stream_close() {
-		if (is_resource($this->source)
+		if (is_resource($this->source))
 			return fclose($this->source);
 			
 		// Silently return true if source is not a resource
