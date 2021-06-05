@@ -99,7 +99,7 @@
     "@nextcloud/eslint-config": "^2.2.0",
     "@nextcloud/eslint-plugin": "^1.5.0",
     "babel-eslint": "^10.1.0",
-    "babel-jest": "^26.6.3",
+    "babel-jest": "^27.0.2",
     "babel-loader": "^8.2.2",
     "babel-loader-exclude-node-modules-except": "^1.1.2",
     "css-loader": "^5.2.6",
