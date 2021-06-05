@@ -328,18 +328,16 @@
 							type: OC.SetupChecks.MESSAGE_TYPE_ERROR
 						});
 					}
-					if(!data.hasOpcacheLoaded) {
-						messages.push({
-							msg: t('core', 'The PHP OPcache module is not loaded. {linkstart}For better performance it is recommended ↗{linkend} to load it into your PHP installation.')
-								.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="' + data.phpOpcacheDocumentation + '">')
-								.replace('{linkend}', '</a>'),
-							type: OC.SetupChecks.MESSAGE_TYPE_INFO
+					if(data.OpcacheSetupRecommendations.length > 0) {
+						var listOfOPcacheRecommendations = "";
+						data.OpcacheSetupRecommendations.forEach(function(element){
+							listOfOPcacheRecommendations += "<li>" + element + "</li>";
 						});
-					} else if(!data.isOpcacheProperlySetup) {
 						messages.push({
-							msg: t('core', 'The PHP OPcache module is not properly configured. {linkstart}For better performance it is recommended ↗{linkend} to use the following settings in the <code>php.ini</code>:')
-								.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="' + data.phpOpcacheDocumentation + '">')
-								.replace('{linkend}', '</a>') + "<pre><code>opcache.enable=1\nopcache.interned_strings_buffer=8\nopcache.max_accelerated_files=10000\nopcache.memory_consumption=128\nopcache.save_comments=1\nopcache.revalidate_freq=1</code></pre>",
+							msg: t(
+								'core',
+								'The PHP OPcache module is not properly configured:'
+							) + "<ul>" + listOfOPcacheRecommendations + "</ul>",
 							type: OC.SetupChecks.MESSAGE_TYPE_INFO
 						});
 					}
