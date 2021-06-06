@@ -48,7 +48,7 @@
     "debounce": "^1.2.1",
     "nextcloud-server": "^0.15.10",
     "path-parse": "^1.0.6",
-    "vue": "^2.6.12",
+    "vue": "^2.6.13",
     "vue-async-computed": "^3.9.0",
     "webdav": "^4.3.0"
   },
@@ -98,7 +98,7 @@
     "stylelint-webpack-plugin": "^2.1.1",
     "url-loader": "^4.1.1",
     "vue-loader": "^15.9.7",
-    "vue-template-compiler": "^2.6.12",
+    "vue-template-compiler": "^2.6.13",
     "wait-on": "^5.3.0",
     "webpack": "^5.37.1",
     "webpack-cli": "^4.7.0",
