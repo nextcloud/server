@@ -83,7 +83,7 @@ OC.L10N.register(
     "When logging in, %s will find the user based on the following attributes:" : "Beim Anmelden wird %s den Benutzer basierend auf folgenden Attributen finden:",
     "LDAP/AD Username:" : "LDAP-/AD-Benutzername:",
     "Allows login against the LDAP/AD username, which is either \"uid\" or \"sAMAccountName\" and will be detected." : "Erlaubt die Anmeldung gegen den LDAP/AD-Benutzernamen, der entweder \"uid\" oder \"sAMAccountName\" ist, und erkannt wird.",
-    "LDAP/AD Email Address:" : "LDAP-/AD-E-Mail-Adresse:",
+    "LDAP/AD Email Address:" : "LDAP-/AD E-Mail-Adresse:",
     "Allows login against an email attribute. \"mail\" and \"mailPrimaryAddress\" allowed." : "Erlaubt die Anmeldung gegen ein E-Mail-Attribut. \"mail\" und \"mailPrimaryAddress\" sind erlaubt.",
     "Other Attributes:" : "Andere Attribute:",
     "Defines the filter to apply, when login is attempted. \"%%uid\" replaces the username in the login action. Example: \"uid=%%uid\"" : "Bestimmt den Filter, welcher bei einer Anmeldung angewandt wird. \"%%uid\" ersetzt den Benutzernamen bei der Anmeldung. Beispiel: \"uid=%%uid\"",
