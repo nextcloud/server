@@ -75,6 +75,11 @@ abstract class BaseResponse extends Response {
 		$this->setLastModified($dataResponse->getLastModified());
 		$this->setCookies($dataResponse->getCookies());
 
+		if ($dataResponse->isThrottled()) {
+			$throttleMetadata = $dataResponse->getThrottleMetadata();
+			$this->throttle($throttleMetadata);
+		}
+
 		if ($format === 'json') {
 			$this->addHeader(
 				'Content-Type', 'application/json; charset=utf-8'
