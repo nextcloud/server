@@ -592,7 +592,12 @@ class AccountManagerTest extends TestCase {
 		$this->populateOrUpdate();
 
 		$matchedUsers = $this->accountManager->searchUsers($property, $values);
-		$this->assertSame($expected, $matchedUsers);
+		foreach ($expected as $expectedEntry) {
+			$this->assertContains($expectedEntry, $matchedUsers);
+		}
+		if (empty($expected)) {
+			$this->assertEmpty($matchedUsers);
+		}
 	}
 
 	public function searchDataProvider(): array {
