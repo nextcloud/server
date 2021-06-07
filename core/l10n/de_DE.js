@@ -159,7 +159,7 @@ OC.L10N.register(
     "Resetting password" : "Setze Passwort zurück",
     "Recommended apps" : "Empfohlene Apps",
     "Loading apps …" : "Lade Apps …",
-    "Could not fetch list of apps from the App Store." : "Liste der Apps kann nicht vom App Store abgerufen werden",
+    "Could not fetch list of apps from the App Store." : "Liste der Apps kann nicht vom App-Store abgerufen werden",
     "Installing apps …" : "Installiere Apps …",
     "App download or installation failed" : "Herunterladen oder Installieren der App fehlgeschlagen",
     "Cannot install this app because it is not compatible" : "App kann nicht installiert werden, da sie inkompatibel ist",
