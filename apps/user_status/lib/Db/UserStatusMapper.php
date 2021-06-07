@@ -137,6 +137,7 @@ class UserStatusMapper extends QBMapper {
 			->set('is_user_defined', $qb->createNamedParameter(false, IQueryBuilder::PARAM_BOOL))
 			->set('status_timestamp', $qb->createNamedParameter($now, IQueryBuilder::PARAM_INT))
 			->where($qb->expr()->lte('status_timestamp', $qb->createNamedParameter($olderThan, IQueryBuilder::PARAM_INT)))
+			->andWhere($qb->expr()->neq('status', $qb->createNamedParameter(IUserStatus::OFFLINE)))
 			->andWhere($qb->expr()->orX(
 				$qb->expr()->eq('is_user_defined', $qb->createNamedParameter(false, IQueryBuilder::PARAM_BOOL), IQueryBuilder::PARAM_BOOL),
 				$qb->expr()->eq('status', $qb->createNamedParameter(IUserStatus::ONLINE))

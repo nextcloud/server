@@ -38,6 +38,7 @@ use OCA\UserStatus\Service\PredefinedStatusService;
 use OCA\UserStatus\Service\StatusService;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\UserStatus\IUserStatus;
 use Test\TestCase;
 
 class StatusServiceTest extends TestCase {
@@ -623,5 +624,45 @@ class StatusServiceTest extends TestCase {
 
 		$actual = $this->service->removeUserStatus('john.doe');
 		$this->assertFalse($actual);
+	}
+
+	public function testCleanStatusAutomaticOnline(): void {
+		$status = new UserStatus();
+		$status->setStatus(IUserStatus::ONLINE);
+		$status->setStatusTimestamp(1337);
+		$status->setIsUserDefined(false);
+
+		$this->mapper->expects(self::once())
+			->method('update')
+			->with($status);
+
+		parent::invokePrivate($this->service, 'cleanStatus', [$status]);
+	}
+
+	public function testCleanStatusCustomOffline(): void {
+		$status = new UserStatus();
+		$status->setStatus(IUserStatus::OFFLINE);
+		$status->setStatusTimestamp(1337);
+		$status->setIsUserDefined(true);
+
+		$this->mapper->expects(self::once())
+			->method('update')
+			->with($status);
+
+		parent::invokePrivate($this->service, 'cleanStatus', [$status]);
+	}
+
+	public function testCleanStatusCleanedAlready(): void {
+		$status = new UserStatus();
+		$status->setStatus(IUserStatus::OFFLINE);
+		$status->setStatusTimestamp(1337);
+		$status->setIsUserDefined(false);
+
+		// Don't update the status again and again when no value changed
+		$this->mapper->expects(self::never())
+			->method('update')
+			->with($status);
+
+		parent::invokePrivate($this->service, 'cleanStatus', [$status]);
 	}
 }

@@ -188,6 +188,7 @@ class UserStatusMapperTest extends TestCase {
 
 	public function clearStatusesOlderThanDataProvider(): array {
 		return [
+			['offline', false, 6000, false],
 			['online', true, 6000, false],
 			['online', true, 4000, true],
 			['online', false, 6000, false],
