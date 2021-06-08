@@ -34,6 +34,7 @@ OC.L10N.register(
     "Checked on {lastCheckedDate}" : "Verificado em {lastCheckedDate}",
     "Checking apps for compatible versions" : "Verificando aplicativos para versões compatíveis",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Certifique-se de que seu config.php não tenha configurado <samp>appstoreenabled</samp> para falso.",
+    "Could not connect to the App Store or no updates have been returned at all. Search manually for updates or make sure your server has access to the internet and can connect to the App Store." : "Não foi possível conectar à App Store ou nenhuma atualização foi retornada. Pesquise manualmente por atualizações ou certifique-se de que seu servidor tenha acesso à Internet e possa se conectar à App Store.",
     "<strong>All</strong> apps have a compatible version for this Nextcloud version available" : "<strong>Todos</strong> os aplicativos têm uma versão compatível para esta versão Nextcloud disponível",
     "View changelog" : "Visualizar registro de alterações",
     "Enterprise" : "Empresarial",
