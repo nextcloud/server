@@ -44,11 +44,11 @@ use OCP\IL10N;
 use OCP\ILogger;
 use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
+use OCP\Mail\Events\BeforeMessageSent;
 use OCP\Mail\IAttachment;
 use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
 use OCP\Mail\IMessage;
-use OCP\Mail\Events\BeforeMessageSent;
 
 /**
  * Class Mailer provides some basic functions to create a mail message that can be used in combination with
@@ -290,6 +290,15 @@ class Mailer implements IMailer {
 		$streamingOptions = $this->config->getSystemValue('mail_smtpstreamoptions', []);
 		if (is_array($streamingOptions) && !empty($streamingOptions)) {
 			$transport->setStreamOptions($streamingOptions);
+		}
+
+		$overwriteCliUrl = parse_url(
+			$this->config->getSystemValueString('overwrite.cli.url', ''),
+			PHP_URL_HOST
+		);
+
+		if (!empty($overwriteCliUrl)) {
+			$transport->setLocalDomain($overwriteCliUrl);
 		}
 
 		return $transport;
