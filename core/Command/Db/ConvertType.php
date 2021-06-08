@@ -337,14 +337,11 @@ class ConvertType extends Command implements CompletionAwareInterface {
 		try {
 			$orderColumns = $table->getPrimaryKeyColumns();
 		} catch (Exception $e) {
-			$orderColumns = [];
-			foreach ($table->getColumns() as $column) {
-				$orderColumns[] = $column->getName();
-			}
+			$orderColumns = $table->getColumns();
 		}
 
 		foreach ($orderColumns as $column) {
-			$query->addOrderBy($column);
+			$query->addOrderBy($column->getName());
 		}
 
 		$insertQuery = $toDB->getQueryBuilder();
