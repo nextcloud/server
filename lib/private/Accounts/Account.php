@@ -27,14 +27,17 @@ declare(strict_types=1);
  */
 namespace OC\Accounts;
 
+use Generator;
 use OCP\Accounts\IAccount;
 use OCP\Accounts\IAccountProperty;
+use OCP\Accounts\IAccountPropertyCollection;
 use OCP\Accounts\PropertyDoesNotExistException;
 use OCP\IUser;
 
 class Account implements IAccount {
+	use TAccountsHelper;
 
-	/** @var IAccountProperty[] */
+	/** @var IAccountPropertyCollection[]|IAccountProperty[] */
 	private $properties = [];
 
 	/** @var IUser */
@@ -45,31 +48,59 @@ class Account implements IAccount {
 	}
 
 	public function setProperty(string $property, string $value, string $scope, string $verified, string $verificationData = ''): IAccount {
+		if ($this->isCollection($property)) {
+			throw new \InvalidArgumentException('setProperty cannot set an IAccountsPropertyCollection');
+		}
 		$this->properties[$property] = new AccountProperty($property, $value, $scope, $verified, $verificationData);
 		return $this;
 	}
 
 	public function getProperty(string $property): IAccountProperty {
-		if (!array_key_exists($property, $this->properties)) {
+		if ($this->isCollection($property)) {
+			throw new \InvalidArgumentException('getProperty cannot retrieve an IAccountsPropertyCollection');
+		}
+		if (!array_key_exists($property, $this->properties) || !$this->properties[$property] instanceof IAccountProperty) {
 			throw new PropertyDoesNotExistException($property);
 		}
 		return $this->properties[$property];
 	}
 
 	public function getProperties(): array {
-		return $this->properties;
+		return array_filter($this->properties, function ($obj) {
+			return $obj instanceof IAccountProperty;
+		});
+	}
+
+	public function getAllProperties(): Generator {
+		foreach ($this->properties as $propertyObject) {
+			if ($propertyObject instanceof IAccountProperty) {
+				yield $propertyObject;
+			} elseif ($propertyObject instanceof IAccountPropertyCollection) {
+				foreach ($propertyObject->getProperties() as $property) {
+					yield $property;
+				}
+			}
+		}
 	}
 
 	public function getFilteredProperties(string $scope = null, string $verified = null): array {
-		return \array_filter($this->properties, function (IAccountProperty $obj) use ($scope, $verified) {
+		$result = $incrementals = [];
+		/** @var IAccountProperty $obj */
+		foreach ($this->getAllProperties() as $obj) {
 			if ($scope !== null && $scope !== $obj->getScope()) {
-				return false;
+				continue;
 			}
 			if ($verified !== null && $verified !== $obj->getVerified()) {
-				return false;
+				continue;
 			}
-			return true;
-		});
+			$index = $obj->getName();
+			if ($this->isCollection($index)) {
+				$incrementals[$index] = ($incrementals[$index] ?? -1) + 1;
+				$index .= '#' . $incrementals[$index];
+			}
+			$result[$index] = $obj;
+		}
+		return $result;
 	}
 
 	public function jsonSerialize() {
@@ -78,5 +109,20 @@ class Account implements IAccount {
 
 	public function getUser(): IUser {
 		return $this->user;
+	}
+
+	public function setPropertyCollection(IAccountPropertyCollection $propertyCollection): IAccount {
+		$this->properties[$propertyCollection->getName()] = $propertyCollection;
+		return $this;
+	}
+
+	public function getPropertyCollection(string $propertyCollection): IAccountPropertyCollection {
+		if (!array_key_exists($propertyCollection, $this->properties)) {
+			throw new PropertyDoesNotExistException($propertyCollection);
+		}
+		if (!$this->properties[$propertyCollection] instanceof IAccountPropertyCollection) {
+			throw new \RuntimeException('Requested collection is not an IAccountPropertyCollection');
+		}
+		return $this->properties[$propertyCollection];
 	}
 }

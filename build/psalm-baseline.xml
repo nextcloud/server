@@ -1769,9 +1769,6 @@
     </TooManyArguments>
   </file>
   <file src="apps/lookup_server_connector/lib/BackgroundJobs/RetryJob.php">
-    <InvalidArrayOffset occurrences="1">
-      <code>$publicData[IAccountManager::PROPERTY_DISPLAYNAME]['value']</code>
-    </InvalidArrayOffset>
     <InvalidScalarArgument occurrences="1">
       <code>$this-&gt;retries + 1</code>
     </InvalidScalarArgument>
