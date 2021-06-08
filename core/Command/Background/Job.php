@@ -49,7 +49,7 @@ class Job extends Command {
 
 	protected function configure(): void {
 		$this
-			->setName('background:job')
+			->setName('background-job:execute')
 			->setDescription('Execute a single background job manually')
 			->addArgument(
 				'job-id',
@@ -75,22 +75,31 @@ class Job extends Command {
 		}
 
 		$this->printJobInfo($jobId, $job, $output);
+		$output->writeln('');
 
+		$lastRun = $job->getLastRun();
 		if ($input->getOption('force-execute')) {
-			$output->writeln('');
+			$lastRun = 0;
 			$output->writeln('<comment>Forcing execution of the job</comment>');
+			$output->writeln('');
 
 			$this->jobList->resetBackgroundJob($job);
-			$job = $this->jobList->getById($jobId);
-			$job->execute($this->jobList, $this->logger);
-			$this->jobList->setLastJob($job);
+		}
 
+		$job = $this->jobList->getById($jobId);
+		$job->execute($this->jobList, $this->logger);
+		$job = $this->jobList->getById($jobId);
+
+		if ($lastRun !== $job->getLastRun()) {
 			$output->writeln('<info>Job executed!</info>');
 			$output->writeln('');
 
 			if ($job instanceof \OC\BackgroundJob\TimedJob || $job instanceof \OCP\BackgroundJob\TimedJob) {
 				$this->printJobInfo($jobId, $job, $output);
 			}
+		} else {
+			$output->writeln('<comment>Job was not executed because it is not due</comment>');
+			$output->writeln('Specify the <question>--force-execute</question> option to run it anyway');
 		}
 
 		return 0;
