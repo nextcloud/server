@@ -132,7 +132,7 @@ class ConvertType extends Command implements CompletionAwareInterface {
 				null,
 				InputOption::VALUE_REQUIRED,
 				'the maximum number of database rows to handle in a single query, bigger tables will be handled in chunks of this size. Lower this if the process runs out of memory during conversion.',
-				1000
+				'1000'
 			)
 		;
 	}
@@ -306,7 +306,7 @@ class ConvertType extends Command implements CompletionAwareInterface {
 			return;
 		}
 
-		$chunkSize = $input->getOption('chunk-size');
+		$chunkSize = (int)$input->getOption('chunk-size');
 
 		$query = $fromDB->getQueryBuilder();
 		$query->automaticTablePrefix(false);

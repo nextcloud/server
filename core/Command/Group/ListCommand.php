@@ -52,13 +52,13 @@ class ListCommand extends Base {
 				'l',
 				InputOption::VALUE_OPTIONAL,
 				'Number of groups to retrieve',
-				500
+				'500'
 			)->addOption(
 				'offset',
 				'o',
 				InputOption::VALUE_OPTIONAL,
 				'Offset for retrieving groups',
-				0
+				'0'
 			)->addOption(
 				'info',
 				'i',
