@@ -89,7 +89,7 @@ interface ICloudFederationProviderManager {
 	 *
 	 * @param string $url
 	 * @param ICloudFederationNotification $notification
-	 * @return mixed
+	 * @return array|false
 	 *
 	 * @since 14.0.0
 	 */
