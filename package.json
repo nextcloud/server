@@ -37,7 +37,7 @@
     "@nextcloud/paths": "^1.1.2",
     "@nextcloud/router": "^1.0.2",
     "@nextcloud/vue": "^1.5.0",
-    "autosize": "^4.0.2",
+    "autosize": "^4.0.4",
     "backbone": "^1.4.0",
     "blueimp-md5": "^2.13.0",
     "bootstrap": "^4.4.1",
