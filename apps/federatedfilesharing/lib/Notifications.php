@@ -405,7 +405,7 @@ class Notifications {
 	 * @param $fields
 	 * @param $action
 	 *
-	 * @return bool
+	 * @return array|false
 	 */
 	protected function tryOCMEndPoint($remoteDomain, $fields, $action) {
 		switch ($action) {

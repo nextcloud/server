@@ -365,7 +365,7 @@ class Manager {
 	private function sendFeedbackToRemote($remote, $token, $remoteId, $feedback) {
 		$result = $this->tryOCMEndPoint($remote, $token, $remoteId, $feedback);
 
-		if ($result === true) {
+		if (is_array($result)) {
 			return true;
 		}
 
@@ -401,7 +401,7 @@ class Manager {
 	 * @param string $token
 	 * @param string $remoteId id of the share
 	 * @param string $feedback
-	 * @return bool
+	 * @return array|false
 	 */
 	protected function tryOCMEndPoint($remoteDomain, $token, $remoteId, $feedback) {
 		switch ($feedback) {

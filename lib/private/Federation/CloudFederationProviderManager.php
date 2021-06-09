@@ -167,7 +167,7 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 	/**
 	 * @param string $url
 	 * @param ICloudFederationNotification $notification
-	 * @return mixed
+	 * @return array|false
 	 */
 	public function sendNotification($url, ICloudFederationNotification $notification) {
 		$ocmEndPoint = $this->getOCMEndPoint($url);
