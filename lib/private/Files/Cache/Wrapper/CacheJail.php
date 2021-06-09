@@ -318,14 +318,9 @@ class CacheJail extends CacheWrapper {
 			ISearchBinaryOperator::OPERATOR_AND,
 			[new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_OR, [$prefixFilter, $rootFilter]) , $query->getSearchOperation()]
 		);
-		$simpleQuery = new SearchQuery($operation, 0, 0, $query->getOrder(), $query->getUser());
+		$simpleQuery = new SearchQuery($operation, $query->getLimit(), $query->getOffset(), $query->getOrder(), $query->getUser());
 		$results = $this->getCache()->searchQuery($simpleQuery);
-		$results = $this->formatSearchResults($results);
-
-		$limit = $query->getLimit() === 0 ? null : $query->getLimit();
-		$results = array_slice($results, $query->getOffset(), $limit);
-
-		return $results;
+		return $this->formatSearchResults($results);
 	}
 
 	/**
