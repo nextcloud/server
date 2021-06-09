@@ -1,14 +1,14 @@
 OC.L10N.register(
     "updatenotification",
     {
-    "{version} is available. Get more information on how to update." : "Je k dispozici {version}. Přečtěte informace o tom, jak aktualizovat.",
+    "{version} is available. Get more information on how to update." : "Je k dispozici {version}. Přečtěte si informace o tom, jak aktualizovat.",
     "Channel updated" : "Kanál aktualizován",
     "Web updater is disabled" : "Nástroj pro aktualizaci přes webové rozhraní je vypnutý",
     "Update notifications" : "Upozorňování na aktualizace",
     "The update server could not be reached since %d days to check for new updates." : "Aktualizační server nebyl %d dní dosažitelný pro kontrolu aktualizací.",
     "Please check the Nextcloud and server log files for errors." : "Podívejte se po chybách v záznamu událostí Nextcloud a serveru.",
-    "Update to %1$s is available." : "Je dostupná aktualizace na %1$s.",
-    "Update for %1$s to version %2$s is available." : "Je dostupná aktualizace pro %1$s na verzi %2$s.",
+    "Update to %1$s is available." : "Je k dispozici aktualizace na %1$s.",
+    "Update for %1$s to version %2$s is available." : "Je k dispozici aktualizace pro %1$s na verzi %2$s.",
     "Update for {app} to version %s is available." : "Pro {app} je dostupná aktualizace na verzi %s.",
     "Update notification" : "Upozornění na aktualizaci",
     "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Zobrazí upozornění na aktualizace pro Nextcloud a poskytuje sjednocené přihlašování pro nástroj pro provedení aktualizace.",
