@@ -523,7 +523,7 @@ class Encryption extends Wrapper {
 	/**
 	 * write header at beginning of encrypted file
 	 *
-	 * @return integer
+	 * @return int|false
 	 * @throws EncryptionHeaderKeyExistsException if header key is already in use
 	 */
 	protected function writeHeader() {
