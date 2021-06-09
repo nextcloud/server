@@ -231,6 +231,21 @@ Feature: provisioning
 		Then the OCS status code should be "100"
 		And the HTTP status code should be "200"
 		And group "new-group" exists
+		And group "new-group" has
+			| displayname | new-group |
+			
+	Scenario: Create a group with custom display name
+		Given As an "admin"
+		And group "new-group" does not exist
+		When sending "POST" to "/cloud/groups" with
+			| groupid | new-group |
+			| password | 123456 |
+			| displayname | new-group-displayname |
+		Then the OCS status code should be "100"
+		And the HTTP status code should be "200"
+		And group "new-group" exists
+		And group "new-group" has
+			| displayname | new-group-displayname |
 
 	Scenario: Create a group with special characters
 		Given As an "admin"
@@ -241,6 +256,8 @@ Feature: provisioning
 		Then the OCS status code should be "100"
 		And the HTTP status code should be "200"
 		And group "España" exists
+		And group "España" has
+			| displayname | España |
 
 	Scenario: adding user to a group without sending the group
 		Given As an "admin"

@@ -175,6 +175,38 @@ trait Provisioning {
 			}
 		}
 	}
+	
+	/**
+	 * @Then /^group "([^"]*)" has$/
+	 *
+	 * @param string $user
+	 * @param \Behat\Gherkin\Node\TableNode|null $settings
+	 */
+	public function groupHasSetting($group, $settings) {
+		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/cloud/groups/details?search=$group";
+		$client = new Client();
+		$options = [];
+		if ($this->currentUser === 'admin') {
+			$options['auth'] = $this->adminUser;
+		} else {
+			$options['auth'] = [$this->currentUser, $this->regularUser];
+		}
+		$options['headers'] = [
+			'OCS-APIREQUEST' => 'true',
+		];
+		
+		$response = $client->get($fullUrl, $options);
+		$groupDetails = simplexml_load_string($response->getBody())->data[0]->groups[0]->element;
+		foreach ($settings->getRows() as $setting) {
+			$value = json_decode(json_encode($groupDetails->{$setting[0]}), 1);
+			if (isset($value[0])) {
+				Assert::assertEquals($setting[1], $value[0], "", 0.0, 10, true);
+			} else {
+				Assert::assertEquals('', $setting[1]);
+			}
+		}
+	}
+	
 
 	/**
 	 * @Then /^user "([^"]*)" has editable fields$/

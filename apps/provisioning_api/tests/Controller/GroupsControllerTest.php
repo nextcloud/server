@@ -405,10 +405,12 @@ class GroupsControllerTest extends \Test\TestCase {
 			->with('NewGroup')
 			->willReturn(false);
 
+		$group = $this->createGroup('NewGroup');
 		$this->groupManager
 			->expects($this->once())
 			->method('createGroup')
-			->with('NewGroup');
+			->with('NewGroup')
+			->willReturn($group);
 
 		$this->api->addGroup('NewGroup');
 	}
@@ -419,10 +421,12 @@ class GroupsControllerTest extends \Test\TestCase {
 			->with('Iñtërnâtiônàlizætiøn')
 			->willReturn(false);
 
+		$group = $this->createGroup('Iñtërnâtiônàlizætiøn');
 		$this->groupManager
 			->expects($this->once())
 			->method('createGroup')
-			->with('Iñtërnâtiônàlizætiøn');
+			->with('Iñtërnâtiônàlizætiøn')
+			->willReturn($group);
 
 		$this->api->addGroup('Iñtërnâtiônàlizætiøn');
 	}
