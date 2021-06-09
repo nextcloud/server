@@ -36,6 +36,7 @@ use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\ILogger;
 use Sabre\CardDAV\Card;
+use Sabre\VObject\Document;
 use Sabre\VObject\Parameter;
 use Sabre\VObject\Property\Binary;
 use Sabre\VObject\Reader;
@@ -206,9 +207,28 @@ class PhotoCache {
 		throw new NotFoundException('Avatar not found');
 	}
 
+	/**
+	 * @param Card $node
+	 * @return bool|array{body: string, Content-Type: string}
+	 */
 	private function getPhoto(Card $node) {
 		try {
 			$vObject = $this->readCard($node->get());
+			return $this->getPhotoFromVObject($vObject);
+		} catch (\Exception $e) {
+			$this->logger->logException($e, [
+				'message' => 'Exception during vcard photo parsing'
+			]);
+		}
+		return false;
+	}
+
+	/**
+	 * @param Document $vObject
+	 * @return bool|array{body: string, Content-Type: string}
+	 */
+	public function getPhotoFromVObject(Document $vObject) {
+		try {
 			if (!$vObject->PHOTO) {
 				return false;
 			}
