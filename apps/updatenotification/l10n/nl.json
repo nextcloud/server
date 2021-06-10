@@ -32,6 +32,7 @@
     "Checked on {lastCheckedDate}" : "Gecontroleerd op {lastCheckedDate}",
     "Checking apps for compatible versions" : "Apps controleren op compatibele versies.",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Zorg ervoor dat je in config.php <samp>appstoreenabled</samp> niet op 'false' zet.",
+    "Could not connect to the App Store or no updates have been returned at all. Search manually for updates or make sure your server has access to the internet and can connect to the App Store." : "Kan niet verbinden met de App Store of er zijn geen updates teruggegeven. Zoek handmatig naar updates of verifieer dat je server internettoegang heeft en kan verbinden met de App Store.",
     "<strong>All</strong> apps have a compatible version for this Nextcloud version available" : "<strong>Alle</strong> apps hebben een compatibele versie voor deze Nextcloud versie",
     "View changelog" : "Bekijk wijzigingenoverzicht",
     "Enterprise" : "Zakelijk",
