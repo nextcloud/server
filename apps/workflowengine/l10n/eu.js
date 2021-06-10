@@ -83,6 +83,7 @@ OC.L10N.register(
     "Available flows" : "Fluxu erabilgarriak",
     "For details on how to write your own flow, check out the development documentation." : "Zeure fluxua idazten jakiteko informazioa lortzeko, begiratu garatzaileen dokumentazioa.",
     "More flows" : "Fluxu gehiago",
+    "Browse the App Store" : "Arakatu aplikazio biltegia",
     "Show less" : "Erakutsi gutxiago",
     "Show more" : "Erakutsi gehiago",
     "Configured flows" : "Konfiguratutako fluxuak",
