@@ -414,6 +414,31 @@
 				});
 			}
 
+			if(options.openFile) {
+				// Wait for some initialisation process to be over before triggering the default action.
+				_.defer(() => {
+					try {
+						var fileInfo = JSON.parse(atob($('#initial-state-files-openFileInfo').val()))
+						var spec = this.fileActions.getDefaultFileAction(fileInfo.mime, fileInfo.type, fileInfo.permissions)
+						if (spec && spec.action) {
+							spec.action(fileInfo.name, {
+								fileId: fileInfo.id,
+								fileList: this,
+								fileActions: this.fileActions,
+								dir: fileInfo.directory
+							});
+						} else {
+							var url = this.getDownloadUrl(fileInfo.name, fileInfo.dir, true);
+							OCA.Files.Files.handleDownload(url);
+						}
+
+						OCA.Files.Sidebar.open(fileInfo.path);
+					} catch (error) {
+						console.error(`Failed to trigger default action on the file for URL: ${location.href}`, error)
+					}
+				})
+			}
+
 			this._operationProgressBar = new OCA.Files.OperationProgressBar();
 			this._operationProgressBar.render();
 			this.$el.find('#uploadprogresswrapper').replaceWith(this._operationProgressBar.$el);
@@ -1318,31 +1343,6 @@
 						newTrs[i].removeClass('transparent');
 					}
 				}, 0);
-			}
-
-			if(!this.triedActionOnce) {
-				var id = OC.Util.History.parseUrlQuery().openfile;
-				if (id) {
-					var $tr = this.$fileList.children().filterAttr('data-id', '' + id);
-					var filename = $tr.attr('data-file');
-					this.fileActions.currentFile = $tr.find('td');
-					var dir = $tr.attr('data-path') || this.getCurrentDirectory();
-					var spec = this.fileActions.getCurrentDefaultFileAction();
-					if (spec && spec.action) {
-						spec.action(filename, {
-							$file: $tr,
-							fileList: this,
-							fileActions: this.fileActions,
-							dir: dir
-						});
-
-					}
-					else {
-						var url = this.getDownloadUrl(filename, dir, true);
-						OCA.Files.Files.handleDownload(url);
-					}
-				}
-				this.triedActionOnce = true;
 			}
 
 			return newTrs;

@@ -123,6 +123,7 @@ class FilesSearchProvider implements IProvider {
 					[
 						'dir' => dirname($path),
 						'scrollto' => $result->getName(),
+						'openfile' => $result->getId(),
 					]
 				);
 

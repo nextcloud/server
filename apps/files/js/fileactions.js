@@ -679,12 +679,19 @@
 				permissions: OC.PERMISSION_READ,
 				icon: '',
 				actionHandler: function (filename, context) {
-					var dir = context.$file.attr('data-path') || context.fileList.getCurrentDirectory();
+					let dir, id
+					if (context.$file) {
+						dir = context.$file.attr('data-path')
+						id = context.$file.attr('data-id')
+					} else {
+						dir = context.fileList.getCurrentDirectory()
+						id = context.fileId
+					}
 					if (OCA.Files.App && OCA.Files.App.getActiveView() !== 'files') {
 						OCA.Files.App.setActiveView('files', {silent: true});
 						OCA.Files.App.fileList.changeDirectory(OC.joinPaths(dir, filename), true, true);
 					} else {
-						context.fileList.changeDirectory(OC.joinPaths(dir, filename), true, false, parseInt(context.$file.attr('data-id'), 10));
+						context.fileList.changeDirectory(OC.joinPaths(dir, filename), true, false, parseInt(id, 10));
 					}
 				},
 				displayName: t('files', 'Open')

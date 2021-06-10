@@ -58,4 +58,5 @@ window.addEventListener('DOMContentLoaded', function() {
 	AppSidebar.$mount('#app-sidebar')
 	window.OCA.Files.Sidebar.open = AppSidebar.open
 	window.OCA.Files.Sidebar.close = AppSidebar.close
+	window.OCA.Files.Sidebar.setFullScreenMode = AppSidebar.setFullScreenMode
 })
