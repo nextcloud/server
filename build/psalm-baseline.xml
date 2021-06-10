@@ -2426,10 +2426,6 @@
     </TooManyArguments>
   </file>
   <file src="core/Command/Db/ConvertType.php">
-    <InvalidArgument occurrences="2">
-      <code>$chunk * $chunkSize</code>
-      <code>$chunkSize</code>
-    </InvalidArgument>
     <InvalidScalarArgument occurrences="2">
       <code>0</code>
       <code>1</code>
