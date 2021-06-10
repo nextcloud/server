@@ -82,13 +82,17 @@ abstract class LogDetails {
 			'version'
 		);
 
-		if (is_array($message) && !array_key_exists('Exception', $message)) {
-			// Exception messages should stay as they are,
+		if (is_array($message)) {
+			// Exception messages are extracted and the exception is put into a separate field
 			// anything else modern is split to 'message' (string) and
 			// data (array) fields
-			$shortMessage = $message['message'] ?? '(no message provided)';
-			$entry['data'] = $message;
-			$entry['message'] = $shortMessage;
+			if (array_key_exists('Exception', $message)) {
+				$entry['exception'] = $message;
+				$entry['message'] = $message['CustomMessage'] !== '--' ? $message['CustomMessage'] : $message['Message'];
+			} else {
+				$entry['data'] = $message;
+				$entry['message'] = $message['message'] ?? '(no message provided)';
+			}
 		}
 
 		return $entry;
