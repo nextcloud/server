@@ -83,6 +83,7 @@ OC.L10N.register(
     "Available flows" : "Beschikbare flows",
     "For details on how to write your own flow, check out the development documentation." : "Raadpleeg de ontwikkeldocumentatie voor meer informatie over het ontwikkelen van je eigen flow.",
     "More flows" : "Meer flows",
+    "Browse the App Store" : "Blader door de App Store",
     "Show less" : "Toon minder",
     "Show more" : "Toon meer",
     "Configured flows" : "Geconfigureerde flows",
