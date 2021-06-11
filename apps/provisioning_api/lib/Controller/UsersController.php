@@ -52,6 +52,7 @@ use OC\KnownUser\KnownUserService;
 use OC\User\Backend;
 use OCA\Settings\Mailer\NewUserMailHelper;
 use OCP\Accounts\IAccountManager;
+use OCP\Accounts\IAccountProperty;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
@@ -602,6 +603,85 @@ class UsersController extends AUserData {
 	}
 
 	/**
+	 * @throws OCSException
+	 */
+	public function editUserMultiValue(
+		string $userId,
+		string $collectionName,
+		string $key,
+		string $value
+	): DataResponse {
+		$currentLoggedInUser = $this->userSession->getUser();
+		if ($currentLoggedInUser === null) {
+			throw new OCSException('', OCSController::RESPOND_UNAUTHORISED);
+		}
+
+		$targetUser = $this->userManager->get($userId);
+		if ($targetUser === null) {
+			throw new OCSException('', OCSController::RESPOND_NOT_FOUND);
+		}
+
+		$permittedFields = [];
+		if ($targetUser->getUID() === $currentLoggedInUser->getUID()) {
+			// Editing self (display, email)
+			$permittedFields[] = IAccountManager::COLLECTION_EMAIL;
+			$permittedFields[] = IAccountManager::COLLECTION_EMAIL . self::SCOPE_SUFFIX;
+		} else {
+			// Check if admin / subadmin
+			$subAdminManager = $this->groupManager->getSubAdmin();
+			if ($this->groupManager->isAdmin($currentLoggedInUser->getUID())
+				|| $subAdminManager->isUserAccessible($currentLoggedInUser, $targetUser)) {
+				// They have permissions over the user
+
+				$permittedFields[] = IAccountManager::COLLECTION_EMAIL;
+			} else {
+				// No rights
+				throw new OCSException('', OCSController::RESPOND_NOT_FOUND);
+			}
+		}
+
+		// Check if permitted to edit this field
+		if (!in_array($collectionName, $permittedFields)) {
+			throw new OCSException('', 103);
+		}
+
+		switch ($collectionName) {
+			case IAccountManager::COLLECTION_EMAIL:
+				$userAccount = $this->accountManager->getAccount($targetUser);
+				$mailCollection = $userAccount->getPropertyCollection(IAccountManager::COLLECTION_EMAIL);
+				$mailCollection->removePropertyByValue($key);
+				if ($value !== '') {
+					// "replace on"
+					$mailCollection->addPropertyWithDefaults($value);
+				}
+				$this->accountManager->updateAccount($userAccount);
+				break;
+
+			case IAccountManager::COLLECTION_EMAIL . self::SCOPE_SUFFIX:
+				$userAccount = $this->accountManager->getAccount($targetUser);
+				$mailCollection = $userAccount->getPropertyCollection(IAccountManager::COLLECTION_EMAIL);
+				$targetProperty = null;
+				foreach ($mailCollection->getProperties() as $property) {
+					if ($property->getValue() === $value) {
+						$targetProperty = $property;
+						break;
+					}
+				}
+				if ($targetProperty instanceof IAccountProperty) {
+					$targetProperty->setScope($value);
+					$this->accountManager->updateAccount($userAccount);
+				} else {
+					throw new OCSException('', 102);
+				}
+				break;
+
+			default:
+				throw new OCSException('', 103);
+		}
+		return new DataResponse();
+	}
+
+	/**
 	 * @NoAdminRequired
 	 * @NoSubAdminRequired
 	 * @PasswordConfirmationRequired
@@ -636,6 +716,8 @@ class UsersController extends AUserData {
 
 			$permittedFields[] = IAccountManager::PROPERTY_DISPLAYNAME . self::SCOPE_SUFFIX;
 			$permittedFields[] = IAccountManager::PROPERTY_EMAIL . self::SCOPE_SUFFIX;
+
+			$permittedFields[] = IAccountManager::COLLECTION_EMAIL;
 
 			$permittedFields[] = 'password';
 			if ($this->config->getSystemValue('force_language', false) === false ||
@@ -675,6 +757,7 @@ class UsersController extends AUserData {
 					$permittedFields[] = IAccountManager::PROPERTY_DISPLAYNAME;
 				}
 				$permittedFields[] = IAccountManager::PROPERTY_EMAIL;
+				$permittedFields[] = IAccountManager::COLLECTION_EMAIL;
 				$permittedFields[] = 'password';
 				$permittedFields[] = 'language';
 				$permittedFields[] = 'locale';
@@ -743,6 +826,21 @@ class UsersController extends AUserData {
 			case IAccountManager::PROPERTY_EMAIL:
 				if (filter_var($value, FILTER_VALIDATE_EMAIL) || $value === '') {
 					$targetUser->setEMailAddress($value);
+				} else {
+					throw new OCSException('', 102);
+				}
+				break;
+			case IAccountManager::COLLECTION_EMAIL:
+				if (filter_var($value, FILTER_VALIDATE_EMAIL) && $value !== $targetUser->getEMailAddress()) {
+					$userAccount = $this->accountManager->getAccount($targetUser);
+					$mailCollection = $userAccount->getPropertyCollection(IAccountManager::COLLECTION_EMAIL);
+					foreach ($mailCollection->getProperties() as $property) {
+						if ($property->getValue() === $value) {
+							break;
+						}
+					}
+					$mailCollection->addPropertyWithDefaults($value);
+					$this->accountManager->updateAccount($userAccount);
 				} else {
 					throw new OCSException('', 102);
 				}

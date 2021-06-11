@@ -69,6 +69,14 @@ interface IAccountPropertyCollection extends JsonSerializable {
 	public function addProperty(IAccountProperty $property): IAccountPropertyCollection;
 
 	/**
+	 * adds a property to this collection with only specifying the value
+	 *
+	 * @throws InvalidArgumentException
+	 * @since 22.0.0
+	 */
+	public function addPropertyWithDefaults(string $value): IAccountPropertyCollection;
+
+	/**
 	 * removes a property of this collection
 	 *
 	 * @since 22.0.0
