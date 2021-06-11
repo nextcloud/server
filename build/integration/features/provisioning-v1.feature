@@ -62,6 +62,7 @@ Feature: provisioning
     Then user "brand-new-user" has editable fields
       | displayname |
       | email |
+      | additional_mail |
       | phone |
       | address |
       | website |
@@ -70,6 +71,7 @@ Feature: provisioning
     Then user "brand-new-user" has editable fields
       | displayname |
       | email |
+      | additional_mail |
       | phone |
       | address |
       | website |
@@ -77,6 +79,7 @@ Feature: provisioning
     Then user "self" has editable fields
       | displayname |
       | email |
+      | additional_mail |
       | phone |
       | address |
       | website |
@@ -233,7 +236,7 @@ Feature: provisioning
 		And group "new-group" exists
 		And group "new-group" has
 			| displayname | new-group |
-			
+
 	Scenario: Create a group with custom display name
 		Given As an "admin"
 		And group "new-group" does not exist
