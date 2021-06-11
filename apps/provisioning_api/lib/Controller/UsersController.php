@@ -592,6 +592,7 @@ class UsersController extends AUserData {
 			$permittedFields[] = IAccountManager::PROPERTY_EMAIL;
 		}
 
+		$permittedFields[] = IAccountManager::COLLECTION_EMAIL;
 		$permittedFields[] = IAccountManager::PROPERTY_PHONE;
 		$permittedFields[] = IAccountManager::PROPERTY_ADDRESS;
 		$permittedFields[] = IAccountManager::PROPERTY_WEBSITE;

@@ -3851,6 +3851,7 @@ class UsersControllerTest extends TestCase {
 	public function dataGetEditableFields() {
 		return [
 			[false, ISetDisplayNameBackend::class, [
+				IAccountManager::COLLECTION_EMAIL,
 				IAccountManager::PROPERTY_PHONE,
 				IAccountManager::PROPERTY_ADDRESS,
 				IAccountManager::PROPERTY_WEBSITE,
@@ -3859,6 +3860,7 @@ class UsersControllerTest extends TestCase {
 			[true, ISetDisplayNameBackend::class, [
 				IAccountManager::PROPERTY_DISPLAYNAME,
 				IAccountManager::PROPERTY_EMAIL,
+				IAccountManager::COLLECTION_EMAIL,
 				IAccountManager::PROPERTY_PHONE,
 				IAccountManager::PROPERTY_ADDRESS,
 				IAccountManager::PROPERTY_WEBSITE,
@@ -3866,6 +3868,7 @@ class UsersControllerTest extends TestCase {
 			]],
 			[true, UserInterface::class, [
 				IAccountManager::PROPERTY_EMAIL,
+				IAccountManager::COLLECTION_EMAIL,
 				IAccountManager::PROPERTY_PHONE,
 				IAccountManager::PROPERTY_ADDRESS,
 				IAccountManager::PROPERTY_WEBSITE,
