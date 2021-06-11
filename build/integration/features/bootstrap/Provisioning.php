@@ -169,13 +169,20 @@ trait Provisioning {
 		foreach ($settings->getRows() as $setting) {
 			$value = json_decode(json_encode(simplexml_load_string($response->getBody())->data->{$setting[0]}), 1);
 			if (isset($value[0])) {
-				Assert::assertEquals($setting[1], $value[0], "", 0.0, 10, true);
+				if (in_array($setting[0], ['additional_mail', 'additional_mailScope'], true)) {
+					$expectedValues = explode(';', $setting[1]);
+					foreach ($expectedValues as $expected) {
+						Assert::assertTrue(in_array($expected, $value, true));
+					}
+				} else {
+					Assert::assertEquals($setting[1], $value[0], "", 0.0, 10, true);
+				}
 			} else {
 				Assert::assertEquals('', $setting[1]);
 			}
 		}
 	}
-	
+
 	/**
 	 * @Then /^group "([^"]*)" has$/
 	 *
@@ -194,7 +201,7 @@ trait Provisioning {
 		$options['headers'] = [
 			'OCS-APIREQUEST' => 'true',
 		];
-		
+
 		$response = $client->get($fullUrl, $options);
 		$groupDetails = simplexml_load_string($response->getBody())->data[0]->groups[0]->element;
 		foreach ($settings->getRows() as $setting) {
@@ -206,7 +213,7 @@ trait Provisioning {
 			}
 		}
 	}
-	
+
 
 	/**
 	 * @Then /^user "([^"]*)" has editable fields$/
@@ -966,5 +973,39 @@ trait Provisioning {
 			$this->deleteGroup($remoteGroup);
 		}
 		$this->usingServer($previousServer);
+	}
+
+	/**
+	 * @Then /^user "([^"]*)" has not$/
+	 */
+	public function userHasNotSetting($user, \Behat\Gherkin\Node\TableNode $settings) {
+		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/cloud/users/$user";
+		$client = new Client();
+		$options = [];
+		if ($this->currentUser === 'admin') {
+			$options['auth'] = $this->adminUser;
+		} else {
+			$options['auth'] = [$this->currentUser, $this->regularUser];
+		}
+		$options['headers'] = [
+			'OCS-APIREQUEST' => 'true',
+		];
+
+		$response = $client->get($fullUrl, $options);
+		foreach ($settings->getRows() as $setting) {
+			$value = json_decode(json_encode(simplexml_load_string($response->getBody())->data->{$setting[0]}), 1);
+			if (isset($value[0])) {
+				if (in_array($setting[0], ['additional_mail', 'additional_mailScope'], true)) {
+					$expectedValues = explode(';', $setting[1]);
+					foreach ($expectedValues as $expected) {
+						Assert::assertFalse(in_array($expected, $value, true));
+					}
+				} else {
+					Assert::assertNotEquals($setting[1], $value[0], "", 0.0, 10, true);
+				}
+			} else {
+				Assert::assertNotEquals('', $setting[1]);
+			}
+		}
 	}
 }

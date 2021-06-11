@@ -54,6 +54,7 @@ return [
 		['root' => '/cloud', 'name' => 'Users#getEditableFields', 'url' => '/user/fields', 'verb' => 'GET'],
 		['root' => '/cloud', 'name' => 'Users#getEditableFieldsForUser', 'url' => '/user/fields/{userId}', 'verb' => 'GET'],
 		['root' => '/cloud', 'name' => 'Users#editUser', 'url' => '/users/{userId}', 'verb' => 'PUT'],
+		['root' => '/cloud', 'name' => 'Users#editUserMultiValue', 'url' => '/users/{userId}/{collectionName}', 'verb' => 'PUT', 'requirements' => ['collectionName' => '[^(enable|disable)]']],
 		['root' => '/cloud', 'name' => 'Users#wipeUserDevices', 'url' => '/users/{userId}/wipe', 'verb' => 'POST'],
 		['root' => '/cloud', 'name' => 'Users#deleteUser', 'url' => '/users/{userId}', 'verb' => 'DELETE'],
 		['root' => '/cloud', 'name' => 'Users#enableUser', 'url' => '/users/{userId}/enable', 'verb' => 'PUT'],
