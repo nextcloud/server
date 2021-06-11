@@ -150,6 +150,20 @@ abstract class AUserData extends OCSController {
 			if ($includeScopes) {
 				$data[IAccountManager::PROPERTY_EMAIL . self::SCOPE_SUFFIX] = $userAccount->getProperty(IAccountManager::PROPERTY_EMAIL)->getScope();
 			}
+
+			$additionalEmails = $additionalEmailScopes = [];
+			$emailCollection = $userAccount->getPropertyCollection(IAccountManager::COLLECTION_EMAIL);
+			foreach ($emailCollection->getProperties() as $property) {
+				$additionalEmails[] = $property->getValue();
+				if ($includeScopes) {
+					$additionalEmailScopes = $property->getScope();
+				}
+			}
+			$data[IAccountManager::COLLECTION_EMAIL] = $additionalEmails;
+			if ($includeScopes) {
+				$data[IAccountManager::COLLECTION_EMAIL . self::SCOPE_SUFFIX] = $additionalEmailScopes;
+			}
+
 			$data[IAccountManager::PROPERTY_DISPLAYNAME] = $targetUserObject->getDisplayName();
 			if ($includeScopes) {
 				$data[IAccountManager::PROPERTY_DISPLAYNAME . self::SCOPE_SUFFIX] = $userAccount->getProperty(IAccountManager::PROPERTY_DISPLAYNAME)->getScope();

@@ -464,6 +464,7 @@ class AccountManagerTest extends TestCase {
 		$expected = [
 			'key1' => ['value' => 'value1', 'verified' => '0'],
 			'key2' => ['value' => 'value1', 'verified' => '0'],
+			'additional_mail' => []
 		];
 
 		$result = $this->invokePrivate($this->accountManager, 'addMissingDefaultValues', [$input]);

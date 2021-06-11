@@ -1071,7 +1071,8 @@ class UsersControllerTest extends TestCase {
 			'backendCapabilities' => [
 				'setDisplayName' => true,
 				'setPassword' => true,
-			]
+			],
+			'additional_mail' => [],
 		];
 		$this->assertEquals($expected, $this->invokePrivate($this->api, 'getUserData', ['UID']));
 	}
@@ -1198,7 +1199,8 @@ class UsersControllerTest extends TestCase {
 			'backendCapabilities' => [
 				'setDisplayName' => true,
 				'setPassword' => true,
-			]
+			],
+			'additional_mail' => [],
 		];
 		$this->assertEquals($expected, $this->invokePrivate($this->api, 'getUserData', ['UID']));
 	}
@@ -1363,7 +1365,8 @@ class UsersControllerTest extends TestCase {
 			'backendCapabilities' => [
 				'setDisplayName' => false,
 				'setPassword' => false,
-			]
+			],
+			'additional_mail' => [],
 		];
 		$this->assertEquals($expected, $this->invokePrivate($this->api, 'getUserData', ['UID']));
 	}
