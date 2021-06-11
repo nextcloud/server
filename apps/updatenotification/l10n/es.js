@@ -20,7 +20,7 @@ OC.L10N.register(
     "Download now" : "Descargar ahora",
     "Please use the command line updater to update." : "Por favor, utilice el actualizador de línea de comandos para actualizar.",
     "What's new?" : "¿Qué novedades hay?",
-    "The update check is not yet finished. Please refresh the page." : "La comprobación de actuliazaciones no ha finalizado aún. Por favor, recarga la página.",
+    "The update check is not yet finished. Please refresh the page." : "La comprobación de actualizaciones no ha finalizado aún. Por favor, recarga la página.",
     "Your version is up to date." : "Su versión está actualizada.",
     "A non-default update server is in use to be checked for updates:" : "Se está usando un servidor de actualizaciones no estándar para comprobar las actualizaciones:",
     "Update channel:" : "Canal de actualización: ",
