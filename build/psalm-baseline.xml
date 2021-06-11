@@ -538,11 +538,6 @@
       <code>\Sabre\Uri\split($principal)</code>
     </UndefinedFunction>
   </file>
-  <file src="apps/dav/lib/Connector/PublicAuth.php">
-    <InvalidScalarArgument occurrences="1">
-      <code>'DummyBasic realm="' . $this-&gt;realm . '"'</code>
-    </InvalidScalarArgument>
-  </file>
   <file src="apps/dav/lib/Connector/Sabre/AnonymousOptionsPlugin.php">
     <InvalidNullableReturnType occurrences="1">
       <code>bool</code>
@@ -1338,10 +1333,6 @@
     </ParamNameMismatch>
   </file>
   <file src="apps/files_external/lib/Lib/Storage/SFTPReadStream.php">
-    <FalsableReturnStatement occurrences="2">
-      <code>false</code>
-      <code>false</code>
-    </FalsableReturnStatement>
     <InvalidArgument occurrences="2">
       <code>$this-&gt;handle</code>
       <code>$this-&gt;handle</code>
@@ -1360,11 +1351,6 @@
     </InvalidReturnType>
   </file>
   <file src="apps/files_external/lib/Lib/Storage/SFTPWriteStream.php">
-    <FalsableReturnStatement occurrences="3">
-      <code>false</code>
-      <code>false</code>
-      <code>false</code>
-    </FalsableReturnStatement>
     <InvalidArgument occurrences="2">
       <code>$this-&gt;handle</code>
       <code>$this-&gt;handle</code>
@@ -3898,11 +3884,6 @@
     </InvalidReturnType>
   </file>
   <file src="lib/private/Files/Stream/SeekableHttpStream.php">
-    <FalsableReturnStatement occurrences="3">
-      <code>false</code>
-      <code>false</code>
-      <code>false</code>
-    </FalsableReturnStatement>
     <InvalidPropertyAssignmentValue occurrences="2">
       <code>$this-&gt;current</code>
       <code>$this-&gt;current</code>
