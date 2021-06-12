@@ -40,9 +40,12 @@ class Plugin extends ServerPlugin {
 	 * list of regular expressions for calendar user agents,
 	 * that do not support subscriptions on their own
 	 *
+	 * /^MSFT-WIN-3/ - Windows 10 Calendar
 	 * @var string[]
 	 */
-	public const ENABLE_FOR_CLIENTS = [];
+	public const ENABLE_FOR_CLIENTS = [
+		"/^MSFT-WIN-3/"
+	];
 
 	/**
 	 * @var bool
