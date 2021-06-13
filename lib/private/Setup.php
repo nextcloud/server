@@ -419,6 +419,9 @@ class Setup {
 
 			//and we are done
 			$config->setSystemValue('installed', true);
+			if (\OC_Util::getChannel() !== 'git' && is_file(\OC::$configDir.'/CAN_INSTALL')) {
+				unlink(\OC::$configDir.'/CAN_INSTALL');
+			}
 
 			$bootstrapCoordinator = \OC::$server->query(\OC\AppFramework\Bootstrap\Coordinator::class);
 			$bootstrapCoordinator->runInitialRegistration();
