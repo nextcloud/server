@@ -49,12 +49,7 @@ class CacheWrapper extends Cache {
 		$this->cache = $cache;
 		$this->mimetypeLoader = \OC::$server->getMimeTypeLoader();
 		$this->connection = \OC::$server->getDatabaseConnection();
-		$this->querySearchHelper = new QuerySearchHelper(
-			$this->mimetypeLoader,
-			$this->connection,
-			\OC::$server->getSystemConfig(),
-			\OC::$server->getLogger()
-		);
+		$this->querySearchHelper = \OC::$server->get(QuerySearchHelper::class);
 	}
 
 	protected function getCache() {

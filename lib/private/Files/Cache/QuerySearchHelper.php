@@ -52,13 +52,14 @@ class QuerySearchHelper {
 		IMimeTypeLoader $mimetypeLoader,
 		IDBConnection $connection,
 		SystemConfig $systemConfig,
-		ILogger $logger
+		ILogger $logger,
+		SearchBuilder $searchBuilder
 	) {
 		$this->mimetypeLoader = $mimetypeLoader;
 		$this->connection = $connection;
 		$this->systemConfig = $systemConfig;
 		$this->logger = $logger;
-		$this->searchBuilder = new SearchBuilder($this->mimetypeLoader);
+		$this->searchBuilder = $searchBuilder;
 	}
 
 	protected function getQueryBuilder() {

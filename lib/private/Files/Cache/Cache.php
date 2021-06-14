@@ -121,12 +121,7 @@ class Cache implements ICache {
 		$this->mimetypeLoader = \OC::$server->getMimeTypeLoader();
 		$this->connection = \OC::$server->getDatabaseConnection();
 		$this->eventDispatcher = \OC::$server->get(IEventDispatcher::class);
-		$this->querySearchHelper = new QuerySearchHelper(
-			$this->mimetypeLoader,
-			$this->connection,
-			\OC::$server->getSystemConfig(),
-			\OC::$server->getLogger()
-		);
+		$this->querySearchHelper = \OC::$server->query(QuerySearchHelper::class);
 	}
 
 	protected function getQueryBuilder() {
