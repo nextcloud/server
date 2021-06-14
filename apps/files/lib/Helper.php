@@ -217,7 +217,7 @@ class Helper {
 	 * @param ITagManager $tagManager
 	 * @return array file list populated with tags
 	 */
-	public static function populateTags(array $fileList, $fileIdentifier = 'fileid', ITagManager $tagManager) {
+	public static function populateTags(array $fileList, $fileIdentifier, ITagManager $tagManager) {
 		$ids = [];
 		foreach ($fileList as $fileData) {
 			$ids[] = $fileData[$fileIdentifier];

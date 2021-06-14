@@ -156,8 +156,8 @@ class PreviewController extends Controller {
 		Node $node,
 		int $x,
 		int $y,
-		bool $a = false,
-		bool $forceIcon = true,
+		bool $a,
+		bool $forceIcon,
 		string $mode) : Http\Response {
 		if (!($node instanceof File) || (!$forceIcon && !$this->preview->isAvailable($node))) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
