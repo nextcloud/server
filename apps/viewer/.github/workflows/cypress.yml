@@ -22,8 +22,6 @@ jobs:
       matrix:
         # run multiple copies of the current job in parallel
         containers: [1, 2, 3, 4, 5]
-        node-version: ['12.x']
-        php-versions: ['7.4']
 
     name: runner ${{ matrix.containers }}
 
@@ -36,10 +34,13 @@ jobs:
           cd cypress
           docker-compose up -d
 
-      - name: Set up node ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
+      - name: Set up node
+        uses: actions/setup-node@v2
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 14
+
+      - name: Set up npm7
+        run: npm i -g npm@7
 
       - name: Install dependencies & build app
         run: |
