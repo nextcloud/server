@@ -161,11 +161,17 @@ interface ILDAPProvider {
 
 	/**
 	 * Get an LDAP attribute for a nextcloud user
-	 * @param string $uid the nextcloud user id to get the attribute for
-	 * @param string $attribute the name of the attribute to read
-	 * @return string|null
+	 *
 	 * @throws \Exception if user id was not found in LDAP
 	 * @since 21.0.0
 	 */
 	public function getUserAttribute(string $uid, string $attribute): ?string;
+
+	/**
+	 * Get a multi-value LDAP attribute for a nextcloud user
+	 *
+	 * @throws \Exception if user id was not found in LDAP
+	 * @since 22.0.0
+	 */
+	public function getMultiValueUserAttribute(string $uid, string $attribute): array;
 }
