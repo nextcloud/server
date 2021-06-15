@@ -313,7 +313,10 @@ window.addEventListener('DOMContentLoaded', function () {
 		}
 	});
 
-	$('#selectavatar').click(function () {
+	$('#selectavatar').click(function (event) {
+		event.stopPropagation();
+		event.preventDefault();
+
 		OC.dialogs.filepicker(
 			t('settings', "Select a profile picture"),
 			function (path) {
@@ -345,7 +348,10 @@ window.addEventListener('DOMContentLoaded', function () {
 		);
 	});
 
-	$('#removeavatar').click(function () {
+	$('#removeavatar').click(function (event) {
+		event.stopPropagation();
+		event.preventDefault();
+
 		$.ajax({
 			type: 'DELETE',
 			url: OC.generateUrl('/avatar/'),
