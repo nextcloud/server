@@ -4,7 +4,7 @@ OC.L10N.register(
     "Migration in progress. Please wait until the migration is finished" : "Migracja w toku. Poczekaj na zakończenie migracji.",
     "Migration started …" : "Migracja rozpoczęta…",
     "Saved" : "Zapisano",
-    "Not saved" : "Nie zapisany",
+    "Not saved" : "Nie zapisano",
     "Sending…" : "Wysyłam…",
     "Email sent" : "E-mail został wysłany",
     "Private" : "Prywatne",
