@@ -326,7 +326,7 @@ OC.L10N.register(
     "Contacts menu" : "Menu kontaktów",
     "Settings menu" : "Menu ustawień",
     "Confirm your password" : "Potwierdź hasło",
-    "Connect to your account" : "Połącz się z kontem",
+    "Connect to your account" : "Połącz z kontem",
     "Please log in before granting %1$s access to your %2$s account." : "Zaloguj się przed udzieleniem dostępu %1$s do swojego konta %2$s.",
     "If you are not trying to set up a new device or app, someone is trying to trick you into granting them access to your data. In this case do not proceed and instead contact your system administrator." : "Jeśli nie konfigurujesz nowego urządzenia lub aplikacji, to wynika z tego, że ktoś próbuje, abyś udzielił dostępu do Twoich danych. W takim przypadku nie kontynuuj, tylko skontaktuj się z administratorem systemu.",
     "App token" : "Token aplikacji",
