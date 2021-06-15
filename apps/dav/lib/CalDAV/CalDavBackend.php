@@ -1098,6 +1098,14 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		return $result;
 	}
 
+	/**
+	 * Return all deleted calendar objects by the given principal that are not
+	 * in deleted calendars.
+	 *
+	 * @param string $principalUri
+	 * @return array
+	 * @throws \OCP\DB\Exception
+	 */
 	public function getDeletedCalendarObjectsByPrincipal(string $principalUri): array {
 		$query = $this->db->getQueryBuilder();
 		$query->select(['co.id', 'co.uri', 'co.lastmodified', 'co.etag', 'co.calendarid', 'co.size', 'co.componenttype', 'co.classification', 'co.deleted_at'])
@@ -1105,7 +1113,8 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			->from('calendarobjects', 'co')
 			->join('co', 'calendars', 'c', $query->expr()->eq('c.id', 'co.calendarid', IQueryBuilder::PARAM_INT))
 			->where($query->expr()->eq('principaluri', $query->createNamedParameter($principalUri)))
-			->andWhere($query->expr()->isNotNull('co.deleted_at'));
+			->andWhere($query->expr()->isNotNull('co.deleted_at'))
+			->andWhere($query->expr()->isNull('c.deleted_at'));
 		$stmt = $query->executeQuery();
 
 		$result = [];
