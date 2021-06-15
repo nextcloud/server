@@ -126,6 +126,7 @@ import Vue from 'vue'
 import axios from '@nextcloud/axios'
 import '@nextcloud/dialogs/styles/toast.scss'
 import { showError } from '@nextcloud/dialogs'
+import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 
 import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
 import ActionLink from '@nextcloud/vue/dist/Components/ActionLink'
@@ -307,13 +308,6 @@ export default {
 				}
 			}
 		},
-
-		sidebarFile(file) {
-			// TODO: implement sidebar event bus
-			if (file === '') {
-				this.hideAppsSidebar()
-			}
-		},
 	},
 
 	beforeMount() {
@@ -344,8 +338,20 @@ export default {
 		}
 	},
 
+	mounted() {
+		// React to Files' Sidebar events.
+		subscribe('files:sidebar:opened', this.handleAppSidebarOpen)
+		subscribe('files:sidebar:closed', this.handleAppSidebarClose)
+	},
+
 	beforeDestroy() {
 		window.removeEventListener('resize', this.onResize)
+	},
+
+	destroyed() {
+		// Unsubscribe to Files' Sidebar events.
+		unsubscribe('files:sidebar:opened', this.handleAppSidebarOpen)
+		unsubscribe('files:sidebar:closed', this.handleAppSidebarClose)
 	},
 
 	methods: {
@@ -358,6 +364,10 @@ export default {
 			// cancel any previous requests
 			this.cancelRequestFile()
 			this.cancelRequestFolder()
+
+			if (OCA.Files.Sidebar) {
+				OCA.Files.Sidebar.setFullScreenMode(true)
+			}
 
 			// do not open the same file again
 			if (path === this.currentFile.path) {
@@ -637,6 +647,10 @@ export default {
 			// This will set file to ''
 			// which then triggers cleanup.
 			OCA.Viewer.close()
+
+			if (OCA.Files.Sidebar) {
+				OCA.Files.Sidebar.setFullScreenMode(false)
+			}
 		},
 
 		cleanup() {
@@ -645,7 +659,6 @@ export default {
 			this.currentModal = null
 			this.fileList = []
 			this.initiated = false
-			this.hideAppsSidebar()
 
 			// cancel requests
 			this.cancelRequestFile()
@@ -722,25 +735,22 @@ export default {
 		async showSidebar() {
 			// Open the sidebar sharing tab
 			// TODO: also hide figure, needs a proper method for it in server Sidebar
-			await OCA.Files.Sidebar.open(this.currentFile.filename)
-			setTimeout(this.showAppsSidebar, 100) // we have to wait the animation of the sidebar
+
+			if (OCA.Files.Sidebar) {
+				await OCA.Files.Sidebar.open(this.currentFile.filename)
+			}
 		},
 
-		showAppsSidebar() {
+		handleAppSidebarOpen() {
 			this.isSidebarShown = true
 			const sidebar = document.querySelector('aside.app-sidebar')
 			if (sidebar) {
-				sidebar.classList.add('app-sidebar--full')
 				this.sidebarWidth = sidebar.offsetWidth
 			}
 		},
 
-		hideAppsSidebar() {
+		handleAppSidebarClose() {
 			this.isSidebarShown = false
-			const sidebar = document.querySelector('aside.app-sidebar')
-			if (sidebar) {
-				sidebar.classList.remove('app-sidebar--full')
-			}
 		},
 
 		onResize(event) {
@@ -852,14 +862,6 @@ export default {
 // force white icon on single buttons
 #viewer .action-item--single.icon-menu-sidebar {
 	background-image: url('../assets/menu-sidebar-white.svg');
-}
-
-// Override vue components scss
-.app-sidebar.app-sidebar--full {
-	position: fixed !important;
-	z-index: 2025 !important;
-	top: 0 !important;
-	height: 100% !important;
 }
 
 // put autocomplete over full sidebar
