@@ -89,7 +89,7 @@ class WhatsNewController extends OCSController {
 			$whatsNew = $this->whatsNewService->getChangesForVersion($currentVersion);
 			$resultData = [
 				'changelogURL' => $whatsNew['changelogURL'],
-				'product' => $this->defaults->getName(),
+				'product' => $this->defaults->getProductName(),
 				'version' => $currentVersion,
 			];
 			do {

@@ -91,6 +91,7 @@ import {
 	ActionCheckbox,
 } from '@nextcloud/vue'
 
+// When using capture groups the following parts are extracted the first is used as the version number, the second as the OS
 const userAgentMap = {
 	ie: /(?:MSIE|Trident|Trident\/7.0; rv)[ :](\d+)/,
 	// Microsoft Edge User Agent from https://msdn.microsoft.com/en-us/library/hh869301(v=vs.85).aspx
@@ -105,7 +106,7 @@ const userAgentMap = {
 	androidChrome: /Android.*(?:; (.*) Build\/).*Chrome\/(\d+)[0-9.]+/,
 	iphone: / *CPU +iPhone +OS +([0-9]+)_(?:[0-9_])+ +like +Mac +OS +X */,
 	ipad: /\(iPad; *CPU +OS +([0-9]+)_(?:[0-9_])+ +like +Mac +OS +X */,
-	iosClient: /^Mozilla\/5\.0 \(iOS\) (ownCloud|Nextcloud)-iOS.*$/,
+	iosClient: /^Mozilla\/5\.0 \(iOS\) (?:ownCloud|Nextcloud)-iOS.*$/,
 	androidClient: /^Mozilla\/5\.0 \(Android\) ownCloud-android.*$/,
 	iosTalkClient: /^Mozilla\/5\.0 \(iOS\) Nextcloud-Talk.*$/,
 	androidTalkClient: /^Mozilla\/5\.0 \(Android\) Nextcloud-Talk.*$/,
@@ -125,10 +126,10 @@ const nameMap = {
 	androidChrome: t('setting', 'Google Chrome for Android'),
 	iphone: t('setting', 'iPhone'),
 	ipad: t('setting', 'iPad'),
-	iosClient: t('setting', 'Nextcloud iOS app'),
-	androidClient: t('setting', 'Nextcloud Android app'),
-	iosTalkClient: t('setting', 'Nextcloud Talk for iOS'),
-	androidTalkClient: t('setting', 'Nextcloud Talk for Android'),
+	iosClient: t('setting', '{productName} iOS app', { productName: window.oc_defaults.productName }),
+	androidClient: t('setting', '{productName} Android app', { productName: window.oc_defaults.productName }),
+	iosTalkClient: t('setting', '{productName} Talk for iOS', { productName: window.oc_defaults.productName }),
+	androidTalkClient: t('setting', '{productName} Talk for Android', { productName: window.oc_defaults.productName }),
 	davx5: 'DAVx5',
 	webPirate: 'WebPirate',
 	sailfishBrowser: 'SailfishBrowser',
