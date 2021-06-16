@@ -223,6 +223,15 @@ class FilesAppSharingContext implements Context, ActorAwareInterface {
 	/**
 	 * @return Locator
 	 */
+	public static function shareLinkSingleUnshareAction() {
+		return Locator::forThe()->css(".sharing-entry__actions.icon-close")->
+			descendantOf(self::shareLinkRow())->
+			describedAs("Unshare link single action in the details view in Files app");
+	}
+
+	/**
+	 * @return Locator
+	 */
 	public static function shareLinkMenuButton() {
 		return Locator::forThe()->css(".action-item__menutoggle")->
 				descendantOf(self::shareLinkMenuTrigger())->
@@ -505,10 +514,13 @@ class FilesAppSharingContext implements Context, ActorAwareInterface {
 	 * @When I unshare the link share
 	 */
 	public function iUnshareTheLink() {
-		$this->showShareLinkMenuIfNeeded();
-
-		$shareLinkMenuTriggerElement = $this->actor->find(self::shareLinkMenuTrigger(), 2);
-		$this->actor->find(self::unshareLinkButton($shareLinkMenuTriggerElement), 2)->click();
+		try {
+			$this->actor->find(self::shareLinkSingleUnshareAction(), 2)->click();
+		} catch (NoSuchElementException $e) {
+			$this->showShareLinkMenuIfNeeded();
+			$shareLinkMenuTriggerElement = $this->actor->find(self::shareLinkMenuTrigger(), 2);
+			$this->actor->find(self::unshareLinkButton($shareLinkMenuTriggerElement), 2)->click();
+		}
 	}
 
 	/**
