@@ -121,7 +121,7 @@ class ThemingDefaults extends \OC_Defaults {
 		$this->name = parent::getName();
 		$this->title = parent::getTitle();
 		$this->entity = parent::getEntity();
-		$this->productName = parent::getName();
+		$this->productName = parent::getProductName();
 		$this->url = parent::getBaseUrl();
 		$this->color = parent::getColorPrimary();
 		$this->iTunesAppId = parent::getiTunesAppId();
