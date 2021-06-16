@@ -31,6 +31,7 @@ namespace OC\DB\QueryBuilder;
 use Doctrine\DBAL\Platforms\MySqlPlatform;
 use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
 use Doctrine\DBAL\Platforms\SqlitePlatform;
+use Doctrine\DBAL\Query\QueryException;
 use OC\DB\OracleConnection;
 use OC\DB\QueryBuilder\ExpressionBuilder\ExpressionBuilder;
 use OC\DB\QueryBuilder\ExpressionBuilder\MySqlExpressionBuilder;
@@ -214,7 +215,6 @@ class QueryBuilder implements IQueryBuilder {
 			}
 		}
 
-		return $this->queryBuilder->execute();
 		$numberOfParameters = 0;
 		$hasTooLargeArrayParameter = false;
 		foreach ($this->getParameters() as $parameter) {
@@ -244,6 +244,8 @@ class QueryBuilder implements IQueryBuilder {
 				'app' => 'core',
 			]);
 		}
+
+		return $this->queryBuilder->execute();
 	}
 
 	/**
