@@ -13,7 +13,7 @@ jobs:
 
     strategy:
       matrix:
-        php-versions: ['7.3', '7.4']
+        php-versions: ['7.3', '7.4', '8.0']
   
     name: php${{ matrix.php-versions }}
     steps:
@@ -55,18 +55,17 @@ jobs:
   node:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: ['12.x']
-
-    name: eslint node${{ matrix.node-version }}
+    name: eslint node
     steps:
       - uses: actions/checkout@v2
 
-      - name: Set up node ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
+      - name: Set up node
+        uses: actions/setup-node@v2
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 14
+
+      - name: Set up npm7
+        run: npm i -g npm@7
 
       - name: Install dependencies
         run: npm ci
@@ -77,18 +76,17 @@ jobs:
   stylelint:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: ['12.x']
-
-    name: stylelint node${{ matrix.node-version }}
+    name: stylelint node
     steps:
       - uses: actions/checkout@v2
 
-      - name: Set up node ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
+      - name: Set up node
+        uses: actions/setup-node@v2
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 14
+
+      - name: Set up npm7
+        run: npm i -g npm@7
 
       - name: Install dependencies
         run: npm ci
