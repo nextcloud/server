@@ -21,9 +21,12 @@
  */
 namespace OC\Files\Cache;
 
+use OC\Files\Search\SearchComparison;
 use OCP\Constants;
 use OCP\Files\Cache\ICache;
 use OCP\Files\Cache\ICacheEntry;
+use OCP\Files\Search\ISearchComparison;
+use OCP\Files\Search\ISearchOperator;
 use OCP\Files\Search\ISearchQuery;
 
 /**
@@ -137,5 +140,13 @@ class FailedCache implements ICache {
 
 	public function copyFromCache(ICache $sourceCache, ICacheEntry $sourceEntry, string $targetPath): int {
 		throw new \Exception("Invalid cache");
+	}
+
+	public function getQueryFilterForStorage(): ISearchOperator {
+		return new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'storage', -1);
+	}
+
+	public function getCacheEntryFromSearchResult(ICacheEntry $rawEntry): ?ICacheEntry {
+		return null;
 	}
 }

@@ -124,4 +124,8 @@ class CacheEntry implements ICacheEntry {
 	public function getData() {
 		return $this->data;
 	}
+
+	public function __clone() {
+		$this->data = array_merge([], $this->data);
+	}
 }

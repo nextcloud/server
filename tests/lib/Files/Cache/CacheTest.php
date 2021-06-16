@@ -363,7 +363,7 @@ class CacheTest extends \Test\TestCase {
 		$this->assertEquals(3, count($results));
 
 		usort($results, function ($value1, $value2) {
-			return $value1['name'] >= $value2['name'];
+			return $value1['name'] <=> $value2['name'];
 		});
 
 		$this->assertEquals('folder', $results[0]['name']);
@@ -376,7 +376,10 @@ class CacheTest extends \Test\TestCase {
 		static::logout();
 		$user = \OC::$server->getUserManager()->get($userId);
 		if ($user !== null) {
-			$user->delete();
+			try {
+				$user->delete();
+			} catch (\Exception $e) {
+			}
 		}
 	}
 

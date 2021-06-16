@@ -30,8 +30,13 @@ namespace OCA\Files_Sharing;
 
 use OC\Files\Cache\FailedCache;
 use OC\Files\Cache\Wrapper\CacheJail;
+use OC\Files\Search\SearchBinaryOperator;
+use OC\Files\Search\SearchComparison;
 use OC\Files\Storage\Wrapper\Jail;
 use OCP\Files\Cache\ICacheEntry;
+use OCP\Files\Search\ISearchBinaryOperator;
+use OCP\Files\Search\ISearchComparison;
+use OCP\Files\Search\ISearchOperator;
 use OCP\Files\StorageNotAvailableException;
 
 /**
@@ -181,19 +186,19 @@ class Cache extends CacheJail {
 		// Not a valid action for Shared Cache
 	}
 
-	public function search($pattern) {
-		// Do the normal search on the whole storage for non files
+	public function getQueryFilterForStorage(): ISearchOperator {
+		// Do the normal jail behavior for non files
 		if ($this->storage->getItemType() !== 'file') {
-			return parent::search($pattern);
+			return parent::getQueryFilterForStorage();
 		}
 
-		$regex = '/' . str_replace('%', '.*', $pattern) . '/i';
-
-		$data = $this->get('');
-		if (preg_match($regex, $data->getName()) === 1) {
-			return [$data];
-		}
-
-		return [];
+		// for single file shares we don't need to do the LIKE
+		return new SearchBinaryOperator(
+			ISearchBinaryOperator::OPERATOR_AND,
+			[
+				\OC\Files\Cache\Cache::getQueryFilterForStorage(),
+				new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'path', $this->getGetUnjailedRoot()),
+			]
+		);
 	}
 }

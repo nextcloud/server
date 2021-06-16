@@ -22,7 +22,7 @@
 namespace Test\Files\Cache;
 
 use OC\DB\QueryBuilder\Literal;
-use OC\Files\Cache\QuerySearchHelper;
+use OC\Files\Cache\SearchBuilder;
 use OC\Files\Search\SearchBinaryOperator;
 use OC\Files\Search\SearchComparison;
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -35,17 +35,17 @@ use Test\TestCase;
 /**
  * @group DB
  */
-class QuerySearchHelperTest extends TestCase {
-	/** @var  IQueryBuilder */
+class SearchBuilderTest extends TestCase {
+	/** @var IQueryBuilder */
 	private $builder;
 
-	/** @var  IMimeTypeLoader|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IMimeTypeLoader|\PHPUnit\Framework\MockObject\MockObject */
 	private $mimetypeLoader;
 
-	/** @var  QuerySearchHelper */
-	private $querySearchHelper;
+	/** @var SearchBuilder */
+	private $searchBuilder;
 
-	/** @var  integer */
+	/** @var integer */
 	private $numericStorageId;
 
 	protected function setUp(): void {
@@ -75,7 +75,7 @@ class QuerySearchHelperTest extends TestCase {
 				[6, 'image']
 			]);
 
-		$this->querySearchHelper = new QuerySearchHelper($this->mimetypeLoader);
+		$this->searchBuilder = new SearchBuilder($this->mimetypeLoader);
 		$this->numericStorageId = 10000;
 
 		$this->builder->select(['fileid'])
@@ -134,7 +134,7 @@ class QuerySearchHelperTest extends TestCase {
 	}
 
 	private function search(ISearchOperator $operator) {
-		$dbOperator = $this->querySearchHelper->searchOperatorToDBExpr($this->builder, $operator);
+		$dbOperator = $this->searchBuilder->searchOperatorToDBExpr($this->builder, $operator);
 		$this->builder->andWhere($dbOperator);
 
 		$result = $this->builder->execute();
