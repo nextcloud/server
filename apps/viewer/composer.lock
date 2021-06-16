@@ -1186,16 +1186,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "8.5.15",
+            "version": "8.5.16",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "038d4196d8e8cb405cd5e82cedfe413ad6eef9ef"
+                "reference": "cc66f2fc61296be66c99931a862200e7456b9a01"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/038d4196d8e8cb405cd5e82cedfe413ad6eef9ef",
-                "reference": "038d4196d8e8cb405cd5e82cedfe413ad6eef9ef",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/cc66f2fc61296be66c99931a862200e7456b9a01",
+                "reference": "cc66f2fc61296be66c99931a862200e7456b9a01",
                 "shasum": ""
             },
             "require": {
@@ -1275,7 +1275,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-03-17T07:27:54+00:00"
+            "time": "2021-06-05T04:46:20+00:00"
         },
         {
             "name": "psr/container",
@@ -2478,16 +2478,16 @@
         },
         {
             "name": "symfony/polyfill-ctype",
-            "version": "v1.22.1",
+            "version": "v1.23.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-ctype.git",
-                "reference": "c6c942b1ac76c82448322025e084cadc56048b4e"
+                "reference": "46cd95797e9df938fdd2b03693b5fca5e64b01ce"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/c6c942b1ac76c82448322025e084cadc56048b4e",
-                "reference": "c6c942b1ac76c82448322025e084cadc56048b4e",
+                "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/46cd95797e9df938fdd2b03693b5fca5e64b01ce",
+                "reference": "46cd95797e9df938fdd2b03693b5fca5e64b01ce",
                 "shasum": ""
             },
             "require": {
@@ -2499,7 +2499,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "1.22-dev"
+                    "dev-main": "1.23-dev"
                 },
                 "thanks": {
                     "name": "symfony/polyfill",
@@ -2550,7 +2550,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-01-07T16:49:33+00:00"
+            "time": "2021-02-19T12:13:01+00:00"
         },
         {
             "name": "symfony/polyfill-mbstring",
