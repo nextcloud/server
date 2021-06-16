@@ -107,6 +107,8 @@ class Manager implements IManager {
 	private $sharingDisabledForUsersCache;
 	/** @var EventDispatcherInterface */
 	private $legacyDispatcher;
+	/** @var LegacyHooks */
+	private $legacyHooks;
 	/** @var IMailer */
 	private $mailer;
 	/** @var IURLGenerator */
@@ -149,6 +151,9 @@ class Manager implements IManager {
 		$this->rootFolder = $rootFolder;
 		$this->legacyDispatcher = $legacyDispatcher;
 		$this->sharingDisabledForUsersCache = new CappedMemoryCache();
+		// The constructor of LegacyHooks registers the listeners of share events
+		// do not remove if those are not properly migrated
+		$this->legacyHooks = new LegacyHooks($this->legacyDispatcher);
 		$this->mailer = $mailer;
 		$this->urlGenerator = $urlGenerator;
 		$this->defaults = $defaults;
