@@ -39,6 +39,7 @@ use OC\Authentication\Listeners\RemoteWipeNotificationsListener;
 use OC\Authentication\Listeners\UserDeletedFilesCleanupListener;
 use OC\Authentication\Listeners\UserDeletedStoreCleanupListener;
 use OC\Authentication\Listeners\UserDeletedTokenCleanupListener;
+use OC\Authentication\Listeners\UserDeletedWebAuthnCleanupListener;
 use OC\Authentication\Notifications\Notifier as AuthenticationNotifier;
 use OC\Core\Notification\CoreNotifier;
 use OC\DB\Connection;
@@ -273,5 +274,6 @@ class Application extends App {
 		$eventDispatcher->addServiceListener(UserDeletedEvent::class, UserDeletedTokenCleanupListener::class);
 		$eventDispatcher->addServiceListener(BeforeUserDeletedEvent::class, UserDeletedFilesCleanupListener::class);
 		$eventDispatcher->addServiceListener(UserDeletedEvent::class, UserDeletedFilesCleanupListener::class);
+		$eventDispatcher->addServiceListener(UserDeletedEvent::class, UserDeletedWebAuthnCleanupListener::class);
 	}
 }

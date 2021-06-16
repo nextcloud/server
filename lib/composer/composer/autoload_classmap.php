@@ -692,6 +692,7 @@ return array(
     'OC\\Authentication\\Listeners\\UserDeletedFilesCleanupListener' => $baseDir . '/lib/private/Authentication/Listeners/UserDeletedFilesCleanupListener.php',
     'OC\\Authentication\\Listeners\\UserDeletedStoreCleanupListener' => $baseDir . '/lib/private/Authentication/Listeners/UserDeletedStoreCleanupListener.php',
     'OC\\Authentication\\Listeners\\UserDeletedTokenCleanupListener' => $baseDir . '/lib/private/Authentication/Listeners/UserDeletedTokenCleanupListener.php',
+    'OC\\Authentication\\Listeners\\UserDeletedWebAuthnCleanupListener' => $baseDir . '/lib/private/Authentication/Listeners/UserDeletedWebAuthnCleanupListener.php',
     'OC\\Authentication\\Listeners\\UserLoggedInListener' => $baseDir . '/lib/private/Authentication/Listeners/UserLoggedInListener.php',
     'OC\\Authentication\\LoginCredentials\\Credentials' => $baseDir . '/lib/private/Authentication/LoginCredentials/Credentials.php',
     'OC\\Authentication\\LoginCredentials\\Store' => $baseDir . '/lib/private/Authentication/LoginCredentials/Store.php',

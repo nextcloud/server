@@ -84,4 +84,17 @@ class PublicKeyCredentialMapper extends QBMapper {
 
 		return $this->findEntity($qb);
 	}
+
+	/**
+	 * @throws \OCP\DB\Exception
+	 */
+	public function deleteByUid(string $uid) {
+		$qb = $this->db->getQueryBuilder();
+
+		$qb->delete($this->getTableName())
+			->where(
+				$qb->expr()->eq('uid', $qb->createNamedParameter($uid))
+			);
+		$qb->executeStatement();
+	}
 }
