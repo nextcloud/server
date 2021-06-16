@@ -107,7 +107,7 @@ class Import extends Base {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-		$user = $input->getOption('user');
+		$user = (string) $input->getOption('user');
 		$path = $input->getArgument('path');
 		if ($path === '-') {
 			$json = file_get_contents('php://stdin');

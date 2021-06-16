@@ -119,7 +119,7 @@ class Create extends Base {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-		$user = $input->getOption('user');
+		$user = (string) $input->getOption('user');
 		$mountPoint = $input->getArgument('mount_point');
 		$storageIdentifier = $input->getArgument('storage_backend');
 		$authIdentifier = $input->getArgument('authentication_backend');
