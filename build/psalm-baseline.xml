@@ -2014,16 +2014,10 @@
     </InvalidScalarArgument>
   </file>
   <file src="apps/user_ldap/lib/Connection.php">
-    <InvalidNullableReturnType occurrences="1">
-      <code>string</code>
-    </InvalidNullableReturnType>
     <InvalidScalarArgument occurrences="2">
       <code>LDAP_OPT_PROTOCOL_VERSION</code>
       <code>LDAP_OPT_REFERRALS</code>
     </InvalidScalarArgument>
-    <NullableReturnStatement occurrences="1">
-      <code>null</code>
-    </NullableReturnStatement>
     <ParadoxicalCondition occurrences="1"/>
   </file>
   <file src="apps/user_ldap/lib/Group_LDAP.php">
