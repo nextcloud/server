@@ -53,6 +53,7 @@ class OC_Defaults {
 	private $defaultSlogan;
 	private $defaultColorPrimary;
 	private $defaultTextColorPrimary;
+	private $defaultProductName;
 
 	public function __construct() {
 		$config = \OC::$server->getConfig();
@@ -69,6 +70,7 @@ class OC_Defaults {
 		$this->defaultDocVersion = \OC_Util::getVersion()[0]; // used to generate doc links
 		$this->defaultColorPrimary = '#0082c9';
 		$this->defaultTextColorPrimary = '#ffffff';
+		$this->defaultProductName = 'Nextcloud';
 
 		$themePath = OC::$SERVERROOT . '/themes/' . OC_Util::getTheme() . '/defaults.php';
 		if (file_exists($themePath)) {
@@ -330,5 +332,12 @@ class OC_Defaults {
 			return $this->theme->getTextColorPrimary();
 		}
 		return $this->defaultTextColorPrimary;
+	}
+
+	public function getProductName() {
+		if ($this->themeExist('getProductName')) {
+			return $this->theme->getProductName();
+		}
+		return $this->defaultProductName;
 	}
 }
