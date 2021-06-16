@@ -1,6 +1,6 @@
 { "translations": {
     "Also install the {calendarappstoreopen}Calendar app{linkclose}, or {calendardocopen}connect your desktop & mobile for syncing ↗{linkclose}." : "Installa puru{calendarappstoreopen}s'aplicatzione calendàriu{linkclose}, o {calendardocopen}connete s'elaboradore de iscrivania e su telefoneddu pro ddos sincronizare↗{linkclose}.",
-    "Please make sure to properly set up {emailopen}the email server{linkclose}." : "Pro praghere, segura·ti de àere impostadu bene {emailopen}su serbidore de posta{linkclose}.",
+    "Please make sure to properly set up {emailopen}the email server{linkclose}." : "Segura·ti de àere impostadu bene {emailopen}su serbidore de posta{linkclose}.",
     "Calendar server" : "Serbidore calendàriu",
     "Send invitations to attendees" : "Imbia invitos de partetzipatziones",
     "Automatically generate a birthday calendar" : "Gènera in automàticu su calendàriu de cumpleannos",
