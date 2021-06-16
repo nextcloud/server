@@ -103,7 +103,7 @@ class Application extends App implements IBackendProvider, IAuthMechanismProvide
 				'appname' => 'files_external',
 				'script' => 'list.php',
 				'order' => 30,
-				'name' => $l->t('External storages'),
+				'name' => $l->t('External storage'),
 			];
 		});
 		$context->injectFn(function (BackendService $backendService, UserPlaceholderHandler $userConfigHandler) {
