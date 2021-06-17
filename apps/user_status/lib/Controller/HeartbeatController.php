@@ -25,7 +25,10 @@ declare(strict_types=1);
  */
 namespace OCA\UserStatus\Controller;
 
+use OCA\UserStatus\Db\UserStatus;
+use OCA\UserStatus\Service\StatusService;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -46,24 +49,20 @@ class HeartbeatController extends Controller {
 	/** @var ITimeFactory */
 	private $timeFactory;
 
-	/**
-	 * HeartbeatController constructor.
-	 *
-	 * @param string $appName
-	 * @param IRequest $request
-	 * @param IEventDispatcher $eventDispatcher
-	 * @param IUserSession $userSession
-	 * @param ITimeFactory $timeFactory
-	 */
+	/** @var StatusService */
+	private $service;
+
 	public function __construct(string $appName,
 								IRequest $request,
 								IEventDispatcher $eventDispatcher,
 								IUserSession $userSession,
-								ITimeFactory $timeFactory) {
+								ITimeFactory $timeFactory,
+								StatusService $service) {
 		parent::__construct($appName, $request);
 		$this->eventDispatcher = $eventDispatcher;
 		$this->userSession = $userSession;
 		$this->timeFactory = $timeFactory;
+		$this->service = $service;
 	}
 
 	/**
@@ -90,6 +89,25 @@ class HeartbeatController extends Controller {
 			)
 		);
 
-		return new JSONResponse([], Http::STATUS_NO_CONTENT);
+		try {
+			$userStatus = $this->service->findByUserId($user->getUID());
+		} catch (DoesNotExistException $ex) {
+			return new JSONResponse([], Http::STATUS_NO_CONTENT);
+		}
+
+		return new JSONResponse($this->formatStatus($userStatus));
+	}
+
+	private function formatStatus(UserStatus $status): array {
+		return [
+			'userId' => $status->getUserId(),
+			'message' => $status->getCustomMessage(),
+			'messageId' => $status->getMessageId(),
+			'messageIsPredefined' => $status->getMessageId() !== null,
+			'icon' => $status->getCustomIcon(),
+			'clearAt' => $status->getClearAt(),
+			'status' => $status->getStatus(),
+			'statusIsUserDefined' => $status->getIsUserDefined(),
+		];
 	}
 }

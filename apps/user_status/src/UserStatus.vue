@@ -156,12 +156,15 @@ export default {
 		 */
 		async _backgroundHeartbeat() {
 			try {
-				await sendHeartbeat(this.isAway)
+				const status = await sendHeartbeat(this.isAway)
+				if (status?.userId) {
+					this.$store.dispatch('setStatusFromHeartbeat', status)
+				} else {
+					await this.$store.dispatch('reFetchStatusFromServer')
+				}
 			} catch (error) {
 				console.debug('Failed sending heartbeat, got: ' + error.response.status)
-				return
 			}
-			await this.$store.dispatch('reFetchStatusFromServer')
 		},
 	},
 }
