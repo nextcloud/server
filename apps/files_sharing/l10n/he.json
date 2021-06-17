@@ -122,7 +122,6 @@
     "shared by %s" : "שותף על ידי %s",
     "Download all files" : "הורדת כל הקבצים",
     "Direct link" : "קישור ישיר",
-    "Add to your Nextcloud" : "הוספה ל־Nextcloud שלך",
     "Share API is disabled" : "שיתוף API מנוטרל",
     "File sharing" : "שיתוף קבצים",
     "Share will expire tomorrow" : "תוקף השיתוף יפוג מחר",
@@ -228,6 +227,7 @@
     "Uploading files" : "מועלים קבצים",
     "Uploaded files:" : "קבצים שהועלו:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "עצם העלאתם של קבצים מביעה את הסכמתך ל%1$sתנאי השירות%2$s.",
+    "Add to your Nextcloud" : "הוספה ל־Nextcloud שלך",
     "invalid permissions" : "הרשאות שגויות",
     "Can't change permissions for public share links" : "לא ניתן לשנות הרשאות לקישורי שיתוף ציבוריים",
     "Name, email, or federated cloud ID …" : "שם, דוא\"ל או ID ענן מאוחד..."

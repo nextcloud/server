@@ -128,7 +128,6 @@ OC.L10N.register(
     "shared by %s" : "共享者 %s",
     "Download all files" : "下载所有文件",
     "Direct link" : "直接链接",
-    "Add to your Nextcloud" : "添加到您的 Nextcloud",
     "Share API is disabled" : "共享 API 已被禁用",
     "File sharing" : "文件共享",
     "Share will expire tomorrow" : "共享将在明天过期",
@@ -237,6 +236,7 @@ OC.L10N.register(
     "Uploading files" : "正在上传文件",
     "Uploaded files:" : "上传的文件： ",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "通过上传文件，您同意了 %1$s 服务条款 %2$s。",
+    "Add to your Nextcloud" : "添加到您的 Nextcloud",
     "invalid permissions" : "无效的权限",
     "Can't change permissions for public share links" : "不能改变公共共享链接权限",
     "Name, email, or federated cloud ID …" : "名称，电子邮件或联合云 ID ..."

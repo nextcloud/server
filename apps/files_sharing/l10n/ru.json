@@ -122,7 +122,6 @@
     "shared by %s" : "доступ предоставлен пользователем %s",
     "Download all files" : "Скачать все файлы",
     "Direct link" : "Прямая ссылка",
-    "Add to your Nextcloud" : "Добавить в свой Nextcloud",
     "Share API is disabled" : "API общего доступа отключён",
     "File sharing" : "Обмен файлами",
     "Share will expire tomorrow" : "Завтра истекает срок публикации",
@@ -231,6 +230,7 @@
     "Uploading files" : "Загрузка файлов",
     "Uploaded files:" : "Отправленные файлы:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Передачей файлов на сервер, вы принимаете %1$sусловия обслуживания%2$s.",
+    "Add to your Nextcloud" : "Добавить в свой Nextcloud",
     "invalid permissions" : "неверные права доступа",
     "Can't change permissions for public share links" : "Для общедоступных ссылок изменение прав невозможно",
     "Name, email, or federated cloud ID …" : "Имя или ID межсерверного обмена…"

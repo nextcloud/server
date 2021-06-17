@@ -1,6 +1,5 @@
 { "translations": {
     "Cannot write into \"config\" directory!" : "Nu se poate scrie în folderul \"config\"!",
-    "This can usually be fixed by giving the webserver write access to the config directory" : "Aceasta se poate repara de obicei prin permiterea accesului de scriere la dosarul de configurare al serverului Web",
     "See %s" : "Vezi %s",
     "Sample configuration detected" : "A fost detectată o configurație exemplu",
     "It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php" : "S-a detectat copierea configurației exemplu. Acest lucru poate duce la oprirea instanței tale și nu este suportat. Te rugăm să citești documentația înainte de a face modificări în fișierul config.php",
@@ -122,6 +121,7 @@
     "PostgreSQL >= 9 required" : "Este necesară versiunea 9 sau mai mare a PostgreSQL",
     "Please upgrade your database version" : "Actualizați baza de date la o versiune mai nouă",
     "Storage is temporarily not available" : "Spațiu de stocare este indisponibil temporar",
+    "This can usually be fixed by giving the webserver write access to the config directory" : "Aceasta se poate repara de obicei prin permiterea accesului de scriere la dosarul de configurare al serverului Web",
     "Following databases are supported: %s" : "Următoarele baze de date sunt suportate: %s",
     "Following platforms are supported: %s" : "Sunt suportate următoarele platforme: %s",
     "Invalid Federated Cloud ID" : "ID invalid cloud federalizat",

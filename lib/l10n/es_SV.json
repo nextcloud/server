@@ -1,6 +1,5 @@
 { "translations": {
     "Cannot write into \"config\" directory!" : "¡No se puede escribir en el directorio \"config\"!",
-    "This can usually be fixed by giving the webserver write access to the config directory" : "Esto generalmente se resuelve dándole al servidor web acceso para escribir en el directorio config. ",
     "See %s" : "Ver %s",
     "Sample configuration detected" : "Se ha detectado la configuración de muestra",
     "It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php" : "Se ha detectado que la configuración de muestra ha sido copiada. Esto puede arruiniar tu instalacón y no está soportado. Por favor lee la documentación antes de hacer cambios en el archivo config.php",
@@ -177,6 +176,7 @@
     "Storage connection error. %s" : "Se presentó un error con la conexión al almacenamiento. %s",
     "Storage is temporarily not available" : "El almacenamieto se encuentra temporalmente no disponible",
     "Storage connection timeout. %s" : "El tiempo de la conexión del almacenamiento se agotó. %s",
+    "This can usually be fixed by giving the webserver write access to the config directory" : "Esto generalmente se resuelve dándole al servidor web acceso para escribir en el directorio config. ",
     "Following databases are supported: %s" : "Las siguientes bases de datos están soportadas: %s",
     "Following platforms are supported: %s" : "Las siguientes plataformas están soportadas: %s",
     "Can't create or write into the data directory %s" : "No es posible crear o escribir en el directorio de datos %s",

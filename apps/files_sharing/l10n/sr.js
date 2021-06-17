@@ -124,7 +124,6 @@ OC.L10N.register(
     "shared by %s" : "поделио %s",
     "Download all files" : "Преузми све фајлове",
     "Direct link" : "Директна веза",
-    "Add to your Nextcloud" : "Додајте у свој облак",
     "Share API is disabled" : "API за дељене је искључен",
     "File sharing" : "Дељења фајлова",
     "Share will expire tomorrow" : "Дељење истиче сутра",
@@ -227,6 +226,7 @@ OC.L10N.register(
     "Uploading files" : "Отпремам фајлове",
     "Uploaded files:" : "Отпремљени фајлови:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Отпремањем фајлова, слажете се са %1$sусловима коришћења%2$s.",
+    "Add to your Nextcloud" : "Додајте у свој облак",
     "invalid permissions" : "Неисправне дозволе",
     "Can't change permissions for public share links" : "Не могу се променити привилегије за јавно доступне везе",
     "Name, email, or federated cloud ID …" : "Име, адреса е-поште или ID здруженог облака…"

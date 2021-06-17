@@ -128,7 +128,6 @@ OC.L10N.register(
     "shared by %s" : "%s tarafından paylaşıldı",
     "Download all files" : "Tüm dosyaları indir",
     "Direct link" : "Doğrudan bağlantı",
-    "Add to your Nextcloud" : "Nextcloud hesabınıza ekleyin",
     "Share API is disabled" : "Paylaşım API arayüzü devre dışı",
     "File sharing" : "Dosya paylaşımı",
     "Share will expire tomorrow" : "Paylaşımın süresi yarın dolacak",
@@ -237,6 +236,7 @@ OC.L10N.register(
     "Uploading files" : "Dosyalar yükleniyor",
     "Uploaded files:" : "Yüklenmiş dosyalar:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Dosya yükleyerek %1$shizmet koşullarını%2$s kabul etmiş olursunuz.",
+    "Add to your Nextcloud" : "Nextcloud hesabınıza ekleyin",
     "invalid permissions" : "izinler geçersiz",
     "Can't change permissions for public share links" : "Herkese açık paylaşılan bağlantıların erişim hakları değiştirilemez",
     "Name, email, or federated cloud ID …" : "Ad, e-posta ya da birleşik bulut kodu …"

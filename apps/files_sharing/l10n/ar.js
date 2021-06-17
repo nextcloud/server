@@ -124,7 +124,6 @@ OC.L10N.register(
     "shared by %s" : "تمت مشاركته مِن قبل %s",
     "Download all files" : "تنزيل كافة الملفات",
     "Direct link" : "رابط مباشر",
-    "Add to your Nextcloud" : "اضف إلى حسابك",
     "Share API is disabled" : "مشاركة عبر واجهة برمجة التطبيقات غير مفعلة",
     "File sharing" : "مشاركة الملفات",
     "Share will expire tomorrow" : "المشاركة ستنتهي غدا",
@@ -229,6 +228,7 @@ OC.L10N.register(
     "Uploading files" : "جاري رفع ملفات",
     "Uploaded files:" : "تم رفع ملفات:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "برفع الملفات ، فإنك توافق على %1$s شروط الخدمة %2$s.",
+    "Add to your Nextcloud" : "اضف إلى حسابك",
     "invalid permissions" : "صلاحيات مفقودة",
     "Can't change permissions for public share links" : "لا يمكن تغيير صلاحيات روابط المشاركة العامة",
     "Name, email, or federated cloud ID …" : "اسم، بريد، معرف السحابة المتحدة…"
