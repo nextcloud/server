@@ -169,7 +169,7 @@ class Local extends \OC\Files\Storage\Common {
 
 		$permissions = Constants::PERMISSION_SHARE;
 		$statPermissions = $stat['mode'];
-		$isDir = ($statPermissions & 0x4000) === 0x4000;
+		$isDir = ($statPermissions & 0x4000) === 0x4000 && !($statPermissions & 0x8000);
 		if ($statPermissions & 0x0100) {
 			$permissions += Constants::PERMISSION_READ;
 		}
@@ -492,7 +492,7 @@ class Local extends \OC\Files\Storage\Common {
 	}
 
 	private function calculateEtag(string $path, array $stat): string {
-		if ($stat['mode'] & 0x4000) { // is_dir
+		if ($stat['mode'] & 0x4000 && !($stat['mode'] & 0x8000)) { // is_dir & not socket
 			return parent::getETag($path);
 		} else {
 			if ($stat === false) {
