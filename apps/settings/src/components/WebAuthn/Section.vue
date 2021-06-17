@@ -40,7 +40,10 @@
 			{{ t('settings', 'Your browser does not support WebAuthn.') }}
 		</p>
 
-		<AddDevice v-if="hasPublicKeyCredential" :is-https="isHttps" @added="deviceAdded" />
+		<AddDevice v-if="hasPublicKeyCredential"
+			:is-https="isHttps"
+			:is-localhost="isLocalhost"
+			@added="deviceAdded" />
 	</div>
 </template>
 
@@ -66,6 +69,10 @@ export default {
 			required: true,
 		},
 		isHttps: {
+			type: Boolean,
+			default: false,
+		},
+		isLocalhost: {
 			type: Boolean,
 			default: false,
 		},

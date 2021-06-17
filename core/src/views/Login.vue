@@ -73,6 +73,7 @@
 					:inverted-colors="invertedColors"
 					:auto-complete-allowed="autoCompleteAllowed"
 					:is-https="isHttps"
+					:is-localhost="isLocalhost"
 					:has-public-key-credential="hasPublicKeyCredential"
 					@submit="loading = true" />
 				<a href="#" @click.prevent="passwordlessLogin = false">
@@ -173,6 +174,10 @@ export default {
 			default: 0,
 		},
 		isHttps: {
+			type: Boolean,
+			default: false,
+		},
+		isLocalhost: {
 			type: Boolean,
 			default: false,
 		},
