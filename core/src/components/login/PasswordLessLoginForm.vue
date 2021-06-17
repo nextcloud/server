@@ -1,5 +1,5 @@
 <template>
-	<form v-if="isHttps && hasPublicKeyCredential"
+	<form v-if="(isHttps || isLocalhost) && hasPublicKeyCredential"
 		ref="loginForm"
 		method="post"
 		name="login"
@@ -32,7 +32,7 @@
 	<div v-else-if="!hasPublicKeyCredential">
 		{{ t('core', 'Passwordless authentication is not supported in your browser.') }}
 	</div>
-	<div v-else-if="!isHttps">
+	<div v-else-if="!isHttps && !isLocalhost">
 		{{ t('core', 'Passwordless authentication is only available over a secure connection.') }}
 	</div>
 </template>
@@ -70,6 +70,10 @@ export default {
 			default: true,
 		},
 		isHttps: {
+			type: Boolean,
+			default: false,
+		},
+		isLocalhost: {
 			type: Boolean,
 			default: false,
 		},

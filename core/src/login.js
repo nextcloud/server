@@ -71,6 +71,7 @@ new View({
 		hasPasswordless: fromStateOr('webauthn-available', false),
 		countAlternativeLogins: fromStateOr('countAlternativeLogins', false),
 		isHttps: window.location.protocol === 'https:',
+		isLocalhost: window.location.hostname === 'localhost',
 		hasPublicKeyCredential: typeof (window.PublicKeyCredential) !== 'undefined',
 		hideLoginForm: fromStateOr('hideLoginForm', false),
 	},
