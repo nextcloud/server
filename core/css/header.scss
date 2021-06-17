@@ -612,6 +612,25 @@ nav[role='navigation'] {
 	}
 }
 
+.unread-counter {
+	display: none;
+}
+#apps .app-icon-notification,
+#appmenu .app-icon-notification {
+	fill: var(--color-error);
+}
+
+#apps svg:not(.has-unread),
+#appmenu svg:not(.has-unread) {
+	.app-icon-notification-mask {
+		display: none;
+	}
+	.app-icon-notification {
+		display: none;
+	}
+}
+
+
 /* Skip navigation links – show only on keyboard focus */
 .skip-navigation {
 	padding: 11px;
