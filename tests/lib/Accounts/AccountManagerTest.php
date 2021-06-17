@@ -108,23 +108,71 @@ class AccountManagerTest extends TestCase {
 			[
 				'user' => $this->makeUser('j.doe', 'Jane Doe', 'jane.doe@acme.com'),
 				'data' => [
-					IAccountManager::PROPERTY_DISPLAYNAME => ['value' => 'Jane Doe', 'scope' => IAccountManager::SCOPE_PUBLISHED],
-					IAccountManager::PROPERTY_EMAIL => ['value' => 'jane.doe@acme.com', 'scope' => IAccountManager::SCOPE_LOCAL],
-					IAccountManager::PROPERTY_TWITTER => ['value' => '@sometwitter', 'scope' => IAccountManager::SCOPE_PUBLISHED],
-					IAccountManager::PROPERTY_PHONE => ['value' => '+491601231212', 'scope' => IAccountManager::SCOPE_FEDERATED],
-					IAccountManager::PROPERTY_ADDRESS => ['value' => 'some street', 'scope' => IAccountManager::SCOPE_LOCAL],
-					IAccountManager::PROPERTY_WEBSITE => ['value' => 'https://acme.com', 'scope' => IAccountManager::SCOPE_PRIVATE],
+					IAccountManager::PROPERTY_DISPLAYNAME => [
+						'name' => IAccountManager::PROPERTY_DISPLAYNAME,
+						'value' => 'Jane Doe',
+						'scope' => IAccountManager::SCOPE_PUBLISHED
+					],
+					IAccountManager::PROPERTY_EMAIL => [
+						'name' => IAccountManager::PROPERTY_EMAIL,
+						'value' => 'jane.doe@acme.com',
+						'scope' => IAccountManager::SCOPE_LOCAL
+					],
+					IAccountManager::PROPERTY_TWITTER => [
+						'name' => IAccountManager::PROPERTY_TWITTER,
+						'value' => '@sometwitter',
+						'scope' => IAccountManager::SCOPE_PUBLISHED
+					],
+					IAccountManager::PROPERTY_PHONE => [
+						'name' => IAccountManager::PROPERTY_PHONE,
+						'value' => '+491601231212',
+						'scope' => IAccountManager::SCOPE_FEDERATED
+					],
+					IAccountManager::PROPERTY_ADDRESS => [
+						'name' => IAccountManager::PROPERTY_ADDRESS,
+						'value' => 'some street',
+						'scope' => IAccountManager::SCOPE_LOCAL
+					],
+					IAccountManager::PROPERTY_WEBSITE => [
+						'name' => IAccountManager::PROPERTY_WEBSITE,
+						'value' => 'https://acme.com',
+						'scope' => IAccountManager::SCOPE_PRIVATE
+					],
 				],
 			],
 			[
 				'user' => $this->makeUser('a.allison', 'Alice Allison', 'a.allison@example.org'),
 				'data' => [
-					IAccountManager::PROPERTY_DISPLAYNAME => ['value' => 'Alice Allison', 'scope' => IAccountManager::SCOPE_LOCAL],
-					IAccountManager::PROPERTY_EMAIL => ['value' => 'a.allison@example.org', 'scope' => IAccountManager::SCOPE_LOCAL],
-					IAccountManager::PROPERTY_TWITTER => ['value' => '@a_alice', 'scope' => IAccountManager::SCOPE_FEDERATED],
-					IAccountManager::PROPERTY_PHONE => ['value' => '+491602312121', 'scope' => IAccountManager::SCOPE_LOCAL],
-					IAccountManager::PROPERTY_ADDRESS => ['value' => 'Dundee Road 45', 'scope' => IAccountManager::SCOPE_LOCAL],
-					IAccountManager::PROPERTY_WEBSITE => ['value' => 'https://example.org', 'scope' => IAccountManager::SCOPE_LOCAL],
+					IAccountManager::PROPERTY_DISPLAYNAME => [
+						'name' => IAccountManager::PROPERTY_DISPLAYNAME,
+						'value' => 'Alice Allison',
+						'scope' => IAccountManager::SCOPE_LOCAL
+					],
+					IAccountManager::PROPERTY_EMAIL => [
+						'name' => IAccountManager::PROPERTY_EMAIL,
+						'value' => 'a.allison@example.org',
+						'scope' => IAccountManager::SCOPE_LOCAL
+					],
+					IAccountManager::PROPERTY_TWITTER => [
+						'name' => IAccountManager::PROPERTY_TWITTER,
+						'value' => '@a_alice',
+						'scope' => IAccountManager::SCOPE_FEDERATED
+					],
+					IAccountManager::PROPERTY_PHONE => [
+						'name' => IAccountManager::PROPERTY_PHONE,
+						'value' => '+491602312121',
+						'scope' => IAccountManager::SCOPE_LOCAL
+					],
+					IAccountManager::PROPERTY_ADDRESS => [
+						'name' => IAccountManager::PROPERTY_ADDRESS,
+						'value' => 'Dundee Road 45',
+						'scope' => IAccountManager::SCOPE_LOCAL
+					],
+					IAccountManager::PROPERTY_WEBSITE => [
+						'name' => IAccountManager::PROPERTY_WEBSITE,
+						'value' => 'https://example.org',
+						'scope' => IAccountManager::SCOPE_LOCAL
+					],
 				],
 			],
 			[
@@ -148,20 +196,52 @@ class AccountManagerTest extends TestCase {
 					IAccountManager::PROPERTY_ADDRESS => ['value' => 'Pinapple Street 22', 'scope' => IAccountManager::SCOPE_LOCAL],
 					IAccountManager::PROPERTY_WEBSITE => ['value' => 'https://emca.com', 'scope' => IAccountManager::SCOPE_FEDERATED],
 					IAccountManager::COLLECTION_EMAIL => [
-						['value' => 'k.cheng@emca.com', 'scope' => IAccountManager::SCOPE_LOCAL],
-						['value' => 'kai.cheng@emca.com', 'scope' => IAccountManager::SCOPE_LOCAL],
+						[
+							'name' => IAccountManager::COLLECTION_EMAIL,
+							'value' => 'k.cheng@emca.com',
+							'scope' => IAccountManager::SCOPE_LOCAL
+						],
+						[
+							'name' => IAccountManager::COLLECTION_EMAIL,
+							'value' => 'kai.cheng@emca.com',
+							'scope' => IAccountManager::SCOPE_LOCAL
+						],
 					],
 				],
 			],
 			[
 				'user' => $this->makeUser('goodpal@elpmaxe.org', 'Goodpal, Kim', 'goodpal@elpmaxe.org'),
 				'data' => [
-					IAccountManager::PROPERTY_DISPLAYNAME => ['value' => 'Goodpal, Kim', 'scope' => IAccountManager::SCOPE_PUBLISHED],
-					IAccountManager::PROPERTY_EMAIL => ['value' => 'goodpal@elpmaxe.org', 'scope' => IAccountManager::SCOPE_PUBLISHED],
-					IAccountManager::PROPERTY_TWITTER => ['value' => '', 'scope' => IAccountManager::SCOPE_LOCAL],
-					IAccountManager::PROPERTY_PHONE => ['value' => '+71602121231', 'scope' => IAccountManager::SCOPE_FEDERATED],
-					IAccountManager::PROPERTY_ADDRESS => ['value' => 'Octopus Ave 17', 'scope' => IAccountManager::SCOPE_FEDERATED],
-					IAccountManager::PROPERTY_WEBSITE => ['value' => 'https://elpmaxe.org', 'scope' => IAccountManager::SCOPE_PUBLISHED],
+					IAccountManager::PROPERTY_DISPLAYNAME => [
+						'name' => IAccountManager::PROPERTY_DISPLAYNAME,
+						'value' => 'Goodpal, Kim',
+						'scope' => IAccountManager::SCOPE_PUBLISHED
+					],
+					IAccountManager::PROPERTY_EMAIL => [
+						'name' => IAccountManager::PROPERTY_EMAIL,
+						'value' => 'goodpal@elpmaxe.org',
+						'scope' => IAccountManager::SCOPE_PUBLISHED
+					],
+					IAccountManager::PROPERTY_TWITTER => [
+						'name' => IAccountManager::PROPERTY_TWITTER,
+						'value' => '',
+						'scope' => IAccountManager::SCOPE_LOCAL
+					],
+					IAccountManager::PROPERTY_PHONE => [
+						'name' => IAccountManager::PROPERTY_PHONE,
+						'value' => '+71602121231',
+						'scope' => IAccountManager::SCOPE_FEDERATED
+					],
+					IAccountManager::PROPERTY_ADDRESS => [
+						'name' => IAccountManager::PROPERTY_ADDRESS,
+						'value' => 'Octopus Ave 17',
+						'scope' => IAccountManager::SCOPE_FEDERATED
+					],
+					IAccountManager::PROPERTY_WEBSITE => [
+						'name' => IAccountManager::PROPERTY_WEBSITE,
+						'value' => 'https://elpmaxe.org',
+						'scope' => IAccountManager::SCOPE_PUBLISHED
+					],
 				],
 			],
 		];
@@ -250,144 +330,6 @@ class AccountManagerTest extends TestCase {
 		];
 	}
 
-	public function updateUserSetScopeProvider() {
-		return [
-			// regular scope switching
-			[
-				[
-					IAccountManager::PROPERTY_DISPLAYNAME => ['value' => 'Display Name', 'scope' => IAccountManager::SCOPE_PUBLISHED],
-					IAccountManager::PROPERTY_EMAIL => ['value' => 'test@example.org', 'scope' => IAccountManager::SCOPE_PUBLISHED],
-					IAccountManager::PROPERTY_AVATAR => ['value' => '@sometwitter', 'scope' => IAccountManager::SCOPE_PUBLISHED],
-					IAccountManager::PROPERTY_TWITTER => ['value' => '@sometwitter', 'scope' => IAccountManager::SCOPE_PUBLISHED],
-					IAccountManager::PROPERTY_PHONE => ['value' => '+491601231212', 'scope' => IAccountManager::SCOPE_FEDERATED],
-					IAccountManager::PROPERTY_ADDRESS => ['value' => 'some street', 'scope' => IAccountManager::SCOPE_LOCAL],
-					IAccountManager::PROPERTY_WEBSITE => ['value' => 'https://example.org', 'scope' => IAccountManager::SCOPE_PRIVATE],
-				],
-				[
-					IAccountManager::PROPERTY_DISPLAYNAME => ['value' => 'Display Name', 'scope' => IAccountManager::SCOPE_LOCAL],
-					IAccountManager::PROPERTY_EMAIL => ['value' => 'test@example.org', 'scope' => IAccountManager::SCOPE_FEDERATED],
-					IAccountManager::PROPERTY_TWITTER => ['value' => '@sometwitter', 'scope' => IAccountManager::SCOPE_PRIVATE],
-					IAccountManager::PROPERTY_PHONE => ['value' => '+491601231212', 'scope' => IAccountManager::SCOPE_LOCAL],
-					IAccountManager::PROPERTY_ADDRESS => ['value' => 'some street', 'scope' => IAccountManager::SCOPE_FEDERATED],
-					IAccountManager::PROPERTY_WEBSITE => ['value' => 'https://example.org', 'scope' => IAccountManager::SCOPE_PUBLISHED],
-				],
-				[
-					IAccountManager::PROPERTY_DISPLAYNAME => ['value' => 'Display Name', 'scope' => IAccountManager::SCOPE_LOCAL],
-					IAccountManager::PROPERTY_EMAIL => ['value' => 'test@example.org', 'scope' => IAccountManager::SCOPE_FEDERATED],
-					IAccountManager::PROPERTY_TWITTER => ['value' => '@sometwitter', 'scope' => IAccountManager::SCOPE_PRIVATE],
-					IAccountManager::PROPERTY_PHONE => ['value' => '+491601231212', 'scope' => IAccountManager::SCOPE_LOCAL],
-					IAccountManager::PROPERTY_ADDRESS => ['value' => 'some street', 'scope' => IAccountManager::SCOPE_FEDERATED],
-					IAccountManager::PROPERTY_WEBSITE => ['value' => 'https://example.org', 'scope' => IAccountManager::SCOPE_PUBLISHED],
-				],
-			],
-			// legacy scope mapping, the given visibility values get converted to scopes
-			[
-				[
-					IAccountManager::PROPERTY_TWITTER => ['value' => '@sometwitter', 'scope' => IAccountManager::SCOPE_PUBLISHED],
-					IAccountManager::PROPERTY_PHONE => ['value' => '+491601231212', 'scope' => IAccountManager::SCOPE_FEDERATED],
-					IAccountManager::PROPERTY_WEBSITE => ['value' => 'https://example.org', 'scope' => IAccountManager::SCOPE_PRIVATE],
-				],
-				[
-					IAccountManager::PROPERTY_TWITTER => ['value' => '@sometwitter', 'scope' => IAccountManager::VISIBILITY_PUBLIC],
-					IAccountManager::PROPERTY_PHONE => ['value' => '+491601231212', 'scope' => IAccountManager::VISIBILITY_CONTACTS_ONLY],
-					IAccountManager::PROPERTY_WEBSITE => ['value' => 'https://example.org', 'scope' => IAccountManager::VISIBILITY_PRIVATE],
-				],
-				[
-					IAccountManager::PROPERTY_TWITTER => ['value' => '@sometwitter', 'scope' => IAccountManager::SCOPE_PUBLISHED],
-					IAccountManager::PROPERTY_PHONE => ['value' => '+491601231212', 'scope' => IAccountManager::SCOPE_FEDERATED],
-					IAccountManager::PROPERTY_WEBSITE => ['value' => 'https://example.org', 'scope' => IAccountManager::SCOPE_LOCAL],
-				],
-			],
-			// invalid or unsupported scope values get converted to SCOPE_LOCAL
-			[
-				[
-					IAccountManager::PROPERTY_DISPLAYNAME => ['value' => 'Display Name', 'scope' => IAccountManager::SCOPE_PUBLISHED],
-					IAccountManager::PROPERTY_EMAIL => ['value' => 'test@example.org', 'scope' => IAccountManager::SCOPE_PUBLISHED],
-					IAccountManager::PROPERTY_TWITTER => ['value' => '@sometwitter', 'scope' => IAccountManager::SCOPE_PUBLISHED],
-					IAccountManager::PROPERTY_PHONE => ['value' => '+491601231212', 'scope' => IAccountManager::SCOPE_FEDERATED],
-				],
-				[
-					// SCOPE_PRIVATE is not allowed for display name and email
-					IAccountManager::PROPERTY_DISPLAYNAME => ['value' => 'Display Name', 'scope' => IAccountManager::SCOPE_PRIVATE],
-					IAccountManager::PROPERTY_EMAIL => ['value' => 'test@example.org', 'scope' => IAccountManager::SCOPE_PRIVATE],
-					IAccountManager::PROPERTY_TWITTER => ['value' => '@sometwitter', 'scope' => IAccountManager::SCOPE_LOCAL],
-					IAccountManager::PROPERTY_PHONE => ['value' => '+491601231212', 'scope' => IAccountManager::SCOPE_LOCAL],
-				],
-				[
-					IAccountManager::PROPERTY_DISPLAYNAME => ['value' => 'Display Name', 'scope' => IAccountManager::SCOPE_LOCAL],
-					IAccountManager::PROPERTY_EMAIL => ['value' => 'test@example.org', 'scope' => IAccountManager::SCOPE_LOCAL],
-					IAccountManager::PROPERTY_TWITTER => ['value' => '@sometwitter', 'scope' => IAccountManager::SCOPE_LOCAL],
-					IAccountManager::PROPERTY_PHONE => ['value' => '+491601231212', 'scope' => IAccountManager::SCOPE_LOCAL],
-				],
-				false, false,
-			],
-			// illegal scope values
-			[
-				[
-					IAccountManager::PROPERTY_PHONE => ['value' => '+491601231212', 'scope' => IAccountManager::SCOPE_FEDERATED],
-					IAccountManager::PROPERTY_ADDRESS => ['value' => 'some street', 'scope' => IAccountManager::SCOPE_LOCAL],
-					IAccountManager::PROPERTY_WEBSITE => ['value' => 'https://example.org', 'scope' => IAccountManager::SCOPE_PRIVATE],
-				],
-				[
-					IAccountManager::PROPERTY_PHONE => ['value' => '+491601231212', 'scope' => ''],
-					IAccountManager::PROPERTY_ADDRESS => ['value' => 'some street', 'scope' => 'v2-invalid'],
-					IAccountManager::PROPERTY_WEBSITE => ['value' => 'https://example.org', 'scope' => 'invalid'],
-				],
-				[],
-				true, true
-			],
-			// invalid or unsupported scope values throw an exception when passing $throwOnData=true
-			[
-				[IAccountManager::PROPERTY_DISPLAYNAME => ['value' => 'Display Name', 'scope' => IAccountManager::SCOPE_PUBLISHED]],
-				[IAccountManager::PROPERTY_DISPLAYNAME => ['value' => 'Display Name', 'scope' => IAccountManager::SCOPE_PRIVATE]],
-				null,
-				// throw exception
-				true, true,
-			],
-			[
-				[IAccountManager::PROPERTY_EMAIL => ['value' => 'test@example.org', 'scope' => IAccountManager::SCOPE_PUBLISHED]],
-				[IAccountManager::PROPERTY_EMAIL => ['value' => 'test@example.org', 'scope' => IAccountManager::SCOPE_PRIVATE]],
-				null,
-				// throw exception
-				true, true,
-			],
-			[
-				[IAccountManager::PROPERTY_TWITTER => ['value' => '@sometwitter', 'scope' => IAccountManager::SCOPE_PUBLISHED]],
-				[IAccountManager::PROPERTY_TWITTER => ['value' => '@sometwitter', 'scope' => 'invalid']],
-				null,
-				// throw exception
-				true, true,
-			],
-		];
-	}
-
-	/**
-	 * @dataProvider updateUserSetScopeProvider
-	 */
-	public function testUpdateUserSetScope($oldData, $newData, $savedData, $throwOnData = true, $expectedThrow = false) {
-		$accountManager = $this->getInstance(['getUser', 'insertNewUser', 'updateExistingUser', 'updateVerifyStatus', 'checkEmailVerification']);
-		/** @var IUser $user */
-		$user = $this->createMock(IUser::class);
-
-		$accountManager->expects($this->once())->method('getUser')->with($user)->willReturn($oldData);
-
-		if ($expectedThrow) {
-			$accountManager->expects($this->never())->method('updateExistingUser');
-			$this->expectException(\InvalidArgumentException::class);
-			$this->expectExceptionMessage('scope');
-		} else {
-			$accountManager->expects($this->once())->method('checkEmailVerification')
-				->with($oldData, $savedData, $user)->willReturn($savedData);
-			$accountManager->expects($this->once())->method('updateVerifyStatus')
-				->with($oldData, $savedData)->willReturn($savedData);
-			$accountManager->expects($this->once())->method('updateExistingUser')
-				->with($user, $savedData);
-			$accountManager->expects($this->never())->method('insertNewUser');
-		}
-
-		$accountManager->updateUser($user, $newData, $throwOnData);
-	}
-
 	/**
 	 * @dataProvider dataTestGetUser
 	 *
@@ -433,8 +375,8 @@ class AccountManagerTest extends TestCase {
 	public function testUpdateExistingUser() {
 		$user = $this->getMockBuilder(IUser::class)->getMock();
 		$user->expects($this->atLeastOnce())->method('getUID')->willReturn('uid');
-		$oldData = ['key' => ['value' => 'value']];
-		$newData = ['newKey' => ['value' => 'newValue']];
+		$oldData = ['key' => ['value' => 'value', 'name' => 'name']];
+		$newData = ['newKey' => ['value' => 'newValue', 'name' => 'name']];
 
 		$this->addDummyValuesToTable('uid', $oldData);
 		$this->invokePrivate($this->accountManager, 'updateExistingUser', [$user, $newData]);
@@ -445,13 +387,14 @@ class AccountManagerTest extends TestCase {
 	public function testInsertNewUser() {
 		$user = $this->getMockBuilder(IUser::class)->getMock();
 		$uid = 'uid';
-		$data = ['key' => ['value' => 'value']];
+		$data = ['key' => ['value' => 'value', 'name' => 'name']];
 
 		$user->expects($this->atLeastOnce())->method('getUID')->willReturn($uid);
 		$this->assertNull($this->getDataFromTable($uid));
 		$this->invokePrivate($this->accountManager, 'insertNewUser', [$user, $data]);
 
 		$dataFromDb = $this->getDataFromTable($uid);
+		$dataFromDb['key']['name'] = 'name'; // from transformation
 		$this->assertEquals($data, $dataFromDb);
 	}
 
@@ -462,8 +405,8 @@ class AccountManagerTest extends TestCase {
 		];
 
 		$expected = [
-			'key1' => ['value' => 'value1', 'verified' => '0'],
-			'key2' => ['value' => 'value1', 'verified' => '0'],
+			'key1' => ['value' => 'value1', 'verified' => '0', 'name' => 'key1'],
+			'key2' => ['value' => 'value1', 'verified' => '0', 'name' => 'key2'],
 			'additional_mail' => []
 		];
 
