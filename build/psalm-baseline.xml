@@ -1217,7 +1217,7 @@
     </TooManyArguments>
   </file>
   <file src="apps/files_external/appinfo/routes.php">
-    <InvalidScope occurrences="2">
+    <InvalidScope occurrences="1">
       <code>$this</code>
       <code>$this</code>
     </InvalidScope>
@@ -1482,14 +1482,6 @@
     <FalsableReturnStatement occurrences="1">
       <code>false</code>
     </FalsableReturnStatement>
-    <InvalidReturnStatement occurrences="2">
-      <code>$entry</code>
-      <code>$this-&gt;formatCacheEntry(clone $this-&gt;sourceRootInfo, '')</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="2">
-      <code>formatCacheEntry</code>
-      <code>get</code>
-    </InvalidReturnType>
     <NullArgument occurrences="1">
       <code>null</code>
     </NullArgument>
@@ -3287,14 +3279,6 @@
       <code>$path</code>
     </MoreSpecificImplementedParamType>
   </file>
-  <file src="lib/private/Files/Cache/QuerySearchHelper.php">
-    <InvalidScalarArgument occurrences="4">
-      <code>$value</code>
-      <code>$value</code>
-      <code>$value</code>
-      <code>$value</code>
-    </InvalidScalarArgument>
-  </file>
   <file src="lib/private/Files/Cache/Scanner.php">
     <InvalidReturnStatement occurrences="1">
       <code>$existingChildren</code>
@@ -3319,21 +3303,6 @@
     <RedundantCondition occurrences="1">
       <code>$this-&gt;cache instanceof Cache</code>
     </RedundantCondition>
-  </file>
-  <file src="lib/private/Files/Cache/Wrapper/CacheJail.php">
-    <ImplementedReturnTypeMismatch occurrences="1">
-      <code>array</code>
-    </ImplementedReturnTypeMismatch>
-    <InvalidReturnStatement occurrences="1">
-      <code>$entry</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
-      <code>array</code>
-    </InvalidReturnType>
-    <LessSpecificImplementedReturnType occurrences="2">
-      <code>array</code>
-      <code>array</code>
-    </LessSpecificImplementedReturnType>
   </file>
   <file src="lib/private/Files/Cache/Wrapper/CacheWrapper.php">
     <LessSpecificImplementedReturnType occurrences="1">
