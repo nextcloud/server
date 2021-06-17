@@ -52,10 +52,6 @@ OC.L10N.register(
     "Google Chrome for Android" : "Google Chrome til Android",
     "iPhone" : "iPhone",
     "iPad" : "iPad",
-    "Nextcloud iOS app" : "Nextcloud iOS app",
-    "Nextcloud Android app" : "Nextcloud Android app",
-    "Nextcloud Talk for iOS" : "Nextcloud Talk til iOS",
-    "Nextcloud Talk for Android" : "Nextcloud Talk til Android",
     "App name" : "App navn",
     "Username" : "Brúkaranavn",
     "Password" : "Loyniorð",
@@ -100,6 +96,10 @@ OC.L10N.register(
     "New password" : "Nýtt loyniorð",
     "Change password" : "Broyd loyniorð",
     "Public" : "Alment",
+    "Nextcloud iOS app" : "Nextcloud iOS app",
+    "Nextcloud Android app" : "Nextcloud Android app",
+    "Nextcloud Talk for iOS" : "Nextcloud Talk til iOS",
+    "Nextcloud Talk for Android" : "Nextcloud Talk til Android",
     "mail" : "post"
 },
 "nplurals=2; plural=(n != 1);");

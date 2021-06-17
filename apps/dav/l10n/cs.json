@@ -95,7 +95,7 @@
     "You deleted addressbook {addressbook}" : "Vymazali jste adresář kontaktů {addressbook}",
     "{actor} updated addressbook {addressbook}" : "{actor} aktualizoval(a) adresář kontaktů {addressbook}",
     "You updated addressbook {addressbook}" : "Aktualizovali jste adresář kontaktů {addressbook}",
-    "{actor} shared addressbook {addressbook} with you" : "{actor} s vámi sdílel(a) adresář kontaktů {addressbook}",
+    "{actor} shared addressbook {addressbook} with you" : "{actor} vám nasdílel(a) adresář kontaktů {addressbook}",
     "You shared addressbook {addressbook} with {user}" : "Nasdíleli jste adresář kontaktů {addressbook} uživateli {user}",
     "{actor} shared addressbook {addressbook} with {user}" : "{actor} nasdílel(a) adresář kontaktů {addressbook} uživateli {user}",
     "{actor} unshared addressbook {addressbook} from you" : "{actor} vám zrušil(a) přístup ke sdílenému adresáři kontaktů {addressbook}",

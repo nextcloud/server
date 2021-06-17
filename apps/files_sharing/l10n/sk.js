@@ -124,7 +124,6 @@ OC.L10N.register(
     "shared by %s" : "Sprístupnil %s",
     "Download all files" : "Stiahnuť všetky súbory",
     "Direct link" : "Priama linka",
-    "Add to your Nextcloud" : "Pridať do svojho Nextcloud",
     "Share API is disabled" : "API pre sprístupňovanie je zakázané",
     "File sharing" : "Sprístupnenie súborov",
     "Share will expire tomorrow" : "Platnosť sprístupnenia skončí zajtra",
@@ -229,6 +228,7 @@ OC.L10N.register(
     "Uploading files" : "Nahrávanie súborov",
     "Uploaded files:" : "Nahrané súbory...",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Nahraním súborov vyjadrujete súhlas so všeobecnými podmienkami %1$s %2$s.",
+    "Add to your Nextcloud" : "Pridať do svojho Nextcloud",
     "invalid permissions" : "neplatné oprávnenia",
     "Can't change permissions for public share links" : "Nemožno zmeniť oprávnenia pre verejné sprístupnené odkazy",
     "Name, email, or federated cloud ID …" : "Meno, e-mail alebo ID združeného cloudu …"

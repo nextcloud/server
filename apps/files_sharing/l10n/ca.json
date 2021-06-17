@@ -122,7 +122,6 @@
     "shared by %s" : "compartit per %s",
     "Download all files" : "Descarrega tots els fitxers",
     "Direct link" : "Enllaç directe",
-    "Add to your Nextcloud" : "Afegiu al vostre NextCloud",
     "Share API is disabled" : "Compartir l'API està desactivat",
     "File sharing" : "Compartició de fitxers",
     "Share will expire tomorrow" : "La compartició caducarà demà",
@@ -227,6 +226,7 @@
     "Uploading files" : "Càrregant fitxers",
     "Uploaded files:" : "Fitxers carregats:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Si carregueu els fitxers accepteu les %1$scondicions del servei%2$s.",
+    "Add to your Nextcloud" : "Afegiu al vostre NextCloud",
     "invalid permissions" : "permisos no vàlids",
     "Can't change permissions for public share links" : "No es poden canviar els permisos per als enllaços compartits públics",
     "Name, email, or federated cloud ID …" : "Nom, correu o ID de núvol federat …"

@@ -124,7 +124,6 @@ OC.L10N.register(
     "shared by %s" : "delad av %s",
     "Download all files" : "Hämta alla filer",
     "Direct link" : "Direktlänk",
-    "Add to your Nextcloud" : "Lägg till i molnet",
     "Share API is disabled" : "Delning av API är inaktiverad",
     "File sharing" : "Fildelning",
     "Share will expire tomorrow" : "Delningen upphör imorgon",
@@ -230,6 +229,7 @@ OC.L10N.register(
     "Uploading files" : "Laddar upp filer",
     "Uploaded files:" : "Uppladdade filer:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Genom att ladda upp filer godkänner du %1$sanvändarvillkoren %2$s.",
+    "Add to your Nextcloud" : "Lägg till i molnet",
     "invalid permissions" : "ogiltiga behörigheter",
     "Can't change permissions for public share links" : "Det går inte att ändra behörigheterna för offentliga länkar",
     "Name, email, or federated cloud ID …" : "Namn, e-post eller federerat moln-ID ..."

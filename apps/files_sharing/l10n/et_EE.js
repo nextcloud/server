@@ -109,7 +109,6 @@ OC.L10N.register(
     "shared by %s" : "jagas %s",
     "Download all files" : "Lae kõik failid alla",
     "Direct link" : "Otsene link",
-    "Add to your Nextcloud" : "Lisa oma Nextcloudi",
     "Share API is disabled" : "Jagamise API on keelatud",
     "File sharing" : "Faide jagamine",
     "Share will expire tomorrow" : "Jagamine aegub homme",
@@ -170,6 +169,7 @@ OC.L10N.register(
     "Note" : "Märge",
     "Select or drop files" : "Vali või lohista failid",
     "Uploaded files:" : "Üleslaetud failid:",
+    "Add to your Nextcloud" : "Lisa oma Nextcloudi",
     "invalid permissions" : "valed õigused",
     "Can't change permissions for public share links" : "Avalikult jagatud linkide õigusi muuta ei saa"
 },

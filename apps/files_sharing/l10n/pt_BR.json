@@ -126,7 +126,6 @@
     "shared by %s" : "compartilhado por %s",
     "Download all files" : "Baixar todos os arquivos",
     "Direct link" : "Link direto",
-    "Add to your Nextcloud" : "Adicionar ao seu Nextcloud",
     "Share API is disabled" : "O compartilhamento de API está desabilitado.",
     "File sharing" : "Compartilhamento de arquivos",
     "Share will expire tomorrow" : "Compartilhamento irá expirar amanhã",
@@ -235,6 +234,7 @@
     "Uploading files" : "Enviando arquivos...",
     "Uploaded files:" : "Arquivos enviados:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Ao enviar arquivos, você concorda com os %1$stermos de serviço%2$s.",
+    "Add to your Nextcloud" : "Adicionar ao seu Nextcloud",
     "invalid permissions" : "permissões inválidas",
     "Can't change permissions for public share links" : "Não foi possível alterar as permissões para links de compartilhamento público",
     "Name, email, or federated cloud ID …" : "Nome, e-mail, ou ID da nuvem federada..."

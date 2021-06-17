@@ -124,7 +124,6 @@ OC.L10N.register(
     "shared by %s" : "bendrina %s",
     "Download all files" : "Atsisiųsti visus failus ",
     "Direct link" : "Tiesioginė nuoroda",
-    "Add to your Nextcloud" : "Pridėti į savo Nextcloud",
     "Share API is disabled" : "Bendrinimo API yra išjungtas",
     "File sharing" : "Failų pasidalinimas",
     "Share will expire tomorrow" : "Bendrinimo laikas baigiasi rytoj.",
@@ -231,6 +230,7 @@ OC.L10N.register(
     "Uploading files" : "Įkeliami failai",
     "Uploaded files:" : "Įkelti failai:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Įkeldami failus, sutinkate su %1$snaudojimosi sąlygomis%2$s.",
+    "Add to your Nextcloud" : "Pridėti į savo Nextcloud",
     "invalid permissions" : "neteisingi leidimai",
     "Can't change permissions for public share links" : "Negalima keisti leidimų viešai bendrinamoms nuorodoms",
     "Name, email, or federated cloud ID …" : "Vardas, el. paštas ar federacinės debesijos ID…"
