@@ -122,7 +122,6 @@ OC.L10N.register(
     "shared by %s" : "اشتراک گذاری شده به میزان %s",
     "Download all files" : "دانلود همه فایل ها",
     "Direct link" : "لینک مستقیم",
-    "Add to your Nextcloud" : "به نکست‌کلود خود اضافه کنید",
     "Share API is disabled" : "اشتراک API غیرفعال شده است",
     "File sharing" : "اشتراک گذاری پرونده",
     "Share will expire tomorrow" : "اشتراک فردا منقضی می شود",
@@ -220,6 +219,7 @@ OC.L10N.register(
     "Select or drop files" : "پرونده ها را انتخاب یا رها کنید",
     "Uploaded files:" : "پرونده های بارگذاری شده:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "%2$sبا بارگذاری پرونده ها ، شما با %1$sشرایط خدمات موافقت می کنید",
+    "Add to your Nextcloud" : "به نکست‌کلود خود اضافه کنید",
     "invalid permissions" : "مجوزات نامعتبر",
     "Can't change permissions for public share links" : "مجوزها برای پیوندهای اشتراک عمومی قابل تغییر نیست"
 },

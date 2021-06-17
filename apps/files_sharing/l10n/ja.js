@@ -124,7 +124,6 @@ OC.L10N.register(
     "shared by %s" : "%s が共有",
     "Download all files" : "すべてのファイルをダウンロード",
     "Direct link" : "リンク",
-    "Add to your Nextcloud" : "あなたのNextcloudに追加",
     "Share API is disabled" : "共有APIが無効です。",
     "File sharing" : "ファイル共有",
     "Share will expire tomorrow" : "共有は明日期限切れになります",
@@ -233,6 +232,7 @@ OC.L10N.register(
     "Uploading files" : "ファイルをアップロード中",
     "Uploaded files:" : "アップロード済ファイル:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "ファイルをアップロードすると、%1$s のサービス条件 %2$s に同意したことになります。",
+    "Add to your Nextcloud" : "あなたのNextcloudに追加",
     "invalid permissions" : "無効なパーミッション",
     "Can't change permissions for public share links" : "URLリンク共有のパーミッションを変更できません",
     "Name, email, or federated cloud ID …" : "名前、電子メール、またはクラウド連携ID…"

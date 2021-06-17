@@ -1,6 +1,5 @@
 { "translations": {
     "Cannot write into \"config\" directory!" : "Nepavyksta rašyti į „config“ katalogą!",
-    "This can usually be fixed by giving the webserver write access to the config directory" : "Tai, dažniausiai, gali būti ištaisyta suteikiant saityno serveriui rašymo prieigą prie konfigūracijos katalogo",
     "See %s" : "Žiūrėkite %s",
     "Sample configuration detected" : "Aptiktas konfigūracijos pavyzdys",
     "It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php" : "Pastebėta, kad nukopijuota pavyzdinė konfigūracija. Tai gali pažeisti jūsų diegimą ir yra nepalaikoma. Prieš atliekant pakeitimus config.php faile, prašome perskaityti dokumentaciją.",
@@ -187,6 +186,7 @@
     "Storage connection error. %s" : "Saugyklos sujungimo ryšio klaida. %s",
     "Storage is temporarily not available" : "Saugykla yra laikinai neprieinama",
     "Storage connection timeout. %s" : "Sujungimo su saugykla laikas baigėsi. %s",
+    "This can usually be fixed by giving the webserver write access to the config directory" : "Tai, dažniausiai, gali būti ištaisyta suteikiant saityno serveriui rašymo prieigą prie konfigūracijos katalogo",
     "Following databases are supported: %s" : "Yra palaikomos šios duomenų bazės: %s",
     "Following platforms are supported: %s" : "Yra palaikomos šios platformos: %s",
     "Can't create or write into the data directory %s" : "Negalima nuskaityti arba rašyti į duomenų katalogą. %s",

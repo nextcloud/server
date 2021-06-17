@@ -122,7 +122,6 @@
     "shared by %s" : "dijeli %s",
     "Download all files" : "Preuzmi sve datoteke",
     "Direct link" : "Izravna poveznica",
-    "Add to your Nextcloud" : "Dodaj u svoj Nextcloud",
     "Share API is disabled" : "API za dijeljenje je onemogućen",
     "File sharing" : "Dijeljenje datoteka",
     "Share will expire tomorrow" : "Dijeljenje istječe sutra",
@@ -231,6 +230,7 @@
     "Uploading files" : "Otpremanje datoteka",
     "Uploaded files:" : "Otpremljene datoteke:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Otpremanjem datoteka prihvaćate %1$ uvjete korištenja usluge%2$s.",
+    "Add to your Nextcloud" : "Dodaj u svoj Nextcloud",
     "invalid permissions" : "nevažeća dopuštenja",
     "Can't change permissions for public share links" : "Nije moguće promijeniti dopuštenja za javne poveznice dijeljenja",
     "Name, email, or federated cloud ID …" : "Naziv, adresa e-pošte ili ID udruženog oblaka…"

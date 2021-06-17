@@ -124,7 +124,6 @@ OC.L10N.register(
     "shared by %s" : "cumpartzidu dae %s",
     "Download all files" : "Iscàrriga totu is archìvios",
     "Direct link" : "Ligòngiu deretu",
-    "Add to your Nextcloud" : "Agiunghe a su Nextcloud tuo",
     "Share API is disabled" : "API de cumpartzidura disativadu",
     "File sharing" : "Cumpartzidura de archìvios",
     "Share will expire tomorrow" : "Sa cumpartzidura at a iscadire cras",
@@ -233,6 +232,7 @@ OC.L10N.register(
     "Uploading files" : "Carrighende archìvios",
     "Uploaded files:" : "Archìvios carrigados:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Carrighende is archìvios, cuncordas cun is %1$scunditziones de servìtziu%2$s.",
+    "Add to your Nextcloud" : "Agiunghe a su Nextcloud tuo",
     "invalid permissions" : "permissos non vàlidos",
     "Can't change permissions for public share links" : "Non faghet a cambiare is permissos pro is ligòngios de cumpartzidura pùblicos",
     "Name, email, or federated cloud ID …" : "Nùmene, indiritzu de posta o ID de sa nue federada ..."

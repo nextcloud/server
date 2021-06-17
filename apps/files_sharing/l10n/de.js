@@ -128,7 +128,6 @@ OC.L10N.register(
     "shared by %s" : "von %s geteilt",
     "Download all files" : "Alle Dateien herunterladen",
     "Direct link" : "Direkter Link",
-    "Add to your Nextcloud" : "Zu Deiner Nextcloud hinzufügen",
     "Share API is disabled" : "Teilen-API ist deaktivert",
     "File sharing" : "Dateifreigabe",
     "Share will expire tomorrow" : "Freigabe läuft morgen ab",
@@ -237,6 +236,7 @@ OC.L10N.register(
     "Uploading files" : "Dateien werden hochgeladen",
     "Uploaded files:" : "Hochgeladene Dateien: ",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Durch das Hochladen von Dateien stimmst Du den %1$sNutzungsbedingungen%2$s zu.",
+    "Add to your Nextcloud" : "Zu Deiner Nextcloud hinzufügen",
     "invalid permissions" : "Ungültige Berechtigung",
     "Can't change permissions for public share links" : "Berechtigungen für öffentlich freigegebene Links konnten nicht geändert werden",
     "Name, email, or federated cloud ID …" : "Name, E-Mail-Adresse oder Federated-Cloud-ID …"

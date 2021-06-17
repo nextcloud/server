@@ -110,7 +110,6 @@
     "shared by %s" : "delt av %s",
     "Download all files" : "Last ned alle filer",
     "Direct link" : "Direkte lenke",
-    "Add to your Nextcloud" : "Legg til i din Nextcloud",
     "Share API is disabled" : "Deling API er deaktivert",
     "File sharing" : "Fildeling",
     "Accept" : "Aksepter",
@@ -170,6 +169,7 @@
     "Select or drop files" : "Velg eller slipp filer",
     "Uploading files" : "Laster opp filer",
     "Uploaded files:" : "Opplastede filer:",
+    "Add to your Nextcloud" : "Legg til i din Nextcloud",
     "invalid permissions" : "Ugyldige rettigheter",
     "Can't change permissions for public share links" : "Kan ikke endre rettigheter for offentlige lenker"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

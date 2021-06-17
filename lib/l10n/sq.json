@@ -1,6 +1,5 @@
 { "translations": {
     "Cannot write into \"config\" directory!" : "Nuk shkruhet dot te drejtoria \"config\"!",
-    "This can usually be fixed by giving the webserver write access to the config directory" : "Zakonisht kjo mund të ndreqet duke i akorduar shërbyesit web të drejta shkrimi mbi drejtorinë e formësimeve",
     "See %s" : "Shihni %s",
     "Sample configuration detected" : "U gjet formësim shembull",
     "It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php" : "U pa se është kopjuar shembulli për formësime. Kjo mund të prishë instalimin tuaj dhe nuk mbulohet. Ju lutemi, lexoni dokumentimin, përpara se të kryeni ndryshime te config.php",
@@ -166,6 +165,7 @@
     "Storage connection error. %s" : "Gabim lidhje te depozita. %s",
     "Storage is temporarily not available" : "Hapsira ruajtëse nuk është në dispozicion përkohësisht",
     "Storage connection timeout. %s" : "Mbarim kohe lidhjeje për depozitën. %s",
+    "This can usually be fixed by giving the webserver write access to the config directory" : "Zakonisht kjo mund të ndreqet duke i akorduar shërbyesit web të drejta shkrimi mbi drejtorinë e formësimeve",
     "Following databases are supported: %s" : "Mbulohen bazat vijuese të të dhënave: %s",
     "Following platforms are supported: %s" : "Mbulohen platformat vijuese: %s",
     "Can't create or write into the data directory %s" : "S’e krijon ose s’shkruan dot te drejtoria e të dhënave %s",

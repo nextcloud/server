@@ -1,6 +1,5 @@
 { "translations": {
     "Cannot write into \"config\" directory!" : "Tidak dapat menulis kedalam direktori \"config\"!",
-    "This can usually be fixed by giving the webserver write access to the config directory" : "Hal ini biasanya dapat diperbaiki dengan memberikan akses tulis bagi situs web ke direktori config",
     "See %s" : "Lihat %s",
     "Sample configuration detected" : "Konfigurasi sampel ditemukan",
     "It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php" : "Ditemukan bahwa konfigurasi sampel telah disalin. Hal ini dapat merusak instalasi Anda dan tidak didukung. Silahkan baca dokumentasi sebelum melakukan perubahan pada config.php",
@@ -143,6 +142,7 @@
     "Storage connection error. %s" : "Koneksi penyimpanan bermasalah. %s",
     "Storage is temporarily not available" : "Penyimpanan sementara tidak tersedia",
     "Storage connection timeout. %s" : "Koneksi penyimpanan waktu-habis. %s",
+    "This can usually be fixed by giving the webserver write access to the config directory" : "Hal ini biasanya dapat diperbaiki dengan memberikan akses tulis bagi situs web ke direktori config",
     "Following databases are supported: %s" : "Berikut adalah basis data yang didukung: %s",
     "Following platforms are supported: %s" : "Berikut adalah platform yang didukung: %s",
     "Can't create or write into the data directory %s" : "Tidak dapat membuat atau menulis kedalam direktori data %s",

@@ -83,6 +83,7 @@ OC.L10N.register(
     "Available flows" : "Dostupné toky",
     "For details on how to write your own flow, check out the development documentation." : "Podrobnosti o tom, ako vytvárať vlastné toky, nájdete v dokumentácii pre vývojárov.",
     "More flows" : "Ďalšie toky",
+    "Browse the App Store" : "Prehliadanie obchodu s aplikáciami",
     "Show less" : "Zobraziť menej",
     "Show more" : "Zobraziť viac",
     "Configured flows" : "Nastavené toky",

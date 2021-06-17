@@ -109,7 +109,6 @@ OC.L10N.register(
     "shared by %s" : "Deilt af %s",
     "Download all files" : "Sækja allar skrár",
     "Direct link" : "Beinn tengill",
-    "Add to your Nextcloud" : "Bæta í þitt eigið Nextcloud",
     "Share API is disabled" : "Deilingar-API er óvirkt",
     "File sharing" : "Skráadeiling",
     "Share will expire tomorrow" : "Sameignin rennur út á morgun",
@@ -177,6 +176,7 @@ OC.L10N.register(
     "Select or drop files" : "Veldu eða slepptu skrám",
     "Uploaded files:" : "Innsendar skrár:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Með því að senda inn skrár, samþykkir þú %1$sþjónustuskilmálana%2$s.",
+    "Add to your Nextcloud" : "Bæta í þitt eigið Nextcloud",
     "invalid permissions" : "Ógildar aðgangsheimildir",
     "Can't change permissions for public share links" : "Ekki tókst að breyta aðgangsheimildum fyrir opinbera deilingartengla"
 },
