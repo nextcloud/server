@@ -38,6 +38,7 @@ use OCP\Files\Search\ISearchBinaryOperator;
 use OCP\Files\Search\ISearchComparison;
 use OCP\Files\Search\ISearchOperator;
 use OCP\Files\StorageNotAvailableException;
+use OCP\IUserManager;
 
 /**
  * Metadata cache for shared files
@@ -45,15 +46,12 @@ use OCP\Files\StorageNotAvailableException;
  * don't use this class directly if you need to get metadata, use \OC\Files\Filesystem::getFileInfo instead
  */
 class Cache extends CacheJail {
-	/**
-	 * @var \OCA\Files_Sharing\SharedStorage
-	 */
+	/** @var \OCA\Files_Sharing\SharedStorage */
 	private $storage;
-
-	/**
-	 * @var ICacheEntry
-	 */
+	/** @var ICacheEntry */
 	private $sourceRootInfo;
+	/** @var IUserManager */
+	private $userManager;
 
 	private $rootUnchanged = true;
 
@@ -63,11 +61,11 @@ class Cache extends CacheJail {
 
 	/**
 	 * @param \OCA\Files_Sharing\SharedStorage $storage
-	 * @param ICacheEntry $sourceRootInfo
 	 */
-	public function __construct($storage, ICacheEntry $sourceRootInfo) {
+	public function __construct($storage, ICacheEntry $sourceRootInfo, IUserManager $userManager) {
 		$this->storage = $storage;
 		$this->sourceRootInfo = $sourceRootInfo;
+		$this->userManager = $userManager;
 		$this->numericId = $sourceRootInfo->getStorageId();
 
 		parent::__construct(
@@ -174,7 +172,13 @@ class Cache extends CacheJail {
 
 	private function getOwnerDisplayName() {
 		if (!$this->ownerDisplayName) {
-			$this->ownerDisplayName = \OC_User::getDisplayName($this->storage->getOwner(''));
+			$uid = $this->storage->getOwner('');
+			$user = $this->userManager->get($uid);
+			if ($user) {
+				$this->ownerDisplayName = $user->getDisplayName();
+			} else {
+				$this->ownerDisplayName = $uid;
+			}
 		}
 		return $this->ownerDisplayName;
 	}
