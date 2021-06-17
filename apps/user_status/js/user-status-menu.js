@@ -162,4 +162,4 @@ const Y=e=>{if(null===e)return null;const t=Object(L.a)();if("period"===e.type)r
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */a.nc=btoa(Object(s.getRequestToken)()),a.p=OC.linkTo("user_status","js/"),r.default.prototype.t=t,r.default.prototype.$t=t;n.default=new r.default({el:'li[data-id="user_status-menuitem"]',name:"UserStatusRoot",render:e=>e(y),store:b});document.addEventListener("DOMContentLoaded",(function(){OCA.Dashboard&&OCA.Dashboard.registerStatus("status",e=>new(r.default.extend(y))({propsData:{inline:!0},store:b}).$mount(e))}))}]);
-//# sourceMappingURL=user-status-menu.js.map?v=603bc1f68256a2255fb6
+//# sourceMappingURL=user-status-menu.js.map?v=f814be01032d80bbb385

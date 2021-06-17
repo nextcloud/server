@@ -264,7 +264,7 @@ const actions = {
 	 * @param {String} status.icon The icon
 	 * @param {Number} status.clearAt When to automatically clear the status
 	 * @param {Boolean} status.messageIsPredefined Whether or not the message is predefined
-	 * @param {string} status.messageId The id of the predefined message
+	 * @param {String} status.messageId The id of the predefined message
 	 * @returns {Promise<void>}
 	 */
 	async setStatusFromHeartbeat({ commit }, status) {
