@@ -87,7 +87,6 @@ OC.L10N.register(
     "Wrong or no update parameter given" : "არასწორი ან განახლების პარამეტრის არარსებობა",
     "shared by %s" : "გააზიარა მომხმარებელმა %s",
     "Direct link" : "პირდაპირი ბმული",
-    "Add to your Nextcloud" : "თქვენს Nextcloud-ში დამატება",
     "Share API is disabled" : "გაზიარების API არაა მოქმედი",
     "File sharing" : "ფაილების გაზიარება",
     "Accept" : "მიღება",
@@ -127,6 +126,7 @@ OC.L10N.register(
     "Upload files to %s" : "ფაილების ატვირთვა %s-ში",
     "Select or drop files" : "აირჩიეთ ან გადმოიტანეთ ფაილები",
     "Uploaded files:" : "ფაილების ატვირთვა:",
+    "Add to your Nextcloud" : "თქვენს Nextcloud-ში დამატება",
     "invalid permissions" : "არასწორი უფლებები",
     "Can't change permissions for public share links" : "უფლებები საზოგადოდ გაზიარებულ ბმულზე ვერ შეიცვალა"
 },

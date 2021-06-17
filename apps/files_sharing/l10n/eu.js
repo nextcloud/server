@@ -125,7 +125,6 @@ OC.L10N.register(
     "shared by %s" : "%s erabiltzaileak partekatua",
     "Download all files" : "Deskargatu fitxategi guztiak",
     "Direct link" : "Esteka zuzena",
-    "Add to your Nextcloud" : "Gehitu zure Nextclouden",
     "Share API is disabled" : "Partekatze API-a desgaituta dago",
     "File sharing" : "Fitxategien partekatzea",
     "Share will expire tomorrow" : "Partekatzea bihar iraungiko da",
@@ -234,6 +233,7 @@ OC.L10N.register(
     "Uploading files" : "Fitxategiak kargatzen",
     "Uploaded files:" : "Igotako fitxategiak:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Fitxategiak kargatzean, %1$szerbitzu-baldintzak%2$s onartzen dituzu.",
+    "Add to your Nextcloud" : "Gehitu zure Nextclouden",
     "invalid permissions" : "baimen baliogabeak",
     "Can't change permissions for public share links" : "Publikoki partekatutako esteken baimenak ezin dira aldatu",
     "Name, email, or federated cloud ID …" : "Izena, posta, edo federatutako lainoaren IDa ..."

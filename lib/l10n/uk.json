@@ -1,6 +1,5 @@
 { "translations": {
     "Cannot write into \"config\" directory!" : "Не можу писати у каталог \"config\"!",
-    "This can usually be fixed by giving the webserver write access to the config directory" : "Зазвичай це можна виправити, надавши веб-серверу права на запис в теці конфігурації",
     "See %s" : "Переглянути %s",
     "Sample configuration detected" : "Виявлено приклад конфігурації",
     "It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php" : "Було виявлено, що приклад конфігурації було скопійовано. Це може нашкодити вашій системі та не підтримується. Будь ласка, зверніться до документації перед внесенням змін в файл config.php",
@@ -156,6 +155,7 @@
     "Storage connection error. %s" : "Помилка з'єднання зі сховищем. %s",
     "Storage is temporarily not available" : "Сховище тимчасово недоступне",
     "Storage connection timeout. %s" : "Час під'єднання до сховища вичерпався. %s",
+    "This can usually be fixed by giving the webserver write access to the config directory" : "Зазвичай це можна виправити, надавши веб-серверу права на запис в теці конфігурації",
     "Following databases are supported: %s" : "Підтримуються наступні сервери баз даних: %s",
     "Following platforms are supported: %s" : "Підтримуються наступні платформи: %s",
     "Can't create or write into the data directory %s" : "Неможливо створити або записати каталог даних %s",

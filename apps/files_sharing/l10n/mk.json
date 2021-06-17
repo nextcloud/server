@@ -122,7 +122,6 @@
     "shared by %s" : "споделено од %s",
     "Download all files" : "Преземи ги сите датотеки",
     "Direct link" : "Директен линк",
-    "Add to your Nextcloud" : "Додадете во вашиот Cloud",
     "Share API is disabled" : "API-то за споделување е оневозможено",
     "File sharing" : "Споделување на датотеки",
     "Share will expire tomorrow" : "Споделувањето ќе истече утре",
@@ -230,6 +229,7 @@
     "Uploading files" : "Прикачување на датотеки",
     "Uploaded files:" : "Прикачени датотеки:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Со прикачување на датотеките, се согласувате со  %1$sусловите за користење%2$s.",
+    "Add to your Nextcloud" : "Додадете во вашиот Cloud",
     "invalid permissions" : "неважечка дозвола",
     "Can't change permissions for public share links" : "Неможат да се сменат дозволите за јавно споделен линк",
     "Name, email, or federated cloud ID …" : "Име, е-пошта или федерален ИД ..."

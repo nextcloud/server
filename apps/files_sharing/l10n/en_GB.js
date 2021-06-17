@@ -88,7 +88,6 @@ OC.L10N.register(
     "Wrong or no update parameter given" : "Wrong or no update parameter given",
     "shared by %s" : "shared by %s",
     "Direct link" : "Direct link",
-    "Add to your Nextcloud" : "Add to your Nextcloud",
     "Share API is disabled" : "Share API is disabled",
     "File sharing" : "File sharing",
     "Accept" : "Accept",
@@ -137,6 +136,7 @@ OC.L10N.register(
     "Note" : "Note",
     "Select or drop files" : "Select or drop files",
     "Uploaded files:" : "Uploaded files:",
+    "Add to your Nextcloud" : "Add to your Nextcloud",
     "invalid permissions" : "invalid permissions",
     "Can't change permissions for public share links" : "Can't change permissions for public share links"
 },

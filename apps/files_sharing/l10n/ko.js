@@ -114,7 +114,6 @@ OC.L10N.register(
     "shared by %s" : "%s에 의해 공유됨",
     "Download all files" : "모든 파일 다운로드",
     "Direct link" : "직접 링크",
-    "Add to your Nextcloud" : "내 Nextcloud에 추가",
     "Share API is disabled" : "공유 API가 비활성화됨",
     "File sharing" : "파일 공유",
     "Accept" : "수락",
@@ -180,6 +179,7 @@ OC.L10N.register(
     "Uploading files" : "파일 업로드",
     "Uploaded files:" : "업로드한 파일:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "파일을 업로드하면 %1$s이용 약관%2$s에 동의하는 것을 의미합니다.",
+    "Add to your Nextcloud" : "내 Nextcloud에 추가",
     "invalid permissions" : "잘못된 권한",
     "Can't change permissions for public share links" : "공개 공유 링크의 권한을 변경할 수 없음"
 },

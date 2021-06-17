@@ -123,7 +123,6 @@
     "shared by %s" : "souporaba: %s",
     "Download all files" : "Prejmi vse datoteke",
     "Direct link" : "Neposredna povezava",
-    "Add to your Nextcloud" : "Dodaj v oblak Nextcloud",
     "Share API is disabled" : "Vmesnik API za souporabo je onemogočen",
     "File sharing" : "Souporaba datotek",
     "Share will expire tomorrow" : "Souporaba bo jutri pretekla",
@@ -231,6 +230,7 @@
     "Uploading files" : "Pošiljanje datotek",
     "Uploaded files:" : "Poslane datoteke:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "S pošiljanjem datotek v oblak sprejemate tudi %1$spogoje uporabe storitve%2$s.",
+    "Add to your Nextcloud" : "Dodaj v oblak Nextcloud",
     "invalid permissions" : "neustrezna dovoljenja",
     "Can't change permissions for public share links" : "Za javne povezave souporabe, spreminjanje dovoljenj ni mogoče.",
     "Name, email, or federated cloud ID …" : "Ime, elektronski naslov, ali ID zveznega oblaka ..."

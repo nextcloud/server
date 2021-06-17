@@ -128,7 +128,6 @@ OC.L10N.register(
     "shared by %s" : "Gedeeld door %s",
     "Download all files" : "Download alle bestanden",
     "Direct link" : "Directe link",
-    "Add to your Nextcloud" : "Toevoegen aan je Nextcloud",
     "Share API is disabled" : "Delen API is uitgeschakeld",
     "File sharing" : "Bestand delen",
     "Share will expire tomorrow" : "De share vervalt morgen",
@@ -237,6 +236,7 @@ OC.L10N.register(
     "Uploading files" : "Uploaden bestanden",
     "Uploaded files:" : "Geüploade bestanden",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Door het uploaden van bestanden stem je in met de %1$sgebruiksvoorwaarden%2$s.",
+    "Add to your Nextcloud" : "Toevoegen aan je Nextcloud",
     "invalid permissions" : "Ongeldige rechten",
     "Can't change permissions for public share links" : "Kan rechten voor openbaar gedeelde links niet wijzigen",
     "Name, email, or federated cloud ID …" : "Naam, e-mailadres of gefedereerde Cloud ID …"

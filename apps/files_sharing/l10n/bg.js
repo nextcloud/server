@@ -124,7 +124,6 @@ OC.L10N.register(
     "shared by %s" : "споделено от %s",
     "Download all files" : "Изтегли всички файлове",
     "Direct link" : "Директна връзка",
-    "Add to your Nextcloud" : "Добавете към Nextcloud",
     "Share API is disabled" : "Споделянето на API  е изключено",
     "File sharing" : "Споделяне на файлове",
     "Share will expire tomorrow" : "Споделянето ще изтече утре",
@@ -232,6 +231,7 @@ OC.L10N.register(
     "Uploading files" : "Качване на файлове",
     "Uploaded files:" : "Качени файлове:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "С качването на файлове, вие се съгласявате с %1$s условията на услугата%2$s.",
+    "Add to your Nextcloud" : "Добавете към Nextcloud",
     "invalid permissions" : "невалидни права",
     "Can't change permissions for public share links" : "Не могат да се променят права на връзки за публично споделяне",
     "Name, email, or federated cloud ID …" : "Име, имейл или Federed Cloud ID/ИД за облачно пространство/ ..."

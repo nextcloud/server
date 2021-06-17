@@ -1,6 +1,5 @@
 { "translations": {
     "Cannot write into \"config\" directory!" : "Ei saa kirjutada \"config\" kataloogi!",
-    "This can usually be fixed by giving the webserver write access to the config directory" : "Tavaliselt saab selle lahendada andes veebiserverile seatete kataloogile \"config\" kirjutusõigused",
     "See %s" : "Vaata %s",
     "Sample configuration detected" : "Tuvastati näidisseaded",
     "It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php" : "Tuvastati, et kopeeriti näidisseaded. See võib lõhkuda sinu saidi ja see pole toetatud. Palun loe enne faili config.php muutmist dokumentatsiooni",
@@ -139,6 +138,7 @@
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Palun muuda kataloogi õigused 0770-ks, et kataloogi sisu poleks teistele kasutajatele nähtav",
     "Could not obtain lock type %d on \"%s\"." : "Ei suutnud hankida %d tüüpi lukustust \"%s\".",
     "Storage is temporarily not available" : "Salvestusruum pole ajutiselt kättesaadav",
+    "This can usually be fixed by giving the webserver write access to the config directory" : "Tavaliselt saab selle lahendada andes veebiserverile seatete kataloogile \"config\" kirjutusõigused",
     "Following databases are supported: %s" : "Toetatud on järgnevad andmebaasid: %s",
     "Following platforms are supported: %s" : "Toetatud on järgnevad platformid: %s",
     "Can't create or write into the data directory %s" : "Ei suuda luua või kirjutada andmete kataloogi %s",

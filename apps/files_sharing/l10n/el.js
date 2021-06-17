@@ -124,7 +124,6 @@ OC.L10N.register(
     "shared by %s" : "Διαμοιράστηκε από 1 %s",
     "Download all files" : "Λήψη όλων των αρχείων",
     "Direct link" : "Άμεσος σύνδεσμος",
-    "Add to your Nextcloud" : "Προσθήκη στο Nextcloud σου",
     "Share API is disabled" : "API διαμοιρασμού είναι απενεργοποιημένο",
     "File sharing" : "Διαμοιρασμός αρχείων",
     "Share will expire tomorrow" : "Η κοινή χρήση θα λήξη αύριο",
@@ -230,6 +229,7 @@ OC.L10N.register(
     "Uploading files" : "Μεταφόρτωση αρχείων",
     "Uploaded files:" : "Αποστολή αρχείων:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Με την μεταφόρτωση αρχείων, συμφωνείτε με %1$sόρους χρήσεως %2$s.",
+    "Add to your Nextcloud" : "Προσθήκη στο Nextcloud σου",
     "invalid permissions" : "μη έγκυρα δικαιόματα",
     "Can't change permissions for public share links" : "Δεν μπορούμε να αλλάξουμε δικαιώματα για δημόσια διαμοιρασμένους συνδέσμους",
     "Name, email, or federated cloud ID …" : "Όνομα, διεύθυνση ηλεκτρονικού ταχυδρομείου ή Ομοσπονδιακό αναγνωριστικό Cloud…"

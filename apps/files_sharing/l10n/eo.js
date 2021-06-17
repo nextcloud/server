@@ -113,7 +113,6 @@ OC.L10N.register(
     "shared by %s" : "kunhavigita de %s",
     "Download all files" : "Elŝuti ĉiujn dosierojn",
     "Direct link" : "Direkta ligilo",
-    "Add to your Nextcloud" : "Aldoni al via Nextcloud",
     "Share API is disabled" : "Kunhavo-API estas malebligita",
     "File sharing" : "Kunhavigo de dosieroj",
     "Share will expire tomorrow" : "La kunhavo senvalidiĝos morgaŭ",
@@ -200,6 +199,7 @@ OC.L10N.register(
     "Select or drop files" : "Elekti aŭ demeti dosierojn",
     "Uploaded files:" : "Alŝutitaj dosieroj:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Se vi alŝutas dosierojn, vi konsentas pri %1$skondiĉoj de uzado%2$s.",
+    "Add to your Nextcloud" : "Aldoni al via Nextcloud",
     "invalid permissions" : "nevalidaj permesoj",
     "Can't change permissions for public share links" : "Ne eblas ŝanĝi permesojn por ligilo de publika kunhavo"
 },

@@ -89,7 +89,6 @@ OC.L10N.register(
     "Wrong or no update parameter given" : "Ose u dha parametër i gabuar përditësimesh, pse s’u dha fare ",
     "shared by %s" : "ndarë nga %s",
     "Direct link" : "Lidhje e drejtpërdrejtë",
-    "Add to your Nextcloud" : "Shtojeni tek Nextcloud-i juaj",
     "Share API is disabled" : "API i ndarjeve është çaktivizuar",
     "File sharing" : "Shpërndarja e skedarëve",
     "Accept" : "Prano",
@@ -136,6 +135,7 @@ OC.L10N.register(
     "Note" : "Shënim",
     "Select or drop files" : "Përzgjidh ose hiq skedarët",
     "Uploaded files:" : "Skedarët e ngarkuar:",
+    "Add to your Nextcloud" : "Shtojeni tek Nextcloud-i juaj",
     "invalid permissions" : "leje e pavlefshme",
     "Can't change permissions for public share links" : "S’mund të ndryshohen lejet për lidhje ndarjesh publike"
 },

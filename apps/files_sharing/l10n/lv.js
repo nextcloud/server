@@ -118,7 +118,6 @@ OC.L10N.register(
     "shared by %s" : "Koplietoja %s",
     "Download all files" : "Lejupielādēt visas datnes",
     "Direct link" : "Tiešā saite",
-    "Add to your Nextcloud" : "Pievienot savam Nextcloud",
     "Share API is disabled" : "Koplietošanas API ir atslēgta",
     "File sharing" : "Datņu koplietošana",
     "Share will expire tomorrow" : "Koplietošana rīt beigsies",
@@ -194,6 +193,7 @@ OC.L10N.register(
     "Uploading files" : "Augšupielādē datnes",
     "Uploaded files:" : "Augšupielādētas datnes:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Veicot datņu augšupielādi, jūs piekrītat %1$spakalpojuma noteikumiem%2$s.",
+    "Add to your Nextcloud" : "Pievienot savam Nextcloud",
     "invalid permissions" : "Nederīgas atļaujas",
     "Can't change permissions for public share links" : "Publiskai koplietošanas saitei nevar mainīt tiesības"
 },
