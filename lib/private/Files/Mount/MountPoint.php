@@ -269,7 +269,13 @@ class MountPoint implements IMountPoint {
 	 */
 	public function getStorageRootId() {
 		if (is_null($this->rootId) || $this->rootId === -1) {
-			$this->rootId = (int)$this->getStorage()->getCache()->getId('');
+			$storage = $this->getStorage();
+			// if we can't create the storage return -1 as root id, this is then handled the same as if the root isn't scanned yet
+			if ($storage === null) {
+				$this->rootId = -1;
+			} else {
+				$this->rootId = (int)$storage->getCache()->getId('');
+			}
 		}
 		return $this->rootId;
 	}
