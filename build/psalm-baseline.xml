@@ -1599,9 +1599,6 @@
     <NullableReturnStatement occurrences="1">
       <code>$this-&gt;sourceRootInfo</code>
     </NullableReturnStatement>
-    <TooManyArguments occurrences="1">
-      <code>new \OCA\Files_Sharing\Cache($storage, $sourceRoot, $this-&gt;superShare)</code>
-    </TooManyArguments>
     <UndefinedThisPropertyAssignment occurrences="1">
       <code>$this-&gt;mountOptions</code>
     </UndefinedThisPropertyAssignment>
