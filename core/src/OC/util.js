@@ -142,15 +142,6 @@ export default {
 	},
 
 	/**
-	 * Returns whether this is IE
-	 *
-	 * @returns {bool} true if this is IE, false otherwise
-	 */
-	isIE() {
-		return $('html').hasClass('ie')
-	},
-
-	/**
 	 * Returns the width of a generic browser scrollbar
 	 *
 	 * @returns {int} width of scrollbar
