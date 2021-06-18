@@ -44,7 +44,7 @@
     "This directory is unavailable, please check the logs or contact the administrator" : "Deze map is niet beschikbaar. Verifieer de logs of neem contact op met de beheerder",
     "Could not move \"{file}\", target exists" : "Kon \"{file}\" niet verplaatsen, doel bestaat al",
     "Could not move \"{file}\"" : "Kon \"{file}\" niet verplaatsen",
-    "copy" : "kopiëren",
+    "copy" : "kopie",
     "Could not copy \"{file}\", target exists" : "Kon \"{bestand}\" niet kopiëren, het doel bestaat",
     "Could not copy \"{file}\"" : "Kon \"{file}\" niet kopiëren",
     "Copied {origin} inside {destination}" : "Kopieerde {oorsprong} binnen {bestemming}",

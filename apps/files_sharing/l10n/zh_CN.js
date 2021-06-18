@@ -128,6 +128,7 @@ OC.L10N.register(
     "shared by %s" : "共享者 %s",
     "Download all files" : "下载所有文件",
     "Direct link" : "直接链接",
+    "Add to your %s" : "添加到你的 %s",
     "Share API is disabled" : "共享 API 已被禁用",
     "File sharing" : "文件共享",
     "Share will expire tomorrow" : "共享将在明天过期",
