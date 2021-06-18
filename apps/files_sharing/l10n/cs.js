@@ -128,6 +128,7 @@ OC.L10N.register(
     "shared by %s" : "sdílí %s",
     "Download all files" : "Stáhnout všechny soubory",
     "Direct link" : "Přímý odkaz",
+    "Add to your %s" : "Přidat do svého %s",
     "Share API is disabled" : "Aplikační program. rozhraní (API) pro práci se sdíleními je vypnuté",
     "File sharing" : "Sdílení souborů",
     "Share will expire tomorrow" : "Platnost sdílení skončí zítra",

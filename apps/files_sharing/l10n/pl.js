@@ -128,6 +128,7 @@ OC.L10N.register(
     "shared by %s" : "udostępnione przez %s",
     "Download all files" : "Pobierz wszystkie pliki",
     "Direct link" : "Bezpośredni link",
+    "Add to your %s" : "Dodaj do %s",
     "Share API is disabled" : "API udostępniania jest wyłączone",
     "File sharing" : "Udostępnianie pliku",
     "Share will expire tomorrow" : "Udostępnienie wygaśnie jutro",

@@ -1,6 +1,7 @@
 { "translations": {
     "Cannot write into \"config\" directory!" : "無法寫入 \"config\" 目錄！",
     "This can usually be fixed by giving the webserver write access to the config directory." : "允許網頁伺服器寫入 \"config\" 目錄通常可以解決這個問題",
+    "But, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it." : "但是，如果您希望將 config.php 檔案保持為唯讀，請將其中的 “config_is_read_only” 選項設置為 true。",
     "See %s" : "見 %s",
     "The files of the app %1$s were not replaced correctly. Make sure it is a version compatible with the server." : "應用程式 %1$s 中的檔案沒有被正確取代，請確認它的版本與伺服器相容。",
     "Sample configuration detected" : "您目前正在使用範例設定",
