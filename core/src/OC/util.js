@@ -21,7 +21,6 @@
  *
  */
 
-import $ from 'jquery'
 import moment from 'moment'
 
 import History from './util-history'
