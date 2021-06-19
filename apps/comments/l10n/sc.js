@@ -26,8 +26,8 @@ OC.L10N.register(
     "Comment" : "Cummenta",
     "An error occurred while trying to edit the comment" : "Ddoe at àpidu un'errore proende a modificare su cummentu",
     "Comment deleted" : "Cummentu cantzelladu",
-    "An error occurred while trying to delete the comment" : "Ddoe at àpidu un'errore proende a cantzellare su cummentu",
-    "An error occurred while trying to create the comment" : "Ddoe at àpidu un'errore proende a creare su cummentu",
+    "An error occurred while trying to delete the comment" : "B'at àpidu un'errore proende a cantzellare su cummentu",
+    "An error occurred while trying to create the comment" : "B'at àpidu un'errore proende a creare su cummentu",
     "New comment …" : "Cummentu nou …",
     "Post" : "Pùblica",
     "Cancel" : "Annulla",
@@ -35,8 +35,8 @@ OC.L10N.register(
     "More comments …" : "Àtero cummentos ...",
     "Save" : "Sarva",
     "Allowed characters {count} of {max}" : "Caràteres permìtidos {count} de {max}",
-    "Error occurred while retrieving comment with ID {id}" : "Ddoe at àpidu un'errore in su recùperu de su cummentu cun ID {id}",
-    "Error occurred while updating comment with id {id}" : "Ddoe at àpidu un'errore in s'agiornamentu de su cummentu cun id {id}",
-    "Error occurred while posting comment" : "Ddoe at àpidu un'errore in sa publicatzione de su cummentu"
+    "Error occurred while retrieving comment with ID {id}" : "B'at àpidu un'errore in su recùperu de su cummentu cun ID {id}",
+    "Error occurred while updating comment with id {id}" : "B'at àpidu un'errore in s'agiornamentu de su cummentu cun id {id}",
+    "Error occurred while posting comment" : "B'at àpidu un'errore in sa publicatzione de su cummentu"
 },
 "nplurals=2; plural=(n != 1);");
