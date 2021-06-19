@@ -6,7 +6,7 @@
     "Name cannot be empty" : "Je třeba zadat název",
     "The given name is too long" : "Zadaný název je příliš dlouhý",
     "The given web address is too long" : "Zadaná webová adresa je příliš dlouhá",
-    "The given web address is not a valid URL" : "Zadaná webová adresa není platná URL",
+    "The given web address is not a valid URL" : "Zadaná webová adresa není platné URL",
     "The given legal notice address is too long" : "Daná adresa právního upozornění je příliš dlouhá",
     "The given legal notice address is not a valid URL" : "Daná adresa právního upozornění není platnou URL adresou",
     "The given privacy policy address is too long" : "Daná adresa zásad ochrany osobních údajů je příliš dlouhá",

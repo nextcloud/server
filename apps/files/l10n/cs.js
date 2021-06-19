@@ -141,7 +141,7 @@ OC.L10N.register(
     "You moved {oldfile} to {newfile}" : "Přesunuli jste {oldfile} do {newfile}",
     "{user} moved {oldfile} to {newfile}" : "{user} přesunul(a) {oldfile} do {newfile}",
     "A file has been added to or removed from your <strong>favorites</strong>" : "Soubor byl přidán, nebo odstraněn z vašich <strong>oblíbených</strong>",
-    "A file or folder has been <strong>changed</strong>" : "Soubor nebo adresář byl <strong>změněn</strong>",
+    "A file or folder has been <strong>changed</strong>" : "Soubor nebo složka byla <strong>změněna</strong>",
     "A favorite file or folder has been <strong>changed</strong>" : "Oblíbený soubor nebo složka byla <strong>změněna</strong>",
     "All files" : "Všechny soubory",
     "Unlimited" : "Neomezeně",

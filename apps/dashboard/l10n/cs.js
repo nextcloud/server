@@ -25,7 +25,7 @@ OC.L10N.register(
     "Hello, {name}" : "Ahoj, {name}",
     "Pick from Files" : "Vyberte ze souborů",
     "Default images" : "Výchozí obrázky",
-    "Plain background" : "Holé pozadí",
+    "Plain background" : "Jednolité pozadí",
     "Insert from {productName}" : "Vložit z {productName}",
     "Get more widgets from the app store" : "Získejte další ovládací prvky z katalogu aplikací",
     "Good night, {name}" : "Dobrou noc, {name}",
