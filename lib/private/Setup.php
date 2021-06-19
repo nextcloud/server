@@ -419,7 +419,7 @@ class Setup {
 
 			//and we are done
 			$config->setSystemValue('installed', true);
-			if (\OC_Util::getChannel() !== 'git' && is_file(\OC::$configDir.'/CAN_INSTALL')) {
+			if (self::canInstallExists()) {
 				unlink(\OC::$configDir.'/CAN_INSTALL');
 			}
 
@@ -598,5 +598,12 @@ class Setup {
 			'vendor' => (string)$vendor,
 			'channel' => (string)$OC_Channel,
 		];
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function canInstallExists() {
+		return \OC_Util::getChannel() !== 'git' && is_file(\OC::$configDir.'/CAN_INSTALL');
 	}
 }
