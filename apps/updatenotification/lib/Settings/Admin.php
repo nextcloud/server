@@ -6,9 +6,11 @@ declare(strict_types=1);
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -25,7 +27,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\UpdateNotification\Settings;
 
 use OCA\UpdateNotification\UpdateChecker;
@@ -95,7 +96,7 @@ class Admin implements ISettings {
 		$defaultCustomerUpdateServerURLPrefix = 'https://updates.nextcloud.com/customers/';
 
 		$isDefaultUpdateServerURL = $updateServerURL === $defaultUpdateServerURL
-			|| $updateServerURL === substr($updateServerURL, 0, strlen($defaultCustomerUpdateServerURLPrefix));
+			|| strpos($updateServerURL, $defaultCustomerUpdateServerURLPrefix) === 0;
 
 		$hasValidSubscription = $this->subscriptionRegistry->delegateHasValidSubscription();
 
@@ -109,6 +110,7 @@ class Admin implements ISettings {
 			'newVersionString' => empty($updateState['updateVersionString']) ? '' : $updateState['updateVersionString'],
 			'downloadLink' => empty($updateState['downloadLink']) ? '' : $updateState['downloadLink'],
 			'changes' => $this->filterChanges($updateState['changes'] ?? []),
+			'webUpdaterEnabled' => !$this->config->getSystemValue('upgrade.disable-web', false),
 			'updaterEnabled' => empty($updateState['updaterEnabled']) ? false : $updateState['updaterEnabled'],
 			'versionIsEol' => empty($updateState['versionIsEol']) ? false : $updateState['versionIsEol'],
 			'isDefaultUpdateServerURL' => $isDefaultUpdateServerURL,
@@ -126,22 +128,22 @@ class Admin implements ISettings {
 
 	protected function filterChanges(array $changes): array {
 		$filtered = [];
-		if(isset($changes['changelogURL'])) {
+		if (isset($changes['changelogURL'])) {
 			$filtered['changelogURL'] = $changes['changelogURL'];
 		}
-		if(!isset($changes['whatsNew'])) {
+		if (!isset($changes['whatsNew'])) {
 			return $filtered;
 		}
 
 		$iterator = $this->l10nFactory->getLanguageIterator();
 		do {
 			$lang = $iterator->current();
-			if(isset($changes['whatsNew'][$lang])) {
+			if (isset($changes['whatsNew'][$lang])) {
 				$filtered['whatsNew'] = $changes['whatsNew'][$lang];
 				return $filtered;
 			}
 			$iterator->next();
-		} while($lang !== 'en' && $iterator->valid());
+		} while ($lang !== 'en' && $iterator->valid());
 
 		return $filtered;
 	}

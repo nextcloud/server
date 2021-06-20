@@ -1,11 +1,10 @@
 OC.L10N.register(
     "systemtags",
     {
-    "Tags" : "Метки",
     "Tag name is empty" : "Имя метки пусто",
     "Update" : "Обновить",
     "Create" : "Создать",
-    "Select tag…" : "Выберите метку…",
+    "Select tag …" : "Выберите метку…",
     "System tag %1$s added by the system" : "Системная метка «%1$s» создана",
     "Added system tag {systemtag}" : "Создана системная метка «{systemtag}»",
     "Added system tag %1$s" : "Создана системная метка «%1$s»",
@@ -43,6 +42,7 @@ OC.L10N.register(
     "%s (restricted)" : "%s (ограниченная)",
     "%s (invisible)" : "%s (невидимая)",
     "<strong>System tags</strong> for a file have been modified" : "<strong>Системные метки</strong> файла были изменены",
+    "Tags" : "Метки",
     "Collaborative tags" : "Метки совместной работы",
     "Collaborative tagging functionality which shares tags among users." : "Совместная работа с метками файлов.",
     "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Совместная работа с метками файлов, предназначенная для групп пользователей. (Провайдерам с большим количеством клиентов рекомендуется отключить это приложение, так как метки являются общими).",
@@ -52,7 +52,6 @@ OC.L10N.register(
     "Please select tags to filter by" : "Выберите метки для отбора",
     "No files found for the selected tags" : "Не найдено файлов с выбранными метками",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Совместные теги доступны для всех пользователей. Ограниченные теги видны пользователям, но не могут быть назначены ими. Невидимые теги предназначены для внутреннего использования, поскольку пользователи не могут их видеть или назначать.",
-    "Select tag …" : "Выберите метку…",
     "Create a new tag" : "Создать метку",
     "Name" : "Имя",
     "Public" : "Общая",

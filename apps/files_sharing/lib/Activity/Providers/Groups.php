@@ -2,8 +2,9 @@
 /**
  * @copyright Copyright (c) 2016 Joas Schilling <coding@schilljs.com>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -14,14 +15,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Files_Sharing\Activity\Providers;
 
 use OCP\Activity\IEvent;
@@ -35,14 +35,13 @@ use OCP\IUserManager;
 use OCP\L10N\IFactory;
 
 class Groups extends Base {
+	public const SUBJECT_SHARED_GROUP_SELF = 'shared_group_self';
+	public const SUBJECT_RESHARED_GROUP_BY = 'reshared_group_by';
 
-	const SUBJECT_SHARED_GROUP_SELF = 'shared_group_self';
-	const SUBJECT_RESHARED_GROUP_BY = 'reshared_group_by';
+	public const SUBJECT_UNSHARED_GROUP_SELF = 'unshared_group_self';
+	public const SUBJECT_UNSHARED_GROUP_BY = 'unshared_group_by';
 
-	const SUBJECT_UNSHARED_GROUP_SELF = 'unshared_group_self';
-	const SUBJECT_UNSHARED_GROUP_BY = 'unshared_group_by';
-
-	const SUBJECT_EXPIRED_GROUP = 'expired_group';
+	public const SUBJECT_EXPIRED_GROUP = 'expired_group';
 
 	/** @var IGroupManager */
 	protected $groupManager;
@@ -72,13 +71,13 @@ class Groups extends Base {
 
 		if ($event->getSubject() === self::SUBJECT_SHARED_GROUP_SELF) {
 			$subject = $this->l->t('Shared with group {group}');
-		} else if ($event->getSubject() === self::SUBJECT_UNSHARED_GROUP_SELF) {
+		} elseif ($event->getSubject() === self::SUBJECT_UNSHARED_GROUP_SELF) {
 			$subject = $this->l->t('Removed share for group {group}');
-		} else if ($event->getSubject() === self::SUBJECT_RESHARED_GROUP_BY) {
+		} elseif ($event->getSubject() === self::SUBJECT_RESHARED_GROUP_BY) {
 			$subject = $this->l->t('{actor} shared with group {group}');
-		} else if ($event->getSubject() === self::SUBJECT_UNSHARED_GROUP_BY) {
+		} elseif ($event->getSubject() === self::SUBJECT_UNSHARED_GROUP_BY) {
 			$subject = $this->l->t('{actor} removed share for group {group}');
-		} else if ($event->getSubject() === self::SUBJECT_EXPIRED_GROUP) {
+		} elseif ($event->getSubject() === self::SUBJECT_EXPIRED_GROUP) {
 			$subject = $this->l->t('Share for group {group} expired');
 		} else {
 			throw new \InvalidArgumentException();
@@ -105,13 +104,13 @@ class Groups extends Base {
 
 		if ($event->getSubject() === self::SUBJECT_SHARED_GROUP_SELF) {
 			$subject = $this->l->t('You shared {file} with group {group}');
-		} else if ($event->getSubject() === self::SUBJECT_UNSHARED_GROUP_SELF) {
+		} elseif ($event->getSubject() === self::SUBJECT_UNSHARED_GROUP_SELF) {
 			$subject = $this->l->t('You removed group {group} from {file}');
-		} else if ($event->getSubject() === self::SUBJECT_RESHARED_GROUP_BY) {
+		} elseif ($event->getSubject() === self::SUBJECT_RESHARED_GROUP_BY) {
 			$subject = $this->l->t('{actor} shared {file} with group {group}');
-		} else if ($event->getSubject() === self::SUBJECT_UNSHARED_GROUP_BY) {
+		} elseif ($event->getSubject() === self::SUBJECT_UNSHARED_GROUP_BY) {
 			$subject = $this->l->t('{actor} removed group {group} from {file}');
-		} else if ($event->getSubject() === self::SUBJECT_EXPIRED_GROUP) {
+		} elseif ($event->getSubject() === self::SUBJECT_EXPIRED_GROUP) {
 			$subject = $this->l->t('Share for file {file} with group {group} expired');
 		} else {
 			throw new \InvalidArgumentException();

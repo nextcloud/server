@@ -140,5 +140,4 @@ class NextcloudTestServerLocalBuiltInHelper implements NextcloudTestServerHelper
 
 		$this->phpServerPid = "";
 	}
-
 }

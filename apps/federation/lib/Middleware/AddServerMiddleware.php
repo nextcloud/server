@@ -26,7 +26,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Federation\Middleware;
 
 use OC\HintException;
@@ -87,7 +86,5 @@ class AddServerMiddleware extends Middleware {
 			['message' => $message],
 			Http::STATUS_BAD_REQUEST
 		);
-
 	}
-
 }

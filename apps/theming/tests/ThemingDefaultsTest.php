@@ -4,10 +4,11 @@
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bjoern Schiessle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Guillaume COMPAGNON <gcompagnon@outlook.com>
  * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Julius Haertl <jus@bitgrid.net>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
@@ -24,14 +25,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Theming\Tests;
 
 use OCA\Theming\ImageManager;
@@ -40,7 +40,6 @@ use OCA\Theming\Util;
 use OCP\App\IAppManager;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
-use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IConfig;
@@ -50,29 +49,29 @@ use OCP\IURLGenerator;
 use Test\TestCase;
 
 class ThemingDefaultsTest extends TestCase {
-	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
-	/** @var IL10N|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
 	private $l10n;
-	/** @var IURLGenerator|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
 	private $urlGenerator;
-	/** @var \OC_Defaults|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OC_Defaults|\PHPUnit\Framework\MockObject\MockObject */
 	private $defaults;
-	/** @var IAppData|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IAppData|\PHPUnit\Framework\MockObject\MockObject */
 	private $appData;
-	/** @var ICacheFactory|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ICacheFactory|\PHPUnit\Framework\MockObject\MockObject */
 	private $cacheFactory;
 	/** @var ThemingDefaults */
 	private $template;
-	/** @var Util|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var Util|\PHPUnit\Framework\MockObject\MockObject */
 	private $util;
-	/** @var ICache|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ICache|\PHPUnit\Framework\MockObject\MockObject */
 	private $cache;
-	/** @var IAppManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IAppManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $appManager;
-	/** @var ImageManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ImageManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $imageManager;
-	/** @var INavigationManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var INavigationManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $navigationManager;
 
 	protected function setUp(): void {
@@ -617,11 +616,6 @@ class ThemingDefaultsTest extends TestCase {
 	}
 
 	public function testGetLogoCustom() {
-		$file = $this->createMock(ISimpleFile::class);
-		$this->imageManager->expects($this->once())
-			->method('getImage')
-			->with('logo')
-			->willReturn($file);
 		$this->config
 			->expects($this->at(0))
 			->method('getAppValue')
@@ -640,12 +634,13 @@ class ThemingDefaultsTest extends TestCase {
 	}
 
 	public function testGetScssVariablesCached() {
+		$this->config->expects($this->any())->method('getAppValue')->with('theming', 'cachebuster', '0')->willReturn('1');
 		$this->cacheFactory->expects($this->once())
 			->method('createDistributed')
-			->with('theming-')
+			->with('theming-1-')
 			->willReturn($this->cache);
-		$this->cache->expects($this->once())->method('get')->with('getScssVariables')->willReturn(['foo'=>'bar']);
-		$this->assertEquals(['foo'=>'bar'], $this->template->getScssVariables());
+		$this->cache->expects($this->once())->method('get')->with('getScssVariables')->willReturn(['foo' => 'bar']);
+		$this->assertEquals(['foo' => 'bar'], $this->template->getScssVariables());
 	}
 
 	public function testGetScssVariables() {
@@ -664,7 +659,7 @@ class ThemingDefaultsTest extends TestCase {
 		$this->util->expects($this->any())->method('elementColor')->with($this->defaults->getColorPrimary())->willReturn('#aaaaaa');
 		$this->cacheFactory->expects($this->once())
 			->method('createDistributed')
-			->with('theming-')
+			->with('theming-0-')
 			->willReturn($this->cache);
 		$this->cache->expects($this->once())->method('get')->with('getScssVariables')->willReturn(null);
 		$this->imageManager->expects($this->at(0))->method('getImageUrl')->with('logo')->willReturn('custom-logo?v=0');
@@ -777,5 +772,4 @@ class ThemingDefaultsTest extends TestCase {
 			->willReturn('themingRoute');
 		$this->assertEquals($result, $this->template->replaceImagePath($app, $image));
 	}
-
 }

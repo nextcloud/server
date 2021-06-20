@@ -25,7 +25,6 @@
 
 namespace Test\AppFramework\Http;
 
-
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 
@@ -117,5 +116,4 @@ class JSONResponseTest extends \Test\TestCase {
 		$this->assertEquals(Http::STATUS_NOT_FOUND, $this->json->getStatus());
 		$this->assertEquals(['hi', 'yo'], $this->json->getData());
 	}
-
 }

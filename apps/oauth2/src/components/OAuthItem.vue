@@ -21,10 +21,26 @@
   -->
 <template>
 	<tr>
-		<td>{{ name }}</td>
-		<td>{{ redirectUri }}</td>
-		<td><code>{{ clientId }}</code></td>
-		<td><code>{{ renderedSecret }}</code><a class="icon-toggle has-tooltip" :title="t('oauth2', 'Show client secret')" @click="toggleSecret" /></td>
+		<td>
+			<table class="inline">
+				<tr>
+					<td>{{ t('oauth2', 'Name') }}</td>
+					<td>{{ name }}</td>
+				</tr>
+				<tr>
+					<td>{{ t('oauth2', 'Redirection URI') }}</td>
+					<td>{{ redirectUri }}</td>
+				</tr>
+				<tr>
+					<td>{{ t('oauth2', 'Client Identifier') }}</td>
+					<td><code>{{ clientId }}</code></td>
+				</tr>
+				<tr>
+					<td>{{ t('oauth2', 'Secret') }}</td>
+					<td><code>{{ renderedSecret }}</code><a class="icon-toggle has-tooltip" :title="t('oauth2', 'Show client secret')" @click="toggleSecret" /></td>
+				</tr>
+			</table>
+		</td>
 		<td class="action-column">
 			<span><a class="icon-delete has-tooltip" :title="t('oauth2', 'Delete')" @click="$emit('delete', id)" /></span>
 		</td>
@@ -40,7 +56,7 @@ export default {
 			required: true,
 		},
 	},
-	data: function() {
+	data() {
 		return {
 			id: this.client.id,
 			name: this.client.name,
@@ -51,7 +67,7 @@ export default {
 		}
 	},
 	computed: {
-		renderedSecret: function() {
+		renderedSecret() {
 			if (this.renderSecret) {
 				return this.clientSecret
 			} else {
@@ -79,6 +95,9 @@ export default {
 	td code {
 		display: inline-block;
 		vertical-align: middle;
-		padding: 3px;
+	}
+	table.inline td {
+		border: none;
+		padding: 5px;
 	}
 </style>

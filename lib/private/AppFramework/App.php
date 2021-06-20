@@ -6,9 +6,11 @@ declare(strict_types=1);
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
@@ -27,11 +29,11 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\AppFramework;
 
 use OC\AppFramework\DependencyInjection\DIContainer;
 use OC\AppFramework\Http\Dispatcher;
+use OC\AppFramework\Http\Request;
 use OC\HintException;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\ICallbackResponse;
@@ -58,7 +60,7 @@ class App {
 	 * the transformed app id, defaults to OCA\
 	 * @return string the starting namespace for the app
 	 */
-	public static function buildAppNamespace(string $appId, string $topNamespace='OCA\\'): string {
+	public static function buildAppNamespace(string $appId, string $topNamespace = 'OCA\\'): string {
 		// Hit the cache!
 		if (isset(self::$nameSpaceCache[$appId])) {
 			return $topNamespace . self::$nameSpaceCache[$appId];
@@ -86,6 +88,20 @@ class App {
 		return $topNamespace . self::$nameSpaceCache[$appId];
 	}
 
+	public static function getAppIdForClass(string $className, string $topNamespace = 'OCA\\'): ?string {
+		if (strpos($className, $topNamespace) !== 0) {
+			return null;
+		}
+
+		foreach (self::$nameSpaceCache as $appId => $namespace) {
+			if (strpos($className, $topNamespace . $namespace . '\\') === 0) {
+				return $appId;
+			}
+		}
+
+		return null;
+	}
+
 
 	/**
 	 * Shortcut for calling a controller method and printing the result
@@ -98,16 +114,20 @@ class App {
 	 */
 	public static function main(string $controllerName, string $methodName, DIContainer $container, array $urlParams = null) {
 		if (!is_null($urlParams)) {
-			$container->query(IRequest::class)->setUrlParameters($urlParams);
-		} else if (isset($container['urlParams']) && !is_null($container['urlParams'])) {
-			$container->query(IRequest::class)->setUrlParameters($container['urlParams']);
+			/** @var Request $request */
+			$request = $container->query(IRequest::class);
+			$request->setUrlParameters($urlParams);
+		} elseif (isset($container['urlParams']) && !is_null($container['urlParams'])) {
+			/** @var Request $request */
+			$request = $container->query(IRequest::class);
+			$request->setUrlParameters($container['urlParams']);
 		}
 		$appName = $container['AppName'];
 
 		// first try $controllerName then go for \OCA\AppName\Controller\$controllerName
 		try {
 			$controller = $container->query($controllerName);
-		} catch(QueryException $e) {
+		} catch (QueryException $e) {
 			if (strpos($controllerName, '\\Controller\\') !== false) {
 				// This is from a global registered app route that is not enabled.
 				[/*OC(A)*/, $app, /* Controller/Name*/] = explode('\\', $controllerName, 3);
@@ -127,29 +147,31 @@ class App {
 		/** @var Dispatcher $dispatcher */
 		$dispatcher = $container['Dispatcher'];
 
-		list(
+		[
 			$httpHeaders,
 			$responseHeaders,
 			$responseCookies,
 			$output,
 			$response
-		) = $dispatcher->dispatch($controller, $methodName);
+		] = $dispatcher->dispatch($controller, $methodName);
 
 		$io = $container[IOutput::class];
 
-		if(!is_null($httpHeaders)) {
+		if (!is_null($httpHeaders)) {
 			$io->setHeader($httpHeaders);
 		}
 
-		foreach($responseHeaders as $name => $value) {
+		foreach ($responseHeaders as $name => $value) {
 			$io->setHeader($name . ': ' . $value);
 		}
 
-		foreach($responseCookies as $name => $value) {
+		foreach ($responseCookies as $name => $value) {
 			$expireDate = null;
-			if($value['expireDate'] instanceof \DateTime) {
+			if ($value['expireDate'] instanceof \DateTime) {
 				$expireDate = $value['expireDate']->getTimestamp();
 			}
+			$sameSite = $value['sameSite'] ?? 'Lax';
+
 			$io->setCookie(
 				$name,
 				$value['value'],
@@ -157,7 +179,8 @@ class App {
 				$container->getServer()->getWebRoot(),
 				null,
 				$container->getServer()->getRequest()->getServerProtocol() === 'https',
-				true
+				true,
+				$sameSite
 			);
 		}
 
@@ -178,12 +201,11 @@ class App {
 		if (!$emptyResponse) {
 			if ($response instanceof ICallbackResponse) {
 				$response->callback($io);
-			} else if (!is_null($output)) {
+			} elseif (!is_null($output)) {
 				$io->setHeader('Content-Length: ' . strlen($output));
 				$io->setOutput($output);
 			}
 		}
-
 	}
 
 	/**
@@ -199,15 +221,13 @@ class App {
 	 * @param DIContainer $container an instance of a pimple container.
 	 */
 	public static function part(string $controllerName, string $methodName, array $urlParams,
-								DIContainer $container){
-
+								DIContainer $container) {
 		$container['urlParams'] = $urlParams;
 		$controller = $container[$controllerName];
 
 		$dispatcher = $container['Dispatcher'];
 
-		list(, , $output) =  $dispatcher->dispatch($controller, $methodName);
+		[, , $output] = $dispatcher->dispatch($controller, $methodName);
 		return $output;
 	}
-
 }

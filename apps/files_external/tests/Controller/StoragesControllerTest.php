@@ -2,11 +2,13 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -23,7 +25,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_External\Tests\Controller;
 
 use OCA\Files_External\Controller\GlobalStoragesController;
@@ -48,11 +49,11 @@ abstract class StoragesControllerTest extends \Test\TestCase {
 	protected $service;
 
 	protected function setUp(): void {
-		\OC_Mount_Config::$skipTest = true;
+		\OCA\Files_External\MountConfig::$skipTest = true;
 	}
 
 	protected function tearDown(): void {
-		\OC_Mount_Config::$skipTest = false;
+		\OCA\Files_External\MountConfig::$skipTest = false;
 	}
 
 	/**
@@ -171,7 +172,7 @@ abstract class StoragesControllerTest extends \Test\TestCase {
 		$this->assertEquals($storageConfig, $data);
 	}
 
-	function mountPointNamesProvider() {
+	public function mountPointNamesProvider() {
 		return [
 			[''],
 			['/'],
@@ -336,7 +337,9 @@ abstract class StoragesControllerTest extends \Test\TestCase {
 		$response = $this->controller->show(1);
 
 		$this->assertEquals(Http::STATUS_OK, $response->getStatus());
-		$this->assertEquals($storageConfig, $response->getData());
+		$expected = $storageConfig->jsonSerialize();
+		$expected['can_edit'] = false;
+		$this->assertEquals($expected, $response->getData());
 	}
 
 	public function validateStorageProvider() {
@@ -401,5 +404,4 @@ abstract class StoragesControllerTest extends \Test\TestCase {
 			$this->assertEquals(Http::STATUS_UNPROCESSABLE_ENTITY, $response->getStatus());
 		}
 	}
-
 }

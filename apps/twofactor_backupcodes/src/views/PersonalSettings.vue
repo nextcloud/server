@@ -55,7 +55,7 @@ export default {
 		}
 	},
 	computed: {
-		downloadUrl: function() {
+		downloadUrl() {
 			if (!this.codes) {
 				return ''
 			}
@@ -63,23 +63,23 @@ export default {
 				return prev + code + '\r\n'
 			}, ''))
 		},
-		downloadFilename: function() {
+		downloadFilename() {
 			const name = OC.theme.name || 'Nextcloud'
 			return name + '-backup-codes.txt'
 		},
-		enabled: function() {
+		enabled() {
 			return this.$store.state.enabled
 		},
-		total: function() {
+		total() {
 			return this.$store.state.total
 		},
-		used: function() {
+		used() {
 			return this.$store.state.used
 		},
-		codes: function() {
+		codes() {
 			return this.$store.state.codes
 		},
-		name: function() {
+		name() {
 			return OC.theme.name || 'Nextcloud'
 		},
 		haveCodes() {
@@ -87,7 +87,7 @@ export default {
 		},
 	},
 	methods: {
-		generateBackupCodes: function() {
+		generateBackupCodes() {
 			confirmPassword().then(() => {
 				// Hide old codes
 				this.generatingCodes = true
@@ -102,7 +102,7 @@ export default {
 			}).catch(console.error.bind(this))
 		},
 
-		getPrintData: function(codes) {
+		getPrintData(codes) {
 			if (!codes) {
 				return ''
 			}
@@ -111,7 +111,7 @@ export default {
 			}, '')
 		},
 
-		printCodes: function() {
+		printCodes() {
 			print(this.getPrintData(this.codes))
 		},
 	},

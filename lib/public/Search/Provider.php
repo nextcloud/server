@@ -4,6 +4,7 @@
  *
  * @author Andrew Brown <andrew@casabrown.com>
  * @author Bart Visscher <bartv@thisnet.nl>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Jakob Sack <mail@jakobsack.de>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Morris Jobke <hey@morrisjobke.de>
@@ -23,24 +24,26 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\Search;
 
 /**
  * Provides a template for search functionality throughout ownCloud;
  * @since 7.0.0
+ * @deprecated 20.0.0
  */
 abstract class Provider {
 
 	/**
 	 * @since 8.0.0
+	 * @deprecated 20.0.0
 	 */
-	const OPTION_APPS = 'apps';
+	public const OPTION_APPS = 'apps';
 
 	/**
 	 * List of options
 	 * @var array
 	 * @since 7.0.0
+	 * @deprecated 20.0.0
 	 */
 	protected $options;
 
@@ -48,6 +51,7 @@ abstract class Provider {
 	 * Constructor
 	 * @param array $options as key => value
 	 * @since 7.0.0 - default value for $options was added in 8.0.0
+	 * @deprecated 20.0.0
 	 */
 	public function __construct($options = []) {
 		$this->options = $options;
@@ -58,6 +62,7 @@ abstract class Provider {
 	 * @param string $key
 	 * @return mixed
 	 * @since 8.0.0
+	 * @deprecated 20.0.0
 	 */
 	public function getOption($key) {
 		if (is_array($this->options) && isset($this->options[$key])) {
@@ -75,6 +80,7 @@ abstract class Provider {
 	 * @param string[] $apps
 	 * @return bool
 	 * @since 8.0.0
+	 * @deprecated 20.0.0
 	 */
 	public function providesResultsFor(array $apps = []) {
 		$forApps = $this->getOption(self::OPTION_APPS);
@@ -86,6 +92,7 @@ abstract class Provider {
 	 * @param string $query
 	 * @return array An array of OCP\Search\Result's
 	 * @since 7.0.0
+	 * @deprecated 20.0.0
 	 */
 	abstract public function search($query);
 }

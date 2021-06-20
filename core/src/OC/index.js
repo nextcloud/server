@@ -1,7 +1,9 @@
 /**
  * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
- * @author 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -16,7 +18,8 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 
 import { subscribe } from '@nextcloud/event-bus'
@@ -79,10 +82,12 @@ import {
 } from './menu'
 import { isUserAdmin } from './admin'
 import L10N, {
-	getCanonicalLocale,
 	getLanguage,
 	getLocale,
 } from './l10n'
+import {
+	getCanonicalLocale,
+} from '@nextcloud/l10n'
 
 import {
 	generateUrl,
@@ -101,7 +106,6 @@ import msg from './msg'
 import Notification from './notification'
 import PasswordConfirmation from './password-confirmation'
 import Plugins from './plugins'
-import search from './search'
 import { theme } from './theme'
 import Util from './util'
 import { debug } from './debug'
@@ -177,9 +181,8 @@ export default {
 	 * Capabilities
 	 *
 	 * @type {Array}
-	 * @deprecated 17.0.0 use OC.getCapabilities() instead
+	 * @deprecated 20.0.0 use @nextcloud/capabilities instead
 	 */
-	_capabilities: getCapabilities(),
 	getCapabilities,
 
 	/*
@@ -223,7 +226,7 @@ export default {
 	getProtocol,
 
 	/**
-	 * L10n
+	 * @deprecated 20.0.0 use `getCanonicalLocale` from https://www.npmjs.com/package/@nextcloud/l10n
 	 */
 	getCanonicalLocale,
 	getLocale,
@@ -248,7 +251,6 @@ export default {
 	Notification,
 	PasswordConfirmation,
 	Plugins,
-	search,
 	theme,
 	Util,
 	debug,

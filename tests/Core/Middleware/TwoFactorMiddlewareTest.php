@@ -320,5 +320,4 @@ class TwoFactorMiddlewareTest extends TestCase {
 			->getMock();
 		$this->middleware->beforeController($twoFactorChallengeController, 'index');
 	}
-
 }

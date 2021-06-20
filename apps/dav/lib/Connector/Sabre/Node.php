@@ -2,7 +2,6 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Björn Schießle <bjoern@schiessle.org>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
@@ -17,7 +16,7 @@
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Tobias Kaminsky <tobias@kaminsky.me>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -34,7 +33,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Connector\Sabre;
 
 use OC\Files\Mount\MoveableMount;
@@ -42,7 +40,7 @@ use OC\Files\View;
 use OCA\DAV\Connector\Sabre\Exception\InvalidPath;
 use OCP\Files\FileInfo;
 use OCP\Files\StorageNotAvailableException;
-use OCP\Share;
+use OCP\Share\IShare;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
 
@@ -131,8 +129,8 @@ abstract class Node implements \Sabre\DAV\INode {
 			throw new \Sabre\DAV\Exception\Forbidden();
 		}
 
-		list($parentPath,) = \Sabre\Uri\split($this->path);
-		list(, $newName) = \Sabre\Uri\split($name);
+		[$parentPath,] = \Sabre\Uri\split($this->path);
+		[, $newName] = \Sabre\Uri\split($name);
 
 		// verify path of the target
 		$this->verifyPath();
@@ -313,17 +311,17 @@ abstract class Node implements \Sabre\DAV\INode {
 		}
 
 		$types = [
-			Share::SHARE_TYPE_USER,
-			Share::SHARE_TYPE_GROUP,
-			Share::SHARE_TYPE_CIRCLE,
-			Share::SHARE_TYPE_ROOM
+			IShare::TYPE_USER,
+			IShare::TYPE_GROUP,
+			IShare::TYPE_CIRCLE,
+			IShare::TYPE_ROOM
 		];
 
 		foreach ($types as $shareType) {
 			$shares = $this->shareManager->getSharedWith($user, $shareType, $this, -1);
 			foreach ($shares as $share) {
 				$note = $share->getNote();
-				if($share->getShareOwner() !== $user && !empty($note)) {
+				if ($share->getShareOwner() !== $user && !empty($note)) {
 					return $note;
 				}
 			}
@@ -416,5 +414,4 @@ abstract class Node implements \Sabre\DAV\INode {
 
 		return (int)$mtimeFromRequest;
 	}
-
 }

@@ -49,6 +49,7 @@ OC.L10N.register(
     "Accept" : "Accept",
     "Decline" : "Refuză",
     "Contacts" : "Persoane de contact",
+    "Tasks" : "Sarcini",
     "WebDAV" : "WebDAV",
     "Tentative" : "Tentativă",
     "Save" : "Salvează",

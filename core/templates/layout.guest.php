@@ -30,14 +30,14 @@
 		<?php }?>
 		<div class="wrapper">
 			<div class="v-align">
-				<?php if ($_['bodyid'] === 'body-login' ): ?>
+				<?php if ($_['bodyid'] === 'body-login'): ?>
 					<header role="banner">
 						<div id="header">
 							<div class="logo">
 								<h1 class="hidden-visually">
 									<?php p($theme->getName()); ?>
 								</h1>
-								<?php if(\OC::$server->getConfig()->getSystemValue('installed', false)
+								<?php if (\OC::$server->getConfig()->getSystemValue('installed', false)
 									&& \OC::$server->getConfig()->getAppValue('theming', 'logoMime', false)): ?>
 									<img src="<?php p($theme->getLogo()); ?>"/>
 								<?php endif; ?>

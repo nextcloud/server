@@ -4,6 +4,7 @@
  *
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
@@ -25,7 +26,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_Sharing\ShareBackend;
 
 class Folder extends File implements \OCP\Share_Backend_Collection {
@@ -108,10 +108,9 @@ class Folder extends File implements \OCP\Share_Backend_Collection {
 			$mimetype = -1;
 		}
 		while (!empty($parents)) {
-
 			$qb = \OC::$server->getDatabaseConnection()->getQueryBuilder();
 
-			$parents = array_map(function($parent) use ($qb) {
+			$parents = array_map(function ($parent) use ($qb) {
 				return $qb->createNamedParameter($parent);
 			}, $parents);
 
@@ -135,5 +134,4 @@ class Folder extends File implements \OCP\Share_Backend_Collection {
 		}
 		return $children;
 	}
-
 }

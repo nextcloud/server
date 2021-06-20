@@ -21,7 +21,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_External\Lib\Auth\OAuth1;
 
 use OCA\Files_External\Lib\Auth\AuthMechanism;
@@ -32,7 +31,6 @@ use OCP\IL10N;
  * OAuth1 authentication
  */
 class OAuth1 extends AuthMechanism {
-
 	public function __construct(IL10N $l) {
 		$this
 			->setIdentifier('oauth1::oauth1')
@@ -52,5 +50,4 @@ class OAuth1 extends AuthMechanism {
 			->addCustomJs('oauth1')
 		;
 	}
-
 }

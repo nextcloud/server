@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  *
@@ -20,7 +21,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Core\Command\Config\System;
 
 use OC\SystemConfig;
@@ -61,7 +61,7 @@ class DeleteConfig extends Base {
 		;
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$configNames = $input->getArgument('name');
 		$configName = $configNames[0];
 
@@ -75,8 +75,7 @@ class DeleteConfig extends Base {
 
 			try {
 				$value = $this->removeSubValue(array_slice($configNames, 1), $value, $input->hasParameterOption('--error-if-not-exists'));
-			}
-			catch (\UnexpectedValueException $e) {
+			} catch (\UnexpectedValueException $e) {
 				$output->writeln('<error>System config ' . implode(' => ', $configNames) . ' could not be deleted because it did not exist</error>');
 				return 1;
 			}
@@ -106,10 +105,10 @@ class DeleteConfig extends Base {
 				} else {
 					$currentValue[$nextKey] = $this->removeSubValue($keys, $currentValue[$nextKey], $throwError);
 				}
-			} else if ($throwError) {
+			} elseif ($throwError) {
 				throw new \UnexpectedValueException('Config parameter does not exist');
 			}
-		} else if ($throwError) {
+		} elseif ($throwError) {
 			throw new \UnexpectedValueException('Config parameter does not exist');
 		}
 

@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Andreas Fischer <bantu@owncloud.com>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
@@ -25,7 +26,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\DB;
 
 use Doctrine\Common\EventManager;
@@ -40,10 +40,10 @@ use OC\SystemConfig;
  */
 class ConnectionFactory {
 	/** @var string default database name */
-	const DEFAULT_DBNAME = 'owncloud';
+	public const DEFAULT_DBNAME = 'owncloud';
 
 	/** @var string default database table prefix */
-	const DEFAULT_DBTABLEPREFIX = 'oc_';
+	public const DEFAULT_DBTABLEPREFIX = 'oc_';
 
 	/**
 	 * @var array

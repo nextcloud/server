@@ -1,30 +1,31 @@
 <?php
 /**
-* ownCloud
-*
-* @author Michael Gapczynski
-* @copyright 2012 Michael Gapczynski mtgap@owncloud.com
-*
-* This library is free software; you can redistribute it and/or
-* modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
-* License as published by the Free Software Foundation; either
-* version 3 of the License, or any later version.
-*
-* This library is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-* GNU AFFERO GENERAL PUBLIC LICENSE for more details.
-*
-* You should have received a copy of the GNU Affero General Public
-* License along with this library.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ * ownCloud
+ *
+ * @author Michael Gapczynski
+ * @copyright 2012 Michael Gapczynski mtgap@owncloud.com
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public
+ * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 namespace Test\Share;
-use OC\Share\Share;
+
 use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\Share\IShare;
 
 /**
  * Class Test_Share
@@ -32,7 +33,6 @@ use OCP\IUserManager;
  * @group DB
  */
 class ShareTest extends \Test\TestCase {
-
 	protected $itemType;
 
 	/** @var IUser */
@@ -101,7 +101,7 @@ class ShareTest extends \Test\TestCase {
 
 		\OC\Share\Share::registerBackend('test', 'Test\Share\Backend');
 		\OC_Hook::clear('OCP\\Share');
-		\OC::registerShareHooks();
+		\OC::registerShareHooks(\OC::$server->getSystemConfig());
 		$this->resharing = \OC::$server->getConfig()->getAppValue('core', 'shareapi_allow_resharing', 'yes');
 		\OC::$server->getConfig()->setAppValue('core', 'shareapi_allow_resharing', 'yes');
 
@@ -140,15 +140,15 @@ class ShareTest extends \Test\TestCase {
 		$query = \OC_DB::prepare('INSERT INTO `*PREFIX*share` ('
 			.' `item_type`, `item_source`, `item_target`, `share_type`,'
 			.' `share_with`, `uid_owner`) VALUES (?,?,?,?,?,?)');
-		$args = ['test', 99, 'target1', \OCP\Share::SHARE_TYPE_USER, $this->user2->getUID(), $this->user1->getUID()];
+		$args = ['test', 99, 'target1', IShare::TYPE_USER, $this->user2->getUID(), $this->user1->getUID()];
 		$query->execute($args);
-		$args = ['test', 99, 'target2', \OCP\Share::SHARE_TYPE_USER, $this->user4->getUID(), $this->user1->getUID()];
+		$args = ['test', 99, 'target2', IShare::TYPE_USER, $this->user4->getUID(), $this->user1->getUID()];
 		$query->execute($args);
-		$args = ['test', 99, 'target3', \OCP\Share::SHARE_TYPE_USER, $this->user3->getUID(), $this->user2->getUID()];
+		$args = ['test', 99, 'target3', IShare::TYPE_USER, $this->user3->getUID(), $this->user2->getUID()];
 		$query->execute($args);
-		$args = ['test', 99, 'target4', \OCP\Share::SHARE_TYPE_USER, $this->user3->getUID(), $this->user4->getUID()];
+		$args = ['test', 99, 'target4', IShare::TYPE_USER, $this->user3->getUID(), $this->user4->getUID()];
 		$query->execute($args);
-		$args = ['test', 99, 'target4', \OCP\Share::SHARE_TYPE_USER, $this->user6->getUID(), $this->user4->getUID()];
+		$args = ['test', 99, 'target4', IShare::TYPE_USER, $this->user6->getUID(), $this->user4->getUID()];
 		$query->execute($args);
 
 
@@ -180,13 +180,13 @@ class ShareTest extends \Test\TestCase {
 		$query = \OC_DB::prepare('INSERT INTO `*PREFIX*share` ('
 			.' `item_type`, `item_source`, `item_target`, `share_type`,'
 			.' `share_with`, `uid_owner`) VALUES (?,?,?,?,?,?)');
-		$args = ['test', 99, 'target1', \OCP\Share::SHARE_TYPE_GROUP, $this->group1->getGID(), $this->user1->getUID()];
+		$args = ['test', 99, 'target1', IShare::TYPE_GROUP, $this->group1->getGID(), $this->user1->getUID()];
 		$query->execute($args);
-		$args = ['test', 99, 'target2', \OCP\Share::SHARE_TYPE_GROUP, $this->group2->getGID(), $this->user1->getUID()];
+		$args = ['test', 99, 'target2', IShare::TYPE_GROUP, $this->group2->getGID(), $this->user1->getUID()];
 		$query->execute($args);
-		$args = ['test', 99, 'target3', \OCP\Share::SHARE_TYPE_GROUP, $this->group1->getGID(), $this->user2->getUID()];
+		$args = ['test', 99, 'target3', IShare::TYPE_GROUP, $this->group1->getGID(), $this->user2->getUID()];
 		$query->execute($args);
-		$args = ['test', 99, 'target4', \OCP\Share::SHARE_TYPE_GROUP, $this->group1->getGID(), $this->user4->getUID()];
+		$args = ['test', 99, 'target4', IShare::TYPE_GROUP, $this->group1->getGID(), $this->user4->getUID()];
 		$query->execute($args);
 
 		// user2 is in group1 and group2
@@ -226,13 +226,13 @@ class ShareTest extends \Test\TestCase {
 	 * @param string $url
 	 * @param string $expectedResult
 	 */
-	function testRemoveProtocolFromUrl($url, $expectedResult) {
+	public function testRemoveProtocolFromUrl($url, $expectedResult) {
 		$share = new \OC\Share\Share();
 		$result = self::invokePrivate($share, 'removeProtocolFromUrl', [$url]);
 		$this->assertSame($expectedResult, $result);
 	}
 
-	function urls() {
+	public function urls() {
 		return [
 			['http://owncloud.org', 'owncloud.org'],
 			['https://owncloud.org', 'owncloud.org'],
@@ -245,15 +245,13 @@ class ShareTest extends \Test\TestCase {
 	 * @param array $ungrouped
 	 * @param array $grouped
 	 */
-	function testGroupItems($ungrouped, $grouped) {
-
+	public function testGroupItems($ungrouped, $grouped) {
 		$result = DummyShareClass::groupItemsTest($ungrouped);
 
 		$this->compareArrays($grouped, $result);
-
 	}
 
-	function compareArrays($result, $expectedResult) {
+	public function compareArrays($result, $expectedResult) {
 		foreach ($expectedResult as $key => $value) {
 			if (is_array($value)) {
 				$this->compareArrays($result[$key], $value);
@@ -263,7 +261,7 @@ class ShareTest extends \Test\TestCase {
 		}
 	}
 
-	function dataProviderTestGroupItems() {
+	public function dataProviderTestGroupItems() {
 		return [
 			// one array with one share
 			[
@@ -276,44 +274,44 @@ class ShareTest extends \Test\TestCase {
 				[ // input
 					['item_source' => 1, 'permissions' => \OCP\Constants::PERMISSION_READ, 'item_target' => 't1'],
 					['item_source' => 1, 'permissions' => \OCP\Constants::PERMISSION_UPDATE, 'item_target' => 't1'],
-					],
+				],
 				[ // expected result
 					['item_source' => 1, 'permissions' => \OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_UPDATE, 'item_target' => 't1',
 						'grouped' => [
 							['item_source' => 1, 'permissions' => \OCP\Constants::PERMISSION_READ, 'item_target' => 't1'],
 							['item_source' => 1, 'permissions' => \OCP\Constants::PERMISSION_UPDATE, 'item_target' => 't1'],
-							]
-						],
-					]
-				],
+						]
+					],
+				]
+			],
 			// two shares both point to the same source but with different targets
 			[
 				[ // input
 					['item_source' => 1, 'permissions' => \OCP\Constants::PERMISSION_READ, 'item_target' => 't1'],
 					['item_source' => 1, 'permissions' => \OCP\Constants::PERMISSION_UPDATE, 'item_target' => 't2'],
-					],
+				],
 				[ // expected result
 					['item_source' => 1, 'permissions' => \OCP\Constants::PERMISSION_READ, 'item_target' => 't1'],
 					['item_source' => 1, 'permissions' => \OCP\Constants::PERMISSION_UPDATE, 'item_target' => 't2'],
-					]
-				],
+				]
+			],
 			// three shares two point to the same source
 			[
 				[ // input
 					['item_source' => 1, 'permissions' => \OCP\Constants::PERMISSION_READ, 'item_target' => 't1'],
 					['item_source' => 2, 'permissions' => \OCP\Constants::PERMISSION_CREATE, 'item_target' => 't2'],
 					['item_source' => 1, 'permissions' => \OCP\Constants::PERMISSION_UPDATE, 'item_target' => 't1'],
-					],
+				],
 				[ // expected result
 					['item_source' => 1, 'permissions' => \OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_UPDATE, 'item_target' => 't1',
 						'grouped' => [
 							['item_source' => 1, 'permissions' => \OCP\Constants::PERMISSION_READ, 'item_target' => 't1'],
 							['item_source' => 1, 'permissions' => \OCP\Constants::PERMISSION_UPDATE, 'item_target' => 't1'],
-							]
-						],
+						]
+					],
 					['item_source' => 2, 'permissions' => \OCP\Constants::PERMISSION_CREATE, 'item_target' => 't2'],
-					]
-				],
+				]
+			],
 		];
 	}
 }
@@ -325,7 +323,7 @@ class DummyShareClass extends \OC\Share\Share {
 }
 
 class DummyHookListener {
-	static $shareType = null;
+	public static $shareType = null;
 
 	public static function listen($params) {
 		self::$shareType = $params['shareType'];

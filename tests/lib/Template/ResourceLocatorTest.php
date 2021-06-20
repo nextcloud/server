@@ -12,7 +12,7 @@ use OC\Template\ResourceNotFoundException;
 use OCP\ILogger;
 
 class ResourceLocatorTest extends \Test\TestCase {
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \PHPUnit\Framework\MockObject\MockObject */
 	protected $logger;
 
 	protected function setUp(): void {
@@ -25,23 +25,12 @@ class ResourceLocatorTest extends \Test\TestCase {
 	 * @param array $core_map
 	 * @param array $party_map
 	 * @param array $appsRoots
-	 * @return \PHPUnit_Framework_MockObject_MockObject
+	 * @return \PHPUnit\Framework\MockObject\MockObject
 	 */
 	public function getResourceLocator($theme, $core_map, $party_map, $appsRoots) {
 		return $this->getMockForAbstractClass('OC\Template\ResourceLocator',
 			[$this->logger, $theme, $core_map, $party_map, $appsRoots ],
 			'', true, true, true, []);
-	}
-
-	public function testConstructor() {
-		$locator = $this->getResourceLocator('theme',
-			['core'=>'map'], ['3rd'=>'party'], ['foo'=>'bar']);
-		$this->assertAttributeEquals('theme', 'theme', $locator);
-		$this->assertAttributeEquals('core', 'serverroot', $locator);
-		$this->assertAttributeEquals(['core'=>'map','3rd'=>'party'], 'mapping', $locator);
-		$this->assertAttributeEquals('3rd', 'thirdpartyroot', $locator);
-		$this->assertAttributeEquals('map', 'webroot', $locator);
-		$this->assertAttributeEquals([], 'resources', $locator);
 	}
 
 	public function testFind() {
@@ -59,7 +48,7 @@ class ResourceLocatorTest extends \Test\TestCase {
 
 	public function testFindNotFound() {
 		$locator = $this->getResourceLocator('theme',
-			['core'=>'map'], ['3rd'=>'party'], ['foo'=>'bar']);
+			['core' => 'map'], ['3rd' => 'party'], ['foo' => 'bar']);
 		$locator->expects($this->once())
 			->method('doFind')
 			->with('foo')
@@ -77,7 +66,7 @@ class ResourceLocatorTest extends \Test\TestCase {
 
 	public function testAppendIfExist() {
 		$locator = $this->getResourceLocator('theme',
-			[__DIR__=>'map'], ['3rd'=>'party'], ['foo'=>'bar']);
+			[__DIR__ => 'map'], ['3rd' => 'party'], ['foo' => 'bar']);
 		/** @var \OC\Template\ResourceLocator $locator */
 		$method = new \ReflectionMethod($locator, 'appendIfExist');
 		$method->setAccessible(true);

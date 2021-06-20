@@ -23,6 +23,7 @@
 
 namespace Test\Template;
 
+use OC\AppConfig;
 use OC\Files\AppData\AppData;
 use OC\Files\AppData\Factory;
 use OC\Template\CSSResourceLocator;
@@ -37,22 +38,24 @@ use OCP\ILogger;
 use OCP\IURLGenerator;
 
 class CSSResourceLocatorTest extends \Test\TestCase {
-	/** @var IAppData|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IAppData|\PHPUnit\Framework\MockObject\MockObject */
 	protected $appData;
-	/** @var IURLGenerator|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
 	protected $urlGenerator;
-	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	protected $config;
-	/** @var ThemingDefaults|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ThemingDefaults|\PHPUnit\Framework\MockObject\MockObject */
 	protected $themingDefaults;
-	/** @var ICacheFactory|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ICacheFactory|\PHPUnit\Framework\MockObject\MockObject */
 	protected $cacheFactory;
-	/** @var ILogger|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ILogger|\PHPUnit\Framework\MockObject\MockObject */
 	protected $logger;
-	/** @var IconsCacher|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IconsCacher|\PHPUnit\Framework\MockObject\MockObject */
 	protected $iconsCacher;
-	/** @var ITimeFactory|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
 	private $timeFactory;
+	/** @var AppConfig|\PHPUnit\Framework\MockObject\MockObject */
+	private $appConfig;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -65,12 +68,13 @@ class CSSResourceLocatorTest extends \Test\TestCase {
 		$this->themingDefaults = $this->createMock(ThemingDefaults::class);
 		$this->iconsCacher = $this->createMock(IconsCacher::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
+		$this->appConfig = $this->createMock(AppConfig::class);
 	}
 
 	private function cssResourceLocator() {
-		/** @var Factory|\PHPUnit_Framework_MockObject_MockObject $factory */
-                $factory = $this->createMock(Factory::class);
-                $factory->method('get')->with('css')->willReturn($this->appData);
+		/** @var Factory|\PHPUnit\Framework\MockObject\MockObject $factory */
+		$factory = $this->createMock(Factory::class);
+		$factory->method('get')->with('css')->willReturn($this->appData);
 		$scssCacher = new SCSSCacher(
 			$this->logger,
 			$factory,
@@ -80,13 +84,14 @@ class CSSResourceLocatorTest extends \Test\TestCase {
 			\OC::$SERVERROOT,
 			$this->cacheFactory,
 			$this->iconsCacher,
-			$this->timeFactory
+			$this->timeFactory,
+			$this->appConfig
 		);
 		return new CSSResourceLocator(
 			$this->logger,
 			'theme',
-			['core'=>'map'],
-			['3rd'=>'party'],
+			['core' => 'map'],
+			['3rd' => 'party'],
 			$scssCacher
 		);
 	}
@@ -107,16 +112,6 @@ class CSSResourceLocatorTest extends \Test\TestCase {
 		return sha1(uniqid(mt_rand(), true));
 	}
 
-	public function testConstructor() {
-		$locator = $this->cssResourceLocator();
-		$this->assertAttributeEquals('theme', 'theme', $locator);
-		$this->assertAttributeEquals('core', 'serverroot', $locator);
-		$this->assertAttributeEquals(['core'=>'map','3rd'=>'party'], 'mapping', $locator);
-		$this->assertAttributeEquals('3rd', 'thirdpartyroot', $locator);
-		$this->assertAttributeEquals('map', 'webroot', $locator);
-		$this->assertAttributeEquals([], 'resources', $locator);
-	}
-
 	public function testFindWithAppPathSymlink() {
 		// First create new apps path, and a symlink to it
 		$apps_dirname = $this->randomString();
@@ -130,10 +125,10 @@ class CSSResourceLocatorTest extends \Test\TestCase {
 
 		// Use the symlink as the app path
 		\OC::$APPSROOTS[] = [
-                        'path' => $new_apps_path_symlink,
-                        'url' => '/css-apps-test',
-                        'writable' => false,
-                ];
+			'path' => $new_apps_path_symlink,
+			'url' => '/css-apps-test',
+			'writable' => false,
+		];
 
 		$locator = $this->cssResourceLocator();
 		$locator->find(['test-css-app/test-file']);

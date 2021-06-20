@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2017 Robin Appelman <robin@icewind.nl>
  *
  * @author Christian <16852529+cviereck@users.noreply.github.com>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -15,14 +16,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\Files;
 
 use OC\Files\Search\SearchBinaryOperator;
@@ -311,7 +311,7 @@ class FileSearchBackend implements ISearchBackend {
 	 * @return ISearchOperator
 	 */
 	private function transformSearchOperation(Operator $operator) {
-		list(, $trimmedType) = explode('}', $operator->type);
+		[, $trimmedType] = explode('}', $operator->type);
 		switch ($operator->type) {
 			case Operator::OPERATION_AND:
 			case Operator::OPERATION_OR:
@@ -419,7 +419,7 @@ class FileSearchBackend implements ISearchBackend {
 							} else {
 								throw new \InvalidArgumentException("searching by '$propertyName' is only allowed with a literal value");
 							}
-						} else{
+						} else {
 							throw new \InvalidArgumentException("searching by '$propertyName' is not allowed inside a '{DAV:}or' or '{DAV:}not'");
 						}
 					} else {
@@ -428,6 +428,7 @@ class FileSearchBackend implements ISearchBackend {
 				} else {
 					return null;
 				}
+				// no break
 			default:
 				return null;
 		}

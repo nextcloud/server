@@ -2,8 +2,10 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Tigran Mkrtchyan <tigran.mkrtchyan@desy.de>
  *
  * @license AGPL-3.0
  *
@@ -20,7 +22,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Files\Storage;
 
 use Icewind\Streams\CallbackWrapper;
@@ -72,7 +73,11 @@ abstract class Flysystem extends Common {
 	 * {@inheritdoc}
 	 */
 	public function file_put_contents($path, $data) {
-		return $this->flysystem->put($this->buildPath($path), $data);
+		$result = $this->flysystem->put($this->buildPath($path), $data);
+		if ($result === true) {
+			return strlen($data);
+		}
+		return $result;
 	}
 
 	/**
@@ -189,6 +194,7 @@ abstract class Flysystem extends Common {
 			case 'wb':
 			case 'wb+':
 				$useExisting = false;
+				// no break
 			case 'a':
 			case 'ab':
 			case 'r+':

@@ -197,11 +197,10 @@ class ScannerTest extends \Test\TestCase {
 		$sharedMount = new MountPoint($sharedStorage, '/share');
 		Filesystem::getMountManager()->addMount($sharedMount);
 
-		$sharedStorage->expects($this->any())
-			->method('instanceOfStorage')
-			->willReturnMap([
-				[SharedStorage::class, true],
-			]);
+		$sharedStorage->method('instanceOfStorage')
+			->willReturnCallback(function (string $c) {
+				return $c === SharedStorage::class;
+			});
 		$sharedStorage->expects($this->never())
 			->method('getScanner');
 
@@ -241,5 +240,4 @@ class ScannerTest extends \Test\TestCase {
 		$this->assertTrue($cache->inCache('folder/bar.txt'));
 		$this->assertFalse($cache->inCache('folder/subfolder/foobar.txt'));
 	}
-
 }

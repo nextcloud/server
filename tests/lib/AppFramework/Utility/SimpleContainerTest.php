@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * ownCloud - App Framework
  *
@@ -25,198 +27,199 @@ namespace Test\AppFramework\Utility;
 
 use OC\AppFramework\Utility\SimpleContainer;
 
-interface TestInterface {}
+interface TestInterface {
+}
 
-class ClassEmptyConstructor implements IInterfaceConstructor {}
+class ClassEmptyConstructor implements IInterfaceConstructor {
+}
 
 class ClassSimpleConstructor implements IInterfaceConstructor {
-    public $test;
-    public function __construct($test) {
-        $this->test = $test;
-    }
+	public $test;
+	public function __construct($test) {
+		$this->test = $test;
+	}
 }
 
 class ClassComplexConstructor {
-    public $class;
-    public $test;
-    public function __construct(ClassSimpleConstructor $class, $test) {
-        $this->class = $class;
-        $this->test = $test;
-    }
+	public $class;
+	public $test;
+	public function __construct(ClassSimpleConstructor $class, $test) {
+		$this->class = $class;
+		$this->test = $test;
+	}
 }
 
-interface IInterfaceConstructor {}
+interface IInterfaceConstructor {
+}
 class ClassInterfaceConstructor {
-    public $class;
-    public $test;
-    public function __construct(IInterfaceConstructor $class, $test) {
-        $this->class = $class;
-        $this->test = $test;
-    }
+	public $class;
+	public $test;
+	public function __construct(IInterfaceConstructor $class, $test) {
+		$this->class = $class;
+		$this->test = $test;
+	}
 }
 
 
 class SimpleContainerTest extends \Test\TestCase {
+	private $container;
+
+	protected function setUp(): void {
+		$this->container = new SimpleContainer();
+	}
 
 
-    private $container;
 
-    protected function setUp(): void {
-        $this->container = new SimpleContainer();
-    }
-
-
-    public function testRegister() {
-        $this->container->registerParameter('test', 'abc');
-        $this->assertEquals('abc', $this->container->query('test'));
-    }
+	public function testRegister() {
+		$this->container->registerParameter('test', 'abc');
+		$this->assertEquals('abc', $this->container->query('test'));
+	}
 
 
-    
-    public function testNothingRegistered() {
-    	$this->expectException(\OCP\AppFramework\QueryException::class);
 
-        $this->container->query('something really hard');
-    }
+	public function testNothingRegistered() {
+		$this->expectException(\OCP\AppFramework\QueryException::class);
 
-
-    
-    public function testNotAClass() {
-    	$this->expectException(\OCP\AppFramework\QueryException::class);
-
-        $this->container->query('Test\AppFramework\Utility\TestInterface');
-    }
+		$this->container->query('something really hard');
+	}
 
 
-    public function testNoConstructorClass() {
-        $object = $this->container->query('Test\AppFramework\Utility\ClassEmptyConstructor');
-        $this->assertTrue($object instanceof ClassEmptyConstructor);
-    }
+
+	public function testNotAClass() {
+		$this->expectException(\OCP\AppFramework\QueryException::class);
+
+		$this->container->query('Test\AppFramework\Utility\TestInterface');
+	}
 
 
-    public function testInstancesOnlyOnce() {
-        $object = $this->container->query('Test\AppFramework\Utility\ClassEmptyConstructor');
-        $object2 = $this->container->query('Test\AppFramework\Utility\ClassEmptyConstructor');
-        $this->assertSame($object, $object2);
-    }
-
-    public function testConstructorSimple() {
-        $this->container->registerParameter('test', 'abc');
-        $object = $this->container->query(
-            'Test\AppFramework\Utility\ClassSimpleConstructor'
-        );
-        $this->assertTrue($object instanceof ClassSimpleConstructor);
-        $this->assertEquals('abc', $object->test);
-    }
+	public function testNoConstructorClass() {
+		$object = $this->container->query('Test\AppFramework\Utility\ClassEmptyConstructor');
+		$this->assertTrue($object instanceof ClassEmptyConstructor);
+	}
 
 
-    public function testConstructorComplex() {
-        $this->container->registerParameter('test', 'abc');
-        $object = $this->container->query(
-            'Test\AppFramework\Utility\ClassComplexConstructor'
-        );
-        $this->assertTrue($object instanceof ClassComplexConstructor);
-        $this->assertEquals('abc', $object->class->test);
-        $this->assertEquals('abc', $object->test);
-    }
+	public function testInstancesOnlyOnce() {
+		$object = $this->container->query('Test\AppFramework\Utility\ClassEmptyConstructor');
+		$object2 = $this->container->query('Test\AppFramework\Utility\ClassEmptyConstructor');
+		$this->assertSame($object, $object2);
+	}
+
+	public function testConstructorSimple() {
+		$this->container->registerParameter('test', 'abc');
+		$object = $this->container->query(
+			'Test\AppFramework\Utility\ClassSimpleConstructor'
+		);
+		$this->assertTrue($object instanceof ClassSimpleConstructor);
+		$this->assertEquals('abc', $object->test);
+	}
 
 
-    public function testConstructorComplexInterface() {
-        $this->container->registerParameter('test', 'abc');
-        $this->container->registerService(
-        'Test\AppFramework\Utility\IInterfaceConstructor', function ($c) {
-            return $c->query('Test\AppFramework\Utility\ClassSimpleConstructor');
-        });
-        $object = $this->container->query(
-            'Test\AppFramework\Utility\ClassInterfaceConstructor'
-        );
-        $this->assertTrue($object instanceof ClassInterfaceConstructor);
-        $this->assertEquals('abc', $object->class->test);
-        $this->assertEquals('abc', $object->test);
-    }
+	public function testConstructorComplex() {
+		$this->container->registerParameter('test', 'abc');
+		$object = $this->container->query(
+			'Test\AppFramework\Utility\ClassComplexConstructor'
+		);
+		$this->assertTrue($object instanceof ClassComplexConstructor);
+		$this->assertEquals('abc', $object->class->test);
+		$this->assertEquals('abc', $object->test);
+	}
 
 
-    public function testOverrideService() {
-        $this->container->registerService(
-        'Test\AppFramework\Utility\IInterfaceConstructor', function ($c) {
-            return $c->query('Test\AppFramework\Utility\ClassSimpleConstructor');
-        });
-        $this->container->registerService(
-        'Test\AppFramework\Utility\IInterfaceConstructor', function ($c) {
-            return $c->query('Test\AppFramework\Utility\ClassEmptyConstructor');
-        });
-        $object = $this->container->query(
-            'Test\AppFramework\Utility\IInterfaceConstructor'
-        );
-        $this->assertTrue($object instanceof ClassEmptyConstructor);
-    }
+	public function testConstructorComplexInterface() {
+		$this->container->registerParameter('test', 'abc');
+		$this->container->registerService(
+		'Test\AppFramework\Utility\IInterfaceConstructor', function ($c) {
+			return $c->query('Test\AppFramework\Utility\ClassSimpleConstructor');
+		});
+		$object = $this->container->query(
+			'Test\AppFramework\Utility\ClassInterfaceConstructor'
+		);
+		$this->assertTrue($object instanceof ClassInterfaceConstructor);
+		$this->assertEquals('abc', $object->class->test);
+		$this->assertEquals('abc', $object->test);
+	}
 
-    public function testRegisterAliasParamter() {
-        $this->container->registerParameter('test', 'abc');
-        $this->container->registerAlias('test1', 'test');
-        $this->assertEquals('abc', $this->container->query('test1'));
-    }
 
-    public function testRegisterAliasService() {
-        $this->container->registerService('test', function() {
-            return new \StdClass;
-        }, true);
-        $this->container->registerAlias('test1', 'test');
-        $this->assertSame(
-            $this->container->query('test'), $this->container->query('test'));
-        $this->assertSame(
-            $this->container->query('test1'), $this->container->query('test1'));
-        $this->assertSame(
-            $this->container->query('test'), $this->container->query('test1'));
-    }
+	public function testOverrideService() {
+		$this->container->registerService(
+		'Test\AppFramework\Utility\IInterfaceConstructor', function ($c) {
+			return $c->query('Test\AppFramework\Utility\ClassSimpleConstructor');
+		});
+		$this->container->registerService(
+		'Test\AppFramework\Utility\IInterfaceConstructor', function ($c) {
+			return $c->query('Test\AppFramework\Utility\ClassEmptyConstructor');
+		});
+		$object = $this->container->query(
+			'Test\AppFramework\Utility\IInterfaceConstructor'
+		);
+		$this->assertTrue($object instanceof ClassEmptyConstructor);
+	}
 
-    public function sanitizeNameProvider() {
-        return [
-            ['ABC\\Foo', 'ABC\\Foo'],
-            ['\\ABC\\Foo', '\\ABC\\Foo'],
-            ['\\ABC\\Foo', 'ABC\\Foo'],
-            ['ABC\\Foo', '\\ABC\\Foo'],
-        ];
-    }
+	public function testRegisterAliasParamter() {
+		$this->container->registerParameter('test', 'abc');
+		$this->container->registerAlias('test1', 'test');
+		$this->assertEquals('abc', $this->container->query('test1'));
+	}
 
-    /**
-     * @dataProvider sanitizeNameProvider
-     */
-    public function testSanitizeName($register, $query) {
-        $this->container->registerService($register, function() {
-            return 'abc';
-        });
-        $this->assertEquals('abc', $this->container->query($query));
-    }
+	public function testRegisterAliasService() {
+		$this->container->registerService('test', function () {
+			return new \StdClass;
+		}, true);
+		$this->container->registerAlias('test1', 'test');
+		$this->assertSame(
+			$this->container->query('test'), $this->container->query('test'));
+		$this->assertSame(
+			$this->container->query('test1'), $this->container->query('test1'));
+		$this->assertSame(
+			$this->container->query('test'), $this->container->query('test1'));
+	}
 
-    
-    public function testConstructorComplexNoTestParameterFound() {
-    	$this->expectException(\OCP\AppFramework\QueryException::class);
+	public function sanitizeNameProvider() {
+		return [
+			['ABC\\Foo', 'ABC\\Foo'],
+			['\\ABC\\Foo', '\\ABC\\Foo'],
+			['\\ABC\\Foo', 'ABC\\Foo'],
+			['ABC\\Foo', '\\ABC\\Foo'],
+		];
+	}
 
-        $object = $this->container->query(
-            'Test\AppFramework\Utility\ClassComplexConstructor'
-        );
-    }
+	/**
+	 * @dataProvider sanitizeNameProvider
+	 */
+	public function testSanitizeName($register, $query) {
+		$this->container->registerService($register, function () {
+			return 'abc';
+		});
+		$this->assertEquals('abc', $this->container->query($query));
+	}
 
-    public function testRegisterFactory() {
-        $this->container->registerService('test', function() {
-            return new \StdClass();
-        }, false);
-        $this->assertNotSame(
-            $this->container->query('test'), $this->container->query('test'));
-    }
 
-    public function testRegisterAliasFactory() {
-        $this->container->registerService('test', function() {
-            return new \StdClass();
-        }, false);
-        $this->container->registerAlias('test1', 'test');
-        $this->assertNotSame(
-            $this->container->query('test'), $this->container->query('test'));
-        $this->assertNotSame(
-            $this->container->query('test1'), $this->container->query('test1'));
-        $this->assertNotSame(
-            $this->container->query('test'), $this->container->query('test1'));
-    }
+	public function testConstructorComplexNoTestParameterFound() {
+		$this->expectException(\OCP\AppFramework\QueryException::class);
 
+		$object = $this->container->query(
+			'Test\AppFramework\Utility\ClassComplexConstructor'
+		);
+	}
+
+	public function testRegisterFactory() {
+		$this->container->registerService('test', function () {
+			return new \StdClass();
+		}, false);
+		$this->assertNotSame(
+			$this->container->query('test'), $this->container->query('test'));
+	}
+
+	public function testRegisterAliasFactory() {
+		$this->container->registerService('test', function () {
+			return new \StdClass();
+		}, false);
+		$this->container->registerAlias('test1', 'test');
+		$this->assertNotSame(
+			$this->container->query('test'), $this->container->query('test'));
+		$this->assertNotSame(
+			$this->container->query('test1'), $this->container->query('test1'));
+		$this->assertNotSame(
+			$this->container->query('test'), $this->container->query('test1'));
+	}
 }

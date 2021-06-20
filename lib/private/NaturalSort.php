@@ -4,10 +4,10 @@
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author AW-UC <git@a-wesemann.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -24,7 +24,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC;
 
 use OCP\ILogger;
@@ -90,8 +89,7 @@ class NaturalSort {
 			// German umlauts, so using en_US instead
 			if (class_exists('Collator')) {
 				$this->collator = new \Collator('en_US');
-			}
-			else {
+			} else {
 				$this->collator = new \OC\NaturalSort_DefaultCollator();
 			}
 		}

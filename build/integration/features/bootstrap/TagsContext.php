@@ -2,13 +2,14 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Phil Davis <phil.davis@inf.org>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Sergio Bertolin <sbertolin@solidgear.es>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -25,7 +26,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 require __DIR__ . '/../../vendor/autoload.php';
 
 use Behat\Gherkin\Node\TableNode;
@@ -301,7 +301,7 @@ class TagsContext implements \Behat\Behat\Context\Context {
 
 		if ($can === 'can') {
 			$expected = 'true';
-		} else if ($can === 'cannot') {
+		} elseif ($can === 'cannot') {
 			$expected = 'false';
 		} else {
 			throw new \Exception('Invalid condition, must be "can" or "cannot"');

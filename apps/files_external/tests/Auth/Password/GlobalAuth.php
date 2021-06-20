@@ -2,6 +2,8 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -20,7 +22,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_External\Tests\Auth\Password;
 
 use OCA\Files_External\Lib\Auth\Password\GlobalAuth;
@@ -31,12 +32,12 @@ use Test\TestCase;
 
 class GlobalAuthTest extends TestCase {
 	/**
-	 * @var \OCP\IL10N|\PHPUnit_Framework_MockObject_MockObject
+	 * @var \OCP\IL10N|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	private $l10n;
 
 	/**
-	 * @var \OCP\Security\ICredentialsManager|\PHPUnit_Framework_MockObject_MockObject
+	 * @var \OCP\Security\ICredentialsManager|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	private $credentialsManager;
 
@@ -53,7 +54,7 @@ class GlobalAuthTest extends TestCase {
 	}
 
 	private function getStorageConfig($type, $config = []) {
-		/** @var \OCA\Files_External\Lib\StorageConfig|\PHPUnit_Framework_MockObject_MockObject $storageConfig */
+		/** @var \OCA\Files_External\Lib\StorageConfig|\PHPUnit\Framework\MockObject\MockObject $storageConfig */
 		$storageConfig = $this->createMock(StorageConfig::class);
 		$storageConfig->expects($this->any())
 			->method('getType')
@@ -105,7 +106,7 @@ class GlobalAuthTest extends TestCase {
 		], $storage->getBackendOptions());
 	}
 
-	
+
 	public function testNoCredentialsPersonal() {
 		$this->expectException(\OCA\Files_External\Lib\InsufficientDataForMeaningfulAnswerException::class);
 
@@ -117,5 +118,4 @@ class GlobalAuthTest extends TestCase {
 		$this->instance->manipulateStorageConfig($storage);
 		$this->assertEquals([], $storage->getBackendOptions());
 	}
-
 }

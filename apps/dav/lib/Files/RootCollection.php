@@ -2,10 +2,11 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -22,7 +23,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Files;
 
 use OCP\Files\FileInfo;
@@ -42,8 +42,8 @@ class RootCollection extends AbstractPrincipalCollection {
 	 * @param array $principalInfo
 	 * @return INode
 	 */
-	function getChildForPrincipal(array $principalInfo) {
-		list(,$name) = \Sabre\Uri\split($principalInfo['uri']);
+	public function getChildForPrincipal(array $principalInfo) {
+		[,$name] = \Sabre\Uri\split($principalInfo['uri']);
 		$user = \OC::$server->getUserSession()->getUser();
 		if (is_null($user) || $name !== $user->getUID()) {
 			// a user is only allowed to see their own home contents, so in case another collection
@@ -58,8 +58,7 @@ class RootCollection extends AbstractPrincipalCollection {
 		return new FilesHome($principalInfo, $userFolder);
 	}
 
-	function getName() {
+	public function getName() {
 		return 'files';
 	}
-
 }

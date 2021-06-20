@@ -2,10 +2,11 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -22,9 +23,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Tests\unit\SystemTag;
-
 
 use OC\SystemTag\SystemTag;
 use OCP\IUser;
@@ -37,7 +36,7 @@ use Sabre\DAV\Exception\Forbidden;
 class SystemTagNodeTest extends \Test\TestCase {
 
 	/**
-	 * @var \OCP\SystemTag\ISystemTagManager|\PHPUnit_Framework_MockObject_MockObject
+	 * @var \OCP\SystemTag\ISystemTagManager|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	private $tagManager;
 
@@ -81,7 +80,7 @@ class SystemTagNodeTest extends \Test\TestCase {
 		$this->assertEquals($tag, $node->getSystemTag());
 	}
 
-	
+
 	public function testSetName() {
 		$this->expectException(\Sabre\DAV\Exception\MethodNotAllowed::class);
 
@@ -198,7 +197,7 @@ class SystemTagNodeTest extends \Test\TestCase {
 		$this->assertInstanceOf($expectedException, $thrown);
 	}
 
-	
+
 	public function testUpdateTagAlreadyExists() {
 		$this->expectException(\Sabre\DAV\Exception\Conflict::class);
 
@@ -218,7 +217,7 @@ class SystemTagNodeTest extends \Test\TestCase {
 		$this->getTagNode(false, $tag)->update('Renamed', true, true);
 	}
 
-	
+
 	public function testUpdateTagNotFound() {
 		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
 
@@ -286,7 +285,7 @@ class SystemTagNodeTest extends \Test\TestCase {
 		$this->getTagNode(false, $tag)->delete();
 	}
 
-	
+
 	public function testDeleteTagNotFound() {
 		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
 

@@ -19,9 +19,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Migration;
-
 
 use OCP\ILogger;
 use OCP\Migration\IOutput;

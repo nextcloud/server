@@ -1,9 +1,12 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2019 Arthur Schiwon <blizzz@arthur-schiwon.de>
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -14,14 +17,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\WorkflowEngine\Entity;
 
 use OCP\EventDispatcher\Event;
@@ -33,19 +35,22 @@ use OCP\Files\NotFoundException;
 use OCP\IL10N;
 use OCP\ILogger;
 use OCP\IURLGenerator;
+use OCP\IUser;
+use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Share\IManager as ShareManager;
 use OCP\SystemTag\ISystemTag;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\MapperEvent;
+use OCP\WorkflowEngine\EntityContext\IContextPortation;
 use OCP\WorkflowEngine\EntityContext\IDisplayText;
+use OCP\WorkflowEngine\EntityContext\IIcon;
 use OCP\WorkflowEngine\EntityContext\IUrl;
 use OCP\WorkflowEngine\GenericEntityEvent;
 use OCP\WorkflowEngine\IEntity;
 use OCP\WorkflowEngine\IRuleMatcher;
 
-class File implements IEntity, IDisplayText, IUrl {
-
+class File implements IEntity, IDisplayText, IUrl, IIcon, IContextPortation {
 	private const EVENT_NAMESPACE = '\OCP\Files::';
 
 	/** @var IL10N */
@@ -66,7 +71,12 @@ class File implements IEntity, IDisplayText, IUrl {
 	private $userSession;
 	/** @var ISystemTagManager */
 	private $tagManager;
-
+	/** @var ?Node */
+	private $node;
+	/** @var ?IUser */
+	private $actingUser = null;
+	/** @var IUserManager */
+	private $userManager;
 
 	public function __construct(
 		IL10N $l10n,
@@ -75,7 +85,8 @@ class File implements IEntity, IDisplayText, IUrl {
 		ILogger $logger,
 		ShareManager $shareManager,
 		IUserSession $userSession,
-		ISystemTagManager $tagManager
+		ISystemTagManager $tagManager,
+		IUserManager $userManager
 	) {
 		$this->l10n = $l10n;
 		$this->urlGenerator = $urlGenerator;
@@ -84,6 +95,7 @@ class File implements IEntity, IDisplayText, IUrl {
 		$this->shareManager = $shareManager;
 		$this->userSession = $userSession;
 		$this->tagManager = $tagManager;
+		$this->userManager = $userManager;
 	}
 
 	public function getName(): string {
@@ -112,6 +124,7 @@ class File implements IEntity, IDisplayText, IUrl {
 		}
 		$this->eventName = $eventName;
 		$this->event = $event;
+		$this->actingUser = $this->actingUser ?? $this->userSession->getUser();
 		try {
 			$node = $this->getNode();
 			$ruleMatcher->setEntitySubject($this, $node);
@@ -124,7 +137,7 @@ class File implements IEntity, IDisplayText, IUrl {
 	public function isLegitimatedForUserId(string $uid): bool {
 		try {
 			$node = $this->getNode();
-			if($node->getOwner()->getUID() === $uid) {
+			if ($node->getOwner()->getUID() === $uid) {
 				return true;
 			}
 			$acl = $this->shareManager->getAccessList($node, true, true);
@@ -138,6 +151,9 @@ class File implements IEntity, IDisplayText, IUrl {
 	 * @throws NotFoundException
 	 */
 	protected function getNode(): Node {
+		if ($this->node) {
+			return $this->node;
+		}
 		if (!$this->event instanceof GenericEvent && !$this->event instanceof MapperEvent) {
 			throw new NotFoundException();
 		}
@@ -155,8 +171,9 @@ class File implements IEntity, IDisplayText, IUrl {
 					throw new NotFoundException();
 				}
 				$nodes = $this->root->getById((int)$this->event->getObjectId());
-				if (is_array($nodes) && !empty($nodes)) {
-					return array_shift($nodes);
+				if (is_array($nodes) && isset($nodes[0])) {
+					$this->node = $nodes[0];
+					return $this->node;
 				}
 				break;
 		}
@@ -164,7 +181,6 @@ class File implements IEntity, IDisplayText, IUrl {
 	}
 
 	public function getDisplayText(int $verbosity = 0): string {
-		$user = $this->userSession->getUser();
 		try {
 			$node = $this->getNode();
 		} catch (NotFoundException $e) {
@@ -172,7 +188,7 @@ class File implements IEntity, IDisplayText, IUrl {
 		}
 
 		$options = [
-			$user ? $user->getDisplayName() : $this->l10n->t('Someone'),
+			$this->actingUser ? $this->actingUser->getDisplayName() : $this->l10n->t('Someone'),
 			$node->getName()
 		];
 
@@ -191,19 +207,19 @@ class File implements IEntity, IDisplayText, IUrl {
 				return $this->l10n->t('%s copied %s', $options);
 			case MapperEvent::EVENT_ASSIGN:
 				$tagNames = [];
-				if($this->event instanceof MapperEvent) {
+				if ($this->event instanceof MapperEvent) {
 					$tagIDs = $this->event->getTags();
 					$tagObjects = $this->tagManager->getTagsByIds($tagIDs);
 					foreach ($tagObjects as $systemTag) {
 						/** @var ISystemTag $systemTag */
-						if($systemTag->isUserVisible()) {
+						if ($systemTag->isUserVisible()) {
 							$tagNames[] = $systemTag->getName();
 						}
 					}
 				}
 				$filename = array_pop($options);
 				$tagString = implode(', ', $tagNames);
-				if($tagString === '') {
+				if ($tagString === '') {
 					return '';
 				}
 				array_push($options, $tagString, $filename);
@@ -219,5 +235,48 @@ class File implements IEntity, IDisplayText, IUrl {
 		} catch (NotFoundException $e) {
 			return '';
 		}
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function exportContextIDs(): array {
+		$nodeOwner = $this->getNode()->getOwner();
+		$actingUserId = null;
+		if ($this->actingUser instanceof IUser) {
+			$actingUserId = $this->actingUser->getUID();
+		} elseif ($this->userSession->getUser() instanceof IUser) {
+			$actingUserId = $this->userSession->getUser()->getUID();
+		}
+		return [
+			'eventName' => $this->eventName,
+			'nodeId' => $this->getNode()->getId(),
+			'nodeOwnerId' => $nodeOwner ? $nodeOwner->getUID() : null,
+			'actingUserId' => $actingUserId,
+		];
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function importContextIDs(array $contextIDs): void {
+		$this->eventName = $contextIDs['eventName'];
+		if ($contextIDs['nodeOwnerId'] !== null) {
+			$userFolder = $this->root->getUserFolder($contextIDs['nodeOwnerId']);
+			$nodes = $userFolder->getById($contextIDs['nodeId']);
+		} else {
+			$nodes = $this->root->getById($contextIDs['nodeId']);
+		}
+		$this->node = $nodes[0] ?? null;
+		if ($contextIDs['actingUserId']) {
+			$this->actingUser = $this->userManager->get($contextIDs['actingUserId']);
+		}
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getIconUrl(): string {
+		return $this->getIcon();
 	}
 }

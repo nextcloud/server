@@ -1,10 +1,12 @@
 <?php
 /**
+ * @copyright Copyright (c) 2016 Georg Ehrke <oc.list@georgehrke.com>
  *
- *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Citharel <tcit@tcit.fr>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -15,14 +17,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\Tests\Command;
 
 use OCA\DAV\CalDAV\BirthdayService;
@@ -48,7 +49,7 @@ class ListCalendarsTest extends TestCase {
 	/** @var ListCalendars */
 	private $command;
 
-	const USERNAME = 'username';
+	public const USERNAME = 'username';
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -62,9 +63,7 @@ class ListCalendarsTest extends TestCase {
 		);
 	}
 
-	
-	public function testWithBadUser()
-	{
+	public function testWithBadUser() {
 		$this->expectException(\InvalidArgumentException::class);
 
 		$this->userManager->expects($this->once())
@@ -76,11 +75,10 @@ class ListCalendarsTest extends TestCase {
 		$commandTester->execute([
 			'uid' => self::USERNAME,
 		]);
-		$this->assertContains("User <" . self::USERNAME . "> in unknown", $commandTester->getDisplay());
+		$this->assertStringContainsString("User <" . self::USERNAME . "> in unknown", $commandTester->getDisplay());
 	}
 
-	public function testWithCorrectUserWithNoCalendars()
-	{
+	public function testWithCorrectUserWithNoCalendars() {
 		$this->userManager->expects($this->once())
 			->method('userExists')
 			->with(self::USERNAME)
@@ -95,11 +93,10 @@ class ListCalendarsTest extends TestCase {
 		$commandTester->execute([
 			'uid' => self::USERNAME,
 		]);
-		$this->assertContains("User <" . self::USERNAME . "> has no calendars\n", $commandTester->getDisplay());
+		$this->assertStringContainsString("User <" . self::USERNAME . "> has no calendars\n", $commandTester->getDisplay());
 	}
 
-	public function dataExecute()
-	{
+	public function dataExecute() {
 		return [
 			[false, '✓'],
 			[true, 'x']
@@ -109,8 +106,7 @@ class ListCalendarsTest extends TestCase {
 	/**
 	 * @dataProvider dataExecute
 	 */
-	public function testWithCorrectUser(bool $readOnly, string $output)
-	{
+	public function testWithCorrectUser(bool $readOnly, string $output) {
 		$this->userManager->expects($this->once())
 			->method('userExists')
 			->with(self::USERNAME)
@@ -136,7 +132,7 @@ class ListCalendarsTest extends TestCase {
 		$commandTester->execute([
 			'uid' => self::USERNAME,
 		]);
-		$this->assertContains($output, $commandTester->getDisplay());
-		$this->assertNotContains(BirthdayService::BIRTHDAY_CALENDAR_URI, $commandTester->getDisplay());
+		$this->assertStringContainsString($output, $commandTester->getDisplay());
+		$this->assertStringNotContainsString(BirthdayService::BIRTHDAY_CALENDAR_URI, $commandTester->getDisplay());
 	}
 }

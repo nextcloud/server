@@ -22,7 +22,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_External\Lib\Backend;
 
 use OCA\Files_External\Lib\Auth\AuthMechanism;
@@ -31,7 +30,6 @@ use OCA\Files_External\Lib\DefinitionParameter;
 use OCP\IL10N;
 
 class OwnCloud extends Backend {
-
 	public function __construct(IL10N $l, Password $legacyAuth) {
 		$this
 			->setIdentifier('owncloud')
@@ -49,5 +47,4 @@ class OwnCloud extends Backend {
 			->setLegacyAuthMechanism($legacyAuth)
 		;
 	}
-
 }

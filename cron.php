@@ -3,21 +3,23 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Artem Sidorenko <artem@posteo.de>
- * @author Bernhard Posselt <dev@bernhard-posselt.com>
  * @author Christopher Schäpers <kondou@ts.unde.re>
- * @author Damjan Georgievski <gdamjan@gmail.com>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
+ * @author hoellen <dev@hoellen.eu>
+ * @author J0WI <J0WI@users.noreply.github.com>
  * @author Jakob Sack <mail@jakobsack.de>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Ko- <k.stoffelen@cs.ru.nl>
+ * @author Michael Kuhn <michael@ikkoku.de>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Oliver Kohl D.Sc. <oliver@kohl.bz>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Steffen Lindner <mail@steffen-lindner.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -34,11 +36,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 require_once __DIR__ . '/lib/versioncheck.php';
 
 try {
-
 	require_once __DIR__ . '/lib/base.php';
 
 	if (\OCP\Util::needUpgrade()) {
@@ -90,18 +90,19 @@ try {
 
 		// the cron job must be executed with the right user
 		if (!function_exists('posix_getuid')) {
-			echo "The posix extensions are required - see http://php.net/manual/en/book.posix.php" . PHP_EOL;
+			echo "The posix extensions are required - see https://www.php.net/manual/en/book.posix.php" . PHP_EOL;
 			exit(1);
 		}
 
-		$user = posix_getpwuid(posix_getuid());
-		$configUser = posix_getpwuid(fileowner(OC::$configDir . 'config.php'));
-		if ($user['name'] !== $configUser['name']) {
+		$user = posix_getuid();
+		$configUser = fileowner(OC::$configDir . 'config.php');
+		if ($user !== $configUser) {
 			echo "Console has to be executed with the user that owns the file config/config.php" . PHP_EOL;
-			echo "Current user: " . $user['name'] . PHP_EOL;
-			echo "Owner of config.php: " . $configUser['name'] . PHP_EOL;
+			echo "Current user id: " . $user . PHP_EOL;
+			echo "Owner id of config.php: " . $configUser . PHP_EOL;
 			exit(1);
 		}
+
 
 		// We call Nextcloud from the CLI (aka cron)
 		if ($appMode !== 'cron') {
@@ -135,7 +136,6 @@ try {
 				break;
 			}
 		}
-
 	} else {
 		// We call cron.php from some website
 		if ($appMode === 'cron') {
@@ -156,7 +156,6 @@ try {
 	// Log the successful cron execution
 	$config->setAppValue('core', 'lastcron', time());
 	exit();
-
 } catch (Exception $ex) {
 	\OC::$server->getLogger()->logException($ex, ['app' => 'cron']);
 } catch (Error $ex) {

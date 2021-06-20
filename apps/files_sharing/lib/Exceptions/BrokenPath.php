@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Björn Schießle <bjoern@schiessle.org>
- * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  *
  * @license AGPL-3.0
  *
@@ -20,14 +20,13 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_Sharing\Exceptions;
 
 /**
  * Expected path with a different root
  * Possible Error Codes:
  * 10 - Path not relative to data/ and point to the users file directory
-
+ *
  */
 class BrokenPath extends \Exception {
 }

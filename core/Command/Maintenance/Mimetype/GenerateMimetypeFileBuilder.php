@@ -5,6 +5,7 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2019 Xheni Myrtaj <xheni@protonmail.com>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Xheni Myrtaj <myrtajxheni@gmail.com>
  *
@@ -17,19 +18,16 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Core\Command\Maintenance\Mimetype;
 
-
-class GenerateMimetypeFileBuilder
-{
+class GenerateMimetypeFileBuilder {
 	/**
 	 * Generate mime type list file
 	 * @param $aliases
@@ -37,10 +35,10 @@ class GenerateMimetypeFileBuilder
 	 */
 	public function generateFile(array $aliases): string {
 		// Remove comments
-		$keys = array_filter(array_keys($aliases), function($k) {
+		$keys = array_filter(array_keys($aliases), function ($k) {
 			return $k[0] === '_';
 		});
-		foreach($keys as $key) {
+		foreach ($keys as $key) {
 			unset($aliases[$key]);
 		}
 
@@ -48,7 +46,7 @@ class GenerateMimetypeFileBuilder
 		$dir = new \DirectoryIterator(\OC::$SERVERROOT.'/core/img/filetypes');
 
 		$files = [];
-		foreach($dir as $fileInfo) {
+		foreach ($dir as $fileInfo) {
 			if ($fileInfo->isFile()) {
 				$file = preg_replace('/.[^.]*$/', '', $fileInfo->getFilename());
 				$files[] = $file;
@@ -62,7 +60,7 @@ class GenerateMimetypeFileBuilder
 		// Fetch all themes!
 		$themes = [];
 		$dirs = new \DirectoryIterator(\OC::$SERVERROOT.'/themes/');
-		foreach($dirs as $dir) {
+		foreach ($dirs as $dir) {
 			//Valid theme dir
 			if ($dir->isFile() || $dir->isDot()) {
 				continue;
@@ -106,5 +104,4 @@ OC.MimeTypeList={
 };
 ';
 	}
-
 }

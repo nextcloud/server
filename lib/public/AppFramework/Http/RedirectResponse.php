@@ -23,7 +23,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\AppFramework\Http;
 
 use OCP\AppFramework\Http;
@@ -33,7 +32,6 @@ use OCP\AppFramework\Http;
  * @since 7.0.0
  */
 class RedirectResponse extends Response {
-
 	private $redirectURL;
 
 	/**
@@ -57,6 +55,4 @@ class RedirectResponse extends Response {
 	public function getRedirectURL() {
 		return $this->redirectURL;
 	}
-
-
 }

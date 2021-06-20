@@ -17,7 +17,7 @@
 
 				<template v-if="missingAppUpdates.length">
 					<h3 @click="toggleHideMissingUpdates">
-						{{ t('updatenotification', 'Apps missing updates') }}
+						{{ t('updatenotification', 'Apps missing compatible version') }}
 						<span v-if="!hideMissingUpdates" class="icon icon-triangle-n" />
 						<span v-if="hideMissingUpdates" class="icon icon-triangle-s" />
 					</h3>
@@ -30,7 +30,7 @@
 
 				<template v-if="availableAppUpdates.length">
 					<h3 @click="toggleHideAvailableUpdates">
-						{{ t('updatenotification', 'Apps with available updates') }}
+						{{ t('updatenotification', 'Apps with compatible version') }}
 						<span v-if="!hideAvailableUpdates" class="icon icon-triangle-n" />
 						<span v-if="hideAvailableUpdates" class="icon icon-triangle-s" />
 					</h3>
@@ -42,7 +42,7 @@
 				</template>
 
 				<div>
-					<a v-if="updaterEnabled"
+					<a v-if="updaterEnabled && webUpdaterEnabled"
 						href="#"
 						class="button primary"
 						@click="clickUpdaterButton">{{ t('updatenotification', 'Open updater') }}</a>
@@ -50,6 +50,9 @@
 						:href="downloadLink"
 						class="button"
 						:class="{ hidden: !updaterEnabled }">{{ t('updatenotification', 'Download now') }}</a>
+					<span v-if="updaterEnabled && !webUpdaterEnabled">
+						{{ t('updatenotification', 'Please use the command line updater to update.') }}
+					</span>
 					<div v-if="whatsNew" class="whatsNew">
 						<div class="toggleWhatsNew">
 							<a v-click-outside="hideMenu" class="button" @click="toggleMenu">{{ t('updatenotification', 'What\'s new?') }}</a>
@@ -90,7 +93,7 @@
 		<span id="channel_save_msg" class="msg" /><br>
 		<p>
 			<em>{{ t('updatenotification', 'You can always update to a newer version. But you can never downgrade to a more stable version.') }}</em><br>
-			<em>{{ t('updatenotification', 'Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found.') }}</em>
+			<em v-html="noteDelayedStableString" />
 		</p>
 
 		<p id="oca_updatenotification_groups">
@@ -101,7 +104,7 @@
 				label="label"
 				track-by="value"
 				:tag-width="75" /><br>
-			<em v-if="currentChannel === 'daily' || currentChannel === 'git'">{{ t('updatenotification', 'Only notification for app updates are available.') }}</em>
+			<em v-if="currentChannel === 'daily' || currentChannel === 'git'">{{ t('updatenotification', 'Only notifications for app updates are available.') }}</em>
 			<em v-if="currentChannel === 'daily'">{{ t('updatenotification', 'The selected update channel makes dedicated notifications for the server obsolete.') }}</em>
 			<em v-if="currentChannel === 'git'">{{ t('updatenotification', 'The selected update channel does not support updates of the server.') }}</em>
 		</p>
@@ -109,7 +112,9 @@
 </template>
 
 <script>
-import { PopoverMenu, Multiselect } from '@nextcloud/vue'
+import { generateUrl, getRootUrl, generateOcsUrl } from '@nextcloud/router'
+import PopoverMenu from '@nextcloud/vue/dist/Components/PopoverMenu'
+import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
 import { VTooltip } from 'v-tooltip'
 import ClickOutside from 'vue-click-outside'
 
@@ -125,11 +130,12 @@ export default {
 		ClickOutside,
 		tooltip: VTooltip,
 	},
-	data: function() {
+	data() {
 		return {
 			newVersionString: '',
 			lastCheckedDate: '',
 			isUpdateChecked: false,
+			webUpdaterEnabled: true,
 			updaterEnabled: true,
 			versionIsEol: false,
 			downloadLink: '',
@@ -161,21 +167,26 @@ export default {
 	_$notifyGroups: null,
 
 	computed: {
-		newVersionAvailableString: function() {
+		newVersionAvailableString() {
 			return t('updatenotification', 'A new version is available: <strong>{newVersionString}</strong>', {
 				newVersionString: this.newVersionString,
 			})
 		},
 
-		lastCheckedOnString: function() {
+		noteDelayedStableString() {
+			return t('updatenotification', 'Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}')
+				.replace('{link}', '<a href="https://nextcloud.com/release-channels/">https://nextcloud.com/release-channels/</a>')
+		},
+
+		lastCheckedOnString() {
 			return t('updatenotification', 'Checked on {lastCheckedDate}', {
 				lastCheckedDate: this.lastCheckedDate,
 			})
 		},
 
-		statusText: function() {
+		statusText() {
 			if (!this.isListFetched) {
-				return t('updatenotification', 'Checking apps for compatible updates')
+				return t('updatenotification', 'Checking apps for compatible versions')
 			}
 
 			if (this.appStoreDisabled) {
@@ -183,15 +194,15 @@ export default {
 			}
 
 			if (this.appStoreFailed) {
-				return t('updatenotification', 'Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore.')
+				return t('updatenotification', 'Could not connect to the App Store or no updates have been returned at all. Search manually for updates or make sure your server has access to the internet and can connect to the App Store.')
 			}
 
 			return this.missingAppUpdates.length === 0
-				? t('updatenotification', '<strong>All</strong> apps have an update for this version available', this)
-				: n('updatenotification', '<strong>%n</strong> app has no update for this version available', '<strong>%n</strong> apps have no update for this version available', this.missingAppUpdates.length)
+				? t('updatenotification', '<strong>All</strong> apps have a compatible version for this Nextcloud version available', this)
+				: n('updatenotification', '<strong>%n</strong> app has no compatible version for this Nextcloud version available', '<strong>%n</strong> apps have no compatible version for this Nextcloud version available', this.missingAppUpdates.length)
 		},
 
-		whatsNew: function() {
+		whatsNew() {
 			if (this.whatsNewData.length === 0) {
 				return null
 			}
@@ -211,7 +222,7 @@ export default {
 			return whatsNew
 		},
 
-		channelList: function() {
+		channelList() {
 			const channelList = []
 
 			channelList.push({
@@ -250,11 +261,11 @@ export default {
 			return channelList
 		},
 
-		isNonDefaultChannel: function() {
+		isNonDefaultChannel() {
 			return this.currentChannel !== 'enterprise' && this.currentChannel !== 'stable' && this.currentChannel !== 'beta'
 		},
 
-		localizedChannelName: function() {
+		localizedChannelName() {
 			switch (this.currentChannel) {
 			case 'enterprise':
 				return t('updatenotification', 'Enterprise')
@@ -269,7 +280,7 @@ export default {
 	},
 
 	watch: {
-		notifyGroups: function(selectedOptions) {
+		notifyGroups(selectedOptions) {
 			if (!this.enableChangeWatcher) {
 				return
 			}
@@ -281,15 +292,15 @@ export default {
 
 			OCP.AppConfig.setValue('updatenotification', 'notify_groups', JSON.stringify(selectedGroups))
 		},
-		isNewVersionAvailable: function() {
+		isNewVersionAvailable() {
 			if (!this.isNewVersionAvailable) {
 				return
 			}
 
 			$.ajax({
-				url: OC.linkToOCS('apps/updatenotification/api/v1/applist', 2) + this.newVersion,
+				url: generateOcsUrl('apps/updatenotification/api/v1/applist', 2) + this.newVersion,
 				type: 'GET',
-				beforeSend: function(request) {
+				beforeSend(request) {
 					request.setRequestHeader('Accept', 'application/json')
 				},
 				success: function(response) {
@@ -308,7 +319,7 @@ export default {
 			})
 		},
 	},
-	beforeMount: function() {
+	beforeMount() {
 		// Parse server data
 		const data = JSON.parse($('#updatenotification').attr('data-json'))
 
@@ -316,6 +327,7 @@ export default {
 		this.newVersionString = data.newVersionString
 		this.lastCheckedDate = data.lastChecked
 		this.isUpdateChecked = data.isUpdateChecked
+		this.webUpdaterEnabled = data.webUpdaterEnabled
 		this.updaterEnabled = data.updaterEnabled
 		this.downloadLink = data.downloadLink
 		this.isNewVersionAvailable = data.isNewVersionAvailable
@@ -336,7 +348,7 @@ export default {
 			this.whatsNewData = this.whatsNewData.concat(data.changes.whatsNew.regular)
 		}
 	},
-	mounted: function() {
+	mounted() {
 		this._$el = $(this.$el)
 		this._$notifyGroups = this._$el.find('#oca_updatenotification_groups_list')
 		this._$notifyGroups.on('change', function() {
@@ -344,7 +356,7 @@ export default {
 		}.bind(this))
 
 		$.ajax({
-			url: OC.linkToOCS('cloud', 2) + '/groups',
+			url: generateOcsUrl('cloud', 2) + '/groups',
 			dataType: 'json',
 			success: function(data) {
 				const results = []
@@ -362,14 +374,14 @@ export default {
 		/**
 			 * Creates a new authentication token and loads the updater URL
 			 */
-		clickUpdaterButton: function() {
+		clickUpdaterButton() {
 			$.ajax({
-				url: OC.generateUrl('/apps/updatenotification/credentials'),
+				url: generateUrl('/apps/updatenotification/credentials'),
 			}).success(function(token) {
 				// create a form to send a proper post request to the updater
 				const form = document.createElement('form')
 				form.setAttribute('method', 'post')
-				form.setAttribute('action', OC.getRootPath() + '/updater/')
+				form.setAttribute('action', getRootUrl() + '/updater/')
 
 				const hiddenField = document.createElement('input')
 				hiddenField.setAttribute('type', 'hidden')
@@ -382,47 +394,47 @@ export default {
 				form.submit()
 			})
 		},
-		changeReleaseChannelToEnterprise: function() {
+		changeReleaseChannelToEnterprise() {
 			this.changeReleaseChannel('enterprise')
 		},
-		changeReleaseChannelToStable: function() {
+		changeReleaseChannelToStable() {
 			this.changeReleaseChannel('stable')
 		},
-		changeReleaseChannelToBeta: function() {
+		changeReleaseChannelToBeta() {
 			this.changeReleaseChannel('beta')
 		},
-		changeReleaseChannel: function(channel) {
+		changeReleaseChannel(channel) {
 			this.currentChannel = channel
 
 			$.ajax({
-				url: OC.generateUrl('/apps/updatenotification/channel'),
+				url: generateUrl('/apps/updatenotification/channel'),
 				type: 'POST',
 				data: {
-					'channel': this.currentChannel,
+					channel: this.currentChannel,
 				},
-				success: function(data) {
+				success(data) {
 					OC.msg.finishedAction('#channel_save_msg', data)
 				},
 			})
 
 			this.openedUpdateChannelMenu = false
 		},
-		toggleUpdateChannelMenu: function() {
+		toggleUpdateChannelMenu() {
 			this.openedUpdateChannelMenu = !this.openedUpdateChannelMenu
 		},
-		toggleHideMissingUpdates: function() {
+		toggleHideMissingUpdates() {
 			this.hideMissingUpdates = !this.hideMissingUpdates
 		},
-		toggleHideAvailableUpdates: function() {
+		toggleHideAvailableUpdates() {
 			this.hideAvailableUpdates = !this.hideAvailableUpdates
 		},
-		toggleMenu: function() {
+		toggleMenu() {
 			this.openedWhatsNew = !this.openedWhatsNew
 		},
-		closeUpdateChannelMenu: function() {
+		closeUpdateChannelMenu() {
 			this.openedUpdateChannelMenu = false
 		},
-		hideMenu: function() {
+		hideMenu() {
 			this.openedWhatsNew = false
 		},
 	},

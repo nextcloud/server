@@ -3,11 +3,10 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Roger Szabo <roger.szabo@web.de>
- * @author Vinicius Cubas Brand <vinicius@eita.org.br>
  *
  * @license AGPL-3.0
  *
@@ -24,12 +23,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\User_LDAP\Jobs;
 
 use OC\BackgroundJob\TimedJob;
 use OCA\User_LDAP\Helper;
-use OCA\User_LDAP\LDAP;
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\User\DeletedUsersIndex;
 use OCA\User_LDAP\User_LDAP;
@@ -67,10 +64,12 @@ class CleanUp extends TimedJob {
 	/** @var DeletedUsersIndex */
 	protected $dui;
 
-	public function __construct() {
+	public function __construct(User_Proxy $userBackend, DeletedUsersIndex $dui) {
 		$minutes = \OC::$server->getConfig()->getSystemValue(
 			'ldapUserCleanupInterval', (string)$this->defaultIntervalMin);
 		$this->setInterval((int)$minutes * 60);
+		$this->userBackend = $userBackend;
+		$this->dui = $dui;
 	}
 
 	/**
@@ -83,48 +82,36 @@ class CleanUp extends TimedJob {
 		//pass in app.php we do add here, except something else is passed e.g.
 		//in tests.
 
-		if(isset($arguments['helper'])) {
+		if (isset($arguments['helper'])) {
 			$this->ldapHelper = $arguments['helper'];
 		} else {
-			$this->ldapHelper = new Helper(\OC::$server->getConfig());
+			$this->ldapHelper = new Helper(\OC::$server->getConfig(), \OC::$server->getDatabaseConnection());
 		}
 
-		if(isset($arguments['ocConfig'])) {
+		if (isset($arguments['ocConfig'])) {
 			$this->ocConfig = $arguments['ocConfig'];
 		} else {
 			$this->ocConfig = \OC::$server->getConfig();
 		}
 
-		if(isset($arguments['userBackend'])) {
+		if (isset($arguments['userBackend'])) {
 			$this->userBackend = $arguments['userBackend'];
-		} else {
-			$this->userBackend =  new User_Proxy(
-				$this->ldapHelper->getServerConfigurationPrefixes(true),
-				new LDAP(),
-				$this->ocConfig,
-				\OC::$server->getNotificationManager(),
-				\OC::$server->getUserSession(),
-				\OC::$server->query('LDAPUserPluginManager')
-			);
 		}
 
-		if(isset($arguments['db'])) {
+		if (isset($arguments['db'])) {
 			$this->db = $arguments['db'];
 		} else {
 			$this->db = \OC::$server->getDatabaseConnection();
 		}
 
-		if(isset($arguments['mapping'])) {
+		if (isset($arguments['mapping'])) {
 			$this->mapping = $arguments['mapping'];
 		} else {
 			$this->mapping = new UserMapping($this->db);
 		}
 
-		if(isset($arguments['deletedUsersIndex'])) {
+		if (isset($arguments['deletedUsersIndex'])) {
 			$this->dui = $arguments['deletedUsersIndex'];
-		} else {
-			$this->dui = new DeletedUsersIndex(
-				$this->ocConfig, $this->db, $this->mapping);
 		}
 	}
 
@@ -135,11 +122,11 @@ class CleanUp extends TimedJob {
 	public function run($argument) {
 		$this->setArguments($argument);
 
-		if(!$this->isCleanUpAllowed()) {
+		if (!$this->isCleanUpAllowed()) {
 			return;
 		}
 		$users = $this->mapping->getList($this->getOffset(), $this->getChunkSize());
-		if(!is_array($users)) {
+		if (!is_array($users)) {
 			//something wrong? Let's start from the beginning next time and
 			//abort
 			$this->setOffset(true);
@@ -165,7 +152,7 @@ class CleanUp extends TimedJob {
 	 */
 	public function isCleanUpAllowed() {
 		try {
-			if($this->ldapHelper->haveDisabledConfigurations()) {
+			if ($this->ldapHelper->haveDisabledConfigurations()) {
 				return false;
 			}
 		} catch (\Exception $e) {
@@ -189,7 +176,7 @@ class CleanUp extends TimedJob {
 	 * @param array $users result from getMappedUsers()
 	 */
 	private function checkUsers(array $users) {
-		foreach($users as $user) {
+		foreach ($users as $user) {
 			$this->checkUser($user);
 		}
 	}
@@ -199,7 +186,7 @@ class CleanUp extends TimedJob {
 	 * @param string[] $user
 	 */
 	private function checkUser(array $user) {
-		if($this->userBackend->userExistsOnLDAP($user['name'])) {
+		if ($this->userBackend->userExistsOnLDAP($user['name'])) {
 			//still available, all good
 
 			return;
@@ -231,10 +218,9 @@ class CleanUp extends TimedJob {
 	 * @return int
 	 */
 	public function getChunkSize() {
-		if($this->limit === null) {
+		if ($this->limit === null) {
 			$this->limit = (int)$this->ocConfig->getAppValue('user_ldap', 'cleanUpJobChunkSize', 50);
 		}
 		return $this->limit;
 	}
-
 }

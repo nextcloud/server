@@ -24,7 +24,6 @@
 use Behat\Behat\Context\Context;
 
 class FilePickerContext implements Context, ActorAwareInterface {
-
 	use ActorAware;
 
 	/**
@@ -123,5 +122,4 @@ class FilePickerContext implements Context, ActorAwareInterface {
 	public function iChooseTheLastSelectedFileInTheFilePicker() {
 		$this->actor->find(self::chooseButton(), 10)->click();
 	}
-
 }

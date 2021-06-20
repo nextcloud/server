@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Andrew Brown <andrew@casabrown.com>
- * @author Bart Visscher <bartv@thisnet.nl>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Jakob Sack <mail@jakobsack.de>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Morris Jobke <hey@morrisjobke.de>
@@ -23,13 +23,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP;
-
 
 /**
  * Small Interface for Search
  * @since 7.0.0
+ * @deprecated 20.0.0
  */
 interface ISearch {
 
@@ -41,6 +40,7 @@ interface ISearch {
 	 * @param int $size
 	 * @return array An array of OCP\Search\Result's
 	 * @since 8.0.0
+	 * @deprecated 20.0.0
 	 */
 	public function searchPaged($query, array $inApps = [], $page = 1, $size = 30);
 
@@ -49,6 +49,7 @@ interface ISearch {
 	 * @param string $class class name of a OCP\Search\Provider
 	 * @param array $options optional
 	 * @since 7.0.0
+	 * @deprecated 20.0.0
 	 */
 	public function registerProvider($class, array $options = []);
 
@@ -56,13 +57,14 @@ interface ISearch {
 	 * Remove one existing search provider
 	 * @param string $provider class name of a OCP\Search\Provider
 	 * @since 7.0.0
+	 * @deprecated 20.0.0
 	 */
 	public function removeProvider($provider);
 
 	/**
 	 * Remove all registered search providers
 	 * @since 7.0.0
+	 * @deprecated 20.0.0
 	 */
 	public function clearProviders();
-
 }

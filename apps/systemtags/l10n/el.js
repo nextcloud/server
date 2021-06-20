@@ -1,11 +1,10 @@
 OC.L10N.register(
     "systemtags",
     {
-    "Tags" : "Ετικέτες",
     "Tag name is empty" : "Το όνομα ετικέτας είναι κενό",
     "Update" : "Ενημέρωση",
     "Create" : "Δημιουργία",
-    "Select tag…" : "Επιλογή ετικέτας ...",
+    "Select tag …" : "Επιλογή ετικέτας ...",
     "System tag %1$s added by the system" : "Η ετικέτα συστήματος %1$s προστέθηκε από το σύστημα",
     "Added system tag {systemtag}" : "Προστέθηκε σύστημα ετικετών {systemtag}",
     "Added system tag %1$s" : "Προστέθηκε σύστημα ετικετών %1$s",
@@ -43,6 +42,7 @@ OC.L10N.register(
     "%s (restricted)" : "%s (περιορισμένο)",
     "%s (invisible)" : "%s (αόρατο)",
     "<strong>System tags</strong> for a file have been modified" : "<strong>Οι ετικέτες συστήματος</strong> για ένα αρχείο έχουν τροποποιηθεί",
+    "Tags" : "Ετικέτες",
     "Collaborative tags" : "Ετικέτες συνεργασίας",
     "Collaborative tagging functionality which shares tags among users." : "Λειτουργία προσθήκης ετικετών με συνεργασία που μοιράζεται ετικέτες μεταξύ χρηστών.",
     "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Λειτουργία προσθήκης ετικετών με συνεργασία που μοιράζεται ετικέτες μεταξύ χρηστών. Χρήσιμο για ομάδες.\n\t(Εάν είστε πάροχος με πολλαπλές εγκαταστάσεις, συνιστάται να απενεργοποιήσετε αυτήν την εφαρμογή καθώς οι ετικέτες μοιράζονται.)",
@@ -52,7 +52,6 @@ OC.L10N.register(
     "Please select tags to filter by" : "Παρακαλώ επιλέξτε ετικέτες για να φιλτραριστούν με",
     "No files found for the selected tags" : "Δεν βρέθηκαν αρχεία για τις επιλεγμένες ετικέτες",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Οι ετικέτες σε συνεργασία είναι διαθέσιμες για όλους τους χρήστες. Οι περιορισμένες ετικέτες είναι ορατές στους χρήστες, αλλά δεν μπορούν να τους ανατεθούν. Οι κρυφές ετικέτες είναι για εσωτερική χρήση, όμως οι χρήστες δεν μπορούν να τις δουν ή να τις αναθέσουν.",
-    "Select tag …" : "Επιλογή ετικέτας ...",
     "Create a new tag" : "Δημιούργησε νέα ετικέτα",
     "Name" : "Όνομα",
     "Public" : "Δημόσιο",

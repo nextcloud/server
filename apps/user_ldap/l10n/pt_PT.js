@@ -40,9 +40,7 @@ OC.L10N.register(
     "Select attributes" : "Selecionar atributos",
     "User found and settings verified." : "Utilizador encontrado e definições verificadas.",
     "The search filter is invalid, probably due to syntax issues like uneven number of opened and closed brackets. Please revise." : "O filtro de procura é inválido, provavelmente devido a problemas de sintaxe. Verifique se existem números ímpares de parêntisis abertos e/ou fechados. Por favor reveja.",
-    "A connection error to LDAP / AD occurred, please check host, port and credentials." : "Ocorreu um erro de ligação ao LDAP / AD. Por favor, verifique o anfitrião,  porta e credenciais.",
     "Please provide a login name to test against" : "Por favor, indique um nome de sessão para testar",
-    "The group box was disabled, because the LDAP / AD server does not support memberOf." : "Uma vez que o servidor LDAP / AD não suporta a propriedade \"memberOf\" (grupos) a caixa de grupos foi desactivada.",
     "_%s group found_::_%s groups found_" : ["%s grupo encontrado","%s grupos encontrados"],
     "_%s user found_::_%s users found_" : ["%s utilizador encontrado","%s utilizadores encontrados"],
     "Could not find the desired feature" : "Não se encontrou a função desejada",
@@ -59,8 +57,6 @@ OC.L10N.register(
     "LDAP Filter:" : "Filtro LDAP:",
     "The filter specifies which LDAP groups shall have access to the %s instance." : "O filtro especifica quais grupos LDAP devem ter acesso à instância %s.",
     "When logging in, %s will find the user based on the following attributes:" : "Quando entrar no sistema, %s irá encontrar o utilizador baseando-se nos seguintes atributos:",
-    "LDAP / AD Username:" : "Nome de Utilizador LDAP / AD:",
-    "LDAP / AD Email Address:" : "Endereço de Correio Eletrónico LDPA / AD",
     "Other Attributes:" : "Outros Atributos:",
     "Test Loginname" : "Testar nome de login",
     "Verify settings" : "Verificar definições",
@@ -145,6 +141,9 @@ OC.L10N.register(
     "Username-LDAP User Mapping" : "Mapeamento do utilizador LDAP",
     "Clear Username-LDAP User Mapping" : "Limpar mapeamento do utilizador-LDAP",
     "Clear Groupname-LDAP Group Mapping" : "Limpar o mapeamento do nome de grupo LDAP",
-    "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "Deixe vazio para nome de utilizador (padrão). De outro modo, especifique um atributo LDAP/AD."
+    "A connection error to LDAP / AD occurred, please check host, port and credentials." : "Ocorreu um erro de ligação ao LDAP / AD. Por favor, verifique o anfitrião,  porta e credenciais.",
+    "The group box was disabled, because the LDAP / AD server does not support memberOf." : "Uma vez que o servidor LDAP / AD não suporta a propriedade \"memberOf\" (grupos) a caixa de grupos foi desactivada.",
+    "LDAP / AD Username:" : "Nome de Utilizador LDAP / AD:",
+    "LDAP / AD Email Address:" : "Endereço de Correio Eletrónico LDPA / AD"
 },
 "nplurals=2; plural=(n != 1);");

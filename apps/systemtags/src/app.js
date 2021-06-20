@@ -1,10 +1,25 @@
-/*
+/**
  * Copyright (c) 2015 Vincent Petry <pvince81@owncloud.com>
  *
- * This file is licensed under the Affero General Public License version 3
- * or later.
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
- * See the COPYING-README file.
+ * @license GNU AGPL version 3 or any later version
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
@@ -18,7 +33,7 @@
 
 	OCA.SystemTags.App = {
 
-		initFileList: function($el) {
+		initFileList($el) {
 			if (this._fileList) {
 				return this._fileList
 			}
@@ -41,13 +56,13 @@
 			return this._fileList
 		},
 
-		removeFileList: function() {
+		removeFileList() {
 			if (this._fileList) {
 				this._fileList.$fileList.empty()
 			}
 		},
 
-		_createFileActions: function() {
+		_createFileActions() {
 			// inherit file actions from the files app
 			const fileActions = new OCA.Files.FileActions()
 			// note: not merging the legacy actions because legacy apps are not
@@ -73,7 +88,7 @@
 			return fileActions
 		},
 
-		_onActionsUpdated: function(ev) {
+		_onActionsUpdated(ev) {
 			if (!this._fileList) {
 				return
 			}
@@ -91,7 +106,7 @@
 		/**
 		 * Destroy the app
 		 */
-		destroy: function() {
+		destroy() {
 			OCA.Files.fileActions.off('setDefault.app-systemtags', this._onActionsUpdated)
 			OCA.Files.fileActions.off('registerAction.app-systemtags', this._onActionsUpdated)
 			this.removeFileList()
@@ -102,7 +117,7 @@
 
 })()
 
-$(document).ready(function() {
+window.addEventListener('DOMContentLoaded', function() {
 	$('#app-content-systemtagsfilter').on('show', function(e) {
 		OCA.SystemTags.App.initFileList($(e.target))
 	})

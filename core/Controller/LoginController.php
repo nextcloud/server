@@ -7,6 +7,7 @@
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Michael Weimann <mail@michael-weimann.eu>
@@ -28,12 +29,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Core\Controller;
 
 use OC\AppFramework\Http\Request;
 use OC\Authentication\Login\Chain;
 use OC\Authentication\Login\LoginData;
+use OC\Authentication\WebAuthn\Manager as WebAuthnManager;
 use OC\Security\Bruteforce\Throttler;
 use OC\User\Session;
 use OC_App;
@@ -56,9 +57,8 @@ use OCP\IUserSession;
 use OCP\Util;
 
 class LoginController extends Controller {
-
-	const LOGIN_MSG_INVALIDPASSWORD = 'invalidpassword';
-	const LOGIN_MSG_USERDISABLED = 'userdisabled';
+	public const LOGIN_MSG_INVALIDPASSWORD = 'invalidpassword';
+	public const LOGIN_MSG_USERDISABLED = 'userdisabled';
 
 	/** @var IUserManager */
 	private $userManager;
@@ -80,6 +80,8 @@ class LoginController extends Controller {
 	private $loginChain;
 	/** @var IInitialStateService */
 	private $initialStateService;
+	/** @var WebAuthnManager */
+	private $webAuthnManager;
 
 	public function __construct(?string $appName,
 								IRequest $request,
@@ -92,7 +94,8 @@ class LoginController extends Controller {
 								Defaults $defaults,
 								Throttler $throttler,
 								Chain $loginChain,
-								IInitialStateService $initialStateService) {
+								IInitialStateService $initialStateService,
+								WebAuthnManager $webAuthnManager) {
 		parent::__construct($appName, $request);
 		$this->userManager = $userManager;
 		$this->config = $config;
@@ -104,6 +107,7 @@ class LoginController extends Controller {
 		$this->throttler = $throttler;
 		$this->loginChain = $loginChain;
 		$this->initialStateService = $initialStateService;
+		$this->webAuthnManager = $webAuthnManager;
 	}
 
 	/**
@@ -151,7 +155,7 @@ class LoginController extends Controller {
 
 		$loginMessages = $this->session->get('loginMessages');
 		if (is_array($loginMessages)) {
-			list($errors, $messages) = $loginMessages;
+			[$errors, $messages] = $loginMessages;
 			$this->initialStateService->provideInitialState('core', 'loginMessages', $messages);
 			$this->initialStateService->provideInitialState('core', 'loginErrors', $errors);
 		}
@@ -170,7 +174,10 @@ class LoginController extends Controller {
 		);
 
 		if (!empty($redirect_url)) {
-			$this->initialStateService->provideInitialState('core', 'loginRedirectUrl', $redirect_url);
+			[$url, ] = explode('?', $redirect_url);
+			if ($url !== $this->urlGenerator->linkToRoute('core.login.logout')) {
+				$this->initialStateService->provideInitialState('core', 'loginRedirectUrl', $redirect_url);
+			}
 		}
 
 		$this->initialStateService->provideInitialState(
@@ -180,6 +187,10 @@ class LoginController extends Controller {
 		);
 
 		$this->setPasswordResetInitialState($user);
+
+		$this->initialStateService->provideInitialState('core', 'webauthn-available', $this->webAuthnManager->isWebAuthnAvailable());
+
+		$this->initialStateService->provideInitialState('core', 'hideLoginForm', $this->config->getSystemValueBool('hide_login_form', false));
 
 		// OpenGraph Support: http://ogp.me/
 		Util::addHeader('meta', ['property' => 'og:title', 'content' => Util::sanitizeHTML($this->defaults->getName())]);
@@ -192,6 +203,9 @@ class LoginController extends Controller {
 		$parameters = [
 			'alt_login' => OC_App::getAlternativeLogIns(),
 		];
+
+		$this->initialStateService->provideInitialState('core', 'countAlternativeLogins', count($parameters['alt_login']));
+
 		return new TemplateResponse(
 			$this->appName, 'login', $parameters, 'guest'
 		);
@@ -253,7 +267,7 @@ class LoginController extends Controller {
 
 	private function generateRedirect(?string $redirectUrl): RedirectResponse {
 		if ($redirectUrl !== null && $this->userSession->isLoggedIn()) {
-			$location = $this->urlGenerator->getAbsoluteURL(urldecode($redirectUrl));
+			$location = $this->urlGenerator->getAbsoluteURL($redirectUrl);
 			// Deny the redirect if the URL contains a @
 			// This prevents unvalidated redirects like ?redirect_url=:user@domain.com
 			if (strpos($location, '@') === false) {
@@ -327,7 +341,7 @@ class LoginController extends Controller {
 		$user, $originalUser, $redirect_url, string $loginMessage) {
 		// Read current user and append if possible we need to
 		// return the unmodified user otherwise we will leak the login name
-		$args = $user !== null ? ['user' => $originalUser] : [];
+		$args = $user !== null ? ['user' => $originalUser, 'direct' => 1] : [];
 		if ($redirect_url !== null) {
 			$args['redirect_url'] = $redirect_url;
 		}

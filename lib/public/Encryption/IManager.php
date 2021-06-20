@@ -22,7 +22,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\Encryption;
 
 use OC\Encryption\Exceptions\ModuleAlreadyExistsException;
@@ -97,5 +96,4 @@ interface IManager {
 	 * @since 8.1.0
 	 */
 	public function setDefaultEncryptionModule($moduleId);
-
 }

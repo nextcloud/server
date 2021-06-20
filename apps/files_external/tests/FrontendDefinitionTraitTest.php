@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
@@ -21,14 +22,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_External\Tests;
 
 use OCA\Files_External\Lib\DefinitionParameter;
 use OCA\Files_External\Lib\StorageConfig;
 
 class FrontendDefinitionTraitTest extends \Test\TestCase {
-
 	public function testJsonSerialization() {
 		$param = $this->getMockBuilder(DefinitionParameter::class)
 			->disableOriginalConstructor()
@@ -101,7 +100,7 @@ class FrontendDefinitionTraitTest extends \Test\TestCase {
 			->willReturn('param');
 		$param->expects($this->once())
 			->method('validateValue')
-			->willReturnCallback(function(&$value) {
+			->willReturnCallback(function (&$value) {
 				$value = 'foobar';
 				return true;
 			});

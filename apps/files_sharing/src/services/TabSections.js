@@ -12,7 +12,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -20,30 +20,23 @@
  *
  */
 
-/**
- * Callback for adding two numbers.
- *
- * @callback registerSectionCallback
- * @param {Element} el The DOM element where the section is rendered
- * @param {FileInfo} fileInfo current file FileInfo
- */
 export default class TabSections {
 
-	#sections;
+	_sections;
 
 	constructor() {
-		this.#sections = []
+		this._sections = []
 	}
 
 	/**
 	 * @param {registerSectionCallback} section To be called to mount the section to the sharing sidebar
 	 */
 	registerSection(section) {
-		this.#sections.push(section)
+		this._sections.push(section)
 	}
 
 	getSections() {
-		return this.#sections
+		return this._sections
 	}
 
 }

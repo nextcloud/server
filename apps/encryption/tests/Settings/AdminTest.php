@@ -16,14 +16,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Encryption\Tests\Settings;
 
 use OCA\Encryption\Settings\Admin;
@@ -74,20 +73,21 @@ class AdminTest extends TestCase {
 
 	public function testGetForm() {
 		$this->config
-			->expects($this->at(0))
 			->method('getAppValue')
-			->with('encryption', 'recoveryAdminEnabled', '0')
-			->willReturn(1);
-		$this->config
-			->expects($this->at(1))
-			->method('getAppValue')
-			->with('encryption', 'encryptHomeStorage', '1')
-			->willReturn(1);
+			->will($this->returnCallback(function ($app, $key, $default) {
+				if ($app === 'encryption' && $key === 'recoveryAdminEnabled' && $default === '0') {
+					return '1';
+				}
+				if ($app === 'encryption' && $key === 'encryptHomeStorage' && $default === '1') {
+					return '1';
+				}
+				return $default;
+			}));
 		$params = [
-			'recoveryEnabled' => 1,
+			'recoveryEnabled' => '1',
 			'initStatus' => '0',
-			'encryptHomeStorage' => false,
-			'masterKeyEnabled' => false
+			'encryptHomeStorage' => true,
+			'masterKeyEnabled' => true
 		];
 		$expected = new TemplateResponse('encryption', 'settings-admin', $params, '');
 		$this->assertEquals($expected, $this->admin->getForm());

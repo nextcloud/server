@@ -24,7 +24,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Upload;
 
 use Sabre\DAVACL\AbstractPrincipalCollection;
@@ -55,5 +54,4 @@ class RootCollection extends AbstractPrincipalCollection {
 	public function getName(): string {
 		return 'uploads';
 	}
-
 }

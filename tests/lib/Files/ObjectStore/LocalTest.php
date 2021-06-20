@@ -32,5 +32,4 @@ class LocalTest extends ObjectStoreTest {
 		$storage = new Temporary();
 		return new StorageObjectStore($storage);
 	}
-
 }

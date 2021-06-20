@@ -2,8 +2,10 @@
 /**
  * @copyright Copyright (c) 2020, Thomas Citharel <nextcloud@tcit.fr>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author eleith <online+github@eleith.com>
  * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Thomas Citharel <nextcloud@tcit.fr>
  *
  * @license GNU AGPL version 3 or any later version
@@ -15,14 +17,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\Tests\unit\BackgroundJob;
 
 use GuzzleHttp\HandlerStack;
@@ -31,10 +32,13 @@ use OCA\DAV\CalDAV\WebcalCaching\RefreshWebcalService;
 use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\Http\Client\IResponse;
+use OCP\Http\Client\LocalServerException;
 use OCP\IConfig;
 use OCP\ILogger;
 use PHPUnit\Framework\MockObject\MockObject;
+use Sabre\DAV\Exception\BadRequest;
 use Sabre\VObject;
+use Sabre\VObject\Recur\NoInstancesException;
 
 use Test\TestCase;
 
@@ -116,7 +120,7 @@ class RefreshWebcalServiceTest extends TestCase {
 
 		$client->expects($this->once())
 			->method('get')
-			->with('https://foo.bar/bla2', $this->callback(function($obj) {
+			->with('https://foo.bar/bla2', $this->callback(function ($obj) {
 				return $obj['allow_redirects']['redirects'] === 10 && $obj['handler'] instanceof HandlerStack;
 			}))
 			->willReturn($response);
@@ -137,6 +141,160 @@ class RefreshWebcalServiceTest extends TestCase {
 		$this->caldavBackend->expects($this->once())
 			->method('createCalendarObject')
 			->with(42, 'uri-1.ics', $result, 1);
+
+		$refreshWebcalService->refreshSubscription('principals/users/testuser', 'sub123');
+	}
+  
+	/**
+	 * @param string $body
+	 * @param string $contentType
+	 * @param string $result
+	 *
+	 * @dataProvider runDataProvider
+	 */
+	public function testRunCreateCalendarNoException(string $body, string $contentType, string $result) {
+		$client = $this->createMock(IClient::class);
+		$response = $this->createMock(IResponse::class);
+		$refreshWebcalService = $this->getMockBuilder(RefreshWebcalService::class)
+			->setMethods(['getRandomCalendarObjectUri', 'getSubscription', 'queryWebcalFeed'])
+			->setConstructorArgs([$this->caldavBackend, $this->clientService, $this->config, $this->logger])
+			->getMock();
+
+		$refreshWebcalService
+			->method('getRandomCalendarObjectUri')
+			->willReturn('uri-1.ics');
+
+		$refreshWebcalService
+			->method('getSubscription')
+			->willReturn([
+				'id' => '42',
+				'uri' => 'sub123',
+				'{http://apple.com/ns/ical/}refreshrate' => 'PT1H',
+				'{http://calendarserver.org/ns/}subscribed-strip-todos' => '1',
+				'{http://calendarserver.org/ns/}subscribed-strip-alarms' => '1',
+				'{http://calendarserver.org/ns/}subscribed-strip-attachments' => '1',
+				'source' => 'webcal://foo.bar/bla2'
+			]);
+
+		$this->clientService->expects($this->once())
+			->method('newClient')
+			->with()
+			->willReturn($client);
+
+		$this->config->expects($this->once())
+			->method('getAppValue')
+			->with('dav', 'webcalAllowLocalAccess', 'no')
+			->willReturn('no');
+
+		$client->expects($this->once())
+			->method('get')
+			->with('https://foo.bar/bla2', $this->callback(function ($obj) {
+				return $obj['allow_redirects']['redirects'] === 10 && $obj['handler'] instanceof HandlerStack;
+			}))
+			->willReturn($response);
+
+		$response->expects($this->once())
+			->method('getBody')
+			->with()
+			->willReturn($body);
+		$response->expects($this->once())
+			->method('getHeader')
+			->with('Content-Type')
+			->willReturn($contentType);
+
+		$this->caldavBackend->expects($this->once())
+			->method('purgeAllCachedEventsForSubscription')
+			->with(42);
+
+		$this->caldavBackend->expects($this->once())
+			->method('createCalendarObject')
+			->with(42, 'uri-1.ics', $result, 1);
+	
+		$noInstanceException = new NoInstancesException("can't add calendar object");
+		$this->caldavBackend->expects($this->once())
+			->method("createCalendarObject")
+			->willThrowException($noInstanceException);
+	
+		$this->logger->expects($this->once())
+			->method('logException')
+			->with($noInstanceException);
+
+		$refreshWebcalService->refreshSubscription('principals/users/testuser', 'sub123');
+	}
+
+	/**
+	 * @param string $body
+	 * @param string $contentType
+	 * @param string $result
+	 *
+	 * @dataProvider runDataProvider
+	 */
+	public function testRunCreateCalendarBadRequest(string $body, string $contentType, string $result) {
+		$client = $this->createMock(IClient::class);
+		$response = $this->createMock(IResponse::class);
+		$refreshWebcalService = $this->getMockBuilder(RefreshWebcalService::class)
+			->setMethods(['getRandomCalendarObjectUri', 'getSubscription', 'queryWebcalFeed'])
+			->setConstructorArgs([$this->caldavBackend, $this->clientService, $this->config, $this->logger])
+			->getMock();
+
+		$refreshWebcalService
+			->method('getRandomCalendarObjectUri')
+			->willReturn('uri-1.ics');
+
+		$refreshWebcalService
+			->method('getSubscription')
+			->willReturn([
+				'id' => '42',
+				'uri' => 'sub123',
+				'{http://apple.com/ns/ical/}refreshrate' => 'PT1H',
+				'{http://calendarserver.org/ns/}subscribed-strip-todos' => '1',
+				'{http://calendarserver.org/ns/}subscribed-strip-alarms' => '1',
+				'{http://calendarserver.org/ns/}subscribed-strip-attachments' => '1',
+				'source' => 'webcal://foo.bar/bla2'
+			]);
+
+		$this->clientService->expects($this->once())
+			->method('newClient')
+			->with()
+			->willReturn($client);
+
+		$this->config->expects($this->once())
+			->method('getAppValue')
+			->with('dav', 'webcalAllowLocalAccess', 'no')
+			->willReturn('no');
+
+		$client->expects($this->once())
+			->method('get')
+			->with('https://foo.bar/bla2', $this->callback(function ($obj) {
+				return $obj['allow_redirects']['redirects'] === 10 && $obj['handler'] instanceof HandlerStack;
+			}))
+			->willReturn($response);
+
+		$response->expects($this->once())
+			->method('getBody')
+			->with()
+			->willReturn($body);
+		$response->expects($this->once())
+			->method('getHeader')
+			->with('Content-Type')
+			->willReturn($contentType);
+
+		$this->caldavBackend->expects($this->once())
+			->method('purgeAllCachedEventsForSubscription')
+			->with(42);
+
+		$this->caldavBackend->expects($this->once())
+			->method('createCalendarObject')
+			->with(42, 'uri-1.ics', $result, 1);
+	
+		$badRequestException = new BadRequest("can't add reach calendar url");
+		$this->caldavBackend->expects($this->once())
+			->method("createCalendarObject")
+			->willThrowException($badRequestException);
+	
+		$this->logger->expects($this->once())
+			->method('logException')
+			->with($badRequestException);
 
 		$refreshWebcalService->refreshSubscription('principals/users/testuser', 'sub123');
 	}
@@ -170,8 +328,12 @@ class RefreshWebcalServiceTest extends TestCase {
 	 * @param string $source
 	 */
 	public function testRunLocalURL($source) {
-		$refreshWebcalService = new RefreshWebcalService($this->caldavBackend,
-			$this->clientService, $this->config, $this->logger);
+		$refreshWebcalService = new RefreshWebcalService(
+			$this->caldavBackend,
+			$this->clientService,
+			$this->config,
+			$this->logger
+		);
 
 		$this->caldavBackend->expects($this->once())
 			->method('getSubscriptionsForUser')
@@ -199,8 +361,13 @@ class RefreshWebcalServiceTest extends TestCase {
 			->with('dav', 'webcalAllowLocalAccess', 'no')
 			->willReturn('no');
 
-		$client->expects($this->never())
-			->method('get');
+		$client->expects($this->once())
+			->method('get')
+			->willThrowException(new LocalServerException());
+
+		$this->logger->expects($this->once())
+			->method('logException')
+			->with($this->isInstanceOf(LocalServerException::class), $this->anything());
 
 		$refreshWebcalService->refreshSubscription('principals/users/testuser', 'sub123');
 	}
@@ -221,7 +388,42 @@ class RefreshWebcalServiceTest extends TestCase {
 			['10.0.0.1'],
 			['another-host.local'],
 			['service.localhost'],
-			['!@#$'], // test invalid url
 		];
+	}
+
+	public function testInvalidUrl() {
+		$refreshWebcalService = new RefreshWebcalService($this->caldavBackend,
+			$this->clientService, $this->config, $this->logger);
+
+		$this->caldavBackend->expects($this->once())
+			->method('getSubscriptionsForUser')
+			->with('principals/users/testuser')
+			->willReturn([
+				[
+					'id' => 42,
+					'uri' => 'sub123',
+					'refreshreate' => 'P1H',
+					'striptodos' => 1,
+					'stripalarms' => 1,
+					'stripattachments' => 1,
+					'source' => '!@#$'
+				],
+			]);
+
+		$client = $this->createMock(IClient::class);
+		$this->clientService->expects($this->once())
+			->method('newClient')
+			->with()
+			->willReturn($client);
+
+		$this->config->expects($this->once())
+			->method('getAppValue')
+			->with('dav', 'webcalAllowLocalAccess', 'no')
+			->willReturn('no');
+
+		$client->expects($this->never())
+			->method('get');
+
+		$refreshWebcalService->refreshSubscription('principals/users/testuser', 'sub123');
 	}
 }

@@ -24,8 +24,6 @@ OC.L10N.register(
     "Password to access {file} was sent to {email}" : "Lykilorð fyrir aðgang að {file} var sent til {email}",
     "Password to access %1$s was sent to you" : "Lykilorð fyrir aðgang að %1$s var sent til þín",
     "Password to access {file} was sent to you" : "Lykilorð fyrir aðgang að {file} var sent til þín",
-    "Sharing %1$s failed, this item is already shared with %2$s" : "Deiling %1$s mistókst, því þessu atriði er þegar deilt með %2$s",
-    "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Ekki er hægt að senda þér sjálfvirkt framleidda lykilorðið. Settu inn gilt tölvupóstfang í einkastillingunum þínum og prófaðu aftur.",
     "Failed to send share by email" : "Gat ekki sent sameign með tölvupósti",
     "%1$s shared »%2$s« with you" : "%1$s deildi »%2$s« með þér",
     "%1$s shared »%2$s« with you." : "%1$s deildi »%2$s« með þér.",
@@ -49,6 +47,7 @@ OC.L10N.register(
     "Share provider which allows you to share files by mail" : "Deilingarþjónusta sem gerir þér kleift að deila skrám með tölvupósti",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Gerir notendum kleift að deila sérsniðnum tengli á skrá eða möppu með því að setja inn tölvupóstfang.",
     "Send password by mail" : "Senda lykilorð með pósti",
+    "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Ekki er hægt að senda þér sjálfvirkt framleidda lykilorðið. Settu inn gilt tölvupóstfang í einkastillingunum þínum og prófaðu aftur.",
     "Enforce password protection" : "Krefjast verndunar með aðgangsorði"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

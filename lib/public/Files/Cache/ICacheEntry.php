@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Robin Appelman <robin@icewind.nl>
  *
  * @license AGPL-3.0
@@ -19,16 +20,21 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\Files\Cache;
+
+use ArrayAccess;
 
 /**
  * meta data for a file or folder
  *
  * @since 9.0.0
+ *
+ * This interface extends \ArrayAccess since v21.0.0, previous versions only
+ * implemented it in the private implementation. Hence php would allow using the
+ * object as array, while strictly speaking it didn't support this.
  */
-interface ICacheEntry {
-	const DIRECTORY_MIMETYPE = 'httpd/unix-directory';
+interface ICacheEntry extends ArrayAccess {
+	public const DIRECTORY_MIMETYPE = 'httpd/unix-directory';
 
 	/**
 	 * Get the numeric id of a file

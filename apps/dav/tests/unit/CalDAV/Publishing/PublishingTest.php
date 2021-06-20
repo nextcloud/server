@@ -1,10 +1,11 @@
 <?php
 /**
+ * @copyright Copyright (c) 2016 Thomas Citharel <nextcloud@tcit.fr>
  *
- *
+ * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Citharel <tcit@tcit.fr>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -15,14 +16,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\Tests\unit\CalDAV\Publishing;
 
 use OCA\DAV\CalDAV\Calendar;
@@ -42,11 +42,11 @@ class PluginTest extends TestCase {
 	private $plugin;
 	/** @var Server */
 	private $server;
-	/** @var Calendar | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var Calendar | \PHPUnit\Framework\MockObject\MockObject */
 	private $book;
-	/** @var IConfig | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig | \PHPUnit\Framework\MockObject\MockObject */
 	private $config;
-	/** @var IURLGenerator | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var IURLGenerator | \PHPUnit\Framework\MockObject\MockObject */
 	private $urlGenerator;
 
 	protected function setUp(): void {
@@ -78,7 +78,6 @@ class PluginTest extends TestCase {
 	}
 
 	public function testPublishing() {
-
 		$this->book->expects($this->once())->method('setPublishStatus')->with(true);
 
 		// setup request
@@ -90,7 +89,6 @@ class PluginTest extends TestCase {
 	}
 
 	public function testUnPublishing() {
-
 		$this->book->expects($this->once())->method('setPublishStatus')->with(false);
 
 		// setup request

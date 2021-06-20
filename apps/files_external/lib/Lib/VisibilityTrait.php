@@ -20,7 +20,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_External\Lib;
 
 use OCA\Files_External\Service\BackendService;
@@ -134,5 +133,4 @@ trait VisibilityTrait {
 	public function removeAllowedVisibility($allowedVisibility) {
 		return $this->setAllowedVisibility($this->allowedVisibility & ~$allowedVisibility);
 	}
-
 }

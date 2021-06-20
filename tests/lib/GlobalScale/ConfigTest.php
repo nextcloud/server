@@ -21,14 +21,13 @@
 
 namespace Test\GlobalScale;
 
-
 use OC\GlobalScale\Config;
 use OCP\IConfig;
 use Test\TestCase;
 
 class ConfigTest extends TestCase {
 
-	/** @var  IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var  IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
 
 	protected function setUp(): void {
@@ -39,10 +38,9 @@ class ConfigTest extends TestCase {
 
 	/**
 	 * @param array $mockMethods
-	 * @return Config|\PHPUnit_Framework_MockObject_MockObject
+	 * @return Config|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	public function getInstance($mockMethods = []) {
-
 		if (!empty($mockMethods)) {
 			return $this->getMockBuilder(Config::class)
 				->setConstructorArgs([$this->config])
@@ -90,5 +88,4 @@ class ConfigTest extends TestCase {
 			[false, 'internal', false]
 		];
 	}
-
 }

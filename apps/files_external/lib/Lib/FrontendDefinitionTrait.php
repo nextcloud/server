@@ -21,9 +21,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_External\Lib;
-
 
 /**
  * Trait for objects that have a frontend representation
@@ -104,16 +102,6 @@ trait FrontendDefinitionTrait {
 	 */
 	public function addCustomJs($custom) {
 		$this->customJs[] = $custom;
-		return $this;
-	}
-
-	/**
-	 * @param string $custom
-	 * @return self
-	 * @deprecated 9.1.0, use addCustomJs() instead
-	 */
-	public function setCustomJs($custom) {
-		$this->customJs = [$custom];
 		return $this;
 	}
 

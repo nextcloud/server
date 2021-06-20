@@ -1,7 +1,9 @@
-/*
+/**
  * @copyright 2020 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
- * @author 2020 Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author François Freitag <mail@franek.fr>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -16,45 +18,43 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 
-import {JSDOM} from 'jsdom'
-import {subscribe, unsubscribe} from '@nextcloud/event-bus'
+import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 
-import {manageToken, setToken} from '../../OC/requesttoken'
+import { manageToken, setToken } from '../../OC/requesttoken'
 
 describe('request token', () => {
 
-	let dom
 	let emit
 	let manager
 	const token = 'abc123'
 
 	beforeEach(() => {
-		dom = new JSDOM()
-		emit = sinon.spy()
-		const head = dom.window.document.getElementsByTagName('head')[0]
+		emit = jest.fn()
+		const head = window.document.getElementsByTagName('head')[0]
 		head.setAttribute('data-requesttoken', token)
 
-		manager = manageToken(dom.window.document, emit)
+		manager = manageToken(window.document, emit)
 	})
 
-	it('reads the token from the document', () => {
-		expect(manager.getToken()).to.equal('abc123')
+	test('reads the token from the document', () => {
+		expect(manager.getToken()).toBe('abc123')
 	})
 
-	it('remembers the updated token', () => {
+	test('remembers the updated token', () => {
 		manager.setToken('bca321')
 
-		expect(manager.getToken()).to.equal('bca321')
+		expect(manager.getToken()).toBe('bca321')
 	})
 
 	describe('@nextcloud/auth integration', () => {
 		let listener
 
 		beforeEach(() => {
-			listener = sinon.spy()
+			listener = jest.fn()
 
 			subscribe('csrf-token-update', listener)
 		})
@@ -63,10 +63,10 @@ describe('request token', () => {
 			unsubscribe('csrf-token-update', listener)
 		})
 
-		it('fires off an event for @nextcloud/auth', () => {
+		test('fires off an event for @nextcloud/auth', () => {
 			setToken('123')
 
-			expect(listener).to.have.been.calledWith({token: '123'})
+			expect(listener).toHaveBeenCalledWith({ token: '123' })
 		})
 	})
 

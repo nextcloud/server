@@ -30,21 +30,20 @@ use OC\Contacts\ContactsMenu\Providers\EMailProvider;
 use OCP\App\IAppManager;
 use OCP\AppFramework\QueryException;
 use OCP\Contacts\ContactsMenu\IProvider;
-use OCP\ILogger;
 use OCP\IServerContainer;
 use OCP\IUser;
-use PHPUnit_Framework_MockObject_MockObject;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class ActionProviderStoreTest extends TestCase {
 
-	/** @var IServerContainer|PHPUnit_Framework_MockObject_MockObject */
+	/** @var IServerContainer|\PHPUnit\Framework\MockObject\MockObject */
 	private $serverContainer;
 
-	/** @var IAppManager|PHPUnit_Framework_MockObject_MockObject */
+	/** @var IAppManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $appManager;
 
-	/** @var ILogger|PHPUnit_Framework_MockObject_MockObject */
+	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
 	private $logger;
 
 	/** @var ActionProviderStore */
@@ -55,7 +54,7 @@ class ActionProviderStoreTest extends TestCase {
 
 		$this->serverContainer = $this->createMock(IServerContainer::class);
 		$this->appManager = $this->createMock(AppManager::class);
-		$this->logger = $this->createMock(ILogger::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 
 		$this->actionProviderStore = new ActionProviderStore($this->serverContainer, $this->appManager, $this->logger);
 	}
@@ -76,13 +75,13 @@ class ActionProviderStoreTest extends TestCase {
 				'contactsmenu' => [
 					'OCA\Contacts\Provider1',
 				],
-		]);
+			]);
 		$this->serverContainer->expects($this->exactly(2))
 			->method('query')
 			->willReturnMap([
-					[EMailProvider::class, true, $provider1],
-					['OCA\Contacts\Provider1', true, $provider2]
-		]);
+				[EMailProvider::class, true, $provider1],
+				['OCA\Contacts\Provider1', true, $provider2]
+			]);
 
 		$providers = $this->actionProviderStore->getProviders($user);
 
@@ -105,8 +104,8 @@ class ActionProviderStoreTest extends TestCase {
 		$this->serverContainer->expects($this->once())
 			->method('query')
 			->willReturnMap([
-					[EMailProvider::class, true, $provider1],
-		]);
+				[EMailProvider::class, true, $provider1],
+			]);
 
 		$providers = $this->actionProviderStore->getProviders($user);
 
@@ -114,7 +113,7 @@ class ActionProviderStoreTest extends TestCase {
 		$this->assertInstanceOf(EMailProvider::class, $providers[0]);
 	}
 
-	
+
 	public function testGetProvidersWithQueryException() {
 		$this->expectException(\Exception::class);
 
@@ -129,5 +128,4 @@ class ActionProviderStoreTest extends TestCase {
 
 		$this->actionProviderStore->getProviders($user);
 	}
-
 }

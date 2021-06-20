@@ -9,7 +9,6 @@ OC.L10N.register(
     "Provides multiple accessibilities options to ease your use of Nextcloud" : "Ulike innstillingar for å gjera Nextcloud lettare å bruka for funksjonshemma",
     "High contrast theme" : "Høgkontrast-drakt",
     "A high contrast theme to ease your navigation. Visual quality will be reduced but clarity will be increased." : "Ei drakt med høg kontrast som gjer det lettare å navigera. Den visuelle kvaliteten er redusert, men innhaldet er klårare.",
-    "Dark theme (beta)" : "Mørk drakt (beta)",
     "Web Content Accessibility Guidelines" : "Retningsliner for tilgjenge i vev-innhald",
     "our issue tracker" : "feilsporings-systemet vårt",
     "our design team" : "utformingsgruppa vår",

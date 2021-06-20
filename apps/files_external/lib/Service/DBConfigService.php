@@ -3,11 +3,12 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
  *
@@ -24,7 +25,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_External\Service;
 
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
@@ -36,12 +36,12 @@ use OCP\Security\ICrypto;
  * Stores the mount config in the database
  */
 class DBConfigService {
-	const MOUNT_TYPE_ADMIN = 1;
-	const MOUNT_TYPE_PERSONAl = 2;
+	public const MOUNT_TYPE_ADMIN = 1;
+	public const MOUNT_TYPE_PERSONAl = 2;
 
-	const APPLICABLE_TYPE_GLOBAL = 1;
-	const APPLICABLE_TYPE_GROUP = 2;
-	const APPLICABLE_TYPE_USER = 3;
+	public const APPLICABLE_TYPE_GLOBAL = 1;
+	public const APPLICABLE_TYPE_GROUP = 2;
+	public const APPLICABLE_TYPE_USER = 3;
 
 	/**
 	 * @var IDBConnection
@@ -140,7 +140,7 @@ class DBConfigService {
 		$stmt->closeCursor();
 
 		foreach ($result as $row) {
-			if((int)$row['count'] > 1) {
+			if ((int)$row['count'] > 1) {
 				$this->removeApplicable($row['mount_id'], $applicableType, $applicableId);
 			} else {
 				$this->removeMount($row['mount_id']);
@@ -152,7 +152,6 @@ class DBConfigService {
 	 * Get admin defined mounts
 	 *
 	 * @return array
-	 * @suppress SqlInjectionChecker
 	 */
 	public function getAdminMounts() {
 		$builder = $this->connection->getQueryBuilder();
@@ -197,7 +196,6 @@ class DBConfigService {
 	 * @param int $type any of the self::APPLICABLE_TYPE_ constants
 	 * @param string|null $value user_id, group_id or null for global mounts
 	 * @return array
-	 * @suppress SqlInjectionChecker
 	 */
 	public function getAdminMountsFor($type, $value) {
 		$builder = $this->connection->getQueryBuilder();
@@ -213,7 +211,6 @@ class DBConfigService {
 	 * @param int $type any of the self::APPLICABLE_TYPE_ constants
 	 * @param string[] $values user_ids or group_ids
 	 * @return array
-	 * @suppress SqlInjectionChecker
 	 */
 	public function getAdminMountsForMultiple($type, array $values) {
 		$builder = $this->connection->getQueryBuilder();
@@ -237,7 +234,6 @@ class DBConfigService {
 	 * @param int $type any of the self::APPLICABLE_TYPE_ constants
 	 * @param string|null $value user_id, group_id or null for global mounts
 	 * @return array
-	 * @suppress SqlInjectionChecker
 	 */
 	public function getUserMountsFor($type, $value) {
 		$builder = $this->connection->getQueryBuilder();
@@ -271,7 +267,7 @@ class DBConfigService {
 				'type' => $builder->createNamedParameter($type, IQueryBuilder::PARAM_INT)
 			]);
 		$query->execute();
-		return (int)$this->connection->lastInsertId('*PREFIX*external_mounts');
+		return $query->getLastInsertId();
 	}
 
 	/**
@@ -343,7 +339,7 @@ class DBConfigService {
 				->setValue('key', $builder->createNamedParameter($key, IQueryBuilder::PARAM_STR))
 				->setValue('value', $builder->createNamedParameter($value, IQueryBuilder::PARAM_STR))
 				->execute();
-		} catch(UniqueConstraintViolationException $e) {
+		} catch (UniqueConstraintViolationException $e) {
 			$builder = $this->connection->getQueryBuilder();
 			$query = $builder->update('external_config')
 				->set('value', $builder->createNamedParameter($value, IQueryBuilder::PARAM_STR))
@@ -366,7 +362,7 @@ class DBConfigService {
 				->setValue('key', $builder->createNamedParameter($key, IQueryBuilder::PARAM_STR))
 				->setValue('value', $builder->createNamedParameter(json_encode($value), IQueryBuilder::PARAM_STR))
 				->execute();
-		} catch(UniqueConstraintViolationException $e) {
+		} catch (UniqueConstraintViolationException $e) {
 			$builder = $this->connection->getQueryBuilder();
 			$query = $builder->update('external_options')
 				->set('value', $builder->createNamedParameter(json_encode($value), IQueryBuilder::PARAM_STR))
@@ -384,7 +380,7 @@ class DBConfigService {
 				->setValue('type', $builder->createNamedParameter($type))
 				->setValue('value', $builder->createNamedParameter($value))
 				->execute();
-		} catch(UniqueConstraintViolationException $e) {
+		} catch (UniqueConstraintViolationException $e) {
 			// applicable exists already
 		}
 	}
@@ -455,7 +451,10 @@ class DBConfigService {
 		$query = $builder->select($fields)
 			->from($table)
 			->where($builder->expr()->in('mount_id', $placeHolders));
-		$rows = $query->execute()->fetchAll();
+
+		$result = $query->execute();
+		$rows = $result->fetchAll();
+		$result->closeCursor();
 
 		$result = [];
 		foreach ($mountIds as $mountId) {

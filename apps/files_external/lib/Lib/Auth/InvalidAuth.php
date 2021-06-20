@@ -2,7 +2,7 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud GmbH.
  *
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -19,7 +19,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_External\Lib\Auth;
 
 /**
@@ -41,5 +40,4 @@ class InvalidAuth extends AuthMechanism {
 			->setText('Unknown auth mechanism backend ' . $invalidId)
 		;
 	}
-
 }

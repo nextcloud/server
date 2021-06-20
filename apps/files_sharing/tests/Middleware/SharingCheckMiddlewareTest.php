@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Bjoern Schiessle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -23,8 +24,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_Sharing\Middleware;
+
 use OCA\Files_Sharing\Controller\ExternalSharesController;
 use OCA\Files_Sharing\Controller\ShareController;
 use OCA\Files_Sharing\Exceptions\S2SException;
@@ -44,19 +45,19 @@ use OCP\Share\IShare;
  */
 class SharingCheckMiddlewareTest extends \Test\TestCase {
 
-	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
-	/** @var IAppManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IAppManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $appManager;
 	/** @var SharingCheckMiddleware */
 	private $sharingCheckMiddleware;
-	/** @var Controller|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var Controller|\PHPUnit\Framework\MockObject\MockObject */
 	private $controllerMock;
-	/** @var IControllerMethodReflector|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IControllerMethodReflector|\PHPUnit\Framework\MockObject\MockObject */
 	private $reflector;
-	/** @var  IManager | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var  IManager | \PHPUnit\Framework\MockObject\MockObject */
 	private $shareManager;
-	/** @var  IRequest | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var  IRequest | \PHPUnit\Framework\MockObject\MockObject */
 	private $request;
 
 	protected function setUp(): void {
@@ -99,14 +100,12 @@ class SharingCheckMiddlewareTest extends \Test\TestCase {
 	}
 
 	public function externalSharesChecksDataProvider() {
-
 		$data = [];
 
 		foreach ([false, true] as $annIn) {
 			foreach ([false, true] as $annOut) {
 				foreach ([false, true] as $confIn) {
 					foreach ([false, true] as $confOut) {
-
 						$res = true;
 						if (!$annIn && !$confIn) {
 							$res = false;
@@ -184,7 +183,6 @@ class SharingCheckMiddlewareTest extends \Test\TestCase {
 	}
 
 	public function testBeforeControllerWithShareControllerWithSharingEnabled() {
-
 		$share = $this->createMock(IShare::class);
 
 		$this->appManager
@@ -198,7 +196,7 @@ class SharingCheckMiddlewareTest extends \Test\TestCase {
 		$this->sharingCheckMiddleware->beforeController($controller, 'myMethod');
 	}
 
-	
+
 	public function testBeforeControllerWithSharingDisabled() {
 		$this->expectException(\OCP\Files\NotFoundException::class);
 		$this->expectExceptionMessage('Sharing is disabled.');
@@ -212,7 +210,7 @@ class SharingCheckMiddlewareTest extends \Test\TestCase {
 		$this->sharingCheckMiddleware->beforeController($this->controllerMock, 'myMethod');
 	}
 
-	
+
 	public function testAfterExceptionWithRegularException() {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('My Exception message');
@@ -227,6 +225,4 @@ class SharingCheckMiddlewareTest extends \Test\TestCase {
 	public function testAfterExceptionWithS2SException() {
 		$this->assertEquals(new JSONResponse('My Exception message', 405), $this->sharingCheckMiddleware->afterException($this->controllerMock, 'myMethod', new S2SException('My Exception message')));
 	}
-
-
 }

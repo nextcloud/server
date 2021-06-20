@@ -1,7 +1,9 @@
-/*
+/**
  * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
- * @author 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author rakekniven <mark.ziegler@rakekniven.de>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -16,7 +18,8 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 
 import $ from 'jquery'
@@ -34,7 +37,7 @@ export default {
 	 *
 	 * @param {Object} selector    Placeholder to display the message in
 	 */
-	startSaving: function(selector) {
+	startSaving(selector) {
 		this.startAction(selector, t('core', 'Saving …'))
 	},
 
@@ -44,7 +47,7 @@ export default {
 	 * @param {Object} selector    Placeholder to display the message in
 	 * @param {string} message    Plain text message to display (no HTML allowed)
 	 */
-	startAction: function(selector, message) {
+	startAction(selector, message) {
 		$(selector).text(message)
 			.removeClass('success')
 			.removeClass('error')
@@ -62,7 +65,7 @@ export default {
 	 * @param {string} response.status    is being used to decide whether the message
 	 * is displayed as an error/success
 	 */
-	finishedSaving: function(selector, response) {
+	finishedSaving(selector, response) {
 		this.finishedAction(selector, response)
 	},
 
@@ -76,7 +79,7 @@ export default {
 	 * @param {string} response.status is being used to decide whether the message
 	 * is displayed as an error/success
 	 */
-	finishedAction: function(selector, response) {
+	finishedAction(selector, response) {
 		if (response.status === 'success') {
 			this.finishedSuccess(selector, response.data.message)
 		} else {
@@ -90,7 +93,7 @@ export default {
 	 * @param {Object} selector Placeholder to display the message in
 	 * @param {string} message Plain text success message to display (no HTML allowed)
 	 */
-	finishedSuccess: function(selector, message) {
+	finishedSuccess(selector, message) {
 		$(selector).text(message)
 			.addClass('success')
 			.removeClass('error')
@@ -106,7 +109,7 @@ export default {
 	 * @param {Object} selector Placeholder to display the message in
 	 * @param {string} message Plain text error message to display (no HTML allowed)
 	 */
-	finishedError: function(selector, message) {
+	finishedError(selector, message) {
 		$(selector).text(message)
 			.addClass('error')
 			.removeClass('success')

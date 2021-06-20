@@ -28,7 +28,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\App;
 
 use OCP\IGroup;
@@ -37,7 +36,6 @@ use OCP\IUser;
 /**
  * Interface IAppManager
  *
- * @package OCP\App
  * @since 8.0.0
  */
 interface IAppManager {

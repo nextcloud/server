@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Joas Schilling <coding@schilljs.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -16,21 +17,20 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\EventDispatcher;
 
 use OCP\AppFramework\QueryException;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\IContainer;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 
 /**
  * Lazy service event listener
@@ -46,7 +46,7 @@ final class ServiceEventListener {
 	/** @var string */
 	private $class;
 
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	private $logger;
 
 	/** @var null|IEventListener */
@@ -54,7 +54,7 @@ final class ServiceEventListener {
 
 	public function __construct(IContainer $container,
 								string $class,
-								ILogger $logger) {
+								LoggerInterface $logger) {
 		$this->container = $container;
 		$this->class = $class;
 		$this->logger = $logger;
@@ -65,9 +65,8 @@ final class ServiceEventListener {
 			try {
 				$this->service = $this->container->query($this->class);
 			} catch (QueryException $e) {
-				$this->logger->logException($e, [
-					'level' => ILogger::ERROR,
-					'message' => "Could not load event listener service " . $this->class,
+				$this->logger->error("Could not load event listener service " . $this->class, [
+					'exception' => $e,
 				]);
 				return;
 			}
@@ -75,5 +74,4 @@ final class ServiceEventListener {
 
 		$this->service->handle($event);
 	}
-
 }

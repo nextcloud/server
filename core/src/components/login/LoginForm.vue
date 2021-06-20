@@ -20,9 +20,10 @@
   -->
 
 <template>
-	<form method="post"
+	<form ref="loginForm"
+		method="post"
 		name="login"
-		:action="OC.generateUrl('login')"
+		:action="loginActionUrl"
 		@submit="submit">
 		<fieldset>
 			<div v-if="apacheAuthFailed"
@@ -46,7 +47,7 @@
 				class="hidden">
 				<img class="float-spinner"
 					alt=""
-					:src="OC.imagePath('core', 'loading-dark.gif')">
+					:src="loadingIcon">
 				<span id="messageText" />
 				<!-- the following div ensures that the spinner is always inside the #message div -->
 				<div style="clear: both;" />
@@ -58,12 +59,13 @@
 					v-model="user"
 					type="text"
 					name="user"
+					autocapitalize="off"
 					:autocomplete="autoCompleteAllowed ? 'on' : 'off'"
 					:placeholder="t('core', 'Username or email')"
 					:aria-label="t('core', 'Username or email')"
 					required
 					@change="updateUsername">
-				<label for="user" class="infield">{{ t('core', 'Username or	email') }}</label>
+				<label for="user" class="infield">{{ t('core', 'Username or email') }}</label>
 			</p>
 
 			<p class="groupbottom"
@@ -80,23 +82,11 @@
 				<label for="password"
 					class="infield">{{ t('Password') }}</label>
 				<a href="#" class="toggle-password" @click.stop.prevent="togglePassword">
-					<img :src="OC.imagePath('core', 'actions/toggle.svg')">
+					<img :src="toggleIcon" :alt="t('core', 'Toggle password visibility')">
 				</a>
 			</p>
 
-			<div id="submit-wrapper">
-				<input id="submit-form"
-					type="submit"
-					class="login primary"
-					title=""
-					:value="!loading ? t('core', 'Log in') : t('core', 'Logging in …')">
-				<div class="submit-icon"
-					:class="{
-						'icon-confirm-white': !loading,
-						'icon-loading-small': loading && invertedColors,
-						'icon-loading-small-dark': loading && !invertedColors,
-					}" />
-			</div>
+			<LoginButton :loading="loading" :inverted-colors="invertedColors" />
 
 			<p v-if="invalidPassword"
 				class="warning wrongPasswordMsg">
@@ -104,7 +94,7 @@
 			</p>
 			<p v-else-if="userDisabled"
 				class="warning userDisabledMsg">
-				{{ t('lib', 'User disabled') }}
+				{{ t('core', 'User disabled') }}
 			</p>
 
 			<p v-if="throttleDelay && throttleDelay > 5000"
@@ -135,9 +125,15 @@
 
 <script>
 import jstz from 'jstimezonedetect'
+import LoginButton from './LoginButton'
+import {
+	generateUrl,
+	imagePath,
+} from '@nextcloud/router'
 
 export default {
 	name: 'LoginForm',
+	components: { LoginButton },
 	props: {
 		username: {
 			type: String,
@@ -192,6 +188,15 @@ export default {
 		},
 		userDisabled() {
 			return this.errors.indexOf('userdisabled') !== -1
+		},
+		toggleIcon() {
+			return imagePath('core', 'actions/toggle.svg')
+		},
+		loadingIcon() {
+			return imagePath('core', 'loading-dark.gif')
+		},
+		loginActionUrl() {
+			return generateUrl('login')
 		},
 	},
 	mounted() {

@@ -5,6 +5,7 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2019, Roeland Jago Douma <roeland@famdouma.nl>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Tobias Kaminsky <tobias@kaminsky.me>
  *
@@ -17,14 +18,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\Connector\Sabre;
 
 use OCP\Share\IShare;
@@ -35,7 +35,7 @@ use Sabre\Xml\XmlSerializable;
  * This property contains multiple "sharee" elements, each containing a share sharee
  */
 class ShareeList implements XmlSerializable {
-	const NS_NEXTCLOUD = 'http://nextcloud.org/ns';
+	public const NS_NEXTCLOUD = 'http://nextcloud.org/ns';
 
 	/** @var IShare[] */
 	private $shares;
@@ -50,7 +50,7 @@ class ShareeList implements XmlSerializable {
 	 * @param Writer $writer
 	 * @return void
 	 */
-	function xmlSerialize(Writer $writer) {
+	public function xmlSerialize(Writer $writer) {
 		foreach ($this->shares as $share) {
 			$writer->startElement('{' . self::NS_NEXTCLOUD . '}sharee');
 			$writer->writeElement('{' . self::NS_NEXTCLOUD . '}id', $share->getSharedWith());

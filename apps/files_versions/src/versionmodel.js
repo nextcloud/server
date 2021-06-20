@@ -1,10 +1,24 @@
-/*
+/**
  * Copyright (c) 2015
  *
- * This file is licensed under the Affero General Public License version 3
- * or later.
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Robin Appelman <robin@icewind.nl>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
- * See the COPYING-README file.
+ * @license GNU AGPL version 3 or any later version
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
@@ -16,9 +30,9 @@
 		sync: OC.Backbone.davSync,
 
 		davProperties: {
-			'size': '{DAV:}getcontentlength',
-			'mimetype': '{DAV:}getcontenttype',
-			'timestamp': '{DAV:}getlastmodified',
+			size: '{DAV:}getcontentlength',
+			mimetype: '{DAV:}getcontenttype',
+			timestamp: '{DAV:}getlastmodified',
 		},
 
 		/**
@@ -27,7 +41,7 @@
 		 * @param {Object} [options] options
 		 * @returns {Promise}
 		 */
-		revert: function(options) {
+		revert(options) {
 			options = options ? _.clone(options) : {}
 			const model = this
 
@@ -48,11 +62,11 @@
 				})
 		},
 
-		getFullPath: function() {
+		getFullPath() {
 			return this.get('fullPath')
 		},
 
-		getPreviewUrl: function() {
+		getPreviewUrl() {
 			const url = OC.generateUrl('/apps/files_versions/preview')
 			const params = {
 				file: this.get('fullPath'),
@@ -61,7 +75,7 @@
 			return url + '?' + OC.buildQueryString(params)
 		},
 
-		getDownloadUrl: function() {
+		getDownloadUrl() {
 			return OC.linkToRemoteBase('dav') + '/versions/' + this.get('user') + '/versions/' + this.get('fileId') + '/' + this.get('id')
 		},
 	})

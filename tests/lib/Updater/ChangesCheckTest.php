@@ -37,16 +37,16 @@ use OCP\ILogger;
 use Test\TestCase;
 
 class ChangesCheckTest extends TestCase {
-	/** @var IClientService|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IClientService|\PHPUnit\Framework\MockObject\MockObject */
 	protected $clientService;
 
 	/** @var ChangesCheck */
 	protected $checker;
 
-	/** @var ChangesMapper|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ChangesMapper|\PHPUnit\Framework\MockObject\MockObject */
 	protected $mapper;
 
-	/** @var ILogger|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ILogger|\PHPUnit\Framework\MockObject\MockObject */
 	protected $logger;
 
 	protected function setUp(): void {
@@ -77,7 +77,7 @@ class ChangesCheckTest extends TestCase {
 			->method('getStatusCode')
 			->willReturn($statusCode);
 
-		if(!in_array($statusCode, [200, 304, 404])) {
+		if (!in_array($statusCode, [200, 304, 404])) {
 			$this->logger->expects($this->once())
 				->method('debug');
 		}
@@ -311,7 +311,7 @@ class ChangesCheckTest extends TestCase {
 			->method('__call')
 			->willReturn($etag);
 
-		$expectedHeaders = $etag === '' ? [] : ['If-None-Match' =>  [$etag]];
+		$expectedHeaders = $etag === '' ? [] : ['If-None-Match' => [$etag]];
 
 		$client = $this->createMock(IClient::class);
 		$client->expects($this->once())
@@ -348,8 +348,12 @@ class ChangesCheckTest extends TestCase {
 
 	public function changeDataProvider():array {
 		$testDataFound = $testDataNotFound = $this->versionProvider();
-		array_walk($testDataFound, function(&$params) { $params[] = true; });
-		array_walk($testDataNotFound, function(&$params) { $params[] = false; });
+		array_walk($testDataFound, function (&$params) {
+			$params[] = true;
+		});
+		array_walk($testDataNotFound, function (&$params) {
+			$params[] = false;
+		});
 		return array_merge($testDataFound, $testDataNotFound);
 	}
 
@@ -362,7 +366,7 @@ class ChangesCheckTest extends TestCase {
 			->method('getChanges')
 			->with($normalizedVersion);
 
-		if(!$isFound) {
+		if (!$isFound) {
 			$this->expectException(DoesNotExistException::class);
 			$mocker->willThrowException(new DoesNotExistException('Changes info is not present'));
 		} else {

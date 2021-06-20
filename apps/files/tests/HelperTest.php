@@ -3,11 +3,11 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author brumsel <brumsel@losecatcher.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -24,13 +24,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
-
-/**
- * Class Helper
- */
 class HelperTest extends \Test\TestCase {
-
 	private function makeFileInfo($name, $size, $mtime, $isDir = false) {
 		return new \OC\Files\FileInfo(
 			'/' . $name,
@@ -61,7 +55,7 @@ class HelperTest extends \Test\TestCase {
 		];
 	}
 
-	function sortDataProvider() {
+	public function sortDataProvider() {
 		return [
 			[
 				'name',

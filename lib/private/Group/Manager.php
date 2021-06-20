@@ -5,8 +5,9 @@
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Knut Ahlers <knut@ahlers.me>
  * @author Lukas Reschke <lukas@statuscode.ch>
@@ -17,7 +18,7 @@
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Roman Kreisel <mail@romankreisel.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  * @author Vinicius Cubas Brand <vinicius@eita.org.br>
  * @author voxsim "Simon Vocella"
  *
@@ -36,10 +37,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Group;
 
 use OC\Hooks\PublicEmitter;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\GroupInterface;
 use OCP\IGroup;
 use OCP\IGroupManager;
@@ -76,7 +77,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 	/** @var \OC\Group\Group[] */
 	private $cachedGroups = [];
 
-	/** @var \OC\Group\Group[] */
+	/** @var (string[])[] */
 	private $cachedUserGroups = [];
 
 	/** @var \OC\SubAdmin */
@@ -191,7 +192,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 					}
 					$backends[] = $backend;
 				}
-			} else if ($backend->groupExists($gid)) {
+			} elseif ($backend->groupExists($gid)) {
 				$backends[] = $backend;
 			}
 		}
@@ -217,7 +218,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 	public function createGroup($gid) {
 		if ($gid === '' || $gid === null) {
 			return null;
-		} else if ($group = $this->get($gid)) {
+		} elseif ($group = $this->get($gid)) {
 			return $group;
 		} else {
 			$this->emit('\OC\Group', 'preCreate', [$gid]);
@@ -274,26 +275,19 @@ class Manager extends PublicEmitter implements IGroupManager {
 	 * @param string $uid the user id
 	 * @return \OC\Group\Group[]
 	 */
-	public function getUserIdGroups($uid) {
-		if (isset($this->cachedUserGroups[$uid])) {
-			return $this->cachedUserGroups[$uid];
-		}
+	public function getUserIdGroups(string $uid): array {
 		$groups = [];
-		foreach ($this->backends as $backend) {
-			$groupIds = $backend->getUserGroups($uid);
-			if (is_array($groupIds)) {
-				foreach ($groupIds as $groupId) {
-					$aGroup = $this->get($groupId);
-					if ($aGroup instanceof IGroup) {
-						$groups[$groupId] = $aGroup;
-					} else {
-						$this->logger->debug('User "' . $uid . '" belongs to deleted group: "' . $groupId . '"', ['app' => 'core']);
-					}
-				}
+
+		foreach ($this->getUserIdGroupIds($uid) as $groupId) {
+			$aGroup = $this->get($groupId);
+			if ($aGroup instanceof IGroup) {
+				$groups[$groupId] = $aGroup;
+			} else {
+				$this->logger->debug('User "' . $uid . '" belongs to deleted group: "' . $groupId . '"', ['app' => 'core']);
 			}
 		}
-		$this->cachedUserGroups[$uid] = $groups;
-		return $this->cachedUserGroups[$uid];
+
+		return $groups;
 	}
 
 	/**
@@ -319,19 +313,35 @@ class Manager extends PublicEmitter implements IGroupManager {
 	 * @return bool if in group
 	 */
 	public function isInGroup($userId, $group) {
-		return array_key_exists($group, $this->getUserIdGroups($userId));
+		return array_search($group, $this->getUserIdGroupIds($userId)) !== false;
 	}
 
 	/**
 	 * get a list of group ids for a user
 	 *
 	 * @param IUser $user
-	 * @return array with group ids
+	 * @return string[] with group ids
 	 */
-	public function getUserGroupIds(IUser $user) {
-		return array_map(function ($value) {
-			return (string)$value;
-		}, array_keys($this->getUserGroups($user)));
+	public function getUserGroupIds(IUser $user): array {
+		return $this->getUserIdGroupIds($user->getUID());
+	}
+
+	/**
+	 * @param string $uid the user id
+	 * @return string[]
+	 */
+	private function getUserIdGroupIds(string $uid): array {
+		if (!isset($this->cachedUserGroups[$uid])) {
+			$groups = [];
+			foreach ($this->backends as $backend) {
+				if ($groupIds = $backend->getUserGroups($uid)) {
+					$groups = array_merge($groups, $groupIds);
+				}
+			}
+			$this->cachedUserGroups[$uid] = $groups;
+		}
+
+		return $this->cachedUserGroups[$uid];
 	}
 
 	/**
@@ -406,7 +416,8 @@ class Manager extends PublicEmitter implements IGroupManager {
 			$this->subAdmin = new \OC\SubAdmin(
 				$this->userManager,
 				$this,
-				\OC::$server->getDatabaseConnection()
+				\OC::$server->getDatabaseConnection(),
+				\OC::$server->get(IEventDispatcher::class)
 			);
 		}
 

@@ -2,8 +2,8 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @license AGPL-3.0
@@ -21,7 +21,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\CardDAV;
 
 use OCA\DAV\AppInfo\PluginManager;
@@ -55,12 +54,11 @@ class AddressBookRoot extends \Sabre\CardDAV\AddressBookRoot {
 	 *
 	 * @return \Sabre\DAV\INode
 	 */
-	function getChildForPrincipal(array $principal) {
+	public function getChildForPrincipal(array $principal) {
 		return new UserAddressBooks($this->carddavBackend, $principal['uri'], $this->pluginManager);
 	}
 
-	function getName() {
-
+	public function getName() {
 		if ($this->principalPrefix === 'principals') {
 			return parent::getName();
 		}
@@ -69,7 +67,5 @@ class AddressBookRoot extends \Sabre\CardDAV\AddressBookRoot {
 
 		// We are only interested in the second part.
 		return $parts[1];
-
 	}
-
 }

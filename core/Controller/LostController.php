@@ -5,7 +5,7 @@
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
  * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Julius Haertl <jus@bitgrid.net>
@@ -33,7 +33,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Core\Controller;
 
 use function array_filter;
@@ -159,8 +158,8 @@ class LostController extends Controller {
 	public function resetform($token, $userId) {
 		if ($this->config->getSystemValue('lost_password_link', '') !== '') {
 			return new TemplateResponse('core', 'error', [
-					'errors' => [['error' => $this->l10n->t('Password reset is disabled')]]
-				],
+				'errors' => [['error' => $this->l10n->t('Password reset is disabled')]]
+			],
 				'guest'
 			);
 		}
@@ -195,7 +194,7 @@ class LostController extends Controller {
 	 */
 	protected function checkPasswordResetToken($token, $userId) {
 		$user = $this->userManager->get($userId);
-		if($user === null || !$user->isEnabled()) {
+		if ($user === null || !$user->isEnabled()) {
 			throw new \Exception($this->l10n->t('Couldn\'t reset password because the token is invalid'));
 		}
 
@@ -212,11 +211,11 @@ class LostController extends Controller {
 		}
 
 		$splittedToken = explode(':', $decryptedToken);
-		if(count($splittedToken) !== 2) {
+		if (count($splittedToken) !== 2) {
 			throw new \Exception($this->l10n->t('Couldn\'t reset password because the token is invalid'));
 		}
 
-		if ($splittedToken[0] < ($this->timeFactory->getTime() - 60*60*24*7) ||
+		if ($splittedToken[0] < ($this->timeFactory->getTime() - 60 * 60 * 24 * 7) ||
 			$user->getLastLogin() > $splittedToken[0]) {
 			throw new \Exception($this->l10n->t('Couldn\'t reset password because the token is expired'));
 		}
@@ -231,7 +230,7 @@ class LostController extends Controller {
 	 * @param array $additional
 	 * @return array
 	 */
-	private function error($message, array $additional=[]) {
+	private function error($message, array $additional = []) {
 		return array_merge(['status' => 'error', 'msg' => $message], $additional);
 	}
 
@@ -240,7 +239,7 @@ class LostController extends Controller {
 	 * @return array
 	 */
 	private function success($data = []) {
-		return array_merge($data, ['status'=>'success']);
+		return array_merge($data, ['status' => 'success']);
 	}
 
 	/**
@@ -251,7 +250,7 @@ class LostController extends Controller {
 	 * @param string $user
 	 * @return JSONResponse
 	 */
-	public function email($user){
+	public function email($user) {
 		if ($this->config->getSystemValue('lost_password_link', '') !== '') {
 			return new JSONResponse($this->error($this->l10n->t('Password reset is disabled')));
 		}
@@ -318,9 +317,9 @@ class LostController extends Controller {
 
 			$this->config->deleteUserValue($userId, 'core', 'lostpassword');
 			@\OC::$server->getUserSession()->unsetMagicInCookie();
-		} catch (HintException $e){
+		} catch (HintException $e) {
 			return $this->error($e->getHint());
-		} catch (\Exception $e){
+		} catch (\Exception $e) {
 			return $this->error($e->getMessage());
 		}
 
@@ -378,7 +377,7 @@ class LostController extends Controller {
 
 		try {
 			$message = $this->mailer->createMessage();
-			$message->setTo([$email => $user->getUID()]);
+			$message->setTo([$email => $user->getDisplayName()]);
 			$message->setFrom([$this->from => $this->defaults->getName()]);
 			$message->useTemplate($emailTemplate);
 			$this->mailer->send($message);

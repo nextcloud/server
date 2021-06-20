@@ -3,8 +3,8 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
@@ -23,7 +23,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\User_LDAP\Command;
 
 use OCA\User_LDAP\Connection;
@@ -34,7 +33,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class TestConfig extends Command {
-
 	protected function configure() {
 		$this
 			->setName('ldap:test-config')
@@ -43,29 +41,31 @@ class TestConfig extends Command {
 					'configID',
 					InputArgument::REQUIRED,
 					'the configuration ID'
-				     )
+					 )
 		;
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
-		$helper = new Helper(\OC::$server->getConfig());
+	protected function execute(InputInterface $input, OutputInterface $output): int {
+		$helper = new Helper(\OC::$server->getConfig(), \OC::$server->getDatabaseConnection());
 		$availableConfigs = $helper->getServerConfigurationPrefixes();
 		$configID = $input->getArgument('configID');
-		if(!in_array($configID, $availableConfigs)) {
+		if (!in_array($configID, $availableConfigs)) {
 			$output->writeln("Invalid configID");
-			return;
+			return 1;
 		}
 
 		$result = $this->testConfig($configID);
-		if($result === 0) {
+		if ($result === 0) {
 			$output->writeln('The configuration is valid and the connection could be established!');
-		} else if($result === 1) {
+		} elseif ($result === 1) {
 			$output->writeln('The configuration is invalid. Please have a look at the logs for further details.');
-		} else if($result === 2) {
+			return 1;
+		} elseif ($result === 2) {
 			$output->writeln('The configuration is valid, but the Bind failed. Please check the server settings and credentials.');
 		} else {
 			$output->writeln('Your LDAP server was kidnapped by aliens.');
 		}
+		return 0;
 	}
 
 	/**
@@ -80,12 +80,12 @@ class TestConfig extends Command {
 		//ensure validation is run before we attempt the bind
 		$connection->getConfiguration();
 
-		if(!$connection->setConfiguration([
+		if (!$connection->setConfiguration([
 			'ldap_configuration_active' => 1,
 		])) {
 			return 1;
 		}
-		if($connection->bind()) {
+		if ($connection->bind()) {
 			return 0;
 		}
 		return 2;

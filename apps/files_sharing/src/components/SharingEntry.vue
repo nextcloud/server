@@ -23,12 +23,22 @@
 <template>
 	<li class="sharing-entry">
 		<Avatar class="sharing-entry__avatar"
+			:is-no-user="share.type !== SHARE_TYPES.SHARE_TYPE_USER"
 			:user="share.shareWith"
 			:display-name="share.shareWithDisplayName"
+			:tooltip-message="share.type === SHARE_TYPES.SHARE_TYPE_USER ? share.shareWith : ''"
+			:menu-position="'left'"
 			:url="share.shareWithAvatar" />
-		<div v-tooltip.auto="tooltip" class="sharing-entry__desc">
-			<h5>{{ title }}</h5>
-		</div>
+		<component :is="share.shareWithLink ? 'a' : 'div'"
+			v-tooltip.auto="tooltip"
+			:href="share.shareWithLink"
+			class="sharing-entry__desc">
+			<h5>{{ title }}<span v-if="!isUnique" class="sharing-entry__desc-unique"> ({{ share.shareWithDisplayNameUnique }})</span></h5>
+			<p v-if="hasStatus">
+				<span>{{ share.status.icon || '' }}</span>
+				<span>{{ share.status.message || '' }}</span>
+			</p>
+		</component>
 		<Actions
 			menu-align="right"
 			class="sharing-entry__actions"
@@ -39,7 +49,7 @@
 					ref="canEdit"
 					:checked.sync="canEdit"
 					:value="permissionsEdit"
-					:disabled="saving">
+					:disabled="saving || !canSetEdit">
 					{{ t('files_sharing', 'Allow editing') }}
 				</ActionCheckbox>
 
@@ -49,7 +59,7 @@
 					ref="canCreate"
 					:checked.sync="canCreate"
 					:value="permissionsCreate"
-					:disabled="saving">
+					:disabled="saving || !canSetCreate">
 					{{ t('files_sharing', 'Allow creating') }}
 				</ActionCheckbox>
 
@@ -59,24 +69,25 @@
 					ref="canDelete"
 					:checked.sync="canDelete"
 					:value="permissionsDelete"
-					:disabled="saving">
+					:disabled="saving || !canSetDelete">
 					{{ t('files_sharing', 'Allow deleting') }}
 				</ActionCheckbox>
 
 				<!-- reshare permission -->
 				<ActionCheckbox
+					v-if="config.isResharingAllowed"
 					ref="canReshare"
 					:checked.sync="canReshare"
 					:value="permissionsShare"
-					:disabled="saving">
+					:disabled="saving || !canSetReshare">
 					{{ t('files_sharing', 'Allow resharing') }}
 				</ActionCheckbox>
 
 				<!-- expiration date -->
 				<ActionCheckbox :checked.sync="hasExpirationDate"
-					:disabled="config.isDefaultExpireDateEnforced || saving"
+					:disabled="config.isDefaultInternalExpireDateEnforced || saving"
 					@uncheck="onExpirationDisable">
-					{{ config.isDefaultExpireDateEnforced
+					{{ config.isDefaultInternalExpireDateEnforced
 						? t('files_sharing', 'Expiration date enforced')
 						: t('files_sharing', 'Set expiration date') }}
 				</ActionCheckbox>
@@ -92,10 +103,10 @@
 					:first-day-of-week="firstDay"
 					:lang="lang"
 					:value="share.expireDate"
+					value-type="format"
 					icon="icon-calendar-dark"
 					type="date"
-					:not-before="dateTomorrow"
-					:not-after="dateMaxEnforced"
+					:disabled-date="disabledDate"
 					@update:value="onExpirationChange">
 					{{ t('files_sharing', 'Enter a date') }}
 				</ActionInput>
@@ -196,7 +207,7 @@ export default {
 					// todo: strong or italic?
 					// but the t function escape any html from the data :/
 					user: this.share.shareWithDisplayName,
-					owner: this.share.owner,
+					owner: this.share.ownerDisplayName,
 				}
 
 				if (this.share.type === this.SHARE_TYPES.SHARE_TYPE_GROUP) {
@@ -211,18 +222,70 @@ export default {
 		},
 
 		canHaveNote() {
-			return this.share.type !== this.SHARE_TYPES.SHARE_TYPE_REMOTE
-				&& this.share.type !== this.SHARE_TYPES.SHARE_TYPE_REMOTE_GROUP
+			return !this.isRemote
+		},
+
+		isRemote() {
+			return this.share.type === this.SHARE_TYPES.SHARE_TYPE_REMOTE
+				|| this.share.type === this.SHARE_TYPES.SHARE_TYPE_REMOTE_GROUP
+		},
+
+		/**
+		 * Can the sharer set whether the sharee can edit the file ?
+		 *
+		 * @returns {boolean}
+		 */
+		canSetEdit() {
+			// If the owner revoked the permission after the resharer granted it
+			// the share still has the permission, and the resharer is still
+			// allowed to revoke it too (but not to grant it again).
+			return (this.fileInfo.sharePermissions & OC.PERMISSION_UPDATE) || this.canEdit
+		},
+
+		/**
+		 * Can the sharer set whether the sharee can create the file ?
+		 *
+		 * @returns {boolean}
+		 */
+		canSetCreate() {
+			// If the owner revoked the permission after the resharer granted it
+			// the share still has the permission, and the resharer is still
+			// allowed to revoke it too (but not to grant it again).
+			return (this.fileInfo.sharePermissions & OC.PERMISSION_CREATE) || this.canCreate
+		},
+
+		/**
+		 * Can the sharer set whether the sharee can delete the file ?
+		 *
+		 * @returns {boolean}
+		 */
+		canSetDelete() {
+			// If the owner revoked the permission after the resharer granted it
+			// the share still has the permission, and the resharer is still
+			// allowed to revoke it too (but not to grant it again).
+			return (this.fileInfo.sharePermissions & OC.PERMISSION_DELETE) || this.canDelete
+		},
+
+		/**
+		 * Can the sharer set whether the sharee can reshare the file ?
+		 *
+		 * @returns {boolean}
+		 */
+		canSetReshare() {
+			// If the owner revoked the permission after the resharer granted it
+			// the share still has the permission, and the resharer is still
+			// allowed to revoke it too (but not to grant it again).
+			return (this.fileInfo.sharePermissions & OC.PERMISSION_SHARE) || this.canReshare
 		},
 
 		/**
 		 * Can the sharee edit the shared file ?
 		 */
 		canEdit: {
-			get: function() {
+			get() {
 				return this.share.hasUpdatePermission
 			},
-			set: function(checked) {
+			set(checked) {
 				this.updatePermissions({ isEditChecked: checked })
 			},
 		},
@@ -231,10 +294,10 @@ export default {
 		 * Can the sharee create the shared file ?
 		 */
 		canCreate: {
-			get: function() {
+			get() {
 				return this.share.hasCreatePermission
 			},
-			set: function(checked) {
+			set(checked) {
 				this.updatePermissions({ isCreateChecked: checked })
 			},
 		},
@@ -243,10 +306,10 @@ export default {
 		 * Can the sharee delete the shared file ?
 		 */
 		canDelete: {
-			get: function() {
+			get() {
 				return this.share.hasDeletePermission
 			},
-			set: function(checked) {
+			set(checked) {
 				this.updatePermissions({ isDeleteChecked: checked })
 			},
 		},
@@ -255,11 +318,21 @@ export default {
 		 * Can the sharee reshare the file ?
 		 */
 		canReshare: {
-			get: function() {
+			get() {
 				return this.share.hasSharePermission
 			},
-			set: function(checked) {
+			set(checked) {
 				this.updatePermissions({ isReshareChecked: checked })
+			},
+		},
+
+		/**
+		 * Is this share readable
+		 * Needed for some federated shares that might have been added from file drop links
+		 */
+		hasRead: {
+			get() {
+				return this.share.hasReadPermission
 			},
 		},
 
@@ -276,10 +349,10 @@ export default {
 		 * @returns {boolean}
 		 */
 		hasExpirationDate: {
-			get: function() {
+			get() {
 				return this.config.isDefaultInternalExpireDateEnforced || !!this.share.expireDate
 			},
-			set: function(enabled) {
+			set(enabled) {
 				this.share.expireDate = enabled
 					? this.config.defaultInternalExpirationDateString !== ''
 						? this.config.defaultInternalExpirationDateString
@@ -289,8 +362,24 @@ export default {
 		},
 
 		dateMaxEnforced() {
-			return this.config.isDefaultInternalExpireDateEnforced
-				&& moment().add(1 + this.config.defaultInternalExpireDate, 'days')
+			if (!this.isRemote) {
+				return this.config.isDefaultInternalExpireDateEnforced
+					&& moment().add(1 + this.config.defaultInternalExpireDate, 'days')
+			} else {
+				return this.config.isDefaultRemoteExpireDateEnforced
+					&& moment().add(1 + this.config.defaultRemoteExpireDate, 'days')
+			}
+		},
+
+		/**
+		 * @returns {bool}
+		 */
+		hasStatus() {
+			if (this.share.type !== this.SHARE_TYPES.SHARE_TYPE_USER) {
+				return false
+			}
+
+			return (typeof this.share.status === 'object' && !Array.isArray(this.share.status))
 		},
 
 	},
@@ -298,7 +387,8 @@ export default {
 	methods: {
 		updatePermissions({ isEditChecked = this.canEdit, isCreateChecked = this.canCreate, isDeleteChecked = this.canDelete, isReshareChecked = this.canReshare } = {}) {
 			// calc permissions if checked
-			const permissions = this.permissionsRead
+			const permissions = 0
+				| (this.hasRead ? this.permissionsRead : 0)
 				| (isCreateChecked ? this.permissionsCreate : 0)
 				| (isDeleteChecked ? this.permissionsDelete : 0)
 				| (isEditChecked ? this.permissionsEdit : 0)
@@ -330,6 +420,9 @@ export default {
 		padding: 8px;
 		line-height: 1.2em;
 		p {
+			color: var(--color-text-maxcontrast);
+		}
+		&-unique {
 			color: var(--color-text-maxcontrast);
 		}
 	}

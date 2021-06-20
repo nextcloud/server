@@ -109,9 +109,6 @@ else
 	PRIMARY_STORAGE_CONFIG="local"
 fi
 
-# check for the presence of @since in all OCP methods
-$PHP build/OCPSinceChecker.php
-
 # Back up existing (dev) config if one exists and backup not already there
 if [ -f config/config.php ] && [ ! -f config/config-autotest-backup.php ]; then
 	mv config/config.php config/config-autotest-backup.php
@@ -355,7 +352,7 @@ function execute_tests {
 
 	# trigger installation
 	echo "Installing ...."
-	"$PHP" ./occ maintenance:install -vvv --database="$_DB" --database-name="$DATABASENAME" --database-host="$DATABASEHOST" --database-user="$DATABASEUSER" --database-pass=owncloud --database-table-prefix=oc_ --admin-user="$ADMINLOGIN" --admin-pass=admin --data-dir="$DATADIR"
+	"$PHP" ./occ maintenance:install -vvv --database="$_DB" --database-name="$DATABASENAME" --database-host="$DATABASEHOST" --database-user="$DATABASEUSER" --database-pass=owncloud --admin-user="$ADMINLOGIN" --admin-pass=admin --data-dir="$DATADIR"
 
 	#test execution
 	echo "Testing with $DB ..."

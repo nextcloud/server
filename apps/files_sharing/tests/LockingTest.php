@@ -23,12 +23,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_Sharing\Tests;
 
 use OC\Files\Filesystem;
 use OC\Files\View;
 use OCP\Lock\ILockingProvider;
+use OCP\Share\IShare;
 
 /**
  * Class LockingTest
@@ -63,7 +63,7 @@ class LockingTest extends TestCase {
 		$fileId = Filesystem::getFileInfo('/foo/bar.txt')->getId();
 
 		$this->share(
-			\OCP\Share::SHARE_TYPE_USER,
+			IShare::TYPE_USER,
 			'/foo/bar.txt',
 			$this->ownerUid,
 			$this->recipientUid,
@@ -79,7 +79,7 @@ class LockingTest extends TestCase {
 		parent::tearDown();
 	}
 
-	
+
 	public function testLockAsRecipient() {
 		$this->expectException(\OCP\Lock\LockedException::class);
 
@@ -104,7 +104,6 @@ class LockingTest extends TestCase {
 	}
 
 	public function testChangeLock() {
-
 		Filesystem::initMountPoints($this->recipientUid);
 		$recipientView = new View('/' . $this->recipientUid . '/files');
 		$recipientView->lockFile('bar.txt', ILockingProvider::LOCK_SHARED);

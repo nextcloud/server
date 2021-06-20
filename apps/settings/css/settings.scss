@@ -55,6 +55,9 @@ input {
 #uploadavatarbutton, #selectavatar, #removeavatar {
 	padding: 21px;
 }
+#selectavatar, #removeavatar {
+	vertical-align: top;
+}
 
 .jcrop-holder {
 	z-index: 500;
@@ -118,9 +121,19 @@ input {
 	width: 100%;
 }
 
-.personal-settings-setting-box input {
-	&[type='text'], &[type='email'], &[type='tel'], &[type='url'] {
-		width: 100%;
+.personal-settings-setting-box {
+	.section {
+		padding: 10px 30px;
+
+		h3 {
+			margin-bottom: 0;
+		}
+
+		input {
+			&[type='text'], &[type='email'], &[type='tel'], &[type='url'] {
+				width: 100%;
+			}
+		}
 	}
 }
 
@@ -159,6 +172,37 @@ select {
 		opacity: 0.7;
 	}
 }
+
+
+// Button for 'Reasons to use Nextcloud in your organization'
+.development-notice {
+	text-align: center;
+}
+
+.link-button {
+	display: inline-block;
+	margin: 16px;
+	padding: 14px 20px;
+	background-color: var(--color-primary);
+	color: #fff;
+	border-radius: var(--border-radius-pill);
+	border: 1px solid var(--color-primary);
+	box-shadow: 0 2px 9px var(--color-box-shadow);
+
+	&:active,
+	&:hover,
+	&:focus {
+		color: var(--color-primary);
+		background-color: var(--color-primary-text);
+		border-color: var(--color-primary) !important;
+	}
+
+	&.icon-file {
+		padding-left: 48px;
+		background-position: 24px;
+	}
+}
+
 
 
 @media (min-width: 1200px) and (max-width: 1400px) {
@@ -330,11 +374,20 @@ select {
 .federation-menu {
 	position: relative;
 	cursor: pointer;
-	margin-left: 10px;
+	width: 44px;
+	height: 44px;
+	padding: 10px;
+	margin: -12px 0 0 8px;
+	background: none;
+	border: none;
 
+	&:hover,
 	&:focus {
+		background-color: var(--color-background-hover);
+		border-radius: var(--border-radius-pill);
+
 		.icon-federation-menu {
-			opacity: 0.7;
+			opacity: 0.8;
 		}
 	}
 
@@ -370,6 +423,16 @@ select {
 
 					.menuitem-text {
 						font-weight: bold;
+					}
+				}
+
+				&.disabled {
+					opacity: .5;
+
+					cursor: default;
+
+					* {
+						cursor: default;
 					}
 				}
 			}
@@ -663,8 +726,6 @@ span.version {
 }
 
 .app-level {
-	margin-top: 8px;
-
 	span {
 		color: var(--color-text-maxcontrast);
 		background-color: transparent;
@@ -897,10 +958,6 @@ span.version {
 			display: inline-block;
 		}
 	}
-}
-
-.personal-settings-setting-box .section {
-	padding: 10px 30px;
 }
 
 .followupsection {
@@ -1324,20 +1381,6 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 	font-family: Consolas, 'Liberation Mono', Menlo, Courier, monospace;
 }
 
-/* HELP */
-.help-includes {
-	overflow: hidden !important;
-}
-
-.help-iframe {
-	width: 100%;
-	height: 100%;
-	margin: 0;
-	padding: 0;
-	border: 0;
-	overflow: auto;
-}
-
 #postsetupchecks {
 	ul {
 		margin-left: 44px;
@@ -1414,6 +1457,8 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 	$grid-row-height: 60px;
 	$grid-col-min-width: 160px;
 	overflow-x: scroll;
+	min-height: 100%;
+	height: auto;
 
 	#app-content.user-list-grid {
 		display: grid;
@@ -1676,8 +1721,11 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 							opacity: .5;
 							cursor: pointer;
 
-							&:hover {
+							&:focus,
+							&:hover,
+							&:active {
 								opacity: .7;
+								background-color: var(--color-background-dark)
 							}
 						}
 					}

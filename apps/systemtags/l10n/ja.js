@@ -1,11 +1,10 @@
 OC.L10N.register(
     "systemtags",
     {
-    "Tags" : "タグ",
     "Tag name is empty" : "タグ名が空です",
     "Update" : "更新",
     "Create" : "作成",
-    "Select tag…" : "タグを選択...",
+    "Select tag …" : "タグを選択...",
     "System tag %1$s added by the system" : "システムタグ%1$sがシステムによって追加されました",
     "Added system tag {systemtag}" : "システムタグ {systemtag} を追加しました",
     "Added system tag %1$s" : "%1$s システムタグを追加しました",
@@ -43,6 +42,7 @@ OC.L10N.register(
     "%s (restricted)" : "%s (制限)",
     "%s (invisible)" : "%s (不可視)",
     "<strong>System tags</strong> for a file have been modified" : "ファイルの<strong>タグ</strong>が変更されたとき",
+    "Tags" : "タグ",
     "Collaborative tags" : "コラボタグ",
     "Collaborative tagging functionality which shares tags among users." : "ユーザー間でタグを共有するコラボレーティブタグ機能。",
     "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "ユーザー間でタグを共有する共同タグ機能。 チームに最適です。\n（マルチテナンシーインストールのプロバイダーの場合は、タグが共有されているため、このアプリを非アクティブ化することをお勧めします。）",
@@ -52,7 +52,6 @@ OC.L10N.register(
     "Please select tags to filter by" : "フィルターするタグを入力してください",
     "No files found for the selected tags" : "そのタグに割りあてられているファイルはありません",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "コラボタグはすべてのユーザーで利用できます。制限付きタグは、ユーザーから見えますが、ユーザーが割り当てることはできません。不可視タグは、ユーザーが見ることも割り当てることもできず、内部利用のためのものです。",
-    "Select tag …" : "タグを選択...",
     "Create a new tag" : "新しいタグを作成する",
     "Name" : "名前",
     "Public" : "公開",

@@ -67,8 +67,9 @@
 
 <script>
 import axios from '@nextcloud/axios'
-import { Multiselect } from '@nextcloud/vue'
+import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
 import _ from 'lodash'
+import { generateUrl, generateOcsUrl } from '@nextcloud/router'
 
 export default {
 	name: 'AdminTwoFactor',
@@ -85,28 +86,28 @@ export default {
 	},
 	computed: {
 		enforced: {
-			get: function() {
+			get() {
 				return this.$store.state.enforced
 			},
-			set: function(val) {
+			set(val) {
 				this.dirty = true
 				this.$store.commit('setEnforced', val)
 			},
 		},
 		enforcedGroups: {
-			get: function() {
+			get() {
 				return this.$store.state.enforcedGroups
 			},
-			set: function(val) {
+			set(val) {
 				this.dirty = true
 				this.$store.commit('setEnforcedGroups', val)
 			},
 		},
 		excludedGroups: {
-			get: function() {
+			get() {
 				return this.$store.state.excludedGroups
 			},
-			set: function(val) {
+			set(val) {
 				this.dirty = true
 				this.$store.commit('setExcludedGroups', val)
 			},
@@ -124,7 +125,7 @@ export default {
 	methods: {
 		searchGroup: _.debounce(function(query) {
 			this.loadingGroups = true
-			axios.get(OC.linkToOCS(`cloud/groups?offset=0&search=${encodeURIComponent(query)}&limit=20`, 2))
+			axios.get(generateOcsUrl(`cloud/groups?offset=0&search=${encodeURIComponent(query)}&limit=20`, 2))
 				.then(res => res.data.ocs)
 				.then(ocs => ocs.data.groups)
 				.then(groups => { this.groups = _.sortedUniq(_.uniq(this.groups.concat(groups))) })
@@ -140,7 +141,7 @@ export default {
 				enforcedGroups: this.enforcedGroups,
 				excludedGroups: this.excludedGroups,
 			}
-			axios.put(OC.generateUrl('/settings/api/admin/twofactorauth'), data)
+			axios.put(generateUrl('/settings/api/admin/twofactorauth'), data)
 				.then(resp => resp.data)
 				.then(state => {
 					this.state = state

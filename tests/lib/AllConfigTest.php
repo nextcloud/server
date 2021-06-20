@@ -23,13 +23,13 @@ class AllConfigTest extends \Test\TestCase {
 	protected $connection;
 
 	protected function getConfig($systemConfig = null, $connection = null) {
-		if($this->connection === null) {
+		if ($this->connection === null) {
 			$this->connection = \OC::$server->getDatabaseConnection();
 		}
-		if($connection === null) {
+		if ($connection === null) {
 			$connection = $this->connection;
 		}
-		if($systemConfig === null) {
+		if ($systemConfig === null) {
 			$systemConfig = $this->getMockBuilder('\OC\SystemConfig')
 				->disableOriginalConstructor()
 				->getMock();
@@ -68,9 +68,9 @@ class AllConfigTest extends \Test\TestCase {
 
 		$this->assertEquals(1, count($result));
 		$this->assertEquals([
-			'userid'      => 'userSet',
-			'appid'       => 'appSet',
-			'configkey'   => 'keySet',
+			'userid' => 'userSet',
+			'appid' => 'appSet',
+			'configkey' => 'keySet',
 			'configvalue' => 'valueSet'
 		], $result[0]);
 
@@ -81,9 +81,9 @@ class AllConfigTest extends \Test\TestCase {
 
 		$this->assertEquals(1, count($result));
 		$this->assertEquals([
-			'userid'      => 'userSet',
-			'appid'       => 'appSet',
-			'configkey'   => 'keySet',
+			'userid' => 'userSet',
+			'appid' => 'appSet',
+			'configkey' => 'keySet',
 			'configvalue' => 'valueSet2'
 		], $result[0]);
 
@@ -102,9 +102,9 @@ class AllConfigTest extends \Test\TestCase {
 
 		$this->assertEquals(1, count($result));
 		$this->assertEquals([
-			'userid'      => 'userPreCond',
-			'appid'       => 'appPreCond',
-			'configkey'   => 'keyPreCond',
+			'userid' => 'userPreCond',
+			'appid' => 'appPreCond',
+			'configkey' => 'keyPreCond',
 			'configvalue' => 'valuePreCond'
 		], $result[0]);
 
@@ -115,9 +115,9 @@ class AllConfigTest extends \Test\TestCase {
 
 		$this->assertEquals(1, count($result));
 		$this->assertEquals([
-			'userid'      => 'userPreCond',
-			'appid'       => 'appPreCond',
-			'configkey'   => 'keyPreCond',
+			'userid' => 'userPreCond',
+			'appid' => 'appPreCond',
+			'configkey' => 'keyPreCond',
 			'configvalue' => 'valuePreCond2'
 		], $result[0]);
 
@@ -159,9 +159,9 @@ class AllConfigTest extends \Test\TestCase {
 
 		$this->assertEquals(1, count($result));
 		$this->assertEquals([
-			'userid'      => 'userPreCond1',
-			'appid'       => 'appPreCond',
-			'configkey'   => 'keyPreCond',
+			'userid' => 'userPreCond1',
+			'appid' => 'appPreCond',
+			'configkey' => 'keyPreCond',
 			'configvalue' => 'valuePreCond'
 		], $result[0]);
 
@@ -172,9 +172,9 @@ class AllConfigTest extends \Test\TestCase {
 
 		$this->assertEquals(1, count($result));
 		$this->assertEquals([
-			'userid'      => 'userPreCond1',
-			'appid'       => 'appPreCond',
-			'configkey'   => 'keyPreCond',
+			'userid' => 'userPreCond1',
+			'appid' => 'appPreCond',
+			'configkey' => 'keyPreCond',
 			'configvalue' => 'valuePreCond'
 		], $result[0]);
 
@@ -223,9 +223,9 @@ class AllConfigTest extends \Test\TestCase {
 
 		$this->assertEquals(1, count($result));
 		$this->assertEquals([
-			'userid'      => 'userGet',
-			'appid'       => 'appGet',
-			'configkey'   => 'keyGet',
+			'userid' => 'userGet',
+			'appid' => 'appGet',
+			'configkey' => 'keyGet',
 			'configvalue' => 'valueGet'
 		], $result[0]);
 
@@ -308,11 +308,11 @@ class AllConfigTest extends \Test\TestCase {
 		$value = $config->getUserValueForUsers('appFetch2', 'keyFetch1',
 			['userFetch1', 'userFetch2', 'userFetch3', 'userFetch5']);
 		$this->assertEquals([
-				'userFetch1' => 'value1',
-				'userFetch2' => 'value2',
-				'userFetch3' => 3,
-				'userFetch5' => 'value5'
-			], $value);
+			'userFetch1' => 'value1',
+			'userFetch2' => 'value2',
+			'userFetch3' => 3,
+			'userFetch5' => 'value5'
+		], $value);
 
 		$value = $config->getUserValueForUsers('appFetch2', 'keyFetch1',
 			['userFetch1', 'userFetch4', 'userFetch9']);
@@ -437,5 +437,4 @@ class AllConfigTest extends \Test\TestCase {
 		// cleanup
 		$this->connection->executeUpdate('DELETE FROM `*PREFIX*preferences`');
 	}
-
 }

@@ -32,15 +32,15 @@ use OCP\ILogger;
 use OCP\IURLGenerator;
 
 class JSResourceLocatorTest extends \Test\TestCase {
-	/** @var IAppData|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IAppData|\PHPUnit\Framework\MockObject\MockObject */
 	protected $appData;
-	/** @var IURLGenerator|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
 	protected $urlGenerator;
-	/** @var SystemConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var SystemConfig|\PHPUnit\Framework\MockObject\MockObject */
 	protected $config;
-	/** @var ICacheFactory|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ICacheFactory|\PHPUnit\Framework\MockObject\MockObject */
 	protected $cacheFactory;
-	/** @var ILogger|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ILogger|\PHPUnit\Framework\MockObject\MockObject */
 	protected $logger;
 
 	protected function setUp(): void {
@@ -64,8 +64,8 @@ class JSResourceLocatorTest extends \Test\TestCase {
 		return new JSResourceLocator(
 			$this->logger,
 			'theme',
-			['core'=>'map'],
-			['3rd'=>'party'],
+			['core' => 'map'],
+			['3rd' => 'party'],
 			$jsCombiner
 		);
 	}
@@ -86,17 +86,6 @@ class JSResourceLocatorTest extends \Test\TestCase {
 		return sha1(uniqid(mt_rand(), true));
 	}
 
-
-	public function testConstructor() {
-		$locator = $this->jsResourceLocator();
-		$this->assertAttributeEquals('theme', 'theme', $locator);
-		$this->assertAttributeEquals('core', 'serverroot', $locator);
-		$this->assertAttributeEquals(['core'=>'map','3rd'=>'party'], 'mapping', $locator);
-		$this->assertAttributeEquals('3rd', 'thirdpartyroot', $locator);
-		$this->assertAttributeEquals('map', 'webroot', $locator);
-		$this->assertAttributeEquals([], 'resources', $locator);
-	}
-
 	public function testFindWithAppPathSymlink() {
 		// First create new apps path, and a symlink to it
 		$apps_dirname = $this->randomString();
@@ -110,10 +99,10 @@ class JSResourceLocatorTest extends \Test\TestCase {
 
 		// Use the symlink as the app path
 		\OC::$APPSROOTS[] = [
-                        'path' => $new_apps_path_symlink,
-                        'url' => '/js-apps-test',
-                        'writable' => false,
-                ];
+			'path' => $new_apps_path_symlink,
+			'url' => '/js-apps-test',
+			'writable' => false,
+		];
 
 		$locator = $this->jsResourceLocator();
 		$locator->find(['test-js-app/test-file']);

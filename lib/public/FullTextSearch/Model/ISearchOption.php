@@ -5,6 +5,7 @@ declare(strict_types=1);
 /**
  * @copyright 2018
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Maxence Lange <maxence@artificial-owl.com>
  *
  * @license GNU AGPL version 3 or any later version
@@ -16,23 +17,20 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCP\FullTextSearch\Model;
-
 
 /**
  * @since 16.0.0
  *
  * Interface ISearchOption
  *
- * @package OCP\FullTextSearch\Model
  */
 interface ISearchOption {
 
@@ -40,17 +38,17 @@ interface ISearchOption {
 	/**
 	 * @since 16.0.0
 	 */
-	const CHECKBOX = 'checkbox';
+	public const CHECKBOX = 'checkbox';
 
 	/**
 	 * @since 16.0.0
 	 */
-	const INPUT = 'input';
+	public const INPUT = 'input';
 
 	/**
 	 * @since 16.0.0
 	 */
-	const INPUT_SMALL = 'small';
+	public const INPUT_SMALL = 'small';
 
 
 	/**
@@ -163,5 +161,4 @@ interface ISearchOption {
 	 * @return string
 	 */
 	public function getPlaceholder(): string;
-
 }

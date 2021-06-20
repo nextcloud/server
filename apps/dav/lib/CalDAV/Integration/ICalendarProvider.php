@@ -13,7 +13,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -21,7 +21,6 @@
  *
  */
 namespace OCA\DAV\CalDAV\Integration;
-
 
 /**
  * Interface ICalendarProvider
@@ -68,5 +67,4 @@ interface ICalendarProvider {
 	 * @return ExternalCalendar|null Calendar if it exists, null otherwise
 	 */
 	public function getCalendarInCalendarHome(string $principalUri, string $calendarUri): ?ExternalCalendar;
-
 }

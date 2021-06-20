@@ -28,7 +28,7 @@
 
 	FileList.prototype = _.extend({}, OCA.Files.FileList.prototype,
 		/** @lends OCA.Files_External.FileList.prototype */ {
-		appName: 'External storages',
+		appName: 'External storage',
 
 		_allowSelection: false,
 

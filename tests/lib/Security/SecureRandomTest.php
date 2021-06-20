@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Copyright (c) 2014 Lukas Reschke <lukas@owncloud.com>
  * This file is licensed under the Affero General Public License version 3 or
@@ -11,7 +14,6 @@ namespace Test\Security;
 use OC\Security\SecureRandom;
 
 class SecureRandomTest extends \Test\TestCase {
-
 	public function stringGenerationProvider() {
 		return [
 			[0, 0],
@@ -43,7 +45,7 @@ class SecureRandomTest extends \Test\TestCase {
 	/**
 	 * @dataProvider stringGenerationProvider
 	 */
-	function testGetLowStrengthGeneratorLength($length, $expectedLength) {
+	public function testGetLowStrengthGeneratorLength($length, $expectedLength) {
 		$generator = $this->rng;
 
 		$this->assertEquals($expectedLength, strlen($generator->generate($length)));
@@ -52,7 +54,7 @@ class SecureRandomTest extends \Test\TestCase {
 	/**
 	 * @dataProvider stringGenerationProvider
 	 */
-	function testMediumLowStrengthGeneratorLength($length, $expectedLength) {
+	public function testMediumLowStrengthGeneratorLength($length, $expectedLength) {
 		$generator = $this->rng;
 
 		$this->assertEquals($expectedLength, strlen($generator->generate($length)));
@@ -61,7 +63,7 @@ class SecureRandomTest extends \Test\TestCase {
 	/**
 	 * @dataProvider stringGenerationProvider
 	 */
-	function testUninitializedGenerate($length, $expectedLength) {
+	public function testUninitializedGenerate($length, $expectedLength) {
 		$this->assertEquals($expectedLength, strlen($this->rng->generate($length)));
 	}
 

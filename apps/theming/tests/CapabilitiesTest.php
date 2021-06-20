@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2016 Joas Schilling <coding@schilljs.com>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Guillaume COMPAGNON <gcompagnon@outlook.com>
  * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
  * @author Joas Schilling <coding@schilljs.com>
@@ -18,14 +19,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Theming\Tests;
 
 use OCA\Theming\Capabilities;
@@ -42,17 +42,17 @@ use Test\TestCase;
  *
  * @package OCA\Theming\Tests
  */
-class CapabilitiesTest extends TestCase  {
-	/** @var ThemingDefaults|\PHPUnit_Framework_MockObject_MockObject */
+class CapabilitiesTest extends TestCase {
+	/** @var ThemingDefaults|\PHPUnit\Framework\MockObject\MockObject */
 	protected $theming;
 
-	/** @var IURLGenerator|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
 	protected $url;
 
-	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	protected $config;
 
-	/** @var Util|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var Util|\PHPUnit\Framework\MockObject\MockObject */
 	protected $util;
 
 	/** @var Capabilities */
@@ -77,6 +77,8 @@ class CapabilitiesTest extends TestCase  {
 				'color' => '#FFFFFF',
 				'color-text' => '#000000',
 				'color-element' => '#aaaaaa',
+				'color-element-bright' => '#aaaaaa',
+				'color-element-dark' => '#FFFFFF',
 				'logo' => 'http://absolute/logo',
 				'background' => 'http://absolute/background',
 				'background-plain' => false,
@@ -91,6 +93,8 @@ class CapabilitiesTest extends TestCase  {
 				'color' => '#01e4a0',
 				'color-text' => '#ffffff',
 				'color-element' => '#01e4a0',
+				'color-element-bright' => '#01e4a0',
+				'color-element-dark' => '#01e4a0',
 				'logo' => 'http://localhost/logo5',
 				'background' => 'http://localhost/background6',
 				'background-plain' => false,
@@ -105,6 +109,8 @@ class CapabilitiesTest extends TestCase  {
 				'color' => '#000000',
 				'color-text' => '#ffffff',
 				'color-element' => '#000000',
+				'color-element-bright' => '#000000',
+				'color-element-dark' => '#555555',
 				'logo' => 'http://localhost/logo5',
 				'background' => '#000000',
 				'background-plain' => true,
@@ -119,6 +125,8 @@ class CapabilitiesTest extends TestCase  {
 				'color' => '#000000',
 				'color-text' => '#ffffff',
 				'color-element' => '#000000',
+				'color-element-bright' => '#000000',
+				'color-element-dark' => '#555555',
 				'logo' => 'http://localhost/logo5',
 				'background' => '#000000',
 				'background-plain' => true,
@@ -166,28 +174,30 @@ class CapabilitiesTest extends TestCase  {
 			->willReturn($textColor);
 
 		$util = new Util($this->config, $this->createMock(IAppManager::class), $this->createMock(IAppData::class));
-		$this->util->expects($this->once())
+		$this->util->expects($this->exactly(3))
 			->method('elementColor')
 			->with($color)
-			->willReturn($util->elementColor($color));
+			->willReturnCallback(static function (string $color, bool $brightBackground = true) use ($util) {
+				return $util->elementColor($color, $brightBackground);
+			});
 
 		$this->util->expects($this->once())
 			->method('isBackgroundThemed')
 			->willReturn($backgroundThemed);
 
-		if($background !== 'backgroundColor') {
+		if ($background !== 'backgroundColor') {
 			$this->theming->expects($this->once())
 				->method('getBackground')
 				->willReturn($background);
 			$this->url->expects($this->exactly(4))
 				->method('getAbsoluteURL')
-				->willReturnCallback(function($url) use($baseUrl) {
+				->willReturnCallback(function ($url) use ($baseUrl) {
 					return $baseUrl . $url;
 				});
 		} else {
 			$this->url->expects($this->exactly(3))
 				->method('getAbsoluteURL')
-				->willReturnCallback(function($url) use($baseUrl) {
+				->willReturnCallback(function ($url) use ($baseUrl) {
 					return $baseUrl . $url;
 				});
 		}

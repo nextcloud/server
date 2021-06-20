@@ -33,13 +33,13 @@ use Test\TestCase;
 
 class NavigationControllerTest extends TestCase {
 
-	/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
 	private $request;
 
-	/** @var INavigationManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var INavigationManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $navigationManager;
 
-	/** @var IURLGenerator|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
 	private $urlGenerator;
 
 	/** @var NavigationController */
@@ -87,14 +87,11 @@ class NavigationControllerTest extends TestCase {
 			$this->assertInstanceOf(DataResponse::class, $actual);
 			$this->assertEquals('http://localhost/index.php/apps/files', $actual->getData()[0]['href']);
 			$this->assertEquals('http://localhost/icon', $actual->getData()[0]['icon']);
-
-
 		} else {
 			$actual = $this->controller->getAppsNavigation($absolute);
 			$this->assertInstanceOf(DataResponse::class, $actual);
 			$this->assertEquals('/index.php/apps/files', $actual->getData()[0]['href']);
 			$this->assertEquals('icon', $actual->getData()[0]['icon']);
-
 		}
 	}
 
@@ -138,9 +135,9 @@ class NavigationControllerTest extends TestCase {
 			->method('getAll')
 			->with('link')
 			->willReturn($navigation);
-			$actual = $this->controller->getAppsNavigation();
-			$this->assertInstanceOf(DataResponse::class, $actual);
-			$this->assertEquals(Http::STATUS_NOT_MODIFIED, $actual->getStatus());
+		$actual = $this->controller->getAppsNavigation();
+		$this->assertInstanceOf(DataResponse::class, $actual);
+		$this->assertEquals(Http::STATUS_NOT_MODIFIED, $actual->getStatus());
 	}
 
 	public function testGetSettingsNavigationEtagMatch() {
@@ -157,5 +154,4 @@ class NavigationControllerTest extends TestCase {
 		$this->assertInstanceOf(DataResponse::class, $actual);
 		$this->assertEquals(Http::STATUS_NOT_MODIFIED, $actual->getStatus());
 	}
-
 }

@@ -1,9 +1,9 @@
 <?php
-/** @var $_ array */
-/** @var $l \OCP\IL10N */
-/** @var $theme OCP\Defaults */
+/** @var array $_ */
+/** @var \OCP\IL10N $l */
+/** @var \OCP\Defaults $theme */
 // @codeCoverageIgnoreStart
-if(!isset($_)) {//standalone  page is not supported anymore - redirect to /
+if (!isset($_)) {//standalone  page is not supported anymore - redirect to /
 	require_once '../../lib/base.php';
 
 	$urlGenerator = \OC::$server->getURLGenerator();

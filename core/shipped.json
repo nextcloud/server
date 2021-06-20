@@ -3,9 +3,11 @@
     "accessibility",
     "activity",
     "admin_audit",
+    "circles",
     "cloud_federation_api",
     "comments",
     "contactsinteraction",
+    "dashboard",
     "dav",
     "encryption",
     "federatedfilesharing",
@@ -40,7 +42,9 @@
     "twofactor_backupcodes",
     "updatenotification",
     "user_ldap",
+    "user_status",
     "viewer",
+    "weather_status",
     "workflowengine"
   ],
   "alwaysEnabled": [

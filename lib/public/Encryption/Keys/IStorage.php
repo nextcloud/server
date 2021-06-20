@@ -23,13 +23,11 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\Encryption\Keys;
 
 /**
  * Interface IStorage
  *
- * @package OCP\Encryption\Keys
  * @since 8.1.0
  */
 interface IStorage {

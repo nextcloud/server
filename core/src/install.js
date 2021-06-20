@@ -1,16 +1,45 @@
+/**
+ * @copyright Copyright (c) 2016 Julius Härtl <jus@bitgrid.net>
+ *
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Julius Härtl <jus@bitgrid.net>
+ * @author Richard Steinmetz <richard@steinmetz.cloud>
+ *
+ * @license GNU AGPL version 3 or any later version
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
 import $ from 'jquery'
 import { translate as t } from '@nextcloud/l10n'
 import { getToken } from './OC/requesttoken'
 import getURLParameter from './Util/get-url-parameter'
 
+import './jquery/showpassword'
+
 import 'jquery-ui/ui/widgets/button'
 import 'jquery-ui/themes/base/theme.css'
 import 'jquery-ui/themes/base/button.css'
 
+import 'bootstrap/js/dist/tooltip'
+import './Polyfill/tooltip'
+
 import 'strengthify'
 import 'strengthify/strengthify.css'
 
-$(document).ready(function() {
+window.addEventListener('DOMContentLoaded', function() {
 	const dbtypes = {
 		sqlite: !!$('#hasSQLite').val(),
 		mysql: !!$('#hasMySQL').val(),
@@ -134,4 +163,7 @@ $(document).ready(function() {
 		drawTitles: true,
 		nonce: btoa(getToken()),
 	})
+
+	$('#dbpass').showPassword().keyup()
+	$('#adminpass').showPassword().keyup()
 })

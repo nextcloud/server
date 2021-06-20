@@ -2,10 +2,11 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -22,9 +23,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Tests\unit\SystemTag;
-
 
 use OC\SystemTag\SystemTag;
 use OCP\IUser;
@@ -62,7 +61,7 @@ class SystemTagsObjectMappingCollectionTest extends \Test\TestCase {
 	}
 
 	public function getNode() {
-		return new \OCA\DAV\SystemTag\SystemTagsObjectMappingCollection (
+		return new \OCA\DAV\SystemTag\SystemTagsObjectMappingCollection(
 			111,
 			'files',
 			$this->user,
@@ -251,7 +250,7 @@ class SystemTagsObjectMappingCollectionTest extends \Test\TestCase {
 
 		$this->tagManager->expects($this->exactly(3))
 			->method('canUserSeeTag')
-			->willReturnCallback(function($tag) {
+			->willReturnCallback(function ($tag) {
 				return $tag->isUserVisible();
 			});
 

@@ -75,7 +75,7 @@ OC.Log = {
 	}
 };
 
-$(document).ready(function () {
+window.addEventListener('DOMContentLoaded', function () {
 	$('#moreLog').click(function () {
 		OC.Log.getMore();
 	});

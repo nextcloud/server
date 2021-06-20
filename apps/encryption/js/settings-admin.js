@@ -7,7 +7,7 @@
  * See the COPYING-README file.
  */
 
-$(document).ready(function () {
+window.addEventListener('DOMContentLoaded', function () {
 	
 	$('input:button[name="enableRecoveryKey"]').click(function () {
 

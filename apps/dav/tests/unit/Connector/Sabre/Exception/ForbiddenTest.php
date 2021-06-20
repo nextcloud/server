@@ -20,13 +20,11 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Tests\unit\Connector\Sabre\Exception;
 
 use OCA\DAV\Connector\Sabre\Exception\Forbidden;
 
 class ForbiddenTest extends \Test\TestCase {
-
 	public function testSerialization() {
 
 		// create xml doc

@@ -2,6 +2,7 @@
 /**
  * @copyright 2017, Roeland Jago Douma <roeland@famdouma.nl>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
@@ -16,14 +17,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Template;
 
 use OC\SystemConfig;
@@ -94,12 +94,12 @@ class JSCombiner {
 
 		try {
 			$folder = $this->appData->getFolder($app);
-		} catch(NotFoundException $e) {
+		} catch (NotFoundException $e) {
 			// creating css appdata folder
 			$folder = $this->appData->newFolder($app);
 		}
 
-		if($this->isCached($fileName, $folder)) {
+		if ($this->isCached($fileName, $folder)) {
 			return true;
 		}
 		return $this->cache($path, $fileName, $folder);
@@ -120,7 +120,9 @@ class JSCombiner {
 		$fileName = $fileName . '.deps';
 		try {
 			$deps = $this->depsCache->get($folder->getName() . '-' . $fileName);
+			$fromCache = true;
 			if ($deps === null || $deps === '') {
+				$fromCache = false;
 				$depFile = $folder->getFile($fileName);
 				$deps = $depFile->getContent();
 			}
@@ -137,14 +139,18 @@ class JSCombiner {
 				return false;
 			}
 
-			foreach ($deps as $file=>$mtime) {
+			foreach ($deps as $file => $mtime) {
 				if (!file_exists($file) || filemtime($file) > $mtime) {
 					return false;
 				}
 			}
 
+			if ($fromCache === false) {
+				$this->depsCache->set($folder->getName() . '-' . $fileName, json_encode($deps));
+			}
+
 			return true;
-		} catch(NotFoundException $e) {
+		} catch (NotFoundException $e) {
 			return false;
 		}
 	}
@@ -175,7 +181,7 @@ class JSCombiner {
 		$fileName = str_replace('.json', '.js', $fileName);
 		try {
 			$cachedfile = $folder->getFile($fileName);
-		} catch(NotFoundException $e) {
+		} catch (NotFoundException $e) {
 			$cachedfile = $folder->newFile($fileName);
 		}
 
@@ -227,7 +233,7 @@ class JSCombiner {
 	public function getContent($root, $file) {
 		/** @var array $data */
 		$data = json_decode(file_get_contents($root . '/' . $file));
-		if(!is_array($data)) {
+		if (!is_array($data)) {
 			return [];
 		}
 

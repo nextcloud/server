@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -22,7 +23,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Comments\Tests\Unit\Notification;
 
 use OCA\Comments\Notification\Listener;
@@ -35,13 +35,13 @@ use OCP\Notification\INotification;
 use Test\TestCase;
 
 class ListenerTest extends TestCase {
-	/** @var IManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $notificationManager;
 
-	/** @var IUserManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $userManager;
 
-	/** @var IURLGenerator|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
 	protected $urlGenerator;
 
 	/** @var  Listener */
@@ -74,7 +74,7 @@ class ListenerTest extends TestCase {
 	 * @param string $notificationMethod
 	 */
 	public function testEvaluate($eventType, $notificationMethod) {
-		/** @var IComment|\PHPUnit_Framework_MockObject_MockObject $comment */
+		/** @var IComment|\PHPUnit\Framework\MockObject\MockObject $comment */
 		$comment = $this->getMockBuilder(IComment::class)->getMock();
 		$comment->expects($this->any())
 			->method('getObjectType')
@@ -96,7 +96,7 @@ class ListenerTest extends TestCase {
 			->method('getId')
 			->willReturn('1234');
 
-		/** @var CommentsEvent|\PHPUnit_Framework_MockObject_MockObject $event */
+		/** @var CommentsEvent|\PHPUnit\Framework\MockObject\MockObject $event */
 		$event = $this->getMockBuilder(CommentsEvent::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -107,7 +107,7 @@ class ListenerTest extends TestCase {
 			->method(('getEvent'))
 			->willReturn($eventType);
 
-		/** @var INotification|\PHPUnit_Framework_MockObject_MockObject $notification */
+		/** @var INotification|\PHPUnit\Framework\MockObject\MockObject $notification */
 		$notification = $this->getMockBuilder(INotification::class)->getMock();
 		$notification->expects($this->any())
 			->method($this->anything())
@@ -142,7 +142,7 @@ class ListenerTest extends TestCase {
 	 * @param string $eventType
 	 */
 	public function testEvaluateNoMentions($eventType) {
-		/** @var IComment|\PHPUnit_Framework_MockObject_MockObject $comment */
+		/** @var IComment|\PHPUnit\Framework\MockObject\MockObject $comment */
 		$comment = $this->getMockBuilder(IComment::class)->getMock();
 		$comment->expects($this->any())
 			->method('getObjectType')
@@ -154,7 +154,7 @@ class ListenerTest extends TestCase {
 			->method('getMentions')
 			->willReturn([]);
 
-		/** @var CommentsEvent|\PHPUnit_Framework_MockObject_MockObject $event */
+		/** @var CommentsEvent|\PHPUnit\Framework\MockObject\MockObject $event */
 		$event = $this->getMockBuilder(CommentsEvent::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -179,7 +179,7 @@ class ListenerTest extends TestCase {
 	}
 
 	public function testEvaluateUserDoesNotExist() {
-		/** @var IComment|\PHPUnit_Framework_MockObject_MockObject $comment */
+		/** @var IComment|\PHPUnit\Framework\MockObject\MockObject $comment */
 		$comment = $this->getMockBuilder(IComment::class)->getMock();
 		$comment->expects($this->any())
 			->method('getObjectType')
@@ -194,7 +194,7 @@ class ListenerTest extends TestCase {
 			->method('getId')
 			->willReturn('1234');
 
-		/** @var CommentsEvent|\PHPUnit_Framework_MockObject_MockObject $event */
+		/** @var CommentsEvent|\PHPUnit\Framework\MockObject\MockObject $event */
 		$event = $this->getMockBuilder(CommentsEvent::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -205,7 +205,7 @@ class ListenerTest extends TestCase {
 			->method(('getEvent'))
 			->willReturn(CommentsEvent::EVENT_ADD);
 
-		/** @var INotification|\PHPUnit_Framework_MockObject_MockObject $notification */
+		/** @var INotification|\PHPUnit\Framework\MockObject\MockObject $notification */
 		$notification = $this->getMockBuilder(INotification::class)->getMock();
 		$notification->expects($this->any())
 			->method($this->anything())

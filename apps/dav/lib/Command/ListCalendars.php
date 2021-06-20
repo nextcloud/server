@@ -2,9 +2,10 @@
 /**
  * @copyright Copyright (c) 2018, Georg Ehrke
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Citharel <tcit@tcit.fr>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -15,14 +16,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\Command;
 
 use OCA\DAV\CalDAV\BirthdayService;
@@ -46,7 +46,7 @@ class ListCalendars extends Command {
 	 * @param IUserManager $userManager
 	 * @param CalDavBackend $caldav
 	 */
-	function __construct(IUserManager $userManager, CalDavBackend $caldav) {
+	public function __construct(IUserManager $userManager, CalDavBackend $caldav) {
 		parent::__construct();
 		$this->userManager = $userManager;
 		$this->caldav = $caldav;
@@ -61,7 +61,7 @@ class ListCalendars extends Command {
 				'User for whom all calendars will be listed');
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$user = $input->getArgument('uid');
 		if (!$this->userManager->userExists($user)) {
 			throw new \InvalidArgumentException("User <$user> is unknown.");
@@ -70,7 +70,7 @@ class ListCalendars extends Command {
 		$calendars = $this->caldav->getCalendarsForUser("principals/users/$user");
 
 		$calendarTableData = [];
-		foreach($calendars as $calendar) {
+		foreach ($calendars as $calendar) {
 			// skip birthday calendar
 			if ($calendar['uri'] === BirthdayService::BIRTHDAY_CALENDAR_URI) {
 				continue;
@@ -100,6 +100,6 @@ class ListCalendars extends Command {
 		} else {
 			$output->writeln("<info>User <$user> has no calendars</info>");
 		}
+		return 0;
 	}
-
 }

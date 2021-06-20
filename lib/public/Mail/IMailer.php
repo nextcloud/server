@@ -25,7 +25,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\Mail;
 
 /**
@@ -45,7 +44,6 @@ namespace OCP\Mail;
  *
  * This message can then be passed to send() of \OC\Mail\Mailer
  *
- * @package OCP\Mail
  * @since 8.1.0
  */
 interface IMailer {

@@ -65,8 +65,12 @@
 					</ActionButton>
 				</Actions>
 				<div class="userPopoverMenuWrapper">
-					<div v-click-outside="hideMenu" class="icon-more" @click="$emit('toggleMenu')" />
-					<div class="popovermenu" :class="{ 'open': openedMenu }">
+					<button
+						v-click-outside="hideMenu"
+						class="icon-more"
+						:aria-label="t('settings', 'Toggle user actions menu')"
+						@click.prevent="$emit('toggleMenu')" />
+					<div class="popovermenu" :class="{ 'open': openedMenu }" :aria-expanded="openedMenu">
 						<PopoverMenu :menu="userActions" />
 					</div>
 				</div>
@@ -80,10 +84,11 @@
 </template>
 
 <script>
-import { PopoverMenu, Actions, ActionButton } from '@nextcloud/vue'
+import PopoverMenu from '@nextcloud/vue/dist/Components/PopoverMenu'
+import Actions from '@nextcloud/vue/dist/Components/Actions'
+import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
 import ClickOutside from 'vue-click-outside'
 import { getCurrentUser } from '@nextcloud/auth'
-
 import UserRowMixin from '../../mixins/UserRowMixin'
 export default {
 	name: 'UserRowSimple',
@@ -148,18 +153,27 @@ export default {
 			return t('settings', '{size} used', { size: OC.Util.humanFileSize(0) })
 		},
 		canEdit() {
-			return getCurrentUser().uid !== this.user.id && this.user.id !== 'admin'
+			return getCurrentUser().uid !== this.user.id || this.settings.isAdmin
 		},
 		userQuota() {
-			if (this.user.quota.quota === 'none') {
-				return t('settings', 'Unlimited')
+			let quota = this.user.quota.quota
+
+			if (quota === 'default') {
+				quota = this.settings.defaultQuota
+				if (quota !== 'none') {
+					// convert to numeric value to match what the server would usually return
+					quota = OC.Util.computerFileSize(quota)
+				}
 			}
-			if (this.user.quota.quota >= 0) {
-				return OC.Util.humanFileSize(this.user.quota.quota)
+
+			// when the default quota is unlimited, the server returns -3 here, map it to "none"
+			if (quota === 'none' || quota === -3) {
+				return t('settings', 'Unlimited')
+			} else if (quota >= 0) {
+				return OC.Util.humanFileSize(quota)
 			}
 			return OC.Util.humanFileSize(0)
 		},
-
 	},
 	methods: {
 		hideMenu() {
@@ -172,10 +186,14 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss">
 	.cellText {
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;
+}
+	.icon-more {
+		background-color: var(--color-main-background);
+		border: 0;
 	}
 </style>

@@ -6,10 +6,12 @@
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Christian Berendt <berendt@b1-systems.de>
  * @author Christopher T. Johnson <ctjctj@gmail.com>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author enoch <lanxenet@hotmail.com>
  * @author Johan Björk <johanimon@gmail.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Martin Mattel <martin.mattel@diemattels.at>
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
@@ -18,7 +20,7 @@
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -35,7 +37,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_External\Lib\Storage;
 
 use Aws\Result;
@@ -44,9 +45,11 @@ use Aws\S3\S3Client;
 use Icewind\Streams\CallbackWrapper;
 use Icewind\Streams\IteratorDirectory;
 use OC\Cache\CappedMemoryCache;
+use OC\Files\Cache\CacheEntry;
 use OC\Files\ObjectStore\S3ConnectionTrait;
 use OC\Files\ObjectStore\S3ObjectTrait;
 use OCP\Constants;
+use OCP\Files\IMimeTypeDetector;
 
 class AmazonS3 extends \OC\Files\Storage\Common {
 	use S3ConnectionTrait;
@@ -55,11 +58,6 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 	public function needsPartFile() {
 		return false;
 	}
-
-	/**
-	 * @var int in seconds
-	 */
-	private $rescanDelay = 10;
 
 	/** @var CappedMemoryCache|Result[] */
 	private $objectCache;
@@ -70,12 +68,16 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 	/** @var CappedMemoryCache|array */
 	private $filesCache;
 
+	/** @var IMimeTypeDetector */
+	private $mimeDetector;
+
 	public function __construct($parameters) {
 		parent::__construct($parameters);
 		$this->parseParams($parameters);
 		$this->objectCache = new CappedMemoryCache();
 		$this->directoryCache = new CappedMemoryCache();
 		$this->filesCache = new CappedMemoryCache();
+		$this->mimeDetector = \OC::$server->get(IMimeTypeDetector::class);
 	}
 
 	/**
@@ -163,10 +165,17 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 			try {
 				$result = $this->getConnection()->listObjects([
 					'Bucket' => $this->bucket,
-					'Prefix' => rtrim($path, '/') . '/',
+					'Prefix' => rtrim($path, '/'),
 					'MaxKeys' => 1,
+					'Delimiter' => '/',
 				]);
-				$this->directoryCache[$path] = $result['Contents'] || $result['CommonPrefixes'];
+
+				if ((isset($result['Contents'][0]['Key']) && $result['Contents'][0]['Key'] === rtrim($path, '/') . '/')
+					 || isset($result['CommonPrefixes'])) {
+					$this->directoryCache[$path] = true;
+				} else {
+					$this->directoryCache[$path] = false;
+				}
 			} catch (S3Exception $e) {
 				if ($e->getStatusCode() === 403) {
 					$this->directoryCache[$path] = false;
@@ -180,7 +189,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 
 	/**
 	 * Updates old storage ids (v0.2.1 and older) that are based on key and secret to new ones based on the bucket name.
-	 * TODO Do this in an update.php. requires iterating over all users and loading the mount.json from their home
+	 * TODO Do this in a repair step. requires iterating over all users and loading the mount.json from their home
 	 *
 	 * @param array $params
 	 */
@@ -199,7 +208,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		if (isset($storages[$this->id]) && isset($storages[$oldId])) {
 			// if both ids exist, delete the old storage and corresponding filecache entries
 			\OC\Files\Cache\Storage::remove($oldId);
-		} else if (isset($storages[$oldId])) {
+		} elseif (isset($storages[$oldId])) {
 			// if only the old id exists do an update
 			$stmt = \OC::$server->getDatabaseConnection()->prepare(
 				'UPDATE `*PREFIX*storages` SET `id` = ? WHERE `id` = ?'
@@ -220,7 +229,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		$fileType = $this->filetype($path);
 		if ($fileType === 'dir') {
 			return $this->rmdir($path);
-		} else if ($fileType === 'file') {
+		} elseif ($fileType === 'file') {
 			return $this->unlink($path);
 		} else {
 			return false;
@@ -377,7 +386,12 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 			if ($this->is_dir($path)) {
 				//folders don't really exist
 				$stat['size'] = -1; //unknown
-				$stat['mtime'] = time() - $this->rescanDelay * 1000;
+				$stat['mtime'] = time();
+				$cacheEntry = $this->getCache()->get($path);
+				if ($cacheEntry instanceof CacheEntry && $this->getMountOption('filesystem_check_changes', 1) !== 1) {
+					$stat['size'] = $cacheEntry->getSize();
+					$stat['mtime'] = $cacheEntry->getMTime();
+				}
 			} else {
 				$stat['size'] = $this->getContentLength($path);
 				$stat['mtime'] = strtotime($this->getLastModified($path));
@@ -402,12 +416,12 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 	 */
 	private function getContentLength($path) {
 		if (isset($this->filesCache[$path])) {
-			return $this->filesCache[$path]['ContentLength'];
+			return (int)$this->filesCache[$path]['ContentLength'];
 		}
 
 		$result = $this->headObject($path);
 		if (isset($result['ContentLength'])) {
-			return $result['ContentLength'];
+			return (int)$result['ContentLength'];
 		}
 
 		return 0;
@@ -504,6 +518,12 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		switch ($mode) {
 			case 'r':
 			case 'rb':
+				// Don't try to fetch empty files
+				$stat = $this->stat($path);
+				if (is_array($stat) && isset($stat['size']) && $stat['size'] === 0) {
+					return fopen('php://memory', $mode);
+				}
+
 				try {
 					return $this->readObject($path);
 				} catch (S3Exception $e) {
@@ -548,9 +568,6 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 	}
 
 	public function touch($path, $mtime = null) {
-		$path = $this->normalizePath($path);
-
-		$metadata = [];
 		if (is_null($mtime)) {
 			$mtime = time();
 		}
@@ -558,22 +575,9 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 			'lastmodified' => gmdate(\DateTime::RFC1123, $mtime)
 		];
 
-		$fileType = $this->filetype($path);
 		try {
-			if ($fileType !== false) {
-				if ($fileType === 'dir' && !$this->isRoot($path)) {
-					$path .= '/';
-				}
-				$this->getConnection()->copyObject([
-					'Bucket' => $this->bucket,
-					'Key' => $this->cleanKey($path),
-					'Metadata' => $metadata,
-					'CopySource' => $this->bucket . '/' . $path,
-					'MetadataDirective' => 'REPLACE',
-				]);
-				$this->testTimeout();
-			} else {
-				$mimeType = \OC::$server->getMimeTypeDetector()->detectPath($path);
+			if (!$this->file_exists($path)) {
+				$mimeType = $this->mimeDetector->detectPath($path);
 				$this->getConnection()->putObject([
 					'Bucket' => $this->bucket,
 					'Key' => $this->cleanKey($path),
@@ -648,7 +652,6 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		$path2 = $this->normalizePath($path2);
 
 		if ($this->is_file($path1)) {
-
 			if ($this->copy($path1, $path2) === false) {
 				return false;
 			}
@@ -658,7 +661,6 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 				return false;
 			}
 		} else {
-
 			if ($this->copy($path1, $path2) === false) {
 				return false;
 			}
@@ -686,7 +688,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 	public function writeBack($tmpFile, $path) {
 		try {
 			$source = fopen($tmpFile, 'r');
-			$this->writeObject($path, $source);
+			$this->writeObject($path, $source, $this->mimeDetector->detectPath($path));
 			$this->invalidateCache($path);
 
 			unlink($tmpFile);
@@ -703,5 +705,4 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 	public static function checkDependencies() {
 		return true;
 	}
-
 }

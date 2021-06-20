@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @author Lukas Reschke <lukas@owncloud.com>
  *
@@ -53,7 +56,7 @@ class CertificateTest extends \Test\TestCase {
 	}
 
 	
-	function testCertificateStartingWithFileReference() {
+	public function testCertificateStartingWithFileReference() {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('Certificate could not get parsed.');
 

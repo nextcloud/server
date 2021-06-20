@@ -20,7 +20,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_External\Lib\Backend;
 
 use OCA\Files_External\Lib\Auth\AuthMechanism;
@@ -57,7 +56,6 @@ use OCA\Files_External\Lib\VisibilityTrait;
  *      Object can affect storage mounting
  */
 class Backend implements \JsonSerializable {
-
 	use VisibilityTrait;
 	use FrontendDefinitionTrait;
 	use PriorityTrait;
@@ -162,5 +160,4 @@ class Backend implements \JsonSerializable {
 	public function validateStorage(StorageConfig $storage) {
 		return $this->validateStorageDefinition($storage);
 	}
-
 }

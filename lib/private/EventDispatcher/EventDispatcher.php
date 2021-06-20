@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
@@ -17,16 +18,16 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\EventDispatcher;
 
+use Psr\Log\LoggerInterface;
 use function get_class;
 use OC\Broadcast\Events\BroadcastEvent;
 use OCP\Broadcast\Events\IBroadcastEvent;
@@ -34,7 +35,6 @@ use OCP\EventDispatcher\ABroadcastedEvent;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IContainer;
-use OCP\ILogger;
 use OCP\IServerContainer;
 use Symfony\Component\EventDispatcher\EventDispatcher as SymfonyDispatcher;
 
@@ -46,12 +46,12 @@ class EventDispatcher implements IEventDispatcher {
 	/** @var IContainer */
 	private $container;
 
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	private $logger;
 
 	public function __construct(SymfonyDispatcher $dispatcher,
 								IServerContainer $container,
-								ILogger $logger) {
+								LoggerInterface $logger) {
 		$this->dispatcher = $dispatcher;
 		$this->container = $container;
 		$this->logger = $logger;
@@ -80,6 +80,9 @@ class EventDispatcher implements IEventDispatcher {
 		$this->addListener($eventName, $listener, $priority);
 	}
 
+	/**
+	 * @deprecated
+	 */
 	public function dispatch(string $eventName,
 							 Event $event): void {
 		$this->dispatcher->dispatch($event, $eventName);
@@ -99,9 +102,9 @@ class EventDispatcher implements IEventDispatcher {
 
 	/**
 	 * @return SymfonyDispatcher
+	 * @deprecated 20.0.0
 	 */
 	public function getSymfonyDispatcher(): SymfonyDispatcher {
 		return $this->dispatcher;
 	}
-
 }

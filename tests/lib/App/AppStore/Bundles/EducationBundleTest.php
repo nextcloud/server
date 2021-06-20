@@ -30,13 +30,11 @@ class EducationBundleTest extends BundleBase {
 		$this->bundleIdentifier = 'EducationBundle';
 		$this->bundleName = 'Education Edition';
 		$this->bundleAppIds = [
-			'zenodo',
 			'dashboard',
 			'circles',
 			'groupfolders',
 			'announcementcenter',
 			'quota_warning',
-			'orcid',
 			'user_saml',
 		];
 	}

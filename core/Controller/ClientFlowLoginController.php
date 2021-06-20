@@ -3,7 +3,9 @@
  * @copyright Copyright (c) 2017 Lukas Reschke <lukas@statuscode.ch>
  *
  * @author Bjoern Schiessle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Mario Danic <mario@lovelyhq.com>
  * @author Morris Jobke <hey@morrisjobke.de>
@@ -20,16 +22,16 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Core\Controller;
 
+use OC\Authentication\Events\AppPasswordCreatedEvent;
 use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Exceptions\PasswordlessTokenException;
 use OC\Authentication\Token\IProvider;
@@ -42,6 +44,7 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\StandaloneTemplateResponse;
 use OCP\Defaults;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\ISession;
@@ -50,8 +53,6 @@ use OCP\IUserSession;
 use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
 use OCP\Session\Exceptions\SessionNotAvailableException;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 
 class ClientFlowLoginController extends Controller {
 	/** @var IUserSession */
@@ -74,10 +75,10 @@ class ClientFlowLoginController extends Controller {
 	private $accessTokenMapper;
 	/** @var ICrypto */
 	private $crypto;
-	/** @var EventDispatcherInterface */
+	/** @var IEventDispatcher */
 	private $eventDispatcher;
 
-	const stateName = 'client.flow.state.token';
+	public const STATE_NAME = 'client.flow.state.token';
 
 	/**
 	 * @param string $appName
@@ -92,7 +93,7 @@ class ClientFlowLoginController extends Controller {
 	 * @param ClientMapper $clientMapper
 	 * @param AccessTokenMapper $accessTokenMapper
 	 * @param ICrypto $crypto
-	 * @param EventDispatcherInterface $eventDispatcher
+	 * @param IEventDispatcher $eventDispatcher
 	 */
 	public function __construct($appName,
 								IRequest $request,
@@ -106,7 +107,7 @@ class ClientFlowLoginController extends Controller {
 								ClientMapper $clientMapper,
 								AccessTokenMapper $accessTokenMapper,
 								ICrypto $crypto,
-								EventDispatcherInterface $eventDispatcher) {
+								IEventDispatcher $eventDispatcher) {
 		parent::__construct($appName, $request);
 		$this->userSession = $userSession;
 		$this->l10n = $l10n;
@@ -134,8 +135,8 @@ class ClientFlowLoginController extends Controller {
 	 * @return bool
 	 */
 	private function isValidToken($stateToken) {
-		$currentToken = $this->session->get(self::stateName);
-		if(!is_string($stateToken) || !is_string($currentToken)) {
+		$currentToken = $this->session->get(self::STATE_NAME);
+		if (!is_string($stateToken) || !is_string($currentToken)) {
 			return false;
 		}
 		return hash_equals($currentToken, $stateToken);
@@ -169,7 +170,7 @@ class ClientFlowLoginController extends Controller {
 	public function showAuthPickerPage($clientIdentifier = '') {
 		$clientName = $this->getClientName();
 		$client = null;
-		if($clientIdentifier !== '') {
+		if ($clientIdentifier !== '') {
 			$client = $this->clientMapper->getByIdentifier($clientIdentifier);
 			$clientName = $client->getName();
 		}
@@ -197,7 +198,7 @@ class ClientFlowLoginController extends Controller {
 			64,
 			ISecureRandom::CHAR_LOWER.ISecureRandom::CHAR_UPPER.ISecureRandom::CHAR_DIGITS
 		);
-		$this->session->set(self::stateName, $stateToken);
+		$this->session->set(self::STATE_NAME, $stateToken);
 
 		$csp = new Http\ContentSecurityPolicy();
 		if ($client) {
@@ -237,13 +238,13 @@ class ClientFlowLoginController extends Controller {
 	 */
 	public function grantPage($stateToken = '',
 								 $clientIdentifier = '') {
-		if(!$this->isValidToken($stateToken)) {
+		if (!$this->isValidToken($stateToken)) {
 			return $this->stateTokenForbiddenResponse();
 		}
 
 		$clientName = $this->getClientName();
 		$client = null;
-		if($clientIdentifier !== '') {
+		if ($clientIdentifier !== '') {
 			$client = $this->clientMapper->getByIdentifier($clientIdentifier);
 			$clientName = $client->getName();
 		}
@@ -284,12 +285,12 @@ class ClientFlowLoginController extends Controller {
 	 */
 	public function generateAppPassword($stateToken,
 										$clientIdentifier = '') {
-		if(!$this->isValidToken($stateToken)) {
-			$this->session->remove(self::stateName);
+		if (!$this->isValidToken($stateToken)) {
+			$this->session->remove(self::STATE_NAME);
 			return $this->stateTokenForbiddenResponse();
 		}
 
-		$this->session->remove(self::stateName);
+		$this->session->remove(self::STATE_NAME);
 
 		try {
 			$sessionId = $this->session->getId();
@@ -315,7 +316,7 @@ class ClientFlowLoginController extends Controller {
 
 		$clientName = $this->getClientName();
 		$client = false;
-		if($clientIdentifier !== '') {
+		if ($clientIdentifier !== '') {
 			$client = $this->clientMapper->getByIdentifier($clientIdentifier);
 			$clientName = $client->getName();
 		}
@@ -332,7 +333,7 @@ class ClientFlowLoginController extends Controller {
 			IToken::DO_NOT_REMEMBER
 		);
 
-		if($client) {
+		if ($client) {
 			$code = $this->random->generate(128, ISecureRandom::CHAR_UPPER.ISecureRandom::CHAR_LOWER.ISecureRandom::CHAR_DIGITS);
 			$accessToken = new AccessToken();
 			$accessToken->setClientId($client->getId());
@@ -342,7 +343,7 @@ class ClientFlowLoginController extends Controller {
 			$this->accessTokenMapper->insert($accessToken);
 
 			$redirectUri = $client->getRedirectUri();
-			
+
 			if (parse_url($redirectUri, PHP_URL_QUERY)) {
 				$redirectUri .= '&';
 			} else {
@@ -362,8 +363,9 @@ class ClientFlowLoginController extends Controller {
 			$this->tokenProvider->invalidateToken($sessionId);
 		}
 
-		$event = new GenericEvent($generatedToken);
-		$this->eventDispatcher->dispatch('app_password_created', $event);
+		$this->eventDispatcher->dispatchTyped(
+			new AppPasswordCreatedEvent($generatedToken)
+		);
 
 		return new Http\RedirectResponse($redirectUri);
 	}
@@ -376,6 +378,24 @@ class ClientFlowLoginController extends Controller {
 			return $this->stateTokenForbiddenResponse();
 		}
 
+		try {
+			$token = $this->tokenProvider->getToken($password);
+			if ($token->getLoginName() !== $user) {
+				throw new InvalidTokenException('login name does not match');
+			}
+		} catch (InvalidTokenException $e) {
+			$response = new StandaloneTemplateResponse(
+				$this->appName,
+				'403',
+				[
+					'message' => $this->l10n->t('Invalid app password'),
+				],
+				'guest'
+			);
+			$response->setStatus(Http::STATUS_FORBIDDEN);
+			return $response;
+		}
+
 		$redirectUri = 'nc://login/server:' . $this->getServerPath() . '&user:' . urlencode($user) . '&password:' . urlencode($password);
 		return new Http\RedirectResponse($redirectUri);
 	}
@@ -385,7 +405,7 @@ class ClientFlowLoginController extends Controller {
 
 		if (strpos($this->request->getRequestUri(), '/index.php') !== false) {
 			$serverPostfix = substr($this->request->getRequestUri(), 0, strpos($this->request->getRequestUri(), '/index.php'));
-		} else if (strpos($this->request->getRequestUri(), '/login/flow') !== false) {
+		} elseif (strpos($this->request->getRequestUri(), '/login/flow') !== false) {
 			$serverPostfix = substr($this->request->getRequestUri(), 0, strpos($this->request->getRequestUri(), '/login/flow'));
 		}
 

@@ -21,7 +21,6 @@
 
 namespace Tests\Core\Command\Log;
 
-
 use OC\Core\Command\Log\File;
 use OCP\IConfig;
 use Symfony\Component\Console\Input\InputInterface;
@@ -29,11 +28,11 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
 
 class FileTest extends TestCase {
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \PHPUnit\Framework\MockObject\MockObject */
 	protected $config;
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \PHPUnit\Framework\MockObject\MockObject */
 	protected $consoleInput;
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \PHPUnit\Framework\MockObject\MockObject */
 	protected $consoleOutput;
 
 	/** @var \Symfony\Component\Console\Command\Command */
@@ -120,5 +119,4 @@ class FileTest extends TestCase {
 
 		self::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
 	}
-
 }

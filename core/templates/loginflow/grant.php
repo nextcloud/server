@@ -31,9 +31,9 @@ $urlGenerator = $_['urlGenerator'];
 	<h2><?php p($l->t('Account access')) ?></h2>
 	<p class="info">
 		<?php print_unescaped($l->t('You are about to grant %1$s access to your %2$s account.', [
-								'<strong>' . \OCP\Util::sanitizeHTML($_['client']) . '</strong>',
-								\OCP\Util::sanitizeHTML($_['instanceName'])
-							])) ?>
+			'<strong>' . \OCP\Util::sanitizeHTML($_['client']) . '</strong>',
+			\OCP\Util::sanitizeHTML($_['instanceName'])
+		])) ?>
 	</p>
 
 	<br/>

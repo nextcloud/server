@@ -2,8 +2,11 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Anna Larch <anna@nextcloud.com>
  * @author Arne Hamann <kontakt+github@arne.email>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
@@ -23,13 +26,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
-/**
- * Public interface of ownCloud for apps to use.
- * Contacts Class
- *
- */
-
 // use OCP namespace for all classes that are considered public.
 // This means that they should be used by apps instead of the internal ownCloud classes
 
@@ -95,6 +91,8 @@ interface IManager {
 	 * @param array $searchProperties defines the properties within the query pattern should match
 	 * @param array $options = array() to define the search behavior
 	 * 	- 'escape_like_param' - If set to false wildcards _ and % are not escaped
+	 * 	- 'limit' - Set a numeric limit for the search results
+	 * 	- 'offset' - Set the offset for the limited search results
 	 * @return array an array of contacts which are arrays of key-value-pairs
 	 * @since 6.0.0
 	 */
@@ -159,7 +157,7 @@ interface IManager {
 
 	/**
 	 * Return a list of the user's addressbooks display names
-	 * 
+	 *
 	 * @return array
 	 * @since 6.0.0
 	 * @deprecated 16.0.0 - Use `$this->getUserAddressBooks()` instead
@@ -168,15 +166,15 @@ interface IManager {
 
 	/**
 	 * Return a list of the user's addressbooks
-	 * 
-	 * @return IAddressBook[]
+	 *
+	 * @return \OCP\IAddressBook[]
 	 * @since 16.0.0
 	 */
 	public function getUserAddressBooks();
 
 	/**
 	 * removes all registered address book instances
-	 * 
+	 *
 	 * @return void
 	 * @since 6.0.0
 	 */

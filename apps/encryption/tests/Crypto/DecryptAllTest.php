@@ -22,9 +22,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Encryption\Tests\Crypto;
-
 
 use OCA\Encryption\Crypto\Crypt;
 use OCA\Encryption\Crypto\DecryptAll;
@@ -39,19 +37,19 @@ class DecryptAllTest extends TestCase {
 	/** @var  DecryptAll */
 	protected $instance;
 
-	/** @var Util | \PHPUnit_Framework_MockObject_MockObject  */
+	/** @var Util | \PHPUnit\Framework\MockObject\MockObject  */
 	protected $util;
 
-	/** @var KeyManager | \PHPUnit_Framework_MockObject_MockObject  */
+	/** @var KeyManager | \PHPUnit\Framework\MockObject\MockObject  */
 	protected $keyManager;
 
-	/** @var  Crypt | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var  Crypt | \PHPUnit\Framework\MockObject\MockObject */
 	protected $crypt;
 
-	/** @var  Session | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var  Session | \PHPUnit\Framework\MockObject\MockObject */
 	protected $session;
 
-	/** @var QuestionHelper | \PHPUnit_Framework_MockObject_MockObject  */
+	/** @var QuestionHelper | \PHPUnit\Framework\MockObject\MockObject  */
 	protected $questionHelper;
 
 	protected function setUp(): void {
@@ -111,7 +109,6 @@ class DecryptAllTest extends TestCase {
 			$this->keyManager->expects($this->never())->method('getPrivateKey');
 			$this->crypt->expects($this->once())->method('decryptPrivateKey')
 				->with($masterKey, $password, $masterKeyId)->willReturn($unencryptedKey);
-
 		} else {
 			$this->keyManager->expects($this->never())->method('getSystemPrivateKey');
 			$this->keyManager->expects($this->once())->method('getPrivateKey')
@@ -132,5 +129,4 @@ class DecryptAllTest extends TestCase {
 			['masterKeyId', 'masterKeyId', 'masterKeyId']
 		];
 	}
-
 }

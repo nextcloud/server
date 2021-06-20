@@ -32,7 +32,7 @@ use Test\TestCase;
 
 class UserControllerTest extends TestCase {
 
-	/** @var IUserManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $userManager;
 
 	/** @var UserController */

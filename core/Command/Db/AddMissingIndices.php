@@ -6,11 +6,14 @@ declare(strict_types=1);
  * @copyright Copyright (c) 2017 Bjoern Schiessle <bjoern@schiessle.org>
  *
  * @author Bjoern Schiessle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Julius Härtl <jus@bitgrid.net>
+ * @author Mario Danic <mario@lovelyhq.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Citharel <tcit@tcit.fr>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -21,16 +24,16 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Core\Command\Db;
 
+use OC\DB\Connection;
 use OC\DB\SchemaWrapper;
 use OCP\IDBConnection;
 use Symfony\Component\Console\Command\Command;
@@ -43,19 +46,19 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  * Class AddMissingIndices
  *
  * if you added any new indices to the database, this is the right place to add
- * it your update routine for existing instances
+ * your update routine for existing instances
  *
  * @package OC\Core\Command\Db
  */
 class AddMissingIndices extends Command {
 
-	/** @var IDBConnection */
+	/** @var Connection */
 	private $connection;
 
 	/** @var EventDispatcherInterface */
 	private $dispatcher;
 
-	public function __construct(IDBConnection $connection, EventDispatcherInterface $dispatcher) {
+	public function __construct(Connection $connection, EventDispatcherInterface $dispatcher) {
 		parent::__construct();
 
 		$this->connection = $connection;
@@ -68,12 +71,13 @@ class AddMissingIndices extends Command {
 			->setDescription('Add missing indices to the database tables');
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$this->addCoreIndexes($output);
 
 		// Dispatch event so apps can also update indexes if needed
 		$event = new GenericEvent($output);
 		$this->dispatcher->dispatch(IDBConnection::ADD_MISSING_INDEXES_EVENT, $event);
+		return 0;
 	}
 
 	/**
@@ -83,7 +87,6 @@ class AddMissingIndices extends Command {
 	 * @throws \Doctrine\DBAL\Schema\SchemaException
 	 */
 	private function addCoreIndexes(OutputInterface $output) {
-
 		$output->writeln('<info>Check indices of the share table.</info>');
 
 		$schema = new SchemaWrapper($this->connection);
@@ -130,6 +133,13 @@ class AddMissingIndices extends Command {
 			if (!$table->hasIndex('fs_mtime')) {
 				$output->writeln('<info>Adding additional mtime index to the filecache table, this can take some time...</info>');
 				$table->addIndex(['mtime'], 'fs_mtime');
+				$this->connection->migrateToSchema($schema->getWrappedSchema());
+				$updated = true;
+				$output->writeln('<info>Filecache table updated successfully.</info>');
+			}
+			if (!$table->hasIndex('fs_size')) {
+				$output->writeln('<info>Adding additional size index to the filecache table, this can take some time...</info>');
+				$table->addIndex(['size'], 'fs_size');
 				$this->connection->migrateToSchema($schema->getWrappedSchema());
 				$updated = true;
 				$output->writeln('<info>Filecache table updated successfully.</info>');
@@ -192,8 +202,23 @@ class AddMissingIndices extends Command {
 		}
 
 		$output->writeln('<info>Check indices of the cards table.</info>');
+		$cardsUpdated = false;
 		if ($schema->hasTable('cards')) {
 			$table = $schema->getTable('cards');
+
+			if ($table->hasIndex('addressbookid_uri_index')) {
+				$output->writeln('<info>Renaming addressbookid_uri_index index to  to the cards table, this can take some time...</info>');
+
+				foreach ($table->getIndexes() as $index) {
+					if ($index->getColumns() === ['addressbookid', 'uri']) {
+						$table->renameIndex('addressbookid_uri_index', 'cards_abiduri');
+					}
+				}
+
+				$this->connection->migrateToSchema($schema->getWrappedSchema());
+				$cardsUpdated = true;
+			}
+
 			if (!$table->hasIndex('cards_abid')) {
 				$output->writeln('<info>Adding cards_abid index to the cards table, this can take some time...</info>');
 
@@ -205,6 +230,24 @@ class AddMissingIndices extends Command {
 
 				$table->addIndex(['addressbookid'], 'cards_abid');
 				$this->connection->migrateToSchema($schema->getWrappedSchema());
+				$cardsUpdated = true;
+			}
+
+			if (!$table->hasIndex('cards_abiduri')) {
+				$output->writeln('<info>Adding cards_abiduri index to the cards table, this can take some time...</info>');
+
+				foreach ($table->getIndexes() as $index) {
+					if ($index->getColumns() === ['addressbookid', 'uri']) {
+						$table->dropIndex($index->getName());
+					}
+				}
+
+				$table->addIndex(['addressbookid', 'uri'], 'cards_abiduri');
+				$this->connection->migrateToSchema($schema->getWrappedSchema());
+				$cardsUpdated = true;
+			}
+
+			if ($cardsUpdated) {
 				$updated = true;
 				$output->writeln('<info>cards table updated successfully.</info>');
 			}
@@ -252,6 +295,19 @@ class AddMissingIndices extends Command {
 				$this->connection->migrateToSchema($schema->getWrappedSchema());
 				$updated = true;
 				$output->writeln('<info>schedulingobjects table updated successfully.</info>');
+			}
+		}
+
+		$output->writeln('<info>Check indices of the oc_properties table.</info>');
+		if ($schema->hasTable('properties')) {
+			$table = $schema->getTable('properties');
+			if (!$table->hasIndex('properties_path_index')) {
+				$output->writeln('<info>Adding properties_path_index index to the oc_properties table, this can take some time...</info>');
+
+				$table->addIndex(['userid', 'propertypath'], 'properties_path_index');
+				$this->connection->migrateToSchema($schema->getWrappedSchema());
+				$updated = true;
+				$output->writeln('<info>oc_properties table updated successfully.</info>');
 			}
 		}
 

@@ -21,7 +21,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_Sharing\Tests;
 
 use OC\Files\View;
@@ -42,5 +41,4 @@ class EncryptedSizePropagationTest extends SizePropagationTest {
 		$this->loginWithEncryption($name);
 		return new View('/' . $name . '/files');
 	}
-
 }

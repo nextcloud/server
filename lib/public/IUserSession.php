@@ -26,13 +26,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
-/**
- * Public interface of ownCloud for apps to use.
- * User session interface
- *
- */
-
 // use OCP namespace for all classes that are considered public.
 // This means that they should be used by apps instead of the internal ownCloud classes
 
@@ -46,12 +39,12 @@ interface IUserSession {
 	/**
 	 * Do a user login
 	 *
-	 * @param string $user the username
+	 * @param string $uid the username
 	 * @param string $password the password
 	 * @return bool true if successful
 	 * @since 6.0.0
 	 */
-	public function login($user, $password);
+	public function login($uid, $password);
 
 	/**
 	 * Logs the user out including all the session data

@@ -7,10 +7,11 @@
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Ko- <k.stoffelen@cs.ru.nl>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -27,7 +28,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 // no php execution timeout for webdav
 if (strpos(@ini_get('disable_functions'), 'set_time_limit') === false) {
 	@set_time_limit(0);
@@ -46,7 +46,8 @@ $serverFactory = new \OCA\DAV\Connector\Sabre\ServerFactory(
 	\OC::$server->getTagManager(),
 	\OC::$server->getRequest(),
 	\OC::$server->getPreviewManager(),
-	\OC::$server->getEventDispatcher()
+	\OC::$server->getEventDispatcher(),
+	\OC::$server->getL10N('dav')
 );
 
 // Backends
@@ -68,7 +69,7 @@ $authPlugin->addBackend($bearerAuthPlugin);
 
 $requestUri = \OC::$server->getRequest()->getRequestUri();
 
-$server = $serverFactory->createServer($baseuri, $requestUri, $authPlugin, function() {
+$server = $serverFactory->createServer($baseuri, $requestUri, $authPlugin, function () {
 	// use the view for the logged in user
 	return \OC\Files\Filesystem::getView();
 });

@@ -4,8 +4,8 @@
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Jan C. Borchardt <hey@jancborchardt.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
@@ -17,14 +17,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Settings\Tests\Controller;
 
 use OCA\Settings\Controller\AdminSettingsController;
@@ -37,7 +36,6 @@ use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Settings\IManager;
-use OCP\Support\Subscription\IRegistry;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
@@ -87,7 +85,7 @@ class AdminSettingsControllerTest extends TestCase {
 			$this->subAdmin
 		);
 
-		$user = \OC::$server->getUserManager()->createUser($this->adminUid, 'olo');
+		$user = \OC::$server->getUserManager()->createUser($this->adminUid, 'mylongrandompassword');
 		\OC_User::setUserId($user->getUID());
 		\OC::$server->getGroupManager()->createGroup('admin')->addUser($user);
 	}
@@ -100,7 +98,6 @@ class AdminSettingsControllerTest extends TestCase {
 
 	public function testIndex() {
 		$user = $this->createMock(IUser::class);
-		$registry = $this->createMock(IRegistry::class);
 		$this->userSession
 			->method('getUser')
 			->willReturn($user);
@@ -125,7 +122,7 @@ class AdminSettingsControllerTest extends TestCase {
 			->expects($this->once())
 			->method('getAdminSettings')
 			->with('test')
-			->willReturn([5 => new ServerDevNotice($registry)]);
+			->willReturn([5 => $this->createMock(ServerDevNotice::class)]);
 
 		$idx = $this->adminSettingsController->index('test');
 

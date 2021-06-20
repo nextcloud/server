@@ -4,11 +4,13 @@
  *
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
  * @author Jakob Sack <mail@jakobsack.de>
  * @author Jan-Philipp Litza <jplitza@users.noreply.github.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Owen Winkler <a_github@midnightcircus.com>
@@ -17,7 +19,7 @@
  * @author Semih Serhat Karakaya <karakayasemi@itu.edu.tr>
  * @author Stefan Schneider <stefan.schneider@squareweave.com.au>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -34,12 +36,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Connector\Sabre;
 
 use Icewind\Streams\CallbackWrapper;
 use OC\AppFramework\Http\Request;
 use OC\Files\Filesystem;
+use OC\Files\Stream\HashWrapper;
 use OC\Files\View;
 use OCA\DAV\Connector\Sabre\Exception\EntityTooLarge;
 use OCA\DAV\Connector\Sabre\Exception\FileLocked;
@@ -49,6 +51,7 @@ use OCP\Encryption\Exceptions\GenericEncryptionException;
 use OCP\Files\EntityTooLargeException;
 use OCP\Files\FileInfo;
 use OCP\Files\ForbiddenException;
+use OCP\Files\GenericFileException;
 use OCP\Files\InvalidContentException;
 use OCP\Files\InvalidPathException;
 use OCP\Files\LockNotAcquiredException;
@@ -69,7 +72,6 @@ use Sabre\DAV\Exception\ServiceUnavailable;
 use Sabre\DAV\IFile;
 
 class File extends Node implements IFile {
-
 	protected $request;
 
 	/**
@@ -141,7 +143,7 @@ class File extends Node implements IFile {
 		}
 
 		/** @var Storage $partStorage */
-		list($partStorage) = $this->fileView->resolvePath($this->path);
+		[$partStorage] = $this->fileView->resolvePath($this->path);
 		$needsPartFile = $partStorage->needsPartFile() && (strlen($this->path) > 1);
 
 		$view = \OC\Files\Filesystem::getView();
@@ -165,32 +167,47 @@ class File extends Node implements IFile {
 
 		// the part file and target file might be on a different storage in case of a single file storage (e.g. single file share)
 		/** @var \OC\Files\Storage\Storage $partStorage */
-		list($partStorage, $internalPartPath) = $this->fileView->resolvePath($partFilePath);
+		[$partStorage, $internalPartPath] = $this->fileView->resolvePath($partFilePath);
 		/** @var \OC\Files\Storage\Storage $storage */
-		list($storage, $internalPath) = $this->fileView->resolvePath($this->path);
+		[$storage, $internalPath] = $this->fileView->resolvePath($this->path);
 		try {
 			if (!$needsPartFile) {
 				$this->changeLock(ILockingProvider::LOCK_EXCLUSIVE);
 			}
 
-			if ($partStorage->instanceOfStorage(Storage\IWriteStreamStorage::class)) {
-
-				if (!is_resource($data)) {
-					$tmpData = fopen('php://temp', 'r+');
-					if ($data !== null) {
-						fwrite($tmpData, $data);
-						rewind($tmpData);
-					}
-					$data = $tmpData;
+			if (!is_resource($data)) {
+				$tmpData = fopen('php://temp', 'r+');
+				if ($data !== null) {
+					fwrite($tmpData, $data);
+					rewind($tmpData);
 				}
+				$data = $tmpData;
+			}
 
+			$data = HashWrapper::wrap($data, 'md5', function ($hash) {
+				$this->header('X-Hash-MD5: ' . $hash);
+			});
+			$data = HashWrapper::wrap($data, 'sha1', function ($hash) {
+				$this->header('X-Hash-SHA1: ' . $hash);
+			});
+			$data = HashWrapper::wrap($data, 'sha256', function ($hash) {
+				$this->header('X-Hash-SHA256: ' . $hash);
+			});
+
+			if ($partStorage->instanceOfStorage(Storage\IWriteStreamStorage::class)) {
 				$isEOF = false;
 				$wrappedData = CallbackWrapper::wrap($data, null, null, null, null, function ($stream) use (&$isEOF) {
 					$isEOF = feof($stream);
 				});
 
-				$count = $partStorage->writeStream($internalPartPath, $wrappedData);
-				$result = $count > 0;
+				$result = true;
+				$count = -1;
+				try {
+					$count = $partStorage->writeStream($internalPartPath, $wrappedData);
+				} catch (GenericFileException $e) {
+					$result = false;
+				}
+
 
 				if ($result === false) {
 					$result = $isEOF;
@@ -198,7 +215,6 @@ class File extends Node implements IFile {
 						$result = feof($wrappedData);
 					}
 				}
-
 			} else {
 				$target = $partStorage->fopen($internalPartPath, 'wb');
 				if ($target === false) {
@@ -206,7 +222,7 @@ class File extends Node implements IFile {
 					// because we have no clue about the cause we can only throw back a 500/Internal Server Error
 					throw new Exception('Could not write file contents');
 				}
-				list($count, $result) = \OC_Helper::streamCopy($data, $target);
+				[$count, $result] = \OC_Helper::streamCopy($data, $target);
 				fclose($target);
 			}
 
@@ -229,7 +245,6 @@ class File extends Node implements IFile {
 					throw new BadRequest('Expected filesize of ' . $expected . ' bytes but read (from Nextcloud client) and wrote (to Nextcloud storage) ' . $count . ' bytes. Could either be a network problem on the sending side or a problem writing to the storage on the server side.');
 				}
 			}
-
 		} catch (\Exception $e) {
 			$context = [];
 
@@ -280,6 +295,9 @@ class File extends Node implements IFile {
 						throw new Exception('Could not rename part file to final file');
 					}
 				} catch (ForbiddenException $ex) {
+					if (!$ex->getRetry()) {
+						$partStorage->unlink($internalPartPath);
+					}
 					throw new DAVForbiddenException($ex->getMessage(), $ex->getRetry());
 				} catch (\Exception $e) {
 					$partStorage->unlink($internalPartPath);
@@ -327,11 +345,10 @@ class File extends Node implements IFile {
 				$checksum = trim($this->request->server['HTTP_OC_CHECKSUM']);
 				$this->fileView->putFileInfo($this->path, ['checksum' => $checksum]);
 				$this->refreshInfo();
-			} else if ($this->getChecksum() !== null && $this->getChecksum() !== '') {
+			} elseif ($this->getChecksum() !== null && $this->getChecksum() !== '') {
 				$this->fileView->putFileInfo($this->path, ['checksum' => '']);
 				$this->refreshInfo();
 			}
-
 		} catch (StorageNotAvailableException $e) {
 			throw new ServiceUnavailable("Failed to check file size: " . $e->getMessage(), 0, $e);
 		}
@@ -476,14 +493,14 @@ class File extends Node implements IFile {
 	}
 
 	/**
-	 * @return array|false
+	 * @return array|bool
 	 */
 	public function getDirectDownload() {
 		if (\OCP\App::isEnabled('encryption')) {
 			return [];
 		}
 		/** @var \OCP\Files\Storage $storage */
-		list($storage, $internalPath) = $this->fileView->resolvePath($this->path);
+		[$storage, $internalPath] = $this->fileView->resolvePath($this->path);
 		if (is_null($storage)) {
 			return [];
 		}
@@ -500,7 +517,7 @@ class File extends Node implements IFile {
 	 * @throws ServiceUnavailable
 	 */
 	private function createFileChunked($data) {
-		list($path, $name) = \Sabre\Uri\split($this->path);
+		[$path, $name] = \Sabre\Uri\split($this->path);
 
 		$info = \OC_FileChunking::decodeName($name);
 		if (empty($info)) {
@@ -511,7 +528,7 @@ class File extends Node implements IFile {
 		$bytesWritten = $chunk_handler->store($info['index'], $data);
 
 		//detect aborted upload
-		if (isset ($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'PUT') {
+		if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'PUT') {
 			if (isset($_SERVER['CONTENT_LENGTH'])) {
 				$expected = (int)$_SERVER['CONTENT_LENGTH'];
 				if ($bytesWritten !== $expected) {
@@ -523,13 +540,13 @@ class File extends Node implements IFile {
 
 		if ($chunk_handler->isComplete()) {
 			/** @var Storage $storage */
-			list($storage,) = $this->fileView->resolvePath($path);
+			[$storage,] = $this->fileView->resolvePath($path);
 			$needsPartFile = $storage->needsPartFile();
 			$partFile = null;
 
 			$targetPath = $path . '/' . $info['name'];
 			/** @var \OC\Files\Storage\Storage $targetStorage */
-			list($targetStorage, $targetInternalPath) = $this->fileView->resolvePath($targetPath);
+			[$targetStorage, $targetInternalPath] = $this->fileView->resolvePath($targetPath);
 
 			$exists = $this->fileView->file_exists($targetPath);
 
@@ -539,13 +556,13 @@ class File extends Node implements IFile {
 				$this->emitPreHooks($exists, $targetPath);
 				$this->fileView->changeLock($targetPath, ILockingProvider::LOCK_EXCLUSIVE);
 				/** @var \OC\Files\Storage\Storage $targetStorage */
-				list($targetStorage, $targetInternalPath) = $this->fileView->resolvePath($targetPath);
+				[$targetStorage, $targetInternalPath] = $this->fileView->resolvePath($targetPath);
 
 				if ($needsPartFile) {
 					// we first assembly the target file as a part file
 					$partFile = $this->getPartFileBasePath($path . '/' . $info['name']) . '.ocTransferId' . $info['transferid'] . '.part';
 					/** @var \OC\Files\Storage\Storage $targetStorage */
-					list($partStorage, $partInternalPath) = $this->fileView->resolvePath($partFile);
+					[$partStorage, $partInternalPath] = $this->fileView->resolvePath($partFile);
 
 
 					$chunk_handler->file_assemble($partStorage, $partInternalPath);
@@ -591,7 +608,7 @@ class File extends Node implements IFile {
 				if (isset($this->request->server['HTTP_OC_CHECKSUM'])) {
 					$checksum = trim($this->request->server['HTTP_OC_CHECKSUM']);
 					$this->fileView->putFileInfo($targetPath, ['checksum' => $checksum]);
-				} else if ($info->getChecksum() !== null && $info->getChecksum() !== '') {
+				} elseif ($info->getChecksum() !== null && $info->getChecksum() !== '') {
 					$this->fileView->putFileInfo($this->path, ['checksum' => '']);
 				}
 
@@ -662,13 +679,18 @@ class File extends Node implements IFile {
 	/**
 	 * Get the checksum for this file
 	 *
-	 * @return string
+	 * @return string|null
 	 */
 	public function getChecksum() {
+		if (!$this->info) {
+			return null;
+		}
 		return $this->info->getChecksum();
 	}
 
 	protected function header($string) {
-		\header($string);
+		if (!\OC::$CLI) {
+			\header($string);
+		}
 	}
 }

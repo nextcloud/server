@@ -37,10 +37,10 @@ class SameSiteCookieMiddlewareTest extends TestCase {
 	/** @var SameSiteCookieMiddleware */
 	private $middleware;
 
-	/** @var Request|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var Request|\PHPUnit\Framework\MockObject\MockObject */
 	private $request;
 
-	/** @var ControllerMethodReflector|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ControllerMethodReflector|\PHPUnit\Framework\MockObject\MockObject */
 	private $reflector;
 
 	protected function setUp(): void {

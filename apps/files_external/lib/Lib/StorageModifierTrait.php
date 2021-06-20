@@ -20,7 +20,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_External\Lib;
 
 use OCP\Files\Storage;
@@ -64,5 +63,4 @@ trait StorageModifierTrait {
 	public function wrapStorage(Storage $storage) {
 		return $storage;
 	}
-
 }

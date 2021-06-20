@@ -68,7 +68,7 @@ export default {
 				.replace('{linkend}', '</a>')
 		},
 		guidelinesLink() {
-			return `<a target="_blank" href="https://www.w3.org/WAI/standards-guidelines/wcag/" rel="noreferrer nofollow">`
+			return '<a target="_blank" href="https://www.w3.org/WAI/standards-guidelines/wcag/" rel="noreferrer nofollow">'
 		},
 		descriptionDetail() {
 			return t(
@@ -80,24 +80,28 @@ export default {
 				.replace(/\{linkend\}/g, '</a>')
 		},
 		issuetrackerLink() {
-			return `<a target="_blank" href="https://github.com/nextcloud/server/issues/" rel="noreferrer nofollow">`
+			return '<a target="_blank" href="https://github.com/nextcloud/server/issues/" rel="noreferrer nofollow">'
 		},
 		designteamLink() {
-			return `<a target="_blank" href="https://nextcloud.com/design" rel="noreferrer nofollow">`
+			return '<a target="_blank" href="https://nextcloud.com/design" rel="noreferrer nofollow">'
 		},
 	},
 	methods: {
 		// SELECT handlers
 		selectHighContrast(id) {
 			this.selectItem('highcontrast', id)
+			document.body.classList.toggle('theme--highcontrast')
 		},
 		selectTheme(id) {
 			const previous = this.selected.theme
 			if (previous) {
-				document.body.classList.remove(previous)
+				document.body.classList.remove(`theme--${previous}`)
 			}
 			if (id) {
-				document.body.classList.add(id)
+				document.body.classList.remove('theme--light')
+				document.body.classList.add(`theme--${id}`)
+			} else {
+				document.body.classList.add('theme--light')
 			}
 
 			this.selectItem('theme', id)

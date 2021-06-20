@@ -4,9 +4,10 @@
  * @copyright Copyright (c) 2017, Georg Ehrke
  * @copyright Copyright (c) 2020, Gary Kim <gary@garykim.dev>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Gary Kim <gary@garykim.dev>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Gary Kim <gary@garykim.dev>
  *
  * @license AGPL-3.0
  *
@@ -23,9 +24,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\CalDAV;
-
 
 use OCP\IL10N;
 use Sabre\VObject\Component;
@@ -60,7 +59,7 @@ class CalendarObject extends \Sabre\CalDAV\CalendarObject {
 	/**
 	 * @inheritdoc
 	 */
-	function get() {
+	public function get() {
 		$data = parent::get();
 
 		if (!$this->isShared()) {
@@ -82,6 +81,10 @@ class CalendarObject extends \Sabre\CalDAV\CalendarObject {
 		return $vObject->serialize();
 	}
 
+	public function getId(): int {
+		return (int) $this->objectData['id'];
+	}
+
 	protected function isShared() {
 		if (!isset($this->calendarInfo['{http://owncloud.org/ns}owner-principal'])) {
 			return false;
@@ -97,19 +100,19 @@ class CalendarObject extends \Sabre\CalDAV\CalendarObject {
 	private function createConfidentialObject(Component\VCalendar $vObject) {
 		/** @var Component $vElement */
 		$vElement = null;
-		if(isset($vObject->VEVENT)) {
+		if (isset($vObject->VEVENT)) {
 			$vElement = $vObject->VEVENT;
 		}
-		if(isset($vObject->VJOURNAL)) {
+		if (isset($vObject->VJOURNAL)) {
 			$vElement = $vObject->VJOURNAL;
 		}
-		if(isset($vObject->VTODO)) {
+		if (isset($vObject->VTODO)) {
 			$vElement = $vObject->VTODO;
 		}
-		if(!is_null($vElement)) {
+		if (!is_null($vElement)) {
 			foreach ($vElement->children() as &$property) {
 				/** @var Property $property */
-				switch($property->name) {
+				switch ($property->name) {
 					case 'CREATED':
 					case 'DTSTART':
 					case 'RRULE':
@@ -137,7 +140,7 @@ class CalendarObject extends \Sabre\CalDAV\CalendarObject {
 	private function removeVAlarms(Component\VCalendar $vObject) {
 		$subcomponents = $vObject->getComponents();
 
-		foreach($subcomponents as $subcomponent) {
+		foreach ($subcomponents as $subcomponent) {
 			unset($subcomponent->VALARM);
 		}
 	}

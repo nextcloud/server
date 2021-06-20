@@ -27,11 +27,11 @@ class RootTest extends \Test\TestCase {
 	private $user;
 	/** @var \OC\Files\Mount\Manager */
 	private $manager;
-	/** @var \OCP\Files\Config\IUserMountCache|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCP\Files\Config\IUserMountCache|\PHPUnit\Framework\MockObject\MockObject */
 	private $userMountCache;
-	/** @var ILogger|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ILogger|\PHPUnit\Framework\MockObject\MockObject */
 	private $logger;
-	/** @var IUserManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $userManager;
 
 	protected function setUp(): void {
@@ -60,7 +60,7 @@ class RootTest extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		/**
-		 * @var \OC\Files\View | \PHPUnit_Framework_MockObject_MockObject $view
+		 * @var \OC\Files\View | \PHPUnit\Framework\MockObject\MockObject $view
 		 */
 		$view = $this->getMockBuilder(View::class)
 			->disableOriginalConstructor()
@@ -85,7 +85,7 @@ class RootTest extends \Test\TestCase {
 		$this->assertInstanceOf('\OC\Files\Node\File', $node);
 	}
 
-	
+
 	public function testGetNotFound() {
 		$this->expectException(\OCP\Files\NotFoundException::class);
 
@@ -96,7 +96,7 @@ class RootTest extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		/**
-		 * @var \OC\Files\View | \PHPUnit_Framework_MockObject_MockObject $view
+		 * @var \OC\Files\View | \PHPUnit\Framework\MockObject\MockObject $view
 		 */
 		$view = $this->getMockBuilder(View::class)
 			->disableOriginalConstructor()
@@ -119,12 +119,12 @@ class RootTest extends \Test\TestCase {
 		$root->get('/bar/foo');
 	}
 
-	
+
 	public function testGetInvalidPath() {
 		$this->expectException(\OCP\Files\NotPermittedException::class);
 
 		/**
-		 * @var \OC\Files\View | \PHPUnit_Framework_MockObject_MockObject $view
+		 * @var \OC\Files\View | \PHPUnit\Framework\MockObject\MockObject $view
 		 */
 		$view = $this->getMockBuilder(View::class)
 			->disableOriginalConstructor()
@@ -141,12 +141,12 @@ class RootTest extends \Test\TestCase {
 		$root->get('/../foo');
 	}
 
-	
+
 	public function testGetNoStorages() {
 		$this->expectException(\OCP\Files\NotFoundException::class);
 
 		/**
-		 * @var \OC\Files\View | \PHPUnit_Framework_MockObject_MockObject $view
+		 * @var \OC\Files\View | \PHPUnit\Framework\MockObject\MockObject $view
 		 */
 		$view = $this->getMockBuilder(View::class)
 			->disableOriginalConstructor()
@@ -182,7 +182,7 @@ class RootTest extends \Test\TestCase {
 			->method('get')
 			->with('MyUserId')
 			->willReturn($user);
-		/** @var CappedMemoryCache|\PHPUnit_Framework_MockObject_MockObject $cappedMemoryCache */
+		/** @var CappedMemoryCache|\PHPUnit\Framework\MockObject\MockObject $cappedMemoryCache */
 		$cappedMemoryCache = $this->createMock(CappedMemoryCache::class);
 		$cappedMemoryCache
 			->expects($this->once())
@@ -199,7 +199,7 @@ class RootTest extends \Test\TestCase {
 		$this->assertEquals($folder, $root->getUserFolder('MyUserId'));
 	}
 
-	
+
 	public function testGetUserFolderWithNoUserObj() {
 		$this->expectException(\OC\User\NoUserException::class);
 		$this->expectExceptionMessage('Backends provided no user object');

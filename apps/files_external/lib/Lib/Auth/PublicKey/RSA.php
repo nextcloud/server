@@ -21,7 +21,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_External\Lib\Auth\PublicKey;
 
 use OCA\Files_External\Lib\Auth\AuthMechanism;
@@ -83,5 +82,4 @@ class RSA extends AuthMechanism {
 
 		return $rsa->createKey($keyLength);
 	}
-
 }

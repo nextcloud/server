@@ -2,6 +2,10 @@
 /**
  * @copyright Copyright (c) 2016 Joas Schilling <coding@schilljs.com>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author Morris Jobke <hey@morrisjobke.de>
+ *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -11,29 +15,27 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\WorkflowEngine\Tests\Check;
 
 use OCP\IL10N;
 
 class AbstractStringCheckTest extends \Test\TestCase {
-
 	protected function getCheckMock() {
 		$l = $this->getMockBuilder(IL10N::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$l->expects($this->any())
 			->method('t')
-			->willReturnCallback(function($string, $args) {
-					return sprintf($string, $args);
-				});
+			->willReturnCallback(function ($string, $args) {
+				return sprintf($string, $args);
+			});
 
 		$check = $this->getMockBuilder('OCA\WorkflowEngine\Check\AbstractStringCheck')
 			->setConstructorArgs([

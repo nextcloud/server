@@ -124,5 +124,4 @@ class NextcloudTestServerContext implements Context {
 			}
 		}
 	}
-
 }

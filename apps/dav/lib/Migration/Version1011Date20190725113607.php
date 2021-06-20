@@ -3,9 +3,10 @@
 declare(strict_types=1);
 
 /**
- *
+ * @copyright Copyright (c) 2016 Georg Ehrke <oc.list@georgehrke.com>
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -18,7 +19,7 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -27,7 +28,7 @@ declare(strict_types=1);
  */
 namespace OCA\DAV\Migration;
 
-use Doctrine\DBAL\Types\Type;
+use OCP\DB\Types;
 use OCP\DB\ISchemaWrapper;
 use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
@@ -49,26 +50,26 @@ class Version1011Date20190725113607 extends SimpleMigrationStep {
 		$schema = $schemaClosure();
 
 		$types = ['resource', 'room'];
-		foreach($types as $type) {
+		foreach ($types as $type) {
 			if (!$schema->hasTable($this->getMetadataTableName($type))) {
 				$table = $schema->createTable($this->getMetadataTableName($type));
 
-				$table->addColumn('id', Type::BIGINT, [
+				$table->addColumn('id', Types::BIGINT, [
 					'autoincrement' => true,
 					'notnull' => true,
 					'length' => 11,
 					'unsigned' => true,
 				]);
-				$table->addColumn($type . '_id', Type::BIGINT, [
+				$table->addColumn($type . '_id', Types::BIGINT, [
 					'notnull' => true,
 					'length' => 11,
 					'unsigned' => true,
 				]);
-				$table->addColumn('key', Type::STRING, [
+				$table->addColumn('key', Types::STRING, [
 					'notnull' => true,
 					'length' => 255,
 				]);
-				$table->addColumn('value', Type::STRING, [
+				$table->addColumn('value', Types::STRING, [
 					'notnull' => false,
 					'length' => 4000,
 				]);

@@ -4,6 +4,8 @@
  *
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  *
  * @license AGPL-3.0
@@ -21,7 +23,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Core\Command\Encryption;
 
 use OC\Encryption\Keys\Storage;
@@ -83,14 +84,14 @@ class ChangeKeyStorageRoot extends Command {
 			);
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$oldRoot = $this->util->getKeyStorageRoot();
 		$newRoot = $input->getArgument('newRoot');
 
 		if ($newRoot === null) {
 			$question = new ConfirmationQuestion('No storage root given, do you want to reset the key storage root to the default location? (y/n) ', false);
 			if (!$this->questionHelper->ask($input, $output, $question)) {
-				return;
+				return 1;
 			}
 			$newRoot = '';
 		}
@@ -103,7 +104,9 @@ class ChangeKeyStorageRoot extends Command {
 			$this->util->setKeyStorageRoot($newRoot);
 			$output->writeln('');
 			$output->writeln("Key storage root successfully changed to <info>$newRootDescription</info>");
+			return 0;
 		}
+		return 1;
 	}
 
 	/**
@@ -116,7 +119,6 @@ class ChangeKeyStorageRoot extends Command {
 	 * @throws \Exception
 	 */
 	protected function moveAllKeys($oldRoot, $newRoot, OutputInterface $output) {
-
 		$output->writeln("Start to move keys:");
 
 		if ($this->rootView->is_dir($oldRoot) === false) {
@@ -150,7 +152,6 @@ class ChangeKeyStorageRoot extends Command {
 		if (!$result) {
 			throw new \Exception("Can't access the new root folder. Please check the permissions and make sure that the folder is in your data folder");
 		}
-
 	}
 
 
@@ -189,12 +190,11 @@ class ChangeKeyStorageRoot extends Command {
 	 * @param OutputInterface $output
 	 */
 	protected function moveUserKeys($oldRoot, $newRoot, OutputInterface $output) {
-
 		$progress = new ProgressBar($output);
 		$progress->start();
 
 
-		foreach($this->userManager->getBackends() as $backend) {
+		foreach ($this->userManager->getBackends() as $backend) {
 			$limit = 500;
 			$offset = 0;
 			do {
@@ -205,7 +205,7 @@ class ChangeKeyStorageRoot extends Command {
 					$this->moveUserEncryptionFolder($user, $oldRoot, $newRoot);
 				}
 				$offset += $limit;
-			} while(count($users) >= $limit);
+			} while (count($users) >= $limit);
 		}
 		$progress->finish();
 	}
@@ -219,9 +219,7 @@ class ChangeKeyStorageRoot extends Command {
 	 * @throws \Exception
 	 */
 	protected function moveUserEncryptionFolder($user, $oldRoot, $newRoot) {
-
 		if ($this->userManager->userExists($user)) {
-
 			$source = $oldRoot . '/' . $user . '/files_encryption';
 			$target = $newRoot . '/' . $user . '/files_encryption';
 			if (
@@ -268,5 +266,4 @@ class ChangeKeyStorageRoot extends Command {
 
 		return false;
 	}
-
 }

@@ -24,7 +24,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\Security;
 
 /**
@@ -35,7 +34,6 @@ namespace OCP\Security;
  * $encryptWithDefaultPassword = \OC::$server->getCrypto()->encrypt('EncryptedText');
  * $encryptWithCustomPassword = \OC::$server->getCrypto()->encrypt('EncryptedText', 'password');
  *
- * @package OCP\Security
  * @since 8.0.0
  */
 interface ICrypto {

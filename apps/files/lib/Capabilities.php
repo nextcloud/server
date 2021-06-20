@@ -23,7 +23,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files;
 
 use OCA\Files\Service\DirectEditingService;
@@ -75,6 +74,4 @@ class Capabilities implements ICapability {
 			],
 		];
 	}
-
-
 }

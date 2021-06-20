@@ -6,7 +6,6 @@
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
- * @author Morris Jobke <hey@morrisjobke.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @license AGPL-3.0
@@ -24,7 +23,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC;
 
 /**
@@ -35,7 +33,6 @@ namespace OC;
  * @package OC
  */
 class HintException extends \Exception {
-
 	private $hint;
 
 	/**

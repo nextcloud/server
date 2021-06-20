@@ -9,6 +9,7 @@
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vinicius Cubas Brand <vinicius@eita.org.br>
  *
@@ -27,7 +28,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP;
 
 /**
@@ -43,7 +43,6 @@ namespace OCP;
  * - preCreate(string $groupId)
  * - postCreate(\OC\Group\Group $group)
  *
- * @package OC\Group
  * @since 8.0.0
  */
 interface IGroupManager {
@@ -113,10 +112,10 @@ interface IGroupManager {
 
 	/**
 	 * @param \OCP\IUser $user
-	 * @return array with group names
+	 * @return string[] with group names
 	 * @since 8.0.0
 	 */
-	public function getUserGroupIds(IUser $user);
+	public function getUserGroupIds(IUser $user): array;
 
 	/**
 	 * get a list of all display names in a group

@@ -8,20 +8,28 @@
 }
 
 @mixin faded-background {
-	background-image: linear-gradient(40deg, $color-primary 0%, lighten($color-primary, 20%) 100%);
+	background-color: $color-primary;
+
+	@if ($color-primary == #0082C9) {
+		background-image: linear-gradient(40deg, $color-primary 0%, lighten($color-primary, 20%) 100%);
+	} @else {
+		/** This will be overwritten by the faded-background-image mixin if needed */
+		background-image: none;
+	}
 }
 
 @mixin faded-background-image {
-	@if ($color-primary == #0082C9) or ($has-custom-background == true) {
-		background-image: $image-login-background, linear-gradient(40deg, $color-primary 0%, lighten($color-primary, 20%) 100%);
+	@include faded-background;
+	background-size: contain;
 
-		@if($has-custom-background == true) {
-			background-size: cover;
-			background-repeat: no-repeat;
-		}
-	} @else {
-		@include faded-background;
-		background-size: contain;
+	@if ($color-primary == #0082C9) {
+		background-image: $image-login-background, linear-gradient(40deg, $color-primary 0%, lighten($color-primary, 20%) 100%);
+	}
+
+	@if($has-custom-background == true) {
+		background-size: cover;
+		background-repeat: no-repeat;
+		background-image: $image-login-background;
 	}
 }
 
@@ -74,39 +82,6 @@ $invert: luma($color-primary) > 0.6;
 	#appmenu .icon-more-white {
 		@include icon-color('more', 'actions', $color-black, 1, true);
 	}
-
-	#body-login {
-
-		input,
-		#alternative-logins li a {
-			border: 1px solid nc-lighten($color-primary-text, 50%);
-		}
-		input.primary,
-		button.primary,
-		#alternative-logins li a {
-			background-color: $color-primary;
-			color: $color-primary-text;
-		}
-		a,
-		label,
-		footer p,
-		#alternative-logins legend,
-		.lost-password-container #lost-password {
-			color: $color-primary-text;
-		}
-		input[type='checkbox'].checkbox--white + label:before {
-			border-color: nc-darken($color-primary-element, 40%) !important;
-		}
-		input[type='checkbox'].checkbox--white:not(:disabled):not(:checked) + label:hover:before,
-		input[type='checkbox'].checkbox--white:focus + label:before {
-			border-color: nc-darken($color-primary-element, 30%) !important;
-		}
-		input[type='checkbox'].checkbox--white:checked + label:before {
-			border-color: nc-darken($color-primary-element, 30%) !important;
-			background-color: nc-darken($color-primary-element, 30%) !important;
-			@include icon-color('checkbox-mark', 'actions', $color-white, 1, true);
-		}
-	}
 } @else {
 	#appmenu:not(.inverted) svg {
 		filter: none;
@@ -138,6 +113,12 @@ $invert: luma($color-primary) > 0.6;
 	@include faded-background;
 }
 
+#body-login,
+#firstrunwizard .firstrunwizard-header,
+#theming-preview {
+	@include faded-background-image;
+}
+
 /* override styles for login screen in guest.css */
 @if ($has-custom-logo) {
 	// custom logo
@@ -156,22 +137,6 @@ $invert: luma($color-primary) > 0.6;
 		#header .logo {
 			opacity: .6;
 		}
-	}
-}
-
-@if variable_exists('theming-background-mime') and $theming-background-mime != ''  {
-	#body-login,
-	#firstrunwizard .firstrunwizard-header,
-	#theming-preview {
-		background-image: $image-login-background;
-		background-color: $color-primary;
-		@include faded-background-image;
-	}
-} @else {
-	#theming-preview {
-		background-image: $image-login-background;
-		background-color: $color-primary;
-		@include faded-background-image;
 	}
 }
 
@@ -197,7 +162,7 @@ $invert: luma($color-primary) > 0.6;
 }
 
 input.primary,
-#alternative-logins li a {
+.alternative-logins a, {
 	background-color: $color-primary-element;
 	border: 1px solid $color-primary-text;
 	color: $color-primary-text;
@@ -206,19 +171,59 @@ input.primary,
 @if ($invert) {
 	#body-login {
 		.body-login-container {
-			background-color: $color-main-background;
-		}
-		#submit-wrapper .icon-confirm-white {
-			background-image: url('../../../core/img/actions/confirm.svg');
-		}
-		.body-login-container {
+			background-color: transparentize(nc-lighten($color-primary, 30%), 0.2);
+			color: $color-primary-text !important;
+
 			h2 {
-				color: $color-main-text;
+				color: $color-primary-text;
 			}
 			.icon-search.icon-white {
 				// CSS variable is not used here since it is on the public page layout,
 				// where the dark theme doesn't apply at the moment
 				background-image: url('../../../core/img/actions/search.svg');
+			}
+		}
+
+		input,
+		.alternative-logins a {
+			border: 1px solid nc-lighten($color-primary-text, 50%);
+		}
+		input.primary,
+		button.primary,
+		.alternative-logins a {
+			background-color: $color-primary;
+			color: $color-primary-text;
+		}
+		a,
+		label,
+		footer p,
+		.alternative-logins legend,
+		.lost-password-container #lost-password,
+		.warning, .update, .error {
+			color: $color-primary-text !important;
+		}
+		input[type='checkbox'].checkbox--white + label:before {
+			border-color: nc-darken($color-primary-element, 40%) !important;
+		}
+		input[type='checkbox'].checkbox--white:not(:disabled):not(:checked) + label:hover:before,
+		input[type='checkbox'].checkbox--white:focus + label:before {
+			border-color: nc-darken($color-primary-element, 30%) !important;
+		}
+		input[type='checkbox'].checkbox--white:checked + label:before {
+			border-color: nc-darken($color-primary-element, 30%) !important;
+			background-color: nc-darken($color-primary-element, 30%) !important;
+			@include icon-color('checkbox-mark', 'actions', $color-white, 1, true);
+		}
+		#submit-wrapper .icon-confirm-white {
+			background-image: url('../../../core/img/actions/confirm.svg');
+		}
+
+		.two-factor-provider {
+			&:hover, &:focus {
+				border-color: $color-primary-text;
+			}
+			img {
+				filter: invert(1);
 			}
 		}
 	}
@@ -231,7 +236,6 @@ input.primary,
 @if $image-login-plain == 'true' {
 	#body-login, #firstrunwizard .firstrunwizard-header, #theming-preview {
 		background-image: none !important;
-		background-color: $color-primary;
 	}
 	#body-login {
 
@@ -239,10 +243,6 @@ input.primary,
 			color: $color-primary-text;
 		}
 
-	}
-} @else {
-	#body-login {
-		@include faded-background-image;
 	}
 }
 

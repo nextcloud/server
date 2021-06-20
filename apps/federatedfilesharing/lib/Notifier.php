@@ -2,8 +2,11 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -22,9 +25,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\FederatedFileSharing;
-
 
 use OC\HintException;
 use OCP\Contacts\IManager;
@@ -102,14 +103,14 @@ class Notifier implements INotifier {
 
 				$params = $notification->getSubjectParameters();
 				if ($params[0] !== $params[1] && $params[1] !== null) {
+					$remoteInitiator = $this->createRemoteUser($params[0]);
+					$remoteOwner = $this->createRemoteUser($params[1]);
+					$params[3] = $remoteInitiator['name'] . '@' . $remoteInitiator['server'];
+					$params[4] = $remoteOwner['name'] . '@' . $remoteOwner['server'];
+
 					$notification->setParsedSubject(
 						$l->t('You received "%3$s" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))', $params)
 					);
-
-					$initiator = $params[0];
-					$initiatorDisplay = isset($params[3]) ? $params[3] : null;
-					$owner = $params[1];
-					$ownerDisplay = isset($params[4]) ? $params[4] : null;
 
 					$notification->setRichSubject(
 						$l->t('You received {share} as a remote share from {user} (on behalf of {behalf})'),
@@ -119,17 +120,18 @@ class Notifier implements INotifier {
 								'id' => $notification->getObjectId(),
 								'name' => $params[2],
 							],
-							'user' => $this->createRemoteUser($initiator, $initiatorDisplay),
-							'behalf' => $this->createRemoteUser($owner, $ownerDisplay),
+							'user' => $remoteInitiator,
+							'behalf' => $remoteOwner,
 						]
 					);
 				} else {
+					$remoteOwner = $this->createRemoteUser($params[0]);
+					$params[3] = $remoteOwner['name'] . '@' . $remoteOwner['server'];
+
 					$notification->setParsedSubject(
 						$l->t('You received "%3$s" as a remote share from %4$s (%1$s)', $params)
 					);
 
-					$owner = $params[0];
-					$ownerDisplay = isset($params[3]) ? $params[3] : null;
 
 					$notification->setRichSubject(
 						$l->t('You received {share} as a remote share from {user}'),
@@ -139,7 +141,7 @@ class Notifier implements INotifier {
 								'id' => $notification->getObjectId(),
 								'name' => $params[2],
 							],
-							'user' => $this->createRemoteUser($owner, $ownerDisplay),
+							'user' => $remoteOwner,
 						]
 					);
 				}
@@ -149,14 +151,14 @@ class Notifier implements INotifier {
 					switch ($action->getLabel()) {
 						case 'accept':
 							$action->setParsedLabel(
-								(string) $l->t('Accept')
+								$l->t('Accept')
 							)
-							->setPrimary(true);
+								->setPrimary(true);
 							break;
 
 						case 'decline':
 							$action->setParsedLabel(
-								(string) $l->t('Decline')
+								$l->t('Decline')
 							);
 							break;
 					}
@@ -203,27 +205,34 @@ class Notifier implements INotifier {
 	 * @param ICloudId $cloudId
 	 * @return string
 	 */
-	protected function getDisplayName(ICloudId $cloudId) {
+	protected function getDisplayName(ICloudId $cloudId): string {
 		$server = $cloudId->getRemote();
 		$user = $cloudId->getUser();
 		if (strpos($server, 'http://') === 0) {
 			$server = substr($server, strlen('http://'));
-		} else if (strpos($server, 'https://') === 0) {
+		} elseif (strpos($server, 'https://') === 0) {
 			$server = substr($server, strlen('https://'));
 		}
 
 		try {
+			// contains protocol in the  ID
 			return $this->getDisplayNameFromContact($cloudId->getId());
 		} catch (\OutOfBoundsException $e) {
 		}
 
 		try {
-			$this->getDisplayNameFromContact($user . '@http://' . $server);
+			// does not include protocol, as stored in addressbooks
+			return $this->getDisplayNameFromContact($cloudId->getDisplayId());
 		} catch (\OutOfBoundsException $e) {
 		}
 
 		try {
-			$this->getDisplayNameFromContact($user . '@https://' . $server);
+			return $this->getDisplayNameFromContact($user . '@http://' . $server);
+		} catch (\OutOfBoundsException $e) {
+		}
+
+		try {
+			return $this->getDisplayNameFromContact($user . '@https://' . $server);
 		} catch (\OutOfBoundsException $e) {
 		}
 

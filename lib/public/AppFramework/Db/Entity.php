@@ -5,6 +5,7 @@
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  *
  * @license AGPL-3.0
@@ -22,9 +23,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\AppFramework\Db;
-
 
 use function lcfirst;
 use function substr;
@@ -35,7 +34,6 @@ use function substr;
  * @since 7.0.0
  */
 abstract class Entity {
-
 	public $id;
 
 	private $_updatedFields = [];
@@ -52,7 +50,7 @@ abstract class Entity {
 	public static function fromParams(array $params) {
 		$instance = new static();
 
-		foreach($params as $key => $value) {
+		foreach ($params as $key => $value) {
 			$method = 'set' . ucfirst($key);
 			$instance->$method($value);
 		}
@@ -66,10 +64,10 @@ abstract class Entity {
 	 * @param array $row the row to map onto the entity
 	 * @since 7.0.0
 	 */
-	public static function fromRow(array $row){
+	public static function fromRow(array $row) {
 		$instance = new static();
 
-		foreach($row as $key => $value){
+		foreach ($row as $key => $value) {
 			$prop = ucfirst($instance->columnToProperty($key));
 			$setter = 'set' . $prop;
 			$instance->$setter($value);
@@ -94,7 +92,7 @@ abstract class Entity {
 	 * Marks the entity as clean needed for setting the id after the insertion
 	 * @since 7.0.0
 	 */
-	public function resetUpdatedFields(){
+	public function resetUpdatedFields() {
 		$this->_updatedFields = [];
 	}
 
@@ -104,18 +102,29 @@ abstract class Entity {
 	 */
 	protected function setter($name, $args) {
 		// setters should only work for existing attributes
-		if(property_exists($this, $name)){
-			if($this->$name === $args[0]) {
+		if (property_exists($this, $name)) {
+			if ($this->$name === $args[0]) {
 				return;
 			}
 			$this->markFieldUpdated($name);
 
 			// if type definition exists, cast to correct type
-			if($args[0] !== null && array_key_exists($name, $this->_fieldTypes)) {
-				settype($args[0], $this->_fieldTypes[$name]);
+			if ($args[0] !== null && array_key_exists($name, $this->_fieldTypes)) {
+				$type = $this->_fieldTypes[$name];
+				if ($type === 'blob') {
+					// (B)LOB is treated as string when we read from the DB
+					$type = 'string';
+				}
+
+				if ($type === 'datetime') {
+					if (!$args[0] instanceof \DateTime) {
+						$args[0] = new \DateTime($args[0]);
+					}
+				} else {
+					settype($args[0], $type);
+				}
 			}
 			$this->$name = $args[0];
-
 		} else {
 			throw new \BadFunctionCallException($name .
 				' is not a valid attribute');
@@ -128,7 +137,7 @@ abstract class Entity {
 	 */
 	protected function getter($name) {
 		// getters should only work for existing attributes
-		if(property_exists($this, $name)){
+		if (property_exists($this, $name)) {
 			return $this->$name;
 		} else {
 			throw new \BadFunctionCallException($name .
@@ -155,7 +164,6 @@ abstract class Entity {
 			throw new \BadFunctionCallException($methodName .
 				' does not exist');
 		}
-
 	}
 
 	/**
@@ -176,7 +184,7 @@ abstract class Entity {
 	 * @param string $attribute the name of the attribute
 	 * @since 7.0.0
 	 */
-	protected function markFieldUpdated($attribute){
+	protected function markFieldUpdated($attribute) {
 		$this->_updatedFields[$attribute] = true;
 	}
 
@@ -187,12 +195,12 @@ abstract class Entity {
 	 * @return string the property name
 	 * @since 7.0.0
 	 */
-	public function columnToProperty($columnName){
+	public function columnToProperty($columnName) {
 		$parts = explode('_', $columnName);
 		$property = null;
 
-		foreach($parts as $part){
-			if($property === null){
+		foreach ($parts as $part) {
+			if ($property === null) {
 				$property = $part;
 			} else {
 				$property .= ucfirst($part);
@@ -209,12 +217,12 @@ abstract class Entity {
 	 * @return string the column name
 	 * @since 7.0.0
 	 */
-	public function propertyToColumn($property){
+	public function propertyToColumn($property) {
 		$parts = preg_split('/(?=[A-Z])/', $property);
 		$column = null;
 
-		foreach($parts as $part){
-			if($column === null){
+		foreach ($parts as $part) {
+			if ($column === null) {
 				$column = $part;
 			} else {
 				$column .= '_' . lcfirst($part);
@@ -229,7 +237,7 @@ abstract class Entity {
 	 * @return array array of updated fields for update query
 	 * @since 7.0.0
 	 */
-	public function getUpdatedFields(){
+	public function getUpdatedFields() {
 		return $this->_updatedFields;
 	}
 
@@ -241,7 +249,7 @@ abstract class Entity {
 	 * @param string $type the type which will be used to call settype()
 	 * @since 7.0.0
 	 */
-	protected function addType($fieldName, $type){
+	protected function addType($fieldName, $type) {
 		$this->_fieldTypes[$fieldName] = $type;
 	}
 
@@ -253,9 +261,9 @@ abstract class Entity {
 	 * @return string slugified value
 	 * @since 7.0.0
 	 */
-	public function slugify($attributeName){
+	public function slugify($attributeName) {
 		// toSlug should only work for existing attributes
-		if(property_exists($this, $attributeName)){
+		if (property_exists($this, $attributeName)) {
 			$value = $this->$attributeName;
 			// replace everything except alphanumeric with a single '-'
 			$value = preg_replace('/[^A-Za-z0-9]+/', '-', $value);
@@ -267,5 +275,4 @@ abstract class Entity {
 				' is not a valid attribute');
 		}
 	}
-
 }

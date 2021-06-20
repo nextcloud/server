@@ -257,13 +257,26 @@
 		},
 
 		/**
+		 * Returns the default file action handler for the current file
+		 *
+		 * @return {OCA.Files.FileActions~actionSpec} action spec
+		 * @since 8.2
+		 */
+		getCurrentDefaultFileAction: function() {
+			var mime = this.getCurrentMimeType();
+			var type = this.getCurrentType();
+			var permissions = this.getCurrentPermissions();
+			return this.getDefaultFileAction(mime, type, permissions);
+		},
+
+		/**
 		 * Returns the default file action handler for the given conditions
 		 *
 		 * @param {string} mime mime type
 		 * @param {string} type "dir" or "file"
 		 * @param {int} permissions permissions
 		 *
-		 * @return {OCA.Files.FileActions~actionHandler} action handler
+		 * @return {OCA.Files.FileActions~actionSpec} action spec
 		 * @since 8.2
 		 */
 		getDefaultFileAction: function(mime, type, permissions) {
@@ -666,12 +679,19 @@
 				permissions: OC.PERMISSION_READ,
 				icon: '',
 				actionHandler: function (filename, context) {
-					var dir = context.$file.attr('data-path') || context.fileList.getCurrentDirectory();
+					let dir, id
+					if (context.$file) {
+						dir = context.$file.attr('data-path')
+						id = context.$file.attr('data-id')
+					} else {
+						dir = context.fileList.getCurrentDirectory()
+						id = context.fileId
+					}
 					if (OCA.Files.App && OCA.Files.App.getActiveView() !== 'files') {
 						OCA.Files.App.setActiveView('files', {silent: true});
 						OCA.Files.App.fileList.changeDirectory(OC.joinPaths(dir, filename), true, true);
 					} else {
-						context.fileList.changeDirectory(OC.joinPaths(dir, filename), true, false, parseInt(context.$file.attr('data-id'), 10));
+						context.fileList.changeDirectory(OC.joinPaths(dir, filename), true, false, parseInt(id, 10));
 					}
 				},
 				displayName: t('files', 'Open')
@@ -688,7 +708,7 @@
 					if (mountType === 'external-root') {
 						deleteTitle = t('files', 'Disconnect storage');
 					} else if (mountType === 'shared-root') {
-						deleteTitle = t('files', 'Unshare');
+						deleteTitle = t('files', 'Leave this share');
 					}
 					return deleteTitle;
 				},

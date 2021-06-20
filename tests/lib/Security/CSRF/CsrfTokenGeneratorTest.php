@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @author Lukas Reschke <lukas@owncloud.com>
  *
@@ -32,7 +35,6 @@ class CsrfTokenGeneratorTest extends \Test\TestCase {
 		$this->random = $this->getMockBuilder('\OCP\Security\ISecureRandom')
 			->disableOriginalConstructor()->getMock();
 		$this->csrfTokenGenerator = new \OC\Security\CSRF\CsrfTokenGenerator($this->random);
-
 	}
 
 	public function testGenerateTokenWithCustomNumber() {

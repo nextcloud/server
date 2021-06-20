@@ -1,6 +1,12 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2020 Robin Appelman <robin@icewind.nl>
+ *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Robin Appelman <robin@icewind.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -11,14 +17,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Files_External\Lib\Storage;
 
 use Icewind\Streams\File;
@@ -45,7 +50,7 @@ class SFTPWriteStream implements File {
 
 	private $buffer = '';
 
-	static function register($protocol = 'sftpwrite') {
+	public static function register($protocol = 'sftpwrite') {
 		if (in_array($protocol, stream_get_wrappers(), true)) {
 			return false;
 		}
@@ -76,6 +81,9 @@ class SFTPWriteStream implements File {
 
 	public function stream_open($path, $mode, $options, &$opened_path) {
 		[, $path] = explode('://', $path);
+		$path = '/' . ltrim($path);
+		$path = str_replace('//', '/', $path);
+
 		$this->loadContext('sftp');
 
 		if (!($this->sftp->bitmap & SSH2::MASK_LOGIN)) {
@@ -173,6 +181,4 @@ class SFTPWriteStream implements File {
 			return false;
 		}
 	}
-
 }
-

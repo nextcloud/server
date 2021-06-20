@@ -1,10 +1,12 @@
 <?php
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
+ * @copyright Copyright (C) fruux GmbH (https://fruux.com/)
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @license AGPL-3.0
@@ -22,7 +24,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\DAV\Sharing\Xml;
 
 use OCA\DAV\DAV\Sharing\Plugin;
@@ -84,11 +85,9 @@ class Invite implements XmlSerializable {
 	 *
 	 * @param array $users
 	 */
-	function __construct(array $users, array $organizer = null) {
-
+	public function __construct(array $users, array $organizer = null) {
 		$this->users = $users;
 		$this->organizer = $organizer;
-
 	}
 
 	/**
@@ -96,10 +95,8 @@ class Invite implements XmlSerializable {
 	 *
 	 * @return array
 	 */
-	function getValue() {
-
+	public function getValue() {
 		return $this->users;
-
 	}
 
 	/**
@@ -121,12 +118,10 @@ class Invite implements XmlSerializable {
 	 * @param Writer $writer
 	 * @return void
 	 */
-	function xmlSerialize(Writer $writer) {
-
+	public function xmlSerialize(Writer $writer) {
 		$cs = '{' . Plugin::NS_OWNCLOUD . '}';
 
 		if (!is_null($this->organizer)) {
-
 			$writer->startElement($cs . 'organizer');
 			$writer->writeElement('{DAV:}href', $this->organizer['href']);
 
@@ -140,11 +135,9 @@ class Invite implements XmlSerializable {
 				$writer->writeElement($cs . 'last-name', $this->organizer['lastName']);
 			}
 			$writer->endElement(); // organizer
-
 		}
 
 		foreach ($this->users as $user) {
-
 			$writer->startElement($cs . 'user');
 			$writer->writeElement('{DAV:}href', $user['href']);
 			if (isset($user['commonName']) && $user['commonName']) {
@@ -165,8 +158,6 @@ class Invite implements XmlSerializable {
 			}
 
 			$writer->endElement(); //user
-
 		}
-
 	}
 }

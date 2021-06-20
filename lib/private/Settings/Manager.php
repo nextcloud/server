@@ -5,7 +5,6 @@
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
@@ -22,14 +21,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Settings;
 
 use Closure;
@@ -39,8 +37,8 @@ use OCP\ILogger;
 use OCP\IServerContainer;
 use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
+use OCP\Settings\IIconSection;
 use OCP\Settings\IManager;
-use OCP\Settings\ISection;
 use OCP\Settings\ISettings;
 use OCP\Settings\ISubAdminSettings;
 
@@ -81,7 +79,7 @@ class Manager implements IManager {
 
 	/**
 	 * @param string $type 'admin' or 'personal'
-	 * @param string $section Class must implement OCP\Settings\ISection
+	 * @param string $section Class must implement OCP\Settings\IIconSection
 	 *
 	 * @return void
 	 */
@@ -96,7 +94,7 @@ class Manager implements IManager {
 	/**
 	 * @param string $type 'admin' or 'personal'
 	 *
-	 * @return ISection[]
+	 * @return IIconSection[]
 	 */
 	protected function getSections(string $type): array {
 		if (!isset($this->sections[$type])) {
@@ -107,24 +105,19 @@ class Manager implements IManager {
 			return $this->sections[$type];
 		}
 
-		foreach ($this->sectionClasses[$type] as $index => $class) {
+		foreach (array_unique($this->sectionClasses[$type]) as $index => $class) {
 			try {
-				/** @var ISection $section */
+				/** @var IIconSection $section */
 				$section = \OC::$server->query($class);
 			} catch (QueryException $e) {
 				$this->log->logException($e, ['level' => ILogger::INFO]);
 				continue;
 			}
 
-			if (!$section instanceof ISection) {
-				$this->log->logException(new \InvalidArgumentException('Invalid settings section registered'), ['level' => ILogger::INFO]);
-				continue;
-			}
-
 			$sectionID = $section->getID();
 
-			if (isset($this->sections[$type][$sectionID])) {
-				$this->log->logException(new \InvalidArgumentException('Section with the same ID already registered'), ['level' => ILogger::INFO]);
+			if ($sectionID !== 'connected-accounts' && isset($this->sections[$type][$sectionID])) {
+				$this->log->logException(new \InvalidArgumentException('Section with the same ID already registered: ' . $sectionID . ', class: ' . $class), ['level' => ILogger::INFO]);
 				continue;
 			}
 
@@ -213,7 +206,7 @@ class Manager implements IManager {
 		$appSections = $this->getSections('admin');
 
 		foreach ($appSections as $section) {
-			/** @var ISection $section */
+			/** @var IIconSection $section */
 			if (!isset($sections[$section->getPriority()])) {
 				$sections[$section->getPriority()] = [];
 			}
@@ -231,7 +224,7 @@ class Manager implements IManager {
 	 */
 	public function getAdminSettings($section, bool $subAdminOnly = false): array {
 		if ($subAdminOnly) {
-			$subAdminSettingsFilter = function(ISettings $settings) {
+			$subAdminSettingsFilter = function (ISettings $settings) {
 				return $settings instanceof ISubAdminSettings;
 			};
 			$appSettings = $this->getSettings('admin', $section, $subAdminSettingsFilter);
@@ -262,14 +255,15 @@ class Manager implements IManager {
 		$sections = [];
 
 		$legacyForms = \OC_App::getForms('personal');
-		if (!empty($legacyForms) && $this->hasLegacyPersonalSettingsToRender($legacyForms)) {
+		if ((!empty($legacyForms) && $this->hasLegacyPersonalSettingsToRender($legacyForms))
+			|| count($this->getPersonalSettings('additional')) > 1) {
 			$sections[98] = [new Section('additional', $this->l->t('Additional settings'), 0, $this->url->imagePath('core', 'actions/settings-dark.svg'))];
 		}
 
 		$appSections = $this->getSections('personal');
 
 		foreach ($appSections as $section) {
-			/** @var ISection $section */
+			/** @var IIconSection $section */
 			if (!isset($sections[$section->getPriority()])) {
 				$sections[$section->getPriority()] = [];
 			}

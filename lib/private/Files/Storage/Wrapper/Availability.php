@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
@@ -23,7 +24,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Files\Storage\Wrapper;
 
 use OCP\Files\Storage\IStorage;
@@ -37,7 +37,7 @@ use OCP\IConfig;
  * Throws a StorageNotAvailableException for storages with known failures
  */
 class Availability extends Wrapper {
-	const RECHECK_TTL_SEC = 600; // 10 minutes
+	public const RECHECK_TTL_SEC = 600; // 10 minutes
 
 	/** @var IConfig */
 	protected $config;
@@ -451,7 +451,7 @@ class Availability extends Wrapper {
 	 */
 	protected function setUnavailable(StorageNotAvailableException $e) {
 		$delay = self::RECHECK_TTL_SEC;
-		if($e instanceof StorageAuthException) {
+		if ($e instanceof StorageAuthException) {
 			$delay = max(
 				// 30min
 				$this->config->getSystemValueInt('external_storage.auth_availability_delay', 1800),
@@ -460,5 +460,16 @@ class Availability extends Wrapper {
 		}
 		$this->getStorageCache()->setAvailability(false, $delay);
 		throw $e;
+	}
+
+
+
+	public function getDirectoryContent($directory): \Traversable {
+		$this->checkAvailability();
+		try {
+			return parent::getDirectoryContent($directory);
+		} catch (StorageNotAvailableException $e) {
+			$this->setUnavailable($e);
+		}
 	}
 }

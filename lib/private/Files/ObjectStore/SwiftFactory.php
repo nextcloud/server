@@ -5,6 +5,9 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2018 Robin Appelman <robin@icewind.nl>
  *
+ * @author Adrian Brzezinski <adrian.brzezinski@eo.pl>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Julien Lutran <julien.lutran@corp.ovh.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -20,14 +23,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Files\ObjectStore;
 
 use GuzzleHttp\Client;
@@ -56,7 +58,7 @@ class SwiftFactory {
 	private $container = null;
 	private $logger;
 
-	const DEFAULT_OPTIONS = [
+	public const DEFAULT_OPTIONS = [
 		'autocreate' => false,
 		'urlType' => 'publicURL',
 		'catalogName' => 'swift',
@@ -67,6 +69,25 @@ class SwiftFactory {
 		$this->cache = $cache;
 		$this->params = $params;
 		$this->logger = $logger;
+	}
+
+	/**
+	 * Gets currently cached token id
+	 *
+	 * @return string
+	 * @throws StorageAuthException
+	 */
+	public function getCachedTokenId() {
+		if (!isset($this->params['cachedToken'])) {
+			throw new StorageAuthException('Unauthenticated ObjectStore connection');
+		}
+
+		// Is it V2 token?
+		if (isset($this->params['cachedToken']['token'])) {
+			return $this->params['cachedToken']['token']['id'];
+		}
+
+		return $this->params['cachedToken']['id'];
 	}
 
 	private function getCachedToken(string $cacheKey) {
@@ -81,10 +102,10 @@ class SwiftFactory {
 	private function cacheToken(Token $token, string $serviceUrl, string $cacheKey) {
 		if ($token instanceof \OpenStack\Identity\v3\Models\Token) {
 			// for v3 the catalog is cached as part of the token, so no need to cache $serviceUrl separately
-			$value = json_encode($token->export());
+			$value = $token->export();
 		} else {
 			/** @var \OpenStack\Identity\v2\Models\Token $token */
-			$value = json_encode([
+			$value = [
 				'serviceUrl' => $serviceUrl,
 				'token' => [
 					'issued_at' => $token->issuedAt->format('c'),
@@ -92,9 +113,11 @@ class SwiftFactory {
 					'id' => $token->id,
 					'tenant' => $token->tenant
 				]
-			]);
+			];
 		}
-		$this->cache->set($cacheKey . '/token', $value);
+
+		$this->params['cachedToken'] = $value;
+		$this->cache->set($cacheKey . '/token', json_encode($value));
 	}
 
 	/**
@@ -118,6 +141,10 @@ class SwiftFactory {
 		}
 		if (!isset($this->params['tenantName']) && isset($this->params['tenant'])) {
 			$this->params['tenantName'] = $this->params['tenant'];
+		}
+		if (isset($this->params['domain'])) {
+			$this->params['scope']['project']['name'] = $this->params['tenant'];
+			$this->params['scope']['project']['domain']['name'] = $this->params['domain'];
 		}
 		$this->params = array_merge(self::DEFAULT_OPTIONS, $this->params);
 
@@ -158,7 +185,7 @@ class SwiftFactory {
 				$token = $authService->generateTokenFromCache($cachedToken);
 				if (\is_null($token->catalog)) {
 					$this->logger->warning('Invalid cached token for swift, no catalog set: ' . json_encode($cachedToken));
-				} else if ($token->hasExpired()) {
+				} elseif ($token->hasExpired()) {
 					$this->logger->debug('Cached token for swift expired');
 				} else {
 					$hasValidCachedToken = true;
@@ -184,7 +211,7 @@ class SwiftFactory {
 		if (!$hasValidCachedToken) {
 			unset($this->params['cachedToken']);
 			try {
-				list($token, $serviceUrl) = $authService->authenticate($this->params);
+				[$token, $serviceUrl] = $authService->authenticate($this->params);
 				$this->cacheToken($token, $serviceUrl, $cacheKey);
 			} catch (ConnectException $e) {
 				throw new StorageAuthException('Failed to connect to keystone, verify the keystone url', $e);
@@ -192,9 +219,9 @@ class SwiftFactory {
 				$statusCode = $e->getResponse()->getStatusCode();
 				if ($statusCode === 404) {
 					throw new StorageAuthException('Keystone not found, verify the keystone url', $e);
-				} else if ($statusCode === 412) {
+				} elseif ($statusCode === 412) {
 					throw new StorageAuthException('Precondition failed, verify the keystone url', $e);
-				} else if ($statusCode === 401) {
+				} elseif ($statusCode === 401) {
 					throw new StorageAuthException('Authentication failed, verify the username, password and possibly tenant', $e);
 				} else {
 					throw new StorageAuthException('Unknown error', $e);

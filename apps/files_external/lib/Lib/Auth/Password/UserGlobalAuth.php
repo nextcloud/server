@@ -5,6 +5,8 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2019 Robin Appelman <robin@icewind.nl>
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -17,14 +19,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Files_External\Lib\Auth\Password;
 
 use OCA\Files_External\Lib\Auth\AuthMechanism;
@@ -39,7 +40,6 @@ use OCP\Security\ICredentialsManager;
  * User provided Global Username and Password
  */
 class UserGlobalAuth extends AuthMechanism {
-
 	private const CREDENTIALS_IDENTIFIER = 'password::global';
 
 	/** @var ICredentialsManager */
@@ -58,7 +58,7 @@ class UserGlobalAuth extends AuthMechanism {
 	public function saveBackendOptions(IUser $user, $id, $backendOptions) {
 		// backendOptions are set when invoked via Files app
 		// but they are not set when invoked via ext storage settings
-		if(!isset($backendOptions['user']) && !isset($backendOptions['password'])) {
+		if (!isset($backendOptions['user']) && !isset($backendOptions['password'])) {
 			return;
 		}
 		// make sure we're not setting any unexpected keys
@@ -82,5 +82,4 @@ class UserGlobalAuth extends AuthMechanism {
 			$storage->setBackendOption('password', $credentials['password']);
 		}
 	}
-
 }

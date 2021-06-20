@@ -210,7 +210,7 @@ Feature: webdav-related
 		  |{DAV:}quota-available-bytes|
 		Then the single response should contain a property "{DAV:}quota-available-bytes" with value "592"
 
-	Scenario: Retrieving folder quota when quota is set and a file was recieved
+	Scenario: Retrieving folder quota when quota is set and a file was received
 		Given using old dav path
 		And As an "admin"
 		And user "user0" exists

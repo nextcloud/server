@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 /**
  * @copyright Copyright (c) 2020, Thomas Citharel <nextcloud@tcit.fr>
+ * @copyright Copyright (c) 2020, leith abdulla (<online-nextcloud@eleith.com>)
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author eleith <online+github@eleith.com>
  * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Thomas Citharel <nextcloud@tcit.fr>
  *
  * @license GNU AGPL version 3 or any later version
@@ -18,14 +21,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\CalDAV\WebcalCaching;
 
 use Exception;
@@ -33,6 +35,7 @@ use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCP\Http\Client\IClientService;
+use OCP\Http\Client\LocalServerException;
 use OCP\IConfig;
 use OCP\ILogger;
 use Psr\Http\Message\RequestInterface;
@@ -43,6 +46,7 @@ use Sabre\DAV\Xml\Property\Href;
 use Sabre\VObject\Component;
 use Sabre\VObject\DateTimeParser;
 use Sabre\VObject\InvalidDataException;
+use Sabre\VObject\Recur\NoInstancesException;
 use Sabre\VObject\ParseException;
 use Sabre\VObject\Reader;
 use Sabre\VObject\Splitter\ICalendar;
@@ -138,7 +142,7 @@ class RefreshWebcalService {
 				$calendarData = $vObject->serialize();
 				try {
 					$this->calDavBackend->createCalendarObject($subscription['id'], $uri, $calendarData, CalDavBackend::CALENDAR_TYPE_SUBSCRIPTION);
-				} catch(BadRequest $ex) {
+				} catch (NoInstancesException | BadRequest $ex) {
 					$this->logger->logException($ex);
 				}
 			}
@@ -149,7 +153,7 @@ class RefreshWebcalService {
 			}
 
 			$this->updateSubscription($subscription, $mutations);
-		} catch(ParseException $ex) {
+		} catch (ParseException $ex) {
 			$subscriptionId = $subscription['id'];
 
 			$this->logger->logException($ex);
@@ -167,7 +171,7 @@ class RefreshWebcalService {
 	public function getSubscription(string $principalUri, string $uri) {
 		$subscriptions = array_values(array_filter(
 			$this->calDavBackend->getSubscriptionsForUser($principalUri),
-			function($sub) use ($uri) {
+			function ($sub) use ($uri) {
 				return $sub['uri'] === $uri;
 			}
 		));
@@ -198,7 +202,7 @@ class RefreshWebcalService {
 				->withHeader('Accept', 'text/calendar, application/calendar+json, application/calendar+xml')
 				->withHeader('User-Agent', 'Nextcloud Webcal Crawler');
 		}));
-		$handlerStack->push(Middleware::mapResponse(function(ResponseInterface $response) use (&$didBreak301Chain, &$latestLocation) {
+		$handlerStack->push(Middleware::mapResponse(function (ResponseInterface $response) use (&$didBreak301Chain, &$latestLocation) {
 			if (!$didBreak301Chain) {
 				if ($response->getStatusCode() !== 301) {
 					$didBreak301Chain = true;
@@ -216,48 +220,15 @@ class RefreshWebcalService {
 			return null;
 		}
 
-		if ($allowLocalAccess !== 'yes') {
-			$host = strtolower(parse_url($url, PHP_URL_HOST));
-			// remove brackets from IPv6 addresses
-			if (strpos($host, '[') === 0 && substr($host, -1) === ']') {
-				$host = substr($host, 1, -1);
-			}
-
-			// Disallow localhost and local network
-			if ($host === 'localhost' || substr($host, -6) === '.local' || substr($host, -10) === '.localhost') {
-				$this->logger->warning("Subscription $subscriptionId was not refreshed because it violates local access rules");
-				return null;
-			}
-
-			// Disallow hostname only
-			if (substr_count($host, '.') === 0) {
-				$this->logger->warning("Subscription $subscriptionId was not refreshed because it violates local access rules");
-				return null;
-			}
-
-			if ((bool)filter_var($host, FILTER_VALIDATE_IP) && !filter_var($host, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) {
-				$this->logger->warning("Subscription $subscriptionId was not refreshed because it violates local access rules");
-				return null;
-			}
-
-			// Also check for IPv6 IPv4 nesting, because that's not covered by filter_var
-			if ((bool)filter_var($host, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6) && substr_count($host, '.') > 0) {
-				$delimiter = strrpos($host, ':'); // Get last colon
-				$ipv4Address = substr($host, $delimiter + 1);
-
-				if (!filter_var($ipv4Address, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) {
-					$this->logger->warning("Subscription $subscriptionId was not refreshed because it violates local access rules");
-					return null;
-				}
-			}
-		}
-
 		try {
 			$params = [
 				'allow_redirects' => [
 					'redirects' => 10
 				],
 				'handler' => $handlerStack,
+				'nextcloud' => [
+					'allow_local_address' => $allowLocalAccess === 'yes',
+				]
 			];
 
 			$user = parse_url($subscription['source'], PHP_URL_USER);
@@ -275,11 +246,11 @@ class RefreshWebcalService {
 
 			$contentType = $response->getHeader('Content-Type');
 			$contentType = explode(';', $contentType, 2)[0];
-			switch($contentType) {
+			switch ($contentType) {
 				case 'application/calendar+json':
 					try {
 						$jCalendar = Reader::readJson($body, Reader::OPTION_FORGIVING);
-					} catch(Exception $ex) {
+					} catch (Exception $ex) {
 						// In case of a parsing error return null
 						$this->logger->debug("Subscription $subscriptionId could not be parsed");
 						return null;
@@ -289,7 +260,7 @@ class RefreshWebcalService {
 				case 'application/calendar+xml':
 					try {
 						$xCalendar = Reader::readXML($body);
-					} catch(Exception $ex) {
+					} catch (Exception $ex) {
 						// In case of a parsing error return null
 						$this->logger->debug("Subscription $subscriptionId could not be parsed");
 						return null;
@@ -300,16 +271,25 @@ class RefreshWebcalService {
 				default:
 					try {
 						$vCalendar = Reader::read($body);
-					} catch(Exception $ex) {
+					} catch (Exception $ex) {
 						// In case of a parsing error return null
 						$this->logger->debug("Subscription $subscriptionId could not be parsed");
 						return null;
 					}
 					return $vCalendar->serialize();
 			}
-		} catch(Exception $ex) {
-			$this->logger->logException($ex);
-			$this->logger->warning("Subscription $subscriptionId could not be refreshed due to a network error");
+		} catch (LocalServerException $ex) {
+			$this->logger->logException($ex, [
+				'message' => "Subscription $subscriptionId was not refreshed because it violates local access rules",
+				'level' => ILogger::WARN,
+			]);
+
+			return null;
+		} catch (Exception $ex) {
+			$this->logger->logException($ex, [
+				'message' => "Subscription $subscriptionId could not be refreshed due to a network error",
+				'level' => ILogger::WARN,
+			]);
 
 			return null;
 		}
@@ -350,7 +330,7 @@ class RefreshWebcalService {
 		// check if new refresh rate is even valid
 		try {
 			DateTimeParser::parseDuration($newRefreshRate);
-		} catch(InvalidDataException $ex) {
+		} catch (InvalidDataException $ex) {
 			return null;
 		}
 

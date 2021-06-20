@@ -4,6 +4,7 @@
  *
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Joas Schilling <coding@schilljs.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -14,33 +15,28 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Accounts;
 
-use OCP\ILogger;
+use OCP\Accounts\IAccountManager;
 use OCP\IUser;
+use Psr\Log\LoggerInterface;
 
 class Hooks {
 
-	/** @var  AccountManager */
-	private $accountManager = null;
+	/** @var AccountManager|null */
+	private $accountManager;
 
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	private $logger;
 
-	/**
-	 * Hooks constructor.
-	 *
-	 * @param ILogger $logger
-	 */
-	public function __construct(ILogger $logger) {
+	public function __construct(LoggerInterface $logger) {
 		$this->logger = $logger;
 	}
 
@@ -50,7 +46,6 @@ class Hooks {
 	 * @param array $params
 	 */
 	public function changeUserHook($params) {
-
 		$accountManager = $this->getAccountManager();
 
 		/** @var IUser $user */
@@ -67,19 +62,18 @@ class Hooks {
 
 		switch ($feature) {
 			case 'eMailAddress':
-				if ($accountData[AccountManager::PROPERTY_EMAIL]['value'] !== $newValue) {
-					$accountData[AccountManager::PROPERTY_EMAIL]['value'] = $newValue;
+				if ($accountData[IAccountManager::PROPERTY_EMAIL]['value'] !== $newValue) {
+					$accountData[IAccountManager::PROPERTY_EMAIL]['value'] = $newValue;
 					$accountManager->updateUser($user, $accountData);
 				}
 				break;
 			case 'displayName':
-				if ($accountData[AccountManager::PROPERTY_DISPLAYNAME]['value'] !== $newValue) {
-					$accountData[AccountManager::PROPERTY_DISPLAYNAME]['value'] = $newValue;
+				if ($accountData[IAccountManager::PROPERTY_DISPLAYNAME]['value'] !== $newValue) {
+					$accountData[IAccountManager::PROPERTY_DISPLAYNAME]['value'] = $newValue;
 					$accountManager->updateUser($user, $accountData);
 				}
 				break;
 		}
-
 	}
 
 	/**
@@ -87,11 +81,10 @@ class Hooks {
 	 *
 	 * @return AccountManager
 	 */
-	protected function getAccountManager() {
+	protected function getAccountManager(): AccountManager {
 		if ($this->accountManager === null) {
 			$this->accountManager = \OC::$server->query(AccountManager::class);
 		}
 		return $this->accountManager;
 	}
-
 }

@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
@@ -12,7 +13,7 @@
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author tbartenstein <tbartenstein@users.noreply.github.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -29,7 +30,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Files;
 
 use OCP\Files\Cache\ICacheEntry;
@@ -94,7 +94,7 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	 * @param \OCP\Files\Mount\IMountPoint $mount
 	 * @param \OCP\IUser|null $owner
 	 */
-	public function __construct($path, $storage, $internalPath, $data, $mount, $owner= null) {
+	public function __construct($path, $storage, $internalPath, $data, $mount, $owner = null) {
 		$this->path = $path;
 		$this->storage = $storage;
 		$this->internalPath = $internalPath;
@@ -119,11 +119,11 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	public function offsetGet($offset) {
 		if ($offset === 'type') {
 			return $this->getType();
-		} else if ($offset === 'etag') {
+		} elseif ($offset === 'etag') {
 			return $this->getEtag();
-		} else if ($offset === 'size') {
+		} elseif ($offset === 'size') {
 			return $this->getSize();
-		} else if ($offset === 'mtime') {
+		} elseif ($offset === 'mtime') {
 			return $this->getMTime();
 		} elseif ($offset === 'permissions') {
 			return $this->getPermissions();
@@ -242,7 +242,7 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 		if (\OCP\Util::isSharingDisabledForUser() || ($this->isShared() && !\OC\Share\Share::isResharingAllowed())) {
 			$perms = $perms & ~\OCP\Constants::PERMISSION_SHARE;
 		}
-		return (int) $perms;
+		return $perms;
 	}
 
 	/**

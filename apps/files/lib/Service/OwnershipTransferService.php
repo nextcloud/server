@@ -6,7 +6,12 @@ declare(strict_types=1);
  * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author Julius Härtl <jus@bitgrid.net>
+ * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Sascha Wiswedel <sascha.wiswedel@nextcloud.com>
+ * @author Tobia De Koninck <LEDfan@users.noreply.github.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -17,14 +22,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Files\Service;
 
 use Closure;
@@ -32,11 +36,14 @@ use OC\Files\Filesystem;
 use OC\Files\View;
 use OCA\Files\Exception\TransferOwnershipException;
 use OCP\Encryption\IManager as IEncryptionManager;
+use OCP\Files\Config\IUserMountCache;
 use OCP\Files\FileInfo;
 use OCP\Files\IHomeStorage;
+use OCP\Files\InvalidPathException;
 use OCP\Files\Mount\IMountManager;
 use OCP\IUser;
 use OCP\Share\IManager as IShareManager;
+use OCP\Share\IShare;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -58,12 +65,17 @@ class OwnershipTransferService {
 	/** @var IMountManager */
 	private $mountManager;
 
+	/** @var IUserMountCache */
+	private $userMountCache;
+
 	public function __construct(IEncryptionManager $manager,
 								IShareManager $shareManager,
-								IMountManager $mountManager) {
+								IMountManager $mountManager,
+								IUserMountCache $userMountCache) {
 		$this->encryptionManager = $manager;
 		$this->shareManager = $shareManager;
 		$this->mountManager = $mountManager;
+		$this->userMountCache = $userMountCache;
 	}
 
 	/**
@@ -87,23 +99,39 @@ class OwnershipTransferService {
 		$destinationUid = $destinationUser->getUID();
 		$sourcePath = rtrim($sourceUid . '/files/' . $path, '/');
 
-		// target user has to be ready
-		if ($destinationUser->getLastLogin() === 0 || !$this->encryptionManager->isReadyForUser($destinationUid)) {
+		// If encryption is on we have to ensure the user has logged in before and that all encryption modules are ready
+		if (($this->encryptionManager->isEnabled() && $destinationUser->getLastLogin() === 0)
+			|| !$this->encryptionManager->isReadyForUser($destinationUid)) {
 			throw new TransferOwnershipException("The target user is not ready to accept files. The user has at least to have logged in once.", 2);
 		}
+
+		// setup filesystem
+		// Requesting the user folder will set it up if the user hasn't logged in before
+		\OC::$server->getUserFolder($destinationUser->getUID());
+		Filesystem::initMountPoints($sourceUid);
+		Filesystem::initMountPoints($destinationUid);
+
+		$view = new View();
 
 		if ($move) {
 			$finalTarget = "$destinationUid/files/";
 		} else {
 			$date = date('Y-m-d H-i-s');
-			$finalTarget = "$destinationUid/files/transferred from $sourceUid on $date";
+
+			// Remove some characters which are prone to cause errors
+			$cleanUserName = str_replace(['\\', '/', ':', '.', '?', '#', '\'', '"'], '-', $sourceUser->getDisplayName());
+			// Replace multiple dashes with one dash
+			$cleanUserName = preg_replace('/-{2,}/s', '-', $cleanUserName);
+			$cleanUserName = $cleanUserName ?: $sourceUid;
+
+			$finalTarget = "$destinationUid/files/transferred from $cleanUserName on $date";
+			try {
+				$view->verifyPath(dirname($finalTarget), basename($finalTarget));
+			} catch (InvalidPathException $e) {
+				$finalTarget = "$destinationUid/files/transferred from $sourceUid on $date";
+			}
 		}
 
-		// setup filesystem
-		Filesystem::initMountPoints($sourceUid);
-		Filesystem::initMountPoints($destinationUid);
-
-		$view = new View();
 		if (!($view->is_dir($sourcePath) || $view->is_file($sourcePath))) {
 			throw new TransferOwnershipException("Unknown path provided: $path", 1);
 		}
@@ -131,7 +159,9 @@ class OwnershipTransferService {
 		// collect all the shares
 		$shares = $this->collectUsersShares(
 			$sourceUid,
-			$output
+			$output,
+			$view,
+			$sourcePath
 		);
 
 		// transfer the files
@@ -176,7 +206,7 @@ class OwnershipTransferService {
 		$output->writeln('Validating quota');
 		$size = $view->getFileInfo($sourcePath, false)->getSize(false);
 		$freeSpace = $view->free_space($destinationUid . '/files/');
-		if ($size > $freeSpace) {
+		if ($size > $freeSpace && $freeSpace !== FileInfo::SPACE_UNKNOWN) {
 			$output->writeln('<error>Target user does not have enough free space available.</error>');
 			throw new \Exception('Execution terminated.');
 		}
@@ -216,18 +246,37 @@ class OwnershipTransferService {
 	}
 
 	private function collectUsersShares(string $sourceUid,
-										OutputInterface $output): array {
+										OutputInterface $output,
+										View $view,
+										string $path): array {
 		$output->writeln("Collecting all share information for files and folders of $sourceUid ...");
 
 		$shares = [];
 		$progress = new ProgressBar($output);
-		foreach ([\OCP\Share::SHARE_TYPE_GROUP, \OCP\Share::SHARE_TYPE_USER, \OCP\Share::SHARE_TYPE_LINK, \OCP\Share::SHARE_TYPE_REMOTE, \OCP\Share::SHARE_TYPE_ROOM] as $shareType) {
+		foreach ([IShare::TYPE_GROUP, IShare::TYPE_USER, IShare::TYPE_LINK, IShare::TYPE_REMOTE, IShare::TYPE_ROOM, IShare::TYPE_EMAIL, IShare::TYPE_CIRCLE, IShare::TYPE_DECK] as $shareType) {
 			$offset = 0;
 			while (true) {
 				$sharePage = $this->shareManager->getSharesBy($sourceUid, $shareType, null, true, 50, $offset);
 				$progress->advance(count($sharePage));
 				if (empty($sharePage)) {
 					break;
+				}
+				if ($path !== "$sourceUid/files") {
+					$sharePage = array_filter($sharePage, function (IShare $share) use ($view, $path) {
+						try {
+							$relativePath = $view->getPath($share->getNodeId());
+							$singleFileTranfer = $view->is_file($path);
+							if ($singleFileTranfer) {
+								return Filesystem::normalizePath($relativePath) === Filesystem::normalizePath($path);
+							}
+
+							return mb_strpos(
+								Filesystem::normalizePath($relativePath . '/', false),
+								Filesystem::normalizePath($path . '/', false)) === 0;
+						} catch (\Exception $e) {
+							return false;
+						}
+					});
 				}
 				$shares = array_merge($shares, $sharePage);
 				$offset += 50;
@@ -273,7 +322,7 @@ class OwnershipTransferService {
 
 		foreach ($shares as $share) {
 			try {
-				if ($share->getShareType() === \OCP\Share::SHARE_TYPE_USER &&
+				if ($share->getShareType() === IShare::TYPE_USER &&
 					$share->getSharedWith() === $destinationUid) {
 					// Unmount the shares before deleting, so we don't try to get the storage later on.
 					$shareMountPoint = $this->mountManager->find('/' . $destinationUid . '/files' . $share->getTarget());
@@ -289,6 +338,12 @@ class OwnershipTransferService {
 						$share->setSharedBy($destinationUid);
 					}
 
+
+					// trigger refetching of the node so that the new owner and mountpoint are taken into account
+					// otherwise the checks on the share update will fail due to the original node not being available in the new user scope
+					$this->userMountCache->clear();
+					$share->setNodeId($share->getNode()->getId());
+
 					$this->shareManager->updateShare($share);
 				}
 			} catch (\OCP\Files\NotFoundException $e) {
@@ -301,5 +356,4 @@ class OwnershipTransferService {
 		$progress->finish();
 		$output->writeln('');
 	}
-
 }

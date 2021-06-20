@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -21,15 +22,29 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Preview;
 
 //.odt, .ott, .oth, .odm, .odg, .otg, .odp, .otp, .ods, .ots, .odc, .odf, .odb, .odi, .oxt
-class OpenDocument extends Office {
+use OCP\Files\File;
+use OCP\IImage;
+
+class OpenDocument extends Bundled {
 	/**
 	 * {@inheritDoc}
 	 */
 	public function getMimeType(): string {
 		return '/application\/vnd.oasis.opendocument.*/';
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getThumbnail(File $file, int $maxX, int $maxY): ?IImage {
+		$image = $this->extractThumbnail($file, 'Thumbnails/thumbnail.png');
+		if ($image->valid()) {
+			return $image;
+		}
+		return null;
 	}
 }

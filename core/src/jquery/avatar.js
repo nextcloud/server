@@ -1,7 +1,8 @@
-/*
+/**
  * @copyright 2018 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
- * @author 2018 Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -16,7 +17,8 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 
 import $ from 'jquery'
@@ -110,7 +112,7 @@ $.fn.avatar = function(user, size, ie8fix, hidedefault, callback, displayname) {
 		url = OC.generateUrl(
 			'/avatar/{user}/{size}?v={version}',
 			{
-				user: user,
+				user,
 				size: Math.ceil(size * window.devicePixelRatio),
 				version: oc_userconfig.avatar.version,
 			})
@@ -118,7 +120,7 @@ $.fn.avatar = function(user, size, ie8fix, hidedefault, callback, displayname) {
 		url = OC.generateUrl(
 			'/avatar/{user}/{size}',
 			{
-				user: user,
+				user,
 				size: Math.ceil(size * window.devicePixelRatio),
 			})
 	}

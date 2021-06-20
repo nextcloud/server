@@ -1,6 +1,7 @@
 /**
  * @copyright Copyright (c) 2019 Julius Härtl <jus@bitgrid.net>
  *
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Julius Härtl <jus@bitgrid.net>
  *
  * @license GNU AGPL version 3 or any later version
@@ -12,7 +13,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -68,14 +69,14 @@ window.OCA.WorkflowEngine = Object.assign({}, OCA.WorkflowEngine, {
 	 *
 	 * @param {CheckPlugin} Plugin the plugin to register
 	 */
-	registerCheck: function(Plugin) {
+	registerCheck(Plugin) {
 		store.commit('addPluginCheck', Plugin)
 	},
 	/**
 	 *
 	 * @param {OperatorPlugin} Plugin the plugin to register
 	 */
-	registerOperator: function(Plugin) {
+	registerOperator(Plugin) {
 		store.commit('addPluginOperator', Plugin)
 	},
 })

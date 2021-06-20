@@ -1,8 +1,10 @@
 <?php
 /**
- *
+ * @copyright Copyright (c) 2016 Sergio Bertolin <sbertolin@solidgear.es>
  *
  * @author Bjoern Schiessle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Sergio Bertolin <sbertolin@solidgear.es>
@@ -17,7 +19,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -33,9 +35,22 @@ require __DIR__ . '/../../vendor/autoload.php';
  * Federation context.
  */
 class FederationContext implements Context, SnippetAcceptingContext {
-
 	use WebDav;
 	use AppConfiguration;
+	use CommandLine;
+
+	/**
+	 * @BeforeScenario
+	 */
+	public function cleanupRemoteStorages() {
+		// Ensure that dangling remote storages from previous tests will not
+		// interfere with the current scenario.
+		// The storages must be cleaned before each scenario; they can not be
+		// cleaned after each scenario, as this hook is executed before the hook
+		// that removes the users, so the shares would be still valid and thus
+		// the storages would not be dangling yet.
+		$this->runOcc(['sharing:cleanup-remote-storages']);
+	}
 
 	/**
 	 * @Given /^User "([^"]*)" from server "(LOCAL|REMOTE)" shares "([^"]*)" with user "([^"]*)" from server "(LOCAL|REMOTE)"$/
@@ -46,8 +61,8 @@ class FederationContext implements Context, SnippetAcceptingContext {
 	 * @param string $shareeUser
 	 * @param string $shareeServer "LOCAL" or "REMOTE"
 	 */
-	public function federateSharing($sharerUser, $sharerServer, $sharerPath, $shareeUser, $shareeServer){
-		if ($shareeServer == "REMOTE"){
+	public function federateSharing($sharerUser, $sharerServer, $sharerPath, $shareeUser, $shareeServer) {
+		if ($shareeServer == "REMOTE") {
 			$shareWith = "$shareeUser@" . substr($this->remoteBaseUrl, 0, -4);
 		} else {
 			$shareWith = "$shareeUser@" . substr($this->localBaseUrl, 0, -4);
@@ -67,8 +82,8 @@ class FederationContext implements Context, SnippetAcceptingContext {
 	 * @param string $shareeUser
 	 * @param string $shareeServer "LOCAL" or "REMOTE"
 	 */
-	public function federateGroupSharing($sharerUser, $sharerServer, $sharerPath, $shareeGroup, $shareeServer){
-		if ($shareeServer == "REMOTE"){
+	public function federateGroupSharing($sharerUser, $sharerServer, $sharerPath, $shareeGroup, $shareeServer) {
+		if ($shareeServer == "REMOTE") {
 			$shareWith = "$shareeGroup@" . substr($this->remoteBaseUrl, 0, -4);
 		} else {
 			$shareWith = "$shareeGroup@" . substr($this->localBaseUrl, 0, -4);
@@ -83,7 +98,7 @@ class FederationContext implements Context, SnippetAcceptingContext {
 	 * @param string $user
 	 * @param string $server
 	 */
-	public function acceptLastPendingShare($user, $server){
+	public function acceptLastPendingShare($user, $server) {
 		$previous = $this->usingServer($server);
 		$this->asAn($user);
 		$this->sendingToWith('GET', "/apps/files_sharing/api/v1/remote_shares/pending", null);
@@ -97,7 +112,7 @@ class FederationContext implements Context, SnippetAcceptingContext {
 	}
 
 	protected function resetAppConfigs() {
-		$this->modifyServerConfig('files_sharing', 'incoming_server2server_group_share_enabled', 'no');
-		$this->modifyServerConfig('files_sharing', 'outgoing_server2server_group_share_enabled', 'no');
+		$this->deleteServerConfig('files_sharing', 'incoming_server2server_group_share_enabled');
+		$this->deleteServerConfig('files_sharing', 'outgoing_server2server_group_share_enabled');
 	}
 }

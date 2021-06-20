@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016 Lukas Reschke <lukas@statuscode.ch>
  *
@@ -41,7 +44,7 @@ class ThrottlerTest extends TestCase {
 	private $dbConnection;
 	/** @var ILogger */
 	private $logger;
-	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
 
 	protected function setUp(): void {
@@ -153,7 +156,7 @@ class ThrottlerTest extends TestCase {
 				'dead:beef:cafe::1111',
 				[
 					'whitelist_0' => 'dead:beef:cafe::1100/123',
-					
+
 				],
 				true,
 			],
@@ -185,7 +188,7 @@ class ThrottlerTest extends TestCase {
 			->willReturn($enabled);
 
 		$this->config->method('getAppValue')
-			->willReturnCallback(function($app, $key, $default) use ($whitelists) {
+			->willReturnCallback(function ($app, $key, $default) use ($whitelists) {
 				if ($app !== 'bruteForce') {
 					return $default;
 				}

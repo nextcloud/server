@@ -16,6 +16,8 @@ INSTALLED=$($OCC status | grep installed: | cut -d " " -f 5)
 if [ "$INSTALLED" == "true" ]; then
     # Disable bruteforce protection because the integration tests do trigger them
     $OCC config:system:set auth.bruteforce.protection.enabled --value false --type bool
+    # Allow local remote urls otherwise we can not share
+    $OCC config:system:set allow_local_remote_servers --value true --type bool
 else
     if [ "$SCENARIO_TO_RUN" != "setup_features/setup.feature" ]; then
         echo "Nextcloud instance needs to be installed" >&2

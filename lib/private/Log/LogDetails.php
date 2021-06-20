@@ -2,6 +2,8 @@
 /**
  * @copyright Copyright (c) 2019 Julius Härtl <jus@bitgrid.net>
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Julius Härtl <jus@bitgrid.net>
  *
  * @license GNU AGPL version 3 or any later version
@@ -13,14 +15,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Log;
 
 use OC\SystemConfig;
@@ -57,7 +58,7 @@ abstract class LogDetails {
 		$time = $time->format($format);
 		$url = ($request->getRequestUri() !== '') ? $request->getRequestUri() : '--';
 		$method = is_string($request->getMethod()) ? $request->getMethod() : '--';
-		if($this->config->getValue('installed', false)) {
+		if ($this->config->getValue('installed', false)) {
 			$user = \OC_User::getUser() ? \OC_User::getUser() : '--';
 		} else {
 			$user = '--';
@@ -81,13 +82,17 @@ abstract class LogDetails {
 			'version'
 		);
 
-		if(is_array($message) && !array_key_exists('Exception', $message)) {
-			// Exception messages should stay as they are,
+		if (is_array($message)) {
+			// Exception messages are extracted and the exception is put into a separate field
 			// anything else modern is split to 'message' (string) and
 			// data (array) fields
-			$shortMessage = $message['message'] ?? '(no message provided)';
-			$entry['data'] = $message;
-			$entry['message'] = $shortMessage;
+			if (array_key_exists('Exception', $message)) {
+				$entry['exception'] = $message;
+				$entry['message'] = $message['CustomMessage'] !== '--' ? $message['CustomMessage'] : $message['Message'];
+			} else {
+				$entry['data'] = $message;
+				$entry['message'] = $message['message'] ?? '(no message provided)';
+			}
 		}
 
 		return $entry;
@@ -98,10 +103,10 @@ abstract class LogDetails {
 		// PHP's json_encode only accept proper UTF-8 strings, loop over all
 		// elements to ensure that they are properly UTF-8 compliant or convert
 		// them manually.
-		foreach($entry as $key => $value) {
-			if(is_string($value)) {
+		foreach ($entry as $key => $value) {
+			if (is_string($value)) {
 				$testEncode = json_encode($value, JSON_UNESCAPED_SLASHES);
-				if($testEncode === false) {
+				if ($testEncode === false) {
 					$entry[$key] = utf8_encode($value);
 				}
 			}

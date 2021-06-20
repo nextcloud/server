@@ -87,11 +87,10 @@ ul {
 
 body {
 	background-color: var(--color-main-background);
-	background-color: linear-gradient(40deg, var(--color-main-background) 0%, rgba(28,175,255,1) 100%);
 	font-weight: normal;
-	/* bring the default font size up to 14px */
-	font-size: .875em;
-	line-height: 1.6em;
+	/* bring the default font size up to 15px */
+	font-size: var(--default-font-size);
+	line-height: var(--default-line-height);
 	font-family: var(--font-face);
 	color: var(--color-main-text);
 }
@@ -152,8 +151,8 @@ body {
 /* SCROLLING */
 
 ::-webkit-scrollbar {
-	width: 6px;
-	height: 5px;
+	width: 12px;
+	height: 12px
 }
 
 ::-webkit-scrollbar-track-piece {
@@ -162,7 +161,9 @@ body {
 
 ::-webkit-scrollbar-thumb {
 	background: var(--color-border-dark);
-	border-radius: var(--border-radius);
+	border-radius: var(--border-radius-large);
+	border: 2px solid transparent;
+	background-clip: content-box;
 }
 
 
@@ -351,9 +352,9 @@ body {
 	}
 }
 
-.error {
+.error:not(.toastify) {
 	a {
-		color: var(--color-primary-text) !important;
+		color: white !important;
 		font-weight: bold !important;
 		&.button {
 			color: var(--color-text-lighter) !important;
@@ -468,7 +469,9 @@ tr .action:not(.permanent), .selectedActions a {
 }
 
 tr {
-	&:hover .action, &:focus .action, .action.permanent {
+	&:hover .action:not(.menuitem),
+	&:focus .action:not(.menuitem),
+	.action.permanent:not(.menuitem) {
 		opacity: .5;
 	}
 }
@@ -719,6 +722,8 @@ code {
 /* ---- DIALOGS ---- */
 #oc-dialog-filepicker-content {
 	position: relative;
+	display: flex;
+	flex-direction:column;
 
 	.dirtree {
 		flex-wrap: wrap;
@@ -779,7 +784,9 @@ code {
 		border: 1px solid var(--color-border-dark);
 		border-radius: var(--border-radius-pill);
 		position: relative;
-		top: -5px;
+		left: 15px;
+		top:3px;
+		order:1;
 
 		.icon.icon-add{
 			background-image: var(--icon-add-000);
@@ -812,7 +819,8 @@ code {
 		box-sizing: border-box;
 		display: inline-block;
 		overflow-y: auto;
-		height: 100%;
+		flex: 1;
+		/*height: 100%;*/
 		/* overflow under the button row */
 		width: 100%;
 		overflow-x: hidden;

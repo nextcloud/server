@@ -1,6 +1,6 @@
 <?php
 /**
-
+ *
  *
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Jan-Christoph Borchardt <hey@jancborchardt.net>

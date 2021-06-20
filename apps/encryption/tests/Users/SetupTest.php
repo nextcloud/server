@@ -4,7 +4,7 @@
  *
  * @author Björn Schießle <bjoern@schiessle.org>
  * @author Clark Tomlinson <fallen013@gmail.com>
- * @author Joas Schilling <coding@schilljs.com>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -23,24 +23,20 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Encryption\Tests\Users;
-
 
 use OCA\Encryption\Crypto\Crypt;
 use OCA\Encryption\KeyManager;
 use OCA\Encryption\Users\Setup;
-use OCP\ILogger;
-use OCP\IUserSession;
 use Test\TestCase;
 
 class SetupTest extends TestCase {
 	/**
-	 * @var \OCA\Encryption\KeyManager|\PHPUnit_Framework_MockObject_MockObject
+	 * @var \OCA\Encryption\KeyManager|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	private $keyManagerMock;
 	/**
-	 * @var \OCA\Encryption\Crypto\Crypt|\PHPUnit_Framework_MockObject_MockObject
+	 * @var \OCA\Encryption\Crypto\Crypt|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	private $cryptMock;
 	/**
@@ -50,10 +46,6 @@ class SetupTest extends TestCase {
 
 	protected function setUp(): void {
 		parent::setUp();
-		$logMock = $this->createMock(ILogger::class);
-		$userSessionMock = $this->getMockBuilder(IUserSession::class)
-			->disableOriginalConstructor()
-			->getMock();
 		$this->cryptMock = $this->getMockBuilder(Crypt::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -62,10 +54,7 @@ class SetupTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		/** @var \OCP\ILogger $logMock */
-		/** @var \OCP\IUserSession $userSessionMock */
-		$this->instance = new Setup($logMock,
-			$userSessionMock,
+		$this->instance = new Setup(
 			$this->cryptMock,
 			$this->keyManagerMock);
 	}
@@ -85,16 +74,15 @@ class SetupTest extends TestCase {
 	 * @param bool $expected
 	 */
 	public function testSetupUser($hasKeys, $expected) {
-
 		$this->keyManagerMock->expects($this->once())->method('userHasKeys')
 			->with('uid')->willReturn($hasKeys);
 
 		if ($hasKeys) {
 			$this->keyManagerMock->expects($this->never())->method('storeKeyPair');
 		} else {
-			$this->cryptMock->expects($this->once())->method('createKeyPair')->willReturn('keyPair');
+			$this->cryptMock->expects($this->once())->method('createKeyPair')->willReturn(['publicKey' => 'publicKey', 'privateKey' => 'privateKey']);
 			$this->keyManagerMock->expects($this->once())->method('storeKeyPair')
-				->with('uid', 'password', 'keyPair')->willReturn(true);
+				->with('uid', 'password', ['publicKey' => 'publicKey', 'privateKey' => 'privateKey'])->willReturn(true);
 		}
 
 		$this->assertSame($expected,
@@ -108,5 +96,4 @@ class SetupTest extends TestCase {
 			[false, true]
 		];
 	}
-
 }

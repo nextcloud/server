@@ -18,7 +18,6 @@ OC.L10N.register(
     "Federated Share request sent, you will receive an invitation. Check your notifications." : "Demande de partage fédéré envoyée, vous allez recevoir une invitation. Vérifiez vos notifications.",
     "Couldn't establish a federated share, it looks like the server to federate with is too old (Nextcloud <= 9)." : "Impossible d'établir un partage fédére, il semble que le serveur avec lequel fédérer est trop vieux (Nextcloud <=9)",
     "It is not allowed to send federated group shares from this server." : "Il n'est pas autorisé d'envoyer des partages à des groupes fédérés depuis ce serveur.",
-    "Sharing %1$s failed, because this item is already shared with %2$s" : "Le partage de %1$s a échoué car cet élément est déjà partagé avec %2$s",
     "Not allowed to create a federated share with the same user" : "Non autorisé à créer un partage fédéré avec le même utilisateur",
     "File is already shared with %s" : "Le fichier est déjà partagé avec %s",
     "Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable or uses a self-signed certificate." : "Le partage de %1$s a échoué, impossible de trouver %2$s, le serveur est peut-être momentanément injoignable ou utilise un certificat auto-signé.",
@@ -38,7 +37,7 @@ OC.L10N.register(
     "Federated Cloud Sharing" : "Partage Cloud Fédéré",
     "Open documentation" : "Voir la documentation",
     "Adjust how people can share between servers." : "Réglez comment les personnes peuvent partager entre les serveurs.",
-    "Allow users on this server to send shares to other servers" : "Autoriser les utilisateurs de ce serveur à envoyer des partages vers d'autres serveurs",
+    "Allow users on this server to send shares to other servers (this option also allows WebDAV access to public shares)" : "Autoriser les utilisateurs de ce serveur à envoyer des partages vers d'autres serveurs (cette option permet aussi l'accès WebDAV aux partages publics)",
     "Allow users on this server to receive shares from other servers" : "Autoriser les utilisateurs de ce serveur à recevoir des partages d'autres serveurs",
     "Allow users on this server to send shares to groups on other servers" : "Autoriser les utilisateurs de ce serveur à envoyer des partages à des groupes sur d'autres serveurs",
     "Allow users on this server to receive group shares from other servers" : "Autoriser les utilisateurs de ce serveur à recevoir des partages de groupe depuis d'autres serveurs",
@@ -51,7 +50,6 @@ OC.L10N.register(
     "Add to your website" : "Ajouter à votre site web",
     "Share with me via Nextcloud" : "Partagez avec moi via Nextcloud",
     "HTML Code:" : "Code HTML :",
-    "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Vous avez reçu \"%3$s\" en tant que partage distant de %1$s (de la part de %2$s)",
-    "You received \"%3$s\" as a remote share from %1$s" : "Vous avez reçu \"%3$s\" comme partage distant de %1$s"
+    "Allow users on this server to send shares to other servers" : "Autoriser les utilisateurs de ce serveur à envoyer des partages vers d'autres serveurs"
 },
 "nplurals=2; plural=(n > 1);");

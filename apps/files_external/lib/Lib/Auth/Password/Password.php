@@ -21,7 +21,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_External\Lib\Auth\Password;
 
 use OCA\Files_External\Lib\Auth\AuthMechanism;
@@ -32,7 +31,6 @@ use OCP\IL10N;
  * Basic password authentication mechanism
  */
 class Password extends AuthMechanism {
-
 	public function __construct(IL10N $l) {
 		$this
 			->setIdentifier('password::password')
@@ -44,5 +42,4 @@ class Password extends AuthMechanism {
 					->setType(DefinitionParameter::VALUE_PASSWORD),
 			]);
 	}
-
 }

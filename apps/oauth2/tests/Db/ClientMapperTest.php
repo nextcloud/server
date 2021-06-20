@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2017 Lukas Reschke <lukas@statuscode.ch>
  *
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -14,14 +15,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\OAuth2\Tests\Db;
 
 use OCA\OAuth2\Db\Client;
@@ -40,6 +40,13 @@ class ClientMapperTest extends TestCase {
 		$this->clientMapper = new ClientMapper(\OC::$server->getDatabaseConnection());
 	}
 
+	protected function tearDown(): void {
+		$query = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+		$query->delete('oauth2_clients')->execute();
+
+		parent::tearDown();
+	}
+
 	public function testGetByIdentifier() {
 		$client = new Client();
 		$client->setClientIdentifier('MyAwesomeClientIdentifier');
@@ -51,7 +58,6 @@ class ClientMapperTest extends TestCase {
 		$this->assertEquals($client, $this->clientMapper->getByIdentifier('MyAwesomeClientIdentifier'));
 	}
 
-	
 	public function testGetByIdentifierNotExisting() {
 		$this->expectException(\OCA\OAuth2\Exceptions\ClientNotFoundException::class);
 
@@ -69,7 +75,6 @@ class ClientMapperTest extends TestCase {
 		$this->assertEquals($client, $this->clientMapper->getByUid($client->getId()));
 	}
 
-	
 	public function testGetByUidNotExisting() {
 		$this->expectException(\OCA\OAuth2\Exceptions\ClientNotFoundException::class);
 

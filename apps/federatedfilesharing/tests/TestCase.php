@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -22,7 +23,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\FederatedFileSharing\Tests;
 
 use OC\Files\Filesystem;
@@ -36,9 +36,8 @@ use OC\Group\Database;
  * Base class for sharing tests.
  */
 abstract class TestCase extends \Test\TestCase {
-
-	const TEST_FILES_SHARING_API_USER1 = "test-share-user1";
-	const TEST_FILES_SHARING_API_USER2 = "test-share-user2";
+	public const TEST_FILES_SHARING_API_USER1 = "test-share-user1";
+	public const TEST_FILES_SHARING_API_USER2 = "test-share-user2";
 
 	public static function setUpBeforeClass(): void {
 		parent::setUpBeforeClass();
@@ -91,7 +90,6 @@ abstract class TestCase extends \Test\TestCase {
 	 * @param bool $password
 	 */
 	protected static function loginHelper($user, $create = false, $password = false) {
-
 		if ($password === false) {
 			$password = $user;
 		}
@@ -129,5 +127,4 @@ abstract class TestCase extends \Test\TestCase {
 		$isInitialized->setValue($storage, false);
 		$isInitialized->setAccessible(false);
 	}
-
 }

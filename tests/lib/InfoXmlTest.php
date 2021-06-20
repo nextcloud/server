@@ -21,7 +21,6 @@
 
 namespace Test;
 
-
 /**
  * Class InfoXmlTest
  *
@@ -29,7 +28,6 @@ namespace Test;
  * @package Test
  */
 class InfoXmlTest extends TestCase {
-
 	public function dataApps() {
 		return [
 			['admin_audit'],

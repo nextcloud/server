@@ -3,8 +3,9 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Bart Visscher <bartv@thisnet.nl>
- * @author Christian Weiske <cweiske@cweiske.de>
  * @author Christopher Schäpers <kondou@ts.unde.re>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Morris Jobke <hey@morrisjobke.de>
@@ -29,15 +30,14 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Archive;
 
 use Icewind\Streams\CallbackWrapper;
 
 class TAR extends Archive {
-	const PLAIN = 0;
-	const GZIP = 1;
-	const BZIP = 2;
+	public const PLAIN = 0;
+	public const GZIP = 1;
+	public const BZIP = 2;
 
 	private $fileList;
 	private $cachedHeaders;
@@ -63,7 +63,7 @@ class TAR extends Archive {
 	 * @param string $file
 	 * @return integer
 	 */
-	static public function getTarType($file) {
+	public static function getTarType($file) {
 		if (strpos($file, '.')) {
 			$extension = substr($file, strrpos($file, '.'));
 			switch ($extension) {
@@ -338,7 +338,7 @@ class TAR extends Archive {
 	 *
 	 * @param string $path
 	 * @param string $mode
-	 * @return resource
+	 * @return bool|resource
 	 */
 	public function getStream($path, $mode) {
 		if (strrpos($path, '.') !== false) {
@@ -380,5 +380,15 @@ class TAR extends Archive {
 		}
 		$types = [null, 'gz', 'bz'];
 		$this->tar = new \Archive_Tar($this->path, $types[self::getTarType($this->path)]);
+	}
+
+	/**
+	 * Get error object from archive_tar.
+	 */
+	public function getError(): ?\PEAR_Error {
+		if ($this->tar instanceof \Archive_Tar && $this->tar->error_object instanceof \PEAR_Error) {
+			return $this->tar->error_object;
+		}
+		return null;
 	}
 }

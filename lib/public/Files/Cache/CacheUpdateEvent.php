@@ -16,22 +16,20 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCP\Files\Cache;
-
-use OC\Files\Cache\AbstractCacheEvent;
 
 /**
  * Event for when an existing entry in the cache gets updated
  *
  * @since 16.0.0
+ * @deprecated 21.0.0 use CacheEntryUpdatedEvent instead
  */
-class CacheUpdateEvent extends AbstractCacheEvent {
+class CacheUpdateEvent extends CacheEntryUpdatedEvent {
 }

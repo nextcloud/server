@@ -9,7 +9,7 @@
  */
 
 // HACK: this piece needs to be loaded AFTER the files app (for unit tests)
-$(document).ready(function() {
+window.addEventListener('DOMContentLoaded', function() {
 	(function(OCA) {
 		/**
 		 * @class OCA.Files.FavoritesFileList

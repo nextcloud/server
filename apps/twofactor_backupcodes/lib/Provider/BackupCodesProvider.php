@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- *
+ * @copyright Copyright (c) 2016 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Morris Jobke <hey@morrisjobke.de>
@@ -18,14 +18,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\TwoFactorBackupCodes\Provider;
 
 use OC\App\AppManager;
@@ -143,7 +142,7 @@ class BackupCodesProvider implements IProvider, IProvidesPersonalSettings {
 	 * @return boolean
 	 */
 	public function isActive(IUser $user): bool {
-		$appIds = array_filter($this->appManager->getEnabledAppsForUser($user), function($appId) {
+		$appIds = array_filter($this->appManager->getEnabledAppsForUser($user), function ($appId) {
 			return $appId !== $this->appName;
 		});
 		foreach ($appIds as $appId) {
@@ -165,5 +164,4 @@ class BackupCodesProvider implements IProvider, IProvidesPersonalSettings {
 		$this->initialStateService->provideInitialState($this->appName, 'state', $state);
 		return new Personal();
 	}
-
 }

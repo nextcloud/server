@@ -4,7 +4,7 @@
  *
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Björn Schießle <bjoern@schiessle.org>
- * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -25,7 +25,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\FederatedFileSharing\Tests;
 
 use OCA\FederatedFileSharing\Controller\RequestHandlerController;
@@ -36,11 +35,11 @@ use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Federation\ICloudFederationShare;
 use OCP\Federation\ICloudIdManager;
 use OCP\IDBConnection;
-use OCP\ILogger;
 use OCP\IRequest;
 use OCP\IUserManager;
 use OCP\Share;
 use OCP\Share\IShare;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class RequestHandlerTest
@@ -49,7 +48,6 @@ use OCP\Share\IShare;
  * @group DB
  */
 class RequestHandlerControllerTest extends \Test\TestCase {
-
 	private $owner = 'owner';
 	private $user1 = 'user1';
 	private $user2 = 'user2';
@@ -60,50 +58,49 @@ class RequestHandlerControllerTest extends \Test\TestCase {
 	/** @var RequestHandlerController */
 	private $requestHandler;
 
-	/** @var  \OCA\FederatedFileSharing\FederatedShareProvider|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var  \OCA\FederatedFileSharing\FederatedShareProvider|\PHPUnit\Framework\MockObject\MockObject */
 	private $federatedShareProvider;
 
-	/** @var  \OCA\FederatedFileSharing\Notifications|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var  \OCA\FederatedFileSharing\Notifications|\PHPUnit\Framework\MockObject\MockObject */
 	private $notifications;
 
-	/** @var  \OCA\FederatedFileSharing\AddressHandler|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var  \OCA\FederatedFileSharing\AddressHandler|\PHPUnit\Framework\MockObject\MockObject */
 	private $addressHandler;
 
-	/** @var  IUserManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var  IUserManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $userManager;
 
-	/** @var  IShare|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var  IShare|\PHPUnit\Framework\MockObject\MockObject */
 	private $share;
 
-	/** @var  ICloudIdManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var  ICloudIdManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $cloudIdManager;
 
-	/** @var ILogger|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
 	private $logger;
 
-	/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
 	private $request;
 
-	/** @var IDBConnection|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IDBConnection|\PHPUnit\Framework\MockObject\MockObject */
 	private $connection;
 
-	/** @var Share\IManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var Share\IManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $shareManager;
 
-	/** @var ICloudFederationFactory|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ICloudFederationFactory|\PHPUnit\Framework\MockObject\MockObject */
 	private $cloudFederationFactory;
 
-	/** @var ICloudFederationProviderManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ICloudFederationProviderManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $cloudFederationProviderManager;
 
-	/** @var ICloudFederationProvider|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ICloudFederationProvider|\PHPUnit\Framework\MockObject\MockObject */
 	private $cloudFederationProvider;
 
-	/** @var ICloudFederationShare|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ICloudFederationShare|\PHPUnit\Framework\MockObject\MockObject */
 	private $cloudFederationShare;
 
 	protected function setUp(): void {
-
 		$this->share = $this->getMockBuilder(IShare::class)->getMock();
 		$this->federatedShareProvider = $this->getMockBuilder('OCA\FederatedFileSharing\FederatedShareProvider')
 			->disableOriginalConstructor()->getMock();
@@ -129,7 +126,7 @@ class RequestHandlerControllerTest extends \Test\TestCase {
 		$this->cloudFederationShare = $this->createMock(ICloudFederationShare::class);
 
 
-		$this->logger = $this->createMock(ILogger::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 
 		$this->requestHandler = new RequestHandlerController(
 			'federatedfilesharing',
@@ -145,10 +142,9 @@ class RequestHandlerControllerTest extends \Test\TestCase {
 			$this->cloudFederationFactory,
 			$this->cloudFederationProviderManager
 		);
-
 	}
 
-	function testCreateShare() {
+	public function testCreateShare() {
 		// simulate a post request
 		$_POST['remote'] = 'localhost';
 		$_POST['token'] = 'token';
@@ -175,7 +171,7 @@ class RequestHandlerControllerTest extends \Test\TestCase {
 					'file'
 			)->willReturn($this->cloudFederationShare);
 
-		/** @var ICloudFederationProvider|\PHPUnit_Framework_MockObject_MockObject $provider */
+		/** @var ICloudFederationProvider|\PHPUnit\Framework\MockObject\MockObject $provider */
 		$this->cloudFederationProviderManager->expects($this->once())
 			->method('getCloudFederationProvider')
 			->with('file')
@@ -187,11 +183,9 @@ class RequestHandlerControllerTest extends \Test\TestCase {
 		$result = $this->requestHandler->createShare();
 
 		$this->assertInstanceOf(DataResponse::class, $result);
-
 	}
 
-	function testDeclineShare() {
-
+	public function testDeclineShare() {
 		$id = 42;
 		$_POST['token'] = 'token';
 
@@ -212,12 +206,10 @@ class RequestHandlerControllerTest extends \Test\TestCase {
 		$result = $this->requestHandler->declineShare($id);
 
 		$this->assertInstanceOf(DataResponse::class, $result);
-
 	}
 
 
-	function testAcceptShare() {
-
+	public function testAcceptShare() {
 		$id = 42;
 		$_POST['token'] = 'token';
 
@@ -238,8 +230,5 @@ class RequestHandlerControllerTest extends \Test\TestCase {
 		$result = $this->requestHandler->acceptShare($id);
 
 		$this->assertInstanceOf(DataResponse::class, $result);
-
 	}
-
-
 }

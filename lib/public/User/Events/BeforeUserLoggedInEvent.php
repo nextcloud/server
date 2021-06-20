@@ -5,6 +5,7 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2019, Roeland Jago Douma <roeland@famdouma.nl>
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  *
  * @license GNU AGPL version 3 or any later version
@@ -16,25 +17,23 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCP\User\Events;
 
 use OCP\EventDispatcher\Event;
-use OCP\IUser;
 
 /**
  * @since 18.0.0
  */
 class BeforeUserLoggedInEvent extends Event {
 
-	/** @var IUser */
+	/** @var string */
 	private $username;
 
 	/** @var string */
@@ -50,9 +49,11 @@ class BeforeUserLoggedInEvent extends Event {
 	}
 
 	/**
+	 * returns the login name, which must not necessarily match to a user ID
+	 *
 	 * @since 18.0.0
 	 */
-	public function getUsername(): IUser {
+	public function getUsername(): string {
 		return $this->username;
 	}
 
@@ -62,5 +63,4 @@ class BeforeUserLoggedInEvent extends Event {
 	public function getPassword(): string {
 		return $this->password;
 	}
-
 }

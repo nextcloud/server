@@ -110,5 +110,4 @@ class EntryTest extends TestCase {
 
 		$this->assertEquals($expectedJson, $json);
 	}
-
 }

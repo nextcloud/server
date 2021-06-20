@@ -5,9 +5,9 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Tom Needham <tom@owncloud.com>
  *
@@ -26,7 +26,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Provisioning_API\Controller;
 
 use OC_App;
@@ -38,14 +37,9 @@ use OCP\AppFramework\OCSController;
 use OCP\IRequest;
 
 class AppsController extends OCSController {
-	/** @var \OCP\App\IAppManager */
+	/** @var IAppManager */
 	private $appManager;
 
-	/**
-	 * @param string $appName
-	 * @param IRequest $request
-	 * @param IAppManager $appManager
-	 */
 	public function __construct(
 		string $appName,
 		IRequest $request,
@@ -57,18 +51,18 @@ class AppsController extends OCSController {
 	}
 
 	/**
-	 * @param string $filter
+	 * @param string|null $filter
 	 * @return DataResponse
 	 * @throws OCSException
 	 */
 	public function getApps(string $filter = null): DataResponse {
 		$apps = (new OC_App())->listAllApps();
 		$list = [];
-		foreach($apps as $app) {
+		foreach ($apps as $app) {
 			$list[] = $app['id'];
 		}
-		if($filter){
-			switch($filter){
+		if ($filter) {
+			switch ($filter) {
 				case 'enabled':
 					return new DataResponse(['apps' => \OC_App::getEnabledApps()]);
 					break;
@@ -80,7 +74,6 @@ class AppsController extends OCSController {
 					// Invalid filter variable
 					throw new OCSException('', 101);
 			}
-
 		} else {
 			return new DataResponse(['apps' => $list]);
 		}
@@ -92,12 +85,12 @@ class AppsController extends OCSController {
 	 * @throws OCSException
 	 */
 	public function getAppInfo(string $app): DataResponse {
-		$info = \OCP\App::getAppInfo($app);
-		if(!is_null($info)) {
-			return new DataResponse(OC_App::getAppInfo($app));
+		$info = $this->appManager->getAppInfo($app);
+		if (!is_null($info)) {
+			return new DataResponse($info);
 		}
 
-		throw new OCSException('The request app was not found', \OCP\API::RESPOND_NOT_FOUND);
+		throw new OCSException('The request app was not found', OCSController::RESPOND_NOT_FOUND);
 	}
 
 	/**
@@ -110,7 +103,7 @@ class AppsController extends OCSController {
 		try {
 			$this->appManager->enableApp($app);
 		} catch (AppPathNotFoundException $e) {
-			throw new OCSException('The request app was not found', \OCP\API::RESPOND_NOT_FOUND);
+			throw new OCSException('The request app was not found', OCSController::RESPOND_NOT_FOUND);
 		}
 		return new DataResponse();
 	}
@@ -124,5 +117,4 @@ class AppsController extends OCSController {
 		$this->appManager->disableApp($app);
 		return new DataResponse();
 	}
-
 }

@@ -12,7 +12,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -21,12 +21,11 @@
  */
 
 import Vue from 'vue'
+import { translate as t } from '@nextcloud/l10n'
+
 import SidebarView from './views/Sidebar.vue'
 import Sidebar from './services/Sidebar'
 import Tab from './models/Tab'
-import VueClipboard from 'vue-clipboard2'
-
-Vue.use(VueClipboard)
 
 Vue.prototype.t = t
 
@@ -37,13 +36,14 @@ if (!window.OCA.Files) {
 Object.assign(window.OCA.Files, { Sidebar: new Sidebar() })
 Object.assign(window.OCA.Files.Sidebar, { Tab })
 
-window.addEventListener('DOMContentLoaded', () => {
-	// Make sure we have a proper layout
-	if (document.getElementById('content')) {
+window.addEventListener('DOMContentLoaded', function() {
+	const contentElement = document.querySelector('body > .content')
+		|| document.querySelector('body > #content')
 
+	// Make sure we have a proper layout
+	if (contentElement) {
 		// Make sure we have a mountpoint
 		if (!document.getElementById('app-sidebar')) {
-			const contentElement = document.getElementById('content')
 			const sidebarElement = document.createElement('div')
 			sidebarElement.id = 'app-sidebar'
 			contentElement.appendChild(sidebarElement)
@@ -58,4 +58,5 @@ window.addEventListener('DOMContentLoaded', () => {
 	AppSidebar.$mount('#app-sidebar')
 	window.OCA.Files.Sidebar.open = AppSidebar.open
 	window.OCA.Files.Sidebar.close = AppSidebar.close
+	window.OCA.Files.Sidebar.setFullScreenMode = AppSidebar.setFullScreenMode
 })

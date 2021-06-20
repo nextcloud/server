@@ -30,7 +30,7 @@ OCA.LDAP = _.extend(OC.LDAP || {}, {
 	},
 });
 
-$(document).ready(function() {
+window.addEventListener('DOMContentLoaded', function() {
 	$('form[name=renewpassword]').submit(OCA.LDAP.onRenewPassword);
 	
 	if($('#newPassword').length) {

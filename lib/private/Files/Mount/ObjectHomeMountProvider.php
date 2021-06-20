@@ -22,7 +22,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Files\Mount;
 
 use OCP\Files\Config\IHomeMountProvider;
@@ -57,7 +56,6 @@ class ObjectHomeMountProvider implements IHomeMountProvider {
 	 * @return \OCP\Files\Mount\IMountPoint
 	 */
 	public function getHomeMountForUser(IUser $user, IStorageFactory $loader) {
-
 		$config = $this->getMultiBucketObjectStoreConfig($user);
 		if ($config === null) {
 			$config = $this->getSingleBucketObjectStoreConfig($user);

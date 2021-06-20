@@ -1,12 +1,16 @@
 <?php
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
+ * Copyright (c) 2014 Vincent Petry <pvince81@owncloud.com>
+ * Copyright (c) 2014 Vincent Petry <pvince81@owncloud.com>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -23,12 +27,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OCA\DAV\Connector\Sabre\Directory;
 use OCA\DAV\Connector\Sabre\File;
 use OCA\DAV\Connector\Sabre\Node;
+use OCA\DAV\Upload\UploadFile;
 use OCP\ITagManager;
 use OCP\ITags;
 use Sabre\DAV\Tree;
@@ -40,10 +44,9 @@ use Sabre\DAV\Tree;
  * See the COPYING-README file.
  */
 class TagsPluginTest extends \Test\TestCase {
-
-	const TAGS_PROPERTYNAME = \OCA\DAV\Connector\Sabre\TagsPlugin::TAGS_PROPERTYNAME;
-	const FAVORITE_PROPERTYNAME = \OCA\DAV\Connector\Sabre\TagsPlugin::FAVORITE_PROPERTYNAME;
-	const TAG_FAVORITE = \OCA\DAV\Connector\Sabre\TagsPlugin::TAG_FAVORITE;
+	public const TAGS_PROPERTYNAME = \OCA\DAV\Connector\Sabre\TagsPlugin::TAGS_PROPERTYNAME;
+	public const FAVORITE_PROPERTYNAME = \OCA\DAV\Connector\Sabre\TagsPlugin::FAVORITE_PROPERTYNAME;
+	public const TAG_FAVORITE = \OCA\DAV\Connector\Sabre\TagsPlugin::TAG_FAVORITE;
 
 	/**
 	 * @var \Sabre\DAV\Server
@@ -211,7 +214,7 @@ class TagsPluginTest extends \Test\TestCase {
 		$this->assertEquals($expectedProperties, $result);
 	}
 
-	function tagsGetPropertiesDataProvider() {
+	public function tagsGetPropertiesDataProvider() {
 		return [
 			// request both, receive both
 			[
@@ -264,6 +267,26 @@ class TagsPluginTest extends \Test\TestCase {
 				]
 			],
 		];
+	}
+
+	public function testGetPropertiesSkipChunks(): void {
+		$sabreNode = $this->getMockBuilder(UploadFile::class)
+			->disableOriginalConstructor()
+			->getMock();
+
+		$propFind = new \Sabre\DAV\PropFind(
+			'/dummyPath',
+			[self::TAGS_PROPERTYNAME, self::TAG_FAVORITE],
+			0
+		);
+
+		$this->plugin->handleGetProperties(
+			$propFind,
+			$sabreNode
+		);
+
+		$result = $propFind->getResultForMultiStatus();
+		$this->assertCount(2, $result[404]);
 	}
 
 	public function testUpdateTags() {
@@ -429,5 +452,4 @@ class TagsPluginTest extends \Test\TestCase {
 		$this->assertFalse(false, isset($result[self::TAGS_PROPERTYNAME]));
 		$this->assertEquals(200, isset($result[self::FAVORITE_PROPERTYNAME]));
 	}
-
 }

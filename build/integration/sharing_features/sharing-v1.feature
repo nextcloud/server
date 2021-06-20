@@ -14,7 +14,7 @@ Feature: sharing
     Then the OCS status code should be "100"
     And the HTTP status code should be "200"
     And The following headers should be set
-      | Content-Security-Policy | default-src 'none';base-uri 'none';manifest-src 'self' |
+      | Content-Security-Policy | default-src 'none';base-uri 'none';manifest-src 'self';frame-ancestors 'none' |
 
   Scenario: Creating a share with a group
     Given user "user0" exists
@@ -54,7 +54,93 @@ Feature: sharing
       | shareWith | a-room-token |
       | shareType | 10 |
     Then the OCS status code should be "403"
-    And the HTTP status code should be "401"
+    And the HTTP status code should be "200"
+
+  Scenario: Creating a new mail share
+    Given dummy mail server is listening
+    And user "user0" exists
+    And As an "user0"
+    When creating a share with
+      | path | welcome.txt |
+      | shareType | 4 |
+      | shareWith | dumy@test.com |
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And last share can be downloaded
+
+  Scenario: Creating a new mail share with password
+    Given dummy mail server is listening
+    And user "user0" exists
+    And As an "user0"
+    When creating a share with
+      | path | welcome.txt |
+      | shareType | 4 |
+      | shareWith | dumy@test.com |
+      | password | publicpw |
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And last share with password "publicpw" can be downloaded
+
+  Scenario: Creating a new mail share with password when password protection is enforced
+    Given dummy mail server is listening
+    And As an "admin"
+    And parameter "shareapi_enforce_links_password" of app "core" is set to "yes"
+    And user "user0" exists
+    And As an "user0"
+    When creating a share with
+      | path | welcome.txt |
+      | shareType | 4 |
+      | shareWith | dumy@test.com |
+      | password | publicpw |
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And last share with password "publicpw" can be downloaded
+
+  Scenario: Creating a new mail share and setting a password
+    Given dummy mail server is listening
+    And user "user0" exists
+    And As an "user0"
+    When creating a share with
+      | path | welcome.txt |
+      | shareType | 4 |
+      | shareWith | dumy@test.com |
+    And Updating last share with
+      | password | publicpw |
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And last share with password "publicpw" can be downloaded
+
+  Scenario: Creating a new mail share and setting a password twice
+    Given dummy mail server is listening
+    And user "user0" exists
+    And As an "user0"
+    When creating a share with
+      | path | welcome.txt |
+      | shareType | 4 |
+      | shareWith | dumy@test.com |
+    And Updating last share with
+      | password | publicpw |
+    And Updating last share with
+      | password | another publicpw |
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And last share with password "another publicpw" can be downloaded
+
+  Scenario: Creating a new mail share and setting the same password twice
+    Given dummy mail server is listening
+    And user "user0" exists
+    And As an "user0"
+    When creating a share with
+      | path | welcome.txt |
+      | shareType | 4 |
+      | shareWith | dumy@test.com |
+    And Updating last share with
+      | password | publicpw |
+    And Updating last share with
+      | password | publicpw |
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And last share with password "publicpw" can be downloaded
 
   Scenario: Creating a new public share
     Given user "user0" exists
@@ -64,7 +150,7 @@ Feature: sharing
       | shareType | 3 |
     Then the OCS status code should be "100"
     And the HTTP status code should be "200"
-    And Public shared file "welcome.txt" can be downloaded
+    And last link share can be downloaded
 
   Scenario: Creating a new public share with password
     Given user "user0" exists
@@ -75,7 +161,7 @@ Feature: sharing
       | password | publicpw |
     Then the OCS status code should be "100"
     And the HTTP status code should be "200"
-    And Public shared file "welcome.txt" with password "publicpw" can be downloaded
+    And last share with password "publicpw" can be downloaded
 
   Scenario: Creating a new public share of a folder
    Given user "user0" exists
@@ -91,7 +177,7 @@ Feature: sharing
     And the HTTP status code should be "200"
     And Share fields of last share match with
       | id | A_NUMBER |
-      | permissions | 15 |
+      | permissions | 31 |
       | expiration | +3 days |
       | url | AN_URL |
       | token | A_TOKEN |
@@ -108,7 +194,7 @@ Feature: sharing
       | expireDate | +3 days |
     Then the OCS status code should be "100"
     And the HTTP status code should be "200"
-    And Public shared file "welcome.txt" with password "publicpw" can be downloaded
+    And last share with password "publicpw" can be downloaded
 
   Scenario: Creating a new public share, updating its expiration date and getting its info
     Given user "user0" exists
@@ -130,7 +216,7 @@ Feature: sharing
       | share_type | 3 |
       | file_source | A_NUMBER |
       | file_target | /FOLDER |
-      | permissions | 1 |
+      | permissions | 17 |
       | stime | A_NUMBER |
       | expiration | +3 days |
       | token | A_TOKEN |
@@ -163,7 +249,7 @@ Feature: sharing
       | share_type | 3 |
       | file_source | A_NUMBER |
       | file_target | /FOLDER |
-      | permissions | 1 |
+      | permissions | 17 |
       | stime | A_NUMBER |
       | token | A_TOKEN |
       | storage | A_NUMBER |
@@ -195,7 +281,7 @@ Feature: sharing
       | share_type | 3 |
       | file_source | A_NUMBER |
       | file_target | /FOLDER |
-      | permissions | 15 |
+      | permissions | 31 |
       | stime | A_NUMBER |
       | token | A_TOKEN |
       | storage | A_NUMBER |
@@ -259,7 +345,7 @@ Feature: sharing
       | share_type | 3 |
       | file_source | A_NUMBER |
       | file_target | /FOLDER |
-      | permissions | 15 |
+      | permissions | 31 |
       | stime | A_NUMBER |
       | token | A_TOKEN |
       | storage | A_NUMBER |
@@ -270,6 +356,146 @@ Feature: sharing
       | displayname_owner | user0 |
       | url | AN_URL |
       | mimetype | httpd/unix-directory |
+
+  Scenario: Creating a new share of a file with default permissions
+    Given user "user0" exists
+    And user "user1" exists
+    And As an "user0"
+    And parameter "shareapi_default_permissions" of app "core" is set to "7"
+    When creating a share with
+      | path | welcome.txt |
+      | shareWith | user1 |
+      | shareType | 0 |
+    And the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And Getting info of last share
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And Share fields of last share match with
+      | permissions | 3 |
+
+  Scenario: Creating a new share of a folder with default permissions
+    Given user "user0" exists
+    And user "user1" exists
+    And As an "user0"
+    And parameter "shareapi_default_permissions" of app "core" is set to "7"
+    When creating a share with
+      | path | FOLDER |
+      | shareWith | user1 |
+      | shareType | 0 |
+    And the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And Getting info of last share
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And Share fields of last share match with
+      | permissions | 7 |
+
+  Scenario: Creating a new internal share with default expiration date
+    Given user "user0" exists
+    And user "user1" exists
+    And As an "user0"
+    And parameter "shareapi_default_internal_expire_date" of app "core" is set to "yes"
+    And parameter "shareapi_internal_expire_after_n_days" of app "core" is set to "3"
+    When creating a share with
+      | path | welcome.txt |
+      | shareWith | user1 |
+      | shareType | 0 |
+    And the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And Getting info of last share
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And Share fields of last share match with
+      | expiration | +3 days |
+
+  Scenario: Creating a new internal share with relaxed default expiration date
+    Given user "user0" exists
+    And user "user1" exists
+    And As an "user0"
+    And parameter "shareapi_default_internal_expire_date" of app "core" is set to "yes"
+    And parameter "shareapi_internal_expire_after_n_days" of app "core" is set to "3"
+    And parameter "internal_defaultExpDays" of app "core" is set to "1"
+    When creating a share with
+      | path | welcome.txt |
+      | shareWith | user1 |
+      | shareType | 0 |
+    And the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And Getting info of last share
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And Share fields of last share match with
+      | expiration | +1 days |
+
+  Scenario: Creating a new internal share with relaxed default expiration date too large
+    Given user "user0" exists
+    And user "user1" exists
+    And As an "user0"
+    And parameter "shareapi_default_internal_expire_date" of app "core" is set to "yes"
+    And parameter "shareapi_internal_expire_after_n_days" of app "core" is set to "3"
+    And parameter "internal_defaultExpDays" of app "core" is set to "10"
+    When creating a share with
+      | path | welcome.txt |
+      | shareWith | user1 |
+      | shareType | 0 |
+    And the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And Getting info of last share
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And Share fields of last share match with
+      | expiration | +3 days |
+
+  Scenario: Creating a new link share with default expiration date
+    Given user "user0" exists
+    And As an "user0"
+    And parameter "shareapi_default_expire_date" of app "core" is set to "yes"
+    And parameter "shareapi_expire_after_n_days" of app "core" is set to "3"
+    When creating a share with
+      | path | welcome.txt |
+      | shareType | 3 |
+    And the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And Getting info of last share
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And Share fields of last share match with
+      | expiration | +3 days |
+
+  Scenario: Creating a new link share with relaxed default expiration date
+    Given user "user0" exists
+    And As an "user0"
+    And parameter "shareapi_default_expire_date" of app "core" is set to "yes"
+    And parameter "shareapi_expire_after_n_days" of app "core" is set to "3"
+    And parameter "link_defaultExpDays" of app "core" is set to "1"
+    When creating a share with
+      | path | welcome.txt |
+      | shareType | 3 |
+    And the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And Getting info of last share
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And Share fields of last share match with
+      | expiration | +1 days |
+
+  Scenario: Creating a new link share with relaxed default expiration date too large
+    Given user "user0" exists
+    And As an "user0"
+    And parameter "shareapi_default_expire_date" of app "core" is set to "yes"
+    And parameter "shareapi_expire_after_n_days" of app "core" is set to "3"
+    And parameter "link_defaultExpDays" of app "core" is set to "10"
+    When creating a share with
+      | path | welcome.txt |
+      | shareType | 3 |
+    And the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And Getting info of last share
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And Share fields of last share match with
+      | expiration | +3 days |
 
   Scenario: getting all shares of a user using that user
     Given user "user0" exists

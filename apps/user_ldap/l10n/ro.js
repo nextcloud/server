@@ -36,7 +36,6 @@ OC.L10N.register(
     "Your password will expire tomorrow." : "Parola ta va expira mâine.",
     "Your password will expire today." : "Parola ta va expira astăzi.",
     "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["Parola ta va expira în %n zi.","Parola ta va expira în %n zile.","Parola ta va expira în %n zile."],
-    "LDAP / AD integration" : "Integrare LDAP / AD",
     "_%s group found_::_%s groups found_" : ["%s grup găsit.","%s grupuri găsite.","%s grupuri găsite."],
     "_%s user found_::_%s users found_" : ["%s utilizator găsit.","%s utilizatori găsiți.","%s utilizatori găsiți."],
     "Could not find the desired feature" : "Nu s-a putut găsi funcționalitatea dorită.",
@@ -47,7 +46,6 @@ OC.L10N.register(
     "Available groups" : "Grupuri disponibile",
     "Selected groups" : "Grupurile selectate",
     "LDAP Filter:" : "Filtru LDAP:",
-    "LDAP / AD Username:" : "Utilizator LDAP / AD",
     "Other Attributes:" : "Alte caracteristici :",
     "Verify settings" : "Verifică setările",
     "%s. Server:" : "%s. Server:",
@@ -101,6 +99,7 @@ OC.L10N.register(
     "Group-Member association" : "Asocierea Grup-Membru",
     "Special Attributes" : "Caracteristici speciale ",
     "Internal Username" : "Nume utilizator intern",
-    "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "Lăsați gol pentru numele de utilizator (implicit). În caz contrar, specificați un atribut LDAP / AD."
+    "LDAP / AD integration" : "Integrare LDAP / AD",
+    "LDAP / AD Username:" : "Utilizator LDAP / AD"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

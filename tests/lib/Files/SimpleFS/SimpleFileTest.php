@@ -28,8 +28,8 @@ use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\NotFoundException;
 
-class SimpleFileTest extends \Test\TestCase  {
-	/** @var File|\PHPUnit_Framework_MockObject_MockObject */
+class SimpleFileTest extends \Test\TestCase {
+	/** @var File|\PHPUnit\Framework\MockObject\MockObject */
 	private $file;
 
 	/** @var SimpleFile */

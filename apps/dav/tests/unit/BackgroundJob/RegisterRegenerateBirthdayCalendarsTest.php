@@ -2,7 +2,9 @@
 /**
  * @copyright 2019 Georg Ehrke <oc.list@georgehrke.com>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
@@ -14,14 +16,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\Tests\unit\BackgroundJob;
 
 use OCA\DAV\BackgroundJob\GenerateBirthdayCalendarBackgroundJob;
@@ -35,16 +36,16 @@ use Test\TestCase;
 
 class RegisterRegenerateBirthdayCalendarsTest extends TestCase {
 
-	/** @var ITimeFactory | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var ITimeFactory | \PHPUnit\Framework\MockObject\MockObject */
 	private $time;
 
-	/** @var IUserManager | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var IUserManager | \PHPUnit\Framework\MockObject\MockObject */
 	private $userManager;
 
-	/** @var IJobList | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var IJobList | \PHPUnit\Framework\MockObject\MockObject */
 	private $jobList;
 
-	/** @var IConfig | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig | \PHPUnit\Framework\MockObject\MockObject */
 	private $config;
 
 	/** @var RegisterRegenerateBirthdayCalendars */
@@ -65,7 +66,7 @@ class RegisterRegenerateBirthdayCalendarsTest extends TestCase {
 	public function testRun() {
 		$this->userManager->expects($this->once())
 			->method('callForSeenUsers')
-			->willReturnCallback(function($closure) {
+			->willReturnCallback(function ($closure) {
 				$user1 = $this->createMock(IUser::class);
 				$user1->method('getUID')->willReturn('uid1');
 				$user2 = $this->createMock(IUser::class);

@@ -195,6 +195,16 @@ $CONFIG = [
 'default_locale' => 'en_US',
 
 /**
+ * This sets the default region for phone numbers on your Nextcloud server,
+ * using ISO 3166-1 country codes such as ``DE`` for Germany, ``FR`` for France, …
+ * It is required to allow inserting phone numbers in the user profiles starting
+ * without the country code (e.g. +49 for Germany).
+ *
+ * No default value!
+ */
+'default_phone_region' => 'GB',
+
+/**
  * With this setting a locale can be forced for all users. If a locale is
  * forced, the users are also unable to change their locale in the personal
  * settings. If users shall be unable to change their locale, but users have
@@ -210,11 +220,11 @@ $CONFIG = [
  * URL after clicking them in the Apps menu, such as documents, calendar, and
  * gallery. You can use a comma-separated list of app names, so if the first
  * app is not enabled for a user then Nextcloud will try the second one, and so
- * on. If no enabled apps are found it defaults to the Files app.
+ * on. If no enabled apps are found it defaults to the dashboard app.
  *
- * Defaults to ``files``
+ * Defaults to ``dashboard,files``
  */
-'defaultapp' => 'files',
+'defaultapp' => 'dashboard,files',
 
 /**
  * ``true`` enables the Help menu item in the user menu (top right of the
@@ -239,6 +249,9 @@ $CONFIG = [
 /**
  * The lifetime of a session after inactivity.
  *
+ * The maximum possible time is limited by the session.gc_maxlifetime php.ini setting
+ * which would overwrite this option if it is less than the value in the config.php
+ *
  * Defaults to ``60*60*24`` seconds (24 hours)
  */
 'session_lifetime' => 60 * 60 * 24,
@@ -252,6 +265,15 @@ $CONFIG = [
 'session_keepalive' => true,
 
 /**
+ * Enable or disable the automatic logout after session_lifetime, even if session
+ * keepalive is enabled. This will make sure that an inactive browser will be logged out
+ * even if requests to the server might extend the session lifetime.
+ *
+ * Defaults to ``false``
+ */
+'auto_logout' => false,
+
+/**
  * Enforce token authentication for clients, which blocks requests using the user
  * password for enhanced security. Users need to generate tokens in personal settings
  * which can be used as passwords on their clients.
@@ -261,6 +283,18 @@ $CONFIG = [
 'token_auth_enforced' => false,
 
 /**
+ * The interval at which token activity should be updated.
+ * Increasing this value means that the last activty on the security page gets
+ * more outdated.
+ *
+ * Tokens are still checked every 5 minutes for validity
+ * max value: 300
+ *
+ * Defaults to ``300``
+ */
+'token_auth_activity_update' => 60,
+
+/**
  * Whether the bruteforce protection shipped with Nextcloud should be enabled or not.
  *
  * Disabling this is discouraged for security reasons.
@@ -268,6 +302,20 @@ $CONFIG = [
  * Defaults to ``true``
  */
 'auth.bruteforce.protection.enabled' => true,
+
+/**
+ * By default WebAuthn is available but it can be explicitly disabled by admins
+ */
+'auth.webauthn.enabled' => true,
+
+/**
+ * By default the login form is always available. There are cases (SSO) where an
+ * admin wants to avoid users entering their credentials to the system if the SSO
+ * app is unavailable.
+ *
+ * This will show an error. But the the direct login still works with adding ?direct=1
+ */
+'hide_login_form' => false,
 
 /**
  * The directory where the skeleton files are located. These files will be
@@ -280,6 +328,21 @@ $CONFIG = [
  * Defaults to ``core/skeleton`` in the Nextcloud directory.
  */
 'skeletondirectory' => '/path/to/nextcloud/core/skeleton',
+
+
+/**
+ * The directory where the template files are located. These files will be
+ * copied to the template directory of new users. Leave empty to not copy any
+ * template files.
+ * ``{lang}`` can be used as a placeholder for the language of the user.
+ * If the directory does not exist, it falls back to non dialect (from ``de_DE``
+ * to ``de``). If that does not exist either, it falls back to ``default``
+ *
+ * If this is not set creating a template directory will only happen if no custom
+ * ``skeletondirectory`` is defined, otherwise the shipped templates will be used
+ * to create a template directory for the user.
+ */
+'templatedirectory' => '/path/to/nextcloud/templates',
 
 /**
  * If your user backend does not allow password resets (e.g. when it's a
@@ -554,6 +617,13 @@ $CONFIG = [
 'proxyexclude' => [],
 
 /**
+ * Allow remote servers with local addresses e.g. in federated shares, webcal services and more
+ *
+ * Defaults to false
+ */
+'allow_local_remote_servers' => true,
+
+/**
  * Deleted Items (trash bin)
  *
  * These parameters control the Deleted files app.
@@ -586,7 +656,7 @@ $CONFIG = [
  *     automatically, delete other files anytime if space needed
  * * ``D1, D2``
  *     keep files and folders in the trash bin for at least D1 days and
- *     delete when exceeds D2 days
+ *     delete when exceeds D2 days (note: files will not be deleted automatically if space is needed)
  * * ``disabled``
  *     trash bin auto clean disabled, files and folders will be kept forever
  *
@@ -822,16 +892,16 @@ $CONFIG = [
 ],
 
 /**
- * This uses PHP.date formatting; see http://php.net/manual/en/function.date.php
+ * This uses PHP.date formatting; see https://www.php.net/manual/en/function.date.php
  *
  * Defaults to ISO 8601 ``2005-08-15T15:52:01+00:00`` - see \DateTime::ATOM
- * (https://secure.php.net/manual/en/class.datetime.php#datetime.constants.atom)
+ * (https://www.php.net/manual/en/class.datetime.php#datetime.constants.atom)
  */
 'logdateformat' => 'F d, Y H:i:s',
 
 /**
  * The timezone for logfiles. You may change this; see
- * http://php.net/manual/en/timezones.php
+ * https://www.php.net/manual/en/timezones.php
  *
  * Defaults to ``UTC``
  */
@@ -844,8 +914,8 @@ $CONFIG = [
 'log_query' => false,
 
 /**
- * Enables log rotation and limits the total size of logfiles. The default is 0,
- * or no rotation. Specify a size in bytes, for example 104857600 (100 megabytes
+ * Enables log rotation and limits the total size of logfiles. Set it to 0 for
+ * no rotation. Specify a size in bytes, for example 104857600 (100 megabytes
  * = 100 * 1024 * 1024 bytes). A new logfile is created with a new name when the
  * old logfile reaches your limit. If a rotated log file is already present, it
  * will be overwritten.
@@ -891,6 +961,14 @@ $CONFIG = [
  * Defaults to ``true``
  */
 'appstoreenabled' => true,
+
+/**
+ * Enables the installation of apps from a self hosted apps store.
+ * Requires that at least one of the configured apps directories is writeable.
+ *
+ * Defaults to ``https://apps.nextcloud.com/api/v1``
+ */
+'appstoreurl' => 'https://apps.nextcloud.com/api/v1',
 
 /**
  * Use the ``apps_paths`` parameter to set the location of the Apps directory,
@@ -984,7 +1062,6 @@ $CONFIG = [
  *  - OC\Preview\MSOffice2003
  *  - OC\Preview\MSOffice2007
  *  - OC\Preview\MSOfficeDoc
- *  - OC\Preview\OpenDocument
  *  - OC\Preview\PDF
  *  - OC\Preview\Photoshop
  *  - OC\Preview\Postscript
@@ -993,14 +1070,6 @@ $CONFIG = [
  *  - OC\Preview\TIFF
  *  - OC\Preview\Font
  *
- * The following providers are not available in Microsoft Windows:
- *
- *  - OC\Preview\Movie
- *  - OC\Preview\MSOfficeDoc
- *  - OC\Preview\MSOffice2003
- *  - OC\Preview\MSOffice2007
- *  - OC\Preview\OpenDocument
- *  - OC\Preview\StarOffice
  *
  * Defaults to the following providers:
  *
@@ -1013,6 +1082,8 @@ $CONFIG = [
  *  - OC\Preview\PNG
  *  - OC\Preview\TXT
  *  - OC\Preview\XBitmap
+ *  - OC\Preview\OpenDocument
+ *  - OC\Preview\Krita
  */
 'enabledPreviewProviders' => [
 	'OC\Preview\PNG',
@@ -1023,7 +1094,9 @@ $CONFIG = [
 	'OC\Preview\XBitmap',
 	'OC\Preview\MP3',
 	'OC\Preview\TXT',
-	'OC\Preview\MarkDown'
+	'OC\Preview\MarkDown',
+	'OC\Preview\OpenDocument',
+	'OC\Preview\Krita',
 ],
 
 /**
@@ -1200,8 +1273,8 @@ $CONFIG = [
  */
 'memcached_servers' => [
 	// hostname, port and optional weight. Also see:
-	// http://www.php.net/manual/en/memcached.addservers.php
-	// http://www.php.net/manual/en/memcached.addserver.php
+	// https://www.php.net/manual/en/memcached.addservers.php
+	// https://www.php.net/manual/en/memcached.addserver.php
 	['localhost', 11211],
 	//array('other.host.local', 11211),
 ],
@@ -1330,6 +1403,23 @@ $CONFIG = [
 	],
 ],
 
+/**
+ * If this is set to true and a multibucket object store is configured then
+ * newly created previews are put into 256 dedicated buckets.
+ *
+ * Those buckets are named like the mulibucket version but with the postfix
+ * ``-preview-NUMBER`` where NUMBER is between 0 and 255.
+ *
+ * Keep in mind that only previews of files are put in there that don't have
+ * some already. Otherwise the old bucket will be used.
+ *
+ * To migrate existing previews to this new multibucket distribution of previews
+ * use the occ command ``preview:repair``. For now this will only migrate
+ * previews that were generated before Nextcloud 19 in the flat
+ * ``appdata_INSTANCEID/previews/FILEID`` folder structure.
+ */
+'objectstore.multibucket.preview-distribution' => false,
+
 
 /**
  * Sharing
@@ -1347,10 +1437,17 @@ $CONFIG = [
 'sharing.managerFactory' => '\OC\Share20\ProviderFactory',
 
 /**
- * Define max number of results returned by the user search for auto-completion
- * Default is unlimited (value set to 0).
+ * Define max number of results returned by the search for auto-completion of
+ * users, groups, etc. The value must not be lower than 0 (for unlimited).
+ *
+ * If more, different sources are requested (e.g. different user backends; or
+ * both users and groups), the value is applied per source and might not be
+ * truncated after collecting the results. I.e. more results can appear than
+ * configured here.
+ *
+ * Default is 25.
  */
-'sharing.maxAutocompleteResults' => 0,
+'sharing.maxAutocompleteResults' => 25,
 
 /**
  * Define the minimum length of the search string before we start auto-completion
@@ -1368,6 +1465,11 @@ $CONFIG = [
  * Set to true to enforce that internal shares need to be accepted
  */
 'sharing.force_share_accept' => false,
+
+/**
+ * Set to false to stop sending a mail when users receive a share
+ */
+'sharing.enable_share_mail' => true,
 
 
 /**
@@ -1446,7 +1548,7 @@ $CONFIG = [
 /**
  * Override where Nextcloud stores temporary files. Useful in situations where
  * the system temporary directory is on a limited space ramdisk or is otherwise
- * restricted, or if external storages which do not support streaming are in
+ * restricted, or if external storage which do not support streaming are in
  * use.
  *
  * The Web server user must have write access to this directory.
@@ -1472,27 +1574,26 @@ $CONFIG = [
  */
 
 /**
- * The allowed maximum memory in KiB to be used by the algorithm for computing a
- * hash. The smallest possible value is 8. Values that undershoot the minimum
- * will be ignored in favor of the default.
+ * The number of CPU threads to be used by the algorithm for computing a hash.
+ * The value must be an integer, and the minimum value is 1. Rationally it does
+ * not help to provide a number higher than the available threads on the machine.
+ * Values that undershoot the minimum will be ignored in favor of the minimum.
+ */
+'hashingThreads' => PASSWORD_ARGON2_DEFAULT_THREADS,
+
+/**
+ * The memory in KiB to be used by the algorithm for computing a hash. The value
+ * must be an integer, and the minimum value is 8 times the number of CPU threads.
+ * Values that undershoot the minimum will be ignored in favor of the minimum.
  */
 'hashingMemoryCost' => PASSWORD_ARGON2_DEFAULT_MEMORY_COST,
 
 /**
- * The allowed maximum time in seconds that can be used by the algorithm for
- * computing a hash. The value must be an integer, and the minimum value is 1.
- * Values that undershoot the minimum will be ignored in favor of the default.
+ * The number of iterations that are used by the algorithm for computing a hash.
+ * The value must be an integer, and the minimum value is 1. Values that
+ * undershoot the minimum will be ignored in favor of the minimum.
  */
 'hashingTimeCost' => PASSWORD_ARGON2_DEFAULT_TIME_COST,
-
-/**
- * The allowed number of CPU threads that can be used by the algorithm for
- * computing a hash. The value must be an integer, and the minimum value is 1.
- * Rationally it does not help to provide a number higher than the available
- * threads on the machine. Values that undershoot the minimum will be ignored
- * in favor of the default.
- */
-'hashingThreads' => PASSWORD_ARGON2_DEFAULT_THREADS,
 
 /**
  * The hashing cost used by hashes generated by Nextcloud
@@ -1526,10 +1627,15 @@ $CONFIG = [
 'theme' => '',
 
 /**
- * The default cipher for encrypting files. Currently AES-128-CFB and
- * AES-256-CFB are supported.
+ * The default cipher for encrypting files. Currently supported are:
+ *  - AES-256-CTR
+ *  - AES-128-CTR
+ *  - AES-256-CFB
+ *  - AES-128-CFB
+ *
+ * Defaults to ``AES-256-CTR``
  */
-'cipher' => 'AES-256-CFB',
+'cipher' => 'AES-256-CTR',
 
 /**
  * The minimum Nextcloud desktop client version that will be allowed to sync with
@@ -1544,6 +1650,15 @@ $CONFIG = [
  * Defaults to ``2.0.0``
  */
 'minimum.supported.desktop.version' => '2.0.0',
+
+/**
+ * Option to allow local storage to contain symlinks.
+ * WARNING: Not recommended. This would make it possible for Nextcloud to access
+ * files outside the data directory and could be considered a security risk.
+ *
+ * Defaults to ``false``
+ */
+'localstorage.allowsymlinks' => false,
 
 /**
  * EXPERIMENTAL: option whether to include external storage in quota
@@ -1567,7 +1682,7 @@ $CONFIG = [
 /**
  * Specifies how often the local filesystem (the Nextcloud data/ directory, and
  * NFS mounts in data/) is checked for changes made outside Nextcloud. This
- * does not apply to external storages.
+ * does not apply to external storage.
  *
  * 0 -> Never check the filesystem for outside changes, provides a performance
  * increase when it's certain that no changes are made directly to the

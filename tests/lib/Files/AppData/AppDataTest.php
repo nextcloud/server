@@ -33,10 +33,10 @@ use OCP\Files\Node;
 use OCP\Files\SimpleFS\ISimpleFolder;
 
 class AppDataTest extends \Test\TestCase {
-	/** @var IRootFolder|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IRootFolder|\PHPUnit\Framework\MockObject\MockObject */
 	private $rootFolder;
 
-	/** @var SystemConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var SystemConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $systemConfig;
 
 	/** @var IAppData */
@@ -108,5 +108,4 @@ class AppDataTest extends \Test\TestCase {
 		$this->assertCount(1, $result);
 		$this->assertInstanceOf(ISimpleFolder::class, $result[0]);
 	}
-
 }

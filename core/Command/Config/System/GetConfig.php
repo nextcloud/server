@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  *
  * @license AGPL-3.0
@@ -19,7 +20,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Core\Command\Config\System;
 
 use OC\SystemConfig;
@@ -67,7 +67,7 @@ class GetConfig extends Base {
 	 * @param OutputInterface $output An OutputInterface instance
 	 * @return null|int null or 0 if everything went fine, or an error code
 	 */
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$configNames = $input->getArgument('name');
 		$configName = array_shift($configNames);
 		$defaultValue = $input->getOption('default-value');
@@ -84,7 +84,7 @@ class GetConfig extends Base {
 				foreach ($configNames as $configName) {
 					if (isset($configValue[$configName])) {
 						$configValue = $configValue[$configName];
-					} else if (!$input->hasParameterOption('--default-value')) {
+					} elseif (!$input->hasParameterOption('--default-value')) {
 						return 1;
 					} else {
 						$configValue = $defaultValue;

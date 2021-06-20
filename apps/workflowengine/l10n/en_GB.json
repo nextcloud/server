@@ -32,7 +32,6 @@
     "Cancel" : "Cancel",
     "Delete" : "Delete",
     "Save" : "Save",
-    "Browse the app store" : "Browse the app store",
     "matches" : "matches",
     "does not match" : "does not match",
     "is" : "is",
@@ -60,24 +59,6 @@
     "User group membership" : "User group membership",
     "is member of" : "is member of",
     "is not member of" : "is not member of",
-    "Short rule description" : "Short rule description",
-    "Add rule" : "Add rule",
-    "Reset" : "Reset",
-    "Saving…" : "Saving…",
-    "Group list is empty" : "Group list is empty",
-    "Unable to retrieve the group list" : "Unable to retrieve the group list",
-    "Saved" : "Saved",
-    "Saving failed:" : "Saving failed:",
-    "Add rule group" : "Add rule group",
-    "Example: {placeholder}" : "Example: {placeholder}",
-    "Select tag…" : "Select tag…",
-    "Start" : "Start",
-    "End" : "End",
-    "Select timezone…" : "Select timezone…",
-    "Sync clients" : "Sync clients",
-    "Tag management" : "Tag management",
-    "Files workflow engine" : "Files workflow engine",
-    "Open documentation" : "Open documentation",
-    "Loading…" : "Loading…"
+    "Browse the app store" : "Browse the app store"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

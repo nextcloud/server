@@ -17,14 +17,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Settings\Tests\Middleware;
 
 use OC\AppFramework\Middleware\Security\Exceptions\NotAdminException;
@@ -36,7 +35,7 @@ use OCP\IL10N;
 
 /**
  * Verifies whether an user has at least subadmin rights.
- * To bypass use the `@NoSubadminRequired` annotation
+ * To bypass use the `@NoSubAdminRequired` annotation
  *
  * @package Tests\Settings\Middleware
  */
@@ -64,14 +63,14 @@ class SubadminMiddlewareTest extends \Test\TestCase {
 		$this->subadminMiddleware = new SubadminMiddleware($this->reflector, false, $this->l10n);
 	}
 
-	
+
 	public function testBeforeControllerAsUserWithExemption() {
 		$this->expectException(\OC\AppFramework\Middleware\Security\Exceptions\NotAdminException::class);
 
 		$this->reflector
 			->expects($this->once())
 			->method('hasAnnotation')
-			->with('NoSubadminRequired')
+			->with('NoSubAdminRequired')
 			->willReturn(false);
 		$this->subadminMiddleware->beforeController($this->controller, 'foo');
 	}
@@ -81,7 +80,7 @@ class SubadminMiddlewareTest extends \Test\TestCase {
 		$this->reflector
 			->expects($this->once())
 			->method('hasAnnotation')
-			->with('NoSubadminRequired')
+			->with('NoSubAdminRequired')
 			->willReturn(true);
 		$this->subadminMiddleware->beforeController($this->controller, 'foo');
 	}
@@ -90,7 +89,7 @@ class SubadminMiddlewareTest extends \Test\TestCase {
 		$this->reflector
 			->expects($this->once())
 			->method('hasAnnotation')
-			->with('NoSubadminRequired')
+			->with('NoSubAdminRequired')
 			->willReturn(false);
 		$this->subadminMiddlewareAsSubAdmin->beforeController($this->controller, 'foo');
 	}
@@ -99,7 +98,7 @@ class SubadminMiddlewareTest extends \Test\TestCase {
 		$this->reflector
 			->expects($this->once())
 			->method('hasAnnotation')
-			->with('NoSubadminRequired')
+			->with('NoSubAdminRequired')
 			->willReturn(true);
 		$this->subadminMiddlewareAsSubAdmin->beforeController($this->controller, 'foo');
 	}
@@ -110,7 +109,7 @@ class SubadminMiddlewareTest extends \Test\TestCase {
 		$this->assertEquals($expectedResponse, $this->subadminMiddleware->afterException($this->controller, 'foo', new NotAdminException('')));
 	}
 
-	
+
 	public function testAfterRegularException() {
 		$this->expectException(\Exception::class);
 

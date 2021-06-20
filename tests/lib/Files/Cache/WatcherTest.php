@@ -42,7 +42,7 @@ class WatcherTest extends \Test\TestCase {
 	/**
 	 * @medium
 	 */
-	function testWatcher() {
+	public function testWatcher() {
 		$storage = $this->getTestStorage();
 		$cache = $storage->getCache();
 		$updater = $storage->getWatcher();

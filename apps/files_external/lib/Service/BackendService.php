@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
@@ -23,7 +24,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_External\Service;
 
 use OCA\Files_External\Config\IConfigHandler;
@@ -41,15 +41,15 @@ use OCP\IConfig;
 class BackendService {
 
 	/** Visibility constants for VisibilityTrait */
-	const VISIBILITY_NONE = 0;
-	const VISIBILITY_PERSONAL = 1;
-	const VISIBILITY_ADMIN = 2;
+	public const VISIBILITY_NONE = 0;
+	public const VISIBILITY_PERSONAL = 1;
+	public const VISIBILITY_ADMIN = 2;
 	//const VISIBILITY_ALIENS = 4;
 
-	const VISIBILITY_DEFAULT = 3; // PERSONAL | ADMIN
+	public const VISIBILITY_DEFAULT = 3; // PERSONAL | ADMIN
 
 	/** Priority constants for PriorityTrait */
-	const PRIORITY_DEFAULT = 100;
+	public const PRIORITY_DEFAULT = 100;
 
 	/** @var IConfig */
 	protected $config;
@@ -111,7 +111,7 @@ class BackendService {
 
 	private function callForRegistrations() {
 		static $eventSent = false;
-		if(!$eventSent) {
+		if (!$eventSent) {
 			\OC::$server->getEventDispatcher()->dispatch(
 				'OCA\\Files_External::loadAdditionalBackends',
 				new GenericEvent()
@@ -216,7 +216,7 @@ class BackendService {
 	 * @return Backend[]
 	 */
 	public function getAvailableBackends() {
-		return array_filter($this->getBackends(), function($backend) {
+		return array_filter($this->getBackends(), function ($backend) {
 			return !$backend->checkDependencies();
 		});
 	}
@@ -255,7 +255,7 @@ class BackendService {
 	 * @return AuthMechanism[]
 	 */
 	public function getAuthMechanismsByScheme(array $schemes) {
-		return array_filter($this->getAuthMechanisms(), function($authMech) use ($schemes) {
+		return array_filter($this->getAuthMechanisms(), function ($authMech) use ($schemes) {
 			return in_array($authMech->getScheme(), $schemes, true);
 		});
 	}
@@ -322,15 +322,15 @@ class BackendService {
 	 */
 	public function registerConfigHandler(string $placeholder, callable $configHandlerLoader) {
 		$placeholder = trim(strtolower($placeholder));
-		if(!(bool)\preg_match('/^[a-z0-9]*$/', $placeholder)) {
+		if (!(bool)\preg_match('/^[a-z0-9]*$/', $placeholder)) {
 			throw new \RuntimeException(sprintf(
 				'Invalid placeholder %s, only [a-z0-9] are allowed', $placeholder
 			));
 		}
-		if($placeholder === '') {
+		if ($placeholder === '') {
 			throw new \RuntimeException('Invalid empty placeholder');
 		}
-		if(isset($this->configHandlerLoaders[$placeholder]) || isset($this->configHandlers[$placeholder])) {
+		if (isset($this->configHandlerLoaders[$placeholder]) || isset($this->configHandlers[$placeholder])) {
 			throw new \RuntimeException(sprintf('A handler is already registered for %s', $placeholder));
 		}
 		$this->configHandlerLoaders[$placeholder] = $configHandlerLoader;
@@ -341,7 +341,7 @@ class BackendService {
 		$newLoaded = false;
 		foreach ($this->configHandlerLoaders as $placeholder => $loader) {
 			$handler = $loader();
-			if(!$handler instanceof IConfigHandler) {
+			if (!$handler instanceof IConfigHandler) {
 				throw new \RuntimeException(sprintf(
 					'Handler for %s is not an instance of IConfigHandler', $placeholder
 				));
@@ -350,7 +350,7 @@ class BackendService {
 			$newLoaded = true;
 		}
 		$this->configHandlerLoaders = [];
-		if($newLoaded) {
+		if ($newLoaded) {
 			// ensure those with longest placeholders come first,
 			// to avoid substring matches
 			uksort($this->configHandlers, function ($phA, $phB) {

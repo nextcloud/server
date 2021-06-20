@@ -1,7 +1,10 @@
 <?php
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
+ * Copyright (c) 2015 Vincent Petry <pvince81@owncloud.com>
+ * Copyright (c) 2015 Vincent Petry <pvince81@owncloud.com>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Markus Goetz <markus@woboq.com>
  * @author Morris Jobke <hey@morrisjobke.de>
@@ -9,7 +12,7 @@
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Stefan Weil <sw@weilnetz.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -26,7 +29,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OC\User\User;
@@ -55,25 +57,25 @@ use Test\TestCase;
  * See the COPYING-README file.
  */
 class FilesPluginTest extends TestCase {
-	const GETETAG_PROPERTYNAME = FilesPlugin::GETETAG_PROPERTYNAME;
-	const FILEID_PROPERTYNAME = FilesPlugin::FILEID_PROPERTYNAME;
-	const INTERNAL_FILEID_PROPERTYNAME = FilesPlugin::INTERNAL_FILEID_PROPERTYNAME;
-	const SIZE_PROPERTYNAME = FilesPlugin::SIZE_PROPERTYNAME;
-	const PERMISSIONS_PROPERTYNAME = FilesPlugin::PERMISSIONS_PROPERTYNAME;
-	const LASTMODIFIED_PROPERTYNAME = FilesPlugin::LASTMODIFIED_PROPERTYNAME;
-	const DOWNLOADURL_PROPERTYNAME = FilesPlugin::DOWNLOADURL_PROPERTYNAME;
-	const OWNER_ID_PROPERTYNAME = FilesPlugin::OWNER_ID_PROPERTYNAME;
-	const OWNER_DISPLAY_NAME_PROPERTYNAME = FilesPlugin::OWNER_DISPLAY_NAME_PROPERTYNAME;
-	const DATA_FINGERPRINT_PROPERTYNAME = FilesPlugin::DATA_FINGERPRINT_PROPERTYNAME;
-	const HAS_PREVIEW_PROPERTYNAME = FilesPlugin::HAS_PREVIEW_PROPERTYNAME;
+	public const GETETAG_PROPERTYNAME = FilesPlugin::GETETAG_PROPERTYNAME;
+	public const FILEID_PROPERTYNAME = FilesPlugin::FILEID_PROPERTYNAME;
+	public const INTERNAL_FILEID_PROPERTYNAME = FilesPlugin::INTERNAL_FILEID_PROPERTYNAME;
+	public const SIZE_PROPERTYNAME = FilesPlugin::SIZE_PROPERTYNAME;
+	public const PERMISSIONS_PROPERTYNAME = FilesPlugin::PERMISSIONS_PROPERTYNAME;
+	public const LASTMODIFIED_PROPERTYNAME = FilesPlugin::LASTMODIFIED_PROPERTYNAME;
+	public const DOWNLOADURL_PROPERTYNAME = FilesPlugin::DOWNLOADURL_PROPERTYNAME;
+	public const OWNER_ID_PROPERTYNAME = FilesPlugin::OWNER_ID_PROPERTYNAME;
+	public const OWNER_DISPLAY_NAME_PROPERTYNAME = FilesPlugin::OWNER_DISPLAY_NAME_PROPERTYNAME;
+	public const DATA_FINGERPRINT_PROPERTYNAME = FilesPlugin::DATA_FINGERPRINT_PROPERTYNAME;
+	public const HAS_PREVIEW_PROPERTYNAME = FilesPlugin::HAS_PREVIEW_PROPERTYNAME;
 
 	/**
-	 * @var \Sabre\DAV\Server | \PHPUnit_Framework_MockObject_MockObject
+	 * @var \Sabre\DAV\Server | \PHPUnit\Framework\MockObject\MockObject
 	 */
 	private $server;
 
 	/**
-	 * @var \Sabre\DAV\Tree | \PHPUnit_Framework_MockObject_MockObject
+	 * @var \Sabre\DAV\Tree | \PHPUnit\Framework\MockObject\MockObject
 	 */
 	private $tree;
 
@@ -83,17 +85,17 @@ class FilesPluginTest extends TestCase {
 	private $plugin;
 
 	/**
-	 * @var \OCP\IConfig | \PHPUnit_Framework_MockObject_MockObject
+	 * @var \OCP\IConfig | \PHPUnit\Framework\MockObject\MockObject
 	 */
 	private $config;
 
 	/**
-	 * @var \OCP\IRequest | \PHPUnit_Framework_MockObject_MockObject
+	 * @var \OCP\IRequest | \PHPUnit\Framework\MockObject\MockObject
 	 */
 	private $request;
 
 	/**
-	 * @var \OCP\IPreview | \PHPUnit_Framework_MockObject_MockObject
+	 * @var \OCP\IPreview | \PHPUnit\Framework\MockObject\MockObject
 	 */
 	private $previewManager;
 
@@ -134,7 +136,7 @@ class FilesPluginTest extends TestCase {
 
 	/**
 	 * @param string $class
-	 * @return \PHPUnit_Framework_MockObject_MockObject
+	 * @return \PHPUnit\Framework\MockObject\MockObject
 	 */
 	private function createTestNode($class, $path = '/dummypath') {
 		$node = $this->getMockBuilder($class)
@@ -176,7 +178,7 @@ class FilesPluginTest extends TestCase {
 	}
 
 	public function testGetPropertiesForFile() {
-		/** @var \OCA\DAV\Connector\Sabre\File | \PHPUnit_Framework_MockObject_MockObject $node */
+		/** @var \OCA\DAV\Connector\Sabre\File | \PHPUnit\Framework\MockObject\MockObject $node */
 		$node = $this->createTestNode('\OCA\DAV\Connector\Sabre\File');
 
 		$propFind = new PropFind(
@@ -231,7 +233,7 @@ class FilesPluginTest extends TestCase {
 	}
 
 	public function testGetPropertiesStorageNotAvailable() {
-		/** @var \OCA\DAV\Connector\Sabre\File | \PHPUnit_Framework_MockObject_MockObject $node */
+		/** @var \OCA\DAV\Connector\Sabre\File | \PHPUnit\Framework\MockObject\MockObject $node */
 		$node = $this->createTestNode('\OCA\DAV\Connector\Sabre\File');
 
 		$propFind = new PropFind(
@@ -273,7 +275,7 @@ class FilesPluginTest extends TestCase {
 			0
 		);
 
-		/** @var \OCA\DAV\Connector\Sabre\File | \PHPUnit_Framework_MockObject_MockObject $node */
+		/** @var \OCA\DAV\Connector\Sabre\File | \PHPUnit\Framework\MockObject\MockObject $node */
 		$node = $this->createTestNode('\OCA\DAV\Connector\Sabre\File');
 		$node->expects($this->any())
 			->method('getDavPermissions')
@@ -288,7 +290,7 @@ class FilesPluginTest extends TestCase {
 	}
 
 	public function testGetPropertiesForDirectory() {
-		/** @var \OCA\DAV\Connector\Sabre\Directory | \PHPUnit_Framework_MockObject_MockObject $node */
+		/** @var \OCA\DAV\Connector\Sabre\Directory | \PHPUnit\Framework\MockObject\MockObject $node */
 		$node = $this->createTestNode('\OCA\DAV\Connector\Sabre\Directory');
 
 		$propFind = new PropFind(
@@ -323,7 +325,7 @@ class FilesPluginTest extends TestCase {
 	}
 
 	public function testGetPropertiesForRootDirectory() {
-		/** @var \OCA\DAV\Connector\Sabre\Directory|\PHPUnit_Framework_MockObject_MockObject $node */
+		/** @var \OCA\DAV\Connector\Sabre\Directory|\PHPUnit\Framework\MockObject\MockObject $node */
 		$node = $this->getMockBuilder(Directory::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -359,7 +361,7 @@ class FilesPluginTest extends TestCase {
 		// But we still want to load the directory list, so this is okay for us.
 		// $this->expectException(\Sabre\DAV\Exception\NotFound::class);
 
-		/** @var \OCA\DAV\Connector\Sabre\Directory|\PHPUnit_Framework_MockObject_MockObject $node */
+		/** @var \OCA\DAV\Connector\Sabre\Directory|\PHPUnit\Framework\MockObject\MockObject $node */
 		$node = $this->getMockBuilder(Directory::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -508,7 +510,7 @@ class FilesPluginTest extends TestCase {
 		$this->plugin->checkMove('FolderA/test.txt', 'test.txt');
 	}
 
-	
+
 	public function testMoveSrcNotExist() {
 		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
 		$this->expectExceptionMessage('FolderA/test.txt does not exist');
@@ -583,7 +585,7 @@ class FilesPluginTest extends TestCase {
 	}
 
 	public function testHasPreview() {
-		/** @var \OCA\DAV\Connector\Sabre\Directory | \PHPUnit_Framework_MockObject_MockObject $node */
+		/** @var \OCA\DAV\Connector\Sabre\Directory | \PHPUnit\Framework\MockObject\MockObject $node */
 		$node = $this->createTestNode('\OCA\DAV\Connector\Sabre\Directory');
 
 		$propFind = new PropFind(

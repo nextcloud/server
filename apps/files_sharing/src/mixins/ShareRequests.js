@@ -1,7 +1,10 @@
 /**
  * @copyright Copyright (c) 2019 John Molakvoæ <skjnldsv@protonmail.com>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Julius Härtl <jus@bitgrid.net>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -53,13 +56,17 @@ export default {
 		async createShare({ path, permissions, shareType, shareWith, publicUpload, password, sendPasswordByTalk, expireDate, label }) {
 			try {
 				const request = await axios.post(shareUrl, { path, permissions, shareType, shareWith, publicUpload, password, sendPasswordByTalk, expireDate, label })
-				if (!('ocs' in request.data)) {
+				if (!request?.data?.ocs) {
 					throw request
 				}
 				return new Share(request.data.ocs.data)
 			} catch (error) {
 				console.error('Error while creating share', error)
-				OC.Notification.showTemporary(t('files_sharing', 'Error creating the share'), { type: 'error' })
+				const errorMessage = error?.response?.data?.ocs?.meta?.message
+				OC.Notification.showTemporary(
+					errorMessage ? t('files_sharing', 'Error creating the share: {errorMessage}', { errorMessage }) : t('files_sharing', 'Error creating the share'),
+					{ type: 'error' }
+				)
 				throw error
 			}
 		},
@@ -73,13 +80,17 @@ export default {
 		async deleteShare(id) {
 			try {
 				const request = await axios.delete(shareUrl + `/${id}`)
-				if (!('ocs' in request.data)) {
+				if (!request?.data?.ocs) {
 					throw request
 				}
 				return true
 			} catch (error) {
 				console.error('Error while deleting share', error)
-				OC.Notification.showTemporary(t('files_sharing', 'Error deleting the share'), { type: 'error' })
+				const errorMessage = error?.response?.data?.ocs?.meta?.message
+				OC.Notification.showTemporary(
+					errorMessage ? t('files_sharing', 'Error deleting the share: {errorMessage}', { errorMessage }) : t('files_sharing', 'Error deleting the share'),
+					{ type: 'error' }
+				)
 				throw error
 			}
 		},
@@ -88,26 +99,26 @@ export default {
 		 * Update a share
 		 *
 		 * @param {number} id share id
-		 * @param {Object} data destructuring object
-		 * @param {string} data.property property to update
-		 * @param {any} data.value value to set
+		 * @param {Object} properties key-value object of the properties to update
 		 */
-		async updateShare(id, { property, value }) {
+		async updateShare(id, properties) {
 			try {
-				// ocs api requires x-www-form-urlencoded
-				const data = new URLSearchParams()
-				data.append(property, value)
-
-				const request = await axios.put(shareUrl + `/${id}`, { [property]: value }, headers)
-				if (!('ocs' in request.data)) {
+				const request = await axios.put(shareUrl + `/${id}`, properties, headers)
+				if (!request?.data?.ocs) {
 					throw request
 				}
 				return true
 			} catch (error) {
 				console.error('Error while updating share', error)
-				OC.Notification.showTemporary(t('files_sharing', 'Error updating the share'), { type: 'error' })
+				if (error.response.status !== 400) {
+					const errorMessage = error?.response?.data?.ocs?.meta?.message
+					OC.Notification.showTemporary(
+						errorMessage ? t('files_sharing', 'Error updating the share: {errorMessage}', { errorMessage }) : t('files_sharing', 'Error updating the share'),
+						{ type: 'error' }
+					)
+				}
 				const message = error.response.data.ocs.meta.message
-				throw new Error(`${property}, ${message}`)
+				throw new Error(message)
 			}
 		},
 	},

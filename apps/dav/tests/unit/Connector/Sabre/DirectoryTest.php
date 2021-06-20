@@ -2,12 +2,14 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -24,16 +26,15 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Tests\Unit\Connector\Sabre;
 
 use OC\Files\FileInfo;
 use OC\Files\Storage\Wrapper\Quota;
 use OCA\DAV\Connector\Sabre\Directory;
 use OCP\Files\ForbiddenException;
+use OCP\Files\Mount\IMountPoint;
 
 class TestViewDirectory extends \OC\Files\View {
-
 	private $updatables;
 	private $deletables;
 	private $canRename;
@@ -71,9 +72,9 @@ class TestViewDirectory extends \OC\Files\View {
  */
 class DirectoryTest extends \Test\TestCase {
 
-	/** @var \OC\Files\View | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OC\Files\View | \PHPUnit\Framework\MockObject\MockObject */
 	private $view;
-	/** @var \OC\Files\FileInfo | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OC\Files\FileInfo | \PHPUnit\Framework\MockObject\MockObject */
 	private $info;
 
 	protected function setUp(): void {
@@ -98,7 +99,7 @@ class DirectoryTest extends \Test\TestCase {
 		return new Directory($this->view, $this->info);
 	}
 
-	
+
 	public function testDeleteRootFolderFails() {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
@@ -111,7 +112,7 @@ class DirectoryTest extends \Test\TestCase {
 		$dir->delete();
 	}
 
-	
+
 	public function testDeleteForbidden() {
 		$this->expectException(\OCA\DAV\Connector\Sabre\Exception\Forbidden::class);
 
@@ -130,7 +131,7 @@ class DirectoryTest extends \Test\TestCase {
 		$dir->delete();
 	}
 
-	
+
 	public function testDeleteFolderWhenAllowed() {
 		// deletion allowed
 		$this->info->expects($this->once())
@@ -147,7 +148,7 @@ class DirectoryTest extends \Test\TestCase {
 		$dir->delete();
 	}
 
-	
+
 	public function testDeleteFolderFailsWhenNotAllowed() {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
@@ -159,7 +160,7 @@ class DirectoryTest extends \Test\TestCase {
 		$dir->delete();
 	}
 
-	
+
 	public function testDeleteFolderThrowsWhenDeletionFailed() {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
@@ -217,7 +218,7 @@ class DirectoryTest extends \Test\TestCase {
 		$dir->getChildren();
 	}
 
-	
+
 	public function testGetChildrenNoPermission() {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
@@ -230,7 +231,7 @@ class DirectoryTest extends \Test\TestCase {
 		$dir->getChildren();
 	}
 
-	
+
 	public function testGetChildNoPermission() {
 		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
 
@@ -242,7 +243,7 @@ class DirectoryTest extends \Test\TestCase {
 		$dir->getChild('test');
 	}
 
-	
+
 	public function testGetChildThrowStorageNotAvailableException() {
 		$this->expectException(\Sabre\DAV\Exception\ServiceUnavailable::class);
 
@@ -254,7 +255,7 @@ class DirectoryTest extends \Test\TestCase {
 		$dir->getChild('.');
 	}
 
-	
+
 	public function testGetChildThrowInvalidPath() {
 		$this->expectException(\OCA\DAV\Connector\Sabre\Exception\InvalidPath::class);
 
@@ -269,9 +270,12 @@ class DirectoryTest extends \Test\TestCase {
 	}
 
 	public function testGetQuotaInfoUnlimited() {
+		$mountPoint = $this->createMock(IMountPoint::class);
 		$storage = $this->getMockBuilder(Quota::class)
 			->disableOriginalConstructor()
 			->getMock();
+		$mountPoint->method('getStorage')
+			->willReturn($storage);
 
 		$storage->expects($this->any())
 			->method('instanceOfStorage')
@@ -292,17 +296,27 @@ class DirectoryTest extends \Test\TestCase {
 			->willReturn(200);
 
 		$this->info->expects($this->once())
-			->method('getStorage')
-			->willReturn($storage);
+			->method('getMountPoint')
+			->willReturn($mountPoint);
+
+		$this->view->expects($this->once())
+			->method('getFileInfo')
+			->willReturn($this->info);
+
+		$mountPoint->method('getMountPoint')
+			->willReturn('/user/files/mymountpoint');
 
 		$dir = new Directory($this->view, $this->info);
 		$this->assertEquals([200, -3], $dir->getQuotaInfo()); //200 used, unlimited
 	}
 
 	public function testGetQuotaInfoSpecific() {
+		$mountPoint = $this->createMock(IMountPoint::class);
 		$storage = $this->getMockBuilder(Quota::class)
 			->disableOriginalConstructor()
 			->getMock();
+		$mountPoint->method('getStorage')
+			->willReturn($storage);
 
 		$storage->expects($this->any())
 			->method('instanceOfStorage')
@@ -324,8 +338,15 @@ class DirectoryTest extends \Test\TestCase {
 			->willReturn(200);
 
 		$this->info->expects($this->once())
-			->method('getStorage')
-			->willReturn($storage);
+			->method('getMountPoint')
+			->willReturn($mountPoint);
+
+		$mountPoint->method('getMountPoint')
+			->willReturn('/user/files/mymountpoint');
+
+		$this->view->expects($this->once())
+			->method('getFileInfo')
+			->willReturn($this->info);
 
 		$dir = new Directory($this->view, $this->info);
 		$this->assertEquals([200, 800], $dir->getQuotaInfo()); //200 used, 800 free
@@ -404,7 +425,7 @@ class DirectoryTest extends \Test\TestCase {
 		$this->assertTrue($targetNode->moveInto(basename($destination), $source, $sourceNode));
 	}
 
-	
+
 	public function testFailingMove() {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 		$this->expectExceptionMessage('Could not copy directory b, target exists');

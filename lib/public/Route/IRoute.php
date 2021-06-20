@@ -23,13 +23,11 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\Route;
 
 /**
  * Interface IRoute
  *
- * @package OCP\Route
  * @since 7.0.0
  */
 interface IRoute {

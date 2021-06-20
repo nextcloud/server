@@ -2,7 +2,7 @@
 /**
  * @copyright 2017, Georg Ehrke <oc.list@georgehrke.com>
  *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  *
  * @license GNU AGPL version 3 or any later version
@@ -14,14 +14,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\Controller;
 
 use OCA\DAV\BackgroundJob\GenerateBirthdayCalendarBackgroundJob;
@@ -78,7 +77,7 @@ class BirthdayCalendarController extends Controller {
 								IDBConnection $db, IConfig $config,
 								IJobList $jobList,
 								IUserManager $userManager,
-								CalDavBackend $calDavBackend){
+								CalDavBackend $calDavBackend) {
 		parent::__construct($appName, $request);
 		$this->db = $db;
 		$this->config = $config;
@@ -94,7 +93,7 @@ class BirthdayCalendarController extends Controller {
 		$this->config->setAppValue($this->appName, 'generateBirthdayCalendar', 'yes');
 
 		// add background job for each user
-		$this->userManager->callForSeenUsers(function(IUser $user) {
+		$this->userManager->callForSeenUsers(function (IUser $user) {
 			$this->jobList->add(GenerateBirthdayCalendarBackgroundJob::class, [
 				'userId' => $user->getUID(),
 			]);

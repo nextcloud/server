@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  *
@@ -20,7 +21,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_External\Lib;
 
 /**
@@ -29,24 +29,27 @@ namespace OCA\Files_External\Lib;
 class DefinitionParameter implements \JsonSerializable {
 	// placeholder value for password fields, when the client updates a storage configuration
 	// placeholder values are ignored and the field is left unmodified
-	const UNMODIFIED_PLACEHOLDER = '__unmodified__';
+	public const UNMODIFIED_PLACEHOLDER = '__unmodified__';
 
 	/** Value constants */
-	const VALUE_TEXT = 0;
-	const VALUE_BOOLEAN = 1;
-	const VALUE_PASSWORD = 2;
-	const VALUE_HIDDEN = 3;
+	public const VALUE_TEXT = 0;
+	public const VALUE_BOOLEAN = 1;
+	public const VALUE_PASSWORD = 2;
+	public const VALUE_HIDDEN = 3;
 
 	/** Flag constants */
-	const FLAG_NONE = 0;
-	const FLAG_OPTIONAL = 1;
-	const FLAG_USER_PROVIDED = 2;
+	public const FLAG_NONE = 0;
+	public const FLAG_OPTIONAL = 1;
+	public const FLAG_USER_PROVIDED = 2;
 
 	/** @var string name of parameter */
 	private $name;
 
 	/** @var string human-readable parameter text */
 	private $text;
+
+	/** @var string human-readable parameter tooltip */
+	private $tooltip = '';
 
 	/** @var int value type, see self::VALUE_* constants */
 	private $type = self::VALUE_TEXT;
@@ -147,6 +150,22 @@ class DefinitionParameter implements \JsonSerializable {
 	}
 
 	/**
+	 * @return string
+	 */
+	public function getTooltip(): string {
+		return $this->tooltip;
+	}
+
+	/**
+	 * @param string $tooltip
+	 * @return self
+	 */
+	public function setTooltip(string $tooltip) {
+		$this->tooltip = $tooltip;
+		return $this;
+	}
+
+	/**
 	 * Serialize into JSON for client-side JS
 	 *
 	 * @return string
@@ -155,7 +174,8 @@ class DefinitionParameter implements \JsonSerializable {
 		return [
 			'value' => $this->getText(),
 			'flags' => $this->getFlags(),
-			'type' => $this->getType()
+			'type' => $this->getType(),
+			'tooltip' => $this->getTooltip(),
 		];
 	}
 

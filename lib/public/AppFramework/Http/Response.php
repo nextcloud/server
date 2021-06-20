@@ -4,6 +4,8 @@
  *
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Clement Wong <git@clement.hk>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
@@ -26,16 +28,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
-/**
- * Public interface of ownCloud for apps to use.
- * AppFramework\HTTP\Response class
- */
-
 namespace OCP\AppFramework\Http;
 
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\IConfig;
+use Psr\Log\LoggerInterface;
 
 /**
  * Base class for responses. Also used to just send headers.
@@ -105,12 +103,11 @@ class Response {
 	 * @return $this
 	 * @since 6.0.0 - return value was added in 7.0.0
 	 */
-	public function cacheFor(int $cacheSeconds) {
-		if($cacheSeconds > 0) {
-			$this->addHeader('Cache-Control', 'max-age=' . $cacheSeconds . ', must-revalidate');
-
-			// Old scool prama caching
-			$this->addHeader('Pragma', 'public');
+	public function cacheFor(int $cacheSeconds, bool $public = false) {
+		if ($cacheSeconds > 0) {
+			$pragma = $public ? 'public' : 'private';
+			$this->addHeader('Cache-Control', $pragma . ', max-age=' . $cacheSeconds . ', must-revalidate');
+			$this->addHeader('Pragma', $pragma);
 
 			// Set expires header
 			$expires = new \DateTime();
@@ -134,11 +131,12 @@ class Response {
 	 * @param \DateTime|null $expireDate Date on that the cookie should expire, if set
 	 * 									to null cookie will be considered as session
 	 * 									cookie.
+	 * @param string $sameSite The samesite value of the cookie. Defaults to Lax. Other possibilities are Strict or None
 	 * @return $this
 	 * @since 8.0.0
 	 */
-	public function addCookie($name, $value, \DateTime $expireDate = null) {
-		$this->cookies[$name] = ['value' => $value, 'expireDate' => $expireDate];
+	public function addCookie($name, $value, \DateTime $expireDate = null, $sameSite = 'Lax') {
+		$this->cookies[$name] = ['value' => $value, 'expireDate' => $expireDate, 'sameSite' => $sameSite];
 		return $this;
 	}
 
@@ -173,7 +171,7 @@ class Response {
 	 * @since 8.0.0
 	 */
 	public function invalidateCookies(array $cookieNames) {
-		foreach($cookieNames as $cookieName) {
+		foreach ($cookieNames as $cookieName) {
 			$this->invalidateCookie($cookieName);
 		}
 		return $this;
@@ -198,10 +196,22 @@ class Response {
 	 */
 	public function addHeader($name, $value) {
 		$name = trim($name);  // always remove leading and trailing whitespace
-		                      // to be able to reliably check for security
-		                      // headers
+		// to be able to reliably check for security
+		// headers
 
-		if(is_null($value)) {
+		if ($this->status === Http::STATUS_NOT_MODIFIED
+			&& stripos($name, 'x-') === 0) {
+			/** @var IConfig $config */
+			$config = \OC::$server->get(IConfig::class);
+
+			if ($config->getSystemValueBool('debug', false)) {
+				\OC::$server->get(LoggerInterface::class)->error('Setting custom header on a 204 or 304 is not supported (Header: {header})', [
+					'header' => $name,
+				]);
+			}
+		}
+
+		if (is_null($value)) {
 			unset($this->headers[$name]);
 		} else {
 			$this->headers[$name] = $value;
@@ -232,15 +242,16 @@ class Response {
 	public function getHeaders() {
 		$mergeWith = [];
 
-		if($this->lastModified) {
+		if ($this->lastModified) {
 			$mergeWith['Last-Modified'] =
 				$this->lastModified->format(\DateTime::RFC2822);
 		}
 
 		$this->headers['Content-Security-Policy'] = $this->getContentSecurityPolicy()->buildPolicy();
 		$this->headers['Feature-Policy'] = $this->getFeaturePolicy()->buildPolicy();
+		$this->headers['X-Robots-Tag'] = 'none';
 
-		if($this->ETag) {
+		if ($this->ETag) {
 			$mergeWith['ETag'] = '"' . $this->ETag . '"';
 		}
 

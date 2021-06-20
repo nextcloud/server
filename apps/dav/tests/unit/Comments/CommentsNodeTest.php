@@ -3,10 +3,11 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -23,7 +24,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Tests\unit\Comments;
 
 use OCA\DAV\Comments\CommentNode;
@@ -38,7 +38,7 @@ use Sabre\DAV\PropPatch;
 
 class CommentsNodeTest extends \Test\TestCase {
 
-	/** @var  ICommentsManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var  ICommentsManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $commentsManager;
 
 	protected $comment;
@@ -107,7 +107,7 @@ class CommentsNodeTest extends \Test\TestCase {
 		$this->node->delete();
 	}
 
-	
+
 	public function testDeleteForbidden() {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
@@ -149,7 +149,7 @@ class CommentsNodeTest extends \Test\TestCase {
 		$this->assertSame($this->node->getName(), $id);
 	}
 
-	
+
 	public function testSetName() {
 		$this->expectException(\Sabre\DAV\Exception\MethodNotAllowed::class);
 
@@ -194,7 +194,7 @@ class CommentsNodeTest extends \Test\TestCase {
 		$this->assertTrue($this->node->updateComment($msg));
 	}
 
-	
+
 	public function testUpdateCommentLogException() {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('buh!');
@@ -235,7 +235,7 @@ class CommentsNodeTest extends \Test\TestCase {
 		$this->node->updateComment($msg);
 	}
 
-	
+
 	public function testUpdateCommentMessageTooLongException() {
 		$this->expectException(\Sabre\DAV\Exception\BadRequest::class);
 		$this->expectExceptionMessage('Message exceeds allowed character limit of');
@@ -274,7 +274,7 @@ class CommentsNodeTest extends \Test\TestCase {
 		$this->node->updateComment('foo');
 	}
 
-	
+
 	public function testUpdateForbiddenByUser() {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
@@ -309,7 +309,7 @@ class CommentsNodeTest extends \Test\TestCase {
 		$this->node->updateComment($msg);
 	}
 
-	
+
 	public function testUpdateForbiddenByType() {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
@@ -339,7 +339,7 @@ class CommentsNodeTest extends \Test\TestCase {
 		$this->node->updateComment($msg);
 	}
 
-	
+
 	public function testUpdateForbiddenByNotLoggedIn() {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
@@ -402,6 +402,7 @@ class CommentsNodeTest extends \Test\TestCase {
 			$ns . 'latestChildDateTime' => new \DateTime('2016-01-12 18:48:00'),
 			$ns . 'objectType' => 'files',
 			$ns . 'objectId' => '1848',
+			$ns . 'referenceId' => 'ref',
 			$ns . 'isUnread' => null,
 		];
 
@@ -468,6 +469,10 @@ class CommentsNodeTest extends \Test\TestCase {
 			->method('getObjectId')
 			->willReturn($expected[$ns . 'objectId']);
 
+		$this->comment->expects($this->once())
+			->method('getReferenceId')
+			->willReturn($expected[$ns . 'referenceId']);
+
 		$user = $this->getMockBuilder(IUser::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -482,8 +487,8 @@ class CommentsNodeTest extends \Test\TestCase {
 
 		$properties = $this->node->getProperties(null);
 
-		foreach($properties as $name => $value) {
-			$this->assertTrue(array_key_exists($name, $expected));
+		foreach ($properties as $name => $value) {
+			$this->assertArrayHasKey($name, $expected);
 			$this->assertSame($expected[$name], $value);
 			unset($expected[$name]);
 		}
@@ -493,8 +498,10 @@ class CommentsNodeTest extends \Test\TestCase {
 	public function readCommentProvider() {
 		$creationDT = new \DateTime('2016-01-19 18:48:00');
 		$diff = new \DateInterval('PT2H');
-		$readDT1 = clone $creationDT; $readDT1->sub($diff);
-		$readDT2 = clone $creationDT; $readDT2->add($diff);
+		$readDT1 = clone $creationDT;
+		$readDT1->sub($diff);
+		$readDT2 = clone $creationDT;
+		$readDT2->add($diff);
 		return [
 			[$creationDT, $readDT1, 'true'],
 			[$creationDT, $readDT2, 'false'],

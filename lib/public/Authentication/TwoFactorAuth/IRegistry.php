@@ -17,21 +17,20 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCP\Authentication\TwoFactorAuth;
 
 use OCP\IUser;
 
 /**
  * Nextcloud 2FA provider registry for stateful 2FA providers
- * 
+ *
  * This service keeps track of which providers are currently active for a specific
  * user. Stateful 2FA providers (IStatefulProvider) must use this service to save
  * their enabled/disabled state.
@@ -39,10 +38,15 @@ use OCP\IUser;
  * @since 14.0.0
  */
 interface IRegistry {
+	/**
+	 * @deprecated 22.0.0
+	 */
+	public const EVENT_PROVIDER_ENABLED = self::class . '::enable';
 
-
-	const EVENT_PROVIDER_ENABLED = self::class . '::enable';
-	const EVENT_PROVIDER_DISABLED = self::class . '::disable';
+	/**
+	 * @deprecated 22.0.0
+	 */
+	public const EVENT_PROVIDER_DISABLED = self::class . '::disable';
 
 	/**
 	 * Get a key-value map of providers and their enabled/disabled state for
@@ -81,5 +85,4 @@ interface IRegistry {
 	 * @return void
 	 */
 	public function cleanUp(string $providerId);
-
 }

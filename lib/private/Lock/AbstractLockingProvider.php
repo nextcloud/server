@@ -5,6 +5,7 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -23,7 +24,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Lock;
 
 use OCP\Lock\ILockingProvider;
@@ -87,7 +87,7 @@ abstract class AbstractLockingProvider implements ILockingProvider {
 					unset($this->acquiredLocks['shared'][$path]);
 				}
 			}
-		} else if ($type === self::LOCK_EXCLUSIVE) {
+		} elseif ($type === self::LOCK_EXCLUSIVE) {
 			unset($this->acquiredLocks['exclusive'][$path]);
 		}
 	}
@@ -105,7 +105,7 @@ abstract class AbstractLockingProvider implements ILockingProvider {
 				$this->acquiredLocks['shared'][$path] = 0;
 			}
 			$this->acquiredLocks['shared'][$path]++;
-		} else if ($targetType === self::LOCK_EXCLUSIVE) {
+		} elseif ($targetType === self::LOCK_EXCLUSIVE) {
 			$this->acquiredLocks['exclusive'][$path] = true;
 			$this->acquiredLocks['shared'][$path]--;
 		}

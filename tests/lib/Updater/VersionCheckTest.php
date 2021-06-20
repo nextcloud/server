@@ -28,9 +28,9 @@ use OCP\IConfig;
 use OCP\Util;
 
 class VersionCheckTest extends \Test\TestCase {
-	/** @var IConfig| \PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig| \PHPUnit\Framework\MockObject\MockObject */
 	private $config;
-	/** @var VersionCheck | \PHPUnit_Framework_MockObject_MockObject*/
+	/** @var VersionCheck | \PHPUnit\Framework\MockObject\MockObject*/
 	private $updater;
 
 	protected function setUp(): void {

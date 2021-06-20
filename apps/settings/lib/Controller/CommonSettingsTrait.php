@@ -6,6 +6,7 @@
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Julius Härtl <jus@bitgrid.net>
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -18,14 +19,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Settings\Controller;
 
 use OCP\AppFramework\Http\TemplateResponse;
@@ -34,11 +34,10 @@ use OCP\IGroupManager;
 use OCP\INavigationManager;
 use OCP\IUser;
 use OCP\IUserSession;
-use OCP\Settings\IIconSection;
 use OCP\Settings\IManager as ISettingsManager;
 use OCP\Settings\ISettings;
 
-trait CommonSettingsTrait  {
+trait CommonSettingsTrait {
 
 	/** @var ISettingsManager */
 	private $settingsManager;
@@ -84,31 +83,28 @@ trait CommonSettingsTrait  {
 
 	protected function formatSections($sections, $currentSection, $type, $currentType, bool $subAdminOnly = false) {
 		$templateParameters = [];
-		/** @var \OCP\Settings\ISection[] $prioritizedSections */
-		foreach($sections as $prioritizedSections) {
+		/** @var \OCP\Settings\IIconSection[] $prioritizedSections */
+		foreach ($sections as $prioritizedSections) {
 			foreach ($prioritizedSections as $section) {
-				if($type === 'admin') {
+				if ($type === 'admin') {
 					$settings = $this->settingsManager->getAdminSettings($section->getID(), $subAdminOnly);
-				} else if($type === 'personal') {
+				} elseif ($type === 'personal') {
 					$settings = $this->settingsManager->getPersonalSettings($section->getID());
 				}
 				if (empty($settings) && !($section->getID() === 'additional' && count(\OC_App::getForms('admin')) > 0)) {
 					continue;
 				}
 
-				$icon = '';
-				if ($section instanceof IIconSection) {
-					$icon = $section->getIcon();
-				}
+				$icon = $section->getIcon();
 
 				$active = $section->getID() === $currentSection
 					&& $type === $currentType;
 
 				$templateParameters[] = [
-					'anchor'       => $section->getID(),
+					'anchor' => $section->getID(),
 					'section-name' => $section->getName(),
-					'active'       => $active,
-					'icon'         => $icon,
+					'active' => $active,
+					'icon' => $icon,
 				];
 			}
 		}

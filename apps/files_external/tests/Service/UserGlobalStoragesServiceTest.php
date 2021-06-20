@@ -2,11 +2,13 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -23,7 +25,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_External\Tests\Service;
 
 use OCA\Files_External\Lib\StorageConfig;
@@ -41,7 +42,7 @@ use Test\Traits\UserTrait;
 class UserGlobalStoragesServiceTest extends GlobalStoragesServiceTest {
 	use UserTrait;
 
-	/** @var \OCP\IGroupManager|\PHPUnit_Framework_MockObject_MockObject groupManager */
+	/** @var \OCP\IGroupManager|\PHPUnit\Framework\MockObject\MockObject groupManager */
 	protected $groupManager;
 
 	/**
@@ -56,9 +57,9 @@ class UserGlobalStoragesServiceTest extends GlobalStoragesServiceTest {
 
 	protected $user;
 
-	const USER_ID = 'test_user';
-	const GROUP_ID = 'test_group';
-	const GROUP_ID2 = 'test_group2';
+	public const USER_ID = 'test_user';
+	public const GROUP_ID = 'test_group';
+	public const GROUP_ID2 = 'test_group2';
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -66,7 +67,7 @@ class UserGlobalStoragesServiceTest extends GlobalStoragesServiceTest {
 		$this->globalStoragesService = $this->service;
 
 		$this->user = new \OC\User\User(self::USER_ID, null, \OC::$server->getEventDispatcher());
-		/** @var \OCP\IUserSession|\PHPUnit_Framework_MockObject_MockObject $userSession */
+		/** @var \OCP\IUserSession|\PHPUnit\Framework\MockObject\MockObject $userSession */
 		$userSession = $this->createMock(IUserSession::class);
 		$userSession
 			->expects($this->any())
@@ -152,10 +153,8 @@ class UserGlobalStoragesServiceTest extends GlobalStoragesServiceTest {
 				$this->service->getStorage($newStorage->getId());
 				$this->fail('Failed asserting that storage can\'t be accessed by id');
 			} catch (NotFoundException $e) {
-
 			}
 		}
-
 	}
 
 
@@ -204,7 +203,7 @@ class UserGlobalStoragesServiceTest extends GlobalStoragesServiceTest {
 	/**
 	 * @dataProvider deleteStorageDataProvider
 	 */
-	public function testDeleteStorage($backendOptions, $rustyStorageId, $expectedCountAfterDeletion) {
+	public function testDeleteStorage($backendOptions, $rustyStorageId) {
 		$this->expectException(\DomainException::class);
 
 		$backend = $this->backendService->getBackend('identifier:\OCA\Files_External\Lib\Backend\SMB');
@@ -226,7 +225,7 @@ class UserGlobalStoragesServiceTest extends GlobalStoragesServiceTest {
 	public function testDeleteUnexistingStorage() {
 		$this->expectException(\DomainException::class);
 
-	    $this->actualDeletedUnexistingStorageTest();
+		$this->actualDeletedUnexistingStorageTest();
 	}
 
 	public function getUniqueStoragesProvider() {

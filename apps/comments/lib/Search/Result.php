@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2018 Joas Schilling <coding@schilljs.com>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Michał Węgrzynek <michal.wegrzynek@malloc.com.pl>
  *
@@ -14,27 +15,46 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Comments\Search;
 
 use OCP\Comments\IComment;
 use OCP\Files\NotFoundException;
 use OCP\Search\Result as BaseResult;
 
+/**
+ * @deprecated 20.0.0
+ */
 class Result extends BaseResult {
-
+	/**
+	 * @deprecated 20.0.0
+	 */
 	public $type = 'comment';
+	/**
+	 * @deprecated 20.0.0
+	 */
 	public $comment;
+	/**
+	 * @deprecated 20.0.0
+	 */
 	public $authorId;
+	/**
+	 * @deprecated 20.0.0
+	 */
 	public $authorName;
+	/**
+	 * @deprecated 20.0.0
+	 */
 	public $path;
+	/**
+	 * @deprecated 20.0.0
+	 */
 	public $fileName;
 
 	/**
@@ -43,6 +63,7 @@ class Result extends BaseResult {
 	 * @param string $authorName
 	 * @param string $path
 	 * @throws NotFoundException
+	 * @deprecated 20.0.0
 	 */
 	public function __construct(string $search,
 								IComment $comment,
@@ -108,5 +129,4 @@ class Result extends BaseResult {
 
 		return $prefix . mb_substr($message, $start, $end - $start) . $suffix;
 	}
-
 }

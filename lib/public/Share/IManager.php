@@ -5,7 +5,8 @@
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
@@ -26,7 +27,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\Share;
 
 use OCP\Files\Folder;
@@ -38,7 +38,6 @@ use OCP\Share\Exceptions\ShareNotFound;
 /**
  * Interface IManager
  *
- * @package OCP\Share
  * @since 9.0.0
  */
 interface IManager {
@@ -347,6 +346,54 @@ interface IManager {
 	public function shareApiLinkDefaultExpireDays();
 
 	/**
+	 * Is default internal expire date enabled
+	 *
+	 * @return bool
+	 * @since 22.0.0
+	 */
+	public function shareApiInternalDefaultExpireDate(): bool;
+
+	/**
+	 * Is default remote expire date enabled
+	 *
+	 * @return bool
+	 * @since 22.0.0
+	 */
+	public function shareApiRemoteDefaultExpireDate(): bool;
+
+	/**
+	 * Is default expire date enforced
+	 *
+	 * @return bool
+	 * @since 22.0.0
+	 */
+	public function shareApiInternalDefaultExpireDateEnforced(): bool;
+
+	/**
+	 * Is default expire date enforced for remote shares
+	 *
+	 * @return bool
+	 * @since 22.0.0
+	 */
+	public function shareApiRemoteDefaultExpireDateEnforced(): bool;
+
+	/**
+	 * Number of default expire days
+	 *
+	 * @return int
+	 * @since 22.0.0
+	 */
+	public function shareApiInternalDefaultExpireDays(): int;
+
+	/**
+	 * Number of default expire days for remote shares
+	 *
+	 * @return int
+	 * @since 22.0.0
+	 */
+	public function shareApiRemoteDefaultExpireDays(): int;
+
+	/**
 	 * Allow public upload on link shares
 	 *
 	 * @return bool
@@ -385,6 +432,22 @@ interface IManager {
 	public function limitEnumerationToGroups(): bool;
 
 	/**
+	 * Check if user enumeration is limited to the phonebook matches
+	 *
+	 * @return bool
+	 * @since 21.0.1
+	 */
+	public function limitEnumerationToPhone(): bool;
+
+	/**
+	 * Check if user enumeration is allowed to return on full match
+	 *
+	 * @return bool
+	 * @since 21.0.1
+	 */
+	public function allowEnumerationFullMatch(): bool;
+
+	/**
 	 * Check if sharing is disabled for the given user
 	 *
 	 * @param string $userId
@@ -417,6 +480,12 @@ interface IManager {
 	public function shareProviderExists($shareType);
 
 	/**
+	 * @param string $shareProviderClass
+	 * @since 21.0.0
+	 */
+	public function registerShareProvider(string $shareProviderClass): void;
+
+	/**
 	 * @Internal
 	 *
 	 * Get all the shares as iterable to reduce memory overhead
@@ -427,5 +496,4 @@ interface IManager {
 	 * @since 18.0.0
 	 */
 	public function getAllShares(): iterable;
-
 }

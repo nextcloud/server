@@ -36,19 +36,19 @@ use OCP\ILogger;
 use OCP\IURLGenerator;
 
 class JSCombinerTest extends \Test\TestCase {
-	/** @var IAppData|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IAppData|\PHPUnit\Framework\MockObject\MockObject */
 	protected $appData;
-	/** @var IURLGenerator|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
 	protected $urlGenerator;
-	/** @var SystemConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var SystemConfig|\PHPUnit\Framework\MockObject\MockObject */
 	protected $config;
-	/** @var ICache|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ICache|\PHPUnit\Framework\MockObject\MockObject */
 	protected $depsCache;
 	/** @var JSCombiner */
 	protected $jsCombiner;
-	/** @var ILogger|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ILogger|\PHPUnit\Framework\MockObject\MockObject */
 	protected $logger;
-	/** @var ICacheFactory|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ICacheFactory|\PHPUnit\Framework\MockObject\MockObject */
 	protected $cacheFactory;
 
 	protected function setUp(): void {
@@ -70,7 +70,6 @@ class JSCombinerTest extends \Test\TestCase {
 			$this->config,
 			$this->logger
 		);
-
 	}
 
 	public function testProcessDebugMode() {
@@ -120,12 +119,12 @@ class JSCombinerTest extends \Test\TestCase {
 		$fileDeps = $this->createMock(ISimpleFile::class);
 
 		$folder->method('getFile')
-			->willReturnCallback(function($path) use ($file, $gzfile) {
+			->willReturnCallback(function ($path) use ($file, $gzfile) {
 				if ($path === 'combine.js') {
 					return $file;
-				} else if ($path === 'combine.js.deps') {
+				} elseif ($path === 'combine.js.deps') {
 					throw new NotFoundException();
-				} else if ($path === 'combine.js.gzip') {
+				} elseif ($path === 'combine.js.gzip') {
 					return $gzfile;
 				}
 				$this->fail();
@@ -157,12 +156,12 @@ class JSCombinerTest extends \Test\TestCase {
 		$gzfile = $this->createMock(ISimpleFile::class);
 
 		$folder->method('getFile')
-			->willReturnCallback(function($path) use ($file, $gzfile) {
+			->willReturnCallback(function ($path) use ($file, $gzfile) {
 				if ($path === 'combine.js') {
 					return $file;
-				} else if ($path === 'combine.js.deps') {
+				} elseif ($path === 'combine.js.deps') {
 					throw new NotFoundException();
-				} else if ($path === 'combine.js.gzip') {
+				} elseif ($path === 'combine.js.gzip') {
 					return $gzfile;
 				}
 				$this->fail();
@@ -200,7 +199,7 @@ class JSCombinerTest extends \Test\TestCase {
 			->willReturn(true);
 
 		$folder->method('getFile')
-			->willReturnCallback(function($path) use ($file, $fileDeps) {
+			->willReturnCallback(function ($path) use ($file, $fileDeps) {
 				if ($path === 'combine.js') {
 					return $file;
 				}
@@ -245,7 +244,7 @@ class JSCombinerTest extends \Test\TestCase {
 			->willReturn('{}');
 
 		$folder->method('getFile')
-			->willReturnCallback(function($path) use ($file) {
+			->willReturnCallback(function ($path) use ($file) {
 				if ($path === 'combine.js') {
 					return $file;
 				}
@@ -262,7 +261,7 @@ class JSCombinerTest extends \Test\TestCase {
 		$file = $this->createMock(ISimpleFile::class);
 
 		$folder->method('getFile')
-			->willReturnCallback(function($path) use ($file) {
+			->willReturnCallback(function ($path) use ($file) {
 				if ($path === 'combine.js') {
 					return $file;
 				}
@@ -348,9 +347,9 @@ class JSCombinerTest extends \Test\TestCase {
 			function ($filename) use ($file, $depsFile, $gzFile) {
 				if ($filename === 'combine.js') {
 					return $file;
-				} else if ($filename === 'combine.js.deps') {
+				} elseif ($filename === 'combine.js.deps') {
 					return $depsFile;
-				} else if ($filename === 'combine.js.gzip') {
+				} elseif ($filename === 'combine.js.gzip') {
 					return $gzFile;
 				}
 				$this->fail();
@@ -379,9 +378,9 @@ class JSCombinerTest extends \Test\TestCase {
 			function ($filename) use ($file, $depsFile, $gzFile) {
 				if ($filename === 'combine.js') {
 					return $file;
-				} else if ($filename === 'combine.js.deps') {
+				} elseif ($filename === 'combine.js.deps') {
 					return $depsFile;
-				} else if ($filename === 'combine.js.gzip') {
+				} elseif ($filename === 'combine.js.gzip') {
 					return $gzFile;
 				}
 				$this->fail();
@@ -447,9 +446,9 @@ var b = \'world\';
 			function ($filename) use ($file, $depsFile, $gzFile) {
 				if ($filename === 'combine.js') {
 					return $file;
-				} else if ($filename === 'combine.js.deps') {
+				} elseif ($filename === 'combine.js.deps') {
 					return $depsFile;
-				} else if ($filename === 'combine.js.gzip') {
+				} elseif ($filename === 'combine.js.gzip') {
 					return $gzFile;
 				}
 				$this->fail();
@@ -560,5 +559,4 @@ var b = \'world\';
 
 		$this->jsCombiner->resetCache();
 	}
-
 }

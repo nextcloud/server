@@ -40,6 +40,9 @@ $color-background-hover: nc-darken($color-main-background, 4%) !default;
 $color-background-dark: nc-darken($color-main-background, 7%) !default;
 $color-background-darker: nc-darken($color-main-background, 14%) !default;
 
+$color-placeholder-light: nc-darken($color-main-background, 10%) !default;
+$color-placeholder-dark: nc-darken($color-main-background, 20%) !default;
+
 $color-primary: #0082c9 !default;
 $color-primary-light: mix($color-primary, $color-main-background, 10%) !default;
 $color-primary-text: #ffffff !default;
@@ -60,9 +63,9 @@ $color-yellow: #FC0;
 // rgb(118, 118, 118) / #767676
 // min. color contrast for normal text on white background according to WCAG AA
 // (Works as well: color: #000; opacity: 0.57;)
-$color-text-maxcontrast: nc-lighten($color-main-text, 46.2%) !default;
-$color-text-light: nc-lighten($color-main-text, 15%) !default;
-$color-text-lighter: nc-lighten($color-main-text, 30%) !default;
+$color-text-maxcontrast: nc-lighten($color-main-text, 33%) !default;
+$color-text-light: $color-main-text !default;
+$color-text-lighter: $color-text-maxcontrast !default;
 
 $image-logo: url('../img/logo/logo.svg?v=1') !default;
 $image-login-background: url('../img/background.png?v=2') !default;
@@ -83,7 +86,10 @@ $border-radius-large: 10px !default;
 // Pill-style button, value is large so big buttons also have correct roundness
 $border-radius-pill: 100px !default;
 
-$font-face: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol' !default;
+$font-face: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Cantarell, Ubuntu, 'Helvetica Neue', Arial, 'Noto Color Emoji', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol' !default;
+$default-font-size: 15px;
+
+$default-line-height: 24px;
 
 $animation-quick: 100ms;
 $animation-slow: 300ms;

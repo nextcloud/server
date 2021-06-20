@@ -20,13 +20,11 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\Command;
 
 /**
  * Interface IBus
  *
- * @package OCP\Command
  * @since 8.1.0
  */
 interface IBus {

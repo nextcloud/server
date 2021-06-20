@@ -4,7 +4,7 @@ OC.L10N.register(
     "You created two-factor backup codes for your account" : "Du skapade återställningsnycklar till tvåfaktorsautentiseringen på ditt användarkonto.",
     "Second-factor backup codes" : "Tvåfaktorsautentisering",
     "Generate backup codes" : "Generera återställningsnycklar",
-    "You enabled two-factor authentication but did not generate backup codes yet. They are needed to restore access to your account in case you lose your second factor." : "Du har aktiverat tvåfaktorsautentisering men har ännu inte skapat återställningsnycklar. Detta är nödvändigt om du förlorar tillgång till din andra faktor.",
+    "You enabled two-factor authentication but did not generate backup codes yet. They are needed to restore access to your account in case you lose your second factor." : "Du har aktiverat tvåfaktorsautentisering men har ännu inte skapat återställningsnycklar. Detta är nödvändigt om du förlorar åtkomst till din andra faktor.",
     "Backup code" : "Återställningsnyckel",
     "Use backup code" : "Använd återställningsnyckel",
     "Two factor backup codes" : "Återställningsnycklar tvåfaktor",
@@ -18,10 +18,6 @@ OC.L10N.register(
     "An error occurred while generating your backup codes" : "Ett fel uppstod vid skapandet av nya återställningsnycklar",
     "{name} backup codes" : "{name} återställningsnycklar",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Använd en av återställningsnycklarna du sparade när du konfigurerar tvåfaktorsautentisering.",
-    "Submit" : "Skicka",
-    "_" : "_",
-    "_icon-loading-small_::_generate-backup-codes_" : ["icon-loading-small","Generera återställningsnycklar"],
-    "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "Du har aktiverat tvåfaktorsautentisering men har ännu inte skapat återställningsnycklar. Detta är nödvändigt om du förlorar tillgång till din andra faktor.",
-    "function" : "funktion"
+    "Submit" : "Skicka"
 },
 "nplurals=2; plural=(n != 1);");

@@ -6,17 +6,20 @@
  * @author Aldo "xoen" Giambelluca <xoen@xoen.org>
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Brice Maron <brice@bmaron.net>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Frank Karlitschek <frank@karlitschek.de>
  * @author Jakob Sack <mail@jakobsack.de>
  * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Philipp Schaffrath <github@philipp.schaffrath.email>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
  *
@@ -33,7 +36,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC;
 
 /**
@@ -41,11 +43,12 @@ namespace OC;
  * configuration file of Nextcloud.
  */
 class Config {
-
-	const ENV_PREFIX = 'NC_';
+	public const ENV_PREFIX = 'NC_';
 
 	/** @var array Associative array ($key => $value) */
 	protected $cache = [];
+	/** @var array */
+	protected $envCache = [];
 	/** @var string */
 	protected $configDir;
 	/** @var string */
@@ -87,9 +90,9 @@ class Config {
 	 * @return mixed the value or $default
 	 */
 	public function getValue($key, $default = null) {
-		$envValue = getenv(self::ENV_PREFIX . $key);
-		if ($envValue !== false) {
-			return $envValue;
+		$envKey = self::ENV_PREFIX . $key;
+		if (isset($this->envCache[$envKey])) {
+			return $this->envCache[$envKey];
 		}
 
 		if (isset($this->cache[$key])) {
@@ -199,7 +202,7 @@ class Config {
 		foreach ($configFiles as $file) {
 			$fileExistsAndIsReadable = file_exists($file) && is_readable($file);
 			$filePointer = $fileExistsAndIsReadable ? fopen($file, 'r') : false;
-			if($file === $this->configFilePath &&
+			if ($file === $this->configFilePath &&
 				$filePointer === false) {
 				// Opening the main config might not be possible, e.g. if the wrong
 				// permissions are set (likely on a new installation)
@@ -207,13 +210,13 @@ class Config {
 			}
 
 			// Try to acquire a file lock
-			if(!flock($filePointer, LOCK_SH)) {
+			if (!flock($filePointer, LOCK_SH)) {
 				throw new \Exception(sprintf('Could not acquire a shared lock on the config file %s', $file));
 			}
 
 			unset($CONFIG);
 			include $file;
-			if(isset($CONFIG) && is_array($CONFIG)) {
+			if (isset($CONFIG) && is_array($CONFIG)) {
 				$this->cache = array_merge($this->cache, $CONFIG);
 			}
 
@@ -221,6 +224,8 @@ class Config {
 			flock($filePointer, LOCK_UN);
 			fclose($filePointer);
 		}
+
+		$this->envCache = getenv();
 	}
 
 	/**
@@ -238,29 +243,26 @@ class Config {
 		$content .= var_export($this->cache, true);
 		$content .= ";\n";
 
-		touch ($this->configFilePath);
+		touch($this->configFilePath);
 		$filePointer = fopen($this->configFilePath, 'r+');
 
 		// Prevent others not to read the config
 		chmod($this->configFilePath, 0640);
 
 		// File does not exist, this can happen when doing a fresh install
-		if(!is_resource ($filePointer)) {
-			// TODO fix this via DI once it is very clear that this doesn't cause side effects due to initialization order
-			// currently this breaks app routes but also could have other side effects especially during setup and exception handling
-			$url = \OC::$server->getURLGenerator()->linkToDocs('admin-dir_permissions');
+		if (!is_resource($filePointer)) {
 			throw new HintException(
 				"Can't write into config directory!",
-				'This can usually be fixed by giving the webserver write access to the config directory. See ' . $url);
+				'This can usually be fixed by giving the webserver write access to the config directory.');
 		}
 
 		// Try to acquire a file lock
-		if(!flock($filePointer, LOCK_EX)) {
+		if (!flock($filePointer, LOCK_EX)) {
 			throw new \Exception(sprintf('Could not acquire an exclusive lock on the config file %s', $this->configFilePath));
 		}
 
 		// Write the config and release the lock
-		ftruncate ($filePointer, 0);
+		ftruncate($filePointer, 0);
 		fwrite($filePointer, $content);
 		fflush($filePointer);
 		flock($filePointer, LOCK_UN);

@@ -1,15 +1,18 @@
 <div id="{dialog_name}" title="{title}">
-	<span class="dirtree breadcrumb"></span>
-	<span class="actions creatable"><a href="#" class="icon icon-add button button-add"></a>
-	<nav class="menu popovermenu bubble menu-left newFolderMenu">
-		<ul><li>
-		<form class="filenameform">
-			<input type="text" value={newtext}>
-			<input class="icon-confirm" type="submit" value="">
-		</form>
-			</li></ul>
-	</nav>
+	<span class="dirtree breadcrumb">
+		<span class="actions creatable"><a href="#" class="icon icon-add button button-add"></a>
+			<nav class="menu popovermenu bubble menu-left newFolderMenu">
+				<ul><li>
+				<form class="filenameform">
+					<input type="text" value={newtext}>
+					<input class="icon-confirm" type="submit" value="">
+				</form>
+				</li></ul>
+			</nav>
+		</span>
+
 	</span>
+
 	<input type="checkbox" class="hidden-visually" id="picker-showgridview" checked="checked" />
 	<label id="picker-view-toggle" for="picker-showgridview" class="button icon-toggle-filelist"></label>
 	<div class="filelist-container">

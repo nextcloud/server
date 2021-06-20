@@ -9,7 +9,7 @@ declare(strict_types=1);
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -26,13 +26,11 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\Lock;
 
 /**
  * Class LockedException
  *
- * @package OCP\Lock
  * @since 8.1.0
  */
 class LockedException extends \Exception {
@@ -53,10 +51,15 @@ class LockedException extends \Exception {
 	 * @param string $path locked path
 	 * @param \Exception|null $previous previous exception for cascading
 	 * @param string $existingLock since 14.0.0
+	 * @param string $readablePath since 20.0.0
 	 * @since 8.1.0
 	 */
-	public function __construct(string $path, \Exception $previous = null, string $existingLock = null) {
-		$message = '"' . $path . '" is locked';
+	public function __construct(string $path, \Exception $previous = null, string $existingLock = null, string $readablePath = null) {
+		if ($readablePath) {
+			$message = "\"$path\"(\"$readablePath\") is locked";
+		} else {
+			$message = '"' . $path . '" is locked';
+		}
 		$this->existingLock = $existingLock;
 		if ($existingLock) {
 			$message .= ', existing lock on file: ' . $existingLock;

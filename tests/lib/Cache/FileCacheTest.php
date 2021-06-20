@@ -21,6 +21,7 @@
  */
 
 namespace Test\Cache;
+
 use OC\Files\Storage\Local;
 
 /**
@@ -48,7 +49,7 @@ class FileCacheTest extends TestCache {
 	 * */
 	private $rootView;
 
-	function skip() {
+	public function skip() {
 		//$this->skipUnless(OC_User::isLoggedIn());
 	}
 
@@ -81,7 +82,7 @@ class FileCacheTest extends TestCache {
 		$this->rootView = new \OC\Files\View('');
 		$this->rootView->mkdir('/test');
 
-		$this->instance=new \OC\Cache\File();
+		$this->instance = new \OC\Cache\File();
 
 		// forces creation of cache folder for subsequent tests
 		$this->instance->set('hack', 'hack');

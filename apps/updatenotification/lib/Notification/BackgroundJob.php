@@ -5,6 +5,7 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  *
@@ -23,7 +24,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\UpdateNotification\Notification;
 
 use OC\BackgroundJob\TimedJob;
@@ -37,7 +37,6 @@ use OCP\IGroupManager;
 use OCP\Notification\IManager;
 
 class BackgroundJob extends TimedJob {
-
 	protected $connectionNotifications = [3, 7, 14, 30];
 
 	/** @var IConfig */
@@ -107,7 +106,7 @@ class BackgroundJob extends TimedJob {
 			if (\in_array($errors, $this->connectionNotifications, true)) {
 				$this->sendErrorNotifications($errors);
 			}
-		} else if (\is_array($status)) {
+		} elseif (\is_array($status)) {
 			$this->config->setAppValue('updatenotification', 'update_check_errors', 0);
 			$this->clearErrorNotifications();
 

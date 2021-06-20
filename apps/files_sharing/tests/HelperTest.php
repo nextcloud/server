@@ -23,7 +23,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_Sharing\Tests;
 
 /**
@@ -47,7 +46,5 @@ class HelperTest extends TestCase {
 
 		// cleanup
 		\OC::$server->getConfig()->deleteSystemValue('share_folder');
-
 	}
-
 }

@@ -19,9 +19,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_External\Lib;
-
 
 /**
  * Polyfill for checking dependencies using legacy Storage::checkDependencies()
@@ -65,5 +63,4 @@ trait LegacyDependencyCheckPolyfill {
 
 		return $ret;
 	}
-
 }

@@ -14,10 +14,10 @@ use OCP\Log\IWriter;
 
 class LoggerTest extends TestCase implements IWriter {
 
-	/** @var \OC\SystemConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OC\SystemConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
 
-	/** @var \OCP\Support\CrashReport\IRegistry|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCP\Support\CrashReport\IRegistry|\PHPUnit\Framework\MockObject\MockObject */
 	private $registry;
 
 	/** @var \OCP\ILogger */
@@ -68,7 +68,7 @@ class LoggerTest extends TestCase implements IWriter {
 	}
 
 	public function write(string $app, $message, int $level) {
-		$this->logs[]= "$level $message";
+		$this->logs[] = "$level $message";
 	}
 
 	public function userAndPasswordData(): array {
@@ -96,7 +96,7 @@ class LoggerTest extends TestCase implements IWriter {
 		$this->logger->logException($e);
 
 		$logLines = $this->getLogs();
-		foreach($logLines as $logLine) {
+		foreach ($logLines as $logLine) {
 			if (is_array($logLine)) {
 				$logLine = json_encode($logLine);
 			}
@@ -118,7 +118,7 @@ class LoggerTest extends TestCase implements IWriter {
 		$this->logger->logException($e);
 
 		$logLines = $this->getLogs();
-		foreach($logLines as $logLine) {
+		foreach ($logLines as $logLine) {
 			if (is_array($logLine)) {
 				$logLine = json_encode($logLine);
 			}
@@ -140,7 +140,7 @@ class LoggerTest extends TestCase implements IWriter {
 		$this->logger->logException($e);
 
 		$logLines = $this->getLogs();
-		foreach($logLines as $logLine) {
+		foreach ($logLines as $logLine) {
 			if (is_array($logLine)) {
 				$logLine = json_encode($logLine);
 			}
@@ -162,7 +162,7 @@ class LoggerTest extends TestCase implements IWriter {
 		$this->logger->logException($e);
 
 		$logLines = $this->getLogs();
-		foreach($logLines as $logLine) {
+		foreach ($logLines as $logLine) {
 			if (is_array($logLine)) {
 				$logLine = json_encode($logLine);
 			}
@@ -176,7 +176,7 @@ class LoggerTest extends TestCase implements IWriter {
 	 * @dataProvider userAndPasswordData
 	 */
 	public function testDetectclosure(string $user, string $password): void {
-		$a = function($user, $password) {
+		$a = function ($user, $password) {
 			throw new \Exception('test');
 		};
 		$this->registry->expects($this->once())
@@ -189,7 +189,7 @@ class LoggerTest extends TestCase implements IWriter {
 		}
 
 		$logLines = $this->getLogs();
-		foreach($logLines as $logLine) {
+		foreach ($logLines as $logLine) {
 			if (is_array($logLine)) {
 				$logLine = json_encode($logLine);
 			}

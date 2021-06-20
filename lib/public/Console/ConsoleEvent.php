@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  *
  * @license AGPL-3.0
@@ -20,7 +21,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\Console;
 
 use OCP\EventDispatcher\Event;
@@ -28,12 +28,14 @@ use OCP\EventDispatcher\Event;
 /**
  * Class ConsoleEvent
  *
- * @package OCP\Console
  * @since 9.0.0
  */
 class ConsoleEvent extends Event {
 
-	const EVENT_RUN = 'OC\Console\Application::run';
+	/**
+	 * @deprecated 22.0.0
+	 */
+	public const EVENT_RUN = 'OC\Console\Application::run';
 
 	/** @var string */
 	protected $event;

@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
@@ -24,14 +25,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OC\Log;
 use OC\SystemConfig;
 use OCA\DAV\Connector\Sabre\Exception\InvalidPath;
 use OCA\DAV\Connector\Sabre\ExceptionLoggerPlugin as PluginToTest;
-use PHPUnit_Framework_MockObject_MockObject;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\Exception\ServiceUnavailable;
 use Sabre\DAV\Server;
@@ -55,14 +54,14 @@ class ExceptionLoggerPluginTest extends TestCase {
 	/** @var PluginToTest */
 	private $plugin;
 
-	/** @var TestLogger | PHPUnit_Framework_MockObject_MockObject */
+	/** @var TestLogger | \PHPUnit\Framework\MockObject\MockObject */
 	private $logger;
 
 	private function init() {
 		$config = $this->createMock(SystemConfig::class);
 		$config->expects($this->any())
 			->method('getValue')
-			->willReturnCallback(function($key, $default) {
+			->willReturnCallback(function ($key, $default) {
 				switch ($key) {
 					case 'loglevel':
 						return 0;
@@ -97,5 +96,4 @@ class ExceptionLoggerPluginTest extends TestCase {
 			[4, 'This path leads to nowhere', new InvalidPath('This path leads to nowhere')]
 		];
 	}
-
 }

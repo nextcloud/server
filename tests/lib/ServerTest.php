@@ -23,6 +23,7 @@
  */
 
 namespace Test;
+
 use OC\App\AppStore\Fetcher\AppFetcher;
 use OC\App\AppStore\Fetcher\CategoryFetcher;
 
@@ -71,7 +72,7 @@ class ServerTest extends \Test\TestCase {
 			['CryptoWrapper', '\OC\Session\CryptoWrapper'],
 			['CsrfTokenManager', '\OC\Security\CSRF\CsrfTokenManager'],
 
-			['DatabaseConnection', '\OC\DB\Connection'],
+			['DatabaseConnection', '\OC\DB\ConnectionAdapter'],
 			['DatabaseConnection', '\OCP\IDBConnection'],
 			['DateTimeFormatter', '\OC\DateTimeFormatter'],
 			['DateTimeFormatter', '\OCP\IDateTimeFormatter'],
@@ -174,8 +175,8 @@ class ServerTest extends \Test\TestCase {
 	}
 
 	public function testGetCertificateManager() {
-		$this->assertInstanceOf('\OC\Security\CertificateManager', $this->server->getCertificateManager('test'), 'service returned by "getCertificateManager" did not return the right class');
-		$this->assertInstanceOf('\OCP\ICertificateManager', $this->server->getCertificateManager('test'), 'service returned by "getCertificateManager" did not return the right class');
+		$this->assertInstanceOf('\OC\Security\CertificateManager', $this->server->getCertificateManager(), 'service returned by "getCertificateManager" did not return the right class');
+		$this->assertInstanceOf('\OCP\ICertificateManager', $this->server->getCertificateManager(), 'service returned by "getCertificateManager" did not return the right class');
 	}
 
 	public function testCreateEventSource() {

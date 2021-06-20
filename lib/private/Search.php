@@ -4,6 +4,7 @@
  *
  * @author Andrew Brown <andrew@casabrown.com>
  * @author Bart Visscher <bartv@thisnet.nl>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
@@ -24,8 +25,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC;
+
 use OCP\ISearch;
 use OCP\Search\PagedProvider;
 use OCP\Search\Provider;
@@ -34,7 +35,7 @@ use OCP\Search\Provider;
  * Provide an interface to all search providers
  */
 class Search implements ISearch {
-
+	/** @var Provider[] */
 	private $providers = [];
 	private $registeredProviders = [];
 
@@ -49,14 +50,13 @@ class Search implements ISearch {
 	public function searchPaged($query, array $inApps = [], $page = 1, $size = 30) {
 		$this->initProviders();
 		$results = [];
-		foreach($this->providers as $provider) {
-			/** @var $provider Provider */
-			if ( ! $provider->providesResultsFor($inApps) ) {
+		foreach ($this->providers as $provider) {
+			if (! $provider->providesResultsFor($inApps)) {
 				continue;
 			}
 			if ($provider instanceof PagedProvider) {
 				$results = array_merge($results, $provider->searchPaged($query, $page, $size));
-			} else if ($provider instanceof Provider) {
+			} elseif ($provider instanceof Provider) {
 				$providerResults = $provider->search($query);
 				if ($size > 0) {
 					$slicedResults = array_slice($providerResults, ($page - 1) * $size, $size);
@@ -107,14 +107,13 @@ class Search implements ISearch {
 	 * Create instances of all the registered search providers
 	 */
 	private function initProviders() {
-		if( ! empty($this->providers) ) {
+		if (! empty($this->providers)) {
 			return;
 		}
-		foreach($this->registeredProviders as $provider) {
+		foreach ($this->registeredProviders as $provider) {
 			$class = $provider['class'];
 			$options = $provider['options'];
 			$this->providers[] = new $class($options);
 		}
 	}
-
 }

@@ -4,6 +4,7 @@
  *
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -23,7 +24,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Encryption\Tests\Crypto;
 
 use OCA\Encryption\Crypto\Crypt;
@@ -46,31 +46,31 @@ class EncryptionTest extends TestCase {
 	/** @var Encryption */
 	private $instance;
 
-	/** @var \OCA\Encryption\KeyManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCA\Encryption\KeyManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $keyManagerMock;
 
-	/** @var \OCA\Encryption\Crypto\EncryptAll|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCA\Encryption\Crypto\EncryptAll|\PHPUnit\Framework\MockObject\MockObject */
 	private $encryptAllMock;
 
-	/** @var \OCA\Encryption\Crypto\DecryptAll|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCA\Encryption\Crypto\DecryptAll|\PHPUnit\Framework\MockObject\MockObject */
 	private $decryptAllMock;
 
-	/** @var \OCA\Encryption\Session|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCA\Encryption\Session|\PHPUnit\Framework\MockObject\MockObject */
 	private $sessionMock;
 
-	/** @var \OCA\Encryption\Crypto\Crypt|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCA\Encryption\Crypto\Crypt|\PHPUnit\Framework\MockObject\MockObject */
 	private $cryptMock;
 
-	/** @var \OCA\Encryption\Util|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCA\Encryption\Util|\PHPUnit\Framework\MockObject\MockObject */
 	private $utilMock;
 
-	/** @var \OCP\ILogger|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCP\ILogger|\PHPUnit\Framework\MockObject\MockObject */
 	private $loggerMock;
 
-	/** @var \OCP\IL10N|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCP\IL10N|\PHPUnit\Framework\MockObject\MockObject */
 	private $l10nMock;
 
-	/** @var \OCP\Files\Storage|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCP\Files\Storage|\PHPUnit\Framework\MockObject\MockObject */
 	private $storageMock;
 
 	protected function setUp(): void {
@@ -117,7 +117,6 @@ class EncryptionTest extends TestCase {
 			$this->loggerMock,
 			$this->l10nMock
 		);
-
 	}
 
 	/**
@@ -199,7 +198,6 @@ class EncryptionTest extends TestCase {
 	 * @dataProvider dataTestBegin
 	 */
 	public function testBegin($mode, $header, $legacyCipher, $defaultCipher, $fileKey, $expected) {
-
 		$this->sessionMock->expects($this->once())
 			->method('decryptAllModeActivated')
 			->willReturn(false);
@@ -254,7 +252,6 @@ class EncryptionTest extends TestCase {
 	 * test begin() if decryptAll mode was activated
 	 */
 	public function testBeginDecryptAll() {
-
 		$path = '/user/files/foo.txt';
 		$recoveryKeyId = 'recoveryKeyId';
 		$recoveryShareKey = 'recoveryShareKey';
@@ -298,7 +295,6 @@ class EncryptionTest extends TestCase {
 	 * and continue
 	 */
 	public function testBeginInitMasterKey() {
-
 		$this->sessionMock->expects($this->once())->method('isReady')->willReturn(false);
 		$this->utilMock->expects($this->once())->method('isMasterKeyEnabled')
 			->willReturn(true);
@@ -322,7 +318,7 @@ class EncryptionTest extends TestCase {
 
 		$this->keyManagerMock->expects($this->any())
 			->method('addSystemKeys')
-			->willReturnCallback(function($accessList, $publicKeys) {
+			->willReturnCallback(function ($accessList, $publicKeys) {
 				return $publicKeys;
 			});
 
@@ -342,14 +338,13 @@ class EncryptionTest extends TestCase {
 	}
 
 	public function testUpdateNoUsers() {
-
 		$this->invokePrivate($this->instance, 'rememberVersion', [['path' => 2]]);
 
 		$this->keyManagerMock->expects($this->never())->method('getFileKey');
 		$this->keyManagerMock->expects($this->never())->method('getPublicKey');
 		$this->keyManagerMock->expects($this->never())->method('addSystemKeys');
 		$this->keyManagerMock->expects($this->once())->method('setVersion')
-			->willReturnCallback(function($path, $version, $view) {
+			->willReturnCallback(function ($path, $version, $view) {
 				$this->assertSame('path', $path);
 				$this->assertSame(2, $version);
 				$this->assertTrue($view instanceof \OC\Files\View);
@@ -367,20 +362,20 @@ class EncryptionTest extends TestCase {
 
 		$this->keyManagerMock->expects($this->any())
 			->method('getPublicKey')->willReturnCallback(
-				function($user) {
+				function ($user) {
 					throw new PublicKeyMissingException($user);
 				}
 			);
 
 		$this->keyManagerMock->expects($this->any())
 			->method('addSystemKeys')
-			->willReturnCallback(function($accessList, $publicKeys) {
+			->willReturnCallback(function ($accessList, $publicKeys) {
 				return $publicKeys;
 			});
 
 		$this->cryptMock->expects($this->once())->method('multiKeyEncrypt')
 			->willReturnCallback(
-				function($fileKey, $publicKeys) {
+				function ($fileKey, $publicKeys) {
 					$this->assertEmpty($publicKeys);
 					$this->assertSame('fileKey', $fileKey);
 				}
@@ -432,10 +427,10 @@ class EncryptionTest extends TestCase {
 		];
 	}
 
-	
+
 	public function testDecrypt() {
 		$this->expectException(\OC\Encryption\Exceptions\DecryptionFailedException::class);
-		$this->expectExceptionMessage('Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you.');
+		$this->expectExceptionMessage('Cannot decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you.');
 
 		$this->instance->decrypt('abc');
 	}
@@ -451,5 +446,4 @@ class EncryptionTest extends TestCase {
 
 		$this->instance->prepareDecryptAll($input, $output, 'user');
 	}
-
 }

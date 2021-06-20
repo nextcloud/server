@@ -10,13 +10,15 @@ declare(strict_types=1);
  * @author Felix Nüsse <Felix.nuesse@t-online.de>
  * @author fnuesse <felix.nuesse@t-online.de>
  * @author fnuesse <fnuesse@techfak.uni-bielefeld.de>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Nina Pypchenko <22447785+nina-py@users.noreply.github.com>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Tobias Kaminsky <tobias@kaminsky.me>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -42,6 +44,13 @@ $application->registerRoutes(
 	[
 		'routes' => [
 			[
+				'name' => 'View#showFile',
+				'url' => '/f/{fileid}',
+				'verb' => 'GET',
+				'root' => '',
+			],
+
+			[
 				'name' => 'API#getThumbnail',
 				'url' => '/api/v1/thumbnail/{x}/{y}/{file}',
 				'verb' => 'GET',
@@ -66,6 +75,11 @@ $application->registerRoutes(
 			[
 				'name' => 'API#showHiddenFiles',
 				'url' => '/api/v1/showhidden',
+				'verb' => 'POST'
+			],
+			[
+				'name' => 'API#cropImagePreviews',
+				'url' => '/api/v1/cropimagepreviews',
 				'verb' => 'POST'
 			],
 			[
@@ -126,6 +140,21 @@ $application->registerRoutes(
 				'verb' => 'POST'
 			],
 			[
+				'name' => 'Template#list',
+				'url' => '/api/v1/templates',
+				'verb' => 'GET'
+			],
+			[
+				'name' => 'Template#create',
+				'url' => '/api/v1/templates/create',
+				'verb' => 'POST'
+			],
+			[
+				'name' => 'Template#path',
+				'url' => '/api/v1/templates/path',
+				'verb' => 'POST'
+			],
+			[
 				'name' => 'TransferOwnership#transfer',
 				'url' => '/api/v1/transferownership',
 				'verb' => 'POST',
@@ -146,7 +175,7 @@ $application->registerRoutes(
 
 /** @var $this \OC\Route\Router */
 
-$this->create('files_ajax_download', 'ajax/download.php')
+$this->create('files_ajax_download', 'apps/files/ajax/download.php')
 	->actionInclude('files/ajax/download.php');
-$this->create('files_ajax_list', 'ajax/list.php')
+$this->create('files_ajax_list', 'apps/files/ajax/list.php')
 	->actionInclude('files/ajax/list.php');

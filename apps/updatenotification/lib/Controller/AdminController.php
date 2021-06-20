@@ -8,6 +8,7 @@ declare(strict_types=1);
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -24,11 +25,11 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\UpdateNotification\Controller;
 
 use OCA\UpdateNotification\ResetTokenBackgroundJob;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
@@ -74,6 +75,10 @@ class AdminController extends Controller {
 		$this->l10n = $l10n;
 	}
 
+	private function isUpdaterEnabled() {
+		return !$this->config->getSystemValue('upgrade.disable-web', false);
+	}
+
 	/**
 	 * @param string $channel
 	 * @return DataResponse
@@ -88,6 +93,10 @@ class AdminController extends Controller {
 	 * @return DataResponse
 	 */
 	public function createCredentials(): DataResponse {
+		if (!$this->isUpdaterEnabled()) {
+			return new DataResponse(['status' => 'error', 'message' => $this->l10n->t('Web updater is disabled')], Http::STATUS_FORBIDDEN);
+		}
+
 		// Create a new job and store the creation date
 		$this->jobList->add(ResetTokenBackgroundJob::class);
 		$this->config->setAppValue('core', 'updater.secret.created', $this->timeFactory->getTime());

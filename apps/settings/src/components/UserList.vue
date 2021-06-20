@@ -22,14 +22,12 @@
 
 <template>
 	<div id="app-content" class="user-list-grid" @scroll.passive="onScroll">
-		<form v-show="showConfig.showNewUserForm"
-			id="new-user"
-			:class="{'sticky': scrolled && showConfig.showNewUserForm}"
-			:disabled="loading.all"
-			class="row"
-			@submit.prevent="createUser">
-			<div :class="loading.all?'icon-loading-small':'icon-add'" />
-			<div class="name">
+		<Modal v-if="showConfig.showNewUserForm" @close="closeModal">
+			<form id="new-user"
+				:disabled="loading.all"
+				class="modal__content"
+				@submit.prevent="createUser">
+				<h2>{{ t('settings','New user') }}</h2>
 				<input id="newusername"
 					ref="newusername"
 					v-model="newUser.id"
@@ -40,22 +38,20 @@
 					autocapitalize="none"
 					autocomplete="off"
 					autocorrect="off"
+					class="modal__item"
 					name="username"
 					pattern="[a-zA-Z0-9 _\.@\-']+"
 					required
 					type="text">
-				<div class="displayName">
-					<input id="newdisplayname"
-						v-model="newUser.displayName"
-						:placeholder="t('settings', 'Display name')"
-						autocapitalize="none"
-						autocomplete="off"
-						autocorrect="off"
-						name="displayname"
-						type="text">
-				</div>
-			</div>
-			<div class="password">
+				<input id="newdisplayname"
+					v-model="newUser.displayName"
+					:placeholder="t('settings', 'Display name')"
+					autocapitalize="none"
+					autocomplete="off"
+					autocorrect="off"
+					class="modal__item"
+					name="displayname"
+					type="text">
 				<input id="newuserpassword"
 					ref="newuserpassword"
 					v-model="newUser.password"
@@ -65,10 +61,9 @@
 					autocapitalize="none"
 					autocomplete="new-password"
 					autocorrect="off"
+					class="modal__item"
 					name="password"
 					type="password">
-			</div>
-			<div class="mailAddress">
 				<input id="newemail"
 					v-model="newUser.mailAddress"
 					:placeholder="t('settings', 'Email')"
@@ -76,91 +71,86 @@
 					autocapitalize="none"
 					autocomplete="off"
 					autocorrect="off"
+					class="modal__item"
 					name="email"
 					type="email">
-			</div>
-			<div class="groups">
-				<!-- hidden input trick for vanilla html5 form validation -->
-				<input v-if="!settings.isAdmin"
-					id="newgroups"
-					:class="{'icon-loading-small': loading.groups}"
-					:required="!settings.isAdmin"
-					:value="newUser.groups"
-					tabindex="-1"
-					type="text">
-				<Multiselect v-model="newUser.groups"
-					:close-on-select="false"
-					:disabled="loading.groups||loading.all"
-					:multiple="true"
-					:options="canAddGroups"
-					:placeholder="t('settings', 'Add user in group')"
-					:tag-width="60"
-					:taggable="true"
-					class="multiselect-vue"
-					label="name"
-					tag-placeholder="create"
-					track-by="id"
-					@tag="createGroup">
-					<!-- If user is not admin, he is a subadmin.
-						Subadmins can't create users outside their groups
-						Therefore, empty select is forbidden -->
-					<span slot="noResult">{{ t('settings', 'No results') }}</span>
-				</Multiselect>
-			</div>
-			<div v-if="subAdminsGroups.length>0 && settings.isAdmin"
-				class="subadmins">
-				<Multiselect v-model="newUser.subAdminsGroups"
-					:close-on-select="false"
-					:multiple="true"
-					:options="subAdminsGroups"
-					:placeholder="t('settings', 'Set user as admin for')"
-					:tag-width="60"
-					class="multiselect-vue"
-					label="name"
-					track-by="id">
-					<span slot="noResult">{{ t('settings', 'No results') }}</span>
-				</Multiselect>
-			</div>
-			<div class="quota">
-				<Multiselect v-model="newUser.quota"
-					:allow-empty="false"
-					:options="quotaOptions"
-					:placeholder="t('settings', 'Select user quota')"
-					:taggable="true"
-					class="multiselect-vue"
-					label="label"
-					track-by="id"
-					@tag="validateQuota" />
-			</div>
-			<div v-if="showConfig.showLanguages" class="languages">
-				<Multiselect v-model="newUser.language"
-					:allow-empty="false"
-					:options="languages"
-					:placeholder="t('settings', 'Default language')"
-					class="multiselect-vue"
-					group-label="label"
-					group-values="languages"
-					label="name"
-					track-by="code" />
-			</div>
-			<div v-if="showConfig.showStoragePath" class="storageLocation" />
-			<div v-if="showConfig.showUserBackend" class="userBackend" />
-			<div v-if="showConfig.showLastLogin" class="lastLogin" />
-			<div class="userActions">
-				<input id="newsubmit"
-					:title="t('settings', 'Add a new user')"
-					class="button primary icon-checkmark-white has-tooltip"
-					type="submit"
-					value="">
-				<div class="closeButton">
-					<Actions>
-						<ActionButton icon="icon-close" @click="onClose">
-							{{ t('settings', 'Close') }}
-						</ActionButton>
-					</Actions>
+				<div class="groups modal__item">
+					<!-- hidden input trick for vanilla html5 form validation -->
+					<input v-if="!settings.isAdmin"
+						id="newgroups"
+						:class="{'icon-loading-small': loading.groups}"
+						:required="!settings.isAdmin"
+						:value="newUser.groups"
+						tabindex="-1"
+						type="text">
+					<Multiselect v-model="newUser.groups"
+						:close-on-select="false"
+						:disabled="loading.groups||loading.all"
+						:multiple="true"
+						:options="canAddGroups"
+						:placeholder="t('settings', 'Add user to group')"
+						:tag-width="60"
+						:taggable="true"
+						class="multiselect-vue"
+						label="name"
+						tag-placeholder="create"
+						track-by="id"
+						@tag="createGroup">
+						<!-- If user is not admin, he is a subadmin.
+							Subadmins can't create users outside their groups
+							Therefore, empty select is forbidden -->
+						<span slot="noResult">{{ t('settings', 'No results') }}</span>
+					</Multiselect>
 				</div>
-			</div>
-		</form>
+				<div v-if="subAdminsGroups.length>0 && settings.isAdmin"
+					class="subadmins modal__item">
+					<Multiselect v-model="newUser.subAdminsGroups"
+						:close-on-select="false"
+						:multiple="true"
+						:options="subAdminsGroups"
+						:placeholder="t('settings', 'Set user as admin for')"
+						:tag-width="60"
+						class="multiselect-vue"
+						label="name"
+						track-by="id">
+						<span slot="noResult">{{ t('settings', 'No results') }}</span>
+					</Multiselect>
+				</div>
+				<div class="quota modal__item">
+					<Multiselect v-model="newUser.quota"
+						:allow-empty="false"
+						:options="quotaOptions"
+						:placeholder="t('settings', 'Select user quota')"
+						:taggable="true"
+						class="multiselect-vue"
+						label="label"
+						track-by="id"
+						@tag="validateQuota" />
+				</div>
+				<div v-if="showConfig.showLanguages" class="languages modal__item">
+					<Multiselect v-model="newUser.language"
+						:allow-empty="false"
+						:options="languages"
+						:placeholder="t('settings', 'Default language')"
+						class="multiselect-vue"
+						group-label="label"
+						group-values="languages"
+						label="name"
+						track-by="code" />
+				</div>
+				<div v-if="showConfig.showStoragePath" class="storageLocation" />
+				<div v-if="showConfig.showUserBackend" class="userBackend" />
+				<div v-if="showConfig.showLastLogin" class="lastLogin" />
+				<div class="user-actions">
+					<button id="newsubmit"
+						class="button primary"
+						type="submit"
+						value="">
+						{{ t('settings', 'Add a new user') }}
+					</button>
+				</div>
+			</form>
+		</Modal>
 		<div id="grid-header"
 			:class="{'sticky': scrolled && !showConfig.showNewUserForm}"
 			class="row">
@@ -213,8 +203,8 @@
 			<div class="userActions" />
 		</div>
 
-		<user-row v-for="(user, key) in filteredUsers"
-			:key="key"
+		<user-row v-for="user in filteredUsers"
+			:key="user.id"
 			:external-actions="externalActions"
 			:groups="groups"
 			:languages="languages"
@@ -241,10 +231,14 @@
 </template>
 
 <script>
-import userRow from './UserList/UserRow'
-import { Multiselect, Actions, ActionButton } from '@nextcloud/vue'
+import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 import InfiniteLoading from 'vue-infinite-loading'
 import Vue from 'vue'
+import { Modal } from '@nextcloud/vue'
+
+import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
+
+import userRow from './UserList/UserRow'
 
 const unlimitedQuota = {
 	id: 'none',
@@ -271,11 +265,10 @@ const newUser = {
 export default {
 	name: 'UserList',
 	components: {
+		Modal,
 		userRow,
 		Multiselect,
 		InfiniteLoading,
-		Actions,
-		ActionButton,
 	},
 	props: {
 		users: {
@@ -311,6 +304,9 @@ export default {
 	computed: {
 		settings() {
 			return this.$store.getters.getServerData
+		},
+		selectedGroupDecoded() {
+			return decodeURIComponent(this.selectedGroup)
 		},
 		filteredUsers() {
 			if (this.selectedGroup === 'disabled') {
@@ -382,7 +378,7 @@ export default {
 	},
 	watch: {
 		// watch url change and group select
-		selectedGroup: function(val, old) {
+		selectedGroup(val, old) {
 			// if selected is the disabled group but it's empty
 			this.redirectIfDisabled()
 			this.$store.commit('resetUsers')
@@ -392,7 +388,7 @@ export default {
 
 		// make sure the infiniteLoading state is changed if we manually
 		// add/remove data from the store
-		usersCount: function(val, old) {
+		usersCount(val, old) {
 			// deleting the last user, reset the list
 			if (val === 0 && old === 1) {
 				this.$refs.infiniteLoading.stateChanger.reset()
@@ -404,6 +400,7 @@ export default {
 			}
 		},
 	},
+
 	mounted() {
 		if (!this.settings.canChangePassword) {
 			OC.Notification.showTemporary(t('settings', 'Password change is disabled because the master key is disabled'))
@@ -417,13 +414,19 @@ export default {
 		/**
 		 * Register search
 		 */
-		this.userSearch = new OCA.Search(this.search, this.resetSearch)
+		subscribe('nextcloud:unified-search.search', this.search)
+		subscribe('nextcloud:unified-search.reset', this.resetSearch)
 
 		/**
 		 * If disabled group but empty, redirect
 		 */
 		this.redirectIfDisabled()
 	},
+	beforeDestroy() {
+		unsubscribe('nextcloud:unified-search.search', this.search)
+		unsubscribe('nextcloud:unified-search.reset', this.resetSearch)
+	},
+
 	methods: {
 		onScroll(event) {
 			this.scrolled = event.target.scrollTo > 0
@@ -462,13 +465,13 @@ export default {
 		},
 
 		/* SEARCH */
-		search(query) {
+		search({ query }) {
 			this.searchQuery = query
 			this.$store.commit('resetUsers')
 			this.$refs.infiniteLoading.stateChanger.reset()
 		},
 		resetSearch() {
-			this.search('')
+			this.search({ query: '' })
 		},
 
 		resetForm() {
@@ -507,6 +510,7 @@ export default {
 				.then(() => {
 					this.resetForm()
 					this.$refs.newusername.focus()
+					this.closeModal()
 				})
 				.catch((error) => {
 					this.loading.all = false
@@ -569,13 +573,45 @@ export default {
 				this.$refs.infiniteLoading.stateChanger.reset()
 			}
 		},
-		onClose() {
+		closeModal() {
 			this.showConfig.showNewUserForm = false
 		},
 	},
 }
 </script>
 <style scoped>
+	.modal-wrapper {
+		margin: 2vh 0;
+		align-items: flex-start;
+	}
+	.modal__content {
+		display: flex;
+		padding: 20px;
+		flex-direction: column;
+		align-items: center;
+		text-align: center;
+		overflow: auto;
+	}
+	.modal__item {
+		margin-bottom: 16px;
+		width: 100%;
+	}
+	.modal__item:not(:focus):not(:active) {
+		border-color: var(--color-border-dark);
+	}
+	.modal__item::v-deep .multiselect {
+		width: 100%;
+	}
+	.user-actions {
+		margin-top: 20px;
+	}
+	.modal__content::v-deep .multiselect__single {
+		text-align: left;
+		box-sizing: border-box;
+	}
+	.modal__content::v-deep .multiselect__content-wrapper {
+		box-sizing: border-box;
+	}
 	.row::v-deep .multiselect__single {
 		z-index: auto !important;
 	}

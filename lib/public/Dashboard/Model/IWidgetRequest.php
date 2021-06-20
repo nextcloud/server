@@ -5,6 +5,7 @@ declare(strict_types=1);
 /**
  * @copyright 2018, Maxence Lange <maxence@artificial-owl.com>
  *
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Maxence Lange <maxence@artificial-owl.com>
  *
  * @license GNU AGPL version 3 or any later version
@@ -16,16 +17,14 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCP\Dashboard\Model;
-
 
 use OCP\Dashboard\IDashboardWidget;
 
@@ -39,8 +38,8 @@ use OCP\Dashboard\IDashboardWidget;
  * @see IDashboardWidget::requestWidget
  *
  * @since 15.0.0
+ * @deprecated 20.0.0
  *
- * @package OCP\Dashboard\Model
  */
 interface IWidgetRequest {
 
@@ -48,6 +47,7 @@ interface IWidgetRequest {
 	 * Get the widgetId.
 	 *
 	 * @since 15.0.0
+	 * @deprecated 20.0.0
 	 *
 	 * @return string
 	 */
@@ -58,6 +58,7 @@ interface IWidgetRequest {
 	 * Get the WidgetClass.
 	 *
 	 * @since 15.0.0
+	 * @deprecated 20.0.0
 	 *
 	 * @return IDashboardWidget
 	 */
@@ -77,6 +78,7 @@ interface IWidgetRequest {
 	 *    callback);
 	 *
 	 * @since 15.0.0
+	 * @deprecated 20.0.0
 	 *
 	 * @return string
 	 */
@@ -89,6 +91,7 @@ interface IWidgetRequest {
 	 * @see getRequest
 	 *
 	 * @since 15.0.0
+	 * @deprecated 20.0.0
 	 *
 	 * @return string
 	 */
@@ -99,6 +102,7 @@ interface IWidgetRequest {
 	 * Returns the result.
 	 *
 	 * @since 15.0.0
+	 * @deprecated 20.0.0
 	 *
 	 * @return array
 	 */
@@ -109,6 +113,7 @@ interface IWidgetRequest {
 	 * add a result (as string)
 	 *
 	 * @since 15.0.0
+	 * @deprecated 20.0.0
 	 *
 	 * @param string $key
 	 * @param string $result
@@ -121,6 +126,7 @@ interface IWidgetRequest {
 	 * add a result (as array)
 	 *
 	 * @since 15.0.0
+	 * @deprecated 20.0.0
 	 *
 	 * @param string $key
 	 * @param array $result
@@ -128,5 +134,4 @@ interface IWidgetRequest {
 	 * @return $this
 	 */
 	public function addResultArray(string $key, array $result): IWidgetRequest;
-
 }

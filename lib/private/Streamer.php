@@ -3,9 +3,11 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author szaimen <szaimen@e.mail.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Victor Dubiniuk <dubiniuk@owncloud.com>
  *
@@ -24,7 +26,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC;
 
 use OC\Files\Filesystem;
@@ -52,7 +53,7 @@ class Streamer {
 	 * @param int $numberOfFiles The number of files (and directories) that will
 	 *        be included in the streamed file
 	 */
-	public function __construct(IRequest $request, int $size, int $numberOfFiles){
+	public function __construct(IRequest $request, int $size, int $numberOfFiles) {
 
 		/**
 		 * zip32 constraints for a basic (without compression, volumes nor
@@ -75,10 +76,14 @@ class Streamer {
 		 * would still be possible to create an invalid zip32 file (for example,
 		 * a zip file from files smaller than 4GB with a central directory
 		 * larger than 4GiB), but it should not happen in the real world.
+		 *
+		 * We also have to check for a size above 0. As negative sizes could be
+		 * from not fully scanned external storage. And then things fall apart
+		 * if somebody tries to package to much.
 		 */
-		if ($size < 4 * 1000 * 1000 * 1000 && $numberOfFiles < 65536) {
+		if ($size > 0 && $size < 4 * 1000 * 1000 * 1000 && $numberOfFiles < 65536) {
 			$this->streamerInstance = new ZipStreamer(['zip64' => false]);
-		} else if ($request->isUserAgent($this->preferTarFor)) {
+		} elseif ($request->isUserAgent($this->preferTarFor)) {
 			$this->streamerInstance = new TarStreamer();
 		} else {
 			$this->streamerInstance = new ZipStreamer(['zip64' => PHP_INT_SIZE !== 4]);
@@ -89,7 +94,7 @@ class Streamer {
 	 * Send HTTP headers
 	 * @param string $name
 	 */
-	public function sendHeaders($name){
+	public function sendHeaders($name) {
 		$extension = $this->streamerInstance instanceof ZipStreamer ? '.zip' : '.tar';
 		$fullName = $name . $extension;
 		$this->streamerInstance->sendHeaders($fullName);
@@ -117,8 +122,8 @@ class Streamer {
 		$dirNode = $userFolder->get($dir);
 		$files = $dirNode->getDirectoryListing();
 
-		foreach($files as $file) {
-			if($file instanceof File) {
+		foreach ($files as $file) {
+			if ($file instanceof File) {
 				try {
 					$fh = $file->fopen('r');
 				} catch (NotPermittedException $e) {
@@ -132,7 +137,7 @@ class Streamer {
 				);
 				fclose($fh);
 			} elseif ($file instanceof Folder) {
-				if($file->isReadable()) {
+				if ($file->isReadable()) {
 					$this->addDirRecursive($dir . '/' . $file->getName(), $internalDir);
 				}
 			}
@@ -169,7 +174,7 @@ class Streamer {
 	 * @param string $dirName Directory Path and name to be added to the archive.
 	 * @return bool $success
 	 */
-	public function addEmptyDir($dirName){
+	public function addEmptyDir($dirName) {
 		return $this->streamerInstance->addEmptyDir($dirName);
 	}
 
@@ -179,7 +184,7 @@ class Streamer {
 	 * closing, the file is completely written to the output stream.
 	 * @return bool $success
 	 */
-	public function finalize(){
+	public function finalize() {
 		return $this->streamerInstance->finalize();
 	}
 }

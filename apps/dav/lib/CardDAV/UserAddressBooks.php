@@ -5,6 +5,7 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
@@ -24,7 +25,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\CardDAV;
 
 use OCA\DAV\AppInfo\PluginManager;
@@ -61,7 +61,7 @@ class UserAddressBooks extends \Sabre\CardDAV\AddressBookHome {
 	 *
 	 * @return IAddressBook[]
 	 */
-	function getChildren() {
+	public function getChildren() {
 		if ($this->l10n === null) {
 			$this->l10n = \OC::$server->getL10N('dav');
 		}
@@ -71,7 +71,7 @@ class UserAddressBooks extends \Sabre\CardDAV\AddressBookHome {
 
 		$addressBooks = $this->carddavBackend->getAddressBooksForUser($this->principalUri);
 		/** @var IAddressBook[] $objects */
-		$objects = array_map(function(array $addressBook) {
+		$objects = array_map(function (array $addressBook) {
 			if ($addressBook['principaluri'] === 'principals/system/system') {
 				return new SystemAddressbook($this->carddavBackend, $addressBook, $this->l10n, $this->config);
 			}
@@ -79,7 +79,7 @@ class UserAddressBooks extends \Sabre\CardDAV\AddressBookHome {
 			return new AddressBook($this->carddavBackend, $addressBook, $this->l10n);
 		}, $addressBooks);
 		/** @var IAddressBook[][] $objectsFromPlugins */
-		$objectsFromPlugins = array_map(function(IAddressBookProvider $plugin): array {
+		$objectsFromPlugins = array_map(function (IAddressBookProvider $plugin): array {
 			return $plugin->fetchAllForAddressBookHome($this->principalUri);
 		}, $this->pluginManager->getAddressBookPlugins());
 
@@ -106,8 +106,7 @@ class UserAddressBooks extends \Sabre\CardDAV\AddressBookHome {
 	 *
 	 * @return array
 	 */
-	function getACL() {
-
+	public function getACL() {
 		$acl = parent::getACL();
 		if ($this->principalUri === 'principals/system/system') {
 			$acl[] = [
@@ -119,5 +118,4 @@ class UserAddressBooks extends \Sabre\CardDAV\AddressBookHome {
 
 		return $acl;
 	}
-
 }

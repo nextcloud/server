@@ -27,7 +27,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Authentication\Token;
 
 use OCP\AppFramework\Db\DoesNotExistException;
@@ -35,8 +34,10 @@ use OCP\AppFramework\Db\QBMapper;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 
+/**
+ * @template-extends QBMapper<DefaultToken>
+ */
 class DefaultTokenMapper extends QBMapper {
-
 	public function __construct(IDBConnection $db) {
 		parent::__construct($db, 'authtoken');
 	}
@@ -168,5 +169,4 @@ class DefaultTokenMapper extends QBMapper {
 			->andWhere($qb->expr()->eq('version', $qb->createNamedParameter(DefaultToken::VERSION, IQueryBuilder::PARAM_INT)));
 		$qb->execute();
 	}
-
 }

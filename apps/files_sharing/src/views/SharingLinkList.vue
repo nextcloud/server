@@ -77,7 +77,7 @@ export default {
 
 	data() {
 		return {
-			canLinkShare: OC.getCapabilities()['files_sharing']['public']['enabled'],
+			canLinkShare: OC.getCapabilities().files_sharing.public.enabled,
 		}
 	},
 

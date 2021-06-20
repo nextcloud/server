@@ -20,18 +20,15 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Authentication\Token;
 
 use OC;
 use OC\BackgroundJob\Job;
 
 class DefaultTokenCleanupJob extends Job {
-
 	protected function run($argument) {
 		/* @var $provider IProvider */
 		$provider = OC::$server->query(IProvider::class);
 		$provider->invalidateOldTokens();
 	}
-
 }

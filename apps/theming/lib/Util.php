@@ -2,12 +2,13 @@
 /**
  * @copyright Copyright (c) 2016 Julius Härtl <jus@bitgrid.net>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Julien Veyssier <eneiluj@posteo.net>
  * @author Julius Haertl <jus@bitgrid.net>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Michael Weimann <mail@michael-weimann.eu>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -18,14 +19,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Theming;
 
 use OCP\App\AppPathNotFoundException;
@@ -66,7 +66,7 @@ class Util {
 	 */
 	public function invertTextColor($color) {
 		$l = $this->calculateLuma($color);
-		if($l>0.6) {
+		if ($l > 0.6) {
 			return true;
 		} else {
 			return false;
@@ -76,14 +76,23 @@ class Util {
 	/**
 	 * get color for on-page elements:
 	 * theme color by default, grey if theme color is to bright
-	 * @param $color
+	 * @param string $color
+	 * @param bool $brightBackground
 	 * @return string
 	 */
-	public function elementColor($color) {
-		$l = $this->calculateLuminance($color);
-		if($l>0.8) {
+	public function elementColor($color, bool $brightBackground = true) {
+		$luminance = $this->calculateLuminance($color);
+
+		if ($brightBackground && $luminance > 0.8) {
+			// If the color is too bright in bright mode, we fall back to a darker gray
 			return '#aaaaaa';
 		}
+
+		if (!$brightBackground && $luminance < 0.2) {
+			// If the color is too dark in dark mode, we fall back to a brighter gray
+			return '#555555';
+		}
+
 		return $color;
 	}
 
@@ -92,10 +101,10 @@ class Util {
 	 * @return float
 	 */
 	public function calculateLuminance($color) {
-		list($red, $green, $blue) = $this->hexToRGB($color);
+		[$red, $green, $blue] = $this->hexToRGB($color);
 		$compiler = new Compiler();
 		$hsl = $compiler->toHSL($red, $green, $blue);
-		return $hsl[3]/100;
+		return $hsl[3] / 100;
 	}
 
 	/**
@@ -103,8 +112,8 @@ class Util {
 	 * @return float
 	 */
 	public function calculateLuma($color) {
-		list($red, $green, $blue) = $this->hexToRGB($color);
-		return (0.2126 * $red  + 0.7152 * $green + 0.0722 * $blue) / 255;
+		[$red, $green, $blue] = $this->hexToRGB($color);
+		return (0.2126 * $red + 0.7152 * $green + 0.0722 * $blue) / 255;
 	}
 
 	/**
@@ -153,7 +162,8 @@ class Util {
 			if (file_exists($icon)) {
 				return $icon;
 			}
-		} catch (AppPathNotFoundException $e) {}
+		} catch (AppPathNotFoundException $e) {
+		}
 
 		if ($this->config->getAppValue('theming', 'logoMime', '') !== '') {
 			$logoFile = null;
@@ -162,7 +172,8 @@ class Util {
 				if ($folder !== null) {
 					return $folder->getFile('logo');
 				}
-			} catch (NotFoundException $e) {}
+			} catch (NotFoundException $e) {
+			}
 		}
 		return \OC::$SERVERROOT . '/core/img/logo/logo.svg';
 	}
@@ -238,15 +249,7 @@ class Util {
 	}
 
 	public function isBackgroundThemed() {
-		$backgroundLogo = $this->config->getAppValue('theming', 'backgroundMime',false);
-
-		$backgroundExists = true;
-		try {
-			$this->appData->getFolder('images')->getFile('background');
-		} catch (\Exception $e) {
-			$backgroundExists = false;
-		}
-		return $backgroundLogo && $backgroundLogo !== 'backgroundColor' && $backgroundExists;
+		$backgroundLogo = $this->config->getAppValue('theming', 'backgroundMime', '');
+		return $backgroundLogo !== '' && $backgroundLogo !== 'backgroundColor';
 	}
-
 }

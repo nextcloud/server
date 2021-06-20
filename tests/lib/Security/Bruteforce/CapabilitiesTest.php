@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2017 Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -30,18 +33,16 @@ class CapabilitiesTest extends TestCase {
 	/** @var Capabilities */
 	private $capabilities;
 
-	/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
 	private $request;
 
-	/** @var Throttler|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var Throttler|\PHPUnit\Framework\MockObject\MockObject */
 	private $throttler;
 
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->request = $this->createMock(IRequest::class);
-		$this->request->method('getRemoteAddress')
-			->willReturn('10.10.10.10');
 
 		$this->throttler = $this->createMock(Throttler::class);
 
@@ -57,9 +58,31 @@ class CapabilitiesTest extends TestCase {
 			->with('10.10.10.10')
 			->willReturn(42);
 
+		$this->request->method('getRemoteAddress')
+			->willReturn('10.10.10.10');
+
 		$expected = [
 			'bruteforce' => [
 				'delay' => 42
+			]
+		];
+		$result = $this->capabilities->getCapabilities();
+
+		$this->assertEquals($expected, $result);
+	}
+
+	public function testGetCapabilitiesOnCli() {
+		$this->throttler->expects($this->atLeastOnce())
+			->method('getDelay')
+			->with('')
+			->willReturn(0);
+
+		$this->request->method('getRemoteAddress')
+			->willReturn('');
+
+		$expected = [
+			'bruteforce' => [
+				'delay' => 0
 			]
 		];
 		$result = $this->capabilities->getCapabilities();

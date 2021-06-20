@@ -4,6 +4,7 @@
  *
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -24,7 +25,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Encryption;
 
 use OC\Encryption\Exceptions\EncryptionHeaderKeyExistsException;
@@ -32,17 +32,18 @@ use OC\Encryption\Exceptions\EncryptionHeaderToLargeException;
 use OC\Encryption\Exceptions\ModuleDoesNotExistsException;
 use OC\Files\Filesystem;
 use OC\Files\View;
+use OCA\Files_External\Lib\StorageConfig;
+use OCA\Files_External\Service\GlobalStoragesService;
 use OCP\Encryption\IEncryptionModule;
 use OCP\IConfig;
 use OCP\IUser;
 
 class Util {
+	public const HEADER_START = 'HBEGIN';
+	public const HEADER_END = 'HEND';
+	public const HEADER_PADDING_CHAR = '-';
 
-	const HEADER_START = 'HBEGIN';
-	const HEADER_END = 'HEND';
-	const HEADER_PADDING_CHAR = '-';
-
-	const HEADER_ENCRYPTION_MODULE_KEY = 'oc_encryption_module';
+	public const HEADER_ENCRYPTION_MODULE_KEY = 'oc_encryption_module';
 
 	/**
 	 * block size will always be 8192 for a PHP stream
@@ -88,7 +89,6 @@ class Util {
 		\OC\User\Manager $userManager,
 		\OC\Group\Manager $groupManager,
 		IConfig $config) {
-
 		$this->ocHeaderKeys = [
 			self::HEADER_ENCRYPTION_MODULE_KEY
 		];
@@ -175,10 +175,9 @@ class Util {
 				if ($c->getType() === 'dir') {
 					$dirList[] = $c->getPath();
 				} else {
-					$result[] =  $c->getPath();
+					$result[] = $c->getPath();
 				}
 			}
-
 		}
 
 		return $result;
@@ -225,7 +224,6 @@ class Util {
 	 * @throws \BadMethodCallException
 	 */
 	public function getUidAndFilename($path) {
-
 		$parts = explode('/', $path);
 		$uid = '';
 		if (count($parts) > 2) {
@@ -240,7 +238,6 @@ class Util {
 		$ownerPath = implode('/', array_slice($parts, 2));
 
 		return [$uid, Filesystem::normalizePath($ownerPath)];
-
 	}
 
 	/**
@@ -252,19 +249,17 @@ class Util {
 	public function stripPartialFileExtension($path) {
 		$extension = pathinfo($path, PATHINFO_EXTENSION);
 
-		if ( $extension === 'part') {
-
+		if ($extension === 'part') {
 			$newLength = strlen($path) - 5; // 5 = strlen(".part")
 			$fPath = substr($path, 0, $newLength);
 
 			// if path also contains a transaction id, we remove it too
 			$extension = pathinfo($fPath, PATHINFO_EXTENSION);
-			if(substr($extension, 0, 12) === 'ocTransferId') { // 12 = strlen("ocTransferId")
-				$newLength = strlen($fPath) - strlen($extension) -1;
+			if (substr($extension, 0, 12) === 'ocTransferId') { // 12 = strlen("ocTransferId")
+				$newLength = strlen($fPath) - strlen($extension) - 1;
 				$fPath = substr($fPath, 0, $newLength);
 			}
 			return $fPath;
-
 		} else {
 			return $path;
 		}
@@ -272,9 +267,9 @@ class Util {
 
 	public function getUserWithAccessToMountPoint($users, $groups) {
 		$result = [];
-		if (in_array('all', $users)) {
+		if ($users === [] && $groups === []) {
 			$users = $this->userManager->search('', null, null);
-			$result = array_map(function(IUser $user) {
+			$result = array_map(function (IUser $user) {
 				return $user->getUID();
 			}, $users);
 		} else {
@@ -305,10 +300,12 @@ class Util {
 	 */
 	public function isSystemWideMountPoint($path, $uid) {
 		if (\OCP\App::isEnabled("files_external")) {
-			$mounts = \OC_Mount_Config::getSystemMountPoints();
-			foreach ($mounts as $mount) {
-				if (strpos($path, '/files/' . $mount['mountpoint']) === 0) {
-					if ($this->isMountPointApplicableToUser($mount, $uid)) {
+			/** @var GlobalStoragesService $storageService */
+			$storageService = \OC::$server->get(GlobalStoragesService::class);
+			$storages = $storageService->getAllStorages();
+			foreach ($storages as $storage) {
+				if (strpos($path, '/files/' . $storage->getMountPoint()) === 0) {
+					if ($this->isMountPointApplicableToUser($storage, $uid)) {
 						return true;
 					}
 				}
@@ -320,19 +317,21 @@ class Util {
 	/**
 	 * check if mount point is applicable to user
 	 *
-	 * @param array $mount contains $mount['applicable']['users'], $mount['applicable']['groups']
+	 * @param StorageConfig $mount
 	 * @param string $uid
 	 * @return boolean
 	 */
-	private function isMountPointApplicableToUser($mount, $uid) {
-		$acceptedUids = ['all', $uid];
+	private function isMountPointApplicableToUser(StorageConfig $mount, string $uid) {
+		if ($mount->getApplicableUsers() === [] && $mount->getApplicableGroups() === []) {
+			// applicable for everyone
+			return true;
+		}
 		// check if mount point is applicable for the user
-		$intersection = array_intersect($acceptedUids, $mount['applicable']['users']);
-		if (!empty($intersection)) {
+		if (array_search($uid, $mount->getApplicableUsers()) !== false) {
 			return true;
 		}
 		// check if mount point is applicable for group where the user is a member
-		foreach ($mount['applicable']['groups'] as $gid) {
+		foreach ($mount->getApplicableGroups() as $gid) {
 			if ($this->groupManager->isInGroup($uid, $gid)) {
 				return true;
 			}
@@ -371,7 +370,6 @@ class Util {
 			// detect user specific folders
 			if ($this->userManager->userExists($root[1])
 				&& in_array($root[2], $this->excludedPaths)) {
-
 				return true;
 			}
 		}
@@ -407,5 +405,4 @@ class Util {
 	public function getKeyStorageRoot() {
 		return $this->config->getAppValue('core', 'encryption_key_storage_root', '');
 	}
-
 }

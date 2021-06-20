@@ -3,12 +3,12 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Juan Pablo Villafáñez <jvillafanez@solidgear.es>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Roger Szabo <roger.szabo@web.de>
- * @author sidey79 <s.butzek@gmx.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @license AGPL-3.0
@@ -26,7 +26,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\User_LDAP\Tests\User;
 
 use OCA\User_LDAP\Access;
@@ -51,28 +50,28 @@ use OCP\Notification\INotification;
  * @package OCA\User_LDAP\Tests\User
  */
 class UserTest extends \Test\TestCase {
-	/** @var  Access|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var  Access|\PHPUnit\Framework\MockObject\MockObject */
 	protected $access;
-	/** @var  Connection|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var  Connection|\PHPUnit\Framework\MockObject\MockObject */
 	protected $connection;
-	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	protected $config;
-	/** @var FilesystemHelper|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var FilesystemHelper|\PHPUnit\Framework\MockObject\MockObject */
 	protected $filesystemhelper;
-	/** @var INotificationManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var INotificationManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $notificationManager;
-	/** @var IUserManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $userManager;
-	/** @var Image|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var Image|\PHPUnit\Framework\MockObject\MockObject */
 	protected $image;
-	/** @var IAvatarManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IAvatarManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $avatarManager;
-	/** @var LogWrapper|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var LogWrapper|\PHPUnit\Framework\MockObject\MockObject */
 	protected $log;
 	/** @var string */
 	protected $uid = 'alice';
 	/** @var string */
-	protected $dn  = 'uid=alice,dc=foo,dc=bar';
+	protected $dn = 'uid=alice,dc=foo,dc=bar';
 	/** @var User */
 	protected $user;
 
@@ -605,14 +604,12 @@ class UserTest extends \Test\TestCase {
 	public function XtestUpdateAvatarThumbnailPhotoProvided() {
 		$this->access->expects($this->any())
 			->method('readAttribute')
-			->willReturnCallback(function($dn, $attr) {
-				if($dn === $this->dn
-					&& $attr === 'jpegphoto')
-				{
+			->willReturnCallback(function ($dn, $attr) {
+				if ($dn === $this->dn
+					&& $attr === 'jpegphoto') {
 					return false;
-				} elseif($dn === $this->dn
-					&& $attr === 'thumbnailphoto')
-				{
+				} elseif ($dn === $this->dn
+					&& $attr === 'thumbnailphoto') {
 					return ['this is a photo'];
 				}
 				return null;
@@ -670,14 +667,12 @@ class UserTest extends \Test\TestCase {
 	public function testUpdateAvatarCorruptPhotoProvided() {
 		$this->access->expects($this->any())
 			->method('readAttribute')
-			->willReturnCallback(function($dn, $attr) {
-				if($dn === $this->dn
-					&& $attr === 'jpegphoto')
-				{
+			->willReturnCallback(function ($dn, $attr) {
+				if ($dn === $this->dn
+					&& $attr === 'jpegphoto') {
 					return false;
-				} elseif($dn === $this->dn
-					&& $attr === 'thumbnailphoto')
-				{
+				} elseif ($dn === $this->dn
+					&& $attr === 'thumbnailphoto') {
 					return ['this is a photo'];
 				}
 				return null;
@@ -723,14 +718,12 @@ class UserTest extends \Test\TestCase {
 	public function XtestUpdateAvatarUnsupportedThumbnailPhotoProvided() {
 		$this->access->expects($this->any())
 			->method('readAttribute')
-			->willReturnCallback(function($dn, $attr) {
-				if($dn === $this->dn
-					&& $attr === 'jpegphoto')
-				{
+			->willReturnCallback(function ($dn, $attr) {
+				if ($dn === $this->dn
+					&& $attr === 'jpegphoto') {
 					return false;
-				} elseif($dn === $this->dn
-					&& $attr === 'thumbnailphoto')
-				{
+				} elseif ($dn === $this->dn
+					&& $attr === 'thumbnailphoto') {
 					return ['this is a photo'];
 				}
 				return null;
@@ -788,14 +781,12 @@ class UserTest extends \Test\TestCase {
 	public function testUpdateAvatarNotProvided() {
 		$this->access->expects($this->any())
 			->method('readAttribute')
-			->willReturnCallback(function($dn, $attr) {
-				if($dn === $this->dn
-					&& $attr === 'jpegPhoto')
-				{
+			->willReturnCallback(function ($dn, $attr) {
+				if ($dn === $this->dn
+					&& $attr === 'jpegPhoto') {
 					return false;
-				} elseif($dn === $this->dn
-					&& $attr === 'thumbnailPhoto')
-				{
+				} elseif ($dn === $this->dn
+					&& $attr === 'thumbnailPhoto') {
 					return false;
 				}
 				return null;
@@ -831,57 +822,6 @@ class UserTest extends \Test\TestCase {
 		$this->user->updateAvatar();
 	}
 
-	public function testUpdateBeforeFirstLogin() {
-		$this->config->expects($this->at(0))
-			->method('getUserValue')
-			->with($this->equalTo($this->uid), $this->equalTo('user_ldap'),
-				$this->equalTo(User::USER_PREFKEY_FIRSTLOGIN),
-				$this->equalTo(0))
-			->willReturn(0);
-		$this->config->expects($this->at(1))
-			->method('getUserValue')
-			->with($this->equalTo($this->uid), $this->equalTo('user_ldap'),
-				$this->equalTo(User::USER_PREFKEY_LASTREFRESH),
-				$this->equalTo(0))
-			->willReturn(0);
-		$this->config->expects($this->exactly(2))
-			->method('getUserValue');
-		$this->config->expects($this->never())
-			->method('setUserValue');
-
-		$this->user->update();
-	}
-
-	public function testUpdateAfterFirstLogin() {
-		$this->config->expects($this->at(0))
-			->method('getUserValue')
-			->with($this->equalTo($this->uid), $this->equalTo('user_ldap'),
-				$this->equalTo(User::USER_PREFKEY_FIRSTLOGIN),
-				$this->equalTo(0))
-			->willReturn(1);
-		$this->config->expects($this->at(1))
-			->method('getUserValue')
-			->with($this->equalTo($this->uid), $this->equalTo('user_ldap'),
-				$this->equalTo(User::USER_PREFKEY_LASTREFRESH),
-				$this->equalTo(0))
-			->willReturn(0);
-		$this->config->expects($this->exactly(2))
-			->method('getUserValue');
-		$this->config->expects($this->once())
-			->method('setUserValue')
-			->with($this->equalTo($this->uid), $this->equalTo('user_ldap'),
-				$this->equalTo(User::USER_PREFKEY_LASTREFRESH),
-				$this->anything())
-			->willReturn(true);
-
-		$this->connection->expects($this->any())
-			->method('resolveRule')
-			->with('avatar')
-			->willReturn(['jpegphoto', 'thumbnailphoto']);
-
-		$this->user->update();
-	}
-
 	public function extStorageHomeDataProvider() {
 		return [
 			[ 'myFolder', null ],
@@ -894,7 +834,7 @@ class UserTest extends \Test\TestCase {
 	 * @dataProvider extStorageHomeDataProvider
 	 */
 	public function testUpdateExtStorageHome(string $expected, string $valueFromLDAP = null, bool $isSet = true) {
-		if($valueFromLDAP === null) {
+		if ($valueFromLDAP === null) {
 			$this->connection->expects($this->once())
 				->method('__get')
 				->willReturnMap([
@@ -902,7 +842,7 @@ class UserTest extends \Test\TestCase {
 				]);
 
 			$return = [];
-			if($isSet) {
+			if ($isSet) {
 				$return[] = $expected;
 			}
 			$this->access->expects($this->once())
@@ -911,7 +851,7 @@ class UserTest extends \Test\TestCase {
 				->willReturn($return);
 		}
 
-		if($expected !== '') {
+		if ($expected !== '') {
 			$this->config->expects($this->once())
 				->method('setUserValue')
 				->with($this->uid, 'user_ldap', 'extStorageHome', $expected);
@@ -923,34 +863,6 @@ class UserTest extends \Test\TestCase {
 
 		$actual = $this->user->updateExtStorageHome($valueFromLDAP);
 		$this->assertSame($expected, $actual);
-
-	}
-
-	public function testUpdateNoRefresh() {
-		$this->config->expects($this->at(0))
-			->method('getUserValue')
-			->with($this->equalTo($this->uid), $this->equalTo('user_ldap'),
-				$this->equalTo(User::USER_PREFKEY_FIRSTLOGIN),
-				$this->equalTo(0))
-			->willReturn(1);
-		$this->config->expects($this->at(1))
-			->method('getUserValue')
-			->with($this->equalTo($this->uid), $this->equalTo('user_ldap'),
-				$this->equalTo(User::USER_PREFKEY_LASTREFRESH),
-				$this->equalTo(0))
-			->willReturn(time() - 10);
-		$this->config->expects($this->once())
-			->method('getAppValue')
-			->with($this->equalTo('user_ldap'),
-				$this->equalTo('updateAttributesInterval'),
-				$this->anything())
-			->willReturn(1800);
-		$this->config->expects($this->exactly(2))
-			->method('getUserValue');
-		$this->config->expects($this->never())
-			->method('setUserValue');
-
-		$this->user->update();
 	}
 
 	public function testMarkLogin() {
@@ -1005,7 +917,6 @@ class UserTest extends \Test\TestCase {
 
 	public function testProcessAttributes() {
 		$requiredMethods = [
-			'markRefreshTime',
 			'updateQuota',
 			'updateEmail',
 			'composeAndStoreDisplayName',
@@ -1015,7 +926,7 @@ class UserTest extends \Test\TestCase {
 			'updateExtStorageHome',
 		];
 
-		/** @var User|\PHPUnit_Framework_MockObject_MockObject $userMock */
+		/** @var User|\PHPUnit\Framework\MockObject\MockObject $userMock */
 		$userMock = $this->getMockBuilder(User::class)
 			->setConstructorArgs([
 				$this->uid,
@@ -1037,8 +948,8 @@ class UserTest extends \Test\TestCase {
 		]);
 		$this->connection->expects($this->any())
 			->method('__get')
-			->willReturnCallback(function($name) {
-				if($name === 'homeFolderNamingRule') {
+			->willReturnCallback(function ($name) {
+				if ($name === 'homeFolderNamingRule') {
 					return 'attr:homeDirectory';
 				}
 				return $name;
@@ -1059,7 +970,7 @@ class UserTest extends \Test\TestCase {
 			'jpegphoto' => ['here be an image']
 		];
 
-		foreach($requiredMethods as $method) {
+		foreach ($requiredMethods as $method) {
 			$userMock->expects($this->once())
 				->method($method);
 		}
@@ -1192,11 +1103,11 @@ class UserTest extends \Test\TestCase {
 	public function testHandlePasswordExpiryWarningDefaultPolicy() {
 		$this->connection->expects($this->any())
 			->method('__get')
-			->willReturnCallback(function($name) {
-				if($name === 'ldapDefaultPPolicyDN') {
+			->willReturnCallback(function ($name) {
+				if ($name === 'ldapDefaultPPolicyDN') {
 					return 'cn=default,ou=policies,dc=foo,dc=bar';
 				}
-				if($name === 'turnOnPasswordChange') {
+				if ($name === 'turnOnPasswordChange') {
 					return '1';
 				}
 				return $name;
@@ -1204,8 +1115,8 @@ class UserTest extends \Test\TestCase {
 
 		$this->access->expects($this->any())
 			->method('search')
-			->willReturnCallback(function($filter, $base) {
-				if($base === [$this->dn]) {
+			->willReturnCallback(function ($filter, $base) {
+				if ($base === $this->dn) {
 					return [
 						[
 							'pwdchangedtime' => [(new \DateTime())->sub(new \DateInterval('P28D'))->format('Ymdhis').'Z'],
@@ -1213,7 +1124,7 @@ class UserTest extends \Test\TestCase {
 						],
 					];
 				}
-				if($base === ['cn=default,ou=policies,dc=foo,dc=bar']) {
+				if ($base === 'cn=default,ou=policies,dc=foo,dc=bar') {
 					return [
 						[
 							'pwdmaxage' => ['2592000'],
@@ -1255,11 +1166,11 @@ class UserTest extends \Test\TestCase {
 	public function testHandlePasswordExpiryWarningCustomPolicy() {
 		$this->connection->expects($this->any())
 			->method('__get')
-			->willReturnCallback(function($name) {
-				if($name === 'ldapDefaultPPolicyDN') {
+			->willReturnCallback(function ($name) {
+				if ($name === 'ldapDefaultPPolicyDN') {
 					return 'cn=default,ou=policies,dc=foo,dc=bar';
 				}
-				if($name === 'turnOnPasswordChange') {
+				if ($name === 'turnOnPasswordChange') {
 					return '1';
 				}
 				return $name;
@@ -1267,8 +1178,8 @@ class UserTest extends \Test\TestCase {
 
 		$this->access->expects($this->any())
 			->method('search')
-			->willReturnCallback(function($filter, $base) {
-				if($base === [$this->dn]) {
+			->willReturnCallback(function ($filter, $base) {
+				if ($base === $this->dn) {
 					return [
 						[
 							'pwdpolicysubentry' => ['cn=custom,ou=policies,dc=foo,dc=bar'],
@@ -1277,7 +1188,7 @@ class UserTest extends \Test\TestCase {
 						]
 					];
 				}
-				if($base === ['cn=custom,ou=policies,dc=foo,dc=bar']) {
+				if ($base === 'cn=custom,ou=policies,dc=foo,dc=bar') {
 					return [
 						[
 							'pwdmaxage' => ['2592000'],

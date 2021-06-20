@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2017, ownCloud GmbH
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
@@ -20,18 +21,17 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\DB;
 
 use OCP\IDBConnection;
 
 /**
-* Various MySQL specific helper functions.
-*/
+ * Various MySQL specific helper functions.
+ */
 class MySqlTools {
 
 	/**
-	 * @param Connection $connection
+	 * @param IDBConnection $connection
 	 * @return bool
 	 */
 	public function supports4ByteCharset(IDBConnection $connection) {

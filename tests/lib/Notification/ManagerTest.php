@@ -21,6 +21,9 @@
 
 namespace Test\Notification;
 
+use OC\AppFramework\Bootstrap\Coordinator;
+use OC\AppFramework\Bootstrap\RegistrationContext;
+use OC\AppFramework\Bootstrap\ServiceRegistration;
 use OC\Notification\Manager;
 use OCP\ILogger;
 use OCP\Notification\IManager;
@@ -37,16 +40,26 @@ class ManagerTest extends TestCase {
 	protected $validator;
 	/** @var ILogger|MockObject */
 	protected $logger;
+	/** @var Coordinator|MockObject */
+	protected $coordinator;
+	/** @var RegistrationContext|MockObject */
+	protected $registrationContext;
 
 	protected function setUp(): void {
 		parent::setUp();
+
 		$this->validator = $this->createMock(IValidator::class);
 		$this->logger = $this->createMock(ILogger::class);
-		$this->manager = new Manager($this->validator, $this->logger);
+
+		$this->registrationContext = $this->createMock(RegistrationContext::class);
+		$this->coordinator = $this->createMock(Coordinator::class);
+		$this->coordinator->method('getRegistrationContext')
+			->willReturn($this->registrationContext);
+
+		$this->manager = new Manager($this->validator, $this->logger, $this->coordinator);
 	}
 
 	public function testRegisterApp() {
-
 		$this->assertEquals([], self::invokePrivate($this->manager, 'getApps'));
 
 		$this->manager->registerApp(DummyApp::class);
@@ -80,6 +93,16 @@ class ManagerTest extends TestCase {
 		$this->assertCount(2, self::invokePrivate($this->manager, 'getNotifiers'));
 	}
 
+	public function testRegisterNotifierBootstrap() {
+		$this->registrationContext->method('getNotifierServices')
+			->willReturn([
+				new ServiceRegistration('app', DummyNotifier::class),
+			]);
+
+		$this->assertCount(1, self::invokePrivate($this->manager, 'getNotifiers'));
+		$this->assertCount(1, self::invokePrivate($this->manager, 'getNotifiers'));
+	}
+
 	public function testRegisterNotifierInvalid() {
 		$this->manager->registerNotifierService(DummyApp::class);
 
@@ -94,7 +117,7 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testNotify() {
-		/** @var \OCP\Notification\INotification|\PHPUnit_Framework_MockObject_MockObject $notification */
+		/** @var \OCP\Notification\INotification|\PHPUnit\Framework\MockObject\MockObject $notification */
 		$notification = $this->getMockBuilder(INotification::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -106,6 +129,7 @@ class ManagerTest extends TestCase {
 			->setConstructorArgs([
 				$this->validator,
 				$this->logger,
+				$this->coordinator,
 			])
 			->setMethods(['getApps'])
 			->getMock();
@@ -117,11 +141,11 @@ class ManagerTest extends TestCase {
 		$manager->notify($notification);
 	}
 
-	
+
 	public function testNotifyInvalid() {
 		$this->expectException(\InvalidArgumentException::class);
 
-		/** @var \OCP\Notification\INotification|\PHPUnit_Framework_MockObject_MockObject $notification */
+		/** @var \OCP\Notification\INotification|\PHPUnit\Framework\MockObject\MockObject $notification */
 		$notification = $this->getMockBuilder(INotification::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -133,6 +157,7 @@ class ManagerTest extends TestCase {
 			->setConstructorArgs([
 				$this->validator,
 				$this->logger,
+				$this->coordinator,
 			])
 			->setMethods(['getApps'])
 			->getMock();
@@ -144,7 +169,7 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testMarkProcessed() {
-		/** @var \OCP\Notification\INotification|\PHPUnit_Framework_MockObject_MockObject $notification */
+		/** @var \OCP\Notification\INotification|\PHPUnit\Framework\MockObject\MockObject $notification */
 		$notification = $this->getMockBuilder(INotification::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -153,6 +178,7 @@ class ManagerTest extends TestCase {
 			->setConstructorArgs([
 				$this->validator,
 				$this->logger,
+				$this->coordinator,
 			])
 			->setMethods(['getApps'])
 			->getMock();
@@ -165,7 +191,7 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testGetCount() {
-		/** @var \OCP\Notification\INotification|\PHPUnit_Framework_MockObject_MockObject $notification */
+		/** @var \OCP\Notification\INotification|\PHPUnit\Framework\MockObject\MockObject $notification */
 		$notification = $this->getMockBuilder(INotification::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -174,6 +200,7 @@ class ManagerTest extends TestCase {
 			->setConstructorArgs([
 				$this->validator,
 				$this->logger,
+				$this->coordinator,
 			])
 			->setMethods(['getApps'])
 			->getMock();

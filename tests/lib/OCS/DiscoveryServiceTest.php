@@ -21,7 +21,6 @@
 
 namespace Test\OCS;
 
-
 use OC\OCS\DiscoveryService;
 use OCP\Http\Client\IClientService;
 use OCP\ICacheFactory;
@@ -30,10 +29,10 @@ use Test\TestCase;
 
 class DiscoveryServiceTest extends TestCase {
 
-	/** @var  \PHPUnit_Framework_MockObject_MockObject | ICacheFactory */
+	/** @var  \PHPUnit\Framework\MockObject\MockObject | ICacheFactory */
 	private $cacheFactory;
 
-	/** @var  \PHPUnit_Framework_MockObject_MockObject | IClientService */
+	/** @var  \PHPUnit\Framework\MockObject\MockObject | IClientService */
 	private $clientService;
 
 	/** @var  IDiscoveryService */
@@ -94,5 +93,4 @@ class DiscoveryServiceTest extends TestCase {
 			[['services' => ['myService' => ['endpoints' => ['foo' => '/bar</foo']]]], 'myService', []],
 		];
 	}
-
 }

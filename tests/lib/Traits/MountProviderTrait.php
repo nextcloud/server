@@ -33,6 +33,12 @@ trait MountProviderTrait {
 			$this->mounts[$userId] = [];
 		}
 		$this->mounts[$userId][] = ['storage' => $storage, 'mountPoint' => $mountPoint, 'arguments' => $arguments];
+
+		if ($this->IsDatabaseAccessAllowed()) {
+			$mount = new MountPoint($storage, $mountPoint, $arguments, $this->storageFactory);
+			$storage = $mount->getStorage();
+			$storage->getScanner()->scan('');
+		}
 	}
 
 	protected function registerStorageWrapper($name, $wrapper) {

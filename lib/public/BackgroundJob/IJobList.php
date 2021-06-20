@@ -23,7 +23,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\BackgroundJob;
 
 /**
@@ -42,7 +41,6 @@ namespace OCP\BackgroundJob;
  * be specified in the constructor of the job by calling
  * $this->setInterval($interval) with $interval in seconds.
  *
- * @package OCP\BackgroundJob
  * @since 7.0.0
  */
 interface IJobList {
@@ -114,17 +112,6 @@ interface IJobList {
 	 * @since 9.1.0
 	 */
 	public function unlockJob(IJob $job);
-
-	/**
-	 * get the id of the last ran job
-	 *
-	 * @return int
-	 * @since 7.0.0
-	 * @deprecated 9.1.0 - The functionality behind the value is deprecated, it
-	 *    only tells you which job finished last, but since we now allow multiple
-	 *    executors to run in parallel, it's not used to calculate the next job.
-	 */
-	public function getLastJob();
 
 	/**
 	 * set the lastRun of $job to now

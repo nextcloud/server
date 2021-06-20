@@ -39,10 +39,10 @@ use Test\TestCase;
 
 class CssControllerTest extends TestCase {
 
-	/** @var IAppData|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IAppData|\PHPUnit\Framework\MockObject\MockObject */
 	private $appData;
 
-	/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
 	private $request;
 
 	/** @var CssController */
@@ -51,7 +51,7 @@ class CssControllerTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		/** @var Factory|\PHPUnit_Framework_MockObject_MockObject $factory */
+		/** @var Factory|\PHPUnit\Framework\MockObject\MockObject $factory */
 		$factory = $this->createMock(Factory::class);
 		$this->appData = $this->createMock(AppData::class);
 		$factory->expects($this->once())
@@ -59,7 +59,7 @@ class CssControllerTest extends TestCase {
 			->with('css')
 			->willReturn($this->appData);
 
-		/** @var ITimeFactory|\PHPUnit_Framework_MockObject_MockObject $timeFactory */
+		/** @var ITimeFactory|\PHPUnit\Framework\MockObject\MockObject $timeFactory */
 		$timeFactory = $this->createMock(ITimeFactory::class);
 		$timeFactory->method('getTime')
 			->willReturn(1337);
@@ -159,7 +159,7 @@ class CssControllerTest extends TestCase {
 
 		$folder->method('getFile')
 			->willReturnCallback(
-				function($fileName) use ($file) {
+				function ($fileName) use ($file) {
 					if ($fileName === 'file.css') {
 						return $file;
 					}
@@ -182,5 +182,4 @@ class CssControllerTest extends TestCase {
 		$result = $this->controller->getCss('file.css', 'myapp');
 		$this->assertEquals($expected, $result);
 	}
-
 }

@@ -1,7 +1,9 @@
 /**
  * @copyright Copyright (c) 2019 John Molakvoæ <skjnldsv@protonmail.com>
  *
+ * @author Greta Doci <gretadoci@gmail.com>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -19,6 +21,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
+import { generateUrl } from '@nextcloud/router'
 
 export default {
 	props: {
@@ -158,11 +162,11 @@ export default {
 		 * @returns {string}
 		 */
 		generateAvatar(user, size = 32) {
-			return OC.generateUrl(
+			return generateUrl(
 				'/avatar/{user}/{size}?v={version}',
 				{
-					user: user,
-					size: size,
+					user,
+					size,
 					version: oc_userconfig.avatar.version,
 				}
 			)

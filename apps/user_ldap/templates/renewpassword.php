@@ -1,8 +1,6 @@
-<?php /** @var $l OC_L10N */ ?>
+<?php /** @var \OCP\IL10N $l */ ?>
 <?php
-script('user_ldap', [
-	'renewPassword',
-]);
+script('user_ldap', 'renewPassword');
 style('user_ldap', 'renewPassword');
 ?>
 
@@ -11,7 +9,7 @@ style('user_ldap', 'renewPassword');
 		<div class="warning title">
 			<?php p($l->t('Please renew your password.')); ?><br>
 		</div>
-		<?php foreach($_['messages'] as $message): ?>
+		<?php foreach ($_['messages'] as $message): ?>
 			<div class="warning">
 				<?php p($message); ?><br>
 			</div>

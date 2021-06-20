@@ -2,12 +2,13 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -24,9 +25,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
-
 
 use OC\Files\FileInfo;
 use OC\Files\Filesystem;
@@ -44,7 +43,6 @@ use OCA\DAV\Connector\Sabre\ObjectTree;
  * @package OCA\DAV\Tests\Unit\Connector\Sabre
  */
 class ObjectTreeTest extends \Test\TestCase {
-
 	public function copyDataProvider() {
 		return [
 			// copy into same dir
@@ -152,7 +150,6 @@ class ObjectTreeTest extends \Test\TestCase {
 		$type,
 		$enableChunkingHeader
 	) {
-
 		if ($enableChunkingHeader) {
 			$_SERVER['HTTP_OC_CHUNKED'] = true;
 		}
@@ -200,7 +197,7 @@ class ObjectTreeTest extends \Test\TestCase {
 		unset($_SERVER['HTTP_OC_CHUNKED']);
 	}
 
-	function nodeForPathProvider() {
+	public function nodeForPathProvider() {
 		return [
 			// regular file
 			[
@@ -283,9 +280,9 @@ class ObjectTreeTest extends \Test\TestCase {
 			->getMock();
 		$view->expects($this->once())
 			->method('resolvePath')
-			->willReturnCallback(function($path) use ($storage){
-			return [$storage, ltrim($path, '/')];
-		});
+			->willReturnCallback(function ($path) use ($storage) {
+				return [$storage, ltrim($path, '/')];
+			});
 
 		$rootNode = $this->getMockBuilder(Directory::class)
 			->disableOriginalConstructor()

@@ -3,8 +3,9 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Bart Visscher <bartv@thisnet.nl>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
@@ -26,7 +27,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Template;
 
 abstract class ResourceLocator {
@@ -163,7 +163,6 @@ abstract class ResourceLocator {
 	 * @throws ResourceNotFoundException Only thrown when $throw is true and the resource is missing
 	 */
 	protected function append($root, $file, $webRoot = null, $throw = true) {
-
 		if (!is_string($root)) {
 			if ($throw) {
 				throw new ResourceNotFoundException($file, $webRoot);

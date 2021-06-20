@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -22,7 +23,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OCA\DAV\Connector\Sabre\CommentPropertiesPlugin as CommentPropertiesPluginImplementation;
@@ -60,8 +60,8 @@ class CommentsPropertiesPluginTest extends \Test\TestCase {
 
 	public function nodeProvider() {
 		$mocks = [];
-		foreach(['\OCA\DAV\Connector\Sabre\File', '\OCA\DAV\Connector\Sabre\Directory', '\Sabre\DAV\INode'] as $class) {
-			$mocks[] = 	$this->getMockBuilder($class)
+		foreach (['\OCA\DAV\Connector\Sabre\File', '\OCA\DAV\Connector\Sabre\Directory', '\Sabre\DAV\INode'] as $class) {
+			$mocks[] = $this->getMockBuilder($class)
 				->disableOriginalConstructor()
 				->getMock();
 		}
@@ -83,7 +83,7 @@ class CommentsPropertiesPluginTest extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		if($expectedSuccessful) {
+		if ($expectedSuccessful) {
 			$propFind->expects($this->exactly(3))
 				->method('handle');
 		} else {
@@ -156,11 +156,10 @@ class CommentsPropertiesPluginTest extends \Test\TestCase {
 			->willReturn(42);
 
 		$unread = $this->plugin->getUnreadCount($node);
-		if(is_null($user)) {
+		if (is_null($user)) {
 			$this->assertNull($unread);
 		} else {
 			$this->assertSame($unread, 42);
 		}
 	}
-
 }

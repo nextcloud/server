@@ -5,7 +5,8 @@ declare(strict_types=1);
 /**
  * @copyright 2020 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
- * @author 2020 Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Georg Ehrke <oc.list@georgehrke.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -16,13 +17,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
  */
-
 namespace OCA\ContactsInteraction;
 
 use Exception;
@@ -34,13 +35,11 @@ use OCA\DAV\DAV\Sharing\Plugin;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\IL10N;
 use Sabre\DAV\Exception\NotFound;
-use Sabre\DAV\Exception\NotImplemented;
 use Sabre\DAV\PropPatch;
 use Sabre\DAVACL\ACLTrait;
 use Sabre\DAVACL\IACL;
 
 class AddressBook extends ExternalAddressBook implements IACL {
-
 	public const URI = 'recent';
 
 	use ACLTrait;
@@ -74,7 +73,7 @@ class AddressBook extends ExternalAddressBook implements IACL {
 	/**
 	 * @inheritDoc
 	 */
-	function createFile($name, $data = null) {
+	public function createFile($name, $data = null) {
 		throw new Exception("This addressbook is immutable");
 	}
 
@@ -131,8 +130,8 @@ class AddressBook extends ExternalAddressBook implements IACL {
 	/**
 	 * @inheritDoc
 	 */
-	public function getLastModified() {
-		throw new NotImplemented();
+	public function getLastModified(): ?int {
+		return $this->mapper->findLastUpdatedForUserId($this->getUid());
 	}
 
 	/**
@@ -150,6 +149,7 @@ class AddressBook extends ExternalAddressBook implements IACL {
 			'principaluri' => $this->principalUri,
 			'{DAV:}displayname' => $this->l10n->t('Recently contacted'),
 			'{' . Plugin::NS_OWNCLOUD . '}read-only' => true,
+			'{' . \OCA\DAV\CalDAV\Plugin::NS_CALENDARSERVER . '}getctag' => 'http://sabre.io/ns/sync/' . ($this->getLastModified() ?? 0),
 		];
 	}
 
@@ -171,8 +171,7 @@ class AddressBook extends ExternalAddressBook implements IACL {
 	}
 
 	private function getUid(): string {
-		list(, $uid) = \Sabre\Uri\split($this->principalUri);
+		[, $uid] = \Sabre\Uri\split($this->principalUri);
 		return $uid;
 	}
-
 }

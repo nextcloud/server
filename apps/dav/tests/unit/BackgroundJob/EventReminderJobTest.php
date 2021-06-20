@@ -5,9 +5,10 @@ declare(strict_types=1);
 /**
  * @copyright 2018, Thomas Citharel <tcit@tcit.fr>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Citharel <tcit@tcit.fr>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -18,14 +19,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\Tests\unit\BackgroundJob;
 
 use OCA\DAV\BackgroundJob\EventReminderJob;
@@ -53,8 +53,7 @@ class EventReminderJobTest extends TestCase {
 		$this->backgroundJob = new EventReminderJob($this->reminderService, $this->config);
 	}
 
-	public function data(): array
-	{
+	public function data(): array {
 		return [
 			[true, true, true],
 			[true, false, false],
@@ -81,7 +80,6 @@ class EventReminderJobTest extends TestCase {
 				->method('getAppValue')
 				->with('dav', 'sendEventRemindersMode', 'backgroundjob')
 				->willReturn($sendEventRemindersMode ? 'backgroundjob' : 'cron');
-
 		}
 
 		if ($expectCall) {

@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
@@ -21,7 +22,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Upload;
 
 use OCA\DAV\Connector\Sabre\Directory;
@@ -35,56 +35,63 @@ class UploadFolder implements ICollection {
 	/** @var CleanupService */
 	private $cleanupService;
 
-	function __construct(Directory $node, CleanupService $cleanupService) {
+	public function __construct(Directory $node, CleanupService $cleanupService) {
 		$this->node = $node;
 		$this->cleanupService = $cleanupService;
 	}
 
-	function createFile($name, $data = null) {
+	public function createFile($name, $data = null) {
 		// TODO: verify name - should be a simple number
 		$this->node->createFile($name, $data);
 	}
 
-	function createDirectory($name) {
+	public function createDirectory($name) {
 		throw new Forbidden('Permission denied to create file (filename ' . $name . ')');
 	}
 
-	function getChild($name) {
+	public function getChild($name) {
 		if ($name === '.file') {
 			return new FutureFile($this->node, '.file');
 		}
-		return $this->node->getChild($name);
+		return new UploadFile($this->node->getChild($name));
 	}
 
-	function getChildren() {
-		$children = $this->node->getChildren();
+	public function getChildren() {
+		$tmpChildren = $this->node->getChildren();
+
+		$children = [];
 		$children[] = new FutureFile($this->node, '.file');
+
+		foreach ($tmpChildren as $child) {
+			$children[] = new UploadFile($child);
+		}
+
 		return $children;
 	}
 
-	function childExists($name) {
+	public function childExists($name) {
 		if ($name === '.file') {
 			return true;
 		}
 		return $this->node->childExists($name);
 	}
 
-	function delete() {
+	public function delete() {
 		$this->node->delete();
 
 		// Background cleanup job is not needed anymore
 		$this->cleanupService->removeJob($this->getName());
 	}
 
-	function getName() {
+	public function getName() {
 		return $this->node->getName();
 	}
 
-	function setName($name) {
+	public function setName($name) {
 		throw new Forbidden('Permission denied to rename this folder');
 	}
 
-	function getLastModified() {
+	public function getLastModified() {
 		return $this->node->getLastModified();
 	}
 }

@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2017 EITA Cooperative (eita.org.br)
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Vinicius Cubas Brand <vinicius@eita.org.br>
  *
@@ -14,16 +15,14 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\User_LDAP\Tests;
-
 
 use OC\User\Backend;
 use OCA\User_LDAP\UserPluginManager;
@@ -154,7 +153,7 @@ class UserLDAPPluginTest extends \Test\TestCase {
 
 		$pluginManager = $this->getUserPluginManager();
 		$pluginManager->getHome('foo');
-	}	
+	}
 
 	public function testGetDisplayName() {
 		$pluginManager = $this->getUserPluginManager();
@@ -205,7 +204,7 @@ class UserLDAPPluginTest extends \Test\TestCase {
 			);
 
 		$pluginManager->register($plugin);
-		$pluginManager->setDisplayName('user', 'password');		
+		$pluginManager->setDisplayName('user', 'password');
 	}
 
 	
@@ -215,7 +214,7 @@ class UserLDAPPluginTest extends \Test\TestCase {
 
 		$pluginManager = $this->getUserPluginManager();
 		$pluginManager->setDisplayName('foo', 'bar');
-	}	
+	}
 
 	public function testCanChangeAvatar() {
 		$pluginManager = $this->getUserPluginManager();
@@ -272,7 +271,7 @@ class UserLDAPPluginTest extends \Test\TestCase {
 
 		$pluginManager = $this->getUserPluginManager();
 		$pluginManager->countUsers();
-	}	
+	}
 
 	public function testDeleteUser() {
 		$pluginManager = $this->getUserPluginManager();

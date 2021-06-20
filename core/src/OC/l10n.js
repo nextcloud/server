@@ -1,10 +1,30 @@
 /**
  * Copyright (c) 2014 Vincent Petry <pvince81@owncloud.com>
+		 * Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+		 * Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  *
- * This file is licensed under the Affero General Public License version 3
- * or later.
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
- * See the COPYING-README file.
+ * @license GNU AGPL version 3 or any later version
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
@@ -12,7 +32,9 @@ import _ from 'underscore'
 import $ from 'jquery'
 import DOMPurify from 'dompurify'
 import Handlebars from 'handlebars'
+import identity from 'lodash/fp/identity'
 import escapeHTML from 'escape-html'
+import { generateFilePath } from '@nextcloud/router'
 
 import OC from './index'
 import {
@@ -37,7 +59,7 @@ const L10n = {
 	 * the translations are loaded
 	 * @returns {Promise} promise
 	 */
-	load: function(appName, callback) {
+	load(appName, callback) {
 		// already available ?
 		if (hasAppTranslations(appName) || OC.getLocale() === 'en') {
 			const deferred = $.Deferred()
@@ -48,7 +70,7 @@ const L10n = {
 		}
 
 		const self = this
-		const url = OC.filePath(appName, 'l10n', OC.getLocale() + '.json')
+		const url = generateFilePath(appName, 'l10n', OC.getLocale() + '.json')
 
 		// load JSON translation bundle per AJAX
 		return $.get(url)
@@ -67,7 +89,7 @@ const L10n = {
 	 * @param {String} appName name of the app
 	 * @param {Object<String,String>} bundle bundle
 	 */
-	register: function(appName, bundle) {
+	register(appName, bundle) {
 		registerAppTranslations(appName, bundle, this._getPlural)
 	},
 
@@ -84,14 +106,19 @@ const L10n = {
 	 * @param {number} [count] number to replace %n with
 	 * @param {array} [options] options array
 	 * @param {bool} [options.escape=true] enable/disable auto escape of placeholders (by default enabled)
+	 * @param {bool} [options.sanitize=true] enable/disable sanitization (by default enabled)
 	 * @returns {string}
 	 */
-	translate: function(app, text, vars, count, options) {
+	translate(app, text, vars, count, options) {
 		const defaultOptions = {
 			escape: true,
+			sanitize: true,
 		}
 		const allOptions = options || {}
 		_.defaults(allOptions, defaultOptions)
+
+		const optSanitize = allOptions.sanitize ? DOMPurify.sanitize : identity
+		const optEscape = allOptions.escape ? escapeHTML : identity
 
 		// TODO: cache this function to avoid inline recreation
 		// of the same function over and over again in case
@@ -101,13 +128,9 @@ const L10n = {
 				function(a, b) {
 					const r = vars[b]
 					if (typeof r === 'string' || typeof r === 'number') {
-						if (allOptions.escape) {
-							return DOMPurify.sanitize(escapeHTML(r))
-						} else {
-							return DOMPurify.sanitize(r)
-						}
+						return optSanitize(optEscape(r))
 					} else {
-						return DOMPurify.sanitize(a)
+						return optSanitize(a)
 					}
 				}
 			)
@@ -120,9 +143,9 @@ const L10n = {
 		}
 
 		if (typeof vars === 'object' || count !== undefined) {
-			return DOMPurify.sanitize(_build(translation, vars, count))
+			return optSanitize(_build(translation, vars, count))
 		} else {
-			return DOMPurify.sanitize(translation)
+			return optSanitize(translation)
 		}
 	},
 
@@ -137,7 +160,7 @@ const L10n = {
 	 * @param {bool} [options.escape=true] enable/disable auto escape of placeholders (by default enabled)
 	 * @returns {string} Translated string
 	 */
-	translatePlural: function(app, textSingular, textPlural, count, vars, options) {
+	translatePlural(app, textSingular, textPlural, count, vars, options) {
 		const identifier = '_' + textSingular + '_::_' + textPlural + '_'
 		const bundle = getAppTranslations(app)
 		const value = bundle.translations[identifier]
@@ -163,9 +186,9 @@ const L10n = {
 	 * @returns {number}
 	 * @private
 	 */
-	_getPlural: function(number) {
+	_getPlural(number) {
 		let language = OC.getLanguage()
-		if (language === 'pt_BR') {
+		if (language === 'pt-BR') {
 			// temporary set a locale for brazilian
 			language = 'xbr'
 		}
@@ -175,7 +198,7 @@ const L10n = {
 		}
 
 		if (language.length > 3) {
-			language = language.substring(0, language.lastIndexOf('_'))
+			language = language.substring(0, language.lastIndexOf('-'))
 		}
 
 		/*
@@ -321,21 +344,11 @@ const L10n = {
 export default L10n
 
 /**
- * Returns the user's locale as a BCP 47 compliant language tag
- *
- * @returns {String} locale string
- */
-export const getCanonicalLocale = () => {
-	const locale = getLocale()
-	return typeof locale === 'string' ? locale.replace(/_/g, '-') : locale
-}
-
-/**
  * Returns the user's locale
  *
  * @returns {String} locale string
  */
-export const getLocale = () => $('html').data('locale')
+export const getLocale = () => $('html').data('locale') ?? 'en'
 
 /**
  * Returns the user's language

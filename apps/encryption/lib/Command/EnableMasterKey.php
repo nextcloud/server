@@ -3,6 +3,8 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Joas Schilling <coding@schilljs.com>
  *
  * @license AGPL-3.0
  *
@@ -19,9 +21,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Encryption\Command;
-
 
 use OCA\Encryption\Util;
 use OCP\IConfig;
@@ -50,7 +50,6 @@ class EnableMasterKey extends Command {
 	public function __construct(Util $util,
 								IConfig $config,
 								QuestionHelper $questionHelper) {
-
 		$this->util = $util;
 		$this->config = $config;
 		$this->questionHelper = $questionHelper;
@@ -63,11 +62,10 @@ class EnableMasterKey extends Command {
 			->setDescription('Enable the master key. Only available for fresh installations with no existing encrypted data! There is also no way to disable it again.');
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
-
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$isAlreadyEnabled = $this->util->isMasterKeyEnabled();
 
-		if($isAlreadyEnabled) {
+		if ($isAlreadyEnabled) {
 			$output->writeln('Master key already enabled');
 		} else {
 			$question = new ConfirmationQuestion(
@@ -78,9 +76,9 @@ class EnableMasterKey extends Command {
 				$output->writeln('Master key successfully enabled.');
 			} else {
 				$output->writeln('aborted.');
+				return 1;
 			}
 		}
-
+		return 0;
 	}
-
 }

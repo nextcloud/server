@@ -2,10 +2,12 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -22,10 +24,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_Sharing\Tests;
 
 use OCA\Files_Sharing\DeleteOrphanedSharesJob;
+use OCP\Share\IShare;
 
 /**
  * Class DeleteOrphanedSharesJobTest
@@ -90,7 +92,7 @@ class DeleteOrphanedSharesJobTest extends \Test\TestCase {
 		$userManager->createUser($this->user1, 'pass');
 		$userManager->createUser($this->user2, 'pass');
 
-		\OC::registerShareHooks();
+		\OC::registerShareHooks(\OC::$server->getSystemConfig());
 
 		$this->job = new DeleteOrphanedSharesJob();
 	}
@@ -100,11 +102,11 @@ class DeleteOrphanedSharesJobTest extends \Test\TestCase {
 
 		$userManager = \OC::$server->getUserManager();
 		$user1 = $userManager->get($this->user1);
-		if($user1) {
+		if ($user1) {
 			$user1->delete();
 		}
 		$user2 = $userManager->get($this->user2);
-		if($user2) {
+		if ($user2) {
 			$user2->delete();
 		}
 
@@ -137,7 +139,7 @@ class DeleteOrphanedSharesJobTest extends \Test\TestCase {
 		$share = $shareManager->newShare();
 
 		$share->setNode($testSubFolder)
-			->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setShareType(IShare::TYPE_USER)
 			->setPermissions(\OCP\Constants::PERMISSION_READ)
 			->setSharedWith($this->user2)
 			->setSharedBy($this->user1);

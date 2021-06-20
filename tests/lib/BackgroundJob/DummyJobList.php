@@ -7,6 +7,7 @@
  */
 
 namespace Test\BackgroundJob;
+
 use OCP\BackgroundJob\IJob;
 
 /**
@@ -114,15 +115,6 @@ class DummyJobList extends \OC\BackgroundJob\JobList {
 			}
 		}
 		return null;
-	}
-
-	/**
-	 * get the id of the last ran job
-	 *
-	 * @return int
-	 */
-	public function getLastJob() {
-		return $this->last;
 	}
 
 	/**

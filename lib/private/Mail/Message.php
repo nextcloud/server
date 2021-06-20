@@ -5,13 +5,14 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Arne Hamann <kontakt+github@arne.email>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Jared Boone <jared.boone@gmail.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Arne Hamann <github@arne.email>
  *
  * @license AGPL-3.0
  *
@@ -28,7 +29,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Mail;
 
 use OCP\Mail\IAttachment;
@@ -77,13 +77,13 @@ class Message implements IMessage {
 
 		$convertedAddresses = [];
 
-		foreach($addresses as $email => $readableName) {
-			if(!is_numeric($email)) {
-				list($name, $domain) = explode('@', $email, 2);
+		foreach ($addresses as $email => $readableName) {
+			if (!is_numeric($email)) {
+				[$name, $domain] = explode('@', $email, 2);
 				$domain = idn_to_ascii($domain, 0, INTL_IDNA_VARIANT_UTS46);
 				$convertedAddresses[$name.'@'.$domain] = $readableName;
 			} else {
-				list($name, $domain) = explode('@', $readableName, 2);
+				[$name, $domain] = explode('@', $readableName, 2);
 				$domain = idn_to_ascii($domain, 0, INTL_IDNA_VARIANT_UTS46);
 				$convertedAddresses[$email] = $name.'@'.$domain;
 			}

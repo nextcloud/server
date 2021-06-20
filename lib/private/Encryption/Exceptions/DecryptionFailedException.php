@@ -20,11 +20,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Encryption\Exceptions;
 
 use OCP\Encryption\Exceptions\GenericEncryptionException;
 
 class DecryptionFailedException extends GenericEncryptionException {
-
 }

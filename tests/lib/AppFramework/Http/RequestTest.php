@@ -77,7 +77,6 @@ class RequestTest extends \Test\TestCase {
 		$this->assertSame('Joey', $request->get['nickname']);
 		// Always returns null if variable not set.
 		$this->assertSame(null, $request->{'flickname'});
-
 	}
 
 	// urlParams has precedence over POST which has precedence over GET
@@ -326,11 +325,10 @@ class RequestTest extends \Test\TestCase {
 
 		try {
 			$resource = $request->put;
-		} catch(\LogicException $e) {
+		} catch (\LogicException $e) {
 			return;
 		}
 		$this->fail('Expected LogicException.');
-
 	}
 
 
@@ -634,6 +632,34 @@ class RequestTest extends \Test\TestCase {
 		$this->assertSame('192.168.3.99', $request->getRemoteAddress());
 	}
 
+	public function testGetRemoteAddressWithXForwardedForIPv6() {
+		$this->config
+			->expects($this->at(0))
+			->method('getSystemValue')
+			->with('trusted_proxies')
+			->willReturn(['192.168.2.0/24']);
+		$this->config
+			->expects($this->at(1))
+			->method('getSystemValue')
+			->with('forwarded_for_headers')
+			->willReturn(['HTTP_X_FORWARDED_FOR']);
+
+		$request = new Request(
+			[
+				'server' => [
+					'REMOTE_ADDR' => '192.168.2.99',
+					'HTTP_X_FORWARDED_FOR' => '[2001:db8:85a3:8d3:1319:8a2e:370:7348]',
+				],
+			],
+			$this->secureRandom,
+			$this->config,
+			$this->csrfTokenManager,
+			$this->stream
+		);
+
+		$this->assertSame('2001:db8:85a3:8d3:1319:8a2e:370:7348', $request->getRemoteAddress());
+	}
+
 	/**
 	 * @return array
 	 */
@@ -716,7 +742,7 @@ class RequestTest extends \Test\TestCase {
 	public function testGetServerProtocolWithProtoValid() {
 		$this->config
 			->method('getSystemValue')
-			->willReturnCallback(function($key, $default) {
+			->willReturnCallback(function ($key, $default) {
 				if ($key === 'trusted_proxies') {
 					return ['1.2.3.4'];
 				}
@@ -757,7 +783,7 @@ class RequestTest extends \Test\TestCase {
 	public function testGetServerProtocolWithHttpsServerValueOn() {
 		$this->config
 			->method('getSystemValue')
-			->willReturnCallback(function($key, $default) {
+			->willReturnCallback(function ($key, $default) {
 				return $default;
 			});
 
@@ -778,7 +804,7 @@ class RequestTest extends \Test\TestCase {
 	public function testGetServerProtocolWithHttpsServerValueOff() {
 		$this->config
 			->method('getSystemValue')
-			->willReturnCallback(function($key, $default) {
+			->willReturnCallback(function ($key, $default) {
 				return $default;
 			});
 
@@ -799,7 +825,7 @@ class RequestTest extends \Test\TestCase {
 	public function testGetServerProtocolWithHttpsServerValueEmpty() {
 		$this->config
 			->method('getSystemValue')
-			->willReturnCallback(function($key, $default) {
+			->willReturnCallback(function ($key, $default) {
 				return $default;
 			});
 
@@ -820,7 +846,7 @@ class RequestTest extends \Test\TestCase {
 	public function testGetServerProtocolDefault() {
 		$this->config
 			->method('getSystemValue')
-			->willReturnCallback(function($key, $default) {
+			->willReturnCallback(function ($key, $default) {
 				return $default;
 			});
 
@@ -837,7 +863,7 @@ class RequestTest extends \Test\TestCase {
 	public function testGetServerProtocolBehindLoadBalancers() {
 		$this->config
 			->method('getSystemValue')
-			->willReturnCallback(function($key, $default) {
+			->willReturnCallback(function ($key, $default) {
 				if ($key === 'trusted_proxies') {
 					return ['1.2.3.4'];
 				}
@@ -904,7 +930,7 @@ class RequestTest extends \Test\TestCase {
 	/**
 	 * @return array
 	 */
-	function userAgentProvider() {
+	public function userAgentProvider() {
 		return [
 			[
 				'Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1; Trident/4.0)',
@@ -1059,7 +1085,7 @@ class RequestTest extends \Test\TestCase {
 	public function testInsecureServerHostHttpFromForwardedHeaderSingle() {
 		$this->config
 			->method('getSystemValue')
-			->willReturnCallback(function($key, $default) {
+			->willReturnCallback(function ($key, $default) {
 				if ($key === 'trusted_proxies') {
 					return ['1.2.3.4'];
 				}
@@ -1088,7 +1114,7 @@ class RequestTest extends \Test\TestCase {
 	public function testInsecureServerHostHttpFromForwardedHeaderStacked() {
 		$this->config
 			->method('getSystemValue')
-			->willReturnCallback(function($key, $default) {
+			->willReturnCallback(function ($key, $default) {
 				if ($key === 'trusted_proxies') {
 					return ['1.2.3.4'];
 				}
@@ -1117,10 +1143,10 @@ class RequestTest extends \Test\TestCase {
 	public function testGetServerHostWithOverwriteHost() {
 		$this->config
 			->method('getSystemValue')
-			->willReturnCallback(function($key, $default) {
+			->willReturnCallback(function ($key, $default) {
 				if ($key === 'overwritecondaddr') {
 					return '';
-				} else if ($key === 'overwritehost') {
+				} elseif ($key === 'overwritehost') {
 					return 'my.overwritten.host';
 				}
 
@@ -1141,10 +1167,10 @@ class RequestTest extends \Test\TestCase {
 	public function testGetServerHostWithTrustedDomain() {
 		$this->config
 			->method('getSystemValue')
-			->willReturnCallback(function($key, $default) {
+			->willReturnCallback(function ($key, $default) {
 				if ($key === 'trusted_proxies') {
 					return ['1.2.3.4'];
-				} else if ($key === 'trusted_domains') {
+				} elseif ($key === 'trusted_domains') {
 					return ['my.trusted.host'];
 				}
 
@@ -1170,10 +1196,10 @@ class RequestTest extends \Test\TestCase {
 	public function testGetServerHostWithUntrustedDomain() {
 		$this->config
 			->method('getSystemValue')
-			->willReturnCallback(function($key, $default) {
+			->willReturnCallback(function ($key, $default) {
 				if ($key === 'trusted_proxies') {
 					return ['1.2.3.4'];
-				} else if ($key === 'trusted_domains') {
+				} elseif ($key === 'trusted_domains') {
 					return ['my.trusted.host'];
 				}
 
@@ -1199,7 +1225,7 @@ class RequestTest extends \Test\TestCase {
 	public function testGetServerHostWithNoTrustedDomain() {
 		$this->config
 			->method('getSystemValue')
-			->willReturnCallback(function($key, $default) {
+			->willReturnCallback(function ($key, $default) {
 				if ($key === 'trusted_proxies') {
 					return ['1.2.3.4'];
 				}

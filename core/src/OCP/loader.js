@@ -1,6 +1,8 @@
 /**
  * @copyright Copyright (c) 2018 Julius Härtl <jus@bitgrid.net>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Julius Härtl <jus@bitgrid.net>
  *
  * @license GNU AGPL version 3 or any later version
@@ -35,7 +37,7 @@ export default {
 	 * @param {string} file the script file name
 	 * @returns {Promise}
 	 */
-	loadScript: function(app, file) {
+	loadScript(app, file) {
 		const key = app + file
 		if (Object.prototype.hasOwnProperty.call(loadedScripts, key)) {
 			return Promise.resolve()
@@ -59,7 +61,7 @@ export default {
 	 * @param {string} file the script file name
 	 * @returns {Promise}
 	 */
-	loadStylesheet: function(app, file) {
+	loadStylesheet(app, file) {
 		const key = app + file
 		if (Object.prototype.hasOwnProperty.call(loadedStylesheets, key)) {
 			return Promise.resolve()

@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
@@ -22,7 +23,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Core\Command;
 
 use OC\Core\Command\User\ListCommand;
@@ -34,9 +34,9 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Base extends Command implements CompletionAwareInterface {
-	const OUTPUT_FORMAT_PLAIN = 'plain';
-	const OUTPUT_FORMAT_JSON = 'json';
-	const OUTPUT_FORMAT_JSON_PRETTY = 'json_pretty';
+	public const OUTPUT_FORMAT_PLAIN = 'plain';
+	public const OUTPUT_FORMAT_JSON = 'json';
+	public const OUTPUT_FORMAT_JSON_PRETTY = 'json_pretty';
 
 	protected $defaultOutputFormat = self::OUTPUT_FORMAT_PLAIN;
 
@@ -121,9 +121,9 @@ class Base extends Command implements CompletionAwareInterface {
 	protected function valueToString($value, $returnNull = true) {
 		if ($value === false) {
 			return 'false';
-		} else if ($value === true) {
+		} elseif ($value === true) {
 			return 'true';
-		} else if ($value === null) {
+		} elseif ($value === null) {
 			return $returnNull ? null : 'null';
 		} else {
 			return $value;

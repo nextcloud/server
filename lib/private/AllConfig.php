@@ -3,10 +3,12 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Bart Visscher <bartv@thisnet.nl>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Loki3000 <github@labcms.ru>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author MichaIng <micha@dietpi.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
@@ -28,8 +30,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC;
+
 use OC\Cache\CappedMemoryCache;
 use OCP\IDBConnection;
 use OCP\PreConditionNotMetException;
@@ -88,7 +90,7 @@ class AllConfig implements \OCP\IConfig {
 	 * because the database connection was created with an uninitialized config
 	 */
 	private function fixDIInit() {
-		if($this->connection === null) {
+		if ($this->connection === null) {
 			$this->connection = \OC::$server->getDatabaseConnection();
 		}
 	}
@@ -128,7 +130,7 @@ class AllConfig implements \OCP\IConfig {
 	 * Looks up a boolean system wide defined value
 	 *
 	 * @param string $key the key of the value, under which it was saved
-	 * @param mixed $default the default value to be returned if the value isn't set
+	 * @param bool $default the default value to be returned if the value isn't set
 	 *
 	 * @return bool
 	 *
@@ -142,7 +144,7 @@ class AllConfig implements \OCP\IConfig {
 	 * Looks up an integer system wide defined value
 	 *
 	 * @param string $key the key of the value, under which it was saved
-	 * @param mixed $default the default value to be returned if the value isn't set
+	 * @param int $default the default value to be returned if the value isn't set
 	 *
 	 * @return int
 	 *
@@ -156,7 +158,7 @@ class AllConfig implements \OCP\IConfig {
 	 * Looks up a string system wide defined value
 	 *
 	 * @param string $key the key of the value, under which it was saved
-	 * @param mixed $default the default value to be returned if the value isn't set
+	 * @param string $default the default value to be returned if the value isn't set
 	 *
 	 * @return string
 	 *
@@ -263,7 +265,7 @@ class AllConfig implements \OCP\IConfig {
 		if ($prevValue !== null) {
 			if ($prevValue === (string)$value) {
 				return;
-			} else if ($preCondition !== null && $prevValue !== (string)$preCondition) {
+			} elseif ($preCondition !== null && $prevValue !== (string)$preCondition) {
 				throw new PreConditionNotMetException();
 			} else {
 				$qb = $this->connection->getQueryBuilder();
@@ -314,7 +316,7 @@ class AllConfig implements \OCP\IConfig {
 	 */
 	public function getUserValue($userId, $appName, $key, $default = '') {
 		$data = $this->getUserValues($userId);
-		if (isset($data[$appName]) and isset($data[$appName][$key])) {
+		if (isset($data[$appName][$key])) {
 			return $data[$appName][$key];
 		} else {
 			return $default;
@@ -348,11 +350,11 @@ class AllConfig implements \OCP\IConfig {
 		// TODO - FIXME
 		$this->fixDIInit();
 
-		$sql  = 'DELETE FROM `*PREFIX*preferences` '.
+		$sql = 'DELETE FROM `*PREFIX*preferences` '.
 				'WHERE `userid` = ? AND `appid` = ? AND `configkey` = ?';
 		$this->connection->executeUpdate($sql, [$userId, $appName, $key]);
 
-		if (isset($this->userCache[$userId]) and isset($this->userCache[$userId][$appName])) {
+		if (isset($this->userCache[$userId][$appName])) {
 			unset($this->userCache[$userId][$appName][$key]);
 		}
 	}
@@ -366,7 +368,7 @@ class AllConfig implements \OCP\IConfig {
 		// TODO - FIXME
 		$this->fixDIInit();
 
-		$sql  = 'DELETE FROM `*PREFIX*preferences` '.
+		$sql = 'DELETE FROM `*PREFIX*preferences` '.
 			'WHERE `userid` = ?';
 		$this->connection->executeUpdate($sql, [$userId]);
 
@@ -382,7 +384,7 @@ class AllConfig implements \OCP\IConfig {
 		// TODO - FIXME
 		$this->fixDIInit();
 
-		$sql  = 'DELETE FROM `*PREFIX*preferences` '.
+		$sql = 'DELETE FROM `*PREFIX*preferences` '.
 				'WHERE `appid` = ?';
 		$this->connection->executeUpdate($sql, [$appName]);
 
@@ -405,7 +407,7 @@ class AllConfig implements \OCP\IConfig {
 			return $this->userCache[$userId];
 		}
 		if ($userId === null || $userId === '') {
-			$this->userCache[$userId]=[];
+			$this->userCache[$userId] = [];
 			return $this->userCache[$userId];
 		}
 
@@ -454,7 +456,7 @@ class AllConfig implements \OCP\IConfig {
 
 			$placeholders = (count($chunk) === 50) ? $placeholders50 :  implode(',', array_fill(0, count($chunk), '?'));
 
-			$query    = 'SELECT `userid`, `configvalue` ' .
+			$query = 'SELECT `userid`, `configvalue` ' .
 						'FROM `*PREFIX*preferences` ' .
 						'WHERE `appid` = ? AND `configkey` = ? ' .
 						'AND `userid` IN (' . $placeholders . ')';
@@ -480,10 +482,10 @@ class AllConfig implements \OCP\IConfig {
 		// TODO - FIXME
 		$this->fixDIInit();
 
-		$sql  = 'SELECT `userid` FROM `*PREFIX*preferences` ' .
+		$sql = 'SELECT `userid` FROM `*PREFIX*preferences` ' .
 				'WHERE `appid` = ? AND `configkey` = ? ';
 
-		if($this->getSystemValue('dbtype', 'sqlite') === 'oci') {
+		if ($this->getSystemValue('dbtype', 'sqlite') === 'oci') {
 			//oracle hack: need to explicitly cast CLOB to CHAR for comparison
 			$sql .= 'AND to_char(`configvalue`) = ?';
 		} else {
@@ -512,10 +514,10 @@ class AllConfig implements \OCP\IConfig {
 		// TODO - FIXME
 		$this->fixDIInit();
 
-		$sql  = 'SELECT `userid` FROM `*PREFIX*preferences` ' .
+		$sql = 'SELECT `userid` FROM `*PREFIX*preferences` ' .
 			'WHERE `appid` = ? AND `configkey` = ? ';
 
-		if($this->getSystemValue('dbtype', 'sqlite') === 'oci') {
+		if ($this->getSystemValue('dbtype', 'sqlite') === 'oci') {
 			//oracle hack: need to explicitly cast CLOB to CHAR for comparison
 			$sql .= 'AND LOWER(to_char(`configvalue`)) = LOWER(?)';
 		} else {

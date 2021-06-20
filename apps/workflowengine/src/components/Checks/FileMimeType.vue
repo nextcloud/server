@@ -51,8 +51,9 @@
 </template>
 
 <script>
-import { Multiselect } from '@nextcloud/vue/dist/Components/Multiselect'
+import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
 import valueMixin from './../../mixins/valueMixin'
+import { imagePath } from '@nextcloud/router'
 
 export default {
 	name: 'FileMimeType',
@@ -76,12 +77,12 @@ export default {
 					pattern: '/image\\/.*/',
 				},
 				{
-					iconUrl: OC.imagePath('core', 'filetypes/x-office-document'),
+					iconUrl: imagePath('core', 'filetypes/x-office-document'),
 					label: t('workflowengine', 'Office documents'),
-					pattern: '/(vnd\\.(ms-|openxmlformats-).*)$/',
+					pattern: '/(vnd\\.(ms-|openxmlformats-|oasis\\.opendocument).*)$/',
 				},
 				{
-					iconUrl: OC.imagePath('core', 'filetypes/application-pdf'),
+					iconUrl: imagePath('core', 'filetypes/application-pdf'),
 					label: t('workflowengine', 'PDF documents'),
 					pattern: 'application/pdf',
 				},

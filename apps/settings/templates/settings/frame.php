@@ -22,7 +22,7 @@
  */
 
 style('settings', 'settings');
-script('settings', [ 'settings', 'admin', 'log', 'certificates'] );
+script('settings', [ 'settings', 'admin', 'log']);
 script('core', 'setupchecks');
 script('files', 'jquery.fileupload');
 
@@ -30,17 +30,16 @@ script('files', 'jquery.fileupload');
 
 <div id="app-navigation">
 	<ul>
-		<?php if(!empty($_['forms']['admin'])) { ?>
+		<?php if (!empty($_['forms']['admin'])) { ?>
 			<li class="app-navigation-caption"><?php p($l->t('Personal')); ?></li>
 		<?php
 		}
-		foreach($_['forms']['personal'] as $form) {
+		foreach ($_['forms']['personal'] as $form) {
 			if (isset($form['anchor'])) {
 				$anchor = \OC::$server->getURLGenerator()->linkToRoute('settings.PersonalSettings.index', ['section' => $form['anchor']]);
 				$class = 'nav-icon-' . $form['anchor'];
 				$sectionName = $form['section-name'];
-				$active = $form['active'] ? ' class="active"' : '';
-				?>
+				$active = $form['active'] ? ' class="active"' : ''; ?>
 				<li <?php print_unescaped($form['active'] ? ' class="active"' : ''); ?>>
 					<a href="<?php p($anchor); ?>">
 						<?php if (!empty($form['icon'])) { ?>
@@ -57,19 +56,17 @@ script('files', 'jquery.fileupload');
 		?>
 
 		<?php
-		if(!empty($_['forms']['admin'])) {
+		if (!empty($_['forms']['admin'])) {
 			?>
 			<li class="app-navigation-caption"><?php p($l->t('Administration')); ?></li>
 			<?php
 		}
-		foreach($_['forms']['admin'] as $form) {
+		foreach ($_['forms']['admin'] as $form) {
 			if (isset($form['anchor'])) {
-
 				$anchor = \OC::$server->getURLGenerator()->linkToRoute('settings.AdminSettings.index', ['section' => $form['anchor']]);
 				$class = 'nav-icon-' . $form['anchor'];
 				$sectionName = $form['section-name'];
-				$active = $form['active'] ? ' class="active"' : '';
-		?>
+				$active = $form['active'] ? ' class="active"' : ''; ?>
 				<li <?php print_unescaped($form['active'] ? ' class="active"' : ''); ?>>
 					<a href="<?php p($anchor); ?>">
 						<?php if (!empty($form['icon'])) { ?>

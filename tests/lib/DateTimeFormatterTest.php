@@ -11,12 +11,12 @@ namespace Test;
 class DateTimeFormatterTest extends TestCase {
 	/** @var \OC\DateTimeFormatter */
 	protected $formatter;
-	static protected $oneMinute = 60;
-	static protected $oneHour = 3600;
-	static protected $oneDay;
-	static protected $oneYear;
+	protected static $oneMinute = 60;
+	protected static $oneHour = 3600;
+	protected static $oneDay;
+	protected static $oneYear;
 
-	static protected $defaultTimeZone;
+	protected static $defaultTimeZone;
 
 	public static function setUpBeforeClass(): void {
 		parent::setUpBeforeClass();
@@ -38,7 +38,7 @@ class DateTimeFormatterTest extends TestCase {
 	}
 
 	protected function getTimestampAgo($time, $seconds = 0, $minutes = 0, $hours = 0, $days = 0, $years = 0) {
-		return $time - $seconds - $minutes * 60 - $hours * 3600 - $days * 24*3600 - $years * 365*24*3600;
+		return $time - $seconds - $minutes * 60 - $hours * 3600 - $days * 24 * 3600 - $years * 365 * 24 * 3600;
 	}
 
 	public function formatTimeSpanData() {
@@ -176,7 +176,7 @@ class DateTimeFormatterTest extends TestCase {
 	}
 
 	
-	function testFormatDateWithInvalidTZ() {
+	public function testFormatDateWithInvalidTZ() {
 		$this->expectException(\Exception::class);
 
 		$this->formatter->formatDate(1350129205, 'long', new \DateTimeZone('Mordor/Barad-dûr'));

@@ -3,9 +3,12 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @copyright Copyright (c) 2018, Georg Ehrke
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @license AGPL-3.0
@@ -23,9 +26,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\DAV;
 
+use OCP\Constants;
+use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IUser;
@@ -36,8 +40,7 @@ use Sabre\DAV\PropPatch;
 use Sabre\DAVACL\PrincipalBackend\BackendInterface;
 
 class GroupPrincipalBackend implements BackendInterface {
-
-	const PRINCIPAL_PREFIX = 'principals/groups';
+	public const PRINCIPAL_PREFIX = 'principals/groups';
 
 	/** @var IGroupManager */
 	private $groupManager;
@@ -47,18 +50,24 @@ class GroupPrincipalBackend implements BackendInterface {
 
 	/** @var IShareManager */
 	private $shareManager;
+	/** @var IConfig */
+	private $config;
 
 	/**
 	 * @param IGroupManager $IGroupManager
 	 * @param IUserSession $userSession
 	 * @param IShareManager $shareManager
 	 */
-	public function __construct(IGroupManager $IGroupManager,
-								IUserSession $userSession,
-								IShareManager $shareManager) {
+	public function __construct(
+		IGroupManager $IGroupManager,
+		IUserSession $userSession,
+		IShareManager $shareManager,
+		IConfig $config
+	) {
 		$this->groupManager = $IGroupManager;
 		$this->userSession = $userSession;
 		$this->shareManager = $shareManager;
+		$this->config = $config;
 	}
 
 	/**
@@ -78,7 +87,7 @@ class GroupPrincipalBackend implements BackendInterface {
 		$principals = [];
 
 		if ($prefixPath === self::PRINCIPAL_PREFIX) {
-			foreach($this->groupManager->search('') as $user) {
+			foreach ($this->groupManager->search('') as $user) {
 				$principals[] = $this->groupToPrincipal($user);
 			}
 		}
@@ -134,7 +143,7 @@ class GroupPrincipalBackend implements BackendInterface {
 			return [];
 		}
 
-		return array_map(function($user) {
+		return array_map(function ($user) {
 			return $this->userToPrincipal($user);
 		}, $group->getUsers());
 	}
@@ -168,7 +177,7 @@ class GroupPrincipalBackend implements BackendInterface {
 	 * @param PropPatch $propPatch
 	 * @return int
 	 */
-	function updatePrincipal($path, PropPatch $propPatch) {
+	public function updatePrincipal($path, PropPatch $propPatch) {
 		return 0;
 	}
 
@@ -178,7 +187,7 @@ class GroupPrincipalBackend implements BackendInterface {
 	 * @param string $test
 	 * @return array
 	 */
-	function searchPrincipals($prefixPath, array $searchProperties, $test = 'allof') {
+	public function searchPrincipals($prefixPath, array $searchProperties, $test = 'allof') {
 		$results = [];
 
 		if (\count($searchProperties) === 0) {
@@ -187,9 +196,8 @@ class GroupPrincipalBackend implements BackendInterface {
 		if ($prefixPath !== self::PRINCIPAL_PREFIX) {
 			return [];
 		}
-		// If sharing is disabled, return the empty array
-		$shareAPIEnabled = $this->shareManager->shareApiEnabled();
-		if (!$shareAPIEnabled) {
+		// If sharing or group sharing is disabled, return the empty array
+		if (!$this->groupSharingEnabled()) {
 			return [];
 		}
 
@@ -205,12 +213,16 @@ class GroupPrincipalBackend implements BackendInterface {
 			$restrictGroups = $this->groupManager->getUserGroupIds($user);
 		}
 
+		$searchLimit = $this->config->getSystemValueInt('sharing.maxAutocompleteResults', Constants::SHARING_MAX_AUTOCOMPLETE_RESULTS_DEFAULT);
+		if ($searchLimit <= 0) {
+			$searchLimit = null;
+		}
 		foreach ($searchProperties as $prop => $value) {
 			switch ($prop) {
 				case '{DAV:}displayname':
-					$groups = $this->groupManager->search($value);
+					$groups = $this->groupManager->search($value, $searchLimit);
 
-					$results[] = array_reduce($groups, function(array $carry, IGroup $group) use ($restrictGroups) {
+					$results[] = array_reduce($groups, function (array $carry, IGroup $group) use ($restrictGroups) {
 						$gid = $group->getGID();
 						// is sharing restricted to groups only?
 						if ($restrictGroups !== false) {
@@ -219,7 +231,7 @@ class GroupPrincipalBackend implements BackendInterface {
 							}
 						}
 
-						$carry[] = self::PRINCIPAL_PREFIX . '/' . $gid;
+						$carry[] = self::PRINCIPAL_PREFIX . '/' . urlencode($gid);
 						return $carry;
 					}, []);
 					break;
@@ -258,10 +270,9 @@ class GroupPrincipalBackend implements BackendInterface {
 	 * @param string $principalPrefix
 	 * @return string
 	 */
-	function findByUri($uri, $principalPrefix) {
+	public function findByUri($uri, $principalPrefix) {
 		// If sharing is disabled, return the empty array
-		$shareAPIEnabled = $this->shareManager->shareApiEnabled();
-		if (!$shareAPIEnabled) {
+		if (!$this->groupSharingEnabled()) {
 			return null;
 		}
 
@@ -326,5 +337,12 @@ class GroupPrincipalBackend implements BackendInterface {
 		}
 
 		return $principal;
+	}
+
+	/**
+	 * @return bool
+	 */
+	private function groupSharingEnabled(): bool {
+		return $this->shareManager->shareApiEnabled() && $this->shareManager->allowGroupSharing();
 	}
 }

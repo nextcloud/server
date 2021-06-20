@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Felix Heidecke <felix@heidecke.me>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Julius Härtl <jus@bitgrid.net>
@@ -25,51 +26,49 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\Files;
 
 /**
  * Interface FileInfo
  *
- * @package OCP\Files
  * @since 7.0.0
  */
 interface FileInfo {
 	/**
 	 * @since 7.0.0
 	 */
-	const TYPE_FILE = 'file';
+	public const TYPE_FILE = 'file';
 	/**
 	 * @since 7.0.0
 	 */
-	const TYPE_FOLDER = 'dir';
+	public const TYPE_FOLDER = 'dir';
 
 	/**
 	 * @const \OCP\Files\FileInfo::SPACE_NOT_COMPUTED Return value for a not computed space value
 	 * @since 8.0.0
 	 */
-	const SPACE_NOT_COMPUTED = -1;
+	public const SPACE_NOT_COMPUTED = -1;
 	/**
 	 * @const \OCP\Files\FileInfo::SPACE_UNKNOWN Return value for unknown space value
 	 * @since 8.0.0
 	 */
-	const SPACE_UNKNOWN = -2;
+	public const SPACE_UNKNOWN = -2;
 	/**
 	 * @const \OCP\Files\FileInfo::SPACE_UNLIMITED Return value for unlimited space
 	 * @since 8.0.0
 	 */
-	const SPACE_UNLIMITED = -3;
+	public const SPACE_UNLIMITED = -3;
 
 	/**
 	 * @since 9.1.0
 	 */
-	const MIMETYPE_FOLDER = 'httpd/unix-directory';
+	public const MIMETYPE_FOLDER = 'httpd/unix-directory';
 
 	/**
 	 * @const \OCP\Files\FileInfo::BLACKLIST_FILES_REGEX Return regular expression to test filenames against (blacklisting)
 	 * @since 12.0.0
 	 */
-	const BLACKLIST_FILES_REGEX = '\.(part|filepart)$';
+	public const BLACKLIST_FILES_REGEX = '\.(part|filepart)$';
 
 	/**
 	 * Get the Etag of the file or folder

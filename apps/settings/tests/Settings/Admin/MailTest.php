@@ -19,14 +19,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Settings\Tests\Settings\Admin;
 
 use OCA\Settings\Settings\Admin\Mail;
@@ -111,17 +110,17 @@ class MailTest extends TestCase {
 			'settings/admin/additional-mail',
 			[
 				'sendmail_is_available' => (bool) \OC_Helper::findBinaryPath('sendmail'),
-				'mail_domain'           => 'mx.nextcloud.com',
-				'mail_from_address'     => 'no-reply@nextcloud.com',
-				'mail_smtpmode'         => 'smtp',
-				'mail_smtpsecure'       => true,
-				'mail_smtphost'         => 'smtp.nextcloud.com',
-				'mail_smtpport'         => 25,
-				'mail_smtpauthtype'     => 'login',
-				'mail_smtpauth'         => true,
-				'mail_smtpname'         => 'smtp.sender.com',
-				'mail_smtppassword'     => '********',
-				'mail_sendmailmode'		=> 'smtp',
+				'mail_domain' => 'mx.nextcloud.com',
+				'mail_from_address' => 'no-reply@nextcloud.com',
+				'mail_smtpmode' => 'smtp',
+				'mail_smtpsecure' => true,
+				'mail_smtphost' => 'smtp.nextcloud.com',
+				'mail_smtpport' => 25,
+				'mail_smtpauthtype' => 'login',
+				'mail_smtpauth' => true,
+				'mail_smtpname' => 'smtp.sender.com',
+				'mail_smtppassword' => '********',
+				'mail_sendmailmode' => 'smtp',
 			],
 			''
 		);

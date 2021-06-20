@@ -1,4 +1,4 @@
-$(document).ready(function() {
+window.addEventListener('DOMContentLoaded', function() {
 
 	$('#fileSharingSettings button.pop-up').click(function() {
 		var url = $(this).data('url');

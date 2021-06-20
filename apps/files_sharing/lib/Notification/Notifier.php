@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @copyright Copyright (c) 2019, Roeland Jago Douma <roeland@famdouma.nl>
  * @copyright Copyright (c) 2019, Joas Schilling <coding@schilljs.com>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -18,14 +19,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Files_Sharing\Notification;
 
 use OCP\Files\IRootFolder;
@@ -149,12 +149,11 @@ class Notifier implements INotifier {
 	}
 
 	protected function parseShareInvitation(IShare $share, INotification $notification, IL10N $l): INotification {
-
 		if ($share->getShareType() === IShare::TYPE_USER) {
 			if ($share->getStatus() !== IShare::STATUS_PENDING) {
 				throw new AlreadyProcessedException();
 			}
-		} else if ($share->getShareType() === IShare::TYPE_GROUP) {
+		} elseif ($share->getShareType() === IShare::TYPE_GROUP) {
 			if ($share->getStatus() !== IShare::STATUS_PENDING) {
 				throw new AlreadyProcessedException();
 			}
@@ -178,7 +177,7 @@ class Notifier implements INotifier {
 						'id' => $notification->getObjectId(),
 						'name' => $share->getTarget(),
 					],
-					'user' =>  [
+					'user' => [
 						'type' => 'user',
 						'id' => $sharer->getUID(),
 						'name' => $sharer->getDisplayName(),
@@ -219,7 +218,7 @@ class Notifier implements INotifier {
 						'id' => $group->getGID(),
 						'name' => $group->getDisplayName(),
 					],
-					'user' =>  [
+					'user' => [
 						'type' => 'user',
 						'id' => $sharer->getUID(),
 						'name' => $sharer->getDisplayName(),

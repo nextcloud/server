@@ -27,7 +27,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Authentication\Token;
 
 use OC\Authentication\Exceptions\ExpiredTokenException;
@@ -140,13 +139,13 @@ interface IProvider {
 	/**
 	 * Get the (unencrypted) password of the given token
 	 *
-	 * @param IToken $token
+	 * @param IToken $savedToken
 	 * @param string $tokenId
 	 * @throws InvalidTokenException
 	 * @throws PasswordlessTokenException
 	 * @return string
 	 */
-	public function getPassword(IToken $token, string $tokenId): string;
+	public function getPassword(IToken $savedToken, string $tokenId): string;
 
 	/**
 	 * Encrypt and set the password of the given token

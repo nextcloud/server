@@ -252,7 +252,8 @@
 				this._filesConfig = OCA.Files.App.getFilesConfig();
 			} else {
 				this._filesConfig = new OC.Backbone.Model({
-					'showhidden': false
+					'showhidden': false,
+					'cropimagepreviews': true
 				});
 			}
 
@@ -291,6 +292,10 @@
 					}
 				});
 
+				this._filesConfig.on('change:cropimagepreviews', function() {
+					self.reload();
+				});
+
 				this.$el.toggleClass('hide-hidden-files', !this._filesConfig.get('showhidden'));
 			}
 
@@ -325,9 +330,7 @@
 						this.multiSelectMenuItems[i] = this.multiSelectMenuItems[i](this);
 					}
 				}
-				this.fileMultiSelectMenu = new OCA.Files.FileMultiSelectMenu(this.multiSelectMenuItems);
-				this.fileMultiSelectMenu.render();
-				this.$el.find('.selectedActions').append(this.fileMultiSelectMenu.$el);
+				this._updateMultiSelectFileActions()
 			}
 
 			if (options.sorting) {
@@ -383,8 +386,6 @@
 				}
 			});
 
-			this.updateSearch();
-
 			this.$fileList.on('click','td.filename>a.name, td.filesize, td.date', _.bind(this._onClickFile, this));
 
 			this.$fileList.on("droppedOnFavorites", function (event, file) {
@@ -413,6 +414,31 @@
 				});
 			}
 
+			if(options.openFile) {
+				// Wait for some initialisation process to be over before triggering the default action.
+				_.defer(() => {
+					try {
+						var fileInfo = JSON.parse(atob($('#initial-state-files-openFileInfo').val()))
+						var spec = this.fileActions.getDefaultFileAction(fileInfo.mime, fileInfo.type, fileInfo.permissions)
+						if (spec && spec.action) {
+							spec.action(fileInfo.name, {
+								fileId: fileInfo.id,
+								fileList: this,
+								fileActions: this.fileActions,
+								dir: fileInfo.directory
+							});
+						} else {
+							var url = this.getDownloadUrl(fileInfo.name, fileInfo.dir, true);
+							OCA.Files.Files.handleDownload(url);
+						}
+
+						OCA.Files.Sidebar.open(fileInfo.path);
+					} catch (error) {
+						console.error(`Failed to trigger default action on the file for URL: ${location.href}`, error)
+					}
+				})
+			}
+
 			this._operationProgressBar = new OCA.Files.OperationProgressBar();
 			this._operationProgressBar.render();
 			this.$el.find('#uploadprogresswrapper').replaceWith(this._operationProgressBar.$el);
@@ -432,9 +458,11 @@
 					this.setupUploadEvents(this._uploader);
 				}
 			}
-
+			this.triedActionOnce = false;
 
 			OC.Plugins.attach('OCA.Files.FileList', this);
+
+			OCA.Files.App && OCA.Files.App.updateCurrentFileList(this);
 
 			this.initHeadersAndFooters()
 		},
@@ -511,7 +539,7 @@
 		multiSelectMenuClick: function (ev, action) {
 				var actionFunction = _.find(this.multiSelectMenuItems, function (item) {return item.name === action;}).action;
 				if (actionFunction) {
-					actionFunction(ev);
+					actionFunction(this.getSelectedFiles());
 					return;
 				}
 				switch (action) {
@@ -648,7 +676,7 @@
 				return;
 			}
 
-			if (!fileName) {
+			if (!fileName && OCA.Files.Sidebar.close) {
 				OCA.Files.Sidebar.close()
 				return
 			} else if (typeof fileName !== 'string') {
@@ -740,6 +768,7 @@
 		 * Event handler when leaving previously hidden state
 		 */
 		_onShow: function(e) {
+			OCA.Files.App && OCA.Files.App.updateCurrentFileList(this);
 			if (this.shown) {
 				if (e.itemId === this.id) {
 					this._setCurrentDir('/', false);
@@ -874,16 +903,12 @@
 			if ($tr.hasClass('dragging')) {
 				return;
 			}
-			if (this._allowSelection && (event.ctrlKey || event.shiftKey)) {
+			if (this._allowSelection && event.shiftKey) {
 				event.preventDefault();
-				if (event.shiftKey) {
-					this._selectRange($tr);
-				} else {
-					this._selectSingle($tr);
-				}
+				this._selectRange($tr);
 				this._lastChecked = $tr;
 				this.updateSelectionSummary();
-			} else {
+			} else if (!event.ctrlKey) {
 				// clicked directly on the name
 				if (!this._detailsView || $(event.target).is('.nametext, .name, .thumbnail') || $(event.target).closest('.nametext').length) {
 					var filename = $tr.attr('data-file');
@@ -892,13 +917,10 @@
 						event.preventDefault();
 					} else if (!renaming) {
 						this.fileActions.currentFile = $tr.find('td');
-						var mime = this.fileActions.getCurrentMimeType();
-						var type = this.fileActions.getCurrentType();
-						var permissions = this.fileActions.getCurrentPermissions();
-						var action = this.fileActions.getDefault(mime,type, permissions);
-						if (action) {
+						var spec = this.fileActions.getCurrentDefaultFileAction();
+						if (spec && spec.action) {
 							event.preventDefault();
-							action(filename, {
+							spec.action(filename, {
 								$file: $tr,
 								fileList: this,
 								fileActions: this.fileActions,
@@ -1133,7 +1155,6 @@
 			if ($targetDir !== undefined && e.which === 1) {
 				e.preventDefault();
 				this.changeDirectory($targetDir, true, true);
-				this.updateSearch();
 			}
 		},
 
@@ -1243,6 +1264,7 @@
 				mtime: parseInt($el.attr('data-mtime'), 10),
 				type: $el.attr('data-type'),
 				etag: $el.attr('data-etag'),
+				quotaAvailableBytes: $el.attr('data-quota'),
 				permissions: parseInt($el.attr('data-permissions'), 10),
 				hasPreview: $el.attr('data-has-preview') === 'true',
 				isEncrypted: $el.attr('data-e2eencrypted') === 'true'
@@ -1342,6 +1364,32 @@
 			});
 			this.$fileList.trigger($.Event('fileActionsReady', {fileList: this, $files: $files}));
 
+		},
+
+		/**
+		 * Register action for multiple selected files
+		 *
+		 * @param {OCA.Files.FileAction} fileAction object
+		 * The callback of FileAction will be called with an array of files that are currently selected
+		 */
+		registerMultiSelectFileAction: function(fileAction) {
+			if (typeof this.multiSelectMenuItems === 'undefined') {
+				return;
+			}
+			this.multiSelectMenuItems.push(fileAction)
+			this._updateMultiSelectFileActions()
+		},
+
+		_updateMultiSelectFileActions: function() {
+			if (typeof this.multiSelectMenuItems === 'undefined') {
+				return;
+			}
+			this.fileMultiSelectMenu = new OCA.Files.FileMultiSelectMenu(this.multiSelectMenuItems.sort(function(a, b) {
+				return a.order > b.order
+			}));
+			this.fileMultiSelectMenu.render();
+			this.$el.find('.selectedActions .filesSelectMenu').remove();
+			this.$el.find('.selectedActions').append(this.fileMultiSelectMenu.$el);
 		},
 
 		/**
@@ -1477,6 +1525,7 @@
 				"data-mime": mime,
 				"data-mtime": mtime,
 				"data-etag": fileData.etag,
+				"data-quota": fileData.quotaAvailableBytes,
 				"data-permissions": permissions,
 				"data-has-preview": fileData.hasPreview !== false,
 				"data-e2eencrypted": fileData.isEncrypted === true
@@ -1527,9 +1576,13 @@
 			td = $('<td class="filename"></td>');
 
 
+			var spec = this.fileActions.getDefaultFileAction(mime, type, permissions);
 			// linkUrl
 			if (mime === 'httpd/unix-directory') {
 				linkUrl = this.linkTo(path + '/' + name);
+			}
+			else if (spec && spec.action) {
+				linkUrl = this.getDefaultActionUrl(path, fileData.id);
 			}
 			else {
 				linkUrl = this.getDownloadUrl(name, path, type === 'dir');
@@ -1539,9 +1592,7 @@
 				"href": linkUrl
 			});
 			if (this._defaultFileActionsDisabled) {
-				linkElem = $('<p></p>').attr({
-					"class": "name"
-				})
+				linkElem.addClass('disabled');
 			}
 
 			linkElem.append('<div class="thumbnail-wrapper"><div class="thumbnail" style="background-image:url(' + icon + ');"></div></div>');
@@ -2149,6 +2200,10 @@
 			return OCA.Files.Files.getDownloadUrl(files, dir || this.getCurrentDirectory(), isDir);
 		},
 
+		getDefaultActionUrl: function(path, id) {
+			return this.linkTo(path) + "&openfile="+id;
+		},
+
 		getUploadUrl: function(fileName, dir) {
 			if (_.isUndefined(dir)) {
 				dir = this.getCurrentDirectory();
@@ -2188,6 +2243,12 @@
 			urlSpec.x = Math.ceil(urlSpec.x);
 			urlSpec.y = Math.ceil(urlSpec.y);
 			urlSpec.forceIcon = 0;
+
+			/**
+			 * Images are cropped to a square by default. Append a=1 to the URL
+			 *  if the user wants to see images with original aspect ratio.
+			 */
+			urlSpec.a = this._filesConfig.get('cropimagepreviews') ? 0 : 1;
 
 			if (typeof urlSpec.fileId !== 'undefined') {
 				delete urlSpec.file;
@@ -3208,7 +3269,12 @@
 				$('#searchresults').addClass('filter-empty');
 				$('#searchresults .emptycontent').addClass('emptycontent-search');
 				if ( $('#searchresults').length === 0 || $('#searchresults').hasClass('hidden') ) {
-					var error = t('files', 'No search results in other folders for {tag}{filter}{endtag}', {filter:this._filter});
+					var error;
+					if (this._filter.length > 2) {
+						error = t('files', 'No search results in other folders for {tag}{filter}{endtag}', {filter:this._filter});
+					} else {
+						error = t('files', 'Enter more than two characters to search in other folders');
+					}
 					this.$el.find('.nofilterresults').removeClass('hidden').
 						find('p').html(error.replace('{tag}', '<strong>').replace('{endtag}', '</strong>'));
 				}
@@ -3229,17 +3295,7 @@
 		getFilter:function(filter) {
 			return this._filter;
 		},
-		/**
-		 * update the search object to use this filelist when filtering
-		 */
-		updateSearch:function() {
-			if (OCA.Search.files) {
-				OCA.Search.files.setFileList(this);
-			}
-			if (OC.Search) {
-				OC.Search.clear();
-			}
-		},
+
 		/**
 		 * Update UI based on the current selection
 		 */
@@ -3679,7 +3735,22 @@
 			console.warn('registerTabView is deprecated! It will be removed in nextcloud 20.');
 			const enabled = tabView.canDisplay || undefined
 			if (tabView.id) {
-				OCA.Files.Sidebar.registerTab(new OCA.Files.Sidebar.Tab(tabView.id, tabView, enabled, true))
+				OCA.Files.Sidebar.registerTab(new OCA.Files.Sidebar.Tab({
+					id: tabView.id,
+					name: tabView.getLabel(),
+					icon: tabView.getIcon(),
+					mount: function(el, fileInfo) {
+						tabView.setFileInfo(new OCA.Files.FileInfoModel(fileInfo))
+						el.appendChild(tabView.el)
+					},
+					update: function(fileInfo) {
+						tabView.setFileInfo(new OCA.Files.FileInfoModel(fileInfo))
+					},
+					destroy: function() {
+						tabView.el.remove()
+					},
+					enabled: enabled
+				}))
 			}
 		},
 
@@ -3738,6 +3809,7 @@
 					return t('files', 'Select file range');
 				},
 				iconClass: 'icon-fullscreen',
+				order: 15,
 				action: function() {
 					fileList._onClickToggleSelectionMode();
 				},
@@ -3808,7 +3880,7 @@
 	OCA.Files.FileList = FileList;
 })();
 
-$(document).ready(function() {
+window.addEventListener('DOMContentLoaded', function() {
 	// FIXME: unused ?
 	OCA.Files.FileList.useUndo = (window.onbeforeunload)?true:false;
 	$(window).on('beforeunload', function () {

@@ -17,23 +17,20 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCP\WorkflowEngine;
-
 
 use OCP\Files\Storage\IStorage;
 
 /**
  * Interface IFileCheck
  *
- * @package OCP\WorkflowEngine
  * @since 18.0.0
  */
 interface IFileCheck extends IEntityCheck {
@@ -44,5 +41,4 @@ interface IFileCheck extends IEntityCheck {
 	 * @since 18.0.0
 	 */
 	public function setFileInfo(IStorage $storage, string $path, bool $isDir = false): void;
-
 }

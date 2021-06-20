@@ -4,13 +4,15 @@
  *
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -27,7 +29,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_Sharing\External;
 
 use GuzzleHttp\Exception\ClientException;
@@ -71,9 +72,9 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage {
 		$this->cloudId = $options['cloudId'];
 		$discoveryService = \OC::$server->query(\OCP\OCS\IDiscoveryService::class);
 
-		list($protocol, $remote) = explode('://', $this->cloudId->getRemote());
+		[$protocol, $remote] = explode('://', $this->cloudId->getRemote());
 		if (strpos($remote, '/')) {
-			list($host, $root) = explode('/', $remote, 2);
+			[$host, $root] = explode('/', $remote, 2);
 		} else {
 			$host = $remote;
 			$root = '';
@@ -265,7 +266,7 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage {
 	 */
 	private function testRemoteUrl($url) {
 		$cache = $this->memcacheFactory->createDistributed('files_sharing_remote_url');
-		if($cache->hasKey($url)) {
+		if ($cache->hasKey($url)) {
 			return (bool)$cache->get($url);
 		}
 
@@ -285,7 +286,7 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage {
 			$returnValue = false;
 		}
 
-		$cache->set($url, $returnValue, 60*60*24);
+		$cache->set($url, $returnValue, 60 * 60 * 24);
 		return $returnValue;
 	}
 
@@ -296,7 +297,7 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage {
 	 * @return bool
 	 */
 	public function remoteIsOwnCloud() {
-		if(defined('PHPUNIT_RUN') || !$this->testRemoteUrl($this->getRemote() . '/status.php')) {
+		if (defined('PHPUNIT_RUN') || !$this->testRemoteUrl($this->getRemote() . '/status.php')) {
 			return false;
 		}
 		return true;
@@ -314,7 +315,7 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage {
 		$password = $this->getPassword();
 
 		// If remote is not an ownCloud do not try to get any share info
-		if(!$this->remoteIsOwnCloud()) {
+		if (!$this->remoteIsOwnCloud()) {
 			return ['status' => 'unsupported'];
 		}
 
@@ -360,9 +361,9 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage {
 		// old federated sharing permissions
 		if (isset($response['{http://open-collaboration-services.org/ns}share-permissions'])) {
 			$permissions = $response['{http://open-collaboration-services.org/ns}share-permissions'];
-		} else if (isset($response['{http://open-cloud-mesh.org/ns}share-permissions'])) {
+		} elseif (isset($response['{http://open-cloud-mesh.org/ns}share-permissions'])) {
 			// permissions provided by the OCM API
-			$permissions = $this->ocmPermissions2ncPermissions($response['{http://open-collaboration-services.org/ns}share-permissions']);
+			$permissions = $this->ocmPermissions2ncPermissions($response['{http://open-collaboration-services.org/ns}share-permissions'], $path);
 		} else {
 			// use default permission if remote server doesn't provide the share permissions
 			$permissions = $this->getDefaultPermissions($path);
@@ -386,7 +387,7 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage {
 		try {
 			$ocmPermissions = json_decode($ocmPermissions);
 			$ncPermissions = 0;
-			foreach($ocmPermissions as $permission) {
+			foreach ($ocmPermissions as $permission) {
 				switch (strtolower($permission)) {
 					case 'read':
 						$ncPermissions += Constants::PERMISSION_READ;

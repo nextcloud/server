@@ -2,14 +2,14 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -26,7 +26,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_External\Tests\Storage;
 
 use OCA\Files_External\Lib\Storage\FTP;
@@ -46,7 +45,7 @@ class FtpTest extends \Test\Files\Storage\Storage {
 
 		$id = $this->getUniqueID();
 		$this->config = include('files_external/tests/config.ftp.php');
-		if ( ! is_array($this->config) or ! $this->config['run']) {
+		if (! is_array($this->config) or ! $this->config['run']) {
 			$this->markTestSkipped('FTP backend not configured');
 		}
 		$this->config['root'] .= '/' . $id; //make sure we have an new empty folder to work in
@@ -62,12 +61,12 @@ class FtpTest extends \Test\Files\Storage\Storage {
 		parent::tearDown();
 	}
 
-	public function testConstructUrl(){
-		$config =  [ 'host' => 'localhost',
-						  'user' => 'ftp',
-						  'password' => 'ftp',
-						  'root' => '/',
-						  'secure' => false ];
+	public function testConstructUrl() {
+		$config = [ 'host' => 'localhost',
+			'user' => 'ftp',
+			'password' => 'ftp',
+			'root' => '/',
+			'secure' => false ];
 		$instance = new FTP($config);
 		$this->assertEquals('ftp://ftp:ftp@localhost/', $instance->constructUrl(''));
 

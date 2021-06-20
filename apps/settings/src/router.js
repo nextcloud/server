@@ -1,8 +1,9 @@
-/*
+/**
  * @copyright Copyright (c) 2018 John Molakvoæ <skjnldsv@protonmail.com>
  *
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Julius Härtl <jus@bitgrid.net>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -23,10 +24,11 @@
 
 import Vue from 'vue'
 import Router from 'vue-router'
+import { generateUrl } from '@nextcloud/router'
 
 // Dynamic loading
-const Users = () => import('./views/Users')
-const Apps = () => import('./views/Apps')
+const Users = () => import(/* webpackChunkName: 'settings-users' */'./views/Users')
+const Apps = () => import(/* webpackChunkName: 'settings-apps' */'./views/Apps')
 
 Vue.use(Router)
 
@@ -43,7 +45,7 @@ export default new Router({
 	mode: 'history',
 	// if index.php is in the url AND we got this far, then it's working:
 	// let's keep using index.php in the url
-	base: OC.generateUrl(''),
+	base: generateUrl(''),
 	linkActiveClass: 'active',
 	routes: [
 		{

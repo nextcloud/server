@@ -1,7 +1,9 @@
 /**
  * @copyright 2016 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
- * @author 2016 Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -16,7 +18,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
@@ -30,7 +32,7 @@
 		},
 		_dirInfo: undefined,
 
-		render: function(data) {
+		render(data) {
 			this._dirInfo = data.dirInfo || null
 
 			if (this._dirInfo !== null && (this._dirInfo.path !== '/' || this._dirInfo.name !== '')) {
@@ -55,7 +57,7 @@
 
 			return this
 		},
-		_onClick: function(e) {
+		_onClick(e) {
 			e.preventDefault()
 
 			const fileInfoModel = new OCA.Files.FileInfoModel(this._dirInfo)

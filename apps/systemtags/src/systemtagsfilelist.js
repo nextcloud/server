@@ -1,12 +1,27 @@
-/*
+/**
  * Copyright (c) 2016 Vincent Petry <pvince81@owncloud.com>
  *
- * This file is licensed under the Affero General Public License version 3
- * or later.
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
- * See the COPYING-README file.
+ * @license GNU AGPL version 3 or any later version
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 (function() {
 	/**
 	 * @class OCA.SystemTags.FileList
@@ -48,7 +63,7 @@
 			 * @param {Object} $el container element
 			 * @param {Object} [options] map of options, see other parameters
 			 */
-			initialize: function($el, options) {
+			initialize($el, options) {
 				OCA.Files.FileList.prototype.initialize.apply(this, arguments)
 				if (this.initialized) {
 					return
@@ -66,24 +81,24 @@
 				this._initFilterField($controls)
 			},
 
-			destroy: function() {
+			destroy() {
 				this.$filterField.remove()
 
 				OCA.Files.FileList.prototype.destroy.apply(this, arguments)
 			},
 
-			_getLastUsedTags: function() {
+			_getLastUsedTags() {
 				const self = this
 				$.ajax({
 					type: 'GET',
 					url: OC.generateUrl('/apps/systemtags/lastused'),
-					success: function(response) {
+					success(response) {
 						self._lastUsedTags = response
 					},
 				})
 			},
 
-			_initFilterField: function($container) {
+			_initFilterField($container) {
 				const self = this
 				this.$filterField = $('<input type="hidden" name="tags"/>')
 				$container.append(this.$filterField)
@@ -95,11 +110,11 @@
 					separator: ',',
 					query: _.bind(this._queryTagsAutocomplete, this),
 
-					id: function(tag) {
+					id(tag) {
 						return tag.id
 					},
 
-					initSelection: function(element, callback) {
+					initSelection(element, callback) {
 						const val = $(element)
 							.val()
 							.trim()
@@ -108,7 +123,7 @@
 							const tags = []
 
 							OC.SystemTags.collection.fetch({
-								success: function() {
+								success() {
 									_.each(tagIds, function(tagId) {
 										const tag = OC.SystemTags.collection.get(
 											tagId
@@ -127,16 +142,16 @@
 						}
 					},
 
-					formatResult: function(tag) {
+					formatResult(tag) {
 						return OC.SystemTags.getDescriptiveTag(tag)
 					},
 
-					formatSelection: function(tag) {
+					formatSelection(tag) {
 						return OC.SystemTags.getDescriptiveTag(tag)[0]
 							.outerHTML
 					},
 
-					sortResults: function(results) {
+					sortResults(results) {
 						results.sort(function(a, b) {
 							const aLastUsed = self._lastUsedTags.indexOf(a.id)
 							const bLastUsed = self._lastUsedTags.indexOf(b.id)
@@ -157,11 +172,11 @@
 						return results
 					},
 
-					escapeMarkup: function(m) {
+					escapeMarkup(m) {
 						// prevent double markup escape
 						return m
 					},
-					formatNoMatches: function() {
+					formatNoMatches() {
 						return t('systemtags', 'No tags found')
 					},
 				})
@@ -177,9 +192,9 @@
 			 *
 			 * @param {Object} query select2 query object
 			 */
-			_queryTagsAutocomplete: function(query) {
+			_queryTagsAutocomplete(query) {
 				OC.SystemTags.collection.fetch({
-					success: function() {
+					success() {
 						const results = OC.SystemTags.collection.filterByName(
 							query.term
 						)
@@ -196,7 +211,7 @@
 			 *
 			 * @param {Event} e the urlchanged event
 			 */
-			_onUrlChanged: function(e) {
+			_onUrlChanged(e) {
 				if (e.dir) {
 					const tags = _.filter(e.dir.split('/'), function(val) {
 						return val.trim() !== ''
@@ -207,7 +222,7 @@
 				}
 			},
 
-			_onTagsChanged: function(ev) {
+			_onTagsChanged(ev) {
 				const val = $(ev.target)
 					.val()
 					.trim()
@@ -225,7 +240,7 @@
 				this.reload()
 			},
 
-			updateEmptyContent: function() {
+			updateEmptyContent() {
 				const dir = this.getCurrentDirectory()
 				if (dir === '/') {
 					// root has special permissions
@@ -270,16 +285,16 @@
 				}
 			},
 
-			getDirectoryPermissions: function() {
+			getDirectoryPermissions() {
 				return OC.PERMISSION_READ | OC.PERMISSION_DELETE
 			},
 
-			updateStorageStatistics: function() {
+			updateStorageStatistics() {
 				// no op because it doesn't have
 				// storage info like free space / used space
 			},
 
-			reload: function() {
+			reload() {
 				// there is only root
 				this._setCurrentDir('/', false)
 
@@ -314,7 +329,7 @@
 				return this._reloadCall.then(callBack, callBack)
 			},
 
-			reloadCallback: function(status, result) {
+			reloadCallback(status, result) {
 				if (result) {
 					// prepend empty dir info because original handler
 					result.unshift({})

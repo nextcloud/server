@@ -5,7 +5,9 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
@@ -23,9 +25,7 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\UpdateNotification\Tests\Notification;
-
 
 use OCA\UpdateNotification\Notification\Notifier;
 use OCP\IConfig;
@@ -40,17 +40,17 @@ use Test\TestCase;
 
 class NotifierTest extends TestCase {
 
-	/** @var IURLGenerator|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
 	protected $urlGenerator;
-	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	protected $config;
-	/** @var IManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $notificationManager;
-	/** @var IFactory|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IFactory|\PHPUnit\Framework\MockObject\MockObject */
 	protected $l10nFactory;
-	/** @var IUserSession|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
 	protected $userSession;
-	/** @var IGroupManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IGroupManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $groupManager;
 
 	protected function setUp(): void {
@@ -66,7 +66,7 @@ class NotifierTest extends TestCase {
 
 	/**
 	 * @param array $methods
-	 * @return Notifier|\PHPUnit_Framework_MockObject_MockObject
+	 * @return Notifier|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	protected function getNotifier(array $methods = []) {
 		if (empty($methods)) {
@@ -78,7 +78,8 @@ class NotifierTest extends TestCase {
 				$this->userSession,
 				$this->groupManager
 			);
-		} {
+		}
+		{
 			return $this->getMockBuilder(Notifier::class)
 				->setConstructorArgs([
 					$this->urlGenerator,

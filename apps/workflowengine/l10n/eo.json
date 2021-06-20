@@ -62,7 +62,6 @@
     "Delete" : "Forigi",
     "The configuration is invalid" : "La agordo ne validas",
     "Save" : "Konservi",
-    "Browse the app store" : "Esplori la aplikaĵejon",
     "Show less" : "Montri malpli",
     "Show more" : "Montri pli",
     "matches" : "kongruas kun",
@@ -92,24 +91,6 @@
     "User group membership" : "Grupano",
     "is member of" : "estas membro de",
     "is not member of" : "ne estas membro de",
-    "Short rule description" : "Mallong priskribo de regulo",
-    "Add rule" : "Aldoni regulon",
-    "Reset" : "Restarigi",
-    "Saving…" : "Konservado...",
-    "Group list is empty" : "Gruplisto malplenas",
-    "Unable to retrieve the group list" : "Ne eblas ricevi grupliston",
-    "Saved" : "Konservita",
-    "Saving failed:" : "Konservado malsukcesis:",
-    "Add rule group" : "Aldoni regulgrupon",
-    "Example: {placeholder}" : "Ekzemplo: {placeholder}",
-    "Select tag…" : "Elekti etikedon...",
-    "Start" : "Komenco",
-    "End" : "Fino",
-    "Select timezone…" : "Elekti horzonon...",
-    "Sync clients" : "Sinkronigaj klientoj",
-    "Tag management" : "Etikeda administrado",
-    "Files workflow engine" : "Modulo de dosiera laborfluo",
-    "Open documentation" : "Malfermi dokumentaron",
-    "Loading…" : "Ŝargado..."
+    "Browse the app store" : "Esplori la aplikaĵejon"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

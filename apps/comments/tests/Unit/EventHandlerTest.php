@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2016 Arthur Schiwon <blizzz@arthur-schiwon.de>
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
@@ -14,14 +15,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Comments\Tests\Unit\Notification;
 
 use OCA\Comments\Activity\Listener as ActivityListener;
@@ -35,10 +35,10 @@ class EventHandlerTest extends TestCase {
 	/** @var  EventHandler */
 	protected $eventHandler;
 
-	/** @var ActivityListener|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ActivityListener|\PHPUnit\Framework\MockObject\MockObject */
 	protected $activityListener;
 
-	/** @var NotificationListener|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var NotificationListener|\PHPUnit\Framework\MockObject\MockObject */
 	protected $notificationListener;
 
 	protected function setUp(): void {
@@ -56,13 +56,13 @@ class EventHandlerTest extends TestCase {
 	}
 
 	public function testNotFiles() {
-		/** @var IComment|\PHPUnit_Framework_MockObject_MockObject $comment */
+		/** @var IComment|\PHPUnit\Framework\MockObject\MockObject $comment */
 		$comment = $this->getMockBuilder(IComment::class)->getMock();
 		$comment->expects($this->once())
 			->method('getObjectType')
 			->willReturn('smiles');
 
-		/** @var CommentsEvent|\PHPUnit_Framework_MockObject_MockObject $event */
+		/** @var CommentsEvent|\PHPUnit\Framework\MockObject\MockObject $event */
 		$event = $this->getMockBuilder(CommentsEvent::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -89,13 +89,13 @@ class EventHandlerTest extends TestCase {
 	 * @param string $eventType
 	 */
 	public function testHandled($eventType) {
-		/** @var IComment|\PHPUnit_Framework_MockObject_MockObject $comment */
+		/** @var IComment|\PHPUnit\Framework\MockObject\MockObject $comment */
 		$comment = $this->getMockBuilder(IComment::class)->getMock();
 		$comment->expects($this->once())
 			->method('getObjectType')
 			->willReturn('files');
 
-		/** @var CommentsEvent|\PHPUnit_Framework_MockObject_MockObject $event */
+		/** @var CommentsEvent|\PHPUnit\Framework\MockObject\MockObject $event */
 		$event = $this->getMockBuilder(CommentsEvent::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -116,5 +116,4 @@ class EventHandlerTest extends TestCase {
 
 		$this->eventHandler->handle($event);
 	}
-
 }

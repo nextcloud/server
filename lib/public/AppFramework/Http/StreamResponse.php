@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
@@ -23,7 +24,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\AppFramework\Http;
 
 use OCP\AppFramework\Http;
@@ -31,7 +31,6 @@ use OCP\AppFramework\Http;
 /**
  * Class StreamResponse
  *
- * @package OCP\AppFramework\Http
  * @since 8.1.0
  */
 class StreamResponse extends Response implements ICallbackResponse {
@@ -42,7 +41,7 @@ class StreamResponse extends Response implements ICallbackResponse {
 	 * @param string|resource $filePath the path to the file or a file handle which should be streamed
 	 * @since 8.1.0
 	 */
-	public function __construct ($filePath) {
+	public function __construct($filePath) {
 		parent::__construct();
 
 		$this->filePath = $filePath;
@@ -55,7 +54,7 @@ class StreamResponse extends Response implements ICallbackResponse {
 	 * @param IOutput $output a small wrapper that handles output
 	 * @since 8.1.0
 	 */
-	public function callback (IOutput $output) {
+	public function callback(IOutput $output) {
 		// handle caching
 		if ($output->getHttpResponseCode() !== Http::STATUS_NOT_MODIFIED) {
 			if (!(is_resource($this->filePath) || file_exists($this->filePath))) {
@@ -65,5 +64,4 @@ class StreamResponse extends Response implements ICallbackResponse {
 			}
 		}
 	}
-
 }

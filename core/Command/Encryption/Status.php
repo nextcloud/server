@@ -19,7 +19,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Core\Command\Encryption;
 
 use OC\Core\Command\Base;
@@ -48,10 +47,11 @@ class Status extends Base {
 		;
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$this->writeArrayInOutputFormat($input, $output, [
 			'enabled' => $this->encryptionManager->isEnabled(),
 			'defaultModule' => $this->encryptionManager->getDefaultEncryptionModuleId(),
 		]);
+		return 0;
 	}
 }

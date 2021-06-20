@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
@@ -23,7 +24,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_Trashbin;
 
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -32,8 +32,8 @@ use OCP\IConfig;
 class Expiration {
 
 	// how long do we keep files in the trash bin if no other value is defined in the config file (unit: days)
-	const DEFAULT_RETENTION_OBLIGATION = 30;
-	const NO_OBLIGATION = -1;
+	public const DEFAULT_RETENTION_OBLIGATION = 30;
+	public const NO_OBLIGATION = -1;
 
 	/** @var ITimeFactory */
 	private $timeFactory;
@@ -50,7 +50,7 @@ class Expiration {
 	/** @var bool */
 	private $canPurgeToSaveSpace;
 
-	public function __construct(IConfig $config,ITimeFactory $timeFactory){
+	public function __construct(IConfig $config,ITimeFactory $timeFactory) {
 		$this->timeFactory = $timeFactory;
 		$this->setRetentionObligation($config->getSystemValue('trashbin_retention_obligation', 'auto'));
 	}
@@ -67,7 +67,7 @@ class Expiration {
 	 * Is trashbin expiration enabled
 	 * @return bool
 	 */
-	public function isEnabled(){
+	public function isEnabled() {
 		return $this->retentionObligation !== 'disabled';
 	}
 
@@ -77,7 +77,7 @@ class Expiration {
 	 * @param bool $quotaExceeded
 	 * @return bool
 	 */
-	public function isExpired($timestamp, $quotaExceeded = false){
+	public function isExpired($timestamp, $quotaExceeded = false) {
 		// No expiration if disabled
 		if (!$this->isEnabled()) {
 			return false;
@@ -91,7 +91,7 @@ class Expiration {
 		$time = $this->timeFactory->getTime();
 		// Never expire dates in future e.g. misconfiguration or negative time
 		// adjustment
-		if ($time<$timestamp) {
+		if ($time < $timestamp) {
 			return false;
 		}
 
@@ -126,7 +126,7 @@ class Expiration {
 		return $maxAge;
 	}
 
-	private function parseRetentionObligation(){
+	private function parseRetentionObligation() {
 		$splitValues = explode(',', $this->retentionObligation);
 		if (!isset($splitValues[0])) {
 			$minValue = self::DEFAULT_RETENTION_OBLIGATION;

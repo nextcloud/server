@@ -33,9 +33,6 @@ namespace Tests\Core\Controller;
 
 use OC\AppFramework\Utility\TimeFactory;
 use OC\Core\Controller\AvatarController;
-use OCP\Accounts\IAccount;
-use OCP\Accounts\IAccountManager;
-use OCP\Accounts\IAccountProperty;
 use OCP\AppFramework\Http;
 use OCP\Files\File;
 use OCP\Files\IRootFolder;
@@ -49,7 +46,6 @@ use OCP\ILogger;
 use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserManager;
-use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Class AvatarControllerTest
@@ -59,31 +55,29 @@ use PHPUnit\Framework\MockObject\MockObject;
 class AvatarControllerTest extends \Test\TestCase {
 	/** @var AvatarController */
 	private $avatarController;
-	/** @var IAvatar|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IAvatar|\PHPUnit\Framework\MockObject\MockObject */
 	private $avatarMock;
-	/** @var IUser|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IUser|\PHPUnit\Framework\MockObject\MockObject */
 	private $userMock;
-	/** @var File|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var File|\PHPUnit\Framework\MockObject\MockObject */
 	private $avatarFile;
 
-	/** @var IAvatarManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IAvatarManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $avatarManager;
-	/** @var ICache|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ICache|\PHPUnit\Framework\MockObject\MockObject */
 	private $cache;
-	/** @var IL10N|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
 	private $l;
-	/** @var IUserManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $userManager;
-	/** @var IRootFolder|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IRootFolder|\PHPUnit\Framework\MockObject\MockObject */
 	private $rootFolder;
-	/** @var ILogger|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ILogger|\PHPUnit\Framework\MockObject\MockObject */
 	private $logger;
-	/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
 	private $request;
-	/** @var TimeFactory|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var TimeFactory|\PHPUnit\Framework\MockObject\MockObject */
 	private $timeFactory;
-	/** @var IAccountManager|MockObject */
-	private $accountManager;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -98,7 +92,6 @@ class AvatarControllerTest extends \Test\TestCase {
 		$this->rootFolder = $this->getMockBuilder('OCP\Files\IRootFolder')->getMock();
 		$this->logger = $this->getMockBuilder(ILogger::class)->getMock();
 		$this->timeFactory = $this->getMockBuilder('OC\AppFramework\Utility\TimeFactory')->getMock();
-		$this->accountManager = $this->createMock(IAccountManager::class);
 
 		$this->avatarMock = $this->getMockBuilder('OCP\IAvatar')->getMock();
 		$this->userMock = $this->getMockBuilder(IUser::class)->getMock();
@@ -113,8 +106,7 @@ class AvatarControllerTest extends \Test\TestCase {
 			$this->rootFolder,
 			$this->logger,
 			'userid',
-			$this->timeFactory,
-			$this->accountManager
+			$this->timeFactory
 		);
 
 		// Configure userMock
@@ -143,39 +135,6 @@ class AvatarControllerTest extends \Test\TestCase {
 
 		//Comment out until JS is fixed
 		$this->assertEquals(Http::STATUS_NOT_FOUND, $response->getStatus());
-	}
-
-	public function testAvatarNotPublic() {
-		$account = $this->createMock(IAccount::class);
-		$this->accountManager->method('getAccount')
-			->with($this->userMock)
-			->willReturn($account);
-
-		$property = $this->createMock(IAccountProperty::class);
-		$account->method('getProperty')
-			->with(IAccountManager::PROPERTY_AVATAR)
-			->willReturn($property);
-
-		$property->method('getScope')
-			->willReturn(IAccountManager::VISIBILITY_PRIVATE);
-
-		$controller = new AvatarController(
-			'core',
-			$this->request,
-			$this->avatarManager,
-			$this->cache,
-			$this->l,
-			$this->userManager,
-			$this->rootFolder,
-			$this->logger,
-			null,
-			$this->timeFactory,
-			$this->accountManager
-		);
-
-		$result = $controller->getAvatar('userId', 128);
-
-		$this->assertEquals(Http::STATUS_NOT_FOUND, $result->getStatus());
 	}
 
 	/**
@@ -557,12 +516,11 @@ class AvatarControllerTest extends \Test\TestCase {
 	public function testFileTooBig() {
 		$fileName = \OC::$SERVERROOT.'/tests/data/testimage.jpg';
 		//Create request return
-		$reqRet = ['error' => [0], 'tmp_name' => [$fileName], 'size' => [21*1024*1024]];
+		$reqRet = ['error' => [0], 'tmp_name' => [$fileName], 'size' => [21 * 1024 * 1024]];
 		$this->request->method('getUploadedFile')->willReturn($reqRet);
 
 		$response = $this->avatarController->postAvatar(null);
 
 		$this->assertEquals('File is too big', $response->getData()['data']['message']);
 	}
-
 }

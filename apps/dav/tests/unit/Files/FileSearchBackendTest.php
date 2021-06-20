@@ -2,6 +2,9 @@
 /**
  * @copyright Copyright (c) 2017 Robin Appelman <robin@icewind.nl>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -14,14 +17,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\Tests\Files;
 
 use OC\Files\Search\SearchComparison;
@@ -43,32 +45,31 @@ use OCP\Share\IManager;
 use SearchDAV\Backend\SearchPropertyDefinition;
 use SearchDAV\Query\Limit;
 use SearchDAV\Query\Query;
-use SearchDAV\XML\Operator;
 use Test\TestCase;
 
 class FileSearchBackendTest extends TestCase {
-	/** @var CachingTree|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var CachingTree|\PHPUnit\Framework\MockObject\MockObject */
 	private $tree;
 
 	/** @var IUser */
 	private $user;
 
-	/** @var IRootFolder|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IRootFolder|\PHPUnit\Framework\MockObject\MockObject */
 	private $rootFolder;
 
-	/** @var IManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $shareManager;
 
-	/** @var View|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var View|\PHPUnit\Framework\MockObject\MockObject */
 	private $view;
 
-	/** @var Folder|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var Folder|\PHPUnit\Framework\MockObject\MockObject */
 	private $searchFolder;
 
 	/** @var FileSearchBackend */
 	private $search;
 
-	/** @var Directory|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var Directory|\PHPUnit\Framework\MockObject\MockObject */
 	private $davFolder;
 
 	protected function setUp(): void {
@@ -257,7 +258,7 @@ class FileSearchBackendTest extends TestCase {
 		$this->assertEquals('/files/test/test/path', $result[0]->href);
 	}
 
-	
+
 	public function testSearchInvalidProp() {
 		$this->expectException(\InvalidArgumentException::class);
 
@@ -294,7 +295,7 @@ class FileSearchBackendTest extends TestCase {
 		return new Query($select, $from, $where, $orderBy, $limit);
 	}
 
-	
+
 	public function testSearchNonFolder() {
 		$this->expectException(\InvalidArgumentException::class);
 

@@ -20,7 +20,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_External\Tests\Backend;
 
 use OCA\Files_External\Lib\Backend\LegacyBackend;
@@ -111,5 +110,4 @@ class LegacyBackendTest extends \Test\TestCase {
 		$dependencies = $backend->checkDependencies();
 		$this->assertCount(0, $dependencies);
 	}
-
 }

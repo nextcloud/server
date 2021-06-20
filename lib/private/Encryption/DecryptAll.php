@@ -5,9 +5,11 @@
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Björn Schießle <bjoern@schiessle.org>
  * @author Christian Jürges <christian@eqipe.ch>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author sammo2828 <sammo2828@gmail.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -24,7 +26,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Encryption;
 
 use OC\Encryption\Exceptions\DecryptionFailedException;
@@ -81,7 +82,6 @@ class DecryptAll {
 	 * @throws \Exception
 	 */
 	public function decryptAll(InputInterface $input, OutputInterface $output, $user = '') {
-
 		$this->input = $input;
 		$this->output = $output;
 
@@ -145,12 +145,10 @@ class DecryptAll {
 	 * @param string $user which users files should be decrypted, default = all users
 	 */
 	protected function decryptAllUsersFiles($user = '') {
-
 		$this->output->writeln("\n");
 
 		$userList = [];
 		if ($user === '') {
-
 			$fetchUsersProgress = new ProgressBar($this->output);
 			$fetchUsersProgress->setFormat(" %message% \n [%bar%]");
 			$fetchUsersProgress->start();
@@ -195,7 +193,6 @@ class DecryptAll {
 		$progress->finish();
 
 		$this->output->writeln("\n\n");
-
 	}
 
 	/**
@@ -206,7 +203,6 @@ class DecryptAll {
 	 * @param string $userCount
 	 */
 	protected function decryptUsersFiles($uid, ProgressBar $progress, $userCount) {
-
 		$this->setupUserFS($uid);
 		$directories = [];
 		$directories[] = '/' . $uid . '/files';
@@ -215,7 +211,7 @@ class DecryptAll {
 			$content = $this->rootView->getDirectoryContent($root);
 			foreach ($content as $file) {
 				// only decrypt files owned by the user
-				if($file->getStorage()->instanceOfStorage('OCA\Files_Sharing\SharedStorage')) {
+				if ($file->getStorage()->instanceOfStorage('OCA\Files_Sharing\SharedStorage')) {
 					continue;
 				}
 				$path = $root . '/' . $file['name'];
@@ -297,5 +293,4 @@ class DecryptAll {
 		\OC_Util::tearDownFS();
 		\OC_Util::setupFS($uid);
 	}
-
 }

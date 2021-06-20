@@ -6,6 +6,7 @@
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Stefan Weil <sw@weilnetz.de>
  *
  * @license AGPL-3.0
@@ -23,9 +24,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\AppFramework\Http;
-
 
 /**
  * Very thin wrapper class to make output testable
@@ -73,8 +72,8 @@ interface IOutput {
 	 * @param string $domain
 	 * @param bool $secure
 	 * @param bool $httpOnly
+	 * @param string $sameSite (added in 20)
 	 * @since 8.1.0
 	 */
-	public function setCookie($name, $value, $expire, $path, $domain, $secure, $httpOnly);
-
+	public function setCookie($name, $value, $expire, $path, $domain, $secure, $httpOnly, $sameSite = 'Lax');
 }

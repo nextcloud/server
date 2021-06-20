@@ -20,7 +20,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\Files\Config;
 
 use OCP\IUser;
@@ -79,4 +78,12 @@ interface IMountProviderCollection {
 	 * @since 9.0.0
 	 */
 	public function getMountCache();
+
+	/**
+	 * Get all root mountpoints
+	 *
+	 * @return \OCP\Files\Mount\IMountPoint[]
+	 * @since 20.0.0
+	 */
+	public function getRootMounts(): array;
 }

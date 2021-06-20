@@ -11,7 +11,6 @@
 
 namespace Test\Mail;
 
-
 use OC\Mail\EMailTemplate;
 use OC\Mail\Mailer;
 use OC\Mail\Message;
@@ -21,20 +20,21 @@ use OCP\IConfig;
 use OCP\IL10N;
 use OCP\ILogger;
 use OCP\IURLGenerator;
+use OCP\L10N\IFactory;
 use OCP\Mail\Events\BeforeMessageSent;
-use Test\TestCase;
 use Swift_SwiftException;
+use Test\TestCase;
 
 class MailerTest extends TestCase {
-	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
-	/** @var Defaults|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var Defaults|\PHPUnit\Framework\MockObject\MockObject */
 	private $defaults;
-	/** @var ILogger|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ILogger|\PHPUnit\Framework\MockObject\MockObject */
 	private $logger;
-	/** @var IURLGenerator|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
 	private $urlGenerator;
-	/** @var IL10N|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
 	private $l10n;
 	/** @var Mailer */
 	private $mailer;
@@ -57,7 +57,8 @@ class MailerTest extends TestCase {
 			$this->defaults,
 			$this->urlGenerator,
 			$this->l10n,
-			$this->dispatcher
+			$this->dispatcher,
+			$this->createMock(IFactory::class)
 		);
 	}
 
@@ -154,7 +155,7 @@ class MailerTest extends TestCase {
 		$this->assertInstanceOf('\OC\Mail\Message', $this->mailer->createMessage());
 	}
 
-	
+
 	public function testSendInvalidMailException() {
 		$this->expectException(\Exception::class);
 
@@ -177,6 +178,7 @@ class MailerTest extends TestCase {
 			['lukas@192.168.1.1', true],
 			['lukas@éxämplè.com', true],
 			['asdf', false],
+			['', false],
 			['lukas@owncloud.org@owncloud.com', false],
 		];
 	}
@@ -205,7 +207,6 @@ class MailerTest extends TestCase {
 		$mailer = self::invokePrivate($this->mailer, 'getInstance');
 		$this->assertEquals(1, count($mailer->getTransport()->getStreamOptions()));
 		$this->assertTrue(isset($mailer->getTransport()->getStreamOptions()['foo']));
-
 	}
 
 	public function testStreamingOptionsWrongType() {
@@ -216,5 +217,43 @@ class MailerTest extends TestCase {
 			]);
 		$mailer = self::invokePrivate($this->mailer, 'getInstance');
 		$this->assertEquals(0, count($mailer->getTransport()->getStreamOptions()));
+	}
+
+	public function testLocalDomain(): void {
+		$this->config->method('getSystemValue')
+			->willReturnMap([
+				['mail_smtpmode', 'smtp', 'smtp']
+			]);
+		$this->config->method('getSystemValueString')
+			->with('overwrite.cli.url', '')
+			->willReturn('https://some.valid.url.com:8080');
+
+		/** @var \Swift_Mailer $mailer */
+		$mailer = self::invokePrivate($this->mailer, 'getInstance');
+		self::assertInstanceOf(\Swift_Mailer::class, $mailer);
+
+		/** @var \Swift_Transport_EsmtpTransport $transport */
+		$transport = $mailer->getTransport();
+		self::assertInstanceOf(\Swift_Transport_EsmtpTransport::class, $transport);
+		self::assertEquals('some.valid.url.com', $transport->getLocalDomain());
+	}
+
+	public function testLocalDomainInvalidUrl(): void {
+		$this->config->method('getSystemValue')
+			->willReturnMap([
+				['mail_smtpmode', 'smtp', 'smtp']
+			]);
+		$this->config->method('getSystemValueString')
+			->with('overwrite.cli.url', '')
+			->willReturn('https:only.slash.does.not.work:8080');
+
+		/** @var \Swift_Mailer $mailer */
+		$mailer = self::invokePrivate($this->mailer, 'getInstance');
+		self::assertInstanceOf(\Swift_Mailer::class, $mailer);
+
+		/** @var \Swift_Transport_EsmtpTransport $transport */
+		$transport = $mailer->getTransport();
+		self::assertInstanceOf(\Swift_Transport_EsmtpTransport::class, $transport);
+		self::assertEquals('[127.0.0.1]', $transport->getLocalDomain());
 	}
 }

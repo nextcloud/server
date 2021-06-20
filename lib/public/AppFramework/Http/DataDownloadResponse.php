@@ -21,13 +21,11 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\AppFramework\Http;
 
 /**
  * Class DataDownloadResponse
  *
- * @package OCP\AppFramework\Http
  * @since 8.0.0
  */
 class DataDownloadResponse extends DownloadResponse {

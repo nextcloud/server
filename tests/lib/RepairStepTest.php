@@ -9,6 +9,7 @@
 namespace Test;
 
 use OCP\Migration\IRepairStep;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class RepairStepTest implements IRepairStep {
@@ -25,8 +26,7 @@ class RepairStepTest implements IRepairStep {
 	public function run(\OCP\Migration\IOutput $out) {
 		if ($this->warning) {
 			$out->warning('Simulated warning');
-		}
-		else {
+		} else {
 			$out->info('Simulated info');
 		}
 	}
@@ -42,7 +42,7 @@ class RepairTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 		$dispatcher = new EventDispatcher();
-		$this->repair = new \OC\Repair([], $dispatcher);
+		$this->repair = new \OC\Repair([], $dispatcher, $this->createMock(LoggerInterface::class));
 
 		$dispatcher->addListener('\OC\Repair::warning', function ($event) {
 			/** @var \Symfony\Component\EventDispatcher\GenericEvent $event */
@@ -59,7 +59,6 @@ class RepairTest extends TestCase {
 	}
 
 	public function testRunRepairStep() {
-
 		$this->repair->addStep(new TestRepairStep(false));
 		$this->repair->run();
 
@@ -73,7 +72,6 @@ class RepairTest extends TestCase {
 	}
 
 	public function testRunRepairStepThatFail() {
-
 		$this->repair->addStep(new TestRepairStep(true));
 		$this->repair->run();
 
@@ -101,8 +99,7 @@ class RepairTest extends TestCase {
 		$thrown = false;
 		try {
 			$this->repair->run();
-		}
-		catch (\Exception $e) {
+		} catch (\Exception $e) {
 			$thrown = true;
 		}
 

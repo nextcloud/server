@@ -23,7 +23,7 @@
 
 declare(strict_types=1);
 
-namespace lib\Authentication\Login;
+namespace Test\Authentication\Login;
 
 use OC\Authentication\Login\UidLoginCommand;
 use OC\User\Manager;
@@ -75,5 +75,4 @@ class UidLoginCommandTest extends ALoginCommandTest {
 		$this->assertTrue($result->isSuccess());
 		$this->assertEquals($this->user, $data->getUser());
 	}
-
 }

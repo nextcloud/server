@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  *
  * @license AGPL-3.0
  *
@@ -19,9 +20,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Encryption\Crypto;
-
 
 use OCA\Encryption\KeyManager;
 use OCA\Encryption\Session;
@@ -79,13 +78,12 @@ class DecryptAll {
 	 * @return bool
 	 */
 	public function prepare(InputInterface $input, OutputInterface $output, $user) {
-
 		$question = new Question('Please enter the recovery key password: ');
 
-		if($this->util->isMasterKeyEnabled()) {
+		if ($this->util->isMasterKeyEnabled()) {
 			$output->writeln('Use master key to decrypt all files');
 			$user = $this->keyManager->getMasterKeyId();
-			$password =$this->keyManager->getMasterKeyPassword();
+			$password = $this->keyManager->getMasterKeyPassword();
 		} else {
 			$recoveryKeyId = $this->keyManager->getRecoveryKeyId();
 			if (!empty($user)) {
@@ -99,7 +97,7 @@ class DecryptAll {
 				$useLoginPassword = $this->questionHelper->ask($input, $output, $questionUseLoginPassword);
 				if ($useLoginPassword) {
 					$question = new Question('Please enter the user\'s login password: ');
-				} else if ($this->util->isRecoveryEnabledForUser($user) === false) {
+				} elseif ($this->util->isRecoveryEnabledForUser($user) === false) {
 					$output->writeln('No recovery key available for user ' . $user);
 					return false;
 				} else {

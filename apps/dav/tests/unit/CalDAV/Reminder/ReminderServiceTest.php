@@ -5,9 +5,10 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2019, Thomas Citharel
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Citharel <tcit@tcit.fr>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -18,14 +19,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\Tests\unit\CalDAV\Reminder;
 
 use OCA\DAV\CalDAV\CalDavBackend;
@@ -42,11 +42,11 @@ use Test\TestCase;
 
 class ReminderServiceTest extends TestCase {
 
-    /** @var Backend|\PHPUnit\Framework\MockObject\MockObject */
-    private $backend;
+	/** @var Backend|\PHPUnit\Framework\MockObject\MockObject */
+	private $backend;
 
-    /** @var NotificationProviderManager|\PHPUnit\Framework\MockObject\MockObject */
-    private $notificationProviderManager;
+	/** @var NotificationProviderManager|\PHPUnit\Framework\MockObject\MockObject */
+	private $notificationProviderManager;
 
 	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $userManager;
@@ -185,12 +185,12 @@ END:VEVENT
 END:VCALENDAR
 EOD;
 
-    protected function setUp(): void {
+	protected function setUp(): void {
 		parent::setUp();
 
-        $this->backend = $this->createMock(Backend::class);
-        $this->notificationProviderManager = $this->createMock(NotificationProviderManager::class);
-        $this->userManager = $this->createMock(IUserManager::class);
+		$this->backend = $this->createMock(Backend::class);
+		$this->notificationProviderManager = $this->createMock(NotificationProviderManager::class);
+		$this->userManager = $this->createMock(IUserManager::class);
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->caldavBackend = $this->createMock(CalDavBackend::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
@@ -203,32 +203,30 @@ EOD;
 			$this->groupManager,
 			$this->caldavBackend,
 			$this->timeFactory);
-    }
+	}
 
 	public function testOnCalendarObjectDelete():void {
-    	$this->backend->expects($this->once())
+		$this->backend->expects($this->once())
 			->method('cleanRemindersForEvent')
 			->with(44);
 
-    	$action = '\OCA\DAV\CalDAV\CalDavBackend::deleteCalendarObject';
 		$objectData = [
 			'id' => '44',
 			'component' => 'vevent',
 		];
 
-		$this->reminderService->onTouchCalendarObject($action, $objectData);
+		$this->reminderService->onCalendarObjectDelete($objectData);
 	}
 
 	public function testOnCalendarObjectCreateSingleEntry():void {
-		$action = '\OCA\DAV\CalDAV\CalDavBackend::createCalendarObject';
-    	$objectData = [
-    		'calendardata' => self::CALENDAR_DATA,
+		$objectData = [
+			'calendardata' => self::CALENDAR_DATA,
 			'id' => '42',
 			'calendarid' => '1337',
 			'component' => 'vevent',
 		];
 
-    	$this->backend->expects($this->exactly(2))
+		$this->backend->expects($this->exactly(2))
 			->method('insertReminder')
 			->withConsecutive(
 				[1337, 42, 'wej2z68l9h', false, 1465430400, false, '5c70531aab15c92b52518ae10a2f78a4', 'de919af7429d3b5c11e8b9d289b411a6', 'EMAIL', true, 1465429500, false],
@@ -236,16 +234,15 @@ EOD;
 			)
 			->willReturn(1);
 
-    	$this->timeFactory->expects($this->once())
+		$this->timeFactory->expects($this->once())
 			->method('getDateTime')
 			->with()
 			->willReturn(\DateTime::createFromFormat(\DateTime::ATOM, '2016-06-08T00:00:00+00:00'));
 
-    	$this->reminderService->onTouchCalendarObject($action, $objectData);
+		$this->reminderService->onCalendarObjectCreate($objectData);
 	}
 
 	public function testOnCalendarObjectCreateSingleEntryWithRepeat(): void {
-		$action = '\OCA\DAV\CalDAV\CalDavBackend::createCalendarObject';
 		$objectData = [
 			'calendardata' => self::CALENDAR_DATA_REPEAT,
 			'id' => '42',
@@ -269,11 +266,10 @@ EOD;
 			->with()
 			->willReturn(\DateTime::createFromFormat(\DateTime::ATOM, '2016-06-08T00:00:00+00:00'));
 
-		$this->reminderService->onTouchCalendarObject($action, $objectData);
+		$this->reminderService->onCalendarObjectCreate($objectData);
 	}
 
 	public function testOnCalendarObjectCreateRecurringEntry(): void {
-		$action = '\OCA\DAV\CalDAV\CalDavBackend::createCalendarObject';
 		$objectData = [
 			'calendardata' => self::CALENDAR_DATA_RECURRING,
 			'id' => '42',
@@ -294,11 +290,10 @@ EOD;
 			->with()
 			->willReturn(\DateTime::createFromFormat(\DateTime::ATOM, '2016-06-29T00:00:00+00:00'));
 
-		$this->reminderService->onTouchCalendarObject($action, $objectData);
+		$this->reminderService->onCalendarObjectCreate($objectData);
 	}
 
 	public function testOnCalendarObjectCreateEmpty():void {
-		$action = '\OCA\DAV\CalDAV\CalDavBackend::createCalendarObject';
 		$objectData = [
 			'calendardata' => self::CALENDAR_DATA_NO_ALARM,
 			'id' => '42',
@@ -309,11 +304,10 @@ EOD;
 		$this->backend->expects($this->never())
 			->method('insertReminder');
 
-		$this->reminderService->onTouchCalendarObject($action, $objectData);
+		$this->reminderService->onCalendarObjectCreate($objectData);
 	}
 
 	public function testOnCalendarObjectCreateRecurringEntryWithRepeat():void {
-		$action = '\OCA\DAV\CalDAV\CalDavBackend::createCalendarObject';
 		$objectData = [
 			'calendardata' => self::CALENDAR_DATA_RECURRING_REPEAT,
 			'id' => '42',
@@ -338,7 +332,7 @@ EOD;
 			->with()
 			->willReturn(\DateTime::createFromFormat(\DateTime::ATOM, '2016-06-29T00:00:00+00:00'));
 
-		$this->reminderService->onTouchCalendarObject($action, $objectData);
+		$this->reminderService->onCalendarObjectCreate($objectData);
 	}
 
 	public function testProcessReminders():void {
@@ -396,7 +390,7 @@ EOD;
 					'is_relative' => false,
 					'notification_date' => 1465344000,
 					'is_repeat_based' => false,
-					'calendardata' =>  self::CALENDAR_DATA,
+					'calendardata' => self::CALENDAR_DATA,
 					'displayname' => 'Displayname 123',
 					'principaluri' => 'principals/users/user001',
 				],
@@ -501,7 +495,7 @@ EOD;
 
 		$provider1->expects($this->once())
 			->method('send')
-			->with($this->callback(function($vevent) {
+			->with($this->callback(function ($vevent) {
 				if ($vevent->DTSTART->getDateTime()->format(\DateTime::ATOM) !== '2016-06-09T00:00:00+00:00') {
 					return false;
 				}
@@ -509,7 +503,7 @@ EOD;
 			}, 'Displayname 123', $user));
 		$provider2->expects($this->once())
 			->method('send')
-			->with($this->callback(function($vevent) {
+			->with($this->callback(function ($vevent) {
 				if ($vevent->DTSTART->getDateTime()->format(\DateTime::ATOM) !== '2016-06-09T00:00:00+00:00') {
 					return false;
 				}
@@ -517,7 +511,7 @@ EOD;
 			}, 'Displayname 123', $user));
 		$provider3->expects($this->once())
 			->method('send')
-			->with($this->callback(function($vevent) {
+			->with($this->callback(function ($vevent) {
 				if ($vevent->DTSTART->getDateTime()->format(\DateTime::ATOM) !== '2016-06-09T00:00:00+00:00') {
 					return false;
 				}
@@ -525,7 +519,7 @@ EOD;
 			}, 'Displayname 123', $user));
 		$provider4->expects($this->once())
 			->method('send')
-			->with($this->callback(function($vevent) {
+			->with($this->callback(function ($vevent) {
 				if ($vevent->DTSTART->getDateTime()->format(\DateTime::ATOM) !== '2016-06-30T00:00:00+00:00') {
 					return false;
 				}
@@ -533,7 +527,7 @@ EOD;
 			}, 'Displayname 123', $user));
 		$provider5->expects($this->once())
 			->method('send')
-			->with($this->callback(function($vevent) {
+			->with($this->callback(function ($vevent) {
 				if ($vevent->DTSTART->getDateTime()->format(\DateTime::ATOM) !== '2016-07-07T00:00:00+00:00') {
 					return false;
 				}

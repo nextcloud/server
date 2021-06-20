@@ -2,6 +2,8 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Robin Appelman <robin@icewind.nl>
  *
  * @license AGPL-3.0
@@ -19,7 +21,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Files\Sharing;
 
 use OCP\Files\FileInfo;
@@ -55,7 +56,7 @@ class PublicLinkCheckPlugin extends ServerPlugin {
 		$server->on('beforeMethod:*', [$this, 'beforeMethod']);
 	}
 
-	public function beforeMethod(RequestInterface $request, ResponseInterface $response){
+	public function beforeMethod(RequestInterface $request, ResponseInterface $response) {
 		// verify that the owner didn't have his share permissions revoked
 		if ($this->fileInfo && !$this->fileInfo->isShareable()) {
 			throw new NotFound();

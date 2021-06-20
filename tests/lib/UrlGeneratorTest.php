@@ -7,6 +7,8 @@
  */
 
 namespace Test;
+
+use OC\Route\Router;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IRequest;
@@ -14,15 +16,19 @@ use OCP\IURLGenerator;
 
 /**
  * Class UrlGeneratorTest
+ *
+ * @package Test
  */
 class UrlGeneratorTest extends \Test\TestCase {
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject|IConfig */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|IConfig */
 	private $config;
-	/** @var \PHPUnit_Framework_MockObject_MockObject|ICacheFactory */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|ICacheFactory */
 	private $cacheFactory;
-	/** @var \PHPUnit_Framework_MockObject_MockObject|IRequest */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|IRequest */
 	private $request;
+	/** @var \PHPUnit\Framework\MockObject\MockObject|Router */
+	private $router;
 	/** @var IURLGenerator */
 	private $urlGenerator;
 	/** @var string */
@@ -33,10 +39,12 @@ class UrlGeneratorTest extends \Test\TestCase {
 		$this->config = $this->createMock(IConfig::class);
 		$this->cacheFactory = $this->createMock(ICacheFactory::class);
 		$this->request = $this->createMock(IRequest::class);
+		$this->router = $this->createMock(Router::class);
 		$this->urlGenerator = new \OC\URLGenerator(
 			$this->config,
 			$this->cacheFactory,
-			$this->request
+			$this->request,
+			$this->router
 		);
 		$this->originalWebRoot = \OC::$WEBROOT;
 	}
@@ -83,14 +91,23 @@ class UrlGeneratorTest extends \Test\TestCase {
 	public function testLinkToRouteAbsolute($route, $expected) {
 		$this->mockBaseUrl();
 		\OC::$WEBROOT = '/nextcloud';
+		$this->router->expects($this->once())
+			->method('generate')
+			->willReturnCallback(function ($routeName, $parameters) {
+				if ($routeName === 'core.Preview.getPreview') {
+					return '/index.php/core/preview.png';
+				} elseif ($routeName === 'cloud_federation_api.requesthandlercontroller.addShare') {
+					return '/index.php/ocm/shares';
+				}
+			});
 		$result = $this->urlGenerator->linkToRouteAbsolute($route);
 		$this->assertEquals($expected, $result);
 	}
 
 	public function provideRoutes() {
 		return [
-			['files_ajax_list', 'http://localhost/nextcloud/index.php/apps/files/ajax/list.php'],
 			['core.Preview.getPreview', 'http://localhost/nextcloud/index.php/core/preview.png'],
+			['cloud_federation_api.requesthandlercontroller.addShare', 'http://localhost/nextcloud/index.php/ocm/shares'],
 		];
 	}
 
@@ -115,7 +132,7 @@ class UrlGeneratorTest extends \Test\TestCase {
 	 * test absolute URL construction
 	 * @dataProvider provideDocRootURLs
 	 */
-	function testGetAbsoluteURLDocRoot($url, $expectedResult) {
+	public function testGetAbsoluteURLDocRoot($url, $expectedResult) {
 		$this->mockBaseUrl();
 		\OC::$WEBROOT = '';
 		$result = $this->urlGenerator->getAbsoluteURL($url);
@@ -127,7 +144,7 @@ class UrlGeneratorTest extends \Test\TestCase {
 	 * test absolute URL construction
 	 * @dataProvider provideSubDirURLs
 	 */
-	function testGetAbsoluteURLSubDir($url, $expectedResult) {
+	public function testGetAbsoluteURLSubDir($url, $expectedResult) {
 		$this->mockBaseUrl();
 		\OC::$WEBROOT = '/nextcloud';
 		$result = $this->urlGenerator->getAbsoluteURL($url);
@@ -168,6 +185,15 @@ class UrlGeneratorTest extends \Test\TestCase {
 	public function testLinkToOCSRouteAbsolute(string $route, string $expected) {
 		$this->mockBaseUrl();
 		\OC::$WEBROOT = '/nextcloud';
+		$this->router->expects($this->once())
+			->method('generate')
+			->willReturnCallback(function ($routeName, $parameters) {
+				if ($routeName === 'ocs.core.OCS.getCapabilities') {
+					return '/index.php/ocsapp/cloud/capabilities';
+				} elseif ($routeName === 'ocs.core.WhatsNew.dismiss') {
+					return '/index.php/ocsapp/core/whatsnew';
+				}
+			});
 		$result = $this->urlGenerator->linkToOCSRouteAbsolute($route);
 		$this->assertEquals($expected, $result);
 	}
@@ -178,6 +204,4 @@ class UrlGeneratorTest extends \Test\TestCase {
 			['core.WhatsNew.dismiss', 'http://localhost/nextcloud/ocs/v2.php/core/whatsnew'],
 		];
 	}
-
-
 }

@@ -21,7 +21,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\Files;
 
 /**
@@ -41,5 +40,4 @@ class StorageBadConfigException extends StorageNotAvailableException {
 		$l = \OC::$server->getL10N('core');
 		parent::__construct($l->t('Storage incomplete configuration. %s', [$message]), self::STATUS_INCOMPLETE_CONF, $previous);
 	}
-
 }

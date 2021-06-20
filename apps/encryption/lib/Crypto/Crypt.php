@@ -4,10 +4,12 @@
  *
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Clark Tomlinson <fallen013@gmail.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Stefan Weiberg <sweiberg@suse.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
@@ -26,12 +28,11 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Encryption\Crypto;
-
 
 use OC\Encryption\Exceptions\DecryptionFailedException;
 use OC\Encryption\Exceptions\EncryptionFailedException;
+use OC\ServerNotAvailableException;
 use OCA\Encryption\Exceptions\MultiKeyDecryptException;
 use OCA\Encryption\Exceptions\MultiKeyEncryptException;
 use OCP\Encryption\Exceptions\GenericEncryptionException;
@@ -55,17 +56,16 @@ use OCP\IUserSession;
  * @package OCA\Encryption\Crypto
  */
 class Crypt {
-
-	const DEFAULT_CIPHER = 'AES-256-CTR';
+	public const DEFAULT_CIPHER = 'AES-256-CTR';
 	// default cipher from old Nextcloud versions
-	const LEGACY_CIPHER = 'AES-128-CFB';
+	public const LEGACY_CIPHER = 'AES-128-CFB';
 
 	// default key format, old Nextcloud version encrypted the private key directly
 	// with the user password
-	const LEGACY_KEY_FORMAT = 'password';
+	public const LEGACY_KEY_FORMAT = 'password';
 
-	const HEADER_START = 'HBEGIN';
-	const HEADER_END = 'HEND';
+	public const HEADER_START = 'HBEGIN';
+	public const HEADER_END = 'HEND';
 
 	/** @var ILogger */
 	private $logger;
@@ -90,6 +90,9 @@ class Crypt {
 		'AES-128-CFB' => 16,
 	];
 
+	/** @var bool */
+	private $supportLegacy;
+
 	/**
 	 * @param ILogger $logger
 	 * @param IUserSession $userSession
@@ -102,6 +105,8 @@ class Crypt {
 		$this->config = $config;
 		$this->l = $l;
 		$this->supportedKeyFormats = ['hash', 'password'];
+
+		$this->supportLegacy = $this->config->getSystemValueBool('encryption.legacy_format_support', false);
 	}
 
 	/**
@@ -110,7 +115,6 @@ class Crypt {
 	 * @return array|bool
 	 */
 	public function createKeyPair() {
-
 		$log = $this->logger;
 		$res = $this->getOpenSSLPKey();
 
@@ -177,7 +181,6 @@ class Crypt {
 	 * @throws EncryptionFailedException
 	 */
 	public function symmetricEncryptFileContent($plainContent, $passPhrase, $version, $position) {
-
 		if (!$plainContent) {
 			$this->logger->error('Encryption Library, symmetrical encryption failed no content given',
 				['app' => 'encryption']);
@@ -192,7 +195,7 @@ class Crypt {
 			$this->getCipher());
 
 		// Create a signature based on the key as well as the current version
-		$sig = $this->createSignature($encryptedContent, $passPhrase.$version.$position);
+		$sig = $this->createSignature($encryptedContent, $passPhrase.'_'.$version.'_'.$position);
 
 		// combine content to encrypt the IV identifier and actual IV
 		$catFile = $this->concatIV($encryptedContent, $iv);
@@ -208,7 +211,6 @@ class Crypt {
 	 * @throws \InvalidArgumentException
 	 */
 	public function generateHeader($keyFormat = 'hash') {
-
 		if (in_array($keyFormat, $this->supportedKeyFormats, true) === false) {
 			throw new \InvalidArgumentException('key format "' . $keyFormat . '" is not supported');
 		}
@@ -267,13 +269,6 @@ class Crypt {
 			$cipher = self::DEFAULT_CIPHER;
 		}
 
-		// Workaround for OpenSSL 0.9.8. Fallback to an old cipher that should work.
-		if(OPENSSL_VERSION_NUMBER < 0x1000101f) {
-			if($cipher === 'AES-256-CTR' || $cipher === 'AES-128-CTR') {
-				$cipher = self::LEGACY_CIPHER;
-			}
-		}
-
 		return $cipher;
 	}
 
@@ -285,7 +280,7 @@ class Crypt {
 	 * @throws \InvalidArgumentException
 	 */
 	protected function getKeySize($cipher) {
-		if(isset($this->supportedCiphersAndKeySize[$cipher])) {
+		if (isset($this->supportedCiphersAndKeySize[$cipher])) {
 			return $this->supportedCiphersAndKeySize[$cipher];
 		}
 
@@ -303,6 +298,10 @@ class Crypt {
 	 * @return string
 	 */
 	public function getLegacyCipher() {
+		if (!$this->supportLegacy) {
+			throw new ServerNotAvailableException('Legacy cipher is no longer supported!');
+		}
+
 		return self::LEGACY_CIPHER;
 	}
 
@@ -390,13 +389,12 @@ class Crypt {
 	 * @return false|string
 	 */
 	public function decryptPrivateKey($privateKey, $password = '', $uid = '') {
-
 		$header = $this->parseHeader($privateKey);
 
 		if (isset($header['cipher'])) {
 			$cipher = $header['cipher'];
 		} else {
-			$cipher = self::LEGACY_CIPHER;
+			$cipher = $this->getLegacyCipher();
 		}
 
 		if (isset($header['keyFormat'])) {
@@ -438,7 +436,8 @@ class Crypt {
 	 */
 	protected function isValidPrivateKey($plainKey) {
 		$res = openssl_get_privatekey($plainKey);
-		if (is_resource($res)) {
+		// TODO: remove resource check one php7.4 is not longer supported
+		if (is_resource($res) || (is_object($res) && get_class($res) === 'OpenSSLAsymmetricKey')) {
 			$sslInfo = openssl_pkey_get_details($res);
 			if (isset($sslInfo['key'])) {
 				return true;
@@ -453,7 +452,7 @@ class Crypt {
 	 * @param string $passPhrase
 	 * @param string $cipher
 	 * @param int $version
-	 * @param int $position
+	 * @param int|string $position
 	 * @return string
 	 * @throws DecryptionFailedException
 	 */
@@ -465,7 +464,13 @@ class Crypt {
 		$catFile = $this->splitMetaData($keyFileContents, $cipher);
 
 		if ($catFile['signature'] !== false) {
-			$this->checkSignature($catFile['encrypted'], $passPhrase.$version.$position, $catFile['signature']);
+			try {
+				// First try the new format
+				$this->checkSignature($catFile['encrypted'], $passPhrase . '_' . $version . '_' . $position, $catFile['signature']);
+			} catch (GenericEncryptionException $e) {
+				// For compatibility with old files check the version without _
+				$this->checkSignature($catFile['encrypted'], $passPhrase . $version . $position, $catFile['signature']);
+			}
 		}
 
 		return $this->decrypt($catFile['encrypted'],
@@ -490,7 +495,7 @@ class Crypt {
 
 		if (!$isCorrectHash && $enforceSignature) {
 			throw new GenericEncryptionException('Bad Signature', $this->l->t('Bad Signature'));
-		} else if (!$isCorrectHash && !$enforceSignature) {
+		} elseif (!$isCorrectHash && !$enforceSignature) {
 			$this->logger->info("Signature check skipped", ['app' => 'encryption']);
 		}
 	}
@@ -568,6 +573,11 @@ class Crypt {
 
 		$meta = substr($catFile, -93);
 		$signaturePosition = strpos($meta, '00sig00');
+
+		// If we no longer support the legacy format then everything needs a signature
+		if (!$skipSignatureCheck && !$this->supportLegacy && $signaturePosition === false) {
+			throw new GenericEncryptionException('Missing Signature', $this->l->t('Missing Signature'));
+		}
 
 		// enforce signature for the new 'CTR' ciphers
 		if (!$skipSignatureCheck && $signaturePosition === false && stripos($cipher, 'ctr') !== false) {
@@ -659,7 +669,7 @@ class Crypt {
 			throw new MultiKeyDecryptException('Cannot multikey decrypt empty plain content');
 		}
 
-		if (openssl_open($encKeyFile, $plainContent, $shareKey, $privateKey)) {
+		if (openssl_open($encKeyFile, $plainContent, $shareKey, $privateKey, 'RC4')) {
 			return $plainContent;
 		} else {
 			throw new MultiKeyDecryptException('multikeydecrypt with share key failed:' . openssl_error_string());
@@ -684,7 +694,7 @@ class Crypt {
 		$shareKeys = [];
 		$mappedShareKeys = [];
 
-		if (openssl_seal($plainContent, $sealed, $shareKeys, $keyFiles)) {
+		if (openssl_seal($plainContent, $sealed, $shareKeys, $keyFiles, 'RC4')) {
 			$i = 0;
 
 			// Ensure each shareKey is labelled with its corresponding key id

@@ -1,7 +1,7 @@
 OC.L10N.register(
     "files_external",
     {
-    "External storages" : "External storages",
+    "External storage" : "External storage",
     "Personal" : "Personal",
     "System" : "System",
     "Grant access" : "Grant access",
@@ -11,7 +11,6 @@ OC.L10N.register(
     "Generate keys" : "Generate keys",
     "Error generating key pair" : "Error generating key pair",
     "All users. Type to select user or group." : "All users. Type to select user or group.",
-    "(group)" : "(group)",
     "Compatibility with Mac NFD encoding (slow)" : "Compatibility with Mac NFD encoding (slow)",
     "Enable encryption" : "Enable encryption",
     "Enable previews" : "Enable previews",
@@ -100,10 +99,8 @@ OC.L10N.register(
     "SFTP" : "SFTP",
     "Root" : "Root",
     "SFTP with secret key login" : "SFTP with secret key login",
-    "SMB / CIFS" : "SMB / CIFS",
     "Share" : "Share",
     "Show hidden files" : "Show hidden files",
-    "SMB / CIFS using OC login" : "SMB / CIFS using OC login",
     "Username as share" : "Username as share",
     "OpenStack Object Storage" : "OpenStack Object Storage",
     "Service name" : "Service name",
@@ -119,7 +116,6 @@ OC.L10N.register(
     "Scope" : "Scope",
     "Open documentation" : "Open documentation",
     "Folder name" : "Folder name",
-    "External storage" : "External storage",
     "Authentication" : "Authentication",
     "Configuration" : "Configuration",
     "Available for" : "Available for",
@@ -127,6 +123,9 @@ OC.L10N.register(
     "Add storage" : "Add storage",
     "Advanced settings" : "Advanced settings",
     "Allow users to mount external storage" : "Allow users to mount external storage",
-    "Saving..." : "Saving..."
+    "External storages" : "External storages",
+    "(group)" : "(group)",
+    "SMB / CIFS" : "SMB / CIFS",
+    "SMB / CIFS using OC login" : "SMB / CIFS using OC login"
 },
 "nplurals=2; plural=(n != 1);");

@@ -3,13 +3,14 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @copyright Copyright (c) 2018, Georg Ehrke
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <pvince81@owncloud.com>
  *
  * @license AGPL-3.0
  *
@@ -26,9 +27,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
+use OC\KnownUser\KnownUserService;
 use OC\User\User;
 use OCA\DAV\CalDAV\Proxy\Proxy;
 use OCA\DAV\CalDAV\Proxy\ProxyMapper;
@@ -40,33 +41,36 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Share\IManager;
+use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\DAV\PropPatch;
 use Test\TestCase;
 
 class PrincipalTest extends TestCase {
 
-	/** @var IUserManager | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var IUserManager | \PHPUnit\Framework\MockObject\MockObject */
 	private $userManager;
 
 	/** @var \OCA\DAV\Connector\Sabre\Principal */
 	private $connector;
 
-	/** @var IGroupManager | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var IGroupManager | \PHPUnit\Framework\MockObject\MockObject */
 	private $groupManager;
 
-	/** @var IManager | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var IManager | \PHPUnit\Framework\MockObject\MockObject */
 	private $shareManager;
 
-	/** @var IUserSession | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var IUserSession | \PHPUnit\Framework\MockObject\MockObject */
 	private $userSession;
 
-	/** @var IAppManager | \PHPUnit_Framework_MockObject_MockObject  */
+	/** @var IAppManager | \PHPUnit\Framework\MockObject\MockObject  */
 	private $appManager;
 
-	/** @var ProxyMapper | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var ProxyMapper | \PHPUnit\Framework\MockObject\MockObject */
 	private $proxyMapper;
 
-	/** @var IConfig | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var KnownUserService|MockObject */
+	private $knownUserService;
+	/** @var IConfig | \PHPUnit\Framework\MockObject\MockObject */
 	private $config;
 
 	protected function setUp(): void {
@@ -76,6 +80,7 @@ class PrincipalTest extends TestCase {
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->appManager = $this->createMock(IAppManager::class);
 		$this->proxyMapper = $this->createMock(ProxyMapper::class);
+		$this->knownUserService = $this->createMock(KnownUserService::class);
 		$this->config = $this->createMock(IConfig::class);
 
 		$this->connector = new \OCA\DAV\Connector\Sabre\Principal(
@@ -85,6 +90,7 @@ class PrincipalTest extends TestCase {
 			$this->userSession,
 			$this->appManager,
 			$this->proxyMapper,
+			$this->knownUserService,
 			$this->config
 		);
 		parent::setUp();
@@ -334,7 +340,7 @@ class PrincipalTest extends TestCase {
 			'principals/groups/group1',
 			'principals/groups/foo%2Fbar',
 			'proxyId1/calendar-proxy-read',
-    		'proxyId2/calendar-proxy-write',
+			'proxyId2/calendar-proxy-write',
 		];
 		$response = $this->connector->getGroupMembership('principals/users/foo');
 		$this->assertSame($expectedResponse, $response);
@@ -391,7 +397,7 @@ class PrincipalTest extends TestCase {
 
 		$this->proxyMapper->expects($this->at(1))
 			->method('insert')
-			->with($this->callback(function($proxy) {
+			->with($this->callback(function ($proxy) {
 				/** @var Proxy $proxy */
 				if ($proxy->getOwnerId() !== 'principals/users/foo') {
 					return false;
@@ -441,7 +447,7 @@ class PrincipalTest extends TestCase {
 
 			if ($groupsOnly) {
 				$user = $this->createMock(IUser::class);
-				$this->userSession->expects($this->once())
+				$this->userSession->expects($this->atLeastOnce())
 					->method('getUser')
 					->willReturn($user);
 
@@ -544,9 +550,9 @@ class PrincipalTest extends TestCase {
 			->willReturn([$user2, $user3]);
 
 		$this->assertEquals([
-				'principals/users/user2',
-				'principals/users/user3',
-			], $this->connector->searchPrincipals('principals/users',
+			'principals/users/user2',
+			'principals/users/user3',
+		], $this->connector->searchPrincipals('principals/users',
 			['{urn:ietf:params:xml:ns:caldav}calendar-user-address-set' => 'user@example.com']));
 	}
 
@@ -562,6 +568,10 @@ class PrincipalTest extends TestCase {
 		$this->shareManager->expects($this->once())
 			->method('shareWithGroupMembersOnly')
 			->willReturn(false);
+
+		$this->shareManager->expects($this->once())
+			->method('allowEnumerationFullMatch')
+			->willReturn(true);
 
 		$user2 = $this->createMock(IUser::class);
 		$user2->method('getUID')->willReturn('user2');
@@ -585,6 +595,27 @@ class PrincipalTest extends TestCase {
 			['{DAV:}displayname' => 'User 2']));
 	}
 
+	public function testSearchPrincipalWithEnumerationDisabledDisplaynameOnFullMatch() {
+		$this->shareManager->expects($this->once())
+			->method('shareAPIEnabled')
+			->willReturn(true);
+
+		$this->shareManager->expects($this->once())
+			->method('allowEnumeration')
+			->willReturn(false);
+
+		$this->shareManager->expects($this->once())
+			->method('shareWithGroupMembersOnly')
+			->willReturn(false);
+
+		$this->shareManager->expects($this->once())
+			->method('allowEnumerationFullMatch')
+			->willReturn(false);
+
+		$this->assertEquals([], $this->connector->searchPrincipals('principals/users',
+			['{DAV:}displayname' => 'User 2']));
+	}
+
 	public function testSearchPrincipalWithEnumerationDisabledEmail() {
 		$this->shareManager->expects($this->once())
 			->method('shareAPIEnabled')
@@ -597,6 +628,10 @@ class PrincipalTest extends TestCase {
 		$this->shareManager->expects($this->once())
 			->method('shareWithGroupMembersOnly')
 			->willReturn(false);
+
+		$this->shareManager->expects($this->once())
+			->method('allowEnumerationFullMatch')
+			->willReturn(true);
 
 		$user2 = $this->createMock(IUser::class);
 		$user2->method('getUID')->willReturn('user2');
@@ -617,6 +652,28 @@ class PrincipalTest extends TestCase {
 			->willReturn([$user2, $user3, $user4]);
 
 		$this->assertEquals(['principals/users/user2'], $this->connector->searchPrincipals('principals/users',
+			['{http://sabredav.org/ns}email-address' => 'user2@foo.bar']));
+	}
+
+	public function testSearchPrincipalWithEnumerationDisabledEmailOnFullMatch() {
+		$this->shareManager->expects($this->once())
+			->method('shareAPIEnabled')
+			->willReturn(true);
+
+		$this->shareManager->expects($this->once())
+			->method('allowEnumeration')
+			->willReturn(false);
+
+		$this->shareManager->expects($this->once())
+			->method('shareWithGroupMembersOnly')
+			->willReturn(false);
+
+		$this->shareManager->expects($this->once())
+			->method('allowEnumerationFullMatch')
+			->willReturn(false);
+
+
+		$this->assertEquals([], $this->connector->searchPrincipals('principals/users',
 			['{http://sabredav.org/ns}email-address' => 'user2@foo.bar']));
 	}
 
@@ -758,41 +815,41 @@ class PrincipalTest extends TestCase {
 			->method('shareApiEnabled')
 			->willReturn(true);
 
-			$this->shareManager->expects($this->once())
+		$this->shareManager->expects($this->once())
 				->method('shareWithGroupMembersOnly')
 				->willReturn(true);
 
-			$user = $this->createMock(IUser::class);
-			$this->userSession->expects($this->once())
+		$user = $this->createMock(IUser::class);
+		$this->userSession->expects($this->once())
 				->method('getUser')
 				->willReturn($user);
 
-			$this->groupManager->expects($this->at(0))
+		$this->groupManager->expects($this->at(0))
 				->method('getUserGroupIds')
 				->with($user)
 				->willReturn(['group1', 'group2']);
 
-			$user2 = $this->createMock(IUser::class);
-			$user2->method('getUID')->willReturn('user2');
-			$user3 = $this->createMock(IUser::class);
-			$user3->method('getUID')->willReturn('user3');
+		$user2 = $this->createMock(IUser::class);
+		$user2->method('getUID')->willReturn('user2');
+		$user3 = $this->createMock(IUser::class);
+		$user3->method('getUID')->willReturn('user3');
 
-			$this->userManager->expects($this->once())
+		$this->userManager->expects($this->once())
 				->method('getByEmail')
 				->with($email)
 				->willReturn([$email === 'user2@foo.bar' ? $user2 : $user3]);
 
-			if ($email === 'user2@foo.bar') {
-				$this->groupManager->expects($this->at(1))
+		if ($email === 'user2@foo.bar') {
+			$this->groupManager->expects($this->at(1))
 					->method('getUserGroupIds')
 					->with($user2)
 					->willReturn(['group1', 'group3']);
-			} else {
-				$this->groupManager->expects($this->at(1))
+		} else {
+			$this->groupManager->expects($this->at(1))
 					->method('getUserGroupIds')
 					->with($user3)
 					->willReturn(['group3', 'group3']);
-			}
+		}
 
 		$this->assertEquals($expects, $this->connector->findByUri($uri, 'principals/users'));
 	}
@@ -812,16 +869,16 @@ class PrincipalTest extends TestCase {
 			->method('shareApiEnabled')
 			->willReturn(true);
 
-			$this->shareManager->expects($this->once())
+		$this->shareManager->expects($this->once())
 				->method('shareWithGroupMembersOnly')
 				->willReturn(false);
 
-			$user2 = $this->createMock(IUser::class);
-			$user2->method('getUID')->willReturn('user2');
-			$user3 = $this->createMock(IUser::class);
-			$user3->method('getUID')->willReturn('user3');
+		$user2 = $this->createMock(IUser::class);
+		$user2->method('getUID')->willReturn('user2');
+		$user3 = $this->createMock(IUser::class);
+		$user3->method('getUID')->willReturn('user3');
 
-			$this->userManager->expects($this->once())
+		$this->userManager->expects($this->once())
 				->method('getByEmail')
 				->with($email)
 				->willReturn([$email === 'user2@foo.bar' ? $user2 : $user3]);

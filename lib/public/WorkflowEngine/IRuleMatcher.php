@@ -16,14 +16,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCP\WorkflowEngine;
 
 use RuntimeException;
@@ -31,7 +30,6 @@ use RuntimeException;
 /**
  * Class IRuleMatcher
  *
- * @package OCP\WorkflowEngine
  *
  * @since 18.0.0
  */
@@ -78,4 +76,14 @@ interface IRuleMatcher extends IFileCheck {
 	 * @since 18.0.0
 	 */
 	public function getEntity(): IEntity;
+
+	/**
+	 * this method can be called once to set the event name that is currently
+	 * being processed. The workflow engine takes care of this usually, only an
+	 * IComplexOperation might want to make use of it.
+	 *
+	 * @throws RuntimeException
+	 * @since 20.0.0
+	 */
+	public function setEventName(string $eventName): void;
 }

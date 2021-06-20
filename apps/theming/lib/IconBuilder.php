@@ -2,9 +2,11 @@
 /**
  * @copyright Copyright (c) 2016 Julius Härtl <jus@bitgrid.net>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
  * @author Julius Haertl <jus@bitgrid.net>
  * @author Julius Härtl <jus@bitgrid.net>
+ * @author Morris Jobke <hey@morrisjobke.de>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -15,14 +17,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Theming;
 
 use Imagick;
@@ -127,7 +128,7 @@ class IconBuilder {
 	 */
 	public function renderAppIcon($app, $size) {
 		$appIcon = $this->util->getAppIcon($app);
-		if($appIcon === false) {
+		if ($appIcon === false) {
 			return false;
 		}
 		if ($appIcon instanceof ISimpleFile) {
@@ -138,7 +139,7 @@ class IconBuilder {
 			$mime = mime_content_type($appIcon);
 		}
 
-		if($appIconContent === false || $appIconContent === "") {
+		if ($appIconContent === false || $appIconContent === "") {
 			return false;
 		}
 
@@ -150,8 +151,8 @@ class IconBuilder {
 			'<rect x="0" y="0" rx="100" ry="100" width="512" height="512" style="fill:' . $color . ';" />' .
 			'</svg>';
 		// resize svg magic as this seems broken in Imagemagick
-		if($mime === "image/svg+xml" || substr($appIconContent, 0, 4) === "<svg") {
-			if(substr($appIconContent, 0, 5) !== "<?xml") {
+		if ($mime === "image/svg+xml" || substr($appIconContent, 0, 4) === "<svg") {
+			if (substr($appIconContent, 0, 5) !== "<?xml") {
 				$svg = "<?xml version=\"1.0\"?>".$appIconContent;
 			} else {
 				$svg = $appIconContent;
@@ -163,7 +164,7 @@ class IconBuilder {
 			$res = $tmp->getImageResolution();
 			$tmp->destroy();
 
-			if($x>$y) {
+			if ($x > $y) {
 				$max = $x;
 			} else {
 				$max = $y;
@@ -197,8 +198,8 @@ class IconBuilder {
 		// offset for icon positioning
 		$border_w = (int)($appIconFile->getImageWidth() * 0.05);
 		$border_h = (int)($appIconFile->getImageHeight() * 0.05);
-		$innerWidth = (int)($appIconFile->getImageWidth() - $border_w * 2);
-		$innerHeight = (int)($appIconFile->getImageHeight() - $border_h * 2);
+		$innerWidth = ($appIconFile->getImageWidth() - $border_w * 2);
+		$innerHeight = ($appIconFile->getImageHeight() - $border_h * 2);
 		$appIconFile->adaptiveResizeImage($innerWidth, $innerHeight);
 		// center icon
 		$offset_w = 512 / 2 - $innerWidth / 2;
@@ -237,5 +238,4 @@ class IconBuilder {
 			return false;
 		}
 	}
-
 }

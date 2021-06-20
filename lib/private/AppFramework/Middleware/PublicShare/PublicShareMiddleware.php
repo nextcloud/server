@@ -1,6 +1,6 @@
 <?php
 /**
- *
+ * @copyright Copyright (c) 2016 Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -14,7 +14,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -89,7 +89,6 @@ class PublicShareMiddleware extends Middleware {
 		}
 
 		throw new NotFoundException();
-
 	}
 
 	public function afterException($controller, $methodName, \Exception $exception) {
@@ -123,7 +122,7 @@ class PublicShareMiddleware extends Middleware {
 		}
 
 		// Check whether public sharing is enabled
-		if($this->config->getAppValue('core', 'shareapi_allow_links', 'yes') !== 'yes') {
+		if ($this->config->getAppValue('core', 'shareapi_allow_links', 'yes') !== 'yes') {
 			return false;
 		}
 

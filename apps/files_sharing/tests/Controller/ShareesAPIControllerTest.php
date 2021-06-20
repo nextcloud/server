@@ -6,9 +6,11 @@
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @license AGPL-3.0
@@ -26,7 +28,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_Sharing\Tests\Controller;
 
 use OCA\Files_Sharing\Controller\ShareesAPIController;
@@ -37,8 +38,9 @@ use OCP\Collaboration\Collaborators\ISearch;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\IURLGenerator;
-use OCP\Share;
+use OCP\Share\IShare;
 use OCP\Share\IManager;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Class ShareesTest
@@ -54,13 +56,13 @@ class ShareesAPIControllerTest extends TestCase {
 	/** @var string */
 	protected $uid;
 
-	/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IRequest|MockObject */
 	protected $request;
 
-	/** @var IManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IManager|MockObject */
 	protected $shareManager;
 
-	/** @var  ISearch|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var  ISearch|MockObject */
 	protected $collaboratorSearch;
 
 	protected function setUp(): void {
@@ -70,10 +72,10 @@ class ShareesAPIControllerTest extends TestCase {
 		$this->request = $this->createMock(IRequest::class);
 		$this->shareManager = $this->createMock(IManager::class);
 
-		/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject $configMock */
+		/** @var IConfig|MockObject $configMock */
 		$configMock = $this->createMock(IConfig::class);
 
-		/** @var IURLGenerator|\PHPUnit_Framework_MockObject_MockObject $urlGeneratorMock */
+		/** @var IURLGenerator|MockObject $urlGeneratorMock */
 		$urlGeneratorMock = $this->createMock(IURLGenerator::class);
 
 		$this->collaboratorSearch = $this->createMock(ISearch::class);
@@ -89,9 +91,9 @@ class ShareesAPIControllerTest extends TestCase {
 		);
 	}
 
-	public function dataSearch() {
-		$noRemote = [Share::SHARE_TYPE_USER, Share::SHARE_TYPE_GROUP, Share::SHARE_TYPE_EMAIL];
-		$allTypes = [Share::SHARE_TYPE_USER, Share::SHARE_TYPE_GROUP, Share::SHARE_TYPE_REMOTE, Share::SHARE_TYPE_REMOTE_GROUP, Share::SHARE_TYPE_EMAIL];
+	public function dataSearch(): array {
+		$noRemote = [IShare::TYPE_USER, IShare::TYPE_GROUP, IShare::TYPE_EMAIL];
+		$allTypes = [IShare::TYPE_USER, IShare::TYPE_GROUP, IShare::TYPE_REMOTE, IShare::TYPE_REMOTE_GROUP, IShare::TYPE_EMAIL];
 
 		return [
 			[[], '', 'yes', true, true, true, $noRemote, false, true, true],
@@ -121,6 +123,9 @@ class ShareesAPIControllerTest extends TestCase {
 			[[
 				'itemType' => 'call',
 			], '', 'yes', true, true, true, $noRemote, false, true, true],
+			[[
+				'itemType' => 'call',
+			], '', 'yes', true, true, true, [0, 4], false, true, false],
 			[[
 				'itemType' => 'folder',
 			], '', 'yes', true, true, true, $allTypes, false, true, true],
@@ -228,14 +233,14 @@ class ShareesAPIControllerTest extends TestCase {
 	 * @param bool $allowGroupSharing
 	 * @throws OCSBadRequestException
 	 */
-	public function testSearch($getData, $apiSetting, $enumSetting, $remoteSharingEnabled, $isRemoteGroupSharingEnabled, $emailSharingEnabled, $shareTypes, $shareWithGroupOnly, $shareeEnumeration, $allowGroupSharing) {
-		$search = isset($getData['search']) ? $getData['search'] : '';
-		$itemType = isset($getData['itemType']) ? $getData['itemType'] : 'irrelevant';
-		$page = isset($getData['page']) ? $getData['page'] : 1;
-		$perPage = isset($getData['perPage']) ? $getData['perPage'] : 200;
-		$shareType = isset($getData['shareType']) ? $getData['shareType'] : null;
+	public function testSearch(array $getData, string $apiSetting, string $enumSetting, bool $remoteSharingEnabled, bool $isRemoteGroupSharingEnabled, bool $emailSharingEnabled, array $shareTypes, bool $shareWithGroupOnly, bool $shareeEnumeration, bool $allowGroupSharing) {
+		$search = $getData['search'] ?? '';
+		$itemType = $getData['itemType'] ?? 'irrelevant';
+		$page = $getData['page'] ?? 1;
+		$perPage = $getData['perPage'] ?? 200;
+		$shareType = $getData['shareType'] ?? null;
 
-		/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject $config */
+		/** @var IConfig|MockObject $config */
 		$config = $this->createMock(IConfig::class);
 		$config->expects($this->exactly(1))
 			->method('getAppValue')
@@ -244,19 +249,19 @@ class ShareesAPIControllerTest extends TestCase {
 				['files_sharing', 'lookupServerEnabled', 'yes', 'yes'],
 			]);
 
-		$this->shareManager->expects($itemType === 'file' || $itemType === 'folder' ? $this->once() : $this->never())
+		$this->shareManager->expects($this->once())
 			->method('allowGroupSharing')
 			->willReturn($allowGroupSharing);
 
 		/** @var string */
 		$uid = 'test123';
-		/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject $request */
+		/** @var IRequest|MockObject $request */
 		$request = $this->createMock(IRequest::class);
-		/** @var IURLGenerator|\PHPUnit_Framework_MockObject_MockObject $urlGenerator */
+		/** @var IURLGenerator|MockObject $urlGenerator */
 		$urlGenerator = $this->createMock(IURLGenerator::class);
 
-		/** @var \PHPUnit_Framework_MockObject_MockObject|\OCA\Files_Sharing\Controller\ShareesAPIController $sharees */
-		$sharees = $this->getMockBuilder('\OCA\Files_Sharing\Controller\ShareesAPIController')
+		/** @var MockObject|ShareesAPIController $sharees */
+		$sharees = $this->getMockBuilder(ShareesAPIController::class)
 			->setConstructorArgs([
 				$uid,
 				'files_sharing',
@@ -274,7 +279,7 @@ class ShareesAPIControllerTest extends TestCase {
 
 		$this->collaboratorSearch->expects($this->once())
 			->method('search')
-			->with($search, $expectedShareTypes, $this->anything(), $perPage, $perPage * ($page -1))
+			->with($search, $expectedShareTypes, $this->anything(), $perPage, $perPage * ($page - 1))
 			->willReturn([[], false]);
 
 		$sharees->expects($this->any())
@@ -291,8 +296,8 @@ class ShareesAPIControllerTest extends TestCase {
 
 		$this->shareManager->expects($this->any())
 			->method('shareProviderExists')
-			->willReturnCallback(function($shareType) use ($emailSharingEnabled) {
-				if ($shareType === \OCP\Share::SHARE_TYPE_EMAIL) {
+			->willReturnCallback(function ($shareType) use ($emailSharingEnabled) {
+				if ($shareType === IShare::TYPE_EMAIL) {
 					return $emailSharingEnabled;
 				} else {
 					return false;
@@ -302,7 +307,7 @@ class ShareesAPIControllerTest extends TestCase {
 		$this->assertInstanceOf(Http\DataResponse::class, $sharees->search($search, $itemType, $page, $perPage, $shareType));
 	}
 
-	public function dataSearchInvalid() {
+	public function dataSearchInvalid(): array {
 		return [
 			// Test invalid pagination
 			[[
@@ -338,19 +343,19 @@ class ShareesAPIControllerTest extends TestCase {
 		$page = isset($getData['page']) ? $getData['page'] : 1;
 		$perPage = isset($getData['perPage']) ? $getData['perPage'] : 200;
 
-		/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject $config */
+		/** @var IConfig|MockObject $config */
 		$config = $this->createMock(IConfig::class);
 		$config->expects($this->never())
 			->method('getAppValue');
 
 		/** @var string */
 		$uid = 'test123';
-		/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject $request */
+		/** @var IRequest|MockObject $request */
 		$request = $this->createMock(IRequest::class);
-		/** @var IURLGenerator|\PHPUnit_Framework_MockObject_MockObject $urlGenerator */
+		/** @var IURLGenerator|MockObject $urlGenerator */
 		$urlGenerator = $this->createMock(IURLGenerator::class);
 
-		/** @var \PHPUnit_Framework_MockObject_MockObject|\OCA\Files_Sharing\Controller\ShareesAPIController $sharees */
+		/** @var MockObject|ShareesAPIController $sharees */
 		$sharees = $this->getMockBuilder('\OCA\Files_Sharing\Controller\ShareesAPIController')
 			->setConstructorArgs([
 				$uid,

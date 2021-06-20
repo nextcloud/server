@@ -28,7 +28,7 @@ use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\Files\File;
 
 class FileDisplayResponseTest extends \Test\TestCase {
-	/** @var File|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var File|\PHPUnit\Framework\MockObject\MockObject */
 	private $file;
 
 	/** @var FileDisplayResponse */

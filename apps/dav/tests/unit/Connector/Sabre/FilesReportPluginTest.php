@@ -2,11 +2,12 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -23,7 +24,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OC\Files\View;
@@ -49,19 +49,19 @@ use Sabre\DAV\Tree;
 use Sabre\HTTP\ResponseInterface;
 
 class FilesReportPluginTest extends \Test\TestCase {
-	/** @var \Sabre\DAV\Server|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \Sabre\DAV\Server|\PHPUnit\Framework\MockObject\MockObject */
 	private $server;
 
-	/** @var \Sabre\DAV\Tree|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \Sabre\DAV\Tree|\PHPUnit\Framework\MockObject\MockObject */
 	private $tree;
 
-	/** @var ISystemTagObjectMapper|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ISystemTagObjectMapper|\PHPUnit\Framework\MockObject\MockObject */
 	private $tagMapper;
 
-	/** @var ISystemTagManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ISystemTagManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $tagManager;
 
-	/** @var ITags|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ITags|\PHPUnit\Framework\MockObject\MockObject */
 	private $privateTags;
 
 	/** @var  \OCP\IUserSession */
@@ -70,19 +70,19 @@ class FilesReportPluginTest extends \Test\TestCase {
 	/** @var FilesReportPluginImplementation */
 	private $plugin;
 
-	/** @var View|\PHPUnit_Framework_MockObject_MockObject **/
+	/** @var View|\PHPUnit\Framework\MockObject\MockObject **/
 	private $view;
 
-	/** @var IGroupManager|\PHPUnit_Framework_MockObject_MockObject **/
+	/** @var IGroupManager|\PHPUnit\Framework\MockObject\MockObject **/
 	private $groupManager;
 
-	/** @var Folder|\PHPUnit_Framework_MockObject_MockObject **/
+	/** @var Folder|\PHPUnit\Framework\MockObject\MockObject **/
 	private $userFolder;
 
-	/** @var IPreview|\PHPUnit_Framework_MockObject_MockObject * */
+	/** @var IPreview|\PHPUnit\Framework\MockObject\MockObject * */
 	private $previewManager;
 
-	/** @var IAppManager|\PHPUnit_Framework_MockObject_MockObject * */
+	/** @var IAppManager|\PHPUnit\Framework\MockObject\MockObject * */
 	private $appManager;
 
 	protected function setUp(): void {
@@ -198,14 +198,14 @@ class FilesReportPluginTest extends \Test\TestCase {
 
 		$parameters = [
 			[
-				'name'  => '{DAV:}prop',
+				'name' => '{DAV:}prop',
 				'value' => [
 					['name' => '{DAV:}getcontentlength', 'value' => ''],
 					['name' => '{http://owncloud.org/ns}size', 'value' => ''],
 				],
 			],
 			[
-				'name'  => '{http://owncloud.org/ns}filter-rules',
+				'name' => '{http://owncloud.org/ns}filter-rules',
 				'value' => [
 					['name' => '{http://owncloud.org/ns}systemtag', 'value' => '123'],
 					['name' => '{http://owncloud.org/ns}systemtag', 'value' => '456'],
@@ -306,7 +306,7 @@ class FilesReportPluginTest extends \Test\TestCase {
 			->with('222')
 			->willReturn([$filesNode2]);
 
-		/** @var \OCA\DAV\Connector\Sabre\Directory|\PHPUnit_Framework_MockObject_MockObject $reportTargetNode */
+		/** @var \OCA\DAV\Connector\Sabre\Directory|\PHPUnit\Framework\MockObject\MockObject $reportTargetNode */
 		$result = $this->plugin->findNodesByFileIds($reportTargetNode, ['111', '222']);
 
 		$this->assertCount(2, $result);
@@ -357,7 +357,7 @@ class FilesReportPluginTest extends \Test\TestCase {
 			->with('222')
 			->willReturn([$filesNode2]);
 
-		/** @var \OCA\DAV\Connector\Sabre\Directory|\PHPUnit_Framework_MockObject_MockObject $reportTargetNode */
+		/** @var \OCA\DAV\Connector\Sabre\Directory|\PHPUnit\Framework\MockObject\MockObject $reportTargetNode */
 		$result = $this->plugin->findNodesByFileIds($reportTargetNode, ['111', '222']);
 
 		$this->assertCount(2, $result);
@@ -603,7 +603,7 @@ class FilesReportPluginTest extends \Test\TestCase {
 		$this->assertEquals(['222'], array_values($this->invokePrivate($this->plugin, 'processFilterRules', [$rules])));
 	}
 
-	
+
 	public function testProcessFilterRulesInvisibleTagAsUser() {
 		$this->expectException(\OCP\SystemTag\TagNotFoundException::class);
 

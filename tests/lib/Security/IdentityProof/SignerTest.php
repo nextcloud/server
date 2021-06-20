@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright 2016, Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -77,13 +80,13 @@ gQIDAQAB
 	/** @var Key */
 	private $key;
 
-	/** @var Manager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var Manager|\PHPUnit\Framework\MockObject\MockObject */
 	private $keyManager;
 
-	/** @var ITimeFactory|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
 	private $timeFactory;
 
-	/** @var IUserManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $userManager;
 
 	/** @var Signer */
@@ -200,6 +203,4 @@ gQIDAQAB
 
 		$this->assertFalse($this->signer->verify($data));
 	}
-
-
 }

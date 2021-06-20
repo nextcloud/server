@@ -2,11 +2,11 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Johannes Ernst <jernst@indiecomputing.com>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Pulzer <t.pulzer@kniel.de>
  * @author Tim Terhorst <mynamewastaken+gitlab@gmail.com>
  *
  * @license AGPL-3.0
@@ -24,7 +24,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Core\Command\Log;
 
 use OCP\IConfig;
@@ -36,10 +35,9 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Manage extends Command implements CompletionAwareInterface {
-
-	const DEFAULT_BACKEND = 'file';
-	const DEFAULT_LOG_LEVEL = 2;
-	const DEFAULT_TIMEZONE = 'UTC';
+	public const DEFAULT_BACKEND = 'file';
+	public const DEFAULT_LOG_LEVEL = 2;
+	public const DEFAULT_TIMEZONE = 'UTC';
 
 	/** @var IConfig */
 	protected $config;
@@ -74,7 +72,7 @@ class Manage extends Command implements CompletionAwareInterface {
 		;
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		// collate config setting to the end, to avoid partial configuration
 		$toBeSet = [];
 
@@ -115,6 +113,7 @@ class Manage extends Command implements CompletionAwareInterface {
 
 		$timezone = $this->config->getSystemValue('logtimezone', self::DEFAULT_TIMEZONE);
 		$output->writeln('Log timezone: '.$timezone);
+		return 0;
 	}
 
 	/**
@@ -188,9 +187,9 @@ class Manage extends Command implements CompletionAwareInterface {
 	public function completeOptionValues($optionName, CompletionContext $context) {
 		if ($optionName === 'backend') {
 			return ['file', 'syslog', 'errorlog', 'systemd'];
-		} else if ($optionName === 'level') {
+		} elseif ($optionName === 'level') {
 			return ['debug', 'info', 'warning', 'error', 'fatal'];
-		} else if ($optionName === 'timezone') {
+		} elseif ($optionName === 'timezone') {
 			return \DateTimeZone::listIdentifiers();
 		}
 		return [];

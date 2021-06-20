@@ -6,9 +6,10 @@ declare(strict_types=1);
  * @copyright Copyright (c) 2019, Thomas Citharel
  * @copyright Copyright (c) 2019, Georg Ehrke
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Citharel <tcit@tcit.fr>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -19,14 +20,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\CalDAV\Reminder\NotificationProvider;
 
 use OCA\DAV\AppInfo\Application;
@@ -85,8 +85,8 @@ class PushProvider extends AbstractProvider {
 	 * @throws \Exception
 	 */
 	public function send(VEvent $vevent,
-						 string $calendarDisplayName=null,
-						 array $users=[]):void {
+						 string $calendarDisplayName = null,
+						 array $users = []):void {
 		if ($this->config->getAppValue('dav', 'sendEventRemindersPush', 'no') !== 'yes') {
 			return;
 		}
@@ -94,10 +94,12 @@ class PushProvider extends AbstractProvider {
 		$eventDetails = $this->extractEventDetails($vevent);
 		$eventDetails['calendar_displayname'] = $calendarDisplayName;
 		$eventUUID = (string) $vevent->UID;
-		// Empty Notification ObjectId will be catched by OC\Notification\Notification
-		$eventUUIDHash = $eventUUID ? hash('sha256', $eventUUID, false) : '';
+		if (!$eventUUID) {
+			return;
+		};
+		$eventUUIDHash = hash('sha256', $eventUUID, false);
 
-		foreach($users as $user) {
+		foreach ($users as $user) {
 			/** @var INotification $notification */
 			$notification = $this->manager->createNotification();
 			$notification->setApp(Application::APP_ID)
@@ -135,15 +137,11 @@ class PushProvider extends AbstractProvider {
 				? ((string) $vevent->LOCATION)
 				: null,
 			'all_day' => $start instanceof Property\ICalendar\Date,
-			/** @phan-suppress-next-line PhanUndeclaredClassMethod */
 			'start_atom' => $start->getDateTime()->format(\DateTime::ATOM),
 			'start_is_floating' => $start->isFloating(),
-			/** @phan-suppress-next-line PhanUndeclaredClassMethod */
 			'start_timezone' => $start->getDateTime()->getTimezone()->getName(),
-			/** @phan-suppress-next-line PhanUndeclaredClassMethod */
 			'end_atom' => $end->getDateTime()->format(\DateTime::ATOM),
 			'end_is_floating' => $end->isFloating(),
-			/** @phan-suppress-next-line PhanUndeclaredClassMethod */
 			'end_timezone' => $end->getDateTime()->getTimezone()->getName(),
 		];
 	}

@@ -10,7 +10,7 @@
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -27,7 +27,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Files\Utils;
 
 use OC\Files\Cache\Cache;
@@ -61,7 +60,7 @@ use OCP\ILogger;
  * @package OC\Files\Utils
  */
 class Scanner extends PublicEmitter {
-	const MAX_ENTRIES_TO_COMMIT = 10000;
+	public const MAX_ENTRIES_TO_COMMIT = 10000;
 
 	/** @var string $user */
 	private $user;
@@ -223,7 +222,6 @@ class Scanner extends PublicEmitter {
 				} else {// if the root exists in neither the cache nor the storage the user isn't setup yet
 					break;
 				}
-
 			}
 
 			// don't scan received local shares, these can be scanned when scanning the owner's storage

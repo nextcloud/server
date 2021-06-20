@@ -3,6 +3,8 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
@@ -21,9 +23,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_Versions\Tests\Command;
-
 
 use OC\User\Manager;
 use OCA\Files_Versions\Command\CleanUp;
@@ -42,10 +42,10 @@ class CleanupTest extends TestCase {
 	/** @var  CleanUp */
 	protected $cleanup;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject | Manager */
+	/** @var \PHPUnit\Framework\MockObject\MockObject | Manager */
 	protected $userManager;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject | IRootFolder */
+	/** @var \PHPUnit\Framework\MockObject\MockObject | IRootFolder */
 	protected $rootFolder;
 
 	protected function setUp(): void {
@@ -65,14 +65,13 @@ class CleanupTest extends TestCase {
 	 * @param boolean $nodeExists
 	 */
 	public function testDeleteVersions($nodeExists) {
-
 		$this->rootFolder->expects($this->once())
 			->method('nodeExists')
 			->with('/testUser/files_versions')
 			->willReturn($nodeExists);
 
 
-		if($nodeExists) {
+		if ($nodeExists) {
 			$this->rootFolder->expects($this->once())
 				->method('get')
 				->with('/testUser/files_versions')
@@ -167,5 +166,4 @@ class CleanupTest extends TestCase {
 
 		$this->invokePrivate($instance, 'execute', [$inputInterface, $outputInterface]);
 	}
-
 }

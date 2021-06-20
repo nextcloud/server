@@ -26,17 +26,17 @@
 			{{ t('core', 'Loading apps …') }}
 		</p>
 		<p v-else-if="loadingAppsError" class="loading-error text-center">
-			{{ t('core', 'Could not fetch list of apps from the app store.') }}
+			{{ t('core', 'Could not fetch list of apps from the App Store.') }}
 		</p>
 		<p v-else class="text-center">
 			{{ t('core', 'Installing apps …') }}
 		</p>
 		<div v-for="app in recommendedApps" :key="app.id" class="app">
-			<img :src="customIcon(app.id)" :alt="t('core', 'Nextcloud {app}', { app: app.name })">
+			<img :src="customIcon(app.id)" alt="">
 			<div class="info">
 				<h3>
 					{{ app.name }}
-					<span v-if="app.loading" class="icon icon-loading-small" />
+					<span v-if="app.loading" class="icon icon-loading-small-dark" />
 					<span v-else-if="app.active" class="icon icon-checkmark-white" />
 				</h3>
 				<p v-html="customDescription(app.id)" />
@@ -44,10 +44,10 @@
 					<strong>{{ t('core', 'App download or installation failed') }}</strong>
 				</p>
 				<p v-else-if="!app.isCompatible">
-					<strong>{{ t('core', 'Can\'t install this app because it is not compatible') }}</strong>
+					<strong>{{ t('core', 'Cannot install this app because it is not compatible') }}</strong>
 				</p>
 				<p v-else-if="!app.canInstall">
-					<strong>{{ t('core', 'Can\'t install this app') }}</strong>
+					<strong>{{ t('core', 'Cannot install this app') }}</strong>
 				</p>
 			</div>
 		</div>
@@ -82,11 +82,11 @@ const recommended = {
 	spreed: {
 		description: t('core', 'Chatting, video calls, screensharing, online meetings and web conferencing – in your browser and with mobile apps.'),
 	},
-	onlyoffice: {
+	richdocuments: {
 		description: t('core', 'Collaboratively edit office documents.'),
 	},
-	documentserver_community: {
-		description: t('core', 'Local document editing back-end used by the OnlyOffice app.'),
+	richdocumentscode: {
+		description: t('core', 'Local document editing back-end used by the Collabora Online app.'),
 	},
 }
 const recommendedIds = Object.keys(recommended)
@@ -135,7 +135,7 @@ export default {
 				.map(app => limit(() => {
 					logger.info(`installing ${app.id}`)
 					app.loading = true
-					return axios.post(generateUrl(`settings/apps/enable`), { appIds: [app.id], groups: [] })
+					return axios.post(generateUrl('settings/apps/enable'), { appIds: [app.id], groups: [] })
 						.catch(error => {
 							logger.error(`could not install ${app.id}`, { error })
 							app.installationError = true

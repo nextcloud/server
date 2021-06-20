@@ -21,15 +21,20 @@ class ComposerStaticInitFederatedFileSharing
     );
 
     public static $classMap = array (
+        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'OCA\\FederatedFileSharing\\AddressHandler' => __DIR__ . '/..' . '/../lib/AddressHandler.php',
         'OCA\\FederatedFileSharing\\AppInfo\\Application' => __DIR__ . '/..' . '/../lib/AppInfo/Application.php',
         'OCA\\FederatedFileSharing\\BackgroundJob\\RetryJob' => __DIR__ . '/..' . '/../lib/BackgroundJob/RetryJob.php',
         'OCA\\FederatedFileSharing\\Controller\\MountPublicLinkController' => __DIR__ . '/..' . '/../lib/Controller/MountPublicLinkController.php',
         'OCA\\FederatedFileSharing\\Controller\\RequestHandlerController' => __DIR__ . '/..' . '/../lib/Controller/RequestHandlerController.php',
+        'OCA\\FederatedFileSharing\\Events\\FederatedShareAddedEvent' => __DIR__ . '/..' . '/../lib/Events/FederatedShareAddedEvent.php',
         'OCA\\FederatedFileSharing\\FederatedShareProvider' => __DIR__ . '/..' . '/../lib/FederatedShareProvider.php',
+        'OCA\\FederatedFileSharing\\Listeners\\LoadAdditionalScriptsListener' => __DIR__ . '/..' . '/../lib/Listeners/LoadAdditionalScriptsListener.php',
+        'OCA\\FederatedFileSharing\\Migration\\Version1010Date20200630191755' => __DIR__ . '/..' . '/../lib/Migration/Version1010Date20200630191755.php',
+        'OCA\\FederatedFileSharing\\Migration\\Version1011Date20201120125158' => __DIR__ . '/..' . '/../lib/Migration/Version1011Date20201120125158.php',
         'OCA\\FederatedFileSharing\\Notifications' => __DIR__ . '/..' . '/../lib/Notifications.php',
         'OCA\\FederatedFileSharing\\Notifier' => __DIR__ . '/..' . '/../lib/Notifier.php',
-        'OCA\\FederatedFileSharing\\OCM\\CloudFederationProviderFiles' => __DIR__ . '/..' . '/../lib/ocm/CloudFederationProviderFiles.php',
+        'OCA\\FederatedFileSharing\\OCM\\CloudFederationProviderFiles' => __DIR__ . '/..' . '/../lib/OCM/CloudFederationProviderFiles.php',
         'OCA\\FederatedFileSharing\\Settings\\Admin' => __DIR__ . '/..' . '/../lib/Settings/Admin.php',
         'OCA\\FederatedFileSharing\\Settings\\Personal' => __DIR__ . '/..' . '/../lib/Settings/Personal.php',
         'OCA\\FederatedFileSharing\\Settings\\PersonalSection' => __DIR__ . '/..' . '/../lib/Settings/PersonalSection.php',

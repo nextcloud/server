@@ -2,7 +2,10 @@
 /**
  * @copyright Copyright (c) 2018 Georg Ehrke <oc.list@georgehrke.com>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Nils Wittenbrink <nilswittenbrink@web.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
@@ -14,14 +17,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\Tests\unit\Provisioning\Apple;
 
 use OCA\DAV\Provisioning\Apple\AppleProvisioningPlugin;
@@ -35,28 +37,28 @@ use Test\TestCase;
 
 class AppleProvisioningPluginTest extends TestCase {
 
-	/** @var \Sabre\DAV\Server|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \Sabre\DAV\Server|\PHPUnit\Framework\MockObject\MockObject */
 	protected $server;
 
-	/** @var IUserSession|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
 	protected $userSession;
 
-	/** @var IURLGenerator|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
 	protected $urlGenerator;
 
-	/** @var ThemingDefaults|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ThemingDefaults|\PHPUnit\Framework\MockObject\MockObject */
 	protected $themingDefaults;
 
-	/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
 	protected $request;
 
-	/** @var IL10N|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
 	protected $l10n;
 
-	/** @var \Sabre\HTTP\RequestInterface|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \Sabre\HTTP\RequestInterface|\PHPUnit\Framework\MockObject\MockObject */
 	protected $sabreRequest;
 
-	/** @var \Sabre\HTTP\ResponseInterface|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \Sabre\HTTP\ResponseInterface|\PHPUnit\Framework\MockObject\MockObject */
 	protected $sabreResponse;
 
 	/** @var AppleProvisioningPlugin */
@@ -77,7 +79,7 @@ class AppleProvisioningPluginTest extends TestCase {
 			$this->themingDefaults,
 			$this->request,
 			$this->l10n,
-			function() {
+			function () {
 				return 'generated-uuid';
 			}
 		);
@@ -91,7 +93,8 @@ class AppleProvisioningPluginTest extends TestCase {
 
 		$plugin = new AppleProvisioningPlugin($this->userSession,
 			$this->urlGenerator, $this->themingDefaults, $this->request, $this->l10n,
-			function() {});
+			function () {
+			});
 
 		$server->expects($this->at(0))
 			->method('on')
@@ -265,5 +268,4 @@ EOF
 
 		$this->assertFalse($returnValue);
 	}
-
 }

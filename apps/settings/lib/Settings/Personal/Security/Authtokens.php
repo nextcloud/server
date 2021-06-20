@@ -5,7 +5,6 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2019, Roeland Jago Douma <roeland@famdouma.nl>
  *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
@@ -17,16 +16,16 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Settings\Settings\Personal\Security;
 
+use OCP\AppFramework\Services\IInitialState;
 use OCP\IUserSession;
 use function array_map;
 use OC\Authentication\Exceptions\InvalidTokenException;
@@ -34,7 +33,6 @@ use OC\Authentication\Token\INamedToken;
 use OC\Authentication\Token\IProvider as IAuthTokenProvider;
 use OC\Authentication\Token\IToken;
 use OCP\AppFramework\Http\TemplateResponse;
-use OCP\IInitialStateService;
 use OCP\ISession;
 use OCP\Session\Exceptions\SessionNotAvailableException;
 use OCP\Settings\ISettings;
@@ -47,8 +45,8 @@ class Authtokens implements ISettings {
 	/** @var ISession */
 	private $session;
 
-	/** @var IInitialStateService */
-	private $initialStateService;
+	/** @var IInitialState */
+	private $initialState;
 
 	/** @var string|null */
 	private $uid;
@@ -59,24 +57,22 @@ class Authtokens implements ISettings {
 	public function __construct(IAuthTokenProvider $tokenProvider,
 								ISession $session,
 								IUserSession $userSession,
-								IInitialStateService $initialStateService,
+								IInitialState $initialState,
 								?string $UserId) {
 		$this->tokenProvider = $tokenProvider;
 		$this->session = $session;
-		$this->initialStateService = $initialStateService;
+		$this->initialState = $initialState;
 		$this->uid = $UserId;
 		$this->userSession = $userSession;
 	}
 
 	public function getForm(): TemplateResponse {
-		$this->initialStateService->provideInitialState(
-			'settings',
+		$this->initialState->provideInitialState(
 			'app_tokens',
 			$this->getAppTokens()
 		);
 
-		$this->initialStateService->provideInitialState(
-			'settings',
+		$this->initialState->provideInitialState(
 			'can_create_app_token',
 			$this->userSession->getImpersonatingUserID() === null
 		);
@@ -118,5 +114,4 @@ class Authtokens implements ISettings {
 			return $data;
 		}, $tokens);
 	}
-
 }

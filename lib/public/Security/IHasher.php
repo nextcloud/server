@@ -24,7 +24,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\Security;
 
 /**
@@ -44,7 +43,6 @@ namespace OCP\Security;
  * var_dump(\OC::$server->getHasher()->verify('a', '86f7e437faa5a7fce15d1ddcb9eaeaea377667b8', $newHash));
  * var_dump($newHash);
  *
- * @package OCP\Security
  * @since 8.0.0
  */
 interface IHasher {

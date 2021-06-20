@@ -28,7 +28,8 @@ use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Middleware;
 use OCP\IConfig;
 
-class ChildMiddleware extends Middleware {};
+class ChildMiddleware extends Middleware {
+};
 
 
 class MiddlewareTest extends \Test\TestCase {
@@ -91,6 +92,4 @@ class MiddlewareTest extends \Test\TestCase {
 
 		$this->assertEquals('test', $output);
 	}
-
-
 }

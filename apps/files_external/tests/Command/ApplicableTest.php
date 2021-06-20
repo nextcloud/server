@@ -2,6 +2,8 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -20,7 +22,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_External\Tests\Command;
 
 use OCA\Files_External\Command\Applicable;
@@ -29,9 +30,9 @@ use OCP\IUserManager;
 
 class ApplicableTest extends CommandTest {
 	private function getInstance($storageService) {
-		/** @var \OCP\IUserManager|\PHPUnit_Framework_MockObject_MockObject $userManager */
+		/** @var \OCP\IUserManager|\PHPUnit\Framework\MockObject\MockObject $userManager */
 		$userManager = $this->createMock(IUserManager::class);
-		/** @var \OCP\IGroupManager|\PHPUnit_Framework_MockObject_MockObject $groupManager */
+		/** @var \OCP\IGroupManager|\PHPUnit\Framework\MockObject\MockObject $groupManager */
 		$groupManager = $this->createMock(IGroupManager::class);
 
 		$userManager->expects($this->any())

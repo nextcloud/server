@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  *
  * @license AGPL-3.0
@@ -20,7 +21,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_External\Service;
 
 use OCP\IUserSession;
@@ -51,6 +51,6 @@ class UserLegacyStoragesService extends LegacyStoragesService {
 	protected function readLegacyConfig() {
 		// read user config
 		$user = $this->userSession->getUser()->getUID();
-		return \OC_Mount_Config::readData($user);
+		return \OCA\Files_External\MountConfig::readData($user);
 	}
 }

@@ -5,7 +5,8 @@
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Maxence Lange <maxence@nextcloud.com>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -25,7 +26,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\Share;
 
 use OCP\Files\Cache\ICacheEntry;
@@ -38,7 +38,6 @@ use OCP\Share\Exceptions\IllegalIDChangeException;
 /**
  * Interface IShare
  *
- * @package OCP\Share
  * @since 9.0.0
  */
 interface IShare {
@@ -105,6 +104,17 @@ interface IShare {
 	 * @since 17.0.0
 	 */
 	// const TYPE_USERROOM = 11;
+
+	/**
+	 * @since 21.0.0
+	 */
+	public const TYPE_DECK = 12;
+
+	/**
+	 * @internal
+	 * @since 21.0.0
+	 */
+	public const TYPE_DECK_USER = 13;
 
 	/**
 	 * @since 18.0.0
@@ -422,7 +432,7 @@ interface IShare {
 	 * When the share is passed to the share manager to be created
 	 * or updated the password will be hashed.
 	 *
-	 * @param string $password
+	 * @param string|null $password
 	 * @return \OCP\Share\IShare The modified object
 	 * @since 9.0.0
 	 */
@@ -550,7 +560,7 @@ interface IShare {
 	 * This is mainly for public shares. It will signal that the share page should
 	 * hide download buttons etc.
 	 *
-	 * @param bool $ro
+	 * @param bool $hide
 	 * @return IShare
 	 * @since 15.0.0
 	 */

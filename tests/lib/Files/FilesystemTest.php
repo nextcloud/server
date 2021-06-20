@@ -46,7 +46,7 @@ class DummyMountProvider implements IMountProvider {
 	 * @param IStorageFactory $loader
 	 * @return \OCP\Files\Mount\IMountPoint[]
 	 */
-	public function  getMountsForUser(IUser $user, IStorageFactory $loader) {
+	public function getMountsForUser(IUser $user, IStorageFactory $loader) {
 		return isset($this->mounts[$user->getUID()]) ? $this->mounts[$user->getUID()] : [];
 	}
 }
@@ -59,9 +59,8 @@ class DummyMountProvider implements IMountProvider {
  * @package Test\Files
  */
 class FilesystemTest extends \Test\TestCase {
-
-	const TEST_FILESYSTEM_USER1 = "test-filesystem-user1";
-	const TEST_FILESYSTEM_USER2 = "test-filesystem-user1";
+	public const TEST_FILESYSTEM_USER1 = "test-filesystem-user1";
+	public const TEST_FILESYSTEM_USER2 = "test-filesystem-user1";
 
 	/**
 	 * @var array tmpDirs
@@ -100,9 +99,9 @@ class FilesystemTest extends \Test\TestCase {
 		\OC\Files\Filesystem::mount('\OC\Files\Storage\Local', self::getStorageData(), '/');
 		$this->assertEquals('/', \OC\Files\Filesystem::getMountPoint('/'));
 		$this->assertEquals('/', \OC\Files\Filesystem::getMountPoint('/some/folder'));
-		list(, $internalPath) = \OC\Files\Filesystem::resolvePath('/');
+		[, $internalPath] = \OC\Files\Filesystem::resolvePath('/');
 		$this->assertEquals('', $internalPath);
-		list(, $internalPath) = \OC\Files\Filesystem::resolvePath('/some/folder');
+		[, $internalPath] = \OC\Files\Filesystem::resolvePath('/some/folder');
 		$this->assertEquals('some/folder', $internalPath);
 
 		\OC\Files\Filesystem::mount('\OC\Files\Storage\Local', self::getStorageData(), '/some');
@@ -110,7 +109,7 @@ class FilesystemTest extends \Test\TestCase {
 		$this->assertEquals('/some/', \OC\Files\Filesystem::getMountPoint('/some/folder'));
 		$this->assertEquals('/some/', \OC\Files\Filesystem::getMountPoint('/some/'));
 		$this->assertEquals('/some/', \OC\Files\Filesystem::getMountPoint('/some'));
-		list(, $internalPath) = \OC\Files\Filesystem::resolvePath('/some/folder');
+		[, $internalPath] = \OC\Files\Filesystem::resolvePath('/some/folder');
 		$this->assertEquals('folder', $internalPath);
 	}
 
@@ -299,7 +298,6 @@ class FilesystemTest extends \Test\TestCase {
 			$userObj = \OC::$server->getUserManager()->get($user);
 			\OC::$server->getUserSession()->setUser($userObj);
 			\OC\Files\Filesystem::init($user, '/' . $user . '/files');
-
 		}
 		\OC_Hook::clear('OC_Filesystem');
 		\OC_Hook::connect('OC_Filesystem', 'post_write', $this, 'dummyHook');
@@ -391,12 +389,14 @@ class FilesystemTest extends \Test\TestCase {
 		$this->assertTrue($homeMount->instanceOfStorage('\OCP\Files\IHomeStorage'));
 		if ($homeMount->instanceOfStorage('\OC\Files\ObjectStore\HomeObjectStoreStorage')) {
 			$this->assertEquals('object::user:' . $userId, $homeMount->getId());
-		} else if ($homeMount->instanceOfStorage('\OC\Files\Storage\Home')) {
+		} elseif ($homeMount->instanceOfStorage('\OC\Files\Storage\Home')) {
 			$this->assertEquals('home::' . $userId, $homeMount->getId());
 		}
 
 		$user = \OC::$server->getUserManager()->get($userId);
-		if ($user !== null) { $user->delete(); }
+		if ($user !== null) {
+			$user->delete();
+		}
 	}
 
 	public function dummyHook($arguments) {
@@ -421,11 +421,13 @@ class FilesystemTest extends \Test\TestCase {
 			'/' . $userId . '/',
 			\OC\Files\Filesystem::getMountPoint('/' . $userId . '/cache')
 		);
-		list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath('/' . $userId . '/cache');
+		[$storage, $internalPath] = \OC\Files\Filesystem::resolvePath('/' . $userId . '/cache');
 		$this->assertTrue($storage->instanceOfStorage('\OCP\Files\IHomeStorage'));
 		$this->assertEquals('cache', $internalPath);
 		$user = \OC::$server->getUserManager()->get($userId);
-		if ($user !== null) { $user->delete(); }
+		if ($user !== null) {
+			$user->delete();
+		}
 
 		$config->setSystemValue('cache_path', $oldCachePath);
 	}
@@ -450,11 +452,13 @@ class FilesystemTest extends \Test\TestCase {
 			'/' . $userId . '/cache/',
 			\OC\Files\Filesystem::getMountPoint('/' . $userId . '/cache')
 		);
-		list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath('/' . $userId . '/cache');
+		[$storage, $internalPath] = \OC\Files\Filesystem::resolvePath('/' . $userId . '/cache');
 		$this->assertTrue($storage->instanceOfStorage('\OC\Files\Storage\Local'));
 		$this->assertEquals('', $internalPath);
 		$user = \OC::$server->getUserManager()->get($userId);
-		if ($user !== null) { $user->delete(); }
+		if ($user !== null) {
+			$user->delete();
+		}
 
 		$config->setSystemValue('cache_path', $oldCachePath);
 	}

@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Martin Mattel <martin.mattel@diemattels.at>
  * @author Morris Jobke <hey@morrisjobke.de>
@@ -25,7 +26,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_External\Controller;
 
 use OCA\Files_External\Lib\Auth\Password\GlobalAuth;
@@ -92,8 +92,8 @@ class AjaxController extends Controller {
 				'private_key' => $key['privatekey'],
 				'public_key' => $key['publickey']
 			],
-			'status' => 'success'
-		]);
+				'status' => 'success'
+			]);
 	}
 
 	/**

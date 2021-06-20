@@ -21,15 +21,14 @@
 
 namespace Test\Traits;
 
-
 use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\Http\Client\IResponse;
 
 trait ClientServiceTrait {
-	/** @var IClientService|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IClientService|\PHPUnit\Framework\MockObject\MockObject */
 	private $clientService;
-	/** @var IClient|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IClient|\PHPUnit\Framework\MockObject\MockObject */
 	private $client;
 	private $expectedGetRequests = [];
 	private $expectedPostRequests = [];
@@ -38,9 +37,9 @@ trait ClientServiceTrait {
 	 * Wrapper to be forward compatible to phpunit 5.4+
 	 *
 	 * @param string $originalClassName
-	 * @return \PHPUnit_Framework_MockObject_MockObject
+	 * @return \PHPUnit\Framework\MockObject\MockObject
 	 */
-	abstract protected function createMock($originalClassName);
+	abstract protected function createMock(string $originalClassName);
 
 	/**
 	 * Returns a matcher that matches when the method is executed
@@ -50,7 +49,7 @@ trait ClientServiceTrait {
 	 *
 	 * @since  Method available since Release 3.0.0
 	 */
-	abstract public function any();
+	abstract public static function any();
 
 	protected function setUpClientServiceTrait() {
 		$this->clientService = $this->createMock(IClientService::class);
@@ -113,7 +112,7 @@ trait ClientServiceTrait {
 	}
 
 	/**
-	 * @return IClientService|\PHPUnit_Framework_MockObject_MockObject
+	 * @return IClientService|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	protected function getClientService() {
 		return $this->clientService;

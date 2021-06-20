@@ -62,5 +62,4 @@ trait FileListAncestorSetter {
 	private function setFileListAncestorForActor($fileListAncestor, Actor $actor) {
 		$this->fileListContext->setFileListAncestorForActor($fileListAncestor, $actor);
 	}
-
 }

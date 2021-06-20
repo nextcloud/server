@@ -4,6 +4,9 @@
  *
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
@@ -22,7 +25,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Log;
 
 use OCP\ILogger;
@@ -40,7 +42,7 @@ class ErrorHandler {
 		return preg_replace('/\/\/(.*):(.*)@/', '//xxx:xxx@', $msg);
 	}
 
-	public static function register($debug=false) {
+	public static function register($debug = false) {
 		$handler = new ErrorHandler();
 
 		if ($debug) {
@@ -62,7 +64,7 @@ class ErrorHandler {
 	//Fatal errors handler
 	public static function onShutdown() {
 		$error = error_get_last();
-		if($error && self::$logger) {
+		if ($error && self::$logger) {
 			//ob_end_clean();
 			$msg = $error['message'] . ' at ' . $error['file'] . '#' . $error['line'];
 			self::$logger->critical(self::removePassword($msg), ['app' => 'PHP']);
@@ -87,15 +89,31 @@ class ErrorHandler {
 			return;
 		}
 		$msg = $message . ' at ' . $file . '#' . $line;
-		self::$logger->error(self::removePassword($msg), ['app' => 'PHP']);
-
+		$e = new \Error(self::removePassword($msg));
+		self::$logger->logException($e, ['app' => 'PHP', 'level' => self::errnoToLogLevel($number)]);
 	}
 
 	//Recoverable handler which catch all errors, warnings and notices
 	public static function onAll($number, $message, $file, $line) {
 		$msg = $message . ' at ' . $file . '#' . $line;
-		self::$logger->debug(self::removePassword($msg), ['app' => 'PHP']);
-
+		$e = new \Error(self::removePassword($msg));
+		self::$logger->logException($e, ['app' => 'PHP', 'level' => self::errnoToLogLevel($number)]);
 	}
 
+	public static function errnoToLogLevel(int $errno): int {
+		switch ($errno) {
+			case E_USER_WARNING:
+				return ILogger::WARN;
+
+			case E_USER_DEPRECATED:
+				return ILogger::DEBUG;
+
+			case E_USER_NOTICE:
+				return ILogger::INFO;
+
+			case E_USER_ERROR:
+			default:
+				return ILogger::ERROR;
+		}
+	}
 }

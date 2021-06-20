@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @copyright Copyright (c) 2017 Bjoern Schiessle <bjoern@schiessle.org>
  *
  * @author Bjoern Schiessle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -18,14 +19,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\OCS;
 
 use OCP\AppFramework\Http;
@@ -85,7 +85,7 @@ class DiscoveryService implements IDiscoveryService {
 				'timeout' => 10,
 				'connect_timeout' => 10,
 			]);
-			if($response->getStatusCode() === Http::STATUS_OK) {
+			if ($response->getStatusCode() === Http::STATUS_OK) {
 				$decodedServices = json_decode($response->getBody(), true);
 				if (\is_array($decodedServices)) {
 					$discoveredServices = $this->getEndpoints($decodedServices, $service);
@@ -96,7 +96,7 @@ class DiscoveryService implements IDiscoveryService {
 		}
 
 		// Write into cache
-		$this->cache->set($remote . '#' . $service, json_encode($discoveredServices), 60*60*24);
+		$this->cache->set($remote . '#' . $service, json_encode($discoveredServices), 60 * 60 * 24);
 		return $discoveredServices;
 	}
 
@@ -108,12 +108,11 @@ class DiscoveryService implements IDiscoveryService {
 	 * @return array
 	 */
 	protected function getEndpoints(array $decodedServices, string $service): array {
-
 		$discoveredServices = [];
 
-		if(isset($decodedServices['services'][$service]['endpoints'])) {
+		if (isset($decodedServices['services'][$service]['endpoints'])) {
 			foreach ($decodedServices['services'][$service]['endpoints'] as $endpoint => $url) {
-				if($this->isSafeUrl($url)) {
+				if ($this->isSafeUrl($url)) {
 					$discoveredServices[$endpoint] = $url;
 				}
 			}
@@ -132,5 +131,4 @@ class DiscoveryService implements IDiscoveryService {
 	protected function isSafeUrl(string $url): bool {
 		return (bool)preg_match('/^[\/\.\-A-Za-z0-9]+$/', $url);
 	}
-
 }

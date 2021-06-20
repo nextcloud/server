@@ -4,6 +4,7 @@
  *
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Morris Jobke <hey@morrisjobke.de>
  *
  * @license AGPL-3.0
@@ -21,15 +22,14 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\Files;
 
 use OC\Hooks\Emitter;
+use OC\User\NoUserException;
 
 /**
  * Interface IRootFolder
  *
- * @package OCP\Files
  * @since 8.0.0
  */
 interface IRootFolder extends Folder, Emitter {
@@ -39,6 +39,9 @@ interface IRootFolder extends Folder, Emitter {
 	 *
 	 * @param string $userId user ID
 	 * @return \OCP\Files\Folder
+	 * @throws NoUserException
+	 * @throws NotPermittedException
+	 *
 	 * @since 8.2.0
 	 */
 	public function getUserFolder($userId);

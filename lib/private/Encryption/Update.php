@@ -4,6 +4,8 @@
  *
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
@@ -22,43 +24,42 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Encryption;
 
+use InvalidArgumentException;
 use OC\Files\Filesystem;
 use OC\Files\Mount;
 use OC\Files\View;
+use OCP\Encryption\Exceptions\GenericEncryptionException;
+use Psr\Log\LoggerInterface;
 
 /**
  * update encrypted files, e.g. because a file was shared
  */
 class Update {
 
-	/** @var \OC\Files\View */
+	/** @var View */
 	protected $view;
 
-	/** @var \OC\Encryption\Util */
+	/** @var Util */
 	protected $util;
 
-	 /** @var \OC\Files\Mount\Manager */
+	/** @var \OC\Files\Mount\Manager */
 	protected $mountManager;
 
-	/** @var \OC\Encryption\Manager */
+	/** @var Manager */
 	protected $encryptionManager;
 
 	/** @var string */
 	protected $uid;
 
-	/** @var \OC\Encryption\File */
+	/** @var File */
 	protected $file;
 
+	/** @var LoggerInterface */
+	protected $logger;
+
 	/**
-	 *
-	 * @param \OC\Files\View $view
-	 * @param \OC\Encryption\Util $util
-	 * @param \OC\Files\Mount\Manager $mountManager
-	 * @param \OC\Encryption\Manager $encryptionManager
-	 * @param \OC\Encryption\File $file
 	 * @param string $uid
 	 */
 	public function __construct(
@@ -67,14 +68,15 @@ class Update {
 			Mount\Manager $mountManager,
 			Manager $encryptionManager,
 			File $file,
+			LoggerInterface $logger,
 			$uid
 		) {
-
 		$this->view = $view;
 		$this->util = $util;
 		$this->mountManager = $mountManager;
 		$this->encryptionManager = $encryptionManager;
 		$this->file = $file;
+		$this->logger = $logger;
 		$this->uid = $uid;
 	}
 
@@ -87,7 +89,7 @@ class Update {
 		if ($this->encryptionManager->isEnabled()) {
 			if ($params['itemType'] === 'file' || $params['itemType'] === 'folder') {
 				$path = Filesystem::getPath($params['fileSource']);
-				list($owner, $ownerPath) = $this->getOwnerPath($path);
+				[$owner, $ownerPath] = $this->getOwnerPath($path);
 				$absPath = '/' . $owner . '/files/' . $ownerPath;
 				$this->update($absPath);
 			}
@@ -103,7 +105,7 @@ class Update {
 		if ($this->encryptionManager->isEnabled()) {
 			if ($params['itemType'] === 'file' || $params['itemType'] === 'folder') {
 				$path = Filesystem::getPath($params['fileSource']);
-				list($owner, $ownerPath) = $this->getOwnerPath($path);
+				[$owner, $ownerPath] = $this->getOwnerPath($path);
 				$absPath = '/' . $owner . '/files/' . $ownerPath;
 				$this->update($absPath);
 			}
@@ -132,13 +134,13 @@ class Update {
 	public function postRename($params) {
 		$source = $params['oldpath'];
 		$target = $params['newpath'];
-		if(
+		if (
 			$this->encryptionManager->isEnabled() &&
 			dirname($source) !== dirname($target)
 		) {
-				list($owner, $ownerPath) = $this->getOwnerPath($target);
-				$absPath = '/' . $owner . '/files/' . $ownerPath;
-				$this->update($absPath);
+			[$owner, $ownerPath] = $this->getOwnerPath($target);
+			$absPath = '/' . $owner . '/files/' . $ownerPath;
+			$this->update($absPath);
 		}
 	}
 
@@ -155,7 +157,7 @@ class Update {
 		$view = new View('/' . $owner . '/files');
 		$path = $view->getPath($info->getId());
 		if ($path === null) {
-			throw new \InvalidArgumentException('No file found for ' . $info->getId());
+			throw new InvalidArgumentException('No file found for ' . $info->getId());
 		}
 
 		return [$owner, $path];
@@ -168,7 +170,6 @@ class Update {
 	 * @throws Exceptions\ModuleDoesNotExistsException
 	 */
 	public function update($path) {
-
 		$encryptionModule = $this->encryptionManager->getEncryptionModule();
 
 		// if the encryption module doesn't encrypt the files on a per-user basis
@@ -188,8 +189,12 @@ class Update {
 
 		foreach ($allFiles as $file) {
 			$usersSharing = $this->file->getAccessList($file);
-			$encryptionModule->update($file, $this->uid, $usersSharing);
+			try {
+				$encryptionModule->update($file, $this->uid, $usersSharing);
+			} catch (GenericEncryptionException $e) {
+				// If the update of an individual file fails e.g. due to a corrupt key we should continue the operation and just log the failure
+				$this->logger->error('Failed to update encryption module for ' . $this->uid . ' ' . $file, [ 'exception' => $e ]);
+			}
 		}
 	}
-
 }

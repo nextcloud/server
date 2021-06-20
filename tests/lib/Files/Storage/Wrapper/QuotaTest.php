@@ -113,7 +113,7 @@ class QuotaTest extends \Test\Files\Storage\Storage {
 		$instance = $this->getLimitedStorage(16);
 		$inputStream = fopen('data://text/plain,foobarqwerty', 'r');
 		$outputStream = $instance->fopen('files/foo', 'w+');
-		list($count, $result) = \OC_Helper::streamCopy($inputStream, $outputStream);
+		[$count, $result] = \OC_Helper::streamCopy($inputStream, $outputStream);
 		$this->assertEquals(12, $count);
 		$this->assertTrue($result);
 		fclose($inputStream);
@@ -124,7 +124,7 @@ class QuotaTest extends \Test\Files\Storage\Storage {
 		$instance = $this->getLimitedStorage(9);
 		$inputStream = fopen('data://text/plain,foobarqwerty', 'r');
 		$outputStream = $instance->fopen('files/foo', 'w+');
-		list($count, $result) = \OC_Helper::streamCopy($inputStream, $outputStream);
+		[$count, $result] = \OC_Helper::streamCopy($inputStream, $outputStream);
 		$this->assertEquals(9, $count);
 		$this->assertFalse($result);
 		fclose($inputStream);
@@ -211,7 +211,16 @@ class QuotaTest extends \Test\Files\Storage\Storage {
 
 	public function testNoMkdirQuotaZero() {
 		$instance = $this->getLimitedStorage(0.0);
-		$this->assertFalse($instance->mkdir('foobar'));
+		$this->assertFalse($instance->mkdir('files'));
+		$this->assertFalse($instance->mkdir('files/foobar'));
+	}
+
+	public function testMkdirQuotaZeroTrashbin() {
+		$instance = $this->getLimitedStorage(0.0);
+		$this->assertTrue($instance->mkdir('files_trashbin'));
+		$this->assertTrue($instance->mkdir('files_trashbin/files'));
+		$this->assertTrue($instance->mkdir('files_versions'));
+		$this->assertTrue($instance->mkdir('cache'));
 	}
 
 	public function testNoTouchQuotaZero() {

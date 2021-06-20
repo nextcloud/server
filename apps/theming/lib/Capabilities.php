@@ -4,6 +4,7 @@
  *
  * @author Guillaume COMPAGNON <gcompagnon@outlook.com>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Julien Veyssier <eneiluj@posteo.net>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Morris Jobke <hey@morrisjobke.de>
  *
@@ -16,14 +17,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Theming;
 
 use OCP\Capabilities\IPublicCapability;
@@ -68,7 +68,7 @@ class Capabilities implements IPublicCapability {
 	 * @return array
 	 */
 	public function getCapabilities() {
-		$backgroundLogo = $this->config->getAppValue('theming', 'backgroundMime', false);
+		$backgroundLogo = $this->config->getAppValue('theming', 'backgroundMime', '');
 		$color = $this->theming->getColorPrimary();
 		return [
 			'theming' => [
@@ -78,11 +78,13 @@ class Capabilities implements IPublicCapability {
 				'color' => $color,
 				'color-text' => $this->theming->getTextColorPrimary(),
 				'color-element' => $this->util->elementColor($color),
+				'color-element-bright' => $this->util->elementColor($color),
+				'color-element-dark' => $this->util->elementColor($color, false),
 				'logo' => $this->url->getAbsoluteURL($this->theming->getLogo()),
-				'background' => $backgroundLogo === 'backgroundColor' ?
+				'background' => $backgroundLogo === 'backgroundColor' || ($backgroundLogo === '' && $this->theming->getColorPrimary() !== '#0082c9') ?
 					$this->theming->getColorPrimary() :
 					$this->url->getAbsoluteURL($this->theming->getBackground()),
-				'background-plain' => $backgroundLogo === 'backgroundColor',
+				'background-plain' => $backgroundLogo === 'backgroundColor' || ($backgroundLogo === '' && $this->theming->getColorPrimary() !== '#0082c9'),
 				'background-default' => !$this->util->isBackgroundThemed(),
 				'logoheader' => $this->url->getAbsoluteURL($this->theming->getLogo()),
 				'favicon' => $this->url->getAbsoluteURL($this->theming->getLogo()),

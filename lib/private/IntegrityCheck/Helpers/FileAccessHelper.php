@@ -5,6 +5,7 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Victor Dubiniuk <dubiniuk@owncloud.com>
@@ -24,7 +25,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\IntegrityCheck\Helpers;
 
 /**
@@ -64,7 +64,7 @@ class FileAccessHelper {
 	 */
 	public function file_put_contents(string $filename, string $data): int {
 		$bytesWritten = @file_put_contents($filename, $data);
-		if ($bytesWritten === false || $bytesWritten !== \strlen($data)){
+		if ($bytesWritten === false || $bytesWritten !== \strlen($data)) {
 			throw new \Exception('Failed to write into ' . $filename);
 		}
 		return $bytesWritten;

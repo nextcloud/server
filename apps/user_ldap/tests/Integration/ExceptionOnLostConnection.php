@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -22,9 +23,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\User_LDAP\Tests\Integration;
-
 
 use OC\ServerNotAvailableException;
 use OCA\User_LDAP\LDAP;
@@ -36,7 +35,7 @@ use OCA\User_LDAP\LDAP;
  *
  * LDAP must be available via toxiproxy.
  *
- * This test must be run manually. 
+ * This test must be run manually.
  *
  */
 class ExceptionOnLostConnection {
@@ -113,7 +112,7 @@ class ExceptionOnLostConnection {
 	 * restores original state of the LDAP proxy, if necessary
 	 */
 	public function cleanUp() {
-		if($this->originalProxyState === true) {
+		if ($this->originalProxyState === true) {
 			$this->setProxyState(true);
 		}
 	}
@@ -123,7 +122,7 @@ class ExceptionOnLostConnection {
 	 * fail
 	 */
 	public function run() {
-		if($this->originalProxyState === false) {
+		if ($this->originalProxyState === false) {
 			$this->setProxyState(true);
 		}
 		//host contains port, 2nd parameter will be ignored
@@ -152,7 +151,7 @@ class ExceptionOnLostConnection {
 	 * @throws \Exception
 	 */
 	private function checkCurlResult($ch, $result) {
-		if($result === false) {
+		if ($result === false) {
 			$error = curl_error($ch);
 			curl_close($ch);
 			throw new \Exception($error);
@@ -166,7 +165,7 @@ class ExceptionOnLostConnection {
 	 * @throws \Exception
 	 */
 	private function setProxyState($isEnabled) {
-		if(!is_bool($isEnabled)) {
+		if (!is_bool($isEnabled)) {
 			throw new \InvalidArgumentException('Bool expected');
 		}
 		$postData = json_encode(['enabled' => $isEnabled]);
@@ -174,8 +173,8 @@ class ExceptionOnLostConnection {
 		curl_setopt($ch, CURLOPT_POST, true);
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
 		curl_setopt($ch, CURLOPT_HTTPHEADER, [
-				'Content-Type: application/json',
-				'Content-Length: ' . strlen($postData)]
+			'Content-Type: application/json',
+			'Content-Length: ' . strlen($postData)]
 		);
 		$recvd = curl_exec($ch);
 		$this->checkCurlResult($ch, $recvd);

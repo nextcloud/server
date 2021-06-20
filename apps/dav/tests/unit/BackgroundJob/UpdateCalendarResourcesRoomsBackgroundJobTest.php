@@ -2,8 +2,10 @@
 /**
  * @copyright Copyright (c) 2018, Georg Ehrke
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
@@ -15,14 +17,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\Tests\unit\BackgroundJob;
 
 use OCA\DAV\BackgroundJob\UpdateCalendarResourcesRoomsBackgroundJob;
@@ -36,18 +37,21 @@ use OCP\Calendar\Resource\IResource;
 use OCP\Calendar\Room\IManager as IRoomManager;
 use Test\TestCase;
 
+interface tmpI extends IResource, IMetadataProvider {
+}
+
 class UpdateCalendarResourcesRoomsBackgroundJobTest extends TestCase {
 
 	/** @var UpdateCalendarResourcesRoomsBackgroundJob */
 	private $backgroundJob;
 
-	/** @var IResourceManager | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var IResourceManager | \PHPUnit\Framework\MockObject\MockObject */
 	private $resourceManager;
 
-	/** @var IRoomManager | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var IRoomManager | \PHPUnit\Framework\MockObject\MockObject */
 	private $roomManager;
 
-	/** @var CalDavBackend | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var CalDavBackend | \PHPUnit\Framework\MockObject\MockObject */
 	private $calDavBackend;
 
 	protected function setUp(): void {
@@ -106,9 +110,9 @@ class UpdateCalendarResourcesRoomsBackgroundJobTest extends TestCase {
 		$backend3 = $this->createMock(IBackend::class);
 		$backend4 = $this->createMock(IBackend::class);
 
-		$res6 = $this->createMock([IResource::class, IMetadataProvider::class]);
-		$res7 = $this->createMock([IResource::class, IMetadataProvider::class]);
-		$res8 = $this->createMock([IResource::class, IMetadataProvider::class]);
+		$res6 = $this->createMock(tmpI::class);
+		$res7 = $this->createMock(tmpI::class);
+		$res8 = $this->createMock(tmpI::class);
 		$res9 = $this->createMock(IResource::class);
 
 		$backend2->method('getBackendIdentifier')
@@ -145,8 +149,8 @@ class UpdateCalendarResourcesRoomsBackgroundJobTest extends TestCase {
 		$res6->method('getBackend')->willReturn($backend3);
 
 		$res6->method('getAllAvailableMetadataKeys')->willReturn(['meta99', 'meta123']);
-		$res6->method('getMetadataForKey')->willReturnCallback(function($key) {
-			switch($key) {
+		$res6->method('getMetadataForKey')->willReturnCallback(function ($key) {
+			switch ($key) {
 				case 'meta99':
 					return 'value99-new';
 
@@ -164,8 +168,8 @@ class UpdateCalendarResourcesRoomsBackgroundJobTest extends TestCase {
 		$res7->method('getEMail')->willReturn('res7@foo.bar');
 		$res7->method('getBackend')->willReturn($backend3);
 		$res7->method('getAllAvailableMetadataKeys')->willReturn(['meta1']);
-		$res7->method('getMetadataForKey')->willReturnCallback(function($key) {
-			switch($key) {
+		$res7->method('getMetadataForKey')->willReturnCallback(function ($key) {
+			switch ($key) {
 				case 'meta1':
 					return 'value1';
 
@@ -180,8 +184,8 @@ class UpdateCalendarResourcesRoomsBackgroundJobTest extends TestCase {
 		$res8->method('getEMail')->willReturn('res8@foo.bar');
 		$res8->method('getBackend')->willReturn($backend4);
 		$res8->method('getAllAvailableMetadataKeys')->willReturn(['meta2']);
-		$res8->method('getMetadataForKey')->willReturnCallback(function($key) {
-			switch($key) {
+		$res8->method('getMetadataForKey')->willReturnCallback(function ($key) {
+			switch ($key) {
 				case 'meta2':
 					return 'value2';
 
@@ -217,7 +221,7 @@ class UpdateCalendarResourcesRoomsBackgroundJobTest extends TestCase {
 		$rows = [];
 		$ids = [];
 		$stmt = $query->execute();
-		while($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+		while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
 			$ids[$row['backend_id'] . '::' . $row['resource_id']] = $row['id'];
 			unset($row['id']);
 			$rows[] = $row;
@@ -287,7 +291,7 @@ class UpdateCalendarResourcesRoomsBackgroundJobTest extends TestCase {
 
 		$rows2 = [];
 		$stmt = $query2->execute();
-		while($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+		while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
 			unset($row['id']);
 			$rows2[] = $row;
 		}

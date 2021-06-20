@@ -3,9 +3,14 @@
  * @copyright Copyright (c) 2016 Robin Appelman <robin@icewind.nl>
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Florent <florent@coppint.com>
+ * @author James Letendre <James.Letendre@gmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author S. Cat <33800996+sparrowjack63@users.noreply.github.com>
+ * @author Stephen Cuppett <steve@cuppett.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -16,19 +21,24 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Files\ObjectStore;
 
 use Aws\ClientResolver;
+use Aws\Credentials\CredentialProvider;
+use Aws\Credentials\EcsCredentialProvider;
+use Aws\Credentials\Credentials;
+use Aws\Exception\CredentialsException;
 use Aws\S3\Exception\S3Exception;
 use Aws\S3\S3Client;
+use GuzzleHttp\Promise;
+use GuzzleHttp\Promise\RejectedPromise;
 use OCP\ILogger;
 
 trait S3ConnectionTrait {
@@ -47,11 +57,14 @@ trait S3ConnectionTrait {
 	/** @var int */
 	protected $timeout;
 
+	/** @var int */
+	protected $uploadPartSize;
+
 	protected $test;
 
 	protected function parseParams($params) {
-		if (empty($params['key']) || empty($params['secret']) || empty($params['bucket'])) {
-			throw new \Exception("Access Key, Secret and Bucket have to be configured.");
+		if (empty($params['bucket'])) {
+			throw new \Exception("Bucket has to be configured.");
 		}
 
 		$this->id = 'amazon::' . $params['bucket'];
@@ -59,11 +72,13 @@ trait S3ConnectionTrait {
 		$this->test = isset($params['test']);
 		$this->bucket = $params['bucket'];
 		$this->timeout = !isset($params['timeout']) ? 15 : $params['timeout'];
+		$this->uploadPartSize = !isset($params['uploadPartSize']) ? 524288000 : $params['uploadPartSize'];
 		$params['region'] = empty($params['region']) ? 'eu-west-1' : $params['region'];
 		$params['hostname'] = empty($params['hostname']) ? 's3.' . $params['region'] . '.amazonaws.com' : $params['hostname'];
 		if (!isset($params['port']) || $params['port'] === '') {
 			$params['port'] = (isset($params['use_ssl']) && $params['use_ssl'] === false) ? 80 : 443;
 		}
+		$params['verify_bucket_exists'] = empty($params['verify_bucket_exists']) ? true : $params['verify_bucket_exists'];
 		$this->params = $params;
 	}
 
@@ -85,16 +100,28 @@ trait S3ConnectionTrait {
 		$scheme = (isset($this->params['use_ssl']) && $this->params['use_ssl'] === false) ? 'http' : 'https';
 		$base_url = $scheme . '://' . $this->params['hostname'] . ':' . $this->params['port'] . '/';
 
+		// Adding explicit credential provider to the beginning chain.
+		// Including environment variables and IAM instance profiles.
+		$provider = CredentialProvider::memoize(
+			CredentialProvider::chain(
+				$this->paramCredentialProvider(),
+				CredentialProvider::env(),
+				CredentialProvider::assumeRoleWithWebIdentityCredentialProvider(),
+				!empty(getenv(EcsCredentialProvider::ENV_URI))
+					? CredentialProvider::ecsCredentials()
+					: CredentialProvider::instanceProfile()
+			)
+		);
+
 		$options = [
 			'version' => isset($this->params['version']) ? $this->params['version'] : 'latest',
-			'credentials' => [
-				'key' => $this->params['key'],
-				'secret' => $this->params['secret'],
-			],
+			'credentials' => $provider,
 			'endpoint' => $base_url,
 			'region' => $this->params['region'],
 			'use_path_style_endpoint' => isset($this->params['use_path_style']) ? $this->params['use_path_style'] : false,
-			'signature_provider' => \Aws\or_chain([self::class, 'legacySignatureProvider'], ClientResolver::_default_signature_provider())
+			'signature_provider' => \Aws\or_chain([self::class, 'legacySignatureProvider'], ClientResolver::_default_signature_provider()),
+			'csm' => false,
+			'use_arn_region' => false,
 		];
 		if (isset($this->params['proxy'])) {
 			$options['request.options'] = ['proxy' => $this->params['proxy']];
@@ -104,17 +131,17 @@ trait S3ConnectionTrait {
 		}
 		$this->connection = new S3Client($options);
 
-		if (!$this->connection->isBucketDnsCompatible($this->bucket)) {
+		if (!$this->connection::isBucketDnsCompatible($this->bucket)) {
 			$logger = \OC::$server->getLogger();
 			$logger->debug('Bucket "' . $this->bucket . '" This bucket name is not dns compatible, it may contain invalid characters.',
 					 ['app' => 'objectstore']);
 		}
 
-		if (!$this->connection->doesBucketExist($this->bucket)) {
+		if ($this->params['verify_bucket_exists'] && !$this->connection->doesBucketExist($this->bucket)) {
 			$logger = \OC::$server->getLogger();
 			try {
 				$logger->info('Bucket "' . $this->bucket . '" does not exist - creating it.', ['app' => 'objectstore']);
-				if (!$this->connection->isBucketDnsCompatible($this->bucket)) {
+				if (!$this->connection::isBucketDnsCompatible($this->bucket)) {
 					throw new \Exception("The bucket will not be created because the name is not dns compatible, please correct it: " . $this->bucket);
 				}
 				$this->connection->createBucket(['Bucket' => $this->bucket]);
@@ -154,5 +181,24 @@ trait S3ConnectionTrait {
 			default:
 				return null;
 		}
+	}
+
+	/**
+	 * This function creates a credential provider based on user parameter file
+	 */
+	protected function paramCredentialProvider() : callable {
+		return function () {
+			$key = empty($this->params['key']) ? null : $this->params['key'];
+			$secret = empty($this->params['secret']) ? null : $this->params['secret'];
+
+			if ($key && $secret) {
+				return Promise\promise_for(
+					new Credentials($key, $secret)
+				);
+			}
+
+			$msg = 'Could not find parameters set for credentials in config file.';
+			return new RejectedPromise(new CredentialsException($msg));
+		};
 	}
 }

@@ -29,7 +29,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Settings\Controller;
 
 use BadMethodCallException;
@@ -46,12 +45,12 @@ use OCP\Activity\IManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
-use OCP\ILogger;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUserSession;
 use OCP\Security\ISecureRandom;
 use OCP\Session\Exceptions\SessionNotAvailableException;
+use Psr\Log\LoggerInterface;
 
 class AuthSettingsController extends Controller {
 
@@ -62,7 +61,7 @@ class AuthSettingsController extends Controller {
 	private $session;
 
 	/** IUserSession */
-	private  $userSession;
+	private $userSession;
 
 	/** @var string */
 	private $uid;
@@ -76,7 +75,7 @@ class AuthSettingsController extends Controller {
 	/** @var RemoteWipe */
 	private $remoteWipe;
 
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	private $logger;
 
 	/**
@@ -89,7 +88,7 @@ class AuthSettingsController extends Controller {
 	 * @param IUserSession $userSession
 	 * @param IManager $activityManager
 	 * @param RemoteWipe $remoteWipe
-	 * @param ILogger $logger
+	 * @param LoggerInterface $logger
 	 */
 	public function __construct(string $appName,
 								IRequest $request,
@@ -100,7 +99,7 @@ class AuthSettingsController extends Controller {
 								IUserSession $userSession,
 								IManager $activityManager,
 								RemoteWipe $remoteWipe,
-								ILogger $logger) {
+								LoggerInterface $logger) {
 		parent::__construct($appName, $request);
 		$this->tokenProvider = $tokenProvider;
 		$this->uid = $userId;
@@ -114,20 +113,23 @@ class AuthSettingsController extends Controller {
 
 	/**
 	 * @NoAdminRequired
-	 * @NoSubadminRequired
+	 * @NoSubAdminRequired
 	 * @PasswordConfirmationRequired
 	 *
 	 * @param string $name
 	 * @return JSONResponse
 	 */
 	public function create($name) {
+		if ($this->checkAppToken()) {
+			return $this->getServiceNotAvailableResponse();
+		}
+
 		try {
 			$sessionId = $this->session->getId();
 		} catch (SessionNotAvailableException $ex) {
 			return $this->getServiceNotAvailableResponse();
 		}
-		if ($this->userSession->getImpersonatingUserID() !== null)
-		{
+		if ($this->userSession->getImpersonatingUserID() !== null) {
 			return $this->getServiceNotAvailableResponse();
 		}
 
@@ -182,14 +184,22 @@ class AuthSettingsController extends Controller {
 		return implode('-', $groups);
 	}
 
+	private function checkAppToken(): bool {
+		return $this->session->exists('app_password');
+	}
+
 	/**
 	 * @NoAdminRequired
-	 * @NoSubadminRequired
+	 * @NoSubAdminRequired
 	 *
 	 * @param int $id
 	 * @return array|JSONResponse
 	 */
 	public function destroy($id) {
+		if ($this->checkAppToken()) {
+			return new JSONResponse([], Http::STATUS_BAD_REQUEST);
+		}
+
 		try {
 			$token = $this->findTokenByIdAndUser($id);
 		} catch (WipeTokenException $e) {
@@ -206,7 +216,7 @@ class AuthSettingsController extends Controller {
 
 	/**
 	 * @NoAdminRequired
-	 * @NoSubadminRequired
+	 * @NoSubAdminRequired
 	 *
 	 * @param int $id
 	 * @param array $scope
@@ -214,6 +224,10 @@ class AuthSettingsController extends Controller {
 	 * @return array|JSONResponse
 	 */
 	public function update($id, array $scope, string $name) {
+		if ($this->checkAppToken()) {
+			return new JSONResponse([], Http::STATUS_BAD_REQUEST);
+		}
+
 		try {
 			$token = $this->findTokenByIdAndUser($id);
 		} catch (InvalidTokenException $e) {
@@ -253,8 +267,7 @@ class AuthSettingsController extends Controller {
 		try {
 			$this->activityManager->publish($event);
 		} catch (BadMethodCallException $e) {
-			$this->logger->warning('could not publish activity');
-			$this->logger->logException($e);
+			$this->logger->warning('could not publish activity', ['exception' => $e]);
 		}
 	}
 
@@ -279,7 +292,7 @@ class AuthSettingsController extends Controller {
 
 	/**
 	 * @NoAdminRequired
-	 * @NoSubadminRequired
+	 * @NoSubAdminRequired
 	 * @PasswordConfirmationRequired
 	 *
 	 * @param int $id
@@ -288,6 +301,10 @@ class AuthSettingsController extends Controller {
 	 * @throws \OC\Authentication\Exceptions\ExpiredTokenException
 	 */
 	public function wipe(int $id): JSONResponse {
+		if ($this->checkAppToken()) {
+			return new JSONResponse([], Http::STATUS_BAD_REQUEST);
+		}
+
 		try {
 			$token = $this->findTokenByIdAndUser($id);
 		} catch (InvalidTokenException $e) {

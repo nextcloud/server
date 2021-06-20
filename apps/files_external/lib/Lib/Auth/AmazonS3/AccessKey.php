@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -21,7 +22,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_External\Lib\Auth\AmazonS3;
 
 use OCA\Files_External\Lib\Auth\AuthMechanism;
@@ -32,8 +32,7 @@ use OCP\IL10N;
  * Amazon S3 access key authentication
  */
 class AccessKey extends AuthMechanism {
-
-	const SCHEME_AMAZONS3_ACCESSKEY = 'amazons3_accesskey';
+	public const SCHEME_AMAZONS3_ACCESSKEY = 'amazons3_accesskey';
 
 	public function __construct(IL10N $l) {
 		$this
@@ -46,5 +45,4 @@ class AccessKey extends AuthMechanism {
 					->setType(DefinitionParameter::VALUE_PASSWORD),
 			]);
 	}
-
 }

@@ -5,7 +5,8 @@ declare(strict_types=1);
 /**
  * @copyright 2020 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
- * @author 2020 Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Georg Ehrke <oc.list@georgehrke.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -16,13 +17,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
  */
-
 namespace OCA\ContactsInteraction\Db;
 
 use OCP\AppFramework\Db\DoesNotExistException;
@@ -30,8 +31,10 @@ use OCP\AppFramework\Db\QBMapper;
 use OCP\IDBConnection;
 use OCP\IUser;
 
+/**
+ * @template-extends QBMapper<RecentContact>
+ */
 class RecentContactMapper extends QBMapper {
-
 	public const TABLE_NAME = 'recent_contact';
 
 	public function __construct(IDBConnection $db) {
@@ -105,6 +108,30 @@ class RecentContactMapper extends QBMapper {
 		return $this->findEntities($select);
 	}
 
+	/**
+	 * @param string $uid
+	 * @return int|null
+	 */
+	public function findLastUpdatedForUserId(string $uid):?int {
+		$qb = $this->db->getQueryBuilder();
+
+		$select = $qb
+			->select('last_contact')
+			->from($this->getTableName())
+			->where($qb->expr()->eq('actor_uid', $qb->createNamedParameter($uid)))
+			->orderBy('last_contact', 'DESC')
+			->setMaxResults(1);
+
+		$cursor = $select->execute();
+		$row = $cursor->fetch();
+
+		if ($row === false) {
+			return null;
+		}
+
+		return (int)$row['last_contact'];
+	}
+
 	public function cleanUp(int $olderThan): void {
 		$qb = $this->db->getQueryBuilder();
 
@@ -114,5 +141,4 @@ class RecentContactMapper extends QBMapper {
 
 		$delete->execute();
 	}
-
 }

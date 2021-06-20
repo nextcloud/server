@@ -51,9 +51,9 @@
 </template>
 
 <script>
-import { Tooltip } from '@nextcloud/vue/dist/Directives/Tooltip'
-import { Actions } from '@nextcloud/vue/dist/Components/Actions'
-import { ActionButton } from '@nextcloud/vue/dist/Components/ActionButton'
+import Tooltip from '@nextcloud/vue/dist/Directives/Tooltip'
+import Actions from '@nextcloud/vue/dist/Components/Actions'
+import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
 import Event from './Event'
 import Check from './Check'
 import Operation from './Operation'
@@ -232,20 +232,21 @@ export default {
 	.trigger p, .action p {
 		min-height: 34px;
 		display: flex;
-		align-items: center;
 
 		& > span {
 			min-width: 50px;
 			text-align: right;
 			color: var(--color-text-maxcontrast);
 			padding-right: 10px;
-			padding-top: 7px;
-			margin-bottom: auto;
+			padding-top: 6px;
 		}
 		.multiselect {
 			flex-grow: 1;
 			max-width: 300px;
 		}
+	}
+	.trigger p:first-child span {
+			padding-top: 3px;
 	}
 
 	.check--add {

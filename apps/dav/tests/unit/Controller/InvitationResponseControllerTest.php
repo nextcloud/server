@@ -5,8 +5,10 @@ declare(strict_types=1);
 /**
  * @copyright 2018, Georg Ehrke <oc.list@georgehrke.com>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
@@ -18,20 +20,21 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\Tests\Unit\DAV\Controller;
 
 use OCA\DAV\CalDAV\InvitationResponse\InvitationResponseServer;
 use OCA\DAV\Controller\InvitationResponseController;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\DB\IResult;
+use OCP\DB\QueryBuilder\IExpressionBuilder;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\IRequest;
@@ -43,16 +46,16 @@ class InvitationResponseControllerTest extends TestCase {
 	/** @var InvitationResponseController */
 	private $controller;
 
-	/** @var IDBConnection|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IDBConnection|\PHPUnit\Framework\MockObject\MockObject */
 	private $dbConnection;
 
-	/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
 	private $request;
 
-	/** @var ITimeFactory|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
 	private $timeFactory;
 
-	/** @var InvitationResponseServer|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var InvitationResponseServer|\PHPUnit\Framework\MockObject\MockObject */
 	private $responseServer;
 
 	protected function setUp(): void {
@@ -107,7 +110,7 @@ EOF;
 		$called = false;
 		$this->responseServer->expects($this->once())
 			->method('handleITipMessage')
-			->willReturnCallback(function(Message $iTipMessage) use (&$called, $expected) {
+			->willReturnCallback(function (Message $iTipMessage) use (&$called, $expected) {
 				$called = true;
 				$this->assertEquals('this-is-the-events-uid', $iTipMessage->uid);
 				$this->assertEquals('VEVENT', $iTipMessage->component);
@@ -163,7 +166,7 @@ EOF;
 		$called = false;
 		$this->responseServer->expects($this->once())
 			->method('handleITipMessage')
-			->willReturnCallback(function(Message $iTipMessage) use (&$called, $expected) {
+			->willReturnCallback(function (Message $iTipMessage) use (&$called, $expected) {
 				$called = true;
 				$this->assertEquals('this-is-the-events-uid', $iTipMessage->uid);
 				$this->assertEquals('VEVENT', $iTipMessage->component);
@@ -220,7 +223,7 @@ EOF;
 		$called = false;
 		$this->responseServer->expects($this->once())
 			->method('handleITipMessage')
-			->willReturnCallback(function(Message $iTipMessage) use (&$called, $expected) {
+			->willReturnCallback(function (Message $iTipMessage) use (&$called, $expected) {
 				$called = true;
 				$this->assertEquals('this-is-the-events-uid', $iTipMessage->uid);
 				$this->assertEquals('VEVENT', $iTipMessage->component);
@@ -303,7 +306,7 @@ EOF;
 		$called = false;
 		$this->responseServer->expects($this->once())
 			->method('handleITipMessage')
-			->willReturnCallback(function(Message $iTipMessage) use (&$called, $expected) {
+			->willReturnCallback(function (Message $iTipMessage) use (&$called, $expected) {
 				$called = true;
 				$this->assertEquals('this-is-the-events-uid', $iTipMessage->uid);
 				$this->assertEquals('VEVENT', $iTipMessage->component);
@@ -381,7 +384,7 @@ EOF;
 		$called = false;
 		$this->responseServer->expects($this->once())
 			->method('handleITipMessage')
-			->willReturnCallback(function(Message $iTipMessage) use (&$called, $expected) {
+			->willReturnCallback(function (Message $iTipMessage) use (&$called, $expected) {
 				$called = true;
 				$this->assertEquals('this-is-the-events-uid', $iTipMessage->uid);
 				$this->assertEquals('VEVENT', $iTipMessage->component);
@@ -406,8 +409,8 @@ EOF;
 
 	private function buildQueryExpects($token, $return, $time) {
 		$queryBuilder = $this->createMock(IQueryBuilder::class);
-		$stmt = $this->createMock(\Doctrine\DBAL\Driver\Statement::class);
-		$expr = $this->createMock(\OCP\DB\QueryBuilder\IExpressionBuilder::class);
+		$stmt = $this->createMock(IResult::class);
+		$expr = $this->createMock(IExpressionBuilder::class);
 
 		$this->dbConnection->expects($this->once())
 			->method('getQueryBuilder')

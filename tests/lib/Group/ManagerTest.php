@@ -61,7 +61,7 @@ class ManagerTest extends TestCase {
 
 	/**
 	 * @param null|int $implementedActions
-	 * @return \PHPUnit_Framework_MockObject_MockObject
+	 * @return \PHPUnit\Framework\MockObject\MockObject
 	 */
 	private function getTestBackend($implementedActions = null) {
 		if ($implementedActions === null) {
@@ -91,7 +91,7 @@ class ManagerTest extends TestCase {
 			->getMock();
 		$backend->expects($this->any())
 			->method('implementsActions')
-			->willReturnCallback(function($actions) use ($implementedActions) {
+			->willReturnCallback(function ($actions) use ($implementedActions) {
 				return (bool)($actions & $implementedActions);
 			});
 		return $backend;
@@ -99,7 +99,7 @@ class ManagerTest extends TestCase {
 
 	public function testGet() {
 		/**
-		 * @var \PHPUnit_Framework_MockObject_MockObject | \OC\Group\Backend $backend
+		 * @var \PHPUnit\Framework\MockObject\MockObject | \OC\Group\Backend $backend
 		 */
 		$backend = $this->getTestBackend();
 		$backend->expects($this->any())
@@ -123,7 +123,7 @@ class ManagerTest extends TestCase {
 
 	public function testGetNotExists() {
 		/**
-		 * @var \PHPUnit_Framework_MockObject_MockObject | \OC\Group\Backend $backend
+		 * @var \PHPUnit\Framework\MockObject\MockObject | \OC\Group\Backend $backend
 		 */
 		$backend = $this->getTestBackend();
 		$backend->expects($this->once())
@@ -151,7 +151,7 @@ class ManagerTest extends TestCase {
 
 	public function testGetMultipleBackends() {
 		/**
-		 * @var \PHPUnit_Framework_MockObject_MockObject | \OC\Group\Backend $backend1
+		 * @var \PHPUnit\Framework\MockObject\MockObject | \OC\Group\Backend $backend1
 		 */
 		$backend1 = $this->getTestBackend();
 		$backend1->expects($this->any())
@@ -160,7 +160,7 @@ class ManagerTest extends TestCase {
 			->willReturn(false);
 
 		/**
-		 * @var \PHPUnit_Framework_MockObject_MockObject | \OC\Group\Backend $backend2
+		 * @var \PHPUnit\Framework\MockObject\MockObject | \OC\Group\Backend $backend2
 		 */
 		$backend2 = $this->getTestBackend();
 		$backend2->expects($this->any())
@@ -178,7 +178,7 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testCreate() {
-		/**@var \PHPUnit_Framework_MockObject_MockObject|\OC\Group\Backend $backend */
+		/**@var \PHPUnit\Framework\MockObject\MockObject|\OC\Group\Backend $backend */
 		$backendGroupCreated = false;
 		$backend = $this->getTestBackend();
 		$backend->expects($this->any())
@@ -202,7 +202,7 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testCreateFailure() {
-		/**@var \PHPUnit_Framework_MockObject_MockObject|\OC\Group\Backend $backend */
+		/**@var \PHPUnit\Framework\MockObject\MockObject|\OC\Group\Backend $backend */
 		$backendGroupCreated = false;
 		$backend = $this->getTestBackend(
 			GroupInterface::ADD_TO_GROUP |
@@ -231,7 +231,7 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testCreateExists() {
-		/** @var \PHPUnit_Framework_MockObject_MockObject|\OC\Group\Backend $backend */
+		/** @var \PHPUnit\Framework\MockObject\MockObject|\OC\Group\Backend $backend */
 		$backend = $this->getTestBackend();
 		$backend->expects($this->any())
 			->method('groupExists')
@@ -249,7 +249,7 @@ class ManagerTest extends TestCase {
 
 	public function testSearch() {
 		/**
-		 * @var \PHPUnit_Framework_MockObject_MockObject | \OC\Group\Backend $backend
+		 * @var \PHPUnit\Framework\MockObject\MockObject | \OC\Group\Backend $backend
 		 */
 		$backend = $this->getTestBackend();
 		$backend->expects($this->once())
@@ -272,7 +272,7 @@ class ManagerTest extends TestCase {
 
 	public function testSearchMultipleBackends() {
 		/**
-		 * @var \PHPUnit_Framework_MockObject_MockObject | \OC\Group\Backend $backend1
+		 * @var \PHPUnit\Framework\MockObject\MockObject | \OC\Group\Backend $backend1
 		 */
 		$backend1 = $this->getTestBackend();
 		$backend1->expects($this->once())
@@ -284,7 +284,7 @@ class ManagerTest extends TestCase {
 			->willReturn(true);
 
 		/**
-		 * @var \PHPUnit_Framework_MockObject_MockObject | \OC\Group\Backend $backend2
+		 * @var \PHPUnit\Framework\MockObject\MockObject | \OC\Group\Backend $backend2
 		 */
 		$backend2 = $this->getTestBackend();
 		$backend2->expects($this->once())
@@ -309,7 +309,7 @@ class ManagerTest extends TestCase {
 
 	public function testSearchMultipleBackendsLimitAndOffset() {
 		/**
-		 * @var \PHPUnit_Framework_MockObject_MockObject | \OC\Group\Backend $backend1
+		 * @var \PHPUnit\Framework\MockObject\MockObject | \OC\Group\Backend $backend1
 		 */
 		$backend1 = $this->getTestBackend();
 		$backend1->expects($this->once())
@@ -321,7 +321,7 @@ class ManagerTest extends TestCase {
 			->willReturn(true);
 
 		/**
-		 * @var \PHPUnit_Framework_MockObject_MockObject | \OC\Group\Backend $backend2
+		 * @var \PHPUnit\Framework\MockObject\MockObject | \OC\Group\Backend $backend2
 		 */
 		$backend2 = $this->getTestBackend();
 		$backend2->expects($this->once())
@@ -345,7 +345,7 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testSearchResultExistsButGroupDoesNot() {
-		/** @var \PHPUnit_Framework_MockObject_MockObject|\OC\Group\Backend $backend */
+		/** @var \PHPUnit\Framework\MockObject\MockObject|\OC\Group\Backend $backend */
 		$backend = $this->createMock(Database::class);
 		$backend->expects($this->once())
 			->method('getGroups')
@@ -368,7 +368,7 @@ class ManagerTest extends TestCase {
 
 	public function testGetUserGroups() {
 		/**
-		 * @var \PHPUnit_Framework_MockObject_MockObject | \OC\Group\Backend $backend
+		 * @var \PHPUnit\Framework\MockObject\MockObject | \OC\Group\Backend $backend
 		 */
 		$backend = $this->getTestBackend();
 		$backend->expects($this->once())
@@ -390,20 +390,21 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testGetUserGroupIds() {
-		/** @var \PHPUnit_Framework_MockObject_MockObject|\OC\Group\Manager $manager */
-		$manager = $this->getMockBuilder(\OC\Group\Manager::class)
-			->disableOriginalConstructor()
-			->setMethods(['getUserGroups'])
-			->getMock();
-		$manager->expects($this->once())
-			->method('getUserGroups')
-			->willReturn([
-				'123' => '123',
-				'abc' => 'abc',
-			]);
+		/**
+		 * @var \PHPUnit\Framework\MockObject\MockObject | \OC\Group\Backend $backend
+		 */
+		$backend = $this->getTestBackend();
+		$backend->method('getUserGroups')
+			->with('myUID')
+			->willReturn(['123', 'abc']);
 
-		/** @var \OC\User\User|\PHPUnit_Framework_MockObject_MockObject $user */
+		$manager = new \OC\Group\Manager($this->userManager, $this->dispatcher, $this->logger);
+		$manager->addBackend($backend);
+
+		/** @var \OC\User\User|\PHPUnit\Framework\MockObject\MockObject $user */
 		$user = $this->createMock(IUser::class);
+		$user->method('getUID')
+			->willReturn('myUID');
 
 		$groups = $manager->getUserGroupIds($user);
 		$this->assertCount(2, $groups);
@@ -415,7 +416,7 @@ class ManagerTest extends TestCase {
 
 	public function testGetUserGroupsWithDeletedGroup() {
 		/**
-		 * @var \PHPUnit_Framework_MockObject_MockObject | \OC\Group\Backend $backend
+		 * @var \PHPUnit\Framework\MockObject\MockObject | \OC\Group\Backend $backend
 		 */
 		$backend = $this->createMock(Database::class);
 		$backend->expects($this->once())
@@ -430,7 +431,7 @@ class ManagerTest extends TestCase {
 		$manager = new \OC\Group\Manager($this->userManager, $this->dispatcher, $this->logger);
 		$manager->addBackend($backend);
 
-		/** @var \OC\User\User|\PHPUnit_Framework_MockObject_MockObject $user */
+		/** @var \OC\User\User|\PHPUnit\Framework\MockObject\MockObject $user */
 		$user = $this->createMock(IUser::class);
 		$user->expects($this->atLeastOnce())
 			->method('getUID')
@@ -442,7 +443,7 @@ class ManagerTest extends TestCase {
 
 	public function testInGroup() {
 		/**
-		 * @var \PHPUnit_Framework_MockObject_MockObject | \OC\Group\Backend $backend
+		 * @var \PHPUnit\Framework\MockObject\MockObject | \OC\Group\Backend $backend
 		 */
 		$backend = $this->getTestBackend();
 		$backend->expects($this->once())
@@ -461,7 +462,7 @@ class ManagerTest extends TestCase {
 
 	public function testIsAdmin() {
 		/**
-		 * @var \PHPUnit_Framework_MockObject_MockObject | \OC\Group\Backend $backend
+		 * @var \PHPUnit\Framework\MockObject\MockObject | \OC\Group\Backend $backend
 		 */
 		$backend = $this->getTestBackend();
 		$backend->expects($this->once())
@@ -480,7 +481,7 @@ class ManagerTest extends TestCase {
 
 	public function testNotAdmin() {
 		/**
-		 * @var \PHPUnit_Framework_MockObject_MockObject | \OC\Group\Backend $backend
+		 * @var \PHPUnit\Framework\MockObject\MockObject | \OC\Group\Backend $backend
 		 */
 		$backend = $this->getTestBackend();
 		$backend->expects($this->once())
@@ -499,7 +500,7 @@ class ManagerTest extends TestCase {
 
 	public function testGetUserGroupsMultipleBackends() {
 		/**
-		 * @var \PHPUnit_Framework_MockObject_MockObject | \OC\Group\Backend $backend1
+		 * @var \PHPUnit\Framework\MockObject\MockObject | \OC\Group\Backend $backend1
 		 */
 		$backend1 = $this->getTestBackend();
 		$backend1->expects($this->once())
@@ -511,7 +512,7 @@ class ManagerTest extends TestCase {
 			->willReturn(true);
 
 		/**
-		 * @var \PHPUnit_Framework_MockObject_MockObject | \OC\Group\Backend $backend2
+		 * @var \PHPUnit\Framework\MockObject\MockObject | \OC\Group\Backend $backend2
 		 */
 		$backend2 = $this->getTestBackend();
 		$backend2->expects($this->once())
@@ -536,7 +537,7 @@ class ManagerTest extends TestCase {
 
 	public function testDisplayNamesInGroupWithOneUserBackend() {
 		/**
-		 * @var \PHPUnit_Framework_MockObject_MockObject | \OC\Group\Backend $backend
+		 * @var \PHPUnit\Framework\MockObject\MockObject | \OC\Group\Backend $backend
 		 */
 		$backend = $this->getTestBackend();
 		$backend->expects($this->exactly(1))
@@ -546,11 +547,11 @@ class ManagerTest extends TestCase {
 
 		$backend->expects($this->any())
 			->method('inGroup')
-			->willReturnCallback(function($uid, $gid) {
-				switch($uid) {
-					case 'user1' : return false;
-					case 'user2' : return true;
-					case 'user3' : return false;
+			->willReturnCallback(function ($uid, $gid) {
+				switch ($uid) {
+					case 'user1': return false;
+					case 'user2': return true;
+					case 'user3': return false;
 					case 'user33': return true;
 					default:
 						return null;
@@ -560,21 +561,21 @@ class ManagerTest extends TestCase {
 		$this->userManager->expects($this->any())
 			->method('searchDisplayName')
 			->with('user3')
-			->willReturnCallback(function($search, $limit, $offset) {
-				switch($offset) {
-					case 0 : return ['user3' => $this->getTestUser('user3'),
-									'user33' => $this->getTestUser('user33')];
-					case 2 : return [];
+			->willReturnCallback(function ($search, $limit, $offset) {
+				switch ($offset) {
+					case 0: return ['user3' => $this->getTestUser('user3'),
+						'user33' => $this->getTestUser('user33')];
+					case 2: return [];
 				}
 				return null;
 			});
 		$this->userManager->expects($this->any())
 			->method('get')
-			->willReturnCallback(function($uid) {
-				switch($uid) {
-					case 'user1' : return $this->getTestUser('user1');
-					case 'user2' : return $this->getTestUser('user2');
-					case 'user3' : return $this->getTestUser('user3');
+			->willReturnCallback(function ($uid) {
+				switch ($uid) {
+					case 'user1': return $this->getTestUser('user1');
+					case 'user2': return $this->getTestUser('user2');
+					case 'user3': return $this->getTestUser('user3');
 					case 'user33': return $this->getTestUser('user33');
 					default:
 						return null;
@@ -594,7 +595,7 @@ class ManagerTest extends TestCase {
 
 	public function testDisplayNamesInGroupWithOneUserBackendWithLimitSpecified() {
 		/**
-		 * @var \PHPUnit_Framework_MockObject_MockObject | \OC\Group\Backend $backend
+		 * @var \PHPUnit\Framework\MockObject\MockObject | \OC\Group\Backend $backend
 		 */
 		$backend = $this->getTestBackend();
 		$backend->expects($this->exactly(1))
@@ -602,13 +603,13 @@ class ManagerTest extends TestCase {
 			->with('testgroup')
 			->willReturn(true);
 
-				$backend->expects($this->any())
+		$backend->expects($this->any())
 			->method('inGroup')
-			->willReturnCallback(function($uid, $gid) {
-					switch($uid) {
-						case 'user1' : return false;
-						case 'user2' : return true;
-						case 'user3' : return false;
+			->willReturnCallback(function ($uid, $gid) {
+				switch ($uid) {
+						case 'user1': return false;
+						case 'user2': return true;
+						case 'user3': return false;
 						case 'user33': return true;
 						case 'user333': return true;
 						default:
@@ -619,21 +620,21 @@ class ManagerTest extends TestCase {
 		$this->userManager->expects($this->any())
 			->method('searchDisplayName')
 			->with('user3')
-			->willReturnCallback(function($search, $limit, $offset) {
-				switch($offset) {
-					case 0 : return ['user3' => $this->getTestUser('user3'),
-									'user33' => $this->getTestUser('user33')];
-					case 2 : return ['user333' => $this->getTestUser('user333')];
+			->willReturnCallback(function ($search, $limit, $offset) {
+				switch ($offset) {
+					case 0: return ['user3' => $this->getTestUser('user3'),
+						'user33' => $this->getTestUser('user33')];
+					case 2: return ['user333' => $this->getTestUser('user333')];
 				}
 				return null;
 			});
 		$this->userManager->expects($this->any())
 			->method('get')
-			->willReturnCallback(function($uid) {
-				switch($uid) {
-					case 'user1' : return $this->getTestUser('user1');
-					case 'user2' : return $this->getTestUser('user2');
-					case 'user3' : return $this->getTestUser('user3');
+			->willReturnCallback(function ($uid) {
+				switch ($uid) {
+					case 'user1': return $this->getTestUser('user1');
+					case 'user2': return $this->getTestUser('user2');
+					case 'user3': return $this->getTestUser('user3');
 					case 'user33': return $this->getTestUser('user33');
 					case 'user333': return $this->getTestUser('user333');
 					default:
@@ -655,7 +656,7 @@ class ManagerTest extends TestCase {
 
 	public function testDisplayNamesInGroupWithOneUserBackendWithLimitAndOffsetSpecified() {
 		/**
-		 * @var \PHPUnit_Framework_MockObject_MockObject | \OC\Group\Backend $backend
+		 * @var \PHPUnit\Framework\MockObject\MockObject | \OC\Group\Backend $backend
 		 */
 		$backend = $this->getTestBackend();
 		$backend->expects($this->exactly(1))
@@ -665,11 +666,11 @@ class ManagerTest extends TestCase {
 
 		$backend->expects($this->any())
 			->method('inGroup')
-			->willReturnCallback(function($uid) {
-					switch($uid) {
-						case 'user1' : return false;
-						case 'user2' : return true;
-						case 'user3' : return false;
+			->willReturnCallback(function ($uid) {
+				switch ($uid) {
+						case 'user1': return false;
+						case 'user2': return true;
+						case 'user3': return false;
 						case 'user33': return true;
 						case 'user333': return true;
 						default:
@@ -680,9 +681,9 @@ class ManagerTest extends TestCase {
 		$this->userManager->expects($this->any())
 			->method('searchDisplayName')
 			->with('user3')
-			->willReturnCallback(function($search, $limit, $offset) {
-				switch($offset) {
-					case 0 :
+			->willReturnCallback(function ($search, $limit, $offset) {
+				switch ($offset) {
+					case 0:
 						return [
 							'user3' => $this->getTestUser('user3'),
 							'user33' => $this->getTestUser('user33'),
@@ -693,11 +694,11 @@ class ManagerTest extends TestCase {
 			});
 		$this->userManager->expects($this->any())
 			->method('get')
-			->willReturnCallback(function($uid) {
-				switch($uid) {
-					case 'user1' : return $this->getTestUser('user1');
-					case 'user2' : return $this->getTestUser('user2');
-					case 'user3' : return $this->getTestUser('user3');
+			->willReturnCallback(function ($uid) {
+				switch ($uid) {
+					case 'user1': return $this->getTestUser('user1');
+					case 'user2': return $this->getTestUser('user2');
+					case 'user3': return $this->getTestUser('user3');
 					case 'user33': return $this->getTestUser('user33');
 					case 'user333': return $this->getTestUser('user333');
 					default:
@@ -719,7 +720,7 @@ class ManagerTest extends TestCase {
 
 	public function testDisplayNamesInGroupWithOneUserBackendAndSearchEmpty() {
 		/**
-		 * @var \PHPUnit_Framework_MockObject_MockObject | \OC\Group\Backend $backend
+		 * @var \PHPUnit\Framework\MockObject\MockObject | \OC\Group\Backend $backend
 		 */
 		$backend = $this->getTestBackend();
 		$backend->expects($this->exactly(1))
@@ -727,18 +728,18 @@ class ManagerTest extends TestCase {
 			->with('testgroup')
 			->willReturn(true);
 
-				$backend->expects($this->once())
+		$backend->expects($this->once())
 			->method('usersInGroup')
 			->with('testgroup', '', -1, 0)
 			->willReturn(['user2', 'user33']);
 
 		$this->userManager->expects($this->any())
 			->method('get')
-			->willReturnCallback(function($uid) {
-				switch($uid) {
-					case 'user1' : return $this->getTestUser('user1');
-					case 'user2' : return $this->getTestUser('user2');
-					case 'user3' : return $this->getTestUser('user3');
+			->willReturnCallback(function ($uid) {
+				switch ($uid) {
+					case 'user1': return $this->getTestUser('user1');
+					case 'user2': return $this->getTestUser('user2');
+					case 'user3': return $this->getTestUser('user3');
 					case 'user33': return $this->getTestUser('user33');
 					default:
 						return null;
@@ -758,7 +759,7 @@ class ManagerTest extends TestCase {
 
 	public function testDisplayNamesInGroupWithOneUserBackendAndSearchEmptyAndLimitSpecified() {
 		/**
-		 * @var \PHPUnit_Framework_MockObject_MockObject | \OC\Group\Backend $backend
+		 * @var \PHPUnit\Framework\MockObject\MockObject | \OC\Group\Backend $backend
 		 */
 		$backend = $this->getTestBackend();
 		$backend->expects($this->exactly(1))
@@ -773,11 +774,11 @@ class ManagerTest extends TestCase {
 
 		$this->userManager->expects($this->any())
 			->method('get')
-			->willReturnCallback(function($uid) {
-				switch($uid) {
-					case 'user1' : return $this->getTestUser('user1');
-					case 'user2' : return $this->getTestUser('user2');
-					case 'user3' : return $this->getTestUser('user3');
+			->willReturnCallback(function ($uid) {
+				switch ($uid) {
+					case 'user1': return $this->getTestUser('user1');
+					case 'user2': return $this->getTestUser('user2');
+					case 'user3': return $this->getTestUser('user3');
 					case 'user33': return $this->getTestUser('user33');
 					default:
 						return null;
@@ -797,7 +798,7 @@ class ManagerTest extends TestCase {
 
 	public function testDisplayNamesInGroupWithOneUserBackendAndSearchEmptyAndLimitAndOffsetSpecified() {
 		/**
-		 * @var \PHPUnit_Framework_MockObject_MockObject | \OC\Group\Backend $backend
+		 * @var \PHPUnit\Framework\MockObject\MockObject | \OC\Group\Backend $backend
 		 */
 		$backend = $this->getTestBackend();
 		$backend->expects($this->exactly(1))
@@ -812,11 +813,11 @@ class ManagerTest extends TestCase {
 
 		$this->userManager->expects($this->any())
 			->method('get')
-			->willReturnCallback(function($uid) {
-				switch($uid) {
-					case 'user1' : return $this->getTestUser('user1');
-					case 'user2' : return $this->getTestUser('user2');
-					case 'user3' : return $this->getTestUser('user3');
+			->willReturnCallback(function ($uid) {
+				switch ($uid) {
+					case 'user1': return $this->getTestUser('user1');
+					case 'user2': return $this->getTestUser('user2');
+					case 'user3': return $this->getTestUser('user3');
 					case 'user33': return $this->getTestUser('user33');
 					default:
 						return null;
@@ -836,7 +837,7 @@ class ManagerTest extends TestCase {
 
 	public function testGetUserGroupsWithAddUser() {
 		/**
-		 * @var \PHPUnit_Framework_MockObject_MockObject | \OC\Group\Backend $backend
+		 * @var \PHPUnit\Framework\MockObject\MockObject | \OC\Group\Backend $backend
 		 */
 		$backend = $this->getTestBackend();
 		$expectedGroups = [];
@@ -873,7 +874,7 @@ class ManagerTest extends TestCase {
 
 	public function testGetUserGroupsWithRemoveUser() {
 		/**
-		 * @var \PHPUnit_Framework_MockObject_MockObject | \OC\Group\Backend $backend
+		 * @var \PHPUnit\Framework\MockObject\MockObject | \OC\Group\Backend $backend
 		 */
 		$backend = $this->getTestBackend();
 		$expectedGroups = ['group1'];
@@ -916,7 +917,7 @@ class ManagerTest extends TestCase {
 
 	public function testGetUserIdGroups() {
 		/**
-		 * @var \PHPUnit_Framework_MockObject_MockObject | \OC\Group\Backend $backend
+		 * @var \PHPUnit\Framework\MockObject\MockObject | \OC\Group\Backend $backend
 		 */
 		$backend = $this->getTestBackend();
 		$backend->expects($this->any())
@@ -933,7 +934,7 @@ class ManagerTest extends TestCase {
 
 	public function testGroupDisplayName() {
 		/**
-		 * @var \PHPUnit_Framework_MockObject_MockObject | \OC\Group\Backend $backend
+		 * @var \PHPUnit\Framework\MockObject\MockObject | \OC\Group\Backend $backend
 		 */
 		$backend = $this->getTestBackend(
 			GroupInterface::ADD_TO_GROUP |
@@ -965,5 +966,4 @@ class ManagerTest extends TestCase {
 		$this->assertEquals('group2', $group->getGID());
 		$this->assertEquals('group2', $group->getDisplayName());
 	}
-
 }

@@ -4,16 +4,18 @@
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
+ * @author Liam JACK <liamjack@users.noreply.github.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Stefan Weil <sw@weilnetz.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -30,14 +32,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_Versions\Tests;
-
-require_once __DIR__ . '/../appinfo/app.php';
 
 use OC\Files\Storage\Temporary;
 use OCP\IConfig;
 use OCP\IUser;
+use OCP\Share\IShare;
 
 /**
  * Class Test_Files_versions
@@ -46,10 +46,9 @@ use OCP\IUser;
  * @group DB
  */
 class VersioningTest extends \Test\TestCase {
-
-	const TEST_VERSIONS_USER = 'test-versions-user';
-	const TEST_VERSIONS_USER2 = 'test-versions-user2';
-	const USERS_VERSIONS_ROOT = '/test-versions-user/files_versions';
+	public const TEST_VERSIONS_USER = 'test-versions-user';
+	public const TEST_VERSIONS_USER2 = 'test-versions-user2';
+	public const USERS_VERSIONS_ROOT = '/test-versions-user/files_versions';
 
 	/**
 	 * @var \OC\Files\View
@@ -71,9 +70,13 @@ class VersioningTest extends \Test\TestCase {
 	public static function tearDownAfterClass(): void {
 		// cleanup test user
 		$user = \OC::$server->getUserManager()->get(self::TEST_VERSIONS_USER);
-		if ($user !== null) { $user->delete(); }
+		if ($user !== null) {
+			$user->delete();
+		}
 		$user = \OC::$server->getUserManager()->get(self::TEST_VERSIONS_USER2);
-		if ($user !== null) { $user->delete(); }
+		if ($user !== null) {
+			$user->delete();
+		}
 
 		parent::tearDownAfterClass();
 	}
@@ -96,7 +99,7 @@ class VersioningTest extends \Test\TestCase {
 
 		// clear hooks
 		\OC_Hook::clear();
-		\OC::registerShareHooks();
+		\OC::registerShareHooks(\OC::$server->getSystemConfig());
 		\OCA\Files_Versions\Hooks::connectHooks();
 
 		self::loginHelper(self::TEST_VERSIONS_USER);
@@ -145,7 +148,7 @@ class VersioningTest extends \Test\TestCase {
 		$this->assertEquals($sizeOfAllDeletedFiles, $size);
 
 		// the deleted array should only contain versions which should be deleted
-		foreach($deleted as $key => $path) {
+		foreach ($deleted as $key => $path) {
 			unset($versions[$key]);
 			$this->assertEquals("delete", substr($path, 0, strlen("delete")));
 		}
@@ -154,7 +157,6 @@ class VersioningTest extends \Test\TestCase {
 		foreach ($versions as $version) {
 			$this->assertEquals("keep", $version['path']);
 		}
-
 	}
 
 	public function versionsProvider() {
@@ -271,12 +273,16 @@ class VersioningTest extends \Test\TestCase {
 				],
 				9 // size of all deleted files (every file has the size 1)
 			],
+			// fourth set of versions: empty (see issue #19066)
+			[
+				[],
+				0
+			]
 
 		];
 	}
 
 	public function testRename() {
-
 		\OC\Files\Filesystem::file_put_contents("test.txt", "test file");
 
 		$t1 = time();
@@ -306,7 +312,6 @@ class VersioningTest extends \Test\TestCase {
 	}
 
 	public function testRenameInSharedFolder() {
-
 		\OC\Files\Filesystem::mkdir('folder1');
 		\OC\Files\Filesystem::mkdir('folder1/folder2');
 		\OC\Files\Filesystem::file_put_contents("folder1/test.txt", "test file");
@@ -329,7 +334,7 @@ class VersioningTest extends \Test\TestCase {
 		$node = \OC::$server->getUserFolder(self::TEST_VERSIONS_USER)->get('folder1');
 		$share = \OC::$server->getShareManager()->newShare();
 		$share->setNode($node)
-			->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setShareType(IShare::TYPE_USER)
 			->setSharedBy(self::TEST_VERSIONS_USER)
 			->setSharedWith(self::TEST_VERSIONS_USER2)
 			->setPermissions(\OCP\Constants::PERMISSION_ALL);
@@ -357,7 +362,6 @@ class VersioningTest extends \Test\TestCase {
 	}
 
 	public function testMoveFolder() {
-
 		\OC\Files\Filesystem::mkdir('folder1');
 		\OC\Files\Filesystem::mkdir('folder2');
 		\OC\Files\Filesystem::file_put_contents('folder1/test.txt', 'test file');
@@ -391,14 +395,13 @@ class VersioningTest extends \Test\TestCase {
 
 
 	public function testMoveFileIntoSharedFolderAsRecipient() {
-
 		\OC\Files\Filesystem::mkdir('folder1');
 		$fileInfo = \OC\Files\Filesystem::getFileInfo('folder1');
 
 		$node = \OC::$server->getUserFolder(self::TEST_VERSIONS_USER)->get('folder1');
 		$share = \OC::$server->getShareManager()->newShare();
 		$share->setNode($node)
-			->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setShareType(IShare::TYPE_USER)
 			->setSharedBy(self::TEST_VERSIONS_USER)
 			->setSharedWith(self::TEST_VERSIONS_USER2)
 			->setPermissions(\OCP\Constants::PERMISSION_ALL);
@@ -442,13 +445,12 @@ class VersioningTest extends \Test\TestCase {
 	}
 
 	public function testMoveFolderIntoSharedFolderAsRecipient() {
-
 		\OC\Files\Filesystem::mkdir('folder1');
 
 		$node = \OC::$server->getUserFolder(self::TEST_VERSIONS_USER)->get('folder1');
 		$share = \OC::$server->getShareManager()->newShare();
 		$share->setNode($node)
-			->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setShareType(IShare::TYPE_USER)
 			->setSharedBy(self::TEST_VERSIONS_USER)
 			->setSharedWith(self::TEST_VERSIONS_USER2)
 			->setPermissions(\OCP\Constants::PERMISSION_ALL);
@@ -494,7 +496,6 @@ class VersioningTest extends \Test\TestCase {
 	}
 
 	public function testRenameSharedFile() {
-
 		\OC\Files\Filesystem::file_put_contents("test.txt", "test file");
 
 		$t1 = time();
@@ -516,7 +517,7 @@ class VersioningTest extends \Test\TestCase {
 		$node = \OC::$server->getUserFolder(self::TEST_VERSIONS_USER)->get('test.txt');
 		$share = \OC::$server->getShareManager()->newShare();
 		$share->setNode($node)
-			->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setShareType(IShare::TYPE_USER)
 			->setSharedBy(self::TEST_VERSIONS_USER)
 			->setSharedWith(self::TEST_VERSIONS_USER2)
 			->setPermissions(\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_SHARE);
@@ -544,7 +545,6 @@ class VersioningTest extends \Test\TestCase {
 	}
 
 	public function testCopy() {
-
 		\OC\Files\Filesystem::file_put_contents("test.txt", "test file");
 
 		$t1 = time();
@@ -578,7 +578,6 @@ class VersioningTest extends \Test\TestCase {
 	 * the correct 'path' and 'name'
 	 */
 	public function testGetVersions() {
-
 		$t1 = time();
 		// second version is two weeks older, this way we make sure that no
 		// version will be expired
@@ -661,7 +660,7 @@ class VersioningTest extends \Test\TestCase {
 
 		$share = \OC::$server->getShareManager()->newShare();
 		$share->setNode($node)
-			->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setShareType(IShare::TYPE_USER)
 			->setSharedBy(self::TEST_VERSIONS_USER)
 			->setSharedWith(self::TEST_VERSIONS_USER2)
 			->setPermissions(\OCP\Constants::PERMISSION_READ);
@@ -688,6 +687,7 @@ class VersioningTest extends \Test\TestCase {
 	}
 
 	public function testRestoreMovedShare() {
+		$this->markTestSkipped('Unreliable test');
 		$this->loginAsUser(self::TEST_VERSIONS_USER);
 
 		$userHome = \OC::$server->getUserFolder(self::TEST_VERSIONS_USER);
@@ -699,7 +699,7 @@ class VersioningTest extends \Test\TestCase {
 
 		$share = \OC::$server->getShareManager()->newShare();
 		$share->setNode($node)
-			->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setShareType(IShare::TYPE_USER)
 			->setSharedBy(self::TEST_VERSIONS_USER)
 			->setSharedWith(self::TEST_VERSIONS_USER2)
 			->setPermissions(\OCP\Constants::PERMISSION_ALL);
@@ -745,7 +745,7 @@ class VersioningTest extends \Test\TestCase {
 		$eventHandler->expects($this->any())
 			->method('callback')
 			->willReturnCallback(
-				function($p) use (&$params) {
+				function ($p) use (&$params) {
 					$params = $p;
 				}
 			);
@@ -874,7 +874,7 @@ class VersioningTest extends \Test\TestCase {
 		$node = \OC::$server->getUserFolder(self::TEST_VERSIONS_USER)->get('folder');
 		$share = \OC::$server->getShareManager()->newShare();
 		$share->setNode($node)
-			->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setShareType(IShare::TYPE_USER)
 			->setSharedBy(self::TEST_VERSIONS_USER)
 			->setSharedWith(self::TEST_VERSIONS_USER2)
 			->setPermissions(\OCP\Constants::PERMISSION_ALL);
@@ -943,9 +943,8 @@ class VersioningTest extends \Test\TestCase {
 	 * @param bool $create
 	 */
 	public static function loginHelper($user, $create = false) {
-
 		if ($create) {
-			$backend  = new \Test\Util\User\Dummy();
+			$backend = new \Test\Util\User\Dummy();
 			$backend->createUser($user, $user);
 			\OC::$server->getUserManager()->registerBackend($backend);
 		}
@@ -963,7 +962,6 @@ class VersioningTest extends \Test\TestCase {
 		\OC_Util::setupFS($user);
 		\OC::$server->getUserFolder($user);
 	}
-
 }
 
 // extend the original class to make it possible to test protected methods
@@ -974,6 +972,5 @@ class VersionStorageToTest extends \OCA\Files_Versions\Storage {
 	 */
 	public function callProtectedGetExpireList($time, $versions) {
 		return self::getExpireList($time, $versions);
-
 	}
 }

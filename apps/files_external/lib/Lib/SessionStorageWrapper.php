@@ -20,7 +20,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_External\Lib;
 
 use OC\Files\Storage\Wrapper\PermissionsMask;
@@ -39,5 +38,4 @@ class SessionStorageWrapper extends PermissionsMask {
 		$arguments['mask'] = Constants::PERMISSION_ALL & ~Constants::PERMISSION_SHARE;
 		parent::__construct($arguments);
 	}
-
 }

@@ -2,10 +2,11 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Jesús Macias <jmacias@solidgear.es>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Julius Härtl <jus@bitgrid.net>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -23,12 +24,12 @@
  *
  */
 // Check if we are a user
-OCP\User::checkLoggedIn();
+OC_Util::checkLoggedIn();
 $config = \OC::$server->getConfig();
 $userSession = \OC::$server->getUserSession();
 
 $showgridview = $config->getUserValue($userSession->getUser()->getUID(), 'files', 'show_grid', true);
-$isIE = \OCP\Util::isIE();
+$isIE = OC_Util::isIe();
 
 $tmpl = new OCP\Template('files_external', 'list', '');
 

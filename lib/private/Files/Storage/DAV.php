@@ -6,6 +6,8 @@
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Björn Schießle <bjoern@schiessle.org>
  * @author Carlos Cerrillo <ccerrillo@gmail.com>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lukas Reschke <lukas@statuscode.ch>
@@ -15,7 +17,8 @@
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Tigran Mkrtchyan <tigran.mkrtchyan@desy.de>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -32,7 +35,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Files\Storage;
 
 use Exception;
@@ -66,7 +68,7 @@ class DAV extends Common {
 	protected $password;
 	/** @var string */
 	protected $user;
-	/** @var string */
+	/** @var string|null */
 	protected $authType;
 	/** @var string */
 	protected $host;
@@ -97,8 +99,11 @@ class DAV extends Common {
 		if (isset($params['host']) && isset($params['user']) && isset($params['password'])) {
 			$host = $params['host'];
 			//remove leading http[s], will be generated in createBaseUri()
-			if (substr($host, 0, 8) == "https://") $host = substr($host, 8);
-			else if (substr($host, 0, 7) == "http://") $host = substr($host, 7);
+			if (substr($host, 0, 8) == "https://") {
+				$host = substr($host, 8);
+			} elseif (substr($host, 0, 7) == "http://") {
+				$host = substr($host, 7);
+			}
 			$this->host = $host;
 			$this->user = $params['user'];
 			$this->password = $params['password'];
@@ -117,9 +122,6 @@ class DAV extends Common {
 			if ($this->secure === true) {
 				// inject mock for testing
 				$this->certManager = \OC::$server->getCertificateManager();
-				if (is_null($this->certManager)) { //no user
-					$this->certManager = \OC::$server->getCertificateManager(null);
-				}
 			}
 			$this->root = $params['root'] ?? '/';
 			$this->root = '/' . ltrim($this->root, '/');
@@ -140,7 +142,7 @@ class DAV extends Common {
 			'userName' => $this->user,
 			'password' => $this->password,
 		];
-		if (isset($this->authType)) {
+		if ($this->authType !== null) {
 			$settings['authType'] = $this->authType;
 		}
 
@@ -152,7 +154,7 @@ class DAV extends Common {
 		$this->client = new Client($settings);
 		$this->client->setThrowExceptions(true);
 
-		if($this->secure === true) {
+		if ($this->secure === true) {
 			$certPath = $this->certManager->getAbsoluteBundlePath();
 			if (file_exists($certPath)) {
 				$this->certPath = $certPath;
@@ -319,7 +321,7 @@ class DAV extends Common {
 			if ($cachedState === false) {
 				// we know the file doesn't exist
 				return false;
-			} else if (!is_null($cachedState)) {
+			} elseif (!is_null($cachedState)) {
 				return true;
 			}
 			// need to get from server
@@ -484,8 +486,8 @@ class DAV extends Common {
 
 	/**
 	 * @param string $path
-	 * @param string $data
-	 * @return int
+	 * @param mixed $data
+	 * @return int|false
 	 */
 	public function file_put_contents($path, $data) {
 		$path = $this->cleanPath($path);
@@ -717,9 +719,9 @@ class DAV extends Common {
 		}
 		if (isset($response['{http://owncloud.org/ns}permissions'])) {
 			return $this->parsePermissions($response['{http://owncloud.org/ns}permissions']);
-		} else if ($this->is_dir($path)) {
+		} elseif ($this->is_dir($path)) {
 			return Constants::PERMISSION_ALL;
-		} else if ($this->file_exists($path)) {
+		} elseif ($this->file_exists($path)) {
 			return Constants::PERMISSION_ALL - Constants::PERMISSION_CREATE;
 		} else {
 			return 0;
@@ -796,10 +798,10 @@ class DAV extends Common {
 				}
 				if (!empty($etag) && $cachedData['etag'] !== $etag) {
 					return true;
-				} else if (isset($response['{http://open-collaboration-services.org/ns}share-permissions'])) {
+				} elseif (isset($response['{http://open-collaboration-services.org/ns}share-permissions'])) {
 					$sharePermissions = (int)$response['{http://open-collaboration-services.org/ns}share-permissions'];
 					return $sharePermissions !== $cachedData['permissions'];
-				} else if (isset($response['{http://owncloud.org/ns}permissions'])) {
+				} elseif (isset($response['{http://owncloud.org/ns}permissions'])) {
 					$permissions = $this->parsePermissions($response['{http://owncloud.org/ns}permissions']);
 					return $permissions !== $cachedData['permissions'];
 				} else {
@@ -849,22 +851,22 @@ class DAV extends Common {
 			if ($e->getHttpStatus() === Http::STATUS_UNAUTHORIZED) {
 				// either password was changed or was invalid all along
 				throw new StorageInvalidException(get_class($e) . ': ' . $e->getMessage());
-			} else if ($e->getHttpStatus() === Http::STATUS_METHOD_NOT_ALLOWED) {
+			} elseif ($e->getHttpStatus() === Http::STATUS_METHOD_NOT_ALLOWED) {
 				// ignore exception for MethodNotAllowed, false will be returned
 				return;
-			} else if ($e->getHttpStatus() === Http::STATUS_FORBIDDEN){
+			} elseif ($e->getHttpStatus() === Http::STATUS_FORBIDDEN) {
 				// The operation is forbidden. Fail somewhat gracefully
-				throw new ForbiddenException(get_class($e) . ':' . $e->getMessage());
+				throw new ForbiddenException(get_class($e) . ':' . $e->getMessage(), false);
 			}
 			throw new StorageNotAvailableException(get_class($e) . ': ' . $e->getMessage());
-		} else if ($e instanceof ClientException) {
+		} elseif ($e instanceof ClientException) {
 			// connection timeout or refused, server could be temporarily down
 			throw new StorageNotAvailableException(get_class($e) . ': ' . $e->getMessage());
-		} else if ($e instanceof \InvalidArgumentException) {
+		} elseif ($e instanceof \InvalidArgumentException) {
 			// parse error because the server returned HTML instead of XML,
 			// possibly temporarily down
 			throw new StorageNotAvailableException(get_class($e) . ': ' . $e->getMessage());
-		} else if (($e instanceof StorageNotAvailableException) || ($e instanceof StorageInvalidException)) {
+		} elseif (($e instanceof StorageNotAvailableException) || ($e instanceof StorageInvalidException)) {
 			// rethrow
 			throw $e;
 		}

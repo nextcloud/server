@@ -4,6 +4,8 @@
  *
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -22,9 +24,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Federation\Tests\Controller;
-
 
 use OC\BackgroundJob\JobList;
 use OCA\Federation\Controller\OCSAuthAPIController;
@@ -39,25 +39,25 @@ use Test\TestCase;
 
 class OCSAuthAPIControllerTest extends TestCase {
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject|IRequest */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|IRequest */
 	private $request;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject|ISecureRandom  */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|ISecureRandom  */
 	private $secureRandom;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject|JobList */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|JobList */
 	private $jobList;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject|TrustedServers */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|TrustedServers */
 	private $trustedServers;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject|DbHandler */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|DbHandler */
 	private $dbHandler;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject|ILogger */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|ILogger */
 	private $logger;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject|ITimeFactory */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|ITimeFactory */
 	private $timeFactory;
 
 
@@ -92,7 +92,6 @@ class OCSAuthAPIControllerTest extends TestCase {
 
 		$this->timeFactory->method('getTime')
 			->willReturn($this->currentTime);
-
 	}
 
 	/**
@@ -104,7 +103,6 @@ class OCSAuthAPIControllerTest extends TestCase {
 	 * @param bool $ok
 	 */
 	public function testRequestSharedSecret($token, $localToken, $isTrustedServer, $ok) {
-
 		$url = 'url';
 
 		$this->trustedServers
@@ -145,11 +143,10 @@ class OCSAuthAPIControllerTest extends TestCase {
 	 * @param bool $ok
 	 */
 	public function testGetSharedSecret($isTrustedServer, $isValidToken, $ok) {
-
 		$url = 'url';
 		$token = 'token';
 
-		/** @var OCSAuthAPIController | \PHPUnit_Framework_MockObject_MockObject $ocsAuthApi */
+		/** @var OCSAuthAPIController | \PHPUnit\Framework\MockObject\MockObject $ocsAuthApi */
 		$ocsAuthApi = $this->getMockBuilder('OCA\Federation\Controller\OCSAuthAPIController')
 			->setConstructorArgs(
 				[
@@ -170,7 +167,7 @@ class OCSAuthAPIControllerTest extends TestCase {
 		$ocsAuthApi->expects($this->any())
 			->method('isValidToken')->with($url, $token)->willReturn($isValidToken);
 
-		if($ok) {
+		if ($ok) {
 			$this->secureRandom->expects($this->once())->method('generate')->with(32)
 				->willReturn('secret');
 			$this->trustedServers->expects($this->once())
@@ -183,7 +180,7 @@ class OCSAuthAPIControllerTest extends TestCase {
 		try {
 			$result = $ocsAuthApi->getSharedSecret($url, $token);
 			$this->assertTrue($ok);
-			$data =  $result->getData();
+			$data = $result->getData();
 			$this->assertSame('secret', $data['sharedSecret']);
 		} catch (OCSForbiddenException $e) {
 			$this->assertFalse($ok);
@@ -198,5 +195,4 @@ class OCSAuthAPIControllerTest extends TestCase {
 			[false, false, false],
 		];
 	}
-
 }

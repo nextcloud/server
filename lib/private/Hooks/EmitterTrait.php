@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  *
@@ -20,9 +21,11 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Hooks;
 
+/**
+ * @deprecated 18.0.0 use events and the \OCP\EventDispatcher\IEventDispatcher service
+ */
 trait EmitterTrait {
 
 	/**
@@ -34,6 +37,7 @@ trait EmitterTrait {
 	 * @param string $scope
 	 * @param string $method
 	 * @param callable $callback
+	 * @deprecated 18.0.0 use \OCP\EventDispatcher\IEventDispatcher::addListener
 	 */
 	public function listen($scope, $method, callable $callback) {
 		$eventName = $scope . '::' . $method;
@@ -49,6 +53,7 @@ trait EmitterTrait {
 	 * @param string $scope optional
 	 * @param string $method optional
 	 * @param callable $callback optional
+	 * @deprecated 18.0.0 use \OCP\EventDispatcher\IEventDispatcher::removeListener
 	 */
 	public function removeListener($scope = null, $method = null, callable $callback = null) {
 		$names = [];
@@ -92,6 +97,7 @@ trait EmitterTrait {
 	 * @param string $scope
 	 * @param string $method
 	 * @param array $arguments optional
+	 * @deprecated 18.0.0 use \OCP\EventDispatcher\IEventDispatcher::dispatchTyped
 	 */
 	protected function emit($scope, $method, array $arguments = []) {
 		$eventName = $scope . '::' . $method;

@@ -16,19 +16,19 @@ use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\IConfig;
 use OCP\IL10N;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 
 class UserAvatarTest extends \Test\TestCase {
-	/** @var Folder | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var Folder | \PHPUnit\Framework\MockObject\MockObject */
 	private $folder;
 
 	/** @var \OC\Avatar\UserAvatar */
 	private $avatar;
 
-	/** @var \OC\User\User | \PHPUnit_Framework_MockObject_MockObject $user */
+	/** @var \OC\User\User | \PHPUnit\Framework\MockObject\MockObject $user */
 	private $user;
 
-	/** @var \OCP\IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCP\IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
 
 	protected function setUp(): void {
@@ -52,18 +52,22 @@ class UserAvatarTest extends \Test\TestCase {
 	}
 
 	public function testGetNoAvatar() {
+		if (PHP_MAJOR_VERSION > 7) {
+			$this->markTestSkipped('Only run on php7');
+		}
+
 		$file = $this->createMock(ISimpleFile::class);
 		$this->folder->method('newFile')
 			->willReturn($file);
 
 		$this->folder->method('getFile')
-			->willReturnCallback(function($path) {
+			->willReturnCallback(function ($path) {
 				if ($path === 'avatar.64.png') {
 					throw new NotFoundException();
 				}
 			});
 		$this->folder->method('fileExists')
-			->willReturnCallback(function($path) {
+			->willReturnCallback(function ($path) {
 				if ($path === 'generated') {
 					return true;
 				}
@@ -78,12 +82,19 @@ class UserAvatarTest extends \Test\TestCase {
 			}));
 
 		$file->method('getContent')
-			->willReturn($data);
+			->willReturnCallback(function () use (&$data) {
+				return $data;
+			});
 
-		$this->assertEquals($data, $this->avatar->get()->data());
+		$result = $this->avatar->get();
+		$this->assertTrue($result->valid());
 	}
 
 	public function testGetAvatarSizeMatch() {
+		if (PHP_MAJOR_VERSION > 7) {
+			$this->markTestSkipped('Only run on php7');
+		}
+
 		$this->folder->method('fileExists')
 			->willReturnMap([
 				['avatar.jpg', true],
@@ -101,6 +112,10 @@ class UserAvatarTest extends \Test\TestCase {
 	}
 
 	public function testGetAvatarSizeMinusOne() {
+		if (PHP_MAJOR_VERSION > 7) {
+			$this->markTestSkipped('Only run on php7');
+		}
+
 		$this->folder->method('fileExists')
 			->willReturnMap([
 				['avatar.jpg', true],
@@ -117,6 +132,10 @@ class UserAvatarTest extends \Test\TestCase {
 	}
 
 	public function testGetAvatarNoSizeMatch() {
+		if (PHP_MAJOR_VERSION > 7) {
+			$this->markTestSkipped('Only run on php7');
+		}
+
 		$this->folder->method('fileExists')
 			->willReturnMap([
 				['avatar.png', true],
@@ -134,7 +153,7 @@ class UserAvatarTest extends \Test\TestCase {
 
 		$this->folder->method('getFile')
 			->willReturnCallback(
-				function($path) use ($file) {
+				function ($path) use ($file) {
 					if ($path === 'avatar.png') {
 						return $file;
 					} else {
@@ -181,6 +200,10 @@ class UserAvatarTest extends \Test\TestCase {
 	}
 
 	public function testSetAvatar() {
+		if (PHP_MAJOR_VERSION > 7) {
+			$this->markTestSkipped('Only run on php7');
+		}
+
 		$avatarFileJPG = $this->createMock(File::class);
 		$avatarFileJPG->method('getName')
 			->willReturn('avatar.jpg');
@@ -259,7 +282,7 @@ class UserAvatarTest extends \Test\TestCase {
 		$colorTo = new \OC\Color(6,12,18);
 		$steps = 6;
 		$palette = $this->invokePrivate($this->avatar, 'mixPalette', [$steps, $colorFrom, $colorTo]);
-		foreach($palette as $j => $color) {
+		foreach ($palette as $j => $color) {
 			// calc increment
 			$incR = $colorTo->r / $steps * $j;
 			$incG = $colorTo->g / $steps * $j;
@@ -271,16 +294,14 @@ class UserAvatarTest extends \Test\TestCase {
 		$this->assertTrue(gettype($hashToInt) === 'integer');
 	}
 
-	private function getUserWithDisplayName($name)
-	{
+	private function getUserWithDisplayName($name) {
 		$user = $this->createMock(User::class);
 		$user->method('getDisplayName')->willReturn($name);
 		return $user;
 	}
 
-	private function getUserAvatar($user)
-	{
-		/** @var \OCP\IL10N | \PHPUnit_Framework_MockObject_MockObject $l */
+	private function getUserAvatar($user) {
+		/** @var \OCP\IL10N | \PHPUnit\Framework\MockObject\MockObject $l */
 		$l = $this->createMock(IL10N::class);
 		$l->method('t')->willReturnArgument(0);
 
@@ -288,9 +309,8 @@ class UserAvatarTest extends \Test\TestCase {
 			$this->folder,
 			$l,
 			$user,
-			$this->createMock(ILogger::class),
+			$this->createMock(LoggerInterface::class),
 			$this->config
 		);
 	}
-
 }

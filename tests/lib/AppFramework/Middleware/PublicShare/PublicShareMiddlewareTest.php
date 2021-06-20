@@ -38,11 +38,11 @@ use OCP\IURLGenerator;
 
 class PublicShareMiddlewareTest extends \Test\TestCase {
 
-	/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
 	private $request;
-	/** @var ISession|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ISession|\PHPUnit\Framework\MockObject\MockObject */
 	private $session;
-	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
 
 	/** @var PublicShareMiddleware */
@@ -282,6 +282,4 @@ class PublicShareMiddlewareTest extends \Test\TestCase {
 		$result = $this->middleware->afterException($controller, 'method', $exception);
 		$this->assertInstanceOf(RedirectResponse::class, $result);
 	}
-
-
 }

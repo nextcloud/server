@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
@@ -23,11 +24,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Repair;
 
 use Doctrine\DBAL\Exception\DriverException;
-use Doctrine\DBAL\Platforms\MySqlPlatform;
+use Doctrine\DBAL\Platforms\MySQLPlatform;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\ILogger;
@@ -68,7 +68,7 @@ class Collation implements IRepairStep {
 	 * Fix mime types
 	 */
 	public function run(IOutput $output) {
-		if (!$this->connection->getDatabasePlatform() instanceof MySqlPlatform) {
+		if (!$this->connection->getDatabasePlatform() instanceof MySQLPlatform) {
 			$output->info('Not a mysql database -> nothing to do');
 			return;
 		}

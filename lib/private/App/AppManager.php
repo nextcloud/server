@@ -5,6 +5,7 @@
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Christoph Schaefer "christophł@wolkesicher.de"
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Daniel Rudolf <github.com@daniel-rudolf.de>
  * @author Greta Doci <gretadoci@gmail.com>
@@ -17,7 +18,7 @@
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Tobia De Koninck <tobia@ledfan.be>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -34,7 +35,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\App;
 
 use OC\AppConfig;
@@ -45,9 +45,9 @@ use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
-use OCP\ILogger;
 use OCP\IUser;
 use OCP\IUserSession;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class AppManager implements IAppManager {
@@ -82,7 +82,7 @@ class AppManager implements IAppManager {
 	/** @var EventDispatcherInterface */
 	private $dispatcher;
 
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	private $logger;
 
 	/** @var string[] $appId => $enabled */
@@ -103,21 +103,13 @@ class AppManager implements IAppManager {
 	/** @var array */
 	private $autoDisabledApps = [];
 
-	/**
-	 * @param IUserSession $userSession
-	 * @param IConfig $config
-	 * @param AppConfig $appConfig
-	 * @param IGroupManager $groupManager
-	 * @param ICacheFactory $memCacheFactory
-	 * @param EventDispatcherInterface $dispatcher
-	 */
 	public function __construct(IUserSession $userSession,
 								IConfig $config,
 								AppConfig $appConfig,
 								IGroupManager $groupManager,
 								ICacheFactory $memCacheFactory,
 								EventDispatcherInterface $dispatcher,
-								ILogger $logger) {
+								LoggerInterface $logger) {
 		$this->userSession = $userSession;
 		$this->config = $config;
 		$this->appConfig = $appConfig;
@@ -135,7 +127,7 @@ class AppManager implements IAppManager {
 			$values = $this->appConfig->getValues(false, 'enabled');
 
 			$alwaysEnabledApps = $this->getAlwaysEnabledApps();
-			foreach($alwaysEnabledApps as $appId) {
+			foreach ($alwaysEnabledApps as $appId) {
 				$values[$appId] = 'yes';
 			}
 
@@ -240,7 +232,7 @@ class AppManager implements IAppManager {
 		} elseif ($user === null) {
 			return false;
 		} else {
-			if(empty($enabled)){
+			if (empty($enabled)) {
 				return false;
 			}
 
@@ -248,7 +240,7 @@ class AppManager implements IAppManager {
 
 			if (!is_array($groupIds)) {
 				$jsonError = json_last_error();
-				$this->logger->warning('AppManger::checkAppForUser - can\'t decode group IDs: ' . print_r($enabled, true) . ' - json error code: ' . $jsonError, ['app' => 'lib']);
+				$this->logger->warning('AppManger::checkAppForUser - can\'t decode group IDs: ' . print_r($enabled, true) . ' - json error code: ' . $jsonError);
 				return false;
 			}
 
@@ -281,7 +273,7 @@ class AppManager implements IAppManager {
 
 			if (!is_array($groupIds)) {
 				$jsonError = json_last_error();
-				$this->logger->warning('AppManger::checkAppForUser - can\'t decode group IDs: ' . print_r($enabled, true) . ' - json error code: ' . $jsonError, ['app' => 'lib']);
+				$this->logger->warning('AppManger::checkAppForUser - can\'t decode group IDs: ' . print_r($enabled, true) . ' - json error code: ' . $jsonError);
 				return false;
 			}
 
@@ -384,7 +376,6 @@ class AppManager implements IAppManager {
 			ManagerEvent::EVENT_APP_ENABLE_FOR_GROUPS, $appId, $groups
 		));
 		$this->clearAppsCache();
-
 	}
 
 	/**
@@ -427,7 +418,7 @@ class AppManager implements IAppManager {
 	 */
 	public function getAppPath($appId) {
 		$appPath = \OC_App::getAppPath($appId);
-		if($appPath === false) {
+		if ($appPath === false) {
 			throw new AppPathNotFoundException('Could not find path for ' . $appId);
 		}
 		return $appPath;
@@ -442,7 +433,7 @@ class AppManager implements IAppManager {
 	 */
 	public function getAppWebPath(string $appId): string {
 		$appWebPath = \OC_App::getAppWebPath($appId);
-		if($appWebPath === false) {
+		if ($appWebPath === false) {
 			throw new AppPathNotFoundException('Could not find web path for ' . $appId);
 		}
 		return $appWebPath;
@@ -522,7 +513,7 @@ class AppManager implements IAppManager {
 	}
 
 	public function getAppVersion(string $appId, bool $useCache = true): string {
-		if(!$useCache || !isset($this->appVersions[$appId])) {
+		if (!$useCache || !isset($this->appVersions[$appId])) {
 			$appInfo = $this->getAppInfo($appId);
 			$this->appVersions[$appId] = ($appInfo !== null && isset($appInfo['version'])) ? $appInfo['version'] : '0';
 		}
@@ -544,8 +535,8 @@ class AppManager implements IAppManager {
 		foreach ($apps as $appId) {
 			$info = $this->getAppInfo($appId);
 			if ($info === null) {
-				$incompatibleApps[] = ['id' => $appId];
-			} else if (!\OC_App::isAppCompatible($version, $info)) {
+				$incompatibleApps[] = ['id' => $appId, 'name' => $appId];
+			} elseif (!\OC_App::isAppCompatible($version, $info)) {
 				$incompatibleApps[] = $info;
 			}
 		}

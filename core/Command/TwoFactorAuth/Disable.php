@@ -20,7 +20,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Core\Command\TwoFactorAuth;
 
 use OC\Authentication\TwoFactorAuth\ProviderManager;
@@ -52,7 +51,7 @@ class Disable extends Base {
 		$this->addArgument('provider_id', InputArgument::REQUIRED);
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$uid = $input->getArgument('uid');
 		$providerId = $input->getArgument('provider_id');
 		$user = $this->userManager->get($uid);
@@ -68,5 +67,4 @@ class Disable extends Base {
 			return 2;
 		}
 	}
-
 }

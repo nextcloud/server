@@ -1,7 +1,12 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2018, Tobia De Koninck (tobia@ledfan.be)
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author J0WI <J0WI@users.noreply.github.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Tobia De Koninck <LEDfan@users.noreply.github.com>
  *
@@ -14,14 +19,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\UpdateNotification\Command;
 
 use OC\App\AppManager;
@@ -55,14 +59,14 @@ class Check extends Command {
 		$this->updateChecker = $updateChecker;
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName('update:check')
 			->setDescription('Check for server and app updates')
 		;
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$updatesAvailableCount = 0;
 
 		// Server
@@ -86,7 +90,7 @@ class Check extends Command {
 		// Report summary
 		if ($updatesAvailableCount === 0) {
 			$output->writeln('<info>Everything up to date</info>');
-		} else if ($updatesAvailableCount === 1) {
+		} elseif ($updatesAvailableCount === 1) {
 			$output->writeln('<comment>1 update available</comment>');
 		} else {
 			$output->writeln('<comment>' . $updatesAvailableCount . ' updates available</comment>');

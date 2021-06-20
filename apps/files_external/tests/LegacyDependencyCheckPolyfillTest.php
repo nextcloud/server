@@ -20,7 +20,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_External\Tests;
 
 use OCA\Files_External\Lib\MissingDependency;
@@ -50,5 +49,4 @@ class LegacyDependencyCheckPolyfillTest extends \Test\TestCase {
 		$this->assertEquals('program', $dependencies[1]->getDependency());
 		$this->assertEquals('cannot find program', $dependencies[1]->getMessage());
 	}
-
 }

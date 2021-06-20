@@ -6,12 +6,13 @@ declare(strict_types=1);
  * @copyright Copyright (c) 2018 John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
  * @copyright Copyright (c) 2019 Janis Köhr <janiskoehr@icloud.com>
  *
- * @author Alexey Pyltsyn <lex61rus@gmail.com>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Janis Köhr <janis.koehr@novatec-gmbh.de>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Citharel <tcit@tcit.fr>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -22,14 +23,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Accessibility\Controller;
 
 use OC\Template\IconsCacher;
@@ -37,17 +37,14 @@ use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataDisplayResponse;
-use OCP\AppFramework\Http\DataDownloadResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
-use OCP\ILogger;
 use OCP\IRequest;
-use OCP\IURLGenerator;
-use OCP\IUserManager;
 use OCP\IUserSession;
+use Psr\Log\LoggerInterface;
 use ScssPhp\ScssPhp\Compiler;
 use ScssPhp\ScssPhp\Exception\ParserException;
-use ScssPhp\ScssPhp\Formatter\Crunched;
+use ScssPhp\ScssPhp\OutputStyle;
 
 class AccessibilityController extends Controller {
 
@@ -60,23 +57,14 @@ class AccessibilityController extends Controller {
 	/** @var IConfig */
 	private $config;
 
-	/** @var IUserManager */
-	private $userManager;
-
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	private $logger;
-
-	/** @var IURLGenerator */
-	private $urlGenerator;
 
 	/** @var ITimeFactory */
 	protected $timeFactory;
 
 	/** @var IUserSession */
 	private $userSession;
-
-	/** @var IAppManager */
-	private $appManager;
 
 	/** @var IconsCacher */
 	protected $iconsCacher;
@@ -87,58 +75,46 @@ class AccessibilityController extends Controller {
 	/** @var null|string */
 	private $injectedVariables;
 
-	/**
-	 * Account constructor.
-	 *
-	 * @param string $appName
-	 * @param IRequest $request
-	 * @param IConfig $config
-	 * @param IUserManager $userManager
-	 * @param ILogger $logger
-	 * @param IURLGenerator $urlGenerator
-	 * @param ITimeFactory $timeFactory
-	 * @param IUserSession $userSession
-	 * @param IAppManager $appManager
-	 * @param \OC_Defaults $defaults
-	 */
+	/** @var string */
+	private $appRoot;
+
 	public function __construct(string $appName,
 								IRequest $request,
 								IConfig $config,
-								IUserManager $userManager,
-								ILogger $logger,
-								IURLGenerator $urlGenerator,
+								LoggerInterface $logger,
 								ITimeFactory $timeFactory,
 								IUserSession $userSession,
 								IAppManager $appManager,
 								IconsCacher $iconsCacher,
 								\OC_Defaults $defaults) {
 		parent::__construct($appName, $request);
-		$this->appName      = $appName;
-		$this->config       = $config;
-		$this->userManager  = $userManager;
-		$this->logger       = $logger;
-		$this->urlGenerator = $urlGenerator;
-		$this->timeFactory  = $timeFactory;
-		$this->userSession  = $userSession;
-		$this->appManager   = $appManager;
-		$this->iconsCacher  = $iconsCacher;
-		$this->defaults     = $defaults;
+		$this->appName = $appName;
+		$this->config = $config;
+		$this->logger = $logger;
+		$this->timeFactory = $timeFactory;
+		$this->userSession = $userSession;
+		$this->iconsCacher = $iconsCacher;
+		$this->defaults = $defaults;
 
 		$this->serverRoot = \OC::$SERVERROOT;
-		$this->appRoot    = $this->appManager->getAppPath($this->appName);
+		$this->appRoot = $appManager->getAppPath($this->appName);
 	}
 
 	/**
-	 * @NoAdminRequired
+	 * @PublicPage
 	 * @NoCSRFRequired
 	 * @NoSameSiteCookieRequired
 	 *
 	 * @return DataDisplayResponse
 	 */
 	public function getCss(): DataDisplayResponse {
-		$css        = '';
-		$imports    = '';
-		$userValues = $this->getUserValues();
+		$css = '';
+		$imports = '';
+		if ($this->userSession->isLoggedIn()) {
+			$userValues = $this->getUserValues();
+		} else {
+			$userValues = ['dark'];
+		}
 
 		foreach ($userValues as $key => $scssFile) {
 			if ($scssFile !== false) {
@@ -157,8 +133,7 @@ class AccessibilityController extends Controller {
 			]);
 
 			// Continue after throw
-			$scss->setIgnoreErrors(true);
-			$scss->setFormatter(Crunched::class);
+			$scss->setOutputStyle(OutputStyle::COMPRESSED);
 
 			// Import theme, variables and compile css4 variables
 			try {
@@ -169,7 +144,12 @@ class AccessibilityController extends Controller {
 					'@import "css-variables.scss";'
 				);
 			} catch (ParserException $e) {
-				$this->logger->error($e->getMessage(), ['app' => 'core']);
+				$this->logger->error($e->getMessage(),
+					[
+						'app' => 'core',
+						'exception' => $e,
+					]
+				);
 			}
 		}
 
@@ -178,7 +158,7 @@ class AccessibilityController extends Controller {
 
 		// Rebase all urls
 		$appWebRoot = substr($this->appRoot, strlen($this->serverRoot) - strlen(\OC::$WEBROOT));
-		$css        = $this->rebaseUrls($css, $appWebRoot . '/css');
+		$css = $this->rebaseUrls($css, $appWebRoot . '/css');
 
 		if (in_array('dark', $userValues) && $this->iconsCacher->getCachedList() && $this->iconsCacher->getCachedList()->getSize() > 0) {
 			$iconsCss = $this->invertSvgIconsColor($this->iconsCacher->getCachedList()->getContent());
@@ -197,46 +177,10 @@ class AccessibilityController extends Controller {
 		$response->addHeader('Pragma', 'cache');
 
 		// store current cache hash
-		$this->config->setUserValue($this->userSession->getUser()->getUID(), $this->appName, 'icons-css', md5($css));
-
-		return $response;
-	}
-
-	/**
-	 * @NoCSRFRequired
-	 * @PublicPage
-	 * @NoSameSiteCookieRequired
-	 *
-	 * @return DataDownloadResponse
-	 */
-	public function getJavascript(): DataDownloadResponse {
-		$user = $this->userSession->getUser();
-
-		if ($user === null) {
-			$theme = false;
-			$highcontrast = false;
-		} else {
-			$theme = $this->config->getUserValue($user->getUID(), $this->appName, 'theme', false);
-			$highcontrast = $this->config->getUserValue($user->getUID(), $this->appName, 'highcontrast', false) !== false;
+		if ($this->userSession->isLoggedIn()) {
+			$this->config->setUserValue($this->userSession->getUser()->getUID(), $this->appName, 'icons-css', md5($css));
 		}
-		if ($theme !== false) {
-			$responseJS = '(function() {
-	OCA.Accessibility = {
-		highcontrast: ' . json_encode($highcontrast) . ',
-		theme: ' . json_encode($theme) . ',
-	};
-	document.body.classList.add(' . json_encode($theme) . ');
-})();';
-		} else {
-			$responseJS = '(function() {
-	OCA.Accessibility = {
-		highcontrast: ' . json_encode($highcontrast) . ',
-		theme: ' . json_encode($theme) . ',
-	};
-})();';
-		}
-		$response = new DataDownloadResponse($responseJS, 'javascript', 'text/javascript');
-		$response->cacheFor(3600);
+
 		return $response;
 	}
 
@@ -245,9 +189,9 @@ class AccessibilityController extends Controller {
 	 *
 	 * @return array
 	 */
-	private function getUserValues(): array{
+	private function getUserValues(): array {
 		$userTheme = $this->config->getUserValue($this->userSession->getUser()->getUID(), $this->appName, 'theme', false);
-		$userFont  = $this->config->getUserValue($this->userSession->getUser()->getUID(), $this->appName, 'font', false);
+		$userFont = $this->config->getUserValue($this->userSession->getUser()->getUID(), $this->appName, 'font', false);
 		$userHighContrast = $this->config->getUserValue($this->userSession->getUser()->getUID(), $this->appName, 'highcontrast', false);
 
 		return [$userTheme, $userHighContrast, $userFont];
@@ -272,7 +216,7 @@ class AccessibilityController extends Controller {
 	 * @return string
 	 */
 	private function rebaseUrls(string $css, string $webDir): string {
-		$re    = '/url\([\'"]([^\/][\.\w?=\/-]*)[\'"]\)/x';
+		$re = '/url\([\'"]([^\/][\.\w?=\/-]*)[\'"]\)/x';
 		$subst = 'url(\'' . $webDir . '/$1\')';
 
 		return preg_replace($re, $subst, $css);
@@ -314,7 +258,12 @@ class AccessibilityController extends Controller {
 			$scss->compile($variables);
 			$this->injectedVariables = $variables;
 		} catch (ParserException $e) {
-			$this->logger->logException($e, ['app' => 'core']);
+			$this->logger->error($e->getMessage(),
+				[
+					'app' => 'core',
+					'exception' => $e,
+				]
+			);
 		}
 		return $variables;
 	}

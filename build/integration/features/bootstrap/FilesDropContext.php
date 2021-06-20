@@ -1,7 +1,8 @@
 <?php
 /**
+ * @copyright Copyright (c) 2016 Roeland Jago Douma <roeland@famdouma.nl>
  *
- *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -15,7 +16,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -37,7 +38,7 @@ class FilesDropContext implements Context, SnippetAcceptingContext {
 	public function droppingFileWith($path, $content) {
 		$client = new Client();
 		$options = [];
-		if (count($this->lastShareData->data->element) > 0){
+		if (count($this->lastShareData->data->element) > 0) {
 			$token = $this->lastShareData->data[0]->token;
 		} else {
 			$token = $this->lastShareData->data[0]->token;
@@ -65,7 +66,7 @@ class FilesDropContext implements Context, SnippetAcceptingContext {
 	public function creatingFolderInDrop($folder) {
 		$client = new Client();
 		$options = [];
-		if (count($this->lastShareData->data->element) > 0){
+		if (count($this->lastShareData->data->element) > 0) {
 			$token = $this->lastShareData->data[0]->token;
 		} else {
 			$token = $this->lastShareData->data[0]->token;

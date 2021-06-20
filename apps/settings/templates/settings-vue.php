@@ -25,7 +25,8 @@ script('settings', 'vue-settings-apps-users-management');
 style('settings', 'settings');
 
 // Do we have some data to inject ?
-if(is_array($_['serverData'])) {
-?>
-<span id="serverData" data-server="<?php p(json_encode($_['serverData']));?>"></span>
-<?php } ?>
+if (is_array($_['serverData'])) {
+	?>
+<span id="serverData" data-server="<?php p(json_encode($_['serverData'])); ?>"></span>
+<?php
+} ?>

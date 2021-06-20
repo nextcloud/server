@@ -6,9 +6,12 @@ declare(strict_types=1);
  * @copyright Copyright (c) 2019, Thomas Citharel
  * @copyright Copyright (c) 2019, Georg Ehrke
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author Richard Steinmetz <richard@steinmetz.cloud>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Citharel <tcit@tcit.fr>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -19,14 +22,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\CalDAV\Reminder\NotificationProvider;
 
 use DateTime;
@@ -34,7 +36,6 @@ use OCP\IConfig;
 use OCP\IL10N;
 use OCP\ILogger;
 use OCP\IURLGenerator;
-use OCP\IUser;
 use OCP\L10N\IFactory as L10NFactory;
 use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
@@ -82,7 +83,7 @@ class EmailProvider extends AbstractProvider {
 	 */
 	public function send(VEvent $vevent,
 						 string $calendarDisplayName,
-						 array $users=[]):void {
+						 array $users = []):void {
 		$fallbackLanguage = $this->getFallbackLanguage();
 
 		$emailAddressesOfSharees = $this->getEMailAddressesOfAllUsersWithWriteAccessToCalendar($users);
@@ -99,7 +100,7 @@ class EmailProvider extends AbstractProvider {
 		$sortedByLanguage = $this->sortEMailAddressesByLanguage($emailAddresses, $fallbackLanguage);
 		$organizer = $this->getOrganizerEMailAndNameFromEvent($vevent);
 
-		foreach($sortedByLanguage as $lang => $emailAddresses) {
+		foreach ($sortedByLanguage as $lang => $emailAddresses) {
 			if (!$this->hasL10NForLang($lang)) {
 				$lang = $fallbackLanguage;
 			}
@@ -113,6 +114,11 @@ class EmailProvider extends AbstractProvider {
 			$template->addFooter();
 
 			foreach ($emailAddresses as $emailAddress) {
+				if (!$this->mailer->validateMailAddress($emailAddress)) {
+					$this->logger->error('Email address {address} for reminder notification is incorrect', ['app' => 'dav', 'address' => $emailAddress]);
+					continue;
+				}
+
 				$message = $this->mailer->createMessage();
 				$message->setFrom([$fromEMail]);
 				if ($organizer) {
@@ -154,18 +160,18 @@ class EmailProvider extends AbstractProvider {
 								   string $calendarDisplayName,
 								   VEvent $vevent):void {
 		$template->addBodyListItem($calendarDisplayName, $l10n->t('Calendar:'),
-			$this->getAbsoluteImagePath('actions/info.svg'));
+			$this->getAbsoluteImagePath('actions/info.png'));
 
 		$template->addBodyListItem($this->generateDateString($l10n, $vevent), $l10n->t('Date:'),
-			$this->getAbsoluteImagePath('places/calendar.svg'));
+			$this->getAbsoluteImagePath('places/calendar.png'));
 
 		if (isset($vevent->LOCATION)) {
 			$template->addBodyListItem((string) $vevent->LOCATION, $l10n->t('Where:'),
-				$this->getAbsoluteImagePath('actions/address.svg'));
+				$this->getAbsoluteImagePath('actions/address.png'));
 		}
 		if (isset($vevent->DESCRIPTION)) {
 			$template->addBodyListItem((string) $vevent->DESCRIPTION, $l10n->t('Description:'),
-				$this->getAbsoluteImagePath('actions/more.svg'));
+				$this->getAbsoluteImagePath('actions/more.png'));
 		}
 	}
 
@@ -195,6 +201,10 @@ class EmailProvider extends AbstractProvider {
 
 		$organizerEMail = substr($organizer->getValue(), 7);
 
+		if ($organizerEMail === false || !$this->mailer->validateMailAddress($organizerEMail)) {
+			return null;
+		}
+
 		$name = $organizer->offsetGet('CN');
 		if ($name instanceof Parameter) {
 			return [$organizerEMail => $name];
@@ -212,7 +222,7 @@ class EmailProvider extends AbstractProvider {
 												  string $defaultLanguage):array {
 		$sortedByLanguage = [];
 
-		foreach($emails as $emailAddress => $parameters) {
+		foreach ($emails as $emailAddress => $parameters) {
 			if (isset($parameters['LANG'])) {
 				$lang = $parameters['LANG'];
 			} else {
@@ -260,7 +270,7 @@ class EmailProvider extends AbstractProvider {
 					}
 
 					$emailAddressesOfDelegates = $delegates->getParts();
-					foreach($emailAddressesOfDelegates as $addressesOfDelegate) {
+					foreach ($emailAddressesOfDelegates as $addressesOfDelegate) {
 						if (strcasecmp($addressesOfDelegate, 'mailto:') === 0) {
 							$emailAddresses[substr($addressesOfDelegate, 7)] = [];
 						}
@@ -345,10 +355,10 @@ class EmailProvider extends AbstractProvider {
 	private function getEMailAddressesOfAllUsersWithWriteAccessToCalendar(array $users):array {
 		$emailAddresses = [];
 
-		foreach($users as $user) {
+		foreach ($users as $user) {
 			$emailAddress = $user->getEMailAddress();
 			if ($emailAddress) {
-				$lang = $this->getLangForUser($user);
+				$lang = $this->l10nFactory->getUserLanguage($user);
 				if ($lang) {
 					$emailAddresses[$emailAddress] = [
 						'LANG' => $lang,
@@ -360,14 +370,6 @@ class EmailProvider extends AbstractProvider {
 		}
 
 		return $emailAddresses;
-	}
-
-	/**
-	 * @param IUser $user
-	 * @return string
-	 */
-	private function getLangForUser(IUser $user): ?string {
-		return $this->config->getUserValue($user->getUID(), 'core', 'lang', null);
 	}
 
 	/**
@@ -388,9 +390,7 @@ class EmailProvider extends AbstractProvider {
 
 		$diff = $dtstartDt->diff($dtendDt);
 
-		/** @phan-suppress-next-line PhanUndeclaredClassMethod */
 		$dtstartDt = new \DateTime($dtstartDt->format(\DateTime::ATOM));
-		/** @phan-suppress-next-line PhanUndeclaredClassMethod */
 		$dtendDt = new \DateTime($dtendDt->format(\DateTime::ATOM));
 
 		if ($isAllDay) {
@@ -407,9 +407,7 @@ class EmailProvider extends AbstractProvider {
 
 		$startTimezone = $endTimezone = null;
 		if (!$vevent->DTSTART->isFloating()) {
-			/** @phan-suppress-next-line PhanUndeclaredClassMethod */
 			$startTimezone = $vevent->DTSTART->getDateTime()->getTimezone()->getName();
-			/** @phan-suppress-next-line PhanUndeclaredClassMethod */
 			$endTimezone = $this->getDTEndFromEvent($vevent)->getDateTime()->getTimezone()->getName();
 		}
 

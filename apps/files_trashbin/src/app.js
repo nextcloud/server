@@ -1,16 +1,32 @@
 /**
  * Copyright (c) 2014
  *
- * This file is licensed under the Affero General Public License version 3
- * or later.
+ * @author Abijeet <abijeetpatro@gmail.com>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Robin Appelman <robin@icewind.nl>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
- * See the COPYING-README file.
+ * @license GNU AGPL version 3 or any later version
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
-/**
- * @namespace OCA.Trashbin
- */
 OCA.Trashbin = {}
 /**
  * @namespace OCA.Trashbin.App
@@ -20,7 +36,7 @@ OCA.Trashbin.App = {
 	/** @type {OC.Files.Client} */
 	client: null,
 
-	initialize: function($el) {
+	initialize($el) {
 		if (this._initialized) {
 			return
 		}
@@ -60,7 +76,7 @@ OCA.Trashbin.App = {
 		)
 	},
 
-	_createFileActions: function() {
+	_createFileActions() {
 		const client = this.client
 		const fileActions = new OCA.Files.FileActions()
 		fileActions.register('dir', 'Open', OC.PERMISSION_READ, '', function(filename, context) {
@@ -77,7 +93,7 @@ OCA.Trashbin.App = {
 			mime: 'all',
 			permissions: OC.PERMISSION_READ,
 			iconClass: 'icon-history',
-			actionHandler: function(filename, context) {
+			actionHandler(filename, context) {
 				const fileList = context.fileList
 				const tr = fileList.findFileEl(filename)
 				fileList.showFileBusyState(tr, true)
@@ -99,14 +115,14 @@ OCA.Trashbin.App = {
 			mime: 'all',
 			permissions: OC.PERMISSION_READ,
 			iconClass: 'icon-delete',
-			render: function(actionSpec, isDefault, context) {
+			render(actionSpec, isDefault, context) {
 				const $actionLink = fileActions._makeActionLink(actionSpec, context)
 				$actionLink.attr('original-title', t('files_trashbin', 'Delete permanently'))
 				$actionLink.children('img').attr('alt', t('files_trashbin', 'Delete permanently'))
 				context.$file.find('td:last').append($actionLink)
 				return $actionLink
 			},
-			actionHandler: function(filename, context) {
+			actionHandler(filename, context) {
 				const fileList = context.fileList
 				$('.tipsy').remove()
 				const tr = fileList.findFileEl(filename)
@@ -126,7 +142,7 @@ OCA.Trashbin.App = {
 	},
 }
 
-$(document).ready(function() {
+window.addEventListener('DOMContentLoaded', function() {
 	$('#app-content-trashbin').one('show', function() {
 		const App = OCA.Trashbin.App
 		App.initialize($('#app-content-trashbin'))

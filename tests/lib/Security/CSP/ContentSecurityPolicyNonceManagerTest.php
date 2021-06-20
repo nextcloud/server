@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016 Lukas Reschke <lukas@statuscode.ch>
  *
@@ -27,7 +30,7 @@ use OC\Security\CSRF\CsrfToken;
 use OC\Security\CSRF\CsrfTokenManager;
 use Test\TestCase;
 
-class ContentSecurityPolicyNonceManagerTest extends TestCase  {
+class ContentSecurityPolicyNonceManagerTest extends TestCase {
 	/** @var CsrfTokenManager */
 	private $csrfTokenManager;
 	/** @var Request */

@@ -1,7 +1,8 @@
-/*
+/**
  * @copyright 2018 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
- * @author 2018 Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -16,7 +17,8 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 
 import $ from 'jquery'
@@ -36,10 +38,10 @@ import $ from 'jquery'
 *	@licens							MIT License - http://www.opensource.org/licenses/mit-license.php
 */
 $.fn.extend({
-	showPassword: function(c) {
+	showPassword(c) {
 
 		// Setup callback object
-		const callback = { 'fn': null, 'args': {} }
+		const callback = { fn: null, args: {} }
 		callback.fn = c
 
 		// Clones passwords and turn the clones into text inputs
@@ -52,13 +54,13 @@ $.fn.extend({
 			// Name added for JQuery Validation compatibility
 			// Element name is required to avoid script warning.
 			$clone.attr({
-				'type': 'text',
-				'class': $element.attr('class'),
-				'style': $element.attr('style'),
-				'size': $element.attr('size'),
-				'name': $element.attr('name') + '-clone',
-				'tabindex': $element.attr('tabindex'),
-				'autocomplete': 'off',
+				type: 'text',
+				class: $element.attr('class'),
+				style: $element.attr('style'),
+				size: $element.attr('size'),
+				name: $element.attr('name') + '-clone',
+				tabindex: $element.attr('tabindex'),
+				autocomplete: 'off',
 			})
 
 			if ($element.attr('placeholder') !== undefined) {

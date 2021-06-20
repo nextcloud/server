@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
@@ -23,7 +24,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 require __DIR__ . '/../../vendor/autoload.php';
 
 class CommentsContext implements \Behat\Behat\Context\Context {
@@ -296,6 +296,4 @@ class CommentsContext implements \Behat\Behat\Context\Context {
 			throw new \Exception("Response status code was not $statusCode (" . $res->getStatusCode() . ")");
 		}
 	}
-
-
 }

@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
@@ -21,8 +22,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Files\Storage;
+
 use OCP\Lock\ILockingProvider;
 
 /**
@@ -91,7 +92,7 @@ interface Storage extends \OCP\Files\Storage {
 
 	/**
 	 * @param string $path
-	 * @return array
+	 * @return array|null
 	 */
 	public function getMetaData($path);
 
@@ -118,4 +119,22 @@ interface Storage extends \OCP\Files\Storage {
 	 * @throws \OCP\Lock\LockedException
 	 */
 	public function changeLock($path, $type, ILockingProvider $provider);
+
+	/**
+	 * Get the contents of a directory with metadata
+	 *
+	 * @param string $directory
+	 * @return \Traversable an iterator, containing file metadata
+	 *
+	 * The metadata array will contain the following fields
+	 *
+	 * - name
+	 * - mimetype
+	 * - mtime
+	 * - size
+	 * - etag
+	 * - storage_mtime
+	 * - permissions
+	 */
+	public function getDirectoryContent($directory): \Traversable;
 }

@@ -52,14 +52,15 @@ class PlatformRepositoryTest extends \Test\TestCase {
 			'parses dt+patch' => ['20100102-203040-p1', '20100102-203040-patch1'],
 			'parses master' => ['dev-master', '9999999-dev'],
 			'parses trunk' => ['dev-trunk', '9999999-dev'],
-//			'parses branches' => array('1.x-dev', '1.9999999.9999999.9999999-dev'),
+			//			'parses branches' => array('1.x-dev', '1.9999999.9999999.9999999-dev'),
 			'parses arbitrary' => ['dev-feature-foo', 'dev-feature-foo'],
 			'parses arbitrary2' => ['DEV-FOOBAR', 'dev-FOOBAR'],
 			'parses arbitrary3' => ['dev-feature/foo', 'dev-feature/foo'],
 			'ignores aliases' => ['dev-master as 1.0.0', '9999999-dev'],
-//			'semver metadata' => array('dev-master+foo.bar', '9999999-dev'),
-//			'semver metadata/2' => array('1.0.0-beta.5+foo', '1.0.0.0-beta5'),
-//			'semver metadata/3' => array('1.0.0+foo', '1.0.0.0'),
-//			'metadata w/ alias' => array('1.0.0+foo as 2.0', '1.0.0.0'),
+			//			'semver metadata' => array('dev-master+foo.bar', '9999999-dev'),
+			//			'semver metadata/2' => array('1.0.0-beta.5+foo', '1.0.0.0-beta5'),
+			//			'semver metadata/3' => array('1.0.0+foo', '1.0.0.0'),
+			//			'metadata w/ alias' => array('1.0.0+foo as 2.0', '1.0.0.0'),
 		];
-	}}
+	}
+}

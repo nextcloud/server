@@ -5,7 +5,8 @@ declare(strict_types=1);
 /**
  * @copyright 2020 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
- * @author 2020 Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -16,13 +17,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
  */
-
 namespace OCA\Files_Sharing\Listener;
 
 use OCP\Contacts\Events\ContactInteractedWithEvent;
@@ -36,7 +37,6 @@ use OCP\Share\IShare;
 use function in_array;
 
 class ShareInteractionListener implements IEventListener {
-
 	private const SUPPORTED_SHARE_TYPES = [
 		IShare::TYPE_USER,
 		IShare::TYPE_EMAIL,
@@ -72,6 +72,7 @@ class ShareInteractionListener implements IEventListener {
 			return;
 		}
 		$actor = $this->userManager->get($share->getSharedBy());
+		$sharedWith = $this->userManager->get($share->getSharedWith());
 		if ($actor === null) {
 			$this->logger->warning('Share was not created by a user, can\'t emit interaction event');
 			return;
@@ -80,6 +81,9 @@ class ShareInteractionListener implements IEventListener {
 		switch ($share->getShareType()) {
 			case IShare::TYPE_USER:
 				$interactionEvent->setUid($share->getSharedWith());
+				if ($sharedWith !== null) {
+					$interactionEvent->setFederatedCloudId($sharedWith->getCloudId());
+				}
 				break;
 			case IShare::TYPE_EMAIL:
 				$interactionEvent->setEmail($share->getSharedWith());
@@ -91,5 +95,4 @@ class ShareInteractionListener implements IEventListener {
 
 		$this->dispatcher->dispatchTyped($interactionEvent);
 	}
-
 }

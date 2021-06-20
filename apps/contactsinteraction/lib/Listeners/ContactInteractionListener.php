@@ -5,7 +5,7 @@ declare(strict_types=1);
 /**
  * @copyright 2020 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
- * @author 2020 Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -16,13 +16,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
  */
-
 namespace OCA\ContactsInteraction\Listeners;
 
 use OCA\ContactsInteraction\Db\CardSearchDao;
@@ -33,8 +33,8 @@ use OCP\Contacts\Events\ContactInteractedWithEvent;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\IL10N;
-use OCP\ILogger;
 use OCP\IUserManager;
+use Psr\Log\LoggerInterface;
 use Sabre\VObject\Component\VCard;
 use Sabre\VObject\Reader;
 use Sabre\VObject\UUIDUtil;
@@ -57,7 +57,7 @@ class ContactInteractionListener implements IEventListener {
 	/** @var IL10N */
 	private $l10n;
 
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	private $logger;
 
 	public function __construct(RecentContactMapper $mapper,
@@ -65,7 +65,7 @@ class ContactInteractionListener implements IEventListener {
 								IUserManager $userManager,
 								ITimeFactory $timeFactory,
 								IL10N $l10nFactory,
-								ILogger $logger) {
+								LoggerInterface $logger) {
 		$this->mapper = $mapper;
 		$this->cardSearchDao = $cardSearchDao;
 		$this->userManager = $userManager;
@@ -125,10 +125,11 @@ class ContactInteractionListener implements IEventListener {
 				$parsed->CATEGORIES = $this->l10n->t('Recently contacted');
 				$contact->setCard($parsed->serialize());
 			} catch (Throwable $e) {
-				$this->logger->logException($e, [
-					'message' => 'Could not parse card to add recent category: ' . $e->getMessage(),
-					'level' => ILogger::WARN,
-				]);
+				$this->logger->warning(
+					'Could not parse card to add recent category: ' . $e->getMessage(),
+					[
+						'exception' => $e,
+					]);
 				$contact->setCard($copy);
 			}
 		} else {
@@ -155,9 +156,6 @@ class ContactInteractionListener implements IEventListener {
 			'CATEGORIES' => $this->l10n->t('Recently contacted'),
 		];
 
-		if ($contact->getUid() !== null) {
-			$props['X-NEXTCLOUD-UID'] = $contact->getUid();
-		}
 		if ($contact->getEmail() !== null) {
 			$props['EMAIL'] = $contact->getEmail();
 		}
@@ -167,5 +165,4 @@ class ContactInteractionListener implements IEventListener {
 
 		return (new VCard($props))->serialize();
 	}
-
 }

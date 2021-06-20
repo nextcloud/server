@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * Copyright (c) 2014 Robin Appelman <icewind@owncloud.com>
@@ -18,10 +20,10 @@ use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
-use OCP\ILogger;
 use OCP\IUser;
 use OCP\IUserSession;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Test\TestCase;
 
@@ -91,7 +93,7 @@ class AppManagerTest extends TestCase {
 	/** @var EventDispatcherInterface|MockObject */
 	protected $eventDispatcher;
 
-	/** @var ILogger|MockObject */
+	/** @var LoggerInterface|MockObject */
 	protected $logger;
 
 	/** @var IAppManager */
@@ -107,7 +109,7 @@ class AppManagerTest extends TestCase {
 		$this->cacheFactory = $this->createMock(ICacheFactory::class);
 		$this->cache = $this->createMock(ICache::class);
 		$this->eventDispatcher = $this->createMock(EventDispatcherInterface::class);
-		$this->logger = $this->createMock(ILogger::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->cacheFactory->expects($this->any())
 			->method('createDistributed')
 			->with('settings')
@@ -336,6 +338,35 @@ class AppManagerTest extends TestCase {
 		$this->assertEquals(\OC::$SERVERROOT . '/apps/files', $this->manager->getAppPath('files'));
 	}
 
+	public function testGetAppPathSymlink() {
+		$fakeAppDirname = sha1(uniqid('test', true));
+		$fakeAppPath = sys_get_temp_dir() . '/' . $fakeAppDirname;
+		$fakeAppLink = \OC::$SERVERROOT . '/' . $fakeAppDirname;
+
+		mkdir($fakeAppPath);
+		if (symlink($fakeAppPath, $fakeAppLink) === false) {
+			$this->markTestSkipped('Failed to create symlink');
+		}
+
+		// Use the symlink as the app path
+		\OC::$APPSROOTS[] = [
+			'path' => $fakeAppLink,
+			'url' => \OC::$WEBROOT . '/' . $fakeAppDirname,
+			'writable' => false,
+		];
+
+		$fakeTestAppPath = $fakeAppPath . '/' . 'test-test-app';
+		mkdir($fakeTestAppPath);
+
+		$generatedAppPath = $this->manager->getAppPath('test-test-app');
+
+		rmdir($fakeTestAppPath);
+		unlink($fakeAppLink);
+		rmdir($fakeAppPath);
+
+		$this->assertEquals($fakeAppLink . '/test-test-app', $generatedAppPath);
+	}
+
 	public function testGetAppPathFail() {
 		$this->expectException(AppPathNotFoundException::class);
 		$this->manager->getAppPath('testnotexisting');
@@ -463,7 +494,7 @@ class AppManagerTest extends TestCase {
 		$manager->expects($this->any())
 			->method('getAppInfo')
 			->willReturnCallback(
-				function($appId) use ($appInfos) {
+				function ($appId) use ($appInfos) {
 					return $appInfos[$appId];
 				}
 			);
@@ -512,7 +543,7 @@ class AppManagerTest extends TestCase {
 		$manager->expects($this->any())
 			->method('getAppInfo')
 			->willReturnCallback(
-				function($appId) use ($appInfos) {
+				function ($appId) use ($appInfos) {
 					return $appInfos[$appId];
 				}
 			);

@@ -26,7 +26,7 @@ class NoopScannerTest extends \Test\TestCase {
 		$this->scanner = new \OC\Files\ObjectStore\NoopScanner($this->storage);
 	}
 
-	function testFile() {
+	public function testFile() {
 		$data = "dummy file data\n";
 		$this->storage->file_put_contents('foo.txt', $data);
 
@@ -46,7 +46,7 @@ class NoopScannerTest extends \Test\TestCase {
 		$this->storage->file_put_contents('folder/bar.txt', $textData);
 	}
 
-	function testFolder() {
+	public function testFolder() {
 		$this->fillTestFolders();
 
 		$this->assertEquals(
@@ -56,7 +56,7 @@ class NoopScannerTest extends \Test\TestCase {
 		);
 	}
 
-	function testBackgroundScan() {
+	public function testBackgroundScan() {
 		$this->fillTestFolders();
 		$this->storage->mkdir('folder2');
 		$this->storage->file_put_contents('folder2/bar.txt', 'foobar');

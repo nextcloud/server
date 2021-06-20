@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = $vendorDir;
 
 return array(
+    'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
     'OCA\\Files_Sharing\\Activity\\Filter' => $baseDir . '/../lib/Activity/Filter.php',
     'OCA\\Files_Sharing\\Activity\\Providers\\Base' => $baseDir . '/../lib/Activity/Providers/Base.php',
     'OCA\\Files_Sharing\\Activity\\Providers\\Downloads' => $baseDir . '/../lib/Activity/Providers/Downloads.php',
@@ -15,6 +16,7 @@ return array(
     'OCA\\Files_Sharing\\Activity\\Providers\\Users' => $baseDir . '/../lib/Activity/Providers/Users.php',
     'OCA\\Files_Sharing\\Activity\\Settings\\PublicLinks' => $baseDir . '/../lib/Activity/Settings/PublicLinks.php',
     'OCA\\Files_Sharing\\Activity\\Settings\\RemoteShare' => $baseDir . '/../lib/Activity/Settings/RemoteShare.php',
+    'OCA\\Files_Sharing\\Activity\\Settings\\ShareActivitySettings' => $baseDir . '/../lib/Activity/Settings/ShareActivitySettings.php',
     'OCA\\Files_Sharing\\Activity\\Settings\\Shared' => $baseDir . '/../lib/Activity/Settings/Shared.php',
     'OCA\\Files_Sharing\\AppInfo\\Application' => $baseDir . '/../lib/AppInfo/Application.php',
     'OCA\\Files_Sharing\\BackgroundJob\\FederatedSharesDiscoverJob' => $baseDir . '/../lib/BackgroundJob/FederatedSharesDiscoverJob.php',
@@ -34,6 +36,7 @@ return array(
     'OCA\\Files_Sharing\\Controller\\ShareInfoController' => $baseDir . '/../lib/Controller/ShareInfoController.php',
     'OCA\\Files_Sharing\\Controller\\ShareesAPIController' => $baseDir . '/../lib/Controller/ShareesAPIController.php',
     'OCA\\Files_Sharing\\DeleteOrphanedSharesJob' => $baseDir . '/../lib/DeleteOrphanedSharesJob.php',
+    'OCA\\Files_Sharing\\Event\\BeforeTemplateRenderedEvent' => $baseDir . '/../lib/Event/BeforeTemplateRenderedEvent.php',
     'OCA\\Files_Sharing\\Exceptions\\BrokenPath' => $baseDir . '/../lib/Exceptions/BrokenPath.php',
     'OCA\\Files_Sharing\\Exceptions\\S2SException' => $baseDir . '/../lib/Exceptions/S2SException.php',
     'OCA\\Files_Sharing\\Exceptions\\SharingRightsException' => $baseDir . '/../lib/Exceptions/SharingRightsException.php',
@@ -48,6 +51,7 @@ return array(
     'OCA\\Files_Sharing\\Helper' => $baseDir . '/../lib/Helper.php',
     'OCA\\Files_Sharing\\Hooks' => $baseDir . '/../lib/Hooks.php',
     'OCA\\Files_Sharing\\ISharedStorage' => $baseDir . '/../lib/ISharedStorage.php',
+    'OCA\\Files_Sharing\\Listener\\LegacyBeforeTemplateRenderedListener' => $baseDir . '/../lib/Listener/LegacyBeforeTemplateRenderedListener.php',
     'OCA\\Files_Sharing\\Listener\\LoadAdditionalListener' => $baseDir . '/../lib/Listener/LoadAdditionalListener.php',
     'OCA\\Files_Sharing\\Listener\\LoadSidebarListener' => $baseDir . '/../lib/Listener/LoadSidebarListener.php',
     'OCA\\Files_Sharing\\Listener\\ShareInteractionListener' => $baseDir . '/../lib/Listener/ShareInteractionListener.php',
@@ -59,6 +63,9 @@ return array(
     'OCA\\Files_Sharing\\Migration\\OwncloudGuestShareType' => $baseDir . '/../lib/Migration/OwncloudGuestShareType.php',
     'OCA\\Files_Sharing\\Migration\\SetAcceptedStatus' => $baseDir . '/../lib/Migration/SetAcceptedStatus.php',
     'OCA\\Files_Sharing\\Migration\\SetPasswordColumn' => $baseDir . '/../lib/Migration/SetPasswordColumn.php',
+    'OCA\\Files_Sharing\\Migration\\Version11300Date20201120141438' => $baseDir . '/../lib/Migration/Version11300Date20201120141438.php',
+    'OCA\\Files_Sharing\\Migration\\Version21000Date20201223143245' => $baseDir . '/../lib/Migration/Version21000Date20201223143245.php',
+    'OCA\\Files_Sharing\\Migration\\Version22000Date20210216084241' => $baseDir . '/../lib/Migration/Version22000Date20210216084241.php',
     'OCA\\Files_Sharing\\MountProvider' => $baseDir . '/../lib/MountProvider.php',
     'OCA\\Files_Sharing\\Notification\\Listener' => $baseDir . '/../lib/Notification/Listener.php',
     'OCA\\Files_Sharing\\Notification\\Notifier' => $baseDir . '/../lib/Notification/Notifier.php',

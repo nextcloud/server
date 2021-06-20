@@ -2,8 +2,8 @@
 /**
  * @copyright Copyright (c) 2016 Thomas Citharel <tcit@tcit.fr>
  *
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Citharel <tcit@tcit.fr>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -14,14 +14,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\CalDAV\Publishing\Xml;
 
 use Sabre\Xml\Writer;
@@ -43,7 +42,7 @@ class Publisher implements XmlSerializable {
 	 * @param string $publishUrl
 	 * @param boolean $isPublished
 	 */
-	function __construct($publishUrl, $isPublished) {
+	public function __construct($publishUrl, $isPublished) {
 		$this->publishUrl = $publishUrl;
 		$this->isPublished = $isPublished;
 	}
@@ -51,7 +50,7 @@ class Publisher implements XmlSerializable {
 	/**
 	 * @return string
 	 */
-	function getValue() {
+	public function getValue() {
 		return $this->publishUrl;
 	}
 
@@ -74,7 +73,7 @@ class Publisher implements XmlSerializable {
 	 * @param Writer $writer
 	 * @return void
 	 */
-	function xmlSerialize(Writer $writer) {
+	public function xmlSerialize(Writer $writer) {
 		if (!$this->isPublished) {
 			// for pre-publish-url
 			$writer->write($this->publishUrl);

@@ -24,9 +24,7 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\AppFramework\Utility;
-
 
 /**
  * Needed to mock calls to time()
@@ -47,5 +45,4 @@ interface ITimeFactory {
 	 * @since 15.0.0
 	 */
 	public function getDateTime(string $time = 'now', \DateTimeZone $timezone = null): \DateTime;
-
 }

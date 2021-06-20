@@ -2,8 +2,8 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Pulzer <t.pulzer@kniel.de>
@@ -23,7 +23,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Core\Command\Log;
 
 use OCP\IConfig;
@@ -71,7 +70,7 @@ class File extends Command implements Completion\CompletionAwareInterface {
 		;
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$toBeSet = [];
 
 		if ($input->getOption('enable')) {
@@ -107,13 +106,14 @@ class File extends Command implements Completion\CompletionAwareInterface {
 		$defaultLogFile = rtrim($dataDir, '/').'/nextcloud.log';
 		$output->writeln('Log file: '.$this->config->getSystemValue('logfile', $defaultLogFile));
 
-		$rotateSize = $this->config->getSystemValue('log_rotate_size', 100*1024*1024);
+		$rotateSize = $this->config->getSystemValue('log_rotate_size', 100 * 1024 * 1024);
 		if ($rotateSize) {
 			$rotateString = \OCP\Util::humanFileSize($rotateSize);
 		} else {
 			$rotateString = 'disabled';
 		}
 		$output->writeln('Rotate at: '.$rotateString);
+		return 0;
 	}
 
 	/**
@@ -143,7 +143,7 @@ class File extends Command implements Completion\CompletionAwareInterface {
 				Completion::TYPE_OPTION
 			);
 			return $helper->run();
-		} else if ($optionName === 'rotate-size') {
+		} elseif ($optionName === 'rotate-size') {
 			return [0];
 		}
 		return [];

@@ -5,8 +5,10 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
+ * @author MichaIng <micha@dietpi.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
@@ -24,7 +26,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Security;
 
 use OCP\IConfig;
@@ -63,22 +64,17 @@ class Hasher implements IHasher {
 	public function __construct(IConfig $config) {
 		$this->config = $config;
 
-		if (\defined('PASSWORD_ARGON2I')) {
+		if (\defined('PASSWORD_ARGON2ID') || \defined('PASSWORD_ARGON2I')) {
 			// password_hash fails, when the minimum values are undershot.
-			// In this case, ignore and revert to default
-			if ($this->config->getSystemValueInt('hashingMemoryCost', PASSWORD_ARGON2_DEFAULT_MEMORY_COST) >= 8) {
-				$this->options['memory_cost'] = $this->config->getSystemValueInt('hashingMemoryCost', PASSWORD_ARGON2_DEFAULT_MEMORY_COST);
-			}
-			if ($this->config->getSystemValueInt('hashingTimeCost', PASSWORD_ARGON2_DEFAULT_MEMORY_COST) >= 1) {
-				$this->options['time_cost'] = $this->config->getSystemValueInt('hashingTimeCost', PASSWORD_ARGON2_DEFAULT_TIME_COST);
-			}
-			if ($this->config->getSystemValueInt('hashingThreads', PASSWORD_ARGON2_DEFAULT_MEMORY_COST) >= 1) {
-				$this->options['threads'] = $this->config->getSystemValueInt('hashingThreads', PASSWORD_ARGON2_DEFAULT_THREADS);
-			}
+			// In this case, apply minimum.
+			$this->options['threads'] = max($this->config->getSystemValueInt('hashingThreads', PASSWORD_ARGON2_DEFAULT_THREADS), 1);
+			// The minimum memory cost is 8 KiB per thread.
+			$this->options['memory_cost'] = max($this->config->getSystemValueInt('hashingMemoryCost', PASSWORD_ARGON2_DEFAULT_MEMORY_COST), $this->options['threads'] * 8);
+			$this->options['time_cost'] = max($this->config->getSystemValueInt('hashingTimeCost', PASSWORD_ARGON2_DEFAULT_TIME_COST), 1);
 		}
 
 		$hashingCost = $this->config->getSystemValue('hashingCost', null);
-		if(!\is_null($hashingCost)) {
+		if (!\is_null($hashingCost)) {
 			$this->options['cost'] = $hashingCost;
 		}
 	}
@@ -112,8 +108,8 @@ class Hasher implements IHasher {
 	 */
 	protected function splitHash(string $prefixedHash) {
 		$explodedString = explode('|', $prefixedHash, 2);
-		if(\count($explodedString) === 2) {
-			if((int)$explodedString[0] > 0) {
+		if (\count($explodedString) === 2) {
+			if ((int)$explodedString[0] > 0) {
 				return ['version' => (int)$explodedString[0], 'hash' => $explodedString[1]];
 			}
 		}
@@ -129,13 +125,13 @@ class Hasher implements IHasher {
 	 * @return bool Whether $hash is a valid hash of $message
 	 */
 	protected function legacyHashVerify($message, $hash, &$newHash = null): bool {
-		if(empty($this->legacySalt)) {
+		if (empty($this->legacySalt)) {
 			$this->legacySalt = $this->config->getSystemValue('passwordsalt', '');
 		}
 
 		// Verify whether it matches a legacy PHPass or SHA1 string
 		$hashLength = \strlen($hash);
-		if(($hashLength === 60 && password_verify($message.$this->legacySalt, $hash)) ||
+		if (($hashLength === 60 && password_verify($message.$this->legacySalt, $hash)) ||
 			($hashLength === 40 && hash_equals($hash, sha1($message)))) {
 			$newHash = $this->hash($message);
 			return true;
@@ -154,7 +150,7 @@ class Hasher implements IHasher {
 	 * @return bool Whether $hash is a valid hash of $message
 	 */
 	protected function verifyHash(string $message, string $hash, &$newHash = null): bool {
-		if(password_verify($message, $hash)) {
+		if (password_verify($message, $hash)) {
 			if ($this->needsRehash($hash)) {
 				$newHash = $this->hash($message);
 			}
@@ -173,7 +169,7 @@ class Hasher implements IHasher {
 	public function verify(string $message, string $hash, &$newHash = null): bool {
 		$splittedHash = $this->splitHash($hash);
 
-		if(isset($splittedHash['version'])) {
+		if (isset($splittedHash['version'])) {
 			switch ($splittedHash['version']) {
 				case 3:
 				case 2:
@@ -210,5 +206,4 @@ class Hasher implements IHasher {
 
 		return $default;
 	}
-
 }

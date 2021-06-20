@@ -1,7 +1,8 @@
-/*
+/**
  * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
- * @author 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -16,12 +17,10 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 
-/**
- * @namespace OC.Plugins
- */
 export default {
 
 	/**
@@ -35,7 +34,7 @@ export default {
 	 * @param {String} targetName app name / class name to hook into
 	 * @param {OC.Plugin} plugin plugin
 	 */
-	register: function(targetName, plugin) {
+	register(targetName, plugin) {
 		let plugins = this._plugins[targetName]
 		if (!plugins) {
 			plugins = this._plugins[targetName] = []
@@ -50,7 +49,7 @@ export default {
 	 * @param {String} targetName app name / class name to hook into
 	 * @returns {Array.<OC.Plugin>} array of plugins
 	 */
-	getPlugins: function(targetName) {
+	getPlugins(targetName) {
 		return this._plugins[targetName] || []
 	},
 
@@ -61,7 +60,7 @@ export default {
 	 * @param {Object} targetObject to be extended
 	 * @param {Object} [options] options
 	 */
-	attach: function(targetName, targetObject, options) {
+	attach(targetName, targetObject, options) {
 		const plugins = this.getPlugins(targetName)
 		for (let i = 0; i < plugins.length; i++) {
 			if (plugins[i].attach) {
@@ -77,7 +76,7 @@ export default {
 	 * @param {Object} targetObject to be extended
 	 * @param {Object} [options] options
 	 */
-	detach: function(targetName, targetObject, options) {
+	detach(targetName, targetObject, options) {
 		const plugins = this.getPlugins(targetName)
 		for (let i = 0; i < plugins.length; i++) {
 			if (plugins[i].detach) {

@@ -26,7 +26,6 @@ namespace Test\AppFramework\Http;
 use OC\AppFramework\Http;
 
 class HttpTest extends \Test\TestCase {
-
 	private $server;
 
 	/**
@@ -54,38 +53,6 @@ class HttpTest extends \Test\TestCase {
 		$this->assertEquals('HTTP/1.0 200 OK', $header);
 	}
 
-
-	public function testEtagMatchReturnsNotModified() {
-		$http = new Http(['HTTP_IF_NONE_MATCH' => 'hi']);
-
-		$header = $http->getStatusHeader(Http::STATUS_OK, null, 'hi');
-		$this->assertEquals('HTTP/1.1 304 Not Modified', $header);
-	}
-
-
-	public function testQuotedEtagMatchReturnsNotModified() {
-		$http = new Http(['HTTP_IF_NONE_MATCH' => '"hi"']);
-
-		$header = $http->getStatusHeader(Http::STATUS_OK, null, 'hi');
-		$this->assertEquals('HTTP/1.1 304 Not Modified', $header);
-	}
-
-
-	public function testLastModifiedMatchReturnsNotModified() {
-		$dateTime = new \DateTime(null, new \DateTimeZone('GMT'));
-		$dateTime->setTimestamp('12');
-
-		$http = new Http(
-			[
-				'HTTP_IF_MODIFIED_SINCE' => 'Thu, 01 Jan 1970 00:00:12 +0000']
-			);
-
-		$header = $http->getStatusHeader(Http::STATUS_OK, $dateTime);
-		$this->assertEquals('HTTP/1.1 304 Not Modified', $header);
-	}
-
-
-
 	public function testTempRedirectBecomesFoundInHttp10() {
 		$http = new Http([], 'HTTP/1.0');
 
@@ -93,5 +60,4 @@ class HttpTest extends \Test\TestCase {
 		$this->assertEquals('HTTP/1.0 302 Found', $header);
 	}
 	// TODO: write unittests for http codes
-
 }

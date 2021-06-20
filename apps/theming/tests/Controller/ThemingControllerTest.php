@@ -2,12 +2,11 @@
 /**
  * @copyright Copyright (c) 2016 Lukas Reschke <lukas@statuscode.ch>
  *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bjoern Schiessle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
- * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Julius Haertl <jus@bitgrid.net>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Kyle Fazzari <kyrofa@ubuntu.com>
@@ -25,14 +24,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Theming\Tests\Controller;
 
 use OC\L10N\L10N;
@@ -40,7 +38,6 @@ use OC\Template\SCSSCacher;
 use OCA\Theming\Controller\ThemingController;
 use OCA\Theming\ImageManager;
 use OCA\Theming\ThemingDefaults;
-use OCA\Theming\Util;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
@@ -48,36 +45,32 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
-use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\ITempManager;
 use OCP\IURLGenerator;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class ThemingControllerTest extends TestCase {
-	/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IRequest|MockObject */
 	private $request;
-	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig|MockObject */
 	private $config;
-	/** @var ThemingDefaults|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ThemingDefaults|MockObject */
 	private $themingDefaults;
-	/** @var Util */
-	private $util;
-	/** @var \OCP\AppFramework\Utility\ITimeFactory */
-	private $timeFactory;
-	/** @var IL10N|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IL10N|MockObject */
 	private $l10n;
 	/** @var ThemingController */
 	private $themingController;
 	/** @var ITempManager */
 	private $tempManager;
-	/** @var IAppManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IAppManager|MockObject */
 	private $appManager;
-	/** @var IAppData|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IAppData|MockObject */
 	private $appData;
-	/** @var ImageManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ImageManager|MockObject */
 	private $imageManager;
 	/** @var SCSSCacher */
 	private $scssCacher;
@@ -91,25 +84,23 @@ class ThemingControllerTest extends TestCase {
 		$this->l10n = $this->createMock(L10N::class);
 		$this->appData = $this->createMock(IAppData::class);
 		$this->appManager = $this->createMock(IAppManager::class);
-		$this->util = new Util($this->config, $this->appManager, $this->appData);
 		$this->tempManager = \OC::$server->getTempManager();
 		$this->scssCacher = $this->createMock(SCSSCacher::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->imageManager = $this->createMock(ImageManager::class);
 
-		$this->timeFactory = $this->createMock(ITimeFactory::class);
-		$this->timeFactory->expects($this->any())
+		$timeFactory = $this->createMock(ITimeFactory::class);
+		$timeFactory->expects($this->any())
 			->method('getTime')
 			->willReturn(123);
 
-		$this->overwriteService(ITimeFactory::class, $this->timeFactory);
+		$this->overwriteService(ITimeFactory::class, $timeFactory);
 
 		$this->themingController = new ThemingController(
 			'theming',
 			$this->request,
 			$this->config,
 			$this->themingDefaults,
-			$this->util,
 			$this->l10n,
 			$this->tempManager,
 			$this->appData,
@@ -150,7 +141,7 @@ class ThemingControllerTest extends TestCase {
 		$this->l10n
 			->expects($this->once())
 			->method('t')
-			->willReturnCallback(function($str) {
+			->willReturnCallback(function ($str) {
 				return $str;
 			});
 		$this->scssCacher
@@ -209,7 +200,7 @@ class ThemingControllerTest extends TestCase {
 		$this->l10n
 			->expects($this->any())
 			->method('t')
-			->willReturnCallback(function($str) {
+			->willReturnCallback(function ($str) {
 				return $str;
 			});
 
@@ -240,7 +231,7 @@ class ThemingControllerTest extends TestCase {
 		$this->l10n
 			->expects($this->any())
 			->method('t')
-			->willReturnCallback(function($str) {
+			->willReturnCallback(function ($str) {
 				return $str;
 			});
 
@@ -288,16 +279,13 @@ class ThemingControllerTest extends TestCase {
 		$this->l10n
 			->expects($this->any())
 			->method('t')
-			->willReturnCallback(function($str) {
+			->willReturnCallback(function ($str) {
 				return $str;
 			});
 
-		$folder = $this->createMock(ISimpleFolder::class);
-		$this->appData
-			->expects($this->once())
-			->method('getFolder')
-			->with('images')
-			->willReturn($folder);
+		$this->imageManager->expects($this->once())
+			->method('updateImage')
+			->willThrowException(new \Exception('Unsupported image type'));
 
 		$expected = new DataResponse(
 			[
@@ -332,16 +320,13 @@ class ThemingControllerTest extends TestCase {
 		$this->l10n
 			->expects($this->any())
 			->method('t')
-			->willReturnCallback(function($str) {
+			->willReturnCallback(function ($str) {
 				return $str;
 			});
 
-		$folder = $this->createMock(ISimpleFolder::class);
-		$this->appData
-			->expects($this->once())
-			->method('getFolder')
-			->with('images')
-			->willReturn($folder);
+		$this->imageManager->expects($this->once())
+			->method('updateImage')
+			->willThrowException(new \Exception('Unsupported image type'));
 
 		$expected = new DataResponse(
 			[
@@ -369,7 +354,7 @@ class ThemingControllerTest extends TestCase {
 	}
 
 	/** @dataProvider dataUpdateImages */
-	public function testUpdateLogoNormalLogoUpload($mimeType, $folderExists=true) {
+	public function testUpdateLogoNormalLogoUpload($mimeType, $folderExists = true) {
 		$tmpLogo = \OC::$server->getTempManager()->getTemporaryFolder() . '/logo.svg';
 		$destination = \OC::$server->getTempManager()->getTemporaryFolder();
 
@@ -393,35 +378,10 @@ class ThemingControllerTest extends TestCase {
 		$this->l10n
 			->expects($this->any())
 			->method('t')
-			->willReturnCallback(function($str) {
+			->willReturnCallback(function ($str) {
 				return $str;
 			});
 
-
-		$file = $this->createMock(ISimpleFile::class);
-		$folder = $this->createMock(ISimpleFolder::class);
-		if($folderExists) {
-			$this->appData
-				->expects($this->once())
-				->method('getFolder')
-				->with('images')
-				->willReturn($folder);
-		} else {
-			$this->appData
-				->expects($this->at(0))
-				->method('getFolder')
-				->with('images')
-				->willThrowException(new NotFoundException());
-			$this->appData
-				->expects($this->at(1))
-				->method('newFolder')
-				->with('images')
-				->willReturn($folder);
-		}
-		$folder->expects($this->once())
-			->method('newFile')
-			->with('logo')
-			->willReturn($file);
 		$this->urlGenerator->expects($this->once())
 			->method('linkTo')
 			->willReturn('serverCss');
@@ -429,6 +389,10 @@ class ThemingControllerTest extends TestCase {
 			->method('getImageUrl')
 			->with('logo')
 			->willReturn('imageUrl');
+
+		$this->imageManager->expects($this->once())
+			->method('updateImage');
+
 		$expected = new DataResponse(
 			[
 				'data' =>
@@ -469,34 +433,12 @@ class ThemingControllerTest extends TestCase {
 		$this->l10n
 			->expects($this->any())
 			->method('t')
-			->willReturnCallback(function($str) {
+			->willReturnCallback(function ($str) {
 				return $str;
 			});
 
-		$file = $this->createMock(ISimpleFile::class);
-		$folder = $this->createMock(ISimpleFolder::class);
-		if($folderExists) {
-			$this->appData
-				->expects($this->once())
-				->method('getFolder')
-				->with('images')
-				->willReturn($folder);
-		} else {
-			$this->appData
-				->expects($this->at(0))
-				->method('getFolder')
-				->with('images')
-				->willThrowException(new NotFoundException());
-			$this->appData
-				->expects($this->at(1))
-				->method('newFolder')
-				->with('images')
-				->willReturn($folder);
-		}
-		$folder->expects($this->once())
-			->method('newFile')
-			->with('background')
-			->willReturn($file);
+		$this->imageManager->expects($this->once())
+			->method('updateImage');
 
 		$this->urlGenerator->expects($this->once())
 			->method('linkTo')
@@ -543,16 +485,13 @@ class ThemingControllerTest extends TestCase {
 		$this->l10n
 			->expects($this->any())
 			->method('t')
-			->willReturnCallback(function($str) {
+			->willReturnCallback(function ($str) {
 				return $str;
 			});
 
-		$folder = $this->createMock(ISimpleFolder::class);
-		$this->appData
-			->expects($this->once())
-			->method('getFolder')
-			->with('images')
-			->willReturn($folder);
+		$this->imageManager->expects($this->once())
+			->method('updateImage')
+			->willThrowException(new \Exception('Unsupported image type'));
 
 		$expected = new DataResponse(
 			[
@@ -601,7 +540,7 @@ class ThemingControllerTest extends TestCase {
 		$this->l10n
 			->expects($this->any())
 			->method('t')
-			->willReturnCallback(function($str) {
+			->willReturnCallback(function ($str) {
 				return $str;
 			});
 
@@ -640,7 +579,7 @@ class ThemingControllerTest extends TestCase {
 		$this->l10n
 			->expects($this->any())
 			->method('t')
-			->willReturnCallback(function($str) {
+			->willReturnCallback(function ($str) {
 				return $str;
 			});
 
@@ -722,9 +661,6 @@ class ThemingControllerTest extends TestCase {
 			->method('linkTo')
 			->with('', '/core/css/someHash-css-variables.scss')
 			->willReturn('/nextcloudWebroot/core/css/someHash-css-variables.scss');
-		$this->imageManager->expects($this->once())
-			->method('delete')
-			->with($filename);
 
 		$expected = new DataResponse(
 			[
@@ -847,76 +783,6 @@ class ThemingControllerTest extends TestCase {
 		$this->assertEquals($response, $actual);
 	}
 
-	public function testGetJavascript() {
-		$this->themingDefaults
-			->expects($this->at(0))
-			->method('getName')
-			->willReturn("");
-		$this->themingDefaults
-			->expects($this->at(1))
-			->method('getBaseUrl')
-			->willReturn("");
-		$this->themingDefaults
-			->expects($this->at(2))
-			->method('getSlogan')
-			->willReturn("");
-		$this->themingDefaults
-			->expects($this->at(3))
-			->method('getColorPrimary')
-			->willReturn("#000");
-
-
-		$expectedResponse = '(function() {
-	OCA.Theming = {
-		name: "",
-		url: "",
-		slogan: "",
-		color: "#000",
-		imprintUrl: null,
-		privacyUrl: null,
-		inverted: false,
-		cacheBuster: null
-	};
-})();';
-		$expected = new Http\DataDownloadResponse($expectedResponse, 'javascript', 'text/javascript');
-		$expected->cacheFor(3600);
-		@$this->assertEquals($expected, $this->themingController->getJavascript());
-	}
-	public function testGetJavascriptInverted() {
-		$this->themingDefaults
-			->expects($this->at(0))
-			->method('getName')
-			->willReturn("Nextcloud");
-		$this->themingDefaults
-			->expects($this->at(1))
-			->method('getBaseUrl')
-			->willReturn("nextcloudurl");
-		$this->themingDefaults
-			->expects($this->at(2))
-			->method('getSlogan')
-			->willReturn("awesome");
-		$this->themingDefaults
-			->expects($this->any())
-			->method('getColorPrimary')
-			->willReturn("#ffffff");
-
-		$expectedResponse = '(function() {
-	OCA.Theming = {
-		name: "Nextcloud",
-		url: "nextcloudurl",
-		slogan: "awesome",
-		color: "#ffffff",
-		imprintUrl: null,
-		privacyUrl: null,
-		inverted: true,
-		cacheBuster: null
-	};
-})();';
-		$expected = new Http\DataDownloadResponse($expectedResponse, 'javascript', 'text/javascript');
-		$expected->cacheFor(3600);
-		@$this->assertEquals($expected, $this->themingController->getJavascript());
-	}
-
 	public function testGetManifest() {
 		$this->config
 			->expects($this->once())
@@ -948,8 +814,8 @@ class ThemingControllerTest extends TestCase {
 				[
 					[
 						'src' => 'touchicon?v=0',
-						'type'=> 'image/png',
-						'sizes'=> '128x128'
+						'type' => 'image/png',
+						'sizes' => '512x512'
 					],
 					[
 						'src' => 'favicon?v=0',
@@ -962,5 +828,4 @@ class ThemingControllerTest extends TestCase {
 		$response->cacheFor(3600);
 		$this->assertEquals($response, $this->themingController->getManifest('core'));
 	}
-
 }

@@ -57,6 +57,14 @@ function highlightInput($input) {
  * @param {int} userListLimit page size for result list
  */
 function addSelect2 ($elements, userListLimit) {
+	var escapeHTML = function (text) {
+		return text.toString()
+			.split('&').join('&amp;')
+			.split('<').join('&lt;')
+			.split('>').join('&gt;')
+			.split('"').join('&quot;')
+			.split('\'').join('&#039;');
+	};
 	if (!$elements.length) {
 		return;
 	}
@@ -85,8 +93,8 @@ function addSelect2 ($elements, userListLimit) {
 					var userCount = 0; // users is an object
 
 					// add groups
-					$.each(data.groups, function(i, group) {
-						results.push({name:group+'(group)', displayname:group, type:'group' });
+					$.each(data.groups, function(gid, group) {
+						results.push({name:gid+'(group)', displayname:group, type:'group' });
 					});
 					// add users
 					$.each(data.users, function(id, user) {
@@ -146,7 +154,7 @@ function addSelect2 ($elements, userListLimit) {
 		},
 		formatSelection: function (element) {
 			if (element.type === 'group') {
-				return '<span title="'+escapeHTML(element.name)+'" class="group">'+escapeHTML(element.displayname+' '+t('files_external', '(group)'))+'</span>';
+				return '<span title="'+escapeHTML(element.name)+'" class="group">'+escapeHTML(element.displayname+' '+t('files_external', '(Group)'))+'</span>';
 			} else {
 				return '<span title="'+escapeHTML(element.name)+'" class="user">'+escapeHTML(element.displayname)+'</span>';
 			}
@@ -171,7 +179,7 @@ var StorageConfig = function(id) {
 	this.id = id;
 	this.backendOptions = {};
 };
-// Keep this in sync with \OC_Mount_Config::STATUS_*
+// Keep this in sync with \OCA\Files_External\MountConfig::STATUS_*
 StorageConfig.Status = {
 	IN_PROGRESS: -1,
 	SUCCESS: 0,
@@ -475,7 +483,9 @@ MountOptionsDropdown.prototype = {
 		}));
 		this.$el = $el;
 
-		this.setOptions(mountOptions, visibleOptions);
+		var storage = $container[0].parentNode.className;
+
+		this.setOptions(mountOptions, visibleOptions, storage);
 
 		this.$el.appendTo($container);
 		MountOptionsDropdown._last = this;
@@ -523,7 +533,13 @@ MountOptionsDropdown.prototype = {
 	 * @param {Object} options mount options
 	 * @param {Array} visibleOptions enabled mount options
 	 */
-	setOptions: function(options, visibleOptions) {
+	setOptions: function(options, visibleOptions, storage) {
+		if (storage === 'owncloud') {
+			var ind = visibleOptions.indexOf('encrypt');
+			if (ind > 0) {
+				visibleOptions.splice(ind, 1);
+			}
+		}
 		var $el = this.$el;
 		_.each(options, function(value, key) {
 			var $optionEl = $el.find('input, select').filterAttr('name', key);
@@ -999,6 +1015,11 @@ MountConfigListView.prototype = _.extend({
 		} else {
 			newElement = $('<input type="text" class="'+classes.join(' ')+'" data-parameter="'+parameter+'" placeholder="'+ trimmedPlaceholder+'" />');
 		}
+
+		if (placeholder.tooltip) {
+			newElement.attr('title', placeholder.tooltip);
+		}
+
 		highlightInput(newElement);
 		$td.append(newElement);
 		return newElement;
@@ -1290,7 +1311,7 @@ MountConfigListView.prototype = _.extend({
 	}
 }, OC.Backbone.Events);
 
-$(document).ready(function() {
+window.addEventListener('DOMContentLoaded', function() {
 	var enabled = $('#files_external').attr('data-encryption-enabled');
 	var encryptionEnabled = (enabled ==='true')? true: false;
 	var mountConfigListView = new MountConfigListView($('#externalStorage'), {

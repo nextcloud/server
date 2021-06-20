@@ -2,10 +2,9 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
- * @author Vincent Petry <pvince81@owncloud.com>
  *
  * @license AGPL-3.0
  *
@@ -22,12 +21,13 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_Versions\Command;
 
 use OC\Command\FileAccess;
 use OCA\Files_Versions\Storage;
 use OCP\Command\ICommand;
+use OCP\Files\StorageNotAvailableException;
+use OCP\ILogger;
 
 class Expire implements ICommand {
 	use FileAccess;
@@ -46,7 +46,7 @@ class Expire implements ICommand {
 	 * @param string $user
 	 * @param string $fileName
 	 */
-	function __construct($user, $fileName) {
+	public function __construct($user, $fileName) {
 		$this->user = $user;
 		$this->fileName = $fileName;
 	}
@@ -59,6 +59,20 @@ class Expire implements ICommand {
 			return;
 		}
 
-		Storage::expire($this->fileName, $this->user);
+		try {
+			Storage::expire($this->fileName, $this->user);
+		} catch (StorageNotAvailableException $e) {
+			// In case of external storage and session credentials, the expiration
+			// fails because the command does not have those credentials
+
+			/** @var ILogger $logger */
+			$logger = \OC::$server->get(ILogger::class);
+
+			$logger->logException($e, [
+				'level' => ILogger::WARN,
+				'uid' => $this->user,
+				'fileName' => $this->fileName,
+			]);
+		}
 	}
 }

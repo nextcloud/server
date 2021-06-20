@@ -4,6 +4,7 @@
  *
  * @author Björn Schießle <bjoern@schiessle.org>
  * @author Christopher Schäpers <kondou@ts.unde.re>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lukas Reschke <lukas@statuscode.ch>
@@ -12,7 +13,7 @@
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -29,11 +30,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 require_once __DIR__ . '/lib/versioncheck.php';
 
 try {
-
 	require_once __DIR__ . '/lib/base.php';
 	if (\OCP\Util::needUpgrade()) {
 		// since the behavior of apps or remotes are unpredictable during
@@ -42,7 +41,7 @@ try {
 		exit;
 	}
 
-	OC::checkMaintenanceMode();
+	OC::checkMaintenanceMode(\OC::$server->get(\OC\SystemConfig::class));
 	$request = \OC::$server->getRequest();
 	$pathInfo = $request->getPathInfo();
 
@@ -53,7 +52,7 @@ try {
 		$service = $request->getParam('service', '');
 	} else {
 		$pathInfo = trim($pathInfo, '/');
-		list($service) = explode('/', $pathInfo);
+		[$service] = explode('/', $pathInfo);
 	}
 	$file = \OC::$server->getConfig()->getAppValue('core', 'public_' . strip_tags($service));
 	if ($file === '') {
@@ -79,7 +78,6 @@ try {
 	$baseuri = OC::$WEBROOT . '/public.php/' . $service . '/';
 
 	require_once OC_App::getAppPath($app) . '/' . $parts[1];
-
 } catch (Exception $ex) {
 	$status = 500;
 	if ($ex instanceof \OC\ServiceUnavailableException) {

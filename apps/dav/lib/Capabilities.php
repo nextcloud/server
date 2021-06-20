@@ -19,13 +19,11 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV;
 
 use OCP\Capabilities\ICapability;
 
 class Capabilities implements ICapability {
-
 	public function getCapabilities() {
 		return [
 			'dav' => [

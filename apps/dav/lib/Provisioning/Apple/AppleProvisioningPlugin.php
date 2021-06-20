@@ -2,8 +2,11 @@
 /**
  * @copyright 2018, Georg Ehrke <oc.list@georgehrke.com>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Nils Wittenbrink <nilswittenbrink@web.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -14,14 +17,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\Provisioning\Apple;
 
 use OCP\IL10N;
@@ -128,7 +130,7 @@ class AppleProvisioningPlugin extends ServerPlugin {
 		$absoluteURL = $this->urlGenerator->getBaseUrl();
 		$parsedUrl = parse_url($absoluteURL);
 		if (isset($parsedUrl['port'])) {
-			$serverPort = (int) $parsedUrl['port'];
+			$serverPort = $parsedUrl['port'];
 		} else {
 			$serverPort = 443;
 		}
@@ -155,29 +157,29 @@ class AppleProvisioningPlugin extends ServerPlugin {
 		$filename = $userId . '-' . AppleProvisioningNode::FILENAME;
 
 		$xmlSkeleton = $this->getTemplate();
-		$body = vsprintf($xmlSkeleton, array_map(function($v) {
-				return \htmlspecialchars($v, ENT_XML1, 'UTF-8');
-			}, [
-				$description,
-				$server_url,
-				$userId,
-				$serverPort,
-				$caldavDescription,
-				$caldavDisplayname,
-				$caldavIdentifier,
-				$caldavUUID,
-				$description,
-				$server_url,
-				$userId,
-				$serverPort,
-				$carddavDescription,
-				$carddavDisplayname,
-				$carddavIdentifier,
-				$carddavUUID,
-				$description,
-				$profileIdentifier,
-				$profileUUID
-			]
+		$body = vsprintf($xmlSkeleton, array_map(function ($v) {
+			return \htmlspecialchars($v, ENT_XML1, 'UTF-8');
+		}, [
+			$description,
+			$server_url,
+			$userId,
+			$serverPort,
+			$caldavDescription,
+			$caldavDisplayname,
+			$caldavIdentifier,
+			$caldavUUID,
+			$description,
+			$server_url,
+			$userId,
+			$serverPort,
+			$carddavDescription,
+			$carddavDisplayname,
+			$carddavIdentifier,
+			$carddavUUID,
+			$description,
+			$profileIdentifier,
+			$profileUUID
+		]
 		));
 
 		$response->setStatus(200);

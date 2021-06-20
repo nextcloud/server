@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Robin Appelman <robin@icewind.nl>
  *
  * @license AGPL-3.0
@@ -19,8 +20,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\Files\Cache;
+
+use OCP\Files\Search\ISearchOperator;
 use OCP\Files\Search\ISearchQuery;
 
 /**
@@ -36,10 +38,10 @@ use OCP\Files\Search\ISearchQuery;
  * @since 9.0.0
  */
 interface ICache {
-	const NOT_FOUND = 0;
-	const PARTIAL = 1; //only partial data available, file not cached in the database
-	const SHALLOW = 2; //folder in cache, but not all child files are completely scanned
-	const COMPLETE = 3;
+	public const NOT_FOUND = 0;
+	public const PARTIAL = 1; //only partial data available, file not cached in the database
+	public const SHALLOW = 2; //folder in cache, but not all child files are completely scanned
+	public const COMPLETE = 3;
 
 	/**
 	 * Get the numeric storage id for this cache's storage
@@ -178,6 +180,17 @@ interface ICache {
 	public function moveFromCache(ICache $sourceCache, $sourcePath, $targetPath);
 
 	/**
+	 * Copy a file or folder in the cache
+	 *
+	 * @param ICache $sourceCache
+	 * @param ICacheEntry $sourceEntry
+	 * @param string $targetPath
+	 * @return int fileid of copied entry
+	 * @since 22.0.0
+	 */
+	public function copyFromCache(ICache $sourceCache, ICacheEntry $sourceEntry, string $targetPath): int;
+
+	/**
 	 * Get the scan status of a file
 	 *
 	 * - ICache::NOT_FOUND: File is not in the cache
@@ -252,4 +265,30 @@ interface ICache {
 	 * @since 9.0.0
 	 */
 	public function normalize($path);
+
+	/**
+	 * Get the query expression required to filter files within this storage.
+	 *
+	 * In the most basic case this is just comparing the storage id
+	 * but storage wrappers can add additional expressions to filter down things further
+	 *
+	 * @return ISearchOperator
+	 * @since 22.0.0
+	 */
+	public function getQueryFilterForStorage(): ISearchOperator;
+
+	/**
+	 * Construct a cache entry from a search result row *if* the entry belongs to this storage.
+	 *
+	 * This method will be called for every item in the search results, including results from different storages.
+	 * It's the responsibility of this method to return `null` for all results that don't belong to this storage.
+	 *
+	 * Additionally some implementations might need to further process the resulting entry such as modifying the path
+	 * or permissions of the result.
+	 *
+	 * @param ICacheEntry $rawEntry
+	 * @return ICacheEntry|null
+	 * @since 22.0.0
+	 */
+	public function getCacheEntryFromSearchResult(ICacheEntry $rawEntry): ?ICacheEntry;
 }

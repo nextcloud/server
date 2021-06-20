@@ -1,7 +1,7 @@
 OC.L10N.register(
     "files_external",
     {
-    "External storages" : "Erilliset tallennustilat",
+    "External storage" : "Erillinen tallennustila",
     "Personal" : "Henkilökohtainen",
     "System" : "Järjestelmä",
     "Grant access" : "Salli pääsy",
@@ -11,7 +11,6 @@ OC.L10N.register(
     "Generate keys" : "Luo avaimet",
     "Error generating key pair" : "Virhe luotaessa avainparia",
     "All users. Type to select user or group." : "Kaikki käyttäjät. Kirjoita valitaksesi käyttäjän tai ryhmän.",
-    "(group)" : "(ryhmä)",
     "Compatibility with Mac NFD encoding (slow)" : "Yhteensopivuus Mac NFD -enkoodauksen kanssa (hidas)",
     "Enable encryption" : "Käytä salausta",
     "Enable previews" : "Käytä esikatseluja",
@@ -102,11 +101,9 @@ OC.L10N.register(
     "SFTP" : "SFTP",
     "Root" : "Juurihakemisto",
     "SFTP with secret key login" : "SFTP salaisen avaimen kirjautumisella",
-    "SMB / CIFS" : "SMB / CIFS",
     "Share" : "Jaa",
     "Show hidden files" : "Näytä piilotiedostot",
     "Timeout" : "Aikakatkaisu",
-    "SMB / CIFS using OC login" : "SMB / CIFS käyttäen OC-kirjautumista",
     "Username as share" : "Käyttäjänimi jakona",
     "OpenStack Object Storage" : "OpenStack Object Storage",
     "Service name" : "Palvelun nimi",
@@ -122,7 +119,6 @@ OC.L10N.register(
     "Scope" : "Näkyvyysalue",
     "Open documentation" : "Avaa dokumentaatio",
     "Folder name" : "Kansion nimi",
-    "External storage" : "Erillinen tallennustila",
     "Authentication" : "Tunnistautuminen",
     "Configuration" : "Asetukset",
     "Available for" : "Saatavuus",
@@ -130,7 +126,10 @@ OC.L10N.register(
     "Add storage" : "Lisää tallennustila",
     "Advanced settings" : "Lisäasetukset",
     "Allow users to mount external storage" : "Salli käyttäjien liittää erillisiä tallennustiloja",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Yleisiä tunnistetietoja voidaan käyttää useisiin ulkoisiin tallennustiloihin tunnistautumiseen, joissa käytetään samoja tunnistetietoja.",
-    "Saving..." : "Tallennetaan..."
+    "External storages" : "Erilliset tallennustilat",
+    "(group)" : "(ryhmä)",
+    "SMB / CIFS" : "SMB / CIFS",
+    "SMB / CIFS using OC login" : "SMB / CIFS käyttäen OC-kirjautumista",
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Yleisiä tunnistetietoja voidaan käyttää useisiin ulkoisiin tallennustiloihin tunnistautumiseen, joissa käytetään samoja tunnistetietoja."
 },
 "nplurals=2; plural=(n != 1);");

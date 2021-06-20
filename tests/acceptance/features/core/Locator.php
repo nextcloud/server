@@ -99,7 +99,6 @@ class Locator {
 	public function getAncestor() {
 		return $this->ancestor;
 	}
-
 }
 
 class LocatorBuilder {
@@ -240,7 +239,6 @@ class LocatorBuilder {
 	public function table($value) {
 		return $this->customSelector("named_exact", ["table", $value]);
 	}
-
 }
 
 class LocatorBuilderSecondStep {
@@ -279,7 +277,6 @@ class LocatorBuilderSecondStep {
 	public function describedAs($description) {
 		return new Locator($description, $this->selector, $this->locator);
 	}
-
 }
 
 class LocatorBuilderThirdStep {
@@ -317,5 +314,4 @@ class LocatorBuilderThirdStep {
 	public function describedAs($description) {
 		return new Locator($description, $this->selector, $this->locator, $this->ancestor);
 	}
-
 }

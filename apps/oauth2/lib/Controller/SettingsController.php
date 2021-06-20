@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @copyright Copyright (c) 2017 Lukas Reschke <lukas@statuscode.ch>
  *
  * @author Bjoern Schiessle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Patrik Kernstock <info@pkern.at>
  * @author rakekniven <mark.ziegler@rakekniven.de>
@@ -20,14 +21,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\OAuth2\Controller;
 
 use OC\Authentication\Token\DefaultTokenMapper;
@@ -53,7 +53,7 @@ class SettingsController extends Controller {
 	/** @var IL10N */
 	private $l;
 
-	const validChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+	public const validChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
 	/**
 	 * @param string $appName
@@ -81,7 +81,6 @@ class SettingsController extends Controller {
 
 	public function addClient(string $name,
 							  string $redirectUri): JSONResponse {
-
 		if (filter_var($redirectUri, FILTER_VALIDATE_URL) === false) {
 			return new JSONResponse(['message' => $this->l->t('Your redirect URL needs to be a full URL for example: https://yourdomain.com/path')], Http::STATUS_BAD_REQUEST);
 		}

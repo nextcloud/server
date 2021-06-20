@@ -2,13 +2,15 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -25,20 +27,22 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
+use OC\AppFramework\Http\Request;
 use OC\Files\Filesystem;
 use OC\Files\Storage\Local;
 use OC\Files\Storage\Temporary;
 use OC\Files\Storage\Wrapper\PermissionsMask;
 use OC\Files\View;
+use OC\Security\SecureRandom;
 use OCA\DAV\Connector\Sabre\File;
 use OCP\Constants;
 use OCP\Files\ForbiddenException;
 use OCP\Files\Storage;
 use OCP\IConfig;
 use OCP\Lock\ILockingProvider;
+use OCP\Security\ISecureRandom;
 use Test\HookHelper;
 use Test\TestCase;
 use Test\Traits\MountProviderTrait;
@@ -60,8 +64,11 @@ class FileTest extends TestCase {
 	 */
 	private $user;
 
-	/** @var IConfig | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig | \PHPUnit\Framework\MockObject\MockObject */
 	protected $config;
+
+	/** @var ISecureRandom */
+	protected $secureRandom;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -77,6 +84,7 @@ class FileTest extends TestCase {
 		$this->loginAsUser($this->user);
 
 		$this->config = $this->getMockBuilder('\OCP\IConfig')->getMock();
+		$this->secureRandom = new SecureRandom();
 	}
 
 	protected function tearDown(): void {
@@ -88,7 +96,7 @@ class FileTest extends TestCase {
 	}
 
 	/**
-	 * @return \PHPUnit_Framework_MockObject_MockObject|Storage
+	 * @return \PHPUnit\Framework\MockObject\MockObject|Storage
 	 */
 	private function getMockStorage() {
 		$storage = $this->getMockBuilder(Storage::class)
@@ -176,7 +184,7 @@ class FileTest extends TestCase {
 			->setConstructorArgs([['datadir' => \OC::$server->getTempManager()->getTemporaryFolder()]])
 			->getMock();
 		\OC\Files\Filesystem::mount($storage, [], $this->user . '/');
-		/** @var View | \PHPUnit_Framework_MockObject_MockObject $view */
+		/** @var View | \PHPUnit\Framework\MockObject\MockObject $view */
 		$view = $this->getMockBuilder(View::class)
 			->setMethods(['getRelativePath', 'resolvePath'])
 			->getMock();
@@ -302,11 +310,11 @@ class FileTest extends TestCase {
 	 *
 	 * @param string $path path to put the file into
 	 * @param string $viewRoot root to use for the view
-	 * @param null|\OC\AppFramework\Http\Request $request the HTTP request
+	 * @param null|Request $request the HTTP request
 	 *
 	 * @return null|string of the PUT operaiton which is usually the etag
 	 */
-	private function doPut($path, $viewRoot = null, \OC\AppFramework\Http\Request $request = null) {
+	private function doPut($path, $viewRoot = null, Request $request = null) {
 		$view = \OC\Files\Filesystem::getView();
 		if (!is_null($viewRoot)) {
 			$view = new \OC\Files\View($viewRoot);
@@ -322,7 +330,7 @@ class FileTest extends TestCase {
 			null
 		);
 
-		/** @var \OCA\DAV\Connector\Sabre\File | \PHPUnit_Framework_MockObject_MockObject $file */
+		/** @var \OCA\DAV\Connector\Sabre\File | \PHPUnit\Framework\MockObject\MockObject $file */
 		$file = $this->getMockBuilder(\OCA\DAV\Connector\Sabre\File::class)
 			->setConstructorArgs([$view, $info, null, $request])
 			->setMethods(['header'])
@@ -349,52 +357,52 @@ class FileTest extends TestCase {
 	public function legalMtimeProvider() {
 		return [
 			"string" => [
-					'HTTP_X_OC_MTIME' => "string",
-					'expected result' => null
+				'HTTP_X_OC_MTIME' => "string",
+				'expected result' => null
 			],
 			"castable string (int)" => [
-					'HTTP_X_OC_MTIME' => "34",
-					'expected result' => 34
+				'HTTP_X_OC_MTIME' => "34",
+				'expected result' => 34
 			],
 			"castable string (float)" => [
-					'HTTP_X_OC_MTIME' => "34.56",
-					'expected result' => 34
+				'HTTP_X_OC_MTIME' => "34.56",
+				'expected result' => 34
 			],
 			"float" => [
-					'HTTP_X_OC_MTIME' => 34.56,
-					'expected result' => 34
+				'HTTP_X_OC_MTIME' => 34.56,
+				'expected result' => 34
 			],
 			"zero" => [
-					'HTTP_X_OC_MTIME' => 0,
-					'expected result' => 0
+				'HTTP_X_OC_MTIME' => 0,
+				'expected result' => 0
 			],
 			"zero string" => [
-					'HTTP_X_OC_MTIME' => "0",
-					'expected result' => 0
+				'HTTP_X_OC_MTIME' => "0",
+				'expected result' => 0
 			],
 			"negative zero string" => [
-					'HTTP_X_OC_MTIME' => "-0",
-					'expected result' => 0
+				'HTTP_X_OC_MTIME' => "-0",
+				'expected result' => 0
 			],
 			"string starting with number following by char" => [
-					'HTTP_X_OC_MTIME' => "2345asdf",
-					'expected result' => null
+				'HTTP_X_OC_MTIME' => "2345asdf",
+				'expected result' => null
 			],
 			"string castable hex int" => [
-					'HTTP_X_OC_MTIME' => "0x45adf",
-					'expected result' => null
+				'HTTP_X_OC_MTIME' => "0x45adf",
+				'expected result' => null
 			],
 			"string that looks like invalid hex int" => [
-					'HTTP_X_OC_MTIME' => "0x123g",
-					'expected result' => null
+				'HTTP_X_OC_MTIME' => "0x123g",
+				'expected result' => null
 			],
 			"negative int" => [
-					'HTTP_X_OC_MTIME' => -34,
-					'expected result' => -34
+				'HTTP_X_OC_MTIME' => -34,
+				'expected result' => -34
 			],
 			"negative float" => [
-					'HTTP_X_OC_MTIME' => -34.43,
-					'expected result' => -34
+				'HTTP_X_OC_MTIME' => -34.43,
+				'expected result' => -34
 			],
 		];
 	}
@@ -404,11 +412,11 @@ class FileTest extends TestCase {
 	 * @dataProvider legalMtimeProvider
 	 */
 	public function testPutSingleFileLegalMtime($requestMtime, $resultMtime) {
-		$request = new \OC\AppFramework\Http\Request([
-				'server' => [
-						'HTTP_X_OC_MTIME' => $requestMtime,
-				]
-		], null, $this->config, null);
+		$request = new Request([
+			'server' => [
+				'HTTP_X_OC_MTIME' => $requestMtime,
+			]
+		], $this->secureRandom, $this->config, null);
 		$file = 'foo.txt';
 
 		if ($resultMtime === null) {
@@ -428,11 +436,11 @@ class FileTest extends TestCase {
 	 * @dataProvider legalMtimeProvider
 	 */
 	public function testChunkedPutLegalMtime($requestMtime, $resultMtime) {
-		$request = new \OC\AppFramework\Http\Request([
-				'server' => [
-						'HTTP_X_OC_MTIME' => $requestMtime,
-				]
-		], null, $this->config, null);
+		$request = new Request([
+			'server' => [
+				'HTTP_X_OC_MTIME' => $requestMtime,
+			]
+		], $this->secureRandom, $this->config, null);
 
 		$_SERVER['HTTP_OC_CHUNKED'] = true;
 		$file = 'foo.txt';
@@ -836,7 +844,7 @@ class FileTest extends TestCase {
 		$file->setName('/super*star.txt');
 	}
 
-	
+
 	public function testUploadAbort() {
 		// setup
 		$view = $this->getMockBuilder(View::class)
@@ -880,7 +888,7 @@ class FileTest extends TestCase {
 		$this->assertEmpty($this->listPartFiles($view, ''), 'No stray part files');
 	}
 
-	
+
 	public function testDeleteWhenAllowed() {
 		// setup
 		$view = $this->getMockBuilder(View::class)
@@ -900,7 +908,7 @@ class FileTest extends TestCase {
 		$file->delete();
 	}
 
-	
+
 	public function testDeleteThrowsWhenDeletionNotAllowed() {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
@@ -918,7 +926,7 @@ class FileTest extends TestCase {
 		$file->delete();
 	}
 
-	
+
 	public function testDeleteThrowsWhenDeletionFailed() {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
@@ -941,7 +949,7 @@ class FileTest extends TestCase {
 		$file->delete();
 	}
 
-	
+
 	public function testDeleteThrowsWhenDeletionThrows() {
 		$this->expectException(\OCA\DAV\Connector\Sabre\Exception\Forbidden::class);
 
@@ -1078,8 +1086,8 @@ class FileTest extends TestCase {
 			$userView = \OC\Files\Filesystem::getView();
 		}
 		$files = [];
-		list($storage, $internalPath) = $userView->resolvePath($path);
-		if($storage instanceof Local) {
+		[$storage, $internalPath] = $userView->resolvePath($path);
+		if ($storage instanceof Local) {
 			$realPath = $storage->getSourcePath($internalPath);
 			$dh = opendir($realPath);
 			while (($file = readdir($dh)) !== false) {
@@ -1104,14 +1112,14 @@ class FileTest extends TestCase {
 			$userView = Filesystem::getView();
 		}
 		return [
-				"filesize" => $userView->filesize($path),
-				"mtime" => $userView->filemtime($path),
-				"filetype" => $userView->filetype($path),
-				"mimetype" => $userView->getMimeType($path)
+			"filesize" => $userView->filesize($path),
+			"mtime" => $userView->filemtime($path),
+			"filetype" => $userView->filetype($path),
+			"mimetype" => $userView->getMimeType($path)
 		];
 	}
 
-	
+
 	public function testGetFopenFails() {
 		$this->expectException(\Sabre\DAV\Exception\ServiceUnavailable::class);
 
@@ -1131,7 +1139,7 @@ class FileTest extends TestCase {
 		$file->get();
 	}
 
-	
+
 	public function testGetFopenThrows() {
 		$this->expectException(\OCA\DAV\Connector\Sabre\Exception\Forbidden::class);
 
@@ -1151,7 +1159,7 @@ class FileTest extends TestCase {
 		$file->get();
 	}
 
-	
+
 	public function testGetThrowsIfNoPermission() {
 		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
 
@@ -1176,8 +1184,8 @@ class FileTest extends TestCase {
 		$storage = new Temporary([]);
 		$storage->file_put_contents('file.txt', 'old content');
 		$noCreateStorage = new PermissionsMask([
-			'storage'=> $storage,
-			'mask' => Constants::PERMISSION_ALL -  Constants::PERMISSION_CREATE
+			'storage' => $storage,
+			'mask' => Constants::PERMISSION_ALL - Constants::PERMISSION_CREATE
 		]);
 
 		$this->registerMount($this->user, $noCreateStorage, '/' . $this->user . '/files/root');

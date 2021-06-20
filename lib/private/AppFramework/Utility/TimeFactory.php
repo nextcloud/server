@@ -25,7 +25,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\AppFramework\Utility;
 
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -52,5 +51,4 @@ class TimeFactory implements ITimeFactory {
 	public function getDateTime(string $time = 'now', \DateTimeZone $timezone = null): \DateTime {
 		return new \DateTime($time, $timezone);
 	}
-
 }

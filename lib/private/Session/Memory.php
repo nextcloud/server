@@ -28,7 +28,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Session;
 
 use Exception;
@@ -94,7 +93,8 @@ class Memory extends Session {
 	 *
 	 * @param bool $deleteOldSession
 	 */
-	public function regenerateId(bool $deleteOldSession = true, bool $updateToken = false) {}
+	public function regenerateId(bool $deleteOldSession = true, bool $updateToken = false) {
+	}
 
 	/**
 	 * Wrapper around session_id

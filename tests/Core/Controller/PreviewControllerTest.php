@@ -37,16 +37,16 @@ use OCP\IRequest;
 
 class PreviewControllerTest extends \Test\TestCase {
 
-	/** @var IRootFolder|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IRootFolder|\PHPUnit\Framework\MockObject\MockObject */
 	private $rootFolder;
 
 	/** @var string */
 	private $userId;
 
-	/** @var IPreview|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IPreview|\PHPUnit\Framework\MockObject\MockObject */
 	private $previewManager;
 
-	/** @var PreviewController|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var PreviewController|\PHPUnit\Framework\MockObject\MockObject */
 	private $controller;
 
 	protected function setUp(): void {

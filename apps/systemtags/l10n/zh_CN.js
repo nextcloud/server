@@ -1,11 +1,10 @@
 OC.L10N.register(
     "systemtags",
     {
-    "Tags" : "标签",
     "Tag name is empty" : "标签名为空",
     "Update" : "更新",
     "Create" : "创建",
-    "Select tag…" : "选择标签...",
+    "Select tag …" : "选择标签...",
     "System tag %1$s added by the system" : "系统标签 %1$s 已由系统添加",
     "Added system tag {systemtag}" : "已添加系统标签 {systemtag}",
     "Added system tag %1$s" : "已添加的系统标签 %1$s",
@@ -43,6 +42,7 @@ OC.L10N.register(
     "%s (restricted)" : "%s（受限）",
     "%s (invisible)" : "%s（不可见）",
     "<strong>System tags</strong> for a file have been modified" : "已更改的文件的<strong>系统标签</strong> ",
+    "Tags" : "标签",
     "Collaborative tags" : "协作标签",
     "Collaborative tagging functionality which shares tags among users." : "协作标签功能在用户间共享标签。",
     "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "协作标签功能在用户间共享标签。适合团队使用。\n\n\t（如果您是一个多租户安装实例的提供者，建议在标签共享时禁用此应用）",
@@ -52,7 +52,6 @@ OC.L10N.register(
     "Please select tags to filter by" : "请选择标签来筛选",
     "No files found for the selected tags" : "该标签下没有任何文件",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "协作标签可供所有用户使用。受限制的标签对用户可见，但不能由他们分配。不可见标签供内部使用，因为用户无法查看或分配它们。",
-    "Select tag …" : "选择标签...",
     "Create a new tag" : "创建新标签",
     "Name" : "名称",
     "Public" : "公开",

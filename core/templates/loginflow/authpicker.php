@@ -31,15 +31,19 @@ $urlGenerator = $_['urlGenerator'];
 	<h2><?php p($l->t('Connect to your account')) ?></h2>
 	<p class="info">
 		<?php print_unescaped($l->t('Please log in before granting %1$s access to your %2$s account.', [
-								'<strong>' . \OCP\Util::sanitizeHTML($_['client']) . '</strong>',
-								\OCP\Util::sanitizeHTML($_['instanceName'])
-							])) ?>
+			'<strong>' . \OCP\Util::sanitizeHTML($_['client']) . '</strong>',
+			\OCP\Util::sanitizeHTML($_['instanceName'])
+		])) ?>
+	</p>
+
+	<p class="info">
+		<?php print_unescaped($l->t('If you are not trying to set up a new device or app, someone is trying to trick you into granting them access to your data. In this case do not proceed and instead contact your system administrator.')) ?>
 	</p>
 
 	<br/>
 
 	<p id="redirect-link">
-		<a href="<?php p($urlGenerator->linkToRouteAbsolute('core.ClientFlowLogin.grantPage', ['stateToken' => $_['stateToken'], 'clientIdentifier' => $_['clientIdentifier'], 'oauthState' => $_['oauthState']])) ?>">
+		<a href="<?php p($urlGenerator->linkToRoute('core.ClientFlowLogin.grantPage', ['stateToken' => $_['stateToken'], 'clientIdentifier' => $_['clientIdentifier'], 'oauthState' => $_['oauthState']])) ?>">
 			<input type="submit" class="login primary icon-confirm-white" value="<?php p($l->t('Log in')) ?>">
 		</a>
 	</p>
@@ -59,6 +63,6 @@ $urlGenerator = $_['urlGenerator'];
 	</form>
 </div>
 
-<?php if(empty($_['oauthState'])): ?>
+<?php if (empty($_['oauthState'])): ?>
 <a id="app-token-login" class="warning" href="#"><?php p($l->t('Alternative log in using app token')) ?></a>
 <?php endif; ?>

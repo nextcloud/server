@@ -19,7 +19,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Cache;
 
 use OCP\ICache;
@@ -30,7 +29,6 @@ use OCP\ICache;
  * Uses a simple FIFO expiry mechanism
  */
 class CappedMemoryCache implements ICache, \ArrayAccess {
-
 	private $capacity;
 	private $cache = [];
 

@@ -3,7 +3,9 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @copyright Copyright (c) 2017, Georg Ehrke
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
@@ -21,7 +23,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Tests\unit\CalDAV;
 
 use OCA\DAV\AppInfo\PluginManager;
@@ -30,13 +31,14 @@ use OCA\DAV\CalDAV\CalendarHome;
 use OCA\DAV\CalDAV\Integration\ExternalCalendar;
 use OCA\DAV\CalDAV\Integration\ICalendarProvider;
 use OCA\DAV\CalDAV\Outbox;
+use OCA\DAV\CalDAV\Trashbin\TrashbinHome;
 use Sabre\CalDAV\Schedule\Inbox;
 use Sabre\DAV\MkCol;
 use Test\TestCase;
 
 class CalendarHomeTest extends TestCase {
 
-	/** @var CalDavBackend | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var CalDavBackend | \PHPUnit\Framework\MockObject\MockObject */
 	private $backend;
 
 	/** @var array */
@@ -68,7 +70,7 @@ class CalendarHomeTest extends TestCase {
 	}
 
 	public function testCreateCalendarValidName() {
-		/** @var MkCol | \PHPUnit_Framework_MockObject_MockObject $mkCol */
+		/** @var MkCol | \PHPUnit\Framework\MockObject\MockObject $mkCol */
 		$mkCol = $this->createMock(MkCol::class);
 
 		$mkCol->method('getResourceType')
@@ -88,7 +90,7 @@ class CalendarHomeTest extends TestCase {
 		$this->expectException(\Sabre\DAV\Exception\MethodNotAllowed::class);
 		$this->expectExceptionMessage('The resource you tried to create has a reserved name');
 
-		/** @var MkCol | \PHPUnit_Framework_MockObject_MockObject $mkCol */
+		/** @var MkCol | \PHPUnit\Framework\MockObject\MockObject $mkCol */
 		$mkCol = $this->createMock(MkCol::class);
 
 		$this->calendarHome->createExtendedCollection('contact_birthdays', $mkCol);
@@ -98,7 +100,7 @@ class CalendarHomeTest extends TestCase {
 		$this->expectException(\Sabre\DAV\Exception\MethodNotAllowed::class);
 		$this->expectExceptionMessage('The resource you tried to create has a reserved name');
 
-		/** @var MkCol | \PHPUnit_Framework_MockObject_MockObject $mkCol */
+		/** @var MkCol | \PHPUnit\Framework\MockObject\MockObject $mkCol */
 		$mkCol = $this->createMock(MkCol::class);
 
 		$this->calendarHome->createExtendedCollection('app-generated--example--foo-1', $mkCol);
@@ -139,13 +141,14 @@ class CalendarHomeTest extends TestCase {
 
 		$actual = $this->calendarHome->getChildren();
 
-		$this->assertCount(6, $actual);
+		$this->assertCount(7, $actual);
 		$this->assertInstanceOf(Inbox::class, $actual[0]);
 		$this->assertInstanceOf(Outbox::class, $actual[1]);
-		$this->assertEquals('plugin1calendar1', $actual[2]);
-		$this->assertEquals('plugin1calendar2', $actual[3]);
-		$this->assertEquals('plugin2calendar1', $actual[4]);
-		$this->assertEquals('plugin2calendar2', $actual[5]);
+		$this->assertInstanceOf(TrashbinHome::class, $actual[2]);
+		$this->assertEquals('plugin1calendar1', $actual[3]);
+		$this->assertEquals('plugin1calendar2', $actual[4]);
+		$this->assertEquals('plugin2calendar1', $actual[5]);
+		$this->assertEquals('plugin2calendar2', $actual[6]);
 	}
 
 	public function testGetChildNonAppGenerated():void {

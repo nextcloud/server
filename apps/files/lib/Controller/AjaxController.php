@@ -16,14 +16,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Files\Controller;
 
 use OCA\Files\Helper;
@@ -33,7 +32,6 @@ use OCP\Files\NotFoundException;
 use OCP\IRequest;
 
 class AjaxController extends Controller {
-
 	public function __construct(string $appName, IRequest $request) {
 		parent::__construct($appName, $request);
 	}
@@ -42,6 +40,7 @@ class AjaxController extends Controller {
 	 * @NoAdminRequired
 	 */
 	public function getStorageStats(string $dir = '/'): JSONResponse {
+		\OC_Util::setupFS();
 		try {
 			return new JSONResponse([
 				'status' => 'success',

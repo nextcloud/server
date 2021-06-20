@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Clark Tomlinson <fallen013@gmail.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
@@ -24,9 +25,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Encryption\Tests;
-
 
 use OC\Files\View;
 use OCA\Encryption\Crypto\Crypt;
@@ -42,15 +41,15 @@ use Test\TestCase;
 class RecoveryTest extends TestCase {
 	private static $tempStorage = [];
 	/**
-	 * @var \OCP\Encryption\IFile|\PHPUnit_Framework_MockObject_MockObject
+	 * @var \OCP\Encryption\IFile|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	private $fileMock;
 	/**
-	 * @var \OC\Files\View|\PHPUnit_Framework_MockObject_MockObject
+	 * @var \OC\Files\View|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	private $viewMock;
 	/**
-	 * @var \OCP\IUserSession|\PHPUnit_Framework_MockObject_MockObject
+	 * @var \OCP\IUserSession|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	private $userSessionMock;
 	/**
@@ -58,15 +57,15 @@ class RecoveryTest extends TestCase {
 	 */
 	private $user;
 	/**
-	 * @var \OCA\Encryption\KeyManager|\PHPUnit_Framework_MockObject_MockObject
+	 * @var \OCA\Encryption\KeyManager|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	private $keyManagerMock;
 	/**
-	 * @var \OCP\IConfig|\PHPUnit_Framework_MockObject_MockObject
+	 * @var \OCP\IConfig|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	private $configMock;
 	/**
-	 * @var \OCA\Encryption\Crypto\Crypt|\PHPUnit_Framework_MockObject_MockObject
+	 * @var \OCA\Encryption\Crypto\Crypt|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	private $cryptMock;
 	/**
@@ -109,8 +108,8 @@ class RecoveryTest extends TestCase {
 		$this->cryptMock->expects($this->once())
 			->method('createKeyPair')
 			->willReturn([
-					'publicKey' => 'privateKey',
-					'privateKey' => 'publicKey',
+				'publicKey' => 'privateKey',
+				'privateKey' => 'publicKey',
 			]);
 
 		$this->keyManagerMock->expects($this->once())
@@ -172,7 +171,6 @@ class RecoveryTest extends TestCase {
 	}
 
 	public function testDisableAdminRecovery() {
-
 		$this->keyManagerMock->expects($this->exactly(2))
 			->method('checkRecoveryPassword')
 			->willReturnOnConsecutiveCalls(true, false);
@@ -185,7 +183,6 @@ class RecoveryTest extends TestCase {
 	}
 
 	public function testIsRecoveryEnabledForUser() {
-
 		$this->configMock->expects($this->exactly(2))
 			->method('getUserValue')
 			->willReturnOnConsecutiveCalls('1', '0');
@@ -323,6 +320,4 @@ class RecoveryTest extends TestCase {
 		}
 		return null;
 	}
-
-
 }

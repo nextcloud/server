@@ -1,0 +1,21 @@
+OC.L10N.register(
+    "dashboard",
+    {
+    "Dashboard" : "Informačný panel",
+    "Customize" : "Prispôsobiť",
+    "Change background image" : "Zmeniť obrázok pozadia",
+    "Weather" : "Počasie",
+    "Status" : "Stav",
+    "Good morning" : "Dobré ráno",
+    "Good morning, {name}" : "Dobré ráno, {name}",
+    "Good evening" : "Dobrý večer",
+    "Good evening, {name}" : "Dobrý večer, {name}",
+    "Hello" : "Ahoj",
+    "Hello, {name}" : "Ahoj, {name}",
+    "Default images" : "Predvolené obrázky",
+    "Insert from {productName}" : "Vložiť z {productName}",
+    "Good night, {name}" : "Dobrý večer, {name}",
+    "Good night" : "Dobrý večer",
+    "Pick from files" : "Vybrať zo súborov"
+},
+"nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

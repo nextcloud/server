@@ -13,6 +13,7 @@ use OC\App\AppManager;
 use OC\App\InfoParser;
 use OC\AppConfig;
 use OCP\IAppConfig;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class AppTest
@@ -20,12 +21,11 @@ use OCP\IAppConfig;
  * @group DB
  */
 class AppTest extends \Test\TestCase {
-
-	const TEST_USER1 = 'user1';
-	const TEST_USER2 = 'user2';
-	const TEST_USER3 = 'user3';
-	const TEST_GROUP1 = 'group1';
-	const TEST_GROUP2 = 'group2';
+	public const TEST_USER1 = 'user1';
+	public const TEST_USER2 = 'user2';
+	public const TEST_USER3 = 'user3';
+	public const TEST_GROUP1 = 'group1';
+	public const TEST_GROUP2 = 'group2';
 
 	public function appVersionsProvider() {
 		return [
@@ -478,7 +478,7 @@ class AppTest extends \Test\TestCase {
 					'appforgroup2' => '["group2"]',
 					'appforgroup12' => '["group2","group1"]',
 				]
-			
+
 			);
 
 		$apps = \OC_App::getEnabledApps(false, $forceAll);
@@ -513,7 +513,7 @@ class AppTest extends \Test\TestCase {
 					'app3' => 'yes',
 					'app2' => 'no',
 				]
-			
+
 			);
 
 		$apps = \OC_App::getEnabledApps();
@@ -555,7 +555,7 @@ class AppTest extends \Test\TestCase {
 			\OC::$server->getGroupManager(),
 			\OC::$server->getMemCacheFactory(),
 			\OC::$server->getEventDispatcher(),
-			\OC::$server->getLogger()
+			\OC::$server->get(LoggerInterface::class)
 		));
 	}
 

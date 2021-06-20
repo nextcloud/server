@@ -25,7 +25,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Settings\Controller;
 
 use OCP\AppFramework\Controller;
@@ -93,10 +92,9 @@ class MailSettingsController extends Controller {
 									$mail_smtpauth,
 									$mail_smtpport,
 									$mail_sendmailmode) {
-
 		$params = get_defined_vars();
 		$configs = [];
-		foreach($params as $key => $value) {
+		foreach ($params as $key => $value) {
 			$configs[$key] = empty($value) ? null : $value;
 		}
 
@@ -126,8 +124,8 @@ class MailSettingsController extends Controller {
 		}
 
 		$this->config->setSystemValues([
-			'mail_smtpname'		=> $mail_smtpname,
-			'mail_smtppassword'	=> $mail_smtppassword,
+			'mail_smtpname' => $mail_smtpname,
+			'mail_smtppassword' => $mail_smtppassword,
 		]);
 
 		return new DataResponse();
@@ -168,5 +166,4 @@ class MailSettingsController extends Controller {
 
 		return new DataResponse($this->l10n->t('You need to set your user email before being able to send test emails.'), Http::STATUS_BAD_REQUEST);
 	}
-
 }

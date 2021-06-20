@@ -6,10 +6,14 @@ declare(strict_types=1);
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Andreas Fischer <bantu@owncloud.com>
+ * @author bladewing <lukas@ifflaender-family.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Hendrik Leppelsack <hendrik@leppelsack.de>
  * @author Jens-Christian Fischer <jens-christian.fischer@switch.ch>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Julius Härtl <jus@bitgrid.net>
+ * @author lui87kw <lukas.ifflaender@uni-wuerzburg.de>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Magnus Walbeck <mw@mwalbeck.org>
  * @author Morris Jobke <hey@morrisjobke.de>
@@ -17,7 +21,7 @@ declare(strict_types=1);
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Tanghus <thomas@tanghus.net>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  * @author Xheni Myrtaj <myrtajxheni@gmail.com>
  *
  * @license AGPL-3.0
@@ -35,7 +39,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Files\Type;
 
 use OCP\Files\IMimeTypeDetector;
@@ -50,7 +53,6 @@ use OCP\IURLGenerator;
  * @package OC\Files\Type
  */
 class Detection implements IMimeTypeDetector {
-
 	private const CUSTOM_MIMETYPEMAPPING = 'mimetypemapping.json';
 	private const CUSTOM_MIMETYPEALIASES = 'mimetypealiases.json';
 
@@ -120,8 +122,14 @@ class Detection implements IMimeTypeDetector {
 		$this->mimetypes = array_merge($this->mimetypes, $types);
 
 		// Update the alternative mimetypes to avoid having to look them up each time.
-		foreach ($this->mimetypes as $mimeType) {
+		foreach ($this->mimetypes as $extension => $mimeType) {
+			if (strpos($extension, '_comment') === 0) {
+				continue;
+			}
 			$this->secureMimeTypes[$mimeType[0]] = $mimeType[1] ?? $mimeType[0];
+			if (isset($mimeType[1])) {
+				$this->secureMimeTypes[$mimeType[1]] = $mimeType[1];
+			}
 		}
 	}
 
@@ -278,7 +286,6 @@ class Detection implements IMimeTypeDetector {
 					return $mimeType;
 				}
 			}
-
 		}
 		return 'application/octet-stream';
 	}
@@ -374,12 +381,15 @@ class Detection implements IMimeTypeDetector {
 		}
 
 		// Try only the first part of the filetype
-		$mimePart = substr($icon, 0, strpos($icon, '-'));
-		try {
-			$this->mimetypeIcons[$mimetype] = $this->urlGenerator->imagePath('core', 'filetypes/' . $mimePart . '.svg');
-			return $this->mimetypeIcons[$mimetype];
-		} catch (\RuntimeException $e) {
-			// Image for the first part of the mimetype not found
+
+		if (strpos($icon, '-')) {
+			$mimePart = substr($icon, 0, strpos($icon, '-'));
+			try {
+				$this->mimetypeIcons[$mimetype] = $this->urlGenerator->imagePath('core', 'filetypes/' . $mimePart . '.svg');
+				return $this->mimetypeIcons[$mimetype];
+			} catch (\RuntimeException $e) {
+				// Image for the first part of the mimetype not found
+			}
 		}
 
 		$this->mimetypeIcons[$mimetype] = $this->urlGenerator->imagePath('core', 'filetypes/file.svg');

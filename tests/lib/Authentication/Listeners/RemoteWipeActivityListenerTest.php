@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
@@ -31,8 +33,8 @@ use OC\Authentication\Token\IToken;
 use OCP\Activity\IManager as IActivityManager;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
-use OCP\ILogger;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class RemoteWipeActivityListenerTests extends TestCase {
@@ -40,7 +42,7 @@ class RemoteWipeActivityListenerTests extends TestCase {
 	/** @var IActivityManager|MockObject */
 	private $activityManager;
 
-	/** @var ILogger|MockObject */
+	/** @var LoggerInterface|MockObject */
 	private $logger;
 
 	/** @var IEventListener */
@@ -50,7 +52,7 @@ class RemoteWipeActivityListenerTests extends TestCase {
 		parent::setUp();
 
 		$this->activityManager = $this->createMock(IActivityManager::class);
-		$this->logger = $this->createMock(ILogger::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 
 		$this->listener = new RemoteWipeActivityListener(
 			$this->activityManager,
@@ -149,5 +151,4 @@ class RemoteWipeActivityListenerTests extends TestCase {
 
 		$this->listener->handle($event);
 	}
-
 }

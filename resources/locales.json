@@ -912,10 +912,6 @@
         "name": "English (United States)"
     },
     {
-        "code": "en_US_POSIX",
-        "name": "English (United States, Computer)"
-    },
-    {
         "code": "en_VC",
         "name": "English (St. Vincent & Grenadines)"
     },
@@ -1398,6 +1394,10 @@
     {
         "code": "ga",
         "name": "Irish"
+    },
+    {
+        "code": "ga_GB",
+        "name": "Irish (United Kingdom)"
     },
     {
         "code": "ga_IE",

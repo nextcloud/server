@@ -22,7 +22,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Tests\unit\Comments;
 
 use OCA\DAV\Comments\EntityCollection as EntityCollectionImplemantation;
@@ -33,15 +32,15 @@ use OCP\IUserSession;
 
 class EntityTypeCollectionTest extends \Test\TestCase {
 
-	/** @var ICommentsManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ICommentsManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $commentsManager;
-	/** @var \OCP\IUserManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCP\IUserManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $userManager;
-	/** @var \OCP\ILogger|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCP\ILogger|\PHPUnit\Framework\MockObject\MockObject */
 	protected $logger;
 	/** @var \OCA\DAV\Comments\EntityTypeCollection */
 	protected $collection;
-	/** @var IUserSession|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
 	protected $userSession;
 
 	protected $childMap = [];
@@ -92,14 +91,14 @@ class EntityTypeCollectionTest extends \Test\TestCase {
 		$this->assertTrue($ec instanceof EntityCollectionImplemantation);
 	}
 
-	
+
 	public function testGetChildException() {
 		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
 
 		$this->collection->getChild('17');
 	}
 
-	
+
 	public function testGetChildren() {
 		$this->expectException(\Sabre\DAV\Exception\MethodNotAllowed::class);
 

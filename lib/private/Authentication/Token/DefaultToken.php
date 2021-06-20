@@ -25,7 +25,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Authentication\Token;
 
 use OCP\AppFramework\Db\Entity;
@@ -43,8 +42,7 @@ use OCP\AppFramework\Db\Entity;
  * @method void setVersion(int $version)
  */
 class DefaultToken extends Entity implements INamedToken {
-
-	const VERSION = 1;
+	public const VERSION = 1;
 
 	/** @var string user UID */
 	protected $uid;
@@ -164,7 +162,7 @@ class DefaultToken extends Entity implements INamedToken {
 		$scope = json_decode($this->getScope(), true);
 		if (!$scope) {
 			return [
-				'filesystem'=> true
+				'filesystem' => true
 			];
 		}
 		return $scope;

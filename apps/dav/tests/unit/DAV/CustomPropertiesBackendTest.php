@@ -2,7 +2,11 @@
 /**
  * @copyright Copyright (c) 2017, Georg Ehrke <oc.list@georgehrke.com>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
@@ -14,14 +18,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\Tests\DAV;
 
 use OCA\DAV\DAV\CustomPropertiesBackend;
@@ -37,16 +40,16 @@ use Test\TestCase;
  */
 class CustomPropertiesBackendTest extends TestCase {
 
-	/** @var Tree | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var Tree | \PHPUnit\Framework\MockObject\MockObject */
 	private $tree;
 
 	/** @var  IDBConnection */
 	private $dbConnection;
 
-	/** @var IUser | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var IUser | \PHPUnit\Framework\MockObject\MockObject */
 	private $user;
 
-	/** @var CustomPropertiesBackend | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var CustomPropertiesBackend | \PHPUnit\Framework\MockObject\MockObject */
 	private $backend;
 
 	protected function setUp(): void {
@@ -64,7 +67,6 @@ class CustomPropertiesBackendTest extends TestCase {
 			$this->dbConnection,
 			$this->user
 		);
-
 	}
 
 	protected function tearDown(): void {
@@ -107,7 +109,15 @@ class CustomPropertiesBackendTest extends TestCase {
 			->from('properties')
 			->where($query->expr()->eq('userid', $query->createNamedParameter($user)))
 			->where($query->expr()->eq('propertypath', $query->createNamedParameter($this->formatPath($path))));
-		return $query->execute()->fetchAll(\PDO::FETCH_KEY_PAIR);
+
+		$result = $query->execute();
+		$data = [];
+		while ($row = $result->fetch()) {
+			$data[$row['propertyname']] = $row['propertyvalue'];
+		}
+		$result->closeCursor();
+
+		return $data;
 	}
 
 	public function testPropFindNoDbCalls() {

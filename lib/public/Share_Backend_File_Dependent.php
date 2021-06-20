@@ -21,7 +21,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 // use OCP namespace for all classes that are considered public.
 // This means that they should be used by apps instead of the internal ownCloud classes
 
@@ -41,5 +40,4 @@ interface Share_Backend_File_Dependent extends Share_Backend {
 	 * @since 5.0.0
 	 */
 	public function getFilePath($itemSource, $uidOwner);
-
 }

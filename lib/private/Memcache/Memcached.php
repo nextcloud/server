@@ -4,6 +4,7 @@
  *
  * @author Andreas Fischer <bantu@owncloud.com>
  * @author Bart Visscher <bartv@thisnet.nl>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Morris Jobke <hey@morrisjobke.de>
@@ -28,7 +29,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Memcache;
 
 use OC\HintException;
@@ -51,13 +51,13 @@ class Memcached extends Cache implements IMemcache {
 
 			$defaultOptions = [
 				\Memcached::OPT_CONNECT_TIMEOUT => 50,
-				\Memcached::OPT_RETRY_TIMEOUT =>   50,
-				\Memcached::OPT_SEND_TIMEOUT =>    50,
-				\Memcached::OPT_RECV_TIMEOUT =>    50,
-				\Memcached::OPT_POLL_TIMEOUT =>    50,
+				\Memcached::OPT_RETRY_TIMEOUT => 50,
+				\Memcached::OPT_SEND_TIMEOUT => 50,
+				\Memcached::OPT_RECV_TIMEOUT => 50,
+				\Memcached::OPT_POLL_TIMEOUT => 50,
 
 				// Enable compression
-				\Memcached::OPT_COMPRESSION =>          true,
+				\Memcached::OPT_COMPRESSION => true,
 
 				// Turn on consistent hashing
 				\Memcached::OPT_LIBKETAMA_COMPATIBLE => true,
@@ -109,7 +109,7 @@ class Memcached extends Cache implements IMemcache {
 
 	public function set($key, $value, $ttl = 0) {
 		if ($ttl > 0) {
-			$result =  self::$cache->set($this->getNameSpace() . $key, $value, $ttl);
+			$result = self::$cache->set($this->getNameSpace() . $key, $value, $ttl);
 		} else {
 			$result = self::$cache->set($this->getNameSpace() . $key, $value);
 		}
@@ -125,7 +125,7 @@ class Memcached extends Cache implements IMemcache {
 	}
 
 	public function remove($key) {
-		$result= self::$cache->delete($this->getNameSpace() . $key);
+		$result = self::$cache->delete($this->getNameSpace() . $key);
 		if (self::$cache->getResultCode() !== \Memcached::RES_NOTFOUND) {
 			$this->verifyReturnCode();
 		}
@@ -209,7 +209,7 @@ class Memcached extends Cache implements IMemcache {
 		return $result;
 	}
 
-	static public function isAvailable() {
+	public static function isAvailable() {
 		return extension_loaded('memcached');
 	}
 

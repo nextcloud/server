@@ -21,13 +21,11 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP;
 
 /**
  * Interface IDateTimeFormatter
  *
- * @package OCP
  * @since 8.0.0
  */
 interface IDateTimeFormatter {

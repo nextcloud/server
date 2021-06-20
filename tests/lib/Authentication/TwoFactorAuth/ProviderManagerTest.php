@@ -150,5 +150,4 @@ class ProviderManagerTest extends TestCase {
 
 		$this->assertTrue($res);
 	}
-
 }

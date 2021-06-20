@@ -5,6 +5,8 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2018, Roeland Jago Douma <roeland@famdouma.nl>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
@@ -16,16 +18,16 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\BackgroundJob;
 
+use OC\User\NoUserException;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
 use OCP\BackgroundJob\TimedJob;
@@ -48,7 +50,7 @@ class UploadCleanup extends TimedJob {
 		$this->jobList = $jobList;
 
 		// Run once a day
-		$this->setInterval(60*60*24);
+		$this->setInterval(60 * 60 * 24);
 	}
 
 	protected function run($argument) {
@@ -62,7 +64,7 @@ class UploadCleanup extends TimedJob {
 			$uploads = $userRoot->get('uploads');
 			/** @var Folder $uploadFolder */
 			$uploadFolder = $uploads->get($folder);
-		} catch (NotFoundException $e) {
+		} catch (NotFoundException | NoUserException $e) {
 			$this->jobList->remove(self::class, $argument);
 			return;
 		}
@@ -75,7 +77,7 @@ class UploadCleanup extends TimedJob {
 		// The folder has to be more than a day old
 		$initial = $uploadFolder->getMTime() < $time;
 
-		$expire = array_reduce($files, function(bool $carry, File $file) use ($time) {
+		$expire = array_reduce($files, function (bool $carry, File $file) use ($time) {
 			return $carry && $file->getMTime() < $time;
 		}, $initial);
 
@@ -84,5 +86,4 @@ class UploadCleanup extends TimedJob {
 			$this->jobList->remove(self::class, $argument);
 		}
 	}
-
 }

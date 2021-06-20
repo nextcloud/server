@@ -1,10 +1,30 @@
-/* eslint-disable */
-/*
+/**
  * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
  * @copyright Copyright (c) 2019 Gary Kim <gary@garykim.dev>
  *
- * @author 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Bartek Przybylski <bart.p.pl@gmail.com>
+ * @author Christopher Schäpers <kondou@ts.unde.re>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
+ * @author Florian Schunk <florian.schunk@rwth-aachen.de>
  * @author Gary Kim <gary@garykim.dev>
+ * @author Hendrik Leppelsack <hendrik@leppelsack.de>
+ * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Jörn Friedrich Dreyer <jfd@butonic.de>
+ * @author Julius Härtl <jus@bitgrid.net>
+ * @author Loïc Hermann <loic.hermann@sciam.fr>
+ * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Olivier Paroz <github@oparoz.com>
+ * @author Robin Appelman <robin@icewind.nl>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Sujith Haridasan <Sujith_Haridasan@mentor.com>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
+ * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Thomas Tanghus <thomas@tanghus.net>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -19,9 +39,11 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 
+/* eslint-disable */
 import _ from 'underscore'
 import $ from 'jquery'
 
@@ -107,7 +129,7 @@ const Dialogs = {
 			'none',
 			buttons,
 			callback,
-			modal
+			modal === undefined ? true : modal
 		)
 	},
 	/**
@@ -625,6 +647,7 @@ const Dialogs = {
 
 			$(dialogId).ocdialog({
 				closeOnEscape: true,
+				closeCallback: () => { callback && callback(false) },
 				modal: modal,
 				buttons: buttonlist
 			})
@@ -787,11 +810,11 @@ const Dialogs = {
 
 			$conflict.find('.filename').text(original.name)
 			$originalDiv.find('.size').text(OC.Util.humanFileSize(original.size))
-			$originalDiv.find('.mtime').text(formatDate(original.mtime))
+			$originalDiv.find('.mtime').text(OC.Util.formatDate(original.mtime))
 			// ie sucks
-			if (replacement.size && replacement.lastModifiedDate) {
+			if (replacement.size && replacement.lastModified) {
 				$replacementDiv.find('.size').text(OC.Util.humanFileSize(replacement.size))
-				$replacementDiv.find('.mtime').text(formatDate(replacement.lastModifiedDate))
+				$replacementDiv.find('.mtime').text(OC.Util.formatDate(replacement.lastModified))
 			}
 			var path = original.directory + '/' + original.name
 			var urlSpec = {
@@ -822,9 +845,9 @@ const Dialogs = {
 
 			// set more recent mtime bold
 			// ie sucks
-			if (replacement.lastModifiedDate && replacement.lastModifiedDate.getTime() > original.mtime) {
+			if (replacement.lastModified > original.mtime) {
 				$replacementDiv.find('.mtime').css('font-weight', 'bold')
-			} else if (replacement.lastModifiedDate && replacement.lastModifiedDate.getTime() < original.mtime) {
+			} else if (replacement.lastModified < original.mtime) {
 				$originalDiv.find('.mtime').css('font-weight', 'bold')
 			} else {
 				// TODO add to same mtime collection?
@@ -929,7 +952,11 @@ const Dialogs = {
 					closeButton: null,
 					close: function() {
 						self._fileexistsshown = false
-						$(this).ocdialog('destroy').remove()
+						try {
+							$(this).ocdialog('destroy').remove()
+						} catch (e) {
+							// ignore
+						}
 					}
 				})
 
@@ -1159,6 +1186,8 @@ const Dialogs = {
 				self.$fileListHeader.show()
 			}
 
+			self.$filelist.empty();
+
 			$.each(files, function(idx, entry) {
 				entry.icon = OC.MimeType.getIconUrl(entry.mimetype)
 				var simpleSize, sizeColor
@@ -1218,8 +1247,12 @@ const Dialogs = {
 	 * fills the tree list with directories
 	 */
 	_fillSlug: function() {
+		var addButton = this.$dirTree.find('.actions.creatable').detach()
 		this.$dirTree.empty()
 		var self = this
+
+		self.$dirTree.append(addButton)
+
 		var dir
 		var path = this.$filePicker.data('path')
 		var $template = $('<div data-dir="{dir}"><a>{name}</a></div>').addClass('crumb')
@@ -1236,10 +1269,12 @@ const Dialogs = {
 				}))
 			})
 		}
+
 		$template.octemplate({
 			dir: '',
 			name: '' // Ugly but works ;)
 		}, { escapeFunction: null }).prependTo(this.$dirTree)
+
 	},
 	/**
 	 * handle selection made in the tree list

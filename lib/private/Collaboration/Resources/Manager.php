@@ -18,16 +18,14 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Collaboration\Resources;
-
 
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use OCP\Collaboration\Resources\CollectionException;
@@ -39,11 +37,10 @@ use OCP\Collaboration\Resources\IResource;
 use OCP\Collaboration\Resources\ResourceException;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
-use OCP\ILogger;
 use OCP\IUser;
+use Psr\Log\LoggerInterface;
 
 class Manager implements IManager {
-
 	public const TABLE_COLLECTIONS = 'collres_collections';
 	public const TABLE_RESOURCES = 'collres_resources';
 	public const TABLE_ACCESS_CACHE = 'collres_accesscache';
@@ -52,14 +49,14 @@ class Manager implements IManager {
 	protected $connection;
 	/** @var IProviderManager */
 	protected $providerManager;
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	protected $logger;
 
 	/** @var string[] */
 	protected $providers = [];
 
 
-	public function __construct(IDBConnection $connection, IProviderManager $providerManager, ILogger $logger) {
+	public function __construct(IDBConnection $connection, IProviderManager $providerManager, LoggerInterface $logger) {
 		$this->connection = $connection;
 		$this->providerManager = $providerManager;
 		$this->logger = $logger;

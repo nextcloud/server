@@ -22,7 +22,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_External\Lib\Backend;
 
 use OCA\Files_External\Lib\Auth\AmazonS3\AccessKey;
@@ -31,7 +30,6 @@ use OCA\Files_External\Lib\LegacyDependencyCheckPolyfill;
 use OCP\IL10N;
 
 class AmazonS3 extends Backend {
-
 	use LegacyDependencyCheckPolyfill;
 
 	public function __construct(IL10N $l, AccessKey $legacyAuth) {
@@ -59,5 +57,4 @@ class AmazonS3 extends Backend {
 			->setLegacyAuthMechanism($legacyAuth)
 		;
 	}
-
 }

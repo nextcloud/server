@@ -27,7 +27,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Session;
 
 use OCP\ISession;
@@ -50,7 +49,7 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 	protected $sessionValues;
 	/** @var bool */
 	protected $isModified = false;
-	CONST encryptedSessionName = 'encrypted_session_data';
+	public const encryptedSessionName = 'encrypted_session_data';
 
 	/**
 	 * @param ISession $session
@@ -72,7 +71,7 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 	public function __destruct() {
 		try {
 			$this->close();
-		} catch (SessionNotAvailableException $e){
+		} catch (SessionNotAvailableException $e) {
 			// This exception can occur if session is already closed
 			// So it is safe to ignore it and let the garbage collector to proceed
 		}
@@ -87,6 +86,7 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 			);
 		} catch (\Exception $e) {
 			$this->sessionValues = [];
+			$this->regenerateId(true, false);
 		}
 	}
 
@@ -108,7 +108,7 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 	 * @return string|null Either the value or null
 	 */
 	public function get(string $key) {
-		if(isset($this->sessionValues[$key])) {
+		if (isset($this->sessionValues[$key])) {
 			return $this->sessionValues[$key];
 		}
 
@@ -175,7 +175,7 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 	 * Close the session and release the lock, also writes all changed data in batch
 	 */
 	public function close() {
-		if($this->isModified) {
+		if ($this->isModified) {
 			$encryptedValue = $this->crypto->encrypt(json_encode($this->sessionValues), $this->passphrase);
 			$this->session->set(self::encryptedSessionName, $encryptedValue);
 			$this->isModified = false;

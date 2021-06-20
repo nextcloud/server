@@ -30,11 +30,11 @@ use OCP\IRequest;
 use Test\TestCase;
 
 class BruteForceMiddlewareTest extends TestCase {
-	/** @var ControllerMethodReflector|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ControllerMethodReflector|\PHPUnit\Framework\MockObject\MockObject */
 	private $reflector;
-	/** @var Throttler|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var Throttler|\PHPUnit\Framework\MockObject\MockObject */
 	private $throttler;
-	/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
 	private $request;
 	/** @var BruteForceMiddleware */
 	private $bruteForceMiddleware;
@@ -70,10 +70,10 @@ class BruteForceMiddlewareTest extends TestCase {
 			->willReturn('127.0.0.1');
 		$this->throttler
 			->expects($this->once())
-			->method('sleepDelay')
+			->method('sleepDelayOrThrowOnMax')
 			->with('127.0.0.1', 'login');
 
-		/** @var Controller|\PHPUnit_Framework_MockObject_MockObject $controller */
+		/** @var Controller|\PHPUnit\Framework\MockObject\MockObject $controller */
 		$controller = $this->createMock(Controller::class);
 		$this->bruteForceMiddleware->beforeController($controller, 'testMethod');
 	}
@@ -92,15 +92,15 @@ class BruteForceMiddlewareTest extends TestCase {
 			->method('getRemoteAddress');
 		$this->throttler
 			->expects($this->never())
-			->method('sleepDelay');
+			->method('sleepDelayOrThrowOnMax');
 
-		/** @var Controller|\PHPUnit_Framework_MockObject_MockObject $controller */
+		/** @var Controller|\PHPUnit\Framework\MockObject\MockObject $controller */
 		$controller = $this->createMock(Controller::class);
 		$this->bruteForceMiddleware->beforeController($controller, 'testMethod');
 	}
 
 	public function testAfterControllerWithAnnotationAndThrottledRequest() {
-		/** @var Response|\PHPUnit_Framework_MockObject_MockObject $response */
+		/** @var Response|\PHPUnit\Framework\MockObject\MockObject $response */
 		$response = $this->createMock(Response::class);
 		$this->reflector
 			->expects($this->once())
@@ -133,13 +133,13 @@ class BruteForceMiddlewareTest extends TestCase {
 			->method('registerAttempt')
 			->with('login', '127.0.0.1');
 
-		/** @var Controller|\PHPUnit_Framework_MockObject_MockObject $controller */
+		/** @var Controller|\PHPUnit\Framework\MockObject\MockObject $controller */
 		$controller = $this->createMock(Controller::class);
 		$this->bruteForceMiddleware->afterController($controller, 'testMethod' ,$response);
 	}
 
 	public function testAfterControllerWithAnnotationAndNotThrottledRequest() {
-		/** @var Response|\PHPUnit_Framework_MockObject_MockObject $response */
+		/** @var Response|\PHPUnit\Framework\MockObject\MockObject $response */
 		$response = $this->createMock(Response::class);
 		$this->reflector
 			->expects($this->once())
@@ -163,7 +163,7 @@ class BruteForceMiddlewareTest extends TestCase {
 			->expects($this->never())
 			->method('registerAttempt');
 
-		/** @var Controller|\PHPUnit_Framework_MockObject_MockObject $controller */
+		/** @var Controller|\PHPUnit\Framework\MockObject\MockObject $controller */
 		$controller = $this->createMock(Controller::class);
 		$this->bruteForceMiddleware->afterController($controller, 'testMethod' ,$response);
 	}
@@ -184,9 +184,9 @@ class BruteForceMiddlewareTest extends TestCase {
 			->expects($this->never())
 			->method('sleepDelay');
 
-		/** @var Controller|\PHPUnit_Framework_MockObject_MockObject $controller */
+		/** @var Controller|\PHPUnit\Framework\MockObject\MockObject $controller */
 		$controller = $this->createMock(Controller::class);
-		/** @var Response|\PHPUnit_Framework_MockObject_MockObject $response */
+		/** @var Response|\PHPUnit\Framework\MockObject\MockObject $response */
 		$response = $this->createMock(Response::class);
 		$this->bruteForceMiddleware->afterController($controller, 'testMethod' ,$response);
 	}

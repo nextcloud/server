@@ -7,6 +7,7 @@ declare(strict_types=1);
  * @copyright Copyright (c) 2016 Joas Schilling <coding@schilljs.com>
  *
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
@@ -24,12 +25,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
-/**
- * Public interface of ownCloud for apps to use.
- * Activity/IEvent interface
- */
-
 // use OCP namespace for all classes that are considered public.
 // This means that they should be used by apps instead of the internal ownCloud classes
 
@@ -38,7 +33,6 @@ namespace OCP\Activity;
 /**
  * Interface IEvent
  *
- * @package OCP\Activity
  * @since 8.2.0
  */
 interface IEvent {
@@ -364,4 +358,23 @@ interface IEvent {
 	 * @since 11.0.0
 	 */
 	public function isValidParsed(): bool;
+
+	/**
+	 * Set whether or not a notification should be automatically generated for this activity.
+	 *
+	 * Set this to `false` if the app already generates a notification for the event.
+	 *
+	 * @param bool $generate
+	 * @return IEvent
+	 * @since 20.0.0
+	 */
+	public function setGenerateNotification(bool $generate): self;
+
+	/**
+	 * whether or not a notification should be automatically generated for this activity.
+	 *
+	 * @return bool
+	 * @since 20.0.0
+	 */
+	public function getGenerateNotification(): bool;
 }

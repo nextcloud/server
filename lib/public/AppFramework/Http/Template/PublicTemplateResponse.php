@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2018 Julius Härtl <jus@bitgrid.net>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -14,14 +15,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCP\AppFramework\Http\Template;
 
 use InvalidArgumentException;
@@ -30,11 +30,9 @@ use OCP\AppFramework\Http\TemplateResponse;
 /**
  * Class PublicTemplateResponse
  *
- * @package OCP\AppFramework\Http\Template
  * @since 14.0.0
  */
 class PublicTemplateResponse extends TemplateResponse {
-
 	private $headerTitle = '';
 	private $headerDetails = '';
 	private $headerActions = [];
@@ -97,8 +95,8 @@ class PublicTemplateResponse extends TemplateResponse {
 			}
 			$this->headerActions[] = $action;
 		}
-		usort($this->headerActions, function(IMenuAction $a, IMenuAction $b) {
-			return $a->getPriority() > $b->getPriority();
+		usort($this->headerActions, function (IMenuAction $a, IMenuAction $b) {
+			return $a->getPriority() <=> $b->getPriority();
 		});
 	}
 
@@ -155,5 +153,4 @@ class PublicTemplateResponse extends TemplateResponse {
 		$this->setParams($params);
 		return  parent::render();
 	}
-
 }

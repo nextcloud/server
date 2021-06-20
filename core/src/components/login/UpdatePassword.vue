@@ -125,7 +125,7 @@ export default {
 				}
 			} catch (e) {
 				this.error = true
-				this.message = e.message ? e.message : t('core', 'Password can not be changed. Please contact your administrator.')
+				this.message = e.message ? e.message : t('core', 'Password cannot be changed. Please contact your administrator.')
 			} finally {
 				this.loading = false
 			}

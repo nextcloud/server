@@ -8,15 +8,14 @@
 
 namespace Test;
 
-
 use OC\App\AppStore\Fetcher\AppFetcher;
 use OC\Archive\ZIP;
 use OC\Installer;
 use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
-use OCP\ILogger;
 use OCP\ITempManager;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class InstallerTest
@@ -25,18 +24,17 @@ use OCP\ITempManager;
  * @group DB
  */
 class InstallerTest extends TestCase {
-
 	private static $appid = 'testapp';
 	private $appstore;
-	/** @var AppFetcher|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var AppFetcher|\PHPUnit\Framework\MockObject\MockObject */
 	private $appFetcher;
-	/** @var IClientService|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IClientService|\PHPUnit\Framework\MockObject\MockObject */
 	private $clientService;
-	/** @var ITempManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ITempManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $tempManager;
-	/** @var ILogger|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
 	private $logger;
-	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
 
 	protected function setUp(): void {
@@ -45,7 +43,7 @@ class InstallerTest extends TestCase {
 		$this->appFetcher = $this->createMock(AppFetcher::class);
 		$this->clientService = $this->createMock(IClientService::class);
 		$this->tempManager = $this->createMock(ITempManager::class);
-		$this->logger = $this->createMock(ILogger::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->config = $this->createMock(IConfig::class);
 
 		$config = \OC::$server->getConfig();
@@ -55,7 +53,7 @@ class InstallerTest extends TestCase {
 			\OC::$server->getAppFetcher(),
 			\OC::$server->getHTTPClientService(),
 			\OC::$server->getTempManager(),
-			\OC::$server->getLogger(),
+			\OC::$server->get(LoggerInterface::class),
 			$config,
 			false
 		);
@@ -78,7 +76,7 @@ class InstallerTest extends TestCase {
 			\OC::$server->getAppFetcher(),
 			\OC::$server->getHTTPClientService(),
 			\OC::$server->getTempManager(),
-			\OC::$server->getLogger(),
+			\OC::$server->get(LoggerInterface::class),
 			\OC::$server->getConfig(),
 			false
 		);
@@ -93,7 +91,7 @@ class InstallerTest extends TestCase {
 		\OC_App::getAppVersion('testapp');
 
 		// Extract app
-		$pathOfTestApp  = __DIR__ . '/../data/testapp.zip';
+		$pathOfTestApp = __DIR__ . '/../data/testapp.zip';
 		$tar = new ZIP($pathOfTestApp);
 		$tar->extract(\OC_App::getInstallPath());
 
@@ -102,7 +100,7 @@ class InstallerTest extends TestCase {
 			\OC::$server->getAppFetcher(),
 			\OC::$server->getHTTPClientService(),
 			\OC::$server->getTempManager(),
-			\OC::$server->getLogger(),
+			\OC::$server->get(LoggerInterface::class),
 			\OC::$server->getConfig(),
 			false
 		);
@@ -350,7 +348,7 @@ u/spPSSVhaun5BA1FlphB2TkgnzlCmxJa63nFY045e/Jq+IKMcqqZl/092gbI2EQ
 		$client
 			->expects($this->once())
 			->method('get')
-			->with('https://example.com', ['save_to' => $realTmpFile, 'timeout' => 120]);
+			->with('https://example.com', ['sink' => $realTmpFile, 'timeout' => 120]);
 		$this->clientService
 			->expects($this->once())
 			->method('newClient')
@@ -434,7 +432,7 @@ YwDVP+QmNRzx72jtqAN/Kc3CvQ9nkgYhU65B95aX0xA=',
 		$client
 			->expects($this->once())
 			->method('get')
-			->with('https://example.com', ['save_to' => $realTmpFile, 'timeout' => 120]);
+			->with('https://example.com', ['sink' => $realTmpFile, 'timeout' => 120]);
 		$this->clientService
 			->expects($this->once())
 			->method('newClient')
@@ -517,7 +515,7 @@ YwDVP+QmNRzx72jtqAN/Kc3CvQ9nkgYhU65B95aX0xA=',
 		$client
 			->expects($this->once())
 			->method('get')
-			->with('https://example.com', ['save_to' => $realTmpFile, 'timeout' => 120]);
+			->with('https://example.com', ['sink' => $realTmpFile, 'timeout' => 120]);
 		$this->clientService
 			->expects($this->once())
 			->method('newClient')
@@ -596,7 +594,7 @@ MPLX6f5V9tCJtlH6ztmEcDROfvuVc0U3rEhqx2hphoyo+MZrPFpdcJL8KkIdMKbY
 		$client
 			->expects($this->once())
 			->method('get')
-			->with('https://example.com', ['save_to' => $realTmpFile, 'timeout' => 120]);
+			->with('https://example.com', ['sink' => $realTmpFile, 'timeout' => 120]);
 		$this->clientService
 			->expects($this->at(0))
 			->method('newClient')
@@ -682,7 +680,7 @@ JXhrdaWDZ8fzpUjugrtC3qslsqL0dzgU37anS3HwrT8=',
 		$client
 			->expects($this->once())
 			->method('get')
-			->with('https://example.com', ['save_to' => $realTmpFile, 'timeout' => 120]);
+			->with('https://example.com', ['sink' => $realTmpFile, 'timeout' => 120]);
 		$this->clientService
 			->expects($this->at(1))
 			->method('newClient')

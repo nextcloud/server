@@ -24,14 +24,14 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Notification;
 
-
+use OC\AppFramework\Bootstrap\Coordinator;
 use OCP\AppFramework\QueryException;
 use OCP\ILogger;
 use OCP\Notification\AlreadyProcessedException;
 use OCP\Notification\IApp;
+use OCP\Notification\IDeferrableApp;
 use OCP\Notification\IDismissableNotifier;
 use OCP\Notification\IManager;
 use OCP\Notification\INotification;
@@ -43,6 +43,8 @@ class Manager implements IManager {
 	protected $validator;
 	/** @var ILogger */
 	protected $logger;
+	/** @var Coordinator */
+	private $coordinator;
 
 	/** @var IApp[] */
 	protected $apps;
@@ -56,16 +58,25 @@ class Manager implements IManager {
 
 	/** @var bool */
 	protected $preparingPushNotification;
+	/** @var bool */
+	protected $deferPushing;
+	/** @var bool */
+	private $parsedRegistrationContext;
 
 	public function __construct(IValidator $validator,
-								ILogger $logger) {
+								ILogger $logger,
+								Coordinator $coordinator) {
 		$this->validator = $validator;
 		$this->logger = $logger;
+		$this->coordinator = $coordinator;
+
 		$this->apps = [];
 		$this->notifiers = [];
 		$this->appClasses = [];
 		$this->notifierClasses = [];
 		$this->preparingPushNotification = false;
+		$this->deferPushing = false;
+		$this->parsedRegistrationContext = false;
 	}
 	/**
 	 * @param string $appClass The service must implement IApp, otherwise a
@@ -138,6 +149,32 @@ class Manager implements IManager {
 	 * @return INotifier[]
 	 */
 	public function getNotifiers(): array {
+		if (!$this->parsedRegistrationContext) {
+			$notifierServices = $this->coordinator->getRegistrationContext()->getNotifierServices();
+			foreach ($notifierServices as $notifierService) {
+				try {
+					$notifier = \OC::$server->query($notifierService->getService());
+				} catch (QueryException $e) {
+					$this->logger->logException($e, [
+						'message' => 'Failed to load notification notifier class: ' . $notifierService->getService(),
+						'app' => 'notifications',
+					]);
+					continue;
+				}
+
+				if (!($notifier instanceof INotifier)) {
+					$this->logger->error('Notification notifier class ' . $notifierService->getService() . ' is not implementing ' . INotifier::class, [
+						'app' => 'notifications',
+					]);
+					continue;
+				}
+
+				$this->notifiers[] = $notifier;
+			}
+
+			$this->parsedRegistrationContext = true;
+		}
+
 		if (empty($this->notifierClasses)) {
 			return $this->notifiers;
 		}
@@ -198,6 +235,46 @@ class Manager implements IManager {
 	 */
 	public function isPreparingPushNotification(): bool {
 		return $this->preparingPushNotification;
+	}
+
+	/**
+	 * The calling app should only "flush" when it got returned true on the defer call
+	 * @return bool
+	 * @since 20.0.0
+	 */
+	public function defer(): bool {
+		$alreadyDeferring = $this->deferPushing;
+		$this->deferPushing = true;
+
+		$apps = $this->getApps();
+
+		foreach ($apps as $app) {
+			if ($app instanceof IDeferrableApp) {
+				$app->defer();
+			}
+		}
+
+		return !$alreadyDeferring;
+	}
+
+	/**
+	 * @since 20.0.0
+	 */
+	public function flush(): void {
+		$apps = $this->getApps();
+
+		foreach ($apps as $app) {
+			if (!$app instanceof IDeferrableApp) {
+				continue;
+			}
+
+			try {
+				$app->flush();
+			} catch (\InvalidArgumentException $e) {
+			}
+		}
+
+		$this->deferPushing = false;
 	}
 
 	/**

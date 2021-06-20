@@ -3,8 +3,8 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
@@ -24,8 +24,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_Sharing\Tests;
+
+use OCP\Share\IShare;
 
 /**
  * Class UnshareChildrenTest
@@ -35,10 +36,9 @@ namespace OCA\Files_Sharing\Tests;
  * @package OCA\Files_Sharing\Tests
  */
 class UnshareChildrenTest extends TestCase {
-
 	protected $subsubfolder;
 
-	const TEST_FOLDER_NAME = '/folder_share_api_test';
+	public const TEST_FOLDER_NAME = '/folder_share_api_test';
 
 	private static $tempStorage;
 
@@ -75,11 +75,10 @@ class UnshareChildrenTest extends TestCase {
 	 * @medium
 	 */
 	public function testUnshareChildren() {
-
 		$fileInfo2 = \OC\Files\Filesystem::getFileInfo($this->folder);
 
 		$this->share(
-			\OCP\Share::SHARE_TYPE_USER,
+			IShare::TYPE_USER,
 			$this->folder,
 			self::TEST_FILES_SHARING_API_USER1,
 			self::TEST_FILES_SHARING_API_USER2,
@@ -89,7 +88,7 @@ class UnshareChildrenTest extends TestCase {
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
 
 		// one folder should be shared with the user
-		$shares = $this->shareManager->getSharedWith(self::TEST_FILES_SHARING_API_USER2, \OCP\Share::SHARE_TYPE_USER);
+		$shares = $this->shareManager->getSharedWith(self::TEST_FILES_SHARING_API_USER2, IShare::TYPE_USER);
 		$this->assertCount(1, $shares);
 
 		// move shared folder to 'localDir'
@@ -102,7 +101,7 @@ class UnshareChildrenTest extends TestCase {
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
 
 		// after the parent directory was deleted the share should be unshared
-		$shares = $this->shareManager->getSharedWith(self::TEST_FILES_SHARING_API_USER2, \OCP\Share::SHARE_TYPE_USER);
+		$shares = $this->shareManager->getSharedWith(self::TEST_FILES_SHARING_API_USER2, IShare::TYPE_USER);
 		$this->assertEmpty($shares);
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);

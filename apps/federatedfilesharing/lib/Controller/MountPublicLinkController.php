@@ -7,9 +7,12 @@
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
  *
@@ -26,7 +29,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\FederatedFileSharing\Controller;
 
 use OC\HintException;
@@ -35,6 +37,7 @@ use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
+use OCP\Constants;
 use OCP\Federation\ICloudIdManager;
 use OCP\Http\Client\IClientService;
 use OCP\IL10N;
@@ -43,6 +46,7 @@ use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUserSession;
 use OCP\Share\IManager;
+use OCP\Share\IShare;
 
 /**
  * Class MountPublicLinkController
@@ -127,7 +131,6 @@ class MountPublicLinkController extends Controller {
 	 * @return JSONResponse
 	 */
 	public function createFederatedShare($shareWith, $token, $password = '') {
-
 		if (!$this->federatedShareProvider->isOutgoingServer2serverShareEnabled()) {
 			return new JSONResponse(
 				['message' => 'This server doesn\'t support outgoing federated shares'],
@@ -136,17 +139,19 @@ class MountPublicLinkController extends Controller {
 		}
 
 		try {
-			list(, $server) = $this->addressHandler->splitUserRemote($shareWith);
+			[, $server] = $this->addressHandler->splitUserRemote($shareWith);
 			$share = $this->shareManager->getShareByToken($token);
 		} catch (HintException $e) {
-			return new JSONResponse(['message' => $e->getHint()], Http::STATUS_BAD_REQUEST);
+			$response = new JSONResponse(['message' => $e->getHint()], Http::STATUS_BAD_REQUEST);
+			$response->throttle();
+			return $response;
 		}
 
 		// make sure that user is authenticated in case of a password protected link
 		$storedPassword = $share->getPassword();
 		$authenticated = $this->session->get('public_link_authenticated') === $share->getId() ||
 			$this->shareManager->checkPassword($share, $password);
-		if (!empty($storedPassword) && !$authenticated ) {
+		if (!empty($storedPassword) && !$authenticated) {
 			$response = new JSONResponse(
 				['message' => 'No permission to access the share'],
 				Http::STATUS_BAD_REQUEST
@@ -155,7 +160,17 @@ class MountPublicLinkController extends Controller {
 			return $response;
 		}
 
+		if (($share->getPermissions() & Constants::PERMISSION_READ) === 0) {
+			$response = new JSONResponse(
+				['message' => 'Mounting file drop not supported'],
+				Http::STATUS_BAD_REQUEST
+			);
+			$response->throttle();
+			return $response;
+		}
+
 		$share->setSharedWith($shareWith);
+		$share->setShareType(IShare::TYPE_REMOTE);
 
 		try {
 			$this->federatedShareProvider->create($share);

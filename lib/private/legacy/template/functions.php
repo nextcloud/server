@@ -4,6 +4,7 @@
  *
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Julius Härtl <jus@bitgrid.net>
@@ -13,7 +14,7 @@
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -30,11 +31,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
-/**
- * Prints a sanitized string
- * @param string $string the string which will be escaped and printed
- */
 function p($string) {
 	print(\OCP\Util::sanitizeHTML($string));
 }
@@ -44,14 +40,14 @@ function p($string) {
  * Prints a <link> tag for loading css
  * @param string $href the source URL, ignored when empty
  * @param string $opts, additional optional options
-*/
+ */
 function emit_css_tag($href, $opts = '') {
-	$s='<link rel="stylesheet"';
+	$s = '<link rel="stylesheet"';
 	if (!empty($href)) {
-		$s.=' href="' . $href .'"';
+		$s .= ' href="' . $href .'"';
 	}
 	if (!empty($opts)) {
-		$s.=' '.$opts;
+		$s .= ' '.$opts;
 	}
 	print_unescaped($s.">\n");
 }
@@ -59,12 +55,12 @@ function emit_css_tag($href, $opts = '') {
 /**
  * Prints all tags for CSS loading
  * @param array $obj all the script information from template
-*/
+ */
 function emit_css_loading_tags($obj) {
-	foreach($obj['cssfiles'] as $css) {
+	foreach ($obj['cssfiles'] as $css) {
 		emit_css_tag($css);
 	}
-	foreach($obj['printcssfiles'] as $css) {
+	foreach ($obj['printcssfiles'] as $css) {
 		emit_css_tag($css, 'media="print"');
 	}
 }
@@ -73,30 +69,30 @@ function emit_css_loading_tags($obj) {
  * Prints a <script> tag with nonce and defer depending on config
  * @param string $src the source URL, ignored when empty
  * @param string $script_content the inline script content, ignored when empty
-*/
-function emit_script_tag($src, $script_content='') {
-	$defer_str=' defer';
-	$s='<script nonce="' . \OC::$server->getContentSecurityPolicyNonceManager()->getNonce() . '"';
+ */
+function emit_script_tag($src, $script_content = '') {
+	$defer_str = ' defer';
+	$s = '<script nonce="' . \OC::$server->getContentSecurityPolicyNonceManager()->getNonce() . '"';
 	if (!empty($src)) {
-		 // emit script tag for deferred loading from $src
-		$s.=$defer_str.' src="' . $src .'">';
-	} else if (!empty($script_content)) {
+		// emit script tag for deferred loading from $src
+		$s .= $defer_str.' src="' . $src .'">';
+	} elseif (!empty($script_content)) {
 		// emit script tag for inline script from $script_content without defer (see MDN)
-		$s.=">\n".$script_content."\n";
+		$s .= ">\n".$script_content."\n";
 	} else {
 		// no $src nor $src_content, really useless empty tag
-		$s.='>';
+		$s .= '>';
 	}
-	$s.='</script>';
+	$s .= '</script>';
 	print_unescaped($s."\n");
 }
 
 /**
  * Print all <script> tags for loading JS
  * @param array $obj all the script information from template
-*/
+ */
 function emit_script_loading_tags($obj) {
-	foreach($obj['jsfiles'] as $jsfile) {
+	foreach ($obj['jsfiles'] as $jsfile) {
 		emit_script_tag($jsfile, '');
 	}
 	if (!empty($obj['inline_ocjs'])) {
@@ -120,8 +116,8 @@ function print_unescaped($string) {
  * if an array is given it will add all scripts
  */
 function script($app, $file = null) {
-	if(is_array($file)) {
-		foreach($file as $f) {
+	if (is_array($file)) {
+		foreach ($file as $f) {
 			OC_Util::addScript($app, $f);
 		}
 	} else {
@@ -136,8 +132,8 @@ function script($app, $file = null) {
  * if an array is given it will add all scripts
  */
 function vendor_script($app, $file = null) {
-	if(is_array($file)) {
-		foreach($file as $f) {
+	if (is_array($file)) {
+		foreach ($file as $f) {
 			OC_Util::addVendorScript($app, $f);
 		}
 	} else {
@@ -152,8 +148,8 @@ function vendor_script($app, $file = null) {
  * if an array is given it will add all styles
  */
 function style($app, $file = null) {
-	if(is_array($file)) {
-		foreach($file as $f) {
+	if (is_array($file)) {
+		foreach ($file as $f) {
 			OC_Util::addStyle($app, $f);
 		}
 	} else {
@@ -168,8 +164,8 @@ function style($app, $file = null) {
  * if an array is given it will add all styles
  */
 function vendor_style($app, $file = null) {
-	if(is_array($file)) {
-		foreach($file as $f) {
+	if (is_array($file)) {
+		foreach ($file as $f) {
 			OC_Util::addVendorStyle($app, $f);
 		}
 	} else {
@@ -193,8 +189,8 @@ function translation($app) {
  * if an array is given it will add all components
  */
 function component($app, $file) {
-	if(is_array($file)) {
-		foreach($file as $f) {
+	if (is_array($file)) {
+		foreach ($file as $f) {
 			$url = link_to($app, 'component/' . $f . '.html');
 			OC_Util::addHeader('link', ['rel' => 'import', 'href' => $url]);
 		}
@@ -213,7 +209,7 @@ function component($app, $file) {
  *
  * For further information have a look at \OCP\IURLGenerator::linkTo
  */
-function link_to( $app, $file, $args = [] ) {
+function link_to($app, $file, $args = []) {
 	return \OC::$server->getURLGenerator()->linkTo($app, $file, $args);
 }
 
@@ -233,8 +229,8 @@ function link_to_docs($key) {
  *
  * For further information have a look at \OCP\IURLGenerator::imagePath
  */
-function image_path( $app, $image ) {
-	return \OC::$server->getURLGenerator()->imagePath( $app, $image );
+function image_path($app, $image) {
+	return \OC::$server->getURLGenerator()->imagePath($app, $image);
 }
 
 /**
@@ -242,8 +238,8 @@ function image_path( $app, $image ) {
  * @param string $mimetype mimetype
  * @return string link to the image
  */
-function mimetype_icon( $mimetype ) {
-	return \OC::$server->getMimeTypeDetector()->mimeTypeIcon( $mimetype );
+function mimetype_icon($mimetype) {
+	return \OC::$server->getMimeTypeDetector()->mimeTypeIcon($mimetype);
 }
 
 /**
@@ -252,7 +248,7 @@ function mimetype_icon( $mimetype ) {
  * @param string $path path of file
  * @return string link to the preview
  */
-function preview_icon( $path ) {
+function preview_icon($path) {
 	return \OC::$server->getURLGenerator()->linkToRoute('core.Preview.getPreview', ['x' => 32, 'y' => 32, 'file' => $path]);
 }
 
@@ -261,7 +257,7 @@ function preview_icon( $path ) {
  * @param string $token
  * @return string
  */
-function publicPreview_icon ( $path, $token ) {
+function publicPreview_icon($path, $token) {
 	return \OC::$server->getURLGenerator()->linkToRoute('files_sharing.PublicPreview.getPreview', ['x' => 32, 'y' => 32, 'file' => $path, 'token' => $token]);
 }
 
@@ -272,8 +268,8 @@ function publicPreview_icon ( $path, $token ) {
  *
  * For further information have a look at OC_Helper::humanFileSize
  */
-function human_file_size( $bytes ) {
-	return OC_Helper::humanFileSize( $bytes );
+function human_file_size($bytes) {
+	return OC_Helper::humanFileSize($bytes);
 }
 
 /**
@@ -281,7 +277,7 @@ function human_file_size( $bytes ) {
  * @param int $timestamp UNIX timestamp to strip
  * @return int timestamp without time value
  */
-function strip_time($timestamp){
+function strip_time($timestamp) {
 	$date = new \DateTime("@{$timestamp}");
 	$date->setTime(0, 0, 0);
 	return (int)$date->format('U');
@@ -299,15 +295,15 @@ function relative_modified_date($timestamp, $fromTime = null, $dateOnly = false)
 	/** @var \OC\DateTimeFormatter $formatter */
 	$formatter = \OC::$server->query('DateTimeFormatter');
 
-	if ($dateOnly){
+	if ($dateOnly) {
 		return $formatter->formatDateSpan($timestamp, $fromTime);
 	}
 	return $formatter->formatTimeSpan($timestamp, $fromTime);
 }
 
-function html_select_options($options, $selected, $params=[]) {
+function html_select_options($options, $selected, $params = []) {
 	if (!is_array($selected)) {
-		$selected=[$selected];
+		$selected = [$selected];
 	}
 	if (isset($params['combine']) && $params['combine']) {
 		$options = array_combine($options, $options);
@@ -320,7 +316,7 @@ function html_select_options($options, $selected, $params=[]) {
 		$label_name = $params['label'];
 	}
 	$html = '';
-	foreach($options as $value => $label) {
+	foreach ($options as $value => $label) {
 		if ($value_name && is_array($label)) {
 			$value = $label[$value_name];
 		}

@@ -45,13 +45,17 @@
 		<span class="icon loading"></span><span class="message"><?php p($l->t('Checking for system and security issues.'));?></span>
 	</div>
 
-	<div id="postsetupchecks" data-check-wellknown="<?php if($_['checkForWorkingWellKnownSetup']) { p('true'); } else { p('false'); } ?>">
+	<div id="postsetupchecks" data-check-wellknown="<?php if ($_['checkForWorkingWellKnownSetup']) {
+	p('true');
+} else {
+	p('false');
+} ?>">
 		<ul class="errors hidden"></ul>
 		<ul class="warnings hidden"></ul>
 		<ul class="info hidden"></ul>
 	</div>
 	<p id="postsetupchecks-hint" class="hidden">
-		<?php print_unescaped($l->t('Please double check the <a target="_blank" rel="noreferrer noopener" href="%1$s">installation guides ↗</a>, and check for any errors or warnings in the <a href="%2$s">log</a>.', [link_to_docs('admin-install'), \OC::$server->getURLGenerator()->linkToRoute('settings.AdminSettings.index', ['section' => 'logging'])] )); ?>
+		<?php print_unescaped($l->t('Please double check the <a target="_blank" rel="noreferrer noopener" href="%1$s">installation guides ↗</a>, and check for any errors or warnings in the <a href="%2$s">log</a>.', [link_to_docs('admin-install'), \OC::$server->getURLGenerator()->linkToRoute('settings.AdminSettings.index', ['section' => 'logging'])])); ?>
 	</p>
 
 	<p class="extra-top-margin">

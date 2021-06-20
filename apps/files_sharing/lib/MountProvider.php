@@ -2,13 +2,14 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
- * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Maxence Lange <maxence@nextcloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -25,7 +26,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_Sharing;
 
 use OC\Cache\CappedMemoryCache;
@@ -70,15 +70,16 @@ class MountProvider implements IMountProvider {
 	 * Get all mountpoints applicable for the user and check for shares where we need to update the etags
 	 *
 	 * @param \OCP\IUser $user
-	 * @param \OCP\Files\Storage\IStorageFactory $storageFactory
+	 * @param \OCP\Files\Storage\IStorageFactory $loader
 	 * @return \OCP\Files\Mount\IMountPoint[]
 	 */
-	public function getMountsForUser(IUser $user, IStorageFactory $storageFactory) {
+	public function getMountsForUser(IUser $user, IStorageFactory $loader) {
+		$shares = $this->shareManager->getSharedWith($user->getUID(), IShare::TYPE_USER, null, -1);
+		$shares = array_merge($shares, $this->shareManager->getSharedWith($user->getUID(), IShare::TYPE_GROUP, null, -1));
+		$shares = array_merge($shares, $this->shareManager->getSharedWith($user->getUID(), IShare::TYPE_CIRCLE, null, -1));
+		$shares = array_merge($shares, $this->shareManager->getSharedWith($user->getUID(), IShare::TYPE_ROOM, null, -1));
+		$shares = array_merge($shares, $this->shareManager->getSharedWith($user->getUID(), IShare::TYPE_DECK, null, -1));
 
-		$shares = $this->shareManager->getSharedWith($user->getUID(), \OCP\Share::SHARE_TYPE_USER, null, -1);
-		$shares = array_merge($shares, $this->shareManager->getSharedWith($user->getUID(), \OCP\Share::SHARE_TYPE_GROUP, null, -1));
-		$shares = array_merge($shares, $this->shareManager->getSharedWith($user->getUID(), \OCP\Share::SHARE_TYPE_CIRCLE, null, -1));
-		$shares = array_merge($shares, $this->shareManager->getSharedWith($user->getUID(), \OCP\Share::SHARE_TYPE_ROOM, null, -1));
 
 		// filter out excluded shares and group shares that includes self
 		$shares = array_filter($shares, function (\OCP\Share\IShare $share) use ($user) {
@@ -120,7 +121,7 @@ class MountProvider implements IMountProvider {
 						'ownerView' => $ownerViews[$owner],
 						'sharingDisabledForUser' => $sharingDisabledForUser
 					],
-					$storageFactory,
+					$loader,
 					$view,
 					$foldersExistCache
 				);
@@ -155,11 +156,13 @@ class MountProvider implements IMountProvider {
 		$result = [];
 		// sort by stime, the super share will be based on the least recent share
 		foreach ($tmp as &$tmp2) {
-			@usort($tmp2, function($a, $b) {
-				if ($a->getShareTime() <= $b->getShareTime()) {
-					return -1;
+			@usort($tmp2, function ($a, $b) {
+				$aTime = $a->getShareTime()->getTimestamp();
+				$bTime = $b->getShareTime()->getTimestamp();
+				if ($aTime === $bTime) {
+					return $a->getId() < $b->getId() ? -1 : 1;
 				}
-				return 1;
+				return $aTime < $bTime ? -1 : 1;
 			});
 			$result[] = $tmp2;
 		}

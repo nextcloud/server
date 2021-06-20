@@ -2,6 +2,8 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
@@ -20,7 +22,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Files;
 
 use OC\AppFramework\Http\Request;
@@ -46,7 +47,7 @@ class BrowserErrorPagePlugin extends ServerPlugin {
 	 * @param Server $server
 	 * @return void
 	 */
-	function initialize(Server $server) {
+	public function initialize(Server $server) {
 		$this->server = $server;
 		$server->on('exception', [$this, 'logException'], 1000);
 	}
@@ -96,7 +97,7 @@ class BrowserErrorPagePlugin extends ServerPlugin {
 		$request = \OC::$server->getRequest();
 
 		$templateName = 'exception';
-		if($httpCode === 403 || $httpCode === 404) {
+		if ($httpCode === 403 || $httpCode === 404) {
 			$templateName = (string)$httpCode;
 		}
 

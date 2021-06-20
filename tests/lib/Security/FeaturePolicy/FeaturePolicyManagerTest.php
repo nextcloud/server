@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2019, Roeland Jago Douma <roeland@famdouma.nl>
@@ -50,7 +51,7 @@ class FeaturePolicyManagerTest extends TestCase {
 	}
 
 	public function testGetDefaultPolicyWithPoliciesViaEvent() {
-		$this->dispatcher->addListener(AddFeaturePolicyEvent::class, function(AddFeaturePolicyEvent $e) {
+		$this->dispatcher->addListener(AddFeaturePolicyEvent::class, function (AddFeaturePolicyEvent $e) {
 			$policy = new FeaturePolicy();
 			$policy->addAllowedMicrophoneDomain('mydomain.com');
 			$policy->addAllowedPaymentDomain('mypaymentdomain.com');
@@ -58,7 +59,7 @@ class FeaturePolicyManagerTest extends TestCase {
 			$e->addPolicy($policy);
 		});
 
-		$this->dispatcher->addListener(AddFeaturePolicyEvent::class, function(AddFeaturePolicyEvent $e) {
+		$this->dispatcher->addListener(AddFeaturePolicyEvent::class, function (AddFeaturePolicyEvent $e) {
 			$policy = new FeaturePolicy();
 			$policy->addAllowedPaymentDomain('mydomainother.com');
 			$policy->addAllowedGeoLocationDomain('mylocation.here');
@@ -66,7 +67,7 @@ class FeaturePolicyManagerTest extends TestCase {
 			$e->addPolicy($policy);
 		});
 
-		$this->dispatcher->addListener(AddFeaturePolicyEvent::class, function(AddFeaturePolicyEvent $e) {
+		$this->dispatcher->addListener(AddFeaturePolicyEvent::class, function (AddFeaturePolicyEvent $e) {
 			$policy = new FeaturePolicy();
 			$policy->addAllowedAutoplayDomain('youtube.com');
 
@@ -85,5 +86,4 @@ class FeaturePolicyManagerTest extends TestCase {
 		$this->assertEquals($expected, $this->manager->getDefaultPolicy());
 		$this->assertSame($expectedStringPolicy, $this->manager->getDefaultPolicy()->buildPolicy());
 	}
-
 }

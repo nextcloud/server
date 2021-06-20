@@ -2,7 +2,9 @@
 /**
  * @copyright Copyright (c) 2015, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
@@ -20,7 +22,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_External\Lib\Auth\Password;
 
 use OCA\Files_External\Lib\Auth\AuthMechanism;
@@ -37,8 +38,7 @@ use OCP\Security\ICredentialsManager;
  * User provided Username and Password
  */
 class UserProvided extends AuthMechanism implements IUserProvided {
-
-	const CREDENTIALS_IDENTIFIER_PREFIX = 'password::userprovided/';
+	public const CREDENTIALS_IDENTIFIER_PREFIX = 'password::userprovided/';
 
 	/** @var ICredentialsManager */
 	protected $credentialsManager;
@@ -64,8 +64,8 @@ class UserProvided extends AuthMechanism implements IUserProvided {
 		return self::CREDENTIALS_IDENTIFIER_PREFIX . $storageId;
 	}
 
-	public function saveBackendOptions(IUser $user, $id, array $options) {
-		$this->credentialsManager->store($user->getUID(), $this->getCredentialsIdentifier($id), [
+	public function saveBackendOptions(IUser $user, $mountId, array $options) {
+		$this->credentialsManager->store($user->getUID(), $this->getCredentialsIdentifier($mountId), [
 			'user' => $options['user'], // explicitly copy the fields we want instead of just passing the entire $options array
 			'password' => $options['password'] // this way we prevent users from being able to modify any other field
 		]);
@@ -85,5 +85,4 @@ class UserProvided extends AuthMechanism implements IUserProvided {
 		$storage->setBackendOption('user', $credentials['user']);
 		$storage->setBackendOption('password', $credentials['password']);
 	}
-
 }

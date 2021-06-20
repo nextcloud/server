@@ -71,7 +71,7 @@ class DetectionTest extends \Test\TestCase {
 	public function dataDetectContent(): array {
 		return [
 			['/', 'httpd/unix-directory'],
-//			['/data.tar.gz', 'application/x-gzip'], TODO: fix as it fails hard on php7.4 now
+			//			['/data.tar.gz', 'application/x-gzip'], TODO: fix as it fails hard on php7.4 now
 			['/data.zip', 'application/zip'],
 			['/testimage.mp3', 'audio/mpeg'],
 			['/testimage.png', 'image/png'],
@@ -241,7 +241,7 @@ class DetectionTest extends \Test\TestCase {
 				[$this->equalTo('core'), $this->equalTo('filetypes/my.png')]
 			)
 			->willReturnCallback(
-				function($appName, $file) {
+				function ($appName, $file) {
 					if ($file === 'filetypes/my.png') {
 						return 'my.svg';
 					}
@@ -272,7 +272,7 @@ class DetectionTest extends \Test\TestCase {
 				[$this->equalTo('core'), $this->equalTo('filetypes/file.png')]
 			)
 			->willReturnCallback(
-				function($appName, $file) {
+				function ($appName, $file) {
 					if ($file === 'filetypes/file.png') {
 						return 'file.svg';
 					}

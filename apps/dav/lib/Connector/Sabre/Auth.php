@@ -13,9 +13,8 @@
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -32,7 +31,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Connector\Sabre;
 
 use Exception;
@@ -50,9 +48,7 @@ use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
 
 class Auth extends AbstractBasic {
-
-
-	const DAV_AUTHENTICATED = 'AUTHENTICATED_TO_DAV_BACKEND';
+	public const DAV_AUTHENTICATED = 'AUTHENTICATED_TO_DAV_BACKEND';
 
 	/** @var ISession */
 	private $session;
@@ -153,7 +149,7 @@ class Auth extends AbstractBasic {
 	 * @throws NotAuthenticated
 	 * @throws ServiceUnavailable
 	 */
-	function check(RequestInterface $request, ResponseInterface $response) {
+	public function check(RequestInterface $request, ResponseInterface $response) {
 		try {
 			return $this->auth($request, $response);
 		} catch (NotAuthenticated $e) {
@@ -173,12 +169,12 @@ class Auth extends AbstractBasic {
 	 */
 	private function requiresCSRFCheck() {
 		// GET requires no check at all
-		if($this->request->getMethod() === 'GET') {
+		if ($this->request->getMethod() === 'GET') {
 			return false;
 		}
 
 		// Official Nextcloud clients require no checks
-		if($this->request->isUserAgent([
+		if ($this->request->isUserAgent([
 			IRequest::USER_AGENT_CLIENT_DESKTOP,
 			IRequest::USER_AGENT_CLIENT_ANDROID,
 			IRequest::USER_AGENT_CLIENT_IOS,
@@ -187,17 +183,17 @@ class Auth extends AbstractBasic {
 		}
 
 		// If not logged-in no check is required
-		if(!$this->userSession->isLoggedIn()) {
+		if (!$this->userSession->isLoggedIn()) {
 			return false;
 		}
 
 		// POST always requires a check
-		if($this->request->getMethod() === 'POST') {
+		if ($this->request->getMethod() === 'POST') {
 			return true;
 		}
 
 		// If logged-in AND DAV authenticated no check is required
-		if($this->userSession->isLoggedIn() &&
+		if ($this->userSession->isLoggedIn() &&
 			$this->isDavAuthenticated($this->userSession->getUser()->getUID())) {
 			return false;
 		}
@@ -214,10 +210,10 @@ class Auth extends AbstractBasic {
 	private function auth(RequestInterface $request, ResponseInterface $response) {
 		$forcedLogout = false;
 
-		if(!$this->request->passesCSRFCheck() &&
+		if (!$this->request->passesCSRFCheck() &&
 			$this->requiresCSRFCheck()) {
 			// In case of a fail with POST we need to recheck the credentials
-			if($this->request->getMethod() === 'POST') {
+			if ($this->request->getMethod() === 'POST') {
 				$forcedLogout = true;
 			} else {
 				$response->setStatus(401);
@@ -225,10 +221,10 @@ class Auth extends AbstractBasic {
 			}
 		}
 
-		if($forcedLogout) {
+		if ($forcedLogout) {
 			$this->userSession->logout();
 		} else {
-			if($this->twoFactorManager->needsSecondFactor($this->userSession->getUser())) {
+			if ($this->twoFactorManager->needsSecondFactor($this->userSession->getUser())) {
 				throw new \Sabre\DAV\Exception\NotAuthenticated('2FA challenge not passed.');
 			}
 			if (
@@ -254,7 +250,7 @@ class Auth extends AbstractBasic {
 		}
 
 		$data = parent::check($request, $response);
-		if($data[0] === true) {
+		if ($data[0] === true) {
 			$startPos = strrpos($data[1], '/') + 1;
 			$user = $this->userSession->getUser()->getUID();
 			$data[1] = substr_replace($data[1], $user, $startPos);

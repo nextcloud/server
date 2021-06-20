@@ -14,14 +14,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Files_Versions\Sabre;
 
 use OCA\Files_Versions\Versions\IVersionManager;
@@ -70,7 +69,7 @@ class RootCollection extends AbstractPrincipalCollection {
 	 * @return INode
 	 */
 	public function getChildForPrincipal(array $principalInfo) {
-		list(, $name) = \Sabre\Uri\split($principalInfo['uri']);
+		[, $name] = \Sabre\Uri\split($principalInfo['uri']);
 		$user = \OC::$server->getUserSession()->getUser();
 		if (is_null($user) || $name !== $user->getUID()) {
 			throw new \Sabre\DAV\Exception\Forbidden();
@@ -81,5 +80,4 @@ class RootCollection extends AbstractPrincipalCollection {
 	public function getName() {
 		return 'versions';
 	}
-
 }

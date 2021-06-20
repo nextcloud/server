@@ -30,7 +30,7 @@ class HomeStorageQuotaTest extends \Test\TestCase {
 	/**
 	 * Tests that the home storage is not wrapped when no quota exists.
 	 */
-	function testHomeStorageWrapperWithoutQuota() {
+	public function testHomeStorageWrapperWithoutQuota() {
 		$user1 = $this->getUniqueID();
 		\OC::$server->getUserManager()->createUser($user1, 'test');
 		\OC::$server->getConfig()->setUserValue($user1, 'files', 'quota', 'none');
@@ -45,7 +45,9 @@ class HomeStorageQuotaTest extends \Test\TestCase {
 		// clean up
 		\OC_User::setUserId('');
 		$user = \OC::$server->getUserManager()->get($user1);
-		if ($user !== null) { $user->delete(); }
+		if ($user !== null) {
+			$user->delete();
+		}
 		\OC::$server->getConfig()->deleteAllUserValues($user1);
 		\OC_Util::tearDownFS();
 	}
@@ -53,7 +55,7 @@ class HomeStorageQuotaTest extends \Test\TestCase {
 	/**
 	 * Tests that the home storage is not wrapped when no quota exists.
 	 */
-	function testHomeStorageWrapperWithQuota() {
+	public function testHomeStorageWrapperWithQuota() {
 		$user1 = $this->getUniqueID();
 		\OC::$server->getUserManager()->createUser($user1, 'test');
 		\OC::$server->getConfig()->setUserValue($user1, 'files', 'quota', '1024');
@@ -73,9 +75,10 @@ class HomeStorageQuotaTest extends \Test\TestCase {
 		// clean up
 		\OC_User::setUserId('');
 		$user = \OC::$server->getUserManager()->get($user1);
-		if ($user !== null) { $user->delete(); }
+		if ($user !== null) {
+			$user->delete();
+		}
 		\OC::$server->getConfig()->deleteAllUserValues($user1);
 		\OC_Util::tearDownFS();
 	}
-
 }

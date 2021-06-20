@@ -248,7 +248,7 @@
 				$filterInfo.html('');
 				$filterInfo.addClass('hidden');
 			} else {
-				$filterInfo.html(' ' + n('files', 'matches \'{filter}\'', 'match \'{filter}\'', this.summary.totalDirs + this.summary.totalFiles, {filter: this.summary.filter}));
+				$filterInfo.html(' ' + n('files', 'matches "{filter}"', 'match "{filter}"', this.summary.totalDirs + this.summary.totalFiles, {filter: this.summary.filter}));
 				$filterInfo.removeClass('hidden');
 			}
 		},

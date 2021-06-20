@@ -26,7 +26,7 @@ use OCP\IL10N;
 use Test\TestCase;
 
 abstract class BundleBase extends TestCase {
-	/** @var IL10N|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
 	protected $l10n;
 	/** @var Bundle */
 	protected $bundle;

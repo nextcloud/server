@@ -21,9 +21,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\FederatedFileSharing\Tests;
-
 
 use OCA\FederatedFileSharing\TokenHandler;
 use OCP\Security\ISecureRandom;
@@ -33,7 +31,7 @@ class TokenHandlerTest extends \Test\TestCase {
 	/** @var  TokenHandler */
 	private $tokenHandler;
 
-	/** @var  ISecureRandom | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var  ISecureRandom | \PHPUnit\Framework\MockObject\MockObject */
 	private $secureRandom;
 
 	/** @var int */
@@ -48,7 +46,6 @@ class TokenHandlerTest extends \Test\TestCase {
 	}
 
 	public function testGenerateToken() {
-
 		$this->secureRandom->expects($this->once())->method('generate')
 			->with(
 				$this->expectedTokenLength,
@@ -57,7 +54,5 @@ class TokenHandlerTest extends \Test\TestCase {
 			->willReturn('mytoken');
 
 		$this->assertSame('mytoken', $this->tokenHandler->generateToken());
-
 	}
-
 }

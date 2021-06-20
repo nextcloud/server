@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Robin Appelman <robin@icewind.nl>
  *
  * @license AGPL-3.0
@@ -19,7 +20,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Core\Command\Security;
 
 use OC\Core\Command\Base;
@@ -50,7 +50,7 @@ class ListCertificates extends Base {
 		parent::configure();
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$outputType = $input->getOption('output');
 		if ($outputType === self::OUTPUT_FORMAT_JSON || $outputType === self::OUTPUT_FORMAT_JSON_PRETTY) {
 			$certificates = array_map(function (ICertificate $certificate) {
@@ -91,5 +91,6 @@ class ListCertificates extends Base {
 			$table->setRows($rows);
 			$table->render();
 		}
+		return 0;
 	}
 }

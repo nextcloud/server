@@ -17,7 +17,7 @@ use Test\TestCase;
 
 class DependencyAnalyzerTest extends TestCase {
 
-	/** @var Platform|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var Platform|\PHPUnit\Framework\MockObject\MockObject */
 	private $platformMock;
 
 	/** @var IL10N */
@@ -32,24 +32,24 @@ class DependencyAnalyzerTest extends TestCase {
 			->getMock();
 		$this->platformMock->expects($this->any())
 			->method('getPhpVersion')
-			->willReturn( '5.4.3');
+			->willReturn('5.4.3');
 		$this->platformMock->expects($this->any())
 			->method('getIntSize')
-			->willReturn( '4');
+			->willReturn('4');
 		$this->platformMock->expects($this->any())
 			->method('getDatabase')
-			->willReturn( 'mysql');
+			->willReturn('mysql');
 		$this->platformMock->expects($this->any())
 			->method('getOS')
-			->willReturn( 'Linux');
+			->willReturn('Linux');
 		$this->platformMock->expects($this->any())
 			->method('isCommandKnown')
-			->willReturnCallback( function($command) {
+			->willReturnCallback(function ($command) {
 				return ($command === 'grep');
 			});
 		$this->platformMock->expects($this->any())
 			->method('getLibraryVersion')
-			->willReturnCallback( function($lib) {
+			->willReturnCallback(function ($lib) {
 				if ($lib === 'curl') {
 					return "2.3.4";
 				}
@@ -57,14 +57,14 @@ class DependencyAnalyzerTest extends TestCase {
 			});
 		$this->platformMock->expects($this->any())
 			->method('getOcVersion')
-			->willReturn( '8.0.2');
+			->willReturn('8.0.2');
 
 		$this->l10nMock = $this->getMockBuilder(IL10N::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$this->l10nMock->expects($this->any())
 			->method('t')
-			->willReturnCallback(function($text, $parameters = []) {
+			->willReturnCallback(function ($text, $parameters = []) {
 				return vsprintf($text, $parameters);
 			});
 
@@ -144,7 +144,7 @@ class DependencyAnalyzerTest extends TestCase {
 	 * @param $expectedMissing
 	 * @param $libs
 	 */
-	function testLibs($expectedMissing, $libs) {
+	public function testLibs($expectedMissing, $libs) {
 		$app = [
 			'dependencies' => [
 			]
@@ -164,7 +164,7 @@ class DependencyAnalyzerTest extends TestCase {
 	 * @param $expectedMissing
 	 * @param $oss
 	 */
-	function testOS($expectedMissing, $oss) {
+	public function testOS($expectedMissing, $oss) {
 		$app = [
 			'dependencies' => []
 		];
@@ -183,7 +183,7 @@ class DependencyAnalyzerTest extends TestCase {
 	 * @param $expectedMissing
 	 * @param $oc
 	 */
-	function testOC($expectedMissing, $oc) {
+	public function testOC($expectedMissing, $oc) {
 		$app = [
 			'dependencies' => []
 		];
@@ -200,7 +200,7 @@ class DependencyAnalyzerTest extends TestCase {
 	/**
 	 * @return array
 	 */
-	function providesOC() {
+	public function providesOC() {
 		return [
 			// no version -> no missing dependency
 			[
@@ -428,19 +428,19 @@ class DependencyAnalyzerTest extends TestCase {
 	/**
 	 * @return array
 	 */
-	function providesOS() {
+	public function providesOS() {
 		return [
 			[[], null],
 			[[], []],
-			[['Following platforms are supported: ANDROID'], 'ANDROID'],
-			[['Following platforms are supported: WINNT'], ['WINNT']]
+			[['The following platforms are supported: ANDROID'], 'ANDROID'],
+			[['The following platforms are supported: WINNT'], ['WINNT']]
 		];
 	}
 
 	/**
 	 * @return array
 	 */
-	function providesLibs() {
+	public function providesLibs() {
 		return [
 			// we expect curl to exist
 			[[], 'curl'],
@@ -470,7 +470,7 @@ class DependencyAnalyzerTest extends TestCase {
 	/**
 	 * @return array
 	 */
-	function providesCommands() {
+	public function providesCommands() {
 		return [
 			[[], null],
 			// grep is known on linux
@@ -488,20 +488,20 @@ class DependencyAnalyzerTest extends TestCase {
 	/**
 	 * @return array
 	 */
-	function providesDatabases() {
+	public function providesDatabases() {
 		return [
 			// non BC - in case on databases are defined -> all are supported
 			[[], null],
 			[[], []],
-			[['Following databases are supported: mongodb'], 'mongodb'],
-			[['Following databases are supported: sqlite, postgres'], ['sqlite', ['@value' => 'postgres']]],
+			[['The following databases are supported: mongodb'], 'mongodb'],
+			[['The following databases are supported: sqlite, postgres'], ['sqlite', ['@value' => 'postgres']]],
 		];
 	}
 
 	/**
 	 * @return array
 	 */
-	function providesPhpVersion() {
+	public function providesPhpVersion() {
 		return [
 			[[], null, null, null],
 			[[], '5.4', null, null],

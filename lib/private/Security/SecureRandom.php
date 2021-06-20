@@ -5,6 +5,7 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -24,7 +25,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Security;
 
 use OCP\Security\ISecureRandom;
@@ -51,7 +51,7 @@ class SecureRandom implements ISecureRandom {
 		$maxCharIndex = \strlen($characters) - 1;
 		$randomString = '';
 
-		while($length > 0) {
+		while ($length > 0) {
 			$randomNumber = \random_int(0, $maxCharIndex);
 			$randomString .= $characters[$randomNumber];
 			$length--;

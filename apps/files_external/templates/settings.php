@@ -1,10 +1,10 @@
 <?php
 	use \OCA\Files_External\Lib\Backend\Backend;
-	use \OCA\Files_External\Lib\Auth\AuthMechanism;
-	use \OCA\Files_External\Lib\DefinitionParameter;
-	use \OCA\Files_External\Service\BackendService;
+use \OCA\Files_External\Lib\Auth\AuthMechanism;
+use \OCA\Files_External\Lib\DefinitionParameter;
+use \OCA\Files_External\Service\BackendService;
 
-	$canCreateMounts = $_['visibilityType'] === BackendService::VISIBILITY_ADMIN || $_['allowUserMounting'];
+$canCreateMounts = $_['visibilityType'] === BackendService::VISIBILITY_ADMIN || $_['allowUserMounting'];
 
 	$l->t("Enable encryption");
 	$l->t("Enable previews");
@@ -46,7 +46,9 @@
 
 		switch ($parameter->getType()) {
 		case DefinitionParameter::VALUE_PASSWORD: ?>
-			<?php if ($is_optional) { $classes[] = 'optional'; } ?>
+			<?php if ($is_optional) {
+			$classes[] = 'optional';
+		} ?>
 			<input type="password"
 				<?php if (!empty($classes)): ?> class="<?php p(implode(' ', $classes)); ?>"<?php endif; ?>
 				data-parameter="<?php p($parameter->getName()); ?>"
@@ -79,7 +81,9 @@
 			<?php
 			break;
 		default: ?>
-			<?php if ($is_optional) { $classes[] = 'optional'; } ?>
+			<?php if ($is_optional) {
+			$classes[] = 'optional';
+		} ?>
 			<input type="text"
 				<?php if (!empty($classes)): ?> class="<?php p(implode(' ', $classes)); ?>"<?php endif; ?>
 				data-parameter="<?php p($parameter->getName()); ?>"
@@ -97,10 +101,12 @@
 </div>
 
 <form data-can-create="<?php echo $canCreateMounts?'true':'false' ?>" id="files_external" class="section" data-encryption-enabled="<?php echo $_['encryptionEnabled']?'true': 'false'; ?>">
-	<h2 class="inlineblock" data-anchor-name="external-storage"><?php p($l->t('External storages')); ?></h2>
+	<h2 class="inlineblock" data-anchor-name="external-storage"><?php p($l->t('External storage')); ?></h2>
 	<a target="_blank" rel="noreferrer" class="icon-info" title="<?php p($l->t('Open documentation'));?>" href="<?php p(link_to_docs('admin-external-storage')); ?>"></a>
 	<p class="settings-hint"><?php p($l->t('External storage enables you to mount external storage services and devices as secondary Nextcloud storage devices. You may also allow users to mount their own external storage services.')); ?></p>
-	<?php if (isset($_['dependencies']) and ($_['dependencies'] !== '') and $canCreateMounts) print_unescaped(''.$_['dependencies'].''); ?>
+	<?php if (isset($_['dependencies']) and ($_['dependencies'] !== '') and $canCreateMounts) {
+	print_unescaped(''.$_['dependencies'].'');
+} ?>
 	<table id="externalStorage" class="grid" data-admin='<?php print_unescaped(json_encode($_['visibilityType'] === BackendService::VISIBILITY_ADMIN)); ?>'>
 		<thead>
 			<tr>
@@ -109,7 +115,9 @@
 				<th><?php p($l->t('External storage')); ?></th>
 				<th><?php p($l->t('Authentication')); ?></th>
 				<th><?php p($l->t('Configuration')); ?></th>
-				<?php if ($_['visibilityType'] === BackendService::VISIBILITY_ADMIN) print_unescaped('<th>'.$l->t('Available for').'</th>'); ?>
+				<?php if ($_['visibilityType'] === BackendService::VISIBILITY_ADMIN) {
+	print_unescaped('<th>'.$l->t('Available for').'</th>');
+} ?>
 				<th>&nbsp;</th>
 				<th>&nbsp;</th>
 				<th>&nbsp;</th>
@@ -134,15 +142,17 @@
 							<?php p($l->t('Add storage')); ?>
 						</option>
 						<?php
-							$sortedBackends = array_filter($_['backends'], function($backend) use ($_) {
+							$sortedBackends = array_filter($_['backends'], function ($backend) use ($_) {
 								return $backend->isVisibleFor($_['visibilityType']);
 							});
-							uasort($sortedBackends, function($a, $b) {
+							uasort($sortedBackends, function ($a, $b) {
 								return strcasecmp($a->getText(), $b->getText());
 							});
 						?>
 						<?php foreach ($sortedBackends as $backend): ?>
-							<?php if ($backend->getDeprecateTo()) continue; // ignore deprecated backends ?>
+							<?php if ($backend->getDeprecateTo()) {
+							continue;
+						} // ignore deprecated backends?>
 							<option value="<?php p($backend->getIdentifier()); ?>"><?php p($backend->getText()); ?></option>
 						<?php endforeach; ?>
 					</select>
@@ -167,12 +177,14 @@
 
 	<?php if ($_['visibilityType'] === BackendService::VISIBILITY_ADMIN): ?>
 		<input type="checkbox" name="allowUserMounting" id="allowUserMounting" class="checkbox"
-			value="1" <?php if ($_['allowUserMounting']) print_unescaped(' checked="checked"'); ?> />
+			value="1" <?php if ($_['allowUserMounting']) {
+							print_unescaped(' checked="checked"');
+						} ?> />
 		<label for="allowUserMounting"><?php p($l->t('Allow users to mount external storage')); ?></label> <span id="userMountingMsg" class="msg"></span>
 
 		<p id="userMountingBackends"<?php if (!$_['allowUserMounting']): ?> class="hidden"<?php endif; ?>>
 			<?php
-				$userBackends = array_filter($_['backends'], function($backend) {
+				$userBackends = array_filter($_['backends'], function ($backend) {
 					return $backend->isAllowedVisibleFor(BackendService::VISIBILITY_PERSONAL);
 				});
 			?>
@@ -180,7 +192,9 @@
 				<?php if ($deprecateTo = $backend->getDeprecateTo()): ?>
 					<input type="hidden" id="allowUserMountingBackends<?php p($i); ?>" name="allowUserMountingBackends[]" value="<?php p($backend->getIdentifier()); ?>" data-deprecate-to="<?php p($deprecateTo->getIdentifier()); ?>" />
 				<?php else: ?>
-					<input type="checkbox" id="allowUserMountingBackends<?php p($i); ?>" class="checkbox" name="allowUserMountingBackends[]" value="<?php p($backend->getIdentifier()); ?>" <?php if ($backend->isVisibleFor(BackendService::VISIBILITY_PERSONAL)) print_unescaped(' checked="checked"'); ?> />
+					<input type="checkbox" id="allowUserMountingBackends<?php p($i); ?>" class="checkbox" name="allowUserMountingBackends[]" value="<?php p($backend->getIdentifier()); ?>" <?php if ($backend->isVisibleFor(BackendService::VISIBILITY_PERSONAL)) {
+				print_unescaped(' checked="checked"');
+			} ?> />
 					<label for="allowUserMountingBackends<?php p($i); ?>"><?php p($backend->getText()); ?></label> <br />
 				<?php endif; ?>
 				<?php $i++; ?>
@@ -191,9 +205,9 @@
 
 <div class="followupsection">
 	<form autocomplete="false" action="#"
-		  id="global_credentials">
+		  id="global_credentials" method="post">
 		<h2><?php p($l->t('Global credentials')); ?></h2>
-		<p class="settings-hint"><?php p($l->t('Global credentials can be used to authenticate with multiple external storages that have the same credentials.')); ?></p>
+		<p class="settings-hint"><?php p($l->t('Global credentials can be used to authenticate with multiple external storage that have the same credentials.')); ?></p>
 		<input type="text" name="username"
 			   autocomplete="false"
 			   value="<?php p($_['globalCredentials']['user']); ?>"

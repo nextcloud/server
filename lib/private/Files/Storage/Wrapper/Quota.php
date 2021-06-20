@@ -2,6 +2,9 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author J0WI <J0WI@users.noreply.github.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
@@ -9,7 +12,8 @@
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Tigran Mkrtchyan <tigran.mkrtchyan@desy.de>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -26,7 +30,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Files\Storage\Wrapper;
 
 use OC\Files\Filesystem;
@@ -71,7 +74,10 @@ class Quota extends Wrapper {
 	protected function getSize($path, $storage = null) {
 		if ($this->config->getValue('quota_include_external_storage', false)) {
 			$rootInfo = Filesystem::getFileInfo('', 'ext');
-			return $rootInfo->getSize(true);
+			if ($rootInfo) {
+				return $rootInfo->getSize(true);
+			}
+			return \OCP\Files\FileInfo::SPACE_NOT_COMPUTED;
 		} else {
 			if (is_null($storage)) {
 				$cache = $this->getCache();
@@ -91,7 +97,7 @@ class Quota extends Wrapper {
 	 * Get free space as limited by the quota
 	 *
 	 * @param string $path
-	 * @return int
+	 * @return int|bool
 	 */
 	public function free_space($path) {
 		if ($this->quota < 0 || strpos($path, 'cache') === 0 || strpos($path, 'uploads') === 0) {
@@ -115,11 +121,11 @@ class Quota extends Wrapper {
 	}
 
 	/**
-	 * see http://php.net/manual/en/function.file_put_contents.php
+	 * see https://www.php.net/manual/en/function.file_put_contents.php
 	 *
 	 * @param string $path
-	 * @param string $data
-	 * @return bool
+	 * @param mixed $data
+	 * @return int|false
 	 */
 	public function file_put_contents($path, $data) {
 		$free = $this->free_space($path);
@@ -131,7 +137,7 @@ class Quota extends Wrapper {
 	}
 
 	/**
-	 * see http://php.net/manual/en/function.copy.php
+	 * see https://www.php.net/manual/en/function.copy.php
 	 *
 	 * @param string $source
 	 * @param string $target
@@ -147,11 +153,11 @@ class Quota extends Wrapper {
 	}
 
 	/**
-	 * see http://php.net/manual/en/function.fopen.php
+	 * see https://www.php.net/manual/en/function.fopen.php
 	 *
 	 * @param string $path
 	 * @param string $mode
-	 * @return resource
+	 * @return resource|bool
 	 */
 	public function fopen($path, $mode) {
 		$source = $this->storage->fopen($path, $mode);
@@ -159,9 +165,9 @@ class Quota extends Wrapper {
 		// don't apply quota for part files
 		if (!$this->isPartFile($path)) {
 			$free = $this->free_space($path);
-			if ($source && $free >= 0 && $mode !== 'r' && $mode !== 'rb') {
+			if ($source && is_int($free) && $free >= 0 && $mode !== 'r' && $mode !== 'rb') {
 				// only apply quota for files, not metadata, trash or others
-				if (strpos(ltrim($path, '/'), 'files/') === 0) {
+				if ($this->shouldApplyQuota($path)) {
 					return \OC\Files\Stream\Quota::wrap($source, $free);
 				}
 			}
@@ -180,6 +186,13 @@ class Quota extends Wrapper {
 		$extension = pathinfo($path, PATHINFO_EXTENSION);
 
 		return ($extension === 'part');
+	}
+
+	/**
+	 * Only apply quota for files, not metadata, trash or others
+	 */
+	private function shouldApplyQuota(string $path): bool {
+		return strpos(ltrim($path, '/'), 'files/') === 0;
 	}
 
 	/**
@@ -214,7 +227,7 @@ class Quota extends Wrapper {
 
 	public function mkdir($path) {
 		$free = $this->free_space($path);
-		if ($free === 0.0) {
+		if ($this->shouldApplyQuota($path) && $free === 0.0) {
 			return false;
 		}
 
@@ -229,5 +242,4 @@ class Quota extends Wrapper {
 
 		return parent::touch($path, $mtime);
 	}
-
 }

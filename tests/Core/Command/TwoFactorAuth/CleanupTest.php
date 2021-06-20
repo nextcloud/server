@@ -60,7 +60,6 @@ class CleanupTest extends TestCase {
 
 		$this->assertEquals(0, $rc);
 		$output = $this->cmd->getDisplay();
-		$this->assertContains("All user-provider associations for provider u2f have been removed", $output);
+		$this->assertStringContainsString("All user-provider associations for provider u2f have been removed", $output);
 	}
-
 }

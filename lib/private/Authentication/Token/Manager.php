@@ -18,14 +18,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Authentication\Token;
 
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
@@ -139,7 +138,7 @@ class Manager implements IProvider {
 			throw $e;
 		} catch (ExpiredTokenException $e) {
 			throw $e;
-		} catch(InvalidTokenException $e) {
+		} catch (InvalidTokenException $e) {
 			// No worries we try to convert it to a PublicKey Token
 		}
 
@@ -272,6 +271,4 @@ class Manager implements IProvider {
 		$this->defaultTokenProvider->updatePasswords($uid, $password);
 		$this->publicKeyTokenProvider->updatePasswords($uid, $password);
 	}
-
-
 }

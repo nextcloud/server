@@ -5,6 +5,7 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Leon Klingele <git@leonklingele.de>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -24,7 +25,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Security\CSRF;
 
 /**
@@ -55,7 +55,7 @@ class CsrfToken {
 	 * @return string
 	 */
 	public function getEncryptedValue(): string {
-		if($this->encryptedValue === '') {
+		if ($this->encryptedValue === '') {
 			$sharedSecret = random_bytes(\strlen($this->value));
 			$this->encryptedValue = base64_encode($this->value ^ $sharedSecret) . ':' . base64_encode($sharedSecret);
 		}

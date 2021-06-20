@@ -2,7 +2,7 @@ default:
   suites:
     default:
       paths:
-        - %paths.base%/../features
+        - "%paths.base%/../features"
       contexts:
         - ActorContext
         - NextcloudTestServerContext
@@ -31,7 +31,7 @@ default:
         tags: "~@apache"
     apache:
       paths:
-        - %paths.base%/../features
+        - "%paths.base%/../features"
       contexts:
         - ActorContext
         - NextcloudTestServerContext:
@@ -65,15 +65,39 @@ default:
         default:
           selenium2:
             wd_host: %selenium.server%
+            browser: "chrome"
+            capabilities:
+              extra_capabilities:
+                goog:chromeOptions:
+                  args: ["disable-dev-shm-usage"]
+                  w3c: false
         John:
           selenium2:
             wd_host: %selenium.server%
+            browser: "chrome"
+            capabilities:
+              extra_capabilities:
+                goog:chromeOptions:
+                  args: ["disable-dev-shm-usage"]
+                  w3c: false
         Jane:
           selenium2:
             wd_host: %selenium.server%
+            browser: "chrome"
+            capabilities:
+              extra_capabilities:
+                goog:chromeOptions:
+                  args: ["disable-dev-shm-usage"]
+                  w3c: false
         Jim:
           selenium2:
             wd_host: %selenium.server%
+            browser: "chrome"
+            capabilities:
+              extra_capabilities:
+                goog:chromeOptions:
+                  args: ["disable-dev-shm-usage"]
+                  w3c: false
         Rubeus:
           # Rubeus uses a browser that has CSS grid support.
           selenium2:

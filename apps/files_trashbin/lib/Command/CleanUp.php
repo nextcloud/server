@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Liam Dennehy <liam@wiemax.net>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -22,7 +23,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_Trashbin\Command;
 
 use OCP\Files\IRootFolder;
@@ -52,7 +52,7 @@ class CleanUp extends Command {
 	 * @param IUserManager $userManager
 	 * @param IDBConnection $dbConnection
 	 */
-	function __construct(IRootFolder $rootFolder, IUserManager $userManager, IDBConnection $dbConnection) {
+	public function __construct(IRootFolder $rootFolder, IUserManager $userManager, IDBConnection $dbConnection) {
 		parent::__construct();
 		$this->userManager = $userManager;
 		$this->rootFolder = $rootFolder;
@@ -76,7 +76,7 @@ class CleanUp extends Command {
 			);
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$users = $input->getArgument('user_id');
 		if ((!empty($users)) and ($input->getOption('all-users'))) {
 			throw new InvalidOptionException('Either specify a user_id or --all-users');
@@ -87,6 +87,7 @@ class CleanUp extends Command {
 					$this->removeDeletedFiles($user);
 				} else {
 					$output->writeln("<error>Unknown user $user</error>");
+					return 1;
 				}
 			}
 		} elseif ($input->getOption('all-users')) {
@@ -111,6 +112,7 @@ class CleanUp extends Command {
 		} else {
 			throw new InvalidOptionException('Either specify a user_id or --all-users');
 		}
+		return 0;
 	}
 
 	/**
@@ -130,5 +132,4 @@ class CleanUp extends Command {
 			$query->execute();
 		}
 	}
-
 }

@@ -2,6 +2,9 @@
 /**
  * @copyright Copyright (c) 2018, Patrik Kernstock <info@pkern.at>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Patrik Kernstock <info@pkern.at>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -14,14 +17,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Core\Command\App;
 
 use OC\Installer;
@@ -74,7 +76,7 @@ class Remove extends Command implements CompletionAwareInterface {
 			);
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$appId = $input->getArgument('app-id');
 
 		// Check if the app is installed
@@ -96,7 +98,7 @@ class Remove extends Command implements CompletionAwareInterface {
 			try {
 				$this->manager->disableApp($appId);
 				$output->writeln($appId . ' disabled');
-			} catch(Throwable $e) {
+			} catch (Throwable $e) {
 				$output->writeln('<error>Error: ' . $e->getMessage() . '</error>');
 				$this->logger->logException($e, [
 					'app' => 'CLI',
@@ -109,7 +111,7 @@ class Remove extends Command implements CompletionAwareInterface {
 		// Let's try to remove the app...
 		try {
 			$result = $this->installer->removeApp($appId);
-		} catch(Throwable $e) {
+		} catch (Throwable $e) {
 			$output->writeln('<error>Error: ' . $e->getMessage() . '</error>');
 			$this->logger->logException($e, [
 				'app' => 'CLI',
@@ -118,12 +120,13 @@ class Remove extends Command implements CompletionAwareInterface {
 			return 1;
 		}
 
-		if($result === false) {
+		if ($result === false) {
 			$output->writeln($appId . ' could not be removed');
 			return 1;
 		}
 
-		$output->writeln($appId . ' removed');
+		$appVersion = \OC_App::getAppVersion($appId);
+		$output->writeln($appId . ' ' . $appVersion . ' removed');
 
 		return 0;
 	}

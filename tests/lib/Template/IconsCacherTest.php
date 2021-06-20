@@ -1,5 +1,6 @@
 <?php
-declare (strict_types = 1);
+
+declare(strict_types = 1);
 /**
  * @copyright Copyright (c) 2018, John Molakvoæ (skjnldsv@protonmail.com)
  *
@@ -35,13 +36,13 @@ use OCP\ILogger;
 use OCP\IURLGenerator;
 
 class IconsCacherTest extends \Test\TestCase {
-	/** @var ILogger|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ILogger|\PHPUnit\Framework\MockObject\MockObject */
 	protected $logger;
-	/** @var IAppData|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IAppData|\PHPUnit\Framework\MockObject\MockObject */
 	protected $appData;
-	/** @var IURLGenerator|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
 	protected $urlGenerator;
-	/** @var ITimeFactory|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
 	private $timeFactory;
 
 	protected function setUp(): void {
@@ -49,7 +50,7 @@ class IconsCacherTest extends \Test\TestCase {
 		$this->appData = $this->createMock(AppData::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
 
-		/** @var Factory|\PHPUnit_Framework_MockObject_MockObject $factory */
+		/** @var Factory|\PHPUnit\Framework\MockObject\MockObject $factory */
 		$factory = $this->createMock(Factory::class);
 		$factory->method('get')->with('css')->willReturn($this->appData);
 
@@ -147,5 +148,4 @@ class IconsCacherTest extends \Test\TestCase {
 		$actual = $this->iconsCacher->setIconsCss($actual);
 		$this->assertEquals($expected, $actual);
 	}
-
 }

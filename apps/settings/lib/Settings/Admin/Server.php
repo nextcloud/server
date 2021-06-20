@@ -5,8 +5,7 @@
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -17,14 +16,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Settings\Settings\Admin;
 
 use OCP\AppFramework\Http\TemplateResponse;
@@ -57,9 +55,9 @@ class Server implements ISettings {
 		$parameters = [
 			// Background jobs
 			'backgroundjobs_mode' => $this->config->getAppValue('core', 'backgroundjobs_mode', 'ajax'),
-			'lastcron'            => $this->config->getAppValue('core', 'lastcron', false),
-			'cronMaxAge'          => $this->cronMaxAge(),
-			'cronErrors'          => $this->config->getAppValue('core', 'cronErrors'),
+			'lastcron' => $this->config->getAppValue('core', 'lastcron', false),
+			'cronMaxAge' => $this->cronMaxAge(),
+			'cronErrors' => $this->config->getAppValue('core', 'cronErrors'),
 			'cli_based_cron_possible' => function_exists('posix_getpwuid'),
 			'cli_based_cron_user' => function_exists('posix_getpwuid') ? posix_getpwuid(fileowner(\OC::$configDir . 'config.php'))['name'] : '',
 		];

@@ -15,14 +15,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCP\Federation\Exceptions;
 
 use OC\HintException;
@@ -30,7 +29,6 @@ use OC\HintException;
 /**
  * Class ProviderAlreadyExistsException
  *
- * @package OCP\Federation\Exceptions
  *
  * @since 14.0.0
  */
@@ -50,5 +48,4 @@ class ProviderAlreadyExistsException extends HintException {
 		$hint = $l->t('ID "%1$s" already used by cloud federation provider "%2$s"', [$newProviderId, $existingProviderName]);
 		parent::__construct($message, $hint);
 	}
-
 }

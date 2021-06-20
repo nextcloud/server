@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2019, Georg Ehrke
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Joas Schilling <coding@schilljs.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -14,14 +14,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\Command;
 
 use OCA\DAV\CalDAV\Reminder\ReminderService;
@@ -67,19 +66,20 @@ class SendEventReminders extends Command {
 	 * @param InputInterface $input
 	 * @param OutputInterface $output
 	 */
-	protected function execute(InputInterface $input, OutputInterface $output):void {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		if ($this->config->getAppValue('dav', 'sendEventReminders', 'yes') !== 'yes') {
 			$output->writeln('<error>Sending event reminders disabled!</error>');
 			$output->writeln('<info>Please run "php occ config:app:set dav sendEventReminders --value yes"');
-			return;
+			return 1;
 		}
 
 		if ($this->config->getAppValue('dav', 'sendEventRemindersMode', 'backgroundjob') !== 'occ') {
 			$output->writeln('<error>Sending event reminders mode set to background-job!</error>');
 			$output->writeln('<info>Please run "php occ config:app:set dav sendEventRemindersMode --value occ"');
-			return;
+			return 1;
 		}
 
 		$this->reminderService->processReminders();
+		return 0;
 	}
 }

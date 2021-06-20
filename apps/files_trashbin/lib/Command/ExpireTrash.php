@@ -2,6 +2,8 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud GmbH.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
@@ -21,7 +23,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_Trashbin\Command;
 
 use OCA\Files_Trashbin\Expiration;
@@ -41,7 +42,7 @@ class ExpireTrash extends Command {
 	 * @var Expiration
 	 */
 	private $expiration;
-	
+
 	/**
 	 * @var IUserManager
 	 */
@@ -70,12 +71,11 @@ class ExpireTrash extends Command {
 			);
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
-
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$maxAge = $this->expiration->getMaxAgeAsTimestamp();
 		if (!$maxAge) {
 			$output->writeln("No expiry configured.");
-			return;
+			return 1;
 		}
 
 		$users = $input->getArgument('user_id');
@@ -87,21 +87,23 @@ class ExpireTrash extends Command {
 					$this->expireTrashForUser($userObject);
 				} else {
 					$output->writeln("<error>Unknown user $user</error>");
+					return 1;
 				}
 			}
 		} else {
 			$p = new ProgressBar($output);
 			$p->start();
-			$this->userManager->callForSeenUsers(function(IUser $user) use ($p) {
+			$this->userManager->callForSeenUsers(function (IUser $user) use ($p) {
 				$p->advance();
 				$this->expireTrashForUser($user);
 			});
 			$p->finish();
 			$output->writeln('');
 		}
+		return 0;
 	}
 
-	function expireTrashForUser(IUser $user) {
+	public function expireTrashForUser(IUser $user) {
 		$uid = $user->getUID();
 		if (!$this->setupFS($uid)) {
 			return;

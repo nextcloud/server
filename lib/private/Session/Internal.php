@@ -31,7 +31,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Session;
 
 use OC\Authentication\Exceptions\InvalidTokenException;
@@ -104,7 +103,7 @@ class Internal extends Session {
 	public function clear() {
 		$this->invoke('session_unset');
 		$this->regenerateId();
-		$this->startSession();
+		$this->startSession(true);
 		$_SESSION = [];
 	}
 
@@ -203,21 +202,17 @@ class Internal extends Session {
 	 */
 	private function invoke(string $functionName, array $parameters = [], bool $silence = false) {
 		try {
-			if($silence) {
+			if ($silence) {
 				return @call_user_func_array($functionName, $parameters);
 			} else {
 				return call_user_func_array($functionName, $parameters);
 			}
-		} catch(\Error $e) {
+		} catch (\Error $e) {
 			$this->trapError($e->getCode(), $e->getMessage());
 		}
 	}
 
-	private function startSession() {
-		if (PHP_VERSION_ID < 70300) {
-			$this->invoke('session_start');
-		} else {
-			$this->invoke('session_start', [['cookie_samesite' => 'Lax']]);
-		}
+	private function startSession(bool $silence = false) {
+		$this->invoke('session_start', [['cookie_samesite' => 'Lax']], $silence);
 	}
 }

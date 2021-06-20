@@ -1,26 +1,27 @@
 <?php
 /**
-* ownCloud
-*
-* @author Thomas Tanghus
-* @copyright 2012-13 Thomas Tanghus (thomas@tanghus.net)
-*
-* This library is free software; you can redistribute it and/or
-* modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
-* License as published by the Free Software Foundation; either
-* version 3 of the License, or any later version.
-*
-* This library is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-* GNU AFFERO GENERAL PUBLIC LICENSE for more details.
-*
-* You should have received a copy of the GNU Affero General Public
-* License along with this library.  If not, see <http://www.gnu.org/licenses/>.
-*
-*/
+ * ownCloud
+ *
+ * @author Thomas Tanghus
+ * @copyright 2012-13 Thomas Tanghus (thomas@tanghus.net)
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public
+ * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
 
 namespace Test;
+
 use OCP\IUser;
 use OCP\IUserSession;
 
@@ -30,7 +31,6 @@ use OCP\IUserSession;
  * @group DB
  */
 class TagsTest extends \Test\TestCase {
-
 	protected $objectType;
 	/** @var \OCP\IUser */
 	protected $user;
@@ -61,8 +61,7 @@ class TagsTest extends \Test\TestCase {
 
 		$this->objectType = $this->getUniqueID('type_');
 		$this->tagMapper = new \OC\Tagging\TagMapper(\OC::$server->getDatabaseConnection());
-		$this->tagMgr = new \OC\TagManager($this->tagMapper, $this->userSession);
-
+		$this->tagMgr = new \OC\TagManager($this->tagMapper, $this->userSession, \OC::$server->getDatabaseConnection());
 	}
 
 	protected function tearDown(): void {
@@ -79,7 +78,7 @@ class TagsTest extends \Test\TestCase {
 			->expects($this->any())
 			->method('getUser')
 			->willReturn(null);
-		$this->tagMgr = new \OC\TagManager($this->tagMapper, $this->userSession);
+		$this->tagMgr = new \OC\TagManager($this->tagMapper, $this->userSession, \OC::$server->getDatabaseConnection());
 		$this->assertNull($this->tagMgr->load($this->objectType));
 	}
 
@@ -96,7 +95,7 @@ class TagsTest extends \Test\TestCase {
 
 		$tagger = $this->tagMgr->load($this->objectType);
 
-		foreach($tags as $tag) {
+		foreach ($tags as $tag) {
 			$result = $tagger->add($tag);
 			$this->assertGreaterThan(0, $result, 'add() returned an ID <= 0');
 			$this->assertTrue((bool)$result);
@@ -113,20 +112,20 @@ class TagsTest extends \Test\TestCase {
 
 		$tagger = $this->tagMgr->load($this->objectType);
 
-		foreach($tags as $tag) {
+		foreach ($tags as $tag) {
 			$this->assertFalse($tagger->hasTag($tag));
 		}
 
 		$result = $tagger->addMultiple($tags);
 		$this->assertTrue((bool)$result);
 
-		foreach($tags as $tag) {
+		foreach ($tags as $tag) {
 			$this->assertTrue($tagger->hasTag($tag));
 		}
 
 		$tagMaps = $tagger->getTags();
 		$this->assertCount(4, $tagMaps, 'Not all tags added');
-		foreach($tagMaps as $tagMap) {
+		foreach ($tagMaps as $tagMap) {
 			$this->assertEquals(null, $tagMap['id']);
 		}
 
@@ -142,14 +141,14 @@ class TagsTest extends \Test\TestCase {
 		$this->assertTrue((bool)$result);
 
 		$tagMaps = $tagger->getTags();
-		foreach($tagMaps as $tagMap) {
+		foreach ($tagMaps as $tagMap) {
 			$this->assertNotEquals(null, $tagMap['id']);
 		}
 
 		// Reload the tagger.
 		$tagger = $this->tagMgr->load($this->objectType);
 
-		foreach($tags as $tag) {
+		foreach ($tags as $tag) {
 			$this->assertTrue($tagger->hasTag($tag));
 		}
 
@@ -214,7 +213,7 @@ class TagsTest extends \Test\TestCase {
 
 		// insert lots of entries
 		$idsArray = [];
-		for($i = 1; $i <= 1500; $i++) {
+		for ($i = 1; $i <= 1500; $i++) {
 			$statement->execute([$i, $tagId, $tagType]);
 			$idsArray[] = $i;
 		}
@@ -252,7 +251,7 @@ class TagsTest extends \Test\TestCase {
 
 		$tagger = $this->tagMgr->load($this->objectType);
 
-		foreach($objids as $id) {
+		foreach ($objids as $id) {
 			$this->assertTrue($tagger->tagAs($id, 'Family'));
 		}
 
@@ -261,8 +260,8 @@ class TagsTest extends \Test\TestCase {
 	}
 
 	/**
-	* @depends testTagAs
-	*/
+	 * @depends testTagAs
+	 */
 	public function testUnTag() {
 		$objIds = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
@@ -270,7 +269,7 @@ class TagsTest extends \Test\TestCase {
 		$this->testTagAs();
 		$tagger = $this->tagMgr->load($this->objectType);
 
-		foreach($objIds as $id) {
+		foreach ($objIds as $id) {
 			$this->assertTrue(in_array($id, $tagger->getIdsForTag('Family')));
 			$tagger->unTag($id, 'Family');
 			$this->assertFalse(in_array($id, $tagger->getIdsForTag('Family')));
@@ -287,40 +286,4 @@ class TagsTest extends \Test\TestCase {
 		$this->assertTrue($tagger->removeFromFavorites(1));
 		$this->assertEquals([], $tagger->getFavorites());
 	}
-
-	public function testShareTags() {
-		$testTag = 'TestTag';
-		\OC\Share\Share::registerBackend('test', 'Test\Share\Backend');
-
-		$tagger = $this->tagMgr->load('test');
-		$tagger->tagAs(1, $testTag);
-
-
-		$otherUserId = $this->getUniqueID('user2_');
-		$otherUser = $this->createMock(IUser::class);
-		$otherUser->method('getUID')
-			->willReturn($otherUserId);
-
-		\OC::$server->getUserManager()->createUser($otherUserId, 'pass');
-		\OC_User::setUserId($otherUserId);
-		$otherUserSession = $this->createMock(IUserSession::class);
-		$otherUserSession
-			->expects($this->any())
-			->method('getUser')
-			->willReturn($otherUser);
-
-		$otherTagMgr = new \OC\TagManager($this->tagMapper, $otherUserSession);
-		$otherTagger = $otherTagMgr->load('test');
-		$this->assertFalse($otherTagger->hasTag($testTag));
-
-		\OC_User::setUserId($this->user->getUID());
-		// TODO new sharing
-		\OC\Share\Share::shareItem('test', 1, \OCP\Share::SHARE_TYPE_USER, $otherUserId, \OCP\Constants::PERMISSION_READ);
-
-		\OC_User::setUserId($otherUserId);
-		$otherTagger = $otherTagMgr->load('test', [], true); // Update tags, load shared ones.
-		$this->assertTrue($otherTagger->hasTag($testTag));
-		$this->assertContains(1, $otherTagger->getIdsForTag($testTag));
-	}
-
 }

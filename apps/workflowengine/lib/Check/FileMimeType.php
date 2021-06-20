@@ -2,6 +2,12 @@
 /**
  * @copyright Copyright (c) 2016 Joas Schilling <coding@schilljs.com>
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author Julius Härtl <jus@bitgrid.net>
+ * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -11,16 +17,14 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\WorkflowEngine\Check;
-
 
 use OCA\WorkflowEngine\Entity\File;
 use OCP\Files\IMimeTypeDetector;
@@ -63,7 +67,6 @@ class FileMimeType extends AbstractStringCheck implements IFileCheck {
 		$this->_setFileInfo($storage, $path, $isDir);
 		if (!isset($this->mimeType[$this->storage->getId()][$this->path])
 			|| $this->mimeType[$this->storage->getId()][$this->path] === '') {
-
 			if ($isDir) {
 				$this->mimeType[$this->storage->getId()][$this->path] = 'httpd/unix-directory';
 			} else {
@@ -93,6 +96,23 @@ class FileMimeType extends AbstractStringCheck implements IFileCheck {
 		}
 
 		return $mimeType;
+	}
+
+	/**
+	 * Make sure that even though the content based check returns an application/octet-stream can still be checked based on mimetypemappings of their extension
+	 *
+	 * @param string $operator
+	 * @param string $value
+	 * @return bool
+	 */
+	public function executeCheck($operator, $value) {
+		$actualValue = $this->getActualValue();
+		$plainMimetypeResult = $this->executeStringCheck($operator, $value, $actualValue);
+		if ($actualValue === 'httpd/unix-directory') {
+			return $plainMimetypeResult;
+		}
+		$detectMimetypeBasedOnFilenameResult = $this->executeStringCheck($operator, $value, $this->mimeTypeDetector->detectPath($this->path));
+		return $plainMimetypeResult || $detectMimetypeBasedOnFilenameResult;
 	}
 
 	/**

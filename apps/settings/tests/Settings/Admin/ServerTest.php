@@ -1,5 +1,7 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016 Lukas Reschke <lukas@statuscode.ch>
  *
@@ -20,14 +22,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Settings\Tests\Settings\Admin;
 
 use OCA\Settings\Settings\Admin\Server;
@@ -37,7 +38,6 @@ use OCP\IConfig;
 use OCP\IDBConnection;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
-
 
 /**
  * @group DB
@@ -92,9 +92,9 @@ class ServerTest extends TestCase {
 			'settings/admin/server',
 			[
 				'backgroundjobs_mode' => 'ajax',
-				'lastcron'            => false,
-				'cronErrors'          => '',
-				'cronMaxAge'          => 1337,
+				'lastcron' => false,
+				'cronErrors' => '',
+				'cronMaxAge' => 1337,
 				'cli_based_cron_possible' => true,
 				'cli_based_cron_user' => function_exists('posix_getpwuid') ? posix_getpwuid(fileowner(\OC::$configDir . 'config.php'))['name'] : '', // to not explode here because of posix extension not being disabled - which is already checked in the line above
 			],

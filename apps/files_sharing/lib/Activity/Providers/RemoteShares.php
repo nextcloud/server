@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2016 Joas Schilling <coding@schilljs.com>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Robin Appelman <robin@icewind.nl>
  *
@@ -14,14 +15,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Files_Sharing\Activity\Providers;
 
 use OCP\Activity\IEvent;
@@ -33,11 +33,10 @@ use OCP\IUserManager;
 use OCP\L10N\IFactory;
 
 class RemoteShares extends Base {
-
-	const SUBJECT_REMOTE_SHARE_ACCEPTED = 'remote_share_accepted';
-	const SUBJECT_REMOTE_SHARE_DECLINED = 'remote_share_declined';
-	const SUBJECT_REMOTE_SHARE_RECEIVED = 'remote_share_received';
-	const SUBJECT_REMOTE_SHARE_UNSHARED = 'remote_share_unshared';
+	public const SUBJECT_REMOTE_SHARE_ACCEPTED = 'remote_share_accepted';
+	public const SUBJECT_REMOTE_SHARE_DECLINED = 'remote_share_declined';
+	public const SUBJECT_REMOTE_SHARE_RECEIVED = 'remote_share_received';
+	public const SUBJECT_REMOTE_SHARE_UNSHARED = 'remote_share_unshared';
 
 	public function __construct(IFactory $languageFactory,
 								IURLGenerator $url,
@@ -60,7 +59,7 @@ class RemoteShares extends Base {
 
 		if ($event->getSubject() === self::SUBJECT_REMOTE_SHARE_ACCEPTED) {
 			$subject = $this->l->t('{user} accepted the remote share');
-		} else if ($event->getSubject() === self::SUBJECT_REMOTE_SHARE_DECLINED) {
+		} elseif ($event->getSubject() === self::SUBJECT_REMOTE_SHARE_DECLINED) {
 			$subject = $this->l->t('{user} declined the remote share');
 		} else {
 			throw new \InvalidArgumentException();
@@ -87,11 +86,11 @@ class RemoteShares extends Base {
 
 		if ($event->getSubject() === self::SUBJECT_REMOTE_SHARE_RECEIVED) {
 			$subject = $this->l->t('You received a new remote share {file} from {user}');
-		} else if ($event->getSubject() === self::SUBJECT_REMOTE_SHARE_ACCEPTED) {
+		} elseif ($event->getSubject() === self::SUBJECT_REMOTE_SHARE_ACCEPTED) {
 			$subject = $this->l->t('{user} accepted the remote share of {file}');
-		} else if ($event->getSubject() === self::SUBJECT_REMOTE_SHARE_DECLINED) {
+		} elseif ($event->getSubject() === self::SUBJECT_REMOTE_SHARE_DECLINED) {
 			$subject = $this->l->t('{user} declined the remote share of {file}');
-		} else if ($event->getSubject() === self::SUBJECT_REMOTE_SHARE_UNSHARED) {
+		} elseif ($event->getSubject() === self::SUBJECT_REMOTE_SHARE_UNSHARED) {
 			$subject = $this->l->t('{user} unshared {file} from you');
 		} else {
 			throw new \InvalidArgumentException();

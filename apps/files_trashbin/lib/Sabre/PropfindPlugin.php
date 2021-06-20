@@ -5,6 +5,7 @@ declare(strict_types=1);
 /**
  * @copyright 2018, Roeland Jago Douma <roeland@famdouma.nl>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -17,14 +18,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Files_Trashbin\Sabre;
 
 use OCA\DAV\Connector\Sabre\FilesPlugin;
@@ -35,11 +35,10 @@ use Sabre\DAV\Server;
 use Sabre\DAV\ServerPlugin;
 
 class PropfindPlugin extends ServerPlugin {
-
-	const TRASHBIN_FILENAME = '{http://nextcloud.org/ns}trashbin-filename';
-	const TRASHBIN_ORIGINAL_LOCATION = '{http://nextcloud.org/ns}trashbin-original-location';
-	const TRASHBIN_DELETION_TIME = '{http://nextcloud.org/ns}trashbin-deletion-time';
-	const TRASHBIN_TITLE = '{http://nextcloud.org/ns}trashbin-title';
+	public const TRASHBIN_FILENAME = '{http://nextcloud.org/ns}trashbin-filename';
+	public const TRASHBIN_ORIGINAL_LOCATION = '{http://nextcloud.org/ns}trashbin-original-location';
+	public const TRASHBIN_DELETION_TIME = '{http://nextcloud.org/ns}trashbin-deletion-time';
+	public const TRASHBIN_TITLE = '{http://nextcloud.org/ns}trashbin-title';
 
 	/** @var Server */
 	private $server;
@@ -111,5 +110,4 @@ class PropfindPlugin extends ServerPlugin {
 			return '';
 		});
 	}
-
 }

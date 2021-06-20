@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -21,7 +22,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Comments;
 
 use OCP\Comments\CommentsEntityEvent;
@@ -70,8 +70,7 @@ class RootCollection implements ICollection {
 		IUserManager $userManager,
 		IUserSession $userSession,
 		EventDispatcherInterface $dispatcher,
-		ILogger $logger)
-	{
+		ILogger $logger) {
 		$this->commentsManager = $commentsManager;
 		$this->logger = $logger;
 		$this->userManager = $userManager;
@@ -87,11 +86,11 @@ class RootCollection implements ICollection {
 	 * @throws NotAuthenticated
 	 */
 	protected function initCollections() {
-		if($this->entityTypeCollections !== null) {
+		if ($this->entityTypeCollections !== null) {
 			return;
 		}
 		$user = $this->userSession->getUser();
-		if(is_null($user)) {
+		if (is_null($user)) {
 			throw new NotAuthenticated();
 		}
 
@@ -119,7 +118,7 @@ class RootCollection implements ICollection {
 	 * @return null|string
 	 * @throws Forbidden
 	 */
-	function createFile($name, $data = null) {
+	public function createFile($name, $data = null) {
 		throw new Forbidden('Cannot create comments by id');
 	}
 
@@ -129,7 +128,7 @@ class RootCollection implements ICollection {
 	 * @param string $name
 	 * @throws Forbidden
 	 */
-	function createDirectory($name) {
+	public function createDirectory($name) {
 		throw new Forbidden('Permission denied to create collections');
 	}
 
@@ -143,9 +142,9 @@ class RootCollection implements ICollection {
 	 * @return \Sabre\DAV\INode
 	 * @throws NotFound
 	 */
-	function getChild($name) {
+	public function getChild($name) {
 		$this->initCollections();
-		if(isset($this->entityTypeCollections[$name])) {
+		if (isset($this->entityTypeCollections[$name])) {
 			return $this->entityTypeCollections[$name];
 		}
 		throw new NotFound('Entity type "' . $name . '" not found."');
@@ -156,7 +155,7 @@ class RootCollection implements ICollection {
 	 *
 	 * @return \Sabre\DAV\INode[]
 	 */
-	function getChildren() {
+	public function getChildren() {
 		$this->initCollections();
 		return $this->entityTypeCollections;
 	}
@@ -167,7 +166,7 @@ class RootCollection implements ICollection {
 	 * @param string $name
 	 * @return bool
 	 */
-	function childExists($name) {
+	public function childExists($name) {
 		$this->initCollections();
 		return isset($this->entityTypeCollections[$name]);
 	}
@@ -177,7 +176,7 @@ class RootCollection implements ICollection {
 	 *
 	 * @throws Forbidden
 	 */
-	function delete() {
+	public function delete() {
 		throw new Forbidden('Permission denied to delete this collection');
 	}
 
@@ -188,7 +187,7 @@ class RootCollection implements ICollection {
 	 *
 	 * @return string
 	 */
-	function getName() {
+	public function getName() {
 		return $this->name;
 	}
 
@@ -198,7 +197,7 @@ class RootCollection implements ICollection {
 	 * @param string $name The new name
 	 * @throws Forbidden
 	 */
-	function setName($name) {
+	public function setName($name) {
 		throw new Forbidden('Permission denied to rename this collection');
 	}
 
@@ -207,7 +206,7 @@ class RootCollection implements ICollection {
 	 *
 	 * @return int
 	 */
-	function getLastModified() {
+	public function getLastModified() {
 		return null;
 	}
 }

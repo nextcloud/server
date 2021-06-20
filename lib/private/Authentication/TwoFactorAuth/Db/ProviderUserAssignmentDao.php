@@ -16,27 +16,26 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Authentication\TwoFactorAuth\Db;
 
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
+use function array_map;
 
 /**
  * Data access object to query and assign (provider_id, uid, enabled) tuples of
  * 2FA providers
  */
 class ProviderUserAssignmentDao {
-
-	const TABLE_NAME = 'twofactor_providers';
+	public const TABLE_NAME = 'twofactor_providers';
 
 	/** @var IDBConnection */
 	private $conn;
@@ -90,16 +89,37 @@ class ProviderUserAssignmentDao {
 				->andWhere($qb->expr()->eq('uid', $qb->createNamedParameter($uid)));
 			$updateQuery->execute();
 		}
-
 	}
 
-	public function deleteByUser(string $uid) {
-		$qb = $this->conn->getQueryBuilder();
+	/**
+	 * Delete all provider states of a user and return the provider IDs
+	 *
+	 * @param string $uid
+	 *
+	 * @return int[]
+	 */
+	public function deleteByUser(string $uid): array {
+		$qb1 = $this->conn->getQueryBuilder();
+		$selectQuery = $qb1->select('*')
+			->from(self::TABLE_NAME)
+			->where($qb1->expr()->eq('uid', $qb1->createNamedParameter($uid)));
+		$selectResult = $selectQuery->execute();
+		$rows = $selectResult->fetchAll();
+		$selectResult->closeCursor();
 
-		$deleteQuery = $qb->delete(self::TABLE_NAME)
-			->where($qb->expr()->eq('uid', $qb->createNamedParameter($uid)));
-
+		$qb2 = $this->conn->getQueryBuilder();
+		$deleteQuery = $qb2
+			->delete(self::TABLE_NAME)
+			->where($qb2->expr()->eq('uid', $qb2->createNamedParameter($uid)));
 		$deleteQuery->execute();
+
+		return array_map(function (array $row) {
+			return [
+				'provider_id' => $row['provider_id'],
+				'uid' => $row['uid'],
+				'enabled' => 1 === (int) $row['enabled'],
+			];
+		}, $rows);
 	}
 
 	public function deleteAll(string $providerId) {
@@ -110,5 +130,4 @@ class ProviderUserAssignmentDao {
 
 		$deleteQuery->execute();
 	}
-
 }

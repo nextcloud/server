@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Jarkko Lehtoranta <devel@jlranta.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Julius Härtl <jus@bitgrid.net>
@@ -26,8 +27,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\User_LDAP\Tests;
+
 use OCA\User_LDAP\Connection;
 use OCA\User_LDAP\ILDAPWrapper;
 
@@ -39,7 +40,7 @@ use OCA\User_LDAP\ILDAPWrapper;
  * @package OCA\User_LDAP\Tests
  */
 class ConnectionTest extends \Test\TestCase {
-	/** @var \OCA\User_LDAP\ILDAPWrapper|\PHPUnit_Framework_MockObject_MockObject  */
+	/** @var \OCA\User_LDAP\ILDAPWrapper|\PHPUnit\Framework\MockObject\MockObject  */
 	protected $ldap;
 
 	/** @var  Connection */
@@ -48,7 +49,7 @@ class ConnectionTest extends \Test\TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->ldap       = $this->createMock(ILDAPWrapper::class);
+		$this->ldap = $this->createMock(ILDAPWrapper::class);
 		// we use a mock here to replace the cache mechanism, due to missing DI in LDAP backend.
 		$this->connection = $this->getMockBuilder('OCA\User_LDAP\Connection')
 			->setMethods(['getFromCache', 'writeToCache'])
@@ -64,7 +65,7 @@ class ConnectionTest extends \Test\TestCase {
 		//background: upon login a bind is done with the user credentials
 		//which is valid for the whole LDAP resource. It needs to be reset
 		//to the agent's credentials
-		$lw  = $this->createMock(ILDAPWrapper::class);
+		$lw = $this->createMock(ILDAPWrapper::class);
 
 		$connection = new Connection($lw, '', null);
 		$agent = [
@@ -133,7 +134,7 @@ class ConnectionTest extends \Test\TestCase {
 		$this->ldap->expects($this->exactly(3))
 			->method('bind')
 			->willReturnCallback(function () use (&$isThrown) {
-				if(!$isThrown) {
+				if (!$isThrown) {
 					$isThrown = true;
 					throw new \OC\ServerNotAvailableException();
 				}
@@ -286,5 +287,4 @@ class ConnectionTest extends \Test\TestCase {
 
 		$this->connection->init();
 	}
-
 }

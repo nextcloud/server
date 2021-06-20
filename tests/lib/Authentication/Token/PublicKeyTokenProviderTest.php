@@ -33,23 +33,23 @@ use OC\Authentication\Token\PublicKeyTokenProvider;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
-use OCP\ILogger;
 use OCP\Security\ICrypto;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class PublicKeyTokenProviderTest extends TestCase {
 
-	/** @var PublicKeyTokenProvider|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var PublicKeyTokenProvider|\PHPUnit\Framework\MockObject\MockObject */
 	private $tokenProvider;
-	/** @var PublicKeyTokenMapper|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var PublicKeyTokenMapper|\PHPUnit\Framework\MockObject\MockObject */
 	private $mapper;
 	/** @var ICrypto */
 	private $crypto;
-	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
-	/** @var ILogger|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
 	private $logger;
-	/** @var ITimeFactory|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
 	private $timeFactory;
 	/** @var int */
 	private $time;
@@ -67,7 +67,7 @@ class PublicKeyTokenProviderTest extends TestCase {
 				['secret', '', '1f4h9s'],
 				['openssl', [], []],
 			]);
-		$this->logger = $this->createMock(ILogger::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->time = 1313131;
 		$this->timeFactory->method('getTime')
@@ -112,6 +112,12 @@ class PublicKeyTokenProviderTest extends TestCase {
 
 	public function testUpdateTokenDebounce() {
 		$tk = new PublicKeyToken();
+
+		$this->config->method('getSystemValueInt')
+			->willReturnCallback(function ($value, $default) {
+				return $default;
+			});
+
 		$tk->setLastActivity($this->time - 30);
 		$this->mapper->expects($this->never())
 			->method('update')
@@ -145,7 +151,7 @@ class PublicKeyTokenProviderTest extends TestCase {
 		$this->assertSame($password, $this->tokenProvider->getPassword($actual, $token));
 	}
 
-	
+
 	public function testGetPasswordPasswordLessToken() {
 		$this->expectException(\OC\Authentication\Exceptions\PasswordlessTokenException::class);
 
@@ -156,7 +162,7 @@ class PublicKeyTokenProviderTest extends TestCase {
 		$this->tokenProvider->getPassword($tk, $token);
 	}
 
-	
+
 	public function testGetPasswordInvalidToken() {
 		$this->expectException(\OC\Authentication\Exceptions\InvalidTokenException::class);
 
@@ -205,7 +211,7 @@ class PublicKeyTokenProviderTest extends TestCase {
 		$this->assertSame($newpass, $this->tokenProvider->getPassword($actual, 'token'));
 	}
 
-	
+
 	public function testSetPasswordInvalidToken() {
 		$this->expectException(\OC\Authentication\Exceptions\InvalidTokenException::class);
 
@@ -285,7 +291,7 @@ class PublicKeyTokenProviderTest extends TestCase {
 		$this->mapper
 			->expects($this->at(2))
 			->method('delete')
-			->with($this->callback(function($token) use ($oldToken) {
+			->with($this->callback(function ($token) use ($oldToken) {
 				return $token === $oldToken;
 			}));
 
@@ -325,7 +331,7 @@ class PublicKeyTokenProviderTest extends TestCase {
 		$this->mapper
 			->expects($this->at(2))
 			->method('delete')
-			->with($this->callback(function($token) use ($oldToken) {
+			->with($this->callback(function ($token) use ($oldToken) {
 				return $token === $oldToken;
 			}));
 
@@ -389,7 +395,6 @@ class PublicKeyTokenProviderTest extends TestCase {
 		} catch (ExpiredTokenException $e) {
 			$this->assertSame($actual, $e->getToken());
 		}
-
 	}
 
 	public function testGetTokenById() {
@@ -543,8 +548,7 @@ class PublicKeyTokenProviderTest extends TestCase {
 			IToken::PERMANENT_TOKEN,
 			IToken::REMEMBER);
 
-		$this->mapper->expects($this->once())
-			->method('hasExpiredTokens')
+		$this->mapper->method('hasExpiredTokens')
 			->with($uid)
 			->willReturn(true);
 		$this->mapper->expects($this->once())
@@ -556,21 +560,6 @@ class PublicKeyTokenProviderTest extends TestCase {
 			->with($this->callback(function (PublicKeyToken $t) use ($token1, $token2) {
 				return $t === $token1 || $t === $token2;
 			}));
-
-		$this->tokenProvider->updatePasswords($uid, 'bar2');
-	}
-
-	public function testUpdatePasswordsNotRequired() {
-		$uid = 'myUID';
-
-		$this->mapper->expects($this->once())
-			->method('hasExpiredTokens')
-			->with($uid)
-			->willReturn(false);
-		$this->mapper->expects($this->never())
-			->method('getTokenByUser');
-		$this->mapper->expects($this->never())
-			->method('update');
 
 		$this->tokenProvider->updatePasswords($uid, 'bar2');
 	}

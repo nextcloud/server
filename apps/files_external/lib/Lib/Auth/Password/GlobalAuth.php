@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2015, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -21,7 +22,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_External\Lib\Auth\Password;
 
 use OCA\Files_External\Lib\Auth\AuthMechanism;
@@ -36,8 +36,7 @@ use OCP\Security\ICredentialsManager;
  * Global Username and Password
  */
 class GlobalAuth extends AuthMechanism {
-
-	const CREDENTIALS_IDENTIFIER = 'password::global';
+	public const CREDENTIALS_IDENTIFIER = 'password::global';
 
 	/** @var ICredentialsManager */
 	protected $credentialsManager;
@@ -86,5 +85,4 @@ class GlobalAuth extends AuthMechanism {
 			$storage->setBackendOption('password', $credentials['password']);
 		}
 	}
-
 }

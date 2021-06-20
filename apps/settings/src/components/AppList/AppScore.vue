@@ -24,6 +24,8 @@
 	<img :src="scoreImage" class="app-score-image">
 </template>
 <script>
+import { imagePath } from '@nextcloud/router'
+
 export default {
 	name: 'AppScore',
 	props: ['score'],
@@ -31,7 +33,7 @@ export default {
 		scoreImage() {
 			const score = Math.round(this.score * 10)
 			const imageName = 'rating/s' + score + '.svg'
-			return OC.imagePath('core', imageName)
+			return imagePath('core', imageName)
 		},
 	},
 }

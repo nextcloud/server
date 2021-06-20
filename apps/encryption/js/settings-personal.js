@@ -24,7 +24,7 @@ OC.Encryption = _.extend(OC.Encryption || {}, {
 	}
 });
 
-$(document).ready(function () {
+window.addEventListener('DOMContentLoaded', function () {
 
 	// Trigger ajax on recoveryAdmin status change
 	$('input:radio[name="userEnableRecovery"]').change(

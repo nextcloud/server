@@ -1,9 +1,13 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2020 Arthur Schiwon <blizzz@arthur-schiwon.de>
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Julius Härtl <jus@bitgrid.net>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -14,14 +18,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\WorkflowEngine\Service;
 
 use OCA\WorkflowEngine\AppInfo\Application;
@@ -30,11 +33,12 @@ use OCP\IConfig;
 use OCP\ILogger;
 use OCP\Log\IDataLogger;
 use OCP\Log\ILogFactory;
+use Psr\Log\LoggerInterface;
 
 class Logger {
 	/** @var ILogger */
 	protected $generalLogger;
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	protected $flowLogger;
 	/** @var IConfig */
 	private $config;
@@ -52,8 +56,8 @@ class Logger {
 	protected function initLogger() {
 		$default = $this->config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data') . '/flow.log';
 		$logFile = trim((string)$this->config->getAppValue(Application::APP_ID, 'logfile', $default));
-		if($logFile !== '') {
-			$this->flowLogger = $this->logFactory->getCustomLogger($logFile);
+		if ($logFile !== '') {
+			$this->flowLogger = $this->logFactory->getCustomPsrLogger($logFile);
 		}
 	}
 
@@ -151,17 +155,16 @@ class Logger {
 		string $message,
 		array $context,
 		LogContext $logContext
-	): void
-	{
-		if(!isset($context['app'])) {
+	): void {
+		if (!isset($context['app'])) {
 			$context['app'] = Application::APP_ID;
 		}
-		if(!isset($context['level'])) {
+		if (!isset($context['level'])) {
 			$context['level'] = ILogger::INFO;
 		}
 		$this->generalLogger->log($context['level'], $message, $context);
 
-		if(!$this->flowLogger instanceof IDataLogger) {
+		if (!$this->flowLogger instanceof IDataLogger) {
 			return;
 		}
 

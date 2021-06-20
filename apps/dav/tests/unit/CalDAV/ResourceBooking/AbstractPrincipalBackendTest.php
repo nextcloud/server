@@ -2,7 +2,9 @@
 /**
  * @copyright Copyright (c) 2018, Georg Ehrke
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
@@ -14,14 +16,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\Tests\unit\CalDAV\ResourceBooking;
 
 use OCA\DAV\CalDAV\Proxy\Proxy;
@@ -38,16 +39,16 @@ abstract class AbstractPrincipalBackendTest extends TestCase {
 	/** @var \OCA\DAV\CalDAV\ResourceBooking\ResourcePrincipalBackend|\OCA\DAV\CalDAV\ResourceBooking\RoomPrincipalBackend */
 	protected $principalBackend;
 
-	/** @var IUserSession|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
 	protected $userSession;
 
-	/** @var IGroupManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IGroupManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $groupManager;
 
-	/** @var ILogger|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ILogger|\PHPUnit\Framework\MockObject\MockObject */
 	protected $logger;
 
-	/** @var ProxyMapper|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ProxyMapper|\PHPUnit\Framework\MockObject\MockObject */
 	protected $proxyMapper;
 
 	/** @var string */
@@ -129,7 +130,6 @@ abstract class AbstractPrincipalBackendTest extends TestCase {
 				'{http://nextcloud.com/ns}meta99' => 'value99'
 			]
 		], $actual);
-
 	}
 
 	public function testGetNoPrincipalsByPrefixForWrongPrincipalPrefix() {
@@ -235,7 +235,7 @@ abstract class AbstractPrincipalBackendTest extends TestCase {
 
 		$this->proxyMapper->expects($this->at(1))
 			->method('insert')
-			->with($this->callback(function($proxy) {
+			->with($this->callback(function ($proxy) {
 				/** @var Proxy $proxy */
 				if ($proxy->getOwnerId() !== $this->principalPrefix . '/backend1-res1') {
 					return false;
@@ -251,7 +251,7 @@ abstract class AbstractPrincipalBackendTest extends TestCase {
 			}));
 		$this->proxyMapper->expects($this->at(2))
 			->method('insert')
-			->with($this->callback(function($proxy) {
+			->with($this->callback(function ($proxy) {
 				/** @var Proxy $proxy */
 				if ($proxy->getOwnerId() !== $this->principalPrefix . '/backend1-res1') {
 					return false;
@@ -585,5 +585,4 @@ abstract class AbstractPrincipalBackendTest extends TestCase {
 			])
 			->execute();
 	}
-
 }

@@ -40,7 +40,7 @@ class TemplateResponseTest extends \Test\TestCase {
 	}
 
 
-	public function testSetParamsConstructor(){
+	public function testSetParamsConstructor() {
 		$params = ['hi' => 'yo'];
 		$this->tpl = new TemplateResponse('app', 'home', $params);
 
@@ -48,7 +48,7 @@ class TemplateResponseTest extends \Test\TestCase {
 	}
 
 
-	public function testSetRenderAsConstructor(){
+	public function testSetRenderAsConstructor() {
 		$renderAs = 'myrender';
 		$this->tpl = new TemplateResponse('app', 'home', [], $renderAs);
 
@@ -56,7 +56,7 @@ class TemplateResponseTest extends \Test\TestCase {
 	}
 
 
-	public function testSetParams(){
+	public function testSetParams() {
 		$params = ['hi' => 'yo'];
 		$this->tpl->setParams($params);
 
@@ -64,11 +64,11 @@ class TemplateResponseTest extends \Test\TestCase {
 	}
 
 
-	public function testGetTemplateName(){
+	public function testGetTemplateName() {
 		$this->assertEquals('home', $this->tpl->getTemplateName());
 	}
 
-	public function testGetRenderAs(){
+	public function testGetRenderAs() {
 		$render = 'myrender';
 		$this->tpl->renderAs($render);
 		$this->assertEquals($render, $this->tpl->getRenderAs());
@@ -82,5 +82,4 @@ class TemplateResponseTest extends \Test\TestCase {
 		$this->assertEquals(Http::STATUS_NOT_FOUND, $this->tpl->getStatus());
 		$this->assertEquals(['hi' => 'yo'], $this->tpl->getParams());
 	}
-
 }

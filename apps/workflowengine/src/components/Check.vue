@@ -41,9 +41,9 @@
 </template>
 
 <script>
-import { Multiselect } from '@nextcloud/vue/dist/Components/Multiselect'
-import { Actions } from '@nextcloud/vue/dist/Components/Actions'
-import { ActionButton } from '@nextcloud/vue/dist/Components/ActionButton'
+import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
+import Actions from '@nextcloud/vue/dist/Components/Actions'
+import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
 import ClickOutside from 'vue-click-outside'
 
 export default {
@@ -99,7 +99,7 @@ export default {
 		},
 	},
 	watch: {
-		'check.operator': function() {
+		'check.operator'() {
 			this.validate()
 		},
 	},

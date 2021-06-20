@@ -16,16 +16,14 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\FullTextSearch\Model;
-
 
 use JsonSerializable;
 use OCP\FullTextSearch\Model\IDocumentAccess;
@@ -723,7 +721,7 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 	 * @param string $excerpt
 	 * @return string
 	 */
-	final private function cleanExcerpt(string $excerpt): string {
+	private function cleanExcerpt(string $excerpt): string {
 		$excerpt = str_replace("\\n", ' ', $excerpt);
 		$excerpt = str_replace("\\r", ' ', $excerpt);
 		$excerpt = str_replace("\\t", ' ', $excerpt);
@@ -923,7 +921,6 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 	 * @return array
 	 */
 	final public function getInfoAll(): array {
-
 		$info = [];
 		foreach ($this->info as $k => $v) {
 			if (substr($k, 0, 1) === '_') {
@@ -990,5 +987,4 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 			'score' => $this->getScore()
 		];
 	}
-
 }

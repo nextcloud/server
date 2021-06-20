@@ -52,7 +52,7 @@ try {
 	}
 	$content = file_get_contents("https://img.shields.io/badge/coverage-$percent%-$color.svg");
 	file_put_contents('coverage.svg', $content);
-} catch(Exception $ex) {
+} catch (Exception $ex) {
 	echo $ex->getMessage() . PHP_EOL;
 	$content = file_get_contents("https://img.shields.io/badge/coverage-ERROR-red.svg");
 	file_put_contents('coverage.svg', $content);

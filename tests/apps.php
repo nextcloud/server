@@ -30,8 +30,9 @@ function loadDirectory($path) {
 function getSubclasses($parentClassName) {
 	$classes = [];
 	foreach (get_declared_classes() as $className) {
-		if (is_subclass_of($className, $parentClassName))
+		if (is_subclass_of($className, $parentClassName)) {
 			$classes[] = $className;
+		}
 	}
 
 	return $classes;

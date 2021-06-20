@@ -3,13 +3,13 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Donquixote <marjunebatac@gmail.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Thomas Tanghus <thomas@tanghus.net>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -26,12 +26,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
-/**
- * Public interface of ownCloud for apps to use.
- * AppFramework\Controller class
- */
-
 namespace OCP\AppFramework;
 
 use OCP\AppFramework\Http\DataResponse;
@@ -72,7 +66,7 @@ abstract class Controller {
 	 * @since 6.0.0 - parameter $appName was added in 7.0.0 - parameter $app was removed in 7.0.0
 	 */
 	public function __construct($appName,
-	                            IRequest $request) {
+								IRequest $request) {
 		$this->appName = $appName;
 		$this->request = $request;
 
@@ -91,6 +85,14 @@ abstract class Controller {
 						unset($headers['Content-Type']);
 					}
 					$response->setHeaders(array_merge($dataHeaders, $headers));
+
+					if ($data->getETag() !== null) {
+						$response->setETag($data->getETag());
+					}
+					if ($data->getLastModified() !== null) {
+						$response->setLastModified($data->getLastModified());
+					}
+
 					return $response;
 				}
 				return new JSONResponse($data);
@@ -107,7 +109,7 @@ abstract class Controller {
 	 * @since 7.0.0
 	 * @since 9.1.0 Added default parameter
 	 */
-	public function getResponderByHTTPHeader($acceptHeader, $default='json') {
+	public function getResponderByHTTPHeader($acceptHeader, $default = 'json') {
 		$headers = explode(',', $acceptHeader);
 
 		// return the first matching responder
@@ -146,13 +148,11 @@ abstract class Controller {
 	 * @return Response
 	 * @since 7.0.0
 	 */
-	public function buildResponse($response, $format='json') {
-		if(array_key_exists($format, $this->responders)) {
-
+	public function buildResponse($response, $format = 'json') {
+		if (array_key_exists($format, $this->responders)) {
 			$responder = $this->responders[$format];
 
 			return $responder($response);
-
 		}
 		throw new \DomainException('No responder registered for format '.
 			$format . '!');

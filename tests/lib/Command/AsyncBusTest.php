@@ -23,7 +23,7 @@ class SimpleCommand implements ICommand {
 class StateFullCommand implements ICommand {
 	private $state;
 
-	function __construct($state) {
+	public function __construct($state) {
 		$this->state = $state;
 	}
 

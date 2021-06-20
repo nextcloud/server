@@ -1,7 +1,9 @@
-/*
+/**
  * @copyright 2018 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
- * @author 2018 Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -16,7 +18,8 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 
 import $ from 'jquery'
@@ -65,8 +68,8 @@ $.fn.contactsMenu = function(shareWith, shareType, appendTo) {
 		$.ajax(OC.generateUrl('/contactsmenu/findOne'), {
 			method: 'POST',
 			data: {
-				shareType: shareType,
-				shareWith: shareWith,
+				shareType,
+				shareWith,
 			},
 		}).then(function(data) {
 			$list.find('ul').find('li').addClass('hidden')
@@ -82,9 +85,10 @@ $.fn.contactsMenu = function(shareWith, shareType, appendTo) {
 			}
 
 			actions.forEach(function(action) {
-				const template = entryTemplate
-				$list.find('ul').append(template(action))
+				$list.find('ul').append(entryTemplate(action))
 			})
+
+			$div.trigger('load')
 		}, function(jqXHR) {
 			$list.find('ul').find('li').addClass('hidden')
 
@@ -95,11 +99,12 @@ $.fn.contactsMenu = function(shareWith, shareType, appendTo) {
 				title = t('core', 'Error fetching contact actions')
 			}
 
-			const template = entryTemplate
-			$list.find('ul').append(template({
+			$list.find('ul').append(entryTemplate({
 				hyperlink: '#',
-				title: title,
+				title,
 			}))
+
+			$div.trigger('loaderror', jqXHR)
 		})
 	})
 

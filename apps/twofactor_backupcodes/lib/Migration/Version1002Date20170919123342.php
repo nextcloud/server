@@ -1,7 +1,11 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2017 Joas Schilling <coding@schilljs.com>
  *
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -14,17 +18,17 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\TwoFactorBackupCodes\Migration;
 
 use Doctrine\DBAL\Types\Type;
+use Doctrine\DBAL\Types\Types;
 use OCP\DB\ISchemaWrapper;
 use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
@@ -47,8 +51,8 @@ class Version1002Date20170919123342 extends SimpleMigrationStep {
 		$column->setDefault('');
 
 		$column = $table->getColumn('used');
-		if ($column->getType()->getName() !== Type::SMALLINT) {
-			$column->setType(Type::getType(Type::SMALLINT));
+		if ($column->getType()->getName() !== Types::SMALLINT) {
+			$column->setType(Type::getType(Types::SMALLINT));
 			$column->setOptions(['length' => 6]);
 		}
 

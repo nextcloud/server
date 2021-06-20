@@ -21,7 +21,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_External\Lib\Backend;
 
 use OCA\Files_External\Lib\Auth\AuthMechanism;
@@ -31,7 +30,6 @@ use OCA\Files_External\Lib\LegacyDependencyCheckPolyfill;
 use OCP\IL10N;
 
 class DAV extends Backend {
-
 	use LegacyDependencyCheckPolyfill;
 
 	public function __construct(IL10N $l, Password $legacyAuth) {
@@ -51,5 +49,4 @@ class DAV extends Backend {
 			->setLegacyAuthMechanism($legacyAuth)
 		;
 	}
-
 }

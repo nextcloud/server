@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2017 Arthur Schiwon <blizzz@arthur-schiwon.de>
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
@@ -14,16 +15,14 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Files_Sharing\Tests\Collaboration;
-
 
 use OCA\Files_Sharing\Collaboration\ShareRecipientSorter;
 use OCP\Files\Folder;
@@ -35,11 +34,11 @@ use OCP\Share\IManager;
 use Test\TestCase;
 
 class ShareRecipientSorterTest extends TestCase {
-	/** @var  IManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var  IManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $shareManager;
-	/** @var  IRootFolder|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var  IRootFolder|\PHPUnit\Framework\MockObject\MockObject */
 	protected $rootFolder;
-	/** @var  IUserSession|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var  IUserSession|\PHPUnit\Framework\MockObject\MockObject */
 	protected $userSession;
 	/** @var  ShareRecipientSorter */
 	protected $sorter;
@@ -61,7 +60,7 @@ class ShareRecipientSorterTest extends TestCase {
 	public function testSort($data) {
 		$node = $this->createMock(Node::class);
 
-		/** @var Folder|\PHPUnit_Framework_MockObject_MockObject $folder */
+		/** @var Folder|\PHPUnit\Framework\MockObject\MockObject $folder */
 		$folder = $this->createMock(Folder::class);
 		$this->rootFolder->expects($this->any())
 			->method('getUserFolder')
@@ -100,7 +99,7 @@ class ShareRecipientSorterTest extends TestCase {
 	}
 
 	public function testSortNoNodes() {
-		/** @var Folder|\PHPUnit_Framework_MockObject_MockObject $folder */
+		/** @var Folder|\PHPUnit\Framework\MockObject\MockObject $folder */
 		$folder = $this->createMock(Folder::class);
 		$this->rootFolder->expects($this->any())
 			->method('getUserFolder')

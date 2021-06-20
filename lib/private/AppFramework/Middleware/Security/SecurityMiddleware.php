@@ -5,11 +5,11 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
+ * @author Holger Hees <holger.hees@gmail.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Julien Veyssier <eneiluj@posteo.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
@@ -34,7 +34,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\AppFramework\Middleware\Security;
 
 use OC\AppFramework\Middleware\Security\Exceptions\AppNotEnabledException;
@@ -54,11 +53,11 @@ use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Middleware;
 use OCP\AppFramework\OCSController;
 use OCP\IL10N;
-use OCP\ILogger;
 use OCP\INavigationManager;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\Util;
+use Psr\Log\LoggerInterface;
 
 /**
  * Used to do all the authentication and checking stuff for a controller method
@@ -77,7 +76,7 @@ class SecurityMiddleware extends Middleware {
 	private $appName;
 	/** @var IURLGenerator */
 	private $urlGenerator;
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	private $logger;
 	/** @var bool */
 	private $isLoggedIn;
@@ -94,7 +93,7 @@ class SecurityMiddleware extends Middleware {
 								ControllerMethodReflector $reflector,
 								INavigationManager $navigationManager,
 								IURLGenerator $urlGenerator,
-								ILogger $logger,
+								LoggerInterface $logger,
 								string $appName,
 								bool $isLoggedIn,
 								bool $isAdminUser,
@@ -137,17 +136,17 @@ class SecurityMiddleware extends Middleware {
 
 		// security checks
 		$isPublicPage = $this->reflector->hasAnnotation('PublicPage');
-		if(!$isPublicPage) {
-			if(!$this->isLoggedIn) {
+		if (!$isPublicPage) {
+			if (!$this->isLoggedIn) {
 				throw new NotLoggedInException();
 			}
 
-			if($this->reflector->hasAnnotation('SubAdminRequired')
+			if ($this->reflector->hasAnnotation('SubAdminRequired')
 				&& !$this->isSubAdmin
 				&& !$this->isAdminUser) {
 				throw new NotAdminException($this->l10n->t('Logged in user must be an admin or sub admin'));
 			}
-			if(!$this->reflector->hasAnnotation('SubAdminRequired')
+			if (!$this->reflector->hasAnnotation('SubAdminRequired')
 				&& !$this->reflector->hasAnnotation('NoAdminRequired')
 				&& !$this->isAdminUser) {
 				throw new NotAdminException($this->l10n->t('Logged in user must be an admin'));
@@ -155,14 +154,14 @@ class SecurityMiddleware extends Middleware {
 		}
 
 		// Check for strict cookie requirement
-		if($this->reflector->hasAnnotation('StrictCookieRequired') || !$this->reflector->hasAnnotation('NoCSRFRequired')) {
-			if(!$this->request->passesStrictCookieCheck()) {
+		if ($this->reflector->hasAnnotation('StrictCookieRequired') || !$this->reflector->hasAnnotation('NoCSRFRequired')) {
+			if (!$this->request->passesStrictCookieCheck()) {
 				throw new StrictCookieMissingException();
 			}
 		}
 		// CSRF check - also registers the CSRF token since the session may be closed later
 		Util::callRegister();
-		if(!$this->reflector->hasAnnotation('NoCSRFRequired')) {
+		if (!$this->reflector->hasAnnotation('NoCSRFRequired')) {
 			/*
 			 * Only allow the CSRF check to fail on OCS Requests. This kind of
 			 * hacks around that we have no full token auth in place yet and we
@@ -171,7 +170,7 @@ class SecurityMiddleware extends Middleware {
 			 * Additionally we allow Bearer authenticated requests to pass on OCS routes.
 			 * This allows oauth apps (e.g. moodle) to use the OCS endpoints
 			 */
-			if(!$this->request->passesCSRFCheck() && !(
+			if (!$this->request->passesCSRFCheck() && !(
 					$controller instanceof OCSController && (
 						$this->request->getHeader('OCS-APIREQUEST') === 'true' ||
 						strpos($this->request->getHeader('Authorization'), 'Bearer ') === 0
@@ -209,17 +208,17 @@ class SecurityMiddleware extends Middleware {
 	 * @return Response a Response object or null in case that the exception could not be handled
 	 */
 	public function afterException($controller, $methodName, \Exception $exception): Response {
-		if($exception instanceof SecurityException) {
-			if($exception instanceof StrictCookieMissingException) {
-				return new RedirectResponse(\OC::$WEBROOT);
- 			}
+		if ($exception instanceof SecurityException) {
+			if ($exception instanceof StrictCookieMissingException) {
+				return new RedirectResponse(\OC::$WEBROOT . '/');
+			}
 			if (stripos($this->request->getHeader('Accept'),'html') === false) {
 				$response = new JSONResponse(
 					['message' => $exception->getMessage()],
 					$exception->getCode()
 				);
 			} else {
-				if($exception instanceof NotLoggedInException) {
+				if ($exception instanceof NotLoggedInException) {
 					$params = [];
 					if (isset($this->request->server['REQUEST_URI'])) {
 						$params['redirect_url'] = $this->request->server['REQUEST_URI'];
@@ -232,14 +231,12 @@ class SecurityMiddleware extends Middleware {
 				}
 			}
 
-			$this->logger->logException($exception, [
-				'level' => ILogger::DEBUG,
-				'app' => 'core',
+			$this->logger->debug($exception->getMessage(), [
+				'exception' => $exception,
 			]);
 			return $response;
 		}
 
 		throw $exception;
 	}
-
 }

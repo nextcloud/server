@@ -2,12 +2,15 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Maxence Lange <maxence@nextcloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -24,7 +27,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_Sharing\Tests;
 
 use OCA\Files_Sharing\MountProvider;
@@ -45,19 +47,19 @@ class MountProviderTest extends \Test\TestCase {
 	/** @var MountProvider */
 	private $provider;
 
-	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
 
-	/** @var IUser|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IUser|\PHPUnit\Framework\MockObject\MockObject */
 	private $user;
 
-	/** @var IStorageFactory|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IStorageFactory|\PHPUnit\Framework\MockObject\MockObject */
 	private $loader;
 
-	/** @var IManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $shareManager;
 
-	/** @var ILogger | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var ILogger | \PHPUnit\Framework\MockObject\MockObject */
 	private $logger;
 
 	protected function setUp(): void {
@@ -111,15 +113,21 @@ class MountProviderTest extends \Test\TestCase {
 			$this->makeMockShare(2, 100, 'user2', '/share2', 31),
 		];
 		$groupShares = [
-			$this->makeMockShare(3, 100, 'user2', '/share2', 0), 
-			$this->makeMockShare(4, 101, 'user2', '/share4', 31), 
-			$this->makeMockShare(5, 100, 'user1', '/share4', 31), 
+			$this->makeMockShare(3, 100, 'user2', '/share2', 0),
+			$this->makeMockShare(4, 101, 'user2', '/share4', 31),
+			$this->makeMockShare(5, 100, 'user1', '/share4', 31),
 		];
 		$roomShares = [
 			$this->makeMockShare(6, 102, 'user2', '/share6', 0),
 			$this->makeMockShare(7, 102, 'user1', '/share6', 31),
 			$this->makeMockShare(8, 102, 'user2', '/share6', 31),
 			$this->makeMockShare(9, 102, 'user2', '/share6', 31),
+		];
+		$deckShares = [
+			$this->makeMockShare(10, 103, 'user2', '/share7', 0),
+			$this->makeMockShare(11, 103, 'user1', '/share7', 31),
+			$this->makeMockShare(12, 103, 'user2', '/share7', 31),
+			$this->makeMockShare(13, 103, 'user2', '/share7', 31),
 		];
 		// tests regarding circles are made in the app itself.
 		$circleShares = [];
@@ -128,30 +136,35 @@ class MountProviderTest extends \Test\TestCase {
 			->willReturn('user1');
 		$this->shareManager->expects($this->at(0))
 			->method('getSharedWith')
-			->with('user1', \OCP\Share::SHARE_TYPE_USER)
+			->with('user1', IShare::TYPE_USER)
 			->willReturn($userShares);
 		$this->shareManager->expects($this->at(1))
 			->method('getSharedWith')
-			->with('user1', \OCP\Share::SHARE_TYPE_GROUP, null, -1)
+			->with('user1', IShare::TYPE_GROUP, null, -1)
 			->willReturn($groupShares);
 		$this->shareManager->expects($this->at(2))
 			->method('getSharedWith')
-			->with('user1', \OCP\Share::SHARE_TYPE_CIRCLE, null, -1)
+			->with('user1', IShare::TYPE_CIRCLE, null, -1)
 			->willReturn($circleShares);
 		$this->shareManager->expects($this->at(3))
 			->method('getSharedWith')
-			->with('user1', \OCP\Share::SHARE_TYPE_ROOM, null, -1)
+			->with('user1', IShare::TYPE_ROOM, null, -1)
 			->willReturn($roomShares);
+		$this->shareManager->expects($this->at(4))
+			->method('getSharedWith')
+			->with('user1', IShare::TYPE_DECK, null, -1)
+			->willReturn($deckShares);
 		$this->shareManager->expects($this->any())
 			->method('newShare')
-			->willReturnCallback(function() use ($rootFolder, $userManager) {
+			->willReturnCallback(function () use ($rootFolder, $userManager) {
 				return new \OC\Share20\Share($rootFolder, $userManager);
 			});
 		$mounts = $this->provider->getMountsForUser($this->user, $this->loader);
-		$this->assertCount(3, $mounts);
+		$this->assertCount(4, $mounts);
 		$this->assertInstanceOf('OCA\Files_Sharing\SharedMount', $mounts[0]);
 		$this->assertInstanceOf('OCA\Files_Sharing\SharedMount', $mounts[1]);
 		$this->assertInstanceOf('OCA\Files_Sharing\SharedMount', $mounts[2]);
+		$this->assertInstanceOf('OCA\Files_Sharing\SharedMount', $mounts[3]);
 		$mountedShare1 = $mounts[0]->getShare();
 		$this->assertEquals('2', $mountedShare1->getId());
 		$this->assertEquals('user2', $mountedShare1->getShareOwner());
@@ -170,6 +183,12 @@ class MountProviderTest extends \Test\TestCase {
 		$this->assertEquals(102, $mountedShare3->getNodeId());
 		$this->assertEquals('/share6', $mountedShare3->getTarget());
 		$this->assertEquals(31, $mountedShare3->getPermissions());
+		$mountedShare4 = $mounts[3]->getShare();
+		$this->assertEquals('12', $mountedShare4->getId());
+		$this->assertEquals('user2', $mountedShare4->getShareOwner());
+		$this->assertEquals(103, $mountedShare4->getNodeId());
+		$this->assertEquals('/share7', $mountedShare4->getTarget());
+		$this->assertEquals(31, $mountedShare4->getPermissions());
 	}
 
 	public function mergeSharesDataProvider() {
@@ -179,10 +198,10 @@ class MountProviderTest extends \Test\TestCase {
 			// #0: share as outsider with "group1" and "user1" with same permissions
 			[
 				[
-					[1, 100, 'user2', '/share2', 31], 
+					[1, 100, 'user2', '/share2', 31],
 				],
 				[
-					[2, 100, 'user2', '/share2', 31], 
+					[2, 100, 'user2', '/share2', 31],
 				],
 				[
 					// combined, user share has higher priority
@@ -192,10 +211,10 @@ class MountProviderTest extends \Test\TestCase {
 			// #1: share as outsider with "group1" and "user1" with different permissions
 			[
 				[
-					[1, 100, 'user2', '/share', 31], 
+					[1, 100, 'user2', '/share', 31],
 				],
 				[
-					[2, 100, 'user2', '/share', 15], 
+					[2, 100, 'user2', '/share', 15],
 				],
 				[
 					// use highest permissions
@@ -207,8 +226,8 @@ class MountProviderTest extends \Test\TestCase {
 				[
 				],
 				[
-					[1, 100, 'user2', '/share', 31], 
-					[2, 100, 'user2', '/share', 31], 
+					[1, 100, 'user2', '/share', 31],
+					[2, 100, 'user2', '/share', 31],
 				],
 				[
 					// combined, first group share has higher priority
@@ -220,8 +239,8 @@ class MountProviderTest extends \Test\TestCase {
 				[
 				],
 				[
-					[1, 100, 'user2', '/share', 31], 
-					[2, 100, 'user2', '/share', 15], 
+					[1, 100, 'user2', '/share', 31],
+					[2, 100, 'user2', '/share', 15],
 				],
 				[
 					// use higher permissions
@@ -233,7 +252,7 @@ class MountProviderTest extends \Test\TestCase {
 				[
 				],
 				[
-					[1, 100, 'user1', '/share', 31], 
+					[1, 100, 'user1', '/share', 31],
 				],
 				[
 					// no received share since "user1" is the sharer/owner
@@ -244,8 +263,8 @@ class MountProviderTest extends \Test\TestCase {
 				[
 				],
 				[
-					[1, 100, 'user1', '/share', 31], 
-					[2, 100, 'user1', '/share', 15], 
+					[1, 100, 'user1', '/share', 31],
+					[2, 100, 'user1', '/share', 15],
 				],
 				[
 					// no received share since "user1" is the sharer/owner
@@ -256,7 +275,7 @@ class MountProviderTest extends \Test\TestCase {
 				[
 				],
 				[
-					[1, 100, 'user2', '/share', 0], 
+					[1, 100, 'user2', '/share', 0],
 				],
 				[
 					// no received share since "user1" opted out
@@ -265,10 +284,10 @@ class MountProviderTest extends \Test\TestCase {
 			// #7: share as outsider with "group1" and "user1" where recipient renamed in between
 			[
 				[
-					[1, 100, 'user2', '/share2-renamed', 31], 
+					[1, 100, 'user2', '/share2-renamed', 31],
 				],
 				[
-					[2, 100, 'user2', '/share2', 31], 
+					[2, 100, 'user2', '/share2', 31],
 				],
 				[
 					// use target of least recent share
@@ -278,10 +297,10 @@ class MountProviderTest extends \Test\TestCase {
 			// #8: share as outsider with "group1" and "user1" where recipient renamed in between
 			[
 				[
-					[2, 100, 'user2', '/share2', 31], 
+					[2, 100, 'user2', '/share2', 31],
 				],
 				[
-					[1, 100, 'user2', '/share2-renamed', 31], 
+					[1, 100, 'user2', '/share2-renamed', 31],
 				],
 				[
 					// use target of least recent share
@@ -321,10 +340,10 @@ class MountProviderTest extends \Test\TestCase {
 		$rootFolder = $this->createMock(IRootFolder::class);
 		$userManager = $this->createMock(IUserManager::class);
 
-		$userShares = array_map(function($shareSpec) {
+		$userShares = array_map(function ($shareSpec) {
 			return $this->makeMockShare($shareSpec[0], $shareSpec[1], $shareSpec[2], $shareSpec[3], $shareSpec[4]);
 		}, $userShares);
-		$groupShares = array_map(function($shareSpec) {
+		$groupShares = array_map(function ($shareSpec) {
 			return $this->makeMockShare($shareSpec[0], $shareSpec[1], $shareSpec[2], $shareSpec[3], $shareSpec[4]);
 		}, $groupShares);
 
@@ -335,25 +354,30 @@ class MountProviderTest extends \Test\TestCase {
 		// tests regarding circles are made in the app itself.
 		$circleShares = [];
 		$roomShares = [];
+		$deckShares = [];
 		$this->shareManager->expects($this->at(0))
 			->method('getSharedWith')
-			->with('user1', \OCP\Share::SHARE_TYPE_USER)
+			->with('user1', IShare::TYPE_USER)
 			->willReturn($userShares);
 		$this->shareManager->expects($this->at(1))
 			->method('getSharedWith')
-			->with('user1', \OCP\Share::SHARE_TYPE_GROUP, null, -1)
+			->with('user1', IShare::TYPE_GROUP, null, -1)
 			->willReturn($groupShares);
 		$this->shareManager->expects($this->at(2))
 			->method('getSharedWith')
-			->with('user1', \OCP\Share::SHARE_TYPE_CIRCLE, null, -1)
+			->with('user1', IShare::TYPE_CIRCLE, null, -1)
 			->willReturn($circleShares);
 		$this->shareManager->expects($this->at(3))
 			->method('getSharedWith')
-			->with('user1', \OCP\Share::SHARE_TYPE_ROOM, null, -1)
+			->with('user1', IShare::TYPE_ROOM, null, -1)
 			->willReturn($roomShares);
+		$this->shareManager->expects($this->at(4))
+			->method('getSharedWith')
+			->with('user1', IShare::TYPE_DECK, null, -1)
+			->willReturn($deckShares);
 		$this->shareManager->expects($this->any())
 			->method('newShare')
-			->willReturnCallback(function() use ($rootFolder, $userManager) {
+			->willReturnCallback(function () use ($rootFolder, $userManager) {
 				return new \OC\Share20\Share($rootFolder, $userManager);
 			});
 

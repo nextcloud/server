@@ -19,7 +19,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Files\Mount;
 
 use OCP\Files\Config\IHomeMountProvider;
@@ -35,7 +34,7 @@ class LocalHomeMountProvider implements IHomeMountProvider {
 	 *
 	 * @param IUser $user
 	 * @param IStorageFactory $loader
-	 * @return \OCP\Files\Mount\IMountPoint[]
+	 * @return \OCP\Files\Mount\IMountPoint|null
 	 */
 	public function getHomeMountForUser(IUser $user, IStorageFactory $loader) {
 		$arguments = ['user' => $user];

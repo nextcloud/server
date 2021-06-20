@@ -26,8 +26,10 @@
 			<AppNavigationNew button-id="new-user-button"
 				:text="t('settings','New user')"
 				button-class="icon-add"
-				@click="toggleNewUserMenu" />
-			<ul id="usergrouplist">
+				@click="showNewUserMenu"
+				@keyup.enter="showNewUserMenu"
+				@keyup.space="showNewUserMenu" />
+			<template #list>
 				<AppNavigationItem
 					id="addgroup"
 					ref="addGroup"
@@ -79,7 +81,7 @@
 					:key="group.id"
 					:exact="true"
 					:title="group.title"
-					:to="{ name: 'group', params: { selectedGroup: group.id } }">
+					:to="{ name: 'group', params: { selectedGroup: encodeURIComponent(group.id) } }">
 					<AppNavigationCounter v-if="group.count" slot="counter">
 						{{ group.count }}
 					</AppNavigationCounter>
@@ -92,64 +94,66 @@
 						</ActionButton>
 					</template>
 				</AppNavigationItem>
-			</ul>
-			<AppNavigationSettings>
-				<div>
-					<p>{{ t('settings', 'Default quota:') }}</p>
-					<Multiselect :value="defaultQuota"
-						:options="quotaOptions"
-						tag-placeholder="create"
-						:placeholder="t('settings', 'Select default quota')"
-						label="label"
-						track-by="id"
-						:allow-empty="false"
-						:taggable="true"
-						@tag="validateQuota"
-						@input="setDefaultQuota" />
-				</div>
-				<div>
-					<input id="showLanguages"
-						v-model="showLanguages"
-						type="checkbox"
-						class="checkbox">
-					<label for="showLanguages">{{ t('settings', 'Show Languages') }}</label>
-				</div>
-				<div>
-					<input id="showLastLogin"
-						v-model="showLastLogin"
-						type="checkbox"
-						class="checkbox">
-					<label for="showLastLogin">{{ t('settings', 'Show last login') }}</label>
-				</div>
-				<div>
-					<input id="showUserBackend"
-						v-model="showUserBackend"
-						type="checkbox"
-						class="checkbox">
-					<label for="showUserBackend">{{ t('settings', 'Show user backend') }}</label>
-				</div>
-				<div>
-					<input id="showStoragePath"
-						v-model="showStoragePath"
-						type="checkbox"
-						class="checkbox">
-					<label for="showStoragePath">{{ t('settings', 'Show storage path') }}</label>
-				</div>
-				<div>
-					<input id="sendWelcomeMail"
-						v-model="sendWelcomeMail"
-						:disabled="loadingSendMail"
-						type="checkbox"
-						class="checkbox">
-					<label for="sendWelcomeMail">{{ t('settings', 'Send email to new user') }}</label>
-				</div>
-			</AppNavigationSettings>
+			</template>
+			<template #footer>
+				<AppNavigationSettings>
+					<div>
+						<p>{{ t('settings', 'Default quota:') }}</p>
+						<Multiselect :value="defaultQuota"
+							:options="quotaOptions"
+							tag-placeholder="create"
+							:placeholder="t('settings', 'Select default quota')"
+							label="label"
+							track-by="id"
+							:allow-empty="false"
+							:taggable="true"
+							@tag="validateQuota"
+							@input="setDefaultQuota" />
+					</div>
+					<div>
+						<input id="showLanguages"
+							v-model="showLanguages"
+							type="checkbox"
+							class="checkbox">
+						<label for="showLanguages">{{ t('settings', 'Show Languages') }}</label>
+					</div>
+					<div>
+						<input id="showLastLogin"
+							v-model="showLastLogin"
+							type="checkbox"
+							class="checkbox">
+						<label for="showLastLogin">{{ t('settings', 'Show last login') }}</label>
+					</div>
+					<div>
+						<input id="showUserBackend"
+							v-model="showUserBackend"
+							type="checkbox"
+							class="checkbox">
+						<label for="showUserBackend">{{ t('settings', 'Show user backend') }}</label>
+					</div>
+					<div>
+						<input id="showStoragePath"
+							v-model="showStoragePath"
+							type="checkbox"
+							class="checkbox">
+						<label for="showStoragePath">{{ t('settings', 'Show storage path') }}</label>
+					</div>
+					<div>
+						<input id="sendWelcomeMail"
+							v-model="sendWelcomeMail"
+							:disabled="loadingSendMail"
+							type="checkbox"
+							class="checkbox">
+						<label for="sendWelcomeMail">{{ t('settings', 'Send email to new user') }}</label>
+					</div>
+				</AppNavigationSettings>
+			</template>
 		</AppNavigation>
 		<AppContent>
 			<UserList #content
 				:users="users"
 				:show-config="showConfig"
-				:selected-group="selectedGroup"
+				:selected-group="selectedGroupDecoded"
 				:external-actions="externalActions" />
 		</AppContent>
 	</Content>
@@ -215,6 +219,9 @@ export default {
 		}
 	},
 	computed: {
+		selectedGroupDecoded() {
+			return this.selectedGroup ? decodeURIComponent(this.selectedGroup) : null
+		},
 		users() {
 			return this.$store.getters.getUsers
 		},
@@ -230,26 +237,26 @@ export default {
 
 		// Local settings
 		showLanguages: {
-			get: function() { return this.getLocalstorage('showLanguages') },
-			set: function(status) {
+			get() { return this.getLocalstorage('showLanguages') },
+			set(status) {
 				this.setLocalStorage('showLanguages', status)
 			},
 		},
 		showLastLogin: {
-			get: function() { return this.getLocalstorage('showLastLogin') },
-			set: function(status) {
+			get() { return this.getLocalstorage('showLastLogin') },
+			set(status) {
 				this.setLocalStorage('showLastLogin', status)
 			},
 		},
 		showUserBackend: {
-			get: function() { return this.getLocalstorage('showUserBackend') },
-			set: function(status) {
+			get() { return this.getLocalstorage('showUserBackend') },
+			set(status) {
 				this.setLocalStorage('showUserBackend', status)
 			},
 		},
 		showStoragePath: {
-			get: function() { return this.getLocalstorage('showStoragePath') },
-			set: function(status) {
+			get() { return this.getLocalstorage('showStoragePath') },
+			set(status) {
 				this.setLocalStorage('showStoragePath', status)
 			},
 		},
@@ -271,7 +278,7 @@ export default {
 		},
 		// mapping saved values to objects
 		defaultQuota: {
-			get: function() {
+			get() {
 				if (this.selectedQuota !== false) {
 					return this.selectedQuota
 				}
@@ -281,7 +288,7 @@ export default {
 				}
 				return this.unlimitedQuota // unlimited
 			},
-			set: function(quota) {
+			set(quota) {
 				this.selectedQuota = quota
 			},
 
@@ -298,7 +305,7 @@ export default {
 						...this.settings,
 						newUserSendEmail: value,
 					})
-					await axios.post(generateUrl(`/settings/users/preferences/newUser.sendEmail`), { value: value ? 'yes' : 'no' })
+					await axios.post(generateUrl('/settings/users/preferences/newUser.sendEmail'), { value: value ? 'yes' : 'no' })
 				} catch (e) {
 					console.error('could not update newUser.sendEmail preference: ' + e.message, e)
 				} finally {
@@ -343,8 +350,8 @@ export default {
 		})
 	},
 	methods: {
-		toggleNewUserMenu() {
-			this.showConfig.showNewUserForm = !this.showConfig.showNewUserForm
+		showNewUserMenu() {
+			this.showConfig.showNewUserForm = true
 			if (this.showConfig.showNewUserForm) {
 				Vue.nextTick(() => {
 					window.newusername.focus()
@@ -423,9 +430,9 @@ export default {
 		 */
 		registerAction(icon, text, action) {
 			this.externalActions.push({
-				icon: icon,
-				text: text,
-				action: action,
+				icon,
+				text,
+				action,
 			})
 			return this.externalActions
 		},
@@ -452,7 +459,7 @@ export default {
 				this.$router.push({
 					name: 'group',
 					params: {
-						selectedGroup: gid.trim(),
+						selectedGroup: encodeURIComponent(gid.trim()),
 					},
 				})
 			} catch {
@@ -511,7 +518,7 @@ export default {
 
 <style lang="scss" scoped>
 // force hiding the editing action for the add group entry
-#usergrouplist #addgroup::v-deep .app-navigation-entry__utils {
+.app-navigation__list #addgroup::v-deep .app-navigation-entry__utils {
 	display: none;
 }
 </style>

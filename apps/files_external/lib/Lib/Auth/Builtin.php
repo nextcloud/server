@@ -20,7 +20,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_External\Lib\Auth;
 
 use OCP\IL10N;
@@ -29,7 +28,6 @@ use OCP\IL10N;
  * Builtin authentication mechanism, for legacy backends
  */
 class Builtin extends AuthMechanism {
-
 	public function __construct(IL10N $l) {
 		$this
 			->setIdentifier('builtin::builtin')
@@ -37,5 +35,4 @@ class Builtin extends AuthMechanism {
 			->setText($l->t('Builtin'))
 		;
 	}
-
 }

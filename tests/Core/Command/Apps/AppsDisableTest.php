@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2019, Daniel Kesselberg (mail@danielkesselberg.de)
@@ -67,18 +68,18 @@ class AppsDisableTest extends TestCase {
 
 	public function dataCommandInput(): array {
 		return [
-			[['admin_audit'], 0, 'admin_audit disabled'],
-			[['comments'], 0, 'comments disabled'],
+			[['admin_audit'], 0, 'admin_audit 1.11.0 disabled'],
+			[['comments'], 0, 'comments 1.11.0 disabled'],
 			[['invalid_app'], 0, 'No such app enabled: invalid_app'],
 
-			[['admin_audit', 'comments'], 0, "admin_audit disabled\ncomments disabled"],
-			[['admin_audit', 'comments', 'invalid_app'], 0, "admin_audit disabled\ncomments disabled\nNo such app enabled: invalid_app"],
+			[['admin_audit', 'comments'], 0, "admin_audit 1.11.0 disabled\ncomments 1.11.0 disabled"],
+			[['admin_audit', 'comments', 'invalid_app'], 0, "admin_audit 1.11.0 disabled\ncomments 1.11.0 disabled\nNo such app enabled: invalid_app"],
 
 			[['files'], 2, "files can't be disabled"],
 			[['provisioning_api'], 2, "provisioning_api can't be disabled"],
 
-			[['files', 'admin_audit'], 2, "files can't be disabled.\nadmin_audit disabled"],
-			[['provisioning_api', 'comments'], 2, "provisioning_api can't be disabled.\ncomments disabled"],
+			[['files', 'admin_audit'], 2, "files can't be disabled.\nadmin_audit 1.11.0 disabled"],
+			[['provisioning_api', 'comments'], 2, "provisioning_api can't be disabled.\ncomments 1.11.0 disabled"],
 
 		];
 	}

@@ -2,10 +2,13 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -22,7 +25,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files\Tests\Service;
 
 use OCA\Files\Service\TagService;
@@ -46,10 +48,10 @@ class TagServiceTest extends \Test\TestCase {
 	 */
 	private $user;
 
-	/** @var IUserSession|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
 	private $userSession;
 
-	/** @var IManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $activityManager;
 
 	/**
@@ -57,11 +59,11 @@ class TagServiceTest extends \Test\TestCase {
 	 */
 	private $root;
 
-	/** @var EventDispatcherInterface|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var EventDispatcherInterface|\PHPUnit\Framework\MockObject\MockObject */
 	private $dispatcher;
 
 	/**
-	 * @var \OCA\Files\Service\TagService|\PHPUnit_Framework_MockObject_MockObject
+	 * @var \OCA\Files\Service\TagService|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	private $tagService;
 
@@ -96,7 +98,7 @@ class TagServiceTest extends \Test\TestCase {
 
 	/**
 	 * @param array $methods
-	 * @return TagService|\PHPUnit_Framework_MockObject_MockObject
+	 * @return TagService|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	protected function getTagService(array $methods = []) {
 		return $this->getMockBuilder(TagService::class)
@@ -109,13 +111,14 @@ class TagServiceTest extends \Test\TestCase {
 			])
 			->setMethods($methods)
 			->getMock();
-
 	}
 
 	protected function tearDown(): void {
 		\OC_User::setUserId('');
 		$user = \OC::$server->getUserManager()->get($this->user);
-		if ($user !== null) { $user->delete(); }
+		if ($user !== null) {
+			$user->delete();
+		}
 	}
 
 	public function testUpdateFileTags() {
@@ -160,7 +163,6 @@ class TagServiceTest extends \Test\TestCase {
 	}
 
 	public function testFavoriteActivity() {
-
 		$subdir = $this->root->newFolder('subdir');
 		$file = $subdir->newFile('test.txt');
 

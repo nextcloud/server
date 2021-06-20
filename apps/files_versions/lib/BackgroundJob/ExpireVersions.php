@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -22,7 +23,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_Versions\BackgroundJob;
 
 use OCA\Files_Versions\Expiration;
@@ -31,8 +31,7 @@ use OCP\IUser;
 use OCP\IUserManager;
 
 class ExpireVersions extends \OC\BackgroundJob\TimedJob {
-
-	const ITEMS_PER_SESSION = 1000;
+	public const ITEMS_PER_SESSION = 1000;
 
 	/**
 	 * @var Expiration
@@ -58,7 +57,7 @@ class ExpireVersions extends \OC\BackgroundJob\TimedJob {
 			return;
 		}
 
-		$this->userManager->callForSeenUsers(function(IUser $user) {
+		$this->userManager->callForSeenUsers(function (IUser $user) {
 			$uid = $user->getUID();
 			if (!$this->setupFS($uid)) {
 				return;

@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
@@ -23,12 +24,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\CalDAV;
 
 use OCA\DAV\AppInfo\PluginManager;
 use OCA\DAV\CalDAV\Integration\ExternalCalendar;
 use OCA\DAV\CalDAV\Integration\ICalendarProvider;
+use OCA\DAV\CalDAV\Trashbin\TrashbinHome;
 use Sabre\CalDAV\Backend\BackendInterface;
 use Sabre\CalDAV\Backend\NotificationSupport;
 use Sabre\CalDAV\Backend\SchedulingSupport;
@@ -37,6 +38,7 @@ use Sabre\CalDAV\Schedule\Inbox;
 use Sabre\CalDAV\Subscriptions\Subscription;
 use Sabre\DAV\Exception\MethodNotAllowed;
 use Sabre\DAV\Exception\NotFound;
+use Sabre\DAV\INode;
 use Sabre\DAV\MkCol;
 
 class CalendarHome extends \Sabre\CalDAV\CalendarHome {
@@ -51,7 +53,7 @@ class CalendarHome extends \Sabre\CalDAV\CalendarHome {
 	private $pluginManager;
 
 	/** @var bool */
-	private $returnCachedSubscriptions=false;
+	private $returnCachedSubscriptions = false;
 
 	public function __construct(BackendInterface $caldavBackend, $principalInfo) {
 		parent::__construct($caldavBackend, $principalInfo);
@@ -73,8 +75,11 @@ class CalendarHome extends \Sabre\CalDAV\CalendarHome {
 	/**
 	 * @inheritdoc
 	 */
-	function createExtendedCollection($name, MkCol $mkCol) {
-		$reservedNames = [BirthdayService::BIRTHDAY_CALENDAR_URI];
+	public function createExtendedCollection($name, MkCol $mkCol): void {
+		$reservedNames = [
+			BirthdayService::BIRTHDAY_CALENDAR_URI,
+			TrashbinHome::NAME,
+		];
 
 		if (\in_array($name, $reservedNames, true) || ExternalCalendar::doesViolateReservedName($name)) {
 			throw new MethodNotAllowed('The resource you tried to create has a reserved name');
@@ -86,7 +91,7 @@ class CalendarHome extends \Sabre\CalDAV\CalendarHome {
 	/**
 	 * @inheritdoc
 	 */
-	function getChildren() {
+	public function getChildren() {
 		$calendars = $this->caldavBackend->getCalendarsForUser($this->principalInfo['uri']);
 		$objects = [];
 		foreach ($calendars as $calendar) {
@@ -101,6 +106,10 @@ class CalendarHome extends \Sabre\CalDAV\CalendarHome {
 		// We're adding a notifications node, if it's supported by the backend.
 		if ($this->caldavBackend instanceof NotificationSupport) {
 			$objects[] = new \Sabre\CalDAV\Notifications\Collection($this->caldavBackend, $this->principalInfo['uri']);
+		}
+
+		if ($this->caldavBackend instanceof CalDavBackend) {
+			$objects[] = new TrashbinHome($this->caldavBackend, $this->principalInfo);
 		}
 
 		// If the backend supports subscriptions, we'll add those as well,
@@ -126,9 +135,11 @@ class CalendarHome extends \Sabre\CalDAV\CalendarHome {
 	}
 
 	/**
-	 * @inheritdoc
+	 * @param string $name
+	 *
+	 * @return INode
 	 */
-	function getChild($name) {
+	public function getChild($name) {
 		// Special nodes
 		if ($name === 'inbox' && $this->caldavBackend instanceof SchedulingSupport) {
 			return new Inbox($this->caldavBackend, $this->principalInfo['uri']);
@@ -137,7 +148,10 @@ class CalendarHome extends \Sabre\CalDAV\CalendarHome {
 			return new Outbox($this->config, $this->principalInfo['uri']);
 		}
 		if ($name === 'notifications' && $this->caldavBackend instanceof NotificationSupport) {
-			return new \Sabre\CalDAv\Notifications\Collection($this->caldavBackend, $this->principalInfo['uri']);
+			return new \Sabre\CalDAV\Notifications\Collection($this->caldavBackend, $this->principalInfo['uri']);
+		}
+		if ($name === TrashbinHome::NAME && $this->caldavBackend instanceof CalDavBackend) {
+			return new TrashbinHome($this->caldavBackend, $this->principalInfo);
 		}
 
 		// Calendars
@@ -182,7 +196,7 @@ class CalendarHome extends \Sabre\CalDAV\CalendarHome {
 	 * @param integer|null $limit
 	 * @param integer|null $offset
 	 */
-	function calendarSearch(array $filters, $limit=null, $offset=null) {
+	public function calendarSearch(array $filters, $limit = null, $offset = null) {
 		$principalUri = $this->principalInfo['uri'];
 		return $this->caldavBackend->calendarSearch($principalUri, $filters, $limit, $offset);
 	}

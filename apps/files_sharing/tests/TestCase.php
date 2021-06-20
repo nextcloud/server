@@ -3,8 +3,9 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
@@ -12,7 +13,7 @@
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -29,7 +30,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_Sharing\Tests;
 
 use OC\Files\Filesystem;
@@ -47,12 +47,12 @@ use Test\Traits\MountProviderTrait;
 abstract class TestCase extends \Test\TestCase {
 	use MountProviderTrait;
 
-	const TEST_FILES_SHARING_API_USER1 = "test-share-user1";
-	const TEST_FILES_SHARING_API_USER2 = "test-share-user2";
-	const TEST_FILES_SHARING_API_USER3 = "test-share-user3";
-	const TEST_FILES_SHARING_API_USER4 = "test-share-user4";
+	public const TEST_FILES_SHARING_API_USER1 = "test-share-user1";
+	public const TEST_FILES_SHARING_API_USER2 = "test-share-user2";
+	public const TEST_FILES_SHARING_API_USER3 = "test-share-user3";
+	public const TEST_FILES_SHARING_API_USER4 = "test-share-user4";
 
-	const TEST_FILES_SHARING_API_GROUP1 = "test-share-group1";
+	public const TEST_FILES_SHARING_API_GROUP1 = "test-share-group1";
 
 	public $filename;
 	public $data;
@@ -72,14 +72,14 @@ abstract class TestCase extends \Test\TestCase {
 		parent::setUpBeforeClass();
 
 		new Application();
-		
+
 		// reset backend
 		\OC_User::clearBackends();
 		\OC::$server->getGroupManager()->clearBackends();
 
 		// clear share hooks
 		\OC_Hook::clear('OCP\\Share');
-		\OC::registerShareHooks();
+		\OC::registerShareHooks(\OC::$server->getSystemConfig());
 
 		// create users
 		$backend = new \Test\Util\User\Dummy();
@@ -124,17 +124,31 @@ abstract class TestCase extends \Test\TestCase {
 		$qb->delete('share');
 		$qb->execute();
 
+		$qb = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+		$qb->delete('mounts');
+		$qb->execute();
+
+		$qb = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+		$qb->delete('filecache');
+		$qb->execute();
+
 		parent::tearDown();
 	}
 
 	public static function tearDownAfterClass(): void {
 		// cleanup users
 		$user = \OC::$server->getUserManager()->get(self::TEST_FILES_SHARING_API_USER1);
-		if ($user !== null) { $user->delete(); }
+		if ($user !== null) {
+			$user->delete();
+		}
 		$user = \OC::$server->getUserManager()->get(self::TEST_FILES_SHARING_API_USER2);
-		if ($user !== null) { $user->delete(); }
+		if ($user !== null) {
+			$user->delete();
+		}
 		$user = \OC::$server->getUserManager()->get(self::TEST_FILES_SHARING_API_USER3);
-		if ($user !== null) { $user->delete(); }
+		if ($user !== null) {
+			$user->delete();
+		}
 
 		// delete group
 		$group = \OC::$server->getGroupManager()->get(self::TEST_FILES_SHARING_API_GROUP1);
@@ -161,7 +175,6 @@ abstract class TestCase extends \Test\TestCase {
 	 * @param bool $password
 	 */
 	protected static function loginHelper($user, $create = false, $password = false) {
-
 		if ($password === false) {
 			$password = $user;
 		}
@@ -173,7 +186,7 @@ abstract class TestCase extends \Test\TestCase {
 			$userObject = $userManager->createUser($user, $password);
 			$group = $groupManager->createGroup('group');
 
-			if ($group and $userObject) {
+			if ($group && $userObject) {
 				$group->addUser($userObject);
 			}
 		}
@@ -218,7 +231,6 @@ abstract class TestCase extends \Test\TestCase {
 		$result->closeCursor();
 
 		return $share;
-
 	}
 
 	/**

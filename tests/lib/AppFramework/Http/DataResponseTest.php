@@ -23,7 +23,6 @@
 
 namespace Test\AppFramework\Http;
 
-
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 
@@ -66,8 +65,9 @@ class DataResponseTest extends \Test\TestCase {
 
 		$expectedHeaders = [
 			'Cache-Control' => 'no-cache, no-store, must-revalidate',
-			'Content-Security-Policy' => "default-src 'none';base-uri 'none';manifest-src 'self'",
+			'Content-Security-Policy' => "default-src 'none';base-uri 'none';manifest-src 'self';frame-ancestors 'none'",
 			'Feature-Policy' => "autoplay 'none';camera 'none';fullscreen 'none';geolocation 'none';microphone 'none';payment 'none'",
+			'X-Robots-Tag' => 'none',
 		];
 		$expectedHeaders = array_merge($expectedHeaders, $headers);
 
@@ -85,6 +85,4 @@ class DataResponseTest extends \Test\TestCase {
 		$this->assertEquals(Http::STATUS_NOT_FOUND, $this->response->getStatus());
 		$this->assertEquals(['hi', 'yo'], $this->response->getData());
 	}
-
-
 }

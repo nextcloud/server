@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2017, Christoph Seitz <christoph.seitz@posteo.de>
  *
  * @author Christoph Seitz <christoph.seitz@posteo.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -13,16 +14,14 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\CalDAV\Principal;
-
 
 /**
  * Class Collection
@@ -37,8 +36,7 @@ class Collection extends \Sabre\CalDAV\Principal\Collection {
 	 * @param array $principalInfo
 	 * @return User
 	 */
-	function getChildForPrincipal(array $principalInfo) {
+	public function getChildForPrincipal(array $principalInfo) {
 		return new User($this->principalBackend, $principalInfo);
 	}
-
 }

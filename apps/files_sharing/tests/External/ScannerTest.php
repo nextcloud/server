@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
@@ -20,7 +21,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_Sharing\Tests\External;
 
 use OCA\Files_Sharing\External\Scanner;
@@ -29,9 +29,9 @@ use Test\TestCase;
 class ScannerTest extends TestCase {
 	/** @var \OCA\Files_Sharing\External\Scanner */
 	protected $scanner;
-	/** @var \OCA\Files_Sharing\External\Storage|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCA\Files_Sharing\External\Storage|\PHPUnit\Framework\MockObject\MockObject */
 	protected $storage;
-	/** @var \OC\Files\Cache\Cache|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OC\Files\Cache\Cache|\PHPUnit\Framework\MockObject\MockObject */
 	protected $cache;
 
 	protected function setUp(): void {

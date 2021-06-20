@@ -9,7 +9,6 @@ OC.L10N.register(
     "Federation allows you to connect with other trusted servers to exchange the user directory." : "Federation låter dig ansluta med andra betrodda servrar för att utbyta användarkatalogen.",
     "Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "Federation låter dig ansluta till andra betrodda servrar för att utbyta användarinformation. Till exempel kommer detta användas för att auto-komplettera externa användare för federerad delning.",
     "Trusted servers" : "Betrodda servrar",
-    "Add server automatically once a federated share was created successfully" : "Lägg till servern automatiskt så fort en lyckad federerad delning skapats",
     "+ Add trusted server" : "+ Lägg till betrodd server",
     "Trusted server" : "Betrodd server",
     "Add" : "Lägg till"

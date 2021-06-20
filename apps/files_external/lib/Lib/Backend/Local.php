@@ -21,7 +21,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_External\Lib\Backend;
 
 use OCA\Files_External\Lib\Auth\AuthMechanism;
@@ -31,7 +30,6 @@ use OCA\Files_External\Service\BackendService;
 use OCP\IL10N;
 
 class Local extends Backend {
-
 	public function __construct(IL10N $l, NullMechanism $legacyAuth) {
 		$this
 			->setIdentifier('local')
@@ -47,5 +45,4 @@ class Local extends Backend {
 			->setLegacyAuthMechanism($legacyAuth)
 		;
 	}
-
 }

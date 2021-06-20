@@ -30,7 +30,6 @@ use OCP\AppFramework\Http\JSONResponse;
 use OCP\IConfig;
 
 class ChildController extends Controller {
-
 	public function __construct($appName, $request) {
 		parent::__construct($appName, $request);
 		$this->registerResponder('tom', function ($respone) {
@@ -93,7 +92,7 @@ class ControllerTest extends \Test\TestCase {
 		$this->controller = new ChildController($this->app, $request);
 	}
 
-	
+
 	public function testFormatResonseInvalidFormat() {
 		$this->expectException(\DomainException::class);
 
@@ -113,8 +112,9 @@ class ControllerTest extends \Test\TestCase {
 			'test' => 'something',
 			'Cache-Control' => 'no-cache, no-store, must-revalidate',
 			'Content-Type' => 'application/json; charset=utf-8',
-			'Content-Security-Policy' => "default-src 'none';base-uri 'none';manifest-src 'self'",
+			'Content-Security-Policy' => "default-src 'none';base-uri 'none';manifest-src 'self';frame-ancestors 'none'",
 			'Feature-Policy' => "autoplay 'none';camera 'none';fullscreen 'none';geolocation 'none';microphone 'none';payment 'none'",
+			'X-Robots-Tag' => 'none',
 		];
 
 		$response = $this->controller->customDataResponse(['hi']);
@@ -157,6 +157,4 @@ class ControllerTest extends \Test\TestCase {
 
 		$this->assertEquals('tom', $responder);
 	}
-
-
 }

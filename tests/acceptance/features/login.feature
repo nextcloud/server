@@ -47,7 +47,7 @@ Feature: login
     And I see that the list of users contains the user unknownUser
     And I act as John
     And I log in with user unknownUser and password 123456acb
-#    Then I see that the current page is the Files app
+    Then I see that the current page is the Files app
 
   Scenario: log out
     Given I am logged in

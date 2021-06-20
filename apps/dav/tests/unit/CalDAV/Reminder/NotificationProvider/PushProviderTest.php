@@ -6,9 +6,10 @@ declare(strict_types=1);
  * @copyright Copyright (c) 2019, Thomas Citharel
  * @copyright Copyright (c) 2019, Georg Ehrke
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Citharel <tcit@tcit.fr>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -19,14 +20,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\Tests\unit\CalDAV\Reminder\NotificationProvider;
 
 use OCA\DAV\CalDAV\Reminder\NotificationProvider\PushProvider;
@@ -42,46 +42,46 @@ use OCP\Notification\INotification;
 
 class PushProviderTest extends AbstractNotificationProviderTest {
 
-    /** @var ILogger|\PHPUnit\Framework\MockObject\MockObject */
-    protected $logger;
+	/** @var ILogger|\PHPUnit\Framework\MockObject\MockObject */
+	protected $logger;
 
-    /** @var L10NFactory|\PHPUnit\Framework\MockObject\MockObject */
-    protected $l10nFactory;
+	/** @var L10NFactory|\PHPUnit\Framework\MockObject\MockObject */
+	protected $l10nFactory;
 
-    /** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
-    protected $l10n;
+	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
+	protected $l10n;
 
-    /** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
-    protected $urlGenerator;
+	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
+	protected $urlGenerator;
 
-    /** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
-    protected $config;
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
+	protected $config;
 
-    /** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
-    private $manager;
+	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
+	private $manager;
 
-    /** @var ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
-    private $timeFactory;
+	/** @var ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
+	private $timeFactory;
 
-    protected function setUp(): void {
-        parent::setUp();
+	protected function setUp(): void {
+		parent::setUp();
 
-        $this->config = $this->createMock(IConfig::class);
-        $this->manager = $this->createMock(IManager::class);
-        $this->timeFactory = $this->createMock(ITimeFactory::class);
+		$this->config = $this->createMock(IConfig::class);
+		$this->manager = $this->createMock(IManager::class);
+		$this->timeFactory = $this->createMock(ITimeFactory::class);
 
-        $this->provider = new PushProvider(
-            $this->config,
-            $this->manager,
-            $this->logger,
-            $this->l10nFactory,
-            $this->urlGenerator,
-            $this->timeFactory
-        );
-    }
+		$this->provider = new PushProvider(
+			$this->config,
+			$this->manager,
+			$this->logger,
+			$this->l10nFactory,
+			$this->urlGenerator,
+			$this->timeFactory
+		);
+	}
 
-    public function testNotificationType():void  {
-    	$this->assertEquals(PushProvider::NOTIFICATION_TYPE, 'DISPLAY');
+	public function testNotificationType():void {
+		$this->assertEquals(PushProvider::NOTIFICATION_TYPE, 'DISPLAY');
 	}
 
 	public function testNotSend(): void {
@@ -110,19 +110,19 @@ class PushProviderTest extends AbstractNotificationProviderTest {
 		$this->provider->send($this->vcalendar->VEVENT, $this->calendarDisplayName, $users);
 	}
 
-    public function testSend(): void {
-    	$this->config->expects($this->once())
+	public function testSend(): void {
+		$this->config->expects($this->once())
 			->method('getAppValue')
 			->with('dav', 'sendEventRemindersPush', 'no')
 			->willReturn('yes');
 
-    	$user1 = $this->createMock(IUser::class);
-    	$user1->method('getUID')
+		$user1 = $this->createMock(IUser::class);
+		$user1->method('getUID')
 			->willReturn('uid1');
-    	$user2 = $this->createMock(IUser::class);
+		$user2 = $this->createMock(IUser::class);
 		$user2->method('getUID')
 			->willReturn('uid2');
-    	$user3 = $this->createMock(IUser::class);
+		$user3 = $this->createMock(IUser::class);
 		$user3->method('getUID')
 			->willReturn('uid3');
 
@@ -161,13 +161,13 @@ class PushProviderTest extends AbstractNotificationProviderTest {
 			->with($notification3);
 
 		$this->provider->send($this->vcalendar->VEVENT, $this->calendarDisplayName, $users);
-    }
+	}
 
 	/**
 	 * @param string $uid
 	 * @param \DateTime $dt
 	 */
-    private function createNotificationMock(string $uid, \DateTime $dt):INotification {
+	private function createNotificationMock(string $uid, \DateTime $dt):INotification {
 		$notification = $this->createMock(INotification::class);
 		$notification
 			->expects($this->once())

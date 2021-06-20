@@ -25,9 +25,9 @@ use Icewind\Streams\Wrapper;
 use OC\Files\ObjectStore\S3;
 
 class MultiPartUploadS3 extends S3 {
-	function writeObject($urn, $stream) {
+	public function writeObject($urn, $stream, string $mimetype = null) {
 		$this->getConnection()->upload($this->bucket, $urn, $stream, 'private', [
-			'mup_threshold' => 1
+			'mup_threshold' => 1,
 		]);
 	}
 }
@@ -36,8 +36,8 @@ class NonSeekableStream extends Wrapper {
 	public static function wrap($source) {
 		$context = stream_context_create([
 			'nonseek' => [
-				'source' => $source
-			]
+				'source' => $source,
+			],
 		]);
 		return Wrapper::wrapSource($source, $context, 'nonseek', self::class);
 	}
@@ -82,5 +82,21 @@ class S3Test extends ObjectStoreTest {
 		$result = $s3->readObject('multiparttest');
 
 		$this->assertEquals(file_get_contents(__FILE__), stream_get_contents($result));
+	}
+
+	public function testSeek() {
+		$data = file_get_contents(__FILE__);
+
+		$instance = $this->getInstance();
+		$instance->writeObject('seek', $this->stringToStream($data));
+
+		$read = $instance->readObject('seek');
+		$this->assertEquals(substr($data, 0, 100), fread($read, 100));
+
+		fseek($read, 10);
+		$this->assertEquals(substr($data, 10, 100), fread($read, 100));
+
+		fseek($read, 100, SEEK_CUR);
+		$this->assertEquals(substr($data, 210, 100), fread($read, 100));
 	}
 }

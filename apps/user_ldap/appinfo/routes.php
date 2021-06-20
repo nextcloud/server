@@ -7,8 +7,8 @@ declare(strict_types=1);
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roger Szabo <roger.szabo@web.de>
  *
  * @license AGPL-3.0
@@ -26,21 +26,19 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
-/** @var $this \OCP\Route\IRouter */
-$this->create('user_ldap_ajax_clearMappings', 'ajax/clearMappings.php')
+$this->create('user_ldap_ajax_clearMappings', 'apps/user_ldap/ajax/clearMappings.php')
 	->actionInclude('user_ldap/ajax/clearMappings.php');
-$this->create('user_ldap_ajax_deleteConfiguration', 'ajax/deleteConfiguration.php')
+$this->create('user_ldap_ajax_deleteConfiguration', 'apps/user_ldap/ajax/deleteConfiguration.php')
 	->actionInclude('user_ldap/ajax/deleteConfiguration.php');
-$this->create('user_ldap_ajax_getConfiguration', 'ajax/getConfiguration.php')
+$this->create('user_ldap_ajax_getConfiguration', 'apps/user_ldap/ajax/getConfiguration.php')
 	->actionInclude('user_ldap/ajax/getConfiguration.php');
-$this->create('user_ldap_ajax_getNewServerConfigPrefix', 'ajax/getNewServerConfigPrefix.php')
+$this->create('user_ldap_ajax_getNewServerConfigPrefix', 'apps/user_ldap/ajax/getNewServerConfigPrefix.php')
 	->actionInclude('user_ldap/ajax/getNewServerConfigPrefix.php');
-$this->create('user_ldap_ajax_setConfiguration', 'ajax/setConfiguration.php')
+$this->create('user_ldap_ajax_setConfiguration', 'apps/user_ldap/ajax/setConfiguration.php')
 	->actionInclude('user_ldap/ajax/setConfiguration.php');
-$this->create('user_ldap_ajax_testConfiguration', 'ajax/testConfiguration.php')
+$this->create('user_ldap_ajax_testConfiguration', 'apps/user_ldap/ajax/testConfiguration.php')
 	->actionInclude('user_ldap/ajax/testConfiguration.php');
-$this->create('user_ldap_ajax_wizard', 'ajax/wizard.php')
+$this->create('user_ldap_ajax_wizard', 'apps/user_ldap/ajax/wizard.php')
 	->actionInclude('user_ldap/ajax/wizard.php');
 
 $application = new \OCP\AppFramework\App('user_ldap');

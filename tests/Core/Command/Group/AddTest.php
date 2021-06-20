@@ -32,16 +32,16 @@ use Test\TestCase;
 
 class AddTest extends TestCase {
 
-	/** @var IGroupManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IGroupManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $groupManager;
 
 	/** @var Add */
 	private $command;
 
-	/** @var InputInterface|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var InputInterface|\PHPUnit\Framework\MockObject\MockObject */
 	private $input;
 
-	/** @var OutputInterface|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var OutputInterface|\PHPUnit\Framework\MockObject\MockObject */
 	private $output;
 
 	protected function setUp(): void {
@@ -52,7 +52,7 @@ class AddTest extends TestCase {
 
 		$this->input = $this->createMock(InputInterface::class);
 		$this->input->method('getArgument')
-			->willReturnCallback(function($arg) {
+			->willReturnCallback(function ($arg) {
 				if ($arg === 'groupid') {
 					return 'myGroup';
 				}
@@ -94,6 +94,4 @@ class AddTest extends TestCase {
 
 		$this->invokePrivate($this->command, 'execute', [$this->input, $this->output]);
 	}
-
-
 }

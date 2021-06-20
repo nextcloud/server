@@ -5,11 +5,11 @@
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Citharel <tcit@tcit.fr>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  *
  * @license AGPL-3.0
  *
@@ -26,7 +26,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\L10N;
 
 use OCP\IUser;
@@ -126,4 +125,13 @@ interface IFactory {
 	 * @since 14.0.0
 	 */
 	public function getLanguageIterator(IUser $user = null): ILanguageIterator;
+
+	/**
+	 * Return the language to use when sending something to a user
+	 *
+	 * @param IUser|null $user
+	 * @return string
+	 * @since 20.0.0
+	 */
+	public function getUserLanguage(IUser $user = null): string;
 }

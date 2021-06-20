@@ -4,6 +4,7 @@
  *
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  *
@@ -22,8 +23,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\FederatedFileSharing;
+
 use OC\HintException;
 use OCP\Federation\ICloudIdManager;
 use OCP\IL10N;
@@ -131,7 +132,7 @@ class AddressHandler {
 	public function removeProtocolFromUrl($url) {
 		if (strpos($url, 'https://') === 0) {
 			return substr($url, strlen('https://'));
-		} else if (strpos($url, 'http://') === 0) {
+		} elseif (strpos($url, 'http://') === 0) {
 			return substr($url, strlen('http://'));
 		}
 
@@ -147,7 +148,6 @@ class AddressHandler {
 	public function urlContainProtocol($url) {
 		if (strpos($url, 'https://') === 0 ||
 			strpos($url, 'http://') === 0) {
-
 			return true;
 		}
 

@@ -22,13 +22,11 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\Diagnostics;
 
 /**
  * Interface IQuery
  *
- * @package OCP\Diagnostics
  * @since 8.0.0
  */
 interface IQuery {
