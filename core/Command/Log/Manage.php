@@ -190,7 +190,11 @@ class Manage extends Command implements CompletionAwareInterface {
 		} elseif ($optionName === 'level') {
 			return ['debug', 'info', 'warning', 'error', 'fatal'];
 		} elseif ($optionName === 'timezone') {
-			return \DateTimeZone::listIdentifiers();
+			$identifier = \DateTimeZone::listIdentifiers();
+			if ($identifier === false) {
+				return [];
+			}
+			return $identifier;
 		}
 		return [];
 	}
