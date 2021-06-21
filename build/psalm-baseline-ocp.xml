@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.2.1@ea9cb72143b77e7520c52fa37290bd8d8bc88fd9">
+<files psalm-version="4.8.1@f73f2299dbc59a3e6c4d66cff4605176e728ee69">
   <file src="lib/private/legacy/OC_Image.php">
     <ImplementedReturnTypeMismatch occurrences="1">
       <code>null|string</code>
@@ -22,6 +22,9 @@
     </NoInterfaceProperties>
   </file>
   <file src="lib/public/AppFramework/App.php">
+    <InternalMethod occurrences="1">
+      <code>new RouteConfig($this-&gt;container, $router, $routes)</code>
+    </InternalMethod>
     <UndefinedClass occurrences="1">
       <code>\OC</code>
     </UndefinedClass>
@@ -53,9 +56,6 @@
       <code>\OC</code>
     </UndefinedClass>
   </file>
-  <file src="lib/public/AppFramework/Http/Template/PublicTemplateResponse.php">
-    <InvalidScalarArgument occurrences="1"/>
-  </file>
   <file src="lib/public/AppFramework/Http/ZipResponse.php">
     <InvalidArrayAccess occurrences="5">
       <code>$resource['internalName']</code>
@@ -77,11 +77,6 @@
     <MoreSpecificImplementedParamType occurrences="1">
       <code>$jobList</code>
     </MoreSpecificImplementedParamType>
-  </file>
-  <file src="lib/public/Contacts/IManager.php">
-    <UndefinedDocblockClass occurrences="1">
-      <code>IAddressBook[]</code>
-    </UndefinedDocblockClass>
   </file>
   <file src="lib/public/Dashboard/Model/WidgetTemplate.php">
     <InvalidNullableReturnType occurrences="1">
@@ -212,17 +207,6 @@
       <code>\publicPreview_icon($path, $token)</code>
       <code>\relative_modified_date($timestamp, null, $dateOnly)</code>
     </UndefinedFunction>
-  </file>
-  <file src="lib/public/User.php">
-    <InvalidReturnStatement occurrences="1">
-      <code>\OC_User::getUser()</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
-      <code>string</code>
-    </InvalidReturnType>
-    <UndefinedClass occurrences="1">
-      <code>\OC</code>
-    </UndefinedClass>
   </file>
   <file src="lib/public/Util.php">
     <InvalidReturnStatement occurrences="1">
