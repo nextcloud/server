@@ -143,7 +143,9 @@ class AppFetcher extends Fetcher {
 			foreach ($releases as $release) {
 				$versions[] = $release['version'];
 			}
-			usort($versions, 'version_compare');
+			usort($versions, function ($version1, $version2) {
+				return version_compare($version1, $version2);
+			});
 			$versions = array_reverse($versions);
 			if (isset($versions[0])) {
 				$highestVersion = $versions[0];
