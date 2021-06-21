@@ -8,6 +8,7 @@ OC.L10N.register(
     "Error loading {name}" : "שגיאה בטעינת {name}",
     "Your browser does not support videos." : "הדפדפן שלך לא תומך בסרטונים.",
     "Open sidebar" : "פתיחת סרגל הצד",
+    "Download" : "הורדה",
     "Delete" : "מחיקה",
     "There is no plugin available to display this file type" : "אין תוסף זמין להצגת סוג הקובץ הזה",
     "View" : "צפייה"
