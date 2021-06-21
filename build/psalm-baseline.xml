@@ -50,9 +50,6 @@
     </InvalidScalarArgument>
   </file>
   <file src="apps/contactsinteraction/lib/AddressBook.php">
-    <InvalidArgument occurrences="1">
-      <code>$ex</code>
-    </InvalidArgument>
     <UndefinedFunction occurrences="1">
       <code>\Sabre\Uri\split($this-&gt;principalUri)</code>
     </UndefinedFunction>
@@ -635,9 +632,6 @@
     </TooManyArguments>
   </file>
   <file src="apps/dav/lib/Connector/Sabre/File.php">
-    <InvalidArgument occurrences="1">
-      <code>$e</code>
-    </InvalidArgument>
     <MoreSpecificImplementedParamType occurrences="1">
       <code>$data</code>
     </MoreSpecificImplementedParamType>
@@ -949,20 +943,7 @@
       <code>$acl-&gt;defaultUsernamePath</code>
     </UndefinedPropertyAssignment>
   </file>
-  <file src="apps/dav/lib/SystemTag/SystemTagMappingNode.php">
-    <InvalidArgument occurrences="1">
-      <code>$e</code>
-    </InvalidArgument>
-  </file>
-  <file src="apps/dav/lib/SystemTag/SystemTagNode.php">
-    <InvalidArgument occurrences="1">
-      <code>$e</code>
-    </InvalidArgument>
-  </file>
   <file src="apps/dav/lib/SystemTag/SystemTagsByIdCollection.php">
-    <InvalidArgument occurrences="1">
-      <code>$e</code>
-    </InvalidArgument>
     <InvalidNullableReturnType occurrences="1">
       <code>int</code>
     </InvalidNullableReturnType>
@@ -971,9 +952,6 @@
     </NullableReturnStatement>
   </file>
   <file src="apps/dav/lib/SystemTag/SystemTagsObjectMappingCollection.php">
-    <InvalidArgument occurrences="1">
-      <code>$e</code>
-    </InvalidArgument>
     <InvalidNullableReturnType occurrences="1">
       <code>int</code>
     </InvalidNullableReturnType>
@@ -2922,11 +2900,8 @@
     </MoreSpecificImplementedParamType>
   </file>
   <file src="lib/private/AppFramework/Utility/SimpleContainer.php">
-    <UndefinedMethod occurrences="4">
+    <UndefinedMethod occurrences="1">
       <code>getName</code>
-      <code>isBuiltin</code>
-      <code>isBuiltin</code>
-      <code>isBuiltin</code>
     </UndefinedMethod>
   </file>
   <file src="lib/private/Archive/TAR.php">
