@@ -228,7 +228,7 @@ class AccountManager implements IAccountManager {
 		$updated = true;
 
 		if ($userData !== $data) {
-			$data = $this->checkEmailVerification($userData, $data, $user);
+
 			$this->updateExistingUser($user, $data);
 		} else {
 			// nothing needs to be done if new and old data set are the same
@@ -340,30 +340,31 @@ class AccountManager implements IAccountManager {
 
 	/**
 	 * check if we need to ask the server for email verification, if yes we create a cronjob
-	 *
-	 * @param $oldData
-	 * @param $newData
-	 * @param IUser $user
-	 * @return array
-	 */
-	protected function checkEmailVerification($oldData, $newData, IUser $user): array {
-		if ($oldData[self::PROPERTY_EMAIL]['value'] !== $newData[self::PROPERTY_EMAIL]['value']) {
 
+	 */
+	protected function checkEmailVerification(IAccount $updatedAccount, array $oldData): void {
+		try {
+			$property = $updatedAccount->getProperty(self::PROPERTY_EMAIL);
+		} catch (PropertyDoesNotExistException $e) {
+			return;
+		}
+		if ($oldData[self::PROPERTY_EMAIL]['value'] !== $property->getValue()) {
 			$this->jobList->add(VerifyUserData::class,
 				[
 					'verificationCode' => '',
-					'data' => $newData[self::PROPERTY_EMAIL]['value'],
+					'data' => $property->getValue(),
 					'type' => self::PROPERTY_EMAIL,
-					'uid' => $user->getUID(),
+					'uid' => $updatedAccount->getUser()->getUID(),
 					'try' => 0,
 					'lastRun' => time()
 				]
 			);
-			$newData[self::PROPERTY_EMAIL]['verified'] = self::VERIFICATION_IN_PROGRESS;
 
+
+
+
+			$property->setVerified(self::VERIFICATION_IN_PROGRESS);
 		}
-
-		return $newData;
 	}
 
 	/**
@@ -639,8 +640,9 @@ class AccountManager implements IAccountManager {
 			$this->testPropertyScope($property, $allowedScopes, true);
 		}
 
-		$this->updateVerificationStatus($account, $this->getUser($account->getUser(), false));
-
+		$oldData = $this->getUser($account->getUser(), false);
+		$this->updateVerificationStatus($account, $oldData);
+		$this->checkEmailVerification($account, $oldData);
 
 		$this->updateUser($account->getUser(), $data, true);
 	}

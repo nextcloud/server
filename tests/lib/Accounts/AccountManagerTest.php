@@ -278,7 +278,7 @@ class AccountManagerTest extends TestCase {
 	 * @param bool $updateExisting
 	 */
 	public function testUpdateUser($newData, $oldData, $insertNew, $updateExisting) {
-		$accountManager = $this->getInstance(['getUser', 'insertNewUser', 'updateExistingUser', 'checkEmailVerification']);
+		$accountManager = $this->getInstance(['getUser', 'insertNewUser', 'updateExistingUser']);
 		/** @var IUser $user */
 		$user = $this->createMock(IUser::class);
 
@@ -286,8 +286,6 @@ class AccountManagerTest extends TestCase {
 		$accountManager->expects($this->once())->method('getUser')->with($user)->willReturn($oldData);
 
 		if ($updateExisting) {
-			$accountManager->expects($this->once())->method('checkEmailVerification')
-				->with($oldData, $newData, $user)->willReturn($newData);
 			$accountManager->expects($this->once())->method('updateExistingUser')
 				->with($user, $newData);
 			$accountManager->expects($this->never())->method('insertNewUser');
@@ -300,7 +298,6 @@ class AccountManagerTest extends TestCase {
 
 		if (!$insertNew && !$updateExisting) {
 			$accountManager->expects($this->never())->method('updateExistingUser');
-			$accountManager->expects($this->never())->method('checkEmailVerification');
 			$accountManager->expects($this->never())->method('insertNewUser');
 			$this->eventDispatcher->expects($this->never())->method('dispatch');
 		} else {
