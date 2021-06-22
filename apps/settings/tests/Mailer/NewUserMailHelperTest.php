@@ -376,7 +376,7 @@ Install Client: https://nextcloud.com/install/#install-clients
 
 
 -- 
-TestCloud - 
+TestCloud
 This is an automatically sent email, please do not reply.
 EOF;
 
@@ -608,7 +608,7 @@ Install Client: https://nextcloud.com/install/#install-clients
 
 
 -- 
-TestCloud - 
+TestCloud
 This is an automatically sent email, please do not reply.
 EOF;
 
@@ -827,7 +827,7 @@ Install Client: https://nextcloud.com/install/#install-clients
 
 
 -- 
-TestCloud - 
+TestCloud
 This is an automatically sent email, please do not reply.
 EOF;
 
