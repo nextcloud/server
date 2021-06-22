@@ -466,7 +466,7 @@ OC.L10N.register(
     "Allow users to share via link" : "Povolit uživatelům sdílet pomocí odkazů",
     "Set default expiration date for link shares" : "Nastavit výchozí datum skončení platností pro sdílení odkazem",
     "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "Povolit automatické dokončení uživatelského jména v dialogovém okně sdílení. Pokud je tato volba zakázána, je třeba zadat úplné uživatelské jméno nebo e-mailovou adresu.",
-    "Restrict username autocompletion to users within the same groups" : "Omezit automatické doplňování uživatelského jména k uživateli ve stejných skupinách",
+    "Restrict username autocompletion to users within the same groups" : "Omezit automatické doplňování uživatelského jména na uživatele ve stejných skupinách",
     "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Zobrazit text zřeknutí se odpovědnosti na stránce pro nahrání veřejného odkazu. (Zobrazit pouze pokud je seznam souborů skrytý.)",
     "Don't synchronize to servers" : "Nesynchronizovat na servery",
     "Trusted" : "Důvěryhodné",
