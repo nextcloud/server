@@ -185,7 +185,7 @@ OC.L10N.register(
     "Create a new share link" : "Vytvořit nový odkaz pro sdílení",
     "{shareWith} by {initiator}" : "{shareWith} od {initiator}",
     "Shared via link by {initiator}" : "{initiator} sdílí odkazem",
-    "Mail share ({label})" : "Sdílení mailu ({label})",
+    "Mail share ({label})" : "Sdílení e-mailem ({label})",
     "Share link ({label})" : "Odkaz na sdílení ({label})",
     "Share link" : "Odkaz pro sdílení",
     "Error, please enter proper password and/or expiration date" : "Chyba – zadejte správné heslo a/nebo datum skončení platnosti",
