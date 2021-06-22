@@ -6,6 +6,7 @@
 		@submit.prevent="submit">
 		<fieldset>
 			<p class="grouptop groupbottom">
+				<label for="user" class="infield">{{ t('core', 'Username or	email') }}</label>
 				<input id="user"
 					ref="user"
 					v-model="user"
@@ -16,10 +17,9 @@
 					:aria-label="t('core', 'Username or email')"
 					required
 					@change="$emit('update:username', user)">
-				<label for="user" class="infield">{{ t('core', 'Username or	email') }}</label>
 			</p>
 
-			<div v-if="!validCredentials">
+			<div v-if="!validCredentials" class="body-login-container update form__message-box">
 				{{ t('core', 'Your account is not setup for passwordless login.') }}
 			</div>
 
@@ -29,11 +29,19 @@
 				@click="authenticate" />
 		</fieldset>
 	</form>
-	<div v-else-if="!hasPublicKeyCredential">
-		{{ t('core', 'Passwordless authentication is not supported in your browser.') }}
+	<div v-else-if="!hasPublicKeyCredential" class="body-login-container update">
+		<InformationIcon size="70" />
+		<h2>{{ t('core', 'Browser not supported') }}</h2>
+		<p class="infogroup">
+			{{ t('core', 'Passwordless authentication is not supported in your browser.') }}
+		</p>
 	</div>
-	<div v-else-if="!isHttps && !isLocalhost">
-		{{ t('core', 'Passwordless authentication is only available over a secure connection.') }}
+	<div v-else-if="!isHttps && !isLocalhost" class="body-login-container update">
+		<LockOpenIcon size="70" />
+		<h2>{{ t('core', 'Your connection is not secure') }}</h2>
+		<p class="infogroup">
+			{{ t('core', 'Passwordless authentication is only available over a secure connection.') }}
+		</p>
 	</div>
 </template>
 
@@ -43,6 +51,8 @@ import {
 	finishAuthentication,
 } from '../../services/WebAuthnAuthenticationService'
 import LoginButton from './LoginButton'
+import InformationIcon from 'vue-material-design-icons/Information'
+import LockOpenIcon from 'vue-material-design-icons/LockOpen'
 
 class NoValidCredentials extends Error {
 
@@ -52,6 +62,8 @@ export default {
 	name: 'PasswordLessLoginForm',
 	components: {
 		LoginButton,
+		InformationIcon,
+		LockOpenIcon,
 	},
 	props: {
 		username: {
@@ -211,6 +223,13 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+	.body-login-container.update {
+		margin: 15px 0;
 
+		&.form__message-box {
+			width: 240px;
+			margin: 5px;
+		}
+	}
 </style>
