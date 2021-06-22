@@ -71,7 +71,7 @@ class Hooks implements IEventListener {
 	}
 
 	public function handle(Event $event): void {
-		if(!$event instanceof UserChangedEvent) {
+		if (!$event instanceof UserChangedEvent) {
 			return;
 		}
 		$this->changeUserHook($event->getUser(), $event->getFeature(), $event->getValue());
