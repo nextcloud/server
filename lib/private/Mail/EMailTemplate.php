@@ -619,7 +619,11 @@ EOF;
 	public function addFooter(string $text = '', ?string $lang = null) {
 		if ($text === '') {
 			$l10n = $this->l10nFactory->get('lib', $lang);
-			$text = $this->themingDefaults->getName() . ' - ' . $this->themingDefaults->getSlogan($lang) . '<br>' . $l10n->t('This is an automatically sent email, please do not reply.');
+			$slogan = $this->themingDefaults->getSlogan($lang);
+			if ($slogan !== '') {
+				$slogan = ' - ' . $slogan;
+			}
+			$text = $this->themingDefaults->getName() . $slogan . '<br>' . $l10n->t('This is an automatically sent email, please do not reply.');
 		}
 
 		if ($this->footerAdded) {
