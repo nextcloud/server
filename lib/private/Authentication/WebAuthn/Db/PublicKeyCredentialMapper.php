@@ -96,6 +96,6 @@ class PublicKeyCredentialMapper extends QBMapper {
 			->where(
 				$qb->expr()->eq('uid', $qb->createNamedParameter($uid))
 			);
-		$qb->executeStatement();
+		$qb->execute();
 	}
 }
