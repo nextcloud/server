@@ -69,7 +69,7 @@ class PublicAuthTest extends \Test\TestCase {
 		$this->shareManager = $this->getMockBuilder(IManager::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$this->shareManager = $this->getMockBuilder(Throttler::class)
+		$this->throttler = $this->getMockBuilder(Throttler::class)
 			->disableOriginalConstructor()
 			->getMock();
 
