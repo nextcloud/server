@@ -59,18 +59,20 @@ try {
 
 	set_exception_handler('exceptionHandler');
 
+	$config = \OC::$server->getConfig();
+
 	if (!function_exists('posix_getuid')) {
 		echo "The posix extensions are required - see https://www.php.net/manual/en/book.posix.php" . PHP_EOL;
 		exit(1);
 	}
 	$user = posix_getuid();
-	$configUser = fileowner(OC::$configDir . 'config.php');
-	if ($user !== $configUser) {
-		echo "Console has to be executed with the user that owns the file config/config.php" . PHP_EOL;
+	$dataDirectoryUser = fileowner($config->getSystemValueString('datadirectory', \OC::$SERVERROOT . '/data'));
+	if ($user !== $dataDirectoryUser) {
+		echo "Console has to be executed with the user that owns the data directory" . PHP_EOL;
 		echo "Current user id: " . $user . PHP_EOL;
-		echo "Owner id of config.php: " . $configUser . PHP_EOL;
-		echo "Try adding 'sudo -u #" . $configUser . "' to the beginning of the command (without the single quotes)" . PHP_EOL;
-		echo "If running with 'docker exec' try adding the option '-u " . $configUser . "' to the docker command (without the single quotes)" . PHP_EOL;
+		echo "Owner id of the data directory: " . $dataDirectoryUser . PHP_EOL;
+		echo "Try adding 'sudo -u #" . $dataDirectoryUser . "' to the beginning of the command (without the single quotes)" . PHP_EOL;
+		echo "If running with 'docker exec' try adding the option '-u " . $dataDirectoryUser . "' to the docker command (without the single quotes)" . PHP_EOL;
 		exit(1);
 	}
 
@@ -90,7 +92,7 @@ try {
 	}
 
 	$application = new Application(
-		\OC::$server->getConfig(),
+		$config,
 		\OC::$server->get(\OCP\EventDispatcher\IEventDispatcher::class),
 		\OC::$server->getRequest(),
 		\OC::$server->get(\Psr\Log\LoggerInterface::class),
