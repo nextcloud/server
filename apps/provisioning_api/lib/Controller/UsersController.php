@@ -53,6 +53,7 @@ use OC\User\Backend;
 use OCA\Settings\Mailer\NewUserMailHelper;
 use OCP\Accounts\IAccountManager;
 use OCP\Accounts\IAccountProperty;
+use OCP\Accounts\PropertyDoesNotExistException;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
@@ -850,19 +851,22 @@ class UsersController extends AUserData {
 			case IAccountManager::PROPERTY_WEBSITE:
 			case IAccountManager::PROPERTY_TWITTER:
 				$userAccount = $this->accountManager->getAccount($targetUser);
-				$userProperty = $userAccount->getProperty($key);
-				if ($userProperty->getValue() !== $value) {
-					try {
-						$userProperty->setValue($value);
-						$this->accountManager->updateAccount($userAccount);
-
-						if ($userProperty->getName() === IAccountManager::PROPERTY_PHONE) {
-							$this->knownUserService->deleteByContactUserId($targetUser->getUID());
+				try {
+					$userProperty = $userAccount->getProperty($key);
+					if ($userProperty->getValue() !== $value) {
+						try {
+							$userProperty->setValue($value);
+							if ($userProperty->getName() === IAccountManager::PROPERTY_PHONE) {
+								$this->knownUserService->deleteByContactUserId($targetUser->getUID());
+							}
+						} catch (\InvalidArgumentException $e) {
+							throw new OCSException('Invalid ' . $e->getMessage(), 102);
 						}
-					} catch (\InvalidArgumentException $e) {
-						throw new OCSException('Invalid ' . $e->getMessage(), 102);
 					}
+				} catch (PropertyDoesNotExistException $e) {
+					$userAccount->setProperty($key, $value, IAccountManager::SCOPE_PRIVATE, IAccountManager::NOT_VERIFIED);
 				}
+				$this->accountManager->updateAccount($userAccount);
 				break;
 			case IAccountManager::PROPERTY_DISPLAYNAME . self::SCOPE_SUFFIX:
 			case IAccountManager::PROPERTY_EMAIL . self::SCOPE_SUFFIX:
