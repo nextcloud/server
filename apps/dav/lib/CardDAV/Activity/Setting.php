@@ -39,7 +39,7 @@ class Setting extends CalDAVSetting {
 	 * @return string A translated string
 	 */
 	public function getName(): string {
-		return $this->l->t('A <strong>contact</strong> or <strong>addressbook</strong> was modified');
+		return $this->l->t('A <strong>contact</strong> or <strong>address book</strong> was modified');
 	}
 
 	/**

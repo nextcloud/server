@@ -87,17 +87,17 @@ class Card extends Base {
 		}
 
 		if ($event->getSubject() === self::SUBJECT_ADD) {
-			$subject = $l->t('{actor} created contact {card} in addressbook {addressbook}');
+			$subject = $l->t('{actor} created contact {card} in address book {addressbook}');
 		} elseif ($event->getSubject() === self::SUBJECT_ADD . '_self') {
-			$subject = $l->t('You created contact {card} in addressbook {addressbook}');
+			$subject = $l->t('You created contact {card} in address book {addressbook}');
 		} elseif ($event->getSubject() === self::SUBJECT_DELETE) {
-			$subject = $l->t('{actor} deleted contact {card} from addressbook {addressbook}');
+			$subject = $l->t('{actor} deleted contact {card} from address book {addressbook}');
 		} elseif ($event->getSubject() === self::SUBJECT_DELETE . '_self') {
-			$subject = $l->t('You deleted contact {card} from addressbook {addressbook}');
+			$subject = $l->t('You deleted contact {card} from address book {addressbook}');
 		} elseif ($event->getSubject() === self::SUBJECT_UPDATE) {
-			$subject = $l->t('{actor} updated contact {card} in addressbook {addressbook}');
+			$subject = $l->t('{actor} updated contact {card} in address book {addressbook}');
 		} elseif ($event->getSubject() === self::SUBJECT_UPDATE . '_self') {
-			$subject = $l->t('You updated contact {card} in addressbook {addressbook}');
+			$subject = $l->t('You updated contact {card} in address book {addressbook}');
 		} else {
 			throw new \InvalidArgumentException();
 		}
