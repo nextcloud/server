@@ -8,7 +8,7 @@ OC.L10N.register(
     "Unshared from %1$s" : "Sdílení zrušeno od %1$s",
     "Unshared from {email}" : "Sdílení zrušeno od {email}",
     "Unshared from %1$s by %2$s" : "%2$s zrušil(a) sdílení od %1$s",
-    "Unshared from {email} by {actor}" : "{actor} zrušil(a) sdílení od {email}",
+    "Unshared from {email} by {actor}" : "{actor} zrušil(a) sdílení adresátovi {email}",
     "Password for mail share sent to %1$s" : "Heslo e-mailového sdílení odesláno na %1$s",
     "Password for mail share sent to {email}" : "Heslo e-mailového sdílení odesláno na {email}",
     "Password for mail share sent to you" : "Heslo e-mailového sdílení vám bylo zasláno",
