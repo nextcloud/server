@@ -223,24 +223,12 @@ class AccountManager implements IAccountManager {
 		}
 	}
 
-	/**
-	 * update user record
-	 *
-	 * @param IUser $user
-	 * @param array $data
-	 * @param bool $throwOnData Set to true if you can inform the user about invalid data
-	 * @return array The potentially modified data (e.g. phone numbers are converted to E.164 format)
-	 * @throws InvalidArgumentException Message is the property that was invalid
-	 */
-	public function updateUser(IUser $user, array $data, bool $throwOnData = false): array {
-		$userData = $this->getUser($user);
+	protected function updateUser(IUser $user, array $data, bool $throwOnData = false): array {
+		$userData = $this->getUser($user, false);
 		$updated = true;
 
-		if (empty($userData)) {
-			$this->insertNewUser($user, $data);
-		} elseif ($userData !== $data) {
+		if ($userData !== $data) {
 			$data = $this->checkEmailVerification($userData, $data, $user);
-			$data = $this->updateVerifyStatus($userData, $data);
 			$this->updateExistingUser($user, $data);
 		} else {
 			// nothing needs to be done if new and old data set are the same
@@ -287,10 +275,8 @@ class AccountManager implements IAccountManager {
 
 	/**
 	 * get stored data from a given user
-	 *
-	 * @deprecated use getAccount instead to make sure migrated properties work correctly
 	 */
-	public function getUser(IUser $user, bool $insertIfNotExists = true): array {
+	protected function getUser(IUser $user, bool $insertIfNotExists = true): array {
 		$uid = $user->getUID();
 		$query = $this->connection->getQueryBuilder();
 		$query->select('data')
@@ -362,6 +348,7 @@ class AccountManager implements IAccountManager {
 	 */
 	protected function checkEmailVerification($oldData, $newData, IUser $user): array {
 		if ($oldData[self::PROPERTY_EMAIL]['value'] !== $newData[self::PROPERTY_EMAIL]['value']) {
+
 			$this->jobList->add(VerifyUserData::class,
 				[
 					'verificationCode' => '',
@@ -373,6 +360,7 @@ class AccountManager implements IAccountManager {
 				]
 			);
 			$newData[self::PROPERTY_EMAIL]['verified'] = self::VERIFICATION_IN_PROGRESS;
+
 		}
 
 		return $newData;
@@ -404,59 +392,31 @@ class AccountManager implements IAccountManager {
 		return $userData;
 	}
 
-	/**
-	 * reset verification status if personal data changed
-	 *
-	 * @param array $oldData
-	 * @param array $newData
-	 * @return array
-	 */
-	protected function updateVerifyStatus(array $oldData, array $newData): array {
+	protected function updateVerificationStatus(IAccount $updatedAccount, array $oldData): void {
+		static $propertiesVerifiableByLookupServer = [
+			self::PROPERTY_TWITTER,
+			self::PROPERTY_WEBSITE,
+			self::PROPERTY_EMAIL,
+		];
 
-		// which account was already verified successfully?
-		$twitterVerified = isset($oldData[self::PROPERTY_TWITTER]['verified']) && $oldData[self::PROPERTY_TWITTER]['verified'] === self::VERIFIED;
-		$websiteVerified = isset($oldData[self::PROPERTY_WEBSITE]['verified']) && $oldData[self::PROPERTY_WEBSITE]['verified'] === self::VERIFIED;
-		$emailVerified = isset($oldData[self::PROPERTY_EMAIL]['verified']) && $oldData[self::PROPERTY_EMAIL]['verified'] === self::VERIFIED;
-
-		// keep old verification status if we don't have a new one
-		if (!isset($newData[self::PROPERTY_TWITTER]['verified'])) {
-			// keep old verification status if value didn't changed and an old value exists
-			$keepOldStatus = $newData[self::PROPERTY_TWITTER]['value'] === $oldData[self::PROPERTY_TWITTER]['value'] && isset($oldData[self::PROPERTY_TWITTER]['verified']);
-			$newData[self::PROPERTY_TWITTER]['verified'] = $keepOldStatus ? $oldData[self::PROPERTY_TWITTER]['verified'] : self::NOT_VERIFIED;
+		foreach ($propertiesVerifiableByLookupServer as $propertyName) {
+			try {
+				$property = $updatedAccount->getProperty($propertyName);
+			} catch (PropertyDoesNotExistException $e) {
+				continue;
+			}
+			$wasVerified = isset($oldData[$propertyName])
+				&& isset($oldData[$propertyName]['verified'])
+				&& $oldData[$propertyName]['verified'] === self::VERIFIED;
+			if ((!isset($oldData[$propertyName])
+					|| !isset($oldData[$propertyName]['value'])
+					|| $property->getValue() !== $oldData[$propertyName]['value'])
+				&& ($property->getVerified() !== self::NOT_VERIFIED
+					|| $wasVerified)
+				) {
+				$property->setVerified(self::NOT_VERIFIED);
+			}
 		}
-
-		if (!isset($newData[self::PROPERTY_WEBSITE]['verified'])) {
-			// keep old verification status if value didn't changed and an old value exists
-			$keepOldStatus = $newData[self::PROPERTY_WEBSITE]['value'] === $oldData[self::PROPERTY_WEBSITE]['value'] && isset($oldData[self::PROPERTY_WEBSITE]['verified']);
-			$newData[self::PROPERTY_WEBSITE]['verified'] = $keepOldStatus ? $oldData[self::PROPERTY_WEBSITE]['verified'] : self::NOT_VERIFIED;
-		}
-
-		if (!isset($newData[self::PROPERTY_EMAIL]['verified'])) {
-			// keep old verification status if value didn't changed and an old value exists
-			$keepOldStatus = $newData[self::PROPERTY_EMAIL]['value'] === $oldData[self::PROPERTY_EMAIL]['value'] && isset($oldData[self::PROPERTY_EMAIL]['verified']);
-			$newData[self::PROPERTY_EMAIL]['verified'] = $keepOldStatus ? $oldData[self::PROPERTY_EMAIL]['verified'] : self::VERIFICATION_IN_PROGRESS;
-		}
-
-		// reset verification status if a value from a previously verified data was changed
-		if ($twitterVerified &&
-			$oldData[self::PROPERTY_TWITTER]['value'] !== $newData[self::PROPERTY_TWITTER]['value']
-		) {
-			$newData[self::PROPERTY_TWITTER]['verified'] = self::NOT_VERIFIED;
-		}
-
-		if ($websiteVerified &&
-			$oldData[self::PROPERTY_WEBSITE]['value'] !== $newData[self::PROPERTY_WEBSITE]['value']
-		) {
-			$newData[self::PROPERTY_WEBSITE]['verified'] = self::NOT_VERIFIED;
-		}
-
-		if ($emailVerified &&
-			$oldData[self::PROPERTY_EMAIL]['value'] !== $newData[self::PROPERTY_EMAIL]['value']
-		) {
-			$newData[self::PROPERTY_EMAIL]['verified'] = self::NOT_VERIFIED;
-		}
-
-		return $newData;
 	}
 
 	protected function 	dataArrayToJson(array $accountData): string {
@@ -678,6 +638,9 @@ class AccountManager implements IAccountManager {
 		foreach ($account->getAllProperties() as $property) {
 			$this->testPropertyScope($property, $allowedScopes, true);
 		}
+
+		$this->updateVerificationStatus($account, $this->getUser($account->getUser(), false));
+
 
 		$this->updateUser($account->getUser(), $data, true);
 	}

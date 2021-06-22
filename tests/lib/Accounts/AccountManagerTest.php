@@ -246,7 +246,7 @@ class AccountManagerTest extends TestCase {
 			],
 		];
 		foreach ($users as $userInfo) {
-			$this->accountManager->updateUser($userInfo['user'], $userInfo['data'], false);
+			$this->invokePrivate($this->accountManager, 'updateUser', [$userInfo['user'], $userInfo['data'], false]);
 		}
 	}
 
@@ -278,7 +278,7 @@ class AccountManagerTest extends TestCase {
 	 * @param bool $updateExisting
 	 */
 	public function testUpdateUser($newData, $oldData, $insertNew, $updateExisting) {
-		$accountManager = $this->getInstance(['getUser', 'insertNewUser', 'updateExistingUser', 'updateVerifyStatus', 'checkEmailVerification']);
+		$accountManager = $this->getInstance(['getUser', 'insertNewUser', 'updateExistingUser', 'checkEmailVerification']);
 		/** @var IUser $user */
 		$user = $this->createMock(IUser::class);
 
@@ -288,8 +288,6 @@ class AccountManagerTest extends TestCase {
 		if ($updateExisting) {
 			$accountManager->expects($this->once())->method('checkEmailVerification')
 				->with($oldData, $newData, $user)->willReturn($newData);
-			$accountManager->expects($this->once())->method('updateVerifyStatus')
-				->with($oldData, $newData)->willReturn($newData);
 			$accountManager->expects($this->once())->method('updateExistingUser')
 				->with($user, $newData);
 			$accountManager->expects($this->never())->method('insertNewUser');
@@ -303,7 +301,6 @@ class AccountManagerTest extends TestCase {
 		if (!$insertNew && !$updateExisting) {
 			$accountManager->expects($this->never())->method('updateExistingUser');
 			$accountManager->expects($this->never())->method('checkEmailVerification');
-			$accountManager->expects($this->never())->method('updateVerifyStatus');
 			$accountManager->expects($this->never())->method('insertNewUser');
 			$this->eventDispatcher->expects($this->never())->method('dispatch');
 		} else {
@@ -319,13 +316,13 @@ class AccountManagerTest extends TestCase {
 				);
 		}
 
-		$accountManager->updateUser($user, $newData);
+		$this->invokePrivate($accountManager, 'updateUser', [$user, $newData]);
 	}
 
 	public function dataTrueFalse() {
 		return [
+			#$newData | $oldData | $insertNew | $updateExisting
 			[['myProperty' => ['value' => 'newData']], ['myProperty' => ['value' => 'oldData']], false, true],
-			[['myProperty' => ['value' => 'newData']], [], true, false],
 			[['myProperty' => ['value' => 'oldData']], ['myProperty' => ['value' => 'oldData']], false, false]
 		];
 	}
@@ -356,9 +353,7 @@ class AccountManagerTest extends TestCase {
 		}
 
 		$this->addDummyValuesToTable($setUser, $setData);
-		$this->assertEquals($expectedData,
-			$accountManager->getUser($askUser)
-		);
+		$this->assertEquals($expectedData, $this->invokePrivate($accountManager, 'getUser', [$askUser]));
 	}
 
 	public function dataTestGetUser() {
