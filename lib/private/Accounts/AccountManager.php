@@ -419,7 +419,7 @@ class AccountManager implements IAccountManager {
 		}
 	}
 
-	protected function 	dataArrayToJson(array $accountData): string {
+	protected function dataArrayToJson(array $accountData): string {
 		$jsonData = [];
 		foreach ($accountData as $property => $data) {
 			//$property = $data['name'];
