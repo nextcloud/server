@@ -147,7 +147,7 @@
     "Accept" : "Přijmout",
     "Reject" : "Odmítnout",
     "Incoming ownership transfer from {user}" : "Příchozí převedení vlastnictví od {user}",
-    "Do you want to accept {path}?\n\nNote: The transfer process after accepting may take up to 1 hour." : "Chcete přijmout {path}?\n\nPozn.: Proces po přijetí může trvat až hodinu.",
+    "Do you want to accept {path}?\n\nNote: The transfer process after accepting may take up to 1 hour." : "Chcete přijmout {path}?\n\nPozn.: Proces převedení může trvat až hodinu po přijmutí.",
     "Ownership transfer failed" : "Převedení vlastnictví se nezdařilo",
     "Your ownership transfer of {path} to {user} failed." : "Převedení vlastnictví {path} od vás na {user} se nezdařilo.",
     "The ownership transfer of {path} from {user} failed." : "Převedení vlastnictví {path} od {user} se nezdařilo.",
