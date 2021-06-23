@@ -70,7 +70,7 @@ class BruteForceMiddlewareTest extends TestCase {
 			->willReturn('127.0.0.1');
 		$this->throttler
 			->expects($this->once())
-			->method('sleepDelay')
+			->method('sleepDelayOrThrowOnMax')
 			->with('127.0.0.1', 'login');
 
 		/** @var Controller|\PHPUnit_Framework_MockObject_MockObject $controller */
@@ -92,7 +92,7 @@ class BruteForceMiddlewareTest extends TestCase {
 			->method('getRemoteAddress');
 		$this->throttler
 			->expects($this->never())
-			->method('sleepDelay');
+			->method('sleepDelayOrThrowOnMax');
 
 		/** @var Controller|\PHPUnit_Framework_MockObject_MockObject $controller */
 		$controller = $this->createMock(Controller::class);
