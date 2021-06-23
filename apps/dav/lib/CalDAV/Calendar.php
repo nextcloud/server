@@ -28,6 +28,9 @@
  */
 namespace OCA\DAV\CalDAV;
 
+use DateTimeImmutable;
+use DateTimeInterface;
+use OCA\DAV\CalDAV\Trashbin\Plugin as TrashbinPlugin;
 use OCA\DAV\DAV\Sharing\IShareable;
 use OCA\DAV\Exception\UnsupportedLimitOnInitialSyncException;
 use OCP\IConfig;
@@ -63,6 +66,13 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IRestorable, IShareable
 	 * @param IConfig $config
 	 */
 	public function __construct(BackendInterface $caldavBackend, $calendarInfo, IL10N $l10n, IConfig $config) {
+		// Convert deletion date to ISO8601 string
+		if (isset($calendarInfo[TrashbinPlugin::PROPERTY_DELETED_AT])) {
+			$calendarInfo[TrashbinPlugin::PROPERTY_DELETED_AT] = (new DateTimeImmutable())
+				->setTimestamp($calendarInfo[TrashbinPlugin::PROPERTY_DELETED_AT])
+				->format(DateTimeInterface::ATOM);
+		}
+
 		parent::__construct($caldavBackend, $calendarInfo);
 
 		if ($this->getName() === BirthdayService::BIRTHDAY_CALENDAR_URI) {

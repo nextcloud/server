@@ -26,6 +26,8 @@ declare(strict_types=1);
 namespace OCA\DAV\CalDAV\Trashbin;
 
 use Closure;
+use DateTimeImmutable;
+use DateTimeInterface;
 use OCA\DAV\CalDAV\Calendar;
 use OCA\DAV\CalDAV\RetentionService;
 use OCP\IRequest;
@@ -101,7 +103,14 @@ class Plugin extends ServerPlugin {
 		INode $node): void {
 		if ($node instanceof DeletedCalendarObject) {
 			$propFind->handle(self::PROPERTY_DELETED_AT, function () use ($node) {
-				return $node->getDeletedAt();
+				$ts = $node->getDeletedAt();
+				if ($ts === null) {
+					return null;
+				}
+
+				return (new DateTimeImmutable())
+					->setTimestamp($ts)
+					->format(DateTimeInterface::ATOM);
 			});
 			$propFind->handle(self::PROPERTY_CALENDAR_URI, function () use ($node) {
 				return $node->getCalendarUri();
