@@ -224,10 +224,10 @@ class AccountManager implements IAccountManager {
 	}
 
 	protected function updateUser(IUser $user, array $data, bool $throwOnData = false): array {
-		$userData = $this->getUser($user, false);
+		$oldUserData = $this->getUser($user, false);
 		$updated = true;
 
-		if ($userData !== $data) {
+		if ($oldUserData !== $data) {
 
 			$this->updateExistingUser($user, $data);
 		} else {
@@ -295,10 +295,9 @@ class AccountManager implements IAccountManager {
 			return $userData;
 		}
 
-		$userDataArray = json_decode($accountData[0]['data'], true);
-		$jsonError = json_last_error();
-		if ($userDataArray === null || $userDataArray === [] || $jsonError !== JSON_ERROR_NONE) {
-			$this->logger->critical("User data of $uid contained invalid JSON (error $jsonError), hence falling back to a default user record");
+		$userDataArray = $this->importFromJson($accountData[0]['data'], $uid);
+		if ($userDataArray === null || $userDataArray === []) {
+
 			return $this->buildDefaultUserRecord($user);
 		}
 
@@ -348,7 +347,8 @@ class AccountManager implements IAccountManager {
 		} catch (PropertyDoesNotExistException $e) {
 			return;
 		}
-		if ($oldData[self::PROPERTY_EMAIL]['value'] !== $property->getValue()) {
+		$oldMail = isset($oldData[self::PROPERTY_EMAIL]) ? $oldData[self::PROPERTY_EMAIL]['value']['value'] : '';
+		if ($oldMail !== $property->getValue()) {
 			$this->jobList->add(VerifyUserData::class,
 				[
 					'verificationCode' => '',
@@ -369,25 +369,14 @@ class AccountManager implements IAccountManager {
 
 	/**
 	 * make sure that all expected data are set
-	 *
-	 * @param array $userData
-	 * @return array
+
 	 */
-	protected function addMissingDefaultValues(array $userData) {
-		foreach ($userData as $key => $value) {
-			if (!isset($userData[$key]['verified']) && !$this->isCollection($key)) {
-				$userData[$key]['verified'] = self::NOT_VERIFIED;
+	protected function addMissingDefaultValues(array $userData): array {
+		foreach ($userData as $i => $value) {
+			if (!isset($value['verified'])) {
+				$userData[$i]['verified'] = self::NOT_VERIFIED;
 			}
-			if ($this->isCollection($key)) {
-				foreach ($value as &$singlePropertyData) {
-					$singlePropertyData['name'] = $key;
-				}
-			} else {
-				$userData[$key]['name'] = $key;
-			}
-		}
-		if (!isset($userData[IAccountManager::COLLECTION_EMAIL])) {
-			$userData[IAccountManager::COLLECTION_EMAIL] = [];
+
 		}
 
 		return $userData;
@@ -420,22 +409,6 @@ class AccountManager implements IAccountManager {
 		}
 	}
 
-	protected function dataArrayToJson(array $accountData): string {
-		$jsonData = [];
-		foreach ($accountData as $property => $data) {
-			//$property = $data['name'];
-			unset($data['name']);
-			if ($this->isCollection($property)) {
-				if (!isset($jsonData[$property])) {
-					$jsonData[$property] = [];
-				}
-				$jsonData[$property][] = $data;
-			} else {
-				$jsonData[$property] = $data;
-			}
-		}
-		return json_encode($jsonData);
-	}
 
 	/**
 	 * add new user to accounts table
@@ -445,7 +418,7 @@ class AccountManager implements IAccountManager {
 	 */
 	protected function insertNewUser(IUser $user, array $data): void {
 		$uid = $user->getUID();
-		$jsonEncodedData = $this->dataArrayToJson($data);
+		$jsonEncodedData = $this->prepareJson($data);
 		$query = $this->connection->getQueryBuilder();
 		$query->insert($this->table)
 			->values(
@@ -460,6 +433,49 @@ class AccountManager implements IAccountManager {
 		$this->writeUserData($user, $data);
 	}
 
+	protected function prepareJson(array $data): string {
+		$preparedData = [];
+		foreach ($data as $dataRow) {
+			$propertyName = $dataRow['name'];
+			unset($dataRow['name']);
+			if (!$this->isCollection($propertyName)) {
+				$preparedData[$propertyName] = $dataRow;
+				continue;
+			}
+			if (!isset($preparedData[$propertyName])) {
+				$preparedData[$propertyName] = [];
+			}
+			$preparedData[$propertyName][] = $dataRow;
+		}
+		return json_encode($preparedData);
+	}
+
+	protected function importFromJson(string $json, string $userId): ?array {
+		$result = [];
+		$jsonArray = json_decode($json, true);
+		$jsonError = json_last_error();
+		if ($jsonError !== JSON_ERROR_NONE) {
+			$this->logger->critical(
+				'User data of {uid} contained invalid JSON (error {json_error}), hence falling back to a default user record',
+				[
+					'uid' => $userId,
+					'json_error' => $jsonError
+				]
+			);
+			return null;
+		}
+		foreach ($jsonArray as $propertyName => $row) {
+			if (!$this->isCollection($propertyName)) {
+				$result[] = array_merge($row, ['name' => $propertyName]);
+				continue;
+			}
+			foreach ($row as $singleRow) {
+				$result[] = array_merge($singleRow, ['name' => $propertyName]);
+			}
+		}
+		return $result;
+	}
+
 	/**
 	 * update existing user in accounts table
 	 *
@@ -468,12 +484,12 @@ class AccountManager implements IAccountManager {
 	 */
 	protected function updateExistingUser(IUser $user, array $data): void {
 		$uid = $user->getUID();
-		$jsonEncodedData = json_encode($data);
+		$jsonEncodedData = $this->prepareJson($data);
 		$query = $this->connection->getQueryBuilder();
 		$query->update($this->table)
 			->set('data', $query->createNamedParameter($jsonEncodedData))
 			->where($query->expr()->eq('uid', $query->createNamedParameter($uid)))
-			->execute();
+			->executeStatement();
 
 		$this->deleteUserData($user);
 		$this->writeUserData($user, $data);
@@ -493,18 +509,13 @@ class AccountManager implements IAccountManager {
 	}
 
 	protected function writeUserDataProperties(IQueryBuilder $query, array $data): void {
-		foreach ($data as $propertyName => $property) {
-			if (isset($property['name']) && $property['name'] === self::PROPERTY_AVATAR) {
-				continue;
-			}
-			if ($this->isCollection($property['name'] ?? $propertyName) && !isset($property['name'])) {
-				foreach ($property as $singleProperty) {
-					$this->writeUserDataProperties($query, [$propertyName => $singleProperty]);
-				}
+		foreach ($data as $property) {
+			if ($property['name'] === self::PROPERTY_AVATAR) {
 				continue;
 			}
 
-			$query->setParameter('name', $property['name'] ?? $propertyName)
+
+			$query->setParameter('name', $property['name'])
 				->setParameter('value', $property['value'] ?? '');
 			$query->executeStatement();
 		}
@@ -518,79 +529,79 @@ class AccountManager implements IAccountManager {
 	 */
 	protected function buildDefaultUserRecord(IUser $user) {
 		return [
-			self::PROPERTY_DISPLAYNAME =>
-				[
-					'name' => self::PROPERTY_DISPLAYNAME,
-					'value' => $user->getDisplayName(),
-					'scope' => self::SCOPE_FEDERATED,
-					'verified' => self::NOT_VERIFIED,
-				],
-			self::PROPERTY_ADDRESS =>
-				[
-					'name' => self::PROPERTY_ADDRESS,
-					'value' => '',
-					'scope' => self::SCOPE_LOCAL,
-					'verified' => self::NOT_VERIFIED,
-				],
-			self::PROPERTY_WEBSITE =>
-				[
-					'name' => self::PROPERTY_WEBSITE,
-					'value' => '',
-					'scope' => self::SCOPE_LOCAL,
-					'verified' => self::NOT_VERIFIED,
-				],
-			self::PROPERTY_EMAIL =>
-				[
-					'name' => self::PROPERTY_EMAIL,
-					'value' => $user->getEMailAddress(),
-					'scope' => self::SCOPE_FEDERATED,
-					'verified' => self::NOT_VERIFIED,
-				],
-			self::PROPERTY_AVATAR =>
-				[
-					'name' => self::PROPERTY_AVATAR,
-					'scope' => self::SCOPE_FEDERATED
-				],
-			self::PROPERTY_PHONE =>
-				[
-					'name' => self::PROPERTY_PHONE,
-					'value' => '',
-					'scope' => self::SCOPE_LOCAL,
-					'verified' => self::NOT_VERIFIED,
-				],
-			self::PROPERTY_TWITTER =>
-				[
-					'name' => self::PROPERTY_TWITTER,
-					'value' => '',
-					'scope' => self::SCOPE_LOCAL,
-					'verified' => self::NOT_VERIFIED,
-				],
-			self::COLLECTION_EMAIL => [],
+
+			[
+				'name' => self::PROPERTY_DISPLAYNAME,
+				'value' => $user->getDisplayName(),
+				'scope' => self::SCOPE_FEDERATED,
+				'verified' => self::NOT_VERIFIED,
+			],
+
+			[
+				'name' => self::PROPERTY_ADDRESS,
+				'value' => '',
+				'scope' => self::SCOPE_LOCAL,
+				'verified' => self::NOT_VERIFIED,
+			],
+
+			[
+				'name' => self::PROPERTY_WEBSITE,
+				'value' => '',
+				'scope' => self::SCOPE_LOCAL,
+				'verified' => self::NOT_VERIFIED,
+			],
+
+			[
+				'name' => self::PROPERTY_EMAIL,
+				'value' => $user->getEMailAddress(),
+				'scope' => self::SCOPE_FEDERATED,
+				'verified' => self::NOT_VERIFIED,
+			],
+
+			[
+				'name' => self::PROPERTY_AVATAR,
+				'scope' => self::SCOPE_FEDERATED
+			],
+
+			[
+				'name' => self::PROPERTY_PHONE,
+				'value' => '',
+				'scope' => self::SCOPE_LOCAL,
+				'verified' => self::NOT_VERIFIED,
+			],
+
+			[
+				'name' => self::PROPERTY_TWITTER,
+				'value' => '',
+				'scope' => self::SCOPE_LOCAL,
+				'verified' => self::NOT_VERIFIED,
+			],
+
 		];
 	}
 
-	private function arrayDataToCollection(string $collectionName, array $data): IAccountPropertyCollection {
-		$collection = new AccountPropertyCollection($collectionName);
-		foreach ($data as $propertyData) {
-			$p = new AccountProperty(
-				$collectionName,
-				$propertyData['value'] ?? '',
-				$propertyData['scope'] ?? self::SCOPE_LOCAL,
-				$propertyData['verified'] ?? self::NOT_VERIFIED,
-				''
-			);
-			$collection->addProperty($p);
-		}
+	private function arrayDataToCollection(IAccount $account, array $data): IAccountPropertyCollection {
+		$collection = $account->getPropertyCollection($data['name']);
+
+		$p = new AccountProperty(
+			$data['name'],
+			$data['value'] ?? '',
+			$data['scope'] ?? self::SCOPE_LOCAL,
+			$data['verified'] ?? self::NOT_VERIFIED,
+			''
+		);
+		$collection->addProperty($p);
+
 		return $collection;
 	}
 
 	private function parseAccountData(IUser $user, $data): Account {
 		$account = new Account($user);
-		foreach ($data as $property => $accountData) {
-			if ($this->isCollection($property)) {
-				$account->setPropertyCollection($this->arrayDataToCollection($property, $accountData));
+		foreach ($data as $accountData) {
+			if ($this->isCollection($accountData['name'])) {
+				$account->setPropertyCollection($this->arrayDataToCollection($account, $accountData));
 			} else {
-				$account->setProperty($property, $accountData['value'] ?? '', $accountData['scope'] ?? self::SCOPE_LOCAL, $accountData['verified'] ?? self::NOT_VERIFIED);
+				$account->setProperty($accountData['name'], $accountData['value'] ?? '', $accountData['scope'] ?? self::SCOPE_LOCAL, $accountData['verified'] ?? self::NOT_VERIFIED);
 			}
 		}
 		return $account;
@@ -601,16 +612,6 @@ class AccountManager implements IAccountManager {
 	}
 
 	public function updateAccount(IAccount $account): void {
-		$data = [];
-
-		foreach ($account->getAllProperties() as $property) {
-			$data[] = [
-				'name' => $property->getName(),
-				'value' => $property->getValue(),
-				'scope' => $property->getScope(),
-				'verified' => $property->getVerified(),
-			];
-		}
 
 		$this->testValueLengths(iterator_to_array($account->getAllProperties()), true);
 		try {
@@ -643,6 +644,16 @@ class AccountManager implements IAccountManager {
 		$oldData = $this->getUser($account->getUser(), false);
 		$this->updateVerificationStatus($account, $oldData);
 		$this->checkEmailVerification($account, $oldData);
+
+		$data = [];
+		foreach ($account->getAllProperties() as $property) {
+			$data[] = [
+				'name' => $property->getName(),
+				'value' => $property->getValue(),
+				'scope' => $property->getScope(),
+				'verified' => $property->getVerified(),
+			];
+		}
 
 		$this->updateUser($account->getUser(), $data, true);
 	}
