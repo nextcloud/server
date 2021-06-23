@@ -45,6 +45,7 @@ use OCA\Settings\Mailer\NewUserMailHelper;
 use OCA\Settings\Middleware\SubadminMiddleware;
 use OCA\Settings\Search\AppSearch;
 use OCA\Settings\Search\SectionSearch;
+use OCA\Settings\WellKnown\SecurityTxtHandler;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
@@ -78,6 +79,9 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(AppPasswordCreatedEvent::class, AppPasswordCreatedActivityListener::class);
 		$context->registerEventListener(UserAddedEvent::class, UserAddedToGroupActivityListener::class);
 		$context->registerEventListener(UserRemovedEvent::class, UserRemovedFromGroupActivityListener::class);
+
+		// Register well-known handlers
+		$context->registerWellKnownHandler(SecurityTxtHandler::class);
 
 		/**
 		 * Core class wrappers
