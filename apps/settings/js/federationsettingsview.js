@@ -15,6 +15,8 @@
 	 * @constructs FederationScopeMenu
 	 * @memberof OC.Settings
 	 * @param {object} options
+	 * @param {bool} [options.showFederatedScope=false] whether show the
+	 *        "v2-federated" scope or not
 	 * @param {bool} [options.showPublishedScope=false] whether show the
 	 *        "v2-published" scope or not
 	 */
@@ -32,6 +34,7 @@
 			} else {
 				this._config = new OC.Settings.UserSettings();
 			}
+			this.showFederatedScope = !!options.showFederatedScope;
 			this.showPublishedScope = !!options.showPublishedScope;
 
 			this._inputFields = [
@@ -84,6 +87,10 @@
 
 				if (fieldsWithV2Private.indexOf(field) === -1) {
 					excludedScopes.push('v2-private');
+				}
+
+				if (!self.showFederatedScope) {
+					excludedScopes.push('v2-federated');
 				}
 
 				if (!self.showPublishedScope) {

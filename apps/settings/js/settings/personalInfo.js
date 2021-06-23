@@ -204,6 +204,7 @@ window.addEventListener('DOMContentLoaded', function () {
 	var federationSettingsView = new OC.Settings.FederationSettingsView({
 		el: settingsEl,
 		config: userSettings,
+		showFederatedScope: !!settingsEl.data('federation-enabled'),
 		showPublishedScope: !!settingsEl.data('lookup-server-upload-enabled'),
 	});
 
