@@ -777,10 +777,6 @@ class Filesystem {
 	 * @return string
 	 */
 	public static function normalizePath($path, $stripTrailingSlash = true, $isAbsolutePath = false, $keepUnicode = false) {
-		if (is_null(self::$normalizedPathCache)) {
-			self::$normalizedPathCache = new CappedMemoryCache(2048);
-		}
-
 		/**
 		 * FIXME: This is a workaround for existing classes and files which call
 		 *        this function with another type than a valid string. This
@@ -789,14 +785,18 @@ class Filesystem {
 		 */
 		$path = (string)$path;
 
+		if ($path === '') {
+			return '/';
+		}
+
+		if (is_null(self::$normalizedPathCache)) {
+			self::$normalizedPathCache = new CappedMemoryCache(2048);
+		}
+
 		$cacheKey = json_encode([$path, $stripTrailingSlash, $isAbsolutePath, $keepUnicode]);
 
 		if ($cacheKey && isset(self::$normalizedPathCache[$cacheKey])) {
 			return self::$normalizedPathCache[$cacheKey];
-		}
-
-		if ($path === '') {
-			return '/';
 		}
 
 		//normalize unicode if possible
