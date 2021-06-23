@@ -37,7 +37,7 @@ abstract class LogDetails {
 
 	public function logDetails(string $app, $message, int $level): array {
 		// default to ISO8601
-		$format = $this->config->getValue('logdateformat', \DateTime::ATOM);
+		$format = $this->config->getValue('logdateformat', \DateTimeInterface::ATOM);
 		$logTimeZone = $this->config->getValue('logtimezone', 'UTC');
 		try {
 			$timezone = new \DateTimeZone($logTimeZone);

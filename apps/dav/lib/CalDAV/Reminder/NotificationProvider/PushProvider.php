@@ -137,10 +137,10 @@ class PushProvider extends AbstractProvider {
 				? ((string) $vevent->LOCATION)
 				: null,
 			'all_day' => $start instanceof Property\ICalendar\Date,
-			'start_atom' => $start->getDateTime()->format(\DateTime::ATOM),
+			'start_atom' => $start->getDateTime()->format(\DateTimeInterface::ATOM),
 			'start_is_floating' => $start->isFloating(),
 			'start_timezone' => $start->getDateTime()->getTimezone()->getName(),
-			'end_atom' => $end->getDateTime()->format(\DateTime::ATOM),
+			'end_atom' => $end->getDateTime()->format(\DateTimeInterface::ATOM),
 			'end_is_floating' => $end->isFloating(),
 			'end_timezone' => $end->getDateTime()->getTimezone()->getName(),
 		];

@@ -390,8 +390,8 @@ class EmailProvider extends AbstractProvider {
 
 		$diff = $dtstartDt->diff($dtendDt);
 
-		$dtstartDt = new \DateTime($dtstartDt->format(\DateTime::ATOM));
-		$dtendDt = new \DateTime($dtendDt->format(\DateTime::ATOM));
+		$dtstartDt = new \DateTime($dtstartDt->format(\DateTimeInterface::ATOM));
+		$dtendDt = new \DateTime($dtendDt->format(\DateTimeInterface::ATOM));
 
 		if ($isAllDay) {
 			// One day event

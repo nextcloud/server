@@ -103,7 +103,7 @@ class TimestampFormatter implements OutputFormatterInterface {
 		$timeZone = $timeZone !== null ? new \DateTimeZone($timeZone) : null;
 
 		$time = new \DateTime('now', $timeZone);
-		$timestampInfo = $time->format($this->config->getSystemValue('logdateformat', \DateTime::ATOM));
+		$timestampInfo = $time->format($this->config->getSystemValue('logdateformat', \DateTimeInterface::ATOM));
 
 		return $timestampInfo . ' ' . $this->formatter->format($message);
 	}
