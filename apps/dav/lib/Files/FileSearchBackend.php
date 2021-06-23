@@ -272,10 +272,9 @@ class FileSearchBackend implements ISearchBackend {
 	 * @return ISearchQuery
 	 */
 	private function transformQuery(Query $query): ISearchQuery {
-		// TODO offset
 		$limit = $query->limit;
 		$orders = array_map([$this, 'mapSearchOrder'], $query->orderBy);
-		$offset = 0;
+		$offset = $limit->firstResult;
 
 		$limitHome = false;
 		$ownerProp = $this->extractWhereValue($query->where, FilesPlugin::OWNER_ID_PROPERTYNAME, Operator::OPERATION_EQUAL);
@@ -285,7 +284,6 @@ class FileSearchBackend implements ISearchBackend {
 			} else {
 				throw new \InvalidArgumentException("Invalid search value for '{http://owncloud.org/ns}owner-id', only the current user id is allowed");
 			}
-			$offset = $limit->firstResult;
 		}
 
 		return new SearchQuery(
