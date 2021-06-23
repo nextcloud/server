@@ -2176,6 +2176,11 @@
 			return OCA.Files.Files.getDownloadUrl(files, dir || this.getCurrentDirectory(), isDir);
 		},
 
+		getLibreOfficeUrl: function(files, dir, isDir) {
+			return "vnd.libreoffice.command:ofe|u|" + window.location.protocol
+				+ "//" + window.location.host + this.getDownloadUrl(files, dir, isDir);
+		},
+
 		getDefaultActionUrl: function(path, id) {
 			return this.linkTo(path) + "&openfile="+id;
 		},

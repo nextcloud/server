@@ -627,6 +627,23 @@
 			});
 
 			this.registerAction({
+				name: 'Edit',
+				displayName: t('files', 'Edit with LibreOffice'),
+				order: -19,
+				mime: 'file',
+				permissions: OC.PERMISSION_UPDATE,
+				iconClass: 'icon-edit',
+				actionHandler: function (filename, context) {
+					var dir = context.dir || context.fileList.getCurrentDirectory();
+					var isDir = context.$file.attr('data-type') === 'dir';
+					var url = context.fileList.getLibreOfficeUrl(filename, dir, isDir);
+					if (url) {
+						OCA.Files.Files.handleDownload(url, null);
+					}
+				}
+			});
+
+			this.registerAction({
 				name: 'Rename',
 				displayName: t('files', 'Rename'),
 				mime: 'all',
