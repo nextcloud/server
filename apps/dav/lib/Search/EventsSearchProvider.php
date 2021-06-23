@@ -181,8 +181,8 @@ class EventsSearchProvider extends ACalendarSearchProvider {
 		$dtStart = $eventComponent->DTSTART;
 		$dtEnd = $this->getDTEndForEvent($eventComponent);
 		$isAllDayEvent = $dtStart instanceof Property\ICalendar\Date;
-		$startDateTime = new \DateTime($dtStart->getDateTime()->format(\DateTime::ATOM));
-		$endDateTime = new \DateTime($dtEnd->getDateTime()->format(\DateTime::ATOM));
+		$startDateTime = new \DateTime($dtStart->getDateTime()->format(\DateTimeInterface::ATOM));
+		$endDateTime = new \DateTime($dtEnd->getDateTime()->format(\DateTimeInterface::ATOM));
 
 		if ($isAllDayEvent) {
 			$endDateTime->modify('-1 day');

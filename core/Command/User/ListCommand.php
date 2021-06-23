@@ -109,7 +109,7 @@ class ListCommand extends Base {
 					'enabled' => $user->isEnabled(),
 					'groups' => $groups,
 					'quota' => $user->getQuota(),
-					'last_seen' => date(\DateTime::ATOM, $user->getLastLogin()), // ISO-8601
+					'last_seen' => date(\DateTimeInterface::ATOM, $user->getLastLogin()), // ISO-8601
 					'user_directory' => $user->getHome(),
 					'backend' => $user->getBackendClassName()
 				];

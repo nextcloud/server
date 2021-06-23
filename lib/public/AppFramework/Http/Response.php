@@ -115,7 +115,7 @@ class Response {
 			$time = \OC::$server->query(ITimeFactory::class);
 			$expires->setTimestamp($time->getTime());
 			$expires->add(new \DateInterval('PT'.$cacheSeconds.'S'));
-			$this->addHeader('Expires', $expires->format(\DateTime::RFC2822));
+			$this->addHeader('Expires', $expires->format(\DateTimeInterface::RFC2822));
 		} else {
 			$this->addHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
 			unset($this->headers['Expires'], $this->headers['Pragma']);
@@ -244,7 +244,7 @@ class Response {
 
 		if ($this->lastModified) {
 			$mergeWith['Last-Modified'] =
-				$this->lastModified->format(\DateTime::RFC2822);
+				$this->lastModified->format(\DateTimeInterface::RFC2822);
 		}
 
 		$this->headers['Content-Security-Policy'] = $this->getContentSecurityPolicy()->buildPolicy();

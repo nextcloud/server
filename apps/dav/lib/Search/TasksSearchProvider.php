@@ -153,13 +153,13 @@ class TasksSearchProvider extends ACalendarSearchProvider {
 	 */
 	protected function generateSubline(Component $taskComponent): string {
 		if ($taskComponent->COMPLETED) {
-			$completedDateTime = new \DateTime($taskComponent->COMPLETED->getDateTime()->format(\DateTime::ATOM));
+			$completedDateTime = new \DateTime($taskComponent->COMPLETED->getDateTime()->format(\DateTimeInterface::ATOM));
 			$formattedDate = $this->l10n->l('date', $completedDateTime, ['width' => 'medium']);
 			return $this->l10n->t('Completed on %s', [$formattedDate]);
 		}
 
 		if ($taskComponent->DUE) {
-			$dueDateTime = new \DateTime($taskComponent->DUE->getDateTime()->format(\DateTime::ATOM));
+			$dueDateTime = new \DateTime($taskComponent->DUE->getDateTime()->format(\DateTimeInterface::ATOM));
 			$formattedDate = $this->l10n->l('date', $dueDateTime, ['width' => 'medium']);
 
 			if ($taskComponent->DUE->hasTime()) {

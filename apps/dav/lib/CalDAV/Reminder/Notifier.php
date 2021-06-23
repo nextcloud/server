@@ -144,7 +144,7 @@ class Notifier implements INotifier {
 	private function prepareNotificationSubject(INotification $notification): void {
 		$parameters = $notification->getSubjectParameters();
 
-		$startTime = \DateTime::createFromFormat(\DateTime::ATOM, $parameters['start_atom']);
+		$startTime = \DateTime::createFromFormat(\DateTimeInterface::ATOM, $parameters['start_atom']);
 		$now = $this->timeFactory->getDateTime();
 		$title = $this->getTitleFromParameters($parameters);
 
@@ -221,8 +221,8 @@ class Notifier implements INotifier {
 	 * @throws \Exception
 	 */
 	private function generateDateString(array $parameters):string {
-		$startDateTime = DateTime::createFromFormat(\DateTime::ATOM, $parameters['start_atom']);
-		$endDateTime = DateTime::createFromFormat(\DateTime::ATOM, $parameters['end_atom']);
+		$startDateTime = DateTime::createFromFormat(\DateTimeInterface::ATOM, $parameters['start_atom']);
+		$endDateTime = DateTime::createFromFormat(\DateTimeInterface::ATOM, $parameters['end_atom']);
 
 		// If the event has already ended, dismiss the notification
 		if ($endDateTime < $this->timeFactory->getDateTime()) {
