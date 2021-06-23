@@ -85,7 +85,7 @@ class ErrorHandler {
 
 	//Recoverable errors handler
 	public static function onError($number, $message, $file, $line) {
-		if (error_reporting() === 0) {
+		if (!(error_reporting() & $number)) {
 			return;
 		}
 		$msg = $message . ' at ' . $file . '#' . $line;
