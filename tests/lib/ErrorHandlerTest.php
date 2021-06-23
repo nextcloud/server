@@ -30,11 +30,15 @@ class ErrorHandlerTest extends \Test\TestCase {
 	 */
 	public function passwordProvider() {
 		return [
-			['user', 'password'],
-			['user@owncloud.org', 'password'],
-			['user', 'pass@word'],
+			['us:er', 'pass@word'],
 			['us:er', 'password'],
+			['user', '-C:R,w)@6*}'],
 			['user', 'pass:word'],
+			['user', 'pass@word'],
+			['user', 'password'],
+			['user:test@cloud', 'password'],
+			['user@owncloud.org', 'password'],
+			['user@test@owncloud.org', 'password'],
 		];
 	}
 
