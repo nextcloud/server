@@ -69,7 +69,8 @@ class Application extends App {
 					$server->getCloudFederationFactory(),
 					$server->getCloudFederationProviderManager(),
 					$server->getDatabaseConnection(),
-					$server->getGroupManager()
+					$server->getGroupManager(),
+					$server->getConfig()
 				);
 			});
 
