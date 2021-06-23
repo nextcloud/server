@@ -89,6 +89,9 @@ class Crypt {
 	/** @var IL10N */
 	private $l;
 
+	/** @var string|null */
+	private $currentCipher;
+
 	/** @var bool */
 	private $supportLegacy;
 
@@ -248,12 +251,17 @@ class Crypt {
 	}
 
 	/**
-	 * return Cipher either from config.php or the default cipher defined in
+	 * return cipher either from config.php or the default cipher defined in
 	 * this class
 	 *
 	 * @return string
 	 */
-	public function getCipher() {
+	private function getCachedCipher() {
+		if (isset($this->currentCipher)) {
+			return $this->currentCipher;
+		}
+
+		// Get cipher either from config.php or the default cipher defined in this class
 		$cipher = $this->config->getSystemValue('cipher', self::DEFAULT_CIPHER);
 		if (!isset(self::SUPPORTED_CIPHERS_AND_KEY_SIZE[$cipher])) {
 			$this->logger->warning(
@@ -267,7 +275,18 @@ class Crypt {
 			$cipher = self::DEFAULT_CIPHER;
 		}
 
-		return $cipher;
+		// Remember current cipher to avoid frequent lookups
+		$this->currentCipher = $cipher;
+		return $this->currentCipher;
+	}
+
+	/**
+	 * return current encryption cipher
+	 *
+	 * @return string
+	 */
+	public function getCipher() {
+		return $this->getCachedCipher();
 	}
 
 	/**
@@ -577,7 +596,7 @@ class Crypt {
 			throw new GenericEncryptionException('Missing Signature', $this->l->t('Missing Signature'));
 		}
 
-		// enforce signature for the new 'CTR' ciphers
+		// Enforce signature for the new 'CTR' ciphers
 		if (!$skipSignatureCheck && $signaturePosition === false && stripos($cipher, 'ctr') !== false) {
 			throw new GenericEncryptionException('Missing Signature', $this->l->t('Missing Signature'));
 		}
