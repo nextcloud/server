@@ -33,6 +33,7 @@ use OCP\Accounts\IAccountProperty;
 use OCP\Accounts\IAccountPropertyCollection;
 use OCP\Accounts\PropertyDoesNotExistException;
 use OCP\IUser;
+use RuntimeException;
 
 class Account implements IAccount {
 	use TAccountsHelper;
@@ -116,13 +117,16 @@ class Account implements IAccount {
 		return $this;
 	}
 
-	public function getPropertyCollection(string $propertyCollection): IAccountPropertyCollection {
-		if (!array_key_exists($propertyCollection, $this->properties)) {
-			throw new PropertyDoesNotExistException($propertyCollection);
+	public function getPropertyCollection(string $propertyCollectionName): IAccountPropertyCollection {
+		if (!$this->isCollection($propertyCollectionName)) {
+			throw new PropertyDoesNotExistException($propertyCollectionName);
 		}
-		if (!$this->properties[$propertyCollection] instanceof IAccountPropertyCollection) {
-			throw new \RuntimeException('Requested collection is not an IAccountPropertyCollection');
+		if (!array_key_exists($propertyCollectionName, $this->properties)) {
+			$this->properties[$propertyCollectionName] = new AccountPropertyCollection($propertyCollectionName);
 		}
-		return $this->properties[$propertyCollection];
+		if (!$this->properties[$propertyCollectionName] instanceof IAccountPropertyCollection) {
+			throw new RuntimeException('Requested collection is not an IAccountPropertyCollection');
+		}
+		return $this->properties[$propertyCollectionName];
 	}
 }
