@@ -93,6 +93,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OCP\\AppFramework\\Http\\Template\\LinkMenuAction' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/Template/LinkMenuAction.php',
         'OCP\\AppFramework\\Http\\Template\\PublicTemplateResponse' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/Template/PublicTemplateResponse.php',
         'OCP\\AppFramework\\Http\\Template\\SimpleMenuAction' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/Template/SimpleMenuAction.php',
+        'OCP\\AppFramework\\Http\\TextPlainResponse' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/TextPlainResponse.php',
         'OCP\\AppFramework\\Http\\TooManyRequestsResponse' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/TooManyRequestsResponse.php',
         'OCP\\AppFramework\\Http\\ZipResponse' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/ZipResponse.php',
         'OCP\\AppFramework\\IAppContainer' => __DIR__ . '/../../..' . '/lib/public/AppFramework/IAppContainer.php',
