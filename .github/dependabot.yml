@@ -62,24 +62,6 @@ updates:
     day: saturday
     time: "03:00"
     timezone: Europe/Paris
-  target-branch: stable19
-  labels:
-    - "3. to review"
-    - "feature: dependencies"
-  reviewers:
-    - "nextcloud/server-dependabot"
-  ignore:
-    # ignore all GitHub linguist patch updates
-    - dependency-name: "*"
-      update-types: ["version-update:semver-major", "version-update:semver-minor"]
-
-- package-ecosystem: npm
-  directory: "/"
-  schedule:
-    interval: weekly
-    day: saturday
-    time: "03:00"
-    timezone: Europe/Paris
   target-branch: stable20
   labels:
     - "3. to review"
@@ -99,6 +81,24 @@ updates:
     time: "03:00"
     timezone: Europe/Paris
   target-branch: stable21
+  labels:
+    - "3. to review"
+    - "feature: dependencies"
+  reviewers:
+    - "nextcloud/server-dependabot"
+  ignore:
+    # ignore all GitHub linguist patch updates
+    - dependency-name: "*"
+      update-types: ["version-update:semver-major", "version-update:semver-minor"]
+
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: weekly
+    day: saturday
+    time: "03:00"
+    timezone: Europe/Paris
+  target-branch: stable22
   labels:
     - "3. to review"
     - "feature: dependencies"
@@ -117,24 +117,6 @@ updates:
     day: saturday
     time: "03:00"
     timezone: Europe/Paris
-  target-branch: stable19
-  labels:
-    - "3. to review"
-    - "feature: dependencies"
-  reviewers:
-    - "nextcloud/server-dependabot"
-  ignore:
-    # ignore all GitHub linguist patch updates
-    - dependency-name: "*"
-      update-types: ["version-update:semver-major", "version-update:semver-minor"]
-
-- package-ecosystem: composer
-  directory: "/build/integration"
-  schedule:
-    interval: weekly
-    day: saturday
-    time: "03:00"
-    timezone: Europe/Paris
   target-branch: stable20
   labels:
     - "3. to review"
@@ -154,6 +136,24 @@ updates:
     time: "03:00"
     timezone: Europe/Paris
   target-branch: stable21
+  labels:
+    - "3. to review"
+    - "feature: dependencies"
+  reviewers:
+    - "nextcloud/server-dependabot"
+  ignore:
+    # ignore all GitHub linguist patch updates
+    - dependency-name: "*"
+      update-types: ["version-update:semver-major", "version-update:semver-minor"]
+
+- package-ecosystem: composer
+  directory: "/build/integration"
+  schedule:
+    interval: weekly
+    day: saturday
+    time: "03:00"
+    timezone: Europe/Paris
+  target-branch: stable22
   labels:
     - "3. to review"
     - "feature: dependencies"
