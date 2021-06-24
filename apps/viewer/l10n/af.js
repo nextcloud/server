@@ -8,6 +8,7 @@ OC.L10N.register(
     "Error loading {name}" : "Laaifout vir {name}",
     "Your browser does not support videos." : "U blaaier ondersteun nie video’s nie.",
     "Open sidebar" : "Open kantbalk",
+    "Download" : "Laai af",
     "Delete" : "Skrap",
     "There is no plugin available to display this file type" : "Daar is geen beskikbare inprop om hierdie lêertipe te vertoon nie",
     "View" : "Bekyk"
