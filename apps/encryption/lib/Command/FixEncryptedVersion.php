@@ -26,6 +26,7 @@ use OC\Files\View;
 use OC\HintException;
 use OCP\Files\IRootFolder;
 use OCP\IConfig;
+use OCP\ILogger;
 use OCP\IUserManager;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -36,6 +37,9 @@ class FixEncryptedVersion extends Command {
 	/** @var IConfig */
 	private $config;
 
+	/** @var ILogger */
+	private $logger;
+
 	/** @var IRootFolder  */
 	private $rootFolder;
 
@@ -45,15 +49,16 @@ class FixEncryptedVersion extends Command {
 	/** @var View  */
 	private $view;
 
-	public function __construct(IConfig $config, IRootFolder $rootFolder, IUserManager $userManager, View $view) {
+	public function __construct(IConfig $config, ILogger $logger, IRootFolder $rootFolder, IUserManager $userManager, View $view) {
 		$this->config = $config;
+		$this->logger = $logger;
 		$this->rootFolder = $rootFolder;
 		$this->userManager = $userManager;
 		$this->view = $view;
 		parent::__construct();
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		parent::configure();
 
 		$this
@@ -76,7 +81,7 @@ class FixEncryptedVersion extends Command {
 	 * @param OutputInterface $output
 	 * @return int
 	 */
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$skipSignatureCheck = $this->config->getSystemValue('encryption_skip_signature_check', false);
 
 		if ($skipSignatureCheck) {
@@ -84,7 +89,7 @@ class FixEncryptedVersion extends Command {
 			return 1;
 		}
 
-		$user = $input->getArgument('user');
+		$user = (string)$input->getArgument('user');
 		$pathToWalk = "/$user/files";
 
 		/**
@@ -113,7 +118,7 @@ class FixEncryptedVersion extends Command {
 	 * @param OutputInterface $output
 	 * @return int 0 for success, 1 for error
 	 */
-	private function walkPathOfUser($user, $path, OutputInterface $output) {
+	private function walkPathOfUser($user, $path, OutputInterface $output): int {
 		$this->setupUserFs($user);
 		if (!$this->view->file_exists($path)) {
 			$output->writeln("<error>Path $path does not exist. Please provide a valid path.</error>");
@@ -147,7 +152,7 @@ class FixEncryptedVersion extends Command {
 	 * @param OutputInterface $output
 	 * @param bool $ignoreCorrectEncVersionCall, setting this variable to false avoids recursion
 	 */
-	private function verifyFileContent($path, OutputInterface $output, $ignoreCorrectEncVersionCall = true) {
+	private function verifyFileContent($path, OutputInterface $output, $ignoreCorrectEncVersionCall = true): bool {
 		try {
 			/**
 			 * In encryption, the files are read in a block size of 8192 bytes
@@ -166,7 +171,7 @@ class FixEncryptedVersion extends Command {
 
 			return true;
 		} catch (HintException $e) {
-			\OC::$server->getLogger()->warning("Issue: " . $e->getMessage());
+			$this->logger->warning("Issue: " . $e->getMessage());
 			//If allowOnce is set to false, this becomes recursive.
 			if ($ignoreCorrectEncVersionCall === true) {
 				//Lets rectify the file by correcting encrypted version
@@ -182,8 +187,12 @@ class FixEncryptedVersion extends Command {
 	 * @param OutputInterface $output
 	 * @return bool
 	 */
-	private function correctEncryptedVersion($path, OutputInterface $output) {
+	private function correctEncryptedVersion($path, OutputInterface $output): bool {
 		$fileInfo = $this->view->getFileInfo($path);
+		if (!$fileInfo) {
+			$output->writeln("<warning>File info not found for file: \"$path\"</warning>");
+			return true;
+		}
 		$fileId = $fileInfo->getId();
 		$encryptedVersion = $fileInfo->getEncryptedVersion();
 		$wrongEncryptedVersion = $encryptedVersion;
@@ -192,9 +201,13 @@ class FixEncryptedVersion extends Command {
 
 		$cache = $storage->getCache();
 		$fileCache = $cache->get($fileId);
+		if (!$fileCache) {
+			$output->writeln("<warning>File cache entry not found for file: \"$path\"</warning>");
+			return true;
+		}
 
 		if ($storage->instanceOfStorage('OCA\Files_Sharing\ISharedStorage')) {
-			$output->writeln("<info>The file: $path is a share. Hence kindly fix this by running the script for the owner of share</info>");
+			$output->writeln("<info>The file: \"$path\" is a share. Please also run the script for the owner of the share</info>");
 			return true;
 		}
 
@@ -208,7 +221,7 @@ class FixEncryptedVersion extends Command {
 				$cache->put($fileCache->getPath(), $cacheInfo);
 				$output->writeln("<info>Decrement the encrypted version to $encryptedVersion</info>");
 				if ($this->verifyFileContent($path, $output, false) === true) {
-					$output->writeln("<info>Fixed the file: $path with version " . $encryptedVersion . "</info>");
+					$output->writeln("<info>Fixed the file: \"$path\" with version " . $encryptedVersion . "</info>");
 					return true;
 				}
 				$encryptedVersion--;
@@ -231,7 +244,7 @@ class FixEncryptedVersion extends Command {
 				$cache->put($fileCache->getPath(), $cacheInfo);
 				$output->writeln("<info>Increment the encrypted version to $newEncryptedVersion</info>");
 				if ($this->verifyFileContent($path, $output, false) === true) {
-					$output->writeln("<info>Fixed the file: $path with version " . $newEncryptedVersion . "</info>");
+					$output->writeln("<info>Fixed the file: \"$path\" with version " . $newEncryptedVersion . "</info>");
 					return true;
 				}
 				$increment++;
@@ -240,7 +253,7 @@ class FixEncryptedVersion extends Command {
 
 		$cacheInfo = ['encryptedVersion' => $originalEncryptedVersion, 'encrypted' => $originalEncryptedVersion];
 		$cache->put($fileCache->getPath(), $cacheInfo);
-		$output->writeln("<info>No fix found for $path, restored version to original: $originalEncryptedVersion</info>");
+		$output->writeln("<info>No fix found for \"$path\", restored version to original: $originalEncryptedVersion</info>");
 
 		return false;
 	}
@@ -249,7 +262,7 @@ class FixEncryptedVersion extends Command {
 	 * Setup user file system
 	 * @param string $uid
 	 */
-	private function setupUserFs($uid) {
+	private function setupUserFs($uid): void {
 		\OC_Util::tearDownFS();
 		\OC_Util::setupFS($uid);
 	}
