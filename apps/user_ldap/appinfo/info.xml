@@ -24,7 +24,7 @@ A user logs into Nextcloud with their LDAP or AD credentials, and is granted acc
 	<bugs>https://github.com/nextcloud/server/issues</bugs>
 	<dependencies>
 		<lib>ldap</lib>
-		<nextcloud min-version="22" max-version="22"/>
+		<nextcloud min-version="23" max-version="23"/>
 	</dependencies>
 
 	<background-jobs>
