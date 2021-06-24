@@ -5,7 +5,7 @@
 	<name>Auditing / Logging</name>
 	<summary>Provides logging abilities for Nextcloud such as logging file accesses or otherwise sensitive actions.</summary>
 	<description>Provides logging abilities for Nextcloud such as logging file accesses or otherwise sensitive actions.</description>
-	<version>1.11.0</version>
+	<version>1.12.0</version>
 	<licence>agpl</licence>
 	<author>Nextcloud</author>
 	<namespace>AdminAudit</namespace>

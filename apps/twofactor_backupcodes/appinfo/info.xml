@@ -5,7 +5,7 @@
 	<name>Two factor backup codes</name>
 	<summary>A two-factor auth backup codes provider</summary>
 	<description>A two-factor auth backup codes provider</description>
-	<version>1.10.1</version>
+	<version>1.11.0</version>
 	<licence>agpl</licence>
 	<author>Christoph Wurst</author>
 	<namespace>TwoFactorBackupCodes</namespace>
