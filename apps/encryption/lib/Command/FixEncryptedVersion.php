@@ -121,12 +121,12 @@ class FixEncryptedVersion extends Command {
 	private function walkPathOfUser($user, $path, OutputInterface $output): int {
 		$this->setupUserFs($user);
 		if (!$this->view->file_exists($path)) {
-			$output->writeln("<error>Path $path does not exist. Please provide a valid path.</error>");
+			$output->writeln("<error>Path \"$path\" does not exist. Please provide a valid path.</error>");
 			return 1;
 		}
 
 		if ($this->view->is_file($path)) {
-			$output->writeln("Verifying the content of file $path");
+			$output->writeln("Verifying the content of file \"$path\"");
 			$this->verifyFileContent($path, $output);
 			return 0;
 		}
@@ -139,7 +139,7 @@ class FixEncryptedVersion extends Command {
 				if ($this->view->is_dir($path)) {
 					$directories[] = $path;
 				} else {
-					$output->writeln("Verifying the content of file $path");
+					$output->writeln("Verifying the content of file \"$path\"");
 					$this->verifyFileContent($path, $output);
 				}
 			}
@@ -164,7 +164,7 @@ class FixEncryptedVersion extends Command {
 			$handle = $this->view->fopen($path, 'rb');
 
 			if (\fread($handle, 9001) !== false) {
-				$output->writeln("<info>The file $path is: OK</info>");
+				$output->writeln("<info>The file \"$path\" is: OK</info>");
 			}
 
 			\fclose($handle);
@@ -175,7 +175,7 @@ class FixEncryptedVersion extends Command {
 			//If allowOnce is set to false, this becomes recursive.
 			if ($ignoreCorrectEncVersionCall === true) {
 				//Lets rectify the file by correcting encrypted version
-				$output->writeln("<info>Attempting to fix the path: $path</info>");
+				$output->writeln("<info>Attempting to fix the path: \"$path\"</info>");
 				return $this->correctEncryptedVersion($path, $output);
 			}
 			return false;
