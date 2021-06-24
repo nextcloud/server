@@ -25,6 +25,7 @@ namespace OCA\Encryption\Command;
 use OC\Files\View;
 use OC\HintException;
 use OCP\Files\IRootFolder;
+use OCP\IConfig;
 use OCP\IUserManager;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -32,6 +33,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class FixEncryptedVersion extends Command {
+	/** @var IConfig */
+	private $config;
+
 	/** @var IRootFolder  */
 	private $rootFolder;
 
@@ -41,7 +45,8 @@ class FixEncryptedVersion extends Command {
 	/** @var View  */
 	private $view;
 
-	public function __construct(IRootFolder $rootFolder, IUserManager $userManager, View $view) {
+	public function __construct(IConfig $config, IRootFolder $rootFolder, IUserManager $userManager, View $view) {
+		$this->config = $config;
 		$this->rootFolder = $rootFolder;
 		$this->userManager = $userManager;
 		$this->view = $view;
@@ -72,6 +77,13 @@ class FixEncryptedVersion extends Command {
 	 * @return int
 	 */
 	protected function execute(InputInterface $input, OutputInterface $output) {
+		$skipSignatureCheck = $this->config->getSystemValue('encryption_skip_signature_check', false);
+
+		if ($skipSignatureCheck) {
+			$output->writeln("<error>Repairing is not possible when \"encryption_skip_signature_check\" is set. Please disable this flag in the configuration.</error>\n");
+			return 1;
+		}
+
 		$user = $input->getArgument('user');
 		$pathToWalk = "/$user/files";
 
