@@ -8,6 +8,7 @@ OC.L10N.register(
     "Error loading {name}" : "Fel vid inläsning av {name}",
     "Your browser does not support videos." : "Din webbläsare har inte stöd för video.",
     "Open sidebar" : "Öppna sidofältet",
+    "Download" : "Ladda ner",
     "Delete" : "Ta bort",
     "There is no plugin available to display this file type" : "Det finns inget tillägg tillgängligt för att visa denna filtyp",
     "View" : "Visa"
