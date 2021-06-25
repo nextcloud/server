@@ -5,7 +5,7 @@
 	<name>Federated file sharing</name>
 	<summary>Provide federated file sharing across servers</summary>
 	<description>Provide federated file sharing across servers</description>
-	<version>1.11.0</version>
+	<version>1.12.0</version>
 	<licence>agpl</licence>
 	<author>Bjoern Schiessle</author>
 	<author>Roeland Jago Douma</author>
