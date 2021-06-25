@@ -35,6 +35,7 @@ use OCP\Support\CrashReport\IMessageReporter;
 use OCP\Support\CrashReport\IRegistry;
 use OCP\Support\CrashReport\IReporter;
 use Throwable;
+use function array_shift;
 
 class Registry implements IRegistry {
 
@@ -119,8 +120,7 @@ class Registry implements IRegistry {
 	}
 
 	private function loadLazyProviders(): void {
-		$classes = $this->lazyReporters;
-		foreach ($classes as $class) {
+		while (($class = array_shift($this->lazyReporters)) !== null) {
 			try {
 				/** @var IReporter $reporter */
 				$reporter = $this->serverContainer->query($class);
@@ -151,6 +151,5 @@ class Registry implements IRegistry {
 				]);
 			}
 		}
-		$this->lazyReporters = [];
 	}
 }
