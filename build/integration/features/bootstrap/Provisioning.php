@@ -168,15 +168,16 @@ trait Provisioning {
 		$response = $client->get($fullUrl, $options);
 		foreach ($settings->getRows() as $setting) {
 			$value = json_decode(json_encode(simplexml_load_string($response->getBody())->data->{$setting[0]}), 1);
-			if (isset($value[0])) {
-				if (in_array($setting[0], ['additional_mail', 'additional_mailScope'], true)) {
-					$expectedValues = explode(';', $setting[1]);
-					foreach ($expectedValues as $expected) {
-						Assert::assertTrue(in_array($expected, $value, true));
-					}
-				} else {
-					Assert::assertEquals($setting[1], $value[0], "", 0.0, 10, true);
+			if (in_array($setting[0], ['additional_mail', 'additional_mailScope'], true)) {
+				var_dump($value);
+			}
+			if (isset($value['element']) && in_array($setting[0], ['additional_mail', 'additional_mailScope'], true)) {
+				$expectedValues = explode(';', $setting[1]);
+				foreach ($expectedValues as $expected) {
+					Assert::assertTrue(in_array($expected, $value['element'], true));
 				}
+			} elseif (isset($value[0])) {
+				Assert::assertEquals($setting[1], $value[0], "", 0.0, 10, true);
 			} else {
 				Assert::assertEquals('', $setting[1]);
 			}
