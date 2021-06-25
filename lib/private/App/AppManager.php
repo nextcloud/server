@@ -88,6 +88,9 @@ class AppManager implements IAppManager {
 	/** @var string[] $appId => $enabled */
 	private $installedAppsCache;
 
+	/** @var string[] $appId => $enabled */
+	private $enabledAppsCache;
+
 	/** @var string[] */
 	private $shippedApps;
 
