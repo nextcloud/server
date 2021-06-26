@@ -1,6 +1,7 @@
 { "translations": {
     "Cannot write into \"config\" directory!" : "Das Schreiben in das „config“-Verzeichnis ist nicht möglich!",
     "This can usually be fixed by giving the webserver write access to the config directory." : "Dies kann normalerweise behoben werden, indem dem Webserver Schreibzugriff auf das config-Verzeichnis gegeben wird.",
+    "But, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it." : "Wenn Du jedoch möchtest dass die Datei config.php schreibgeschützt bleiben soll, dann setze die Option \"config_is_read_only\" in der Datei auf true.",
     "See %s" : "Siehe %s",
     "The files of the app %1$s were not replaced correctly. Make sure it is a version compatible with the server." : "Die Dateien der App %1$swurden nicht korrekt ersetzt. Stelle sicher, dass es sich um eine mit dem Server kompatible Version handelt.",
     "Sample configuration detected" : "Beispielkonfiguration gefunden",
