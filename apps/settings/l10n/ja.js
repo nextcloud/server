@@ -367,7 +367,7 @@ OC.L10N.register(
     "To run this you need the PHP POSIX extension. See {linkstart}PHP documentation{linkend} for more details." : "これを実行するにはPHPのposix拡張が必要です。詳細については、{linkstart} PHPドキュメント{linkend}を参照してください。",
     "As admin you can fine-tune the sharing behavior. Please see the documentation for more information." : "管理者であれば共有時の挙動を微調整できます。詳細な情報はドキュメントを参照してください。",
     "Allow apps to use the Share API" : "アプリからの共有APIの利用を許可する",
-    "Set default expiration date for shares" : "共有のデフォルトの有効期限の設定する",
+    "Set default expiration date for shares" : "共有のデフォルトの有効期限を設定する",
     "days" : "日",
     "Enforce expiration date" : "有効期限を反映させる",
     "Set default expiration date for shares to other servers" : "他のサーバーへの共有のデフォルトの有効期限を設定する",
