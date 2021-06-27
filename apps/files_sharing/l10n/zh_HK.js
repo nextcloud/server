@@ -179,7 +179,7 @@ OC.L10N.register(
     "File drop (upload only)" : "拖曳檔案(僅供上傳)",
     "Hide download" : "隱藏下載",
     "Password protect" : "密碼防護",
-    "Video verification" : "視頻驗證",
+    "Video verification" : "視像驗證",
     "Enter a note for the share recipient" : "輸入分享收件人的註釋",
     "Add another link" : "加入另一個連結",
     "Create a new share link" : "建立新分享連結",
