@@ -128,6 +128,7 @@ OC.L10N.register(
     "shared by %s" : "%s tarafından paylaşıldı",
     "Download all files" : "Tüm dosyaları indir",
     "Direct link" : "Doğrudan bağlantı",
+    "Add to your %s" : "%s uygulamanıza ekleyin",
     "Share API is disabled" : "Paylaşım API arayüzü devre dışı",
     "File sharing" : "Dosya paylaşımı",
     "Share will expire tomorrow" : "Paylaşımın süresi yarın dolacak",
