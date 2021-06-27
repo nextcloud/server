@@ -146,7 +146,7 @@ OC.L10N.register(
     "User Display Name Field" : "用戶顯示名稱欄位",
     "The LDAP attribute to use to generate the user's display name." : "LDAP設定值，用於產生用戶的顯示名稱",
     "2nd User Display Name Field" : "第二位用戶顯示名稱欄位",
-    "Optional. An LDAP attribute to be added to the display name in brackets. Results in e.g. »John Doe (john.doe@example.org)«." : "選填。要加進顯示名稱中括號的 LDAP 屬性。例如 »John Doe（john。doe@example。org)«。",
+    "Optional. An LDAP attribute to be added to the display name in brackets. Results in e.g. »John Doe (john.doe@example.org)«." : "選填。要加進顯示名稱中括號的 LDAP 屬性。例如 »John Doe（john.doe@example.org）«。",
     "Base User Tree" : "Base User Tree",
     "One User Base DN per line" : "一行一個用戶 Base DN",
     "User Search Attributes" : "用戶搜尋屬性",
@@ -197,6 +197,6 @@ OC.L10N.register(
     "LDAP / AD Username:" : "LDAP / AD 用戶名稱：",
     "Allows login against the LDAP / AD username, which is either \"uid\" or \"sAMAccountName\" and will be detected." : "允許使用LDAP / AD用戶名登入，該用戶名可以是“ uid”或“ sAMAccountName”。",
     "LDAP / AD Email Address:" : "LDAP / AD 電郵地址：",
-    "By default the internal username will be created from the UUID attribute. It makes sure that the username is unique and characters do not need to be converted. The internal username has the restriction that only these characters are allowed: [ a-zA-Z0-9_.@- ].  Other characters are replaced with their ASCII correspondence or simply omitted. On collisions a number will be added/increased. The internal username is used to identify a user internally. It is also the default name for the user home folder. It is also a part of remote URLs, for instance for all *DAV services. With this setting, the default behavior can be overridden. Leave it empty for default behavior. Changes will have effect only on newly mapped (added) LDAP users." : "默認情況下，內部用戶名將從UUID屬性創建。 這樣可以確保用戶名是唯一的，並且不需要轉換任何字符。內部用戶名的限制是只能使用以下字符：[ a-zA-Z0-9_。@- ]。其他字符被替換為它們的ASCII對應或被略去。發生相抵觸時，將添加或增量數字。內部用戶名用於在內部標識用戶。它也是用戶主資料夾的默認名稱。它也是遠端URL的一部分，例如，用於所有 *DAV 服務。使用此設置，可以覆蓋默認行為。將其保留為空以保留默認行為。 更改僅對新映射（添加）的LDAP用戶有效。"
+    "By default the internal username will be created from the UUID attribute. It makes sure that the username is unique and characters do not need to be converted. The internal username has the restriction that only these characters are allowed: [ a-zA-Z0-9_.@- ].  Other characters are replaced with their ASCII correspondence or simply omitted. On collisions a number will be added/increased. The internal username is used to identify a user internally. It is also the default name for the user home folder. It is also a part of remote URLs, for instance for all *DAV services. With this setting, the default behavior can be overridden. Leave it empty for default behavior. Changes will have effect only on newly mapped (added) LDAP users." : "默認情況下，內部用戶名將從UUID屬性創建。 這樣可以確保用戶名是唯一的，並且不需要轉換任何字符。內部用戶名的限制是只能使用以下字符：[ a-zA-Z0-9_.@- ]。其他字符被替換為它們的ASCII對應或被略去。發生相抵觸時，將添加或增量數字。內部用戶名用於在內部標識用戶。它也是用戶主資料夾的默認名稱。它也是遠端URL的一部分，例如，用於所有 *DAV 服務。使用此設置，可以覆蓋默認行為。將其保留為空以保留默認行為。 更改僅對新映射（添加）的LDAP用戶有效。"
 },
 "nplurals=1; plural=0;");

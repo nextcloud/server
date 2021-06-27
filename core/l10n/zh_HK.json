@@ -150,7 +150,7 @@
     "Reset password" : "重設密碼",
     "A password reset message has been sent to the email address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "重設密碼資訊已寄至您的電子郵件。若您並未收到該信件，請確認您垃圾信箱，或請求管理員協助。",
     "If it is not there ask your local administrator." : "你找的東西不在，請聯絡管理員。",
-    "Couldn't send reset email. Please contact your administrator." : "無法寄出重設密碼資訊。請聯絡您的管理員。",
+    "Couldn't send reset email. Please contact your administrator." : "無法寄出重設密碼電郵。請聯絡您的管理員。",
     "Password cannot be changed. Please contact your administrator." : "無法重設密碼，請聯絡管理員。",
     "Back to login" : "回到登入畫面",
     "New password" : "新密碼",
