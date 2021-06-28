@@ -26,12 +26,14 @@ namespace OCP\Remote;
  * User info for a remote user
  *
  * @since 13.0.0
+ * @deprecated 23.0.0
  */
 interface IUser {
 	/**
 	 * @return string
 	 *
 	 * @since 13.0.0
+	 * @deprecated 23.0.0
 	 */
 	public function getUserId();
 
@@ -39,6 +41,7 @@ interface IUser {
 	 * @return string
 	 *
 	 * @since 13.0.0
+	 * @deprecated 23.0.0
 	 */
 	public function getEmail();
 
@@ -46,6 +49,7 @@ interface IUser {
 	 * @return string
 	 *
 	 * @since 13.0.0
+	 * @deprecated 23.0.0
 	 */
 	public function getDisplayName();
 
@@ -53,6 +57,7 @@ interface IUser {
 	 * @return string
 	 *
 	 * @since 13.0.0
+	 * @deprecated 23.0.0
 	 */
 	public function getPhone();
 
@@ -60,6 +65,7 @@ interface IUser {
 	 * @return string
 	 *
 	 * @since 13.0.0
+	 * @deprecated 23.0.0
 	 */
 	public function getAddress();
 
@@ -67,6 +73,7 @@ interface IUser {
 	 * @return string
 	 *
 	 * @since 13.0.0
+	 * @deprecated 23.0.0
 	 */
 	public function getWebsite();
 
@@ -74,6 +81,7 @@ interface IUser {
 	 * @return string
 	 *
 	 * @since 13.0.0
+	 * @deprecated 23.0.0
 	 */
 	public function getTwitter();
 
@@ -81,6 +89,7 @@ interface IUser {
 	 * @return string[]
 	 *
 	 * @since 13.0.0
+	 * @deprecated 23.0.0
 	 */
 	public function getGroups();
 
@@ -88,6 +97,7 @@ interface IUser {
 	 * @return string
 	 *
 	 * @since 13.0.0
+	 * @deprecated 23.0.0
 	 */
 	public function getLanguage();
 
@@ -95,6 +105,7 @@ interface IUser {
 	 * @return int
 	 *
 	 * @since 13.0.0
+	 * @deprecated 23.0.0
 	 */
 	public function getUsedSpace();
 
@@ -102,6 +113,7 @@ interface IUser {
 	 * @return int
 	 *
 	 * @since 13.0.0
+	 * @deprecated 23.0.0
 	 */
 	public function getFreeSpace();
 
@@ -109,6 +121,7 @@ interface IUser {
 	 * @return int
 	 *
 	 * @since 13.0.0
+	 * @deprecated 23.0.0
 	 */
 	public function getTotalSpace();
 
@@ -116,6 +129,7 @@ interface IUser {
 	 * @return int
 	 *
 	 * @since 13.0.0
+	 * @deprecated 23.0.0
 	 */
 	public function getQuota();
 }

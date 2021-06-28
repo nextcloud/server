@@ -26,12 +26,14 @@ namespace OCP\Remote\Api;
  * Provides access to the various apis of a remote instance
  *
  * @since 13.0.0
+ * @deprecated 23.0.0
  */
 interface IApiCollection {
 	/**
 	 * @return IUserApi
 	 *
 	 * @since 13.0.0
+	 * @deprecated 23.0.0
 	 */
 	public function getUserApi();
 
@@ -39,6 +41,7 @@ interface IApiCollection {
 	 * @return ICapabilitiesApi
 	 *
 	 * @since 13.0.0
+	 * @deprecated 23.0.0
 	 */
 	public function getCapabilitiesApi();
 }
