@@ -94,7 +94,7 @@ OC.L10N.register(
     "is not" : "不是",
     "File name" : "檔案名稱",
     "File MIME type" : "檔案MIME類型",
-    "File size (upload)" : "檔案大小(上傳)",
+    "File size (upload)" : "檔案大小（上傳）",
     "less" : "更少",
     "less or equals" : "小於或等於",
     "greater or equals" : "大於或等於",
