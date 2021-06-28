@@ -146,7 +146,8 @@ class OfflineUser {
 	 */
 	public function getDN() {
 		if ($this->dn === null) {
-			$this->fetchDetails();
+			$dn = $this->mapping->getDNByName($this->ocName);
+			$this->dn = ($dn !== false) ? $dn : '';
 		}
 		return $this->dn;
 	}
@@ -212,7 +213,7 @@ class OfflineUser {
 	 */
 	public function getHasActiveShares() {
 		if ($this->hasActiveShares === null) {
-			$this->fetchDetails();
+			$this->determineShares();
 		}
 		return $this->hasActiveShares;
 	}
@@ -232,11 +233,6 @@ class OfflineUser {
 		foreach ($properties as $property => $app) {
 			$this->$property = $this->config->getUserValue($this->ocName, $app, $property, '');
 		}
-
-		$dn = $this->mapping->getDNByName($this->ocName);
-		$this->dn = ($dn !== false) ? $dn : '';
-
-		$this->determineShares();
 	}
 
 	/**
