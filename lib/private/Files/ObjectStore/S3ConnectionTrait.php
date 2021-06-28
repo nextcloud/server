@@ -131,8 +131,8 @@ trait S3ConnectionTrait {
 			'csm' => false,
 			'use_arn_region' => false,
 		];
-		if (isset($this->params['proxy'])) {
-			$options['http'] = [ 'proxy' => $this->params['proxy'] ];
+		if ($this->getProxy()) {
+			$options['http'] = [ 'proxy' => $this->getProxy() ];
 		}
 		if (isset($this->params['legacy_auth']) && $this->params['legacy_auth']) {
 			$options['signature_version'] = 'v2';
