@@ -168,9 +168,6 @@ trait Provisioning {
 		$response = $client->get($fullUrl, $options);
 		foreach ($settings->getRows() as $setting) {
 			$value = json_decode(json_encode(simplexml_load_string($response->getBody())->data->{$setting[0]}), 1);
-			if (in_array($setting[0], ['additional_mail', 'additional_mailScope'], true)) {
-				var_dump($value);
-			}
 			if (isset($value['element']) && in_array($setting[0], ['additional_mail', 'additional_mailScope'], true)) {
 				$expectedValues = explode(';', $setting[1]);
 				foreach ($expectedValues as $expected) {
