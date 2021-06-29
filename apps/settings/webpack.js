@@ -2,6 +2,7 @@
  * @copyright Copyright (c) 2016 John Molakvoæ <skjnldsv@protonmail.com>
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Christopher Ng <chrng8@gmail.com>
  * @author Jan C. Borchardt <hey@jancborchardt.net>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -25,13 +26,26 @@
 
 const path = require('path')
 
+// TODO use @nextcloud/webpack-vue-config
 module.exports = {
+	module: {
+		rules: [
+			{
+				test: /\.(png|jpe?g|gif|svg|woff2?|eot|ttf)$/,
+				loader: 'url-loader',
+				options: {
+					name: '[name].[ext]?[hash]',
+				},
+			},
+		]
+	},
 	entry: {
 		'settings-apps-users-management': path.join(__dirname, 'src', 'main-apps-users-management'),
 		'settings-admin-security': path.join(__dirname, 'src', 'main-admin-security'),
 		'settings-personal-security': path.join(__dirname, 'src', 'main-personal-security'),
 		'settings-personal-webauthn': path.join(__dirname, 'src', 'main-personal-webauth'),
 		'settings-nextcloud-pdf': path.join(__dirname, 'src', 'main-nextcloud-pdf'),
+		'settings-personal-info': path.join(__dirname, 'src', 'main-personal-info'),
 	},
 	output: {
 		path: path.resolve(__dirname, './js'),
