@@ -23,6 +23,7 @@ namespace OCA\Encryption\Tests\Command;
 
 use OC\Files\View;
 use OCA\Encryption\Command\FixEncryptedVersion;
+use OCA\Encryption\Util;
 use Symfony\Component\Console\Tester\CommandTester;
 use Test\TestCase;
 use Test\Traits\EncryptionTrait;
@@ -48,10 +49,16 @@ class FixEncryptedVersionTest extends TestCase {
 	/** @var CommandTester */
 	private $commandTester;
 
+	/** @var Util|\PHPUnit\Framework\MockObject\MockObject */
+	protected $util;
+
 	public function setUp(): void {
 		parent::setUp();
 
 		\OC::$server->getConfig()->setAppValue('encryption', 'useMasterKey', '1');
+
+		$this->util = $this->getMockBuilder(Util::class)
+			->disableOriginalConstructor()->getMock();
 
 		$this->userId = $this->getUniqueId('user_');
 
@@ -66,6 +73,7 @@ class FixEncryptedVersionTest extends TestCase {
 			\OC::$server->getLogger(),
 			\OC::$server->getRootFolder(),
 			\OC::$server->getUserManager(),
+			$this->util,
 			new View('/')
 		);
 		$this->commandTester = new CommandTester($this->fixEncryptedVersion);
@@ -80,6 +88,9 @@ class FixEncryptedVersionTest extends TestCase {
 	 * but greater than zero
 	 */
 	public function testEncryptedVersionLessThanOriginalValue() {
+		$this->util->expects($this->once())->method('isMasterKeyEnabled')
+			->willReturn(true);
+
 		$view = new View("/" . $this->userId . "/files");
 
 		$view->touch('hello.txt');
@@ -145,6 +156,9 @@ Fixed the file: \"/$this->userId/files/world.txt\" with version 4", $output);
 	 * but greater than zero
 	 */
 	public function testEncryptedVersionGreaterThanOriginalValue() {
+		$this->util->expects($this->once())->method('isMasterKeyEnabled')
+			->willReturn(true);
+
 		$view = new View("/" . $this->userId . "/files");
 
 		$view->touch('hello.txt');
@@ -201,6 +215,9 @@ Fixed the file: \"/$this->userId/files/world.txt\" with version 4", $output);
 	}
 
 	public function testVersionIsRestoredToOriginalIfNoFixIsFound() {
+		$this->util->expects($this->once())->method('isMasterKeyEnabled')
+			->willReturn(true);
+
 		$view = new View("/" . $this->userId . "/files");
 
 		$view->touch('bar.txt');
@@ -231,6 +248,9 @@ Fixed the file: \"/$this->userId/files/world.txt\" with version 4", $output);
 	 * Test commands with a file path
 	 */
 	public function testExecuteWithFilePathOption() {
+		$this->util->expects($this->once())->method('isMasterKeyEnabled')
+			->willReturn(true);
+
 		$view = new View("/" . $this->userId . "/files");
 
 		$view->touch('hello.txt');
@@ -252,6 +272,9 @@ The file \"/$this->userId/files/hello.txt\" is: OK", $output);
 	 * Test commands with a directory path
 	 */
 	public function testExecuteWithDirectoryPathOption() {
+		$this->util->expects($this->once())->method('isMasterKeyEnabled')
+			->willReturn(true);
+
 		$view = new View("/" . $this->userId . "/files");
 
 		$view->mkdir('sub');
@@ -274,6 +297,9 @@ The file \"/$this->userId/files/sub/hello.txt\" is: OK", $output);
 	 * Test commands with a directory path
 	 */
 	public function testExecuteWithNoUser() {
+		$this->util->expects($this->once())->method('isMasterKeyEnabled')
+			->willReturn(true);
+
 		$this->commandTester->execute([
 			'user' => null,
 			'--path' => "/"
@@ -288,6 +314,9 @@ The file \"/$this->userId/files/sub/hello.txt\" is: OK", $output);
 	 * Test commands with a directory path
 	 */
 	public function testExecuteWithNonExistentPath() {
+		$this->util->expects($this->once())->method('isMasterKeyEnabled')
+			->willReturn(true);
+
 		$this->commandTester->execute([
 			'user' => $this->userId,
 			'--path' => '/non-exist'
@@ -296,5 +325,22 @@ The file \"/$this->userId/files/sub/hello.txt\" is: OK", $output);
 		$output = $this->commandTester->getDisplay();
 
 		$this->assertStringContainsString('Please provide a valid path.', $output);
+	}
+
+	/**
+	 * Test commands without master key
+	 */
+	public function testExecuteWithNoMasterKey() {
+		\OC::$server->getConfig()->setAppValue('encryption', 'useMasterKey', '0');
+		$this->util->expects($this->once())->method('isMasterKeyEnabled')
+			->willReturn(false);
+
+		$this->commandTester->execute([
+			'user' => $this->userId,
+		]);
+
+		$output = $this->commandTester->getDisplay();
+
+		$this->assertStringContainsString('only works with master key', $output);
 	}
 }
