@@ -23,10 +23,10 @@
  */
 namespace OCA\User_LDAP\Controller;
 
-use OC\HintException;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\HintException;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
@@ -139,7 +139,7 @@ class RenewPasswordController extends Controller {
 			]);
 			return new RedirectResponse($this->urlGenerator->linkToRoute('user_ldap.renewPassword.showRenewPasswordForm', $args));
 		}
-		
+
 		try {
 			if (!is_null($newPassword) && \OC_User::setPassword($user, $newPassword)) {
 				$this->session->set('loginMessages', [

@@ -31,7 +31,6 @@
  */
 namespace OCA\FederatedFileSharing\Controller;
 
-use OC\HintException;
 use OCA\FederatedFileSharing\AddressHandler;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCP\AppFramework\Controller;
@@ -39,6 +38,7 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\Constants;
 use OCP\Federation\ICloudIdManager;
+use OCP\HintException;
 use OCP\Http\Client\IClientService;
 use OCP\IL10N;
 use OCP\ILogger;

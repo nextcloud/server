@@ -479,7 +479,7 @@ class ShareByMailProviderTest extends TestCase {
 
 
 	public function testCreateMailShareFailed() {
-		$this->expectException(\OC\HintException::class);
+		$this->expectException(\OCP\HintException::class);
 
 		$this->share->expects($this->any())->method('getToken')->willReturn('token');
 		$this->share->expects($this->once())->method('setToken')->with('token');

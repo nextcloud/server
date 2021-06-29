@@ -42,9 +42,9 @@
  */
 namespace OCA\Files_Sharing\Controller;
 
+use OC\Security\CSP\ContentSecurityPolicy;
 use OC_Files;
 use OC_Util;
-use OC\Security\CSP\ContentSecurityPolicy;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\Files_Sharing\Activity\Providers\Downloads;
 use OCA\Files_Sharing\Event\BeforeTemplateRenderedEvent;
@@ -242,7 +242,7 @@ class ShareController extends AuthPublicShareController {
 	 * otherwise token
 	 * @param int $errorCode
 	 * @param string $errorMessage
-	 * @throws \OC\HintException
+	 * @throws \OCP\HintException
 	 * @throws \OC\ServerNotAvailableException
 	 */
 	protected function emitAccessShareHook($share, $errorCode = 200, $errorMessage = '') {

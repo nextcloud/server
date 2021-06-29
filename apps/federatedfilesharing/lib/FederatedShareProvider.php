@@ -441,7 +441,7 @@ class FederatedShareProvider implements IShareProvider {
 	 *
 	 * @param IShare $share
 	 * @throws ShareNotFound
-	 * @throws \OC\HintException
+	 * @throws \OCP\HintException
 	 */
 	protected function sendPermissionUpdate(IShare $share) {
 		$remoteId = $this->getRemoteId($share);
@@ -550,7 +550,7 @@ class FederatedShareProvider implements IShareProvider {
 	 *
 	 * @param IShare $share
 	 * @throws ShareNotFound
-	 * @throws \OC\HintException
+	 * @throws \OCP\HintException
 	 */
 	public function delete(IShare $share) {
 		[, $remote] = $this->addressHandler->splitUserRemote($share->getSharedWith());
@@ -577,7 +577,7 @@ class FederatedShareProvider implements IShareProvider {
 	 * @param IShare $share
 	 * @param bool $isOwner the user can either be the owner or the user who re-sahred it
 	 * @throws ShareNotFound
-	 * @throws \OC\HintException
+	 * @throws \OCP\HintException
 	 */
 	protected function revokeShare($share, $isOwner) {
 		if ($this->userManager->userExists($share->getShareOwner()) && $this->userManager->userExists($share->getSharedBy())) {

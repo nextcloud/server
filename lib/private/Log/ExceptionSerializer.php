@@ -29,10 +29,10 @@
 namespace OC\Log;
 
 use OC\Core\Controller\SetupController;
-use OC\HintException;
 use OC\Security\IdentityProof\Key;
 use OC\Setup;
 use OC\SystemConfig;
+use OCP\HintException;
 
 class ExceptionSerializer {
 	public const methodsWithSensitiveParameters = [

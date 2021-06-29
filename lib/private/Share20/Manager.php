@@ -43,7 +43,6 @@ namespace OC\Share20;
 
 use OC\Cache\CappedMemoryCache;
 use OC\Files\Mount\MoveableMount;
-use OC\HintException;
 use OC\Share20\Exception\ProviderException;
 use OCA\Files_Sharing\ISharedStorage;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -52,6 +51,7 @@ use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\Node;
+use OCP\HintException;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IL10N;

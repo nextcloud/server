@@ -36,11 +36,11 @@
 namespace OCA\Settings\Controller;
 
 use OC\Group\Manager as GroupManager;
-use OC\HintException;
 use OC\User\Session;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\JSONResponse;
+use OCP\HintException;
 use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IRequest;

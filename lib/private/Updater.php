@@ -45,6 +45,7 @@ use OC\DB\MigrationService;
 use OC\Hooks\BasicEmitter;
 use OC\IntegrityCheck\Checker;
 use OC_App;
+use OCP\HintException;
 use OCP\IConfig;
 use OCP\ILogger;
 use OCP\Util;

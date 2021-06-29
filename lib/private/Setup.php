@@ -224,7 +224,7 @@ class Setup {
 			try {
 				$util = new \OC_Util();
 				$htAccessWorking = $util->isHtaccessWorking(\OC::$server->getConfig());
-			} catch (\OC\HintException $e) {
+			} catch (\OCP\HintException $e) {
 				$errors[] = [
 					'error' => $e->getMessage(),
 					'exception' => $e,

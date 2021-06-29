@@ -371,6 +371,7 @@ return array(
     'OCP\\Group\\Events\\UserAddedEvent' => $baseDir . '/lib/public/Group/Events/UserAddedEvent.php',
     'OCP\\Group\\Events\\UserRemovedEvent' => $baseDir . '/lib/public/Group/Events/UserRemovedEvent.php',
     'OCP\\Group\\ISubAdmin' => $baseDir . '/lib/public/Group/ISubAdmin.php',
+    'OCP\\HintException' => $baseDir . '/lib/public/HintException.php',
     'OCP\\Http\\Client\\IClient' => $baseDir . '/lib/public/Http/Client/IClient.php',
     'OCP\\Http\\Client\\IClientService' => $baseDir . '/lib/public/Http/Client/IClientService.php',
     'OCP\\Http\\Client\\IResponse' => $baseDir . '/lib/public/Http/Client/IResponse.php',

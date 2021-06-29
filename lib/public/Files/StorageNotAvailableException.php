@@ -32,7 +32,7 @@
 
 namespace OCP\Files;
 
-use OC\HintException;
+use OCP\HintException;
 
 /**
  * Storage is temporarily not available
