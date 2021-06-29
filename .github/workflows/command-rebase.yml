@@ -6,6 +6,7 @@
 on:
   issue_comment:
     types: [ created ]
+
 name: Automatic Rebase
 
 jobs:
@@ -16,6 +17,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Add reaction on start
+        uses: peter-evans/create-or-update-comment@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          repository: ${{ github.event.repository.full_name }}
+          comment-id: ${{ github.event.comment.id }}
+          reaction-type: "+1"
+
       - name: Checkout the latest code
         uses: actions/checkout@v2
         with:
