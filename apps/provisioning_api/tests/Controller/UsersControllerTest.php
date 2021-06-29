@@ -50,7 +50,6 @@ use OCA\Settings\Mailer\NewUserMailHelper;
 use OCP\Accounts\IAccount;
 use OCP\Accounts\IAccountManager;
 use OCP\Accounts\IAccountProperty;
-use OCP\App\IAppManager;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
@@ -77,8 +76,6 @@ class UsersControllerTest extends TestCase {
 	protected $userManager;
 	/** @var IConfig|MockObject */
 	protected $config;
-	/** @var IAppManager|MockObject */
-	protected $appManager;
 	/** @var Manager|MockObject */
 	protected $groupManager;
 	/** @var IUserSession|MockObject */
@@ -111,7 +108,6 @@ class UsersControllerTest extends TestCase {
 
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->config = $this->createMock(IConfig::class);
-		$this->appManager = $this->createMock(IAppManager::class);
 		$this->groupManager = $this->createMock(Manager::class);
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
@@ -131,7 +127,6 @@ class UsersControllerTest extends TestCase {
 				$this->request,
 				$this->userManager,
 				$this->config,
-				$this->appManager,
 				$this->groupManager,
 				$this->userSession,
 				$this->accountManager,
@@ -395,7 +390,6 @@ class UsersControllerTest extends TestCase {
 				$this->request,
 				$this->userManager,
 				$this->config,
-				$this->appManager,
 				$this->groupManager,
 				$this->userSession,
 				$this->accountManager,
@@ -3440,7 +3434,6 @@ class UsersControllerTest extends TestCase {
 				$this->request,
 				$this->userManager,
 				$this->config,
-				$this->appManager,
 				$this->groupManager,
 				$this->userSession,
 				$this->accountManager,
@@ -3513,7 +3506,6 @@ class UsersControllerTest extends TestCase {
 				$this->request,
 				$this->userManager,
 				$this->config,
-				$this->appManager,
 				$this->groupManager,
 				$this->userSession,
 				$this->accountManager,
