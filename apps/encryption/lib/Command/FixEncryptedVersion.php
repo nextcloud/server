@@ -24,6 +24,7 @@ namespace OCA\Encryption\Command;
 
 use OC\Files\View;
 use OC\HintException;
+use OCA\Encryption\Util;
 use OCP\Files\IRootFolder;
 use OCP\IConfig;
 use OCP\ILogger;
@@ -46,14 +47,25 @@ class FixEncryptedVersion extends Command {
 	/** @var IUserManager  */
 	private $userManager;
 
+	/** @var Util */
+	private $util;
+
 	/** @var View  */
 	private $view;
 
-	public function __construct(IConfig $config, ILogger $logger, IRootFolder $rootFolder, IUserManager $userManager, View $view) {
+	public function __construct(
+		IConfig $config,
+		ILogger $logger,
+		IRootFolder $rootFolder,
+		IUserManager $userManager,
+		Util $util,
+		View $view
+	) {
 		$this->config = $config;
 		$this->logger = $logger;
 		$this->rootFolder = $rootFolder;
 		$this->userManager = $userManager;
+		$this->util = $util;
 		$this->view = $view;
 		parent::__construct();
 	}
@@ -86,6 +98,11 @@ class FixEncryptedVersion extends Command {
 
 		if ($skipSignatureCheck) {
 			$output->writeln("<error>Repairing is not possible when \"encryption_skip_signature_check\" is set. Please disable this flag in the configuration.</error>\n");
+			return 1;
+		}
+
+		if (!$this->util->isMasterKeyEnabled()) {
+			$output->writeln("<error>Repairing only works with master key encryption.</error>\n");
 			return 1;
 		}
 
