@@ -233,29 +233,32 @@ class Router implements IRouter {
 	 * @throws \Exception
 	 * @return array
 	 */
-	public function findMatchingRoute(string $url, bool $loadAll = false): array {
-		if (strpos($url, '/apps/') === 0) {
+	public function findMatchingRoute(string $url): array {
+		if (substr($url, 0, 6) === '/apps/') {
 			// empty string / 'apps' / $app / rest of the route
 			[, , $app,] = explode('/', $url, 4);
 
 			$app = \OC_App::cleanAppId($app);
 			\OC::$REQUESTEDAPP = $app;
 			$this->loadRoutes($app);
-		} elseif (strpos($url, '/ocsapp/apps/') === 0) {
+		} elseif (substr($url, 0, 13) === '/ocsapp/apps/') {
 			// empty string / 'ocsapp' / 'apps' / $app / rest of the route
 			[, , , $app,] = explode('/', $url, 5);
 
 			$app = \OC_App::cleanAppId($app);
 			\OC::$REQUESTEDAPP = $app;
 			$this->loadRoutes($app);
-		} elseif (strpos($url, '/settings/') === 0) {
+		} elseif (substr($url, 0, 10) === '/settings/') {
 			$this->loadRoutes('settings');
+		} elseif (substr($url, 0, 6) === '/core/') {
+			\OC::$REQUESTEDAPP = $url;
+			if (!\OC::$server->getConfig()->getSystemValueBool('maintenance') && !Util::needUpgrade()) {
+				\OC_App::loadApps();
+			}
+			$this->loadRoutes('core');
+		} else {
+			$this->loadRoutes();
 		}
-		\OC::$REQUESTEDAPP = $url;
-		if (!\OC::$server->getConfig()->getSystemValueBool('maintenance') && !Util::needUpgrade()) {
-			\OC_App::loadApps();
-		}
-		$this->loadRoutes('core');
 
 		$matcher = new UrlMatcher($this->root, $this->context);
 		try {
@@ -268,11 +271,6 @@ class Router implements IRouter {
 				try {
 					$parameters = $matcher->match($url . '/');
 				} catch (ResourceNotFoundException $newException) {
-					// Attempt to fallback to load all routes if none of the above route patterns matches and the route is not in core
-					if (!$loadAll) {
-						$this->loadRoutes();
-						return $this->findMatchingRoute($url, true);
-					}
 					// If we still didn't match a route, we throw the original exception
 					throw $e;
 				}
