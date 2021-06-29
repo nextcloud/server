@@ -127,6 +127,11 @@ class UpdateConfig extends Command {
 			$key = $key . 'Mime';
 		}
 
+		if ($key === 'color' && !preg_match('/^\#([0-9a-f]{3}|[0-9a-f]{6})$/i', $value)) {
+			$output->writeln('<error>The given color is invalid: ' . $value . '</error>');
+			return 1;
+		}
+
 		$this->themingDefaults->set($key, $value);
 		$output->writeln('<info>Updated ' . $key . ' to ' . $value . '</info>');
 
