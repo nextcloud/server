@@ -673,8 +673,12 @@ class UsersController extends AUserData {
 					}
 				}
 				if ($targetProperty instanceof IAccountProperty) {
-					$targetProperty->setScope($value);
-					$this->accountManager->updateAccount($userAccount);
+					try {
+						$targetProperty->setScope($value);
+						$this->accountManager->updateAccount($userAccount);
+					} catch (\InvalidArgumentException $e) {
+						throw new OCSException('', 102);
+					}
 				} else {
 					throw new OCSException('', 102);
 				}
