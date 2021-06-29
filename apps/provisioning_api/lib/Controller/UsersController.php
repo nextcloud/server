@@ -604,6 +604,10 @@ class UsersController extends AUserData {
 	}
 
 	/**
+	 * @NoAdminRequired
+	 * @NoSubAdminRequired
+	 * @PasswordConfirmationRequired
+	 *
 	 * @throws OCSException
 	 */
 	public function editUserMultiValue(
@@ -663,7 +667,7 @@ class UsersController extends AUserData {
 				$mailCollection = $userAccount->getPropertyCollection(IAccountManager::COLLECTION_EMAIL);
 				$targetProperty = null;
 				foreach ($mailCollection->getProperties() as $property) {
-					if ($property->getValue() === $value) {
+					if ($property->getValue() === $key) {
 						$targetProperty = $property;
 						break;
 					}
