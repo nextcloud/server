@@ -31,7 +31,7 @@ class PluginTest extends \Test\TestCase {
 		$request = $this->createMock(IRequest::class);
 		$request->expects($this->at(0))
 			->method('isUserAgent')
-			->with([])
+			->with(Plugin::ENABLE_FOR_CLIENTS)
 			->willReturn(false);
 
 		$request->expects($this->at(1))
@@ -48,7 +48,7 @@ class PluginTest extends \Test\TestCase {
 		$request = $this->createMock(IRequest::class);
 		$request->expects($this->at(0))
 			->method('isUserAgent')
-			->with([])
+			->with(Plugin::ENABLE_FOR_CLIENTS)
 			->willReturn(false);
 
 		$request->expects($this->at(1))
