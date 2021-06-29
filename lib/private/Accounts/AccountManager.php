@@ -228,7 +228,6 @@ class AccountManager implements IAccountManager {
 		$updated = true;
 
 		if ($oldUserData !== $data) {
-
 			$this->updateExistingUser($user, $data);
 		} else {
 			// nothing needs to be done if new and old data set are the same
@@ -297,7 +296,6 @@ class AccountManager implements IAccountManager {
 
 		$userDataArray = $this->importFromJson($accountData[0]['data'], $uid);
 		if ($userDataArray === null || $userDataArray === []) {
-
 			return $this->buildDefaultUserRecord($user);
 		}
 
@@ -339,7 +337,7 @@ class AccountManager implements IAccountManager {
 
 	/**
 	 * check if we need to ask the server for email verification, if yes we create a cronjob
-
+	 *
 	 */
 	protected function checkEmailVerification(IAccount $updatedAccount, array $oldData): void {
 		try {
@@ -369,14 +367,13 @@ class AccountManager implements IAccountManager {
 
 	/**
 	 * make sure that all expected data are set
-
+	 *
 	 */
 	protected function addMissingDefaultValues(array $userData): array {
 		foreach ($userData as $i => $value) {
 			if (!isset($value['verified'])) {
 				$userData[$i]['verified'] = self::NOT_VERIFIED;
 			}
-
 		}
 
 		return $userData;
@@ -612,7 +609,6 @@ class AccountManager implements IAccountManager {
 	}
 
 	public function updateAccount(IAccount $account): void {
-
 		$this->testValueLengths(iterator_to_array($account->getAllProperties()), true);
 		try {
 			$property = $account->getProperty(self::PROPERTY_PHONE);

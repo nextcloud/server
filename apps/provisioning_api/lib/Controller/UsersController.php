@@ -54,7 +54,6 @@ use OCA\Settings\Mailer\NewUserMailHelper;
 use OCP\Accounts\IAccountManager;
 use OCP\Accounts\IAccountProperty;
 use OCP\Accounts\PropertyDoesNotExistException;
-use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSException;
@@ -77,8 +76,6 @@ use Psr\Log\LoggerInterface;
 
 class UsersController extends AUserData {
 
-	/** @var IAppManager */
-	private $appManager;
 	/** @var IURLGenerator */
 	protected $urlGenerator;
 	/** @var LoggerInterface */
@@ -100,7 +97,6 @@ class UsersController extends AUserData {
 								IRequest $request,
 								IUserManager $userManager,
 								IConfig $config,
-								IAppManager $appManager,
 								IGroupManager $groupManager,
 								IUserSession $userSession,
 								IAccountManager $accountManager,
@@ -121,7 +117,6 @@ class UsersController extends AUserData {
 							$accountManager,
 							$l10nFactory);
 
-		$this->appManager = $appManager;
 		$this->urlGenerator = $urlGenerator;
 		$this->logger = $logger;
 		$this->l10nFactory = $l10nFactory;
@@ -656,7 +651,6 @@ class UsersController extends AUserData {
 				$mailCollection = $userAccount->getPropertyCollection(IAccountManager::COLLECTION_EMAIL);
 				$mailCollection->removePropertyByValue($key);
 				if ($value !== '') {
-					// "replace on"
 					$mailCollection->addPropertyWithDefaults($value);
 				}
 				$this->accountManager->updateAccount($userAccount);
