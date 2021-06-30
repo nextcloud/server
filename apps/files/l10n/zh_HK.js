@@ -40,7 +40,7 @@ OC.L10N.register(
     "Files" : "檔案",
     "Details" : "詳細資料",
     "Select" : "選擇",
-    "Pending" : "等候中",
+    "Pending" : "待定的",
     "Unable to determine date" : "無法確定日期",
     "This operation is forbidden" : "此操作被禁止",
     "This directory is unavailable, please check the logs or contact the administrator" : "這個目錄無法存取，請檢查伺服器記錄檔或聯絡管理員",
