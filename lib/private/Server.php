@@ -1031,7 +1031,7 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerService(ILDAPProviderFactory::class, function (ContainerInterface $c) {
 			$config = $c->get(\OCP\IConfig::class);
 			$factoryClass = $config->getSystemValue('ldapProviderFactory', null);
-			if (is_null($factoryClass)) {
+			if (is_null($factoryClass) || !class_exists($factoryClass)) {
 				return new NullLDAPProviderFactory($this);
 			}
 			/** @var \OCP\LDAP\ILDAPProviderFactory $factory */
