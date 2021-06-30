@@ -45,6 +45,7 @@
 		<command>OCA\Encryption\Command\DisableMasterKey</command>
 		<command>OCA\Encryption\Command\RecoverUser</command>
 		<command>OCA\Encryption\Command\ScanLegacyFormat</command>
+		<command>OCA\Encryption\Command\FixEncryptedVersion</command>
 	</commands>
 
 	<settings>
