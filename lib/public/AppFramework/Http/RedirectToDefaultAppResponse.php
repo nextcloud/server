@@ -38,6 +38,7 @@ class RedirectToDefaultAppResponse extends RedirectResponse {
 	 * @since 16.0.0
 	 */
 	public function __construct() {
-		parent::__construct(\OC_Util::getDefaultPageUrl());
+		$urlGenerator = \OC::$server->getURLGenerator();
+		parent::__construct($urlGenerator->linkToDefaultPageUrl());
 	}
 }

@@ -204,4 +204,34 @@ class UrlGeneratorTest extends \Test\TestCase {
 			['core.WhatsNew.dismiss', 'http://localhost/nextcloud/ocs/v2.php/core/whatsnew'],
 		];
 	}
+
+	public function testGetDefaultPageUrlWithRedirectUrlWithoutFrontController() {
+		putenv('front_controller_active=false');
+		\OC::$server->getConfig()->deleteSystemValue('htaccess.IgnoreFrontController');
+
+		$_REQUEST['redirect_url'] = 'myRedirectUrl.com';
+		$this->assertSame('http://localhost'.\OC::$WEBROOT.'/myRedirectUrl.com', $this->urlGenerator->linkToDefaultPageUrl());
+	}
+
+	public function testGetDefaultPageUrlWithRedirectUrlRedirectBypassWithoutFrontController() {
+		putenv('front_controller_active=false');
+		\OC::$server->getConfig()->deleteSystemValue('htaccess.IgnoreFrontController');
+
+		$_REQUEST['redirect_url'] = 'myRedirectUrl.com@foo.com:a';
+		$this->assertSame('http://localhost'.\OC::$WEBROOT.'/index.php/apps/files/', $this->urlGenerator->linkToDefaultPageUrl());
+	}
+
+	public function testGetDefaultPageUrlWithRedirectUrlRedirectBypassWithFrontController() {
+		putenv('front_controller_active=true');
+		$_REQUEST['redirect_url'] = 'myRedirectUrl.com@foo.com:a';
+		$this->assertSame('http://localhost'.\OC::$WEBROOT.'/apps/files/', $this->urlGenerator->linkToDefaultPageUrl());
+	}
+
+	public function testGetDefaultPageUrlWithRedirectUrlWithIgnoreFrontController() {
+		putenv('front_controller_active=false');
+		\OC::$server->getConfig()->setSystemValue('htaccess.IgnoreFrontController', true);
+
+		$_REQUEST['redirect_url'] = 'myRedirectUrl.com@foo.com:a';
+		$this->assertSame('http://localhost'.\OC::$WEBROOT.'/apps/files/', $this->urlGenerator->linkToDefaultPageUrl());
+	}
 }

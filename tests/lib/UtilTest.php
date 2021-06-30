@@ -229,36 +229,6 @@ class UtilTest extends \Test\TestCase {
 		];
 	}
 
-	public function testGetDefaultPageUrlWithRedirectUrlWithoutFrontController() {
-		putenv('front_controller_active=false');
-		\OC::$server->getConfig()->deleteSystemValue('htaccess.IgnoreFrontController');
-
-		$_REQUEST['redirect_url'] = 'myRedirectUrl.com';
-		$this->assertSame('http://localhost'.\OC::$WEBROOT.'/myRedirectUrl.com', OC_Util::getDefaultPageUrl());
-	}
-
-	public function testGetDefaultPageUrlWithRedirectUrlRedirectBypassWithoutFrontController() {
-		putenv('front_controller_active=false');
-		\OC::$server->getConfig()->deleteSystemValue('htaccess.IgnoreFrontController');
-
-		$_REQUEST['redirect_url'] = 'myRedirectUrl.com@foo.com:a';
-		$this->assertSame('http://localhost'.\OC::$WEBROOT.'/index.php/apps/files/', OC_Util::getDefaultPageUrl());
-	}
-
-	public function testGetDefaultPageUrlWithRedirectUrlRedirectBypassWithFrontController() {
-		putenv('front_controller_active=true');
-		$_REQUEST['redirect_url'] = 'myRedirectUrl.com@foo.com:a';
-		$this->assertSame('http://localhost'.\OC::$WEBROOT.'/apps/files/', OC_Util::getDefaultPageUrl());
-	}
-
-	public function testGetDefaultPageUrlWithRedirectUrlWithIgnoreFrontController() {
-		putenv('front_controller_active=false');
-		\OC::$server->getConfig()->setSystemValue('htaccess.IgnoreFrontController', true);
-
-		$_REQUEST['redirect_url'] = 'myRedirectUrl.com@foo.com:a';
-		$this->assertSame('http://localhost'.\OC::$WEBROOT.'/apps/files/', OC_Util::getDefaultPageUrl());
-	}
-
 	/**
 	 * Test needUpgrade() when the core version is increased
 	 */

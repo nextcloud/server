@@ -29,6 +29,7 @@ use OC\Core\Controller\LoginController;
 use OC\Security\Bruteforce\Throttler;
 use OC\User\Session;
 use OCP\AppFramework\Http\RedirectResponse;
+use OCP\AppFramework\Http\RedirectToDefaultAppResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Defaults;
 use OCP\IConfig;
@@ -212,7 +213,7 @@ class LoginControllerTest extends TestCase {
 			->method('isLoggedIn')
 			->willReturn(true);
 
-		$expectedResponse = new RedirectResponse(\OC_Util::getDefaultPageUrl());
+		$expectedResponse = new RedirectToDefaultAppResponse();
 		$this->assertEquals($expectedResponse, $this->loginController->showLoginForm('', '', ''));
 	}
 
@@ -443,7 +444,7 @@ class LoginControllerTest extends TestCase {
 				'direct' => 1,
 			])
 			->willReturn($loginPageUrl);
-		$expected = new \OCP\AppFramework\Http\RedirectResponse($loginPageUrl);
+		$expected = new RedirectResponse($loginPageUrl);
 		$expected->throttle(['user' => 'MyUserName']);
 
 		$response = $this->loginController->tryLogin($user, $password, '/apps/files');
@@ -454,7 +455,6 @@ class LoginControllerTest extends TestCase {
 	public function testLoginWithValidCredentials() {
 		$user = 'MyUserName';
 		$password = 'secret';
-		$indexPageUrl = \OC_Util::getDefaultPageUrl();
 
 		$this->request
 			->expects($this->once())
@@ -470,7 +470,7 @@ class LoginControllerTest extends TestCase {
 			->method('process')
 			->with($this->equalTo($loginData))
 			->willReturn($loginResult);
-		$expected = new \OCP\AppFramework\Http\RedirectResponse($indexPageUrl);
+		$expected = new RedirectToDefaultAppResponse();
 
 		$response = $this->loginController->tryLogin($user, $password);
 
@@ -499,7 +499,7 @@ class LoginControllerTest extends TestCase {
 		$this->userSession->expects($this->never())
 			->method('createRememberMeToken');
 
-		$expected = new \OCP\AppFramework\Http\RedirectResponse(\OC_Util::getDefaultPageUrl());
+		$expected = new RedirectToDefaultAppResponse();
 		$this->assertEquals($expected, $this->loginController->tryLogin('Jane', $password, $originalUrl));
 	}
 
@@ -534,14 +534,13 @@ class LoginControllerTest extends TestCase {
 			->with('remember_login_cookie_lifetime')
 			->willReturn(1234);
 
-		$expected = new \OCP\AppFramework\Http\RedirectResponse($redirectUrl);
+		$expected = new RedirectResponse($redirectUrl);
 		$this->assertEquals($expected, $this->loginController->tryLogin('Jane', $password, $originalUrl));
 	}
 
 	public function testLoginWithValidCredentialsAndRedirectUrl() {
 		$user = 'MyUserName';
 		$password = 'secret';
-		$indexPageUrl = \OC_Util::getDefaultPageUrl();
 		$redirectUrl = 'https://next.cloud/apps/mail';
 
 		$this->request
@@ -566,7 +565,7 @@ class LoginControllerTest extends TestCase {
 			->method('getAbsoluteURL')
 			->with('/apps/mail')
 			->willReturn($redirectUrl);
-		$expected = new \OCP\AppFramework\Http\RedirectResponse($redirectUrl);
+		$expected = new RedirectResponse($redirectUrl);
 
 		$response = $this->loginController->tryLogin($user, $password, '/apps/mail');
 
@@ -601,7 +600,7 @@ class LoginControllerTest extends TestCase {
 				'direct' => 1,
 			])
 			->willReturn($loginPageUrl);
-		$expected = new \OCP\AppFramework\Http\RedirectResponse($loginPageUrl);
+		$expected = new RedirectResponse($loginPageUrl);
 		$expected->throttle(['user' => 'john']);
 
 		$response = $this->loginController->tryLogin(

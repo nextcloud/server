@@ -27,6 +27,7 @@ use OC\Authentication\TwoFactorAuth\ProviderSet;
 use OC\Core\Controller\TwoFactorChallengeController;
 use OC_Util;
 use OCP\AppFramework\Http\RedirectResponse;
+use OCP\AppFramework\Http\RedirectToDefaultAppResponse;
 use OCP\AppFramework\Http\StandaloneTemplateResponse;
 use OCP\Authentication\TwoFactorAuth\IActivatableAtLogin;
 use OCP\Authentication\TwoFactorAuth\ILoginSetupProvider;
@@ -208,7 +209,7 @@ class TwoFactorChallengeControllerTest extends TestCase {
 			->with('myprovider', $user, 'token')
 			->willReturn(true);
 
-		$expected = new RedirectResponse(OC_Util::getDefaultPageUrl());
+		$expected = new RedirectToDefaultAppResponse();
 		$this->assertEquals($expected, $this->controller->solveChallenge('myprovider', 'token'));
 	}
 
