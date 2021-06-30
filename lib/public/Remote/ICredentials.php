@@ -26,12 +26,14 @@ namespace OCP\Remote;
  * The credentials for a remote user
  *
  * @since 13.0.0
+ * @deprecated 23.0.0
  */
 interface ICredentials {
 	/**
 	 * @return string
 	 *
 	 * @since 13.0.0
+	 * @deprecated 23.0.0
 	 */
 	public function getUsername();
 
@@ -39,6 +41,7 @@ interface ICredentials {
 	 * @return string
 	 *
 	 * @since 13.0.0
+	 * @deprecated 23.0.0
 	 */
 	public function getPassword();
 }

@@ -24,6 +24,7 @@ namespace OCP\Remote;
 
 /**
  * @since 13.0.0
+ * @deprecated 23.0.0
  */
 interface IInstanceFactory {
 	/**
@@ -31,6 +32,7 @@ interface IInstanceFactory {
 	 * @return IInstance
 	 *
 	 * @since 13.0.0
+	 * @deprecated 23.0.0
 	 */
 	public function getInstance($url);
 }

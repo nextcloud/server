@@ -26,6 +26,7 @@ use OCP\Remote\IUser;
 
 /**
  * @since 13.0.0
+ * @deprecated 23.0.0
  */
 interface IUserApi {
 	/**
@@ -33,6 +34,7 @@ interface IUserApi {
 	 * @return IUser
 	 *
 	 * @since 13.0.0
+	 * @deprecated 23.0.0
 	 */
 	public function getUser($userId);
 }

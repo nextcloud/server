@@ -27,6 +27,7 @@ use OCP\Remote\IInstance;
 
 /**
  * @since 13.0.0
+ * @deprecated 23.0.0
  */
 interface IApiFactory {
 	/**
@@ -35,6 +36,7 @@ interface IApiFactory {
 	 * @return IApiCollection
 	 *
 	 * @since 13.0.0
+	 * @deprecated 23.0.0
 	 */
 	public function getApiCollection(IInstance $instance, ICredentials $credentials);
 }
