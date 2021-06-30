@@ -74,6 +74,7 @@ class ComposerStaticInitUser_LDAP
         'OCA\\User_LDAP\\Migration\\UUIDFixGroup' => __DIR__ . '/..' . '/../lib/Migration/UUIDFixGroup.php',
         'OCA\\User_LDAP\\Migration\\UUIDFixInsert' => __DIR__ . '/..' . '/../lib/Migration/UUIDFixInsert.php',
         'OCA\\User_LDAP\\Migration\\UUIDFixUser' => __DIR__ . '/..' . '/../lib/Migration/UUIDFixUser.php',
+        'OCA\\User_LDAP\\Migration\\UnsetDefaultProvider' => __DIR__ . '/..' . '/../lib/Migration/UnsetDefaultProvider.php',
         'OCA\\User_LDAP\\Migration\\Version1010Date20200630192842' => __DIR__ . '/..' . '/../lib/Migration/Version1010Date20200630192842.php',
         'OCA\\User_LDAP\\Notification\\Notifier' => __DIR__ . '/..' . '/../lib/Notification/Notifier.php',
         'OCA\\User_LDAP\\PagedResults\\IAdapter' => __DIR__ . '/..' . '/../lib/PagedResults/IAdapter.php',
