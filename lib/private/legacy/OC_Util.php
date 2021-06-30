@@ -71,7 +71,6 @@ use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\ILogger;
 use OCP\IUser;
-use OCP\IUserSession;
 use OCP\Share\IManager;
 use Psr\Log\LoggerInterface;
 

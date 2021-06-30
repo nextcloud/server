@@ -25,7 +25,6 @@ namespace Test\Core\Controller;
 use OC\Authentication\TwoFactorAuth\Manager;
 use OC\Authentication\TwoFactorAuth\ProviderSet;
 use OC\Core\Controller\TwoFactorChallengeController;
-use OC_Util;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\RedirectToDefaultAppResponse;
 use OCP\AppFramework\Http\StandaloneTemplateResponse;
