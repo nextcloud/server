@@ -10,6 +10,7 @@ return array(
     'OCA\\Encryption\\AppInfo\\Application' => $baseDir . '/../lib/AppInfo/Application.php',
     'OCA\\Encryption\\Command\\DisableMasterKey' => $baseDir . '/../lib/Command/DisableMasterKey.php',
     'OCA\\Encryption\\Command\\EnableMasterKey' => $baseDir . '/../lib/Command/EnableMasterKey.php',
+    'OCA\\Encryption\\Command\\FixEncryptedVersion' => $baseDir . '/../lib/Command/FixEncryptedVersion.php',
     'OCA\\Encryption\\Command\\RecoverUser' => $baseDir . '/../lib/Command/RecoverUser.php',
     'OCA\\Encryption\\Command\\ScanLegacyFormat' => $baseDir . '/../lib/Command/ScanLegacyFormat.php',
     'OCA\\Encryption\\Controller\\RecoveryController' => $baseDir . '/../lib/Controller/RecoveryController.php',

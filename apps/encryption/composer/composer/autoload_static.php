@@ -25,6 +25,7 @@ class ComposerStaticInitEncryption
         'OCA\\Encryption\\AppInfo\\Application' => __DIR__ . '/..' . '/../lib/AppInfo/Application.php',
         'OCA\\Encryption\\Command\\DisableMasterKey' => __DIR__ . '/..' . '/../lib/Command/DisableMasterKey.php',
         'OCA\\Encryption\\Command\\EnableMasterKey' => __DIR__ . '/..' . '/../lib/Command/EnableMasterKey.php',
+        'OCA\\Encryption\\Command\\FixEncryptedVersion' => __DIR__ . '/..' . '/../lib/Command/FixEncryptedVersion.php',
         'OCA\\Encryption\\Command\\RecoverUser' => __DIR__ . '/..' . '/../lib/Command/RecoverUser.php',
         'OCA\\Encryption\\Command\\ScanLegacyFormat' => __DIR__ . '/..' . '/../lib/Command/ScanLegacyFormat.php',
         'OCA\\Encryption\\Controller\\RecoveryController' => __DIR__ . '/..' . '/../lib/Controller/RecoveryController.php',
