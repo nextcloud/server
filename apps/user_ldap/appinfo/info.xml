@@ -37,6 +37,9 @@ A user logs into Nextcloud with their LDAP or AD credentials, and is granted acc
 		<install>
 			<step>OCA\User_LDAP\Migration\SetDefaultProvider</step>
 		</install>
+		<uninstall>
+			<step>OCA\User_LDAP\Migration\UnsetDefaultProvider</step>
+		</uninstall>
 		<post-migration>
 			<step>OCA\User_LDAP\Migration\UUIDFixInsert</step>
 			<step>OCA\User_LDAP\Migration\RemoveRefreshTime</step>
