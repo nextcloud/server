@@ -70,6 +70,7 @@ use OCP\Files\Template\ITemplateManager;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\ILogger;
+use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\Share\IManager;
 use Psr\Log\LoggerInterface;
@@ -1088,7 +1089,7 @@ class OC_Util {
 	 * @suppress PhanDeprecatedFunction
 	 */
 	public static function getDefaultPageUrl() {
-		$urlGenerator = \OC::$server->getURLGenerator();
+		$urlGenerator = \OC::$server->get(IURLGenerator::class);
 		return $urlGenerator->linkToDefaultPageUrl();
 	}
 

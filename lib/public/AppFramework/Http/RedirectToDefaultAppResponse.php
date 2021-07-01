@@ -26,6 +26,8 @@ declare(strict_types=1);
  */
 namespace OCP\AppFramework\Http;
 
+use OCP\IURLGenerator;
+
 /**
  * Redirects to the default app
  * @since 16.0.0
@@ -38,7 +40,8 @@ class RedirectToDefaultAppResponse extends RedirectResponse {
 	 * @since 16.0.0
 	 */
 	public function __construct() {
-		$urlGenerator = \OC::$server->getURLGenerator();
+		/** @var IURLGenerator $urlGenerator */
+		$urlGenerator = \OC::$server->get(IURLGenerator::class);
 		parent::__construct($urlGenerator->linkToDefaultPageUrl());
 	}
 }
