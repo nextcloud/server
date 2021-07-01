@@ -280,6 +280,11 @@ class Folder extends Node implements \OCP\Files\Folder {
 			}, $results);
 		}, array_values($resultsPerCache), array_keys($resultsPerCache)));
 
+		// don't include this folder in the results
+		$files = array_filter($files, function (FileInfo $file) {
+			return $file->getPath() !== $this->getPath();
+		});
+
 		// since results were returned per-cache, they are no longer fully sorted
 		$order = $query->getOrder();
 		if ($order) {
@@ -302,7 +307,8 @@ class Folder extends Node implements \OCP\Files\Folder {
 	private function cacheEntryToFileInfo(IMountPoint $mount, string $appendRoot, ICacheEntry $cacheEntry): FileInfo {
 		$cacheEntry['internalPath'] = $cacheEntry['path'];
 		$cacheEntry['path'] = $appendRoot . $cacheEntry->getPath();
-		return new \OC\Files\FileInfo($this->path . '/' . $cacheEntry['path'], $mount->getStorage(), $cacheEntry['internalPath'], $cacheEntry, $mount);
+		$subPath = $cacheEntry['path'] !== '' ? '/' . $cacheEntry['path'] : '';
+		return new \OC\Files\FileInfo($this->path . $subPath, $mount->getStorage(), $cacheEntry['internalPath'], $cacheEntry, $mount);
 	}
 
 	/**
