@@ -1089,6 +1089,7 @@ class OC_Util {
 	 * @suppress PhanDeprecatedFunction
 	 */
 	public static function getDefaultPageUrl() {
+		/** @var IURLGenerator $urlGenerator */
 		$urlGenerator = \OC::$server->get(IURLGenerator::class);
 		return $urlGenerator->linkToDefaultPageUrl();
 	}

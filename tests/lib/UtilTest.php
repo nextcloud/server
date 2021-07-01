@@ -187,15 +187,16 @@ class UtilTest extends \Test\TestCase {
 			->willReturnCallback(function ($appId) use ($enabledApps) {
 				return in_array($appId, $enabledApps);
 			});
-		Dummy_OC_Util::$appManager = $appManager;
+		$this->overwriteService(IAppManager::class, $appManager);
 
 		// need to set a user id to make sure enabled apps are read from cache
 		\OC_User::setUserId($this->getUniqueID());
 		\OC::$server->getConfig()->setSystemValue('defaultapp', $defaultAppConfig);
-		$this->assertEquals('http://localhost/' . $expectedPath, Dummy_OC_Util::getDefaultPageUrl());
+		$this->assertEquals('http://localhost/' . $expectedPath, OC_Util::getDefaultPageUrl());
 
 		// restore old state
 		\OC::$WEBROOT = $oldWebRoot;
+		$this->restoreService(IAppManager::class);
 		\OC::$server->getConfig()->setSystemValue('defaultapp', $oldDefaultApps);
 		\OC_User::setUserId(null);
 	}
@@ -358,19 +359,5 @@ class UtilTest extends \Test\TestCase {
 			'core/vendor/myFancyCSSFile1',
 			'myApp/vendor/myFancyCSSFile2',
 		], \OC_Util::$styles);
-	}
-}
-
-/**
- * Dummy OC Util class to make it possible to override the app manager
- */
-class Dummy_OC_Util extends OC_Util {
-	/**
-	 * @var \OCP\App\IAppManager
-	 */
-	public static $appManager;
-
-	protected static function getAppManager() {
-		return self::$appManager;
 	}
 }
