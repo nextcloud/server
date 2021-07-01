@@ -104,6 +104,9 @@ import escapeHTML from 'escape-html'
 				if (fileData.shareTypes) {
 					tr.attr('data-share-types', fileData.shareTypes.join(','))
 				}
+				if (fileData.remoteId) {
+					tr.attr('data-remote-id', fileData.remoteId)
+				}
 				return tr
 			}
 
