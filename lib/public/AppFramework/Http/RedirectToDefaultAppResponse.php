@@ -37,6 +37,9 @@ use OCP\IURLGenerator;
 class RedirectToDefaultAppResponse extends RedirectResponse {
 	/**
 	 * Creates a response that redirects to the default app
+	 *
+	 * @since 16.0.0
+	 * @depreacted 23.0.0 Use RedirectResponse() with IURLGenerator::linkToDefaultPageUrl() instead
 	 */
 	public function __construct() {
 		/** @var IURLGenerator $urlGenerator */
