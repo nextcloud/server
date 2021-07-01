@@ -21,6 +21,7 @@ use OCP\IUserSession;
  * Class UrlGeneratorTest
  *
  * @package Test
+ * @group DB
  */
 class UrlGeneratorTest extends \Test\TestCase {
 
@@ -248,6 +249,7 @@ class UrlGeneratorTest extends \Test\TestCase {
 
 	/**
 	 * @dataProvider provideDefaultApps
+	 * @group DB
 	 */
 	public function testGetDefaultPageUrlWithDefaultApps($defaultAppConfig, $expectedPath, $enabledApps) {
 		$oldDefaultApps = \OC::$server->getConfig()->getSystemValue('defaultapp', '');
