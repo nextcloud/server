@@ -39,6 +39,7 @@ use OC\KnownUser\KnownUserService;
 use OC\User\Manager;
 use OC\User\NoUserException;
 use OCP\Accounts\IAccountManager;
+use OCP\Accounts\PropertyDoesNotExistException;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
@@ -126,9 +127,13 @@ class AvatarManager implements IAvatarManager {
 			$folder = $this->appData->newFolder($userId);
 		}
 
-		$account = $this->accountManager->getAccount($user);
-		$avatarProperties = $account->getProperty(IAccountManager::PROPERTY_AVATAR);
-		$avatarScope = $avatarProperties->getScope();
+		try {
+			$account = $this->accountManager->getAccount($user);
+			$avatarProperties = $account->getProperty(IAccountManager::PROPERTY_AVATAR);
+			$avatarScope = $avatarProperties->getScope();
+		} catch (PropertyDoesNotExistException $e) {
+			$avatarScope = '';
+		}
 
 		if (
 			// v2-private scope hides the avatar from public access and from unknown users

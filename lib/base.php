@@ -68,6 +68,7 @@ use OCP\Share;
 use OC\Encryption\HookManager;
 use OC\Files\Filesystem;
 use OC\Share20\Hooks;
+use OCP\User\Events\UserChangedEvent;
 
 require_once 'public/Constants.php';
 
@@ -843,8 +844,9 @@ class OC {
 	}
 
 	private static function registerAccountHooks() {
-		$hookHandler = \OC::$server->get(\OC\Accounts\Hooks::class);
-		\OCP\Util::connectHook('OC_User', 'changeUser', $hookHandler, 'changeUserHook');
+		/** @var IEventDispatcher $dispatcher */
+		$dispatcher = \OC::$server->get(IEventDispatcher::class);
+		$dispatcher->addServiceListener(UserChangedEvent::class, \OC\Accounts\Hooks::class);
 	}
 
 	private static function registerAppRestrictionsHooks() {

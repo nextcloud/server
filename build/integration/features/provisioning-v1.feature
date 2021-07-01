@@ -62,6 +62,7 @@ Feature: provisioning
     Then user "brand-new-user" has editable fields
       | displayname |
       | email |
+      | additional_mail |
       | phone |
       | address |
       | website |
@@ -70,6 +71,7 @@ Feature: provisioning
     Then user "brand-new-user" has editable fields
       | displayname |
       | email |
+      | additional_mail |
       | phone |
       | address |
       | website |
@@ -77,6 +79,7 @@ Feature: provisioning
     Then user "self" has editable fields
       | displayname |
       | email |
+      | additional_mail |
       | phone |
       | address |
       | website |
@@ -100,6 +103,16 @@ Feature: provisioning
 			| value | no-reply@nextcloud.com |
 		And the OCS status code should be "100"
 		And the HTTP status code should be "200"
+    And sending "PUT" to "/cloud/users/brand-new-user" with
+      | key | additional_mail |
+      | value | no.reply@nextcloud.com |
+    And the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And sending "PUT" to "/cloud/users/brand-new-user" with
+      | key | additional_mail |
+      | value | noreply@nextcloud.com |
+    And the OCS status code should be "100"
+    And the HTTP status code should be "200"
 		And sending "PUT" to "/cloud/users/brand-new-user" with
 			| key | phone |
 			| value | +49 711 / 25 24 28-90 |
@@ -124,6 +137,7 @@ Feature: provisioning
 			| id | brand-new-user |
 			| displayname | Brand New User |
 			| email | no-reply@nextcloud.com |
+      | additional_mail | no.reply@nextcloud.com;noreply@nextcloud.com |
 			| phone | +4971125242890 |
 			| address | Foo Bar Town |
 			| website | https://nextcloud.com |
@@ -177,6 +191,33 @@ Feature: provisioning
 			| displaynameScope | v2-federated |
 			| avatarScope | v2-local |
 
+  Scenario: Edit a user account multivalue property scopes
+    Given user "brand-new-user" exists
+    And As an "brand-new-user"
+    When sending "PUT" to "/cloud/users/brand-new-user" with
+      | key | additional_mail |
+      | value | no.reply@nextcloud.com |
+    And the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And sending "PUT" to "/cloud/users/brand-new-user" with
+      | key | additional_mail |
+      | value | noreply@nextcloud.com |
+    And the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    When sending "PUT" to "/cloud/users/brand-new-user/additional_mailScope" with
+      | key | no.reply@nextcloud.com |
+      | value | v2-federated |
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    When sending "PUT" to "/cloud/users/brand-new-user/additional_mailScope" with
+      | key | noreply@nextcloud.com |
+      | value | v2-published |
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    Then user "brand-new-user" has
+      | id | brand-new-user |
+      | additional_mailScope | v2-federated;v2-published |
+
 	Scenario: Edit a user account properties scopes with invalid or unsupported value
 		Given user "brand-new-user" exists
     And As an "brand-new-user"
@@ -195,6 +236,43 @@ Feature: provisioning
 			| value | v2-private |
 		Then the OCS status code should be "102"
 		And the HTTP status code should be "200"
+
+  Scenario: Edit a user account multi-value property scopes with invalid or unsupported value
+    Given user "brand-new-user" exists
+    And As an "brand-new-user"
+    When sending "PUT" to "/cloud/users/brand-new-user" with
+      | key | additional_mail |
+      | value | no.reply@nextcloud.com |
+    And the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    When sending "PUT" to "/cloud/users/brand-new-user/additional_mailScope" with
+      | key | no.reply@nextcloud.com |
+      | value | invalid |
+    Then the OCS status code should be "102"
+    And the HTTP status code should be "200"
+
+  Scenario: Delete a user account multi-value property value
+    Given user "brand-new-user" exists
+    And As an "brand-new-user"
+    When sending "PUT" to "/cloud/users/brand-new-user" with
+      | key | additional_mail |
+      | value | no.reply@nextcloud.com |
+    And the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And sending "PUT" to "/cloud/users/brand-new-user" with
+      | key | additional_mail |
+      | value | noreply@nextcloud.com |
+    And the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    When sending "PUT" to "/cloud/users/brand-new-user/additional_mail" with
+      | key | no.reply@nextcloud.com |
+      | value | |
+    And the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    Then user "brand-new-user" has
+      | additional_mail | noreply@nextcloud.com |
+    Then user "brand-new-user" has not
+      | additional_mail | no.reply@nextcloud.com |
 
 	Scenario: An admin cannot edit user account property scopes
     Given As an "admin"
@@ -233,7 +311,7 @@ Feature: provisioning
 		And group "new-group" exists
 		And group "new-group" has
 			| displayname | new-group |
-			
+
 	Scenario: Create a group with custom display name
 		Given As an "admin"
 		And group "new-group" does not exist

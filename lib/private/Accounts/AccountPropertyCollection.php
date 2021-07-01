@@ -27,6 +27,7 @@ declare(strict_types=1);
 namespace OC\Accounts;
 
 use InvalidArgumentException;
+use OCP\Accounts\IAccountManager;
 use OCP\Accounts\IAccountProperty;
 use OCP\Accounts\IAccountPropertyCollection;
 
@@ -60,6 +61,18 @@ class AccountPropertyCollection implements IAccountPropertyCollection {
 			throw new InvalidArgumentException('Provided property does not match collection name');
 		}
 		$this->properties[] = $property;
+		return $this;
+	}
+
+	public function addPropertyWithDefaults(string $value): IAccountPropertyCollection {
+		$property = new AccountProperty(
+			$this->collectionName,
+			$value,
+			IAccountManager::SCOPE_LOCAL,
+			IAccountManager::NOT_VERIFIED,
+			''
+		);
+		$this->addProperty($property);
 		return $this;
 	}
 

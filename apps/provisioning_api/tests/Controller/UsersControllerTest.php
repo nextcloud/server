@@ -50,7 +50,6 @@ use OCA\Settings\Mailer\NewUserMailHelper;
 use OCP\Accounts\IAccount;
 use OCP\Accounts\IAccountManager;
 use OCP\Accounts\IAccountProperty;
-use OCP\App\IAppManager;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
@@ -77,8 +76,6 @@ class UsersControllerTest extends TestCase {
 	protected $userManager;
 	/** @var IConfig|MockObject */
 	protected $config;
-	/** @var IAppManager|MockObject */
-	protected $appManager;
 	/** @var Manager|MockObject */
 	protected $groupManager;
 	/** @var IUserSession|MockObject */
@@ -111,7 +108,6 @@ class UsersControllerTest extends TestCase {
 
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->config = $this->createMock(IConfig::class);
-		$this->appManager = $this->createMock(IAppManager::class);
 		$this->groupManager = $this->createMock(Manager::class);
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
@@ -131,7 +127,6 @@ class UsersControllerTest extends TestCase {
 				$this->request,
 				$this->userManager,
 				$this->config,
-				$this->appManager,
 				$this->groupManager,
 				$this->userSession,
 				$this->accountManager,
@@ -395,7 +390,6 @@ class UsersControllerTest extends TestCase {
 				$this->request,
 				$this->userManager,
 				$this->config,
-				$this->appManager,
 				$this->groupManager,
 				$this->userSession,
 				$this->accountManager,
@@ -1071,7 +1065,8 @@ class UsersControllerTest extends TestCase {
 			'backendCapabilities' => [
 				'setDisplayName' => true,
 				'setPassword' => true,
-			]
+			],
+			'additional_mail' => [],
 		];
 		$this->assertEquals($expected, $this->invokePrivate($this->api, 'getUserData', ['UID']));
 	}
@@ -1198,7 +1193,8 @@ class UsersControllerTest extends TestCase {
 			'backendCapabilities' => [
 				'setDisplayName' => true,
 				'setPassword' => true,
-			]
+			],
+			'additional_mail' => [],
 		];
 		$this->assertEquals($expected, $this->invokePrivate($this->api, 'getUserData', ['UID']));
 	}
@@ -1363,7 +1359,8 @@ class UsersControllerTest extends TestCase {
 			'backendCapabilities' => [
 				'setDisplayName' => false,
 				'setPassword' => false,
-			]
+			],
+			'additional_mail' => [],
 		];
 		$this->assertEquals($expected, $this->invokePrivate($this->api, 'getUserData', ['UID']));
 	}
@@ -3437,7 +3434,6 @@ class UsersControllerTest extends TestCase {
 				$this->request,
 				$this->userManager,
 				$this->config,
-				$this->appManager,
 				$this->groupManager,
 				$this->userSession,
 				$this->accountManager,
@@ -3510,7 +3506,6 @@ class UsersControllerTest extends TestCase {
 				$this->request,
 				$this->userManager,
 				$this->config,
-				$this->appManager,
 				$this->groupManager,
 				$this->userSession,
 				$this->accountManager,
@@ -3848,6 +3843,7 @@ class UsersControllerTest extends TestCase {
 	public function dataGetEditableFields() {
 		return [
 			[false, ISetDisplayNameBackend::class, [
+				IAccountManager::COLLECTION_EMAIL,
 				IAccountManager::PROPERTY_PHONE,
 				IAccountManager::PROPERTY_ADDRESS,
 				IAccountManager::PROPERTY_WEBSITE,
@@ -3856,6 +3852,7 @@ class UsersControllerTest extends TestCase {
 			[true, ISetDisplayNameBackend::class, [
 				IAccountManager::PROPERTY_DISPLAYNAME,
 				IAccountManager::PROPERTY_EMAIL,
+				IAccountManager::COLLECTION_EMAIL,
 				IAccountManager::PROPERTY_PHONE,
 				IAccountManager::PROPERTY_ADDRESS,
 				IAccountManager::PROPERTY_WEBSITE,
@@ -3863,6 +3860,7 @@ class UsersControllerTest extends TestCase {
 			]],
 			[true, UserInterface::class, [
 				IAccountManager::PROPERTY_EMAIL,
+				IAccountManager::COLLECTION_EMAIL,
 				IAccountManager::PROPERTY_PHONE,
 				IAccountManager::PROPERTY_ADDRESS,
 				IAccountManager::PROPERTY_WEBSITE,
