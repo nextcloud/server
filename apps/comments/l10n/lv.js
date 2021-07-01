@@ -15,7 +15,7 @@ OC.L10N.register(
     "Delete comment" : "Dzēst komentāru",
     "No comments yet, start the conversation!" : "Vēl nav komentāru, uzsāciet sarunu!",
     "Retry" : "Mēģināt vēlreiz",
-    "_%n unread comment_::_%n unread comments_" : ["%n nelasīti komentāri","%n nelasīti komentāri"],
+    "_%n unread comment_::_%n unread comments_" : ["%n nelasīti komentāri","%n nelasīti komentāri","%n nelasīti komentāri"],
     "Comment" : "Komentārs",
     "New comment …" : "Jauns komentārs...",
     "Post" : "Pievienot",
