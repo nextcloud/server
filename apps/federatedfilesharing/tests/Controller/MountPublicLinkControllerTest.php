@@ -29,7 +29,6 @@
 namespace OCA\FederatedFileSharing\Tests\Controller;
 
 use OC\Federation\CloudIdManager;
-use OC\HintException;
 use OCA\FederatedFileSharing\AddressHandler;
 use OCA\FederatedFileSharing\Controller\MountPublicLinkController;
 use OCA\FederatedFileSharing\FederatedShareProvider;
@@ -37,6 +36,7 @@ use OCP\AppFramework\Http;
 use OCP\Contacts\IManager as IContactsManager;
 use OCP\Federation\ICloudIdManager;
 use OCP\Files\IRootFolder;
+use OCP\HintException;
 use OCP\Http\Client\IClientService;
 use OCP\IL10N;
 use OCP\IRequest;

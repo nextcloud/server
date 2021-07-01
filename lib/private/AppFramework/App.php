@@ -34,11 +34,11 @@ namespace OC\AppFramework;
 use OC\AppFramework\DependencyInjection\DIContainer;
 use OC\AppFramework\Http\Dispatcher;
 use OC\AppFramework\Http\Request;
-use OC\HintException;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\ICallbackResponse;
 use OCP\AppFramework\Http\IOutput;
 use OCP\AppFramework\QueryException;
+use OCP\HintException;
 use OCP\IRequest;
 
 /**
@@ -105,6 +105,7 @@ class App {
 
 	/**
 	 * Shortcut for calling a controller method and printing the result
+	 *
 	 * @param string $controllerName the name of the controller under which it is
 	 *                               stored in the DI container
 	 * @param string $methodName the method that you want to call

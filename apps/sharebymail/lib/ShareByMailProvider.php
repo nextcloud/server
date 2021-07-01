@@ -40,7 +40,6 @@
  */
 namespace OCA\ShareByMail;
 
-use OC\HintException;
 use OC\Share20\Exception\InvalidShare;
 use OC\Share20\Share;
 use OC\User\NoUserException;
@@ -52,6 +51,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
+use OCP\HintException;
 use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\ILogger;

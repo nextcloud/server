@@ -28,7 +28,7 @@
 namespace OCA\Federation;
 
 use OC\Files\Filesystem;
-use OC\HintException;
+use OCP\HintException;
 use OCP\IDBConnection;
 use OCP\IL10N;
 

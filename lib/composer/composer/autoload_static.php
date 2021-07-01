@@ -400,6 +400,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OCP\\Group\\Events\\UserAddedEvent' => __DIR__ . '/../../..' . '/lib/public/Group/Events/UserAddedEvent.php',
         'OCP\\Group\\Events\\UserRemovedEvent' => __DIR__ . '/../../..' . '/lib/public/Group/Events/UserRemovedEvent.php',
         'OCP\\Group\\ISubAdmin' => __DIR__ . '/../../..' . '/lib/public/Group/ISubAdmin.php',
+        'OCP\\HintException' => __DIR__ . '/../../..' . '/lib/public/HintException.php',
         'OCP\\Http\\Client\\IClient' => __DIR__ . '/../../..' . '/lib/public/Http/Client/IClient.php',
         'OCP\\Http\\Client\\IClientService' => __DIR__ . '/../../..' . '/lib/public/Http/Client/IClientService.php',
         'OCP\\Http\\Client\\IResponse' => __DIR__ . '/../../..' . '/lib/public/Http/Client/IResponse.php',

@@ -23,9 +23,9 @@
 namespace OCA\Encryption\Command;
 
 use OC\Files\View;
-use OC\HintException;
 use OCA\Encryption\Util;
 use OCP\Files\IRootFolder;
+use OCP\HintException;
 use OCP\IConfig;
 use OCP\ILogger;
 use OCP\IUserManager;

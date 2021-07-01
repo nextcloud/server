@@ -27,10 +27,10 @@
  */
 namespace OCA\FederatedFileSharing;
 
-use OC\HintException;
 use OCP\Contacts\IManager;
 use OCP\Federation\ICloudId;
 use OCP\Federation\ICloudIdManager;
+use OCP\HintException;
 use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
 use OCP\Notification\INotification;

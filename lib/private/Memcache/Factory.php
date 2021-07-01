@@ -86,12 +86,12 @@ class Factory implements ICacheFactory {
 		$missingCacheMessage = 'Memcache {class} not available for {use} cache';
 		$missingCacheHint = 'Is the matching PHP module installed and enabled?';
 		if (!class_exists($localCacheClass) || !$localCacheClass::isAvailable()) {
-			throw new \OC\HintException(strtr($missingCacheMessage, [
+			throw new \OCP\HintException(strtr($missingCacheMessage, [
 				'{class}' => $localCacheClass, '{use}' => 'local'
 			]), $missingCacheHint);
 		}
 		if (!class_exists($distributedCacheClass) || !$distributedCacheClass::isAvailable()) {
-			throw new \OC\HintException(strtr($missingCacheMessage, [
+			throw new \OCP\HintException(strtr($missingCacheMessage, [
 				'{class}' => $distributedCacheClass, '{use}' => 'distributed'
 			]), $missingCacheHint);
 		}

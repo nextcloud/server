@@ -136,7 +136,7 @@ class AddressHandlerTest extends \Test\TestCase {
 	 * @param string $id
 	 */
 	public function testSplitUserRemoteError($id) {
-		$this->expectException(\OC\HintException::class);
+		$this->expectException(\OCP\HintException::class);
 
 		$this->addressHandler->splitUserRemote($id);
 	}

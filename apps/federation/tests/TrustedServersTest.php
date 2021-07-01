@@ -311,7 +311,7 @@ class TrustedServersTest extends TestCase {
 	 * @dataProvider dataTestCheckOwnCloudVersionTooLow
 	 */
 	public function testCheckOwnCloudVersionTooLow($status) {
-		$this->expectException(\OC\HintException::class);
+		$this->expectException(\OCP\HintException::class);
 		$this->expectExceptionMessage('Remote server version is too low. 9.0 is required.');
 
 		$this->invokePrivate($this->trustedServers, 'checkOwnCloudVersion', [$status]);

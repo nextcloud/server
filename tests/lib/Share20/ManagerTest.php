@@ -22,7 +22,6 @@
 namespace Test\Share20;
 
 use OC\Files\Mount\MoveableMount;
-use OC\HintException;
 use OC\Share20\DefaultShareProvider;
 use OC\Share20\Exception;
 use OC\Share20\Manager;
@@ -36,6 +35,7 @@ use OCP\Files\Mount\IMountManager;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Node;
 use OCP\Files\Storage;
+use OCP\HintException;
 use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;

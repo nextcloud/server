@@ -482,7 +482,7 @@ class AccessTest extends TestCase {
 
 
 	public function testSetPasswordWithRejectedChange() {
-		$this->expectException(\OC\HintException::class);
+		$this->expectException(\OCP\HintException::class);
 		$this->expectExceptionMessage('Password change rejected.');
 
 		$this->connection

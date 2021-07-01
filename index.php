@@ -39,7 +39,7 @@ try {
 
 	//show the user a detailed error page
 	OC_Template::printExceptionErrorPage($ex, 503);
-} catch (\OC\HintException $ex) {
+} catch (\OCP\HintException $ex) {
 	try {
 		OC_Template::printErrorPage($ex->getMessage(), $ex->getHint(), 503);
 	} catch (Exception $ex2) {

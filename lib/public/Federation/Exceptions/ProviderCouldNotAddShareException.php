@@ -22,8 +22,8 @@
  */
 namespace OCP\Federation\Exceptions;
 
-use OC\HintException;
 use OCP\AppFramework\Http;
+use OCP\HintException;
 
 /**
  * Class ProviderCouldNotAddShareException
