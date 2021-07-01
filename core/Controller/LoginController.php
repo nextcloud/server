@@ -42,7 +42,6 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\RedirectResponse;
-use OCP\AppFramework\Http\RedirectToDefaultAppResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Defaults;
 use OCP\IConfig;
@@ -150,7 +149,7 @@ class LoginController extends Controller {
 	 */
 	public function showLoginForm(string $user = null, string $redirect_url = null): Http\Response {
 		if ($this->userSession->isLoggedIn()) {
-			return new RedirectToDefaultAppResponse();
+			return new RedirectResponse($this->urlGenerator->linkToDefaultPageUrl());
 		}
 
 		$loginMessages = $this->session->get('loginMessages');
@@ -274,7 +273,7 @@ class LoginController extends Controller {
 				return new RedirectResponse($location);
 			}
 		}
-		return new RedirectToDefaultAppResponse();
+		return new RedirectResponse($this->urlGenerator->linkToDefaultPageUrl());
 	}
 
 	/**

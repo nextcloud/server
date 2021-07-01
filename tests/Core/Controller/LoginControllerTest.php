@@ -29,7 +29,6 @@ use OC\Core\Controller\LoginController;
 use OC\Security\Bruteforce\Throttler;
 use OC\User\Session;
 use OCP\AppFramework\Http\RedirectResponse;
-use OCP\AppFramework\Http\RedirectToDefaultAppResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Defaults;
 use OCP\IConfig;
@@ -212,8 +211,12 @@ class LoginControllerTest extends TestCase {
 			->expects($this->once())
 			->method('isLoggedIn')
 			->willReturn(true);
+		$this->urlGenerator
+			->expects($this->once())
+			->method('linkToDefaultPageUrl')
+			->willReturn('/default/foo');
 
-		$expectedResponse = new RedirectToDefaultAppResponse();
+		$expectedResponse = new RedirectResponse('/default/foo');
 		$this->assertEquals($expectedResponse, $this->loginController->showLoginForm('', '', ''));
 	}
 
@@ -470,11 +473,13 @@ class LoginControllerTest extends TestCase {
 			->method('process')
 			->with($this->equalTo($loginData))
 			->willReturn($loginResult);
-		$expected = new RedirectToDefaultAppResponse();
+		$this->urlGenerator
+			->expects($this->once())
+			->method('linkToDefaultPageUrl')
+			->willReturn('/default/foo');
 
-		$response = $this->loginController->tryLogin($user, $password);
-
-		$this->assertEquals($expected, $response);
+		$expected = new RedirectResponse('/default/foo');
+		$this->assertEquals($expected, $this->loginController->tryLogin($user, $password));
 	}
 
 	public function testLoginWithoutPassedCsrfCheckAndNotLoggedIn() {
@@ -498,8 +503,12 @@ class LoginControllerTest extends TestCase {
 			->method('deleteUserValue');
 		$this->userSession->expects($this->never())
 			->method('createRememberMeToken');
+		$this->urlGenerator
+			->expects($this->once())
+			->method('linkToDefaultPageUrl')
+			->willReturn('/default/foo');
 
-		$expected = new RedirectToDefaultAppResponse();
+		$expected = new RedirectResponse('/default/foo');
 		$this->assertEquals($expected, $this->loginController->tryLogin('Jane', $password, $originalUrl));
 	}
 
