@@ -42,6 +42,7 @@ namespace OC;
 
 use OC\Route\Router;
 use OCA\Theming\ThemingDefaults;
+use OCP\App\IAppManager;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IRequest;
@@ -55,6 +56,10 @@ use RuntimeException;
 class URLGenerator implements IURLGenerator {
 	/** @var IConfig */
 	private $config;
+	/** @var IUserSession */
+	public $userSession;
+	/** @var IAppManager */
+	public $appManager;
 	/** @var ICacheFactory */
 	private $cacheFactory;
 	/** @var IRequest */
@@ -65,10 +70,14 @@ class URLGenerator implements IURLGenerator {
 	private $baseUrl = null;
 
 	public function __construct(IConfig $config,
+								IUserSession $userSession,
+								IAppManager $appManager,
 								ICacheFactory $cacheFactory,
 								IRequest $request,
 								Router $router) {
 		$this->config = $config;
+		$this->userSession = $userSession;
+		$this->appManager = $appManager;
 		$this->cacheFactory = $cacheFactory;
 		$this->request = $request;
 		$this->router = $router;
@@ -289,9 +298,7 @@ class URLGenerator implements IURLGenerator {
 		$appId = 'files';
 		$defaultApps = explode(',', $this->config->getSystemValue('defaultapp', 'dashboard,files'));
 
-		/** @var IUserSession $userSession */
-		$userSession = \OC::$server->get(IUserSession::class);
-		$userId = $userSession->isLoggedIn() ? $userSession->getUser()->getUID() : null;
+		$userId = $this->userSession->isLoggedIn() ? $this->userSession->getUser()->getUID() : null;
 		if ($userId !== null) {
 			$userDefaultApps = explode(',', $this->config->getUserValue($userId, 'core', 'defaultapp'));
 			$defaultApps = array_filter(array_merge($userDefaultApps, $defaultApps));
@@ -300,7 +307,7 @@ class URLGenerator implements IURLGenerator {
 		// find the first app that is enabled for the current user
 		foreach ($defaultApps as $defaultApp) {
 			$defaultApp = \OC_App::cleanAppId(strip_tags($defaultApp));
-			if (\OC::$server->getAppManager()->isEnabledForUser($defaultApp)) {
+			if ($this->appManager->isEnabledForUser($defaultApp)) {
 				$appId = $defaultApp;
 				break;
 			}

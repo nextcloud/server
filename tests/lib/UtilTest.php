@@ -9,7 +9,6 @@
 namespace Test;
 
 use OC_Util;
-use OCP\App\IAppManager;
 
 /**
  * Class UtilTest
@@ -166,67 +165,6 @@ class UtilTest extends \Test\TestCase {
 			// part in the middle is ok
 			['super movie part one.mkv', true],
 			['super.movie.part.mkv', true],
-		];
-	}
-
-	/**
-	 * Test default apps
-	 *
-	 * @dataProvider defaultAppsProvider
-	 * @group DB
-	 */
-	public function testDefaultApps($defaultAppConfig, $expectedPath, $enabledApps) {
-		$oldDefaultApps = \OC::$server->getConfig()->getSystemValue('defaultapp', '');
-		// CLI is doing messy stuff with the webroot, so need to work it around
-		$oldWebRoot = \OC::$WEBROOT;
-		\OC::$WEBROOT = '';
-
-		$appManager = $this->createMock(IAppManager::class);
-		$appManager->expects($this->any())
-			->method('isEnabledForUser')
-			->willReturnCallback(function ($appId) use ($enabledApps) {
-				return in_array($appId, $enabledApps);
-			});
-		$this->overwriteService(IAppManager::class, $appManager);
-
-		// need to set a user id to make sure enabled apps are read from cache
-		\OC_User::setUserId($this->getUniqueID());
-		\OC::$server->getConfig()->setSystemValue('defaultapp', $defaultAppConfig);
-		$this->assertEquals('http://localhost/' . $expectedPath, OC_Util::getDefaultPageUrl());
-
-		// restore old state
-		\OC::$WEBROOT = $oldWebRoot;
-		$this->restoreService(IAppManager::class);
-		\OC::$server->getConfig()->setSystemValue('defaultapp', $oldDefaultApps);
-		\OC_User::setUserId(null);
-	}
-
-	public function defaultAppsProvider() {
-		return [
-			// none specified, default to files
-			[
-				'',
-				'index.php/apps/files/',
-				['files'],
-			],
-			// unexisting or inaccessible app specified, default to files
-			[
-				'unexist',
-				'index.php/apps/files/',
-				['files'],
-			],
-			// non-standard app
-			[
-				'calendar',
-				'index.php/apps/calendar/',
-				['files', 'calendar'],
-			],
-			// non-standard app with fallback
-			[
-				'contacts,calendar',
-				'index.php/apps/calendar/',
-				['files', 'calendar'],
-			],
 		];
 	}
 
