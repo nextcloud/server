@@ -14,6 +14,7 @@
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Stefan Weil <sw@weilnetz.de>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -44,6 +45,7 @@ use OCP\Files\Storage\IStorageFactory;
 use OCP\Http\Client\IClientService;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
+use OCP\ILogger;
 use OCP\IUserManager;
 use OCP\Notification\IManager;
 use OCP\OCS\IDiscoveryService;
@@ -89,18 +91,24 @@ class Manager {
 	/** @var IEventDispatcher */
 	private $eventDispatcher;
 
-	public function __construct(IDBConnection $connection,
-								\OC\Files\Mount\Manager $mountManager,
-								IStorageFactory $storageLoader,
-								IClientService $clientService,
-								IManager $notificationManager,
-								IDiscoveryService $discoveryService,
-								ICloudFederationProviderManager $cloudFederationProviderManager,
-								ICloudFederationFactory $cloudFederationFactory,
-								IGroupManager $groupManager,
-								IUserManager $userManager,
-								?string $uid,
-								IEventDispatcher $eventDispatcher) {
+	/** @var ILogger */
+	private $logger;
+
+	public function __construct(
+		IDBConnection $connection,
+		\OC\Files\Mount\Manager $mountManager,
+		IStorageFactory $storageLoader,
+		IClientService $clientService,
+		IManager $notificationManager,
+		IDiscoveryService $discoveryService,
+		ICloudFederationProviderManager $cloudFederationProviderManager,
+		ICloudFederationFactory $cloudFederationFactory,
+		IGroupManager $groupManager,
+		IUserManager $userManager,
+		?string $uid,
+		IEventDispatcher $eventDispatcher,
+		ILogger $logger
+	) {
 		$this->connection = $connection;
 		$this->mountManager = $mountManager;
 		$this->storageLoader = $storageLoader;
@@ -113,6 +121,7 @@ class Manager {
 		$this->groupManager = $groupManager;
 		$this->userManager = $userManager;
 		$this->eventDispatcher = $eventDispatcher;
+		$this->logger = $logger;
 	}
 
 	/**
@@ -535,6 +544,7 @@ class Manager {
 
 			$this->removeReShares($id);
 		} catch (\Doctrine\DBAL\Exception $ex) {
+			$this->logger->logException($ex);
 			return false;
 		}
 
@@ -606,6 +616,7 @@ class Manager {
 				$deleteResult->closeCursor();
 			}
 		} catch (\Doctrine\DBAL\Exception $ex) {
+			$this->logger->logException($ex);
 			return false;
 		}
 
@@ -677,7 +688,7 @@ class Manager {
 			}
 			return array_values($shares);
 		} catch (\Doctrine\DBAL\Exception $e) {
-			// FIXME
+			$this->logger->logException($e);
 			return [];
 		}
 	}
