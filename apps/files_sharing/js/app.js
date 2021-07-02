@@ -315,6 +315,12 @@ OCA.Sharing.App = {
 			permissions: OC.PERMISSION_ALL,
 			iconClass: 'icon-close',
 			type: OCA.Files.FileActions.TYPE_INLINE,
+			shouldRender(context) {
+				if (context.$file.attr('data-remote-id')) {
+					return false
+				}
+				return true
+			},
 			actionHandler(fileName, context) {
 				const shareId = context.$file.data('shareId')
 				let shareBase = 'shares'

@@ -96,6 +96,10 @@
 					$tr.attr('data-share-permissions', permission)
 				}
 
+				if (fileData.remoteId) {
+					$tr.attr('data-remote-id', fileData.remoteId)
+				}
+
 				// add row with expiration date for link only shares - influenced by _createRow of filelist
 				if (this._linksOnly) {
 					var expirationTimestamp = 0
