@@ -97,7 +97,13 @@ class Crypto implements ICrypto {
 		$iv = \random_bytes($this->ivLength);
 		$this->cipher->setIV($iv);
 
-		$ciphertext = bin2hex($this->cipher->encrypt($plaintext));
+		$encryptReturnTest=$this->cipher->encrypt($plaintext);
+        if ($encryptReturnTest===false) {
+		  throw new \Exception('cipher->encrypt returnd false (check openssl and hardware support of cryto device)');
+        } else {
+          $ciphertext = bin2hex($encryptReturnTest);
+          unset($encryptReturnTest);
+        }
 		$iv = bin2hex($iv);
 		$hmac = bin2hex($this->calculateHMAC($ciphertext.$iv, substr($keyMaterial, 32)));
 
