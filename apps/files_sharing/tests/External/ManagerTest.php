@@ -44,6 +44,7 @@ use OCP\Http\Client\IResponse;
 use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IURLGenerator;
+use OCP\ILogger;
 use OCP\IUserManager;
 use OCP\Share\IShare;
 use Test\Traits\UserTrait;
@@ -128,6 +129,7 @@ class ManagerTest extends TestCase {
 					$this->userManager,
 					$this->uid,
 					$this->eventDispatcher,
+					$this->createMock(ILogger::class),
 				]
 			)->setMethods(['tryOCMEndPoint'])->getMock();
 
