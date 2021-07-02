@@ -112,13 +112,20 @@ class DnsPinMiddleware {
 
 				$targetIps = $this->dnsResolve($hostName, 0);
 
-				foreach ($targetIps as $ip) {
-					$this->localAddressChecker->ThrowIfLocalIp($ip);
+				$curlResolves = [];
 
-					foreach ($ports as $port) {
-						$curlEntry = $hostName . ':' . $port . ':' . $ip;
-						$options['curl'][CURLOPT_RESOLVE][] = $curlEntry;
+				foreach ($ports as $port) {
+					$curlResolves["$hostName:$port"] = [];
+
+					foreach ($targetIps as $ip) {
+						$this->localAddressChecker->ThrowIfLocalIp($ip);
+						$curlResolves["$hostName:$port"][] = $ip;
 					}
+				}
+
+				// Coalesce the per-host:port ips back into a comma separated list
+				foreach ($curlResolves as $hostport => $ips) {
+					$options['curl'][CURLOPT_RESOLVE][] = "$hostport:" . implode(',', $ips);
 				}
 
 				return $handler($request, $options);
