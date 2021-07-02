@@ -316,7 +316,9 @@ OCA.Sharing.App = {
 			iconClass: 'icon-close',
 			type: OCA.Files.FileActions.TYPE_INLINE,
 			shouldRender(context) {
-				if (context.$file.attr('data-remote-id')) {
+				// disable rejecting group shares from the pending list because they anyway
+				// land back into that same list
+				if (context.$file.attr('data-remote-id') && parseInt(context.$file.attr('data-share-type'), 10) === OC.Share.SHARE_TYPE_REMOTE_GROUP) {
 					return false
 				}
 				return true

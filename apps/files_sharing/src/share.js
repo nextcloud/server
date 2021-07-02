@@ -181,6 +181,8 @@ import escapeHTML from 'escape-html'
 								hasShares = true
 							} else if (shareType === OC.Share.SHARE_TYPE_REMOTE) {
 								hasShares = true
+							} else if (shareType === OC.Share.SHARE_TYPE_REMOTE_GROUP) {
+								hasShares = true
 							} else if (shareType === OC.Share.SHARE_TYPE_CIRCLE) {
 								hasShares = true
 							} else if (shareType === OC.Share.SHARE_TYPE_ROOM) {
