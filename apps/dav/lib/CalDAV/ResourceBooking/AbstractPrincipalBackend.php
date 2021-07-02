@@ -5,6 +5,7 @@
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Anna Larch <anna.larch@gmx.net>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -26,12 +27,21 @@ namespace OCA\DAV\CalDAV\ResourceBooking;
 
 use OCA\DAV\CalDAV\Proxy\ProxyMapper;
 use OCA\DAV\Traits\PrincipalProxyTrait;
+use OCP\Calendar\Resource\IResourceMetadata;
+use OCP\Calendar\Room\IRoomMetadata;
+use OCP\DB\Exception;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\ILogger;
 use OCP\IUserSession;
 use Sabre\DAV\PropPatch;
 use Sabre\DAVACL\PrincipalBackend\BackendInterface;
+use function array_intersect;
+use function array_map;
+use function array_merge;
+use function array_unique;
+use function array_values;
 
 abstract class AbstractPrincipalBackend implements BackendInterface {
 
@@ -109,7 +119,7 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 	 * @param string $prefixPath
 	 * @return string[]
 	 */
-	public function getPrincipalsByPrefix($prefixPath) {
+	public function getPrincipalsByPrefix($prefixPath): array {
 		$principals = [];
 
 		if ($prefixPath === $this->principalPrefix) {
@@ -151,11 +161,12 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 	}
 
 	/**
-	 * Returns a specific principal, specified by it's path.
+	 * Returns a specific principal, specified by its path.
 	 * The returned structure should be the exact same as from
 	 * getPrincipalsByPrefix.
 	 *
-	 * @param string $path
+	 * @param string $prefixPath
+	 *
 	 * @return array
 	 */
 	public function getPrincipalByPath($path) {
@@ -195,9 +206,9 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 
 	/**
 	 * @param int $id
-	 * @return array|null
+	 * @return string[]|null
 	 */
-	public function getPrincipalById($id):?array {
+	public function getPrincipalById($id): ?array {
 		$query = $this->db->getQueryBuilder();
 		$query->select(['id', 'backend_id', 'resource_id', 'email', 'displayname'])
 			->from($this->dbTableName)
@@ -229,14 +240,14 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 	 * @param PropPatch $propPatch
 	 * @return int
 	 */
-	public function updatePrincipal($path, PropPatch $propPatch) {
+	public function updatePrincipal($path, PropPatch $propPatch): int {
 		return 0;
 	}
 
 	/**
 	 * @param string $prefixPath
-	 * @param array $searchProperties
 	 * @param string $test
+	 *
 	 * @return array
 	 */
 	public function searchPrincipals($prefixPath, array $searchProperties, $test = 'allof') {
@@ -302,16 +313,17 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 					], 'anyof');
 					break;
 
+				case IRoomMetadata::FEATURES:
+					$results[] = $this->searchPrincipalsByRoomFeature($prop, $value);
+					break;
+
+				case IRoomMetadata::CAPACITY:
+				case IResourceMetadata::VEHICLE_SEATING_CAPACITY:
+					$results[] = $this->searchPrincipalsByCapacity($prop,$value);
+					break;
+
 				default:
-					$rowsByMetadata = $this->searchPrincipalsByMetadataKey($prop, $value);
-					$filteredRows = array_filter($rowsByMetadata, function ($row) use ($usersGroups) {
-						return $this->isAllowedToAccessResource($row, $usersGroups);
-					});
-
-					$results[] = array_map(function ($row): string {
-						return $row['uri'];
-					}, $filteredRows);
-
+					$results[] = $this->searchPrincipalsByMetadataKey($prop, $value, $usersGroups);
 					break;
 			}
 		}
@@ -333,28 +345,83 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 	}
 
 	/**
+	 * @param string $key
+	 * @return IQueryBuilder
+	 */
+	private function getMetadataQuery(string $key): IQueryBuilder {
+		$query = $this->db->getQueryBuilder();
+		$query->select([$this->dbForeignKeyName])
+			->from($this->dbMetaDataTableName)
+			->where($query->expr()->eq('key', $query->createNamedParameter($key)));
+		return $query;
+	}
+
+	/**
 	 * Searches principals based on their metadata keys.
 	 * This allows to search for all principals with a specific key.
 	 * e.g.:
 	 * '{http://nextcloud.com/ns}room-building-address' => 'ABC Street 123, ...'
 	 *
-	 * @param $key
-	 * @param $value
-	 * @return array
+	 * @param string $key
+	 * @param string $value
+	 * @param string[] $usersGroups
+	 * @return string[]
 	 */
-	private function searchPrincipalsByMetadataKey($key, $value):array {
-		$query = $this->db->getQueryBuilder();
-		$query->select([$this->dbForeignKeyName])
-			->from($this->dbMetaDataTableName)
-			->where($query->expr()->eq('key', $query->createNamedParameter($key)))
-			->andWhere($query->expr()->iLike('value', $query->createNamedParameter('%' . $this->db->escapeLikeParameter($value) . '%')));
-		$stmt = $query->execute();
+	private function searchPrincipalsByMetadataKey(string $key, string $value, array $usersGroups = []): array {
+		$query = $this->getMetadataQuery($key);
+		$query->andWhere($query->expr()->iLike('value', $query->createNamedParameter('%' . $this->db->escapeLikeParameter($value) . '%')));
+		return $this->getRows($query, $usersGroups);
+	}
+
+	/**
+	 * Searches principals based on room features
+	 * e.g.:
+	 * '{http://nextcloud.com/ns}room-features' => 'TV,PROJECTOR'
+	 *
+	 * @param string $key
+	 * @param string $value
+	 * @param string[] $usersGroups
+	 * @return string[]
+	 */
+	private function searchPrincipalsByRoomFeature(string $key, string $value, array $usersGroups = []): array {
+		$query = $this->getMetadataQuery($key);
+		foreach (explode(',', $value) as $v) {
+			$query->andWhere($query->expr()->iLike('value', $query->createNamedParameter('%' . $this->db->escapeLikeParameter($v) . '%')));
+		}
+		return $this->getRows($query, $usersGroups);
+	}
+
+	/**
+	 * Searches principals based on room seating capacity or vehicle capacity
+	 * e.g.:
+	 * '{http://nextcloud.com/ns}room-seating-capacity' => '100'
+	 *
+	 * @param string $key
+	 * @param string $value
+	 * @param string[] $usersGroups
+	 * @return string[]
+	 */
+	private function searchPrincipalsByCapacity(string $key, string $value, array $usersGroups = []): array {
+		$query = $this->getMetadataQuery($key);
+		$query->andWhere($query->expr()->gte('value', $query->createNamedParameter($value)));
+		return $this->getRows($query, $usersGroups);
+	}
+
+	/**
+	 * @param IQueryBuilder $query
+	 * @param string[] $usersGroups
+	 * @return string[]
+	 */
+	private function getRows(IQueryBuilder $query, array $usersGroups): array {
+		try {
+			$stmt = $query->executeQuery();
+		} catch (Exception $e) {
+			$this->logger->error("Could not search resources: " . $e->getMessage(), ['exception' => $e]);
+		}
 
 		$rows = [];
 		while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
-			$id = $row[$this->dbForeignKeyName];
-
-			$principalRow = $this->getPrincipalById($id);
+			$principalRow = $this->getPrincipalById($row[$this->dbForeignKeyName]);
 			if (!$principalRow) {
 				continue;
 			}
@@ -362,15 +429,24 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 			$rows[] = $principalRow;
 		}
 
-		return $rows;
+		$stmt->closeCursor();
+
+		$filteredRows = array_filter($rows, function ($row) use ($usersGroups) {
+			return $this->isAllowedToAccessResource($row, $usersGroups);
+		});
+
+		return array_map(static function ($row): string {
+			return $row['uri'];
+		}, $filteredRows);
 	}
 
 	/**
 	 * @param string $uri
 	 * @param string $principalPrefix
 	 * @return null|string
+	 * @throws Exception
 	 */
-	public function findByUri($uri, $principalPrefix) {
+	public function findByUri($uri, $principalPrefix): ?string {
 		$user = $this->userSession->getUser();
 		if (!$user) {
 			return null;
@@ -430,11 +506,11 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 	/**
 	 * convert database row to principal
 	 *
-	 * @param String[] $row
-	 * @param String[] $metadata
-	 * @return Array
+	 * @param string[] $row
+	 * @param string[] $metadata
+	 * @return string[]
 	 */
-	private function rowToPrincipal(array $row, array $metadata = []):array {
+	private function rowToPrincipal(array $row, array $metadata = []): array {
 		return array_merge([
 			'uri' => $this->principalPrefix . '/' . $row['backend_id'] . '-' . $row['resource_id'],
 			'{DAV:}displayname' => $row['displayname'],
@@ -444,11 +520,11 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 	}
 
 	/**
-	 * @param $row
-	 * @param $userGroups
+	 * @param array $row
+	 * @param array $userGroups
 	 * @return bool
 	 */
-	private function isAllowedToAccessResource(array $row, array $userGroups):bool {
+	private function isAllowedToAccessResource(array $row, array $userGroups): bool {
 		if (!isset($row['group_restrictions']) ||
 			$row['group_restrictions'] === null ||
 			$row['group_restrictions'] === '') {
