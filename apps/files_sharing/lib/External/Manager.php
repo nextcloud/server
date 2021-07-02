@@ -571,15 +571,21 @@ class Manager {
 	 */
 	public function removeUserShares($uid): bool {
 		try {
+			// TODO: use query builder
 			$getShare = $this->connection->prepare('
-				SELECT `remote`, `share_token`, `remote_id`
+				SELECT `id`, `remote`, `share_type`, `share_token`, `remote_id`
 				FROM  `*PREFIX*share_external`
 				WHERE `user` = ?');
 			$result = $getShare->execute([$uid]);
 			$shares = $result->fetchAll();
 			$result->closeCursor();
+			$deletedGroupShares = [];
 			foreach ($shares as $share) {
-				$this->sendFeedbackToRemote($share['remote'], $share['share_token'], $share['remote_id'], 'decline');
+				if ((int)$share['share_type'] === IShare::TYPE_GROUP) {
+					$deletedGroupShares[] = $share['id'];
+				} else {
+					$this->sendFeedbackToRemote($share['remote'], $share['share_token'], $share['remote_id'], 'decline');
+				}
 			}
 
 			$query = $this->connection->prepare('
@@ -588,6 +594,17 @@ class Manager {
 			');
 			$deleteResult = $query->execute([$uid]);
 			$deleteResult->closeCursor();
+
+			// delete sub-entries from deleted parents
+			foreach ($deletedGroupShares as $deletedId) {
+				// TODO: batch this with query builder
+				$query = $this->connection->prepare('
+					DELETE FROM `*PREFIX*share_external`
+					WHERE `parent` = ?
+				');
+				$deleteResult = $query->execute([$deletedId]);
+				$deleteResult->closeCursor();
+			}
 		} catch (\Doctrine\DBAL\Exception $ex) {
 			return false;
 		}
@@ -629,14 +646,11 @@ class Manager {
 			$userGroups[] = $group->getGID();
 		}
 
-		$query = 'SELECT `id`, `remote`, `remote_id`, `share_token`, `name`, `owner`, `user`, `mountpoint`, `accepted`
+		// FIXME: use query builder
+		$query = 'SELECT `id`, `share_type`, `parent`, `remote`, `remote_id`, `share_token`, `name`, `owner`, `user`, `mountpoint`, `accepted`
 		          FROM `*PREFIX*share_external`
 				  WHERE (`user` = ? OR `user` IN (?))';
-		$parameters = [$this->uid, implode(',',$userGroups)];
-		if (!is_null($accepted)) {
-			$query .= ' AND `accepted` = ?';
-			$parameters[] = (int) $accepted;
-		}
+		$parameters = [$this->uid, implode(',', $userGroups)];
 		$query .= ' ORDER BY `id` ASC';
 
 		$sharesQuery = $this->connection->prepare($query);
@@ -644,8 +658,26 @@ class Manager {
 			$result = $sharesQuery->execute($parameters);
 			$shares = $result->fetchAll();
 			$result->closeCursor();
-			return $shares;
+
+			// remove parent group share entry if we have a specific user share entry for the user
+			$toRemove = [];
+			foreach ($shares as $share) {
+				if ((int)$share['share_type'] === IShare::TYPE_GROUP && (int)$share['parent'] > 0) {
+					$toRemove[] = $share['parent'];
+				}
+			}
+			$shares = array_filter($shares, function ($share) use ($toRemove) {
+				return !in_array($share['id'], $toRemove, true);
+			});
+
+			if (!is_null($accepted)) {
+				$shares = array_filter($shares, function ($share) use ($accepted) {
+					return (bool)$share['accepted'] === $accepted;
+				});
+			}
+			return array_values($shares);
 		} catch (\Doctrine\DBAL\Exception $e) {
+			// FIXME
 			return [];
 		}
 	}
