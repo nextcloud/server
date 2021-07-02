@@ -38,7 +38,6 @@ OC.L10N.register(
     "Provide federated file sharing across servers" : "Bietet Cloud-übergreifende Datei-Freigaben",
     "Federated Cloud Sharing" : "Federated-Cloud-Sharing",
     "Open documentation" : "Dokumentation öffnen",
-    "Adjust how people can share between servers." : "Definiere wie die Benutzer Inhalte mit anderen Servern teilen können.",
     "Allow users on this server to send shares to other servers (this option also allows WebDAV access to public shares)" : "Benutzern auf diesem Server das Senden von Freigaben an andere Server erlauben (Diese Option ermöglicht auch den WebDAV-Zugriff auf öffentliche Freigaben)",
     "Allow users on this server to receive shares from other servers" : "Benutzern auf diesem Server das Empfangen von Freigaben von anderen Servern erlauben",
     "Allow users on this server to send shares to groups on other servers" : "Ermöglichen Sie Nutzern dieses Servers, Freigaben an Gruppen auf anderen Servern zu senden",
@@ -52,6 +51,7 @@ OC.L10N.register(
     "Add to your website" : "Zu Ihrer Webseite hinzufügen",
     "Share with me via Nextcloud" : "Teilen Sie mit mir über Nextcloud",
     "HTML Code:" : "HTML-Code:",
+    "Adjust how people can share between servers." : "Definiere wie die Benutzer Inhalte mit anderen Servern teilen können.",
     "Allow users on this server to send shares to other servers" : "Benutzern auf diesem Server das Senden von Freigaben an andere Server erlauben"
 },
 "nplurals=2; plural=(n != 1);");
