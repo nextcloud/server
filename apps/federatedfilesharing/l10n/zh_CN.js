@@ -38,7 +38,6 @@ OC.L10N.register(
     "Provide federated file sharing across servers" : "在服务器间提供联合云文件共享",
     "Federated Cloud Sharing" : "联合云共享",
     "Open documentation" : "打开文档",
-    "Adjust how people can share between servers." : "调整人们如何在服务器之间共享。",
     "Allow users on this server to send shares to other servers (this option also allows WebDAV access to public shares)" : "允许此服务器上的用户将共享发送到其他服务器（此选项还允许 WebDAV 访问公共共享）",
     "Allow users on this server to receive shares from other servers" : "允许用户从其他服务器接收共享",
     "Allow users on this server to send shares to groups on other servers" : "允许此服务器上的用户向其他服务器上的分组发送共享",
@@ -52,6 +51,7 @@ OC.L10N.register(
     "Add to your website" : "添加到您的网站",
     "Share with me via Nextcloud" : "通过联合云与我共享",
     "HTML Code:" : "HTML 代码：",
+    "Adjust how people can share between servers." : "调整人们如何在服务器之间共享。",
     "Allow users on this server to send shares to other servers" : "允许用户共享文件给其他服务器上的用户"
 },
 "nplurals=1; plural=0;");
