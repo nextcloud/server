@@ -98,12 +98,12 @@ class Crypto implements ICrypto {
 		$this->cipher->setIV($iv);
 
 		$encryptReturnTest=$this->cipher->encrypt($plaintext);
-        if ($encryptReturnTest===false) {
-		  throw new \Exception('cipher->encrypt returnd false (check openssl and hardware support of cryto device)');
-        } else {
-          $ciphertext = bin2hex($encryptReturnTest);
-          unset($encryptReturnTest);
-        }
+		if ($encryptReturnTest===false) {
+			throw new \Exception('cipher->encrypt returnd false (check openssl and hardware support of cryto device)');
+		} else {
+			$ciphertext = bin2hex($encryptReturnTest);
+			unset($encryptReturnTest);
+		}
 		$iv = bin2hex($iv);
 		$hmac = bin2hex($this->calculateHMAC($ciphertext.$iv, substr($keyMaterial, 32)));
 
