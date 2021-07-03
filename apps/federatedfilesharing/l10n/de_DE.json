@@ -36,6 +36,7 @@
     "Provide federated file sharing across servers" : "Bietet Cloud-übergreifende Datei-Freigaben",
     "Federated Cloud Sharing" : "Federated-Cloud-Sharing",
     "Open documentation" : "Dokumentation öffnen",
+    "Adjust how people can share between servers. This includes shares between users on this server as well if they are using federated sharing." : "Legt fest, wie Personen zwischen Servern teilen können. Dies gilt auch für Freigaben zwischen Benutzern auf diesem Server, wenn sie die Federated-Sharing verwenden.",
     "Allow users on this server to send shares to other servers (this option also allows WebDAV access to public shares)" : "Benutzern auf diesem Server das Senden von Freigaben an andere Server erlauben (Diese Option ermöglicht auch den WebDAV-Zugriff auf öffentliche Freigaben)",
     "Allow users on this server to receive shares from other servers" : "Benutzern auf diesem Server das Empfangen von Freigaben von anderen Servern erlauben",
     "Allow users on this server to send shares to groups on other servers" : "Ermöglichen Sie Nutzern dieses Servers, Freigaben an Gruppen auf anderen Servern zu senden",
