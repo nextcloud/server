@@ -141,6 +141,8 @@ OCA.Sharing.App = {
 			{
 				id: 'shares.pending',
 				showPending: true,
+				detailsViewEnabled: false,
+				defaultFileActionsDisabled: true,
 				sharedWithUser: true,
 				fileActions: this._acceptShareAction(),
 				config: OCA.Files.App.getFilesConfig(),

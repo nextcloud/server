@@ -232,6 +232,10 @@ import escapeHTML from 'escape-html'
 				},
 				type: OCA.Files.FileActions.TYPE_INLINE,
 				actionHandler: function(fileName, context) {
+					// details view disabled in some share lists
+					if (!fileList._detailsView) {
+						return
+					}
 					// do not open sidebar if permission is set and equal to 0
 					var permissions = parseInt(context.$file.data('share-permissions'), 10)
 					if (isNaN(permissions) || permissions > 0) {
