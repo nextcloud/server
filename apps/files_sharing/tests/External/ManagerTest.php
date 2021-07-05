@@ -113,6 +113,9 @@ class ManagerTest extends TestCase {
 			->method('search')
 			->willReturn([]);
 
+		$logger = $this->createMock(ILogger::class);
+		$logger->expects($this->never())->method('logException');
+
 		$this->manager = $this->getMockBuilder(Manager::class)
 			->setConstructorArgs(
 				[
@@ -128,7 +131,7 @@ class ManagerTest extends TestCase {
 					$this->userManager,
 					$this->uid,
 					$this->eventDispatcher,
-					$this->createMock(ILogger::class),
+					$logger,
 				]
 			)->setMethods(['tryOCMEndPoint'])->getMock();
 
@@ -155,6 +158,7 @@ class ManagerTest extends TestCase {
 	}
 
 	private function setupMounts() {
+		$this->mountManager->clear();
 		$mounts = $this->testMountProvider->getMountsForUser($this->user, new StorageFactory());
 		foreach ($mounts as $mount) {
 			$this->mountManager->addMount($mount);
@@ -247,7 +251,7 @@ class ManagerTest extends TestCase {
 		}
 
 		// Accept the first share
-		$this->manager->acceptShare($openShares[0]['id']);
+		$this->assertTrue($this->manager->acceptShare($openShares[0]['id']));
 
 		// Check remaining shares - Accepted
 		$acceptedShares = self::invokePrivate($this->manager, 'getShares', [true]);
@@ -303,7 +307,7 @@ class ManagerTest extends TestCase {
 		}
 
 		// Decline the third share
-		$this->manager->declineShare($openShares[1]['id']);
+		$this->assertTrue($this->manager->declineShare($openShares[1]['id']));
 
 		$this->setupMounts();
 		$this->assertMount($shareData1['name']);
@@ -377,6 +381,162 @@ class ManagerTest extends TestCase {
 		$this->assertNotMount($shareData1['name']);
 		$this->assertNotMount('{{TemporaryMountPointName#' . $shareData1['name'] . '}}');
 		$this->assertNotMount('{{TemporaryMountPointName#' . $shareData1['name'] . '}}-1');
+	}
+
+	private function verifyAcceptedGroupShare($shareData) {
+		$openShares = $this->manager->getOpenShares();
+		$this->assertCount(0, $openShares);
+		$acceptedShares = self::invokePrivate($this->manager, 'getShares', [true]);
+		$this->assertCount(1, $acceptedShares);
+		$shareData['accepted'] = true;
+		$this->assertExternalShareEntry($shareData, $acceptedShares[0], 0, $shareData['name'], $this->uid);
+		$this->setupMounts();
+		$this->assertMount($shareData['name']);
+	}
+
+	private function verifyDeclinedGroupShare($shareData, $tempMount = null) {
+		if ($tempMount === null) {
+			$tempMount = '{{TemporaryMountPointName#/SharedFolder}}';
+		}
+		$openShares = $this->manager->getOpenShares();
+		$this->assertCount(1, $openShares);
+		$acceptedShares = self::invokePrivate($this->manager, 'getShares', [true]);
+		$this->assertCount(0, $acceptedShares);
+		$this->assertExternalShareEntry($shareData, $openShares[0], 0, $tempMount, $this->uid);
+		$this->setupMounts();
+		$this->assertNotMount($shareData['name']);
+		$this->assertNotMount($tempMount);
+	}
+
+	private function createTestGroupShare() {
+		$shareData = [
+			'remote' => 'http://localhost',
+			'token' => 'token1',
+			'password' => '',
+			'name' => '/SharedFolder',
+			'owner' => 'foobar',
+			'shareType' => IShare::TYPE_GROUP,
+			'accepted' => false,
+			'user' => 'group1',
+			'remoteId' => '2342'
+		];
+
+		$this->assertSame(null, call_user_func_array([$this->manager, 'addShare'], $shareData));
+
+		$allShares = self::invokePrivate($this->manager, 'getShares', [null]);
+		$this->assertCount(1, $allShares);
+
+		// this will hold the main group entry
+		$groupShare = $allShares[0];
+
+		return [$shareData, $groupShare];
+	}
+
+	public function testAcceptOriginalGroupShare() {
+		[$shareData, $groupShare] = $this->createTestGroupShare();
+		$this->assertTrue($this->manager->acceptShare($groupShare['id']));
+		$this->verifyAcceptedGroupShare($shareData);
+
+		// a second time
+		$this->assertTrue($this->manager->acceptShare($groupShare['id']));
+		$this->verifyAcceptedGroupShare($shareData);
+	}
+
+	public function testAcceptGroupShareAgainThroughGroupShare() {
+		[$shareData, $groupShare] = $this->createTestGroupShare();
+		$this->assertTrue($this->manager->acceptShare($groupShare['id']));
+		$this->verifyAcceptedGroupShare($shareData);
+
+		// decline again, this keeps the sub-share
+		$this->assertTrue($this->manager->declineShare($groupShare['id']));
+		$this->verifyDeclinedGroupShare($shareData, '/SharedFolder');
+
+		// this will return sub-entries
+		$openShares = $this->manager->getOpenShares();
+
+		// accept through sub-share
+		$this->assertTrue($this->manager->acceptShare($groupShare['id']));
+		$this->verifyAcceptedGroupShare($shareData, '/SharedFolder');
+
+		// accept a second time
+		$this->assertTrue($this->manager->acceptShare($groupShare['id']));
+		$this->verifyAcceptedGroupShare($shareData, '/SharedFolder');
+	}
+
+	public function testAcceptGroupShareAgainThroughSubShare() {
+		[$shareData, $groupShare] = $this->createTestGroupShare();
+		$this->assertTrue($this->manager->acceptShare($groupShare['id']));
+		$this->verifyAcceptedGroupShare($shareData);
+
+		// decline again, this keeps the sub-share
+		$this->assertTrue($this->manager->declineShare($groupShare['id']));
+		$this->verifyDeclinedGroupShare($shareData, '/SharedFolder');
+
+		// this will return sub-entries
+		$openShares = $this->manager->getOpenShares();
+
+		// accept through sub-share
+		$this->assertTrue($this->manager->acceptShare($openShares[0]['id']));
+		$this->verifyAcceptedGroupShare($shareData);
+
+		// accept a second time
+		$this->assertTrue($this->manager->acceptShare($openShares[0]['id']));
+		$this->verifyAcceptedGroupShare($shareData);
+	}
+
+	public function testDeclineOriginalGroupShare() {
+		[$shareData, $groupShare] = $this->createTestGroupShare();
+		$this->assertTrue($this->manager->declineShare($groupShare['id']));
+		$this->verifyDeclinedGroupShare($shareData);
+
+		// a second time
+		$this->assertTrue($this->manager->declineShare($groupShare['id']));
+		$this->verifyDeclinedGroupShare($shareData);
+	}
+
+	public function testDeclineGroupShareAgainThroughGroupShare() {
+		[$shareData, $groupShare] = $this->createTestGroupShare();
+		$this->assertTrue($this->manager->acceptShare($groupShare['id']));
+		$this->verifyAcceptedGroupShare($shareData);
+
+		// decline again, this keeps the sub-share
+		$this->assertTrue($this->manager->declineShare($groupShare['id']));
+		$this->verifyDeclinedGroupShare($shareData, '/SharedFolder');
+
+		// a second time
+		$this->assertTrue($this->manager->declineShare($groupShare['id']));
+		$this->verifyDeclinedGroupShare($shareData, '/SharedFolder');
+	}
+
+	public function testDeclineGroupShareAgainThroughSubshare() {
+		[$shareData, $groupShare] = $this->createTestGroupShare();
+		$this->assertTrue($this->manager->acceptShare($groupShare['id']));
+		$this->verifyAcceptedGroupShare($shareData);
+
+		// this will return sub-entries
+		$allShares = self::invokePrivate($this->manager, 'getShares', [null]);
+		$this->assertCount(1, $allShares);
+
+		// decline again through sub-share
+		$this->assertTrue($this->manager->declineShare($allShares[0]['id']));
+		$this->verifyDeclinedGroupShare($shareData, '/SharedFolder');
+
+		// a second time
+		$this->assertTrue($this->manager->declineShare($allShares[0]['id']));
+		$this->verifyDeclinedGroupShare($shareData, '/SharedFolder');
+	}
+
+	public function testDeclineGroupShareAgainThroughMountPoint() {
+		[$shareData, $groupShare] = $this->createTestGroupShare();
+		$this->assertTrue($this->manager->acceptShare($groupShare['id']));
+		$this->verifyAcceptedGroupShare($shareData);
+
+		// decline through mount point name
+		$this->assertTrue($this->manager->removeShare($this->uid . '/files/' . $shareData['name']));
+		$this->verifyDeclinedGroupShare($shareData, '/SharedFolder');
+
+		// second time must fail as the mount point is gone
+		$this->assertFalse($this->manager->removeShare($this->uid . '/files/' . $shareData['name']));
 	}
 
 	/**
