@@ -37,7 +37,7 @@ $urlGenerator = $_['urlGenerator'];
 	</p>
 
 	<span class="warning">
-		<h3><?php p('Security warning') ?></h3>
+		<h3><?php p($l->t('Security warning')) ?></h3>
 		<p>
 			<?php p($l->t('If you are not trying to set up a new device or app, someone is trying to trick you into granting them access to your data. In this case do not proceed and instead contact your system administrator.')) ?>
 		</p>
