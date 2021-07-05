@@ -8,7 +8,7 @@ templates['federationscopemenu'] = template({"1":function(container,depth0,helpe
         return undefined
     };
 
-  return "		<li tabindex=\"0\">\n			<a href=\"#\" class=\"menuitem action action-"
+  return "		<li>\n			<a href=\"#\" class=\"menuitem action action-"
     + alias4(((helper = (helper = lookupProperty(helpers,"name") || (depth0 != null ? lookupProperty(depth0,"name") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"name","hash":{},"data":data,"loc":{"start":{"line":4,"column":45},"end":{"line":4,"column":53}}}) : helper)))
     + " permanent "
     + ((stack1 = lookupProperty(helpers,"if").call(alias1,(depth0 != null ? lookupProperty(depth0,"active") : depth0),{"name":"if","hash":{},"fn":container.program(2, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":4,"column":64},"end":{"line":4,"column":91}}})) != null ? stack1 : "")

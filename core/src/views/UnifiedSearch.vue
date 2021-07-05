@@ -28,7 +28,10 @@
 		@close="onClose">
 		<!-- Header icon -->
 		<template #trigger>
-			<Magnify class="unified-search__trigger" :size="20" fill-color="var(--color-primary-text)" />
+			<Magnify class="unified-search__trigger"
+				:size="20"
+				:title="ariaLabel"
+				fill-color="var(--color-primary-text)" />
 		</template>
 
 		<!-- Search form & filters wrapper -->
@@ -189,6 +192,10 @@ export default {
 				prev[curr.id] = curr.name
 				return prev
 			}, {})
+		},
+
+		ariaLabel() {
+			return t('core', 'Search')
 		},
 
 		/**
