@@ -2117,6 +2117,15 @@ kind: pipeline
 name: object-store-s3
 
 steps:
+- name: minio
+  image: ghcr.io/nextcloud/continuous-integration-minio:latest
+  detach: true
+  commands:
+    - mkdir /s3data
+    - minio server /s3data
+  environment:
+    MINIO_ROOT_USER: nextcloud
+    MINIO_ROOT_PASSWORD: nextcloud
 - name: submodules
   image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
   commands:
@@ -2124,6 +2133,7 @@ steps:
 - name: object-store
   image: ghcr.io/nextcloud/continuous-integration-php7.4:php7.4-3
   environment:
+      OBJECT_STORE: s3
       CODECOV_TOKEN:
           from_secret: CODECOV_TOKEN
   commands:
@@ -2132,10 +2142,6 @@ steps:
     - TEST_SELECTION=PRIMARY-s3 ./autotest.sh sqlite
     - wget https://codecov.io/bash -O codecov.sh
     - bash codecov.sh -C $DRONE_COMMIT -f tests/autotest-clover-sqlite.xml
-
-services:
-- name: fake-s3
-  image: ghcr.io/nextcloud/continuous-integration-fake-s3:latest
 
 trigger:
   branch:
@@ -2157,6 +2163,7 @@ steps:
 - name: object-store
   image: ghcr.io/nextcloud/continuous-integration-php7.4:php7.4-3
   environment:
+      OBJECT_STORE: azure
       CODECOV_TOKEN:
           from_secret: CODECOV_TOKEN
   commands:
