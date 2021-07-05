@@ -238,6 +238,20 @@ class Manager {
 		return $share;
 	}
 
+	private function fetchUserShare($parentId, $uid) {
+		$getShare = $this->connection->prepare('
+			SELECT `id`, `remote`, `remote_id`, `share_token`, `name`, `owner`, `user`, `mountpoint`, `accepted`, `parent`, `share_type`, `password`, `mountpoint_hash`
+			FROM  `*PREFIX*share_external`
+			WHERE `parent` = ? AND `user` = ?');
+		$result = $getShare->execute([$parentId, $uid]);
+		$share = $result->fetch();
+		$result->closeCursor();
+		if ($share !== false) {
+			return $share;
+		}
+		return null;
+	}
+
 	/**
 	 * get share
 	 *
@@ -311,9 +325,15 @@ class Manager {
 			} else {
 				$parentId = (int)$share['parent'];
 				if ($parentId !== -1) {
-					// this is the sub-share, simply update it to re-accept
+					// this is the sub-share
+					$subshare = $share;
+				} else {
+					$subshare = $this->fetchUserShare($id, $this->uid);
+				}
+
+				if ($subshare !== null) {
 					try {
-						$this->updateAccepted((int)$share['id'], true);
+						$this->updateAccepted((int)$subshare['id'], true);
 						$result = true;
 					} catch (Exception $e) {
 						$this->logger->logException($e);
@@ -372,13 +392,17 @@ class Manager {
 			$this->processNotification($id);
 			$result = true;
 		} elseif ($share && (int)$share['share_type'] === IShare::TYPE_GROUP) {
-			$parent = (int)$share['parent'];
-			// can only decline an already accepted/mounted group share,
-			// check if this is the sub-share entry
-			if ($parent !== -1) {
+			$parentId = (int)$share['parent'];
+			if ($parentId !== -1) {
+				// this is the sub-share
+				$subshare = $share;
+			} else {
+				$subshare = $this->fetchUserShare($id, $this->uid);
+			}
+
+			if ($subshare !== null) {
 				try {
-					// this is the sub-share, simply update it to decline
-					$this->updateAccepted((int)$share['id'], false);
+					$this->updateAccepted((int)$subshare['id'], false);
 					$result = true;
 				} catch (Exception $e) {
 					$this->logger->logException($e);
@@ -566,6 +590,10 @@ class Manager {
 
 	public function removeShare($mountPoint): bool {
 		$mountPointObj = $this->mountManager->find($mountPoint);
+		if ($mountPointObj === null) {
+			$this->logger->error('Mount point to remove share not found', ['mountPoint' => $mountPoint]);
+			return false;
+		}
 		$id = $mountPointObj->getStorage()->getCache()->getId('');
 
 		$mountPoint = $this->stripPath($mountPoint);
