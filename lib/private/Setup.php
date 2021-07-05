@@ -131,7 +131,10 @@ class Setup {
 	 * @return array
 	 */
 	protected function getAvailableDbDriversForPdo() {
-		return \PDO::getAvailableDrivers();
+		if (class_exists(\PDO::class)) {
+			return \PDO::getAvailableDrivers();
+		}
+		return [];
 	}
 
 	/**
