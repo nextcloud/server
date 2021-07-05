@@ -180,8 +180,8 @@ class Application {
 			&& $input->getArgument('command') !== 'maintenance:mode') {
 			$errOutput = $output->getErrorOutput();
 			$errOutput->writeln(
-				'<comment>Nextcloud is in maintenance mode - ' .
-				'no apps have been loaded</comment>' . PHP_EOL
+				'<comment>Nextcloud is in maintenance mode, hence the database isn\'t accessible.' . PHP_EOL .
+				'Cannot perform any command except \'maintenance:mode --off\'</comment>' . PHP_EOL
 			);
 		}
 	}
