@@ -330,7 +330,7 @@ OC.L10N.register(
     "Confirm your password" : "Confirme su contraseña",
     "Connect to your account" : "Conectar a cuenta",
     "Please log in before granting %1$s access to your %2$s account." : "Por favor, inicia sesión antes de conceder a %1$s acceso a tu cuenta %2$s.",
-    "If you are not trying to set up a new device or app, someone is trying to trick you into granting them access to your data. In this case do not proceed and instead contact your system administrator." : "Si no está intentando añadir un nuevo dispositivo o una nueva app, alguien está intentando engañarte para que proporcione acceso a sus datos. En este caso no prosiga y en su lugar avise a su administrador de sistemas.",
+    "If you are not trying to set up a new device or app, someone is trying to trick you into granting them access to your data. In this case do not proceed and instead contact your system administrator." : "Si no estás intentando añadir un nuevo dispositivo o una nueva app, alguien está intentando engañarte para que proporciones acceso a tus datos. En este caso, no prosigas y en su lugar avisa a tu administrador de sistemas.",
     "App token" : "Token de la aplicación",
     "Grant access" : "Conceder acceso",
     "Alternative log in using app token" : "Inicio de sesión alternativo usando el token de la aplicación",
