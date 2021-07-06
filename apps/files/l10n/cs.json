@@ -80,7 +80,7 @@
     "Storage of {owner} is full, files cannot be updated or synced anymore!" : "Úložiště uživatele {owner} je zaplněné – nelze aktualizovat ani synchronizovat soubory!",
     "Group folder \"{mountPoint}\" is full, files cannot be updated or synced anymore!" : "Skupinová složka „{mountPoint}“ je plná, soubory už nadále není možné aktualizovat nebo synchronizovat!",
     "External storage \"{mountPoint}\" is full, files cannot be updated or synced anymore!" : "Externí úložiště „{mountPoint}“ je plné, soubory už nadále není možné aktualizovat nebo synchronizovat!",
-    "Your storage is full, files cannot be updated or synced anymore!" : "Vaše úložiště je plné – nelze aktualizovat ani synchronizovat soubory!.",
+    "Your storage is full, files cannot be updated or synced anymore!" : "Vaše úložiště je plné – nelze aktualizovat ani synchronizovat soubory!",
     "Storage of {owner} is almost full ({usedSpacePercent}%)." : "Úložiště {owner} je téměř plné ({usedSpacePercent}%).",
     "Group folder \"{mountPoint}\" is almost full ({usedSpacePercent}%)." : "Skupinová složka „{mountPoint}“ je téměř plná ({usedSpacePercent}%).",
     "External storage \"{mountPoint}\" is almost full ({usedSpacePercent}%)." : "Externí úložiště „{mountPoint}“ je téměř plné ({usedSpacePercent}%).",
