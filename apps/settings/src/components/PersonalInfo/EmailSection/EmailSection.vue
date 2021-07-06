@@ -35,13 +35,13 @@
 				:primary="true"
 				:scope.sync="primaryEmail.scope"
 				:email.sync="primaryEmail.value"
-				@update:email="updateFormValidity" />
+				@update:email="onUpdateEmail" />
 			<Email v-for="(additionalEmail, index) in additionalEmails"
 				:key="index"
 				:index="index"
 				:scope.sync="additionalEmail.scope"
 				:email.sync="additionalEmail.value"
-				@update:email="updateFormValidity"
+				@update:email="onUpdateEmail"
 				@deleteAdditionalEmail="onDeleteAdditionalEmail(index)" />
 		</template>
 
@@ -53,10 +53,12 @@
 
 <script>
 import { loadState } from '@nextcloud/initial-state'
+import { showError } from '@nextcloud/dialogs'
 import '@nextcloud/dialogs/styles/toast.scss'
 
 import HeaderBar from './HeaderBar'
 import Email from './Email'
+import { savePrimaryEmail, removeAdditionalEmail } from '../../../service/PersonalInfoService'
 import { DEFAULT_ADDITIONAL_EMAIL_SCOPE } from '../../../constants/AccountPropertyConstants'
 
 const { additionalEmails, primaryEmail } = loadState('settings', 'emails', {})
@@ -83,6 +85,22 @@ export default {
 		isDisplayNameChangeSupported() {
 			return this.accountParams.displayNameChangeSupported
 		},
+
+		primaryEmailValue: {
+			get() {
+				return this.primaryEmail.value
+			},
+			set(value) {
+				this.primaryEmail.value = value
+			},
+		},
+
+		firstAdditionalEmail() {
+			if (this.additionalEmails.length) {
+				return this.additionalEmails[0].value
+			}
+			return null
+		},
 	},
 
 	mounted() {
@@ -99,6 +117,51 @@ export default {
 
 		onDeleteAdditionalEmail(index) {
 			this.$delete(this.additionalEmails, index)
+		},
+
+		async onUpdateEmail() {
+			this.$nextTick(() => this.updateFormValidity())
+
+			if (this.primaryEmailValue === '' && this.firstAdditionalEmail) {
+				const deletedEmail = this.firstAdditionalEmail
+				await this.deleteFirstAdditionalEmail()
+				this.primaryEmailValue = deletedEmail
+				await this.updatePrimaryEmail()
+				this.$nextTick(() => this.updateFormValidity())
+			}
+		},
+
+		async updatePrimaryEmail() {
+			try {
+				const responseData = await savePrimaryEmail(this.primaryEmailValue)
+				this.handleResponse(responseData.ocs?.meta?.status)
+			} catch (e) {
+				this.handleResponse('error', 'Unable to update primary email address', e)
+			}
+		},
+
+		async deleteFirstAdditionalEmail() {
+			try {
+				const responseData = await removeAdditionalEmail(this.firstAdditionalEmail)
+				this.handleDeleteFirstAdditionalEmail(responseData.ocs?.meta?.status)
+			} catch (e) {
+				this.handleResponse('error', 'Unable to delete additional email address', e)
+			}
+		},
+
+		handleDeleteFirstAdditionalEmail(status) {
+			if (status === 'ok') {
+				this.$delete(this.additionalEmails, 0)
+			} else {
+				this.handleResponse('error', 'Unable to delete additional email address', {})
+			}
+		},
+
+		handleResponse(status, errorMessage, error) {
+			if (status !== 'ok') {
+				showError(t('settings', errorMessage))
+				this.logger.error(errorMessage, error)
+			}
 		},
 
 		updateFormValidity() {
