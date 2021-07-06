@@ -69,6 +69,11 @@ trait S3ObjectTrait {
 				],
 			];
 
+			if ($this->getProxy()) {
+				$opts['http']['proxy'] = $this->getProxy();
+				$opts['http']['request_fulluri'] = true;
+			}
+
 			$context = stream_context_create($opts);
 			return fopen($request->getUri(), 'r', false, $context);
 		});
