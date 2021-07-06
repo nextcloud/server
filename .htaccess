@@ -39,7 +39,7 @@
   </IfModule>
 
   # Add cache control for static resources
-  <FilesMatch "\.(css|js|svg|gif)$">
+  <FilesMatch "\.(css|js|svg|gif|png|jpg|ico)$">
     Header set Cache-Control "max-age=15778463"
   </FilesMatch>
 
