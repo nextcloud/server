@@ -161,11 +161,11 @@ class OCIExpressionBuilder extends ExpressionBuilder {
 	/**
 	 * Returns a IQueryFunction that casts the column to the given type
 	 *
-	 * @param string $column
+	 * @param string|IQueryFunction $column
 	 * @param mixed $type One of IQueryBuilder::PARAM_*
 	 * @return IQueryFunction
 	 */
-	public function castColumn(string $column, $type): IQueryFunction {
+	public function castColumn($column, $type): IQueryFunction {
 		if ($type === IQueryBuilder::PARAM_STR) {
 			$column = $this->helper->quoteColumnName($column);
 			return new QueryFunction('to_char(' . $column . ')');
