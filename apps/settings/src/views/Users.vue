@@ -43,7 +43,7 @@
 				<AppNavigationItem
 					id="everyone"
 					:exact="true"
-					:title="t('settings', 'Everyone')"
+					:title="t('settings', 'Active users')"
 					:to="{ name: 'users' }"
 					icon="icon-contacts-dark">
 					<AppNavigationCounter v-if="userCount > 0" slot="counter">
