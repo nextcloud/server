@@ -68,7 +68,7 @@ class DnsPinMiddleware {
 			return [];
 		}
 
-		$recursionCount = $recursionCount++;
+		$recursionCount++;
 		$targetIps = [];
 
 		$soaDnsEntry = $this->soaRecord($target);
