@@ -95,7 +95,7 @@ class Factory implements ICacheFactory {
 				'{class}' => $distributedCacheClass, '{use}' => 'distributed'
 			]), $missingCacheHint);
 		}
-		if (!($lockingCacheClass && class_exists($distributedCacheClass) && $lockingCacheClass::isAvailable())) {
+		if (!($lockingCacheClass && class_exists($lockingCacheClass) && $lockingCacheClass::isAvailable())) {
 			// don't fallback since the fallback might not be suitable for storing lock
 			$lockingCacheClass = self::NULL_CACHE;
 		}
