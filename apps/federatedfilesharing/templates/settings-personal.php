@@ -31,7 +31,7 @@ style('federatedfilesharing', 'settings-personal');
 			Twitter
 		</button>
 		<button class="social-diaspora pop-up"
-				data-url='https://sharetodiaspora.github.io/?title=<?php p($_['message_without_URL']); ?>&url=<?php p(urlencode($_['reference'])); ?>'>
+				data-url='https://share.diasporafoundation.org/?title=<?php p($_['message_without_URL']); ?>&url=<?php p(urlencode($_['reference'])); ?>'>
 			Diaspora
 		</button>
 		<button id="oca-files-sharing-add-to-your-website">
