@@ -134,7 +134,6 @@ OC.L10N.register(
     "Details" : "Detalles",
     "Changelog" : "Rexistru de cambeos",
     "Add group" : "Amestar grupu",
-    "Everyone" : "Toos",
     "Admins" : "Almins",
     "Show last login" : "Amosar aniciu de sesión caberu",
     "Show user backend" : "Amosar backend d'usuarios",
@@ -185,7 +184,6 @@ OC.L10N.register(
     "Background job didn’t run yet!" : "¡Entá nun s'executó'l trabayu de fondu!",
     "The cron.php needs to be executed by the system user \"%s\"." : "cron.php precisa executalu l'usuariu del sistema «%s».",
     "Allow apps to use the Share API" : "Permitir a les aplicaciones usar la API de Compartición",
-    "days" : "díes",
     "Enforce expiration date" : "Facer cumplir la data de caducidá",
     "Allow public uploads" : "Permitir xubes públiques",
     "Always ask for a password" : "Pidir siempres la contraseña",
@@ -230,6 +228,7 @@ OC.L10N.register(
     "by" : "por",
     "The app will be downloaded from the app store" : "L'aplicación baxaráse dende la tienda d'aplicaciones",
     "Close" : "Zarrar",
+    "Everyone" : "Toos",
     "Error: This app can not be enabled because it makes the server unstable" : "Fallu: Esta aplicación nun pue activase porque fai inestable'l sirvidor",
     "Common Name" : "Nome común",
     "Valid until" : "Válidu hasta",
@@ -239,6 +238,7 @@ OC.L10N.register(
     "mail" : "corréu",
     "Execute one task with each page loaded" : "Executar una xera con cada páxina cargada",
     "Expire after " : "Caduca dempués de",
+    "days" : "díes",
     "Allow users to share via link" : "Permitir a los usuarios compartir vía enllaz"
 },
 "nplurals=2; plural=(n != 1);");

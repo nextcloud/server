@@ -66,7 +66,6 @@
     "App bundles" : "Toepbundels",
     "Details" : "Besonderhede",
     "Changelog" : "Veranderingslog",
-    "Everyone" : "Almal",
     "Send email to new user" : "Stuur e-pos aan nuwe gebruiker",
     "Enable" : "Aktiveer",
     "Never" : "Nooit",
@@ -84,7 +83,6 @@
     "SMTP Password" : "SMTP-wagwoord",
     "Save" : "Stoor",
     "Version" : "Weergawe",
-    "days" : "dae",
     "Like our Facebook page" : "Hou van ons Facebook-blad",
     "Follow us on Twitter" : "Volg ons op Twitter",
     "Check out our blog" : "Besoek ons woernaal",
@@ -114,9 +112,11 @@
     "Contacts" : "Kontakte",
     "by" : "deur",
     "Close" : "Sluit",
+    "Everyone" : "Almal",
     "Common Name" : "Algemene Naam",
     "Valid until" : "Geldig tot",
     "Issued By" : "Uitgereik deur",
-    "Valid until %s" : "Geldig tot %s"
+    "Valid until %s" : "Geldig tot %s",
+    "days" : "dae"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

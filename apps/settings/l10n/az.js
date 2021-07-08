@@ -48,7 +48,6 @@ OC.L10N.register(
     "Add" : "Əlavə etmək",
     "Updates" : "Yenilənmələr",
     "Details" : "Detallar",
-    "Everyone" : "Hamı",
     "Admins" : "İnzibatçılar",
     "Show user backend" : "Daxili istifadəçini göstər",
     "Send email to new user" : "Yeni istifadəçiyə məktub yolla",
@@ -77,7 +76,6 @@ OC.L10N.register(
     "Security & setup warnings" : "Təhlükəsizlik & işə salma xəbərdarlıqları",
     "Version" : "Versiya",
     "Allow apps to use the Share API" : "Proqramlara izin verin ki, Paylaşım API-sindən istifadə edə bilsinlər.",
-    "days" : "günlər",
     "Enforce expiration date" : "Bitmə tarixini həyata keçir",
     "Allow public uploads" : "Ümumi yüklənmələrə izin vermək",
     "Enforce password protection" : "Şifrə müdafiəsini həyata keçirmək",
@@ -101,6 +99,7 @@ OC.L10N.register(
     "Contacts" : "Əlaqələr",
     "by" : "onunla",
     "Close" : "Bağla",
+    "Everyone" : "Hamı",
     "Common Name" : "Ümumi ad",
     "Valid until" : "Vaxtadək keçərlidir",
     "Issued By" : "Tərəfindən yaradılıb",
@@ -109,6 +108,7 @@ OC.L10N.register(
     "mail" : "poçt",
     "Execute one task with each page loaded" : "Hər səhifə yüklənməsində bir işi yerinə yetir",
     "Expire after " : "Bitir sonra",
+    "days" : "günlər",
     "Allow users to share via link" : "Istifadəçilərə link üzərindən paylaşım etməyə izin vermək"
 },
 "nplurals=2; plural=(n != 1);");

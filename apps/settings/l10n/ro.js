@@ -151,7 +151,6 @@ OC.L10N.register(
     "Updates" : "Actualizări",
     "Details" : "Detalii",
     "Add group" : "Adaugă grup",
-    "Everyone" : "Toți",
     "Admins" : "Administratori",
     "Show user backend" : "Arată administrare utilizator",
     "Send email to new user" : "Trimite email către noul utilizator",
@@ -193,7 +192,6 @@ OC.L10N.register(
     "Select default encryption module:" : "Selectează modulul implicit de criptare:",
     "Start migration" : "Pornește migrarea",
     "Allow apps to use the Share API" : "Permite aplicațiilor să folosească API-ul de partajare",
-    "days" : "zile",
     "Enforce expiration date" : "Impune data de expirare",
     "Allow public uploads" : "Permite încărcări publice",
     "Enforce password protection" : "Impune protecția prin parolă",
@@ -237,6 +235,7 @@ OC.L10N.register(
     "Nextcloud Talk for iOS" : "Nextcloud Talk pentru iOS",
     "Nextcloud Talk for Android" : "Nextcloud Talk pentru Android",
     "Close" : "Închide",
+    "Everyone" : "Toți",
     "SSL Root Certificates" : "Certificate SSL rădăcină",
     "Common Name" : "Nume comun",
     "Valid until" : "Valabil până la",
@@ -246,6 +245,7 @@ OC.L10N.register(
     "mail" : "poștă",
     "Execute one task with each page loaded" : "Execută o sarcină la fiecare pagină încărcată",
     "Expire after " : "Expiră după",
+    "days" : "zile",
     "Allow users to share via link" : "Permite utilizatorilor să partajeze via link"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

@@ -202,7 +202,6 @@ OC.L10N.register(
     "Details" : "Thông tin",
     "Changelog" : "Sổ cập nhập thay đổi",
     "Add group" : "Thêm nhóm",
-    "Everyone" : "Tất cả mọi người",
     "Disabled users" : "Người dùng đã bị vô hiệu hóa",
     "Remove group" : "Xóa nhóm",
     "Default quota:" : "Hạn ngạch mặc định:",
@@ -238,7 +237,6 @@ OC.L10N.register(
     "Version" : "Phiên bản",
     "Enable encryption" : "Bật mã hóa",
     "Allow apps to use the Share API" : "Cho phép các ứng dụng sử dụng chia sẻ API",
-    "days" : "ngày",
     "Enforce expiration date" : "Buộc có ngày hết hạn",
     "Allow public uploads" : "Cho phép upload công cộng",
     "Allow resharing" : "Cho phép chia sẻ lại",
@@ -266,6 +264,7 @@ OC.L10N.register(
     "The app will be downloaded from the app store" : "Ứng dụng sẽ được tải xuống từ cửa hàng ứng dụng",
     "Add user in group" : "Thêm người dùng vào nhóm",
     "Close" : "Đóng",
+    "Everyone" : "Tất cả mọi người",
     "Error: This app can not be enabled because it makes the server unstable" : "Lỗi: Không thể bật ứng dụng này vì nó làm cho máy chủ không ổn định",
     "Common Name" : "Tên thông dụng",
     "Valid until" : "Có hiệu lực đến",
@@ -273,6 +272,7 @@ OC.L10N.register(
     "Valid until %s" : "Có hiệu lực đến %s",
     "Import root certificate" : "Nhập root certificate",
     "Execute one task with each page loaded" : "Thực thi tác vụ mỗi khi trang được tải",
+    "days" : "ngày",
     "Allow users to share via link" : "Cho phép người dùng chia sẻ qua liên kết"
 },
 "nplurals=1; plural=0;");
