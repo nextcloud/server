@@ -34,6 +34,7 @@ use OCA\UserStatus\Exception\InvalidStatusTypeException;
 use OCA\UserStatus\Exception\StatusMessageTooLongException;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\IConfig;
 use OCP\UserStatus\IUserStatus;
 
 /**
@@ -54,6 +55,15 @@ class StatusService {
 
 	/** @var EmojiService */
 	private $emojiService;
+
+	/** @var bool */
+	private $shareeEnumeration;
+
+	/** @var bool */
+	private $shareeEnumerationInGroupOnly;
+
+	/** @var bool */
+	private $shareeEnumerationPhone;
 
 	/**
 	 * List of priorities ordered by their priority
@@ -87,17 +97,22 @@ class StatusService {
 	 *
 	 * @param UserStatusMapper $mapper
 	 * @param ITimeFactory $timeFactory
-	 * @param PredefinedStatusService $defaultStatusService,
+	 * @param PredefinedStatusService $defaultStatusService
 	 * @param EmojiService $emojiService
+	 * @param IConfig $config
 	 */
 	public function __construct(UserStatusMapper $mapper,
 								ITimeFactory $timeFactory,
 								PredefinedStatusService $defaultStatusService,
-								EmojiService $emojiService) {
+								EmojiService $emojiService,
+								IConfig $config) {
 		$this->mapper = $mapper;
 		$this->timeFactory = $timeFactory;
 		$this->predefinedStatusService = $defaultStatusService;
 		$this->emojiService = $emojiService;
+		$this->shareeEnumeration = $config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes';
+		$this->shareeEnumerationInGroupOnly = $this->shareeEnumeration && $config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_group', 'no') === 'yes';
+		$this->shareeEnumerationPhone = $this->shareeEnumeration && $config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_phone', 'no') === 'yes';
 	}
 
 	/**
@@ -106,6 +121,13 @@ class StatusService {
 	 * @return UserStatus[]
 	 */
 	public function findAll(?int $limit = null, ?int $offset = null): array {
+		// Return empty array if user enumeration is disabled or limited to groups
+		// TODO: find a solution that scales to get only users from common groups if user enumeration is limited to
+		//       groups. See discussion at https://github.com/nextcloud/server/pull/27879#discussion_r729715936
+		if (!$this->shareeEnumeration || $this->shareeEnumerationInGroupOnly || $this->shareeEnumerationPhone) {
+			return [];
+		}
+
 		return array_map(function ($status) {
 			return $this->processStatus($status);
 		}, $this->mapper->findAll($limit, $offset));
@@ -117,6 +139,13 @@ class StatusService {
 	 * @return array
 	 */
 	public function findAllRecentStatusChanges(?int $limit = null, ?int $offset = null): array {
+		// Return empty array if user enumeration is disabled or limited to groups
+		// TODO: find a solution that scales to get only users from common groups if user enumeration is limited to
+		//       groups. See discussion at https://github.com/nextcloud/server/pull/27879#discussion_r729715936
+		if (!$this->shareeEnumeration || $this->shareeEnumerationInGroupOnly || $this->shareeEnumerationPhone) {
+			return [];
+		}
+
 		return array_map(function ($status) {
 			return $this->processStatus($status);
 		}, $this->mapper->findAllRecent($limit, $offset));
@@ -224,7 +253,7 @@ class StatusService {
 	/**
 	 * @param string $userId
 	 * @param string|null $statusIcon
-	 * @param string|null $message
+	 * @param string $message
 	 * @param int|null $clearAt
 	 * @return UserStatus
 	 * @throws InvalidClearAtException
@@ -332,7 +361,7 @@ class StatusService {
 	 * up to date and provides translated default status if needed
 	 *
 	 * @param UserStatus $status
-	 * @returns UserStatus
+	 * @return UserStatus
 	 */
 	private function processStatus(UserStatus $status): UserStatus {
 		$clearAt = $status->getClearAt();
