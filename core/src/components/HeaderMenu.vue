@@ -182,7 +182,7 @@ export default {
 		position: absolute;
 		z-index: 2000;
 		top: 50px;
-		right: 5px;
+		right: -150px;
 		box-sizing: border-box;
 		margin: 0;
 		border-radius: 0 0 var(--border-radius) var(--border-radius);
@@ -193,7 +193,7 @@ export default {
 
 	&__carret {
 		position: absolute;
-		right: 10px;
+		right: 165px;
 		bottom: 100%;
 		width: 0;
 		height: 0;
