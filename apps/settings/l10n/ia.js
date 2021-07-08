@@ -77,7 +77,6 @@ OC.L10N.register(
     "Add" : "Adder",
     "Details" : "Detalios",
     "Add group" : "Adder gruppo",
-    "Everyone" : "Totos",
     "Admins" : "Administratores",
     "Send email to new user" : "Inviar message de e-posta a nove usator",
     "Enable" : "Activar",
@@ -110,7 +109,6 @@ OC.L10N.register(
     "Enable encryption" : "Activar cryptographia",
     "Select default encryption module:" : "Selectionar modulo de cryptographia standard",
     "Start migration" : "Initiar migration",
-    "days" : "dies",
     "Enforce expiration date" : "Exiger data de expiration",
     "Allow public uploads" : "Permitter incargas public",
     "Enforce password protection" : "Exiger protection per contrasigno",
@@ -145,6 +143,7 @@ OC.L10N.register(
     "installing and updating apps via the app store or Federated Cloud Sharing" : "Installation e actualisation de applicationes via le App Store o Compartimento del Nube Federate",
     "by" : "per",
     "Close" : "Clauder",
+    "Everyone" : "Totos",
     "SSL Root Certificates" : "Certificatos Root SSL",
     "Common Name" : "Nomine Commun",
     "Valid until" : "Valide usque",
@@ -152,6 +151,7 @@ OC.L10N.register(
     "Valid until %s" : "Valide usque %s",
     "Import root certificate" : "Importar certificato root",
     "Expire after " : "Expirar post",
+    "days" : "dies",
     "Allow users to share via link" : "Permitter usatores compartir via ligamine"
 },
 "nplurals=2; plural=(n != 1);");

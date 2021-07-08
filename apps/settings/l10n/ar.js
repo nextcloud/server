@@ -141,7 +141,6 @@ OC.L10N.register(
     "Details" : "التفاصيل",
     "Changelog" : "سجل التغييرات",
     "Add group" : "إضافة فريق",
-    "Everyone" : "الجميع",
     "Admins" : "المدراء",
     "Disabled users" : "المستخدمون المُعطَّلون",
     "Remove group" : "حذف الفريق",
@@ -195,7 +194,6 @@ OC.L10N.register(
     "Start migration" : "إبدأ الدمج",
     "Background jobs" : "الأنشطة في الخلفية",
     "Allow apps to use the Share API" : "السماح للتطبيقات بالمشاركة عن طريق الAPI",
-    "days" : "أيام",
     "Enforce expiration date" : "فرض تاريخ نهاية صلاحية",
     "Allow public uploads" : "السماح بالرفع للعامة ",
     "Always ask for a password" : "أطلب دائما كلمة السر",
@@ -250,6 +248,7 @@ OC.L10N.register(
     "Nextcloud Talk for iOS" : "نيكست كلاود التحدث للايفون",
     "Nextcloud Talk for Android" : "نيكست كلاود التحدث للاندرويد",
     "Close" : "إغلاق",
+    "Everyone" : "الجميع",
     "SSL Root Certificates" : "شهادات أمان الـ SSL الجذرية",
     "Common Name" : "الإسم الشائع",
     "Valid until" : "صالح حتى",
@@ -259,6 +258,7 @@ OC.L10N.register(
     "mail" : "البريد",
     "Execute one task with each page loaded" : "قم بتنفيذ مهمة واحدة مع كل صفحة تم تحميلها",
     "Expire after " : "ينتهي بعد",
+    "days" : "أيام",
     "Allow users to share via link" : "السماح للمستخدم بمشاركة الملف عن طريق رابط"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

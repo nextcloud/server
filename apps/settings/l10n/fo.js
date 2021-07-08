@@ -65,7 +65,6 @@ OC.L10N.register(
     "Your apps" : "Tínar appir",
     "Active apps" : "Virknar appir",
     "Disabled apps" : "Ógildaðar appir",
-    "Everyone" : "Øll",
     "Admins" : "Administratorar",
     "Remove group" : "Strika bólkin",
     "Enable" : "Gilda",
@@ -100,6 +99,7 @@ OC.L10N.register(
     "Nextcloud Android app" : "Nextcloud Android app",
     "Nextcloud Talk for iOS" : "Nextcloud Talk til iOS",
     "Nextcloud Talk for Android" : "Nextcloud Talk til Android",
+    "Everyone" : "Øll",
     "mail" : "post"
 },
 "nplurals=2; plural=(n != 1);");
