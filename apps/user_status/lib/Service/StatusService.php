@@ -35,6 +35,9 @@ use OCA\UserStatus\Exception\InvalidStatusTypeException;
 use OCA\UserStatus\Exception\StatusMessageTooLongException;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\IConfig;
+use OCP\IGroupManager;
+use OCP\IUserSession;
 use OCP\UserStatus\IUserStatus;
 
 /**
@@ -55,6 +58,18 @@ class StatusService {
 
 	/** @var EmojiService */
 	private $emojiService;
+
+	/** @var IUserSession */
+	private $userSession;
+
+	/** @var IGroupManager */
+	private $groupManager;
+
+	/** @var bool */
+	private $shareeEnumeration;
+
+	/** @var bool */
+	private $shareeEnumerationInGroupOnly;
 
 	/**
 	 * List of priorities ordered by their priority
@@ -88,17 +103,27 @@ class StatusService {
 	 *
 	 * @param UserStatusMapper $mapper
 	 * @param ITimeFactory $timeFactory
-	 * @param PredefinedStatusService $defaultStatusService,
+	 * @param PredefinedStatusService $defaultStatusService
 	 * @param EmojiService $emojiService
+	 * @param IUserSession $userSession
+	 * @param IGroupManager $groupManager
+	 * @param IConfig $config
 	 */
 	public function __construct(UserStatusMapper $mapper,
 								ITimeFactory $timeFactory,
 								PredefinedStatusService $defaultStatusService,
-								EmojiService $emojiService) {
+								EmojiService $emojiService,
+								IUserSession $userSession,
+								IGroupManager $groupManager,
+								IConfig $config) {
 		$this->mapper = $mapper;
 		$this->timeFactory = $timeFactory;
 		$this->predefinedStatusService = $defaultStatusService;
 		$this->emojiService = $emojiService;
+		$this->userSession = $userSession;
+		$this->groupManager = $groupManager;
+		$this->shareeEnumeration = $config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes';
+		$this->shareeEnumerationInGroupOnly = $this->shareeEnumeration && $config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_group', 'no') === 'yes';
 	}
 
 	/**
@@ -107,6 +132,19 @@ class StatusService {
 	 * @return UserStatus[]
 	 */
 	public function findAll(?int $limit = null, ?int $offset = null): array {
+		// Return empty array if user enumeration is disabled
+		if (!$this->shareeEnumeration) {
+			return [];
+		}
+
+		// Return only users from common groups if user enumeration is limited to groups
+		if ($this->shareeEnumerationInGroupOnly) {
+			$userIds = $this->userIdsByGroups();
+			return array_map(function ($status) {
+				return $this->processStatus($status);
+			}, $this->mapper->findByUserIds($userIds, $limit, $offset));
+		}
+
 		return array_map(function ($status) {
 			return $this->processStatus($status);
 		}, $this->mapper->findAll($limit, $offset));
@@ -118,6 +156,19 @@ class StatusService {
 	 * @return array
 	 */
 	public function findAllRecentStatusChanges(?int $limit = null, ?int $offset = null): array {
+		// Return empty array if user enumeration is disabled
+		if (!$this->shareeEnumeration) {
+			return [];
+		}
+
+		// Return only users from common groups if user enumeration is limited to groups
+		if ($this->shareeEnumerationInGroupOnly) {
+			$userIds = $this->userIdsByGroups();
+			return array_map(function ($status) {
+				return $this->processStatus($status);
+			}, $this->mapper->findRecentByUserIds($userIds, $limit, $offset));
+		}
+
 		return array_map(function ($status) {
 			return $this->processStatus($status);
 		}, $this->mapper->findAllRecent($limit, $offset));
@@ -326,6 +377,26 @@ class StatusService {
 
 		$this->mapper->delete($userStatus);
 		return true;
+	}
+
+	/**
+	 * @return string[]
+	 */
+	private function userIdsByGroups(): array {
+		$usersByGroups = [];
+
+		$currentUserGroups = $this->groupManager->getUserGroupIds($this->userSession->getUser());
+		foreach ($currentUserGroups as $userGroupId) {
+			$usersInGroup = $this->groupManager->displayNamesInGroup($userGroupId);
+			foreach ($usersInGroup as $userId => $displayName) {
+				$userId = (string)$userId;
+				if (!in_array($userId, $usersByGroups, true)) {
+					$usersByGroups[] = $userId;
+				}
+			}
+		}
+
+		return $usersByGroups;
 	}
 
 	/**

@@ -54,7 +54,7 @@ class UserStatusMapper extends QBMapper {
 	 * @param int|null $offset
 	 * @return UserStatus[]
 	 */
-	public function findAll(?int $limit = null, ?int $offset = null):array {
+	public function findAll(?int $limit = null, ?int $offset = null): array {
 		$qb = $this->db->getQueryBuilder();
 		$qb
 			->select('*')
@@ -114,14 +114,55 @@ class UserStatusMapper extends QBMapper {
 
 	/**
 	 * @param array $userIds
+	 * @param int|null $limit
+	 * @param int|null $offset
 	 * @return array
 	 */
-	public function findByUserIds(array $userIds):array {
+	public function findByUserIds(array $userIds, ?int $limit = null, ?int $offset = null): array {
 		$qb = $this->db->getQueryBuilder();
 		$qb
 			->select('*')
 			->from($this->tableName)
+			->orderBy('status_timestamp', 'DESC')
 			->where($qb->expr()->in('user_id', $qb->createNamedParameter($userIds, IQueryBuilder::PARAM_STR_ARRAY)));
+
+		if ($limit !== null) {
+			$qb->setMaxResults($limit);
+		}
+		if ($offset !== null) {
+			$qb->setFirstResult($offset);
+		}
+
+		return $this->findEntities($qb);
+	}
+
+
+	/**
+	 * @param array $userIds
+	 * @param int|null $limit
+	 * @param int|null $offset
+	 * @return array
+	 */
+	public function findRecentByUserIds(array $userIds, ?int $limit = null, ?int $offset = null): array {
+		$qb = $this->db->getQueryBuilder();
+
+		$qb
+			->select('*')
+			->from($this->tableName)
+			->orderBy('status_timestamp', 'DESC')
+			->where($qb->expr()->in('user_id', $qb->createNamedParameter($userIds, IQueryBuilder::PARAM_STR_ARRAY)))
+			->andWhere($qb->expr()->orX(
+				$qb->expr()->notIn('status', $qb->createNamedParameter([IUserStatus::ONLINE, IUserStatus::AWAY, IUserStatus::OFFLINE], IQueryBuilder::PARAM_STR_ARRAY)),
+				$qb->expr()->isNotNull('message_id'),
+				$qb->expr()->isNotNull('custom_icon'),
+				$qb->expr()->isNotNull('custom_message')));
+
+		if ($limit !== null) {
+			$qb->setMaxResults($limit);
+		}
+		if ($offset !== null) {
+			$qb->setFirstResult($offset);
+		}
 
 		return $this->findEntities($qb);
 	}
