@@ -246,7 +246,13 @@ class Manager extends PublicEmitter implements IUserManager {
 		$loginName = str_replace("\0", '', $loginName);
 		$password = str_replace("\0", '', $password);
 
-		foreach ($this->backends as $backend) {
+		$cachedBackend = $this->cache->get($loginName);
+		if ($cachedBackend !== null && isset($this->backends[$cachedBackend])) {
+			$backends = [$this->backends[$cachedBackend]];
+		} else {
+			$backends = $this->backends;
+		}
+		foreach ($backends as $backend) {
 			if ($backend->implementsActions(Backend::CHECK_PASSWORD)) {
 				$uid = $backend->checkPassword($loginName, $password);
 				if ($uid !== false) {
@@ -257,10 +263,10 @@ class Manager extends PublicEmitter implements IUserManager {
 
 		// since http basic auth doesn't provide a standard way of handling non ascii password we allow password to be urlencoded
 		// we only do this decoding after using the plain password fails to maintain compatibility with any password that happens
-		// to contains urlencoded patterns by "accident".
+		// to contain urlencoded patterns by "accident".
 		$password = urldecode($password);
 
-		foreach ($this->backends as $backend) {
+		foreach ($backends as $backend) {
 			if ($backend->implementsActions(Backend::CHECK_PASSWORD)) {
 				$uid = $backend->checkPassword($loginName, $password);
 				if ($uid !== false) {
