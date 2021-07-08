@@ -205,7 +205,6 @@
     "Details" : "Detil",
     "Changelog" : "Log pembaruan",
     "Add group" : "Tambah grup",
-    "Everyone" : "Semua orang",
     "Admins" : "Admin",
     "Disabled users" : "Nonaktifkan pengguna",
     "Remove group" : "Hapus grup",
@@ -282,7 +281,6 @@
     "Background job didn’t run yet!" : "Pekerjaan latar belakang belum berjalan!",
     "Pick background job setting" : "Pilih pengaturan pekerjaan latar belakang",
     "Allow apps to use the Share API" : "Izinkan aplikasi untuk menggunakan API Pembagian",
-    "days" : "hari",
     "Enforce expiration date" : "Berlakukan tanggal kadaluarsa",
     "Allow public uploads" : "Izinkan unggahan publik",
     "Always ask for a password" : "Selalu tanya kata sandi",
@@ -344,6 +342,7 @@
     "Nextcloud Talk for Android" : "Nextcloud Talk untuk Android",
     "Add user in group" : "Tambah pengguna kedalam grup",
     "Close" : "Tutup",
+    "Everyone" : "Semua orang",
     "Error: This app can not be enabled because it makes the server unstable" : "Galat: Aplikasi ini tidak dapat diaktifkan karena aplikasi ini membuat server tidak stabil",
     "SSL Root Certificates" : "Sertifikat Root SSL",
     "Common Name" : "Nama umum",
@@ -354,6 +353,7 @@
     "mail" : "surel",
     "Execute one task with each page loaded" : "Jalankan tugas setiap kali halaman dimuat",
     "Expire after " : "Kadaluarsa setelah ",
+    "days" : "hari",
     "Allow users to share via link" : "Izinkan pengguna untuk membagikan via tautan",
     "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "Perbolehkan nama pengguna otomatis terisi didialog bagikan. Jikan ini dinonaktifkan, nama pengguna atau alamat email harus dimasukkan."
 },"pluralForm" :"nplurals=1; plural=0;"

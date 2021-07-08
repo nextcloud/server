@@ -273,7 +273,6 @@ OC.L10N.register(
     "by {author}\n{license}" : "de {author}\n{license}",
     "Enter group name" : "Inserta nùmene de su grupu",
     "Add group" : "Agiunghe grupu",
-    "Everyone" : "Chie chi siat",
     "Admins" : "Amministratzione",
     "Disabled users" : "Disativa utentes",
     "Remove group" : "Boga·nche grupu",
@@ -340,6 +339,7 @@ OC.L10N.register(
     "Nextcloud Talk for iOS" : "Nextcloud Talk pro iOS",
     "Nextcloud Talk for Android" : "Nextcloud Talk pro Android",
     "Close" : "Serra",
+    "Everyone" : "Chie chi siat",
     "Error: This app can not be enabled because it makes the server unstable" : "Errore: Custa aplicatzione non si podet ativare ca faghet su serbidore no istàbile",
     "mail" : "posta"
 },

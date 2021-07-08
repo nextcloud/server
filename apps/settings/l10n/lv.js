@@ -95,7 +95,6 @@ OC.L10N.register(
     "Updates" : "Atjauninājumi",
     "Details" : "Detaļas",
     "Add group" : "Pievienot grupu",
-    "Everyone" : "Visi",
     "Admins" : "Admins",
     "Send email to new user" : "Sūtīt e-pastu jaunajam lietotājam",
     "Enable" : "Aktivēt",
@@ -140,7 +139,6 @@ OC.L10N.register(
     "Select default encryption module:" : "Atlasiet noklusēto šifrēšanas moduli:",
     "Start migration" : "Sākt migrāciju",
     "Allow apps to use the Share API" : "Ļaut programmām izmantot koplietošanas API",
-    "days" : "dienas",
     "Enforce expiration date" : "Uzspiest beigu termiņu",
     "Allow public uploads" : "Atļaut publisko augšupielādi",
     "Enforce password protection" : "Ieviest paroles aizsardzību",
@@ -179,6 +177,7 @@ OC.L10N.register(
     "installing and updating apps via the app store or Federated Cloud Sharing" : "lietotņu instalēšana un atjaunināšana, izmantojot lietotņu veikalu vai Federatīvo Cloud koplietošanu",
     "by" : "līdz",
     "Close" : "Aizvērt",
+    "Everyone" : "Visi",
     "SSL Root Certificates" : "SSL Root Sertifikāti",
     "Common Name" : "Kopīgais nosaukums",
     "Valid until" : "Derīgs līdz",
@@ -188,6 +187,7 @@ OC.L10N.register(
     "mail" : "e-pasts",
     "Execute one task with each page loaded" : "Izpildīt vienu uzdevumu ar katru ielādēto lapu",
     "Expire after " : "Nederīga pēc",
+    "days" : "dienas",
     "Allow users to share via link" : "Ļaut lietotājiem koplietot caur saitēm"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

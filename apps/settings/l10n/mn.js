@@ -69,7 +69,6 @@ OC.L10N.register(
     "App bundles" : "Аппликэйшны багц",
     "Details" : "Дэлгэрэнгүй",
     "Add group" : "Бүлэг нэмэх",
-    "Everyone" : "Бүх хэрэглэгчид",
     "Admins" : "Админууд",
     "Send email to new user" : "Шинэ хэрэглэгч рүү цахим шуудан илгээх",
     "Never" : "хэзээч",
@@ -84,7 +83,6 @@ OC.L10N.register(
     "SMTP Password" : "Энгийн мэйл дамжуулах протокол-ийн нууц үг",
     "Save" : "Хадгалах",
     "Version" : "Хувилбар",
-    "days" : "өдрийн дараа",
     "Always ask for a password" : "Үргэлж нууц үг асуух",
     "Enforce password protection" : "Нууц үгийн хамгаалалтыг хэрэгжүүлэх",
     "Profile picture" : "Профайл зураг",
@@ -105,7 +103,9 @@ OC.L10N.register(
     "Contacts" : "Харилцагчид",
     "Public" : "Нийтийн",
     "Close" : "Хаах",
+    "Everyone" : "Бүх хэрэглэгчид",
     "mail" : "и-мэйл",
-    "Expire after " : " Дуусах хугацаа"
+    "Expire after " : " Дуусах хугацаа",
+    "days" : "өдрийн дараа"
 },
 "nplurals=2; plural=(n != 1);");
