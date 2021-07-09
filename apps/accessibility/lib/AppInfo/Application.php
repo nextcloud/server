@@ -82,6 +82,7 @@ class Application extends App implements IBootstrap {
 			$hash = md5(implode('-', $userValues));
 			$linkToCSS = $urlGenerator->linkToRoute(self::APP_ID . '.accessibility.getCss', ['md5' => $hash]);
 			\OCP\Util::addHeader('link', ['rel' => 'stylesheet', 'media' => '(prefers-color-scheme: dark)', 'href' => $linkToCSS]);
+			\OCP\Util::addScript('accessibility', 'accessibilityoca');
 		}
 	}
 

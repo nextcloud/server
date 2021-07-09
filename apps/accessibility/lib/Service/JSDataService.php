@@ -56,6 +56,7 @@ class JSDataService implements \JsonSerializable {
 		}
 
 		return [
+			'checkMedia' => $user === null,
 			'theme' => $theme,
 			'highcontrast' => $highcontrast,
 		];
