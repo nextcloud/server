@@ -419,6 +419,11 @@ class PublicKeyTokenProvider implements IProvider {
 			return;
 		}
 
+		// prevent setting an empty pw as result of pw-less-login
+		if ($password==='') {
+			return;
+		}
+
 		// Update the password for all tokens
 		$tokens = $this->mapper->getTokenByUser($uid);
 		foreach ($tokens as $t) {
