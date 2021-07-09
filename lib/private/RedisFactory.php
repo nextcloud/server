@@ -27,7 +27,10 @@
 namespace OC;
 
 class RedisFactory {
-	/** @var  \Redis */
+	public const REDIS_MINIMAL_VERSION = '2.2.5';
+	public const REDIS_EXTRA_PARAMETERS_MINIMAL_VERSION = '5.3.0';
+
+	/** @var  \Redis|\RedisCluster */
 	private $instance;
 
 	/** @var  SystemConfig */
@@ -43,25 +46,49 @@ class RedisFactory {
 	}
 
 	private function create() {
-		if ($config = $this->config->getValue('redis.cluster', [])) {
+		$isCluster = !empty($this->config->getValue('redis.cluster', []));
+		$config = $this->config->getValue('redis', []);
+
+		// Init cluster config if any
+		if ($isCluster) {
 			if (!class_exists('RedisCluster')) {
 				throw new \Exception('Redis Cluster support is not available');
 			}
-			// cluster config
-			if (isset($config['timeout'])) {
-				$timeout = $config['timeout'];
+			// Replace config with the cluster config
+			$config = $this->config->getValue('redis.cluster', []);
+		}
+
+		if (isset($config['timeout'])) {
+			$timeout = $config['timeout'];
+		} else {
+			$timeout = null;
+		}
+
+		if (isset($config['read_timeout'])) {
+			$readTimeout = $config['read_timeout'];
+		} else {
+			$readTimeout = null;
+		}
+
+		$auth = null;
+		if (isset($config['password']) && $config['password'] !== '') {
+			if (isset($config['user']) && $config['user'] !== '') {
+				$auth = [$config['user'], $config['password']];
 			} else {
-				$timeout = null;
+				$auth = $config['password'];
 			}
-			if (isset($config['read_timeout'])) {
-				$readTimeout = $config['read_timeout'];
+		}
+
+		// # TLS support
+		// # https://github.com/phpredis/phpredis/issues/1600
+		$connectionParameters = $this->getSslContext($config);
+
+		// cluster config
+		if ($isCluster) {
+			if ($connectionParameters !== null) {
+				$this->instance = new \RedisCluster(null, $config['seeds'], $timeout, $readTimeout, false, $auth, $connectionParameters);
 			} else {
-				$readTimeout = null;
-			}
-			if (isset($config['password']) && $config['password'] !== '') {
-				$this->instance = new \RedisCluster(null, $config['seeds'], $timeout, $readTimeout, false, $config['password']);
-			} else {
-				$this->instance = new \RedisCluster(null, $config['seeds'], $timeout, $readTimeout);
+				$this->instance = new \RedisCluster(null, $config['seeds'], $timeout, $readTimeout, $auth);
 			}
 
 			if (isset($config['failover_mode'])) {
@@ -69,12 +96,13 @@ class RedisFactory {
 			}
 		} else {
 			$this->instance = new \Redis();
-			$config = $this->config->getValue('redis', []);
+
 			if (isset($config['host'])) {
 				$host = $config['host'];
 			} else {
 				$host = '127.0.0.1';
 			}
+
 			if (isset($config['port'])) {
 				$port = $config['port'];
 			} elseif ($host[0] !== '/') {
@@ -82,21 +110,44 @@ class RedisFactory {
 			} else {
 				$port = null;
 			}
-			if (isset($config['timeout'])) {
-				$timeout = $config['timeout'];
-			} else {
-				$timeout = 0.0; // unlimited
+
+			if (!empty($connectionParameters)) {
+				$connectionParameters = [
+					'stream' => $this->getSslContext($config)
+				];
 			}
 
-			$this->instance->connect($host, $port, $timeout);
-			if (isset($config['password']) && $config['password'] !== '') {
-				$this->instance->auth($config['password']);
+			$this->instance->connect($host, $port, $timeout, null, 0, $readTimeout, $connectionParameters);
+
+			// Auth if configured
+			if ($auth !== null) {
+				$this->instance->auth($auth);
 			}
 
 			if (isset($config['dbindex'])) {
 				$this->instance->select($config['dbindex']);
 			}
 		}
+	}
+
+	/**
+	 * Get the ssl context config
+	 *
+	 * @param Array $config the current config
+	 * @return Array
+	 * @throws \UnexpectedValueException
+	 */
+	private function getSslContext($config) {
+		if (isset($config['ssl_context'])) {
+			if (!$this->isConnectionParametersSupported()) {
+				throw new \UnexpectedValueException(\sprintf(
+					'php-redis extension must be version %s or higher to support ssl context',
+					self::REDIS_EXTRA_PARAMETERS_MINIMAL_VERSION
+				));
+			}
+			return $config['ssl_context'];
+		}
+		return [];
 	}
 
 	public function getInstance() {
@@ -113,5 +164,16 @@ class RedisFactory {
 	public function isAvailable() {
 		return extension_loaded('redis')
 		&& version_compare(phpversion('redis'), '2.2.5', '>=');
+	}
+
+	/**
+	 * Php redis does support configurable extra parameters since version 5.3.0, see: https://github.com/phpredis/phpredis#connect-open.
+	 * We need to check if the current version supports extra connection parameters, otherwise the connect method will throw an exception
+	 *
+	 * @return boolean
+	 */
+	private function isConnectionParametersSupported(): bool {
+		return \extension_loaded('redis') &&
+			\version_compare(\phpversion('redis'), self::REDIS_EXTRA_PARAMETERS_MINIMAL_VERSION, '>=');
 	}
 }
