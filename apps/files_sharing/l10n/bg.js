@@ -120,7 +120,6 @@ OC.L10N.register(
     "Could not lock node" : "Възелът не можа да се заключи",
     "Could not lock path" : "Пътя не можа да се заключи",
     "Wrong or no update parameter given" : "Грешен или не е даден параметър за актуализация",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Споделянето на изпращането на паролата от Nextcloud Talk не бе успешно, тъй като Nextcloud Talk не е активирано",
     "shared by %s" : "споделено от %s",
     "Download all files" : "Изтегли всички файлове",
     "Direct link" : "Директна връзка",
@@ -234,6 +233,7 @@ OC.L10N.register(
     "Add to your Nextcloud" : "Добавете към Nextcloud",
     "invalid permissions" : "невалидни права",
     "Can't change permissions for public share links" : "Не могат да се променят права на връзки за публично споделяне",
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Споделянето на изпращането на паролата от Nextcloud Talk не бе успешно, тъй като Nextcloud Talk не е активирано",
     "Name, email, or federated cloud ID …" : "Име, имейл или Federed Cloud ID/ИД за облачно пространство/ ..."
 },
 "nplurals=2; plural=(n != 1);");

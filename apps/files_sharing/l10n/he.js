@@ -120,7 +120,6 @@ OC.L10N.register(
     "Could not lock node" : "לא היה ניתן לנעול את הצומת",
     "Could not lock path" : "לא ניתן היה לנעול נתיב",
     "Wrong or no update parameter given" : "משתנה עדכון שניתן שגוי או לא קיים",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "שיתוף שליחת הסיסמה באמצעות Nextcloud Talk נכשל מכיוון ש- Nextcloud Talk אינו מופעל",
     "shared by %s" : "שותף על ידי %s",
     "Download all files" : "הורדת כל הקבצים",
     "Direct link" : "קישור ישיר",
@@ -232,6 +231,7 @@ OC.L10N.register(
     "Add to your Nextcloud" : "הוספה ל־Nextcloud שלך",
     "invalid permissions" : "הרשאות שגויות",
     "Can't change permissions for public share links" : "לא ניתן לשנות הרשאות לקישורי שיתוף ציבוריים",
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "שיתוף שליחת הסיסמה באמצעות Nextcloud Talk נכשל מכיוון ש- Nextcloud Talk אינו מופעל",
     "Name, email, or federated cloud ID …" : "שם, דוא\"ל או ID ענן מאוחד..."
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");

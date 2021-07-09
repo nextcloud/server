@@ -109,7 +109,6 @@ OC.L10N.register(
     "Not a directory" : "Ne estas dosierujo",
     "Could not lock path" : "Ne eblis ŝlosi vojon",
     "Wrong or no update parameter given" : "Neniu aŭ neĝusta ĝisdatiga parametro donita",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Kunhavigo per sendado de la pasvorto per „Nextcloud Talk“ malsukcesis, ĉar Nextcloud Talk ne estas ebligita",
     "shared by %s" : "kunhavigita de %s",
     "Download all files" : "Elŝuti ĉiujn dosierojn",
     "Direct link" : "Direkta ligilo",
@@ -201,6 +200,7 @@ OC.L10N.register(
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Se vi alŝutas dosierojn, vi konsentas pri %1$skondiĉoj de uzado%2$s.",
     "Add to your Nextcloud" : "Aldoni al via Nextcloud",
     "invalid permissions" : "nevalidaj permesoj",
-    "Can't change permissions for public share links" : "Ne eblas ŝanĝi permesojn por ligilo de publika kunhavo"
+    "Can't change permissions for public share links" : "Ne eblas ŝanĝi permesojn por ligilo de publika kunhavo",
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Kunhavigo per sendado de la pasvorto per „Nextcloud Talk“ malsukcesis, ĉar Nextcloud Talk ne estas ebligita"
 },
 "nplurals=2; plural=(n != 1);");
