@@ -61,6 +61,7 @@ class JSDataService extends InitialStateProvider {
 		}
 
 		return [
+			'checkMedia' => $user === null,
 			'theme' => $theme,
 			'highcontrast' => $highcontrast,
 		];
