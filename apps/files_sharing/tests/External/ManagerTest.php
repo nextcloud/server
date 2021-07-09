@@ -42,6 +42,7 @@ use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Http\Client\IClientService;
 use OCP\Http\Client\IResponse;
 use OCP\IGroupManager;
+use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\Share\IShare;
 use Test\Traits\UserTrait;
@@ -131,7 +132,7 @@ class ManagerTest extends TestCase {
 
 		$this->testMountProvider = new MountProvider(\OC::$server->getDatabaseConnection(), function () {
 			return $this->manager;
-		}, new CloudIdManager($this->contactsManager));
+		}, new CloudIdManager($this->contactsManager, $this->createMock(IURLGenerator::class), $this->userManager));
 	}
 
 	private function setupMounts() {
