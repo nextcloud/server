@@ -120,7 +120,6 @@ OC.L10N.register(
     "Could not lock node" : "No s'ha pogut bloquejar el node",
     "Could not lock path" : "No s'ha pogut bloquejar la ruta d'accés",
     "Wrong or no update parameter given" : "S'ha donat un paràmetre o un paràmetre d'actualització incorrecte",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "No s’ha pogut compartir enviant la contrasenya per Nextcloud Talk perquè Nextcloud Talk no està activat",
     "shared by %s" : "compartit per %s",
     "Download all files" : "Descarrega tots els fitxers",
     "Direct link" : "Enllaç directe",
@@ -231,6 +230,7 @@ OC.L10N.register(
     "Add to your Nextcloud" : "Afegiu al vostre NextCloud",
     "invalid permissions" : "permisos no vàlids",
     "Can't change permissions for public share links" : "No es poden canviar els permisos per als enllaços compartits públics",
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "No s’ha pogut compartir enviant la contrasenya per Nextcloud Talk perquè Nextcloud Talk no està activat",
     "Name, email, or federated cloud ID …" : "Nom, correu o ID de núvol federat …"
 },
 "nplurals=2; plural=(n != 1);");

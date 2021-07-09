@@ -124,7 +124,6 @@ OC.L10N.register(
     "Could not lock path" : "Não foi possível bloquear o caminho",
     "Wrong or no update parameter given" : "O parâmetro da atualização fornecido está errado ou não existe",
     "Cannot change permissions for public share links" : "Não foi possível alterar as permissões para links de compartilhamento público",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "O compartilhamento falhou ao enviar a senha ao Nextcloud Talk porque este não está ativado",
     "shared by %s" : "compartilhado por %s",
     "Download all files" : "Baixar todos os arquivos",
     "Direct link" : "Link direto",
@@ -240,6 +239,7 @@ OC.L10N.register(
     "Add to your Nextcloud" : "Adicionar ao seu Nextcloud",
     "invalid permissions" : "permissões inválidas",
     "Can't change permissions for public share links" : "Não foi possível alterar as permissões para links de compartilhamento público",
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "O compartilhamento falhou ao enviar a senha ao Nextcloud Talk porque este não está ativado",
     "Name, email, or federated cloud ID …" : "Nome, e-mail, ou ID da nuvem federada..."
 },
 "nplurals=2; plural=(n > 1);");

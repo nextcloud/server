@@ -110,7 +110,6 @@ OC.L10N.register(
     "Not a directory" : "디렉터리가 아님",
     "Could not lock path" : "경로를 잠글 수 없음",
     "Wrong or no update parameter given" : "업데이트 인자가 잘못되었거나 지정되지 않았음",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Nextcloud 토크가 활성화되어 있지 않기 때문에 Nextcloud 토크로 공유 암호를 전송할 수 없음",
     "shared by %s" : "%s에 의해 공유됨",
     "Download all files" : "모든 파일 다운로드",
     "Direct link" : "직접 링크",
@@ -181,6 +180,7 @@ OC.L10N.register(
     "By uploading files, you agree to the %1$sterms of service%2$s." : "파일을 업로드하면 %1$s이용 약관%2$s에 동의하는 것을 의미합니다.",
     "Add to your Nextcloud" : "내 Nextcloud에 추가",
     "invalid permissions" : "잘못된 권한",
-    "Can't change permissions for public share links" : "공개 공유 링크의 권한을 변경할 수 없음"
+    "Can't change permissions for public share links" : "공개 공유 링크의 권한을 변경할 수 없음",
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Nextcloud 토크가 활성화되어 있지 않기 때문에 Nextcloud 토크로 공유 암호를 전송할 수 없음"
 },
 "nplurals=1; plural=0;");

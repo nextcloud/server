@@ -120,7 +120,6 @@ OC.L10N.register(
     "Could not lock node" : "Не могу да закључам чвор",
     "Could not lock path" : "Не могу да закључам путању",
     "Wrong or no update parameter given" : "Погрешан или ненаведен параметер",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Дељење слањем лозинке преко Nextcloud Talk-а није успело пошто Nextcloud Talk није укључен",
     "shared by %s" : "поделио %s",
     "Download all files" : "Преузми све фајлове",
     "Direct link" : "Директна веза",
@@ -229,6 +228,7 @@ OC.L10N.register(
     "Add to your Nextcloud" : "Додајте у свој облак",
     "invalid permissions" : "Неисправне дозволе",
     "Can't change permissions for public share links" : "Не могу се променити привилегије за јавно доступне везе",
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Дељење слањем лозинке преко Nextcloud Talk-а није успело пошто Nextcloud Talk није укључен",
     "Name, email, or federated cloud ID …" : "Име, адреса е-поште или ID здруженог облака…"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

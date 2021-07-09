@@ -368,6 +368,7 @@ OC.L10N.register(
     "Allow apps to use the Share API" : "Apps toestaan de Share API te gebruiken",
     "Set default expiration date for shares" : "Instellen standaard vervaldatum voor deellinks",
     "Expire after" : "Vervallen na",
+    "day(s)" : "dag(en)",
     "Enforce expiration date" : "Het kiezen van een vervaldatum verplichten",
     "Set default expiration date for shares to other servers" : "Instellen standaard vervaldatum voor deellink naar andere servers",
     "Allow users to share via link and emails" : "Sta gebruikers toe om te delen via een link en e-mail",

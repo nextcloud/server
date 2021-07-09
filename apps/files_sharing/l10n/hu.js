@@ -120,7 +120,6 @@ OC.L10N.register(
     "Could not lock node" : "Nem sikerült zárolni a csomópontot",
     "Could not lock path" : "Az útvonal nem zárolható",
     "Wrong or no update parameter given" : "Hibás vagy üres frissítési paraméter",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "A Nextcloud Beszélgetés jelszó megosztásának küldése nem sikerült mert a Nextcloud Beszélgetés nem engedélyezett",
     "shared by %s" : "megosztotta %s",
     "Download all files" : "Összes fájl letöltése",
     "Direct link" : "Közvetlen hivatkozás",
@@ -235,6 +234,7 @@ OC.L10N.register(
     "Add to your Nextcloud" : "Add hozzá a Nextcloudodhoz",
     "invalid permissions" : "érvénytelen jogosultságok",
     "Can't change permissions for public share links" : "Nem lehet módosítani a nyilvános megosztási hivatkozások jogosultságait",
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "A Nextcloud Beszélgetés jelszó megosztásának küldése nem sikerült mert a Nextcloud Beszélgetés nem engedélyezett",
     "Name, email, or federated cloud ID …" : "Név, e-mail vagy egyesített felhőazonosító …"
 },
 "nplurals=2; plural=(n != 1);");

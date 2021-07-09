@@ -124,7 +124,6 @@ OC.L10N.register(
     "Could not lock path" : "Yol kilitlenemedi",
     "Wrong or no update parameter given" : "Parametre yanlış ya da herhangi bir parametre belirtilmemiş",
     "Cannot change permissions for public share links" : "Herkese açık olarak paylaşılan bağlantıların erişim hakları değiştirilemez",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Nextcloud Talk etkinleştirilmemiş olduğundan, Nextcloud Talk ile parola gönderilerek paylaşılamadı",
     "shared by %s" : "%s tarafından paylaşıldı",
     "Download all files" : "Tüm dosyaları indir",
     "Direct link" : "Doğrudan bağlantı",
@@ -240,6 +239,7 @@ OC.L10N.register(
     "Add to your Nextcloud" : "Nextcloud hesabınıza ekleyin",
     "invalid permissions" : "izinler geçersiz",
     "Can't change permissions for public share links" : "Herkese açık paylaşılan bağlantıların erişim hakları değiştirilemez",
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Nextcloud Talk etkinleştirilmemiş olduğundan, Nextcloud Talk ile parola gönderilerek paylaşılamadı",
     "Name, email, or federated cloud ID …" : "Ad, e-posta ya da birleşik bulut kodu …"
 },
 "nplurals=2; plural=(n > 1);");

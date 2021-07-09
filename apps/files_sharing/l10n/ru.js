@@ -120,7 +120,6 @@ OC.L10N.register(
     "Could not lock node" : "Не удалось заблокировать узел",
     "Could not lock path" : "Не удалось заблокировать путь",
     "Wrong or no update parameter given" : "Параметр для изменения неправилен или не задан",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Не удалось отправить пароль для доступа: приложение Nextcloud Talk отключено.",
     "shared by %s" : "доступ предоставлен пользователем %s",
     "Download all files" : "Скачать все файлы",
     "Direct link" : "Прямая ссылка",
@@ -235,6 +234,7 @@ OC.L10N.register(
     "Add to your Nextcloud" : "Добавить в свой Nextcloud",
     "invalid permissions" : "неверные права доступа",
     "Can't change permissions for public share links" : "Для общедоступных ссылок изменение прав невозможно",
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Не удалось отправить пароль для доступа: приложение Nextcloud Talk отключено.",
     "Name, email, or federated cloud ID …" : "Имя или ID межсерверного обмена…"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");
