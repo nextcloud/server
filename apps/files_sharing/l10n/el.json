@@ -118,7 +118,6 @@
     "Could not lock node" : "Δεν ήταν δυνατό να κλειδώσει ο κόμβος",
     "Could not lock path" : "Αδυναμία κλειδώματος διαδρομής",
     "Wrong or no update parameter given" : "Λάθος ή καμία παράμετρος αναβάθμισης δεν δόθηκε",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Η αποστολή του κοινόχρηστου κωδικού πρόσβασης από το Nextcloud Talk απέτυχε επειδή δεν είναι ενεργοποιημένο το Nextcloud Talk",
     "shared by %s" : "Διαμοιράστηκε από 1 %s",
     "Download all files" : "Λήψη όλων των αρχείων",
     "Direct link" : "Άμεσος σύνδεσμος",
@@ -230,6 +229,7 @@
     "Add to your Nextcloud" : "Προσθήκη στο Nextcloud σου",
     "invalid permissions" : "μη έγκυρα δικαιόματα",
     "Can't change permissions for public share links" : "Δεν μπορούμε να αλλάξουμε δικαιώματα για δημόσια διαμοιρασμένους συνδέσμους",
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Η αποστολή του κοινόχρηστου κωδικού πρόσβασης από το Nextcloud Talk απέτυχε επειδή δεν είναι ενεργοποιημένο το Nextcloud Talk",
     "Name, email, or federated cloud ID …" : "Όνομα, διεύθυνση ηλεκτρονικού ταχυδρομείου ή Ομοσπονδιακό αναγνωριστικό Cloud…"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
