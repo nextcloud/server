@@ -124,7 +124,6 @@ OC.L10N.register(
     "Could not lock path" : "Nepodařilo se uzamknout popis umístění",
     "Wrong or no update parameter given" : "Chyba nebo žádná aktualizace dle zadaných parametrů",
     "Cannot change permissions for public share links" : "Nelze změnit oprávnění pro veřejně sdílené odkazy",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Sdílení posláním hesla prostřednictvím Nextcloud Talk se nezdařilo protože Nextcloud Talk není zapnutý",
     "shared by %s" : "sdílí %s",
     "Download all files" : "Stáhnout všechny soubory",
     "Direct link" : "Přímý odkaz",
@@ -240,6 +239,7 @@ OC.L10N.register(
     "Add to your Nextcloud" : "Přidat do Nextcloud",
     "invalid permissions" : "neplatná oprávnění",
     "Can't change permissions for public share links" : "Nelze změnit oprávnění pro veřejně sdílené odkazy",
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Sdílení posláním hesla prostřednictvím Nextcloud Talk se nezdařilo protože Nextcloud Talk není zapnutý",
     "Name, email, or federated cloud ID …" : "Jméno, e-mail nebo identifikátor ve federovaném cloudu…"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");
