@@ -414,6 +414,11 @@ class PublicKeyTokenProvider implements IProvider {
 	public function updatePasswords(string $uid, string $password) {
 		$this->cache->clear();
 
+		// prevent setting an empty pw as result of pw-less-login
+		if ($password==='') {
+			return;
+		}
+
 		if (!$this->mapper->hasExpiredTokens($uid)) {
 			// Nothing to do here
 			return;
