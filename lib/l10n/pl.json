@@ -79,7 +79,7 @@
     "App \"%s\" cannot be installed because appinfo file cannot be read." : "Aplikacji \"%s\" nie można zainstalować, ponieważ nie można odczytać pliku appinfo.",
     "App \"%s\" cannot be installed because it is not compatible with this version of the server." : "Aplikacji \"%s\" nie można zainstalować, ponieważ nie jest kompatybilna z tą wersją serwera.",
     "__language_name__" : "Polski",
-    "This is an automatically sent email, please do not reply." : "To jest wiadomość e-mail wysłana automatycznie, prosimy nie odpowiadać na nią.",
+    "This is an automatically sent email, please do not reply." : "Jest to wiadomość e-mail wysłana automatycznie, prosimy nie odpowiadać na nią.",
     "Help" : "Pomoc",
     "Apps" : "Aplikacje",
     "Settings" : "Ustawienia",
