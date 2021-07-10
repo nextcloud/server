@@ -124,6 +124,7 @@ OC.L10N.register(
     "Could not lock path" : "Nepodařilo se uzamknout popis umístění",
     "Wrong or no update parameter given" : "Chyba nebo žádná aktualizace dle zadaných parametrů",
     "Cannot change permissions for public share links" : "Nelze změnit oprávnění pro veřejně sdílené odkazy",
+    "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "„Zaslání hesla prostřednictvím Nextcloud Talk“ pro sdílení souboru či složky se nezdařilo protože Nextcloud Talk není zapnuté.",
     "shared by %s" : "sdílí %s",
     "Download all files" : "Stáhnout všechny soubory",
     "Direct link" : "Přímý odkaz",

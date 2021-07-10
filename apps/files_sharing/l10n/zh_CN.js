@@ -124,6 +124,7 @@ OC.L10N.register(
     "Could not lock path" : "无法锁定路径",
     "Wrong or no update parameter given" : "错误或没有更新参数给出",
     "Cannot change permissions for public share links" : "无法更改公共共享链接的权限 ",
+    "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "“通过Nextcloud Talk发送密码”共享文件或文件夹失败了，因为未启用 Nextcloud Talk",
     "shared by %s" : "共享者 %s",
     "Download all files" : "下载所有文件",
     "Direct link" : "直接链接",
