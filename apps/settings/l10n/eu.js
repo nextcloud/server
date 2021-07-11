@@ -377,6 +377,7 @@ OC.L10N.register(
     "Always ask for a password" : "Beti eskatu pasahitza",
     "Enforce password protection" : "Betearazi pasahitzaren babesa",
     "Set default expiration date" : "Ezarri iraungitze-data lehenetsia",
+    "Exclude groups from creating link shares:" : "Baztertu taldeak esteka partekatzeak sortzetik:",
     "Allow resharing" : "Baimendu birpartekatzea",
     "Allow sharing with groups" : "Onartu taldeekin partekatzen",
     "Restrict users to only share with users in their groups" : "Mugatu partekatzeak taldeko erabiltzaileetara",

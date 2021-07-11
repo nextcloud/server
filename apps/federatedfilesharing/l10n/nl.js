@@ -38,6 +38,7 @@ OC.L10N.register(
     "Provide federated file sharing across servers" : "Voorzien in gefedereerd delen van bestanden over verschillende servers",
     "Federated Cloud Sharing" : "Federated Cloud Sharing",
     "Open documentation" : "Open documentatie",
+    "Adjust how people can share between servers. This includes shares between users on this server as well if they are using federated sharing." : "Pas aan hoe mensen kunnen delen tussen servers. Dit omvat ook shares tussen gebruikers op deze server als ze federatief delen gebruiken.",
     "Allow users on this server to send shares to other servers (this option also allows WebDAV access to public shares)" : "Sta gebruikers toe om op deze server shares naar andere servers te sturen (deze optie staat ook WebDAV toegang toe tot openbare shares).",
     "Allow users on this server to receive shares from other servers" : "Toestaan dat gebruikers op deze server shares ontvangen van andere servers",
     "Allow users on this server to send shares to groups on other servers" : "Sta gebruikers op deze server toe om shares naar groepen op andere servers te delen",
