@@ -28,7 +28,6 @@ namespace OCA\Theming;
 
 use Imagick;
 use ImagickPixel;
-use OCP\App\AppPathNotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
 
 class IconBuilder {
@@ -202,8 +201,8 @@ class IconBuilder {
 		$innerHeight = ($appIconFile->getImageHeight() - $border_h * 2);
 		$appIconFile->adaptiveResizeImage($innerWidth, $innerHeight);
 		// center icon
-		$offset_w = 512 / 2 - $innerWidth / 2;
-		$offset_h = 512 / 2 - $innerHeight / 2;
+		$offset_w = (int)(512 / 2 - $innerWidth / 2);
+		$offset_h = (int)(512 / 2 - $innerHeight / 2);
 
 		$finalIconFile = new Imagick();
 		$finalIconFile->setBackgroundColor(new ImagickPixel('transparent'));
@@ -223,10 +222,14 @@ class IconBuilder {
 		return $finalIconFile;
 	}
 
+	/**
+	 * @param $app string app name
+	 * @param $image string relative path to svg file in app directory
+	 * @return string|false content of a colorized svg file
+	 */
 	public function colorSvg($app, $image) {
-		try {
-			$imageFile = $this->util->getAppImage($app, $image);
-		} catch (AppPathNotFoundException $e) {
+		$imageFile = $this->util->getAppImage($app, $image);
+		if ($imageFile === false || $imageFile === "") {
 			return false;
 		}
 		$svg = file_get_contents($imageFile);
