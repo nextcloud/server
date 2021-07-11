@@ -293,6 +293,7 @@ OC.L10N.register(
     "An error occured during the request. Unable to proceed." : "Es ist ein Fehler bei der Anfrage aufgetreten. Es kann nicht fortgefahren werden.",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "Die App wurde aktiviert, muss aber aktualisiert werden. Du wirst in 5 Sekunden zur Aktualisierungsseite weitergeleitet.",
     "App update" : "App-Aktualisierung",
+    "Error: This app cannot be enabled because it makes the server unstable" : "Fehler: Diese App kann nicht aktiviert werden, da sie den Server instabil macht. ",
     "Administrator documentation" : "Dokumentation für Administratoren",
     "Documentation" : "Dokumentation",
     "Forum" : "Forum",
