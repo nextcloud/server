@@ -164,15 +164,15 @@ export default {
 			const shouldShowName = this.displayName && this.uid !== this.displayName
 
 			if (time > 18) {
-				return { text: shouldShowName ? t('dashboard', 'Good evening, {name}', { name: this.displayName }) : t('dashboard', 'Good evening') }
+				return { text: shouldShowName ? t('dashboard', 'Good evening, {name}', { name: this.displayName }, undefined, { escape: false }) : t('dashboard', 'Good evening') }
 			}
 			if (time > 12) {
-				return { text: shouldShowName ? t('dashboard', 'Good afternoon, {name}', { name: this.displayName }) : t('dashboard', 'Good afternoon') }
+				return { text: shouldShowName ? t('dashboard', 'Good afternoon, {name}', { name: this.displayName }, undefined, { escape: false }) : t('dashboard', 'Good afternoon') }
 			}
 			if (time > 5) {
-				return { text: shouldShowName ? t('dashboard', 'Good morning, {name}', { name: this.displayName }) : t('dashboard', 'Good morning') }
+				return { text: shouldShowName ? t('dashboard', 'Good morning, {name}', { name: this.displayName }, undefined, { escape: false }) : t('dashboard', 'Good morning') }
 			}
-			return { text: shouldShowName ? t('dashboard', 'Good night, {name}', { name: this.displayName }) : t('dashboard', 'Good night') }
+			return { text: shouldShowName ? t('dashboard', 'Good night, {name}', { name: this.displayName }, undefined, { escape: false }) : t('dashboard', 'Good night') }
 		},
 		isActive() {
 			return (panel) => this.layout.indexOf(panel.id) > -1
