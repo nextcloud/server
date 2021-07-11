@@ -97,6 +97,7 @@ export default {
 
 	.multiselect {
 		flex-grow: 1;
+		min-width: 130px;
 	}
 }
 </style>
