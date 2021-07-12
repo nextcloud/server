@@ -88,6 +88,10 @@ class OCSControllerTest extends TestCase {
 		$this->userSession->expects($this->once())
 			->method('isLoggedIn')
 			->willReturn(true);
+		$this->request
+			->method('getServerHost')
+			->willReturn('awesomehost.io');
+
 		[$major, $minor, $micro] = \OCP\Util::getVersion();
 
 		$result = [];
@@ -99,6 +103,8 @@ class OCSControllerTest extends TestCase {
 			'edition' => '',
 			'extendedSupport' => false
 		];
+
+		$result['host'] = 'awesomehost.io';
 
 		$capabilities = [
 			'foo' => 'bar',
@@ -121,6 +127,10 @@ class OCSControllerTest extends TestCase {
 		$this->userSession->expects($this->once())
 			->method('isLoggedIn')
 			->willReturn(false);
+		$this->request
+			->method('getServerHost')
+			->willReturn('awesomehost.io');
+
 		[$major, $minor, $micro] = \OCP\Util::getVersion();
 
 		$result = [];
@@ -132,6 +142,8 @@ class OCSControllerTest extends TestCase {
 			'edition' => '',
 			'extendedSupport' => false
 		];
+
+		$result['host'] = 'awesomehost.io';
 
 		$capabilities = [
 			'foo' => 'bar',
