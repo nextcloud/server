@@ -23,7 +23,7 @@ define('APC_BIN_VERIFY_CRC32', 2);
  * system cache (cached files) will be returned.
  * @param bool $limited If limited is TRUE, the return value will exclude the individual list
  * of cache entries. This is useful when trying to optimize calls for statistics gathering.
- * @return array|bool Array of cached data (and meta-data) or FALSE on failure.
+ * @return array|false Array of cached data (and meta-data) or FALSE on failure.
  */
 function apc_cache_info($type = '', $limited = false){}
 
@@ -41,7 +41,7 @@ function apc_clear_cache($cache_type = ''){}
  * @link https://php.net/manual/en/function.apc-sma-info.php
  * @param bool $limited When set to FALSE (default) apc_sma_info() will
  * return a detailed information about each segment.
- * @return array|bool Array of Shared Memory Allocation data; FALSE on failure.
+ * @return array|false Array of Shared Memory Allocation data; FALSE on failure.
  */
 function apc_sma_info($limited = false){}
 
@@ -65,8 +65,8 @@ function apc_store($key, $var, $ttl = 0){}
  * @link https://php.net/manual/en/function.apc-fetch.php
  * @param string|string[] $key The key used to store the value (with apc_store()).
  * If an array is passed then each element is fetched and returned.
- * @param bool $success Set to TRUE in success and FALSE in failure.
- * @return mixed The stored variable or array of variables on success; FALSE on failure.
+ * @param bool|null &$success Set to TRUE in success and FALSE in failure.
+ * @return mixed|false The stored variable or array of variables on success; FALSE on failure.
  */
 function apc_fetch($key, &$success = null){}
 
@@ -139,7 +139,7 @@ function apc_load_constants($key, $case_sensitive = true){}
 /**
  * Checks if APC key exists
  * @link https://php.net/manual/en/function.apc-exists.php
- * @param bool|string[] $keys A string, or an array of strings, that contain keys.
+ * @param string|string[] $keys A string, or an array of strings, that contain keys.
  * @return bool|string[] Returns TRUE if the key exists, otherwise FALSE
  * Or if an array was passed to keys, then an array is returned that
  * contains all existing keys, or an empty array if none exist.
@@ -163,8 +163,8 @@ function apc_delete_file($keys){}
  * @link https://php.net/manual/en/function.apc-inc.php
  * @param string $key The key of the value being increased.
  * @param int $step The step, or value to increase.
- * @param bool $success Optionally pass the success or fail boolean value to this referenced variable.
- * @return int|bool Returns the current value of key's value on success, or FALSE on failure.
+ * @param bool|null &$success Optionally pass the success or fail boolean value to this referenced variable.
+ * @return int|false Returns the current value of key's value on success, or FALSE on failure.
  */
 function apc_inc($key, $step = 1, &$success = null){}
 
@@ -173,12 +173,13 @@ function apc_inc($key, $step = 1, &$success = null){}
  * @link https://php.net/manual/en/function.apc-dec.php
  * @param string $key The key of the value being decreased.
  * @param int $step The step, or value to decrease.
- * @param bool $success Optionally pass the success or fail boolean value to this referenced variable.
- * @return int|bool Returns the current value of key's value on success, or FALSE on failure.
+ * @param bool|null &$success Optionally pass the success or fail boolean value to this referenced variable.
+ * @return int|false Returns the current value of key's value on success, or FALSE on failure.
  */
 function apc_dec($key, $step = 1, &$success = null){}
 
 /**
+ * Updates an old value with a new value
  * @link https://php.net/manual/en/function.apc-cas.php
  * @param string $key
  * @param int $old
@@ -195,7 +196,7 @@ function apc_cas($key, $old, $new){}
  * @link https://php.net/manual/en/function.apc-bin-dump.php
  * @param string[]|null $files The files. Passing in NULL signals a dump of every entry, while passing in array() will dump nothing.
  * @param string[]|null $user_vars The user vars. Passing in NULL signals a dump of every entry, while passing in array() will dump nothing.
- * @return string|bool|null Returns a binary dump of the given files and user variables from the APC cache, FALSE if APC is not enabled, or NULL if an unknown error is encountered.
+ * @return string|false|null Returns a binary dump of the given files and user variables from the APC cache, FALSE if APC is not enabled, or NULL if an unknown error is encountered.
  */
 function apc_bin_dump($files = null, $user_vars = null){}
 
@@ -207,7 +208,7 @@ function apc_bin_dump($files = null, $user_vars = null){}
  * @param string $filename The filename where the dump is being saved.
  * @param int $flags Flags passed to the filename stream. See the file_put_contents() documentation for details.
  * @param resource $context The context passed to the filename stream. See the file_put_contents() documentation for details.
- * @return int|bool The number of bytes written to the file, otherwise FALSE if APC
+ * @return int|false The number of bytes written to the file, otherwise FALSE if APC
  * is not enabled, filename is an invalid file name, filename can't be opened,
  * the file dump can't be completed (e.g., the hard drive is out of disk space),
  * or an unknown error was encountered.
@@ -278,14 +279,14 @@ class APCIterator implements Iterator
     /**
      * Gets the current item from the APCIterator stack
      * @link https://php.net/manual/en/apciterator.current.php
-     * @return mixed Returns the current item on success, or FALSE if no more items or exist, or on failure.
+     * @return mixed|false Returns the current item on success, or FALSE if no more items or exist, or on failure.
      */
     public function current(){}
 
     /**
      * Gets the current iterator key
      * @link https://php.net/manual/en/apciterator.key.php
-     * @return string|int|bool Returns the key on success, or FALSE upon failure.
+     * @return string|int|false Returns the key on success, or FALSE upon failure.
      */
     public function key(){}
 
@@ -299,7 +300,7 @@ class APCIterator implements Iterator
     /**
      * Gets the total number of cache hits
      * @link https://php.net/manual/en/apciterator.gettotalhits.php
-     * @return int|bool The number of hits on success, or FALSE on failure.
+     * @return int|false The number of hits on success, or FALSE on failure.
      */
     public function getTotalHits(){}
 
@@ -421,7 +422,7 @@ function apcu_sma_info($limited = false){}
 /**
  * Cache a variable in the data store
  * @link https://php.net/manual/en/function.apcu-store.php
- * @param string|array $key String: Store the variable using this name. Keys are cache-unique,
+ * @param string|string[] $key String: Store the variable using this name. Keys are cache-unique,
  * so storing a second value with the same key will overwrite the original value.
  * Array: Names in key, variables in value.
  * @param mixed $var [optional] The variable to store
@@ -438,15 +439,15 @@ function apcu_store($key, $var, $ttl = 0){}
  * @link https://php.net/manual/en/function.apcu-fetch.php
  * @param string|string[] $key The key used to store the value (with apcu_store()).
  * If an array is passed then each element is fetched and returned.
- * @param bool $success Set to TRUE in success and FALSE in failure.
- * @return mixed The stored variable or array of variables on success; FALSE on failure.
+ * @param bool|null &$success Set to TRUE in success and FALSE in failure.
+ * @return mixed|false The stored variable or array of variables on success; FALSE on failure.
  */
 function apcu_fetch($key, &$success = null){}
 
 /**
  * Removes a stored variable from the cache
  * @link https://php.net/manual/en/function.apcu-delete.php
- * @param string|string[]|APCuIterator $key The key used to store the value (with apcu_store()).
+ * @param string|string[]|APCUIterator $key The key used to store the value (with apcu_store()).
  * @return bool|string[] Returns TRUE on success or FALSE on failure. For array of keys returns list of failed keys.
  */
 function apcu_delete($key){}
@@ -488,7 +489,7 @@ function apcu_exists($keys){}
  * the stored variable will be expunged from the cache (on the next request). If no ttl is supplied
  * (or if the ttl is 0), the value will persist until it is removed from the cache manually,
  * or otherwise fails to exist in the cache (clear, restart, etc.).
- * @param bool $success Optionally pass the success or fail boolean value to this referenced variable.
+ * @param bool|null &$success Optionally pass the success or fail boolean value to this referenced variable.
  * @return int|false Returns the current value of key's value on success, or FALSE on failure.
  */
 function apcu_inc($key, $step = 1, &$success = null, $ttl = 0){}
@@ -502,7 +503,7 @@ function apcu_inc($key, $step = 1, &$success = null, $ttl = 0){}
  * the stored variable will be expunged from the cache (on the next request). If no ttl is supplied
  * (or if the ttl is 0), the value will persist until it is removed from the cache manually,
  * or otherwise fails to exist in the cache (clear, restart, etc.).
- * @param bool $success Optionally pass the success or fail boolean value to this referenced variable.
+ * @param bool|null &$success Optionally pass the success or fail boolean value to this referenced variable.
  * @return int|false Returns the current value of key's value on success, or FALSE on failure.
  */
 function apcu_dec($key, $step = 1, &$success = null, $ttl = 0){}
@@ -573,13 +574,14 @@ function apcu_enabled(){}
 
 /**
  * @param string $key
+ * @return array|null
  */
 function apcu_key_info($key){}
 
 /**
- * The APCuIterator class
+ * The APCUIterator class
  *
- * The APCuIterator class makes it easier to iterate over large APCu caches.
+ * The APCUIterator class makes it easier to iterate over large APCu caches.
  * This is helpful as it allows iterating over large caches in steps, while grabbing a defined number
  * of entries per lock instance, so it frees the cache locks for other activities rather than hold up
  * the entire cache to grab 100 (the default) entries. Also, using regular expression matching is more
@@ -588,10 +590,10 @@ function apcu_key_info($key){}
  * @link https://php.net/manual/en/class.apcuiterator.php
  * @since APCu 5.0.0
  */
-class APCuIterator implements Iterator
+class APCUIterator implements Iterator
 {
 	/**
-	 * Constructs an APCuIterator iterator object
+	 * Constructs an APCUIterator iterator object
 	 * @link https://php.net/manual/en/apcuiterator.construct.php
 	 * @param string|string[]|null $search A PCRE regular expression that matches against APCu key names,
 	 * either as a string for a single regular expression, or as an array of regular expressions.
@@ -616,9 +618,9 @@ class APCuIterator implements Iterator
 	public function valid(){}
 
 	/**
-	 * Gets the current item from the APCuIterator stack
+	 * Gets the current item from the APCUIterator stack
 	 * @link https://php.net/manual/en/apcuiterator.current.php
-	 * @return mixed Returns the current item on success, or FALSE if no more items or exist, or on failure.
+	 * @return mixed|false Returns the current item on success, or FALSE if no more items or exist, or on failure.
 	 */
 	public function current(){}
 
