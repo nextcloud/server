@@ -68,12 +68,12 @@ class OCSControllerTest extends TestCase {
 
 	public function testGetConfig() {
 		$this->request->method('getServerHost')
-			->willReturn('awesomehost.io');
+			->willReturn('example.tld');
 
 		$data = [
 			'version' => '1.7',
 			'website' => 'Nextcloud',
-			'host' => 'awesomehost.io',
+			'host' => 'example.tld',
 			'contact' => '',
 			'ssl' => 'false',
 		];
@@ -90,7 +90,7 @@ class OCSControllerTest extends TestCase {
 			->willReturn(true);
 		$this->request
 			->method('getServerHost')
-			->willReturn('awesomehost.io');
+			->willReturn('example.tld');
 
 		[$major, $minor, $micro] = \OCP\Util::getVersion();
 
@@ -104,7 +104,7 @@ class OCSControllerTest extends TestCase {
 			'extendedSupport' => false
 		];
 
-		$result['host'] = 'awesomehost.io';
+		$result['host'] = 'example.tld';
 
 		$capabilities = [
 			'foo' => 'bar',
@@ -129,7 +129,7 @@ class OCSControllerTest extends TestCase {
 			->willReturn(false);
 		$this->request
 			->method('getServerHost')
-			->willReturn('awesomehost.io');
+			->willReturn('example.tld');
 
 		[$major, $minor, $micro] = \OCP\Util::getVersion();
 
@@ -143,7 +143,7 @@ class OCSControllerTest extends TestCase {
 			'extendedSupport' => false
 		];
 
-		$result['host'] = 'awesomehost.io';
+		$result['host'] = 'example.tld';
 
 		$capabilities = [
 			'foo' => 'bar',
