@@ -34,7 +34,7 @@
     "@nextcloud/files": "^1.1.0",
     "@nextcloud/initial-state": "^1.2.0",
     "@nextcloud/l10n": "^1.4.1",
-    "@nextcloud/logger": "^1.1.2",
+    "@nextcloud/logger": "^2.0.0",
     "@nextcloud/moment": "^1.1.1",
     "@nextcloud/password-confirmation": "^1.0.1",
     "@nextcloud/paths": "^1.1.2",
