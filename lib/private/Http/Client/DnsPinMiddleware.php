@@ -82,7 +82,7 @@ class DnsPinMiddleware {
 
 			$dnsResponses = dns_get_record($target, $dnsType);
 			$canHaveCnameRecord = true;
-			if (count($dnsResponses) > 0) {
+			if ($dnsResponses && count($dnsResponses) > 0) {
 				foreach ($dnsResponses as $dnsResponse) {
 					if (isset($dnsResponse['ip'])) {
 						$targetIps[] = $dnsResponse['ip'];
