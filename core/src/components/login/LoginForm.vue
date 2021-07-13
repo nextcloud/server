@@ -60,6 +60,7 @@
 					type="text"
 					name="user"
 					autocapitalize="off"
+					autocorrect="off"
 					:autocomplete="autoCompleteAllowed ? 'on' : 'off'"
 					:placeholder="t('core', 'Username or email')"
 					:aria-label="t('core', 'Username or email')"
@@ -75,7 +76,9 @@
 					:type="passwordInputType"
 					class="password-with-toggle"
 					name="password"
-					:autocomplete="autoCompleteAllowed ? 'on' : 'off'"
+					autocorrect="off"
+					autocapitalize="none"
+					:autocomplete="autoCompleteAllowed ? 'current-password' : 'off'"
 					:placeholder="t('core', 'Password')"
 					:aria-label="t('core', 'Password')"
 					required>
