@@ -24,6 +24,11 @@
 import { loadState } from '@nextcloud/initial-state'
 
 OCA.Accessibility = loadState('accessibility', 'data')
+if (OCA.Accessibility.checkMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+	// Overwrite the theme for Guests based on the prefers-color-scheme
+	OCA.Accessibility.theme = 'dark'
+}
+
 if (OCA.Accessibility.theme !== false) {
 	document.body.classList.add(`theme--${OCA.Accessibility.theme}`)
 } else {
