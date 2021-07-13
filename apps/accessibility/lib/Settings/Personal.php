@@ -29,8 +29,6 @@ use OCA\Accessibility\AccessibilityProvider;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\IConfig;
-use OCP\IL10N;
-use OCP\IURLGenerator;
 use OCP\IUserSession;
 use OCP\Settings\ISettings;
 use OCP\Util;
@@ -46,12 +44,6 @@ class Personal implements ISettings {
 	/** @var IUserSession */
 	private $userSession;
 
-	/** @var IL10N */
-	private $l;
-
-	/** @var IURLGenerator */
-	private $urlGenerator;
-
 	/** @var AccessibilityProvider */
 	private $accessibilityProvider;
 
@@ -61,15 +53,11 @@ class Personal implements ISettings {
 	public function __construct(string $appName,
 								IConfig $config,
 								IUserSession $userSession,
-								IL10N $l,
-								IURLGenerator $urlGenerator,
 								AccessibilityProvider $accessibilityProvider,
 								IInitialState $initialStateService) {
 		$this->appName = $appName;
 		$this->config = $config;
 		$this->userSession = $userSession;
-		$this->l = $l;
-		$this->urlGenerator = $urlGenerator;
 		$this->accessibilityProvider = $accessibilityProvider;
 		$this->initialStateService = $initialStateService;
 	}
