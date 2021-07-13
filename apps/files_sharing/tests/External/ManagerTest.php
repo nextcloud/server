@@ -143,9 +143,17 @@ class ManagerTest extends TestCase {
 		$group1->expects($this->any())->method('getGID')->willReturn('group1');
 		$group1->expects($this->any())->method('inGroup')->with($this->user)->willReturn(true);
 
+		$group2 = $this->createMock(IGroup::class);
+		$group2->expects($this->any())->method('getGID')->willReturn('group2');
+		$group2->expects($this->any())->method('inGroup')->with($this->user)->willReturn(true);
+
 		$this->userManager->expects($this->any())->method('get')->willReturn($this->user);
-		$this->groupManager->expects($this->any())->method(('getUserGroups'))->willReturn([$group1]);
-		$this->groupManager->expects($this->any())->method(('get'))->with('group1')->willReturn($group1);
+		$this->groupManager->expects($this->any())->method(('getUserGroups'))->willReturn([$group1, $group2]);
+		$this->groupManager->expects($this->any())->method(('get'))
+			->will($this->returnValueMap([
+				['group1', $group1],
+				['group2', $group2],
+			]));
 	}
 
 	protected function tearDown(): void {
