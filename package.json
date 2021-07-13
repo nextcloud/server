@@ -93,7 +93,7 @@
     "@babel/core": "^7.12.10",
     "@babel/plugin-proposal-class-properties": "^7.12.13",
     "@babel/plugin-syntax-dynamic-import": "^7.8.3",
-    "@babel/preset-env": "^7.12.11",
+    "@babel/preset-env": "^7.12.17",
     "@nextcloud/browserslist-config": "^1.0.0",
     "@nextcloud/eslint-config": "^2.2.0",
     "@nextcloud/eslint-plugin": "^1.5.0",
