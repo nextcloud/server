@@ -180,20 +180,20 @@ export default {
 			const good = {
 				morning: {
 					generic: t('dashboard', 'Good morning'),
-					withName: t('dashboard', 'Good morning, {name}', { name: this.displayName }),
+					withName: t('dashboard', 'Good morning, {name}', { name: this.displayName }, undefined, { escape: false }),
 				},
 				afternoon: {
 					generic: t('dashboard', 'Good afternoon'),
-					withName: t('dashboard', 'Good afternoon, {name}', { name: this.displayName }),
+					withName: t('dashboard', 'Good afternoon, {name}', { name: this.displayName }, undefined, { escape: false }),
 				},
 				evening: {
 					generic: t('dashboard', 'Good evening'),
-					withName: t('dashboard', 'Good evening, {name}', { name: this.displayName }),
+					withName: t('dashboard', 'Good evening, {name}', { name: this.displayName }, undefined, { escape: false }),
 				},
 				night: {
 					// Don't use "Good night" as it's not a greeting
 					generic: t('dashboard', 'Hello'),
-					withName: t('dashboard', 'Hello, {name}', { name: this.displayName }),
+					withName: t('dashboard', 'Hello, {name}', { name: this.displayName }, undefined, { escape: false }),
 				},
 			}
 
