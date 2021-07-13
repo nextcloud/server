@@ -22,7 +22,7 @@
     "karma-spec-reporter": "^0.0.32",
     "karma-viewport": "^1.0.8",
     "node-sass": "~6.0.1",
-    "puppeteer": "^10.0.0",
+    "puppeteer": "^10.1.0",
     "sinon": "<= 5.0.7"
   },
   "engine": "node >= 6.9"
