@@ -212,7 +212,7 @@
     "Error loading file picker template: {error}" : "Errore in su carrigamentu de su modellu de regorta de archìvios: {error}",
     "OK" : "AB",
     "Error loading message template: {error}" : "Errore in su carrigamentu de su modellu de messàgiu: {error}",
-    "read-only" : "isceti letura",
+    "read-only" : "letura sola",
     "_{count} file conflict_::_{count} file conflicts_" : ["{contu} cunflitu de archìviu","{count} cunflitos de archìviu"],
     "One file conflict" : "Unu cunflitu de archìviu",
     "New Files" : "Archìvios noos",
