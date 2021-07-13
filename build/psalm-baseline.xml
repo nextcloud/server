@@ -3714,7 +3714,9 @@
     </UndefinedFunction>
   </file>
   <file src="lib/private/Files/ObjectStore/S3ObjectTrait.php">
-    <InternalMethod occurrences="1">
+    <InternalMethod occurrences="3">
+      <code>getState</code>
+      <code>getState</code>
       <code>upload</code>
     </InternalMethod>
     <UndefinedFunction occurrences="1">
