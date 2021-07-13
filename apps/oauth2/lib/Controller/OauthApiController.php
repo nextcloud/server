@@ -147,7 +147,7 @@ class OauthApiController extends Controller {
 		}
 
 		// Rotate the apptoken (so the old one becomes invalid basically)
-		$newToken = $this->secureRandom->generate(72, ISecureRandom::CHAR_UPPER.ISecureRandom::CHAR_LOWER.ISecureRandom::CHAR_DIGITS);
+		$newToken = $this->secureRandom->generate(72, ISecureRandom::CHAR_ALPHANUMERIC);
 
 		$appToken = $this->tokenProvider->rotate(
 			$appToken,
@@ -160,7 +160,7 @@ class OauthApiController extends Controller {
 		$this->tokenProvider->updateToken($appToken);
 
 		// Generate a new refresh token and encrypt the new apptoken in the DB
-		$newCode = $this->secureRandom->generate(128, ISecureRandom::CHAR_UPPER.ISecureRandom::CHAR_LOWER.ISecureRandom::CHAR_DIGITS);
+		$newCode = $this->secureRandom->generate(128, ISecureRandom::CHAR_ALPHANUMERIC);
 		$accessToken->setHashedCode(hash('sha512', $newCode));
 		$accessToken->setEncryptedToken($this->crypto->encrypt($newToken, $newCode));
 		$this->accessTokenMapper->update($accessToken);

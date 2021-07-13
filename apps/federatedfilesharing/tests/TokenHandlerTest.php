@@ -49,7 +49,7 @@ class TokenHandlerTest extends \Test\TestCase {
 		$this->secureRandom->expects($this->once())->method('generate')
 			->with(
 				$this->expectedTokenLength,
-				ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_DIGITS
+				ISecureRandom::CHAR_ALPHANUMERIC
 			)
 			->willReturn('mytoken');
 

@@ -104,9 +104,7 @@ class NewUserMailHelper {
 		if ($generatePasswordResetToken) {
 			$token = $this->secureRandom->generate(
 				21,
-				ISecureRandom::CHAR_DIGITS .
-				ISecureRandom::CHAR_LOWER .
-				ISecureRandom::CHAR_UPPER
+				ISecureRandom::CHAR_ALPHANUMERIC
 			);
 			$tokenValue = $this->timeFactory->getTime() . ':' . $token;
 			$mailAddress = (null !== $user->getEMailAddress()) ? $user->getEMailAddress() : '';
