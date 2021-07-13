@@ -176,6 +176,7 @@
 					dirInfo: this.dirInfo
 				});
 				$crumb.append(view.$el);
+				$menuItem.append(view.$el.clone(true));
 			}, this);
 
 			// setup drag and drop
