@@ -37,6 +37,7 @@ use Doctrine\DBAL\Driver\Exception;
 use OC\Files\Filesystem;
 use OCA\FederatedFileSharing\Events\FederatedShareAddedEvent;
 use OCA\Files_Sharing\Helper;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\ICloudFederationFactory;
 use OCP\Federation\ICloudFederationProviderManager;
@@ -740,16 +741,22 @@ class Manager {
 			$userGroups[] = $group->getGID();
 		}
 
-		// FIXME: use query builder
-		$query = 'SELECT `id`, `share_type`, `parent`, `remote`, `remote_id`, `share_token`, `name`, `owner`, `user`, `mountpoint`, `accepted`
-		          FROM `*PREFIX*share_external`
-				  WHERE (`user` = ? OR `user` IN (?))';
-		$parameters = [$this->uid, implode(',', $userGroups)];
-		$query .= ' ORDER BY `id` ASC';
+		$qb = $this->connection->getQueryBuilder();
+		$qb->select('id', 'share_type', 'parent', 'remote', 'remote_id', 'share_token', 'name', 'owner', 'user', 'mountpoint', 'accepted')
+			->from('share_external')
+			->where(
+				$qb->expr()->orX(
+					$qb->expr()->eq('user', $qb->createNamedParameter($this->uid)),
+					$qb->expr()->in(
+						'user',
+						$qb->createNamedParameter($userGroups, IQueryBuilder::PARAM_STR_ARRAY)
+					)
+				)
+			)
+			->orderBy('id', 'ASC');
 
-		$sharesQuery = $this->connection->prepare($query);
 		try {
-			$result = $sharesQuery->execute($parameters);
+			$result = $qb->execute();
 			$shares = $result->fetchAll();
 			$result->closeCursor();
 
