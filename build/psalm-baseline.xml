@@ -1927,12 +1927,6 @@
       <code>$iconFile !== false</code>
     </RedundantCondition>
   </file>
-  <file src="apps/theming/lib/IconBuilder.php">
-    <InvalidScalarArgument occurrences="2">
-      <code>$offset_h</code>
-      <code>$offset_w</code>
-    </InvalidScalarArgument>
-  </file>
   <file src="apps/theming/lib/ImageManager.php">
     <InvalidReturnType occurrences="1">
       <code>string</code>
