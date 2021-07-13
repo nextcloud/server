@@ -119,7 +119,10 @@
 		_registerEvents: function() {
 			var self = this;
 			_.each(this._inputFields, function(field) {
-				if (field === 'avatar') {
+				if (
+					field === 'avatar' ||
+					field === 'email'
+				) {
 					return;
 				}
 				self.$('#' + field).keyUpDelayedOrEnter(_.bind(self._onInputChanged, self), true);

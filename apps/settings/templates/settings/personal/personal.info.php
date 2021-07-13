@@ -31,6 +31,7 @@ script('settings', [
 	'federationsettingsview',
 	'federationscopemenu',
 	'settings/personalInfo',
+	'vue-settings-personal-info',
 ]);
 ?>
 
@@ -126,52 +127,7 @@ script('settings', [
 			</form>
 		</div>
 		<div class="personal-settings-setting-box">
-			<form id="emailform" class="section">
-				<h3>
-					<label for="email"><?php p($l->t('Email')); ?></label>
-					<a href="#" class="federation-menu" aria-label="<?php p($l->t('Change privacy level of email')); ?>">
-						<span class="icon-federation-menu icon-password">
-							<span class="icon-triangle-s"></span>
-						</span>
-					</a>
-				</h3>
-				<div class="verify <?php if ($_['email'] === '' || $_['emailScope'] !== 'public') {
-									p('hidden');
-								} ?>">
-					<img id="verify-email" title="<?php p($_['emailMessage']); ?>" data-status="<?php p($_['emailVerification']) ?>" src="
-				<?php
-					switch ($_['emailVerification']) {
-						case \OC\Accounts\AccountManager::VERIFICATION_IN_PROGRESS:
-							p(image_path('core', 'actions/verifying.svg'));
-							break;
-						case \OC\Accounts\AccountManager::VERIFIED:
-							p(image_path('core', 'actions/verified.svg'));
-							break;
-						default:
-							p(image_path('core', 'actions/verify.svg'));
-					}
-					?>">
-				</div>
-				<input type="email" name="email" id="email" value="<?php p($_['email']); ?>"
-					<?php if (!$_['displayNameChangeSupported']) {
-						print_unescaped('class="hidden"');
-					} ?>
-					   placeholder="<?php p($l->t('Your email address')); ?>"
-					   autocomplete="on" autocapitalize="none" autocorrect="off" />
-				<span class="icon-checkmark hidden"></span>
-				<span class="icon-error hidden" ></span>
-				<?php if (!$_['displayNameChangeSupported']) { ?>
-					<span><?php if (isset($_['email']) && !empty($_['email'])) {
-						p($_['email']);
-					} else {
-						p($l->t('No email address set'));
-					}?></span>
-				<?php } ?>
-				<?php if ($_['displayNameChangeSupported']) { ?>
-					<em><?php p($l->t('For password reset and notifications')); ?></em>
-				<?php } ?>
-				<input type="hidden" id="emailscope" value="<?php p($_['emailScope']) ?>">
-			</form>
+			<div id="vue-emailsection" class="section"></div>
 		</div>
 		<div class="personal-settings-setting-box">
 			<form id="phoneform" class="section">
@@ -223,8 +179,8 @@ script('settings', [
 				</h3>
 				<?php if ($_['lookupServerUploadEnabled']) { ?>
 				<div class="verify <?php if ($_['website'] === '' || $_['websiteScope'] !== 'public') {
-						p('hidden');
-					} ?>">
+									p('hidden');
+								} ?>">
 					<img id="verify-website" title="<?php p($_['websiteMessage']); ?>" data-status="<?php p($_['websiteVerification']) ?>" src="
 					<?php
 					switch ($_['websiteVerification']) {
