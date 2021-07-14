@@ -278,7 +278,7 @@ kbd {
 				z-index: 100; /* above the bullet to allow click*/
 				/* TODO: forbid using img as icon in menu? */
 
-				.svg {
+				&.svg {
 					padding: 0 12px 0 44px;
 				}
 				&:first-child img {
