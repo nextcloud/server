@@ -328,7 +328,7 @@ OC.L10N.register(
     "Test email settings" : "測試電子郵件設定",
     "Send email" : "傳送測試電郵",
     "Security & setup warnings" : "安全及設定警告",
-    "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the linked documentation for more information." : "正確設定每樣東西對您的站台的安全性與效能來說非常重要。為了協助您，我們正在進行一些自動檢查。請參閱連結資訊以取得更多資訊。",
+    "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the linked documentation for more information." : "正確的配置對您站台的安全性和性能來說非常重要。 我們正在進行一些自動檢查以幫助您。有關更多資訊，請參閱連結的說明書。",
     "All checks passed." : "所有檢查皆通過。",
     "There are some errors regarding your setup." : "您的設定有些錯誤。",
     "There are some warnings regarding your setup." : "有關您設置的警告。",
