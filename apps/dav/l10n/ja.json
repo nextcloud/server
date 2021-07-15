@@ -102,11 +102,6 @@
     "Tentative" : "暫定的",
     "Save" : "保存",
     "Your attendance was updated successfully." : "出席は正常に更新されました。",
-    "Hello %s," : "%s さん、こんにちは",
-    "The meeting »%1$s« with %2$s was canceled." : "会議%1$s « %2$s がキャンセルされました。",
-    "The meeting »%1$s« with %2$s was updated." : "会議 %1$s« %2$s が更新されました。",
-    "%1$s invited you to »%2$s«" : "%1$s があなたを »%2$s« に招待しました",
-    "When:" : "いつ:",
     "Calendar and tasks" : "カレンダーとタスク"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

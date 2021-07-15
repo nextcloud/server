@@ -206,20 +206,10 @@
     "Pending shares" : "Partages en attente",
     "Text file" : "Fichier texte",
     "New text file.txt" : "Nouveau fichier texte.txt",
-    "Unshare" : "Ne plus partager",
     "Storage of {owner} is full, files can not be updated or synced anymore!" : "L'espace de stockage de {owner} est plein. Les fichiers ne peuvent plus être mis à jour ni synchronisés !",
     "Group folder \"{mountPoint}\" is full, files can not be updated or synced anymore!" : "Le dossier du groupe \"{mountPoint}\" est plein, les fichiers ne peuvent plus être mis à jour ou synchronisés!",
     "External storage \"{mountPoint}\" is full, files can not be updated or synced anymore!" : "L'espace de stockage externe \"{mountPoint}\" est plein, les fichiers ne peuvent plus être mis à jour ni synchronisés !",
     "Your storage is full, files can not be updated or synced anymore!" : "Votre espace de stockage est plein. Les fichiers ne peuvent plus être mis à jour ni synchronisés !",
-    "Storage of {owner} is almost full ({usedSpacePercent}%)" : "L'espace de stockage de {owner} est presque plein ({usedSpacePercent}%)",
-    "Group folder \"{mountPoint}\" is almost full ({usedSpacePercent}%)" : "Le dossier de groupe \"{mountPoint}\" est presque plein ({usedSpacePercent}%)",
-    "External storage \"{mountPoint}\" is almost full ({usedSpacePercent}%)" : "L'espace de stockage externe \"{mountPoint}\" est presque plein ({usedSpacePercent}%)",
-    "Your storage is almost full ({usedSpacePercent}%)" : "Votre espace de stockage est presque plein ({usedSpacePercent}%)",
-    "_matches '{filter}'_::_match '{filter}'_" : ["correspond à '{filter}'","correspondent à '{filter}'"],
-    "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>" : "Un fichier ou dossier a été <strong>modifié</strong> ou <strong>renommé</strong>",
-    "A new file or folder has been <strong>created</strong>" : "Un nouveau fichier ou répertoire a été <strong>créé</strong>",
-    "A file or folder has been <strong>deleted</strong>" : "Un fichier ou un dossier a été <strong>supprimé</strong>",
-    "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Limiter les notifications qui concernent les créations et les modifications à vos <strong>fichiers favoris</strong> <em>(Flux uniquement)</em>",
-    "A file or folder has been <strong>restored</strong>" : "Un fichier ou un dossier a été <strong>restauré</strong>"
+    "_matches '{filter}'_::_match '{filter}'_" : ["correspond à '{filter}'","correspondent à '{filter}'"]
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

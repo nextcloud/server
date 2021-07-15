@@ -142,16 +142,8 @@ OC.L10N.register(
     "Shared by link" : "Shared by link",
     "Text file" : "Text file",
     "New text file.txt" : "New text file.txt",
-    "Unshare" : "Unshare",
     "Storage of {owner} is full, files can not be updated or synced anymore!" : "Storage of {owner} is full, files can not be updated or synced anymore!",
     "Your storage is full, files can not be updated or synced anymore!" : "Your storage is full, files can not be updated or synced anymore!",
-    "Storage of {owner} is almost full ({usedSpacePercent}%)" : "Storage of {owner} is almost full ({usedSpacePercent}%)",
-    "Your storage is almost full ({usedSpacePercent}%)" : "Your storage is almost full ({usedSpacePercent}%)",
-    "_matches '{filter}'_::_match '{filter}'_" : ["matches '{filter}'","match '{filter}'"],
-    "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>" : "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>",
-    "A new file or folder has been <strong>created</strong>" : "A new file or folder has been <strong>created</strong>",
-    "A file or folder has been <strong>deleted</strong>" : "A file or folder has been <strong>deleted</strong>",
-    "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Limit notifications about creation and changes to your <strong>favourite files</strong> <em>(Stream only)</em>",
-    "A file or folder has been <strong>restored</strong>" : "A file or folder has been <strong>restored</strong>"
+    "_matches '{filter}'_::_match '{filter}'_" : ["matches '{filter}'","match '{filter}'"]
 },
 "nplurals=2; plural=(n != 1);");

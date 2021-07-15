@@ -50,7 +50,6 @@
     "Add to your website" : "Přidat na svou webovou stránku",
     "Share with me via Nextcloud" : "Sdílet se mnou přes Nextcloud",
     "HTML Code:" : "HTML kód:",
-    "Adjust how people can share between servers." : "Upravte, jak mohou lidé mezi servery sdílet.",
-    "Allow users on this server to send shares to other servers" : "Povolit uživatelům z tohoto serveru zasílat sdílení na jiné servery"
+    "Adjust how people can share between servers." : "Upravte, jak mohou lidé mezi servery sdílet."
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;"
 }

@@ -51,7 +51,6 @@ OC.L10N.register(
     "Add to your website" : "Agiunghe a su situ ìnternet tuo",
     "Share with me via Nextcloud" : "Cumpartzi cun megus tràmite Nextcloud",
     "HTML Code:" : "Còdighe HTML:",
-    "Adjust how people can share between servers." : "Règula comente is persones podent cumpartzire intre serbidores.",
-    "Allow users on this server to send shares to other servers" : "Permite a is utentes in custu serbidore de imbiare cumpartziduras a àteros serbidores"
+    "Adjust how people can share between servers." : "Règula comente is persones podent cumpartzire intre serbidores."
 },
 "nplurals=2; plural=(n != 1);");

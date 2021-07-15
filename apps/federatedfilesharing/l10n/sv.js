@@ -48,7 +48,6 @@ OC.L10N.register(
     "Add to your website" : "Lägg till på din hemsida",
     "Share with me via Nextcloud" : "Dela med mig via Nextcloud",
     "HTML Code:" : "HTML Kod:",
-    "Adjust how people can share between servers." : "Justera hur användare kan dela genom servrar.",
-    "Allow users on this server to send shares to other servers" : "Tillåt användare på denna server att skicka utdelningar till andra servrar"
+    "Adjust how people can share between servers." : "Justera hur användare kan dela genom servrar."
 },
 "nplurals=2; plural=(n != 1);");

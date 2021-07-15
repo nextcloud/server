@@ -52,7 +52,6 @@ OC.L10N.register(
     "Add to your website" : "Zure webgunera gehitu",
     "Share with me via Nextcloud" : "Partekatu nirekin Nextcloud-en bidez",
     "HTML Code:" : "HTML kodea:",
-    "Adjust how people can share between servers." : "Pertsonen zerbitzarien arteko partekatzea konfiguratu",
-    "Allow users on this server to send shares to other servers" : "Baimendu zerbitzari honetako erabiltzaileak beste zerbitzariekin partekatzera"
+    "Adjust how people can share between servers." : "Pertsonen zerbitzarien arteko partekatzea konfiguratu"
 },
 "nplurals=2; plural=(n != 1);");

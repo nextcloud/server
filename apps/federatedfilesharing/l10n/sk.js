@@ -52,7 +52,6 @@ OC.L10N.register(
     "Add to your website" : "Pridať na svoju webstránku",
     "Share with me via Nextcloud" : "Sprístupnené cez Nextcloud",
     "HTML Code:" : "HTML kód:",
-    "Adjust how people can share between servers." : "Nastavte ako môžu ľudia medzi sebou zdieľať servery.",
-    "Allow users on this server to send shares to other servers" : "Povoliť používateľom z tohto servera sprístupňovať obsah na iných serveroch"
+    "Adjust how people can share between servers." : "Nastavte ako môžu ľudia medzi sebou zdieľať servery."
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

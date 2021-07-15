@@ -212,13 +212,8 @@ OC.L10N.register(
     "Update app \"%s\" from appstore" : "Përditëso aplikacionin \"%s\" nga appstore",
     "Checked for update of app \"%s\" in appstore" : "Duke kontrolluar për përditësim të aplikacionit \"%s\" në appstore.",
     "Checked database schema update for apps" : "U kontrollua përditësimi i skemës së bazës së të dhënave për aplikacionet",
-    "Following apps have been disabled: %s" : "Janë çaktivizuar aplikacionet vijuese : %s",
     "Continue to Nextcloud" : "Vazhdoni tek Nextcloud",
     "_The update was successful. Redirecting you to Nextcloud in %n second._::_The update was successful. Redirecting you to Nextcloud in %n seconds._" : ["Përditësimi ishte i suksesshëm. Ju ridrejtojmë në Nextcloud për %n sekonda.","Përditësimi ishte i suksesshëm. Ju ridrejtojmë në Nextcloud për %n sekonda."],
-    "Searching other places" : "Duke kërkuar në vende të tjera",
-    "No search results in other folders for {tag}{filter}{endtag}" : "Jo rezultate nga kërkimi në dosjet e tjera për '{etiketim}{filtrim}{përfundoetiketimin}'",
-    "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} përfundim kërkimi në një tjetër dosje","{count} përfundime kërkimi në dosje të tjera"],
-    "Password can not be changed. Please contact your administrator." : "Fjalëkalimi nuk mund të ndryshohet. Ju lutemi, lidhuni me përgjegjësin tuaj.",
-    "These apps will be updated:" : "Do të përditësohen këto aplikacione:"
+    "Password can not be changed. Please contact your administrator." : "Fjalëkalimi nuk mund të ndryshohet. Ju lutemi, lidhuni me përgjegjësin tuaj."
 },
 "nplurals=2; plural=(n != 1);");

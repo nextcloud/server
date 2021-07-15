@@ -104,11 +104,6 @@ OC.L10N.register(
     "Tentative" : "Под вопросом",
     "Save" : "Сохранить",
     "Your attendance was updated successfully." : "Статус участия обновлён.",
-    "Hello %s," : "Привет, %s!",
-    "The meeting »%1$s« with %2$s was canceled." : "Встреча «%1$s» с %2$s отменена.",
-    "The meeting »%1$s« with %2$s was updated." : "Встреча «%1$s» с %2$s обновлена.",
-    "%1$s invited you to »%2$s«" : "%1$s приглашает вас в «%2$s»",
-    "When:" : "Когда:",
     "Calendar and tasks" : "Календарь и задачи"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

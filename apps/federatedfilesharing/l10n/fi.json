@@ -42,7 +42,6 @@
     "Add to your website" : "Lisää verkkosivuillesi",
     "Share with me via Nextcloud" : "Jaa kanssani Nextcloudin kautta",
     "HTML Code:" : "HTML-koodi:",
-    "Adjust how people can share between servers." : "Mukauta kuinka ihmiset voivat jakaa palvelinten välillä.",
-    "Allow users on this server to send shares to other servers" : "Salli tämän palvelimen käyttäjien lähettää jakoja muille palvelimille"
+    "Adjust how people can share between servers." : "Mukauta kuinka ihmiset voivat jakaa palvelinten välillä."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

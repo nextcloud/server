@@ -164,16 +164,8 @@ OC.L10N.register(
     "Pending shares" : "Afventende delinger",
     "Text file" : "Tekstfil",
     "New text file.txt" : "Ny tekst file.txt",
-    "Unshare" : "Ophæv deling",
     "Storage of {owner} is full, files can not be updated or synced anymore!" : "Opbevaringspladsen tilhørende {owner} er fyldt op - filer kan ikke længere opdateres eller synkroniseres!",
     "Your storage is full, files can not be updated or synced anymore!" : "Din opbevaringsplads er fyldt op, filer kan ikke opdateres eller synkroniseres længere!",
-    "Storage of {owner} is almost full ({usedSpacePercent}%)" : "Opbevaringspladsen tilhørende {owner} er næsten fyldt op ({usedSpacePercent}%)",
-    "Your storage is almost full ({usedSpacePercent}%)" : "Din opbevaringsplads er næsten fyldt op ({usedSpacePercent}%)",
-    "_matches '{filter}'_::_match '{filter}'_" : ["match '{filter}'","match '{filter}'"],
-    "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>" : "En fil eller mappe er blevet <strong>ændret</strong> eller <strong>omdøbt</strong>",
-    "A new file or folder has been <strong>created</strong>" : "En ny fil eller mapper er blevet <strong>oprettet</strong>",
-    "A file or folder has been <strong>deleted</strong>" : "En fil eller mappe er blevet <strong>slettet</strong>",
-    "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Begræns noter om oprettelse og ændringer af dine <strong>favorit filer</strong> <em>(Kun streaming)</em>",
-    "A file or folder has been <strong>restored</strong>" : "En fil eller mappe er blevet <strong>gendannet</strong>"
+    "_matches '{filter}'_::_match '{filter}'_" : ["match '{filter}'","match '{filter}'"]
 },
 "nplurals=2; plural=(n != 1);");

@@ -135,11 +135,6 @@
     "Tentative" : "Niepewne",
     "Save" : "Zapisz",
     "Your attendance was updated successfully." : "Twoja obecność została pomyślnie zaktualizowana.",
-    "Hello %s," : "Witaj %s,",
-    "The meeting »%1$s« with %2$s was canceled." : "Spotkanie »%1$s« z %2$s zostało anulowane.",
-    "The meeting »%1$s« with %2$s was updated." : "Spotkanie »%1$s« z %2$s zostało zaktualizowane.",
-    "%1$s invited you to »%2$s«" : "%1$s zaprosił cię do »%2$s«",
-    "When:" : "Kiedy:",
     "Calendar and tasks" : "Kalendarz i zadania"
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
 }

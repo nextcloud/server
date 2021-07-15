@@ -223,8 +223,6 @@
     "Storage connection timeout. %s" : "Tároló kapcsolat időtúllépés. %s",
     "This can usually be fixed by giving the webserver write access to the config directory" : "Ez rendszerint úgy oldható meg, hogy írási jogot adunk a webszervernek a config könyvtárra.",
     "Or, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it." : "Avagy, ha jobbnak tűnik tarthatod a config.php fájlt olvashatónak, csak engedélyezd a \"config_is_read_only\" kapcsolót.",
-    "Following databases are supported: %s" : "A következő adatbázisok támogatottak: %s",
-    "Following platforms are supported: %s" : "Ezek a platformok támogatottak: %s",
     "Can't create or write into the data directory %s" : "Nem sikerült  létrehozni vagy irni  a \"data\" könyvtárba %s",
     "Invalid Federated Cloud ID" : "Érvénytelen Egyesített Felhő Azonosító",
     "Can’t increase permissions of %s" : "A(z) %s engedélyei nem kibővíthetők",

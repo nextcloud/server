@@ -203,20 +203,10 @@ OC.L10N.register(
     "Pending shares" : "Chia sẻ đang chờ xử lý‎",
     "Text file" : "Tập tin văn bản",
     "New text file.txt" : "‎Tệp văn bản mới.txt‎",
-    "Unshare" : "Bỏ chia sẻ",
     "Storage of {owner} is full, files can not be updated or synced anymore!" : "Dung lượng của {owner} đã hết, không thể tải hay đồng bộ dữ liệu mới!",
     "Group folder \"{mountPoint}\" is full, files can not be updated or synced anymore!" : "‎Thư mục nhóm \"{mountPoint}\" đã đầy, các tệp không thể được cập nhật hoặc đồng bộ hóa nữa!‎",
     "External storage \"{mountPoint}\" is full, files can not be updated or synced anymore!" : "‎Bộ nhớ ngoài \"{mountPoint}\" đã đầy, các tệp không thể được cập nhật hoặc đồng bộ hóa nữa!‎",
     "Your storage is full, files can not be updated or synced anymore!" : "Your storage is full, files can not be updated or synced anymore!",
-    "Storage of {owner} is almost full ({usedSpacePercent}%)" : "Dung lượng của {owner} gần hết ({usedSpacePercent}%)",
-    "Group folder \"{mountPoint}\" is almost full ({usedSpacePercent}%)" : "‎Thư mục nhóm \"{mountPoint}\" gần đầy ({usedSpacePercent}%)‎",
-    "External storage \"{mountPoint}\" is almost full ({usedSpacePercent}%)" : "‎Bộ nhớ ngoài \"{mountPoint}\" gần đầy ({usedSpacePercent}%)‎",
-    "Your storage is almost full ({usedSpacePercent}%)" : "Your storage is almost full ({usedSpacePercent}%)",
-    "_matches '{filter}'_::_match '{filter}'_" : ["khớp '{filter}'"],
-    "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>" : "Một tệp hoặc thư mục đã được ‎<strong>‎thay đổi‎</strong>‎ hoặc ‎<strong>đổi tên</strong>",
-    "A new file or folder has been <strong>created</strong>" : "Một tệp hoặc thư mục mới đã được ‎<strong>‎tạo‎</strong>",
-    "A file or folder has been <strong>deleted</strong>" : "Tệp hoặc thư mục đã bị <strong>xóa</strong>",
-    "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "‎Giới hạn thông báo về việc tạo và thay đổi đối với ‎<strong>‎tệp yêu thích‎</strong> <em>‎(Chỉ phát trực tuyến)‎</em>",
-    "A file or folder has been <strong>restored</strong>" : "Tệp hoặc thư mục đã được <strong>khôi phục</strong>"
+    "_matches '{filter}'_::_match '{filter}'_" : ["khớp '{filter}'"]
 },
 "nplurals=1; plural=0;");

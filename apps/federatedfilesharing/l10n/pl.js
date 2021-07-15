@@ -52,7 +52,6 @@ OC.L10N.register(
     "Add to your website" : "Dodaj do swojej strony",
     "Share with me via Nextcloud" : "Udostępnij mi za pomocą Nextcloud",
     "HTML Code:" : "Kod HTML:",
-    "Adjust how people can share between servers." : "Dostosuj w jaki sposób można udostępniać serwery.",
-    "Allow users on this server to send shares to other servers" : "Zezwalaj użytkownikom na tym serwerze na wysłanie udostępnień do innych serwerów"
+    "Adjust how people can share between servers." : "Dostosuj w jaki sposób można udostępniać serwery."
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

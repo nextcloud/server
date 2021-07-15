@@ -52,7 +52,6 @@ OC.L10N.register(
     "Add to your website" : "添加到您的网站",
     "Share with me via Nextcloud" : "通过联合云与我共享",
     "HTML Code:" : "HTML 代码：",
-    "Adjust how people can share between servers." : "调整人们如何在服务器之间共享。",
-    "Allow users on this server to send shares to other servers" : "允许用户共享文件给其他服务器上的用户"
+    "Adjust how people can share between servers." : "调整人们如何在服务器之间共享。"
 },
 "nplurals=1; plural=0;");

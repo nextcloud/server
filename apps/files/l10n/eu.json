@@ -207,20 +207,10 @@
     "Pending shares" : "Zain dauden partekatzeak",
     "Text file" : "Testu-fitxategia",
     "New text file.txt" : "Testu-fitxategi berria.txt",
-    "Unshare" : "Ez partekatu",
     "Storage of {owner} is full, files can not be updated or synced anymore!" : "{owner} erabiltzailearen biltegia beteta dago, fitxategiak ezin dira eguneratu edo sinkronizatu jada!",
     "Group folder \"{mountPoint}\" is full, files can not be updated or synced anymore!" : "\"{mountPoint}\" talde karpeta beteta dago, ezin da fitxategirik eguneratu edo sinkronizatu gehiago!",
     "External storage \"{mountPoint}\" is full, files can not be updated or synced anymore!" : "\"{mountPoint}\" kanpoko biltegia beteta dago, ezin da fitxategirik eguneratu edo sinkronizatu gehiago!",
     "Your storage is full, files can not be updated or synced anymore!" : "Zure biltegia beteta dago, ezin duzu fitxategirik igo edo sinkronizatu jada!",
-    "Storage of {owner} is almost full ({usedSpacePercent}%)" : "{owner} erabiltzailearen biltegia ia beteta dago ({usedSpacePercent}%)",
-    "Group folder \"{mountPoint}\" is almost full ({usedSpacePercent}%)" : "\"{mountPoint}\" talde karpeta betetzear dago ({usedSpacePercent}%)",
-    "External storage \"{mountPoint}\" is almost full ({usedSpacePercent}%)" : "\"{mountPoint}\" kanpoko biltegia betetzear dago ({usedSpacePercent}%)",
-    "Your storage is almost full ({usedSpacePercent}%)" : "Zure biltegia ia beteta dago (%{usedSpacePercent})",
-    "_matches '{filter}'_::_match '{filter}'_" : ["bat dator '{filter}' iragazkiarekin","bat datoz '{filter}' iragazkiarekin"],
-    "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>" : "Fitxategi edo karpeta bat <strong>aldatu</strong> edo <strong>berrizendatu</strong> da",
-    "A new file or folder has been <strong>created</strong>" : "Fitxategi edo karpeta berri bat <strong>sortu</strong> da",
-    "A file or folder has been <strong>deleted</strong>" : "Fitxategi edo karpeta bat <strong>ezabatu</strong> da",
-    "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Mugatu <strong>gogoko fitxategien</strong> sorrera eta aldaketen jakinarazpenak <em>(Jarioa soilik)</em>",
-    "A file or folder has been <strong>restored</strong>" : "Fitxategia edo karpeta bat <strong>leheneratu</strong> da"
+    "_matches '{filter}'_::_match '{filter}'_" : ["bat dator '{filter}' iragazkiarekin","bat datoz '{filter}' iragazkiarekin"]
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

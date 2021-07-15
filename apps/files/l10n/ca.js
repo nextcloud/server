@@ -184,16 +184,8 @@ OC.L10N.register(
     "Pending shares" : "Compartits pendents",
     "Text file" : "Fitxer de text",
     "New text file.txt" : "Nou fitxer de text text.txt",
-    "Unshare" : "Deixa de compartir",
     "Storage of {owner} is full, files can not be updated or synced anymore!" : "L'emmagatzematge de {owner} està ple, els fitxers ja no es poden actualitzar ni sincronitzar!",
     "Your storage is full, files can not be updated or synced anymore!" : "El vostre espai d'emmagatzematge és ple, els fitxers ja no es poden actualitzar ni sincronitzar!",
-    "Storage of {owner} is almost full ({usedSpacePercent}%)" : "Emmagatzematge de {owner} és gairebé ple ({usedSpacePercent}%)",
-    "Your storage is almost full ({usedSpacePercent}%)" : "El vostre espai d'emmagatzematge és gairebé ple ({usedSpacePercent}%)",
-    "_matches '{filter}'_::_match '{filter}'_" : ["coincidències '{filter}'","coincidència '{filter}'"],
-    "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>" : "Un fitxer o carpeta ha estat  <strong>canviat</strong> o <strong>renomenat</strong>",
-    "A new file or folder has been <strong>created</strong>" : "S'ha <strong>creat</strong> un nou fitxer o una nova carpeta",
-    "A file or folder has been <strong>deleted</strong>" : "S'ha <strong>suprimit</strong> un fitxer o una carpeta",
-    "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Limita les notificacions sobre la creació i canvis dels vostres <strong>fitxers favorits</strong><em>(només Stream)</em>",
-    "A file or folder has been <strong>restored</strong>" : "S'ha <strong>restaurat</strong> un fitxer o una carpeta"
+    "_matches '{filter}'_::_match '{filter}'_" : ["coincidències '{filter}'","coincidència '{filter}'"]
 },
 "nplurals=2; plural=(n != 1);");
