@@ -137,11 +137,6 @@ OC.L10N.register(
     "Tentative" : "Kesin değil",
     "Save" : "Kaydet",
     "Your attendance was updated successfully." : "Katılımınız güncellendi.",
-    "Hello %s," : "Merhaba %s,",
-    "The meeting »%1$s« with %2$s was canceled." : "%2$s ile yapılacak »%1$s« görüşmesi iptal edildi.",
-    "The meeting »%1$s« with %2$s was updated." : "%2$s ile yapılacak »%1$s« görüşmesi güncellendi.",
-    "%1$s invited you to »%2$s«" : "%1$s sizi »%2$s« görüşmesine çağırdı",
-    "When:" : "Zaman:",
     "Calendar and tasks" : "Takvim ve görevler"
 },
 "nplurals=2; plural=(n > 1);");

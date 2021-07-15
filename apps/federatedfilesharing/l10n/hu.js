@@ -51,7 +51,6 @@ OC.L10N.register(
     "Add to your website" : "Adja hozzá saját weboldalához",
     "Share with me via Nextcloud" : "Ossza meg velem a Nextcloudon keresztül",
     "HTML Code:" : "HTML-kód:",
-    "Adjust how people can share between servers." : "Az emberek kiszolgálók közötti megosztásának beállítása.",
-    "Allow users on this server to send shares to other servers" : "Engedélyezze ezen kiszolgáló felhasználóinak, hogy megosztásokat küldjenek más kiszolgálóknak."
+    "Adjust how people can share between servers." : "Az emberek kiszolgálók közötti megosztásának beállítása."
 },
 "nplurals=2; plural=(n != 1);");

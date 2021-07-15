@@ -49,7 +49,6 @@ OC.L10N.register(
     "Add to your website" : "Додади на твојот веб сајт",
     "Share with me via Nextcloud" : "Сподели со мене",
     "HTML Code:" : "HTML код:",
-    "Adjust how people can share between servers." : "Прилагодете како корисниците можат да споделуваат помеѓу серверите.",
-    "Allow users on this server to send shares to other servers" : "Дозволи им на корисниците на овој сервер да испраќаат споделувања со други сервери"
+    "Adjust how people can share between servers." : "Прилагодете како корисниците можат да споделуваат помеѓу серверите."
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

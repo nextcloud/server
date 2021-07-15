@@ -231,8 +231,6 @@
     "Storage connection timeout. %s" : "Překročen časový limit připojování k úložišti. %s",
     "This can usually be fixed by giving the webserver write access to the config directory" : "Toto obvykle lze vyřešit udělením oprávnění k zápisu do adresáře s nastaveními pro účet, pod kterým je provozován webový server",
     "Or, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it." : "Nebo, pokud chcete mít soubor config.php pouze pro čtení, nastavte  v něm volbu „config_is_read_only“ na hodnotu true.",
-    "Following databases are supported: %s" : "Jsou podporovány následující databáze: %s",
-    "Following platforms are supported: %s" : "Podporovány jsou následující systémy: %s",
     "Can't create or write into the data directory %s" : "Nedaří se vytvořit nebo zapisovat do datového adresáře %s",
     "Invalid Federated Cloud ID" : "Neplatný identifikátor v rámci federovaného cloudu",
     "Can’t increase permissions of %s" : "Nelze zvýšit oprávnění %s",

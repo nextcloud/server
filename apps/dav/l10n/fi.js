@@ -97,8 +97,6 @@ OC.L10N.register(
     "Tentative" : "Alustava",
     "Save" : "Tallenna",
     "Your attendance was updated successfully." : "Osallistumisesi päivitettiin onnistuneesti.",
-    "Hello %s," : "Hei %s",
-    "When:" : "Milloin:",
     "Calendar and tasks" : "Kalenteri ja tehtävät"
 },
 "nplurals=2; plural=(n != 1);");

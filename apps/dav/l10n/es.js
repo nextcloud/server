@@ -105,11 +105,6 @@ OC.L10N.register(
     "Tentative" : "Provisional",
     "Save" : "Guardar",
     "Your attendance was updated successfully." : "Tu asistencia se ha actualizado con éxito.",
-    "Hello %s," : "Hola, %s:",
-    "The meeting »%1$s« with %2$s was canceled." : "La reunión »%1$s« con %2$s se ha cancelado.",
-    "The meeting »%1$s« with %2$s was updated." : "La reunión »%1$s« con %2$s se ha actualizado.",
-    "%1$s invited you to »%2$s«" : "%1$s te ha invitado a »%2$s«",
-    "When:" : "Cuándo:",
     "Calendar and tasks" : "Calendario y tareas"
 },
 "nplurals=2; plural=(n != 1);");

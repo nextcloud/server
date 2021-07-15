@@ -231,8 +231,6 @@
     "Storage connection timeout. %s" : "ストレージへの接続がタイムアウト。 %s",
     "This can usually be fixed by giving the webserver write access to the config directory" : "多くの場合、これはWebサーバーにconfigディレクトリへの書き込み権限を与えることで解決できます。",
     "Or, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it." : "またはconfig.phpファイルを読み取り専用にしたい場合は、オプション \"config_is_read_only\"をtrueに設定してください。",
-    "Following databases are supported: %s" : "次のデータベースに対応しています: %s",
-    "Following platforms are supported: %s" : "次のプラットフォームに対応しています: %s",
     "Can't create or write into the data directory %s" : "%s データディレクトリに作成、書き込みができません",
     "Invalid Federated Cloud ID" : "無効なクラウド共有ID",
     "Can’t increase permissions of %s" : "%s　の権限を追加できません",

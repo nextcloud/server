@@ -134,11 +134,6 @@ OC.L10N.register(
     "Tentative" : "Preliminärt",
     "Save" : "Spara",
     "Your attendance was updated successfully." : "Dina närvaro uppdaterades.",
-    "Hello %s," : "He %s,",
-    "The meeting »%1$s« with %2$s was canceled." : "Mötet »%1$s« med %2$s avbröts.",
-    "The meeting »%1$s« with %2$s was updated." : "Mötet »%1$s« med %2$s uppdaterades.",
-    "%1$s invited you to »%2$s«" : "%1$s bjöd in dig till »%2$s«",
-    "When:" : "När",
     "Calendar and tasks" : "Kalender och uppgifter"
 },
 "nplurals=2; plural=(n != 1);");

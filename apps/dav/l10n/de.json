@@ -119,11 +119,6 @@
     "Tentative" : "Vorläufig",
     "Save" : "Speichern",
     "Your attendance was updated successfully." : "Dein Teilnehmerstatus wurde aktualisiert.",
-    "Hello %s," : "Hallo %s,",
-    "The meeting »%1$s« with %2$s was canceled." : "Der Termin »%1$s« mit %2$s wurde abgesagt.",
-    "The meeting »%1$s« with %2$s was updated." : "Der Termin »%1$s« mit %2$s wurde aktualisiert.",
-    "%1$s invited you to »%2$s«" : "%1$s hat Dich zu »%2$s« eingeladen",
-    "When:" : "Wann:",
     "Calendar and tasks" : "Kalender und Aufgaben"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

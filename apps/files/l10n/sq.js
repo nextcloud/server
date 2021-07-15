@@ -124,16 +124,8 @@ OC.L10N.register(
     "Deleted shares" : "Fshi shpërndarjet",
     "Text file" : "Kartelë tekst",
     "New text file.txt" : "Kartelë e re file.txt",
-    "Unshare" : "Hiqe ndarjen",
     "Storage of {owner} is full, files can not be updated or synced anymore!" : "Depozita e {owner} është plot, kartelat s’mund të përditësohen ose sinkronizohet më!",
     "Your storage is full, files can not be updated or synced anymore!" : "Depozita juaj është plot, kartelat s’mund të përditësohen ose sinkronizohet më!",
-    "Storage of {owner} is almost full ({usedSpacePercent}%)" : "Depozita e {owner} është thuasje plot ({usedSpacePercent}%)",
-    "Your storage is almost full ({usedSpacePercent}%)" : "Depozita juaj është thuajse plot ({usedSpacePercent}%)",
-    "_matches '{filter}'_::_match '{filter}'_" : ["ka përputhje me '{filter}'","ka përputhje me '{filter}'"],
-    "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>" : "Një skedar ose dosje është <strong>ndryshuar</strong> ose <strong>riemëruar</strong>",
-    "A new file or folder has been <strong>created</strong>" : "<strong>U krijua</strong> një kartelë ose dosje e re",
-    "A file or folder has been <strong>deleted</strong>" : "Një skedar ose dosje është <strong> fshirë </strong>",
-    "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Kufizojini njoftimet mbi krijim dhe ndryshim kartelash vetëm për <strong>kartelat tuaja të parapëlqyera</strong> <em>(Vetëm te rrjedha)</em>",
-    "A file or folder has been <strong>restored</strong>" : "Një skedar ose dosje është <strong> rikthyer </strong>"
+    "_matches '{filter}'_::_match '{filter}'_" : ["ka përputhje me '{filter}'","ka përputhje me '{filter}'"]
 },
 "nplurals=2; plural=(n != 1);");

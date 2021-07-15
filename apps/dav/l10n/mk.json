@@ -102,11 +102,6 @@
     "Tentative" : "Прелиминарно",
     "Save" : "Зачувај",
     "Your attendance was updated successfully." : "Вашето присуство е успешно ажурирано.",
-    "Hello %s," : "Здраво %s,",
-    "The meeting »%1$s« with %2$s was canceled." : "Состанокот »%1$s« со %2$s е откажан.",
-    "The meeting »%1$s« with %2$s was updated." : "Состанокот »%1$s« со %2$s е ажуриран.",
-    "%1$s invited you to »%2$s«" : "%1$s ве покани вас »%2$s«",
-    "When:" : "Кога:",
     "Calendar and tasks" : "Календар и задачи"
 },"pluralForm" :"nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;"
 }

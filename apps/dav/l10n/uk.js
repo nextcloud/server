@@ -94,11 +94,6 @@ OC.L10N.register(
     "Are you accepting the invitation?" : "Чи приймаєте ви запрошення?",
     "Tentative" : "Попередній",
     "Save" : "Зберегти",
-    "Your attendance was updated successfully." : "Ваша участь успішно оновлена.",
-    "Hello %s," : "Вітаємо %s,",
-    "The meeting »%1$s« with %2$s was canceled." : "Зустріч »%1$s« з %2$s була скасована.",
-    "The meeting »%1$s« with %2$s was updated." : "Зустріч »%1$s« з %2$s була оновлена.",
-    "%1$s invited you to »%2$s«" : "%1$s запрошує вас на »%2$s«",
-    "When:" : "Коли:"
+    "Your attendance was updated successfully." : "Ваша участь успішно оновлена."
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

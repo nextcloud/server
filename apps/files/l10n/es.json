@@ -207,20 +207,10 @@
     "Pending shares" : "Recursos compartidos pendientes",
     "Text file" : "Archivo de texto",
     "New text file.txt" : "Nuevo archivo.txt",
-    "Unshare" : "Dejar de compartir",
     "Storage of {owner} is full, files can not be updated or synced anymore!" : "El espacio de {owner} está lleno, ¡no se subirán ni se sincronizarán más archivos!",
     "Group folder \"{mountPoint}\" is full, files can not be updated or synced anymore!" : "¡La carpeta de grupo  \"{mountPoint}\" está llena, los archivos ya no pueden ser actualizados o sincronizados!.",
     "External storage \"{mountPoint}\" is full, files can not be updated or synced anymore!" : "¡El almacenamiento externo  \"{mountPoint}\" está lleno, los archivos ya no pueden ser actualizados o sincronizados!.",
     "Your storage is full, files can not be updated or synced anymore!" : "Tu espacio está lleno, ¡no se subirán ni se sincronizarán más archivos!",
-    "Storage of {owner} is almost full ({usedSpacePercent}%)" : "El espacio de {owner} está casi lleno en un ({usedSpacePercent}%)",
-    "Group folder \"{mountPoint}\" is almost full ({usedSpacePercent}%)" : "La carpeta de grupo \"{mountPoint}\" está casi llena ({usedSpacePercent}%)",
-    "External storage \"{mountPoint}\" is almost full ({usedSpacePercent}%)" : "El almacenamiento externo \"{mountPoint}\" está casi lleno ({usedSpacePercent}%)",
-    "Your storage is almost full ({usedSpacePercent}%)" : "Tu espacio está casi lleno, ({usedSpacePercent}%)",
-    "_matches '{filter}'_::_match '{filter}'_" : ["coincidencias '{filter}'","coincidencia '{filter}'"],
-    "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>" : "Un archivo o carpeta ha sido <strong>cambiado</strong> o <strong>renombrado</strong>",
-    "A new file or folder has been <strong>created</strong>" : "Se ha <strong>creado</strong> un nuevo archivo o carpeta",
-    "A file or folder has been <strong>deleted</strong>" : "Un archivo o carpeta ha sido <strong>eliminado</strong>",
-    "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Limitar las notificaciones sobre la creación y cambios en tus <strong>archivos favoritos</strong> <em>(solo transmisión)</em>",
-    "A file or folder has been <strong>restored</strong>" : "Un archivo o carpeta ha sido <strong>restaurado</strong>"
+    "_matches '{filter}'_::_match '{filter}'_" : ["coincidencias '{filter}'","coincidencia '{filter}'"]
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

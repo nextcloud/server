@@ -46,7 +46,6 @@ OC.L10N.register(
     "Add to your website" : "내 웹 사이트에 추가",
     "Share with me via Nextcloud" : "Nextcloud로 나와 공유하기",
     "HTML Code:" : "HTML 코드:",
-    "Adjust how people can share between servers." : "서버간 파일 공유를 설정합니다.",
-    "Allow users on this server to send shares to other servers" : "이 서버의 사용자가 다른 서버와 공유할 수 있도록 허용"
+    "Adjust how people can share between servers." : "서버간 파일 공유를 설정합니다."
 },
 "nplurals=1; plural=0;");

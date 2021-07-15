@@ -231,8 +231,6 @@
     "Storage connection timeout. %s" : "Opslag verbinding time-out. %s",
     "This can usually be fixed by giving the webserver write access to the config directory" : "Dit kan opgelost worden door de config map op de webserver schrijfrechten te geven",
     "Or, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it." : "Of, als je liever config.php alleen-lezen wilt houden, stel de optie \"config_is_read_only\" in op true.",
-    "Following databases are supported: %s" : "De volgende databases worden ondersteund: %s",
-    "Following platforms are supported: %s" : "De volgende platformen worden ondersteund: %s",
     "Can't create or write into the data directory %s" : "Kan niets creëren of wegschrijven in de datadirectory %s",
     "Invalid Federated Cloud ID" : "Ongeldige gefedereerde Cloud ID",
     "Can’t increase permissions of %s" : "Kan niet meer rechten geven aan %s",

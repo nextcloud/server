@@ -207,20 +207,10 @@
     "Pending shares" : "Čekající sdílení",
     "Text file" : "Textový soubor",
     "New text file.txt" : "Nový textový soubor.txt",
-    "Unshare" : "Zrušit sdílení",
     "Storage of {owner} is full, files can not be updated or synced anymore!" : "Úložiště uživatele {owner} je plné – soubory už proto nelze aktualizovat ani synchronizovat!",
     "Group folder \"{mountPoint}\" is full, files can not be updated or synced anymore!" : "Skupinová složka „{mountPoint}“ je plná, soubory už nadále není možné aktualizovat nebo synchronizovat!",
     "External storage \"{mountPoint}\" is full, files can not be updated or synced anymore!" : "Externí úložiště „{mountPoint}“ je plné, soubory už nadále není možné aktualizovat nebo synchronizovat!",
     "Your storage is full, files can not be updated or synced anymore!" : "Vaše úložiště je plné – soubory už proto nelze aktualizovat ani synchronizovat!",
-    "Storage of {owner} is almost full ({usedSpacePercent}%)" : "Úložiště uživatele {owner} je už téměř plné ({usedSpacePercent}%)",
-    "Group folder \"{mountPoint}\" is almost full ({usedSpacePercent}%)" : "Skupinová složka „{mountPoint}“ je téměř plná ({usedSpacePercent}%)",
-    "External storage \"{mountPoint}\" is almost full ({usedSpacePercent}%)" : "Externí úložiště „{mountPoint}“ je téměř plné ({usedSpacePercent}%)",
-    "Your storage is almost full ({usedSpacePercent}%)" : "Vaše úložiště je téměř plné ({usedSpacePercent}%)",
-    "_matches '{filter}'_::_match '{filter}'_" : ["odpovídá „{filter}“","odpovídají „{filter}“","odpovídá „{filter}“","odpovídají „{filter}“"],
-    "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>" : "Soubor nebo složka byla <strong>změněna</strong> nebo <strong>přejmenována</strong>",
-    "A new file or folder has been <strong>created</strong>" : "Byl <strong>vytvořen</strong> nový soubor nebo složka",
-    "A file or folder has been <strong>deleted</strong>" : "Soubor nebo složka byla <strong>smazána</strong>",
-    "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Upozorňovat na vytváření a změny pouze u vašich <strong>oblíbených souborů</strong> <em>(pouze v Proud)</em>",
-    "A file or folder has been <strong>restored</strong>" : "Soubor nebo složka byla <strong>obnovena</strong>"
+    "_matches '{filter}'_::_match '{filter}'_" : ["odpovídá „{filter}“","odpovídají „{filter}“","odpovídá „{filter}“","odpovídají „{filter}“"]
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;"
 }

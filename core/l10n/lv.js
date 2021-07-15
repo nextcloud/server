@@ -253,22 +253,16 @@ OC.L10N.register(
     "Update app \"%s\" from appstore" : "Atjaunināt lietotni \"%s\"",
     "Checked for update of app \"%s\" in appstore" : "Meklēti atjauninājumi lietotnei \"%s\"",
     "Checked database schema update for apps" : "Pārbaudīts datu bāzes shēmas atjauninājums lietotnēm.",
-    "Following apps have been disabled: %s" : "Sekojošas lietotnes tika atslēgtas: %s",
     "Please check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">installation documentation ↗</a> for PHP configuration notes and the PHP configuration of your server, especially when using php-fpm." : "Lūdzu pārbaudiet <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">Instalācijas dokumentāciju </a> priekš PHP konfigurācijas piezīmēm un PHP konfigurācijai jūsu serverī, itsevisķi izmantojot php-fpm.",
     "Transactional file locking is disabled, this might lead to issues with race conditions. Enable \"filelocking.enabled\" in config.php to avoid these problems. See the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation ↗</a> for more information." : "Transakciju datņu slēgšana ir izslēgta, tas var radīt problēmas ar race kondīcijām. Iespējo \"filelocking.enabled\" config.php datnē, lai novērstu šīs problēmas. Skatiet <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">dokumentāciju</a>priekš papildus informācijas.",
     "Last background job execution ran {relativeTime}. Something seems wrong." : "Pēdējā fona darba palaišana aizņēma {relativeTime}. Kaut kas škiet nepareizi.",
     "Check the background job settings" : "Pārmainīt fona darbu iestatījumus",
     "Continue to Nextcloud" : "Turpināt ar Nextcloud",
     "_The update was successful. Redirecting you to Nextcloud in %n second._::_The update was successful. Redirecting you to Nextcloud in %n seconds._" : ["Atjaunināšana ir bijusi veiksmīga. Novirzīsim jūs uz Nextcloud pēc %n sekundēm.","Atjaunināšana ir bijusi veiksmīga. Novirzīsim jūs uz Nextcloud pēc %n sekundes.","Atjaunināšana ir bijusi veiksmīga. Novirzīsim jūs uz Nextcloud pēc %n sekundēm."],
-    "Searching other places" : "Meklēt citās vietās",
-    "No search results in other folders for {tag}{filter}{endtag}" : "Nav nekas atrasts citā mapēs {tag}{filter}{endtag}",
-    "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} meklēšanas rezultāti citās mapēs","{count} meklēšanas rezultāti citās mapēs","{count} meklēšanas rezultāti citās mapēs"],
     "A password reset message has been sent to the e-mail address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Paroles atiestatīšanas ziņojums ir nosūtīts uz šī konta e-pasta adresi. Ja to nesaņemat, pārbaudiet mēstuļu mapes vai lūdziet palīdzību savam vietējam administratoram.",
     "Password can not be changed. Please contact your administrator." : "Paroli, nevar nomainīt. Lūdzu kontaktēties ar savu administratoru.",
     "Could not fetch list of apps from the app store." : "Nevarēja ielādēt lietotņu sarakstu no lietotņu veikala.",
-    "Nextcloud {app}" : "Nextcloud {app}",
     "Can't install this app because it is not compatible" : "Nevar instalēt šo lietotni, jo tā nav savietojama",
-    "Can't install this app" : "Nevar instalēt šo lietotni",
-    "These apps will be updated:" : "Šīs lietotnes tiks atjauninātas:"
+    "Can't install this app" : "Nevar instalēt šo lietotni"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

@@ -178,16 +178,8 @@ OC.L10N.register(
     "Pending shares" : "Berbagi tertunda",
     "Text file" : "Berkas teks",
     "New text file.txt" : "Teks baru file.txt",
-    "Unshare" : "Batalkan berbagi",
     "Storage of {owner} is full, files can not be updated or synced anymore!" : "Penyimpanan {owner} penuh, berkas tidak dapat diperbarui atau disinkronisasikan lagi!",
     "Your storage is full, files can not be updated or synced anymore!" : "Ruang penyimpanan Anda penuh, berkas tidak dapat diperbarui atau disinkronkan lagi!",
-    "Storage of {owner} is almost full ({usedSpacePercent}%)" : "Penyimpanan {owner} hampir penuh ({usedSpacePercent}%)",
-    "Your storage is almost full ({usedSpacePercent}%)" : "Ruang penyimpanan hampir penuh ({usedSpacePercent}%)",
-    "_matches '{filter}'_::_match '{filter}'_" : ["cocok dengan '{filter}'"],
-    "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>" : "Suatu berkas atau folder telah <strong>diubah</strong> atau <strong>diganti nama</strong>",
-    "A new file or folder has been <strong>created</strong>" : "Sebuah berkas atau folder baru telah <strong>dibuat</strong>",
-    "A file or folder has been <strong>deleted</strong>" : "Sebuah berkas atau folder telah <strong>dihapus</strong>",
-    "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Batas notifikasi tentang pembuatan dan perubahan <strong>berkas favorit</strong> Anda <em>(Hanya stream)</em>",
-    "A file or folder has been <strong>restored</strong>" : "Sebuah berkas atau folder telah <strong>dipulihkan</strong>"
+    "_matches '{filter}'_::_match '{filter}'_" : ["cocok dengan '{filter}'"]
 },
 "nplurals=1; plural=0;");

@@ -197,16 +197,8 @@ OC.L10N.register(
     "Pending shares" : "Laukiantys viešiniai",
     "Text file" : "Tekstinis failas",
     "New text file.txt" : "Naujas tekstinis failas.txt",
-    "Unshare" : "Nustoti bendrinti",
     "Storage of {owner} is full, files can not be updated or synced anymore!" : "{owner} saugykla yra pilna, failai daugiau nebegali būti atnaujinti arba sinchronizuojami!",
     "Your storage is full, files can not be updated or synced anymore!" : "Jūsų saugykla pilna, failai daugiau nebegali būti atnaujinti arba sinchronizuojami!",
-    "Storage of {owner} is almost full ({usedSpacePercent}%)" : "{owner} saugykla yra beveik pilna ({usedSpacePercent}%)",
-    "Your storage is almost full ({usedSpacePercent}%)" : "Jūsų saugykla yra beveik pilna ({usedSpacePercent}%)",
-    "_matches '{filter}'_::_match '{filter}'_" : ["atitinka „{filter}“","atitinka „{filter}“","atitinka „{filter}“","atitinka „{filter}“"],
-    "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>" : "Failas ar aplankas <strong>pakeistas</strong> ar <strong>pervadintas</strong>",
-    "A new file or folder has been <strong>created</strong>" : "<strong>Sukurtas</strong> naujas failas ar aplankas",
-    "A file or folder has been <strong>deleted</strong>" : "Failas ar aplankas <strong>ištrintas</strong>",
-    "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Riboti pranešimus apie jūsų <strong>mėgstamų failų</strong> sukūrimą ar pakeitimus <em>(Tik srautas)</em>",
-    "A file or folder has been <strong>restored</strong>" : "Failas ar aplankas <strong>atkurtas</strong>"
+    "_matches '{filter}'_::_match '{filter}'_" : ["atitinka „{filter}“","atitinka „{filter}“","atitinka „{filter}“","atitinka „{filter}“"]
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

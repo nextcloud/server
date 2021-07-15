@@ -223,8 +223,6 @@
     "Storage connection timeout. %s" : "Поврзувањето со складиштето не успеа. %s",
     "This can usually be fixed by giving the webserver write access to the config directory" : "Ова најчесто се поправа со давање дозвола на веб серверот за запишување во config папката",
     "Or, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it." : "Или, доколку претпочитувате config.php да биде само за читање, поставете параметар \"config_is_read_only\" во него.",
-    "Following databases are supported: %s" : "Следниве бази со податоци се поддржани: %s",
-    "Following platforms are supported: %s" : "Следниве платформи се поддржани: %s",
     "Can't create or write into the data directory %s" : "Неможете да креирате или да запишувате во оваа папка %s",
     "Invalid Federated Cloud ID" : "Невалиден федерален ID",
     "Can’t increase permissions of %s" : "Неможат да се зголемат дозволите на %s",

@@ -151,8 +151,6 @@
     "Storage is temporarily not available" : "L'almacenamientu ta temporalmente non disponible",
     "Storage connection timeout. %s" : "Tiempu escosao de conexón al almacenamientu. %s",
     "This can usually be fixed by giving the webserver write access to the config directory" : "Davezu esto pue iguase dándo-y al sirvidor web accesu d'escritura al direutoriu de configuración",
-    "Following databases are supported: %s" : "Les siguientes bases de datos tan sofitaes: %s",
-    "Following platforms are supported: %s" : "Les siguientes plataformes tan sofitaes: %s",
     "Can't create or write into the data directory %s" : "Nun pue crease o escribir dientro los datos del direutoriu %s",
     "Invalid Federated Cloud ID" : "ID non válida de ñube federada",
     "Can’t increase permissions of %s" : "Nun pue aumentase los permisos de %s",

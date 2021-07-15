@@ -74,11 +74,6 @@ OC.L10N.register(
     "Are you accepting the invitation?" : "초대를 수락하시겠습니까?",
     "Tentative" : "예정됨",
     "Save" : "저장",
-    "Your attendance was updated successfully." : "참석 정보를 업데이트했습니다.",
-    "Hello %s," : "%s 님 안녕하세요,",
-    "The meeting »%1$s« with %2$s was canceled." : "\"%1$s\" 행사(%2$s 님이 진행함)가 취소되었습니다.",
-    "The meeting »%1$s« with %2$s was updated." : "\"%1$s\" 행사(%2$s 님이 진행함)가 업데이트되었습니다.",
-    "%1$s invited you to »%2$s«" : "%1$s 님이 \"%2$s\"에 초대함",
-    "When:" : "일시:"
+    "Your attendance was updated successfully." : "참석 정보를 업데이트했습니다."
 },
 "nplurals=1; plural=0;");

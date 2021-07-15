@@ -137,11 +137,6 @@ OC.L10N.register(
     "Tentative" : "Neistý",
     "Save" : "Uložiť",
     "Your attendance was updated successfully." : "Vaša účasť bola aktualizovaná úspešne.",
-    "Hello %s," : "Ahoj %s,",
-    "The meeting »%1$s« with %2$s was canceled." : "Stretnutie »%1$s« s %2$s bolo zrušené.",
-    "The meeting »%1$s« with %2$s was updated." : "Stretnutie »%1$s« s %2$s bolo aktualizované.",
-    "%1$s invited you to »%2$s«" : "%1$s vám poslal pozvánku na »%2$s«",
-    "When:" : "Kedy:",
     "Calendar and tasks" : "Kalendár a úlohy"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

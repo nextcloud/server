@@ -203,20 +203,10 @@ OC.L10N.register(
     "Pending shares" : "Cumpartziduras in suspesu",
     "Text file" : "Archìviu de testu",
     "New text file.txt" : "Archìviu de testu .txt nou",
-    "Unshare" : "Annulla sa cumpartzidura",
     "Storage of {owner} is full, files can not be updated or synced anymore!" : "S'archiviatzione de {owner} est prena, non podes prus carrigare o sincronizare archìvios!",
     "Group folder \"{mountPoint}\" is full, files can not be updated or synced anymore!" : "Sa cartella de grupu \"{mountPoint}\" est prena, non podes prus carrigare o sincronizare archìvios!",
     "External storage \"{mountPoint}\" is full, files can not be updated or synced anymore!" : "S'archiviatzione esterna \"{mountPoint}\" est prena, non podes prus carrigare o sincronizare archìvios!",
     "Your storage is full, files can not be updated or synced anymore!" : "S'archiviatzione est prena, non podes prus carrigare o sincronizare archìvios!",
-    "Storage of {owner} is almost full ({usedSpacePercent}%)" : "S'archiviatzione de {owner} est giai prena ({usedSpacePercent}%)",
-    "Group folder \"{mountPoint}\" is almost full ({usedSpacePercent}%)" : "Sa cartella de grupu \"{mountPoint}\" est giai prena ({usedSpacePercent}%)",
-    "External storage \"{mountPoint}\" is almost full ({usedSpacePercent}%)" : "S'archiviatzione esterna \"{mountPoint}\" est giai prena ({usedSpacePercent}%)",
-    "Your storage is almost full ({usedSpacePercent}%)" : "S'archiviatzione tua est giai prena ({usedSpacePercent}%)",
-    "_matches '{filter}'_::_match '{filter}'_" : ["currispondèntzias '{filter}'","currispondèntzia '{filter}'"],
-    "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>" : "Ant <strong>cambiadu</strong> o <strong>torradu a numenare</strong> un'archìviu o cartella",
-    "A new file or folder has been <strong>created</strong>" : "Ant <strong>creadu</strong> un'archìviu o una cartella noa",
-    "A file or folder has been <strong>deleted</strong>" : "Ant <strong>cantzelladu</strong> un'archìviu o una cartella",
-    "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Lìmita is notìficas de creatzione o càmbios a is <strong>archìvios preferidos</strong> <em>(Stream only)</em>",
-    "A file or folder has been <strong>restored</strong>" : "Ant <strong>rispristinadu</strong> un'archìviu o una cartella noa"
+    "_matches '{filter}'_::_match '{filter}'_" : ["currispondèntzias '{filter}'","currispondèntzia '{filter}'"]
 },
 "nplurals=2; plural=(n != 1);");

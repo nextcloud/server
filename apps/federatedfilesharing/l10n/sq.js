@@ -39,7 +39,6 @@ OC.L10N.register(
     "Add to your website" : "Shtojeni te sajti juaj",
     "Share with me via Nextcloud" : "Ndani me mua përmes Nextcloud-it",
     "HTML Code:" : "Kod HTML:",
-    "Adjust how people can share between servers." : "Përshtatni mënyrën se si njerëzit mund të ndajnë midis serverëve.",
-    "Allow users on this server to send shares to other servers" : "Lejoju përdoruesve në këtë shërbyes të dërgojnë ndarje në shërbyes të tjerë"
+    "Adjust how people can share between servers." : "Përshtatni mënyrën se si njerëzit mund të ndajnë midis serverëve."
 },
 "nplurals=2; plural=(n != 1);");

@@ -156,8 +156,6 @@
     "Storage is temporarily not available" : "Сховище тимчасово недоступне",
     "Storage connection timeout. %s" : "Час під'єднання до сховища вичерпався. %s",
     "This can usually be fixed by giving the webserver write access to the config directory" : "Зазвичай це можна виправити, надавши веб-серверу права на запис в теці конфігурації",
-    "Following databases are supported: %s" : "Підтримуються наступні сервери баз даних: %s",
-    "Following platforms are supported: %s" : "Підтримуються наступні платформи: %s",
     "Can't create or write into the data directory %s" : "Неможливо створити або записати каталог даних %s",
     "Invalid Federated Cloud ID" : "Неправильний Об'єднаний Хмарний Ідентіфікатор ",
     "Can't read file" : "Не можливо прочитати файл"

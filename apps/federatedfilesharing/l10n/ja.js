@@ -50,7 +50,6 @@ OC.L10N.register(
     "Add to your website" : "ウェブサイトに追加",
     "Share with me via Nextcloud" : "Nextcloud 経由で共有",
     "HTML Code:" : "HTMLコード:",
-    "Adjust how people can share between servers." : "サーバー間でどうやって共有するかを調整します。",
-    "Allow users on this server to send shares to other servers" : "ユーザーがこのサーバーから他のサーバーに共有することを許可する"
+    "Adjust how people can share between servers." : "サーバー間でどうやって共有するかを調整します。"
 },
 "nplurals=1; plural=0;");

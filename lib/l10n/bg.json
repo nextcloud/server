@@ -128,8 +128,6 @@
     "Could not obtain lock type %d on \"%s\"." : "Неуспешен опит за ексклузивен достъп от типa %d върху \"%s\".",
     "Storage is temporarily not available" : "Временно хранилището не е налично",
     "This can usually be fixed by giving the webserver write access to the config directory" : "Това може да бъде решено единствено като разрешиш на уеб сървъра да пише в config папката.",
-    "Following databases are supported: %s" : "Следните бази данни са поддържани: %s",
-    "Following platforms are supported: %s" : "Поддържани са следните платформи: %s",
     "Can't create or write into the data directory %s" : "Неуспешно създаване или записване в \"data\" папката %s",
     "Invalid Federated Cloud ID" : "Невалиден Federated Cloud ID",
     "Can’t set expiration date more than %s days in the future" : "Неуспешно задаване на срок на валидност повече от %s дни в бъдещето",

@@ -137,11 +137,6 @@ OC.L10N.register(
     "Tentative" : "Onder voorbehoud",
     "Save" : "Opslaan",
     "Your attendance was updated successfully." : "Je deelname is succesvol bijgewerkt.",
-    "Hello %s," : "Hallo %s,",
-    "The meeting »%1$s« with %2$s was canceled." : "De vergadering \"%1$s\" met %2$s is geannuleerd.",
-    "The meeting »%1$s« with %2$s was updated." : "De vergadering \"%1$s\" met %2$s is bijgewerkt.",
-    "%1$s invited you to »%2$s«" : "%1$s heeft je uitgenodigd voor \"%2$s\"",
-    "When:" : "Wanneer:",
     "Calendar and tasks" : "Agenda en taken"
 },
 "nplurals=2; plural=(n != 1);");

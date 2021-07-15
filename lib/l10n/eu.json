@@ -231,8 +231,6 @@
     "Storage connection timeout. %s" : "Biltegiratze-konexioa denboraz kanpo geratu da. %s",
     "This can usually be fixed by giving the webserver write access to the config directory" : "Hau normalean konpondu daitekesweb zerbitzarira config karpetan idazteko baimenak emanez",
     "Or, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it." : "Edo, config.php fitxategia irakurtzeko soilik mantendu nahi baduzu, ezarri \"config_is_read_only\" aukera 'egia' baliora barruan.",
-    "Following databases are supported: %s" : "Hurrengo datubaseak onartzen dira: %s",
-    "Following platforms are supported: %s" : "Hurrengo plataformak onartzen dira: %s",
     "Can't create or write into the data directory %s" : "Ezin da %s datu karpeta sortu edo bertan idatzi ",
     "Invalid Federated Cloud ID" : "Federatutako Hodei ID ezegokia",
     "Can’t increase permissions of %s" : "Ezin dira %s(r)en baimenak handitu",

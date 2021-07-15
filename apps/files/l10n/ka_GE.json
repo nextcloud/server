@@ -138,16 +138,8 @@
     "Shared by link" : "გაზიარდა ბმულით",
     "Text file" : "ტექსტური ფაილი",
     "New text file.txt" : "ახალი ტექსტი file.txt",
-    "Unshare" : "გაზიარების შეწყვეტა",
     "Storage of {owner} is full, files can not be updated or synced anymore!" : "{owner}-ის საცავი სავსეა, ფაილები მეტი ვეღარ განახლდება/სინქრონიზირდება!",
     "Your storage is full, files can not be updated or synced anymore!" : "თქვენი საცავი გადაივსო. ფაილების განახლება და სინქრონიზირება ვერ მოხერხდება!",
-    "Storage of {owner} is almost full ({usedSpacePercent}%)" : "{owner}-ის საცავი თითქმის სავსეა ({usedSpacePercent}%)",
-    "Your storage is almost full ({usedSpacePercent}%)" : "თქვენი საცავი თითქმის გადაივსო ({usedSpacePercent}%)",
-    "_matches '{filter}'_::_match '{filter}'_" : ["ემთხვევა '{filter}'-ს","ემთხვევა '{filter}'-ს"],
-    "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>" : "ფაილს ან დირექტორის <strong>გადაერქვა სახელი</strong> ან <strong>შეიცვალა</strong>",
-    "A new file or folder has been <strong>created</strong>" : "ახალი ფაილი ან დირექტორია <strong>შეიქმნა</strong>",
-    "A file or folder has been <strong>deleted</strong>" : "ფაილი ან დირექტორია <strong>გაუქმდა</strong>",
-    "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "დაუწესეთ <strong>რჩეული ფაილების</strong> შექმნის და ცვლილებების შეტყობინებებს ლიმიტი <em>(მხოლოდ ნაკადი)</em>",
-    "A file or folder has been <strong>restored</strong>" : "ფაილი ან დირექტორია <strong>აღდგენილ იქნა</strong>"
+    "_matches '{filter}'_::_match '{filter}'_" : ["ემთხვევა '{filter}'-ს","ემთხვევა '{filter}'-ს"]
 },"pluralForm" :"nplurals=2; plural=(n!=1);"
 }

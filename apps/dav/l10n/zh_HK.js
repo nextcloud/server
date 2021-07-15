@@ -137,11 +137,6 @@ OC.L10N.register(
     "Tentative" : "暫定",
     "Save" : "儲存",
     "Your attendance was updated successfully." : "您的參與狀況成功更新",
-    "Hello %s," : "%s您好，",
-    "The meeting »%1$s« with %2$s was canceled." : "與 %2$s 的會議 %1$s 取消了。",
-    "The meeting »%1$s« with %2$s was updated." : "與 %2$s 的會議 %1$s 有變動。",
-    "%1$s invited you to »%2$s«" : "%1$s邀請您到»%2$s«",
-    "When:" : "時間：",
     "Calendar and tasks" : "日曆和任務"
 },
 "nplurals=1; plural=0;");

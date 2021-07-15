@@ -139,16 +139,8 @@ OC.L10N.register(
     "Pending shares" : "Ootel jagamised",
     "Text file" : "Tekstifail",
     "New text file.txt" : "Uus tekstifail.txt",
-    "Unshare" : "Lõpeta jagamine",
     "Storage of {owner} is full, files can not be updated or synced anymore!" : "{owner} andmemaht on täis! Faile ei uuendata ega sünkroniseerita!",
     "Your storage is full, files can not be updated or synced anymore!" : "Sinu andmemaht on täis! Faile ei uuendata ega sünkroniseerita!",
-    "Storage of {owner} is almost full ({usedSpacePercent}%)" : "Sinu {owner} andmemaht on peaaegu täis ({usedSpacePercent}%)",
-    "Your storage is almost full ({usedSpacePercent}%)" : "Su andmemaht on peaaegu täis ({usedSpacePercent}%)",
-    "_matches '{filter}'_::_match '{filter}'_" : ["vastab '{filter}'","vastab '{filter}'"],
-    "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>" : "Fail või kaust on <strong>muudetud</strong> või <strong>ümbernimetatud</strong>",
-    "A new file or folder has been <strong>created</strong>" : "Uus fail või kaust on <strong>loodud</strong>",
-    "A file or folder has been <strong>deleted</strong>" : "Fail või kaust on <strong>kustutatud</strong>",
-    "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Piira loomise ja muutuste teavitus oma <strong>lemmikfailide</strong> kohta <em>(ainult voog)</em>",
-    "A file or folder has been <strong>restored</strong>" : "Fail või kaust on <strong>taastatud</strong>"
+    "_matches '{filter}'_::_match '{filter}'_" : ["vastab '{filter}'","vastab '{filter}'"]
 },
 "nplurals=2; plural=(n != 1);");
