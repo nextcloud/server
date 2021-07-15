@@ -59,6 +59,7 @@
 		},
 		_onClick(e) {
 			e.preventDefault()
+			e.stopPropagation()
 
 			const fileInfoModel = new OCA.Files.FileInfoModel(this._dirInfo)
 			const self = this
