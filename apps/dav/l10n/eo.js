@@ -91,11 +91,6 @@ OC.L10N.register(
     "Are you accepting the invitation?" : "Ĉu vi akceptas la inviton?",
     "Tentative" : "Nekonfirmita",
     "Save" : "Konservi",
-    "Your attendance was updated successfully." : "Via ĉeesto sukcese ĝisdatiĝis.",
-    "Hello %s," : "Saluton %s,",
-    "The meeting »%1$s« with %2$s was canceled." : "La kunsido „%1$s“ kun %2$s estis nuligita.",
-    "The meeting »%1$s« with %2$s was updated." : "La kunsido „%1$s“ kun %2$s estis ĝisdatigita.",
-    "%1$s invited you to »%2$s«" : "%1$s invitis vin al „%2$s“",
-    "When:" : "Kiam:"
+    "Your attendance was updated successfully." : "Via ĉeesto sukcese ĝisdatiĝis."
 },
 "nplurals=2; plural=(n != 1);");

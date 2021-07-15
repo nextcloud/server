@@ -32,6 +32,7 @@
     "Checked on {lastCheckedDate}" : "{lastCheckedDate}-n egiaztatuta",
     "Checking apps for compatible versions" : "Bertsio bateragarrientzat aplikaziorik dagoen egiaztatzen",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Ziurtatu config.php-k ez duela <samp> app store gaitua </samp>faltsu gisa ezartzen.",
+    "Could not connect to the App Store or no updates have been returned at all. Search manually for updates or make sure your server has access to the internet and can connect to the App Store." : "Ezin izan da appstore-arekin konektatu edo honek ez du eguneratzerik itzuli. Bilatu eskuz eguneratzeak edo ziurtatu zure zerbitzariak internet konexioa duela eta aplikazio biltegiarekin konektatu daitekeela.",
     "<strong>All</strong> apps have a compatible version for this Nextcloud version available" : "<strong></strong>Aplikazio guztiek Nextcloud bertsio honetarako bertsio bateragarria erabilgarri dute ",
     "View changelog" : "Ikusi aldaketen egunkaria",
     "Enterprise" : "Enpresa",

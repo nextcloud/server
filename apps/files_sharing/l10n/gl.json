@@ -118,7 +118,6 @@
     "Could not lock node" : "Non foi posíbel bloquear o nodo",
     "Could not lock path" : "Non foi posíbel bloquear a ruta",
     "Wrong or no update parameter given" : "Parámetro incorrecto ou non actualizado",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Compartir enviando o contrasinal por Nextcloud Talk fallou porque Nextcloud Talk non está activado",
     "shared by %s" : "compartido por %s",
     "Download all files" : "Descargar todos os ficheiros",
     "Direct link" : "Ligazón directa",
@@ -233,6 +232,7 @@
     "Add to your Nextcloud" : "Engadir ao seu Nextcloud",
     "invalid permissions" : "permisos incorrectos",
     "Can't change permissions for public share links" : "Non é posíbel cambiar os permisos das ligazóns de recursos compartidos públicos",
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Compartir enviando o contrasinal por Nextcloud Talk fallou porque Nextcloud Talk non está activado",
     "Name, email, or federated cloud ID …" : "Nome, correo ou ID da nube federada..."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

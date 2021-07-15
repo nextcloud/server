@@ -235,16 +235,10 @@ OC.L10N.register(
     "Update app \"%s\" from appstore" : "Actualizar la aplicación \"%s\" desde la appstore",
     "Checked for update of app \"%s\" in appstore" : "Se verificaron actualizaciones para la aplicación \"%s\" en la appstore",
     "Checked database schema update for apps" : "Se verificó la actualización del esquema de la base de datos para las aplicaciones",
-    "Following apps have been disabled: %s" : "Las siguientes aplicaciones han sido deshabilitadas: %s",
     "Continue to Nextcloud" : "Continuar a Nextcloud",
     "_The update was successful. Redirecting you to Nextcloud in %n second._::_The update was successful. Redirecting you to Nextcloud in %n seconds._" : ["La actualización fue exitosa. Lo estamos redireccionando a Nextcloud en %n segundo. ","La actualización fue exitosa. Lo estamos redireccionando a Nextcloud en %n segundos."],
-    "Searching other places" : "Buscando en otras ubicaciones",
-    "No search results in other folders for {tag}{filter}{endtag}" : "No hay resultados para la búsqueda en otras carpetas para {tag}{filter}{endtag}",
-    "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} resultado de la búsqueda en otra carpeta","{count} resultados de la búsqueda en otras carpetas"],
     "Password can not be changed. Please contact your administrator." : "Las contraseñas no se pueden cambiar. Favor de contactar a su adminstrador",
-    "Nextcloud {app}" : "Nextcloud {app}",
     "Can't install this app because it is not compatible" : "No se puede instalar esta app porque no es compatible",
-    "Can't install this app" : "No se puede instalar esta app",
-    "These apps will be updated:" : "Las siguientes apllicaciones se actualizarán:"
+    "Can't install this app" : "No se puede instalar esta app"
 },
 "nplurals=2; plural=(n != 1);");

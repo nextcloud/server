@@ -77,8 +77,11 @@ OC.L10N.register(
     "Description: %s" : "Beschrijving: %s",
     "Where: %s" : "Waar: %s",
     "%1$s via %2$s" : "%1$s via %2$s",
+    "Cancelled: %1$s" : "Geannuleerd: %1$s",
     "Invitation canceled" : "Uitnodiging geannuleerd",
+    "Re: %1$s" : "Re: %1$s",
     "Invitation updated" : "Uitnodiging bijgewerkt",
+    "Invitation: %1$s" : "Uitnodiging: %1$s",
     "Invitation" : "Uitnodiging",
     "Title:" : "Titel:",
     "Time:" : "Tijd:",
@@ -134,11 +137,6 @@ OC.L10N.register(
     "Tentative" : "Onder voorbehoud",
     "Save" : "Opslaan",
     "Your attendance was updated successfully." : "Je deelname is succesvol bijgewerkt.",
-    "Hello %s," : "Hallo %s,",
-    "The meeting »%1$s« with %2$s was canceled." : "De vergadering \"%1$s\" met %2$s is geannuleerd.",
-    "The meeting »%1$s« with %2$s was updated." : "De vergadering \"%1$s\" met %2$s is bijgewerkt.",
-    "%1$s invited you to »%2$s«" : "%1$s heeft je uitgenodigd voor \"%2$s\"",
-    "When:" : "Wanneer:",
     "Calendar and tasks" : "Agenda en taken"
 },
 "nplurals=2; plural=(n != 1);");

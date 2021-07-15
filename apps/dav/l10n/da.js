@@ -79,11 +79,6 @@ OC.L10N.register(
     "WebDAV endpoint" : "WebDAV endpoint",
     "Are you accepting the invitation?" : "Accepter du invitationen?",
     "Tentative" : "Foreløbig",
-    "Save" : "Gem",
-    "Hello %s," : "Goddag %s,",
-    "The meeting »%1$s« with %2$s was canceled." : "Mødet »%1$s« med %2$s blev annulleret.",
-    "The meeting »%1$s« with %2$s was updated." : "Mødet »%1$s« med %2$s blev opdateret.",
-    "%1$s invited you to »%2$s«" : "%1$s inviterede dig til »%2$s«",
-    "When:" : "Hvornår:"
+    "Save" : "Gem"
 },
 "nplurals=2; plural=(n != 1);");

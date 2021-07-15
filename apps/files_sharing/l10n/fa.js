@@ -118,7 +118,6 @@ OC.L10N.register(
     "Could not lock node" : "گره را نمی توان قفل کرد",
     "Could not lock path" : "امکان قفل کردن مسیر وجود ندارد.",
     "Wrong or no update parameter given" : "اشتباهی و یا پارامتر بروزرسانی داده نشد",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "اشتراک ارسال رمز عبور توسط Nextcloud Talk به دلیل فعال نشدن Nextcloud Talk انجام نشد",
     "shared by %s" : "اشتراک گذاری شده به میزان %s",
     "Download all files" : "دانلود همه فایل ها",
     "Direct link" : "لینک مستقیم",
@@ -221,6 +220,7 @@ OC.L10N.register(
     "By uploading files, you agree to the %1$sterms of service%2$s." : "%2$sبا بارگذاری پرونده ها ، شما با %1$sشرایط خدمات موافقت می کنید",
     "Add to your Nextcloud" : "به نکست‌کلود خود اضافه کنید",
     "invalid permissions" : "مجوزات نامعتبر",
-    "Can't change permissions for public share links" : "مجوزها برای پیوندهای اشتراک عمومی قابل تغییر نیست"
+    "Can't change permissions for public share links" : "مجوزها برای پیوندهای اشتراک عمومی قابل تغییر نیست",
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "اشتراک ارسال رمز عبور توسط Nextcloud Talk به دلیل فعال نشدن Nextcloud Talk انجام نشد"
 },
 "nplurals=2; plural=(n > 1);");

@@ -129,10 +129,7 @@ OC.L10N.register(
     "Shared by link" : "Холбоосоор түгээсэн",
     "Text file" : "текст файл",
     "New text file.txt" : "шинэ текст file.txt",
-    "Unshare" : "Түгээлтийг зогсоох",
     "Storage of {owner} is full, files can not be updated or synced anymore!" : "{owner}-ий багтаамж дүүрсэн байна",
-    "Your storage is full, files can not be updated or synced anymore!" : "Таны багтаамж дүүрсэн байна!",
-    "A file or folder has been <strong>deleted</strong>" : "Файл эсвэл хавтас амжилттай <strong>устгагдлаа</strong>",
-    "A file or folder has been <strong>restored</strong>" : "Файл эсвэл хавтас амжилттай <strong>сэргээгдлээ</strong>"
+    "Your storage is full, files can not be updated or synced anymore!" : "Таны багтаамж дүүрсэн байна!"
 },
 "nplurals=2; plural=(n != 1);");

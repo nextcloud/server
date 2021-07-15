@@ -124,7 +124,7 @@ OC.L10N.register(
     "Could not lock path" : "無法鎖定路徑",
     "Wrong or no update parameter given" : "更新參數不正確或未提供",
     "Cannot change permissions for public share links" : "無法變更公開分享連結的權限",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "因為未啟用 Nextcloud Talk，因此透過 Nextcloud Talk 傳送密碼分享失敗",
+    "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "「透過 Nextcloud Talk 傳送密碼」分享檔案或資料夾失敗，因為未啟用 Nextcloud Talk。",
     "shared by %s" : "分享自 %s",
     "Download all files" : "下載所有檔案",
     "Direct link" : "直接連結",
@@ -240,6 +240,7 @@ OC.L10N.register(
     "Add to your Nextcloud" : "新增到您的 Nextcloud",
     "invalid permissions" : "無效的權限",
     "Can't change permissions for public share links" : "無法變更公開分享連結的權限",
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "因為未啟用 Nextcloud Talk，因此透過 Nextcloud Talk 傳送密碼分享失敗",
     "Name, email, or federated cloud ID …" : "名稱、電子郵件或雲端聯盟 ID……"
 },
 "nplurals=1; plural=0;");

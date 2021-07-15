@@ -38,7 +38,7 @@ OC.L10N.register(
     "Provide federated file sharing across servers" : "Poskytnout federované sdílení souborů napříč servery",
     "Federated Cloud Sharing" : "Sdílení v rámci federovaného cloudu",
     "Open documentation" : "Otevřít dokumentaci",
-    "Adjust how people can share between servers." : "Upravte, jak mohou lidé mezi servery sdílet.",
+    "Adjust how people can share between servers. This includes shares between users on this server as well if they are using federated sharing." : "Upravte to, jak lidé mohou sdílet mezi servery. Součástí toho jsou také i sdílení mezi uživateli na tomto serveru, pokud používají federované sdílení.",
     "Allow users on this server to send shares to other servers (this option also allows WebDAV access to public shares)" : "Umožnit uživatelům na tomto serveru posílat sdílení na ostatní servery (tato volba také umožňuje WebDAV přístup k veřejným sdílením)",
     "Allow users on this server to receive shares from other servers" : "Povolit uživatelům na tomto serveru přijímat sdílení z jiných serverů",
     "Allow users on this server to send shares to groups on other servers" : "Povolit uživatelům na tomto serveru zasílat sdílení skupinám na ostatních serverech",
@@ -52,6 +52,6 @@ OC.L10N.register(
     "Add to your website" : "Přidat na svou webovou stránku",
     "Share with me via Nextcloud" : "Sdílet se mnou přes Nextcloud",
     "HTML Code:" : "HTML kód:",
-    "Allow users on this server to send shares to other servers" : "Povolit uživatelům z tohoto serveru zasílat sdílení na jiné servery"
+    "Adjust how people can share between servers." : "Upravte, jak mohou lidé mezi servery sdílet."
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

@@ -219,13 +219,8 @@ OC.L10N.register(
     "Update app \"%s\" from appstore" : "Cập nhật ứng dụng \"%s\" từ appstore",
     "Checked for update of app \"%s\" in appstore" : "Đã kiểm tra bản cập nhật của ứng dụng \"%s\" trong kho ứng dụng",
     "Checked database schema update for apps" : "Bản cập nhật lược đồ cơ sở dữ liệu cho các ứng dụng đã được kiểm tra",
-    "Following apps have been disabled: %s" : "Các ứng dụng sau bị vô hiệu hóa: %s",
     "Continue to Nextcloud" : "Tiếp tục đến Nextcloud",
     "_The update was successful. Redirecting you to Nextcloud in %n second._::_The update was successful. Redirecting you to Nextcloud in %n seconds._" : ["Cập nhật thành công. Đang chuyển hướng bạn tới Nextcloud trong %ngiây."],
-    "Searching other places" : "Tìm kiếm các nơi khác",
-    "No search results in other folders for {tag}{filter}{endtag}" : "Không có kết quả tìm kiếm trong các thư mục khác cho {tag} {filter} {endtag}",
-    "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} kết quả tìm kiếm trong các thư mục khác"],
-    "Password can not be changed. Please contact your administrator." : "Không thể thay đổi được mật khẩu. Xin vui lòng liên hệ người quản trị hệ thống.",
-    "These apps will be updated:" : "Những ứng dụng sẽ được cập nhật:"
+    "Password can not be changed. Please contact your administrator." : "Không thể thay đổi được mật khẩu. Xin vui lòng liên hệ người quản trị hệ thống."
 },
 "nplurals=1; plural=0;");

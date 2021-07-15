@@ -102,7 +102,7 @@ OC.L10N.register(
     "Root" : "Root",
     "SFTP with secret key login" : "SFTP-inloggning med hemlig nyckel",
     "Share" : "Dela",
-    "Show hidden files" : "Visa gömda filer",
+    "Show hidden files" : "Visa dolda filer",
     "Timeout" : "Timeout",
     "Username as share" : "Användarnamn till utdelning",
     "OpenStack Object Storage" : "OpenStack Object Storage",

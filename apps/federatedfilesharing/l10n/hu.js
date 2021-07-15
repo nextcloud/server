@@ -20,6 +20,7 @@ OC.L10N.register(
     "It is not allowed to send federated group shares from this server." : "Nem küldhet föderált csoportmegosztást erről a kiszolgálóról.",
     "Sharing %1$s failed, because this item is already shared with user %2$s" : "%1$s megosztása sikertelen, mert már meg van osztva %2$s felhasználóval",
     "Not allowed to create a federated share with the same user" : "Azonos felhasználóval nem lehet föderált megosztást létrehozni",
+    "Federated shares require read permissions" : "Az egyesített megosztásoknak szükséges olvasási jogosultság",
     "File is already shared with %s" : "A fájl már meg van osztva vele: %s",
     "Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable or uses a self-signed certificate." : "A(z) %1$s megosztása sikertelen, a(z) %2$s nem található, talán a kiszolgáló jelenleg nem érhető el vagy önaláírt tanúsítványt használ.",
     "Could not find share" : "A megosztás nem található",
@@ -37,7 +38,6 @@ OC.L10N.register(
     "Provide federated file sharing across servers" : "Föderált fájlmegosztás biztosítása a kiszolgálók között",
     "Federated Cloud Sharing" : "Föderált felhőmegosztás",
     "Open documentation" : "Dokumentáció megnyitása",
-    "Adjust how people can share between servers." : "Az emberek kiszolgálók közötti megosztásának beállítása.",
     "Allow users on this server to send shares to other servers (this option also allows WebDAV access to public shares)" : "Engedélyezze a szerveren lévő felhasználóknak, hogy megosztásokat küldjenek más szerverekre (ez az opció lehetővé teszi a WebDAV hozzáférését a nyilvános megosztásokhoz is)",
     "Allow users on this server to receive shares from other servers" : "Engedélyezze ezen kiszolgáló felhasználóinak, hogy megosztásokat fogadjanak más kiszolgálóktól",
     "Allow users on this server to send shares to groups on other servers" : "Engedélyezze ezen kiszolgáló felhasználóinak, hogy megosztásokat küldjenek más kiszolgálók csoportjainak",
@@ -51,6 +51,6 @@ OC.L10N.register(
     "Add to your website" : "Adja hozzá saját weboldalához",
     "Share with me via Nextcloud" : "Ossza meg velem a Nextcloudon keresztül",
     "HTML Code:" : "HTML-kód:",
-    "Allow users on this server to send shares to other servers" : "Engedélyezze ezen kiszolgáló felhasználóinak, hogy megosztásokat küldjenek más kiszolgálóknak."
+    "Adjust how people can share between servers." : "Az emberek kiszolgálók közötti megosztásának beállítása."
 },
 "nplurals=2; plural=(n != 1);");

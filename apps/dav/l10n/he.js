@@ -102,11 +102,6 @@ OC.L10N.register(
     "Tentative" : "טנטטיבית",
     "Save" : "שמירה",
     "Your attendance was updated successfully." : "ההשתתפות שלך עודכנה בהצלחה.",
-    "Hello %s," : "שלום %s,",
-    "The meeting »%1$s« with %2$s was canceled." : "הפגישה »%1$s« עם %2$s בוטלה.",
-    "The meeting »%1$s« with %2$s was updated." : "הפגישה »%1$s« עם %2$s עודכנה.",
-    "%1$s invited you to »%2$s«" : "הוזמנת על ידי %1$s אל „%2$s”",
-    "When:" : "מתי:",
     "Calendar and tasks" : "לוח שנה ומשימות"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");

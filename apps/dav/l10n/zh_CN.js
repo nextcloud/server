@@ -77,8 +77,11 @@ OC.L10N.register(
     "Description: %s" : "描述：%s",
     "Where: %s" : "地点：%s",
     "%1$s via %2$s" : "%1$s 通过 %2$s",
+    "Cancelled: %1$s" : "已取消：%1$s",
     "Invitation canceled" : "邀请已取消",
+    "Re: %1$s" : "回复：%1$s",
     "Invitation updated" : "邀请已更新",
+    "Invitation: %1$s" : "邀请：%1$s",
     "Invitation" : "邀请",
     "Title:" : "标题：",
     "Time:" : "时间：",
@@ -134,11 +137,6 @@ OC.L10N.register(
     "Tentative" : "暂定",
     "Save" : "保存",
     "Your attendance was updated successfully." : "您的出席状态更新成功。",
-    "Hello %s," : "%s 你好，",
-    "The meeting »%1$s« with %2$s was canceled." : "与%2$s的会议 »%1$s« 已取消。",
-    "The meeting »%1$s« with %2$s was updated." : "与%2$s的会议 »%1$s« 已更新。",
-    "%1$s invited you to »%2$s«" : "%1$s 邀请您加入 »%2$s«",
-    "When:" : "时间：",
     "Calendar and tasks" : "日历和任务"
 },
 "nplurals=1; plural=0;");

@@ -232,7 +232,6 @@ OC.L10N.register(
     "Update app \"%s\" from appstore" : "Actualizar la aplicación \"%s\" desde la appstore",
     "Checked for update of app \"%s\" in appstore" : "Se verificaron actualizaciones para la aplicación \"%s\" en la appstore",
     "Checked database schema update for apps" : "Se verificó la actualización del esquema de la base de datos para las aplicaciones",
-    "Following apps have been disabled: %s" : "Las siguientes aplicaciones han sido deshabilitadas: %s",
     "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "Tu servidor web no está correctamente configurado para resolver \"{url}\". Puedes encontrar más información al respecto en la <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentación</a>.",
     "Check the background job settings" : "Verifica la configuración de los trabajos de fondo",
     "No memory cache has been configured. To enhance performance, please configure a memcache, if available. Further information can be found in the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "No se ha configurado el caché de memoria. Para mejorar el desempeño, por favor configura un memcahce, si está disponible. Puedes encontrar más información en la <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentación</a>.",
@@ -243,10 +242,6 @@ OC.L10N.register(
     "The PHP OPcache is not properly configured. <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">For better performance it is recommended</a> to use the following settings in the <code>php.ini</code>:" : "El OPcache de PHP no está configurado correctamente. <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">Para un mejor desempeño se recomienda</a> usar las sigueintes configuraciones en el archivo <code>php.ini</code>:",
     "Continue to Nextcloud" : "Continuar a Nextcloud",
     "_The update was successful. Redirecting you to Nextcloud in %n second._::_The update was successful. Redirecting you to Nextcloud in %n seconds._" : ["La actualización fue exitosa. Lo estamos redireccionando a Nextcloud en %n segundo. ","La actualización fue exitosa. Te redireccionaremos a Nextcloud en %n segundos."],
-    "Searching other places" : "Buscando en otras ubicaciones",
-    "No search results in other folders for {tag}{filter}{endtag}" : "No hay resultados para la búsqueda {tag}{filter}{endtag} en otras carpetas",
-    "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} resultado de la búsqueda en otra carpeta","{count} resultados de la búsqueda en otras carpetas"],
-    "Password can not be changed. Please contact your administrator." : "Las contraseñas no se pueden cambiar. Por favor contacta a tu adminstrador",
-    "These apps will be updated:" : "Las siguientes apllicaciones se actualizarán:"
+    "Password can not be changed. Please contact your administrator." : "Las contraseñas no se pueden cambiar. Por favor contacta a tu adminstrador"
 },
 "nplurals=2; plural=(n != 1);");
