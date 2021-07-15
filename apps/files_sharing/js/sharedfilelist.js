@@ -188,7 +188,7 @@
 				var promises = []
 
 				var deletedShares = {
-					url: OC.linkToOCS('apps/files_sharing/api/v1', 2) + 'deletedshares',
+					url: OC.linkToOCS('apps/files_sharing/api/v1/deletedshares'),
 					/* jshint camelcase: false */
 					data: {
 						format: 'json',
@@ -201,7 +201,7 @@
 				}
 
 				var pendingShares = {
-					url: OC.linkToOCS('apps/files_sharing/api/v1/shares', 2) + 'pending',
+					url: OC.linkToOCS('apps/files_sharing/api/v1/shares/pending'),
 					/* jshint camelcase: false */
 					data: {
 						format: 'json'
@@ -213,7 +213,7 @@
 				}
 
 				var shares = {
-					url: OC.linkToOCS('apps/files_sharing/api/v1') + 'shares',
+					url: OC.linkToOCS('apps/files_sharing/api/v1/shares'),
 					/* jshint camelcase: false */
 					data: {
 						format: 'json',
@@ -227,7 +227,7 @@
 				}
 
 				var remoteShares = {
-					url: OC.linkToOCS('apps/files_sharing/api/v1') + 'remote_shares',
+					url: OC.linkToOCS('apps/files_sharing/api/v1/remote_shares'),
 					/* jshint camelcase: false */
 					data: {
 						format: 'json',

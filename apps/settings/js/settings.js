@@ -35,7 +35,7 @@ OC.Settings = _.extend(OC.Settings, {
 		if ($elements.length > 0) {
 			// Let's load the data and THEN init our select
 			$.ajax({
-				url: OC.linkToOCS('cloud/groups', 2) + 'details',
+				url: OC.linkToOCS('cloud/groups/details'),
 				dataType: 'json',
 				success: function(data) {
 					var results = [];

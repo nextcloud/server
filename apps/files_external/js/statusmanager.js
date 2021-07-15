@@ -141,7 +141,7 @@ OCA.Files_External.StatusManager = {
 			self.isGetMountPointListRunning = true;
 			$.ajax({
 				type: 'GET',
-				url: OC.linkToOCS('apps/files_external/api/v1') + 'mounts?format=json',
+				url: OC.linkToOCS('apps/files_external/api/v1/mounts?format=json'),
 				success: function (response) {
 					self.mountPointList = [];
 					_.each(response.ocs.data, function (mount) {

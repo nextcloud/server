@@ -92,7 +92,7 @@
 			this._setCurrentDir('/', false);
 
 			this._reloadCall = $.ajax({
-				url: OC.linkToOCS('apps/files_external/api/v1') + 'mounts',
+				url: OC.linkToOCS('apps/files_external/api/v1/mounts'),
 				data: {
 					format: 'json'
 				},
