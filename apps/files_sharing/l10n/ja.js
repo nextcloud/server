@@ -124,6 +124,7 @@ OC.L10N.register(
     "Could not lock path" : "パスをロックできませんでした",
     "Wrong or no update parameter given" : "間違っているか、またはパラメータが更新されていません",
     "Cannot change permissions for public share links" : "URLリンク共有のパーミッションを変更できません",
+    "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "Nextcloud Talkが有効になっていないため、ファイルまたはフォルダーを共有するための「NextcloudTalkによるパスワードの送信」ができませんでした。",
     "shared by %s" : "%s が共有",
     "Download all files" : "すべてのファイルをダウンロード",
     "Direct link" : "リンク",

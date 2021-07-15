@@ -50,7 +50,6 @@ OC.L10N.register(
     "Add to your website" : "Engadir ao seu sitio web",
     "Share with me via Nextcloud" : "Comparte comigo a través do Nextcloud",
     "HTML Code:" : "Código HTML:",
-    "Adjust how people can share between servers." : "Axustar como as persoas poden compartir entre servidores. ",
-    "Allow users on this server to send shares to other servers" : "Permitirlle aos usuarios deste servidor enviar recursos compartidos a outros servidores"
+    "Adjust how people can share between servers." : "Axustar como as persoas poden compartir entre servidores. "
 },
 "nplurals=2; plural=(n != 1);");

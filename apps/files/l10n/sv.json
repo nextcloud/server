@@ -207,20 +207,10 @@
     "Pending shares" : "Väntande delningar",
     "Text file" : "Textfil",
     "New text file.txt" : "Ny textfil.txt",
-    "Unshare" : "Sluta dela",
     "Storage of {owner} is full, files can not be updated or synced anymore!" : "Lagring av {owner}  är full, filer kan inte uppdateras eller synkroniseras längre!",
     "Group folder \"{mountPoint}\" is full, files can not be updated or synced anymore!" : "Gruppmapp \"{mountPoint}\" är full, filer kan inte uppdateras eller synkroniseras längre!",
     "External storage \"{mountPoint}\" is full, files can not be updated or synced anymore!" : "Extern lagring \"{mountPoint}\" är full, filer kan inte uppdateras eller synkroniseras längre!",
     "Your storage is full, files can not be updated or synced anymore!" : "Ditt lagringsutrymme är fullt, filer kan inte längre uppdateras eller synkroniseras!",
-    "Storage of {owner} is almost full ({usedSpacePercent}%)" : "Lagring av  {owner}  är nästan full  ({usedSpacePercent}%)",
-    "Group folder \"{mountPoint}\" is almost full ({usedSpacePercent}%)" : "Gruppmapp \"{mountPoint}\" är nästan full ({usedSpacePercent}%)",
-    "External storage \"{mountPoint}\" is almost full ({usedSpacePercent}%)" : "Extern lagring \"{mountPoint}\" är nästan full ({usedSpacePercent}%)",
-    "Your storage is almost full ({usedSpacePercent}%)" : "Ditt lagringsutrymme är nästan fullt ({usedSpacePercent}%)",
-    "_matches '{filter}'_::_match '{filter}'_" : ["matchar '{filter}'","matcha '{filter}'"],
-    "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>" : "En fil har blivit <strong>ändrad</strong> eller <strong>bytt namn</strong>",
-    "A new file or folder has been <strong>created</strong>" : "En ny fil eller mapp har blivit <strong>skapad</strong>",
-    "A file or folder has been <strong>deleted</strong>" : "En fil eller mapp har <strong>tagits bort</strong>",
-    "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Begränsa aviseringar om skapande och ändringar till dina <strong>favoritfiler</strong> <em>(Endast i flödet)</em>",
-    "A file or folder has been <strong>restored</strong>" : "En fil eller mapp har <strong>återställts</strong>"
+    "_matches '{filter}'_::_match '{filter}'_" : ["matchar '{filter}'","matcha '{filter}'"]
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

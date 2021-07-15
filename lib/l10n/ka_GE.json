@@ -177,8 +177,6 @@
     "Storage is temporarily not available" : "საცავი დროებით ხელმიუწვდომელია",
     "Storage connection timeout. %s" : "საცავის კავშირის დროის ამოწურვა. %s",
     "This can usually be fixed by giving the webserver write access to the config directory" : "ეს ჩვეულებრივ გამოსწორებადია ვებსერვერისთვის კონფიგურაციის დირექტორიაზე წერის უფლებების მინიჭებით",
-    "Following databases are supported: %s" : "მხარდაჭერილია შემდეგი მონაცემთა ბაზები: %s",
-    "Following platforms are supported: %s" : "მხარდაჭერია შემდეგი პლატფორმები: %s",
     "Can't create or write into the data directory %s" : "მონაცემების დირექტრიის შექმნა ან მასში ჩაწერა ვერ მოხერხდა %s",
     "Invalid Federated Cloud ID" : "არასწორი ფედერალური ქლაუდ ID",
     "Can’t increase permissions of %s" : "%s-ის უფლებების გაზრდა ვერ მოხერხდა",

@@ -207,20 +207,10 @@
     "Pending shares" : "Ausstehende Freigaben",
     "Text file" : "Textdatei",
     "New text file.txt" : "Neue Textdatei file.txt",
-    "Unshare" : "Freigabe aufheben",
     "Storage of {owner} is full, files can not be updated or synced anymore!" : "Der Speicher von {owner} ist voll, Dateien können nicht mehr aktualisiert oder synchronisiert werden!",
     "Group folder \"{mountPoint}\" is full, files can not be updated or synced anymore!" : "Gruppenordner \"{mountPoint}\" ist voll, Dateien können nicht mehr aktualisiert oder synchronisiert werden!",
     "External storage \"{mountPoint}\" is full, files can not be updated or synced anymore!" : "Externer Speicher \"{mountPoint}\" ist voll, Dateien können nicht mehr aktualisiert oder synchronisiert werden!",
     "Your storage is full, files can not be updated or synced anymore!" : "Dein Speicher ist voll, daher können keine Dateien mehr aktualisiert oder synchronisiert werden!",
-    "Storage of {owner} is almost full ({usedSpacePercent}%)" : "Der Speicher von {owner} ist beinahe voll ({usedSpacePercent}%)",
-    "Group folder \"{mountPoint}\" is almost full ({usedSpacePercent}%)" : "Gruppenordner \"{mountPoint}\" ist beinahe voll ({usedSpacePercent}%).",
-    "External storage \"{mountPoint}\" is almost full ({usedSpacePercent}%)" : "Externer Speicher \"{mountPoint}\" ist beinahe voll ({usedSpacePercent}%).",
-    "Your storage is almost full ({usedSpacePercent}%)" : "Dein Speicher ist fast voll ({usedSpacePercent}%)",
-    "_matches '{filter}'_::_match '{filter}'_" : ["stimmt mit '{filter}' überein","stimmen mit '{filter}' überein"],
-    "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>" : "Eine Datei oder Ordner wurde <strong>geändert</strong> oder <strong>umbenannt</strong>",
-    "A new file or folder has been <strong>created</strong>" : "Eine neue Datei oder ein neuer Ordner wurde <strong>erstellt</strong>",
-    "A file or folder has been <strong>deleted</strong>" : "Eine Datei oder ein Ordner wurde <strong>gelöscht</strong>",
-    "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Benachrichtigungen über Neues und Änderungen auf Deine <strong>favorisierten Dateien</strong> beschränken <em>(nur im Stream)</em>",
-    "A file or folder has been <strong>restored</strong>" : "Eine Datei oder ein Ordner wurde <strong>wiederhergestellt</strong>"
+    "_matches '{filter}'_::_match '{filter}'_" : ["stimmt mit '{filter}' überein","stimmen mit '{filter}' überein"]
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

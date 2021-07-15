@@ -297,7 +297,6 @@ OC.L10N.register(
     "Update app \"%s\" from appstore" : "Оновлення застосунк \"1%s\" з крамниці застосунків",
     "Checked for update of app \"%s\" in appstore" : "Наявність оновлення застосунку \"%s\" у крамниці перевірено",
     "Checked database schema update for apps" : "Перевірено оновлення схеми бази даних для застосунків",
-    "Following apps have been disabled: %s" : "Такі застосунки було деактивовано: %s",
     "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "Ваш вебсервер не налаштований як треба для вирішення \"{url}\". Додаткову інформація може знаходитись в нашій <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">документації</a>.",
     "Please check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">installation documentation ↗</a> for PHP configuration notes and the PHP configuration of your server, especially when using php-fpm." : "Перевірте розділи <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">документації по встановленню ↗</a> з замітками налаштування PHP на вашому сервері, особливо коли використовуєте php-fpm.",
     "Last background job execution ran {relativeTime}. Something seems wrong." : "Останнє виконання фонового завдання тривало {relativeTime}. Схоже, щось пішло не так.",
@@ -307,15 +306,10 @@ OC.L10N.register(
     "The PHP OPcache is not properly configured. <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">For better performance it is recommended</a> to use the following settings in the <code>php.ini</code>:" : "Модуль PHP OPcache налаштовано неправильно. <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">Для підвищення продуктивності рекомендується</a> використовувати наступні параметри у <code>php.ini</code>:",
     "Continue to Nextcloud" : "Продовжити у Nextcloud",
     "_The update was successful. Redirecting you to Nextcloud in %n second._::_The update was successful. Redirecting you to Nextcloud in %n seconds._" : ["Оновлення успішне. Перенаправлення до Nextcloud через %n секунду.","Оновлення успішне. Перенаправлення до Nextcloud через %n секунди.","Оновлення успішне. Перенаправлення до Nextcloud через %n секунд.","Оновлення успішне. Перенаправлення до Nextcloud через %n секунд."],
-    "Searching other places" : "Йде пошук в інших місцях",
-    "No search results in other folders for {tag}{filter}{endtag}" : "Нічого не знайдено в інших теках за запитом {tag}{filter}{endtag}",
-    "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} результат пошуку в інших теках","{count} результатів пошуку в інших теках","{count} результатів пошуку в інших теках","{count} результатів пошуку в інших теках"],
     "A password reset message has been sent to the e-mail address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Повідомлення про перевстановлення пароля було надіслано на електронну скриньку цього облікового запису. У разі неотримання листа, будь ласка, перевірте теку зі спамом або зверніться до вашого адміністратора.",
     "Password can not be changed. Please contact your administrator." : "Пароль не може бути змінено. Будь ласка, зверніться до вашого адміністратора",
     "Could not fetch list of apps from the app store." : "Неможливо отримати перелік застосунків з крамниці застосунків",
-    "Nextcloud {app}" : "Nextcloud {app}",
     "Can't install this app because it is not compatible" : "Неможливо встановити цей застосунок через несумісність",
-    "Can't install this app" : "Неможливо встановити цей застосунок",
-    "These apps will be updated:" : "Ці застосунки буде оновлено:"
+    "Can't install this app" : "Неможливо встановити цей застосунок"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

@@ -209,20 +209,10 @@ OC.L10N.register(
     "Pending shares" : "Bekleyen paylaşımlar",
     "Text file" : "Metin dosyası",
     "New text file.txt" : "Yeni metin dosyası.txt",
-    "Unshare" : "Paylaşımı kaldır",
     "Storage of {owner} is full, files can not be updated or synced anymore!" : "{owner} için boş depolama alanı kalmadı. Artık dosyalar güncellenmeyecek ya da eşitlenmeyecek!",
     "Group folder \"{mountPoint}\" is full, files can not be updated or synced anymore!" : "\"{mountPoint}\" grup klasöründe boş alan kalmadı. Artık güncellenemeyecek ya da eşitlenemeyecek!",
     "External storage \"{mountPoint}\" is full, files can not be updated or synced anymore!" : "\"{mountPoint}\" dış depolamasında boş alan kalmadı. Artık güncellenemeyecek ya da eşitlenemeyecek!",
     "Your storage is full, files can not be updated or synced anymore!" : "Boş depolama alanınız kalmadı. Artık dosyalar güncellenmeyecek ya da eşitlenmeyecek!",
-    "Storage of {owner} is almost full ({usedSpacePercent}%)" : "{owner} boş depolama alanı bitmek üzere ({usedSpacePercent}%)",
-    "Group folder \"{mountPoint}\" is almost full ({usedSpacePercent}%)" : "\"{mountPoint}\" grup klasöründeki boş alan bitmek üzere (%{usedSpacePercent}).",
-    "External storage \"{mountPoint}\" is almost full ({usedSpacePercent}%)" : "\"{mountPoint}\" dış depolamasındaki boş alan bitmek üzere (%{usedSpacePercent}%).",
-    "Your storage is almost full ({usedSpacePercent}%)" : "Boş depolama alanınız bitmek üzere (%{usedSpacePercent})",
-    "_matches '{filter}'_::_match '{filter}'_" : ["'{filter}' ile eşleşen","'{filter}' ile eşleşen"],
-    "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>" : "Bir dosya ya da klasör <strong>değiştirildi</strong> ya da <strong>yeniden adlandırıldı</strong>",
-    "A new file or folder has been <strong>created</strong>" : "Yeni bir dosya ya da klasör <strong>eklendi</strong>",
-    "A file or folder has been <strong>deleted</strong>" : "Bir dosya ya da klasör <strong>silindi</strong>",
-    "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "<strong>Sık kullanılan dosyalarınız</strong> ile ilgili ekleme ve değişiklik bildirimleri sınırlansın <em>(Yalnız akış)</em>",
-    "A file or folder has been <strong>restored</strong>" : "Bir dosya ya da klasör <strong>geri yüklendi</strong>"
+    "_matches '{filter}'_::_match '{filter}'_" : ["'{filter}' ile eşleşen","'{filter}' ile eşleşen"]
 },
 "nplurals=2; plural=(n > 1);");

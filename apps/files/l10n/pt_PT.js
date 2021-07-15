@@ -138,16 +138,8 @@ OC.L10N.register(
     "Shared by link" : "Partilhado por hiperligação",
     "Text file" : "Ficheiro de Texto",
     "New text file.txt" : "Novo texto ficheiro.txt",
-    "Unshare" : "Cancelar partilha",
     "Storage of {owner} is full, files can not be updated or synced anymore!" : "O armazenamento de {owner} está cheio. Os ficheiros já não podem ser atualizados ou sincronizados!",
     "Your storage is full, files can not be updated or synced anymore!" : "O seu armazenamento está cheio, os ficheiros já não podem ser atualizados ou sincronizados.",
-    "Storage of {owner} is almost full ({usedSpacePercent}%)" : "O armazenamento de {owner} está quase cheio ({usedSpacePercent}%)",
-    "Your storage is almost full ({usedSpacePercent}%)" : "O seu armazenamento está quase cheio ({usedSpacePercent}%)",
-    "_matches '{filter}'_::_match '{filter}'_" : ["corresponde a '{filter}'","correspondem a '{filter}'"],
-    "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>" : "Um ficheiro ou pasta foram <strong>modificados</strong> ou <strong>renomeados</strong>",
-    "A new file or folder has been <strong>created</strong>" : "Foi <strong>criado</strong> um novo ficheiro ou pasta",
-    "A file or folder has been <strong>deleted</strong>" : "Um ficheiro ou pasta foram <strong>apagados</strong>",
-    "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Limite as notificações sobre a criação e alterações para os seus <strong>ficheiros favoritos</strong> <em>(apenas Emissão)</em>",
-    "A file or folder has been <strong>restored</strong>" : "Um ficheiro ou pasta foram <strong>restaurados</strong>"
+    "_matches '{filter}'_::_match '{filter}'_" : ["corresponde a '{filter}'","correspondem a '{filter}'"]
 },
 "nplurals=2; plural=(n != 1);");

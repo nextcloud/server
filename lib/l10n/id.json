@@ -143,8 +143,6 @@
     "Storage is temporarily not available" : "Penyimpanan sementara tidak tersedia",
     "Storage connection timeout. %s" : "Koneksi penyimpanan waktu-habis. %s",
     "This can usually be fixed by giving the webserver write access to the config directory" : "Hal ini biasanya dapat diperbaiki dengan memberikan akses tulis bagi situs web ke direktori config",
-    "Following databases are supported: %s" : "Berikut adalah basis data yang didukung: %s",
-    "Following platforms are supported: %s" : "Berikut adalah platform yang didukung: %s",
     "Can't create or write into the data directory %s" : "Tidak dapat membuat atau menulis kedalam direktori data %s",
     "Invalid Federated Cloud ID" : "Federated Cloud ID tidak sah",
     "Can't read file" : "Tidak dapat membaca berkas"

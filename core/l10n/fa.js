@@ -218,13 +218,8 @@ OC.L10N.register(
     "Update app \"%s\" from appstore" : " \"%s\" به روز رسانی شد",
     "Checked for update of app \"%s\" in appstore" : "بررسی به روزرسانی های برنامه %s",
     "Checked database schema update for apps" : "Checked database schema update for apps",
-    "Following apps have been disabled: %s" : "برنامه های زیر غیر فعال شده اند %s",
     "Continue to Nextcloud" : "ادامه به Nextcloud",
     "_The update was successful. Redirecting you to Nextcloud in %n second._::_The update was successful. Redirecting you to Nextcloud in %n seconds._" : ["به روز رسانی موفقیت آمیز بود هدایت شما به Nextcloud در %nثانیه ","به روز رسانی موفقیت آمیز بود هدایت شما به Nextcloud در %nثانیه "],
-    "Searching other places" : "جستجو در مکان‌های دیگر",
-    "No search results in other folders for {tag}{filter}{endtag}" : "جستجو در پوشه های دیگر برای {tag}{filter}{endtag} یافت نشد",
-    "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} نتایج جستجو در پوشه های دیگر","{count} نتایج جستجو در پوشه های دیگر"],
-    "Password can not be changed. Please contact your administrator." : "رمز عبور نمی تواند تغییر بکند . لطفا با مدیر سیستم تماس بگیرید .",
-    "These apps will be updated:" : "این برنامه‌ها بروزرسانی شده‌اند:"
+    "Password can not be changed. Please contact your administrator." : "رمز عبور نمی تواند تغییر بکند . لطفا با مدیر سیستم تماس بگیرید ."
 },
 "nplurals=2; plural=(n > 1);");

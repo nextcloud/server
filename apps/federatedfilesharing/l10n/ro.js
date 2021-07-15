@@ -28,7 +28,6 @@ OC.L10N.register(
     "Your Federated Cloud ID:" : "ID Cloud federalizat:",
     "Add to your website" : "Adaugă la site-ul tău Web",
     "Share with me via Nextcloud" : "Partajează cu mine via Nextcloud",
-    "HTML Code:" : "Cod HTML:",
-    "Allow users on this server to send shares to other servers" : "Permite utilizatorilor de pe acest server să transmită partajări către alte servere"
+    "HTML Code:" : "Cod HTML:"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

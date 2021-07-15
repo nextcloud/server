@@ -48,7 +48,6 @@ OC.L10N.register(
     "Add to your website" : "Aldoni al via TTT-ejo",
     "Share with me via Nextcloud" : "Kunhavigi kun mi per Nextcloud",
     "HTML Code:" : "HTML-kodo:",
-    "Adjust how people can share between servers." : "Agordi, kiel oni povas kunhavigi inter serviloj.",
-    "Allow users on this server to send shares to other servers" : "Permesi al uzantoj en tiu ĉi servilo sendi kunhavojn al aliaj serviloj"
+    "Adjust how people can share between servers." : "Agordi, kiel oni povas kunhavigi inter serviloj."
 },
 "nplurals=2; plural=(n != 1);");

@@ -242,13 +242,8 @@
     "Update app \"%s\" from appstore" : "Actualizare aplicație \"%s\" din magazinul de aplicații",
     "Checked for update of app \"%s\" in appstore" : "S-a verificat dacă sunt actualizări pentru aplicația \"%s\" în magazinul de aplicații",
     "Checked database schema update for apps" : "S-a verificat actualizarea schemei bazei de date pentru aplicații",
-    "Following apps have been disabled: %s" : "Următoarele aplicații au fost dezactivate: %s",
     "Check the background job settings" : "Verificați setările jobului de fundal",
     "Continue to Nextcloud" : "Continuă la Nextcloud",
-    "Searching other places" : "Se caută în alte locuri",
-    "No search results in other folders for {tag}{filter}{endtag}" : "Nu au fost găsite rezultate în alte directoare pentru {tag}{filter}{endtag}",
-    "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} rezultat al căutării în alte directoare","{count} rezultate ale căutării în alte directoare","{count} rezultate ale căutării în alte directoare"],
-    "Password can not be changed. Please contact your administrator." : "Parola nu poate fi modificată. Vă rugăm să contactați administratorul dvs.",
-    "These apps will be updated:" : "Aceste aplicații vor fi actualizate:"
+    "Password can not be changed. Please contact your administrator." : "Parola nu poate fi modificată. Vă rugăm să contactați administratorul dvs."
 },"pluralForm" :"nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));"
 }

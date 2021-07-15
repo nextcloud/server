@@ -48,7 +48,6 @@ OC.L10N.register(
     "Add to your website" : "Bæta við vefsvæðið þitt",
     "Share with me via Nextcloud" : "Deila með mér í gegnum Nextcloud",
     "HTML Code:" : "HTML-kóði:",
-    "Adjust how people can share between servers." : "Stilltu hvernig fólk getur deilt á milli þjóna.",
-    "Allow users on this server to send shares to other servers" : "Leyfa notendum á þessum þjóni að senda sameignir til annarra þjóna"
+    "Adjust how people can share between servers." : "Stilltu hvernig fólk getur deilt á milli þjóna."
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

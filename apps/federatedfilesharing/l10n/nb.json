@@ -37,7 +37,6 @@
     "Add to your website" : "Legg på nettsiden din",
     "Share with me via Nextcloud" : "Del med meg via Nextcloud",
     "HTML Code:" : "HTML-kode:",
-    "Adjust how people can share between servers." : "Juster hvordan folk kan dele mellom servere.",
-    "Allow users on this server to send shares to other servers" : "Tillat at brukere på denne serveren sender delinger til andre servere"
+    "Adjust how people can share between servers." : "Juster hvordan folk kan dele mellom servere."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

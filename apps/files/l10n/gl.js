@@ -203,20 +203,10 @@ OC.L10N.register(
     "Pending shares" : "Comparticións pendentes",
     "Text file" : "Ficheiro de texto",
     "New text file.txt" : "Novo ficheiro de texto.txt",
-    "Unshare" : "Deixar de compartir",
     "Storage of {owner} is full, files can not be updated or synced anymore!" : "O espazo de almacenamento de {owner} está cheo, xa non se poden actualizar nin sincronizar os ficheiros.",
     "Group folder \"{mountPoint}\" is full, files can not be updated or synced anymore!" : "O cartafol de grupo «{mountPoint}» está cheo, xa non é posíbel actualizar oun sincronizar os ficheiros.",
     "External storage \"{mountPoint}\" is full, files can not be updated or synced anymore!" : "O almacenamento externo «{mountPoint}» está cheo, xa non é posíbel actualizar oun sincronizar os ficheiros.",
     "Your storage is full, files can not be updated or synced anymore!" : "O seu espazo de almacenamento está cheo, xa non se poden actualizar nin sincronizar os ficheiros.",
-    "Storage of {owner} is almost full ({usedSpacePercent}%)" : "O espazo de almacenamento de {owner} está case cheo ({usedSpacePercent}%)",
-    "Group folder \"{mountPoint}\" is almost full ({usedSpacePercent}%)" : "O cartafol de grupo «{mountPoint}» está case cheo ({usedSpacePercent}%)",
-    "External storage \"{mountPoint}\" is almost full ({usedSpacePercent}%)" : "O almacenamento externo «{mountPoint}» está case cheo ({usedSpacePercent}%)",
-    "Your storage is almost full ({usedSpacePercent}%)" : "O seu espazo de almacenamento está case cheo ({usedSpacePercent}%)",
-    "_matches '{filter}'_::_match '{filter}'_" : ["coincidente con «{filter}»","coincidentes con «{filter}»"],
-    "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>" : "<strong>Cambiouse</strong> ou <strong>renomeouse</strong> un ficheiro ou cartafol",
-    "A new file or folder has been <strong>created</strong>" : "<strong>Creouse</strong> un novo ficheiro ou cartafol",
-    "A file or folder has been <strong>deleted</strong>" : "<strong>Eliminouse</strong> un ficheiro ou cartafol",
-    "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Limita as notificacións sobre a creación e modificación dos seus <strong>ficheiros favoritos</strong> <em>(só os fluxos)</em>",
-    "A file or folder has been <strong>restored</strong>" : "<strong>Restaurouse</strong> un ficheiro ou cartafol"
+    "_matches '{filter}'_::_match '{filter}'_" : ["coincidente con «{filter}»","coincidentes con «{filter}»"]
 },
 "nplurals=2; plural=(n != 1);");

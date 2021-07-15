@@ -39,7 +39,6 @@ OC.L10N.register(
     "Add to your website" : "საიტზე დამატება",
     "Share with me via Nextcloud" : "გამიზიარე Nextcloud-ის მეშვეობით",
     "HTML Code:" : "HTML კოდი:",
-    "Adjust how people can share between servers." : "განაგეთ თუ როგორ შეუძლიათ ადამიანებს სერვერებს შორის მოახდინონ გაზიარება.",
-    "Allow users on this server to send shares to other servers" : "დართეთ ნება მომხმარებლებს ამ სერვერზე გააგზავნონ გაზიარებები სხვა სერვერებთან"
+    "Adjust how people can share between servers." : "განაგეთ თუ როგორ შეუძლიათ ადამიანებს სერვერებს შორის მოახდინონ გაზიარება."
 },
 "nplurals=2; plural=(n!=1);");
