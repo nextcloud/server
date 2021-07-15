@@ -49,7 +49,7 @@
     "core-js": "^3.6.5",
     "css-vars-ponyfill": "^2.3.2",
     "davclient.js": "git+https://github.com/owncloud/davclient.js.git#0.2.1",
-    "debounce": "^1.2.0",
+    "debounce": "^1.2.1",
     "dompurify": "^2.2.9",
     "escape-html": "^1.0.3",
     "handlebars": "^4.7.7",
