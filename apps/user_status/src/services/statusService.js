@@ -28,7 +28,7 @@ import { generateOcsUrl } from '@nextcloud/router'
  *
  * @returns {Promise<Object>}
  */
-const fetchCurrentStatus = async() => {
+const fetchCurrentStatus = async () => {
 	const url = generateOcsUrl('apps/user_status/api/v1', 2) + 'user_status'
 	const response = await HttpClient.get(url)
 
@@ -41,7 +41,7 @@ const fetchCurrentStatus = async() => {
  * @param {String} statusType The status (online / away / dnd / invisible)
  * @returns {Promise<void>}
  */
-const setStatus = async(statusType) => {
+const setStatus = async (statusType) => {
 	const url = generateOcsUrl('apps/user_status/api/v1', 2) + 'user_status/status'
 	await HttpClient.put(url, {
 		statusType,
@@ -55,7 +55,7 @@ const setStatus = async(statusType) => {
  * @param {Number|null} clearAt When to automatically clean the status
  * @returns {Promise<void>}
  */
-const setPredefinedMessage = async(messageId, clearAt = null) => {
+const setPredefinedMessage = async (messageId, clearAt = null) => {
 	const url = generateOcsUrl('apps/user_status/api/v1', 2) + 'user_status/message/predefined?format=json'
 	await HttpClient.put(url, {
 		messageId,
@@ -71,7 +71,7 @@ const setPredefinedMessage = async(messageId, clearAt = null) => {
  * @param {Number|null} clearAt When to automatically clean the status
  * @returns {Promise<void>}
  */
-const setCustomMessage = async(message, statusIcon = null, clearAt = null) => {
+const setCustomMessage = async (message, statusIcon = null, clearAt = null) => {
 	const url = generateOcsUrl('apps/user_status/api/v1', 2) + 'user_status/message/custom?format=json'
 	await HttpClient.put(url, {
 		message,
@@ -85,7 +85,7 @@ const setCustomMessage = async(message, statusIcon = null, clearAt = null) => {
  *
  * @returns {Promise<void>}
  */
-const clearMessage = async() => {
+const clearMessage = async () => {
 	const url = generateOcsUrl('apps/user_status/api/v1', 2) + 'user_status/message?format=json'
 	await HttpClient.delete(url)
 }

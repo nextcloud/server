@@ -83,7 +83,7 @@ export default {
 		/**
 		 * The display-name of the current user
 		 *
-		 * @returns {String}
+		 * @return {string}
 		 */
 		displayName() {
 			return getCurrentUser().displayName
@@ -151,7 +151,7 @@ export default {
 		/**
 		 * Sends the status heartbeat to the server
 		 *
-		 * @returns {Promise<void>}
+		 * @return {Promise<void>}
 		 * @private
 		 */
 		async _backgroundHeartbeat() {

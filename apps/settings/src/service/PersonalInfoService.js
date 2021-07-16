@@ -33,7 +33,7 @@ import { ACCOUNT_PROPERTY_ENUM, SCOPE_SUFFIX } from '../constants/AccountPropert
  * @param {string} email the primary email
  * @returns {Object}
  */
-export const savePrimaryEmail = async(email) => {
+export const savePrimaryEmail = async (email) => {
 	const userId = getCurrentUser().uid
 	// TODO upgrade @nextcloud/router to v2.0 so we can remove the .slice() trailing slash hacks (same below)
 	const url = generateOcsUrl(`cloud/users/${userId}`, 2).slice(0, -1)
@@ -56,7 +56,7 @@ export const savePrimaryEmail = async(email) => {
  * @param {string} email the additional email
  * @returns {Object}
  */
-export const saveAdditionalEmail = async(email) => {
+export const saveAdditionalEmail = async (email) => {
 	const userId = getCurrentUser().uid
 	const url = generateOcsUrl(`cloud/users/${userId}`, 2).slice(0, -1)
 
@@ -76,7 +76,7 @@ export const saveAdditionalEmail = async(email) => {
  * @param {string} email the additional email
  * @returns {Object}
  */
-export const removeAdditionalEmail = async(email) => {
+export const removeAdditionalEmail = async (email) => {
 	const userId = getCurrentUser().uid
 	const url = generateOcsUrl(`cloud/users/${userId}/${ACCOUNT_PROPERTY_ENUM.EMAIL_COLLECTION}`, 2).slice(0, -1)
 
@@ -97,7 +97,7 @@ export const removeAdditionalEmail = async(email) => {
  * @param {string} newEmail the new additional email
  * @returns {Object}
  */
-export const updateAdditionalEmail = async(prevEmail, newEmail) => {
+export const updateAdditionalEmail = async (prevEmail, newEmail) => {
 	const userId = getCurrentUser().uid
 	const url = generateOcsUrl(`cloud/users/${userId}/${ACCOUNT_PROPERTY_ENUM.EMAIL_COLLECTION}`, 2).slice(0, -1)
 
@@ -117,7 +117,7 @@ export const updateAdditionalEmail = async(prevEmail, newEmail) => {
  * @param {string} scope the federation scope
  * @returns {Object}
  */
-export const savePrimaryEmailScope = async(scope) => {
+export const savePrimaryEmailScope = async (scope) => {
 	const userId = getCurrentUser().uid
 	const url = generateOcsUrl(`cloud/users/${userId}`, 2).slice(0, -1)
 
@@ -138,7 +138,7 @@ export const savePrimaryEmailScope = async(scope) => {
  * @param {string} scope the federation scope
  * @returns {Object}
  */
-export const saveAdditionalEmailScope = async(email, scope) => {
+export const saveAdditionalEmailScope = async (email, scope) => {
 	const userId = getCurrentUser().uid
 	const url = generateOcsUrl(`cloud/users/${userId}/${ACCOUNT_PROPERTY_ENUM.EMAIL_COLLECTION}${SCOPE_SUFFIX}`, 2).slice(0, -1)
 

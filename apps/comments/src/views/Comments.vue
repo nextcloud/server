@@ -126,7 +126,8 @@ export default {
 	methods: {
 		/**
 		 * Update current ressourceId and fetch new data
-		 * @param {Number} ressourceId the current ressourceId (fileId...)
+		 *
+		 * @param {number} ressourceId the current ressourceId (fileId...)
 		 */
 		async update(ressourceId) {
 			this.ressourceId = ressourceId
@@ -152,8 +153,9 @@ export default {
 
 		/**
 		 * Make sure we have all mentions as Array of objects
+		 *
 		 * @param {Array} mentions the mentions list
-		 * @returns {Object[]}
+		 * @return {object[]}
 		 */
 		genMentionsData(mentions) {
 			const list = Object.values(mentions).flat()
@@ -217,6 +219,7 @@ export default {
 
 		/**
 		 * Autocomplete @mentions
+		 *
 		 * @param {string} search the query
 		 * @param {Function} callback the callback to process the results with
 		 */
@@ -235,7 +238,8 @@ export default {
 
 		/**
 		 * Add newly created comment to the list
-		 * @param {Object} comment the new comment
+		 *
+		 * @param {object} comment the new comment
 		 */
 		onNewComment(comment) {
 			this.comments.unshift(comment)
@@ -243,6 +247,7 @@ export default {
 
 		/**
 		 * Remove deleted comment from the list
+		 *
 		 * @param {number} id the deleted comment
 		 */
 		onDelete(id) {

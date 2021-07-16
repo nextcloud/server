@@ -55,8 +55,9 @@ const confirm = () => {
 
 /**
  * Tap into a promise without losing the value
+ *
  * @param {Function} cb the callback
- * @returns {any} val the value
+ * @return {any} val the value
  */
 const tap = cb => val => {
 	cb(val)

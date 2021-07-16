@@ -216,7 +216,7 @@ export default {
 		/**
 		 * The message displayed in the top right corner
 		 *
-		 * @returns {String}
+		 * @return {string}
 		 */
 		visibleMessage() {
 			if (this.loading) {

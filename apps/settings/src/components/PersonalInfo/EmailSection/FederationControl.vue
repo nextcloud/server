@@ -112,7 +112,7 @@ export default {
 		async changeScope(scope) {
 			this.$emit('update:scope', scope)
 
-			this.$nextTick(async() => {
+			this.$nextTick(async () => {
 				if (this.primary) {
 					await this.updatePrimaryEmailScope()
 				} else {

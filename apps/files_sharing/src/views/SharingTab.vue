@@ -144,7 +144,7 @@ export default {
 		/**
 		 * Is this share shared with me?
 		 *
-		 * @returns {boolean}
+		 * @return {boolean}
 		 */
 		isSharedWithMe() {
 			return Object.keys(this.sharedWithMe).length > 0
@@ -159,7 +159,8 @@ export default {
 	methods: {
 		/**
 		 * Update current fileInfo and fetch new data
-		 * @param {Object} fileInfo the current file FileInfo
+		 *
+		 * @param {object} fileInfo the current file FileInfo
 		 */
 		async update(fileInfo) {
 			this.fileInfo = fileInfo
@@ -246,8 +247,8 @@ export default {
 		 * Process the current shares data
 		 * and init shares[]
 		 *
-		 * @param {Object} share the share ocs api request data
-		 * @param {Object} share.data the request data
+		 * @param {object} share the share ocs api request data
+		 * @param {object} share.data the request data
 		 */
 		processShares({ data }) {
 			if (data.ocs && data.ocs.data && data.ocs.data.length > 0) {
@@ -268,8 +269,8 @@ export default {
 		 * Process the sharedWithMe share data
 		 * and init sharedWithMe
 		 *
-		 * @param {Object} share the share ocs api request data
-		 * @param {Object} share.data the request data
+		 * @param {object} share the share ocs api request data
+		 * @param {object} share.data the request data
 		 */
 		processSharedWithMe({ data }) {
 			if (data.ocs && data.ocs.data && data.ocs.data[0]) {

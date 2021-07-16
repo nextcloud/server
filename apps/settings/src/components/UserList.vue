@@ -436,7 +436,7 @@ export default {
 		 * Validate quota string to make sure it's a valid human file size
 		 *
 		 * @param {string} quota Quota in readable format '5 GB'
-		 * @returns {Object}
+		 * @return {object}
 		 */
 		validateQuota(quota) {
 			// only used for new presets sent through @Tag
@@ -543,7 +543,7 @@ export default {
 		 * Create a new group
 		 *
 		 * @param {string} gid Group id
-		 * @returns {Promise}
+		 * @return {Promise}
 		 */
 		createGroup(gid) {
 			this.loading.groups = true
@@ -561,8 +561,9 @@ export default {
 		/**
 		 * If the selected group is the disabled group but the count is 0
 		 * redirect to the all users page.
-		 * * we only check for 0 because we don't have the count on ldap
-		 * * and we therefore set the usercount to -1 in this specific case
+		 *
+		 * - we only check for 0 because we don't have the count on ldap
+		 * - and we therefore set the usercount to -1 in this specific case
 		 */
 		redirectIfDisabled() {
 			const allGroups = this.$store.getters.getGroups

@@ -76,7 +76,7 @@ export function search({ type, query, cursor }) {
 	 */
 	const cancelToken = createCancelToken()
 
-	const request = async() => axios.get(generateOcsUrl('search', 2) + `providers/${type}/search`, {
+	const request = async () => axios.get(generateOcsUrl('search', 2) + `providers/${type}/search`, {
 		cancelToken: cancelToken.token,
 		params: {
 			term: query,

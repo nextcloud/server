@@ -109,7 +109,7 @@ export default {
 		/**
 		 * Returns the user-set icon or a smiley in case no icon is set
 		 *
-		 * @returns {String}
+		 * @return {string}
 		 */
 		visibleIcon() {
 			return this.icon || '😀'
@@ -141,7 +141,7 @@ export default {
 		/**
 		 * Sets a new icon
 		 *
-		 * @param {String} icon The new icon
+		 * @param {string} icon The new icon
 		 */
 		setIcon(icon) {
 			this.messageId = null
@@ -153,7 +153,7 @@ export default {
 		/**
 		 * Sets a new message
 		 *
-		 * @param {String} message The new message
+		 * @param {string} message The new message
 		 */
 		setMessage(message) {
 			this.messageId = null
@@ -162,7 +162,7 @@ export default {
 		/**
 		 * Sets a new clearAt value
 		 *
-		 * @param {Object} clearAt The new clearAt object
+		 * @param {object} clearAt The new clearAt object
 		 */
 		setClearAt(clearAt) {
 			this.clearAt = clearAt
@@ -170,7 +170,7 @@ export default {
 		/**
 		 * Sets new icon/message/clearAt based on a predefined message
 		 *
-		 * @param {Object} status The predefined status object
+		 * @param {object} status The predefined status object
 		 */
 		selectPredefinedMessage(status) {
 			this.messageId = status.id
@@ -181,7 +181,7 @@ export default {
 		/**
 		 * Saves the status and closes the
 		 *
-		 * @returns {Promise<void>}
+		 * @return {Promise<void>}
 		 */
 		async saveStatus() {
 			if (this.isSavingStatus) {
@@ -215,7 +215,7 @@ export default {
 		},
 		/**
 		 *
-		 * @returns {Promise<void>}
+		 * @return {Promise<void>}
 		 */
 		async clearStatus() {
 			try {

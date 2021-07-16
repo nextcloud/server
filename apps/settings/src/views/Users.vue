@@ -387,7 +387,7 @@ export default {
 		/**
 		 * Dispatch default quota set request
 		 *
-		 * @param {string|Object} quota Quota in readable format '5 GB' or Object {id: '5 GB', label: '5GB'}
+		 * @param {string | object} quota Quota in readable format '5 GB' or Object {id: '5 GB', label: '5GB'}
 		 */
 		setDefaultQuota(quota = 'none') {
 			this.$store.dispatch('setAppConfig', {
@@ -407,7 +407,7 @@ export default {
 		 * Validate quota string to make sure it's a valid human file size
 		 *
 		 * @param {string} quota Quota in readable format '5 GB'
-		 * @returns {Promise|boolean}
+		 * @return {Promise|boolean}
 		 */
 		validateQuota(quota) {
 			// only used for new presets sent through @Tag
@@ -426,7 +426,7 @@ export default {
 		 * @param {string} icon the icon class
 		 * @param {string} text the text to display
 		 * @param {Function} action the function to run
-		 * @returns {Array}
+		 * @return {Array}
 		 */
 		registerAction(icon, text, action) {
 			this.externalActions.push({
@@ -481,8 +481,9 @@ export default {
 
 		/**
 		 * Format a group to a menu entry
-		 * @param {Object} group the group
-		 * @returns {Object}
+		 *
+		 * @param {object} group the group
+		 * @return {object}
 		 */
 		formatGroupMenu(group) {
 			const item = {}

@@ -247,7 +247,7 @@ export default {
 				// share api controller accepts
 				propertyNames.map(p => (properties[p] = this.share[p].toString()))
 
-				this.updateQueue.add(async() => {
+				this.updateQueue.add(async () => {
 					this.saving = true
 					this.errors = {}
 					try {

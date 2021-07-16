@@ -172,7 +172,7 @@ export default {
 		async deleteEmail() {
 			if (this.primary) {
 				this.$emit('update:email', '')
-				this.$nextTick(async() => await this.updatePrimaryEmail())
+				this.$nextTick(async () => await this.updatePrimaryEmail())
 			} else {
 				await this.deleteAdditionalEmail()
 			}
