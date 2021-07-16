@@ -149,6 +149,7 @@ class PersonalInfo implements ISettings {
 
 		$accountParameters = [
 			'displayNameChangeSupported' => $user->canChangeDisplayName(),
+			'lookupServerUploadEnabled' => $lookupServerUploadEnabled,
 		];
 
 		$this->initialStateService->provideInitialState('emails', $emails);
