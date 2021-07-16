@@ -414,7 +414,7 @@ class PublicKeyTokenProvider implements IProvider {
 		$this->cache->clear();
 
 		// prevent setting an empty pw as result of pw-less-login
-		if ($password==='') {
+		if ($password === '') {
 			return;
 		}
 
