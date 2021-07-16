@@ -7,5 +7,24 @@ node_modules/
 *.config.js
 tests/lib/
 
+# Ignore all apps except for server apps
+apps/*
+!apps/accessibility
+!apps/comments
+!apps/dashboard
+!apps/dav
+!apps/files
+!apps/files_sharing
+!apps/files_trashbin
+!apps/files_versions
+!apps/oauth2
+!apps/settings
+!apps/systemtags
+!apps/user_status
+!apps/weather_status
+!apps/twofactor_backupcodes
+!apps/updatenotification
+!apps/workflowengine
+
 # TODO: remove when comments files is not using handlebar templates anymore
 apps/comments/src/templates.js
