@@ -49,7 +49,7 @@ class UserLoggedInListener implements IEventListener {
 		}
 
 		// prevent setting an empty pw as result of pw-less-login
-		if ($event->getPassword()==='') {
+		if ($event->getPassword() === '') {
 			return;
 		}
 
