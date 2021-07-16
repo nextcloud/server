@@ -129,11 +129,7 @@ class NewUserMailHelperTest extends TestCase {
 		$this->secureRandom
 			->expects($this->once())
 			->method('generate')
-			->with(21,
-				ISecureRandom::CHAR_DIGITS .
-				ISecureRandom::CHAR_LOWER .
-				ISecureRandom::CHAR_UPPER
-			)
+			->with(21, ISecureRandom::CHAR_ALPHANUMERIC)
 			->willReturn('MySuperLongSecureRandomToken');
 		$this->timeFactory
 			->expects($this->once())

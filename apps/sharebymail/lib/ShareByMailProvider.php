@@ -224,7 +224,7 @@ class ShareByMailProvider implements IShareProvider {
 
 		$password = $passwordEvent->getPassword();
 		if ($password === null) {
-			$password = $this->secureRandom->generate(8, ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_DIGITS);
+			$password = $this->secureRandom->generate(8, ISecureRandom::CHAR_HUMAN_READABLE);
 		}
 
 		return $password;

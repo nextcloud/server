@@ -104,7 +104,7 @@ class DirectController extends OCSController {
 		$direct->setUserId($this->userId);
 		$direct->setFileId($fileId);
 
-		$token = $this->random->generate(60, ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_DIGITS);
+		$token = $this->random->generate(60, ISecureRandom::CHAR_ALPHANUMERIC);
 		$direct->setToken($token);
 		$direct->setExpiration($this->timeFactory->getTime() + $expirationTime);
 

@@ -575,7 +575,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		}
 
 		if (empty($this->requestId)) {
-			$validChars = ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_DIGITS;
+			$validChars = ISecureRandom::CHAR_ALPHANUMERIC;
 			$this->requestId = $this->secureRandom->generate(20, $validChars);
 		}
 
