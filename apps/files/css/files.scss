@@ -305,6 +305,17 @@ table th.column-last, table td.column-last {
 	top: 94px;
 }
 
+#app-content-recent, 
+#app-content-favorites, 
+#app-content-shareoverview, 
+#app-content-sharingout,
+#app-content-sharingin,
+#app-content-sharinglinks,
+#app-content-deletedshares,
+#app-content-pendingshares {
+	margin-top: 22px;
+}
+
 table.multiselect thead th {
 	background-color: var(--color-main-background-translucent);
 	font-weight: bold;
