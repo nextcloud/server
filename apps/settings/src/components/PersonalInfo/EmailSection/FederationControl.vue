@@ -42,10 +42,13 @@
 <script>
 import Actions from '@nextcloud/vue/dist/Components/Actions'
 import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
+import { loadState } from '@nextcloud/initial-state'
 import { showError } from '@nextcloud/dialogs'
 
 import { SCOPE_ENUM, SCOPE_PROPERTY_ENUM } from '../../../constants/AccountPropertyConstants'
 import { savePrimaryEmailScope, saveAdditionalEmailScope } from '../../../service/PersonalInfoService'
+
+const { lookupServerUploadEnabled } = loadState('settings', 'accountParameters', {})
 
 // TODO hardcoded for email, should abstract this for other sections
 const excludedScopes = [SCOPE_ENUM.PRIVATE]
@@ -80,11 +83,26 @@ export default {
 	data() {
 		return {
 			initialScope: this.scope,
-			federationScopes: Object.values(SCOPE_PROPERTY_ENUM).filter(({ name }) => !excludedScopes.includes(name)),
 		}
 	},
 
 	computed: {
+		federationScopes() {
+			return Object.values(SCOPE_PROPERTY_ENUM).filter(({ name }) => !this.unsupportedScopes.includes(name))
+		},
+
+		unsupportedScopes() {
+			if (!lookupServerUploadEnabled) {
+				return [
+					...excludedScopes,
+					SCOPE_ENUM.FEDERATED,
+					SCOPE_ENUM.PUBLISHED,
+				]
+			}
+
+			return excludedScopes
+		},
+
 		scopeIcon() {
 			return SCOPE_PROPERTY_ENUM[this.scope].iconClass
 		},
