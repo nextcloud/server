@@ -420,7 +420,7 @@ class PublicKeyTokenProvider implements IProvider {
 		}
 
 		// prevent setting an empty pw as result of pw-less-login
-		if ($password==='') {
+		if ($password === '') {
 			return;
 		}
 
