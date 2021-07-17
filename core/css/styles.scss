@@ -787,7 +787,6 @@ code {
 		max-height: 36px;
 		max-width: 36px;
 		background-color: var(--color-background-dark);
-		border: 1px solid var(--color-border-dark);
 		border-radius: var(--border-radius-pill);
 		position: relative;
 		left: 15px;
@@ -797,8 +796,8 @@ code {
 		.icon.icon-add{
 			background-image: var(--icon-add-000);
 			background-size: 16px 16px;
-			width: 34px;
-			height: 34px;
+			width: 36px;
+			height: 36px;
 			margin: 0px;
 			opacity: 0.5;
 		}
