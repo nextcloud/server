@@ -100,7 +100,7 @@
     "@nextcloud/eslint-plugin": "^1.5.0",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/user-event": "^13.1.9",
-    "@testing-library/vue": "^5.6.2",
+    "@testing-library/vue": "^5.8.1",
     "babel-eslint": "^10.1.0",
     "babel-jest": "^26.6.3",
     "babel-loader": "^8.2.2",
