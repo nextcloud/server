@@ -122,6 +122,7 @@
     "Could not lock path" : "Kan pad niet blokkeren",
     "Wrong or no update parameter given" : "Verkeerde of geen update parameter opgegeven",
     "Cannot change permissions for public share links" : "Kan rechten voor openbaar gedeelde links niet wijzigen",
+    "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "\"Het wachtwoord verzenden via Nextcloud Talk\" voor het delen van een bestand of map is mislukt omdat Nextcloud Talk niet is ingeschakeld.",
     "shared by %s" : "Gedeeld door %s",
     "Download all files" : "Download alle bestanden",
     "Direct link" : "Directe link",
