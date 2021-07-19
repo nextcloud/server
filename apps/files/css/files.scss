@@ -704,7 +704,8 @@ a.action > img {
 .summary {
 	color: var(--color-text-maxcontrast);
 	/* add whitespace to bottom of files list to correctly show dropdowns */
-	height: 250px;
+	$action-menu-items-count: 7; // list view has currently max 7 items in its action menu 
+	height: 44px * ($action-menu-items-count + 0.5); // 0.5 is added to show some whitespace below
 }
 #filestable .filesummary {
 	width: 100%;
@@ -1126,6 +1127,8 @@ table.dragshadow td.size {
 		.summary:not(.hidden) {
 			display: inline-block;
 			margin: 0 auto;
+			$action-menu-items-count: 9; // grid view has currently max 9 items in its action menu
+			height: 44px * ($action-menu-items-count + 0.5); // 0.5 is added to show some whitespace below
 
 			td {
 				padding-top: 50px;
