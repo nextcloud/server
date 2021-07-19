@@ -355,7 +355,7 @@
 							file.shareOwnerId = share.owner
 						}
 
-						if (!file.type) {
+						if (!file.mimetype) {
 							// pending shares usually have no type, so default to showing a directory icon
 							file.mimetype = 'dir-shared'
 						}
