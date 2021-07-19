@@ -223,6 +223,7 @@ export default {
 					subtitle: this.subtitle,
 					subtitleTooltip: this.fullTime,
 					title: this.fileInfo.name,
+					titleTooltip: this.fileInfo.name,
 				}
 			} else if (this.error) {
 				return {
