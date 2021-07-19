@@ -203,6 +203,7 @@ export default {
 					starred: this.fileInfo.isFavourited,
 					subtitle: this.subtitle,
 					title: this.fileInfo.name,
+					titleTooltip: this.fileInfo.name,
 				}
 			} else if (this.error) {
 				return {
