@@ -62,7 +62,7 @@ import { savePrimaryEmail, removeAdditionalEmail } from '../../../service/Person
 import { DEFAULT_ADDITIONAL_EMAIL_SCOPE } from '../../../constants/AccountPropertyConstants'
 
 const { additionalEmails, primaryEmail } = loadState('settings', 'emails', {})
-const accountParams = loadState('settings', 'accountParameters', {})
+const { displayNameChangeSupported } = loadState('settings', 'accountParameters', {})
 
 export default {
 	name: 'EmailSection',
@@ -74,7 +74,6 @@ export default {
 
 	data() {
 		return {
-			accountParams,
 			additionalEmails,
 			primaryEmail,
 			isValidForm: true,
@@ -83,7 +82,7 @@ export default {
 
 	computed: {
 		isDisplayNameChangeSupported() {
-			return this.accountParams.displayNameChangeSupported
+			return displayNameChangeSupported
 		},
 
 		primaryEmailValue: {
