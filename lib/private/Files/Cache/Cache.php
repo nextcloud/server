@@ -752,14 +752,85 @@ class Cache implements ICache {
 			return [];
 		}
 
-		$query = $this->getQueryBuilder();
-		$query->selectFileCache()
-			->whereStorageId()
-			->andWhere($query->expr()->iLike('name', $query->createNamedParameter($pattern)));
+		/**
+		 * 3/25/2021 - Add fulltext search support for Chinese, and caching query results by using Redis
+		 * Pre-works：
+		 *   1. Add FULLTEXT index to the `name` column of `filecache` table.
+		 *   2. Modify *PREFIX* for `filecache` table & set up your Redis server IP, port below.
+		 * Steps：
+		 *   1. Remove % in $pattern.
+		 *   2. Initialize Redis server.
+		 *   3. Check if $pattern has been queried recently (find raw-results in Redis which contain all storage ID).
+		 *   4-1. Take out raw-results stored in Redis if it's true.
+		 *   4-2. Perform database query if not.
+		 *   4-2-1. 3/26/2021 - Using MATCH...AGAINST if the $pattern contains 2 continuous Chinese word, else using LOCATE instead of LIKE %%.
+		 *   4-2-2. Save raw-results to Redis only for a while (60s is enough in usual).
+		 *   5. Filter storage ID separately with out done by database query.
+		 **/ 
+		$pattern = ltrim(rtrim($pattern,"%"),"%");
+		$_redis_keyname = 'fastsearch-'.md5($pattern);
+		$_redis_logfile = fopen('/tmp/nextcloud-fastsearch-redis.log', 'a');
+		if(class_exists('\Redis')){
+			//fwrite($_redis_logfile, "\nCreate Redis instance...\n");
+			$_redis = new \Redis();
+			if(!$_redis->connect('127.0.0.1', '6379')) {
+				unset($_redis);
+				fwrite($_redis_logfile, "\nFailed connect to Redis...\n");
+			};
+		} else {
+			fwrite($_redis_logfile, "\nRedis class not exists.\n");
+		}
+		// Check if $pattern has been queried recently.
+		if(isset($_redis)) {
+			// Get raw-results if Redis cache exists.
+			if ($_redis->exists($_redis_keyname)) {
+				$result_files = unserialize($_redis->get($_redis_keyname));
+				//fwrite($_redis_logfile, "\nGot key:".$_redis_keyname."\n");
+			} else {
+				//fwrite($_redis_logfile, "\nNot exists key:".$_redis_keyname."\n");
+			}
+		}
+		fclose($_redis_logfile);
+		// Perform database query if not.
+		if(!isset($result_files)) {
+			$sql = 'SELECT `filecache`.`fileid`, `storage`, `path`, `path_hash`, `filecache`.`parent`, '.
+					'`name`, `mimetype`, `mimepart`, `size`, `mtime`, `storage_mtime`, `encrypted`, '.
+					'`etag`, `permissions`, `checksum`, `metadata_etag`, `creation_time`, `upload_time` '.
+				'FROM `oc_filecache` `filecache` '.
+				'IGNORE INDEX(`fs_storage_path_hash`, `fs_parent_name_hash`, `fs_storage_mimetype`, `fs_storage_mimepart`, `fs_storage_size`, `fs_mtime`) '.
+				'LEFT JOIN `oc_filecache_extended` `fe` '.
+				'ON `filecache`.`fileid` = `fe`.`fileid` ';
+			// 3/26/2021 - use FULLTEXT index as long as there are 2 continuous Chinese word in the $pattern.
+			preg_match_all('/([\x{4e00}-\x{9fa5}]{2,})/u', $pattern, $matches);
+			$pattern_filtered = join('', $matches[0]);
+			if (strlen($pattern_filtered) >= 2) {
+				$sql = 'SELECT * FROM '.
+					'(' . $sql . ' WHERE MATCH(`name`) AGAINST (?)) `t` '.
+					'WHERE LOCATE(?, `t`.`name`);';
+				$params = [$pattern_filtered, $pattern];
+			} else {
+				// Else using LOCATE instead of LIKE %%.
+				$sql = $sql . 'WHERE LOCATE(?, `name`);';
+				$params = [$pattern];
+			}
+			$result = $this->connection->executeQuery($sql, $params);
+			$result_files = $result->fetchAll();
+			$result->closeCursor();
+			// Save raw-results to Redis only for a while (60s is enough in usual).
+			if (isset($_redis)) {
+				$_redis->set($_redis_keyname, serialize($result_files));
+				$_redis->expire($_redis_keyname, 60);
+			}
+		}
+		// Filter storage ID separately.
+		$files = array_filter($result_files, function($file) {
+			return ((int)$file['storage']===$this->getNumericStorageId());
+		});
 
-		$result = $query->execute();
-		$files = $result->fetchAll();
-		$result->closeCursor();
+		if (isset($_redis)) {
+			$_redis->close();
+			unset($_redis);
+		}
 
 		return array_map(function (array $data) {
 			return self::cacheEntryFromData($data, $this->mimetypeLoader);
