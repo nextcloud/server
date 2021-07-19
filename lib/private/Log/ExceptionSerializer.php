@@ -112,6 +112,12 @@ class ExceptionSerializer {
 		Key::class => [
 			'__construct'
 		],
+		\Redis::class => [
+			'auth'
+		],
+		\RedisCluster::class => [
+			'__construct'
+		]
 	];
 
 	private function editTrace(array &$sensitiveValues, array $traceLine): array {
