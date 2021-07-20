@@ -43,9 +43,9 @@ use OCP\Http\Client\IClientService;
 use OCP\Http\Client\IResponse;
 use OCP\IGroup;
 use OCP\IGroupManager;
-use OCP\ILogger;
 use OCP\IUserManager;
 use OCP\Share\IShare;
+use Psr\Log\LoggerInterface;
 use Test\Traits\UserTrait;
 
 /**
@@ -113,8 +113,8 @@ class ManagerTest extends TestCase {
 			->method('search')
 			->willReturn([]);
 
-		$logger = $this->createMock(ILogger::class);
-		$logger->expects($this->never())->method('logException');
+		$logger = $this->createMock(LoggerInterface::class);
+		$logger->expects($this->never())->method('emergency');
 
 		$this->manager = $this->getMockBuilder(Manager::class)
 			->setConstructorArgs(

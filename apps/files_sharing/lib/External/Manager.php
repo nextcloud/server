@@ -46,12 +46,12 @@ use OCP\Files\Storage\IStorageFactory;
 use OCP\Http\Client\IClientService;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
-use OCP\ILogger;
 use OCP\IUserManager;
 use OCP\Notification\IManager;
 use OCP\OCS\IDiscoveryService;
 use OCP\Share;
 use OCP\Share\IShare;
+use Psr\Log\LoggerInterface;
 
 class Manager {
 	public const STORAGE = '\OCA\Files_Sharing\External\Storage';
@@ -92,7 +92,7 @@ class Manager {
 	/** @var IEventDispatcher */
 	private $eventDispatcher;
 
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	private $logger;
 
 	public function __construct(
@@ -108,7 +108,7 @@ class Manager {
 		IUserManager $userManager,
 		?string $uid,
 		IEventDispatcher $eventDispatcher,
-		ILogger $logger
+		LoggerInterface $logger
 	) {
 		$this->connection = $connection;
 		$this->mountManager = $mountManager;
@@ -343,7 +343,7 @@ class Manager {
 						$acceptShare->execute([1, $mountPoint, $hash, $subshare['id'], $this->uid]);
 						$result = true;
 					} catch (Exception $e) {
-						$this->logger->logException($e);
+						$this->logger->emergency('Could not update share', ['exception' => $e]);
 						$result = false;
 					}
 				} else {
@@ -361,7 +361,7 @@ class Manager {
 							$share['share_type']);
 						$result = true;
 					} catch (Exception $e) {
-						$this->logger->logException($e);
+						$this->logger->emergency('Could not create share', ['exception' => $e]);
 						$result = false;
 					}
 				}
@@ -412,7 +412,7 @@ class Manager {
 					$this->updateAccepted((int)$subshare['id'], false);
 					$result = true;
 				} catch (Exception $e) {
-					$this->logger->logException($e);
+					$this->logger->emergency('Could not update share', ['exception' => $e]);
 					$result = false;
 				}
 			} else {
@@ -432,7 +432,7 @@ class Manager {
 						$share['share_type']);
 					$result = true;
 				} catch (Exception $e) {
-					$this->logger->logException($e);
+					$this->logger->emergency('Could not create share', ['exception' => $e]);
 					$result = false;
 				}
 			}
@@ -634,7 +634,7 @@ class Manager {
 
 			$this->removeReShares($id);
 		} catch (\Doctrine\DBAL\Exception $ex) {
-			$this->logger->logException($ex);
+			$this->logger->emergency('Could not update share', ['exception' => $ex]);
 			return false;
 		}
 
@@ -706,7 +706,7 @@ class Manager {
 				$deleteResult->closeCursor();
 			}
 		} catch (\Doctrine\DBAL\Exception $ex) {
-			$this->logger->logException($ex);
+			$this->logger->emergency('Could not get shares', ['exception' => $ex]);
 			return false;
 		}
 
@@ -784,7 +784,7 @@ class Manager {
 			}
 			return array_values($shares);
 		} catch (\Doctrine\DBAL\Exception $e) {
-			$this->logger->logException($e);
+			$this->logger->emergency('Error when retrieving shares', ['exception' => $e]);
 			return [];
 		}
 	}

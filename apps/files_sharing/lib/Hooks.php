@@ -28,6 +28,7 @@ namespace OCA\Files_Sharing;
 
 use OC\Files\Filesystem;
 use OCP\EventDispatcher\IEventDispatcher;
+use Psr\Log\LoggerInterface;
 
 class Hooks {
 	public static function deleteUser($params) {
@@ -44,7 +45,7 @@ class Hooks {
 			\OC::$server->getUserManager(),
 			$params['uid'],
 			\OC::$server->query(IEventDispatcher::class),
-			\OC::$server->getLogger()
+			\OC::$server->get(LoggerInterface::class)
 		);
 
 		$manager->removeUserShares($params['uid']);
