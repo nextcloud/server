@@ -334,7 +334,13 @@ class Manager {
 
 				if ($subshare !== null) {
 					try {
-						$this->updateAccepted((int)$subshare['id'], true);
+						$acceptShare = $this->connection->prepare('
+						UPDATE `*PREFIX*share_external`
+						SET `accepted` = ?,
+							`mountpoint` = ?,
+							`mountpoint_hash` = ?
+						WHERE `id` = ? AND `user` = ?');
+						$acceptShare->execute([1, $mountPoint, $hash, $subshare['id'], $this->uid]);
 						$result = true;
 					} catch (Exception $e) {
 						$this->logger->logException($e);
