@@ -739,7 +739,7 @@ steps:
   commands:
     - git submodule update --init
 - name: integration-capabilities_features
-  image: ghcr.io/nextcloud/continuous-integration-integration-php7.3:integration-php7.3-2
+  image: ghcr.io/nextcloud/continuous-integration-integration-php7.3:latest
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
@@ -764,7 +764,7 @@ steps:
   commands:
     - git submodule update --init
 - name: integration-collaboration_features
-  image: ghcr.io/nextcloud/continuous-integration-integration-php7.3:integration-php7.3-2
+  image: ghcr.io/nextcloud/continuous-integration-integration-php7.3:latest
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
@@ -789,7 +789,7 @@ steps:
   commands:
     - git submodule update --init
 - name: integration-federation_features
-  image: ghcr.io/nextcloud/continuous-integration-integration-php7.3:integration-php7.3-2
+  image: ghcr.io/nextcloud/continuous-integration-integration-php7.3:latest
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin
@@ -814,7 +814,7 @@ steps:
   commands:
     - git submodule update --init
 - name: integration-auth
-  image: ghcr.io/nextcloud/continuous-integration-integration-php7.3:integration-php7.3-2
+  image: ghcr.io/nextcloud/continuous-integration-integration-php7.3:latest
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
@@ -839,7 +839,7 @@ steps:
   commands:
     - git submodule update --init
 - name: integration-avatar
-  image: ghcr.io/nextcloud/continuous-integration-integration-php7.3:integration-php7.3-2
+  image: ghcr.io/nextcloud/continuous-integration-integration-php7.3:latest
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
@@ -864,7 +864,7 @@ steps:
   commands:
     - git submodule update --init
 - name: integration-maintenance-mode
-  image: ghcr.io/nextcloud/continuous-integration-integration-php7.3:integration-php7.3-2
+  image: ghcr.io/nextcloud/continuous-integration-integration-php7.3:latest
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
@@ -889,7 +889,7 @@ steps:
   commands:
     - git submodule update --init
 - name: integration-ratelimiting
-  image: ghcr.io/nextcloud/continuous-integration-integration-php7.3:integration-php7.3-2
+  image: ghcr.io/nextcloud/continuous-integration-integration-php7.3:latest
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
@@ -924,7 +924,7 @@ steps:
   commands:
     - git submodule update --init
 - name: integration-carddav
-  image: ghcr.io/nextcloud/continuous-integration-integration-php7.3:integration-php7.3-2
+  image: ghcr.io/nextcloud/continuous-integration-integration-php7.3:latest
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
@@ -949,7 +949,7 @@ steps:
   commands:
     - git submodule update --init
 - name: integration-dav-v2
-  image: ghcr.io/nextcloud/continuous-integration-integration-php7.3:integration-php7.3-2
+  image: ghcr.io/nextcloud/continuous-integration-integration-php7.3:latest
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
@@ -974,7 +974,7 @@ steps:
   commands:
     - git submodule update --init
 - name: integration-ocs-v1
-  image: ghcr.io/nextcloud/continuous-integration-integration-php7.3:integration-php7.3-2
+  image: ghcr.io/nextcloud/continuous-integration-integration-php7.3:latest
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
@@ -999,7 +999,7 @@ steps:
   commands:
     - git submodule update --init
 - name: integration-checksums-v1
-  image: ghcr.io/nextcloud/continuous-integration-integration-php7.3:integration-php7.3-2
+  image: ghcr.io/nextcloud/continuous-integration-integration-php7.3:latest
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
@@ -1024,7 +1024,7 @@ steps:
   commands:
     - git submodule update --init
 - name: integration-external-storage
-  image: ghcr.io/nextcloud/continuous-integration-integration-php7.3:integration-php7.3-2
+  image: ghcr.io/nextcloud/continuous-integration-integration-php7.3:latest
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
@@ -1049,7 +1049,7 @@ steps:
   commands:
     - git submodule update --init
 - name: integration-provisioning-v1
-  image: ghcr.io/nextcloud/continuous-integration-integration-php7.3:integration-php7.3-2
+  image: ghcr.io/nextcloud/continuous-integration-integration-php7.3:latest
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
@@ -1074,7 +1074,7 @@ steps:
   commands:
     - git submodule update --init
 - name: integration-tags
-  image: ghcr.io/nextcloud/continuous-integration-integration-php7.3:integration-php7.3-2
+  image: ghcr.io/nextcloud/continuous-integration-integration-php7.3:latest
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
@@ -1099,7 +1099,7 @@ steps:
   commands:
     - git submodule update --init
 - name: integration-caldav
-  image: ghcr.io/nextcloud/continuous-integration-integration-php7.3:integration-php7.3-2
+  image: ghcr.io/nextcloud/continuous-integration-integration-php7.3:latest
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
@@ -1124,7 +1124,7 @@ steps:
   commands:
     - git submodule update --init
 - name: integration-comments
-  image: ghcr.io/nextcloud/continuous-integration-integration-php7.3:integration-php7.3-2
+  image: ghcr.io/nextcloud/continuous-integration-integration-php7.3:latest
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
@@ -1149,7 +1149,7 @@ steps:
   commands:
     - git submodule update --init
 - name: integration-comments-search
-  image: ghcr.io/nextcloud/continuous-integration-integration-php7.3:integration-php7.3-2
+  image: ghcr.io/nextcloud/continuous-integration-integration-php7.3:latest
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
@@ -1174,7 +1174,7 @@ steps:
   commands:
     - git submodule update --init
 - name: integration-contacts-menu
-  image: ghcr.io/nextcloud/continuous-integration-integration-php7.3:integration-php7.3-2
+  image: ghcr.io/nextcloud/continuous-integration-integration-php7.3:latest
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
@@ -1199,7 +1199,7 @@ steps:
   commands:
     - git submodule update --init
 - name: integration-favorites
-  image: ghcr.io/nextcloud/continuous-integration-integration-php7.3:integration-php7.3-2
+  image: ghcr.io/nextcloud/continuous-integration-integration-php7.3:latest
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
@@ -1224,7 +1224,7 @@ steps:
   commands:
     - git submodule update --init
 - name: integration-provisioning-v2
-  image: ghcr.io/nextcloud/continuous-integration-integration-php7.3:integration-php7.3-2
+  image: ghcr.io/nextcloud/continuous-integration-integration-php7.3:latest
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
@@ -1249,7 +1249,7 @@ steps:
   commands:
     - git submodule update --init
 - name: integration-webdav-related
-  image: ghcr.io/nextcloud/continuous-integration-integration-php7.3:integration-php7.3-2
+  image: ghcr.io/nextcloud/continuous-integration-integration-php7.3:latest
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
@@ -1274,7 +1274,7 @@ steps:
   commands:
     - git submodule update --init
 - name: integration-sharees-features
-  image: ghcr.io/nextcloud/continuous-integration-integration-php7.3:integration-php7.3-2
+  image: ghcr.io/nextcloud/continuous-integration-integration-php7.3:latest
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
@@ -1299,7 +1299,7 @@ steps:
   commands:
     - git submodule update --init
 - name: integration-sharees-v2-features
-  image: ghcr.io/nextcloud/continuous-integration-integration-php7.3:integration-php7.3-2
+  image: ghcr.io/nextcloud/continuous-integration-integration-php7.3:latest
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
@@ -1324,7 +1324,7 @@ steps:
   commands:
     - git submodule update --init
 - name: integration-sharing-v1
-  image: ghcr.io/nextcloud/continuous-integration-integration-php7.3:integration-php7.3-2
+  image: ghcr.io/nextcloud/continuous-integration-integration-php7.3:latest
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
@@ -1349,7 +1349,7 @@ steps:
   commands:
     - git submodule update --init
 - name: integration-sharing-v1-part2
-  image: ghcr.io/nextcloud/continuous-integration-integration-php7.3:integration-php7.3-2
+  image: ghcr.io/nextcloud/continuous-integration-integration-php7.3:latest
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
@@ -1374,7 +1374,7 @@ steps:
   commands:
     - git submodule update --init
 - name: integration-sharing-v1-part3
-  image: ghcr.io/nextcloud/continuous-integration-integration-php7.3:integration-php7.3-2
+  image: ghcr.io/nextcloud/continuous-integration-integration-php7.3:latest
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
@@ -1405,7 +1405,7 @@ steps:
     # build them.
     - git clone --depth 1 https://github.com/nextcloud/spreed apps/spreed
 - name: integration-sharing-v1-video-verification
-  image: ghcr.io/nextcloud/continuous-integration-integration-php7.3:integration-php7.3-2
+  image: ghcr.io/nextcloud/continuous-integration-integration-php7.3:latest
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
@@ -1430,7 +1430,7 @@ steps:
   commands:
     - git submodule update --init
 - name: integration-setup-features
-  image: ghcr.io/nextcloud/continuous-integration-integration-php7.3:integration-php7.3-2
+  image: ghcr.io/nextcloud/continuous-integration-integration-php7.3:latest
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - cd build/integration
@@ -1454,7 +1454,7 @@ steps:
   commands:
     - git submodule update --init
 - name: integration-filesdrop-features
-  image: ghcr.io/nextcloud/continuous-integration-integration-php7.3:integration-php7.3-2
+  image: ghcr.io/nextcloud/continuous-integration-integration-php7.3:latest
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
@@ -1479,7 +1479,7 @@ steps:
   commands:
     - git submodule update --init
 - name: integration-transfer-ownership-features
-  image: ghcr.io/nextcloud/continuous-integration-integration-php7.3:integration-php7.3-2
+  image: ghcr.io/nextcloud/continuous-integration-integration-php7.3:latest
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
@@ -1504,7 +1504,7 @@ steps:
   commands:
     - git submodule update --init
 - name: integration-ldap-features
-  image: ghcr.io/nextcloud/continuous-integration-integration-php7.3:integration-php7.3-2
+  image: ghcr.io/nextcloud/continuous-integration-integration-php7.3:latest
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
@@ -1529,7 +1529,7 @@ steps:
   commands:
     - git submodule update --init
 - name: integration-ldap-openldap-features
-  image: ghcr.io/nextcloud/continuous-integration-integration-php7.3:integration-php7.3-2
+  image: ghcr.io/nextcloud/continuous-integration-integration-php7.3:latest
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
@@ -1570,7 +1570,7 @@ steps:
       commands:
           - git submodule update --init
     - name: integration-ldap-openldap-uid-features
-      image: ghcr.io/nextcloud/continuous-integration-integration-php7.3:integration-php7.3-2
+      image: ghcr.io/nextcloud/continuous-integration-integration-php7.3:latest
       commands:
           - bash tests/drone-run-integration-tests.sh || exit 0
           - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
@@ -1612,7 +1612,7 @@ steps:
   commands:
     - git submodule update --init
 - name: integration-ldap-openldap-numerical-id-features
-  image: ghcr.io/nextcloud/continuous-integration-integration-php7.3:integration-php7.3-2
+  image: ghcr.io/nextcloud/continuous-integration-integration-php7.3:latest
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
@@ -1653,7 +1653,7 @@ steps:
   commands:
     - git submodule update --init
 - name: integration-trashbin
-  image: ghcr.io/nextcloud/continuous-integration-integration-php7.3:integration-php7.3-2
+  image: ghcr.io/nextcloud/continuous-integration-integration-php7.3:latest
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
@@ -1678,7 +1678,7 @@ steps:
   commands:
     - git submodule update --init
 - name: integration-remote-api
-  image: ghcr.io/nextcloud/continuous-integration-integration-php7.3:integration-php7.3-2
+  image: ghcr.io/nextcloud/continuous-integration-integration-php7.3:latest
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
@@ -1703,7 +1703,7 @@ steps:
   commands:
     - git submodule update --init
 - name: integration-download
-  image: ghcr.io/nextcloud/continuous-integration-integration-php7.3:integration-php7.3-2
+  image: ghcr.io/nextcloud/continuous-integration-integration-php7.3:latest
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
