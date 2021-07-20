@@ -342,6 +342,7 @@ class LegacyHooksTest extends TestCase {
 			'permissions' => Constants::PERMISSION_ALL,
 			'expiration' => $date,
 			'token' => 'token',
+			'path' => null,
 		];
 
 		$hookListner

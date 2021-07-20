@@ -50,7 +50,7 @@ class Sharing extends Action {
 				$params,
 				[
 					'itemType',
-					'itemTarget',
+					'path',
 					'itemSource',
 					'permissions',
 					'id',
@@ -62,7 +62,7 @@ class Sharing extends Action {
 				$params,
 				[
 					'itemType',
-					'itemTarget',
+					'path',
 					'itemSource',
 					'shareWith',
 					'permissions',
@@ -75,7 +75,7 @@ class Sharing extends Action {
 				$params,
 				[
 					'itemType',
-					'itemTarget',
+					'path',
 					'itemSource',
 					'shareWith',
 					'permissions',
@@ -88,7 +88,7 @@ class Sharing extends Action {
 				$params,
 				[
 					'itemType',
-					'itemTarget',
+					'path',
 					'itemSource',
 					'shareWith',
 					'permissions',
@@ -101,7 +101,7 @@ class Sharing extends Action {
 				$params,
 				[
 					'itemType',
-					'itemTarget',
+					'path',
 					'itemSource',
 					'shareWith',
 					'permissions',
@@ -114,7 +114,7 @@ class Sharing extends Action {
 				$params,
 				[
 					'itemType',
-					'itemTarget',
+					'path',
 					'itemSource',
 					'shareWith',
 					'permissions',
@@ -127,7 +127,7 @@ class Sharing extends Action {
 				$params,
 				[
 					'itemType',
-					'itemTarget',
+					'path',
 					'itemSource',
 					'shareWith',
 					'permissions',
@@ -140,7 +140,7 @@ class Sharing extends Action {
 				$params,
 				[
 					'itemType',
-					'itemTarget',
+					'path',
 					'itemSource',
 					'shareWith',
 					'permissions',
@@ -153,7 +153,7 @@ class Sharing extends Action {
 				$params,
 				[
 					'itemType',
-					'itemTarget',
+					'path',
 					'itemSource',
 					'shareWith',
 					'permissions',

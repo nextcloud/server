@@ -170,6 +170,7 @@ class LegacyHooks {
 			'shareWith' => $share->getSharedWith(),
 			'itemTarget' => $share->getTarget(),
 			'fileTarget' => $share->getTarget(),
+			'path' => $share->getNode()->getPath(),
 		];
 
 		\OC_Hook::emit(Share::class, 'post_shared', $postHookData);
