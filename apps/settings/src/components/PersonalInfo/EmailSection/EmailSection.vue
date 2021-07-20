@@ -25,12 +25,12 @@
 		class="section"
 		@submit.stop.prevent="() => {}">
 		<HeaderBar
-			:can-edit-emails="isDisplayNameChangeSupported"
+			:can-edit-emails="displayNameChangeSupported"
 			:is-valid-form="isValidForm"
 			:scope.sync="primaryEmail.scope"
 			@addAdditionalEmail="onAddAdditionalEmail" />
 
-		<template v-if="isDisplayNameChangeSupported">
+		<template v-if="displayNameChangeSupported">
 			<Email
 				:primary="true"
 				:scope.sync="primaryEmail.scope"
@@ -75,16 +75,13 @@ export default {
 	data() {
 		return {
 			additionalEmails,
+			displayNameChangeSupported,
 			primaryEmail,
 			isValidForm: true,
 		}
 	},
 
 	computed: {
-		isDisplayNameChangeSupported() {
-			return displayNameChangeSupported
-		},
-
 		primaryEmailValue: {
 			get() {
 				return this.primaryEmail.value
@@ -116,6 +113,7 @@ export default {
 
 		onDeleteAdditionalEmail(index) {
 			this.$delete(this.additionalEmails, index)
+			this.$nextTick(() => this.updateFormValidity())
 		},
 
 		async onUpdateEmail() {
