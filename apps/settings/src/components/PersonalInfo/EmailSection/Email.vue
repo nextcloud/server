@@ -135,7 +135,10 @@ export default {
 		},
 
 		deleteDisabled() {
-			return !this.containsNoWhitespace(this.email)
+			if (this.primary) {
+				return this.email === ''
+			}
+			return this.email !== '' && !this.isValid()
 		},
 
 		deleteEmailLabel() {
@@ -146,6 +149,12 @@ export default {
 		},
 	},
 
+	mounted() {
+		if (this.initialEmail === '') {
+			this.$nextTick(() => this.$refs.email?.focus())
+		}
+	},
+
 	methods: {
 		onEmailChange(e) {
 			this.$emit('update:email', e.target.value)
@@ -154,16 +163,16 @@ export default {
 		},
 
 		debounceEmailChange: debounce(async function() {
-			if ((this.$refs.email?.checkValidity() && this.containsNoWhitespace(this.email)) || this.email === '') {
+			if (this.$refs.email?.checkValidity() || this.email === '') {
 				if (this.primary) {
 					await this.updatePrimaryEmail()
 				} else {
-					if (this.initialEmail && this.email === '') {
-						await this.deleteAdditionalEmail()
-					} else if (this.initialEmail === '') {
-						await this.addAdditionalEmail()
-					} else {
-						await this.updateAdditionalEmail()
+					if (this.email) {
+						if (this.initialEmail === '') {
+							await this.addAdditionalEmail()
+						} else {
+							await this.updateAdditionalEmail()
+						}
 					}
 				}
 			}
@@ -218,8 +227,8 @@ export default {
 			}
 		},
 
-		containsNoWhitespace(string) {
-			return /^\S+$/.test(string)
+		isValid() {
+			return /^\S+$/.test(this.email)
 		},
 
 		handleDeleteAdditionalEmail(status) {
