@@ -32,6 +32,13 @@ use OC\Core\Controller\SetupController;
 use OC\Security\IdentityProof\Key;
 use OC\Setup;
 use OC\SystemConfig;
+use OCA\Encryption\Controller\RecoveryController;
+use OCA\Encryption\Controller\SettingsController;
+use OCA\Encryption\Crypto\Crypt;
+use OCA\Encryption\Crypto\Encryption;
+use OCA\Encryption\Hooks\UserHooks;
+use OCA\Encryption\KeyManager;
+use OCA\Encryption\Session;
 use OCP\HintException;
 
 class ExceptionSerializer {
@@ -117,7 +124,56 @@ class ExceptionSerializer {
 		],
 		\RedisCluster::class => [
 			'__construct'
-		]
+		],
+		Crypt::class => [
+			'symmetricEncryptFileContent',
+			'encrypt',
+			'generatePasswordHash',
+			'encryptPrivateKey',
+			'decryptPrivateKey',
+			'isValidPrivateKey',
+			'symmetricDecryptFileContent',
+			'checkSignature',
+			'createSignature',
+			'decrypt',
+			'multiKeyDecrypt',
+			'multiKeyEncrypt',
+		],
+		RecoveryController::class => [
+			'adminRecovery',
+			'changeRecoveryPassword'
+		],
+		SettingsController::class => [
+			'updatePrivateKeyPassword',
+		],
+		Encryption::class => [
+			'encrypt',
+			'decrypt',
+		],
+		KeyManager::class => [
+			'checkRecoveryPassword',
+			'storeKeyPair',
+			'setRecoveryKey',
+			'setPrivateKey',
+			'setFileKey',
+			'setAllFileKeys',
+		],
+		Session::class => [
+			'setPrivateKey',
+			'prepareDecryptAll',
+		],
+		\OCA\Encryption\Users\Setup::class => [
+			'setupUser',
+		],
+		UserHooks::class => [
+			'login',
+			'postCreateUser',
+			'postDeleteUser',
+			'prePasswordReset',
+			'postPasswordReset',
+			'preSetPassphrase',
+			'setPassphrase',
+		],
 	];
 
 	private function editTrace(array &$sensitiveValues, array $traceLine): array {
