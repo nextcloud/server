@@ -101,7 +101,11 @@ class TwoFactorMiddleware extends Middleware {
 		if ($controller instanceof ALoginSetupController
 			&& $this->userSession->getUser() !== null
 			&& $this->twoFactorManager->needsSecondFactor($this->userSession->getUser())) {
-			return;
+			$providers = $this->twoFactorManager->getProviderSet($this->userSession->getUser());
+
+			if ($providers->getProviders() === [] && !$providers->isProviderMissing()) {
+				return;
+			}
 		}
 
 		if ($controller instanceof LoginController && $methodName === 'logout') {
