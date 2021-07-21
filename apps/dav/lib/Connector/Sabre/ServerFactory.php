@@ -171,6 +171,7 @@ class ServerFactory {
 					$this->config,
 					$this->request,
 					$this->previewManager,
+					$this->userSession,
 					false,
 					!$this->config->getSystemValue('debug', false)
 				)
