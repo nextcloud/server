@@ -1046,6 +1046,7 @@ $CONFIG = [
  * concerns:
  *
  *  - OC\Preview\Illustrator
+ *  - OC\Preview\HEIC
  *  - OC\Preview\Movie
  *  - OC\Preview\MSOffice2003
  *  - OC\Preview\MSOffice2007
@@ -1063,7 +1064,6 @@ $CONFIG = [
  *
  *  - OC\Preview\BMP
  *  - OC\Preview\GIF
- *  - OC\Preview\HEIC
  *  - OC\Preview\JPEG
  *  - OC\Preview\MarkDown
  *  - OC\Preview\MP3
@@ -1077,7 +1077,6 @@ $CONFIG = [
 	'OC\Preview\PNG',
 	'OC\Preview\JPEG',
 	'OC\Preview\GIF',
-	'OC\Preview\HEIC',
 	'OC\Preview\BMP',
 	'OC\Preview\XBitmap',
 	'OC\Preview\MP3',
