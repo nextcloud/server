@@ -1234,7 +1234,7 @@ $CONFIG = [
 	'user' =>  '', // Optional, if not defined no password will be used.
 	'password' => '', // Optional, if not defined no password will be used.
 	'dbindex' => 0, // Optional, if undefined SELECT will not run and will use Redis Server's default DB Index.
-	// If redis is encrypted, provide certificates
+	// If redis in-transit encryption is enabled, provide certificates
 	// SSL context https://www.php.net/manual/en/context.ssl.php
 	'ssl_context' => [
 		'local_cert' => '/certs/redis.crt',
@@ -1278,7 +1278,7 @@ $CONFIG = [
 	'failover_mode' => \RedisCluster::FAILOVER_ERROR,
 	'user' =>  '', // Optional, if not defined no password will be used.
 	'password' => '', // Optional, if not defined no password will be used.
-	// If redis is encrypted, provide certificates
+	// If redis in-transit encryption is enabled, provide certificates
 	// SSL context https://www.php.net/manual/en/context.ssl.php
 	'ssl_context' => [
 		'local_cert' => '/certs/redis.crt',

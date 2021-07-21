@@ -46,28 +46,29 @@ class RedisFactory {
 	}
 
 	private function create() {
-		$isCluster = !empty($this->config->getValue('redis.cluster', []));
-		$config = $this->config->getValue('redis', []);
+		$isCluster = in_array('redis.cluster', $this->config->getKeys());
+		$config = $isCluster
+			? $this->config->getValue('redis.cluster', [])
+			: $this->config->getValue('redis', []);
 
-		// Init cluster config if any
-		if ($isCluster) {
-			if (!class_exists('RedisCluster')) {
-				throw new \Exception('Redis Cluster support is not available');
-			}
-			// Replace config with the cluster config
-			$config = $this->config->getValue('redis.cluster', []);
+		if (empty($config)) {
+			throw new \Exception('Redis config is empty');
+		}
+
+		if ($isCluster && !class_exists('RedisCluster')) {
+			throw new \Exception('Redis Cluster support is not available');
 		}
 
 		if (isset($config['timeout'])) {
 			$timeout = $config['timeout'];
 		} else {
-			$timeout = null;
+			$timeout = 0.0;
 		}
 
 		if (isset($config['read_timeout'])) {
 			$readTimeout = $config['read_timeout'];
 		} else {
-			$readTimeout = null;
+			$readTimeout = 0.0;
 		}
 
 		$auth = null;
@@ -85,10 +86,11 @@ class RedisFactory {
 
 		// cluster config
 		if ($isCluster) {
+			// Support for older phpredis versions not supporting connectionParameters
 			if ($connectionParameters !== null) {
 				$this->instance = new \RedisCluster(null, $config['seeds'], $timeout, $readTimeout, false, $auth, $connectionParameters);
 			} else {
-				$this->instance = new \RedisCluster(null, $config['seeds'], $timeout, $readTimeout, $auth);
+				$this->instance = new \RedisCluster(null, $config['seeds'], $timeout, $readTimeout, false, $auth);
 			}
 
 			if (isset($config['failover_mode'])) {
@@ -111,13 +113,17 @@ class RedisFactory {
 				$port = null;
 			}
 
-			if (!empty($connectionParameters)) {
+			// Support for older phpredis versions not supporting connectionParameters
+			if ($connectionParameters !== null) {
+				// Non-clustered redis requires connection parameters to be wrapped inside `stream`
 				$connectionParameters = [
 					'stream' => $this->getSslContext($config)
 				];
+				$this->instance->connect($host, $port, $timeout, null, 0, $readTimeout, $connectionParameters);
+			} else {
+				$this->instance->connect($host, $port, $timeout, null, 0, $readTimeout);
 			}
 
-			$this->instance->connect($host, $port, $timeout, null, 0, $readTimeout, $connectionParameters);
 
 			// Auth if configured
 			if ($auth !== null) {
@@ -134,7 +140,7 @@ class RedisFactory {
 	 * Get the ssl context config
 	 *
 	 * @param Array $config the current config
-	 * @return Array
+	 * @return Array|null
 	 * @throws \UnexpectedValueException
 	 */
 	private function getSslContext($config) {
@@ -147,7 +153,7 @@ class RedisFactory {
 			}
 			return $config['ssl_context'];
 		}
-		return [];
+		return null;
 	}
 
 	public function getInstance() {
