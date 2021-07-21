@@ -278,7 +278,6 @@ class PreviewManager implements IPreview {
 	 *  - OC\Preview\JPEG
 	 *  - OC\Preview\GIF
 	 *  - OC\Preview\BMP
-	 *  - OC\Preview\HEIC
 	 *  - OC\Preview\XBitmap
 	 *  - OC\Preview\MarkDown
 	 *  - OC\Preview\MP3
@@ -286,6 +285,7 @@ class PreviewManager implements IPreview {
 	 *
 	 * The following providers are disabled by default due to performance or privacy concerns:
 	 *  - OC\Preview\Font
+	 *  - OC\Preview\HEIC
 	 *  - OC\Preview\Illustrator
 	 *  - OC\Preview\Movie
 	 *  - OC\Preview\MSOfficeDoc
@@ -311,7 +311,6 @@ class PreviewManager implements IPreview {
 			Preview\JPEG::class,
 			Preview\GIF::class,
 			Preview\BMP::class,
-			Preview\HEIC::class,
 			Preview\XBitmap::class,
 			Preview\Krita::class,
 		];
