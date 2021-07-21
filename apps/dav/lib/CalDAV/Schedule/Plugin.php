@@ -31,8 +31,12 @@ namespace OCA\DAV\CalDAV\Schedule;
 use DateTimeZone;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\CalendarHome;
+use OCA\DAV\Connector\Sabre\DavAclPlugin;
 use OCP\IConfig;
+use Sabre\CalDAV\Calendar;
+use Sabre\CalDAV\CalendarObject;
 use Sabre\CalDAV\ICalendar;
+use Sabre\CalDAV\Schedule\Inbox;
 use Sabre\DAV\INode;
 use Sabre\DAV\IProperties;
 use Sabre\DAV\PropFind;
@@ -117,59 +121,9 @@ class Plugin extends \Sabre\CalDAV\Schedule\Plugin {
 	}
 
 	/**
-	 * Returns a list of addresses that are associated with a principal.
-	 *
-	 * @param string $principal
-	 * @return array
+	 * @param ITip\Message $iTipMessage
 	 */
-	protected function getAddressesForPrincipal($principal) {
-		$result = parent::getAddressesForPrincipal($principal);
-
-		if ($result === null) {
-			$result = [];
-		}
-
-		return $result;
-	}
-
-	/**
-	 * @param RequestInterface $request
-	 * @param ResponseInterface $response
-	 * @param VCalendar $vCal
-	 * @param mixed $calendarPath
-	 * @param mixed $modified
-	 * @param mixed $isNew
-	 */
-	public function calendarObjectChange(RequestInterface $request, ResponseInterface $response, VCalendar $vCal, $calendarPath, &$modified, $isNew) {
-		// Save the first path we get as a calendar-object-change request
-		if (!$this->pathOfCalendarObjectChange) {
-			$this->pathOfCalendarObjectChange = $request->getPath();
-		}
-
-		parent::calendarObjectChange($request, $response, $vCal, $calendarPath, $modified, $isNew);
-	}
-
-	/**
-	 * @inheritDoc
-	 */
-	public function scheduleLocalDelivery(ITip\Message $iTipMessage):void {
-		parent::scheduleLocalDelivery($iTipMessage);
-
-		// We only care when the message was successfully delivered locally
-		if ($iTipMessage->scheduleStatus !== '1.2;Message delivered locally') {
-			return;
-		}
-
-		// We only care about request. reply and cancel are properly handled
-		// by parent::scheduleLocalDelivery already
-		if (strcasecmp($iTipMessage->method, 'REQUEST') !== 0) {
-			return;
-		}
-
-		// If parent::scheduleLocalDelivery set scheduleStatus to 1.2,
-		// it means that it was successfully delivered locally.
-		// Meaning that the ACL plugin is loaded and that a principial
-		// exists for the given recipient id, no need to double check
+	public function processResources(ITip\Message $iTipMessage): void {
 		/** @var \Sabre\DAVACL\Plugin $aclPlugin */
 		$aclPlugin = $this->server->getPlugin('acl');
 		$principalUri = $aclPlugin->getPrincipalByUri($iTipMessage->recipient);
@@ -202,6 +156,7 @@ class Plugin extends \Sabre\CalDAV\Schedule\Plugin {
 		$vevent = $vcalendar->VEVENT;
 
 		// We don't support autoresponses for recurrencing events for now
+		// @todo does this need to be fixed for resource booking?
 		if (isset($vevent->RRULE) || isset($vevent->RDATE)) {
 			return;
 		}
@@ -255,6 +210,64 @@ EOF;
 		// was not yet created. Hence Sabre/DAV won't find a calendar-object, when we
 		// send our reply.
 		$this->schedulingResponses[] = $responseITipMessage;
+	}
+
+	/**
+	 * Returns a list of addresses that are associated with a principal.
+	 *
+	 * @param string $principal
+	 * @return array
+	 */
+	protected function getAddressesForPrincipal($principal) {
+		$result = parent::getAddressesForPrincipal($principal);
+
+		if ($result === null) {
+			$result = [];
+		}
+
+		return $result;
+	}
+
+	/**
+	 * @param RequestInterface $request
+	 * @param ResponseInterface $response
+	 * @param VCalendar $vCal
+	 * @param mixed $calendarPath
+	 * @param mixed $modified
+	 * @param mixed $isNew
+	 */
+	public function calendarObjectChange(RequestInterface $request, ResponseInterface $response, VCalendar $vCal, $calendarPath, &$modified, $isNew) {
+		// Save the first path we get as a calendar-object-change request
+		if (!$this->pathOfCalendarObjectChange) {
+			$this->pathOfCalendarObjectChange = $request->getPath();
+		}
+
+		parent::calendarObjectChange($request, $response, $vCal, $calendarPath, $modified, $isNew);
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function scheduleLocalDelivery(ITip\Message $iTipMessage):void {
+		$this->process($iTipMessage);
+
+		// We only care when the message was successfully delivered locally
+		if ($iTipMessage->scheduleStatus !== '1.2;Message delivered locally') {
+			// we're missing the additional processing of a schedule message to the responding attendee's scheduling inbox
+			return;
+		}
+
+		// We only care about request. reply and cancel are properly handled
+		// by $this->process already
+		if (strcasecmp($iTipMessage->method, 'REQUEST') !== 0) {
+			return;
+		}
+
+		// If $this->process set scheduleStatus to 1.2,
+		// it means that it was successfully delivered locally.
+		// Meaning that the ACL plugin is loaded and that a principial
+		// exists for the given recipient id, no need to double check
+		$this->processResources($iTipMessage);
 	}
 
 	/**
@@ -553,5 +566,156 @@ EOF;
 		}
 
 		return $email;
+	}
+
+	private function process(ITip\Message $iTipMessage) {
+		/** @var DavAclPlugin $aclPlugin */
+		$aclPlugin = $this->server->getPlugin('acl');
+
+		// Local delivery is not available if the ACL plugin is not loaded.
+		//
+		if (!$aclPlugin) {
+			return;
+		}
+
+		$caldavNS = '{'.self::NS_CALDAV.'}';
+
+		//before all the exciting stuff happens, the attendee needs to be updated.
+
+		// look for the organizer principal
+		$principalUri = $aclPlugin->getPrincipalByUri($iTipMessage->recipient);
+		if (!$principalUri) {
+			$iTipMessage->scheduleStatus = '3.7;Could not find principal.';
+
+			return;
+		}
+
+		// We found a principal URL, now we need to find its inbox.
+		// Unfortunately we may not have sufficient privileges to find this, so
+		// we are temporarily turning off ACL to let this come through.
+		//
+		// Once we support PHP 5.5, this should be wrapped in a try..finally
+		// block so we can ensure that this privilege gets added again after.
+		$this->server->removeListener('propFind', [$aclPlugin, 'propFind']);
+
+		$result = $this->server->getProperties(
+			$principalUri,
+			[
+				'{DAV:}principal-URL',
+				$caldavNS.'calendar-home-set',
+				$caldavNS.'schedule-inbox-URL',
+				$caldavNS.'schedule-default-calendar-URL',
+				'{http://sabredav.org/ns}email-address',
+			]
+		);
+
+		// Re-registering the ACL event
+		$this->server->on('propFind', [$aclPlugin, 'propFind'], 20);
+
+		if (!isset($result[$caldavNS.'schedule-inbox-URL'])) {
+			$iTipMessage->scheduleStatus = '5.2;Could not find local inbox';
+
+			return;
+		}
+		if (!isset($result[$caldavNS.'calendar-home-set'])) {
+			$iTipMessage->scheduleStatus = '5.2;Could not locate a calendar-home-set';
+
+			return;
+		}
+		if (!isset($result[$caldavNS.'schedule-default-calendar-URL'])) {
+			$iTipMessage->scheduleStatus = '5.2;Could not find a schedule-default-calendar-URL property';
+
+			return;
+		}
+
+		$calendarPath = $result[$caldavNS.'schedule-default-calendar-URL']->getHref();
+		$homePath = $result[$caldavNS.'calendar-home-set']->getHref();
+		$inboxPath = $result[$caldavNS.'schedule-inbox-URL']->getHref();
+
+		if ('REPLY' === $iTipMessage->method) {
+			$privilege = 'schedule-deliver-reply';
+		} else {
+			$privilege = 'schedule-deliver-invite';
+		}
+
+		if (!$aclPlugin->checkPrivileges($inboxPath, $caldavNS.$privilege, \Sabre\DAVACL\Plugin::R_PARENT, false)) {
+			$iTipMessage->scheduleStatus = '3.8;insufficient privileges: '.$privilege.' is required on the recipient schedule inbox.';
+			return;
+		}
+
+		// Next, we're going to find out if the item already exits in one of
+		// the users' calendars.
+		$uid = $iTipMessage->uid;
+
+		$newFileName = 'sabredav-'.\Sabre\DAV\UUIDUtil::getUUID().'.ics';
+
+		/** @var CalendarHome $home */
+		$home = $this->server->tree->getNodeForPath($homePath);
+		/** @var Inbox $inbox */
+		$inbox = $this->server->tree->getNodeForPath($inboxPath);
+
+		$currentObject = null;
+		$objectNode = null;
+		$oldICalendarData = null;
+		$isNewNode = false;
+
+		$result = $home->getCalendarObjectByUID($uid);
+		if ($result) {
+			// There was an existing object, we need to update probably.
+			$objectPath = $homePath.'/'.$result;
+			/** @var CalendarObject $objectNode */
+			$objectNode = $this->server->tree->getNodeForPath($objectPath);
+			$oldICalendarData = $objectNode->get();
+			$currentObject = Reader::read($oldICalendarData);
+		} else {
+			$isNewNode = true;
+		}
+
+		$broker = new ITip\Broker();
+		$newObject = $broker->processMessage($iTipMessage, $currentObject);
+
+		// create a new ics file for organizer with the new attendee status
+		$inbox->createFile($newFileName, $iTipMessage->message->serialize());
+
+		if (!$newObject) {
+			// We received an iTip message referring to a UID that we don't
+			// have in any calendars yet, and processMessage did not give us a
+			// calendarobject back.
+			//
+			// The implication is that processMessage did not understand the
+			// iTip message.
+			$iTipMessage->scheduleStatus = '5.0;iTip message was not processed by the server, likely because we didn\'t understand it.';
+
+			return;
+		}
+
+		// Note that we are bypassing ACL on purpose by calling this directly.
+		// We may need to look a bit deeper into this later. Supporting ACL
+		// here would be nice.
+		if ($isNewNode) {
+			/** @var Calendar $calendar */
+			$calendar = $this->server->tree->getNodeForPath($calendarPath);
+			/** @var resource $resource */
+			$resource = $newObject->serialize();
+			$calendar->createFile($newFileName, $resource);
+		} else {
+			// If the message was a reply, we may have to inform other
+			// attendees of this attendees status. Therefore we're shooting off
+			// another itipMessage.
+			if ('REPLY' === $iTipMessage->method) {
+				$this->processICalendarChange(
+					$oldICalendarData,
+					$newObject,
+					[$iTipMessage->recipient],
+					// this used to have the sender in the ignore field
+					// removed that because creating a scheduling update for the
+					// attendee would mean duplicating all this code
+					// this is not RFC6638 conform (See Section 4.2), but it's working
+					[]
+				);
+			}
+			$objectNode->put($newObject->serialize());
+		}
+		$iTipMessage->scheduleStatus = '1.2;Message delivered locally';
 	}
 }
