@@ -1221,13 +1221,25 @@ $CONFIG = [
  * For enhanced security it is recommended to configure Redis
  * to require a password. See http://redis.io/topics/security
  * for more information.
+ * 
+ * We also support redis SSL/TLS encryption as of version 6.
+ * See https://redis.io/topics/encryption for more information.
  */
 'redis' => [
 	'host' => 'localhost', // can also be a unix domain socket: '/tmp/redis.sock'
 	'port' => 6379,
 	'timeout' => 0.0,
+	'read_timeout' => 0.0,
+	'user' =>  '', // Optional, if not defined no password will be used.
 	'password' => '', // Optional, if not defined no password will be used.
 	'dbindex' => 0, // Optional, if undefined SELECT will not run and will use Redis Server's default DB Index.
+	// If redis in-transit encryption is enabled, provide certificates
+	// SSL context https://www.php.net/manual/en/context.ssl.php
+	'ssl_context' => [
+		'local_cert' => '/certs/redis.crt',
+		'local_pk' => '/certs/redis.key',
+		'cafile' => '/certs/ca.crt'
+	]
 ],
 
 /**
@@ -1263,7 +1275,15 @@ $CONFIG = [
 	'timeout' => 0.0,
 	'read_timeout' => 0.0,
 	'failover_mode' => \RedisCluster::FAILOVER_ERROR,
+	'user' =>  '', // Optional, if not defined no password will be used.
 	'password' => '', // Optional, if not defined no password will be used.
+	// If redis in-transit encryption is enabled, provide certificates
+	// SSL context https://www.php.net/manual/en/context.ssl.php
+	'ssl_context' => [
+		'local_cert' => '/certs/redis.crt',
+		'local_pk' => '/certs/redis.key',
+		'cafile' => '/certs/ca.crt'
+	]
 ],
 
 
