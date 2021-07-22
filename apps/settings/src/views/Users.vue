@@ -150,13 +150,11 @@
 			</template>
 		</AppNavigation>
 		<AppContent>
-			<template #content>
-				<UserList
-					:users="users"
-					:show-config="showConfig"
-					:selected-group="selectedGroupDecoded"
-					:external-actions="externalActions" />
-			</template>
+			<UserList
+				:users="users"
+				:show-config="showConfig"
+				:selected-group="selectedGroupDecoded"
+				:external-actions="externalActions" />
 		</AppContent>
 	</Content>
 </template>

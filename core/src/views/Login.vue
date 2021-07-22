@@ -150,7 +150,7 @@ export default {
 			// Initial data
 			errors: loadState('core', 'loginErrors', []),
 			messages: loadState('core', 'loginMessages', []),
-			redirectUrl: loadState('core', 'loginRedirectUrl', undefined),
+			redirectUrl: loadState('core', 'loginRedirectUrl', false),
 			username: loadState('core', 'loginUsername', ''),
 			throttleDelay: loadState('core', 'loginThrottleDelay', 0),
 			invertedColors: OCA.Theming && OCA.Theming.inverted,
