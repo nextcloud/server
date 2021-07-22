@@ -145,14 +145,17 @@ class PersonalInfo implements ISettings {
 			'groups' => $this->getGroups($user),
 		] + $messageParameters + $languageParameters + $localeParameters;
 
-		$emails = $this->getEmails($account);
+		$personalInfoParameters = [
+			'displayNames' => $this->getDisplayNames($account),
+			'emails' => $this->getEmails($account),
+		];
 
 		$accountParameters = [
 			'displayNameChangeSupported' => $user->canChangeDisplayName(),
 			'lookupServerUploadEnabled' => $lookupServerUploadEnabled,
 		];
 
-		$this->initialStateService->provideInitialState('emails', $emails);
+		$this->initialStateService->provideInitialState('personalInfoParameters', $personalInfoParameters);
 		$this->initialStateService->provideInitialState('accountParameters', $accountParameters);
 
 		return new TemplateResponse('settings', 'settings/personal/personal.info', $parameters, '');
@@ -194,6 +197,29 @@ class PersonalInfo implements ISettings {
 		sort($groups);
 
 		return $groups;
+	}
+
+	/**
+	 * returns the primary display name in an
+	 * associative array
+	 *
+	 * NOTE may be extended to provide additional display names (i.e. aliases) in the future
+	 *
+	 * @param IAccount $account
+	 * @return array
+	 */
+	private function getDisplayNames(IAccount $account): array {
+		$primaryDisplayName = [
+			'value' => $account->getProperty(IAccountManager::PROPERTY_DISPLAYNAME)->getValue(),
+			'scope' => $account->getProperty(IAccountManager::PROPERTY_DISPLAYNAME)->getScope(),
+			'verified' => $account->getProperty(IAccountManager::PROPERTY_DISPLAYNAME)->getVerified(),
+		];
+
+		$displayNames = [
+			'primaryDisplayName' => $primaryDisplayName,
+		];
+
+		return $displayNames;
 	}
 
 	/**
