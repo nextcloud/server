@@ -120,13 +120,16 @@ class AdminSettingsControllerTest extends TestCase {
 			->willReturn([]);
 		$this->settingsManager
 			->expects($this->once())
-			->method('getAdminSettings')
+			->method('getAllowedAdminSettings')
 			->with('test')
 			->willReturn([5 => $this->createMock(ServerDevNotice::class)]);
 
 		$idx = $this->adminSettingsController->index('test');
 
-		$expected = new TemplateResponse('settings', 'settings/frame', ['forms' => ['personal' => [], 'admin' => []], 'content' => '']);
+		$expected = new TemplateResponse('settings', 'settings/frame', [
+			'forms' => ['personal' => [], 'admin' => []],
+			'content' => ''
+		]);
 		$this->assertEquals($expected, $idx);
 	}
 }

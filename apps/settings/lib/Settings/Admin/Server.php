@@ -29,9 +29,10 @@ use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
-use OCP\Settings\ISettings;
+use OCP\IL10N;
+use OCP\Settings\IDelegatedSettings;
 
-class Server implements ISettings {
+class Server implements IDelegatedSettings {
 
 	/** @var IDBConnection */
 	private $connection;
@@ -39,13 +40,17 @@ class Server implements ISettings {
 	private $timeFactory;
 	/** @var IConfig */
 	private $config;
+	/** @var IL10N $l */
+	private $l;
 
 	public function __construct(IDBConnection $connection,
 								ITimeFactory $timeFactory,
-								IConfig $config) {
+								IConfig $config,
+								IL10N $l) {
 		$this->connection = $connection;
 		$this->timeFactory = $timeFactory;
 		$this->config = $config;
+		$this->l = $l;
 	}
 
 	/**
@@ -99,5 +104,17 @@ class Server implements ISettings {
 	 */
 	public function getPriority(): int {
 		return 0;
+	}
+
+	public function getName(): ?string {
+		return $this->l->t('Background jobs');
+	}
+
+	public function getAuthorizedAppConfig(): array {
+		return [
+			'core' => [
+				'/mail_general_settings/',
+			],
+		];
 	}
 }

@@ -72,6 +72,7 @@ class MailSettingsController extends Controller {
 	 * Sets the email settings
 	 *
 	 * @PasswordConfirmationRequired
+	 * @AuthorizedAdminSetting(settings=OCA\Settings\Settings\Admin\Overview)
 	 *
 	 * @param string $mail_domain
 	 * @param string $mail_from_address
@@ -113,6 +114,7 @@ class MailSettingsController extends Controller {
 	 * Store the credentials used for SMTP in the config
 	 *
 	 * @PasswordConfirmationRequired
+	 * @AuthorizedAdminSetting(settings=OCA\Settings\Settings\Admin\Overview)
 	 *
 	 * @param string $mail_smtpname
 	 * @param string $mail_smtppassword
@@ -133,6 +135,7 @@ class MailSettingsController extends Controller {
 
 	/**
 	 * Send a mail to test the settings
+	 * @AuthorizedAdminSetting(settings=OCA\Settings\Settings\Admin\Overview)
 	 * @return DataResponse
 	 */
 	public function sendTestMail() {

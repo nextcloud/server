@@ -25,6 +25,7 @@
  */
 namespace OCA\Settings\Controller;
 
+use OC\AppFramework\Middleware\Security\Exceptions\NotAdminException;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Group\ISubAdmin;
@@ -57,13 +58,13 @@ class AdminSettingsController extends Controller {
 	}
 
 	/**
-	 * @param string $section
-	 * @return TemplateResponse
-	 *
 	 * @NoCSRFRequired
-	 * @SubAdminRequired
+	 * @NoAdminRequired
+	 * @NoSubAdminRequired
+	 * We are checking the permissions in the getSettings method. If there is no allowed
+	 * settings for the given section. The user will be gretted by an error message.
 	 */
-	public function index($section) {
+	public function index(string $section): TemplateResponse {
 		return $this->getIndexResponse('admin', $section);
 	}
 
@@ -75,10 +76,10 @@ class AdminSettingsController extends Controller {
 		/** @var IUser $user */
 		$user = $this->userSession->getUser();
 		$isSubAdmin = !$this->groupManager->isAdmin($user->getUID()) && $this->subAdmin->isSubAdmin($user);
-		$settings = $this->settingsManager->getAdminSettings(
-			$section,
-			$isSubAdmin
-		);
+		$settings = $this->settingsManager->getAllowedAdminSettings($section, $user);
+		if (empty($settings)) {
+			throw new NotAdminException("Logged in user doesn't have permission to access these settings.");
+		}
 		$formatted = $this->formatSettings($settings);
 		// Do not show legacy forms for sub admins
 		if ($section === 'additional' && !$isSubAdmin) {

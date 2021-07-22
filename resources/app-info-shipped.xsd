@@ -393,8 +393,7 @@
 
     <xs:complexType name="settings">
         <xs:sequence>
-            <xs:element name="admin" type="php-class" minOccurs="0"
-                        maxOccurs="unbounded"/>
+			<xs:element name="admin" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element name="admin-section" type="php-class" minOccurs="0"
                         maxOccurs="unbounded"/>
             <xs:element name="personal" type="php-class" minOccurs="0"

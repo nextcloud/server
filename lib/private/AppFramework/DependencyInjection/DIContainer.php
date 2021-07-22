@@ -48,6 +48,7 @@ use OC\AppFramework\Utility\SimpleContainer;
 use OC\Core\Middleware\TwoFactorMiddleware;
 use OC\Log\PsrLoggerAdapter;
 use OC\ServerContainer;
+use OC\Settings\AuthorizedGroupMapper;
 use OCA\WorkflowEngine\Manager;
 use OCP\AppFramework\Http\IOutput;
 use OCP\AppFramework\IAppContainer;
@@ -246,7 +247,9 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 				$this->getUserId() !== null && $server->getGroupManager()->isAdmin($this->getUserId()),
 				$server->getUserSession()->getUser() !== null && $server->query(ISubAdmin::class)->isSubAdmin($server->getUserSession()->getUser()),
 				$server->getAppManager(),
-				$server->getL10N('lib')
+				$server->getL10N('lib'),
+				$c->get(AuthorizedGroupMapper::class),
+				$server->get(IUserSession::class)
 			);
 			$dispatcher->registerMiddleware($securityMiddleware);
 			$dispatcher->registerMiddleware(

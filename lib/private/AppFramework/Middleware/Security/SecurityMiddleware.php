@@ -34,6 +34,7 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OC\AppFramework\Middleware\Security;
 
 use OC\AppFramework\Middleware\Security\Exceptions\AppNotEnabledException;
@@ -43,6 +44,7 @@ use OC\AppFramework\Middleware\Security\Exceptions\NotLoggedInException;
 use OC\AppFramework\Middleware\Security\Exceptions\SecurityException;
 use OC\AppFramework\Middleware\Security\Exceptions\StrictCookieMissingException;
 use OC\AppFramework\Utility\ControllerMethodReflector;
+use OC\Settings\AuthorizedGroupMapper;
 use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
@@ -56,6 +58,7 @@ use OCP\IL10N;
 use OCP\INavigationManager;
 use OCP\IRequest;
 use OCP\IURLGenerator;
+use OCP\IUserSession;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
 
@@ -88,6 +91,10 @@ class SecurityMiddleware extends Middleware {
 	private $appManager;
 	/** @var IL10N */
 	private $l10n;
+	/** @var AuthorizedGroupMapper */
+	private $groupAuthorizationMapper;
+	/** @var IUserSession */
+	private $userSession;
 
 	public function __construct(IRequest $request,
 								ControllerMethodReflector $reflector,
@@ -99,7 +106,9 @@ class SecurityMiddleware extends Middleware {
 								bool $isAdminUser,
 								bool $isSubAdmin,
 								IAppManager $appManager,
-								IL10N $l10n
+								IL10N $l10n,
+								AuthorizedGroupMapper $mapper,
+								IUserSession $userSession
 	) {
 		$this->navigationManager = $navigationManager;
 		$this->request = $request;
@@ -112,12 +121,15 @@ class SecurityMiddleware extends Middleware {
 		$this->isSubAdmin = $isSubAdmin;
 		$this->appManager = $appManager;
 		$this->l10n = $l10n;
+		$this->groupAuthorizationMapper = $mapper;
+		$this->userSession = $userSession;
 	}
 
 	/**
 	 * This runs all the security checks before a method call. The
 	 * security checks are determined by inspecting the controller method
 	 * annotations
+	 *
 	 * @param Controller $controller the controller
 	 * @param string $methodName the name of the method
 	 * @throws SecurityException when a security check fails
@@ -140,15 +152,39 @@ class SecurityMiddleware extends Middleware {
 			if (!$this->isLoggedIn) {
 				throw new NotLoggedInException();
 			}
+			$authorized = false;
+			if ($this->reflector->hasAnnotation('AuthorizedAdminSetting')) {
+				$authorized = $this->isAdminUser;
 
+				if (!$authorized && $this->reflector->hasAnnotation('SubAdminRequired')) {
+					$authorized = $this->isSubAdmin;
+				}
+
+				if (!$authorized) {
+					$settingClasses = explode(';', $this->reflector->getAnnotationParameter('AuthorizedAdminSetting', 'settings'));
+					$authorizedClasses = $this->groupAuthorizationMapper->findAllClassesForUser($this->userSession->getUser());
+					foreach ($settingClasses as $settingClass) {
+						$authorized = in_array($settingClass, $authorizedClasses, true);
+
+						if ($authorized) {
+							break;
+						}
+					}
+				}
+				if (!$authorized) {
+					throw new NotAdminException($this->l10n->t('Logged in user must be an admin, a sub admin or gotten special right to access this setting'));
+				}
+			}
 			if ($this->reflector->hasAnnotation('SubAdminRequired')
 				&& !$this->isSubAdmin
-				&& !$this->isAdminUser) {
+				&& !$this->isAdminUser
+				&& !$authorized) {
 				throw new NotAdminException($this->l10n->t('Logged in user must be an admin or sub admin'));
 			}
 			if (!$this->reflector->hasAnnotation('SubAdminRequired')
 				&& !$this->reflector->hasAnnotation('NoAdminRequired')
-				&& !$this->isAdminUser) {
+				&& !$this->isAdminUser
+				&& !$authorized) {
 				throw new NotAdminException($this->l10n->t('Logged in user must be an admin'));
 			}
 		}
@@ -200,19 +236,20 @@ class SecurityMiddleware extends Middleware {
 	/**
 	 * If an SecurityException is being caught, ajax requests return a JSON error
 	 * response and non ajax requests redirect to the index
+	 *
 	 * @param Controller $controller the controller that is being called
 	 * @param string $methodName the name of the method that will be called on
 	 *                           the controller
 	 * @param \Exception $exception the thrown exception
-	 * @throws \Exception the passed in exception if it can't handle it
 	 * @return Response a Response object or null in case that the exception could not be handled
+	 * @throws \Exception the passed in exception if it can't handle it
 	 */
 	public function afterException($controller, $methodName, \Exception $exception): Response {
 		if ($exception instanceof SecurityException) {
 			if ($exception instanceof StrictCookieMissingException) {
 				return new RedirectResponse(\OC::$WEBROOT . '/');
 			}
-			if (stripos($this->request->getHeader('Accept'),'html') === false) {
+			if (stripos($this->request->getHeader('Accept'), 'html') === false) {
 				$response = new JSONResponse(
 					['message' => $exception->getMessage()],
 					$exception->getCode()

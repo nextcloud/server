@@ -27,14 +27,19 @@ namespace OCA\Settings\Settings\Admin;
 
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
-use OCP\Settings\ISettings;
+use OCP\IL10N;
+use OCP\Settings\IDelegatedSettings;
 
-class Overview implements ISettings {
+class Overview implements IDelegatedSettings {
 	/** @var IConfig */
 	private $config;
 
-	public function __construct(IConfig $config) {
+	/** @var IL10N $l*/
+	private $l;
+
+	public function __construct(IConfig $config, IL10N $l) {
 		$this->config = $config;
+		$this->l = $l;
 	}
 
 	/**
@@ -64,5 +69,13 @@ class Overview implements ISettings {
 	 */
 	public function getPriority() {
 		return 10;
+	}
+
+	public function getName(): ?string {
+		return $this->l->t('Security & setup warnings');
+	}
+
+	public function getAuthorizedAppConfig(): array {
+		return [];
 	}
 }

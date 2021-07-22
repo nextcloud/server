@@ -11,6 +11,7 @@
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author sualko <klaus@jsxc.org>
+ * @author Carl Schwan <carl@carlschwan.eu>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -28,23 +29,27 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OC\Settings;
 
 use Closure;
 use OCP\AppFramework\QueryException;
+use OCP\Group\ISubAdmin;
+use OCP\IGroupManager;
 use OCP\IL10N;
-use OCP\ILogger;
 use OCP\IServerContainer;
 use OCP\IURLGenerator;
+use OCP\IUser;
 use OCP\L10N\IFactory;
 use OCP\Settings\IIconSection;
 use OCP\Settings\IManager;
 use OCP\Settings\ISettings;
 use OCP\Settings\ISubAdminSettings;
+use Psr\Log\LoggerInterface;
 
 class Manager implements IManager {
 
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	private $log;
 
 	/** @var IL10N */
@@ -59,16 +64,31 @@ class Manager implements IManager {
 	/** @var IServerContainer */
 	private $container;
 
+	/** @var AuthorizedGroupMapper $mapper */
+	private $mapper;
+
+	/** @var IGroupManager $groupManager */
+	private $groupManager;
+
+	/** @var ISubAdmin $subAdmin */
+	private $subAdmin;
+
 	public function __construct(
-		ILogger $log,
+		LoggerInterface $log,
 		IFactory $l10nFactory,
 		IURLGenerator $url,
-		IServerContainer $container
+		IServerContainer $container,
+		AuthorizedGroupMapper $mapper,
+		IGroupManager $groupManager,
+		ISubAdmin $subAdmin
 	) {
 		$this->log = $log;
 		$this->l10nFactory = $l10nFactory;
 		$this->url = $url;
 		$this->container = $container;
+		$this->mapper = $mapper;
+		$this->groupManager = $groupManager;
+		$this->subAdmin = $subAdmin;
 	}
 
 	/** @var array */
@@ -106,18 +126,13 @@ class Manager implements IManager {
 		}
 
 		foreach (array_unique($this->sectionClasses[$type]) as $index => $class) {
-			try {
-				/** @var IIconSection $section */
-				$section = \OC::$server->query($class);
-			} catch (QueryException $e) {
-				$this->log->logException($e, ['level' => ILogger::INFO]);
-				continue;
-			}
+			/** @var IIconSection $section */
+			$section = \OC::$server->get($class);
 
 			$sectionID = $section->getID();
 
 			if ($sectionID !== 'connected-accounts' && isset($this->sections[$type][$sectionID])) {
-				$this->log->logException(new \InvalidArgumentException('Section with the same ID already registered: ' . $sectionID . ', class: ' . $class), ['level' => ILogger::INFO]);
+				$this->log->info('', ['exception' => new \InvalidArgumentException('Section with the same ID already registered: ' . $sectionID . ', class: ' . $class)]);
 				continue;
 			}
 
@@ -136,8 +151,9 @@ class Manager implements IManager {
 	protected $settings = [];
 
 	/**
-	 * @param string $type 'admin' or 'personal'
-	 * @param string $setting Class must implement OCP\Settings\ISetting
+	 * @psam-param 'admin'|'personal' $type The type of the setting.
+	 * @param string $setting Class must implement OCP\Settings\ISettings
+	 * @param bool $allowedDelegation
 	 *
 	 * @return void
 	 */
@@ -167,14 +183,14 @@ class Manager implements IManager {
 
 			try {
 				/** @var ISettings $setting */
-				$setting = $this->container->query($class);
+				$setting = $this->container->get($class);
 			} catch (QueryException $e) {
-				$this->log->logException($e, ['level' => ILogger::INFO]);
+				$this->log->info($e->getMessage(), ['exception' => $e]);
 				continue;
 			}
 
 			if (!$setting instanceof ISettings) {
-				$this->log->logException(new \InvalidArgumentException('Invalid settings setting registered (' . $class . ')'), ['level' => ILogger::INFO]);
+				$this->log->info('', ['exception' => new \InvalidArgumentException('Invalid settings setting registered (' . $class . ')')]);
 				continue;
 			}
 
@@ -305,6 +321,54 @@ class Manager implements IManager {
 		}
 
 		ksort($settings);
+		return $settings;
+	}
+
+	public function getAllowedAdminSettings(string $section, IUser $user): array {
+		$isAdmin = $this->groupManager->isAdmin($user->getUID());
+		$isSubAdmin = $this->subAdmin->isSubAdmin($user);
+		$subAdminOnly = !$isAdmin && $isSubAdmin;
+
+		if ($subAdminOnly) {
+			// not an admin => look if the user is still authorized to access some
+			// settings
+			$subAdminSettingsFilter = function (ISettings $settings) {
+				return $settings instanceof ISubAdminSettings;
+			};
+			$appSettings = $this->getSettings('admin', $section, $subAdminSettingsFilter);
+		} elseif ($isAdmin) {
+			$appSettings = $this->getSettings('admin', $section);
+		} else {
+			$authorizedSettingsClasses = $this->mapper->findAllClassesForUser($user);
+			$authorizedGroupFilter = function (ISettings $settings) use ($authorizedSettingsClasses) {
+				return in_array(get_class($settings), $authorizedSettingsClasses) === true;
+			};
+			$appSettings = $this->getSettings('admin', $section, $authorizedGroupFilter);
+		}
+
+		$settings = [];
+		foreach ($appSettings as $setting) {
+			if (!isset($settings[$setting->getPriority()])) {
+				$settings[$setting->getPriority()] = [];
+			}
+			$settings[$setting->getPriority()][] = $setting;
+		}
+
+		ksort($settings);
+		return $settings;
+	}
+
+	public function getAllAllowedAdminSettings(IUser $user): array {
+		$this->getSettings('admin', ''); // Make sure all the settings are loaded
+		$settings = [];
+		$authorizedSettingsClasses = $this->mapper->findAllClassesForUser($user);
+		foreach ($this->settings['admin'] as $section) {
+			foreach ($section as $setting) {
+				if (in_array(get_class($setting), $authorizedSettingsClasses) === true) {
+					$settings[] = $setting;
+				}
+			}
+		}
 		return $settings;
 	}
 }
