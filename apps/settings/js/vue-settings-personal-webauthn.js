@@ -201,4 +201,4 @@ r.VTooltip.options.defaultTemplate='<div class="vue-tooltip" role="tooltip" data
  *
  */
 r.nc=btoa(OC.requestToken),o.default.prototype.t=t,new(o.default.extend(Q))({propsData:{initialDevices:Object(i.loadState)("settings","webauthn-devices"),isHttps:"https:"===window.location.protocol,isLocalhost:"localhost"===window.location.hostname,hasPublicKeyCredential:void 0!==window.PublicKeyCredential}}).$mount("#security-webauthn")}]);
-//# sourceMappingURL=vue-settings-personal-webauthn.js.map?v=06e8b9df4aca46e8c31c
+//# sourceMappingURL=vue-settings-personal-webauthn.js.map?v=46b2deb69660b2ed86b2

@@ -222,4 +222,4 @@ r.VTooltip.options.defaultTemplate='<div class="vue-tooltip" role="tooltip" data
  *
  */
 r.nc=btoa(OC.requestToken),o.default.prototype.t=t,o.default.prototype.logger=i.a;var ht=o.default.extend(mt);n.default=new ht({el:"#vue-emailsection"})}]);
-//# sourceMappingURL=vue-settings-personal-info.js.map?v=15eed81bbfb09f00e9d7
+//# sourceMappingURL=vue-settings-personal-info.js.map?v=7d443aca148d4b82b7d1

@@ -574,6 +574,7 @@ export default {
 			}
 		},
 		closeModal() {
+			// eslint-disable-next-line vue/no-mutating-props
 			this.showConfig.showNewUserForm = false
 		},
 	},
