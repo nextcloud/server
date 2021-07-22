@@ -4403,10 +4403,6 @@
     </ForbiddenCode>
   </file>
   <file src="lib/private/RedisFactory.php">
-    <InvalidPropertyAssignmentValue occurrences="2">
-      <code>new \RedisCluster(null, $config['seeds'], $timeout, $readTimeout)</code>
-      <code>new \RedisCluster(null, $config['seeds'], $timeout, $readTimeout, false, $config['password'])</code>
-    </InvalidPropertyAssignmentValue>
     <InvalidScalarArgument occurrences="1">
       <code>\RedisCluster::OPT_SLAVE_FAILOVER</code>
     </InvalidScalarArgument>
