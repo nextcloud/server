@@ -26,22 +26,46 @@
 
 /** Enum of account properties */
 export const ACCOUNT_PROPERTY_ENUM = Object.freeze({
+	ADDRESS: 'address',
 	AVATAR: 'avatar',
 	DISPLAYNAME: 'displayname',
-	PHONE: 'phone',
 	EMAIL: 'email',
-	WEBSITE: 'website',
-	ADDRESS: 'address',
-	TWITTER: 'twitter',
 	EMAIL_COLLECTION: 'additional_mail',
+	PHONE: 'phone',
+	TWITTER: 'twitter',
+	WEBSITE: 'website',
+})
+
+/** Enum of account properties to human readable account properties */
+export const ACCOUNT_PROPERTY_READABLE_ENUM = Object.freeze({
+	ADDRESS: 'Address',
+	AVATAR: 'Avatar',
+	DISPLAYNAME: 'Full name',
+	EMAIL: 'Email',
+	EMAIL_COLLECTION: 'Additional Email',
+	PHONE: 'Phone',
+	TWITTER: 'Twitter',
+	WEBSITE: 'Website',
 })
 
 /** Enum of scopes */
 export const SCOPE_ENUM = Object.freeze({
-	PRIVATE: 'v2-private',
 	LOCAL: 'v2-local',
+	PRIVATE: 'v2-private',
 	FEDERATED: 'v2-federated',
 	PUBLISHED: 'v2-published',
+})
+
+/** Enum of readable account properties to supported scopes */
+export const PROPERTY_READABLE_SUPPORTED_SCOPES_ENUM = Object.freeze({
+	[ACCOUNT_PROPERTY_READABLE_ENUM.ADDRESS]: [SCOPE_ENUM.LOCAL, SCOPE_ENUM.PRIVATE],
+	[ACCOUNT_PROPERTY_READABLE_ENUM.AVATAR]: [SCOPE_ENUM.LOCAL, SCOPE_ENUM.PRIVATE],
+	[ACCOUNT_PROPERTY_READABLE_ENUM.DISPLAYNAME]: [SCOPE_ENUM.LOCAL],
+	[ACCOUNT_PROPERTY_READABLE_ENUM.EMAIL]: [SCOPE_ENUM.LOCAL],
+	[ACCOUNT_PROPERTY_READABLE_ENUM.EMAIL_COLLECTION]: [SCOPE_ENUM.LOCAL],
+	[ACCOUNT_PROPERTY_READABLE_ENUM.PHONE]: [SCOPE_ENUM.LOCAL, SCOPE_ENUM.PRIVATE],
+	[ACCOUNT_PROPERTY_READABLE_ENUM.TWITTER]: [SCOPE_ENUM.LOCAL, SCOPE_ENUM.PRIVATE],
+	[ACCOUNT_PROPERTY_READABLE_ENUM.WEBSITE]: [SCOPE_ENUM.LOCAL, SCOPE_ENUM.PRIVATE],
 })
 
 /** Scope suffix */
@@ -56,17 +80,17 @@ export const DEFAULT_ADDITIONAL_EMAIL_SCOPE = SCOPE_ENUM.LOCAL
  * *Used for federation control*
  */
 export const SCOPE_PROPERTY_ENUM = Object.freeze({
-	[SCOPE_ENUM.PRIVATE]: {
-		name: SCOPE_ENUM.PRIVATE,
-		displayName: t('settings', 'Private'),
-		tooltip: t('settings', 'Only visible to people matched via phone number integration through Talk on mobile'),
-		iconClass: 'icon-phone',
-	},
 	[SCOPE_ENUM.LOCAL]: {
 		name: SCOPE_ENUM.LOCAL,
 		displayName: t('settings', 'Local'),
 		tooltip: t('settings', 'Only visible to people on this instance and guests'),
 		iconClass: 'icon-password',
+	},
+	[SCOPE_ENUM.PRIVATE]: {
+		name: SCOPE_ENUM.PRIVATE,
+		displayName: t('settings', 'Private'),
+		tooltip: t('settings', 'Only visible to people matched via phone number integration through Talk on mobile'),
+		iconClass: 'icon-phone',
 	},
 	[SCOPE_ENUM.FEDERATED]: {
 		name: SCOPE_ENUM.FEDERATED,
