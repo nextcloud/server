@@ -150,7 +150,7 @@
 			</template>
 		</AppNavigation>
 		<AppContent>
-			<UserList #content
+			<UserList
 				:users="users"
 				:show-config="showConfig"
 				:selected-group="selectedGroupDecoded"
