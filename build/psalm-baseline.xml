@@ -934,10 +934,9 @@
       <code>'OCA\DAV\Connector\Sabre::addPlugin'</code>
       <code>'OCA\DAV\Connector\Sabre::authInit'</code>
     </InvalidArgument>
-    <TooManyArguments occurrences="3">
+    <TooManyArguments occurrences="2">
       <code>dispatch</code>
       <code>dispatch</code>
-      <code>new QuotaPlugin($view, false)</code>
     </TooManyArguments>
     <UndefinedPropertyAssignment occurrences="1">
       <code>$acl-&gt;defaultUsernamePath</code>
