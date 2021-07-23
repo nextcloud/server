@@ -51,10 +51,6 @@ class RedisFactory {
 			? $this->config->getValue('redis.cluster', [])
 			: $this->config->getValue('redis', []);
 
-		if (empty($config)) {
-			throw new \Exception('Redis config is empty');
-		}
-
 		if ($isCluster && !class_exists('RedisCluster')) {
 			throw new \Exception('Redis Cluster support is not available');
 		}
@@ -86,6 +82,10 @@ class RedisFactory {
 
 		// cluster config
 		if ($isCluster) {
+			if (!isset($config['seeds'])) {
+				throw new \Exception('Redis cluster config is missing the "seeds" attribute');
+			}
+
 			// Support for older phpredis versions not supporting connectionParameters
 			if ($connectionParameters !== null) {
 				$this->instance = new \RedisCluster(null, $config['seeds'], $timeout, $readTimeout, false, $auth, $connectionParameters);
