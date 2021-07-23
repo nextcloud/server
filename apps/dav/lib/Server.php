@@ -238,6 +238,7 @@ class Server {
 						\OC::$server->getConfig(),
 						$this->request,
 						\OC::$server->getPreviewManager(),
+						\OC::$server->getUserSession(),
 						false,
 						!\OC::$server->getConfig()->getSystemValue('debug', false)
 					)

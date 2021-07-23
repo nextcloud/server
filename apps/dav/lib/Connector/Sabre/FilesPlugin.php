@@ -40,6 +40,7 @@ use OCP\Files\StorageNotAvailableException;
 use OCP\IConfig;
 use OCP\IPreview;
 use OCP\IRequest;
+use OCP\IUserSession;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\IFile;
@@ -89,6 +90,11 @@ class FilesPlugin extends ServerPlugin {
 	private $tree;
 
 	/**
+	 * @var IUserSession
+	 */
+	private $userSession;
+
+	/**
 	 * Whether this is public webdav.
 	 * If true, some returned information will be stripped off.
 	 *
@@ -128,11 +134,13 @@ class FilesPlugin extends ServerPlugin {
 								IConfig $config,
 								IRequest $request,
 								IPreview $previewManager,
+								IUserSession $userSession,
 								$isPublic = false,
 								$downloadAttachment = true) {
 		$this->tree = $tree;
 		$this->config = $config;
 		$this->request = $request;
+		$this->userSession = $userSession;
 		$this->isPublic = $isPublic;
 		$this->downloadAttachment = $downloadAttachment;
 		$this->previewManager = $previewManager;
@@ -322,14 +330,22 @@ class FilesPlugin extends ServerPlugin {
 			});
 
 			$propFind->handle(self::SHARE_PERMISSIONS_PROPERTYNAME, function () use ($node, $httpRequest) {
+				$user = $this->userSession->getUser();
+				if ($user === null) {
+					return null;
+				}
 				return $node->getSharePermissions(
-					$httpRequest->getRawServerValue('PHP_AUTH_USER')
+					$user->getUID()
 				);
 			});
 
 			$propFind->handle(self::OCM_SHARE_PERMISSIONS_PROPERTYNAME, function () use ($node, $httpRequest) {
+				$user = $this->userSession->getUser();
+				if ($user === null) {
+					return null;
+				}
 				$ncPermissions = $node->getSharePermissions(
-					$httpRequest->getRawServerValue('PHP_AUTH_USER')
+					$user->getUID()
 				);
 				$ocmPermissions = $this->ncPermissions2ocmPermissions($ncPermissions);
 				return json_encode($ocmPermissions);
@@ -367,8 +383,12 @@ class FilesPlugin extends ServerPlugin {
 			});
 
 			$propFind->handle(self::SHARE_NOTE, function () use ($node, $httpRequest) {
+				$user = $this->userSession->getUser();
+				if ($user === null) {
+					return null;
+				}
 				return $node->getNoteFromShare(
-					$httpRequest->getRawServerValue('PHP_AUTH_USER')
+					$user->getUID()
 				);
 			});
 		}
