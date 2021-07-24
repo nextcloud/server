@@ -2,7 +2,7 @@
 OC.Settings = OC.Settings || {};
 OC.Settings.Apps = OC.Settings.Apps || {
 	rebuildNavigation: function() {
-		$.getJSON(OC.linkToOCS('core/navigation', 2) + 'apps?format=json').done(function(response){
+		$.getJSON(OC.linkToOCS('core/navigation/apps?format=json')).done(function(response){
 			if(response.ocs.meta.status === 'ok') {
 				var addedApps = {};
 				var navEntries = response.ocs.data;
