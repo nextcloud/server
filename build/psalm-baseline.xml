@@ -1768,11 +1768,6 @@
       <code>$this</code>
     </InvalidScope>
   </file>
-  <file src="apps/files_versions/lib/Expiration.php">
-    <FalsableReturnStatement occurrences="1">
-      <code>$maxAge</code>
-    </FalsableReturnStatement>
-  </file>
   <file src="apps/files_versions/lib/Sabre/RestoreFolder.php">
     <InvalidNullableReturnType occurrences="1">
       <code>getChild</code>
@@ -1795,17 +1790,10 @@
     </UndefinedFunction>
   </file>
   <file src="apps/files_versions/lib/Storage.php">
-    <InvalidArgument occurrences="1">
-      <code>'OCA\Files_Versions::createVersion'</code>
-    </InvalidArgument>
     <InvalidScalarArgument occurrences="2">
       <code>$timestamp</code>
       <code>$uid</code>
     </InvalidScalarArgument>
-    <TooManyArguments occurrences="2">
-      <code>dispatch</code>
-      <code>getURLGenerator</code>
-    </TooManyArguments>
   </file>
   <file src="apps/lookup_server_connector/lib/BackgroundJobs/RetryJob.php">
     <InvalidScalarArgument occurrences="1">
