@@ -105,7 +105,7 @@ class SharedMount extends MountPoint implements MoveableMount {
 			$folderExistCache->set($parent, $parentExists);
 		}
 		if (!$parentExists) {
-			$parent = Helper::getShareFolder($this->recipientView);
+			$parent = Helper::getShareFolder($this->recipientView, $this->user);
 		}
 
 		$newMountPoint = $this->generateUniqueTarget(
