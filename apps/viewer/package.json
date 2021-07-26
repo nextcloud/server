@@ -62,7 +62,7 @@
 	},
 	"devDependencies": {
 		"@cypress/browserify-preprocessor": "^3.0.1",
-		"@nextcloud/babel-config": "^1.0.0-beta.1",
+		"@nextcloud/babel-config": "^1.0.0",
 		"@nextcloud/browserslist-config": "^2.1.0",
 		"@nextcloud/eslint-config": "^6.0.0",
 		"@nextcloud/stylelint-config": "^1.0.0-beta.0",
