@@ -1,0 +1,36 @@
+# This workflow is provided via the organization template repository
+#
+# https://github.com/nextcloud/.github
+# https://docs.github.com/en/actions/learn-github-actions/sharing-workflows-with-your-organization
+
+on:
+  issue_comment:
+    types: [ created ]
+
+name: Automatic Rebase
+
+jobs:
+  rebase:
+    name: Rebase
+    # On pull requests and if the comment starts with `/rebase`
+    if: github.event.issue.pull_request != '' && startsWith(github.event.comment.body, '/rebase')
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Add reaction on start
+        uses: peter-evans/create-or-update-comment@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          repository: ${{ github.event.repository.full_name }}
+          comment-id: ${{ github.event.comment.id }}
+          reaction-type: "+1"
+
+      - name: Checkout the latest code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      
+      - name: Automatic Rebase
+        uses: cirrus-actions/rebase@1.5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

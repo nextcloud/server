@@ -1,0 +1,28 @@
+{ "translations": {
+    "Loading preview…" : "Memuat pratinjau",
+    "Saved" : "Disimpan",
+    "Admin" : "Admin",
+    "a safe home for all your data" : "rumah yang aman untuk semua datamu",
+    "The given name is too long" : "Pemberian nama terlalu panjang",
+    "The given web address is too long" : "Pemberian alamat web terlalu panjang",
+    "The given slogan is too long" : "Pemberian slogan terlalu panjang",
+    "The file was uploaded" : "Berkas terunggah",
+    "The uploaded file exceeds the upload_max_filesize directive in php.ini" : "Berkas terunggah melampau parameter upload_max_filesize pada php.ini",
+    "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" : "Berkas yang diunggah melampaui direktif MAX_FILE_SIZE yang ditentukan dalam formulir HTML.",
+    "The file was only partially uploaded" : "Berkas hanya sebagian terunggah",
+    "No file was uploaded" : "Tidak ada berkas yang diunggah",
+    "Missing a temporary folder" : "Folder sementara tidak ada",
+    "Could not write file to disk" : "Tidak dapat menulis berkas ke disk",
+    "A PHP extension stopped the file upload" : "Ekstensi PHP menghentikan proses unggah berkas",
+    "No file uploaded" : "Tidak ada file diunggah",
+    "Theming" : "Tema",
+    "Open documentation" : "Buka dokumentasi",
+    "Name" : "Nama",
+    "Slogan" : "Slogan",
+    "Color" : "Warna",
+    "Logo" : "Logo",
+    "Upload new logo" : "Unggah Logo baru",
+    "Login image" : "Gambar ketika masuk",
+    "Advanced options" : "Opsi lanjutan"
+},"pluralForm" :"nplurals=1; plural=0;"
+}

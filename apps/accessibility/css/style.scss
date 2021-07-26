@@ -1,0 +1,63 @@
+// Rules we could port to the rest of Nextcloud too
+
+// Proper highlight for links and focus feedback
+#accessibility a {
+	font-weight: bold;
+
+	&:hover,
+	&:focus {
+		text-decoration: underline;
+	}
+}
+
+// Highlight checkbox label in bold for focus feedback
+// Drawback: Text width increases a bit
+#accessibility .checkbox:focus + label {
+	font-weight: bold;
+}
+
+// Limit width of settings sections for readability
+#accessibility.section p {
+	max-width: 800px;
+}
+
+// End of rules we could port to rest of Nextcloud
+
+
+
+.preview-list {
+	display: flex;
+	flex-direction: column;
+	max-width: 800px;
+}
+
+.preview {
+	display: flex;
+	justify-content: flex-start;
+	margin-top: 3em;
+	position: relative;
+
+	&,
+	* {
+		user-select: none;
+	}
+
+	.preview-image {
+		flex-basis: 200px;
+		flex-shrink: 0;
+		margin-right: 1em;
+		background-position: top left;
+		background-size: cover;
+		background-repeat: no-repeat;
+		border-radius: var(--border-radius);
+	}
+
+	.preview-description {
+		display: flex;
+		flex-direction: column;
+
+		label {
+			padding: 12px 0;
+		}
+	}
+}

@@ -1,0 +1,1602 @@
+<?xml version="1.0" standalone="no"?>
+
+<!DOCTYPE caldavtest SYSTEM "caldavtest.dtd">
+
+<!--
+ Copyright (c) 2006-2015 Apple Inc. All rights reserved.
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+ -->
+
+<caldavtest>
+	<require-feature>
+		<feature>carddav</feature>
+		<feature>sync-report</feature>
+	</require-feature>
+
+	<start>
+		<request>
+			<method>PUT</method>
+			<ruri>$addressbookpath1:/1.vcf</ruri>
+			<data>
+				<content-type>text/vcard; charset=utf-8</content-type>
+				<filepath>Resource/CardDAV/vreports/put/1.vcf</filepath>
+			</data>
+		</request>
+		<request>
+			<method>PUT</method>
+			<ruri>$addressbookpath1:/2.vcf</ruri>
+			<data>
+				<content-type>text/vcard; charset=utf-8</content-type>
+				<filepath>Resource/CardDAV/vreports/put/2.vcf</filepath>
+			</data>
+		</request>
+	</start>
+
+	<test-suite name='support-report-set'>
+		<test name='1'>
+			<description>Not on addressbooks</description>
+			<request>
+				<method>PROPFIND</method>
+				<ruri>$addressbooks:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>0</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CardDAV/vreports/sync/1.xml</filepath>
+				</data>
+				<verify>
+					<callback>xmlElementMatch</callback>
+					<arg>
+						<name>notexists</name>
+						<value>$verify-property-prefix:/{DAV:}supported-report-set/{DAV:}supported-report/{DAV:}report/{DAV:}sync-collection</value>
+					</arg>
+				</verify>
+				<verify>
+					<callback>propfindItems</callback>
+					<arg>
+						<name>okprops</name>
+						<value>{DAV:}supported-report-set</value>
+					</arg>
+					<arg>
+						<name>badprops</name>
+						<value>{DAV:}sync-token</value>
+					</arg>
+				</verify>
+			</request>
+		</test>
+		<!--
+		 original test2 has been removed since we do not support sync support on addressbooks home
+		-->
+		<test name='3'>
+			<description>On addressbook</description>
+			<request>
+				<method>PROPFIND</method>
+				<ruri>$addressbookpath1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>0</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CardDAV/vreports/sync/1.xml</filepath>
+				</data>
+				<verify>
+					<callback>xmlElementMatch</callback>
+					<arg>
+						<name>exists</name>
+						<value>$verify-property-prefix:/{DAV:}supported-report-set/{DAV:}supported-report/{DAV:}report/{DAV:}sync-collection</value>
+						<!-- verification below does not match -->
+						<!-- value>$verify-property-prefix:/{DAV:}sync-token[+data:,]</value -->
+					</arg>
+				</verify>
+				<verify>
+					<callback>propfindItems</callback>
+					<arg>
+						<name>okprops</name>
+						<value>{DAV:}supported-report-set</value>
+						<value>{DAV:}sync-token</value>
+					</arg>
+				</verify>
+			</request>
+		</test>
+	</test-suite>
+
+	<test-suite name='simple reports - empty token - no props'>
+		<test name='1'>
+			<description>initial query - addressbook depth:1</description>
+			<request>
+				<method>REPORT</method>
+				<ruri>$addressbookpath1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>1</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CardDAV/vreports/sync/2.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<!-- no sync on addressbook level -->
+						<!-- value>$calendar_sync_extra_items:</value -->
+						<value>1.vcf</value>
+						<value>2.vcf</value>
+					</arg>
+				</verify>
+			</request>
+		</test>
+		<!-- test 2 and 3 require sync support on addressbook collection -->
+		<test name='4'>
+			<description>add new resource</description>
+			<request>
+				<method>PUT</method>
+				<ruri>$addressbookpath1:/3.vcf</ruri>
+				<data>
+					<content-type>text/vcard; charset=utf-8</content-type>
+					<filepath>Resource/CardDAV/vreports/put/3.vcf</filepath>
+				</data>
+				<verify>
+					<callback>statusCode</callback>
+				</verify>
+			</request>
+		</test>
+		<test name='5'>
+			<description>new resource - addressbook depth:1</description>
+			<request>
+				<method>REPORT</method>
+				<ruri>$addressbookpath1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>1</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CardDAV/vreports/sync/2.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<!-- no sync on addressbook level -->
+						<!-- value>$calendar_sync_extra_items:</value -->
+						<value>1.vcf</value>
+						<value>2.vcf</value>
+						<value>3.vcf</value>
+					</arg>
+				</verify>
+			</request>
+		</test>
+		<!-- test name='6'>
+			<require-feature>
+				<feature>sync-report-home</feature>
+			</require-feature>
+			<description>new resource - home depth:1</description>
+			<request>
+				<method>REPORT</method>
+				<ruri>$addressbookhome1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>1</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CardDAV/vreports/sync/2.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>$calendar_sync_extra_items:</value>
+						<value>$addressbook:/</value>
+					</arg>
+				</verify>
+			</request>
+		</test>
+		<test name='7'>
+			<require-feature>
+				<feature>sync-report-home</feature>
+			</require-feature>
+			<description>new resource - home depth:infinity</description>
+			<request>
+				<method>REPORT</method>
+				<ruri>$addressbookhome1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>infinity</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CardDAV/vreports/sync/2.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>$calendar_sync_extra_items:</value>
+						<value>$addressbook:/</value>
+						<value>$addressbook:/1.vcf</value>
+						<value>$addressbook:/2.vcf</value>
+						<value>$addressbook:/3.vcf</value>
+					</arg>
+				</verify>
+			</request>
+		</test -->
+		<test name='8'>
+			<description>remove new resource</description>
+			<request>
+				<method>DELETE</method>
+				<ruri>$addressbookpath1:/3.vcf</ruri>
+				<verify>
+					<callback>statusCode</callback>
+				</verify>
+			</request>
+		</test>
+		<test name='9'>
+			<description>remove new resource - addressbook depth:1</description>
+			<request>
+				<method>REPORT</method>
+				<ruri>$addressbookpath1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>1</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CardDAV/vreports/sync/2.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<!-- no sync on addressbook level -->
+						<!--<value>$calendar_sync_extra_items:</value>-->
+						<value>1.vcf</value>
+						<value>2.vcf</value>
+					</arg>
+				</verify>
+			</request>
+		</test>
+		<!--test name='10'>
+			<require-feature>
+				<feature>sync-report-home</feature>
+			</require-feature>
+			<description>remove new resource - home depth:1</description>
+			<request>
+				<method>REPORT</method>
+				<ruri>$addressbookhome1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>1</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CardDAV/vreports/sync/2.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>$calendar_sync_extra_items:</value>
+						<value>$addressbook:/</value>
+					</arg>
+				</verify>
+			</request>
+		</test>
+		<test name='11'>
+			<require-feature>
+				<feature>sync-report-home</feature>
+			</require-feature>
+			<description>remove new resource - home depth:infinity</description>
+			<request>
+				<method>REPORT</method>
+				<ruri>$addressbookhome1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>infinity</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CardDAV/vreports/sync/2.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>$calendar_sync_extra_items:</value>
+						<value>$addressbook:/</value>
+						<value>$addressbook:/1.vcf</value>
+						<value>$addressbook:/2.vcf</value>
+					</arg>
+				</verify>
+			</request>
+		</test>
+		<test name='12'>
+			<description>changed resource</description>
+			<request>
+				<method>PUT</method>
+				<ruri>$addressbookpath1:/1.vcf</ruri>
+				<data>
+					<content-type>text/vcard; charset=utf-8</content-type>
+					<filepath>Resource/CardDAV/vreports/put/1.vcf</filepath>
+				</data>
+				<verify>
+					<callback>statusCode</callback>
+				</verify>
+			</request>
+		</test>
+		<test name='13'>
+			<description>changed resource - addressbook depth:1</description>
+			<request>
+				<method>REPORT</method>
+				<ruri>$addressbookpath1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>1</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CardDAV/vreports/sync/2.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>$calendar_sync_extra_items:</value>
+						<value>1.vcf</value>
+						<value>2.vcf</value>
+					</arg>
+				</verify>
+			</request>
+		</test>
+		<test name='14'>
+			<require-feature>
+				<feature>sync-report-home</feature>
+			</require-feature>
+			<description>changed resource - home depth:1</description>
+			<request>
+				<method>REPORT</method>
+				<ruri>$addressbookhome1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>1</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CardDAV/vreports/sync/2.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>$calendar_sync_extra_items:</value>
+						<value>$addressbook:/</value>
+					</arg>
+				</verify>
+			</request>
+		</test>
+		<test name='15'>
+			<require-feature>
+				<feature>sync-report-home</feature>
+			</require-feature>
+			<description>changed resource - home depth:infinity</description>
+			<request>
+				<method>REPORT</method>
+				<ruri>$addressbookhome1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>infinity</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CardDAV/vreports/sync/2.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>$calendar_sync_extra_items:</value>
+						<value>$addressbook:/</value>
+						<value>$addressbook:/1.vcf</value>
+						<value>$addressbook:/2.vcf</value>
+					</arg>
+				</verify>
+			</request>
+		</test>
+		-->
+	</test-suite>
+
+	<!--
+	<test-suite name='simple reports - diff token - no props'>
+		<test name='1'>
+			<description>initial query - grab token</description>
+			<request>
+				<method>REPORT</method>
+				<ruri>$addressbookpath1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>1</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CardDAV/vreports/sync/2.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>$calendar_sync_extra_items:</value>
+						<value>1.vcf</value>
+						<value>2.vcf</value>
+					</arg>
+				</verify>
+				<grabelement>
+					<name>/{DAV:}multistatus/{DAV:}sync-token</name>
+					<variable>$synctoken1:</variable>
+				</grabelement>
+			</request>
+		</test>
+		<test name='2'>
+			<description>new resource</description>
+			<request>
+				<method>PUT</method>
+				<ruri>$addressbookpath1:/3.vcf</ruri>
+				<data>
+					<content-type>text/vcard; charset=utf-8</content-type>
+					<filepath>Resource/CardDAV/vreports/put/3.vcf</filepath>
+				</data>
+				<verify>
+					<callback>statusCode</callback>
+				</verify>
+			</request>
+			<request>
+				<method>REPORT</method>
+				<ruri>$addressbookpath1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>1</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CardDAV/vreports/sync/3.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>3.vcf</value>
+					</arg>
+				</verify>
+				<grabelement>
+					<name>/{DAV:}multistatus/{DAV:}sync-token</name>
+					<variable>$synctoken2:</variable>
+				</grabelement>
+			</request>
+		</test>
+		<test name='3'>
+			<description>remove resource (treated as new)</description>
+			<request>
+				<method>DELETE</method>
+				<ruri>$addressbookpath1:/3.vcf</ruri>
+				<verify>
+					<callback>statusCode</callback>
+				</verify>
+			</request>
+			<request>
+				<method>REPORT</method>
+				<ruri>$addressbookpath1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>1</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CardDAV/vreports/sync/3.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>badhrefs</name>
+						<value>3.vcf</value>
+					</arg>
+				</verify>
+			</request>
+		</test>
+		<test name='4'>
+			<description>remove resource (treated as old)</description>
+			<request>
+				<method>REPORT</method>
+				<ruri>$addressbookpath1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>1</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CardDAV/vreports/sync/4.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>badhrefs</name>
+						<value>3.vcf</value>
+					</arg>
+				</verify>
+				<grabelement>
+					<name>/{DAV:}multistatus/{DAV:}sync-token</name>
+					<variable>$synctoken1:</variable>
+				</grabelement>
+			</request>
+		</test>
+		<test name='5'>
+			<description>changed resource</description>
+			<request>
+				<method>PUT</method>
+				<ruri>$addressbookpath1:/1.vcf</ruri>
+				<data>
+					<content-type>text/vcard; charset=utf-8</content-type>
+					<filepath>Resource/CardDAV/vreports/put/1.vcf</filepath>
+				</data>
+				<verify>
+					<callback>statusCode</callback>
+				</verify>
+			</request>
+			<request>
+				<method>REPORT</method>
+				<ruri>$addressbookpath1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>1</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CardDAV/vreports/sync/3.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>1.vcf</value>
+					</arg>
+				</verify>
+				<grabelement>
+					<name>/{DAV:}multistatus/{DAV:}sync-token</name>
+					<variable>$synctoken1:</variable>
+				</grabelement>
+			</request>
+		</test>
+		<test name='6'>
+			<description>no change</description>
+			<request>
+				<method>REPORT</method>
+				<ruri>$addressbookpath1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>1</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CardDAV/vreports/sync/3.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+				</verify>
+				<grabelement>
+					<name>/{DAV:}multistatus/{DAV:}sync-token</name>
+					<variable>$synctoken1:</variable>
+				</grabelement>
+			</request>
+		</test>
+	</test-suite>
+
+	<test-suite name='simple reports - empty token - props'>
+		<test name='1'>
+			<description>initial query</description>
+			<request>
+				<method>REPORT</method>
+				<ruri>$addressbookpath1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>1</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CardDAV/vreports/sync/5.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>$calendar_sync_extra_items:</value>
+						<value>1.vcf</value>
+						<value>2.vcf</value>
+					</arg>
+				</verify>
+				<verify>
+					<callback>propfindItems</callback>
+					<arg>
+						<name>okprops</name>
+						<value>{DAV:}getcontenttype</value>
+						<value>{DAV:}getetag</value>
+					</arg>
+				</verify>
+			</request>
+		</test>
+		<test name='2'>
+			<description>new resource</description>
+			<request>
+				<method>PUT</method>
+				<ruri>$addressbookpath1:/3.vcf</ruri>
+				<data>
+					<content-type>text/vcard; charset=utf-8</content-type>
+					<filepath>Resource/CardDAV/vreports/put/3.vcf</filepath>
+				</data>
+				<verify>
+					<callback>statusCode</callback>
+				</verify>
+			</request>
+			<request>
+				<method>REPORT</method>
+				<ruri>$addressbookpath1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>1</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CardDAV/vreports/sync/5.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>$calendar_sync_extra_items:</value>
+						<value>1.vcf</value>
+						<value>2.vcf</value>
+						<value>3.vcf</value>
+					</arg>
+				</verify>
+				<verify>
+					<callback>propfindItems</callback>
+					<arg>
+						<name>okprops</name>
+						<value>{DAV:}getcontenttype</value>
+						<value>{DAV:}getetag</value>
+					</arg>
+				</verify>
+			</request>
+		</test>
+		<test name='3'>
+			<description>remove resource new resource</description>
+			<request>
+				<method>DELETE</method>
+				<ruri>$addressbookpath1:/3.vcf</ruri>
+				<verify>
+					<callback>statusCode</callback>
+				</verify>
+			</request>
+			<request>
+				<method>REPORT</method>
+				<ruri>$addressbookpath1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>1</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CardDAV/vreports/sync/5.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>$calendar_sync_extra_items:</value>
+						<value>1.vcf</value>
+						<value>2.vcf</value>
+					</arg>
+				</verify>
+				<verify>
+					<callback>propfindItems</callback>
+					<arg>
+						<name>okprops</name>
+						<value>{DAV:}getcontenttype</value>
+						<value>{DAV:}getetag</value>
+					</arg>
+				</verify>
+			</request>
+		</test>
+		<test name='4'>
+			<description>changed resource</description>
+			<request>
+				<method>PUT</method>
+				<ruri>$addressbookpath1:/1.vcf</ruri>
+				<data>
+					<content-type>text/vcard; charset=utf-8</content-type>
+					<filepath>Resource/CardDAV/vreports/put/1.vcf</filepath>
+				</data>
+				<verify>
+					<callback>statusCode</callback>
+				</verify>
+			</request>
+			<request>
+				<method>REPORT</method>
+				<ruri>$addressbookpath1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>1</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CardDAV/vreports/sync/5.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>$calendar_sync_extra_items:</value>
+						<value>1.vcf</value>
+						<value>2.vcf</value>
+					</arg>
+				</verify>
+				<verify>
+					<callback>propfindItems</callback>
+					<arg>
+						<name>okprops</name>
+						<value>{DAV:}getcontenttype</value>
+						<value>{DAV:}getetag</value>
+					</arg>
+				</verify>
+			</request>
+		</test>
+	</test-suite>
+
+	<test-suite name='simple reports - diff token - props'>
+		<test name='1'>
+			<description>initial query - grab token</description>
+			<request>
+				<method>REPORT</method>
+				<ruri>$addressbookpath1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>1</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CardDAV/vreports/sync/5.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>$calendar_sync_extra_items:</value>
+						<value>1.vcf</value>
+						<value>2.vcf</value>
+					</arg>
+				</verify>
+				<verify>
+					<callback>propfindItems</callback>
+					<arg>
+						<name>okprops</name>
+						<value>{DAV:}getcontenttype</value>
+						<value>{DAV:}getetag</value>
+					</arg>
+				</verify>
+				<grabelement>
+					<name>/{DAV:}multistatus/{DAV:}sync-token</name>
+					<variable>$synctoken1:</variable>
+				</grabelement>
+			</request>
+		</test>
+		<test name='2'>
+			<description>new resource</description>
+			<request>
+				<method>PUT</method>
+				<ruri>$addressbookpath1:/3.vcf</ruri>
+				<data>
+					<content-type>text/vcard; charset=utf-8</content-type>
+					<filepath>Resource/CardDAV/vreports/put/3.vcf</filepath>
+				</data>
+				<verify>
+					<callback>statusCode</callback>
+				</verify>
+			</request>
+			<request>
+				<method>REPORT</method>
+				<ruri>$addressbookpath1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>1</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CardDAV/vreports/sync/6.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>3.vcf</value>
+					</arg>
+				</verify>
+				<verify>
+					<callback>propfindItems</callback>
+					<arg>
+						<name>okprops</name>
+						<value>{DAV:}getcontenttype</value>
+						<value>{DAV:}getetag</value>
+					</arg>
+				</verify>
+				<grabelement>
+					<name>/{DAV:}multistatus/{DAV:}sync-token</name>
+					<variable>$synctoken2:</variable>
+				</grabelement>
+			</request>
+		</test>
+		<test name='3'>
+			<description>remove resource (treated as new)</description>
+			<request>
+				<method>DELETE</method>
+				<ruri>$addressbookpath1:/3.vcf</ruri>
+				<verify>
+					<callback>statusCode</callback>
+				</verify>
+			</request>
+			<request>
+				<method>REPORT</method>
+				<ruri>$addressbookpath1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>1</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CardDAV/vreports/sync/6.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>badhrefs</name>
+						<value>3.vcf</value>
+					</arg>
+				</verify>
+			</request>
+		</test>
+		<test name='4'>
+			<description>remove resource (treated as old)</description>
+			<request>
+				<method>REPORT</method>
+				<ruri>$addressbookpath1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>1</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CardDAV/vreports/sync/7.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>badhrefs</name>
+						<value>3.vcf</value>
+					</arg>
+				</verify>
+				<verify>
+					<callback>propfindItems</callback>
+				</verify>
+				<grabelement>
+					<name>/{DAV:}multistatus/{DAV:}sync-token</name>
+					<variable>$synctoken1:</variable>
+				</grabelement>
+			</request>
+		</test>
+		<test name='5'>
+			<description>changed resource</description>
+			<request>
+				<method>PUT</method>
+				<ruri>$addressbookpath1:/1.vcf</ruri>
+				<data>
+					<content-type>text/vcard; charset=utf-8</content-type>
+					<filepath>Resource/CardDAV/vreports/put/1.vcf</filepath>
+				</data>
+				<verify>
+					<callback>statusCode</callback>
+				</verify>
+			</request>
+			<request>
+				<method>REPORT</method>
+				<ruri>$addressbookpath1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>1</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CardDAV/vreports/sync/6.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>1.vcf</value>
+					</arg>
+				</verify>
+				<verify>
+					<callback>propfindItems</callback>
+					<arg>
+						<name>okprops</name>
+						<value>{DAV:}getcontenttype</value>
+						<value>{DAV:}getetag</value>
+					</arg>
+				</verify>
+				<grabelement>
+					<name>/{DAV:}multistatus/{DAV:}sync-token</name>
+					<variable>$synctoken1:</variable>
+				</grabelement>
+			</request>
+		</test>
+		<test name='6'>
+			<description>no change</description>
+			<request>
+				<method>REPORT</method>
+				<ruri>$addressbookpath1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>1</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CardDAV/vreports/sync/6.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+				</verify>
+				<verify>
+					<callback>propfindItems</callback>
+					<arg>
+						<name>okprops</name>
+						<value>{DAV:}getcontenttype</value>
+						<value>{DAV:}getetag</value>
+					</arg>
+				</verify>
+				<grabelement>
+					<name>/{DAV:}multistatus/{DAV:}sync-token</name>
+					<variable>$synctoken1:</variable>
+				</grabelement>
+			</request>
+		</test>
+	</test-suite>
+
+	<test-suite name='simple reports - diff token - no props - home depth:infinity'>
+		<require-feature>
+			<feature>sync-report-home</feature>
+		</require-feature>
+		<test name='1'>
+			<description>Initialize</description>
+			<request>
+				<method>DELETE</method>
+				<ruri>$addressbookpath1:/</ruri>
+			</request>
+			<request>
+				<method>PUT</method>
+				<ruri>$addressbookpath1:/1.vcf</ruri>
+				<data>
+					<content-type>text/vcard; charset=utf-8</content-type>
+					<filepath>Resource/CardDAV/vreports/put/1.vcf</filepath>
+				</data>
+			</request>
+			<request>
+				<method>PUT</method>
+				<ruri>$addressbookpath1:/2.vcf</ruri>
+				<data>
+					<content-type>text/vcard; charset=utf-8</content-type>
+					<filepath>Resource/CardDAV/vreports/put/2.vcf</filepath>
+				</data>
+			</request>
+		</test>
+		<test name='2'>
+			<description>initial query - grab token</description>
+			<request>
+				<method>REPORT</method>
+				<ruri>$addressbookhome1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>infinity</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CardDAV/vreports/sync/2.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>$calendar_sync_extra_items:</value>
+						<value>$addressbook:/</value>
+						<value>$addressbook:/1.vcf</value>
+						<value>$addressbook:/2.vcf</value>
+					</arg>
+				</verify>
+				<grabelement>
+					<name>/{DAV:}multistatus/{DAV:}sync-token</name>
+					<variable>$synctoken1:</variable>
+				</grabelement>
+			</request>
+		</test>
+		<test name='3'>
+			<description>new resource</description>
+			<request>
+				<method>PUT</method>
+				<ruri>$addressbookpath1:/3.vcf</ruri>
+				<data>
+					<content-type>text/vcard; charset=utf-8</content-type>
+					<filepath>Resource/CardDAV/vreports/put/3.vcf</filepath>
+				</data>
+				<verify>
+					<callback>statusCode</callback>
+				</verify>
+			</request>
+			<request>
+				<method>REPORT</method>
+				<ruri>$addressbookhome1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>infinity</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CardDAV/vreports/sync/3.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>$addressbook:/</value>
+						<value>$addressbook:/3.vcf</value>
+					</arg>
+				</verify>
+				<grabelement>
+					<name>/{DAV:}multistatus/{DAV:}sync-token</name>
+					<variable>$synctoken2:</variable>
+				</grabelement>
+			</request>
+		</test>
+		<test name='4'>
+			<description>remove resource (treated as new)</description>
+			<request>
+				<method>DELETE</method>
+				<ruri>$addressbookpath1:/3.vcf</ruri>
+				<verify>
+					<callback>statusCode</callback>
+				</verify>
+			</request>
+			<request>
+				<method>REPORT</method>
+				<ruri>$addressbookhome1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>infinity</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CardDAV/vreports/sync/3.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>$addressbook:/</value>
+					</arg>
+					<arg>
+						<name>badhrefs</name>
+						<value>$addressbook:/3.vcf</value>
+					</arg>
+				</verify>
+			</request>
+		</test>
+		<test name='5'>
+			<description>remove resource (treated as old)</description>
+			<request>
+				<method>REPORT</method>
+				<ruri>$addressbookhome1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>infinity</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CardDAV/vreports/sync/4.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>$addressbook:/</value>
+					</arg>
+					<arg>
+						<name>badhrefs</name>
+						<value>$addressbook:/3.vcf</value>
+					</arg>
+				</verify>
+				<grabelement>
+					<name>/{DAV:}multistatus/{DAV:}sync-token</name>
+					<variable>$synctoken1:</variable>
+				</grabelement>
+			</request>
+		</test>
+		<test name='6'>
+			<description>changed resource</description>
+			<request>
+				<method>PUT</method>
+				<ruri>$addressbookpath1:/1.vcf</ruri>
+				<data>
+					<content-type>text/vcard; charset=utf-8</content-type>
+					<filepath>Resource/CardDAV/vreports/put/1.vcf</filepath>
+				</data>
+				<verify>
+					<callback>statusCode</callback>
+				</verify>
+			</request>
+			<request>
+				<method>REPORT</method>
+				<ruri>$addressbookhome1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>infinity</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CardDAV/vreports/sync/3.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>$addressbook:/</value>
+						<value>$addressbook:/1.vcf</value>
+					</arg>
+				</verify>
+				<grabelement>
+					<name>/{DAV:}multistatus/{DAV:}sync-token</name>
+					<variable>$synctoken1:</variable>
+				</grabelement>
+			</request>
+		</test>
+		<test name='7'>
+			<description>no change</description>
+			<request>
+				<method>REPORT</method>
+				<ruri>$addressbookhome1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>infinity</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CardDAV/vreports/sync/3.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+				</verify>
+				<grabelement>
+					<name>/{DAV:}multistatus/{DAV:}sync-token</name>
+					<variable>$synctoken1:</variable>
+				</grabelement>
+			</request>
+		</test>
+	</test-suite>
+
+	<test-suite name='simple reports - diff token - props - home depth:infinity'>
+		<require-feature>
+			<feature>sync-report-home</feature>
+		</require-feature>
+		<test name='1'>
+			<description>initial query - grab token</description>
+			<request>
+				<method>REPORT</method>
+				<ruri>$addressbookhome1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>infinity</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CardDAV/vreports/sync/5.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>$calendar_sync_extra_items:</value>
+						<value>$addressbook:/</value>
+						<value>$addressbook:/1.vcf</value>
+						<value>$addressbook:/2.vcf</value>
+					</arg>
+				</verify>
+				<verify>
+					<callback>propfindItems</callback>
+					<arg>
+						<name>okprops</name>
+						<value>{DAV:}getcontenttype</value>
+						<value>{DAV:}getetag</value>
+					</arg>
+				</verify>
+				<grabelement>
+					<name>/{DAV:}multistatus/{DAV:}sync-token</name>
+					<variable>$synctoken1:</variable>
+				</grabelement>
+			</request>
+		</test>
+		<test name='2'>
+			<description>new resource</description>
+			<request>
+				<method>PUT</method>
+				<ruri>$addressbookpath1:/3.vcf</ruri>
+				<data>
+					<content-type>text/vcard; charset=utf-8</content-type>
+					<filepath>Resource/CardDAV/vreports/put/3.vcf</filepath>
+				</data>
+				<verify>
+					<callback>statusCode</callback>
+				</verify>
+			</request>
+			<request>
+				<method>REPORT</method>
+				<ruri>$addressbookhome1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>infinity</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CardDAV/vreports/sync/6.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>$addressbook:/</value>
+						<value>$addressbook:/3.vcf</value>
+					</arg>
+				</verify>
+				<verify>
+					<callback>propfindItems</callback>
+					<arg>
+						<name>okprops</name>
+						<value>{DAV:}getcontenttype</value>
+						<value>{DAV:}getetag</value>
+					</arg>
+				</verify>
+				<grabelement>
+					<name>/{DAV:}multistatus/{DAV:}sync-token</name>
+					<variable>$synctoken2:</variable>
+				</grabelement>
+			</request>
+		</test>
+		<test name='3'>
+			<description>remove resource (treated as new)</description>
+			<request>
+				<method>DELETE</method>
+				<ruri>$addressbookpath1:/3.vcf</ruri>
+				<verify>
+					<callback>statusCode</callback>
+				</verify>
+			</request>
+			<request>
+				<method>REPORT</method>
+				<ruri>$addressbookhome1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>infinity</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CardDAV/vreports/sync/6.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>$addressbook:/</value>
+					</arg>
+					<arg>
+						<name>badhrefs</name>
+						<value>$addressbook:/3.vcf</value>
+					</arg>
+				</verify>
+				<verify>
+					<callback>propfindItems</callback>
+					<arg>
+						<name>ignore</name>
+						<value>$addressbookpath1:/</value>
+					</arg>
+				</verify>
+				<verify>
+					<callback>propfindItems</callback>
+					<arg>
+						<name>ignore</name>
+						<value>$addressbookpath1:/3.vcf</value>
+					</arg>
+					<arg>
+						<name>okprops</name>
+						<value>{DAV:}getcontenttype</value>
+						<value>{DAV:}getetag</value>
+					</arg>
+				</verify>
+			</request>
+		</test>
+		<test name='4'>
+			<description>remove resource (treated as old)</description>
+			<request>
+				<method>REPORT</method>
+				<ruri>$addressbookhome1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>infinity</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CardDAV/vreports/sync/7.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>$addressbook:/</value>
+					</arg>
+					<arg>
+						<name>badhrefs</name>
+						<value>$addressbook:/3.vcf</value>
+					</arg>
+				</verify>
+				<verify>
+					<callback>propfindItems</callback>
+					<arg>
+						<name>count</name>
+						<value>2</value>
+					</arg>
+				</verify>
+				<grabelement>
+					<name>/{DAV:}multistatus/{DAV:}sync-token</name>
+					<variable>$synctoken1:</variable>
+				</grabelement>
+			</request>
+		</test>
+		<test name='5'>
+			<description>changed resource</description>
+			<request>
+				<method>PUT</method>
+				<ruri>$addressbookpath1:/1.vcf</ruri>
+				<data>
+					<content-type>text/vcard; charset=utf-8</content-type>
+					<filepath>Resource/CardDAV/vreports/put/1.vcf</filepath>
+				</data>
+				<verify>
+					<callback>statusCode</callback>
+				</verify>
+			</request>
+			<request>
+				<method>REPORT</method>
+				<ruri>$addressbookhome1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>infinity</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CardDAV/vreports/sync/6.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>$addressbook:/</value>
+						<value>$addressbook:/1.vcf</value>
+					</arg>
+				</verify>
+				<verify>
+					<callback>propfindItems</callback>
+					<arg>
+						<name>okprops</name>
+						<value>{DAV:}getcontenttype</value>
+						<value>{DAV:}getetag</value>
+					</arg>
+				</verify>
+				<grabelement>
+					<name>/{DAV:}multistatus/{DAV:}sync-token</name>
+					<variable>$synctoken1:</variable>
+				</grabelement>
+			</request>
+		</test>
+		<test name='6'>
+			<description>no change</description>
+			<request>
+				<method>REPORT</method>
+				<ruri>$addressbookhome1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>infinity</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CardDAV/vreports/sync/6.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+				</verify>
+				<verify>
+					<callback>propfindItems</callback>
+					<arg>
+						<name>okprops</name>
+						<value>{DAV:}getcontenttype</value>
+						<value>{DAV:}getetag</value>
+					</arg>
+				</verify>
+				<grabelement>
+					<name>/{DAV:}multistatus/{DAV:}sync-token</name>
+					<variable>$synctoken1:</variable>
+				</grabelement>
+			</request>
+		</test>
+	</test-suite>
+
+	<test-suite name='simple reports - diff token - delete/create addressbook - home depth:infinity' ignore='yes'>
+		<require-feature>
+			<feature>sync-report-home</feature>
+		</require-feature>
+		<test name='1'>
+			<description>initial query - grab token</description>
+			<request>
+				<method>REPORT</method>
+				<ruri>$addressbookhome1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>infinity</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CardDAV/vreports/sync/2.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>$addressbook:/</value>
+						<value>syncaddressbook3/</value>
+						<value>syncaddressbook3/1.vcf</value>
+						<value>syncaddressbook3/2.vcf</value>
+						<value>syncaddressbook4/</value>
+						<value>syncaddressbook4/1.vcf</value>
+						<value>syncaddressbook4/2.vcf</value>
+					</arg>
+				</verify>
+				<grabelement>
+					<name>/{DAV:}multistatus/{DAV:}sync-token</name>
+					<variable>$synctoken1:</variable>
+				</grabelement>
+			</request>
+		</test>
+		<test name='2'>
+			<description>remove resource then addressbook</description>
+			<request>
+				<method>DELETE</method>
+				<ruri>$addressbookhome1:/syncaddressbook3/1.vcf</ruri>
+				<verify>
+					<callback>statusCode</callback>
+				</verify>
+			</request>
+			<request>
+				<method>DELETE</method>
+				<ruri>$addressbookhome1:/syncaddressbook3/</ruri>
+				<verify>
+					<callback>statusCode</callback>
+				</verify>
+			</request>
+			<request>
+				<method>REPORT</method>
+				<ruri>$addressbookhome1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>infinity</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CardDAV/vreports/sync/3.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>badhrefs</name>
+						<value>syncaddressbook3/</value>
+					</arg>
+				</verify>
+				<grabelement>
+					<name>/{DAV:}multistatus/{DAV:}sync-token</name>
+					<variable>$synctoken2:</variable>
+				</grabelement>
+			</request>
+		</test>
+		<test name='3'>
+			<description>add addressbook - test last sync</description>
+			<request end-delete="yes">
+				<method>MKCOL</method>
+				<ruri>$addressbookhome1:/syncaddressbook3/</ruri>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/Common/MKCOL/addressbook.xml</filepath>
+				</data>
+			</request>
+			<request>
+				<method>REPORT</method>
+				<ruri>$addressbookhome1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>infinity</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CardDAV/vreports/sync/4.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>syncaddressbook3/</value>
+					</arg>
+				</verify>
+			</request>
+		</test>
+		<test name='4'>
+			<description>add addressbook - test previous sync</description>
+			<request>
+				<method>REPORT</method>
+				<ruri>$addressbookhome1:/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>infinity</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CardDAV/vreports/sync/3.xml</filepath>
+				</data>
+				<verify>
+					<callback>multistatusItems</callback>
+					<arg>
+						<name>okhrefs</name>
+						<value>syncaddressbook3/</value>
+					</arg>
+				</verify>
+				<grabelement>
+					<name>/{DAV:}multistatus/{DAV:}sync-token</name>
+					<variable>$synctoken1:</variable>
+				</grabelement>
+			</request>
+		</test>
+	</test-suite>
+-->
+
+	<end>
+		<request user="$useradmin:" pswd="$pswdadmin:">
+			<method>DELETEALL</method>
+			<ruri>$addressbookhome1:/</ruri>
+			<ruri>$addressbookhome2:/</ruri>
+			<ruri>$notificationpath1:/</ruri>
+			<ruri>$notificationpath2:/</ruri>
+		</request>
+	</end>
+
+</caldavtest>

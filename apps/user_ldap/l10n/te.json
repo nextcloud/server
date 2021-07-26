@@ -1,0 +1,8 @@
+{ "translations": {
+    "Users" : "వాడుకరులు",
+    "Help" : "సహాయం",
+    "Password" : "సంకేతపదం",
+    "Continue" : "కొనసాగించు",
+    "Advanced" : "ఉన్నతం"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

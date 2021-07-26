@@ -1,0 +1,23 @@
+{ "translations": {
+    "{version} is available. Get more information on how to update." : "{version} is beskikbaar. Kry meer inligting oor hoe om by te werk.",
+    "Update notifications" : "Werk kennisgewings by",
+    "Channel updated" : "Kanaal bygewerk",
+    "The update server could not be reached since %d days to check for new updates." : "Die bywerkingsbediener kan al vir %d dae nie bereik word om nuwe bywerkings te soek nie.",
+    "Please check the Nextcloud and server log files for errors." : "Gaan die Nextcloud- en bedienerloglêers na vir foute.",
+    "Update to %1$s is available." : "Bywerking vir %1$s is beskikbaar.",
+    "Update for %1$s to version %2$s is available." : "Bywerking vir %1$s na weergawe %2$s is beskikbaar.",
+    "Update for {app} to version %s is available." : "Bywerking vir {app} na weergawe %s is beskikbaar.",
+    "Open updater" : "Open bywerker",
+    "Your version is up to date." : "U weergawe is op datum.",
+    "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "U kan altyd na ’n nuwer weergawe / eksperimentele kanaal bywerk. U kan egter nooit na ’n stabieler kanaal afgradeer nie.",
+    "Notify members of the following groups about available updates:" : "Stel lede van die volgende groepe in kennis van beskikbare bywerkings:",
+    "Only notification for app updates are available." : "Slegs kennisgewing vir toepbywerking is beskikbaar.",
+    "The selected update channel does not support updates of the server." : "Die gekose bywerkkanaal ondersteun nie bedienerbywerkings nie.",
+    "Could not start updater, please try the manual update" : "Bywerker kon nie begin nie, probeer handmatig bywerk",
+    "A new version is available: %s" : "’n nuwe weergawe is beskikbaar: %s",
+    "Download now" : "Laai nou af",
+    "Checked on %s" : "Gekyk op %s",
+    "Update channel:" : "Werk kanaal by:",
+    "The selected update channel makes dedicated notifications for the server obsolete." : "Die gekose bywerkingskanaal maak toegewyde bedienerkennisgewings oorbodig."
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

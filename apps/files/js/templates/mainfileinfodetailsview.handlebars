@@ -1,0 +1,21 @@
+<div class="thumbnailContainer"><a href="#" class="thumbnail action-default"><div class="stretcher"/></a></div>
+<div class="file-details-container">
+	<div class="fileName">
+		<h3 title="{{name}}" class="ellipsis">{{name}}</h3>
+		<a class="permalink" href="{{permalink}}" title="{{permalinkTitle}}" data-clipboard-text="{{permalink}}">
+			<span class="icon icon-clippy"></span>
+			<span class="hidden-visually">{{permalinkTitle}}</span>
+		</a>
+	</div>
+	<div class="file-details ellipsis">
+		{{#if hasFavoriteAction}}
+			<a href="#" class="action action-favorite favorite permanent">
+				<span class="icon {{starClass}}" title="{{starAltText}}"></span>
+			</a>
+		{{/if}}
+		{{#if hasSize}}<span class="size" title="{{altSize}}">{{size}}</span>, {{/if}}<span class="date live-relative-timestamp" data-timestamp="{{timestamp}}" title="{{altDate}}">{{date}}</span>
+	</div>
+</div>
+<div class="hidden permalink-field">
+	<input type="text" value="{{permalink}}" placeholder="{{permalinkTitle}}" readonly="readonly"/>
+</div>

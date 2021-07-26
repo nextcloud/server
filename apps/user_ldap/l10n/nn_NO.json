@@ -1,0 +1,12 @@
+{ "translations": {
+    "Select groups" : "Vel grupper",
+    "Users" : "Brukarar",
+    "Groups" : "Grupper",
+    "Help" : "Hjelp",
+    "Host" : "Tenar",
+    "Password" : "Passord",
+    "Back" : "Tilbake",
+    "Continue" : "Gå vidare",
+    "Advanced" : "Avansert"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}
