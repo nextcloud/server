@@ -14,6 +14,7 @@ jobs:
       - name: Add reaction on start
         uses: peter-evans/create-or-update-comment@v1
         with:
+          token: ${{ secrets.COMMAND_BOT_PAT }}
           repository: ${{ github.event.repository.full_name }}
           comment-id: ${{ github.event.comment.id }}
           reaction-type: "+1"
@@ -42,17 +43,22 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
         with:
+          token: ${{ secrets.COMMAND_BOT_PAT }}
           fetch-depth: 0
           ref: ${{ steps.comment-branch.outputs.head_ref }}
       
       - name: Read package.json node and npm engines version
         uses: skjnldsv/read-package-engines-version-actions@v1
         id: package-engines-versions
+        with:
+          fallbackNode: '^12'
+          fallbackNpm: '^6'
 
       - name: Set up node ${{ steps.package-engines-versions.outputs.nodeVersion }}
         uses: actions/setup-node@v2
         with:
           node-version: ${{ steps.package-engines-versions.outputs.nodeVersion }}
+          cache: npm
 
       - name: Set up npm ${{ steps.package-engines-versions.outputs.npmVersion }}
         run: npm i -g npm@"${{ steps.package-engines-versions.outputs.npmVersion }}"
@@ -93,6 +99,7 @@ jobs:
         uses: peter-evans/create-or-update-comment@v1
         if: failure()
         with:
+          token: ${{ secrets.COMMAND_BOT_PAT }}
           repository: ${{ github.event.repository.full_name }}
           comment-id: ${{ github.event.comment.id }}
           reaction-type: "-1"
