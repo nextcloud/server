@@ -1,0 +1,105 @@
+name: Compile Command
+on:
+  issue_comment:
+    types: [created]
+
+jobs:
+  compile:
+    runs-on: ubuntu-latest
+
+    # On pull requests and if the comment starts with `/compile`
+    if: github.event.issue.pull_request != '' && startsWith(github.event.comment.body, '/compile')
+
+    steps:
+      - name: Add reaction on start
+        uses: peter-evans/create-or-update-comment@v1
+        with:
+          token: ${{ secrets.COMMAND_BOT_PAT }}
+          repository: ${{ github.event.repository.full_name }}
+          comment-id: ${{ github.event.comment.id }}
+          reaction-type: "+1"
+
+      - name: Init arguments
+        # Init arguments
+        run: |
+          command="${{ github.event.comment.body }}"
+          arguments=($command)
+          echo "arg1=${arguments[1]}" >> "$GITHUB_ENV"
+          echo "arg2=${arguments[2]}" >> "$GITHUB_ENV"
+
+      - name: Init path
+        # Init path depending on which command is run
+        run: |    
+          if ${{ startsWith(env.arg1, '/') }}; then
+            echo "git_path=${{ github.workspace }}${{env.arg1}}" >> "$GITHUB_ENV"
+          else
+            echo "git_path=${{ github.workspace }}${{env.arg2}}" >> "$GITHUB_ENV"
+          fi
+
+      - name: Init branch
+        uses: xt0rted/pull-request-comment-branch@v1
+        id: comment-branch
+
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.COMMAND_BOT_PAT }}
+          fetch-depth: 0
+          ref: ${{ steps.comment-branch.outputs.head_ref }}
+      
+      - name: Read package.json node and npm engines version
+        uses: skjnldsv/read-package-engines-version-actions@v1
+        id: package-engines-versions
+        with:
+          fallbackNode: '^12'
+          fallbackNpm: '^6'
+
+      - name: Set up node ${{ steps.package-engines-versions.outputs.nodeVersion }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ steps.package-engines-versions.outputs.nodeVersion }}
+          cache: npm
+
+      - name: Set up npm ${{ steps.package-engines-versions.outputs.npmVersion }}
+        run: npm i -g npm@"${{ steps.package-engines-versions.outputs.npmVersion }}"
+
+      - name: Install dependencies & build
+        run: |
+          npm ci
+          npm run build --if-present
+
+      - name: Setup git
+        run: |
+          git config --local user.email "npmbuildbot-nextcloud[bot]@users.noreply.github.com"
+          git config --local user.name "npmbuildbot-nextcloud[bot]"
+
+      - name: Commit and push default
+        # If the first argument starts with a /
+        if: ${{ startsWith(env.arg1, '/') }}
+        run: |
+          git add ${{ env.git_path }}
+          git commit --signoff -m 'Compile assets'
+          git push origin ${{ env.ref }}
+
+      - name: Commit and push fixup
+        if: ${{ env.arg1 == 'fixup' }}
+        run: |
+          git add ${{ env.git_path }}
+          git commit --fixup=HEAD --signoff
+          git push origin ${{ env.ref }}
+
+      - name: Commit and push amend
+        if: ${{ env.arg1 == 'amend' }}
+        run: |
+          git add ${{ env.git_path }}
+          git commit --amend --no-edit --signoff
+          git push --force origin ${{ env.ref }}
+
+      - name: Add reaction on failure
+        uses: peter-evans/create-or-update-comment@v1
+        if: failure()
+        with:
+          token: ${{ secrets.COMMAND_BOT_PAT }}
+          repository: ${{ github.event.repository.full_name }}
+          comment-id: ${{ github.event.comment.id }}
+          reaction-type: "-1"
