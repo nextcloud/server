@@ -48,7 +48,7 @@
 		"camelcase": "^6.2.0",
 		"debounce": "^1.2.1",
 		"nextcloud-server": "^0.15.10",
-		"path-parse": "^1.0.6",
+		"path-parse": "^1.0.7",
 		"vue": "^2.6.14",
 		"vue-async-computed": "^3.9.0",
 		"webdav": "^4.6.0"
