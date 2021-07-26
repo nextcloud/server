@@ -159,7 +159,7 @@ class ViewController extends Controller {
 	public function showFile(string $fileid = null): Response {
 		// This is the entry point from the `/f/{fileid}` URL which is hardcoded in the server.
 		try {
-			return $this->redirectToFile($fileid);
+			return $this->redirectToFile($fileid, true);
 		} catch (NotFoundException $e) {
 			return new RedirectResponse($this->urlGenerator->linkToRoute('files.view.index', ['fileNotFound' => true]));
 		}
@@ -332,10 +332,11 @@ class ViewController extends Controller {
 	 * Redirects to the file list and highlight the given file id
 	 *
 	 * @param string $fileId file id to show
+	 * @param bool $setOpenfile - wether or not to set the openfile URL parameter
 	 * @return RedirectResponse redirect response or not found response
 	 * @throws \OCP\Files\NotFoundException
 	 */
-	private function redirectToFile($fileId) {
+	private function redirectToFile($fileId, bool $setOpenfile = false) {
 		$uid = $this->userSession->getUser()->getUID();
 		$baseFolder = $this->rootFolder->getUserFolder($uid);
 		$files = $baseFolder->getById($fileId);
@@ -357,6 +358,11 @@ class ViewController extends Controller {
 				$params['dir'] = $baseFolder->getRelativePath($file->getParent()->getPath());
 				// and scroll to the entry
 				$params['scrollto'] = $file->getName();
+
+				if ($setOpenfile) {
+					// forward the openfile URL parameter.
+					$params['openfile'] = $fileId;
+				}
 			}
 
 			return new RedirectResponse($this->urlGenerator->linkToRoute('files.view.index', $params));
