@@ -79,7 +79,8 @@
 					:key="group.id"
 					:exact="true"
 					:title="group.title"
-					:to="{ name: 'group', params: { selectedGroup: encodeURIComponent(group.id) } }">
+					:to="{ name: 'group', params: { selectedGroup: encodeURIComponent(group.id) } }"
+					icon="icon-group">
 					<AppNavigationCounter v-if="group.count" slot="counter">
 						{{ group.count }}
 					</AppNavigationCounter>
