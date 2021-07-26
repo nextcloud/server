@@ -1506,7 +1506,7 @@
 				return;
 			}
 			this.fileMultiSelectMenu = new OCA.Files.FileMultiSelectMenu(this.multiSelectMenuItems.sort(function(a, b) {
-				return a.order > b.order
+				return a.order - b.order
 			}));
 			this.fileMultiSelectMenu.render();
 			this.$el.find('.selectedActions .filesSelectMenu').remove();
