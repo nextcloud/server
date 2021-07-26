@@ -1,0 +1,23 @@
+OC.L10N.register(
+    "twofactor_backupcodes",
+    {
+    "You created two-factor backup codes for your account" : "Μπορείτε να δημιουργήσετε τον παράγοντα διπλού ελέγχου ταυτότητας για το λογαριασμό σας ΤΟΤΡ",
+    "Second-factor backup codes" : "Εφεδρικοί κωδικοί δεύτερου-παράγοντα",
+    "Generate backup codes" : "Δημιουργία εφεδρικών κωδικών",
+    "You enabled two-factor authentication but did not generate backup codes yet. They are needed to restore access to your account in case you lose your second factor." : "Ενεργοποιήσατε τον έλεγχο ταυτότητας δύο παραγόντων, αλλά δεν δημιουργήθηκαν ακόμη εφεδρικοί κωδικοί. Απαιτούνται για να αποκαταστήσετε την πρόσβαση στο λογαριασμό σας σε περίπτωση που χάσετε τον δεύτερο παράγοντα.",
+    "Backup code" : "Εφεδρικός κωδικός",
+    "Use backup code" : "Χρησιμοποιήστε έναν εφεδρικό κωδικό",
+    "Two factor backup codes" : "Δύο συντελεστές δημιουργίας αντιγράφων",
+    "A two-factor auth backup codes provider" : "Παροχέας εφεδρικών κωδικών δύο-παραγόντων",
+    "Backup codes have been generated. {used} of {total} codes have been used." : "Δημιουργήθηκαν εφεδρικοί κωδικοί. Χρησιμοποιήθηκαν {used} από {total} κωδικοί.",
+    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Αυτοί είναι είναι οι εφεδρικοί σας κωδικοί. Παρακαλούμε αποθηκεύστε τους και/ή εκτυπώστε τους καθώς δεν θα είστε σε θέση να τους διαβάσετε ξανά αργότερα.",
+    "Save backup codes" : "Αποθήκευση εφεδρικών κωδικών",
+    "Print backup codes" : "Εκτύπωση εφεδρικών κωδικών",
+    "Regenerate backup codes" : "Δημιουργία εφεδρικών κωδικών",
+    "If you regenerate backup codes, you automatically invalidate old codes." : "Εάν αναδημιουργήσετε εφεδρικούς κωδικούς, οι παλιοί κωδικοί ακυρώνονται αυτόματα.",
+    "An error occurred while generating your backup codes" : "Ένα σφάλμα προέκυψε κατά τη δημιουργία των εφεδρικών κωδικών.",
+    "{name} backup codes" : "{name} εφεδρικοί κωδικοί",
+    "Use one of the backup codes you saved when setting up two-factor authentication." : "Χρησιμοποιήστε έναν από τους εφεδρικούς κωδικούς που αποθηκεύσατε όταν ρυθμίζετε τον έλεγχο ταυτότητας δύο παραγόντων.",
+    "Submit" : "Υποβολή"
+},
+"nplurals=2; plural=(n != 1);");

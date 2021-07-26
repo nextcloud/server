@@ -1,0 +1,124 @@
+default:
+  autoload:
+    '': "%paths.base%/../features/bootstrap"
+  suites:
+    default:
+      paths:
+        - "%paths.base%/../features"
+      contexts:
+        - FeatureContext:
+            baseUrl:  http://localhost:8080/ocs/
+            admin:
+              - admin
+              - admin
+            regular_user_password: 123456
+        - CommentsContext:
+            baseUrl: http://localhost:8080
+        - TagsContext:
+            baseUrl: http://localhost:8080
+        - CardDavContext:
+            baseUrl: http://localhost:8080
+        - CalDavContext:
+            baseUrl: http://localhost:8080
+        - ChecksumsContext:
+            baseUrl: http://localhost:8080
+        - CommandLineContext:
+            baseUrl: http://localhost:8080
+            ocPath: ../../
+    federation:
+      paths:
+        - "%paths.base%/../federation_features"
+      contexts:
+        - FederationContext:
+            baseUrl:  http://localhost:8080/ocs/
+            admin:
+              - admin
+              - admin
+            regular_user_password: 123456
+    capabilities:
+      paths:
+        - "%paths.base%/../capabilities_features"
+      contexts:
+        - CapabilitiesContext:
+            baseUrl:  http://localhost:8080/ocs/
+            admin:
+              - admin
+              - admin
+            regular_user_password: 123456
+    collaboration:
+      paths:
+        - "%paths.base%/../collaboration_features"
+      contexts:
+        - CollaborationContext:
+            baseUrl:  http://localhost:8080/ocs/
+            admin:
+              - admin
+              - admin
+            regular_user_password: 123456
+    sharees:
+      paths:
+        - "%paths.base%/../sharees_features"
+      contexts:
+        - ShareesContext:
+            baseUrl:  http://localhost:8080/ocs/
+            admin:
+              - admin
+              - admin
+            regular_user_password: 123456
+    sharing:
+      paths:
+        - "%paths.base%/../sharing_features"
+      contexts:
+        - SharingContext:
+            baseUrl:  http://localhost:8080/ocs/
+            admin:
+              - admin
+              - admin
+            regular_user_password: 123456
+        - TalkContext
+    setup:
+      paths:
+        - "%paths.base%/../setup_features"
+      contexts:
+        - SetupContext:
+            baseUrl:  http://localhost:8080/ocs/
+            admin:
+              - admin
+              - admin
+            regular_user_password: 123456
+    filesdrop:
+      paths:
+        - "%paths.base%/../filesdrop_features"
+      contexts:
+        - FilesDropContext:
+            baseUrl: http://localhost:8080
+            admin:
+              - admin
+              - admin
+            regular_user_password: 123456
+    ldap:
+      paths:
+        - "%paths.base%/../ldap_features"
+      contexts:
+        - LDAPContext:
+            baseUrl: http://localhost:8080
+            admin:
+              - admin
+              - admin
+            regular_user_password: 123456
+    remoteapi:
+      paths:
+        - "%paths.base%/../remoteapi_features"
+      contexts:
+        - FeatureContext:
+            baseUrl:  http://localhost:8080/ocs/
+            admin:
+              - admin
+              - admin
+            regular_user_password: 123456
+        - RemoteContext:
+            remote:  http://localhost:8080
+  extensions:
+      jarnaiz\JUnitFormatter\JUnitFormatterExtension:
+          filename: report.xml
+          outputDir: "%paths.base%/../output/"

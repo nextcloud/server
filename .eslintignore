@@ -1,0 +1,11 @@
+# Ignoring folders for eslint
+node_modules/
+3rdparty/
+**/vendor/
+**/l10n/
+**/js/*
+*.config.js
+tests/lib/
+
+# TODO: remove when comments files is not using handlebar templates anymore
+apps/comments/src/templates.js

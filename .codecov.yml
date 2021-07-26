@@ -1,0 +1,15 @@
+codecov:
+  branch: stable22
+  ci:
+    - drone.nextcloud.com
+    - !scrutinizer-ci.com
+
+coverage:
+  precision: 2
+  round: down
+  range: "70...100"
+  status:
+    project: off
+    patch: off
+
+comment: off

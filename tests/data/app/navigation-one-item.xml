@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
+	  xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
+	<id>activity</id>
+	<name>Activity</name>
+	<summary>This application enables users to view actions related to their files in Nextcloud.</summary>
+	<description>
+		This application enables users to view actions related to their files in Nextcloud.
+		Once enabled, users will see a new icon “Activity” in their apps menu.
+		When clicked, a new page appears for users to track the activity related to files – from new files, to deleted files, move, rename, updates and shared activity.
+		The user can configure their individual activity settings in their personal menu.
+		This sets the type of activity to record, as well as whether to the user sees their own activities,
+		whether these are only available online, and whether they get an email digest on a regular basis.
+		More information is available in the Activity documentation.
+	</description>
+
+	<version>2.9.0</version>
+	<licence>agpl</licence>
+	<author>Frank Karlitschek</author>
+	<author>Joas Schilling</author>
+
+	<default_enable/>
+	<types>
+		<filesystem/>
+	</types>
+
+	<documentation>
+		<admin>https://docs.nextcloud.org/server/14/admin_manual/configuration_server/activity_configuration.html</admin>
+	</documentation>
+
+	<category>monitoring</category>
+	<category>social</category>
+
+	<website>https://github.com/nextcloud/activity/</website>
+	<bugs>https://github.com/nextcloud/activity/issues</bugs>
+	<repository>https://github.com/nextcloud/activity.git</repository>
+
+	<dependencies>
+		<nextcloud min-version="16" max-version="16"/>
+	</dependencies>
+
+	<background-jobs>
+		<job>OCA\Activity\BackgroundJob\EmailNotification</job>
+		<job>OCA\Activity\BackgroundJob\ExpireActivities</job>
+	</background-jobs>
+
+	<commands>
+		<command>OCA\Activity\Command\SendEmails</command>
+	</commands>
+
+	<settings>
+		<admin>OCA\Activity\Settings\Admin</admin>
+		<admin-section>OCA\Activity\Settings\AdminSection</admin-section>
+		<personal>OCA\Activity\Settings\Personal</personal>
+		<personal-section>OCA\Activity\Settings\PersonalSection</personal-section>
+	</settings>
+
+	<activity>
+		<filters>
+			<filter>OCA\Activity\Filter\AllFilter</filter>
+			<filter>OCA\Activity\Filter\SelfFilter</filter>
+			<filter>OCA\Activity\Filter\ByFilter</filter>
+		</filters>
+	</activity>
+
+	<navigations>
+		<navigation>
+			<name>Activity</name>
+			<route>activity.Activities.showList</route>
+			<icon>activity.svg</icon>
+			<order>1</order>
+		</navigation>
+	</navigations>
+</info>

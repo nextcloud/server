@@ -1,0 +1,51 @@
+
+#app-sidebar {
+	position: fixed !important;
+}
+#app-content {
+	min-width: $navigation-width !important;
+	/**
+	 * set min height so the container will grow in IE11
+	 * https://stackoverflow.com/questions/28627879/flexbox-not-filling-height-in-ie11
+	 */
+	min-height: calc(100vh - 50px);
+}
+#app-sidebar.disappear {
+	right: -$sidebar-max-width !important;
+}
+
+/**
+ * flex align center doesn't apply to absolute on ie
+ * we need to manually set it
+ */
+#appmenu li {
+
+	span {
+		left: 0;
+		min-width: 100%;
+	}
+
+	&:hover a + span,
+	a:focus + span,
+	&:hover span,
+	&:focus span,
+	a:focus span {
+		width: 100%; // disable animation
+		padding: 0;
+	}
+}
+
+/* deactivate show password toggle for IE. Does not work for 8 and 9+ have their own implementation. */
+#show,
+#show + label {
+	display: none;
+	visibility: hidden;
+}
+
+#header .menu,
+.header-left #navigation,
+.ui-datepicker,
+.ui-timepicker.ui-widget,
+.tooltip-inner {
+	box-shadow: 0 1px 10px var(--color-box-shadow);
+}

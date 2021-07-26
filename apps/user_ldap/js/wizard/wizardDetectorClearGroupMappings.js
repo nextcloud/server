@@ -1,0 +1,30 @@
+
+/**
+ * Copyright (c) 2015, Arthur Schiwon <blizzz@owncloud.com>
+ * This file is licensed under the Affero General Public License version 3 or later.
+ * See the COPYING-README file.
+ */
+
+OCA = OCA || {};
+
+(function() {
+
+	/**
+	 * @classdesc requests clearing of user mappings
+	 *
+	 * @constructor
+	 */
+	var WizardDetectorClearGroupMappings = OCA.LDAP.Wizard.WizardDetectorTestAbstract.subClass({
+		/** @inheritdoc */
+		init: function() {
+			// given, it is not a configuration key
+			this.setTargetKey('ldap_action_clear_group_mappings');
+			this.testName = 'ClearMappings';
+			this.isLegacy = true;
+			this.legacyDestination = 'clearMappings.php';
+			this.runsOnRequest = true;
+		}
+	});
+
+	OCA.LDAP.Wizard.WizardDetectorClearGroupMappings = WizardDetectorClearGroupMappings;
+})();

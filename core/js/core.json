@@ -1,0 +1,10 @@
+{
+	"libraries": [
+	],
+	"modules": [
+		"public/publicpage.js",
+		"setupchecks.js",
+		"mimetype.js",
+		"mimetypelist.js"
+	]
+}

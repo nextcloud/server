@@ -1,0 +1,15 @@
+{ "translations": {
+    "Update notifications" : "Notificações de atualização",
+    "{version} is available. Get more information on how to update." : "{version} está disponível. Obtenha mais informação sobre como atualizar.",
+    "Updated channel" : "Canal atualizado",
+    "Update for %1$s to version %2$s is available." : "Está disponível a atualização para %1$s para a versão %2$s.",
+    "Updater" : "Atualizador",
+    "A new version is available: %s" : "Está disponível uma nova versão: %s",
+    "Open updater" : "Abrir atualizador",
+    "Your version is up to date." : "A sua versão está atualizada.",
+    "Checked on %s" : "Verificada em %s",
+    "Update channel:" : "Canal de atualização:",
+    "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Pode atualizar sempre para uma nova versão / canal experimental. Mas nunca poderá voltar para um canal mais estável.",
+    "Notify members of the following groups about available updates:" : "Notifique os membros dos seguintes grupos sobre as atualizações disponíveis:"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}
