@@ -221,7 +221,7 @@
 				}
 
 				var pendingRemoteShares = {
-					url: OC.linkToOCS('apps/files_sharing/api/v1/remote_shares', 2) + 'pending',
+					url: OC.linkToOCS('apps/files_sharing/api/v1/remote_shares/pending'),
 					/* jshint camelcase: false */
 					data: {
 						format: 'json'
