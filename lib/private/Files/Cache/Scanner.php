@@ -396,6 +396,8 @@ class Scanner extends BasicEmitter implements IScanner {
 			}
 		}
 		if ($this->cacheActive) {
+			// 4. The cached to be updated every time the folder is acceceed.
+			// But this is always called with -1, because ...
 			$this->cache->update($folderId, ['size' => $size]);
 		}
 		$this->emit('\OC\Files\Cache\Scanner', 'postScanFolder', [$path, $this->storageId]);

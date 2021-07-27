@@ -329,6 +329,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 	 * @return bool
 	 */
 	public function hasUpdated($path, $time) {
+		// 2. This being always true, and ...
 		return $this->filemtime($path) > $time;
 	}
 

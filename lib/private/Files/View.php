@@ -1344,6 +1344,7 @@ class View {
 				$scanner = $storage->getScanner($internalPath);
 				$scanner->scan($internalPath, Cache\Scanner::SCAN_SHALLOW);
 				$data = $cache->get($internalPath);
+				// 3. needsUpdate to be also be always true, and ...
 			} elseif (!Cache\Scanner::isPartialFile($internalPath) && $watcher->needsUpdate($internalPath, $data)) {
 				$this->lockFile($relativePath, ILockingProvider::LOCK_SHARED);
 				$watcher->update($internalPath, $data);
