@@ -150,8 +150,8 @@ class UserStoragesServiceTest extends StoragesServiceTest {
 	/**
 	 * @dataProvider deleteStorageDataProvider
 	 */
-	public function testDeleteStorage($backendOptions, $rustyStorageId) {
-		parent::testDeleteStorage($backendOptions, $rustyStorageId);
+	public function testDeleteStorage($backendOptions, $rustyStorageId, $expectedCountAfterDeletion) {
+		parent::testDeleteStorage($backendOptions, $rustyStorageId, $expectedCountAfterDeletion);
 
 		// hook called once for user (first one was during test creation)
 		$this->assertHookCall(
