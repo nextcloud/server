@@ -204,7 +204,7 @@ class UserGlobalStoragesServiceTest extends GlobalStoragesServiceTest {
 	/**
 	 * @dataProvider deleteStorageDataProvider
 	 */
-	public function testDeleteStorage($backendOptions, $rustyStorageId) {
+	public function testDeleteStorage($backendOptions, $rustyStorageId, $expectedCountAfterDeletion) {
 		$this->expectException(\DomainException::class);
 
 		$backend = $this->backendService->getBackend('identifier:\OCA\Files_External\Lib\Backend\SMB');
