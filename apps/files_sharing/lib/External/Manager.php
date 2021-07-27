@@ -675,38 +675,69 @@ class Manager {
 			$getShare = $this->connection->prepare('
 				SELECT `id`, `remote`, `share_type`, `share_token`, `remote_id`
 				FROM  `*PREFIX*share_external`
-				WHERE `user` = ?');
-			$result = $getShare->execute([$uid]);
+				WHERE `user` = ?
+				AND `share_type` = ?');
+			$result = $getShare->execute([$uid, IShare::TYPE_USER]);
 			$shares = $result->fetchAll();
 			$result->closeCursor();
-			$deletedGroupShares = [];
+
 			foreach ($shares as $share) {
-				if ((int)$share['share_type'] === IShare::TYPE_GROUP) {
-					$deletedGroupShares[] = $share['id'];
-				} else {
-					$this->sendFeedbackToRemote($share['remote'], $share['share_token'], $share['remote_id'], 'decline');
-				}
+				$this->sendFeedbackToRemote($share['remote'], $share['share_token'], $share['remote_id'], 'decline');
 			}
 
-			$query = $this->connection->prepare('
-				DELETE FROM `*PREFIX*share_external`
-				WHERE `user` = ?
-			');
-			$deleteResult = $query->execute([$uid]);
-			$deleteResult->closeCursor();
+			$qb = $this->connection->getQueryBuilder();
+			$qb->delete('share_external')
+				// user field can specify a user or a group
+				->where($qb->expr()->eq('user', $qb->createNamedParameter($uid)))
+				->andWhere(
+					$qb->expr()->orX(
+						// delete direct shares
+						$qb->expr()->eq('share_type', $qb->expr()->literal(IShare::TYPE_USER)),
+						// delete sub-shares of group shares for that user
+						$qb->expr()->andX(
+							$qb->expr()->eq('share_type', $qb->expr()->literal(IShare::TYPE_GROUP)),
+							$qb->expr()->neq('parent', $qb->expr()->literal(-1)),
+						)
+					)
+				);
+			$qb->execute();
+		} catch (\Doctrine\DBAL\Exception $ex) {
+			$this->logger->emergency('Could not delete user shares', ['exception' => $ex]);
+			return false;
+		}
 
-			// delete sub-entries from deleted parents
-			foreach ($deletedGroupShares as $deletedId) {
-				// TODO: batch this with query builder
-				$query = $this->connection->prepare('
-					DELETE FROM `*PREFIX*share_external`
-					WHERE `parent` = ?
-				');
-				$deleteResult = $query->execute([$deletedId]);
-				$deleteResult->closeCursor();
+		return true;
+	}
+
+	public function removeGroupShares($gid): bool {
+		try {
+			$getShare = $this->connection->prepare('
+				SELECT `id`, `remote`, `share_type`, `share_token`, `remote_id`
+				FROM  `*PREFIX*share_external`
+				WHERE `user` = ?
+				AND `share_type` = ?');
+			$result = $getShare->execute([$gid, IShare::TYPE_GROUP]);
+			$shares = $result->fetchAll();
+			$result->closeCursor();
+
+			$deletedGroupShares = [];
+			$qb = $this->connection->getQueryBuilder();
+			// delete group share entry and matching sub-entries
+			$qb->delete('share_external')
+			   ->where(
+				   $qb->expr()->orX(
+					   $qb->expr()->eq('id', $qb->createParameter('share_id')),
+					   $qb->expr()->eq('parent', $qb->createParameter('share_parent_id'))
+				   )
+			   );
+
+			foreach ($shares as $share) {
+				$qb->setParameter('share_id', $share['id']);
+				$qb->setParameter('share_parent_id', $share['id']);
+				$qb->execute();
 			}
 		} catch (\Doctrine\DBAL\Exception $ex) {
-			$this->logger->emergency('Could not get shares', ['exception' => $ex]);
+			$this->logger->emergency('Could not delete user shares', ['exception' => $ex]);
 			return false;
 		}
 

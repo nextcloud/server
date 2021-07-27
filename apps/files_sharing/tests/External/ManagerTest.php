@@ -82,6 +82,9 @@ class ManagerTest extends TestCase {
 	/** @var \PHPUnit\Framework\MockObject\MockObject|IUserManager */
 	private $userManager;
 
+	/** @var LoggerInterface */
+	private $logger;
+
 	private $uid;
 
 	/**
@@ -113,27 +116,10 @@ class ManagerTest extends TestCase {
 			->method('search')
 			->willReturn([]);
 
-		$logger = $this->createMock(LoggerInterface::class);
-		$logger->expects($this->never())->method('emergency');
+		$this->logger = $this->createMock(LoggerInterface::class);
+		$this->logger->expects($this->never())->method('emergency');
 
-		$this->manager = $this->getMockBuilder(Manager::class)
-			->setConstructorArgs(
-				[
-					\OC::$server->getDatabaseConnection(),
-					$this->mountManager,
-					new StorageFactory(),
-					$this->clientService,
-					\OC::$server->getNotificationManager(),
-					\OC::$server->query(\OCP\OCS\IDiscoveryService::class),
-					$this->cloudFederationProviderManager,
-					$this->cloudFederationFactory,
-					$this->groupManager,
-					$this->userManager,
-					$this->uid,
-					$this->eventDispatcher,
-					$logger,
-				]
-			)->setMethods(['tryOCMEndPoint'])->getMock();
+		$this->manager = $this->createManagerForUser($this->uid);
 
 		$this->testMountProvider = new MountProvider(\OC::$server->getDatabaseConnection(), function () {
 			return $this->manager;
@@ -163,6 +149,27 @@ class ManagerTest extends TestCase {
 		$result->closeCursor();
 
 		parent::tearDown();
+	}
+
+	private function createManagerForUser($userId) {
+		return $this->getMockBuilder(Manager::class)
+			->setConstructorArgs(
+				[
+					\OC::$server->getDatabaseConnection(),
+					$this->mountManager,
+					new StorageFactory(),
+					$this->clientService,
+					\OC::$server->getNotificationManager(),
+					\OC::$server->query(\OCP\OCS\IDiscoveryService::class),
+					$this->cloudFederationProviderManager,
+					$this->cloudFederationFactory,
+					$this->groupManager,
+					$this->userManager,
+					$userId,
+					$this->eventDispatcher,
+					$this->logger,
+				]
+			)->setMethods(['tryOCMEndPoint'])->getMock();
 	}
 
 	private function setupMounts() {
@@ -348,7 +355,7 @@ class ManagerTest extends TestCase {
 
 		if ($isGroup) {
 			// no http requests here
-			$this->manager->removeUserShares('group1');
+			$this->manager->removeGroupShares('group1');
 		} else {
 			$client1 = $this->getMockBuilder('OCP\Http\Client\IClient')
 				->disableOriginalConstructor()->getMock();
@@ -416,7 +423,24 @@ class ManagerTest extends TestCase {
 		$this->assertNotMount($tempMount);
 	}
 
-	private function createTestGroupShare() {
+	private function createTestUserShare($userId = 'user1') {
+		$shareData = [
+			'remote' => 'http://localhost',
+			'token' => 'token1',
+			'password' => '',
+			'name' => '/SharedFolder',
+			'owner' => 'foobar',
+			'shareType' => IShare::TYPE_USER,
+			'accepted' => false,
+			'user' => $userId,
+			'remoteId' => '2342'
+		];
+
+		$this->assertSame(null, call_user_func_array([$this->manager, 'addShare'], $shareData));
+
+		return $shareData;
+	}
+	private function createTestGroupShare($groupId = 'group1') {
 		$shareData = [
 			'remote' => 'http://localhost',
 			'token' => 'token1',
@@ -425,17 +449,20 @@ class ManagerTest extends TestCase {
 			'owner' => 'foobar',
 			'shareType' => IShare::TYPE_GROUP,
 			'accepted' => false,
-			'user' => 'group1',
+			'user' => $groupId,
 			'remoteId' => '2342'
 		];
 
 		$this->assertSame(null, call_user_func_array([$this->manager, 'addShare'], $shareData));
 
 		$allShares = self::invokePrivate($this->manager, 'getShares', [null]);
-		$this->assertCount(1, $allShares);
-
-		// this will hold the main group entry
-		$groupShare = $allShares[0];
+		foreach ($allShares as $share) {
+			if ($share['user'] === $groupId) {
+				// this will hold the main group entry
+				$groupShare = $share;
+				break;
+			}
+		}
 
 		return [$shareData, $groupShare];
 	}
@@ -461,8 +488,9 @@ class ManagerTest extends TestCase {
 
 		// this will return sub-entries
 		$openShares = $this->manager->getOpenShares();
+		$this->assertCount(1, $openShares);
 
-		// accept through sub-share
+		// accept through group share
 		$this->assertTrue($this->manager->acceptShare($groupShare['id']));
 		$this->verifyAcceptedGroupShare($shareData, '/SharedFolder');
 
@@ -482,6 +510,7 @@ class ManagerTest extends TestCase {
 
 		// this will return sub-entries
 		$openShares = $this->manager->getOpenShares();
+		$this->assertCount(1, $openShares);
 
 		// accept through sub-share
 		$this->assertTrue($this->manager->acceptShare($openShares[0]['id']));
@@ -581,6 +610,96 @@ class ManagerTest extends TestCase {
 		// accept a second time
 		$this->assertTrue($this->manager->acceptShare($openShares[0]['id']));
 		$this->verifyAcceptedGroupShare($shareData);
+	}
+
+	public function testDeleteUserShares() {
+		// user 1 shares
+
+		$shareData = $this->createTestUserShare($this->uid);
+
+		[$shareData, $groupShare] = $this->createTestGroupShare();
+
+		$shares = $this->manager->getOpenShares();
+		$this->assertCount(2, $shares);
+
+		$this->assertTrue($this->manager->acceptShare($groupShare['id']));
+
+		// user 2 shares
+		$manager2 = $this->createManagerForUser('user2');
+		$shareData2 = [
+			'remote' => 'http://localhost',
+			'token' => 'token1',
+			'password' => '',
+			'name' => '/SharedFolder',
+			'owner' => 'foobar',
+			'shareType' => IShare::TYPE_USER,
+			'accepted' => false,
+			'user' => 'user2',
+			'remoteId' => '2342'
+		];
+		$this->assertSame(null, call_user_func_array([$manager2, 'addShare'], $shareData2));
+
+		$user2Shares = $manager2->getOpenShares();
+		$this->assertCount(2, $user2Shares);
+
+		$this->manager->expects($this->at(0))->method('tryOCMEndPoint')->with('http://localhost', 'token1', '2342', 'decline')->willReturn([]);
+		$this->manager->removeUserShares($this->uid);
+
+		$user1Shares = $this->manager->getOpenShares();
+		// user share is gone, group is still there
+		$this->assertCount(1, $user1Shares);
+		$this->assertEquals($user1Shares[0]['share_type'], IShare::TYPE_GROUP);
+
+		// user 2 shares untouched
+		$user2Shares = $manager2->getOpenShares();
+		$this->assertCount(2, $user2Shares);
+		$this->assertEquals($user2Shares[0]['share_type'], IShare::TYPE_GROUP);
+		$this->assertEquals($user2Shares[0]['user'], 'group1');
+		$this->assertEquals($user2Shares[1]['share_type'], IShare::TYPE_USER);
+		$this->assertEquals($user2Shares[1]['user'], 'user2');
+	}
+
+	public function testDeleteGroupShares() {
+		$shareData = $this->createTestUserShare($this->uid);
+
+		[$shareData, $groupShare] = $this->createTestGroupShare();
+
+		$shares = $this->manager->getOpenShares();
+		$this->assertCount(2, $shares);
+
+		$this->assertTrue($this->manager->acceptShare($groupShare['id']));
+
+		// user 2 shares
+		$manager2 = $this->createManagerForUser('user2');
+		$shareData2 = [
+			'remote' => 'http://localhost',
+			'token' => 'token1',
+			'password' => '',
+			'name' => '/SharedFolder',
+			'owner' => 'foobar',
+			'shareType' => IShare::TYPE_USER,
+			'accepted' => false,
+			'user' => 'user2',
+			'remoteId' => '2342'
+		];
+		$this->assertSame(null, call_user_func_array([$manager2, 'addShare'], $shareData2));
+
+		$user2Shares = $manager2->getOpenShares();
+		$this->assertCount(2, $user2Shares);
+
+		$this->manager->expects($this->never())->method('tryOCMEndPoint');
+		$this->manager->removeGroupShares('group1');
+
+		$user1Shares = $this->manager->getOpenShares();
+		// user share is gone, group is still there
+		$this->assertCount(1, $user1Shares);
+		$this->assertEquals($user1Shares[0]['share_type'], IShare::TYPE_USER);
+
+		// user 2 shares untouched
+		$user2Shares = $manager2->getOpenShares();
+		$this->assertCount(1, $user2Shares);
+		$this->assertEquals($user2Shares[0]['share_type'], IShare::TYPE_USER);
+		$this->assertEquals($user2Shares[0]['user'], 'user2');
 	}
 
 	/**
