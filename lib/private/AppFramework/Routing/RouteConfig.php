@@ -58,6 +58,7 @@ class RouteConfig {
 		'core',
 		'files_sharing',
 		'files',
+		'riotchat',
 		'settings',
 		'spreed',
 	];
