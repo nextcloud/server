@@ -332,7 +332,7 @@ class ViewController extends Controller {
 	 * Redirects to the file list and highlight the given file id
 	 *
 	 * @param string $fileId file id to show
-	 * @param bool $setOpenfile - wether or not to set the openfile URL parameter
+	 * @param bool $setOpenfile - whether or not to set the openfile URL parameter
 	 * @return RedirectResponse redirect response or not found response
 	 * @throws \OCP\Files\NotFoundException
 	 */
