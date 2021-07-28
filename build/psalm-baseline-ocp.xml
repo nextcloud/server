@@ -53,6 +53,9 @@
       <code>\OC</code>
     </UndefinedClass>
   </file>
+  <file src="lib/public/AppFramework/Http/Template/PublicTemplateResponse.php">
+    <InvalidScalarArgument occurrences="1"/>
+  </file>
   <file src="lib/public/AppFramework/Http/ZipResponse.php">
     <InvalidArrayAccess occurrences="5">
       <code>$resource['internalName']</code>
@@ -74,6 +77,11 @@
     <MoreSpecificImplementedParamType occurrences="1">
       <code>$jobList</code>
     </MoreSpecificImplementedParamType>
+  </file>
+  <file src="lib/public/Contacts/IManager.php">
+    <UndefinedDocblockClass occurrences="1">
+      <code>IAddressBook[]</code>
+    </UndefinedDocblockClass>
   </file>
   <file src="lib/public/Dashboard/Model/WidgetTemplate.php">
     <InvalidNullableReturnType occurrences="1">

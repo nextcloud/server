@@ -112,6 +112,9 @@
     <InvalidScalarArgument occurrences="1">
       <code>$chunkSize</code>
     </InvalidScalarArgument>
+    <MissingFile occurrences="1">
+      <code>require '../../../../3rdparty/autoload.php'</code>
+    </MissingFile>
   </file>
   <file src="apps/dav/lib/AppInfo/Application.php">
     <UndefinedFunction occurrences="1">
@@ -279,13 +282,15 @@
       <code>$l10n-&gt;l('time', $dt, ['width' =&gt; 'short'])</code>
       <code>$l10n-&gt;l('weekdayName', $dt, ['width' =&gt; 'abbreviated'])</code>
     </FalsableReturnStatement>
-    <InvalidReturnStatement occurrences="4">
+    <InvalidReturnStatement occurrences="5">
       <code>$l10n-&gt;l('date', $dt, ['width' =&gt; 'medium'])</code>
       <code>$l10n-&gt;l('datetime', $dt, ['width' =&gt; 'medium|short'])</code>
       <code>$l10n-&gt;l('time', $dt, ['width' =&gt; 'short'])</code>
       <code>$l10n-&gt;l('weekdayName', $dt, ['width' =&gt; 'abbreviated'])</code>
+      <code>[$organizerEMail =&gt; $name]</code>
     </InvalidReturnStatement>
-    <InvalidReturnType occurrences="4">
+    <InvalidReturnType occurrences="5">
+      <code>array|null</code>
       <code>string</code>
       <code>string</code>
       <code>string</code>
@@ -357,6 +362,10 @@
     <InvalidNullableReturnType occurrences="1">
       <code>string</code>
     </InvalidNullableReturnType>
+    <InvalidScalarArgument occurrences="2">
+      <code>[$recipient =&gt; $recipientName]</code>
+      <code>[$sender =&gt; $senderName]</code>
+    </InvalidScalarArgument>
     <NullableReturnStatement occurrences="1">
       <code>$lang-&gt;getValue()</code>
     </NullableReturnStatement>
@@ -554,6 +563,11 @@
     <UndefinedFunction occurrences="1">
       <code>\Sabre\Uri\split($principal)</code>
     </UndefinedFunction>
+  </file>
+  <file src="apps/dav/lib/Connector/PublicAuth.php">
+    <InvalidScalarArgument occurrences="1">
+      <code>'DummyBasic realm="' . $this-&gt;realm . '"'</code>
+    </InvalidScalarArgument>
   </file>
   <file src="apps/dav/lib/Connector/Sabre/AnonymousOptionsPlugin.php">
     <InvalidNullableReturnType occurrences="1">
@@ -1104,7 +1118,7 @@
     <InvalidReturnType occurrences="1">
       <code>string</code>
     </InvalidReturnType>
-    <InvalidScalarArgument occurrences="5">
+    <InvalidScalarArgument occurrences="6">
       <code>$id</code>
       <code>$id</code>
       <code>$id</code>
@@ -1371,6 +1385,10 @@
     </ParamNameMismatch>
   </file>
   <file src="apps/files_external/lib/Lib/Storage/SFTPReadStream.php">
+    <FalsableReturnStatement occurrences="2">
+      <code>false</code>
+      <code>false</code>
+    </FalsableReturnStatement>
     <InvalidArgument occurrences="2">
       <code>$this-&gt;handle</code>
       <code>$this-&gt;handle</code>
@@ -1389,6 +1407,11 @@
     </InvalidReturnType>
   </file>
   <file src="apps/files_external/lib/Lib/Storage/SFTPWriteStream.php">
+    <FalsableReturnStatement occurrences="3">
+      <code>false</code>
+      <code>false</code>
+      <code>false</code>
+    </FalsableReturnStatement>
     <InvalidArgument occurrences="2">
       <code>$this-&gt;handle</code>
       <code>$this-&gt;handle</code>
@@ -1407,6 +1430,9 @@
     </InvalidReturnType>
   </file>
   <file src="apps/files_external/lib/Lib/Storage/SMB.php">
+    <FalsableReturnStatement occurrences="1">
+      <code>false</code>
+    </FalsableReturnStatement>
     <InvalidArgument occurrences="1">
       <code>$files</code>
     </InvalidArgument>
@@ -4129,6 +4155,11 @@
     </InvalidReturnType>
   </file>
   <file src="lib/private/Files/Stream/SeekableHttpStream.php">
+    <FalsableReturnStatement occurrences="3">
+      <code>false</code>
+      <code>false</code>
+      <code>false</code>
+    </FalsableReturnStatement>
     <InvalidPropertyAssignmentValue occurrences="2">
       <code>$this-&gt;current</code>
       <code>$this-&gt;current</code>
@@ -4420,6 +4451,11 @@
       <code>mixed</code>
       <code>mixed</code>
     </LessSpecificImplementedReturnType>
+  </file>
+  <file src="lib/private/Memcache/Factory.php">
+    <TypeDoesNotContainType occurrences="1">
+      <code>$lockingCacheClass &amp;&amp; class_exists($distributedCacheClass)</code>
+    </TypeDoesNotContainType>
   </file>
   <file src="lib/private/Memcache/Memcached.php">
     <RedundantCondition occurrences="1">
@@ -5235,6 +5271,9 @@
     <InvalidReturnType occurrences="1">
       <code>array</code>
     </InvalidReturnType>
+  </file>
+  <file src="lib/public/AppFramework/Http/Template/PublicTemplateResponse.php">
+    <InvalidScalarArgument occurrences="1"/>
   </file>
   <file src="lib/public/AppFramework/Http/ZipResponse.php">
     <InvalidArrayAccess occurrences="5">
