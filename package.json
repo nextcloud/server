@@ -120,7 +120,7 @@
     "sinon": "^9.0.3",
     "sinon-chai": "^3.5.0",
     "style-loader": "^1.2.1",
-    "url-loader": "^4.1.0",
+    "url-loader": "^4.1.1",
     "vue-loader": "^15.9.7",
     "vue-template-compiler": "^2.6.14",
     "webpack": "^4.44.2",
