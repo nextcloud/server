@@ -40,7 +40,6 @@ use OC\Files\Storage\Wrapper\Jail;
 use OC\Files\Storage\Storage;
 use OCA\Files_Sharing\SharedStorage;
 use OCP\DB\QueryBuilder\IQueryBuilder;
-use OCP\Files\Config\ICachedMountInfo;
 use OCP\Files\FileInfo;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\NotFoundException;
@@ -372,17 +371,28 @@ class Folder extends Node implements \OCP\Files\Folder {
 			$user = null;
 		}
 		$mountsContainingFile = $mountCache->getMountsForFileId((int)$id, $user);
+
+		// when a user has access trough the same storage trough multiple paths
+		// (such as an external storage that is both mounted for a user and shared to the user)
+		// the mount cache will only hold a single entry for the storage
+		// this can lead to issues as the different ways the user has access to a storage can have different permissions
+		//
+		// so instead of using the cached entries directly, we instead filter the current mounts by the rootid of the cache entry
+
+		$mountRootIds = array_map(function ($mount) {
+			return $mount->getRootId();
+		}, $mountsContainingFile);
+		$mountRootPaths = array_map(function ($mount) {
+			return $mount->getRootInternalPath();
+		}, $mountsContainingFile);
+		$mountRoots = array_combine($mountRootIds, $mountRootPaths);
+
 		$mounts = $this->root->getMountsIn($this->path);
 		$mounts[] = $this->root->getMount($this->path);
-		/** @var IMountPoint[] $folderMounts */
-		$folderMounts = array_combine(array_map(function (IMountPoint $mountPoint) {
-			return $mountPoint->getMountPoint();
-		}, $mounts), $mounts);
 
-		/** @var ICachedMountInfo[] $mountsContainingFile */
-		$mountsContainingFile = array_values(array_filter($mountsContainingFile, function (ICachedMountInfo $cachedMountInfo) use ($folderMounts) {
-			return isset($folderMounts[$cachedMountInfo->getMountPoint()]);
-		}));
+		$mountsContainingFile = array_filter($mounts, function ($mount) use ($mountRoots) {
+			return isset($mountRoots[$mount->getStorageRootId()]);
+		});
 
 		if (count($mountsContainingFile) === 0) {
 			if ($user === $this->getAppDataDirectoryName()) {
@@ -391,18 +401,18 @@ class Folder extends Node implements \OCP\Files\Folder {
 			return [];
 		}
 
-		$nodes = array_map(function (ICachedMountInfo $cachedMountInfo) use ($folderMounts, $id) {
-			$mount = $folderMounts[$cachedMountInfo->getMountPoint()];
+		$nodes = array_map(function (IMountPoint $mount) use ($id, $mountRoots) {
+			$rootInternalPath = $mountRoots[$mount->getStorageRootId()];
 			$cacheEntry = $mount->getStorage()->getCache()->get((int)$id);
 			if (!$cacheEntry) {
 				return null;
 			}
 
 			// cache jails will hide the "true" internal path
-			$internalPath = ltrim($cachedMountInfo->getRootInternalPath() . '/' . $cacheEntry->getPath(), '/');
-			$pathRelativeToMount = substr($internalPath, strlen($cachedMountInfo->getRootInternalPath()));
+			$internalPath = ltrim($rootInternalPath . '/' . $cacheEntry->getPath(), '/');
+			$pathRelativeToMount = substr($internalPath, strlen($rootInternalPath));
 			$pathRelativeToMount = ltrim($pathRelativeToMount, '/');
-			$absolutePath = rtrim($cachedMountInfo->getMountPoint() . $pathRelativeToMount, '/');
+			$absolutePath = rtrim($mount->getMountPoint() . $pathRelativeToMount, '/');
 			return $this->root->createNode($absolutePath, new \OC\Files\FileInfo(
 				$absolutePath, $mount->getStorage(), $cacheEntry->getPath(), $cacheEntry, $mount,
 				\OC::$server->getUserManager()->get($mount->getStorage()->getOwner($pathRelativeToMount))
@@ -411,9 +421,13 @@ class Folder extends Node implements \OCP\Files\Folder {
 
 		$nodes = array_filter($nodes);
 
-		return array_filter($nodes, function (Node $node) {
+		$folders = array_filter($nodes, function (Node $node) {
 			return $this->getRelativePath($node->getPath());
 		});
+		usort($folders, function ($a, $b) {
+			return $b->getPath() <=> $a->getPath();
+		});
+		return $folders;
 	}
 
 	protected function getAppDataDirectoryName(): string {
