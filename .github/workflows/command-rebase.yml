@@ -29,6 +29,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
+          token: ${{ secrets.COMMAND_BOT_PAT }}
       
       - name: Automatic Rebase
         uses: cirrus-actions/rebase@1.5
