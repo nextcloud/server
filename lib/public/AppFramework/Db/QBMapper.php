@@ -31,6 +31,7 @@ declare(strict_types=1);
 namespace OCP\AppFramework\Db;
 
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 
