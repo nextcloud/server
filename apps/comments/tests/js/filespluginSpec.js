@@ -76,7 +76,7 @@ describe('OCA.Comments.FilesPlugin tests', function() {
 			expect(sidebarTabStub.calledOnce).toEqual(true);
 			expect(sidebarTabStub.lastCall.args[0]).toEqual('comments');
 			expect(sidebarStub.calledOnce).toEqual(true);
-			expect(sidebarStub.lastCall.args[0]).toEqual('/One.txt');
+			expect(sidebarStub.lastCall.args[0]).toEqual('/subdir/One.txt');
 		});
 	});
 	describe('elementToFile', function() {
