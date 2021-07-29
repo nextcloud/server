@@ -409,4 +409,4 @@ o.default.use(A.a);var _={setEnforced:function(t,e){o.default.set(t,"enforced",e
  *
  */
 r.nc=btoa(OC.requestToken),o.default.prototype.t=t,window.OC=window.OC||{},window.OC.Settings=window.OC.Settings||{},x.replaceState(Object(i.loadState)("settings","mandatory2FAState")),new(o.default.extend(b))({store:x}).$mount("#two-factor-auth-settings")}]);
-//# sourceMappingURL=vue-settings-admin-security.js.map?v=b6f1d0d4e7c5727f5767
+//# sourceMappingURL=vue-settings-admin-security.js.map?v=3ecfd2794a3602007e9a

@@ -267,4 +267,4 @@ var a=((r=n(69))&&r.__esModule?r:{default:r}).default;t.default=a}])},,,function
  *
  */
 r.nc=btoa(OC.requestToken),o.default.prototype.t=t,o.default.prototype.logger=i.a;var ve=o.default.extend(he);n.default=new ve({el:"#vue-emailsection"})}]);
-//# sourceMappingURL=vue-settings-personal-info.js.map?v=93b6a4ac64dd047ed4a0
+//# sourceMappingURL=vue-settings-personal-info.js.map?v=711d5eb86c28b22a308e

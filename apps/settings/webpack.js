@@ -51,7 +51,7 @@ module.exports = {
 		path: path.resolve(__dirname, './js'),
 		publicPath: '/js/',
 		filename: 'vue-[name].js?v=[contenthash]',
-		chunkFilename: 'vue-[name]-[chunkhash].js?v=[contenthash]',
+		chunkFilename: 'vue-[name].js?v=[contenthash]',
 		jsonpFunction: 'webpackJsonpSettings',
 	},
 	optimization: {

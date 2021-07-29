@@ -246,4 +246,4 @@ var o=((r=n(69))&&r.__esModule?r:{default:r}).default;e.default=o}])},,function(
  *
  */
 r.nc=btoa(OC.requestToken),o.default.prototype.t=t,new(o.default.extend(W))({propsData:{initialDevices:Object(i.loadState)("settings","webauthn-devices"),isHttps:"https:"===window.location.protocol,isLocalhost:"localhost"===window.location.hostname,hasPublicKeyCredential:void 0!==window.PublicKeyCredential}}).$mount("#security-webauthn")}]);
-//# sourceMappingURL=vue-settings-personal-webauthn.js.map?v=5dccd6d52ee3bdcc5c81
+//# sourceMappingURL=vue-settings-personal-webauthn.js.map?v=ae0b558ff4b521b60aaa
