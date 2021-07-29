@@ -24,6 +24,7 @@
 namespace OCA\Files_Sharing\Activity\Providers;
 
 use OCP\Activity\IEvent;
+use OCP\Activity\IEventMerger;
 use OCP\Activity\IManager;
 use OCP\Activity\IProvider;
 use OCP\Contacts\IManager as IContactsManager;
@@ -51,6 +52,9 @@ abstract class Base implements IProvider {
 	/** @var IUserManager */
 	protected $userManager;
 
+	/** @var IEventMerger */
+	protected $eventMerger;
+
 	/** @var IContactsManager */
 	protected $contactsManager;
 
@@ -65,13 +69,15 @@ abstract class Base implements IProvider {
 								IManager $activityManager,
 								IUserManager $userManager,
 								ICloudIdManager $cloudIdManager,
-								IContactsManager $contactsManager) {
+								IContactsManager $contactsManager,
+								IEventMerger $eventMerger) {
 		$this->languageFactory = $languageFactory;
 		$this->url = $url;
 		$this->activityManager = $activityManager;
 		$this->userManager = $userManager;
 		$this->cloudIdManager = $cloudIdManager;
 		$this->contactsManager = $contactsManager;
+		$this->eventMerger = $eventMerger;
 	}
 
 	/**
@@ -97,7 +103,7 @@ abstract class Base implements IProvider {
 			}
 		}
 
-		return $this->parseLongVersion($event);
+		return $this->parseLongVersion($event, $previousEvent);
 	}
 
 	/**
@@ -110,11 +116,12 @@ abstract class Base implements IProvider {
 
 	/**
 	 * @param IEvent $event
+	 * @param IEvent|null $previousEvent
 	 * @return IEvent
 	 * @throws \InvalidArgumentException
 	 * @since 11.0.0
 	 */
-	abstract protected function parseLongVersion(IEvent $event);
+	abstract protected function parseLongVersion(IEvent $event, IEvent $previousEvent = null);
 
 	/**
 	 * @param IEvent $event
