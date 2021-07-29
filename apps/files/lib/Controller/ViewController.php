@@ -214,17 +214,17 @@ class ViewController extends Controller {
 
 		$navBarPositionPosition = 6;
 		$currentCount = 0;
-		foreach ($favElements['folders'] as $dir) {
-			$link = $this->urlGenerator->linkToRoute('files.view.index', ['dir' => $dir, 'view' => 'files']);
+		foreach ($favElements['folders'] as $favElement) {
+			$link = $this->urlGenerator->linkToRoute('files.view.index', ['dir' => $favElement, 'view' => 'files']);
 			$sortingValue = ++$currentCount;
 			$element = [
-				'id' => str_replace('/', '-', $dir),
+				'id' => str_replace('/', '-', $favElement),
 				'view' => 'files',
 				'href' => $link,
-				'dir' => $dir,
+				'dir' => $favElement,
 				'order' => $navBarPositionPosition,
 				'folderPosition' => $sortingValue,
-				'name' => basename($dir),
+				'name' => basename($favElement),
 				'icon' => 'files',
 				'quickaccesselement' => 'true'
 			];
