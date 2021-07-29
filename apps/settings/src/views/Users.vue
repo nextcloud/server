@@ -274,7 +274,9 @@ export default {
 			// convert the preset array into objects
 			const quotaPreset = this.settings.quotaPreset.reduce((acc, cur) => acc.concat({ id: cur, label: cur }), [])
 			// add default presets
-			quotaPreset.unshift(this.unlimitedQuota)
+			if (this.settings.allowUnlimitedQuota) {
+				quotaPreset.unshift(this.unlimitedQuota)
+			}
 			return quotaPreset
 		},
 		// mapping saved values to objects
