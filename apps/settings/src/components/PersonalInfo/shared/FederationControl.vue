@@ -21,15 +21,15 @@
 
 <template>
 	<Actions
-		class="actions-federation"
-		:aria-label="t('settings', 'Change privacy level of email')"
+		:class="{ 'federation-actions': !additional, 'federation-actions--additional': additional }"
+		:aria-label="ariaLabel"
 		:default-icon="scopeIcon"
 		:disabled="disabled">
 		<ActionButton v-for="federationScope in federationScopes"
 			:key="federationScope.name"
-			class="forced-action"
-			:class="{ 'forced-active': scope === federationScope.name }"
 			:aria-label="federationScope.tooltip"
+			class="federation-actions__btn"
+			:class="{ 'federation-actions__btn--active': scope === federationScope.name }"
 			:close-after-click="true"
 			:icon="federationScope.iconClass"
 			:title="federationScope.displayName"
@@ -45,13 +45,9 @@ import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
 import { loadState } from '@nextcloud/initial-state'
 import { showError } from '@nextcloud/dialogs'
 
-import { SCOPE_ENUM, SCOPE_PROPERTY_ENUM } from '../../../constants/AccountPropertyConstants'
-import { savePrimaryEmailScope, saveAdditionalEmailScope } from '../../../service/PersonalInfoService'
+import { ACCOUNT_PROPERTY_READABLE_ENUM, PROPERTY_READABLE_SUPPORTED_SCOPES_ENUM, SCOPE_ENUM, SCOPE_PROPERTY_ENUM } from '../../../constants/AccountPropertyConstants'
 
 const { lookupServerUploadEnabled } = loadState('settings', 'accountParameters', {})
-
-// TODO hardcoded for email, should abstract this for other sections
-const excludedScopes = [SCOPE_ENUM.PRIVATE]
 
 export default {
 	name: 'FederationControl',
@@ -62,49 +58,63 @@ export default {
 	},
 
 	props: {
-		primary: {
+		accountProperty: {
+			type: String,
+			required: true,
+			validator: (value) => Object.values(ACCOUNT_PROPERTY_READABLE_ENUM).includes(value),
+		},
+		additional: {
 			type: Boolean,
 			default: false,
 		},
-		email: {
+		additionalValue: {
 			type: String,
 			default: '',
-		},
-		scope: {
-			type: String,
-			required: true,
 		},
 		disabled: {
 			type: Boolean,
 			default: false,
 		},
+		handleScopeChange: {
+			type: Function,
+			required: true,
+		},
+		scope: {
+			type: String,
+			required: true,
+		},
 	},
 
 	data() {
 		return {
+			accountPropertyLowerCase: this.accountProperty.toLowerCase(),
 			initialScope: this.scope,
 		}
 	},
 
 	computed: {
-		federationScopes() {
-			return Object.values(SCOPE_PROPERTY_ENUM).filter(({ name }) => !this.unsupportedScopes.includes(name))
+		ariaLabel() {
+			return t('settings', 'Change privacy level of {accountProperty}', { accountProperty: this.accountPropertyLowerCase })
 		},
 
-		unsupportedScopes() {
-			if (!lookupServerUploadEnabled) {
+		federationScopes() {
+			return Object.values(SCOPE_PROPERTY_ENUM).filter(({ name }) => this.supportedScopes.includes(name))
+		},
+
+		scopeIcon() {
+			return SCOPE_PROPERTY_ENUM[this.scope].iconClass
+		},
+
+		supportedScopes() {
+			if (lookupServerUploadEnabled) {
 				return [
-					...excludedScopes,
+					...PROPERTY_READABLE_SUPPORTED_SCOPES_ENUM[this.accountProperty],
 					SCOPE_ENUM.FEDERATED,
 					SCOPE_ENUM.PUBLISHED,
 				]
 			}
 
-			return excludedScopes
-		},
-
-		scopeIcon() {
-			return SCOPE_PROPERTY_ENUM[this.scope].iconClass
+			return PROPERTY_READABLE_SUPPORTED_SCOPES_ENUM[this.accountProperty]
 		},
 	},
 
@@ -113,29 +123,45 @@ export default {
 			this.$emit('update:scope', scope)
 
 			this.$nextTick(async() => {
-				if (this.primary) {
-					await this.updatePrimaryEmailScope()
+				if (!this.additional) {
+					await this.updatePrimaryScope()
 				} else {
-					await this.updateAdditionalEmailScope()
+					await this.updateAdditionalScope()
 				}
 			})
 		},
 
-		async updatePrimaryEmailScope() {
+		async updatePrimaryScope() {
 			try {
-				const responseData = await savePrimaryEmailScope(this.scope)
+				const responseData = await this.handleScopeChange(this.scope)
 				this.handleResponse(responseData.ocs?.meta?.status)
 			} catch (e) {
-				this.handleResponse('error', 'Unable to update federation scope of the primary email', e)
+				this.handleResponse(
+					'error',
+					t(
+						'settings',
+						'Unable to update federation scope of the primary {accountProperty}',
+						{ accountProperty: this.accountPropertyLowerCase }
+					),
+					e,
+				)
 			}
 		},
 
-		async updateAdditionalEmailScope() {
+		async updateAdditionalScope() {
 			try {
-				const responseData = await saveAdditionalEmailScope(this.email, this.scope)
+				const responseData = await this.handleScopeChange(this.additionalValue, this.scope)
 				this.handleResponse(responseData.ocs?.meta?.status)
 			} catch (e) {
-				this.handleResponse('error', 'Unable to update federation scope of additional email', e)
+				this.handleResponse(
+					'error',
+					t(
+						'settings',
+						'Unable to update federation scope of additional {accountProperty}',
+						{ accountProperty: this.accountPropertyLowerCase }
+					),
+					e,
+				)
 			}
 		},
 
@@ -144,7 +170,7 @@ export default {
 				this.initialScope = this.scope
 			} else {
 				this.$emit('update:scope', this.initialScope)
-				showError(t('settings', errorMessage))
+				showError(errorMessage)
 				this.logger.error(errorMessage, error)
 			}
 		},
@@ -153,7 +179,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-	.actions-federation {
+	.federation-actions,
+	.federation-actions--additional {
 		opacity: 0.4 !important;
 
 		&:hover {
@@ -161,12 +188,18 @@ export default {
 		}
 	}
 
-	.forced-active {
-		background-color: var(--color-primary-light) !important;
-		box-shadow: inset 2px 0 var(--color-primary) !important;
+	.federation-actions--additional {
+		&::v-deep button {
+			// TODO remove this hack
+			padding-bottom: 7px;
+			height: 30px !important;
+			min-height: 30px !important;
+			width: 30px !important;
+			min-width: 30px !important;
+		}
 	}
 
-	.forced-action {
+	.federation-actions__btn {
 		&::v-deep p {
 			width: 150px !important;
 			padding: 8px 0 !important;
@@ -174,5 +207,10 @@ export default {
 			font-size: 12.8px !important;
 			line-height: 1.5em !important;
 		}
+	}
+
+	.federation-actions__btn--active {
+		background-color: var(--color-primary-light) !important;
+		box-shadow: inset 2px 0 var(--color-primary) !important;
 	}
 </style>

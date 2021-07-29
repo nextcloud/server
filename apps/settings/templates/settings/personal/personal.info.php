@@ -100,32 +100,7 @@ script('settings', [
 
 	<div class="personal-settings-container">
 		<div class="personal-settings-setting-box">
-			<form id="displaynameform" class="section">
-				<h3>
-					<label for="displayname"><?php p($l->t('Full name')); ?></label>
-					<a href="#" class="federation-menu" aria-label="<?php p($l->t('Change privacy level of full name')); ?>">
-						<span class="icon-federation-menu icon-password">
-							<span class="icon-triangle-s"></span>
-						</span>
-					</a>
-				</h3>
-				<input type="text" id="displayname" name="displayname"
-					<?php if (!$_['displayNameChangeSupported']) {
-									print_unescaped('class="hidden"');
-								} ?>
-					   value="<?php p($_['displayName']) ?>"
-					   autocomplete="on" autocapitalize="none" autocorrect="off" />
-				<?php if (!$_['displayNameChangeSupported']) { ?>
-					<span><?php if (isset($_['displayName']) && !empty($_['displayName'])) {
-									p($_['displayName']);
-								} else {
-									p($l->t('No display name set'));
-								} ?></span>
-				<?php } ?>
-				<span class="icon-checkmark hidden"></span>
-				<span class="icon-error hidden" ></span>
-				<input type="hidden" id="displaynamescope" value="<?php p($_['displayNameScope']) ?>">
-			</form>
+			<div id="vue-displaynamesection" class="section"></div>
 		</div>
 		<div class="personal-settings-setting-box">
 			<div id="vue-emailsection" class="section"></div>

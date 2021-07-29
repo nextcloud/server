@@ -1,0 +1,167 @@
+<!--
+	- @copyright 2021, Christopher Ng <chrng8@gmail.com>
+	-
+	- @author Christopher Ng <chrng8@gmail.com>
+	-
+	- @license GNU AGPL version 3 or any later version
+	-
+	- This program is free software: you can redistribute it and/or modify
+	- it under the terms of the GNU Affero General Public License as
+	- published by the Free Software Foundation, either version 3 of the
+	- License, or (at your option) any later version.
+	-
+	- This program is distributed in the hope that it will be useful,
+	- but WITHOUT ANY WARRANTY; without even the implied warranty of
+	- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	- GNU Affero General Public License for more details.
+	-
+	- You should have received a copy of the GNU Affero General Public License
+	- along with this program. If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<template>
+	<div class="displayname">
+		<input
+			id="displayname"
+			ref="displayName"
+			type="text"
+			name="displayname"
+			:placeholder="t('settings', 'Your full name')"
+			:value="displayName"
+			autocapitalize="none"
+			autocomplete="on"
+			autocorrect="off"
+			required="true"
+			@input="onDisplayNameChange">
+
+		<div class="displayname__actions-container">
+			<transition name="fade">
+				<span v-if="showCheckmarkIcon" class="icon-checkmark" />
+				<span v-else-if="showErrorIcon" class="icon-error" />
+			</transition>
+		</div>
+	</div>
+</template>
+
+<script>
+import { showError } from '@nextcloud/dialogs'
+import debounce from 'debounce'
+
+import { savePrimaryDisplayName } from '../../../service/PersonalInfo/DisplayNameService'
+
+// TODO Global avatar updating on events (e.g. updating the displayname) is currently being handled by global js, investigate using https://github.com/nextcloud/nextcloud-event-bus for global avatar updating
+
+export default {
+	name: 'DisplayName',
+
+	props: {
+		displayName: {
+			type: String,
+			required: true,
+		},
+		scope: {
+			type: String,
+			required: true,
+		},
+	},
+
+	data() {
+		return {
+			initialDisplayName: this.displayName,
+			localScope: this.scope,
+			showCheckmarkIcon: false,
+			showErrorIcon: false,
+		}
+	},
+
+	methods: {
+		onDisplayNameChange(e) {
+			this.$emit('update:display-name', e.target.value.trim())
+			// $nextTick() ensures that references to this.dipslayName further down the chain give the correct non-outdated value
+			this.$nextTick(() => this.debounceDisplayNameChange())
+		},
+
+		debounceDisplayNameChange: debounce(async function() {
+			if (this.$refs.displayName?.checkValidity() && this.isValid()) {
+				await this.updatePrimaryDisplayName()
+			}
+		}, 500),
+
+		async updatePrimaryDisplayName() {
+			try {
+				const responseData = await savePrimaryDisplayName(this.displayName)
+				this.handleResponse(responseData.ocs?.meta?.status)
+			} catch (e) {
+				this.handleResponse('error', 'Unable to update full name', e)
+			}
+		},
+
+		handleResponse(status, errorMessage, error) {
+			if (status === 'ok') {
+				// Ensure that local initialDiplayName state reflects server state
+				this.initialDisplayName = this.displayName
+				this.showCheckmarkIcon = true
+				setTimeout(() => { this.showCheckmarkIcon = false }, 2000)
+			} else {
+				showError(t('settings', errorMessage))
+				this.logger.error(errorMessage, error)
+				this.showErrorIcon = true
+				setTimeout(() => { this.showErrorIcon = false }, 2000)
+			}
+		},
+
+		isValid() {
+			return this.displayName !== ''
+		},
+
+		onScopeChange(scope) {
+			this.$emit('update:scope', scope)
+		},
+	},
+}
+</script>
+
+<style lang="scss" scoped>
+	.displayname {
+		display: grid;
+		align-items: center;
+
+		input[type=text] {
+			grid-area: 1 / 1;
+		}
+
+		.displayname__actions-container {
+			grid-area: 1 / 1;
+			justify-self: flex-end;
+			height: 30px;
+
+			display: flex;
+			gap: 0 2px;
+			margin-right: 5px;
+
+			.icon-checkmark,
+			.icon-error {
+				height: 30px !important;
+				min-height: 30px !important;
+				width: 30px !important;
+				min-width: 30px !important;
+				top: 0;
+				right: 0;
+				float: none;
+			}
+		}
+	}
+
+	.fade-enter,
+	.fade-leave-to {
+		opacity: 0;
+	}
+
+	.fade-enter-active {
+		transition: opacity 200ms ease-out;
+	}
+
+	.fade-leave-active {
+		transition: opacity 300ms ease-out;
+	}
+</style>
