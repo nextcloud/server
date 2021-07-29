@@ -65,8 +65,8 @@ use OCP\IDBConnection;
  * The cache stores the metadata for all files and folders in a storage and is kept up to date trough the following mechanisms:
  *
  * - Scanner: scans the storage and updates the cache where needed
- * - Watcher: checks for changes made to the filesystem outside of the ownCloud instance and rescans files and folder when a change is detected
- * - Updater: listens to changes made to the filesystem inside of the ownCloud instance and updates the cache where needed
+ * - Watcher: checks for changes made to the filesystem outside of the Nextcloud instance and rescans files and folder when a change is detected
+ * - Updater: listens to changes made to the filesystem inside of the Nextcloud instance and updates the cache where needed
  * - ChangePropagator: updates the mtime and etags of parent folders whenever a change to the cache is made to the cache by the updater
  */
 class Cache implements ICache {

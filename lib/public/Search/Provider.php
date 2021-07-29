@@ -27,7 +27,7 @@
 namespace OCP\Search;
 
 /**
- * Provides a template for search functionality throughout ownCloud;
+ * Provides a template for search functionality throughout Nextcloud;
  * @since 7.0.0
  * @deprecated 20.0.0
  */
