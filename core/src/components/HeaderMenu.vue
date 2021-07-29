@@ -27,13 +27,14 @@
 		class="header-menu">
 		<a class="header-menu__trigger"
 			href="#"
+			:aria-label="ariaLabel"
 			:aria-controls="`header-menu-${id}`"
 			:aria-expanded="opened"
-			aria-haspopup="true"
+			aria-haspopup="menu"
 			@click.prevent="toggleMenu">
 			<slot name="trigger" />
 		</a>
-		<div v-if="opened"
+		<div v-show="opened"
 			:id="`header-menu-${id}`"
 			class="header-menu__wrapper"
 			role="menu">
@@ -64,6 +65,10 @@ export default {
 		id: {
 			type: String,
 			required: true,
+		},
+		ariaLabel: {
+			type: String,
+			default: '',
 		},
 		open: {
 			type: Boolean,
