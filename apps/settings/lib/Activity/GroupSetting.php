@@ -86,7 +86,7 @@ class GroupSetting implements ISetting {
 	 * @since 11.0.0
 	 */
 	public function canChangeMail(): bool {
-		return false;
+		return true;
 	}
 
 	/**
