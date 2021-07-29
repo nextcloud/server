@@ -24,6 +24,7 @@
 		class="unified-search"
 		exclude-click-outside-classes="popover"
 		:open.sync="open"
+		:aria-label="ariaLabel"
 		@open="onOpen"
 		@close="onClose">
 		<!-- Header icon -->
