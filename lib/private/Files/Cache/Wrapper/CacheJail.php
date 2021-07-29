@@ -306,17 +306,21 @@ class CacheJail extends CacheWrapper {
 	}
 
 	public function getQueryFilterForStorage(): ISearchOperator {
-		return new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_AND,
-			[
-				$this->getCache()->getQueryFilterForStorage(),
-				new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_OR,
-					[
-						new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'path', $this->getGetUnjailedRoot()),
-						new SearchComparison(ISearchComparison::COMPARE_LIKE, 'path', $this->getGetUnjailedRoot() . '/%'),
-					],
-				)
-			]
-		);
+		if ($this->root !== '' && $this->root !== '/') {
+			return new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_AND,
+				[
+					$this->getCache()->getQueryFilterForStorage(),
+					new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_OR,
+						[
+							new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'path', $this->getGetUnjailedRoot()),
+							new SearchComparison(ISearchComparison::COMPARE_LIKE, 'path', $this->getGetUnjailedRoot() . '/%'),
+						],
+					)
+				]
+			);
+		} else {
+			return $this->getCache()->getQueryFilterForStorage();
+		}
 	}
 
 	public function getCacheEntryFromSearchResult(ICacheEntry $rawEntry): ?ICacheEntry {
