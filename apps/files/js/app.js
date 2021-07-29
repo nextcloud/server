@@ -116,7 +116,8 @@
 						{
 							name: 'tags',
 							displayName:  'Tags',
-							iconClass: 'icon-tag'
+							iconClass: 'icon-tag',
+							order: 100,
 						},
 					],
 					sorting: {
