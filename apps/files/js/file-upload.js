@@ -776,6 +776,10 @@ OC.Uploader.prototype = _.extend({
 				// no list to check against
 				return true;
 			}
+			if (upload.getTargetFolder() !== fileList.getCurrentDirectory()) {
+				// not uploading to the current folder
+				return true;
+			}
 			var fileInfo = fileList.findFile(file.name);
 			if (fileInfo) {
 				conflicts.push([
@@ -997,7 +1001,8 @@ OC.Uploader.prototype = _.extend({
 						freeSpace = $('#free_space').val()
 					} else if (upload.getTargetFolder().indexOf(self.fileList.getCurrentDirectory()) === 0) {
 						// Check subdirectory free space if file is uploaded there
-						var targetSubdir = upload._targetFolder.replace(self.fileList.getCurrentDirectory(), '')
+						// Retrieve the folder destination name
+						var targetSubdir = upload._targetFolder.split('/').pop()
 						freeSpace = parseInt(upload.uploader.fileList.getModelForFile(targetSubdir).get('quotaAvailableBytes'))
 					}
 					if (freeSpace >= 0 && selection.totalBytes > freeSpace) {
