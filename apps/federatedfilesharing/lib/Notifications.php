@@ -308,7 +308,13 @@ class Notifications {
 	 */
 	protected function tryHttpPostToShareEndpoint($remoteDomain, $urlSuffix, array $fields, $action = "share") {
 		if ($this->addressHandler->urlContainProtocol($remoteDomain) === false) {
-			$remoteDomain = 'https://' . $remoteDomain;
+			$config = \OC::$server->getConfig();
+			$httpDomains = $config->getSystemValue('gs.force_http_on_domains');
+			if (is_array($httpDomains) && in_array($remoteDomain, $httpDomains)) {
+				$remoteDomain = 'http://' . $remoteDomain;
+			} else {
+				$remoteDomain = 'https://' . $remoteDomain;
+			}
 		}
 
 		$result = [
