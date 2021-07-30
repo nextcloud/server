@@ -244,6 +244,10 @@ class CacheJail extends CacheWrapper {
 	 * @return array an array of file data
 	 */
 	public function search($pattern) {
+		if ($this->getGetUnjailedRoot() === '' || $this->getGetUnjailedRoot() === '/') {
+			return parent::search($pattern);
+		}
+
 		// normalize pattern
 		$pattern = $this->normalize($pattern);
 
@@ -277,6 +281,10 @@ class CacheJail extends CacheWrapper {
 	 * @return array
 	 */
 	public function searchByMime($mimetype) {
+		if ($this->getGetUnjailedRoot() === '' || $this->getGetUnjailedRoot() === '/') {
+			return parent::searchByMime($mimetype);
+		}
+
 		$mimeId = $this->mimetypeLoader->getId($mimetype);
 
 		$query = $this->getQueryBuilder();
@@ -304,6 +312,10 @@ class CacheJail extends CacheWrapper {
 	}
 
 	public function searchQuery(ISearchQuery $query) {
+		if ($this->getGetUnjailedRoot() === '' || $this->getGetUnjailedRoot() === '/') {
+			return parent::searchQuery($query);
+		}
+
 		$prefixFilter = new SearchComparison(
 			ISearchComparison::COMPARE_LIKE,
 			'path',
