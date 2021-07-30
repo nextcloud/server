@@ -621,6 +621,10 @@ Raw output
 			}
 		}
 
+		if (!defined('PASSWORD_ARGON2I')) {
+			$recommendedPHPModules[] = 'sodium';
+		}
+
 		return $recommendedPHPModules;
 	}
 
