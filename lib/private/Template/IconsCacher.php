@@ -171,7 +171,10 @@ class IconsCacher {
 		} elseif (\strpos($url, $base) === 0) {
 			if (\preg_match('/([A-z0-9\_\-]+)\/([a-zA-Z0-9-_\~\/\.\=\:\;\+\,]+)\?color=([0-9a-fA-F]{3,6})/', $cleanUrl, $matches)) {
 				list(,$app,$cleanUrl, $color) = $matches;
-				$location = \OC_App::getAppPath($app) . '/img/' . $cleanUrl . '.svg';
+				$appPath = \OC_App::getAppPath($app);
+				if ($appPath !== false) {
+					$location = $appPath . '/img/' . $cleanUrl . '.svg';
+				}
 				if ($app === 'settings') {
 					$location = \OC::$SERVERROOT . '/settings/img/' . $cleanUrl . '.svg';
 				}
