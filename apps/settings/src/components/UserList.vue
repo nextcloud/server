@@ -345,7 +345,9 @@ export default {
 				label: cur,
 			}), [])
 			// add default presets
-			quotaPreset.unshift(this.unlimitedQuota)
+			if (this.settings.allowUnlimitedQuota) {
+				quotaPreset.unshift(this.unlimitedQuota)
+			}
 			quotaPreset.unshift(this.defaultQuota)
 			return quotaPreset
 		},
