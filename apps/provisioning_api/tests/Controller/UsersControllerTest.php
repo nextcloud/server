@@ -1755,6 +1755,15 @@ class UsersControllerTest extends TestCase {
 	}
 
 	public function testEditUserAdminUserSelfEditChangeValidQuota() {
+		$this->config
+			->expects($this->once())
+			->method('getAppValue')
+			->willReturnCallback(function ($appid, $key, $default) {
+				if ($key === 'max_quota') {
+					return '-1';
+				}
+				return null;
+			});
 		$loggedInUser = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
 		$loggedInUser
 			->expects($this->any())
@@ -1834,6 +1843,15 @@ class UsersControllerTest extends TestCase {
 	}
 
 	public function testEditUserAdminUserEditChangeValidQuota() {
+		$this->config
+			->expects($this->once())
+			->method('getAppValue')
+			->willReturnCallback(function ($appid, $key, $default) {
+				if ($key === 'max_quota') {
+					return '-1';
+				}
+				return null;
+			});
 		$loggedInUser = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
 		$loggedInUser
 			->expects($this->any())
@@ -2082,6 +2100,15 @@ class UsersControllerTest extends TestCase {
 	}
 
 	public function testEditUserSubadminUserAccessible() {
+		$this->config
+			->expects($this->once())
+			->method('getAppValue')
+			->willReturnCallback(function ($appid, $key, $default) {
+				if ($key === 'max_quota') {
+					return '-1';
+				}
+				return null;
+			});
 		$loggedInUser = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
 		$loggedInUser
 			->expects($this->any())
