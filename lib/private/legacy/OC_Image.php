@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -50,6 +53,9 @@ class OC_Image implements \OCP\IImage {
 	// Default memory limit for images to load (128 MBytes).
 	protected const DEFAULT_MEMORY_LIMIT = 128;
 
+	// Default quality for jpeg images
+	protected const DEFAULT_JPEG_QUALITY = 80;
+
 	/** @var false|resource|\GdImage */
 	protected $resource = false; // tmp resource.
 	/** @var int */
@@ -100,7 +106,7 @@ class OC_Image implements \OCP\IImage {
 	 *
 	 * @return bool
 	 */
-	public function valid() {
+	public function valid(): bool {
 		if ((is_resource($this->resource) && get_resource_type($this->resource) === 'gd') ||
 			(is_object($this->resource) && get_class($this->resource) === \GdImage::class)) {
 			return true;
@@ -114,7 +120,7 @@ class OC_Image implements \OCP\IImage {
 	 *
 	 * @return string
 	 */
-	public function mimeType() {
+	public function mimeType(): string {
 		return $this->valid() ? $this->mimeType : '';
 	}
 
@@ -123,7 +129,7 @@ class OC_Image implements \OCP\IImage {
 	 *
 	 * @return int
 	 */
-	public function width() {
+	public function width(): int {
 		if ($this->valid()) {
 			$width = imagesx($this->resource);
 			if ($width !== false) {
@@ -138,7 +144,7 @@ class OC_Image implements \OCP\IImage {
 	 *
 	 * @return int
 	 */
-	public function height() {
+	public function height(): int {
 		if ($this->valid()) {
 			$height = imagesy($this->resource);
 			if ($height !== false) {
@@ -153,7 +159,7 @@ class OC_Image implements \OCP\IImage {
 	 *
 	 * @return int
 	 */
-	public function widthTopLeft() {
+	public function widthTopLeft(): int {
 		$o = $this->getOrientation();
 		$this->logger->debug('OC_Image->widthTopLeft() Orientation: ' . $o, ['app' => 'core']);
 		switch ($o) {
@@ -177,7 +183,7 @@ class OC_Image implements \OCP\IImage {
 	 *
 	 * @return int
 	 */
-	public function heightTopLeft() {
+	public function heightTopLeft(): int {
 		$o = $this->getOrientation();
 		$this->logger->debug('OC_Image->heightTopLeft() Orientation: ' . $o, ['app' => 'core']);
 		switch ($o) {
@@ -202,7 +208,7 @@ class OC_Image implements \OCP\IImage {
 	 * @param string $mimeType
 	 * @return bool
 	 */
-	public function show($mimeType = null) {
+	public function show(string $mimeType = null): bool {
 		if ($mimeType === null) {
 			$mimeType = $this->mimeType();
 		}
@@ -218,7 +224,7 @@ class OC_Image implements \OCP\IImage {
 	 * @return bool
 	 */
 
-	public function save($filePath = null, $mimeType = null) {
+	public function save(?string $filePath = null, ?string $mimeType = null): bool {
 		if ($mimeType === null) {
 			$mimeType = $this->mimeType();
 		}
@@ -241,7 +247,7 @@ class OC_Image implements \OCP\IImage {
 	 * @return bool
 	 * @throws Exception
 	 */
-	private function _output($filePath = null, $mimeType = null) {
+	private function _output(?string $filePath = null, ?string $mimeType = null): bool {
 		if ($filePath) {
 			if (!file_exists(dirname($filePath))) {
 				mkdir(dirname($filePath), 0777, true);
@@ -351,7 +357,7 @@ class OC_Image implements \OCP\IImage {
 	 * @return string Returns the mimetype of the data. Returns the empty string
 	 * if the data is not valid.
 	 */
-	public function dataMimeType() {
+	public function dataMimeType(): string {
 		if (!$this->valid()) {
 			return '';
 		}
@@ -369,7 +375,7 @@ class OC_Image implements \OCP\IImage {
 	/**
 	 * @return null|string Returns the raw image data.
 	 */
-	public function data() {
+	public function data(): ?string {
 		if (!$this->valid()) {
 			return null;
 		}
@@ -382,11 +388,7 @@ class OC_Image implements \OCP\IImage {
 				/** @psalm-suppress InvalidScalarArgument */
 				imageinterlace($this->resource, (PHP_VERSION_ID >= 80000 ? true : 1));
 				$quality = $this->getJpegQuality();
-				if ($quality !== null) {
-					$res = imagejpeg($this->resource, null, $quality);
-				} else {
-					$res = imagejpeg($this->resource);
-				}
+				$res = imagejpeg($this->resource, null, $quality);
 				break;
 			case "image/gif":
 				$res = imagegif($this->resource);
@@ -410,14 +412,15 @@ class OC_Image implements \OCP\IImage {
 	}
 
 	/**
-	 * @return int|null
+	 * @return int
 	 */
-	protected function getJpegQuality() {
-		$quality = $this->config->getAppValue('preview', 'jpeg_quality', '80');
-		if ($quality !== null) {
-			$quality = min(100, max(10, (int) $quality));
+	protected function getJpegQuality(): int {
+		$quality = $this->config->getAppValue('preview', 'jpeg_quality', (string) self::DEFAULT_JPEG_QUALITY);
+		// TODO: remove when getAppValue is type safe
+		if ($quality === null) {
+			$quality = self::DEFAULT_JPEG_QUALITY;
 		}
-		return $quality;
+		return min(100, max(10, (int) $quality));
 	}
 
 	/**
@@ -426,7 +429,7 @@ class OC_Image implements \OCP\IImage {
 	 *
 	 * @return int The orientation or -1 if no EXIF data is available.
 	 */
-	public function getOrientation() {
+	public function getOrientation(): int {
 		if ($this->exif !== null) {
 			return $this->exif['Orientation'];
 		}
@@ -458,7 +461,7 @@ class OC_Image implements \OCP\IImage {
 		return $exif['Orientation'];
 	}
 
-	public function readExif($data) {
+	public function readExif($data): void {
 		if (!is_callable('exif_read_data')) {
 			$this->logger->debug('OC_Image->fixOrientation() Exif module not enabled.', ['app' => 'core']);
 			return;
@@ -484,7 +487,7 @@ class OC_Image implements \OCP\IImage {
 	 *
 	 * @return bool
 	 */
-	public function fixOrientation() {
+	public function fixOrientation(): bool {
 		if (!$this->valid()) {
 			$this->logger->debug(__METHOD__ . '(): No image loaded', ['app' => 'core']);
 			return false;
@@ -714,7 +717,7 @@ class OC_Image implements \OCP\IImage {
 				}
 				break;
 			case IMAGETYPE_BMP:
-				$this->resource = $this->imagecreatefrombmp($imagePath);
+				$this->resource = imagecreatefrombmp($imagePath);
 				break;
 			case IMAGETYPE_WEBP:
 				if (imagetypes() & IMG_WEBP) {
@@ -776,10 +779,7 @@ class OC_Image implements \OCP\IImage {
 	 * @param string $str A string of image data as read from a file.
 	 * @return bool|resource|\GdImage An image resource or false on error
 	 */
-	public function loadFromData($str) {
-		if (!is_string($str)) {
-			return false;
-		}
+	public function loadFromData(string $str) {
 		if (!$this->checkImageDataSize($str)) {
 			return false;
 		}
@@ -805,10 +805,7 @@ class OC_Image implements \OCP\IImage {
 	 * @param string $str A string base64 encoded string of image data.
 	 * @return bool|resource|\GdImage An image resource or false on error
 	 */
-	public function loadFromBase64($str) {
-		if (!is_string($str)) {
-			return false;
-		}
+	public function loadFromBase64(string $str) {
 		$data = base64_decode($str);
 		if ($data) { // try to load from string data
 			if (!$this->checkImageDataSize($data)) {
@@ -831,10 +828,10 @@ class OC_Image implements \OCP\IImage {
 	/**
 	 * Resizes the image preserving ratio.
 	 *
-	 * @param integer $maxSize The maximum size of either the width or height.
+	 * @param int $maxSize The maximum size of either the width or height.
 	 * @return bool
 	 */
-	public function resize($maxSize) {
+	public function resize(int $maxSize): bool {
 		if (!$this->valid()) {
 			$this->logger->debug(__METHOD__ . '(): No image loaded', ['app' => 'core']);
 			return false;
@@ -849,7 +846,7 @@ class OC_Image implements \OCP\IImage {
 	 * @param $maxSize
 	 * @return resource|bool|\GdImage
 	 */
-	private function resizeNew($maxSize) {
+	private function resizeNew(int $maxSize) {
 		if (!$this->valid()) {
 			$this->logger->debug(__METHOD__ . '(): No image loaded', ['app' => 'core']);
 			return false;
@@ -884,7 +881,6 @@ class OC_Image implements \OCP\IImage {
 		$this->resource = $result;
 		return $this->valid();
 	}
-
 
 	/**
 	 * @param int $width
@@ -930,7 +926,7 @@ class OC_Image implements \OCP\IImage {
 	 * @param int $size maximum size for the result (optional)
 	 * @return bool for success or failure
 	 */
-	public function centerCrop($size = 0) {
+	public function centerCrop(int $size = 0): bool {
 		if (!$this->valid()) {
 			$this->logger->debug('OC_Image->centerCrop, No image loaded', ['app' => 'core']);
 			return false;
@@ -944,10 +940,10 @@ class OC_Image implements \OCP\IImage {
 		$width = $height = min($widthOrig, $heightOrig);
 
 		if ($ratioOrig > 1) {
-			$x = ($widthOrig / 2) - ($width / 2);
+			$x = (int) (($widthOrig / 2) - ($width / 2));
 			$y = 0;
 		} else {
-			$y = ($heightOrig / 2) - ($height / 2);
+			$y = (int) (($heightOrig / 2) - ($height / 2));
 			$x = 0;
 		}
 		if ($size > 0) {
@@ -1040,11 +1036,11 @@ class OC_Image implements \OCP\IImage {
 	 *
 	 * Warning: Images smaller than $maxWidth x $maxHeight will end up being scaled up
 	 *
-	 * @param integer $maxWidth
-	 * @param integer $maxHeight
+	 * @param int $maxWidth
+	 * @param int $maxHeight
 	 * @return bool
 	 */
-	public function fitIn($maxWidth, $maxHeight) {
+	public function fitIn(int $maxWidth, int $maxHeight): bool {
 		if (!$this->valid()) {
 			$this->logger->debug(__METHOD__ . '(): No image loaded', ['app' => 'core']);
 			return false;
@@ -1063,11 +1059,11 @@ class OC_Image implements \OCP\IImage {
 	/**
 	 * Shrinks larger images to fit within specified boundaries while preserving ratio.
 	 *
-	 * @param integer $maxWidth
-	 * @param integer $maxHeight
+	 * @param int $maxWidth
+	 * @param int $maxHeight
 	 * @return bool
 	 */
-	public function scaleDownToFit($maxWidth, $maxHeight) {
+	public function scaleDownToFit(int $maxWidth, int $maxHeight): bool {
 		if (!$this->valid()) {
 			$this->logger->debug(__METHOD__ . '(): No image loaded', ['app' => 'core']);
 			return false;
@@ -1129,7 +1125,7 @@ class OC_Image implements \OCP\IImage {
 	/**
 	 * Destroys the current image and resets the object
 	 */
-	public function destroy() {
+	public function destroy(): void {
 		if ($this->valid()) {
 			imagedestroy($this->resource);
 		}
@@ -1149,7 +1145,7 @@ if (!function_exists('exif_imagetype')) {
 	 * @param string $fileName
 	 * @return string|boolean
 	 */
-	function exif_imagetype($fileName) {
+	function exif_imagetype(string $fileName) {
 		if (($info = getimagesize($fileName)) !== false) {
 			return $info[2];
 		}
