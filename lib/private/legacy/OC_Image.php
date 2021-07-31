@@ -56,8 +56,6 @@ class OC_Image implements \OCP\IImage {
 	protected $imageType = IMAGETYPE_PNG; // Default to png if file type isn't evident.
 	/** @var string */
 	protected $mimeType = 'image/png'; // Default to png
-	/** @var int */
-	protected $bitDepth = 24;
 	/** @var null|string */
 	protected $filePath = null;
 	/** @var finfo */
@@ -309,7 +307,7 @@ class OC_Image implements \OCP\IImage {
 				$retVal = imagewbmp($this->resource, $filePath);
 				break;
 			case IMAGETYPE_BMP:
-				$retVal = imagebmp($this->resource, $filePath, $this->bitDepth);
+				$retVal = imagebmp($this->resource, $filePath);
 				break;
 			default:
 				$retVal = imagepng($this->resource, $filePath);
@@ -831,164 +829,6 @@ class OC_Image implements \OCP\IImage {
 	}
 
 	/**
-	 * Create a new image from file or URL
-	 *
-	 * @link http://www.programmierer-forum.de/function-imagecreatefrombmp-laeuft-mit-allen-bitraten-t143137.htm
-	 * @version 1.00
-	 * @param string $fileName <p>
-	 * Path to the BMP image.
-	 * </p>
-	 * @return bool|resource|\GdImage an image resource identifier on success, <b>FALSE</b> on errors.
-	 */
-	private function imagecreatefrombmp($fileName) {
-		if (!($fh = fopen($fileName, 'rb'))) {
-			$this->logger->warning('imagecreatefrombmp: Can not open ' . $fileName, ['app' => 'core']);
-			return false;
-		}
-		// read file header
-		$meta = unpack('vtype/Vfilesize/Vreserved/Voffset', fread($fh, 14));
-		// check for bitmap
-		if ($meta['type'] != 19778) {
-			fclose($fh);
-			$this->logger->warning('imagecreatefrombmp: Can not open ' . $fileName . ' is not a bitmap!', ['app' => 'core']);
-			return false;
-		}
-		// read image header
-		$meta += unpack('Vheadersize/Vwidth/Vheight/vplanes/vbits/Vcompression/Vimagesize/Vxres/Vyres/Vcolors/Vimportant', fread($fh, 40));
-		// read additional 16bit header
-		if ($meta['bits'] == 16) {
-			$meta += unpack('VrMask/VgMask/VbMask', fread($fh, 12));
-		}
-		// set bytes and padding
-		$meta['bytes'] = $meta['bits'] / 8;
-		$this->bitDepth = $meta['bits']; //remember the bit depth for the imagebmp call
-		$meta['decal'] = 4 - (4 * (($meta['width'] * $meta['bytes'] / 4) - floor($meta['width'] * $meta['bytes'] / 4)));
-		if ($meta['decal'] == 4) {
-			$meta['decal'] = 0;
-		}
-		// obtain imagesize
-		if ($meta['imagesize'] < 1) {
-			$meta['imagesize'] = $meta['filesize'] - $meta['offset'];
-			// in rare cases filesize is equal to offset so we need to read physical size
-			if ($meta['imagesize'] < 1) {
-				$meta['imagesize'] = @filesize($fileName) - $meta['offset'];
-				if ($meta['imagesize'] < 1) {
-					fclose($fh);
-					$this->logger->warning('imagecreatefrombmp: Can not obtain file size of ' . $fileName . ' is not a bitmap!', ['app' => 'core']);
-					return false;
-				}
-			}
-		}
-		// calculate colors
-		$meta['colors'] = !$meta['colors'] ? pow(2, $meta['bits']) : $meta['colors'];
-		// read color palette
-		$palette = [];
-		if ($meta['bits'] < 16) {
-			$palette = unpack('l' . $meta['colors'], fread($fh, $meta['colors'] * 4));
-			// in rare cases the color value is signed
-			if ($palette[1] < 0) {
-				foreach ($palette as $i => $color) {
-					$palette[$i] = $color + 16777216;
-				}
-			}
-		}
-		if (!$this->checkImageMemory($meta['width'], $meta['height'])) {
-			fclose($fh);
-			return false;
-		}
-		// create gd image
-		$im = imagecreatetruecolor($meta['width'], $meta['height']);
-		if ($im == false) {
-			fclose($fh);
-			$this->logger->warning(
-				'imagecreatefrombmp: imagecreatetruecolor failed for file "' . $fileName . '" with dimensions ' . $meta['width'] . 'x' . $meta['height'],
-				['app' => 'core']);
-			return false;
-		}
-
-		$data = fread($fh, $meta['imagesize']);
-		$p = 0;
-		$vide = chr(0);
-		$y = $meta['height'] - 1;
-		$error = 'imagecreatefrombmp: ' . $fileName . ' has not enough data!';
-		// loop through the image data beginning with the lower left corner
-		while ($y >= 0) {
-			$x = 0;
-			while ($x < $meta['width']) {
-				switch ($meta['bits']) {
-					case 32:
-					case 24:
-						if (!($part = substr($data, $p, 3))) {
-							$this->logger->warning($error, ['app' => 'core']);
-							return $im;
-						}
-						$color = @unpack('V', $part . $vide);
-						break;
-					case 16:
-						if (!($part = substr($data, $p, 2))) {
-							fclose($fh);
-							$this->logger->warning($error, ['app' => 'core']);
-							return $im;
-						}
-						$color = @unpack('v', $part);
-						$color[1] = (($color[1] & 0xf800) >> 8) * 65536 + (($color[1] & 0x07e0) >> 3) * 256 + (($color[1] & 0x001f) << 3);
-						break;
-					case 8:
-						$color = @unpack('n', $vide . ($data[$p] ?? ''));
-						$color[1] = isset($palette[$color[1] + 1]) ? $palette[$color[1] + 1] : $palette[1];
-						break;
-					case 4:
-						$color = @unpack('n', $vide . ($data[floor($p)] ?? ''));
-						$color[1] = ($p * 2) % 2 == 0 ? $color[1] >> 4 : $color[1] & 0x0F;
-						$color[1] = isset($palette[$color[1] + 1]) ? $palette[$color[1] + 1] : $palette[1];
-						break;
-					case 1:
-						$color = @unpack('n', $vide . ($data[floor($p)] ?? ''));
-						switch (($p * 8) % 8) {
-							case 0:
-								$color[1] = $color[1] >> 7;
-								break;
-							case 1:
-								$color[1] = ($color[1] & 0x40) >> 6;
-								break;
-							case 2:
-								$color[1] = ($color[1] & 0x20) >> 5;
-								break;
-							case 3:
-								$color[1] = ($color[1] & 0x10) >> 4;
-								break;
-							case 4:
-								$color[1] = ($color[1] & 0x8) >> 3;
-								break;
-							case 5:
-								$color[1] = ($color[1] & 0x4) >> 2;
-								break;
-							case 6:
-								$color[1] = ($color[1] & 0x2) >> 1;
-								break;
-							case 7:
-								$color[1] = ($color[1] & 0x1);
-								break;
-						}
-						$color[1] = isset($palette[$color[1] + 1]) ? $palette[$color[1] + 1] : $palette[1];
-						break;
-					default:
-						fclose($fh);
-						$this->logger->warning('imagecreatefrombmp: ' . $fileName . ' has ' . $meta['bits'] . ' bits and this is not supported!', ['app' => 'core']);
-						return false;
-				}
-				imagesetpixel($im, $x, $y, $color[1]);
-				$x++;
-				$p += $meta['bytes'];
-			}
-			$y--;
-			$p += $meta['decal'];
-		}
-		fclose($fh);
-		return $im;
-	}
-
-	/**
 	 * Resizes the image preserving ratio.
 	 *
 	 * @param integer $maxSize The maximum size of either the width or height.
@@ -1263,7 +1103,6 @@ class OC_Image implements \OCP\IImage {
 		$image = new OC_Image(null, $this->logger, $this->config);
 		$image->imageType = $this->imageType;
 		$image->mimeType = $this->mimeType;
-		$image->bitDepth = $this->bitDepth;
 		$image->resource = $this->cropNew($x, $y, $w, $h);
 
 		return $image;
@@ -1273,7 +1112,6 @@ class OC_Image implements \OCP\IImage {
 		$image = new OC_Image(null, $this->logger, $this->config);
 		$image->imageType = $this->imageType;
 		$image->mimeType = $this->mimeType;
-		$image->bitDepth = $this->bitDepth;
 		$image->resource = $this->preciseResizeNew($width, $height);
 
 		return $image;
@@ -1283,7 +1121,6 @@ class OC_Image implements \OCP\IImage {
 		$image = new OC_Image(null, $this->logger, $this->config);
 		$image->imageType = $this->imageType;
 		$image->mimeType = $this->mimeType;
-		$image->bitDepth = $this->bitDepth;
 		$image->resource = $this->resizeNew($maxSize);
 
 		return $image;
@@ -1301,123 +1138,6 @@ class OC_Image implements \OCP\IImage {
 
 	public function __destruct() {
 		$this->destroy();
-	}
-}
-
-if (!function_exists('imagebmp')) {
-	/**
-	 * Output a BMP image to either the browser or a file
-	 *
-	 * @link http://www.ugia.cn/wp-data/imagebmp.php
-	 * @author legend <legendsky@hotmail.com>
-	 * @link http://www.programmierer-forum.de/imagebmp-gute-funktion-gefunden-t143716.htm
-	 * @author mgutt <marc@gutt.it>
-	 * @version 1.00
-	 * @param resource|\GdImage $im
-	 * @param string $fileName [optional] <p>The path to save the file to.</p>
-	 * @param int $bit [optional] <p>Bit depth, (default is 24).</p>
-	 * @param int $compression [optional]
-	 * @return bool <b>TRUE</b> on success or <b>FALSE</b> on failure.
-	 */
-	function imagebmp($im, $fileName = '', $bit = 24, $compression = 0) {
-		if (!in_array($bit, [1, 4, 8, 16, 24, 32])) {
-			$bit = 24;
-		} elseif ($bit == 32) {
-			$bit = 24;
-		}
-		$bits = (int)pow(2, $bit);
-		imagetruecolortopalette($im, true, $bits);
-		$width = imagesx($im);
-		$height = imagesy($im);
-		$colorsNum = imagecolorstotal($im);
-		$rgbQuad = '';
-		if ($bit <= 8) {
-			for ($i = 0; $i < $colorsNum; $i++) {
-				$colors = imagecolorsforindex($im, $i);
-				$rgbQuad .= chr($colors['blue']) . chr($colors['green']) . chr($colors['red']) . "\0";
-			}
-			$bmpData = '';
-			if ($compression == 0 || $bit < 8) {
-				$compression = 0;
-				$extra = '';
-				$padding = 4 - ceil($width / (8 / $bit)) % 4;
-				if ($padding % 4 != 0) {
-					$extra = str_repeat("\0", $padding);
-				}
-				for ($j = $height - 1; $j >= 0; $j--) {
-					$i = 0;
-					while ($i < $width) {
-						$bin = 0;
-						$limit = $width - $i < 8 / $bit ? (8 / $bit - $width + $i) * $bit : 0;
-						for ($k = 8 - $bit; $k >= $limit; $k -= $bit) {
-							$index = imagecolorat($im, $i, $j);
-							$bin |= $index << $k;
-							$i++;
-						}
-						$bmpData .= chr($bin);
-					}
-					$bmpData .= $extra;
-				}
-			} // RLE8
-			elseif ($compression == 1 && $bit == 8) {
-				for ($j = $height - 1; $j >= 0; $j--) {
-					$lastIndex = null;
-					$sameNum = 0;
-					for ($i = 0; $i <= $width; $i++) {
-						$index = imagecolorat($im, $i, $j);
-						if ($index !== $lastIndex || $sameNum > 255) {
-							if ($sameNum != 0) {
-								$bmpData .= chr($sameNum) . chr($lastIndex);
-							}
-							$lastIndex = $index;
-							$sameNum = 1;
-						} else {
-							$sameNum++;
-						}
-					}
-					$bmpData .= "\0\0";
-				}
-				$bmpData .= "\0\1";
-			}
-			$sizeQuad = strlen($rgbQuad);
-			$sizeData = strlen($bmpData);
-		} else {
-			$extra = '';
-			$padding = 4 - ($width * ($bit / 8)) % 4;
-			if ($padding % 4 != 0) {
-				$extra = str_repeat("\0", $padding);
-			}
-			$bmpData = '';
-			for ($j = $height - 1; $j >= 0; $j--) {
-				for ($i = 0; $i < $width; $i++) {
-					$index = imagecolorat($im, $i, $j);
-					$colors = imagecolorsforindex($im, $index);
-					if ($bit == 16) {
-						$bin = 0 << $bit;
-						$bin |= ($colors['red'] >> 3) << 10;
-						$bin |= ($colors['green'] >> 3) << 5;
-						$bin |= $colors['blue'] >> 3;
-						$bmpData .= pack("v", $bin);
-					} else {
-						$bmpData .= pack("c*", $colors['blue'], $colors['green'], $colors['red']);
-					}
-				}
-				$bmpData .= $extra;
-			}
-			$sizeQuad = 0;
-			$sizeData = strlen($bmpData);
-			$colorsNum = 0;
-		}
-		$fileHeader = 'BM' . pack('V3', 54 + $sizeQuad + $sizeData, 0, 54 + $sizeQuad);
-		$infoHeader = pack('V3v2V*', 0x28, $width, $height, 1, $bit, $compression, $sizeData, 0, 0, $colorsNum, 0);
-		if ($fileName != '') {
-			$fp = fopen($fileName, 'wb');
-			fwrite($fp, $fileHeader . $infoHeader . $rgbQuad . $bmpData);
-			fclose($fp);
-			return true;
-		}
-		echo $fileHeader . $infoHeader . $rgbQuad . $bmpData;
-		return true;
 	}
 }
 
