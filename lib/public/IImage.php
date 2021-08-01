@@ -92,7 +92,7 @@ interface IImage {
 	public function save(?string $filePath = null, ?string $mimeType = null): bool;
 
 	/**
-	 * @return false|resource|\GdImage Returns the image resource if any
+	 * @return bool|object|resource Returns the raw image resource if any, false otherwise
 	 * @since 8.1.0
 	 */
 	public function resource();
