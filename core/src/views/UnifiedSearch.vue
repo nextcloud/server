@@ -24,13 +24,13 @@
 		class="unified-search"
 		exclude-click-outside-classes="popover"
 		:open.sync="open"
+		:aria-label="ariaLabel"
 		@open="onOpen"
 		@close="onClose">
 		<!-- Header icon -->
 		<template #trigger>
 			<Magnify class="unified-search__trigger"
 				:size="20"
-				:title="ariaLabel"
 				fill-color="var(--color-primary-text)" />
 		</template>
 
