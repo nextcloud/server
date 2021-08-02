@@ -98,7 +98,7 @@ export default function(file, type) {
 		function menuOk() {
 			cy.get('body > .viewer .icon-error').should('not.exist')
 			cy.get('body > .viewer .modal-title').should('contain', placedName)
-			cy.get('body > .viewer .modal-header button.icon-close').should(
+			cy.get('body > .viewer .modal-header button.header-close').should(
 				'be.visible'
 			)
 		}
