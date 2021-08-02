@@ -38,6 +38,7 @@ OC.L10N.register(
     "Provide federated file sharing across servers" : "Frunit una cumpartzidura de archìvios federados intre serbidores",
     "Federated Cloud Sharing" : "Cumpartzidura Nue virtuale federada",
     "Open documentation" : "Aberi documentatzione",
+    "Adjust how people can share between servers. This includes shares between users on this server as well if they are using federated sharing." : "Règula comente is persones podent cumpartzire tra serbidores. Includit cumpartzidura tra utentes in custu serbidore e puru si sunt impreende cumpartziduras federadas.",
     "Allow users on this server to send shares to other servers (this option also allows WebDAV access to public shares)" : "Permite a is utentes in custu serbidore de imbiare cumpartziduras ad àteros serbidores (custu sèberu permitet fintzas s'atzessu WebDAV a is cumpartziduras pùblicas)",
     "Allow users on this server to receive shares from other servers" : "Permite a is utentes in custu serbidore pro retzire cumpartziduras dae àteros serbidores",
     "Allow users on this server to send shares to groups on other servers" : "Permite a is utentes in custu serbidore de imbiare cumpartzidura a grupos in àteros serbidores",
