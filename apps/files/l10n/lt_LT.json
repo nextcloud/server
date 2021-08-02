@@ -163,6 +163,7 @@
     "Tags" : "Žymės",
     "Unable to change the favourite state of the file" : "Nepavyksta pakeisti failo Lankomiausiųjų būsenos",
     "Error while loading the file data" : "Klaida įkeliant failo duomenis",
+    "Pick a template for {name}" : "Pasirinkite šabloną, skirtą {name}",
     "Cancel" : "Atsisakyti",
     "Create" : "Sukurti",
     "Create a new file with the selected template" : "Sukurti naują failą naudojant pasirinktą šabloną",

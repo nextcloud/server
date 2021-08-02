@@ -20,7 +20,7 @@ OC.L10N.register(
     "No comments yet, start the conversation!" : "Még nincsenek hozzászólások, kezdje el a beszélgetést!",
     "No more messages" : "Nincs több üzenet",
     "Retry" : "Újra",
-    "Unable to load the comments list" : "A megjegyzések listájának betöltése sikertelen",
+    "Unable to load the comments list" : "A hozzászólások betöltése sikertelen",
     "_%n unread comment_::_%n unread comments_" : ["%n olvasatlan hozzászólás","%n olvasatlan hozzászólás"],
     "_1 new comment_::_{unread} new comments_" : ["1 új hozzászólás","{unread} új hozzászólás"],
     "Comment" : "Hozzászólás",

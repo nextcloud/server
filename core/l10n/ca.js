@@ -230,7 +230,7 @@ OC.L10N.register(
     "More details can be found in the server log." : "Podeu trobar més detalls al registre del servidor.",
     "Technical details" : "Detalls tècnics",
     "Remote Address: %s" : "Adreça remota: %s",
-    "Request ID: %s" : "Sol·licitud ID: %s",
+    "Request ID: %s" : "ID de la sol·licitud: %s",
     "Type: %s" : "Tipus: %s",
     "Code: %s" : "Codi: %s",
     "Message: %s" : "Missatge: %s",

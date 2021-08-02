@@ -206,6 +206,7 @@
     "Could not copy app password. Please copy it manually." : "Неможе да се копира лозинката за апликација. Ве молиме копирајте ја рачно.",
     "Add" : "Додади",
     "Your email address" : "Вашата адреса за е-пошта",
+    "Delete email" : "Избриши е-пошта",
     "No email address set" : "Нема поставено адреса за е-пошта ",
     "Email" : "Е-пошта",
     "You do not have permissions to see the details of this user" : "Немате дозвола за да ги гледате деталите на овој корисник",
