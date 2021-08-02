@@ -164,10 +164,8 @@ export default class Viewer {
 	 * @param {Function} options.onClose callback when closing the viewer
 	 */
 	open({ path, list = [], loadMore = () => ([]), canLoop = true, onPrev = () => {}, onNext = () => {}, onClose = () => {} } = {}) {
-		// TODO: remove legacy method in NC 20 ?
 		if (typeof arguments[0] === 'string') {
-			path = arguments[0]
-			console.warn('Opening the viewer with a single string parameter is deprecated. Please use a destructuring object instead', `OCA.Viewer.open({ path: '${path}' })`)
+			throw new Error('Opening the viewer with a single string parameter is deprecated. Please use a destructuring object instead', `OCA.Viewer.open({ path: '${path}' })`)
 		}
 
 		if (!path.startsWith('/')) {
