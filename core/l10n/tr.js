@@ -337,7 +337,7 @@ OC.L10N.register(
     "Account access" : "Hesap erişimi",
     "You are about to grant %1$s access to your %2$s account." : "%1$s için %2$s hesabınıza erişim izni vermek üzeresiniz.",
     "Account connected" : "Hesap bağlandı",
-    "Your client should now be connected!" : "İstemciniz şimdi bağlanmış olmalı!",
+    "Your client should now be connected!" : "İstemciniz şimdi bağlantı kurmuş olmalı!",
     "You can close this window." : "Bu pencereyi kapatabilirsiniz.",
     "This share is password-protected" : "Bu paylaşım parola korumalı",
     "The password is wrong. Try again." : "Parola yanlış. Yeniden deneyin.",

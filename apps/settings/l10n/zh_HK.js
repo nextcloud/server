@@ -379,7 +379,7 @@ OC.L10N.register(
     "Expire after" : "將在之後到期",
     "day(s)" : "天",
     "Enforce expiration date" : "強制設定到期日",
-    "Set default expiration date for shares to other servers" : "設置分享到其他服務器的默認到期日",
+    "Set default expiration date for shares to other servers" : "設置分享到其他伺服器的默認分享到期日",
     "Allow users to share via link and emails" : "允許用戶透過連結和電郵分享",
     "Allow public uploads" : "允許公開上傳",
     "Always ask for a password" : "要求輸入密碼",
