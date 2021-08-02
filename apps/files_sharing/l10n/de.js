@@ -124,6 +124,7 @@ OC.L10N.register(
     "Could not lock path" : "Pfad konnte nicht gesperrt werden",
     "Wrong or no update parameter given" : "Es wurde ein falscher oder kein Updateparameter angegeben",
     "Cannot change permissions for public share links" : "Kann Berechtigungen für öffentlich freigegebene Links nicht ändern",
+    "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "\"Senden des Passwortes über Nextcloud Talk\" zum Teilen einer Datei  gescheitert, da Nextcloud Talk nicht verfügbar ist.",
     "shared by %s" : "von %s geteilt",
     "Download all files" : "Alle Dateien herunterladen",
     "Direct link" : "Direkter Link",

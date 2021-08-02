@@ -46,7 +46,7 @@ OC.L10N.register(
     "This directory is unavailable, please check the logs or contact the administrator" : "Direktorio hau ez dago erabilgarri, egiaztatu egunkariak edo jarri administratzailearekin harremanetan",
     "Could not move \"{file}\", target exists" : "Ezin izan da \"{file}\" lekuz aldatu, helburua existitzen da jadanik",
     "Could not move \"{file}\"" : "Ezin izan da \"{file}\" lekuz aldatu",
-    "copy" : "kopiatu",
+    "copy" : "kopia",
     "Could not copy \"{file}\", target exists" : "Ezin izan da \"{file}\" kopiatu; helburua existitzen da",
     "Could not copy \"{file}\"" : "Ezin izan da \"{file}\" kopiatu",
     "Copied {origin} inside {destination}" : "{origin} {destination} barruan kopiatu da",

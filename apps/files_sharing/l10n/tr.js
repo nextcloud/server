@@ -177,7 +177,7 @@ OC.L10N.register(
     "Read only" : "Salt okunur",
     "Allow upload and editing" : "Yüklenebilsin ve düzenlenebilsin",
     "File drop (upload only)" : "Dosya bırakma (yalnız yükleme)",
-    "Hide download" : "İndirmeyi gizle",
+    "Hide download" : "İndirme gizlensin",
     "Password protect" : "Parola koruması",
     "Video verification" : "Görüntü doğrulaması",
     "Enter a note for the share recipient" : "Paylaşım alıcısı için bir not yazın",

@@ -264,7 +264,7 @@ OC.L10N.register(
     "Active apps" : "Aktív alkalmazások",
     "Disabled apps" : "Letiltott alkalmazások",
     "Updates" : "Feltöltések",
-    "App bundles" : "Alkalmazás csomagok",
+    "App bundles" : "Alkalmazáscsomagok",
     "Featured apps" : "Kiemelt alkalmazások",
     "{license}-licensed" : "{license}-licencelt",
     "Details" : "Részletek",
