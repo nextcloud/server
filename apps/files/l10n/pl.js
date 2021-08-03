@@ -39,6 +39,8 @@ OC.L10N.register(
     "Could not load info for file \"{file}\"" : "Nie można załadować informacji o pliku \"{file}\"",
     "Files" : "Pliki",
     "Details" : "Szczegóły",
+    "Please select tag(s) to add to the selection" : "Wybierz etykietę(y) do dodania dla zaznaczenia",
+    "Apply tag(s) to selection" : "Zastosuj etykietę(y) dla zaznaczenia",
     "Select" : "Wybierz",
     "Pending" : "Oczekujące",
     "Unable to determine date" : "Nie można ustalić daty",

@@ -137,6 +137,7 @@ OC.L10N.register(
     "Tentative" : "Kesin değil",
     "Save" : "Kaydet",
     "Your attendance was updated successfully." : "Katılımınız güncellendi.",
-    "Calendar and tasks" : "Takvim ve görevler"
+    "Calendar and tasks" : "Takvim ve görevler",
+    "i" : "i"
 },
 "nplurals=2; plural=(n > 1);");
