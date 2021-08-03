@@ -39,6 +39,8 @@ OC.L10N.register(
     "Could not load info for file \"{file}\"" : "\"{file}\" dosyasının bilgileri alınamadı",
     "Files" : "Dosyalar",
     "Details" : "Ayrıntılar",
+    "Please select tag(s) to add to the selection" : "Seçime eklemek için etiketleri seçin",
+    "Apply tag(s) to selection" : "Etiketleri seçime uygula",
     "Select" : "Seçin",
     "Pending" : "Bekliyor",
     "Unable to determine date" : "Tarih belirlenemedi",

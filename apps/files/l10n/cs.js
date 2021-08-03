@@ -39,6 +39,8 @@ OC.L10N.register(
     "Could not load info for file \"{file}\"" : "Nepodařilo se načíst informace pro soubor „{file}“",
     "Files" : "Soubory",
     "Details" : "Podrobnosti",
+    "Please select tag(s) to add to the selection" : "Vyberte štítky které přidat do výběru",
+    "Apply tag(s) to selection" : "Uplatnit štítky na výběr",
     "Select" : "Vybrat",
     "Pending" : "Nevyřízené",
     "Unable to determine date" : "Nelze určit datum",
