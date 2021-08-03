@@ -137,6 +137,7 @@ OC.L10N.register(
     "Tentative" : "Vorläufig",
     "Save" : "Speichern",
     "Your attendance was updated successfully." : "Ihr Teilnehmerstatus wurde aktualisiert.",
-    "Calendar and tasks" : "Kalender und Aufgaben"
+    "Calendar and tasks" : "Kalender und Aufgaben",
+    "i" : "i"
 },
 "nplurals=2; plural=(n != 1);");
