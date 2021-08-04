@@ -10,7 +10,7 @@ OC.L10N.register(
     "Open sidebar" : "Oldalsáv megnyitása",
     "Download" : "Letöltés",
     "Delete" : "Törlés",
-    "There is no plugin available to display this file type" : "Nincs elérhető plugin a fájltípus megjelenítésére",
+    "There is no plugin available to display this file type" : "Nincs elérhető bővítmény a fájltípus megjelenítéséhez",
     "View" : "Megtekintés"
 },
 "nplurals=2; plural=(n != 1);");
