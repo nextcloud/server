@@ -1021,12 +1021,10 @@ class OC {
 			OC_App::loadApps();
 			OC_User::setupBackends();
 			OC_Util::setupFS();
-			// FIXME
-			// Redirect to default application
-			OC_Util::redirectToDefaultPage();
+			header('Location: ' . \OC::$server->getURLGenerator()->linkToDefaultPageUrl());
 		} else {
 			// Not handled and not logged in
-			header('Location: '.\OC::$server->getURLGenerator()->linkToRouteAbsolute('core.login.showLoginForm'));
+			header('Location: ' . \OC::$server->getURLGenerator()->linkToRouteAbsolute('core.login.showLoginForm'));
 		}
 	}
 

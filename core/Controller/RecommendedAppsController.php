@@ -30,15 +30,20 @@ use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\StandaloneTemplateResponse;
 use OCP\IInitialStateService;
 use OCP\IRequest;
+use OCP\IURLGenerator;
 
 class RecommendedAppsController extends Controller {
 
+	/** @var IURLGenerator */
+	public $urlGenerator;
 	/** @var IInitialStateService */
 	private $initialStateService;
 
 	public function __construct(IRequest $request,
+								IURLGenerator $urlGenerator,
 								IInitialStateService $initialStateService) {
 		parent::__construct('core', $request);
+		$this->urlGenerator = $urlGenerator;
 		$this->initialStateService = $initialStateService;
 	}
 
@@ -47,7 +52,8 @@ class RecommendedAppsController extends Controller {
 	 * @return Response
 	 */
 	public function index(): Response {
-		$this->initialStateService->provideInitialState('core', 'defaultPageUrl', \OC_Util::getDefaultPageUrl());
+		$defaultPageUrl = $this->urlGenerator->linkToDefaultPageUrl();
+		$this->initialStateService->provideInitialState('core', 'defaultPageUrl', $defaultPageUrl);
 		return new StandaloneTemplateResponse($this->appName, 'recommendedapps', [], 'guest');
 	}
 }
