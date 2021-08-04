@@ -137,6 +137,7 @@ OC.L10N.register(
     "Tentative" : "Behin behinekoa",
     "Save" : "Gorde",
     "Your attendance was updated successfully." : "Zure parte-hartzea ondo eguneratu da.",
-    "Calendar and tasks" : "Egutegia eta atazak"
+    "Calendar and tasks" : "Egutegia eta atazak",
+    "i" : "i"
 },
 "nplurals=2; plural=(n != 1);");

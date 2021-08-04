@@ -1,6 +1,7 @@
 OC.L10N.register(
     "oauth2",
     {
+    "Your client is not authorized to connect. Please inform the administrator of your client." : "Jūsų kliento programa nėra įgaliota prisijungti. Informuokite administratorių apie savo kliento programą.",
     "OAuth 2.0" : "OAuth 2.0",
     "OAuth 2.0 clients" : "OAuth 2.0 klientai",
     "OAuth 2.0 allows external services to request access to {instanceName}." : "OAuth 2.0 leidžia išorinėms tarnyboms užklausti prieigą prie {instanceName}.",
