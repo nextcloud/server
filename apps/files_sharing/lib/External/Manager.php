@@ -31,6 +31,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OCA\Files_Sharing\External;
 
 use Doctrine\DBAL\Driver\Exception;
@@ -47,6 +48,7 @@ use OCP\Http\Client\IClientService;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IUserManager;
+use OCP\IUserSession;
 use OCP\Notification\IManager;
 use OCP\OCS\IDiscoveryService;
 use OCP\Share;
@@ -83,7 +85,7 @@ class Manager {
 	/** @var ICloudFederationFactory */
 	private $cloudFederationFactory;
 
-	/** @var IGroupManager  */
+	/** @var IGroupManager */
 	private $groupManager;
 
 	/** @var IUserManager */
@@ -96,25 +98,26 @@ class Manager {
 	private $logger;
 
 	public function __construct(
-		IDBConnection $connection,
-		\OC\Files\Mount\Manager $mountManager,
-		IStorageFactory $storageLoader,
-		IClientService $clientService,
-		IManager $notificationManager,
-		IDiscoveryService $discoveryService,
+		IDBConnection                   $connection,
+		\OC\Files\Mount\Manager         $mountManager,
+		IStorageFactory                 $storageLoader,
+		IClientService                  $clientService,
+		IManager                        $notificationManager,
+		IDiscoveryService               $discoveryService,
 		ICloudFederationProviderManager $cloudFederationProviderManager,
-		ICloudFederationFactory $cloudFederationFactory,
-		IGroupManager $groupManager,
-		IUserManager $userManager,
-		?string $uid,
-		IEventDispatcher $eventDispatcher,
-		LoggerInterface $logger
+		ICloudFederationFactory         $cloudFederationFactory,
+		IGroupManager                   $groupManager,
+		IUserManager                    $userManager,
+		IUserSession                    $userSession,
+		IEventDispatcher                $eventDispatcher,
+		LoggerInterface                 $logger
 	) {
+		$user = $userSession->getUser();
 		$this->connection = $connection;
 		$this->mountManager = $mountManager;
 		$this->storageLoader = $storageLoader;
 		$this->clientService = $clientService;
-		$this->uid = $uid;
+		$this->uid = $user ? $user->getUID() : null;
 		$this->notificationManager = $notificationManager;
 		$this->discoveryService = $discoveryService;
 		$this->cloudFederationProviderManager = $cloudFederationProviderManager;

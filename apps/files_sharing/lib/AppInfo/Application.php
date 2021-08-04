@@ -29,10 +29,11 @@
  */
 namespace OCA\Files_Sharing\AppInfo;
 
-use OC\AppFramework\Utility\SimpleContainer;
+use OC\Share\Share;
 use OCA\Files_Sharing\Capabilities;
 use OCA\Files_Sharing\Event\BeforeTemplateRenderedEvent;
 use OCA\Files_Sharing\External\Manager;
+use OCA\Files_Sharing\Helper;
 use OCA\Files_Sharing\Listener\LegacyBeforeTemplateRenderedListener;
 use OCA\Files_Sharing\Listener\LoadAdditionalListener;
 use OCA\Files_Sharing\Listener\LoadSidebarListener;
@@ -47,71 +48,35 @@ use OCA\Files_Sharing\Notification\Listener;
 use OCA\Files_Sharing\Notification\Notifier;
 use OCA\Files\Event\LoadAdditionalScriptsEvent;
 use OCA\Files\Event\LoadSidebar;
+use OCA\Files_Sharing\ShareBackend\File;
+use OCA\Files_Sharing\ShareBackend\Folder;
 use OCP\AppFramework\App;
+use OCP\AppFramework\Bootstrap\IBootContext;
+use OCP\AppFramework\Bootstrap\IBootstrap;
+use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\ICloudIdManager;
 use OCP\Files\Config\IMountProviderCollection;
 use OCP\Group\Events\UserAddedEvent;
 use OCP\IDBConnection;
 use OCP\IGroup;
-use OCP\IServerContainer;
 use OCP\IUserSession;
 use OCP\Share\Events\ShareCreatedEvent;
 use OCP\Share\IManager;
 use OCP\Util;
 use Psr\Container\ContainerInterface;
-use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
-class Application extends App {
+class Application extends App implements IBootstrap {
 	public const APP_ID = 'files_sharing';
 
 	public function __construct(array $urlParams = []) {
 		parent::__construct(self::APP_ID, $urlParams);
+	}
 
-		$container = $this->getContainer();
-
-		/** @var IServerContainer $server */
-		$server = $container->getServer();
-
-		/** @var IEventDispatcher $dispatcher */
-		$dispatcher = $container->query(IEventDispatcher::class);
-		$oldDispatcher = $container->getServer()->getEventDispatcher();
-		$mountProviderCollection = $server->getMountProviderCollection();
-		$notifications = $server->getNotificationManager();
-
-		/**
-		 * Core class wrappers
-		 */
-		$container->registerService(Manager::class, function (SimpleContainer $c) use ($server) {
-			$user = $server->getUserSession()->getUser();
-			$uid = $user ? $user->getUID() : null;
-			return new \OCA\Files_Sharing\External\Manager(
-				$server->getDatabaseConnection(),
-				\OC\Files\Filesystem::getMountManager(),
-				\OC\Files\Filesystem::getLoader(),
-				$server->getHTTPClientService(),
-				$server->getNotificationManager(),
-				$server->query(\OCP\OCS\IDiscoveryService::class),
-				$server->getCloudFederationProviderManager(),
-				$server->getCloudFederationFactory(),
-				$server->getGroupManager(),
-				$server->getUserManager(),
-				$uid,
-				$server->query(IEventDispatcher::class),
-				$server->get(LoggerInterface::class)
-			);
-		});
-
-		/**
-		 * Middleware
-		 */
-		$container->registerMiddleWare(SharingCheckMiddleware::class);
-		$container->registerMiddleWare(OCSShareAPIMiddleware::class);
-		$container->registerMiddleWare(ShareInfoMiddleware::class);
-
-		$container->registerService('ExternalMountProvider', function (ContainerInterface $c) {
+	public function register(IRegistrationContext $context): void {
+		$context->registerService('ExternalMountProvider', function (ContainerInterface $c) {
 			return new \OCA\Files_Sharing\External\MountProvider(
 				$c->get(IDBConnection::class),
 				function () use ($c) {
@@ -122,15 +87,25 @@ class Application extends App {
 		});
 
 		/**
-		 * Register capabilities
+		 * Middleware
 		 */
-		$container->registerCapability(Capabilities::class);
+		$context->registerMiddleWare(SharingCheckMiddleware::class);
+		$context->registerMiddleWare(OCSShareAPIMiddleware::class);
+		$context->registerMiddleWare(ShareInfoMiddleware::class);
 
-		$notifications->registerNotifierService(Notifier::class);
+		$context->registerCapability(Capabilities::class);
 
-		$this->registerMountProviders($mountProviderCollection);
-		$this->registerEventsScripts($dispatcher, $oldDispatcher);
-		$this->setupSharingMenus();
+		$context->registerNotifierService(Notifier::class);
+	}
+
+	public function boot(IBootContext $context): void {
+		$context->injectFn([$this, 'registerMountProviders']);
+		$context->injectFn([$this, 'registerEventsScripts']);
+
+		Helper::registerHooks();
+
+		Share::registerBackend('file', File::class);
+		Share::registerBackend('folder', Folder::class, 'file');
 
 		/**
 		 * Always add main sharing script
@@ -138,12 +113,13 @@ class Application extends App {
 		Util::addScript(self::APP_ID, 'dist/main');
 	}
 
-	protected function registerMountProviders(IMountProviderCollection $mountProviderCollection) {
+
+	public function registerMountProviders(IMountProviderCollection $mountProviderCollection) {
 		$mountProviderCollection->registerProvider($this->getContainer()->query(MountProvider::class));
 		$mountProviderCollection->registerProvider($this->getContainer()->query('ExternalMountProvider'));
 	}
 
-	protected function registerEventsScripts(IEventDispatcher $dispatcher, EventDispatcherInterface $oldDispatcher) {
+	public function registerEventsScripts(IEventDispatcher $dispatcher, EventDispatcherInterface $oldDispatcher) {
 		// sidebar and files scripts
 		$dispatcher->addServiceListener(LoadAdditionalScriptsEvent::class, LoadAdditionalListener::class);
 		$dispatcher->addServiceListener(BeforeTemplateRenderedEvent::class, LegacyBeforeTemplateRenderedListener::class);
