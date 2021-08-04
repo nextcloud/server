@@ -354,12 +354,12 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 
 		$declineAction = $notification->createAction();
 		$declineAction->setLabel('decline')
-			->setLink($this->urlGenerator->getAbsoluteURL($this->urlGenerator->linkTo('', 'ocs/v2.php/apps/files_sharing/api/v1/remote_shares/pending/' . $shareId)), 'DELETE');
+			->setLink($this->urlGenerator->linkTo('', 'ocs/v2.php/apps/files_sharing/api/v1/remote_shares/pending/' . $shareId), 'DELETE');
 		$notification->addAction($declineAction);
 
 		$acceptAction = $notification->createAction();
 		$acceptAction->setLabel('accept')
-			->setLink($this->urlGenerator->getAbsoluteURL($this->urlGenerator->linkTo('', 'ocs/v2.php/apps/files_sharing/api/v1/remote_shares/pending/' . $shareId)), 'POST');
+			->setLink($this->urlGenerator->linkTo('', 'ocs/v2.php/apps/files_sharing/api/v1/remote_shares/pending/' . $shareId), 'POST');
 		$notification->addAction($acceptAction);
 
 		$this->notificationManager->notify($notification);
