@@ -73,6 +73,7 @@ use OC\Share20\Hooks;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Group\Events\UserRemovedEvent;
 use OCP\ILogger;
+use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
 use OCP\Server;
@@ -408,7 +409,16 @@ class OC {
 	}
 
 	public static function initSession(): void {
-		if (Server::get(\OCP\IRequest::class)->getServerProtocol() === 'https') {
+		$request = Server::get(IRequest::class);
+		$isDavRequest = strpos($request->getRequestUri(), '/remote.php/dav') === 0 || strpos($request->getRequestUri(), '/remote.php/webdav') === 0;
+		if ($request->getHeader('Authorization') !== '' && is_null($request->getCookie('cookie_test')) && $isDavRequest) {
+			setcookie('cookie_test', 'test', time() + 3600);
+			// Do not initialize the session if a request is authenticated directly
+			// unless there is a session cookie already sent along
+			return;
+		}
+
+		if ($request->getServerProtocol() === 'https') {
 			ini_set('session.cookie_secure', 'true');
 		}
 
@@ -516,7 +526,7 @@ class OC {
 	 * also we can't directly interfere with PHP's session mechanism.
 	 */
 	private static function performSameSiteCookieProtection(\OCP\IConfig $config): void {
-		$request = Server::get(\OCP\IRequest::class);
+		$request = Server::get(IRequest::class);
 
 		// Some user agents are notorious and don't really properly follow HTTP
 		// specifications. For those, have an automated opt-out. Since the protection
@@ -778,7 +788,7 @@ class OC {
 			return;
 		}
 
-		$request = Server::get(\OCP\IRequest::class);
+		$request = Server::get(IRequest::class);
 		$host = $request->getInsecureServerHost();
 		/**
 		 * if the host passed in headers isn't trusted
@@ -840,7 +850,7 @@ class OC {
 				if (!defined('PHPUNIT_RUN') && $userSession->isLoggedIn()) {
 					// reset brute force delay for this IP address and username
 					$uid = $userSession->getUser()->getUID();
-					$request = Server::get(\OCP\IRequest::class);
+					$request = Server::get(IRequest::class);
 					$throttler = Server::get(\OC\Security\Bruteforce\Throttler::class);
 					$throttler->resetDelay($request->getRemoteAddress(), 'login', ['user' => $uid]);
 				}
@@ -970,7 +980,7 @@ class OC {
 			exit();
 		}
 
-		$request = Server::get(\OCP\IRequest::class);
+		$request = Server::get(IRequest::class);
 		$requestPath = $request->getRawPathInfo();
 		if ($requestPath === '/heartbeat') {
 			return;
