@@ -1,7 +1,7 @@
 OC.L10N.register(
     "files_versions",
     {
-    "Versions" : "รุ่น",
+    "Versions" : "เวอร์ชั่น",
     "Failed to revert {file} to revision {timestamp}." : "{file} ล้มเหลวที่จะย้อนกลับไปยังการแก้ไขเมื่อ {timestamp}",
     "_%n byte_::_%n bytes_" : ["%n ไบต์"],
     "Restore" : "คืนค่า",
