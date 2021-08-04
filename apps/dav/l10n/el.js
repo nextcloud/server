@@ -104,11 +104,6 @@ OC.L10N.register(
     "Tentative" : "Δοκιμαστικό",
     "Save" : "Αποθήκευση",
     "Your attendance was updated successfully." : "Η παρουσία σας ενημερώθηκε με επιτυχία.",
-    "Hello %s," : "Γεια σου %s,",
-    "The meeting »%1$s« with %2$s was canceled." : "Το meeting »%1$s« με τον/την %2$s ακυρώθηκε.",
-    "The meeting »%1$s« with %2$s was updated." : "Το meeting » %1$s« με τον/την %2$s ενημερώθηκε.",
-    "%1$s invited you to »%2$s«" : "Ο %1$s σας προσκάλεσε στο »%2$s«",
-    "When:" : "Πότε:",
     "Calendar and tasks" : "Ημερολόγιο και εργασίες"
 },
 "nplurals=2; plural=(n != 1);");

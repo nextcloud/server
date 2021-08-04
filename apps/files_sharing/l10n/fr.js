@@ -120,7 +120,6 @@ OC.L10N.register(
     "Could not lock node" : "Impossible de verrouiller le nœud",
     "Could not lock path" : "Impossible de verrouiller le chemin",
     "Wrong or no update parameter given" : "Mauvais ou aucun paramètre donné ",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Le partage de l'envoi du mot de passe par Nextcloud Talk a échoué parce que Nextcloud Talk n'est pas activé.",
     "shared by %s" : "partagé par %s",
     "Download all files" : "Télécharger tous les fichiers",
     "Direct link" : "Lien direct",
@@ -232,6 +231,7 @@ OC.L10N.register(
     "Add to your Nextcloud" : "Ajouter à votre Nextcloud",
     "invalid permissions" : "permissions invalides",
     "Can't change permissions for public share links" : "Impossible de changer les permissions pour les liens de partage public",
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Le partage de l'envoi du mot de passe par Nextcloud Talk a échoué parce que Nextcloud Talk n'est pas activé.",
     "Name, email, or federated cloud ID …" : "Nom, adresse e-mail ou identifiant cloud fédéré…"
 },
 "nplurals=2; plural=(n > 1);");

@@ -71,7 +71,8 @@ export default {
 			default: '',
 		},
 		redirectUrl: {
-			type: String,
+			type: [String, Boolean],
+			default: false,
 		},
 		invertedColors: {
 			type: Boolean,

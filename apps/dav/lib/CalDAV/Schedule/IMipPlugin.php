@@ -692,7 +692,7 @@ class IMipPlugin extends SabreIMipPlugin {
 	 * @return string
 	 */
 	private function createInvitationToken(Message $iTipMessage, $lastOccurrence):string {
-		$token = $this->random->generate(60, ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_DIGITS);
+		$token = $this->random->generate(60, ISecureRandom::CHAR_ALPHANUMERIC);
 
 		/** @var VEvent $vevent */
 		$vevent = $iTipMessage->message->VEVENT;

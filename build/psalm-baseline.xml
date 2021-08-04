@@ -934,10 +934,9 @@
       <code>'OCA\DAV\Connector\Sabre::addPlugin'</code>
       <code>'OCA\DAV\Connector\Sabre::authInit'</code>
     </InvalidArgument>
-    <TooManyArguments occurrences="3">
+    <TooManyArguments occurrences="2">
       <code>dispatch</code>
       <code>dispatch</code>
-      <code>new QuotaPlugin($view, false)</code>
     </TooManyArguments>
     <UndefinedPropertyAssignment occurrences="1">
       <code>$acl-&gt;defaultUsernamePath</code>
@@ -1769,11 +1768,6 @@
       <code>$this</code>
     </InvalidScope>
   </file>
-  <file src="apps/files_versions/lib/Expiration.php">
-    <FalsableReturnStatement occurrences="1">
-      <code>$maxAge</code>
-    </FalsableReturnStatement>
-  </file>
   <file src="apps/files_versions/lib/Sabre/RestoreFolder.php">
     <InvalidNullableReturnType occurrences="1">
       <code>getChild</code>
@@ -1796,17 +1790,10 @@
     </UndefinedFunction>
   </file>
   <file src="apps/files_versions/lib/Storage.php">
-    <InvalidArgument occurrences="1">
-      <code>'OCA\Files_Versions::createVersion'</code>
-    </InvalidArgument>
     <InvalidScalarArgument occurrences="2">
       <code>$timestamp</code>
       <code>$uid</code>
     </InvalidScalarArgument>
-    <TooManyArguments occurrences="2">
-      <code>dispatch</code>
-      <code>getURLGenerator</code>
-    </TooManyArguments>
   </file>
   <file src="apps/lookup_server_connector/lib/BackgroundJobs/RetryJob.php">
     <InvalidScalarArgument occurrences="1">
@@ -1926,12 +1913,6 @@
       <code>$iconFile !== false</code>
       <code>$iconFile !== false</code>
     </RedundantCondition>
-  </file>
-  <file src="apps/theming/lib/IconBuilder.php">
-    <InvalidScalarArgument occurrences="2">
-      <code>$offset_h</code>
-      <code>$offset_w</code>
-    </InvalidScalarArgument>
   </file>
   <file src="apps/theming/lib/ImageManager.php">
     <InvalidReturnType occurrences="1">
@@ -4285,11 +4266,6 @@
       <code>mixed</code>
     </LessSpecificImplementedReturnType>
   </file>
-  <file src="lib/private/Memcache/Factory.php">
-    <TypeDoesNotContainType occurrences="1">
-      <code>$lockingCacheClass &amp;&amp; class_exists($distributedCacheClass)</code>
-    </TypeDoesNotContainType>
-  </file>
   <file src="lib/private/Memcache/Memcached.php">
     <RedundantCondition occurrences="1">
       <code>method_exists(self::$cache, 'deleteMulti')</code>
@@ -4415,10 +4391,6 @@
     </ForbiddenCode>
   </file>
   <file src="lib/private/RedisFactory.php">
-    <InvalidPropertyAssignmentValue occurrences="2">
-      <code>new \RedisCluster(null, $config['seeds'], $timeout, $readTimeout)</code>
-      <code>new \RedisCluster(null, $config['seeds'], $timeout, $readTimeout, false, $config['password'])</code>
-    </InvalidPropertyAssignmentValue>
     <InvalidScalarArgument occurrences="1">
       <code>\RedisCluster::OPT_SLAVE_FAILOVER</code>
     </InvalidScalarArgument>

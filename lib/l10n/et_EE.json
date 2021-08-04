@@ -139,8 +139,6 @@
     "Could not obtain lock type %d on \"%s\"." : "Ei suutnud hankida %d tüüpi lukustust \"%s\".",
     "Storage is temporarily not available" : "Salvestusruum pole ajutiselt kättesaadav",
     "This can usually be fixed by giving the webserver write access to the config directory" : "Tavaliselt saab selle lahendada andes veebiserverile seatete kataloogile \"config\" kirjutusõigused",
-    "Following databases are supported: %s" : "Toetatud on järgnevad andmebaasid: %s",
-    "Following platforms are supported: %s" : "Toetatud on järgnevad platformid: %s",
     "Can't create or write into the data directory %s" : "Ei suuda luua või kirjutada andmete kataloogi %s",
     "Invalid Federated Cloud ID" : "Vigane liitpilve ID",
     "Can’t increase permissions of %s" : "Ei saa %s õigusi suurendada",

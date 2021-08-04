@@ -36,7 +36,6 @@ OC.L10N.register(
     "Provide federated file sharing across servers" : "Sér um deilingu skráa milli skýjaþjóna (skýjasambandssameign)",
     "Federated Cloud Sharing" : "Deiling með skýjasambandi",
     "Open documentation" : "Opna hjálparskjöl",
-    "Adjust how people can share between servers." : "Stilltu hvernig fólk getur deilt á milli þjóna.",
     "Allow users on this server to receive shares from other servers" : "Leyfa notendum á þessum þjóni að taka á móti sameignum frá öðrum þjónum",
     "Allow users on this server to send shares to groups on other servers" : "Leyfa notendum á þessum þjóni að senda sameignir til hópa á öðrum þjónum",
     "Allow users on this server to receive group shares from other servers" : "Leyfa notendum á þessum þjóni að taka á móti hópsameignum frá öðrum þjónum",
@@ -49,6 +48,6 @@ OC.L10N.register(
     "Add to your website" : "Bæta við vefsvæðið þitt",
     "Share with me via Nextcloud" : "Deila með mér í gegnum Nextcloud",
     "HTML Code:" : "HTML-kóði:",
-    "Allow users on this server to send shares to other servers" : "Leyfa notendum á þessum þjóni að senda sameignir til annarra þjóna"
+    "Adjust how people can share between servers." : "Stilltu hvernig fólk getur deilt á milli þjóna."
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

@@ -43,7 +43,6 @@ OC.L10N.register(
     "Language" : "Jezik",
     "Add" : "Dodaj",
     "Updates" : "Ažuriranja",
-    "Everyone" : "Svi",
     "Admins" : "Administratori",
     "Show user backend" : "Prikaži korisničku pozadinu (backend)",
     "Send email to new user" : "Pošalji e-poštu novom korisniku",
@@ -69,7 +68,6 @@ OC.L10N.register(
     "Send email" : "Pošalji e-poštu",
     "Version" : "Verzija",
     "Allow apps to use the Share API" : "Dozvoli aplikacijama korištenje Share API",
-    "days" : "dana",
     "Enforce expiration date" : "Nametni datum isteka",
     "Allow public uploads" : "Dozvoli javno učitavanje",
     "Enforce password protection" : "Nametni zaštitu lozinke",
@@ -92,6 +90,7 @@ OC.L10N.register(
     "Public" : "Javno",
     "by" : "od strane",
     "Close" : "Zatvori",
+    "Everyone" : "Svi",
     "Common Name" : "Opće Ime",
     "Valid until" : "Validno do",
     "Issued By" : "Izdano od",
@@ -99,6 +98,7 @@ OC.L10N.register(
     "mail" : "pošta",
     "Execute one task with each page loaded" : "Izvrši jedan zadatak sa svakom učitanom stranicom",
     "Expire after " : "Istek nakon",
+    "days" : "dana",
     "Allow users to share via link" : "Dozvoli korisnicima dijeljenje putem veze"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

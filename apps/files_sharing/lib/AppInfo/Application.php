@@ -60,6 +60,7 @@ use OCP\Share\Events\ShareCreatedEvent;
 use OCP\Share\IManager;
 use OCP\Util;
 use Psr\Container\ContainerInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
@@ -98,7 +99,8 @@ class Application extends App {
 				$server->getGroupManager(),
 				$server->getUserManager(),
 				$uid,
-				$server->query(IEventDispatcher::class)
+				$server->query(IEventDispatcher::class),
+				$server->get(LoggerInterface::class)
 			);
 		});
 

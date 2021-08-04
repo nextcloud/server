@@ -305,7 +305,6 @@ OC.L10N.register(
     "Update app \"%s\" from appstore" : "Päivitä sovellus \"%s\" sovelluskaupasta",
     "Checked for update of app \"%s\" in appstore" : "Päivitys sovellukseen \"%s\" tarkistettu sovelluskaupasta",
     "Checked database schema update for apps" : "Tarkistettu tietokannan skeemapäivitys sovelluksille",
-    "Following apps have been disabled: %s" : "Seuraavat sovellukset on poistettu käytöstä: %s",
     "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "Palvelinta ei ole määritelty oikein tunnistamaan osoitetta \"{url}\". Katso lisätiedot <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">ohjeista</a>.",
     "Check the background job settings" : "Tarkista taustatyön asetukset",
     "No memory cache has been configured. To enhance performance, please configure a memcache, if available. Further information can be found in the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "Välimuistia ei ole asennettu oikein. Suorituskykyä parantaaksesi, asenna memcache, jos käytettävissä. Katso lisätiedot <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">ohjeista</a>.",
@@ -317,15 +316,10 @@ OC.L10N.register(
     "Use of the the built in php mailer is no longer supported. <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">Please update your email server settings ↗<a/>." : "Sisäänrakennetun php mailerin käyttö ei ole enää tuettua. <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">Päivitä sähköpostipalvelimesi asetukset ↗<a/>.",
     "Continue to Nextcloud" : "Jatka Nextcloudiin",
     "_The update was successful. Redirecting you to Nextcloud in %n second._::_The update was successful. Redirecting you to Nextcloud in %n seconds._" : ["Päivitys onnistui. Siirryt Nextcloudiin %n sekunnin kuluttua.","Päivitys onnistui. Siirryt Nextcloudiin %n sekunnin kuluttua."],
-    "Searching other places" : "Etsitään muista paikoista",
-    "No search results in other folders for {tag}{filter}{endtag}" : "Ei hakutuloksia muissa kansioissa haulla {tag}{filter}{endtag}",
-    "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} hakutulos muussa kansiossa","{count} hakutulosta muissa kansioissa"],
     "A password reset message has been sent to the e-mail address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Salasanan palauttamisviesti on lähetetty tilin sähköpostiin. Jos et saa sitä, tarkista roskapostikansiosi tai kysy apua paikalliselta ylläpitäjältä.",
     "Password can not be changed. Please contact your administrator." : "Salasanan vaihtaminen ei onnistunut. Ota yhteys ylläpitäjään.",
     "Could not fetch list of apps from the app store." : "Ei voitu hakea sovelluskaupan listaa.",
-    "Nextcloud {app}" : "Nextcloud {app}",
     "Can't install this app because it is not compatible" : "Tätä sovellusta ei voi asentaa, koska se ei ole yhteensopiva",
-    "Can't install this app" : "Tätä sovellusta ei voi asentaa",
-    "These apps will be updated:" : "Nämä sovellukset päivitetään:"
+    "Can't install this app" : "Tätä sovellusta ei voi asentaa"
 },
 "nplurals=2; plural=(n != 1);");

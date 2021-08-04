@@ -2967,7 +2967,7 @@ class ShareAPIControllerTest extends TestCase {
 
 	public function testUpdateLinkShareSendPasswordByTalkWithTalkDisabledDoesNotChangeOther() {
 		$this->expectException(\OCP\AppFramework\OCS\OCSForbiddenException::class);
-		$this->expectExceptionMessage('Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled');
+		$this->expectExceptionMessage('"Sending the password by Nextcloud Talk" for sharing a file or folder failed because Nextcloud Talk is not enabled.');
 
 		$ocs = $this->mockFormatShare();
 

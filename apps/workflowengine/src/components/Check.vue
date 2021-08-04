@@ -125,6 +125,7 @@ export default {
 			if (this.currentOption && this.currentOption.validate) {
 				this.valid = !!this.currentOption.validate(this.check)
 			}
+			// eslint-disable-next-line vue/no-mutating-props
 			this.check.invalid = !this.valid
 			this.$emit('validate', this.valid)
 		},
@@ -133,7 +134,9 @@ export default {
 			if (this.check.class !== this.currentOption.class || matchingOperator === -1) {
 				this.currentOperator = this.operators[0]
 			}
+			// eslint-disable-next-line vue/no-mutating-props
 			this.check.class = this.currentOption.class
+			// eslint-disable-next-line vue/no-mutating-props
 			this.check.operator = this.currentOperator.operator
 
 			this.validate()

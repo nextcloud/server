@@ -208,12 +208,8 @@
     "Update app \"%s\" from appstore" : "Uuenda rakendus \"%s\" rakenduste poes",
     "Checked for update of app \"%s\" in appstore" : "Kontrolliti uuendusi rakenduse \"%s\" jaoks rakenduste poes",
     "Checked database schema update for apps" : "Andmebaasi skeemi uuendus rakendustele on kontrollitud",
-    "Following apps have been disabled: %s" : "Järgnevad rakendused on välja lülitatud: %s",
     "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "Sinu veebiserver pole veel piisavalt korralikult seadistatud, et lahendada aadressi \"{url}\". Lisateavet leiate meie <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\"> dokumentatsioonist </a>.",
     "Continue to Nextcloud" : "Edasi Nextcloudi",
-    "Searching other places" : "Otsi teistest kohtadest",
-    "No search results in other folders for {tag}{filter}{endtag}" : "Teistest kaustadest ei leitud {tag}{filter}{endtag}",
-    "Password can not be changed. Please contact your administrator." : "Parooli ei saa muuta. Palun kontakteeru oma süsteemihalduriga.",
-    "These apps will be updated:" : "Neid rakendusi uuendatakse:"
+    "Password can not be changed. Please contact your administrator." : "Parooli ei saa muuta. Palun kontakteeru oma süsteemihalduriga."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

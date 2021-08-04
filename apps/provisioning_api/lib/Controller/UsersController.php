@@ -47,7 +47,6 @@ use libphonenumber\PhoneNumber;
 use libphonenumber\PhoneNumberFormat;
 use libphonenumber\PhoneNumberUtil;
 use OC\Authentication\Token\RemoteWipe;
-use OC\HintException;
 use OC\KnownUser\KnownUserService;
 use OC\User\Backend;
 use OCA\Settings\Mailer\NewUserMailHelper;
@@ -59,6 +58,8 @@ use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\AppFramework\OCSController;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\HintException;
 use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
@@ -68,9 +69,8 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
-use OCP\Security\ISecureRandom;
 use OCP\Security\Events\GenerateSecurePasswordEvent;
-use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Security\ISecureRandom;
 use OCP\User\Backend\ISetDisplayNameBackend;
 use Psr\Log\LoggerInterface;
 
@@ -798,7 +798,18 @@ class UsersController extends AUserData {
 					if ($quota === -1) {
 						$quota = 'none';
 					} else {
+						$maxQuota = (int) $this->config->getAppValue('files', 'max_quota', '-1');
+						if ($maxQuota !== -1 && $quota > $maxQuota) {
+							throw new OCSException('Invalid quota value. ' . $value . ' is exceeding the maximum quota', 102);
+						}
 						$quota = \OCP\Util::humanFileSize($quota);
+					}
+				}
+				// no else block because quota can be set to 'none' in previous if
+				if ($quota === 'none') {
+					$allowUnlimitedQuota = $this->config->getAppValue('files', 'allow_unlimited_quota', '1') === '1';
+					if (!$allowUnlimitedQuota) {
+						throw new OCSException('Unlimited quota is forbidden on this instance', 102);
 					}
 				}
 				$targetUser->setQuota($quota);

@@ -40,7 +40,6 @@
  */
 namespace OCA\ShareByMail;
 
-use OC\HintException;
 use OC\Share20\Exception\InvalidShare;
 use OC\Share20\Share;
 use OC\User\NoUserException;
@@ -52,6 +51,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
+use OCP\HintException;
 use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\ILogger;
@@ -224,7 +224,7 @@ class ShareByMailProvider implements IShareProvider {
 
 		$password = $passwordEvent->getPassword();
 		if ($password === null) {
-			$password = $this->secureRandom->generate(8, ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_DIGITS);
+			$password = $this->secureRandom->generate(8, ISecureRandom::CHAR_HUMAN_READABLE);
 		}
 
 		return $password;

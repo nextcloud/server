@@ -209,20 +209,10 @@ OC.L10N.register(
     "Pending shares" : "Condivisioni in corso",
     "Text file" : "File di testo",
     "New text file.txt" : "Nuovo file di testo.txt",
-    "Unshare" : "Rimuovi condivisione",
     "Storage of {owner} is full, files can not be updated or synced anymore!" : "Lo spazio di archiviazione di {owner} è pieno, i file non possono essere più aggiornati o sincronizzati!",
     "Group folder \"{mountPoint}\" is full, files can not be updated or synced anymore!" : "La cartella di gruppo \"{mountPoint}\" è piena, i file non possono più essere aggiornati o sincronizzati!",
     "External storage \"{mountPoint}\" is full, files can not be updated or synced anymore!" : "L'archiviazione esterna \"{mountPoint}\" è piena, i file non possono più essere aggiornati o sincronizzati!",
     "Your storage is full, files can not be updated or synced anymore!" : "Lo spazio di archiviazione è pieno, i file non possono essere più aggiornati o sincronizzati!",
-    "Storage of {owner} is almost full ({usedSpacePercent}%)" : "Lo spazio di archiviazione di {owner} è quasi pieno ({usedSpacePercent}%)",
-    "Group folder \"{mountPoint}\" is almost full ({usedSpacePercent}%)" : "La cartella di gruppo \"{mountPoint}\" è quasi piena ({usedSpacePercent}%)",
-    "External storage \"{mountPoint}\" is almost full ({usedSpacePercent}%)" : "L'archiviazione esterna \"{mountPoint}\" è quasi piena ({usedSpacePercent}%)",
-    "Your storage is almost full ({usedSpacePercent}%)" : "Lo spazio di archiviazione è quasi pieno ({usedSpacePercent}%)",
-    "_matches '{filter}'_::_match '{filter}'_" : ["corrispondono a '{filter}'","corrisponde a '{filter}'"],
-    "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>" : "Un file o una cartella è stato <strong>modificato</strong> o <strong>rinominato</strong>",
-    "A new file or folder has been <strong>created</strong>" : "Un nuovo file o cartella è stato <strong>creato</strong>",
-    "A file or folder has been <strong>deleted</strong>" : "Un file o una cartella è stato <strong>eliminato</strong>",
-    "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Limita le notifiche relative alla creazione e alla modifica dei tuoi <strong>file preferiti</strong> <em>(Solo flusso)</em>",
-    "A file or folder has been <strong>restored</strong>" : "Un file o una cartella è stato <strong>ripristinato</strong>"
+    "_matches '{filter}'_::_match '{filter}'_" : ["corrispondono a '{filter}'","corrisponde a '{filter}'"]
 },
 "nplurals=2; plural=(n != 1);");

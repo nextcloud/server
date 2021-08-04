@@ -34,7 +34,6 @@
     "Provide federated file sharing across servers" : "Обезбедете федерално споделување на датотеки помеѓу сервери",
     "Federated Cloud Sharing" : "Федерално споделување",
     "Open documentation" : "Отвори ја документацијата",
-    "Adjust how people can share between servers." : "Прилагодете како корисниците можат да споделуваат помеѓу серверите.",
     "Allow users on this server to send shares to other servers (this option also allows WebDAV access to public shares)" : "Дозволи им на корисниците на овој сервер да испраќаат споделувања со други сервери (оваа можност истотака дозволува WebDAV пристап до јавни споделувања)",
     "Allow users on this server to receive shares from other servers" : "Дозволи им на корисниците на овој сервер да примаат споделувања од други сервери",
     "Allow users on this server to send shares to groups on other servers" : "Дозволи им на корисниците на овој сервер да испраќаат споделувања со групи на други сервери",
@@ -48,6 +47,6 @@
     "Add to your website" : "Додади на твојот веб сајт",
     "Share with me via Nextcloud" : "Сподели со мене",
     "HTML Code:" : "HTML код:",
-    "Allow users on this server to send shares to other servers" : "Дозволи им на корисниците на овој сервер да испраќаат споделувања со други сервери"
+    "Adjust how people can share between servers." : "Прилагодете како корисниците можат да споделуваат помеѓу серверите."
 },"pluralForm" :"nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;"
 }

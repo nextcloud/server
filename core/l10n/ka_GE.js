@@ -226,7 +226,6 @@ OC.L10N.register(
     "Update app \"%s\" from appstore" : "Appstore-იდან ნახლდება აპლიკაცია \"%s\"",
     "Checked for update of app \"%s\" in appstore" : "Appstore-ში დამოწმდა აპლიკაციის \"%s\" განახლება",
     "Checked database schema update for apps" : "დამოწმდა აპლიკაციებისთვის მონაცემთა ბაზის სქემის განახლება",
-    "Following apps have been disabled: %s" : "შემდეგი აპლიკაციები გაითიშა: %s",
     "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "\"{url}\"-ის გასახსნელად თქვენი ვებ-სერვერი არაა სწორად კონფიგურირებული. შეგიძლიათ იხილოთ მეტი ინფორმაცია <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">დოკუმენტაციაში</a>.",
     "No memory cache has been configured. To enhance performance, please configure a memcache, if available. Further information can be found in the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "მეხსიერების კეში არაა კონფიგურირებული. მოქმედების მახასიათებლების გაუმჯობესებისთვის გთოხვთ გაუწიოთ კონფიგურაცია memcache-ს. შეგიძლიათ იხილოთ მეტი ინფორმაცია <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">დოკუმენტაციაში</a>.",
     "You are currently running PHP {version}. Upgrade your PHP version to take advantage of <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{phpLink}\">performance and security updates provided by the PHP Group</a> as soon as your distribution supports it." : "ამჟამად თქვენთან მოქმედია PHP {version}. განაახლეთ თქვენი PHP ვერსია, რათა ისარგებლოთ <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{phpLink}\">PHP Group-ის მიერ უზრუნველყოფილი გაუმჯობესებული ქმედებითა და უსაფრთხოებებისის განახლებებით</a>.",
@@ -236,10 +235,6 @@ OC.L10N.register(
     "The PHP OPcache is not properly configured. <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">For better performance it is recommended</a> to use the following settings in the <code>php.ini</code>:" : "PHP OPcache არაა სწორად კონფიგურირებული. <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">უკეთესი მოქმედებისთვის რეკომენდირებულია</a> <code>php.ini</code>-ში გამოიყენოთ შემდეგი პარამეტრები:",
     "Continue to Nextcloud" : "გაგრძლება Nextcloud-ისკენ",
     "_The update was successful. Redirecting you to Nextcloud in %n second._::_The update was successful. Redirecting you to Nextcloud in %n seconds._" : ["განახლება წარმატებით დასრულდა. Nextcloud-ისკენ გადაგამისამართებთ %n წამში.","განახლება წარმატებით დასრულდა. Nextcloud-ისკენ გადაგამისამართებთ %n წამში."],
-    "Searching other places" : "ვეძებთ დანარჩენ ადგილებში",
-    "No search results in other folders for {tag}{filter}{endtag}" : "ძიების შედეგები სხვა დირექტორიებში {tag}{filter}{endtag}-სთვის არაა",
-    "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} ძიების შედეგები სხვა დირექტორიებში","{count} ძიების შედეგები სხვა დირექტორიებში"],
-    "Password can not be changed. Please contact your administrator." : "პაროლი ვერ იცვლება. დაუკავშირდით თქვენს ადმინისტრატორს.",
-    "These apps will be updated:" : "ეს აპლიკაციები განახლდება:"
+    "Password can not be changed. Please contact your administrator." : "პაროლი ვერ იცვლება. დაუკავშირდით თქვენს ადმინისტრატორს."
 },
 "nplurals=2; plural=(n!=1);");

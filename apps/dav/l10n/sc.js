@@ -104,11 +104,6 @@ OC.L10N.register(
     "Tentative" : "Intentu",
     "Save" : "Sarva",
     "Your attendance was updated successfully." : "Sa partetzipatzione tua est istada agiornada in manera curreta.",
-    "Hello %s," : "Salude %s,",
-    "The meeting »%1$s« with %2$s was canceled." : "S'addòbiu »%1$s« cun %2$s est istadu cantzelladu.",
-    "The meeting »%1$s« with %2$s was updated." : "S'addòbiu »%1$s« cun %2$s est istadu agiornadu.",
-    "%1$s invited you to »%2$s«" : "%1$s t'at invitadu »%2$s«",
-    "When:" : "Cando:",
     "Calendar and tasks" : "Calendàrios e fainas"
 },
 "nplurals=2; plural=(n != 1);");

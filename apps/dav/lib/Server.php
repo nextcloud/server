@@ -238,6 +238,7 @@ class Server {
 						\OC::$server->getConfig(),
 						$this->request,
 						\OC::$server->getPreviewManager(),
+						\OC::$server->getUserSession(),
 						false,
 						!\OC::$server->getConfig()->getSystemValue('debug', false)
 					)
@@ -254,7 +255,7 @@ class Server {
 				);
 				if ($view !== null) {
 					$this->server->addPlugin(
-						new QuotaPlugin($view, false));
+						new QuotaPlugin($view));
 				}
 				$this->server->addPlugin(
 					new TagsPlugin(

@@ -95,6 +95,15 @@ class Defaults {
 	}
 
 	/**
+	 * link to the Android client on F-Droid
+	 * @return string
+	 * @since 23.0.0
+	 */
+	public function getFDroidClientUrl() {
+		return $this->defaults->getFDroidClientUrl();
+	}
+
+	/**
 	 * base URL to the documentation of your ownCloud instance
 	 * @return string
 	 * @since 6.0.0

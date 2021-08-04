@@ -52,7 +52,7 @@ class TokenHandler {
 	public function generateToken() {
 		$token = $this->secureRandom->generate(
 			self::TOKEN_LENGTH,
-			ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_DIGITS);
+			ISecureRandom::CHAR_ALPHANUMERIC);
 		return $token;
 	}
 }

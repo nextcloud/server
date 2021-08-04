@@ -231,8 +231,6 @@
     "Storage connection timeout. %s" : "Atingido o tempo limite de conexão ao armazenamento. %s",
     "This can usually be fixed by giving the webserver write access to the config directory" : "Isso geralmente pode ser corrigido dando o acesso de escritura ao webserver para o diretório de configuração",
     "Or, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it." : "Ou, se você preferir manter o arquivo config.php somente para leitura, defina a opção \"config_is_read_only\" como true.",
-    "Following databases are supported: %s" : "Os seguintes bancos de dados são suportados: %s",
-    "Following platforms are supported: %s" : "As seguintes plataformas são suportadas: %s",
     "Can't create or write into the data directory %s" : "Não foi possível criar ou gravar no diretório de dados %s",
     "Invalid Federated Cloud ID" : "ID inválida de Nuvem Federada",
     "Can’t increase permissions of %s" : "Não posso aumentar as permissões de %s",

@@ -46,12 +46,12 @@ interface ICloudIdManager {
 	 * Get the cloud id for a remote user
 	 *
 	 * @param string $user
-	 * @param string $remote
+	 * @param string|null $remote (optional since 23.0.0 for local users)
 	 * @return ICloudId
 	 *
 	 * @since 12.0.0
 	 */
-	public function getCloudId(string $user, string $remote): ICloudId;
+	public function getCloudId(string $user, ?string $remote): ICloudId;
 
 	/**
 	 * Check if the input is a correctly formatted cloud id

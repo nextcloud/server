@@ -131,7 +131,10 @@ class Setup {
 	 * @return array
 	 */
 	protected function getAvailableDbDriversForPdo() {
-		return \PDO::getAvailableDrivers();
+		if (class_exists(\PDO::class)) {
+			return \PDO::getAvailableDrivers();
+		}
+		return [];
 	}
 
 	/**
@@ -224,7 +227,7 @@ class Setup {
 			try {
 				$util = new \OC_Util();
 				$htAccessWorking = $util->isHtaccessWorking(\OC::$server->getConfig());
-			} catch (\OC\HintException $e) {
+			} catch (\OCP\HintException $e) {
 				$errors[] = [
 					'error' => $e->getMessage(),
 					'exception' => $e,

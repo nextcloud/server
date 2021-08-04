@@ -152,8 +152,6 @@
     "Could not obtain lock type %d on \"%s\"." : "Kunne ikke opnå en låsetype %d på \"%s\".",
     "Storage is temporarily not available" : "Lagerplads er midlertidigt ikke tilgængeligt",
     "This can usually be fixed by giving the webserver write access to the config directory" : "Dette kan som regel ordnes ved at give webserveren skrive adgang til config mappen",
-    "Following databases are supported: %s" : "Følgende databaser understøttes: %s",
-    "Following platforms are supported: %s" : "Følgende platforme understøttes: %s",
     "Can't create or write into the data directory %s" : "Kan ikke oprette eller skrive ind i datamappen %s",
     "Invalid Federated Cloud ID" : "Ugyldigt Federated Cloud ID",
     "Can't read file" : "Kan ikke læse filen"

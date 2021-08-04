@@ -37,6 +37,8 @@
     "Could not load info for file \"{file}\"" : "無法讀取「{file}」的詳細資料",
     "Files" : "檔案",
     "Details" : "詳細資料",
+    "Please select tag(s) to add to the selection" : "請選取要新增到選定項目的標籤",
+    "Apply tag(s) to selection" : "將標籤套用至選定項目",
     "Select" : "選取",
     "Pending" : "等候中",
     "Unable to determine date" : "無法確定日期",
@@ -207,20 +209,10 @@
     "Pending shares" : "等待分享",
     "Text file" : "文字檔案",
     "New text file.txt" : "新文字檔案.txt",
-    "Unshare" : "取消分享",
     "Storage of {owner} is full, files can not be updated or synced anymore!" : "{owner} 的儲存空間已滿，沒有辦法再更新或是同步檔案！",
     "Group folder \"{mountPoint}\" is full, files can not be updated or synced anymore!" : "群組資料夾「{mountPoint}」已滿，已無法再更新或同步檔案！",
     "External storage \"{mountPoint}\" is full, files can not be updated or synced anymore!" : "外部儲存空間「{mountPoint}」已滿，已無法再更新或同步檔案！",
     "Your storage is full, files can not be updated or synced anymore!" : "您的儲存空間已滿，沒有辦法再更新或是同步檔案！",
-    "Storage of {owner} is almost full ({usedSpacePercent}%)" : "{owner} 的儲存空間快要滿了 ({usedSpacePercent}%)",
-    "Group folder \"{mountPoint}\" is almost full ({usedSpacePercent}%)" : "群組資料夾「{mountPoint}」將近已滿 ({usedSpacePercent}%)",
-    "External storage \"{mountPoint}\" is almost full ({usedSpacePercent}%)" : "外部儲存空間「{mountPoint}」將近已滿 ({usedSpacePercent}%)",
-    "Your storage is almost full ({usedSpacePercent}%)" : "您的儲存空間快要滿了 ({usedSpacePercent}%)",
-    "_matches '{filter}'_::_match '{filter}'_" : ["符合「{filter}」"],
-    "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>" : "檔案或目錄已被<strong>更動</strong>或<strong>改名</strong>",
-    "A new file or folder has been <strong>created</strong>" : "新的檔案或目錄已被<strong>建立</strong>",
-    "A file or folder has been <strong>deleted</strong>" : "檔案或目錄已被<strong>刪除</strong>",
-    "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "僅顯示<strong>最愛檔案</strong>的動態通知<em>（僅限訊息串）</em>",
-    "A file or folder has been <strong>restored</strong>" : "檔案或目錄已被<strong>復原</strong>"
+    "_matches '{filter}'_::_match '{filter}'_" : ["符合「{filter}」"]
 },"pluralForm" :"nplurals=1; plural=0;"
 }

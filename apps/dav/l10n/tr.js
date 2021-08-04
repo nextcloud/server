@@ -77,8 +77,11 @@ OC.L10N.register(
     "Description: %s" : "Açıklama: %s",
     "Where: %s" : "Şurada: %s",
     "%1$s via %2$s" : "%1$s, %2$s aracılığıyla",
+    "Cancelled: %1$s" : "İptal edildi: %1$s",
     "Invitation canceled" : "Çağrı iptal edildi",
+    "Re: %1$s" : "Ynt: %1$s",
     "Invitation updated" : "Çağrı güncellendi",
+    "Invitation: %1$s" : "Çağrı: %1$s",
     "Invitation" : "Çağrı",
     "Title:" : "Başlık:",
     "Time:" : "Zaman:",
@@ -134,11 +137,7 @@ OC.L10N.register(
     "Tentative" : "Kesin değil",
     "Save" : "Kaydet",
     "Your attendance was updated successfully." : "Katılımınız güncellendi.",
-    "Hello %s," : "Merhaba %s,",
-    "The meeting »%1$s« with %2$s was canceled." : "%2$s ile yapılacak »%1$s« görüşmesi iptal edildi.",
-    "The meeting »%1$s« with %2$s was updated." : "%2$s ile yapılacak »%1$s« görüşmesi güncellendi.",
-    "%1$s invited you to »%2$s«" : "%1$s sizi »%2$s« görüşmesine çağırdı",
-    "When:" : "Zaman:",
-    "Calendar and tasks" : "Takvim ve görevler"
+    "Calendar and tasks" : "Takvim ve görevler",
+    "i" : "i"
 },
 "nplurals=2; plural=(n > 1);");

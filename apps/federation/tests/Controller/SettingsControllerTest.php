@@ -88,7 +88,7 @@ class SettingsControllerTest extends TestCase {
 	 * @param bool $isOwnCloud
 	 */
 	public function testAddServerFail($isTrustedServer, $isOwnCloud) {
-		$this->expectException(\OC\HintException::class);
+		$this->expectException(\OCP\HintException::class);
 
 		$this->trustedServers
 			->expects($this->any())
@@ -136,7 +136,7 @@ class SettingsControllerTest extends TestCase {
 	 * @param bool $isOwnCloud
 	 */
 	public function testCheckServerFail($isTrustedServer, $isOwnCloud) {
-		$this->expectException(\OC\HintException::class);
+		$this->expectException(\OCP\HintException::class);
 
 		$this->trustedServers
 			->expects($this->any())

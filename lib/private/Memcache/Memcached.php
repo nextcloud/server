@@ -31,7 +31,7 @@
  */
 namespace OC\Memcache;
 
-use OC\HintException;
+use OCP\HintException;
 use OCP\IMemcache;
 
 class Memcached extends Cache implements IMemcache {

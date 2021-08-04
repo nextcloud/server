@@ -41,32 +41,49 @@ class DnsPinMiddleware {
 		$this->localAddressChecker = $localAddressChecker;
 	}
 
+	/**
+	 * Fetch soa record for a target
+	 *
+	 * @param string $target
+	 * @return array|null
+	 */
+	private function soaRecord(string $target): ?array {
+		$labels = explode('.', $target);
+
+		$top = count($labels) >= 2 ? array_pop($labels) : '';
+		$second = array_pop($labels);
+
+		$hostname = $second . '.' . $top;
+		$responses = dns_get_record($hostname, DNS_SOA);
+
+		if ($responses === false || count($responses) === 0) {
+			return null;
+		}
+
+		return reset($responses);
+	}
+
 	private function dnsResolve(string $target, int $recursionCount) : array {
 		if ($recursionCount >= 10) {
 			return [];
 		}
 
-		$recursionCount = $recursionCount++;
+		$recursionCount++;
 		$targetIps = [];
 
-		$soaDnsEntry = dns_get_record($target, DNS_SOA);
-		if (isset($soaDnsEntry[0]) && isset($soaDnsEntry[0]['minimum-ttl'])) {
-			$dnsNegativeTtl = $soaDnsEntry[0]['minimum-ttl'];
-		} else {
-			$dnsNegativeTtl = null;
-		}
+		$soaDnsEntry = $this->soaRecord($target);
+		$dnsNegativeTtl = $soaDnsEntry['minimum-ttl'] ?? null;
 
 		$dnsTypes = [DNS_A, DNS_AAAA, DNS_CNAME];
-		foreach ($dnsTypes as $key => $dnsType) {
+		foreach ($dnsTypes as $dnsType) {
 			if ($this->negativeDnsCache->isNegativeCached($target, $dnsType)) {
-				unset($dnsTypes[$key]);
 				continue;
 			}
 
 			$dnsResponses = dns_get_record($target, $dnsType);
 			$canHaveCnameRecord = true;
-			if (count($dnsResponses) > 0) {
-				foreach ($dnsResponses as $key => $dnsResponse) {
+			if ($dnsResponses !== false && count($dnsResponses) > 0) {
+				foreach ($dnsResponses as $dnsResponse) {
 					if (isset($dnsResponse['ip'])) {
 						$targetIps[] = $dnsResponse['ip'];
 						$canHaveCnameRecord = false;
@@ -78,10 +95,8 @@ class DnsPinMiddleware {
 						$canHaveCnameRecord = true;
 					}
 				}
-			} else {
-				if ($dnsNegativeTtl !== null) {
-					$this->negativeDnsCache->setNegativeCacheForDnsType($target, $dnsType, $dnsNegativeTtl);
-				}
+			} elseif ($dnsNegativeTtl !== null) {
+				$this->negativeDnsCache->setNegativeCacheForDnsType($target, $dnsType, $dnsNegativeTtl);
 			}
 		}
 
@@ -112,13 +127,20 @@ class DnsPinMiddleware {
 
 				$targetIps = $this->dnsResolve($hostName, 0);
 
-				foreach ($targetIps as $ip) {
-					$this->localAddressChecker->ThrowIfLocalIp($ip);
+				$curlResolves = [];
 
-					foreach ($ports as $port) {
-						$curlEntry = $hostName . ':' . $port . ':' . $ip;
-						$options['curl'][CURLOPT_RESOLVE][] = $curlEntry;
+				foreach ($ports as $port) {
+					$curlResolves["$hostName:$port"] = [];
+
+					foreach ($targetIps as $ip) {
+						$this->localAddressChecker->ThrowIfLocalIp($ip);
+						$curlResolves["$hostName:$port"][] = $ip;
 					}
+				}
+
+				// Coalesce the per-host:port ips back into a comma separated list
+				foreach ($curlResolves as $hostport => $ips) {
+					$options['curl'][CURLOPT_RESOLVE][] = "$hostport:" . implode(',', $ips);
 				}
 
 				return $handler($request, $options);

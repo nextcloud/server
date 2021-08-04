@@ -131,7 +131,7 @@ class DirectControllerTest extends TestCase {
 		$this->random->method('generate')
 			->with(
 				60,
-				ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_DIGITS
+				ISecureRandom::CHAR_ALPHANUMERIC
 			)->willReturn('superduperlongtoken');
 
 		$this->directMapper->expects($this->once())

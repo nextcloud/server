@@ -140,7 +140,8 @@ export default {
 			default: '',
 		},
 		redirectUrl: {
-			type: String,
+			type: [String, Boolean],
+			default: false,
 		},
 		errors: {
 			type: Array,
@@ -152,6 +153,7 @@ export default {
 		},
 		throttleDelay: {
 			type: Number,
+			default: 0,
 		},
 		invertedColors: {
 			type: Boolean,

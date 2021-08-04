@@ -56,14 +56,13 @@
     "Done" : "Gjørt",
     "Copied!" : "Kopiera!",
     "Copy" : "Kopi",
+    "Email" : "T-post",
     "Cancel" : "strika",
     "{size} used" : "{size} brúkt",
     "New user" : "Nýggjur brúkari",
-    "Email" : "T-post",
     "Your apps" : "Tínar appir",
     "Active apps" : "Virknar appir",
     "Disabled apps" : "Ógildaðar appir",
-    "Everyone" : "Øll",
     "Admins" : "Administratorar",
     "Remove group" : "Strika bólkin",
     "Enable" : "Gilda",
@@ -98,6 +97,7 @@
     "Nextcloud Android app" : "Nextcloud Android app",
     "Nextcloud Talk for iOS" : "Nextcloud Talk til iOS",
     "Nextcloud Talk for Android" : "Nextcloud Talk til Android",
+    "Everyone" : "Øll",
     "mail" : "post"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

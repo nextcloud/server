@@ -478,6 +478,9 @@ tr {
 
 .selectedActions > a {
 	opacity: .5;
+	position: relative;
+	top: 2px;
+
 	&:hover, &:focus {
 		opacity: 1;
 	}
@@ -990,7 +993,7 @@ span.ui-icon {
 
 #contactsmenu {
 	.menutoggle {
-		background-size: 16px 16px;
+		background-size: 20px 20px;
 		padding: 14px;
 		cursor: pointer;
 

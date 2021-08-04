@@ -38,12 +38,12 @@
 					:loading="loadingAddGroup"
 					:title="t('settings', 'Add group')"
 					icon="icon-add"
-					@click="toggleAddGroupEntry(true)"
+					@click="showAddGroupForm"
 					@update:title="createGroup" />
 				<AppNavigationItem
 					id="everyone"
 					:exact="true"
-					:title="t('settings', 'Everyone')"
+					:title="t('settings', 'Active users')"
 					:to="{ name: 'users' }"
 					icon="icon-contacts-dark">
 					<AppNavigationCounter v-if="userCount > 0" slot="counter">
@@ -81,7 +81,8 @@
 					:key="group.id"
 					:exact="true"
 					:title="group.title"
-					:to="{ name: 'group', params: { selectedGroup: encodeURIComponent(group.id) } }">
+					:to="{ name: 'group', params: { selectedGroup: encodeURIComponent(group.id) } }"
+					icon="icon-group">
 					<AppNavigationCounter v-if="group.count" slot="counter">
 						{{ group.count }}
 					</AppNavigationCounter>
@@ -150,7 +151,7 @@
 			</template>
 		</AppNavigation>
 		<AppContent>
-			<UserList #content
+			<UserList
 				:users="users"
 				:show-config="showConfig"
 				:selected-group="selectedGroupDecoded"
@@ -273,7 +274,9 @@ export default {
 			// convert the preset array into objects
 			const quotaPreset = this.settings.quotaPreset.reduce((acc, cur) => acc.concat({ id: cur, label: cur }), [])
 			// add default presets
-			quotaPreset.unshift(this.unlimitedQuota)
+			if (this.settings.allowUnlimitedQuota) {
+				quotaPreset.unshift(this.unlimitedQuota)
+			}
 			return quotaPreset
 		},
 		// mapping saved values to objects
@@ -445,9 +448,6 @@ export default {
 		async createGroup(gid) {
 			// group is not valid
 			if (gid.trim() === '') {
-				Vue.nextTick(() => {
-					this.toggleAddGroupEntry(true)
-				})
 				return
 			}
 
@@ -455,39 +455,31 @@ export default {
 				this.loadingAddGroup = true
 				await this.$store.dispatch('addGroup', gid.trim())
 
-				this.toggleAddGroupEntry(false)
-				this.$router.push({
+				this.hideAddGroupForm()
+				await this.$router.push({
 					name: 'group',
 					params: {
 						selectedGroup: encodeURIComponent(gid.trim()),
 					},
 				})
 			} catch {
-				this.toggleAddGroupEntry(true)
+				this.showAddGroupForm()
 			} finally {
 				this.loadingAddGroup = false
 			}
 		},
 
-		/**
-		 * Toggle the add group entry editing state
-		 * @param {boolean} [state] set state instead of toggling
-		 */
-		toggleAddGroupEntry(state) {
-			if (state === undefined) {
-				state = !this.$refs.addGroup.editing
-			}
-			this.$refs.addGroup.editing = state
-
-			// focus input
-			Vue.nextTick(() => {
-				if (this.$refs.addGroup.$el) {
-					const input = this.$refs.addGroup.$el.querySelector('form > input[type="text"]')
-					if (input) {
-						input.focus()
-					}
-				}
+		showAddGroupForm() {
+			this.$refs.addGroup.editingActive = true
+			this.$refs.addGroup.onMenuToggle(false)
+			this.$nextTick(() => {
+				this.$refs.addGroup.$refs.editingInput.focusInput()
 			})
+		},
+
+		hideAddGroupForm() {
+			this.$refs.addGroup.editingActive = false
+			this.$refs.addGroup.editingValue = ''
 		},
 
 		/**

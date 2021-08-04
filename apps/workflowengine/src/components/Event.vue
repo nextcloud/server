@@ -12,7 +12,7 @@
 			:auto-limit="false"
 			:disabled="allEvents.length <= 1"
 			@input="updateEvent">
-			<template slot="selection" slot-scope="{ values, search, isOpen }">
+			<template slot="selection" slot-scope="{ values, isOpen }">
 				<div v-if="values.length && !isOpen" class="eventlist">
 					<img class="option__icon" :src="values[0].entity.icon">
 					<span v-for="(value, index) in values" :key="value.id" class="text option__title option__title_single">{{ value.displayName }} <span v-if="index+1 < values.length">, </span></span>

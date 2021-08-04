@@ -77,8 +77,11 @@ OC.L10N.register(
     "Description: %s" : "Deskripzioa: %s",
     "Where: %s" : "Non: %s",
     "%1$s via %2$s" : "%2$s bidez, %1$s",
+    "Cancelled: %1$s" : "Utzita: %1$s",
     "Invitation canceled" : "Gonbidapena ezeztatua",
+    "Re: %1$s" : "Er: %1$s",
     "Invitation updated" : "Gonbidapena eguneratu da",
+    "Invitation: %1$s" : "Gonbidapena: %1$s",
     "Invitation" : "Gonbidapena",
     "Title:" : "Izenburua:",
     "Time:" : "Noiz:",
@@ -134,11 +137,7 @@ OC.L10N.register(
     "Tentative" : "Behin behinekoa",
     "Save" : "Gorde",
     "Your attendance was updated successfully." : "Zure parte-hartzea ondo eguneratu da.",
-    "Hello %s," : "Kaixo 1%s,",
-    "The meeting »%1$s« with %2$s was canceled." : "»%1$s« bilera %2$s(r)ekin bertan behera utzi da.",
-    "The meeting »%1$s« with %2$s was updated." : "»%1$s« bilera %2$s(r)ekin eguneratu egin da.",
-    "%1$s invited you to »%2$s«" : "%1$s(e)k »%2$s(e)ra« gonbidatu zaitu",
-    "When:" : "Noiz:",
-    "Calendar and tasks" : "Egutegia eta atazak"
+    "Calendar and tasks" : "Egutegia eta atazak",
+    "i" : "i"
 },
 "nplurals=2; plural=(n != 1);");

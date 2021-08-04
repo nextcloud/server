@@ -113,6 +113,12 @@
 							iconClass: 'icon-delete',
 							order: 99,
 						},
+						{
+							name: 'tags',
+							displayName:  'Tags',
+							iconClass: 'icon-tag',
+							order: 100,
+						},
 					],
 					sorting: {
 						mode: $('#defaultFileSorting').val(),

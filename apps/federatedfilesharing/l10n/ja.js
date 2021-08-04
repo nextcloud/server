@@ -37,7 +37,6 @@ OC.L10N.register(
     "Provide federated file sharing across servers" : "サーバー間でフェデレーションファイル共有を提供する",
     "Federated Cloud Sharing" : "統合されたクラウド共有",
     "Open documentation" : "ドキュメントを開く",
-    "Adjust how people can share between servers." : "サーバー間でどうやって共有するかを調整します。",
     "Allow users on this server to send shares to other servers (this option also allows WebDAV access to public shares)" : "このサーバー上のユーザーが他のサーバーに共有を送信できるようにします（このオプションでは、WebDAVがパブリック共有にアクセスすることもできます）",
     "Allow users on this server to receive shares from other servers" : "ユーザーが他のサーバーからこのサーバーに共有することを許可する",
     "Allow users on this server to send shares to groups on other servers" : "ユーザーがこのサーバーから他のサーバー上のグループに共有することを許可する",
@@ -51,6 +50,6 @@ OC.L10N.register(
     "Add to your website" : "ウェブサイトに追加",
     "Share with me via Nextcloud" : "Nextcloud 経由で共有",
     "HTML Code:" : "HTMLコード:",
-    "Allow users on this server to send shares to other servers" : "ユーザーがこのサーバーから他のサーバーに共有することを許可する"
+    "Adjust how people can share between servers." : "サーバー間でどうやって共有するかを調整します。"
 },
 "nplurals=1; plural=0;");

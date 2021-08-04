@@ -30,7 +30,6 @@ OC.L10N.register(
     "Federated file sharing" : "ფედერალური ფაილების გაზიარება",
     "Federated Cloud Sharing" : "ფედერალური ქლაუდ გაზიარება",
     "Open documentation" : "ღია დოკუმენტაცია",
-    "Adjust how people can share between servers." : "განაგეთ თუ როგორ შეუძლიათ ადამიანებს სერვერებს შორის მოახდინონ გაზიარება.",
     "Allow users on this server to receive shares from other servers" : "დართეთ ნება მომხმარებლებს ამ სერვერზე მიიღონ გაზიარებები სხვა სერვერებიდან",
     "Search global and public address book for users" : "მოძებნეთ გლობალური და ღია მომხმარებლების მისამართების წიგნები",
     "Allow users to publish their data to a global and public address book" : "დართეთ ნება მომხმარებლებს გამოაქყვეყნონ მათი მონაცემები გლობალურ და საზოგადო მისამართების წიგნებში",
@@ -40,6 +39,6 @@ OC.L10N.register(
     "Add to your website" : "საიტზე დამატება",
     "Share with me via Nextcloud" : "გამიზიარე Nextcloud-ის მეშვეობით",
     "HTML Code:" : "HTML კოდი:",
-    "Allow users on this server to send shares to other servers" : "დართეთ ნება მომხმარებლებს ამ სერვერზე გააგზავნონ გაზიარებები სხვა სერვერებთან"
+    "Adjust how people can share between servers." : "განაგეთ თუ როგორ შეუძლიათ ადამიანებს სერვერებს შორის მოახდინონ გაზიარება."
 },
 "nplurals=2; plural=(n!=1);");

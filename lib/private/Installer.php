@@ -48,6 +48,7 @@ use OC\DB\Connection;
 use OC\DB\MigrationService;
 use OC_App;
 use OC_Helper;
+use OCP\HintException;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\ILogger;

@@ -27,13 +27,14 @@
 		class="header-menu">
 		<a class="header-menu__trigger"
 			href="#"
+			:aria-label="ariaLabel"
 			:aria-controls="`header-menu-${id}`"
 			:aria-expanded="opened"
-			aria-haspopup="true"
+			aria-haspopup="menu"
 			@click.prevent="toggleMenu">
 			<slot name="trigger" />
 		</a>
-		<div v-if="opened"
+		<div v-show="opened"
 			:id="`header-menu-${id}`"
 			class="header-menu__wrapper"
 			role="menu">
@@ -64,6 +65,10 @@ export default {
 		id: {
 			type: String,
 			required: true,
+		},
+		ariaLabel: {
+			type: String,
+			default: '',
 		},
 		open: {
 			type: Boolean,
@@ -182,7 +187,7 @@ export default {
 		position: absolute;
 		z-index: 2000;
 		top: 50px;
-		right: 5px;
+		right: -150px;
 		box-sizing: border-box;
 		margin: 0;
 		border-radius: 0 0 var(--border-radius) var(--border-radius);
@@ -193,7 +198,7 @@ export default {
 
 	&__carret {
 		position: absolute;
-		right: 10px;
+		right: 165px;
 		bottom: 100%;
 		width: 0;
 		height: 0;

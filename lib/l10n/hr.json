@@ -222,8 +222,6 @@
     "Storage connection timeout. %s" : "Istek veze pohrane. %s",
     "This can usually be fixed by giving the webserver write access to the config directory" : "Ovo se obično može ispraviti tako da se web poslužitelju dopusti pristup za pisanje u direktoriju config",
     "Or, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it." : "Ako želite da datoteku config.php ostane samo za čitanje, postavite opciju „config_is_read_only” na „true”.",
-    "Following databases are supported: %s" : "Podržane su sljedeće baze podataka: %s",
-    "Following platforms are supported: %s" : "Podržane su sljedeće platforme: %s",
     "Can't create or write into the data directory %s" : "Nije moguće stvoriti ili pisati u direktorij s podacima %s",
     "Invalid Federated Cloud ID" : "Nevažeći ID udruženog oblaka",
     "Can’t increase permissions of %s" : "Nije moguće povećati dopuštenja za %s",

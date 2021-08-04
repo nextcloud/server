@@ -31,6 +31,7 @@ namespace OC\Setup;
 use OC\DatabaseException;
 use OC\DB\Connection;
 use OC\DB\QueryBuilder\Literal;
+use OCP\Security\ISecureRandom;
 
 class PostgreSQL extends AbstractDatabase {
 	public $dbprettyname = 'PostgreSQL';
@@ -66,7 +67,7 @@ class PostgreSQL extends AbstractDatabase {
 				//add prefix to the postgresql user name to prevent collisions
 				$this->dbUser = 'oc_' . strtolower($username);
 				//create a new password so we don't need to store the admin config in the config file
-				$this->dbPassword = \OC::$server->getSecureRandom()->generate(30, \OCP\Security\ISecureRandom::CHAR_LOWER . \OCP\Security\ISecureRandom::CHAR_DIGITS);
+				$this->dbPassword = \OC::$server->getSecureRandom()->generate(30, ISecureRandom::CHAR_ALPHANUMERIC);
 
 				$this->createDBUser($connection);
 			}

@@ -135,11 +135,7 @@
     "Tentative" : "暫定",
     "Save" : "儲存",
     "Your attendance was updated successfully." : "您的參與狀態成功更新。",
-    "Hello %s," : "%s 您好，",
-    "The meeting »%1$s« with %2$s was canceled." : "與 %2$s 的會議 %1$s 取消了。",
-    "The meeting »%1$s« with %2$s was updated." : "與 %2$s 的會議 %1$s 有變動。",
-    "%1$s invited you to »%2$s«" : "%1$s 邀請您到 %2$s",
-    "When:" : "時間：",
-    "Calendar and tasks" : "日曆與工作項目"
+    "Calendar and tasks" : "日曆與工作項目",
+    "i" : "i"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

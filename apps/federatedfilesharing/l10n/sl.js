@@ -36,7 +36,6 @@ OC.L10N.register(
     "Provide federated file sharing across servers" : "Omogoči zvezno souporabo prek različnih strežnikov",
     "Federated Cloud Sharing" : "Souporaba zveznega oblaka",
     "Open documentation" : "Odpri dokumentacijo",
-    "Adjust how people can share between servers." : "Določila, kako lahko uporabniki omogočajo souporabo med različnimi strežniki.",
     "Allow users on this server to send shares to other servers (this option also allows WebDAV access to public shares)" : "Dovoli uporabnikom tega strežnika pošiljanje povezav za souporabo na druge strežnike (možnost omogoči tudi dostop prek WebDAV do javnih povezav).",
     "Allow users on this server to receive shares from other servers" : "Dovoli uporabnikom tega strežnika sprejemanje map v souporabo z drugih strežnikov",
     "Allow users on this server to send shares to groups on other servers" : "Dovoli uporabnikom tega strežnika pošiljanje map za souporabo v skupine na drugih strežnikih",
@@ -50,6 +49,6 @@ OC.L10N.register(
     "Add to your website" : "Dodaj na spletišče",
     "Share with me via Nextcloud" : "Omogoči souporabo prek oblaka Nextcloud",
     "HTML Code:" : "Koda HTML:",
-    "Allow users on this server to send shares to other servers" : "Dovoli uporabnikom tega strežnika pošiljanje map za souporabo na druge strežnike"
+    "Adjust how people can share between servers." : "Določila, kako lahko uporabniki omogočajo souporabo med različnimi strežniki."
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

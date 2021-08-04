@@ -555,6 +555,9 @@
 					case 'restore':
 						this._onClickRestoreSelected(ev);
 						break;
+					case 'tags':
+						this._onClickTagSelected(ev);
+						break;
 				}
 		},
 		/**
@@ -1117,6 +1120,124 @@
 		},
 
 		/**
+		 * CUSTOM CODE
+		 * Event handler for when clicking on "Tags" for the selected files
+		 */
+		_onClickTagSelected: function(event) {
+			var self = this;
+			event.preventDefault();
+			var commonTags = [];
+
+			var selectedFiles = _.pluck(this.getSelectedFiles(), 'id')
+			var tagCollections = [];
+			var fetchTagPromises = [];
+
+
+			selectedFiles.forEach(function(fileId) {
+				var deferred = new $.Deferred();
+				var tagCollection = new OC.SystemTags.SystemTagsMappingCollection([], {
+					objectType: 'files',
+					objectId: fileId});
+				tagCollections.push(tagCollection);
+				tagCollection.fetch({
+					success: function(){
+						deferred.resolve('success');
+					},
+					error: function() {
+						deferred.resolve('failed');
+					}
+				})
+				fetchTagPromises.push(deferred);
+			});
+
+			if (!self._inputView) {
+				self._inputView = new OC.SystemTags.SystemTagsInputField({
+					multiple: true,
+					allowActions: true,
+					allowCreate: true,
+					isAdmin: OC.isUserAdmin(),
+				});
+				self._inputView.on('select', self._onSelectTag, self);
+				self._inputView.on('deselect', self._onDeselectTag, self);
+				self._inputView.render();
+
+				// Build dom
+				self.tagsTitle = $('<h3>'+ t('files', 'Please select tag(s) to add to the selection') +'</h3>');
+				self.tagsSubmit = $('<button>' + t('files', 'Apply tag(s) to selection') + '</button>');
+				self.tagsContainer = $('<tr id="tag_multiple_files_container"></tr>');
+				self.tagsTitle.appendTo(self.tagsContainer)
+				self.tagsContainer.append(self._inputView.el);
+				self.tagsSubmit.appendTo(self.tagsContainer)
+
+				// Inject everything
+				self.$table.find('thead').append(self.tagsContainer);
+
+				self.tagsSubmit.on('click', function(ev){
+					self._onClickDocument(ev);
+				});
+			}
+
+			self._inputView.$el.addClass('icon-loading');
+			self.tagsContainer.show();
+
+			Promise.all(fetchTagPromises).then(function() {
+				//find tags which are common to all selected files
+				commonTags =_.intersection.apply(null, tagCollections.map(function (tagCollection) {return tagCollection.getTagIds();}));
+				self._inputView.setValues(commonTags);
+				self._inputView.$el.removeClass('icon-loading');
+				$(document).on('click',function(ev){
+					self._onClickDocument(ev);
+				});
+			});
+		},
+
+		_onClickDocument: function(ev) {
+			if(!$(ev.target).closest('#editor_container').length) {
+				this._inputView.setValues([]);
+				this.tagsContainer.hide();
+				$(document).off('click', this._onClickDocument);
+			}
+
+		},
+
+		/**
+		 * Custom code
+		 * Set tag for all selected files
+		 * @param tagModel
+		 * @private
+		 */
+		_onSelectTag: function(tagModel) {
+			var selectedFiles = _.pluck(this.getSelectedFiles(),'id')
+			if (!_.isArray(selectedFiles)) {
+				return;
+			}
+			selectedFiles.forEach(function(fileId) {
+				$.ajax({
+					url: OC.linkToRemote('dav') + '/systemtags-relations/files/' + fileId + '/'+ tagModel.attributes.id,
+					type: 'PUT',
+				});
+			});
+
+		},
+		/**
+		 * remove tag from all selected files
+		 * @param tagId
+		 * @private
+		 */
+		_onDeselectTag: function(tagId) {
+			var selectedFiles = _.pluck(this.getSelectedFiles(),'id');
+			if (!_.isArray(selectedFiles)) {
+				return;
+			}
+			selectedFiles.forEach(function(fileId) {
+				$.ajax({
+					url: OC.linkToRemote('dav') + '/systemtags-relations/files/' +fileId + '/'+ tagId,
+					type: 'DELETE'
+				});
+			});
+		},
+
+		/**
 		 * Event handler when clicking on a table header
 		 */
 		_onClickHeader: function(e) {
@@ -1385,7 +1506,7 @@
 				return;
 			}
 			this.fileMultiSelectMenu = new OCA.Files.FileMultiSelectMenu(this.multiSelectMenuItems.sort(function(a, b) {
-				return a.order > b.order
+				return a.order - b.order
 			}));
 			this.fileMultiSelectMenu.render();
 			this.$el.find('.selectedActions .filesSelectMenu').remove();

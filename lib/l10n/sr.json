@@ -216,8 +216,6 @@
     "Storage connection timeout. %s" : "Истекло је време за повезивање на складиште. %s",
     "This can usually be fixed by giving the webserver write access to the config directory" : "Ово се обично може средити давањем права веб серверу да пише у директоријум са подешавањима",
     "Or, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it." : "Или, ако пре желите да задржите config.php да је само за читање, поставите опцију \"config_is_read_only\" на true у њему самом.",
-    "Following databases are supported: %s" : "Подржане су следеће базе података: %s",
-    "Following platforms are supported: %s" : "Подржане су следеће платформе: %s",
     "Can't create or write into the data directory %s" : "Не могу креирати или уписивати у директоријум података %s",
     "Invalid Federated Cloud ID" : "Неисправан ИД Здруженог облака",
     "Can’t increase permissions of %s" : "Не могу да повећам дозволе за %s",

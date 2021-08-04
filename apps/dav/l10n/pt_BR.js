@@ -77,8 +77,11 @@ OC.L10N.register(
     "Description: %s" : "Descrição: %s",
     "Where: %s" : "Onde: %s",
     "%1$s via %2$s" : "%1$s via %2$s",
+    "Cancelled: %1$s" : "Cancelado: %1$s",
     "Invitation canceled" : "Convite cancelado",
+    "Re: %1$s" : "Remetente: %1$s",
     "Invitation updated" : "Convite atualizado",
+    "Invitation: %1$s" : "Convite: %1$s",
     "Invitation" : "Convite",
     "Title:" : "Título:",
     "Time:" : "Horário:",
@@ -134,11 +137,6 @@ OC.L10N.register(
     "Tentative" : "Tentativa",
     "Save" : "Salvar",
     "Your attendance was updated successfully." : "Sua presença foi atualizada com sucesso.",
-    "Hello %s," : "Olá %s,",
-    "The meeting »%1$s« with %2$s was canceled." : "A reunião »%1$s« com %2$s foi cancelada.",
-    "The meeting »%1$s« with %2$s was updated." : "A reunião »%1$s« com %2$s foi atualizada.",
-    "%1$s invited you to »%2$s«" : "%1$s convidou você para »%2$s«",
-    "When:" : "Quando:",
     "Calendar and tasks" : "Calendário e tarefas"
 },
 "nplurals=2; plural=(n > 1);");

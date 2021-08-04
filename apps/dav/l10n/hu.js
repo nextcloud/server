@@ -103,11 +103,6 @@ OC.L10N.register(
     "Tentative" : "Valószínűleg",
     "Save" : "Mentés",
     "Your attendance was updated successfully." : "A részvételed frissítése sikerült.",
-    "Hello %s," : "Üdv %s,",
-    "The meeting »%1$s« with %2$s was canceled." : "A »%1$s« találkozó vele: %2$s lemondásra került.",
-    "The meeting »%1$s« with %2$s was updated." : "A »%1$s« találkozó vele:%2$s módosult.",
-    "%1$s invited you to »%2$s«" : "%1$s meghívott ide: »%2$s«",
-    "When:" : "Mikor:",
     "Calendar and tasks" : "Naptár és feladatok"
 },
 "nplurals=2; plural=(n != 1);");

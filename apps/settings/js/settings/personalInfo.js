@@ -222,7 +222,7 @@ window.addEventListener('DOMContentLoaded', function () {
 			user = OC.getCurrentUser();
 
 		$.ajax({
-			url: OC.linkToOCS('cloud/users', 2) + user['uid'],
+			url: OC.linkToOCS('cloud/users/{uid}', { uid: user.uid }),
 			method: 'PUT',
 			data: {
 				key: 'language',
@@ -248,7 +248,7 @@ window.addEventListener('DOMContentLoaded', function () {
 			user = OC.getCurrentUser();
 
 		$.ajax({
-			url: OC.linkToOCS('cloud/users', 2) + user['uid'],
+			url: OC.linkToOCS('cloud/users/{uid}', { uid: user.uid }),
 			method: 'PUT',
 			data: {
 				key: 'locale',

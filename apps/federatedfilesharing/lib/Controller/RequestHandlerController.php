@@ -230,7 +230,7 @@ class RequestHandlerController extends OCSController {
 	 * @return Http\DataResponse
 	 * @throws OCSException
 	 * @throws ShareNotFound
-	 * @throws \OC\HintException
+	 * @throws \OCP\HintException
 	 */
 	public function acceptShare($id) {
 		$token = isset($_POST['token']) ? $_POST['token'] : null;
