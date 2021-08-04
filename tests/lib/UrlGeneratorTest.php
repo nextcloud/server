@@ -21,7 +21,6 @@ use OCP\IUserSession;
  * Class UrlGeneratorTest
  *
  * @package Test
- * @group DB
  */
 class UrlGeneratorTest extends \Test\TestCase {
 
@@ -217,49 +216,72 @@ class UrlGeneratorTest extends \Test\TestCase {
 		];
 	}
 
-	public function testGetDefaultPageUrlWithRedirectUrlWithoutFrontController() {
-		putenv('front_controller_active=false');
-		\OC::$server->getConfig()->deleteSystemValue('htaccess.IgnoreFrontController');
+	private function mockLinkToDefaultPageUrl(string $defaultAppConfig = '', bool $ignoreFrontControllerConfig = false) {
+		$this->config->expects($this->exactly(2))
+			->method('getSystemValue')
+			->withConsecutive(
+				['defaultapp', $this->anything()],
+				['htaccess.IgnoreFrontController', $this->anything()],
+			)
+			->will($this->onConsecutiveCalls(
+				$defaultAppConfig,
+				$ignoreFrontControllerConfig
+			));
+	}
+
+	public function testLinkToDefaultPageUrlWithRedirectUrlWithoutFrontController() {
+		$this->mockBaseUrl();
 
 		$_REQUEST['redirect_url'] = 'myRedirectUrl.com';
-		$this->assertSame('http://localhost'.\OC::$WEBROOT.'/myRedirectUrl.com', $this->urlGenerator->linkToDefaultPageUrl());
+		$this->assertSame('http://localhost' . \OC::$WEBROOT . '/myRedirectUrl.com', $this->urlGenerator->linkToDefaultPageUrl());
 	}
 
-	public function testGetDefaultPageUrlWithRedirectUrlRedirectBypassWithoutFrontController() {
+	public function testLinkToDefaultPageUrlWithRedirectUrlRedirectBypassWithoutFrontController() {
+		$this->mockBaseUrl();
+		$this->mockLinkToDefaultPageUrl();
 		putenv('front_controller_active=false');
-		\OC::$server->getConfig()->deleteSystemValue('htaccess.IgnoreFrontController');
 
 		$_REQUEST['redirect_url'] = 'myRedirectUrl.com@foo.com:a';
-		$this->assertSame('http://localhost'.\OC::$WEBROOT.'/index.php/apps/files/', $this->urlGenerator->linkToDefaultPageUrl());
+		$this->assertSame('http://localhost' . \OC::$WEBROOT . '/index.php/apps/files/', $this->urlGenerator->linkToDefaultPageUrl());
 	}
 
-	public function testGetDefaultPageUrlWithRedirectUrlRedirectBypassWithFrontController() {
+	public function testLinkToDefaultPageUrlWithRedirectUrlRedirectBypassWithFrontController() {
+		$this->mockBaseUrl();
+		$this->mockLinkToDefaultPageUrl();
 		putenv('front_controller_active=true');
+
 		$_REQUEST['redirect_url'] = 'myRedirectUrl.com@foo.com:a';
-		$this->assertSame('http://localhost'.\OC::$WEBROOT.'/apps/files/', $this->urlGenerator->linkToDefaultPageUrl());
+		$this->assertSame('http://localhost' . \OC::$WEBROOT . '/apps/files/', $this->urlGenerator->linkToDefaultPageUrl());
 	}
 
-	public function testGetDefaultPageUrlWithRedirectUrlWithIgnoreFrontController() {
+	public function testLinkToDefaultPageUrlWithRedirectUrlWithIgnoreFrontController() {
+		$this->mockBaseUrl();
+		$this->mockLinkToDefaultPageUrl('', true);
 		putenv('front_controller_active=false');
-		\OC::$server->getConfig()->setSystemValue('htaccess.IgnoreFrontController', true);
 
 		$_REQUEST['redirect_url'] = 'myRedirectUrl.com@foo.com:a';
-		$this->assertSame('http://localhost'.\OC::$WEBROOT.'/apps/files/', $this->urlGenerator->linkToDefaultPageUrl());
+		$this->assertSame('http://localhost' . \OC::$WEBROOT . '/apps/files/', $this->urlGenerator->linkToDefaultPageUrl());
 	}
 
 	/**
 	 * @dataProvider provideDefaultApps
-	 * @group DB
 	 */
-	public function testGetDefaultPageUrlWithDefaultApps($defaultAppConfig, $expectedPath, $enabledApps) {
-		$oldDefaultApps = \OC::$server->getConfig()->getSystemValue('defaultapp', '');
+	public function testLinkToDefaultPageUrlWithDefaultApps($defaultAppConfig, $expectedPath, $enabledApps) {
+		$userId = $this->getUniqueID();
 
 		/** @var \PHPUnit\Framework\MockObject\MockObject|IUser $userMock */
 		$userMock = $this->createMock(IUser::class);
 		$userMock->expects($this->once())
 			->method('getUID')
-			->willReturn($this->getUniqueID());
+			->willReturn($userId);
 
+		$this->mockBaseUrl();
+		$this->mockLinkToDefaultPageUrl($defaultAppConfig);
+
+		$this->config->expects($this->once())
+			->method('getUserValue')
+			->with($userId, 'core', 'defaultapp')
+			->willReturn('');
 		$this->userSession->expects($this->once())
 			->method('isLoggedIn')
 			->willReturn(true);
@@ -272,13 +294,7 @@ class UrlGeneratorTest extends \Test\TestCase {
 				return in_array($appId, $enabledApps);
 			});
 
-		try {
-			\OC::$server->getConfig()->setSystemValue('defaultapp', $defaultAppConfig);
-			$this->assertEquals('http://localhost' . \OC::$WEBROOT . $expectedPath, $this->urlGenerator->linkToDefaultPageUrl());
-		} finally {
-			// restore old state
-			\OC::$server->getConfig()->setSystemValue('defaultapp', $oldDefaultApps);
-		}
+		$this->assertEquals('http://localhost' . \OC::$WEBROOT . $expectedPath, $this->urlGenerator->linkToDefaultPageUrl());
 	}
 
 	public function provideDefaultApps() {
@@ -286,25 +302,25 @@ class UrlGeneratorTest extends \Test\TestCase {
 			// none specified, default to files
 			[
 				'',
-				'apps/files/',
+				'/index.php/apps/files/',
 				['files'],
 			],
 			// unexisting or inaccessible app specified, default to files
 			[
 				'unexist',
-				'apps/files/',
+				'/index.php/apps/files/',
 				['files'],
 			],
 			// non-standard app
 			[
 				'calendar',
-				'apps/calendar/',
+				'/index.php/apps/calendar/',
 				['files', 'calendar'],
 			],
 			// non-standard app with fallback
 			[
 				'contacts,calendar',
-				'apps/calendar/',
+				'/index.php/apps/calendar/',
 				['files', 'calendar'],
 			],
 		];
