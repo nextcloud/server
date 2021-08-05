@@ -237,11 +237,11 @@ class ExceptionSerializer {
 				];
 			}
 
-			$data = get_object_vars($arg);
-			$data['__class__'] = get_class($arg);
+			$objectInfo = [ '__class__' => get_class($arg) ];
+			$objectVars = get_object_vars($arg);
 			return array_map(function ($arg) use ($nestingLevel) {
 				return $this->encodeArg($arg, $nestingLevel - 1);
-			}, $data);
+			}, array_merge($objectInfo, $objectVars));
 		}
 
 		if (is_array($arg)) {
