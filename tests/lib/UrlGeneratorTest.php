@@ -9,7 +9,6 @@
 namespace Test;
 
 use OC\Route\Router;
-use OCP\App\IAppManager;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IRequest;
@@ -28,8 +27,6 @@ class UrlGeneratorTest extends \Test\TestCase {
 	private $config;
 	/** @var \PHPUnit\Framework\MockObject\MockObject|IUserSession */
 	private $userSession;
-	/** @var \PHPUnit\Framework\MockObject\MockObject|IAppManager */
-	private $appManager;
 	/** @var \PHPUnit\Framework\MockObject\MockObject|ICacheFactory */
 	private $cacheFactory;
 	/** @var \PHPUnit\Framework\MockObject\MockObject|IRequest */
@@ -45,14 +42,12 @@ class UrlGeneratorTest extends \Test\TestCase {
 		parent::setUp();
 		$this->config = $this->createMock(IConfig::class);
 		$this->userSession = $this->createMock(IUserSession::class);
-		$this->appManager = $this->createMock(IAppManager::class);
 		$this->cacheFactory = $this->createMock(ICacheFactory::class);
 		$this->request = $this->createMock(IRequest::class);
 		$this->router = $this->createMock(Router::class);
 		$this->urlGenerator = new \OC\URLGenerator(
 			$this->config,
 			$this->userSession,
-			$this->appManager,
 			$this->cacheFactory,
 			$this->request,
 			$this->router
@@ -227,6 +222,10 @@ class UrlGeneratorTest extends \Test\TestCase {
 				$defaultAppConfig,
 				$ignoreFrontControllerConfig
 			));
+		$this->config->expects($this->once())
+			->method('getAppValue')
+			->with('core', 'defaultpage')
+			->willReturn('');
 	}
 
 	public function testLinkToDefaultPageUrlWithRedirectUrlWithoutFrontController() {
@@ -266,7 +265,7 @@ class UrlGeneratorTest extends \Test\TestCase {
 	/**
 	 * @dataProvider provideDefaultApps
 	 */
-	public function testLinkToDefaultPageUrlWithDefaultApps($defaultAppConfig, $expectedPath, $enabledApps) {
+	public function testLinkToDefaultPageUrlWithDefaultApps($defaultAppConfig, $expectedPath) {
 		$userId = $this->getUniqueID();
 
 		/** @var \PHPUnit\Framework\MockObject\MockObject|IUser $userMock */
@@ -288,11 +287,6 @@ class UrlGeneratorTest extends \Test\TestCase {
 		$this->userSession->expects($this->once())
 			->method('getUser')
 			->willReturn($userMock);
-		$this->appManager->expects($this->any())
-			->method('isEnabledForUser')
-			->willReturnCallback(function ($appId) use ($enabledApps) {
-				return in_array($appId, $enabledApps);
-			});
 
 		$this->assertEquals('http://localhost' . \OC::$WEBROOT . $expectedPath, $this->urlGenerator->linkToDefaultPageUrl());
 	}
@@ -303,25 +297,21 @@ class UrlGeneratorTest extends \Test\TestCase {
 			[
 				'',
 				'/index.php/apps/files/',
-				['files'],
 			],
 			// unexisting or inaccessible app specified, default to files
 			[
 				'unexist',
 				'/index.php/apps/files/',
-				['files'],
 			],
 			// non-standard app
 			[
-				'calendar',
-				'/index.php/apps/calendar/',
-				['files', 'calendar'],
+				'settings',
+				'/index.php/apps/settings/',
 			],
 			// non-standard app with fallback
 			[
-				'contacts,calendar',
-				'/index.php/apps/calendar/',
-				['files', 'calendar'],
+				'unexist,settings',
+				'/index.php/apps/settings/',
 			],
 		];
 	}

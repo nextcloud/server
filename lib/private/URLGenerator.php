@@ -42,7 +42,6 @@ namespace OC;
 
 use OC\Route\Router;
 use OCA\Theming\ThemingDefaults;
-use OCP\App\IAppManager;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IRequest;
@@ -58,8 +57,6 @@ class URLGenerator implements IURLGenerator {
 	private $config;
 	/** @var IUserSession */
 	public $userSession;
-	/** @var IAppManager */
-	public $appManager;
 	/** @var ICacheFactory */
 	private $cacheFactory;
 	/** @var IRequest */
@@ -71,13 +68,11 @@ class URLGenerator implements IURLGenerator {
 
 	public function __construct(IConfig $config,
 								IUserSession $userSession,
-								IAppManager $appManager,
 								ICacheFactory $cacheFactory,
 								IRequest $request,
 								Router $router) {
 		$this->config = $config;
 		$this->userSession = $userSession;
-		$this->appManager = $appManager;
 		$this->cacheFactory = $cacheFactory;
 		$this->request = $request;
 		$this->router = $router;
@@ -290,7 +285,7 @@ class URLGenerator implements IURLGenerator {
 			return $this->getAbsoluteURL(urldecode($_REQUEST['redirect_url']));
 		}
 
-		$defaultPage = \OC::$server->getConfig()->getAppValue('core', 'defaultpage');
+		$defaultPage = $this->config->getAppValue('core', 'defaultpage');
 		if ($defaultPage) {
 			return $this->getAbsoluteURL($defaultPage);
 		}
@@ -307,7 +302,7 @@ class URLGenerator implements IURLGenerator {
 		// find the first app that is enabled for the current user
 		foreach ($defaultApps as $defaultApp) {
 			$defaultApp = \OC_App::cleanAppId(strip_tags($defaultApp));
-			if ($this->appManager->isEnabledForUser($defaultApp)) {
+			if (\OC::$server->getAppManager()->isEnabledForUser($defaultApp)) {
 				$appId = $defaultApp;
 				break;
 			}
