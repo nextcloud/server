@@ -244,9 +244,9 @@ class File extends Node implements IFile {
 				});
 
 				$result = true;
-				$count = -1;
+				$writtenByteCount = -1;
 				try {
-					$count = $partStorage->writeStream($internalPartPath, $wrappedData);
+					$writtenByteCount = $partStorage->writeStream($internalPartPath, $wrappedData);
 				} catch (GenericFileException $e) {
 					$result = false;
 				} catch (BadGateway $e) {
@@ -267,7 +267,7 @@ class File extends Node implements IFile {
 					// because we have no clue about the cause we can only throw back a 500/Internal Server Error
 					throw new Exception($this->l10n->t('Could not write file contents'));
 				}
-				[$count, $result] = \OC_Helper::streamCopy($data, $target);
+				[$writtenByteCount, $result] = \OC_Helper::streamCopy($data, $target);
 				fclose($target);
 			}
 
@@ -281,7 +281,7 @@ class File extends Node implements IFile {
 						$this->l10n->t(
 							'Error while copying file to target location (copied: %1$s, expected filesize: %2$s)',
 							[
-								$this->l10n->n('%n byte', '%n bytes', $count),
+								$this->l10n->n('%n byte', '%n bytes', $writtenByteCount),
 								$this->l10n->n('%n byte', '%n bytes', $expected),
 							],
 						)
@@ -294,13 +294,13 @@ class File extends Node implements IFile {
 			// compare expected and actual size
 			if (isset($_SERVER['CONTENT_LENGTH']) && $_SERVER['REQUEST_METHOD'] === 'PUT') {
 				$expected = (int)$_SERVER['CONTENT_LENGTH'];
-				if ($count !== $expected) {
+				if ($writtenByteCount !== $expected) {
 					throw new BadRequest(
 						$this->l10n->t(
 							'Expected filesize of %1$s but read (from Nextcloud client) and wrote (to Nextcloud storage) %2$s. Could either be a network problem on the sending side or a problem writing to the storage on the server side.',
 							[
 								$this->l10n->n('%n byte', '%n bytes', $expected),
-								$this->l10n->n('%n byte', '%n bytes', $count),
+								$this->l10n->n('%n byte', '%n bytes', $writtenByteCount),
 							],
 						)
 					);
@@ -366,7 +366,7 @@ class File extends Node implements IFile {
 			}
 
 			// since we skipped the view we need to scan and emit the hooks ourselves
-			$storage->getUpdater()->update($internalPath, null, ($count-$previousFileSize));
+			$storage->getUpdater()->update($internalPath, null, ($writtenByteCount - $previousFileSize));
 
 			try {
 				$this->changeLock(ILockingProvider::LOCK_SHARED);
