@@ -37,6 +37,8 @@
     "Could not load info for file \"{file}\"" : "Impossibile caricare le informazioni per il file \"{file}\"",
     "Files" : "File",
     "Details" : "Dettagli",
+    "Please select tag(s) to add to the selection" : "Seleziona un'etichetta(e) da aggiungere alla selezione",
+    "Apply tag(s) to selection" : "Applica etichetta(e) alla selezione",
     "Select" : "Seleziona",
     "Pending" : "In corso",
     "Unable to determine date" : "Impossibile determinare la data",

@@ -39,7 +39,7 @@ OC.L10N.register(
     "Color" : "Colore",
     "Logo" : "Logo",
     "Upload new logo" : "Càrriga logo nou",
-    "Login image" : "Immàgine de intrada",
+    "Login image" : "Imàgine de intrada",
     "Upload new login background" : "Càrriga fundu de intrada nou",
     "Remove background image" : "Boga immàgine de fundu",
     "Advanced options" : "Sèberos avantzados",
