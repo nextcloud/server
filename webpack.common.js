@@ -1,48 +1,11 @@
 /* eslint-disable camelcase */
-const { merge } = require('webpack-merge')
 const { VueLoaderPlugin } = require('vue-loader')
 const path = require('path')
 
 const BabelLoaderExcludeNodeModulesExcept = require('babel-loader-exclude-node-modules-except')
 const ESLintPlugin = require('eslint-webpack-plugin')
 
-const accessibility = require('./apps/accessibility/webpack')
-const comments = require('./apps/comments/webpack')
-const core = require('./core/webpack')
-const dashboard = require('./apps/dashboard/webpack')
-const dav = require('./apps/dav/webpack')
-const files = require('./apps/files/webpack')
-const files_sharing = require('./apps/files_sharing/webpack')
-const files_trashbin = require('./apps/files_trashbin/webpack')
-const files_versions = require('./apps/files_versions/webpack')
-const oauth2 = require('./apps/oauth2/webpack')
-const settings = require('./apps/settings/webpack')
-const systemtags = require('./apps/systemtags/webpack')
-const user_status = require('./apps/user_status/webpack')
-const weather_status = require('./apps/weather_status/webpack')
-const twofactor_backupscodes = require('./apps/twofactor_backupcodes/webpack')
-const updatenotification = require('./apps/updatenotification/webpack')
-const workflowengine = require('./apps/workflowengine/webpack')
-
-const modules = {
-	accessibility,
-	comments,
-	core,
-	dashboard,
-	dav,
-	files,
-	files_sharing,
-	files_trashbin,
-	files_versions,
-	oauth2,
-	settings,
-	systemtags,
-	user_status,
-	weather_status,
-	twofactor_backupscodes,
-	updatenotification,
-	workflowengine,
-}
+const modules = require('./webpack.modules.js')
 
 const modulesToBuild = () => {
 	const MODULE = process.env.MODULE
@@ -50,84 +13,115 @@ const modulesToBuild = () => {
 		if (!modules[MODULE]) {
 			throw new Error(`No module "${MODULE}" found`)
 		}
-		return [modules[MODULE]]
+		return modules[MODULE]
 	}
-	return Object.values(modules)
+	// merge all configs into one object
+	return Object.assign({}, ...Object.values(modules))
 }
 
-module.exports = []
-	.concat(
-		...modulesToBuild()
-	)
-	.map(config => merge({
-		module: {
-			rules: [
-				{
-					test: /\.css$/,
-					use: ['style-loader', 'css-loader'],
-				},
-				{
-					test: /\.scss$/,
-					use: ['style-loader', 'css-loader', 'sass-loader'],
-				},
-				{
-					test: /\.vue$/,
-					loader: 'vue-loader',
-					exclude: BabelLoaderExcludeNodeModulesExcept([
-						'vue-material-design-icons',
-					]),
-				},
-				{
-					test: /\.js$/,
-					loader: 'babel-loader',
-					// automatically detect necessary packages to
-					// transpile in the node_modules folder
-					exclude: BabelLoaderExcludeNodeModulesExcept([
-						'@nextcloud/dialogs',
-						'@nextcloud/event-bus',
-						'@nextcloud/vue-dashboard',
-						'davclient.js',
-						'nextcloud-vue-collections',
-						'p-finally',
-						'p-limit',
-						'p-locate',
-						'p-queue',
-						'p-timeout',
-						'p-try',
-						'semver',
-						'striptags',
-						'toastify-js',
-						'v-tooltip',
-						'yocto-queue',
-					]),
-				},
-				{
-					test: /\.(png|jpg|gif)$/,
-					loader: 'url-loader',
-					options: {
-						name: '[name].[ext]?[hash]',
-						limit: 8192,
-					},
-				},
-				{
-					test: /\.handlebars/,
-					loader: 'handlebars-loader',
-					query: {
-						extensions: '.handlebars',
-					},
-				},
+module.exports = {
+	entry: modulesToBuild(),
+	output: {
+		// Step away from the src folder and extract to the js folder
+		path: path.join(__dirname),
+		publicPath: '/dist/',
+		filename: (chunkData) => {
+			// Get relative path of the src folder
+			const srcPath = chunkData.chunk.entryModule.context
+			const relativePath = path.relative(__dirname, srcPath)
 
-			],
+			// If this is a core source, output in core dist folder
+			if (relativePath.indexOf('core/src') > -1) {
+				return path.join('core/js/dist/', '[name].js?v=[contenthash]')
+			}
+			// Get out of the shared dist folder and output inside apps js folder
+			return path.join(relativePath, '..', 'js') + '/[name].js?v=[contenthash]'
 		},
-		plugins: [new VueLoaderPlugin(), new ESLintPlugin()],
-		resolve: {
-			alias: {
-				OC: path.resolve(__dirname, './core/src/OC'),
-				OCA: path.resolve(__dirname, './core/src/OCA'),
-				// make sure to use the handlebar runtime when importing
-				handlebars: 'handlebars/runtime',
+		chunkFilename: 'dist/[name]-[id].js?v=[contenthash]',
+	},
+
+	module: {
+		rules: [
+			{
+				test: /\.css$/,
+				use: ['style-loader', 'css-loader'],
 			},
-			extensions: ['*', '.js', '.vue'],
-			symlinks: false,
+			{
+				test: /\.scss$/,
+				use: ['style-loader', 'css-loader', 'sass-loader'],
+			},
+			{
+				test: /\.vue$/,
+				loader: 'vue-loader',
+				exclude: BabelLoaderExcludeNodeModulesExcept([
+					'vue-material-design-icons',
+				]),
+			},
+			{
+				test: /\.js$/,
+				loader: 'babel-loader',
+				// automatically detect necessary packages to
+				// transpile in the node_modules folder
+				exclude: BabelLoaderExcludeNodeModulesExcept([
+					'@nextcloud/dialogs',
+					'@nextcloud/event-bus',
+					'@nextcloud/vue-dashboard',
+					'davclient.js',
+					'nextcloud-vue-collections',
+					'p-finally',
+					'p-limit',
+					'p-locate',
+					'p-queue',
+					'p-timeout',
+					'p-try',
+					'semver',
+					'striptags',
+					'toastify-js',
+					'v-tooltip',
+					'yocto-queue',
+				]),
+			},
+			{
+				test: /\.(png|jpe?g|gif|svg|woff2?|eot|ttf)$/,
+				loader: 'url-loader',
+				options: {
+					name: '[name].[ext]?[hash]',
+				},
+			},
+			{
+				test: /\.handlebars/,
+				loader: 'handlebars-loader',
+				query: {
+					extensions: '.handlebars',
+				},
+			},
+
+		],
+	},
+
+	optimization: {
+		splitChunks: {
+			automaticNameDelimiter: '-',
+			cacheGroups: {
+				vendors: {
+					test: /[\\/]node_modules[\\/]/,
+					enforce: true,
+					name: 'nextcloud',
+					chunks: 'all',
+				},
+			},
 		},
-	}, config))
+	},
+
+	plugins: [new VueLoaderPlugin(), new ESLintPlugin()],
+	resolve: {
+		alias: {
+			OC: path.resolve(__dirname, './core/src/OC'),
+			OCA: path.resolve(__dirname, './core/src/OCA'),
+			// make sure to use the handlebar runtime when importing
+			handlebars: 'handlebars/runtime',
+		},
+		extensions: ['*', '.js', '.vue'],
+		symlinks: false,
+	},
+}

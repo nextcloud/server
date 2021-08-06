@@ -104,6 +104,7 @@
     "babel-loader-exclude-node-modules-except": "^1.2.1",
     "css-loader": "^5.2.7",
     "eslint-loader": "^4.0.2",
+    "eslint-webpack-plugin": "^2.5.4",
     "exports-loader": "^1.1.1",
     "file-loader": "^6.2.0",
     "handlebars-loader": "^1.7.1",
