@@ -137,6 +137,7 @@ OC.L10N.register(
     "Tentative" : "Neistý",
     "Save" : "Uložiť",
     "Your attendance was updated successfully." : "Vaša účasť bola aktualizovaná úspešne.",
-    "Calendar and tasks" : "Kalendár a úlohy"
+    "Calendar and tasks" : "Kalendár a úlohy",
+    "i" : "i"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");
