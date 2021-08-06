@@ -4,13 +4,24 @@ on:
     types: [created]
 
 jobs:
-  compile:
+  init:
     runs-on: ubuntu-latest
 
     # On pull requests and if the comment starts with `/compile`
     if: github.event.issue.pull_request != '' && startsWith(github.event.comment.body, '/compile')
 
+    outputs:
+      git_path: ${{ steps.git-path.outputs.path }}
+      arg1: ${{ steps.command.outputs.arg1 }}
+      arg2: ${{ steps.command.outputs.arg2 }}
+      head_ref: ${{ steps.comment-branch.outputs.head_ref }}
+
     steps:
+      - name: Check actor permission
+        uses: skjnldsv/check-actor-permission@v2
+        with:
+          require: write
+
       - name: Add reaction on start
         uses: peter-evans/create-or-update-comment@v1
         with:
@@ -19,34 +30,41 @@ jobs:
           comment-id: ${{ github.event.comment.id }}
           reaction-type: "+1"
 
-      - name: Init arguments
-        # Init arguments
-        run: |
-          command="${{ github.event.comment.body }}"
-          arguments=($command)
-          echo "arg1=${arguments[1]}" >> "$GITHUB_ENV"
-          echo "arg2=${arguments[2]}" >> "$GITHUB_ENV"
+      - name: Parse command
+        uses: skjnldsv/parse-command-comment@master
+        id: command
 
+      # Init path depending on which command is run
       - name: Init path
-        # Init path depending on which command is run
+        id: git-path
         run: |    
-          if ${{ startsWith(env.arg1, '/') }}; then
-            echo "git_path=${{ github.workspace }}${{env.arg1}}" >> "$GITHUB_ENV"
+          if ${{ startsWith(steps.command.outputs.arg1, '/') }}; then
+            echo "::set-output name=path::${{ github.workspace }}${{steps.command.outputs.arg1}}"
           else
-            echo "git_path=${{ github.workspace }}${{env.arg2}}" >> "$GITHUB_ENV"
+            echo "::set-output name=path::${{ github.workspace }}${{steps.command.outputs.arg2}}"
           fi
 
       - name: Init branch
         uses: xt0rted/pull-request-comment-branch@v1
         id: comment-branch
+    
+  process:
+    runs-on: ubuntu-latest
+    needs: init
 
-      - name: Checkout
+    steps:
+      - name: Checkout ${{ needs.init.outputs.head_ref }}
         uses: actions/checkout@v2
         with:
           token: ${{ secrets.COMMAND_BOT_PAT }}
           fetch-depth: 0
-          ref: ${{ steps.comment-branch.outputs.head_ref }}
-      
+          ref: ${{ needs.init.outputs.head_ref }}
+
+      - name: Setup git
+        run: |
+          git config --local user.email "nextcloud-command@users.noreply.github.com"
+          git config --local user.name "nextcloud-command"
+
       - name: Read package.json node and npm engines version
         uses: skjnldsv/read-package-engines-version-actions@v1
         id: package-engines-versions
@@ -68,32 +86,26 @@ jobs:
           npm ci
           npm run build --if-present
 
-      - name: Setup git
-        run: |
-          git config --local user.email "npmbuildbot-nextcloud[bot]@users.noreply.github.com"
-          git config --local user.name "npmbuildbot-nextcloud[bot]"
-
       - name: Commit and push default
-        # If the first argument starts with a /
-        if: ${{ startsWith(env.arg1, '/') }}
+        if: ${{ needs.init.outputs.arg1 != 'fixup' && needs.init.outputs.arg1 != 'amend' }}
         run: |
-          git add ${{ env.git_path }}
+          git add ${{ needs.init.outputs.git_path }}
           git commit --signoff -m 'Compile assets'
-          git push origin ${{ env.ref }}
+          git push origin ${{ needs.init.outputs.head_ref }}
 
       - name: Commit and push fixup
-        if: ${{ env.arg1 == 'fixup' }}
+        if: ${{ needs.init.outputs.arg1 == 'fixup' }}
         run: |
-          git add ${{ env.git_path }}
+          git add ${{ needs.init.outputs.git_path }}
           git commit --fixup=HEAD --signoff
-          git push origin ${{ env.ref }}
+          git push origin ${{ needs.init.outputs.head_ref }}
 
       - name: Commit and push amend
-        if: ${{ env.arg1 == 'amend' }}
+        if: ${{ needs.init.outputs.arg1 == 'amend' }}
         run: |
-          git add ${{ env.git_path }}
+          git add ${{ needs.init.outputs.git_path }}
           git commit --amend --no-edit --signoff
-          git push --force origin ${{ env.ref }}
+          git push --force origin ${{ needs.init.outputs.head_ref }}
 
       - name: Add reaction on failure
         uses: peter-evans/create-or-update-comment@v1
