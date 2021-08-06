@@ -83,6 +83,7 @@ OC.L10N.register(
     "Available flows" : "Доступные обработки",
     "For details on how to write your own flow, check out the development documentation." : "За дополнительными сведениями о написании собственных обработок, обратитесь к документации.",
     "More flows" : "Дополнительные обработки",
+    "Browse the App Store" : "Просмотреть магазин приложений",
     "Show less" : "Показывать меньше",
     "Show more" : "Показывать больше",
     "Configured flows" : "Настроенные обработки",
