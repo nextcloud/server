@@ -105,7 +105,7 @@
     "file-loader": "^6.2.0",
     "handlebars-loader": "^1.7.1",
     "jest": "^26.6.3",
-    "jsdom": "^16.6.0",
+    "jsdom": "^16.7.0",
     "sass": "^1.37.0",
     "sass-loader": "^10.1.1",
     "style-loader": "^2.0.0",
