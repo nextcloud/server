@@ -96,7 +96,7 @@
     "@nextcloud/stylelint-config": "^1.0.0-beta.0",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/user-event": "^13.2.1",
-    "@testing-library/vue": "^5.8.1",
+    "@testing-library/vue": "^5.8.2",
     "babel-loader": "^8.2.2",
     "babel-loader-exclude-node-modules-except": "^1.2.1",
     "css-loader": "^5.2.7",
