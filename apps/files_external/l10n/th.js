@@ -31,7 +31,7 @@ OC.L10N.register(
     "Password" : "รหัสผ่าน",
     "Credentials saved" : "ข้อมูลประจำตัวได้ถูกบันทึก",
     "Credentials saving failed" : "บันทึกข้อมูลประจำตัวล้มเหลว",
-    "Credentials required" : "จำเป็นต้องระบบข้อมูลประจำตัว",
+    "Credentials required" : "จำเป็นต้องระบุข้อมูลประจำตัว",
     "Invalid backend or authentication mechanism class" : "แบ็กเอนด์ไม่ถูกต้องหรือระดับการรับรองความถูกต้องไม่เพียงพอ",
     "Invalid mount point" : "จุดเชื่อมต่อที่ไม่ถูกต้อง",
     "Objectstore forbidden" : "เก็บวัตถุต้องห้าม",
