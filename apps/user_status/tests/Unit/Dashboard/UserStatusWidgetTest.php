@@ -77,7 +77,7 @@ class UserStatusWidgetTest extends TestCase {
 			->method('t')
 			->willReturnArgument(0);
 
-		$this->assertEquals('Recent status(es)', $this->widget->getTitle());
+		$this->assertEquals('Recent statuses', $this->widget->getTitle());
 	}
 
 	public function testGetOrder(): void {
