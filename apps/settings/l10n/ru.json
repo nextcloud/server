@@ -130,7 +130,7 @@
     "PostgreSQL version \"%s\" is used. Nextcloud 21 will no longer support this version and requires PostgreSQL 9.6 or higher." : "Используется PostgreSQL версии %s.  В Nextcloud версии 21 эта версия не поддерживается, а для работы требуется PostgreSQL версии 9.6 или старше.",
     "Nextcloud settings" : "Параметры Nextcloud",
     "Two-factor authentication can be enforced for all users and specific groups. If they do not have a two-factor provider configured, they will be unable to log into the system." : "Двухфаторная аутентификация может быть принудительна включена для всех пользователей и выбранных групп. В случае, если у пользователя не настроен механизм подтверждения подлинности вторым фактором, он не сможет войти в систему.",
-    "Enforce two-factor authentication" : "Требовать двухфакторую аунтефикацию",
+    "Enforce two-factor authentication" : "Требовать двухфакторую аутентификацию",
     "Limit to groups" : "Разрешить использование только участникам этих групп",
     "Enforcement of two-factor authentication can be set for certain groups only." : "Требование использовать двухфакторную аутентификацию может быть применено только к определённым группам. ",
     "Two-factor authentication is enforced for all members of the following groups." : "Двухфакторная аутентификация требуется для всех пользователей следующих групп:",
