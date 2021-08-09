@@ -60,17 +60,12 @@ class BackgroundJob extends TimedJob {
 	/** @var string[] */
 	protected $users;
 
-	/**
-	 * NotificationBackgroundJob constructor.
-	 *
-	 * @param IConfig $config
-	 * @param IManager $notificationManager
-	 * @param IGroupManager $groupManager
-	 * @param IAppManager $appManager
-	 * @param IClientService $client
-	 * @param Installer $installer
-	 */
-	public function __construct(IConfig $config, IManager $notificationManager, IGroupManager $groupManager, IAppManager $appManager, IClientService $client, Installer $installer) {
+	public function __construct(IConfig $config,
+								IManager $notificationManager,
+								IGroupManager $groupManager,
+								IAppManager $appManager,
+								IClientService $client,
+								Installer $installer) {
 		// Run once a day
 		$this->setInterval(60 * 60 * 24);
 
@@ -83,6 +78,16 @@ class BackgroundJob extends TimedJob {
 	}
 
 	protected function run($argument) {
+		if (\OC::$CLI && !$this->config->getSystemValueBool('debug', false)) {
+			try {
+				// Jitter the pinging of the updater server and the appstore a bit.
+				// Otherwise all Nextcloud installations are pinging the servers
+				// in one of 288
+				sleep(random_int(1, 180));
+			} catch (\Exception $e) {
+			}
+		}
+
 		$this->checkCoreUpdate();
 		$this->checkAppUpdates();
 	}
