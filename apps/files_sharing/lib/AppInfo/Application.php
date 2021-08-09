@@ -33,6 +33,7 @@ use OC\Share\Share;
 use OCA\Files_Sharing\Capabilities;
 use OCA\Files_Sharing\Event\BeforeTemplateRenderedEvent;
 use OCA\Files_Sharing\External\Manager;
+use OCA\Files_Sharing\External\MountProvider as ExternalMountProvider;
 use OCA\Files_Sharing\Helper;
 use OCA\Files_Sharing\Listener\LegacyBeforeTemplateRenderedListener;
 use OCA\Files_Sharing\Listener\LoadAdditionalListener;
@@ -60,7 +61,9 @@ use OCP\Files\Config\IMountProviderCollection;
 use OCP\Group\Events\UserAddedEvent;
 use OCP\IDBConnection;
 use OCP\IGroup;
+use OCP\INavigationManager;
 use OCP\IUserSession;
+use OCP\L10N\IFactory;
 use OCP\Share\Events\ShareCreatedEvent;
 use OCP\Share\IManager;
 use OCP\Util;
@@ -76,8 +79,8 @@ class Application extends App implements IBootstrap {
 	}
 
 	public function register(IRegistrationContext $context): void {
-		$context->registerService('ExternalMountProvider', function (ContainerInterface $c) {
-			return new \OCA\Files_Sharing\External\MountProvider(
+		$context->registerService(ExternalMountProvider::class, function (ContainerInterface $c) {
+			return new ExternalMountProvider(
 				$c->get(IDBConnection::class),
 				function () use ($c) {
 					return $c->get(Manager::class);
@@ -101,6 +104,7 @@ class Application extends App implements IBootstrap {
 	public function boot(IBootContext $context): void {
 		$context->injectFn([$this, 'registerMountProviders']);
 		$context->injectFn([$this, 'registerEventsScripts']);
+		$context->injectFn([$this, 'setupSharingMenus']);
 
 		Helper::registerHooks();
 
@@ -114,9 +118,9 @@ class Application extends App implements IBootstrap {
 	}
 
 
-	public function registerMountProviders(IMountProviderCollection $mountProviderCollection) {
-		$mountProviderCollection->registerProvider($this->getContainer()->query(MountProvider::class));
-		$mountProviderCollection->registerProvider($this->getContainer()->query('ExternalMountProvider'));
+	public function registerMountProviders(IMountProviderCollection $mountProviderCollection, MountProvider $mountProvider, ExternalMountProvider $externalMountProvider) {
+		$mountProviderCollection->registerProvider($mountProvider);
+		$mountProviderCollection->registerProvider($externalMountProvider);
 	}
 
 	public function registerEventsScripts(IEventDispatcher $dispatcher, EventDispatcherInterface $oldDispatcher) {
@@ -144,19 +148,14 @@ class Application extends App implements IBootstrap {
 		});
 	}
 
-	protected function setupSharingMenus() {
-		/** @var IManager $shareManager */
-		$shareManager = \OC::$server->get(IManager::class);
-
+	public function setupSharingMenus(INavigationManager $navigationManager, IManager $shareManager, IFactory $l10nFactory, IUserSession $userSession) {
 		if (!$shareManager->shareApiEnabled() || !class_exists('\OCA\Files\App')) {
 			return;
 		}
 
 		// show_Quick_Access stored as string
-		\OCA\Files\App::getNavigationManager()->add(function () use ($shareManager) {
-			$l = \OC::$server->getL10N('files_sharing');
-			/** @var IUserSession $userSession */
-			$userSession = \OC::$server->get(IUserSession::class);
+		$navigationManager->add(function () use ($shareManager, $l10nFactory, $userSession) {
+			$l = $l10nFactory->get('files_sharing');
 			$user = $userSession->getUser();
 			$userId = $user ? $user->getUID() : null;
 
