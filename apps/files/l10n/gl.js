@@ -178,7 +178,7 @@ OC.L10N.register(
     "Create" : "Crear",
     "Create a new file with the selected template" : "Crear un novo ficheiro co modelo seleccionado",
     "Creating file" : "Creando o ficheiro",
-    "Blank" : "Valeiro",
+    "Blank" : "Baleiro",
     "Unable to create new file from template" : "Non é posíbel crear un novo ficheiro a partir do modelo",
     "Set up templates folder" : "Estabelecer un cartafol de modelos",
     "Templates" : "Modelos",
