@@ -1,7 +1,6 @@
 OC.L10N.register(
     "user_status",
     {
-    "Recent statuses" : "สถานะล่าสุด",
     "In a meeting" : "กำลังประชุม",
     "Commuting" : "กำลังเดินทาง",
     "Out sick" : "ป่วย",
@@ -33,6 +32,7 @@ OC.L10N.register(
     "4 hours" : "4 ชั่วโมง",
     "Mute all notifications" : "ปิดการแจ้งเตือนทั้งหมด",
     "Appear offline" : "แสดงสถานะออฟไลน์",
+    "Recent statuses" : "สถานะล่าสุด",
     "Clear status after" : "ล้างสถานะหลังจาก"
 },
 "nplurals=1; plural=0;");

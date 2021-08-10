@@ -1,7 +1,6 @@
 OC.L10N.register(
     "user_status",
     {
-    "Recent statuses" : "Πρόσφατες καταστάσεις",
     "In a meeting" : "Σε συνάντηση",
     "Commuting" : "Μετακίνηση προς την εργασία",
     "Out sick" : "Αναρρωτική άδεια",
@@ -33,6 +32,7 @@ OC.L10N.register(
     "4 hours" : "4 ώρες",
     "Mute all notifications" : "Σίγαση όλων των ειδοποιήσεων",
     "Appear offline" : "Εμφάνιση εκτός σύνδεσης",
+    "Recent statuses" : "Πρόσφατες καταστάσεις",
     "Clear status after" : "Εκκαθάριση κατάστασης μετά από"
 },
 "nplurals=2; plural=(n != 1);");

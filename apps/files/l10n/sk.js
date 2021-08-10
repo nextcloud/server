@@ -89,6 +89,7 @@ OC.L10N.register(
     "Group folder \"{mountPoint}\" is almost full ({usedSpacePercent}%)." : "Priečinok skupiny \"{mountPoint}\" je takmer plné ({usedSpacePercent}%)",
     "External storage \"{mountPoint}\" is almost full ({usedSpacePercent}%)." : "Externé úložisko \"{mountPoint}\" je takmer plné ({usedSpacePercent}%)",
     "Your storage is almost full ({usedSpacePercent}%)." : "Vaše úložisko je takmer plné ({usedSpacePercent}%)",
+    "_matches \"{filter}\"_::_match \"{filter}\"_" : ["odpovedá \"{filter}\"","odpovedá \"{filter}\"","odpovedá \"{filter}\"","odpovedajú \"{filter}\""],
     "View in folder" : "Zobraziť v priečinku",
     "Copied!" : "Skopírované!",
     "Copy direct link (only works for users who have access to this file/folder)" : "Kopírovať priamy odkaz (funguje iba pre používateľov, ktorí majú prístup k tomuto súboru/priečinku)",

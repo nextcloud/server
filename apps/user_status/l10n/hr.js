@@ -1,7 +1,6 @@
 OC.L10N.register(
     "user_status",
     {
-    "Recent statuses" : "Nedavni statusi",
     "In a meeting" : "Na sastanku",
     "Commuting" : "Na putu",
     "Out sick" : "Na bolovanju",
@@ -33,6 +32,7 @@ OC.L10N.register(
     "4 hours" : "4 sata",
     "Mute all notifications" : "Utišaj sve obavijesti",
     "Appear offline" : "Prikaži izvanmrežno",
+    "Recent statuses" : "Nedavni statusi",
     "Clear status after" : "Izbriši status nakon"
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

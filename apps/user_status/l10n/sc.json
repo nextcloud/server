@@ -1,5 +1,4 @@
 { "translations": {
-    "Recent statuses" : "Istados reghentes",
     "In a meeting" : "In riunione",
     "Commuting" : "Biagende",
     "Out sick" : "In maladia",
@@ -31,6 +30,7 @@
     "4 hours" : "4 oras",
     "Mute all notifications" : "Istuda totu is notìficas",
     "Appear offline" : "Mustra•ti foras de lìnia",
+    "Recent statuses" : "Istados reghentes",
     "Clear status after" : "Lìmpia s'istadu a pustis"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -1,5 +1,4 @@
 { "translations": {
-    "Recent statuses" : "最近状态",
     "In a meeting" : "开会中",
     "Commuting" : "通勤中",
     "Out sick" : "生病了",
@@ -31,6 +30,7 @@
     "4 hours" : "4 小时",
     "Mute all notifications" : "静音所有通知",
     "Appear offline" : "显示为离线",
+    "Recent statuses" : "最近状态",
     "Clear status after" : "清除状态于"
 },"pluralForm" :"nplurals=1; plural=0;"
 }
