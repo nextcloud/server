@@ -276,4 +276,11 @@ class URLGenerator implements IURLGenerator {
 		}
 		return $this->baseUrl;
 	}
+
+	/**
+	 * @return string webroot part of the base url
+	 */
+	public function getWebroot(): string {
+		return \OC::$WEBROOT;
+	}
 }
