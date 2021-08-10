@@ -1,7 +1,6 @@
 OC.L10N.register(
     "user_status",
     {
-    "Recent statuses" : "Nýlegar stöður",
     "In a meeting" : "Á fundi",
     "Commuting" : "Á ferðinni",
     "Out sick" : "Veikindi",
@@ -33,6 +32,7 @@ OC.L10N.register(
     "4 hours" : "4 klukkustundir",
     "Mute all notifications" : "Þagga allar tilkynningar",
     "Appear offline" : "Birtast ótengt",
+    "Recent statuses" : "Nýlegar stöður",
     "Clear status after" : "Hreinsa stöðu eftir"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

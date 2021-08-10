@@ -1,7 +1,6 @@
 OC.L10N.register(
     "user_status",
     {
-    "Recent statuses" : "Viimeisimmät tilatiedot",
     "In a meeting" : "Tapaamisessa",
     "Commuting" : "Työmatkalla",
     "Out sick" : "Sairaana",
@@ -33,6 +32,7 @@ OC.L10N.register(
     "4 hours" : "4 tuntia",
     "Mute all notifications" : "Mykistä kaikki ilmoitukset",
     "Appear offline" : "Näytä olevan poissa",
+    "Recent statuses" : "Viimeisimmät tilatiedot",
     "Clear status after" : "Tyhjennä tilatieto"
 },
 "nplurals=2; plural=(n != 1);");

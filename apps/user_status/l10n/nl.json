@@ -1,5 +1,4 @@
 { "translations": {
-    "Recent statuses" : "Recente statussen",
     "In a meeting" : "Vergadering",
     "Commuting" : "Woon-werk",
     "Out sick" : "Ziek",
@@ -31,6 +30,7 @@
     "4 hours" : "4 uur",
     "Mute all notifications" : "Onderdruk alle meldingen",
     "Appear offline" : "Toon afwezig",
+    "Recent statuses" : "Recente statussen",
     "Clear status after" : "Maak de status leeg na"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

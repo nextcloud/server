@@ -1,5 +1,4 @@
 { "translations": {
-    "Recent statuses" : "Azken egoerak",
     "In a meeting" : "Bilera batean",
     "Commuting" : "Lanerako bidean",
     "Out sick" : "Gaixorik",
@@ -31,6 +30,7 @@
     "4 hours" : "4 ordu",
     "Mute all notifications" : "Mututu jakinarazpen guztiak",
     "Appear offline" : "Lineaz kanpo agertu",
+    "Recent statuses" : "Azken egoerak",
     "Clear status after" : "Garbitu egoera honen ondoren"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

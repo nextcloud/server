@@ -32,6 +32,7 @@
     "Checked on {lastCheckedDate}" : "Provjereno {lastCheckedDate}",
     "Checking apps for compatible versions" : "Provjera aplikacija za kompatibilne verzije",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Provjerite da vaš config.php nije postavio <samp>appstoreenabled</samp> na vrijednost „netočno”.",
+    "Could not connect to the App Store or no updates have been returned at all. Search manually for updates or make sure your server has access to the internet and can connect to the App Store." : "Neuspješno povezivanje s trgovinom aplikacijama App Store ili je vraćena obavijest da nema ažuriranja. Ručno potražite ažuriranja ili provjerite ima li vaš poslužitelj pristup internetu i može li se povezati s trgovinom aplikacijama App Store.",
     "<strong>All</strong> apps have a compatible version for this Nextcloud version available" : "<strong>Sve</strong> aplikacije imaju inačicu koja je kompatibilna s ovom inačicom Nextclouda",
     "View changelog" : "Prikaži zapis promjena",
     "Enterprise" : "Enterprise",

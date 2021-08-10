@@ -1,7 +1,6 @@
 OC.L10N.register(
     "user_status",
     {
-    "Recent statuses" : "最近状态",
     "In a meeting" : "开会中",
     "Commuting" : "通勤中",
     "Out sick" : "生病了",
@@ -33,6 +32,7 @@ OC.L10N.register(
     "4 hours" : "4 小时",
     "Mute all notifications" : "静音所有通知",
     "Appear offline" : "显示为离线",
+    "Recent statuses" : "最近状态",
     "Clear status after" : "清除状态于"
 },
 "nplurals=1; plural=0;");
