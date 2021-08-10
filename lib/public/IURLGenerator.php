@@ -102,4 +102,10 @@ interface IURLGenerator {
 	 * @since 13.0.0
 	 */
 	public function getBaseUrl(): string;
+
+	/**
+	 * @return string webroot part of the base url
+	 * @since 23.0.0
+	 */
+	public function getWebroot(): string;
 }
