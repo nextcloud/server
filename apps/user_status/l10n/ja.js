@@ -1,7 +1,6 @@
 OC.L10N.register(
     "user_status",
     {
-    "Recent statuses" : "最近のステータス",
     "In a meeting" : "会議中",
     "Commuting" : "通勤中",
     "Out sick" : "病欠",
@@ -33,6 +32,7 @@ OC.L10N.register(
     "4 hours" : "4時間",
     "Mute all notifications" : "全ての通知をミュート",
     "Appear offline" : "オフラインに見せかけます",
+    "Recent statuses" : "最近のステータス",
     "Clear status after" : "ステータスの有効期限"
 },
 "nplurals=1; plural=0;");

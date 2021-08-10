@@ -1,7 +1,6 @@
 OC.L10N.register(
     "user_status",
     {
-    "Recent statuses" : "Legutóbbi állapotok",
     "In a meeting" : "Találkozón",
     "Commuting" : "Ingázás",
     "Out sick" : "Beteg szabadság",
@@ -33,6 +32,7 @@ OC.L10N.register(
     "4 hours" : "4 óra",
     "Mute all notifications" : "Összes értesítés némítása",
     "Appear offline" : "Offline módon jelenik meg",
+    "Recent statuses" : "Legutóbbi állapotok",
     "Clear status after" : "Állapot törlése ennyi idő után"
 },
 "nplurals=2; plural=(n != 1);");

@@ -1,5 +1,4 @@
 { "translations": {
-    "Recent statuses" : "Letzter Status",
     "In a meeting" : "In einer Besprechung",
     "Commuting" : "Pendelt",
     "Out sick" : "Krank geschrieben",
@@ -31,6 +30,7 @@
     "4 hours" : "4 Stunden",
     "Mute all notifications" : "Alle Benachrichtigungen stummschalten",
     "Appear offline" : "Offline erscheinen",
+    "Recent statuses" : "Letzter Status",
     "Clear status after" : "Status löschen nach"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
