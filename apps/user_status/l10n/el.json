@@ -1,5 +1,4 @@
 { "translations": {
-    "Recent statuses" : "Πρόσφατες καταστάσεις",
     "In a meeting" : "Σε συνάντηση",
     "Commuting" : "Μετακίνηση προς την εργασία",
     "Out sick" : "Αναρρωτική άδεια",
@@ -31,6 +30,7 @@
     "4 hours" : "4 ώρες",
     "Mute all notifications" : "Σίγαση όλων των ειδοποιήσεων",
     "Appear offline" : "Εμφάνιση εκτός σύνδεσης",
+    "Recent statuses" : "Πρόσφατες καταστάσεις",
     "Clear status after" : "Εκκαθάριση κατάστασης μετά από"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

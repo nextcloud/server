@@ -1,7 +1,6 @@
 OC.L10N.register(
     "user_status",
     {
-    "Recent statuses" : "מצבים אחרונים",
     "In a meeting" : "בפגישה",
     "Commuting" : "בדרכים",
     "Out sick" : "בחופשת מחלה",
@@ -33,6 +32,7 @@ OC.L10N.register(
     "4 hours" : "4 שעות",
     "Mute all notifications" : "השתקת כל ההתראות",
     "Appear offline" : "להופיע במצב בלתי מקוון",
+    "Recent statuses" : "מצבים אחרונים",
     "Clear status after" : "לפנות את המצב לאחר"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");

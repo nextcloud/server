@@ -83,6 +83,7 @@ OC.L10N.register(
     "Available flows" : "Dostupni tijekovi",
     "For details on how to write your own flow, check out the development documentation." : "Više informacija o pisanju vlastitog tijeka možete pronaći u razvojnoj dokumentaciji.",
     "More flows" : "Više tijekova",
+    "Browse the App Store" : "Pretraži trgovinu aplikacijama",
     "Show less" : "Prikaži manje",
     "Show more" : "Prikaži više",
     "Configured flows" : "Konfigurirani tijekovi",
