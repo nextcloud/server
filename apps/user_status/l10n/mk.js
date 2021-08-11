@@ -1,6 +1,7 @@
 OC.L10N.register(
     "user_status",
     {
+    "Recent statuses" : "Неодамнешни статуси",
     "In a meeting" : "На состанок",
     "Commuting" : "На пат",
     "Out sick" : "На боледување",
@@ -32,7 +33,6 @@ OC.L10N.register(
     "4 hours" : "4 часа",
     "Mute all notifications" : "Занеми (Mute) ги сите известувања",
     "Appear offline" : "Прикажи исклучен",
-    "Recent statuses" : "Неодамнешни статуси",
     "Clear status after" : "Тргни го статусот после"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

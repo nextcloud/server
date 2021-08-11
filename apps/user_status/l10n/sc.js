@@ -1,6 +1,7 @@
 OC.L10N.register(
     "user_status",
     {
+    "Recent statuses" : "Istados reghentes",
     "In a meeting" : "In riunione",
     "Commuting" : "Biagende",
     "Out sick" : "In maladia",
@@ -32,7 +33,6 @@ OC.L10N.register(
     "4 hours" : "4 oras",
     "Mute all notifications" : "Istuda totu is notìficas",
     "Appear offline" : "Mustra•ti foras de lìnia",
-    "Recent statuses" : "Istados reghentes",
     "Clear status after" : "Lìmpia s'istadu a pustis"
 },
 "nplurals=2; plural=(n != 1);");

@@ -38,6 +38,7 @@ OC.L10N.register(
     "Provide federated file sharing across servers" : "Приложение позволяет использовать межсерверный обмен файлами",
     "Federated Cloud Sharing" : "Межсерверный обмен",
     "Open documentation" : "Открыть документацию",
+    "Adjust how people can share between servers. This includes shares between users on this server as well if they are using federated sharing." : "Настройте, как люди могут делиться между серверами. Сюда входят и общие ресурсы между пользователями на этом сервере, если они используют федеративное совместное использование.",
     "Allow users on this server to send shares to other servers (this option also allows WebDAV access to public shares)" : "Разрешить пользователям на этом сервере отправлять общие ресурсы на другие серверы (этот параметр также разрешает доступ WebDAV к общим папкам)",
     "Allow users on this server to receive shares from other servers" : "Разрешить пользователям получать общие ресурсы с других серверов",
     "Allow users on this server to send shares to groups on other servers" : "Разрешить предоставлять общий доступ для групп пользователей других серверов",
