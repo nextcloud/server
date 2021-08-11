@@ -61,7 +61,6 @@ use OCP\Files\Config\IMountProviderCollection;
 use OCP\Group\Events\UserAddedEvent;
 use OCP\IDBConnection;
 use OCP\IGroup;
-use OCP\INavigationManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Share\Events\ShareCreatedEvent;
@@ -148,11 +147,12 @@ class Application extends App implements IBootstrap {
 		});
 	}
 
-	public function setupSharingMenus(INavigationManager $navigationManager, IManager $shareManager, IFactory $l10nFactory, IUserSession $userSession) {
+	public function setupSharingMenus(IManager $shareManager, IFactory $l10nFactory, IUserSession $userSession) {
 		if (!$shareManager->shareApiEnabled() || !class_exists('\OCA\Files\App')) {
 			return;
 		}
 
+		$navigationManager = \OCA\Files\App::getNavigationManager();
 		// show_Quick_Access stored as string
 		$navigationManager->add(function () use ($shareManager, $l10nFactory, $userSession) {
 			$l = $l10nFactory->get('files_sharing');
