@@ -1,6 +1,7 @@
 OC.L10N.register(
     "user_status",
     {
+    "Recent statuses" : "Estats recents",
     "In a meeting" : "En una reunió",
     "Commuting" : "Trajecte",
     "Out sick" : "Fora malalt",
@@ -32,7 +33,6 @@ OC.L10N.register(
     "4 hours" : "4 hores",
     "Mute all notifications" : "Silenciar totes les notificacions",
     "Appear offline" : "Apareix com \"desconnectat\"",
-    "Recent statuses" : "Estats recents",
     "Clear status after" : "Esborra l'estat després"
 },
 "nplurals=2; plural=(n != 1);");

@@ -1,6 +1,7 @@
 OC.L10N.register(
     "user_status",
     {
+    "Recent statuses" : "สถานะล่าสุด",
     "In a meeting" : "กำลังประชุม",
     "Commuting" : "กำลังเดินทาง",
     "Out sick" : "ป่วย",
@@ -10,7 +11,7 @@ OC.L10N.register(
     "Clear status message after" : "ลบข้อความสถานะหลังจาก",
     "What's your status?" : "สถานะของคุณคืออะไร",
     "Set status" : "กำหนดสถานะ",
-    "Online status" : "ออนไลน์",
+    "Online status" : "สถานะออนไลน์",
     "Status message" : "ข้อความสถานะ",
     "Clear status message" : "ล้างข้อความสถานะ",
     "Set status message" : "กำหนดข้อความสถานะ",
@@ -24,15 +25,14 @@ OC.L10N.register(
     "Today" : "วันนี้",
     "This week" : "สัปดาห์นี้",
     "Online" : "ออนไลน์",
-    "Invisible" : "ซ่อนสถานะ",
+    "Invisible" : "ไม่แสดงสถานะ",
     "Offline" : "ออฟไลน์",
     "There was an error saving the new status" : "เกิดข้อผิดพลาดในการบันทึกสถานะใหม่",
     "30 minutes" : "30 นาที",
     "1 hour" : "1 ชั่วโมง",
     "4 hours" : "4 ชั่วโมง",
     "Mute all notifications" : "ปิดการแจ้งเตือนทั้งหมด",
-    "Appear offline" : "แสดงสถานะออฟไลน์",
-    "Recent statuses" : "สถานะล่าสุด",
+    "Appear offline" : "แสดงเป็นออฟไลน์",
     "Clear status after" : "ล้างสถานะหลังจาก"
 },
 "nplurals=1; plural=0;");
