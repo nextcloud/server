@@ -40,8 +40,6 @@
  */
 namespace OCA\Theming;
 
-use OCP\App\AppPathNotFoundException;
-use OCP\App\IAppManager;
 use OCP\Files\NotFoundException;
 use OCP\ICacheFactory;
 use OCP\IConfig;
@@ -63,8 +61,6 @@ class ThemingDefaults extends \OC_Defaults {
 	private $cacheFactory;
 	/** @var Util */
 	private $util;
-	/** @var IAppManager */
-	private $appManager;
 	/** @var INavigationManager */
 	private $navigationManager;
 
@@ -99,7 +95,6 @@ class ThemingDefaults extends \OC_Defaults {
 	 * @param IURLGenerator $urlGenerator
 	 * @param ICacheFactory $cacheFactory
 	 * @param Util $util
-	 * @param IAppManager $appManager
 	 */
 	public function __construct(IConfig $config,
 								IL10N $l,
@@ -107,7 +102,6 @@ class ThemingDefaults extends \OC_Defaults {
 								ICacheFactory $cacheFactory,
 								Util $util,
 								ImageManager $imageManager,
-								IAppManager $appManager,
 								INavigationManager $navigationManager
 	) {
 		parent::__construct();
@@ -117,7 +111,6 @@ class ThemingDefaults extends \OC_Defaults {
 		$this->urlGenerator = $urlGenerator;
 		$this->cacheFactory = $cacheFactory;
 		$this->util = $util;
-		$this->appManager = $appManager;
 		$this->navigationManager = $navigationManager;
 
 		$this->name = parent::getName();
@@ -375,16 +368,6 @@ class ThemingDefaults extends \OC_Defaults {
 		}
 		if (($image === 'favicon-touch.png' || $image === 'favicon-fb.png') && ($customFavicon !== null || $this->imageManager->shouldReplaceIcons())) {
 			$route = $this->urlGenerator->linkToRoute('theming.Icon.getTouchIcon', ['app' => $app]);
-		}
-		if ($image === 'manifest.json') {
-			try {
-				$appPath = $this->appManager->getAppPath($app);
-				if (file_exists($appPath . '/img/manifest.json')) {
-					return false;
-				}
-			} catch (AppPathNotFoundException $e) {
-			}
-			$route = $this->urlGenerator->linkToRoute('theming.Theming.getManifest');
 		}
 		if (strpos($image, 'filetypes/') === 0 && file_exists(\OC::$SERVERROOT . '/core/img/' . $image)) {
 			$route = $this->urlGenerator->linkToRoute('theming.Icon.getThemedIcon', ['app' => $app, 'image' => $image]);

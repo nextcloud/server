@@ -184,6 +184,18 @@ class TemplateLayout extends \OC_Template {
 		$lang = \OC::$server->getL10NFactory()->findLanguage();
 		$locale = \OC::$server->getL10NFactory()->findLocale($lang);
 
+		// Assign manifest.json
+		if ($appId === '') {
+			$appIdManifest = 'core';
+		} else {
+			$appIdManifest = $appId;
+		}
+		if ($this->config->getSystemValue('installed', false) && \OCP\App::isEnabled('theming') && \OC_App::isAppLoaded('theming')) {
+			$this->assign('manifest_path', \OC::$server->getURLGenerator()->linkToRoute('theming.Theming.getManifest', ['app' => $appIdManifest ]));
+		} else {
+			$this->assign('manifest_path', \OC::$server->getURLGenerator()->imagePath($appIdManifest, 'manifest.json'));
+		}
+
 		$lang = str_replace('_', '-', $lang);
 		$this->assign('language', $lang);
 		$this->assign('locale', $locale);

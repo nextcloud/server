@@ -1157,7 +1157,6 @@ class Server extends ServerContainer implements IServerContainer {
 						$this->get(ILogger::class),
 						$this->get(ITempManager::class)
 					),
-					$c->get(IAppManager::class),
 					$c->get(INavigationManager::class)
 				);
 			}
