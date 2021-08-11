@@ -50,6 +50,8 @@ use OCP\AppFramework\Db\Entity;
  * @method void setCustomMessage(string|null $customMessage)
  * @method int getClearAt()
  * @method void setClearAt(int|null $clearAt)
+ * @method setIsBackup(bool $true): void
+ * @method getIsBackup(): bool
  */
 class UserStatus extends Entity {
 
@@ -77,6 +79,9 @@ class UserStatus extends Entity {
 	/** @var int|null */
 	public $clearAt;
 
+	/** @var bool $isBackup */
+	public $isBackup;
+
 	public function __construct() {
 		$this->addType('userId', 'string');
 		$this->addType('status', 'string');
@@ -86,5 +91,6 @@ class UserStatus extends Entity {
 		$this->addType('customIcon', 'string');
 		$this->addType('customMessage', 'string');
 		$this->addType('clearAt', 'int');
+		$this->addType('isBackup', 'boolean');
 	}
 }

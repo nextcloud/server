@@ -4909,12 +4909,6 @@
       <code>setPassword</code>
     </UndefinedInterfaceMethod>
   </file>
-  <file src="lib/private/UserStatus/Manager.php">
-    <InvalidCatch occurrences="1"/>
-    <InvalidPropertyAssignmentValue occurrences="1">
-      <code>$class</code>
-    </InvalidPropertyAssignmentValue>
-  </file>
   <file src="lib/private/legacy/OC_API.php">
     <InvalidNullableReturnType occurrences="1">
       <code>int</code>
