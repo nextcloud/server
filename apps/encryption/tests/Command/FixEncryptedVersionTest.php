@@ -244,6 +244,46 @@ Fixed the file: \"/$this->userId/files/world.txt\" with version 4", $output);
 		$this->assertEquals(15, $encryptedVersion);
 	}
 
+	public function testRepairUnencryptedFileWhenVersionIsSet() {
+		$this->util->expects($this->once())->method('isMasterKeyEnabled')
+			->willReturn(true);
+
+		$view = new View("/" . $this->userId . "/files");
+
+		// create a file, it's encrypted and also the version is set in the database
+		$view->touch('hello.txt');
+
+		$fileInfo1 = $view->getFileInfo('hello.txt');
+
+		$storage1 = $fileInfo1->getStorage();
+		$cache1 = $storage1->getCache();
+		$fileCache1 = $cache1->get($fileInfo1->getId());
+
+		// Now change the encrypted version
+		$cacheInfo = ['encryptedVersion' => 1, 'encrypted' => 1];
+		$cache1->put($fileCache1->getPath(), $cacheInfo);
+
+		$absPath = $view->getLocalFolder(''). '/hello.txt';
+
+		// create unencrypted file on disk, the version stays
+		file_put_contents($absPath, 'hello contents');
+
+		$this->commandTester->execute([
+			'user' => $this->userId
+		]);
+
+		$output = $this->commandTester->getDisplay();
+
+		$this->assertStringContainsString("Verifying the content of file \"/$this->userId/files/hello.txt\"
+Attempting to fix the path: \"/$this->userId/files/hello.txt\"
+Set the encrypted version to 0 (unencrypted)
+The file \"/$this->userId/files/hello.txt\" is: OK
+Fixed the file: \"/$this->userId/files/hello.txt\" with version 0 (unencrypted)", $output);
+
+		// the file can be decrypted
+		$this->assertEquals('hello contents', $view->file_get_contents('hello.txt'));
+	}
+
 	/**
 	 * Test commands with a file path
 	 */
