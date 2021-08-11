@@ -2951,45 +2951,45 @@
         "code": "zgh_MA",
         "name": "Standard Moroccan Tamazight (Morocco)"
     },
-    {
-        "code": "zh",
-        "name": "Chinese"
+   {
+        "code": "zh-cn",
+        "name": "汉语"
     },
     {
-        "code": "zh_Hans",
-        "name": "Chinese (Simplified)"
+        "code": "zh-cn",
+        "name": "汉语 (简体)"
     },
     {
-        "code": "zh_Hans_CN",
-        "name": "Chinese (Simplified, China)"
+        "code": "zh-cn",
+        "name": "汉语 (简体 中国)"
     },
     {
-        "code": "zh_Hans_HK",
-        "name": "Chinese (Simplified, Hong Kong SAR China)"
+        "code": "zh-cn",
+        "name": "汉语 (简体 香港)"
     },
     {
-        "code": "zh_Hans_MO",
-        "name": "Chinese (Simplified, Macao SAR China)"
+        "code": "zh-cn",
+        "name": "汉语 (简体 澳门)"
     },
     {
-        "code": "zh_Hans_SG",
-        "name": "Chinese (Simplified, Singapore)"
+        "code": "zh-cn",
+        "name": "汉语 (简体 新加坡)"
     },
     {
-        "code": "zh_Hant",
-        "name": "Chinese (Traditional)"
+        "code": "zh-hk",
+        "name": "汉语 (繁体)"
     },
     {
-        "code": "zh_Hant_HK",
-        "name": "Chinese (Traditional, Hong Kong SAR China)"
+        "code": "zh-hk",
+        "name": "漢語 (繁体 香港)"
     },
     {
-        "code": "zh_Hant_MO",
-        "name": "Chinese (Traditional, Macao SAR China)"
+        "code": "zh-mo",
+        "name": "漢語 (繁體 澳門)"
     },
     {
-        "code": "zh_Hant_TW",
-        "name": "Chinese (Traditional, Taiwan)"
+        "code": "zh-tw",
+        "name": "漢語 (繁體 台灣)"
     },
     {
         "code": "zu",
