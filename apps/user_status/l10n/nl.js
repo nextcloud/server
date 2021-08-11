@@ -1,6 +1,7 @@
 OC.L10N.register(
     "user_status",
     {
+    "Recent statuses" : "Recente statussen",
     "In a meeting" : "Vergadering",
     "Commuting" : "Woon-werk",
     "Out sick" : "Ziek",
@@ -32,7 +33,6 @@ OC.L10N.register(
     "4 hours" : "4 uur",
     "Mute all notifications" : "Onderdruk alle meldingen",
     "Appear offline" : "Toon afwezig",
-    "Recent statuses" : "Recente statussen",
     "Clear status after" : "Maak de status leeg na"
 },
 "nplurals=2; plural=(n != 1);");

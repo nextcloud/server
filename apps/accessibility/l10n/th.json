@@ -1,9 +1,9 @@
 { "translations": {
-    "Dark theme" : "รูปแบบสีเข้ม",
-    "Enable dark theme" : "เปิด รูปแบบสีเข้ม",
-    "A dark theme to ease your eyes by reducing the overall luminosity and brightness. It is still under development, so please report any issues you may find." : "รูปแบบสีเข้ม ทำให้ดวงตาของคุณสบายขึ้นโดยลดแสงส่องสว่าง และความสว่างโดยรวม ซึ่งยังอยู่ระหว่างการพัฒนา ดังนั้นโปรดรายงานปัญหาใด ๆ ที่คุณอาจพบ",
+    "Dark theme" : "ธีมสีเข้ม",
+    "Enable dark theme" : "เปิดใช้ธีมสีเข้ม",
+    "A dark theme to ease your eyes by reducing the overall luminosity and brightness. It is still under development, so please report any issues you may find." : "ธีมสีเข้มทำให้ดวงตาของคุณสบายขึ้น โดยลดแสงส่องสว่าง และความสว่างโดยรวม ซึ่งยังอยู่ระหว่างการพัฒนา ดังนั้นโปรดรายงานปัญหาใด ๆ ที่คุณอาจพบ",
     "High contrast mode" : "โหมดความคมชัดสูง",
-    "Enable high contrast mode" : "เปิด โหมดความคมชัดสูง",
+    "Enable high contrast mode" : "เปิดโหมดความคมชัดสูง",
     "A high contrast mode to ease your navigation. Visual quality will be reduced but clarity will be increased." : "โหมดความคมชัดสูง ช่วยเพิ่มความสะดวกในการใช้งานของคุณ คุณภาพของภาพจะลดลง แต่ความคมชัดจะเพิ่มขึ้น",
     "Dyslexia font" : "ฟอนต์ภาวะเสียการอ่านเข้าใจ",
     "Enable dyslexia font" : "เปิดฟอนต์ภาวะเสียการอ่านเข้าใจ",
