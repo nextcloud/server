@@ -471,6 +471,7 @@ class Encryption extends Wrapper {
 				$handle = \OC\Files\Stream\Encryption::wrap($source, $path, $fullPath, $header,
 					$this->uid, $encryptionModule, $this->storage, $this, $this->util, $this->fileHelper, $mode,
 					$size, $unencryptedSize, $headerSize, $signed);
+
 				return $handle;
 			}
 		}
@@ -540,7 +541,7 @@ class Encryption extends Wrapper {
 
 		// if a header exists we skip it
 		if ($headerSize > 0) {
-			fread($stream, $headerSize);
+			$this->fread_block($stream, $headerSize);
 		}
 
 		// fast path, else the calculation for $lastChunkNr is bogus
@@ -567,7 +568,7 @@ class Encryption extends Wrapper {
 		$count = $blockSize;
 
 		while ($count > 0) {
-			$data = fread($stream, $blockSize);
+			$data = $this->fread_block($stream, $blockSize);
 			$count = strlen($data);
 			$lastChunkContentEncrypted .= $data;
 			if (strlen($lastChunkContentEncrypted) > $blockSize) {
@@ -596,6 +597,33 @@ class Encryption extends Wrapper {
 		}
 
 		return $newUnencryptedSize;
+	}
+
+	/**
+	 * fread_block
+	 *
+	 * This function is a wrapper around the fread function.  It is based on the
+	 * stream_read_block function from lib/private/Files/Streams/Encryption.php
+	 * It calls stream read until the requested $blockSize was received or no remaining data is present.
+	 * This is required as stream_read only returns smaller chunks of data when the stream fetches from a
+	 * remote storage over the internet and it does not care about the given $blockSize.
+	 *
+	 * @param handle the stream to read from
+	 * @param int $blockSize Length of requested data block in bytes
+	 * @return string Data fetched from stream.
+	 */
+	private function fread_block($handle, $blockSize): string {
+		$remaining = $blockSize;
+		$data = '';
+
+		do {
+			$chunk = fread($handle, $remaining);
+			$chunk_len = strlen($chunk);
+			$data .= $chunk;
+			$remaining -= $chunk_len;
+		} while (($remaining > 0) && ($chunk_len > 0));
+
+ 	  return $data;
 	}
 
 	/**
