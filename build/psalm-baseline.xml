@@ -3509,9 +3509,6 @@
       <code>string</code>
       <code>string</code>
     </InvalidReturnType>
-    <NullableReturnStatement occurrences="1">
-      <code>$this-&gt;view-&gt;hash($type, $this-&gt;path, $raw)</code>
-    </NullableReturnStatement>
     <UndefinedThisPropertyAssignment occurrences="1">
       <code>$this-&gt;exists</code>
     </UndefinedThisPropertyAssignment>
