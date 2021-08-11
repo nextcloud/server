@@ -1,6 +1,7 @@
 OC.L10N.register(
     "user_status",
     {
+    "Recent statuses" : "Najnowsze statusy",
     "In a meeting" : "Na spotkaniu",
     "Commuting" : "W drodze",
     "Out sick" : "Chory",
@@ -32,7 +33,6 @@ OC.L10N.register(
     "4 hours" : "4 godziny",
     "Mute all notifications" : "Wycisz wszystkie powiadomienia",
     "Appear offline" : "Widnieje jako offline",
-    "Recent statuses" : "Najnowsze statusy",
     "Clear status after" : "Wyczyść status po"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

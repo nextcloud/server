@@ -1,6 +1,7 @@
 OC.L10N.register(
     "user_status",
     {
+    "Recent statuses" : "Senaste statusuppdateringar",
     "In a meeting" : "På ett möte",
     "Commuting" : "Reser",
     "Out sick" : "Sjuk",
@@ -32,7 +33,6 @@ OC.L10N.register(
     "4 hours" : "4 timmar",
     "Mute all notifications" : "Dölj alla aviseringar",
     "Appear offline" : "Visa som frånkopplad",
-    "Recent statuses" : "Senaste statusuppdateringar",
     "Clear status after" : "Rensa status efter"
 },
 "nplurals=2; plural=(n != 1);");

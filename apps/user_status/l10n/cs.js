@@ -1,6 +1,7 @@
 OC.L10N.register(
     "user_status",
     {
+    "Recent statuses" : "Nedávné stavy",
     "In a meeting" : "Na poradě",
     "Commuting" : "Dojíždění",
     "Out sick" : "Nemoc",
@@ -32,7 +33,6 @@ OC.L10N.register(
     "4 hours" : "4 hodiny",
     "Mute all notifications" : "Ztlumit veškerá upozornění",
     "Appear offline" : "Jevit se offline",
-    "Recent statuses" : "Nedávné stavy",
     "Clear status after" : "Vyčistit stav po uplynutí"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

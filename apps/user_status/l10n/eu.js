@@ -1,6 +1,7 @@
 OC.L10N.register(
     "user_status",
     {
+    "Recent statuses" : "Azken egoerak",
     "In a meeting" : "Bilera batean",
     "Commuting" : "Lanerako bidean",
     "Out sick" : "Gaixorik",
@@ -32,7 +33,6 @@ OC.L10N.register(
     "4 hours" : "4 ordu",
     "Mute all notifications" : "Mututu jakinarazpen guztiak",
     "Appear offline" : "Lineaz kanpo agertu",
-    "Recent statuses" : "Azken egoerak",
     "Clear status after" : "Garbitu egoera honen ondoren"
 },
 "nplurals=2; plural=(n != 1);");

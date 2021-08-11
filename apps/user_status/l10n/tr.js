@@ -1,6 +1,7 @@
 OC.L10N.register(
     "user_status",
     {
+    "Recent statuses" : "Yakın zamandaki durumlar",
     "In a meeting" : "Toplantıda",
     "Commuting" : "İşe gidiyor/geliyor",
     "Out sick" : "Hasta",
@@ -32,7 +33,6 @@ OC.L10N.register(
     "4 hours" : "4 saat",
     "Mute all notifications" : "Tüm bildirimleri kapat",
     "Appear offline" : "Çevrimdışı görün",
-    "Recent statuses" : "Yakın zamandaki durumlar",
     "Clear status after" : "Durum şu kadar sonra kaldırılsın"
 },
 "nplurals=2; plural=(n > 1);");
