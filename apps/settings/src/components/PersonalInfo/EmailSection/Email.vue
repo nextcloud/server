@@ -128,7 +128,7 @@ export default {
 			if (this.primary) {
 				return this.email === ''
 			}
-			return this.email !== '' && !this.isValid()
+			return this.email !== '' && !this.isValid(this.email)
 		},
 
 		deleteEmailLabel() {
@@ -165,21 +165,20 @@ export default {
 
 	methods: {
 		onEmailChange(e) {
-			this.$emit('update:email', e.target.value.trim())
-			// $nextTick() ensures that references to this.email further down the chain give the correct non-outdated value
-			this.$nextTick(() => this.debounceEmailChange())
+			this.$emit('update:email', e.target.value)
+			this.debounceEmailChange(e.target.value.trim())
 		},
 
-		debounceEmailChange: debounce(async function() {
-			if (this.$refs.email?.checkValidity() || this.email === '') {
+		debounceEmailChange: debounce(async function(email) {
+			if (this.$refs.email?.checkValidity() || email === '') {
 				if (this.primary) {
-					await this.updatePrimaryEmail()
+					await this.updatePrimaryEmail(email)
 				} else {
-					if (this.email) {
+					if (email) {
 						if (this.initialEmail === '') {
-							await this.addAdditionalEmail()
+							await this.addAdditionalEmail(email)
 						} else {
-							await this.updateAdditionalEmail()
+							await this.updateAdditionalEmail(email)
 						}
 					}
 				}
@@ -189,40 +188,61 @@ export default {
 		async deleteEmail() {
 			if (this.primary) {
 				this.$emit('update:email', '')
-				this.$nextTick(async() => await this.updatePrimaryEmail())
+				await this.updatePrimaryEmail('')
 			} else {
 				await this.deleteAdditionalEmail()
 			}
 		},
 
-		async updatePrimaryEmail() {
+		async updatePrimaryEmail(email) {
 			try {
-				const responseData = await savePrimaryEmail(this.email)
-				this.handleResponse(responseData.ocs?.meta?.status)
+				const responseData = await savePrimaryEmail(email)
+				this.handleResponse({
+					email,
+					status: responseData.ocs?.meta?.status,
+				})
 			} catch (e) {
-				if (this.email === '') {
-					this.handleResponse('error', 'Unable to delete primary email address', e)
+				if (email === '') {
+					this.handleResponse({
+						errorMessage: 'Unable to delete primary email address',
+						error: e,
+					})
 				} else {
-					this.handleResponse('error', 'Unable to update primary email address', e)
+					this.handleResponse({
+						errorMessage: 'Unable to update primary email address',
+						error: e,
+					})
 				}
 			}
 		},
 
-		async addAdditionalEmail() {
+		async addAdditionalEmail(email) {
 			try {
-				const responseData = await saveAdditionalEmail(this.email)
-				this.handleResponse(responseData.ocs?.meta?.status)
+				const responseData = await saveAdditionalEmail(email)
+				this.handleResponse({
+					email,
+					status: responseData.ocs?.meta?.status,
+				})
 			} catch (e) {
-				this.handleResponse('error', 'Unable to add additional email address', e)
+				this.handleResponse({
+					errorMessage: 'Unable to add additional email address',
+					error: e,
+				})
 			}
 		},
 
-		async updateAdditionalEmail() {
+		async updateAdditionalEmail(email) {
 			try {
-				const responseData = await updateAdditionalEmail(this.initialEmail, this.email)
-				this.handleResponse(responseData.ocs?.meta?.status)
+				const responseData = await updateAdditionalEmail(this.initialEmail, email)
+				this.handleResponse({
+					email,
+					status: responseData.ocs?.meta?.status,
+				})
 			} catch (e) {
-				this.handleResponse('error', 'Unable to update additional email address', e)
+				this.handleResponse({
+					errorMessage: 'Unable to update additional email address',
+					error: e,
+				})
 			}
 		},
 
@@ -231,7 +251,10 @@ export default {
 				const responseData = await removeAdditionalEmail(this.initialEmail)
 				this.handleDeleteAdditionalEmail(responseData.ocs?.meta?.status)
 			} catch (e) {
-				this.handleResponse('error', 'Unable to delete additional email address', e)
+				this.handleResponse({
+					errorMessage: 'Unable to delete additional email address',
+					error: e,
+				})
 			}
 		},
 
@@ -239,14 +262,16 @@ export default {
 			if (status === 'ok') {
 				this.$emit('delete-additional-email')
 			} else {
-				this.handleResponse('error', 'Unable to delete additional email address', {})
+				this.handleResponse({
+					errorMessage: 'Unable to delete additional email address',
+				})
 			}
 		},
 
-		handleResponse(status, errorMessage, error) {
+		handleResponse({ email, status, errorMessage, error }) {
 			if (status === 'ok') {
 				// Ensure that local initialEmail state reflects server state
-				this.initialEmail = this.email
+				this.initialEmail = email
 				this.showCheckmarkIcon = true
 				setTimeout(() => { this.showCheckmarkIcon = false }, 2000)
 			} else {
@@ -257,8 +282,8 @@ export default {
 			}
 		},
 
-		isValid() {
-			return /^\S+$/.test(this.email)
+		isValid(email) {
+			return /^\S+$/.test(email)
 		},
 
 		onScopeChange(scope) {

@@ -76,30 +76,35 @@ export default {
 
 	methods: {
 		onDisplayNameChange(e) {
-			this.$emit('update:display-name', e.target.value.trim())
-			// $nextTick() ensures that references to this.dipslayName further down the chain give the correct non-outdated value
-			this.$nextTick(() => this.debounceDisplayNameChange())
+			this.$emit('update:display-name', e.target.value)
+			this.debounceDisplayNameChange(e.target.value.trim())
 		},
 
-		debounceDisplayNameChange: debounce(async function() {
-			if (this.$refs.displayName?.checkValidity() && this.isValid()) {
-				await this.updatePrimaryDisplayName()
+		debounceDisplayNameChange: debounce(async function(displayName) {
+			if (this.$refs.displayName?.checkValidity() && this.isValid(displayName)) {
+				await this.updatePrimaryDisplayName(displayName)
 			}
 		}, 500),
 
-		async updatePrimaryDisplayName() {
+		async updatePrimaryDisplayName(displayName) {
 			try {
-				const responseData = await savePrimaryDisplayName(this.displayName)
-				this.handleResponse(responseData.ocs?.meta?.status)
+				const responseData = await savePrimaryDisplayName(displayName)
+				this.handleResponse({
+					displayName,
+					status: responseData.ocs?.meta?.status,
+				})
 			} catch (e) {
-				this.handleResponse('error', 'Unable to update full name', e)
+				this.handleResponse({
+					errorMessage: 'Unable to update full name',
+					error: e,
+				})
 			}
 		},
 
-		handleResponse(status, errorMessage, error) {
+		handleResponse({ displayName, status, errorMessage, error }) {
 			if (status === 'ok') {
 				// Ensure that local initialDiplayName state reflects server state
-				this.initialDisplayName = this.displayName
+				this.initialDisplayName = displayName
 				this.showCheckmarkIcon = true
 				setTimeout(() => { this.showCheckmarkIcon = false }, 2000)
 			} else {
@@ -110,8 +115,8 @@ export default {
 			}
 		},
 
-		isValid() {
-			return this.displayName !== ''
+		isValid(displayName) {
+			return displayName !== ''
 		},
 
 		onScopeChange(scope) {

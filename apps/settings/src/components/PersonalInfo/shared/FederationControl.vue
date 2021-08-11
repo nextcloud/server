@@ -122,52 +122,46 @@ export default {
 		async changeScope(scope) {
 			this.$emit('update:scope', scope)
 
-			this.$nextTick(async() => {
-				if (!this.additional) {
-					await this.updatePrimaryScope()
-				} else {
-					await this.updateAdditionalScope()
-				}
-			})
-		},
-
-		async updatePrimaryScope() {
-			try {
-				const responseData = await this.handleScopeChange(this.scope)
-				this.handleResponse(responseData.ocs?.meta?.status)
-			} catch (e) {
-				this.handleResponse(
-					'error',
-					t(
-						'settings',
-						'Unable to update federation scope of the primary {accountProperty}',
-						{ accountProperty: this.accountPropertyLowerCase }
-					),
-					e,
-				)
+			if (!this.additional) {
+				await this.updatePrimaryScope(scope)
+			} else {
+				await this.updateAdditionalScope(scope)
 			}
 		},
 
-		async updateAdditionalScope() {
+		async updatePrimaryScope(scope) {
 			try {
-				const responseData = await this.handleScopeChange(this.additionalValue, this.scope)
-				this.handleResponse(responseData.ocs?.meta?.status)
+				const responseData = await this.handleScopeChange(scope)
+				this.handleResponse({
+					scope,
+					status: responseData.ocs?.meta?.status,
+				})
 			} catch (e) {
-				this.handleResponse(
-					'error',
-					t(
-						'settings',
-						'Unable to update federation scope of additional {accountProperty}',
-						{ accountProperty: this.accountPropertyLowerCase }
-					),
-					e,
-				)
+				this.handleResponse({
+					errorMessage: t('settings', 'Unable to update federation scope of the primary {accountProperty}', { accountProperty: this.accountPropertyLowerCase }),
+					error: e,
+				})
 			}
 		},
 
-		handleResponse(status, errorMessage, error) {
+		async updateAdditionalScope(scope) {
+			try {
+				const responseData = await this.handleScopeChange(this.additionalValue, scope)
+				this.handleResponse({
+					scope,
+					status: responseData.ocs?.meta?.status,
+				})
+			} catch (e) {
+				this.handleResponse({
+					errorMessage: t('settings', 'Unable to update federation scope of additional {accountProperty}', { accountProperty: this.accountPropertyLowerCase }),
+					error: e,
+				})
+			}
+		},
+
+		handleResponse({ scope, status, errorMessage, error }) {
 			if (status === 'ok') {
-				this.initialScope = this.scope
+				this.initialScope = scope
 			} else {
 				this.$emit('update:scope', this.initialScope)
 				showError(errorMessage)
