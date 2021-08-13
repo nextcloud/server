@@ -375,6 +375,7 @@ class ThemingController extends Controller {
 		$responseJS = [
 			'name' => $this->themingDefaults->getName() . ' ' . $app,
 			'start_url' => $this->urlGenerator->getBaseUrl() . '/apps/' . $app . '/',
+			'background_color' => $this->themingDefaults->getColorPrimary(),
 			'icons' =>
 				[
 					[
@@ -393,7 +394,7 @@ class ThemingController extends Controller {
 			'display' => 'standalone'
 		];
 		$response = new Http\JSONResponse($responseJS);
-		$response->cacheFor(3600);
+		$response->cacheFor(1);
 		return $response;
 	}
 }
