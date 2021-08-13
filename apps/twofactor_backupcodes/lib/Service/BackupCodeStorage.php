@@ -136,4 +136,8 @@ class BackupCodeStorage {
 		}
 		return false;
 	}
+
+	public function deleteCodes(IUser $user): void {
+		$this->mapper->deleteCodes($user);
+	}
 }
