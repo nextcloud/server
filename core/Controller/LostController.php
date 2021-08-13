@@ -40,7 +40,6 @@ use OC\Core\Exception\ResetPasswordException;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\TemplateResponse;
-use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Defaults;
 use OCP\Encryption\IEncryptionModule;
 use OCP\Encryption\IManager;
@@ -54,8 +53,8 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Mail\IMailer;
-use OCP\Security\ICrypto;
-use OCP\Security\ISecureRandom;
+use OCP\Security\VerificationToken\InvalidTokenException;
+use OCP\Security\VerificationToken\IVerificationToken;
 use function array_filter;
 use function count;
 use function reset;
@@ -82,67 +81,46 @@ class LostController extends Controller {
 	protected $encryptionManager;
 	/** @var IConfig */
 	protected $config;
-	/** @var ISecureRandom */
-	protected $secureRandom;
 	/** @var IMailer */
 	protected $mailer;
-	/** @var ITimeFactory */
-	protected $timeFactory;
-	/** @var ICrypto */
-	protected $crypto;
 	/** @var ILogger */
 	private $logger;
 	/** @var Manager */
 	private $twoFactorManager;
 	/** @var IInitialStateService */
 	private $initialStateService;
+	/** @var IVerificationToken */
+	private $verificationToken;
 
-	/**
-	 * @param string $appName
-	 * @param IRequest $request
-	 * @param IURLGenerator $urlGenerator
-	 * @param IUserManager $userManager
-	 * @param Defaults $defaults
-	 * @param IL10N $l10n
-	 * @param IConfig $config
-	 * @param ISecureRandom $secureRandom
-	 * @param string $defaultMailAddress
-	 * @param IManager $encryptionManager
-	 * @param IMailer $mailer
-	 * @param ITimeFactory $timeFactory
-	 * @param ICrypto $crypto
-	 */
-	public function __construct($appName,
-								IRequest $request,
-								IURLGenerator $urlGenerator,
-								IUserManager $userManager,
-								Defaults $defaults,
-								IL10N $l10n,
-								IConfig $config,
-								ISecureRandom $secureRandom,
-								$defaultMailAddress,
-								IManager $encryptionManager,
-								IMailer $mailer,
-								ITimeFactory $timeFactory,
-								ICrypto $crypto,
-								ILogger $logger,
-								Manager $twoFactorManager,
-								IInitialStateService $initialStateService) {
+	public function __construct(
+		$appName,
+		IRequest $request,
+		IURLGenerator $urlGenerator,
+		IUserManager $userManager,
+		Defaults $defaults,
+		IL10N $l10n,
+		IConfig $config,
+		$defaultMailAddress,
+		IManager $encryptionManager,
+		IMailer $mailer,
+		ILogger $logger,
+		Manager $twoFactorManager,
+		IInitialStateService $initialStateService,
+		IVerificationToken $verificationToken
+	) {
 		parent::__construct($appName, $request);
 		$this->urlGenerator = $urlGenerator;
 		$this->userManager = $userManager;
 		$this->defaults = $defaults;
 		$this->l10n = $l10n;
-		$this->secureRandom = $secureRandom;
 		$this->from = $defaultMailAddress;
 		$this->encryptionManager = $encryptionManager;
 		$this->config = $config;
 		$this->mailer = $mailer;
-		$this->timeFactory = $timeFactory;
-		$this->crypto = $crypto;
 		$this->logger = $logger;
 		$this->twoFactorManager = $twoFactorManager;
 		$this->initialStateService = $initialStateService;
+		$this->verificationToken = $verificationToken;
 	}
 
 	/**
@@ -192,36 +170,14 @@ class LostController extends Controller {
 	 * @param string $userId
 	 * @throws \Exception
 	 */
-	protected function checkPasswordResetToken($token, $userId) {
-		$user = $this->userManager->get($userId);
-		if ($user === null || !$user->isEnabled()) {
-			throw new \Exception($this->l10n->t('Couldn\'t reset password because the token is invalid'));
-		}
-
-		$encryptedToken = $this->config->getUserValue($userId, 'core', 'lostpassword', null);
-		if ($encryptedToken === null) {
-			throw new \Exception($this->l10n->t('Couldn\'t reset password because the token is invalid'));
-		}
-
+	protected function checkPasswordResetToken(string $token, string $userId): void {
 		try {
-			$mailAddress = !is_null($user->getEMailAddress()) ? $user->getEMailAddress() : '';
-			$decryptedToken = $this->crypto->decrypt($encryptedToken, $mailAddress.$this->config->getSystemValue('secret'));
-		} catch (\Exception $e) {
-			throw new \Exception($this->l10n->t('Couldn\'t reset password because the token is invalid'));
-		}
-
-		$splittedToken = explode(':', $decryptedToken);
-		if (count($splittedToken) !== 2) {
-			throw new \Exception($this->l10n->t('Couldn\'t reset password because the token is invalid'));
-		}
-
-		if ($splittedToken[0] < ($this->timeFactory->getTime() - 60 * 60 * 24 * 7) ||
-			$user->getLastLogin() > $splittedToken[0]) {
-			throw new \Exception($this->l10n->t('Couldn\'t reset password because the token is expired'));
-		}
-
-		if (!hash_equals($splittedToken[1], $token)) {
-			throw new \Exception($this->l10n->t('Couldn\'t reset password because the token is invalid'));
+			$this->verificationToken->check($token, $this->userManager->get($userId), 'lostpassword');
+		} catch (InvalidTokenException $e) {
+			$error = $e->getCode() === InvalidTokenException::TOKEN_EXPIRED
+				? $this->l10n->t('Could not reset password because the token is expired')
+				: $this->l10n->t('Could not reset password because the token is invalid');
+			throw new \Exception($error, (int)$e->getCode(), $e);
 		}
 	}
 
@@ -343,15 +299,7 @@ class LostController extends Controller {
 		// secret being the users' email address appended with the system secret.
 		// This makes the token automatically invalidate once the user changes
 		// their email address.
-		$token = $this->secureRandom->generate(
-			21,
-			ISecureRandom::CHAR_DIGITS.
-			ISecureRandom::CHAR_LOWER.
-			ISecureRandom::CHAR_UPPER
-		);
-		$tokenValue = $this->timeFactory->getTime() .':'. $token;
-		$encryptedValue = $this->crypto->encrypt($tokenValue, $email . $this->config->getSystemValue('secret'));
-		$this->config->setUserValue($user->getUID(), 'core', 'lostpassword', $encryptedValue);
+		$token = $this->verificationToken->create($user, 'lostpassword', $email);
 
 		$link = $this->urlGenerator->linkToRouteAbsolute('core.lost.resetform', ['userId' => $user->getUID(), 'token' => $token]);
 
