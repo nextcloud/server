@@ -171,11 +171,11 @@ class URLGenerator implements IURLGenerator {
 	 * Returns the path to the image.
 	 */
 	public function imagePath(string $appName, string $file): string {
-		$cache = $this->cacheFactory->createDistributed('imagePath-'.md5($this->getBaseUrl()).'-');
-		$cacheKey = $appName.'-'.$file;
-		if ($key = $cache->get($cacheKey)) {
-			return $key;
-		}
+		// $cache = $this->cacheFactory->createDistributed('imagePath-'.md5($this->getBaseUrl()).'-');
+		// $cacheKey = $appName.'-'.$file;
+		// if ($key = $cache->get($cacheKey)) {
+		// 	return $key;
+		// }
 
 		// Read the selected theme from the config file
 		$theme = \OC_Util::getTheme();
@@ -195,7 +195,6 @@ class URLGenerator implements IURLGenerator {
 				$themingImagePath = $themingDefaults->replaceImagePath($appName, $file);
 			}
 		}
-
 		if (file_exists(\OC::$SERVERROOT . "/themes/$theme/apps/$appName/img/$file")) {
 			$path = \OC::$WEBROOT . "/themes/$theme/apps/$appName/img/$file";
 		} elseif (!file_exists(\OC::$SERVERROOT . "/themes/$theme/apps/$appName/img/$basename.svg")
@@ -231,7 +230,7 @@ class URLGenerator implements IURLGenerator {
 		}
 
 		if ($path !== '') {
-			$cache->set($cacheKey, $path);
+			// $cache->set($cacheKey, $path);
 			return $path;
 		}
 

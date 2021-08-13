@@ -372,7 +372,20 @@ class ThemingController extends Controller {
 	 */
 	public function getManifest($app) {
 		$cacheBusterValue = $this->config->getAppValue('theming', 'cachebuster', '0');
+		if ($app === 'core') {
+			$name = $this->themingDefaults->getName();
+			$short_name = $this->themingDefaults->getName();
+			$start_url = $this->urlGenerator->getBaseUrl();
+		} else {
+			$name = $app . ' - ' . $this->themingDefaults->getName();
+			$short_name = $app;
+			$start_url = $this->urlGenerator->getBaseUrl() . $this->urlGenerator->linkTo($app, 'index.php');
+		}
 		$responseJS = [
+			'name' => $name,
+			'short_name' => $short_name,
+			'start_url' => $start_url,
+			'background_color' => $this->themingDefaults->getColorPrimary(),
 			'name' => $this->themingDefaults->getName(),
 			'start_url' => $this->urlGenerator->getBaseUrl(),
 			'icons' =>
@@ -393,7 +406,7 @@ class ThemingController extends Controller {
 			'display' => 'standalone'
 		];
 		$response = new Http\JSONResponse($responseJS);
-		$response->cacheFor(3600);
+		$response->cacheFor(1);
 		return $response;
 	}
 }
