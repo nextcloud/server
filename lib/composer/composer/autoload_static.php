@@ -715,6 +715,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Authentication\\Listeners\\RemoteWipeActivityListener' => __DIR__ . '/../../..' . '/lib/private/Authentication/Listeners/RemoteWipeActivityListener.php',
         'OC\\Authentication\\Listeners\\RemoteWipeEmailListener' => __DIR__ . '/../../..' . '/lib/private/Authentication/Listeners/RemoteWipeEmailListener.php',
         'OC\\Authentication\\Listeners\\RemoteWipeNotificationsListener' => __DIR__ . '/../../..' . '/lib/private/Authentication/Listeners/RemoteWipeNotificationsListener.php',
+        'OC\\Authentication\\Listeners\\UserDeletedFilesCleanupListener' => __DIR__ . '/../../..' . '/lib/private/Authentication/Listeners/UserDeletedFilesCleanupListener.php',
         'OC\\Authentication\\Listeners\\UserDeletedStoreCleanupListener' => __DIR__ . '/../../..' . '/lib/private/Authentication/Listeners/UserDeletedStoreCleanupListener.php',
         'OC\\Authentication\\Listeners\\UserDeletedTokenCleanupListener' => __DIR__ . '/../../..' . '/lib/private/Authentication/Listeners/UserDeletedTokenCleanupListener.php',
         'OC\\Authentication\\Listeners\\UserDeletedWebAuthnCleanupListener' => __DIR__ . '/../../..' . '/lib/private/Authentication/Listeners/UserDeletedWebAuthnCleanupListener.php',
