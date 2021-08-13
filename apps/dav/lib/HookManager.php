@@ -59,6 +59,9 @@ class HookManager {
 	private $calendarsToDelete = [];
 
 	/** @var array */
+	private $subscriptionsToDelete = [];
+
+	/** @var array */
 	private $addressBooksToDelete = [];
 
 	/** @var EventDispatcherInterface */
@@ -112,9 +115,11 @@ class HookManager {
 
 	public function preDeleteUser($params) {
 		$uid = $params['uid'];
+		$userPrincipalUri = 'principals/users/' . $uid;
 		$this->usersToDelete[$uid] = $this->userManager->get($uid);
-		$this->calendarsToDelete = $this->calDav->getUsersOwnCalendars('principals/users/' . $uid);
-		$this->addressBooksToDelete = $this->cardDav->getUsersOwnAddressBooks('principals/users/' . $uid);
+		$this->calendarsToDelete = $this->calDav->getUsersOwnCalendars($userPrincipalUri);
+		$this->subscriptionsToDelete = $this->calDav->getSubscriptionsForUser($userPrincipalUri);
+		$this->addressBooksToDelete = $this->cardDav->getUsersOwnAddressBooks($userPrincipalUri);
 	}
 
 	public function preUnassignedUserId($uid) {
@@ -129,6 +134,12 @@ class HookManager {
 
 		foreach ($this->calendarsToDelete as $calendar) {
 			$this->calDav->deleteCalendar($calendar['id']);
+		}
+
+		foreach ($this->subscriptionsToDelete as $subscription) {
+			$this->calDav->deleteSubscription(
+				$subscription['id'],
+			);
 		}
 		$this->calDav->deleteAllSharesByUser('principals/users/' . $uid);
 
