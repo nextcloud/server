@@ -50,6 +50,16 @@ export const ACCOUNT_PROPERTY_READABLE_ENUM = Object.freeze({
 	WEBSITE: t('settings', 'Website'),
 })
 
+/** Enum of setting properties */
+export const SETTING_PROPERTY_ENUM = Object.freeze({
+	LANGUAGE: 'language',
+})
+
+/** Enum of setting properties to human readable setting properties */
+export const SETTING_PROPERTY_READABLE_ENUM = Object.freeze({
+	LANGUAGE: 'Language',
+})
+
 /** Enum of scopes */
 export const SCOPE_ENUM = Object.freeze({
 	LOCAL: 'v2-local',
