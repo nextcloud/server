@@ -23,6 +23,7 @@
 	<div>
 		<div class="email">
 			<input
+				id="email"
 				ref="email"
 				type="email"
 				:name="inputName"
@@ -31,7 +32,7 @@
 				autocapitalize="none"
 				autocomplete="on"
 				autocorrect="off"
-				required="true"
+				required
 				@input="onEmailChange">
 
 			<div class="email__actions-container">
@@ -277,7 +278,7 @@ export default {
 
 		handleResponse({ email, status, errorMessage, error }) {
 			if (status === 'ok') {
-				// Ensure that local initialEmail state reflects server state
+				// Ensure that local state reflects server state
 				this.initialEmail = email
 				this.showCheckmarkIcon = true
 				setTimeout(() => { this.showCheckmarkIcon = false }, 2000)
@@ -297,9 +298,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-	.email {
-		display: grid;
-		align-items: center;
+.email {
+	display: grid;
+	align-items: center;
 
 		input {
 			grid-area: 1 / 1;
@@ -320,48 +321,53 @@ export default {
 			justify-self: flex-end;
 			height: 30px;
 
-			display: flex;
-			gap: 0 2px;
-			margin-right: 5px;
+	.email__actions-container {
+		grid-area: 1 / 1;
+		justify-self: flex-end;
+		height: 30px;
 
-			.email__actions {
-				opacity: 0.4 !important;
+		display: flex;
+		gap: 0 2px;
+		margin-right: 5px;
 
-				&:hover {
-					opacity: 0.8 !important;
-				}
+		.email__actions {
+			opacity: 0.4 !important;
 
-				&::v-deep button {
-					height: 30px !important;
-					min-height: 30px !important;
-					width: 30px !important;
-					min-width: 30px !important;
-				}
+			&:hover {
+				opacity: 0.8 !important;
 			}
 
-			.icon-checkmark,
-			.icon-error {
+			&::v-deep button {
 				height: 30px !important;
 				min-height: 30px !important;
 				width: 30px !important;
 				min-width: 30px !important;
-				top: 0;
-				right: 0;
-				float: none;
 			}
 		}
-	}
 
-	.fade-enter,
-	.fade-leave-to {
-		opacity: 0;
+		.icon-checkmark,
+		.icon-error {
+			height: 30px !important;
+			min-height: 30px !important;
+			width: 30px !important;
+			min-width: 30px !important;
+			top: 0;
+			right: 0;
+			float: none;
+		}
 	}
+}
 
-	.fade-enter-active {
-		transition: opacity 200ms ease-out;
-	}
+.fade-enter,
+.fade-leave-to {
+	opacity: 0;
+}
 
-	.fade-leave-active {
-		transition: opacity 300ms ease-out;
-	}
+.fade-enter-active {
+	transition: opacity 200ms ease-out;
+}
+
+.fade-leave-active {
+	transition: opacity 300ms ease-out;
+}
 </style>
