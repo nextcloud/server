@@ -29,8 +29,8 @@ import logger from './logger'
 
 import DisplayNameSection from './components/PersonalInfo/DisplayNameSection/DisplayNameSection'
 import EmailSection from './components/PersonalInfo/EmailSection/EmailSection'
+import LanguageSection from './components/PersonalInfo/LanguageSection/LanguageSection'
 
-// eslint-disable-next-line camelcase
 __webpack_nonce__ = btoa(getRequestToken())
 
 Vue.mixin({
@@ -44,6 +44,8 @@ Vue.mixin({
 
 const DisplayNameView = Vue.extend(DisplayNameSection)
 const EmailView = Vue.extend(EmailSection)
+const LanguageView = Vue.extend(LanguageSection)
 
 new DisplayNameView().$mount('#vue-displaynamesection')
 new EmailView().$mount('#vue-emailsection')
+new LanguageView().$mount('#vue-languagesection')

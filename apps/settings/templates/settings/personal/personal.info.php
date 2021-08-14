@@ -245,33 +245,7 @@ script('settings', [
 
 	<div class="profile-settings-container">
 		<div class="personal-settings-setting-box personal-settings-language-box">
-			<?php if (isset($_['activelanguage'])) { ?>
-				<form id="language" class="section">
-					<h3>
-						<label for="languageinput"><?php p($l->t('Language'));?></label>
-					</h3>
-					<select id="languageinput" name="lang" data-placeholder="<?php p($l->t('Language'));?>">
-						<option value="<?php p($_['activelanguage']['code']);?>">
-							<?php p($_['activelanguage']['name']);?>
-						</option>
-						<?php foreach ($_['commonlanguages'] as $language):?>
-							<option value="<?php p($language['code']);?>">
-								<?php p($language['name']);?>
-							</option>
-						<?php endforeach;?>
-						<optgroup label="––––––––––"></optgroup>
-						<?php foreach ($_['languages'] as $language):?>
-							<option value="<?php p($language['code']);?>">
-								<?php p($language['name']);?>
-							</option>
-						<?php endforeach;?>
-					</select>
-					<a href="https://www.transifex.com/nextcloud/nextcloud/"
-					   target="_blank" rel="noreferrer noopener">
-						<em><?php p($l->t('Help translate'));?></em>
-					</a>
-				</form>
-			<?php } ?>
+			<div id="vue-languagesection" class="section"></div>
 		</div>
 		<div class="personal-settings-setting-box personal-settings-locale-box">
 			<?php if (isset($_['activelocale'])) { ?>
