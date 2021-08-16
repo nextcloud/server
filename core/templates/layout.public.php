@@ -54,12 +54,12 @@
 			</span>
 		</div>
 
+		<div class="header-right">
 		<?php
 		/** @var \OCP\AppFramework\Http\Template\PublicTemplateResponse $template */
 		if (isset($template) && $template->getActionCount() !== 0) {
 			$primary = $template->getPrimaryAction();
 			$others = $template->getOtherActions(); ?>
-		<div class="header-right">
 			<span id="header-primary-action" class="<?php if ($template->getActionCount() === 1) {
 				p($primary->getIcon());
 			} ?>">
@@ -82,9 +82,9 @@
 				</div>
 			</div>
 			<?php } ?>
-		</div>
 		<?php
 		} ?>
+		</div>
 	</header>
 	<div id="content" class="app-<?php p($_['appid']) ?>" role="main">
 		<?php print_unescaped($_['content']); ?>
