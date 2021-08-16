@@ -24,7 +24,7 @@ OC.L10N.register(
     "Your version is up to date." : "Používáte nejnovější verzi.",
     "A non-default update server is in use to be checked for updates:" : "Pro kontrolu aktualizací se používá jiný než výchozí server:",
     "Update channel:" : "Kanál aktualizací:",
-    "You can always update to a newer version. But you can never downgrade to a more stable version." : "Vždy je možné přejít na novější verzi. Poté už se ale nelze vrátit zpět ke starší verzi ze stabilnějšímu kanálu.",
+    "You can always update to a newer version. But you can never downgrade to a more stable version." : "Vždy je možné přejít na novější verzi. Poté už se ale nelze vrátit zpět ke starší verzi ze stabilního kanálu.",
     "Notify members of the following groups about available updates:" : "Upozorňovat členy následujících skupin na dostupnost aktualizací:",
     "Only notifications for app updates are available." : "K dispozici jsou upozornění pouze na aktualizace aplikací.",
     "The selected update channel makes dedicated notifications for the server obsolete." : "Pro zvolený kanál aktualizací se už vyhrazená upozorňování pro server nepoužívají.",
