@@ -372,9 +372,29 @@ class ThemingController extends Controller {
 	 */
 	public function getManifest($app) {
 		$cacheBusterValue = $this->config->getAppValue('theming', 'cachebuster', '0');
+		if ($app === 'core' || $app === 'settings') {
+			$name = $this->themingDefaults->getName();
+			$shortName = $this->themingDefaults->getName();
+			$startUrl = $this->urlGenerator->getBaseUrl();
+			$description = $this->themingDefaults->getSlogan();
+		} else {
+			$info = $this->appManager->getAppInfo($app);
+			$name = $info['name'] . ' - ' . $this->themingDefaults->getName();
+			$shortName = $info['name'];
+			if (strpos($this->request->getRequestUri(), '/index.php/') !== false) {
+				$startUrl = $this->urlGenerator->getBaseUrl() . '/index.php/apps/' . $app . '/';
+			} else {
+				$startUrl = $this->urlGenerator->getBaseUrl() . '/apps/' . $app . '/';
+			}
+			$description = $info['summary'];
+		}
 		$responseJS = [
-			'name' => $this->themingDefaults->getName(),
-			'start_url' => $this->urlGenerator->getBaseUrl(),
+			'name' => $name,
+			'short_name' => $shortName,
+			'start_url' => $startUrl,
+			'theme_color' => $this->themingDefaults->getColorPrimary(),
+			'background_color' => $this->themingDefaults->getColorPrimary(),
+			'description' => $description,
 			'icons' =>
 				[
 					[
