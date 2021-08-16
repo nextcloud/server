@@ -40,6 +40,7 @@ use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\L10N\IFactory;
 use OCP\Share\IManager;
 use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\DAV\PropPatch;
@@ -72,6 +73,8 @@ class PrincipalTest extends TestCase {
 	private $knownUserService;
 	/** @var IConfig | \PHPUnit\Framework\MockObject\MockObject */
 	private $config;
+	/** @var IFactory|MockObject */
+	private $languageFactory;
 
 	protected function setUp(): void {
 		$this->userManager = $this->createMock(IUserManager::class);
@@ -82,6 +85,7 @@ class PrincipalTest extends TestCase {
 		$this->proxyMapper = $this->createMock(ProxyMapper::class);
 		$this->knownUserService = $this->createMock(KnownUserService::class);
 		$this->config = $this->createMock(IConfig::class);
+		$this->languageFactory = $this->createMock(IFactory::class);
 
 		$this->connector = new \OCA\DAV\Connector\Sabre\Principal(
 			$this->userManager,
@@ -91,7 +95,8 @@ class PrincipalTest extends TestCase {
 			$this->appManager,
 			$this->proxyMapper,
 			$this->knownUserService,
-			$this->config
+			$this->config,
+			$this->languageFactory
 		);
 		parent::setUp();
 	}
@@ -130,16 +135,24 @@ class PrincipalTest extends TestCase {
 			->with('')
 			->willReturn([$fooUser, $barUser]);
 
+		$this->languageFactory
+			->expects($this->exactly(2))
+			->method('getUserLanguage')
+			->withConsecutive([$fooUser], [$barUser])
+			->willReturnOnConsecutiveCalls('de', 'en');
+
 		$expectedResponse = [
 			0 => [
 				'uri' => 'principals/users/foo',
 				'{DAV:}displayname' => 'Dr. Foo-Bar',
 				'{urn:ietf:params:xml:ns:caldav}calendar-user-type' => 'INDIVIDUAL',
+				'{http://nextcloud.com/ns}language' => 'de',
 			],
 			1 => [
 				'uri' => 'principals/users/bar',
 				'{DAV:}displayname' => 'bar',
 				'{urn:ietf:params:xml:ns:caldav}calendar-user-type' => 'INDIVIDUAL',
+				'{http://nextcloud.com/ns}language' => 'en',
 				'{http://sabredav.org/ns}email-address' => 'bar@nextcloud.com',
 			]
 		];
@@ -170,10 +183,17 @@ class PrincipalTest extends TestCase {
 			->with('foo')
 			->willReturn($fooUser);
 
+		$this->languageFactory
+			->expects($this->once())
+			->method('getUserLanguage')
+			->with($fooUser)
+			->willReturn('de');
+
 		$expectedResponse = [
 			'uri' => 'principals/users/foo',
 			'{DAV:}displayname' => 'foo',
 			'{urn:ietf:params:xml:ns:caldav}calendar-user-type' => 'INDIVIDUAL',
+			'{http://nextcloud.com/ns}language' => 'de'
 		];
 		$response = $this->connector->getPrincipalByPath('principals/users/foo');
 		$this->assertSame($expectedResponse, $response);
@@ -195,10 +215,17 @@ class PrincipalTest extends TestCase {
 			->with('foo')
 			->willReturn($fooUser);
 
+		$this->languageFactory
+			->expects($this->once())
+			->method('getUserLanguage')
+			->with($fooUser)
+			->willReturn('de');
+
 		$expectedResponse = [
 			'uri' => 'principals/users/foo',
 			'{DAV:}displayname' => 'foo',
 			'{urn:ietf:params:xml:ns:caldav}calendar-user-type' => 'INDIVIDUAL',
+			'{http://nextcloud.com/ns}language' => 'de',
 			'{http://sabredav.org/ns}email-address' => 'foo@nextcloud.com',
 		];
 		$response = $this->connector->getPrincipalByPath('principals/users/foo');

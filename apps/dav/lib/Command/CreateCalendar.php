@@ -87,7 +87,8 @@ class CreateCalendar extends Command {
 			\OC::$server->getAppManager(),
 			\OC::$server->query(ProxyMapper::class),
 			\OC::$server->get(KnownUserService::class),
-			\OC::$server->getConfig()
+			\OC::$server->getConfig(),
+			\OC::$server->getL10NFactory(),
 		);
 		$random = \OC::$server->getSecureRandom();
 		$logger = \OC::$server->getLogger();
