@@ -7,14 +7,14 @@ namespace Composer\Autoload;
 class ComposerStaticInitProvisioning_API
 {
     public static $prefixLengthsPsr4 = array (
-        'O' => 
+        'O' =>
         array (
             'OCA\\Provisioning_API\\' => 21,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'OCA\\Provisioning_API\\' => 
+        'OCA\\Provisioning_API\\' =>
         array (
             0 => __DIR__ . '/..' . '/../lib',
         ),
@@ -28,6 +28,7 @@ class ComposerStaticInitProvisioning_API
         'OCA\\Provisioning_API\\Controller\\AppConfigController' => __DIR__ . '/..' . '/../lib/Controller/AppConfigController.php',
         'OCA\\Provisioning_API\\Controller\\AppsController' => __DIR__ . '/..' . '/../lib/Controller/AppsController.php',
         'OCA\\Provisioning_API\\Controller\\GroupsController' => __DIR__ . '/..' . '/../lib/Controller/GroupsController.php',
+        'OCA\\Provisioning_API\\Controller\\CirclesController' => __DIR__ . '/..' . '/../lib/Controller/CirclesController.php',
         'OCA\\Provisioning_API\\Controller\\UsersController' => __DIR__ . '/..' . '/../lib/Controller/UsersController.php',
         'OCA\\Provisioning_API\\FederatedShareProviderFactory' => __DIR__ . '/..' . '/../lib/FederatedShareProviderFactory.php',
         'OCA\\Provisioning_API\\Listener\\UserDeletedListener' => __DIR__ . '/..' . '/../lib/Listener/UserDeletedListener.php',

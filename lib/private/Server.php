@@ -141,6 +141,7 @@ use OC\Share20\ShareHelper;
 use OC\SystemTag\ManagerFactory as SystemTagManagerFactory;
 use OC\Tagging\TagMapper;
 use OC\Template\JSCombiner;
+use OCA\Circles\CirclesManager;
 use OCA\Theming\ImageManager;
 use OCA\Theming\ThemingDefaults;
 use OCA\Theming\Util;
@@ -149,6 +150,7 @@ use OCP\Accounts\IAccountManager;
 use OCP\App\IAppManager;
 use OCP\Authentication\LoginCredentials\IStore;
 use OCP\BackgroundJob\IJobList;
+use OCP\Circles\ICirclesManager;
 use OCP\Collaboration\AutoComplete\IManager;
 use OCP\Command\IBus;
 use OCP\Comments\ICommentsManager;
@@ -1358,6 +1360,7 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerAlias(IDashboardManager::class, DashboardManager::class);
 		$this->registerAlias(\OCP\Dashboard\IManager::class, \OC\Dashboard\Manager::class);
 		$this->registerAlias(IFullTextSearchManager::class, FullTextSearchManager::class);
+		$this->registerAlias(ICirclesManager::class, CirclesManager::class);
 
 		$this->registerAlias(ISubAdmin::class, SubAdmin::class);
 

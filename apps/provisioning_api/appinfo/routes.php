@@ -73,5 +73,13 @@ return [
 		['name' => 'AppConfig#getValue', 'url' => '/api/v1/config/apps/{app}/{key}', 'verb' => 'GET'],
 		['name' => 'AppConfig#setValue', 'url' => '/api/v1/config/apps/{app}/{key}', 'verb' => 'POST'],
 		['name' => 'AppConfig#deleteKey', 'url' => '/api/v1/config/apps/{app}/{key}', 'verb' => 'DELETE'],
-	],
+
+		// Circles (wip)
+		['root' => '/cloud', 'name' => 'Circles#getCircles', 'url' => '/circles', 'verb' => 'GET'],
+
+		// Entities (wip)
+		['root' => '/cloud', 'name' => 'Circles#entitiesAsAdmin', 'url' => '/admin/entities', 'verb' => 'GET'],
+		['root' => '/cloud', 'name' => 'Circles#detailedEntitiesAsAdmin', 'url' => '/admin/entities/details', 'verb' => 'GET'],
+
+	]
 ];
