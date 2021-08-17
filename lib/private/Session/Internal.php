@@ -182,7 +182,9 @@ class Internal extends Session {
 	 * @throws \ErrorException
 	 */
 	public function trapError(int $errorNumber, string $errorString) {
-		throw new \ErrorException($errorString);
+		if ($errorNumber & E_ERROR) {
+			throw new \ErrorException($errorString);
+		}
 	}
 
 	/**
