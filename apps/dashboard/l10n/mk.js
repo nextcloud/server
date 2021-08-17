@@ -6,6 +6,7 @@ OC.L10N.register(
     "Show something" : "Прикажи нешто",
     "Customize" : "Прилагоди",
     "Edit widgets" : "Уреди графички контроли",
+    "Get more widgets from the App Store" : "Преземи повеќе графички контроли од продавницата со апликации",
     "Change background image" : "Промени ја позадинската слика",
     "Weather service" : "Сервис за временска прогноза",
     "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "За ваша приватност, податоците за времето ги бара вашиот сервер во ваше име, така што метеоролошката служба не добива лични информации.",
