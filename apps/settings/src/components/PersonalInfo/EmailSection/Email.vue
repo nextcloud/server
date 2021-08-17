@@ -150,7 +150,7 @@ export default {
 	},
 
 	mounted() {
-		if (this.initialEmail === '') {
+		if (!this.primary && this.initialEmail === '') {
 			this.$nextTick(() => this.$refs.email?.focus())
 		}
 	},
