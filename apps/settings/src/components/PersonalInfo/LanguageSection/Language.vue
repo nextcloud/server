@@ -34,7 +34,9 @@
 				:value="commonLanguage.code">
 				{{ commonLanguage.name }}
 			</option>
-			<optgroup label="––––––––––" />
+			<option disabled>
+				──────────
+			</option>
 			<option v-for="otherLanguage in otherLanguages"
 				:key="otherLanguage.code"
 				:selected="language.code === otherLanguage.code"
