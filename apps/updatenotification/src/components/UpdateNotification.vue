@@ -17,7 +17,7 @@
 
 				<template v-if="missingAppUpdates.length">
 					<h3 @click="toggleHideMissingUpdates">
-						{{ t('updatenotification', 'Apps missing updates') }}
+						{{ t('updatenotification', 'Apps missing compatible version') }}
 						<span v-if="!hideMissingUpdates" class="icon icon-triangle-n" />
 						<span v-if="hideMissingUpdates" class="icon icon-triangle-s" />
 					</h3>
@@ -30,7 +30,7 @@
 
 				<template v-if="availableAppUpdates.length">
 					<h3 @click="toggleHideAvailableUpdates">
-						{{ t('updatenotification', 'Apps with available updates') }}
+						{{ t('updatenotification', 'Apps with compatible version') }}
 						<span v-if="!hideAvailableUpdates" class="icon icon-triangle-n" />
 						<span v-if="hideAvailableUpdates" class="icon icon-triangle-s" />
 					</h3>
@@ -42,7 +42,7 @@
 				</template>
 
 				<div>
-					<a v-if="updaterEnabled"
+					<a v-if="updaterEnabled && webUpdaterEnabled"
 						href="#"
 						class="button primary"
 						@click="clickUpdaterButton">{{ t('updatenotification', 'Open updater') }}</a>
@@ -50,6 +50,9 @@
 						:href="downloadLink"
 						class="button"
 						:class="{ hidden: !updaterEnabled }">{{ t('updatenotification', 'Download now') }}</a>
+					<span v-if="updaterEnabled && !webUpdaterEnabled">
+						{{ t('updatenotification', 'Please use the command line updater to update.') }}
+					</span>
 					<div v-if="whatsNew" class="whatsNew">
 						<div class="toggleWhatsNew">
 							<a v-click-outside="hideMenu" class="button" @click="toggleMenu">{{ t('updatenotification', 'What\'s new?') }}</a>
@@ -90,7 +93,7 @@
 		<span id="channel_save_msg" class="msg" /><br>
 		<p>
 			<em>{{ t('updatenotification', 'You can always update to a newer version. But you can never downgrade to a more stable version.') }}</em><br>
-			<em>{{ t('updatenotification', 'Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found.') }}</em>
+			<em v-html="noteDelayedStableString" />
 		</p>
 
 		<p id="oca_updatenotification_groups">
@@ -101,7 +104,7 @@
 				label="label"
 				track-by="value"
 				:tag-width="75" /><br>
-			<em v-if="currentChannel === 'daily' || currentChannel === 'git'">{{ t('updatenotification', 'Only notification for app updates are available.') }}</em>
+			<em v-if="currentChannel === 'daily' || currentChannel === 'git'">{{ t('updatenotification', 'Only notifications for app updates are available.') }}</em>
 			<em v-if="currentChannel === 'daily'">{{ t('updatenotification', 'The selected update channel makes dedicated notifications for the server obsolete.') }}</em>
 			<em v-if="currentChannel === 'git'">{{ t('updatenotification', 'The selected update channel does not support updates of the server.') }}</em>
 		</p>
@@ -110,7 +113,8 @@
 
 <script>
 import { generateUrl, getRootUrl, generateOcsUrl } from '@nextcloud/router'
-import { PopoverMenu, Multiselect } from '@nextcloud/vue'
+import PopoverMenu from '@nextcloud/vue/dist/Components/PopoverMenu'
+import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
 import { VTooltip } from 'v-tooltip'
 import ClickOutside from 'vue-click-outside'
 
@@ -131,6 +135,7 @@ export default {
 			newVersionString: '',
 			lastCheckedDate: '',
 			isUpdateChecked: false,
+			webUpdaterEnabled: true,
 			updaterEnabled: true,
 			versionIsEol: false,
 			downloadLink: '',
@@ -168,6 +173,11 @@ export default {
 			})
 		},
 
+		noteDelayedStableString() {
+			return t('updatenotification', 'Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}')
+				.replace('{link}', '<a href="https://nextcloud.com/release-channels/">https://nextcloud.com/release-channels/</a>')
+		},
+
 		lastCheckedOnString() {
 			return t('updatenotification', 'Checked on {lastCheckedDate}', {
 				lastCheckedDate: this.lastCheckedDate,
@@ -176,7 +186,7 @@ export default {
 
 		statusText() {
 			if (!this.isListFetched) {
-				return t('updatenotification', 'Checking apps for compatible updates')
+				return t('updatenotification', 'Checking apps for compatible versions')
 			}
 
 			if (this.appStoreDisabled) {
@@ -184,12 +194,12 @@ export default {
 			}
 
 			if (this.appStoreFailed) {
-				return t('updatenotification', 'Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore.')
+				return t('updatenotification', 'Could not connect to the App Store or no updates have been returned at all. Search manually for updates or make sure your server has access to the internet and can connect to the App Store.')
 			}
 
 			return this.missingAppUpdates.length === 0
-				? t('updatenotification', '<strong>All</strong> apps have an update for this version available', this)
-				: n('updatenotification', '<strong>%n</strong> app has no update for this version available', '<strong>%n</strong> apps have no update for this version available', this.missingAppUpdates.length)
+				? t('updatenotification', '<strong>All</strong> apps have a compatible version for this Nextcloud version available', this)
+				: n('updatenotification', '<strong>%n</strong> app has no compatible version for this Nextcloud version available', '<strong>%n</strong> apps have no compatible version for this Nextcloud version available', this.missingAppUpdates.length)
 		},
 
 		whatsNew() {
@@ -288,7 +298,7 @@ export default {
 			}
 
 			$.ajax({
-				url: generateOcsUrl('apps/updatenotification/api/v1/applist', 2) + this.newVersion,
+				url: generateOcsUrl('apps/updatenotification/api/v1/applist/{newVersion}', { newVersion: this.newVersion }),
 				type: 'GET',
 				beforeSend(request) {
 					request.setRequestHeader('Accept', 'application/json')
@@ -317,6 +327,7 @@ export default {
 		this.newVersionString = data.newVersionString
 		this.lastCheckedDate = data.lastChecked
 		this.isUpdateChecked = data.isUpdateChecked
+		this.webUpdaterEnabled = data.webUpdaterEnabled
 		this.updaterEnabled = data.updaterEnabled
 		this.downloadLink = data.downloadLink
 		this.isNewVersionAvailable = data.isNewVersionAvailable
@@ -345,7 +356,7 @@ export default {
 		}.bind(this))
 
 		$.ajax({
-			url: generateOcsUrl('cloud', 2) + '/groups',
+			url: generateOcsUrl('cloud/groups'),
 			dataType: 'json',
 			success: function(data) {
 				const results = []

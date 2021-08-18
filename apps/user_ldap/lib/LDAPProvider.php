@@ -4,6 +4,7 @@
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Roger Szabo <roger.szabo@web.de>
  * @author root <root@localhost.localdomain>
@@ -18,14 +19,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\User_LDAP;
 
 use OCA\User_LDAP\User\DeletedUsersIndex;
@@ -42,7 +42,7 @@ class LDAPProvider implements ILDAPProvider, IDeletionFlagSupport {
 	private $logger;
 	private $helper;
 	private $deletedUsersIndex;
-	
+
 	/**
 	 * Create new LDAPProvider
 	 * @param \OCP\IServerContainer $serverContainer
@@ -77,7 +77,7 @@ class LDAPProvider implements ILDAPProvider, IDeletionFlagSupport {
 			throw new \Exception('To use the LDAPProvider, user_ldap app must be enabled');
 		}
 	}
-	
+
 	/**
 	 * Translate an user id to LDAP DN
 	 * @param string $uid user id
@@ -126,7 +126,7 @@ class LDAPProvider implements ILDAPProvider, IDeletionFlagSupport {
 		}
 		return $result;
 	}
-	
+
 	/**
 	 * Convert a stored DN so it can be used as base parameter for LDAP queries.
 	 * @param string $dn the DN in question
@@ -135,7 +135,7 @@ class LDAPProvider implements ILDAPProvider, IDeletionFlagSupport {
 	public function DNasBaseParameter($dn) {
 		return $this->helper->DNasBaseParameter($dn);
 	}
-	
+
 	/**
 	 * Sanitize a DN received from the LDAP server.
 	 * @param array $dn the DN in question
@@ -144,7 +144,7 @@ class LDAPProvider implements ILDAPProvider, IDeletionFlagSupport {
 	public function sanitizeDN($dn) {
 		return $this->helper->sanitizeDN($dn);
 	}
-	
+
 	/**
 	 * Return a new LDAP connection resource for the specified user.
 	 * The connection must be closed manually.
@@ -172,7 +172,7 @@ class LDAPProvider implements ILDAPProvider, IDeletionFlagSupport {
 		}
 		return $this->groupBackend->getNewLDAPConnection($gid);
 	}
-	
+
 	/**
 	 * Get the LDAP base for users.
 	 * @param string $uid user id
@@ -202,7 +202,7 @@ class LDAPProvider implements ILDAPProvider, IDeletionFlagSupport {
 		);
 		return array_shift($bases);
 	}
-	
+
 	/**
 	 * Get the LDAP base for groups.
 	 * @param string $uid user id
@@ -216,7 +216,7 @@ class LDAPProvider implements ILDAPProvider, IDeletionFlagSupport {
 		$bases = $this->userBackend->getLDAPAccess($uid)->getConnection()->ldapBaseGroups;
 		return array_shift($bases);
 	}
-	
+
 	/**
 	 * Clear the cache if a cache is used, otherwise do nothing.
 	 * @param string $uid user id
@@ -241,7 +241,7 @@ class LDAPProvider implements ILDAPProvider, IDeletionFlagSupport {
 		}
 		$this->groupBackend->getLDAPAccess($gid)->getConnection()->clearCache();
 	}
-	
+
 	/**
 	 * Check whether a LDAP DN exists
 	 * @param string $dn LDAP DN
@@ -251,7 +251,7 @@ class LDAPProvider implements ILDAPProvider, IDeletionFlagSupport {
 		$result = $this->userBackend->dn2UserName($dn);
 		return !$result ? false : true;
 	}
-	
+
 	/**
 	 * Flag record for deletion.
 	 * @param string $uid user id
@@ -259,7 +259,7 @@ class LDAPProvider implements ILDAPProvider, IDeletionFlagSupport {
 	public function flagRecord($uid) {
 		$this->deletedUsersIndex->markUser($uid);
 	}
-	
+
 	/**
 	 * Unflag record for deletion.
 	 * @param string $uid user id
@@ -305,5 +305,46 @@ class LDAPProvider implements ILDAPProvider, IDeletionFlagSupport {
 			throw new \Exception('Group id not found in LDAP');
 		}
 		return $this->groupBackend->getLDAPAccess($gid)->getConnection()->getConfiguration()['ldap_group_member_assoc_attribute'];
+	}
+
+	/**
+	 * Get an LDAP attribute for a nextcloud user
+	 *
+	 * @throws \Exception if user id was not found in LDAP
+	 */
+	public function getUserAttribute(string $uid, string $attribute): ?string {
+		$values = $this->getMultiValueUserAttribute($uid, $attribute);
+		if (count($values) === 0) {
+			return null;
+		}
+		return current($values);
+	}
+
+	/**
+	 * Get a multi-value LDAP attribute for a nextcloud user
+	 *
+	 * @throws \Exception if user id was not found in LDAP
+	 */
+	public function getMultiValueUserAttribute(string $uid, string $attribute): array {
+		if (!$this->userBackend->userExists($uid)) {
+			throw new \Exception('User id not found in LDAP');
+		}
+
+		$access = $this->userBackend->getLDAPAccess($uid);
+		$connection = $access->getConnection();
+		$key = $uid . '-' . $attribute;
+
+		$cached = $connection->getFromCache($key);
+		if (is_array($cached)) {
+			return $cached;
+		}
+
+		$values = $access->readAttribute($access->username2dn($uid), $attribute);
+		if ($values === false) {
+			$values = [];
+		}
+
+		$connection->writeToCache($key, $values);
+		return $values;
 	}
 }

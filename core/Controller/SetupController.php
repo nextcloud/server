@@ -29,7 +29,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Core\Controller;
 
 use OC\Setup;
@@ -104,7 +103,6 @@ class SetupController {
 		];
 		$parameters = array_merge($defaults, $post);
 
-		\OC_Util::addScript('setup');
 		\OC_Template::printGuestPage('', 'installation', $parameters);
 	}
 

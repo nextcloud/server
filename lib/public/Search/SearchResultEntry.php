@@ -6,7 +6,7 @@ declare(strict_types=1);
  * @copyright 2020 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -17,14 +17,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCP\Search;
 
 use JsonSerializable;
@@ -83,6 +82,13 @@ class SearchResultEntry implements JsonSerializable {
 	protected $rounded;
 
 	/**
+	 * @var string[]
+	 * @psalm-var array<string, string>
+	 * @since 20.0.0
+	 */
+	protected $attributes = [];
+
+	/**
 	 * @param string $thumbnailUrl a relative or absolute URL to the thumbnail or icon of the entry
 	 * @param string $title a main title of the entry
 	 * @param string $subline the secondary line of the entry
@@ -107,6 +113,19 @@ class SearchResultEntry implements JsonSerializable {
 	}
 
 	/**
+	 * Add optional attributes to the result entry, e.g. an ID or some other
+	 * context information that can be read by the client application
+	 *
+	 * @param string $key
+	 * @param string $value
+	 *
+	 * @since 20.0.0
+	 */
+	public function addAttribute(string $key, string $value): void {
+		$this->attributes[$key] = $value;
+	}
+
+	/**
 	 * @return array
 	 *
 	 * @since 20.0.0
@@ -119,6 +138,7 @@ class SearchResultEntry implements JsonSerializable {
 			'resourceUrl' => $this->resourceUrl,
 			'icon' => $this->icon,
 			'rounded' => $this->rounded,
+			'attributes' => $this->attributes,
 		];
 	}
 }

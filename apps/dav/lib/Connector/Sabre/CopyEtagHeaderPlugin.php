@@ -5,7 +5,7 @@
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -22,9 +22,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Connector\Sabre;
 
+use Sabre\DAV\Exception\NotFound;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
 
@@ -74,7 +74,13 @@ class CopyEtagHeaderPlugin extends \Sabre\DAV\ServerPlugin {
 	 * @return void
 	 */
 	public function afterMove($source, $destination) {
-		$node = $this->server->tree->getNodeForPath($destination);
+		try {
+			$node = $this->server->tree->getNodeForPath($destination);
+		} catch (NotFound $e) {
+			// Don't care
+			return;
+		}
+
 		if ($node instanceof File) {
 			$eTag = $node->getETag();
 			$this->server->httpResponse->setHeader('OC-ETag', $eTag);

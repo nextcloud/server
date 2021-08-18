@@ -20,7 +20,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Core\Command\Security;
 
 use OC\Core\Command\Base;
@@ -59,10 +58,10 @@ class ListCertificates extends Base {
 					'name' => $certificate->getName(),
 					'common_name' => $certificate->getCommonName(),
 					'organization' => $certificate->getOrganization(),
-					'expire' => $certificate->getExpireDate()->format(\DateTime::ATOM),
+					'expire' => $certificate->getExpireDate()->format(\DateTimeInterface::ATOM),
 					'issuer' => $certificate->getIssuerName(),
 					'issuer_organization' => $certificate->getIssuerOrganization(),
-					'issue_date' => $certificate->getIssueDate()->format(\DateTime::ATOM)
+					'issue_date' => $certificate->getIssueDate()->format(\DateTimeInterface::ATOM)
 				];
 			}, $this->certificateManager->listCertificates());
 			if ($outputType === self::OUTPUT_FORMAT_JSON) {

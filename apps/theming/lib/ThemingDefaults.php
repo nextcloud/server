@@ -11,7 +11,8 @@
  * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
  * @author Joachim Bauch <bauch@struktur.de>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Julien Veyssier <eneiluj@posteo.net>
  * @author Julius Haertl <jus@bitgrid.net>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
@@ -30,14 +31,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Theming;
 
 use OCP\App\AppPathNotFoundException;
@@ -75,6 +75,8 @@ class ThemingDefaults extends \OC_Defaults {
 	/** @var string */
 	private $entity;
 	/** @var string */
+	private $productName;
+	/** @var string */
 	private $url;
 	/** @var string */
 	private $color;
@@ -85,6 +87,8 @@ class ThemingDefaults extends \OC_Defaults {
 	private $iOSClientUrl;
 	/** @var string */
 	private $AndroidClientUrl;
+	/** @var string */
+	private $FDroidClientUrl;
 
 	/**
 	 * ThemingDefaults constructor.
@@ -119,11 +123,13 @@ class ThemingDefaults extends \OC_Defaults {
 		$this->name = parent::getName();
 		$this->title = parent::getTitle();
 		$this->entity = parent::getEntity();
+		$this->productName = parent::getProductName();
 		$this->url = parent::getBaseUrl();
 		$this->color = parent::getColorPrimary();
 		$this->iTunesAppId = parent::getiTunesAppId();
 		$this->iOSClientUrl = parent::getiOSClientUrl();
 		$this->AndroidClientUrl = parent::getAndroidClientUrl();
+		$this->FDroidClientUrl = parent::getFDroidClientUrl();
 	}
 
 	public function getName() {
@@ -140,6 +146,10 @@ class ThemingDefaults extends \OC_Defaults {
 
 	public function getEntity() {
 		return strip_tags($this->config->getAppValue('theming', 'name', $this->entity));
+	}
+
+	public function getProductName() {
+		return strip_tags($this->config->getAppValue('theming', 'productName', $this->productName));
 	}
 
 	public function getBaseUrl() {
@@ -213,7 +223,11 @@ class ThemingDefaults extends \OC_Defaults {
 	 * @return string
 	 */
 	public function getColorPrimary() {
-		return $this->config->getAppValue('theming', 'color', $this->color);
+		$color = $this->config->getAppValue('theming', 'color', $this->color);
+		if (!preg_match('/^\#([0-9a-f]{3}|[0-9a-f]{6})$/i', $color)) {
+			$color = '#0082c9';
+		}
+		return $color;
 	}
 
 	/**
@@ -285,18 +299,25 @@ class ThemingDefaults extends \OC_Defaults {
 		return $this->config->getAppValue('theming', 'AndroidClientUrl', $this->AndroidClientUrl);
 	}
 
+	/**
+	 * @return string
+	 */
+	public function getFDroidClientUrl() {
+		return $this->config->getAppValue('theming', 'FDroidClientUrl', $this->FDroidClientUrl);
+	}
 
 	/**
 	 * @return array scss variables to overwrite
 	 */
 	public function getScssVariables() {
-		$cache = $this->cacheFactory->createDistributed('theming-' . $this->urlGenerator->getBaseUrl());
+		$cacheBuster = $this->config->getAppValue('theming', 'cachebuster', '0');
+		$cache = $this->cacheFactory->createDistributed('theming-' . $cacheBuster . '-' . $this->urlGenerator->getBaseUrl());
 		if ($value = $cache->get('getScssVariables')) {
 			return $value;
 		}
 
 		$variables = [
-			'theming-cachebuster' => "'" . $this->config->getAppValue('theming', 'cachebuster', '0') . "'",
+			'theming-cachebuster' => "'" . $cacheBuster . "'",
 			'theming-logo-mime' => "'" . $this->config->getAppValue('theming', 'logoMime') . "'",
 			'theming-background-mime' => "'" . $this->config->getAppValue('theming', 'backgroundMime') . "'",
 			'theming-logoheader-mime' => "'" . $this->config->getAppValue('theming', 'logoheaderMime') . "'",

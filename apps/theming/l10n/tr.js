@@ -32,7 +32,7 @@ OC.L10N.register(
     "Open documentation" : "Belgeleri aç",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Temalar kullandığınız kopyanın ve desteklenen istemcilerin genel görünümün kolayca değiştirilmesini sağlar. Tüm kullanıcılara görüntülenir.",
     "Name" : "Ad",
-    "Reset to default" : "Varsayılana Sıfırla",
+    "Reset to default" : "Varsayılanlara dön",
     "Web link" : "Web bağlantısı",
     "https://…" : "https://…",
     "Slogan" : "Slogan",
@@ -49,7 +49,6 @@ OC.L10N.register(
     "Upload new header logo" : "Yeni üst bilgi logosu yükle",
     "Favicon" : "Favicon",
     "Upload new favicon" : "Yeni favicon yükle",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Yüklenen logo ve renge göre otomatik olarak favicon üretilmesi için Imagemagick PHP eklentisini SVG desteği ile kurun.",
-    "Unsupported image type" : "Görsel türü desteklenmiyor"
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Yüklenen logo ve renge göre otomatik olarak favicon üretilmesi için Imagemagick PHP eklentisini SVG desteği ile kurun."
 },
 "nplurals=2; plural=(n > 1);");

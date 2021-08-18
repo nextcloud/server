@@ -6,13 +6,15 @@
  * @author Björn Schießle <bjoern@schiessle.org>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Maxence Lange <maxence@nextcloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Samuel <faust64@gmail.com>
  *
  * @license AGPL-3.0
  *
@@ -29,7 +31,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Share20;
 
 use OC\Share20\Exception\ProviderException;
@@ -42,8 +43,10 @@ use OCA\ShareByMail\ShareByMailProvider;
 use OCP\Defaults;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IServerContainer;
+use OCP\Share\IManager;
 use OCP\Share\IProviderFactory;
 use OCP\Share\IShare;
+use OCP\Share\IShareProvider;
 
 /**
  * Class ProviderFactory
@@ -67,6 +70,10 @@ class ProviderFactory implements IProviderFactory {
 	/** @var \OCA\Talk\Share\RoomShareProvider */
 	private $roomShareProvider = null;
 
+	private $registeredShareProviders = [];
+
+	private $shareProviders = [];
+
 	/**
 	 * IProviderFactory constructor.
 	 *
@@ -74,6 +81,10 @@ class ProviderFactory implements IProviderFactory {
 	 */
 	public function __construct(IServerContainer $serverContainer) {
 		$this->serverContainer = $serverContainer;
+	}
+
+	public function registerProvider(string $shareProviderClass): void {
+		$this->registeredShareProviders[] = $shareProviderClass;
 	}
 
 	/**
@@ -127,6 +138,7 @@ class ProviderFactory implements IProviderFactory {
 				$addressHandler,
 				$this->serverContainer->getHTTPClientService(),
 				$this->serverContainer->query(\OCP\OCS\IDiscoveryService::class),
+				$this->serverContainer->getLogger(),
 				$this->serverContainer->getJobList(),
 				\OC::$server->getCloudFederationProviderManager(),
 				\OC::$server->getCloudFederationFactory(),
@@ -185,7 +197,8 @@ class ProviderFactory implements IProviderFactory {
 				$settingsManager,
 				$this->serverContainer->query(Defaults::class),
 				$this->serverContainer->getHasher(),
-				$this->serverContainer->get(IEventDispatcher::class)
+				$this->serverContainer->get(IEventDispatcher::class),
+				$this->serverContainer->get(IManager::class)
 			);
 		}
 
@@ -257,6 +270,10 @@ class ProviderFactory implements IProviderFactory {
 	 */
 	public function getProvider($id) {
 		$provider = null;
+		if (isset($this->shareProviders[$id])) {
+			return $this->shareProviders[$id];
+		}
+
 		if ($id === 'ocinternal') {
 			$provider = $this->defaultShareProvider();
 		} elseif ($id === 'ocFederatedSharing') {
@@ -267,6 +284,16 @@ class ProviderFactory implements IProviderFactory {
 			$provider = $this->getShareByCircleProvider();
 		} elseif ($id === 'ocRoomShare') {
 			$provider = $this->getRoomShareProvider();
+		}
+
+		foreach ($this->registeredShareProviders as $shareProvider) {
+			/** @var IShareProvider $instance */
+			$instance = $this->serverContainer->get($shareProvider);
+			$this->shareProviders[$instance->identifier()] = $instance;
+		}
+
+		if (isset($this->shareProviders[$id])) {
+			$provider = $this->shareProviders[$id];
 		}
 
 		if ($provider === null) {
@@ -295,6 +322,8 @@ class ProviderFactory implements IProviderFactory {
 			$provider = $this->getShareByCircleProvider();
 		} elseif ($shareType === IShare::TYPE_ROOM) {
 			$provider = $this->getRoomShareProvider();
+		} elseif ($shareType === IShare::TYPE_DECK) {
+			$provider = $this->getProvider('deck');
 		}
 
 
@@ -319,6 +348,17 @@ class ProviderFactory implements IProviderFactory {
 		if ($roomShare !== null) {
 			$shares[] = $roomShare;
 		}
+
+		foreach ($this->registeredShareProviders as $shareProvider) {
+			/** @var IShareProvider $instance */
+			$instance = $this->serverContainer->get($shareProvider);
+			if (!isset($this->shareProviders[$instance->identifier()])) {
+				$this->shareProviders[$instance->identifier()] = $instance;
+			}
+			$shares[] = $this->shareProviders[$instance->identifier()];
+		}
+
+
 
 		return $shares;
 	}

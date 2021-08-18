@@ -31,7 +31,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\AppFramework\DependencyInjection;
 
 use OC;
@@ -234,15 +233,17 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 				)
 			);
 
+
+
 			$securityMiddleware = new SecurityMiddleware(
 				$c->get(IRequest::class),
 				$c->get(IControllerMethodReflector::class),
 				$c->get(INavigationManager::class),
 				$c->get(IURLGenerator::class),
-				$server->query(ILogger::class),
+				$server->get(LoggerInterface::class),
 				$c->get('AppName'),
 				$server->getUserSession()->isLoggedIn(),
-				$server->getGroupManager()->isAdmin($this->getUserId()),
+				$this->getUserId() !== null && $server->getGroupManager()->isAdmin($this->getUserId()),
 				$server->getUserSession()->getUser() !== null && $server->query(ISubAdmin::class)->isSubAdmin($server->getUserSession()->getUser()),
 				$server->getAppManager(),
 				$server->getL10N('lib')

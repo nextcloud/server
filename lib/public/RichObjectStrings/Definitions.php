@@ -3,10 +3,12 @@
  * @copyright Copyright (c) 2016 Joas Schilling <coding@schilljs.com>
  *
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Jonas Rittershofer <jotoeri@users.noreply.github.com>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Maxence Lange <maxence@nextcloud.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Citharel <nextcloud@tcit.fr>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -17,14 +19,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCP\RichObjectStrings;
 
 /**
@@ -218,6 +219,68 @@ class Definitions {
 				],
 			],
 		],
+		'deck-board' => [
+			'author' => 'Nextcloud',
+			'app' => 'deck',
+			'since' => '21.0.0',
+			'parameters' => [
+				'id' => [
+					'since' => '21.0.0',
+					'required' => true,
+					'description' => 'The id used to identify the board on the instance',
+					'example' => '1',
+				],
+				'name' => [
+					'since' => '21.0.0',
+					'required' => true,
+					'description' => 'The display name of the deck board',
+					'example' => 'Personal',
+				],
+				'link' => [
+					'since' => '21.0.0',
+					'required' => true,
+					'description' => 'The full URL to the board',
+					'example' => 'http://localhost/index.php/apps/deck/#/board/1',
+				],
+			],
+		],
+		'deck-card' => [
+			'author' => 'Nextcloud',
+			'app' => 'deck',
+			'since' => '21.0.0',
+			'parameters' => [
+				'id' => [
+					'since' => '21.0.0',
+					'required' => true,
+					'description' => 'The id used to identify the card on the instance',
+					'example' => '1',
+				],
+				'name' => [
+					'since' => '21.0.0',
+					'required' => true,
+					'description' => 'The title of the deck card',
+					'example' => 'Foo Bar',
+				],
+				'boardname' => [
+					'since' => '21.0.0',
+					'required' => true,
+					'description' => 'The display name of board which contains the card',
+					'example' => 'Personal',
+				],
+				'stackname' => [
+					'since' => '21.0.0',
+					'required' => true,
+					'description' => 'The display name of the stack which contains the card in the board',
+					'example' => 'To do',
+				],
+				'link' => [
+					'since' => '21.0.0',
+					'required' => true,
+					'description' => 'The full URL to the card directly',
+					'example' => 'https://nextcloud21.local/index.php/apps/deck/#/board/1/card/1',
+				],
+			],
+		],
 		'email' => [
 			'author' => 'Nextcloud',
 			'app' => 'sharebymail',
@@ -286,6 +349,31 @@ class Definitions {
 				],
 			],
 		],
+		'forms-form' => [
+			'author' => 'Nextcloud',
+			'app' => 'forms',
+			'since' => '21.0.1',
+			'parameters' => [
+				'id' => [
+					'since' => '21.0.1',
+					'required' => true,
+					'description' => 'The form-hash of the form',
+					'example' => 'q72GGqbfbLBC6xNB',
+				],
+				'name' => [
+					'since' => '21.0.1',
+					'required' => true,
+					'description' => 'The title of the form',
+					'example' => 'Nice Form',
+				],
+				'link' => [
+					'since' => '21.0.1',
+					'required' => true,
+					'description' => 'The full URL to the board',
+					'example' => 'http://localhost/index.php/apps/forms/q72GGqbfbLBC6xNB',
+				],
+			],
+		],
 		'guest' => [
 			'author' => 'Nextcloud',
 			'app' => 'spreed',
@@ -327,6 +415,37 @@ class Definitions {
 					'required' => false,
 					'description' => 'The full URL that should be opened when clicking the highlighted text.',
 					'example' => 'http://localhost/index.php/f/42',
+				],
+			],
+		],
+		'geo-location' => [
+			'author' => 'Nextcloud',
+			'app' => 'core',
+			'since' => '22.0.0',
+			'parameters' => [
+				'id' => [
+					'since' => '22.0.0',
+					'required' => true,
+					'description' => 'The geo URI (https://en.wikipedia.org/wiki/Geo_URI_scheme) to identify the location',
+					'example' => 'geo:52.5450511,13.3741463',
+				],
+				'name' => [
+					'since' => '22.0.0',
+					'required' => true,
+					'description' => 'A description of the location',
+					'example' => 'Nextcloud Berlin Office',
+				],
+				'latitude' => [
+					'since' => '22.0.0',
+					'required' => true,
+					'description' => 'The latitude of the location MUST be the same as in the id',
+					'example' => '52.5450511',
+				],
+				'longitude' => [
+					'since' => '22.0.0',
+					'required' => true,
+					'description' => 'The longitude of the location MUST be the same as in the id',
+					'example' => '13.3741463',
 				],
 			],
 		],

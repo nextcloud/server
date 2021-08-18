@@ -4,3 +4,4 @@ composer.lock
 .php_cs.cache
 listen.php
 test.php
+*.cache

@@ -8,7 +8,6 @@
     "Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "Federacja umożliwia łączenie się z innymi zaufanymi serwerami w celu wymiany katalogu użytkownika. Na przykład zostanie to użyte do automatycznego uzupełniania dla zewnętrznych użytkowników przy udostępnianiu federacyjnym.",
     "Trusted servers" : "Zaufane serwery",
     "Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing. It is not necessary to add a server as trusted server in order to create a federated share." : "Federacja umożliwia łączenie się z innymi zaufanymi serwerami w celu wymiany katalogu użytkownika. Na przykład zostanie to użyte do automatycznego uzupełniania dla zewnętrznych użytkowników przy udostępnianiu federacyjnym. Nie jest konieczne dodawanie serwera jako serwera zaufanego w celu utworzenia udostępnienia federacyjnego.",
-    "Add server automatically once a federated share was created successfully" : "Dodaj serwer automatycznie po pomyślnym utworzeniu udostępnienia federacyjnego",
     "+ Add trusted server" : "+ Dodaj zaufany serwer",
     "Trusted server" : "Zaufany serwer",
     "Add" : "Dodaj"

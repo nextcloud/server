@@ -1,5 +1,5 @@
 { "translations": {
-    "External storages" : "Eksteraj konservejoj",
+    "External storage" : "Ekstera konservejo",
     "Personal" : "Persona",
     "System" : "Sistemo",
     "Grant access" : "Doni alirpermeson",
@@ -9,7 +9,6 @@
     "Generate keys" : "Generi ŝlosilojn",
     "Error generating key pair" : "Eraro dum generado de ŝlosila paro",
     "All users. Type to select user or group." : "Ĉiuj uzantoj. Entajpu por elekti uzanton aŭ grupon.",
-    "(group)" : "(grupo)",
     "Compatibility with Mac NFD encoding (slow)" : "Kongrueco kun Makintoŝa „NFD“ signara kodoprezento (malrapide)",
     "Enable encryption" : "Ŝalti ĉifradon",
     "Enable previews" : "Ŝalti antaŭrigardojn",
@@ -100,11 +99,9 @@
     "SFTP" : "SFTP",
     "Root" : "Radiko",
     "SFTP with secret key login" : "SFTP kun sekretoŝlosila ensaluto",
-    "SMB / CIFS" : "SMB / CIFS",
     "Share" : "Kunhavigi",
     "Show hidden files" : "Montri kaŝitajn dosierojn",
     "Timeout" : "Eltempiĝo",
-    "SMB / CIFS using OC login" : "SMB / CIFS uzante OC-ensaluto",
     "Username as share" : "Uzantonmo kiel kunhavo",
     "OpenStack Object Storage" : "OpenStack Object Storage",
     "Service name" : "Servonomo",
@@ -122,7 +119,6 @@
     "Open documentation" : "Malfermi la dokumentaron",
     "External storage enables you to mount external storage services and devices as secondary Nextcloud storage devices. You may also allow users to mount their own external storage services." : "Ekstera konservejo ebligas al vi surmeti servojn de ekstera konservejo kaj aparatojn, kiel kromajn konservejojn. Vi povas ankaŭ permesi al uzantoj surmeti ilian proprajn eksterajn konservejojn.",
     "Folder name" : "Dosierujnomo",
-    "External storage" : "Ekstera konservejo",
     "Authentication" : "Aŭtentigo",
     "Configuration" : "Agordo",
     "Available for" : "Disponebla por",
@@ -130,7 +126,10 @@
     "Add storage" : "Aldoni konservejon",
     "Advanced settings" : "Altanivela agordo",
     "Allow users to mount external storage" : "Permesi al uzantoj surmeti eksteran konservejon",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Ĝeneralaj akreditiloj utilas, kiam pluraj eksteraj konservejoj kunuzas la samajn akreditilojn.",
-    "Saving..." : "Konservado..."
+    "External storages" : "Eksteraj konservejoj",
+    "(group)" : "(grupo)",
+    "SMB / CIFS" : "SMB / CIFS",
+    "SMB / CIFS using OC login" : "SMB / CIFS uzante OC-ensaluto",
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Ĝeneralaj akreditiloj utilas, kiam pluraj eksteraj konservejoj kunuzas la samajn akreditilojn."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -93,7 +93,6 @@ OC.L10N.register(
     "Please specify a file or folder path" : "Palun määra faili või kausta rada",
     "Wrong path, file/folder doesn't exist" : "Vale rada, faili/kausta ei leitud",
     "Could not create share" : "Ei saanud jagamist luua",
-    "invalid permissions" : "valed õigused",
     "Please specify a valid user" : "Palun määra kehtiv kasutaja",
     "Group sharing is disabled by the administrator" : "Grupiga jagamine on administraatori poolt keelatud",
     "Please specify a valid group" : "Palun määra kehtiv grupp",
@@ -107,11 +106,9 @@ OC.L10N.register(
     "Not a directory" : "Ei ole kaust",
     "Could not lock path" : "Ei saanud rada lukustada",
     "Wrong or no update parameter given" : "Antud vale või aegunud parameeter",
-    "Can't change permissions for public share links" : "Avalikult jagatud linkide õigusi muuta ei saa",
     "shared by %s" : "jagas %s",
     "Download all files" : "Lae kõik failid alla",
     "Direct link" : "Otsene link",
-    "Add to your Nextcloud" : "Lisa oma Nextcloudi",
     "Share API is disabled" : "Jagamise API on keelatud",
     "File sharing" : "Faide jagamine",
     "Share will expire tomorrow" : "Jagamine aegub homme",
@@ -172,6 +169,8 @@ OC.L10N.register(
     "Note" : "Märge",
     "Select or drop files" : "Vali või lohista failid",
     "Uploaded files:" : "Üleslaetud failid:",
-    "Uploading files…" : "Failide üleslaadimine…"
+    "Add to your Nextcloud" : "Lisa oma Nextcloudi",
+    "invalid permissions" : "valed õigused",
+    "Can't change permissions for public share links" : "Avalikult jagatud linkide õigusi muuta ei saa"
 },
 "nplurals=2; plural=(n != 1);");

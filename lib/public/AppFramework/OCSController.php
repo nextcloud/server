@@ -25,12 +25,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
-/**
- * Public interface of ownCloud for apps to use.
- * AppFramework\Controller class
- */
-
 namespace OCP\AppFramework;
 
 use OCP\AppFramework\Http\DataResponse;
@@ -42,6 +36,10 @@ use OCP\IRequest;
  * @since 8.1.0
  */
 abstract class OCSController extends ApiController {
+	public const RESPOND_UNAUTHORISED = 997;
+	public const RESPOND_SERVER_ERROR = 996;
+	public const RESPOND_NOT_FOUND = 998;
+	public const RESPOND_UNKNOWN_ERROR = 999;
 
 	/** @var int */
 	private $ocsVersion;

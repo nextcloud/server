@@ -6,13 +6,12 @@
  * @author Bernhard Reiter <ockham@raz.or.at>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author derkostka <sebastian.kostka@gmail.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Tanghus <thomas@tanghus.net>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -29,18 +28,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
-/**
- * Class for easily tagging objects by their id
- *
- * A tag can be e.g. 'Family', 'Work', 'Chore', 'Special Occation' or
- * anything else that is either parsed from a vobject or that the user chooses
- * to add.
- * Tag names are not case-sensitive, but will be saved with the case they
- * are entered in. If a user already has a tag 'family' for a type, and
- * tries to add a tag named 'Family' it will be silently ignored.
- */
-
 namespace OC;
 
 use OC\Tagging\Tag;
@@ -229,10 +216,6 @@ class Tags implements ITags {
 						$entries[$objId] = [];
 					}
 					$entries[$objId][] = $row['category'];
-				}
-				if ($result === null) {
-					\OCP\Util::writeLog('core', __METHOD__. 'DB error: ' . \OC::$server->getDatabaseConnection()->getError(), ILogger::ERROR);
-					return false;
 				}
 			}
 		} catch (\Exception $e) {

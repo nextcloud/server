@@ -6,6 +6,7 @@
  * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
  * @author Julius Haertl <jus@bitgrid.net>
  * @author Julius Härtl <jus@bitgrid.net>
+ * @author Morris Jobke <hey@morrisjobke.de>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -16,19 +17,17 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Theming;
 
 use Imagick;
 use ImagickPixel;
-use OCP\App\AppPathNotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
 
 class IconBuilder {
@@ -198,12 +197,12 @@ class IconBuilder {
 		// offset for icon positioning
 		$border_w = (int)($appIconFile->getImageWidth() * 0.05);
 		$border_h = (int)($appIconFile->getImageHeight() * 0.05);
-		$innerWidth = (int)($appIconFile->getImageWidth() - $border_w * 2);
-		$innerHeight = (int)($appIconFile->getImageHeight() - $border_h * 2);
+		$innerWidth = ($appIconFile->getImageWidth() - $border_w * 2);
+		$innerHeight = ($appIconFile->getImageHeight() - $border_h * 2);
 		$appIconFile->adaptiveResizeImage($innerWidth, $innerHeight);
 		// center icon
-		$offset_w = 512 / 2 - $innerWidth / 2;
-		$offset_h = 512 / 2 - $innerHeight / 2;
+		$offset_w = (int)(512 / 2 - $innerWidth / 2);
+		$offset_h = (int)(512 / 2 - $innerHeight / 2);
 
 		$finalIconFile = new Imagick();
 		$finalIconFile->setBackgroundColor(new ImagickPixel('transparent'));
@@ -223,10 +222,14 @@ class IconBuilder {
 		return $finalIconFile;
 	}
 
+	/**
+	 * @param $app string app name
+	 * @param $image string relative path to svg file in app directory
+	 * @return string|false content of a colorized svg file
+	 */
 	public function colorSvg($app, $image) {
-		try {
-			$imageFile = $this->util->getAppImage($app, $image);
-		} catch (AppPathNotFoundException $e) {
+		$imageFile = $this->util->getAppImage($app, $image);
+		if ($imageFile === false || $imageFile === "") {
 			return false;
 		}
 		$svg = file_get_contents($imageFile);

@@ -22,32 +22,23 @@
 namespace Icewind\SMB;
 
 interface IAuth {
-	/**
-	 * @return string|null
-	 */
-	public function getUsername();
+	public function getUsername(): ?string;
 
-	/**
-	 * @return string|null
-	 */
-	public function getWorkgroup();
+	public function getWorkgroup(): ?string;
 
-	/**
-	 * @return string|null
-	 */
-	public function getPassword();
+	public function getPassword(): ?string;
 
 	/**
 	 * Any extra command line option for smbclient that are required
 	 *
 	 * @return string
 	 */
-	public function getExtraCommandLineArguments();
+	public function getExtraCommandLineArguments(): string;
 
 	/**
 	 * Set any extra options for libsmbclient that are required
 	 *
 	 * @param resource $smbClientState
 	 */
-	public function setExtraSmbClientOptions($smbClientState);
+	public function setExtraSmbClientOptions($smbClientState): void;
 }

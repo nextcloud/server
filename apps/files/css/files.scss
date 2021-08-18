@@ -6,11 +6,6 @@
  * See the COPYING-README file.
  */
 
-/* SETTINGS */
-#files-setting-showhidden {
-	padding-bottom: 8px;
-}
-
 /* FILE MENU */
 .actions {
 	padding: 5px;
@@ -238,11 +233,16 @@ table th .columntitle {
 	vertical-align: middle;
 }
 table.multiselect th .columntitle {
-    display: inline-block;
+	display: inline-block;
+	margin-right: -20px;
 }
 table th .columntitle.name {
 	padding-left: 0;
-	margin-left: 50px;
+	margin-left: 44px;
+}
+
+table.multiselect th .columntitle.name {
+	margin-left: 0;
 }
 
 table th .sort-indicator {
@@ -290,6 +290,9 @@ table th#headerName {
 	height: 50px;
 }
 
+table th#headerSelection {
+	padding-top: 2px;
+}
 table th#headerSize, table td.filesize {
 	text-align: right;
 }
@@ -305,6 +308,17 @@ table th.column-last, table td.column-last {
 
 #app-content-files thead {
 	top: 94px;
+}
+
+#app-content-recent, 
+#app-content-favorites, 
+#app-content-shareoverview, 
+#app-content-sharingout,
+#app-content-sharingin,
+#app-content-sharinglinks,
+#app-content-deletedshares,
+#app-content-pendingshares {
+	margin-top: 22px;
 }
 
 table.multiselect thead th {
@@ -478,9 +492,21 @@ table td.selection {
 }
 
 /* Use label to have bigger clickable size for checkbox */
-#fileList tr td.selection>.selectCheckBox + label,
-.select-all + label {
-	padding: 16px;
+#fileList tr td.selection>.selectCheckBox,
+.select-all {
+	& + label {
+		padding: 16px;
+	}
+
+	&:focus + label {
+		background-color: var(--color-background-hover);
+		border-radius: var(--border-radius-pill);
+	}
+}
+
+#fileList tr td.selection>.selectCheckBox:focus-visible + label,
+.select-all:focus-visible + label {
+	outline-offset: 0px;
 }
 
 #fileList tr td.filename {
@@ -637,7 +663,11 @@ a.action > img {
 			}
 		}
 		&:hover, &:focus {
-			opacity: .7;
+			opacity: 1;
+		}
+		&:focus {
+			background-color: var(--color-background-hover);
+			border-radius: var(--border-radius-pill);
 		}
 	}
 	.fileActionsMenu a.action, a.action.action-share.shared-style {
@@ -688,12 +718,15 @@ a.action > img {
 }
 
 .summary {
-	opacity: .3;
+	color: var(--color-text-maxcontrast);
 	/* add whitespace to bottom of files list to correctly show dropdowns */
-	height: 250px;
+	$action-menu-items-count: 7; // list view has currently max 7 items in its action menu 
+	height: 44px * ($action-menu-items-count + 0.5); // 0.5 is added to show some whitespace below
 }
 #filestable .filesummary {
 	width: 100%;
+	/* Width of checkbox and file preview */
+	padding-left: 101px;
 }
 /* Less whitespace needed on link share page
  * as there is a footer and action menus have fewer entries.
@@ -712,8 +745,8 @@ table tr.summary td {
 	vertical-align: top;
 	padding-top: 20px;
 }
-.summary .info {
-	margin-left: 2px;
+.summary td:first-child {
+	padding: 0;
 }
 .hiddeninfo {
 	white-space: pre-line;
@@ -758,15 +791,14 @@ table.dragshadow td.size {
 .newFileMenu {
 	font-weight: 300;
 	top: 100%;
+	left: -48px !important;
 	margin-top: 4px;
 	min-width: 100px;
-	margin-left: 22px; /* Align left edge below center of + button … */
-	transform: translateX(-50%); /* … then center it below button */
 	z-index: 1001;
 
 	/* Center triangle */
 	&::after {
-		left: calc(50% - 8px) !important;
+		left: 57px !important;
 	}
 }
 
@@ -819,9 +851,23 @@ table.dragshadow td.size {
 }
 
 .notCreatable {
-	padding-left: 12px;
-	padding-top: 12px;
-	color: var(--color-text-lighter);
+	margin-left: 12px;
+	margin-right: 44px;
+	margin-top: 12px;
+	color: var(--color-main-text);
+	overflow: auto;
+	min-width: 160px;
+	height: 54px;
+	
+	&:not(.hidden) {
+		display: flex;
+	}
+
+	.icon-alert-outline {
+		top: -15px;
+		position: relative;
+		margin-right: 4px;
+	}
 }
 
 #quota {
@@ -1097,6 +1143,8 @@ table.dragshadow td.size {
 		.summary:not(.hidden) {
 			display: inline-block;
 			margin: 0 auto;
+			$action-menu-items-count: 9; // grid view has currently max 9 items in its action menu
+			height: 44px * ($action-menu-items-count + 0.5); // 0.5 is added to show some whitespace below
 
 			td {
 				padding-top: 50px;
@@ -1167,3 +1215,25 @@ table.dragshadow td.size {
 #gallery-button {
 	display: none;
 }
+
+#tag_multiple_files_container {
+	overflow: hidden;
+	background-color: #fff;
+	border-radius: 3px;
+	position: relative;
+	display: flex;
+	flex-wrap: wrap;
+	margin-bottom: 10px;
+
+	h3 {
+		width: 100%;
+		padding: 0 18px;
+	}
+
+	.systemTagsInputFieldContainer {
+		flex: 1 1 80%;
+		min-width: 0;
+		margin: 0 12px;
+	}
+}
+

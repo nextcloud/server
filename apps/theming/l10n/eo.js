@@ -49,7 +49,6 @@ OC.L10N.register(
     "Upload new header logo" : "Alŝuti novan paĝokapan emblemon",
     "Favicon" : "Retpaĝsimbolo",
     "Upload new favicon" : "Alŝuti novan retpaĝsimbolon",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Instalu la PHP-modulon „Imagemagick“ kun SVG-subteno por aŭtomate krei retpaĝsimbolon, kiu devenos de la alŝutita emblemo kaj koloro.",
-    "Unsupported image type" : "Nesubtenata bildotipo"
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Instalu la PHP-modulon „Imagemagick“ kun SVG-subteno por aŭtomate krei retpaĝsimbolon, kiu devenos de la alŝutita emblemo kaj koloro."
 },
 "nplurals=2; plural=(n != 1);");

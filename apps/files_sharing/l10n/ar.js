@@ -103,7 +103,6 @@ OC.L10N.register(
     "Please specify a file or folder path" : "يرجى تحديد مسار ملف او مجلد",
     "Wrong path, file/folder doesn't exist" : "مسار الملف/المجد غير موجود",
     "Could not create share" : "لا يمكن انشاء مشاركة",
-    "invalid permissions" : "صلاحيات مفقودة",
     "Please specify a valid user" : "يرجى تحديد مستخدم صحيح",
     "Group sharing is disabled by the administrator" : "مشاركة المجموعة معطل من قبل الادارة",
     "Please specify a valid group" : "يرجى تحديد مجموعة صحيحة",
@@ -121,12 +120,9 @@ OC.L10N.register(
     "Could not lock node" : "تعذر تأمين نقطة اللقاء",
     "Could not lock path" : "تعذر تأمين المسار",
     "Wrong or no update parameter given" : "خطأ أو لم يتم تقديم معلمة تحديث",
-    "Can't change permissions for public share links" : "لا يمكن تغيير صلاحيات روابط المشاركة العامة",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "مشاركة ارسال كلمة المرور من قبل التحدث Nextcloud فشلت بسبب عدم تفعيل خاصية التحدث.",
     "shared by %s" : "تمت مشاركته مِن قبل %s",
     "Download all files" : "تنزيل كافة الملفات",
     "Direct link" : "رابط مباشر",
-    "Add to your Nextcloud" : "اضف إلى حسابك",
     "Share API is disabled" : "مشاركة عبر واجهة برمجة التطبيقات غير مفعلة",
     "File sharing" : "مشاركة الملفات",
     "Share will expire tomorrow" : "المشاركة ستنتهي غدا",
@@ -231,7 +227,10 @@ OC.L10N.register(
     "Uploading files" : "جاري رفع ملفات",
     "Uploaded files:" : "تم رفع ملفات:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "برفع الملفات ، فإنك توافق على %1$s شروط الخدمة %2$s.",
-    "Name, email, or federated cloud ID …" : "اسم، بريد، معرف السحابة المتحدة…",
-    "Uploading files…" : "جاري رفع الملفات…"
+    "Add to your Nextcloud" : "اضف إلى حسابك",
+    "invalid permissions" : "صلاحيات مفقودة",
+    "Can't change permissions for public share links" : "لا يمكن تغيير صلاحيات روابط المشاركة العامة",
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "مشاركة ارسال كلمة المرور من قبل التحدث Nextcloud فشلت بسبب عدم تفعيل خاصية التحدث.",
+    "Name, email, or federated cloud ID …" : "اسم، بريد، معرف السحابة المتحدة…"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

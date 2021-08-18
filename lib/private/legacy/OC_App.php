@@ -33,7 +33,7 @@ declare(strict_types=1);
  * @author Sebastian Wessalowski <sebastian@wessalowski.org>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Thomas Tanghus <thomas@tanghus.net>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -61,6 +61,7 @@ use OCP\App\ManagerEvent;
 use OCP\AppFramework\QueryException;
 use OCP\Authentication\IAlternativeLogin;
 use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 
 /**
  * This class manages the apps. It allows them to register and integrate in the
@@ -134,7 +135,14 @@ class OC_App {
 		ob_start();
 		foreach ($apps as $app) {
 			if (!isset(self::$loadedApps[$app]) && ($types === [] || self::isType($app, $types))) {
-				self::loadApp($app);
+				try {
+					self::loadApp($app);
+				} catch (\Throwable $e) {
+					\OC::$server->get(LoggerInterface::class)->emergency('Error during app loading: ' . $e->getMessage(), [
+						'exception' => $e,
+						'app' => $app,
+					]);
+				}
 			}
 		}
 		ob_end_clean();
@@ -452,10 +460,6 @@ class OC_App {
 	 * @return string|false
 	 */
 	public static function getInstallPath() {
-		if (\OC::$server->getSystemConfig()->getValue('appstoreenabled', true) == false) {
-			return false;
-		}
-
 		foreach (OC::$APPSROOTS as $dir) {
 			if (isset($dir['writable']) && $dir['writable'] === true) {
 				return $dir['path'];
@@ -698,23 +702,23 @@ class OC_App {
 		$bootstrapCoordinator = \OC::$server->query(Coordinator::class);
 
 		foreach ($bootstrapCoordinator->getRegistrationContext()->getAlternativeLogins() as $registration) {
-			if (!in_array(IAlternativeLogin::class, class_implements($registration['class']), true)) {
+			if (!in_array(IAlternativeLogin::class, class_implements($registration->getService()), true)) {
 				\OC::$server->getLogger()->error('Alternative login option {option} does not implement {interface} and is therefore ignored.', [
-					'option' => $registration['class'],
+					'option' => $registration->getService(),
 					'interface' => IAlternativeLogin::class,
-					'app' => $registration['app'],
+					'app' => $registration->getAppId(),
 				]);
 				continue;
 			}
 
 			try {
 				/** @var IAlternativeLogin $provider */
-				$provider = \OC::$server->query($registration['class']);
+				$provider = \OC::$server->query($registration->getService());
 			} catch (QueryException $e) {
 				\OC::$server->getLogger()->logException($e, [
 					'message' => 'Alternative login option {option} can not be initialised.',
-					'option' => $registration['class'],
-					'app' => $registration['app'],
+					'option' => $registration->getService(),
+					'app' => $registration->getAppId(),
 				]);
 			}
 
@@ -729,8 +733,8 @@ class OC_App {
 			} catch (Throwable $e) {
 				\OC::$server->getLogger()->logException($e, [
 					'message' => 'Alternative login option {option} had an error while loading.',
-					'option' => $registration['class'],
-					'app' => $registration['app'],
+					'option' => $registration->getService(),
+					'app' => $registration->getAppId(),
 				]);
 			}
 		}
@@ -971,18 +975,28 @@ class OC_App {
 			return false;
 		}
 
+		if (is_file($appPath . '/appinfo/database.xml')) {
+			\OC::$server->getLogger()->error('The appinfo/database.xml file is not longer supported. Used in ' . $appId);
+			return false;
+		}
+
 		\OC::$server->getAppManager()->clearAppsCache();
 		$appData = self::getAppInfo($appId);
+
+		$ignoreMaxApps = \OC::$server->getConfig()->getSystemValue('app_install_overwrite', []);
+		$ignoreMax = in_array($appId, $ignoreMaxApps, true);
+		\OC_App::checkAppDependencies(
+			\OC::$server->getConfig(),
+			\OC::$server->getL10N('core'),
+			$appData,
+			$ignoreMax
+		);
 
 		self::registerAutoloading($appId, $appPath, true);
 		self::executeRepairSteps($appId, $appData['repair-steps']['pre-migration']);
 
-		if (file_exists($appPath . '/appinfo/database.xml')) {
-			OC_DB::updateDbFromStructure($appPath . '/appinfo/database.xml');
-		} else {
-			$ms = new MigrationService($appId, \OC::$server->getDatabaseConnection());
-			$ms->migrate();
-		}
+		$ms = new MigrationService($appId, \OC::$server->get(\OC\DB\Connection::class));
+		$ms->migrate();
 
 		self::executeRepairSteps($appId, $appData['repair-steps']['post-migration']);
 		self::setupLiveMigrations($appId, $appData['repair-steps']['live-migration']);
@@ -990,11 +1004,6 @@ class OC_App {
 		\OC::$server->getAppManager()->clearAppsCache();
 		\OC::$server->getAppManager()->getAppVersion($appId, false);
 
-		// run upgrade code
-		if (file_exists($appPath . '/appinfo/update.php')) {
-			self::loadApp($appId);
-			include $appPath . '/appinfo/update.php';
-		}
 		self::setupBackgroundJobs($appData['background-jobs']);
 
 		//set remote/public handlers
@@ -1037,7 +1046,7 @@ class OC_App {
 		$dispatcher = OC::$server->getEventDispatcher();
 
 		// load the steps
-		$r = new Repair([], $dispatcher);
+		$r = new Repair([], $dispatcher, \OC::$server->get(LoggerInterface::class));
 		foreach ($steps as $step) {
 			try {
 				$r->addStep($step);

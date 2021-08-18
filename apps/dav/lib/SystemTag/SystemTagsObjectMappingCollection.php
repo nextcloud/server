@@ -6,7 +6,7 @@
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -23,7 +23,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\SystemTag;
 
 use OCP\IUser;
@@ -115,20 +114,20 @@ class SystemTagsObjectMappingCollection implements ICollection {
 		throw new Forbidden('Permission denied to create collections');
 	}
 
-	public function getChild($tagId) {
+	public function getChild($tagName) {
 		try {
-			if ($this->tagMapper->haveTag([$this->objectId], $this->objectType, $tagId, true)) {
-				$tag = $this->tagManager->getTagsByIds([$tagId]);
+			if ($this->tagMapper->haveTag([$this->objectId], $this->objectType, $tagName, true)) {
+				$tag = $this->tagManager->getTagsByIds([$tagName]);
 				$tag = current($tag);
 				if ($this->tagManager->canUserSeeTag($tag, $this->user)) {
 					return $this->makeNode($tag);
 				}
 			}
-			throw new NotFound('Tag with id ' . $tagId . ' not present for object ' . $this->objectId);
+			throw new NotFound('Tag with id ' . $tagName . ' not present for object ' . $this->objectId);
 		} catch (\InvalidArgumentException $e) {
 			throw new BadRequest('Invalid tag id', 0, $e);
 		} catch (TagNotFoundException $e) {
-			throw new NotFound('Tag with id ' . $tagId . ' not found', 0, $e);
+			throw new NotFound('Tag with id ' . $tagName . ' not found', 0, $e);
 		}
 	}
 

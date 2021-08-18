@@ -40,7 +40,7 @@ class FailWriteObjectStore implements IObjectStore {
 		return $this->objectStore->readObject($urn);
 	}
 
-	public function writeObject($urn, $stream) {
+	public function writeObject($urn, $stream, string $mimetype = null) {
 		// emulate a failed write that didn't throw an error
 		return true;
 	}
@@ -51,5 +51,9 @@ class FailWriteObjectStore implements IObjectStore {
 
 	public function objectExists($urn) {
 		return $this->objectStore->objectExists($urn);
+	}
+
+	public function copyObject($from, $to) {
+		$this->objectStore->copyObject($from, $to);
 	}
 }

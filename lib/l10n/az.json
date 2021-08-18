@@ -1,6 +1,5 @@
 { "translations": {
     "Cannot write into \"config\" directory!" : "\"configurasiya\" direktoriyasının daxilində yazmaq mümkün deyil",
-    "This can usually be fixed by giving the webserver write access to the config directory" : "Adətən tez həll etmək üçün WEB serverdə yazma yetkisi verilir",
     "See %s" : "Bax %s",
     "Sample configuration detected" : "Konfiqurasiya nüsxəsi təyin edildi",
     "Unknown filetype" : "Fayl tipi bəlli deyil.",
@@ -63,7 +62,6 @@
     "Authentication error" : "Təyinat metodikası",
     "Token expired. Please reload page." : "Token vaxtı bitib. Xahiş olunur səhifəni yenidən yükləyəsiniz.",
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Bu ola bilər ki, cache/accelerator such tərəfindən cağırılıb hansi ki, Zend OPcache və eAccelerator-da olduğu kimidir.",
-    "Sharing" : "Paylaşılır",
-    "Personal info" : "Şəxsi məlumat"
+    "This can usually be fixed by giving the webserver write access to the config directory" : "Adətən tez həll etmək üçün WEB serverdə yazma yetkisi verilir"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

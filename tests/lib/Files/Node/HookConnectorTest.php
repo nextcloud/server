@@ -238,7 +238,7 @@ class HookConnectorTest extends TestCase {
 		$this->legacyDispatcher->addListener($expectedLegacyEvent, function ($event) use (&$dispatcherSourceNode, &$dispatcherTargetNode, &$dispatcherCalled) {
 			/** @var GenericEvent|APIGenericEvent $event */
 			$dispatcherCalled = true;
-			list($dispatcherSourceNode, $dispatcherTargetNode) = $event->getSubject();
+			[$dispatcherSourceNode, $dispatcherTargetNode] = $event->getSubject();
 		});
 
 		$newDispatcherCalled = false;

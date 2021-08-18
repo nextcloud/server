@@ -16,29 +16,30 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Log;
 
+use OC\Log;
 use OCP\ILogger;
+use OCP\Log\IDataLogger;
 use Psr\Log\InvalidArgumentException;
 use Psr\Log\LoggerInterface;
 use Throwable;
 use function array_key_exists;
 use function array_merge;
 
-final class PsrLoggerAdapter implements LoggerInterface {
+final class PsrLoggerAdapter implements LoggerInterface, IDataLogger {
 
-	/** @var ILogger */
+	/** @var Log */
 	private $logger;
 
-	public function __construct(ILogger $logger) {
+	public function __construct(Log $logger) {
 		$this->logger = $logger;
 	}
 
@@ -259,5 +260,9 @@ final class PsrLoggerAdapter implements LoggerInterface {
 		} else {
 			$this->logger->log($level, $message, $context);
 		}
+	}
+
+	public function logData(string $message, array $data, array $context = []): void {
+		$this->logger->logData($message, $data, $context);
 	}
 }

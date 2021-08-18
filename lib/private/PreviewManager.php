@@ -4,7 +4,7 @@
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Olivier Paroz <github@oparoz.com>
@@ -28,7 +28,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC;
 
 use OC\Preview\Generator;
@@ -58,7 +57,7 @@ class PreviewManager implements IPreview {
 
 	/** @var Generator */
 	private $generator;
-	
+
 	/** @var GeneratorHelper */
 	private $helper;
 
@@ -278,7 +277,6 @@ class PreviewManager implements IPreview {
 	 *  - OC\Preview\JPEG
 	 *  - OC\Preview\GIF
 	 *  - OC\Preview\BMP
-	 *  - OC\Preview\HEIC
 	 *  - OC\Preview\XBitmap
 	 *  - OC\Preview\MarkDown
 	 *  - OC\Preview\MP3
@@ -286,6 +284,7 @@ class PreviewManager implements IPreview {
 	 *
 	 * The following providers are disabled by default due to performance or privacy concerns:
 	 *  - OC\Preview\Font
+	 *  - OC\Preview\HEIC
 	 *  - OC\Preview\Illustrator
 	 *  - OC\Preview\Movie
 	 *  - OC\Preview\MSOfficeDoc
@@ -311,9 +310,9 @@ class PreviewManager implements IPreview {
 			Preview\JPEG::class,
 			Preview\GIF::class,
 			Preview\BMP::class,
-			Preview\HEIC::class,
 			Preview\XBitmap::class,
 			Preview\Krita::class,
+			Preview\WebP::class,
 		];
 
 		$this->defaultProviders = $this->config->getSystemValue('enabledPreviewProviders', array_merge([
@@ -360,6 +359,7 @@ class PreviewManager implements IPreview {
 		$this->registerCoreProvider(Preview\GIF::class, '/image\/gif/');
 		$this->registerCoreProvider(Preview\BMP::class, '/image\/bmp/');
 		$this->registerCoreProvider(Preview\XBitmap::class, '/image\/x-xbitmap/');
+		$this->registerCoreProvider(Preview\WebP::class, '/image\/webp/');
 		$this->registerCoreProvider(Preview\Krita::class, '/application\/x-krita/');
 		$this->registerCoreProvider(Preview\MP3::class, '/audio\/mpeg/');
 		$this->registerCoreProvider(Preview\OpenDocument::class, '/application\/vnd.oasis.opendocument.*/');
@@ -377,6 +377,8 @@ class PreviewManager implements IPreview {
 				'EPS' => ['mimetype' => '/application\/postscript/', 'class' => Preview\Postscript::class],
 				'TTF' => ['mimetype' => '/application\/(?:font-sfnt|x-font$)/', 'class' => Preview\Font::class],
 				'HEIC' => ['mimetype' => '/image\/hei(f|c)/', 'class' => Preview\HEIC::class],
+				'TGA' => ['mimetype' => '/image\/t(ar)?ga/', 'class' => Preview\TGA::class],
+				'SGI' => ['mimetype' => '/image\/sgi/', 'class' => Preview\SGI::class],
 			];
 
 			foreach ($imagickProviders as $queryFormat => $provider) {

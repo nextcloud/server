@@ -2,6 +2,15 @@
 /**
  * @copyright Copyright (c) 2016 Morris Jobke <hey@morrisjobke.de>
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author blizzz <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author Julius Härtl <jus@bitgrid.net>
+ * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -11,17 +20,16 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\WorkflowEngine;
 
-use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Exception;
 use OC\Cache\CappedMemoryCache;
 use OCA\WorkflowEngine\AppInfo\Application;
 use OCA\WorkflowEngine\Check\FileMimeType;
@@ -290,7 +298,7 @@ class Manager implements IManager {
 	 * @param string $operation
 	 * @return array The added operation
 	 * @throws \UnexpectedValueException
-	 * @throws DBALException
+	 * @throw Exception
 	 */
 	public function addOperation(
 		string $class,
@@ -315,7 +323,7 @@ class Manager implements IManager {
 			$this->addScope($id, $scope);
 
 			$this->connection->commit();
-		} catch (DBALException $e) {
+		} catch (Exception $e) {
 			$this->connection->rollBack();
 			throw $e;
 		}
@@ -342,7 +350,7 @@ class Manager implements IManager {
 		$result = $qb->execute();
 
 		$this->operationsByScope[$scopeContext->getHash()] = [];
-		while ($opId = $result->fetchColumn(0)) {
+		while ($opId = $result->fetchOne()) {
 			$this->operationsByScope[$scopeContext->getHash()][] = (int)$opId;
 		}
 		$result->closeCursor();
@@ -358,7 +366,7 @@ class Manager implements IManager {
 	 * @return array The updated operation
 	 * @throws \UnexpectedValueException
 	 * @throws \DomainException
-	 * @throws DBALException
+	 * @throws Exception
 	 */
 	public function updateOperation(
 		int $id,
@@ -392,7 +400,7 @@ class Manager implements IManager {
 				->where($query->expr()->eq('id', $query->createNamedParameter($id)));
 			$query->execute();
 			$this->connection->commit();
-		} catch (DBALException $e) {
+		} catch (Exception $e) {
 			$this->connection->rollBack();
 			throw $e;
 		}
@@ -405,7 +413,7 @@ class Manager implements IManager {
 	 * @param int $id
 	 * @return bool
 	 * @throws \UnexpectedValueException
-	 * @throws DBALException
+	 * @throws Exception
 	 * @throws \DomainException
 	 */
 	public function deleteOperation($id, ScopeContext $scopeContext) {
@@ -425,7 +433,7 @@ class Manager implements IManager {
 					->execute();
 			}
 			$this->connection->commit();
-		} catch (DBALException $e) {
+		} catch (Exception $e) {
 			$this->connection->rollBack();
 			throw $e;
 		}

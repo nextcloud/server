@@ -27,9 +27,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
+use OC\KnownUser\KnownUserService;
 use OC\User\User;
 use OCA\DAV\CalDAV\Proxy\Proxy;
 use OCA\DAV\CalDAV\Proxy\ProxyMapper;
@@ -41,6 +41,7 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Share\IManager;
+use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\DAV\PropPatch;
 use Test\TestCase;
 
@@ -67,6 +68,8 @@ class PrincipalTest extends TestCase {
 	/** @var ProxyMapper | \PHPUnit\Framework\MockObject\MockObject */
 	private $proxyMapper;
 
+	/** @var KnownUserService|MockObject */
+	private $knownUserService;
 	/** @var IConfig | \PHPUnit\Framework\MockObject\MockObject */
 	private $config;
 
@@ -77,6 +80,7 @@ class PrincipalTest extends TestCase {
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->appManager = $this->createMock(IAppManager::class);
 		$this->proxyMapper = $this->createMock(ProxyMapper::class);
+		$this->knownUserService = $this->createMock(KnownUserService::class);
 		$this->config = $this->createMock(IConfig::class);
 
 		$this->connector = new \OCA\DAV\Connector\Sabre\Principal(
@@ -86,6 +90,7 @@ class PrincipalTest extends TestCase {
 			$this->userSession,
 			$this->appManager,
 			$this->proxyMapper,
+			$this->knownUserService,
 			$this->config
 		);
 		parent::setUp();
@@ -442,7 +447,7 @@ class PrincipalTest extends TestCase {
 
 			if ($groupsOnly) {
 				$user = $this->createMock(IUser::class);
-				$this->userSession->expects($this->once())
+				$this->userSession->expects($this->atLeastOnce())
 					->method('getUser')
 					->willReturn($user);
 
@@ -564,6 +569,10 @@ class PrincipalTest extends TestCase {
 			->method('shareWithGroupMembersOnly')
 			->willReturn(false);
 
+		$this->shareManager->expects($this->once())
+			->method('allowEnumerationFullMatch')
+			->willReturn(true);
+
 		$user2 = $this->createMock(IUser::class);
 		$user2->method('getUID')->willReturn('user2');
 		$user2->method('getDisplayName')->willReturn('User 2');
@@ -586,6 +595,27 @@ class PrincipalTest extends TestCase {
 			['{DAV:}displayname' => 'User 2']));
 	}
 
+	public function testSearchPrincipalWithEnumerationDisabledDisplaynameOnFullMatch() {
+		$this->shareManager->expects($this->once())
+			->method('shareAPIEnabled')
+			->willReturn(true);
+
+		$this->shareManager->expects($this->once())
+			->method('allowEnumeration')
+			->willReturn(false);
+
+		$this->shareManager->expects($this->once())
+			->method('shareWithGroupMembersOnly')
+			->willReturn(false);
+
+		$this->shareManager->expects($this->once())
+			->method('allowEnumerationFullMatch')
+			->willReturn(false);
+
+		$this->assertEquals([], $this->connector->searchPrincipals('principals/users',
+			['{DAV:}displayname' => 'User 2']));
+	}
+
 	public function testSearchPrincipalWithEnumerationDisabledEmail() {
 		$this->shareManager->expects($this->once())
 			->method('shareAPIEnabled')
@@ -598,6 +628,10 @@ class PrincipalTest extends TestCase {
 		$this->shareManager->expects($this->once())
 			->method('shareWithGroupMembersOnly')
 			->willReturn(false);
+
+		$this->shareManager->expects($this->once())
+			->method('allowEnumerationFullMatch')
+			->willReturn(true);
 
 		$user2 = $this->createMock(IUser::class);
 		$user2->method('getUID')->willReturn('user2');
@@ -618,6 +652,28 @@ class PrincipalTest extends TestCase {
 			->willReturn([$user2, $user3, $user4]);
 
 		$this->assertEquals(['principals/users/user2'], $this->connector->searchPrincipals('principals/users',
+			['{http://sabredav.org/ns}email-address' => 'user2@foo.bar']));
+	}
+
+	public function testSearchPrincipalWithEnumerationDisabledEmailOnFullMatch() {
+		$this->shareManager->expects($this->once())
+			->method('shareAPIEnabled')
+			->willReturn(true);
+
+		$this->shareManager->expects($this->once())
+			->method('allowEnumeration')
+			->willReturn(false);
+
+		$this->shareManager->expects($this->once())
+			->method('shareWithGroupMembersOnly')
+			->willReturn(false);
+
+		$this->shareManager->expects($this->once())
+			->method('allowEnumerationFullMatch')
+			->willReturn(false);
+
+
+		$this->assertEquals([], $this->connector->searchPrincipals('principals/users',
 			['{http://sabredav.org/ns}email-address' => 'user2@foo.bar']));
 	}
 

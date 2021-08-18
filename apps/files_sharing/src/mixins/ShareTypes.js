@@ -2,6 +2,7 @@
  * @copyright Copyright (c) 2019 John Molakvoæ <skjnldsv@protonmail.com>
  *
  * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Julius Härtl <jus@bitgrid.net>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -31,6 +32,7 @@ export default {
 				SHARE_TYPE_REMOTE: OC.Share.SHARE_TYPE_REMOTE,
 				SHARE_TYPE_CIRCLE: OC.Share.SHARE_TYPE_CIRCLE,
 				SHARE_TYPE_GUEST: OC.Share.SHARE_TYPE_GUEST,
+				SHARE_TYPE_DECK: OC.Share.SHARE_TYPE_DECK,
 				SHARE_TYPE_REMOTE_GROUP: OC.Share.SHARE_TYPE_REMOTE_GROUP,
 				SHARE_TYPE_ROOM: OC.Share.SHARE_TYPE_ROOM,
 			},

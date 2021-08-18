@@ -23,14 +23,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Files\ObjectStore;
 
 use GuzzleHttp\Client;
@@ -212,7 +211,7 @@ class SwiftFactory {
 		if (!$hasValidCachedToken) {
 			unset($this->params['cachedToken']);
 			try {
-				list($token, $serviceUrl) = $authService->authenticate($this->params);
+				[$token, $serviceUrl] = $authService->authenticate($this->params);
 				$this->cacheToken($token, $serviceUrl, $cacheKey);
 			} catch (ConnectException $e) {
 				throw new StorageAuthException('Failed to connect to keystone, verify the keystone url', $e);

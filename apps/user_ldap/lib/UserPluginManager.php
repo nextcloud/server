@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2017 EITA Cooperative (eita.org.br)
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Filis Futsarov <filisko@users.noreply.github.com>
  * @author Vinicius Cubas Brand <vinicius@eita.org.br>
@@ -15,21 +16,18 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\User_LDAP;
 
 use OC\User\Backend;
 
 class UserPluginManager {
-	public $test = false;
-
 	private $respondToActions = 0;
 
 	private $which = [
@@ -42,6 +40,9 @@ class UserPluginManager {
 		Backend::COUNT_USERS => null,
 		'deleteUser' => null
 	];
+
+	/** @var bool */
+	private $suppressDeletion = false;
 
 	/**
 	 * @return int All implemented actions, except for 'deleteUser'
@@ -192,7 +193,7 @@ class UserPluginManager {
 	 * @return bool
 	 */
 	public function canDeleteUser() {
-		return $this->which['deleteUser'] !== null;
+		return !$this->suppressDeletion && $this->which['deleteUser'] !== null;
 	}
 
 	/**
@@ -203,8 +204,21 @@ class UserPluginManager {
 	public function deleteUser($uid) {
 		$plugin = $this->which['deleteUser'];
 		if ($plugin) {
+			if ($this->suppressDeletion) {
+				return false;
+			}
 			return $plugin->deleteUser($uid);
 		}
 		throw new \Exception('No plugin implements deleteUser in this LDAP Backend.');
+	}
+
+	/**
+	 * @param bool $value
+	 * @return bool – the value before the change
+	 */
+	public function setSuppressDeletion(bool $value): bool {
+		$old = $this->suppressDeletion;
+		$this->suppressDeletion = $value;
+		return $old;
 	}
 }

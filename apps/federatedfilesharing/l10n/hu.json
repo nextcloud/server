@@ -16,8 +16,9 @@
     "Federated Share request sent, you will receive an invitation. Check your notifications." : "Föderált megosztási kérés elküldve, kapni fog egy meghívót. Ellenőrizze az értesítéseit.",
     "Couldn't establish a federated share, it looks like the server to federate with is too old (Nextcloud <= 9)." : "A föderált megosztás nem hozható létre, úgy tűnik, hogy a föderálandó kiszolgáló túl régi. (Nextcloud <= 9).",
     "It is not allowed to send federated group shares from this server." : "Nem küldhet föderált csoportmegosztást erről a kiszolgálóról.",
-    "Sharing %1$s failed, because this item is already shared with %2$s" : "A(z) %1$s megosztása nem sikerült, mert ez már meg van osztva vele: %2$s",
+    "Sharing %1$s failed, because this item is already shared with user %2$s" : "A(z) %1$s megosztása sikertelen, mert már meg van osztva %2$s felhasználóval",
     "Not allowed to create a federated share with the same user" : "Azonos felhasználóval nem lehet föderált megosztást létrehozni",
+    "Federated shares require read permissions" : "A föderált megosztásokhoz olvasási jogosultság szükséges",
     "File is already shared with %s" : "A fájl már meg van osztva vele: %s",
     "Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable or uses a self-signed certificate." : "A(z) %1$s megosztása sikertelen, a(z) %2$s nem található, talán a kiszolgáló jelenleg nem érhető el vagy önaláírt tanúsítványt használ.",
     "Could not find share" : "A megosztás nem található",
@@ -35,7 +36,8 @@
     "Provide federated file sharing across servers" : "Föderált fájlmegosztás biztosítása a kiszolgálók között",
     "Federated Cloud Sharing" : "Föderált felhőmegosztás",
     "Open documentation" : "Dokumentáció megnyitása",
-    "Adjust how people can share between servers." : "Az emberek kiszolgálók közötti megosztásának beállítása.",
+    "Adjust how people can share between servers. This includes shares between users on this server as well if they are using federated sharing." : "Állítsa be, hogy az emberek hogyan oszthatnak meg kiszolgálók között. Ebbe beleértendők a kiszolgálón lévő felhasználók közti megosztások és a föderált megosztások is.",
+    "Allow users on this server to send shares to other servers (this option also allows WebDAV access to public shares)" : "Engedélyezze a kiszolgálón lévő felhasználóknak, hogy megosztásokat küldjenek más kiszolgálóknak (ez a lehetőség lehetővé teszi a nyilvános megosztások WebDAV hozzáférését is)",
     "Allow users on this server to receive shares from other servers" : "Engedélyezze ezen kiszolgáló felhasználóinak, hogy megosztásokat fogadjanak más kiszolgálóktól",
     "Allow users on this server to send shares to groups on other servers" : "Engedélyezze ezen kiszolgáló felhasználóinak, hogy megosztásokat küldjenek más kiszolgálók csoportjainak",
     "Allow users on this server to receive group shares from other servers" : "Engedélyezi ezen kiszolgáló felhasználóinak, hogy csoportmegosztásokat fogadjanak más kiszolgálóktól",
@@ -48,6 +50,6 @@
     "Add to your website" : "Adja hozzá saját weboldalához",
     "Share with me via Nextcloud" : "Ossza meg velem a Nextcloudon keresztül",
     "HTML Code:" : "HTML-kód:",
-    "Allow users on this server to send shares to other servers" : "Engedélyezze ezen kiszolgáló felhasználóinak, hogy megosztásokat küldjenek más kiszolgálóknak."
+    "Adjust how people can share between servers." : "Az emberek kiszolgálók közötti megosztásának beállítása."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

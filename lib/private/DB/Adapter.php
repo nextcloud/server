@@ -10,7 +10,6 @@
  * @author Ole Ostergaard <ole.c.ostergaard@gmail.com>
  * @author Ole Ostergaard <ole.ostergaard@knime.com>
  * @author Robin Appelman <robin@icewind.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @license AGPL-3.0
  *
@@ -27,9 +26,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\DB;
 
+use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 
 /**
@@ -49,10 +48,12 @@ class Adapter {
 
 	/**
 	 * @param string $table name
+	 *
 	 * @return int id of last insert statement
+	 * @throws Exception
 	 */
 	public function lastInsertId($table) {
-		return $this->conn->realLastInsertId($table);
+		return (int) $this->conn->realLastInsertId($table);
 	}
 
 	/**
@@ -67,6 +68,7 @@ class Adapter {
 	 * Create an exclusive read+write lock on a table
 	 *
 	 * @param string $tableName
+	 * @throws Exception
 	 * @since 9.1.0
 	 */
 	public function lockTable($tableName) {
@@ -77,6 +79,7 @@ class Adapter {
 	/**
 	 * Release a previous acquired lock again
 	 *
+	 * @throws Exception
 	 * @since 9.1.0
 	 */
 	public function unlockTable() {
@@ -94,7 +97,7 @@ class Adapter {
 	 *				If this is null or an empty array, all keys of $input will be compared
 	 *				Please note: text fields (clob) must not be used in the compare array
 	 * @return int number of inserted rows
-	 * @throws \Doctrine\DBAL\DBALException
+	 * @throws Exception
 	 * @deprecated 15.0.0 - use unique index and "try { $db->insert() } catch (UniqueConstraintViolationException $e) {}" instead, because it is more reliable and does not have the risk for deadlocks - see https://github.com/nextcloud/server/pull/12371
 	 */
 	public function insertIfNotExist($table, $input, array $compare = null) {
@@ -130,6 +133,9 @@ class Adapter {
 		}
 	}
 
+	/**
+	 * @throws \OCP\DB\Exception
+	 */
 	public function insertIgnoreConflict(string $table,array $values) : int {
 		try {
 			$builder = $this->conn->getQueryBuilder();

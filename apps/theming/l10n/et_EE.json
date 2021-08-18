@@ -25,7 +25,6 @@
     "Upload new login background" : "Lae üles uus avalehe taustapilt",
     "Remove background image" : "Eemalda taustapilt",
     "Advanced options" : "Täpsemad valikud",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Paigalda Imagemagick PHP laiendus SVG piltide toega, et üleslaetud logo ja värvi põhjal automaatselt faviconid genereerida. ",
-    "Unsupported image type" : "Pildi tüüp pole toetatud"
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Paigalda Imagemagick PHP laiendus SVG piltide toega, et üleslaetud logo ja värvi põhjal automaatselt faviconid genereerida. "
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

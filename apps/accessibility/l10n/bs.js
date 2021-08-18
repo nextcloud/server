@@ -8,7 +8,6 @@ OC.L10N.register(
     "Enable high contrast mode" : "Aktiviraj mod visokog kontrasta",
     "A high contrast mode to ease your navigation. Visual quality will be reduced but clarity will be increased." : "Mod visokog kontrasta kako bi vam olakšali navigaciju, vizuelno će kvalitet biti reduciran ali jasnoća prikaza se povećava ",
     "Dyslexia font" : "Font za disleksičare",
-    "Enable dyslexia font" : "Aktiviraj font za disleksičare",
-    "Enable" : "Omogući"
+    "Enable dyslexia font" : "Aktiviraj font za disleksičare"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

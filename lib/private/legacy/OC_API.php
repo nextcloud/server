@@ -12,7 +12,6 @@
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Tom Needham <tom@owncloud.com>
- * @author Vincent Petry <pvince81@owncloud.com>
  *
  * @license AGPL-3.0
  *
@@ -43,12 +42,13 @@ class OC_API {
 	 * respond to a call
 	 * @param \OC\OCS\Result $result
 	 * @param string $format the format xml|json
+	 * @psalm-taint-escape html
 	 */
 	public static function respond($result, $format = 'xml') {
 		$request = \OC::$server->getRequest();
 
 		// Send 401 headers if unauthorised
-		if ($result->getStatusCode() === API::RESPOND_UNAUTHORISED) {
+		if ($result->getStatusCode() === \OCP\AppFramework\OCSController::RESPOND_UNAUTHORISED) {
 			// If request comes from JS return dummy auth request
 			if ($request->getHeader('X-Requested-With') === 'XMLHttpRequest') {
 				header('WWW-Authenticate: DummyBasic realm="Authorisation Required"');
@@ -143,13 +143,13 @@ class OC_API {
 	 */
 	public static function mapStatusCodes($sc) {
 		switch ($sc) {
-			case API::RESPOND_NOT_FOUND:
+			case \OCP\AppFramework\OCSController::RESPOND_NOT_FOUND:
 				return Http::STATUS_NOT_FOUND;
-			case API::RESPOND_SERVER_ERROR:
+			case \OCP\AppFramework\OCSController::RESPOND_SERVER_ERROR:
 				return Http::STATUS_INTERNAL_SERVER_ERROR;
-			case API::RESPOND_UNKNOWN_ERROR:
+			case \OCP\AppFramework\OCSController::RESPOND_UNKNOWN_ERROR:
 				return Http::STATUS_INTERNAL_SERVER_ERROR;
-			case API::RESPOND_UNAUTHORISED:
+			case \OCP\AppFramework\OCSController::RESPOND_UNAUTHORISED:
 				// already handled for v1
 				return null;
 			case 100:

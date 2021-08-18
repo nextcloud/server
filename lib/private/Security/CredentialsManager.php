@@ -1,9 +1,13 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author J0WI <J0WI@users.noreply.github.com>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -22,7 +26,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Security;
 
 use OCP\IDBConnection;
@@ -59,11 +62,11 @@ class CredentialsManager implements ICredentialsManager {
 	 * @param string $identifier
 	 * @param mixed $credentials
 	 */
-	public function store($userId, $identifier, $credentials) {
+	public function store(string $userId, string $identifier, $credentials): void {
 		$value = $this->crypto->encrypt(json_encode($credentials));
 
 		$this->dbConnection->setValues(self::DB_TABLE, [
-			'user' => (string)$userId,
+			'user' => $userId,
 			'identifier' => $identifier,
 		], [
 			'credentials' => $value,
@@ -77,7 +80,7 @@ class CredentialsManager implements ICredentialsManager {
 	 * @param string $identifier
 	 * @return mixed
 	 */
-	public function retrieve($userId, $identifier) {
+	public function retrieve(string $userId, string $identifier) {
 		$qb = $this->dbConnection->getQueryBuilder();
 		$qb->select('credentials')
 			->from(self::DB_TABLE)
@@ -86,7 +89,7 @@ class CredentialsManager implements ICredentialsManager {
 		if ($userId === '') {
 			$qb->andWhere($qb->expr()->emptyString('user'));
 		} else {
-			$qb->andWhere($qb->expr()->eq('user', $qb->createNamedParameter((string)$userId)));
+			$qb->andWhere($qb->expr()->eq('user', $qb->createNamedParameter($userId)));
 		}
 
 		$qResult = $qb->execute();
@@ -108,7 +111,7 @@ class CredentialsManager implements ICredentialsManager {
 	 * @param string $identifier
 	 * @return int rows removed
 	 */
-	public function delete($userId, $identifier) {
+	public function delete(string $userId, string $identifier): int {
 		$qb = $this->dbConnection->getQueryBuilder();
 		$qb->delete(self::DB_TABLE)
 			->where($qb->expr()->eq('identifier', $qb->createNamedParameter($identifier)));
@@ -116,7 +119,7 @@ class CredentialsManager implements ICredentialsManager {
 		if ($userId === '') {
 			$qb->andWhere($qb->expr()->emptyString('user'));
 		} else {
-			$qb->andWhere($qb->expr()->eq('user', $qb->createNamedParameter((string)$userId)));
+			$qb->andWhere($qb->expr()->eq('user', $qb->createNamedParameter($userId)));
 		}
 
 		return $qb->execute();
@@ -128,7 +131,7 @@ class CredentialsManager implements ICredentialsManager {
 	 * @param string $userId
 	 * @return int rows removed
 	 */
-	public function erase($userId) {
+	public function erase(string $userId): int {
 		$qb = $this->dbConnection->getQueryBuilder();
 		$qb->delete(self::DB_TABLE)
 			->where($qb->expr()->eq('user', $qb->createNamedParameter($userId)))

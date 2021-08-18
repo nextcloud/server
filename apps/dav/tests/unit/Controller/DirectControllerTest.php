@@ -18,14 +18,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\Tests\Unit\DAV\Controller;
 
 use OCA\DAV\Controller\DirectController;
@@ -132,7 +131,7 @@ class DirectControllerTest extends TestCase {
 		$this->random->method('generate')
 			->with(
 				60,
-				ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_DIGITS
+				ISecureRandom::CHAR_ALPHANUMERIC
 			)->willReturn('superduperlongtoken');
 
 		$this->directMapper->expects($this->once())
@@ -142,6 +141,8 @@ class DirectControllerTest extends TestCase {
 				$this->assertSame(101, $direct->getFileId());
 				$this->assertSame('superduperlongtoken', $direct->getToken());
 				$this->assertSame(42 + 60 * 60 * 8, $direct->getExpiration());
+
+				return $direct;
 			});
 
 		$this->urlGenerator->method('getAbsoluteURL')

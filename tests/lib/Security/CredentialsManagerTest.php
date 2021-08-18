@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @author Robin McCorkell <rmccorkell@owncloud.com>
  *
@@ -22,9 +25,10 @@
 namespace Test\Security;
 
 use OC\Security\CredentialsManager;
-use OC\SystemConfig;
+use OCP\DB\IResult;
+use OCP\DB\QueryBuilder\IExpressionBuilder;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
-use OCP\ILogger;
 use OCP\Security\ICrypto;
 
 /**
@@ -44,16 +48,14 @@ class CredentialsManagerTest extends \Test\TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 		$this->crypto = $this->createMock(ICrypto::class);
-		$this->dbConnection = $this->getMockBuilder('\OC\DB\Connection')
+		$this->dbConnection = $this->getMockBuilder(IDBConnection::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$this->manager = new CredentialsManager($this->crypto, $this->dbConnection);
 	}
 
 	private function getQueryResult($row) {
-		$result = $this->getMockBuilder('\Doctrine\DBAL\Driver\Statement')
-			->disableOriginalConstructor()
-			->getMock();
+		$result = $this->createMock(IResult::class);
 
 		$result->expects($this->any())
 			->method('fetch')
@@ -91,14 +93,12 @@ class CredentialsManagerTest extends \Test\TestCase {
 			->with('baz')
 			->willReturn(json_encode('bar'));
 
-		$qb = $this->getMockBuilder('\OC\DB\QueryBuilder\QueryBuilder')
-			->setConstructorArgs([
-				$this->dbConnection,
-				$this->createMock(SystemConfig::class),
-				$this->createMock(ILogger::class),
-			])
-			->setMethods(['execute'])
-			->getMock();
+		$eb = $this->createMock(IExpressionBuilder::class);
+		$qb = $this->createMock(IQueryBuilder::class);
+		$qb->method('select')->willReturnSelf();
+		$qb->method('from')->willReturnSelf();
+		$qb->method('where')->willReturnSelf();
+		$qb->method('expr')->willReturn($eb);
 		$qb->expects($this->once())
 			->method('execute')
 			->willReturn($this->getQueryResult(['credentials' => 'baz']));

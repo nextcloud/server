@@ -8,6 +8,7 @@
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Juan Pablo Villafañez <jvillafanez@solidgear.es>
  * @author Juan Pablo Villafáñez <jvillafanez@solidgear.es>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Philipp Kapfer <philipp.kapfer@gmx.at>
@@ -16,7 +17,7 @@
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Roland Tapken <roland@bitarbeiter.net>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -33,7 +34,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_External\Lib\Storage;
 
 use Icewind\SMB\ACL;
@@ -61,6 +61,7 @@ use OCP\Constants;
 use OCP\Files\EntityTooLargeException;
 use OCP\Files\Notify\IChange;
 use OCP\Files\Notify\IRenameChange;
+use OCP\Files\NotPermittedException;
 use OCP\Files\Storage\INotifyStorage;
 use OCP\Files\StorageAuthException;
 use OCP\Files\StorageNotAvailableException;
@@ -218,7 +219,7 @@ class SMB extends Common implements INotifyStorage {
 	private function getACL(IFileInfo $file): ?ACL {
 		$acls = $file->getAcls();
 		foreach ($acls as $user => $acl) {
-			[, $user] = explode('\\', $user); // strip domain
+			[, $user] = $this->splitUser($user); // strip domain
 			if ($user === $this->server->getAuth()->getUsername()) {
 				return $acl;
 			}
@@ -235,7 +236,11 @@ class SMB extends Common implements INotifyStorage {
 	protected function getFolderContents($path): iterable {
 		try {
 			$path = ltrim($this->buildPath($path), '/');
-			$files = $this->share->dir($path);
+			try {
+				$files = $this->share->dir($path);
+			} catch (ForbiddenException $e) {
+				throw new NotPermittedException();
+			}
 			foreach ($files as $file) {
 				$this->statCache[$path . '/' . $file->getName()] = $file;
 			}
@@ -252,7 +257,7 @@ class SMB extends Common implements INotifyStorage {
 						// additionally, it's better to have false negatives here then false positives
 						if ($acl->denies(ACL::MASK_READ) || $acl->denies(ACL::MASK_EXECUTE)) {
 							$this->logger->debug('Hiding non readable entry ' . $file->getName());
-							return false;
+							continue;
 						}
 					}
 
@@ -441,7 +446,7 @@ class SMB extends Common implements INotifyStorage {
 	/**
 	 * @param string $path
 	 * @param string $mode
-	 * @return resource|false
+	 * @return resource|bool
 	 */
 	public function fopen($path, $mode) {
 		$fullPath = $this->buildPath($path);
@@ -551,7 +556,13 @@ class SMB extends Common implements INotifyStorage {
 	}
 
 	public function getMetaData($path) {
-		$fileInfo = $this->getFileInfo($path);
+		try {
+			$fileInfo = $this->getFileInfo($path);
+		} catch (NotFoundException $e) {
+			return null;
+		} catch (ForbiddenException $e) {
+			return null;
+		}
 		if (!$fileInfo) {
 			return null;
 		}
@@ -562,7 +573,9 @@ class SMB extends Common implements INotifyStorage {
 	private function getMetaDataFromFileInfo(IFileInfo $fileInfo) {
 		$permissions = Constants::PERMISSION_READ + Constants::PERMISSION_SHARE;
 
-		if (!$fileInfo->isReadOnly()) {
+		if (
+			!$fileInfo->isReadOnly() || $fileInfo->isDirectory()
+		) {
 			$permissions += Constants::PERMISSION_DELETE;
 			$permissions += Constants::PERMISSION_UPDATE;
 			if ($fileInfo->isDirectory()) {
@@ -595,7 +608,7 @@ class SMB extends Common implements INotifyStorage {
 			$files = $this->getFolderContents($path);
 		} catch (NotFoundException $e) {
 			return false;
-		} catch (ForbiddenException $e) {
+		} catch (NotPermittedException $e) {
 			return false;
 		}
 		$names = array_map(function ($info) {
@@ -664,7 +677,7 @@ class SMB extends Common implements INotifyStorage {
 			$info = $this->getFileInfo($path);
 			// following windows behaviour for read-only folders: they can be written into
 			// (https://support.microsoft.com/en-us/kb/326549 - "cause" section)
-			return ($this->showHidden || !$info->isHidden()) && (!$info->isReadOnly() || $this->is_dir($path));
+			return ($this->showHidden || !$info->isHidden()) && (!$info->isReadOnly() || $info->isDirectory());
 		} catch (NotFoundException $e) {
 			return false;
 		} catch (ForbiddenException $e) {

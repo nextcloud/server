@@ -11,6 +11,7 @@ declare(strict_types=1);
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author J0WI <J0WI@users.noreply.github.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Juan Pablo Villafáñez <jvillafanez@solidgear.es>
  * @author Julius Härtl <jus@bitgrid.net>
@@ -23,7 +24,7 @@ declare(strict_types=1);
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Thomas Tanghus <thomas@tanghus.net>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -40,7 +41,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\AppFramework\Http;
 
 use OC\Security\CSRF\CsrfToken;
@@ -75,20 +75,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	// Android Chrome user agent: https://developers.google.com/chrome/mobile/docs/user-agent
 	public const USER_AGENT_ANDROID_MOBILE_CHROME = '#Android.*Chrome/[.0-9]*#';
 	public const USER_AGENT_FREEBOX = '#^Mozilla/5\.0$#';
-	public const REGEX_LOCALHOST = '/^(127\.0\.0\.1|localhost|::1)$/';
-
-	/**
-	 * @deprecated use \OCP\IRequest::USER_AGENT_CLIENT_IOS instead
-	 */
-	public const USER_AGENT_OWNCLOUD_IOS = '/^Mozilla\/5\.0 \(iOS\) (ownCloud|Nextcloud)\-iOS.*$/';
-	/**
-	 * @deprecated use \OCP\IRequest::USER_AGENT_CLIENT_ANDROID instead
-	 */
-	public const USER_AGENT_OWNCLOUD_ANDROID = '/^Mozilla\/5\.0 \(Android\) ownCloud\-android.*$/';
-	/**
-	 * @deprecated use \OCP\IRequest::USER_AGENT_CLIENT_DESKTOP instead
-	 */
-	public const USER_AGENT_OWNCLOUD_DESKTOP = '/^Mozilla\/5\.0 \([A-Za-z ]+\) (mirall|csyncoC)\/.*$/';
+	public const REGEX_LOCALHOST = '/^(127\.0\.0\.1|localhost|\[::1\])$/';
 
 	protected $inputStream;
 	protected $content;
@@ -134,10 +121,10 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * @param IConfig $config
 	 * @param CsrfTokenManager|null $csrfTokenManager
 	 * @param string $stream
-	 * @see http://www.php.net/manual/en/reserved.variables.php
+	 * @see https://www.php.net/manual/en/reserved.variables.php
 	 */
-	public function __construct(array $vars = [],
-								ISecureRandom $secureRandom = null,
+	public function __construct(array $vars,
+								ISecureRandom $secureRandom,
 								IConfig $config,
 								CsrfTokenManager $csrfTokenManager = null,
 								string $stream = 'php://input') {
@@ -588,7 +575,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		}
 
 		if (empty($this->requestId)) {
-			$validChars = ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_DIGITS;
+			$validChars = ISecureRandom::CHAR_ALPHANUMERIC;
 			$this->requestId = $this->secureRandom->generate(20, $validChars);
 		}
 
@@ -775,7 +762,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 
 		// strip off the script name's dir and file name
 		// FIXME: Sabre does not really belong here
-		list($path, $name) = \Sabre\Uri\split($scriptName);
+		[$path, $name] = \Sabre\Uri\split($scriptName);
 		if (!empty($path)) {
 			if ($path === $pathInfo || strpos($pathInfo, $path.'/') === 0) {
 				$pathInfo = substr($pathInfo, \strlen($path));

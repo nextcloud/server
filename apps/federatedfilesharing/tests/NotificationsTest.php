@@ -6,6 +6,7 @@
  * @author Björn Schießle <bjoern@schiessle.org>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Samuel <faust64@gmail.com>
  *
  * @license AGPL-3.0
  *
@@ -22,7 +23,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\FederatedFileSharing\Tests;
 
 use OCA\FederatedFileSharing\AddressHandler;
@@ -32,6 +32,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\ICloudFederationFactory;
 use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Http\Client\IClientService;
+use OCP\ILogger;
 use OCP\OCS\IDiscoveryService;
 
 class NotificationsTest extends \Test\TestCase {
@@ -57,6 +58,9 @@ class NotificationsTest extends \Test\TestCase {
 	/** @var IEventDispatcher|\PHPUnit\Framework\MockObject\MockObject */
 	private $eventDispatcher;
 
+	/** @var ILogger|\PHPUnit\Framework\MockObject\MockObject */
+	private $logger;
+
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -65,6 +69,7 @@ class NotificationsTest extends \Test\TestCase {
 		$this->httpClientService = $this->getMockBuilder('OCP\Http\Client\IClientService')->getMock();
 		$this->addressHandler = $this->getMockBuilder('OCA\FederatedFileSharing\AddressHandler')
 			->disableOriginalConstructor()->getMock();
+		$this->logger = $this->createMock(ILogger::class);
 		$this->cloudFederationProviderManager = $this->createMock(ICloudFederationProviderManager::class);
 		$this->cloudFederationFactory = $this->createMock(ICloudFederationFactory::class);
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
@@ -82,6 +87,7 @@ class NotificationsTest extends \Test\TestCase {
 				$this->addressHandler,
 				$this->httpClientService,
 				$this->discoveryService,
+				$this->logger,
 				$this->jobList,
 				$this->cloudFederationProviderManager,
 				$this->cloudFederationFactory,
@@ -94,6 +100,7 @@ class NotificationsTest extends \Test\TestCase {
 						$this->addressHandler,
 						$this->httpClientService,
 						$this->discoveryService,
+						$this->logger,
 						$this->jobList,
 						$this->cloudFederationProviderManager,
 						$this->cloudFederationFactory,

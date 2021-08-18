@@ -19,20 +19,20 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\BackgroundJob;
 
 use DateInterval;
-use OC\BackgroundJob\Job;
 use OCA\DAV\CalDAV\WebcalCaching\RefreshWebcalService;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\BackgroundJob\IJobList;
+use OCP\BackgroundJob\Job;
 use OCP\IConfig;
 use OCP\ILogger;
 use Sabre\VObject\DateTimeParser;
@@ -65,6 +65,7 @@ class RefreshWebcalJob extends Job {
 	 * @param ITimeFactory $timeFactory
 	 */
 	public function __construct(RefreshWebcalService $refreshWebcalService, IConfig $config, ILogger $logger, ITimeFactory $timeFactory) {
+		parent::__construct($timeFactory);
 		$this->refreshWebcalService = $refreshWebcalService;
 		$this->config = $config;
 		$this->logger = $logger;
@@ -76,7 +77,7 @@ class RefreshWebcalJob extends Job {
 	 *
 	 * @inheritdoc
 	 */
-	public function execute($jobList, ILogger $logger = null) {
+	public function execute(IJobList $jobList, ILogger $logger = null) {
 		$subscription = $this->refreshWebcalService->getSubscription($this->argument['principaluri'], $this->argument['uri']);
 		if (!$subscription) {
 			return;

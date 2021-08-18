@@ -7,23 +7,37 @@
 
 namespace Icewind\SMB\Exception;
 
+use Throwable;
+
+/**
+ * @psalm-consistent-constructor
+ */
 class Exception extends \Exception {
-	public static function unknown($path, $error) {
-		$message = 'Unknown error (' . $error . ')';
+	public function __construct(string $message = "", int $code = 0, Throwable $previous = null) {
+		parent::__construct($message, $code, $previous);
+	}
+
+	/**
+	 * @param string|null $path
+	 * @param string|int|null $error
+	 * @return Exception
+	 */
+	public static function unknown(?string $path, $error): Exception {
+		$message = 'Unknown error (' . (string)$error . ')';
 		if ($path) {
 			$message .= ' for ' . $path;
 		}
 
-		return new Exception($message, is_string($error) ? 0 : $error);
+		return new Exception($message, is_int($error) ? $error : 0);
 	}
 
 	/**
-	 * @param array $exceptionMap
-	 * @param mixed $error
-	 * @param string $path
+	 * @param array<int|string, class-string<Exception>> $exceptionMap
+	 * @param string|int|null $error
+	 * @param string|null $path
 	 * @return Exception
 	 */
-	public static function fromMap(array $exceptionMap, $error, $path) {
+	public static function fromMap(array $exceptionMap, $error, ?string $path): Exception {
 		if (isset($exceptionMap[$error])) {
 			$exceptionClass = $exceptionMap[$error];
 			if (is_numeric($error)) {

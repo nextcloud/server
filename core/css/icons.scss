@@ -229,6 +229,7 @@ audio, canvas, embed, iframe, img, input, object, video {
 @include icon-black-white('quota', 'actions', 1, true);
 @include icon-black-white('rename', 'actions', 1, true);
 @include icon-black-white('screen', 'actions', 1, true);
+@include icon-black-white('template-add', 'actions', 1, true);
 
 .icon-screen-white {
 	filter: drop-shadow(1px 1px 4px var(--color-box-shadow));
@@ -357,6 +358,8 @@ audio, canvas, embed, iframe, img, input, object, video {
 @include icon-black-white('disabled-user', 'actions', 1, true);
 @include icon-black-white('disabled-users', 'actions', 1, true);
 @include icon-black-white('user-admin', 'actions', 1, true);
+
+@include icon-black-white('alert-outline', 'actions', 1, true);
 
 /* PLACES ------------------------------------------------------------------- */
 .icon-calendar {

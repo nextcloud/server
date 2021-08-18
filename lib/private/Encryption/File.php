@@ -8,7 +8,7 @@
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -25,10 +25,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Encryption;
 
 use OC\Cache\CappedMemoryCache;
+use OCA\Files_External\Service\GlobalStoragesService;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\Share\IManager;
@@ -70,7 +70,7 @@ class File implements \OCP\Encryption\IFile {
 	public function getAccessList($path) {
 
 		// Make sure that a share key is generated for the owner too
-		list($owner, $ownerPath) = $this->util->getUidAndFilename($path);
+		[$owner, $ownerPath] = $this->util->getUidAndFilename($path);
 
 		// always add owner to the list of users with access to the file
 		$userIds = [$owner];
@@ -111,10 +111,12 @@ class File implements \OCP\Encryption\IFile {
 
 		// check if it is a group mount
 		if (\OCP\App::isEnabled("files_external")) {
-			$mounts = \OCA\Files_External\MountConfig::getSystemMountPoints();
-			foreach ($mounts as $mount) {
-				if ($mount['mountpoint'] == substr($ownerPath, 1, strlen($mount['mountpoint']))) {
-					$mountedFor = $this->util->getUserWithAccessToMountPoint($mount['applicable']['users'], $mount['applicable']['groups']);
+			/** @var GlobalStoragesService $storageService */
+			$storageService = \OC::$server->get(GlobalStoragesService::class);
+			$storages = $storageService->getAllStorages();
+			foreach ($storages as $storage) {
+				if ($storage->getMountPoint() == substr($ownerPath, 0, strlen($storage->getMountPoint()))) {
+					$mountedFor = $this->util->getUserWithAccessToMountPoint($storage->getApplicableUsers(), $storage->getApplicableGroups());
 					$userIds = array_merge($userIds, $mountedFor);
 				}
 			}

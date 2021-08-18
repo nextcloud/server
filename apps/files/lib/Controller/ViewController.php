@@ -7,16 +7,16 @@
  * @author fnuesse <felix.nuesse@t-online.de>
  * @author fnuesse <fnuesse@techfak.uni-bielefeld.de>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Max Kovalenko <mxss1998@yandex.ru>
- * @author Michael Weimann <mail@michael-weimann.eu>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Nina Pypchenko <22447785+nina-py@users.noreply.github.com>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -33,7 +33,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files\Controller;
 
 use OCA\Files\Activity\Helper;
@@ -46,15 +45,18 @@ use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Services\IInitialState;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
+use OCP\Files\Template\ITemplateManager;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
+use OCP\Share\IManager;
 
 /**
  * Class ViewController
@@ -82,6 +84,12 @@ class ViewController extends Controller {
 	protected $rootFolder;
 	/** @var Helper */
 	protected $activityHelper;
+	/** @var IInitialState */
+	private $initialState;
+	/** @var ITemplateManager */
+	private $templateManager;
+	/** @var IManager */
+	private $shareManager;
 
 	public function __construct(string $appName,
 		IRequest $request,
@@ -92,7 +100,10 @@ class ViewController extends Controller {
 		IUserSession $userSession,
 		IAppManager $appManager,
 		IRootFolder $rootFolder,
-		Helper $activityHelper
+		Helper $activityHelper,
+		IInitialState $initialState,
+		ITemplateManager $templateManager,
+		IManager $shareManager
 	) {
 		parent::__construct($appName, $request);
 		$this->appName = $appName;
@@ -105,6 +116,9 @@ class ViewController extends Controller {
 		$this->appManager = $appManager;
 		$this->rootFolder = $rootFolder;
 		$this->activityHelper = $activityHelper;
+		$this->initialState = $initialState;
+		$this->templateManager = $templateManager;
+		$this->shareManager = $shareManager;
 	}
 
 	/**
@@ -151,7 +165,7 @@ class ViewController extends Controller {
 	public function showFile(string $fileid = null): Response {
 		// This is the entry point from the `/f/{fileid}` URL which is hardcoded in the server.
 		try {
-			return $this->redirectToFile($fileid);
+			return $this->redirectToFile($fileid, true);
 		} catch (NotFoundException $e) {
 			return new RedirectResponse($this->urlGenerator->linkToRoute('files.view.index', ['fileNotFound' => true]));
 		}
@@ -165,10 +179,11 @@ class ViewController extends Controller {
 	 * @param string $view
 	 * @param string $fileid
 	 * @param bool $fileNotFound
+	 * @param string $openfile - the openfile URL parameter if it was present in the initial request
 	 * @return TemplateResponse|RedirectResponse
 	 * @throws NotFoundException
 	 */
-	public function index($dir = '', $view = '', $fileid = null, $fileNotFound = false) {
+	public function index($dir = '', $view = '', $fileid = null, $fileNotFound = false, $openfile = null) {
 		if ($fileid !== null) {
 			try {
 				return $this->redirectToFile($fileid);
@@ -182,6 +197,7 @@ class ViewController extends Controller {
 		// Load the files we need
 		\OCP\Util::addStyle('files', 'merged');
 		\OCP\Util::addScript('files', 'merged-index');
+		\OCP\Util::addScript('files', 'dist/templates');
 
 		// mostly for the home storage's free space
 		// FIXME: Make non static
@@ -205,17 +221,17 @@ class ViewController extends Controller {
 
 		$navBarPositionPosition = 6;
 		$currentCount = 0;
-		foreach ($favElements['folders'] as $dir) {
-			$link = $this->urlGenerator->linkToRoute('files.view.index', ['dir' => $dir, 'view' => 'files']);
+		foreach ($favElements['folders'] as $favElement) {
+			$link = $this->urlGenerator->linkToRoute('files.view.index', ['dir' => $favElement, 'view' => 'files']);
 			$sortingValue = ++$currentCount;
 			$element = [
-				'id' => str_replace('/', '-', $dir),
+				'id' => str_replace('/', '-', $favElement),
 				'view' => 'files',
 				'href' => $link,
-				'dir' => $dir,
+				'dir' => $favElement,
 				'order' => $navBarPositionPosition,
 				'folderPosition' => $sortingValue,
-				'name' => basename($dir),
+				'name' => basename($favElement),
 				'icon' => 'files',
 				'quickaccesselement' => 'true'
 			];
@@ -285,19 +301,23 @@ class ViewController extends Controller {
 		if (class_exists(LoadViewer::class)) {
 			$this->eventDispatcher->dispatchTyped(new LoadViewer());
 		}
+		$this->initialState->provideInitialState('templates_path', $this->templateManager->hasTemplateDirectory() ? $this->templateManager->getTemplatePath() : false);
+		$this->initialState->provideInitialState('templates', $this->templateManager->listCreators());
 
 		$params = [];
 		$params['usedSpacePercent'] = (int) $storageInfo['relative'];
 		$params['owner'] = $storageInfo['owner'] ?? '';
 		$params['ownerDisplayName'] = $storageInfo['ownerDisplayName'] ?? '';
 		$params['isPublic'] = false;
-		$params['allowShareWithLink'] = $this->config->getAppValue('core', 'shareapi_allow_links', 'yes');
+		$params['allowShareWithLink'] = $this->shareManager->shareApiAllowLinks() ? 'yes' : 'no';
 		$params['defaultFileSorting'] = $this->config->getUserValue($user, 'files', 'file_sorting', 'name');
 		$params['defaultFileSortingDirection'] = $this->config->getUserValue($user, 'files', 'file_sorting_direction', 'asc');
 		$params['showgridview'] = $this->config->getUserValue($user, 'files', 'show_grid', false);
-		$params['isIE'] = \OCP\Util::isIE();
+		$params['isIE'] = \OC_Util::isIe();
 		$showHidden = (bool) $this->config->getUserValue($this->userSession->getUser()->getUID(), 'files', 'show_hidden', false);
 		$params['showHiddenFiles'] = $showHidden ? 1 : 0;
+		$cropImagePreviews = (bool) $this->config->getUserValue($this->userSession->getUser()->getUID(), 'files', 'crop_image_previews', true);
+		$params['cropImagePreviews'] = $cropImagePreviews ? 1 : 0;
 		$params['fileNotFound'] = $fileNotFound ? 1 : 0;
 		$params['appNavigation'] = $nav;
 		$params['appContents'] = $contentItems;
@@ -312,17 +332,70 @@ class ViewController extends Controller {
 		$policy->addAllowedFrameDomain('\'self\'');
 		$response->setContentSecurityPolicy($policy);
 
+		$this->provideInitialState($dir, $openfile);
+
 		return $response;
+	}
+
+	/**
+	 * Add openFileInfo in initialState if $openfile is set.
+	 * @param string $dir - the ?dir= URL param
+	 * @param string $openfile - the ?openfile= URL param
+	 * @return void
+	 */
+	private function provideInitialState(string $dir, ?string $openfile): void {
+		if ($openfile === null) {
+			return;
+		}
+
+		$user = $this->userSession->getUser();
+
+		if ($user === null) {
+			return;
+		}
+
+		$uid = $user->getUID();
+		$userFolder = $this->rootFolder->getUserFolder($uid);
+		$nodes = $userFolder->getById((int) $openfile);
+		$node = array_shift($nodes);
+
+		if ($node === null) {
+			return;
+		}
+
+		// properly format full path and make sure
+		// we're relative to the user home folder
+		$isRoot = $node === $userFolder;
+		$path = $userFolder->getRelativePath($node->getPath());
+		$directory = $userFolder->getRelativePath($node->getParent()->getPath());
+
+		// Prevent opening a file from another folder.
+		if ($dir !== $directory) {
+			return;
+		}
+
+		$this->initialState->provideInitialState(
+			'openFileInfo', [
+				'id' => $node->getId(),
+				'name' => $isRoot ? '' : $node->getName(),
+				'path' => $path,
+				'directory' => $directory,
+				'mime' => $node->getMimetype(),
+				'type' => $node->getType(),
+				'permissions' => $node->getPermissions(),
+			]
+		);
 	}
 
 	/**
 	 * Redirects to the file list and highlight the given file id
 	 *
 	 * @param string $fileId file id to show
+	 * @param bool $setOpenfile - whether or not to set the openfile URL parameter
 	 * @return RedirectResponse redirect response or not found response
 	 * @throws \OCP\Files\NotFoundException
 	 */
-	private function redirectToFile($fileId) {
+	private function redirectToFile($fileId, bool $setOpenfile = false) {
 		$uid = $this->userSession->getUser()->getUID();
 		$baseFolder = $this->rootFolder->getUserFolder($uid);
 		$files = $baseFolder->getById($fileId);
@@ -344,6 +417,11 @@ class ViewController extends Controller {
 				$params['dir'] = $baseFolder->getRelativePath($file->getParent()->getPath());
 				// and scroll to the entry
 				$params['scrollto'] = $file->getName();
+
+				if ($setOpenfile) {
+					// forward the openfile URL parameter.
+					$params['openfile'] = $fileId;
+				}
 			}
 
 			return new RedirectResponse($this->urlGenerator->linkToRoute('files.view.index', $params));

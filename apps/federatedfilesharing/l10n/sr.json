@@ -16,7 +16,6 @@
     "Federated Share request sent, you will receive an invitation. Check your notifications." : "Послат захтев за здружено дељење, добићете позивницу. Проверавајте обавештења.",
     "Couldn't establish a federated share, it looks like the server to federate with is too old (Nextcloud <= 9)." : "Не могу да успоставим здружено дељење, изгледа да је сервер са којим се треба здружити превише стар (Некстклауд верзија <=9).",
     "It is not allowed to send federated group shares from this server." : "Са овог сервера није дозвољено да шаљете групна дељења ка здруженим серверима.",
-    "Sharing %1$s failed, because this item is already shared with %2$s" : "Дељење %1$s није успело зато што се ова ставка већ дели са %2$s",
     "Not allowed to create a federated share with the same user" : "Није дозвољено да се направи здружено дељење са истим корисником",
     "File is already shared with %s" : "Фајл је већ дељен са %s",
     "Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable or uses a self-signed certificate." : "Дељење %1$s није успело, не могу да нађем %2$s, можда сервер тренутно није доступан или користи самопотписани сертификат.",
@@ -35,7 +34,6 @@
     "Provide federated file sharing across servers" : "Пружа здружено дељење фајлова између сервера",
     "Federated Cloud Sharing" : "Здружено дељење у облаку",
     "Open documentation" : "Отвори документацију",
-    "Adjust how people can share between servers." : "Подеси како људи деле фајлове између сервера.",
     "Allow users on this server to send shares to other servers (this option also allows WebDAV access to public shares)" : "Дозволи корисницима овог сервера да шаљу дељења на друге сервере (ова опција такође дозвољава WebDAV приступ јавним дељењима)",
     "Allow users on this server to receive shares from other servers" : "Дозволи корисницима овог сервера да примају дељења са других сервера",
     "Allow users on this server to send shares to groups on other servers" : "Дозволи корисницима са овог сервера да деле са групама на другим серверима",
@@ -49,6 +47,6 @@
     "Add to your website" : "Додај на свој веб сајт",
     "Share with me via Nextcloud" : "Дели са мном преко Некстклауда",
     "HTML Code:" : "ХТМЛ кôд:",
-    "Allow users on this server to send shares to other servers" : "Дозволи корисницима овог сервера да шаљу дељења на друге сервере"
+    "Adjust how people can share between servers." : "Подеси како људи деле фајлове између сервера."
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }

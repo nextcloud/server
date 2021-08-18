@@ -4,7 +4,6 @@
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @license AGPL-3.0
@@ -22,7 +21,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\CardDAV;
 
 use OCA\DAV\CardDAV\Xml\Groups;
@@ -44,15 +42,15 @@ class Plugin extends \Sabre\CardDAV\Plugin {
 	 */
 	protected function getAddressbookHomeForPrincipal($principal) {
 		if (strrpos($principal, 'principals/users', -strlen($principal)) !== false) {
-			list(, $principalId) = \Sabre\Uri\split($principal);
+			[, $principalId] = \Sabre\Uri\split($principal);
 			return self::ADDRESSBOOK_ROOT . '/users/' . $principalId;
 		}
 		if (strrpos($principal, 'principals/groups', -strlen($principal)) !== false) {
-			list(, $principalId) = \Sabre\Uri\split($principal);
+			[, $principalId] = \Sabre\Uri\split($principal);
 			return self::ADDRESSBOOK_ROOT . '/groups/' . $principalId;
 		}
 		if (strrpos($principal, 'principals/system', -strlen($principal)) !== false) {
-			list(, $principalId) = \Sabre\Uri\split($principal);
+			[, $principalId] = \Sabre\Uri\split($principal);
 			return self::ADDRESSBOOK_ROOT . '/system/' . $principalId;
 		}
 	}

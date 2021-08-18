@@ -29,6 +29,9 @@
 			<h5 :title="title">
 				{{ title }}
 			</h5>
+			<p v-if="subtitle">
+				{{ subtitle }}
+			</p>
 		</div>
 
 		<!-- clipboard -->
@@ -44,7 +47,7 @@
 		</Actions>
 
 		<!-- pending actions -->
-		<Actions v-if="!loading && (pendingPassword || pendingExpirationDate)"
+		<Actions v-if="!pending && (pendingPassword || pendingExpirationDate)"
 			class="sharing-entry__actions"
 			menu-align="right"
 			:open.sync="open"
@@ -128,7 +131,7 @@
 			:open.sync="open"
 			@close="onMenuClose">
 			<template v-if="share">
-				<template v-if="share.canEdit">
+				<template v-if="share.canEdit && canReshare">
 					<!-- Custom Label -->
 					<ActionInput
 						ref="label"
@@ -141,7 +144,7 @@
 						:class="{ error: errors.label }"
 						:disabled="saving"
 						:aria-label="t('files_sharing', 'Share label')"
-						:value="share.newLabel || share.label"
+						:value="share.newLabel !== undefined ? share.newLabel : share.label"
 						icon="icon-edit"
 						maxlength="255"
 						@update:value="onLabelChange"
@@ -308,7 +311,7 @@
 			<!-- Create new share -->
 			<ActionButton v-else-if="canReshare"
 				class="new-share-link"
-				icon="icon-add"
+				:icon="loading ? 'icon-loading-small' : 'icon-add'"
 				@click.prevent.stop="onNewLinkShare">
 				{{ t('files_sharing', 'Create a new share link') }}
 			</ActionButton>
@@ -321,7 +324,6 @@
 
 <script>
 import { generateUrl } from '@nextcloud/router'
-import axios from '@nextcloud/axios'
 import Vue from 'vue'
 
 import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
@@ -335,10 +337,9 @@ import Actions from '@nextcloud/vue/dist/Components/Actions'
 import Avatar from '@nextcloud/vue/dist/Components/Avatar'
 import Tooltip from '@nextcloud/vue/dist/Directives/Tooltip'
 
+import GeneratePassword from '../utils/GeneratePassword'
 import Share from '../models/Share'
 import SharesMixin from '../mixins/SharesMixin'
-
-const passwordSet = 'abcdefgijkmnopqrstwxyzABCDEFGHJKLMNPQRSTWXYZ23456789'
 
 export default {
 	name: 'SharingEntryLink',
@@ -373,6 +374,9 @@ export default {
 			copySuccess: true,
 			copied: false,
 
+			// Are we waiting for password/expiration date
+			pending: false,
+
 			publicUploadRWValue: OC.PERMISSION_UPDATE | OC.PERMISSION_CREATE | OC.PERMISSION_READ | OC.PERMISSION_DELETE,
 			publicUploadRValue: OC.PERMISSION_READ,
 			publicUploadWValue: OC.PERMISSION_CREATE,
@@ -403,18 +407,28 @@ export default {
 
 		/**
 		 * Link share label
-		 * TODO: allow editing
 		 * @returns {string}
 		 */
 		title() {
 			// if we have a valid existing share (not pending)
 			if (this.share && this.share.id) {
 				if (!this.isShareOwner && this.share.ownerDisplayName) {
+					if (this.isEmailShareType) {
+						return t('files_sharing', '{shareWith} by {initiator}', {
+							shareWith: this.share.shareWith,
+							initiator: this.share.ownerDisplayName,
+						})
+					}
 					return t('files_sharing', 'Shared via link by {initiator}', {
 						initiator: this.share.ownerDisplayName,
 					})
 				}
 				if (this.share.label && this.share.label.trim() !== '') {
+					if (this.isEmailShareType) {
+						return t('files_sharing', 'Mail share ({label})', {
+							label: this.share.label.trim(),
+						})
+					}
 					return t('files_sharing', 'Share link ({label})', {
 						label: this.share.label.trim(),
 					})
@@ -424,6 +438,18 @@ export default {
 				}
 			}
 			return t('files_sharing', 'Share link')
+		},
+
+		/**
+		 * Show the email on a second line if a label is set for mail shares
+		 * @returns {string}
+		 */
+		subtitle() {
+			if (this.isEmailShareType
+				&& this.title !== this.share.shareWith) {
+				return this.share.shareWith
+			}
+			return null
 		},
 
 		/**
@@ -463,7 +489,7 @@ export default {
 			},
 			async set(enabled) {
 				// TODO: directly save after generation to make sure the share is always protected
-				Vue.set(this.share, 'password', enabled ? await this.generatePassword() : '')
+				Vue.set(this.share, 'password', enabled ? await GeneratePassword() : '')
 				Vue.set(this.share, 'newPassword', this.share.password)
 			},
 		},
@@ -612,6 +638,11 @@ export default {
 		 * Create a new share link and append it to the list
 		 */
 		async onNewLinkShare() {
+			// do not run again if already loading
+			if (this.loading) {
+				return
+			}
+
 			const shareDefaults = {
 				share_type: OC.Share.SHARE_TYPE_LINK,
 			}
@@ -621,14 +652,16 @@ export default {
 				shareDefaults.expiration = this.config.defaultExpirationDateString
 			}
 			if (this.config.enableLinkPasswordByDefault) {
-				shareDefaults.password = await this.generatePassword()
+				shareDefaults.password = await GeneratePassword()
 			}
 
-			// do not push yet if we need a password or an expiration date
+			// do not push yet if we need a password or an expiration date: show pending menu
 			if (this.config.enforcePasswordForPublicLink || this.config.isDefaultExpireDateEnforced) {
-				this.loading = true
+				this.pending = true
+
 				// if a share already exists, pushing it
 				if (this.share && !this.share.id) {
+					// if the share is valid, create it on the server
 					if (this.checkShare(this.share)) {
 						await this.pushNewLinkShare(this.share, true)
 						return true
@@ -642,7 +675,7 @@ export default {
 				// ELSE, show the pending popovermenu
 				// if password enforced, pre-fill with random one
 				if (this.config.enforcePasswordForPublicLink) {
-					shareDefaults.password = await this.generatePassword()
+					shareDefaults.password = await GeneratePassword()
 				}
 
 				// create share & close menu
@@ -654,10 +687,10 @@ export default {
 				// open the menu on the
 				// freshly created share component
 				this.open = false
-				this.loading = false
+				this.pending = false
 				component.open = true
 
-			// Nothing enforced, creating share directly
+			// Nothing is enforced, creating share directly
 			} else {
 				const share = new Share(shareDefaults)
 				await this.pushNewLinkShare(share)
@@ -674,6 +707,11 @@ export default {
 		 */
 		async pushNewLinkShare(share, update) {
 			try {
+				// do nothing if we're already pending creation
+				if (this.loading) {
+					return true
+				}
+
 				this.loading = true
 				this.errors = {}
 
@@ -760,35 +798,6 @@ export default {
 				this.queueUpdate('label')
 			}
 		},
-
-		/**
-		 * Generate a valid policy password or
-		 * request a valid password if password_policy
-		 * is enabled
-		 *
-		 * @returns {string} a valid password
-		 */
-		async generatePassword() {
-			// password policy is enabled, let's request a pass
-			if (this.config.passwordPolicy.api && this.config.passwordPolicy.api.generate) {
-				try {
-					const request = await axios.get(this.config.passwordPolicy.api.generate)
-					if (request.data.ocs.data.password) {
-						return request.data.ocs.data.password
-					}
-				} catch (error) {
-					console.info('Error generating password from password_policy', error)
-				}
-			}
-
-			// generate password of 10 length based on passwordSet
-			return Array(10).fill(0)
-				.reduce((prev, curr) => {
-					prev += passwordSet.charAt(Math.floor(Math.random() * passwordSet.length))
-					return prev
-				}, '')
-		},
-
 		async copyLink() {
 			try {
 				await this.$copyText(this.shareLink)
@@ -911,6 +920,9 @@ export default {
 			text-overflow: ellipsis;
 			overflow: hidden;
 			white-space: nowrap;
+		}
+		p {
+			color: var(--color-text-maxcontrast);
 		}
 	}
 

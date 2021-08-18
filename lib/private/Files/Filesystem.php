@@ -18,7 +18,7 @@
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Sam Tuke <mail@samtuke.com>
  * @author Stephan Peijnik <speijnik@anexia-it.com>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -35,29 +35,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
-/**
- * Class for abstraction of filesystem functions
- * This class won't call any filesystem functions for itself but will pass them to the correct OC_Filestorage object
- * this class should also handle all the file permission related stuff
- *
- * Hooks provided:
- *   read(path)
- *   write(path, &run)
- *   post_write(path)
- *   create(path, &run) (when a file is created, both create and write will be emitted in that order)
- *   post_create(path)
- *   delete(path, &run)
- *   post_delete(path)
- *   rename(oldpath,newpath, &run)
- *   post_rename(oldpath,newpath)
- *   copy(oldpath,newpath, &run) (if the newpath doesn't exists yes, copy, create and write will be emitted in that order)
- *   post_rename(oldpath,newpath)
- *   post_initMountPoints(user, user_dir)
- *
- *   the &run parameter can be set to false to prevent the operation from occurring
- */
-
 namespace OC\Files;
 
 use OC\Cache\CappedMemoryCache;
@@ -312,7 +289,7 @@ class Filesystem {
 	 * get the storage mounted at $mountPoint
 	 *
 	 * @param string $mountPoint
-	 * @return \OC\Files\Storage\Storage
+	 * @return \OC\Files\Storage\Storage|null
 	 */
 	public static function getStorage($mountPoint) {
 		if (!self::$mounts) {
@@ -800,10 +777,6 @@ class Filesystem {
 	 * @return string
 	 */
 	public static function normalizePath($path, $stripTrailingSlash = true, $isAbsolutePath = false, $keepUnicode = false) {
-		if (is_null(self::$normalizedPathCache)) {
-			self::$normalizedPathCache = new CappedMemoryCache(2048);
-		}
-
 		/**
 		 * FIXME: This is a workaround for existing classes and files which call
 		 *        this function with another type than a valid string. This
@@ -812,14 +785,18 @@ class Filesystem {
 		 */
 		$path = (string)$path;
 
+		if ($path === '') {
+			return '/';
+		}
+
+		if (is_null(self::$normalizedPathCache)) {
+			self::$normalizedPathCache = new CappedMemoryCache(2048);
+		}
+
 		$cacheKey = json_encode([$path, $stripTrailingSlash, $isAbsolutePath, $keepUnicode]);
 
 		if ($cacheKey && isset(self::$normalizedPathCache[$cacheKey])) {
 			return self::$normalizedPathCache[$cacheKey];
-		}
-
-		if ($path === '') {
-			return '/';
 		}
 
 		//normalize unicode if possible

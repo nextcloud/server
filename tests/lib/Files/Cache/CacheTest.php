@@ -116,7 +116,7 @@ class CacheTest extends \Test\TestCase {
 	public function testFolder($folder) {
 		if (strpos($folder, 'F09F9890')) {
 			// 4 byte UTF doesn't work on mysql
-			$params = \OC::$server->getDatabaseConnection()->getParams();
+			$params = \OC::$server->get(\OC\DB\Connection::class)->getParams();
 			if (\OC::$server->getDatabaseConnection()->getDatabasePlatform() instanceof MySqlPlatform && $params['charset'] !== 'utf8mb4') {
 				$this->markTestSkipped('MySQL doesn\'t support 4 byte UTF-8');
 			}
@@ -363,7 +363,7 @@ class CacheTest extends \Test\TestCase {
 		$this->assertEquals(3, count($results));
 
 		usort($results, function ($value1, $value2) {
-			return $value1['name'] >= $value2['name'];
+			return $value1['name'] <=> $value2['name'];
 		});
 
 		$this->assertEquals('folder', $results[0]['name']);
@@ -376,7 +376,10 @@ class CacheTest extends \Test\TestCase {
 		static::logout();
 		$user = \OC::$server->getUserManager()->get($userId);
 		if ($user !== null) {
-			$user->delete();
+			try {
+				$user->delete();
+			} catch (\Exception $e) {
+			}
 		}
 	}
 

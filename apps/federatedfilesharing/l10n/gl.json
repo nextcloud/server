@@ -16,7 +16,7 @@
     "Federated Share request sent, you will receive an invitation. Check your notifications." : "Enviouse a solicitude dunha compartición federada, vostede recibirá unha notificación. Comprobe as súas notificacións.",
     "Couldn't establish a federated share, it looks like the server to federate with is too old (Nextcloud <= 9)." : "Non foi posíbel estabelecer unha compartición federada, semella que o servidor  federar é antigo de máis (Nextcloud <= 9).",
     "It is not allowed to send federated group shares from this server." : "Non está permitido enviar unha compartición de grupos federados  dende este servidor.",
-    "Sharing %1$s failed, because this item is already shared with %2$s" : "Produciuse un fallou na compartición de %1$s, este elemento xa está compartido con %2$s",
+    "Sharing %1$s failed, because this item is already shared with user %2$s" : "Fallou a compartición de %1$s por mor de que este elemento xa foi compartido co usuario %2$s",
     "Not allowed to create a federated share with the same user" : "Non está permitido crear unha compartición federada co mesmo usuario",
     "File is already shared with %s" : "O ficheiro xa está a ser compartido con %s",
     "Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable or uses a self-signed certificate." : "Produciuse un fallo ao compartir %1$s Non foi posíbel atopar %2$s, quizais haxa un problema de conexión co servidor  ou emprega un certificado autoasinado.",
@@ -35,7 +35,6 @@
     "Provide federated file sharing across servers" : "Fornece a compartición federada de ficheiros entre servidores",
     "Federated Cloud Sharing" : "Nube federada compartida",
     "Open documentation" : "Abrir a documentación",
-    "Adjust how people can share between servers." : "Axustar como as persoas poden compartir entre servidores. ",
     "Allow users on this server to send shares to other servers (this option also allows WebDAV access to public shares)" : "Permitirlle aos usuarios deste servidor enviar recursos compartidos a outros servidores (esta opción tamén permite o acceso de WebDAV a recursos compartidos públicos)",
     "Allow users on this server to receive shares from other servers" : "Permitirlle aos usuarios deste servidor recibir recursos compartidos doutros servidores",
     "Allow users on this server to send shares to groups on other servers" : "Permitirlle aos usuarios deste servidor enviar recursos compartidos a grupos noutros servidores",
@@ -49,6 +48,6 @@
     "Add to your website" : "Engadir ao seu sitio web",
     "Share with me via Nextcloud" : "Comparte comigo a través do Nextcloud",
     "HTML Code:" : "Código HTML:",
-    "Allow users on this server to send shares to other servers" : "Permitirlle aos usuarios deste servidor enviar recursos compartidos a outros servidores"
+    "Adjust how people can share between servers." : "Axustar como as persoas poden compartir entre servidores. "
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

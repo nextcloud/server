@@ -29,17 +29,16 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\AppFramework;
 
 use OC\AppFramework\DependencyInjection\DIContainer;
 use OC\AppFramework\Http\Dispatcher;
 use OC\AppFramework\Http\Request;
-use OC\HintException;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\ICallbackResponse;
 use OCP\AppFramework\Http\IOutput;
 use OCP\AppFramework\QueryException;
+use OCP\HintException;
 use OCP\IRequest;
 
 /**
@@ -106,6 +105,7 @@ class App {
 
 	/**
 	 * Shortcut for calling a controller method and printing the result
+	 *
 	 * @param string $controllerName the name of the controller under which it is
 	 *                               stored in the DI container
 	 * @param string $methodName the method that you want to call
@@ -148,13 +148,13 @@ class App {
 		/** @var Dispatcher $dispatcher */
 		$dispatcher = $container['Dispatcher'];
 
-		list(
+		[
 			$httpHeaders,
 			$responseHeaders,
 			$responseCookies,
 			$output,
 			$response
-		) = $dispatcher->dispatch($controller, $methodName);
+		] = $dispatcher->dispatch($controller, $methodName);
 
 		$io = $container[IOutput::class];
 
@@ -228,7 +228,7 @@ class App {
 
 		$dispatcher = $container['Dispatcher'];
 
-		list(, , $output) = $dispatcher->dispatch($controller, $methodName);
+		[, , $output] = $dispatcher->dispatch($controller, $methodName);
 		return $output;
 	}
 }

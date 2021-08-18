@@ -23,7 +23,7 @@
 <template>
 	<Multiselect ref="multiselect"
 		class="sharing-input"
-		:clear-on-select="false"
+		:clear-on-select="true"
 		:disabled="!canReshare"
 		:hide-selected="true"
 		:internal-search="false"
@@ -34,6 +34,9 @@
 		:preserve-search="true"
 		:searchable="true"
 		:user-select="true"
+		open-direction="below"
+		label="displayName"
+		track-by="id"
 		@search-change="asyncFind"
 		@select="addShare">
 		<template #noOptions>
@@ -53,6 +56,7 @@ import debounce from 'debounce'
 import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
 
 import Config from '../services/ConfigService'
+import GeneratePassword from '../utils/GeneratePassword'
 import Share from '../models/Share'
 import ShareRequests from '../mixins/ShareRequests'
 import ShareTypes from '../mixins/ShareTypes'
@@ -186,25 +190,27 @@ export default {
 				this.SHARE_TYPES.SHARE_TYPE_CIRCLE,
 				this.SHARE_TYPES.SHARE_TYPE_ROOM,
 				this.SHARE_TYPES.SHARE_TYPE_GUEST,
+				this.SHARE_TYPES.SHARE_TYPE_DECK,
 			]
 
 			if (OC.getCapabilities().files_sharing.public.enabled === true) {
 				shareType.push(this.SHARE_TYPES.SHARE_TYPE_EMAIL)
 			}
 
-			const request = await axios.get(generateOcsUrl('apps/files_sharing/api/v1') + 'sharees', {
-				params: {
-					format: 'json',
-					itemType: this.fileInfo.type === 'dir' ? 'folder' : 'file',
-					search,
-					lookup,
-					perPage: this.config.maxAutocompleteResults,
-					shareType,
-				},
-			})
-
-			if (request.data.ocs.meta.statuscode !== 100) {
-				console.error('Error fetching suggestions', request)
+			let request = null
+			try {
+				request = await axios.get(generateOcsUrl('apps/files_sharing/api/v1/sharees'), {
+					params: {
+						format: 'json',
+						itemType: this.fileInfo.type === 'dir' ? 'folder' : 'file',
+						search,
+						lookup,
+						perPage: this.config.maxAutocompleteResults,
+						shareType,
+					},
+				})
+			} catch (error) {
+				console.error('Error fetching suggestions', error)
 				return
 			}
 
@@ -231,6 +237,7 @@ export default {
 			const lookupEntry = []
 			if (data.lookupEnabled && !lookup) {
 				lookupEntry.push({
+					id: 'global-lookup',
 					isNoUser: true,
 					displayName: t('files_sharing', 'Search globally'),
 					lookup: true,
@@ -240,7 +247,27 @@ export default {
 			// if there is a condition specified, filter it
 			const externalResults = this.externalResults.filter(result => !result.condition || result.condition(this))
 
-			this.suggestions = exactSuggestions.concat(suggestions).concat(externalResults).concat(lookupEntry)
+			const allSuggestions = exactSuggestions.concat(suggestions).concat(externalResults).concat(lookupEntry)
+
+			// Count occurances of display names in order to provide a distinguishable description if needed
+			const nameCounts = allSuggestions.reduce((nameCounts, result) => {
+				if (!result.displayName) {
+					return nameCounts
+				}
+				if (!nameCounts[result.displayName]) {
+					nameCounts[result.displayName] = 0
+				}
+				nameCounts[result.displayName]++
+				return nameCounts
+			}, {})
+
+			this.suggestions = allSuggestions.map(item => {
+				// Make sure that items with duplicate displayName get the shareWith applied as a description
+				if (nameCounts[item.displayName] > 1 && !item.desc) {
+					return { ...item, desc: item.shareWithDisplayNameUnique }
+				}
+				return item
+			})
 
 			this.loading = false
 			console.info('suggestions', this.suggestions)
@@ -261,26 +288,30 @@ export default {
 		async getRecommendations() {
 			this.loading = true
 
-			const request = await axios.get(generateOcsUrl('apps/files_sharing/api/v1') + 'sharees_recommended', {
-				params: {
-					format: 'json',
-					itemType: this.fileInfo.type,
-				},
-			})
-
-			if (request.data.ocs.meta.statuscode !== 100) {
-				console.error('Error fetching recommendations', request)
+			let request = null
+			try {
+				request = await axios.get(generateOcsUrl('apps/files_sharing/api/v1/sharees_recommended'), {
+					params: {
+						format: 'json',
+						itemType: this.fileInfo.type,
+					},
+				})
+			} catch (error) {
+				console.error('Error fetching recommendations', error)
 				return
 			}
 
-			const exact = request.data.ocs.data.exact
+			// Add external results from the OCA.Sharing.ShareSearch api
+			const externalResults = this.externalResults.filter(result => !result.condition || result.condition(this))
 
 			// flatten array of arrays
-			const rawRecommendations = Object.values(exact).reduce((arr, elem) => arr.concat(elem), [])
+			const rawRecommendations = Object.values(request.data.ocs.data.exact)
+				.reduce((arr, elem) => arr.concat(elem), [])
 
 			// remove invalid data and format to user-select layout
 			this.recommendations = this.filterOutExistingShares(rawRecommendations)
 				.map(share => this.formatForMultiselect(share))
+				.concat(externalResults)
 
 			this.loading = false
 			console.info('recommendations', this.recommendations)
@@ -365,6 +396,8 @@ export default {
 				return 'icon-circle'
 			case this.SHARE_TYPES.SHARE_TYPE_ROOM:
 				return 'icon-room'
+			case this.SHARE_TYPES.SHARE_TYPE_DECK:
+				return 'icon-deck'
 
 			default:
 				return ''
@@ -377,22 +410,28 @@ export default {
 		 * @returns {Object}
 		 */
 		formatForMultiselect(result) {
-			let desc
-			if ((result.value.shareType === this.SHARE_TYPES.SHARE_TYPE_REMOTE
+			let subtitle
+			if (result.value.shareType === this.SHARE_TYPES.SHARE_TYPE_USER && this.config.shouldAlwaysShowUnique) {
+				subtitle = result.shareWithDisplayNameUnique ?? ''
+			} else if ((result.value.shareType === this.SHARE_TYPES.SHARE_TYPE_REMOTE
 					|| result.value.shareType === this.SHARE_TYPES.SHARE_TYPE_REMOTE_GROUP
 			) && result.value.server) {
-				desc = t('files_sharing', 'on {server}', { server: result.value.server })
+				subtitle = t('files_sharing', 'on {server}', { server: result.value.server })
 			} else if (result.value.shareType === this.SHARE_TYPES.SHARE_TYPE_EMAIL) {
-				desc = result.value.shareWith
+				subtitle = result.value.shareWith
+			} else {
+				subtitle = result.shareWithDescription ?? ''
 			}
 
 			return {
+				id: `${result.value.shareType}-${result.value.shareWith}`,
 				shareWith: result.value.shareWith,
 				shareType: result.value.shareType,
 				user: result.uuid || result.value.shareWith,
 				isNoUser: result.value.shareType !== this.SHARE_TYPES.SHARE_TYPE_USER,
 				displayName: result.name || result.label,
-				desc,
+				subtitle,
+				shareWithDisplayNameUnique: result.shareWithDisplayNameUnique || '',
 				icon: this.shareTypeToIcon(result.value.shareType),
 			}
 		},
@@ -412,9 +451,6 @@ export default {
 				return true
 			}
 
-			// TODO: reset the search string when done
-			// https://github.com/shentao/vue-multiselect/issues/633
-
 			// handle externalResults from OCA.Sharing.ShareSearch
 			if (value.handler) {
 				const share = await value.handler(this)
@@ -423,25 +459,55 @@ export default {
 			}
 
 			this.loading = true
+			console.debug('Adding a new share from the input for', value)
 			try {
+				let password = null
+
+				if (this.config.enforcePasswordForPublicLink
+					&& value.shareType === this.SHARE_TYPES.SHARE_TYPE_EMAIL) {
+					password = await GeneratePassword()
+				}
+
 				const path = (this.fileInfo.path + '/' + this.fileInfo.name).replace('//', '/')
 				const share = await this.createShare({
 					path,
 					shareType: value.shareType,
 					shareWith: value.shareWith,
+					password,
 					permissions: this.fileInfo.sharePermissions & OC.getCapabilities().files_sharing.default_permissions,
 				})
-				this.$emit('add:share', share)
 
-				this.getRecommendations()
+				// If we had a password, we need to show it to the user as it was generated
+				if (password) {
+					share.newPassword = password
+					// Wait for the newly added share
+					const component = await new Promise(resolve => {
+						this.$emit('add:share', share, resolve)
+					})
 
-			} catch (response) {
+					// open the menu on the
+					// freshly created share component
+					component.open = true
+				} else {
+					// Else we just add it normally
+					this.$emit('add:share', share)
+				}
+
+				// reset the search string when done
+				// FIXME: https://github.com/shentao/vue-multiselect/issues/633
+				if (this.$refs.multiselect?.$refs?.VueMultiselect?.search) {
+					this.$refs.multiselect.$refs.VueMultiselect.search = ''
+				}
+
+				await this.getRecommendations()
+			} catch (error) {
 				// focus back if any error
 				const input = this.$refs.multiselect.$el.querySelector('input')
 				if (input) {
 					input.focus()
 				}
 				this.query = value.shareWith
+				console.error('Error while adding new share', error)
 			} finally {
 				this.loading = false
 			}

@@ -1,7 +1,10 @@
 /**
  * @copyright Copyright (c) 2019 John Molakvoæ <skjnldsv@protonmail.com>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Julius Härtl <jus@bitgrid.net>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -27,7 +30,7 @@ import { generateOcsUrl } from '@nextcloud/router'
 import axios from '@nextcloud/axios'
 import Share from '../models/Share'
 
-const shareUrl = generateOcsUrl('apps/files_sharing/api/v1', 2) + 'shares'
+const shareUrl = generateOcsUrl('apps/files_sharing/api/v1/shares')
 const headers = {
 	'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
 }
@@ -59,7 +62,11 @@ export default {
 				return new Share(request.data.ocs.data)
 			} catch (error) {
 				console.error('Error while creating share', error)
-				OC.Notification.showTemporary(t('files_sharing', 'Error creating the share'), { type: 'error' })
+				const errorMessage = error?.response?.data?.ocs?.meta?.message
+				OC.Notification.showTemporary(
+					errorMessage ? t('files_sharing', 'Error creating the share: {errorMessage}', { errorMessage }) : t('files_sharing', 'Error creating the share'),
+					{ type: 'error' }
+				)
 				throw error
 			}
 		},
@@ -79,7 +86,11 @@ export default {
 				return true
 			} catch (error) {
 				console.error('Error while deleting share', error)
-				OC.Notification.showTemporary(t('files_sharing', 'Error deleting the share'), { type: 'error' })
+				const errorMessage = error?.response?.data?.ocs?.meta?.message
+				OC.Notification.showTemporary(
+					errorMessage ? t('files_sharing', 'Error deleting the share: {errorMessage}', { errorMessage }) : t('files_sharing', 'Error deleting the share'),
+					{ type: 'error' }
+				)
 				throw error
 			}
 		},
@@ -100,7 +111,11 @@ export default {
 			} catch (error) {
 				console.error('Error while updating share', error)
 				if (error.response.status !== 400) {
-					OC.Notification.showTemporary(t('files_sharing', 'Error updating the share'), { type: 'error' })
+					const errorMessage = error?.response?.data?.ocs?.meta?.message
+					OC.Notification.showTemporary(
+						errorMessage ? t('files_sharing', 'Error updating the share: {errorMessage}', { errorMessage }) : t('files_sharing', 'Error updating the share'),
+						{ type: 'error' }
+					)
 				}
 				const message = error.response.data.ocs.meta.message
 				throw new Error(message)

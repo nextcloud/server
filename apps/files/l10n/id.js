@@ -76,9 +76,6 @@ OC.L10N.register(
     "File name cannot be empty." : "Nama berkas tidak boleh kosong.",
     "\"/\" is not allowed inside a file name." : "\"/\" tidak diizinkan pada nama berkas.",
     "\"{name}\" is not an allowed filetype" : "Tipe berkas \"{name}\" tidak diizinkan",
-    "Storage of {owner} is full, files can not be updated or synced anymore!" : "Penyimpanan {owner} penuh, berkas tidak dapat diperbarui atau disinkronisasikan lagi!",
-    "Your storage is full, files can not be updated or synced anymore!" : "Ruang penyimpanan Anda penuh, berkas tidak dapat diperbarui atau disinkronkan lagi!",
-    "_matches '{filter}'_::_match '{filter}'_" : ["cocok dengan '{filter}'"],
     "View in folder" : "Lihat dalam folder",
     "Copied!" : "Tersalin!",
     "Copy direct link (only works for users who have access to this file/folder)" : "Salin tautan langsung (hanya berlaku bagi pengguna yang telah memiliki akses ke berkas/folder ini)",
@@ -181,15 +178,8 @@ OC.L10N.register(
     "Pending shares" : "Berbagi tertunda",
     "Text file" : "Berkas teks",
     "New text file.txt" : "Teks baru file.txt",
-    "Unshare" : "Batalkan berbagi",
-    "Storage of {owner} is almost full ({usedSpacePercent}%)" : "Penyimpanan {owner} hampir penuh ({usedSpacePercent}%)",
-    "Your storage is almost full ({usedSpacePercent}%)" : "Ruang penyimpanan hampir penuh ({usedSpacePercent}%)",
-    "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>" : "Suatu berkas atau folder telah <strong>diubah</strong> atau <strong>diganti nama</strong>",
-    "A new file or folder has been <strong>created</strong>" : "Sebuah berkas atau folder baru telah <strong>dibuat</strong>",
-    "A file or folder has been <strong>deleted</strong>" : "Sebuah berkas atau folder telah <strong>dihapus</strong>",
-    "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Batas notifikasi tentang pembuatan dan perubahan <strong>berkas favorit</strong> Anda <em>(Hanya stream)</em>",
-    "A file or folder has been <strong>restored</strong>" : "Sebuah berkas atau folder telah <strong>dipulihkan</strong>",
-    "Cannot transfter ownership of a file or folder you don't own" : "Tidak dapat melakukan transfer kepemilikan dari berkas dan folder yang tidak Anda miliki",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Gunakan alamat ini untuk <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">mengakses berkas Anda via WebDAV</a>"
+    "Storage of {owner} is full, files can not be updated or synced anymore!" : "Penyimpanan {owner} penuh, berkas tidak dapat diperbarui atau disinkronisasikan lagi!",
+    "Your storage is full, files can not be updated or synced anymore!" : "Ruang penyimpanan Anda penuh, berkas tidak dapat diperbarui atau disinkronkan lagi!",
+    "_matches '{filter}'_::_match '{filter}'_" : ["cocok dengan '{filter}'"]
 },
 "nplurals=1; plural=0;");

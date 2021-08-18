@@ -18,7 +18,6 @@ OC.L10N.register(
     "Federated Share request sent, you will receive an invitation. Check your notifications." : "연합 공유 요청을 보냈으며 초대장을 받을 것입니다. 알림을 확인하십시오.",
     "Couldn't establish a federated share, it looks like the server to federate with is too old (Nextcloud <= 9)." : "연합 공유를 설정할 수 없습니다. 연합하려고 하는 서버가 너무 오래되었습니다(Nextcloud 9 이하).",
     "It is not allowed to send federated group shares from this server." : "이 서버에서 연합 공유를 보낼 수 없습니다.",
-    "Sharing %1$s failed, because this item is already shared with %2$s" : "%1$s 공유 실패. %2$s와(과) 이미 공유되어 있습니다",
     "Not allowed to create a federated share with the same user" : "같은 사용자와 연합 공유를 만들 수 없음",
     "File is already shared with %s" : "파일이 %s와(과) 이미 공유됨",
     "Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable or uses a self-signed certificate." : "%1$s 공유 실패. %2$s을(를) 찾을 수 없습니다. 서버에 접근할 수 없거나 자가 서명된 인증서를 사용하고 있을 수도 있습니다.",
@@ -35,7 +34,6 @@ OC.L10N.register(
     "Provide federated file sharing across servers" : "서버간 연합 파일 공유 제공",
     "Federated Cloud Sharing" : "클라우드 연합 공유",
     "Open documentation" : "문서 열기",
-    "Adjust how people can share between servers." : "서버간 파일 공유를 설정합니다.",
     "Allow users on this server to receive shares from other servers" : "이 서버의 사용자가 다른 서버에서 공유한 파일을 받을 수 있도록 허용",
     "Allow users on this server to send shares to groups on other servers" : "이 서버의 사용자가 다른 서버의 그룹으로 공유를 보낼 수 있도록 허용",
     "Allow users on this server to receive group shares from other servers" : "이 서버의 사용자가 다른 서버의 그룹에서 보낸 공유를 받을 수 있도록 허용",
@@ -48,6 +46,6 @@ OC.L10N.register(
     "Add to your website" : "내 웹 사이트에 추가",
     "Share with me via Nextcloud" : "Nextcloud로 나와 공유하기",
     "HTML Code:" : "HTML 코드:",
-    "Allow users on this server to send shares to other servers" : "이 서버의 사용자가 다른 서버와 공유할 수 있도록 허용"
+    "Adjust how people can share between servers." : "서버간 파일 공유를 설정합니다."
 },
 "nplurals=1; plural=0;");

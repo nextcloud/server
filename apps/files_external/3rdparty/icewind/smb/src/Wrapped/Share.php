@@ -9,9 +9,14 @@ namespace Icewind\SMB\Wrapped;
 
 use Icewind\SMB\AbstractShare;
 use Icewind\SMB\ACL;
+use Icewind\SMB\Exception\AlreadyExistsException;
+use Icewind\SMB\Exception\AuthenticationException;
+use Icewind\SMB\Exception\ConnectException;
 use Icewind\SMB\Exception\ConnectionException;
 use Icewind\SMB\Exception\DependencyException;
+use Icewind\SMB\Exception\Exception;
 use Icewind\SMB\Exception\FileInUseException;
+use Icewind\SMB\Exception\InvalidHostException;
 use Icewind\SMB\Exception\InvalidTypeException;
 use Icewind\SMB\Exception\NotFoundException;
 use Icewind\SMB\Exception\InvalidRequestException;
@@ -35,9 +40,9 @@ class Share extends AbstractShare {
 	private $name;
 
 	/**
-	 * @var Connection $connection
+	 * @var Connection|null $connection
 	 */
-	public $connection;
+	public $connection = null;
 
 	/**
 	 * @var Parser
@@ -63,7 +68,7 @@ class Share extends AbstractShare {
 	 * @param string $name
 	 * @param ISystem $system
 	 */
-	public function __construct(IServer $server, $name, ISystem $system) {
+	public function __construct(IServer $server, string $name, ISystem $system) {
 		parent::__construct();
 		$this->server = $server;
 		$this->name = $name;
@@ -71,7 +76,7 @@ class Share extends AbstractShare {
 		$this->parser = new Parser($server->getTimeZone());
 	}
 
-	private function getAuthFileArgument() {
+	private function getAuthFileArgument(): string {
 		if ($this->server->getAuth()->getUsername()) {
 			return '--authentication-file=' . $this->system->getFD(3);
 		} else {
@@ -79,22 +84,31 @@ class Share extends AbstractShare {
 		}
 	}
 
-	protected function getConnection() {
+	protected function getConnection(): Connection {
+		$maxProtocol = $this->server->getOptions()->getMaxProtocol();
+		$minProtocol = $this->server->getOptions()->getMinProtocol();
+		$smbClient = $this->system->getSmbclientPath();
+		$stdBuf = $this->system->getStdBufPath();
+		if ($smbClient === null) {
+			throw new Exception("Backend not available");
+		}
 		$command = sprintf(
-			'%s %s%s -t %s %s %s %s',
+			'%s %s%s -t %s %s %s %s %s %s',
 			self::EXEC_CMD,
-			$this->system->getStdBufPath() ? $this->system->getStdBufPath() . ' -o0 ' : '',
-			$this->system->getSmbclientPath(),
+			$stdBuf ? $stdBuf . ' -o0 ' : '',
+			$smbClient,
 			$this->server->getOptions()->getTimeout(),
 			$this->getAuthFileArgument(),
 			$this->server->getAuth()->getExtraCommandLineArguments(),
+			$maxProtocol ? "--option='client max protocol=" . $maxProtocol . "'" : "",
+			$minProtocol ? "--option='client min protocol=" . $minProtocol . "'" : "",
 			escapeshellarg('//' . $this->server->getHost() . '/' . $this->name)
 		);
 		$connection = new Connection($command, $this->parser);
 		$connection->writeAuthentication($this->server->getAuth()->getUsername(), $this->server->getAuth()->getPassword());
 		$connection->connect();
 		if (!$connection->isValid()) {
-			throw new ConnectionException($connection->readLine());
+			throw new ConnectionException((string)$connection->readLine());
 		}
 		// some versions of smbclient add a help message in first of the first prompt
 		$connection->clearTillPrompt();
@@ -102,21 +116,33 @@ class Share extends AbstractShare {
 	}
 
 	/**
-	 * @throws \Icewind\SMB\Exception\ConnectionException
-	 * @throws \Icewind\SMB\Exception\AuthenticationException
-	 * @throws \Icewind\SMB\Exception\InvalidHostException
+	 * @throws ConnectionException
+	 * @throws AuthenticationException
+	 * @throws InvalidHostException
+	 * @psalm-assert Connection $this->connection
 	 */
-	protected function connect() {
+	protected function connect(): Connection {
 		if ($this->connection and $this->connection->isValid()) {
-			return;
+			return $this->connection;
 		}
 		$this->connection = $this->getConnection();
+		return $this->connection;
 	}
 
-	protected function reconnect() {
-		$this->connection->reconnect();
-		if (!$this->connection->isValid()) {
-			throw new ConnectionException();
+	/**
+	 * @throws ConnectionException
+	 * @throws AuthenticationException
+	 * @throws InvalidHostException
+	 * @psalm-assert Connection $this->connection
+	 */
+	protected function reconnect(): void {
+		if ($this->connection === null) {
+			$this->connect();
+		} else {
+			$this->connection->reconnect();
+			if (!$this->connection->isValid()) {
+				throw new ConnectionException();
+			}
 		}
 	}
 
@@ -125,11 +151,11 @@ class Share extends AbstractShare {
 	 *
 	 * @return string
 	 */
-	public function getName() {
+	public function getName(): string {
 		return $this->name;
 	}
 
-	protected function simpleCommand($command, $path) {
+	protected function simpleCommand(string $command, string $path): bool {
 		$escapedPath = $this->escapePath($path);
 		$cmd = $command . ' ' . $escapedPath;
 		$output = $this->execute($cmd);
@@ -139,13 +165,13 @@ class Share extends AbstractShare {
 	/**
 	 * List the content of a remote folder
 	 *
-	 * @param $path
-	 * @return \Icewind\SMB\IFileInfo[]
+	 * @param string $path
+	 * @return IFileInfo[]
 	 *
-	 * @throws \Icewind\SMB\Exception\NotFoundException
-	 * @throws \Icewind\SMB\Exception\InvalidTypeException
+	 * @throws NotFoundException
+	 * @throws InvalidTypeException
 	 */
-	public function dir($path) {
+	public function dir(string $path): array {
 		$escapedPath = $this->escapePath($path);
 		$output = $this->execute('cd ' . $escapedPath);
 		//check output for errors
@@ -154,16 +180,16 @@ class Share extends AbstractShare {
 
 		$this->execute('cd /');
 
-		return $this->parser->parseDir($output, $path, function ($path) {
+		return $this->parser->parseDir($output, $path, function (string $path) {
 			return $this->getAcls($path);
 		});
 	}
 
 	/**
 	 * @param string $path
-	 * @return \Icewind\SMB\IFileInfo
+	 * @return IFileInfo
 	 */
-	public function stat($path) {
+	public function stat(string $path): IFileInfo {
 		// some windows server setups don't seem to like the allinfo command
 		// use the dir command instead to get the file info where possible
 		if ($path !== "" && $path !== "/") {
@@ -200,10 +226,10 @@ class Share extends AbstractShare {
 	 * @param string $path
 	 * @return bool
 	 *
-	 * @throws \Icewind\SMB\Exception\NotFoundException
-	 * @throws \Icewind\SMB\Exception\AlreadyExistsException
+	 * @throws NotFoundException
+	 * @throws AlreadyExistsException
 	 */
-	public function mkdir($path) {
+	public function mkdir(string $path): bool {
 		return $this->simpleCommand('mkdir', $path);
 	}
 
@@ -213,10 +239,10 @@ class Share extends AbstractShare {
 	 * @param string $path
 	 * @return bool
 	 *
-	 * @throws \Icewind\SMB\Exception\NotFoundException
-	 * @throws \Icewind\SMB\Exception\InvalidTypeException
+	 * @throws NotFoundException
+	 * @throws InvalidTypeException
 	 */
-	public function rmdir($path) {
+	public function rmdir(string $path): bool {
 		return $this->simpleCommand('rmdir', $path);
 	}
 
@@ -230,7 +256,7 @@ class Share extends AbstractShare {
 	 * @throws NotFoundException
 	 * @throws \Exception
 	 */
-	public function del($path, $secondTry = false) {
+	public function del(string $path, bool $secondTry = false): bool {
 		//del return a file not found error when trying to delete a folder
 		//we catch it so we can check if $path doesn't exist or is of invalid type
 		try {
@@ -261,10 +287,10 @@ class Share extends AbstractShare {
 	 * @param string $to
 	 * @return bool
 	 *
-	 * @throws \Icewind\SMB\Exception\NotFoundException
-	 * @throws \Icewind\SMB\Exception\AlreadyExistsException
+	 * @throws NotFoundException
+	 * @throws AlreadyExistsException
 	 */
-	public function rename($from, $to) {
+	public function rename(string $from, string $to): bool {
 		$path1 = $this->escapePath($from);
 		$path2 = $this->escapePath($to);
 		$output = $this->execute('rename ' . $path1 . ' ' . $path2);
@@ -278,10 +304,10 @@ class Share extends AbstractShare {
 	 * @param string $target remove file
 	 * @return bool
 	 *
-	 * @throws \Icewind\SMB\Exception\NotFoundException
-	 * @throws \Icewind\SMB\Exception\InvalidTypeException
+	 * @throws NotFoundException
+	 * @throws InvalidTypeException
 	 */
-	public function put($source, $target) {
+	public function put(string $source, string $target): bool {
 		$path1 = $this->escapeLocalPath($source); //first path is local, needs different escaping
 		$path2 = $this->escapePath($target);
 		$output = $this->execute('put ' . $path1 . ' ' . $path2);
@@ -295,10 +321,10 @@ class Share extends AbstractShare {
 	 * @param string $target local file
 	 * @return bool
 	 *
-	 * @throws \Icewind\SMB\Exception\NotFoundException
-	 * @throws \Icewind\SMB\Exception\InvalidTypeException
+	 * @throws NotFoundException
+	 * @throws InvalidTypeException
 	 */
-	public function get($source, $target) {
+	public function get(string $source, string $target): bool {
 		$path1 = $this->escapePath($source);
 		$path2 = $this->escapeLocalPath($target); //second path is local, needs different escaping
 		$output = $this->execute('get ' . $path1 . ' ' . $path2);
@@ -311,10 +337,10 @@ class Share extends AbstractShare {
 	 * @param string $source
 	 * @return resource a read only stream with the contents of the remote file
 	 *
-	 * @throws \Icewind\SMB\Exception\NotFoundException
-	 * @throws \Icewind\SMB\Exception\InvalidTypeException
+	 * @throws NotFoundException
+	 * @throws InvalidTypeException
 	 */
-	public function read($source) {
+	public function read(string $source) {
 		$source = $this->escapePath($source);
 		// since returned stream is closed by the caller we need to create a new instance
 		// since we can't re-use the same file descriptor over multiple calls
@@ -333,10 +359,10 @@ class Share extends AbstractShare {
 	 * @param string $target
 	 * @return resource a write only stream to upload a remote file
 	 *
-	 * @throws \Icewind\SMB\Exception\NotFoundException
-	 * @throws \Icewind\SMB\Exception\InvalidTypeException
+	 * @throws NotFoundException
+	 * @throws InvalidTypeException
 	 */
-	public function write($target) {
+	public function write(string $target) {
 		$target = $this->escapePath($target);
 		// since returned stream is closed by the caller we need to create a new instance
 		// since we can't re-use the same file descriptor over multiple calls
@@ -348,9 +374,14 @@ class Share extends AbstractShare {
 
 		// use a close callback to ensure the upload is finished before continuing
 		// this also serves as a way to keep the connection in scope
-		return CallbackWrapper::wrap($fh, null, null, function () use ($connection, $target) {
+		$stream = CallbackWrapper::wrap($fh, null, null, function () use ($connection) {
 			$connection->close(false); // dont terminate, give the upload some time
 		});
+		if (is_resource($stream)) {
+			return $stream;
+		} else {
+			throw new InvalidRequestException($target);
+		}
 	}
 
 	/**
@@ -359,9 +390,9 @@ class Share extends AbstractShare {
 	 *
 	 * @param string $target
 	 *
-	 * @throws \Icewind\SMB\Exception\DependencyException
+	 * @throws DependencyException
 	 */
-	public function append($target) {
+	public function append(string $target) {
 		throw new DependencyException('php-libsmbclient is required for append');
 	}
 
@@ -370,7 +401,7 @@ class Share extends AbstractShare {
 	 * @param int $mode a combination of FileInfo::MODE_READONLY, FileInfo::MODE_ARCHIVE, FileInfo::MODE_SYSTEM and FileInfo::MODE_HIDDEN, FileInfo::NORMAL
 	 * @return mixed
 	 */
-	public function setMode($path, $mode) {
+	public function setMode(string $path, int $mode) {
 		$modeString = '';
 		foreach (self::MODE_MAP as $modeByte => $string) {
 			if ($mode & $modeByte) {
@@ -400,7 +431,7 @@ class Share extends AbstractShare {
 	 * @throws ConnectionException
 	 * @throws DependencyException
 	 */
-	public function notify($path) {
+	public function notify(string $path): INotifyHandler {
 		if (!$this->system->getStdBufPath()) { //stdbuf is required to disable smbclient's output buffering
 			throw new DependencyException('stdbuf is required for usage of the notify command');
 		}
@@ -412,12 +443,11 @@ class Share extends AbstractShare {
 
 	/**
 	 * @param string $command
-	 * @return array
+	 * @return string[]
 	 */
-	protected function execute($command) {
-		$this->connect();
-		$this->connection->write($command . PHP_EOL);
-		return $this->connection->read();
+	protected function execute(string $command): array {
+		$this->connect()->write($command . PHP_EOL);
+		return $this->connect()->read();
 	}
 
 	/**
@@ -427,19 +457,18 @@ class Share extends AbstractShare {
 	 * @param string $path
 	 *
 	 * @return bool
-	 * @throws \Icewind\SMB\Exception\AlreadyExistsException
+	 * @throws AlreadyExistsException
 	 * @throws \Icewind\SMB\Exception\AccessDeniedException
 	 * @throws \Icewind\SMB\Exception\NotEmptyException
-	 * @throws \Icewind\SMB\Exception\InvalidTypeException
+	 * @throws InvalidTypeException
 	 * @throws \Icewind\SMB\Exception\Exception
 	 * @throws NotFoundException
 	 */
-	protected function parseOutput($lines, $path = '') {
+	protected function parseOutput(array $lines, string $path = ''): bool {
 		if (count($lines) === 0) {
 			return true;
 		} else {
 			$this->parser->checkForError($lines, $path);
-			return false;
 		}
 	}
 
@@ -447,7 +476,7 @@ class Share extends AbstractShare {
 	 * @param string $string
 	 * @return string
 	 */
-	protected function escape($string) {
+	protected function escape(string $string): string {
 		return escapeshellarg($string);
 	}
 
@@ -455,7 +484,7 @@ class Share extends AbstractShare {
 	 * @param string $path
 	 * @return string
 	 */
-	protected function escapePath($path) {
+	protected function escapePath(string $path): string {
 		$this->verifyPath($path);
 		if ($path === '/') {
 			$path = '';
@@ -470,12 +499,18 @@ class Share extends AbstractShare {
 	 * @param string $path
 	 * @return string
 	 */
-	protected function escapeLocalPath($path) {
+	protected function escapeLocalPath(string $path): string {
 		$path = str_replace('"', '\"', $path);
 		return '"' . $path . '"';
 	}
 
-	protected function getAcls($path) {
+	/**
+	 * @param string $path
+	 * @return ACL[]
+	 * @throws ConnectionException
+	 * @throws ConnectException
+	 */
+	protected function getAcls(string $path): array {
 		$commandPath = $this->system->getSmbcAclsPath();
 		if (!$commandPath) {
 			return [];
@@ -494,62 +529,11 @@ class Share extends AbstractShare {
 		$connection->writeAuthentication($this->server->getAuth()->getUsername(), $this->server->getAuth()->getPassword());
 		$connection->connect();
 		if (!$connection->isValid()) {
-			throw new ConnectionException($connection->readLine());
+			throw new ConnectionException((string)$connection->readLine());
 		}
 
 		$rawAcls = $connection->readAll();
-
-		$acls = [];
-		foreach ($rawAcls as $acl) {
-			[$type, $acl] = explode(':', $acl, 2);
-			if ($type !== 'ACL') {
-				continue;
-			}
-			[$user, $permissions] = explode(':', $acl, 2);
-			[$type, $flags, $mask] = explode('/', $permissions);
-
-			$type = $type === 'ALLOWED' ? ACL::TYPE_ALLOW : ACL::TYPE_DENY;
-
-			$flagsInt = 0;
-			foreach (explode('|', $flags) as $flagString) {
-				if ($flagString === 'OI') {
-					$flagsInt += ACL::FLAG_OBJECT_INHERIT;
-				} elseif ($flagString === 'CI') {
-					$flagsInt += ACL::FLAG_CONTAINER_INHERIT;
-				}
-			}
-
-			if (substr($mask, 0, 2) === '0x') {
-				$maskInt = hexdec($mask);
-			} else {
-				$maskInt = 0;
-				foreach (explode('|', $mask) as $maskString) {
-					if ($maskString === 'R') {
-						$maskInt += ACL::MASK_READ;
-					} elseif ($maskString === 'W') {
-						$maskInt += ACL::MASK_WRITE;
-					} elseif ($maskString === 'X') {
-						$maskInt += ACL::MASK_EXECUTE;
-					} elseif ($maskString === 'D') {
-						$maskInt += ACL::MASK_DELETE;
-					} elseif ($maskString === 'READ') {
-						$maskInt += ACL::MASK_READ + ACL::MASK_EXECUTE;
-					} elseif ($maskString === 'CHANGE') {
-						$maskInt += ACL::MASK_READ + ACL::MASK_EXECUTE + ACL::MASK_WRITE + ACL::MASK_DELETE;
-					} elseif ($maskString === 'FULL') {
-						$maskInt += ACL::MASK_READ + ACL::MASK_EXECUTE + ACL::MASK_WRITE + ACL::MASK_DELETE;
-					}
-				}
-			}
-
-			if (isset($acls[$user])) {
-				$existing = $acls[$user];
-				$maskInt += $existing->getMask();
-			}
-			$acls[$user] = new ACL($type, $flagsInt, $maskInt);
-		}
-
-		return $acls;
+		return $this->parser->parseACLs($rawAcls);
 	}
 
 	public function getServer(): IServer {

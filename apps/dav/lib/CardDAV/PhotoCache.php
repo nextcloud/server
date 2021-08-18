@@ -1,13 +1,13 @@
 <?php
 /**
- *
+ * @copyright Copyright (c) 2016 Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Jacob Neplokh <me@jacobneplokh.com>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -20,14 +20,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\CardDAV;
 
 use OCP\Files\IAppData;
@@ -37,6 +36,7 @@ use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\ILogger;
 use Sabre\CardDAV\Card;
+use Sabre\VObject\Document;
 use Sabre\VObject\Parameter;
 use Sabre\VObject\Property\Binary;
 use Sabre\VObject\Reader;
@@ -207,9 +207,28 @@ class PhotoCache {
 		throw new NotFoundException('Avatar not found');
 	}
 
+	/**
+	 * @param Card $node
+	 * @return bool|array{body: string, Content-Type: string}
+	 */
 	private function getPhoto(Card $node) {
 		try {
 			$vObject = $this->readCard($node->get());
+			return $this->getPhotoFromVObject($vObject);
+		} catch (\Exception $e) {
+			$this->logger->logException($e, [
+				'message' => 'Exception during vcard photo parsing'
+			]);
+		}
+		return false;
+	}
+
+	/**
+	 * @param Document $vObject
+	 * @return bool|array{body: string, Content-Type: string}
+	 */
+	public function getPhotoFromVObject(Document $vObject) {
+		try {
 			if (!$vObject->PHOTO) {
 				return false;
 			}
@@ -226,7 +245,7 @@ class PhotoCache {
 					return false;
 				}
 				if (substr_count($parsed['path'], ';') === 1) {
-					list($type) = explode(';', $parsed['path']);
+					[$type] = explode(';', $parsed['path']);
 				}
 				$val = file_get_contents($val);
 			} else {

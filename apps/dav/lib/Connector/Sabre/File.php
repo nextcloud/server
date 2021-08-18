@@ -19,7 +19,7 @@
  * @author Semih Serhat Karakaya <karakayasemi@itu.edu.tr>
  * @author Stefan Schneider <stefan.schneider@squareweave.com.au>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -36,7 +36,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Connector\Sabre;
 
 use Icewind\Streams\CallbackWrapper;
@@ -144,7 +143,7 @@ class File extends Node implements IFile {
 		}
 
 		/** @var Storage $partStorage */
-		list($partStorage) = $this->fileView->resolvePath($this->path);
+		[$partStorage] = $this->fileView->resolvePath($this->path);
 		$needsPartFile = $partStorage->needsPartFile() && (strlen($this->path) > 1);
 
 		$view = \OC\Files\Filesystem::getView();
@@ -168,9 +167,9 @@ class File extends Node implements IFile {
 
 		// the part file and target file might be on a different storage in case of a single file storage (e.g. single file share)
 		/** @var \OC\Files\Storage\Storage $partStorage */
-		list($partStorage, $internalPartPath) = $this->fileView->resolvePath($partFilePath);
+		[$partStorage, $internalPartPath] = $this->fileView->resolvePath($partFilePath);
 		/** @var \OC\Files\Storage\Storage $storage */
-		list($storage, $internalPath) = $this->fileView->resolvePath($this->path);
+		[$storage, $internalPath] = $this->fileView->resolvePath($this->path);
 		try {
 			if (!$needsPartFile) {
 				$this->changeLock(ILockingProvider::LOCK_EXCLUSIVE);
@@ -223,7 +222,7 @@ class File extends Node implements IFile {
 					// because we have no clue about the cause we can only throw back a 500/Internal Server Error
 					throw new Exception('Could not write file contents');
 				}
-				list($count, $result) = \OC_Helper::streamCopy($data, $target);
+				[$count, $result] = \OC_Helper::streamCopy($data, $target);
 				fclose($target);
 			}
 
@@ -494,14 +493,14 @@ class File extends Node implements IFile {
 	}
 
 	/**
-	 * @return array|false
+	 * @return array|bool
 	 */
 	public function getDirectDownload() {
 		if (\OCP\App::isEnabled('encryption')) {
 			return [];
 		}
 		/** @var \OCP\Files\Storage $storage */
-		list($storage, $internalPath) = $this->fileView->resolvePath($this->path);
+		[$storage, $internalPath] = $this->fileView->resolvePath($this->path);
 		if (is_null($storage)) {
 			return [];
 		}
@@ -518,7 +517,7 @@ class File extends Node implements IFile {
 	 * @throws ServiceUnavailable
 	 */
 	private function createFileChunked($data) {
-		list($path, $name) = \Sabre\Uri\split($this->path);
+		[$path, $name] = \Sabre\Uri\split($this->path);
 
 		$info = \OC_FileChunking::decodeName($name);
 		if (empty($info)) {
@@ -541,13 +540,13 @@ class File extends Node implements IFile {
 
 		if ($chunk_handler->isComplete()) {
 			/** @var Storage $storage */
-			list($storage,) = $this->fileView->resolvePath($path);
+			[$storage,] = $this->fileView->resolvePath($path);
 			$needsPartFile = $storage->needsPartFile();
 			$partFile = null;
 
 			$targetPath = $path . '/' . $info['name'];
 			/** @var \OC\Files\Storage\Storage $targetStorage */
-			list($targetStorage, $targetInternalPath) = $this->fileView->resolvePath($targetPath);
+			[$targetStorage, $targetInternalPath] = $this->fileView->resolvePath($targetPath);
 
 			$exists = $this->fileView->file_exists($targetPath);
 
@@ -557,13 +556,13 @@ class File extends Node implements IFile {
 				$this->emitPreHooks($exists, $targetPath);
 				$this->fileView->changeLock($targetPath, ILockingProvider::LOCK_EXCLUSIVE);
 				/** @var \OC\Files\Storage\Storage $targetStorage */
-				list($targetStorage, $targetInternalPath) = $this->fileView->resolvePath($targetPath);
+				[$targetStorage, $targetInternalPath] = $this->fileView->resolvePath($targetPath);
 
 				if ($needsPartFile) {
 					// we first assembly the target file as a part file
 					$partFile = $this->getPartFileBasePath($path . '/' . $info['name']) . '.ocTransferId' . $info['transferid'] . '.part';
 					/** @var \OC\Files\Storage\Storage $targetStorage */
-					list($partStorage, $partInternalPath) = $this->fileView->resolvePath($partFile);
+					[$partStorage, $partInternalPath] = $this->fileView->resolvePath($partFile);
 
 
 					$chunk_handler->file_assemble($partStorage, $partInternalPath);
@@ -680,9 +679,12 @@ class File extends Node implements IFile {
 	/**
 	 * Get the checksum for this file
 	 *
-	 * @return string
+	 * @return string|null
 	 */
 	public function getChecksum() {
+		if (!$this->info) {
+			return null;
+		}
 		return $this->info->getChecksum();
 	}
 

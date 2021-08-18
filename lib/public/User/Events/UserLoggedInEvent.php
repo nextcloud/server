@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @copyright Copyright (c) 2019, Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Joas Schilling <coding@schilljs.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -16,14 +17,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCP\User\Events;
 
 use OCP\EventDispatcher\Event;
@@ -43,14 +43,18 @@ class UserLoggedInEvent extends Event {
 	/** @var bool */
 	private $isTokenLogin;
 
+	/** @var string */
+	private $loginName;
+
 	/**
 	 * @since 18.0.0
 	 */
-	public function __construct(IUser $user, string $password, bool $isTokenLogin) {
+	public function __construct(IUser $user, string $loginName, string $password, bool $isTokenLogin) {
 		parent::__construct();
 		$this->user = $user;
 		$this->password = $password;
 		$this->isTokenLogin = $isTokenLogin;
+		$this->loginName = $loginName;
 	}
 
 	/**
@@ -58,6 +62,13 @@ class UserLoggedInEvent extends Event {
 	 */
 	public function getUser(): IUser {
 		return $this->user;
+	}
+
+	/**
+	 * @since 21.0.0
+	 */
+	public function getLoginName(): string {
+		return $this->loginName;
 	}
 
 	/**

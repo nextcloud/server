@@ -44,7 +44,6 @@
     "Upload new header logo" : "새 머리글 로고 업로드",
     "Favicon" : "파비콘",
     "Upload new favicon" : "새 파비콘 업로드",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "업로드한 로고와 색으로부터 자동으로 파비콘을 생성하려면 PHP Imagemagick 확장 기능 및 SVG 형식 그림 지원을 설치하십시오.",
-    "Unsupported image type" : "지원하지 않는 사진 형식"
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "업로드한 로고와 색으로부터 자동으로 파비콘을 생성하려면 PHP Imagemagick 확장 기능 및 SVG 형식 그림 지원을 설치하십시오."
 },"pluralForm" :"nplurals=1; plural=0;"
 }

@@ -5,6 +5,7 @@
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -15,14 +16,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\Migration;
 
 use OCP\DB\ISchemaWrapper;
@@ -251,6 +251,12 @@ class Version1004Date20170825134824 extends SimpleMigrationStep {
 			]);
 			$table->setPrimaryKey(['id']);
 			$table->addUniqueIndex(['principaluri', 'uri'], 'calendars_index');
+		} else {
+			$table = $schema->getTable('calendars');
+			$table->changeColumn('components', [
+				'notnull' => false,
+				'length' => 64,
+			]);
 		}
 
 		if (!$schema->hasTable('calendarchanges')) {
@@ -335,6 +341,12 @@ class Version1004Date20170825134824 extends SimpleMigrationStep {
 			]);
 			$table->setPrimaryKey(['id']);
 			$table->addUniqueIndex(['principaluri', 'uri'], 'calsub_index');
+		} else {
+			$table = $schema->getTable('calendarsubscriptions');
+			$table->changeColumn('lastmodified', [
+				'notnull' => false,
+				'unsigned' => true,
+			]);
 		}
 
 		if (!$schema->hasTable('schedulingobjects')) {

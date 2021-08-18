@@ -19,6 +19,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 import {
 	fetchCurrentStatus,
 	setStatus,
@@ -248,6 +249,25 @@ const actions = {
 	 */
 	async reFetchStatusFromServer({ commit }) {
 		const status = await fetchCurrentStatus()
+		commit('loadStatusFromServer', status)
+	},
+
+	/**
+	 * Stores the status we got in the reply of the heartbeat
+	 *
+	 * @param {Object} vuex The Vuex destructuring object
+	 * @param {Function} vuex.commit The Vuex commit function
+	 * @param {Object} status The data destructuring object
+	 * @param {String} status.status The status type
+	 * @param {Boolean} status.statusIsUserDefined Whether or not this status is user-defined
+	 * @param {String} status.message The message
+	 * @param {String} status.icon The icon
+	 * @param {Number} status.clearAt When to automatically clear the status
+	 * @param {Boolean} status.messageIsPredefined Whether or not the message is predefined
+	 * @param {String} status.messageId The id of the predefined message
+	 * @returns {Promise<void>}
+	 */
+	async setStatusFromHeartbeat({ commit }, status) {
 		commit('loadStatusFromServer', status)
 	},
 

@@ -77,9 +77,6 @@ OC.L10N.register(
     "File name cannot be empty." : " Ім'я файлу не може бути порожнім.",
     "\"/\" is not allowed inside a file name." : "Символ \"/\" не дозволений в іменах файлів.",
     "\"{name}\" is not an allowed filetype" : "\"{name}\" є недопустимим типом файлу",
-    "Storage of {owner} is full, files can not be updated or synced anymore!" : "Сховище користувача {owner} переповнене, файли більше не можуть бути оновлені або синхронізовані!",
-    "Your storage is full, files can not be updated or synced anymore!" : "Ваше сховище переповнене, файли більше не можуть бути оновлені або синхронізовані!",
-    "_matches '{filter}'_::_match '{filter}'_" : ["знайдено '{filter}'","знайдено '{filter}'","знайдено '{filter}'","знайдено '{filter}'"],
     "View in folder" : "Переглянути у теці",
     "Copied!" : "Скопійовано!",
     "Copy direct link (only works for users who have access to this file/folder)" : "Скопіювати пряме посилання (працює лише для користувачів, які мають доступ до цього файлу чи теки)",
@@ -182,15 +179,8 @@ OC.L10N.register(
     "Pending shares" : "Спільні ресурси в очікуванні",
     "Text file" : "Текстовий файл",
     "New text file.txt" : "Новий текстовий файл file.txt",
-    "Unshare" : "Закрити доступ",
-    "Storage of {owner} is almost full ({usedSpacePercent}%)" : "Сховище користувача {owner} майже заповнене ({usedSpacePercent}%)",
-    "Your storage is almost full ({usedSpacePercent}%)" : "Ваше сховище майже повне ({usedSpacePercent}%)",
-    "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>" : "Файл або теку було <strong>змінено</strong> або <strong>перейменовано</strong>",
-    "A new file or folder has been <strong>created</strong>" : "Новий файл або теку було <strong>створено</strong>",
-    "A file or folder has been <strong>deleted</strong>" : "Файл або теку було <strong>вилучено</strong>",
-    "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Обмежити повідомлення про створення та зміни в ваших <strong>улюблених файлах</strong>\n<em>(Тількі потік)</em>",
-    "A file or folder has been <strong>restored</strong>" : "Файл або теку було <strong> відновлено </strong>",
-    "Cannot transfter ownership of a file or folder you don't own" : "Неможливо передати права власності на файл або теку, що вам не належить",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Адреса для <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">доступу до файлів через WebDAV</a>"
+    "Storage of {owner} is full, files can not be updated or synced anymore!" : "Сховище користувача {owner} переповнене, файли більше не можуть бути оновлені або синхронізовані!",
+    "Your storage is full, files can not be updated or synced anymore!" : "Ваше сховище переповнене, файли більше не можуть бути оновлені або синхронізовані!",
+    "_matches '{filter}'_::_match '{filter}'_" : ["знайдено '{filter}'","знайдено '{filter}'","знайдено '{filter}'","знайдено '{filter}'"]
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

@@ -103,7 +103,6 @@ OC.L10N.register(
     "Please specify a file or folder path" : "Määritä tiedoston tai kansion polku",
     "Wrong path, file/folder doesn't exist" : "Väärä polku, tiedostoa tai kansiota ei ole olemassa",
     "Could not create share" : "Jaon luominen epäonnistui",
-    "invalid permissions" : "vialliset oikeudet",
     "Please specify a valid user" : "Määritä kelvollinen käyttäjä",
     "Group sharing is disabled by the administrator" : "Ylläpitäjä on estänyt ryhmäjakamisen",
     "Please specify a valid group" : "Määritä kelvollinen ryhmä",
@@ -119,11 +118,9 @@ OC.L10N.register(
     "Not a directory" : "Ei hakemisto",
     "Could not lock path" : "Polun lukitseminen ei onnistunut",
     "Wrong or no update parameter given" : "Päivitettävä parametri puuttuu tai on väärin",
-    "Can't change permissions for public share links" : "Julkisten jakolinkkien käyttöoikeuksia ei voi muuttaa",
     "shared by %s" : "%s jakama",
     "Download all files" : "Lataa kaikki tiedostot",
     "Direct link" : "Suora linkki",
-    "Add to your Nextcloud" : "Lisää Nextcloudiisi",
     "Share API is disabled" : "Jakamisrajapinta on poistettu käytöstä",
     "File sharing" : "Tiedostonjako",
     "Share will expire tomorrow" : "Jako vanhenee huomenna",
@@ -225,7 +222,9 @@ OC.L10N.register(
     "Uploading files" : "Lähetetään tiedostoja",
     "Uploaded files:" : "Lähetetyt tiedostot:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Tiedostoja lähettämällä hyväksyt %1$skäyttöehdot%2$s.",
-    "Name, email, or federated cloud ID …" : "Nimi, sähköposti tai federoitu Cloud ID...",
-    "Uploading files…" : "Lähetetään tiedostoja…"
+    "Add to your Nextcloud" : "Lisää Nextcloudiisi",
+    "invalid permissions" : "vialliset oikeudet",
+    "Can't change permissions for public share links" : "Julkisten jakolinkkien käyttöoikeuksia ei voi muuttaa",
+    "Name, email, or federated cloud ID …" : "Nimi, sähköposti tai federoitu Cloud ID..."
 },
 "nplurals=2; plural=(n != 1);");

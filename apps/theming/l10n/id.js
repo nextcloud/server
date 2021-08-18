@@ -25,7 +25,6 @@ OC.L10N.register(
     "Logo" : "Logo",
     "Upload new logo" : "Unggah Logo baru",
     "Login image" : "Gambar ketika masuk",
-    "Advanced options" : "Opsi lanjutan",
-    "Unsupported image type" : "Tipe gambar tidak bisa diterima"
+    "Advanced options" : "Opsi lanjutan"
 },
 "nplurals=1; plural=0;");

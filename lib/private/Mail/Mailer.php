@@ -12,6 +12,7 @@ declare(strict_types=1);
  * @author Jared Boone <jared.boone@gmail.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Julius Härtl <jus@bitgrid.net>
+ * @author kevin147147 <kevintamool@gmail.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -32,7 +33,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Mail;
 
 use Egulias\EmailValidator\EmailValidator;
@@ -44,11 +44,11 @@ use OCP\IL10N;
 use OCP\ILogger;
 use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
+use OCP\Mail\Events\BeforeMessageSent;
 use OCP\Mail\IAttachment;
 use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
 use OCP\Mail\IMessage;
-use OCP\Mail\Events\BeforeMessageSent;
 
 /**
  * Class Mailer provides some basic functions to create a mail message that can be used in combination with
@@ -220,6 +220,10 @@ class Mailer implements IMailer {
 	 * @return bool True if the mail address is valid, false otherwise
 	 */
 	public function validateMailAddress(string $email): bool {
+		if ($email === '') {
+			// Shortcut: empty addresses are never valid
+			return false;
+		}
 		$validator = new EmailValidator();
 		$validation = new RFCValidation();
 
@@ -239,7 +243,7 @@ class Mailer implements IMailer {
 			return $email;
 		}
 
-		list($name, $domain) = explode('@', $email, 2);
+		[$name, $domain] = explode('@', $email, 2);
 		$domain = idn_to_ascii($domain, 0,INTL_IDNA_VARIANT_UTS46);
 		return $name.'@'.$domain;
 	}
@@ -286,6 +290,15 @@ class Mailer implements IMailer {
 		$streamingOptions = $this->config->getSystemValue('mail_smtpstreamoptions', []);
 		if (is_array($streamingOptions) && !empty($streamingOptions)) {
 			$transport->setStreamOptions($streamingOptions);
+		}
+
+		$overwriteCliUrl = parse_url(
+			$this->config->getSystemValueString('overwrite.cli.url', ''),
+			PHP_URL_HOST
+		);
+
+		if (!empty($overwriteCliUrl)) {
+			$transport->setLocalDomain($overwriteCliUrl);
 		}
 
 		return $transport;

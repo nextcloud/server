@@ -1,6 +1,8 @@
 <?php
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
+ * @copyright 2014 Vincent Petry <pvince81@owncloud.com>
+ * @copyright 2014 Vincent Petry <pvince81@owncloud.com>
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Morris Jobke <hey@morrisjobke.de>
@@ -8,7 +10,7 @@
  * @author Sergio Bertolín <sbertolin@solidgear.es>
  * @author Thomas Citharel <nextcloud@tcit.fr>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -25,7 +27,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Connector\Sabre;
 
 /**
@@ -245,13 +246,13 @@ class TagsPlugin extends \Sabre\DAV\ServerPlugin {
 		$isFav = null;
 
 		$propFind->handle(self::TAGS_PROPERTYNAME, function () use (&$isFav, $node) {
-			list($tags, $isFav) = $this->getTagsAndFav($node->getId());
+			[$tags, $isFav] = $this->getTagsAndFav($node->getId());
 			return new TagList($tags);
 		});
 
 		$propFind->handle(self::FAVORITE_PROPERTYNAME, function () use ($isFav, $node) {
 			if (is_null($isFav)) {
-				list(, $isFav) = $this->getTagsAndFav($node->getId());
+				[, $isFav] = $this->getTagsAndFav($node->getId());
 			}
 			if ($isFav) {
 				return 1;

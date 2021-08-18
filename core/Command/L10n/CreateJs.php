@@ -22,7 +22,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Core\Command\L10n;
 
 use DirectoryIterator;
@@ -91,7 +90,7 @@ class CreateJs extends Command implements CompletionAwareInterface {
 	}
 
 	private function writeFiles($app, $path, $lang, OutputInterface $output) {
-		list($translations, $plurals) = $this->loadTranslations($path, $lang);
+		[$translations, $plurals] = $this->loadTranslations($path, $lang);
 		$this->writeJsFile($app, $path, $lang, $output, $translations, $plurals);
 		$this->writeJsonFile($path, $lang, $output, $translations, $plurals);
 	}

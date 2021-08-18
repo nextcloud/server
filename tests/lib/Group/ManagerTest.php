@@ -395,6 +395,7 @@ class ManagerTest extends TestCase {
 		 */
 		$backend = $this->getTestBackend();
 		$backend->method('getUserGroups')
+			->with('myUID')
 			->willReturn(['123', 'abc']);
 
 		$manager = new \OC\Group\Manager($this->userManager, $this->dispatcher, $this->logger);
@@ -402,6 +403,8 @@ class ManagerTest extends TestCase {
 
 		/** @var \OC\User\User|\PHPUnit\Framework\MockObject\MockObject $user */
 		$user = $this->createMock(IUser::class);
+		$user->method('getUID')
+			->willReturn('myUID');
 
 		$groups = $manager->getUserGroupIds($user);
 		$this->assertCount(2, $groups);

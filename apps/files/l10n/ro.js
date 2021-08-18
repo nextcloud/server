@@ -75,8 +75,6 @@ OC.L10N.register(
     "File name cannot be empty." : "Numele fișierului nu poate rămâne gol.",
     "\"/\" is not allowed inside a file name." : "\"/\" nu este permis în denumirea fișierului.",
     "\"{name}\" is not an allowed filetype" : "\"{name}\" ",
-    "Storage of {owner} is full, files can not be updated or synced anymore!" : "Spațiul de stocare pentru {owner} este plin, fișierele nu mai pot fi incărcate sau sincronizate!",
-    "Your storage is full, files can not be updated or synced anymore!" : "Spațiul de stocare este plin, fișierele nu mai pot fi actualizate sau sincronizate!",
     "View in folder" : "Vizualizează în director",
     "Copied!" : "S-a copiat!",
     "Copy direct link (only works for users who have access to this file/folder)" : "Copiază link direct (funcționeză numai pentru utilizatorii care au acces la acest fișier/director)",
@@ -155,14 +153,7 @@ OC.L10N.register(
     "Deleted shares" : "Partajări șterse",
     "Text file" : "Fișier text",
     "New text file.txt" : "Fișier nou.txt",
-    "Unshare" : "Nu mai partaja",
-    "Storage of {owner} is almost full ({usedSpacePercent}%)" : "Spațiul de stocare pentru {owner} este aproape plin ({usedSpacePercent}%)",
-    "Your storage is almost full ({usedSpacePercent}%)" : "Spațiul de stocare este aproape plin ({usedSpacePercent}%)",
-    "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>" : "Un fișier sau director a fost <strong>modificat</strong> sau <strong>redenumit</strong>",
-    "A new file or folder has been <strong>created</strong>" : "Un nou fișier sau director a fost <strong>creat</strong>",
-    "A file or folder has been <strong>deleted</strong>" : "Un fișier sau director a fost <strong>șters</strong>",
-    "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Limitează notificările despre crearea sau schimbările<strong> fișierelor tale favorite</strong> <em>(numai pentru flux)</em>  ",
-    "A file or folder has been <strong>restored</strong>" : "Un fișier sau dosar a fost <strong>restaurat</strong>",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Folosește această adresă <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">pentru a accesa Fișierele prin WebDAV</a>"
+    "Storage of {owner} is full, files can not be updated or synced anymore!" : "Spațiul de stocare pentru {owner} este plin, fișierele nu mai pot fi incărcate sau sincronizate!",
+    "Your storage is full, files can not be updated or synced anymore!" : "Spațiul de stocare este plin, fișierele nu mai pot fi actualizate sau sincronizate!"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

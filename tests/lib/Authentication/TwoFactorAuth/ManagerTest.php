@@ -33,6 +33,7 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Authentication\TwoFactorAuth\IActivatableAtLogin;
 use OCP\Authentication\TwoFactorAuth\IProvider;
 use OCP\Authentication\TwoFactorAuth\IRegistry;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\ISession;
 use OCP\IUser;
@@ -83,6 +84,9 @@ class ManagerTest extends TestCase {
 	/** @var ITimeFactory|MockObject */
 	private $timeFactory;
 
+	/** @var IEventDispatcher|MockObject */
+	private $newDispatcher;
+
 	/** @var EventDispatcherInterface|MockObject */
 	private $eventDispatcher;
 
@@ -99,6 +103,7 @@ class ManagerTest extends TestCase {
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->tokenProvider = $this->createMock(TokenProvider::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
+		$this->newDispatcher = $this->createMock(IEventDispatcher::class);
 		$this->eventDispatcher = $this->createMock(EventDispatcherInterface::class);
 
 		$this->manager = new Manager(
@@ -111,6 +116,7 @@ class ManagerTest extends TestCase {
 			$this->logger,
 			$this->tokenProvider,
 			$this->timeFactory,
+			$this->newDispatcher,
 			$this->eventDispatcher
 		);
 
@@ -420,7 +426,7 @@ class ManagerTest extends TestCase {
 			->willReturn(42);
 		$this->config->expects($this->once())
 			->method('deleteUserValue')
-			->with('jos', 'login_token_2fa', 42);
+			->with('jos', 'login_token_2fa', '42');
 
 		$result = $this->manager->verifyChallenge('email', $this->user, $challenge);
 
@@ -515,7 +521,7 @@ class ManagerTest extends TestCase {
 		$this->config->method('getUserKeys')
 			->with('user', 'login_token_2fa')
 			->willReturn([
-				42
+				'42'
 			]);
 
 		$manager = $this->getMockBuilder(Manager::class)
@@ -529,6 +535,7 @@ class ManagerTest extends TestCase {
 				$this->logger,
 				$this->tokenProvider,
 				$this->timeFactory,
+				$this->newDispatcher,
 				$this->eventDispatcher
 			])
 			->setMethods(['loadTwoFactorApp', 'isTwoFactorAuthenticated'])// Do not actually load the apps
@@ -588,7 +595,7 @@ class ManagerTest extends TestCase {
 			->willReturn(1337);
 
 		$this->config->method('setUserValue')
-			->with('ferdinand', 'login_token_2fa', 42, 1337);
+			->with('ferdinand', 'login_token_2fa', '42', '1337');
 
 
 		$this->manager->prepareTwoFactorLogin($this->user, true);
@@ -618,7 +625,7 @@ class ManagerTest extends TestCase {
 			->willReturn(1337);
 
 		$this->config->method('setUserValue')
-			->with('ferdinand', 'login_token_2fa', 42, 1337);
+			->with('ferdinand', 'login_token_2fa', '42', '1337');
 
 		$this->manager->prepareTwoFactorLogin($this->user, false);
 	}
@@ -666,7 +673,7 @@ class ManagerTest extends TestCase {
 		$this->config->method('getUserKeys')
 			->with('user', 'login_token_2fa')
 			->willReturn([
-				42, 43, 44
+				'42', '43', '44'
 			]);
 
 		$this->session->expects($this->once())

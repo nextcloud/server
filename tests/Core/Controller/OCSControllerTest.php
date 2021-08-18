@@ -88,7 +88,7 @@ class OCSControllerTest extends TestCase {
 		$this->userSession->expects($this->once())
 			->method('isLoggedIn')
 			->willReturn(true);
-		list($major, $minor, $micro) = \OCP\Util::getVersion();
+		[$major, $minor, $micro] = \OCP\Util::getVersion();
 
 		$result = [];
 		$result['version'] = [
@@ -121,7 +121,7 @@ class OCSControllerTest extends TestCase {
 		$this->userSession->expects($this->once())
 			->method('isLoggedIn')
 			->willReturn(false);
-		list($major, $minor, $micro) = \OCP\Util::getVersion();
+		[$major, $minor, $micro] = \OCP\Util::getVersion();
 
 		$result = [];
 		$result['version'] = [

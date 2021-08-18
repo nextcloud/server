@@ -1,7 +1,7 @@
 OC.L10N.register(
     "files_external",
     {
-    "External storages" : "Εξωτερική αποθήκευση",
+    "External storage" : "Εξωτερική αποθήκευση",
     "Personal" : "Προσωπικά",
     "System" : "Σύστημα",
     "Grant access" : "Παροχή πρόσβασης",
@@ -11,7 +11,6 @@ OC.L10N.register(
     "Generate keys" : "Δημιουργία κλειδιών",
     "Error generating key pair" : "Σφάλμα κατά τη δημιουργία ζεύγους κλειδιών",
     "All users. Type to select user or group." : "Όλοι οι χρήστες. Πληκτρολογήστε για να επιλέξετε χρήστη ή ομάδα.",
-    "(group)" : "(ομάδα)",
     "Compatibility with Mac NFD encoding (slow)" : "Συμβατότητα με Mac NFD κωδικόποιηση (αργό) ",
     "Enable encryption" : "Ενεργοποίηση κρυπτογράφησης",
     "Enable previews" : "Ενεργοποίηση προεπισκοπήσεων",
@@ -102,13 +101,11 @@ OC.L10N.register(
     "SFTP" : "SFTP",
     "Root" : "Root",
     "SFTP with secret key login" : "SFTP με σύνδεση με κρυφό κλειδί",
-    "SMB / CIFS" : "SMB / CIFS",
     "Share" : "Διαμοιράστε",
     "Show hidden files" : "Εμφάνιση κρυφών αρχείων",
     "Verify ACL access when listing files" : "Επαληθεύστε την πρόσβαση ACL κατά την καταχώριση αρχείων",
     "Check the ACL's of each file or folder inside a directory to filter out items where the user has no read permissions, comes with a performance penalty" : "Ελέγξτε τα ACL κάθε αρχείου ή φακέλου μέσα σε έναν κατάλογο για να φιλτράρετε στοιχεία όπου ο χρήστης δεν έχει δικαιώματα ανάγνωσης, με καθυστέρηση στις επιδόσεις",
     "Timeout" : "Λήξη χρόνου",
-    "SMB / CIFS using OC login" : "SMB / CIFS χρησιμοποιώντας λογαριασμό OC",
     "Username as share" : "Όνομα χρήστη ως διαμοιραζόμενος φάκελος",
     "OpenStack Object Storage" : "Αποθήκη αντικειμένων OpenStack",
     "Service name" : "Όνομα υπηρεσίας",
@@ -126,7 +123,6 @@ OC.L10N.register(
     "Open documentation" : "Άνοιγμα τεκμηρίωσης",
     "External storage enables you to mount external storage services and devices as secondary Nextcloud storage devices. You may also allow users to mount their own external storage services." : "Ο εξωτερικός χώρος αποθήκευσης σάς επιτρέπει να συνδέσετε εξωτερικές υπηρεσίες και συσκευές αποθήκευσης ως δευτερεύουσες συσκευές αποθήκευσης Nextcloud. Μπορείτε επίσης να επιτρέψετε στους χρήστες να εγκαταστήσουν τις δικές τους υπηρεσίες εξωτερικής αποθήκευσης.",
     "Folder name" : "Όνομα φακέλου",
-    "External storage" : "Εξωτερική αποθήκευση",
     "Authentication" : "Πιστοποίηση",
     "Configuration" : "Ρυθμίσεις",
     "Available for" : "Διαθέσιμο για",
@@ -134,7 +130,10 @@ OC.L10N.register(
     "Add storage" : "Προσθηκη αποθηκευσης",
     "Advanced settings" : "Ρυθμίσεις για προχωρημένους",
     "Allow users to mount external storage" : "Να επιτρέπεται στους χρήστες η σύνδεση εξωτερικού χώρου",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Τα δημόσια διαπιστευτήρια μπορούν να χρησιμοποιηθούν για τον έλεγχο ταυτότητας με διάφορους εξωτερικούς χώρους αποθήκευσης με ίδια διαπιστευτήρια.",
-    "Saving..." : "Γίνεται αποθήκευση..."
+    "External storages" : "Εξωτερική αποθήκευση",
+    "(group)" : "(ομάδα)",
+    "SMB / CIFS" : "SMB / CIFS",
+    "SMB / CIFS using OC login" : "SMB / CIFS χρησιμοποιώντας λογαριασμό OC",
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Τα δημόσια διαπιστευτήρια μπορούν να χρησιμοποιηθούν για τον έλεγχο ταυτότητας με διάφορους εξωτερικούς χώρους αποθήκευσης με ίδια διαπιστευτήρια."
 },
 "nplurals=2; plural=(n != 1);");

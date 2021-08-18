@@ -4,7 +4,7 @@
  *
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -15,14 +15,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Collaboration\Collaborators;
 
 use OCP\Collaboration\Collaborators\ISearchPlugin;
@@ -59,7 +58,7 @@ class RemoteGroupPlugin implements ISearchPlugin {
 		$resultType = new SearchResultType('remote_groups');
 
 		if ($this->enabled && $this->cloudIdManager->isValidCloudId($search) && $offset === 0) {
-			list($remoteGroup, $serverUrl) = $this->splitGroupRemote($search);
+			[$remoteGroup, $serverUrl] = $this->splitGroupRemote($search);
 			$result['exact'][] = [
 				'label' => $remoteGroup . " ($serverUrl)",
 				'guid' => $remoteGroup,

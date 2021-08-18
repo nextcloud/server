@@ -34,7 +34,6 @@ OC.L10N.register(
     "Cancel" : "Cancel",
     "Delete" : "Delete",
     "Save" : "Save",
-    "Browse the app store" : "Browse the app store",
     "matches" : "matches",
     "does not match" : "does not match",
     "is" : "is",
@@ -61,6 +60,7 @@ OC.L10N.register(
     "Request user agent" : "Request user agent",
     "User group membership" : "User group membership",
     "is member of" : "is member of",
-    "is not member of" : "is not member of"
+    "is not member of" : "is not member of",
+    "Browse the app store" : "Browse the app store"
 },
 "nplurals=2; plural=(n != 1);");

@@ -10,7 +10,7 @@
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -27,7 +27,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_Sharing\Tests;
 
 use OCP\IGroupManager;
@@ -262,141 +261,6 @@ class SharedMountTest extends TestCase {
 			['/files/foo.txt', null, true],
 			['/foo.txt', null, true],
 		];
-	}
-
-	public function dataPermissionMovedGroupShare() {
-		$data = [];
-
-		$powerset = function ($permissions) {
-			$results = [\OCP\Constants::PERMISSION_READ];
-
-			foreach ($permissions as $permission) {
-				foreach ($results as $combination) {
-					$results[] = $permission | $combination;
-				}
-			}
-			return $results;
-		};
-
-		//Generate file permissions
-		$permissions = [
-			\OCP\Constants::PERMISSION_UPDATE,
-			\OCP\Constants::PERMISSION_SHARE,
-		];
-
-		$allPermissions = $powerset($permissions);
-
-		foreach ($allPermissions as $before) {
-			foreach ($allPermissions as $after) {
-				if ($before === $after) {
-					continue;
-				}
-
-				$data[] = [
-					'file',
-					$before,
-					$after,
-				];
-			}
-		}
-
-		//Generate folder permissions
-		$permissions = [
-			\OCP\Constants::PERMISSION_UPDATE,
-			\OCP\Constants::PERMISSION_CREATE,
-			\OCP\Constants::PERMISSION_SHARE,
-			\OCP\Constants::PERMISSION_DELETE,
-		];
-
-		$allPermissions = $powerset($permissions);
-
-		foreach ($allPermissions as $before) {
-			foreach ($allPermissions as $after) {
-				if ($before === $after) {
-					continue;
-				}
-
-				$data[] = [
-					'folder',
-					$before,
-					$after,
-				];
-			}
-		}
-
-		return $data;
-	}
-
-
-
-	/**
-	 * moved mountpoints of a group share should keep the same permission as their parent group share.
-	 * See #15253
-	 *
-	 * @dataProvider dataPermissionMovedGroupShare
-	 */
-	public function testPermissionMovedGroupShare($type, $beforePerm, $afterPerm) {
-		$this->markTestSkipped('Unreliable test');
-		if ($type === 'file') {
-			$path = $this->filename;
-		} elseif ($type === 'folder') {
-			$path = $this->folder;
-		}
-
-		$testGroup = $this->groupManager->createGroup('testGroup');
-		$user1 = $this->userManager->get(self::TEST_FILES_SHARING_API_USER1);
-		$user2 = $this->userManager->get(self::TEST_FILES_SHARING_API_USER2);
-		$user3 = $this->userManager->get(self::TEST_FILES_SHARING_API_USER3);
-		$testGroup->addUser($user1);
-		$testGroup->addUser($user2);
-		$testGroup->addUser($user3);
-
-		// Share item with group
-		$share = $this->share(
-			IShare::TYPE_GROUP,
-			$path,
-			self::TEST_FILES_SHARING_API_USER1,
-			'testGroup',
-			$beforePerm
-		);
-		$this->shareManager->acceptShare($share, $user1->getUID());
-		$this->shareManager->acceptShare($share, $user2->getUID());
-		$this->shareManager->acceptShare($share, $user3->getUID());
-
-		// Login as user 2 and verify the item exists
-		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
-		$this->assertTrue(\OC\Files\Filesystem::file_exists($path)); // TODO: unreliable - this is sometimes false
-		$result = $this->shareManager->getShareById($share->getFullId(), self::TEST_FILES_SHARING_API_USER2);
-		$this->assertEquals($beforePerm, $result->getPermissions());
-
-		// Now move the item forcing a new entry in the share table
-		\OC\Files\Filesystem::rename($path, 'newPath');
-		$this->assertTrue(\OC\Files\Filesystem::file_exists('newPath'));
-		$this->assertFalse(\OC\Files\Filesystem::file_exists($path));
-
-		// change permissions
-		$share->setPermissions($afterPerm);
-		$this->shareManager->updateShare($share);
-
-		// Login as user 3 and verify that the permissions are changed
-		self::loginHelper(self::TEST_FILES_SHARING_API_USER3);
-		$result = $this->shareManager->getShareById($share->getFullId(), self::TEST_FILES_SHARING_API_USER3);
-		$this->assertNotEmpty($result);
-		$this->assertEquals($afterPerm, $result->getPermissions());
-
-		// Login as user 2 and verify that the permissions are changed
-		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
-		$result = $this->shareManager->getShareById($share->getFullId(), self::TEST_FILES_SHARING_API_USER2);
-		$this->assertNotEmpty($result);
-		$this->assertEquals($afterPerm, $result->getPermissions());
-		$this->assertEquals('/newPath', $result->getTarget());
-
-		//cleanup
-		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
-		$this->shareManager->deleteShare($share);
-		$testGroup->removeUser($user1);
-		$testGroup->removeUser($user2);
-		$testGroup->removeUser($user3);
 	}
 
 	/**

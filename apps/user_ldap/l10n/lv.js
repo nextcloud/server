@@ -35,7 +35,6 @@ OC.L10N.register(
     "LDAP Operations error. Anonymous bind might not be allowed." : "LDAP operācijas kļūda. Anonīma sasaiste, iespējams, nav atļauta.",
     "Select attributes" : "Atlasīt atribūtus",
     "Password change rejected. Hint: " : "Paroles maiņas noraidīja. Padoms:",
-    "LDAP / AD integration" : "LDAP / AD integrācija",
     "_%s group found_::_%s groups found_" : ["%s grupas atrastas","%s grupas atrastas","%s grupas atrastas"],
     "_%s user found_::_%s users found_" : ["%s lietotāji atrasti","%s lietotāji atrasti","%s lietotāji atrasti"],
     "Invalid Host" : "Nederīgs resursdators",
@@ -48,8 +47,6 @@ OC.L10N.register(
     "Selected groups" : "Izvēlētās grupas",
     "Edit LDAP Query" : "Labot LDAP vaicājumu",
     "LDAP Filter:" : "LDAP filtrs:",
-    "LDAP / AD Username:" : "LDAP / AD lietotājvārds:",
-    "LDAP / AD Email Address:" : "LDAP / AD e-pasta adrese:",
     "Other Attributes:" : "Citi atribūti:",
     "Test Loginname" : "Pārbaudiet lietotājvārdu",
     "Verify settings" : "Pārbaudīt iestatījumus",
@@ -113,6 +110,8 @@ OC.L10N.register(
     "Override UUID detection" : "Ignorēt UUID noteikšanu",
     "UUID Attribute for Users:" : "UUID atribūti lietotājiem:",
     "UUID Attribute for Groups:" : "UUID atribūti grupām:",
-    "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "Atstāt tukšu lietotāja vārdam (noklusējuma). Citādi, norādi LDAP/AD atribūtu."
+    "LDAP / AD integration" : "LDAP / AD integrācija",
+    "LDAP / AD Username:" : "LDAP / AD lietotājvārds:",
+    "LDAP / AD Email Address:" : "LDAP / AD e-pasta adrese:"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

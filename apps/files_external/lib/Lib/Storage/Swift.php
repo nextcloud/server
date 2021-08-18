@@ -23,7 +23,7 @@ declare(strict_types=1);
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Tim Dettrick <t.dettrick@uq.edu.au>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -40,13 +40,13 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_External\Lib\Storage;
 
 use GuzzleHttp\Psr7\Uri;
 use Icewind\Streams\CallbackWrapper;
 use Icewind\Streams\IteratorDirectory;
 use OC\Files\ObjectStore\SwiftFactory;
+use OCP\Files\IMimeTypeDetector;
 use OCP\Files\StorageBadConfigException;
 use OCP\ILogger;
 use OpenStack\Common\Error\BadResponseError;
@@ -75,6 +75,9 @@ class Swift extends \OC\Files\Storage\Common {
 
 	/** @var \OC\Files\ObjectStore\Swift */
 	private $objectStore;
+
+	/** @var IMimeTypeDetector */
+	private $mimeDetector;
 
 	/**
 	 * Key value cache mapping path to data object. Maps path to
@@ -205,6 +208,7 @@ class Swift extends \OC\Files\Storage\Common {
 		);
 		$this->objectStore = new \OC\Files\ObjectStore\Swift($this->params, $this->connectionFactory);
 		$this->bucket = $params['bucket'];
+		$this->mimeDetector = \OC::$server->get(IMimeTypeDetector::class);
 	}
 
 	public function mkdir($path) {
@@ -466,7 +470,7 @@ class Swift extends \OC\Files\Storage\Common {
 			}
 			return true;
 		} else {
-			$mimeType = \OC::$server->getMimeTypeDetector()->detectPath($path);
+			$mimeType = $this->mimeDetector->detectPath($path);
 			$this->getContainer()->createObject([
 				'name' => $path,
 				'content' => '',
@@ -588,7 +592,7 @@ class Swift extends \OC\Files\Storage\Common {
 
 	public function writeBack($tmpFile, $path) {
 		$fileData = fopen($tmpFile, 'r');
-		$this->objectStore->writeObject($path, $fileData);
+		$this->objectStore->writeObject($path, $fileData, $this->mimeDetector->detectPath($path));
 		// invalidate target object to force repopulation on fetch
 		$this->objectCache->remove($path);
 		unlink($tmpFile);

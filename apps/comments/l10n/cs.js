@@ -9,7 +9,7 @@ OC.L10N.register(
     "You commented on {file}" : "Okomentovali jste {file}",
     "%1$s commented on %2$s" : "%1$s okomentoval(a) %2$s",
     "{author} commented on {file}" : "{author} okomentoval(a) {file}",
-    "<strong>Comments</strong> for files" : "<strong>Komentáře</strong> souborů",
+    "<strong>Comments</strong> for files" : "<strong>Komentáře</strong> k souborům",
     "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Byli jste zmíněni v souboru „{file}“, v komentáři od uživatele, který byl později smazán",
     "{user} mentioned you in a comment on “{file}”" : "{user} vás zmínil(a) v komentáři u „{file}“",
     "Files app plugin to add comments to files" : "Zásuvný modul do aplikace Soubory pro přidávání komentářů k souborům",
@@ -34,7 +34,7 @@ OC.L10N.register(
     "[Deleted user]" : "[Smazaný uživatel]",
     "More comments …" : "Více komentářů…",
     "Save" : "Uložit",
-    "Allowed characters {count} of {max}" : "Povolených znaků {count} z {max}",
+    "Allowed characters {count} of {max}" : "Využito {count} znaků z {max}",
     "Error occurred while retrieving comment with ID {id}" : "Došlo k chybě při načítání komentáře s identifikátorem {id}",
     "Error occurred while updating comment with id {id}" : "Došlo k chybě při aktualizování komentáře s id {id}",
     "Error occurred while posting comment" : "Došlo k chybě při zveřejňování komentáře"

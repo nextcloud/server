@@ -67,7 +67,7 @@
 
 <script>
 import axios from '@nextcloud/axios'
-import { Multiselect } from '@nextcloud/vue'
+import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
 import _ from 'lodash'
 import { generateUrl, generateOcsUrl } from '@nextcloud/router'
 
@@ -125,7 +125,7 @@ export default {
 	methods: {
 		searchGroup: _.debounce(function(query) {
 			this.loadingGroups = true
-			axios.get(generateOcsUrl(`cloud/groups?offset=0&search=${encodeURIComponent(query)}&limit=20`, 2))
+			axios.get(generateOcsUrl('cloud/groups?offset=0&search={query}&limit=20', { query }))
 				.then(res => res.data.ocs)
 				.then(ocs => ocs.data.groups)
 				.then(groups => { this.groups = _.sortedUniq(_.uniq(this.groups.concat(groups))) })

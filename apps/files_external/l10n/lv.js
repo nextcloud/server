@@ -1,7 +1,7 @@
 OC.L10N.register(
     "files_external",
     {
-    "External storages" : "Ārējās krātuves",
+    "External storage" : "Ārējā krātuve",
     "Personal" : "Personīgi",
     "System" : "Sistēma",
     "Grant access" : "Piešķirt pieeju",
@@ -11,7 +11,6 @@ OC.L10N.register(
     "Generate keys" : "Izveidot atslēgas",
     "Error generating key pair" : "Kļūda, ģenerējot atslēgu pāri",
     "All users. Type to select user or group." : "Visiem lietotājiem. Klikšķini, lai atlasītu lietotāju vai grupu.",
-    "(group)" : "(grupa)",
     "Compatibility with Mac NFD encoding (slow)" : "Saderība ar Mac NFD kodēšanu (lēni)",
     "Enable encryption" : "Ieslēgt šifrēšanu",
     "Enable previews" : "Iespējot priekšskatījumu",
@@ -63,10 +62,8 @@ OC.L10N.register(
     "SFTP" : "SFTP",
     "Root" : "Root",
     "SFTP with secret key login" : "SFTP pieteikšanās ar slepeno atslēgu",
-    "SMB / CIFS" : "SMB / CIFS",
     "Share" : "Koplietot",
     "Show hidden files" : "Rādīt slēptās datnes",
-    "SMB / CIFS using OC login" : "SMB / CIFS lietojot OC lietotāju",
     "OpenStack Object Storage" : "OpenStack Object krātuve",
     "Service name" : "Servisa nosaukums",
     "Name" : "Nosaukums",
@@ -74,13 +71,15 @@ OC.L10N.register(
     "Scope" : "Darbības joma",
     "Open documentation" : "Atvērt dokumentāciju",
     "Folder name" : "Mapes nosaukums",
-    "External storage" : "Ārējā krātuve",
     "Authentication" : "Autentifikācija",
     "Configuration" : "Konfigurācija",
     "Available for" : "Pieejams",
     "Add storage" : "Pievienot krātuvi",
     "Advanced settings" : "Paplašināti iestatījumi",
     "Allow users to mount external storage" : "Atļaut lietotājiem uzstādīt ārējās krātuves",
-    "Saving..." : "Saglabā..."
+    "External storages" : "Ārējās krātuves",
+    "(group)" : "(grupa)",
+    "SMB / CIFS" : "SMB / CIFS",
+    "SMB / CIFS using OC login" : "SMB / CIFS lietojot OC lietotāju"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

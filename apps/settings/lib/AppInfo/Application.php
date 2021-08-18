@@ -8,11 +8,9 @@ declare(strict_types=1);
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Björn Schießle <bjoern@schiessle.org>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Maxence Lange <maxence@artificial-owl.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -33,37 +31,32 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Settings\AppInfo;
 
-use BadMethodCallException;
 use OC\AppFramework\Utility\TimeFactory;
+use OC\Authentication\Events\AppPasswordCreatedEvent;
 use OC\Authentication\Token\IProvider;
-use OC\Authentication\Token\IToken;
-use OC\Group\Manager;
 use OC\Server;
-use OCA\Settings\Activity\Provider;
 use OCA\Settings\Hooks;
+use OCA\Settings\Listener\AppPasswordCreatedActivityListener;
+use OCA\Settings\Listener\UserAddedToGroupActivityListener;
+use OCA\Settings\Listener\UserRemovedFromGroupActivityListener;
 use OCA\Settings\Mailer\NewUserMailHelper;
 use OCA\Settings\Middleware\SubadminMiddleware;
 use OCA\Settings\Search\AppSearch;
 use OCA\Settings\Search\SectionSearch;
-use OCP\Activity\IManager as IActivityManager;
+use OCA\Settings\WellKnown\SecurityTxtHandler;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\AppFramework\IAppContainer;
 use OCP\Defaults;
-use OCP\IGroup;
-use OCP\IGroupManager;
-use OCP\ILogger;
+use OCP\Group\Events\UserAddedEvent;
+use OCP\Group\Events\UserRemovedEvent;
 use OCP\IServerContainer;
-use OCP\IUser;
 use OCP\Settings\IManager;
 use OCP\Util;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 
 class Application extends App implements IBootstrap {
 	public const APP_ID = 'settings';
@@ -81,6 +74,14 @@ class Application extends App implements IBootstrap {
 		$context->registerMiddleware(SubadminMiddleware::class);
 		$context->registerSearchProvider(SectionSearch::class);
 		$context->registerSearchProvider(AppSearch::class);
+
+		// Register listeners
+		$context->registerEventListener(AppPasswordCreatedEvent::class, AppPasswordCreatedActivityListener::class);
+		$context->registerEventListener(UserAddedEvent::class, UserAddedToGroupActivityListener::class);
+		$context->registerEventListener(UserRemovedEvent::class, UserRemovedFromGroupActivityListener::class);
+
+		// Register well-known handlers
+		$context->registerWellKnownHandler(SecurityTxtHandler::class);
 
 		/**
 		 * Core class wrappers
@@ -130,55 +131,9 @@ class Application extends App implements IBootstrap {
 	}
 
 	public function boot(IBootContext $context): void {
-		$context->injectFn(function (EventDispatcherInterface $dispatcher, IAppContainer $appContainer) {
-			$dispatcher->addListener('app_password_created', function (GenericEvent $event) use ($appContainer) {
-				if (($token = $event->getSubject()) instanceof IToken) {
-					/** @var IActivityManager $activityManager */
-					$activityManager = $appContainer->get(IActivityManager::class);
-					/** @var ILogger $logger */
-					$logger = $appContainer->get(ILogger::class);
-
-					$activity = $activityManager->generateEvent();
-					$activity->setApp('settings')
-						->setType('security')
-						->setAffectedUser($token->getUID())
-						->setAuthor($token->getUID())
-						->setSubject(Provider::APP_TOKEN_CREATED, ['name' => $token->getName()])
-						->setObject('app_token', $token->getId());
-
-					try {
-						$activityManager->publish($activity);
-					} catch (BadMethodCallException $e) {
-						$logger->logException($e, ['message' => 'could not publish activity', 'level' => ILogger::WARN]);
-					}
-				}
-			});
-		});
-
 		Util::connectHook('OC_User', 'post_setPassword', $this, 'onChangePassword');
 		Util::connectHook('OC_User', 'changeUser', $this, 'onChangeInfo');
-
-		$context->injectFn(function (IGroupManager $groupManager) {
-			/** @var IGroupManager|Manager $groupManager */
-			$groupManager->listen('\OC\Group', 'postRemoveUser',  [$this, 'removeUserFromGroup']);
-			$groupManager->listen('\OC\Group', 'postAddUser',  [$this, 'addUserToGroup']);
-		});
-
-		Util::connectHook('\OCP\Config', 'js', $this, 'extendJsConfig');
 	}
-
-	public function addUserToGroup(IGroup $group, IUser $user): void {
-		/** @var Hooks $hooks */
-		$hooks = $this->getContainer()->query(Hooks::class);
-		$hooks->addUserToGroup($group, $user);
-	}
-
-	public function removeUserFromGroup(IGroup $group, IUser $user): void {
-		/** @var Hooks $hooks */
-		$hooks = $this->getContainer()->query(Hooks::class);
-		$hooks->removeUserFromGroup($group, $user);
-	}
-
 
 	/**
 	 * @param array $parameters
@@ -208,24 +163,5 @@ class Application extends App implements IBootstrap {
 		/** @var Hooks $hooks */
 		$hooks = $this->getContainer()->query(Hooks::class);
 		$hooks->onChangeEmail($parameters['user'], $parameters['old_value']);
-	}
-
-	/**
-	 * @param array $settings
-	 */
-	public function extendJsConfig(array $settings) {
-		$appConfig = json_decode($settings['array']['oc_appconfig'], true);
-
-		$publicWebFinger = \OC::$server->getConfig()->getAppValue('core', 'public_webfinger', '');
-		if (!empty($publicWebFinger)) {
-			$appConfig['core']['public_webfinger'] = $publicWebFinger;
-		}
-
-		$publicNodeInfo = \OC::$server->getConfig()->getAppValue('core', 'public_nodeinfo', '');
-		if (!empty($publicNodeInfo)) {
-			$appConfig['core']['public_nodeinfo'] = $publicNodeInfo;
-		}
-
-		$settings['array']['oc_appconfig'] = json_encode($appConfig);
 	}
 }

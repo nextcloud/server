@@ -9,7 +9,7 @@ declare(strict_types=1);
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Janis Köhr <janis.koehr@novatec-gmbh.de>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Citharel <nextcloud@tcit.fr>
@@ -23,14 +23,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Accessibility\Controller;
 
 use OC\Template\IconsCacher;
@@ -40,12 +39,12 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
-use OCP\ILogger;
 use OCP\IRequest;
 use OCP\IUserSession;
+use Psr\Log\LoggerInterface;
 use ScssPhp\ScssPhp\Compiler;
 use ScssPhp\ScssPhp\Exception\ParserException;
-use ScssPhp\ScssPhp\Formatter\Crunched;
+use ScssPhp\ScssPhp\OutputStyle;
 
 class AccessibilityController extends Controller {
 
@@ -58,7 +57,7 @@ class AccessibilityController extends Controller {
 	/** @var IConfig */
 	private $config;
 
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	private $logger;
 
 	/** @var ITimeFactory */
@@ -82,7 +81,7 @@ class AccessibilityController extends Controller {
 	public function __construct(string $appName,
 								IRequest $request,
 								IConfig $config,
-								ILogger $logger,
+								LoggerInterface $logger,
 								ITimeFactory $timeFactory,
 								IUserSession $userSession,
 								IAppManager $appManager,
@@ -134,8 +133,7 @@ class AccessibilityController extends Controller {
 			]);
 
 			// Continue after throw
-			$scss->setIgnoreErrors(true);
-			$scss->setFormatter(Crunched::class);
+			$scss->setOutputStyle(OutputStyle::COMPRESSED);
 
 			// Import theme, variables and compile css4 variables
 			try {
@@ -146,7 +144,12 @@ class AccessibilityController extends Controller {
 					'@import "css-variables.scss";'
 				);
 			} catch (ParserException $e) {
-				$this->logger->error($e->getMessage(), ['app' => 'core']);
+				$this->logger->error($e->getMessage(),
+					[
+						'app' => 'core',
+						'exception' => $e,
+					]
+				);
 			}
 		}
 
@@ -255,7 +258,12 @@ class AccessibilityController extends Controller {
 			$scss->compile($variables);
 			$this->injectedVariables = $variables;
 		} catch (ParserException $e) {
-			$this->logger->logException($e, ['app' => 'core']);
+			$this->logger->error($e->getMessage(),
+				[
+					'app' => 'core',
+					'exception' => $e,
+				]
+			);
 		}
 		return $variables;
 	}

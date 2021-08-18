@@ -93,8 +93,8 @@ function addSelect2 ($elements, userListLimit) {
 					var userCount = 0; // users is an object
 
 					// add groups
-					$.each(data.groups, function(i, group) {
-						results.push({name:group+'(group)', displayname:group, type:'group' });
+					$.each(data.groups, function(gid, group) {
+						results.push({name:gid+'(group)', displayname:group, type:'group' });
 					});
 					// add users
 					$.each(data.users, function(id, user) {
@@ -154,7 +154,7 @@ function addSelect2 ($elements, userListLimit) {
 		},
 		formatSelection: function (element) {
 			if (element.type === 'group') {
-				return '<span title="'+escapeHTML(element.name)+'" class="group">'+escapeHTML(element.displayname+' '+t('files_external', '(group)'))+'</span>';
+				return '<span title="'+escapeHTML(element.name)+'" class="group">'+escapeHTML(element.displayname+' '+t('files_external', '(Group)'))+'</span>';
 			} else {
 				return '<span title="'+escapeHTML(element.name)+'" class="user">'+escapeHTML(element.displayname)+'</span>';
 			}

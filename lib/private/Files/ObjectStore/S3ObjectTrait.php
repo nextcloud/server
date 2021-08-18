@@ -17,14 +17,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Files\ObjectStore;
 
 use Aws\S3\Exception\S3MultipartUploadException;
@@ -70,6 +69,11 @@ trait S3ObjectTrait {
 				],
 			];
 
+			if ($this->getProxy()) {
+				$opts['http']['proxy'] = $this->getProxy();
+				$opts['http']['request_fulluri'] = true;
+			}
+
 			$context = stream_context_create($opts);
 			return fopen($request->getUri(), 'r', false, $context);
 		});
@@ -78,10 +82,11 @@ trait S3ObjectTrait {
 	/**
 	 * @param string $urn the unified resource name used to identify the object
 	 * @param resource $stream stream with the data to write
+	 * @param string|null $mimetype the mimetype to set for the remove object @since 22.0.0
 	 * @throws \Exception when something goes wrong, message will be logged
 	 * @since 7.0.0
 	 */
-	public function writeObject($urn, $stream) {
+	public function writeObject($urn, $stream, string $mimetype = null) {
 		$count = 0;
 		$countStream = CallbackWrapper::wrap($stream, function ($read) use (&$count) {
 			$count += $read;
@@ -92,6 +97,9 @@ trait S3ObjectTrait {
 			'key' => $urn,
 			'part_size' => $this->uploadPartSize,
 			'concurrency' => $this->config->getSystemValue('objectstore.arguments.concurrency', 5),
+			'params' => [
+				'ContentType' => $mimetype
+			],
 		]);
 
 		try {
@@ -105,8 +113,6 @@ trait S3ObjectTrait {
 				throw $e;
 			}
 		}
-
-		fclose($countStream);
 	}
 
 	/**
@@ -124,5 +130,9 @@ trait S3ObjectTrait {
 
 	public function objectExists($urn) {
 		return $this->getConnection()->doesObjectExist($this->bucket, $urn);
+	}
+
+	public function copyObject($from, $to) {
+		$this->getConnection()->copy($this->getBucket(), $from, $this->getBucket(), $to);
 	}
 }

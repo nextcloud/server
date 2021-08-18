@@ -9,6 +9,7 @@ declare(strict_types=1);
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author J0WI <J0WI@users.noreply.github.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Markus Goetz <markus@woboq.com>
@@ -16,7 +17,7 @@ declare(strict_types=1);
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -33,7 +34,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC;
 
 use \OCP\AutoloadNotAllowedException;
@@ -68,7 +68,7 @@ class Autoloader {
 	 *
 	 * @param string $root
 	 */
-	public function addValidRoot(string $root) {
+	public function addValidRoot(string $root): void {
 		$root = stream_resolve_include_path($root);
 		$this->validRoots[$root] = true;
 	}
@@ -76,14 +76,14 @@ class Autoloader {
 	/**
 	 * disable the usage of the global classpath \OC::$CLASSPATH
 	 */
-	public function disableGlobalClassPath() {
+	public function disableGlobalClassPath(): void {
 		$this->useGlobalClassPath = false;
 	}
 
 	/**
 	 * enable the usage of the global classpath \OC::$CLASSPATH
 	 */
-	public function enableGlobalClassPath() {
+	public function enableGlobalClassPath(): void {
 		$this->useGlobalClassPath = true;
 	}
 
@@ -110,7 +110,7 @@ class Autoloader {
 		} elseif (strpos($class, 'OC_') === 0) {
 			$paths[] = \OC::$SERVERROOT . '/lib/private/legacy/' . strtolower(str_replace('_', '/', substr($class, 3)) . '.php');
 		} elseif (strpos($class, 'OCA\\') === 0) {
-			list(, $app, $rest) = explode('\\', $class, 3);
+			[, $app, $rest] = explode('\\', $class, 3);
 			$app = strtolower($app);
 			$appPath = \OC_App::getAppPath($app);
 			if ($appPath && stream_resolve_include_path($appPath)) {
@@ -184,7 +184,7 @@ class Autoloader {
 	 *
 	 * @param \OC\Memcache\Cache $memoryCache Instance of memory cache.
 	 */
-	public function setMemoryCache(\OC\Memcache\Cache $memoryCache = null) {
+	public function setMemoryCache(\OC\Memcache\Cache $memoryCache = null): void {
 		$this->memoryCache = $memoryCache;
 	}
 }

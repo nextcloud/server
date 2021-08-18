@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -24,43 +27,51 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Core\Command\User;
 
+use OC\Files\View;
 use OCP\IConfig;
 use OCP\IUserManager;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Report extends Command {
+	public const DEFAULT_COUNT_DIRS_MAX_USERS = 500;
+
 	/** @var IUserManager */
 	protected $userManager;
 	/** @var IConfig */
 	private $config;
 
-	/**
-	 * @param IUserManager $userManager
-	 */
-	public function __construct(IUserManager $userManager, IConfig $config) {
+	public function __construct(IUserManager $userManager,
+								IConfig $config) {
 		$this->userManager = $userManager;
 		$this->config = $config;
 		parent::__construct();
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName('user:report')
-			->setDescription('shows how many users have access');
+			->setDescription('shows how many users have access')
+			->addOption(
+				'count-dirs',
+				null,
+				InputOption::VALUE_NONE,
+				'Also count the number of user directories in the database (could time out on huge installations, therefore defaults to no with ' . self::DEFAULT_COUNT_DIRS_MAX_USERS . '+ users)'
+			)
+		;
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$table = new Table($output);
 		$table->setHeaders(['User Report', '']);
 		$userCountArray = $this->countUsers();
+		$total = 0;
 		if (!empty($userCountArray)) {
-			$total = 0;
 			$rows = [];
 			foreach ($userCountArray as $classname => $users) {
 				$total += $users;
@@ -72,10 +83,12 @@ class Report extends Command {
 		} else {
 			$rows[] = ['No backend enabled that supports user counting', ''];
 		}
-
-		$userDirectoryCount = $this->countUserDirectories();
 		$rows[] = [' '];
-		$rows[] = ['user directories', $userDirectoryCount];
+
+		if ($total <= self::DEFAULT_COUNT_DIRS_MAX_USERS || $input->getOption('count-dirs')) {
+			$userDirectoryCount = $this->countUserDirectories();
+			$rows[] = ['user directories', $userDirectoryCount];
+		}
 
 		$disabledUsers = $this->config->getUsersForUserValue('core', 'enabled', 'false');
 		$disabledUsersCount = count($disabledUsers);
@@ -86,12 +99,12 @@ class Report extends Command {
 		return 0;
 	}
 
-	private function countUsers() {
+	private function countUsers(): array {
 		return $this->userManager->countUsers();
 	}
 
-	private function countUserDirectories() {
-		$dataview = new \OC\Files\View('/');
+	private function countUserDirectories(): int {
+		$dataview = new View('/');
 		$userDirectories = $dataview->getDirectoryContent('/', 'httpd/unix-directory');
 		return count($userDirectories);
 	}

@@ -13,6 +13,7 @@ use OC\App\AppManager;
 use OC\App\InfoParser;
 use OC\AppConfig;
 use OCP\IAppConfig;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class AppTest
@@ -477,7 +478,7 @@ class AppTest extends \Test\TestCase {
 					'appforgroup2' => '["group2"]',
 					'appforgroup12' => '["group2","group1"]',
 				]
-			
+
 			);
 
 		$apps = \OC_App::getEnabledApps(false, $forceAll);
@@ -512,7 +513,7 @@ class AppTest extends \Test\TestCase {
 					'app3' => 'yes',
 					'app2' => 'no',
 				]
-			
+
 			);
 
 		$apps = \OC_App::getEnabledApps();
@@ -554,7 +555,7 @@ class AppTest extends \Test\TestCase {
 			\OC::$server->getGroupManager(),
 			\OC::$server->getMemCacheFactory(),
 			\OC::$server->getEventDispatcher(),
-			\OC::$server->getLogger()
+			\OC::$server->get(LoggerInterface::class)
 		));
 	}
 

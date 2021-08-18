@@ -55,6 +55,7 @@ OC.L10N.register(
     "{user} unshared {file} from you" : "{user} ha dejado de compartir {file} con usted",
     "Shared with {user}" : "Compartido con {user}",
     "Removed share for {user}" : "Eliminó el elemento compartido para {user}",
+    "{actor} removed themselves" : "{actor} se ha eliminado",
     "{actor} shared with {user}" : "{actor} compartió con {user}",
     "{actor} removed share for {user}" : "{actor} eliminó el elemento compartido para {user}",
     "Shared by {actor}" : "Compartido por {actor}",
@@ -71,9 +72,8 @@ OC.L10N.register(
     "Wrong share ID, share doesn't exist" : "ID del elemento compartido equivocado, el elemento compartido no existe",
     "Could not delete share" : "No fue posible borrar el elemento compartido",
     "Please specify a file or folder path" : "Favor de especificar un archivo o ruta de carpeta",
-    "Wrong path, file/folder doesn't exist" : "La ruta es incorrecta, el correo / carpeta no existe ",
+    "Wrong path, file/folder doesn't exist" : "La ruta es incorrecta, el archivo/carpeta no existe",
     "Could not create share" : "no fue posible crear el elemento compartido",
-    "invalid permissions" : "permisos inválidos",
     "Please specify a valid user" : "Favor de especificar un usuario válido",
     "Group sharing is disabled by the administrator" : "Compartir en grupos está deshabilitado por el administrador",
     "Please specify a valid group" : "Favor de especificar un grupo valido",
@@ -87,9 +87,7 @@ OC.L10N.register(
     "Not a directory" : "No es una carpeta",
     "Could not lock path" : "No fue posible bloquear la ruta",
     "Wrong or no update parameter given" : "El parametro de actualización esta erróneo o faltante",
-    "Can't change permissions for public share links" : "No es posible cambiar los permisos para links públicos compartidas",
     "Direct link" : "Link directa",
-    "Add to your Nextcloud" : "Agregar a su Nextcloud",
     "Share API is disabled" : "El API para compartir está deshabilitado",
     "File sharing" : "Compartir archivos",
     "Accept" : "Aceptar",
@@ -140,6 +138,8 @@ OC.L10N.register(
     "Note" : "Nota",
     "Select or drop files" : "Seleccione o suelte los archivos",
     "Uploaded files:" : "Archivos cargados:",
-    "Uploading files…" : "Cargando archivos..."
+    "Add to your Nextcloud" : "Agregar a su Nextcloud",
+    "invalid permissions" : "permisos inválidos",
+    "Can't change permissions for public share links" : "No es posible cambiar los permisos para links públicos compartidas"
 },
 "nplurals=2; plural=(n != 1);");

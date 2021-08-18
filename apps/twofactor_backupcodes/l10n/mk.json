@@ -16,8 +16,6 @@
     "An error occurred while generating your backup codes" : "Настана грешка при генерирање на вашите резервни кодови",
     "{name} backup codes" : "{name} резервни кодови",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Искористи еден од резервните кодови што ги зачувавте кога активиравте двофакторна автентикација.",
-    "Submit" : "Испрати",
-    "_" : "_",
-    "_icon-loading-small_::_generate-backup-codes_" : ["icon-loading-small","generate-backup-codes"]
+    "Submit" : "Испрати"
 },"pluralForm" :"nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;"
 }

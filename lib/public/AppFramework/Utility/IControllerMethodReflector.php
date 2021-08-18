@@ -25,7 +25,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\AppFramework\Utility;
 
 /**
@@ -34,6 +33,8 @@ namespace OCP\AppFramework\Utility;
  * Reads and parses annotations from doc comments
  *
  * @since 8.0.0
+ * @deprecated 22.0.0 will be obsolete with native attributes in PHP8
+ * @see https://help.nextcloud.com/t/how-should-we-use-php8-attributes/104278
  */
 interface IControllerMethodReflector {
 
@@ -54,12 +55,14 @@ interface IControllerMethodReflector {
 	 * @return string|null type in the type parameters (@param int $something)
 	 * would return int or null if not existing
 	 * @since 8.0.0
+	 * @deprecated 22.0.0 this method is only used internally
 	 */
 	public function getType(string $parameter);
 
 	/**
 	 * @return array the arguments of the method with key => default value
 	 * @since 8.0.0
+	 * @deprecated 22.0.0 this method is only used internally
 	 */
 	public function getParameters(): array;
 
@@ -69,6 +72,8 @@ interface IControllerMethodReflector {
 	 * @param string $name the name of the annotation
 	 * @return bool true if the annotation is found
 	 * @since 8.0.0
+	 * @deprecated 22.0.0 will be obsolete with native attributes in PHP8
+	 * @see https://help.nextcloud.com/t/how-should-we-use-php8-attributes/104278
 	 */
 	public function hasAnnotation(string $name): bool;
 }

@@ -28,7 +28,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\OCS;
 
 class Result {
@@ -104,10 +103,10 @@ class Result {
 		$meta['status'] = $this->succeeded() ? 'ok' : 'failure';
 		$meta['statuscode'] = $this->statusCode;
 		$meta['message'] = $this->message;
-		if (isset($this->items)) {
+		if ($this->items !== null) {
 			$meta['totalitems'] = $this->items;
 		}
-		if (isset($this->perPage)) {
+		if ($this->perPage !== null) {
 			$meta['itemsperpage'] = $this->perPage;
 		}
 		return $meta;

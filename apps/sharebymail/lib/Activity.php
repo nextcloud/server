@@ -16,14 +16,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\ShareByMail;
 
 use OCP\Activity\IEvent;
@@ -288,24 +287,24 @@ class Activity implements IProvider {
 			case self::SUBJECT_SHARED_EMAIL_SELF:
 			case self::SUBJECT_UNSHARED_EMAIL_SELF:
 				return [
-					'file' => $this->generateFileParameter((int) $event->getObjectId(), $parameters[0]),
+					'file' => $this->generateFileParameter($event->getObjectId(), $parameters[0]),
 					'email' => $this->generateEmailParameter($parameters[1]),
 				];
 			case self::SUBJECT_SHARED_EMAIL_BY:
 			case self::SUBJECT_UNSHARED_EMAIL_BY:
 				return [
-					'file' => $this->generateFileParameter((int) $event->getObjectId(), $parameters[0]),
+					'file' => $this->generateFileParameter($event->getObjectId(), $parameters[0]),
 					'email' => $this->generateEmailParameter($parameters[1]),
 					'actor' => $this->generateUserParameter($parameters[2]),
 				];
 			case self::SUBJECT_SHARED_EMAIL_PASSWORD_SEND:
 				return [
-					'file' => $this->generateFileParameter((int) $event->getObjectId(), $parameters[0]),
+					'file' => $this->generateFileParameter($event->getObjectId(), $parameters[0]),
 					'email' => $this->generateEmailParameter($parameters[1]),
 				];
 			case self::SUBJECT_SHARED_EMAIL_PASSWORD_SEND_SELF:
 				return [
-					'file' => $this->generateFileParameter((int) $event->getObjectId(), $parameters[0]),
+					'file' => $this->generateFileParameter($event->getObjectId(), $parameters[0]),
 				];
 		}
 		throw new \InvalidArgumentException();

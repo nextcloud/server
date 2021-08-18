@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -21,7 +22,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Encryption;
 
 use OC\Files\Filesystem;
@@ -31,6 +31,7 @@ use OC\Memcache\ArrayCache;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage;
 use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class EncryptionWrapper
@@ -81,7 +82,7 @@ class EncryptionWrapper {
 			'mount' => $mount
 		];
 
-		if (!$storage->instanceOfStorage(Storage\IDisableEncryptionStorage::class)) {
+		if (!$storage->instanceOfStorage(Storage\IDisableEncryptionStorage::class) && $mountPoint !== '/') {
 			$user = \OC::$server->getUserSession()->getUser();
 			$mountManager = Filesystem::getMountManager();
 			$uid = $user ? $user->getUID() : null;
@@ -100,6 +101,7 @@ class EncryptionWrapper {
 				Filesystem::getMountManager(),
 				$this->manager,
 				$fileHelper,
+				\OC::$server->get(LoggerInterface::class),
 				$uid
 			);
 			return new Encryption(

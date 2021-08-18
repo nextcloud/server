@@ -1,10 +1,16 @@
 <?php
 
 declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2019 Arthur Schiwon <blizzz@arthur-schiwon.de>
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
+ * @author Julius Härtl <jus@bitgrid.net>
+ * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -15,22 +21,21 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\WorkflowEngine\Settings;
 
 use OCA\WorkflowEngine\AppInfo\Application;
 use OCA\WorkflowEngine\Manager;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Services\IInitialState;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
-use OCP\IInitialStateService;
 use OCP\IL10N;
 use OCP\Settings\ISettings;
 use OCP\WorkflowEngine\Events\LoadSettingsScriptsEvent;
@@ -54,7 +59,7 @@ abstract class ASettings implements ISettings {
 	/** @var Manager */
 	protected $manager;
 
-	/** @var IInitialStateService */
+	/** @var IInitialState */
 	private $initialStateService;
 
 	/** @var IConfig */
@@ -65,7 +70,7 @@ abstract class ASettings implements ISettings {
 		IL10N $l,
 		IEventDispatcher $eventDispatcher,
 		Manager $manager,
-		IInitialStateService $initialStateService,
+		IInitialState $initialStateService,
 		IConfig $config
 	) {
 		$this->appName = $appName;
@@ -81,7 +86,7 @@ abstract class ASettings implements ISettings {
 	/**
 	 * @return TemplateResponse
 	 */
-	public function getForm() {
+	public function getForm(): TemplateResponse {
 		// @deprecated in 20.0.0: retire this one in favor of the typed event
 		$this->eventDispatcher->dispatch(
 			'OCP\WorkflowEngine::loadAdditionalSettingScripts',
@@ -91,33 +96,28 @@ abstract class ASettings implements ISettings {
 
 		$entities = $this->manager->getEntitiesList();
 		$this->initialStateService->provideInitialState(
-			Application::APP_ID,
 			'entities',
 			$this->entitiesToArray($entities)
 		);
 
 		$operators = $this->manager->getOperatorList();
 		$this->initialStateService->provideInitialState(
-			Application::APP_ID,
 			'operators',
 			$this->operatorsToArray($operators)
 		);
 
 		$checks = $this->manager->getCheckList();
 		$this->initialStateService->provideInitialState(
-			Application::APP_ID,
 			'checks',
 			$this->checksToArray($checks)
 		);
 
 		$this->initialStateService->provideInitialState(
-			Application::APP_ID,
 			'scope',
 			$this->getScope()
 		);
 
 		$this->initialStateService->provideInitialState(
-			Application::APP_ID,
 			'appstoreenabled',
 			$this->config->getSystemValueBool('appstoreenabled', true)
 		);
@@ -128,7 +128,7 @@ abstract class ASettings implements ISettings {
 	/**
 	 * @return string the section ID, e.g. 'sharing'
 	 */
-	public function getSection() {
+	public function getSection(): ?string {
 		return 'workflow';
 	}
 
@@ -139,7 +139,7 @@ abstract class ASettings implements ISettings {
 	 *
 	 * E.g.: 70
 	 */
-	public function getPriority() {
+	public function getPriority(): int {
 		return 0;
 	}
 

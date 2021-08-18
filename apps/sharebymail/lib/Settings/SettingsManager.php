@@ -6,6 +6,9 @@ declare(strict_types=1);
  * @copyright Copyright (c) 2017 Bjoern Schiessle <bjoern@schiessle.org>
  *
  * @author Bjoern Schiessle <bjoern@schiessle.org>
+ * @author dems54 <2083596+dems54@users.noreply.github.com>
+ * @author Nicolas SIMIDE <2083596+dems54@users.noreply.github.com>
+ * @author noiob <8197071+noiob@users.noreply.github.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
@@ -17,14 +20,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\ShareByMail\Settings;
 
 use OCP\IConfig;
@@ -36,7 +38,7 @@ class SettingsManager {
 
 	private $sendPasswordByMailDefault = 'yes';
 
-	private $enforcePasswordProtectionDefault = 'no';
+	private $replyToInitiatorDefault = 'yes';
 
 	public function __construct(IConfig $config) {
 		$this->config = $config;
@@ -53,12 +55,12 @@ class SettingsManager {
 	}
 
 	/**
-	 * do we require a share by mail to be password protected
+	 * should add reply to with initiator mail
 	 *
 	 * @return bool
 	 */
-	public function enforcePasswordProtection(): bool {
-		$enforcePassword = $this->config->getAppValue('sharebymail', 'enforcePasswordProtection', $this->enforcePasswordProtectionDefault);
-		return $enforcePassword === 'yes';
+	public function replyToInitiator(): bool {
+		$replyToInitiator = $this->config->getAppValue('sharebymail', 'replyToInitiator', $this->replyToInitiatorDefault);
+		return $replyToInitiator === 'yes';
 	}
 }

@@ -2,6 +2,8 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud GmbH.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -21,10 +23,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_Sharing\Command;
 
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\Federation\ICloudIdManager;
 use OCP\IDBConnection;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -42,8 +44,14 @@ class CleanupRemoteStorages extends Command {
 	 */
 	protected $connection;
 
-	public function __construct(IDBConnection $connection) {
+	/**
+	 * @var ICloudIdManager
+	 */
+	private $cloudIdManager;
+
+	public function __construct(IDBConnection $connection, ICloudIdManager $cloudIdManager) {
 		$this->connection = $connection;
+		$this->cloudIdManager = $cloudIdManager;
 		parent::__construct();
 	}
 
@@ -106,7 +114,7 @@ class CleanupRemoteStorages extends Command {
 				IQueryBuilder::PARAM_STR)
 			);
 		$result = $queryBuilder->execute();
-		$count = $result->fetchColumn();
+		$count = $result->fetchOne();
 		$output->writeln("$count files can be deleted for storage $numericId");
 	}
 
@@ -166,14 +174,17 @@ class CleanupRemoteStorages extends Command {
 
 	public function getRemoteShareIds() {
 		$queryBuilder = $this->connection->getQueryBuilder();
-		$queryBuilder->select(['id', 'share_token', 'remote'])
+		$queryBuilder->select(['id', 'share_token', 'owner', 'remote'])
 			->from('share_external');
 		$query = $queryBuilder->execute();
 
 		$remoteShareIds = [];
 
 		while ($row = $query->fetch()) {
-			$remoteShareIds[$row['id']] = 'shared::' . md5($row['share_token'] . '@' . $row['remote']);
+			$cloudId = $this->cloudIdManager->getCloudId($row['owner'], $row['remote']);
+			$remote = $cloudId->getRemote();
+
+			$remoteShareIds[$row['id']] = 'shared::' . md5($row['share_token'] . '@' . $remote);
 		}
 
 		return $remoteShareIds;

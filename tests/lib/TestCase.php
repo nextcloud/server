@@ -226,7 +226,11 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 				$property->setValue($object, array_pop($parameters));
 			}
 
-			return $property->getValue($object);
+			if (is_object($object)) {
+				return $property->getValue($object);
+			}
+
+			return $property->getValue();
 		}
 
 		return false;
@@ -257,7 +261,12 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 		}
 		$dataDir = \OC::$server->getConfig()->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data-autotest');
 		if (self::$wasDatabaseAllowed && \OC::$server->getDatabaseConnection()) {
-			$queryBuilder = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+			$db = \OC::$server->getDatabaseConnection();
+			if ($db->inTransaction()) {
+				$db->rollBack();
+				throw new \Exception('There was a transaction still in progress and needed to be rolled back. Please fix this in your test.');
+			}
+			$queryBuilder = $db->getQueryBuilder();
 
 			self::tearDownAfterClassCleanShares($queryBuilder);
 			self::tearDownAfterClassCleanStorages($queryBuilder);
@@ -399,7 +408,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 		// get the user for which the fs is setup
 		$view = Filesystem::getView();
 		if ($view) {
-			list(, $user) = explode('/', $view->getRoot());
+			[, $user] = explode('/', $view->getRoot());
 		} else {
 			$user = null;
 		}
@@ -450,15 +459,27 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 		}
 	}
 
+	protected function getGroupAnnotations(): array {
+		if (method_exists($this, 'getAnnotations')) {
+			$annotations = $this->getAnnotations();
+			return $annotations['class']['group'] ?? [];
+		}
+
+		$r = new \ReflectionClass($this);
+		$doc = $r->getDocComment();
+		preg_match_all('#@group\s+(.*?)\n#s', $doc, $annotations);
+		return $annotations[1] ?? [];
+	}
+
 	protected function IsDatabaseAccessAllowed() {
 		// on travis-ci.org we allow database access in any case - otherwise
 		// this will break all apps right away
 		if (true == getenv('TRAVIS')) {
 			return true;
 		}
-		$annotations = $this->getAnnotations();
-		if (isset($annotations['class']['group'])) {
-			if (in_array('DB', $annotations['class']['group']) || in_array('SLOWDB', $annotations['class']['group'])) {
+		$annotations = $this->getGroupAnnotations();
+		if (isset($annotations)) {
+			if (in_array('DB', $annotations) || in_array('SLOWDB', $annotations)) {
 				return true;
 			}
 		}

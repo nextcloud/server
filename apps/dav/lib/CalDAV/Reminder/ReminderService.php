@@ -8,6 +8,7 @@ declare(strict_types=1);
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Citharel <nextcloud@tcit.fr>
  *
@@ -20,14 +21,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\CalDAV\Reminder;
 
 use DateTimeImmutable;
@@ -40,9 +40,11 @@ use OCP\IUserManager;
 use Sabre\VObject;
 use Sabre\VObject\Component\VAlarm;
 use Sabre\VObject\Component\VEvent;
+use Sabre\VObject\InvalidDataException;
 use Sabre\VObject\ParseException;
 use Sabre\VObject\Recur\EventIterator;
 use Sabre\VObject\Recur\NoInstancesException;
+use function strcasecmp;
 
 class ReminderService {
 
@@ -153,39 +155,15 @@ class ReminderService {
 	}
 
 	/**
-	 * @param string $action
 	 * @param array $objectData
 	 * @throws VObject\InvalidDataException
 	 */
-	public function onTouchCalendarObject(string $action,
-										  array $objectData):void {
+	public function onCalendarObjectCreate(array $objectData):void {
 		// We only support VEvents for now
 		if (strcasecmp($objectData['component'], 'vevent') !== 0) {
 			return;
 		}
 
-		switch ($action) {
-			case '\OCA\DAV\CalDAV\CalDavBackend::createCalendarObject':
-				$this->onCalendarObjectCreate($objectData);
-				break;
-
-			case '\OCA\DAV\CalDAV\CalDavBackend::updateCalendarObject':
-				$this->onCalendarObjectEdit($objectData);
-				break;
-
-			case '\OCA\DAV\CalDAV\CalDavBackend::deleteCalendarObject':
-				$this->onCalendarObjectDelete($objectData);
-				break;
-
-			default:
-				break;
-		}
-	}
-
-	/**
-	 * @param array $objectData
-	 */
-	private function onCalendarObjectCreate(array $objectData):void {
 		$calendarData = is_resource($objectData['calendardata'])
 			? stream_get_contents($objectData['calendardata'])
 			: $objectData['calendardata'];
@@ -274,7 +252,11 @@ class ReminderService {
 						continue;
 					}
 
-					$triggerTime = $valarm->getEffectiveTriggerTime();
+					try {
+						$triggerTime = $valarm->getEffectiveTriggerTime();
+					} catch (InvalidDataException $e) {
+						continue;
+					}
 
 					// If effective trigger time is in the past
 					// just skip and generate for next event
@@ -302,8 +284,9 @@ class ReminderService {
 
 	/**
 	 * @param array $objectData
+	 * @throws VObject\InvalidDataException
 	 */
-	private function onCalendarObjectEdit(array $objectData):void {
+	public function onCalendarObjectEdit(array $objectData):void {
 		// TODO - this can be vastly improved
 		//  - get cached reminders
 		//  - ...
@@ -314,8 +297,14 @@ class ReminderService {
 
 	/**
 	 * @param array $objectData
+	 * @throws VObject\InvalidDataException
 	 */
-	private function onCalendarObjectDelete(array $objectData):void {
+	public function onCalendarObjectDelete(array $objectData):void {
+		// We only support VEvents for now
+		if (strcasecmp($objectData['component'], 'vevent') !== 0) {
+			return;
+		}
+
 		$this->backend->cleanRemindersForEvent((int) $objectData['id']);
 	}
 

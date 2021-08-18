@@ -23,7 +23,6 @@
     "Do you really want to delete the current Server Configuration?" : "Наистина ли желаете текущата сървърна конфигурация да бъде изтрита?",
     "Confirm Deletion" : "Потвърди Изтриването",
     "Select attributes" : "Избери атрибути",
-    "LDAP / AD integration" : "LDAP / AD интеграция",
     "_%s group found_::_%s groups found_" : ["%s открита група","%s открити групи"],
     "_%s user found_::_%s users found_" : ["%s октрит потребител","%s октрити потребители"],
     "Could not find the desired feature" : "Не е открита желанта функция",
@@ -35,8 +34,6 @@
     "Selected groups" : "Избрани групи",
     "LDAP Filter:" : "LDAP филтър:",
     "The filter specifies which LDAP groups shall have access to the %s instance." : "Филтърът посочва кои LDAP групи ще имат достъп до %s инсталацията.",
-    "LDAP / AD Username:" : "LDAP / AD потребител:",
-    "LDAP / AD Email Address:" : "LDAP / AD имейл адрес:",
     "Other Attributes:" : "Други атрибути:",
     "Test Loginname" : "Проверка на Потребителско име",
     "Verify settings" : "Потвърди настройките",
@@ -103,6 +100,8 @@
     "By default, the UUID attribute is automatically detected. The UUID attribute is used to doubtlessly identify LDAP users and groups. Also, the internal username will be created based on the UUID, if not specified otherwise above. You can override the setting and pass an attribute of your choice. You must make sure that the attribute of your choice can be fetched for both users and groups and it is unique. Leave it empty for default behavior. Changes will have effect only on newly mapped (added) LDAP users and groups." : "Обикновено UUID атрибутът ще бъде намерен автоматично. UUID атрибута се използва, за да се идентифицират еднозначно LDAP потребители и групи. Освен това ще бъде генерирано вътрешното име базирано на UUID-то, ако такова не е посочено по-горе. Можете да промените настройката и да използвате атрибут по свой избор. Наложително е атрибутът да бъде уникален както за потребителите така и за групите. Промените ще се отразят само за новодобавени (map-нати) LDAP потребители.",
     "UUID Attribute for Users:" : "UUID атрибут за потребителите:",
     "UUID Attribute for Groups:" : "UUID атрибут за групите:",
-    "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "Оставете празно за потребителско име (стандартно). Или посочете LDAP/AD атрибут."
+    "LDAP / AD integration" : "LDAP / AD интеграция",
+    "LDAP / AD Username:" : "LDAP / AD потребител:",
+    "LDAP / AD Email Address:" : "LDAP / AD имейл адрес:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

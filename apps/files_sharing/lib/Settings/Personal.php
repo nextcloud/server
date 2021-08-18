@@ -17,32 +17,31 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Files_Sharing\Settings;
 
 use OCA\Files_Sharing\AppInfo\Application;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Services\IInitialState;
 use OCP\IConfig;
-use OCP\IInitialStateService;
 use OCP\Settings\ISettings;
 
 class Personal implements ISettings {
 
 	/** @var IConfig */
 	private $config;
-	/** @var IInitialStateService */
+	/** @var IInitialState */
 	private $initialState;
 	/** @var string */
 	private $userId;
 
-	public function __construct(IConfig $config, IInitialStateService $initialState, string $userId) {
+	public function __construct(IConfig $config, IInitialState $initialState, string $userId) {
 		$this->config = $config;
 		$this->initialState = $initialState;
 		$this->userId = $userId;
@@ -52,8 +51,8 @@ class Personal implements ISettings {
 		$defaultAcceptSystemConfig = $this->config->getSystemValueBool('sharing.enable_share_accept', false) ? 'no' : 'yes';
 		$acceptDefault = $this->config->getUserValue($this->userId, Application::APP_ID, 'default_accept', $defaultAcceptSystemConfig) === 'yes';
 		$enforceAccept = $this->config->getSystemValueBool('sharing.force_share_accept', false);
-		$this->initialState->provideInitialState(Application::APP_ID, 'accept_default', $acceptDefault);
-		$this->initialState->provideInitialState(Application::APP_ID, 'enforce_accept', $enforceAccept);
+		$this->initialState->provideInitialState('accept_default', $acceptDefault);
+		$this->initialState->provideInitialState('enforce_accept', $enforceAccept);
 		return new TemplateResponse('files_sharing', 'Settings/personal');
 	}
 

@@ -2,8 +2,8 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -25,15 +25,15 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Tests\unit\CardDAV;
 
-use OC\Accounts\AccountManager;
 use OCA\DAV\CardDAV\CardDavBackend;
+use OCA\DAV\CardDAV\Converter;
 use OCA\DAV\CardDAV\SyncService;
 use OCP\ILogger;
 use OCP\IUser;
 use OCP\IUserManager;
+use Sabre\VObject\Component\VCard;
 use Test\TestCase;
 
 class SyncServiceTest extends TestCase {
@@ -81,8 +81,9 @@ class SyncServiceTest extends TestCase {
 		/** @var IUserManager $userManager */
 		$userManager = $this->getMockBuilder(IUserManager::class)->disableOriginalConstructor()->getMock();
 		$logger = $this->getMockBuilder(ILogger::class)->disableOriginalConstructor()->getMock();
-		$accountManager = $this->getMockBuilder(AccountManager::class)->disableOriginalConstructor()->getMock();
-		$ss = new SyncService($backend, $userManager, $logger, $accountManager);
+		$converter = $this->createMock(Converter::class);
+
+		$ss = new SyncService($backend, $userManager, $logger, $converter);
 		$ss->ensureSystemAddressBookExists('principals/users/adam', 'contacts', []);
 	}
 
@@ -129,47 +130,12 @@ class SyncServiceTest extends TestCase {
 		$user->method('getCloudId')->willReturn('cloudId');
 		$user->method('getDisplayName')->willReturn('test-user');
 		$user->method('isEnabled')->willReturn($activated);
-		$accountManager = $this->getMockBuilder(AccountManager::class)->disableOriginalConstructor()->getMock();
-		$accountManager->expects($this->any())->method('getUser')
-			->willReturn([
-				AccountManager::PROPERTY_DISPLAYNAME =>
-					[
-						'value' => $user->getDisplayName(),
-						'scope' => AccountManager::VISIBILITY_CONTACTS_ONLY,
-					],
-				AccountManager::PROPERTY_ADDRESS =>
-					[
-						'value' => '',
-						'scope' => AccountManager::VISIBILITY_PRIVATE,
-					],
-				AccountManager::PROPERTY_WEBSITE =>
-					[
-						'value' => '',
-						'scope' => AccountManager::VISIBILITY_PRIVATE,
-					],
-				AccountManager::PROPERTY_EMAIL =>
-					[
-						'value' => $user->getEMailAddress(),
-						'scope' => AccountManager::VISIBILITY_CONTACTS_ONLY,
-					],
-				AccountManager::PROPERTY_AVATAR =>
-					[
-						'scope' => AccountManager::VISIBILITY_CONTACTS_ONLY
-					],
-				AccountManager::PROPERTY_PHONE =>
-					[
-						'value' => '',
-						'scope' => AccountManager::VISIBILITY_PRIVATE,
-					],
-				AccountManager::PROPERTY_TWITTER =>
-					[
-						'value' => '',
-						'scope' => AccountManager::VISIBILITY_PRIVATE,
-					],
-			]
-			);
+		$converter = $this->createMock(Converter::class);
+		$converter->expects($this->any())
+			->method('createCardFromUser')
+			->willReturn($this->createMock(VCard::class));
 
-		$ss = new SyncService($backend, $userManager, $logger, $accountManager);
+		$ss = new SyncService($backend, $userManager, $logger, $converter);
 		$ss->updateUser($user);
 
 		$ss->updateUser($user);
@@ -201,11 +167,11 @@ class SyncServiceTest extends TestCase {
 	private function getSyncServiceMock($backend, $response) {
 		$userManager = $this->getMockBuilder(IUserManager::class)->disableOriginalConstructor()->getMock();
 		$logger = $this->getMockBuilder(ILogger::class)->disableOriginalConstructor()->getMock();
-		$accountManager = $this->getMockBuilder(AccountManager::class)->disableOriginalConstructor()->getMock();
+		$converter = $this->createMock(Converter::class);
 		/** @var SyncService | \PHPUnit\Framework\MockObject\MockObject $ss */
 		$ss = $this->getMockBuilder(SyncService::class)
 			->setMethods(['ensureSystemAddressBookExists', 'requestSyncReport', 'download', 'getCertPath'])
-			->setConstructorArgs([$backend, $userManager, $logger, $accountManager])
+			->setConstructorArgs([$backend, $userManager, $logger, $converter])
 			->getMock();
 		$ss->method('requestSyncReport')->withAnyParameters()->willReturn(['response' => $response, 'token' => 'sync-token-1']);
 		$ss->method('ensureSystemAddressBookExists')->willReturn(['id' => 1]);

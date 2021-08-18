@@ -69,7 +69,6 @@ OC.L10N.register(
     "\"{name}\" is an invalid file name." : "\"{name}\" is nie 'n geldige lêer naam nie.",
     "File name cannot be empty." : "Lêernaam kan nie leeg wees nie.",
     "\"/\" is not allowed inside a file name." : "\"/\" word nie binne 'n lêernaam toegelaat nie.",
-    "_matches '{filter}'_::_match '{filter}'_" : ["pas '{filter}'","pas '{filter}'"],
     "View in folder" : "Vertoon in gids",
     "Copied!" : "Gekopieer!",
     "Path" : "Roete",
@@ -132,11 +131,6 @@ OC.L10N.register(
     "Shared by link" : "Gedeel per skakel",
     "Text file" : "Tekslêer",
     "New text file.txt" : "Nuwe tekslêer.txt",
-    "Unshare" : "Ontdeel",
-    "Your storage is almost full ({usedSpacePercent}%)" : "U stoorspasie is amper vol ({usedSpacePercent}%)",
-    "A new file or folder has been <strong>created</strong>" : "'n Lêer of gids is <strong>geskep</strong>",
-    "A file or folder has been <strong>deleted</strong>" : "'n Lêer of gids is <strong>geskrap</strong>",
-    "A file or folder has been <strong>restored</strong>" : "'n Lêer of gids is <strong>herstel</strong>",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Gebruik dié adres vir <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">toegang tot lêers d.m.v. WebDAV</a>"
+    "_matches '{filter}'_::_match '{filter}'_" : ["pas '{filter}'","pas '{filter}'"]
 },
 "nplurals=2; plural=(n != 1);");

@@ -162,24 +162,24 @@
 				mountPoint = $('#usedSpacePercent').data('mount-point');
 			if (usedSpacePercent > 98) {
 				if (owner !== OC.getCurrentUser().uid) {
-					OC.Notification.show(t('files', 'Storage of {owner} is full, files can not be updated or synced anymore!',
+					OC.Notification.show(t('files', 'Storage of {owner} is full, files cannot be updated or synced anymore!',
 						{owner: ownerDisplayName}), {type: 'error'}
 					);
 				} else if (mountType === 'group') {
 					OC.Notification.show(t('files',
-						'Group folder "{mountPoint}" is full, files can not be updated or synced anymore!',
+						'Group folder "{mountPoint}" is full, files cannot be updated or synced anymore!',
 						{mountPoint: mountPoint}),
 						{type: 'error'}
 					);
 				} else if (mountType === 'external') {
 					OC.Notification.show(t('files',
-						'External storage "{mountPoint}" is full, files can not be updated or synced anymore!',
+						'External storage "{mountPoint}" is full, files cannot be updated or synced anymore!',
 						{mountPoint: mountPoint}),
 						{type : 'error'}
 					);
 				} else {
 					OC.Notification.show(t('files',
-						'Your storage is full, files can not be updated or synced anymore!'),
+						'Your storage is full, files cannot be updated or synced anymore!'),
 						{type: 'error'}
 					);
 				}

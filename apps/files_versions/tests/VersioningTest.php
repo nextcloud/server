@@ -15,7 +15,7 @@
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Stefan Weil <sw@weilnetz.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -32,7 +32,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_Versions\Tests;
 
 use OC\Files\Storage\Temporary;
@@ -100,7 +99,7 @@ class VersioningTest extends \Test\TestCase {
 
 		// clear hooks
 		\OC_Hook::clear();
-		\OC::registerShareHooks();
+		\OC::registerShareHooks(\OC::$server->getSystemConfig());
 		\OCA\Files_Versions\Hooks::connectHooks();
 
 		self::loginHelper(self::TEST_VERSIONS_USER);

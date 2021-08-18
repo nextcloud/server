@@ -1,6 +1,6 @@
 <?php
 /**
- *
+ * @copyright Copyright (c) 2016 Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -14,14 +14,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Files_Sharing\Controller;
 
 use OCA\Files_External\NotFoundException;
@@ -48,7 +47,7 @@ class ShareInfoController extends ApiController {
 	 * @param IRequest $request
 	 * @param IManager $shareManager
 	 */
-	public function __construct($appName,
+	public function __construct(string $appName,
 								IRequest $request,
 								IManager $shareManager) {
 		parent::__construct($appName, $request);
@@ -59,26 +58,32 @@ class ShareInfoController extends ApiController {
 	/**
 	 * @PublicPage
 	 * @NoCSRFRequired
+	 * @BruteForceProtection(action=shareinfo)
 	 *
 	 * @param string $t
 	 * @param null $password
 	 * @param null $dir
 	 * @return JSONResponse
-	 * @throws ShareNotFound
 	 */
 	public function info($t, $password = null, $dir = null) {
 		try {
 			$share = $this->shareManager->getShareByToken($t);
 		} catch (ShareNotFound $e) {
-			return new JSONResponse([], Http::STATUS_NOT_FOUND);
+			$response = new JSONResponse([], Http::STATUS_NOT_FOUND);
+			$response->throttle(['token' => $t]);
+			return $response;
 		}
 
 		if ($share->getPassword() && !$this->shareManager->checkPassword($share, $password)) {
-			return new JSONResponse([], Http::STATUS_FORBIDDEN);
+			$response = new JSONResponse([], Http::STATUS_FORBIDDEN);
+			$response->throttle(['token' => $t]);
+			return $response;
 		}
 
 		if (!($share->getPermissions() & Constants::PERMISSION_READ)) {
-			return new JSONResponse([], Http::STATUS_FORBIDDEN);
+			$response = new JSONResponse([], Http::STATUS_FORBIDDEN);
+			$response->throttle(['token' => $t]);
+			return $response;
 		}
 
 		$permissionMask = $share->getPermissions();

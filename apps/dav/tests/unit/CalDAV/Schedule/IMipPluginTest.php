@@ -27,7 +27,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Tests\unit\CalDAV\Schedule;
 
 use OCA\DAV\CalDAV\Schedule\IMipPlugin;
@@ -140,6 +139,7 @@ class IMipPluginTest extends TestCase {
 			->method('getAppValue')
 			->with('dav', 'invitation_link_recipients', 'yes')
 			->willReturn('yes');
+		$this->mailer->method('validateMailAddress')->willReturn(true);
 
 		$message = $this->_testMessage();
 		$this->_expectSend();
@@ -153,6 +153,7 @@ class IMipPluginTest extends TestCase {
 			->method('getAppValue')
 			->with('dav', 'invitation_link_recipients', 'yes')
 			->willReturn('yes');
+		$this->mailer->method('validateMailAddress')->willReturn(true);
 
 		$message = $this->_testMessage();
 		$this->mailer
@@ -163,12 +164,21 @@ class IMipPluginTest extends TestCase {
 		$this->assertEquals('5.0', $message->getScheduleStatus());
 	}
 
+	public function testInvalidEmailDelivery() {
+		$this->mailer->method('validateMailAddress')->willReturn(false);
+
+		$message = $this->_testMessage();
+		$this->plugin->schedule($message);
+		$this->assertEquals('5.0', $message->getScheduleStatus());
+	}
+
 	public function testDeliveryWithNoCommonName() {
 		$this->config
 	  ->expects($this->at(1))
 			->method('getAppValue')
 			->with('dav', 'invitation_link_recipients', 'yes')
 			->willReturn('yes');
+		$this->mailer->method('validateMailAddress')->willReturn(true);
 
 		$message = $this->_testMessage();
 		$message->senderName = null;
@@ -193,6 +203,7 @@ class IMipPluginTest extends TestCase {
 		$this->config
 	  ->method('getAppValue')
 	  ->willReturn('yes');
+		$this->mailer->method('validateMailAddress')->willReturn(true);
 
 		$message = $this->_testMessage($veventParams);
 
@@ -227,6 +238,7 @@ class IMipPluginTest extends TestCase {
 	 */
 	public function testIncludeResponseButtons(string $config_setting, string $recipient, bool $has_buttons) {
 		$message = $this->_testMessage([],$recipient);
+		$this->mailer->method('validateMailAddress')->willReturn(true);
 
 		$this->_expectSend($recipient, true, $has_buttons);
 		$this->config
@@ -256,6 +268,7 @@ class IMipPluginTest extends TestCase {
 		$this->config
 			->method('getAppValue')
 			->willReturn('yes');
+		$this->mailer->method('validateMailAddress')->willReturn(true);
 
 		$message = $this->_testMessage(['SUMMARY' => '']);
 		$this->_expectSend('frodo@hobb.it', true, true,'Invitation: Untitled event');

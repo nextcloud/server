@@ -8,8 +8,11 @@ OC.L10N.register(
     "Name cannot be empty" : "Name cannot be empty",
     "The given name is too long" : "The given name is too long",
     "The given web address is too long" : "The given web address is too long",
+    "The given web address is not a valid URL" : "The given web address is not a valid URL",
     "The given legal notice address is too long" : "The given legal notice address is too long",
+    "The given legal notice address is not a valid URL" : "The given legal notice address is not a valid URL",
     "The given privacy policy address is too long" : "The given privacy policy address is too long",
+    "The given privacy policy address is not a valid URL" : "The given privacy policy address is not a valid URL",
     "The given slogan is too long" : "The given slogan is too long",
     "The given color is invalid" : "The given colour is invalid",
     "The file was uploaded" : "The file was uploaded",
@@ -46,7 +49,6 @@ OC.L10N.register(
     "Upload new header logo" : "Upload new header logo",
     "Favicon" : "Favicon",
     "Upload new favicon" : "Upload new favicon",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color.",
-    "Unsupported image type" : "Unsupported image type"
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color."
 },
 "nplurals=2; plural=(n != 1);");

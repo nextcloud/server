@@ -28,9 +28,7 @@
 		<table v-if="clients.length > 0" class="grid">
 			<thead>
 				<tr>
-					<th id="headerContent">
-
-					</th>
+					<th id="headerContent" />
 					<th id="headerRemove">
 &nbsp;
 					</th>
@@ -93,6 +91,7 @@ export default {
 		deleteClient(id) {
 			axios.delete(generateUrl('apps/oauth2/clients/{id}', { id }))
 				.then((response) => {
+					// eslint-disable-next-line vue/no-mutating-props
 					this.clients = this.clients.filter(client => client.id !== id)
 				})
 		},
@@ -106,6 +105,7 @@ export default {
 					redirectUri: this.newClient.redirectUri,
 				}
 			).then(response => {
+				// eslint-disable-next-line vue/no-mutating-props
 				this.clients.push(response.data)
 
 				this.newClient.name = ''

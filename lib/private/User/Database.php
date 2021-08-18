@@ -26,7 +26,7 @@ declare(strict_types=1);
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -43,20 +43,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
-/*
- *
- * The following SQL statement is just a help for developers and will not be
- * executed!
- *
- * CREATE TABLE `users` (
- *   `uid` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
- *   `password` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
- *   PRIMARY KEY (`uid`)
- * ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
- *
- */
-
 namespace OC\User;
 
 use OC\Cache\CappedMemoryCache;
@@ -70,6 +56,7 @@ use OCP\User\Backend\ICreateUserBackend;
 use OCP\User\Backend\IGetDisplayNameBackend;
 use OCP\User\Backend\IGetHomeBackend;
 use OCP\User\Backend\IGetRealUIDBackend;
+use OCP\User\Backend\ISearchKnownUsersBackend;
 use OCP\User\Backend\ISetDisplayNameBackend;
 use OCP\User\Backend\ISetPasswordBackend;
 
@@ -84,6 +71,7 @@ class Database extends ABackend implements
 			   ICheckPasswordBackend,
 			   IGetHomeBackend,
 			   ICountUsersBackend,
+			   ISearchKnownUsersBackend,
 			   IGetRealUIDBackend {
 	/** @var CappedMemoryCache */
 	private $cache;
@@ -254,8 +242,8 @@ class Database extends ABackend implements
 	 * Get a list of all display names and user ids.
 	 *
 	 * @param string $search
-	 * @param string|null $limit
-	 * @param string|null $offset
+	 * @param int|null $limit
+	 * @param int|null $offset
 	 * @return array an array of all displayNames (value) and the corresponding uids (key)
 	 */
 	public function getDisplayNames($search = '', $limit = null, $offset = null) {
@@ -277,7 +265,47 @@ class Database extends ABackend implements
 			->orWhere($query->expr()->iLike('displayname', $query->createPositionalParameter('%' . $this->dbConn->escapeLikeParameter($search) . '%')))
 			->orWhere($query->expr()->iLike('configvalue', $query->createPositionalParameter('%' . $this->dbConn->escapeLikeParameter($search) . '%')))
 			->orderBy($query->func()->lower('displayname'), 'ASC')
-			->orderBy('uid_lower', 'ASC')
+			->addOrderBy('uid_lower', 'ASC')
+			->setMaxResults($limit)
+			->setFirstResult($offset);
+
+		$result = $query->execute();
+		$displayNames = [];
+		while ($row = $result->fetch()) {
+			$displayNames[(string)$row['uid']] = (string)$row['displayname'];
+		}
+
+		return $displayNames;
+	}
+
+	/**
+	 * @param string $searcher
+	 * @param string $pattern
+	 * @param int|null $limit
+	 * @param int|null $offset
+	 * @return array
+	 * @since 21.0.1
+	 */
+	public function searchKnownUsersByDisplayName(string $searcher, string $pattern, ?int $limit = null, ?int $offset = null): array {
+		$limit = $this->fixLimit($limit);
+
+		$this->fixDI();
+
+		$query = $this->dbConn->getQueryBuilder();
+
+		$query->select('u.uid', 'u.displayname')
+			->from($this->table, 'u')
+			->leftJoin('u', 'known_users', 'k', $query->expr()->andX(
+				$query->expr()->eq('k.known_user', 'u.uid'),
+				$query->expr()->eq('k.known_to', $query->createNamedParameter($searcher))
+			))
+			->where($query->expr()->eq('k.known_to', $query->createNamedParameter($searcher)))
+			->andWhere($query->expr()->orX(
+				$query->expr()->iLike('u.uid', $query->createNamedParameter('%' . $this->dbConn->escapeLikeParameter($pattern) . '%')),
+				$query->expr()->iLike('u.displayname', $query->createNamedParameter('%' . $this->dbConn->escapeLikeParameter($pattern) . '%'))
+			))
+			->orderBy('u.displayname', 'ASC')
+			->addOrderBy('u.uid_lower', 'ASC')
 			->setMaxResults($limit)
 			->setFirstResult($offset);
 
@@ -436,7 +464,7 @@ class Database extends ABackend implements
 			->from($this->table);
 		$result = $query->execute();
 
-		return $result->fetchColumn();
+		return $result->fetchOne();
 	}
 
 	/**

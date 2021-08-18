@@ -22,6 +22,7 @@
     "Could not write file to disk" : "Tiedostoa ei voitu kirjoittaa levylle",
     "A PHP extension stopped the file upload" : "PHP-laajennus pysäytti tiedoston lähettämisen",
     "No file uploaded" : "Ei tiedostoa lähetetty",
+    "You are already using a custom theme. Theming app settings might be overwritten by that." : "Käytät jo mukautettua teemaa. Teemoitussovelluksen asetukset saatetaan ohittaa.",
     "Theming" : "Teema",
     "Legal notice" : "Lainopillinen huomautus",
     "Privacy policy" : "Yksityisyyskäytäntö",
@@ -46,6 +47,6 @@
     "Upload new header logo" : "Lähetä uusi otsakelogo",
     "Favicon" : "Favicon",
     "Upload new favicon" : "Lähetä uusi favicon",
-    "Unsupported image type" : "Ei-tuettu kuvatiedostomuoto"
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Asenna Imagemagick PHP-lisäosa SVG-kuvatuella generoidaksesi automaattisesti logoon ja väriin perustuvat suosikkikuvakkeet."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

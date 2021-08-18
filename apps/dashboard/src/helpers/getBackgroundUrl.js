@@ -1,6 +1,8 @@
-/*
+/**
  * @copyright Copyright (c) 2020 Julius Härtl <jus@bitgrid.net>
  *
+ * @author Avior <florian.bouillon@delta-wings.net>
+ * @author Julien Veyssier <eneiluj@posteo.net>
  * @author Julius Härtl <jus@bitgrid.net>
  *
  * @license GNU AGPL version 3 or any later version
@@ -12,7 +14,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -28,7 +30,7 @@ export default (background, time = 0, themingDefaultBackground = '') => {
 		if (themingDefaultBackground && themingDefaultBackground !== 'backgroundColor') {
 			return generateUrl('/apps/theming/image/background') + '?v=' + window.OCA.Theming.cacheBuster
 		}
-		if (window.OCA.Accessibility.theme === 'dark') {
+		if (window.OCA.Accessibility && window.OCA.Accessibility.theme === 'dark') {
 			return prefixWithBaseUrl('eduardo-neves-pedra-azul.jpg')
 		}
 		return prefixWithBaseUrl('kamil-porembinski-clouds.jpg')

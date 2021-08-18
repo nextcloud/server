@@ -12,7 +12,7 @@
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Sander Ruitenbeek <sander@grids.be>
- * @author tbelau666 <thomas.belau@gmx.de>
+ * @author Simon Spannagel <simonspa@kth.se>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @license AGPL-3.0
@@ -30,12 +30,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Core\Command\Db;
 
-use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Exception;
+use Doctrine\DBAL\Schema\AbstractAsset;
 use Doctrine\DBAL\Schema\Table;
-use Doctrine\DBAL\Types\Type;
+use OCP\DB\Types;
 use OC\DB\Connection;
 use OC\DB\ConnectionFactory;
 use OC\DB\MigrationService;
@@ -52,6 +52,8 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
+use function preg_match;
+use function preg_quote;
 
 class ConvertType extends Command implements CompletionAwareInterface {
 	/**
@@ -130,7 +132,7 @@ class ConvertType extends Command implements CompletionAwareInterface {
 				null,
 				InputOption::VALUE_REQUIRED,
 				'the maximum number of database rows to handle in a single query, bigger tables will be handled in chunks of this size. Lower this if the process runs out of memory during conversion.',
-				1000
+				'1000'
 			)
 		;
 	}
@@ -192,7 +194,8 @@ class ConvertType extends Command implements CompletionAwareInterface {
 		$this->validateInput($input, $output);
 		$this->readPassword($input, $output);
 
-		$fromDB = \OC::$server->getDatabaseConnection();
+		/** @var Connection $fromDB */
+		$fromDB = \OC::$server->get(Connection::class);
 		$toDB = $this->getToDBConnection($input, $output);
 
 		if ($input->getOption('clear-schema')) {
@@ -239,20 +242,16 @@ class ConvertType extends Command implements CompletionAwareInterface {
 			$toMS->migrate($currentMigration);
 		}
 
-		$schemaManager = new \OC\DB\MDB2SchemaManager($toDB);
 		$apps = $input->getOption('all-apps') ? \OC_App::getAllApps() : \OC_App::getEnabledApps();
 		foreach ($apps as $app) {
-			if (file_exists(\OC_App::getAppPath($app).'/appinfo/database.xml')) {
-				$schemaManager->createDbFromStructure(\OC_App::getAppPath($app).'/appinfo/database.xml');
-			} else {
-				// Make sure autoloading works...
-				\OC_App::loadApp($app);
-				$fromMS = new MigrationService($app, $fromDB);
-				$currentMigration = $fromMS->getMigration('current');
-				if ($currentMigration !== '0') {
-					$toMS = new MigrationService($app, $toDB);
-					$toMS->migrate($currentMigration, true);
-				}
+			$output->writeln('<info> - '.$app.'</info>');
+			// Make sure autoloading works...
+			\OC_App::loadApp($app);
+			$fromMS = new MigrationService($app, $fromDB);
+			$currentMigration = $fromMS->getMigration('current');
+			if ($currentMigration !== '0') {
+				$toMS = new MigrationService($app, $toDB);
+				$toMS->migrate($currentMigration, true);
 			}
 		}
 	}
@@ -283,9 +282,14 @@ class ConvertType extends Command implements CompletionAwareInterface {
 	}
 
 	protected function getTables(Connection $db) {
-		$filterExpression = '/^' . preg_quote($this->config->getSystemValue('dbtableprefix', 'oc_')) . '/';
-		$db->getConfiguration()->
-			setFilterSchemaAssetsExpression($filterExpression);
+		$db->getConfiguration()->setSchemaAssetsFilter(function ($asset) {
+			/** @var string|AbstractAsset $asset */
+			$filterExpression = '/^' . preg_quote($this->config->getSystemValue('dbtableprefix', 'oc_')) . '/';
+			if ($asset instanceof AbstractAsset) {
+				return preg_match($filterExpression, $asset->getName()) !== false;
+			}
+			return preg_match($filterExpression, $asset) !== false;
+		});
 		return $db->getSchemaManager()->listTableNames();
 	}
 
@@ -302,14 +306,14 @@ class ConvertType extends Command implements CompletionAwareInterface {
 			return;
 		}
 
-		$chunkSize = $input->getOption('chunk-size');
+		$chunkSize = (int)$input->getOption('chunk-size');
 
 		$query = $fromDB->getQueryBuilder();
 		$query->automaticTablePrefix(false);
 		$query->select($query->func()->count('*', 'num_entries'))
 			->from($table->getName());
 		$result = $query->execute();
-		$count = $result->fetchColumn();
+		$count = $result->fetchOne();
 		$result->closeCursor();
 
 		$numChunks = ceil($count / $chunkSize);
@@ -318,6 +322,7 @@ class ConvertType extends Command implements CompletionAwareInterface {
 		}
 
 		$progress = new ProgressBar($output, $count);
+		$progress->setFormat('very_verbose');
 		$progress->start();
 		$redraw = $count > $chunkSize ? 100 : ($count > 100 ? 5 : 1);
 		$progress->setRedrawFrequency($redraw);
@@ -330,15 +335,12 @@ class ConvertType extends Command implements CompletionAwareInterface {
 
 		try {
 			$orderColumns = $table->getPrimaryKeyColumns();
-		} catch (DBALException $e) {
-			$orderColumns = [];
-			foreach ($table->getColumns() as $column) {
-				$orderColumns[] = $column->getName();
-			}
+		} catch (Exception $e) {
+			$orderColumns = $table->getColumns();
 		}
 
 		foreach ($orderColumns as $column) {
-			$query->addOrderBy($column);
+			$query->addOrderBy($column->getName());
 		}
 
 		$insertQuery = $toDB->getQueryBuilder();
@@ -373,6 +375,7 @@ class ConvertType extends Command implements CompletionAwareInterface {
 			$result->closeCursor();
 		}
 		$progress->finish();
+		$output->writeln('');
 	}
 
 	protected function getColumnType(Table $table, $columnName) {
@@ -384,11 +387,11 @@ class ConvertType extends Command implements CompletionAwareInterface {
 		$type = $table->getColumn($columnName)->getType()->getName();
 
 		switch ($type) {
-			case Type::BLOB:
-			case Type::TEXT:
+			case Types::BLOB:
+			case Types::TEXT:
 				$this->columnTypes[$tableName][$columnName] = IQueryBuilder::PARAM_LOB;
 				break;
-			case Type::BOOLEAN:
+			case Types::BOOLEAN:
 				$this->columnTypes[$tableName][$columnName] = IQueryBuilder::PARAM_BOOL;
 				break;
 			default:
@@ -405,7 +408,7 @@ class ConvertType extends Command implements CompletionAwareInterface {
 		try {
 			// copy table rows
 			foreach ($tables as $table) {
-				$output->writeln($table);
+				$output->writeln('<info> - '.$table.'</info>');
 				$this->copyTable($fromDB, $toDB, $schema->getTable($table), $input, $output);
 			}
 			if ($input->getArgument('type') === 'pgsql') {

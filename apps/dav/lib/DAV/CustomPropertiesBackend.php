@@ -22,7 +22,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\DAV;
 
 use OCA\DAV\Connector\Sabre\Node;
@@ -32,15 +31,19 @@ use Sabre\DAV\PropertyStorage\Backend\BackendInterface;
 use Sabre\DAV\PropFind;
 use Sabre\DAV\PropPatch;
 use Sabre\DAV\Tree;
+use function array_intersect;
 
 class CustomPropertiesBackend implements BackendInterface {
+
+	/** @var string */
+	private const TABLE_NAME = 'properties';
 
 	/**
 	 * Ignored properties
 	 *
-	 * @var array
+	 * @var string[]
 	 */
-	private $ignoredProperties = [
+	private const IGNORED_PROPERTIES = [
 		'{DAV:}getcontentlength',
 		'{DAV:}getcontenttype',
 		'{DAV:}getetag',
@@ -51,6 +54,15 @@ class CustomPropertiesBackend implements BackendInterface {
 		'{http://owncloud.org/ns}dDC',
 		'{http://owncloud.org/ns}size',
 		'{http://nextcloud.org/ns}is-encrypted',
+	];
+
+	/**
+	 * Properties set by one user, readable by all others
+	 *
+	 * @var array[]
+	 */
+	private const PUBLISHED_READ_ONLY_PROPERTIES = [
+		'{urn:ietf:params:xml:ns:caldav}calendar-availability',
 	];
 
 	/**
@@ -73,7 +85,7 @@ class CustomPropertiesBackend implements BackendInterface {
 	 *
 	 * @var array
 	 */
-	private $cache = [];
+	private $userCache = [];
 
 	/**
 	 * @param Tree $tree node tree
@@ -102,7 +114,7 @@ class CustomPropertiesBackend implements BackendInterface {
 		// these might appear
 		$requestedProps = array_diff(
 			$requestedProps,
-			$this->ignoredProperties
+			self::IGNORED_PROPERTIES
 		);
 
 		// substr of calendars/ => path is inside the CalDAV component
@@ -129,8 +141,12 @@ class CustomPropertiesBackend implements BackendInterface {
 			return;
 		}
 
-		$props = $this->getProperties($path, $requestedProps);
-		foreach ($props as $propName => $propValue) {
+		// First fetch the published properties (set by another user), then get the ones set by
+		// the current user. If both are set then the latter as priority.
+		foreach ($this->getPublishedProperties($path, $requestedProps) as $propName => $propValue) {
+			$propFind->set($propName, $propValue);
+		}
+		foreach ($this->getUserProperties($path, $requestedProps) as $propName => $propValue) {
 			$propFind->set($propName, $propValue);
 		}
 	}
@@ -161,7 +177,7 @@ class CustomPropertiesBackend implements BackendInterface {
 		$statement->execute([$this->user->getUID(), $this->formatPath($path)]);
 		$statement->closeCursor();
 
-		unset($this->cache[$path]);
+		unset($this->userCache[$path]);
 	}
 
 	/**
@@ -182,7 +198,33 @@ class CustomPropertiesBackend implements BackendInterface {
 	}
 
 	/**
-	 * Returns a list of properties for this nodes.;
+	 * @param string $path
+	 * @param string[] $requestedProperties
+	 *
+	 * @return array
+	 */
+	private function getPublishedProperties(string $path, array $requestedProperties): array {
+		$allowedProps = array_intersect(self::PUBLISHED_READ_ONLY_PROPERTIES, $requestedProperties);
+
+		if (empty($allowedProps)) {
+			return [];
+		}
+
+		$qb = $this->connection->getQueryBuilder();
+		$qb->select('*')
+			->from(self::TABLE_NAME)
+			->where($qb->expr()->eq('propertypath', $qb->createNamedParameter($path)));
+		$result = $qb->executeQuery();
+		$props = [];
+		while ($row = $result->fetch()) {
+			$props[$row['propertyname']] = $row['propertyvalue'];
+		}
+		$result->closeCursor();
+		return $props;
+	}
+
+	/**
+	 * Returns a list of properties for the given path and current user
 	 *
 	 * @param string $path
 	 * @param array $requestedProperties requested properties or empty array for "all"
@@ -192,9 +234,9 @@ class CustomPropertiesBackend implements BackendInterface {
 	 * http://www.example.org/namespace#author If the array is empty, all
 	 * properties should be returned
 	 */
-	private function getProperties(string $path, array $requestedProperties) {
-		if (isset($this->cache[$path])) {
-			return $this->cache[$path];
+	private function getUserProperties(string $path, array $requestedProperties) {
+		if (isset($this->userCache[$path])) {
+			return $this->userCache[$path];
 		}
 
 		// TODO: chunking if more than 1000 properties
@@ -223,7 +265,7 @@ class CustomPropertiesBackend implements BackendInterface {
 
 		$result->closeCursor();
 
-		$this->cache[$path] = $props;
+		$this->userCache[$path] = $props;
 		return $props;
 	}
 
@@ -246,7 +288,7 @@ class CustomPropertiesBackend implements BackendInterface {
 			' WHERE `userid` = ? AND `propertypath` = ? AND `propertyname` = ?';
 
 		// TODO: use "insert or update" strategy ?
-		$existing = $this->getProperties($path, []);
+		$existing = $this->getUserProperties($path, []);
 		$this->connection->beginTransaction();
 		foreach ($properties as $propertyName => $propertyValue) {
 			// If it was null, we need to delete the property
@@ -284,7 +326,7 @@ class CustomPropertiesBackend implements BackendInterface {
 		}
 
 		$this->connection->commit();
-		unset($this->cache[$path]);
+		unset($this->userCache[$path]);
 
 		return true;
 	}

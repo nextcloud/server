@@ -36,10 +36,12 @@ OC.L10N.register(
     "Operation %s does not exist" : "Bewerking %s bestaat niet",
     "Operation %s is invalid" : "Bewerking %s is ongeldig",
     "At least one check needs to be provided" : "Èr moet minimaal één controle worden opgegeven",
+    "The provided operation data is too long" : "De opgegeven bewerkingsgegevens zijn te lang",
     "Invalid check provided" : "Ongeldige controle opgegeven",
     "Check %s does not exist" : "Controleer: %s bestaat niet",
     "Check %s is invalid" : "Controleer: %s is ongeldig",
     "Check %s is not allowed with this entity" : "Check %s is niet toegestaan met deze entiteit",
+    "The provided check value is too long" : "Het opgegeven controlegetal te lang",
     "Check #%s does not exist" : "Controleer: #%s bestaat niet",
     "Check %s is invalid or does not exist" : "Controleer: %s is ongeldig of bestaat niet",
     "Flow" : "Flow",
@@ -81,7 +83,7 @@ OC.L10N.register(
     "Available flows" : "Beschikbare flows",
     "For details on how to write your own flow, check out the development documentation." : "Raadpleeg de ontwikkeldocumentatie voor meer informatie over het ontwikkelen van je eigen flow.",
     "More flows" : "Meer flows",
-    "Browse the app store" : "Blader door de app store",
+    "Browse the App Store" : "Blader door de App Store",
     "Show less" : "Toon minder",
     "Show more" : "Toon meer",
     "Configured flows" : "Geconfigureerde flows",
@@ -112,6 +114,7 @@ OC.L10N.register(
     "Request user agent" : "Useragent aanvraag",
     "User group membership" : "Gebruikersgroep lidmaatschap",
     "is member of" : "is lid van",
-    "is not member of" : "is geen lid van"
+    "is not member of" : "is geen lid van",
+    "Browse the app store" : "Blader door de app store"
 },
 "nplurals=2; plural=(n != 1);");

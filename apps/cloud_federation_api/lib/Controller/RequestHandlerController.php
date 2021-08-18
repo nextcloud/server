@@ -15,14 +15,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\CloudFederationAPI\Controller;
 
 use OCA\CloudFederationAPI\Config;
@@ -38,11 +37,11 @@ use OCP\Federation\ICloudFederationFactory;
 use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Federation\ICloudIdManager;
 use OCP\IGroupManager;
-use OCP\ILogger;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\Share\Exceptions\ShareNotFound;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class RequestHandlerController
@@ -53,7 +52,7 @@ use OCP\Share\Exceptions\ShareNotFound;
  */
 class RequestHandlerController extends Controller {
 
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	private $logger;
 
 	/** @var IUserManager */
@@ -79,7 +78,7 @@ class RequestHandlerController extends Controller {
 
 	public function __construct($appName,
 								IRequest $request,
-								ILogger $logger,
+								LoggerInterface $logger,
 								IUserManager $userManager,
 								IGroupManager $groupManager,
 								IURLGenerator $urlGenerator,

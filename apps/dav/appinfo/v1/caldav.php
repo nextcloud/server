@@ -25,8 +25,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 // Backends
+use OC\KnownUser\KnownUserService;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\Connector\LegacyDAVACL;
 use OCA\DAV\CalDAV\CalendarRoot;
@@ -50,6 +50,7 @@ $principalBackend = new Principal(
 	\OC::$server->getUserSession(),
 	\OC::$server->getAppManager(),
 	\OC::$server->query(\OCA\DAV\CalDAV\Proxy\ProxyMapper::class),
+	\OC::$server->get(KnownUserService::class),
 	\OC::$server->getConfig(),
 	'principals/'
 );
@@ -59,8 +60,20 @@ $random = \OC::$server->getSecureRandom();
 $logger = \OC::$server->getLogger();
 $dispatcher = \OC::$server->get(\OCP\EventDispatcher\IEventDispatcher::class);
 $legacyDispatcher = \OC::$server->getEventDispatcher();
+$config = \OC::$server->get(\OCP\IConfig::class);
 
-$calDavBackend = new CalDavBackend($db, $principalBackend, $userManager, \OC::$server->getGroupManager(), $random, $logger, $dispatcher, $legacyDispatcher, true);
+$calDavBackend = new CalDavBackend(
+	$db,
+	$principalBackend,
+	$userManager,
+	\OC::$server->getGroupManager(),
+	$random,
+	$logger,
+	$dispatcher,
+	$legacyDispatcher,
+	$config,
+	true
+);
 
 $debugging = \OC::$server->getConfig()->getSystemValue('debug', false);
 $sendInvitations = \OC::$server->getConfig()->getAppValue('dav', 'sendInvitations', 'yes') === 'yes';

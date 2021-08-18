@@ -25,19 +25,19 @@ use OC\CapabilitiesManager;
 use OCP\AppFramework\QueryException;
 use OCP\Capabilities\ICapability;
 use OCP\Capabilities\IPublicCapability;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 
 class CapabilitiesManagerTest extends TestCase {
 
 	/** @var CapabilitiesManager */
 	private $manager;
 
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	private $logger;
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->logger = $this->getMockBuilder(ILogger::class)->getMock();
+		$this->logger = $this->getMockBuilder(LoggerInterface::class)->getMock();
 		$this->manager = new CapabilitiesManager($this->logger);
 	}
 
@@ -139,7 +139,7 @@ class CapabilitiesManagerTest extends TestCase {
 				]
 			]
 		];
-		
+
 		$this->assertEquals($expected, $res);
 	}
 
@@ -149,7 +149,7 @@ class CapabilitiesManagerTest extends TestCase {
 		});
 
 		$this->logger->expects($this->once())
-			->method('logException');
+			->method('error');
 
 		$res = $this->manager->getCapabilities();
 

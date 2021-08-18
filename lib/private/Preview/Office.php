@@ -26,7 +26,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Preview;
 
 use OCP\Files\File;
@@ -59,7 +58,7 @@ abstract class Office extends ProviderV2 {
 		//create imagick object from png
 		$pngPreview = null;
 		try {
-			list($dirname, , , $filename) = array_values(pathinfo($absPath));
+			[$dirname, , , $filename] = array_values(pathinfo($absPath));
 			$pngPreview = $tmpDir . '/' . $filename . '.png';
 
 			$png = new \imagick($pngPreview . '[0]');

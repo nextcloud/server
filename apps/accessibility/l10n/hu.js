@@ -14,7 +14,6 @@ OC.L10N.register(
     "Accessibility options for nextcloud" : "Akadálymentesítési lehetőségek a Nextcloudhoz",
     "Provides multiple accessibilities options to ease your use of Nextcloud" : "Több akadálymentesítési lehetőséget biztosít, hogy megkönnyítse a Nextcloud használatát",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Az akadálymentesítés fontos számunka. A webes szabványokat követjük, és ellenőrizzük, hogy minden használható egér nélkül, illetve akadálymentesítési technológiákkal, például képernyőolvasókkal. Arra törekszünk, hogy a {guidelines}Webes tartalomra vonatkozó akadálymentesítési irányelvek{linkend} 2.1-es változatának AA szinten, a magas kontrasztú témával pedig AAA szinten megfeleljünk.",
-    "If you find any issues, don’t hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "Ha problémákat tapasztal, jelentse a {issuetracker}hibakövetőnkben{linkend}. És ha segíteni szeretne, csatlakozzon a {designteam}dizájn csapatunkhoz{linkend}!",
-    "Enable" : "Engedélyezés"
+    "If you find any issues, don’t hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "Ha problémákat tapasztal, jelentse a {issuetracker}hibakövetőnkben{linkend}. És ha segíteni szeretne, csatlakozzon a {designteam}dizájn csapatunkhoz{linkend}!"
 },
 "nplurals=2; plural=(n != 1);");

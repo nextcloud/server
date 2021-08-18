@@ -103,7 +103,7 @@
 				<div class="app-sidebar-header__figure--default-app-icon icon-settings-dark" />
 			</template>
 
-			<template #primary-actions>
+			<template #description>
 				<!-- Featured/Supported badges -->
 				<div v-if="app.level === 300 || app.level === 200 || hasRating" class="app-level">
 					<span v-if="app.level === 300"

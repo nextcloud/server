@@ -1,8 +1,10 @@
-/* eslint-disable @nextcloud/no-deprecations */
 /**
  * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
- * @author 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Julius Härtl <jus@bitgrid.net>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -17,9 +19,11 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 
+/* eslint-disable @nextcloud/no-deprecations */
 import { initCore } from './init'
 
 import _ from 'underscore'
@@ -37,11 +41,9 @@ import 'bootstrap/js/dist/tooltip'
 import './Polyfill/tooltip'
 import ClipboardJS from 'clipboard'
 import { dav } from 'davclient.js'
-import DOMPurify from 'dompurify'
 import Handlebars from 'handlebars'
 import 'jcrop/js/jquery.Jcrop'
 import 'jcrop/css/jquery.Jcrop.css'
-import jstimezonedetect from 'jstimezonedetect'
 import md5 from 'blueimp-md5'
 import moment from 'moment'
 import 'select2'
@@ -81,7 +83,7 @@ const deprecate = (func, funcName, version) => {
 }
 
 const setDeprecatedProp = (global, cb, msg) => {
-	(Array.isArray(global) ? global : [global]).map(global => {
+	(Array.isArray(global) ? global : [global]).forEach(global => {
 		if (window[global] !== undefined) {
 			delete window[global]
 		}
@@ -100,14 +102,12 @@ const setDeprecatedProp = (global, cb, msg) => {
 }
 
 window._ = _
-setDeprecatedProp(['$', 'jQuery'], () => $, 'The global jQuery is deprecated. It will be updated to v3.x in Nextcloud 21. In later versions of Nextcloud it might be removed completely. Please ship your own.')
+setDeprecatedProp(['$', 'jQuery'], () => $, 'The global jQuery is deprecated. It will be removed in a later versions without another warning. Please ship your own.')
 setDeprecatedProp('autosize', () => autosize, 'please ship your own, this will be removed in Nextcloud 20')
 setDeprecatedProp('Backbone', () => Backbone, 'please ship your own, this will be removed in Nextcloud 20')
 setDeprecatedProp(['Clipboard', 'ClipboardJS'], () => ClipboardJS, 'please ship your own, this will be removed in Nextcloud 20')
 window.dav = dav
-setDeprecatedProp('DOMPurify', () => DOMPurify, 'The global DOMPurify is deprecated, this will be removed in Nextcloud 21')
 setDeprecatedProp('Handlebars', () => Handlebars, 'please ship your own, this will be removed in Nextcloud 20')
-setDeprecatedProp(['jstz', 'jstimezonedetect'], () => jstimezonedetect, 'please ship your own, this will be removed in Nextcloud 20')
 setDeprecatedProp('md5', () => md5, 'please ship your own, this will be removed in Nextcloud 20')
 setDeprecatedProp('moment', () => moment, 'please ship your own, this will be removed in Nextcloud 20')
 

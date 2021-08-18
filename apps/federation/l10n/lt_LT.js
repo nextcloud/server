@@ -10,7 +10,6 @@ OC.L10N.register(
     "Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "Federacija leidžia jums prisijungti prie kitų patikimų serverių, siekiant keistis naudotojo katalogu. Pavyzdžiui, tai bus naudojama, kad būtų automatiškai užbaigti išoriniai federacinio bendrinimo naudotojų vardai.",
     "Trusted servers" : "Patikimi serveriai",
     "Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing. It is not necessary to add a server as trusted server in order to create a federated share." : "Gederacijos paslauga suteikia galimybę prisijungti prie kitų patikimų serverių, kad būtų galima keistis naudotojų katalogu. Pavyzdžiui, tai bus naudojama, kad būtų automatiškai užbaigti išoriniai federacinio bendrinimo naudotojų vardai.",
-    "Add server automatically once a federated share was created successfully" : "Sėkmingai sukūrus federacinį viešinį, automatiškai pridėti serverį",
     "+ Add trusted server" : "+ Pridėti patikimą serverį",
     "Trusted server" : "Patikimas serveris",
     "Add" : "Pridėti"

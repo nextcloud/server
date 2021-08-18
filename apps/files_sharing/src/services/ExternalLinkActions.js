@@ -12,7 +12,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -22,14 +22,14 @@
 
 export default class ExternalLinkActions {
 
-	#state;
+	_state;
 
 	constructor() {
 		// init empty state
-		this.#state = {}
+		this._state = {}
 
 		// init default values
-		this.#state.actions = []
+		this._state.actions = []
 		console.debug('OCA.Sharing.ExternalLinkActions initialized')
 	}
 
@@ -41,7 +41,7 @@ export default class ExternalLinkActions {
 	 * @returns {Object} the data state
 	 */
 	get state() {
-		return this.#state
+		return this._state
 	}
 
 	/**
@@ -53,7 +53,7 @@ export default class ExternalLinkActions {
 	 */
 	registerAction(action) {
 		if (typeof action === 'object' && action.icon && action.name && action.url) {
-			this.#state.actions.push(action)
+			this._state.actions.push(action)
 			return true
 		}
 		console.error('Invalid action provided', action)

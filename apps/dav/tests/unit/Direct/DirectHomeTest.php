@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @copyright 2018, Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
@@ -17,14 +18,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\Tests\Unit\Direct;
 
 use OC\Security\Bruteforce\Throttler;
@@ -34,6 +34,7 @@ use OCA\DAV\Direct\DirectFile;
 use OCA\DAV\Direct\DirectHome;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\IRootFolder;
 use OCP\IRequest;
 use Sabre\DAV\Exception\Forbidden;
@@ -61,6 +62,9 @@ class DirectHomeTest extends TestCase {
 	/** @var DirectHome */
 	private $directHome;
 
+	/** @var IEventDispatcher */
+	private $eventDispatcher;
+
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -69,6 +73,7 @@ class DirectHomeTest extends TestCase {
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->throttler = $this->createMock(Throttler::class);
 		$this->request = $this->createMock(IRequest::class);
+		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 
 		$this->timeFactory->method('getTime')
 			->willReturn(42);
@@ -76,12 +81,14 @@ class DirectHomeTest extends TestCase {
 		$this->request->method('getRemoteAddress')
 			->willReturn('1.2.3.4');
 
+
 		$this->directHome = new DirectHome(
 			$this->rootFolder,
 			$this->directMapper,
 			$this->timeFactory,
 			$this->throttler,
-			$this->request
+			$this->request,
+			$this->eventDispatcher
 		);
 	}
 

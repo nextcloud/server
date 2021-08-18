@@ -1,10 +1,24 @@
-/*
+/**
  * Copyright (c) 2014 Vincent Petry <pvince81@owncloud.com>
  *
- * This file is licensed under the Affero General Public License version 3
- * or later.
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
- * See the COPYING-README file.
+ * @license GNU AGPL version 3 or any later version
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
@@ -58,7 +72,7 @@ describe('OCA.Files_External.FileList tests', function() {
 		alertStub.restore();
 	});
 
-	describe('loading file list for external storages', function() {
+	describe('loading file list for external storage', function() {
 		var ocsResponse;
 		var reloading;
 
@@ -103,8 +117,7 @@ describe('OCA.Files_External.FileList tests', function() {
 			expect(fakeServer.requests.length).toEqual(1);
 			request = fakeServer.requests[0];
 			expect(request.url).toEqual(
-				OC.linkToOCS('apps/files_external/api/v1') +
-				'mounts?format=json'
+				OC.linkToOCS('apps/files_external/api/v1/mounts?format=json')
 			);
 
 			fakeServer.requests[0].respond(

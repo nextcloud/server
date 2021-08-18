@@ -29,7 +29,7 @@ Enterprise? Public Sector or Education user? You may want to have a look into [*
 ## Get in touch 💬
 
 * [📋 Forum](https://help.nextcloud.com)
-* [👥 Facebook](https://facebook.com/nextclouders)
+* [👥 Facebook](https://www.facebook.com/nextclouders)
 * [🐣 Twitter](https://twitter.com/Nextclouders)
 * [🐘 Mastodon](https://mastodon.xyz/@nextcloud)
 
@@ -56,8 +56,9 @@ Several apps that are included by default in regular releases such as [First run
 
 Otherwise, git checkouts can be handled the same as release archives, by using the `stable*` branches. Note they should never be used on production systems.
 
+### Working with front-end code 🏗
 
-### Building front-end code 🏗
+#### Building
 
 We are moving more and more towards using Vue.js in the frontend, starting with Settings. For building the code on changes, use these terminal commands in the root folder:
 
@@ -74,6 +75,8 @@ make watch-js
 # build for production with minification
 make build-js-production
 ```
+
+#### Commiting changes
 
 **When making changes, also commit the compiled files!**
 
@@ -101,6 +104,17 @@ MODULE=user_status make build-js-production
 ```
 
 Please note that if you used `make build-js` or `make watch-js` before, you'll notice that a lot of files were marked as changed, so might need to clear the workspace first.
+
+### Working with back-end code 🏗
+
+When changing back-end PHP code, in general no additional steps are needed before checking in.
+
+However, if new files were created, you will need to run the following command to update the autoloader files:
+```bash
+build/autoloaderchecker.sh
+```
+
+After that, please also include the autoloader file changes in your commits.
 
 ### Tools we use 🛠
 

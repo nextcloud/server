@@ -162,10 +162,22 @@ $invert: luma($color-primary) > 0.6;
 }
 
 input.primary,
-#alternative-logins li a {
+.alternative-logins a, {
 	background-color: $color-primary-element;
 	border: 1px solid $color-primary-text;
 	color: $color-primary-text;
+}
+
+#body-login {
+	input.primary:enabled:hover,
+	input.primary:enabled:focus,
+	button.primary:enabled:hover,
+	button.primary:enabled:focus,
+	a.primary:enabled:hover,
+	a.primary:enabled:focus {
+		color: $color-primary-text;
+		background-image: linear-gradient(40deg, $color-primary 0%, lighten($color-primary, 20%) 100%);
+	}
 }
 
 @if ($invert) {
@@ -185,19 +197,19 @@ input.primary,
 		}
 
 		input,
-		#alternative-logins li a {
+		.alternative-logins a {
 			border: 1px solid nc-lighten($color-primary-text, 50%);
 		}
 		input.primary,
 		button.primary,
-		#alternative-logins li a {
+		.alternative-logins a {
 			background-color: $color-primary;
 			color: $color-primary-text;
 		}
 		a,
 		label,
 		footer p,
-		#alternative-logins legend,
+		.alternative-logins legend,
 		.lost-password-container #lost-password,
 		.warning, .update, .error {
 			color: $color-primary-text !important;

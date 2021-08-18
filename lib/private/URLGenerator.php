@@ -16,6 +16,7 @@ declare(strict_types=1);
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author mmccarn <mmccarn-github@mmsionline.us>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
@@ -36,7 +37,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC;
 
 use OC\Route\Router;
@@ -59,6 +59,8 @@ class URLGenerator implements IURLGenerator {
 	private $request;
 	/** @var Router */
 	private $router;
+	/** @var null|string */
+	private $baseUrl = null;
 
 	public function __construct(IConfig $config,
 								ICacheFactory $cacheFactory,
@@ -269,6 +271,16 @@ class URLGenerator implements IURLGenerator {
 	 * @return string base url of the current request
 	 */
 	public function getBaseUrl(): string {
-		return $this->request->getServerProtocol() . '://' . $this->request->getServerHost() . \OC::$WEBROOT;
+		if ($this->baseUrl === null) {
+			$this->baseUrl = $this->request->getServerProtocol() . '://' . $this->request->getServerHost() . \OC::$WEBROOT;
+		}
+		return $this->baseUrl;
+	}
+
+	/**
+	 * @return string webroot part of the base url
+	 */
+	public function getWebroot(): string {
+		return \OC::$WEBROOT;
 	}
 }

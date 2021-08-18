@@ -10,6 +10,7 @@ declare(strict_types=1);
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -26,7 +27,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\UpdateNotification\Tests\Settings;
 
 use OCA\UpdateNotification\Settings\Admin;
@@ -93,10 +93,11 @@ class AdminTest extends TestCase {
 				['updatenotification', 'notify_groups', '["admin"]', '["admin"]'],
 			]);
 		$this->config
-			->expects($this->once())
 			->method('getSystemValue')
-			->with('updater.server.url', 'https://updates.nextcloud.com/updater_server/')
-			->willReturn('https://updates.nextcloud.com/updater_server/');
+			->willReturnMap([
+				['updater.server.url', 'https://updates.nextcloud.com/updater_server/', 'https://updates.nextcloud.com/updater_server/'],
+				['upgrade.disable-web', false, false],
+			]);
 		$this->dateTimeFormatter
 			->expects($this->once())
 			->method('formatDateTime')
@@ -143,6 +144,7 @@ class AdminTest extends TestCase {
 				'newVersionString' => 'Nextcloud 8.1.2',
 				'downloadLink' => 'https://downloads.nextcloud.org/server',
 				'changes' => [],
+				'webUpdaterEnabled' => true,
 				'updaterEnabled' => true,
 				'versionIsEol' => false,
 				'isDefaultUpdateServerURL' => true,
@@ -178,10 +180,11 @@ class AdminTest extends TestCase {
 				['updatenotification', 'notify_groups', '["admin"]', '["admin"]'],
 			]);
 		$this->config
-			->expects($this->once())
 			->method('getSystemValue')
-			->with('updater.server.url', 'https://updates.nextcloud.com/updater_server/')
-			->willReturn('https://updates.nextcloud.com/updater_server_changed/');
+			->willReturnMap([
+				['updater.server.url', 'https://updates.nextcloud.com/updater_server/', 'https://updates.nextcloud.com/updater_server_changed/'],
+				['upgrade.disable-web', false, true],
+			]);
 		$this->dateTimeFormatter
 			->expects($this->once())
 			->method('formatDateTime')
@@ -228,6 +231,7 @@ class AdminTest extends TestCase {
 				'newVersionString' => 'Nextcloud 8.1.2',
 				'downloadLink' => 'https://downloads.nextcloud.org/server',
 				'changes' => [],
+				'webUpdaterEnabled' => false,
 				'updaterEnabled' => true,
 				'versionIsEol' => false,
 				'isDefaultUpdateServerURL' => false,
@@ -263,10 +267,11 @@ class AdminTest extends TestCase {
 				['updatenotification', 'notify_groups', '["admin"]', '["admin"]'],
 			]);
 		$this->config
-			->expects($this->once())
 			->method('getSystemValue')
-			->with('updater.server.url', 'https://updates.nextcloud.com/updater_server/')
-			->willReturn('https://updates.nextcloud.com/customers/ABC-DEF/');
+			->willReturnMap([
+				['updater.server.url', 'https://updates.nextcloud.com/updater_server/', 'https://updates.nextcloud.com/customers/ABC-DEF/'],
+				['upgrade.disable-web', false, false],
+			]);
 		$this->dateTimeFormatter
 			->expects($this->once())
 			->method('formatDateTime')
@@ -313,6 +318,7 @@ class AdminTest extends TestCase {
 				'newVersionString' => 'Nextcloud 8.1.2',
 				'downloadLink' => 'https://downloads.nextcloud.org/server',
 				'changes' => [],
+				'webUpdaterEnabled' => true,
 				'updaterEnabled' => true,
 				'versionIsEol' => false,
 				'isDefaultUpdateServerURL' => true,

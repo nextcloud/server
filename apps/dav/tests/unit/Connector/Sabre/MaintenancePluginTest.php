@@ -7,6 +7,7 @@
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Valdnet <47037905+Valdnet@users.noreply.github.com>
  *
  * @license AGPL-3.0
  *
@@ -23,7 +24,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OCA\DAV\Connector\Sabre\MaintenancePlugin;
@@ -55,7 +55,7 @@ class MaintenancePluginTest extends TestCase {
 
 	public function testMaintenanceMode() {
 		$this->expectException(\Sabre\DAV\Exception\ServiceUnavailable::class);
-		$this->expectExceptionMessage('System in maintenance mode.');
+		$this->expectExceptionMessage('System is in maintenance mode.');
 
 		$this->config
 			->expects($this->exactly(1))

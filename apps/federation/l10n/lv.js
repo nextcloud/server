@@ -9,7 +9,6 @@ OC.L10N.register(
     "Federation allows you to connect with other trusted servers to exchange the user directory." : "Federācija ļauj jums sazināties ar citiem uzticamiem serveriem, lai apmainītos ar lietotāju direktoriju.",
     "Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "Federācija ļauj savienot ar citiem uzticamiem serveriem ar Exchange lietotāja direktoriju. Piemēram, tas tiks izmantots, lai automātiski pieslēgtu ārējiem lietotājiem integrēto koplietošanu.",
     "Trusted servers" : "Uzticami serveri",
-    "Add server automatically once a federated share was created successfully" : "Automātiski pievienots serveris federācijas koplietojumam, veiksmīgi",
     "+ Add trusted server" : "+ pievietot uzticamiem serveriem",
     "Trusted server" : "Uzticams serveris",
     "Add" : "Pievienot"

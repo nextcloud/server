@@ -22,9 +22,13 @@
 namespace Test\Encryption;
 
 use OC\Encryption\Update;
+use OC\Encryption\Util;
 use OC\Files\Mount\Manager;
 use OC\Files\View;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
+use OC\Encryption\File;
+use OCP\Encryption\IEncryptionModule;
 
 class UpdateTest extends TestCase {
 
@@ -37,7 +41,7 @@ class UpdateTest extends TestCase {
 	/** @var \OC\Files\View | \PHPUnit\Framework\MockObject\MockObject */
 	private $view;
 
-	/** @var \OC\Encryption\Util | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var Util | \PHPUnit\Framework\MockObject\MockObject */
 	private $util;
 
 	/** @var \OC\Files\Mount\Manager | \PHPUnit\Framework\MockObject\MockObject */
@@ -52,21 +56,19 @@ class UpdateTest extends TestCase {
 	/** @var \OC\Encryption\File | \PHPUnit\Framework\MockObject\MockObject */
 	private $fileHelper;
 
+	/** @var \PHPUnit\Framework\MockObject\MockObject|LoggerInterface */
+	private $logger;
+
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->view = $this->getMockBuilder(View::class)
-			->disableOriginalConstructor()->getMock();
-		$this->util = $this->getMockBuilder('\OC\Encryption\Util')
-			->disableOriginalConstructor()->getMock();
-		$this->mountManager = $this->getMockBuilder(Manager::class)
-			->disableOriginalConstructor()->getMock();
-		$this->encryptionManager = $this->getMockBuilder('\OC\Encryption\Manager')
-			->disableOriginalConstructor()->getMock();
-		$this->fileHelper = $this->getMockBuilder('\OC\Encryption\File')
-			->disableOriginalConstructor()->getMock();
-		$this->encryptionModule = $this->getMockBuilder('\OCP\Encryption\IEncryptionModule')
-			->disableOriginalConstructor()->getMock();
+		$this->view = $this->createMock(View::class);
+		$this->util = $this->createMock(Util::class);
+		$this->mountManager = $this->createMock(Manager::class);
+		$this->encryptionManager = $this->createMock(\OC\Encryption\Manager::class);
+		$this->fileHelper = $this->createMock(File::class);
+		$this->encryptionModule = $this->createMock(IEncryptionModule::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 
 		$this->uid = 'testUser1';
 
@@ -76,6 +78,7 @@ class UpdateTest extends TestCase {
 			$this->mountManager,
 			$this->encryptionManager,
 			$this->fileHelper,
+			$this->logger,
 			$this->uid);
 	}
 
@@ -223,6 +226,7 @@ class UpdateTest extends TestCase {
 					$this->mountManager,
 					$this->encryptionManager,
 					$this->fileHelper,
+					$this->logger,
 					$this->uid
 				]
 			)->setMethods($methods)->getMock();

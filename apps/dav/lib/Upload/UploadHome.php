@@ -23,7 +23,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Upload;
 
 use OC\Files\Filesystem;
@@ -74,7 +73,7 @@ class UploadHome implements ICollection {
 	}
 
 	public function getName() {
-		list(,$name) = \Sabre\Uri\split($this->principalInfo['uri']);
+		[,$name] = \Sabre\Uri\split($this->principalInfo['uri']);
 		return $name;
 	}
 

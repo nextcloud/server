@@ -3,12 +3,13 @@
 declare(strict_types=1);
 
 /**
- *
+ * @copyright Copyright (c) 2016 Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
@@ -20,14 +21,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Files_Sharing\Controller;
 
 use OCP\App\IAppManager;
@@ -151,6 +151,14 @@ class DeletedShareAPIController extends OCSController {
 				$result = array_merge($result, $this->getRoomShareHelper()->formatShare($share));
 			} catch (QueryException $e) {
 			}
+		} elseif ($share->getShareType() === IShare::TYPE_DECK) {
+			$result['share_with'] = $share->getSharedWith();
+			$result['share_with_displayname'] = '';
+
+			try {
+				$result = array_merge($result, $this->getDeckShareHelper()->formatShare($share));
+			} catch (QueryException $e) {
+			}
 		}
 
 		return $result;
@@ -162,8 +170,9 @@ class DeletedShareAPIController extends OCSController {
 	public function index(): DataResponse {
 		$groupShares = $this->shareManager->getDeletedSharedWith($this->userId, IShare::TYPE_GROUP, null, -1, 0);
 		$roomShares = $this->shareManager->getDeletedSharedWith($this->userId, IShare::TYPE_ROOM, null, -1, 0);
+		$deckShares = $this->shareManager->getDeletedSharedWith($this->userId, IShare::TYPE_DECK, null, -1, 0);
 
-		$shares = array_merge($groupShares, $roomShares);
+		$shares = array_merge($groupShares, $roomShares, $deckShares);
 
 		$shares = array_map(function (IShare $share) {
 			return $this->formatShare($share);
@@ -211,6 +220,23 @@ class DeletedShareAPIController extends OCSController {
 			throw new QueryException();
 		}
 
-		return $this->serverContainer->query('\OCA\Talk\Share\Helper\DeletedShareAPIController');
+		return $this->serverContainer->get('\OCA\Talk\Share\Helper\DeletedShareAPIController');
+	}
+
+	/**
+	 * Returns the helper of ShareAPIHelper for deck shares.
+	 *
+	 * If the Deck application is not enabled or the helper is not available
+	 * a QueryException is thrown instead.
+	 *
+	 * @return \OCA\Deck\Sharing\ShareAPIHelper
+	 * @throws QueryException
+	 */
+	private function getDeckShareHelper() {
+		if (!$this->appManager->isEnabledForUser('deck')) {
+			throw new QueryException();
+		}
+
+		return $this->serverContainer->get('\OCA\Deck\Sharing\ShareAPIHelper');
 	}
 }

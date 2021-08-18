@@ -4,12 +4,8 @@
  *
  * @author Christian Berendt <berendt@b1-systems.de>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author hkjolhede <hkjolhede@gmail.com>
- * @author Michael Gapczynski <GapczynskiM@gmail.com>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Ross Nicoll <jrn@jrn.me.uk>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *

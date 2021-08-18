@@ -10,7 +10,6 @@ OC.L10N.register(
     "Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "Birleşik çalışma, diğer güvenilir sunucularla dosya/klasör paylaşımı yapılmasını sağlar. Örneğin, bu işlem birleşik paylaşım için dış kullanıcıların otomatik olarak tamamlanmasını sağlar.",
     "Trusted servers" : "Güvenilen sunucular",
     "Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing. It is not necessary to add a server as trusted server in order to create a federated share." : "Birleşik çalışma, diğer güvenilir sunucularla dosya/klasör paylaşımı yapılmasını sağlar. Örneğin, bu işlem birleşik paylaşım için dış kullanıcıların otomatik olarak tamamlanmasını sağlar. Bir birleşik çalışma oluşturmak için güvenilir bir sunucu eklenmesi gerekmez.",
-    "Add server automatically once a federated share was created successfully" : "Bir birleşik paylaşım eklendiğinde sunucu otomatik olarak eklensin",
     "+ Add trusted server" : "+ Güvenilir sunucu ekle",
     "Trusted server" : "Güvenilen sunucu",
     "Add" : "Ekle"

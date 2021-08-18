@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2017 Bjoern Schiessle <bjoern@schiessle.org>
  *
  * @author Bjoern Schiessle <bjoern@schiessle.org>
+ * @author Nicolas SIMIDE <2083596+dems54@users.noreply.github.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -13,14 +14,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\ShareByMail\Settings;
 
 use OCP\AppFramework\Http\TemplateResponse;
@@ -41,7 +41,7 @@ class Admin implements ISettings {
 	public function getForm() {
 		$parameters = [
 			'sendPasswordMail' => $this->settingsManager->sendPasswordByMail(),
-			'enforcePasswordProtection' => $this->settingsManager->enforcePasswordProtection()
+			'replyToInitiator' => $this->settingsManager->replyToInitiator()
 		];
 
 		return new TemplateResponse('sharebymail', 'settings-admin', $parameters, '');

@@ -8,8 +8,11 @@ OC.L10N.register(
     "Name cannot be empty" : "Pavadinimas negali būti tuščias",
     "The given name is too long" : "Nurodytas pavadinimas yra per ilgas",
     "The given web address is too long" : "Nurodytas adresas yra per ilgas",
+    "The given web address is not a valid URL" : "Nurodytas saityno adresas nėra teisingas URL",
     "The given legal notice address is too long" : "Nurodytas teisinio pranešimo adresas yra per ilgas",
+    "The given legal notice address is not a valid URL" : "Nurodytas teisinio pranešimo adresas nėra teisingas URL",
     "The given privacy policy address is too long" : "Nurodytas privatumo politikos adresas yra per ilgas",
+    "The given privacy policy address is not a valid URL" : "Nurodytas privatumo politikos adresas nėra teisingas URL",
     "The given slogan is too long" : "Nurodytas šūkis yra per ilgas",
     "The given color is invalid" : "Nurodyta spalva yra neteisinga",
     "The file was uploaded" : "Failas buvo įkeltas",
@@ -46,7 +49,6 @@ OC.L10N.register(
     "Upload new header logo" : "Įkelti naują antraštės logotipą",
     "Favicon" : "Svetainės piktograma",
     "Upload new favicon" : "Įkelti naują svetainės piktogramą",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Norėdami automatiškai generuoti svetainės piktogramą remiantis įkeltu logotipu ir spalva, įdiekite Imagemagick PHP plėtinį su SVG paveikslų palaikymu.",
-    "Unsupported image type" : "Nepalaikomas paveikslo tipas"
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Norėdami automatiškai generuoti svetainės piktogramą remiantis įkeltu logotipu ir spalva, įdiekite Imagemagick PHP plėtinį su SVG paveikslų palaikymu."
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

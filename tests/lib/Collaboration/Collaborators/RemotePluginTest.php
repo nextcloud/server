@@ -30,6 +30,7 @@ use OCP\Collaboration\Collaborators\SearchResultType;
 use OCP\Contacts\IManager;
 use OCP\Federation\ICloudIdManager;
 use OCP\IConfig;
+use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
@@ -62,7 +63,7 @@ class RemotePluginTest extends TestCase {
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->contactsManager = $this->createMock(IManager::class);
-		$this->cloudIdManager = new CloudIdManager();
+		$this->cloudIdManager = new CloudIdManager($this->contactsManager, $this->createMock(IURLGenerator::class), $this->createMock(IUserManager::class));
 		$this->searchResult = new SearchResult();
 	}
 
@@ -104,8 +105,12 @@ class RemotePluginTest extends TestCase {
 
 		$this->contactsManager->expects($this->any())
 			->method('search')
-			->with($searchTerm, ['CLOUD', 'FN'])
-			->willReturn($contacts);
+			->willReturnCallback(function ($search, $searchAttributes) use ($searchTerm, $contacts) {
+				if ($search === $searchTerm) {
+					return $contacts;
+				}
+				return [];
+			});
 
 		$moreResults = $this->plugin->search($searchTerm, 2, 0, $this->searchResult);
 		$result = $this->searchResult->asArray();
@@ -125,7 +130,11 @@ class RemotePluginTest extends TestCase {
 	public function testSplitUserRemote($remote, $expectedUser, $expectedUrl) {
 		$this->instantiatePlugin();
 
-		list($remoteUser, $remoteUrl) = $this->plugin->splitUserRemote($remote);
+		$this->contactsManager->expects($this->any())
+			->method('search')
+			->willReturn([]);
+
+		[$remoteUser, $remoteUrl] = $this->plugin->splitUserRemote($remote);
 		$this->assertSame($expectedUser, $remoteUser);
 		$this->assertSame($expectedUrl, $remoteUrl);
 	}

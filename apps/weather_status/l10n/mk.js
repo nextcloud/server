@@ -6,7 +6,8 @@ OC.L10N.register(
     "Malformed JSON data." : "Лошо формирани JSON податоци.",
     "Error" : "Грешка",
     "Weather status" : "Временска прогноза",
-    "Weather status in your dashboard" : "Временска прогноза во вашата контролна табла",
+    "Weather status in your dashboard" : "Временска прогноза на вашата табла",
+    "Weather status integrated in the Dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Временска прогноза интегрирана во апликацијата Табла.\nПозицијата на корисникот може автоматски да се одреди или рачно да се дефинира. Потоа се прикажува предвидување од 6 часа.\nОвој статус може да се интегрира и на други места, како што е апликацијата „Календар“.",
     "Detect location" : "Детектирај локација",
     "Set custom address" : "Поставете адреса",
     "Favorites" : "Омилени",
@@ -23,7 +24,7 @@ OC.L10N.register(
     "{temperature} {unit} Light rain showers at {time}" : "{temperature} {unit} Слаби врнежи од дожд во {time}",
     "{temperature} {unit} Heavy rain showers at {time}" : "{temperature} {unit} Поројни врнежи од дожд во {time}",
     "More weather for {adr}" : "Повеќе информации за временската прогноза за {adr}",
-    "Loading weather" : "Вчитување на времесна прогноза",
+    "Loading weather" : "Вчитување на временска прогноза",
     "Set location for weather" : "Поставете локација за временска прогноза",
     "Remove from favorites" : "Отстрани од фаворити",
     "Add as favorite" : "Додади во омилени",
@@ -34,6 +35,7 @@ OC.L10N.register(
     "There was an error setting the location address." : "Настана грешка при поставување на адреса на локација.",
     "There was an error setting the location." : "Настана грешка при поставување на локација.",
     "There was an error saving the mode." : "Грешка при зачувување.",
-    "There was an error using personal address." : "Настана грешка при користење на сопствена адреса."
+    "There was an error using personal address." : "Настана грешка при користење на сопствена адреса.",
+    "Weather status integrated in the dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Временска прогноза интегрирана во апликацијата Табла.\nПозицијата на корисникот може автоматски да се одреди или рачно да се дефинира. Потоа се прикажува предвидување од 6 часа.\nОвој статус може да се интегрира и на други места, како што е апликацијата „Календар“."
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

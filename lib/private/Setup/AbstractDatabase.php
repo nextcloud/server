@@ -26,15 +26,15 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Setup;
 
+use OC\DB\Connection;
 use OC\DB\ConnectionFactory;
 use OC\DB\MigrationService;
 use OC\SystemConfig;
 use OCP\IL10N;
-use OCP\ILogger;
 use OCP\Security\ISecureRandom;
+use Psr\Log\LoggerInterface;
 
 abstract class AbstractDatabase {
 
@@ -54,12 +54,12 @@ abstract class AbstractDatabase {
 	protected $tablePrefix;
 	/** @var SystemConfig */
 	protected $config;
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	protected $logger;
 	/** @var ISecureRandom */
 	protected $random;
 
-	public function __construct(IL10N $trans, SystemConfig $config, ILogger $logger, ISecureRandom $random) {
+	public function __construct(IL10N $trans, SystemConfig $config, LoggerInterface $logger, ISecureRandom $random) {
 		$this->trans = $trans;
 		$this->config = $config;
 		$this->logger = $logger;
@@ -108,7 +108,7 @@ abstract class AbstractDatabase {
 	 * @param array $configOverwrite
 	 * @return \OC\DB\Connection
 	 */
-	protected function connect(array $configOverwrite = []) {
+	protected function connect(array $configOverwrite = []): Connection {
 		$connectionParams = [
 			'host' => $this->dbHost,
 			'user' => $this->dbUser,
@@ -126,7 +126,7 @@ abstract class AbstractDatabase {
 			}
 		} elseif (strpos($this->dbHost, ':')) {
 			// Host variable may carry a port or socket.
-			list($host, $portOrSocket) = explode(':', $this->dbHost, 2);
+			[$host, $portOrSocket] = explode(':', $this->dbHost, 2);
 			if (ctype_digit($portOrSocket)) {
 				$connectionParams['port'] = $portOrSocket;
 			} else {
@@ -149,7 +149,7 @@ abstract class AbstractDatabase {
 		if (!is_dir(\OC::$SERVERROOT."/core/Migrations")) {
 			return;
 		}
-		$ms = new MigrationService('core', \OC::$server->getDatabaseConnection());
+		$ms = new MigrationService('core', \OC::$server->get(Connection::class));
 		$ms->migrate('latest', true);
 	}
 }

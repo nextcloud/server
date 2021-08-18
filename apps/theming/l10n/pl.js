@@ -18,7 +18,7 @@ OC.L10N.register(
     "The file was uploaded" : "Plik został wysłany",
     "The uploaded file exceeds the upload_max_filesize directive in php.ini" : "Wysłany plik przekracza wartość upload_max_filesize zdefiniowaną w php.ini",
     "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" : "Wysłany plik przekracza wartość MAX_FILE_SIZE określoną w formularzu HTML",
-    "The file was only partially uploaded" : "Plik został przesłany tylko częściowo",
+    "The file was only partially uploaded" : "Plik został wysłany tylko częściowo",
     "No file was uploaded" : "Nie wysłano żadnego pliku",
     "Missing a temporary folder" : "Brak katalogu tymczasowego",
     "Could not write file to disk" : "Nie można zapisać pliku na dysk",
@@ -49,7 +49,6 @@ OC.L10N.register(
     "Upload new header logo" : "Wyślij nowe logo nagłówka",
     "Favicon" : "Ikona favicon",
     "Upload new favicon" : "Wyślij nową ikonę favicon",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Zainstaluj rozszerzenie Imagemagick PHP z obsługą obrazów SVG, aby automatycznie generować favicony w oparciu o przesłane logo i kolor.",
-    "Unsupported image type" : "Nieobsługiwany typ obrazu"
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Zainstaluj rozszerzenie Imagemagick PHP z obsługą obrazów SVG, aby automatycznie generować favicony w oparciu o wysłane logo i kolor."
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

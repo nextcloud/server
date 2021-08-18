@@ -4,6 +4,8 @@
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author onehappycat <one.happy.cat@gmx.com>
  * @author Robin Appelman <robin@icewind.nl>
  *
@@ -16,14 +18,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Collaboration\Collaborators;
 
 use OCP\Collaboration\Collaborators\ISearch;
@@ -80,8 +81,8 @@ class Search implements ISearch {
 
 		// sanitizing, could go into the plugins as well
 
-		// if we have a exact match, either for the federated cloud id or for the
-		// email address we only return the exact match. It is highly unlikely
+		// if we have an exact match, either for the federated cloud id or for the
+		// email address, we only return the exact match. It is highly unlikely
 		// that the exact same email address and federated cloud id exists
 		$emailType = new SearchResultType('emails');
 		$remoteType = new SearchResultType('remotes');
@@ -91,6 +92,8 @@ class Search implements ISearch {
 			$searchResult->unsetResult($emailType);
 		}
 
+		$this->dropMailSharesWhereRemoteShareIsPossible($searchResult);
+
 		// if we have an exact local user match with an email-a-like query,
 		// there is no need to show the remote and email matches.
 		$userType = new SearchResultType('users');
@@ -99,7 +102,7 @@ class Search implements ISearch {
 			$searchResult->unsetResult($emailType);
 		}
 
-		return [$searchResult->asArray(), (bool)$hasMoreResults];
+		return [$searchResult->asArray(), $hasMoreResults];
 	}
 
 	public function registerPlugin(array $pluginInfo) {
@@ -108,5 +111,35 @@ class Search implements ISearch {
 			throw new \InvalidArgumentException('Provided ShareType is invalid');
 		}
 		$this->pluginList[$shareType][] = $pluginInfo['class'];
+	}
+
+	protected function dropMailSharesWhereRemoteShareIsPossible(ISearchResult $searchResult): void {
+		$allResults = $searchResult->asArray();
+
+		$emailType = new SearchResultType('emails');
+		$remoteType = new SearchResultType('remotes');
+
+		if (!isset($allResults[$remoteType->getLabel()])
+			|| !isset($allResults[$emailType->getLabel()])) {
+			return;
+		}
+
+		$mailIdMap = [];
+		foreach ($allResults[$emailType->getLabel()] as $mailRow) {
+			// sure, array_reduce looks nicer, but foreach needs less resources and is faster
+			if (!isset($mailRow['uuid'])) {
+				continue;
+			}
+			$mailIdMap[$mailRow['uuid']] = $mailRow['value']['shareWith'];
+		}
+
+		foreach ($allResults[$remoteType->getLabel()] as $resultRow) {
+			if (!isset($resultRow['uuid'])) {
+				continue;
+			}
+			if (isset($mailIdMap[$resultRow['uuid']])) {
+				$searchResult->removeCollaboratorResult($emailType, $mailIdMap[$resultRow['uuid']]);
+			}
+		}
 	}
 }

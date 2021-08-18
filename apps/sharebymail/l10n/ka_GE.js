@@ -16,7 +16,6 @@ OC.L10N.register(
     "Password to access {file} was sent to {email}" : "პაროლი {file} წვდომისთვის გაეგზავნა მისამართს {email}",
     "Password to access %1$s was sent to you" : "გამოგეგზავნათ პაროლი %1$s წვდომისთვის",
     "Password to access {file} was sent to you" : "პაროლი {file} წვდომისთვის გამოგეგზავნათ",
-    "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "ავტო-გენერირებულ პაროლს ვერ გიგზავნით. გთხოვთ პირად პარამეტრებში დააყენოთ სწორი ელ-ფოსტის მისამართი და სცადოთ ახლიდან.",
     "Failed to send share by email" : "საოფსტო გაზიარების გაგზავნა ვერ მოხერხდა",
     "Click the button below to open it." : "გასახსნელად დააწკაპუნეთ ქვემოთ მოცემულ ღილაკს.",
     "Open »%s«" : "»%s«-ის გახსნა",
@@ -26,6 +25,7 @@ OC.L10N.register(
     "Share by mail" : "გაზიარება ელ-ფოსტით",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "მიეცით უფლება მომხმარებლებს ელ-მისამართში მოთავსებით, ფაილზე ან დირექტორიაზე გააზიარონ პერსონალიზირებული ბმულები",
     "Send password by mail" : "პაროლის გაგზავნა ფოსტით",
+    "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "ავტო-გენერირებულ პაროლს ვერ გიგზავნით. გთხოვთ პირად პარამეტრებში დააყენოთ სწორი ელ-ფოსტის მისამართი და სცადოთ ახლიდან.",
     "Enforce password protection" : "პროლით დაცვის იძულება"
 },
 "nplurals=2; plural=(n!=1);");

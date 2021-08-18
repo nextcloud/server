@@ -17,6 +17,7 @@ use OCP\Encryption\Keys\IStorage;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Cache\ICache;
 use OCP\Files\Mount\IMountPoint;
+use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\ILogger;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -131,7 +132,12 @@ class EncryptionTest extends Storage {
 
 		$this->util = $this->getMockBuilder('\OC\Encryption\Util')
 			->setMethods(['getUidAndFilename', 'isFile', 'isExcluded'])
-			->setConstructorArgs([new View(), new Manager($this->config, $this->createMock(EventDispatcherInterface::class), $this->createMock(IEventDispatcher::class)), $this->groupManager, $this->config, $this->arrayCache])
+			->setConstructorArgs([new View(), new Manager(
+				$this->config,
+				$this->createMock(EventDispatcherInterface::class),
+				$this->createMock(ICacheFactory::class),
+				$this->createMock(IEventDispatcher::class)
+			), $this->groupManager, $this->config, $this->arrayCache])
 			->getMock();
 		$this->util->expects($this->any())
 			->method('getUidAndFilename')
@@ -567,12 +573,25 @@ class EncryptionTest extends Storage {
 			->setConstructorArgs(
 				[
 					new View(),
-					new Manager($this->config, $this->createMock(EventDispatcherInterface::class), $this->createMock(IEventDispatcher::class)),
+					new Manager(
+						$this->config,
+						$this->createMock(EventDispatcherInterface::class),
+						$this->createMock(ICacheFactory::class),
+						$this->createMock(IEventDispatcher::class)
+					),
 					$this->groupManager,
 					$this->config,
 					$this->arrayCache
 				]
 			)->getMock();
+		
+		$cache = $this->getMockBuilder('\OC\Files\Cache\Cache')
+			->disableOriginalConstructor()->getMock();
+		$cache->expects($this->any())
+			->method('get')
+			->willReturnCallback(function ($path) {
+				return ['encrypted' => true, 'path' => $path];
+			});
 
 		$instance = $this->getMockBuilder('\OC\Files\Storage\Wrapper\Encryption')
 			->setConstructorArgs(
@@ -586,9 +605,11 @@ class EncryptionTest extends Storage {
 					$this->encryptionManager, $util, $this->logger, $this->file, null, $this->keyStore, $this->update, $this->mountManager, $this->arrayCache
 				]
 			)
-			->setMethods(['readFirstBlock', 'parseRawHeader'])
+			->setMethods(['getCache','readFirstBlock', 'parseRawHeader'])
 			->getMock();
-
+		
+		$instance->expects($this->once())->method('getCache')->willReturn($cache);
+		
 		$instance->expects($this->once())->method(('parseRawHeader'))
 			->willReturn([Util::HEADER_ENCRYPTION_MODULE_KEY => 'OC_DEFAULT_MODULE']);
 
@@ -635,7 +656,12 @@ class EncryptionTest extends Storage {
 			->willReturn($exists);
 
 		$util = $this->getMockBuilder('\OC\Encryption\Util')
-			->setConstructorArgs([new View(), new Manager($this->config, $this->createMock(EventDispatcherInterface::class), $this->createMock(IEventDispatcher::class)), $this->groupManager, $this->config, $this->arrayCache])
+			->setConstructorArgs([new View(), new Manager(
+				$this->config,
+				$this->createMock(EventDispatcherInterface::class),
+				$this->createMock(ICacheFactory::class),
+				$this->createMock(IEventDispatcher::class)
+			), $this->groupManager, $this->config, $this->arrayCache])
 			->getMock();
 
 		$cache = $this->getMockBuilder('\OC\Files\Cache\Cache')
@@ -661,8 +687,8 @@ class EncryptionTest extends Storage {
 			->setMethods(['readFirstBlock', 'parseRawHeader', 'getCache'])
 			->getMock();
 
-		$instance->expects($this->once())->method(('parseRawHeader'))->willReturn($header);
-		$instance->expects($this->any())->method('getCache')->willReturn($cache);
+		$instance->expects($this->any())->method(('parseRawHeader'))->willReturn($header);
+		$instance->expects($this->once())->method('getCache')->willReturn($cache);
 
 		$result = $this->invokePrivate($instance, 'getHeader', ['test.txt']);
 		$this->assertSameSize($expected, $result);

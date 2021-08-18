@@ -4,7 +4,6 @@
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @license AGPL-3.0
@@ -22,7 +21,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\CalDAV;
 
 class Plugin extends \Sabre\CalDAV\Plugin {
@@ -40,15 +38,15 @@ class Plugin extends \Sabre\CalDAV\Plugin {
 	 */
 	public function getCalendarHomeForPrincipal($principalUrl) {
 		if (strrpos($principalUrl, 'principals/users', -strlen($principalUrl)) !== false) {
-			list(, $principalId) = \Sabre\Uri\split($principalUrl);
+			[, $principalId] = \Sabre\Uri\split($principalUrl);
 			return self::CALENDAR_ROOT . '/' . $principalId;
 		}
 		if (strrpos($principalUrl, 'principals/calendar-resources', -strlen($principalUrl)) !== false) {
-			list(, $principalId) = \Sabre\Uri\split($principalUrl);
+			[, $principalId] = \Sabre\Uri\split($principalUrl);
 			return self::SYSTEM_CALENDAR_ROOT . '/calendar-resources/' . $principalId;
 		}
 		if (strrpos($principalUrl, 'principals/calendar-rooms', -strlen($principalUrl)) !== false) {
-			list(, $principalId) = \Sabre\Uri\split($principalUrl);
+			[, $principalId] = \Sabre\Uri\split($principalUrl);
 			return self::SYSTEM_CALENDAR_ROOT . '/calendar-rooms/' . $principalId;
 		}
 	}

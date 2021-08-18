@@ -16,14 +16,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\Files;
 
 use OC\Files\Search\SearchBinaryOperator;
@@ -273,10 +272,9 @@ class FileSearchBackend implements ISearchBackend {
 	 * @return ISearchQuery
 	 */
 	private function transformQuery(Query $query): ISearchQuery {
-		// TODO offset
 		$limit = $query->limit;
 		$orders = array_map([$this, 'mapSearchOrder'], $query->orderBy);
-		$offset = 0;
+		$offset = $limit->firstResult;
 
 		$limitHome = false;
 		$ownerProp = $this->extractWhereValue($query->where, FilesPlugin::OWNER_ID_PROPERTYNAME, Operator::OPERATION_EQUAL);
@@ -286,7 +284,6 @@ class FileSearchBackend implements ISearchBackend {
 			} else {
 				throw new \InvalidArgumentException("Invalid search value for '{http://owncloud.org/ns}owner-id', only the current user id is allowed");
 			}
-			$offset = $limit->firstResult;
 		}
 
 		return new SearchQuery(
@@ -312,7 +309,7 @@ class FileSearchBackend implements ISearchBackend {
 	 * @return ISearchOperator
 	 */
 	private function transformSearchOperation(Operator $operator) {
-		list(, $trimmedType) = explode('}', $operator->type);
+		[, $trimmedType] = explode('}', $operator->type);
 		switch ($operator->type) {
 			case Operator::OPERATION_AND:
 			case Operator::OPERATION_OR:
@@ -379,7 +376,7 @@ class FileSearchBackend implements ISearchBackend {
 				if (is_numeric($value)) {
 					return max(0, 0 + $value);
 				}
-				$date = \DateTime::createFromFormat(\DateTime::ATOM, $value);
+				$date = \DateTime::createFromFormat(\DateTimeInterface::ATOM, $value);
 				return ($date instanceof \DateTime && $date->getTimestamp() !== false) ? $date->getTimestamp() : 0;
 			default:
 				return $value;

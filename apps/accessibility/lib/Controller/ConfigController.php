@@ -9,7 +9,7 @@ declare(strict_types=1);
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Janis Köhr <janis.koehr@novatec-gmbh.de>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
@@ -21,14 +21,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Accessibility\Controller;
 
 use OCA\Accessibility\AccessibilityProvider;
@@ -117,7 +116,7 @@ class ConfigController extends OCSController {
 			$highcontrast = [$this->accessibilityProvider->getHighContrast()];
 			$fonts = $this->accessibilityProvider->getFonts();
 
-			$availableOptions = array_map(function ($option) {
+			$availableOptions = array_map(function ($option): string {
 				return $option['id'];
 			}, array_merge($themes, $highcontrast, $fonts));
 

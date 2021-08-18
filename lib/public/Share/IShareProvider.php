@@ -23,7 +23,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\Share;
 
 use OCP\Files\Folder;
@@ -124,7 +123,7 @@ interface IShareProvider {
 	 * @param string $userId
 	 * @param Folder $node
 	 * @param bool $reshares Also get the shares where $user is the owner instead of just the shares where $user is the initiator
-	 * @return \OCP\Share\IShare[]
+	 * @return \OCP\Share\IShare[][]
 	 * @since 11.0.0
 	 */
 	public function getSharesInFolder($userId, Folder $node, $reshares);

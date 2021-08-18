@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = $vendorDir;
 
 return array(
+    'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
     'OCA\\WorkflowEngine\\AppInfo\\Application' => $baseDir . '/../lib/AppInfo/Application.php',
     'OCA\\WorkflowEngine\\BackgroundJobs\\Rotate' => $baseDir . '/../lib/BackgroundJobs/Rotate.php',
     'OCA\\WorkflowEngine\\Check\\AbstractStringCheck' => $baseDir . '/../lib/Check/AbstractStringCheck.php',
@@ -31,6 +32,7 @@ return array(
     'OCA\\WorkflowEngine\\Manager' => $baseDir . '/../lib/Manager.php',
     'OCA\\WorkflowEngine\\Migration\\PopulateNewlyIntroducedDatabaseFields' => $baseDir . '/../lib/Migration/PopulateNewlyIntroducedDatabaseFields.php',
     'OCA\\WorkflowEngine\\Migration\\Version2000Date20190808074233' => $baseDir . '/../lib/Migration/Version2000Date20190808074233.php',
+    'OCA\\WorkflowEngine\\Migration\\Version2200Date20210805101925' => $baseDir . '/../lib/Migration/Version2200Date20210805101925.php',
     'OCA\\WorkflowEngine\\Service\\Logger' => $baseDir . '/../lib/Service/Logger.php',
     'OCA\\WorkflowEngine\\Service\\RuleMatcher' => $baseDir . '/../lib/Service/RuleMatcher.php',
     'OCA\\WorkflowEngine\\Settings\\ASettings' => $baseDir . '/../lib/Settings/ASettings.php',

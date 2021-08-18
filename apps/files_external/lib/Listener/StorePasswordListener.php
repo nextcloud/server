@@ -5,6 +5,7 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2020, Morris Jobke <hey@morrisjobke.de>
  *
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  *
  * @license GNU AGPL version 3 or any later version
@@ -16,14 +17,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Files_External\Listener;
 
 use OCA\Files_External\Lib\Auth\Password\LoginCredentials;
@@ -51,10 +51,14 @@ class StorePasswordListener implements IEventListener {
 		}
 
 		$stored = $this->credentialsManager->retrieve($event->getUser()->getUID(), LoginCredentials::CREDENTIALS_IDENTIFIER);
+		$update = isset($stored['password']) && $stored['password'] !== $event->getPassword();
+		if (!$update && $event instanceof UserLoggedInEvent) {
+			$update = isset($stored['user']) && $stored['user'] !== $event->getLoginName();
+		}
 
-		if ($stored && $stored['password'] !== $event->getPassword()) {
+		if ($stored && $update) {
 			$credentials = [
-				'user' => $stored['user'],
+				'user' => $event->getLoginName(),
 				'password' => $event->getPassword()
 			];
 

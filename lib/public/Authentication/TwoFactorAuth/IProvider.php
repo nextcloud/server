@@ -23,7 +23,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\Authentication\TwoFactorAuth;
 
 use OCP\IUser;
@@ -36,8 +35,13 @@ interface IProvider {
 
 	/**
 	 * @since 14.0.0
+	 * @deprecated 22.0.0
 	 */
 	public const EVENT_SUCCESS = self::class . '::success';
+
+	/**
+	 * @deprecated 22.0.0
+	 */
 	public const EVENT_FAILED = self::class . '::failed';
 
 	/**

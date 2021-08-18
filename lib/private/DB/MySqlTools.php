@@ -21,7 +21,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\DB;
 
 use OCP\IDBConnection;
@@ -32,7 +31,7 @@ use OCP\IDBConnection;
 class MySqlTools {
 
 	/**
-	 * @param Connection $connection
+	 * @param IDBConnection $connection
 	 * @return bool
 	 */
 	public function supports4ByteCharset(IDBConnection $connection) {

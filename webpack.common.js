@@ -1,13 +1,16 @@
 /* eslint-disable camelcase */
 const { merge } = require('webpack-merge')
 const { VueLoaderPlugin } = require('vue-loader')
-const BabelLoaderExcludeNodeModulesExcept = require('babel-loader-exclude-node-modules-except')
 const path = require('path')
+
+const BabelLoaderExcludeNodeModulesExcept = require('babel-loader-exclude-node-modules-except')
+const ESLintPlugin = require('eslint-webpack-plugin')
 
 const accessibility = require('./apps/accessibility/webpack')
 const comments = require('./apps/comments/webpack')
 const core = require('./core/webpack')
 const dashboard = require('./apps/dashboard/webpack')
+const dav = require('./apps/dav/webpack')
 const files = require('./apps/files/webpack')
 const files_sharing = require('./apps/files_sharing/webpack')
 const files_trashbin = require('./apps/files_trashbin/webpack')
@@ -26,6 +29,7 @@ const modules = {
 	comments,
 	core,
 	dashboard,
+	dav,
 	files,
 	files_sharing,
 	files_trashbin,
@@ -37,7 +41,7 @@ const modules = {
 	weather_status,
 	twofactor_backupscodes,
 	updatenotification,
-	workflowengine
+	workflowengine,
 }
 
 const modulesToBuild = () => {
@@ -46,7 +50,7 @@ const modulesToBuild = () => {
 		if (!modules[MODULE]) {
 			throw new Error(`No module "${MODULE}" found`)
 		}
-		return [ modules[MODULE] ]
+		return [modules[MODULE]]
 	}
 	return Object.values(modules)
 }
@@ -67,20 +71,6 @@ module.exports = []
 					use: ['style-loader', 'css-loader', 'sass-loader'],
 				},
 				{
-					test: /\.(js|vue)$/,
-					loader: 'eslint-loader',
-					// no checks against vendors, modules or handlebar compiled files
-					exclude: /node_modules|vendor|templates\.js/,
-					enforce: 'pre',
-					options: {
-						// we cannot simply use the eslint binary as we
-						// don't want to parse all the js files so let's
-						// use it from within webpack and only check
-						// against our compiled files
-						fix: process.env.ESLINT_FIX === 'true',
-					},
-				},
-				{
 					test: /\.vue$/,
 					loader: 'vue-loader',
 					exclude: BabelLoaderExcludeNodeModulesExcept([
@@ -95,6 +85,7 @@ module.exports = []
 					exclude: BabelLoaderExcludeNodeModulesExcept([
 						'@nextcloud/dialogs',
 						'@nextcloud/event-bus',
+						'@nextcloud/vue-dashboard',
 						'davclient.js',
 						'nextcloud-vue-collections',
 						'p-finally',
@@ -127,7 +118,7 @@ module.exports = []
 
 			],
 		},
-		plugins: [new VueLoaderPlugin()],
+		plugins: [new VueLoaderPlugin(), new ESLintPlugin()],
 		resolve: {
 			alias: {
 				OC: path.resolve(__dirname, './core/src/OC'),

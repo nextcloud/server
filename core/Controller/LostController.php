@@ -33,14 +33,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Core\Controller;
 
-use function array_filter;
-use function count;
 use OC\Authentication\TwoFactorAuth\Manager;
 use OC\Core\Exception\ResetPasswordException;
-use OC\HintException;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\TemplateResponse;
@@ -48,6 +44,7 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Defaults;
 use OCP\Encryption\IEncryptionModule;
 use OCP\Encryption\IManager;
+use OCP\HintException;
 use OCP\IConfig;
 use OCP\IInitialStateService;
 use OCP\IL10N;
@@ -59,6 +56,8 @@ use OCP\IUserManager;
 use OCP\Mail\IMailer;
 use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
+use function array_filter;
+use function count;
 use function reset;
 
 /**
@@ -378,7 +377,7 @@ class LostController extends Controller {
 
 		try {
 			$message = $this->mailer->createMessage();
-			$message->setTo([$email => $user->getUID()]);
+			$message->setTo([$email => $user->getDisplayName()]);
 			$message->setFrom([$this->from => $this->defaults->getName()]);
 			$message->useTemplate($emailTemplate);
 			$this->mailer->send($message);

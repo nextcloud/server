@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Robin Appelman <robin@icewind.nl>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
  *
@@ -19,7 +20,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Command;
 
 use OC\BackgroundJob\QueuedJob;
@@ -30,7 +30,7 @@ use OCP\Command\ICommand;
  */
 class CommandJob extends QueuedJob {
 	protected function run($serializedCommand) {
-		$command = unserialize($serializedCommand);
+		$command = \Opis\Closure\unserialize($serializedCommand);
 		if ($command instanceof ICommand) {
 			$command->handle();
 		} else {

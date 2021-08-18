@@ -4,6 +4,7 @@
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -14,14 +15,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\BackgroundJob;
 
 use OC\BackgroundJob\TimedJob;
@@ -399,9 +399,9 @@ class UpdateCalendarResourcesRoomsBackgroundJob extends TimedJob {
 			->where($query->expr()->eq('backend_id', $query->createNamedParameter($backendId)));
 		$stmt = $query->execute();
 
-		return array_map(function ($row) {
+		return array_map(function ($row): string {
 			return $row['resource_id'];
-		}, $stmt->fetchAll(\PDO::FETCH_NAMED));
+		}, $stmt->fetchAll());
 	}
 
 	/**
@@ -415,7 +415,10 @@ class UpdateCalendarResourcesRoomsBackgroundJob extends TimedJob {
 			CalDavBackend::RESOURCE_BOOKING_CALENDAR_URI);
 
 		if ($calendar !== null) {
-			$this->calDavBackend->deleteCalendar($calendar['id']);
+			$this->calDavBackend->deleteCalendar(
+				$calendar['id'],
+				true // Because this wasn't deleted by a user
+			);
 		}
 	}
 
@@ -435,6 +438,6 @@ class UpdateCalendarResourcesRoomsBackgroundJob extends TimedJob {
 			->andWhere($query->expr()->eq('resource_id', $query->createNamedParameter($resourceId)));
 		$stmt = $query->execute();
 
-		return $stmt->fetch(\PDO::FETCH_NAMED)['id'];
+		return $stmt->fetch()['id'];
 	}
 }

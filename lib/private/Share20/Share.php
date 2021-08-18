@@ -7,7 +7,7 @@
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Maxence Lange <maxence@nextcloud.com>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -27,11 +27,11 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Share20;
 
-use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\File;
+use OCP\Files\Cache\ICacheEntry;
+use OCP\Files\FileInfo;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
@@ -39,7 +39,7 @@ use OCP\IUserManager;
 use OCP\Share\Exceptions\IllegalIDChangeException;
 use OCP\Share\IShare;
 
-class Share implements \OCP\Share\IShare {
+class Share implements IShare {
 
 	/** @var string */
 	private $id;
@@ -233,8 +233,13 @@ class Share implements \OCP\Share\IShare {
 	 */
 	public function getNodeType() {
 		if ($this->nodeType === null) {
-			$node = $this->getNode();
-			$this->nodeType = $node instanceof File ? 'file' : 'folder';
+			if ($this->getNodeCacheEntry()) {
+				$info = $this->getNodeCacheEntry();
+				$this->nodeType = $info->getMimeType() === FileInfo::MIMETYPE_FOLDER ? 'folder' : 'file';
+			} else {
+				$node = $this->getNode();
+				$this->nodeType = $node instanceof File ? 'file' : 'folder';
+			}
 		}
 
 		return $this->nodeType;

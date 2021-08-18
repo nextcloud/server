@@ -19,6 +19,7 @@ jobs:
         uses: shivammathur/setup-php@master
         with:
           php-version: 7.4
+          extensions: ctype,curl,dom,fileinfo,gd,iconv,intl,json,mbstring,openssl,pdo_sqlite,posix,sqlite,xml,zip
           coverage: none
       - name: Composer install
         run: composer i
@@ -31,7 +32,7 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
         with:
-          token: ${{ secrets.MACHINE_USER_PAT }}
+          token: ${{ secrets.COMMAND_BOT_PAT }}
           push-to-fork: nextcloud-pr-bot/server
           commit-message: Update psalm baseline
           committer: GitHub <noreply@github.com>
@@ -43,4 +44,4 @@ jobs:
             Auto-generated update psalm-baseline.xml with fixed psalm warnings
           labels: |
             automated pr
-          reviewers: rullzer, morrisjobke, kesselb
+          reviewers: juliushaertl, artonge, kesselb

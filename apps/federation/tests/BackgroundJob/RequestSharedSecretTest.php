@@ -23,11 +23,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Federation\Tests\BackgroundJob;
 
 use GuzzleHttp\Exception\ConnectException;
-use GuzzleHttp\Ring\Exception\RingException;
 use OCA\Federation\BackgroundJob\RequestSharedSecret;
 use OCA\Federation\TrustedServers;
 use OCP\AppFramework\Http;
@@ -275,42 +273,6 @@ class RequestSharedSecretTest extends TestCase {
 					'connect_timeout' => 3,
 				]
 			)->willThrowException($this->createMock(ConnectException::class));
-
-		$this->invokePrivate($this->requestSharedSecret, 'run', [$argument]);
-		$this->assertTrue($this->invokePrivate($this->requestSharedSecret, 'retainJob'));
-	}
-
-	public function testRunRingException() {
-		$target = 'targetURL';
-		$source = 'sourceURL';
-		$token = 'token';
-
-		$argument = ['url' => $target, 'token' => $token];
-
-		$this->timeFactory->method('getTime')->willReturn(42);
-
-		$this->urlGenerator
-			->expects($this->once())
-			->method('getAbsoluteURL')
-			->with('/')
-			->willReturn($source);
-
-		$this->httpClient
-			->expects($this->once())
-			->method('post')
-			->with(
-				$target . '/ocs/v2.php/apps/federation/api/v1/request-shared-secret',
-				[
-					'body' =>
-						[
-							'url' => $source,
-							'token' => $token,
-							'format' => 'json',
-						],
-					'timeout' => 3,
-					'connect_timeout' => 3,
-				]
-			)->willThrowException($this->createMock(RingException::class));
 
 		$this->invokePrivate($this->requestSharedSecret, 'run', [$argument]);
 		$this->assertTrue($this->invokePrivate($this->requestSharedSecret, 'retainJob'));

@@ -12,7 +12,7 @@
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -29,11 +29,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Files\Stream;
 
 use Icewind\Streams\Wrapper;
 use OC\Encryption\Exceptions\EncryptionHeaderKeyExistsException;
+use function is_array;
+use function stream_context_create;
 
 class Encryption extends Wrapper {
 
@@ -190,17 +191,22 @@ class Encryption extends Wrapper {
 	/**
 	 * add stream wrapper
 	 *
-	 * @param resource $source
+	 * @param resource|int $source
+	 * @param resource|array $context
+	 * @param string|null $protocol
+	 * @param string|null $class
 	 * @param string $mode
-	 * @param resource $context
-	 * @param string $protocol
-	 * @param string $class
 	 * @return resource
 	 * @throws \BadMethodCallException
 	 */
-	protected static function wrapSource($source, $context, $protocol, $class, $mode = 'r+') {
+	protected static function wrapSource($source, $context = [], $protocol = null, $class = null, $mode = 'r+') {
 		try {
+			if ($protocol === null) {
+				$protocol = self::getProtocol($class);
+			}
+
 			stream_wrapper_register($protocol, $class);
+			$context = self::buildContext($protocol, $context, $source);
 			if (self::isDirectoryHandle($source)) {
 				$wrapped = opendir($protocol . '://', $context);
 			} else {
@@ -215,13 +221,25 @@ class Encryption extends Wrapper {
 	}
 
 	/**
+	 * @todo this is a copy of \Icewind\Streams\WrapperHandler::buildContext -> combine to one shared method?
+	 */
+	private static function buildContext($protocol, $context, $source) {
+		if (is_array($context)) {
+			$context['source'] = $source;
+			return stream_context_create([$protocol => $context]);
+		}
+
+		return $context;
+	}
+
+	/**
 	 * Load the source from the stream context and return the context options
 	 *
-	 * @param string $name
+	 * @param string|null $name
 	 * @return array
 	 * @throws \BadMethodCallException
 	 */
-	protected function loadContext($name) {
+	protected function loadContext($name = null) {
 		$context = parent::loadContext($name);
 
 		foreach ($this->expectedContextProperties as $property) {
@@ -314,7 +332,7 @@ class Encryption extends Wrapper {
 		}
 		return $result;
 	}
-	
+
 	/**
 	 * stream_read_block
 	 *
@@ -505,7 +523,7 @@ class Encryption extends Wrapper {
 	/**
 	 * write header at beginning of encrypted file
 	 *
-	 * @return integer
+	 * @return int|false
 	 * @throws EncryptionHeaderKeyExistsException if header key is already in use
 	 */
 	protected function writeHeader() {

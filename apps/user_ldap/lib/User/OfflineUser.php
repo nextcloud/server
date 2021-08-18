@@ -6,6 +6,7 @@
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
  *
@@ -22,7 +23,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\User_LDAP\User;
 
 use OCA\User_LDAP\Mapping\UserMapping;
@@ -134,7 +134,7 @@ class OfflineUser {
 	 * @return string
 	 */
 	public function getUID() {
-		if (!isset($this->uid)) {
+		if ($this->uid === null) {
 			$this->fetchDetails();
 		}
 		return $this->uid;
@@ -145,8 +145,9 @@ class OfflineUser {
 	 * @return string
 	 */
 	public function getDN() {
-		if (!isset($this->dn)) {
-			$this->fetchDetails();
+		if ($this->dn === null) {
+			$dn = $this->mapping->getDNByName($this->ocName);
+			$this->dn = ($dn !== false) ? $dn : '';
 		}
 		return $this->dn;
 	}
@@ -156,7 +157,7 @@ class OfflineUser {
 	 * @return string
 	 */
 	public function getDisplayName() {
-		if (!isset($this->displayName)) {
+		if ($this->displayName === null) {
 			$this->fetchDetails();
 		}
 		return $this->displayName;
@@ -167,7 +168,7 @@ class OfflineUser {
 	 * @return string
 	 */
 	public function getEmail() {
-		if (!isset($this->email)) {
+		if ($this->email === null) {
 			$this->fetchDetails();
 		}
 		return $this->email;
@@ -178,7 +179,7 @@ class OfflineUser {
 	 * @return string
 	 */
 	public function getHomePath() {
-		if (!isset($this->homePath)) {
+		if ($this->homePath === null) {
 			$this->fetchDetails();
 		}
 		return $this->homePath;
@@ -189,7 +190,7 @@ class OfflineUser {
 	 * @return int
 	 */
 	public function getLastLogin() {
-		if (!isset($this->lastLogin)) {
+		if ($this->lastLogin === null) {
 			$this->fetchDetails();
 		}
 		return (int)$this->lastLogin;
@@ -200,7 +201,7 @@ class OfflineUser {
 	 * @return int
 	 */
 	public function getDetectedOn() {
-		if (!isset($this->foundDeleted)) {
+		if ($this->foundDeleted === null) {
 			$this->fetchDetails();
 		}
 		return (int)$this->foundDeleted;
@@ -211,8 +212,8 @@ class OfflineUser {
 	 * @return bool
 	 */
 	public function getHasActiveShares() {
-		if (!isset($this->hasActiveShares)) {
-			$this->fetchDetails();
+		if ($this->hasActiveShares === null) {
+			$this->determineShares();
 		}
 		return $this->hasActiveShares;
 	}
@@ -232,11 +233,6 @@ class OfflineUser {
 		foreach ($properties as $property => $app) {
 			$this->$property = $this->config->getUserValue($this->ocName, $app, $property, '');
 		}
-
-		$dn = $this->mapping->getDNByName($this->ocName);
-		$this->dn = ($dn !== false) ? $dn : '';
-
-		$this->determineShares();
 	}
 
 	/**

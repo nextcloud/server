@@ -5,8 +5,9 @@
  * @author Artem Sidorenko <artem@posteo.de>
  * @author Christopher Schäpers <kondou@ts.unde.re>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Damjan Georgievski <gdamjan@gmail.com>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
+ * @author hoellen <dev@hoellen.eu>
+ * @author J0WI <J0WI@users.noreply.github.com>
  * @author Jakob Sack <mail@jakobsack.de>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
@@ -18,7 +19,8 @@
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Steffen Lindner <mail@steffen-lindner.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
+ * @author Stephen Michel <git@smichel.me>
  *
  * @license AGPL-3.0
  *
@@ -35,7 +37,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 require_once __DIR__ . '/lib/versioncheck.php';
 
 try {
@@ -90,7 +91,7 @@ try {
 
 		// the cron job must be executed with the right user
 		if (!function_exists('posix_getuid')) {
-			echo "The posix extensions are required - see http://php.net/manual/en/book.posix.php" . PHP_EOL;
+			echo "The posix extensions are required - see https://www.php.net/manual/en/book.posix.php" . PHP_EOL;
 			exit(1);
 		}
 
@@ -158,6 +159,8 @@ try {
 	exit();
 } catch (Exception $ex) {
 	\OC::$server->getLogger()->logException($ex, ['app' => 'cron']);
+	exit(1);
 } catch (Error $ex) {
 	\OC::$server->getLogger()->logException($ex, ['app' => 'cron']);
+	exit(1);
 }

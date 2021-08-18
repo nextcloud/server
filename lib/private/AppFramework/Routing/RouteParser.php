@@ -5,13 +5,7 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @license AGPL-3.0
  *
@@ -28,7 +22,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\AppFramework\Routing;
 
 use OC\Route\Route;
@@ -102,7 +95,7 @@ class RouteParser {
 		if (count($split) !== 2) {
 			throw new \UnexpectedValueException('Invalid route name');
 		}
-		list($controller, $action) = $split;
+		[$controller, $action] = $split;
 
 		$controllerName = $this->buildControllerName($controller);
 		$actionName = $this->buildActionName($action);

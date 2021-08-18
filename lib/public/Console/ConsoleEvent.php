@@ -21,7 +21,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\Console;
 
 use OCP\EventDispatcher\Event;
@@ -32,6 +31,10 @@ use OCP\EventDispatcher\Event;
  * @since 9.0.0
  */
 class ConsoleEvent extends Event {
+
+	/**
+	 * @deprecated 22.0.0
+	 */
 	public const EVENT_RUN = 'OC\Console\Application::run';
 
 	/** @var string */

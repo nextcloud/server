@@ -13,6 +13,7 @@
  * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Juan Pablo Villafáñez <jvillafanez@solidgear.es>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Lars Knickrehm <mail@lars-sh.de>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
@@ -24,7 +25,7 @@
  * @author Steven Bühner <buehner@me.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Victor Dubiniuk <dubiniuk@owncloud.com>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -41,9 +42,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_Trashbin;
 
+use OC_User;
 use OC\Files\Cache\Cache;
 use OC\Files\Cache\CacheEntry;
 use OC\Files\Cache\CacheQueryBuilder;
@@ -59,7 +60,6 @@ use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
-use OCP\User;
 
 class Trashbin {
 
@@ -102,14 +102,14 @@ class Trashbin {
 		// to a remote user with a federated cloud ID we use the current logged-in
 		// user. We need a valid local user to move the file to the right trash bin
 		if (!$userManager->userExists($uid)) {
-			$uid = User::getUser();
+			$uid = OC_User::getUser();
 		}
 		if (!$uid) {
 			// no owner, usually because of share link from ext storage
 			return [null, null];
 		}
 		Filesystem::initMountPoints($uid);
-		if ($uid !== User::getUser()) {
+		if ($uid !== OC_User::getUser()) {
 			$info = Filesystem::getFileInfo($filename);
 			$ownerView = new View('/' . $uid . '/files');
 			try {
@@ -132,7 +132,7 @@ class Trashbin {
 		$query->select('id', 'timestamp', 'location')
 			->from('files_trash')
 			->where($query->expr()->eq('user', $query->createNamedParameter($user)));
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$array = [];
 		while ($row = $result->fetch()) {
 			if (isset($array[$row['id']])) {
@@ -161,7 +161,7 @@ class Trashbin {
 			->andWhere($query->expr()->eq('id', $query->createNamedParameter($filename)))
 			->andWhere($query->expr()->eq('timestamp', $query->createNamedParameter($timestamp)));
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$row = $result->fetch();
 		$result->closeCursor();
 
@@ -225,7 +225,7 @@ class Trashbin {
 				->setValue('timestamp', $query->createNamedParameter($timestamp))
 				->setValue('location', $query->createNamedParameter($targetLocation))
 				->setValue('user', $query->createNamedParameter($user));
-			$result = $query->execute();
+			$result = $query->executeStatement();
 			if (!$result) {
 				\OC::$server->getLogger()->error('trash bin database couldn\'t be updated for the files owner', ['app' => 'files_trashbin']);
 			}
@@ -352,7 +352,7 @@ class Trashbin {
 				->setValue('timestamp', $query->createNamedParameter($timestamp))
 				->setValue('location', $query->createNamedParameter($location))
 				->setValue('user', $query->createNamedParameter($owner));
-			$result = $query->execute();
+			$result = $query->executeStatement();
 			if (!$result) {
 				\OC::$server->getLogger()->error('trash bin database couldn\'t be updated', ['app' => 'files_trashbin']);
 			}
@@ -389,7 +389,7 @@ class Trashbin {
 	 */
 	private static function retainVersions($filename, $owner, $ownerPath, $timestamp) {
 		if (\OCP\App::isEnabled('files_versions') && !empty($ownerPath)) {
-			$user = User::getUser();
+			$user = OC_User::getUser();
 			$rootView = new View('/');
 
 			if ($rootView->is_dir($owner . '/files_versions/' . $ownerPath)) {
@@ -463,7 +463,7 @@ class Trashbin {
 	 * @return bool true on success, false otherwise
 	 */
 	public static function restore($file, $filename, $timestamp) {
-		$user = User::getUser();
+		$user = OC_User::getUser();
 		$view = new View('/' . $user);
 
 		$location = '';
@@ -515,7 +515,7 @@ class Trashbin {
 					->where($query->expr()->eq('user', $query->createNamedParameter($user)))
 					->andWhere($query->expr()->eq('id', $query->createNamedParameter($filename)))
 					->andWhere($query->expr()->eq('timestamp', $query->createNamedParameter($timestamp)));
-				$query->execute();
+				$query->executeStatement();
 			}
 
 			return true;
@@ -537,7 +537,7 @@ class Trashbin {
 	 */
 	private static function restoreVersions(View $view, $file, $filename, $uniqueFilename, $location, $timestamp) {
 		if (\OCP\App::isEnabled('files_versions')) {
-			$user = User::getUser();
+			$user = OC_User::getUser();
 			$rootView = new View('/');
 
 			$target = Filesystem::normalizePath('/' . $location . '/' . $uniqueFilename);
@@ -573,7 +573,7 @@ class Trashbin {
 	 * delete all files from the trash
 	 */
 	public static function deleteAll() {
-		$user = User::getUser();
+		$user = OC_User::getUser();
 		$userRoot = \OC::$server->getUserFolder($user)->getParent();
 		$view = new View('/' . $user);
 		$fileInfos = $view->getDirectoryContent('files_trashbin/files');
@@ -605,7 +605,7 @@ class Trashbin {
 		$query = \OC::$server->getDatabaseConnection()->getQueryBuilder();
 		$query->delete('files_trash')
 			->where($query->expr()->eq('user', $query->createNamedParameter($user)));
-		$query->execute();
+		$query->executeStatement();
 
 		// Bulk PostDelete-Hook
 		\OC_Hook::emit('\OCP\Trashbin', 'deleteAll', ['paths' => $filePaths]);
@@ -659,7 +659,7 @@ class Trashbin {
 				->where($query->expr()->eq('user', $query->createNamedParameter($user)))
 				->andWhere($query->expr()->eq('id', $query->createNamedParameter($filename)))
 				->andWhere($query->expr()->eq('timestamp', $query->createNamedParameter($timestamp)));
-			$query->execute();
+			$query->executeStatement();
 
 			$file = $filename . '.d' . $timestamp;
 		} else {
@@ -724,7 +724,7 @@ class Trashbin {
 	 * @return bool true if file exists, otherwise false
 	 */
 	public static function file_exists($filename, $timestamp = null) {
-		$user = User::getUser();
+		$user = OC_User::getUser();
 		$view = new View('/' . $user);
 
 		if ($timestamp) {
@@ -745,7 +745,7 @@ class Trashbin {
 		$query = \OC::$server->getDatabaseConnection()->getQueryBuilder();
 		$query->delete('files_trash')
 			->where($query->expr()->eq('user', $query->createNamedParameter($uid)));
-		return (bool) $query->execute();
+		return (bool) $query->executeStatement();
 	}
 
 	/**
@@ -988,8 +988,7 @@ class Trashbin {
 		$query = new CacheQueryBuilder(
 			\OC::$server->getDatabaseConnection(),
 			\OC::$server->getSystemConfig(),
-			\OC::$server->getLogger(),
-			$cache
+			\OC::$server->getLogger()
 		);
 		$normalizedParentPath = ltrim(Filesystem::normalizePath(dirname('files_trashbin/versions/'. $filename)), '/');
 		$parentId = $cache->getId($normalizedParentPath);
@@ -998,11 +997,11 @@ class Trashbin {
 		}
 
 		$query->selectFileCache()
-			->whereStorageId()
+			->whereStorageId($cache->getNumericStorageId())
 			->andWhere($query->expr()->eq('parent', $query->createNamedParameter($parentId)))
 			->andWhere($query->expr()->iLike('name', $query->createNamedParameter($pattern)));
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$entries = $result->fetchAll();
 		$result->closeCursor();
 

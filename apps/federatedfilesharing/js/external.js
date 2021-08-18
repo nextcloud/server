@@ -99,7 +99,7 @@
 			var fileList = this.filesApp.fileList;
 			var params = OC.Util.History.parseUrlQuery();
 			// manually add server-to-server share
-			if (params.remote && params.token && params.owner && params.name) {
+			if (params.remote && params.token && params.name) {
 
 				var callbackAddShare = function(result, share) {
 					var password = share.password || '';

@@ -1,6 +1,9 @@
 /**
  * @copyright Copyright (c) 2016 Joas Schilling <coding@schilljs.com>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -14,11 +17,12 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
 import $ from 'jquery'
+import { generateOcsUrl } from '@nextcloud/router'
 
 import OC from '../OC/index'
 
@@ -40,7 +44,7 @@ function call(method, endpoint, options) {
 	options = options || {}
 	$.ajax({
 		type: method.toUpperCase(),
-		url: OC.linkToOCS('apps/provisioning_api/api/v1', 2) + 'config/apps' + endpoint,
+		url: generateOcsUrl('apps/provisioning_api/api/v1/config/apps') + endpoint,
 		data: options.data || {},
 		success: options.success,
 		error: options.error,

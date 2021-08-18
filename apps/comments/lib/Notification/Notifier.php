@@ -22,7 +22,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Comments\Notification;
 
 use OCP\Comments\IComment;
@@ -133,7 +132,7 @@ class Notifier implements INotifier {
 				if (strpos($path, '/' . $notification->getUser() . '/files/') === 0) {
 					// Remove /user/files/...
 					$fullPath = $path;
-					list(,,, $path) = explode('/', $fullPath, 4);
+					[,,, $path] = explode('/', $fullPath, 4);
 				}
 				$subjectParameters = [
 					'file' => [
@@ -155,7 +154,7 @@ class Notifier implements INotifier {
 						'name' => $displayName,
 					];
 				}
-				list($message, $messageParameters) = $this->commentToRichMessage($comment);
+				[$message, $messageParameters] = $this->commentToRichMessage($comment);
 				$notification->setRichSubject($subject, $subjectParameters)
 					->setParsedSubject($this->richToParsed($subject, $subjectParameters))
 					->setRichMessage($message, $messageParameters)
@@ -195,7 +194,11 @@ class Notifier implements INotifier {
 			// could contain characters like '@' for user IDs) but a one-based
 			// index of the mentions of that type.
 			$mentionParameterId = 'mention-' . $mention['type'] . $mentionTypeCount[$mention['type']];
-			$message = str_replace('@' . $mention['id'], '{' . $mentionParameterId . '}', $message);
+			$message = str_replace('@"' . $mention['id'] . '"', '{' . $mentionParameterId . '}', $message);
+			if (strpos($mention['id'], ' ') === false && strpos($mention['id'], 'guest/') !== 0) {
+				$message = str_replace('@' . $mention['id'], '{' . $mentionParameterId . '}', $message);
+			}
+
 			try {
 				$displayName = $this->commentsManager->resolveDisplayName($mention['type'], $mention['id']);
 			} catch (\OutOfBoundsException $e) {

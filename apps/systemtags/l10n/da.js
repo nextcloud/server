@@ -3,7 +3,7 @@ OC.L10N.register(
     {
     "Update" : "Opdater",
     "Create" : "Opret",
-    "Select tag…" : "Vælg tag...",
+    "Select tag …" : "Vælg tag...",
     "Added system tag {systemtag}" : "Tilføjede systemtag {systemtag}",
     "Added system tag %1$s" : "Tilføjede systemtag %1$s",
     "%1$s added system tag %2$s" : "%1$s tilføjede systemtag %2$s",
@@ -42,7 +42,6 @@ OC.L10N.register(
     "No tags found" : "Ingen tags fundet",
     "Please select tags to filter by" : "Vælg de mærker, der skal filtreres efter",
     "No files found for the selected tags" : "Der blev ikke fundet filer, som matcher de valgte mærker",
-    "Select tag …" : "Vælg tag...",
     "Create a new tag" : "Opret et nyt mærkat",
     "Name" : "Navn",
     "Public" : "Offentlig",

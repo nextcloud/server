@@ -440,6 +440,7 @@ class LoginControllerTest extends TestCase {
 			->with('core.login.showLoginForm', [
 				'user' => $user,
 				'redirect_url' => '/apps/files',
+				'direct' => 1,
 			])
 			->willReturn($loginPageUrl);
 		$expected = new \OCP\AppFramework\Http\RedirectResponse($loginPageUrl);
@@ -597,6 +598,7 @@ class LoginControllerTest extends TestCase {
 			->with('core.login.showLoginForm', [
 				'user' => 'john@doe.com',
 				'redirect_url' => '/apps/files',
+				'direct' => 1,
 			])
 			->willReturn($loginPageUrl);
 		$expected = new \OCP\AppFramework\Http\RedirectResponse($loginPageUrl);

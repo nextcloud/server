@@ -56,7 +56,7 @@
 		 * @param {int|int[]} expectedStatus the expected HTTP status to be returned by the URL, 207 by default
 		 * @return $.Deferred object resolved with an array of error messages
 		 */
-		checkWellKnownUrl: function(url, placeholderUrl, runCheck, expectedStatus) {
+		checkWellKnownUrl: function(verb, url, placeholderUrl, runCheck, expectedStatus, checkCustomHeader) {
 			if (expectedStatus === undefined) {
 				expectedStatus = [207];
 			}
@@ -73,10 +73,13 @@
 			}
 			var afterCall = function(xhr) {
 				var messages = [];
-				if (expectedStatus.indexOf(xhr.status) === -1) {
+				var customWellKnown = xhr.getResponseHeader('X-NEXTCLOUD-WELL-KNOWN')
+				if (expectedStatus.indexOf(xhr.status) === -1 || (checkCustomHeader && !customWellKnown)) {
 					var docUrl = placeholderUrl.replace('PLACEHOLDER', 'admin-setup-well-known-URL');
 					messages.push({
-						msg: t('core', 'Your web server is not properly set up to resolve "{url}". Further information can be found in the <a target="_blank" rel="noreferrer noopener" href="{docLink}">documentation</a>.', { docLink: docUrl, url: url }),
+						msg: t('core', 'Your web server is not properly set up to resolve "{url}". Further information can be found in the {linkstart}documentation ↗{linkend}.', { url: url })
+							.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="' + docUrl + '">')
+							.replace('{linkend}', '</a>'),
 						type: OC.SetupChecks.MESSAGE_TYPE_INFO
 					});
 				}
@@ -84,7 +87,7 @@
 			};
 
 			$.ajax({
-				type: 'PROPFIND',
+				type: verb,
 				url: url,
 				complete: afterCall,
 				allowAuthErrors: true
@@ -115,7 +118,9 @@
 				if (expectedStatus.indexOf(xhr.status) === -1) {
 					var docUrl = placeholderUrl.replace('PLACEHOLDER', 'admin-nginx');
 					messages.push({
-						msg: t('core', 'Your web server is not properly set up to resolve "{url}". This is most likely related to a web server configuration that was not updated to deliver this folder directly. Please compare your configuration against the shipped rewrite rules in ".htaccess" for Apache or the provided one in the documentation for Nginx at it\'s <a target="_blank" rel="noreferrer noopener" href="{docLink}">documentation page</a>. On Nginx those are typically the lines starting with "location ~" that need an update.', { docLink: docUrl, url: url }),
+						msg: t('core', 'Your web server is not properly set up to resolve "{url}". This is most likely related to a web server configuration that was not updated to deliver this folder directly. Please compare your configuration against the shipped rewrite rules in ".htaccess" for Apache or the provided one in the documentation for Nginx at it\'s {linkstart}documentation page ↗{linkend}. On Nginx those are typically the lines starting with "location ~" that need an update.', { docLink: docUrl, url: url })
+							.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="' + docUrl + '">')
+							.replace('{linkend}', '</a>'),
 						type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 					});
 				}
@@ -147,7 +152,9 @@
 				if (xhr.status !== 200) {
 					var docUrl = placeholderUrl.replace('PLACEHOLDER', 'admin-nginx');
 					messages.push({
-						msg: t('core', 'Your web server is not properly set up to deliver .woff2 files. This is typically an issue with the Nginx configuration. For Nextcloud 15 it needs an adjustement to also deliver .woff2 files. Compare your Nginx configuration to the recommended configuration in our <a target="_blank" rel="noreferrer noopener" href="{docLink}">documentation</a>.', { docLink: docUrl, url: url }),
+						msg: t('core', 'Your web server is not properly set up to deliver .woff2 files. This is typically an issue with the Nginx configuration. For Nextcloud 15 it needs an adjustement to also deliver .woff2 files. Compare your Nginx configuration to the recommended configuration in our {linkstart}documentation ↗{linkend}.', { docLink: docUrl, url: url })
+							.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="' + docUrl + '">')
+							.replace('{linkend}', '</a>'),
 						type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 					});
 				}
@@ -176,13 +183,9 @@
 					if (!data.isGetenvServerWorking) {
 						messages.push({
 							msg: t('core', 'PHP does not seem to be setup properly to query system environment variables. The test with getenv("PATH") only returns an empty response.') + ' ' +
-								t(
-									'core',
-									'Please check the <a target="_blank" rel="noreferrer noopener" href="{docLink}">installation documentation ↗</a> for PHP configuration notes and the PHP configuration of your server, especially when using php-fpm.',
-									{
-										docLink: OC.theme.docPlaceholderUrl.replace('PLACEHOLDER', 'admin-php-fpm')
-									}
-								),
+								t('core', 'Please check the {linkstart}installation documentation ↗{linkend} for PHP configuration notes and the PHP configuration of your server, especially when using php-fpm.')
+									.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="' + OC.theme.docPlaceholderUrl.replace('PLACEHOLDER', 'admin-php-fpm') + '">')
+									.replace('{linkend}', '</a>'),
 							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 						});
 					}
@@ -206,7 +209,9 @@
 					}
 					if(!data.hasWorkingFileLocking) {
 						messages.push({
-							msg: t('core', 'Transactional file locking is disabled, this might lead to issues with race conditions. Enable "filelocking.enabled" in config.php to avoid these problems. See the <a target="_blank" rel="noreferrer noopener" href="{docLink}">documentation ↗</a> for more information.', {docLink: OC.theme.docPlaceholderUrl.replace('PLACEHOLDER', 'admin-transactional-locking')}),
+							msg: t('core', 'Transactional file locking is disabled, this might lead to issues with race conditions. Enable "filelocking.enabled" in config.php to avoid these problems. See the {linkstart}documentation ↗{linkend} for more information.')
+								.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="' + OC.theme.docPlaceholderUrl.replace('PLACEHOLDER', 'admin-transactional-locking') + '">')
+								.replace('{linkend}', '</a>'),
 							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 						});
 					}
@@ -214,6 +219,14 @@
 						messages.push({
 							msg: t('core', 'If your installation is not installed at the root of the domain and uses system cron, there can be issues with the URL generation. To avoid these problems, please set the "overwrite.cli.url" option in your config.php file to the webroot path of your installation (suggestion: "{suggestedOverwriteCliURL}")', {suggestedOverwriteCliURL: data.suggestedOverwriteCliURL}),
 							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
+						});
+					}
+					if (!data.isDefaultPhoneRegionSet) {
+						messages.push({
+							msg: t('core', 'Your installation has no default phone region set. This is required to validate phone numbers in the profile settings without a country code. To allow numbers without a country code, please add "default_phone_region" with the respective {linkstart}ISO 3166-1 code ↗{linkend} of the region to your config file.')
+								.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements">')
+								.replace('{linkend}', '</a>'),
+							type: OC.SetupChecks.MESSAGE_TYPE_INFO
 						});
 					}
 					if (data.cronErrors.length > 0) {
@@ -235,8 +248,9 @@
 					}
 					if (data.cronInfo.diffInSeconds > 3600) {
 						messages.push({
-							msg: t('core', 'Last background job execution ran {relativeTime}. Something seems wrong.', {relativeTime: data.cronInfo.relativeTime}) +
-								' <a href="' + data.cronInfo.backgroundJobsUrl + '">' + t('core', 'Check the background job settings') + '</a>',
+							msg: t('core', 'Last background job execution ran {relativeTime}. Something seems wrong. {linkstart}Check the background job settings ↗{linkend}.', {relativeTime: data.cronInfo.relativeTime})
+									.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="' + data.cronInfo.backgroundJobsUrl + '">')
+									.replace('{linkend}', '</a>'),
 							type: OC.SetupChecks.MESSAGE_TYPE_ERROR
 						});
 					}
@@ -248,13 +262,17 @@
 					}
 					if(!data.isMemcacheConfigured) {
 						messages.push({
-							msg: t('core', 'No memory cache has been configured. To enhance performance, please configure a memcache, if available. Further information can be found in the <a target="_blank" rel="noreferrer noopener" href="{docLink}">documentation</a>.', {docLink: data.memcacheDocs}),
+							msg: t('core', 'No memory cache has been configured. To enhance performance, please configure a memcache, if available. Further information can be found in the {linkstart}documentation ↗{linkend}.')
+								.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="' + data.memcacheDocs + '">')
+								.replace('{linkend}', '</a>'),
 							type: OC.SetupChecks.MESSAGE_TYPE_INFO
 						});
 					}
 					if(!data.isRandomnessSecure) {
 						messages.push({
-							msg: t('core', 'No suitable source for randomness found by PHP which is highly discouraged for security reasons. Further information can be found in the <a target="_blank" rel="noreferrer noopener" href="{docLink}">documentation</a>.', {docLink: data.securityDocs}),
+							msg: t('core', 'No suitable source for randomness found by PHP which is highly discouraged for security reasons. Further information can be found in the {linkstart}documentation ↗{linkend}.')
+								.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="' + data.securityDocs + '">')
+								.replace('{linkend}', '</a>'),
 							type: OC.SetupChecks.MESSAGE_TYPE_ERROR
 						});
 					}
@@ -266,7 +284,9 @@
 					}
 					if (data.phpSupported && data.phpSupported.eol) {
 						messages.push({
-							msg: t('core', 'You are currently running PHP {version}. Upgrade your PHP version to take advantage of <a target="_blank" rel="noreferrer noopener" href="{phpLink}">performance and security updates provided by the PHP Group</a> as soon as your distribution supports it.', { version: data.phpSupported.version, phpLink: 'https://secure.php.net/supported-versions.php' }),
+							msg: t('core', 'You are currently running PHP {version}. Upgrade your PHP version to take advantage of {linkstart}performance and security updates provided by the PHP Group ↗{linkend} as soon as your distribution supports it.', { version: data.phpSupported.version })
+								.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="https://secure.php.net/supported-versions.php">')
+								.replace('{linkend}', '</a>'),
 							type: OC.SetupChecks.MESSAGE_TYPE_INFO
 						})
 					}
@@ -278,50 +298,42 @@
 					}
 					if(!data.forwardedForHeadersWorking) {
 						messages.push({
-							msg: t('core', 'The reverse proxy header configuration is incorrect, or you are accessing Nextcloud from a trusted proxy. If not, this is a security issue and can allow an attacker to spoof their IP address as visible to the Nextcloud. Further information can be found in the <a target="_blank" rel="noreferrer noopener" href="{docLink}">documentation</a>.', {docLink: data.reverseProxyDocs}),
+							msg: t('core', 'The reverse proxy header configuration is incorrect, or you are accessing Nextcloud from a trusted proxy. If not, this is a security issue and can allow an attacker to spoof their IP address as visible to the Nextcloud. Further information can be found in the {linkstart}documentation ↗{linkend}.')
+								.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="' + data.reverseProxyDocs + '">')
+								.replace('{linkend}', '</a>'),
 							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 						});
 					}
 					if(!data.isCorrectMemcachedPHPModuleInstalled) {
 						messages.push({
-							msg: t('core', 'Memcached is configured as distributed cache, but the wrong PHP module "memcache" is installed. \\OC\\Memcache\\Memcached only supports "memcached" and not "memcache". See the <a target="_blank" rel="noreferrer noopener" href="{wikiLink}">memcached wiki about both modules</a>.', {wikiLink: 'https://code.google.com/p/memcached/wiki/PHPClientComparison'}),
+							msg: t('core', 'Memcached is configured as distributed cache, but the wrong PHP module "memcache" is installed. \\OC\\Memcache\\Memcached only supports "memcached" and not "memcache". See the {linkstart}memcached wiki about both modules ↗{linkend}.')
+								.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="https://code.google.com/p/memcached/wiki/PHPClientComparison">')
+								.replace('{linkend}', '</a>'),
 							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 						});
 					}
 					if(!data.hasPassedCodeIntegrityCheck) {
 						messages.push({
-							msg: t(
-									'core',
-									'Some files have not passed the integrity check. Further information on how to resolve this issue can be found in the <a target="_blank" rel="noreferrer noopener" href="{docLink}">documentation</a>. (<a href="{codeIntegrityDownloadEndpoint}">List of invalid files…</a> / <a href="{rescanEndpoint}">Rescan…</a>)',
-									{
-										docLink: data.codeIntegrityCheckerDocumentation,
-										codeIntegrityDownloadEndpoint: OC.generateUrl('/settings/integrity/failed'),
-										rescanEndpoint: OC.generateUrl('/settings/integrity/rescan?requesttoken={requesttoken}', {'requesttoken': OC.requestToken})
-									}
-							),
+							msg: t('core', 'Some files have not passed the integrity check. Further information on how to resolve this issue can be found in the {linkstart1}documentation ↗{linkend}. ({linkstart2}List of invalid files…{linkend} / {linkstart3}Rescan…{linkend})')
+								.replace('{linkstart1}', '<a target="_blank" rel="noreferrer noopener" class="external" href="' + data.codeIntegrityCheckerDocumentation + '">')
+								.replace('{linkstart2}', '<a href="' + OC.generateUrl('/settings/integrity/failed') + '">')
+								.replace('{linkstart3}', '<a href="' + OC.generateUrl('/settings/integrity/rescan?requesttoken={requesttoken}', {'requesttoken': OC.requestToken}) + '">')
+								.replace(/{linkend}/g, '</a>'),
 							type: OC.SetupChecks.MESSAGE_TYPE_ERROR
 						});
 					}
 					if(!data.hasOpcacheLoaded) {
 						messages.push({
-							msg: t(
-								'core',
-								'The PHP OPcache module is not loaded. <a target="_blank" rel="noreferrer noopener" href="{docLink}">For better performance it is recommended</a> to load it into your PHP installation.',
-								{
-									docLink: data.phpOpcacheDocumentation,
-								}
-							),
+							msg: t('core', 'The PHP OPcache module is not loaded. {linkstart}For better performance it is recommended ↗{linkend} to load it into your PHP installation.')
+								.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="' + data.phpOpcacheDocumentation + '">')
+								.replace('{linkend}', '</a>'),
 							type: OC.SetupChecks.MESSAGE_TYPE_INFO
 						});
 					} else if(!data.isOpcacheProperlySetup) {
 						messages.push({
-							msg: t(
-								'core',
-								'The PHP OPcache is not properly configured. <a target="_blank" rel="noreferrer noopener" href="{docLink}">For better performance it is recommended</a> to use the following settings in the <code>php.ini</code>:',
-								{
-									docLink: data.phpOpcacheDocumentation,
-								}
-							) + "<pre><code>opcache.enable=1\nopcache.interned_strings_buffer=8\nopcache.max_accelerated_files=10000\nopcache.memory_consumption=128\nopcache.save_comments=1\nopcache.revalidate_freq=1</code></pre>",
+							msg: t('core', 'The PHP OPcache module is not properly configured. {linkstart}For better performance it is recommended ↗{linkend} to use the following settings in the <code>php.ini</code>:')
+								.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="' + data.phpOpcacheDocumentation + '">')
+								.replace('{linkend}', '</a>') + "<pre><code>opcache.enable=1\nopcache.interned_strings_buffer=8\nopcache.max_accelerated_files=10000\nopcache.memory_consumption=128\nopcache.save_comments=1\nopcache.revalidate_freq=1</code></pre>",
 							type: OC.SetupChecks.MESSAGE_TYPE_INFO
 						});
 					}
@@ -415,13 +427,9 @@
 							listOfPendingBigIntConversionColumns += "<li>" + element + "</li>";
 						});
 						messages.push({
-							msg: t(
-								'core',
-								'Some columns in the database are missing a conversion to big int. Due to the fact that changing column types on big tables could take some time they were not changed automatically. By running \'occ db:convert-filecache-bigint\' those pending changes could be applied manually. This operation needs to be made while the instance is offline. For further details read <a target="_blank" rel="noreferrer noopener" href="{docLink}">the documentation page about this</a>.',
-								{
-									docLink: OC.theme.docPlaceholderUrl.replace('PLACEHOLDER', 'admin-bigint-conversion'),
-								}
-							) + "<ul>" + listOfPendingBigIntConversionColumns + "</ul>",
+							msg: t('core', 'Some columns in the database are missing a conversion to big int. Due to the fact that changing column types on big tables could take some time they were not changed automatically. By running \'occ db:convert-filecache-bigint\' those pending changes could be applied manually. This operation needs to be made while the instance is offline. For further details read {linkstart}the documentation page about this ↗{linkend}.')
+								.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="' + OC.theme.docPlaceholderUrl.replace('PLACEHOLDER', 'admin-bigint-conversion') + '">')
+								.replace('{linkend}', '</a>') + "<ul>" + listOfPendingBigIntConversionColumns + "</ul>",
 							type: OC.SetupChecks.MESSAGE_TYPE_INFO
 						})
 					}
@@ -431,13 +439,9 @@
 								'core',
 								'SQLite is currently being used as the backend database. For larger installations we recommend that you switch to a different database backend.'
 							) + ' ' + t('core', 'This is particularly recommended when using the desktop client for file synchronisation.') + ' ' +
-							t(
-								'core',
-								'To migrate to another database use the command line tool: \'occ db:convert-type\', or see the <a target="_blank" rel="noreferrer noopener" href="{docLink}">documentation ↗</a>.',
-								{
-									docLink: data.databaseConversionDocumentation,
-								}
-							),
+							t('core', 'To migrate to another database use the command line tool: \'occ db:convert-type\', or see the {linkstart}documentation ↗{linkend}.')
+								.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="' + data.databaseConversionDocumentation + '">')
+								.replace('{linkend}', '</a>'),
 							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 						})
 					}
@@ -447,7 +451,7 @@
 								'core',
 								'The PHP memory limit is below the recommended value of 512MB.'
 							),
-							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
+							type: OC.SetupChecks.MESSAGE_TYPE_ERROR
 						})
 					}
 
@@ -468,13 +472,9 @@
 					}
 					if (data.isMysqlUsedWithoutUTF8MB4) {
 						messages.push({
-							msg: t(
-								'core',
-								'MySQL is used as database but does not support 4-byte characters. To be able to handle 4-byte characters (like emojis) without issues in filenames or comments for example it is recommended to enable the 4-byte support in MySQL. For further details read <a target="_blank" rel="noreferrer noopener" href="{docLink}">the documentation page about this</a>.',
-								{
-									docLink: OC.theme.docPlaceholderUrl.replace('PLACEHOLDER', 'admin-mysql-utf8mb4'),
-								}
-							),
+							msg: t('core', 'MySQL is used as database but does not support 4-byte characters. To be able to handle 4-byte characters (like emojis) without issues in filenames or comments for example it is recommended to enable the 4-byte support in MySQL. For further details read {linkstart}the documentation page about this ↗{linkend}.')
+								.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="' + OC.theme.docPlaceholderUrl.replace('PLACEHOLDER', 'admin-mysql-utf8mb4') + '">')
+								.replace('{linkend}', '</a>'),
 							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 						})
 					}
@@ -487,15 +487,11 @@
 							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 						})
 					}
-					if (window.location.protocol === 'http:' && data.reverseProxyGeneratedURL.split('/')[0] !== 'https:') {
+					if (window.location.protocol === 'https:' && data.reverseProxyGeneratedURL.split('/')[0] !== 'https:') {
 						messages.push({
-							msg: t(
-								'core',
-								'You are accessing your instance over a secure connection, however your instance is generating insecure URLs. This most likely means that you are behind a reverse proxy and the overwrite config variables are not set correctly. Please read <a target="_blank" rel="noreferrer noopener" href="{docLink}">the documentation page about this</a>.',
-								{
-									docLink: data.reverseProxyDocs
-								}
-							),
+							msg: t('core', 'You are accessing your instance over a secure connection, however your instance is generating insecure URLs. This most likely means that you are behind a reverse proxy and the overwrite config variables are not set correctly. Please read {linkstart}the documentation page about this ↗{linkend}.')
+								.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="' + data.reverseProxyDocs + '">')
+								.replace('{linkend}', '</a>'),
 							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 						})
 					}
@@ -504,6 +500,7 @@
 					OC.SetupChecks.addGenericSetupCheck(data, 'OCA\\Settings\\SetupChecks\\PhpOutputBuffering', messages)
 					OC.SetupChecks.addGenericSetupCheck(data, 'OCA\\Settings\\SetupChecks\\LegacySSEKeyFormat', messages)
 					OC.SetupChecks.addGenericSetupCheck(data, 'OCA\\Settings\\SetupChecks\\CheckUserCertificates', messages)
+					OC.SetupChecks.addGenericSetupCheck(data, 'OCA\\Settings\\SetupChecks\\SupportedDatabase', messages)
 
 				} else {
 					messages.push({
@@ -534,7 +531,9 @@
 
 			var message = setupCheck.description;
 			if (setupCheck.linkToDocumentation) {
-				message += ' ' + t('core', 'For more details see the <a target="_blank" rel="noreferrer noopener" href="{docLink}">documentation</a>.', {docLink: setupCheck.linkToDocumentation});
+				message += ' ' + t('core', 'For more details see the {linkstart}documentation ↗{linkend}.')
+					.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="' + setupCheck.linkToDocumentation + '">')
+					.replace('{linkend}', '</a>');
 			}
 			if (setupCheck.elements) {
 				message += '<br><ul>'
@@ -652,16 +651,17 @@
 				const referrerPolicy = xhr.getResponseHeader('Referrer-Policy')
 				if (referrerPolicy === null || !/(no-referrer(-when-downgrade)?|strict-origin(-when-cross-origin)?|same-origin)(,|$)/.test(referrerPolicy)) {
 					messages.push({
-						msg: t('core', 'The "{header}" HTTP header is not set to "{val1}", "{val2}", "{val3}", "{val4}" or "{val5}". This can leak referer information. See the <a target="_blank" rel="noreferrer noopener" href="{link}">W3C Recommendation ↗</a>.',
+						msg: t('core', 'The "{header}" HTTP header is not set to "{val1}", "{val2}", "{val3}", "{val4}" or "{val5}". This can leak referer information. See the {linkstart}W3C Recommendation ↗{linkend}.',
 							{
 								header: 'Referrer-Policy',
 								val1: 'no-referrer',
 								val2: 'no-referrer-when-downgrade',
 								val3: 'strict-origin',
 								val4: 'strict-origin-when-cross-origin',
-								val5: 'same-origin',
-								link: 'https://www.w3.org/TR/referrer-policy/'
-							}),
+								val5: 'same-origin'
+							})
+							.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="https://www.w3.org/TR/referrer-policy/">')
+							.replace('{linkend}', '</a>'),
 						type: OC.SetupChecks.MESSAGE_TYPE_INFO
 					})
 				}
@@ -701,13 +701,17 @@
 					var minimumSeconds = 15552000;
 					if(isNaN(transportSecurityValidity) || transportSecurityValidity <= (minimumSeconds - 1)) {
 						messages.push({
-							msg: t('core', 'The "Strict-Transport-Security" HTTP header is not set to at least "{seconds}" seconds. For enhanced security, it is recommended to enable HSTS as described in the <a href="{docUrl}" rel="noreferrer noopener">security tips ↗</a>.', {'seconds': minimumSeconds, docUrl: tipsUrl}),
+							msg: t('core', 'The "Strict-Transport-Security" HTTP header is not set to at least "{seconds}" seconds. For enhanced security, it is recommended to enable HSTS as described in the {linkstart}security tips ↗{linkend}.', {'seconds': minimumSeconds})
+								.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="' + tipsUrl + '">')
+								.replace('{linkend}', '</a>'),
 							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 						});
 					}
 				} else {
 					messages.push({
-						msg: t('core', 'Accessing site insecurely via HTTP. You are strongly advised to set up your server to require HTTPS instead, as described in the <a href="{docUrl}">security tips ↗</a>.', {docUrl:  tipsUrl}),
+						msg: t('core', 'Accessing site insecurely via HTTP. You are strongly advised to set up your server to require HTTPS instead, as described in the {linkstart}security tips ↗{linkend}.')
+							.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="' + tipsUrl + '">')
+							.replace('{linkend}', '</a>'),
 						type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 					});
 				}

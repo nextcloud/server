@@ -21,13 +21,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Federation\Controller;
 
-use OC\HintException;
 use OCA\Federation\TrustedServers;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\HintException;
 use OCP\IL10N;
 use OCP\IRequest;
 
@@ -71,7 +70,7 @@ class SettingsController extends Controller {
 			[
 				'url' => $url,
 				'id' => $id,
-				'message' => (string) $this->l->t('Added to the list of trusted servers')
+				'message' => $this->l->t('Added to the list of trusted servers')
 			]
 		);
 	}
@@ -85,16 +84,6 @@ class SettingsController extends Controller {
 	public function removeServer($id) {
 		$this->trustedServers->removeServer($id);
 		return new DataResponse();
-	}
-
-	/**
-	 * enable/disable to automatically add servers to the list of trusted servers
-	 * once a federated share was created and accepted successfully
-	 *
-	 * @param bool $autoAddServers
-	 */
-	public function autoAddServers($autoAddServers) {
-		$this->trustedServers->setAutoAddServers($autoAddServers);
 	}
 
 	/**

@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
  *
@@ -19,7 +20,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Core\Command\Config;
 
 use OC\Core\Command\Base;
@@ -74,6 +74,11 @@ class ListConfigs extends Base {
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$app = $input->getArgument('app');
 		$noSensitiveValues = !$input->getOption('private');
+
+		if (!is_string($app)) {
+			$output->writeln('<error>Invalid app value given</error>');
+			return 1;
+		}
 
 		switch ($app) {
 			case 'system':

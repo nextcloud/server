@@ -24,12 +24,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_Trashbin\Tests\Command;
 
 use OC\User\Manager;
 use OCA\Files_Trashbin\Command\CleanUp;
 use OCP\Files\IRootFolder;
+use OCP\IDBConnection;
 use Symfony\Component\Console\Exception\InvalidOptionException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -53,7 +53,7 @@ class CleanUpTest extends TestCase {
 	/** @var \PHPUnit\Framework\MockObject\MockObject | IRootFolder */
 	protected $rootFolder;
 
-	/** @var \OC\DB\Connection */
+	/** @var IDBConnection */
 	protected $dbConnection;
 
 	/** @var  string */

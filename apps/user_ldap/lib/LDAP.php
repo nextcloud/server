@@ -5,6 +5,7 @@
  * @author Alexander Bergolth <leo@strike.wu.ac.at>
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author J0WI <J0WI@users.noreply.github.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lukas Reschke <lukas@statuscode.ch>
@@ -29,13 +30,11 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\User_LDAP;
 
 use OC\ServerNotAvailableException;
 use OCA\User_LDAP\Exceptions\ConstraintViolationException;
 use OCA\User_LDAP\PagedResults\IAdapter;
-use OCA\User_LDAP\PagedResults\Php54;
 use OCA\User_LDAP\PagedResults\Php73;
 
 class LDAP implements ILDAPWrapper {
@@ -46,11 +45,7 @@ class LDAP implements ILDAPWrapper {
 	protected $pagedResultsAdapter;
 
 	public function __construct() {
-		if (version_compare(PHP_VERSION, '7.3', '<') === true) {
-			$this->pagedResultsAdapter = new Php54();
-		} else {
-			$this->pagedResultsAdapter = new Php73();
-		}
+		$this->pagedResultsAdapter = new Php73();
 	}
 
 	/**
@@ -148,7 +143,7 @@ class LDAP implements ILDAPWrapper {
 	 * @param string $dn
 	 * @param int @withAttrib
 	 * @return array|false
-	 * @link http://www.php.net/manual/en/function.ldap-explode-dn.php
+	 * @link https://www.php.net/manual/en/function.ldap-explode-dn.php
 	 */
 	public function explodeDN($dn, $withAttrib) {
 		return $this->invokeLDAPMethod('explode_dn', $dn, $withAttrib);

@@ -5,6 +5,7 @@ declare(strict_types=1);
 /**
  * @copyright 2018, Roeland Jago Douma <roeland@famdouma.nl>
  *
+ * @author Anna Larch <anna@nextcloud.com>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Joas Schilling <coding@schilljs.com>
@@ -20,17 +21,16 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCP\AppFramework\Db;
 
-use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 
@@ -86,10 +86,12 @@ abstract class QBMapper {
 
 	/**
 	 * Deletes an entity from the table
+	 *
 	 * @param Entity $entity the entity that should be deleted
 	 * @psalm-param T $entity the entity that should be deleted
 	 * @return Entity the deleted entity
 	 * @psalm-return T the deleted entity
+	 * @throws Exception
 	 * @since 14.0.0
 	 */
 	public function delete(Entity $entity): Entity {
@@ -101,17 +103,19 @@ abstract class QBMapper {
 			->where(
 				$qb->expr()->eq('id', $qb->createNamedParameter($entity->getId(), $idType))
 			);
-		$qb->execute();
+		$qb->executeStatement();
 		return $entity;
 	}
 
 
 	/**
 	 * Creates a new entry in the db from an entity
+	 *
 	 * @param Entity $entity the entity that should be created
 	 * @psalm-param T $entity the entity that should be created
 	 * @return Entity the saved entity with the set id
 	 * @psalm-return T the saved entity with the set id
+	 * @throws Exception
 	 * @since 14.0.0
 	 */
 	public function insert(Entity $entity): Entity {
@@ -132,11 +136,11 @@ abstract class QBMapper {
 			$qb->setValue($column, $qb->createNamedParameter($value, $type));
 		}
 
-		$qb->execute();
+		$qb->executeStatement();
 
 		if ($entity->id === null) {
 			// When autoincrement is used id is always an int
-			$entity->setId((int)$qb->getLastInsertId());
+			$entity->setId($qb->getLastInsertId());
 		}
 
 		return $entity;
@@ -151,24 +155,30 @@ abstract class QBMapper {
 	 * @psalm-param T $entity the entity that should be created/updated
 	 * @return Entity the saved entity with the (new) id
 	 * @psalm-return T the saved entity with the (new) id
+	 * @throws Exception
 	 * @throws \InvalidArgumentException if entity has no id
 	 * @since 15.0.0
 	 */
 	public function insertOrUpdate(Entity $entity): Entity {
 		try {
 			return $this->insert($entity);
-		} catch (UniqueConstraintViolationException $ex) {
-			return $this->update($entity);
+		} catch (Exception $ex) {
+			if ($ex->getReason() === Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
+				return $this->update($entity);
+			}
+			throw $ex;
 		}
 	}
 
 	/**
 	 * Updates an entry in the db from an entity
-	 * @throws \InvalidArgumentException if entity has no id
+	 *
 	 * @param Entity $entity the entity that should be created
 	 * @psalm-param T $entity the entity that should be created
 	 * @return Entity the saved entity with the set id
 	 * @psalm-return T the saved entity with the set id
+	 * @throws Exception
+	 * @throws \InvalidArgumentException if entity has no id
 	 * @since 14.0.0
 	 */
 	public function update(Entity $entity): Entity {
@@ -208,7 +218,7 @@ abstract class QBMapper {
 		$qb->where(
 			$qb->expr()->eq('id', $qb->createNamedParameter($id, $idType))
 		);
-		$qb->execute();
+		$qb->executeStatement();
 
 		return $entity;
 	}
@@ -220,10 +230,10 @@ abstract class QBMapper {
 	 * @param Entity $entity   The entity to get the types from
 	 * @psalm-param T $entity
 	 * @param string $property The property of $entity to get the type for
-	 * @return int
+	 * @return int|string
 	 * @since 16.0.0
 	 */
-	protected function getParameterTypeForProperty(Entity $entity, string $property): int {
+	protected function getParameterTypeForProperty(Entity $entity, string $property) {
 		$types = $entity->getFieldTypes();
 
 		if (!isset($types[ $property ])) {
@@ -241,6 +251,8 @@ abstract class QBMapper {
 				return IQueryBuilder::PARAM_BOOL;
 			case 'blob':
 				return IQueryBuilder::PARAM_LOB;
+			case 'datetime':
+				return IQueryBuilder::PARAM_DATE;
 		}
 
 		return IQueryBuilder::PARAM_STR;
@@ -250,28 +262,29 @@ abstract class QBMapper {
 	 * Returns an db result and throws exceptions when there are more or less
 	 * results
 	 *
+	 * @param IQueryBuilder $query
+	 * @return array the result as row
+	 * @throws Exception
+	 * @throws MultipleObjectsReturnedException if more than one item exist
+	 * @throws DoesNotExistException if the item does not exist
 	 * @see findEntity
 	 *
-	 * @param IQueryBuilder $query
-	 * @throws DoesNotExistException if the item does not exist
-	 * @throws MultipleObjectsReturnedException if more than one item exist
-	 * @return array the result as row
 	 * @since 14.0.0
 	 */
 	protected function findOneQuery(IQueryBuilder $query): array {
-		$cursor = $query->execute();
+		$result = $query->executeQuery();
 
-		$row = $cursor->fetch();
+		$row = $result->fetch();
 		if ($row === false) {
-			$cursor->closeCursor();
+			$result->closeCursor();
 			$msg = $this->buildDebugMessage(
 				'Did expect one result but found none when executing', $query
 			);
 			throw new DoesNotExistException($msg);
 		}
 
-		$row2 = $cursor->fetch();
-		$cursor->closeCursor();
+		$row2 = $result->fetch();
+		$result->closeCursor();
 		if ($row2 !== false) {
 			$msg = $this->buildDebugMessage(
 				'Did not expect more than one result when executing', $query
@@ -314,18 +327,19 @@ abstract class QBMapper {
 	 * @param IQueryBuilder $query
 	 * @return Entity[] all fetched entities
 	 * @psalm-return T[] all fetched entities
+	 * @throws Exception
 	 * @since 14.0.0
 	 */
 	protected function findEntities(IQueryBuilder $query): array {
-		$cursor = $query->execute();
+		$result = $query->executeQuery();
 
 		$entities = [];
 
-		while ($row = $cursor->fetch()) {
+		while ($row = $result->fetch()) {
 			$entities[] = $this->mapRowToEntity($row);
 		}
 
-		$cursor->closeCursor();
+		$result->closeCursor();
 
 		return $entities;
 	}
@@ -336,10 +350,11 @@ abstract class QBMapper {
 	 * results
 	 *
 	 * @param IQueryBuilder $query
-	 * @throws DoesNotExistException if the item does not exist
-	 * @throws MultipleObjectsReturnedException if more than one item exist
 	 * @return Entity the entity
 	 * @psalm-return T the entity
+	 * @throws Exception
+	 * @throws MultipleObjectsReturnedException if more than one item exist
+	 * @throws DoesNotExistException if the item does not exist
 	 * @since 14.0.0
 	 */
 	protected function findEntity(IQueryBuilder $query): Entity {

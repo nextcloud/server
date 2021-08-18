@@ -1,7 +1,7 @@
 OC.L10N.register(
     "files_external",
     {
-    "External storages" : "Välised andmehoidlad",
+    "External storage" : "Väline andmehoidla",
     "Personal" : "Isiklik",
     "System" : "Süsteem",
     "Grant access" : "Anna ligipääs",
@@ -10,7 +10,6 @@ OC.L10N.register(
     "Generate keys" : "Loo võtmed",
     "Error generating key pair" : "Viga võtmepaari loomisel",
     "All users. Type to select user or group." : "Kõik kasutajad. Kirjuta, et valida kasutaja või grupp.",
-    "(group)" : "(grupp)",
     "Enable encryption" : "Luba krüpteerimine",
     "Enable previews" : "Luba eelvaated",
     "Enable sharing" : "Luba jagamine",
@@ -70,10 +69,8 @@ OC.L10N.register(
     "SFTP" : "SFTP",
     "Root" : "Juur",
     "SFTP with secret key login" : "SFTP koos salajase võtmega logimisega",
-    "SMB / CIFS" : "SMB / CIFS",
     "Share" : "Jaga",
     "Show hidden files" : "Näita peidetud faile",
-    "SMB / CIFS using OC login" : "SMB / CIFS kasutades OC logimist",
     "Username as share" : "Kasutajanimi kui jagamine",
     "OpenStack Object Storage" : "OpenStack Object Storage",
     "Service name" : "Teenuse nimi",
@@ -82,12 +79,14 @@ OC.L10N.register(
     "Scope" : "Skoop",
     "Open documentation" : "Ava dokumentatsioon",
     "Folder name" : "Kausta nimi",
-    "External storage" : "Väline andmehoidla",
     "Authentication" : "Autentimine",
     "Configuration" : "Seadistamine",
     "Available for" : "Saadaval",
     "Add storage" : "Lisa andmehoidla",
     "Advanced settings" : "Lisavalikud",
-    "Saving..." : "Salvestamine..."
+    "External storages" : "Välised andmehoidlad",
+    "(group)" : "(grupp)",
+    "SMB / CIFS" : "SMB / CIFS",
+    "SMB / CIFS using OC login" : "SMB / CIFS kasutades OC logimist"
 },
 "nplurals=2; plural=(n != 1);");

@@ -1,7 +1,6 @@
 /**
  * @copyright Copyright (c) 2019 Julius Härtl <jus@bitgrid.net>
  *
- * @author Julius Härtl <jus@bitgrid.net>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
  * @license GNU AGPL version 3 or any later version
@@ -46,14 +45,14 @@ export default {
 		},
 		enableButtonTooltip() {
 			if (this.app.needsDownload) {
-				return t('settings', 'The app will be downloaded from the app store')
+				return t('settings', 'The app will be downloaded from the App Store')
 			}
 			return false
 		},
 		forceEnableButtonTooltip() {
 			const base = t('settings', 'This app is not marked as compatible with your Nextcloud version. If you continue you will still be able to install the app. Note that the app might not work as expected.')
 			if (this.app.needsDownload) {
-				return base + ' ' + t('settings', 'The app will be downloaded from the app store')
+				return base + ' ' + t('settings', 'The app will be downloaded from the App Store')
 			}
 			return base
 		},

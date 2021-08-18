@@ -3,10 +3,13 @@
  * @copyright Copyright (c) 2017 Joas Schilling <coding@schilljs.com>
  *
  * @author Bjoern Schiessle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Mario Danic <mario@lovelyhq.com>
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -19,22 +22,47 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Core\Migrations;
 
-use Doctrine\DBAL\Types\Types;
+use OCP\DB\Types;
 use OCP\DB\ISchemaWrapper;
+use OCP\IDBConnection;
 use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
 
 class Version13000Date20170718121200 extends SimpleMigrationStep {
+
+	/** @var IDBConnection */
+	private $connection;
+
+	public function __construct(IDBConnection $connection) {
+		$this->connection = $connection;
+	}
+
+	public function preSchemaChange(IOutput $output, \Closure $schemaClosure, array $options) {
+		/** @var ISchemaWrapper $schema */
+		$schema = $schemaClosure();
+
+		if (!$schema->hasTable('properties')) {
+			return;
+		}
+		// in case we have a properties table from oc we drop it since we will only migrate
+		// the dav_properties values in the postSchemaChange step
+		$table = $schema->getTable('properties');
+		if ($table->hasColumn('fileid')) {
+			$qb = $this->connection->getQueryBuilder();
+			$qb->delete('properties');
+			$qb->execute();
+		}
+	}
+
 
 	/**
 	 * @param IOutput $output
@@ -122,6 +150,15 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 			$table->addIndex(['root_id'], 'mounts_root_index');
 			$table->addIndex(['mount_id'], 'mounts_mount_id_index');
 			$table->addUniqueIndex(['user_id', 'root_id'], 'mounts_user_root_index');
+		} else {
+			$table = $schema->getTable('mounts');
+			$table->addColumn('mount_id', Types::BIGINT, [
+				'notnull' => false,
+				'length' => 20,
+			]);
+			if (!$table->hasIndex('mounts_mount_id_index')) {
+				$table->addIndex(['mount_id'], 'mounts_mount_id_index');
+			}
 		}
 
 		if (!$schema->hasTable('mimetypes')) {
@@ -321,6 +358,27 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 			$table->setPrimaryKey(['id']);
 			$table->addIndex(['userid'], 'property_index');
 			$table->addIndex(['userid', 'propertypath'], 'properties_path_index');
+		} else {
+			$table = $schema->getTable('properties');
+			if ($table->hasColumn('propertytype')) {
+				$table->dropColumn('propertytype');
+			}
+			if ($table->hasColumn('fileid')) {
+				$table->dropColumn('fileid');
+			}
+			if (!$table->hasColumn('propertypath')) {
+				$table->addColumn('propertypath', 'string', [
+					'notnull' => true,
+					'length' => 255,
+				]);
+			}
+			if (!$table->hasColumn('userid')) {
+				$table->addColumn('userid', 'string', [
+					'notnull' => false,
+					'length' => 64,
+					'default' => '',
+				]);
+			}
 		}
 
 		if (!$schema->hasTable('share')) {
@@ -416,6 +474,14 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 			$table->addIndex(['parent'], 'parent_index');
 			$table->addIndex(['uid_owner'], 'owner_index');
 			$table->addIndex(['uid_initiator'], 'initiator_index');
+		} else {
+			$table = $schema->getTable('share');
+			if (!$table->hasColumn('password')) {
+				$table->addColumn('password', 'string', [
+					'notnull' => false,
+					'length' => 255,
+				]);
+			}
 		}
 
 		if (!$schema->hasTable('jobs')) {
@@ -506,25 +572,25 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 				'default' => '',
 			]);
 			$table->addColumn('type', 'smallint', [
-				'notnull' => true,
+				'notnull' => false,
 				'length' => 2,
 				'default' => 0,
 				'unsigned' => true,
 			]);
 			$table->addColumn('remember', 'smallint', [
-				'notnull' => true,
+				'notnull' => false,
 				'length' => 1,
 				'default' => 0,
 				'unsigned' => true,
 			]);
 			$table->addColumn('last_activity', 'integer', [
-				'notnull' => true,
+				'notnull' => false,
 				'length' => 4,
 				'default' => 0,
 				'unsigned' => true,
 			]);
 			$table->addColumn('last_check', 'integer', [
-				'notnull' => true,
+				'notnull' => false,
 				'length' => 4,
 				'default' => 0,
 				'unsigned' => true,
@@ -535,6 +601,11 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 			$table->setPrimaryKey(['id']);
 			$table->addUniqueIndex(['token'], 'authtoken_token_index');
 			$table->addIndex(['last_activity'], 'authtoken_last_activity_idx');
+		} else {
+			$table = $schema->getTable('authtoken');
+			$table->addColumn('scope', 'text', [
+				'notnull' => false,
+			]);
 		}
 
 		if (!$schema->hasTable('bruteforce_attempts')) {
@@ -936,5 +1007,33 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 			$table->setPrimaryKey(['uid']);
 		}
 		return $schema;
+	}
+
+	public function postSchemaChange(IOutput $output, \Closure $schemaClosure, array $options) {
+		/** @var ISchemaWrapper $schema */
+		$schema = $schemaClosure();
+		if (!$schema->hasTable('dav_properties')) {
+			return;
+		}
+		$query = $this->connection->getQueryBuilder();
+		$query->select('*')
+			->from('dav_properties');
+
+		$insert = $this->connection->getQueryBuilder();
+		$insert->insert('properties')
+			->setValue('propertypath', $insert->createParameter('propertypath'))
+			->setValue('propertyname', $insert->createParameter('propertyname'))
+			->setValue('propertyvalue', $insert->createParameter('propertyvalue'))
+			->setValue('userid', $insert->createParameter('userid'));
+
+		$result = $query->execute();
+		while ($row = $result->fetch()) {
+			preg_match('/(calendar)\/([A-z0-9-@_]+)\//', $row['propertypath'], $match);
+			$insert->setParameter('propertypath', (string) $row['propertypath'])
+				->setParameter('propertyname', (string) $row['propertyname'])
+				->setParameter('propertyvalue', (string) $row['propertyvalue'])
+				->setParameter('userid', ($match[2] ?? ''));
+			$insert->execute();
+		}
 	}
 }

@@ -29,7 +29,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Mail;
 
 use OCP\Mail\IAttachment;
@@ -80,11 +79,11 @@ class Message implements IMessage {
 
 		foreach ($addresses as $email => $readableName) {
 			if (!is_numeric($email)) {
-				list($name, $domain) = explode('@', $email, 2);
+				[$name, $domain] = explode('@', $email, 2);
 				$domain = idn_to_ascii($domain, 0, INTL_IDNA_VARIANT_UTS46);
 				$convertedAddresses[$name.'@'.$domain] = $readableName;
 			} else {
-				list($name, $domain) = explode('@', $readableName, 2);
+				[$name, $domain] = explode('@', $readableName, 2);
 				$domain = idn_to_ascii($domain, 0, INTL_IDNA_VARIANT_UTS46);
 				$convertedAddresses[$email] = $name.'@'.$domain;
 			}

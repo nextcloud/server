@@ -20,7 +20,7 @@ namespace Icewind\Streams;
  *
  * Either 'array' or 'iterator' need to be set, if both are set, 'iterator' takes preference
  */
-class IteratorDirectory implements Directory {
+class IteratorDirectory extends WrapperHandler implements Directory {
 	/**
 	 * @var resource
 	 */
@@ -36,18 +36,13 @@ class IteratorDirectory implements Directory {
 	 *
 	 * @param string $name
 	 * @return array
-	 * @throws \Exception
+	 * @throws \BadMethodCallException
 	 */
-	protected function loadContext($name) {
-		$context = stream_context_get_options($this->context);
-		if (isset($context[$name])) {
-			$context = $context[$name];
-		} else {
-			throw new \BadMethodCallException('Invalid context, "' . $name . '" options not set');
-		}
+	protected function loadContext($name = null) {
+		$context = parent::loadContext($name);
 		if (isset($context['iterator'])) {
 			$this->iterator = $context['iterator'];
-		} else if (isset($context['array'])) {
+		} elseif (isset($context['array'])) {
 			$this->iterator = new \ArrayIterator($context['array']);
 		} else {
 			throw new \BadMethodCallException('Invalid context, iterator or array not set');
@@ -61,12 +56,12 @@ class IteratorDirectory implements Directory {
 	 * @return bool
 	 */
 	public function dir_opendir($path, $options) {
-		$this->loadContext('dir');
+		$this->loadContext();
 		return true;
 	}
 
 	/**
-	 * @return string
+	 * @return string|bool
 	 */
 	public function dir_readdir() {
 		if ($this->iterator->valid()) {
@@ -97,27 +92,22 @@ class IteratorDirectory implements Directory {
 	 * Creates a directory handle from the provided array or iterator
 	 *
 	 * @param \Iterator | array $source
-	 * @return resource
+	 * @return resource|bool
 	 *
 	 * @throws \BadMethodCallException
 	 */
 	public static function wrap($source) {
 		if ($source instanceof \Iterator) {
-			$context = stream_context_create(array(
-				'dir' => array(
-					'iterator' => $source)
-			));
-		} else if (is_array($source)) {
-			$context = stream_context_create(array(
-				'dir' => array(
-					'array' => $source)
-			));
+			$options = [
+				'iterator' => $source
+			];
+		} elseif (is_array($source)) {
+			$options = [
+				'array' => $source
+			];
 		} else {
 			throw new \BadMethodCallException('$source should be an Iterator or array');
 		}
-		stream_wrapper_register('iterator', '\Icewind\Streams\IteratorDirectory');
-		$wrapped = opendir('iterator://', $context);
-		stream_wrapper_unregister('iterator');
-		return $wrapped;
+		return self::wrapSource(self::NO_SOURCE_DIR, $options);
 	}
 }

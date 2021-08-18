@@ -3,7 +3,7 @@ OC.L10N.register(
     {
     "Update" : "Cập nhật",
     "Create" : "Tạo",
-    "Select tag…" : "Chọn nhãn...",
+    "Select tag …" : "Lựa chọn thẻ",
     "Added system tag {systemtag}" : "Nhãn hệ thống được thêm vào {systemtag}",
     "Added system tag %1$s" : "Đã thêm nhãn hệ thống %1$s",
     "%1$s added system tag %2$s" : "%1$s đã thêm nhãn hệ thống %2$s",
@@ -42,7 +42,6 @@ OC.L10N.register(
     "No tags found" : "Không tìm thấy nhãn",
     "Please select tags to filter by" : "Vui lòng chọn các nhãn để lọc theo",
     "No files found for the selected tags" : "Không tìm thấy tệp cho các nhãn đã chọn",
-    "Select tag …" : "Lựa chọn thẻ",
     "Create a new tag" : "Tạo một thẻ mới",
     "Name" : "Tên",
     "Public" : "Công khai",

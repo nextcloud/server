@@ -4,10 +4,10 @@
  *
  * @author Andrew Brown <andrew@casabrown.com>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Robin Appelman <robin@icewind.nl>
  *
  * @license AGPL-3.0
  *
@@ -24,7 +24,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Search\Result;
 
 use OCP\Files\FileInfo;
@@ -97,14 +96,13 @@ class File extends \OCP\Search\Result {
 	public function __construct(FileInfo $data) {
 		$path = $this->getRelativePath($data->getPath());
 
-		$info = pathinfo($path);
 		$this->id = $data->getId();
-		$this->name = $info['basename'];
+		$this->name = $data->getName();
 		$this->link = \OC::$server->getURLGenerator()->linkToRoute(
 			'files.view.index',
 			[
-				'dir' => $info['dirname'],
-				'scrollto' => $info['basename'],
+				'dir' => dirname($path),
+				'scrollto' => $data->getName(),
 			]
 		);
 		$this->permissions = $data->getPermissions();
@@ -134,7 +132,11 @@ class File extends \OCP\Search\Result {
 			$userID = $userSession->getUser()->getUID();
 			self::$userFolderCache = \OC::$server->getUserFolder($userID);
 		}
-		return self::$userFolderCache->getRelativePath($path);
+		$relativePath = self::$userFolderCache->getRelativePath($path);
+		if ($relativePath === null) {
+			throw new \Exception("Search result not in user folder");
+		}
+		return $relativePath;
 	}
 
 	/**

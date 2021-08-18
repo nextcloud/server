@@ -24,8 +24,8 @@ OC.L10N.register(
     "Password to access {file} was sent to {email}" : "Zaporka za pristupanje {file} poslana je {email}",
     "Password to access %1$s was sent to you" : "Poslana vam je zaporka za pristupanje %1$s",
     "Password to access {file} was sent to you" : "Poslana vam je zaporka za pristupanje {file}",
-    "Sharing %1$s failed, this item is already shared with %2$s" : "Dijeljenje %1$s nije uspjelo, ova se stavka već dijeli s %2$s",
-    "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Ne možemo vam poslati automatski generiranu zaporku. U osobnim postavkama postavite valjanu adresu e-pošte i pokušajte ponovo.",
+    "Sharing %1$s failed, because this item is already shared with user %2$s" : "Dijeljenje %1$s nije uspjelo jer je ova stavka već podijeljena s korisnikom %2$s",
+    "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Ne možemo vam poslati automatski generiranu zaporku. U osobnim postavkama postavite valjanu adresu e-pošte i pokušajte ponovo.",
     "Failed to send share by email" : "Slanje dijeljenja putem e-pošte nije uspjelo",
     "%1$s shared »%2$s« with you" : "%1$s dijeli »%2$s« s vama",
     "%1$s shared »%2$s« with you." : "%1$s dijeli »%2$s« s vama.",
@@ -49,6 +49,8 @@ OC.L10N.register(
     "Share provider which allows you to share files by mail" : "Davatelj usluge dijeljenja koji vam omogućuje dijeljenje datoteka poštom",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Omogućuje korisnicima dijeljenje personalizirane poveznice na datoteku ili mapu dodavanjem adrese e-pošte.",
     "Send password by mail" : "Pošalji zaporku poštom",
+    "Reply to initiator" : "Odgovori pokretaču",
+    "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Ne možemo vam poslati automatski generiranu zaporku. U osobnim postavkama postavite valjanu adresu e-pošte i pokušajte ponovo.",
     "Enforce password protection" : "Nametni zaštitu zaporkom"
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

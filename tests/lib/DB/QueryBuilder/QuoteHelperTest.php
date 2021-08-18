@@ -136,7 +136,7 @@ class QuoteHelperTest extends \Test\TestCase {
 		}
 
 		if (substr_count($string, '.')) {
-			list($alias, $columnName) = explode('.', $string);
+			[$alias, $columnName] = explode('.', $string);
 			return '`' . $alias . '`.`' . $columnName . '`';
 		}
 

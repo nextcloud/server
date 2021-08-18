@@ -2,7 +2,7 @@ OC.L10N.register(
     "workflowengine",
     {
     "The given operator is invalid" : "Dana operacja jest nieprawidłowa",
-    "The given regular expression is invalid" : "Podane wyrażenie regularne jest błędne",
+    "The given regular expression is invalid" : "Podane wyrażenie regularne jest nieprawidłowe",
     "The given file size is invalid" : "Podany rozmiar pliku jest nieprawidłowy",
     "The given tag id is invalid" : "Podane id etykiety jest nieprawidłowe",
     "The given IP range is invalid" : "Podany zakres adresów IP jest nieprawidłowy",
@@ -83,7 +83,7 @@ OC.L10N.register(
     "Available flows" : "Dostępne przepływy",
     "For details on how to write your own flow, check out the development documentation." : "Aby uzyskać szczegółowe informacje na temat pisania własnego przepływu, zapoznaj się z dokumentacją programistyczną.",
     "More flows" : "Więcej przepływów",
-    "Browse the app store" : "Przeglądaj sklep z aplikacjami",
+    "Browse the App Store" : "Przeglądaj sklep z aplikacjami",
     "Show less" : "Pokaż mniej",
     "Show more" : "Pokaż więcej",
     "Configured flows" : "Skonfigurowane przepływy",
@@ -114,6 +114,7 @@ OC.L10N.register(
     "Request user agent" : "Żądanie agenta użytkownika",
     "User group membership" : "Członkostwo grupy użytkownika",
     "is member of" : "jest członkiem w",
-    "is not member of" : "nie jest członkiem w"
+    "is not member of" : "nie jest członkiem w",
+    "Browse the app store" : "Przeglądaj sklep z aplikacjami"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

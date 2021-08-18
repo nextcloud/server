@@ -7,10 +7,13 @@ declare(strict_types=1);
  * @copyright Copyright (c) 2019, Georg Ehrke
  *
  * @author Achim Königs <garfonso@tratschtante.de>
+ * @author Christian Weiske <cweiske@cweiske.de>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Robin Appelman <robin@icewind.nl>
+ * @author Sven Strickroth <email@cs-ware.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Valdnet <47037905+Valdnet@users.noreply.github.com>
  *
  * @license AGPL-3.0
  *
@@ -27,7 +30,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\CalDAV;
 
 use Exception;
@@ -164,7 +166,7 @@ class BirthdayService {
 			return $calendar;
 		}
 		$this->calDavBackEnd->createCalendar($principal, self::BIRTHDAY_CALENDAR_URI, [
-			'{DAV:}displayname' => 'Contact birthdays',
+			'{DAV:}displayname' => $this->l10n->t('Contact birthdays'),
 			'{http://apple.com/ns/ical/}calendar-color' => '#E9D859',
 			'components' => 'VEVENT',
 		]);
@@ -380,12 +382,26 @@ class BirthdayService {
 		$objectUri = $book['uri'] . '-' . $cardUri . $type['postfix'] . '.ics';
 		$calendarData = $this->buildDateFromContact($cardData, $type['field'], $type['postfix']);
 		$existing = $this->calDavBackEnd->getCalendarObject($calendarId, $objectUri);
-		if (is_null($calendarData)) {
-			if (!is_null($existing)) {
+		if ($calendarData === null) {
+			if ($existing !== null) {
 				$this->calDavBackEnd->deleteCalendarObject($calendarId, $objectUri);
 			}
 		} else {
-			if (is_null($existing)) {
+			if ($existing === null) {
+				// not found by URI, but maybe by UID
+				// happens when a contact with birthday is moved to a different address book
+				$calendarInfo = $this->calDavBackEnd->getCalendarById($calendarId);
+				$extraData = $this->calDavBackEnd->getDenormalizedData($calendarData->serialize());
+
+				if ($calendarInfo && array_key_exists('principaluri', $calendarInfo)) {
+					$existing2path = $this->calDavBackEnd->getCalendarObjectByUID($calendarInfo['principaluri'], $extraData['uid']);
+					if ($existing2path !== null && array_key_exists('uri', $calendarInfo)) {
+						// delete the old birthday entry first so that we do not get duplicate UIDs
+						$existing2objectUri = substr($existing2path, strlen($calendarInfo['uri']) + 1);
+						$this->calDavBackEnd->deleteCalendarObject($calendarId, $existing2objectUri);
+					}
+				}
+
 				$this->calDavBackEnd->createCalendarObject($calendarId, $objectUri, $calendarData->serialize());
 			} else {
 				if ($this->birthdayEvenChanged($existing['calendardata'], $calendarData)) {

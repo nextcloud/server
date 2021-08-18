@@ -22,6 +22,7 @@
  */
 
 use Behat\Behat\Context\Context;
+use PHPUnit\Framework\Assert;
 
 class ThemingAppContext implements Context, ActorAwareInterface {
 	use ActorAware;
@@ -64,7 +65,7 @@ class ThemingAppContext implements Context, ActorAwareInterface {
 	 * @When I set the :parameterName parameter in the Theming app to :parameterValue
 	 */
 	public function iSetTheParameterInTheThemingAppTo($parameterName, $parameterValue) {
-		$this->actor->find(self::inputFieldFor($parameterName), 10)->setValue($parameterValue . "\r");
+		$this->actor->find(self::inputFieldFor($parameterName), 10)->setValue($parameterValue);
 	}
 
 	/**
@@ -88,7 +89,7 @@ class ThemingAppContext implements Context, ActorAwareInterface {
 		// background of the input element, it means the color element has been
 		// initialized.
 
-		PHPUnit_Framework_Assert::assertTrue($this->actor->find(self::inputFieldFor("Color"), 10)->isVisible());
+		Assert::assertTrue($this->actor->find(self::inputFieldFor("Color"), 10)->isVisible());
 
 		$actor = $this->actor;
 
@@ -103,7 +104,7 @@ class ThemingAppContext implements Context, ActorAwareInterface {
 		};
 
 		if (!Utils::waitFor($colorSelectorLoadedCallback, $timeout = 10 * $this->actor->getFindTimeoutMultiplier(), $timeoutStep = 1)) {
-			PHPUnit_Framework_Assert::fail("The color selector in Theming app has not been loaded after $timeout seconds");
+			Assert::fail("The color selector in Theming app has not been loaded after $timeout seconds");
 		}
 	}
 
@@ -117,7 +118,7 @@ class ThemingAppContext implements Context, ActorAwareInterface {
 			// HEX Color, convert to RGB array.
 			$tmpColor = sscanf($color, "%02X%02X%02X");
 		} else {
-			PHPUnit_Framework_Assert::fail("The acceptance test does not know how to handle the color string : '$color'. "
+			Assert::fail("The acceptance test does not know how to handle the color string : '$color'. "
 			. "Please provide # before HEX colors in your features.");
 		}
 		return $tmpColor;
@@ -136,7 +137,7 @@ class ThemingAppContext implements Context, ActorAwareInterface {
 		};
 
 		if (!Utils::waitFor($headerColorMatchesCallback, $timeout = 10 * $this->actor->getFindTimeoutMultiplier(), $timeoutStep = 1)) {
-			PHPUnit_Framework_Assert::fail("The header color is not $color yet after $timeout seconds");
+			Assert::fail("The header color is not $color yet after $timeout seconds");
 		}
 	}
 
@@ -144,7 +145,7 @@ class ThemingAppContext implements Context, ActorAwareInterface {
 	 * @Then I see that the parameters in the Theming app are eventually saved
 	 */
 	public function iSeeThatTheParametersInTheThemingAppAreEventuallySaved() {
-		PHPUnit_Framework_Assert::assertTrue($this->actor->find(self::statusMessage(), 10)->isVisible());
+		Assert::assertTrue($this->actor->find(self::statusMessage(), 10)->isVisible());
 
 		$actor = $this->actor;
 
@@ -157,7 +158,7 @@ class ThemingAppContext implements Context, ActorAwareInterface {
 		};
 
 		if (!Utils::waitFor($savedStatusMessageShownCallback, $timeout = 10 * $this->actor->getFindTimeoutMultiplier(), $timeoutStep = 1)) {
-			PHPUnit_Framework_Assert::fail("The 'Saved' status messages in Theming app has not been shown after $timeout seconds");
+			Assert::fail("The 'Saved' status messages in Theming app has not been shown after $timeout seconds");
 		}
 	}
 }

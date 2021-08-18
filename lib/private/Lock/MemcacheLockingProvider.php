@@ -25,7 +25,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Lock;
 
 use OCP\IMemcache;
@@ -61,7 +60,7 @@ class MemcacheLockingProvider extends AbstractLockingProvider {
 	public function isLocked(string $path, int $type): bool {
 		$lockValue = $this->memcache->get($path);
 		if ($type === self::LOCK_SHARED) {
-			return $lockValue > 0;
+			return is_int($lockValue) && $lockValue > 0;
 		} elseif ($type === self::LOCK_EXCLUSIVE) {
 			return $lockValue === 'exclusive';
 		} else {

@@ -73,9 +73,6 @@
     "File name cannot be empty." : "Heiti skráar má ekki vera tómt",
     "\"/\" is not allowed inside a file name." : "\"/\" er er ekki leyfilegt innan í skráarheiti.",
     "\"{name}\" is not an allowed filetype" : "\"{name}\" er ógild skráartegund",
-    "Storage of {owner} is full, files can not be updated or synced anymore!" : "Geymslupláss {owner} er fullt, ekki er lengur hægt að uppfæra eða samstilla skrár!",
-    "Your storage is full, files can not be updated or synced anymore!" : "Geymsluplássið þitt er fullt, ekki er lengur hægt að uppfæra eða samstilla skrár!",
-    "_matches '{filter}'_::_match '{filter}'_" : ["samsvarar '{filter}'","samsvara '{filter}'"],
     "View in folder" : "Skoða í möppu",
     "Copied!" : "Afritað!",
     "Copy direct link (only works for users who have access to this file/folder)" : "Afrita beinan tengil (virkar bara fyrir notendur sem eiga aðgang að þessari skrá/möppu)",
@@ -171,15 +168,8 @@
     "Pending shares" : "Sameignir í bið",
     "Text file" : "Textaskrá",
     "New text file.txt" : "Ný textaskrá.txt",
-    "Unshare" : "Hætta deilingu",
-    "Storage of {owner} is almost full ({usedSpacePercent}%)" : "Geymslupláss {owner} er næstum fullt ({usedSpacePercent}%)",
-    "Your storage is almost full ({usedSpacePercent}%)" : "Geymsluplássið þitt er næstum fullt ({usedSpacePercent}%)",
-    "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>" : "Skrá eða möppu hefur verið <strong>breytt</strong> eða verið <strong>endurnefnt</strong>",
-    "A new file or folder has been <strong>created</strong>" : "Skjal eða mappa hefur verið <strong>búin til</strong>",
-    "A file or folder has been <strong>deleted</strong>" : "Skjali eða möppu hefur verið  <strong>eytt</strong>",
-    "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Takmarka tilkynningar um gerð og breytingar á <strong>eftirlætisskrám</strong> <em>(einungis streymi)</em>",
-    "A file or folder has been <strong>restored</strong>" : "Skjal eða mappa hefur verið <strong>endurheimt</strong>",
-    "Cannot transfter ownership of a file or folder you don't own" : "Ekki er hægt að millifæra eignarhald á skrá eða möppu sem þú átt ekki",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Notaðu þetta vistfang til að <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">nálgast skrárnar þínar með WebDAV</a>"
+    "Storage of {owner} is full, files can not be updated or synced anymore!" : "Geymslupláss {owner} er fullt, ekki er lengur hægt að uppfæra eða samstilla skrár!",
+    "Your storage is full, files can not be updated or synced anymore!" : "Geymsluplássið þitt er fullt, ekki er lengur hægt að uppfæra eða samstilla skrár!",
+    "_matches '{filter}'_::_match '{filter}'_" : ["samsvarar '{filter}'","samsvara '{filter}'"]
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"
 }

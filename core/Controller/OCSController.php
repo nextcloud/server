@@ -1,6 +1,6 @@
 <?php
 /**
- *
+ * @copyright Copyright (c) 2016 Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
@@ -18,14 +18,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Core\Controller;
 
 use OC\CapabilitiesManager;
@@ -93,7 +92,7 @@ class OCSController extends \OCP\AppFramework\OCSController {
 	 */
 	public function getCapabilities() {
 		$result = [];
-		list($major, $minor, $micro) = \OCP\Util::getVersion();
+		[$major, $minor, $micro] = \OCP\Util::getVersion();
 		$result['version'] = [
 			'major' => $major,
 			'minor' => $minor,

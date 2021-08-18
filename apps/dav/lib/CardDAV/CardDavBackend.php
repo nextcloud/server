@@ -5,11 +5,12 @@
  * @author Arne Hamann <kontakt+github@arne.email>
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Chih-Hsuan Yen <yan12125@gmail.com>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author matt <34400929+call-me-matt@users.noreply.github.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -32,7 +33,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\CardDAV;
 
 use OCA\DAV\Connector\Sabre\Principal;
@@ -83,7 +83,8 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	/** @var array properties to index */
 	public static $indexProperties = [
 		'BDAY', 'UID', 'N', 'FN', 'TITLE', 'ROLE', 'NOTE', 'NICKNAME',
-		'ORG', 'CATEGORIES', 'EMAIL', 'TEL', 'IMPP', 'ADR', 'URL', 'GEO', 'CLOUD'];
+		'ORG', 'CATEGORIES', 'EMAIL', 'TEL', 'IMPP', 'ADR', 'URL', 'GEO',
+		'CLOUD', 'X-SOCIALPROFILE'];
 
 	/**
 	 * @var string[] Map of uid => display name
@@ -139,7 +140,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			->where($query->expr()->eq('principaluri', $query->createNamedParameter($principalUri)));
 
 		$result = $query->execute();
-		$column = (int) $result->fetchColumn();
+		$column = (int) $result->fetchOne();
 		$result->closeCursor();
 		return $column;
 	}
@@ -191,9 +192,6 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		$principals = $this->principalBackend->getGroupMembership($principalUriOriginal, true);
 		$principals = array_merge($principals, $this->principalBackend->getCircleMembership($principalUriOriginal));
 
-		$principals = array_map(function ($principal) {
-			return urldecode($principal);
-		}, $principals);
 		$principals[] = $principalUri;
 
 		$query = $this->db->getQueryBuilder();
@@ -225,7 +223,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 				}
 			}
 
-			list(, $name) = \Sabre\Uri\split($row['principaluri']);
+			[, $name] = \Sabre\Uri\split($row['principaluri']);
 			$uri = $row['uri'] . '_shared_by_' . $name;
 			$displayName = $row['displayname'] . ' (' . $this->getUserDisplayName($name) . ')';
 
@@ -663,7 +661,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			->andWhere($q->expr()->eq('uid', $q->createNamedParameter($uid)))
 			->setMaxResults(1);
 		$result = $q->execute();
-		$count = (bool)$result->fetchColumn();
+		$count = (bool)$result->fetchOne();
 		$result->closeCursor();
 		if ($count) {
 			throw new \Sabre\DAV\Exception\BadRequest('VCard object with uid already exists in this addressbook collection.');
@@ -859,14 +857,20 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * @param string $addressBookId
 	 * @param string $syncToken
 	 * @param int $syncLevel
-	 * @param int $limit
+	 * @param int|null $limit
 	 * @return array
 	 */
 	public function getChangesForAddressBook($addressBookId, $syncToken, $syncLevel, $limit = null) {
 		// Current synctoken
-		$stmt = $this->db->prepare('SELECT `synctoken` FROM `*PREFIX*addressbooks` WHERE `id` = ?');
-		$stmt->execute([$addressBookId]);
-		$currentToken = $stmt->fetchColumn(0);
+		$qb = $this->db->getQueryBuilder();
+		$qb->select('synctoken')
+			->from('addressbooks')
+			->where(
+				$qb->expr()->eq('id', $qb->createNamedParameter($addressBookId))
+			);
+		$stmt = $qb->execute();
+		$currentToken = $stmt->fetchOne();
+		$stmt->closeCursor();
 
 		if (is_null($currentToken)) {
 			return null;
@@ -880,14 +884,23 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		];
 
 		if ($syncToken) {
-			$query = "SELECT `uri`, `operation` FROM `*PREFIX*addressbookchanges` WHERE `synctoken` >= ? AND `synctoken` < ? AND `addressbookid` = ? ORDER BY `synctoken`";
-			if ($limit > 0) {
-				$query .= " LIMIT " . (int)$limit;
+			$qb = $this->db->getQueryBuilder();
+			$qb->select('uri', 'operation')
+				->from('addressbookchanges')
+				->where(
+					$qb->expr()->andX(
+						$qb->expr()->gte('synctoken', $qb->createNamedParameter($syncToken)),
+						$qb->expr()->lt('synctoken', $qb->createNamedParameter($currentToken)),
+						$qb->expr()->eq('addressbookid', $qb->createNamedParameter($addressBookId))
+					)
+				)->orderBy('synctoken');
+
+			if (is_int($limit) && $limit > 0) {
+				$qb->setMaxResults($limit);
 			}
 
 			// Fetching all changes
-			$stmt = $this->db->prepare($query);
-			$stmt->execute([$syncToken, $currentToken, $addressBookId]);
+			$stmt = $qb->execute();
 
 			$changes = [];
 
@@ -896,6 +909,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
 				$changes[$row['uri']] = $row['operation'];
 			}
+			$stmt->closeCursor();
 
 			foreach ($changes as $uri => $operation) {
 				switch ($operation) {
@@ -911,12 +925,16 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 				}
 			}
 		} else {
+			$qb = $this->db->getQueryBuilder();
+			$qb->select('uri')
+				->from('cards')
+				->where(
+					$qb->expr()->eq('addressbookid', $qb->createNamedParameter($addressBookId))
+				);
 			// No synctoken supplied, this is the initial sync.
-			$query = "SELECT `uri` FROM `*PREFIX*cards` WHERE `addressbookid` = ?";
-			$stmt = $this->db->prepare($query);
-			$stmt->execute([$addressBookId]);
-
+			$stmt = $qb->execute();
 			$result['added'] = $stmt->fetchAll(\PDO::FETCH_COLUMN);
+			$stmt->closeCursor();
 		}
 		return $result;
 	}
@@ -1253,7 +1271,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 				}
 			}
 			$query->setParameter('name', $property->name);
-			$query->setParameter('value', mb_substr($property->getValue(), 0, 254));
+			$query->setParameter('value', mb_strcut($property->getValue(), 0, 254));
 			$query->setParameter('preferred', $preferred);
 			$query->execute();
 		}
@@ -1320,7 +1338,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 
 	private function convertPrincipal($principalUri, $toV2) {
 		if ($this->principalBackend->getPrincipalPrefix() === 'principals') {
-			list(, $name) = \Sabre\Uri\split($principalUri);
+			[, $name] = \Sabre\Uri\split($principalUri);
 			if ($toV2 === true) {
 				return "principals/users/$name";
 			}

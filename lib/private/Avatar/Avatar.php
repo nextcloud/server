@@ -10,9 +10,8 @@ declare(strict_types=1);
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Julius Härtl <jus@bitgrid.net>
- * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Michael Weimann <mail@michael-weimann.eu>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
@@ -35,7 +34,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Avatar;
 
 use Imagick;
@@ -43,14 +41,14 @@ use OC\Color;
 use OC_Image;
 use OCP\Files\NotFoundException;
 use OCP\IAvatar;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 
 /**
  * This class gets and sets users avatars.
  */
 abstract class Avatar implements IAvatar {
 
-	/** @var ILogger  */
+	/** @var LoggerInterface  */
 	protected $logger;
 
 	/**
@@ -69,12 +67,7 @@ abstract class Avatar implements IAvatar {
 			<text x="50%" y="350" style="font-weight:normal;font-size:280px;font-family:\'Noto Sans\';text-anchor:middle;fill:#fff">{letter}</text>
 		</svg>';
 
-	/**
-	 * The base avatar constructor.
-	 *
-	 * @param ILogger $logger The logger
-	 */
-	public function __construct(ILogger $logger) {
+	public function __construct(LoggerInterface $logger) {
 		$this->logger = $logger;
 	}
 
@@ -156,8 +149,9 @@ abstract class Avatar implements IAvatar {
 			$avatar->readImageBlob($svg);
 			$avatar->setImageFormat('png');
 			$image = new OC_Image();
-			$image->loadFromData($avatar);
-			return $image->data();
+			$image->loadFromData((string)$avatar);
+			$data = $image->data();
+			return $data === null ? false : $data;
 		} catch (\Exception $e) {
 			return false;
 		}
@@ -187,7 +181,7 @@ abstract class Avatar implements IAvatar {
 		$font = __DIR__ . '/../../../core/fonts/NotoSans-Regular.ttf';
 
 		$fontSize = $size * 0.4;
-		list($x, $y) = $this->imageTTFCenter(
+		[$x, $y] = $this->imageTTFCenter(
 			$im, $text, $font, (int)$fontSize
 		);
 

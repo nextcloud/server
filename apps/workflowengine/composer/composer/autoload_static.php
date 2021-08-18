@@ -21,6 +21,7 @@ class ComposerStaticInitWorkflowEngine
     );
 
     public static $classMap = array (
+        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'OCA\\WorkflowEngine\\AppInfo\\Application' => __DIR__ . '/..' . '/../lib/AppInfo/Application.php',
         'OCA\\WorkflowEngine\\BackgroundJobs\\Rotate' => __DIR__ . '/..' . '/../lib/BackgroundJobs/Rotate.php',
         'OCA\\WorkflowEngine\\Check\\AbstractStringCheck' => __DIR__ . '/..' . '/../lib/Check/AbstractStringCheck.php',
@@ -46,6 +47,7 @@ class ComposerStaticInitWorkflowEngine
         'OCA\\WorkflowEngine\\Manager' => __DIR__ . '/..' . '/../lib/Manager.php',
         'OCA\\WorkflowEngine\\Migration\\PopulateNewlyIntroducedDatabaseFields' => __DIR__ . '/..' . '/../lib/Migration/PopulateNewlyIntroducedDatabaseFields.php',
         'OCA\\WorkflowEngine\\Migration\\Version2000Date20190808074233' => __DIR__ . '/..' . '/../lib/Migration/Version2000Date20190808074233.php',
+        'OCA\\WorkflowEngine\\Migration\\Version2200Date20210805101925' => __DIR__ . '/..' . '/../lib/Migration/Version2200Date20210805101925.php',
         'OCA\\WorkflowEngine\\Service\\Logger' => __DIR__ . '/..' . '/../lib/Service/Logger.php',
         'OCA\\WorkflowEngine\\Service\\RuleMatcher' => __DIR__ . '/..' . '/../lib/Service/RuleMatcher.php',
         'OCA\\WorkflowEngine\\Settings\\ASettings' => __DIR__ . '/..' . '/../lib/Settings/ASettings.php',

@@ -25,7 +25,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Encryption\Crypto;
 
 use OC\Encryption\Exceptions\DecryptionFailedException;
@@ -395,7 +394,7 @@ class EncryptAll {
 	 * @return string password
 	 */
 	protected function generateOneTimePassword($uid) {
-		$password = $this->secureRandom->generate(8);
+		$password = $this->secureRandom->generate(16, ISecureRandom::CHAR_HUMAN_READABLE);
 		$this->userPasswords[$uid] = $password;
 		return $password;
 	}
@@ -417,13 +416,13 @@ class EncryptAll {
 				$recipientDisplayName = $recipient->getDisplayName();
 				$to = $recipient->getEMailAddress();
 
-				if ($to === '') {
+				if ($to === '' || $to === null) {
 					$noMail[] = $uid;
 					continue;
 				}
 
-				$subject = (string)$this->l->t('one-time password for server-side-encryption');
-				list($htmlBody, $textBody) = $this->createMailBody($password);
+				$subject = $this->l->t('one-time password for server-side-encryption');
+				[$htmlBody, $textBody] = $this->createMailBody($password);
 
 				// send it out now
 				try {

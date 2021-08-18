@@ -7,7 +7,7 @@
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Michael Weimann <mail@michael-weimann.eu>
@@ -29,7 +29,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Core\Controller;
 
 use OC\AppFramework\Http\Request;
@@ -156,7 +155,7 @@ class LoginController extends Controller {
 
 		$loginMessages = $this->session->get('loginMessages');
 		if (is_array($loginMessages)) {
-			list($errors, $messages) = $loginMessages;
+			[$errors, $messages] = $loginMessages;
 			$this->initialStateService->provideInitialState('core', 'loginMessages', $messages);
 			$this->initialStateService->provideInitialState('core', 'loginErrors', $errors);
 		}
@@ -175,7 +174,10 @@ class LoginController extends Controller {
 		);
 
 		if (!empty($redirect_url)) {
-			$this->initialStateService->provideInitialState('core', 'loginRedirectUrl', $redirect_url);
+			[$url, ] = explode('?', $redirect_url);
+			if ($url !== $this->urlGenerator->linkToRoute('core.login.logout')) {
+				$this->initialStateService->provideInitialState('core', 'loginRedirectUrl', $redirect_url);
+			}
 		}
 
 		$this->initialStateService->provideInitialState(
@@ -188,6 +190,8 @@ class LoginController extends Controller {
 
 		$this->initialStateService->provideInitialState('core', 'webauthn-available', $this->webAuthnManager->isWebAuthnAvailable());
 
+		$this->initialStateService->provideInitialState('core', 'hideLoginForm', $this->config->getSystemValueBool('hide_login_form', false));
+
 		// OpenGraph Support: http://ogp.me/
 		Util::addHeader('meta', ['property' => 'og:title', 'content' => Util::sanitizeHTML($this->defaults->getName())]);
 		Util::addHeader('meta', ['property' => 'og:description', 'content' => Util::sanitizeHTML($this->defaults->getSlogan())]);
@@ -199,6 +203,9 @@ class LoginController extends Controller {
 		$parameters = [
 			'alt_login' => OC_App::getAlternativeLogIns(),
 		];
+
+		$this->initialStateService->provideInitialState('core', 'countAlternativeLogins', count($parameters['alt_login']));
+
 		return new TemplateResponse(
 			$this->appName, 'login', $parameters, 'guest'
 		);
@@ -334,7 +341,7 @@ class LoginController extends Controller {
 		$user, $originalUser, $redirect_url, string $loginMessage) {
 		// Read current user and append if possible we need to
 		// return the unmodified user otherwise we will leak the login name
-		$args = $user !== null ? ['user' => $originalUser] : [];
+		$args = $user !== null ? ['user' => $originalUser, 'direct' => 1] : [];
 		if ($redirect_url !== null) {
 			$args['redirect_url'] = $redirect_url;
 		}

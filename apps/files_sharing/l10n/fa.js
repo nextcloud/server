@@ -101,7 +101,6 @@ OC.L10N.register(
     "Please specify a file or folder path" : "لطفاً مسیر فایل یا پوشه را مشخص کنید",
     "Wrong path, file/folder doesn't exist" : "مسیر ، پرونده / پوشه اشتباه وجود ندارد",
     "Could not create share" : "امکان ایجاد اشتراک گذاری وجود ندارد",
-    "invalid permissions" : "مجوزات نامعتبر",
     "Please specify a valid user" : "لطفاً یک کاربر معتبر را مشخص کنید",
     "Group sharing is disabled by the administrator" : "اشتراک گروه توسط مدیر غیرفعال شده است.",
     "Please specify a valid group" : "لطفا یک گروه معتبر انتخاب کنید",
@@ -119,12 +118,9 @@ OC.L10N.register(
     "Could not lock node" : "گره را نمی توان قفل کرد",
     "Could not lock path" : "امکان قفل کردن مسیر وجود ندارد.",
     "Wrong or no update parameter given" : "اشتباهی و یا پارامتر بروزرسانی داده نشد",
-    "Can't change permissions for public share links" : "مجوزها برای پیوندهای اشتراک عمومی قابل تغییر نیست",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "اشتراک ارسال رمز عبور توسط Nextcloud Talk به دلیل فعال نشدن Nextcloud Talk انجام نشد",
     "shared by %s" : "اشتراک گذاری شده به میزان %s",
     "Download all files" : "دانلود همه فایل ها",
     "Direct link" : "لینک مستقیم",
-    "Add to your Nextcloud" : "به نکست‌کلود خود اضافه کنید",
     "Share API is disabled" : "اشتراک API غیرفعال شده است",
     "File sharing" : "اشتراک گذاری پرونده",
     "Share will expire tomorrow" : "اشتراک فردا منقضی می شود",
@@ -222,6 +218,9 @@ OC.L10N.register(
     "Select or drop files" : "پرونده ها را انتخاب یا رها کنید",
     "Uploaded files:" : "پرونده های بارگذاری شده:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "%2$sبا بارگذاری پرونده ها ، شما با %1$sشرایط خدمات موافقت می کنید",
-    "Uploading files…" : "بارگذاری پرونده ها ..."
+    "Add to your Nextcloud" : "به نکست‌کلود خود اضافه کنید",
+    "invalid permissions" : "مجوزات نامعتبر",
+    "Can't change permissions for public share links" : "مجوزها برای پیوندهای اشتراک عمومی قابل تغییر نیست",
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "اشتراک ارسال رمز عبور توسط Nextcloud Talk به دلیل فعال نشدن Nextcloud Talk انجام نشد"
 },
 "nplurals=2; plural=(n > 1);");

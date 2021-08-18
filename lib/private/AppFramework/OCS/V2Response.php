@@ -14,18 +14,17 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\AppFramework\OCS;
 
-use OCP\API;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\OCSController;
 
 class V2Response extends BaseResponse {
 
@@ -37,11 +36,11 @@ class V2Response extends BaseResponse {
 	 */
 	public function getStatus() {
 		$status = parent::getStatus();
-		if ($status === API::RESPOND_UNAUTHORISED) {
+		if ($status === OCSController::RESPOND_UNAUTHORISED) {
 			return Http::STATUS_UNAUTHORIZED;
-		} elseif ($status === API::RESPOND_NOT_FOUND) {
+		} elseif ($status === OCSController::RESPOND_NOT_FOUND) {
 			return Http::STATUS_NOT_FOUND;
-		} elseif ($status === API::RESPOND_SERVER_ERROR || $status === API::RESPOND_UNKNOWN_ERROR) {
+		} elseif ($status === OCSController::RESPOND_SERVER_ERROR || $status === OCSController::RESPOND_UNKNOWN_ERROR) {
 			return Http::STATUS_INTERNAL_SERVER_ERROR;
 		} elseif ($status < 200 || $status > 600) {
 			return Http::STATUS_BAD_REQUEST;

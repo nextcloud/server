@@ -9,6 +9,7 @@ declare(strict_types=1);
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Richard Steinmetz <richard@steinmetz.cloud>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Citharel <nextcloud@tcit.fr>
  *
@@ -21,14 +22,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\CalDAV\Reminder\NotificationProvider;
 
 use DateTime;
@@ -114,6 +114,11 @@ class EmailProvider extends AbstractProvider {
 			$template->addFooter();
 
 			foreach ($emailAddresses as $emailAddress) {
+				if (!$this->mailer->validateMailAddress($emailAddress)) {
+					$this->logger->error('Email address {address} for reminder notification is incorrect', ['app' => 'dav', 'address' => $emailAddress]);
+					continue;
+				}
+
 				$message = $this->mailer->createMessage();
 				$message->setFrom([$fromEMail]);
 				if ($organizer) {
@@ -195,6 +200,10 @@ class EmailProvider extends AbstractProvider {
 		}
 
 		$organizerEMail = substr($organizer->getValue(), 7);
+
+		if ($organizerEMail === false || !$this->mailer->validateMailAddress($organizerEMail)) {
+			return null;
+		}
 
 		$name = $organizer->offsetGet('CN');
 		if ($name instanceof Parameter) {
@@ -381,8 +390,8 @@ class EmailProvider extends AbstractProvider {
 
 		$diff = $dtstartDt->diff($dtendDt);
 
-		$dtstartDt = new \DateTime($dtstartDt->format(\DateTime::ATOM));
-		$dtendDt = new \DateTime($dtendDt->format(\DateTime::ATOM));
+		$dtstartDt = new \DateTime($dtstartDt->format(\DateTimeInterface::ATOM));
+		$dtendDt = new \DateTime($dtendDt->format(\DateTimeInterface::ATOM));
 
 		if ($isAllDay) {
 			// One day event

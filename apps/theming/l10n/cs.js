@@ -8,7 +8,7 @@ OC.L10N.register(
     "Name cannot be empty" : "Je třeba zadat název",
     "The given name is too long" : "Zadaný název je příliš dlouhý",
     "The given web address is too long" : "Zadaná webová adresa je příliš dlouhá",
-    "The given web address is not a valid URL" : "Zadaná webová adresa není platná URL",
+    "The given web address is not a valid URL" : "Zadaná webová adresa není platné URL",
     "The given legal notice address is too long" : "Daná adresa právního upozornění je příliš dlouhá",
     "The given legal notice address is not a valid URL" : "Daná adresa právního upozornění není platnou URL adresou",
     "The given privacy policy address is too long" : "Daná adresa zásad ochrany osobních údajů je příliš dlouhá",
@@ -41,7 +41,7 @@ OC.L10N.register(
     "Upload new logo" : "Nahrát nové logo",
     "Login image" : "Přihlašovací obrázek",
     "Upload new login background" : "Nahrát nové přihlašovací pozadí",
-    "Remove background image" : "Odebrat obrázek pozadí",
+    "Remove background image" : "Odebrat obrázek z pozadí",
     "Advanced options" : "Pokročilé předvolby",
     "Legal notice link" : "Odkaz na právní upozornění",
     "Privacy policy link" : "Odkaz na zásady ochrany osobních údajů",
@@ -49,7 +49,6 @@ OC.L10N.register(
     "Upload new header logo" : "Nahrát nové logo do záhlaví",
     "Favicon" : "ikona webu",
     "Upload new favicon" : "Nahrát novou ikonu webu",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Nainstalujte rozšíření Imagemagick PHP s podporou obrázků SVG, které automaticky vytváří favicon na základě nahraného loga a barvy.",
-    "Unsupported image type" : "Nepodporovaný typ obrázku"
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Nainstalujte rozšíření Imagemagick PHP s podporou obrázků SVG, které automaticky vytváří favicon na základě nahraného loga a barvy."
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

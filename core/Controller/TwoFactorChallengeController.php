@@ -23,7 +23,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Core\Controller;
 
 use OC\Authentication\TwoFactorAuth\Manager;
@@ -108,7 +107,7 @@ class TwoFactorChallengeController extends Controller {
 		$user = $this->userSession->getUser();
 		$providerSet = $this->twoFactorManager->getProviderSet($user);
 		$allProviders = $providerSet->getProviders();
-		list($providers, $backupProvider) = $this->splitProvidersAndBackupCodes($allProviders);
+		[$providers, $backupProvider] = $this->splitProvidersAndBackupCodes($allProviders);
 		$setupProviders = $this->twoFactorManager->getLoginSetupProviders($user);
 
 		$data = [

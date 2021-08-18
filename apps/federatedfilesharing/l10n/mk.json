@@ -16,7 +16,6 @@
     "Federated Share request sent, you will receive an invitation. Check your notifications." : "Испратено е барање за федерално споделување, ќе добиете покана. Проверете ги известувањата.",
     "Couldn't establish a federated share, it looks like the server to federate with is too old (Nextcloud <= 9)." : "Неможе да се воспостави федерално споделување, изгледа дека Федералноиот сервер има премногу стара верзија (<= 9).",
     "It is not allowed to send federated group shares from this server." : "Не е овозможено да испратите федерално групно споделување од овој сервер.",
-    "Sharing %1$s failed, because this item is already shared with %2$s" : "Споделувањето на %1$s е неуспешно, бидејќи истото веќе е споделено со %2$s",
     "Not allowed to create a federated share with the same user" : "Не е овозможено да креирате федерално споделување со ист корисник",
     "File is already shared with %s" : "Датотеката е веќе споделена со %s",
     "Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable or uses a self-signed certificate." : "Споделувањето на %1$s е неуспешно, неможе да се пронајде %2$s, можеби серверот моментално не е достапен или користи недоверлив сертификат.",
@@ -35,11 +34,10 @@
     "Provide federated file sharing across servers" : "Обезбедете федерално споделување на датотеки помеѓу сервери",
     "Federated Cloud Sharing" : "Федерално споделување",
     "Open documentation" : "Отвори ја документацијата",
-    "Adjust how people can share between servers." : "Прилагодете како корисниците можат да споделуваат помеѓу серверите.",
     "Allow users on this server to send shares to other servers (this option also allows WebDAV access to public shares)" : "Дозволи им на корисниците на овој сервер да испраќаат споделувања со други сервери (оваа можност истотака дозволува WebDAV пристап до јавни споделувања)",
     "Allow users on this server to receive shares from other servers" : "Дозволи им на корисниците на овој сервер да примаат споделувања од други сервери",
-    "Allow users on this server to send shares to groups on other servers" : "Дозволи им на корисниците на овој сервер да испраќаат споделувања со во групи на други сервери",
-    "Allow users on this server to receive group shares from other servers" : "Дозволи им на корисниците на овој сервер да примаат споделувања со групи од други сервери",
+    "Allow users on this server to send shares to groups on other servers" : "Дозволи им на корисниците на овој сервер да испраќаат споделувања со групи на други сервери",
+    "Allow users on this server to receive group shares from other servers" : "Дозволи им на корисниците на овој сервер да примаат споделувања од групи од други сервери",
     "Search global and public address book for users" : "Пребарајте го глобалниот и јавниот именик на корисници",
     "Allow users to publish their data to a global and public address book" : "Дозволи им на корисниците да објавуваат информации во глобалниот и јавниот именик ",
     "Federated Cloud" : "Федерален клауд",
@@ -49,6 +47,6 @@
     "Add to your website" : "Додади на твојот веб сајт",
     "Share with me via Nextcloud" : "Сподели со мене",
     "HTML Code:" : "HTML код:",
-    "Allow users on this server to send shares to other servers" : "Дозволи им на корисниците на овој сервер да испраќаат споделувања со други сервери"
+    "Adjust how people can share between servers." : "Прилагодете како корисниците можат да споделуваат помеѓу серверите."
 },"pluralForm" :"nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;"
 }

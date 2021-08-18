@@ -252,7 +252,8 @@
 				this._filesConfig = OCA.Files.App.getFilesConfig();
 			} else {
 				this._filesConfig = new OC.Backbone.Model({
-					'showhidden': false
+					'showhidden': false,
+					'cropimagepreviews': true
 				});
 			}
 
@@ -291,6 +292,10 @@
 					}
 				});
 
+				this._filesConfig.on('change:cropimagepreviews', function() {
+					self.reload();
+				});
+
 				this.$el.toggleClass('hide-hidden-files', !this._filesConfig.get('showhidden'));
 			}
 
@@ -325,9 +330,7 @@
 						this.multiSelectMenuItems[i] = this.multiSelectMenuItems[i](this);
 					}
 				}
-				this.fileMultiSelectMenu = new OCA.Files.FileMultiSelectMenu(this.multiSelectMenuItems);
-				this.fileMultiSelectMenu.render();
-				this.$el.find('.selectedActions').append(this.fileMultiSelectMenu.$el);
+				this._updateMultiSelectFileActions()
 			}
 
 			if (options.sorting) {
@@ -409,6 +412,31 @@
 				this.$fileList.one('updated', function() {
 					self.scrollTo(options.scrollTo);
 				});
+			}
+
+			if(options.openFile) {
+				// Wait for some initialisation process to be over before triggering the default action.
+				_.defer(() => {
+					try {
+						var fileInfo = JSON.parse(atob($('#initial-state-files-openFileInfo').val()))
+						var spec = this.fileActions.getDefaultFileAction(fileInfo.mime, fileInfo.type, fileInfo.permissions)
+						if (spec && spec.action) {
+							spec.action(fileInfo.name, {
+								fileId: fileInfo.id,
+								fileList: this,
+								fileActions: this.fileActions,
+								dir: fileInfo.directory
+							});
+						} else {
+							var url = this.getDownloadUrl(fileInfo.name, fileInfo.dir, true);
+							OCA.Files.Files.handleDownload(url);
+						}
+
+						OCA.Files.Sidebar.open(fileInfo.path);
+					} catch (error) {
+						console.error(`Failed to trigger default action on the file for URL: ${location.href}`, error)
+					}
+				})
 			}
 
 			this._operationProgressBar = new OCA.Files.OperationProgressBar();
@@ -511,7 +539,7 @@
 		multiSelectMenuClick: function (ev, action) {
 				var actionFunction = _.find(this.multiSelectMenuItems, function (item) {return item.name === action;}).action;
 				if (actionFunction) {
-					actionFunction(ev);
+					actionFunction(this.getSelectedFiles());
 					return;
 				}
 				switch (action) {
@@ -526,6 +554,9 @@
 						break;
 					case 'restore':
 						this._onClickRestoreSelected(ev);
+						break;
+					case 'tags':
+						this._onClickTagSelected(ev);
 						break;
 				}
 		},
@@ -1089,6 +1120,124 @@
 		},
 
 		/**
+		 * CUSTOM CODE
+		 * Event handler for when clicking on "Tags" for the selected files
+		 */
+		_onClickTagSelected: function(event) {
+			var self = this;
+			event.preventDefault();
+			var commonTags = [];
+
+			var selectedFiles = _.pluck(this.getSelectedFiles(), 'id')
+			var tagCollections = [];
+			var fetchTagPromises = [];
+
+
+			selectedFiles.forEach(function(fileId) {
+				var deferred = new $.Deferred();
+				var tagCollection = new OC.SystemTags.SystemTagsMappingCollection([], {
+					objectType: 'files',
+					objectId: fileId});
+				tagCollections.push(tagCollection);
+				tagCollection.fetch({
+					success: function(){
+						deferred.resolve('success');
+					},
+					error: function() {
+						deferred.resolve('failed');
+					}
+				})
+				fetchTagPromises.push(deferred);
+			});
+
+			if (!self._inputView) {
+				self._inputView = new OC.SystemTags.SystemTagsInputField({
+					multiple: true,
+					allowActions: true,
+					allowCreate: true,
+					isAdmin: OC.isUserAdmin(),
+				});
+				self._inputView.on('select', self._onSelectTag, self);
+				self._inputView.on('deselect', self._onDeselectTag, self);
+				self._inputView.render();
+
+				// Build dom
+				self.tagsTitle = $('<h3>'+ t('files', 'Please select tag(s) to add to the selection') +'</h3>');
+				self.tagsSubmit = $('<button>' + t('files', 'Apply tag(s) to selection') + '</button>');
+				self.tagsContainer = $('<tr id="tag_multiple_files_container"></tr>');
+				self.tagsTitle.appendTo(self.tagsContainer)
+				self.tagsContainer.append(self._inputView.el);
+				self.tagsSubmit.appendTo(self.tagsContainer)
+
+				// Inject everything
+				self.$table.find('thead').append(self.tagsContainer);
+
+				self.tagsSubmit.on('click', function(ev){
+					self._onClickDocument(ev);
+				});
+			}
+
+			self._inputView.$el.addClass('icon-loading');
+			self.tagsContainer.show();
+
+			Promise.all(fetchTagPromises).then(function() {
+				//find tags which are common to all selected files
+				commonTags =_.intersection.apply(null, tagCollections.map(function (tagCollection) {return tagCollection.getTagIds();}));
+				self._inputView.setValues(commonTags);
+				self._inputView.$el.removeClass('icon-loading');
+				$(document).on('click',function(ev){
+					self._onClickDocument(ev);
+				});
+			});
+		},
+
+		_onClickDocument: function(ev) {
+			if(!$(ev.target).closest('#editor_container').length) {
+				this._inputView.setValues([]);
+				this.tagsContainer.hide();
+				$(document).off('click', this._onClickDocument);
+			}
+
+		},
+
+		/**
+		 * Custom code
+		 * Set tag for all selected files
+		 * @param tagModel
+		 * @private
+		 */
+		_onSelectTag: function(tagModel) {
+			var selectedFiles = _.pluck(this.getSelectedFiles(),'id')
+			if (!_.isArray(selectedFiles)) {
+				return;
+			}
+			selectedFiles.forEach(function(fileId) {
+				$.ajax({
+					url: OC.linkToRemote('dav') + '/systemtags-relations/files/' + fileId + '/'+ tagModel.attributes.id,
+					type: 'PUT',
+				});
+			});
+
+		},
+		/**
+		 * remove tag from all selected files
+		 * @param tagId
+		 * @private
+		 */
+		_onDeselectTag: function(tagId) {
+			var selectedFiles = _.pluck(this.getSelectedFiles(),'id');
+			if (!_.isArray(selectedFiles)) {
+				return;
+			}
+			selectedFiles.forEach(function(fileId) {
+				$.ajax({
+					url: OC.linkToRemote('dav') + '/systemtags-relations/files/' +fileId + '/'+ tagId,
+					type: 'DELETE'
+				});
+			});
+		},
+
+		/**
 		 * Event handler when clicking on a table header
 		 */
 		_onClickHeader: function(e) {
@@ -1317,31 +1466,6 @@
 				}, 0);
 			}
 
-			if(!this.triedActionOnce) {
-				var id = OC.Util.History.parseUrlQuery().openfile;
-				if (id) {
-					var $tr = this.$fileList.children().filterAttr('data-id', '' + id);
-					var filename = $tr.attr('data-file');
-					this.fileActions.currentFile = $tr.find('td');
-					var dir = $tr.attr('data-path') || this.getCurrentDirectory();
-					var spec = this.fileActions.getCurrentDefaultFileAction();
-					if (spec && spec.action) {
-						spec.action(filename, {
-							$file: $tr,
-							fileList: this,
-							fileActions: this.fileActions,
-							dir: dir
-						});
-
-					}
-					else {
-						var url = this.getDownloadUrl(filename, dir, true);
-						OCA.Files.Files.handleDownload(url);
-					}
-				}
-				this.triedActionOnce = true;
-			}
-
 			return newTrs;
 		},
 
@@ -1361,6 +1485,32 @@
 			});
 			this.$fileList.trigger($.Event('fileActionsReady', {fileList: this, $files: $files}));
 
+		},
+
+		/**
+		 * Register action for multiple selected files
+		 *
+		 * @param {OCA.Files.FileAction} fileAction object
+		 * The callback of FileAction will be called with an array of files that are currently selected
+		 */
+		registerMultiSelectFileAction: function(fileAction) {
+			if (typeof this.multiSelectMenuItems === 'undefined') {
+				return;
+			}
+			this.multiSelectMenuItems.push(fileAction)
+			this._updateMultiSelectFileActions()
+		},
+
+		_updateMultiSelectFileActions: function() {
+			if (typeof this.multiSelectMenuItems === 'undefined') {
+				return;
+			}
+			this.fileMultiSelectMenu = new OCA.Files.FileMultiSelectMenu(this.multiSelectMenuItems.sort(function(a, b) {
+				return a.order - b.order
+			}));
+			this.fileMultiSelectMenu.render();
+			this.$el.find('.selectedActions .filesSelectMenu').remove();
+			this.$el.find('.selectedActions').append(this.fileMultiSelectMenu.$el);
 		},
 
 		/**
@@ -2214,6 +2364,12 @@
 			urlSpec.x = Math.ceil(urlSpec.x);
 			urlSpec.y = Math.ceil(urlSpec.y);
 			urlSpec.forceIcon = 0;
+
+			/**
+			 * Images are cropped to a square by default. Append a=1 to the URL
+			 *  if the user wants to see images with original aspect ratio.
+			 */
+			urlSpec.a = this._filesConfig.get('cropimagepreviews') ? 0 : 1;
 
 			if (typeof urlSpec.fileId !== 'undefined') {
 				delete urlSpec.file;
@@ -3774,6 +3930,7 @@
 					return t('files', 'Select file range');
 				},
 				iconClass: 'icon-fullscreen',
+				order: 15,
 				action: function() {
 					fileList._onClickToggleSelectionMode();
 				},

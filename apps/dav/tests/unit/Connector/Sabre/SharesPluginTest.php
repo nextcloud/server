@@ -5,11 +5,12 @@
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Maxence Lange <maxence@nextcloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -26,7 +27,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OCA\DAV\Connector\Sabre\Directory;
@@ -276,6 +276,7 @@ class SharesPluginTest extends \Test\TestCase {
 			[[IShare::TYPE_LINK]],
 			[[IShare::TYPE_REMOTE]],
 			[[IShare::TYPE_ROOM]],
+			[[IShare::TYPE_DECK]],
 			[[IShare::TYPE_USER, IShare::TYPE_GROUP]],
 			[[IShare::TYPE_USER, IShare::TYPE_GROUP, IShare::TYPE_LINK]],
 			[[IShare::TYPE_USER, IShare::TYPE_LINK]],

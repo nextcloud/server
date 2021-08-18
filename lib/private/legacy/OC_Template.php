@@ -10,7 +10,7 @@
  * @author Jakob Sack <mail@jakobsack.de>
  * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
@@ -20,7 +20,7 @@
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -37,7 +37,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 use OC\TemplateLayout;
 use OCP\AppFramework\Http\TemplateResponse;
 
@@ -86,7 +85,7 @@ class OC_Template extends \OC\Template\Base {
 		/** @var \OCP\Defaults $themeDefaults */
 		$themeDefaults = \OC::$server->query(\OCP\Defaults::class);
 
-		list($path, $template) = $this->findTemplate($theme, $app, $name);
+		[$path, $template] = $this->findTemplate($theme, $app, $name);
 
 		// Set the private data
 		$this->renderAs = $renderAs;
@@ -114,7 +113,7 @@ class OC_Template extends \OC\Template\Base {
 			OC_Util::addStyle('server', null, true);
 			OC_Util::addTranslations('core', null, true);
 
-			if (\OC::$server->getSystemConfig()->getValue('installed', false)) {
+			if (\OC::$server->getSystemConfig()->getValue('installed', false) && !\OCP\Util::needUpgrade()) {
 				OC_Util::addScript('merged-template-prepend', null, true);
 				OC_Util::addScript('dist/files_client', null, true);
 				OC_Util::addScript('dist/files_fileinfo', null, true);

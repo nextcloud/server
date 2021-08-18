@@ -5,15 +5,16 @@
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author nik gaffney <nik@fo.am>
  * @author Olivier Paroz <github@oparoz.com>
  * @author Rello <Rello@users.noreply.github.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Stefan Weil <sw@weilnetz.de>
  * @author Thomas Ebert <thomas.ebert@usability.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Victor Dubiniuk <dubiniuk@owncloud.com>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -30,7 +31,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Repair;
 
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -70,7 +70,7 @@ class RepairMimeTypes implements IRepairStep {
 		if (empty($this->folderMimeTypeId)) {
 			$query->setParameter('mimetype', 'httpd/unix-directory');
 			$result = $query->execute();
-			$this->folderMimeTypeId = (int)$result->fetchColumn();
+			$this->folderMimeTypeId = (int)$result->fetchOne();
 			$result->closeCursor();
 		}
 
@@ -87,7 +87,7 @@ class RepairMimeTypes implements IRepairStep {
 			// get target mimetype id
 			$query->setParameter('mimetype', $mimetype);
 			$result = $query->execute();
-			$mimetypeId = (int)$result->fetchColumn();
+			$mimetypeId = (int)$result->fetchOne();
 			$result->closeCursor();
 
 			if (!$mimetypeId) {
@@ -192,6 +192,15 @@ class RepairMimeTypes implements IRepairStep {
 		return $this->updateMimetypes($updatedMimetypes);
 	}
 
+	private function introduceOrgModeType() {
+		$updatedMimetypes = [
+			'org' => 'text/org'
+		];
+
+		return $this->updateMimetypes($updatedMimetypes);
+	}
+
+
 	/**
 	 * Fix mime types
 	 */
@@ -231,6 +240,10 @@ class RepairMimeTypes implements IRepairStep {
 
 		if (version_compare($ocVersionFromBeforeUpdate, '20.0.0.5', '<') && $this->introduceOpenDocumentTemplates()) {
 			$out->info('Fixed OpenDocument template mime types');
+		}
+
+		if (version_compare($ocVersionFromBeforeUpdate, '21.0.0.7', '<') && $this->introduceOrgModeType()) {
+			$out->info('Fixed orgmode mime types');
 		}
 	}
 }

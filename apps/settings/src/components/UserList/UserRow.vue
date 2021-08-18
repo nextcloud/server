@@ -145,7 +145,7 @@
 				:limit="2"
 				:multiple="true"
 				:options="availableGroups"
-				:placeholder="t('settings', 'Add user in group')"
+				:placeholder="t('settings', 'Add user to group')"
 				:tag-width="60"
 				:taggable="settings.isAdmin"
 				:value="userGroups"

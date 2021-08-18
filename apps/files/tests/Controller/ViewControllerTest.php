@@ -5,14 +5,15 @@
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Michael Weimann <mail@michael-weimann.eu>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Nina Pypchenko <22447785+nina-py@users.noreply.github.com>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -29,23 +30,25 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files\Tests\Controller;
 
 use OCA\Files\Activity\Helper;
 use OCA\Files\Controller\ViewController;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Services\IInitialState;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
+use OCP\Files\Template\ITemplateManager;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserSession;
+use OCP\Share\IManager;
 use OCP\Template;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Test\TestCase;
@@ -78,6 +81,12 @@ class ViewControllerTest extends TestCase {
 	private $rootFolder;
 	/** @var Helper|\PHPUnit\Framework\MockObject\MockObject */
 	private $activityHelper;
+	/** @var IInitialState|\PHPUnit\Framework\MockObject\MockObject */
+	private $initialState;
+	/** @var ITemplateManager|\PHPUnit\Framework\MockObject\MockObject */
+	private $templateManager;
+	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
+	private $shareManager;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -97,6 +106,9 @@ class ViewControllerTest extends TestCase {
 			->willReturn($this->user);
 		$this->rootFolder = $this->getMockBuilder('\OCP\Files\IRootFolder')->getMock();
 		$this->activityHelper = $this->createMock(Helper::class);
+		$this->initialState = $this->createMock(IInitialState::class);
+		$this->templateManager = $this->createMock(ITemplateManager::class);
+		$this->shareManager = $this->createMock(IManager::class);
 		$this->viewController = $this->getMockBuilder('\OCA\Files\Controller\ViewController')
 			->setConstructorArgs([
 				'files',
@@ -109,6 +121,9 @@ class ViewControllerTest extends TestCase {
 				$this->appManager,
 				$this->rootFolder,
 				$this->activityHelper,
+				$this->initialState,
+				$this->templateManager,
+				$this->shareManager,
 			])
 		->setMethods([
 			'getStorageInfo',
@@ -135,6 +150,7 @@ class ViewControllerTest extends TestCase {
 				[$this->user->getUID(), 'files', 'file_sorting', 'name', 'name'],
 				[$this->user->getUID(), 'files', 'file_sorting_direction', 'asc', 'asc'],
 				[$this->user->getUID(), 'files', 'show_hidden', false, false],
+				[$this->user->getUID(), 'files', 'crop_image_previews', true, true],
 				[$this->user->getUID(), 'files', 'show_grid', true],
 			]);
 
@@ -142,6 +158,8 @@ class ViewControllerTest extends TestCase {
 				->expects($this->any())
 				->method('getAppValue')
 				->willReturnArgument(2);
+		$this->shareManager->method('shareApiAllowLinks')
+			->willReturn(true);
 
 		$nav = new Template('files', 'appnavigation');
 		$nav->assign('usage_relative', 123);
@@ -160,6 +178,7 @@ class ViewControllerTest extends TestCase {
 				'icon' => '',
 				'type' => 'link',
 				'classes' => '',
+				'unread' => 0,
 			],
 			'recent' => [
 				'id' => 'recent',
@@ -171,6 +190,7 @@ class ViewControllerTest extends TestCase {
 				'icon' => '',
 				'type' => 'link',
 				'classes' => '',
+				'unread' => 0,
 			],
 			'favorites' => [
 				'id' => 'favorites',
@@ -229,7 +249,8 @@ class ViewControllerTest extends TestCase {
 					],
 				],
 				'defaultExpandedState' => false,
-				'expandedState' => 'show_Quick_Access'
+				'expandedState' => 'show_Quick_Access',
+				'unread' => 0,
 			],
 			'systemtagsfilter' => [
 				'id' => 'systemtagsfilter',
@@ -241,6 +262,7 @@ class ViewControllerTest extends TestCase {
 				'icon' => '',
 				'type' => 'link',
 				'classes' => '',
+				'unread' => 0,
 			],
 			'trashbin' => [
 				'id' => 'trashbin',
@@ -252,6 +274,7 @@ class ViewControllerTest extends TestCase {
 				'icon' => '',
 				'type' => 'link',
 				'classes' => 'pinned',
+				'unread' => 0,
 			],
 			'shareoverview' => [
 				'id' => 'shareoverview',
@@ -302,6 +325,7 @@ class ViewControllerTest extends TestCase {
 				'type' => 'link',
 				'expandedState' => 'show_sharing_menu',
 				'defaultExpandedState' => false,
+				'unread' => 0,
 			]
 		]);
 
@@ -316,6 +340,7 @@ class ViewControllerTest extends TestCase {
 				'defaultFileSorting' => 'name',
 				'defaultFileSortingDirection' => 'asc',
 				'showHiddenFiles' => 0,
+				'cropImagePreviews' => 1,
 				'fileNotFound' => 0,
 				'allowShareWithLink' => 'yes',
 				'appNavigation' => $nav,

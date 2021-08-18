@@ -16,14 +16,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCP\WorkflowEngine;
 
 /**
@@ -46,10 +45,18 @@ interface IManager {
 	public const MAX_OPERATION_VALUE_BYTES = 4096;
 
 	/**
-	 * @deprecated Will be removed in NC19. Use the dedicated events in OCP\WorkflowEngine\Events
+	 * @deprecated 17.0.0 Will be removed in NC19. Use the dedicated events in OCP\WorkflowEngine\Events
 	 */
 	public const EVENT_NAME_REG_OPERATION = 'OCP\WorkflowEngine::registerOperations';
+
+	/**
+	 * @deprecated 17.0.0
+	 */
 	public const EVENT_NAME_REG_ENTITY = 'OCP\WorkflowEngine::registerEntities';
+
+	/**
+	 * @deprecated 17.0.0
+	 */
 	public const EVENT_NAME_REG_CHECK = 'OCP\WorkflowEngine::registerChecks';
 
 	/**

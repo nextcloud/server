@@ -16,17 +16,17 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Contacts\ContactsMenu;
 
 use OCP\App\IAppManager;
+use OCP\Constants;
 use OCP\Contacts\ContactsMenu\IEntry;
 use OCP\IConfig;
 use OCP\IUser;
@@ -63,7 +63,7 @@ class Manager {
 	 * @return array
 	 */
 	public function getEntries(IUser $user, $filter) {
-		$maxAutocompleteResults = $this->config->getSystemValueInt('sharing.maxAutocompleteResults', 25);
+		$maxAutocompleteResults = max(0, $this->config->getSystemValueInt('sharing.maxAutocompleteResults', Constants::SHARING_MAX_AUTOCOMPLETE_RESULTS_DEFAULT));
 		$minSearchStringLength = $this->config->getSystemValueInt('sharing.minSearchStringLength', 0);
 		$topEntries = [];
 		if (strlen($filter) >= $minSearchStringLength) {

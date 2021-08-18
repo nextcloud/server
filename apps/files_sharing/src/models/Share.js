@@ -1,7 +1,12 @@
 /**
  * @copyright Copyright (c) 2019 John Molakvoæ <skjnldsv@protonmail.com>
  *
+ * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
+ * @author Gary Kim <gary@garykim.dev>
+ * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Julius Härtl <jus@bitgrid.net>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -22,7 +27,7 @@
 
 export default class Share {
 
-	#share;
+	_share;
 
 	/**
 	 * Create the share object
@@ -39,7 +44,7 @@ export default class Share {
 		ocsData.mail_send = !!ocsData.mail_send
 
 		// store state
-		this.#share = ocsData
+		this._share = ocsData
 	}
 
 	/**
@@ -54,7 +59,7 @@ export default class Share {
 	 * @memberof Sidebar
 	 */
 	get state() {
-		return this.#share
+		return this._share
 	}
 
 	/**
@@ -65,7 +70,7 @@ export default class Share {
 	 * @memberof Share
 	 */
 	get id() {
-		return this.#share.id
+		return this._share.id
 	}
 
 	/**
@@ -76,7 +81,7 @@ export default class Share {
 	 * @memberof Share
 	 */
 	get type() {
-		return this.#share.share_type
+		return this._share.share_type
 	}
 
 	/**
@@ -88,7 +93,7 @@ export default class Share {
 	 * @memberof Share
 	 */
 	get permissions() {
-		return this.#share.permissions
+		return this._share.permissions
 	}
 
 	/**
@@ -99,7 +104,7 @@ export default class Share {
 	 * @memberof Share
 	 */
 	set permissions(permissions) {
-		this.#share.permissions = permissions
+		this._share.permissions = permissions
 	}
 
 	// SHARE OWNER --------------------------------------------------
@@ -111,7 +116,7 @@ export default class Share {
 	 * @memberof Share
 	 */
 	get owner() {
-		return this.#share.uid_owner
+		return this._share.uid_owner
 	}
 
 	/**
@@ -122,7 +127,7 @@ export default class Share {
 	 * @memberof Share
 	 */
 	get ownerDisplayName() {
-		return this.#share.displayname_owner
+		return this._share.displayname_owner
 	}
 
 	// SHARED WITH --------------------------------------------------
@@ -134,7 +139,7 @@ export default class Share {
 	 * @memberof Share
 	 */
 	get shareWith() {
-		return this.#share.share_with
+		return this._share.share_with
 	}
 
 	/**
@@ -146,8 +151,32 @@ export default class Share {
 	 * @memberof Share
 	 */
 	get shareWithDisplayName() {
-		return this.#share.share_with_displayname
-			|| this.#share.share_with
+		return this._share.share_with_displayname
+			|| this._share.share_with
+	}
+
+	/**
+	 * Unique display name in case of multiple
+	 * duplicates results with the same name.
+	 *
+	 * @returns {string}
+	 * @readonly
+	 * @memberof Share
+	 */
+	get shareWithDisplayNameUnique() {
+		return this._share.share_with_displayname_unique
+			|| this._share.share_with
+	}
+
+	/**
+	 * Get the share with entity link
+	 *
+	 * @returns {string}
+	 * @readonly
+	 * @memberof Share
+	 */
+	get shareWithLink() {
+		return this._share.share_with_link
 	}
 
 	/**
@@ -158,7 +187,7 @@ export default class Share {
 	 * @memberof Share
 	 */
 	get shareWithAvatar() {
-		return this.#share.share_with_avatar
+		return this._share.share_with_avatar
 	}
 
 	// SHARED FILE OR FOLDER OWNER ----------------------------------
@@ -170,7 +199,7 @@ export default class Share {
 	 * @memberof Share
 	 */
 	get uidFileOwner() {
-		return this.#share.uid_file_owner
+		return this._share.uid_file_owner
 	}
 
 	/**
@@ -182,8 +211,8 @@ export default class Share {
 	 * @memberof Share
 	 */
 	get displaynameFileOwner() {
-		return this.#share.displayname_file_owner
-			|| this.#share.uid_file_owner
+		return this._share.displayname_file_owner
+			|| this._share.uid_file_owner
 	}
 
 	// TIME DATA ----------------------------------------------------
@@ -195,7 +224,7 @@ export default class Share {
 	 * @memberof Share
 	 */
 	get createdTime() {
-		return this.#share.stime
+		return this._share.stime
 	}
 
 	/**
@@ -206,7 +235,7 @@ export default class Share {
 	 * @memberof Share
 	 */
 	get expireDate() {
-		return this.#share.expiration
+		return this._share.expiration
 	}
 
 	/**
@@ -217,7 +246,7 @@ export default class Share {
 	 * @memberof Share
 	 */
 	set expireDate(date) {
-		this.#share.expiration = date
+		this._share.expiration = date
 	}
 
 	// EXTRA DATA ---------------------------------------------------
@@ -229,7 +258,7 @@ export default class Share {
 	 * @memberof Share
 	 */
 	get token() {
-		return this.#share.token
+		return this._share.token
 	}
 
 	/**
@@ -240,7 +269,7 @@ export default class Share {
 	 * @memberof Share
 	 */
 	get note() {
-		return this.#share.note
+		return this._share.note
 	}
 
 	/**
@@ -250,7 +279,7 @@ export default class Share {
 	 * @memberof Share
 	 */
 	set note(note) {
-		this.#share.note = note
+		this._share.note = note
 	}
 
 	/**
@@ -262,7 +291,7 @@ export default class Share {
 	 * @memberof Share
 	 */
 	get label() {
-		return this.#share.label
+		return this._share.label
 	}
 
 	/**
@@ -273,7 +302,7 @@ export default class Share {
 	 * @memberof Share
 	 */
 	set label(label) {
-		this.#share.label = label
+		this._share.label = label
 	}
 
 	/**
@@ -284,7 +313,7 @@ export default class Share {
 	 * @memberof Share
 	 */
 	get mailSend() {
-		return this.#share.mail_send === true
+		return this._share.mail_send === true
 	}
 
 	/**
@@ -295,7 +324,7 @@ export default class Share {
 	 * @memberof Share
 	 */
 	get hideDownload() {
-		return this.#share.hide_download === true
+		return this._share.hide_download === true
 	}
 
 	/**
@@ -305,7 +334,7 @@ export default class Share {
 	 * @memberof Share
 	 */
 	set hideDownload(state) {
-		this.#share.hide_download = state === true
+		this._share.hide_download = state === true
 	}
 
 	/**
@@ -316,7 +345,7 @@ export default class Share {
 	 * @memberof Share
 	 */
 	get password() {
-		return this.#share.password
+		return this._share.password
 	}
 
 	/**
@@ -326,7 +355,7 @@ export default class Share {
 	 * @memberof Share
 	 */
 	set password(password) {
-		this.#share.password = password
+		this._share.password = password
 	}
 
 	/**
@@ -337,7 +366,7 @@ export default class Share {
 	 * @memberof Share
 	 */
 	get sendPasswordByTalk() {
-		return this.#share.send_password_by_talk
+		return this._share.send_password_by_talk
 	}
 
 	/**
@@ -348,7 +377,7 @@ export default class Share {
 	 * @memberof Share
 	 */
 	set sendPasswordByTalk(sendPasswordByTalk) {
-		this.#share.send_password_by_talk = sendPasswordByTalk
+		this._share.send_password_by_talk = sendPasswordByTalk
 	}
 
 	// SHARED ITEM DATA ---------------------------------------------
@@ -360,7 +389,7 @@ export default class Share {
 	 * @memberof Share
 	 */
 	get path() {
-		return this.#share.path
+		return this._share.path
 	}
 
 	/**
@@ -371,7 +400,7 @@ export default class Share {
 	 * @memberof Share
 	 */
 	get itemType() {
-		return this.#share.item_type
+		return this._share.item_type
 	}
 
 	/**
@@ -382,7 +411,7 @@ export default class Share {
 	 * @memberof Share
 	 */
 	get mimetype() {
-		return this.#share.mimetype
+		return this._share.mimetype
 	}
 
 	/**
@@ -393,7 +422,7 @@ export default class Share {
 	 * @memberof Share
 	 */
 	get fileSource() {
-		return this.#share.file_source
+		return this._share.file_source
 	}
 
 	/**
@@ -406,7 +435,7 @@ export default class Share {
 	 * @memberof Share
 	 */
 	get fileTarget() {
-		return this.#share.file_target
+		return this._share.file_target
 	}
 
 	/**
@@ -417,10 +446,22 @@ export default class Share {
 	 * @memberof Share
 	 */
 	get fileParent() {
-		return this.#share.file_parent
+		return this._share.file_parent
 	}
 
 	// PERMISSIONS Shortcuts
+
+	/**
+	 * Does this share have READ permissions
+	 *
+	 * @returns {boolean}
+	 * @readonly
+	 * @memberof Share
+	 */
+	get hasReadPermission() {
+		return !!((this.permissions & OC.PERMISSION_READ))
+	}
+
 	/**
 	 * Does this share have CREATE permissions
 	 *
@@ -476,7 +517,7 @@ export default class Share {
 	 * @memberof Share
 	 */
 	get canEdit() {
-		return this.#share.can_edit === true
+		return this._share.can_edit === true
 	}
 
 	/**
@@ -487,7 +528,7 @@ export default class Share {
 	 * @memberof Share
 	 */
 	get canDelete() {
-		return this.#share.can_delete === true
+		return this._share.can_delete === true
 	}
 
 	/**
@@ -497,7 +538,7 @@ export default class Share {
 	 * @memberof Share
 	 */
 	get viaFileid() {
-		return this.#share.via_fileid
+		return this._share.via_fileid
 	}
 
 	/**
@@ -507,29 +548,29 @@ export default class Share {
 	 * @memberof Share
 	 */
 	get viaPath() {
-		return this.#share.via_path
+		return this._share.via_path
 	}
 
 	// TODO: SORT THOSE PROPERTIES
 
 	get parent() {
-		return this.#share.parent
+		return this._share.parent
 	}
 
 	get storageId() {
-		return this.#share.storage_id
+		return this._share.storage_id
 	}
 
 	get storage() {
-		return this.#share.storage
+		return this._share.storage
 	}
 
 	get itemSource() {
-		return this.#share.item_source
+		return this._share.item_source
 	}
 
 	get status() {
-		return this.#share.status
+		return this._share.status
 	}
 
 }

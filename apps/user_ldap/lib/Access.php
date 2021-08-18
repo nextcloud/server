@@ -10,6 +10,7 @@
  * @author bline <scottbeck@gmail.com>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
+ * @author J0WI <J0WI@users.noreply.github.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Juan Pablo Villafáñez <jvillafanez@solidgear.es>
@@ -43,18 +44,18 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\User_LDAP;
 
 use DomainException;
-use OC\HintException;
 use OC\Hooks\PublicEmitter;
 use OC\ServerNotAvailableException;
 use OCA\User_LDAP\Exceptions\ConstraintViolationException;
+use OCA\User_LDAP\Exceptions\NoMoreResults;
 use OCA\User_LDAP\Mapping\AbstractMapping;
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\User\Manager;
 use OCA\User_LDAP\User\OfflineUser;
+use OCP\HintException;
 use OCP\IConfig;
 use OCP\ILogger;
 use OCP\IUserManager;
@@ -263,7 +264,14 @@ class Access extends LDAPUtility {
 	 * @throws ServerNotAvailableException
 	 */
 	public function executeRead($cr, $dn, $attribute, $filter, $maxResults) {
-		$this->initPagedSearch($filter, $dn, [$attribute], $maxResults, 0);
+		try {
+			$this->initPagedSearch($filter, $dn, [$attribute], $maxResults, 0);
+		} catch (NoMoreResults $e) {
+			// does not happen, no pagination here since offset is 0, but the
+			// previous call is needed for a potential reset of the state.
+			// Tools would still point out a possible NoMoreResults exception.
+			return false;
+		}
 		$dn = $this->helper->DNasBaseParameter($dn);
 		$rr = @$this->invokeLDAPMethod('read', $cr, $dn, $filter, [$attribute]);
 		if (!$this->ldap->isResource($rr)) {
@@ -542,7 +550,7 @@ class Access extends LDAPUtility {
 		if (is_null($ldapName)) {
 			$ldapName = $this->readAttribute($fdn, $nameAttribute, $filter);
 			if (!isset($ldapName[0]) && empty($ldapName[0])) {
-				\OCP\Util::writeLog('user_ldap', 'No or empty name for ' . $fdn . ' with filter ' . $filter . '.', ILogger::INFO);
+				\OCP\Util::writeLog('user_ldap', 'No or empty name for ' . $fdn . ' with filter ' . $filter . '.', ILogger::DEBUG);
 				return false;
 			}
 			$ldapName = $ldapName[0];
@@ -944,7 +952,7 @@ class Access extends LDAPUtility {
 
 		array_walk($groupRecords, function ($record) use ($idsByDn) {
 			$newlyMapped = false;
-			$gid = $uidsByDn[$record['dn'][0]] ?? null;
+			$gid = $idsByDn[$record['dn'][0]] ?? null;
 			if ($gid === null) {
 				$gid = $this->dn2ocname($record['dn'][0], null, false, $newlyMapped, $record);
 			}
@@ -1142,7 +1150,12 @@ class Access extends LDAPUtility {
 		}
 
 		//check whether paged search should be attempted
-		$pagedSearchOK = $this->initPagedSearch($filter, $base, $attr, (int)$limit, (int)$offset);
+		try {
+			$pagedSearchOK = $this->initPagedSearch($filter, $base, $attr, (int)$limit, (int)$offset);
+		} catch (NoMoreResults $e) {
+			// beyond last results page
+			return false;
+		}
 
 		$sr = $this->invokeLDAPMethod('search', $cr, $base, $filter, $attr);
 		// cannot use $cr anymore, might have changed in the previous call!
@@ -1253,7 +1266,7 @@ class Access extends LDAPUtility {
 				if ($search === false) {
 					return $counter > 0 ? $counter : false;
 				}
-				list($sr, $pagedSearchOK) = $search;
+				[$sr, $pagedSearchOK] = $search;
 
 				/* ++ Fixing RHDS searches with pages with zero results ++
 				 * countEntriesInSearchResults() method signature changed
@@ -1320,7 +1333,7 @@ class Access extends LDAPUtility {
 			if ($search === false) {
 				return [];
 			}
-			list($sr, $pagedSearchOK) = $search;
+			[$sr, $pagedSearchOK] = $search;
 			$cr = $this->connection->getConnectionResource();
 
 			if ($skipHandling) {
@@ -1781,7 +1794,7 @@ class Access extends LDAPUtility {
 	 *
 	 * @param string $oguid the ObjectGUID in it's binary form as retrieved from AD
 	 * @return string
-	 * @link http://www.php.net/manual/en/function.ldap-get-values-len.php#73198
+	 * @link https://www.php.net/manual/en/function.ldap-get-values-len.php#73198
 	 */
 	private function convertObjectGUID2Str($oguid) {
 		$hex_guid = bin2hex($oguid);
@@ -1995,6 +2008,7 @@ class Access extends LDAPUtility {
 	 * @param int $offset
 	 * @return bool|true
 	 * @throws ServerNotAvailableException
+	 * @throws NoMoreResults
 	 */
 	private function initPagedSearch(
 		string $filter,
@@ -2026,7 +2040,7 @@ class Access extends LDAPUtility {
 				if (!$this->hasMoreResults()) {
 					// when the cookie is reset with != 0 offset, there are no further
 					// results, so stop.
-					return false;
+					throw new NoMoreResults();
 				}
 			}
 			if ($this->lastCookie !== '' && $offset === 0) {

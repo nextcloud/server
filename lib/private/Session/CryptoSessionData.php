@@ -27,7 +27,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Session;
 
 use OCP\ISession;
@@ -87,6 +86,7 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 			);
 		} catch (\Exception $e) {
 			$this->sessionValues = [];
+			$this->regenerateId(true, false);
 		}
 	}
 

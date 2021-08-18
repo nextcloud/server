@@ -4,6 +4,7 @@
  *
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author korelstar <korelstar@users.noreply.github.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Stefan Weil <sw@weilnetz.de>
@@ -23,7 +24,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\AppFramework\Middleware\Security;
 
 use OC\AppFramework\Middleware\Security\Exceptions\SecurityException;
@@ -83,14 +83,13 @@ class CORSMiddleware extends Middleware {
 	public function beforeController($controller, $methodName) {
 		// ensure that @CORS annotated API routes are not used in conjunction
 		// with session authentication since this enables CSRF attack vectors
-		if ($this->reflector->hasAnnotation('CORS') &&
-			!$this->reflector->hasAnnotation('PublicPage')) {
-			$user = $this->request->server['PHP_AUTH_USER'];
-			$pass = $this->request->server['PHP_AUTH_PW'];
+		if ($this->reflector->hasAnnotation('CORS') && !$this->reflector->hasAnnotation('PublicPage')) {
+			$user = array_key_exists('PHP_AUTH_USER', $this->request->server) ? $this->request->server['PHP_AUTH_USER'] : null;
+			$pass = array_key_exists('PHP_AUTH_PW', $this->request->server) ? $this->request->server['PHP_AUTH_PW'] : null;
 
 			$this->session->logout();
 			try {
-				if (!$this->session->logClientIn($user, $pass, $this->request, $this->throttler)) {
+				if ($user === null || $pass === null || !$this->session->logClientIn($user, $pass, $this->request, $this->throttler)) {
 					throw new SecurityException('CORS requires basic auth', Http::STATUS_UNAUTHORIZED);
 				}
 			} catch (PasswordLoginForbiddenException $ex) {

@@ -23,6 +23,9 @@ namespace Test\Accounts;
 
 use OC\Accounts\AccountManager;
 use OC\Accounts\Hooks;
+use OCP\Accounts\IAccount;
+use OCP\Accounts\IAccountManager;
+use OCP\Accounts\IAccountProperty;
 use OCP\IUser;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
@@ -42,7 +45,7 @@ class HooksTest extends TestCase {
 	/** @var AccountManager|MockObject */
 	private $accountManager;
 
-	/** @var Hooks|MockObject */
+	/** @var Hooks */
 	private $hooks;
 
 	protected function setUp(): void {
@@ -52,12 +55,7 @@ class HooksTest extends TestCase {
 		$this->accountManager = $this->getMockBuilder(AccountManager::class)
 			->disableOriginalConstructor()->getMock();
 
-		$this->hooks = $this->getMockBuilder(Hooks::class)
-			->setConstructorArgs([$this->logger])
-			->setMethods(['getAccountManager'])
-			->getMock();
-
-		$this->hooks->method('getAccountManager')->willReturn($this->accountManager);
+		$this->hooks = new Hooks($this->logger, $this->accountManager);
 	}
 
 	/**
@@ -71,84 +69,87 @@ class HooksTest extends TestCase {
 	 */
 	public function testChangeUserHook($params, $data, $setEmail, $setDisplayName, $error) {
 		if ($error) {
-			$this->accountManager->expects($this->never())->method('getUser');
-			$this->accountManager->expects($this->never())->method('updateUser');
+			$this->accountManager->expects($this->never())->method('updateAccount');
 		} else {
-			$this->accountManager->expects($this->once())->method('getUser')->willReturn($data);
-			$newData = $data;
+			$account = $this->createMock(IAccount::class);
+			$this->accountManager->expects($this->atLeastOnce())->method('getAccount')->willReturn($account);
 			if ($setEmail) {
-				$newData[AccountManager::PROPERTY_EMAIL]['value'] = $params['value'];
-				$this->accountManager->expects($this->once())->method('updateUser')
-					->with($params['user'], $newData);
+				$property = $this->createMock(IAccountProperty::class);
+				$property->expects($this->atLeastOnce())
+					->method('getValue')
+					->willReturn($data[IAccountManager::PROPERTY_EMAIL]['value']);
+				$property->expects($this->atLeastOnce())
+					->method('setValue')
+					->with($params['value']);
+
+				$account->expects($this->atLeastOnce())
+					->method('getProperty')
+					->with(IAccountManager::PROPERTY_EMAIL)
+					->willReturn($property);
+
+				$this->accountManager->expects($this->once())
+					->method('updateAccount')
+					->with($account);
 			} elseif ($setDisplayName) {
-				$newData[AccountManager::PROPERTY_DISPLAYNAME]['value'] = $params['value'];
-				$this->accountManager->expects($this->once())->method('updateUser')
-					->with($params['user'], $newData);
+				$property = $this->createMock(IAccountProperty::class);
+				$property->expects($this->atLeastOnce())
+					->method('getValue')
+					->willReturn($data[IAccountManager::PROPERTY_DISPLAYNAME]['value']);
+				$property->expects($this->atLeastOnce())
+					->method('setValue')
+					->with($params['value']);
+
+				$account->expects($this->atLeastOnce())
+					->method('getProperty')
+					->with(IAccountManager::PROPERTY_DISPLAYNAME)
+					->willReturn($property);
+
+				$this->accountManager->expects($this->once())
+					->method('updateAccount')
+					->with($account);
 			} else {
-				$this->accountManager->expects($this->never())->method('updateUser');
+				$this->accountManager->expects($this->never())->method('updateAccount');
 			}
 		}
 
-		$this->hooks->changeUserHook($params);
+		$this->hooks->changeUserHook($params['user'], $params['feature'], $params['value']);
 	}
 
 	public function dataTestChangeUserHook() {
 		$user = $this->createMock(IUser::class);
 		return [
 			[
-				['feature' => '', 'value' => ''],
+				['user' => $user, 'feature' => '', 'value' => ''],
 				[
-					AccountManager::PROPERTY_EMAIL => ['value' => ''],
-					AccountManager::PROPERTY_DISPLAYNAME => ['value' => '']
-				],
-				false, false, true
-			],
-			[
-				['user' => $user, 'value' => ''],
-				[
-					AccountManager::PROPERTY_EMAIL => ['value' => ''],
-					AccountManager::PROPERTY_DISPLAYNAME => ['value' => '']
-				],
-				false, false, true
-			],
-			[
-				['user' => $user, 'feature' => ''],
-				[
-					AccountManager::PROPERTY_EMAIL => ['value' => ''],
-					AccountManager::PROPERTY_DISPLAYNAME => ['value' => '']
+					IAccountManager::PROPERTY_EMAIL => ['value' => ''],
+					IAccountManager::PROPERTY_DISPLAYNAME => ['value' => '']
 				],
 				false, false, true
 			],
 			[
 				['user' => $user, 'feature' => 'foo', 'value' => 'bar'],
 				[
-					AccountManager::PROPERTY_EMAIL => ['value' => 'oldMail@example.com'],
-					AccountManager::PROPERTY_DISPLAYNAME => ['value' => 'oldDisplayName']
+					IAccountManager::PROPERTY_EMAIL => ['value' => 'oldMail@example.com'],
+					IAccountManager::PROPERTY_DISPLAYNAME => ['value' => 'oldDisplayName']
 				],
 				false, false, false
 			],
 			[
 				['user' => $user, 'feature' => 'eMailAddress', 'value' => 'newMail@example.com'],
 				[
-					AccountManager::PROPERTY_EMAIL => ['value' => 'oldMail@example.com'],
-					AccountManager::PROPERTY_DISPLAYNAME => ['value' => 'oldDisplayName']
+					IAccountManager::PROPERTY_EMAIL => ['value' => 'oldMail@example.com'],
+					IAccountManager::PROPERTY_DISPLAYNAME => ['value' => 'oldDisplayName']
 				],
 				true, false, false
 			],
 			[
 				['user' => $user, 'feature' => 'displayName', 'value' => 'newDisplayName'],
 				[
-					AccountManager::PROPERTY_EMAIL => ['value' => 'oldMail@example.com'],
-					AccountManager::PROPERTY_DISPLAYNAME => ['value' => 'oldDisplayName']
+					IAccountManager::PROPERTY_EMAIL => ['value' => 'oldMail@example.com'],
+					IAccountManager::PROPERTY_DISPLAYNAME => ['value' => 'oldDisplayName']
 				],
 				false, true, false
 			],
 		];
-	}
-
-	public function testGetAccountManager() {
-		$hooks = new Hooks($this->logger);
-		$result = $this->invokePrivate($hooks, 'getAccountManager');
-		$this->assertInstanceOf(AccountManager::class, $result);
 	}
 }

@@ -22,6 +22,7 @@
  */
 
 use Behat\Behat\Context\Context;
+use PHPUnit\Framework\Assert;
 
 class SettingsContext implements Context, ActorAwareInterface {
 	use ActorAware;
@@ -71,16 +72,16 @@ class SettingsContext implements Context, ActorAwareInterface {
 		// forThe()->checkbox("Restrict username...") can not be used here; that
 		// would return the checkbox itself, but the element that the user
 		// interacts with is the label.
-		return Locator::forThe()->xpath("//label[normalize-space() = 'Restrict username autocompletion to users within the same groups']")->
-				describedAs("Restrict username autocompletion to groups checkbox in Sharing section in Administration Sharing Settings");
+		return Locator::forThe()->xpath("//label[normalize-space() = 'Allow username autocompletion to users within the same groups']")->
+				describedAs("Allow username autocompletion to users within the same groups checkbox in Sharing section in Administration Sharing Settings");
 	}
 
 	/**
 	 * @return Locator
 	 */
 	public static function restrictUsernameAutocompletionToGroupsCheckboxInput() {
-		return Locator::forThe()->checkbox("Restrict username autocompletion to users within the same groups")->
-				describedAs("Restrict username autocompletion to groups checkbox input in Sharing section in Administration Sharing Settings");
+		return Locator::forThe()->checkbox("Allow username autocompletion to users within the same groups")->
+				describedAs("Allow username autocompletion to users within the same groups checkbox input in Sharing section in Administration Sharing Settings");
 	}
 
 	/**
@@ -180,7 +181,7 @@ class SettingsContext implements Context, ActorAwareInterface {
 	 * @Then I see that shares are accepted by default
 	 */
 	public function iSeeThatSharesAreAcceptedByDefault() {
-		PHPUnit_Framework_Assert::assertTrue(
+		Assert::assertTrue(
 				$this->actor->find(self::acceptSharesByDefaultCheckboxInput(), 10)->isChecked());
 	}
 
@@ -188,7 +189,7 @@ class SettingsContext implements Context, ActorAwareInterface {
 	 * @Then I see that resharing is enabled
 	 */
 	public function iSeeThatResharingIsEnabled() {
-		PHPUnit_Framework_Assert::assertTrue(
+		Assert::assertTrue(
 				$this->actor->find(self::allowResharingCheckboxInput(), 10)->isChecked());
 	}
 
@@ -196,7 +197,7 @@ class SettingsContext implements Context, ActorAwareInterface {
 	 * @Then I see that resharing is disabled
 	 */
 	public function iSeeThatResharingIsDisabled() {
-		PHPUnit_Framework_Assert::assertFalse(
+		Assert::assertFalse(
 				$this->actor->find(self::allowResharingCheckboxInput(), 10)->isChecked());
 	}
 
@@ -204,7 +205,7 @@ class SettingsContext implements Context, ActorAwareInterface {
 	 * @Then I see that username autocompletion is restricted to groups
 	 */
 	public function iSeeThatUsernameAutocompletionIsRestrictedToGroups() {
-		PHPUnit_Framework_Assert::assertTrue(
+		Assert::assertTrue(
 				$this->actor->find(self::restrictUsernameAutocompletionToGroupsCheckboxInput(), 10)->isChecked());
 	}
 
@@ -212,7 +213,7 @@ class SettingsContext implements Context, ActorAwareInterface {
 	 * @Then I see that username autocompletion is not restricted to groups
 	 */
 	public function iSeeThatUsernameAutocompletionIsNotRestrictedToGroups() {
-		PHPUnit_Framework_Assert::assertFalse(
+		Assert::assertFalse(
 				$this->actor->find(self::restrictUsernameAutocompletionToGroupsCheckboxInput(), 10)->isChecked());
 	}
 
@@ -220,7 +221,7 @@ class SettingsContext implements Context, ActorAwareInterface {
 	 * @Then I see that shares are not accepted by default
 	 */
 	public function iSeeThatSharesAreNotAcceptedByDefault() {
-		PHPUnit_Framework_Assert::assertFalse(
+		Assert::assertFalse(
 				$this->actor->find(self::acceptSharesByDefaultCheckboxInput(), 10)->isChecked());
 	}
 
@@ -228,7 +229,7 @@ class SettingsContext implements Context, ActorAwareInterface {
 	 * @Then I see that the button to select tags is shown
 	 */
 	public function iSeeThatTheButtonToSelectTagsIsShown() {
-		PHPUnit_Framework_Assert::assertTrue($this->actor->find(self::systemTagsSelectTagButton(), 10)->isVisible());
+		Assert::assertTrue($this->actor->find(self::systemTagsSelectTagButton(), 10)->isVisible());
 	}
 
 	/**
@@ -243,7 +244,7 @@ class SettingsContext implements Context, ActorAwareInterface {
 		// necessary to repeatedly open the dropdown until the tag is shown in
 		// the dropdown (or the limit of tries is reached).
 
-		PHPUnit_Framework_Assert::assertTrue($this->actor->find(self::systemTagsSelectTagButton(), 10)->isVisible());
+		Assert::assertTrue($this->actor->find(self::systemTagsSelectTagButton(), 10)->isVisible());
 
 		$actor = $this->actor;
 
@@ -277,6 +278,6 @@ class SettingsContext implements Context, ActorAwareInterface {
 			}
 		}
 
-		PHPUnit_Framework_Assert::fail("The dropdown in system tags section in Administration Settings does not contain the tag $tag after $numberOfTries tries");
+		Assert::fail("The dropdown in system tags section in Administration Settings does not contain the tag $tag after $numberOfTries tries");
 	}
 }

@@ -36,10 +36,12 @@ OC.L10N.register(
     "Operation %s does not exist" : "%s 操作は存在しません",
     "Operation %s is invalid" : "%s 操作は無効です",
     "At least one check needs to be provided" : "少なくともチェックを一つ設定してください",
+    "The provided operation data is too long" : "提供された操作データが長すぎます",
     "Invalid check provided" : "チェック設定が正しくありません",
     "Check %s does not exist" : "チェック %s は存在しません",
     "Check %s is invalid" : "チェック %s は無効です",
     "Check %s is not allowed with this entity" : " チェック%s はこのエンティティーでは利用できません",
+    "The provided check value is too long" : "提供されたチェック値が長すぎます",
     "Check #%s does not exist" : "チェック #%s は存在しません",
     "Check %s is invalid or does not exist" : "%sのチェックは無効か存在しません",
     "Flow" : "Flow",
@@ -81,7 +83,7 @@ OC.L10N.register(
     "Available flows" : "利用可能なフロー",
     "For details on how to write your own flow, check out the development documentation." : "独自のフローを作成する方法の詳細については、開発ドキュメントを参照してください。",
     "More flows" : "その他のフロー",
-    "Browse the app store" : "アプリストアをブラウザでみる",
+    "Browse the App Store" : "AppStoreをブラウザーでみる",
     "Show less" : "表示を減らす",
     "Show more" : "表示を増やす",
     "Configured flows" : "設定済みフロー",
@@ -112,6 +114,7 @@ OC.L10N.register(
     "Request user agent" : "リクエスト時のユーザーエージェント",
     "User group membership" : "ユーザーがグループのメンバーかどうか",
     "is member of" : "が次のグループのメンバーである",
-    "is not member of" : "が次のグループのメンバーではない"
+    "is not member of" : "が次のグループのメンバーではない",
+    "Browse the app store" : "アプリストアをブラウザーでみる"
 },
 "nplurals=1; plural=0;");

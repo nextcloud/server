@@ -5,6 +5,7 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2018 Julius Härtl <jus@bitgrid.net>
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Julius Härtl <jus@bitgrid.net>
  *
  * @license GNU AGPL version 3 or any later version
@@ -16,15 +17,16 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCP\Accounts;
+
+use InvalidArgumentException;
 
 /**
  * Interface IAccountProperty
@@ -50,6 +52,7 @@ interface IAccountProperty extends \JsonSerializable {
 	 *
 	 * @param string $scope
 	 * @return IAccountProperty
+	 * @throws InvalidArgumentException (since 22.0.0)
 	 */
 	public function setScope(string $scope): IAccountProperty;
 
@@ -98,4 +101,18 @@ interface IAccountProperty extends \JsonSerializable {
 	 * @return string
 	 */
 	public function getVerified(): string;
+
+	/**
+	 * Sets data for verification purposes.
+	 *
+	 * @since 22.0.0
+	 */
+	public function setVerificationData(string $verificationData): IAccountProperty;
+
+	/**
+	 * Retrieves data for verification purposes.
+	 *
+	 * @since 22.0.0
+	 */
+	public function getVerificationData(): string;
 }

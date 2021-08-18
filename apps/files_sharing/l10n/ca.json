@@ -101,7 +101,6 @@
     "Please specify a file or folder path" : "Si us plau, especifiqueu un camí de fitxer o carpeta",
     "Wrong path, file/folder doesn't exist" : "El camí és erroni, el fitxer o la carpeta no existeixen",
     "Could not create share" : "No s'ha pogut crear la compartició",
-    "invalid permissions" : "permisos no vàlids",
     "Please specify a valid user" : "Si us plau, especifiqueu un usuari vàlid",
     "Group sharing is disabled by the administrator" : "L'administrador ha desactivat l'opció per compartir grups",
     "Please specify a valid group" : "Si us plau, especifiqueu un grup vàlid",
@@ -119,12 +118,9 @@
     "Could not lock node" : "No s'ha pogut bloquejar el node",
     "Could not lock path" : "No s'ha pogut bloquejar la ruta d'accés",
     "Wrong or no update parameter given" : "S'ha donat un paràmetre o un paràmetre d'actualització incorrecte",
-    "Can't change permissions for public share links" : "No es poden canviar els permisos per als enllaços compartits públics",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "No s’ha pogut compartir enviant la contrasenya per Nextcloud Talk perquè Nextcloud Talk no està activat",
     "shared by %s" : "compartit per %s",
     "Download all files" : "Descarrega tots els fitxers",
     "Direct link" : "Enllaç directe",
-    "Add to your Nextcloud" : "Afegiu al vostre NextCloud",
     "Share API is disabled" : "Compartir l'API està desactivat",
     "File sharing" : "Compartició de fitxers",
     "Share will expire tomorrow" : "La compartició caducarà demà",
@@ -229,7 +225,10 @@
     "Uploading files" : "Càrregant fitxers",
     "Uploaded files:" : "Fitxers carregats:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Si carregueu els fitxers accepteu les %1$scondicions del servei%2$s.",
-    "Name, email, or federated cloud ID …" : "Nom, correu o ID de núvol federat …",
-    "Uploading files…" : "S'està carregant fitxers…"
+    "Add to your Nextcloud" : "Afegiu al vostre NextCloud",
+    "invalid permissions" : "permisos no vàlids",
+    "Can't change permissions for public share links" : "No es poden canviar els permisos per als enllaços compartits públics",
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "No s’ha pogut compartir enviant la contrasenya per Nextcloud Talk perquè Nextcloud Talk no està activat",
+    "Name, email, or federated cloud ID …" : "Nom, correu o ID de núvol federat …"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

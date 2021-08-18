@@ -10,7 +10,7 @@
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Ross Nicoll <jrn@jrn.me.uk>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -27,11 +27,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_External\AppInfo;
 
+use OCA\Files_External\Config\ConfigAdapter;
 use OCA\Files_External\Config\UserPlaceholderHandler;
-use OCA\Files_External\Service\DBConfigService;
+use OCA\Files_External\Listener\GroupDeletedListener;
+use OCA\Files_External\Listener\UserDeletedListener;
 use OCA\Files_External\Lib\Auth\AmazonS3\AccessKey;
 use OCA\Files_External\Lib\Auth\Builtin;
 use OCA\Files_External\Lib\Auth\NullMechanism;
@@ -63,14 +64,19 @@ use OCA\Files_External\Lib\Config\IAuthMechanismProvider;
 use OCA\Files_External\Lib\Config\IBackendProvider;
 use OCA\Files_External\Service\BackendService;
 use OCP\AppFramework\App;
-use OCP\IGroup;
-use OCP\IUser;
-use Symfony\Component\EventDispatcher\GenericEvent;
+use OCP\AppFramework\Bootstrap\IBootContext;
+use OCP\AppFramework\Bootstrap\IBootstrap;
+use OCP\AppFramework\Bootstrap\IRegistrationContext;
+use OCP\Files\Config\IMountProviderCollection;
+use OCP\Group\Events\GroupDeletedEvent;
+use OCP\User\Events\UserDeletedEvent;
+
+require_once __DIR__ . '/../../3rdparty/autoload.php';
 
 /**
  * @package OCA\Files_External\AppInfo
  */
-class Application extends App implements IBackendProvider, IAuthMechanismProvider {
+class Application extends App implements IBackendProvider, IAuthMechanismProvider, IBootstrap {
 
 	/**
 	 * Application constructor.
@@ -79,44 +85,38 @@ class Application extends App implements IBackendProvider, IAuthMechanismProvide
 	 */
 	public function __construct(array $urlParams = []) {
 		parent::__construct('files_external', $urlParams);
+	}
 
-		$container = $this->getContainer();
+	public function register(IRegistrationContext $context): void {
+		$context->registerEventListener(UserDeletedEvent::class, UserDeletedListener::class);
+		$context->registerEventListener(GroupDeletedEvent::class, GroupDeletedListener::class);
+	}
 
-		/** @var BackendService $backendService */
-		$backendService = $container->query(BackendService::class);
-		$backendService->registerBackendProvider($this);
-		$backendService->registerAuthMechanismProvider($this);
-		$backendService->registerConfigHandler('user', function () use ($container) {
-			return $container->query(UserPlaceholderHandler::class);
+	public function boot(IBootContext $context): void {
+		$context->injectFn(function (IMountProviderCollection $mountProviderCollection, ConfigAdapter $configAdapter) {
+			$mountProviderCollection->registerProvider($configAdapter);
+		});
+		\OCA\Files\App::getNavigationManager()->add(function () {
+			$l = \OC::$server->getL10N('files_external');
+			return [
+				'id' => 'extstoragemounts',
+				'appname' => 'files_external',
+				'script' => 'list.php',
+				'order' => 30,
+				'name' => $l->t('External storage'),
+			];
+		});
+		$context->injectFn(function (BackendService $backendService, UserPlaceholderHandler $userConfigHandler) {
+			$backendService->registerBackendProvider($this);
+			$backendService->registerAuthMechanismProvider($this);
+			$backendService->registerConfigHandler('user', function () use ($userConfigHandler) {
+				return $userConfigHandler;
+			});
 		});
 
 		// force-load auth mechanisms since some will register hooks
 		// TODO: obsolete these and use the TokenProvider to get the user's password from the session
 		$this->getAuthMechanisms();
-	}
-
-	public function registerListeners() {
-		$dispatcher = $this->getContainer()->getServer()->getEventDispatcher();
-		$dispatcher->addListener(
-			IUser::class . '::postDelete',
-			function (GenericEvent $event) {
-				/** @var IUser $user */
-				$user = $event->getSubject();
-				/** @var DBConfigService $config */
-				$config = $this->getContainer()->query(DBConfigService::class);
-				$config->modifyMountsOnUserDelete($user->getUID());
-			}
-		);
-		$dispatcher->addListener(
-			IGroup::class . '::postDelete',
-			function (GenericEvent $event) {
-				/** @var IGroup $group */
-				$group = $event->getSubject();
-				/** @var DBConfigService $config */
-				$config = $this->getContainer()->query(DBConfigService::class);
-				$config->modifyMountsOnGroupDelete($group->getGID());
-			}
-		);
 	}
 
 	/**

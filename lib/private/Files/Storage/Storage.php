@@ -22,7 +22,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Files\Storage;
 
 use OCP\Lock\ILockingProvider;
@@ -93,7 +92,7 @@ interface Storage extends \OCP\Files\Storage {
 
 	/**
 	 * @param string $path
-	 * @return array
+	 * @return array|null
 	 */
 	public function getMetaData($path);
 

@@ -17,14 +17,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCP\BackgroundJob;
 
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -68,7 +67,7 @@ abstract class Job implements IJob {
 	 *
 	 * @since 15.0.0
 	 */
-	public function execute($jobList, ILogger $logger = null) {
+	public function execute(IJobList $jobList, ILogger $logger = null) {
 		$jobList->setLastRun($this);
 		if ($logger === null) {
 			$logger = \OC::$server->getLogger();
@@ -95,14 +94,14 @@ abstract class Job implements IJob {
 	/**
 	 * @since 15.0.0
 	 */
-	final public function setId($id) {
+	final public function setId(int $id) {
 		$this->id = $id;
 	}
 
 	/**
 	 * @since 15.0.0
 	 */
-	final public function setLastRun($lastRun) {
+	final public function setLastRun(int $lastRun) {
 		$this->lastRun = $lastRun;
 	}
 

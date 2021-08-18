@@ -6,23 +6,24 @@ declare(strict_types=1);
  * @copyright Copyright (c) 2020, Julien Veyssier
  *
  * @author Julien Veyssier <eneiluj@posteo.net>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
- * @license AGPL-3.0
+ * @license GNU AGPL version 3 or any later version
  *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\WeatherStatus\Service;
 
 use OCP\IConfig;
@@ -72,9 +73,6 @@ class WeatherStatusService {
 	/** @var IAppManager */
 	private $appManager;
 
-	/** @var ICacheFactory */
-	private $cacheFactory;
-
 	/** @var ICache */
 	private $cache;
 
@@ -116,9 +114,7 @@ class WeatherStatusService {
 		$this->version = $appManager->getAppVersion(Application::APP_ID);
 		$this->clientService = $clientService;
 		$this->client = $clientService->newClient();
-		if ($cacheFactory->isAvailable()) {
-			$this->cache = $cacheFactory->createDistributed();
-		}
+		$this->cache = $cacheFactory->createDistributed('weatherstatus');
 	}
 
 	/**
@@ -397,12 +393,12 @@ class WeatherStatusService {
 	 * @return array which contains the error message or the parsed JSON result
 	 */
 	private function requestJSON(string $url, array $params = []): array {
-		if (isset($this->cache)) {
-			$cacheKey = $url . '|' . implode(',', $params) . '|' . implode(',', array_keys($params));
-			if ($this->cache->hasKey($cacheKey)) {
-				return $this->cache->get($cacheKey);
-			}
+		$cacheKey = $url . '|' . implode(',', $params) . '|' . implode(',', array_keys($params));
+		$cacheValue = $this->cache->get($cacheKey);
+		if ($cacheValue !== null) {
+			return $cacheValue;
 		}
+
 		try {
 			$options = [
 				'headers' => [
@@ -425,20 +421,20 @@ class WeatherStatusService {
 				return ['error' => $this->l10n->t('Error')];
 			} else {
 				$json = json_decode($body, true);
-				if (isset($this->cache)) {
-					// default cache duration is one hour
-					$cacheDuration = 60 * 60;
-					if (isset($headers['Expires']) && count($headers['Expires']) > 0) {
-						// if the Expires response header is set, use it to define cache duration
-						$expireTs = (new \Datetime($headers['Expires'][0]))->getTimestamp();
-						$nowTs = (new \Datetime())->getTimestamp();
-						$duration = $expireTs - $nowTs;
-						if ($duration > $cacheDuration) {
-							$cacheDuration = $duration;
-						}
+
+				// default cache duration is one hour
+				$cacheDuration = 60 * 60;
+				if (isset($headers['Expires']) && count($headers['Expires']) > 0) {
+					// if the Expires response header is set, use it to define cache duration
+					$expireTs = (new \Datetime($headers['Expires'][0]))->getTimestamp();
+					$nowTs = (new \Datetime())->getTimestamp();
+					$duration = $expireTs - $nowTs;
+					if ($duration > $cacheDuration) {
+						$cacheDuration = $duration;
 					}
-					$this->cache->set($cacheKey, $json, $cacheDuration);
 				}
+				$this->cache->set($cacheKey, $json, $cacheDuration);
+
 				return $json;
 			}
 		} catch (\Exception $e) {

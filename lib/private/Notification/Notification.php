@@ -24,7 +24,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Notification;
 
 use OCP\Notification\IAction;
@@ -206,7 +205,7 @@ class Notification implements INotification {
 		if ($id === '' || isset($id[64])) {
 			throw new \InvalidArgumentException('The given object id is invalid');
 		}
-		$this->objectId = (string) $id;
+		$this->objectId = $id;
 		return $this;
 	}
 

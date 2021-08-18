@@ -345,7 +345,7 @@ OC.FileUpload.prototype = {
 	 */
 	getResponse: function() {
 		var response = this.data.response();
-		if (response.errorThrown) {
+		if (response.errorThrown || response.textStatus === 'error') {
 			// attempt parsing Sabre exception is available
 			var xml = response.jqXHR.responseXML;
 			if (xml && xml.documentElement.localName === 'error' && xml.documentElement.namespaceURI === 'DAV:') {
@@ -586,7 +586,10 @@ OC.Uploader.prototype = _.extend({
 		_.each(uploads, function(upload) {
 			self._uploads[upload.data.uploadId] = upload;
 		});
-		self.totalToUpload = _.reduce(uploads, function(memo, upload) { return memo+upload.getFile().size; }, 0);
+		if (!self._uploading) {
+			self.totalToUpload = 0;
+		}
+		self.totalToUpload += _.reduce(uploads, function(memo, upload) { return memo+upload.getFile().size; }, 0);
 		var semaphore = new OCA.Files.Semaphore(5);
 		var promises = _.map(uploads, function(upload) {
 			return semaphore.acquire().then(function(){
@@ -899,7 +902,7 @@ OC.Uploader.prototype = _.extend({
 				dropZone: options.dropZone, // restrict dropZone to content div
 				autoUpload: false,
 				sequentialUploads: false,
-				limitConcurrentUploads: 10,
+				limitConcurrentUploads: 4,
 				/**
 				 * on first add of every selection
 				 * - check all files of originalFiles array with files in dir

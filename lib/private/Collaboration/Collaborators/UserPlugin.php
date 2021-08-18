@@ -6,6 +6,7 @@
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
@@ -21,16 +22,16 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Collaboration\Collaborators;
 
+use OC\KnownUser\KnownUserService;
 use OCP\Collaboration\Collaborators\ISearchPlugin;
 use OCP\Collaboration\Collaborators\ISearchResult;
 use OCP\Collaboration\Collaborators\SearchResultType;
@@ -45,8 +46,14 @@ use OCP\UserStatus\IManager as IUserStatusManager;
 class UserPlugin implements ISearchPlugin {
 	/* @var bool */
 	protected $shareWithGroupOnly;
+	/* @var bool */
 	protected $shareeEnumeration;
+	/* @var bool */
 	protected $shareeEnumerationInGroupOnly;
+	/* @var bool */
+	protected $shareeEnumerationPhone;
+	/* @var bool */
+	protected $shareeEnumerationFullMatch;
 
 	/** @var IConfig */
 	private $config;
@@ -56,33 +63,30 @@ class UserPlugin implements ISearchPlugin {
 	private $userSession;
 	/** @var IUserManager */
 	private $userManager;
+	/** @var KnownUserService */
+	private $knownUserService;
 	/** @var IUserStatusManager */
 	private $userStatusManager;
 
-	/**
-	 * UserPlugin constructor.
-	 *
-	 * @param IConfig $config
-	 * @param IUserManager $userManager
-	 * @param IGroupManager $groupManager
-	 * @param IUserSession $userSession
-	 * @param IUserStatusManager $userStatusManager
-	 */
 	public function __construct(IConfig $config,
 								IUserManager $userManager,
 								IGroupManager $groupManager,
 								IUserSession $userSession,
+								KnownUserService $knownUserService,
 								IUserStatusManager $userStatusManager) {
 		$this->config = $config;
 
 		$this->groupManager = $groupManager;
 		$this->userSession = $userSession;
 		$this->userManager = $userManager;
+		$this->knownUserService = $knownUserService;
 		$this->userStatusManager = $userStatusManager;
 
 		$this->shareWithGroupOnly = $this->config->getAppValue('core', 'shareapi_only_share_with_group_members', 'no') === 'yes';
 		$this->shareeEnumeration = $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes';
 		$this->shareeEnumerationInGroupOnly = $this->shareeEnumeration && $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_group', 'no') === 'yes';
+		$this->shareeEnumerationPhone = $this->shareeEnumeration && $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_phone', 'no') === 'yes';
+		$this->shareeEnumerationFullMatch = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match', 'yes') === 'yes';
 	}
 
 	public function search($search, $limit, $offset, ISearchResult $searchResult) {
@@ -90,8 +94,9 @@ class UserPlugin implements ISearchPlugin {
 		$users = [];
 		$hasMoreResults = false;
 
+		$currentUserId = $this->userSession->getUser()->getUID();
 		$currentUserGroups = $this->groupManager->getUserGroupIds($this->userSession->getUser());
-		if ($this->shareWithGroupOnly) {
+		if ($this->shareWithGroupOnly || $this->shareeEnumerationInGroupOnly) {
 			// Search in all the groups this user is part of
 			foreach ($currentUserGroups as $userGroupId) {
 				$usersInGroup = $this->groupManager->displayNamesInGroup($userGroupId, $search, $limit, $offset);
@@ -108,9 +113,32 @@ class UserPlugin implements ISearchPlugin {
 					$hasMoreResults = true;
 				}
 			}
+
+			if (!$this->shareWithGroupOnly && $this->shareeEnumerationPhone) {
+				$usersTmp = $this->userManager->searchKnownUsersByDisplayName($currentUserId, $search, $limit, $offset);
+				if (!empty($usersTmp)) {
+					foreach ($usersTmp as $user) {
+						if ($user->isEnabled()) { // Don't keep deactivated users
+							$users[$user->getUID()] = $user;
+						}
+					}
+
+					uasort($users, function ($a, $b) {
+						/**
+						 * @var \OC\User\User $a
+						 * @var \OC\User\User $b
+						 */
+						return strcasecmp($a->getDisplayName(), $b->getDisplayName());
+					});
+				}
+			}
 		} else {
 			// Search in all users
-			$usersTmp = $this->userManager->searchDisplayName($search, $limit, $offset);
+			if ($this->shareeEnumerationPhone) {
+				$usersTmp = $this->userManager->searchKnownUsersByDisplayName($currentUserId, $search, $limit, $offset);
+			} else {
+				$usersTmp = $this->userManager->searchDisplayName($search, $limit, $offset);
+			}
 			foreach ($usersTmp as $user) {
 				if ($user->isEnabled()) { // Don't keep deactivated users
 					$users[$user->getUID()] = $user;
@@ -147,6 +175,7 @@ class UserPlugin implements ISearchPlugin {
 
 
 			if (
+				$this->shareeEnumerationFullMatch &&
 				$lowerSearch !== '' && (strtolower($uid) === $lowerSearch ||
 				strtolower($userDisplayName) === $lowerSearch ||
 				strtolower($userEmail) === $lowerSearch)
@@ -162,15 +191,21 @@ class UserPlugin implements ISearchPlugin {
 						'shareType' => IShare::TYPE_USER,
 						'shareWith' => $uid,
 					],
+					'shareWithDisplayNameUnique' => !empty($userEmail) ? $userEmail : $uid,
 					'status' => $status,
 				];
 			} else {
 				$addToWideResults = false;
-				if ($this->shareeEnumeration && !$this->shareeEnumerationInGroupOnly) {
+				if ($this->shareeEnumeration &&
+					!($this->shareeEnumerationInGroupOnly || $this->shareeEnumerationPhone)) {
 					$addToWideResults = true;
 				}
 
-				if ($this->shareeEnumerationInGroupOnly) {
+				if ($this->shareeEnumerationPhone && $this->knownUserService->isKnownToUser($currentUserId, $user->getUID())) {
+					$addToWideResults = true;
+				}
+
+				if (!$addToWideResults && $this->shareeEnumerationInGroupOnly) {
 					$commonGroups = array_intersect($currentUserGroups, $this->groupManager->getUserGroupIds($user));
 					if (!empty($commonGroups)) {
 						$addToWideResults = true;
@@ -186,13 +221,14 @@ class UserPlugin implements ISearchPlugin {
 							'shareType' => IShare::TYPE_USER,
 							'shareWith' => $uid,
 						],
+						'shareWithDisplayNameUnique' => !empty($userEmail) ? $userEmail : $uid,
 						'status' => $status,
 					];
 				}
 			}
 		}
 
-		if ($offset === 0 && !$foundUserById) {
+		if ($this->shareeEnumerationFullMatch && $offset === 0 && !$foundUserById) {
 			// On page one we try if the search result has a direct hit on the
 			// user id and if so, we add that to the exact match list
 			$user = $this->userManager->get($search);
@@ -207,6 +243,8 @@ class UserPlugin implements ISearchPlugin {
 
 				if ($addUser) {
 					$status = [];
+					$uid = $user->getUID();
+					$userEmail = $user->getEMailAddress();
 					if (array_key_exists($user->getUID(), $userStatuses)) {
 						$userStatus = $userStatuses[$user->getUID()];
 						$status = [
@@ -227,6 +265,7 @@ class UserPlugin implements ISearchPlugin {
 							'shareType' => IShare::TYPE_USER,
 							'shareWith' => $user->getUID(),
 						],
+						'shareWithDisplayNameUnique' => $userEmail !== null && $userEmail !== '' ? $userEmail : $uid,
 						'status' => $status,
 					];
 				}

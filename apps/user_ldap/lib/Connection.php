@@ -34,7 +34,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\User_LDAP;
 
 use OC\ServerNotAvailableException;
@@ -257,17 +256,15 @@ class Connection extends LDAPUtility {
 	/**
 	 * @param string $key
 	 * @param mixed $value
-	 *
-	 * @return string
 	 */
-	public function writeToCache($key, $value) {
+	public function writeToCache($key, $value): void {
 		if (!$this->configured) {
 			$this->readConfiguration();
 		}
 		if (is_null($this->cache)
 			|| !$this->configuration->ldapCacheTTL
 			|| !$this->configuration->ldapConfigurationActive) {
-			return null;
+			return;
 		}
 		$key = $this->getCacheKey($key);
 		$value = base64_encode(json_encode($value));
@@ -676,9 +673,12 @@ class Connection extends LDAPUtility {
 				'Bind failed: ' . $errno . ': ' . $this->ldap->error($cr),
 				ILogger::WARN);
 
-			// Set to failure mode, if LDAP error code is not LDAP_SUCCESS or LDAP_INVALID_CREDENTIALS
-			// or (needed for Apple Open Directory:) LDAP_INSUFFICIENT_ACCESS
-			if ($errno !== 0 && $errno !== 49 && $errno !== 50) {
+			// Set to failure mode, if LDAP error code is not one of
+			// - LDAP_SUCCESS (0)
+			// - LDAP_INVALID_CREDENTIALS (49)
+			// - LDAP_INSUFFICIENT_ACCESS (50, spotted Apple Open Directory)
+			// - LDAP_UNWILLING_TO_PERFORM (53, spotted eDirectory)
+			if (!in_array($errno, [0, 49, 50, 53], true)) {
 				$this->ldapConnectionRes = null;
 			}
 

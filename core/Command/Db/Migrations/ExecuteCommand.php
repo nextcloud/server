@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2017 Joas Schilling <coding@schilljs.com>
  * @copyright Copyright (c) 2017, ownCloud GmbH
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  *
  * @license AGPL-3.0
@@ -20,14 +21,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Core\Command\Db\Migrations;
 
+use OC\DB\Connection;
 use OC\DB\MigrationService;
 use OC\Migration\ConsoleOutput;
-use OCP\App\IAppManager;
 use OCP\IConfig;
-use OCP\IDBConnection;
 use Stecman\Component\Symfony\Console\BashCompletion\Completion\CompletionAwareInterface;
 use Stecman\Component\Symfony\Console\BashCompletion\CompletionContext;
 use Symfony\Component\Console\Command\Command;
@@ -37,23 +36,19 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class ExecuteCommand extends Command implements CompletionAwareInterface {
 
-	/** @var IDBConnection */
+	/** @var Connection */
 	private $connection;
 
 	/** @var IConfig */
 	private $config;
 
-	/** @var IAppManager */
-	protected $appManager;
-
 	/**
 	 * ExecuteCommand constructor.
 	 *
-	 * @param IDBConnection $connection
+	 * @param Connection $connection
 	 * @param IConfig $config
-	 * @param IAppManager $appManager
 	 */
-	public function __construct(IDBConnection $connection, IAppManager $appManager, IConfig $config) {
+	public function __construct(Connection $connection, IConfig $config) {
 		$this->connection = $connection;
 		$this->config = $config;
 

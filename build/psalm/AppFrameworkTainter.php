@@ -40,7 +40,7 @@ class AppFrameworkTainter implements AfterFunctionLikeAnalysisInterface {
 					if ($stmt->isPublic() && !$stmt->isMagic()) {
 						foreach ($stmt->params as $i => $param) {
 							$expr_type = new Psalm\Type\Union([new Psalm\Type\Atomic\TString()]);
-							$expr_identifier = (strtolower($statements_source->getFQCLN()) . '::' . strtolower($classlike_storage->cased_name) . '#' . ($i+1));
+							$expr_identifier = (strtolower($statements_source->getFQCLN()) . '::' . strtolower($classlike_storage->cased_name) . '#' . ($i + 1));
 
 							if ($expr_type) {
 								$codebase->addTaintSource(

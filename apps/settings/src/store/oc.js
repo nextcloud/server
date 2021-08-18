@@ -2,6 +2,7 @@
  * @copyright Copyright (c) 2018 John Molakvoæ <skjnldsv@protonmail.com>
  *
  * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -39,7 +40,7 @@ const actions = {
 	 */
 	setAppConfig(context, { app, key, value }) {
 		return api.requireAdmin().then((response) => {
-			return api.post(generateOcsUrl(`apps/provisioning_api/api/v1/config/apps/${app}/${key}`, 2), { value })
+			return api.post(generateOcsUrl('apps/provisioning_api/api/v1/config/apps/{app}/{key}', { app, key }), { value })
 				.catch((error) => { throw error })
 		}).catch((error) => context.commit('API_FAILURE', { app, key, value, error }))
 	},

@@ -4,7 +4,8 @@
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Elijah Martin-Merrill <elijah@nyp-itsours.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author J0WI <J0WI@users.noreply.github.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -19,14 +20,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Preview;
 
 use OCP\Files\File;
@@ -238,8 +238,8 @@ class Generator {
 					continue;
 				}
 
-				$maxWidth = (int)$this->config->getSystemValue('preview_max_x', 4096);
-				$maxHeight = (int)$this->config->getSystemValue('preview_max_y', 4096);
+				$maxWidth = $this->config->getSystemValueInt('preview_max_x', 4096);
+				$maxHeight = $this->config->getSystemValueInt('preview_max_y', 4096);
 
 				$preview = $this->helper->getThumbnail($provider, $file, $maxWidth, $maxHeight);
 

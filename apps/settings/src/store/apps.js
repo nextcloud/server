@@ -1,7 +1,9 @@
-/*
+/**
  * @copyright Copyright (c) 2018 Julius Härtl <jus@bitgrid.net>
  *
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Julius Härtl <jus@bitgrid.net>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -198,7 +200,7 @@ const actions = {
 							if (!Array.isArray(appId)) {
 								context.commit('setError', {
 									appId: apps,
-									error: t('settings', 'Error: This app can not be enabled because it makes the server unstable'),
+									error: t('settings', 'Error: This app cannot be enabled because it makes the server unstable'),
 								})
 							}
 						})

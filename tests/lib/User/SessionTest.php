@@ -21,6 +21,7 @@ use OC\User\User;
 use OCA\DAV\Connector\Sabre\Auth;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\ILogger;
 use OCP\IRequest;
@@ -232,7 +233,8 @@ class SessionTest extends \Test\TestCase {
 			->setConstructorArgs([
 				$this->config,
 				$this->createMock(EventDispatcherInterface::class),
-				$this->createMock(IEventDispatcher::class)
+				$this->createMock(ICacheFactory::class),
+				$this->createMock(IEventDispatcher::class),
 			])
 			->getMock();
 
@@ -298,7 +300,8 @@ class SessionTest extends \Test\TestCase {
 			->setConstructorArgs([
 				$this->config,
 				$this->createMock(EventDispatcherInterface::class),
-				$this->createMock(IEventDispatcher::class)
+				$this->createMock(ICacheFactory::class),
+				$this->createMock(IEventDispatcher::class),
 			])
 			->getMock();
 
@@ -331,7 +334,8 @@ class SessionTest extends \Test\TestCase {
 			->setConstructorArgs([
 				$this->config,
 				$this->createMock(EventDispatcherInterface::class),
-				$this->createMock(IEventDispatcher::class)
+				$this->createMock(ICacheFactory::class),
+				$this->createMock(IEventDispatcher::class),
 			])
 			->getMock();
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
@@ -574,7 +578,8 @@ class SessionTest extends \Test\TestCase {
 			->setConstructorArgs([
 				$this->config,
 				$this->createMock(EventDispatcherInterface::class),
-				$this->createMock(IEventDispatcher::class)
+				$this->createMock(ICacheFactory::class),
+				$this->createMock(IEventDispatcher::class),
 			])
 			->getMock();
 		$userSession = $this->getMockBuilder(Session::class)
@@ -663,7 +668,8 @@ class SessionTest extends \Test\TestCase {
 			->setConstructorArgs([
 				$this->config,
 				$this->createMock(EventDispatcherInterface::class),
-				$this->createMock(IEventDispatcher::class)
+				$this->createMock(ICacheFactory::class),
+				$this->createMock(IEventDispatcher::class),
 			])
 			->getMock();
 		$userSession = $this->getMockBuilder(Session::class)
@@ -727,7 +733,8 @@ class SessionTest extends \Test\TestCase {
 			->setConstructorArgs([
 				$this->config,
 				$this->createMock(EventDispatcherInterface::class),
-				$this->createMock(IEventDispatcher::class)
+				$this->createMock(ICacheFactory::class),
+				$this->createMock(IEventDispatcher::class),
 			])
 			->getMock();
 		$userSession = $this->getMockBuilder(Session::class)
@@ -779,7 +786,8 @@ class SessionTest extends \Test\TestCase {
 			->setConstructorArgs([
 				$this->config,
 				$this->createMock(EventDispatcherInterface::class),
-				$this->createMock(IEventDispatcher::class)
+				$this->createMock(ICacheFactory::class),
+				$this->createMock(IEventDispatcher::class),
 			])
 			->getMock();
 		$userSession = $this->getMockBuilder(Session::class)

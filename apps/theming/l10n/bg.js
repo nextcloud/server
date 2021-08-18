@@ -16,6 +16,7 @@ OC.L10N.register(
     "Missing a temporary folder" : "Липсва временна папка",
     "No file uploaded" : "Няма качен файл",
     "Theming" : "Теми",
+    "Privacy policy" : "Политика за поверителност",
     "Open documentation" : "Отвори документацията",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Чрез темите можете бързо и лесно за персонализирате вида на Nextcloud. Промените ще бъдат видими за всички потребители.",
     "Name" : "Име",
@@ -30,7 +31,6 @@ OC.L10N.register(
     "Remove background image" : "Премахни фоновото изображение",
     "Advanced options" : "Допълнителни опции",
     "Header logo" : "Главно лого",
-    "Favicon" : "Фавиконка",
-    "Unsupported image type" : "Неподдържан тип изображение"
+    "Favicon" : "Фавиконка"
 },
 "nplurals=2; plural=(n != 1);");

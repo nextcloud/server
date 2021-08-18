@@ -73,7 +73,6 @@ OC.L10N.register(
     "Please specify a file or folder path" : "Please specify a file or folder path",
     "Wrong path, file/folder doesn't exist" : "Wrong path, file/folder doesn't exist",
     "Could not create share" : "Could not create share",
-    "invalid permissions" : "invalid permissions",
     "Please specify a valid user" : "Please specify a valid user",
     "Group sharing is disabled by the administrator" : "Group sharing is disabled by the administrator",
     "Please specify a valid group" : "Please specify a valid group",
@@ -87,10 +86,8 @@ OC.L10N.register(
     "Not a directory" : "Not a directory",
     "Could not lock path" : "Could not lock path",
     "Wrong or no update parameter given" : "Wrong or no update parameter given",
-    "Can't change permissions for public share links" : "Can't change permissions for public share links",
     "shared by %s" : "shared by %s",
     "Direct link" : "Direct link",
-    "Add to your Nextcloud" : "Add to your Nextcloud",
     "Share API is disabled" : "Share API is disabled",
     "File sharing" : "File sharing",
     "Accept" : "Accept",
@@ -139,6 +136,8 @@ OC.L10N.register(
     "Note" : "Note",
     "Select or drop files" : "Select or drop files",
     "Uploaded files:" : "Uploaded files:",
-    "Uploading files…" : "Uploading files…"
+    "Add to your Nextcloud" : "Add to your Nextcloud",
+    "invalid permissions" : "invalid permissions",
+    "Can't change permissions for public share links" : "Can't change permissions for public share links"
 },
 "nplurals=2; plural=(n != 1);");

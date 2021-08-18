@@ -22,8 +22,8 @@ use OCP\ILogger;
 use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
 use OCP\Mail\Events\BeforeMessageSent;
-use Test\TestCase;
 use Swift_SwiftException;
+use Test\TestCase;
 
 class MailerTest extends TestCase {
 	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
@@ -178,6 +178,7 @@ class MailerTest extends TestCase {
 			['lukas@192.168.1.1', true],
 			['lukas@éxämplè.com', true],
 			['asdf', false],
+			['', false],
 			['lukas@owncloud.org@owncloud.com', false],
 		];
 	}
@@ -216,5 +217,43 @@ class MailerTest extends TestCase {
 			]);
 		$mailer = self::invokePrivate($this->mailer, 'getInstance');
 		$this->assertEquals(0, count($mailer->getTransport()->getStreamOptions()));
+	}
+
+	public function testLocalDomain(): void {
+		$this->config->method('getSystemValue')
+			->willReturnMap([
+				['mail_smtpmode', 'smtp', 'smtp']
+			]);
+		$this->config->method('getSystemValueString')
+			->with('overwrite.cli.url', '')
+			->willReturn('https://some.valid.url.com:8080');
+
+		/** @var \Swift_Mailer $mailer */
+		$mailer = self::invokePrivate($this->mailer, 'getInstance');
+		self::assertInstanceOf(\Swift_Mailer::class, $mailer);
+
+		/** @var \Swift_Transport_EsmtpTransport $transport */
+		$transport = $mailer->getTransport();
+		self::assertInstanceOf(\Swift_Transport_EsmtpTransport::class, $transport);
+		self::assertEquals('some.valid.url.com', $transport->getLocalDomain());
+	}
+
+	public function testLocalDomainInvalidUrl(): void {
+		$this->config->method('getSystemValue')
+			->willReturnMap([
+				['mail_smtpmode', 'smtp', 'smtp']
+			]);
+		$this->config->method('getSystemValueString')
+			->with('overwrite.cli.url', '')
+			->willReturn('https:only.slash.does.not.work:8080');
+
+		/** @var \Swift_Mailer $mailer */
+		$mailer = self::invokePrivate($this->mailer, 'getInstance');
+		self::assertInstanceOf(\Swift_Mailer::class, $mailer);
+
+		/** @var \Swift_Transport_EsmtpTransport $transport */
+		$transport = $mailer->getTransport();
+		self::assertInstanceOf(\Swift_Transport_EsmtpTransport::class, $transport);
+		self::assertEquals('[127.0.0.1]', $transport->getLocalDomain());
 	}
 }

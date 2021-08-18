@@ -9,7 +9,7 @@ OC.L10N.register(
     "You commented on {file}" : "Napišete opombo na {file}",
     "%1$s commented on %2$s" : "%1$s napiše opombo na %2$s",
     "{author} commented on {file}" : "{author} napiše opombo na {file}",
-    "<strong>Comments</strong> for files" : "<strong>Opombe</strong> za datoteke",
+    "<strong>Comments</strong> for files" : "Vpisane so <strong>opombe</strong> k datotekam",
     "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Uporabnik, ki je sicer že izbrisan, vas omeni v opombi k datoteki »{file}«.",
     "{user} mentioned you in a comment on “{file}”" : "{user} vas omeni v opombi na »{file}«",
     "Files app plugin to add comments to files" : "Vstavek programa Datoteke za dodajanje opomb k datotekam",

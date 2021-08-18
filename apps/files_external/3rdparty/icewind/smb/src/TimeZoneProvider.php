@@ -25,7 +25,7 @@ class TimeZoneProvider implements ITimeZoneProvider {
 		$this->system = $system;
 	}
 
-	public function get($host) {
+	public function get(string $host): string {
 		if (!isset($this->timeZones[$host])) {
 			$timeZone = null;
 			$net = $this->system->getNetPath();

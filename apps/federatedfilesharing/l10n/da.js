@@ -30,7 +30,6 @@ OC.L10N.register(
     "Sharing" : "Deling",
     "Federated Cloud Sharing" : "Sammensluttet Cloud deling",
     "Open documentation" : "Åbn dokumentation",
-    "Adjust how people can share between servers." : "Juster hvordan folk kan dele mellem servere.",
     "Allow users on this server to receive shares from other servers" : "Tillad brugere på denne server, at modtage delinger fra andre servere",
     "Search global and public address book for users" : "Søg global og offentlig adresse bog for brugere",
     "Allow users to publish their data to a global and public address book" : "Tillad brugere at offentliggøre deres data til en global adressebog ",
@@ -40,6 +39,6 @@ OC.L10N.register(
     "Add to your website" : "Tilføj til dit websted",
     "Share with me via Nextcloud" : "Del med mig gennem Nextcloud",
     "HTML Code:" : "HTMLkode:",
-    "Allow users on this server to send shares to other servers" : "Tillad brugere på denne server, at sende delinger til andre servere"
+    "Adjust how people can share between servers." : "Juster hvordan folk kan dele mellem servere."
 },
 "nplurals=2; plural=(n != 1);");

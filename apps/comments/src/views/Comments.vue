@@ -70,6 +70,7 @@
 <script>
 import { generateOcsUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
+import { loadState } from '@nextcloud/initial-state'
 import axios from '@nextcloud/axios'
 import VTooltip from 'v-tooltip'
 import Vue from 'vue'
@@ -220,13 +221,13 @@ export default {
 		 * @param {Function} callback the callback to process the results with
 		 */
 		async autoComplete(search, callback) {
-			const results = await axios.get(generateOcsUrl('core', 2) + 'autocomplete/get', {
+			const results = await axios.get(generateOcsUrl('core/autocomplete/get'), {
 				params: {
 					search,
 					itemType: 'files',
 					itemId: this.ressourceId,
 					sorter: 'commenters|share-recipients',
-					limit: OC.appConfig?.comments?.maxAutoCompleteResults || 25,
+					limit: loadState('comments', 'maxAutoCompleteResults'),
 				},
 			})
 			return callback(results.data.ocs.data)

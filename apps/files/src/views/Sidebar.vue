@@ -29,9 +29,13 @@
 		@close="close"
 		@update:active="setActiveTab"
 		@update:starred="toggleStarred"
-		@[defaultActionListener].stop.prevent="onDefaultAction">
+		@[defaultActionListener].stop.prevent="onDefaultAction"
+		@opening="handleOpening"
+		@opened="handleOpened"
+		@closing="handleClosing"
+		@closed="handleClosed">
 		<!-- TODO: create a standard to allow multiple elements here? -->
-		<template v-if="fileInfo" #primary-actions>
+		<template v-if="fileInfo" #description>
 			<LegacyView v-for="view in views"
 				:key="view.cid"
 				:component="view"
@@ -78,6 +82,9 @@
 import { encodePath } from '@nextcloud/paths'
 import $ from 'jquery'
 import axios from '@nextcloud/axios'
+import { emit } from '@nextcloud/event-bus'
+import moment from '@nextcloud/moment'
+
 import AppSidebar from '@nextcloud/vue/dist/Components/AppSidebar'
 import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
 import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
@@ -105,6 +112,7 @@ export default {
 			loading: true,
 			fileInfo: null,
 			starLoading: false,
+			isFullScreen: false,
 		}
 	},
 
@@ -170,6 +178,14 @@ export default {
 		},
 
 		/**
+		 * File last modified full string
+		 * @returns {string}
+		 */
+		fullTime() {
+			return moment(this.fileInfo.mtime).format('LLL')
+		},
+
+		/**
 		 * File size formatted string
 		 * @returns {string}
 		 */
@@ -197,12 +213,17 @@ export default {
 					'star-loading': this.starLoading,
 					active: this.activeTab,
 					background: this.background,
-					class: { 'has-preview': this.fileInfo.hasPreview },
+					class: {
+						'app-sidebar--has-preview': this.fileInfo.hasPreview,
+						'app-sidebar--full': this.isFullScreen,
+					},
 					compact: !this.fileInfo.hasPreview,
 					loading: this.loading,
 					starred: this.fileInfo.isFavourited,
 					subtitle: this.subtitle,
+					subtitleTooltip: this.fullTime,
 					title: this.fileInfo.name,
+					titleTooltip: this.fileInfo.name,
 				}
 			} else if (this.error) {
 				return {
@@ -422,12 +443,36 @@ export default {
 			this.Sidebar.file = ''
 			this.resetData()
 		},
+
+		/**
+		 * Allow to set the Sidebar as fullscreen from OCA.Files.Sidebar
+		 * @param {boolean} isFullScreen - Wether or not to render the Sidebar in fullscreen.
+		 */
+		setFullScreenMode(isFullScreen) {
+			this.isFullScreen = isFullScreen
+		},
+
+		/**
+		 * Emit SideBar events.
+		 */
+		handleOpening() {
+			emit('files:sidebar:opening')
+		},
+		handleOpened() {
+			emit('files:sidebar:opened')
+		},
+		handleClosing() {
+			emit('files:sidebar:closing')
+		},
+		handleClosed() {
+			emit('files:sidebar:closed')
+		},
 	},
 }
 </script>
 <style lang="scss" scoped>
 .app-sidebar {
-	&.has-preview::v-deep {
+	&--has-preview::v-deep {
 		.app-sidebar-header__figure {
 			background-size: cover;
 		}
@@ -438,6 +483,13 @@ export default {
 				background-size: contain;
 			}
 		}
+	}
+
+	&--full {
+		position: fixed !important;
+		z-index: 2025 !important;
+		top: 0 !important;
+		height: 100% !important;
 	}
 }
 </style>

@@ -7,7 +7,7 @@
  * @author Joas Schilling <coding@schilljs.com>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -24,13 +24,14 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Tests\unit\AppInfo;
 
 use OC\App\AppManager;
 use OC\ServerContainer;
 use OCA\DAV\AppInfo\PluginManager;
 use OCA\DAV\CalDAV\Integration\ICalendarProvider;
+use Sabre\DAV\Collection;
+use Sabre\DAV\ServerPlugin;
 use Test\TestCase;
 
 /**
@@ -97,23 +98,31 @@ class PluginManagerTest extends TestCase {
 		$calendarPlugin2 = $this->createMock(ICalendarProvider::class);
 		$calendarPlugin3 = $this->createMock(ICalendarProvider::class);
 
+		$dummyPlugin1 = $this->createMock(ServerPlugin::class);
+		$dummyPlugin2 = $this->createMock(ServerPlugin::class);
+		$dummy2Plugin1 = $this->createMock(ServerPlugin::class);
+
+		$dummyCollection1 = $this->createMock(Collection::class);
+		$dummyCollection2 = $this->createMock(Collection::class);
+		$dummy2Collection1 = $this->createMock(Collection::class);
+
 		$server->method('query')
 			->willReturnMap([
-				['\OCA\DAV\ADavApp\PluginOne', true, 'dummyplugin1'],
-				['\OCA\DAV\ADavApp\PluginTwo', true, 'dummyplugin2'],
+				['\OCA\DAV\ADavApp\PluginOne', true, $dummyPlugin1],
+				['\OCA\DAV\ADavApp\PluginTwo', true, $dummyPlugin2],
 				['\OCA\DAV\ADavApp\CalendarPluginOne', true, $calendarPlugin1],
 				['\OCA\DAV\ADavApp\CalendarPluginTwo', true, $calendarPlugin2],
-				['\OCA\DAV\ADavApp\CollectionOne', true, 'dummycollection1'],
-				['\OCA\DAV\ADavApp\CollectionTwo', true, 'dummycollection2'],
-				['\OCA\DAV\ADavApp2\PluginOne', true, 'dummy2plugin1'],
+				['\OCA\DAV\ADavApp\CollectionOne', true, $dummyCollection1],
+				['\OCA\DAV\ADavApp\CollectionTwo', true, $dummyCollection2],
+				['\OCA\DAV\ADavApp2\PluginOne', true, $dummy2Plugin1],
 				['\OCA\DAV\ADavApp2\CalendarPluginOne', true, $calendarPlugin3],
-				['\OCA\DAV\ADavApp2\CollectionOne', true, 'dummy2collection1'],
+				['\OCA\DAV\ADavApp2\CollectionOne', true, $dummy2Collection1],
 			]);
 
 		$expectedPlugins = [
-			'dummyplugin1',
-			'dummyplugin2',
-			'dummy2plugin1',
+			$dummyPlugin1,
+			$dummyPlugin2,
+			$dummy2Plugin1,
 		];
 		$expectedCalendarPlugins = [
 			$calendarPlugin1,
@@ -121,9 +130,9 @@ class PluginManagerTest extends TestCase {
 			$calendarPlugin3,
 		];
 		$expectedCollections = [
-			'dummycollection1',
-			'dummycollection2',
-			'dummy2collection1',
+			$dummyCollection1,
+			$dummyCollection2,
+			$dummy2Collection1,
 		];
 
 		$this->assertEquals($expectedPlugins, $pluginManager->getAppPlugins());

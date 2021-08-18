@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2018 Bjoern Schiessle <bjoern@schiessle.org>
  *
  * @author Bjoern Schiessle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -13,14 +14,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Federation;
 
 use OC\AppFramework\Http;
@@ -167,7 +167,7 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 	/**
 	 * @param string $url
 	 * @param ICloudFederationNotification $notification
-	 * @return mixed
+	 * @return array|false
 	 */
 	public function sendNotification($url, ICloudFederationNotification $notification) {
 		$ocmEndPoint = $this->getOCMEndPoint($url);

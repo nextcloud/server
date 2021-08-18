@@ -16,14 +16,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\CalDAV\Activity;
 
 use OCA\DAV\CalDAV\Activity\Provider\Calendar;
@@ -85,12 +84,32 @@ class Backend {
 	}
 
 	/**
+	 * Creates activities when a calendar was moved to trash
+	 *
+	 * @param array $calendarData
+	 * @param array $shares
+	 */
+	public function onCalendarMovedToTrash(array $calendarData, array $shares): void {
+		$this->triggerCalendarActivity(Calendar::SUBJECT_MOVE_TO_TRASH, $calendarData, $shares);
+	}
+
+	/**
+	 * Creates activities when a calendar was restored
+	 *
+	 * @param array $calendarData
+	 * @param array $shares
+	 */
+	public function onCalendarRestored(array $calendarData, array $shares): void {
+		$this->triggerCalendarActivity(Calendar::SUBJECT_RESTORE, $calendarData, $shares);
+	}
+
+	/**
 	 * Creates activities when a calendar was deleted
 	 *
 	 * @param array $calendarData
 	 * @param array $shares
 	 */
-	public function onCalendarDelete(array $calendarData, array $shares) {
+	public function onCalendarDelete(array $calendarData, array $shares): void {
 		$this->triggerCalendarActivity(Calendar::SUBJECT_DELETE, $calendarData, $shares);
 	}
 

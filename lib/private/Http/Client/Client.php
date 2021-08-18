@@ -5,6 +5,7 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Carlos Ferreira <carlos@reendex.com>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Joas Schilling <coding@schilljs.com>
@@ -30,14 +31,12 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Http\Client;
 
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\RequestOptions;
 use OCP\Http\Client\IClient;
 use OCP\Http\Client\IResponse;
-use OCP\Http\Client\LocalServerException;
 use OCP\ICertificateManager;
 use OCP\IConfig;
 use OCP\ILogger;
@@ -56,17 +55,21 @@ class Client implements IClient {
 	private $logger;
 	/** @var ICertificateManager */
 	private $certificateManager;
+	/** @var LocalAddressChecker */
+	private $localAddressChecker;
 
 	public function __construct(
 		IConfig $config,
 		ILogger $logger,
 		ICertificateManager $certificateManager,
-		GuzzleClient $client
+		GuzzleClient $client,
+		LocalAddressChecker $localAddressChecker
 	) {
 		$this->config = $config;
 		$this->logger = $logger;
 		$this->client = $client;
 		$this->certificateManager = $certificateManager;
+		$this->localAddressChecker = $localAddressChecker;
 	}
 
 	private function buildRequestOptions(array $options): array {
@@ -76,6 +79,21 @@ class Client implements IClient {
 			RequestOptions::VERIFY => $this->getCertBundle(),
 			RequestOptions::TIMEOUT => 30,
 		];
+
+		$options['nextcloud']['allow_local_address'] = $this->isLocalAddressAllowed($options);
+		if ($options['nextcloud']['allow_local_address'] === false) {
+			$onRedirectFunction = function (
+				\Psr\Http\Message\RequestInterface $request,
+				\Psr\Http\Message\ResponseInterface $response,
+				\Psr\Http\Message\UriInterface $uri
+			) use ($options) {
+				$this->preventLocalAddress($uri->__toString(), $options);
+			};
+
+			$defaults[RequestOptions::ALLOW_REDIRECTS] = [
+				'on_redirect' => $onRedirectFunction
+			];
+		}
 
 		// Only add RequestOptions::PROXY if Nextcloud is explicitly
 		// configured to use a proxy. This is needed in order not to override
@@ -92,6 +110,12 @@ class Client implements IClient {
 
 		if (!isset($options[RequestOptions::HEADERS]['Accept-Encoding'])) {
 			$options[RequestOptions::HEADERS]['Accept-Encoding'] = 'gzip';
+		}
+
+		// Fallback for save_to
+		if (isset($options['save_to'])) {
+			$options['sink'] = $options['save_to'];
+			unset($options['save_to']);
 		}
 
 		return $options;
@@ -148,51 +172,21 @@ class Client implements IClient {
 		return $proxy;
 	}
 
-	protected function preventLocalAddress(string $uri, array $options): void {
+	private function isLocalAddressAllowed(array $options) : bool {
 		if (($options['nextcloud']['allow_local_address'] ?? false) ||
 			$this->config->getSystemValueBool('allow_local_remote_servers', false)) {
+			return true;
+		}
+
+		return false;
+	}
+
+	protected function preventLocalAddress(string $uri, array $options): void {
+		if ($this->isLocalAddressAllowed($options)) {
 			return;
 		}
 
-		$host = parse_url($uri, PHP_URL_HOST);
-		if ($host === false || $host === null) {
-			$this->logger->warning("Could not detect any host in $uri");
-			throw new LocalServerException('Could not detect any host');
-		}
-
-		$host = strtolower($host);
-		// Remove brackets from IPv6 addresses
-		if (strpos($host, '[') === 0 && substr($host, -1) === ']') {
-			$host = substr($host, 1, -1);
-		}
-
-		// Disallow localhost and local network
-		if ($host === 'localhost' || substr($host, -6) === '.local' || substr($host, -10) === '.localhost') {
-			$this->logger->warning("Host $host was not connected to because it violates local access rules");
-			throw new LocalServerException('Host violates local access rules');
-		}
-
-		// Disallow hostname only
-		if (substr_count($host, '.') === 0) {
-			$this->logger->warning("Host $host was not connected to because it violates local access rules");
-			throw new LocalServerException('Host violates local access rules');
-		}
-
-		if ((bool)filter_var($host, FILTER_VALIDATE_IP) && !filter_var($host, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) {
-			$this->logger->warning("Host $host was not connected to because it violates local access rules");
-			throw new LocalServerException('Host violates local access rules');
-		}
-
-		// Also check for IPv6 IPv4 nesting, because that's not covered by filter_var
-		if ((bool)filter_var($host, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6) && substr_count($host, '.') > 0) {
-			$delimiter = strrpos($host, ':'); // Get last colon
-			$ipv4Address = substr($host, $delimiter + 1);
-
-			if (!filter_var($ipv4Address, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) {
-				$this->logger->warning("Host $host was not connected to because it violates local access rules");
-				throw new LocalServerException('Host violates local access rules');
-			}
-		}
+		$this->localAddressChecker->ThrowIfLocalAddress($uri);
 	}
 
 	/**
@@ -217,7 +211,7 @@ class Client implements IClient {
 	 *                   'referer'   => true,     // add a Referer header
 	 *                   'protocols' => ['https'] // only allow https URLs
 	 *              ],
-	 *              'save_to' => '/path/to/file', // save to a file or a stream
+	 *              'sink' => '/path/to/file', // save to a file or a stream
 	 *              'verify' => true, // bool or string to CA file
 	 *              'debug' => true,
 	 *              'timeout' => 5,
@@ -248,7 +242,7 @@ class Client implements IClient {
 	 *                   'referer'   => true,     // add a Referer header
 	 *                   'protocols' => ['https'] // only allow https URLs
 	 *              ],
-	 *              'save_to' => '/path/to/file', // save to a file or a stream
+	 *              'sink' => '/path/to/file', // save to a file or a stream
 	 *              'verify' => true, // bool or string to CA file
 	 *              'debug' => true,
 	 *              'timeout' => 5,
@@ -283,7 +277,7 @@ class Client implements IClient {
 	 *                   'referer'   => true,     // add a Referer header
 	 *                   'protocols' => ['https'] // only allow https URLs
 	 *              ],
-	 *              'save_to' => '/path/to/file', // save to a file or a stream
+	 *              'sink' => '/path/to/file', // save to a file or a stream
 	 *              'verify' => true, // bool or string to CA file
 	 *              'debug' => true,
 	 *              'timeout' => 5,
@@ -323,7 +317,7 @@ class Client implements IClient {
 	 *                   'referer'   => true,     // add a Referer header
 	 *                   'protocols' => ['https'] // only allow https URLs
 	 *              ],
-	 *              'save_to' => '/path/to/file', // save to a file or a stream
+	 *              'sink' => '/path/to/file', // save to a file or a stream
 	 *              'verify' => true, // bool or string to CA file
 	 *              'debug' => true,
 	 *              'timeout' => 5,
@@ -358,7 +352,7 @@ class Client implements IClient {
 	 *                   'referer'   => true,     // add a Referer header
 	 *                   'protocols' => ['https'] // only allow https URLs
 	 *              ],
-	 *              'save_to' => '/path/to/file', // save to a file or a stream
+	 *              'sink' => '/path/to/file', // save to a file or a stream
 	 *              'verify' => true, // bool or string to CA file
 	 *              'debug' => true,
 	 *              'timeout' => 5,
@@ -393,7 +387,7 @@ class Client implements IClient {
 	 *                   'referer'   => true,     // add a Referer header
 	 *                   'protocols' => ['https'] // only allow https URLs
 	 *              ],
-	 *              'save_to' => '/path/to/file', // save to a file or a stream
+	 *              'sink' => '/path/to/file', // save to a file or a stream
 	 *              'verify' => true, // bool or string to CA file
 	 *              'debug' => true,
 	 *              'timeout' => 5,

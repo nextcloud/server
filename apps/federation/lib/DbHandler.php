@@ -7,6 +7,7 @@
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @license AGPL-3.0
@@ -24,11 +25,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Federation;
 
 use OC\Files\Filesystem;
-use OC\HintException;
+use OCP\HintException;
 use OCP\IDBConnection;
 use OCP\IL10N;
 
@@ -87,7 +87,7 @@ class DbHandler {
 		$result = $query->execute();
 
 		if ($result) {
-			return (int)$this->connection->lastInsertId('*PREFIX*'.$this->dbTable);
+			return $query->getLastInsertId();
 		}
 
 		$message = 'Internal failure, Could not add trusted server: ' . $url;

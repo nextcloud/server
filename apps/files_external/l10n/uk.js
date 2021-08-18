@@ -1,7 +1,7 @@
 OC.L10N.register(
     "files_external",
     {
-    "External storages" : "Зовнішні сховища",
+    "External storage" : "Зовнішнє сховище",
     "Personal" : "Особисте",
     "System" : "Система",
     "Grant access" : "Дозволити доступ",
@@ -10,7 +10,6 @@ OC.L10N.register(
     "Generate keys" : "Створити ключі",
     "Error generating key pair" : "Помилка створення ключової пари",
     "All users. Type to select user or group." : "Всі користувачі. Введіть ім'я користувача або групи.",
-    "(group)" : "(група)",
     "Enable encryption" : "Увімкнути шифрування",
     "Enable previews" : "Увімкнути попередній перегляд",
     "Enable sharing" : "Увімкнути спільний доступ",
@@ -78,7 +77,6 @@ OC.L10N.register(
     "Share" : "Поділитися",
     "Show hidden files" : "Показати приховані файли",
     "Timeout" : "Час вичерпано",
-    "SMB / CIFS using OC login" : "SMB / CIFS з використанням логіна OC",
     "Username as share" : "Ім'я для відкритого доступу",
     "OpenStack Object Storage" : "OpenStack Object Storage",
     "Service name" : "Назва служби",
@@ -87,7 +85,6 @@ OC.L10N.register(
     "Scope" : "Область",
     "Open documentation" : "Відкрити документацію",
     "Folder name" : "Ім'я теки",
-    "External storage" : "Зовнішнє сховище",
     "Authentication" : "Автентифікація",
     "Configuration" : "Налаштування",
     "Available for" : "Доступний для",
@@ -95,6 +92,8 @@ OC.L10N.register(
     "Add storage" : "Додати сховище",
     "Advanced settings" : "Розширені налаштування",
     "Allow users to mount external storage" : "Дозволити користувачам монтувати зовнішні сховища",
-    "Saving..." : "Збереження..."
+    "External storages" : "Зовнішні сховища",
+    "(group)" : "(група)",
+    "SMB / CIFS using OC login" : "SMB / CIFS з використанням логіна OC"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

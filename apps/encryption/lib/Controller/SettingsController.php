@@ -4,6 +4,7 @@
  *
  * @author Björn Schießle <bjoern@schiessle.org>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Morris Jobke <hey@morrisjobke.de>
  *
  * @license AGPL-3.0
  *
@@ -20,7 +21,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Encryption\Controller;
 
 use OCA\Encryption\Crypto\Crypt;
@@ -142,11 +142,11 @@ class SettingsController extends Controller {
 		if ($result === true) {
 			$this->session->setStatus(Session::INIT_SUCCESSFUL);
 			return new DataResponse(
-				['message' => (string) $this->l->t('Private key password successfully updated.')]
+				['message' => $this->l->t('Private key password successfully updated.')]
 			);
 		} else {
 			return new DataResponse(
-				['message' => (string) $errorMessage],
+				['message' => $errorMessage],
 				Http::STATUS_BAD_REQUEST
 			);
 		}

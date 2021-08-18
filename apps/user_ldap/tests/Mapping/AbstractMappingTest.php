@@ -6,7 +6,6 @@
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Stefan Weil <sw@weilnetz.de>
  *
@@ -25,7 +24,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\User_LDAP\Tests\Mapping;
 
 use OCA\User_LDAP\Mapping\AbstractMapping;
@@ -106,7 +104,7 @@ abstract class AbstractMappingTest extends \Test\TestCase {
 	 * Hint: successful mapping is tested inherently with mapEntries().
 	 */
 	public function testMap() {
-		list($mapper, $data) = $this->initTest();
+		[$mapper, $data] = $this->initTest();
 
 		// test that mapping will not happen when it shall not
 		$tooLongDN = 'uid=joann,ou=Secret Small Specialized Department,ou=Some Tremendously Important Department,ou=Another Very Important Department,ou=Pretty Meaningful Derpartment,ou=Quite Broad And General Department,ou=The Topmost Department,dc=hugelysuccessfulcompany,dc=com';
@@ -126,7 +124,7 @@ abstract class AbstractMappingTest extends \Test\TestCase {
 	 * mapping entries
 	 */
 	public function testUnmap() {
-		list($mapper, $data) = $this->initTest();
+		[$mapper, $data] = $this->initTest();
 
 		foreach ($data as $entry) {
 			$result = $mapper->unmap($entry['name']);
@@ -142,7 +140,7 @@ abstract class AbstractMappingTest extends \Test\TestCase {
 	 * and unsuccessful requests.
 	 */
 	public function testGetMethods() {
-		list($mapper, $data) = $this->initTest();
+		[$mapper, $data] = $this->initTest();
 
 		foreach ($data as $entry) {
 			$fdn = $mapper->getDNByName($entry['name']);
@@ -170,7 +168,7 @@ abstract class AbstractMappingTest extends \Test\TestCase {
 	 * tests getNamesBySearch() for successful and unsuccessful requests.
 	 */
 	public function testSearch() {
-		list($mapper,) = $this->initTest();
+		[$mapper,] = $this->initTest();
 
 		$names = $mapper->getNamesBySearch('oo', '%', '%');
 		$this->assertTrue(is_array($names));
@@ -186,7 +184,7 @@ abstract class AbstractMappingTest extends \Test\TestCase {
 	 * tests setDNbyUUID() for successful and unsuccessful update.
 	 */
 	public function testSetDNMethod() {
-		list($mapper, $data) = $this->initTest();
+		[$mapper, $data] = $this->initTest();
 
 		$newDN = 'uid=modified,dc=example,dc=org';
 		$done = $mapper->setDNbyUUID($newDN, $data[0]['uuid']);
@@ -206,7 +204,7 @@ abstract class AbstractMappingTest extends \Test\TestCase {
 	 */
 	public function testSetUUIDMethod() {
 		/** @var AbstractMapping $mapper */
-		list($mapper, $data) = $this->initTest();
+		[$mapper, $data] = $this->initTest();
 
 		$newUUID = 'ABC737-DEF754';
 
@@ -225,7 +223,7 @@ abstract class AbstractMappingTest extends \Test\TestCase {
 	 * tests clear() for successful update.
 	 */
 	public function testClear() {
-		list($mapper, $data) = $this->initTest();
+		[$mapper, $data] = $this->initTest();
 
 		$done = $mapper->clear();
 		$this->assertTrue($done);
@@ -239,7 +237,7 @@ abstract class AbstractMappingTest extends \Test\TestCase {
 	 * tests clear() for successful update.
 	 */
 	public function testClearCb() {
-		list($mapper, $data) = $this->initTest();
+		[$mapper, $data] = $this->initTest();
 
 		$callbackCalls = 0;
 		$test = $this;
@@ -262,7 +260,7 @@ abstract class AbstractMappingTest extends \Test\TestCase {
 	 * tests getList() method
 	 */
 	public function testList() {
-		list($mapper, $data) = $this->initTest();
+		[$mapper, $data] = $this->initTest();
 
 		// get all entries without specifying offset or limit
 		$results = $mapper->getList();
@@ -280,5 +278,24 @@ abstract class AbstractMappingTest extends \Test\TestCase {
 		// get 2nd entry by specifying both offset and limit
 		$results = $mapper->getList(1, 1);
 		$this->assertSame(1, count($results));
+	}
+
+	public function testGetListOfIdsByDn() {
+		/** @var AbstractMapping $mapper */
+		[$mapper,] = $this->initTest();
+
+		$listOfDNs = [];
+		for ($i = 0; $i < 66640; $i++) {
+			// Postgres has a limit of 65535 values in a single IN list
+			$name = 'as_' . $i;
+			$dn = 'uid=' . $name . ',dc=example,dc=org';
+			$listOfDNs[] = $dn;
+			if ($i % 20 === 0) {
+				$mapper->map($dn, $name, 'fake-uuid-' . $i);
+			}
+		}
+
+		$result = $mapper->getListOfIdsByDn($listOfDNs);
+		$this->assertSame(66640 / 20, count($result));
 	}
 }

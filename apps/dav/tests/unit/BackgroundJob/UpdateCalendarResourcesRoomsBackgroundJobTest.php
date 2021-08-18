@@ -17,14 +17,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\Tests\unit\BackgroundJob;
 
 use OCA\DAV\BackgroundJob\UpdateCalendarResourcesRoomsBackgroundJob;
@@ -37,6 +36,9 @@ use OCP\Calendar\Resource\IManager as IResourceManager;
 use OCP\Calendar\Resource\IResource;
 use OCP\Calendar\Room\IManager as IRoomManager;
 use Test\TestCase;
+
+interface tmpI extends IResource, IMetadataProvider {
+}
 
 class UpdateCalendarResourcesRoomsBackgroundJobTest extends TestCase {
 
@@ -108,9 +110,9 @@ class UpdateCalendarResourcesRoomsBackgroundJobTest extends TestCase {
 		$backend3 = $this->createMock(IBackend::class);
 		$backend4 = $this->createMock(IBackend::class);
 
-		$res6 = $this->createMock([IResource::class, IMetadataProvider::class]);
-		$res7 = $this->createMock([IResource::class, IMetadataProvider::class]);
-		$res8 = $this->createMock([IResource::class, IMetadataProvider::class]);
+		$res6 = $this->createMock(tmpI::class);
+		$res7 = $this->createMock(tmpI::class);
+		$res8 = $this->createMock(tmpI::class);
 		$res9 = $this->createMock(IResource::class);
 
 		$backend2->method('getBackendIdentifier')

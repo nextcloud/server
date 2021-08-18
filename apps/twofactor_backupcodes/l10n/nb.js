@@ -18,8 +18,6 @@ OC.L10N.register(
     "An error occurred while generating your backup codes" : "En feil oppstod under generering av sikkerhetskopi-kodene",
     "{name} backup codes" : "{name} sikkerhetskopi-koder",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Bruk en av backup kodene du lagret når du opprettet to-faktor autentisering.",
-    "Submit" : "Send",
-    "_" : "_",
-    "_icon-loading-small_::_generate-backup-codes_" : ["icon-loading-small","generate-backup-codes"]
+    "Submit" : "Send"
 },
 "nplurals=2; plural=(n != 1);");

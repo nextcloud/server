@@ -22,6 +22,7 @@
  */
 
 use Behat\Behat\Context\Context;
+use PHPUnit\Framework\Assert;
 
 class SearchContext implements Context, ActorAwareInterface {
 	use ActorAware;
@@ -85,7 +86,7 @@ class SearchContext implements Context, ActorAwareInterface {
 	 * @When I search for :query
 	 */
 	public function iSearchFor($query) {
-		$this->actor->find(self::searchBoxInput(), 10)->setValue($query . "\r");
+		$this->actor->find(self::searchBoxInput(), 10)->setValue($query);
 	}
 
 	/**
@@ -99,7 +100,7 @@ class SearchContext implements Context, ActorAwareInterface {
 	 * @Then I see that the search result :number is :name
 	 */
 	public function iSeeThatTheSearchResultIs($number, $name) {
-		PHPUnit_Framework_Assert::assertEquals(
+		Assert::assertEquals(
 				$name, $this->actor->find(self::searchResultName($number), 10)->getText());
 	}
 
@@ -107,7 +108,7 @@ class SearchContext implements Context, ActorAwareInterface {
 	 * @Then I see that the search result :number was found in :path
 	 */
 	public function iSeeThatTheSearchResultWasFoundIn($number, $path) {
-		PHPUnit_Framework_Assert::assertEquals(
+		Assert::assertEquals(
 				$path, $this->actor->find(self::searchResultPath($number), 10)->getText());
 	}
 }

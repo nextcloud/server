@@ -2,11 +2,12 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Michael Weimann <mail@michael-weimann.eu>
@@ -14,7 +15,7 @@
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -31,10 +32,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC;
 
+use OC\App\AppStore\Bundles\BundleFetcher;
 use OC\Avatar\AvatarManager;
+use OC\DB\Connection;
+use OC\DB\ConnectionAdapter;
 use OC\Repair\AddBruteForceCleanupJob;
 use OC\Repair\AddCleanupUpdaterBackupsJob;
 use OC\Repair\CleanTags;
@@ -42,7 +45,12 @@ use OC\Repair\ClearFrontendCaches;
 use OC\Repair\ClearGeneratedAvatarCache;
 use OC\Repair\Collation;
 use OC\Repair\MoveUpdaterStepFile;
+use OC\Repair\NC22\LookupServerSendCheck;
+use OC\Repair\Owncloud\CleanPreviews;
 use OC\Repair\NC11\FixMountStorages;
+use OC\Repair\Owncloud\MoveAvatars;
+use OC\Repair\Owncloud\InstallCoreBundle;
+use OC\Repair\Owncloud\UpdateLanguageCodes;
 use OC\Repair\NC13\AddLogRotateJob;
 use OC\Repair\NC14\AddPreviewBackgroundCleanupJob;
 use OC\Repair\NC16\AddClenupLoginFlowV2BackgroundJob;
@@ -53,10 +61,12 @@ use OC\Repair\NC20\EncryptionLegacyCipher;
 use OC\Repair\NC20\EncryptionMigration;
 use OC\Repair\NC20\ShippedDashboardEnable;
 use OC\Repair\NC21\AddCheckForUserCertificatesJob;
+use OC\Repair\NC21\ValidatePhoneNumber;
 use OC\Repair\OldGroupMembershipShares;
 use OC\Repair\Owncloud\DropAccountTermsTable;
 use OC\Repair\Owncloud\SaveAccountsTableData;
 use OC\Repair\RemoveLinkShares;
+use OC\Repair\RepairDavShares;
 use OC\Repair\RepairInvalidShares;
 use OC\Repair\RepairMimeTypes;
 use OC\Repair\SqliteAutoincrement;
@@ -67,6 +77,7 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Collaboration\Resources\IManager;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
@@ -81,15 +92,18 @@ class Repair implements IOutput {
 	/** @var string */
 	private $currentStep;
 
+	private $logger;
+
 	/**
 	 * Creates a new repair step runner
 	 *
 	 * @param IRepairStep[] $repairSteps array of RepairStep instances
 	 * @param EventDispatcherInterface $dispatcher
 	 */
-	public function __construct(array $repairSteps, EventDispatcherInterface $dispatcher) {
+	public function __construct(array $repairSteps, EventDispatcherInterface $dispatcher, LoggerInterface $logger) {
 		$this->repairSteps = $repairSteps;
 		$this->dispatcher = $dispatcher;
+		$this->logger = $logger;
 	}
 
 	/**
@@ -105,7 +119,12 @@ class Repair implements IOutput {
 		foreach ($this->repairSteps as $step) {
 			$this->currentStep = $step->getName();
 			$this->emit('\OC\Repair', 'step', [$this->currentStep]);
-			$step->run($this);
+			try {
+				$step->run($this);
+			} catch (\Exception $e) {
+				$this->logger->error("Exception while executing repair step " . $step->getName(), ['exception' => $e]);
+				$this->emit('\OC\Repair', 'error', [$e->getMessage()]);
+			}
 		}
 	}
 
@@ -150,7 +169,22 @@ class Repair implements IOutput {
 			new CleanTags(\OC::$server->getDatabaseConnection(), \OC::$server->getUserManager()),
 			new RepairInvalidShares(\OC::$server->getConfig(), \OC::$server->getDatabaseConnection()),
 			new MoveUpdaterStepFile(\OC::$server->getConfig()),
+			new MoveAvatars(
+				\OC::$server->getJobList(),
+				\OC::$server->getConfig()
+			),
+			new CleanPreviews(
+				\OC::$server->getJobList(),
+				\OC::$server->getUserManager(),
+				\OC::$server->getConfig()
+			),
 			new FixMountStorages(\OC::$server->getDatabaseConnection()),
+			new UpdateLanguageCodes(\OC::$server->getDatabaseConnection(), \OC::$server->getConfig()),
+			new InstallCoreBundle(
+				\OC::$server->query(BundleFetcher::class),
+				\OC::$server->getConfig(),
+				\OC::$server->query(Installer::class)
+			),
 			new AddLogRotateJob(\OC::$server->getJobList()),
 			new ClearFrontendCaches(\OC::$server->getMemCacheFactory(), \OC::$server->query(SCSSCacher::class), \OC::$server->query(JSCombiner::class)),
 			new ClearGeneratedAvatarCache(\OC::$server->getConfig(), \OC::$server->query(AvatarManager::class)),
@@ -166,6 +200,8 @@ class Repair implements IOutput {
 			\OC::$server->get(ShippedDashboardEnable::class),
 			\OC::$server->get(AddBruteForceCleanupJob::class),
 			\OC::$server->get(AddCheckForUserCertificatesJob::class),
+			\OC::$server->get(RepairDavShares::class),
+			\OC::$server->get(LookupServerSendCheck::class),
 		];
 	}
 
@@ -177,7 +213,8 @@ class Repair implements IOutput {
 	 */
 	public static function getExpensiveRepairSteps() {
 		return [
-			new OldGroupMembershipShares(\OC::$server->getDatabaseConnection(), \OC::$server->getGroupManager())
+			new OldGroupMembershipShares(\OC::$server->getDatabaseConnection(), \OC::$server->getGroupManager()),
+			\OC::$server->get(ValidatePhoneNumber::class),
 		];
 	}
 
@@ -188,13 +225,16 @@ class Repair implements IOutput {
 	 * @return IRepairStep[]
 	 */
 	public static function getBeforeUpgradeRepairSteps() {
-		$connection = \OC::$server->getDatabaseConnection();
+		/** @var Connection $connection */
+		$connection = \OC::$server->get(Connection::class);
+		/** @var ConnectionAdapter $connectionAdapter */
+		$connectionAdapter = \OC::$server->get(ConnectionAdapter::class);
 		$config = \OC::$server->getConfig();
 		$steps = [
-			new Collation(\OC::$server->getConfig(), \OC::$server->getLogger(), $connection, true),
+			new Collation(\OC::$server->getConfig(), \OC::$server->getLogger(), $connectionAdapter, true),
 			new SqliteAutoincrement($connection),
-			new SaveAccountsTableData($connection, $config),
-			new DropAccountTermsTable($connection)
+			new SaveAccountsTableData($connectionAdapter, $config),
+			new DropAccountTermsTable($connectionAdapter),
 		];
 
 		return $steps;

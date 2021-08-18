@@ -1,7 +1,9 @@
 /**
  * @copyright Copyright (c) 2019 John Molakvoæ <skjnldsv@protonmail.com>
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Julius Härtl <jus@bitgrid.net>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -11,7 +13,7 @@
  * License, or (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY without even the implied warranty of
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
  *
@@ -94,6 +96,24 @@ export default class Config {
 	}
 
 	/**
+	 * Get the default remote expiration date as string
+	 *
+	 * @returns {string}
+	 * @readonly
+	 * @memberof Config
+	 */
+	get defaultRemoteExpirationDateString() {
+		let expireDateString = ''
+		if (this.isDefaultRemoteExpireDateEnabled) {
+			const date = window.moment.utc()
+			const expireAfterDays = this.defaultRemoteExpireDate
+			date.add(expireAfterDays, 'days')
+			expireDateString = date.format('YYYY-MM-DD')
+		}
+		return expireDateString
+	}
+
+	/**
 	 * Are link shares password-enforced ?
 	 *
 	 * @returns {boolean}
@@ -146,6 +166,17 @@ export default class Config {
 	 */
 	get isDefaultInternalExpireDateEnforced() {
 		return OC.appConfig.core.defaultInternalExpireDateEnforced === true
+	}
+
+	/**
+	 * Is remote shares expiration enforced ?
+	 *
+	 * @returns {boolean}
+	 * @readonly
+	 * @memberof Config
+	 */
+	get isDefaultRemoteExpireDateEnforced() {
+		return OC.appConfig.core.defaultRemoteExpireDateEnforced === true
 	}
 
 	/**
@@ -208,6 +239,17 @@ export default class Config {
 	}
 
 	/**
+	 * Get the default days to remote shares expiration
+	 *
+	 * @returns {int}
+	 * @readonly
+	 * @memberof Config
+	 */
+	get defaultRemoteExpireDate() {
+		return OC.appConfig.core.defaultRemoteExpireDate
+	}
+
+	/**
 	 * Is resharing allowed ?
 	 *
 	 * @returns {boolean}
@@ -230,6 +272,15 @@ export default class Config {
 	}
 
 	/**
+	 * @returns {boolean}
+	 * @readonly
+	 * @memberof Config
+	 */
+	get shouldAlwaysShowUnique() {
+		return (OC.getCapabilities().files_sharing?.sharee?.always_show_unique === true)
+	}
+
+	/**
 	 * Is sharing with groups allowed ?
 	 *
 	 * @returns {boolean}
@@ -248,7 +299,7 @@ export default class Config {
 	 * @memberof Config
 	 */
 	get maxAutocompleteResults() {
-		return parseInt(OC.config['sharing.maxAutocompleteResults'], 10) || 200
+		return parseInt(OC.config['sharing.maxAutocompleteResults'], 10) || 25
 	}
 
 	/**

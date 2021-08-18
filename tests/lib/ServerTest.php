@@ -72,7 +72,7 @@ class ServerTest extends \Test\TestCase {
 			['CryptoWrapper', '\OC\Session\CryptoWrapper'],
 			['CsrfTokenManager', '\OC\Security\CSRF\CsrfTokenManager'],
 
-			['DatabaseConnection', '\OC\DB\Connection'],
+			['DatabaseConnection', '\OC\DB\ConnectionAdapter'],
 			['DatabaseConnection', '\OCP\IDBConnection'],
 			['DateTimeFormatter', '\OC\DateTimeFormatter'],
 			['DateTimeFormatter', '\OCP\IDateTimeFormatter'],

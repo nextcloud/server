@@ -13,14 +13,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Files\Search;
 
 use OCP\Files\Search\ISearchOperator;
@@ -37,7 +36,7 @@ class SearchQuery implements ISearchQuery {
 	private $offset;
 	/** @var  ISearchOrder[] */
 	private $order;
-	/** @var IUser */
+	/** @var ?IUser */
 	private $user;
 	private $limitToHome;
 
@@ -48,7 +47,7 @@ class SearchQuery implements ISearchQuery {
 	 * @param int $limit
 	 * @param int $offset
 	 * @param array $order
-	 * @param IUser $user
+	 * @param ?IUser $user
 	 * @param bool $limitToHome
 	 */
 	public function __construct(
@@ -56,7 +55,7 @@ class SearchQuery implements ISearchQuery {
 		int $limit,
 		int $offset,
 		array $order,
-		IUser $user,
+		?IUser $user = null,
 		bool $limitToHome = false
 	) {
 		$this->searchOperation = $searchOperation;
@@ -96,7 +95,7 @@ class SearchQuery implements ISearchQuery {
 	}
 
 	/**
-	 * @return IUser
+	 * @return ?IUser
 	 */
 	public function getUser() {
 		return $this->user;

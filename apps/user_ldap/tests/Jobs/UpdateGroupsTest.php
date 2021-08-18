@@ -1,10 +1,12 @@
 <?php
 
 declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2020 Arthur Schiwon <blizzz@arthur-schiwon.de>
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Joas Schilling <coding@schilljs.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -15,19 +17,18 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\user_ldap\tests\Jobs;
 
-use Doctrine\DBAL\Driver\Statement;
 use OCA\User_LDAP\Group_Proxy;
 use OCA\User_LDAP\Jobs\UpdateGroups;
+use OCP\DB\IResult;
 use OCP\DB\QueryBuilder\IExpressionBuilder;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -123,7 +124,7 @@ class UpdateGroupsTest extends TestCase {
 			->method('expr')
 			->willReturn($this->createMock(IExpressionBuilder::class));
 
-		$stmt = $this->createMock(Statement::class);
+		$stmt = $this->createMock(IResult::class);
 		$stmt->expects($this->once())
 			->method('fetchAll')
 			->willReturn($knownGroupsDB);

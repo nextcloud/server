@@ -17,14 +17,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\EventDispatcher;
 
 use OCP\ILogger;
@@ -41,6 +40,9 @@ class GenericEventWrapper extends GenericEvent {
 	/** @var string */
 	private $eventName;
 
+	/** @var bool */
+	private $deprecationNoticeLogged = false;
+
 	public function __construct(ILogger $logger, string $eventName, ?GenericEvent $event) {
 		parent::__construct($eventName);
 		$this->logger = $logger;
@@ -49,11 +51,16 @@ class GenericEventWrapper extends GenericEvent {
 	}
 
 	private function log() {
+		if ($this->deprecationNoticeLogged) {
+			return;
+		}
+
 		$class = ($this->event !== null && is_object($this->event)) ? get_class($this->event) : 'null';
 		$this->logger->info(
 			'Deprecated event type for {name}: {class} is used',
 			[ 'name' => $this->eventName, 'class' => $class]
 		);
+		$this->deprecationNoticeLogged = true;
 	}
 
 	public function isPropagationStopped(): bool {

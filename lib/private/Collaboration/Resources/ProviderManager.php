@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @copyright Copyright (c) 2019 Daniel Kesselberg <mail@danielkesselberg.de>
  *
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
+ * @author Joas Schilling <coding@schilljs.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -16,21 +17,20 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Collaboration\Resources;
 
 use OCP\AppFramework\QueryException;
 use OCP\Collaboration\Resources\IProvider;
 use OCP\Collaboration\Resources\IProviderManager;
-use OCP\ILogger;
 use OCP\IServerContainer;
+use Psr\Log\LoggerInterface;
 
 class ProviderManager implements IProviderManager {
 
@@ -43,10 +43,10 @@ class ProviderManager implements IProviderManager {
 	/** @var IServerContainer */
 	protected $serverContainer;
 
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	protected $logger;
 
-	public function __construct(IServerContainer $serverContainer, ILogger $logger) {
+	public function __construct(IServerContainer $serverContainer, LoggerInterface $logger) {
 		$this->serverContainer = $serverContainer;
 		$this->logger = $logger;
 	}
@@ -57,8 +57,8 @@ class ProviderManager implements IProviderManager {
 				try {
 					$this->providerInstances[] = $this->serverContainer->query($provider);
 				} catch (QueryException $e) {
-					$this->logger->logException($e, [
-						'message' => "Could not query resource provider $provider: " . $e->getMessage()
+					$this->logger->error("Could not query resource provider $provider: " . $e->getMessage(), [
+						'exception' => $e,
 					]);
 				}
 			}

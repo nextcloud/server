@@ -4,8 +4,8 @@
  *
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christopher Schäpers <kondou@ts.unde.re>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
@@ -27,7 +27,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Template;
 
 use OCP\Defaults;
@@ -169,7 +168,9 @@ class Base {
 		if (!is_null($additionalParams)) {
 			$_ = array_merge($additionalParams, $this->vars);
 			foreach ($_ as $var => $value) {
-				${$var} = $value;
+				if (!isset(${$var})) {
+					${$var} = $value;
+				}
 			}
 		}
 

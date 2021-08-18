@@ -36,7 +36,6 @@ OC.L10N.register(
     "Remove background image" : "Verwyder agtergrondbeeld",
     "Advanced options" : "Gevorderde opsies",
     "Legal notice link" : "Regskennisgewingskakel",
-    "Privacy policy link" : "Privaatheidsbeleidskakel",
-    "Unsupported image type" : "Onondersteunde beeldtipe"
+    "Privacy policy link" : "Privaatheidsbeleidskakel"
 },
 "nplurals=2; plural=(n != 1);");

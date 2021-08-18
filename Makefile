@@ -1,7 +1,7 @@
 all: clean dev-setup build-js-production
 
 # Dev env management
-dev-setup: clean clean-dev npm-init
+dev-setup: clean npm-init
 
 npm-init:
 	npm ci
@@ -30,6 +30,8 @@ lint-fix-watch:
 clean:
 	rm -rf apps/accessibility/js/
 	rm -rf apps/comments/js/
+	rm -rf apps/dashboard/js/
+	rm -rf apps/dav/js/
 	rm -rf apps/files/js/dist/
 	rm -rf apps/files_sharing/js/dist/
 	rm -rf apps/files_trashbin/js/
@@ -40,15 +42,15 @@ clean:
 	rm -rf apps/twofactor_backupcodes/js
 	rm -rf apps/updatenotification/js/updatenotification.*
 	rm -rf apps/user_status/js/
+	rm -rf apps/weather_status/js/
 	rm -rf apps/workflowengine/js/
 	rm -rf core/js/dist
-
-clean-dev:
-	rm -rf node_modules
 
 clean-git: clean
 	git checkout -- apps/accessibility/js/
 	git checkout -- apps/comments/js/
+	git checkout -- apps/dashboard/js/
+	git checkout -- apps/dav/js/
 	git checkout -- apps/files/js/dist/
 	git checkout -- apps/files_sharing/js/dist/
 	git checkout -- apps/files_trashbin/js/
@@ -59,5 +61,6 @@ clean-git: clean
 	git checkout -- apps/twofactor_backupcodes/js
 	git checkout -- apps/updatenotification/js/updatenotification.*
 	git checkout -- apps/user_status/js/
+	git checkout -- apps/weather_status/js/
 	git checkout -- apps/workflowengine/js/
 	git checkout -- core/js/dist

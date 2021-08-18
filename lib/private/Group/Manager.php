@@ -7,7 +7,7 @@
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Knut Ahlers <knut@ahlers.me>
  * @author Lukas Reschke <lukas@statuscode.ch>
@@ -18,7 +18,7 @@
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Roman Kreisel <mail@romankreisel.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  * @author Vinicius Cubas Brand <vinicius@eita.org.br>
  * @author voxsim "Simon Vocella"
  *
@@ -37,7 +37,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Group;
 
 use OC\Hooks\PublicEmitter;
@@ -276,7 +275,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 	 * @param string $uid the user id
 	 * @return \OC\Group\Group[]
 	 */
-	public function getUserIdGroups($uid) {
+	public function getUserIdGroups(string $uid): array {
 		$groups = [];
 
 		foreach ($this->getUserIdGroupIds($uid) as $groupId) {
@@ -321,17 +320,17 @@ class Manager extends PublicEmitter implements IGroupManager {
 	 * get a list of group ids for a user
 	 *
 	 * @param IUser $user
-	 * @return array with group ids
+	 * @return string[] with group ids
 	 */
-	public function getUserGroupIds(IUser $user) {
+	public function getUserGroupIds(IUser $user): array {
 		return $this->getUserIdGroupIds($user->getUID());
 	}
 
 	/**
 	 * @param string $uid the user id
-	 * @return GroupInterface[]
+	 * @return string[]
 	 */
-	private function getUserIdGroupIds($uid) {
+	private function getUserIdGroupIds(string $uid): array {
 		if (!isset($this->cachedUserGroups[$uid])) {
 			$groups = [];
 			foreach ($this->backends as $backend) {

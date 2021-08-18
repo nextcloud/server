@@ -40,9 +40,7 @@ OC.L10N.register(
     "Select attributes" : "เลือกคุณลักษณะ",
     "User found and settings verified." : "พบผู้ใช้และการตั้งค่าได้รับการตรวจสอบแล้ว",
     "The search filter is invalid, probably due to syntax issues like uneven number of opened and closed brackets. Please revise." : "ตัวกรองการค้นหาไม่ถูกต้องอาจเป็นเพราะปัญหาไวยากรณ์เช่นหมายเลขที่ไม่สม่ำเสมอของวงเล็บเปิดและปิด กรุณาแก้ไข",
-    "A connection error to LDAP / AD occurred, please check host, port and credentials." : "เกิดข้อผิดพลาดขณะเชื่อมต่อไปยัง LDAP/AD โปรดตรวจสอบโฮสต์พอร์ตและข้อมูลอื่นๆ",
     "Please provide a login name to test against" : "โปรดระบุชื่อที่ใช้ในการเข้าสู่ระบบเพื่อทดสอบข้อขัดแย้ง",
-    "The group box was disabled, because the LDAP / AD server does not support memberOf." : "กล่องข้อความกลุ่มถูกปิดการใช้งานเนื่องจากเซิร์ฟเวอร์ LDAP/AD ไม่สนับสนุน memberOf",
     "_%s group found_::_%s groups found_" : ["พบ %s กลุ่ม"],
     "_%s user found_::_%s users found_" : ["พบผู้ใช้ %s คน"],
     "Could not find the desired feature" : "ไม่พบคุณลักษณะที่ต้องการ",
@@ -59,8 +57,6 @@ OC.L10N.register(
     "LDAP Filter:" : "ตัวกรอง LDAP:",
     "The filter specifies which LDAP groups shall have access to the %s instance." : "ระบุตัวกรองกลุ่ม LDAP ที่จะเข้าถึง %s",
     "When logging in, %s will find the user based on the following attributes:" : "เมื่อเข้าสู่ระบบ %s จะได้พบกับผู้ใช้ตามลักษณะดังต่อไปนี้:",
-    "LDAP / AD Username:" : "ชื่อผู้ใช้ LDAP/AD:",
-    "LDAP / AD Email Address:" : "ที่อยู่อีเมล LDAP/AD:",
     "Other Attributes:" : "คุณลักษณะอื่นๆ:",
     "Test Loginname" : "ทดสอบชื่อที่ใช้ในการเข้าสู่ระบบ",
     "Verify settings" : "ตรวจสอบการตั้งค่า",
@@ -142,6 +138,9 @@ OC.L10N.register(
     "Username-LDAP User Mapping" : "Username-LDAP ผู้ใช้ Mapping",
     "Clear Username-LDAP User Mapping" : "ล้าง Username-LDAP ผู้ใช้ Mapping",
     "Clear Groupname-LDAP Group Mapping" : "ล้าง Groupname-LDAP กลุ่ม Mapping",
-    "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "เว้นว่างไว้สำหรับ ชื่อผู้ใช้ (ค่าเริ่มต้น) หรือไม่กรุณาระบุคุณลักษณะของ LDAP/AD"
+    "A connection error to LDAP / AD occurred, please check host, port and credentials." : "เกิดข้อผิดพลาดขณะเชื่อมต่อไปยัง LDAP/AD โปรดตรวจสอบโฮสต์พอร์ตและข้อมูลอื่นๆ",
+    "The group box was disabled, because the LDAP / AD server does not support memberOf." : "กล่องข้อความกลุ่มถูกปิดการใช้งานเนื่องจากเซิร์ฟเวอร์ LDAP/AD ไม่สนับสนุน memberOf",
+    "LDAP / AD Username:" : "ชื่อผู้ใช้ LDAP/AD:",
+    "LDAP / AD Email Address:" : "ที่อยู่อีเมล LDAP/AD:"
 },
 "nplurals=1; plural=0;");

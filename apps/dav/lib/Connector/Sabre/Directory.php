@@ -13,7 +13,7 @@
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -30,7 +30,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Connector\Sabre;
 
 use OC\Files\Mount\MoveableMount;
@@ -41,6 +40,7 @@ use OCA\DAV\Connector\Sabre\Exception\InvalidPath;
 use OCP\Files\FileInfo;
 use OCP\Files\ForbiddenException;
 use OCP\Files\InvalidPathException;
+use OCP\Files\NotPermittedException;
 use OCP\Files\StorageNotAvailableException;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
@@ -51,7 +51,7 @@ use Sabre\DAV\Exception\ServiceUnavailable;
 use Sabre\DAV\IFile;
 use Sabre\DAV\INode;
 
-class Directory extends \OCA\DAV\Connector\Sabre\Node implements \Sabre\DAV\ICollection, \Sabre\DAV\IQuota, \Sabre\DAV\IMoveTarget {
+class Directory extends \OCA\DAV\Connector\Sabre\Node implements \Sabre\DAV\ICollection, \Sabre\DAV\IQuota, \Sabre\DAV\IMoveTarget, \Sabre\DAV\ICopyTarget {
 
 	/**
 	 * Cached directory content
@@ -339,7 +339,11 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node implements \Sabre\DAV\ICol
 				$free
 			];
 			return $this->quotaInfo;
+		} catch (\OCP\Files\NotFoundException $e) {
+			return [0, 0];
 		} catch (\OCP\Files\StorageNotAvailableException $e) {
+			return [0, 0];
+		} catch (NotPermittedException $e) {
 			return [0, 0];
 		}
 	}
@@ -394,7 +398,7 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node implements \Sabre\DAV\ICol
 			throw new \Sabre\DAV\Exception\Forbidden('Could not copy directory ' . $sourceNode->getName() . ', target exists');
 		}
 
-		list($sourceDir,) = \Sabre\Uri\split($sourceNode->getPath());
+		[$sourceDir,] = \Sabre\Uri\split($sourceNode->getPath());
 		$destinationDir = $this->getPath();
 
 		$sourcePath = $sourceNode->getPath();
@@ -448,5 +452,27 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node implements \Sabre\DAV\ICol
 		}
 
 		return true;
+	}
+
+
+	public function copyInto($targetName, $sourcePath, INode $sourceNode) {
+		if ($sourceNode instanceof File || $sourceNode instanceof Directory) {
+			$destinationPath = $this->getPath() . '/' . $targetName;
+			$sourcePath = $sourceNode->getPath();
+
+			if (!$this->fileView->isCreatable($this->getPath())) {
+				throw new \Sabre\DAV\Exception\Forbidden();
+			}
+
+			try {
+				$this->fileView->verifyPath($this->getPath(), $targetName);
+			} catch (InvalidPathException $ex) {
+				throw new InvalidPath($ex->getMessage());
+			}
+
+			return $this->fileView->copy($sourcePath, $destinationPath);
+		}
+
+		return false;
 	}
 }

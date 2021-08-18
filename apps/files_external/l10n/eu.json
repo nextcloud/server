@@ -1,5 +1,5 @@
 { "translations": {
-    "External storages" : "Kanpoko biltegiratzeak",
+    "External storage" : "Kanpoko biltegiratzea",
     "Personal" : "Pertsonala",
     "System" : "Sistema",
     "Grant access" : "Baimendu sarrera",
@@ -9,7 +9,7 @@
     "Generate keys" : "Sortu gakoak",
     "Error generating key pair" : "Errorea gako bikotea sortzean",
     "All users. Type to select user or group." : "Erabiltzaile guztiak. Idatzi erabiltzaile edo taldea hautatzeko.",
-    "(group)" : "(taldea)",
+    "(Group)" : "(Taldea)",
     "Compatibility with Mac NFD encoding (slow)" : "Mac NFD kodeketarekin bateragarritasuna (mantsoa)",
     "Enable encryption" : "Gaitu zifratzea",
     "Enable previews" : "Gaitu aurrebistak",
@@ -100,12 +100,13 @@
     "SFTP" : "SFTP",
     "Root" : "Erroa",
     "SFTP with secret key login" : "SFTP gako sekretu bidezko saio hasierarekin",
-    "SMB / CIFS" : "SMB / CIFS",
+    "SMB/CIFS" : "SMB/CIFS",
     "Share" : "Partekatu",
     "Show hidden files" : "Erakutsi ezkutuko fitxategiak",
     "Verify ACL access when listing files" : "Egiaztatu ACL baimena fitxategiak zerrendatzerakoan",
+    "Check the ACL's of each file or folder inside a directory to filter out items where the user has no read permissions, comes with a performance penalty" : "Egiaztatu direktorio bateko fitxategi edo karpeta bakoitzaren ACLak erabiltzaileak irakurtzeko baimenik ez duten elementuak iragazteko errendimendu penalizazioarekin.",
     "Timeout" : "Denbora-muga",
-    "SMB / CIFS using OC login" : "SMB / CIFS OC saioa hasiera erabiliz",
+    "SMB/CIFS using OC login" : "SMB/CIFS OC saio hasiera erabilita",
     "Username as share" : "Erabiltzaile-izena partekatze bezala",
     "OpenStack Object Storage" : "OpenStack objektu biltegiratzea",
     "Service name" : "Zerbitzuaren izena",
@@ -123,7 +124,6 @@
     "Open documentation" : "Ireki dokumentazioa",
     "External storage enables you to mount external storage services and devices as secondary Nextcloud storage devices. You may also allow users to mount their own external storage services." : "Kanpoko biltegiratzeak aukera ematen dizu kanpoko biltegiratze zerbitzuak eta gailuak erabiltzeko Nextlcloudeko bigarren mailako biltegiratze gailu bezala. Gainera, aukera eman diezaiekezu erabiltzaileei beren kanpoko biltegiratze zerbitzuak muntatzeko.",
     "Folder name" : "Karpetaren izena",
-    "External storage" : "Kanpoko biltegiratzea",
     "Authentication" : "Autentifikazioa",
     "Configuration" : "Konfigurazioa",
     "Available for" : "Hauentzat eskuragarri",
@@ -131,7 +131,11 @@
     "Add storage" : "Gehitu biltegiratzea",
     "Advanced settings" : "Ezarpen aurreratuak",
     "Allow users to mount external storage" : "Baimendu erabiltzaileek kanpoko biltegiratze zerbitzuak muntatzea",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Kredentzial globalak erabil daitezke kredentzial berdinak dituzten kanpoko hainbat biltegiratzerekin autentifikatzeko.",
-    "Saving..." : "Gordetzen..."
+    "Global credentials can be used to authenticate with multiple external storage that have the same credentials." : "Kredentzial globalak erabil daitezke kredentzial berdinak dituzten kanpoko hainbat biltegiratzerekin autentifikatzeko.",
+    "External storages" : "Kanpoko biltegiratzeak",
+    "(group)" : "(taldea)",
+    "SMB / CIFS" : "SMB / CIFS",
+    "SMB / CIFS using OC login" : "SMB / CIFS OC saioa hasiera erabiliz",
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Kredentzial globalak erabil daitezke kredentzial berdinak dituzten kanpoko hainbat biltegiratzerekin autentifikatzeko."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

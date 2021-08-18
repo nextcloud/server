@@ -172,7 +172,7 @@ button, .button,
 input[type='button'],
 input[type='submit'],
 input[type='reset'] {
-	padding: 6px 12px;
+	padding: 6px 16px;
 	width: auto;
 	min-height: $default-height;
 	cursor: pointer;
@@ -365,6 +365,12 @@ input {
 			&:not(:disabled):not(:checked) + label:hover:before,
 			&:focus + label:before {
 				border-color: var(--color-primary-element);
+			}
+			&:focus-visible + label {
+				outline-style: solid;
+				outline-color: var(--color-main-text);
+				outline-width: 1px;
+				outline-offset: 2px;
 			}
 			&:checked + label:before,
 			&.checkbox:indeterminate + label:before {
@@ -885,7 +891,7 @@ div.select2-container {
 }
 
 /* Progressbar */
-progress {
+progress:not(.vue) {
 	display: block;
 	width: 100%;
 	padding: 0;

@@ -9,7 +9,7 @@ on:
 
 jobs:
   phpunit-oci8:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     strategy:
       # do not stop on another job's failure
@@ -41,7 +41,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-versions }}
-          extensions: mbstring, iconv, fileinfo, intl, sqlite, pdo_sqlite, oci8
+          extensions: ctype,curl,dom,fileinfo,gd,iconv,intl,json,mbstring,oci8,openssl,pdo_sqlite,posix,sqlite,xml,zip
           tools: phpunit:8.5.2
           coverage: none
 

@@ -1,7 +1,12 @@
 /**
  * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
- * @author 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Julius Härtl <jus@bitgrid.net>
+ * @author npmbuildbot[bot] "npmbuildbot[bot]@users.noreply.github.com"
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -16,7 +21,8 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 
 import _ from 'underscore'
@@ -115,9 +121,18 @@ export default {
 	 * @deprecated 17.0.0 use the `@nextcloud/dialogs` package
 	 */
 	show(text, options) {
+		const escapeHTML = function(text) {
+			return text.toString()
+				.split('&').join('&amp;')
+				.split('<').join('&lt;')
+				.split('>').join('&gt;')
+				.split('"').join('&quot;')
+				.split('\'').join('&#039;')
+		}
+
 		options = options || {}
 		options.timeout = (!options.timeout) ? TOAST_PERMANENT_TIMEOUT : options.timeout
-		const toast = showMessage(text, options)
+		const toast = showMessage(escapeHTML(text), options)
 		toast.toastElement.toastify = toast
 		return $(toast.toastElement)
 	},

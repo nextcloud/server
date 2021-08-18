@@ -1,7 +1,7 @@
 OC.L10N.register(
     "files_external",
     {
-    "External storages" : "Kujtesë e jashtëme",
+    "External storage" : "Depozitë e jashtme",
     "Personal" : "Personale",
     "System" : "Sistem",
     "Grant access" : "Akordoji hyrje",
@@ -11,7 +11,6 @@ OC.L10N.register(
     "Generate keys" : "Prodho kyçe",
     "Error generating key pair" : "Gabim gjatë prodhimit të çiftit të kyçeve",
     "All users. Type to select user or group." : "Krejt përdoruesit. Shtypni që të përzgjidhet përdorues ose grup.",
-    "(group)" : "(grup)",
     "Compatibility with Mac NFD encoding (slow)" : "Pëerputhshmëri me kodim Mac NFD (e ngadaltë)",
     "Enable encryption" : "Aktivizoni fshehtëzim",
     "Enable previews" : "Aktivizoni paraparje",
@@ -92,10 +91,8 @@ OC.L10N.register(
     "SFTP" : "SFTP",
     "Root" : "Rrënjë",
     "SFTP with secret key login" : "SFTP me hyrje me kyç të fshehtë",
-    "SMB / CIFS" : "SMB / CIFS",
     "Share" : "Ndajeni me të tjerët",
     "Show hidden files" : "Shfaq skedarët e fshehur",
-    "SMB / CIFS using OC login" : "SMB / CIFS me përdorim hyrjeje OC",
     "Username as share" : "Emër përdoruesi si emër ndarjeje",
     "OpenStack Object Storage" : "Depozitë OpenStack Object",
     "Service name" : "Emër shërbimi",
@@ -108,13 +105,15 @@ OC.L10N.register(
     "Scope" : "Shtrirje",
     "Open documentation" : "Dokumentacion i hapur",
     "Folder name" : "Emër dosjeje",
-    "External storage" : "Depozitë e jashtme",
     "Authentication" : "Mirëfilltësim",
     "Configuration" : "Formësim",
     "Available for" : "E gatshme për",
     "Add storage" : "Shtoni depozitë",
     "Advanced settings" : "Rregullime të mëtejshme",
     "Allow users to mount external storage" : "Lejoju përdoruesve të montojnë depozita të jashtme",
-    "Saving..." : "Po ruhet …"
+    "External storages" : "Kujtesë e jashtëme",
+    "(group)" : "(grup)",
+    "SMB / CIFS" : "SMB / CIFS",
+    "SMB / CIFS using OC login" : "SMB / CIFS me përdorim hyrjeje OC"
 },
 "nplurals=2; plural=(n != 1);");

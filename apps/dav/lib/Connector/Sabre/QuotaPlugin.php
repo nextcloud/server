@@ -1,6 +1,8 @@
 <?php
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
+ * @copyright Copyright (C) 2012 entreCables S.L. All rights reserved.
+ * @copyright Copyright (C) 2012 entreCables S.L. All rights reserved.
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Felix Moeller <mail@felixmoeller.de>
@@ -9,7 +11,7 @@
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author scambra <sergio@entrecables.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -26,7 +28,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Connector\Sabre;
 
 use OCA\DAV\Upload\FutureFile;
@@ -152,7 +153,7 @@ class QuotaPlugin extends \Sabre\DAV\ServerPlugin {
 		}
 
 		if ($length) {
-			list($parentPath, $newName) = \Sabre\Uri\split($path);
+			[$parentPath, $newName] = \Sabre\Uri\split($path);
 			if (is_null($parentPath)) {
 				$parentPath = '';
 			}

@@ -24,13 +24,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
-/**
- * Public interface of ownCloud for apps to use.
- * Preview interface
- *
- */
-
 // use OCP namespace for all classes that are considered public.
 // This means that they should be used by apps instead of the internal ownCloud classes
 
@@ -48,6 +41,7 @@ interface IPreview {
 
 	/**
 	 * @since 9.2.0
+	 * @deprecated 22.0.0
 	 */
 	public const EVENT = self::class . ':' . 'PreviewRequested';
 

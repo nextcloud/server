@@ -1,3 +1,8 @@
+# This workflow is provided via the organization template repository
+#
+# https://github.com/nextcloud/.github
+# https://docs.github.com/en/actions/learn-github-actions/sharing-workflows-with-your-organization
+
 name: Node
 
 on:
@@ -9,59 +14,39 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [12.x]
-
+    name: node
     steps:
-    - uses: actions/checkout@v2
-    - name: Use node ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
-    - name: Install dependencies & build
-      run: |
-        npm ci
-        npm run build --if-present
-    - name: Check webpack build changes
-      run: |
-        bash -c "[[ ! \"`git status --porcelain `\" ]] || ( echo 'Uncommited changes in webpack build' && git status && exit 1 )"
-      env:
-        CI: true
+      - name: Checkout
+        uses: actions/checkout@v2
 
-  test:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [12.x]
-    steps:
-    - uses: actions/checkout@v2
-    - name: Use node ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-          node-version: ${{ matrix.node-version }}
-    - name: Install dependencies
-      run: |
-          npm ci
-    - name: Test
-      run: npm run test
-
-  handlebars:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [12.x]
-    steps:
-      - uses: actions/checkout@v2
-      - name: Use node ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
+      - name: Read package.json node and npm engines version
+        uses: skjnldsv/read-package-engines-version-actions@v1.1
+        id: versions
         with:
-          node-version: ${{ matrix.node-version }}
-      - name: Install dependencies
+          fallbackNode: '^12'
+          fallbackNpm: '^6'
+
+      - name: Set up node ${{ steps.versions.outputs.nodeVersion }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ steps.versions.outputs.nodeVersion }}
+
+      - name: Set up npm ${{ steps.versions.outputs.npmVersion }}
+        run: npm i -g npm@"${{ steps.versions.outputs.npmVersion }}"
+
+      - name: Install dependencies & build
         run: |
           npm ci
-      - name: Run compile
-        run: ./build/compile-handlebars-templates.sh
+          npm run build --if-present
+
+      - name: Check webpack build changes
+        run: |
+          bash -c "[[ ! \"`git status --porcelain `\" ]] || exit 1"
+
+      - name: Show changes on failure
+        if: failure()
+        run: |
+          git status
+          git --no-pager diff

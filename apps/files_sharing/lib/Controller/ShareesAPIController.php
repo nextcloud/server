@@ -11,8 +11,10 @@ declare(strict_types=1);
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
+ * @author J0WI <J0WI@users.noreply.github.com>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Maxence Lange <maxence@nextcloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
@@ -33,9 +35,9 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_Sharing\Controller;
 
+use OCP\Constants;
 use function array_slice;
 use function array_values;
 use Generator;
@@ -83,6 +85,7 @@ class ShareesAPIController extends OCSController {
 			'emails' => [],
 			'circles' => [],
 			'rooms' => [],
+			'deck' => [],
 		],
 		'users' => [],
 		'groups' => [],
@@ -92,6 +95,7 @@ class ShareesAPIController extends OCSController {
 		'lookup' => [],
 		'circles' => [],
 		'rooms' => [],
+		'deck' => [],
 		'lookupEnabled' => false,
 	];
 
@@ -137,16 +141,16 @@ class ShareesAPIController extends OCSController {
 	 * @return DataResponse
 	 * @throws OCSBadRequestException
 	 */
-	public function search(string $search = '', string $itemType = null, int $page = 1, int $perPage = 200, $shareType = null, bool $lookup = true): DataResponse {
+	public function search(string $search = '', string $itemType = null, int $page = 1, int $perPage = 200, $shareType = null, bool $lookup = false): DataResponse {
 
 		// only search for string larger than a given threshold
-		$threshold = (int)$this->config->getSystemValue('sharing.minSearchStringLength', 0);
+		$threshold = $this->config->getSystemValueInt('sharing.minSearchStringLength', 0);
 		if (strlen($search) < $threshold) {
 			return new DataResponse($this->result);
 		}
 
 		// never return more than the max. number of results configured in the config.php
-		$maxResults = (int)$this->config->getSystemValue('sharing.maxAutocompleteResults', 0);
+		$maxResults = $this->config->getSystemValueInt('sharing.maxAutocompleteResults', Constants::SHARING_MAX_AUTOCOMPLETE_RESULTS_DEFAULT);
 		if ($maxResults > 0) {
 			$perPage = min($perPage, $maxResults);
 		}
@@ -183,14 +187,24 @@ class ShareesAPIController extends OCSController {
 			if ($this->shareManager->shareProviderExists(IShare::TYPE_ROOM)) {
 				$shareTypes[] = IShare::TYPE_ROOM;
 			}
+
+			if ($this->shareManager->shareProviderExists(IShare::TYPE_DECK)) {
+				$shareTypes[] = IShare::TYPE_DECK;
+			}
 		} else {
-			$shareTypes[] = IShare::TYPE_GROUP;
+			if ($this->shareManager->allowGroupSharing()) {
+				$shareTypes[] = IShare::TYPE_GROUP;
+			}
 			$shareTypes[] = IShare::TYPE_EMAIL;
 		}
 
 		// FIXME: DI
 		if (\OC::$server->getAppManager()->isEnabledForUser('circles') && class_exists('\OCA\Circles\ShareByCircleProvider')) {
 			$shareTypes[] = IShare::TYPE_CIRCLE;
+		}
+
+		if ($this->shareManager->shareProviderExists(IShare::TYPE_DECK)) {
+			$shareTypes[] = IShare::TYPE_DECK;
 		}
 
 		if ($shareType !== null && is_array($shareType)) {
@@ -200,7 +214,7 @@ class ShareesAPIController extends OCSController {
 		}
 		sort($shareTypes);
 
-		$this->limit = (int) $perPage;
+		$this->limit = $perPage;
 		$this->offset = $perPage * ($page - 1);
 
 		// In global scale mode we always search the loogup server
@@ -211,7 +225,7 @@ class ShareesAPIController extends OCSController {
 			$this->result['lookupEnabled'] = $this->config->getAppValue('files_sharing', 'lookupServerEnabled', 'yes') === 'yes';
 		}
 
-		list($result, $hasMoreResults) = $this->collaboratorSearch->search($search, $shareTypes, $lookup, $this->limit, $this->offset);
+		[$result, $hasMoreResults] = $this->collaboratorSearch->search($search, $shareTypes, $lookup, $this->limit, $this->offset);
 
 		// extra treatment for 'exact' subarray, with a single merge expected keys might be lost
 		if (isset($result['exact'])) {
@@ -278,7 +292,7 @@ class ShareesAPIController extends OCSController {
 		foreach ($shareTypes as $shareType) {
 			$sharees = $this->getAllShareesByType($user, $shareType);
 			$shareTypeResults = [];
-			foreach ($sharees as list($sharee, $displayname)) {
+			foreach ($sharees as [$sharee, $displayname]) {
 				if (!isset($this->searchResultTypeMap[$shareType])) {
 					continue;
 				}

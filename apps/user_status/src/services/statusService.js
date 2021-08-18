@@ -19,6 +19,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 import HttpClient from '@nextcloud/axios'
 import { generateOcsUrl } from '@nextcloud/router'
 
@@ -28,7 +29,7 @@ import { generateOcsUrl } from '@nextcloud/router'
  * @returns {Promise<Object>}
  */
 const fetchCurrentStatus = async() => {
-	const url = generateOcsUrl('apps/user_status/api/v1', 2) + 'user_status'
+	const url = generateOcsUrl('apps/user_status/api/v1/user_status')
 	const response = await HttpClient.get(url)
 
 	return response.data.ocs.data
@@ -41,7 +42,7 @@ const fetchCurrentStatus = async() => {
  * @returns {Promise<void>}
  */
 const setStatus = async(statusType) => {
-	const url = generateOcsUrl('apps/user_status/api/v1', 2) + 'user_status/status'
+	const url = generateOcsUrl('apps/user_status/api/v1/user_status/status')
 	await HttpClient.put(url, {
 		statusType,
 	})
@@ -55,7 +56,7 @@ const setStatus = async(statusType) => {
  * @returns {Promise<void>}
  */
 const setPredefinedMessage = async(messageId, clearAt = null) => {
-	const url = generateOcsUrl('apps/user_status/api/v1', 2) + 'user_status/message/predefined?format=json'
+	const url = generateOcsUrl('apps/user_status/api/v1/user_status/message/predefined?format=json')
 	await HttpClient.put(url, {
 		messageId,
 		clearAt,
@@ -71,7 +72,7 @@ const setPredefinedMessage = async(messageId, clearAt = null) => {
  * @returns {Promise<void>}
  */
 const setCustomMessage = async(message, statusIcon = null, clearAt = null) => {
-	const url = generateOcsUrl('apps/user_status/api/v1', 2) + 'user_status/message/custom?format=json'
+	const url = generateOcsUrl('apps/user_status/api/v1/user_status/message/custom?format=json')
 	await HttpClient.put(url, {
 		message,
 		statusIcon,
@@ -85,7 +86,7 @@ const setCustomMessage = async(message, statusIcon = null, clearAt = null) => {
  * @returns {Promise<void>}
  */
 const clearMessage = async() => {
-	const url = generateOcsUrl('apps/user_status/api/v1', 2) + 'user_status/message?format=json'
+	const url = generateOcsUrl('apps/user_status/api/v1/user_status/message?format=json')
 	await HttpClient.delete(url)
 }
 

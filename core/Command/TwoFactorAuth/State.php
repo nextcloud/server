@@ -17,14 +17,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Core\Command\TwoFactorAuth;
 
 use OCP\Authentication\TwoFactorAuth\IRegistry;
@@ -63,7 +62,7 @@ class State extends Base {
 
 		$providerStates = $this->registry->getProviderStates($user);
 		$filtered = $this->filterEnabledDisabledUnknownProviders($providerStates);
-		list($enabled, $disabled) = $filtered;
+		[$enabled, $disabled] = $filtered;
 
 		if (!empty($enabled)) {
 			$output->writeln("Two-factor authentication is enabled for user $uid");

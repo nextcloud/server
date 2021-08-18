@@ -30,9 +30,9 @@ use OC\Contacts\ContactsMenu\Providers\EMailProvider;
 use OCP\App\IAppManager;
 use OCP\AppFramework\QueryException;
 use OCP\Contacts\ContactsMenu\IProvider;
-use OCP\ILogger;
 use OCP\IServerContainer;
 use OCP\IUser;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class ActionProviderStoreTest extends TestCase {
@@ -43,7 +43,7 @@ class ActionProviderStoreTest extends TestCase {
 	/** @var IAppManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $appManager;
 
-	/** @var ILogger|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
 	private $logger;
 
 	/** @var ActionProviderStore */
@@ -54,7 +54,7 @@ class ActionProviderStoreTest extends TestCase {
 
 		$this->serverContainer = $this->createMock(IServerContainer::class);
 		$this->appManager = $this->createMock(AppManager::class);
-		$this->logger = $this->createMock(ILogger::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 
 		$this->actionProviderStore = new ActionProviderStore($this->serverContainer, $this->appManager, $this->logger);
 	}

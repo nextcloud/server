@@ -67,7 +67,7 @@
     "Android client" : "Android-Client",
     "iOS client" : "iOS-Client",
     "Desktop client" : "Desktop-Client",
-    "Thunderbird & Outlook addons" : "Thunderbird & Outlook addons",
+    "Thunderbird & Outlook addons" : "Thunderbird & Outlook Add-ons",
     "Custom user agent" : "Benutzerdefinierter User-Agent",
     "At least one event must be selected" : "Mindestens ein Termin muss ausgewählt werden",
     "Add new flow" : "Neuen Ablauf hinzufügen",
@@ -81,7 +81,7 @@
     "Available flows" : "Verfügbare Abläufe",
     "For details on how to write your own flow, check out the development documentation." : "Informationen wie eigene Abläufe erstellt werden, findest Du in der Entwickler-Dokumentation.",
     "More flows" : "Weitere Abläufe",
-    "Browse the app store" : "Appstore durchsuchen",
+    "Browse the App Store" : "App-Store durchsuchen",
     "Show less" : "Weniger anzeigen",
     "Show more" : "Mehr anzeigen",
     "Configured flows" : "Konfigurierte Abläufe",
@@ -112,6 +112,7 @@
     "Request user agent" : "User-Agent",
     "User group membership" : "Benutzergruppen-Mitgliedschaft",
     "is member of" : "ist Mitglied von",
-    "is not member of" : "ist kein Mitglied von"
+    "is not member of" : "ist kein Mitglied von",
+    "Browse the app store" : "App-Store durchsuchen"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

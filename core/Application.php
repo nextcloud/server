@@ -5,6 +5,7 @@
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Mario Danic <mario@lovelyhq.com>
  * @author Morris Jobke <hey@morrisjobke.de>
@@ -28,7 +29,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Core;
 
 use OC\Authentication\Events\RemoteWipeFinished;
@@ -36,10 +36,13 @@ use OC\Authentication\Events\RemoteWipeStarted;
 use OC\Authentication\Listeners\RemoteWipeActivityListener;
 use OC\Authentication\Listeners\RemoteWipeEmailListener;
 use OC\Authentication\Listeners\RemoteWipeNotificationsListener;
+use OC\Authentication\Listeners\UserDeletedFilesCleanupListener;
 use OC\Authentication\Listeners\UserDeletedStoreCleanupListener;
 use OC\Authentication\Listeners\UserDeletedTokenCleanupListener;
+use OC\Authentication\Listeners\UserDeletedWebAuthnCleanupListener;
 use OC\Authentication\Notifications\Notifier as AuthenticationNotifier;
-use OC\Core\Notification\RemoveLinkSharesNotifier;
+use OC\Core\Notification\CoreNotifier;
+use OC\DB\Connection;
 use OC\DB\MissingColumnInformation;
 use OC\DB\MissingIndexInformation;
 use OC\DB\MissingPrimaryKeyInformation;
@@ -47,6 +50,7 @@ use OC\DB\SchemaWrapper;
 use OCP\AppFramework\App;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IDBConnection;
+use OCP\User\Events\BeforeUserDeletedEvent;
 use OCP\User\Events\UserDeletedEvent;
 use OCP\Util;
 use Symfony\Component\EventDispatcher\GenericEvent;
@@ -71,7 +75,7 @@ class Application extends App {
 		$eventDispatcher = $server->query(IEventDispatcher::class);
 
 		$notificationManager = $server->getNotificationManager();
-		$notificationManager->registerNotifierService(RemoveLinkSharesNotifier::class);
+		$notificationManager->registerNotifierService(CoreNotifier::class);
 		$notificationManager->registerNotifierService(AuthenticationNotifier::class);
 
 		$oldEventDispatcher = $server->getEventDispatcher();
@@ -81,7 +85,7 @@ class Application extends App {
 				/** @var MissingIndexInformation $subject */
 				$subject = $event->getSubject();
 
-				$schema = new SchemaWrapper($container->query(IDBConnection::class));
+				$schema = new SchemaWrapper($container->query(Connection::class));
 
 				if ($schema->hasTable('share')) {
 					$table = $schema->getTable('share');
@@ -148,6 +152,10 @@ class Application extends App {
 					if (!$table->hasIndex('cards_abid')) {
 						$subject->addHintForMissingSubject($table->getName(), 'cards_abid');
 					}
+
+					if (!$table->hasIndex('cards_abiduri')) {
+						$subject->addHintForMissingSubject($table->getName(), 'cards_abiduri');
+					}
 				}
 
 				if ($schema->hasTable('cards_properties')) {
@@ -187,7 +195,7 @@ class Application extends App {
 				/** @var MissingPrimaryKeyInformation $subject */
 				$subject = $event->getSubject();
 
-				$schema = new SchemaWrapper($container->query(IDBConnection::class));
+				$schema = new SchemaWrapper($container->query(Connection::class));
 
 				if ($schema->hasTable('federated_reshares')) {
 					$table = $schema->getTable('federated_reshares');
@@ -244,7 +252,7 @@ class Application extends App {
 				/** @var MissingColumnInformation $subject */
 				$subject = $event->getSubject();
 
-				$schema = new SchemaWrapper($container->query(IDBConnection::class));
+				$schema = new SchemaWrapper($container->query(Connection::class));
 
 				if ($schema->hasTable('comments')) {
 					$table = $schema->getTable('comments');
@@ -264,5 +272,8 @@ class Application extends App {
 		$eventDispatcher->addServiceListener(RemoteWipeFinished::class, RemoteWipeEmailListener::class);
 		$eventDispatcher->addServiceListener(UserDeletedEvent::class, UserDeletedStoreCleanupListener::class);
 		$eventDispatcher->addServiceListener(UserDeletedEvent::class, UserDeletedTokenCleanupListener::class);
+		$eventDispatcher->addServiceListener(BeforeUserDeletedEvent::class, UserDeletedFilesCleanupListener::class);
+		$eventDispatcher->addServiceListener(UserDeletedEvent::class, UserDeletedFilesCleanupListener::class);
+		$eventDispatcher->addServiceListener(UserDeletedEvent::class, UserDeletedWebAuthnCleanupListener::class);
 	}
 }

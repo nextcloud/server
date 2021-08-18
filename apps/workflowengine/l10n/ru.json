@@ -34,10 +34,12 @@
     "Operation %s does not exist" : "Операция %s не существует",
     "Operation %s is invalid" : "Операция %s неверна",
     "At least one check needs to be provided" : "Необходимо задать как минимум одну проверку",
+    "The provided operation data is too long" : "Заданы слишком длинные данные для операции",
     "Invalid check provided" : "Задана неверная проверка",
     "Check %s does not exist" : "Проверка %s не существует",
     "Check %s is invalid" : "Проверка %s неверна",
     "Check %s is not allowed with this entity" : "Проверка %s не разрешена с этой сущностью",
+    "The provided check value is too long" : "Задано слишком длинное проверочное значение",
     "Check #%s does not exist" : "Проверка #%s не существует",
     "Check %s is invalid or does not exist" : "Проверка %s неверна или не существует",
     "Flow" : "Обработка файлов",
@@ -79,7 +81,7 @@
     "Available flows" : "Доступные обработки",
     "For details on how to write your own flow, check out the development documentation." : "За дополнительными сведениями о написании собственных обработок, обратитесь к документации.",
     "More flows" : "Дополнительные обработки",
-    "Browse the app store" : "Перейти в магазин приложений",
+    "Browse the App Store" : "Просмотреть магазин приложений",
     "Show less" : "Показывать меньше",
     "Show more" : "Показывать больше",
     "Configured flows" : "Настроенные обработки",
@@ -110,6 +112,7 @@
     "Request user agent" : "Используемое приложение (user agent)",
     "User group membership" : "Участие в группе пользователей",
     "is member of" : "является участником",
-    "is not member of" : "не является участником"
+    "is not member of" : "не является участником",
+    "Browse the app store" : "Перейти в магазин приложений"
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }

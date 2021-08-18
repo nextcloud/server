@@ -21,7 +21,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 return [
 	'routes' => [
 		[
@@ -33,11 +32,6 @@ return [
 			'name' => 'Settings#removeServer',
 			'url' => '/trusted-servers/{id}',
 			'verb' => 'DELETE'
-		],
-		[
-			'name' => 'Settings#autoAddServers',
-			'url' => '/auto-add-servers',
-			'verb' => 'POST'
 		],
 	],
 	'ocs' => [

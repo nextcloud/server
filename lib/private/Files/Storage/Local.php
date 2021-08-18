@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author aler9 <46489434+aler9@users.noreply.github.com>
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Boris Rybalkin <ribalkin@gmail.com>
@@ -10,6 +11,7 @@
  * @author J0WI <J0WI@users.noreply.github.com>
  * @author Jakob Sack <mail@jakobsack.de>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Johannes Leuker <j.leuker@hosting.de>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Klaas Freitag <freitag@owncloud.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
@@ -21,7 +23,7 @@
  * @author Stefan Weil <sw@weilnetz.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Tigran Mkrtchyan <tigran.mkrtchyan@desy.de>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -38,7 +40,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Files\Storage;
 
 use OC\Files\Filesystem;
@@ -56,8 +57,6 @@ class Local extends \OC\Files\Storage\Common {
 	protected $datadir;
 
 	protected $dataDirLength;
-
-	protected $allowSymlinks = false;
 
 	protected $realDataDir;
 
@@ -87,7 +86,11 @@ class Local extends \OC\Files\Storage\Common {
 	}
 
 	public function mkdir($path) {
-		return @mkdir($this->getSourcePath($path), 0777, true);
+		$sourcePath = $this->getSourcePath($path);
+		$oldMask = umask(022);
+		$result = @mkdir($sourcePath, 0777, true);
+		umask($oldMask);
+		return $result;
 	}
 
 	public function rmdir($path) {
@@ -146,8 +149,8 @@ class Local extends \OC\Files\Storage\Common {
 	public function stat($path) {
 		$fullPath = $this->getSourcePath($path);
 		clearstatcache(true, $fullPath);
-		$statResult = stat($fullPath);
-		if (PHP_INT_SIZE === 4 && !$this->is_dir($path)) {
+		$statResult = @stat($fullPath);
+		if (PHP_INT_SIZE === 4 && $statResult && !$this->is_dir($path)) {
 			$filesize = $this->filesize($path);
 			$statResult['size'] = $filesize;
 			$statResult[7] = $filesize;
@@ -159,16 +162,14 @@ class Local extends \OC\Files\Storage\Common {
 	 * @inheritdoc
 	 */
 	public function getMetaData($path) {
-		$fullPath = $this->getSourcePath($path);
-		clearstatcache(true, $fullPath);
-		$stat = @stat($fullPath);
+		$stat = $this->stat($path);
 		if (!$stat) {
 			return null;
 		}
 
 		$permissions = Constants::PERMISSION_SHARE;
 		$statPermissions = $stat['mode'];
-		$isDir = ($statPermissions & 0x4000) === 0x4000;
+		$isDir = ($statPermissions & 0x4000) === 0x4000 && !($statPermissions & 0x8000);
 		if ($statPermissions & 0x0100) {
 			$permissions += Constants::PERMISSION_READ;
 		}
@@ -180,6 +181,7 @@ class Local extends \OC\Files\Storage\Common {
 		}
 
 		if (!($path === '' || $path === '/')) { // deletable depends on the parents unix permissions
+			$fullPath = $this->getSourcePath($path);
 			$parent = dirname($fullPath);
 			if (is_writable($parent)) {
 				$permissions += Constants::PERMISSION_DELETE;
@@ -257,11 +259,13 @@ class Local extends \OC\Files\Storage\Common {
 		if ($this->file_exists($path) and !$this->isUpdatable($path)) {
 			return false;
 		}
+		$oldMask = umask(022);
 		if (!is_null($mtime)) {
 			$result = @touch($this->getSourcePath($path), $mtime);
 		} else {
 			$result = @touch($this->getSourcePath($path));
 		}
+		umask($oldMask);
 		if ($result) {
 			clearstatcache(true, $this->getSourcePath($path));
 		}
@@ -274,7 +278,10 @@ class Local extends \OC\Files\Storage\Common {
 	}
 
 	public function file_put_contents($path, $data) {
-		return file_put_contents($this->getSourcePath($path), $data);
+		$oldMask = umask(022);
+		$result = file_put_contents($this->getSourcePath($path), $data);
+		umask($oldMask);
+		return $result;
 	}
 
 	public function unlink($path) {
@@ -287,16 +294,14 @@ class Local extends \OC\Files\Storage\Common {
 		}
 	}
 
-	private function treeContainsBlacklistedFile(string $path): bool {
+	private function checkTreeForForbiddenItems(string $path) {
 		$iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path));
 		foreach ($iterator as $file) {
 			/** @var \SplFileInfo $file */
 			if (Filesystem::isFileBlacklisted($file->getBasename())) {
-				return true;
+				throw new ForbiddenException('Invalid path: ' . $file->getPathname(), false);
 			}
 		}
-
-		return false;
 	}
 
 	public function rename($path1, $path2) {
@@ -336,9 +341,7 @@ class Local extends \OC\Files\Storage\Common {
 				return $result;
 			}
 
-			if ($this->treeContainsBlacklistedFile($this->getSourcePath($path1))) {
-				throw new ForbiddenException('Invalid path', false);
-			}
+			$this->checkTreeForForbiddenItems($this->getSourcePath($path1));
 		}
 
 		return rename($this->getSourcePath($path1), $this->getSourcePath($path2));
@@ -348,12 +351,18 @@ class Local extends \OC\Files\Storage\Common {
 		if ($this->is_dir($path1)) {
 			return parent::copy($path1, $path2);
 		} else {
-			return copy($this->getSourcePath($path1), $this->getSourcePath($path2));
+			$oldMask = umask(022);
+			$result = copy($this->getSourcePath($path1), $this->getSourcePath($path2));
+			umask($oldMask);
+			return $result;
 		}
 	}
 
 	public function fopen($path, $mode) {
-		return fopen($this->getSourcePath($path), $mode);
+		$oldMask = umask(022);
+		$result = fopen($this->getSourcePath($path), $mode);
+		umask($oldMask);
+		return $result;
 	}
 
 	public function hash($type, $path, $raw = false) {
@@ -436,12 +445,13 @@ class Local extends \OC\Files\Storage\Common {
 	 */
 	public function getSourcePath($path) {
 		if (Filesystem::isFileBlacklisted($path)) {
-			throw new ForbiddenException('Invalid path', false);
+			throw new ForbiddenException('Invalid path: ' . $path, false);
 		}
 
 		$fullPath = $this->datadir . $path;
 		$currentPath = $path;
-		if ($this->allowSymlinks || $currentPath === '') {
+		$allowSymlinks = \OC::$server->getConfig()->getSystemValue('localstorage.allowsymlinks', false);
+		if ($allowSymlinks || $currentPath === '') {
 			return $fullPath;
 		}
 		$pathToResolve = $fullPath;
@@ -482,7 +492,7 @@ class Local extends \OC\Files\Storage\Common {
 	}
 
 	private function calculateEtag(string $path, array $stat): string {
-		if ($stat['mode'] & 0x4000) { // is_dir
+		if ($stat['mode'] & 0x4000 && !($stat['mode'] & 0x8000)) { // is_dir & not socket
 			return parent::getETag($path);
 		} else {
 			if ($stat === false) {
@@ -557,7 +567,7 @@ class Local extends \OC\Files\Storage\Common {
 	}
 
 	public function writeStream(string $path, $stream, int $size = null): int {
-		$result = file_put_contents($this->getSourcePath($path), $stream);
+		$result = $this->file_put_contents($path, $stream);
 		if ($result === false) {
 			throw new GenericFileException("Failed write steam to $path");
 		} else {

@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = $vendorDir;
 
 return array(
+    'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
     'OCA\\AdminAudit\\Actions\\Action' => $baseDir . '/../lib/Actions/Action.php',
     'OCA\\AdminAudit\\Actions\\AppManagement' => $baseDir . '/../lib/Actions/AppManagement.php',
     'OCA\\AdminAudit\\Actions\\Auth' => $baseDir . '/../lib/Actions/Auth.php',
@@ -19,4 +20,5 @@ return array(
     'OCA\\AdminAudit\\Actions\\Versions' => $baseDir . '/../lib/Actions/Versions.php',
     'OCA\\AdminAudit\\AppInfo\\Application' => $baseDir . '/../lib/AppInfo/Application.php',
     'OCA\\AdminAudit\\BackgroundJobs\\Rotate' => $baseDir . '/../lib/BackgroundJobs/Rotate.php',
+    'OCA\\AdminAudit\\Listener\\CriticalActionPerformedEventListener' => $baseDir . '/../lib/Listener/CriticalActionPerformedEventListener.php',
 );

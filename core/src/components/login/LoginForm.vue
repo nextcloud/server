@@ -82,7 +82,7 @@
 				<label for="password"
 					class="infield">{{ t('Password') }}</label>
 				<a href="#" class="toggle-password" @click.stop.prevent="togglePassword">
-					<img :src="toggleIcon">
+					<img :src="toggleIcon" :alt="t('core', 'Toggle password visibility')">
 				</a>
 			</p>
 
@@ -94,7 +94,7 @@
 			</p>
 			<p v-else-if="userDisabled"
 				class="warning userDisabledMsg">
-				{{ t('lib', 'User disabled') }}
+				{{ t('core', 'User disabled') }}
 			</p>
 
 			<p v-if="throttleDelay && throttleDelay > 5000"
@@ -140,7 +140,8 @@ export default {
 			default: '',
 		},
 		redirectUrl: {
-			type: String,
+			type: [String, Boolean],
+			default: false,
 		},
 		errors: {
 			type: Array,
@@ -152,6 +153,7 @@ export default {
 		},
 		throttleDelay: {
 			type: Number,
+			default: 0,
 		},
 		invertedColors: {
 			type: Boolean,

@@ -28,16 +28,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
-/**
- * Public interface of ownCloud for apps to use.
- * AppFramework\HTTP\Response class
- */
-
 namespace OCP\AppFramework\Http;
 
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\IConfig;
+use Psr\Log\LoggerInterface;
 
 /**
  * Base class for responses. Also used to just send headers.
@@ -119,7 +115,7 @@ class Response {
 			$time = \OC::$server->query(ITimeFactory::class);
 			$expires->setTimestamp($time->getTime());
 			$expires->add(new \DateInterval('PT'.$cacheSeconds.'S'));
-			$this->addHeader('Expires', $expires->format(\DateTime::RFC2822));
+			$this->addHeader('Expires', $expires->format(\DateTimeInterface::RFC2822));
 		} else {
 			$this->addHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
 			unset($this->headers['Expires'], $this->headers['Pragma']);
@@ -203,6 +199,18 @@ class Response {
 		// to be able to reliably check for security
 		// headers
 
+		if ($this->status === Http::STATUS_NOT_MODIFIED
+			&& stripos($name, 'x-') === 0) {
+			/** @var IConfig $config */
+			$config = \OC::$server->get(IConfig::class);
+
+			if ($config->getSystemValueBool('debug', false)) {
+				\OC::$server->get(LoggerInterface::class)->error('Setting custom header on a 204 or 304 is not supported (Header: {header})', [
+					'header' => $name,
+				]);
+			}
+		}
+
 		if (is_null($value)) {
 			unset($this->headers[$name]);
 		} else {
@@ -236,7 +244,7 @@ class Response {
 
 		if ($this->lastModified) {
 			$mergeWith['Last-Modified'] =
-				$this->lastModified->format(\DateTime::RFC2822);
+				$this->lastModified->format(\DateTimeInterface::RFC2822);
 		}
 
 		$this->headers['Content-Security-Policy'] = $this->getContentSecurityPolicy()->buildPolicy();

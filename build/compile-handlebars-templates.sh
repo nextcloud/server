@@ -4,11 +4,11 @@ REPODIR=`git rev-parse --show-toplevel`
 
 cd $REPODIR
 
+# Comments files plugin
+node node_modules/handlebars/bin/handlebars -n OCA.Comments.Templates  apps/comments/src/templates -f apps/comments/src/templates.js
+
 # Settings
 node node_modules/handlebars/bin/handlebars -n OC.Settings.Templates  apps/settings/js/templates -f apps/settings/js/templates.js
-
-# Systemtags
-node node_modules/handlebars/bin/handlebars -n OC.SystemTags.Templates core/js/systemtags/templates -f core/js/systemtags/templates.js
 
 # Files app
 node node_modules/handlebars/bin/handlebars -n OCA.Files.Templates apps/files/js/templates -f apps/files/js/templates.js

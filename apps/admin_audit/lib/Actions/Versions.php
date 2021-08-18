@@ -18,18 +18,17 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\AdminAudit\Actions;
 
 class Versions extends Action {
-	public function rollback(array $params) {
+	public function rollback(array $params): void {
 		$this->log('Version "%s" of "%s" was restored.',
 			[
 				'version' => $params['revision'],
@@ -39,7 +38,7 @@ class Versions extends Action {
 		);
 	}
 
-	public function delete(array $params) {
+	public function delete(array $params): void {
 		$this->log('Version "%s" was deleted.',
 			['path' => $params['path']],
 			['path']

@@ -14,14 +14,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\SystemTags\Activity;
 
 use OCP\Activity\IEvent;
@@ -317,7 +316,7 @@ class Provider implements IProvider {
 	protected function getSystemTagParameter($parameter) {
 		$tagData = json_decode($parameter, true);
 		if ($tagData === null) {
-			list($name, $status) = explode('|||', substr($parameter, 3, -3));
+			[$name, $status] = explode('|||', substr($parameter, 3, -3));
 			$tagData = [
 				'id' => 0,// No way to recover the ID
 				'name' => $name,

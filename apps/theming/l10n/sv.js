@@ -4,7 +4,7 @@ OC.L10N.register(
     "Loading preview…" : "Läser in förhandsvisning...",
     "Saved" : "Sparat",
     "Admin" : "Admin",
-    "a safe home for all your data" : "ett säkert hem för alla dina data",
+    "a safe home for all your data" : "ett säkert hem för all din data",
     "Name cannot be empty" : "Namn kan inte vara tom",
     "The given name is too long" : "Det angivna namnet är för långt",
     "The given web address is too long" : "Den angivna adressen är för lång",
@@ -49,7 +49,6 @@ OC.L10N.register(
     "Upload new header logo" : "Ladda upp ny huvud-logga",
     "Favicon" : "Favicon",
     "Upload new favicon" : "Ladda upp nya favicon",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Installera Imagemagick PHP-tillägget med stöd för SVG-bilder för att automatiskt generera favicons baserat på den uppladdade logotypen och färgen.",
-    "Unsupported image type" : "Filtyp stöds inte"
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Installera Imagemagick PHP-tillägget med stöd för SVG-bilder för att automatiskt generera favicons baserat på den uppladdade logotypen och färgen."
 },
 "nplurals=2; plural=(n != 1);");

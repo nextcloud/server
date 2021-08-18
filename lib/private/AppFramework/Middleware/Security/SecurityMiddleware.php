@@ -5,7 +5,6 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
@@ -35,7 +34,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\AppFramework\Middleware\Security;
 
 use OC\AppFramework\Middleware\Security\Exceptions\AppNotEnabledException;
@@ -55,11 +53,11 @@ use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Middleware;
 use OCP\AppFramework\OCSController;
 use OCP\IL10N;
-use OCP\ILogger;
 use OCP\INavigationManager;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\Util;
+use Psr\Log\LoggerInterface;
 
 /**
  * Used to do all the authentication and checking stuff for a controller method
@@ -78,7 +76,7 @@ class SecurityMiddleware extends Middleware {
 	private $appName;
 	/** @var IURLGenerator */
 	private $urlGenerator;
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	private $logger;
 	/** @var bool */
 	private $isLoggedIn;
@@ -95,7 +93,7 @@ class SecurityMiddleware extends Middleware {
 								ControllerMethodReflector $reflector,
 								INavigationManager $navigationManager,
 								IURLGenerator $urlGenerator,
-								ILogger $logger,
+								LoggerInterface $logger,
 								string $appName,
 								bool $isLoggedIn,
 								bool $isAdminUser,
@@ -233,9 +231,8 @@ class SecurityMiddleware extends Middleware {
 				}
 			}
 
-			$this->logger->logException($exception, [
-				'level' => ILogger::DEBUG,
-				'app' => 'core',
+			$this->logger->debug($exception->getMessage(), [
+				'exception' => $exception,
 			]);
 			return $response;
 		}

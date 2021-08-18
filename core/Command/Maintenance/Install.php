@@ -28,7 +28,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Core\Command\Maintenance;
 
 use bantu\IniGetWrapper\IniGetWrapper;
@@ -37,12 +36,15 @@ use OC\Installer;
 use OC\Setup;
 use OC\SystemConfig;
 use OCP\Defaults;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
+use Throwable;
+use function get_class;
 
 class Install extends Command {
 
@@ -83,7 +85,7 @@ class Install extends Command {
 			$this->iniGetWrapper,
 			$server->getL10N('lib'),
 			$server->query(Defaults::class),
-			$server->getLogger(),
+			$server->get(LoggerInterface::class),
 			$server->getSecureRandom(),
 			\OC::$server->query(Installer::class)
 		);
@@ -201,11 +203,26 @@ class Install extends Command {
 	protected function printErrors(OutputInterface $output, $errors) {
 		foreach ($errors as $error) {
 			if (is_array($error)) {
-				$output->writeln('<error>' . (string)$error['error'] . '</error>');
-				$output->writeln('<info> -> ' . (string)$error['hint'] . '</info>');
+				$output->writeln('<error>' . $error['error'] . '</error>');
+				if (isset($error['hint']) && !empty($error['hint'])) {
+					$output->writeln('<info> -> ' . $error['hint'] . '</info>');
+				}
+				if (isset($error['exception']) && $error['exception'] instanceof Throwable) {
+					$this->printThrowable($output, $error['exception']);
+				}
 			} else {
-				$output->writeln('<error>' . (string)$error . '</error>');
+				$output->writeln('<error>' . $error . '</error>');
 			}
+		}
+	}
+
+	private function printThrowable(OutputInterface $output, Throwable $t): void {
+		$output->write('<info>Trace: ' . $t->getTraceAsString() . '</info>');
+		$output->writeln('');
+		if ($t->getPrevious() !== null) {
+			$output->writeln('');
+			$output->writeln('<info>Previous: ' . get_class($t->getPrevious()) . ': ' . $t->getPrevious()->getMessage() . '</info>');
+			$this->printThrowable($output, $t->getPrevious());
 		}
 	}
 }

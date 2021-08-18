@@ -6,6 +6,8 @@ declare(strict_types=1);
  * @copyright Copyright (c) 2019, Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
@@ -17,14 +19,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC;
 
 use Closure;
@@ -32,12 +33,12 @@ use OC\AppFramework\Bootstrap\Coordinator;
 use OCP\AppFramework\QueryException;
 use OCP\AppFramework\Services\InitialStateProvider;
 use OCP\IInitialStateService;
-use OCP\ILogger;
 use OCP\IServerContainer;
+use Psr\Log\LoggerInterface;
 
 class InitialStateService implements IInitialStateService {
 
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	private $logger;
 
 	/** @var string[][] */
@@ -52,7 +53,7 @@ class InitialStateService implements IInitialStateService {
 	/** @var IServerContainer */
 	private $container;
 
-	public function __construct(ILogger $logger, Coordinator $bootstrapCoordinator, IServerContainer $container) {
+	public function __construct(LoggerInterface $logger, Coordinator $bootstrapCoordinator, IServerContainer $container) {
 		$this->logger = $logger;
 		$this->bootstrapCoordinator = $bootstrapCoordinator;
 		$this->container = $container;
@@ -68,7 +69,7 @@ class InitialStateService implements IInitialStateService {
 			return;
 		}
 
-		$this->logger->warning('Invalid data provided to provideInitialState by ' . $appName);
+		$this->logger->warning('Invalid '. $key . ' data provided to provideInitialState by ' . $appName);
 	}
 
 	public function provideLazyInitialState(string $appName, string $key, Closure $closure): void {
@@ -114,25 +115,24 @@ class InitialStateService implements IInitialStateService {
 		$initialStates = $context->getInitialStates();
 		foreach ($initialStates as $initialState) {
 			try {
-				$provider = $this->container->query($initialState['class']);
+				$provider = $this->container->query($initialState->getService());
 			} catch (QueryException $e) {
 				// Log an continue. We can be fault tolerant here.
-				$this->logger->logException($e, [
-					'message' => 'Could not load initial state provider dynamically: ' . $e->getMessage(),
-					'level' => ILogger::ERROR,
-					'app' => $initialState['appId'],
+				$this->logger->error('Could not load initial state provider dynamically: ' . $e->getMessage(), [
+					'exception' => $e,
+					'app' => $initialState->getAppId(),
 				]);
 				continue;
 			}
 
 			if (!($provider instanceof InitialStateProvider)) {
 				// Log an continue. We can be fault tolerant here.
-				$this->logger->error('Initial state provider is not an InitialStateProvider instance: ' . $initialState['class'], [
-					'app' => $initialState['appId'],
+				$this->logger->error('Initial state provider is not an InitialStateProvider instance: ' . $initialState->getService(), [
+					'app' => $initialState->getAppId(),
 				]);
 			}
 
-			$this->provideInitialState($initialState['appId'], $provider->getKey(), $provider);
+			$this->provideInitialState($initialState->getAppId(), $provider->getKey(), $provider);
 		}
 	}
 

@@ -25,7 +25,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Core\Command\Integrity;
 
 use OC\Core\Command\Base;
@@ -70,11 +69,13 @@ class CheckApp extends Base {
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$appid = $input->getArgument('appid');
 		$path = (string)$input->getOption('path');
-		$result = $this->checker->verifyAppSignature($appid, $path);
+		$result = $this->checker->verifyAppSignature($appid, $path, true);
 		$this->writeArrayInOutputFormat($input, $output, $result);
 		if (count($result) > 0) {
+			$output->writeln('<error>' . count($result) . ' errors found</error>', OutputInterface::VERBOSITY_VERBOSE);
 			return 1;
 		}
+		$output->writeln('<info>No errors found</info>', OutputInterface::VERBOSITY_VERBOSE);
 		return 0;
 	}
 }

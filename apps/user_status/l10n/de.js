@@ -1,7 +1,7 @@
 OC.L10N.register(
     "user_status",
     {
-    "Recent statuses" : "Letzte Status",
+    "Recent statuses" : "Letzter Status",
     "In a meeting" : "In einer Besprechung",
     "Commuting" : "Pendelt",
     "Out sick" : "Krankgeschrieben",

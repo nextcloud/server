@@ -9,7 +9,7 @@
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -26,7 +26,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Files\Config;
 
 use OC\Cache\CappedMemoryCache;
@@ -322,22 +321,34 @@ class UserMountCache implements IUserMountCache {
 	 */
 	public function getMountsForFileId($fileId, $user = null) {
 		try {
-			list($storageId, $internalPath) = $this->getCacheInfoFromFileId($fileId);
+			[$storageId, $internalPath] = $this->getCacheInfoFromFileId($fileId);
 		} catch (NotFoundException $e) {
 			return [];
 		}
-		$mountsForStorage = $this->getMountsForStorageId($storageId, $user);
+		$builder = $this->connection->getQueryBuilder();
+		$query = $builder->select('storage_id', 'root_id', 'user_id', 'mount_point', 'mount_id', 'f.path')
+			->from('mounts', 'm')
+			->innerJoin('m', 'filecache', 'f', $builder->expr()->eq('m.root_id', 'f.fileid'))
+			->where($builder->expr()->eq('storage_id', $builder->createPositionalParameter($storageId, IQueryBuilder::PARAM_INT)));
 
+		if ($user) {
+			$query->andWhere($builder->expr()->eq('user_id', $builder->createPositionalParameter($user)));
+		}
+
+		$result = $query->execute();
+		$rows = $result->fetchAll();
+		$result->closeCursor();
 		// filter mounts that are from the same storage but a different directory
-		$filteredMounts = array_filter($mountsForStorage, function (ICachedMountInfo $mount) use ($internalPath, $fileId) {
-			if ($fileId === $mount->getRootId()) {
+		$filteredMounts = array_filter($rows, function (array $row) use ($internalPath, $fileId) {
+			if ($fileId === (int)$row['root_id']) {
 				return true;
 			}
-			$internalMountPath = $mount->getRootInternalPath();
+			$internalMountPath = isset($row['path']) ? $row['path'] : '';
 
 			return $internalMountPath === '' || substr($internalPath, 0, strlen($internalMountPath) + 1) === $internalMountPath . '/';
 		});
 
+		$filteredMounts = array_filter(array_map([$this, 'dbRowToMountInfo'], $filteredMounts));
 		return array_map(function (ICachedMountInfo $mount) use ($internalPath) {
 			return new CachedMountFileInfo(
 				$mount->getUser(),

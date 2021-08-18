@@ -12,6 +12,7 @@ declare(strict_types=1);
  * @author Hendrik Leppelsack <hendrik@leppelsack.de>
  * @author Jens-Christian Fischer <jens-christian.fischer@switch.ch>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author lui87kw <lukas.ifflaender@uni-wuerzburg.de>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Magnus Walbeck <mw@mwalbeck.org>
@@ -20,7 +21,7 @@ declare(strict_types=1);
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Tanghus <thomas@tanghus.net>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  * @author Xheni Myrtaj <myrtajxheni@gmail.com>
  *
  * @license AGPL-3.0
@@ -38,7 +39,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Files\Type;
 
 use OCP\Files\IMimeTypeDetector;

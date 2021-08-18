@@ -1,23 +1,50 @@
 /**
-* ownCloud
-*
-* @author Vincent Petry
 * @copyright 2014 Vincent Petry <pvince81@owncloud.com>
-*
-* This library is free software; you can redistribute it and/or
-* modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
-* License as published by the Free Software Foundation; either
-* version 3 of the License, or any later version.
-*
-* This library is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-* GNU AFFERO GENERAL PUBLIC LICENSE for more details.
-*
-* You should have received a copy of the GNU Affero General Public
-* License along with this library.  If not, see <http://www.gnu.org/licenses/>.
-*
-*/
+ *
+ * @author Abijeet <abijeetpatro@gmail.com>
+ * @author Azul <azul@riseup.net>
+ * @author Bernd Stellwag <burned@zerties.org>
+ * @author Bjoern Schiessle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Clark Tomlinson <fallen013@gmail.com>
+ * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
+ * @author Hasso Tepper <hasso@zone.ee>
+ * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Jörn Friedrich Dreyer <jfd@butonic.de>
+ * @author Julius Härtl <jus@bitgrid.net>
+ * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Michael Weimann <mail@michael-weimann.eu>
+ * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Nazar Mokrynskyi <nazar@mokrynskyi.com>
+ * @author noveens <noveen.sachdeva@research.iiit.ac.in>
+ * @author Remco Brenninkmeijer <requist1@starmail.nl>
+ * @author Robin Appelman <robin@icewind.nl>
+ * @author Robin McCorkell <robin@mccorkell.me.uk>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Roland Tapken <roland@bitarbeiter.net>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
+ * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Tomasz Grobelny <tomasz@grobelny.net>
+ * @author Vincent Petry <vincent@nextcloud.com>
+ *
+ * @license GNU AGPL version 3 or any later version
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
 
 describe('OCA.Files.FileList tests', function() {
 	var FileInfo = OC.Files.FileInfo;
@@ -1224,7 +1251,7 @@ describe('OCA.Files.FileList tests', function() {
 			expect($summary.hasClass('hidden')).toEqual(false);
 			expect($summary.find('.dirinfo').text()).toEqual('1 folder');
 			expect($summary.find('.fileinfo').text()).toEqual('2 files');
-			expect($summary.find('.filter').text()).toEqual(" match 'e'");
+			expect($summary.find('.filter').text()).toEqual(" match \"e\"");
 			expect($nofilterresults.hasClass('hidden')).toEqual(true);
 
 			fileList.setFilter('ee');
@@ -1233,7 +1260,7 @@ describe('OCA.Files.FileList tests', function() {
 			expect($summary.hasClass('hidden')).toEqual(false);
 			expect($summary.find('.dirinfo').hasClass('hidden')).toEqual(true);
 			expect($summary.find('.fileinfo').text()).toEqual('1 file');
-			expect($summary.find('.filter').text()).toEqual(" matches 'ee'");
+			expect($summary.find('.filter').text()).toEqual(" matches \"ee\"");
 			expect($nofilterresults.hasClass('hidden')).toEqual(true);
 
 			fileList.setFilter('eee');
@@ -1248,7 +1275,7 @@ describe('OCA.Files.FileList tests', function() {
 			expect($summary.hasClass('hidden')).toEqual(false);
 			expect($summary.find('.dirinfo').hasClass('hidden')).toEqual(true);
 			expect($summary.find('.fileinfo').text()).toEqual('1 file');
-			expect($summary.find('.filter').text()).toEqual(" matches 'ee'");
+			expect($summary.find('.filter').text()).toEqual(" matches \"ee\"");
 			expect($nofilterresults.hasClass('hidden')).toEqual(true);
 
 			fileList.setFilter('e');
@@ -1257,7 +1284,7 @@ describe('OCA.Files.FileList tests', function() {
 			expect($summary.hasClass('hidden')).toEqual(false);
 			expect($summary.find('.dirinfo').text()).toEqual('1 folder');
 			expect($summary.find('.fileinfo').text()).toEqual('2 files');
-			expect($summary.find('.filter').text()).toEqual(" match 'e'");
+			expect($summary.find('.filter').text()).toEqual(" match \"e\"");
 			expect($nofilterresults.hasClass('hidden')).toEqual(true);
 
 			fileList.setFilter('');
@@ -1278,7 +1305,7 @@ describe('OCA.Files.FileList tests', function() {
 			expect($summary.hasClass('hidden')).toEqual(false);
 			expect($summary.find('.dirinfo').hasClass('hidden')).toEqual(true);
 			expect($summary.find('.fileinfo').text()).toEqual('1 file');
-			expect($summary.find('.filter').text()).toEqual(" matches '63'");
+			expect($summary.find('.filter').text()).toEqual(" matches \"63\"");
 			expect($nofilterresults.hasClass('hidden')).toEqual(true);
 		});
 		it('hides the emptyfiles notice when using filter()', function() {

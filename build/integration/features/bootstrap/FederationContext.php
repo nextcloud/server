@@ -1,9 +1,10 @@
 <?php
 /**
- *
+ * @copyright Copyright (c) 2016 Sergio Bertolin <sbertolin@solidgear.es>
  *
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Sergio Bertolin <sbertolin@solidgear.es>
@@ -18,7 +19,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -36,6 +37,20 @@ require __DIR__ . '/../../vendor/autoload.php';
 class FederationContext implements Context, SnippetAcceptingContext {
 	use WebDav;
 	use AppConfiguration;
+	use CommandLine;
+
+	/**
+	 * @BeforeScenario
+	 */
+	public function cleanupRemoteStorages() {
+		// Ensure that dangling remote storages from previous tests will not
+		// interfere with the current scenario.
+		// The storages must be cleaned before each scenario; they can not be
+		// cleaned after each scenario, as this hook is executed before the hook
+		// that removes the users, so the shares would be still valid and thus
+		// the storages would not be dangling yet.
+		$this->runOcc(['sharing:cleanup-remote-storages']);
+	}
 
 	/**
 	 * @Given /^User "([^"]*)" from server "(LOCAL|REMOTE)" shares "([^"]*)" with user "([^"]*)" from server "(LOCAL|REMOTE)"$/

@@ -24,11 +24,14 @@
 		class="unified-search"
 		exclude-click-outside-classes="popover"
 		:open.sync="open"
+		:aria-label="ariaLabel"
 		@open="onOpen"
 		@close="onClose">
 		<!-- Header icon -->
 		<template #trigger>
-			<Magnify class="unified-search__trigger" :size="20" fill-color="var(--color-primary-text)" />
+			<Magnify class="unified-search__trigger"
+				:size="20"
+				fill-color="var(--color-primary-text)" />
 		</template>
 
 		<!-- Search form & filters wrapper -->
@@ -44,7 +47,7 @@
 					class="unified-search__form-input"
 					type="search"
 					:class="{'unified-search__form-input--with-reset': !!query}"
-					:placeholder="t('core', 'Search {types} …', { types: typesNames.join(', ').toLowerCase() })"
+					:placeholder="t('core', 'Search {types} …', { types: typesNames.join(', ') })"
 					@input="onInputDebounced"
 					@keypress.enter.prevent.stop="onInputEnter">
 
@@ -189,6 +192,10 @@ export default {
 				prev[curr.id] = curr.name
 				return prev
 			}, {})
+		},
+
+		ariaLabel() {
+			return t('core', 'Search')
 		},
 
 		/**

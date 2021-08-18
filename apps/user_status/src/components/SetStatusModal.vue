@@ -238,7 +238,6 @@ export default {
 
 <style lang="scss" scoped>
 .set-status-modal {
-	min-width: 500px;
 	min-height: 200px;
 	padding: 8px 20px 20px 20px;
 	// Enable scrollbar for too long content, same way as in Dashboard customize
@@ -279,6 +278,12 @@ export default {
 		button {
 			flex-basis: 50%;
 		}
+	}
+}
+
+@media only screen and (max-width: 500px) {
+	.set-status-modal__online-status {
+		grid-template-columns: none !important;
 	}
 }
 

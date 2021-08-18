@@ -17,14 +17,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCP\EventDispatcher;
 
 /**
@@ -40,7 +39,8 @@ interface IEventDispatcher {
 	 * @psalm-param string|class-string<T> $eventName preferably the fully-qualified class name of the Event sub class
 	 * @param callable $listener the object that is invoked when a matching event is dispatched
 	 * @psalm-param callable(T):void $listener
-	 * @param int $priority
+	 * @param int $priority The higher this value, the earlier an event
+	 *                      listener will be triggered in the chain (defaults to 0)
 	 *
 	 * @since 17.0.0
 	 */
@@ -63,7 +63,8 @@ interface IEventDispatcher {
 	 * @psalm-param string|class-string<T> $eventName preferably the fully-qualified class name of the Event sub class to listen for
 	 * @param string $className fully qualified class name (or ::class notation) of a \OCP\EventDispatcher\IEventListener that can be built by the DI container
 	 * @psalm-param class-string<\OCP\EventDispatcher\IEventListener<T>> $className fully qualified class name that can be built by the DI container
-	 * @param int $priority
+	 * @param int $priority The higher this value, the earlier an event
+	 *                      listener will be triggered in the chain (defaults to 0)
 	 *
 	 * @since 17.0.0
 	 */

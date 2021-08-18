@@ -7,13 +7,13 @@
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <pvince81@owncloud.com>
  *
  * @license AGPL-3.0
  *
@@ -30,7 +30,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Route;
 
 use OC\AppFramework\Routing\RouteParser;
@@ -56,7 +55,7 @@ class Router implements IRouter {
 	protected $root = null;
 	/** @var null|UrlGenerator */
 	protected $generator = null;
-	/** @var string[] */
+	/** @var string[]|null */
 	protected $routingFiles;
 	/** @var bool */
 	protected $loaded = false;
@@ -95,7 +94,7 @@ class Router implements IRouter {
 	 * @return string[]
 	 */
 	public function getRoutingFiles() {
-		if (!isset($this->routingFiles)) {
+		if ($this->routingFiles === null) {
 			$this->routingFiles = [];
 			foreach (\OC_APP::getEnabledApps() as $app) {
 				$appPath = \OC_App::getAppPath($app);
@@ -237,14 +236,14 @@ class Router implements IRouter {
 	public function findMatchingRoute(string $url): array {
 		if (substr($url, 0, 6) === '/apps/') {
 			// empty string / 'apps' / $app / rest of the route
-			list(, , $app,) = explode('/', $url, 4);
+			[, , $app,] = explode('/', $url, 4);
 
 			$app = \OC_App::cleanAppId($app);
 			\OC::$REQUESTEDAPP = $app;
 			$this->loadRoutes($app);
 		} elseif (substr($url, 0, 13) === '/ocsapp/apps/') {
 			// empty string / 'ocsapp' / 'apps' / $app / rest of the route
-			list(, , , $app,) = explode('/', $url, 5);
+			[, , , $app,] = explode('/', $url, 5);
 
 			$app = \OC_App::cleanAppId($app);
 			\OC::$REQUESTEDAPP = $app;
@@ -297,6 +296,7 @@ class Router implements IRouter {
 		if (isset($parameters['caller'])) {
 			$caller = $parameters['caller'];
 			unset($parameters['caller']);
+			unset($parameters['action']);
 			$application = $this->getApplicationClass($caller[0]);
 			\OC\AppFramework\App::main($caller[1], $caller[2], $application->getContainer(), $parameters);
 		} elseif (isset($parameters['action'])) {
@@ -305,6 +305,7 @@ class Router implements IRouter {
 				throw new \Exception('not a callable action');
 			}
 			unset($parameters['action']);
+			unset($parameters['caller']);
 			call_user_func($action, $parameters);
 		} elseif (isset($parameters['file'])) {
 			include $parameters['file'];
@@ -345,7 +346,7 @@ class Router implements IRouter {
 		}
 		$name = $this->fixLegacyRootName($name);
 		if (strpos($name, '.') !== false) {
-			list($appName, $other) = explode('.', $name, 3);
+			[$appName, $other] = explode('.', $name, 3);
 			// OCS routes are prefixed with "ocs."
 			if ($appName === 'ocs') {
 				$appName = $other;

@@ -1,23 +1,36 @@
 /**
  * @copyright (c) 2017 Arthur Schiwon <blizzz@arthur-schiwon.de>
  *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
- * This file is licensed under the Affero General Public License version 3 or
- * later. See the COPYING file.
+ * @license GNU AGPL version 3 or any later version
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 
 import _ from 'underscore'
 import $ from 'jquery'
-
-import OC from '../OC/index'
+import { generateOcsUrl } from '@nextcloud/router'
 
 export function query(options) {
 	options = options || {}
 	const dismissOptions = options.dismiss || {}
 	$.ajax({
 		type: 'GET',
-		url: options.url || OC.linkToOCS('core', 2) + 'whatsnew?format=json',
+		url: options.url || generateOcsUrl('core/whatsnew?format=json'),
 		success: options.success || function(data, statusText, xhr) {
 			onQuerySuccess(data, statusText, xhr, dismissOptions)
 		},
@@ -29,7 +42,7 @@ export function dismiss(version, options) {
 	options = options || {}
 	$.ajax({
 		type: 'POST',
-		url: options.url || OC.linkToOCS('core', 2) + 'whatsnew',
+		url: options.url || generateOcsUrl('core/whatsnew'),
 		data: { version: encodeURIComponent(version) },
 		success: options.success || onDismissSuccess,
 		error: options.error || onDismissError,

@@ -103,7 +103,6 @@ OC.L10N.register(
     "Please specify a file or folder path" : "Молимо одаберите путању до фајла или фасцикле",
     "Wrong path, file/folder doesn't exist" : "Погрешна путања, фајл/фасцикла не постоји",
     "Could not create share" : "Не могу да направим дељење",
-    "invalid permissions" : "Неисправне дозволе",
     "Please specify a valid user" : "Одаберите исправног корисника",
     "Group sharing is disabled by the administrator" : "Администратор је забранио дељење са групом",
     "Please specify a valid group" : "Одаберите исправну групу",
@@ -121,12 +120,9 @@ OC.L10N.register(
     "Could not lock node" : "Не могу да закључам чвор",
     "Could not lock path" : "Не могу да закључам путању",
     "Wrong or no update parameter given" : "Погрешан или ненаведен параметер",
-    "Can't change permissions for public share links" : "Не могу се променити привилегије за јавно доступне везе",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Дељење слањем лозинке преко Nextcloud Talk-а није успело пошто Nextcloud Talk није укључен",
     "shared by %s" : "поделио %s",
     "Download all files" : "Преузми све фајлове",
     "Direct link" : "Директна веза",
-    "Add to your Nextcloud" : "Додајте у свој облак",
     "Share API is disabled" : "API за дељене је искључен",
     "File sharing" : "Дељења фајлова",
     "Share will expire tomorrow" : "Дељење истиче сутра",
@@ -229,7 +225,10 @@ OC.L10N.register(
     "Uploading files" : "Отпремам фајлове",
     "Uploaded files:" : "Отпремљени фајлови:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Отпремањем фајлова, слажете се са %1$sусловима коришћења%2$s.",
-    "Name, email, or federated cloud ID …" : "Име, адреса е-поште или ID здруженог облака…",
-    "Uploading files…" : "Отпремам фајлове…"
+    "Add to your Nextcloud" : "Додајте у свој облак",
+    "invalid permissions" : "Неисправне дозволе",
+    "Can't change permissions for public share links" : "Не могу се променити привилегије за јавно доступне везе",
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Дељење слањем лозинке преко Nextcloud Talk-а није успело пошто Nextcloud Talk није укључен",
+    "Name, email, or federated cloud ID …" : "Име, адреса е-поште или ID здруженог облака…"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

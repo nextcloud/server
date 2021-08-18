@@ -24,7 +24,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\CalDAV;
 
 use OCP\IL10N;
@@ -80,6 +79,10 @@ class CalendarObject extends \Sabre\CalDAV\CalendarObject {
 		}
 
 		return $vObject->serialize();
+	}
+
+	public function getId(): int {
+		return (int) $this->objectData['id'];
 	}
 
 	protected function isShared() {

@@ -18,7 +18,6 @@ OC.L10N.register(
     "Federated Share request sent, you will receive an invitation. Check your notifications." : "Federerad delningsförfrågan skickades, du kommer att få en inbjudan. Kontrollera dina aviseringar.",
     "Couldn't establish a federated share, it looks like the server to federate with is too old (Nextcloud <= 9)." : "Kunde inte etablera federerad delning, det verkar som servern att federera med är för gammal (Nextcloud <= 9).",
     "It is not allowed to send federated group shares from this server." : "Det är inte tillåtet att skicka federerade gruppdelningar från den här servern.",
-    "Sharing %1$s failed, because this item is already shared with %2$s" : "Delning %1$s misslyckades, är redan delad med %2$s",
     "Not allowed to create a federated share with the same user" : "Inte tillåtet att skapa en federerad delning med samma användare",
     "File is already shared with %s" : "Filen är redan delad med %s",
     "Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable or uses a self-signed certificate." : "Delning %1$s misslyckades. Kunde inte hitta %2$s, kanske är servern inte tillgänglig eller så används ett självsignerat certifikat.",
@@ -37,7 +36,6 @@ OC.L10N.register(
     "Provide federated file sharing across servers" : "Erbjuder federerad fildelning mellan servrar",
     "Federated Cloud Sharing" : "Federerad Moln-delning",
     "Open documentation" : "Öppna dokumentationen",
-    "Adjust how people can share between servers." : "Justera hur användare kan dela genom servrar.",
     "Allow users on this server to receive shares from other servers" : "Tillåt användare på denna servern att ta emot utdelningar från andra servrar",
     "Allow users on this server to send shares to groups on other servers" : "Tillåt användare på denna server att skicka delningar till grupper på andra servrar",
     "Allow users on this server to receive group shares from other servers" : "Tillåt användare på denna servern att ta emot gruppdelningar från andra servrar",
@@ -50,6 +48,6 @@ OC.L10N.register(
     "Add to your website" : "Lägg till på din hemsida",
     "Share with me via Nextcloud" : "Dela med mig via Nextcloud",
     "HTML Code:" : "HTML Kod:",
-    "Allow users on this server to send shares to other servers" : "Tillåt användare på denna server att skicka utdelningar till andra servrar"
+    "Adjust how people can share between servers." : "Justera hur användare kan dela genom servrar."
 },
 "nplurals=2; plural=(n != 1);");

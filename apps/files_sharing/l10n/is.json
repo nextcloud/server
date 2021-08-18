@@ -87,7 +87,6 @@
     "Please specify a file or folder path" : "Tiltaktu skrá eða slóð á möppu",
     "Wrong path, file/folder doesn't exist" : "Röng slóð, skrá/mappa er ekki til",
     "Could not create share" : "Ekki tókst að búa til sameign",
-    "invalid permissions" : "Ógildar aðgangsheimildir",
     "Please specify a valid user" : "Settu inn gilt notandanafn",
     "Group sharing is disabled by the administrator" : "Deiling innan hóps hefur verið gerð óvirk af kerfisstjóra.",
     "Please specify a valid group" : "Settu inn gildan hóp",
@@ -104,12 +103,9 @@
     "Not a directory" : "Er ekki mappa",
     "Could not lock path" : "Gat ekki læst slóð",
     "Wrong or no update parameter given" : "Rangt eða ekkert uppfærsluviðfang gefið",
-    "Can't change permissions for public share links" : "Ekki tókst að breyta aðgangsheimildum fyrir opinbera deilingartengla",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Deiling með því að senda lykilorð með Nextcloud Talk mistókst því að Nextcloud Talk er ekki virkt",
     "shared by %s" : "Deilt af %s",
     "Download all files" : "Sækja allar skrár",
     "Direct link" : "Beinn tengill",
-    "Add to your Nextcloud" : "Bæta í þitt eigið Nextcloud",
     "Share API is disabled" : "Deilingar-API er óvirkt",
     "File sharing" : "Skráadeiling",
     "Share will expire tomorrow" : "Sameignin rennur út á morgun",
@@ -117,6 +113,7 @@
     "Reject" : "Hafna",
     "This application enables users to share files within Nextcloud. If enabled, the admin can choose which groups can share files. The applicable users can then share files and folders with other users and groups within Nextcloud. In addition, if the admin enables the share link feature, an external link can be used to share files with other users outside of Nextcloud. Admins can also enforce passwords, expirations dates, and enable server to server sharing via share links, as well as sharing from mobile devices.\nTurning the feature off removes shared files and folders on the server for all share recipients, and also on the sync clients and mobile apps. More information is available in the Nextcloud Documentation." : "Þetta forrit gerir notendum kleift að deila skrám innan Nextcloud. Ef þetta er virkt getur stjórnandi valið hvaða hópar geti deilt skrám. Viðkomandi notendur geta þá deilt skrám og möppum með öðrum notendum og hópum innan Nextcloud. Að auki, ef stjórnandinn virkjar eiginleikan til að deila með tenglum, er hægt að nota ytri tengil til að deila skrám með öðrum notendum utan Nextcloud. Stjórnendur geta líka krafist notkunar lykilorða, gildistíma og virkjað þjónn-í-þjón deilingu með deilitenglum, rétt eins og deilingu með snjalltækjum.\nSé slökkt á þessum eiginleika, eru deildar skrár og möppur fjarlægðar af þjóninum fyrir alla notendur þessara sameigna, og einnig úr samstillingaforritum og snjalltækjum. Ítarlegri upplýsingar um þetta má finna í hjálparskjölum Nextcloud.",
     "Sharing" : "Deiling",
+    "Accept user and group shares by default" : "Samþykkja sjálfgefið sameignir frá notendum og hópum",
     "Allow editing" : "Leyfa breytingar",
     "Allow resharing" : "Leyfa endurdeilingu",
     "Expiration date enforced" : "Gerði gildistíma nauðsynlegan",
@@ -176,6 +173,9 @@
     "Select or drop files" : "Veldu eða slepptu skrám",
     "Uploaded files:" : "Innsendar skrár:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Með því að senda inn skrár, samþykkir þú %1$sþjónustuskilmálana%2$s.",
-    "Uploading files…" : "Sendi inn skrár…"
+    "Add to your Nextcloud" : "Bæta í þitt eigið Nextcloud",
+    "invalid permissions" : "Ógildar aðgangsheimildir",
+    "Can't change permissions for public share links" : "Ekki tókst að breyta aðgangsheimildum fyrir opinbera deilingartengla",
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Deiling með því að senda lykilorð með Nextcloud Talk mistókst því að Nextcloud Talk er ekki virkt"
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"
 }

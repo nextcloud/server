@@ -26,7 +26,7 @@ OC.L10N.register(
     "More weather for {adr}" : "Mehr Wetter für {adr}",
     "Loading weather" : "Lade Wetter",
     "Set location for weather" : "Stelle Standort für Wetterinformation ein.",
-    "Remove from favorites" : "Aus Favoriten entfernen",
+    "Remove from favorites" : "Von Favoriten entfernen",
     "Add as favorite" : "Als Favorit hinzufügen",
     "You are not logged in." : "Sie sind nicht angemeldet.",
     "There was an error getting the weather status information." : "Beim Abrufen der Wetterstatusinformationen ist ein Fehler aufgetreten.",

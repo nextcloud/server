@@ -36,10 +36,12 @@ OC.L10N.register(
     "Operation %s does not exist" : "Λειτουργία %s δεν υπάρχει",
     "Operation %s is invalid" : "Λειτουργία %s δεν είναι έγκυρη",
     "At least one check needs to be provided" : "Χρειάζεται τουλάχιστο μία επιλογή",
+    "The provided operation data is too long" : "Τα παρεχόμενα δεδομένα λειτουργίας είναι πολύ μεγάλα",
     "Invalid check provided" : "Έχει δοθεί λάθος επιλογή",
     "Check %s does not exist" : "Έλεγχος %s δεν υπάρχει",
     "Check %s is invalid" : "Έλεγχος %s δεν είναι έγκυρος",
     "Check %s is not allowed with this entity" : "Η επιλογή %s δεν επιτρέπετε για αυτή την οντότητα",
+    "The provided check value is too long" : "Η παρεχόμενη τιμή ελέγχου είναι πολύ μεγάλη",
     "Check #%s does not exist" : "Έλεγχος #%s δεν υπάρχει",
     "Check %s is invalid or does not exist" : "Έλεγχος %s δεν είναι έγκυρος ή δεν υπάρχει",
     "Flow" : "Flow",
@@ -81,7 +83,6 @@ OC.L10N.register(
     "Available flows" : "Διαθέσιμες ροές",
     "For details on how to write your own flow, check out the development documentation." : "Για λεπτομέρεις πως μπορείτε να συντάξετε δική σας ροή, δείτε στην τεκμηρίωση προγραμματιστών.",
     "More flows" : "Περισσότερες ροές",
-    "Browse the app store" : "Εξερεύνηση αγοράς αφαρμογών",
     "Show less" : "Εμφάνιση λιγότερων",
     "Show more" : "Εμφάνιση περισσότερων",
     "Configured flows" : "Ρύθμιση ροών",
@@ -112,6 +113,7 @@ OC.L10N.register(
     "Request user agent" : "Αιτηθείτε αντιπρόσωπο χρήστη",
     "User group membership" : "Συμμετοχή σε ομάδα χρηστών",
     "is member of" : "είναι μέλος του",
-    "is not member of" : "δεν είναι μέλος του"
+    "is not member of" : "δεν είναι μέλος του",
+    "Browse the app store" : "Εξερεύνηση αγοράς αφαρμογών"
 },
 "nplurals=2; plural=(n != 1);");

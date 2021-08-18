@@ -1,10 +1,11 @@
 name: Psalm Security Analysis
 
 on:
-  push:
   pull_request:
-  schedule:
-  - cron: '0 0 * * 0'
+  push:
+    branches:
+      - master
+      - stable*
 
 jobs:
   psalm:
@@ -19,6 +20,7 @@ jobs:
         uses: docker://vimeo/psalm-github-actions
         with:
           security_analysis: true
+          composer_ignore_platform_reqs: false
           report_file: results.sarif
       - name: Upload Security Analysis results to GitHub
         uses: github/codeql-action/upload-sarif@v1

@@ -7,6 +7,10 @@
     "The given name is too long" : "Idatzitako izena luzeegia da",
     "The given web address is too long" : "Idatzitako web helbidea luzeegia da",
     "The given web address is not a valid URL" : "Emandako web helbidea URL baliogabea da",
+    "The given legal notice address is too long" : "Emandako lege-ohar helbidea luzeegia da",
+    "The given legal notice address is not a valid URL" : "Emandako lege-ohar helbidea ez da baliozko URLa",
+    "The given privacy policy address is too long" : "Emandako pribatutasun-gidalerro helbidea luzeegia da",
+    "The given privacy policy address is not a valid URL" : "Emandako pribatutasun-gidalerro helbidea ez da baliozko URLa",
     "The given slogan is too long" : "Emandako leloa luzeegia da",
     "The given color is invalid" : "Emandako kolorea ez du balio",
     "The file was uploaded" : "Fitxategia igo da",
@@ -18,10 +22,13 @@
     "Could not write file to disk" : "Ezin izan da fitxategia diskoan idatzi",
     "A PHP extension stopped the file upload" : "PHP hedapen batek fitxategiaren karga gelditu du",
     "No file uploaded" : "Ez da fitxategirik igo",
+    "You are already using a custom theme. Theming app settings might be overwritten by that." : "Gai pertsonalizatua erabiltzen ari zara dagoeneko. Gaiaren aplikazioaren ezarpenak gainidatzi ditzake.",
     "Theming" : "Itxura",
     "Legal notice" : "Ohar legala",
     "Privacy policy" : "Pribatutasun politika",
+    "Adjust the Nextcloud theme" : "Doitu Nextcloud gaia",
     "Open documentation" : "Ireki dokumentazioa",
+    "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Gaiak aukera ematen du zure instantziaren eta onartutako bezeroen itxura eta izaera erraz pertsonalizatzeko. Hau erabiltzaile guztientzat ikusgai egongo da.",
     "Name" : "Izena",
     "Reset to default" : "Berezarri balio lehenetsira",
     "Web link" : "Web esteka",
@@ -40,6 +47,6 @@
     "Upload new header logo" : "Kargatu goiburuaren logo berria",
     "Favicon" : "Gogoko-ikonoa",
     "Upload new favicon" : "Kargatu gogoko-ikono berria",
-    "Unsupported image type" : "Irudi mota ez da onartzen"
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Instalatu Imagemagick PHP luzapena SVG irudien laguntzarekin igotako logotipoan eta kolorean oinarritutako gogoko-ikonoak automatikoki sortzeko."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

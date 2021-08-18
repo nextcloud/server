@@ -147,7 +147,7 @@ form #datadirField legend {
 /* Buttons and input */
 #submit-wrapper,
 #reset-password-wrapper,
-#alternative-logins {
+.alternative-logins {
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -155,7 +155,7 @@ form #datadirField legend {
 						   absolutely positioned descendant icons */
 }
 
-#alternative-logins {
+.alternative-logins {
 	margin: auto;
 	display: block;
 	min-width: 260px;
@@ -163,7 +163,7 @@ form #datadirField legend {
 	overflow: hidden;
 }
 
-#alternative-logins a {
+.alternative-logins a.button {
 	margin: 10px 5px;
 	display: block;
 	font-size: 15px;
@@ -172,7 +172,7 @@ form #datadirField legend {
 	text-overflow: ellipsis;
 }
 
-#alternative-logins a.button::before {
+.alternative-logins a.button::before {
 	content: "";
 	background-repeat: no-repeat;
 	background-size: contain;
@@ -183,16 +183,22 @@ form #datadirField legend {
 	vertical-align: bottom;
 }
 
-#alternative-logins .button {
-	color: #0082c9;
+.alternative-logins .button {
+	color: #ffffff;
 	padding: 12px 20px;
 }
+
+
+.alternative-logins .button.single-alt-login-option {
+	 width: 260px;
+	 margin: 0 auto;
+ }
 
 @media only screen and (max-width: 1024px) {
 	.wrapper {
 		margin-top: 0;
 	}
-	#alternative-logins {
+	.alternative-logins {
 		margin: auto;
 	}
 }
@@ -285,8 +291,14 @@ input[type='password'].password-with-toggle, input[type='text'].password-with-to
 }
 .toggle-password {
 	position: absolute;
-	top: 17px;
-	right: 20px;
+	top: 1px;
+	right: 5px;
+	padding: 14px;
+	height: 16px;
+}
+.toggle-password:hover,
+.toggle-password:focus {
+	opacity: .6;
 }
 input.login {
 	width: 260px;
@@ -334,7 +346,9 @@ button.primary:not(:disabled):hover,
 button.primary:not(:disabled):focus,
 a.primary:not(:disabled):hover,
 a.primary:not(:disabled):focus {
-	color: rgba(255, 255, 255, .8);
+	color: rgba(255, 255, 255, 1);
+	background-image: linear-gradient(40deg, #0082c9 0%, #30b6ff 100%);
+	background-position: initial;
 }
 
 /* Checkboxes - white only for login */
@@ -555,15 +569,16 @@ form .warning input[type='checkbox']+label {
 }
 
 /* Alternative Logins */
-#alternative-logins legend {
+.alternative-logins legend {
 	margin-bottom: 10px;
 }
-#alternative-logins li {
+.alternative-logins li {
 	height: 40px;
 	white-space: nowrap;
 	padding: 05px;
 }
-#alternative-logins li a {
+.alternative-logins a.button,
+.alternative-logins li a {
 	width: 100%;
 	display: inline-block;
 	text-align: center;
@@ -646,6 +661,10 @@ form #selectDbType label span {
 }
 .groupbottom input[type=submit] {
 	box-shadow: none !important;
+}
+.grouptop.groupbottom input {
+	border-radius: 3px !important;
+	margin: 5px 0 !important;
 }
 
 #install-recommended-apps + label span {

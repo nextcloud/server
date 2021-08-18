@@ -6,7 +6,7 @@ if [[ -n ${DRONE_SOURCE_BRANCH} && ! ${DRONE_SOURCE_BRANCH} =~ version(\/noid)?\
 fi
 
 echo "Fetching latest ca-bundle.crt ..."
-curl -o resources/config/ca-bundle.crt https://curl.haxx.se/ca/cacert.pem
+curl -o resources/config/ca-bundle.crt https://curl.se/ca/cacert.pem
 
 echo
 outdated=$(git diff --name-only | grep "resources/config/ca-bundle.crt")

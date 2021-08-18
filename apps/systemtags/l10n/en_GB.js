@@ -3,7 +3,7 @@ OC.L10N.register(
     {
     "Update" : "Update",
     "Create" : "Create",
-    "Select tag…" : "Select tag…",
+    "Select tag …" : "Select tag …",
     "Added system tag {systemtag}" : "Added system tag {systemtag}",
     "Added system tag %1$s" : "Added system tag %1$s",
     "%1$s added system tag %2$s" : "%1$s added system tag %2$s",
@@ -44,7 +44,6 @@ OC.L10N.register(
     "No tags found" : "No tags found",
     "Please select tags to filter by" : "Please select tags to filter by",
     "No files found for the selected tags" : "No files found for the selected tags",
-    "Select tag …" : "Select tag …",
     "Create a new tag" : "Create a new tag",
     "Name" : "Name",
     "Public" : "Public",

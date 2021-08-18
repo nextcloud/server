@@ -6,7 +6,7 @@ declare(strict_types=1);
  * @copyright Copyright (c) 2020, Georg Ehrke
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -17,7 +17,7 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -160,7 +160,17 @@ class ContactsSearchProviderTest extends TestCase {
 		$this->backend->expects($this->once())
 			->method('searchPrincipalUri')
 			->with('principals/users/john.doe', 'search term',
-				['N', 'FN', 'NICKNAME', 'EMAIL', 'ADR'],
+				[
+					'N',
+					'FN',
+					'NICKNAME',
+					'EMAIL',
+					'TEL',
+					'ADR',
+					'TITLE',
+					'ORG',
+					'NOTE',
+				],
 				['limit' => 5, 'offset' => 20])
 			->willReturn([
 				[

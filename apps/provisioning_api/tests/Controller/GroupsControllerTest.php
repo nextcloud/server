@@ -5,7 +5,7 @@
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
@@ -27,22 +27,21 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Provisioning_API\Tests\Controller;
 
-use OC\Accounts\AccountManager;
 use OC\Group\Manager;
 use OC\SubAdmin;
 use OC\User\NoUserException;
 use OCA\Provisioning_API\Controller\GroupsController;
+use OCP\Accounts\IAccountManager;
 use OCP\IConfig;
-use OCP\ILogger;
 use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\UserInterface;
+use Psr\Log\LoggerInterface;
 
 class GroupsControllerTest extends \Test\TestCase {
 
@@ -56,9 +55,9 @@ class GroupsControllerTest extends \Test\TestCase {
 	protected $groupManager;
 	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
 	protected $userSession;
-	/** @var AccountManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IAccountManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $accountManager;
-	/** @var ILogger|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
 	protected $logger;
 	/** @var  SubAdmin|\PHPUnit\Framework\MockObject\MockObject */
 	protected $subAdminManager;
@@ -75,9 +74,9 @@ class GroupsControllerTest extends \Test\TestCase {
 		$this->config = $this->createMock(IConfig::class);
 		$this->groupManager = $this->createMock(Manager::class);
 		$this->userSession = $this->createMock(IUserSession::class);
-		$this->accountManager = $this->createMock(AccountManager::class);
+		$this->accountManager = $this->createMock(IAccountManager::class);
 		$this->l10nFactory = $this->createMock(IFactory::class);
-		$this->logger = $this->createMock(ILogger::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 
 		$this->subAdminManager = $this->createMock(SubAdmin::class);
 
@@ -177,19 +176,6 @@ class GroupsControllerTest extends \Test\TestCase {
 					return true;
 				}
 				return false;
-			});
-	}
-
-	private function useAccountManager() {
-		$this->accountManager->expects($this->any())
-			->method('getUser')
-			->willReturnCallback(function (IUser $user) {
-				return [
-					AccountManager::PROPERTY_PHONE => ['value' => '0800-call-' . $user->getUID()],
-					AccountManager::PROPERTY_ADDRESS => ['value' => 'Holzweg 99, 0601 Herrera, Panama'],
-					AccountManager::PROPERTY_WEBSITE => ['value' => 'https://' . $user->getUid() . '.pa'],
-					AccountManager::PROPERTY_TWITTER => ['value' => '@' . $user->getUID()],
-				];
 			});
 	}
 
@@ -419,10 +405,12 @@ class GroupsControllerTest extends \Test\TestCase {
 			->with('NewGroup')
 			->willReturn(false);
 
+		$group = $this->createGroup('NewGroup');
 		$this->groupManager
 			->expects($this->once())
 			->method('createGroup')
-			->with('NewGroup');
+			->with('NewGroup')
+			->willReturn($group);
 
 		$this->api->addGroup('NewGroup');
 	}
@@ -433,10 +421,12 @@ class GroupsControllerTest extends \Test\TestCase {
 			->with('Iñtërnâtiônàlizætiøn')
 			->willReturn(false);
 
+		$group = $this->createGroup('Iñtërnâtiônàlizætiøn');
 		$this->groupManager
 			->expects($this->once())
 			->method('createGroup')
-			->with('Iñtërnâtiônàlizætiøn');
+			->with('Iñtërnâtiônàlizætiøn')
+			->willReturn($group);
 
 		$this->api->addGroup('Iñtërnâtiônàlizætiøn');
 	}
@@ -504,7 +494,6 @@ class GroupsControllerTest extends \Test\TestCase {
 		$gid = 'ncg1';
 
 		$this->asAdmin();
-		$this->useAccountManager();
 
 		$users = [
 			'ncu1' => $this->createUser('ncu1'), # regular
@@ -550,7 +539,6 @@ class GroupsControllerTest extends \Test\TestCase {
 		$gid = 'Department A/B C/D';
 
 		$this->asAdmin();
-		$this->useAccountManager();
 
 		$users = [
 			'ncu1' => $this->createUser('ncu1'), # regular

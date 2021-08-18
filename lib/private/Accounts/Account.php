@@ -5,6 +5,7 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2018 Julius Härtl <jus@bitgrid.net>
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Julius Härtl <jus@bitgrid.net>
  *
@@ -17,24 +18,27 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Accounts;
 
+use Generator;
 use OCP\Accounts\IAccount;
 use OCP\Accounts\IAccountProperty;
+use OCP\Accounts\IAccountPropertyCollection;
 use OCP\Accounts\PropertyDoesNotExistException;
 use OCP\IUser;
+use RuntimeException;
 
 class Account implements IAccount {
+	use TAccountsHelper;
 
-	/** @var IAccountProperty[] */
+	/** @var IAccountPropertyCollection[]|IAccountProperty[] */
 	private $properties = [];
 
 	/** @var IUser */
@@ -44,32 +48,60 @@ class Account implements IAccount {
 		$this->user = $user;
 	}
 
-	public function setProperty(string $property, string $value, string $scope, string $verified): IAccount {
-		$this->properties[$property] = new AccountProperty($property, $value, $scope, $verified);
+	public function setProperty(string $property, string $value, string $scope, string $verified, string $verificationData = ''): IAccount {
+		if ($this->isCollection($property)) {
+			throw new \InvalidArgumentException('setProperty cannot set an IAccountsPropertyCollection');
+		}
+		$this->properties[$property] = new AccountProperty($property, $value, $scope, $verified, $verificationData);
 		return $this;
 	}
 
 	public function getProperty(string $property): IAccountProperty {
-		if (!array_key_exists($property, $this->properties)) {
+		if ($this->isCollection($property)) {
+			throw new \InvalidArgumentException('getProperty cannot retrieve an IAccountsPropertyCollection');
+		}
+		if (!array_key_exists($property, $this->properties) || !$this->properties[$property] instanceof IAccountProperty) {
 			throw new PropertyDoesNotExistException($property);
 		}
 		return $this->properties[$property];
 	}
 
 	public function getProperties(): array {
-		return $this->properties;
+		return array_filter($this->properties, function ($obj) {
+			return $obj instanceof IAccountProperty;
+		});
+	}
+
+	public function getAllProperties(): Generator {
+		foreach ($this->properties as $propertyObject) {
+			if ($propertyObject instanceof IAccountProperty) {
+				yield $propertyObject;
+			} elseif ($propertyObject instanceof IAccountPropertyCollection) {
+				foreach ($propertyObject->getProperties() as $property) {
+					yield $property;
+				}
+			}
+		}
 	}
 
 	public function getFilteredProperties(string $scope = null, string $verified = null): array {
-		return \array_filter($this->properties, function (IAccountProperty $obj) use ($scope, $verified) {
+		$result = $incrementals = [];
+		/** @var IAccountProperty $obj */
+		foreach ($this->getAllProperties() as $obj) {
 			if ($scope !== null && $scope !== $obj->getScope()) {
-				return false;
+				continue;
 			}
 			if ($verified !== null && $verified !== $obj->getVerified()) {
-				return false;
+				continue;
 			}
-			return true;
-		});
+			$index = $obj->getName();
+			if ($this->isCollection($index)) {
+				$incrementals[$index] = ($incrementals[$index] ?? -1) + 1;
+				$index .= '#' . $incrementals[$index];
+			}
+			$result[$index] = $obj;
+		}
+		return $result;
 	}
 
 	public function jsonSerialize() {
@@ -78,5 +110,23 @@ class Account implements IAccount {
 
 	public function getUser(): IUser {
 		return $this->user;
+	}
+
+	public function setPropertyCollection(IAccountPropertyCollection $propertyCollection): IAccount {
+		$this->properties[$propertyCollection->getName()] = $propertyCollection;
+		return $this;
+	}
+
+	public function getPropertyCollection(string $propertyCollectionName): IAccountPropertyCollection {
+		if (!$this->isCollection($propertyCollectionName)) {
+			throw new PropertyDoesNotExistException($propertyCollectionName);
+		}
+		if (!array_key_exists($propertyCollectionName, $this->properties)) {
+			$this->properties[$propertyCollectionName] = new AccountPropertyCollection($propertyCollectionName);
+		}
+		if (!$this->properties[$propertyCollectionName] instanceof IAccountPropertyCollection) {
+			throw new RuntimeException('Requested collection is not an IAccountPropertyCollection');
+		}
+		return $this->properties[$propertyCollectionName];
 	}
 }

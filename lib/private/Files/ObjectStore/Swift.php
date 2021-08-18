@@ -23,7 +23,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Files\ObjectStore;
 
 use GuzzleHttp\Client;
@@ -74,12 +73,7 @@ class Swift implements IObjectStore {
 		return $this->params['container'];
 	}
 
-	/**
-	 * @param string $urn the unified resource name used to identify the object
-	 * @param resource $stream stream with the data to write
-	 * @throws \Exception from openstack lib when something goes wrong
-	 */
-	public function writeObject($urn, $stream) {
+	public function writeObject($urn, $stream, string $mimetype = null) {
 		$tmpFile = \OC::$server->getTempManager()->getTemporaryFile('swiftwrite');
 		file_put_contents($tmpFile, $stream);
 		$handle = fopen($tmpFile, 'rb');
@@ -87,13 +81,15 @@ class Swift implements IObjectStore {
 		if (filesize($tmpFile) < SWIFT_SEGMENT_SIZE) {
 			$this->getContainer()->createObject([
 				'name' => $urn,
-				'stream' => stream_for($handle)
+				'stream' => stream_for($handle),
+				'contentType' => $mimetype,
 			]);
 		} else {
 			$this->getContainer()->createLargeObject([
 				'name' => $urn,
 				'stream' => stream_for($handle),
-				'segmentSize' => SWIFT_SEGMENT_SIZE
+				'segmentSize' => SWIFT_SEGMENT_SIZE,
+				'contentType' => $mimetype,
 			]);
 		}
 	}
@@ -114,7 +110,7 @@ class Swift implements IObjectStore {
 					'stream' => true,
 					'headers' => [
 						'X-Auth-Token' => $tokenId,
-						'Cache-Control' => 'no-cache'
+						'Cache-Control' => 'no-cache',
 					],
 				]
 			);
@@ -148,5 +144,11 @@ class Swift implements IObjectStore {
 
 	public function objectExists($urn) {
 		return $this->getContainer()->objectExists($urn);
+	}
+
+	public function copyObject($from, $to) {
+		$this->getContainer()->getObject($from)->copy([
+			'destination' => $this->getContainer()->name . '/' . $to
+		]);
 	}
 }

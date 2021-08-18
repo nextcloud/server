@@ -75,9 +75,6 @@ OC.L10N.register(
     "File name cannot be empty." : "Dosiernomo devas ne malpleni.",
     "\"/\" is not allowed inside a file name." : "Ne eblas uziĝi „/“ en dosiernomo.",
     "\"{name}\" is not an allowed filetype" : "„{name}“ ne estas permesita dosiertipo.",
-    "Storage of {owner} is full, files can not be updated or synced anymore!" : "Konservejo de {owner} plenas; dosieroj ne povas alŝutiĝi aŭ sinkroniĝi plu!",
-    "Your storage is full, files can not be updated or synced anymore!" : "Via konservejo plenas, ne plu eblas ĝisdatigi aŭ sinkronigi dosierojn!",
-    "_matches '{filter}'_::_match '{filter}'_" : ["kongruas kun “{filter}”","kongruas kun “{filter}”"],
     "View in folder" : "Vidi en dosierujo",
     "Copied!" : "Kopiita!",
     "Copy direct link (only works for users who have access to this file/folder)" : "Kopii senperan ligilon (nur validas por uzantoj, kiuj povas aliri al tiu dosiero aŭ dosierujo)",
@@ -160,14 +157,8 @@ OC.L10N.register(
     "Deleted shares" : "Forigitaj kunhavigoj",
     "Text file" : "Tekstodosiero",
     "New text file.txt" : "Nova tekstodosiero.txt",
-    "Unshare" : "Malkunhavigi",
-    "Storage of {owner} is almost full ({usedSpacePercent}%)" : "Konservejo de {owner} preskaŭ plenas ({usedSpacePercent}%)",
-    "Your storage is almost full ({usedSpacePercent}%)" : "Via konservejo preskaŭ plenas ({usedSpacePercent}%)",
-    "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>" : "Dosiero aŭ dosierujo <strong>ŝanĝiĝis</strong> aŭ <strong>alinomiĝis</strong>",
-    "A new file or folder has been <strong>created</strong>" : "Nova dosiero aŭ dosierujo <strong>kreiĝis</strong>",
-    "A file or folder has been <strong>deleted</strong>" : "Dosiero aŭ dosierujo <strong>foriĝis</strong>",
-    "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Limigi sciigojn pri kreo aŭ ŝanĝo de viaj <strong>pliŝatataj dosieroj</strong> <em>(nur en la fluo)</em>",
-    "A file or folder has been <strong>restored</strong>" : "Dosiero aŭ dosierujo <strong>restaŭrita</strong>",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Uzu tiun adreson por <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">atingi viajn dosierojn per WebDAV</a>"
+    "Storage of {owner} is full, files can not be updated or synced anymore!" : "Konservejo de {owner} plenas; dosieroj ne povas alŝutiĝi aŭ sinkroniĝi plu!",
+    "Your storage is full, files can not be updated or synced anymore!" : "Via konservejo plenas, ne plu eblas ĝisdatigi aŭ sinkronigi dosierojn!",
+    "_matches '{filter}'_::_match '{filter}'_" : ["kongruas kun “{filter}”","kongruas kun “{filter}”"]
 },
 "nplurals=2; plural=(n != 1);");

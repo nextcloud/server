@@ -9,9 +9,9 @@
  * @author Frank Karlitschek <frank@karlitschek.de>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Individual IT Services <info@individual-it.net>
+ * @author J0WI <J0WI@users.noreply.github.com>
  * @author Jens-Christian Fischer <jens-christian.fischer@switch.ch>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
@@ -23,7 +23,7 @@
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Victor Dubiniuk <dubiniuk@owncloud.com>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -40,13 +40,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
-/**
- * Public interface of ownCloud for apps to use.
- * Utility Class.
- *
- */
-
 // use OCP namespace for all classes that are considered public.
 // This means that they should be used by apps instead of the internal ownCloud classes
 
@@ -316,7 +309,7 @@ class Util {
 	 * @param string $str file size in a fancy format
 	 * @return float a file size in bytes
 	 *
-	 * Inspired by: http://www.php.net/manual/en/function.filesize.php#92418
+	 * Inspired by: https://www.php.net/manual/en/function.filesize.php#92418
 	 * @since 4.0.0
 	 */
 	public static function computerFileSize($str) {
@@ -519,15 +512,5 @@ class Util {
 			self::$needUpgradeCache = \OC_Util::needUpgrade(\OC::$server->getSystemConfig());
 		}
 		return self::$needUpgradeCache;
-	}
-
-	/**
-	 * is this Internet explorer ?
-	 *
-	 * @return boolean
-	 * @since 14.0.0
-	 */
-	public static function isIe() {
-		return \OC_Util::isIe();
 	}
 }

@@ -5,9 +5,10 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2020, Georg Ehrke
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -18,7 +19,7 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -152,13 +153,13 @@ class TasksSearchProvider extends ACalendarSearchProvider {
 	 */
 	protected function generateSubline(Component $taskComponent): string {
 		if ($taskComponent->COMPLETED) {
-			$completedDateTime = new \DateTime($taskComponent->COMPLETED->getDateTime()->format(\DateTime::ATOM));
+			$completedDateTime = new \DateTime($taskComponent->COMPLETED->getDateTime()->format(\DateTimeInterface::ATOM));
 			$formattedDate = $this->l10n->l('date', $completedDateTime, ['width' => 'medium']);
 			return $this->l10n->t('Completed on %s', [$formattedDate]);
 		}
 
 		if ($taskComponent->DUE) {
-			$dueDateTime = new \DateTime($taskComponent->DUE->getDateTime()->format(\DateTime::ATOM));
+			$dueDateTime = new \DateTime($taskComponent->DUE->getDateTime()->format(\DateTimeInterface::ATOM));
 			$formattedDate = $this->l10n->l('date', $dueDateTime, ['width' => 'medium']);
 
 			if ($taskComponent->DUE->hasTime()) {

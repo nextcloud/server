@@ -21,7 +21,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\App;
 
 use OCP\EventDispatcher\Event;
@@ -32,12 +31,24 @@ use OCP\EventDispatcher\Event;
  * @since 9.0.0
  */
 class ManagerEvent extends Event {
+	/**
+	 * @deprecated 22.0.0
+	 */
 	public const EVENT_APP_ENABLE = 'OCP\App\IAppManager::enableApp';
+
+	/**
+	 * @deprecated 22.0.0
+	 */
 	public const EVENT_APP_ENABLE_FOR_GROUPS = 'OCP\App\IAppManager::enableAppForGroups';
+
+	/**
+	 * @deprecated 22.0.0
+	 */
 	public const EVENT_APP_DISABLE = 'OCP\App\IAppManager::disableApp';
 
 	/**
 	 * @since 9.1.0
+	 * @deprecated 22.0.0
 	 */
 	public const EVENT_APP_UPDATE = 'OCP\App\IAppManager::updateApp';
 

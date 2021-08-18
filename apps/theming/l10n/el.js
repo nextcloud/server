@@ -49,7 +49,6 @@ OC.L10N.register(
     "Upload new header logo" : "Μεταφόρτωση νέου λογοτύπου επικεφαλίδας",
     "Favicon" : "Favicon",
     "Upload new favicon" : "Μεταφόρτωση νέου favicon",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Εγκαταστήστε την επέκταση PHP Imagemagick με υποστήριξη SVG εικόνων, για να γίνει αυτόματη δημιουργία favicon βασισμένο πάνω στο μεταφορτωμένο λογότυπο και χρώμα.",
-    "Unsupported image type" : "Μη υποστηριζόμενος τύπος εικόνας"
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Εγκαταστήστε την επέκταση PHP Imagemagick με υποστήριξη SVG εικόνων, για να γίνει αυτόματη δημιουργία favicon βασισμένο πάνω στο μεταφορτωμένο λογότυπο και χρώμα."
 },
 "nplurals=2; plural=(n != 1);");

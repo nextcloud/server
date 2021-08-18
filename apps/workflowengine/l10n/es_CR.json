@@ -31,7 +31,6 @@
     "Cancel" : "Cancelar",
     "Delete" : "Borrar",
     "Save" : "Guardar",
-    "Browse the app store" : "Navega la tienda de aplicaciones",
     "matches" : "coincide",
     "does not match" : "No coincide",
     "is" : "es",
@@ -57,6 +56,7 @@
     "Request user agent" : "Solicitar agente de usuario",
     "User group membership" : "Membresia al grupo de usuarios",
     "is member of" : "es miembro de",
-    "is not member of" : "no es miembro de"
+    "is not member of" : "no es miembro de",
+    "Browse the app store" : "Navega la tienda de aplicaciones"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

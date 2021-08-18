@@ -20,9 +20,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\Files\Cache;
 
+use OCP\Files\Search\ISearchOperator;
 use OCP\Files\Search\ISearchQuery;
 
 /**
@@ -31,8 +31,8 @@ use OCP\Files\Search\ISearchQuery;
  * The cache stores the metadata for all files and folders in a storage and is kept up to date trough the following mechanisms:
  *
  * - Scanner: scans the storage and updates the cache where needed
- * - Watcher: checks for changes made to the filesystem outside of the ownCloud instance and rescans files and folder when a change is detected
- * - Updater: listens to changes made to the filesystem inside of the ownCloud instance and updates the cache where needed
+ * - Watcher: checks for changes made to the filesystem outside of the Nextcloud instance and rescans files and folder when a change is detected
+ * - Updater: listens to changes made to the filesystem inside of the Nextcloud instance and updates the cache where needed
  * - ChangePropagator: updates the mtime and etags of parent folders whenever a change to the cache is made to the cache by the updater
  *
  * @since 9.0.0
@@ -119,7 +119,7 @@ interface ICache {
 	/**
 	 * get the file id for a file
 	 *
-	 * A file id is a numeric id for a file or folder that's unique within an owncloud instance which stays the same for the lifetime of a file
+	 * A file id is a numeric id for a file or folder that's unique within an Nextcloud instance which stays the same for the lifetime of a file
 	 *
 	 * File ids are easiest way for apps to store references to a file since unlike paths they are not affected by renames or sharing
 	 *
@@ -178,6 +178,17 @@ interface ICache {
 	 * @since 9.0.0
 	 */
 	public function moveFromCache(ICache $sourceCache, $sourcePath, $targetPath);
+
+	/**
+	 * Copy a file or folder in the cache
+	 *
+	 * @param ICache $sourceCache
+	 * @param ICacheEntry $sourceEntry
+	 * @param string $targetPath
+	 * @return int fileid of copied entry
+	 * @since 22.0.0
+	 */
+	public function copyFromCache(ICache $sourceCache, ICacheEntry $sourceEntry, string $targetPath): int;
 
 	/**
 	 * Get the scan status of a file
@@ -254,4 +265,30 @@ interface ICache {
 	 * @since 9.0.0
 	 */
 	public function normalize($path);
+
+	/**
+	 * Get the query expression required to filter files within this storage.
+	 *
+	 * In the most basic case this is just comparing the storage id
+	 * but storage wrappers can add additional expressions to filter down things further
+	 *
+	 * @return ISearchOperator
+	 * @since 22.0.0
+	 */
+	public function getQueryFilterForStorage(): ISearchOperator;
+
+	/**
+	 * Construct a cache entry from a search result row *if* the entry belongs to this storage.
+	 *
+	 * This method will be called for every item in the search results, including results from different storages.
+	 * It's the responsibility of this method to return `null` for all results that don't belong to this storage.
+	 *
+	 * Additionally some implementations might need to further process the resulting entry such as modifying the path
+	 * or permissions of the result.
+	 *
+	 * @param ICacheEntry $rawEntry
+	 * @return ICacheEntry|null
+	 * @since 22.0.0
+	 */
+	public function getCacheEntryFromSearchResult(ICacheEntry $rawEntry): ?ICacheEntry;
 }

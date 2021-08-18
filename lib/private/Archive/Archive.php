@@ -27,7 +27,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Archive;
 
 abstract class Archive {
@@ -113,7 +112,7 @@ abstract class Archive {
 	 * get a file handler
 	 * @param string $path
 	 * @param string $mode
-	 * @return resource
+	 * @return bool|resource
 	 */
 	abstract public function getStream($path, $mode);
 	/**

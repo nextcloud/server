@@ -85,7 +85,7 @@ class MetaDataTest extends \Test\TestCase {
 			->with('')
 			->willReturn($groups);
 
-		list($adminGroups, $ordinaryGroups) = $this->groupMetadata->get();
+		[$adminGroups, $ordinaryGroups] = $this->groupMetadata->get();
 
 		$this->assertSame(1, count($adminGroups));
 		$this->assertSame(2, count($ordinaryGroups));
@@ -105,7 +105,7 @@ class MetaDataTest extends \Test\TestCase {
 			->with('')
 			->willReturn($groups);
 
-		list($adminGroups, $ordinaryGroups) = $this->groupMetadata->get();
+		[$adminGroups, $ordinaryGroups] = $this->groupMetadata->get();
 
 		$this->assertSame(1, count($adminGroups));
 		$this->assertSame(2, count($ordinaryGroups));

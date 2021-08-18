@@ -3,17 +3,18 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Andreas Fischer <bantu@owncloud.com>
- * @author Björn Schießle <bjoern@schiessle.org>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Nils Wittenbrink <nilswittenbrink@web.de>
  * @author Owen Winkler <a_github@midnightcircus.com>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Sander Ruitenbeek <sander@grids.be>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Thomas Pulzer <t.pulzer@kniel.de>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Valdnet <47037905+Valdnet@users.noreply.github.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -30,15 +31,14 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Core\Command;
 
 use OC\Console\TimestampFormatter;
 use OC\Installer;
 use OC\Updater;
 use OCP\IConfig;
-use OCP\ILogger;
 use OCP\Util;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
@@ -56,15 +56,13 @@ class Upgrade extends Command {
 	/** @var IConfig */
 	private $config;
 
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	private $logger;
 
-	/**
-	 * @param IConfig $config
-	 * @param ILogger $logger
-	 * @param Installer $installer
-	 */
-	public function __construct(IConfig $config, ILogger $logger, Installer $installer) {
+	/** @var Installer */
+	private $installer;
+
+	public function __construct(IConfig $config, LoggerInterface $logger, Installer $installer) {
 		parent::__construct();
 		$this->config = $config;
 		$this->logger = $logger;
@@ -203,12 +201,6 @@ class Upgrade extends Command {
 			$updater->listen('\OC\Updater', 'dbUpgrade', function () use ($output) {
 				$output->writeln('<info>Updated database</info>');
 			});
-			$updater->listen('\OC\Updater', 'dbSimulateUpgradeBefore', function () use ($output) {
-				$output->writeln('<info>Checking whether the database schema can be updated (this can take a long time depending on the database size)</info>');
-			});
-			$updater->listen('\OC\Updater', 'dbSimulateUpgrade', function () use ($output) {
-				$output->writeln('<info>Checked database schema update</info>');
-			});
 			$updater->listen('\OC\Updater', 'incompatibleAppDisabled', function ($app) use ($output) {
 				$output->writeln('<comment>Disabled incompatible app: ' . $app . '</comment>');
 			});
@@ -216,19 +208,13 @@ class Upgrade extends Command {
 				$output->writeln('<info>Checking for update of app ' . $app . ' in appstore</info>');
 			});
 			$updater->listen('\OC\Updater', 'upgradeAppStoreApp', function ($app) use ($output) {
-				$output->writeln('<info>Update app ' . $app . ' from appstore</info>');
+				$output->writeln('<info>Update app ' . $app . ' from App Store</info>');
 			});
 			$updater->listen('\OC\Updater', 'checkAppStoreApp', function ($app) use ($output) {
-				$output->writeln('<info>Checked for update of app "' . $app . '" in appstore </info>');
-			});
-			$updater->listen('\OC\Updater', 'appUpgradeCheckBefore', function () use ($output) {
-				$output->writeln('<info>Checking updates of apps</info>');
+				$output->writeln('<info>Checked for update of app "' . $app . '" in App Store </info>');
 			});
 			$updater->listen('\OC\Updater', 'appSimulateUpdate', function ($app) use ($output) {
 				$output->writeln("<info>Checking whether the database schema for <$app> can be updated (this can take a long time depending on the database size)</info>");
-			});
-			$updater->listen('\OC\Updater', 'appUpgradeCheck', function () use ($output) {
-				$output->writeln('<info>Checked database schema update for apps</info>');
 			});
 			$updater->listen('\OC\Updater', 'appUpgradeStarted', function ($app, $version) use ($output) {
 				$output->writeln("<info>Updating <$app> ...</info>");
@@ -263,7 +249,7 @@ class Upgrade extends Command {
 			return self::ERROR_SUCCESS;
 		} elseif ($this->config->getSystemValueBool('maintenance')) {
 			//Possible scenario: Nextcloud core is updated but an app failed
-			$output->writeln('<warning>Nextcloud is in maintenance mode</warning>');
+			$output->writeln('<comment>Nextcloud is in maintenance mode</comment>');
 			$output->write('<comment>Maybe an upgrade is already in process. Please check the '
 				. 'logfile (data/nextcloud.log). If you want to re-run the '
 				. 'upgrade procedure, remove the "maintenance mode" from '

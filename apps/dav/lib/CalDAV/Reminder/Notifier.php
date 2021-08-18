@@ -20,14 +20,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\CalDAV\Reminder;
 
 use DateTime;
@@ -36,6 +35,7 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
+use OCP\Notification\AlreadyProcessedException;
 use OCP\Notification\INotification;
 use OCP\Notification\INotifier;
 
@@ -144,7 +144,7 @@ class Notifier implements INotifier {
 	private function prepareNotificationSubject(INotification $notification): void {
 		$parameters = $notification->getSubjectParameters();
 
-		$startTime = \DateTime::createFromFormat(\DateTime::ATOM, $parameters['start_atom']);
+		$startTime = \DateTime::createFromFormat(\DateTimeInterface::ATOM, $parameters['start_atom']);
 		$now = $this->timeFactory->getDateTime();
 		$title = $this->getTitleFromParameters($parameters);
 
@@ -221,8 +221,14 @@ class Notifier implements INotifier {
 	 * @throws \Exception
 	 */
 	private function generateDateString(array $parameters):string {
-		$startDateTime = DateTime::createFromFormat(\DateTime::ATOM, $parameters['start_atom']);
-		$endDateTime = DateTime::createFromFormat(\DateTime::ATOM, $parameters['end_atom']);
+		$startDateTime = DateTime::createFromFormat(\DateTimeInterface::ATOM, $parameters['start_atom']);
+		$endDateTime = DateTime::createFromFormat(\DateTimeInterface::ATOM, $parameters['end_atom']);
+
+		// If the event has already ended, dismiss the notification
+		if ($endDateTime < $this->timeFactory->getDateTime()) {
+			throw new AlreadyProcessedException();
+		}
+
 		$isAllDay = $parameters['all_day'];
 		$diff = $startDateTime->diff($endDateTime);
 

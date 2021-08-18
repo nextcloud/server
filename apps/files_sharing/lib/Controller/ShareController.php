@@ -10,7 +10,7 @@
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author j3l11234 <297259024@qq.com>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Jonas Sulzer <jonas@violoncello.ch>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
@@ -23,7 +23,7 @@
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Sascha Sambale <mastixmc@gmail.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -40,12 +40,11 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_Sharing\Controller;
 
+use OC\Security\CSP\ContentSecurityPolicy;
 use OC_Files;
 use OC_Util;
-use OC\Security\CSP\ContentSecurityPolicy;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\Files_Sharing\Activity\Providers\Downloads;
 use OCA\Files_Sharing\Event\BeforeTemplateRenderedEvent;
@@ -243,7 +242,7 @@ class ShareController extends AuthPublicShareController {
 	 * otherwise token
 	 * @param int $errorCode
 	 * @param string $errorMessage
-	 * @throws \OC\HintException
+	 * @throws \OCP\HintException
 	 * @throws \OC\ServerNotAvailableException
 	 */
 	protected function emitAccessShareHook($share, $errorCode = 200, $errorMessage = '') {
@@ -343,7 +342,7 @@ class ShareController extends AuthPublicShareController {
 			$ownerAccount = $this->accountManager->getAccount($owner);
 
 			$ownerName = $ownerAccount->getProperty(IAccountManager::PROPERTY_DISPLAYNAME);
-			if ($ownerName->getScope() === IAccountManager::VISIBILITY_PUBLIC) {
+			if ($ownerName->getScope() === IAccountManager::SCOPE_PUBLISHED) {
 				$shareTmpl['owner'] = $owner->getUID();
 				$shareTmpl['shareOwner'] = $owner->getDisplayName();
 			}
@@ -512,7 +511,8 @@ class ShareController extends AuthPublicShareController {
 			$download = new SimpleMenuAction('download', $this->l10n->t('Download'), 'icon-download', $shareTmpl['downloadURL'], 10, $shareTmpl['fileSize']);
 			$downloadAll = new SimpleMenuAction('download', $this->l10n->t('Download all files'), 'icon-download', $shareTmpl['downloadURL'], 10, $shareTmpl['fileSize']);
 			$directLink = new LinkMenuAction($this->l10n->t('Direct link'), 'icon-public', $shareTmpl['previewURL']);
-			$externalShare = new ExternalShareMenuAction($this->l10n->t('Add to your Nextcloud'), 'icon-external', $shareTmpl['owner'], $shareTmpl['shareOwner'], $shareTmpl['filename']);
+			// TRANSLATORS The placeholder refers to the software product name as in 'Add to your Nextcloud'
+			$externalShare = new ExternalShareMenuAction($this->l10n->t('Add to your %s', [$this->defaults->getProductName()]), 'icon-external', $shareTmpl['owner'], $shareTmpl['shareOwner'], $shareTmpl['filename']);
 
 			$responseComposer = [];
 

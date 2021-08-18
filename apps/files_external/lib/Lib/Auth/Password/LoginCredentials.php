@@ -2,7 +2,9 @@
 /**
  * @copyright Copyright (c) 2015, ownCloud, Inc.
  *
+ * @author blizzz <blizzz@arthur-schiwon.de>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
@@ -23,7 +25,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_External\Lib\Auth\Password;
 
 use OCA\Files_External\Lib\Auth\AuthMechanism;
@@ -36,6 +37,8 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IL10N;
 use OCP\ISession;
 use OCP\IUser;
+use OCP\IUserBackend;
+use OCP\LDAP\ILDAPProviderFactory;
 use OCP\Security\ICredentialsManager;
 use OCP\User\Events\PasswordUpdatedEvent;
 use OCP\User\Events\UserLoggedInEvent;
@@ -55,10 +58,21 @@ class LoginCredentials extends AuthMechanism {
 	/** @var CredentialsStore */
 	private $credentialsStore;
 
-	public function __construct(IL10N $l, ISession $session, ICredentialsManager $credentialsManager, CredentialsStore $credentialsStore, IEventDispatcher $eventDispatcher) {
+	/** @var ILDAPProviderFactory */
+	private $ldapFactory;
+
+	public function __construct(
+		IL10N $l,
+		ISession $session,
+		ICredentialsManager $credentialsManager,
+		CredentialsStore $credentialsStore,
+		IEventDispatcher $eventDispatcher,
+		ILDAPProviderFactory $ldapFactory
+	) {
 		$this->session = $session;
 		$this->credentialsManager = $credentialsManager;
 		$this->credentialsStore = $credentialsStore;
+		$this->ldapFactory = $ldapFactory;
 
 		$this
 			->setIdentifier('password::logincredentials')
@@ -79,9 +93,14 @@ class LoginCredentials extends AuthMechanism {
 			try {
 				$sessionCredentials = $this->credentialsStore->getLoginCredentials();
 
+				if ($sessionCredentials->getUID() !== $user->getUID()) {
+					// Can't take the credentials from the session as they are not the same user
+					throw new CredentialsUnavailableException();
+				}
+
 				$credentials = [
 					'user' => $sessionCredentials->getLoginName(),
-					'password' => $sessionCredentials->getPassword()
+					'password' => $sessionCredentials->getPassword(),
 				];
 
 				$this->credentialsManager->store($user->getUID(), self::CREDENTIALS_IDENTIFIER, $credentials);
@@ -99,7 +118,25 @@ class LoginCredentials extends AuthMechanism {
 		}
 		$credentials = $this->getCredentials($user);
 
-		$storage->setBackendOption('user', $credentials['user']);
+		$loginKey = $storage->getBackendOption("login_ldap_attr");
+		if ($loginKey) {
+			$backend = $user->getBackend();
+			if ($backend instanceof IUserBackend && $backend->getBackendName() === 'LDAP') {
+				$value = $this->getLdapPropertyForUser($user, $loginKey);
+				if ($value === null) {
+					throw new InsufficientDataForMeaningfulAnswerException('Custom ldap attribute not set for user ' . $user->getUID());
+				}
+				$storage->setBackendOption('user', $value);
+			} else {
+				throw new InsufficientDataForMeaningfulAnswerException('Custom ldap attribute configured but user ' . $user->getUID() . ' is not an ldap user');
+			}
+		} else {
+			$storage->setBackendOption('user', $credentials['user']);
+		}
 		$storage->setBackendOption('password', $credentials['password']);
+	}
+
+	private function getLdapPropertyForUser(IUser $user, string $property): ?string {
+		return $this->ldapFactory->getLDAPProvider()->getUserAttribute($user->getUID(), $property);
 	}
 }

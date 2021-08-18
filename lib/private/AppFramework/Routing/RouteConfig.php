@@ -28,7 +28,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\AppFramework\Routing;
 
 use OC\AppFramework\DependencyInjection\DIContainer;
@@ -133,7 +132,7 @@ class RouteConfig {
 		if (count($split) !== 2) {
 			throw new \UnexpectedValueException('Invalid route name');
 		}
-		list($controller, $action) = $split;
+		[$controller, $action] = $split;
 
 		$controllerName = $this->buildControllerName($controller);
 		$actionName = $this->buildActionName($action);
@@ -231,7 +230,7 @@ class RouteConfig {
 				$controllerName = $this->buildControllerName($controller);
 				$actionName = $this->buildActionName($method);
 
-				$routeName = $routeNamePrefix . $this->appName . '.' . strtolower($resource) . '.' . strtolower($method);
+				$routeName = $routeNamePrefix . $this->appName . '.' . strtolower($resource) . '.' . $method;
 
 				$route = $this->router->create($routeName, $url)
 					->method($verb);

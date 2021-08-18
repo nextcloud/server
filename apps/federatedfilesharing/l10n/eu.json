@@ -16,8 +16,9 @@
     "Federated Share request sent, you will receive an invitation. Check your notifications." : "Federatutako partekatze eskaera bidali da, gonbidapena jasoko duzu. Notifikazioak begiratu.",
     "Couldn't establish a federated share, it looks like the server to federate with is too old (Nextcloud <= 9)." : "Ezin izan da federatutako partekatze bat ezarri, badirudi federatu nahi duzun zerbitzaria zaharregia dela (Nextcloud <= 9).",
     "It is not allowed to send federated group shares from this server." : "Ezin dira federatutako talde-partekatzeak bidali zerbitzari honetatik.",
-    "Sharing %1$s failed, because this item is already shared with %2$s" : "%1$s partekatzeak hutsi egin du, elementu hau jada %2$s-rekin partekatuta dagoelako.",
+    "Sharing %1$s failed, because this item is already shared with user %2$s" : "%1$spartekatzeak huts egin du dagoeneko %2$serabiltzailearekin partekatuta dagoelako",
     "Not allowed to create a federated share with the same user" : "Ezin da erabiltzaile berdinarekin federatutako partekatzea sortu.",
+    "Federated shares require read permissions" : "Federatutako partekatzeek irakurtzeko baimenak behar dituzte",
     "File is already shared with %s" : "Fitxategia 1%s-rekin partekatua dago iada",
     "Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable or uses a self-signed certificate." : "%1$s partekatzeak huts egin du, ezin izan da %2$s aurkitu, agian zerbitzaria lineaz kanpo dago edo bere buruak sinatutako ziurtagiria darabil.",
     "Could not find share" : "Ezin da partekatzea topatu",
@@ -35,7 +36,8 @@
     "Provide federated file sharing across servers" : "Zerbitzarien arteko federatutako partekatzea eskaini",
     "Federated Cloud Sharing" : "Federatutako Hodei Partekatzea",
     "Open documentation" : "Ireki dokumentazioa",
-    "Adjust how people can share between servers." : "Pertsonen zerbitzarien arteko partekatzea konfiguratu",
+    "Adjust how people can share between servers. This includes shares between users on this server as well if they are using federated sharing." : "Doitu nola parteka dezakeen jendeak zerbitzarien artean. Horrek barne hartzen ditu zerbitzari honetako erabiltzaileen arteko partekatzeak,  partekatze federatua erabiltzen ari badira.",
+    "Allow users on this server to send shares to other servers (this option also allows WebDAV access to public shares)" : "Baimendu erabiltzaileei  zerbitzari honetan beste zerbitzari batzuetarako partekatzeak (aukera honek WebDAV sarbidea ere partekatze publikoetara baimentzen du )",
     "Allow users on this server to receive shares from other servers" : "Baimendu zerbitzari honetako erabiltzaileak beste zerbitzarietatik partekatutakoak jasotzen",
     "Allow users on this server to send shares to groups on other servers" : "Baimendu zerbitzari honetako erabiltzaileei beste zerbitzari batzuetako taldeei elementuak partekatzen.",
     "Allow users on this server to receive group shares from other servers" : "Baimendu zerbitzari honetako erabiltzaileek beste zerbitzari batzuetako talde-partekatzeak jasotzen.",
@@ -48,6 +50,6 @@
     "Add to your website" : "Zure webgunera gehitu",
     "Share with me via Nextcloud" : "Partekatu nirekin Nextcloud-en bidez",
     "HTML Code:" : "HTML kodea:",
-    "Allow users on this server to send shares to other servers" : "Baimendu zerbitzari honetako erabiltzaileak beste zerbitzariekin partekatzera"
+    "Adjust how people can share between servers." : "Pertsonen zerbitzarien arteko partekatzea konfiguratu"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

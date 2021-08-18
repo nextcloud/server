@@ -91,7 +91,6 @@
     "Please specify a file or folder path" : "Bv. entajpi vojon al dosiero aŭ dosierujo",
     "Wrong path, file/folder doesn't exist" : "Neĝusta vojo, dosiero aŭ dosierujo ne ekzistas",
     "Could not create share" : "Ne eblis krei kunhavon",
-    "invalid permissions" : "nevalidaj permesoj",
     "Please specify a valid user" : "Bv. doni validan uzanton",
     "Group sharing is disabled by the administrator" : "Grup-kunhavigon malebligis la administranto",
     "Please specify a valid group" : "Bv. doni validan grupon",
@@ -108,12 +107,9 @@
     "Not a directory" : "Ne estas dosierujo",
     "Could not lock path" : "Ne eblis ŝlosi vojon",
     "Wrong or no update parameter given" : "Neniu aŭ neĝusta ĝisdatiga parametro donita",
-    "Can't change permissions for public share links" : "Ne eblas ŝanĝi permesojn por ligilo de publika kunhavo",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Kunhavigo per sendado de la pasvorto per „Nextcloud Talk“ malsukcesis, ĉar Nextcloud Talk ne estas ebligita",
     "shared by %s" : "kunhavigita de %s",
     "Download all files" : "Elŝuti ĉiujn dosierojn",
     "Direct link" : "Direkta ligilo",
-    "Add to your Nextcloud" : "Aldoni al via Nextcloud",
     "Share API is disabled" : "Kunhavo-API estas malebligita",
     "File sharing" : "Kunhavigo de dosieroj",
     "Share will expire tomorrow" : "La kunhavo senvalidiĝos morgaŭ",
@@ -200,6 +196,9 @@
     "Select or drop files" : "Elekti aŭ demeti dosierojn",
     "Uploaded files:" : "Alŝutitaj dosieroj:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Se vi alŝutas dosierojn, vi konsentas pri %1$skondiĉoj de uzado%2$s.",
-    "Uploading files…" : "Alŝutado de dosierojn..."
+    "Add to your Nextcloud" : "Aldoni al via Nextcloud",
+    "invalid permissions" : "nevalidaj permesoj",
+    "Can't change permissions for public share links" : "Ne eblas ŝanĝi permesojn por ligilo de publika kunhavo",
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Kunhavigo per sendado de la pasvorto per „Nextcloud Talk“ malsukcesis, ĉar Nextcloud Talk ne estas ebligita"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
