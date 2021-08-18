@@ -1157,16 +1157,6 @@ class OC_Image implements \OCP\IImage {
 		return $image;
 	}
 
-
-	/**
-	 * Resizes the image preserving ratio, returning a new copy
-	 *
-	 * @param integer $maxSize The maximum size of either the width or height.
-	 * @return bool
-	 */
-	public function copyResize($maxSize): IImage {
-	}
-
 	/**
 	 * Destroys the current image and resets the object
 	 */
