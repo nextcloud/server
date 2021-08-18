@@ -563,9 +563,13 @@ class OC_Image implements \OCP\IImage {
 			case IMAGETYPE_GIF:
 				if (imagetypes() & IMG_GIF) {
 					$this->resource = imagecreatefromgif($imagePath);
-					// Preserve transparency
-					imagealphablending($this->resource, true);
-					imagesavealpha($this->resource, true);
+					if ($this->resource) {
+						// Preserve transparency
+						imagealphablending($this->resource, true);
+						imagesavealpha($this->resource, true);
+					} else {
+						$this->logger->debug('OC_Image->loadFromFile, GIF image not valid: ' . $imagePath, ['app' => 'core']);
+					}
 				} else {
 					$this->logger->debug('OC_Image->loadFromFile, GIF images not supported: ' . $imagePath, ['app' => 'core']);
 				}
@@ -584,9 +588,13 @@ class OC_Image implements \OCP\IImage {
 			case IMAGETYPE_PNG:
 				if (imagetypes() & IMG_PNG) {
 					$this->resource = @imagecreatefrompng($imagePath);
-					// Preserve transparency
-					imagealphablending($this->resource, true);
-					imagesavealpha($this->resource, true);
+					if ($this->resource) {
+						// Preserve transparency
+						imagealphablending($this->resource, true);
+						imagesavealpha($this->resource, true);
+					} else {
+						$this->logger->debug('OC_Image->loadFromFile, PNG image not valid: ' . $imagePath, ['app' => 'core']);
+					}
 				} else {
 					$this->logger->debug('OC_Image->loadFromFile, PNG images not supported: ' . $imagePath, ['app' => 'core']);
 				}
