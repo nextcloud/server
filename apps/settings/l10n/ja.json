@@ -392,7 +392,7 @@
     "Show disclaimer text on the public link upload page (only shown when the file list is hidden)" : "公開リンクのアップロードページに免責事項のテキストを表示する。 (ファイルリストが非表示のときのみ表示します)",
     "This text will be shown on the public link upload page when the file list is hidden." : "このテキストは、ファイルリストが非表示になっているときに公開リンクのアップロードページに表示されます。",
     "Default share permissions" : "デフォルトの共有アクセス許可",
-    "Reasons to use Nextcloud in your organization" : "あなたの組織でNextcloudを使用する理由",
+    "Reasons to use Nextcloud in your organization" : "あなたの組織でNextcloudを使うべきこれだけの理由",
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "{communityopen} Nextcloudコミュニティ{linkclose}によって開発された{githubopen}ソースコード{linkclose}は、{licenseopen} AGPL {linkclose}でライセンスされています。",
     "Like our Facebook page" : "私たちのFacebookのページをイイネ！",
     "Follow us on Twitter" : "Twitter でフォロー！",
