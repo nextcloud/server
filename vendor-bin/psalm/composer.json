@@ -1,4 +1,9 @@
 {
+	"config": {
+		"platform": {
+			"php": "7.4"
+		}
+	},
     "require": {
         "vimeo/psalm": "4.8.1"
     }
