@@ -36,14 +36,9 @@
 			"[ $COMPOSER_DEV_MODE -eq 0 ] || composer bin all update --ansi",
 			"composer dump-autoload"
 		],
-		"cs:fix": "./vendor-bin/cs-fixer/vendor/bin/php-cs-fixer fix",
-		"cs:check": "./vendor-bin/cs-fixer/vendor/bin/php-cs-fixer fix --dry-run --diff",
+		"cs:fix": "php-cs-fixer fix",
+		"cs:check": "php-cs-fixer fix --dry-run --diff",
 		"lint": "find . -name \\*.php -not -path './lib/composer/*' -not -path './build/stubs/*' -print0 | xargs -0 -n1 php -l",
-		"psalm": "./vendor-bin/psalm/vendor/bin/psalm"
-	},
-	"extra": {
-		"bamarni-bin": {
-			"bin-links": false
-		}
+		"psalm": "psalm"
 	}
 }
