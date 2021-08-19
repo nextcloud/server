@@ -37,8 +37,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OCA\Files_Versions;
 
+use OC\Files\Search\SearchBinaryOperator;
+use OC\Files\Search\SearchComparison;
+use OC\Files\Search\SearchQuery;
 use OC_User;
 use OC\Files\Filesystem;
 use OC\Files\View;
@@ -46,11 +50,16 @@ use OCA\Files_Versions\AppInfo\Application;
 use OCA\Files_Versions\Command\Expire;
 use OCA\Files_Versions\Events\CreateVersionEvent;
 use OCA\Files_Versions\Versions\IVersionManager;
+use OCP\Files\FileInfo;
+use OCP\Files\Folder;
+use OCP\Files\IRootFolder;
+use OCP\Files\Node;
 use OCP\Command\IBus;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\IMimeTypeDetector;
-use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
+use OCP\Files\Search\ISearchBinaryOperator;
+use OCP\Files\Search\ISearchComparison;
 use OCP\Files\StorageNotAvailableException;
 use OCP\IURLGenerator;
 use OCP\IUser;
@@ -495,38 +504,54 @@ class Storage {
 
 	/**
 	 * Expire versions that older than max version retention time
+	 *
 	 * @param string $uid
 	 */
 	public static function expireOlderThanMaxForUser($uid) {
-		$expiration = self::getExpiration();
-		$threshold = $expiration->getMaxAgeAsTimestamp();
-		$versions = self::getAllVersions($uid);
-		if (!$threshold || empty($versions['all'])) {
+		/** @var IRootFolder $root */
+		$root = \OC::$server->get(IRootFolder::class);
+		try {
+			/** @var Folder $versionsRoot */
+			$versionsRoot = $root->get('/' . $uid . '/files_versions');
+		} catch (NotFoundException $e) {
 			return;
 		}
 
-		$toDelete = [];
-		foreach (array_reverse($versions['all']) as $key => $version) {
-			if ((int)$version['version'] < $threshold) {
-				$toDelete[$key] = $version;
-			} else {
-				//Versions are sorted by time - nothing mo to iterate.
-				break;
-			}
+		$expiration = self::getExpiration();
+		$threshold = $expiration->getMaxAgeAsTimestamp();
+		if (!$threshold) {
+			return;
 		}
 
-		$view = new View('/' . $uid . '/files_versions');
-		if (!empty($toDelete)) {
-			foreach ($toDelete as $version) {
-				\OC_Hook::emit('\OCP\Versions', 'preDelete', ['path' => $version['path'].'.v'.$version['version'], 'trigger' => self::DELETE_TRIGGER_RETENTION_CONSTRAINT]);
-				self::deleteVersion($view, $version['path'] . '.v' . $version['version']);
-				\OC_Hook::emit('\OCP\Versions', 'delete', ['path' => $version['path'].'.v'.$version['version'], 'trigger' => self::DELETE_TRIGGER_RETENTION_CONSTRAINT]);
+		$allVersions = $versionsRoot->search(new SearchQuery(
+			new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_NOT, [
+				new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'mimetype', FileInfo::MIMETYPE_FOLDER),
+			]),
+			0,
+			0,
+			[]
+		));
+
+		/** @var Node[] $versions */
+		$versions = array_filter($allVersions, function (Node $info) use ($threshold) {
+			$versionsBegin = strrpos($info->getName(), '.v');
+			if ($versionsBegin === false) {
+				return false;
 			}
+			$version = (int)substr($info->getName(), $versionsBegin + 2);
+			return $version < $threshold;
+		});
+
+		foreach ($versions as $version) {
+			\OC_Hook::emit('\OCP\Versions', 'preDelete', ['path' => $version->getInternalPath(), 'trigger' => self::DELETE_TRIGGER_RETENTION_CONSTRAINT]);
+			$version->delete();
+			\OC_Hook::emit('\OCP\Versions', 'delete', ['path' => $version->getInternalPath(), 'trigger' => self::DELETE_TRIGGER_RETENTION_CONSTRAINT]);
 		}
 	}
 
 	/**
 	 * translate a timestamp into a string like "5 days ago"
+	 *
 	 * @param int $timestamp
 	 * @return string for example "5 days ago"
 	 */
