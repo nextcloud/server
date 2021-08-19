@@ -159,8 +159,10 @@ try {
 	exit();
 } catch (Exception $ex) {
 	\OC::$server->getLogger()->logException($ex, ['app' => 'cron']);
+	echo $ex . PHP_EOL;
 	exit(1);
 } catch (Error $ex) {
 	\OC::$server->getLogger()->logException($ex, ['app' => 'cron']);
+	echo $ex . PHP_EOL;
 	exit(1);
 }
