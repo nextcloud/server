@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<query-schema-discovery xmlns="DAV:">
+	<basicsearch>
+		<from>
+			<scope>
+				<href>/test</href>
+				<depth>infinity</depth>
+			</scope>
+		</from>
+	</basicsearch>
+</query-schema-discovery>

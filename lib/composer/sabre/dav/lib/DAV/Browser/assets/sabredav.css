@@ -1,0 +1,228 @@
+/* Start of reset */
+
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+body {
+    margin: 0;
+}
+
+
+/**
+ * Define consistent border, margin, and padding.
+ */
+fieldset {
+  border: 1px solid #c0c0c0;
+  margin: 0 2px;
+  padding: 0.35em 0.625em 0.75em;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+td,
+th {
+  padding: 0;
+}
+
+/** End of reset */
+
+
+body {
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 300;
+}
+h1 {
+  font-size: 42px;
+  line-height: 44px;
+  padding-bottom: 5px;
+  color: #b10610;
+  margin-top: 10px;
+  margin-bottom: 30px;
+}
+h2 {
+  color: #333333;
+  font-size: 28px;
+  line-height: 44px;
+  font-weight: 300;
+}
+h3 {
+  font-size: 21px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+a {
+  color: #31a1cd;
+}
+h1 a {
+  text-decoration: none;
+}
+h2 a {
+  color: #333333;
+}
+a:visited {
+  color: #6098a2;
+}
+h2 a:visited {
+  color: #333333;
+}
+a:hover {
+  color: #b10610;
+}
+hr {
+  border: none;
+  border-top: 1px dashed #c9ea75;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+header {
+  background: #eeeeee;
+}
+header a {
+  font-size: 28px;
+  font-weight: 500;
+  color: #333;
+  text-decoration: none;
+}
+.logo {
+  padding: 5px 10px;
+}
+.logo img {
+  vertical-align: middle;
+  border: 0;
+}
+input, button, select {
+    font: inherit;
+    color: inherit;
+}
+
+input[type=text], select {
+  border: 1px solid #bbbbbb;
+  line-height: 22px;
+  padding: 5px 10px;
+  border-radius: 3px;
+}
+
+nav {
+    padding: 5px;
+}
+
+.btn, button, input[type=submit] {
+  display: inline-block;
+  color: white;
+  background: #4fa3ac;
+  padding: 9px 15px;
+  border-radius: 2px;
+  border: 0;
+  text-decoration: none;
+}
+a.btn:visited {
+    color: white;
+}
+
+.btn.disabled {
+  background: #eeeeee;
+  color: #bbbbbb;
+}
+section {
+  margin: 40px 10px;
+}
+
+section table {
+    height: 40px;
+}
+
+.nodeTable tr {
+    border-bottom: 3px solid white;
+}
+
+.nodeTable td {
+    padding: 10px 10px 10px 10px;
+
+}
+
+.nodeTable a {
+    text-decoration: none;
+}
+
+.nodeTable .nameColumn {
+  font-weight: bold;
+  padding: 10px 20px;
+  background: #ebf5f6;
+  min-width: 200px;
+}
+.nodeTable .oi {
+  color: #b10610;
+}
+
+.propTable tr {
+    height: 40px;
+}
+
+.propTable th {
+  background: #f6f6f6;
+  padding: 0 10px;
+  text-align: left;
+}
+
+.propTable td {
+  padding: 0 10px;
+  background: #eeeeee;
+}
+
+.propTable pre {
+    font-size: 80%;
+    background: #f8f8f8;
+}
+
+.actions {
+  border: 1px dotted #76baa6;
+  padding: 20px;
+  margin-bottom: 20px;
+
+}
+
+.actions h3 {
+  margin-top: 10px;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #eeeeee;
+}
+
+.actions label {
+    width: 150px;
+    display: inline-block;
+    line-height: 40px;
+}
+
+.actions input[type=text], select {
+    width: 450px;
+}
+
+.actions input[type=submit] {
+    display: inline-block;
+    margin-left: 153px;
+}
+
+footer {
+  padding: 50px 0;
+  font-size: 80%;
+  text-align: center;
+}
+
+ul.tree {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+ul.tree ul {
+    list-style: none;
+    padding-left: 10px;
+    border-left: 4px solid #ccc;
+}

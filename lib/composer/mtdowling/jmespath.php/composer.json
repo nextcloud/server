@@ -1,0 +1,39 @@
+{
+  "name": "mtdowling/jmespath.php",
+  "description": "Declaratively specify how to extract elements from a JSON document",
+  "keywords": ["json", "jsonpath"],
+  "license": "MIT",
+
+  "authors": [
+    {
+      "name": "Michael Dowling",
+      "email": "mtdowling@gmail.com",
+      "homepage": "https://github.com/mtdowling"
+    }
+  ],
+
+  "require": {
+    "php": "^5.4 || ^7.0 || ^8.0",
+    "symfony/polyfill-mbstring": "^1.17"
+  },
+
+  "require-dev": {
+    "composer/xdebug-handler": "^1.4 || ^2.0",
+    "phpunit/phpunit": "^4.8.36 || ^7.5.15"
+  },
+
+  "autoload": {
+    "psr-4": {
+      "JmesPath\\": "src/"
+    },
+    "files": ["src/JmesPath.php"]
+  },
+
+  "bin": ["bin/jp.php"],
+
+  "extra": {
+    "branch-alias": {
+      "dev-master": "2.6-dev"
+    }
+  }
+}

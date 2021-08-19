@@ -1,0 +1,6 @@
+#!/bin/sh
+
+rsync -av Archive/Tar.php ../../php4/pear/Archive/.
+rsync -av package.xml ../../php4/pear/package-Archive_Tar.xml
+rsync -av docs/Archive_Tar.txt ../../php4/pear/docs/.
+

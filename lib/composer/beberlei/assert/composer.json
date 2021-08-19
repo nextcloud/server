@@ -1,0 +1,64 @@
+{
+  "name": "beberlei/assert",
+  "description": "Thin assertion library for input validation in business models.",
+  "authors": [
+    {
+      "name": "Benjamin Eberlei",
+      "email": "kontakt@beberlei.de",
+      "role": "Lead Developer"
+    },
+    {
+      "name": "Richard Quadling",
+      "email": "rquadling@gmail.com",
+      "role": "Collaborator"
+    }
+  ],
+  "license": "BSD-2-Clause",
+  "keywords": [
+    "assert",
+    "assertion",
+    "validation"
+  ],
+  "config": {
+    "sort-packages": true
+  },
+  "require": {
+    "php": "^7.0 || ^8.0",
+    "ext-simplexml": "*",
+    "ext-mbstring": "*",
+    "ext-ctype": "*",
+    "ext-json": "*"
+  },
+  "require-dev": {
+    "friendsofphp/php-cs-fixer": "*",
+    "phpstan/phpstan": "*",
+    "phpunit/phpunit": ">=6.0.0",
+    "yoast/phpunit-polyfills": "^0.1.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Assert\\": "lib/Assert"
+    },
+    "files": [
+      "lib/Assert/functions.php"
+    ]
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Assert\\Tests\\": "tests/Assert/Tests"
+    },
+    "files": [
+      "tests/Assert/Tests/Fixtures/functions.php"
+    ]
+  },
+  "scripts": {
+    "assert:generate-docs": "php bin/generate_method_docs.php",
+    "assert:cs-lint": "php-cs-fixer fix --diff -vvv --dry-run",
+    "assert:cs-fix": "php-cs-fixer fix . -vvv || true",
+    "assert:sa-code": "vendor/bin/phpstan analyse --configuration=phpstan-code.neon --no-progress --ansi -l 7 bin lib",
+    "assert:sa-tests": "vendor/bin/phpstan analyse --configuration=phpstan-tests.neon --no-progress --ansi -l 7 tests"
+  },
+  "suggest": {
+    "ext-intl": "Needed to allow Assertion::count(), Assertion::isCountable(), Assertion::minCount(), and Assertion::maxCount() to operate on ResourceBundles"
+  }
+}

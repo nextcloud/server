@@ -1,0 +1,26 @@
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+    "roles": [
+        {
+            "id": "--role-id--",
+            "links": {
+                "self": "http://identity:35357/v3/roles/--role-id--"
+            },
+            "name": "admin"
+        },
+        {
+            "id": "--role-id--",
+            "links": {
+                "self": "http://identity:35357/v3/roles/--role-id--"
+            },
+            "name": "manager"
+        }
+    ],
+    "links": {
+        "self": "http://identity:35357/v3/domains/--domain-id--/groups/--group-id--/roles",
+        "previous": null,
+        "next": null
+    }
+}

@@ -1,0 +1,7 @@
+imports:
+    - php
+
+tools:
+    php_code_sniffer:
+        config:
+            standard: "PSR2"

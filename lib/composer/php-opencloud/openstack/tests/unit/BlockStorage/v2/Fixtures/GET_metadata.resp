@@ -1,0 +1,9 @@
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+    "metadata": {
+        "foo": "1",
+        "bar": "2"
+    }
+}

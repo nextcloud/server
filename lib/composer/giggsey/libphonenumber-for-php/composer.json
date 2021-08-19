@@ -1,0 +1,85 @@
+{
+  "name": "giggsey/libphonenumber-for-php",
+  "type": "library",
+  "description": "PHP Port of Google's libphonenumber",
+  "keywords": [
+    "phonenumber",
+    "libphonenumber",
+    "mobile",
+    "validation",
+    "geocoding",
+    "geolocation"
+  ],
+  "homepage": "https://github.com/giggsey/libphonenumber-for-php",
+  "license": "Apache-2.0",
+  "support": {
+    "irc": "irc://irc.appliedirc.com/lobby",
+    "source": "https://github.com/giggsey/libphonenumber-for-php",
+    "issues": "https://github.com/giggsey/libphonenumber-for-php/issues"
+  },
+  "authors": [
+    {
+      "name": "Joshua Gigg",
+      "email": "giggsey@gmail.com",
+      "homepage": "https://giggsey.com/"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "libphonenumber\\": "src/"
+    },
+    "exclude-from-classmap": [
+        "/src/data/",
+        "/src/carrier/data/",
+        "/src/geocoding/data/",
+        "/src/timezone/data/"
+    ]
+
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "libphonenumber\\buildtools\\": "build/",
+      "libphonenumber\\Tests\\": "tests/"
+    }
+  },
+  "archive": {
+    "exclude": [
+      "build/",
+      "docs/",
+      "tests/",
+      ".github/",
+      ".editorconfig",
+      ".gitattributes",
+      ".gitignore",
+      ".styleci.yml",
+      ".travis.yml",
+      "build.xml",
+      "libphonenumber-for-php.spec",
+      "phpunit.xml.dist",
+      "phpunit"
+    ]
+  },
+  "require": {
+    "php": ">=5.3.2",
+    "giggsey/locale": "^1.7",
+    "symfony/polyfill-mbstring": "^1.17"
+  },
+  "require-dev": {
+    "phing/phing": "^2.7",
+    "pear/versioncontrol_git": "^0.5",
+    "pear/pear-core-minimal": "^1.9",
+    "pear/pear_exception": "^1.0",
+    "symfony/phpunit-bridge": "^4.2 || ^5",
+    "symfony/console": "^2.8|^3.0|^v4.4|^v5.2",
+    "php-coveralls/php-coveralls": "^1.0|^2.0"
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "8.x-dev"
+    }
+  },
+  "scripts": {
+    "test": "./phpunit",
+    "metadata": "vendor/bin/phing compile"
+  }
+}

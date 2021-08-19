@@ -1,0 +1,34 @@
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+    "routers": [
+        {
+            "status": "ACTIVE",
+            "external_gateway_info": null,
+            "name": "second_routers",
+            "admin_state_up": true,
+            "tenant_id": "6b96ff0cb17a4b859e1e575d221683d3",
+            "routes": [],
+            "id": "7177abc4-5ae9-4bb7-b0d4-89e94a4abf3b"
+        },
+        {
+            "status": "ACTIVE",
+            "external_gateway_info": {
+                "network_id": "3c5bcddd-6af9-4e6b-9c3e-c153e521cab8",
+                "enable_snat": true,
+                "external_fixed_ips": [
+                    {
+                        "subnet_id": "255.255.255.0",
+                        "ip": "192.168.10.2"
+                    }
+                ]
+            },
+            "name": "router1",
+            "admin_state_up": true,
+            "tenant_id": "33a40233088643acb66ff6eb0ebea679",
+            "routes": [],
+            "id": "a9254bdb-2613-4a13-ac4c-adc581fba50d"
+        }
+    ]
+}

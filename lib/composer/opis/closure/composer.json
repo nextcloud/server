@@ -1,0 +1,44 @@
+{
+    "name": "opis/closure",
+    "description": "A library that can be used to serialize closures (anonymous functions) and arbitrary objects.",
+    "keywords": ["closure", "serialization", "function", "serializable", "serialize", "anonymous functions"],
+    "homepage": "https://opis.io/closure",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Marius Sarca",
+            "email": "marius.sarca@gmail.com"
+        },
+        {
+            "name": "Sorin Sarca",
+            "email": "sarca_sorin@hotmail.com"
+        }
+    ],
+    "require": {
+        "php": "^5.4 || ^7.0 || ^8.0"
+    },
+    "require-dev": {
+        "jeremeamia/superclosure": "^2.0",
+        "phpunit/phpunit": "^4.0 || ^5.0 || ^6.0 || ^7.0 || ^8.0 || ^9.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Opis\\Closure\\": "src/"
+        },
+        "files": ["functions.php"]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Opis\\Closure\\Test\\": "tests/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "3.6.x-dev"
+        }
+    },
+    "config": {
+        "preferred-install": "dist",
+        "sort-packages": true
+    }
+}

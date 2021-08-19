@@ -1,0 +1,32 @@
+{
+    "name": "php-ds/php-ds",
+    "license": "MIT",
+    "keywords": ["php", "ds", "data structures", "polyfill"],
+    "authors": [
+        {
+            "name": "Rudi Theunissen",
+            "email": "rudolf.theunissen@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.0.0",
+        "ext-json": "*"
+    },
+    "require-dev": {
+        "php-ds/tests": "^1.3"
+    },
+    "provide": {
+        "ext-ds": "1.3.0"
+    },
+    "suggest": {
+        "ext-ds": "to improve performance and reduce memory usage"
+    },
+    "scripts": {
+        "test": "phpunit"
+    },
+    "autoload": {
+        "psr-4" : {
+            "Ds\\": "src"
+        }
+    }
+}

@@ -1,0 +1,10 @@
+filter:
+    excluded_paths:
+        - 'tests/*'
+        - 'samples/*'
+        - 'integration/*'
+        - '*/v*/Api.php'
+        - '*/v*/Params.php'
+
+checks:
+    php: true

@@ -1,0 +1,24 @@
+HTTP/1.1 202 Accepted
+Content-Type: application/json
+
+{
+    "server": {
+        "security_groups": [
+            {
+                "name": "default"
+            }
+        ],
+        "id": "c6d04159-9bfc-4ab8-823d-0d5ca2abe152",
+        "links": [
+            {
+                "href": "http://166.78.46.130:8774/v2/4fd44f30292945e481c7b8a0c8908869/servers/c6d04159-9bfc-4ab8-823d-0d5ca2abe152",
+                "rel": "self"
+            },
+            {
+                "href": "http://166.78.46.130:8774/4fd44f30292945e481c7b8a0c8908869/servers/c6d04159-9bfc-4ab8-823d-0d5ca2abe152",
+                "rel": "bookmark"
+            }
+        ],
+        "adminPass": "aabbccddeeff"
+    }
+}

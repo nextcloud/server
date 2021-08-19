@@ -1,0 +1,25 @@
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+    "domains": [
+        {
+            "description": "desc of domain",
+            "enabled": true,
+            "id": "--domain-id--",
+            "links": {
+                "self": "http://identity:35357/v3/domains/--domain-id--"
+            },
+            "name": "my domain"
+        },
+        {
+            "description": "desc of another domain",
+            "enabled": true,
+            "id": "--domain-id--",
+            "links": {
+                "self": "http://identity:35357/v3/domains/--domain-id--"
+            },
+            "name": "another domain"
+        }
+    ]
+}

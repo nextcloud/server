@@ -1,0 +1,44 @@
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+    "role_assignments": [
+        {
+            "links": {
+                "assignment": "http://identity:35357/v3/domains/--domain-id--/users/--user-id--/roles/--role-id--"
+            },
+            "role": {
+                "id": "--role-id--"
+            },
+            "scope": {
+                "domain": {
+                    "id": "--domain-id--"
+                }
+            },
+            "user": {
+                "id": "--user-id--"
+            }
+        },
+        {
+            "group": {
+                "id": "--group-id--"
+            },
+            "links": {
+                "assignment": "http://identity:35357/v3/projects/--project-id--/groups/--group-id--/roles/--role-id--"
+            },
+            "role": {
+                "id": "--role-id--"
+            },
+            "scope": {
+                "project": {
+                    "id": "--project-id--"
+                }
+            }
+        }
+    ],
+    "links": {
+        "self": "http://identity:35357/v3/role_assignments",
+        "previous": null,
+        "next": null
+    }
+}

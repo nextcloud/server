@@ -1,0 +1,26 @@
+HTTP/1.1 201 Created
+Content-Type: application/json
+
+{
+    "flavor": {
+        "OS-FLV-DISABLED:disabled": false,
+        "disk": 80,
+        "OS-FLV-EXT-DATA:ephemeral": 0,
+        "os-flavor-access:is_public": true,
+        "id": "f535aa45-bc38-4818-b9d7-8f91d41e89ed",
+        "links": [
+            {
+                "href": "http://openstack.example.com/v2.1/flavors/f535aa45-bc38-4818-b9d7-8f91d41e89ed",
+                "rel": "self"
+            },
+            {
+                "href": "http://openstack.example.com/flavors/f535aa45-bc38-4818-b9d7-8f91d41e89ed",
+                "rel": "bookmark"
+            }
+        ],
+        "name": "test_flavor",
+        "ram": 512,
+        "swap": "",
+        "vcpus": 8
+    }
+}

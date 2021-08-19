@@ -1,0 +1,8 @@
+# Composer
+vendor
+composer.lock
+
+# Tests
+tests/cov
+tests/.phpunit.result.cache
+.php_cs.cache

@@ -1,0 +1,14 @@
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+    "domain": {
+        "description": "bar",
+        "enabled": true,
+        "id": "12345",
+        "links": {
+            "self": "http://identity:35357/v3/domains/12345"
+        },
+        "name": "foo"
+    }
+}

@@ -1,0 +1,70 @@
+{
+    "name": "doctrine/dbal",
+    "type": "library",
+    "description": "Powerful PHP database abstraction layer (DBAL) with many features for database schema introspection and management.",
+    "keywords": [
+        "abstraction",
+        "database",
+        "dbal",
+        "db2",
+        "mariadb",
+        "mssql",
+        "mysql",
+        "pgsql",
+        "postgresql",
+        "oci8",
+        "oracle",
+        "pdo",
+        "queryobject",
+        "sasql",
+        "sql",
+        "sqlite",
+        "sqlserver",
+        "sqlsrv"
+    ],
+    "homepage": "https://www.doctrine-project.org/projects/dbal.html",
+    "license": "MIT",
+    "authors": [
+        {"name": "Guilherme Blanco", "email": "guilhermeblanco@gmail.com"},
+        {"name": "Roman Borschel", "email": "roman@code-factory.org"},
+        {"name": "Benjamin Eberlei", "email": "kontakt@beberlei.de"},
+        {"name": "Jonathan Wage", "email": "jonwage@gmail.com"}
+    ],
+    "require": {
+        "php": "^7.3 || ^8.0",
+        "composer/package-versions-deprecated": "^1.11.99",
+        "doctrine/cache": "^1.0",
+        "doctrine/event-manager": "^1.0"
+    },
+    "require-dev": {
+        "doctrine/coding-standard": "^8.1",
+        "jetbrains/phpstorm-stubs": "^2019.1",
+        "phpstan/phpstan": "^0.12.40",
+        "phpstan/phpstan-strict-rules": "^0.12.2",
+        "phpunit/phpunit": "^9.4",
+        "psalm/plugin-phpunit": "^0.10.0",
+        "symfony/console": "^2.0.5|^3.0|^4.0|^5.0",
+        "vimeo/psalm": "^3.17.2"
+    },
+    "suggest": {
+        "symfony/console": "For helpful console commands such as SQL execution and import of files."
+    },
+    "bin": ["bin/doctrine-dbal"],
+    "config": {
+        "platform": {
+            "php": "7.3.0"
+        },
+        "sort-packages": true
+    },
+    "autoload": {
+        "psr-4": { "Doctrine\\DBAL\\": "src" }
+    },
+    "autoload-dev": {
+        "psr-4": { "Doctrine\\DBAL\\Tests\\": "tests" }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "4.0.x-dev"
+        }
+    }
+}

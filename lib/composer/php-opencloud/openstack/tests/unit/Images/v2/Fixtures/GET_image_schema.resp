@@ -1,0 +1,226 @@
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+    "additionalProperties": {
+        "type": "string"
+    },
+    "name": "image",
+    "links": [
+        {
+            "href": "{self}",
+            "rel": "self"
+        },
+        {
+            "href": "{file}",
+            "rel": "enclosure"
+        },
+        {
+            "href": "{schema}",
+            "rel": "describedby"
+        }
+    ],
+    "properties": {
+        "status": {
+            "enum": [
+                "queued",
+                "saving",
+                "active",
+                "killed",
+                "deleted",
+                "pending_delete",
+                "deactivated"
+            ],
+            "type": "string",
+            "description": "Status of the image (READ-ONLY)"
+        },
+        "tags": {
+            "items": {
+                "type": "string",
+                "maxLength": 255
+            },
+            "type": "array",
+            "description": "List of strings related to the image"
+        },
+        "kernel_id": {
+            "pattern": "^([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}$",
+            "type": [
+                "null",
+                "string"
+            ],
+            "description": "ID of image stored in Glance that should be used as the kernel when booting an AMI-style image.",
+            "is_base": false
+        },
+        "container_format": {
+            "enum": [
+                null,
+                "ami",
+                "ari",
+                "aki",
+                "bare",
+                "ovf",
+                "ova"
+            ],
+            "type": [
+                "null",
+                "string"
+            ],
+            "description": "Format of the container"
+        },
+        "min_ram": {
+            "type": "integer",
+            "description": "Amount of ram (in MB) required to boot image."
+        },
+        "ramdisk_id": {
+            "pattern": "^([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}$",
+            "type": [
+                "null",
+                "string"
+            ],
+            "description": "ID of image stored in Glance that should be used as the ramdisk when booting an AMI-style image.",
+            "is_base": false
+        },
+        "locations": {
+            "items": {
+                "required": [
+                    "url",
+                    "metadata"
+                ],
+                "type": "object",
+                "properties": {
+                    "url": {
+                        "type": "string",
+                        "maxLength": 255
+                    },
+                    "metadata": {
+                        "type": "object"
+                    }
+                }
+            },
+            "type": "array",
+            "description": "A set of URLs to access the image file kept in external store"
+        },
+        "visibility": {
+            "enum": [
+                "public",
+                "private"
+            ],
+            "type": "string",
+            "description": "Scope of image accessibility"
+        },
+        "updated_at": {
+            "type": "string",
+            "description": "Date and time of the last image modification (READ-ONLY)"
+        },
+        "owner": {
+            "type": [
+                "null",
+                "string"
+            ],
+            "description": "Owner of the image",
+            "maxLength": 255
+        },
+        "file": {
+            "type": "string",
+            "description": "(READ-ONLY)"
+        },
+        "min_disk": {
+            "type": "integer",
+            "description": "Amount of disk space (in GB) required to boot image."
+        },
+        "virtual_size": {
+            "type": [
+                "null",
+                "integer"
+            ],
+            "description": "Virtual size of image in bytes (READ-ONLY)"
+        },
+        "id": {
+            "pattern": "^([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}$",
+            "type": "string",
+            "description": "An identifier for the image"
+        },
+        "size": {
+            "type": [
+                "null",
+                "integer"
+            ],
+            "description": "Size of image file in bytes (READ-ONLY)"
+        },
+        "instance_uuid": {
+            "type": "string",
+            "description": "ID of instance used to create this image.",
+            "is_base": false
+        },
+        "os_distro": {
+            "type": "string",
+            "description": "Common name of operating system distribution as specified in http://docs.openstack.org/trunk/openstack-compute/admin/content/adding-images.html",
+            "is_base": false
+        },
+        "name": {
+            "type": [
+                "null",
+                "string"
+            ],
+            "description": "Descriptive name for the image",
+            "maxLength": 255
+        },
+        "checksum": {
+            "type": [
+                "null",
+                "string"
+            ],
+            "description": "md5 hash of image contents. (READ-ONLY)",
+            "maxLength": 32
+        },
+        "created_at": {
+            "type": "string",
+            "description": "Date and time of image registration (READ-ONLY)"
+        },
+        "disk_format": {
+            "enum": [
+                null,
+                "ami",
+                "ari",
+                "aki",
+                "vhd",
+                "vmdk",
+                "raw",
+                "qcow2",
+                "vdi",
+                "iso"
+            ],
+            "type": [
+                "null",
+                "string"
+            ],
+            "description": "Format of the disk"
+        },
+        "os_version": {
+            "type": "string",
+            "description": "Operating system version as specified by the distributor",
+            "is_base": false
+        },
+        "protected": {
+            "type": "boolean",
+            "description": "If true, image will not be deletable."
+        },
+        "architecture": {
+            "type": "string",
+            "description": "Operating system architecture as specified in http://docs.openstack.org/trunk/openstack-compute/admin/content/adding-images.html",
+            "is_base": false
+        },
+        "direct_url": {
+            "type": "string",
+            "description": "URL to access the image file kept in external store (READ-ONLY)"
+        },
+        "self": {
+            "type": "string",
+            "description": "(READ-ONLY)"
+        },
+        "schema": {
+            "type": "string",
+            "description": "(READ-ONLY)"
+        }
+    }
+}

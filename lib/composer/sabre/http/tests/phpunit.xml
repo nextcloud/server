@@ -1,0 +1,27 @@
+<phpunit
+  colors="true"
+  beStrictAboutCoversAnnotation="true"
+  beStrictAboutOutputDuringTests="true"
+  beStrictAboutTestsThatDoNotTestAnything="true"
+  beStrictAboutTodoAnnotatedTests="true"
+  bootstrap="bootstrap.php"
+  convertErrorsToExceptions="true"
+  convertNoticesToExceptions="true"
+  convertWarningsToExceptions="true"
+  >
+  <testsuites>
+    <testsuite name="Sabre_HTTP">
+      <directory>HTTP/</directory>
+    </testsuite>
+  </testsuites>
+
+  <filter>
+    <whitelist addUncoveredFilesFromWhitelist="true">
+       <directory suffix=".php">../lib/</directory>
+    </whitelist>
+  </filter>
+
+  <php>
+    <env name="BASEURL" value="http://localhost"/>
+  </php>
+</phpunit>

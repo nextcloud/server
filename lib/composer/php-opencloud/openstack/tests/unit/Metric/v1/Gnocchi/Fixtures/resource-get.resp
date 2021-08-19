@@ -1,0 +1,27 @@
+HTTP/1.1 200 OK
+Content-Type: application/json; charset=UTF-8
+
+
+{
+  "created_by_user_id":"fake-created-by-user-id",
+  "started_at":"2017-05-10T16:58:15.023677+00:00",
+  "user_id":"c3f6c6e949f34fc38f71b89c04d1ed60",
+  "revision_end":null,
+  "created_by_project_id":"a652c6a9566149dd9c38ad23c00f1cd7",
+  "id":"1111",
+  "metrics":{
+     "volume.resize":"0920c1f6-bd1b-4c73-8110-d8129ee4ad2d",
+     "volume":"dd12bc6c-0e5e-407f-9663-aed2369c5d21",
+     "volume.size":"4b6e868d-0f9e-4570-8c59-b6d3cc55fae2",
+     "volume.delete":"6beba0c2-f6b8-492b-aa8a-7fe357a6a886",
+     "volume.update":"0f42f43a-212f-45aa-9420-4b68623ce641",
+     "volume.detach":"80ab8cc2-2a39-4f17-855a-32979d9c2905",
+     "volume.create":"4219ffe6-2765-4e6a-9f05-1ba20bd6dd7f",
+     "volume.attach":"c1a83e6a-c81e-4269-950e-bce92a189f89"
+  },
+  "original_resource_id":"18c70355-9665-4252-8a84-01f55bef1a45",
+  "revision_start":"2017-05-10T16:58:15.023689+00:00",
+  "project_id":"fake-project-id",
+  "type":"fake-type",
+  "ended_at":null
+}

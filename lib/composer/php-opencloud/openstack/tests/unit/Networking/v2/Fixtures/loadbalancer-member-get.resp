@@ -1,0 +1,14 @@
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+    "member": {
+        "weight": 1,
+        "admin_state_up": true,
+        "subnet_id": "subnetId",
+        "tenant_id": "tenantId",
+        "address": "10.0.0.8",
+        "protocol_port": 80,
+        "id": "memberId"
+    }
+}

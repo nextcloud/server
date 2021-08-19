@@ -1,0 +1,49 @@
+HTTP/1.1 201 Created
+Content-Type: application/json
+
+{
+    "ports": [
+        {
+            "status": "DOWN",
+            "name": "sample_port_1",
+            "allowed_address_pairs": [],
+            "admin_state_up": false,
+            "network_id": "a87cc70a-3e15-4acf-8205-9b711a3531b7",
+            "tenant_id": "d6700c0c9ffa4f1cb322cd4a1f3906fa",
+            "device_owner": "",
+            "mac_address": "fa:16:3e:48:b8:9f",
+            "fixed_ips": [
+                {
+                    "subnet_id": "a0304c3a-4f08-4c43-88af-d796509c97d2",
+                    "ip_address": "10.0.0.5"
+                }
+            ],
+            "id": "94225baa-9d3f-4b93-bf12-b41e7ce49cdb",
+            "security_groups": [
+                "f0ac4394-7e4a-4409-9701-ba8be283dbc3"
+            ],
+            "device_id": ""
+        },
+        {
+            "status": "DOWN",
+            "name": "sample_port_2",
+            "allowed_address_pairs": [],
+            "admin_state_up": false,
+            "network_id": "a87cc70a-3e15-4acf-8205-9b711a3531b7",
+            "tenant_id": "d6700c0c9ffa4f1cb322cd4a1f3906fa",
+            "device_owner": "",
+            "mac_address": "fa:16:3e:f4:73:df",
+            "fixed_ips": [
+                {
+                    "subnet_id": "a0304c3a-4f08-4c43-88af-d796509c97d2",
+                    "ip_address": "10.0.0.6"
+                }
+            ],
+            "id": "235b09e0-63c4-47f1-b221-66ba54c21760",
+            "security_groups": [
+                "f0ac4394-7e4a-4409-9701-ba8be283dbc3"
+            ],
+            "device_id": ""
+        }
+    ]
+}

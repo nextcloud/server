@@ -1,0 +1,13 @@
+HTTP/1.1 204 No Content
+Content-Length: 0
+X-Account-Object-Count: 1
+X-Account-Meta-Book: MobyDick
+X-Account-Meta-Genre: Fiction
+X-Timestamp: 1389453423.35964
+X-Account-Bytes-Used: 14
+X-Account-Container-Count: 2
+Content-Type: text/plain; charset=utf-8
+Accept-Ranges: bytes
+X-Trans-Id: txafb3504870144b8ca40f7-0052d955d4
+Date: Fri, 17 Jan 2014 16:09:56 GMT
+

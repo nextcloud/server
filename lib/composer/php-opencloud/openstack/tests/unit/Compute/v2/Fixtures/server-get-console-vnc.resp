@@ -1,0 +1,9 @@
+HTTP/1.1 200 Accepted
+Content-Type: application/json
+
+{
+    "console": {
+        "type": "novnc",
+        "url": "http://127.0.0.1:6080/vnc_auto.html?token=191996c3-7b0f-42f3-95a7-f1839f2da6ed"
+    }
+}

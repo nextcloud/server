@@ -1,0 +1,31 @@
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+    "quotas":[
+        {
+            "subnet":1,
+            "network":1,
+            "floatingip":10,
+            "tenant_id":"fake_tenant_1",
+            "subnetpool":-1,
+            "security_group_rule":100,
+            "security_group":10,
+            "router":1,
+            "rbac_policy":10,
+            "port":13
+        },
+        {
+            "subnet":10,
+            "network":10,
+            "floatingip":50,
+            "tenant_id":"fake_tenant_2",
+            "subnetpool":-1,
+            "security_group_rule":100,
+            "security_group":10,
+            "router":10,
+            "rbac_policy":10,
+            "port":50
+        }
+    ]
+}

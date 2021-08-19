@@ -1,0 +1,25 @@
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+    "status": "active",
+    "name": "foo",
+    "tags": [],
+    "container_format": "ami",
+    "created_at": "2015-11-12T14:26:08Z",
+    "size": 983040,
+    "disk_format": "ami",
+    "updated_at": "2015-12-01T12:25:42Z",
+    "visibility": "public",
+    "self": "/v2/images/386f0425-3ee8-4688-b73f-272328fe4c71",
+    "min_disk": 20,
+    "protected": false,
+    "id": "386f0425-3ee8-4688-b73f-272328fe4c71",
+    "architecture": "x86_64",
+    "file": "/v2/images/386f0425-3ee8-4688-b73f-272328fe4c71/file",
+    "checksum": "061d01418b94d4743a98ee26d941e87c",
+    "owner": "057aad9fa85b4e29b23e7888000446ef",
+    "virtual_size": null,
+    "min_ram": 0,
+    "schema": "/v2/schemas/image"
+}

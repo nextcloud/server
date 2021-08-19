@@ -1,0 +1,39 @@
+{
+    "name": "web-auth/metadata-service",
+    "type": "library",
+    "license": "MIT",
+    "description": "Metadata Service for FIDO2/Webauthn",
+    "keywords": ["FIDO", "FIDO2", "webauthn"],
+    "homepage": "https://github.com/web-auth",
+    "authors": [
+        {
+            "name": "Florent Morselli",
+            "homepage": "https://github.com/Spomky"
+        },
+        {
+            "name": "All contributors",
+            "homepage": "https://github.com/web-auth/metadata-service/contributors"
+        }
+    ],
+    "require": {
+        "php": ">=7.2",
+        "ext-json": "*",
+        "beberlei/assert": "^3.2",
+        "league/uri": "^6.0",
+        "psr/http-client": "^1.0",
+        "psr/http-factory": "^1.0",
+        "psr/log": "^1.1"
+    },
+    "suggest": {
+        "psr/log-implementation": "Recommended to receive logs from the library"
+    },
+    "autoload": {
+        "psr-4": {
+            "Webauthn\\MetadataService\\": "src/"
+        }
+    },
+    "suggest": {
+        "web-token/jwt-key-mgmt": "Mandatory for fetching Metadata Statement from distant sources",
+        "web-token/jwt-signature-algorithm-ecdsa": "Mandatory for fetching Metadata Statement from distant sources"
+    }
+}

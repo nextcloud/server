@@ -1,0 +1,12 @@
+HTTP/1.1 204 No Content
+Content-Length: 0
+X-Container-Object-Count: 1
+Accept-Ranges: bytes
+X-Container-Meta-Book: TomSawyer
+X-Container-Meta-Author: SamuelClemens
+X-Timestamp: 1389727543.65372
+X-Container-Bytes-Used: 14
+Content-Type: text/plain; charset=utf-8
+X-Trans-Id: tx0287b982a268461b9ec14-0052d826e2
+Date: Thu, 16 Jan 2014 18:37:22 GMT
+

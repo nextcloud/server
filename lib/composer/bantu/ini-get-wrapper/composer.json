@@ -1,0 +1,15 @@
+{
+    "name": "bantu/ini-get-wrapper",
+    "type": "library",
+    "description": "Convenience wrapper around ini_get()",
+    "license": "MIT",
+    "require-dev": {
+        "phpunit/phpunit": "3.7.*"
+    },
+    "autoload": {
+        "psr-4": { "bantu\\IniGetWrapper\\": "src/" }
+    },
+    "autoload-dev": {
+        "psr-4": { "bantu\\IniGetWrapper\\": "tests/" }
+    }
+}

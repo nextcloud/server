@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<phpunit bootstrap="bootstrap.php">
+	<testsuite name='SearchDAV'>
+		<directory suffix='.php'>./</directory>
+	</testsuite>
+	<filter>
+		<whitelist processUncoveredFilesFromWhitelist="true">
+			<directory suffix=".php">../src</directory>
+		</whitelist>
+	</filter>
+</phpunit>

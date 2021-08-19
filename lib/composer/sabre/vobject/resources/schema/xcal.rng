@@ -1,0 +1,1192 @@
+# RELAX NG Schema for iCalendar in XML
+# Extract from RFC6321.
+# Erratum 3042 applied.
+# Erratum 3050 applied.
+# Erratum 3314 applied.
+
+default namespace = "urn:ietf:params:xml:ns:icalendar-2.0"
+
+# 3.2 Property Parameters
+
+# 3.2.1 Alternate Text Representation
+
+altrepparam = element altrep {
+    value-uri
+}
+
+# 3.2.2 Common Name
+
+cnparam = element cn {
+    value-text
+}
+
+# 3.2.3 Calendar User Type
+
+cutypeparam = element cutype {
+    element text {
+        "INDIVIDUAL" |
+        "GROUP" |
+        "RESOURCE" |
+        "ROOM" |
+        "UNKNOWN"
+    }
+}
+
+# 3.2.4 Delegators
+
+delfromparam = element delegated-from {
+    value-cal-address+
+}
+
+# 3.2.5 Delegatees
+
+deltoparam = element delegated-to {
+    value-cal-address+
+}
+
+# 3.2.6 Directory Entry Reference
+
+dirparam = element dir {
+    value-uri
+}
+
+# 3.2.7 Inline Encoding
+
+encodingparam = element encoding {
+    element text {
+        "8BIT" |
+        "BASE64"
+    }
+}
+
+# 3.2.8 Format Type
+
+fmttypeparam = element fmttype {
+    value-text
+}
+
+# 3.2.9 Free/Busy Time Type
+
+fbtypeparam = element fbtype {
+    element text {
+        "FREE" |
+        "BUSY" |
+        "BUSY-UNAVAILABLE" |
+        "BUSY-TENTATIVE"
+    }
+}
+
+# 3.2.10 Language
+
+languageparam = element language {
+    value-text
+}
+
+# 3.2.11 Group or List Membership
+
+memberparam = element member {
+    value-cal-address+
+}
+
+# 3.2.12 Participation Status
+
+partstatparam = element partstat {
+    type-partstat-event |
+    type-partstat-todo |
+    type-partstat-jour
+}
+
+type-partstat-event = (
+    element text {
+        "NEEDS-ACTION" |
+        "ACCEPTED" |
+        "DECLINED" |
+        "TENTATIVE" |
+        "DELEGATED"
+    }
+)
+
+type-partstat-todo = (
+    element text {
+        "NEEDS-ACTION" |
+        "ACCEPTED" |
+        "DECLINED" |
+        "TENTATIVE" |
+        "DELEGATED" |
+        "COMPLETED" |
+        "IN-PROCESS"
+    }
+)
+
+type-partstat-jour = (
+    element text {
+        "NEEDS-ACTION" |
+        "ACCEPTED" |
+        "DECLINED"
+    }
+)
+
+# 3.2.13 Recurrence Identifier Range
+
+rangeparam = element range {
+    element text {
+        "THISANDFUTURE"
+    }
+}
+
+# 3.2.14 Alarm Trigger Relationship
+
+trigrelparam = element related {
+    element text {
+        "START" |
+        "END"
+    }
+}
+
+# 3.2.15 Relationship Type
+
+reltypeparam = element reltype {
+    element text {
+        "PARENT" |
+        "CHILD" |
+        "SIBLING"
+    }
+}
+
+# 3.2.16 Participation Role
+
+roleparam = element role {
+    element text {
+        "CHAIR" |
+        "REQ-PARTICIPANT" |
+        "OPT-PARTICIPANT" |
+        "NON-PARTICIPANT"
+    }
+}
+
+# 3.2.17 RSVP Expectation
+
+rsvpparam = element rsvp {
+    value-boolean
+}
+
+# 3.2.18 Sent By
+
+sentbyparam = element sent-by {
+    value-cal-address
+}
+
+# 3.2.19 Time Zone Identifier
+
+tzidparam = element tzid {
+    value-text
+}
+
+# 3.3 Property Value Data Types
+
+# 3.3.1 BINARY
+
+value-binary =  element binary {
+    xsd:string
+}
+
+# 3.3.2 BOOLEAN
+
+value-boolean = element boolean {
+    xsd:boolean
+}
+
+# 3.3.3 CAL-ADDRESS
+
+value-cal-address = element cal-address {
+    xsd:anyURI
+}
+
+# 3.3.4 DATE
+
+pattern-date = xsd:string {
+    pattern = "\d\d\d\d-\d\d-\d\d"
+}
+
+value-date = element date {
+    pattern-date
+}
+
+# 3.3.5 DATE-TIME
+
+pattern-date-time = xsd:string {
+    pattern = "\d\d\d\d-\d\d-\d\dT\d\d:\d\d:\d\dZ?"
+}
+
+value-date-time = element date-time {
+    pattern-date-time
+}
+
+# 3.3.6 DURATION
+
+pattern-duration = xsd:string {
+    pattern = "(+|-)?P(\d+W)|(\d+D)?"
+            ~ "(T(\d+H(\d+M)?(\d+S)?)|"
+            ~   "(\d+M(\d+S)?)|"
+            ~   "(\d+S))?"
+}
+
+value-duration = element duration {
+    pattern-duration
+}
+
+# 3.3.7 FLOAT
+
+value-float = element float {
+    xsd:float
+}
+
+# 3.3.8 INTEGER
+
+value-integer = element integer {
+    xsd:integer
+}
+
+# 3.3.9 PERIOD
+
+value-period = element period {
+    element start {
+        pattern-date-time
+    },
+    (
+        element end {
+            pattern-date-time
+        } |
+        element duration {
+            pattern-duration
+        }
+    )
+}
+
+# 3.3.10 RECUR
+
+value-recur = element recur {
+    type-freq,
+    (type-until | type-count)?,
+    element interval {
+        xsd:positiveInteger
+    }?,
+    type-bysecond*,
+    type-byminute*,
+    type-byhour*,
+    type-byday*,
+    type-bymonthday*,
+    type-byyearday*,
+    type-byweekno*,
+    type-bymonth*,
+    type-bysetpos*,
+    element wkst { type-weekday }?
+}
+
+type-freq = element freq {
+    "SECONDLY" |
+    "MINUTELY" |
+    "HOURLY"   |
+    "DAILY"    |
+    "WEEKLY"   |
+    "MONTHLY"  |
+    "YEARLY"
+}
+
+type-until = element until {
+    type-date |
+    type-date-time
+}
+
+type-count = element count {
+    xsd:positiveInteger
+}
+
+type-bysecond = element bysecond {
+    xsd:nonNegativeInteger
+}
+
+type-byminute = element byminute {
+    xsd:nonNegativeInteger
+}
+
+type-byhour = element byhour {
+    xsd:nonNegativeInteger
+}
+
+type-weekday = (
+    "SU" |
+    "MO" |
+    "TU" |
+    "WE" |
+    "TH" |
+    "FR" |
+    "SA"
+)
+
+type-byday = element byday {
+    xsd:integer?,
+    type-weekday
+}
+
+type-bymonthday = element bymonthday {
+    xsd:integer
+}
+
+type-byyearday = element byyearday {
+    xsd:integer
+}
+
+type-byweekno = element byweekno {
+    xsd:integer
+}
+
+type-bymonth = element bymonth {
+    xsd:positiveInteger
+}
+
+type-bysetpos = element bysetpos {
+    xsd:integer
+}
+
+# 3.3.11 TEXT
+
+value-text = element text {
+    xsd:string
+}
+
+# 3.3.12 TIME
+
+pattern-time = xsd:string {
+    pattern = "\d\d:\d\d:\d\dZ?"
+}
+
+value-time = element time {
+    pattern-time
+}
+
+# 3.3.13 URI
+
+value-uri = element uri {
+    xsd:anyURI
+}
+
+# 3.3.14 UTC-OFFSET
+
+value-utc-offset = element utc-offset {
+    xsd:string { pattern = "(+|-)\d\d:\d\d(:\d\d)?" }
+}
+
+# UNKNOWN
+
+value-unknown = element unknown {
+    xsd:string
+}
+
+# 3.4 iCalendar Stream
+
+start = element icalendar {
+    vcalendar+
+}
+
+# 3.6 Calendar Components
+
+vcalendar = element vcalendar {
+    type-calprops,
+    type-component
+}
+
+type-calprops = element properties {
+    property-prodid &
+    property-version &
+    property-calscale? &
+    property-method?
+}
+
+type-component = element components {
+    (
+        component-vevent |
+        component-vtodo |
+        component-vjournal |
+        component-vfreebusy |
+        component-vtimezone
+    )*
+}
+
+# 3.6.1 Event Component
+
+component-vevent = element vevent {
+    type-eventprop,
+    element components {
+        component-valarm+
+    }?
+}
+
+type-eventprop = element properties {
+    property-dtstamp &
+    property-dtstart &
+    property-uid &
+
+    property-class? &
+    property-created? &
+    property-description? &
+    property-geo? &
+    property-last-mod? &
+    property-location? &
+    property-organizer? &
+    property-priority? &
+    property-seq? &
+    property-status-event? &
+    property-summary? &
+    property-transp? &
+    property-url? &
+    property-recurid? &
+
+    property-rrule? &
+
+    (property-dtend | property-duration)? &
+
+    property-attach* &
+    property-attendee* &
+    property-categories* &
+    property-comment* &
+    property-contact* &
+    property-exdate* &
+    property-rstatus* &
+    property-related* &
+    property-resources* &
+    property-rdate*
+}
+
+# 3.6.2 To-do Component
+
+component-vtodo = element vtodo {
+    type-todoprop,
+    element components {
+        component-valarm+
+    }?
+}
+
+type-todoprop = element properties {
+    property-dtstamp &
+    property-uid &
+
+    property-class? &
+    property-completed? &
+    property-created? &
+    property-description? &
+    property-geo? &
+    property-last-mod? &
+    property-location? &
+    property-organizer? &
+    property-percent? &
+    property-priority? &
+    property-recurid? &
+    property-seq? &
+    property-status-todo? &
+    property-summary? &
+    property-url? &
+
+    property-rrule? &
+
+    (
+        (property-dtstart?, property-dtend? ) |
+        (property-dtstart, property-duration)?
+    ) &
+
+    property-attach* &
+    property-attendee* &
+    property-categories* &
+    property-comment* &
+    property-contact* &
+    property-exdate* &
+    property-rstatus* &
+    property-related* &
+    property-resources* &
+    property-rdate*
+}
+
+# 3.6.3 Journal Component
+
+component-vjournal = element vjournal {
+    type-jourprop
+}
+
+type-jourprop = element properties {
+    property-dtstamp &
+    property-uid &
+
+    property-class? &
+    property-created? &
+    property-dtstart? &
+    property-last-mod? &
+    property-organizer? &
+    property-recurid? &
+    property-seq? &
+    property-status-jour? &
+    property-summary? &
+    property-url? &
+
+    property-rrule? &
+
+    property-attach* &
+    property-attendee* &
+    property-categories* &
+    property-comment* &
+    property-contact* &
+    property-description? &
+    property-exdate* &
+    property-related* &
+    property-rdate* &
+    property-rstatus*
+}
+
+# 3.6.4 Free/Busy Component
+
+component-vfreebusy = element vfreebusy {
+    type-fbprop
+}
+
+type-fbprop = element properties {
+    property-dtstamp &
+    property-uid &
+
+    property-contact? &
+    property-dtstart? &
+    property-dtend? &
+    property-duration? &
+    property-organizer? &
+    property-url? &
+
+    property-attendee* &
+    property-comment* &
+    property-freebusy* &
+    property-rstatus*
+}
+
+# 3.6.5 Time Zone Component
+
+component-vtimezone = element vtimezone {
+    element properties {
+        property-tzid &
+
+        property-last-mod? &
+        property-tzurl?
+    },
+    element components {
+        (component-standard | component-daylight) &
+        component-standard* &
+        component-daylight*
+    }
+}
+
+component-standard = element standard {
+    type-tzprop
+}
+
+component-daylight = element daylight {
+    type-tzprop
+}
+
+type-tzprop = element properties {
+    property-dtstart &
+    property-tzoffsetto &
+    property-tzoffsetfrom &
+
+    property-rrule? &
+
+    property-comment* &
+    property-rdate* &
+    property-tzname*
+}
+
+# 3.6.6 Alarm Component
+
+component-valarm = element valarm {
+    type-audioprop | type-dispprop | type-emailprop
+}
+
+type-audioprop = element properties {
+    property-action &
+
+    property-trigger &
+
+    (property-duration, property-repeat)? &
+
+    property-attach?
+}
+
+type-emailprop = element properties {
+    property-action &
+    property-description &
+    property-trigger &
+    property-summary &
+
+    property-attendee+ &
+
+    (property-duration, property-repeat)? &
+
+    property-attach*
+}
+
+type-dispprop = element properties {
+    property-action &
+    property-description &
+    property-trigger &
+
+    (property-duration, property-repeat)?
+}
+
+# 3.7 Calendar Properties
+
+# 3.7.1 Calendar Scale
+
+property-calscale = element calscale {
+
+    element parameters { empty }?,
+
+    element text { "GREGORIAN" }
+}
+
+# 3.7.2 Method
+
+property-method = element method {
+
+    element parameters { empty }?,
+
+    value-text
+}
+
+# 3.7.3 Product Identifier
+
+property-prodid = element prodid {
+
+    element parameters { empty }?,
+
+    value-text
+}
+
+# 3.7.4 Version
+
+property-version = element version {
+
+    element parameters { empty }?,
+
+    element text { "2.0" }
+}
+
+# 3.8 Component Properties
+
+# 3.8.1 Descriptive Component Properties
+
+# 3.8.1.1 Attachment
+
+property-attach = element attach {
+
+    element parameters {
+        fmttypeparam? &
+        encodingparam?
+    }?,
+
+    value-uri | value-binary
+}
+
+# 3.8.1.2 Categories
+
+property-categories = element categories {
+
+    element parameters {
+        languageparam? &
+    }?,
+
+    value-text+
+}
+
+# 3.8.1.3 Classification
+
+property-class = element class {
+
+    element parameters { empty }?,
+
+    element text {
+        "PUBLIC" |
+        "PRIVATE" |
+        "CONFIDENTIAL"
+    }
+}
+
+# 3.8.1.4 Comment
+
+property-comment = element comment {
+
+    element parameters {
+        altrepparam? &
+        languageparam?
+    }?,
+
+    value-text
+}
+
+# 3.8.1.5 Description
+
+property-description = element description {
+
+    element parameters {
+        altrepparam? &
+        languageparam?
+    }?,
+
+    value-text
+}
+
+# 3.8.1.6 Geographic Position
+
+property-geo = element geo {
+
+    element parameters { empty }?,
+
+    element latitude  { xsd:float },
+    element longitude { xsd:float }
+}
+
+# 3.8.1.7 Location
+
+property-location = element location {
+
+    element parameters {
+
+        altrepparam? &
+        languageparam?
+    }?,
+
+    value-text
+}
+
+# 3.8.1.8 Percent Complete
+
+property-percent = element percent-complete {
+
+    element parameters { empty }?,
+
+    value-integer
+}
+
+# 3.8.1.9 Priority
+
+property-priority = element priority {
+
+    element parameters { empty }?,
+
+    value-integer
+}
+
+# 3.8.1.10 Resources
+
+property-resources = element resources {
+
+    element parameters {
+        altrepparam? &
+        languageparam?
+    }?,
+
+    value-text+
+}
+
+# 3.8.1.11 Status
+
+property-status-event = element status {
+
+    element parameters { empty }?,
+
+    element text {
+        "TENTATIVE" |
+        "CONFIRMED" |
+        "CANCELLED"
+    }
+}
+
+property-status-todo = element status {
+
+    element parameters { empty }?,
+
+    element text {
+        "NEEDS-ACTION" |
+        "COMPLETED" |
+        "IN-PROCESS" |
+        "CANCELLED"
+    }
+}
+
+property-status-jour = element status {
+
+    element parameters { empty }?,
+
+    element text {
+        "DRAFT" |
+        "FINAL" |
+        "CANCELLED"
+    }
+}
+
+# 3.8.1.12 Summary
+
+property-summary = element summary {
+
+    element parameters {
+        altrepparam? &
+        languageparam?
+    }?,
+
+    value-text
+}
+
+# 3.8.2 Date and Time Component Properties
+
+# 3.8.2.1 Date/Time Completed
+
+property-completed = element completed {
+
+    element parameters { empty }?,
+
+    value-date-time
+}
+
+# 3.8.2.2 Date/Time End
+
+property-dtend = element dtend {
+
+    element parameters {
+        tzidparam?
+    }?,
+
+    value-date-time |
+    value-date
+}
+
+# 3.8.2.3 Date/Time Due
+
+property-due = element due {
+
+    element parameters {
+        tzidparam?
+    }?,
+
+    value-date-time |
+    value-date
+}
+
+# 3.8.2.4 Date/Time Start
+
+property-dtstart = element dtstart {
+
+    element parameters {
+        tzidparam?
+    }?,
+
+    value-date-time |
+    value-date
+}
+
+# 3.8.2.5 Duration
+
+property-duration = element duration {
+
+    element parameters { empty }?,
+
+    value-duration
+}
+
+# 3.8.2.6 Free/Busy Time
+
+property-freebusy = element freebusy {
+
+    element parameters {
+        fbtypeparam?
+    }?,
+
+
+    value-period+
+}
+
+# 3.8.2.7 Time Transparency
+
+property-transp = element transp {
+
+    element parameters { empty }?,
+
+    element text {
+        "OPAQUE" |
+        "TRANSPARENT"
+    }
+}
+
+# 3.8.3 Time Zone Component Properties
+
+# 3.8.3.1 Time Zone Identifier
+
+property-tzid = element tzid {
+
+    element parameters { empty }?,
+
+    value-text
+}
+
+# 3.8.3.2 Time Zone Name
+
+property-tzname = element tzname {
+
+    element parameters {
+        languageparam?
+    }?,
+
+    value-text
+}
+
+# 3.8.3.3 Time Zone Offset From
+
+property-tzoffsetfrom = element tzoffsetfrom {
+
+    element parameters { empty }?,
+
+    value-utc-offset
+}
+
+# 3.8.3.4 Time Zone Offset To
+
+property-tzoffsetto = element tzoffsetto {
+
+    element parameters { empty }?,
+
+    value-utc-offset
+}
+
+# 3.8.3.5 Time Zone URL
+
+property-tzurl = element tzurl {
+
+    element parameters { empty }?,
+
+    value-uri
+}
+
+# 3.8.4 Relationship Component Properties
+
+# 3.8.4.1 Attendee
+
+property-attendee = element attendee {
+
+    element parameters {
+        cutypeparam? &
+        memberparam? &
+        roleparam? &
+        partstatparam? &
+        rsvpparam? &
+        deltoparam? &
+        delfromparam? &
+        sentbyparam? &
+        cnparam? &
+        dirparam? &
+        languageparam?
+    }?,
+
+    value-cal-address
+}
+
+# 3.8.4.2 Contact
+
+property-contact = element contact {
+
+    element parameters {
+        altrepparam? &
+        languageparam?
+    }?,
+
+    value-text
+}
+
+# 3.8.4.3 Organizer
+
+property-organizer = element organizer {
+
+    element parameters {
+        cnparam? &
+        dirparam? &
+        sentbyparam? &
+        languageparam?
+    }?,
+
+    value-cal-address
+}
+
+# 3.8.4.4 Recurrence ID
+
+property-recurid = element recurrence-id {
+
+    element parameters {
+        tzidparam? &
+        rangeparam?
+    }?,
+
+    value-date-time |
+    value-date
+}
+
+# 3.8.4.5 Related-To
+
+property-related = element related-to {
+
+    element parameters {
+        reltypeparam?
+    }?,
+
+    value-text
+}
+
+# 3.8.4.6 Uniform Resource Locator
+
+property-url = element url {
+
+    element parameters { empty }?,
+
+    value-uri
+}
+
+# 3.8.4.7 Unique Identifier
+
+property-uid = element uid {
+
+    element parameters { empty }?,
+
+    value-text
+}
+
+# 3.8.5 Recurrence Component Properties
+
+# 3.8.5.1 Exception Date/Times
+
+property-exdate = element exdate {
+
+    element parameters {
+        tzidparam?
+    }?,
+
+    value-date-time+ |
+    value-date+
+}
+
+# 3.8.5.2 Recurrence Date/Times
+
+property-rdate = element rdate {
+
+    element parameters {
+        tzidparam?
+    }?,
+
+    value-date-time+ |
+    value-date+ |
+    value-period+
+}
+
+# 3.8.5.3 Recurrence Rule
+
+property-rrule = element rrule {
+
+    element parameters { empty }?,
+
+    value-recur
+}
+
+# 3.8.6 Alarm Component Properties
+
+# 3.8.6.1 Action
+
+property-action = element action {
+
+    element parameters { empty }?,
+
+    element text {
+        "AUDIO" |
+        "DISPLAY" |
+        "EMAIL"
+    }
+}
+
+# 3.8.6.2 Repeat Count
+
+property-repeat = element repeat {
+
+    element parameters { empty }?,
+
+    value-integer
+}
+
+# 3.8.6.3 Trigger
+
+property-trigger = element trigger {
+
+    (
+        element parameters {
+            trigrelparam?
+        }?,
+
+        value-duration
+    ) |
+    (
+        element parameters { empty }?,
+
+        value-date-time
+    )
+}
+
+# 3.8.7 Change Management Component Properties
+
+# 3.8.7.1 Date/Time Created
+
+property-created = element created {
+
+    element parameters { empty }?,
+
+    value-date-time
+}
+
+# 3.8.7.2 Date/Time Stamp
+
+property-dtstamp = element dtstamp {
+
+    element parameters { empty }?,
+
+    value-date-time
+}
+
+# 3.8.7.3 Last Modified
+
+property-last-mod = element last-modified {
+
+    element parameters { empty }?,
+
+    value-date-time
+}
+
+# 3.8.7.4 Sequence Number
+
+property-seq = element sequence {
+
+    element parameters { empty }?,
+
+    value-integer
+}
+
+# 3.8.8 Miscellaneous Component Properties
+
+# 3.8.8.3 Request Status
+
+property-rstatus = element request-status {
+
+    element parameters {
+        languageparam?
+    }?,
+
+    element code { xsd:string },
+    element description { xsd:string },
+    element data { xsd:string }?
+}

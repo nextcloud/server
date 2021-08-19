@@ -1,0 +1,28 @@
+{
+    "name": "stecman/symfony-console-completion",
+    "description": "Automatic BASH completion for Symfony Console Component based applications.",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Stephen Holdaway",
+            "email": "stephen@stecman.co.nz"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.2",
+        "symfony/console": "~2.3 || ~3.0 || ~4.0 || ~5.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.8.36 || ~5.7 || ~6.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Stecman\\Component\\Symfony\\Console\\BashCompletion\\": "src/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.10.x-dev"
+        }
+    }
+}

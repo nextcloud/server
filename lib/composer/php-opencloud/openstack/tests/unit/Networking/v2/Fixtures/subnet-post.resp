@@ -1,0 +1,14 @@
+HTTP/1.1 201 Created
+Content-Type: application/json
+
+{
+    "subnet": {
+        "name": "foo",
+        "network_id": "networkId",
+        "tenant_id": "tenantId",
+        "ip_version": 4,
+        "cidr": "192.168.199.0/24",
+        "id": "subnetId",
+        "enable_dhcp": false
+    }
+}

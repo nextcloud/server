@@ -1,0 +1,22 @@
+{
+    "name": "microsoft/azure-storage-common",
+    "version": "1.5.1",
+    "description": "This project provides a set of common code shared by Azure Storage Blob, Table, Queue and File PHP client libraries.",
+    "keywords": [ "php", "azure", "storage", "sdk", "common" ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Azure Storage PHP Client Library",
+            "email": "dmsh@microsoft.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.6.0",
+		"guzzlehttp/guzzle": "~6.0|^7.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "MicrosoftAzure\\Storage\\Common\\": "src/Common"
+        }
+    }
+}

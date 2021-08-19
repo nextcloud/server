@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<d:searchrequest xmlns:d="DAV:" xmlns:oc="http://nextcloud.com/ns">
+    <d:basicsearch>
+        <d:select>
+            <d:prop>
+                <d:displayname/>
+                <d:getcontenttype/>
+                <d:resourcetype/>
+                <d:getcontentlength/>
+                <d:getlastmodified/>
+                <d:creationdate/>
+                <d:getetag/>
+                <d:quota-used-bytes/>
+                <d:quota-available-bytes/>
+                <oc:permissions xmlns:oc="http://owncloud.org/ns"/>
+                <oc:id xmlns:oc="http://owncloud.org/ns"/>
+                <oc:size xmlns:oc="http://owncloud.org/ns"/>
+                <oc:favorite xmlns:oc="http://owncloud.org/ns"/>
+            </d:prop>
+        </d:select>
+        <d:from>
+            <d:scope>
+                <d:href>/files/naofumi</d:href>
+                <d:depth>infinity</d:depth>
+            </d:scope>
+        </d:from>
+        <d:where><d:like><d:prop/><d:literal/></d:like></d:where>
+        <d:orderby/>
+    </d:basicsearch>
+</d:searchrequest>

@@ -1,0 +1,16 @@
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+    "endpoint": {
+        "id": "endpointId",
+        "interface": "internal",
+        "links": {
+            "self": "myopenstack.org:12345/v2.0"
+        },
+        "name": "endpointName",
+        "region": "RegionOne",
+        "service_id": "serviceId",
+        "url": "myopenstack.org:12345/v2.0"
+    }
+}

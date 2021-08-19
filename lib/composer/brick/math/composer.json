@@ -1,0 +1,35 @@
+{
+    "name": "brick/math",
+    "description": "Arbitrary-precision arithmetic library",
+    "type": "library",
+    "keywords": [
+        "Brick",
+        "Math",
+        "Arbitrary-precision",
+        "Arithmetic",
+        "BigInteger",
+        "BigDecimal",
+        "BigRational",
+        "Bignum"
+    ],
+    "license": "MIT",
+    "require": {
+        "php": "^7.1 || ^8.0",
+        "ext-json": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^7.5.15 || ^8.5 || ^9.0",
+        "php-coveralls/php-coveralls": "^2.2",
+        "vimeo/psalm": "4.9.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Brick\\Math\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Brick\\Math\\Tests\\": "tests/"
+        }
+    }
+}

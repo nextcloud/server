@@ -1,0 +1,77 @@
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+    "servers": [
+        {
+            "id": "1",
+            "links": [
+                {
+                    "href": "http://openstack.example.com/v2/openstack/servers/616fb98f-46ca-475e-917e-2563e5a8cd19",
+                    "rel": "self"
+                },
+                {
+                    "href": "http://openstack.example.com/openstack/servers/616fb98f-46ca-475e-917e-2563e5a8cd19",
+                    "rel": "bookmark"
+                }
+            ],
+            "name": "server1"
+        },
+        {
+            "id": "2",
+            "links": [
+                {
+                    "href": "http://openstack.example.com/v2/openstack/servers/616fb98f-46ca-475e-917e-2563e5a8cd19",
+                    "rel": "self"
+                },
+                {
+                    "href": "http://openstack.example.com/openstack/servers/616fb98f-46ca-475e-917e-2563e5a8cd19",
+                    "rel": "bookmark"
+                }
+            ],
+            "name": "server2"
+        },
+        {
+            "id": "3",
+            "links": [
+                {
+                    "href": "http://openstack.example.com/v2/openstack/servers/616fb98f-46ca-475e-917e-2563e5a8cd19",
+                    "rel": "self"
+                },
+                {
+                    "href": "http://openstack.example.com/openstack/servers/616fb98f-46ca-475e-917e-2563e5a8cd19",
+                    "rel": "bookmark"
+                }
+            ],
+            "name": "server3"
+        },
+        {
+            "id": "4",
+            "links": [
+                {
+                    "href": "http://openstack.example.com/v2/openstack/servers/616fb98f-46ca-475e-917e-2563e5a8cd19",
+                    "rel": "self"
+                },
+                {
+                    "href": "http://openstack.example.com/openstack/servers/616fb98f-46ca-475e-917e-2563e5a8cd19",
+                    "rel": "bookmark"
+                }
+            ],
+            "name": "server4"
+        },
+        {
+            "id": "5",
+            "links": [
+                {
+                    "href": "http://openstack.example.com/v2/openstack/servers/616fb98f-46ca-475e-917e-2563e5a8cd19",
+                    "rel": "self"
+                },
+                {
+                    "href": "http://openstack.example.com/openstack/servers/616fb98f-46ca-475e-917e-2563e5a8cd19",
+                    "rel": "bookmark"
+                }
+            ],
+            "name": "server5"
+        }
+    ]
+}

@@ -1,0 +1,14 @@
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+    "subnet": {
+        "name": "bar",
+        "network_id": "networkId",
+        "tenant_id": "tenantId",
+        "ip_version": 4,
+        "gateway_ip": "192.168.199.1",
+        "cidr": "192.168.199.0/24",
+        "id": "networkId"
+    }
+}

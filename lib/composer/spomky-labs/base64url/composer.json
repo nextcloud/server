@@ -1,0 +1,35 @@
+{
+    "name": "spomky-labs/base64url",
+    "description": "Base 64 URL Safe Encoding/Decoding PHP Library",
+    "type": "library",
+    "license": "MIT",
+    "keywords": ["Base64", "URL", "Safe", "RFC4648"],
+    "homepage": "https://github.com/Spomky-Labs/base64url",
+    "authors": [
+        {
+            "name": "Florent Morselli",
+            "homepage": "https://github.com/Spomky-Labs/base64url/contributors"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Base64Url\\":  "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Base64Url\\Test\\":  "tests/"
+        }
+    },
+    "require": {
+        "php": ">=7.1"
+    },
+    "require-dev": {
+        "phpstan/extension-installer": "^1.0",
+        "phpstan/phpstan": "^0.11|^0.12",
+        "phpstan/phpstan-beberlei-assert": "^0.11|^0.12",
+        "phpstan/phpstan-deprecation-rules": "^0.11|^0.12",
+        "phpstan/phpstan-phpunit": "^0.11|^0.12",
+        "phpstan/phpstan-strict-rules": "^0.11|^0.12"
+    }
+}

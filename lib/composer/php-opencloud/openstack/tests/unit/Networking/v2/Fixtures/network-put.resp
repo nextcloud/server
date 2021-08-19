@@ -1,0 +1,16 @@
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+    "network": {
+        "status": "ACTIVE",
+        "subnets": [
+            "subnetId"
+        ],
+        "name": "fakenetwork",
+        "tenant_id": "openstack",
+        "admin_state_up": true,
+        "shared": true,
+        "id": "networkId"
+    }
+}

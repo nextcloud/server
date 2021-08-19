@@ -1,0 +1,3 @@
+#!/bin/bash
+
+php tests/integration/run.php -s compute -v v2

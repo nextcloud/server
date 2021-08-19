@@ -1,0 +1,38 @@
+{
+    "name": "symfony/event-dispatcher-contracts",
+    "type": "library",
+    "description": "Generic abstractions related to dispatching event",
+    "keywords": ["abstractions", "contracts", "decoupling", "interfaces", "interoperability", "standards"],
+    "homepage": "https://symfony.com",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Nicolas Grekas",
+            "email": "p@tchwork.com"
+        },
+        {
+            "name": "Symfony Community",
+            "homepage": "https://symfony.com/contributors"
+        }
+    ],
+    "require": {
+        "php": ">=7.1.3"
+    },
+    "suggest": {
+        "psr/event-dispatcher": "",
+        "symfony/event-dispatcher-implementation": ""
+    },
+    "autoload": {
+        "psr-4": { "Symfony\\Contracts\\EventDispatcher\\": "" }
+    },
+    "minimum-stability": "dev",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.1-dev"
+        },
+        "thanks": {
+            "name": "symfony/contracts",
+            "url": "https://github.com/symfony/contracts"
+        }
+    }
+}

@@ -1,0 +1,32 @@
+{
+    "name": "pear/pear-core-minimal",
+    "description": "Minimal set of PEAR core files to be used as composer dependency",
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "email": "cweiske@php.net",
+            "name": "Christian Weiske",
+            "role": "Lead"
+        }
+    ],
+    "autoload": {
+        "psr-0": {
+            "": "src/"
+        }
+    },
+    "include-path": [
+        "src/"
+    ],
+    "support": {
+        "issues": "http://pear.php.net/bugs/search.php?cmd=display&package_name[]=PEAR",
+        "source": "https://github.com/pear/pear-core-minimal"
+    },
+    "type": "library",
+    "require": {
+        "pear/console_getopt": "~1.4",
+        "pear/pear_exception": "~1.0"
+    },
+    "replace": {
+        "rsky/pear-core-min": "self.version"
+    }
+}

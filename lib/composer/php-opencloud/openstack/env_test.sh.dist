@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+export OS_AUTH_URL=""
+export OS_REGION=""
+export OS_REGION_NAME=""
+export OS_USER_ID=""
+export OS_USERNAME=""
+export OS_PASSWORD=""
+export OS_PROJECT_ID=""
+export OS_PROJECT_NAME=""
+export OS_RESIZE_FLAVOR=""
+export OS_FLAVOR=""
+export OS_DOMAIN_ID="default"

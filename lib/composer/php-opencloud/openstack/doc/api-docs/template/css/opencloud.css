@@ -1,0 +1,82 @@
+div.params div.row {
+    display: block;
+    clear: both;
+    width: 100%;
+    border-top: 1px solid #ddd;
+    padding: 10px 0;
+    margin: 0;
+}
+div.params div.row:last-child {
+    border-bottom: 1px solid #ddd;
+}
+div.params div.row:last-of-type {
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 20px;
+}
+div.params div.row > div.col-md-2, div.params div.row > div.col-md-8 {
+    padding-left: 0;
+}
+div.params div.row div.row {
+    border: 0;
+    margin: 10px 0;
+    /*padding-left: 10px;*/
+}
+div.params div.row div.row:last-child {
+    margin-bottom: 0;
+}
+div.params .cleafix:after {
+    content:"";
+    display:table;
+    clear:both;
+}
+div.params .param-name {
+    width: 20%;
+    float:left;
+    padding-right: 10px;
+    word-wrap: break-word;
+}
+div.params .param-type {
+    width: 8%;
+    float:left;
+}
+div.params .param-req {
+  float:left;
+  width:8%;
+}
+div.params .param-desc {
+    width: 64%;
+    float:left;
+}
+.param-name span.name {
+    color:green;
+}
+.param-name span.parent {
+    color: grey;
+}
+.param-name span, .method-header {
+  font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+}
+div.details {
+  padding-left: 10px !important;
+}
+table.params-table td {
+  padding: 10px 5px !important;
+}
+.method-header {
+  margin-bottom: 5px;
+}
+.method-item {
+    border-top: 3px solid #bbb;
+}
+.method-item h3 {
+    padding:10px !important;
+    margin-top:0 !important;
+}
+pre.php {
+    padding: 15px;
+    font-size: 14px;
+    border: none;
+}
+code.pre {
+    padding: 0;
+}

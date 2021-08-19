@@ -1,0 +1,27 @@
+build: false
+shallow_clone: false
+platform:
+  - x86
+  - x64
+clone_folder: C:\projects\phpseclib
+
+install:
+  - cinst -y OpenSSL.Light
+  - SET PATH=C:\Program Files\OpenSSL;%PATH%
+  - sc config wuauserv start= auto
+  - net start wuauserv
+  - cinst -y php --version 5.6.30
+  - cd c:\tools\php56
+  - copy php.ini-production php.ini
+  - echo date.timezone="UTC" >> php.ini
+  - echo extension_dir=ext >> php.ini
+  - echo extension=php_openssl.dll >> php.ini
+  - echo extension=php_gmp.dll >> php.ini
+  - cd C:\projects\phpseclib
+  - SET PATH=C:\tools\php56;%PATH%
+  - php.exe -r "readfile('http://getcomposer.org/installer');" | php.exe
+  - php.exe composer.phar install --prefer-source --no-interaction
+
+test_script:
+  - cd C:\projects\phpseclib
+  - vendor\bin\phpunit.bat tests/Windows32Test.php

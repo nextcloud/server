@@ -1,0 +1,67 @@
+{
+    "name": "sabre/xml",
+    "description" : "sabre/xml is an XML library that you may not hate.",
+    "keywords" : [ "XML", "XMLReader", "XMLWriter", "DOM" ],
+    "homepage" : "https://sabre.io/xml/",
+    "license" : "BSD-3-Clause",
+    "require" : {
+        "php" : "^7.1 || ^8.0",
+        "ext-xmlwriter" : "*",
+        "ext-xmlreader" : "*",
+        "ext-dom" : "*",
+        "lib-libxml" : ">=2.6.20",
+        "sabre/uri" : ">=1.0,<3.0.0"
+    },
+    "authors" : [
+        {
+            "name" : "Evert Pot",
+            "email" : "me@evertpot.com",
+            "homepage" : "http://evertpot.com/",
+            "role" : "Developer"
+        },
+        {
+            "name": "Markus Staab",
+            "email": "markus.staab@redaxo.de",
+            "role" : "Developer"
+        }
+    ],
+    "support" : {
+        "forum" : "https://groups.google.com/group/sabredav-discuss",
+        "source" : "https://github.com/fruux/sabre-xml"
+    },
+    "autoload" : {
+        "psr-4" : {
+            "Sabre\\Xml\\" : "lib/"
+        },
+        "files": [
+            "lib/Deserializer/functions.php",
+            "lib/Serializer/functions.php"
+        ]
+    },
+    "autoload-dev" : {
+        "psr-4" : {
+            "Sabre\\Xml\\" : "tests/Sabre/Xml/"
+        }
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "~2.16.1",
+        "phpstan/phpstan": "^0.12",
+        "phpunit/phpunit" : "^7.5 || ^8.5 || ^9.0"
+    },
+    "scripts": {
+        "phpstan": [
+            "phpstan analyse lib tests"
+        ],
+        "cs-fixer": [
+            "php-cs-fixer fix"
+        ],
+        "phpunit": [
+            "phpunit --configuration tests/phpunit.xml"
+        ],
+        "test": [
+            "composer phpstan",
+            "composer cs-fixer",
+            "composer phpunit"
+        ]
+    }
+}

@@ -1,0 +1,12 @@
+HTTP/1.1 200 OK
+Content-Length: 14
+Accept-Ranges: bytes
+Last-Modified: Wed, 15 Jan 2014 16:41:49 GMT
+Etag: 451e372e48e0f6b1114fa0724aa79fa1
+X-Timestamp: 1389804109.39027
+X-Object-Meta-Orig-Filename: goodbyeworld.txt
+Content-Type: text/plain
+X-Trans-Id: tx8145a190241f4cf6b05f5-0052d82a34
+Date: Thu, 16 Jan 2014 18:51:32 GMT
+
+Goodbye World!

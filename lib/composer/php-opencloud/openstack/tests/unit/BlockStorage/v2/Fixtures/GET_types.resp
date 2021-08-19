@@ -1,0 +1,19 @@
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+    "volume_types": [
+        {
+            "extra_specs": {
+                "capabilities": "gpu"
+            },
+            "id": "6685584b-1eac-4da6-b5c3-555430cf68ff",
+            "name": "SSD"
+        },
+        {
+            "extra_specs": {},
+            "id": "8eb69a46-df97-4e41-9586-9a40a7533803",
+            "name": "SATA"
+        }
+    ]
+}

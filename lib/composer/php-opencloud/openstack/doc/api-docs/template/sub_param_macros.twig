@@ -1,0 +1,117 @@
+{% macro output_sub_param(name, sub_param, parent_is_array, parent_name) -%}
+
+    {% set render = 'true' %}
+
+    {% set type = sub_param.type %}
+
+    {% set full_name = name %}
+    {% if parent_name %}
+        {% if not name %}
+            {% if parent_is_array == 'true' %}
+                {% set full_name = parent_name ~ '[]' %}
+            {% else %}
+                {% set full_name = parent_name %}
+            {% endif %}
+        {% elseif parent_is_array == 'true' %}
+            {% set full_name = parent_name ~ '[].' ~ name %}
+        {% else %}
+            {% set full_name = parent_name ~ '.' ~ name %}
+        {% endif %}
+    {% endif %}
+
+    {% if sub_param.type == 'object' %}
+        {% if parent_is_array == 'true' %}
+            {% set render = 'false' %}
+            <div class="clearfix"></div>
+            {{ _self.iterate_sub_params(sub_param.properties, 'false', full_name) }}
+        {% endif %}
+    {% elseif sub_param.type == 'array' %}
+        {% set subType = sub_param.itemSchema.type %}
+        {% set type = 'array of ' ~ subType ~ 's' %}
+    {% elseif parent_is_array == 'true' %}
+        {% set render = 'false' %}
+    {% endif %}
+
+    {% if render == 'true' %}
+        <div class="row">
+
+            <div class="col param-name">
+                {% if parent_name %}
+                    {% if parent_name == 'metadata' %}
+                        <span class="parent">metadata.</span><span class="name">key</span>
+                    {% else %}
+                        <span class="parent">{{ parent_name }}.</span><span class="name">{{ name }}</span>
+                    {% endif %}
+                {% else %}
+                    <span class="name">{{ name }}</span>
+                {% endif %}
+            </div>
+            <div class="col param-type">
+                {% if type is empty %}
+                    {% set type = "string" %}
+                {% endif %}
+                {{ _self.fill(type) }}
+            </div>
+            <div class="col param-req">
+                {% if sub_param.required == 'true' %}
+                    Required
+                {% else %}
+                    Optional
+                {% endif %}
+            </div>
+            <div class="col param-desc">
+                {{ _self.fill(sub_param.description) }}
+            </div>
+
+            {% if sub_param.itemSchema|length > 0 %}
+                <div class="clearfix"></div>
+                {{ _self.output_sub_param('', sub_param.itemSchema, 'true', full_name) }}
+            {% elseif sub_param.properties|length > 0 %}
+                <div class="clearfix"></div>
+                {{ _self.iterate_sub_params(sub_param.properties, 'false', full_name) }}
+            {% endif %}
+
+        </div>
+    {% endif %}
+
+{%- endmacro %}
+
+{% macro iterate_sub_params(sub_params, parent_is_array, parent_name) -%}
+
+    {% for name, sub_param in sub_params if sub_params|length > 0 %}
+        {{ _self.output_sub_param(name, sub_param, parent_is_array, parent_name) }}
+    {% endfor %}
+
+{%- endmacro %}
+
+{% macro fill(val) -%}
+    {% if val is iterable %}
+        {% for subval in val %}
+            {{ _self.fill(subval) }}
+        {% endfor %}
+    {% elseif val is not empty %}
+        {{ val }}
+    {% else %}
+        &nbsp;
+    {% endif %}
+{%- endmacro %}
+
+{% macro sub_param_example(sub_param, name) %}
+    {%- if sub_param.type == 'string' -%}
+        {%- verbatim -%}'{{%- endverbatim -%}{{- name -}}{%- verbatim -%}}'{%- endverbatim -%}
+    {%- elseif sub_param.type == 'bool' or sub_param.type == 'boolean' -%}
+        {{- 'true' -}}
+    {%- elseif sub_param.type == 'array' -%}
+        {% verbatim %}[{% endverbatim %}
+        {% for i in 1..2 %}
+            {{ _self.sub_param_example(sub_param.itemSchema, 'val' ~ i)|trim|raw }}{% verbatim %},{% endverbatim %}
+        {% endfor %}
+        {% verbatim %}]{% endverbatim %}
+    {%- elseif sub_param.type == 'object' -%}
+        {% verbatim %}[{% endverbatim %}
+        {% for propName, prop in sub_param.properties %}
+            {% verbatim %}'{% endverbatim %}{{- propName|trim -}}{%- verbatim -%}' => {%- endverbatim -%}{{- _self.sub_param_example(prop, propName)|trim|raw -}}{% verbatim %},{% endverbatim %}
+        {% endfor %}
+        {% verbatim %}]{% endverbatim %}
+    {%- endif -%}
+{% endmacro %}

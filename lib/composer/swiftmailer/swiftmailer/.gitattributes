@@ -1,0 +1,11 @@
+*.crt -crlf
+*.key -crlf
+*.srl -crlf
+*.pub -crlf
+*.priv -crlf
+*.txt -crlf
+
+# ignore directories in the git-generated distributed .zip archive
+/doc/notes export-ignore
+/tests export-ignore
+/phpunit.xml.dist export-ignore

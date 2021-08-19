@@ -1,0 +1,48 @@
+{
+    "name": "composer/package-versions-deprecated",
+    "description": "Composer plugin that provides efficient querying for installed package versions (no runtime IO)",
+    "type": "composer-plugin",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Marco Pivetta",
+            "email": "ocramius@gmail.com"
+        },
+        {
+            "name": "Jordi Boggiano",
+            "email": "j.boggiano@seld.be"
+        }
+    ],
+    "require": {
+        "php":                 "^7 || ^8",
+        "composer-plugin-api": "^1.1.0 || ^2.0"
+    },
+    "replace": {
+        "ocramius/package-versions": "1.11.99"
+    },
+    "require-dev": {
+        "phpunit/phpunit":          "^6.5 || ^7",
+        "composer/composer":        "^1.9.3 || ^2.0@dev",
+        "ext-zip":                  "^1.13"
+    },
+    "autoload": {
+        "psr-4": {
+            "PackageVersions\\": "src/PackageVersions"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "PackageVersionsTest\\": "test/PackageVersionsTest"
+        }
+    },
+    "extra": {
+        "class": "PackageVersions\\Installer",
+        "branch-alias": {
+            "dev-master": "1.x-dev"
+        }
+    },
+    "scripts": {
+        "post-update-cmd":  "PackageVersions\\Installer::dumpVersionsClass",
+        "post-install-cmd": "PackageVersions\\Installer::dumpVersionsClass"
+    }
+}

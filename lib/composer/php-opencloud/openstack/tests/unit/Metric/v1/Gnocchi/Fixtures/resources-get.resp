@@ -1,0 +1,67 @@
+HTTP/1.1 200 OK
+Content-Type: application/json; charset=UTF-8
+
+[
+   {
+      "created_by_user_id":"27c0d3f8-e7ee-42f0-8317-72237d1c5ae3",
+      "started_at":"2017-05-10T14:56:34.898772+00:00",
+      "user_id":null,
+      "revision_end":null,
+      "created_by_project_id":"6c38cd8d-099a-4cb2-aecf-17be688e8616",
+      "id":"0a8b55df-f90f-491c-8cb9-7cdecec6fc26",
+      "metrics":{
+
+      },
+      "original_resource_id":null,
+      "revision_start":"2017-05-10T14:56:34.898785+00:00",
+      "project_id":null,
+      "type":"generic",
+      "ended_at":null
+   },
+   {
+      "created_by_user_id":"ad6540c351de48d0825aa8f618b2eb2a",
+      "started_at":"2017-05-10T15:12:34.413388+00:00",
+      "user_id":null,
+      "revision_end":null,
+      "created_by_project_id":"a652c6a9566149dd9c38ad23c00f1cd7",
+      "id":"c41b19de-8aac-4ecd-b0f0-4ede718206c5",
+      "metrics":{
+         "storage.objects.outgoing.bytes":"0339ac7a-5579-4c66-b655-0dd20a7976e4",
+         "storage.containers.objects":"b360bd41-371b-490e-a09b-0c8a0a1a99eb",
+         "storage.api.request":"1bf761e3-7cf5-4141-9ed1-45cde9cec2ba",
+         "storage.objects.containers":"e3df8f2c-911a-49d8-a1ba-eae16eda1871",
+         "storage.objects.incoming.bytes":"ce73ef04-1810-452d-a133-6cba1d445b0d",
+         "storage.objects":"be4e8f48-db23-4dac-84ed-72f8283d243d",
+         "storage.containers.objects.size":"9daf5414-0a78-4bd8-8455-44e07f9cc532",
+         "storage.objects.size":"f499792a-5827-4b27-b09f-d66ba663027f"
+      },
+      "original_resource_id":"c41b19de8aac4ecdb0f04ede718206c5",
+      "revision_start":"2017-05-10T15:12:34.413403+00:00",
+      "project_id":"c41b19de8aac4ecdb0f04ede718206c5",
+      "type":"swift_account",
+      "ended_at":null
+   },
+   {
+      "created_by_user_id":"ad6540c351de48d0825aa8f618b2eb2a",
+      "started_at":"2017-05-10T16:58:15.023677+00:00",
+      "user_id":"c3f6c6e949f34fc38f71b89c04d1ed60",
+      "revision_end":null,
+      "created_by_project_id":"a652c6a9566149dd9c38ad23c00f1cd7",
+      "id":"18c70355-9665-4252-8a84-01f55bef1a45",
+      "metrics":{
+         "volume.resize":"0920c1f6-bd1b-4c73-8110-d8129ee4ad2d",
+         "volume":"dd12bc6c-0e5e-407f-9663-aed2369c5d21",
+         "volume.size":"4b6e868d-0f9e-4570-8c59-b6d3cc55fae2",
+         "volume.delete":"6beba0c2-f6b8-492b-aa8a-7fe357a6a886",
+         "volume.update":"0f42f43a-212f-45aa-9420-4b68623ce641",
+         "volume.detach":"80ab8cc2-2a39-4f17-855a-32979d9c2905",
+         "volume.create":"4219ffe6-2765-4e6a-9f05-1ba20bd6dd7f",
+         "volume.attach":"c1a83e6a-c81e-4269-950e-bce92a189f89"
+      },
+      "original_resource_id":"18c70355-9665-4252-8a84-01f55bef1a45",
+      "revision_start":"2017-05-10T16:58:15.023689+00:00",
+      "project_id":"c41b19de8aac4ecdb0f04ede718206c5",
+      "type":"volume",
+      "ended_at":null
+   }
+]

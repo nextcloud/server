@@ -1,0 +1,15 @@
+{% extends "default/layout/base.twig" %}
+
+{% block head %}
+    <link rel="stylesheet" type="text/css" href="{{ path('css/bootstrap.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ path('css/bootstrap-theme.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ path('css/sami.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ path('css/opencloud.css') }}">
+    <script src="{{ path('js/jquery-1.11.1.min.js') }}"></script>
+    <script src="{{ path('js/bootstrap.min.js') }}"></script>
+    <script src="{{ path('js/typeahead.min.js') }}"></script>
+    <script src="{{ path('sami.js') }}"></script>
+
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/styles/github.min.css">
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/highlight.min.js"></script>
+{% endblock %}

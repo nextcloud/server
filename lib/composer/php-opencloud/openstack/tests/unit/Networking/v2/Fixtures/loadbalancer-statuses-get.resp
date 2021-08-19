@@ -1,0 +1,38 @@
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+    "statuses": {
+        "loadbalancer": {
+            "name": "loadbalancer1",
+            "id": "loadbalancerId",
+            "operating_status": "ONLINE",
+            "provisioning_status": "ACTIVE",
+            "listeners": [
+                {
+                    "id": "listenerId",
+                    "operating_status": "ONLINE",
+                    "provisioning_status": "ACTIVE",
+                    "pools": [
+                        {
+                            "id": "poolId",
+                            "operating_status": "ONLINE",
+                            "provisioning_status": "ACTIVE",
+                            "members": [
+                                {
+                                    "id": "memberId",
+                                    "operating_status": "ONLINE",
+                                    "provisioning_status": "ACTIVE"
+                                }
+                            ],
+                            "healthmonitor": {
+                                "id": "healthmonitorId",
+                                "provisioning_status": "ACTIVE"
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

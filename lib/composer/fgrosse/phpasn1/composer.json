@@ -1,0 +1,49 @@
+{
+    "name": "fgrosse/phpasn1",
+    "description": "A PHP Framework that allows you to encode and decode arbitrary ASN.1 structures using the ITU-T X.690 Encoding Rules.",
+    "type": "library",
+    "homepage": "https://github.com/FGrosse/PHPASN1",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Friedrich Große",
+            "email": "friedrich.grosse@gmail.com",
+            "homepage": "https://github.com/FGrosse",
+            "role": "Author"
+        },
+        {
+            "name": "All contributors",
+            "homepage": "https://github.com/FGrosse/PHPASN1/contributors"
+        }
+    ],
+    "keywords": [ "x690", "x.690", "x.509", "x509", "asn1", "asn.1", "ber", "der", "binary", "encoding", "decoding" ],
+
+    "require": {
+        "php": ">=7.0.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~6.3",
+        "satooshi/php-coveralls": "~2.0"
+    },
+    "suggest": {
+        "ext-gmp": "GMP is the preferred extension for big integer calculations",
+        "ext-bcmath": "BCmath is the fallback extension for big integer calculations",
+        "phpseclib/bcmath_compat": "BCmath polyfill for servers where neither GMP nor BCmath is available",
+        "ext-curl": "For loading OID information from the web if they have not bee defined statically"
+    },
+    "autoload": {
+        "psr-4": {
+            "FG\\": "lib/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "FG\\Test\\": "tests/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.0.x-dev"
+        }
+    }
+}

@@ -1,0 +1,41 @@
+{
+    "name": "pear/pear_exception",
+    "description": "The PEAR Exception base class.",
+    "type": "class",
+    "keywords": [
+        "exception"
+    ],
+    "homepage": "https://github.com/pear/PEAR_Exception",
+    "license": "BSD-2-Clause",
+    "authors": [
+        {
+            "name": "Helgi Thormar",
+            "email": "dufuz@php.net"
+        },
+        {
+            "name": "Greg Beaver",
+            "email": "cellog@php.net"
+        }
+    ],
+    "require": {
+        "php": ">=5.2.0"
+    },
+    "autoload": {
+        "classmap": ["PEAR/"]
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        }
+    },
+    "include-path": [
+        "."
+    ],
+    "support": {
+        "issues": "http://pear.php.net/bugs/search.php?cmd=display&package_name[]=PEAR_Exception",
+        "source": "https://github.com/pear/PEAR_Exception"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "<9"
+    }
+}

@@ -1,0 +1,39 @@
+{
+    "name": "symfony/polyfill-intl-normalizer",
+    "type": "library",
+    "description": "Symfony polyfill for intl's Normalizer class and related functions",
+    "keywords": ["polyfill", "shim", "compatibility", "portable", "intl", "normalizer"],
+    "homepage": "https://symfony.com",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Nicolas Grekas",
+            "email": "p@tchwork.com"
+        },
+        {
+            "name": "Symfony Community",
+            "homepage": "https://symfony.com/contributors"
+        }
+    ],
+    "require": {
+        "php": ">=7.1"
+    },
+    "autoload": {
+        "psr-4": { "Symfony\\Polyfill\\Intl\\Normalizer\\": "" },
+        "files": [ "bootstrap.php" ],
+        "classmap": [ "Resources/stubs" ]
+    },
+    "suggest": {
+        "ext-intl": "For best performance"
+    },
+    "minimum-stability": "dev",
+    "extra": {
+        "branch-alias": {
+            "dev-main": "1.23-dev"
+        },
+        "thanks": {
+            "name": "symfony/polyfill",
+            "url": "https://github.com/symfony/polyfill"
+        }
+    }
+}

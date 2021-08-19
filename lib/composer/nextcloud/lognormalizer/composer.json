@@ -1,0 +1,43 @@
+{
+  "name": "nextcloud/lognormalizer",
+  "type": "library",
+  "description": "Parses variables and converts them to string so that they can be logged",
+  "keywords": [
+    "log",
+    "normalizer"
+  ],
+  "homepage": "https://github.com/interfasys/lognormalizer",
+  "license": "AGPL-3.0",
+  "authors": [
+    {
+      "name": "Christoph Wurst",
+      "email": "christoph@winzerhof-wurst.at"
+    },
+    {
+      "name": "Olivier Paroz",
+      "email": "dev-lognormalizer@interfasys.ch",
+      "role": "Developer",
+      "homepage": "http://www.interfasys.ch"
+    },
+    {
+      "name": "Jordi Boggiano",
+      "email": "j.boggiano@seld.be",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "ext-json": "*",
+    "php": ">=7.2.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "8.*"
+  },
+  "autoload": {
+    "psr-4": {
+      "Nextcloud\\LogNormalizer\\": "src/"
+    }
+  },
+  "scripts": {
+    "test": "phpunit -c phpunit.xml"
+  }
+}

@@ -1,0 +1,14 @@
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+    "group": {
+        "description": "description",
+        "domain_id": "domain_id",
+        "id": "id",
+        "links": {
+            "self": "http://identity:35357/v3/groups/--group-id--"
+        },
+        "name": "name"
+    }
+}

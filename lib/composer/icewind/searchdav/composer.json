@@ -1,0 +1,28 @@
+{
+	"name": "icewind/searchdav",
+	"description": "sabre/dav plugin to implement rfc5323 SEARCH",
+	"license": "AGPL-3.0-or-later",
+	"authors": [
+		{
+			"name": "Robin Appelman",
+			"email": "robin@icewind.nl"
+		}
+	],
+	"require": {
+		"php": ">=7.1",
+		"sabre/dav": "^4.0.0"
+	},
+	"require-dev": {
+		"phpunit/phpunit": "^8"
+	},
+	"autoload": {
+		"psr-4": {
+			"SearchDAV\\": "src/"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"SearchDAV\\Test\\": "tests/"
+		}
+	}
+}

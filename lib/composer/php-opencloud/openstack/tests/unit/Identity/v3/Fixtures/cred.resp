@@ -1,0 +1,13 @@
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+    "blob": "{\"access\":\"--access-key--\",\"secret\":\"--secret-key--\"}",
+    "id": "id",
+    "links": {
+        "self": "http://identity:35357/v3/credentials/--credential-id--"
+    },
+    "project_id": "project_id",
+    "type": "ec2",
+    "user_id": "--user--id--"
+}

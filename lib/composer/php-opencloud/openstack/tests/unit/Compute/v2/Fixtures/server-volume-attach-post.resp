@@ -1,0 +1,12 @@
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+
+{
+    "volumeAttachment": {
+        "device": "/dev/vdd",
+        "id": "a26887c6-c47b-4654-abb5-dfadf7d3f803",
+        "serverId": "serverId",
+        "volumeId": "fooooobarrrr"
+    }
+}

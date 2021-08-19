@@ -1,0 +1,24 @@
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+    "members": [
+        {
+            "status": "pending",
+            "created_at": "2015-12-02T11:01:18Z",
+            "updated_at": "2015-12-02T11:01:18Z",
+            "image_id": "386f0425-3ee8-4688-b73f-272328fe4c71",
+            "member_id": "admin",
+            "schema": "/v2/schemas/member"
+        },
+        {
+            "status": "pending",
+            "created_at": "2015-12-02T11:01:01Z",
+            "updated_at": "2015-12-02T11:01:01Z",
+            "image_id": "386f0425-3ee8-4688-b73f-272328fe4c71",
+            "member_id": "default",
+            "schema": "/v2/schemas/member"
+        }
+    ],
+    "schema": "/v2/schemas/members"
+}

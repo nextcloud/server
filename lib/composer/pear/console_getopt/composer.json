@@ -1,0 +1,35 @@
+{
+    "authors": [
+        {
+            "email": "andrei@php.net",
+            "name": "Andrei Zmievski",
+            "role": "Lead"
+        },
+        {
+            "email": "stig@php.net",
+            "name": "Stig Bakken",
+            "role": "Developer"
+        },
+        {
+            "email": "cellog@php.net",
+            "name": "Greg Beaver",
+            "role": "Helper"
+        }
+    ],
+    "autoload": {
+        "psr-0": {
+            "Console": "./"
+        }
+    },
+    "description": "More info available on: http://pear.php.net/package/Console_Getopt",
+    "include-path": [
+        "./"
+    ],
+    "license": "BSD-2-Clause",
+    "name": "pear/console_getopt",
+    "support": {
+        "issues": "http://pear.php.net/bugs/search.php?cmd=display&package_name[]=Console_Getopt",
+        "source": "https://github.com/pear/Console_Getopt"
+    },
+    "type": "library"
+}

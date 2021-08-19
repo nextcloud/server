@@ -573,12 +573,6 @@ class OC {
 
 		try {
 			self::initPaths();
-			// setup 3rdparty autoloader
-			$vendorAutoLoad = OC::$SERVERROOT. '/3rdparty/autoload.php';
-			if (!file_exists($vendorAutoLoad)) {
-				throw new \RuntimeException('Composer autoloader not found, unable to continue. Check the folder "3rdparty". Running "git submodule update --init" will initialize the git submodule that handles the subfolder "3rdparty".');
-			}
-			require_once $vendorAutoLoad;
 		} catch (\RuntimeException $e) {
 			if (!self::$CLI) {
 				http_response_code(503);

@@ -1,0 +1,32 @@
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+    "projects": [
+        {
+            "domain_id": "1789d1",
+            "parent_id": "123c56",
+            "enabled": true,
+            "id": "263fd9",
+            "links": {
+                "self": "https://identity:35357/v3/projects/263fd9"
+            },
+            "name": "Test Group"
+        },
+        {
+            "domain_id": "1789d1",
+            "parent_id": "123c56",
+            "enabled": true,
+            "id": "50ef01",
+            "links": {
+                "self": "https://identity:35357/v3/projects/50ef01"
+            },
+            "name": "Build Group"
+        }
+    ],
+    "links": {
+        "self": "https://identity:35357/v3/users/9fe1d3/projects",
+        "previous": null,
+        "next": null
+    }
+}

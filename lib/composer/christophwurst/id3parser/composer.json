@@ -1,0 +1,15 @@
+{
+  "name": "christophwurst/id3parser",
+  "description": "An ID3 parser",
+  "homepage" : "https://github.com/ChristophWurst/ID3Parser/",
+  "require" : {
+    "php" : ">=5.4.0"
+  },
+  "license": "GPL-3.0-or-later",
+  "keywords": ["php","tags","codecs"],
+  "autoload" : {
+    "psr-4" : {
+      "ID3Parser\\" : "src/"
+    }
+  }
+}

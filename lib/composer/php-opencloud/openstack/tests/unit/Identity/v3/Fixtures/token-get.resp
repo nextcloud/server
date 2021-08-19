@@ -1,0 +1,27 @@
+HTTP/1.1 200 OK
+Content-Type: application/json
+X-Subject-Token: foo
+
+{
+    "token": {
+        "expires_at": "2013-02-27T18:30:59.999999Z",
+        "issued_at": "2013-02-27T16:30:59.999999Z",
+        "methods": [
+            "password"
+        ],
+        "user": {
+            "domain": {
+                "id": "1789d1",
+                "links": {
+                    "self": "http://identity:35357/v3/domains/1789d1"
+                },
+                "name": "example.com"
+            },
+            "id": "0ca8f6",
+            "links": {
+                "self": "http://identity:35357/v3/users/0ca8f6"
+            },
+            "name": "Joe"
+        }
+    }
+}

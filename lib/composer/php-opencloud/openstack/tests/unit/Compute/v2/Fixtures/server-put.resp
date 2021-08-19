@@ -1,0 +1,81 @@
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+    "server": {
+        "id": "52415800-8b69-11e0-9b19-734f565bc83b",
+        "tenant_id": "1234",
+        "user_id": "5678",
+        "name": "new-server-test",
+        "created": "2010-11-11T12:00:00Z",
+        "updated": "2010-11-12T12:44:44Z",
+        "hostId": "e4d909c290d0fb1ca068ffaddf22cbd0",
+        "accessIPv4": "67.23.10.138",
+        "accessIPv6": "::babe:67.23.10.138",
+        "progress": 0,
+        "status": "ACTIVE",
+        "image": {
+            "id": "52415800-8b69-11e0-9b19-734f6f006e54",
+            "name": "CentOS 5.2",
+            "links": [
+                {
+                    "rel": "self",
+                    "href": "http://servers.api.openstack.org/v2/1234/images/52415800-8b69-11e0-9b19-734f6f006e54"
+                },
+                {
+                    "rel": "bookmark",
+                    "href": "http://servers.api.openstack.org/1234/images/52415800-8b69-11e0-9b19-734f6f006e54"
+                }
+            ]
+        },
+        "flavor": {
+            "id": "52415800-8b69-11e0-9b19-734f1195ff37",
+            "name": "256 MB Server",
+            "links": [
+                {
+                    "rel": "self",
+                    "href": "http://servers.api.openstack.org/v2/1234/flavors/52415800-8b69-11e0-9b19-734f1195ff37"
+                },
+                {
+                    "rel": "bookmark",
+                    "href": "http://servers.api.openstack.org/1234/flavors/52415800-8b69-11e0-9b19-734f1195ff37"
+                }
+            ]
+        },
+        "metadata": {
+            "My Server Name": "Apache1"
+        },
+        "addresses": {
+            "public": [
+                {
+                    "version": 4,
+                    "addr": "67.23.10.138"
+                },
+                {
+                    "version": 6,
+                    "addr": "::babe:67.23.10.138"
+                }
+            ],
+            "private": [
+                {
+                    "version": 4,
+                    "addr": "10.176.42.19"
+                },
+                {
+                    "version": 6,
+                    "addr": "::babe:10.176.42.19"
+                }
+            ]
+        },
+        "links": [
+            {
+                "rel": "self",
+                "href": "http://servers.api.openstack.org/v2/1234/servers/52415800-8b69-11e0-9b19-734fcece0043"
+            },
+            {
+                "rel": "bookmark",
+                "href": "http://servers.api.openstack.org/1234/servers/52415800-8b69-11e0-9b19-734fcece0043"
+            }
+        ]
+    }
+}

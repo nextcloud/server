@@ -1,0 +1,108 @@
+{
+    "name": "ramsey/collection",
+    "type": "library",
+    "description": "A PHP library for representing and manipulating collections.",
+    "keywords": [
+        "array",
+        "collection",
+        "hash",
+        "map",
+        "queue",
+        "set"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ben Ramsey",
+            "email": "ben@benramsey.com",
+            "homepage": "https://benramsey.com"
+        }
+    ],
+    "require": {
+        "php": "^7.3 || ^8",
+        "symfony/polyfill-php81": "^1.23"
+    },
+    "require-dev": {
+        "captainhook/captainhook": "^5.3",
+        "dealerdirect/phpcodesniffer-composer-installer": "^0.7.0",
+        "ergebnis/composer-normalize": "^2.6",
+        "fakerphp/faker": "^1.5",
+        "hamcrest/hamcrest-php": "^2",
+        "jangregor/phpstan-prophecy": "^0.8",
+        "mockery/mockery": "^1.3",
+        "phpspec/prophecy-phpunit": "^2.0",
+        "phpstan/extension-installer": "^1",
+        "phpstan/phpstan": "^0.12.32",
+        "phpstan/phpstan-mockery": "^0.12.5",
+        "phpstan/phpstan-phpunit": "^0.12.11",
+        "phpunit/phpunit": "^8.5 || ^9",
+        "psy/psysh": "^0.10.4",
+        "slevomat/coding-standard": "^6.3",
+        "squizlabs/php_codesniffer": "^3.5",
+        "vimeo/psalm": "^4.4"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "autoload": {
+        "psr-4": {
+            "Ramsey\\Collection\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Ramsey\\Console\\": "resources/console/",
+            "Ramsey\\Collection\\Test\\": "tests/",
+            "Ramsey\\Test\\Generics\\": "tests/generics/"
+        },
+        "files": [
+            "vendor/hamcrest/hamcrest-php/hamcrest/Hamcrest.php"
+        ]
+    },
+    "scripts": {
+        "post-autoload-dump": "captainhook install --ansi -f -s",
+        "br:analyze": [
+            "@br:analyze:phpstan",
+            "@br:analyze:psalm"
+        ],
+        "br:analyze:phpstan": "phpstan --memory-limit=1G analyse",
+        "br:analyze:psalm": "psalm --diff --config=psalm.xml",
+        "br:build:clean": "git clean -fX build/.",
+        "br:build:clear-cache": "git clean -fX build/cache/.",
+        "br:lint": "phpcs --cache=build/cache/phpcs.cache",
+        "br:lint:fix": "./bin/lint-fix.sh",
+        "br:repl": [
+            "echo ; echo 'Type ./bin/repl to start the REPL.'"
+        ],
+        "br:test": "phpunit",
+        "br:test:all": [
+            "@br:lint",
+            "@br:analyze",
+            "@br:test"
+        ],
+        "br:test:coverage:ci": "phpunit --coverage-clover build/logs/clover.xml",
+        "br:test:coverage:html": "phpunit --coverage-html build/coverage",
+        "pre-commit": [
+            "@br:lint:fix",
+            "@br:lint",
+            "@br:analyze"
+        ],
+        "test": "@br:test:all"
+    },
+    "scripts-descriptions": {
+        "br:analyze": "Performs static analysis on the code base.",
+        "br:analyze:phpstan": "Runs the PHPStan static analyzer.",
+        "br:analyze:psalm": "Runs the Psalm static analyzer.",
+        "br:build:clean": "Removes everything not under version control from the build directory.",
+        "br:build:clear-cache": "Removes everything not under version control from build/cache/.",
+        "br:lint": "Checks all source code for coding standards issues.",
+        "br:lint:fix": "Checks source code for coding standards issues and fixes them, if possible.",
+        "br:repl": "Note: Use ./bin/repl to run the REPL.",
+        "br:test": "Runs the full unit test suite.",
+        "br:test:all": "Runs linting, static analysis, and unit tests.",
+        "br:test:coverage:ci": "Runs the unit test suite and generates a Clover coverage report.",
+        "br:test:coverage:html": "Runs the unit tests suite and generates an HTML coverage report.",
+        "pre-commit": "These commands are run as part of a Git pre-commit hook installed using captainhook/captainhook. Each command should be prepared to accept a list of space-separated staged files.",
+        "test": "Shortcut to run the full test suite."
+    }
+}

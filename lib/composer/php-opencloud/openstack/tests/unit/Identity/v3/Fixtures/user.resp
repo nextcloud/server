@@ -1,0 +1,17 @@
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+    "user": {
+        "default_project_id": "263fd9",
+        "description": "Jim Doe's user",
+        "domain_id": "1789d1",
+        "email": "jdoe@example.com",
+        "enabled": true,
+        "id": "ff4e51",
+        "links": {
+            "self": "https://identity:35357/v3/users/ff4e51"
+        },
+        "name": "jdoe"
+    }
+}

@@ -1,0 +1,21 @@
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+    "quota_set":{
+        "injected_file_content_bytes":10240,
+        "metadata_items":128,
+        "server_group_members":22,
+        "server_groups":10,
+        "ram":51200,
+        "floating_ips":33,
+        "key_pairs":100,
+        "instances":999,
+        "security_group_rules":20,
+        "injected_files":5,
+        "cores":500,
+        "fixed_ips":-1,
+        "injected_file_path_bytes":255,
+        "security_groups":10
+    }
+}

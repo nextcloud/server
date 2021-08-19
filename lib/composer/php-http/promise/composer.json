@@ -1,0 +1,38 @@
+{
+    "name": "php-http/promise",
+    "description": "Promise used for asynchronous HTTP requests",
+    "license": "MIT",
+    "keywords": ["promise"],
+    "homepage": "http://httplug.io",
+    "authors": [
+        {
+            "name": "Joel Wurtz",
+            "email": "joel.wurtz@gmail.com"
+        },
+        {
+            "name": "Márk Sági-Kazár",
+            "email": "mark.sagikazar@gmail.com"
+        }
+    ],
+    "require": {
+        "php" : "^7.1 || ^8.0"
+    },
+    "require-dev": {
+        "friends-of-phpspec/phpspec-code-coverage" : "^4.3.2",
+        "phpspec/phpspec": "^5.1.2 || ^6.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Http\\Promise\\": "src/"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpspec run",
+        "test-ci": "vendor/bin/phpspec run -c phpspec.yml.ci"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.1-dev"
+        }
+    }
+}

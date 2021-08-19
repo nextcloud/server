@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<d:searchrequest xmlns:d="DAV:">
+	<d:basicsearch>
+		<d:select>
+			<d:prop>
+				<d:getcontentlength/>
+			</d:prop>
+		</d:select>
+		<d:from>
+			<d:scope>
+				<d:href>/container1/</d:href>
+				<d:depth>infinity</d:depth>
+			</d:scope>
+			<d:scope>
+				<d:href>/container2/</d:href>
+				<d:depth>1</d:depth>
+			</d:scope>
+		</d:from>
+		<d:where>
+			<d:is-collection/>
+		</d:where>
+	</d:basicsearch>
+</d:searchrequest>

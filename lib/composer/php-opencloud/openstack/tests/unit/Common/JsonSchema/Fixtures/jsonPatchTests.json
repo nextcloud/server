@@ -1,0 +1,231 @@
+[
+  { "comment": "empty list, empty docs",
+    "doc": {},
+    "patch": [],
+    "expected": {} },
+
+  { "comment": "empty patch list",
+    "doc": {"foo": 1},
+    "patch": [],
+    "expected": {"foo": 1} },
+
+  { "comment": "rearrangements OK?",
+    "doc": {"foo": 1, "bar": 2},
+    "patch": [],
+    "expected": {"bar":2, "foo": 1} },
+
+  { "comment": "rearrangements OK?  How about one level down ... array",
+    "doc": [{"foo": 1, "bar": 2}],
+    "patch": [],
+    "expected": [{"bar":2, "foo": 1}] },
+
+  { "comment": "rearrangements OK?  How about one level down...",
+    "doc": {"foo":{"foo": 1, "bar": 2}},
+    "patch": [],
+    "expected": {"foo":{"bar":2, "foo": 1}} },
+
+  { "comment": "toplevel array",
+    "doc": [],
+    "patch": [{"op": "add", "path": "/0", "value": "foo"}],
+    "expected": ["foo"] },
+
+  { "comment": "toplevel array, no change",
+    "doc": ["foo"],
+    "patch": [],
+    "expected": ["foo"] },
+
+  { "comment": "toplevel object, numeric string",
+    "doc": {},
+    "patch": [{"op": "add", "path": "/foo", "value": "1"}],
+    "expected": {"foo":"1"} },
+
+  { "comment": "toplevel object, integer",
+    "doc": {},
+    "patch": [{"op": "add", "path": "/foo", "value": 1}],
+    "expected": {"foo":1} },
+
+  { "comment": "Toplevel scalar values OK?",
+    "doc": "foo",
+    "patch": [{"op": "replace", "path": "", "value": "bar"}],
+    "expected": "bar",
+    "disabled": true },
+
+  { "comment": "Add, / target",
+    "doc": {},
+    "patch": [ {"op": "add", "path": "/", "value":1 } ],
+    "expected": {"":1} },
+
+  { "comment": "Add composite value at top level",
+    "doc": {"foo": 1},
+    "patch": [{"op": "add", "path": "/bar", "value": [1, 2]}],
+    "expected": {"foo": 1, "bar": [1, 2]} },
+
+  { "comment": "Add into composite value",
+    "doc": {"foo": 1, "baz": [{"qux": "hello"}]},
+    "patch": [{"op": "add", "path": "/baz/0/foo", "value": "world"}],
+    "expected": {"foo": 1, "baz": [{"qux": "hello", "foo": "world"}]} },
+
+  { "doc": {"bar": [1, 2]},
+    "patch": [{"op": "add", "path": "/bar/8", "value": "5"}],
+    "error": "Out of bounds (upper)" },
+
+  { "doc": {"bar": [1, 2]},
+    "patch": [{"op": "add", "path": "/bar/-1", "value": "5"}],
+    "error": "Out of bounds (lower)" },
+
+  { "doc": {"foo": 1},
+    "patch": [{"op": "add", "path": "/bar", "value": true}],
+    "expected": {"foo": 1, "bar": true} },
+
+  { "doc": {"foo": 1},
+    "patch": [{"op": "add", "path": "/bar", "value": false}],
+    "expected": {"foo": 1, "bar": false} },
+
+  { "doc": {"foo": 1},
+    "patch": [{"op": "add", "path": "/bar", "value": null}],
+    "expected": {"foo": 1, "bar": null} },
+
+  { "comment": "0 can be an array index or object element name",
+    "doc": {"foo": 1},
+    "patch": [{"op": "add", "path": "/0", "value": "bar"}],
+    "expected": {"foo": 1, "0": "bar" } },
+
+  { "doc": ["foo"],
+    "patch": [{"op": "add", "path": "/1", "value": "bar"}],
+    "expected": ["foo", "bar"] },
+
+  { "doc": ["foo", "sil"],
+    "patch": [{"op": "add", "path": "/1", "value": "bar"}],
+    "expected": ["foo", "bar", "sil"] },
+
+  { "doc": ["foo", "sil"],
+    "patch": [{"op": "add", "path": "/0", "value": "bar"}],
+    "expected": ["bar", "foo", "sil"] },
+
+  { "comment": "push item to array via last index + 1",
+    "doc": ["foo", "sil"],
+    "patch": [{"op":"add", "path": "/2", "value": "bar"}],
+    "expected": ["foo", "sil", "bar"] },
+
+  { "comment": "add item to array at index > length should fail",
+    "doc": ["foo", "sil"],
+    "patch": [{"op":"add", "path": "/3", "value": "bar"}],
+    "error": "index is greater than number of items in array" },
+
+  { "doc": ["foo", "sil"],
+    "patch": [{"op": "add", "path": "/bar", "value": 42}],
+    "error": "Object operation on array target" },
+
+  { "doc": ["foo", "sil"],
+    "patch": [{"op": "add", "path": "/1", "value": ["bar", "baz"]}],
+    "expected": ["foo", ["bar", "baz"], "sil"],
+    "comment": "value in array add not flattened" },
+
+  { "doc": {"foo": 1, "bar": [1, 2, 3, 4]},
+    "patch": [{"op": "remove", "path": "/bar"}],
+    "expected": {"foo": 1} },
+
+  { "doc": {"foo": 1, "baz": [{"qux": "hello"}]},
+    "patch": [{"op": "remove", "path": "/baz/0/qux"}],
+    "expected": {"foo": 1, "baz": [{}]} },
+
+  { "doc": {"foo": 1, "baz": [{"qux": "hello"}]},
+    "patch": [{"op": "replace", "path": "/foo", "value": [1, 2, 3, 4]}],
+    "expected": {"foo": [1, 2, 3, 4], "baz": [{"qux": "hello"}]} },
+
+  { "doc": {"foo": [1, 2, 3, 4], "baz": [{"qux": "hello"}]},
+    "patch": [{"op": "replace", "path": "/baz/0/qux", "value": "world"}],
+    "expected": {"foo": [1, 2, 3, 4], "baz": [{"qux": "world"}]} },
+
+  { "doc": ["foo"],
+    "patch": [{"op": "replace", "path": "/0", "value": "bar"}],
+    "expected": ["bar"] },
+
+  { "doc": [""],
+    "patch": [{"op": "replace", "path": "/0", "value": 0}],
+    "expected": [0] },
+
+  { "doc": [""],
+    "patch": [{"op": "replace", "path": "/0", "value": true}],
+    "expected": [true] },
+
+  { "doc": [""],
+    "patch": [{"op": "replace", "path": "/0", "value": false}],
+    "expected": [false] },
+
+  { "doc": [""],
+    "patch": [{"op": "replace", "path": "/0", "value": null}],
+    "expected": [null] },
+
+  { "doc": ["foo", "sil"],
+    "patch": [{"op": "replace", "path": "/1", "value": ["bar", "baz"]}],
+    "expected": ["foo", ["bar", "baz"]],
+    "comment": "value in array replace not flattened" },
+
+  { "comment": "replace whole document",
+    "disabled": true,
+    "doc": {"foo": "bar"},
+    "patch": [{"op": "replace", "path": "", "value": {"baz": "qux"}}],
+    "expected": {"baz": "qux"} },
+
+  { "doc": {"foo": null},
+    "patch": [{"op": "replace", "path": "/foo", "value": "truthy"}],
+    "expected": {"foo": "truthy"},
+    "comment": "null value should be valid obj property to be replaced with something truthy" },
+
+  { "doc": {"foo": null},
+    "patch": [{"op": "remove", "path": "/foo"}],
+    "expected": {},
+    "comment": "null value should be valid obj property to be removed" },
+
+  { "doc": {"foo": "bar"},
+    "patch": [{"op": "replace", "path": "/foo", "value": null}],
+    "expected": {"foo": null},
+    "comment": "null value should still be valid obj property replace other value" },
+
+  { "comment": "test remove with bad number should fail",
+    "doc": {"foo": 1, "baz": [{"qux": "hello"}]},
+    "patch": [{"op": "remove", "path": "/baz/1e0/qux"}],
+    "error": "remove op shouldn't remove from array with bad number" },
+
+  { "comment": "test remove on array",
+    "doc": [1, 2, 3, 4],
+    "patch": [{"op": "remove", "path": "/0"}],
+    "expected": [2, 3, 4] },
+
+  { "comment": "test repeated removes",
+    "doc": [1, 2, 3, 4],
+    "patch": [{ "op": "remove", "path": "/1" },
+      { "op": "remove", "path": "/3" }],
+    "expected": [1, 3] },
+
+  { "comment": "test remove with bad index should fail",
+    "doc": [1, 2, 3, 4],
+    "patch": [{"op": "remove", "path": "/1e0"}],
+    "error": "remove op shouldn't remove from array with bad number" },
+
+  { "comment": "test replace with bad number should fail",
+    "doc": [""],
+    "patch": [{"op": "replace", "path": "/1e0", "value": false}],
+    "error": "replace op shouldn't replace in array with bad number" },
+
+  { "comment": "test add with bad number should fail",
+    "doc": ["foo", "sil"],
+    "patch": [{"op": "add", "path": "/1e0", "value": "bar"}],
+    "error": "add op shouldn't add to array with bad number" },
+
+  { "comment": "missing 'value' parameter to add",
+    "doc": [ 1 ],
+    "patch": [ { "op": "add", "path": "/-" } ],
+    "error": "missing 'value' parameter" },
+
+  { "comment": "missing 'value' parameter to replace",
+    "doc": [ 1 ],
+    "patch": [ { "op": "replace", "path": "/0" } ],
+    "error": "missing 'value' parameter" },
+
+  { "comment": "unrecognized op should fail",
+    "doc": {"foo": 1},
+    "patch": [{"op": "spam", "path": "/foo", "value": 1}],
+    "error": "Unrecognized op 'spam'" }
+]

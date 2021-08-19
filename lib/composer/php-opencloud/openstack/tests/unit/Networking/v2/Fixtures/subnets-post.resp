@@ -1,0 +1,43 @@
+HTTP/1.1 201 Created
+Content-Type: application/json
+
+{
+    "subnets": [
+        {
+            "allocation_pools": [
+                {
+                    "end": "192.168.199.254",
+                    "start": "192.168.199.2"
+                }
+            ],
+            "cidr": "192.168.199.0/24",
+            "dns_nameservers": [],
+            "enable_dhcp": true,
+            "gateway_ip": "192.168.199.1",
+            "host_routes": [],
+            "id": "0468a7a7-290d-4127-aedd-6c9449775a24",
+            "ip_version": 4,
+            "name": "",
+            "network_id": "networkId1",
+            "tenant_id": "tenantId"
+        },
+        {
+            "allocation_pools": [
+                {
+                    "end": "10.56.7.254",
+                    "start": "10.56.4.2"
+                }
+            ],
+            "cidr": "10.56.4.0/22",
+            "dns_nameservers": [],
+            "enable_dhcp": true,
+            "gateway_ip": "10.56.4.1",
+            "host_routes": [],
+            "id": "b0e7435c-1512-45fb-aa9e-9a7c5932fb30",
+            "ip_version": 4,
+            "name": "",
+            "network_id": "networkId2",
+            "tenant_id": "tenantId"
+        }
+    ]
+}

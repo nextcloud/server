@@ -1,0 +1,31 @@
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+   "hypervisor":{
+      "status":"enabled",
+      "service":{
+         "host":"localhost.localdomain",
+         "disabled_reason":null,
+         "id":8
+      },
+      "vcpus_used":10,
+      "hypervisor_type":"QEMU",
+      "local_gb_used":120,
+      "vcpus":56,
+      "hypervisor_hostname":"localhost.localdomain",
+      "memory_mb_used":20992,
+      "memory_mb":97909,
+      "current_workload":0,
+      "state":"up",
+      "host_ip":"1.2.3.4",
+      "cpu_info":"{\"vendor\": \"Intel\", \"model\": \"Haswell-noTSX\", \"arch\": \"x86_64\", \"features\": [\"pge\", \"avx\", \"xsaveopt\", \"clflush\", \"sep\", \"syscall\", \"tsc_adjust\", \"vme\", \"dtes64\", \"invpcid\", \"msr\", \"sse\", \"xsave\", \"vmx\", \"erms\", \"xtpr\", \"cmov\", \"smep\", \"pcid\", \"est\", \"pat\", \"arat\", \"smx\", \"pbe\", \"lm\", \"tsc\", \"nx\", \"fxsr\", \"tm\", \"sse4.1\", \"pae\", \"sse4.2\", \"pclmuldq\", \"acpi\", \"fma\", \"tsc-deadline\", \"mmx\", \"osxsave\", \"cx8\", \"mce\", \"de\", \"tm2\", \"ht\", \"dca\", \"pni\", \"abm\", \"popcnt\", \"mca\", \"pdpe1gb\", \"apic\", \"fsgsbase\", \"f16c\", \"pse\", \"ds\", \"invtsc\", \"lahf_lm\", \"aes\", \"avx2\", \"sse2\", \"ss\", \"ds_cpl\", \"bmi1\", \"bmi2\", \"ssse3\", \"rdtscp\", \"fpu\", \"cx16\", \"pse36\", \"mtrr\", \"movbe\", \"pdcm\", \"cmt\", \"rdrand\", \"x2apic\"], \"topology\": {\"cores\": 14, \"cells\": 2, \"threads\": 2, \"sockets\": 1}}",
+      "running_vms":4,
+      "free_disk_gb":146,
+      "hypervisor_version":2006000,
+      "disk_available_least":2,
+      "local_gb":266,
+      "free_ram_mb":76917,
+      "id":1
+   }
+}

@@ -1,0 +1,11 @@
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+    "created_at": "2013-09-20T19:22:19Z",
+    "image_id": "a96be11e-8536-4910-92cb-de50aa19dfe6",
+    "member_id": "8989447062e04a818baf9e073fd04fa7",
+    "schema": "/v2/schemas/member",
+    "status": "pending",
+    "updated_at": "2013-09-20T19:25:31Z"
+}

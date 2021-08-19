@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<d:supported-query-grammar-set xmlns:d="DAV:" xmlns:s="http://sabredav.org/ns"
+							   xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<d:supported-query-grammar>
+		<d:grammar>
+			<d:basicsearch/>
+		</d:grammar>
+	</d:supported-query-grammar>
+</d:supported-query-grammar-set>

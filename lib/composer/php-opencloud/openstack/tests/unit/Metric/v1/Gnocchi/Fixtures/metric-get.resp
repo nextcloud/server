@@ -1,0 +1,43 @@
+HTTP/1.1 200 OK
+Content-Type: application/json; charset=UTF-8
+
+
+{
+  "created_by_user_id":"ad6540c351de48d0825aa8f618b2eb2a",
+  "name":"storage.objects.outgoing.bytes",
+  "resource_id":"0b21463f-404e-5156-898e-a75753138ad1",
+  "created_by_project_id":"a652c6a9566149dd9c38ad23c00f1cd7",
+  "archive_policy":{
+     "definition":[
+        {
+           "points":12,
+           "timespan":"1:00:00",
+           "granularity":"0:05:00"
+        },
+        {
+           "points":24,
+           "timespan":"1 day, 0:00:00",
+           "granularity":"1:00:00"
+        },
+        {
+           "points":30,
+           "timespan":"30 days, 0:00:00",
+           "granularity":"1 day, 0:00:00"
+        }
+     ],
+     "back_window":0,
+     "name":"low",
+     "aggregation_methods":[
+        "std",
+        "count",
+        "95pct",
+        "min",
+        "max",
+        "sum",
+        "median",
+        "mean"
+     ]
+  },
+  "id":"000b7bf8-0271-46dd-90aa-cfe89026a55a",
+  "unit":"B"
+}

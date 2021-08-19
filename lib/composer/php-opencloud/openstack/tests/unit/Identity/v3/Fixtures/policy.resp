@@ -1,0 +1,13 @@
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+    "blob": "--serialized-blob--",
+    "id": "--policy-id--",
+    "links": {
+        "self": "http://identity:35357/v3/policies/--policy-id--"
+    },
+    "project_id": "--project-id--",
+    "type": "--serialization-mime-type--",
+    "user_id": "--user--id--"
+}

@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<d:multistatus xmlns:d="DAV:" xmlns:s="http://sabredav.org/ns"
+			   xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<d:response>
+		<d:status>HTTP/1.1 200 OK</d:status>
+		<d:href>/test</d:href>
+		<d:query-schema>
+			<d:basicsearchschema>
+				<d:properties>
+					<d:propdesc>
+						<d:prop>{DAV:}getcontentlength</d:prop>
+						<d:dataType>
+							<xs:nonNegativeInteger/>
+						</d:dataType>
+						<d:searchable/>
+						<d:sortable/>
+						<d:selectable/>
+					</d:propdesc>
+					<d:propdesc>
+						<d:prop>{DAV:}getcontenttype</d:prop>
+						<d:prop>{DAV:}displayname</d:prop>
+						<d:dataType>
+							<xs:string/>
+						</d:dataType>
+						<d:searchable/>
+						<d:sortable/>
+						<d:selectable/>
+					</d:propdesc>
+					<d:propdesc>
+						<d:prop>{http://ns.nextcloud.com:}fileid</d:prop>
+						<d:dataType>
+							<xs:nonNegativeInteger/>
+						</d:dataType>
+						<d:sortable/>
+						<d:selectable/>
+					</d:propdesc>
+				</d:properties>
+			</d:basicsearchschema>
+		</d:query-schema>
+	</d:response>
+</d:multistatus>

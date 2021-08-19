@@ -1,0 +1,89 @@
+{
+    "name": "scssphp/scssphp",
+    "type": "library",
+    "description": "scssphp is a compiler for SCSS written in PHP.",
+    "keywords": ["css", "stylesheet", "scss", "sass", "less"],
+    "homepage": "http://scssphp.github.io/scssphp/",
+    "license": [
+        "MIT"
+    ],
+    "authors": [
+        {
+            "name": "Anthon Pang",
+            "email": "apang@softwaredevelopment.ca",
+            "homepage": "https://github.com/robocoder"
+        },
+        {
+            "name": "Cédric Morin",
+            "email": "cedric@yterium.com",
+            "homepage": "https://github.com/Cerdic"
+        }
+    ],
+    "autoload": {
+        "psr-4": { "ScssPhp\\ScssPhp\\": "src/" }
+    },
+    "autoload-dev": {
+        "psr-4": { "ScssPhp\\ScssPhp\\Tests\\": "tests/" }
+    },
+    "require": {
+        "php": ">=5.6.0",
+        "ext-json": "*",
+        "ext-ctype": "*"
+    },
+    "suggest": {
+        "ext-mbstring": "For best performance, mbstring should be installed as it is faster than ext-iconv",
+        "ext-iconv": "Can be used as fallback when ext-mbstring is not available"
+    },
+    "require-dev": {
+        "bamarni/composer-bin-plugin": "^1.4",
+        "phpunit/phpunit": "^5.7 || ^6.5 || ^7.5 || ^8.3 || ^9.4",
+        "sass/sass-spec": "*",
+        "squizlabs/php_codesniffer": "~3.5",
+        "symfony/phpunit-bridge": "^5.1",
+        "twbs/bootstrap": "~5.0",
+        "twbs/bootstrap4": "4.6.0",
+        "zurb/foundation": "~6.5"
+    },
+    "repositories": [
+        {
+            "type": "package",
+            "package": {
+                "name": "sass/sass-spec",
+                "version": "2021.06.30",
+                "source": {
+                    "type": "git",
+                    "url": "https://github.com/sass/sass-spec.git",
+                    "reference": "e348959657f1e274cef658283436a311a925a673"
+                },
+                "dist": {
+                    "type": "zip",
+                    "url": "https://api.github.com/repos/sass/sass-spec/zipball/e348959657f1e274cef658283436a311a925a673",
+                    "reference": "e348959657f1e274cef658283436a311a925a673",
+                    "shasum": ""
+                }
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "twbs/bootstrap4",
+                "version": "v4.6.0",
+                "source": {
+                    "type": "git",
+                    "url": "https://github.com/twbs/bootstrap.git",
+                    "reference": "6ffb0b48e455430f8a5359ed689ad64c1143fac2"
+                },
+                "dist": {
+                    "type": "zip",
+                    "url": "https://api.github.com/repos/twbs/bootstrap/zipball/6ffb0b48e455430f8a5359ed689ad64c1143fac2",
+                    "reference": "6ffb0b48e455430f8a5359ed689ad64c1143fac2",
+                    "shasum": ""
+                }
+            }
+        }
+    ],
+    "bin": ["bin/pscss"],
+    "config": {
+        "sort-packages": true
+    }
+}

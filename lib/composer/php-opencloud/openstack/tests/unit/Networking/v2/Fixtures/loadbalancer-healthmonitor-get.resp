@@ -1,0 +1,17 @@
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+    "healthmonitor": {
+        "admin_state_up": true,
+        "tenant_id": "tenantId",
+        "delay": 1,
+        "expected_codes": "200",
+        "max_retries": 5,
+        "http_method": "GET",
+        "timeout": 1,
+        "url_path": "test",
+        "type": "HTTP",
+        "id": "healthmonitorId"
+    }
+}

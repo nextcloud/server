@@ -1,0 +1,25 @@
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+    "endpoints": [
+        {
+            "id": "--endpoint-id--",
+            "interface": "public",
+            "links": {
+                "self": "http://identity:35357/v3/endpoints/--endpoint-id--"
+            },
+            "name": "the public volume endpoint",
+            "service_id": "--service-id--"
+        },
+        {
+            "id": "--endpoint-id--",
+            "interface": "internal",
+            "links": {
+                "self": "http://identity:35357/v3/endpoints/--endpoint-id--"
+            },
+            "name": "the internal volume endpoint",
+            "service_id": "--service-id--"
+        }
+    ]
+}

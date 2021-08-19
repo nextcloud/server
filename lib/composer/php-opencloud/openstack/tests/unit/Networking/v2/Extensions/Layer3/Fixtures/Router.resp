@@ -1,0 +1,46 @@
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+    "router": {
+        "admin_state_up": true,
+        "availability_zone_hints": [],
+        "availability_zones": [
+            "nova"
+        ],
+        "created_at": "2018-03-19T19:17:04Z",
+        "description": "",
+        "distributed": false,
+        "external_gateway_info": {
+            "enable_snat": true,
+            "external_fixed_ips": [
+                {
+                    "ip_address": "172.24.4.6",
+                    "subnet_id": "b930d7f6-ceb7-40a0-8b81-a425dd994ccf"
+                },
+                {
+                    "ip_address": "2001:db8::9",
+                    "subnet_id": "0c56df5d-ace5-46c8-8f4c-45fa4e334d18"
+                }
+            ],
+            "network_id": "ae34051f-aa6c-4c75-abf5-50dc9ac99ef3"
+        },
+        "flavor_id": "f7b14d9a-b0dc-4fbe-bb14-a0f4970a69e0",
+        "ha": false,
+        "id": "f8a44de0-fc8e-45df-93c7-f79bf3b01c95",
+        "name": "router1",
+        "revision_number": 1,
+        "routes": [
+            {
+                "destination": "179.24.1.0/24",
+                "nexthop": "172.24.3.99"
+            }
+        ],
+        "status": "ACTIVE",
+        "updated_at": "2018-03-19T19:17:22Z",
+        "project_id": "0bd18306d801447bb457a46252d82d13",
+        "tenant_id": "0bd18306d801447bb457a46252d82d13",
+        "service_type_id": null,
+        "tags": ["tag1,tag2"]
+    }
+}

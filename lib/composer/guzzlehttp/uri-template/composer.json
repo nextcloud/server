@@ -1,0 +1,61 @@
+{
+    "name": "guzzlehttp/uri-template",
+    "type": "library",
+    "description": "A polyfill class for uri_template of PHP",
+    "keywords": [
+        "guzzlehttp",
+        "uri-template"
+    ],
+    "homepage": "https://github.com/guzzlehttp/uri-template",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "George Mponos",
+            "email": "gmponos@gmail.com",
+            "homepage": "https://github.com/gmponos",
+            "role": "Developer"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "package",
+            "package": {
+                "name": "uri-template/tests",
+                "version": "1.0.0",
+                "dist": {
+                    "url": "https://github.com/uri-templates/uritemplate-test/archive/520fdd8b0f78779d12178c357a986e0e727f4bd0.zip",
+                    "type": "zip"
+                }
+            }
+        }
+    ],
+    "require": {
+        "php" : "^7.1 || ^8.0",
+        "symfony/polyfill-php80": "^1.17"
+    },
+    "require-dev": {
+        "phpunit/phpunit" : "^7.5.15 || ^8.5 || ^9.3",
+        "uri-template/tests": "1.0.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "GuzzleHttp\\UriTemplate\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "GuzzleHttp\\UriTemplate\\Tests\\": "tests"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    },
+    "config": {
+        "preferred-install": "dist",
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

@@ -1,0 +1,36 @@
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+    "users": [
+        {
+            "default_project_id": "263fd9",
+            "description": "Admin user",
+            "domain_id": "1789d1",
+            "email": "admin@example.com",
+            "enabled": true,
+            "id": "0ca8f6",
+            "links": {
+                "self": "https://identity:35357/v3/users/0ca8f6"
+            },
+            "name": "admin"
+        },
+        {
+            "default_project_id": "263fd9",
+            "description": "John Smith's user",
+            "domain_id": "1789d1",
+            "email": "jsmith@example.com",
+            "enabled": true,
+            "id": "9fe1d3",
+            "links": {
+                "self": "https://identity:35357/v3/users/9fe1d3"
+            },
+            "name": "jsmith"
+        }
+    ],
+    "links": {
+        "self": "http://identity:35357/v3/users",
+        "previous": null,
+        "next": null
+    }
+}

@@ -1,0 +1,43 @@
+{
+    "name": "php-http/guzzle7-adapter",
+    "description": "Guzzle 7 HTTP Adapter",
+    "license": "MIT",
+    "keywords": ["guzzle", "http"],
+    "homepage": "http://httplug.io",
+    "authors": [
+        {
+            "name": "Tobias Nyholm",
+            "email": "tobias.nyholm@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^7.2 | ^8.0",
+        "php-http/httplug": "^2.0",
+        "psr/http-client": "^1.0",
+        "guzzlehttp/guzzle": "^7.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.0|^9.3",
+        "php-http/client-integration-tests": "^3.0"
+    },
+    "provide": {
+        "php-http/client-implementation": "1.0",
+        "php-http/async-client-implementation": "1.0",
+        "psr/http-client-implementation": "1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Http\\Adapter\\Guzzle7\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Http\\Adapter\\Guzzle7\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.2.x-dev"
+        }
+    }
+}

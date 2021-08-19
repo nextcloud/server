@@ -1,0 +1,49 @@
+{
+    "name": "web-auth/webauthn-lib",
+    "type": "library",
+    "license": "MIT",
+    "description": "FIDO2/Webauthn Support For PHP",
+    "keywords": ["FIDO", "FIDO2", "webauthn"],
+    "homepage": "https://github.com/web-auth",
+    "authors": [
+        {
+            "name": "Florent Morselli",
+            "homepage": "https://github.com/Spomky"
+        },
+        {
+            "name": "All contributors",
+            "homepage": "https://github.com/web-auth/webauthn-library/contributors"
+        }
+    ],
+    "require": {
+        "php": ">=7.2",
+        "ext-json": "*",
+        "ext-openssl": "*",
+        "ext-mbstring": "*",
+        "beberlei/assert": "^3.2",
+        "fgrosse/phpasn1": "^2.1",
+        "psr/http-client": "^1.0",
+        "psr/http-factory": "^1.0",
+        "psr/http-message": "^1.0",
+        "psr/log": "^1.1",
+        "ramsey/uuid": "^3.8|^4.0",
+        "spomky-labs/base64url": "^2.0",
+        "spomky-labs/cbor-php": "^1.1|^2.0",
+        "symfony/process": "^3.0|^4.0|^5.0",
+        "thecodingmachine/safe": "^1.1",
+        "web-auth/cose-lib": "self.version",
+        "web-auth/metadata-service": "self.version"
+    },
+    "autoload": {
+        "psr-4": {
+            "Webauthn\\": "src/"
+        }
+    },
+    "suggest": {
+        "psr/log-implementation": "Recommended to receive logs from the library",
+        "web-token/jwt-key-mgmt": "Mandatory for the AndroidSafetyNet Attestation Statement support",
+        "web-token/jwt-signature-algorithm-rsa": "Mandatory for the AndroidSafetyNet Attestation Statement support",
+        "web-token/jwt-signature-algorithm-ecdsa": "Recommended for the AndroidSafetyNet Attestation Statement support",
+        "web-token/jwt-signature-algorithm-eddsa": "Recommended for the AndroidSafetyNet Attestation Statement support"
+    }
+}

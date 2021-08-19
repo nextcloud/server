@@ -1,0 +1,21 @@
+<phpunit
+  colors="true"
+  bootstrap="../vendor/autoload.php"
+  convertErrorsToExceptions="true"
+  convertNoticesToExceptions="true"
+  convertWarningsToExceptions="true"
+  beStrictAboutTestsThatDoNotTestAnything="true"
+  beStrictAboutOutputDuringTests="true"
+  >
+  <testsuites>
+    <testsuite name="Sabre_XML">
+      <directory>.</directory>
+    </testsuite>
+  </testsuites>
+
+  <filter>
+    <whitelist addUncoveredFilesFromWhitelist="true">
+       <directory suffix=".php">../lib/</directory>
+    </whitelist>
+  </filter>
+</phpunit>

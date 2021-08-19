@@ -1,0 +1,15 @@
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+    "snapshot": {
+        "status": "creating",
+        "description": "Daily backup",
+        "created_at": "2013-02-25T03:56:53.081642",
+        "metadata": {},
+        "volume_id": "5aa119a8-d25b-45a7-8d1b-88e127885635",
+        "size": 1,
+        "id": "ffa9bc5e-1172-4021-acaf-cdcd78a9584d",
+        "name": "snap-001"
+    }
+}

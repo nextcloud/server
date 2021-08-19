@@ -1,0 +1,18 @@
+{
+    "active": true,
+    "name": "Event Manager",
+    "slug": "event-manager",
+    "docsSlug": "doctrine-event-manager",
+    "versions": [
+        {
+            "name": "1.0",
+            "branchName": "master",
+            "slug": "latest",
+            "current": true,
+            "aliases": [
+                "current",
+                "stable"
+            ]
+        }
+    ]
+}

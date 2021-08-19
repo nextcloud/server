@@ -1,0 +1,64 @@
+{
+    "name": "sabre/http",
+    "description" : "The sabre/http library provides utilities for dealing with http requests and responses. ",
+    "keywords" : [ "HTTP" ],
+    "homepage" : "https://github.com/fruux/sabre-http",
+    "license" : "BSD-3-Clause",
+    "require" : {
+        "php"          : "^7.1 || ^8.0",
+        "ext-mbstring" : "*",
+        "ext-ctype"    : "*",
+        "ext-curl"     : "*",
+        "sabre/event"  : ">=4.0 <6.0",
+        "sabre/uri"    : "^2.0"
+    },
+    "require-dev" : {
+        "friendsofphp/php-cs-fixer": "~2.16.1",
+        "phpstan/phpstan": "^0.12",
+        "phpunit/phpunit" : "^7.5 || ^8.5 || ^9.0"
+    },
+    "suggest" : {
+        "ext-curl" : " to make http requests with the Client class"
+    },
+    "authors" : [
+        {
+            "name" : "Evert Pot",
+            "email" : "me@evertpot.com",
+            "homepage" : "http://evertpot.com/",
+            "role" : "Developer"
+        }
+    ],
+    "support" : {
+        "forum" : "https://groups.google.com/group/sabredav-discuss",
+        "source" : "https://github.com/fruux/sabre-http"
+    },
+    "autoload" : {
+        "files" : [
+            "lib/functions.php"
+        ],
+        "psr-4" : {
+            "Sabre\\HTTP\\" : "lib/"
+        }
+    },
+    "autoload-dev" : {
+        "psr-4" : {
+            "Sabre\\HTTP\\" : "tests/HTTP"
+        }
+    },
+    "scripts": {
+        "phpstan": [
+            "phpstan analyse lib tests"
+        ],
+        "cs-fixer": [
+            "php-cs-fixer fix"
+        ],
+        "phpunit": [
+            "phpunit --configuration tests/phpunit.xml"
+        ],
+        "test": [
+            "composer phpstan",
+            "composer cs-fixer",
+            "composer phpunit"
+        ]
+    }
+}

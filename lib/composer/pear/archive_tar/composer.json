@@ -1,0 +1,54 @@
+{
+    "name": "pear/archive_tar",
+    "description": "Tar file management class with compression support (gzip, bzip2, lzma2)",
+    "type": "library",
+    "keywords": [
+        "archive",
+        "tar"
+    ],
+    "homepage": "https://github.com/pear/Archive_Tar",
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Vincent Blavet",
+            "email": "vincent@phpconcept.net"
+        },
+        {
+            "name": "Greg Beaver",
+            "email": "greg@chiaraquartet.net"
+        },
+        {
+            "name": "Michiel Rook",
+            "email": "mrook@php.net"
+        }
+    ],
+    "require": {
+        "php": ">=5.2.0",
+        "pear/pear-core-minimal": "^1.10.0alpha2"
+    },
+    "suggest": {
+        "ext-zlib": "Gzip compression support.",
+        "ext-bz2": "Bz2 compression support.",
+        "ext-xz": "Lzma2 compression support."
+    },
+    "autoload": {
+        "psr-0": {
+            "Archive_Tar": ""
+        }
+    },
+    "include-path": [
+        "./"
+    ],
+    "support": {
+        "issues": "http://pear.php.net/bugs/search.php?cmd=display&package_name[]=Archive_Tar",
+        "source": "https://github.com/pear/Archive_Tar"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "*"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.4.x-dev"
+        }
+    }
+}

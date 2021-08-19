@@ -1,0 +1,27 @@
+HTTP/1.1 200 OK
+Content-Length: 341
+X-Container-Object-Count: 2
+Accept-Ranges: bytes
+X-Container-Meta-Book: TomSawyer
+X-Timestamp: 1389727543.65372
+X-Container-Bytes-Used: 26
+Content-Type: application/json; charset=utf-8
+X-Trans-Id: tx26377fe5fab74869825d1-0052d6bdff
+Date: Wed, 15 Jan 2014 16:57:35 GMT
+
+[
+    {
+        "hash": "451e372e48e0f6b1114fa0724aa79fa1",
+        "last_modified": "2014-01-15T16:41:49.390270",
+        "bytes": 14,
+        "name": "goodbye",
+        "content_type": "application/octet-stream"
+    },
+    {
+        "hash": "ed076287532e86365e841e92bfc50d8c",
+        "last_modified": "2014-01-15T16:37:43.427570",
+        "bytes": 12,
+        "name": "helloworld.json",
+        "content_type": "application/json"
+    }
+]

@@ -1,0 +1,10 @@
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+    "id": "--role-id--",
+    "links": {
+        "self": "http://identity:35357/v3/roles/--role-id--"
+    },
+    "name": "a role name"
+}

@@ -1,0 +1,11 @@
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+    "service": {
+        "id": "serviceId",
+        "name": "foo",
+        "type": "bar",
+        "description": "description"
+    }
+}

@@ -1,0 +1,10 @@
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+    "quota_set": {
+        "gigabytes": 1,
+        "snapshots": 2,
+        "volumes": 3
+    }
+}

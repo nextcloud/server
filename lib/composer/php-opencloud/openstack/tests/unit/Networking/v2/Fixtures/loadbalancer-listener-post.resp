@@ -1,0 +1,15 @@
+HTTP/1.1 201 Created
+Content-Type: application/json
+
+{
+    "listener": {
+        "description": "simple listener",
+        "admin_state_up": true,
+        "tenant_id": "b7c1a69e88bf4b21a8148f787aef2081",
+        "id": "listenerId",
+        "name": "listener1",
+        "protocol": "HTTP",
+        "protocol_port": 443,
+        "connection_limit": 1000
+    }
+}

@@ -1,0 +1,16 @@
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+    "keypair": {
+        "fingerprint": "44:fe:29:6e:23:14:b9:53:5b:65:82:58:1c:fe:5a:c3",
+        "name": "keypair-test",
+        "public_key": "ssh-rsa AAAAAAABBBBBBBBBCCCCCCCCCCC foo@bar.com",
+        "user_id": "fake",
+        "deleted": false,
+        "created_at": "2014-05-07T12:06:13.681238",
+        "updated_at": null,
+        "deleted_at": null,
+        "id": 1
+    }
+}

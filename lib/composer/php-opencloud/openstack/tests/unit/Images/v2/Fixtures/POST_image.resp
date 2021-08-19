@@ -1,0 +1,27 @@
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+    "status": "queued",
+    "name": "Ubuntu 12.10",
+    "tags": [
+        "ubuntu",
+        "quantal"
+    ],
+    "container_format": "bare",
+    "created_at": "2014-11-11T20:47:55Z",
+    "disk_format": "qcow2",
+    "updated_at": "2014-11-11T20:47:55Z",
+    "visibility": "private",
+    "self": "/v2/images/b2173dd3-7ad6-4362-baa6-a68bce3565ca",
+    "min_disk": 0,
+    "protected": false,
+    "id": "b2173dd3-7ad6-4362-baa6-a68bce3565ca",
+    "file": "/v2/images/b2173dd3-7ad6-4362-baa6-a68bce3565ca/file",
+    "owner": "b4eedccc6fb74fa8a7ad6b08382b852b",
+    "min_ram": 0,
+    "schema": "/v2/schemas/image",
+    "size": null,
+    "checksum": null,
+    "virtual_size": null
+}

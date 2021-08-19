@@ -1,0 +1,14 @@
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+    "security_groups": [
+        {
+            "description": "default",
+            "id": 1,
+            "name": "default",
+            "rules": [],
+            "tenant_id": "openstack"
+        }
+    ]
+}

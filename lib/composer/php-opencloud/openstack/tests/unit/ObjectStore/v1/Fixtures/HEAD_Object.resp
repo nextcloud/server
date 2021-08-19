@@ -1,0 +1,13 @@
+HTTP/1.1 200 OK
+Content-Length: 14
+Accept-Ranges: bytes
+Last-Modified: Thu, 16 Jan 2014 21:12:31 GMT
+Etag: 451e372e48e0f6b1114fa0724aa79fa1
+X-Timestamp: 1389906751.73463
+X-Object-Meta-Book: GoodbyeColumbus
+X-Object-Meta-Manufacturer: Acme
+Content-Type: application/octet-stream
+X-Trans-Id: tx37ea34dcd1ed48ca9bc7d-0052d84b6f
+Date: Thu, 16 Jan 2014 21:13:19 GMT
+
+

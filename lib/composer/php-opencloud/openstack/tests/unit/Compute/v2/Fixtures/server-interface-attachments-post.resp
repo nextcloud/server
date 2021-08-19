@@ -1,0 +1,17 @@
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+  "interfaceAttachment": {
+    "port_state": "ACTIVE",
+    "fixed_ips": [
+      {
+        "subnet_id": "026f22e0-c827-4255-baea-1d4c29483fa4",
+        "ip_address": "10.0.0.1"
+      }
+    ],
+    "port_id": "901e54d5-0a91-48bf-8210-aacaa3185196",
+    "net_id": "338a30eb-3e65-4720-bfb8-105d3507a097",
+    "mac_addr": "ha:12:e3:bb:e7:5f"
+  }
+}

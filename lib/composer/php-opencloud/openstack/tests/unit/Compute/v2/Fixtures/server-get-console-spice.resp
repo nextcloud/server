@@ -1,0 +1,9 @@
+HTTP/1.1 200 Accepted
+Content-Type: application/json
+
+{
+    "console": {
+        "type": "spice-html5",
+        "url": "http://127.0.0.1:6082/spice_auto.html?token=a30e5d08-6a20-4043-958f-0852440c6af4"
+    }
+}

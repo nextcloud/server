@@ -1,0 +1,12 @@
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+    "hosts": [
+        {
+            "host_name": "b6e4adbc193d428ea923899d07fb001e",
+            "service": "conductor",
+            "zone": "internal"
+        }
+   ]
+}

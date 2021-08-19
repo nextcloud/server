@@ -1,0 +1,31 @@
+{
+    "name": "web-auth/cose-lib",
+    "type": "library",
+    "license": "MIT",
+    "description": "CBOR Object Signing and Encryption (COSE) For PHP",
+    "keywords": ["COSE", "RFC8152"],
+    "homepage": "https://github.com/web-auth",
+    "authors": [
+        {
+            "name": "Florent Morselli",
+            "homepage": "https://github.com/Spomky"
+        },
+        {
+            "name": "All contributors",
+            "homepage": "https://github.com/web-auth/cose/contributors"
+        }
+    ],
+    "require": {
+        "php": ">=7.2",
+        "ext-json": "*",
+        "ext-openssl": "*",
+        "ext-mbstring": "*",
+        "fgrosse/phpasn1": "^2.1",
+        "beberlei/assert": "^3.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Cose\\": "src/"
+        }
+    }
+}

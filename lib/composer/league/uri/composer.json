@@ -1,0 +1,110 @@
+{
+    "name": "league/uri",
+    "type": "library",
+    "description" : "URI manipulation library",
+    "keywords": [
+        "url",
+        "uri",
+        "rfc3986",
+        "rfc3987",
+        "rfc6570",
+        "psr-7",
+        "parse_url",
+        "http",
+        "https",
+        "ws",
+        "ftp",
+        "data-uri",
+        "file-uri",
+        "middleware",
+        "parse_str",
+        "query-string",
+        "querystring",
+        "hostname",
+        "uri-template"
+    ],
+    "license": "MIT",
+    "homepage": "http://uri.thephpleague.com",
+    "authors": [
+        {
+            "name" : "Ignace Nyamagana Butera",
+            "email" : "nyamsprod@gmail.com",
+            "homepage" : "https://nyamsprod.com"
+        }
+    ],
+    "support": {
+        "forum": "https://thephpleague.slack.com",
+        "docs": "https://uri.thephpleague.com",
+        "issues": "https://github.com/thephpleague/uri/issues"
+    },
+    "funding": [
+        {
+            "type": "github",
+            "url": "https://github.com/sponsors/nyamsprod"
+        }
+    ],
+    "require": {
+        "php": ">=7.2",
+        "ext-json": "*",
+        "psr/http-message": "^1.0",
+        "league/uri-interfaces": "^2.1"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^2.16",
+        "phpunit/phpunit" : "^8.0 || ^9.0",
+        "phpstan/phpstan": "^0.12",
+        "phpstan/phpstan-strict-rules": "^0.12",
+        "phpstan/phpstan-phpunit": "^0.12",
+        "psr/http-factory": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "League\\Uri\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "LeagueTest\\Uri\\": "tests"
+        }
+    },
+    "conflict": {
+        "league/uri-schemes": "^1.0"
+    },
+    "scripts": {
+        "phpcs": "php-cs-fixer fix -v --diff --dry-run --allow-risky=yes --ansi",
+        "phpstan-src": "phpstan analyse -l max -c phpstan.src.neon src --ansi",
+        "phpstan-tests": "phpstan analyse -l max -c phpstan.tests.neon tests --ansi",
+        "phpstan": [
+            "@phpstan-src",
+            "@phpstan-tests"
+        ],
+        "phpunit": "phpunit --coverage-text",
+        "test": [
+            "@phpcs",
+            "@phpstan",
+            "@phpunit"
+        ]
+    },
+    "scripts-descriptions": {
+        "phpcs": "Runs coding style test suite",
+        "phpstan": "Runs complete codebase static analysis",
+        "phpstan-src": "Runs source code static analysis",
+        "phpstan-test": "Runs test suite static analysis",
+        "phpunit": "Runs unit and functional testing",
+        "test": "Runs full test suite"
+    },
+    "suggest": {
+        "league/uri-components" : "Needed to easily manipulate URI objects",
+        "ext-intl" : "Needed to improve host validation",
+        "ext-fileinfo": "Needed to create Data URI from a filepath",
+        "psr/http-factory": "Needed to use the URI factory"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "6.x-dev"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    }
+}

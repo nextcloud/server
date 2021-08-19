@@ -1,0 +1,712 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package packagerversion="1.9.4" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
+ <name>Archive_Tar</name>
+ <channel>pear.php.net</channel>
+ <summary>Tar file management class</summary>
+ <description>This class provides handling of tar files in PHP.
+It supports creating, listing, extracting and adding to tar files.
+Gzip support is available if PHP has the zlib extension built-in or
+loaded. Bz2 compression is also supported with the bz2 extension loaded.
+Also Lzma2 compressed archives are supported with xz extension.</description>
+ <lead>
+  <name>Vincent Blavet</name>
+  <user>vblavet</user>
+  <email>vincent@phpconcept.net</email>
+  <active>no</active>
+ </lead>
+ <lead>
+  <name>Greg Beaver</name>
+  <user>cellog</user>
+  <email>greg@chiaraquartet.net</email>
+  <active>no</active>
+ </lead>
+ <lead>
+  <name>Michiel Rook</name>
+  <user>mrook</user>
+  <email>mrook@php.net</email>
+  <active>yes</active>
+ </lead>
+ <helper>
+  <name>Stig Bakken</name>
+  <user>ssb</user>
+  <email>stig@php.net</email>
+  <active>no</active>
+ </helper>
+ <date>2021-07-20</date>
+ <time>18:00:00</time>
+ <version>
+  <release>1.4.14</release>
+  <api>1.4.0</api>
+ </version>
+ <stability>
+  <release>stable</release>
+  <api>stable</api>
+ </stability>
+ <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
+ <notes>
+* Properly fix symbolic link path traversal (CVE-2021-32610)
+ </notes>
+ <contents>
+  <dir name="/">
+   <dir name="Archive">
+    <file baseinstalldir="/" name="Tar.php" role="php" />
+   </dir> <!-- /Archive -->
+   <dir name="docs">
+    <file baseinstalldir="/" name="Archive_Tar.txt" role="doc" />
+   </dir> <!-- /docs -->
+  </dir> <!-- / -->
+ </contents>
+ <compatible>
+  <name>PEAR</name>
+  <channel>pear.php.net</channel>
+  <min>1.8.0</min>
+  <max>1.10.10</max>
+ </compatible>
+ <dependencies>
+  <required>
+   <php>
+    <min>5.2.0</min>
+   </php>
+   <pearinstaller>
+    <min>1.9.0</min>
+   </pearinstaller>
+  </required>
+ </dependencies>
+ <phprelease />
+ <changelog>
+  <release>
+   <version>
+    <release>1.4.13</release>
+    <api>1.4.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2021-02-16</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
+   <notes>
+    * Fix Bug #27010: Relative symlinks failing (out-of path file extraction) [mrook]
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.4.12</release>
+    <api>1.4.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2021-01-18</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
+   <notes>
+* Fix Bug #27008: Symlink out-of-path write vulnerability (CVE-2020-36193) [mrook]
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.4.11</release>
+    <api>1.4.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2020-11-19</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
+   <notes>
+* Fix Bug #27002: Filename manipulation vulnerabilities (CVE-2020-28948 / CVE-2020-28949) [mrook]
+   </notes>
+  </release>
+  <release>
+    <version>
+     <release>1.4.10</release>
+     <api>1.4.0</api>
+    </version>
+    <stability>
+     <release>stable</release>
+     <api>stable</api>
+    </stability>
+    <date>2020-09-15</date>
+    <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
+    <notes>
+ * Fix block padding when the file buffer length is a multiple of 512 and smaller than Archive_Tar buffer length
+ * Don&apos;t try to copy username/groupname in chroot jail
+    </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.4.9</release>
+    <api>1.4.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2019-12-04</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
+   <notes>
+* Implement Feature #23861: Add option to disallow symlinks [mrook]
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.4.8</release>
+    <api>1.4.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2019-10-21</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
+   <notes>
+* Fix Bug #23852: PHP 7.4 - Archive_Tar-&gt;_readHeader throws deprecation [mrook]
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.4.7</release>
+    <api>1.4.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2019-04-08</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
+   <notes>
+* Improved performance by increasing read buffer size
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.4.6</release>
+    <api>1.4.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2019-02-01</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
+   <notes>
+* Improve path traversal detection for forward and backward slashes
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.4.5</release>
+    <api>1.4.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2019-01-02</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
+   <notes>
+* Fix Bug #23788: Relative symlinks are broken [mrook]
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.4.4</release>
+    <api>1.4.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2018-12-20</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
+   <notes>
+* Fix Bug #21058: Long symlinks are not supported [mrook]
+ * Fix Bug #23782: Prevent phar:// files from being extracted [mrook]
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.4.3</release>
+    <api>1.4.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2017-06-11</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
+   <notes>
+* Fix Bug #21218: Cannot use result of built-in function in write context in PHP
+   7.2.0alpha1 [mrook]
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.4.2</release>
+    <api>1.4.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2016-02-25</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
+   <notes>
+* Fix reading of archives with files &gt; 8GB
+* Performance optimizations
+* Do not try to call require_once on PEAR.php if it has already been loaded by the autoloader
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.4.1</release>
+    <api>1.4.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2015-08-05</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
+   <notes>
+* Update composer.json to use pear-core-minimal 1.10.0alpha2
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.4.0</release>
+    <api>1.4.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2015-07-20</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
+   <notes>
+* Add support for PHP 7
+* Drop support for PHP 4
+* Add visibility declarations to methods and properties
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.3.16</release>
+    <api>1.3.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2015-04-14</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
+   <notes>
+* Fix Bug #20514: invalid package.xml; not installable with pyrus [mrook]
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.3.15</release>
+    <api>1.3.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2015-03-05</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
+   <notes>
+* Fixes composer.json parse error
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.3.14</release>
+    <api>1.3.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2015-02-26</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
+   <notes>
+* Fix Bug #18505: Possible incorrect handling of file names in TAR [mrook]
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.3.13</release>
+    <api>1.3.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2014-09-02</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD
+ License</license>
+   <notes>
+* Fix Bug #20382: gzopen fix [mrook]
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.3.12</release>
+    <api>1.3.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2014-08-04</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD
+ License</license>
+   <notes>
+* Fix Bug #19964: Memory leaking in Archive_Tar [mrook]
+ * Fix Bug #20246: Broken with php 5.5.9 [mrook]
+ * Fix Bug #20275: &quot;pax_global_header&quot; looks like a regular file
+ * [mrook]
+ * Implement Feature #19827: pass filename to _addFile function - downstream
+ * patch [mrook]
+ * Implement Feature #20132: Add custom mode/uid/gid to addString() [mrook]
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.3.11</release>
+    <api>1.3.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2013-02-09</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD
+   License</license>
+   <notes>
+* Fix Bug #19746: Broken with PHP 5.5 [mrook]
+ * Implement Feature #11258: Custom date/time in files added on-the-fly
+ * [mrook]
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.3.10</release>
+    <api>1.3.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2012-04-10</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD
+   License</license>
+   <notes>
+* Fix Bug #13361: Unable to add() some files (ex. mp3) [mrook]
+ * Fix Bug #19330: Class creates incorrect (non-readable) tar.gz file
+ * [mrook]
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.3.9</release>
+    <api>1.3.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2012-02-27</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD   License</license>
+   <notes>
+* Fix Bug #16759: No error thrown from missing PHP zlib functions [mrook]
+ * Fix Bug #18877: Incorrect handling of backslashes in filenames on Linux [mrook]
+ * Fix Bug #19085: Error while packaging [mrook]
+ * Fix Bug #19289: Invalid tar file generated [mrook]
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.3.8</release>
+    <api>1.3.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2011-10-14</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
+   <notes>
+* Fix Bug #17853: Test failure: dirtraversal.phpt [mrook]
+ * Fix Bug #18512: dead links are not saved in tar file [mrook]
+ * Fix Bug #18702: Unpacks incorrectly on long file names using header prefix [mrook]
+ * Implement Feature #10145: Patch to return a Pear Error Object on failure [mrook]
+ * Implement Feature #17491: Option to preserve permissions [mrook]
+ * Implement Feature #17813: Prevent PHP notice when extracting corrupted archive [mrook]
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.3.7</release>
+    <api>1.3.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2010-04-26</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
+   <notes>
+PEAR compatibility update
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.3.6</release>
+    <api>1.3.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2010-03-09</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
+   <notes>
+* Fix Bug #16963: extractList can&apos;t extract zipped files from big tar [mrook]
+ * Implement Feature #4013: Ignoring files and directories on creating an archive. [mrook]
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.3.5</release>
+    <api>1.3.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2009-12-31</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
+   <notes>
+* Fix Bug #16958: Update &apos;compatible&apos; tag in package.xml [mrook]
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.3.4</release>
+    <api>1.3.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2009-12-30</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
+   <notes>
+* Fix Bug #11871: wrong result of ::listContent() if filename begins or ends with space [mrook]
+ * Fix Bug #12462: invalid tar magic [mrook]
+ * Fix Bug #13918: Long filenames may get up to 511 0x00 bytes appended on read [mrook]
+ * Fix Bug #16202: Bogus modification times [mrook]
+ * Implement Feature #16212: Die is not exception [mrook]
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.3.3</release>
+    <api>1.3.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2009-03-27</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">New BSD License</license>
+   <notes>
+Change the license to New BSD license
+
+   minor bugfix release
+   * fix Bug #9921 compression with bzip2 fails [cellog]
+   * fix Bug #11594 _readLongHeader leaves 0 bytes in filename [jamessas]
+   * fix Bug #11769 Incorrect symlink handing [fajar99]
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.3.2</release>
+    <api>1.3.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-01-03</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>
+Correct Bug #4016
+Remove duplicate remove error display with &apos;@&apos;
+Correct Bug #3909 : Check existence of OS_WINDOWS constant
+Correct Bug #5452 fix for &quot;lone zero block&quot; when untarring packages
+Change filemode (from pear-core/Archive/Tar.php v.1.21)
+Correct Bug #6486 Can not extract symlinks
+Correct Bug #6933 Archive_Tar (Tar file management class) Directory traversal
+Correct Bug #8114 Files added on-the-fly not storing date
+Correct Bug #9352 Bug on _dirCheck function over nfs path
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.3.1</release>
+    <api>1.3.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2005-03-17</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>
+Correct Bug #3855
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.3.0</release>
+    <api>1.3.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2005-03-06</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>
+Bugs correction (2475, 2488, 2135, 2176)
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.2</release>
+    <api>1.2</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2004-05-08</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>
+Add support for other separator than the space char and bug
+	correction
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.1</release>
+    <api>1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2003-05-28</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>
+* Add support for BZ2 compression
+* Add support for add and extract without using temporary files : methods addString() and extractInString()
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.0</release>
+    <api>1.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2003-01-24</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>
+Change status to stable
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.10-b1</release>
+    <api>0.10-b1</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2003-01-08</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>
+Add support for long filenames (greater than 99 characters)
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.9</release>
+    <api>0.9</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2002-05-27</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>
+Auto-detect gzip&apos;ed files
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.4</release>
+    <api>0.4</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2002-05-20</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>
+Windows bugfix: use forward slashes inside archives
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.2</release>
+    <api>0.2</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2002-02-18</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>
+From initial commit to stable
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.3</release>
+    <api>0.3</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2002-04-13</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>
+Windows bugfix: used wrong directory separators
+   </notes>
+  </release>
+ </changelog>
+</package>

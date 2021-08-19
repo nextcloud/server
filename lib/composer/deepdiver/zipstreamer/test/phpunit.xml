@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<phpunit
+     colors="true"
+     strict="true"
+     verbose="true"
+     debug="true"
+     bootstrap="bootstrap.php"
+>
+  <testsuite name="ZipStreamer">
+    <file>ZipStreamerTest.php</file>
+    <directory>lib</directory>
+    <directory>integration</directory>
+  </testsuite>
+</phpunit>

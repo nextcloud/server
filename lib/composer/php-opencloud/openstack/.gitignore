@@ -1,0 +1,9 @@
+.idea/
+.test/
+coverage/
+vendor/
+*.pyc
+phpunit.xml
+coverage.xml
+composer.lock
+env_test.sh

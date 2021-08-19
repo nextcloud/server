@@ -1,0 +1,35 @@
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+    "volumes": [
+        {
+            "id": "45baf976-c20a-4894-a7c3-c94b7376bf55",
+            "links": [
+                {
+                    "href": "http://localhost:8776/v2/0c2eba2c5af04d3f9e9d0d410b371fde/volumes/45baf976-c20a-4894-a7c3-c94b7376bf55",
+                    "rel": "self"
+                },
+                {
+                    "href": "http://localhost:8776/0c2eba2c5af04d3f9e9d0d410b371fde/volumes/45baf976-c20a-4894-a7c3-c94b7376bf55",
+                    "rel": "bookmark"
+                }
+            ],
+            "name": "vol-001"
+        },
+        {
+            "id": "5aa119a8-d25b-45a7-8d1b-88e127885635",
+            "links": [
+                {
+                    "href": "http://localhost:8776/v2/0c2eba2c5af04d3f9e9d0d410b371fde/volumes/5aa119a8-d25b-45a7-8d1b-88e127885635",
+                    "rel": "self"
+                },
+                {
+                    "href": "http://localhost:8776/0c2eba2c5af04d3f9e9d0d410b371fde/volumes/5aa119a8-d25b-45a7-8d1b-88e127885635",
+                    "rel": "bookmark"
+                }
+            ],
+            "name": "vol-002"
+        }
+    ]
+}

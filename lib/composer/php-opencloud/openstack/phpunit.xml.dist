@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit bootstrap="./vendor/autoload.php" colors="true" strict="true">
+    <logging>
+        <log type="coverage-clover" target="build/logs/clover.xml"/>
+    </logging>
+    <testsuites>
+        <testsuite name="OpenStack">
+            <directory>tests/unit</directory>
+        </testsuite>
+    </testsuites>
+    <php>
+        <ini name="error_reporting" value=""/>
+        <ini name="display_errors" value="On"/>
+        <ini name="display_startup_errors" value="On"/>
+    </php>
+    <filter>
+        <whitelist>
+            <directory suffix=".php">./src</directory>
+            <exclude>
+                <directory suffix="Interface.php">./src</directory>
+                <directory suffix="Api.php">./src</directory>
+                <directory suffix="Params.php">./src</directory>
+            </exclude>
+        </whitelist>
+    </filter>
+</phpunit>

@@ -1,0 +1,17 @@
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+  "security_group_rule":{
+    "direction":"ingress",
+    "ethertype":"IPv6",
+    "id":"c0b09f00-1d49-4e64-a0a7-8a186d928138",
+    "port_range_max":22,
+    "port_range_min":22,
+    "protocol":"TCP",
+    "remote_group_id":null,
+    "remote_ip_prefix":null,
+    "security_group_id":"85cc3048-abc3-43cc-89b3-377341426ac5",
+    "tenant_id":"5831008"
+  }
+}

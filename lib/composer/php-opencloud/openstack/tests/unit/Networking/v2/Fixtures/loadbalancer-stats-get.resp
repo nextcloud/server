@@ -1,0 +1,11 @@
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+    "stats": {
+        "bytes_out": 1234,
+        "bytes_in": 4321,
+        "total_connections": 25,
+        "active_connections": 10
+    }
+}

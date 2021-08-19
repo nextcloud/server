@@ -1,0 +1,23 @@
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+    "subnet": {
+        "name": "my_subnet",
+        "network_id": "networkId",
+        "tenant_id": "tenantId",
+        "enable_dhcp": true,
+        "allocation_pools": [
+            {
+                "start": "192.0.0.2",
+                "end": "192.255.255.254"
+            }
+        ],
+        "dns_nameservers": [],
+        "host_routes": [],
+        "ip_version": 4,
+        "gateway_ip": "192.0.0.1",
+        "cidr": "192.0.0.0/8",
+        "id": "subnetId"
+    }
+}

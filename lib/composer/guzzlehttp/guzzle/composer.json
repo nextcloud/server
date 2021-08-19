@@ -1,0 +1,73 @@
+{
+    "name": "guzzlehttp/guzzle",
+    "type": "library",
+    "description": "Guzzle is a PHP HTTP client library",
+    "keywords": [
+        "framework",
+        "http",
+        "rest",
+        "web service",
+        "curl",
+        "client",
+        "HTTP client",
+        "PSR-7",
+        "PSR-18"
+    ],
+    "homepage": "http://guzzlephp.org/",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Michael Dowling",
+            "email": "mtdowling@gmail.com",
+            "homepage": "https://github.com/mtdowling"
+        },
+        {
+            "name": "Márk Sági-Kazár",
+            "email": "mark.sagikazar@gmail.com",
+            "homepage": "https://sagikazarmark.hu"
+        }
+    ],
+    "require": {
+        "php": "^7.2.5 || ^8.0",
+        "ext-json": "*",
+        "guzzlehttp/promises": "^1.4",
+        "guzzlehttp/psr7": "^1.7 || ^2.0",
+        "psr/http-client": "^1.0"
+    },
+    "provide": {
+        "psr/http-client-implementation": "1.0"
+    },
+    "require-dev": {
+        "ext-curl": "*",
+        "bamarni/composer-bin-plugin": "^1.4.1",
+        "php-http/client-integration-tests": "^3.0",
+        "phpunit/phpunit": "^8.5.5 || ^9.3.5",
+        "psr/log": "^1.1"
+    },
+    "suggest": {
+        "ext-curl": "Required for CURL handler support",
+        "ext-intl": "Required for Internationalized Domain Name (IDN) support",
+        "psr/log": "Required for using the Log middleware"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "7.3-dev"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "GuzzleHttp\\": "src/"
+        },
+        "files": [
+            "src/functions_include.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "GuzzleHttp\\Tests\\": "tests/"
+        }
+    }
+}

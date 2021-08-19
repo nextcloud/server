@@ -1,0 +1,69 @@
+{
+    "name": "sabre/event",
+    "description": "sabre/event is a library for lightweight event-based programming",
+    "keywords": [
+        "Events",
+        "EventEmitter",
+        "Promise",
+        "Hooks",
+        "Plugin",
+        "Signal",
+        "Async",
+        "EventLoop",
+        "Reactor",
+        "Coroutine"
+    ],
+    "homepage": "http://sabre.io/event/",
+    "license": "BSD-3-Clause",
+    "require": {
+        "php": "^7.1 || ^8.0"
+    },
+    "authors": [
+        {
+            "name": "Evert Pot",
+            "email": "me@evertpot.com",
+            "homepage": "http://evertpot.com/",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "forum": "https://groups.google.com/group/sabredav-discuss",
+        "source": "https://github.com/fruux/sabre-event"
+    },
+    "autoload": {
+        "psr-4": {
+            "Sabre\\Event\\": "lib/"
+        },
+        "files" : [
+            "lib/coroutine.php",
+            "lib/Loop/functions.php",
+            "lib/Promise/functions.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4" : {
+            "Sabre\\Event\\" : "tests/Event"
+        }
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "~2.16.1",
+        "phpstan/phpstan": "^0.12",
+        "phpunit/phpunit" : "^7.5 || ^8.5 || ^9.0"
+    },
+    "scripts": {
+        "phpstan": [
+            "phpstan analyse lib tests"
+        ],
+        "cs-fixer": [
+            "php-cs-fixer fix"
+        ],
+        "phpunit": [
+            "phpunit --configuration tests/phpunit.xml"
+        ],
+        "test": [
+            "composer phpstan",
+            "composer cs-fixer",
+            "composer phpunit"
+        ]
+    }
+}

@@ -1,0 +1,15 @@
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+    "project": {
+        "domain_id": "1789d1",
+        "parent_id": "123c56",
+        "enabled": true,
+        "id": "456789",
+        "links": {
+            "self": "http://identity:35357/v3/projects/456789"
+        },
+        "name": "myNewProject"
+    }
+}

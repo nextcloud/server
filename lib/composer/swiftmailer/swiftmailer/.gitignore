@@ -1,0 +1,9 @@
+/.php_cs.cache
+/.phpunit
+/.phpunit.result.cache
+/build/*
+/composer.lock
+/phpunit.xml
+/tests/acceptance.conf.php
+/tests/smoke.conf.php
+/vendor/

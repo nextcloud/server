@@ -1,0 +1,16 @@
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+   "quota":{
+      "subnet":10,
+      "network":10,
+      "floatingip":50,
+      "subnetpool":-1,
+      "security_group_rule":100,
+      "security_group":10,
+      "router":10,
+      "rbac_policy":10,
+      "port":50
+   }
+}

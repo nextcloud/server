@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<d:multistatus xmlns:d="DAV:" xmlns:s="http://sabredav.org/ns">
+	<d:response>
+		<d:href>foo/</d:href>
+		<d:propstat>
+			<d:prop>
+				<d:getcontentlength/>
+			</d:prop>
+			<d:status>HTTP/1.1 404 Not Found</d:status>
+		</d:propstat>
+	</d:response>
+</d:multistatus>

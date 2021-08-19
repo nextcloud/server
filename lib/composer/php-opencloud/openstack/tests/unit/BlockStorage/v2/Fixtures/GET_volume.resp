@@ -1,0 +1,54 @@
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+    "volume": {
+        "status": "creating",
+        "user_id": "{user_id}",
+        "attachments": [],
+        "links": [
+            {
+                "href": "http://volume.example.com:8776/v2/{tenant_id}/volumes/{volume_id}",
+                "rel": "self"
+            },
+            {
+                "href": "http://volume.example.com:8776/{tenant_id}/volumes/{volume_id}",
+                "rel": "bookmark"
+            }
+        ],
+        "availability_zone": "nova",
+        "bootable": "false",
+        "encrypted": false,
+        "created_at": "2015-05-17T18:14:34.000000",
+        "description": null,
+        "os-vol-tenant-attr:tenant_id": "{tenant_id}",
+        "os-volume-replication:driver_data": null,
+        "volume_type": "lvmdriver-1",
+        "name": null,
+        "replication_status": "disabled",
+        "consistencygroup_id": null,
+        "source_volid": null,
+        "snapshot_id": null,
+        "os-volume-replication:extended_status": null,
+        "metadata": {},
+        "id": "7449e332-9715-4185-b191-1cfd91d75d48",
+        "size": 10,
+        "size": 10,
+        "volume_image_metadata": {
+            "os_distro": "ubuntu",
+            "os_version": "xenial",
+            "hypervisor_type": "qemu",
+            "os_variant": "ubuntu",
+            "disk_format": "qcow2",
+            "image_name": "Some Image Name x86_64",
+            "image_id": "54986297-8364-4baa-8435-812add437507",
+            "architecture": "x86_64",
+            "container_format": "bare",
+            "min_disk": "40",
+            "os_type": "linux",
+            "checksum": "bb3055b274fe72bc3406ffe9febe9fff",
+            "min_ram": "0",
+            "size": "6508557824"
+        }
+    }
+}

@@ -1,0 +1,107 @@
+{
+    "name": "sabre/vobject",
+    "description" : "The VObject library for PHP allows you to easily parse and manipulate iCalendar and vCard objects",
+    "keywords" : [
+        "iCalendar",
+        "iCal",
+        "vCalendar",
+        "vCard",
+        "jCard",
+        "jCal",
+        "ics",
+        "vcf",
+        "xCard",
+        "xCal",
+        "freebusy",
+        "recurrence",
+        "availability",
+        "rfc2425",
+        "rfc2426",
+        "rfc2739",
+        "rfc4770",
+        "rfc5545",
+        "rfc5546",
+        "rfc6321",
+        "rfc6350",
+        "rfc6351",
+        "rfc6474",
+        "rfc6638",
+        "rfc6715",
+        "rfc6868"
+    ],
+    "homepage" : "http://sabre.io/vobject/",
+    "license" : "BSD-3-Clause",
+    "require" : {
+        "php"          : "^7.1 || ^8.0",
+        "ext-mbstring" : "*",
+        "sabre/xml"    : "^2.1"
+    },
+    "require-dev" : {
+        "friendsofphp/php-cs-fixer": "~2.17.1",
+        "phpunit/phpunit" : "^7.5 || ^8.5 || ^9.0",
+        "phpunit/php-invoker" : "^2.0 || ^3.1",
+        "phpstan/phpstan": "^0.12"
+    },
+    "suggest" : {
+        "hoa/bench"       : "If you would like to run the benchmark scripts"
+    },
+    "authors" : [
+        {
+            "name" : "Evert Pot",
+            "email" : "me@evertpot.com",
+            "homepage" : "http://evertpot.com/",
+            "role" : "Developer"
+        },
+        {
+            "name" : "Dominik Tobschall",
+            "email" : "dominik@fruux.com",
+            "homepage" : "http://tobschall.de/",
+            "role" : "Developer"
+        },
+        {
+            "name" : "Ivan Enderlin",
+            "email" : "ivan.enderlin@hoa-project.net",
+            "homepage" : "http://mnt.io/",
+            "role" : "Developer"
+        }
+    ],
+    "support" : {
+        "forum" : "https://groups.google.com/group/sabredav-discuss",
+        "source" : "https://github.com/fruux/sabre-vobject"
+    },
+    "autoload" : {
+        "psr-4" : {
+            "Sabre\\VObject\\" : "lib/"
+        }
+    },
+    "autoload-dev" : {
+        "psr-4" : {
+            "Sabre\\VObject\\" : "tests/VObject"
+        }
+    },
+    "bin" : [
+        "bin/vobject",
+        "bin/generate_vcards"
+    ],
+    "extra" : {
+        "branch-alias" : {
+            "dev-master" : "4.0.x-dev"
+        }
+    },
+    "scripts": {
+        "phpstan": [
+            "phpstan analyse lib tests"
+        ],
+        "cs-fixer": [
+            "php-cs-fixer fix"
+        ],
+        "phpunit": [
+            "phpunit --configuration tests/phpunit.xml"
+        ],
+        "test": [
+            "composer phpstan",
+            "composer cs-fixer",
+            "composer phpunit"
+        ]
+    }
+}

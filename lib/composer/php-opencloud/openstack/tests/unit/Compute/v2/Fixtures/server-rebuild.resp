@@ -1,0 +1,58 @@
+HTTP/1.1 202 Accepted
+Content-Type: application/json
+
+{
+    "server": {
+        "accessIPv4": "1.2.3.4",
+        "accessIPv6": "fe80::100",
+        "addresses": {
+            "private": [
+                {
+                    "addr": "192.168.0.3",
+                    "version": 4
+                }
+            ]
+        },
+        "adminPass": "seekr3t",
+        "created": "2012-09-12T17:20:36Z",
+        "flavor": {
+            "id": "1",
+            "links": [
+                {
+                    "href": "http://openstack.example.com/openstack/flavors/1",
+                    "rel": "bookmark"
+                }
+            ]
+        },
+        "hostId": "1e3da81662354c25560b7e5ea6d8123031f67168b6992f20bb84df69",
+        "id": "075e40fe-9f03-4652-ba8e-5f8e2547899a",
+        "image": {
+            "id": "newImage",
+            "links": [
+                {
+                    "href": "http://openstack.example.com/openstack/images/70a599e0-31e7-49b7-b260-868f441e862b",
+                    "rel": "bookmark"
+                }
+            ]
+        },
+        "links": [
+            {
+                "href": "http://openstack.example.com/v2/openstack/servers/075e40fe-9f03-4652-ba8e-5f8e2547899a",
+                "rel": "self"
+            },
+            {
+                "href": "http://openstack.example.com/openstack/servers/075e40fe-9f03-4652-ba8e-5f8e2547899a",
+                "rel": "bookmark"
+            }
+        ],
+        "metadata": {
+            "meta var": "meta val"
+        },
+        "name": "newName",
+        "progress": 0,
+        "status": "ACTIVE",
+        "tenant_id": "openstack",
+        "updated": "2012-09-12T17:20:37Z",
+        "user_id": "fake"
+    }
+}
