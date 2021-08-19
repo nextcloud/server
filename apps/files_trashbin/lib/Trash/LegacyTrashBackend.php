@@ -116,6 +116,10 @@ class LegacyTrashBackend implements ITrashBackend {
 		return $result;
 	}
 
+	public function copyToTrash(IStorage $storage, string $internalPath): bool {
+		return \OCA\Files_Trashbin\Trashbin::copy2trash($storage, $internalPath);
+	}
+
 	public function getTrashNodeById(IUser $user, int $fileId) {
 		try {
 			$userFolder = $this->rootFolder->getUserFolder($user->getUID());

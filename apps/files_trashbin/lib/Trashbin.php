@@ -44,6 +44,7 @@
  */
 namespace OCA\Files_Trashbin;
 
+use OC\Files\Storage\Wrapper\Jail;
 use OC_User;
 use OC\Files\Cache\Cache;
 use OC\Files\Cache\CacheEntry;
@@ -58,8 +59,12 @@ use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
+use OCP\Files\Storage\IStorage;
+use OCP\IDBConnection;
+use OCP\IUserSession;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
+use Psr\Log\LoggerInterface;
 
 class Trashbin {
 
@@ -232,6 +237,54 @@ class Trashbin {
 		}
 	}
 
+	private static function unwrapJails(IStorage $storage, string $internalPath): array {
+		$unJailedInternalPath = $internalPath;
+		$unJailedStorage = $storage;
+		while ($unJailedStorage->instanceOfStorage(Jail::class)) {
+			$unJailedStorage = $unJailedStorage->getWrapperStorage();
+			if ($unJailedStorage instanceof Jail) {
+				$unJailedInternalPath = $unJailedStorage->getUnjailedPath($unJailedInternalPath);
+			}
+		}
+		return [$unJailedStorage, $unJailedInternalPath];
+	}
+
+	public static function copy2trash(IStorage $storage, string $filePath): bool {
+		/** @var Storage $storage */
+		// TODO public link and verification folder exists
+		$userId = \OC::$server->get(IUserSession::class)->getUser()->getUID();
+		self::setUpTrash($userId);
+		/** @var ITimeFactory $timeFactory */
+		$timeFactory = \OC::$server->get(ITimeFactory::class);
+		$timestamp = $timeFactory->getTime();
+		$targetFilename = basename($filePath);
+		$targetLocation = dirname($storage->getUnjailedPath($filePath));
+
+		$view = new View('/');
+		[$unJailedStorage, $source] = self::unwrapJails($storage, $filePath);
+		$target = $userId . '/files_trashbin/files/' . $targetFilename . '.d' . $timestamp;
+
+		$free = $view->free_space($target);
+		$isUnknownOrUnlimitedFreeSpace = $free < 0;
+		$isEnoughFreeSpaceLeft = $view->filesize($source) < $free;
+		if ($isUnknownOrUnlimitedFreeSpace || $isEnoughFreeSpaceLeft) {
+			self::copy_recursive($source, $target, $view);
+		}
+
+		if ($view->file_exists($target)) {
+			$query = \OC::$server->get(IDBConnection::class)->getQueryBuilder();
+			$query->insert('files_trash')
+				->setValue('id', $query->createNamedParameter($targetFilename))
+				->setValue('timestamp', $query->createNamedParameter($timestamp))
+				->setValue('location', $query->createNamedParameter($targetLocation))
+				->setValue('user', $query->createNamedParameter($userId));
+			$result = $query->executeStatement();
+			if (!$result) {
+				\OC::$server->get(LoggerInterface::class)->error('trash bin database couldn\'t be updated for the files owner', ['app' => 'files_trashbin']);
+			}
+		}
+		return true;
+	}
 
 	/**
 	 * move file to the trash bin
