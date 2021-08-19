@@ -224,6 +224,7 @@ class Generator {
 
 		$previewProviders = $this->previewManager->getProviders();
 		foreach ($previewProviders as $supportedMimeType => $providers) {
+			// Filter out providers that does not support this mime
 			if (!preg_match($supportedMimeType, $mimeType)) {
 				continue;
 			}
