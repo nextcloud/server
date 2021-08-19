@@ -1,0 +1,5 @@
+{
+    "require": {
+        "vimeo/psalm": "4.8.1"
+    }
+}

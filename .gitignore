@@ -159,3 +159,4 @@ clover.xml
 tests/acceptance/vendor/
 
 composer.phar
+/vendor-bin/**/vendor
