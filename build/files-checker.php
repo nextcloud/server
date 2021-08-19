@@ -84,6 +84,7 @@ $expectedFiles = [
 	'status.php',
 	'tests',
 	'themes',
+	'vendor-bin',
 	'version.php',
 	'webpack.common.js',
 	'webpack.dev.js',
