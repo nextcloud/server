@@ -1002,14 +1002,6 @@ class OC {
 			}
 		}
 
-		// Handle WebDAV
-		if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'PROPFIND') {
-			// not allowed any more to prevent people
-			// mounting this root directly.
-			// Users need to mount remote.php/webdav instead.
-			http_response_code(405);
-			return;
-		}
 
 		// Someone is logged in
 		if (\OC::$server->getUserSession()->isLoggedIn()) {
