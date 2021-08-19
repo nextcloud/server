@@ -158,6 +158,8 @@ try {
 	exit();
 } catch (Exception $ex) {
 	\OC::$server->getLogger()->logException($ex, ['app' => 'cron']);
+	echo $ex . PHP_EOL;
 } catch (Error $ex) {
 	\OC::$server->getLogger()->logException($ex, ['app' => 'cron']);
+	echo $ex . PHP_EOL;
 }
