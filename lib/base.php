@@ -976,17 +976,20 @@ class OC {
 		}
 
 		// Always load authentication apps
-		OC_App::loadApps(['authentication']);
+		OC_App::loadApps(['authentication', 'logging']);
 
 		if (!\OCP\Util::needUpgrade() && !((bool) $systemConfig->getValue('maintenance', false))) {
-			OC_App::loadApps(['filesystem', 'logging']);
+			// Handle login as early as possible to make sure the user session is available for all further booted apps
 			self::handleLogin($request);
 		}
+
+		// Still call filesystem setup early here as it is used in some tests to trigger initial boot after installation
+		// FIXME: This could probably be removed if the setup is properly triggered after occ CLI installation
+		OC_App::loadApps(['filesystem']);
 
 		if (!self::$CLI) {
 			try {
 				if (!((bool) $systemConfig->getValue('maintenance', false)) && !\OCP\Util::needUpgrade()) {
-					OC_App::loadApps(['filesystem', 'logging']);
 					OC_App::loadApps();
 				}
 				OC::$server->get(\OC\Route\Router::class)->match($request->getRawPathInfo());
