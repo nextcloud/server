@@ -978,17 +978,9 @@ class OC {
 		// Always load authentication apps
 		OC_App::loadApps(['authentication']);
 
-		// Load minimum set of apps
-		if (!\OCP\Util::needUpgrade()
-			&& !((bool) $systemConfig->getValue('maintenance', false))) {
-			// For logged-in users: Load everything
-			if (\OC::$server->getUserSession()->isLoggedIn()) {
-				OC_App::loadApps();
-			} else {
-				// For guests: Load only filesystem and logging
-				OC_App::loadApps(['filesystem', 'logging']);
-				self::handleLogin($request);
-			}
+		if (!\OCP\Util::needUpgrade() && !((bool) $systemConfig->getValue('maintenance', false))) {
+			OC_App::loadApps(['filesystem', 'logging']);
+			self::handleLogin($request);
 		}
 
 		if (!self::$CLI) {
