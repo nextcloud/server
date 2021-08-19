@@ -1003,17 +1003,11 @@ class OC {
 		}
 
 
-		// Someone is logged in
+		// Not handled by routing so redirect to default page or login
 		if (\OC::$server->getUserSession()->isLoggedIn()) {
-			OC_App::loadApps();
-			OC_User::setupBackends();
-			OC_Util::setupFS();
-			// FIXME
-			// Redirect to default application
 			OC_Util::redirectToDefaultPage();
 		} else {
-			// Not handled and not logged in
-			header('Location: '.\OC::$server->getURLGenerator()->linkToRouteAbsolute('core.login.showLoginForm'));
+			header('Location: ' . \OC::$server->getURLGenerator()->linkToRouteAbsolute('core.login.showLoginForm'));
 		}
 	}
 
