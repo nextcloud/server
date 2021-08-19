@@ -60,6 +60,7 @@ use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
 use OCP\Util;
+use Psr\Log\LoggerInterface;
 
 class CloudFederationProviderFiles implements ICloudFederationProvider {
 
@@ -251,7 +252,8 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 				\OC::$server->getGroupManager(),
 				\OC::$server->getUserManager(),
 				$shareWith,
-				\OC::$server->query(IEventDispatcher::class)
+				\OC::$server->query(IEventDispatcher::class),
+				\OC::$server->get(LoggerInterface::class)
 			);
 
 			try {
