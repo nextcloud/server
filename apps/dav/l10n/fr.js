@@ -137,6 +137,7 @@ OC.L10N.register(
     "Tentative" : "Provisoire",
     "Save" : "Enregistrer",
     "Your attendance was updated successfully." : "Votre présence a été mise à jour avec succès.",
-    "Calendar and tasks" : "Agenda et tâches"
+    "Calendar and tasks" : "Agenda et tâches",
+    "i" : "i"
 },
 "nplurals=2; plural=(n > 1);");
