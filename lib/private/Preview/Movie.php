@@ -31,6 +31,7 @@ namespace OC\Preview;
 
 use OCP\Files\File;
 use OCP\IImage;
+use Psr\Log\LoggerInterface;
 
 class Movie extends ProviderV2 {
 	public static $avconvBinary;
@@ -78,13 +79,13 @@ class Movie extends ProviderV2 {
 			$cmd = self::$avconvBinary . ' -y -ss ' . escapeshellarg($second) .
 				' -i ' . escapeshellarg($absPath) .
 				' -an -f mjpeg -vframes 1 -vsync 1 ' . escapeshellarg($tmpPath) .
-				' > /dev/null 2>&1';
+				' 2>&1';
 		} else {
 			$cmd = self::$ffmpegBinary . ' -y -ss ' . escapeshellarg($second) .
 				' -i ' . escapeshellarg($absPath) .
 				' -f mjpeg -vframes 1' .
 				' ' . escapeshellarg($tmpPath) .
-				' > /dev/null 2>&1';
+				' 2>&1';
 		}
 
 		exec($cmd, $output, $returnCode);
@@ -99,6 +100,10 @@ class Movie extends ProviderV2 {
 				return $image;
 			}
 		}
+
+		$logger = \OC::$server->get(LoggerInterface::class);
+		$logger->error('Movie preview generation failed Output: {output}', ['app' => 'core', 'output' => $output]);
+
 		unlink($tmpPath);
 		return null;
 	}
