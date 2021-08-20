@@ -48,6 +48,7 @@ use OCP\IGroupManager;
 use OCP\IServerContainer;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\L10N\IFactory;
 use OCP\Share\IManager as IShareManager;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
@@ -79,7 +80,8 @@ class Application extends App implements IBootstrap {
 				$server->get(IAppManager::class),
 				$server->get(ProxyMapper::class),
 				$server->get(KnownUserService::class),
-				$server->get(IConfig::class)
+				$server->get(IConfig::class),
+				$server->get(IFactory::class),
 			);
 		});
 
