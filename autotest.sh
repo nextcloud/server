@@ -379,13 +379,13 @@ function execute_tests {
 		GROUP='--exclude-group DB,SLOWDB'
 	fi
 	if [ "$TEST_SELECTION" == "PRIMARY-s3" ]; then
-		GROUP='--group PRIMARY-s3'
+		GROUP='--group PRIMARY-s3,DB,SLOWDB'
 	fi
 	if [ "$TEST_SELECTION" == "PRIMARY-azure" ]; then
-		GROUP='--group PRIMARY-azure'
+		GROUP='--group PRIMARY-azure,DB,SLOWDB'
 	fi
 	if [ "$TEST_SELECTION" == "PRIMARY-swift" ]; then
-		GROUP='--group PRIMARY-swift'
+		GROUP='--group PRIMARY-swift,DB,SLOWDB'
 	fi
 
 	COVER=''
