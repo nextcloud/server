@@ -798,7 +798,18 @@ class UsersController extends AUserData {
 					if ($quota === -1) {
 						$quota = 'none';
 					} else {
+						$maxQuota = (int) $this->config->getAppValue('files', 'max_quota', '-1');
+						if ($maxQuota !== -1 && $quota > $maxQuota) {
+							throw new OCSException('Invalid quota value. ' . $value . ' is exceeding the maximum quota', 102);
+						}
 						$quota = \OCP\Util::humanFileSize($quota);
+					}
+				}
+				// no else block because quota can be set to 'none' in previous if
+				if ($quota === 'none') {
+					$allowUnlimitedQuota = $this->config->getAppValue('files', 'allow_unlimited_quota', '1') === '1';
+					if (!$allowUnlimitedQuota) {
+						throw new OCSException('Unlimited quota is forbidden on this instance', 102);
 					}
 				}
 				$targetUser->setQuota($quota);

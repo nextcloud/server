@@ -411,6 +411,18 @@ class User implements IUser {
 		}
 		if ($quota === 'default') {
 			$quota = $this->config->getAppValue('files', 'default_quota', 'none');
+
+			// if unlimited quota is not allowed => avoid getting 'unlimited' as default_quota fallback value
+			// use the first preset instead
+			$allowUnlimitedQuota = $this->config->getAppValue('files', 'allow_unlimited_quota', '1') === '1';
+			if (!$allowUnlimitedQuota) {
+				$presets = $this->config->getAppValue('files', 'quota_preset', '1 GB, 5 GB, 10 GB');
+				$presets = array_filter(array_map('trim', explode(',', $presets)));
+				$quotaPreset = array_values(array_diff($presets, ['default', 'none']));
+				if (count($quotaPreset) > 0) {
+					$quota = $this->config->getAppValue('files', 'default_quota', $quotaPreset[0]);
+				}
+			}
 		}
 		return $quota;
 	}
