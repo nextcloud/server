@@ -115,4 +115,24 @@ interface IAccountProperty extends \JsonSerializable {
 	 * @since 22.0.0
 	 */
 	public function getVerificationData(): string;
+
+	/**
+	 * Set the instance-based verification status of a property
+	 *
+	 * @since 22.2.0
+	 *
+	 * @param string $verified must be one of the verification constants of IAccountManager
+	 * @return IAccountProperty
+	 * @throws InvalidArgumentException
+	 */
+	public function setLocallyVerified(string $verified): IAccountProperty;
+
+	/**
+	 * Get the instance-based verification status of a property
+	 *
+	 * @since 22.2.0
+	 *
+	 * @return string
+	 */
+	public function getLocallyVerified(): string;
 }

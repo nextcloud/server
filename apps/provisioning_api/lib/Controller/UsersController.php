@@ -621,6 +621,10 @@ class UsersController extends AUserData {
 			throw new OCSException('', OCSController::RESPOND_NOT_FOUND);
 		}
 
+		$subAdminManager = $this->groupManager->getSubAdmin();
+		$isAdminOrSubadmin = $this->groupManager->isAdmin($currentLoggedInUser->getUID())
+			|| $subAdminManager->isUserAccessible($currentLoggedInUser, $targetUser);
+
 		$permittedFields = [];
 		if ($targetUser->getUID() === $currentLoggedInUser->getUID()) {
 			// Editing self (display, email)
@@ -628,11 +632,8 @@ class UsersController extends AUserData {
 			$permittedFields[] = IAccountManager::COLLECTION_EMAIL . self::SCOPE_SUFFIX;
 		} else {
 			// Check if admin / subadmin
-			$subAdminManager = $this->groupManager->getSubAdmin();
-			if ($this->groupManager->isAdmin($currentLoggedInUser->getUID())
-				|| $subAdminManager->isUserAccessible($currentLoggedInUser, $targetUser)) {
+			if ($isAdminOrSubadmin) {
 				// They have permissions over the user
-
 				$permittedFields[] = IAccountManager::COLLECTION_EMAIL;
 			} else {
 				// No rights
@@ -652,6 +653,11 @@ class UsersController extends AUserData {
 				$mailCollection->removePropertyByValue($key);
 				if ($value !== '') {
 					$mailCollection->addPropertyWithDefaults($value);
+					$property = $mailCollection->getPropertyByValue($key);
+					if ($isAdminOrSubadmin && $property) {
+						// admin set mails are auto-verified
+						$property->setLocallyVerified(IAccountManager::VERIFIED);
+					}
 				}
 				$this->accountManager->updateAccount($userAccount);
 				break;
