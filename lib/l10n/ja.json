@@ -181,7 +181,7 @@
     "User disabled" : "ユーザーは無効です",
     "Login canceled by app" : "アプリによりログインが中止されました",
     "App \"%1$s\" cannot be installed because the following dependencies are not fulfilled: %2$s" : "次の依存関係を満たしていないため、アプリ \"%1$s\" をインストールできません: %2$s",
-    "a safe home for all your data" : "あなたのすべてのデータを安全に保管する場所",
+    "a safe home for all your data" : "あらゆるデータを安全に保管します",
     "File is currently busy, please try again later" : "現在ファイルはビジーです。後でもう一度試してください。",
     "Cannot read file" : "ファイルを読み込めません",
     "Application is not enabled" : "アプリケーションは無効です",

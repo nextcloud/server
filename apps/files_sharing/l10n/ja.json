@@ -55,7 +55,7 @@
     "Share for file {file} with group {group} expired" : "グループ{group}へのファイル:{file}の共有が解除されました",
     "Shared as public link" : "公開リンクとして共有",
     "Removed public link" : "公開リンクを削除",
-    "Public link expired" : "公開リンクの期限が切れています",
+    "Public link expired" : "公開リンクの有効期限が切れました",
     "{actor} shared as public link" : "{actor} が公開リンクとして共有しました",
     "{actor} removed public link" : "{actor} は公開リンクを削除しました",
     "Public link of {actor} expired" : "{actor} の公開リンクの期限が切れています",
