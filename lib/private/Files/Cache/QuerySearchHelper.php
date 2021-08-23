@@ -25,6 +25,7 @@
  */
 namespace OC\Files\Cache;
 
+use OC\Files\Search\QueryOptimizer\QueryOptimizer;
 use OC\Files\Search\SearchBinaryOperator;
 use OC\SystemConfig;
 use OCP\Files\Cache\ICache;
@@ -47,19 +48,23 @@ class QuerySearchHelper {
 	private $logger;
 	/** @var SearchBuilder */
 	private $searchBuilder;
+	/** @var QueryOptimizer */
+	private $queryOptimizer;
 
 	public function __construct(
 		IMimeTypeLoader $mimetypeLoader,
 		IDBConnection $connection,
 		SystemConfig $systemConfig,
 		ILogger $logger,
-		SearchBuilder $searchBuilder
+		SearchBuilder $searchBuilder,
+		QueryOptimizer $queryOptimizer
 	) {
 		$this->mimetypeLoader = $mimetypeLoader;
 		$this->connection = $connection;
 		$this->systemConfig = $systemConfig;
 		$this->logger = $logger;
 		$this->searchBuilder = $searchBuilder;
+		$this->queryOptimizer = $queryOptimizer;
 	}
 
 	protected function getQueryBuilder() {
@@ -115,15 +120,17 @@ class QuerySearchHelper {
 				->andWhere($builder->expr()->eq('tag.uid', $builder->createNamedParameter($user->getUID())));
 		}
 
-		$searchExpr = $this->searchBuilder->searchOperatorToDBExpr($builder, $searchQuery->getSearchOperation());
-		if ($searchExpr) {
-			$query->andWhere($searchExpr);
-		}
-
 		$storageFilters = array_values(array_map(function (ICache $cache) {
 			return $cache->getQueryFilterForStorage();
 		}, $caches));
-		$query->andWhere($this->searchBuilder->searchOperatorToDBExpr($builder, new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_OR, $storageFilters)));
+		$storageFilter = new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_OR, $storageFilters);
+		$filter = new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_AND, [$searchQuery->getSearchOperation(), $storageFilter]);
+		$this->queryOptimizer->processOperator($filter);
+
+		$searchExpr = $this->searchBuilder->searchOperatorToDBExpr($builder, $filter);
+		if ($searchExpr) {
+			$query->andWhere($searchExpr);
+		}
 
 		$this->searchBuilder->addSearchOrdersToQuery($query, $searchQuery->getOrder());
 
