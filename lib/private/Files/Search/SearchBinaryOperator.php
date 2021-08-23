@@ -30,6 +30,7 @@ class SearchBinaryOperator implements ISearchBinaryOperator {
 	private $type;
 	/** @var ISearchOperator[] */
 	private $arguments;
+	private $hints = [];
 
 	/**
 	 * SearchBinaryOperator constructor.
@@ -54,5 +55,13 @@ class SearchBinaryOperator implements ISearchBinaryOperator {
 	 */
 	public function getArguments() {
 		return $this->arguments;
+	}
+
+	public function getQueryHint(string $name, $default) {
+		return $this->hints[$name] ?? $default;
+	}
+
+	public function setQueryHint(string $name, $value): void {
+		$this->hints[$name] = $value;
 	}
 }

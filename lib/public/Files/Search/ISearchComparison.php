@@ -35,6 +35,8 @@ interface ISearchComparison extends ISearchOperator {
 	public const COMPARE_LIKE = 'like';
 	public const COMPARE_LIKE_CASE_SENSITIVE = 'clike';
 
+	public const HINT_PATH_EQ_HASH = 'path_eq_hash'; // transform `path = "$path"` into `path_hash = md5("$path")`, on by default
+
 	/**
 	 * Get the type of comparison, one of the ISearchComparison::COMPARE_* constants
 	 *
