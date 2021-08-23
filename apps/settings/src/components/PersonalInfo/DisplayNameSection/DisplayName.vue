@@ -48,6 +48,7 @@ import { showError } from '@nextcloud/dialogs'
 import debounce from 'debounce'
 
 import { savePrimaryDisplayName } from '../../../service/PersonalInfo/DisplayNameService'
+import { validateDisplayName } from '../../../utils/validate'
 
 // TODO Global avatar updating on events (e.g. updating the displayname) is currently being handled by global js, investigate using https://github.com/nextcloud/nextcloud-event-bus for global avatar updating
 
@@ -81,7 +82,7 @@ export default {
 		},
 
 		debounceDisplayNameChange: debounce(async function(displayName) {
-			if (this.$refs.displayName?.checkValidity() && this.isValid(displayName)) {
+			if (validateDisplayName(displayName)) {
 				await this.updatePrimaryDisplayName(displayName)
 			}
 		}, 500),
@@ -115,10 +116,6 @@ export default {
 			}
 		},
 
-		isValid(displayName) {
-			return displayName !== ''
-		},
-
 		onScopeChange(scope) {
 			this.$emit('update:scope', scope)
 		},
@@ -131,8 +128,18 @@ export default {
 		display: grid;
 		align-items: center;
 
-		input[type=text] {
+		input {
 			grid-area: 1 / 1;
+			height: 34px;
+			width: 100%;
+			margin: 3px 3px 3px 0;
+			padding: 7px 6px;
+			cursor: text;
+			font-family: var(--font-face);
+			border: 1px solid var(--color-border-dark);
+			border-radius: var(--border-radius);
+			background-color: var(--color-main-background);
+			color: var(--color-main-text);
 		}
 
 		.displayname__actions-container {

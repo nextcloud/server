@@ -87,7 +87,7 @@ export default {
 
 	data() {
 		return {
-			accountPropertyLowerCase: this.accountProperty.toLowerCase(),
+			accountPropertyLowerCase: this.accountProperty.toLocaleLowerCase(),
 			initialScope: this.scope,
 		}
 	},

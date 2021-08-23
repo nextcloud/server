@@ -59,6 +59,7 @@
 					<ActionButton
 						:aria-label="deleteEmailLabel"
 						:close-after-click="true"
+						:disabled="deleteDisabled"
 						icon="icon-delete"
 						@click.stop.prevent="deleteEmail">
 						{{ deleteEmailLabel }}
@@ -83,6 +84,7 @@ import FederationControl from '../shared/FederationControl'
 
 import { ACCOUNT_PROPERTY_READABLE_ENUM } from '../../../constants/AccountPropertyConstants'
 import { savePrimaryEmail, saveAdditionalEmail, saveAdditionalEmailScope, updateAdditionalEmail, removeAdditionalEmail } from '../../../service/PersonalInfo/EmailService'
+import { validateEmail } from '../../../utils/validate'
 
 export default {
 	name: 'Email',
@@ -126,9 +128,13 @@ export default {
 	computed: {
 		deleteDisabled() {
 			if (this.primary) {
-				return this.email === ''
+				// Disable for empty primary email as there is nothing to delete
+				// OR when initialEmail (reflects server state) and email (current input) are not the same
+				return this.email === '' || this.initialEmail !== this.email
+			} else if (this.initialEmail !== '') {
+				return this.initialEmail !== this.email
 			}
-			return this.email !== '' && !this.isValid(this.email)
+			return false
 		},
 
 		deleteEmailLabel() {
@@ -159,6 +165,7 @@ export default {
 
 	mounted() {
 		if (!this.primary && this.initialEmail === '') {
+			// $nextTick is needed here, otherwise it may not always work https://stackoverflow.com/questions/51922767/autofocus-input-on-mount-vue-ios/63485725#63485725
 			this.$nextTick(() => this.$refs.email?.focus())
 		}
 	},
@@ -170,7 +177,7 @@ export default {
 		},
 
 		debounceEmailChange: debounce(async function(email) {
-			if (this.$refs.email?.checkValidity() || email === '') {
+			if (validateEmail(email) || email === '') {
 				if (this.primary) {
 					await this.updatePrimaryEmail(email)
 				} else {
@@ -282,10 +289,6 @@ export default {
 			}
 		},
 
-		isValid(email) {
-			return /^\S+$/.test(email)
-		},
-
 		onScopeChange(scope) {
 			this.$emit('update:scope', scope)
 		},
@@ -298,8 +301,18 @@ export default {
 		display: grid;
 		align-items: center;
 
-		input[type=email] {
+		input {
 			grid-area: 1 / 1;
+			height: 34px;
+			width: 100%;
+			margin: 3px 3px 3px 0;
+			padding: 7px 6px;
+			cursor: text;
+			font-family: var(--font-face);
+			border: 1px solid var(--color-border-dark);
+			border-radius: var(--border-radius);
+			background-color: var(--color-main-background);
+			color: var(--color-main-text);
 		}
 
 		.email__actions-container {

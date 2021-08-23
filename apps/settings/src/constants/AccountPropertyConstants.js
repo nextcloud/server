@@ -24,6 +24,8 @@
  * SYNC to be kept in sync with lib/public/Accounts/IAccountManager.php
  */
 
+import { translate as t } from '@nextcloud/l10n'
+
 /** Enum of account properties */
 export const ACCOUNT_PROPERTY_ENUM = Object.freeze({
 	ADDRESS: 'address',
@@ -36,16 +38,16 @@ export const ACCOUNT_PROPERTY_ENUM = Object.freeze({
 	WEBSITE: 'website',
 })
 
-/** Enum of account properties to human readable account properties */
+/** Enum of account properties to human readable account property names */
 export const ACCOUNT_PROPERTY_READABLE_ENUM = Object.freeze({
-	ADDRESS: 'Address',
-	AVATAR: 'Avatar',
-	DISPLAYNAME: 'Full name',
-	EMAIL: 'Email',
-	EMAIL_COLLECTION: 'Additional Email',
-	PHONE: 'Phone',
-	TWITTER: 'Twitter',
-	WEBSITE: 'Website',
+	ADDRESS: t('settings', 'Address'),
+	AVATAR: t('settings', 'Avatar'),
+	DISPLAYNAME: t('settings', 'Full name'),
+	EMAIL: t('settings', 'Email'),
+	EMAIL_COLLECTION: t('settings', 'Additional email'),
+	PHONE: t('settings', 'Phone number'),
+	TWITTER: t('settings', 'Twitter'),
+	WEBSITE: t('settings', 'Website'),
 })
 
 /** Enum of scopes */
@@ -70,9 +72,6 @@ export const PROPERTY_READABLE_SUPPORTED_SCOPES_ENUM = Object.freeze({
 
 /** Scope suffix */
 export const SCOPE_SUFFIX = 'Scope'
-
-/** Default additional email scope */
-export const DEFAULT_ADDITIONAL_EMAIL_SCOPE = SCOPE_ENUM.LOCAL
 
 /**
  * Enum of scope names to properties
@@ -105,3 +104,14 @@ export const SCOPE_PROPERTY_ENUM = Object.freeze({
 		iconClass: 'icon-link',
 	},
 })
+
+/** Default additional email scope */
+export const DEFAULT_ADDITIONAL_EMAIL_SCOPE = SCOPE_ENUM.LOCAL
+
+/**
+ * Email validation regex
+ *
+ * *Sourced from https://github.com/mpyw/FILTER_VALIDATE_EMAIL.js/blob/71e62ca48841d2246a1b531e7e84f5a01f15e615/src/regexp/ascii.ts*
+ */
+// eslint-disable-next-line no-control-regex
+export const VALIDATE_EMAIL_REGEX = /^(?!(?:(?:\x22?\x5C[\x00-\x7E]\x22?)|(?:\x22?[^\x5C\x22]\x22?)){255,})(?!(?:(?:\x22?\x5C[\x00-\x7E]\x22?)|(?:\x22?[^\x5C\x22]\x22?)){65,}@)(?:(?:[\x21\x23-\x27\x2A\x2B\x2D\x2F-\x39\x3D\x3F\x5E-\x7E]+)|(?:\x22(?:[\x01-\x08\x0B\x0C\x0E-\x1F\x21\x23-\x5B\x5D-\x7F]|(?:\x5C[\x00-\x7F]))*\x22))(?:\.(?:(?:[\x21\x23-\x27\x2A\x2B\x2D\x2F-\x39\x3D\x3F\x5E-\x7E]+)|(?:\x22(?:[\x01-\x08\x0B\x0C\x0E-\x1F\x21\x23-\x5B\x5D-\x7F]|(?:\x5C[\x00-\x7F]))*\x22)))*@(?:(?:(?!.*[^.]{64,})(?:(?:(?:xn--)?[a-z0-9]+(?:-+[a-z0-9]+)*\.){1,126}){1,}(?:(?:[a-z][a-z0-9]*)|(?:(?:xn--)[a-z0-9]+))(?:-+[a-z0-9]+)*)|(?:\[(?:(?:IPv6:(?:(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){7})|(?:(?!(?:.*[a-f0-9][:\]]){7,})(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,5})?::(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,5})?)))|(?:(?:IPv6:(?:(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){5}:)|(?:(?!(?:.*[a-f0-9]:){5,})(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,3})?::(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,3}:)?)))?(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))(?:\.(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))){3}))\]))$/i

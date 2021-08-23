@@ -20,29 +20,25 @@
 -->
 
 <template>
-	<form
-		ref="form"
-		class="section"
-		@submit.stop.prevent="() => {}">
+	<section>
 		<HeaderBar
 			:account-property="accountProperty"
 			label-for="displayname"
 			:is-editable="displayNameChangeSupported"
-			:is-valid-form="isValidForm"
+			:is-valid-section="isValidSection"
 			:handle-scope-change="savePrimaryDisplayNameScope"
 			:scope.sync="primaryDisplayName.scope" />
 
 		<template v-if="displayNameChangeSupported">
 			<DisplayName
-				:scope.sync="primaryDisplayName.scope"
 				:display-name.sync="primaryDisplayName.value"
-				@update:display-name="onUpdateDisplayName" />
+				:scope.sync="primaryDisplayName.scope" />
 		</template>
 
 		<span v-else>
 			{{ primaryDisplayName.value || t('settings', 'No full name set') }}
 		</span>
-	</form>
+	</section>
 </template>
 
 <script>
@@ -53,6 +49,7 @@ import HeaderBar from '../shared/HeaderBar'
 
 import { ACCOUNT_PROPERTY_READABLE_ENUM } from '../../../constants/AccountPropertyConstants'
 import { savePrimaryDisplayNameScope } from '../../../service/PersonalInfo/DisplayNameService'
+import { validateDisplayName } from '../../../utils/validate'
 
 const { displayNames: { primaryDisplayName } } = loadState('settings', 'personalInfoParameters', {})
 const { displayNameChangeSupported } = loadState('settings', 'accountParameters', {})
@@ -69,31 +66,24 @@ export default {
 		return {
 			accountProperty: ACCOUNT_PROPERTY_READABLE_ENUM.DISPLAYNAME,
 			displayNameChangeSupported,
-			isValidForm: true,
 			primaryDisplayName,
 			savePrimaryDisplayNameScope,
 		}
 	},
 
-	mounted() {
-		this.$nextTick(() => this.updateFormValidity())
-	},
-
-	methods: {
-		onUpdateDisplayName() {
-			this.$nextTick(() => this.updateFormValidity())
-		},
-
-		updateFormValidity() {
-			this.isValidForm = this.$refs.form?.checkValidity()
+	computed: {
+		isValidSection() {
+			return validateDisplayName(this.primaryDisplayName.value)
 		},
 	},
 }
 </script>
 
 <style lang="scss" scoped>
-	form::v-deep button {
-		&:disabled {
+	section {
+		padding: 10px 10px;
+
+		&::v-deep button:disabled {
 			cursor: default;
 		}
 	}

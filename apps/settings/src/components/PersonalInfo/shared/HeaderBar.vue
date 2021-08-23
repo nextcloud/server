@@ -22,7 +22,8 @@
 <template>
 	<h3>
 		<label :for="labelFor">
-			{{ t('settings', accountProperty) }}
+			<!-- Already translated as required by prop validator -->
+			{{ accountProperty }}
 		</label>
 
 		<FederationControl
@@ -35,7 +36,7 @@
 		<template v-if="isEditable && isMultiValueSupported">
 			<AddButton
 				class="add-button"
-				:disabled="!isValidForm"
+				:disabled="!isValidSection"
 				@click.stop.prevent="onAddAdditional" />
 		</template>
 	</h3>
@@ -73,7 +74,7 @@ export default {
 			type: Boolean,
 			default: false,
 		},
-		isValidForm: {
+		isValidSection: {
 			type: Boolean,
 			default: true,
 		},
@@ -106,6 +107,18 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+	h3 {
+    display: inline-flex;
+    width: 100%;
+    margin: 12px 0 0 0;
+		font-size: 16px;
+    color: var(--color-text-light);
+
+		label {
+			cursor: pointer;
+		}
+	}
+
 	.federation-control {
 		margin: -12px 0 0 8px;
 	}
