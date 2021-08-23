@@ -163,7 +163,7 @@ export default {
 					await this.$store.dispatch('reFetchStatusFromServer')
 				}
 			} catch (error) {
-				console.debug('Failed sending heartbeat, got: ' + error.response.status)
+				console.debug('Failed sending heartbeat, got: ' + error.response?.status)
 			}
 		},
 	},
