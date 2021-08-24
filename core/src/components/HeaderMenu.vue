@@ -184,10 +184,10 @@ export default {
 	}
 
 	&__wrapper {
-		position: absolute;
+		position: fixed;
 		z-index: 2000;
 		top: 50px;
-		right: -150px;
+		right: 0px;
 		box-sizing: border-box;
 		margin: 0;
 		border-radius: 0 0 var(--border-radius) var(--border-radius);
@@ -198,7 +198,7 @@ export default {
 
 	&__carret {
 		position: absolute;
-		right: 165px;
+		right: 175px;
 		bottom: 100%;
 		width: 0;
 		height: 0;
