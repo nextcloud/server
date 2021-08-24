@@ -349,7 +349,7 @@ class OwnershipTransferService {
 			} catch (\OCP\Files\NotFoundException $e) {
 				$output->writeln('<error>Share with id ' . $share->getId() . ' points at deleted file, skipping</error>');
 			} catch (\Throwable $e) {
-				$output->writeln('<error>Could not restore share with id ' . $share->getId() . ':' . $e->getTraceAsString() . '</error>');
+				$output->writeln('<error>Could not restore share with id ' . $share->getId() . ':' . $e->getMessage() . ' : ' . $e->getTraceAsString() . '</error>');
 			}
 			$progress->advance();
 		}
