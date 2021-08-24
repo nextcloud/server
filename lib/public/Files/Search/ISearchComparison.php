@@ -33,6 +33,7 @@ interface ISearchComparison extends ISearchOperator {
 	public const COMPARE_LESS_THAN = 'lt';
 	public const COMPARE_LESS_THAN_EQUAL = 'lte';
 	public const COMPARE_LIKE = 'like';
+	public const COMPARE_LIKE_CASE_SENSITIVE = 'clike';
 
 	/**
 	 * Get the type of comparison, one of the ISearchComparison::COMPARE_* constants
