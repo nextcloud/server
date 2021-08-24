@@ -130,7 +130,7 @@ interface IEMailTemplate {
 	 *
 	 * @param string $text Text of button; Note: When $plainText falls back to this, HTML is automatically escaped in the HTML email
 	 * @param string $url URL of button
-	 * @param string $plainText Text of button in plain text version
+	 * @param string|false $plainText Text of button in plain text version
 	 * 		if empty the $text is used, if false none will be used
 	 *
 	 * @since 12.0.0
