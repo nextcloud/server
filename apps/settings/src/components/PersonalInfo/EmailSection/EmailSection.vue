@@ -164,12 +164,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-	section {
-		padding: 10px 10px;
+section {
+	padding: 10px 10px;
 
-		&::v-deep button:disabled {
-			cursor: default;
-		}
+	&::v-deep button:disabled {
+		cursor: default;
 	}
 }
 </style>

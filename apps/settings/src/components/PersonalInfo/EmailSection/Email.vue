@@ -302,24 +302,19 @@ export default {
 	display: grid;
 	align-items: center;
 
-		input {
-			grid-area: 1 / 1;
-			height: 34px;
-			width: 100%;
-			margin: 3px 3px 3px 0;
-			padding: 7px 6px;
-			cursor: text;
-			font-family: var(--font-face);
-			border: 1px solid var(--color-border-dark);
-			border-radius: var(--border-radius);
-			background-color: var(--color-main-background);
-			color: var(--color-main-text);
-		}
-
-		.email__actions-container {
-			grid-area: 1 / 1;
-			justify-self: flex-end;
-			height: 30px;
+	input {
+		grid-area: 1 / 1;
+		width: 100%;
+		height: 34px;
+		margin: 3px 3px 3px 0;
+		padding: 7px 6px;
+		color: var(--color-main-text);
+		border: 1px solid var(--color-border-dark);
+		border-radius: var(--border-radius);
+		background-color: var(--color-main-background);
+		font-family: var(--font-face);
+		cursor: text;
+	}
 
 	.email__actions-container {
 		grid-area: 1 / 1;

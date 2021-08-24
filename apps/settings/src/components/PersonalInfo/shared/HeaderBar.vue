@@ -117,24 +117,19 @@ export default {
 
 <style lang="scss" scoped>
 	h3 {
-    display: inline-flex;
-    width: 100%;
-    margin: 12px 0 0 0;
+		display: inline-flex;
+		width: 100%;
+		margin: 12px 0 0 0;
 		font-size: 16px;
-    color: var(--color-text-light);
+		color: var(--color-text-light);
+
+		&.setting-property {
+			height: 38px;
+		}
 
 		label {
 			cursor: pointer;
 		}
-	}
-
-	h3.setting-property {
-    width: 100%;
-		min-height: 38px;
-    display: inline-flex;
-		position: relative;
-    flex-wrap: nowrap;
-    justify-content: flex-start;
 	}
 
 	.federation-control {

@@ -20,6 +20,12 @@
  *
  */
 
+/*
+ * Frontend validators, less strict than backend validators
+ *
+ * TODO add nice validation errors for Profile page settings modal
+ */
+
 import { VALIDATE_EMAIL_REGEX } from '../constants/AccountPropertyConstants'
 
 /**
@@ -48,4 +54,15 @@ export function validateEmail(input) {
 		&& input.slice(-1) !== '\n'
 		&& input.length <= 320
 		&& encodeURIComponent(input).replace(/%../g, 'x').length <= 320
+}
+
+/**
+ * Validate the language input
+ *
+ * @param {string} input the input
+ * @returns {boolean}
+ */
+export function validateLanguage(input) {
+	return input.code !== ''
+		&& input.name
 }

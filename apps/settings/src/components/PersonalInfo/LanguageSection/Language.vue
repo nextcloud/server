@@ -27,7 +27,7 @@
 			name="language"
 			:placeholder="t('settings', 'Language')"
 			required
-			@input="onLanguageChange">
+			@change="onLanguageChange">
 			<option v-for="commonLanguage in commonLanguages"
 				:key="commonLanguage.code"
 				:selected="language.code === commonLanguage.code"
@@ -58,6 +58,7 @@
 import { showError } from '@nextcloud/dialogs'
 
 import { saveLanguage } from '../../../service/PersonalInfo/LanguageService'
+import { validateLanguage } from '../../../utils/validate'
 
 export default {
 	name: 'Language',
@@ -97,7 +98,7 @@ export default {
 			const language = this.constructLanguage(e.target.value)
 			this.$emit('update:language', language)
 
-			if (this.$refs.language?.checkValidity()) {
+			if (validateLanguage(language)) {
 				await this.updateLanguage(language)
 			}
 		},
@@ -146,7 +147,23 @@ export default {
 .language {
 	display: grid;
 
+	select {
+		width: 100%;
+		height: 34px;
+		margin: 3px 3px 3px 0;
+		padding: 6px 16px;
+		color: var(--color-main-text);
+		border: 1px solid var(--color-border-dark);
+		border-radius: var(--border-radius);
+		background: var(--icon-triangle-s-000) no-repeat right 4px center;
+		font-family: var(--font-face);
+		appearance: none;
+		cursor: pointer;
+	}
+
 	a {
+		color: var(--color-main-text);
+		text-decoration: none;
 		width: max-content;
 	}
 }

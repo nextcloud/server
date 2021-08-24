@@ -20,27 +20,23 @@
 -->
 
 <template>
-	<form
-		ref="form"
-		class="section"
-		@submit.stop.prevent="() => {}">
+	<section>
 		<HeaderBar
 			:account-property="accountProperty"
 			label-for="language"
-			:is-valid-form="isValidForm" />
+			:is-valid-section="isValidSection" />
 
 		<template v-if="isEditable">
 			<Language
 				:common-languages="commonLanguages"
 				:other-languages="otherLanguages"
-				:language.sync="language"
-				@update:language="onUpdateLanguage" />
+				:language.sync="language" />
 		</template>
 
 		<span v-else>
 			{{ t('settings', 'No language set') }}
 		</span>
-	</form>
+	</section>
 </template>
 
 <script>
@@ -50,6 +46,7 @@ import Language from './Language'
 import HeaderBar from '../shared/HeaderBar'
 
 import { SETTING_PROPERTY_READABLE_ENUM } from '../../../constants/AccountPropertyConstants'
+import { validateLanguage } from '../../../utils/validate'
 
 const { languages: { activeLanguage, commonLanguages, otherLanguages } } = loadState('settings', 'personalInfoParameters', {})
 
@@ -64,7 +61,6 @@ export default {
 	data() {
 		return {
 			accountProperty: SETTING_PROPERTY_READABLE_ENUM.LANGUAGE,
-			isValidForm: true,
 			commonLanguages,
 			otherLanguages,
 			language: activeLanguage,
@@ -75,27 +71,19 @@ export default {
 		isEditable() {
 			return Boolean(this.language)
 		},
-	},
 
-	mounted() {
-		this.$nextTick(() => this.updateFormValidity())
-	},
-
-	methods: {
-		onUpdateLanguage() {
-			this.$nextTick(() => this.updateFormValidity())
-		},
-
-		updateFormValidity() {
-			this.isValidForm = this.$refs.form?.checkValidity()
+		isValidSection() {
+			return validateLanguage(this.language)
 		},
 	},
 }
 </script>
 
 <style lang="scss" scoped>
-form::v-deep button {
-	&:disabled {
+section {
+	padding: 10px 10px;
+
+	&::v-deep button:disabled {
 		cursor: default;
 	}
 }
