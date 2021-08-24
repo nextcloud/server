@@ -7,7 +7,7 @@ OC.L10N.register(
     "Not saved" : "Kaydedilmedi",
     "Sending…" : "Gönderiliyor …",
     "Email sent" : "E-posta gönderildi",
-    "Private" : "Özel",
+    "Private" : "Kişisel",
     "Only visible to people matched via phone number integration through Talk on mobile" : "Yalnız mobil aygıt üzerinde Talk telefon numarası bütünleştirmesi ile eşleşen kişiler görebilir",
     "Local" : "Yerel",
     "Only visible to people on this instance and guests" : "Yalnız bu kopyadaki kişiler ve konuklar görebilir",
