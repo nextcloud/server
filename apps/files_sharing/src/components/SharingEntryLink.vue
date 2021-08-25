@@ -178,12 +178,23 @@
 					</template>
 
 					<!-- file -->
-					<ActionCheckbox v-else
-						:checked.sync="canUpdate"
-						:disabled="saving"
-						@change="queueUpdate('permissions')">
-						{{ t('files_sharing', 'Allow editing') }}
-					</ActionCheckbox>
+					<template v-else>
+						<ActionRadio :checked="sharePermissions === publicUploadRValue"
+							:value="publicUploadRValue"
+							:name="randomId"
+							:disabled="saving"
+							@change="togglePermissions">
+							{{ t('files_sharing', 'Read only') }}
+						</ActionRadio>
+
+						<ActionRadio :checked="sharePermissions === publicUploadEValue"
+							:value="publicUploadEValue"
+							:disabled="saving"
+							:name="randomId"
+							@change="togglePermissions">
+							{{ t('files_sharing', 'Editing') }}
+						</ActionRadio>
+					</template>
 
 					<ActionCheckbox
 						:checked.sync="share.hideDownload"
@@ -390,6 +401,7 @@ export default {
 			publicUploadRWValue: OC.PERMISSION_UPDATE | OC.PERMISSION_CREATE | OC.PERMISSION_READ | OC.PERMISSION_DELETE,
 			publicUploadRValue: OC.PERMISSION_READ,
 			publicUploadWValue: OC.PERMISSION_CREATE,
+			publicUploadEValue: OC.PERMISSION_UPDATE | OC.PERMISSION_READ,
 
 			ExternalLegacyLinkActions: OCA.Sharing.ExternalLinkActions.state,
 			ExternalShareActions: OCA.Sharing.ExternalShareActions.state,
