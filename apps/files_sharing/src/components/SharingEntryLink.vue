@@ -32,6 +32,31 @@
 			<p v-if="subtitle">
 				{{ subtitle }}
 			</p>
+
+			<template v-if="share">
+				<template v-if="share.canEdit">
+					<!-- folder -->
+					<template v-if="isFolder && fileHasCreatePermission && config.isPublicUploadEnabled">
+						<select
+							:name="randomId"
+							@change="togglePermissions">
+							<option :value="publicUploadRValue" :selected="sharePermissions === publicUploadRValue">{{ t('files_sharing', 'Read only') }}</option>
+							<option :value="publicUploadRWValue" :selected="sharePermissions === publicUploadRWValue">{{ t('files_sharing', 'Allow upload and editing') }}</option>
+							<option :value="publicUploadWValue" :selected="sharePermissions === publicUploadWValue">{{ t('files_sharing', 'File drop (upload only)') }}</option>
+						</select>
+					</template>
+
+					<!-- file -->
+					<template v-else>
+						<select
+							:name="randomId"
+							@change="togglePermissions">
+							<option :value="publicUploadRValue" :selected="sharePermissions === publicUploadRValue">{{ t('files_sharing', 'Read only') }}</option>
+							<option :value="publicUploadEValue" :selected="sharePermissions === publicUploadEValue">{{ t('files_sharing', 'Editing') }}</option>
+						</select>
+					</template>
+				</template>
+			</template>
 		</div>
 
 		<!-- clipboard -->
@@ -584,6 +609,18 @@ export default {
 				this.share.permissions = enabled
 					? OC.PERMISSION_READ | OC.PERMISSION_UPDATE
 					: OC.PERMISSION_READ
+			},
+		},
+
+		/**
+		 * Can the sharee edit the shared file ?
+		 */
+		canEdit: {
+			get() {
+				return this.share.hasUpdatePermission
+			},
+			set(checked) {
+				this.updatePermissions({ isEditChecked: checked })
 			},
 		},
 
