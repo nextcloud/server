@@ -28,6 +28,7 @@ namespace Test\Security\VerificationToken;
 
 use OC\Security\VerificationToken\VerificationToken;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\BackgroundJob\IJobList;
 use OCP\IConfig;
 use OCP\IUser;
 use OCP\Security\ICrypto;
@@ -54,12 +55,14 @@ class VerificationTokenTest extends TestCase {
 		$this->crypto = $this->createMock(ICrypto::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->secureRandom = $this->createMock(ISecureRandom::class);
+		$this->jobList = $this->createMock(IJobList::class);
 
 		$this->token = new VerificationToken(
 			$this->config,
 			$this->crypto,
 			$this->timeFactory,
-			$this->secureRandom
+			$this->secureRandom,
+			$this->jobList
 		);
 	}
 
@@ -177,11 +180,45 @@ class VerificationTokenTest extends TestCase {
 
 		$this->timeFactory->expects($this->any())
 			->method('getTime')
-			->willReturn(604801);
+			->willReturn(604800 * 3);
 
 		$this->expectException(InvalidTokenException::class);
 		$this->expectExceptionCode(InvalidTokenException::TOKEN_EXPIRED);
 		$this->token->check('encryptedToken', $user, 'fingerprintToken', 'foobar');
+	}
+
+	public function testTokenExpiredByLogin() {
+		$user = $this->createMock(IUser::class);
+		$user->expects($this->atLeastOnce())
+			->method('isEnabled')
+			->willReturn(true);
+		$user->expects($this->atLeastOnce())
+			->method('getUID')
+			->willReturn('alice');
+		$user->expects($this->any())
+			->method('getLastLogin')
+			->willReturn(604803);
+
+		$this->config->expects($this->atLeastOnce())
+			->method('getUserValue')
+			->with('alice', 'core', 'fingerprintToken', null)
+			->willReturn('encryptedToken');
+		$this->config->expects($this->any())
+			->method('getSystemValue')
+			->with('secret')
+			->willReturn('357111317');
+
+		$this->crypto->method('decrypt')
+			->with('encryptedToken', 'foobar' . '357111317')
+			->willReturn('604800:mY70K3n');
+
+		$this->timeFactory->expects($this->any())
+			->method('getTime')
+			->willReturn(604801);
+
+		$this->expectException(InvalidTokenException::class);
+		$this->expectExceptionCode(InvalidTokenException::TOKEN_EXPIRED);
+		$this->token->check('encryptedToken', $user, 'fingerprintToken', 'foobar', true);
 	}
 
 	public function testTokenMismatch() {

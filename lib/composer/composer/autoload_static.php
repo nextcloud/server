@@ -1402,6 +1402,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Security\\RateLimiting\\Limiter' => __DIR__ . '/../../..' . '/lib/private/Security/RateLimiting/Limiter.php',
         'OC\\Security\\SecureRandom' => __DIR__ . '/../../..' . '/lib/private/Security/SecureRandom.php',
         'OC\\Security\\TrustedDomainHelper' => __DIR__ . '/../../..' . '/lib/private/Security/TrustedDomainHelper.php',
+        'OC\\Security\\VerificationToken\\CleanUpJob' => __DIR__ . '/../../..' . '/lib/private/Security/VerificationToken/CleanUpJob.php',
         'OC\\Security\\VerificationToken\\VerificationToken' => __DIR__ . '/../../..' . '/lib/private/Security/VerificationToken/VerificationToken.php',
         'OC\\Server' => __DIR__ . '/../../..' . '/lib/private/Server.php',
         'OC\\ServerContainer' => __DIR__ . '/../../..' . '/lib/private/ServerContainer.php',

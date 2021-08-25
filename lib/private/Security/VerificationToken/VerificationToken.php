@@ -27,14 +27,17 @@ declare(strict_types=1);
 namespace OC\Security\VerificationToken;
 
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\BackgroundJob\IJobList;
 use OCP\IConfig;
 use OCP\IUser;
 use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
 use OCP\Security\VerificationToken\InvalidTokenException;
 use OCP\Security\VerificationToken\IVerificationToken;
+use function json_encode;
 
 class VerificationToken implements IVerificationToken {
+	protected const TOKEN_LIFETIME = 60 * 60 * 24 * 7;
 
 	/** @var IConfig */
 	private $config;
@@ -44,17 +47,21 @@ class VerificationToken implements IVerificationToken {
 	private $timeFactory;
 	/** @var ISecureRandom */
 	private $secureRandom;
+	/** @var IJobList */
+	private $jobList;
 
 	public function __construct(
 		IConfig $config,
 		ICrypto $crypto,
 		ITimeFactory $timeFactory,
-		ISecureRandom $secureRandom
+		ISecureRandom $secureRandom,
+		IJobList $jobList
 	) {
 		$this->config = $config;
 		$this->crypto = $crypto;
 		$this->timeFactory = $timeFactory;
 		$this->secureRandom = $secureRandom;
+		$this->jobList = $jobList;
 	}
 
 	/**
@@ -64,7 +71,7 @@ class VerificationToken implements IVerificationToken {
 		throw new InvalidTokenException($code);
 	}
 
-	public function check(string $token, ?IUser $user, string $subject, string $passwordPrefix = ''): void {
+	public function check(string $token, ?IUser $user, string $subject, string $passwordPrefix = '', bool $expiresWithLogin = false): void {
 		if ($user === null || !$user->isEnabled()) {
 			$this->throwInvalidTokenException(InvalidTokenException::USER_UNKNOWN);
 		}
@@ -85,8 +92,8 @@ class VerificationToken implements IVerificationToken {
 			$this->throwInvalidTokenException(InvalidTokenException::TOKEN_INVALID_FORMAT);
 		}
 
-		if ($splitToken[0] < ($this->timeFactory->getTime() - 60 * 60 * 24 * 7) ||
-			$user->getLastLogin() > $splitToken[0]) {
+		if ($splitToken[0] < ($this->timeFactory->getTime() - self::TOKEN_LIFETIME)
+			|| ($expiresWithLogin && $user->getLastLogin() > $splitToken[0])) {
 			$this->throwInvalidTokenException(InvalidTokenException::TOKEN_EXPIRED);
 		}
 
@@ -105,6 +112,13 @@ class VerificationToken implements IVerificationToken {
 		$tokenValue = $this->timeFactory->getTime() .':'. $token;
 		$encryptedValue = $this->crypto->encrypt($tokenValue, $passwordPrefix . $this->config->getSystemValue('secret'));
 		$this->config->setUserValue($user->getUID(), 'core', $subject, $encryptedValue);
+		$jobArgs = json_encode([
+			'userId' => $user->getUID(),
+			'subject' => $subject,
+			'pp' => $passwordPrefix,
+			'notBefore' => $this->timeFactory->getTime() + self::TOKEN_LIFETIME * 2, // multiply to provide a grace period
+		]);
+		$this->jobList->add(CleanUpJob::class, $jobArgs);
 
 		return $token;
 	}
