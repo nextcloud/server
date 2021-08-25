@@ -38,6 +38,27 @@
 				<span>{{ share.status.icon || '' }}</span>
 				<span>{{ share.status.message || '' }}</span>
 			</p>
+
+			<template v-if="share.canEdit">
+				<!-- folder -->
+				<template v-if="isFolder && fileHasCreatePermission && config.isPublicUploadEnabled">
+					<select
+						:name="randomId"
+						@change="togglePermissions">
+						<option :value="publicUploadRValue" :selected="sharePermissions === publicUploadRValue">{{ t('files_sharing', 'Read only') }}</option>
+						<option :value="publicUploadRWValue" :selected="sharePermissions === publicUploadRWValue">{{ t('files_sharing', 'Allow upload and editing') }}</option>
+					</select>
+				</template>
+				<!-- files -->
+				<template v-else>
+					<select
+						:name="randomId"
+						@change="togglePermissions">
+						<option :value="publicUploadRValue" :selected="sharePermissions === publicUploadRValue">{{ t('files_sharing', 'Read only') }}</option>
+						<option :value="publicUploadEValue" :selected="sharePermissions === publicUploadEValue">{{ t('files_sharing', 'Editing') }}</option>
+					</select>
+				</template>
+			</template>
 		</component>
 		<Actions
 			menu-align="right"
@@ -263,6 +284,10 @@ export default {
 			return !this.isRemote
 		},
 
+		canHaveExpirationDate() {
+			return !this.isRemoteShare
+		},
+
 		isRemote() {
 			return this.share.type === this.SHARE_TYPES.SHARE_TYPE_REMOTE
 				|| this.share.type === this.SHARE_TYPES.SHARE_TYPE_REMOTE_GROUP
@@ -380,6 +405,15 @@ export default {
 		 */
 		isFolder() {
 			return this.fileInfo.type === 'dir'
+		},
+
+		/**
+		 * Does the current file/folder have create permissions
+		 * TODO: move to a proper FileInfo model?
+		 * @returns {boolean}
+		 */
+		fileHasCreatePermission() {
+			return !!(this.fileInfo.permissions & OC.PERMISSION_CREATE)
 		},
 
 		/**
