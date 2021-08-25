@@ -306,7 +306,7 @@ class CacheJail extends CacheWrapper {
 	}
 
 	public function getQueryFilterForStorage(): ISearchOperator {
-		if ($this->root !== '' && $this->root !== '/') {
+		if ($this->getGetUnjailedRoot() !== '' && $this->getGetUnjailedRoot() !== '/') {
 			return new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_AND,
 				[
 					$this->getCache()->getQueryFilterForStorage(),
