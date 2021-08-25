@@ -1221,7 +1221,7 @@ $CONFIG = [
  * For enhanced security it is recommended to configure Redis
  * to require a password. See http://redis.io/topics/security
  * for more information.
- * 
+ *
  * We also support redis SSL/TLS encryption as of version 6.
  * See https://redis.io/topics/encryption for more information.
  */
@@ -1498,9 +1498,19 @@ $CONFIG = [
 /**
  * Additional driver options for the database connection, eg. to enable SSL
  * encryption in MySQL or specify a custom wait timeout on a cheap hoster.
+ *
+ * When setting up TLS/SSL for encrypting the connections, you need to ensure that
+ * the passed keys and certificates are readable by the PHP process. In addition
+ * PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT might need to be set to false, if the
+ * database servers certificates CN does not match with the hostname used to connect.
+ * The standard behavior here is different from the MySQL/MariaDB CLI client, which
+ * does not verify the server cert except --ssl-verify-server-cert is passed manually.
  */
 'dbdriveroptions' => [
 	PDO::MYSQL_ATTR_SSL_CA => '/file/path/to/ca_cert.pem',
+	PDO::MYSQL_ATTR_SSL_KEY => '/file/path/to/mysql-client-key.pem',
+	PDO::MYSQL_ATTR_SSL_CERT => '/file/path/to/mysql-client-cert.pem',
+	PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => false,
 	PDO::MYSQL_ATTR_INIT_COMMAND => 'SET wait_timeout = 28800'
 ],
 
