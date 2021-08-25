@@ -45,53 +45,24 @@
 			@close="onMenuClose">
 			<template v-if="share.canEdit">
 				<!-- folder -->
-				<template v-if="isFolder && fileHasCreatePermission && config.isPublicUploadEnabled">
-					<template v-if="isRemoteShare">
-						<!-- edit permission -->
-						<ActionCheckbox
-							ref="canEdit"
-							:checked.sync="canEdit"
-							:value="permissionsEdit"
-							:disabled="saving || !canSetEdit">
-							{{ t('files_sharing', 'Allow editing') }}
-						</ActionCheckbox>
+				<template v-if="isFolder && config.isPublicUploadEnabled">
 
-						<!-- create permission -->
-						<ActionCheckbox
-							ref="canCreate"
-							:checked.sync="canCreate"
-							:value="permissionsCreate"
-							:disabled="saving || !canSetCreate">
-							{{ t('files_sharing', 'Allow creating') }}
-						</ActionCheckbox>
+					<ActionRadio :checked="sharePermissions === publicUploadRValue"
+						:value="publicUploadRValue"
+						:name="randomId"
+						:disabled="saving"
+						@change="togglePermissions">
+						{{ t('files_sharing', 'Read only') }}
+					</ActionRadio>
 
-						<!-- delete permission -->
-						<ActionCheckbox
-							ref="canDelete"
-							:checked.sync="canDelete"
-							:value="permissionsDelete"
-							:disabled="saving || !canSetDelete">
-							{{ t('files_sharing', 'Allow deleting') }}
-						</ActionCheckbox>
-					</template>
-					<template v-else>
-						<ActionRadio :checked="sharePermissions === publicUploadRValue"
-							:value="publicUploadRValue"
-							:name="randomId"
-							:disabled="saving"
-							@change="togglePermissions">
-							{{ t('files_sharing', 'Read only') }}
-						</ActionRadio>
+					<ActionRadio :checked="sharePermissions === publicUploadRWValue"
+						:value="publicUploadRWValue"
+						:disabled="saving"
+						:name="randomId"
+						@change="togglePermissions">
+						{{ t('files_sharing', 'Allow upload and editing') }}
+					</ActionRadio>
 
-						<ActionRadio :checked="sharePermissions === publicUploadRWValue"
-							:value="publicUploadRWValue"
-							:disabled="saving"
-							:name="randomId"
-							@change="togglePermissions">
-							{{ t('files_sharing', 'Allow upload and editing') }}
-						</ActionRadio>
-
-					</template>
 				</template>
 				<!-- file -->
 				<template v-else>
