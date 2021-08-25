@@ -200,4 +200,22 @@ class CacheJailTest extends CacheTest {
 		$this->assertCount(1, $result);
 		$this->assertEquals('asd', $result[0]['path']);
 	}
+
+	public function testRootJail() {
+		$this->storage->getScanner()->scan('');
+		$file1 = 'foo';
+		$file2 = 'foo/bar';
+		$file3 = 'foo/bar/asd';
+		$data1 = ['size' => 100, 'mtime' => 50, 'mimetype' => 'foo/folder'];
+
+		$this->sourceCache->put($file1, $data1);
+		$this->sourceCache->put($file2, $data1);
+		$this->sourceCache->put($file3, $data1);
+
+		$nested = new \OC\Files\Cache\Wrapper\CacheJail($this->sourceCache, '');
+
+		$result = $nested->search('%asd%');
+		$this->assertCount(1, $result);
+		$this->assertEquals('foo/bar/asd', $result[0]['path']);
+	}
 }

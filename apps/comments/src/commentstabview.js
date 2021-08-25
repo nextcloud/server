@@ -101,7 +101,7 @@ import escapeHTML from 'escape-html'
 					this.model = fileInfo
 
 					this.render()
-					this._initAutoComplete($('#commentsTabView').find('.newCommentForm .message'))
+					this._initAutoComplete(this.$el.find('.newCommentForm .message'))
 					this.collection.setObjectId(this.model.id)
 					// reset to first page
 					this.collection.reset([], { silent: true })
@@ -212,7 +212,7 @@ import escapeHTML from 'escape-html'
 							callback(result.ocs.data)
 						}
 					})
-				}, 400)
+				}.bind(this), 400)
 			},
 
 			_formatItem: function(commentModel) {

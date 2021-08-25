@@ -43,6 +43,7 @@ OC.L10N.register(
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "Najnovšia stabilná verzia. Je vhodná na bežné používanie a vždy sa aktualizuje na najnovšiu hlavnú verziu.",
     "Beta" : "Beta",
     "A pre-release version only for testing new features, not for production environments." : "Verzia pred vydaním iba na testovanie nových funkcií, nie pre praktické nasadenie.",
+    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available_::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available_" : ["<strong>%n</strong> aplikácia nemá dostupnú kompatibilnú verziu s týmto Nextcloudom","<strong>%n</strong> aplikácie nemajú dostupnú kompatibilnú verziu s týmto Nextcloudom","<strong>%n</strong> aplikácie nemajú dostupnú kompatibilnú verziu s týmto Nextcloudom","<strong>%n</strong> aplikácie nemajú dostupnú kompatibilnú verziu s týmto Nextcloudom"],
     "Apps missing updates" : "Aplikácie s chýbajúcimi aktualizáciami",
     "Apps with available updates" : "Aplikácie pre ktoré sú dostupné aktualizácie",
     "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "Upozorňujeme, že po oficiálnom vydaní novej verzie môže chvíľu trvať, než sa tu objaví. Nové verzie medzi našich používateľov distribuujeme priebežne rozložené v čase a ak sa nájdu chyby, niekedy danú verziu preskočíme.",

@@ -9,7 +9,7 @@ OC.L10N.register(
     "Files and folders you share will show up here" : "Tutaj pokażą się pliki i katalogi, które udostępnisz",
     "Shared by link" : "Udostępnione linkiem",
     "No shared links" : "Brak udostępnionych linków",
-    "Files and folders you share by link will show up here" : "Tutaj pokażą się pliki i katalogi, które udostępniasz linkiem",
+    "Files and folders you share by link will show up here" : "Tutaj pokażą się pliki i katalogi, które udostępnisz linkiem",
     "Deleted shares" : "Usunięte udostępnienia",
     "No deleted shares" : "Brak usuniętych udostępnień",
     "Shares you deleted will show up here" : "Tutaj pojawią się usunięte udostępnienia",

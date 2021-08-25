@@ -39,6 +39,8 @@ OC.L10N.register(
     "Could not load info for file \"{file}\"" : "無法讀取「{file}」的詳細資料",
     "Files" : "檔案",
     "Details" : "詳細資料",
+    "Please select tag(s) to add to the selection" : "請選取要新增到選定項目的標籤",
+    "Apply tag(s) to selection" : "將標籤套用至選定項目",
     "Select" : "選取",
     "Pending" : "等候中",
     "Unable to determine date" : "無法確定日期",

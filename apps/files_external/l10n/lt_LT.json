@@ -9,6 +9,7 @@
     "Generate keys" : "Generuoti raktus",
     "Error generating key pair" : "Klaida kuriant raktus",
     "All users. Type to select user or group." : "Visi naudotojai. Rašykite, norėdami pasirinkti naudotoją ar grupę.",
+    "(Group)" : "(Grupė)",
     "Compatibility with Mac NFD encoding (slow)" : "Suderinamumas su Mac NFD kodavimu (lėtai)",
     "Enable encryption" : "Įjungti šifravimą",
     "Enable previews" : "Leisti peržiūras",

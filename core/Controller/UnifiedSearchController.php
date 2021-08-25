@@ -34,6 +34,7 @@ use OCP\AppFramework\OCSController;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\IRequest;
+use OCP\IURLGenerator;
 use OCP\IUserSession;
 use OCP\Route\IRouter;
 use OCP\Search\ISearchQuery;
@@ -50,15 +51,20 @@ class UnifiedSearchController extends OCSController {
 	/** @var IRouter */
 	private $router;
 
+	/** @var IURLGenerator */
+	private $urlGenerator;
+
 	public function __construct(IRequest $request,
 								IUserSession $userSession,
 								SearchComposer $composer,
-								IRouter $router) {
+								IRouter $router,
+								IURLGenerator $urlGenerator) {
 		parent::__construct('core', $request);
 
 		$this->composer = $composer;
 		$this->userSession = $userSession;
 		$this->router = $router;
+		$this->urlGenerator = $urlGenerator;
 	}
 
 	/**
@@ -124,9 +130,17 @@ class UnifiedSearchController extends OCSController {
 
 		if ($url !== '') {
 			$urlParts = parse_url($url);
+			$urlPath = $urlParts['path'];
+
+			// Optionally strip webroot from URL. Required for route matching on setups
+			// with Nextcloud in a webserver subfolder (webroot).
+			$webroot = $this->urlGenerator->getWebroot();
+			if ($webroot !== '' && substr($urlPath, 0, strlen($webroot)) === $webroot) {
+				$urlPath = substr($urlPath, strlen($webroot));
+			}
 
 			try {
-				$parameters = $this->router->findMatchingRoute($urlParts['path']);
+				$parameters = $this->router->findMatchingRoute($urlPath);
 
 				// contacts.PageController.index => contacts.Page.index
 				$route = $parameters['caller'];
