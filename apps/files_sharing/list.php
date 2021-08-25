@@ -2,7 +2,8 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Vincent Petry <vincent@nextcloud.com>
@@ -28,7 +29,7 @@ use OCA\Viewer\Event\LoadViewer;
 use OCP\EventDispatcher\GenericEvent;
 
 // Check if we are a user
-OCP\User::checkLoggedIn();
+OC_Util::checkLoggedIn();
 $config = \OC::$server->getConfig();
 $userSession = \OC::$server->getUserSession();
 $legacyEventDispatcher = \OC::$server->getEventDispatcher();

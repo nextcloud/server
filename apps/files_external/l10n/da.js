@@ -1,7 +1,7 @@
 OC.L10N.register(
     "files_external",
     {
-    "External storages" : "Eksternt lager",
+    "External storage" : "Eksternt lager",
     "Personal" : "Personligt",
     "System" : "System",
     "Grant access" : "Godkend adgang",
@@ -100,11 +100,9 @@ OC.L10N.register(
     "SFTP" : "SFTP",
     "Root" : "Root",
     "SFTP with secret key login" : "SFTP med hemmelig nøglelogin",
-    "SMB / CIFS" : "SMB / CIFS",
     "Share" : "Del",
     "Show hidden files" : "Vis skjulte filer",
     "Timeout" : "Timeout",
-    "SMB / CIFS using OC login" : "SMB / CIFS med OC-login",
     "Username as share" : "Brugernavn som deling",
     "OpenStack Object Storage" : "OpenStack Object Storage",
     "Service name" : "Tjenestenavn",
@@ -116,13 +114,15 @@ OC.L10N.register(
     "Scope" : "Anvendelsesområde",
     "Open documentation" : "Åbn dokumentation",
     "Folder name" : "Mappenavn",
-    "External storage" : "Eksternt lager",
     "Authentication" : "Godkendelse",
     "Configuration" : "Opsætning",
     "Available for" : "Tilgængelig for",
     "Add storage" : "Tilføj lager",
     "Advanced settings" : "Avancerede indstillinger",
     "Allow users to mount external storage" : "Tillad brugere at montere eksternt lager",
-    "(group)" : "(gruppe)"
+    "External storages" : "Eksternt lager",
+    "(group)" : "(gruppe)",
+    "SMB / CIFS" : "SMB / CIFS",
+    "SMB / CIFS using OC login" : "SMB / CIFS med OC-login"
 },
 "nplurals=2; plural=(n != 1);");

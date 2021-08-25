@@ -13,8 +13,8 @@ OC.L10N.register(
     "Redirection URI" : "跳转URI",
     "Add" : "添加",
     "Client Identifier" : "客户端 ID",
-    "Secret" : "密钥",
-    "Show client secret" : "显示客户端密钥",
+    "Secret" : "Secret",
+    "Show client secret" : "显示客户端 secret",
     "Delete" : "删除"
 },
 "nplurals=1; plural=0;");

@@ -118,12 +118,9 @@
     "Could not lock node" : "Nepavyko užrakinti mazgo",
     "Could not lock path" : "Nepavyko užrakinti kelio",
     "Wrong or no update parameter given" : "Neperduoti atnaujinimo parametrai",
-    "Can't change permissions for public share links" : "Negalima keisti leidimų viešai bendrinamoms nuorodoms",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Nepavyko išsiųsti slaptažodžio bendrinimui panaudojant Nextcloud Talk, kadangi Nextcloud Talk neįjungtas ",
     "shared by %s" : "bendrina %s",
     "Download all files" : "Atsisiųsti visus failus ",
     "Direct link" : "Tiesioginė nuoroda",
-    "Add to your Nextcloud" : "Pridėti į savo Nextcloud",
     "Share API is disabled" : "Bendrinimo API yra išjungtas",
     "File sharing" : "Failų pasidalinimas",
     "Share will expire tomorrow" : "Bendrinimo laikas baigiasi rytoj.",
@@ -230,7 +227,10 @@
     "Uploading files" : "Įkeliami failai",
     "Uploaded files:" : "Įkelti failai:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Įkeldami failus, sutinkate su %1$snaudojimosi sąlygomis%2$s.",
+    "Add to your Nextcloud" : "Pridėti į savo Nextcloud",
     "invalid permissions" : "neteisingi leidimai",
+    "Can't change permissions for public share links" : "Negalima keisti leidimų viešai bendrinamoms nuorodoms",
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Nepavyko išsiųsti slaptažodžio bendrinimui panaudojant Nextcloud Talk, kadangi Nextcloud Talk neįjungtas ",
     "Name, email, or federated cloud ID …" : "Vardas, el. paštas ar federacinės debesijos ID…"
 },"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"
 }

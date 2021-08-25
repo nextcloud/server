@@ -35,7 +35,7 @@ OC.Settings = _.extend(OC.Settings, {
 		if ($elements.length > 0) {
 			// Let's load the data and THEN init our select
 			$.ajax({
-				url: OC.linkToOCS('cloud/groups', 2) + 'details',
+				url: OC.linkToOCS('cloud/groups/details'),
 				dataType: 'json',
 				success: function(data) {
 					var results = [];
@@ -51,7 +51,7 @@ OC.Settings = _.extend(OC.Settings, {
 						// note: settings are saved through a "change" event registered
 						// on all input fields
 						$elements.select2(_.extend({
-							placeholder: t('core', 'Groups'),
+							placeholder: t('settings', 'Groups'),
 							allowClear: true,
 							multiple: true,
 							toggleSelect: true,

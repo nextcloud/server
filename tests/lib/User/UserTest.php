@@ -521,6 +521,9 @@ class UserTest extends TestCase {
 		$commentsManager = $this->createMock(ICommentsManager::class);
 		$notificationManager = $this->createMock(INotificationManager::class);
 
+		$config->method('getSystemValue')
+			->willReturnArgument(1);
+
 		if ($result) {
 			$config->expects($this->once())
 				->method('deleteAllUserValues')
@@ -719,6 +722,71 @@ class UserTest extends TestCase {
 
 		$user = new User('foo', $backend, $this->dispatcher, $emitter, $config);
 		$user->setQuota('23 TB');
+	}
+
+	public function testGetDefaultUnlimitedQuota() {
+		/**
+		 * @var UserInterface | \PHPUnit\Framework\MockObject\MockObject $backend
+		 */
+		$backend = $this->createMock(\Test\Util\User\Dummy::class);
+
+		/** @var PublicEmitter|\PHPUnit\Framework\MockObject\MockObject $emitter */
+		$emitter = $this->createMock(PublicEmitter::class);
+		$emitter->expects($this->never())
+			->method('emit');
+
+		$config = $this->createMock(IConfig::class);
+		$user = new User('foo', $backend, $this->dispatcher, $emitter, $config);
+
+		$userValueMap = [
+			['foo', 'files', 'quota', 'default', 'default'],
+		];
+		$appValueMap = [
+			['files', 'default_quota', 'none', 'none'],
+			// allow unlimited quota
+			['files', 'allow_unlimited_quota', '1', '1'],
+		];
+		$config->method('getUserValue')
+			->will($this->returnValueMap($userValueMap));
+		$config->method('getAppValue')
+			->will($this->returnValueMap($appValueMap));
+
+		$quota = $user->getQuota();
+		$this->assertEquals('none', $quota);
+	}
+
+	public function testGetDefaultUnlimitedQuotaForbidden() {
+		/**
+		 * @var UserInterface | \PHPUnit\Framework\MockObject\MockObject $backend
+		 */
+		$backend = $this->createMock(\Test\Util\User\Dummy::class);
+
+		/** @var PublicEmitter|\PHPUnit\Framework\MockObject\MockObject $emitter */
+		$emitter = $this->createMock(PublicEmitter::class);
+		$emitter->expects($this->never())
+			->method('emit');
+
+		$config = $this->createMock(IConfig::class);
+		$user = new User('foo', $backend, $this->dispatcher, $emitter, $config);
+
+		$userValueMap = [
+			['foo', 'files', 'quota', 'default', 'default'],
+		];
+		$appValueMap = [
+			['files', 'default_quota', 'none', 'none'],
+			// do not allow unlimited quota
+			['files', 'allow_unlimited_quota', '1', '0'],
+			['files', 'quota_preset', '1 GB, 5 GB, 10 GB', '1 GB, 5 GB, 10 GB'],
+			// expect seeing 1 GB used as fallback value
+			['files', 'default_quota', '1 GB', '1 GB'],
+		];
+		$config->method('getUserValue')
+			->will($this->returnValueMap($userValueMap));
+		$config->method('getAppValue')
+			->will($this->returnValueMap($appValueMap));
+
+		$quota = $user->getQuota();
+		$this->assertEquals('1 GB', $quota);
 	}
 
 	public function testSetQuotaAddressNoChange() {

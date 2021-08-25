@@ -9,8 +9,9 @@ declare(strict_types=1);
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -21,22 +22,22 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Provisioning_API\Controller;
 
-use OC\Accounts\AccountManager;
 use OC\Group\Manager;
 use OC\User\Backend;
 use OC\User\NoUserException;
 use OC_Helper;
 use OCP\Accounts\IAccountManager;
+use OCP\Accounts\PropertyDoesNotExistException;
+use OCP\AppFramework\Http;
 use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\AppFramework\OCSController;
@@ -61,7 +62,7 @@ abstract class AUserData extends OCSController {
 	protected $groupManager;
 	/** @var IUserSession */
 	protected $userSession;
-	/** @var AccountManager */
+	/** @var IAccountManager */
 	protected $accountManager;
 	/** @var IFactory */
 	protected $l10nFactory;
@@ -72,7 +73,7 @@ abstract class AUserData extends OCSController {
 								IConfig $config,
 								IGroupManager $groupManager,
 								IUserSession $userSession,
-								AccountManager $accountManager,
+								IAccountManager $accountManager,
 								IFactory $l10nFactory) {
 		parent::__construct($appName, $request);
 
@@ -140,30 +141,49 @@ abstract class AUserData extends OCSController {
 		$data['subadmin'] = $this->getUserSubAdminGroupsData($targetUserObject->getUID());
 		$data['quota'] = $this->fillStorageInfo($targetUserObject->getUID());
 
-		if ($includeScopes) {
-			$data[IAccountManager::PROPERTY_AVATAR . self::SCOPE_SUFFIX] = $userAccount->getProperty(IAccountManager::PROPERTY_AVATAR)->getScope();
-		}
-
-		$data[IAccountManager::PROPERTY_EMAIL] = $targetUserObject->getEMailAddress();
-		if ($includeScopes) {
-			$data[IAccountManager::PROPERTY_EMAIL . self::SCOPE_SUFFIX] = $userAccount->getProperty(IAccountManager::PROPERTY_EMAIL)->getScope();
-		}
-		$data[IAccountManager::PROPERTY_DISPLAYNAME] = $targetUserObject->getDisplayName();
-		if ($includeScopes) {
-			$data[IAccountManager::PROPERTY_DISPLAYNAME . self::SCOPE_SUFFIX] = $userAccount->getProperty(IAccountManager::PROPERTY_DISPLAYNAME)->getScope();
-		}
-
-		foreach ([
-			IAccountManager::PROPERTY_PHONE,
-			IAccountManager::PROPERTY_ADDRESS,
-			IAccountManager::PROPERTY_WEBSITE,
-			IAccountManager::PROPERTY_TWITTER,
-		] as $propertyName) {
-			$property = $userAccount->getProperty($propertyName);
-			$data[$propertyName] = $property->getValue();
+		try {
 			if ($includeScopes) {
-				$data[$propertyName . self::SCOPE_SUFFIX] = $property->getScope();
+				$data[IAccountManager::PROPERTY_AVATAR . self::SCOPE_SUFFIX] = $userAccount->getProperty(IAccountManager::PROPERTY_AVATAR)->getScope();
 			}
+
+			$data[IAccountManager::PROPERTY_EMAIL] = $targetUserObject->getEMailAddress();
+			if ($includeScopes) {
+				$data[IAccountManager::PROPERTY_EMAIL . self::SCOPE_SUFFIX] = $userAccount->getProperty(IAccountManager::PROPERTY_EMAIL)->getScope();
+			}
+
+			$additionalEmails = $additionalEmailScopes = [];
+			$emailCollection = $userAccount->getPropertyCollection(IAccountManager::COLLECTION_EMAIL);
+			foreach ($emailCollection->getProperties() as $property) {
+				$additionalEmails[] = $property->getValue();
+				if ($includeScopes) {
+					$additionalEmailScopes[] = $property->getScope();
+				}
+			}
+			$data[IAccountManager::COLLECTION_EMAIL] = $additionalEmails;
+			if ($includeScopes) {
+				$data[IAccountManager::COLLECTION_EMAIL . self::SCOPE_SUFFIX] = $additionalEmailScopes;
+			}
+
+			$data[IAccountManager::PROPERTY_DISPLAYNAME] = $targetUserObject->getDisplayName();
+			if ($includeScopes) {
+				$data[IAccountManager::PROPERTY_DISPLAYNAME . self::SCOPE_SUFFIX] = $userAccount->getProperty(IAccountManager::PROPERTY_DISPLAYNAME)->getScope();
+			}
+
+			foreach ([
+				IAccountManager::PROPERTY_PHONE,
+				IAccountManager::PROPERTY_ADDRESS,
+				IAccountManager::PROPERTY_WEBSITE,
+				IAccountManager::PROPERTY_TWITTER,
+			] as $propertyName) {
+				$property = $userAccount->getProperty($propertyName);
+				$data[$propertyName] = $property->getValue();
+				if ($includeScopes) {
+					$data[$propertyName . self::SCOPE_SUFFIX] = $property->getScope();
+				}
+			}
+		} catch (PropertyDoesNotExistException $e) {
+			// hard coded properties should exist
+			throw new OCSException($e->getMessage(), Http::STATUS_INTERNAL_SERVER_ERROR, $e);
 		}
 
 		$data['groups'] = $gids;

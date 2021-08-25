@@ -32,7 +32,9 @@ use OCP\Contacts\IManager;
 use OCP\Federation\ICloudIdManager;
 use OCP\IConfig;
 use OCP\IGroupManager;
+use OCP\IURLGenerator;
 use OCP\IUser;
+use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Share\IShare;
 use Test\TestCase;
@@ -70,7 +72,7 @@ class MailPluginTest extends TestCase {
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->knownUserService = $this->createMock(KnownUserService::class);
 		$this->userSession = $this->createMock(IUserSession::class);
-		$this->cloudIdManager = new CloudIdManager($this->contactsManager);
+		$this->cloudIdManager = new CloudIdManager($this->contactsManager, $this->createMock(IURLGenerator::class), $this->createMock(IUserManager::class));
 
 		$this->searchResult = new SearchResult();
 	}

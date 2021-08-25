@@ -36,7 +36,6 @@ OC.L10N.register(
     "Provide federated file sharing across servers" : "Provizas federan dosierkunhavigon inter serviloj",
     "Federated Cloud Sharing" : "Federnuba kunhavigo",
     "Open documentation" : "Malfermi la dokumentaron",
-    "Adjust how people can share between servers." : "Agordi, kiel oni povas kunhavigi inter serviloj.",
     "Allow users on this server to receive shares from other servers" : "Permesi al uzantoj en tiu ĉi servilo ricevi kunhavojn el aliaj serviloj",
     "Allow users on this server to send shares to groups on other servers" : "Permesi al uzantoj en tiu ĉi servilo sendi kunhavojn al grupoj de aliaj serviloj",
     "Allow users on this server to receive group shares from other servers" : "Permesi al uzantoj en tiu ĉi servilo ricevi kunhavojn el grupoj de aliaj serviloj",
@@ -49,6 +48,6 @@ OC.L10N.register(
     "Add to your website" : "Aldoni al via TTT-ejo",
     "Share with me via Nextcloud" : "Kunhavigi kun mi per Nextcloud",
     "HTML Code:" : "HTML-kodo:",
-    "Allow users on this server to send shares to other servers" : "Permesi al uzantoj en tiu ĉi servilo sendi kunhavojn al aliaj serviloj"
+    "Adjust how people can share between servers." : "Agordi, kiel oni povas kunhavigi inter serviloj."
 },
 "nplurals=2; plural=(n != 1);");

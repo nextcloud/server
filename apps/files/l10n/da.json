@@ -74,9 +74,6 @@
     "File name cannot be empty." : "Filnavnet kan ikke stå tomt.",
     "\"/\" is not allowed inside a file name." : "\"/\" er ikke tilladt i et filnavn.",
     "\"{name}\" is not an allowed filetype" : "\"{name}\" er ikke en tilladt filtype",
-    "Storage of {owner} is full, files can not be updated or synced anymore!" : "Opbevaringspladsen tilhørende {owner} er fyldt op - filer kan ikke længere opdateres eller synkroniseres!",
-    "Your storage is full, files can not be updated or synced anymore!" : "Din opbevaringsplads er fyldt op, filer kan ikke opdateres eller synkroniseres længere!",
-    "_matches '{filter}'_::_match '{filter}'_" : ["match '{filter}'","match '{filter}'"],
     "View in folder" : "Vis i mappe",
     "Copied!" : "Kopieret",
     "Copy direct link (only works for users who have access to this file/folder)" : "Kopier direkte link (virker kun for brugere der har adgang til denne fil/mappe)",
@@ -165,13 +162,8 @@
     "Pending shares" : "Afventende delinger",
     "Text file" : "Tekstfil",
     "New text file.txt" : "Ny tekst file.txt",
-    "Unshare" : "Ophæv deling",
-    "Storage of {owner} is almost full ({usedSpacePercent}%)" : "Opbevaringspladsen tilhørende {owner} er næsten fyldt op ({usedSpacePercent}%)",
-    "Your storage is almost full ({usedSpacePercent}%)" : "Din opbevaringsplads er næsten fyldt op ({usedSpacePercent}%)",
-    "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>" : "En fil eller mappe er blevet <strong>ændret</strong> eller <strong>omdøbt</strong>",
-    "A new file or folder has been <strong>created</strong>" : "En ny fil eller mapper er blevet <strong>oprettet</strong>",
-    "A file or folder has been <strong>deleted</strong>" : "En fil eller mappe er blevet <strong>slettet</strong>",
-    "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Begræns noter om oprettelse og ændringer af dine <strong>favorit filer</strong> <em>(Kun streaming)</em>",
-    "A file or folder has been <strong>restored</strong>" : "En fil eller mappe er blevet <strong>gendannet</strong>"
+    "Storage of {owner} is full, files can not be updated or synced anymore!" : "Opbevaringspladsen tilhørende {owner} er fyldt op - filer kan ikke længere opdateres eller synkroniseres!",
+    "Your storage is full, files can not be updated or synced anymore!" : "Din opbevaringsplads er fyldt op, filer kan ikke opdateres eller synkroniseres længere!",
+    "_matches '{filter}'_::_match '{filter}'_" : ["match '{filter}'","match '{filter}'"]
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -26,7 +26,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_Trashbin;
 
 use OC\Files\Filesystem;
@@ -237,7 +236,7 @@ class Storage extends Wrapper {
 				/** @var Storage $sourceStorage */
 				$sourceStorage->disableTrash();
 			}
-			$result = $this->getWrapperStorage()->moveFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
+			$result = parent::moveFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
 			if ($sourceIsTrashbin) {
 				/** @var Storage $sourceStorage */
 				$sourceStorage->enableTrash();

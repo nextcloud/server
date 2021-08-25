@@ -36,6 +36,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 class OC_Defaults {
 	private $theme;
 
@@ -47,11 +48,13 @@ class OC_Defaults {
 	private $defaultiOSClientUrl;
 	private $defaultiTunesAppId;
 	private $defaultAndroidClientUrl;
+	private $defaultFDroidClientUrl;
 	private $defaultDocBaseUrl;
 	private $defaultDocVersion;
 	private $defaultSlogan;
 	private $defaultColorPrimary;
 	private $defaultTextColorPrimary;
+	private $defaultProductName;
 
 	public function __construct() {
 		$config = \OC::$server->getConfig();
@@ -64,10 +67,12 @@ class OC_Defaults {
 		$this->defaultiOSClientUrl = $config->getSystemValue('customclient_ios', 'https://geo.itunes.apple.com/us/app/nextcloud/id1125420102?mt=8');
 		$this->defaultiTunesAppId = $config->getSystemValue('customclient_ios_appid', '1125420102');
 		$this->defaultAndroidClientUrl = $config->getSystemValue('customclient_android', 'https://play.google.com/store/apps/details?id=com.nextcloud.client');
+		$this->defaultFDroidClientUrl = $config->getSystemValue('customclient_fdroid', 'https://f-droid.org/packages/com.nextcloud.client/');
 		$this->defaultDocBaseUrl = 'https://docs.nextcloud.com';
 		$this->defaultDocVersion = \OC_Util::getVersion()[0]; // used to generate doc links
 		$this->defaultColorPrimary = '#0082c9';
 		$this->defaultTextColorPrimary = '#ffffff';
+		$this->defaultProductName = 'Nextcloud';
 
 		$themePath = OC::$SERVERROOT . '/themes/' . OC_Util::getTheme() . '/defaults.php';
 		if (file_exists($themePath)) {
@@ -148,6 +153,18 @@ class OC_Defaults {
 			return $this->theme->getAndroidClientUrl();
 		} else {
 			return $this->defaultAndroidClientUrl;
+		}
+	}
+
+	/**
+	 * Returns the URL to Google Play for the Android Client
+	 * @return string URL
+	 */
+	public function getFDroidClientUrl() {
+		if ($this->themeExist('getFDroidClientUrl')) {
+			return $this->theme->getFDroidClientUrl();
+		} else {
+			return $this->defaultFDroidClientUrl;
 		}
 	}
 
@@ -329,5 +346,12 @@ class OC_Defaults {
 			return $this->theme->getTextColorPrimary();
 		}
 		return $this->defaultTextColorPrimary;
+	}
+
+	public function getProductName() {
+		if ($this->themeExist('getProductName')) {
+			return $this->theme->getProductName();
+		}
+		return $this->defaultProductName;
 	}
 }

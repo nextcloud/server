@@ -1,7 +1,7 @@
 OC.L10N.register(
     "files_external",
     {
-    "External storages" : "Надворешни складишта",
+    "External storage" : "Надворешно складиште",
     "Personal" : "Лично",
     "System" : "Систем",
     "Grant access" : "Дозволи пристап",
@@ -87,7 +87,6 @@ OC.L10N.register(
     "SFTP" : "SFTP",
     "Root" : "Корен",
     "SFTP with secret key login" : "SFTP најава со безбедносен клуч",
-    "SMB / CIFS" : "SMB / CIFS",
     "Share" : "Сподели",
     "Show hidden files" : "Прикажи сокриени датотеки",
     "Timeout" : "Времето истече",
@@ -103,7 +102,6 @@ OC.L10N.register(
     "Open documentation" : "Отвори ја документацијата",
     "External storage enables you to mount external storage services and devices as secondary Nextcloud storage devices. You may also allow users to mount their own external storage services." : "Надворешното складирање ви овозможува да ги монтирате услугите и уредите за надворешно складирање како секундарни уреди за складирање на Nextcloud. Исто така може да им дозволите на корисниците да монтираат свои услуги за надворешно складирање.",
     "Folder name" : "Име на папка",
-    "External storage" : "Надворешно складиште",
     "Authentication" : "Автентикација",
     "Configuration" : "Конфигурација",
     "Available for" : "Достапно за",
@@ -111,7 +109,9 @@ OC.L10N.register(
     "Add storage" : "Додади складиште",
     "Advanced settings" : "Напредни параметри",
     "Allow users to mount external storage" : "Дозволи на корисниците да монтираат надворешни складишта",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Глобалните акредитиви можат да се искористат за пристапување во повеќе надворешни складишта кој користат исти акредитиви.",
-    "(group)" : "(group)"
+    "External storages" : "Надворешни складишта",
+    "(group)" : "(group)",
+    "SMB / CIFS" : "SMB / CIFS",
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Глобалните акредитиви можат да се искористат за пристапување во повеќе надворешни складишта кој користат исти акредитиви."
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

@@ -1,6 +1,6 @@
 <?php
 /**
- *
+ * @copyright Copyright (c) 2016 Thomas Citharel <nextcloud@tcit.fr>
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
@@ -21,14 +21,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\Tests\unit\CalDAV;
 
 use OCA\DAV\CalDAV\CalDavBackend;
@@ -86,6 +85,7 @@ class PublicCalendarRootTest extends TestCase {
 		$this->logger = $this->createMock(ILogger::class);
 		$dispatcher = $this->createMock(IEventDispatcher::class);
 		$legacyDispatcher = $this->createMock(EventDispatcherInterface::class);
+		$config = $this->createMock(IConfig::class);
 
 		$this->principal->expects($this->any())->method('getGroupMembership')
 			->withAnyParameters()
@@ -103,7 +103,8 @@ class PublicCalendarRootTest extends TestCase {
 			$this->random,
 			$this->logger,
 			$dispatcher,
-			$legacyDispatcher
+			$legacyDispatcher,
+			$config
 		);
 		$this->l10n = $this->getMockBuilder(IL10N::class)
 			->disableOriginalConstructor()->getMock();
@@ -129,7 +130,7 @@ class PublicCalendarRootTest extends TestCase {
 
 		$books = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER);
 		foreach ($books as $book) {
-			$this->backend->deleteCalendar($book['id']);
+			$this->backend->deleteCalendar($book['id'], true);
 		}
 	}
 

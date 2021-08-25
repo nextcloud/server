@@ -25,7 +25,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV;
 
 use OC\KnownUser\KnownUserService;
@@ -47,6 +46,7 @@ use OCA\DAV\Upload\CleanupService;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IConfig;
 use Sabre\DAV\SimpleCollection;
 
 class RootCollection extends SimpleCollection {
@@ -62,6 +62,7 @@ class RootCollection extends SimpleCollection {
 		$db = \OC::$server->getDatabaseConnection();
 		$dispatcher = \OC::$server->get(IEventDispatcher::class);
 		$legacyDispatcher = \OC::$server->getEventDispatcher();
+		$config = \OC::$server->get(IConfig::class);
 		$proxyMapper = \OC::$server->query(ProxyMapper::class);
 
 		$userPrincipalBackend = new Principal(
@@ -72,7 +73,8 @@ class RootCollection extends SimpleCollection {
 			\OC::$server->getAppManager(),
 			$proxyMapper,
 			\OC::$server->get(KnownUserService::class),
-			\OC::$server->getConfig()
+			\OC::$server->getConfig(),
+			\OC::$server->getL10NFactory()
 		);
 		$groupPrincipalBackend = new GroupPrincipalBackend($groupManager, $userSession, $shareManager, $config);
 		$calendarResourcePrincipalBackend = new ResourcePrincipalBackend($db, $userSession, $groupManager, $logger, $proxyMapper);
@@ -95,15 +97,23 @@ class RootCollection extends SimpleCollection {
 
 		$filesCollection = new Files\RootCollection($userPrincipalBackend, 'principals/users');
 		$filesCollection->disableListing = $disableListing;
-		$caldavBackend = new CalDavBackend($db, $userPrincipalBackend, $userManager, $groupManager, $random, $logger, $dispatcher, $legacyDispatcher);
+		$caldavBackend = new CalDavBackend(
+			$db,
+			$userPrincipalBackend,
+			$userManager,
+			$groupManager,
+			$random,
+			$logger,
+			$dispatcher,
+			$legacyDispatcher,
+			$config
+		);
 		$userCalendarRoot = new CalendarRoot($userPrincipalBackend, $caldavBackend, 'principals/users');
 		$userCalendarRoot->disableListing = $disableListing;
 
-		$resourceCalendarCaldavBackend = new CalDavBackend($db, $userPrincipalBackend, $userManager, $groupManager, $random, $logger, $dispatcher, $legacyDispatcher);
 		$resourceCalendarRoot = new CalendarRoot($calendarResourcePrincipalBackend, $caldavBackend, 'principals/calendar-resources');
 		$resourceCalendarRoot->disableListing = $disableListing;
-		$roomCalendarCaldavBackend = new CalDavBackend($db, $userPrincipalBackend, $userManager, $groupManager, $random, $logger, $dispatcher, $legacyDispatcher);
-		$roomCalendarRoot = new CalendarRoot($calendarRoomPrincipalBackend, $roomCalendarCaldavBackend, 'principals/calendar-rooms');
+		$roomCalendarRoot = new CalendarRoot($calendarRoomPrincipalBackend, $caldavBackend, 'principals/calendar-rooms');
 		$roomCalendarRoot->disableListing = $disableListing;
 
 		$publicCalendarRoot = new PublicCalendarRoot($caldavBackend, $l10n, $config);

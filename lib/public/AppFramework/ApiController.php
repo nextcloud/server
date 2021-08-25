@@ -21,12 +21,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
-/**
- * Public interface of ownCloud for apps to use.
- * AppFramework\Controller class
- */
-
 namespace OCP\AppFramework;
 
 use OCP\AppFramework\Http\Response;

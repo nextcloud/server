@@ -4,7 +4,7 @@
     "Show something" : "Mostrar alguma coisa",
     "Customize" : "Personalizar",
     "Edit widgets" : "Editar widgets",
-    "Get more widgets from the app store" : "Obtenha mais widgets a partir da loja de aplicativos",
+    "Get more widgets from the App Store" : "Obtenha mais widgets na App Store",
     "Change background image" : "Mudar imagem de fundo",
     "Weather service" : "Serviço de Clima",
     "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Para sua privacidade, as informações de Tempo são solicitadas pelo servidor Nextcloud de forma que o serviço de Tempo não receba suas informações pessoais.",
@@ -25,6 +25,7 @@
     "Default images" : "Imagens padrão",
     "Plain background" : "Fundo simples",
     "Insert from {productName}" : "Inserir de {productName}",
+    "Get more widgets from the app store" : "Obtenha mais widgets a partir da loja de aplicativos",
     "Good night, {name}" : "Boa noite, {name}",
     "Good night" : "Boa noite",
     "Pick from files" : "Escolher de Arquivos"

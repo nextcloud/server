@@ -2,6 +2,8 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @copyright Copyright (c) 2017, Georg Ehrke
+ * @copyright Copyright (C) 2007-2015 fruux GmbH (https://fruux.com/).
+ * @copyright Copyright (C) 2007-2015 fruux GmbH (https://fruux.com/).
  *
  * @author brad2014 <brad2014@users.noreply.github.com>
  * @author Brad Rubenstein <brad@wbr.tech>
@@ -9,6 +11,7 @@
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Leon Klingele <leon@struktur.de>
+ * @author Nick Sweeting <git@sweeting.me>
  * @author rakekniven <mark.ziegler@rakekniven.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Citharel <nextcloud@tcit.fr>
@@ -29,7 +32,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\CalDAV\Schedule;
 
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -439,8 +441,8 @@ class IMipPlugin extends SabreIMipPlugin {
 
 		$diff = $dtstartDt->diff($dtendDt);
 
-		$dtstartDt = new \DateTime($dtstartDt->format(\DateTime::ATOM));
-		$dtendDt = new \DateTime($dtendDt->format(\DateTime::ATOM));
+		$dtstartDt = new \DateTime($dtstartDt->format(\DateTimeInterface::ATOM));
+		$dtendDt = new \DateTime($dtendDt->format(\DateTimeInterface::ATOM));
 
 		if ($isAllDay) {
 			// One day event
@@ -515,13 +517,16 @@ class IMipPlugin extends SabreIMipPlugin {
 	private function addSubjectAndHeading(IEMailTemplate $template, IL10N $l10n,
 										  $method, $summary) {
 		if ($method === self::METHOD_CANCEL) {
-			$template->setSubject('Canceled: ' . $summary);
+			// TRANSLATORS Subject for email, when an invitation is cancelled. Ex: "Cancelled: {{Event Name}}"
+			$template->setSubject($l10n->t('Cancelled: %1$s', [$summary]));
 			$template->addHeading($l10n->t('Invitation canceled'));
 		} elseif ($method === self::METHOD_REPLY) {
-			$template->setSubject('Re: ' . $summary);
+			// TRANSLATORS Subject for email, when an invitation is updated. Ex: "Re: {{Event Name}}"
+			$template->setSubject($l10n->t('Re: %1$s', [$summary]));
 			$template->addHeading($l10n->t('Invitation updated'));
 		} else {
-			$template->setSubject('Invitation: ' . $summary);
+			// TRANSLATORS Subject for email, when an invitation is sent. Ex: "Invitation: {{Event Name}}"
+			$template->setSubject($l10n->t('Invitation: %1$s', [$summary]));
 			$template->addHeading($l10n->t('Invitation'));
 		}
 	}
@@ -687,7 +692,7 @@ class IMipPlugin extends SabreIMipPlugin {
 	 * @return string
 	 */
 	private function createInvitationToken(Message $iTipMessage, $lastOccurrence):string {
-		$token = $this->random->generate(60, ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_DIGITS);
+		$token = $this->random->generate(60, ISecureRandom::CHAR_ALPHANUMERIC);
 
 		/** @var VEvent $vevent */
 		$vevent = $iTipMessage->message->VEVENT;

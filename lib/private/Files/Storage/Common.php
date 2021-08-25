@@ -9,6 +9,7 @@
  * @author hkjolhede <hkjolhede@gmail.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Martin Mattel <martin.mattel@diemattels.at>
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
@@ -39,7 +40,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Files\Storage;
 
 use OC\Files\Cache\Cache;
@@ -153,7 +153,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 
 	public function isDeletable($path) {
 		if ($path === '' || $path === '/') {
-			return false;
+			return $this->isUpdatable($path);
 		}
 		$parent = dirname($path);
 		return $this->isUpdatable($parent) && $this->isUpdatable($path);
@@ -316,12 +316,12 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 	}
 
 	/**
-	 * check if a file or folder has been updated since $time
+	 * Check if a file or folder has been updated since $time
 	 *
 	 * The method is only used to check if the cache needs to be updated. Storage backends that don't support checking
 	 * the mtime should always return false here. As a result storage implementations that always return false expect
 	 * exclusive access to the backend and will not pick up files that have been added in a way that circumvents
-	 * ownClouds filesystem.
+	 * Nextcloud filesystem.
 	 *
 	 * @param string $path
 	 * @param int $time
@@ -612,6 +612,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 			$dh = $sourceStorage->opendir($sourceInternalPath);
 			$result = $this->mkdir($targetInternalPath);
 			if (is_resource($dh)) {
+				$result = true;
 				while ($result and ($file = readdir($dh)) !== false) {
 					if (!Filesystem::isIgnoredDir($file)) {
 						$result &= $this->copyFromStorage($sourceStorage, $sourceInternalPath . '/' . $file, $targetInternalPath . '/' . $file);

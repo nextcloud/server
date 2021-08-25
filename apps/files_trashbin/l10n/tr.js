@@ -20,7 +20,7 @@ OC.L10N.register(
     "Select all" : "Tümünü seç",
     "Name" : "Ad",
     "Actions" : "İşlemler",
-    "Deleted" : "Silinme",
+    "Deleted" : "Silindi",
     "Delete" : "Sil"
 },
 "nplurals=2; plural=(n > 1);");

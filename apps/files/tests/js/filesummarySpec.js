@@ -103,7 +103,7 @@ describe('OCA.Files.FileSummary tests', function() {
 		expect($container.hasClass('hidden')).toEqual(false);
 		expect($container.find('.dirinfo').text()).toEqual('5 folders');
 		expect($container.find('.fileinfo').text()).toEqual('2 files');
-		expect($container.find('.filter').text()).toEqual(' match \'foo\'');
+		expect($container.find('.filter').text()).toEqual(' match "foo"');
 		expect($container.find('.filesize').text()).toEqual('250 KB');
 	});
 	it('hides filtered summary when no files or folders', function() {
@@ -132,7 +132,7 @@ describe('OCA.Files.FileSummary tests', function() {
 		expect($container.hasClass('hidden')).toEqual(false);
 		expect($container.find('.dirinfo').text()).toEqual('6 folders');
 		expect($container.find('.fileinfo').text()).toEqual('3 files');
-		expect($container.find('.filter').text()).toEqual(' match \'foo\'');
+		expect($container.find('.filter').text()).toEqual(' match "foo"');
 		expect($container.find('.filesize').text()).toEqual('500 KB');
 		expect(s.summary.totalDirs).toEqual(6);
 		expect(s.summary.totalFiles).toEqual(3);
@@ -154,7 +154,7 @@ describe('OCA.Files.FileSummary tests', function() {
 		expect($container.hasClass('hidden')).toEqual(false);
 		expect($container.find('.dirinfo').text()).toEqual('4 folders');
 		expect($container.find('.fileinfo').text()).toEqual('1 file');
-		expect($container.find('.filter').text()).toEqual(' match \'foo\'');
+		expect($container.find('.filter').text()).toEqual(' match "foo"');
 		expect($container.find('.filesize').text()).toEqual('125 KB');
 		expect(s.summary.totalDirs).toEqual(4);
 		expect(s.summary.totalFiles).toEqual(1);

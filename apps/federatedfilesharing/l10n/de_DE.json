@@ -13,9 +13,9 @@
     "Server to server sharing is not enabled on this server" : "Das Server-zu-Server-Teilen ist auf diesem Server nicht aktiviert",
     "Couldn't establish a federated share." : "Federated-Share konnte nicht aufgebaut werden",
     "Couldn't establish a federated share, maybe the password was wrong." : "Federated-Share konnte nicht aufgebaut werden, da eventuell das Passwort falsch ist.",
-    "Federated Share request sent, you will receive an invitation. Check your notifications." : "Anfrage zur föderierten Freigabe gesendet, Sie erhalten eine Einladung. Bitte prüfen Sie Ihre Benachrichtigungen. ",
+    "Federated Share request sent, you will receive an invitation. Check your notifications." : "Anfrage für Cloud-übergreifende Freigabe war erfolgreich. Sie erhalten eine Einladung. Bitte prüfen Sie Ihre Benachrichtigungen. ",
     "Couldn't establish a federated share, it looks like the server to federate with is too old (Nextcloud <= 9)." : "Federated-Share konnte nicht aufgebaut werden, da der Zielserver eine zu alte Version verwendet (Nextcloud <=9).",
-    "It is not allowed to send federated group shares from this server." : "Das Versenden einer föderierten Gruppen-Freigabe ist von diesem Server aus nicht zugelassen.",
+    "It is not allowed to send federated group shares from this server." : "Das Versenden einer Cloud-übergreifenden Freigabe ist von diesem Server aus nicht zugelassen.",
     "Sharing %1$s failed, because this item is already shared with user %2$s" : "Freigabe von %1$s fehlgeschlagen, da dieses Element schon mit dem Benutzer %2$s geteilt wird.",
     "Not allowed to create a federated share with the same user" : "Das Erstellen einer Federated Cloud Freigabe mit dem gleichen Benutzer ist nicht erlaubt",
     "Federated shares require read permissions" : "Federated-Shares benötigen Leseberechtigungen",
@@ -33,10 +33,10 @@
     "Share with me through my #Nextcloud Federated Cloud ID" : "Teilen Sie mit mir über meine #Nextcloud Federated-Cloud-ID",
     "Sharing" : "Teilen",
     "Federated file sharing" : "Federated Datei-Freigabe",
-    "Provide federated file sharing across servers" : "Föderierte Datei-Freigaben über alle Server ermöglichen",
+    "Provide federated file sharing across servers" : "Bietet Cloud-übergreifende Datei-Freigaben",
     "Federated Cloud Sharing" : "Federated-Cloud-Sharing",
     "Open documentation" : "Dokumentation öffnen",
-    "Adjust how people can share between servers." : "Definiere wie die Benutzer Inhalte mit anderen Servern teilen können.",
+    "Adjust how people can share between servers. This includes shares between users on this server as well if they are using federated sharing." : "Legt fest, wie Personen zwischen Servern teilen können. Dies gilt auch für Freigaben zwischen Benutzern auf diesem Server, wenn sie die Federated-Sharing verwenden.",
     "Allow users on this server to send shares to other servers (this option also allows WebDAV access to public shares)" : "Benutzern auf diesem Server das Senden von Freigaben an andere Server erlauben (Diese Option ermöglicht auch den WebDAV-Zugriff auf öffentliche Freigaben)",
     "Allow users on this server to receive shares from other servers" : "Benutzern auf diesem Server das Empfangen von Freigaben von anderen Servern erlauben",
     "Allow users on this server to send shares to groups on other servers" : "Ermöglichen Sie Nutzern dieses Servers, Freigaben an Gruppen auf anderen Servern zu senden",
@@ -50,6 +50,6 @@
     "Add to your website" : "Zu Ihrer Webseite hinzufügen",
     "Share with me via Nextcloud" : "Teilen Sie mit mir über Nextcloud",
     "HTML Code:" : "HTML-Code:",
-    "Allow users on this server to send shares to other servers" : "Benutzern auf diesem Server das Senden von Freigaben an andere Server erlauben"
+    "Adjust how people can share between servers." : "Definiere wie die Benutzer Inhalte mit anderen Servern teilen können."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

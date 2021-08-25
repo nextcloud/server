@@ -33,9 +33,6 @@
     "Maintenance mode is kept active" : "Chế độ bảo trì đang được kích hoạt",
     "Updating database schema" : "Đang cập nhật lược đồ cơ sở dữ liệu",
     "Updated database" : "Cơ sở dữ liệu đã được cập nhật",
-    "Checking for update of app \"%s\" in appstore" : "Đang kiểm tra cập nhật của ứng dụng %s trong appstore ",
-    "Update app \"%s\" from appstore" : "Cập nhật ứng dụng \"%s\" từ appstore",
-    "Checked for update of app \"%s\" in appstore" : "Đã kiểm tra bản cập nhật của ứng dụng \"%s\" trong kho ứng dụng",
     "Checking whether the database schema for %s can be updated (this can take a long time depending on the database size)" : "Đang kiểm tra liệu lược đồ cơ sở dữ liệu đối với %s có thể được cập nhật hay không (việc này có thể mất nhiều thời gian phụ thuộc vào kích cỡ của cơ sở dữ liệu)",
     "Updated \"%1$s\" to %2$s" : "Đã cập nhật \"%1$s\" lên %2$s",
     "Set log level to debug" : "Thiết lập cấp độ ghi nhật ký để gỡ rối",
@@ -71,7 +68,6 @@
     "User disabled" : "Vô hiệu hóa sử dụng",
     "Reset password" : "Khôi phục mật khẩu",
     "Couldn't send reset email. Please contact your administrator." : "Không thể gửi thư điện tử yêu cầu thiết lập lại. Xin vui lòng liên hệ quản trị hệ thống",
-    "Password can not be changed. Please contact your administrator." : "Không thể thay đổi được mật khẩu. Xin vui lòng liên hệ người quản trị hệ thống.",
     "Back to login" : "Quay lại trang đăng nhập",
     "New password" : "Mật khẩu mới",
     "I know what I'm doing" : "Tôi biết tôi đang làm gì",
@@ -217,13 +213,12 @@
     "Checking whether the database schema can be updated (this can take a long time depending on the database size)" : "Đang kiểm tra xem lược đồ cơ sở dữ liệu có thể được cập nhật hay không (việc này có thể mất nhiều thời gian do phụ thuộc vào kích cỡ của cơ sở dữ liệu)",
     "Checked database schema update" : "Cập nhật lược đồ cơ sở dữ liệu đã được kiểm tra",
     "Checking updates of apps" : "Đang kiểm tra các bản cập nhật của các ứng dụng",
+    "Checking for update of app \"%s\" in appstore" : "Đang kiểm tra cập nhật của ứng dụng %s trong appstore ",
+    "Update app \"%s\" from appstore" : "Cập nhật ứng dụng \"%s\" từ appstore",
+    "Checked for update of app \"%s\" in appstore" : "Đã kiểm tra bản cập nhật của ứng dụng \"%s\" trong kho ứng dụng",
     "Checked database schema update for apps" : "Bản cập nhật lược đồ cơ sở dữ liệu cho các ứng dụng đã được kiểm tra",
-    "Following apps have been disabled: %s" : "Các ứng dụng sau bị vô hiệu hóa: %s",
     "Continue to Nextcloud" : "Tiếp tục đến Nextcloud",
     "_The update was successful. Redirecting you to Nextcloud in %n second._::_The update was successful. Redirecting you to Nextcloud in %n seconds._" : ["Cập nhật thành công. Đang chuyển hướng bạn tới Nextcloud trong %ngiây."],
-    "Searching other places" : "Tìm kiếm các nơi khác",
-    "No search results in other folders for {tag}{filter}{endtag}" : "Không có kết quả tìm kiếm trong các thư mục khác cho {tag} {filter} {endtag}",
-    "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} kết quả tìm kiếm trong các thư mục khác"],
-    "These apps will be updated:" : "Những ứng dụng sẽ được cập nhật:"
+    "Password can not be changed. Please contact your administrator." : "Không thể thay đổi được mật khẩu. Xin vui lòng liên hệ người quản trị hệ thống."
 },"pluralForm" :"nplurals=1; plural=0;"
 }

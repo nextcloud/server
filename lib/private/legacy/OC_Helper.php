@@ -43,8 +43,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 use bantu\IniGetWrapper\IniGetWrapper;
+use OCP\Files\Mount\IMountPoint;
+use OCP\IUser;
 use Symfony\Component\Process\ExecutableFinder;
 
 /**
@@ -518,7 +519,7 @@ class OC_Helper {
 			$quota = OC_Util::getUserQuota($user);
 			if ($quota !== \OCP\Files\FileInfo::SPACE_UNLIMITED) {
 				// always get free space / total space from root + mount points
-				return self::getGlobalStorageInfo($quota);
+				return self::getGlobalStorageInfo($quota, $user, $mount);
 			}
 		}
 
@@ -570,11 +571,8 @@ class OC_Helper {
 
 	/**
 	 * Get storage info including all mount points and quota
-	 *
-	 * @param int $quota
-	 * @return array
 	 */
-	private static function getGlobalStorageInfo($quota) {
+	private static function getGlobalStorageInfo(int $quota, IUser $user, IMountPoint $mount): array {
 		$rootInfo = \OC\Files\Filesystem::getFileInfo('', 'ext');
 		$used = $rootInfo['size'];
 		if ($used < 0) {
@@ -594,12 +592,22 @@ class OC_Helper {
 			$relative = 0;
 		}
 
+		if (substr_count($mount->getMountPoint(), '/') < 3) {
+			$mountPoint = '';
+		} else {
+			[,,,$mountPoint] = explode('/', $mount->getMountPoint(), 4);
+		}
+
 		return [
 			'free' => $free,
 			'used' => $used,
 			'total' => $total,
 			'relative' => $relative,
-			'quota' => $quota
+			'quota' => $quota,
+			'owner' => $user->getUID(),
+			'ownerDisplayName' => $user->getDisplayName(),
+			'mountType' => $mount->getMountType(),
+			'mountPoint' => trim($mountPoint, '/'),
 		];
 	}
 

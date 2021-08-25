@@ -26,7 +26,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\Security;
 
 /**
@@ -48,6 +47,7 @@ interface ISecureRandom {
 	public const CHAR_LOWER = 'abcdefghijklmnopqrstuvwxyz';
 	public const CHAR_DIGITS = '0123456789';
 	public const CHAR_SYMBOLS = '!\"#$%&\\\'()*+,-./:;<=>?@[\]^_`{|}~';
+	public const CHAR_ALPHANUMERIC = self::CHAR_UPPER . self::CHAR_LOWER . self::CHAR_DIGITS;
 
 	/**
 	 * Characters that can be used for <code>generate($length, $characters)</code>, to

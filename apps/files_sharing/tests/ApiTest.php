@@ -7,7 +7,6 @@
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
  * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Morris Jobke <hey@morrisjobke.de>
@@ -16,6 +15,7 @@
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Valdnet <47037905+Valdnet@users.noreply.github.com>
  * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
@@ -33,7 +33,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_Sharing\Tests;
 
 use OC\Files\Cache\Scanner;
@@ -1356,7 +1355,7 @@ class ApiTest extends TestCase {
 			$this->fail();
 		} catch (OCSException $e) {
 			$this->assertEquals(404, $e->getCode());
-			$this->assertEquals('Can’t set expiration date more than 7 days in the future', $e->getMessage());
+			$this->assertEquals('Cannot set expiration date more than 7 days in the future', $e->getMessage());
 		}
 		$ocs->cleanup();
 

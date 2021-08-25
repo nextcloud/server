@@ -7,7 +7,7 @@ declare(strict_types=1);
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -18,7 +18,7 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -181,8 +181,8 @@ class EventsSearchProvider extends ACalendarSearchProvider {
 		$dtStart = $eventComponent->DTSTART;
 		$dtEnd = $this->getDTEndForEvent($eventComponent);
 		$isAllDayEvent = $dtStart instanceof Property\ICalendar\Date;
-		$startDateTime = new \DateTime($dtStart->getDateTime()->format(\DateTime::ATOM));
-		$endDateTime = new \DateTime($dtEnd->getDateTime()->format(\DateTime::ATOM));
+		$startDateTime = new \DateTime($dtStart->getDateTime()->format(\DateTimeInterface::ATOM));
+		$endDateTime = new \DateTime($dtEnd->getDateTime()->format(\DateTimeInterface::ATOM));
 
 		if ($isAllDayEvent) {
 			$endDateTime->modify('-1 day');

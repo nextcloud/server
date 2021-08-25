@@ -1,6 +1,5 @@
 { "translations": {
     "Cannot write into \"config\" directory!" : "Неуспешен опит за запис в \"config\" папката!",
-    "This can usually be fixed by giving the webserver write access to the config directory" : "Това може да бъде решено единствено като разрешиш на уеб сървъра да пише в config папката.",
     "See %s" : "Вижте %s",
     "Sample configuration detected" : "Открита е примерна конфигурация",
     "It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php" : "Усетено беше че примерната конфигурация е копирана. Това може да развли инсталацията ти и не се поддържа. Моля, прочети документацията преди да правиш промени на config.php",
@@ -50,7 +49,6 @@
     "Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP." : "Моля, премахтене настройката за open_basedir от вашия php.ini или преминете към 64-битово PHP.",
     "Set an admin username." : "Задайте потребителско име за администратор.",
     "Set an admin password." : "Задай парола за администратор.",
-    "Can't create or write into the data directory %s" : "Неуспешно създаване или записване в \"data\" папката %s",
     "Sharing backend %s must implement the interface OCP\\Share_Backend" : "Споделянето на сървърния %s трябва да поддържа OCP\\Share_Backend интерфейс.",
     "Sharing backend %s not found" : "Споделянето на сървърния %s не е открито.",
     "Sharing backend for %s not found" : "Споделянето на сървъра за %s не е открито.",
@@ -111,7 +109,6 @@
     "The username is already being used" : "Потребителското име е вече заето.",
     "User disabled" : "Потребителят е деактивиран",
     "a safe home for all your data" : "безопасен дом за всички ваши данни",
-    "Can't read file" : "Файлът не може да бъде прочетен",
     "Application is not enabled" : "Приложението не е включено",
     "Authentication error" : "Грешка при удостоверяването",
     "Token expired. Please reload page." : "Изтекла сесия. Моля, презареди страницата.",
@@ -130,9 +127,10 @@
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Моля, променете правата за достъп на 0770, за да не може директорията да бъде видяна от други потребители.",
     "Could not obtain lock type %d on \"%s\"." : "Неуспешен опит за ексклузивен достъп от типa %d върху \"%s\".",
     "Storage is temporarily not available" : "Временно хранилището не е налично",
-    "Following databases are supported: %s" : "Следните бази данни са поддържани: %s",
-    "Following platforms are supported: %s" : "Поддържани са следните платформи: %s",
+    "This can usually be fixed by giving the webserver write access to the config directory" : "Това може да бъде решено единствено като разрешиш на уеб сървъра да пише в config папката.",
+    "Can't create or write into the data directory %s" : "Неуспешно създаване или записване в \"data\" папката %s",
     "Invalid Federated Cloud ID" : "Невалиден Federated Cloud ID",
-    "Can’t set expiration date more than %s days in the future" : "Неуспешно задаване на срок на валидност повече от %s дни в бъдещето"
+    "Can’t set expiration date more than %s days in the future" : "Неуспешно задаване на срок на валидност повече от %s дни в бъдещето",
+    "Can't read file" : "Файлът не може да бъде прочетен"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

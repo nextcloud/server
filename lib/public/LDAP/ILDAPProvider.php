@@ -3,7 +3,9 @@
  * @copyright Copyright (c) 2016, Roger Szabo (roger.szabo@web.de)
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author blizzz <blizzz@arthur-schiwon.de>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Roger Szabo <roger.szabo@web.de>
  * @author root <root@localhost.localdomain>
@@ -18,14 +20,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCP\LDAP;
 
 /**
@@ -160,11 +161,17 @@ interface ILDAPProvider {
 
 	/**
 	 * Get an LDAP attribute for a nextcloud user
-	 * @param string $uid the nextcloud user id to get the attribute for
-	 * @param string $attribute the name of the attribute to read
-	 * @return string|null
+	 *
 	 * @throws \Exception if user id was not found in LDAP
 	 * @since 21.0.0
 	 */
 	public function getUserAttribute(string $uid, string $attribute): ?string;
+
+	/**
+	 * Get a multi-value LDAP attribute for a nextcloud user
+	 *
+	 * @throws \Exception if user id was not found in LDAP
+	 * @since 22.0.0
+	 */
+	public function getMultiValueUserAttribute(string $uid, string $attribute): array;
 }

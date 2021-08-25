@@ -34,9 +34,6 @@
     "Maintenance mode is kept active" : "Modul de mentenanță este menținut activ",
     "Updating database schema" : "Se actualizează schema bazei de date",
     "Updated database" : "Bază de date actualizată",
-    "Checking for update of app \"%s\" in appstore" : "Se verifică dacă sunt actualizări pentru aplicația \"%s\" în magazinul de aplicații",
-    "Update app \"%s\" from appstore" : "Actualizare aplicație \"%s\" din magazinul de aplicații",
-    "Checked for update of app \"%s\" in appstore" : "S-a verificat dacă sunt actualizări pentru aplicația \"%s\" în magazinul de aplicații",
     "Checking whether the database schema for %s can be updated (this can take a long time depending on the database size)" : "Se verifică dacă schema bazei de date pentru %s poate fi actualizată (poate dura un timp îndelungat, în funcție de dimensiunea bazei de date)",
     "Updated \"%1$s\" to %2$s" : "Actualizat \"%1$s\" la %2$s",
     "Set log level to debug" : "Setează nivelul de logare la \"debug\"",
@@ -74,7 +71,6 @@
     "User disabled" : "Utilizator dezactivat",
     "Reset password" : "Resetează parola",
     "Couldn't send reset email. Please contact your administrator." : "Expedierea email-ului de resetare a eşuat. Vă rugăm să contactaţi administratorul dvs.",
-    "Password can not be changed. Please contact your administrator." : "Parola nu poate fi modificată. Vă rugăm să contactați administratorul dvs.",
     "Back to login" : "Înapoi la autentificare",
     "New password" : "Noua parolă",
     "I know what I'm doing" : "Știu ce fac",
@@ -242,13 +238,12 @@
     "Checking whether the database schema can be updated (this can take a long time depending on the database size)" : "Se verifică dacă schema bazei de date poate fi actualizată (această verificare poate lua mult timp în funcție de mărimea bazei de date)",
     "Checked database schema update" : "S-a verificat actualizarea schemei bazei de date",
     "Checking updates of apps" : "Se verifică actualizările aplicațiilor",
+    "Checking for update of app \"%s\" in appstore" : "Se verifică dacă sunt actualizări pentru aplicația \"%s\" în magazinul de aplicații",
+    "Update app \"%s\" from appstore" : "Actualizare aplicație \"%s\" din magazinul de aplicații",
+    "Checked for update of app \"%s\" in appstore" : "S-a verificat dacă sunt actualizări pentru aplicația \"%s\" în magazinul de aplicații",
     "Checked database schema update for apps" : "S-a verificat actualizarea schemei bazei de date pentru aplicații",
-    "Following apps have been disabled: %s" : "Următoarele aplicații au fost dezactivate: %s",
     "Check the background job settings" : "Verificați setările jobului de fundal",
     "Continue to Nextcloud" : "Continuă la Nextcloud",
-    "Searching other places" : "Se caută în alte locuri",
-    "No search results in other folders for {tag}{filter}{endtag}" : "Nu au fost găsite rezultate în alte directoare pentru {tag}{filter}{endtag}",
-    "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} rezultat al căutării în alte directoare","{count} rezultate ale căutării în alte directoare","{count} rezultate ale căutării în alte directoare"],
-    "These apps will be updated:" : "Aceste aplicații vor fi actualizate:"
+    "Password can not be changed. Please contact your administrator." : "Parola nu poate fi modificată. Vă rugăm să contactați administratorul dvs."
 },"pluralForm" :"nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));"
 }

@@ -32,7 +32,7 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
         with:
-          token: ${{ secrets.MACHINE_USER_PAT }}
+          token: ${{ secrets.COMMAND_BOT_PAT }}
           push-to-fork: nextcloud-pr-bot/server
           commit-message: Update psalm baseline
           committer: GitHub <noreply@github.com>
@@ -44,4 +44,4 @@ jobs:
             Auto-generated update psalm-baseline.xml with fixed psalm warnings
           labels: |
             automated pr
-          reviewers: rullzer, morrisjobke, kesselb
+          reviewers: juliushaertl, artonge, kesselb

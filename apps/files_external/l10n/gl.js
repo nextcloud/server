@@ -1,7 +1,7 @@
 OC.L10N.register(
     "files_external",
     {
-    "External storages" : "Almacenamentos externos",
+    "External storage" : "Almacenamento externo",
     "Personal" : "Persoal",
     "System" : "Sistema",
     "Grant access" : "Permitir o acceso",
@@ -101,13 +101,11 @@ OC.L10N.register(
     "SFTP" : "SFTP",
     "Root" : "Root (raíz)",
     "SFTP with secret key login" : "SFTP con clave secreta de acceso",
-    "SMB / CIFS" : "SMB / CIFS",
     "Share" : "Compartir",
     "Show hidden files" : "Amosar os ficheiros agochados",
     "Verify ACL access when listing files" : "Verificar a lista de control de acceso (ACL) ao listar ficheiros",
     "Check the ACL's of each file or folder inside a directory to filter out items where the user has no read permissions, comes with a performance penalty" : "Comprobar as listas de control de acceso (ACL) de cada ficheiro ou cartafol dentro dun directorio para filtrar os elementos onde o usuario non ten permisos de lectura, ten unha penalización de rendemento.",
     "Timeout" : "Límite de tempo",
-    "SMB / CIFS using OC login" : "SMB / CIFS usando acceso OC",
     "Username as share" : "Nome de usuario como compartición",
     "OpenStack Object Storage" : "OpenStack Object Storage",
     "Service name" : "Nome do servicio",
@@ -125,7 +123,6 @@ OC.L10N.register(
     "Open documentation" : "Abrir a documentación",
     "External storage enables you to mount external storage services and devices as secondary Nextcloud storage devices. You may also allow users to mount their own external storage services." : "O almacenamento externo permítelle montar servizos e dispositivos de almacenamento externo como dispositivos de almacenamento secundarios do Nextcloud. Tamén pode permitirlle que os usuarios monten os seus propios servizos de almacenamento externos.",
     "Folder name" : "Nome do cartafol",
-    "External storage" : "Almacenamento externo",
     "Authentication" : "Autenticación",
     "Configuration" : "Configuración",
     "Available for" : "Dispoñíbel para",
@@ -133,7 +130,10 @@ OC.L10N.register(
     "Add storage" : "Engadir almacenamento",
     "Advanced settings" : "Axustes avanzados",
     "Allow users to mount external storage" : "Permitirlle aos usuarios montar almacenamento externo",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Poden empregarse credenciais globais para autenticar con múltiples almacenamentos externos que teñan as mesmas credenciais.",
-    "(group)" : "(grupo)"
+    "External storages" : "Almacenamentos externos",
+    "(group)" : "(grupo)",
+    "SMB / CIFS" : "SMB / CIFS",
+    "SMB / CIFS using OC login" : "SMB / CIFS usando acceso OC",
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Poden empregarse credenciais globais para autenticar con múltiples almacenamentos externos que teñan as mesmas credenciais."
 },
 "nplurals=2; plural=(n != 1);");

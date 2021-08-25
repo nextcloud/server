@@ -6,7 +6,6 @@ OC.L10N.register(
     "Show something" : "Ką nors rodyti",
     "Customize" : "Tinkinti",
     "Edit widgets" : "Taisyti valdiklius",
-    "Get more widgets from the app store" : "Gauti daugiau valdiklių iš programėlių parduotuvės",
     "Change background image" : "Keisti foninį paveikslą",
     "Weather service" : "Orų tarnyba",
     "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Dėl jūsų privatumo, orų duomenys yra jūsų vardu užklausiami jūsų Nextcloud serverio, todėl orų tarnyba negauna jokios asmeninės informacijos.",
@@ -27,6 +26,7 @@ OC.L10N.register(
     "Default images" : "Numatytieji paveikslai",
     "Plain background" : "Vientisas fonas",
     "Insert from {productName}" : "Įterpti iš {productName}",
+    "Get more widgets from the app store" : "Gauti daugiau valdiklių iš programėlių parduotuvės",
     "Good night, {name}" : "Labas vakaras, {name}",
     "Good night" : "Labas vakaras",
     "Pick from files" : "Pasirinkti iš failų"

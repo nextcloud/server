@@ -16,7 +16,7 @@ OC.L10N.register(
     "Couldn't establish a federated share." : "Nie udało się ustalić Federacyjnego udostępnienia.",
     "Couldn't establish a federated share, maybe the password was wrong." : "Nie udało się ustalić Federacyjnego udostępnienia, może być błędne hasło.",
     "Federated Share request sent, you will receive an invitation. Check your notifications." : "Wysłano żądanie Udostępniania Federacyjnego, otrzymasz zaproszenie. Sprawdzaj swoje powiadomienia.",
-    "Couldn't establish a federated share, it looks like the server to federate with is too old (Nextcloud <= 9)." : "Nie można ustanowić współdzielenia federacyjnego. Wygląda na to, że serwer wybrany do udostępnienia jest zbyt stary (Nextcloud <= 9).",
+    "Couldn't establish a federated share, it looks like the server to federate with is too old (Nextcloud <= 9)." : "Nie można ustanowić udostępniania federacyjnego. Wygląda na to, że serwer wybrany do udostępnienia jest zbyt stary (Nextcloud <= 9).",
     "It is not allowed to send federated group shares from this server." : "Niedozwolone jest wysyłanie grupowych udostępnień federacyjnych z tego serwera.",
     "Sharing %1$s failed, because this item is already shared with user %2$s" : "Udostępnianie %1$s nie powiodło się, ponieważ ten element jest już udostępniony użytkownikowi %2$s",
     "Not allowed to create a federated share with the same user" : "Nie można tworzyć udostępniania federacyjnego z tym samym użytkownikiem",
@@ -38,7 +38,7 @@ OC.L10N.register(
     "Provide federated file sharing across servers" : "Zezwól na federacyjne udostępnianie plików na serwerach",
     "Federated Cloud Sharing" : "Udostępnianie Chmury Federacyjnej",
     "Open documentation" : "Otwórz dokumentację",
-    "Adjust how people can share between servers." : "Dostosuj w jaki sposób można udostępniać serwery.",
+    "Adjust how people can share between servers. This includes shares between users on this server as well if they are using federated sharing." : "Dostosuj sposób udostępniania między serwerami. Obejmuje to również udostępnianie między użytkownikami na tym serwerze, jeśli korzystają z udostępniania sfederowanego.",
     "Allow users on this server to send shares to other servers (this option also allows WebDAV access to public shares)" : "Zezwalaj użytkownikom na tym serwerze na wysłanie udostępnień do innych serwerów (opcja ta umożliwia również dostęp WebDAV do udostępnień publicznych)",
     "Allow users on this server to receive shares from other servers" : "Zezwalaj użytkownikom na tym serwerze do otrzymania udostępnień z innych serwerów",
     "Allow users on this server to send shares to groups on other servers" : "Zezwalaj użytkownikom na tym serwerze na udostępnianie dla grup na innych serwerach",
@@ -46,12 +46,12 @@ OC.L10N.register(
     "Search global and public address book for users" : "Wyszukiwarka globalnej i publicznej książki adresowej dla użytkowników",
     "Allow users to publish their data to a global and public address book" : "Zezwalaj użytkownikom publikować swoje dane w globalnej i publicznej książce adresowej",
     "Federated Cloud" : "Chmura Federacyjna",
-    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Możesz współdzielić z każdym, kto używa serwera Nextcloud lub innych serwerów i usług kompatybilnych z Open Cloud Mesh (OCM). Wystarczy, że wpiszesz ID Chmury Federacyjnej w oknie udostępniania, według przykładu: osoba@chmura.przykładowa.com",
+    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Możesz udostępniać każdemu, kto używa serwera Nextcloud lub innych serwerów i usług kompatybilnych z Open Cloud Mesh (OCM). Wystarczy, że wpiszesz ID Chmury Federacyjnej w oknie udostępniania, według przykładu: osoba@chmura.przykładowa.com",
     "Your Federated Cloud ID:" : "Twoje ID Chmury Federacyjnej:",
-    "Share it so your friends can share files with you:" : "Udostępnij, aby Twoi znajomi mogli współdzielić pliki z Tobą:",
+    "Share it so your friends can share files with you:" : "Udostępnij, aby Twoi znajomi mogli udostępniać Tobie pliki:",
     "Add to your website" : "Dodaj do swojej strony",
     "Share with me via Nextcloud" : "Udostępnij mi za pomocą Nextcloud",
     "HTML Code:" : "Kod HTML:",
-    "Allow users on this server to send shares to other servers" : "Zezwalaj użytkownikom na tym serwerze na wysłanie udostępnień do innych serwerów"
+    "Adjust how people can share between servers." : "Dostosuj w jaki sposób można udostępniać serwery."
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

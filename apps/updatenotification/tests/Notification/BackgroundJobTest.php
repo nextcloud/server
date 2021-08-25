@@ -25,7 +25,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\UpdateNotification\Tests\Notification;
 
 use OC\Installer;
@@ -107,6 +106,10 @@ class BackgroundJobTest extends TestCase {
 			->method('checkCoreUpdate');
 		$job->expects($this->once())
 			->method('checkAppUpdates');
+
+		$this->config->method('getSystemValueBool')
+			->with('debug', false)
+			->willReturn(true);
 
 		self::invokePrivate($job, 'run', [null]);
 	}

@@ -7,6 +7,7 @@
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Markus Goetz <markus@woboq.com>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Richard Steinmetz <richard@steinmetz.cloud>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -28,7 +29,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Memcache;
 
 use OCP\ICache;
@@ -86,36 +86,16 @@ class Factory implements ICacheFactory {
 		$missingCacheMessage = 'Memcache {class} not available for {use} cache';
 		$missingCacheHint = 'Is the matching PHP module installed and enabled?';
 		if (!class_exists($localCacheClass) || !$localCacheClass::isAvailable()) {
-			if (\OC::$CLI && !defined('PHPUNIT_RUN')) {
-				// CLI should not hard-fail on broken memcache
-				$this->logger->info($missingCacheMessage, [
-					'class' => $localCacheClass,
-					'use' => 'local',
-					'app' => 'cli'
-				]);
-				$localCacheClass = self::NULL_CACHE;
-			} else {
-				throw new \OC\HintException(strtr($missingCacheMessage, [
-					'{class}' => $localCacheClass, '{use}' => 'local'
-				]), $missingCacheHint);
-			}
+			throw new \OCP\HintException(strtr($missingCacheMessage, [
+				'{class}' => $localCacheClass, '{use}' => 'local'
+			]), $missingCacheHint);
 		}
 		if (!class_exists($distributedCacheClass) || !$distributedCacheClass::isAvailable()) {
-			if (\OC::$CLI && !defined('PHPUNIT_RUN')) {
-				// CLI should not hard-fail on broken memcache
-				$this->logger->info($missingCacheMessage, [
-					'class' => $distributedCacheClass,
-					'use' => 'distributed',
-					'app' => 'cli'
-				]);
-				$distributedCacheClass = self::NULL_CACHE;
-			} else {
-				throw new \OC\HintException(strtr($missingCacheMessage, [
-					'{class}' => $distributedCacheClass, '{use}' => 'distributed'
-				]), $missingCacheHint);
-			}
+			throw new \OCP\HintException(strtr($missingCacheMessage, [
+				'{class}' => $distributedCacheClass, '{use}' => 'distributed'
+			]), $missingCacheHint);
 		}
-		if (!($lockingCacheClass && class_exists($distributedCacheClass) && $lockingCacheClass::isAvailable())) {
+		if (!($lockingCacheClass && class_exists($lockingCacheClass) && $lockingCacheClass::isAvailable())) {
 			// don't fallback since the fallback might not be suitable for storing lock
 			$lockingCacheClass = self::NULL_CACHE;
 		}

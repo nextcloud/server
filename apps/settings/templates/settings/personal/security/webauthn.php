@@ -22,9 +22,7 @@ declare(strict_types=1);
  *
  */
 
-script('settings', [
-	'vue-settings-personal-webauthn',
-]);
+script('settings', 'vue-settings-personal-webauthn');
 
 ?>
 

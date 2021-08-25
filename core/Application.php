@@ -29,7 +29,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Core;
 
 use OC\Authentication\Events\RemoteWipeFinished;
@@ -37,8 +36,10 @@ use OC\Authentication\Events\RemoteWipeStarted;
 use OC\Authentication\Listeners\RemoteWipeActivityListener;
 use OC\Authentication\Listeners\RemoteWipeEmailListener;
 use OC\Authentication\Listeners\RemoteWipeNotificationsListener;
+use OC\Authentication\Listeners\UserDeletedFilesCleanupListener;
 use OC\Authentication\Listeners\UserDeletedStoreCleanupListener;
 use OC\Authentication\Listeners\UserDeletedTokenCleanupListener;
+use OC\Authentication\Listeners\UserDeletedWebAuthnCleanupListener;
 use OC\Authentication\Notifications\Notifier as AuthenticationNotifier;
 use OC\Core\Notification\CoreNotifier;
 use OC\DB\Connection;
@@ -49,6 +50,7 @@ use OC\DB\SchemaWrapper;
 use OCP\AppFramework\App;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IDBConnection;
+use OCP\User\Events\BeforeUserDeletedEvent;
 use OCP\User\Events\UserDeletedEvent;
 use OCP\Util;
 use Symfony\Component\EventDispatcher\GenericEvent;
@@ -270,5 +272,8 @@ class Application extends App {
 		$eventDispatcher->addServiceListener(RemoteWipeFinished::class, RemoteWipeEmailListener::class);
 		$eventDispatcher->addServiceListener(UserDeletedEvent::class, UserDeletedStoreCleanupListener::class);
 		$eventDispatcher->addServiceListener(UserDeletedEvent::class, UserDeletedTokenCleanupListener::class);
+		$eventDispatcher->addServiceListener(BeforeUserDeletedEvent::class, UserDeletedFilesCleanupListener::class);
+		$eventDispatcher->addServiceListener(UserDeletedEvent::class, UserDeletedFilesCleanupListener::class);
+		$eventDispatcher->addServiceListener(UserDeletedEvent::class, UserDeletedWebAuthnCleanupListener::class);
 	}
 }

@@ -34,7 +34,7 @@ OC.L10N.register(
     "Checked on {lastCheckedDate}" : "Son denetim: {lastCheckedDate}",
     "Checking apps for compatible versions" : "Uygulamalar uyumlu sürümler için denetleniyor",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Lütfen config.php dosyasındaki <samp>appstoreenabled</samp> seçeneğinin false olarak ayarlanmadığından emin olun.",
-    "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "Uygulama mağazası ile bağlantı kurulamadı ya da uygulama mağazasında herhangi bir güncelleme yok. Güncellemeleri el ile arayın ya da sunucunuzun İnternet ve uygulama mağazası ile bağlantı kurabildiğinden emin olun.",
+    "Could not connect to the App Store or no updates have been returned at all. Search manually for updates or make sure your server has access to the internet and can connect to the App Store." : "Uygulama mağazası ile bağlantı kurulamadı ya da uygulama mağazasında herhangi bir güncelleme yok. Güncellemeleri el ile arayın ya da sunucunuzun İnternet ve uygulama mağazası ile bağlantı kurabildiğinden emin olun.",
     "<strong>All</strong> apps have a compatible version for this Nextcloud version available" : "<strong>Tüm</strong> uygulamaların bu Nextcloud sürümü ile uyumlu bir sürümü var",
     "View changelog" : "Değişiklik günlüğünü görüntüle",
     "Enterprise" : "Kurumsal",
@@ -49,6 +49,7 @@ OC.L10N.register(
     "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "Yeni bir sürümün yayınlanmasından sonra burada görüntülenmesinin biraz zaman alabileceğini unutmayın. Yeni sürümleri kullanıcılarımıza zamanla dağıtıyoruz ve bazen sorunlarla karşılaştığımızda bir sürümü atlayabiliyoruz.",
     "Only notification for app updates are available." : "Yalnız uygulama güncellemeleri kullanılabilir.",
     "Checking apps for compatible updates" : "Uyumlu güncellemeler için uygulamalar denetleniyor",
+    "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "Uygulama mağazası ile bağlantı kurulamadı ya da uygulama mağazasında herhangi bir güncelleme yok. Güncellemeleri el ile arayın ya da sunucunuzun İnternet ve uygulama mağazası ile bağlantı kurabildiğinden emin olun.",
     "<strong>All</strong> apps have an update for this version available" : "<strong>Tüm</strong> uygulamaların bu sürüm için kullanılabilecek bir güncellemesi var",
     "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> uygulamanın bu sürüm için kullanılabilecek bir güncellemesi yok","<strong>%n</strong> uygulamanın bu sürüm için kullanılabilecek bir güncellemesi yok"]
 },

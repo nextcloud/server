@@ -20,14 +20,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Settings\Mailer;
 
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -105,9 +104,7 @@ class NewUserMailHelper {
 		if ($generatePasswordResetToken) {
 			$token = $this->secureRandom->generate(
 				21,
-				ISecureRandom::CHAR_DIGITS .
-				ISecureRandom::CHAR_LOWER .
-				ISecureRandom::CHAR_UPPER
+				ISecureRandom::CHAR_ALPHANUMERIC
 			);
 			$tokenValue = $this->timeFactory->getTime() . ':' . $token;
 			$mailAddress = (null !== $user->getEMailAddress()) ? $user->getEMailAddress() : '';

@@ -61,7 +61,7 @@ class RegistrationContextTest extends TestCase {
 			->method('registerCapability')
 			->with($name);
 		$this->logger->expects($this->never())
-			->method('logException');
+			->method('error');
 
 		$this->context->for('myapp')->registerCapability($name);
 		$this->context->delegateCapabilityRegistrations([
@@ -77,7 +77,7 @@ class RegistrationContextTest extends TestCase {
 			->method('addServiceListener')
 			->with($event, $service, 0);
 		$this->logger->expects($this->never())
-			->method('logException');
+			->method('error');
 
 		$this->context->for('myapp')->registerEventListener($event, $service);
 		$this->context->delegateEventListenerRegistrations($dispatcher);
@@ -99,7 +99,7 @@ class RegistrationContextTest extends TestCase {
 			->method('registerService')
 			->with($service, $factory, $shared);
 		$this->logger->expects($this->never())
-			->method('logException');
+			->method('error');
 
 		$this->context->for('myapp')->registerService($service, $factory, $shared);
 		$this->context->delegateContainerRegistrations([
@@ -118,7 +118,7 @@ class RegistrationContextTest extends TestCase {
 			->method('registerAlias')
 			->with($alias, $target);
 		$this->logger->expects($this->never())
-			->method('logException');
+			->method('error');
 
 		$this->context->for('myapp')->registerServiceAlias($alias, $target);
 		$this->context->delegateContainerRegistrations([
@@ -137,7 +137,7 @@ class RegistrationContextTest extends TestCase {
 			->method('registerParameter')
 			->with($name, $value);
 		$this->logger->expects($this->never())
-			->method('logException');
+			->method('error');
 
 		$this->context->for('myapp')->registerParameter($name, $value);
 		$this->context->delegateContainerRegistrations([
@@ -155,7 +155,7 @@ class RegistrationContextTest extends TestCase {
 			->method('registerMiddleware')
 			->with($name);
 		$this->logger->expects($this->never())
-			->method('logException');
+			->method('error');
 
 		$this->context->for('myapp')->registerMiddleware($name);
 		$this->context->delegateMiddlewareRegistrations([

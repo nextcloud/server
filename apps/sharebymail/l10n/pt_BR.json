@@ -23,7 +23,7 @@
     "Password to access %1$s was sent to you" : "A senha para acesso  %1$s foi enviada para você",
     "Password to access {file} was sent to you" : "A senha para acesso {file} foi enviada para você",
     "Sharing %1$s failed, because this item is already shared with user %2$s" : "Compartilhamento de %1$s falhou,  porque este item já está compartilhado com o usuário%2$s",
-    "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Não pudemos enviar a você a senha auto-gerada. Defina um e-mail válido em sua configuração e tente novamente.",
+    "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Não pudemos enviar a você a senha auto-gerada. Defina um e-mail válido em sua configuração e tente novamente.",
     "Failed to send share by email" : "Falha ao enviar compartilhamento via e-mail",
     "%1$s shared »%2$s« with you" : "%1$s compartilhou »%2$s« com você",
     "%1$s shared »%2$s« with you." : "%1$s compartilhou »%2$s« com você.",
@@ -48,6 +48,7 @@
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Permite que os usuários compartilhem um link personalizado para um arquivo ou pasta, inserindo um endereço de e-mail.",
     "Send password by mail" : "Enviar senha por e-mail",
     "Reply to initiator" : "Responder ao iniciador",
+    "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Não pudemos enviar a você a senha auto-gerada. Defina um e-mail válido em sua configuração e tente novamente.",
     "Enforce password protection" : "Aplicar proteção por senha"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

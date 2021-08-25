@@ -1,7 +1,5 @@
 <?php
-script('core', [
-	'dist/install'
-]);
+script('core', 'dist/install');
 ?>
 <input type='hidden' id='hasMySQL' value='<?php p($_['hasMySQL']) ?>'>
 <input type='hidden' id='hasSQLite' value='<?php p($_['hasSQLite']) ?>'>

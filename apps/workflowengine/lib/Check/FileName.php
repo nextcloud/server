@@ -1,8 +1,13 @@
 <?php
 
 declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2018 Daniel Kesselberg <mail@danielkesselberg.de>
+ *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
+ * @author szaimen <szaimen@e.mail.de>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -13,14 +18,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\WorkflowEngine\Check;
 
 use OC\Files\Storage\Local;
@@ -54,7 +58,7 @@ class FileName extends AbstractStringCheck implements IFileCheck {
 	protected function getActualValue(): string {
 		$fileName = $this->path === null ? '' : basename($this->path);
 		if ($fileName === '' && (!$this->storage->isLocal() || $this->storage->instanceOfStorage(Local::class))) {
-			// Return the mountpoint name of external storages that are not mounted as user home
+			// Return the mountpoint name of external storage that are not mounted as user home
 			$mountPoints = $this->mountManager->findByStorageId($this->storage->getId());
 			if (empty($mountPoints) || $mountPoints[0]->getMountType() !== 'external') {
 				return $fileName;

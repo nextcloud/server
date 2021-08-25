@@ -5,6 +5,7 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2021 Roeland Jago Douma <roeland@famdouma.nl>
  *
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
@@ -16,14 +17,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Repair\NC22;
 
 use OC\Core\BackgroundJobs\LookupServerSendCheckBackgroundJob;
@@ -53,7 +53,9 @@ class LookupServerSendCheck implements IRepairStep {
 		$versionFromBeforeUpdate = $this->config->getSystemValue('version', '0.0.0.0');
 
 		// was added to 22.0.0.3
-		return version_compare($versionFromBeforeUpdate, '22.0.0.3', '<');
+		return (version_compare($versionFromBeforeUpdate, '22.0.0.3', '<') && version_compare($versionFromBeforeUpdate, '22.0.0.0', '>='))
+			||
+			(version_compare($versionFromBeforeUpdate, '21.0.1.2', '<') && version_compare($versionFromBeforeUpdate, '21.0.0.0', '>'));
 	}
 
 	public function run(IOutput $output): void {

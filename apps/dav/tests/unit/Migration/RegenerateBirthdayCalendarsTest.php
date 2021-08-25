@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2018, Georg Ehrke
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author François Freitag <mail@franek.fr>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -16,14 +17,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\Tests\unit\DAV\Migration;
 
 use OCA\DAV\BackgroundJob\RegisterRegenerateBirthdayCalendars;
@@ -62,7 +62,7 @@ class RegenerateBirthdayCalendarsTest extends TestCase {
 	}
 
 	public function testRun() {
-		$this->config->expects($this->at(0))
+		$this->config->expects($this->once())
 			->method('getAppValue')
 			->with('dav', 'regeneratedBirthdayCalendarsForYearFix')
 			->willReturn(null);
@@ -72,11 +72,11 @@ class RegenerateBirthdayCalendarsTest extends TestCase {
 			->method('info')
 			->with('Adding background jobs to regenerate birthday calendar');
 
-		$this->jobList->expects($this->at(0))
+		$this->jobList->expects($this->once())
 			->method('add')
 			->with(RegisterRegenerateBirthdayCalendars::class);
 
-		$this->config->expects($this->at(1))
+		$this->config->expects($this->once())
 			->method('setAppValue')
 			->with('dav', 'regeneratedBirthdayCalendarsForYearFix', 'yes');
 

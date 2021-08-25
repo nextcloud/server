@@ -24,7 +24,7 @@ Feature: external-storage
       | token | A_TOKEN |
       | mimetype | httpd/unix-directory |
 
-  Scenario: Shares don't overwrite external storages
+  Scenario: Shares don't overwrite external storage
     Given user "user0" exists
     And user "user1" exists
     And As an "user0"

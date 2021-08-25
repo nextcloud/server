@@ -120,12 +120,9 @@ OC.L10N.register(
     "Could not lock node" : "Nem sikerült zárolni a csomópontot",
     "Could not lock path" : "Az útvonal nem zárolható",
     "Wrong or no update parameter given" : "Hibás vagy üres frissítési paraméter",
-    "Can't change permissions for public share links" : "Nem lehet módosítani a nyilvános megosztási hivatkozások jogosultságait",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "A Nextcloud Beszélgetés jelszó megosztásának küldése nem sikerült mert a Nextcloud Beszélgetés nem engedélyezett",
     "shared by %s" : "megosztotta %s",
     "Download all files" : "Összes fájl letöltése",
     "Direct link" : "Közvetlen hivatkozás",
-    "Add to your Nextcloud" : "Add hozzá a Nextcloudodhoz",
     "Share API is disabled" : "Megosztás API letiltva",
     "File sharing" : "Fájlmegosztás",
     "Share will expire tomorrow" : "A megosztás holnap lejár",
@@ -234,7 +231,10 @@ OC.L10N.register(
     "Uploading files" : "Fájlok frissítése",
     "Uploaded files:" : "Feltöltött fájlok:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Fájlok feltöltésével elfogadja a %1$sszolgáltatási feltételek %2$s.",
+    "Add to your Nextcloud" : "Add hozzá a Nextcloudodhoz",
     "invalid permissions" : "érvénytelen jogosultságok",
+    "Can't change permissions for public share links" : "Nem lehet módosítani a nyilvános megosztási hivatkozások jogosultságait",
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "A Nextcloud Beszélgetés jelszó megosztásának küldése nem sikerült mert a Nextcloud Beszélgetés nem engedélyezett",
     "Name, email, or federated cloud ID …" : "Név, e-mail vagy egyesített felhőazonosító …"
 },
 "nplurals=2; plural=(n != 1);");

@@ -61,7 +61,7 @@
 			</p>
 			<p v-else-if="message === 'reset-error'"
 				class="update warning">
-				{{ t('core', 'Password can not be changed. Please contact your administrator.') }}
+				{{ t('core', 'Password cannot be changed. Please contact your administrator.') }}
 			</p>
 			<p v-else-if="message"
 				class="update"

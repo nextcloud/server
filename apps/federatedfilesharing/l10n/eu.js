@@ -38,7 +38,7 @@ OC.L10N.register(
     "Provide federated file sharing across servers" : "Zerbitzarien arteko federatutako partekatzea eskaini",
     "Federated Cloud Sharing" : "Federatutako Hodei Partekatzea",
     "Open documentation" : "Ireki dokumentazioa",
-    "Adjust how people can share between servers." : "Pertsonen zerbitzarien arteko partekatzea konfiguratu",
+    "Adjust how people can share between servers. This includes shares between users on this server as well if they are using federated sharing." : "Doitu nola parteka dezakeen jendeak zerbitzarien artean. Horrek barne hartzen ditu zerbitzari honetako erabiltzaileen arteko partekatzeak,  partekatze federatua erabiltzen ari badira.",
     "Allow users on this server to send shares to other servers (this option also allows WebDAV access to public shares)" : "Baimendu erabiltzaileei  zerbitzari honetan beste zerbitzari batzuetarako partekatzeak (aukera honek WebDAV sarbidea ere partekatze publikoetara baimentzen du )",
     "Allow users on this server to receive shares from other servers" : "Baimendu zerbitzari honetako erabiltzaileak beste zerbitzarietatik partekatutakoak jasotzen",
     "Allow users on this server to send shares to groups on other servers" : "Baimendu zerbitzari honetako erabiltzaileei beste zerbitzari batzuetako taldeei elementuak partekatzen.",
@@ -52,6 +52,6 @@ OC.L10N.register(
     "Add to your website" : "Zure webgunera gehitu",
     "Share with me via Nextcloud" : "Partekatu nirekin Nextcloud-en bidez",
     "HTML Code:" : "HTML kodea:",
-    "Allow users on this server to send shares to other servers" : "Baimendu zerbitzari honetako erabiltzaileak beste zerbitzariekin partekatzera"
+    "Adjust how people can share between servers." : "Pertsonen zerbitzarien arteko partekatzea konfiguratu"
 },
 "nplurals=2; plural=(n != 1);");

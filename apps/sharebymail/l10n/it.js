@@ -25,7 +25,7 @@ OC.L10N.register(
     "Password to access %1$s was sent to you" : "La password per accedere a %1$s ti è stata inviata",
     "Password to access {file} was sent to you" : "La password per accedere a {file} ti è stata inviata",
     "Sharing %1$s failed, because this item is already shared with user %2$s" : "Condivisione di %1$s non riuscita, poiché l'oggetto è già condiviso con l'utente %2$s",
-    "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Non possiamo inviarti la password generata automaticamente. Imposta un indirizzo di posta valido nelle impostazioni personali e prova ancora.",
+    "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Non possiamo inviarti la password generata automaticamente. Imposta un indirizzo di posta valido nelle impostazioni personali e prova ancora.",
     "Failed to send share by email" : "Invio non riuscito della condivisione tramite email",
     "%1$s shared »%2$s« with you" : "%1$s ha condiviso «%2$s» con te",
     "%1$s shared »%2$s« with you." : "%1$s ha condiviso «%2$s» con te.",
@@ -50,6 +50,7 @@ OC.L10N.register(
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Consente agli utenti di condividere un collegamento personalizzato a un file o a una cartella inserendo un indirizzo di posta elettronica.",
     "Send password by mail" : "Invia password tramite posta",
     "Reply to initiator" : "Rispondi all'iniziatore",
+    "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Non possiamo inviarti la password generata automaticamente. Imposta un indirizzo di posta valido nelle impostazioni personali e prova ancora.",
     "Enforce password protection" : "Imponi la protezione con password"
 },
 "nplurals=2; plural=(n != 1);");

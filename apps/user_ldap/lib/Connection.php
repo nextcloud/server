@@ -34,7 +34,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\User_LDAP;
 
 use OC\ServerNotAvailableException;
@@ -257,17 +256,15 @@ class Connection extends LDAPUtility {
 	/**
 	 * @param string $key
 	 * @param mixed $value
-	 *
-	 * @return string
 	 */
-	public function writeToCache($key, $value) {
+	public function writeToCache($key, $value): void {
 		if (!$this->configured) {
 			$this->readConfiguration();
 		}
 		if (is_null($this->cache)
 			|| !$this->configuration->ldapCacheTTL
 			|| !$this->configuration->ldapConfigurationActive) {
-			return null;
+			return;
 		}
 		$key = $this->getCacheKey($key);
 		$value = base64_encode(json_encode($value));

@@ -9,7 +9,7 @@
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -30,7 +30,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Tests\unit\CardDAV;
 
 use OC\KnownUser\KnownUserService;
@@ -47,6 +46,7 @@ use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\L10N\IFactory;
 use OCP\Share\IManager as ShareManager;
 use Sabre\DAV\Exception\BadRequest;
 use Sabre\DAV\PropPatch;
@@ -142,6 +142,7 @@ class CardDavBackendTest extends TestCase {
 				$this->createMock(ProxyMapper::class),
 				$this->createMock(KnownUserService::class),
 				$this->createMock(IConfig::class),
+				$this->createMock(IFactory::class)
 			])
 			->setMethods(['getPrincipalByPath', 'getGroupMembership'])
 			->getMock();

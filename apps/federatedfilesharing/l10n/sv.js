@@ -36,7 +36,6 @@ OC.L10N.register(
     "Provide federated file sharing across servers" : "Erbjuder federerad fildelning mellan servrar",
     "Federated Cloud Sharing" : "Federerad Moln-delning",
     "Open documentation" : "Öppna dokumentationen",
-    "Adjust how people can share between servers." : "Justera hur användare kan dela genom servrar.",
     "Allow users on this server to receive shares from other servers" : "Tillåt användare på denna servern att ta emot utdelningar från andra servrar",
     "Allow users on this server to send shares to groups on other servers" : "Tillåt användare på denna server att skicka delningar till grupper på andra servrar",
     "Allow users on this server to receive group shares from other servers" : "Tillåt användare på denna servern att ta emot gruppdelningar från andra servrar",
@@ -49,6 +48,6 @@ OC.L10N.register(
     "Add to your website" : "Lägg till på din hemsida",
     "Share with me via Nextcloud" : "Dela med mig via Nextcloud",
     "HTML Code:" : "HTML Kod:",
-    "Allow users on this server to send shares to other servers" : "Tillåt användare på denna server att skicka utdelningar till andra servrar"
+    "Adjust how people can share between servers." : "Justera hur användare kan dela genom servrar."
 },
 "nplurals=2; plural=(n != 1);");

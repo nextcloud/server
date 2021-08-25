@@ -41,7 +41,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\AppFramework\Http;
 
 use OC\Security\CSRF\CsrfToken;
@@ -77,19 +76,6 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	public const USER_AGENT_ANDROID_MOBILE_CHROME = '#Android.*Chrome/[.0-9]*#';
 	public const USER_AGENT_FREEBOX = '#^Mozilla/5\.0$#';
 	public const REGEX_LOCALHOST = '/^(127\.0\.0\.1|localhost|\[::1\])$/';
-
-	/**
-	 * @deprecated use \OCP\IRequest::USER_AGENT_CLIENT_IOS instead
-	 */
-	public const USER_AGENT_OWNCLOUD_IOS = '/^Mozilla\/5\.0 \(iOS\) (ownCloud|Nextcloud)\-iOS.*$/';
-	/**
-	 * @deprecated use \OCP\IRequest::USER_AGENT_CLIENT_ANDROID instead
-	 */
-	public const USER_AGENT_OWNCLOUD_ANDROID = '/^Mozilla\/5\.0 \(Android\) ownCloud\-android.*$/';
-	/**
-	 * @deprecated use \OCP\IRequest::USER_AGENT_CLIENT_DESKTOP instead
-	 */
-	public const USER_AGENT_OWNCLOUD_DESKTOP = '/^Mozilla\/5\.0 \([A-Za-z ]+\) (mirall|csyncoC)\/.*$/';
 
 	protected $inputStream;
 	protected $content;
@@ -589,7 +575,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		}
 
 		if (empty($this->requestId)) {
-			$validChars = ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_DIGITS;
+			$validChars = ISecureRandom::CHAR_ALPHANUMERIC;
 			$this->requestId = $this->secureRandom->generate(20, $validChars);
 		}
 

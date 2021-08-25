@@ -29,10 +29,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Memcache;
 
-use OC\HintException;
+use OCP\HintException;
 use OCP\IMemcache;
 
 class Memcached extends Cache implements IMemcache {

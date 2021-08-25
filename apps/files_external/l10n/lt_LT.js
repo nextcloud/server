@@ -1,7 +1,7 @@
 OC.L10N.register(
     "files_external",
     {
-    "External storages" : "Išorinės saugyklos",
+    "External storage" : "Išorinė saugykla",
     "Personal" : "Asmeniniai",
     "System" : "Sistema",
     "Grant access" : "Suteikti prieigą",
@@ -11,6 +11,7 @@ OC.L10N.register(
     "Generate keys" : "Generuoti raktus",
     "Error generating key pair" : "Klaida kuriant raktus",
     "All users. Type to select user or group." : "Visi naudotojai. Rašykite, norėdami pasirinkti naudotoją ar grupę.",
+    "(Group)" : "(Grupė)",
     "Compatibility with Mac NFD encoding (slow)" : "Suderinamumas su Mac NFD kodavimu (lėtai)",
     "Enable encryption" : "Įjungti šifravimą",
     "Enable previews" : "Leisti peržiūras",
@@ -97,11 +98,9 @@ OC.L10N.register(
     "SFTP" : "SFTP",
     "Root" : "Šaknis",
     "SFTP with secret key login" : "SFTP protokolas su prisijungimu",
-    "SMB / CIFS" : "SMB / CIFS",
     "Share" : "Dalintis",
     "Show hidden files" : "Rodyti paslėptus failus",
     "Timeout" : "Pasibaigė laikas",
-    "SMB / CIFS using OC login" : "SMB / CIFS, naudojant OC prisijungimą",
     "Username as share" : "Dalinimosi vardas kaip ir vartotojo vardas",
     "Service name" : "Paslaugos vardas",
     "Request timeout (seconds)" : "Prisijungimo laikas (sekundėmis)",
@@ -115,7 +114,6 @@ OC.L10N.register(
     "Scope" : "Leidimas",
     "Open documentation" : "Atverti dokumentaciją",
     "Folder name" : "Aplanko pavadinimas",
-    "External storage" : "Išorinė saugykla",
     "Authentication" : "Prisijungimas",
     "Configuration" : "Konfigūracija",
     "Available for" : "Prieinamas",
@@ -123,6 +121,9 @@ OC.L10N.register(
     "Add storage" : "Pridėti saugyklą",
     "Advanced settings" : "Išplėstiniai nustatymai",
     "Allow users to mount external storage" : "Leisti naudotojams prijungti išorines saugyklas",
-    "(group)" : "(grupė)"
+    "External storages" : "Išorinės saugyklos",
+    "(group)" : "(grupė)",
+    "SMB / CIFS" : "SMB / CIFS",
+    "SMB / CIFS using OC login" : "SMB / CIFS, naudojant OC prisijungimą"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

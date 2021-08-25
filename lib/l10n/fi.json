@@ -1,6 +1,5 @@
 { "translations": {
     "Cannot write into \"config\" directory!" : "Hakemistoon \"config\" kirjoittaminen ei onnistu!",
-    "This can usually be fixed by giving the webserver write access to the config directory" : "Tämän voi yleensä korjata antamalla http-palvelimelle kirjoitusoikeuden asetushakemistoon",
     "See %s" : "Katso %s",
     "Sample configuration detected" : "Esimerkkimääritykset havaittu",
     "It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php" : "On havaittu, että esimerkkimäärityksen on kopioitu. Se voi rikkoa asennuksesi, eikä sitä tueta. Lue ohjeet ennen kuin muutat config.php tiedostoa.",
@@ -82,7 +81,6 @@
     "Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP." : "Poista open_basedir-asetus php.ini-tiedostosta tai vaihda 64-bittiseen PHP:hen.",
     "Set an admin username." : "Aseta ylläpitäjän käyttäjätunnus.",
     "Set an admin password." : "Aseta ylläpitäjän salasana.",
-    "Can't create or write into the data directory %s" : "Ei voi luoda tai kirjoittaa data-hakemistoon %s",
     "Sharing backend %s not found" : "Jakamisen taustaosaa %s ei löytynyt",
     "Sharing backend for %s not found" : "Jakamisen taustaosaa kohteelle %s ei löytynyt",
     "Open »%s«" : "Avaa »%s«",
@@ -150,7 +148,6 @@
     "App \"%1$s\" cannot be installed because the following dependencies are not fulfilled: %2$s" : "Sovellusta \"%1$s\" ei voi asentaa, koska seuraavat riippuvuudet eivät täyty: %2$s",
     "a safe home for all your data" : "turvallinen koti kaikille tiedostoillesi",
     "File is currently busy, please try again later" : "Tiedosto on parhaillaan käytössä, yritä myöhemmin uudelleen",
-    "Can't read file" : "Tiedostoa ei voi lukea",
     "Application is not enabled" : "Sovellusta ei ole otettu käyttöön",
     "Authentication error" : "Tunnistautumisvirhe",
     "Token expired. Please reload page." : "Valtuutus vanheni. Lataa sivu uudelleen.",
@@ -183,8 +180,9 @@
     "Storage connection error. %s" : "Tallennustilan yhteysvirhe. %s",
     "Storage is temporarily not available" : "Tallennustila on tilapäisesti pois käytöstä",
     "Storage connection timeout. %s" : "Tallennustilan yhteyden aikakatkaisu. %s",
-    "Following databases are supported: %s" : "Seuraavat tietokannat ovat tuettuja: %s",
-    "Following platforms are supported: %s" : "Seuraavat alustat ovat tuettuja: %s",
-    "Invalid Federated Cloud ID" : "Virheellinen federoidun pilven tunniste"
+    "This can usually be fixed by giving the webserver write access to the config directory" : "Tämän voi yleensä korjata antamalla http-palvelimelle kirjoitusoikeuden asetushakemistoon",
+    "Can't create or write into the data directory %s" : "Ei voi luoda tai kirjoittaa data-hakemistoon %s",
+    "Invalid Federated Cloud ID" : "Virheellinen federoidun pilven tunniste",
+    "Can't read file" : "Tiedostoa ei voi lukea"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -32,7 +32,7 @@
     "Checked on {lastCheckedDate}" : "Verificado em {lastCheckedDate}",
     "Checking apps for compatible versions" : "Verificando aplicativos para versões compatíveis",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Certifique-se de que seu config.php não tenha configurado <samp>appstoreenabled</samp> para falso.",
-    "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "Não foi possível conectar a appstore ou não havia atualização. Procure manualmente por atualizações ou verifique se o servidor tem acesso à internet.",
+    "Could not connect to the App Store or no updates have been returned at all. Search manually for updates or make sure your server has access to the internet and can connect to the App Store." : "Não foi possível conectar à App Store ou nenhuma atualização foi retornada. Pesquise manualmente por atualizações ou certifique-se de que seu servidor tenha acesso à Internet e possa se conectar à App Store.",
     "<strong>All</strong> apps have a compatible version for this Nextcloud version available" : "<strong>Todos</strong> os aplicativos têm uma versão compatível para esta versão Nextcloud disponível",
     "View changelog" : "Visualizar registro de alterações",
     "Enterprise" : "Empresarial",
@@ -47,6 +47,7 @@
     "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "Observe que uma nova versão pode levar um tempo até aparecer aqui. Lançamos novas versões distribuídas ao longo do tempo para nossos usuários e às vezes pulamos uma versão quando problemas são encontrados.",
     "Only notification for app updates are available." : "Só está disponível notificação para atualizações de aplicativos.",
     "Checking apps for compatible updates" : "Verificando atualização dos aplicativos",
+    "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "Não foi possível conectar a appstore ou não havia atualização. Procure manualmente por atualizações ou verifique se o servidor tem acesso à internet.",
     "<strong>All</strong> apps have an update for this version available" : "<strong>Todos</strong> os aplicativos tem uma atualização disponível",
     "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> aplicativo não tem atualização disponível","<strong>%n</strong> aplicativos tem uma atualização disponível"]
 },"pluralForm" :"nplurals=2; plural=(n > 1);"

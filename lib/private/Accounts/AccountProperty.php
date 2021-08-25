@@ -5,7 +5,9 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2018 Julius Härtl <jus@bitgrid.net>
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Julius Härtl <jus@bitgrid.net>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -16,14 +18,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Accounts;
 
 use OCP\Accounts\IAccountManager;
@@ -39,12 +40,15 @@ class AccountProperty implements IAccountProperty {
 	private $scope;
 	/** @var string */
 	private $verified;
+	/** @var string */
+	private $verificationData;
 
-	public function __construct(string $name, string $value, string $scope, string $verified) {
+	public function __construct(string $name, string $value, string $scope, string $verified, string $verificationData) {
 		$this->name = $name;
 		$this->value = $value;
-		$this->scope = $this->mapScopeToV2($scope);
+		$this->setScope($scope);
 		$this->verified = $verified;
+		$this->verificationData = $verificationData;
 	}
 
 	public function jsonSerialize() {
@@ -52,7 +56,8 @@ class AccountProperty implements IAccountProperty {
 			'name' => $this->getName(),
 			'value' => $this->getValue(),
 			'scope' => $this->getScope(),
-			'verified' => $this->getVerified()
+			'verified' => $this->getVerified(),
+			'verificationData' => $this->getVerificationData(),
 		];
 	}
 
@@ -78,7 +83,16 @@ class AccountProperty implements IAccountProperty {
 	 * @return IAccountProperty
 	 */
 	public function setScope(string $scope): IAccountProperty {
-		$this->scope = $this->mapScopeToV2($scope);
+		$newScope = $this->mapScopeToV2($scope);
+		if (!in_array($newScope, [
+			IAccountManager::SCOPE_LOCAL,
+			IAccountManager::SCOPE_FEDERATED,
+			IAccountManager::SCOPE_PRIVATE,
+			IAccountManager::SCOPE_PUBLISHED
+		])) {
+			throw new \InvalidArgumentException('Invalid scope');
+		}
+		$this->scope = $newScope;
 		return $this;
 	}
 
@@ -128,21 +142,21 @@ class AccountProperty implements IAccountProperty {
 		return $this->scope;
 	}
 
-	public static function mapScopeToV2($scope) {
+	public static function mapScopeToV2(string $scope): string {
 		if (strpos($scope, 'v2-') === 0) {
 			return $scope;
 		}
 
 		switch ($scope) {
-		case IAccountManager::VISIBILITY_PRIVATE:
-			return IAccountManager::SCOPE_LOCAL;
-		case IAccountManager::VISIBILITY_CONTACTS_ONLY:
-			return IAccountManager::SCOPE_FEDERATED;
-		case IAccountManager::VISIBILITY_PUBLIC:
-			return IAccountManager::SCOPE_PUBLISHED;
+			case IAccountManager::VISIBILITY_PRIVATE:
+				return IAccountManager::SCOPE_LOCAL;
+			case IAccountManager::VISIBILITY_CONTACTS_ONLY:
+				return IAccountManager::SCOPE_FEDERATED;
+			case IAccountManager::VISIBILITY_PUBLIC:
+				return IAccountManager::SCOPE_PUBLISHED;
+			default:
+				return $scope;
 		}
-
-		return IAccountManager::SCOPE_LOCAL;
 	}
 
 	/**
@@ -154,5 +168,14 @@ class AccountProperty implements IAccountProperty {
 	 */
 	public function getVerified(): string {
 		return $this->verified;
+	}
+
+	public function setVerificationData(string $verificationData): IAccountProperty {
+		$this->verificationData = $verificationData;
+		return $this;
+	}
+
+	public function getVerificationData(): string {
+		return $this->verificationData;
 	}
 }

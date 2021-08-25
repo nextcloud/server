@@ -30,9 +30,6 @@
     "Maintenance mode is kept active" : "El modo mantenimiento sigue activo",
     "Updating database schema" : "Actualizando esquema de base de datos",
     "Updated database" : "Base de datos actualizada",
-    "Checking for update of app \"%s\" in appstore" : "Verificando actualizaciones para la aplicacion \"%s\" en la appstore",
-    "Update app \"%s\" from appstore" : "Actualizar la aplicación \"%s\" desde la appstore",
-    "Checked for update of app \"%s\" in appstore" : "Se verificaron actualizaciones para la aplicación \"%s\" en la appstore",
     "Checking whether the database schema for %s can be updated (this can take a long time depending on the database size)" : "Verificando si el esquema de la base de datos para %s puede ser actualizado (esto puede tomar mucho tiempo dependiendo del tamaño de la base de datos)",
     "Set log level to debug" : "Establecer nivel de bitacora a depurar",
     "Reset log level" : "Restablecer nivel de bitácora",
@@ -78,7 +75,6 @@
     "User disabled" : "Usuario deshabilitado",
     "Reset password" : "Restablecer contraseña",
     "Couldn't send reset email. Please contact your administrator." : "No fue posible enviar el correo de restauración. Por favor contacta a tu adminsitrador. ",
-    "Password can not be changed. Please contact your administrator." : "Las contraseñas no se pueden cambiar. Por favor contacta a tu adminstrador",
     "New password" : "Nueva contraseña",
     "I know what I'm doing" : "Sé lo que estoy haciendo",
     "Cancel" : "Cancelar",
@@ -221,8 +217,10 @@
     "Checking whether the database schema can be updated (this can take a long time depending on the database size)" : "Verificando si el archivo del esquema de base de datos puede ser actualizado (esto puedo tomar mucho tiempo dependiendo del tamaño de la base de datos)",
     "Checked database schema update" : "Actualización del esquema de base de datos verificada",
     "Checking updates of apps" : "Verificando actualizaciones para aplicaciones",
+    "Checking for update of app \"%s\" in appstore" : "Verificando actualizaciones para la aplicacion \"%s\" en la appstore",
+    "Update app \"%s\" from appstore" : "Actualizar la aplicación \"%s\" desde la appstore",
+    "Checked for update of app \"%s\" in appstore" : "Se verificaron actualizaciones para la aplicación \"%s\" en la appstore",
     "Checked database schema update for apps" : "Se verificó la actualización del esquema de la base de datos para las aplicaciones",
-    "Following apps have been disabled: %s" : "Las siguientes aplicaciones han sido deshabilitadas: %s",
     "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "Tu servidor web no está correctamente configurado para resolver \"{url}\". Puedes encontrar más información al respecto en la <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentación</a>.",
     "No memory cache has been configured. To enhance performance, please configure a memcache, if available. Further information can be found in the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "No se ha configurado el caché de memoria. Para mejorar el desempeño, por favor configura un memcahce, si está disponible. Puedes encontrar más información en la <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentación</a>.",
     "You are currently running PHP {version}. Upgrade your PHP version to take advantage of <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{phpLink}\">performance and security updates provided by the PHP Group</a> as soon as your distribution supports it." : "Estás ejecutando PHP {version}. Actualiza tu versión de PHP para aprovechar las <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{phpLink}\">actualizaciones de desempeño y seguridad proporcionadas por el Grupo PHP</a> tan pronto como tu distribución lo soporte. ",
@@ -232,9 +230,6 @@
     "The PHP OPcache is not properly configured. <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">For better performance it is recommended</a> to use the following settings in the <code>php.ini</code>:" : "El OPcache de PHP no está configurado correctamente. <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">Para un mejor desempeño se recomienda</a> usar las sigueintes configuraciones en el archivo <code>php.ini</code>:",
     "Continue to Nextcloud" : "Continuar a Nextcloud",
     "_The update was successful. Redirecting you to Nextcloud in %n second._::_The update was successful. Redirecting you to Nextcloud in %n seconds._" : ["La actualización fue exitosa. Lo estamos redireccionando a Nextcloud en %n segundo. ","La actualización fue exitosa. Te redireccionaremos a Nextcloud en %n segundos."],
-    "Searching other places" : "Buscando en otras ubicaciones",
-    "No search results in other folders for {tag}{filter}{endtag}" : "No hay resultados para la búsqueda {tag}{filter}{endtag} en otras carpetas",
-    "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} resultado de la búsqueda en otra carpeta","{count} resultados de la búsqueda en otras carpetas"],
-    "These apps will be updated:" : "Las siguientes apllicaciones se actualizarán:"
+    "Password can not be changed. Please contact your administrator." : "Las contraseñas no se pueden cambiar. Por favor contacta a tu adminstrador"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

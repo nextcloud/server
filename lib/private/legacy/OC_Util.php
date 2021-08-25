@@ -23,7 +23,7 @@
  * @author Individual IT Services <info@individual-it.net>
  * @author Jakob Sack <mail@jakobsack.de>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Kawohl <john@owncloud.com>
@@ -43,6 +43,7 @@
  * @author Stefan Weil <sw@weilnetz.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Thomas Tanghus <thomas@tanghus.net>
+ * @author Valdnet <47037905+Valdnet@users.noreply.github.com>
  * @author Victor Dubiniuk <dubiniuk@owncloud.com>
  * @author Vincent Petry <vincent@nextcloud.com>
  * @author Volkan Gezer <volkangezer@gmail.com>
@@ -72,6 +73,7 @@ use OCP\IGroupManager;
 use OCP\ILogger;
 use OCP\IUser;
 use OCP\IUserSession;
+use OCP\Share\IManager;
 use Psr\Log\LoggerInterface;
 
 class OC_Util {
@@ -336,8 +338,9 @@ class OC_Util {
 	 * @suppress PhanDeprecatedFunction
 	 */
 	public static function isPublicLinkPasswordRequired() {
-		$enforcePassword = \OC::$server->getConfig()->getAppValue('core', 'shareapi_enforce_links_password', 'no');
-		return $enforcePassword === 'yes';
+		/** @var IManager $shareManager */
+		$shareManager = \OC::$server->get(IManager::class);
+		return $shareManager->shareApiLinkEnforcePassword();
 	}
 
 	/**
@@ -348,25 +351,10 @@ class OC_Util {
 	 * @return bool
 	 */
 	public static function isSharingDisabledForUser(IConfig $config, IGroupManager $groupManager, $user) {
-		if ($config->getAppValue('core', 'shareapi_exclude_groups', 'no') === 'yes') {
-			$groupsList = $config->getAppValue('core', 'shareapi_exclude_groups_list', '');
-			$excludedGroups = json_decode($groupsList);
-			if (is_null($excludedGroups)) {
-				$excludedGroups = explode(',', $groupsList);
-				$newValue = json_encode($excludedGroups);
-				$config->setAppValue('core', 'shareapi_exclude_groups_list', $newValue);
-			}
-			$usersGroups = $groupManager->getUserGroupIds($user);
-			if (!empty($usersGroups)) {
-				$remainingGroups = array_diff($usersGroups, $excludedGroups);
-				// if the user is only in groups which are disabled for sharing then
-				// sharing is also disabled for the user
-				if (empty($remainingGroups)) {
-					return true;
-				}
-			}
-		}
-		return false;
+		/** @var IManager $shareManager */
+		$shareManager = \OC::$server->get(IManager::class);
+		$userId = $user ? $user->getUID() : null;
+		return $shareManager->sharingDisabledForUser($userId);
 	}
 
 	/**
@@ -376,14 +364,9 @@ class OC_Util {
 	 * @suppress PhanDeprecatedFunction
 	 */
 	public static function isDefaultExpireDateEnforced() {
-		$isDefaultExpireDateEnabled = \OC::$server->getConfig()->getAppValue('core', 'shareapi_default_expire_date', 'no');
-		$enforceDefaultExpireDate = false;
-		if ($isDefaultExpireDateEnabled === 'yes') {
-			$value = \OC::$server->getConfig()->getAppValue('core', 'shareapi_enforce_expire_date', 'no');
-			$enforceDefaultExpireDate = $value === 'yes';
-		}
-
-		return $enforceDefaultExpireDate;
+		/** @var IManager $shareManager */
+		$shareManager = \OC::$server->get(IManager::class);
+		return $shareManager->shareApiLinkDefaultExpireDateEnforced();
 	}
 
 	/**
@@ -786,7 +769,7 @@ class OC_Util {
 				$errors[] = [
 					'error' => $l->t('Cannot write into "apps" directory'),
 					'hint' => $l->t('This can usually be fixed by giving the webserver write access to the apps directory'
-						. ' or disabling the appstore in the config file.')
+						. ' or disabling the App Store in the config file.')
 				];
 			}
 		}
@@ -1232,7 +1215,7 @@ class OC_Util {
 
 		$fp = @fopen($testFile, 'w');
 		if (!$fp) {
-			throw new OC\HintException('Can\'t create test file to check for working .htaccess file.',
+			throw new \OCP\HintException('Can\'t create test file to check for working .htaccess file.',
 				'Make sure it is possible for the webserver to write to ' . $testFile);
 		}
 		fwrite($fp, $testContent);
@@ -1243,10 +1226,11 @@ class OC_Util {
 
 	/**
 	 * Check if the .htaccess file is working
+	 *
 	 * @param \OCP\IConfig $config
 	 * @return bool
 	 * @throws Exception
-	 * @throws \OC\HintException If the test file can't get written.
+	 * @throws \OCP\HintException If the test file can't get written.
 	 */
 	public function isHtaccessWorking(\OCP\IConfig $config) {
 		if (\OC::$CLI || !$config->getSystemValue('check_for_working_htaccess', true)) {
@@ -1440,7 +1424,7 @@ class OC_Util {
 	 *
 	 * @param \OC\SystemConfig $config
 	 * @return bool whether the core or any app needs an upgrade
-	 * @throws \OC\HintException When the upgrade from the given version is not allowed
+	 * @throws \OCP\HintException When the upgrade from the given version is not allowed
 	 */
 	public static function needUpgrade(\OC\SystemConfig $config) {
 		if ($config->getValue('installed', false)) {
@@ -1460,11 +1444,11 @@ class OC_Util {
 					return true;
 				} else {
 					// downgrade attempt, throw exception
-					throw new \OC\HintException('Downgrading is not supported and is likely to cause unpredictable issues (from ' . $installedVersion . ' to ' . $currentVersion . ')');
+					throw new \OCP\HintException('Downgrading is not supported and is likely to cause unpredictable issues (from ' . $installedVersion . ' to ' . $currentVersion . ')');
 				}
 			} elseif ($versionDiff < 0) {
 				// downgrade attempt, throw exception
-				throw new \OC\HintException('Downgrading is not supported and is likely to cause unpredictable issues (from ' . $installedVersion . ' to ' . $currentVersion . ')');
+				throw new \OCP\HintException('Downgrading is not supported and is likely to cause unpredictable issues (from ' . $installedVersion . ' to ' . $currentVersion . ')');
 			}
 
 			// also check for upgrades for apps (independently from the user)

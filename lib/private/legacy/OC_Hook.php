@@ -28,10 +28,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
-/**
- * @deprecated 18.0.0 use events and the \OCP\EventDispatcher\IEventDispatcher service
- */
 class OC_Hook {
 	public static $thrownExceptions = [];
 
@@ -85,7 +81,7 @@ class OC_Hook {
 	 * @param string $signalName name of signal
 	 * @param mixed $params default: array() array with additional data
 	 * @return bool true if slots exists or false if not
-	 * @throws \OC\HintException
+	 * @throws \OCP\HintException
 	 * @throws \OC\ServerNotAvailableException Emits a signal. To get data from the slot use references!
 	 *
 	 * TODO: write example
@@ -111,7 +107,7 @@ class OC_Hook {
 			} catch (Exception $e) {
 				self::$thrownExceptions[] = $e;
 				\OC::$server->getLogger()->logException($e);
-				if ($e instanceof \OC\HintException) {
+				if ($e instanceof \OCP\HintException) {
 					throw $e;
 				}
 				if ($e instanceof \OC\ServerNotAvailableException) {

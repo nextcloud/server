@@ -20,7 +20,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Files\Cache;
 
 use OCP\Files\Cache\ICacheEntry;
@@ -124,5 +123,9 @@ class CacheEntry implements ICacheEntry {
 
 	public function getData() {
 		return $this->data;
+	}
+
+	public function __clone() {
+		$this->data = array_merge([], $this->data);
 	}
 }

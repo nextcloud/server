@@ -1,7 +1,11 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2020 Julius Härtl <jus@bitgrid.net>
  *
+ * @author Jan C. Borchardt <hey@jancborchardt.net>
  * @author Julius Härtl <jus@bitgrid.net>
  *
  * @license GNU AGPL version 3 or any later version
@@ -20,10 +24,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
-declare(strict_types=1);
-
-
 namespace OCA\Dashboard\Service;
 
 use InvalidArgumentException;

@@ -5,6 +5,7 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2020 Joas Schilling <coding@schilljs.com>
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Joas Schilling <coding@schilljs.com>
  *
  * @license GNU AGPL version 3 or any later version
@@ -16,17 +17,15 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Repair\NC21;
 
-use OC\Accounts\AccountManager;
 use OCP\Accounts\IAccountManager;
 use OCP\IConfig;
 use OCP\IUser;
@@ -40,11 +39,11 @@ class ValidatePhoneNumber implements IRepairStep {
 	protected $config;
 	/** @var IUserManager */
 	protected $userManager;
-	/** @var AccountManager */
+	/** @var IAccountManager */
 	private $accountManager;
 
 	public function __construct(IUserManager $userManager,
-								AccountManager $accountManager,
+								IAccountManager $accountManager,
 								IConfig $config) {
 		$this->config = $config;
 		$this->userManager = $userManager;
@@ -53,10 +52,6 @@ class ValidatePhoneNumber implements IRepairStep {
 
 	public function getName(): string {
 		return 'Validate the phone number and store it in a known format for search';
-	}
-
-	private function shouldRun(): bool {
-		return true;
 	}
 
 	public function run(IOutput $output): void {
@@ -68,13 +63,16 @@ class ValidatePhoneNumber implements IRepairStep {
 		$numRemoved = 0;
 
 		$this->userManager->callForSeenUsers(function (IUser $user) use (&$numUpdated, &$numRemoved) {
-			$account = $this->accountManager->getUser($user);
+			$account = $this->accountManager->getAccount($user);
+			$property = $account->getProperty(IAccountManager::PROPERTY_PHONE);
 
-			if ($account[IAccountManager::PROPERTY_PHONE]['value'] !== '') {
-				$updated = $this->accountManager->updateUser($user, $account);
+			if ($property->getValue() !== '') {
+				$this->accountManager->updateAccount($account);
+				$updatedAccount = $this->accountManager->getAccount($user);
+				$updatedProperty = $updatedAccount->getProperty(IAccountManager::PROPERTY_PHONE);
 
-				if ($account[IAccountManager::PROPERTY_PHONE]['value'] !== $updated[IAccountManager::PROPERTY_PHONE]['value']) {
-					if ($updated[IAccountManager::PROPERTY_PHONE]['value'] === '') {
+				if ($property->getValue() !== $updatedProperty->getValue()) {
+					if ($updatedProperty->getValue() === '') {
 						$numRemoved++;
 					} else {
 						$numUpdated++;

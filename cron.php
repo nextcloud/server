@@ -20,6 +20,7 @@
  * @author Steffen Lindner <mail@steffen-lindner.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <vincent@nextcloud.com>
+ * @author Stephen Michel <git@smichel.me>
  *
  * @license AGPL-3.0
  *
@@ -36,7 +37,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 require_once __DIR__ . '/lib/versioncheck.php';
 
 try {
@@ -159,6 +159,10 @@ try {
 	exit();
 } catch (Exception $ex) {
 	\OC::$server->getLogger()->logException($ex, ['app' => 'cron']);
+	echo $ex . PHP_EOL;
+	exit(1);
 } catch (Error $ex) {
 	\OC::$server->getLogger()->logException($ex, ['app' => 'cron']);
+	echo $ex . PHP_EOL;
+	exit(1);
 }

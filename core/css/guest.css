@@ -662,6 +662,10 @@ form #selectDbType label span {
 .groupbottom input[type=submit] {
 	box-shadow: none !important;
 }
+.grouptop.groupbottom input {
+	border-radius: 3px !important;
+	margin: 5px 0 !important;
+}
 
 #install-recommended-apps + label span {
 	display: inline-block;

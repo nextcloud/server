@@ -23,7 +23,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\SystemTag;
 
 use OCP\IGroupManager;
@@ -115,17 +114,18 @@ class SystemTagsObjectTypeCollection implements ICollection {
 	}
 
 	/**
-	 * @param string $objectId
+	 * @param string $objectName
+	 *
 	 * @return SystemTagsObjectMappingCollection
 	 * @throws NotFound
 	 */
-	public function getChild($objectId) {
+	public function getChild($objectName) {
 		// make sure the object exists and is reachable
-		if (!$this->childExists($objectId)) {
+		if (!$this->childExists($objectName)) {
 			throw new NotFound('Entity does not exist or is not available');
 		}
 		return new SystemTagsObjectMappingCollection(
-			$objectId,
+			$objectName,
 			$this->objectType,
 			$this->userSession->getUser(),
 			$this->tagManager,

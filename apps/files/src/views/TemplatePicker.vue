@@ -199,7 +199,7 @@ export default {
 			const fileList = OCA?.Files?.App?.currentFileList
 
 			try {
-				const response = await axios.post(generateOcsUrl('apps/files/api/v1/templates', 2) + 'create', {
+				const response = await axios.post(generateOcsUrl('apps/files/api/v1/templates/create'), {
 					filePath: `${currentDirectory}/${this.name}`,
 					templatePath: this.selectedTemplate?.filename,
 					templateType: this.selectedTemplate?.templateType,
@@ -274,7 +274,7 @@ export default {
 	}
 
 	// Make sure we're relative for the loading emptycontent on top
-	/deep/ .modal-container {
+	::v-deep .modal-container {
 		position: relative;
 		overflow-y: auto !important;
 	}

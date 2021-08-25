@@ -26,13 +26,13 @@ OC.L10N.register(
     "This week" : "Denna vecka",
     "Online" : "Online",
     "Invisible" : "Osynlig",
-    "Offline" : "Offline",
+    "Offline" : "Frånkopplad",
     "There was an error saving the new status" : "Ett fel inträffade när den nya statusen skulle sparas",
     "30 minutes" : "30 minuter",
     "1 hour" : "1 timme",
     "4 hours" : "4 timmar",
     "Mute all notifications" : "Dölj alla aviseringar",
-    "Appear offline" : "Visa som offline",
+    "Appear offline" : "Visa som frånkopplad",
     "Clear status after" : "Rensa status efter"
 },
 "nplurals=2; plural=(n != 1);");

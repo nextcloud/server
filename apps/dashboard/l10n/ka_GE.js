@@ -6,7 +6,6 @@ OC.L10N.register(
     "Show something" : "აჩვენე რამე",
     "Customize" : "პერსონალიზაცია",
     "Edit widgets" : "ვიჯეტების დაედითება",
-    "Get more widgets from the app store" : "გადმოწერე მეტი ვიჯეტები app store-დან.",
     "Change background image" : "შეცვალე უკანა ფონის სურათი",
     "Weather service" : "ამინდის სერვისი",
     "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "თქვენი კონფენდენციალურობისთვის, ამინდზე ინფორმაცია მოთხოვნილია ჩვენი Nextcloud-ის სერვერის მიერ, ამჟამად ამინდის სერვისები თქვენს პირად ინფორმაციას არ მიიღებენ.",
@@ -25,6 +24,7 @@ OC.L10N.register(
     "Default images" : "საწყისი სურათები",
     "Plain background" : "ცარიელი ფონი",
     "Insert from {productName}" : "შეავსეთ {productName}-დან",
+    "Get more widgets from the app store" : "გადმოწერე მეტი ვიჯეტები app store-დან.",
     "Good night, {name}" : "ღამე მშვიდობის, {name}",
     "Good night" : "ღამე მშვიდობის",
     "Pick from files" : "აირჩიეთ ფაილებიდან"

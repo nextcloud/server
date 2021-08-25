@@ -25,7 +25,6 @@ OC.L10N.register(
     "Password to access %1$s was sent to you" : "A %1$s eléréséhez szükséges jelszót elküldtük neked",
     "Password to access {file} was sent to you" : "A {file} eléréséhez szükséges jelszót elküldtük neked",
     "Sharing %1$s failed, because this item is already shared with user %2$s" : "%1$s megosztása sikertelen, mert már meg van osztva %2$s felhasználóval",
-    "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Nem tudtuk elküldeni neked az automatikusan generált jelszót. Kérlek állíts be egy érvényes e-mail címet a profilodban és próbáld meg újra.",
     "Failed to send share by email" : "Nem sikerült elküldeni a megosztó e-mailt",
     "%1$s shared »%2$s« with you" : "%1$s megosztotta veled »%2$s«",
     "%1$s shared »%2$s« with you." : "%1$s megosztotta veled »%2$s«.",
@@ -50,6 +49,7 @@ OC.L10N.register(
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Segítségével személyre szabott megosztási linket hozhatsz létre egy fájlhoz vagy mappához az e-mail cím beleírásával.",
     "Send password by mail" : "Jelszó kiküldése e-mailben",
     "Reply to initiator" : "Megválaszolva {initiator} által",
+    "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Nem tudtuk elküldeni neked az automatikusan generált jelszót. Kérlek állíts be egy érvényes e-mail címet a profilodban és próbáld meg újra.",
     "Enforce password protection" : "Jelszóvédelem kényszerítése"
 },
 "nplurals=2; plural=(n != 1);");

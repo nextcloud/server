@@ -83,7 +83,7 @@ OC.L10N.register(
     "Available flows" : "Beschikbare flows",
     "For details on how to write your own flow, check out the development documentation." : "Raadpleeg de ontwikkeldocumentatie voor meer informatie over het ontwikkelen van je eigen flow.",
     "More flows" : "Meer flows",
-    "Browse the app store" : "Blader door de app store",
+    "Browse the App Store" : "Blader door de App Store",
     "Show less" : "Toon minder",
     "Show more" : "Toon meer",
     "Configured flows" : "Geconfigureerde flows",
@@ -114,6 +114,7 @@ OC.L10N.register(
     "Request user agent" : "Useragent aanvraag",
     "User group membership" : "Gebruikersgroep lidmaatschap",
     "is member of" : "is lid van",
-    "is not member of" : "is geen lid van"
+    "is not member of" : "is geen lid van",
+    "Browse the app store" : "Blader door de app store"
 },
 "nplurals=2; plural=(n != 1);");

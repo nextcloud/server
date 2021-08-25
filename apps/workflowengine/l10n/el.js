@@ -83,7 +83,6 @@ OC.L10N.register(
     "Available flows" : "Διαθέσιμες ροές",
     "For details on how to write your own flow, check out the development documentation." : "Για λεπτομέρεις πως μπορείτε να συντάξετε δική σας ροή, δείτε στην τεκμηρίωση προγραμματιστών.",
     "More flows" : "Περισσότερες ροές",
-    "Browse the app store" : "Εξερεύνηση αγοράς αφαρμογών",
     "Show less" : "Εμφάνιση λιγότερων",
     "Show more" : "Εμφάνιση περισσότερων",
     "Configured flows" : "Ρύθμιση ροών",
@@ -114,6 +113,7 @@ OC.L10N.register(
     "Request user agent" : "Αιτηθείτε αντιπρόσωπο χρήστη",
     "User group membership" : "Συμμετοχή σε ομάδα χρηστών",
     "is member of" : "είναι μέλος του",
-    "is not member of" : "δεν είναι μέλος του"
+    "is not member of" : "δεν είναι μέλος του",
+    "Browse the app store" : "Εξερεύνηση αγοράς αφαρμογών"
 },
 "nplurals=2; plural=(n != 1);");

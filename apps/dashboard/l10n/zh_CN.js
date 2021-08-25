@@ -6,7 +6,7 @@ OC.L10N.register(
     "Show something" : "显示信息",
     "Customize" : "自定义",
     "Edit widgets" : "编辑小部件",
-    "Get more widgets from the app store" : "从应用商店获取更多小部件",
+    "Get more widgets from the App Store" : "从应用商店获取更多小部件",
     "Change background image" : "更改背景图片",
     "Weather service" : "天气服务",
     "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "为了您的隐私，天气数据由您的 Nextcloud 服务器为您获取，这样天气服务就无法获得您的个人信息。",
@@ -27,6 +27,7 @@ OC.L10N.register(
     "Default images" : "默认图片",
     "Plain background" : "纯色背景",
     "Insert from {productName}" : "从 {productName} 插入",
+    "Get more widgets from the app store" : "从应用商店获取更多小部件",
     "Good night, {name}" : "晚安，{name}",
     "Good night" : "晚安",
     "Pick from files" : "从文件选取"

@@ -1,7 +1,7 @@
 OC.L10N.register(
     "files_external",
     {
-    "External storages" : "حافظه خارجی",
+    "External storage" : "حافظه خارجی",
     "Personal" : "شخصی",
     "System" : "سیستم",
     "Grant access" : " مجوز اعطا دسترسی",
@@ -100,11 +100,9 @@ OC.L10N.register(
     "SFTP" : "SFTP",
     "Root" : "ریشه",
     "SFTP with secret key login" : "SFTP با ورود به سیستم کلید مخفی",
-    "SMB / CIFS" : "SMB / CIFS",
     "Share" : "اشتراک‌گذاری",
     "Show hidden files" : "نمایش فایل‌های مخفی",
     "Timeout" : "زمان پایان",
-    "SMB / CIFS using OC login" : "SMB / CIFS با استفاده از ورود OC",
     "Username as share" : "نام کاربری به عنوان اشتراک",
     "OpenStack Object Storage" : "فضای ذخیره سازی شیء OpenStack",
     "Service name" : "نام سرویس",
@@ -122,7 +120,6 @@ OC.L10N.register(
     "Open documentation" : "مستندات باز",
     "External storage enables you to mount external storage services and devices as secondary Nextcloud storage devices. You may also allow users to mount their own external storage services." : "فضای ذخیره سازی خارجی شما را قادر می سازد خدمات و دستگاههای ذخیره سازی خارجی را به عنوان دستگاههای ذخیره سازی ثانویه Cloud نصب کنید. همچنین ممکن است به کاربران اجازه دهید خدمات ذخیره سازی خارجی خود را سوار کنند.",
     "Folder name" : "نام پوشه",
-    "External storage" : "حافظه خارجی",
     "Authentication" : "احراز هویت",
     "Configuration" : "پیکربندی",
     "Available for" : "در دسترس برای",
@@ -130,7 +127,10 @@ OC.L10N.register(
     "Add storage" : "اضافه کردن حافظه",
     "Advanced settings" : "تنظیمات پیشرفته",
     "Allow users to mount external storage" : "به کاربران اجازه دهید حافظه خارجی را نصب کنند.",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "از اعتبار جهانی می توان برای تأیید اعتبار با چندین انبار خارجی که دارای اعتبار یکسانی هستند استفاده کرد.",
-    "(group)" : "(گروه)"
+    "External storages" : "حافظه خارجی",
+    "(group)" : "(گروه)",
+    "SMB / CIFS" : "SMB / CIFS",
+    "SMB / CIFS using OC login" : "SMB / CIFS با استفاده از ورود OC",
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "از اعتبار جهانی می توان برای تأیید اعتبار با چندین انبار خارجی که دارای اعتبار یکسانی هستند استفاده کرد."
 },
 "nplurals=2; plural=(n > 1);");

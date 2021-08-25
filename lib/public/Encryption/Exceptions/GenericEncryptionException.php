@@ -24,10 +24,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\Encryption\Exceptions;
 
-use OC\HintException;
+use OCP\HintException;
 
 /**
  * Class GenericEncryptionException

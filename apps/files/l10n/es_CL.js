@@ -67,9 +67,6 @@ OC.L10N.register(
     "File name cannot be empty." : "El nombre de archivo no puede estar vacío.",
     "\"/\" is not allowed inside a file name." : "No se permite el uso del caracter \"/\" en el nombre del archivo.",
     "\"{name}\" is not an allowed filetype" : "\"{name}\" es un tipo de archivo no permitido",
-    "Storage of {owner} is full, files can not be updated or synced anymore!" : "El espacio de {owner} está lleno. ¡Los archivos ya no se pueden actualizar o sincronizar!",
-    "Your storage is full, files can not be updated or synced anymore!" : "Tu espacio está lleno. ¡Los archivos ya no se pueden actualizar o sincronizar!",
-    "_matches '{filter}'_::_match '{filter}'_" : ["coincide '{filter}'","coincidencia '{filter}'"],
     "View in folder" : "Ver en la carpeta",
     "Copied!" : "¡Copiado!",
     "Copy direct link (only works for users who have access to this file/folder)" : "Copiar liga directa (sólo funciona para usuarios que tienen acceso a este archivo/carpeta)",
@@ -144,13 +141,8 @@ OC.L10N.register(
     "Shared by link" : "Compartido por liga",
     "Text file" : "Archivo de texto",
     "New text file.txt" : "Nuevo ArchivoDeTexto.txt",
-    "Unshare" : "Dejar de compartir",
-    "Storage of {owner} is almost full ({usedSpacePercent}%)" : "El espacio de {owner} está casi lleno ({usedSpacePercent}%)",
-    "Your storage is almost full ({usedSpacePercent}%)" : "Tu espacio está casi lleno ({usedSpacePercent}%)",
-    "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>" : "Un archivo o carpeta ha sido <strong>cambiado </strong> o <strong>renombrado</strong>",
-    "A new file or folder has been <strong>created</strong>" : "Un archivo o carpeta ha sido <strong>creado</strong>",
-    "A file or folder has been <strong>deleted</strong>" : "Un archivo o carpeta ha sido <strong>borrado</strong>",
-    "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Limita las notificaciones de la creación y cambios a tus <strong>archivos favoritos</strong> <em>(sólo flujo)</em>",
-    "A file or folder has been <strong>restored</strong>" : "Un archivo o carpeta ha sido <strong>restaurado</strong>"
+    "Storage of {owner} is full, files can not be updated or synced anymore!" : "El espacio de {owner} está lleno. ¡Los archivos ya no se pueden actualizar o sincronizar!",
+    "Your storage is full, files can not be updated or synced anymore!" : "Tu espacio está lleno. ¡Los archivos ya no se pueden actualizar o sincronizar!",
+    "_matches '{filter}'_::_match '{filter}'_" : ["coincide '{filter}'","coincidencia '{filter}'"]
 },
 "nplurals=2; plural=(n != 1);");

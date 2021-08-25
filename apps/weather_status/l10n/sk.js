@@ -7,11 +7,15 @@ OC.L10N.register(
     "Error" : "Chyba",
     "Weather status" : "Stav počasia",
     "Weather status in your dashboard" : "Stav počasia v informačnom paneli",
+    "Weather status integrated in the Dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Stav počasia integrovaný do aplikácie Dashboard.\n    Poloha užívateľa môže byť automaticky zistená alebo manuálne zadaná. Zobrazuje sa 6 hodinová predpoveď počasia.\n    Stav počasia je možné integrovať aj s inými miestami ako napríklad s aplikáciou Kalendár.",
     "Detect location" : "Zistiť polohu",
     "Set custom address" : "Nastaviť vlastnú adresu",
     "Favorites" : "Obľúbené",
     "{temperature} {unit} Clear sky at {time}" : "{temperature} {unit} Jasno o {time}",
     "{temperature} {unit} Cloudy at {time}" : "{temperature} {unit} Oblačno o {time}",
+    "{temperature} {unit} Fair day at {time}" : "{temperature} {unit} Fašiangy o {time}",
+    "{temperature} {unit} Fair night at {time}" : "{temperature} {unit} Jaromočná noc o {time}",
+    "{temperature} {unit} Partly cloudy at {time}" : "{temperature} {unit} Čiastočne zamračené o {time}",
     "{temperature} {unit} Foggy at {time}" : "{temperature} {unit} Hmlisto o {time}",
     "{temperature} {unit} Light rain at {time}" : "{temperature} {unit} Slabý dážď o {time}",
     "{temperature} {unit} Rain at {time}" : "{temperature} {unit} Dážď o {time}",
@@ -31,6 +35,7 @@ OC.L10N.register(
     "There was an error setting the location address." : "Pri nastavovaní adresy sa vyskytla chyba.",
     "There was an error setting the location." : "Pri nastavovaní polohy sa vyskytla chyba.",
     "There was an error saving the mode." : "Pri ukladaní režimu sa vyskytla chyba.",
-    "There was an error using personal address." : "Pri použití osobnej adresy sa vyskytla chyba."
+    "There was an error using personal address." : "Pri použití osobnej adresy sa vyskytla chyba.",
+    "Weather status integrated in the dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Stav počasia integrovaný do aplikácie Dashboard.\nPoloha užívateľa môže byť automaticky zistená alebo manuálne zadaná. Zobrazuje sa 6 hodinová predpoveď počasia.\nStav počasia je možné integrovať aj s inými miestami ako napríklad s aplikáciou Kalendár."
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

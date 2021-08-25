@@ -28,7 +28,7 @@
 
 	FileList.prototype = _.extend({}, OCA.Files.FileList.prototype,
 		/** @lends OCA.Files_External.FileList.prototype */ {
-		appName: 'External storages',
+		appName: 'External storage',
 
 		_allowSelection: false,
 
@@ -92,7 +92,7 @@
 			this._setCurrentDir('/', false);
 
 			this._reloadCall = $.ajax({
-				url: OC.linkToOCS('apps/files_external/api/v1') + 'mounts',
+				url: OC.linkToOCS('apps/files_external/api/v1/mounts'),
 				data: {
 					format: 'json'
 				},

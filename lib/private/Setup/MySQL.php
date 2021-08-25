@@ -9,7 +9,6 @@
  * @author Joas Schilling <coding@schilljs.com>
  * @author Michael Göhler <somebody.here@gmx.de>
  * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <vincent@nextcloud.com>
  *
@@ -28,7 +27,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Setup;
 
 use OC\DB\ConnectionAdapter;
@@ -164,7 +162,7 @@ class MySQL extends AbstractDatabase {
 						$this->dbUser = $adminUser;
 
 						//create a random password so we don't need to store the admin password in the config file
-						$this->dbPassword = $this->random->generate(30, ISecureRandom::CHAR_DIGITS . ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_UPPER);
+						$this->dbPassword = $this->random->generate(30, ISecureRandom::CHAR_ALPHANUMERIC);
 
 						$this->createDBUser($connection);
 

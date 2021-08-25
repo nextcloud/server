@@ -23,7 +23,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_Versions\Command;
 
 use OCA\Files_Versions\Expiration;
@@ -74,7 +73,7 @@ class ExpireVersions extends Command {
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$maxAge = $this->expiration->getMaxAgeAsTimestamp();
 		if (!$maxAge) {
-			$output->writeln("No expiry configured.");
+			$output->writeln("Auto expiration is configured - expiration will be handled automatically according to the expiration patterns detailed at the following link https://docs.nextcloud.com/server/latest/admin_manual/configuration_files/file_versioning.html.");
 			return 1;
 		}
 

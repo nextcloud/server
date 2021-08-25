@@ -2,6 +2,7 @@
 /**
  * @copyright 2016, Roeland Jago Douma <roeland@famdouma.nl>
  *
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -14,21 +15,20 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Provisioning_API\Tests\Middleware;
 
 use OCA\Provisioning_API\Middleware\Exceptions\NotSubAdminException;
 use OCA\Provisioning_API\Middleware\ProvisioningApiMiddleware;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http;
 use OCP\AppFramework\OCS\OCSException;
-use OCP\AppFramework\OCSController;
 use OCP\AppFramework\Utility\IControllerMethodReflector;
 use Test\TestCase;
 
@@ -115,7 +115,7 @@ class ProvisioningApiMiddlewareTest extends TestCase {
 		} catch (OCSException $e) {
 			$this->assertFalse($forwared);
 			$this->assertSame($exception->getMessage(), $e->getMessage());
-			$this->assertSame(OCSController::RESPOND_UNAUTHORISED, $e->getCode());
+			$this->assertSame(Http::STATUS_FORBIDDEN, $e->getCode());
 		} catch (\Exception $e) {
 			$this->assertTrue($forwared);
 			$this->assertSame($exception, $e);

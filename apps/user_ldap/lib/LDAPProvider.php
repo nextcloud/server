@@ -4,6 +4,7 @@
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Roger Szabo <roger.szabo@web.de>
  * @author root <root@localhost.localdomain>
@@ -18,14 +19,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\User_LDAP;
 
 use OCA\User_LDAP\User\DeletedUsersIndex;
@@ -309,32 +309,42 @@ class LDAPProvider implements ILDAPProvider, IDeletionFlagSupport {
 
 	/**
 	 * Get an LDAP attribute for a nextcloud user
-	 * @param string $uid the nextcloud user id to get the attribute for
-	 * @param string $attribute the name of the attribute to read
-	 * @return string|null
+	 *
 	 * @throws \Exception if user id was not found in LDAP
 	 */
 	public function getUserAttribute(string $uid, string $attribute): ?string {
+		$values = $this->getMultiValueUserAttribute($uid, $attribute);
+		if (count($values) === 0) {
+			return null;
+		}
+		return current($values);
+	}
+
+	/**
+	 * Get a multi-value LDAP attribute for a nextcloud user
+	 *
+	 * @throws \Exception if user id was not found in LDAP
+	 */
+	public function getMultiValueUserAttribute(string $uid, string $attribute): array {
 		if (!$this->userBackend->userExists($uid)) {
 			throw new \Exception('User id not found in LDAP');
 		}
+
 		$access = $this->userBackend->getLDAPAccess($uid);
 		$connection = $access->getConnection();
-		$key = $uid . "::" . $attribute;
-		$cached = $connection->getFromCache($key);
+		$key = $uid . '-' . $attribute;
 
-		if ($cached !== null) {
+		$cached = $connection->getFromCache($key);
+		if (is_array($cached)) {
 			return $cached;
 		}
 
-		$value = $access->readAttribute($access->username2dn($uid), $attribute);
-		if (is_array($value) && count($value) > 0) {
-			$value = current($value);
-		} else {
-			return null;
+		$values = $access->readAttribute($access->username2dn($uid), $attribute);
+		if ($values === false) {
+			$values = [];
 		}
-		$connection->writeToCache($key, $value);
 
-		return $value;
+		$connection->writeToCache($key, $values);
+		return $values;
 	}
 }

@@ -1,7 +1,11 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author J0WI <J0WI@users.noreply.github.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
@@ -21,7 +25,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP;
 
 /**
@@ -35,7 +38,7 @@ interface ICertificateManager {
 	 * @return \OCP\ICertificate[]
 	 * @since 8.0.0
 	 */
-	public function listCertificates();
+	public function listCertificates(): array;
 
 	/**
 	 * @param string $certificate the certificate data
@@ -44,13 +47,14 @@ interface ICertificateManager {
 	 * @throws \Exception If the certificate could not get added
 	 * @since 8.0.0 - since 8.1.0 throws exception instead of returning false
 	 */
-	public function addCertificate($certificate, $name);
+	public function addCertificate(string $certificate, string $name): \OCP\ICertificate;
 
 	/**
 	 * @param string $name
+	 * @return bool
 	 * @since 8.0.0
 	 */
-	public function removeCertificate($name);
+	public function removeCertificate(string $name): bool;
 
 	/**
 	 * Get the path to the certificate bundle
@@ -58,7 +62,7 @@ interface ICertificateManager {
 	 * @return string
 	 * @since 8.0.0
 	 */
-	public function getCertificateBundle();
+	public function getCertificateBundle(): string;
 
 	/**
 	 * Get the full local path to the certificate bundle
@@ -66,5 +70,5 @@ interface ICertificateManager {
 	 * @return string
 	 * @since 9.0.0
 	 */
-	public function getAbsoluteBundlePath();
+	public function getAbsoluteBundlePath(): string;
 }

@@ -112,7 +112,6 @@ OC.L10N.register(
     "Wrong or no update parameter given" : "Forkert eller manglende opdateringsparameter",
     "shared by %s" : "deles af %s",
     "Direct link" : "Direkte link",
-    "Add to your Nextcloud" : "Tilføj til din Nextcloud",
     "Share API is disabled" : "Delings-API er slået fra",
     "File sharing" : "Fildeling",
     "Accept" : "Accepter",
@@ -177,6 +176,7 @@ OC.L10N.register(
     "Note" : "Note",
     "Select or drop files" : "Vælg eller slip filer",
     "Uploaded files:" : "Uploadede filer:",
+    "Add to your Nextcloud" : "Tilføj til din Nextcloud",
     "invalid permissions" : "Ugyldige rettigheder"
 },
 "nplurals=2; plural=(n != 1);");

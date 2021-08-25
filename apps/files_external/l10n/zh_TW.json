@@ -1,5 +1,5 @@
 { "translations": {
-    "External storages" : "外部儲存空間",
+    "External storage" : "外部儲存空間",
     "Personal" : "個人",
     "System" : "系統",
     "Grant access" : "授予存取權",
@@ -100,13 +100,13 @@
     "SFTP" : "SFTP",
     "Root" : "Root",
     "SFTP with secret key login" : "以私鑰登入 SFTP",
-    "SMB / CIFS" : "SMB / CIFS",
+    "SMB/CIFS" : "SMB/CIFS",
     "Share" : "分享",
     "Show hidden files" : "顯示隱藏的檔案",
     "Verify ACL access when listing files" : "列出檔案時驗證 ACL 存取權",
     "Check the ACL's of each file or folder inside a directory to filter out items where the user has no read permissions, comes with a performance penalty" : "檢查目錄中每個檔案或資料夾的 ACL，以過濾掉使用者沒有讀取權限的項目，但可能會影響效能",
     "Timeout" : "逾時",
-    "SMB / CIFS using OC login" : "使用 OC 登入的 SMB / CIFS",
+    "SMB/CIFS using OC login" : "使用 OC 登入的 SMB/CIFS",
     "Username as share" : "以使用者名稱分享",
     "OpenStack Object Storage" : "OpenStack 物件儲存",
     "Service name" : "服務名稱",
@@ -124,7 +124,6 @@
     "Open documentation" : "開啟文件",
     "External storage enables you to mount external storage services and devices as secondary Nextcloud storage devices. You may also allow users to mount their own external storage services." : "外部儲存空間讓您可以掛載外部儲存空間服務與裝置來作為次要的 Nextcloud 儲存裝置。您也可以允許使用者掛載他們自己的儲存服務。",
     "Folder name" : "資料夾名稱",
-    "External storage" : "外部儲存空間",
     "Authentication" : "驗證",
     "Configuration" : "設定",
     "Available for" : "可用的",
@@ -132,7 +131,11 @@
     "Add storage" : "新增儲存空間",
     "Advanced settings" : "進階設定",
     "Allow users to mount external storage" : "允許使用者自行掛載外部儲存空間",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "全域憑證可用於驗證多個有相同憑證的外部儲存空間。",
-    "(group)" : "（群組）"
+    "Global credentials can be used to authenticate with multiple external storage that have the same credentials." : "全域憑證可用於驗證多個有相同憑證的外部儲存空間。",
+    "External storages" : "外部儲存空間",
+    "(group)" : "（群組）",
+    "SMB / CIFS" : "SMB / CIFS",
+    "SMB / CIFS using OC login" : "使用 OC 登入的 SMB / CIFS",
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "全域憑證可用於驗證多個有相同憑證的外部儲存空間。"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

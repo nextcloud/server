@@ -17,6 +17,8 @@
  * @author Sergej Pupykin <pupykin.s@gmail.com>
  * @author Stefan Weil <sw@weilnetz.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Valdnet <47037905+Valdnet@users.noreply.github.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -33,7 +35,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\FederatedFileSharing;
 
 use OC\Share20\Exception\InvalidShare;
@@ -440,7 +441,7 @@ class FederatedShareProvider implements IShareProvider {
 	 *
 	 * @param IShare $share
 	 * @throws ShareNotFound
-	 * @throws \OC\HintException
+	 * @throws \OCP\HintException
 	 */
 	protected function sendPermissionUpdate(IShare $share) {
 		$remoteId = $this->getRemoteId($share);
@@ -549,7 +550,7 @@ class FederatedShareProvider implements IShareProvider {
 	 *
 	 * @param IShare $share
 	 * @throws ShareNotFound
-	 * @throws \OC\HintException
+	 * @throws \OCP\HintException
 	 */
 	public function delete(IShare $share) {
 		[, $remote] = $this->addressHandler->splitUserRemote($share->getSharedWith());
@@ -576,7 +577,7 @@ class FederatedShareProvider implements IShareProvider {
 	 * @param IShare $share
 	 * @param bool $isOwner the user can either be the owner or the user who re-sahred it
 	 * @throws ShareNotFound
-	 * @throws \OC\HintException
+	 * @throws \OCP\HintException
 	 */
 	protected function revokeShare($share, $isOwner) {
 		if ($this->userManager->userExists($share->getShareOwner()) && $this->userManager->userExists($share->getSharedBy())) {

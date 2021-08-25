@@ -83,7 +83,6 @@ OC.L10N.register(
     "Available flows" : "Rendelkezésre álló munkafolyamatok",
     "For details on how to write your own flow, check out the development documentation." : "A saját folyamatának megírásának részleteiért, lásd a fejlesztési dokumentációt.",
     "More flows" : "Több munkafolyamat",
-    "Browse the app store" : "Alkalmazás bolt böngészése",
     "Show less" : "Kevesebbet megjelenítése",
     "Show more" : "Több megjelenítése",
     "Configured flows" : "Beállított folyamatok",
@@ -114,6 +113,7 @@ OC.L10N.register(
     "Request user agent" : "Böngésző kérés",
     "User group membership" : "Felhasználói csoport tagság",
     "is member of" : "tagja ennek",
-    "is not member of" : "nem tagja ennek"
+    "is not member of" : "nem tagja ennek",
+    "Browse the app store" : "Alkalmazás bolt böngészése"
 },
 "nplurals=2; plural=(n != 1);");

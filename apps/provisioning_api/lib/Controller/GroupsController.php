@@ -8,10 +8,9 @@ declare(strict_types=1);
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Tom Needham <tom@owncloud.com>
@@ -31,10 +30,9 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Provisioning_API\Controller;
 
-use OC\Accounts\AccountManager;
+use OCP\Accounts\IAccountManager;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
@@ -61,7 +59,7 @@ class GroupsController extends AUserData {
 								IConfig $config,
 								IGroupManager $groupManager,
 								IUserSession $userSession,
-								AccountManager $accountManager,
+								IAccountManager $accountManager,
 								IFactory $l10nFactory,
 								LoggerInterface $logger) {
 		parent::__construct($appName,
@@ -225,7 +223,7 @@ class GroupsController extends AUserData {
 			return new DataResponse(['users' => $usersDetails]);
 		}
 
-		throw new OCSException('User does not have access to specified group', OCSController::RESPOND_UNAUTHORISED);
+		throw new OCSException('The requested group could not be found', OCSController::RESPOND_NOT_FOUND);
 	}
 
 	/**
@@ -234,10 +232,11 @@ class GroupsController extends AUserData {
 	 * @PasswordConfirmationRequired
 	 *
 	 * @param string $groupid
+	 * @param string $displayname
 	 * @return DataResponse
 	 * @throws OCSException
 	 */
-	public function addGroup(string $groupid): DataResponse {
+	public function addGroup(string $groupid, string $displayname = ''): DataResponse {
 		// Validate name
 		if (empty($groupid)) {
 			$this->logger->error('Group name not supplied', ['app' => 'provisioning_api']);
@@ -247,7 +246,13 @@ class GroupsController extends AUserData {
 		if ($this->groupManager->groupExists($groupid)) {
 			throw new OCSException('group exists', 102);
 		}
-		$this->groupManager->createGroup($groupid);
+		$group = $this->groupManager->createGroup($groupid);
+		if ($group === null) {
+			throw new OCSException('Not supported by backend', 103);
+		}
+		if ($displayname !== '') {
+			$group->setDisplayName($displayname);
+		}
 		return new DataResponse();
 	}
 
@@ -271,7 +276,7 @@ class GroupsController extends AUserData {
 
 			throw new OCSException('Not supported by backend', 101);
 		} else {
-			throw new OCSException('', OCSController::RESPOND_UNAUTHORISED);
+			throw new OCSException('', OCSController::RESPOND_UNKNOWN_ERROR);
 		}
 	}
 

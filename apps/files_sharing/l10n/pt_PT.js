@@ -87,11 +87,9 @@ OC.L10N.register(
     "Not a directory" : "Não é uma diretoria",
     "Could not lock path" : "Não foi possível bloquear o caminho",
     "Wrong or no update parameter given" : "Parâmetro indicado errado ou desatualizado",
-    "Can't change permissions for public share links" : "Não é possível alterar as permissões para as hiperligações de partilha pública",
     "shared by %s" : "partilhado por %s",
     "Download all files" : "Transferir todos os ficheiros",
     "Direct link" : "Hiperligação direta",
-    "Add to your Nextcloud" : "Adicionar à sua Nextcloud",
     "Share API is disabled" : "A partilha de API está desativada",
     "File sharing" : "Partilha de ficheiro",
     "Accept" : "Aceitar",
@@ -145,6 +143,8 @@ OC.L10N.register(
     "Note" : "Nota",
     "Select or drop files" : "Seleccione ou solte ficheiros",
     "Uploaded files:" : "Ficheiros enviados:",
-    "invalid permissions" : "permissões inválidas"
+    "Add to your Nextcloud" : "Adicionar à sua Nextcloud",
+    "invalid permissions" : "permissões inválidas",
+    "Can't change permissions for public share links" : "Não é possível alterar as permissões para as hiperligações de partilha pública"
 },
 "nplurals=2; plural=(n != 1);");

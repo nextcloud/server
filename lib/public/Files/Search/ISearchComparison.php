@@ -14,14 +14,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCP\Files\Search;
 
 /**
@@ -34,6 +33,7 @@ interface ISearchComparison extends ISearchOperator {
 	public const COMPARE_LESS_THAN = 'lt';
 	public const COMPARE_LESS_THAN_EQUAL = 'lte';
 	public const COMPARE_LIKE = 'like';
+	public const COMPARE_LIKE_CASE_SENSITIVE = 'clike';
 
 	/**
 	 * Get the type of comparison, one of the ISearchComparison::COMPARE_* constants

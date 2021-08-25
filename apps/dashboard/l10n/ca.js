@@ -6,7 +6,6 @@ OC.L10N.register(
     "Show something" : "Mostra alguna cosa",
     "Customize" : "Personalitza",
     "Edit widgets" : "Edita els ginys",
-    "Get more widgets from the app store" : "Obtenir més ginys de la botiga d'aplicacions",
     "Change background image" : "Canvia la imatge de fons",
     "Weather service" : "Servei meteorològic",
     "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Per a la seva privacitat, les dades meteorològiques les sol·licita el seu servidor Nextcloud en el seu lloc perquè el servei meteorològic no rebi cap informació personal.",
@@ -27,6 +26,7 @@ OC.L10N.register(
     "Default images" : "Imatges predeterminades",
     "Plain background" : "Fons senzill",
     "Insert from {productName}" : "Insereix des de {productName}",
+    "Get more widgets from the app store" : "Obtenir més ginys de la botiga d'aplicacions",
     "Good night, {name}" : "Bona nit, {name}",
     "Good night" : "Bona nit",
     "Pick from files" : "Tria entre fitxers"

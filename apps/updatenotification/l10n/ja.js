@@ -34,7 +34,7 @@ OC.L10N.register(
     "Checked on {lastCheckedDate}" : "{lastCheckedDate} にチェックが入っています",
     "Checking apps for compatible versions" : "アプリの互換性のあるバージョンを確認する",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "config.phpで<samp>appstoreenabled</samp>がfalseに設定されていないことを確認してください。",
-    "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "Appstoreに接続できなかったか、Appstoreからアップデートが返されませんでした。アップデートを手動で検索するか、サーバーがインターネットへアクセスでき、Appstoreに接続できることを確認してください。",
+    "Could not connect to the App Store or no updates have been returned at all. Search manually for updates or make sure your server has access to the internet and can connect to the App Store." : "Appstoreに接続できなかったか、Appstoreからアップデートが返されませんでした。アップデートを手動で検索するか、サーバーがインターネットへアクセスでき、Appstoreに接続できることを確認してください。",
     "<strong>All</strong> apps have a compatible version for this Nextcloud version available" : "<strong>すべて</strong>のアプリが、このNextcloudのバージョンに対応しています。",
     "View changelog" : "変更履歴を確認する",
     "Enterprise" : "法人向け",
@@ -49,6 +49,7 @@ OC.L10N.register(
     "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "新しいリリースの後、公開されるまでには時間がかかります。\n新しいバージョンを公開して配布しますが、問題が発見されたときにバージョンをスキップすることがあります。",
     "Only notification for app updates are available." : "アプリ更新情報があるときのみ通知する。",
     "Checking apps for compatible updates" : "互換性のあるアップデートの有無を確認する",
+    "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "Appstoreに接続できなかったか、Appstoreからアップデートが返されませんでした。アップデートを手動で検索するか、サーバーがインターネットへアクセスでき、Appstoreに接続できることを確認してください。",
     "<strong>All</strong> apps have an update for this version available" : "<strong>すべての</strong> アプリにこのバージョンのアップデートがあります",
     "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> アプリにこのバージョンのアップデートがありません"]
 },

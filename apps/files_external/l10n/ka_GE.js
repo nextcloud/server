@@ -1,7 +1,7 @@
 OC.L10N.register(
     "files_external",
     {
-    "External storages" : "გარე საცავები",
+    "External storage" : "ექსტერნალური საცავი",
     "Personal" : "პირადი",
     "System" : "სისტემა",
     "Grant access" : "წვდომის მინიჭება",
@@ -95,10 +95,8 @@ OC.L10N.register(
     "SFTP" : "SFTP",
     "Root" : "Root",
     "SFTP with secret key login" : "SFTP საიდუმლო გასაღების ლოგინით",
-    "SMB / CIFS" : "SMB / CIFS",
     "Share" : "გაზიარება",
     "Show hidden files" : "დამალული ფაილების ჩვენება",
-    "SMB / CIFS using OC login" : "SMB / CIFS OC ლოგინით",
     "Username as share" : "მომხმარებლის სახელი გაზიარებად",
     "OpenStack Object Storage" : "OpenStack ობიექტ საცავი",
     "Service name" : "სერვისის სახელი",
@@ -112,7 +110,6 @@ OC.L10N.register(
     "Scope" : "ფარგლები",
     "Open documentation" : "ღია დოკუმენტაცია",
     "Folder name" : "დირექტორიის სახელი",
-    "External storage" : "ექსტერნალური საცავი",
     "Authentication" : "აუტენტიფიკაცია",
     "Configuration" : "კონფიგურაცია",
     "Available for" : "ხელმისაწვდომია რომ",
@@ -120,6 +117,9 @@ OC.L10N.register(
     "Add storage" : "საცავის დამატება",
     "Advanced settings" : "დამატებითი პარამეტრები",
     "Allow users to mount external storage" : "მივცეთ მომხმარებლებს გარე საცავის მონტაჟის უფლება",
-    "(group)" : "(ჯგუფი)"
+    "External storages" : "გარე საცავები",
+    "(group)" : "(ჯგუფი)",
+    "SMB / CIFS" : "SMB / CIFS",
+    "SMB / CIFS using OC login" : "SMB / CIFS OC ლოგინით"
 },
 "nplurals=2; plural=(n!=1);");

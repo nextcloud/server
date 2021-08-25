@@ -24,7 +24,8 @@ OC.L10N.register(
     "Password to access {file} was sent to {email}" : "Geslo za dostop do datoteke {file} je bilo poslano na {email}.",
     "Password to access %1$s was sent to you" : "Geslo za dostop do datoteke %1$s je bilo poslano vaš elektronski naslov.",
     "Password to access {file} was sent to you" : "Geslo za dostop do datoteke {file} je bilo poslano vaš elektronski naslov.",
-    "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Samodejno ustvarjenega gesla ni mogoče poslati. Nastaviti je treba veljavni elektronski naslov med osebnimi nastavitvami.",
+    "Sharing %1$s failed, because this item is already shared with user %2$s" : "Nastavljanje souporabe %1$s je spodletelo, ker je predmet že v souporabi z uporabnikom %2$s.",
+    "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Samodejno ustvarjenega gesla ni mogoče poslati. Najprej je treba nastaviti veljavni elektronski naslov med osebnimi nastavitvami.",
     "Failed to send share by email" : "Pošiljanje povezave po elektronski pošti je spodletelo.",
     "%1$s shared »%2$s« with you" : "%1$s vam omogoča souporabo »%2$s«",
     "%1$s shared »%2$s« with you." : "%1$s vam omogoča souporabo »%2$s«.",
@@ -48,6 +49,8 @@ OC.L10N.register(
     "Share provider which allows you to share files by mail" : "Ponudnik souporabe, ki omogoča souporabo datotek prek elektronske pošte",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Dovoli uporabnikom omogočanje souporabe prek osebne povezave na datoteko ali mapo z vpisom elektronskega naslova.",
     "Send password by mail" : "Pošlji geslo po elektronski pošti",
+    "Reply to initiator" : "Odgovori pošiljatelju",
+    "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Samodejno ustvarjenega gesla ni mogoče poslati. Nastaviti je treba veljavni elektronski naslov med osebnimi nastavitvami.",
     "Enforce password protection" : "Vsili zaščito z geslom"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

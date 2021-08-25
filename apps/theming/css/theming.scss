@@ -168,6 +168,18 @@ input.primary,
 	color: $color-primary-text;
 }
 
+#body-login {
+	input.primary:enabled:hover,
+	input.primary:enabled:focus,
+	button.primary:enabled:hover,
+	button.primary:enabled:focus,
+	a.primary:enabled:hover,
+	a.primary:enabled:focus {
+		color: $color-primary-text;
+		background-image: linear-gradient(40deg, $color-primary 0%, lighten($color-primary, 20%) 100%);
+	}
+}
+
 @if ($invert) {
 	#body-login {
 		.body-login-container {

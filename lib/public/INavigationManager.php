@@ -5,7 +5,7 @@
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Morris Jobke <hey@morrisjobke.de>
@@ -27,13 +27,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
-/**
- * Public interface of ownCloud for apps to use.
- * Navigation manager interface
- *
- */
-
 // use OCP namespace for all classes that are considered public.
 // This means that they should be used by apps instead of the internal ownCloud classes
 
@@ -97,4 +90,13 @@ interface INavigationManager {
 	 * @since 14.0.0
 	 */
 	public function getAll(string $type = self::TYPE_APPS): array;
+
+	/**
+	 * Set an unread counter for navigation entries
+	 *
+	 * @param string $id id of the navigation entry
+	 * @param int $unreadCounter Number of unread entries (0 to hide the counter which is the default)
+	 * @since 22.0.0
+	 */
+	public function setUnreadCounter(string $id, int $unreadCounter): void;
 }

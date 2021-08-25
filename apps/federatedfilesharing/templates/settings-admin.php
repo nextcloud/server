@@ -15,7 +15,7 @@ style('federatedfilesharing', 'settings-admin');
 	   title="<?php p($l->t('Open documentation'));?>"
 	   href="<?php p(link_to_docs('admin-sharing-federated')); ?>"></a>
 
-	<p class="settings-hint"><?php p($l->t('Adjust how people can share between servers.')); ?></p>
+	<p class="settings-hint"><?php p($l->t('Adjust how people can share between servers. This includes shares between users on this server as well if they are using federated sharing.')); ?></p>
 
 	<p>
 		<input type="checkbox" name="outgoing_server2server_share_enabled" id="outgoingServer2serverShareEnabled" class="checkbox"

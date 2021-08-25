@@ -23,6 +23,8 @@
     "Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable or uses a self-signed certificate." : "Omogočanje souporabe %1$s je spodletelo, ker ni mogoče najti %2$s. Najverjetneje je strežnik nedosegljiv, ali pa je v uporabo neustrezno potrdilo podpisa.",
     "Could not find share" : "Mape v souporabi ni mogoče najti",
     "Federated sharing" : "Souporaba v zveznem oblaku",
+    "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Povezavo do {share} ste prejeli kot oddaljeno mesto uporabnika {user} (v imenu {behalf})",
+    "You received {share} as a remote share from {user}" : "Povezavo do {share} ste prejeli kot oddaljeno mesto uporabnika {user}",
     "Accept" : "Sprejmi",
     "Decline" : "Zavrni",
     "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Omogoči souporabo prek #Določila ID zveznega oblaka Nextcloud; več na %s",
@@ -32,7 +34,6 @@
     "Provide federated file sharing across servers" : "Omogoči zvezno souporabo prek različnih strežnikov",
     "Federated Cloud Sharing" : "Souporaba zveznega oblaka",
     "Open documentation" : "Odpri dokumentacijo",
-    "Adjust how people can share between servers." : "Določila, kako lahko uporabniki omogočajo souporabo med različnimi strežniki.",
     "Allow users on this server to send shares to other servers (this option also allows WebDAV access to public shares)" : "Dovoli uporabnikom tega strežnika pošiljanje povezav za souporabo na druge strežnike (možnost omogoči tudi dostop prek WebDAV do javnih povezav).",
     "Allow users on this server to receive shares from other servers" : "Dovoli uporabnikom tega strežnika sprejemanje map v souporabo z drugih strežnikov",
     "Allow users on this server to send shares to groups on other servers" : "Dovoli uporabnikom tega strežnika pošiljanje map za souporabo v skupine na drugih strežnikih",
@@ -46,6 +47,6 @@
     "Add to your website" : "Dodaj na spletišče",
     "Share with me via Nextcloud" : "Omogoči souporabo prek oblaka Nextcloud",
     "HTML Code:" : "Koda HTML:",
-    "Allow users on this server to send shares to other servers" : "Dovoli uporabnikom tega strežnika pošiljanje map za souporabo na druge strežnike"
+    "Adjust how people can share between servers." : "Določila, kako lahko uporabniki omogočajo souporabo med različnimi strežniki."
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }

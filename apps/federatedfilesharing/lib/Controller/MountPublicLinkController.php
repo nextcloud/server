@@ -12,6 +12,7 @@
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
  *
@@ -28,10 +29,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\FederatedFileSharing\Controller;
 
-use OC\HintException;
 use OCA\FederatedFileSharing\AddressHandler;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCP\AppFramework\Controller;
@@ -39,6 +38,7 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\Constants;
 use OCP\Federation\ICloudIdManager;
+use OCP\HintException;
 use OCP\Http\Client\IClientService;
 use OCP\IL10N;
 use OCP\ILogger;
@@ -142,7 +142,9 @@ class MountPublicLinkController extends Controller {
 			[, $server] = $this->addressHandler->splitUserRemote($shareWith);
 			$share = $this->shareManager->getShareByToken($token);
 		} catch (HintException $e) {
-			return new JSONResponse(['message' => $e->getHint()], Http::STATUS_BAD_REQUEST);
+			$response = new JSONResponse(['message' => $e->getHint()], Http::STATUS_BAD_REQUEST);
+			$response->throttle();
+			return $response;
 		}
 
 		// make sure that user is authenticated in case of a password protected link

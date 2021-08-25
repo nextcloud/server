@@ -18,14 +18,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\OAuth2\Controller;
 
 use OC\Authentication\Exceptions\ExpiredTokenException;
@@ -148,7 +147,7 @@ class OauthApiController extends Controller {
 		}
 
 		// Rotate the apptoken (so the old one becomes invalid basically)
-		$newToken = $this->secureRandom->generate(72, ISecureRandom::CHAR_UPPER.ISecureRandom::CHAR_LOWER.ISecureRandom::CHAR_DIGITS);
+		$newToken = $this->secureRandom->generate(72, ISecureRandom::CHAR_ALPHANUMERIC);
 
 		$appToken = $this->tokenProvider->rotate(
 			$appToken,
@@ -161,7 +160,7 @@ class OauthApiController extends Controller {
 		$this->tokenProvider->updateToken($appToken);
 
 		// Generate a new refresh token and encrypt the new apptoken in the DB
-		$newCode = $this->secureRandom->generate(128, ISecureRandom::CHAR_UPPER.ISecureRandom::CHAR_LOWER.ISecureRandom::CHAR_DIGITS);
+		$newCode = $this->secureRandom->generate(128, ISecureRandom::CHAR_ALPHANUMERIC);
 		$accessToken->setHashedCode(hash('sha512', $newCode));
 		$accessToken->setEncryptedToken($this->crypto->encrypt($newToken, $newCode));
 		$this->accessTokenMapper->update($accessToken);

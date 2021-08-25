@@ -25,7 +25,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\DB\QueryBuilder;
 
 use Doctrine\DBAL\Connection;
@@ -159,7 +158,7 @@ interface IQueryBuilder {
 	 * @return IResult|int
 	 * @throws Exception since 21.0.0
 	 * @since 8.2.0
-	 * @deprecated 22.0.0 Use executeQuery or executeUpdate
+	 * @deprecated 22.0.0 Use executeQuery or executeStatement
 	 */
 	public function execute();
 

@@ -16,7 +16,6 @@ OC.L10N.register(
     "Password to access {file} was sent to {email}" : "La contraseña para acceder {file} ha sido enviada a {email}",
     "Password to access %1$s was sent to you" : "La contraseña para acceder %1$s se te ha enviado",
     "Password to access {file} was sent to you" : "La contraseña para acceder {file} se te ha sido enviada",
-    "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "No es posible enviarte la contraseña auto-generada. Por favor establece una dirección de correo electrónico váilida en tus configuraciones personales y vuelve a intentarlo.",
     "Failed to send share by email" : "Se presentó una falla al enviar el elemento compartido por correo electrónico",
     "Click the button below to open it." : "Haz click en el botón de abajo para abrirlo.",
     "Open »%s«" : "Abrir »%s«",
@@ -27,6 +26,7 @@ OC.L10N.register(
     "Share provider which allows you to share files by mail" : "Proveedor para compartir que te permite compartir archivos por correo",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Le permite a los usuarios compartir una liga personalizada a un archivo o carpeta colocando una dirección de correo eletrónico. ",
     "Send password by mail" : "La contraseña ha sido enviada por correo",
+    "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "No es posible enviarte la contraseña auto-generada. Por favor establece una dirección de correo electrónico váilida en tus configuraciones personales y vuelve a intentarlo.",
     "Enforce password protection" : "Forzar protección con contraseña"
 },
 "nplurals=2; plural=(n != 1);");

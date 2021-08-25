@@ -34,7 +34,7 @@ OC.L10N.register(
     "Checked on {lastCheckedDate}" : "{lastCheckedDate}-n egiaztatuta",
     "Checking apps for compatible versions" : "Bertsio bateragarrientzat aplikaziorik dagoen egiaztatzen",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Ziurtatu config.php-k ez duela <samp> app store gaitua </samp>faltsu gisa ezartzen.",
-    "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "Ezin izan da appstore-arekin konektatu edo honek ez du eguneratzerik itzuli. Bilatu eskuz eguneratzeak edo ziurtatu zure zerbitzariak internet konexioa duela eta appstore-arekin konektatu daitekeela.",
+    "Could not connect to the App Store or no updates have been returned at all. Search manually for updates or make sure your server has access to the internet and can connect to the App Store." : "Ezin izan da appstore-arekin konektatu edo honek ez du eguneratzerik itzuli. Bilatu eskuz eguneratzeak edo ziurtatu zure zerbitzariak internet konexioa duela eta aplikazio biltegiarekin konektatu daitekeela.",
     "<strong>All</strong> apps have a compatible version for this Nextcloud version available" : "<strong></strong>Aplikazio guztiek Nextcloud bertsio honetarako bertsio bateragarria erabilgarri dute ",
     "View changelog" : "Ikusi aldaketen egunkaria",
     "Enterprise" : "Enpresa",
@@ -49,6 +49,7 @@ OC.L10N.register(
     "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "Kontuan izan bertsio berriak ateratzean denbora behar izaten dutela hemen agertzeko. Denboran zehar tartekatuta zabaltzen ditugu bertsio berriak eta batzuetan bertsio bat saltatu egiten dugu, arazoak topatzen bazaizkio. ",
     "Only notification for app updates are available." : "Aplikazioaren eguneraketen jakinarazpenak soilik daude eskuragarri.",
     "Checking apps for compatible updates" : "Egiaztatzen eguneratzeetarako aplikazio bateragarriak",
+    "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "Ezin izan da appstore-arekin konektatu edo honek ez du eguneratzerik itzuli. Bilatu eskuz eguneratzeak edo ziurtatu zure zerbitzariak internet konexioa duela eta appstore-arekin konektatu daitekeela.",
     "<strong>All</strong> apps have an update for this version available" : "Aplikazio <strong>guztiek</strong>  eguneraketa bat dute bertsio honentzat eskuragarri",
     "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> aplikazioak ez du bertsio hau eskuragarri eguneratzeko","<strong>%n</strong> aplikazioek ez dute bertsio hau eskuragarri eguneratzeko"]
 },

@@ -7,7 +7,7 @@
  * @author Björn Schießle <bjoern@schiessle.org>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Leon Klingele <leon@struktur.de>
@@ -16,7 +16,6 @@
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -33,12 +32,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\User;
 
 use OC\Accounts\AccountManager;
 use OC\Avatar\AvatarManager;
-use OC\Files\Cache\Storage;
 use OC\Hooks\Emitter;
 use OC_Helper;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -221,8 +218,6 @@ class User implements IUser {
 			$this->emitter->emit('\OC\User', 'preDelete', [$this]);
 		}
 		$this->dispatcher->dispatchTyped(new BeforeUserDeletedEvent($this));
-		// get the home now because it won't return it after user deletion
-		$homePath = $this->getHome();
 		$result = $this->backend->deleteUser($this->uid);
 		if ($result) {
 
@@ -240,16 +235,6 @@ class User implements IUser {
 			}
 			// Delete the user's keys in preferences
 			\OC::$server->getConfig()->deleteAllUserValues($this->uid);
-
-			// Delete user files in /data/
-			if ($homePath !== false) {
-				// FIXME: this operates directly on FS, should use View instead...
-				// also this is not testable/mockable...
-				\OC_Helper::rmdirr($homePath);
-			}
-
-			// Delete the users entry in the storage table
-			Storage::remove('home::' . $this->uid);
 
 			\OC::$server->getCommentsManager()->deleteReferencesOfActor('users', $this->uid);
 			\OC::$server->getCommentsManager()->deleteReadMarksFromUser($this);
@@ -426,6 +411,18 @@ class User implements IUser {
 		}
 		if ($quota === 'default') {
 			$quota = $this->config->getAppValue('files', 'default_quota', 'none');
+
+			// if unlimited quota is not allowed => avoid getting 'unlimited' as default_quota fallback value
+			// use the first preset instead
+			$allowUnlimitedQuota = $this->config->getAppValue('files', 'allow_unlimited_quota', '1') === '1';
+			if (!$allowUnlimitedQuota) {
+				$presets = $this->config->getAppValue('files', 'quota_preset', '1 GB, 5 GB, 10 GB');
+				$presets = array_filter(array_map('trim', explode(',', $presets)));
+				$quotaPreset = array_values(array_diff($presets, ['default', 'none']));
+				if (count($quotaPreset) > 0) {
+					$quota = $this->config->getAppValue('files', 'default_quota', $quotaPreset[0]);
+				}
+			}
 		}
 		return $quota;
 	}
@@ -481,7 +478,7 @@ class User implements IUser {
 		$uid = $this->getUID();
 		$server = $this->urlGenerator->getAbsoluteURL('/');
 		$server = rtrim($this->removeProtocolFromUrl($server), '/');
-		return \OC::$server->getCloudIdManager()->getCloudId($uid, $server)->getId();
+		return $uid . '@' . $server;
 	}
 
 	/**

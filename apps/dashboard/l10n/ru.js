@@ -6,7 +6,6 @@ OC.L10N.register(
     "Show something" : "Показать",
     "Customize" : "Настроить",
     "Edit widgets" : "Редактировать виджеты",
-    "Get more widgets from the app store" : "Загрузить виджеты из магазина приложений",
     "Change background image" : "Изменить фоновое изображение",
     "Weather service" : "Погода",
     "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "В целях вашей конфиденциальности данные о погоде запрашиваются вашим сервером Nextcloud от вашего имени, поэтому служба погоды не получает никакой личной информации.",
@@ -27,6 +26,7 @@ OC.L10N.register(
     "Default images" : "Изображения по умолчанию",
     "Plain background" : "Обычный фон",
     "Insert from {productName}" : "Вставить из {productName}",
+    "Get more widgets from the app store" : "Загрузить виджеты из магазина приложений",
     "Good night, {name}" : "Доброй ночи, {name}",
     "Good night" : "Доброй ночи",
     "Pick from files" : "Выбрать из файлов"

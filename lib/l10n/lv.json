@@ -1,6 +1,5 @@
 { "translations": {
     "Cannot write into \"config\" directory!" : "Nevar rakstīt \"config\" mapē!",
-    "This can usually be fixed by giving the webserver write access to the config directory" : "To parasti var labot, dodot tīmekļa servera rakstīšanas piekļuvi config direktorijai",
     "See %s" : "Skatīt %s",
     "Sample configuration detected" : "Atrasta konfigurācijas paraugs",
     "It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php" : "Konstatēts, ka paraug konfigurācija ir nokopēta. Tas var izjaukt jūsu instalāciju un nav atbalstīts. Lūdzu, izlasiet dokumentāciju, pirms veicat izmaiņas config.php",
@@ -101,7 +100,6 @@
     "Login canceled by app" : "Pieteikšanos atcelā lietotne",
     "a safe home for all your data" : "droša vieta visiem jūsu datiem",
     "File is currently busy, please try again later" : "Datne pašlaik ir aizņemta. Lūdzu, vēlāk mēģiniet vēlreiz",
-    "Can't read file" : "Nevar nolasīt datni",
     "Application is not enabled" : "Lietotne nav iespējota",
     "Authentication error" : "Autentifikācijas kļūda",
     "Token expired. Please reload page." : "Pilnvarai ir beidzies termiņš. Lūdzu, pārlādējiet lapu.",
@@ -117,8 +115,8 @@
     "Storage connection error. %s" : "Datu savienojuma kļūda. %s",
     "Storage is temporarily not available" : "Glabātuve īslaicīgi nav pieejama",
     "Storage connection timeout. %s" : "Datu savienojuma taimauts. %s",
-    "Following databases are supported: %s" : "Tiek atbalstītas šādas datu bāzes: %s",
-    "Following platforms are supported: %s" : "Tiek atbalstītas šādas platformas: %s",
-    "Invalid Federated Cloud ID" : "Nederīgs Federated Cloud ID"
+    "This can usually be fixed by giving the webserver write access to the config directory" : "To parasti var labot, dodot tīmekļa servera rakstīšanas piekļuvi config direktorijai",
+    "Invalid Federated Cloud ID" : "Nederīgs Federated Cloud ID",
+    "Can't read file" : "Nevar nolasīt datni"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);"
 }

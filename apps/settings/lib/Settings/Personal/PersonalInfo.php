@@ -7,9 +7,10 @@ declare(strict_types=1);
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Christopher Ng <chrng8@gmail.com>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -25,17 +26,15 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Settings\Settings\Personal;
 
-use OC\Accounts\AccountManager;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCP\Accounts\IAccount;
 use OCP\Accounts\IAccountManager;
@@ -50,6 +49,8 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
 use OCP\Settings\ISettings;
+use OCP\Accounts\IAccountProperty;
+use OCP\AppFramework\Services\IInitialState;
 
 class PersonalInfo implements ISettings {
 
@@ -57,7 +58,7 @@ class PersonalInfo implements ISettings {
 	private $config;
 	/** @var IUserManager */
 	private $userManager;
-	/** @var AccountManager */
+	/** @var IAccountManager */
 	private $accountManager;
 	/** @var IGroupManager */
 	private $groupManager;
@@ -67,15 +68,18 @@ class PersonalInfo implements ISettings {
 	private $l10nFactory;
 	/** @var IL10N */
 	private $l;
+	/** @var IInitialState */
+	private $initialStateService;
 
 	public function __construct(
 		IConfig $config,
 		IUserManager $userManager,
 		IGroupManager $groupManager,
-		AccountManager $accountManager,
+		IAccountManager $accountManager,
 		IAppManager $appManager,
 		IFactory $l10nFactory,
-		IL10N $l
+		IL10N $l,
+		IInitialState $initialStateService
 	) {
 		$this->config = $config;
 		$this->userManager = $userManager;
@@ -84,6 +88,7 @@ class PersonalInfo implements ISettings {
 		$this->appManager = $appManager;
 		$this->l10nFactory = $l10nFactory;
 		$this->l = $l;
+		$this->initialStateService = $initialStateService;
 	}
 
 	public function getForm(): TemplateResponse {
@@ -140,6 +145,15 @@ class PersonalInfo implements ISettings {
 			'groups' => $this->getGroups($user),
 		] + $messageParameters + $languageParameters + $localeParameters;
 
+		$emails = $this->getEmails($account);
+
+		$accountParameters = [
+			'displayNameChangeSupported' => $user->canChangeDisplayName(),
+			'lookupServerUploadEnabled' => $lookupServerUploadEnabled,
+		];
+
+		$this->initialStateService->provideInitialState('emails', $emails);
+		$this->initialStateService->provideInitialState('accountParameters', $accountParameters);
 
 		return new TemplateResponse('settings', 'settings/personal/personal.info', $parameters, '');
 	}
@@ -180,6 +194,39 @@ class PersonalInfo implements ISettings {
 		sort($groups);
 
 		return $groups;
+	}
+
+	/**
+	 * returns the primary email and additional emails in an
+	 * associative array
+	 *
+	 * @param IAccount $account
+	 * @return array
+	 */
+	private function getEmails(IAccount $account): array {
+		$primaryEmail = [
+			'value' => $account->getProperty(IAccountManager::PROPERTY_EMAIL)->getValue(),
+			'scope' => $account->getProperty(IAccountManager::PROPERTY_EMAIL)->getScope(),
+			'verified' => $account->getProperty(IAccountManager::PROPERTY_EMAIL)->getVerified(),
+		];
+
+		$additionalEmails = array_map(
+			function (IAccountProperty $property) {
+				return [
+					'value' => $property->getValue(),
+					'scope' => $property->getScope(),
+					'verified' => $property->getVerified(),
+				];
+			},
+			$account->getPropertyCollection(IAccountManager::COLLECTION_EMAIL)->getProperties()
+		);
+
+		$emails = [
+			'primaryEmail' => $primaryEmail,
+			'additionalEmails' => $additionalEmails,
+		];
+
+		return $emails;
 	}
 
 	/**
@@ -272,10 +319,10 @@ class PersonalInfo implements ISettings {
 		$messageParameters = [];
 		foreach ($needVerifyMessage as $property) {
 			switch ($account->getProperty($property)->getVerified()) {
-				case AccountManager::VERIFIED:
+				case IAccountManager::VERIFIED:
 					$message = $this->l->t('Verifying');
 					break;
-				case AccountManager::VERIFICATION_IN_PROGRESS:
+				case IAccountManager::VERIFICATION_IN_PROGRESS:
 					$message = $this->l->t('Verifying …');
 					break;
 				default:

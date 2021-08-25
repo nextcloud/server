@@ -20,7 +20,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 require '../../../../3rdparty/autoload.php';
 
 if ($argc !== 6) {
