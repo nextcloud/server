@@ -236,4 +236,13 @@ class BackupCodeStorageTest extends TestCase {
 
 		$this->assertFalse($this->storage->validateCode($user, 'CHALLENGE'));
 	}
+
+	public function testDeleteCodes(): void {
+		$user = $this->createMock(IUser::class);
+		$this->mapper->expects($this->once())
+			->method('deleteCodes')
+			->with($user);
+
+		$this->storage->deleteCodes($user);
+	}
 }

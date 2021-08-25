@@ -159,4 +159,13 @@ class BackupCodesProviderTest extends TestCase {
 
 		$this->assertTrue($this->provider->isActive($user));
 	}
+
+	public function testDisable(): void {
+		$user = $this->getMockBuilder(IUser::class)->getMock();
+		$this->storage->expects(self::once())
+			->method('deleteCodes')
+			->with($user);
+
+		$this->provider->disableFor($user);
+	}
 }
