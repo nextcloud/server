@@ -1373,6 +1373,7 @@ return array(
     'OC\\Security\\RateLimiting\\Limiter' => $baseDir . '/lib/private/Security/RateLimiting/Limiter.php',
     'OC\\Security\\SecureRandom' => $baseDir . '/lib/private/Security/SecureRandom.php',
     'OC\\Security\\TrustedDomainHelper' => $baseDir . '/lib/private/Security/TrustedDomainHelper.php',
+    'OC\\Security\\VerificationToken\\CleanUpJob' => $baseDir . '/lib/private/Security/VerificationToken/CleanUpJob.php',
     'OC\\Security\\VerificationToken\\VerificationToken' => $baseDir . '/lib/private/Security/VerificationToken/VerificationToken.php',
     'OC\\Server' => $baseDir . '/lib/private/Server.php',
     'OC\\ServerContainer' => $baseDir . '/lib/private/ServerContainer.php',

@@ -46,7 +46,7 @@ interface IVerificationToken {
 	 * @throws InvalidTokenException
 	 * @since 22.2.0
 	 */
-	public function check(string $token, ?IUser $user, string $subject, string $passwordPrefix = ''): void;
+	public function check(string $token, ?IUser $user, string $subject, string $passwordPrefix = '', bool $expiresWithLogin = false): void;
 
 	/**
 	 * @since 22.2.0
