@@ -30,6 +30,8 @@ namespace OCA\Files_Sharing;
 
 use OC\Cache\CappedMemoryCache;
 use OC\Files\View;
+use OCA\Files_Sharing\Event\ShareMountedEvent;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\IMountProvider;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\IConfig;
@@ -54,15 +56,24 @@ class MountProvider implements IMountProvider {
 	 */
 	protected $logger;
 
+	/** @var IEventDispatcher */
+	protected $eventDispatcher;
+
 	/**
 	 * @param \OCP\IConfig $config
 	 * @param IManager $shareManager
 	 * @param ILogger $logger
 	 */
-	public function __construct(IConfig $config, IManager $shareManager, ILogger $logger) {
+	public function __construct(
+		IConfig $config,
+		IManager $shareManager,
+		ILogger $logger,
+		IEventDispatcher $eventDispatcher
+	) {
 		$this->config = $config;
 		$this->shareManager = $shareManager;
 		$this->logger = $logger;
+		$this->eventDispatcher = $eventDispatcher;
 	}
 
 
@@ -125,7 +136,14 @@ class MountProvider implements IMountProvider {
 					$view,
 					$foldersExistCache
 				);
+
+				$event = new ShareMountedEvent($mount);
+				$this->eventDispatcher->dispatchTyped($event);
+
 				$mounts[$mount->getMountPoint()] = $mount;
+				foreach ($event->getAdditionalMounts() as $additionalMount) {
+					$mounts[$additionalMount->getMountPoint()] = $additionalMount;
+				}
 			} catch (\Exception $e) {
 				$this->logger->logException($e);
 				$this->logger->error('Error while trying to create shared mount');
