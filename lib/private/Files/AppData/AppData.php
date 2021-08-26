@@ -79,7 +79,7 @@ class AppData implements IAppData {
 		return 'appdata_' . $instanceId;
 	}
 
-	private function getAppDataRootFolder(): Folder {
+	protected function getAppDataRootFolder(): Folder {
 		$name = $this->getAppDataFolderName();
 
 		try {
