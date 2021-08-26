@@ -85,4 +85,8 @@ class Root extends AppData {
 	public static function getInternalFolder(string $name): string {
 		return implode('/', str_split(substr(md5($name), 0, 7))) . '/' . $name;
 	}
+
+	public function getStorageId(): int {
+		return $this->getAppDataRootFolder()->getStorage()->getCache()->getNumericStorageId();
+	}
 }
