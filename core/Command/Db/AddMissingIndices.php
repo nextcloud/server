@@ -33,6 +33,7 @@ declare(strict_types=1);
  */
 namespace OC\Core\Command\Db;
 
+use Doctrine\DBAL\Platforms\PostgreSQL94Platform;
 use OC\DB\Connection;
 use OC\DB\SchemaWrapper;
 use OCP\IDBConnection;
@@ -151,7 +152,7 @@ class AddMissingIndices extends Command {
 				$updated = true;
 				$output->writeln('<info>Filecache table updated successfully.</info>');
 			}
-			if (!$table->hasIndex('fs_storage_path_prefix')) {
+			if (!$table->hasIndex('fs_storage_path_prefix') && !$schema->getDatabasePlatform() instanceof PostgreSQL94Platform) {
 				$output->writeln('<info>Adding additional path index to the filecache table, this can take some time...</info>');
 				$table->addIndex(['storage', 'path'], 'fs_storage_path_prefix', [], ['lengths' => [null, 64]]);
 				$this->connection->migrateToSchema($schema->getWrappedSchema());
