@@ -21,7 +21,7 @@
 
 <template>
 	<div>
-		<div class="email-container">
+		<div class="email">
 			<input
 				ref="email"
 				type="email"
@@ -34,27 +34,32 @@
 				required="true"
 				@input="onEmailChange">
 
-			<div class="email-actions-container">
+			<div class="email__actions-container">
 				<transition name="fade">
 					<span v-if="showCheckmarkIcon" class="icon-checkmark" />
 					<span v-else-if="showErrorIcon" class="icon-error" />
 				</transition>
 
-				<FederationControl v-if="!primary"
-					class="federation-control"
-					:disabled="federationDisabled"
-					:email="email"
-					:scope.sync="localScope"
-					@update:scope="onScopeChange" />
+				<template v-if="!primary">
+					<FederationControl
+						:account-property="accountProperty"
+						:additional="true"
+						:additional-value="email"
+						:disabled="federationDisabled"
+						:handle-scope-change="saveAdditionalEmailScope"
+						:scope.sync="localScope"
+						@update:scope="onScopeChange" />
+				</template>
 
 				<Actions
-					class="actions-email"
+					class="email__actions"
 					:aria-label="t('settings', 'Email options')"
 					:disabled="deleteDisabled"
 					:force-menu="true">
 					<ActionButton
 						:aria-label="deleteEmailLabel"
 						:close-after-click="true"
+						:disabled="deleteDisabled"
 						icon="icon-delete"
 						@click.stop.prevent="deleteEmail">
 						{{ deleteEmailLabel }}
@@ -75,8 +80,11 @@ import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
 import { showError } from '@nextcloud/dialogs'
 import debounce from 'debounce'
 
-import FederationControl from './FederationControl'
-import { savePrimaryEmail, saveAdditionalEmail, updateAdditionalEmail, removeAdditionalEmail } from '../../../service/PersonalInfoService'
+import FederationControl from '../shared/FederationControl'
+
+import { ACCOUNT_PROPERTY_READABLE_ENUM } from '../../../constants/AccountPropertyConstants'
+import { savePrimaryEmail, saveAdditionalEmail, saveAdditionalEmailScope, updateAdditionalEmail, removeAdditionalEmail } from '../../../service/PersonalInfo/EmailService'
+import { validateEmail } from '../../../utils/validate'
 
 export default {
 	name: 'Email',
@@ -92,30 +100,54 @@ export default {
 			type: String,
 			required: true,
 		},
-		scope: {
-			type: String,
-			required: true,
+		index: {
+			type: Number,
+			default: 0,
 		},
 		primary: {
 			type: Boolean,
 			default: false,
 		},
-		index: {
-			type: Number,
-			default: 0,
+		scope: {
+			type: String,
+			required: true,
 		},
 	},
 
 	data() {
 		return {
+			accountProperty: ACCOUNT_PROPERTY_READABLE_ENUM.EMAIL,
 			initialEmail: this.email,
 			localScope: this.scope,
+			saveAdditionalEmailScope,
 			showCheckmarkIcon: false,
 			showErrorIcon: false,
 		}
 	},
 
 	computed: {
+		deleteDisabled() {
+			if (this.primary) {
+				// Disable for empty primary email as there is nothing to delete
+				// OR when initialEmail (reflects server state) and email (current input) are not the same
+				return this.email === '' || this.initialEmail !== this.email
+			} else if (this.initialEmail !== '') {
+				return this.initialEmail !== this.email
+			}
+			return false
+		},
+
+		deleteEmailLabel() {
+			if (this.primary) {
+				return t('settings', 'Remove primary email')
+			}
+			return t('settings', 'Delete email')
+		},
+
+		federationDisabled() {
+			return !this.initialEmail
+		},
+
 		inputName() {
 			if (this.primary) {
 				return 'email'
@@ -129,28 +161,11 @@ export default {
 			}
 			return t('settings', 'Additional email address {index}', { index: this.index + 1 })
 		},
-
-		federationDisabled() {
-			return !this.initialEmail
-		},
-
-		deleteDisabled() {
-			if (this.primary) {
-				return this.email === ''
-			}
-			return this.email !== '' && !this.isValid()
-		},
-
-		deleteEmailLabel() {
-			if (this.primary) {
-				return t('settings', 'Remove primary email')
-			}
-			return t('settings', 'Delete email')
-		},
 	},
 
 	mounted() {
 		if (!this.primary && this.initialEmail === '') {
+			// $nextTick is needed here, otherwise it may not always work https://stackoverflow.com/questions/51922767/autofocus-input-on-mount-vue-ios/63485725#63485725
 			this.$nextTick(() => this.$refs.email?.focus())
 		}
 	},
@@ -158,20 +173,19 @@ export default {
 	methods: {
 		onEmailChange(e) {
 			this.$emit('update:email', e.target.value)
-			// $nextTick() ensures that references to this.email further down the chain give the correct non-outdated value
-			this.$nextTick(() => this.debounceEmailChange())
+			this.debounceEmailChange(e.target.value.trim())
 		},
 
-		debounceEmailChange: debounce(async function() {
-			if (this.$refs.email?.checkValidity() || this.email === '') {
+		debounceEmailChange: debounce(async function(email) {
+			if (validateEmail(email) || email === '') {
 				if (this.primary) {
-					await this.updatePrimaryEmail()
+					await this.updatePrimaryEmail(email)
 				} else {
-					if (this.email) {
+					if (email) {
 						if (this.initialEmail === '') {
-							await this.addAdditionalEmail()
+							await this.addAdditionalEmail(email)
 						} else {
-							await this.updateAdditionalEmail()
+							await this.updateAdditionalEmail(email)
 						}
 					}
 				}
@@ -181,40 +195,61 @@ export default {
 		async deleteEmail() {
 			if (this.primary) {
 				this.$emit('update:email', '')
-				this.$nextTick(async() => await this.updatePrimaryEmail())
+				await this.updatePrimaryEmail('')
 			} else {
 				await this.deleteAdditionalEmail()
 			}
 		},
 
-		async updatePrimaryEmail() {
+		async updatePrimaryEmail(email) {
 			try {
-				const responseData = await savePrimaryEmail(this.email)
-				this.handleResponse(responseData.ocs?.meta?.status)
+				const responseData = await savePrimaryEmail(email)
+				this.handleResponse({
+					email,
+					status: responseData.ocs?.meta?.status,
+				})
 			} catch (e) {
-				if (this.email === '') {
-					this.handleResponse('error', 'Unable to delete primary email address', e)
+				if (email === '') {
+					this.handleResponse({
+						errorMessage: 'Unable to delete primary email address',
+						error: e,
+					})
 				} else {
-					this.handleResponse('error', 'Unable to update primary email address', e)
+					this.handleResponse({
+						errorMessage: 'Unable to update primary email address',
+						error: e,
+					})
 				}
 			}
 		},
 
-		async addAdditionalEmail() {
+		async addAdditionalEmail(email) {
 			try {
-				const responseData = await saveAdditionalEmail(this.email)
-				this.handleResponse(responseData.ocs?.meta?.status)
+				const responseData = await saveAdditionalEmail(email)
+				this.handleResponse({
+					email,
+					status: responseData.ocs?.meta?.status,
+				})
 			} catch (e) {
-				this.handleResponse('error', 'Unable to add additional email address', e)
+				this.handleResponse({
+					errorMessage: 'Unable to add additional email address',
+					error: e,
+				})
 			}
 		},
 
-		async updateAdditionalEmail() {
+		async updateAdditionalEmail(email) {
 			try {
-				const responseData = await updateAdditionalEmail(this.initialEmail, this.email)
-				this.handleResponse(responseData.ocs?.meta?.status)
+				const responseData = await updateAdditionalEmail(this.initialEmail, email)
+				this.handleResponse({
+					email,
+					status: responseData.ocs?.meta?.status,
+				})
 			} catch (e) {
-				this.handleResponse('error', 'Unable to update additional email address', e)
+				this.handleResponse({
+					errorMessage: 'Unable to update additional email address',
+					error: e,
+				})
 			}
 		},
 
@@ -223,26 +258,27 @@ export default {
 				const responseData = await removeAdditionalEmail(this.initialEmail)
 				this.handleDeleteAdditionalEmail(responseData.ocs?.meta?.status)
 			} catch (e) {
-				this.handleResponse('error', 'Unable to delete additional email address', e)
+				this.handleResponse({
+					errorMessage: 'Unable to delete additional email address',
+					error: e,
+				})
 			}
-		},
-
-		isValid() {
-			return /^\S+$/.test(this.email)
 		},
 
 		handleDeleteAdditionalEmail(status) {
 			if (status === 'ok') {
-				this.$emit('deleteAdditionalEmail')
+				this.$emit('delete-additional-email')
 			} else {
-				this.handleResponse('error', 'Unable to delete additional email address', {})
+				this.handleResponse({
+					errorMessage: 'Unable to delete additional email address',
+				})
 			}
 		},
 
-		handleResponse(status, errorMessage, error) {
+		handleResponse({ email, status, errorMessage, error }) {
 			if (status === 'ok') {
 				// Ensure that local initialEmail state reflects server state
-				this.initialEmail = this.email
+				this.initialEmail = email
 				this.showCheckmarkIcon = true
 				setTimeout(() => { this.showCheckmarkIcon = false }, 2000)
 			} else {
@@ -261,15 +297,25 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-	.email-container {
+	.email {
 		display: grid;
 		align-items: center;
 
-		input[type=email] {
+		input {
 			grid-area: 1 / 1;
+			height: 34px;
+			width: 100%;
+			margin: 3px 3px 3px 0;
+			padding: 7px 6px;
+			cursor: text;
+			font-family: var(--font-face);
+			border: 1px solid var(--color-border-dark);
+			border-radius: var(--border-radius);
+			background-color: var(--color-main-background);
+			color: var(--color-main-text);
 		}
 
-		.email-actions-container {
+		.email__actions-container {
 			grid-area: 1 / 1;
 			justify-self: flex-end;
 			height: 30px;
@@ -278,7 +324,7 @@ export default {
 			gap: 0 2px;
 			margin-right: 5px;
 
-			.actions-email {
+			.email__actions {
 				opacity: 0.4 !important;
 
 				&:hover {
@@ -286,17 +332,6 @@ export default {
 				}
 
 				&::v-deep button {
-					height: 30px !important;
-					min-height: 30px !important;
-					width: 30px !important;
-					min-width: 30px !important;
-				}
-			}
-
-			.federation-control {
-				&::v-deep button {
-					// TODO remove this hack
-					padding-bottom: 7px;
 					height: 30px !important;
 					min-height: 30px !important;
 					width: 30px !important;
@@ -317,16 +352,16 @@ export default {
 		}
 	}
 
+	.fade-enter,
+	.fade-leave-to {
+		opacity: 0;
+	}
+
 	.fade-enter-active {
 		transition: opacity 200ms ease-out;
 	}
 
 	.fade-leave-active {
 		transition: opacity 300ms ease-out;
-	}
-
-	.fade-enter,
-	.fade-leave-to {
-		opacity: 0;
 	}
 </style>

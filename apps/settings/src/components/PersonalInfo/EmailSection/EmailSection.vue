@@ -20,15 +20,16 @@
 -->
 
 <template>
-	<form
-		ref="form"
-		class="section"
-		@submit.stop.prevent="() => {}">
+	<section>
 		<HeaderBar
-			:can-edit-emails="displayNameChangeSupported"
-			:is-valid-form="isValidForm"
+			:account-property="accountProperty"
+			label-for="email"
+			:handle-scope-change="savePrimaryEmailScope"
+			:is-editable="displayNameChangeSupported"
+			:is-multi-value-supported="true"
+			:is-valid-section="isValidSection"
 			:scope.sync="primaryEmail.scope"
-			@addAdditionalEmail="onAddAdditionalEmail" />
+			@add-additional="onAddAdditionalEmail" />
 
 		<template v-if="displayNameChangeSupported">
 			<Email
@@ -42,26 +43,27 @@
 				:scope.sync="additionalEmail.scope"
 				:email.sync="additionalEmail.value"
 				@update:email="onUpdateEmail"
-				@deleteAdditionalEmail="onDeleteAdditionalEmail(index)" />
+				@delete-additional-email="onDeleteAdditionalEmail(index)" />
 		</template>
 
 		<span v-else>
 			{{ primaryEmail.value || t('settings', 'No email address set') }}
 		</span>
-	</form>
+	</section>
 </template>
 
 <script>
 import { loadState } from '@nextcloud/initial-state'
 import { showError } from '@nextcloud/dialogs'
-import '@nextcloud/dialogs/styles/toast.scss'
 
-import HeaderBar from './HeaderBar'
 import Email from './Email'
-import { savePrimaryEmail, removeAdditionalEmail } from '../../../service/PersonalInfoService'
-import { DEFAULT_ADDITIONAL_EMAIL_SCOPE } from '../../../constants/AccountPropertyConstants'
+import HeaderBar from '../shared/HeaderBar'
 
-const { additionalEmails, primaryEmail } = loadState('settings', 'emails', {})
+import { ACCOUNT_PROPERTY_READABLE_ENUM, DEFAULT_ADDITIONAL_EMAIL_SCOPE } from '../../../constants/AccountPropertyConstants'
+import { savePrimaryEmail, savePrimaryEmailScope, removeAdditionalEmail } from '../../../service/PersonalInfo/EmailService'
+import { validateEmail } from '../../../utils/validate'
+
+const { emails: { additionalEmails, primaryEmail } } = loadState('settings', 'personalInfoParameters', {})
 const { displayNameChangeSupported } = loadState('settings', 'accountParameters', {})
 
 export default {
@@ -74,14 +76,27 @@ export default {
 
 	data() {
 		return {
+			accountProperty: ACCOUNT_PROPERTY_READABLE_ENUM.EMAIL,
 			additionalEmails,
 			displayNameChangeSupported,
 			primaryEmail,
-			isValidForm: true,
+			savePrimaryEmailScope,
 		}
 	},
 
 	computed: {
+		firstAdditionalEmail() {
+			if (this.additionalEmails.length) {
+				return this.additionalEmails[0].value
+			}
+			return null
+		},
+
+		isValidSection() {
+			return validateEmail(this.primaryEmail.value)
+				&& this.additionalEmails.map(({ value }) => value).every(validateEmail)
+		},
+
 		primaryEmailValue: {
 			get() {
 				return this.primaryEmail.value
@@ -90,41 +105,25 @@ export default {
 				this.primaryEmail.value = value
 			},
 		},
-
-		firstAdditionalEmail() {
-			if (this.additionalEmails.length) {
-				return this.additionalEmails[0].value
-			}
-			return null
-		},
-	},
-
-	mounted() {
-		this.$nextTick(() => this.updateFormValidity())
 	},
 
 	methods: {
 		onAddAdditionalEmail() {
-			if (this.$refs.form?.checkValidity()) {
+			if (this.isValidSection) {
 				this.additionalEmails.push({ value: '', scope: DEFAULT_ADDITIONAL_EMAIL_SCOPE })
-				this.$nextTick(() => this.updateFormValidity())
 			}
 		},
 
 		onDeleteAdditionalEmail(index) {
 			this.$delete(this.additionalEmails, index)
-			this.$nextTick(() => this.updateFormValidity())
 		},
 
 		async onUpdateEmail() {
-			this.$nextTick(() => this.updateFormValidity())
-
 			if (this.primaryEmailValue === '' && this.firstAdditionalEmail) {
 				const deletedEmail = this.firstAdditionalEmail
 				await this.deleteFirstAdditionalEmail()
 				this.primaryEmailValue = deletedEmail
 				await this.updatePrimaryEmail()
-				this.$nextTick(() => this.updateFormValidity())
 			}
 		},
 
@@ -160,17 +159,15 @@ export default {
 				this.logger.error(errorMessage, error)
 			}
 		},
-
-		updateFormValidity() {
-			this.isValidForm = this.$refs.form?.checkValidity()
-		},
 	},
 }
 </script>
 
 <style lang="scss" scoped>
-	form::v-deep button {
-		&:disabled {
+	section {
+		padding: 10px 10px;
+
+		&::v-deep button:disabled {
 			cursor: default;
 		}
 	}
