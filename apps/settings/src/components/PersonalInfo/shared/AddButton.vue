@@ -22,7 +22,7 @@
 <template>
 	<button
 		:disabled="disabled"
-		@click.stop.prevent="onClick">
+		v-on="$listeners">
 		<span class="icon icon-add" />
 		{{ t('settings', 'Add') }}
 	</button>
@@ -36,12 +36,6 @@ export default {
 		disabled: {
 			type: Boolean,
 			default: true,
-		},
-	},
-
-	methods: {
-		onClick(e) {
-			this.$emit('click', e)
 		},
 	},
 }

@@ -23,20 +23,18 @@
 	<section>
 		<HeaderBar
 			:account-property="accountProperty"
-			label-for="displayname"
-			:is-editable="displayNameChangeSupported"
-			:is-valid-section="isValidSection"
-			:handle-scope-change="savePrimaryDisplayNameScope"
-			:scope.sync="primaryDisplayName.scope" />
+			label-for="language"
+			:is-valid-section="isValidSection" />
 
-		<template v-if="displayNameChangeSupported">
-			<DisplayName
-				:display-name.sync="primaryDisplayName.value"
-				:scope.sync="primaryDisplayName.scope" />
+		<template v-if="isEditable">
+			<Language
+				:common-languages="commonLanguages"
+				:other-languages="otherLanguages"
+				:language.sync="language" />
 		</template>
 
 		<span v-else>
-			{{ primaryDisplayName.value || t('settings', 'No full name set') }}
+			{{ t('settings', 'No language set') }}
 		</span>
 	</section>
 </template>
@@ -44,36 +42,38 @@
 <script>
 import { loadState } from '@nextcloud/initial-state'
 
-import DisplayName from './DisplayName'
+import Language from './Language'
 import HeaderBar from '../shared/HeaderBar'
 
-import { ACCOUNT_PROPERTY_READABLE_ENUM } from '../../../constants/AccountPropertyConstants'
-import { savePrimaryDisplayNameScope } from '../../../service/PersonalInfo/DisplayNameService'
-import { validateDisplayName } from '../../../utils/validate'
+import { SETTING_PROPERTY_READABLE_ENUM } from '../../../constants/AccountPropertyConstants'
+import { validateLanguage } from '../../../utils/validate'
 
-const { displayNames: { primaryDisplayName } } = loadState('settings', 'personalInfoParameters', {})
-const { displayNameChangeSupported } = loadState('settings', 'accountParameters', {})
+const { languages: { activeLanguage, commonLanguages, otherLanguages } } = loadState('settings', 'personalInfoParameters', {})
 
 export default {
-	name: 'DisplayNameSection',
+	name: 'LanguageSection',
 
 	components: {
-		DisplayName,
+		Language,
 		HeaderBar,
 	},
 
 	data() {
 		return {
-			accountProperty: ACCOUNT_PROPERTY_READABLE_ENUM.DISPLAYNAME,
-			displayNameChangeSupported,
-			primaryDisplayName,
-			savePrimaryDisplayNameScope,
+			accountProperty: SETTING_PROPERTY_READABLE_ENUM.LANGUAGE,
+			commonLanguages,
+			otherLanguages,
+			language: activeLanguage,
 		}
 	},
 
 	computed: {
+		isEditable() {
+			return Boolean(this.language)
+		},
+
 		isValidSection() {
-			return validateDisplayName(this.primaryDisplayName.value)
+			return validateLanguage(this.language)
 		},
 	},
 }

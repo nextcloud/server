@@ -31,7 +31,7 @@
 			autocapitalize="none"
 			autocomplete="on"
 			autocorrect="off"
-			required="true"
+			required
 			@input="onDisplayNameChange">
 
 		<div class="displayname__actions-container">
@@ -104,7 +104,7 @@ export default {
 
 		handleResponse({ displayName, status, errorMessage, error }) {
 			if (status === 'ok') {
-				// Ensure that local initialDiplayName state reflects server state
+				// Ensure that local state reflects server state
 				this.initialDisplayName = displayName
 				this.showCheckmarkIcon = true
 				setTimeout(() => { this.showCheckmarkIcon = false }, 2000)
@@ -124,56 +124,56 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-	.displayname {
-		display: grid;
-		align-items: center;
+.displayname {
+	display: grid;
+	align-items: center;
 
-		input {
-			grid-area: 1 / 1;
-			height: 34px;
-			width: 100%;
-			margin: 3px 3px 3px 0;
-			padding: 7px 6px;
-			cursor: text;
-			font-family: var(--font-face);
-			border: 1px solid var(--color-border-dark);
-			border-radius: var(--border-radius);
-			background-color: var(--color-main-background);
-			color: var(--color-main-text);
+	input {
+		grid-area: 1 / 1;
+		width: 100%;
+		height: 34px;
+		margin: 3px 3px 3px 0;
+		padding: 7px 6px;
+		color: var(--color-main-text);
+		border: 1px solid var(--color-border-dark);
+		border-radius: var(--border-radius);
+		background-color: var(--color-main-background);
+		font-family: var(--font-face);
+		cursor: text;
+	}
+
+	.displayname__actions-container {
+		grid-area: 1 / 1;
+		justify-self: flex-end;
+		height: 30px;
+
+		display: flex;
+		gap: 0 2px;
+		margin-right: 5px;
+
+		.icon-checkmark,
+		.icon-error {
+			height: 30px !important;
+			min-height: 30px !important;
+			width: 30px !important;
+			min-width: 30px !important;
+			top: 0;
+			right: 0;
+			float: none;
 		}
-
-		.displayname__actions-container {
-			grid-area: 1 / 1;
-			justify-self: flex-end;
-			height: 30px;
-
-			display: flex;
-			gap: 0 2px;
-			margin-right: 5px;
-
-			.icon-checkmark,
-			.icon-error {
-				height: 30px !important;
-				min-height: 30px !important;
-				width: 30px !important;
-				min-width: 30px !important;
-				top: 0;
-				right: 0;
-				float: none;
-			}
-		}
 	}
+}
 
-	.fade-enter,
-	.fade-leave-to {
-		opacity: 0;
-	}
+.fade-enter,
+.fade-leave-to {
+	opacity: 0;
+}
 
-	.fade-enter-active {
-		transition: opacity 200ms ease-out;
-	}
+.fade-enter-active {
+	transition: opacity 200ms ease-out;
+}
 
-	.fade-leave-active {
-		transition: opacity 300ms ease-out;
-	}
+.fade-leave-active {
+	transition: opacity 300ms ease-out;
+}
 </style>

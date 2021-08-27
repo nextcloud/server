@@ -369,11 +369,11 @@ export default {
 			return [
 				{
 					label: t('settings', 'Common languages'),
-					languages: this.settings.languages.commonlanguages,
+					languages: this.settings.languages.commonLanguages,
 				},
 				{
-					label: t('settings', 'All languages'),
-					languages: this.settings.languages.languages,
+					label: t('settings', 'Other languages'),
+					languages: this.settings.languages.otherLanguages,
 				},
 			]
 		},

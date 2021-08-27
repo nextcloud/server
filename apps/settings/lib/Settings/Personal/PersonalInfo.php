@@ -148,6 +148,7 @@ class PersonalInfo implements ISettings {
 		$personalInfoParameters = [
 			'displayNames' => $this->getDisplayNames($account),
 			'emails' => $this->getEmails($account),
+			'languages' => $this->getLanguages($user),
 		];
 
 		$accountParameters = [
@@ -256,7 +257,7 @@ class PersonalInfo implements ISettings {
 	}
 
 	/**
-	 * returns the user language, common language and other languages in an
+	 * returns the user's active language, common languages, and other languages in an
 	 * associative array
 	 *
 	 * @param IUser $user
@@ -274,12 +275,12 @@ class PersonalInfo implements ISettings {
 		$languages = $this->l10nFactory->getLanguages();
 
 		// associate the user language with the proper array
-		$userLangIndex = array_search($userConfLang, array_column($languages['commonlanguages'], 'code'));
-		$userLang = $languages['commonlanguages'][$userLangIndex];
+		$userLangIndex = array_search($userConfLang, array_column($languages['commonLanguages'], 'code'));
+		$userLang = $languages['commonLanguages'][$userLangIndex];
 		// search in the other languages
 		if ($userLangIndex === false) {
-			$userLangIndex = array_search($userConfLang, array_column($languages['languages'], 'code'));
-			$userLang = $languages['languages'][$userLangIndex];
+			$userLangIndex = array_search($userConfLang, array_column($languages['otherLanguages'], 'code'));
+			$userLang = $languages['otherLanguages'][$userLangIndex];
 		}
 		// if user language is not available but set somehow: show the actual code as name
 		if (!is_array($userLang)) {
@@ -290,7 +291,7 @@ class PersonalInfo implements ISettings {
 		}
 
 		return array_merge(
-			['activelanguage' => $userLang],
+			['activeLanguage' => $userLang],
 			$languages
 		);
 	}
