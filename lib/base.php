@@ -365,6 +365,7 @@ class OC {
 
 		$oldTheme = $systemConfig->getValue('theme');
 		$systemConfig->setValue('theme', '');
+		$systemConfig->setValue('old_theme', $oldTheme);
 		OC_Util::addScript('update');
 
 		/** @var \OC\App\AppManager $appManager */
@@ -401,7 +402,6 @@ class OC {
 		}
 		$tmpl->assign('oldTheme', $oldTheme);
 		$tmpl->printPage();
-		$systemConfig->setValue('theme', $oldTheme);
 	}
 
 	public static function initSession() {

@@ -156,6 +156,11 @@ class Updater extends BasicEmitter {
 		$this->config->setSystemValue('loglevel', $logLevel);
 		$this->config->setSystemValue('installed', true);
 
+		if ($oldTheme = $this->config->getSystemValue('old_theme')) {
+			$this->config->setSystemValue('theme', $oldTheme);
+			$this->config->deleteSystemValue('old_theme');
+		}
+
 		return $success;
 	}
 
