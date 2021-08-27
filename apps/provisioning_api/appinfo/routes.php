@@ -76,6 +76,7 @@ return [
 	],
 	'routes' => [
 		// Verification
-		['name' => 'Verification#verifyMail', 'url' => '/mailVerification/{key}/{token}/{userId}', 'verb' => 'GET'],
+		['name' => 'Verification#showVerifyMail', 'url' => '/mailVerification/{key}/{token}/{userId}', 'verb' => 'GET'],
+		['name' => 'Verification#verifyMail', 'url' => '/mailVerification/{key}/{token}/{userId}', 'verb' => 'POST'],
 	]
 ];

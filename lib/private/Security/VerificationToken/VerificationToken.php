@@ -122,4 +122,8 @@ class VerificationToken implements IVerificationToken {
 
 		return $token;
 	}
+
+	public function delete(string $token, IUser $user, string $subject): void {
+		$this->config->deleteUserValue($user->getUID(), 'core', $subject);
+	}
 }

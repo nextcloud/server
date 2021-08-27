@@ -52,4 +52,11 @@ interface IVerificationToken {
 	 * @since 23.0.0
 	 */
 	public function create(IUser $user, string $subject, string $passwordPrefix = ''): string;
+
+	/**
+	 * Deletes the token identified by the provided parameters
+	 *
+	 * @since 23.0.0
+	 */
+	public function delete(string $token, IUser $user, string $subject): void;
 }
