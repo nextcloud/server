@@ -44,34 +44,44 @@
 			class="sharing-entry__actions"
 			@close="onMenuClose">
 			<template v-if="share.canEdit">
-				<!-- edit permission -->
-				<ActionCheckbox
-					ref="canEdit"
-					:checked.sync="canEdit"
-					:value="permissionsEdit"
-					:disabled="saving || !canSetEdit">
-					{{ t('files_sharing', 'Allow editing') }}
-				</ActionCheckbox>
+				<!-- folder -->
+				<template v-if="isFolder && config.isPublicUploadEnabled">
 
-				<!-- create permission -->
-				<ActionCheckbox
-					v-if="isFolder"
-					ref="canCreate"
-					:checked.sync="canCreate"
-					:value="permissionsCreate"
-					:disabled="saving || !canSetCreate">
-					{{ t('files_sharing', 'Allow creating') }}
-				</ActionCheckbox>
+					<ActionRadio :checked="sharePermissions === publicUploadRValue"
+						:value="publicUploadRValue"
+						:name="randomId"
+						:disabled="saving"
+						@change="togglePermissions">
+						{{ t('files_sharing', 'Read only') }}
+					</ActionRadio>
 
-				<!-- delete permission -->
-				<ActionCheckbox
-					v-if="isFolder"
-					ref="canDelete"
-					:checked.sync="canDelete"
-					:value="permissionsDelete"
-					:disabled="saving || !canSetDelete">
-					{{ t('files_sharing', 'Allow deleting') }}
-				</ActionCheckbox>
+					<ActionRadio :checked="sharePermissions === publicUploadRWValue"
+						:value="publicUploadRWValue"
+						:disabled="saving"
+						:name="randomId"
+						@change="togglePermissions">
+						{{ t('files_sharing', 'Allow upload and editing') }}
+					</ActionRadio>
+
+				</template>
+				<!-- file -->
+				<template v-else>
+					<ActionRadio :checked="sharePermissions === publicUploadRValue"
+						:value="publicUploadRValue"
+						:name="randomId"
+						:disabled="saving"
+						@change="togglePermissions">
+						{{ t('files_sharing', 'Read only') }}
+					</ActionRadio>
+
+					<ActionRadio :checked="sharePermissions === publicUploadEValue"
+						:value="publicUploadEValue"
+						:disabled="saving"
+						:name="randomId"
+						@change="togglePermissions">
+						{{ t('files_sharing', 'Editing') }}
+					</ActionRadio>
+				</template>
 
 				<!-- reshare permission -->
 				<ActionCheckbox
@@ -84,7 +94,9 @@
 				</ActionCheckbox>
 
 				<!-- expiration date -->
-				<ActionCheckbox :checked.sync="hasExpirationDate"
+				<ActionCheckbox
+					v-if="canHaveExpirationDate"
+					:checked.sync="hasExpirationDate"
 					:disabled="config.isDefaultInternalExpireDateEnforced || saving"
 					@uncheck="onExpirationDisable">
 					{{ config.isDefaultInternalExpireDateEnforced
@@ -149,6 +161,7 @@
 import Avatar from '@nextcloud/vue/dist/Components/Avatar'
 import Actions from '@nextcloud/vue/dist/Components/Actions'
 import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
+import ActionRadio from '@nextcloud/vue/dist/Components/ActionRadio'
 import ActionCheckbox from '@nextcloud/vue/dist/Components/ActionCheckbox'
 import ActionInput from '@nextcloud/vue/dist/Components/ActionInput'
 import ActionTextEditable from '@nextcloud/vue/dist/Components/ActionTextEditable'
@@ -162,6 +175,7 @@ export default {
 	components: {
 		Actions,
 		ActionButton,
+		ActionRadio,
 		ActionCheckbox,
 		ActionInput,
 		ActionTextEditable,
@@ -181,10 +195,34 @@ export default {
 			permissionsDelete: OC.PERMISSION_DELETE,
 			permissionsRead: OC.PERMISSION_READ,
 			permissionsShare: OC.PERMISSION_SHARE,
+
+			publicUploadRWValue: OC.PERMISSION_UPDATE | OC.PERMISSION_CREATE | OC.PERMISSION_READ | OC.PERMISSION_DELETE,
+			publicUploadRValue: OC.PERMISSION_READ,
+			publicUploadWValue: OC.PERMISSION_CREATE | OC.PERMISSION_READ,
+			publicUploadEValue: OC.PERMISSION_UPDATE | OC.PERMISSION_READ,
 		}
 	},
 
 	computed: {
+		/**
+		 * Return the current share permissions
+		 * We always ignore the SHARE permission as this is used for the
+		 * federated sharing.
+		 * @returns {number}
+		 */
+		sharePermissions() {
+			return this.share.permissions & ~OC.PERMISSION_SHARE
+		},
+		/**
+		 * Generate a unique random id for this SharingEntryLink only
+		 * This allows ActionRadios to have the same name prop
+		 * but not to impact others SharingEntryLink
+		 * @returns {string}
+		 */
+		randomId() {
+			return Math.random().toString(27).substr(2)
+		},
+
 		title() {
 			let title = this.share.shareWithDisplayName
 			if (this.share.type === this.SHARE_TYPES.SHARE_TYPE_GROUP) {
@@ -394,6 +432,17 @@ export default {
 				| (isEditChecked ? this.permissionsEdit : 0)
 				| (isReshareChecked ? this.permissionsShare : 0)
 
+			this.share.permissions = permissions
+			this.queueUpdate('permissions')
+		},
+
+		/**
+		 * On permissions change
+		 * @param {Event} event js event
+		 */
+		togglePermissions(event) {
+			const permissions = parseInt(event.target.value, 10)
+			| (this.canReshare ? this.permissionsShare : 0)
 			this.share.permissions = permissions
 			this.queueUpdate('permissions')
 		},
