@@ -39,6 +39,8 @@ OC.L10N.register(
     "Could not load info for file \"{file}\"" : "Die Informationen zur Datei \"{file}\" konnten nicht geladen werden",
     "Files" : "Dateien",
     "Details" : "Details",
+    "Please select tag(s) to add to the selection" : "Bitte wähle das/die Schlagwort(e) aus, das/die Du zur Auswahl hinzufügen möchtest",
+    "Apply tag(s) to selection" : "Schlagwort(e) auf die Auswahl anwenden",
     "Select" : "Auswählen",
     "Pending" : "Ausstehend",
     "Unable to determine date" : "Datum konnte nicht ermittelt werden",

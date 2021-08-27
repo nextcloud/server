@@ -328,7 +328,7 @@
     "Confirm your password" : "確認密碼",
     "Connect to your account" : "連結您的帳號",
     "Please log in before granting %1$s access to your %2$s account." : "請登入後再授權「%1$s」存取您的 %2$s 帳號",
-    "If you are not trying to set up a new device or app, someone is trying to trick you into granting them access to your data. In this case do not proceed and instead contact your system administrator." : "若您並未嘗試設定新裝置或應用程式，那麼某人可能正在欺騙您讓他們存取您的資效。在這種情況下，請不要繼續，請聯絡您的系統管理員。",
+    "If you are not trying to set up a new device or app, someone is trying to trick you into granting them access to your data. In this case do not proceed and instead contact your system administrator." : "若您並未嘗試設定新裝置或應用程式，那麼某人可能正在欺騙您讓他們存取您的資料。在這種情況下，請不要繼續，請聯絡您的系統管理員。",
     "App token" : "應用程式權杖",
     "Grant access" : "允許存取",
     "Alternative log in using app token" : "使用應用程式權杖來登入",
