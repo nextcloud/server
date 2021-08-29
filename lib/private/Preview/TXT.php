@@ -65,7 +65,7 @@ class TXT extends ProviderV2 {
 			return null;
 		}
 		
-		$content = iconv($encoding, 'UTF-8', $content);
+		$content = mb_convert_encoding($content, 'UTF-8');
 
 		$lines = preg_split("/\r\n|\n|\r/", $content);
 
