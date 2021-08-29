@@ -264,6 +264,7 @@ OC.L10N.register(
     "No users in here" : "Henüz herhangi bir kullanıcı eklenmemiş",
     "Default quota" : "Varsayılan kota",
     "Common languages" : "Sık kullanılan diller",
+    "Other languages" : "Diğer diller",
     "Password change is disabled because the master key is disabled" : "Ana anahtar devre dışı bırakıldığından parola değişikliği devre dışı bırakıldı.",
     "Passwordless authentication requires a secure connection." : "Parolasız kimlik doğrulama özelliği güvenli bir bağlantı üzerinden kullanılabilir.",
     "Add WebAuthn device" : "WebAuthn aygıtı ekle",
