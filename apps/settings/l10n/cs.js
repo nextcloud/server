@@ -264,6 +264,7 @@ OC.L10N.register(
     "No users in here" : "Nejsou zde žádní uživatelé",
     "Default quota" : "Výchozí kvóta",
     "Common languages" : "Běžné jazyky",
+    "Other languages" : "Ostatní jazyky",
     "Password change is disabled because the master key is disabled" : "Změna hesla je vypnutá protože je vypnutý hlavní klíč",
     "Passwordless authentication requires a secure connection." : "Ověřování se bez hesla vyžaduje zabezpečené připojení.",
     "Add WebAuthn device" : "Přidat WebAuthn zařízení",
