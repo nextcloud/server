@@ -65,10 +65,6 @@ class TXT extends ProviderV2 {
 			return null;
 		}
 		
-		$encoding = mb_detect_encoding($content . 'a', 'SJIS-win, GB2312, GBK, UTF-8, WINDOWS-1252, ISO-8859-15, ISO-8859-1, ASCII', true);
-            if ($encoding === '') {
-				$encoding = 'ISO-8859-1';
-				}
 		$content = iconv($encoding, 'UTF-8', $content);
 
 		$lines = preg_split("/\r\n|\n|\r/", $content);
