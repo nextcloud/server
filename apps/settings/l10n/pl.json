@@ -262,6 +262,7 @@
     "No users in here" : "Brak użytkowników",
     "Default quota" : "Domyślny limit",
     "Common languages" : "Popularne języki",
+    "Other languages" : "Inne języki",
     "Password change is disabled because the master key is disabled" : "Zmiana hasła jest zablokowana z powodu włączenia klucza głównego.",
     "Passwordless authentication requires a secure connection." : "Uwierzytelnianie bez hasła wymaga bezpiecznego połączenia.",
     "Add WebAuthn device" : "Dodaj urządzenie WebAuthn",
