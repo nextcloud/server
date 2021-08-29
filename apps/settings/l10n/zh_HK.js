@@ -264,6 +264,7 @@ OC.L10N.register(
     "No users in here" : "這裡沒有用戶",
     "Default quota" : "默認儲存容量限制",
     "Common languages" : "常用語言",
+    "Other languages" : "其他語言",
     "Password change is disabled because the master key is disabled" : "已停用密碼變更，因為主控密鑰已停用",
     "Passwordless authentication requires a secure connection." : "無密碼身分驗證需要安全連線。",
     "Add WebAuthn device" : "新增 WebAuthn 裝置",
