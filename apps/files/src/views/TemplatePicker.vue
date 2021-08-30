@@ -209,17 +209,7 @@ export default {
 				this.logger.debug('Created new file', fileInfo)
 
 				await fileList?.addAndFetchFileInfo(this.name)
-
-				// Run default action
-				const fileAction = OCA.Files.fileActions.getDefaultFileAction(fileInfo.mime, 'file', OC.PERMISSION_ALL)
-				fileAction.action(fileInfo.basename, {
-					$file: fileList?.findFileEl(this.name),
-					dir: currentDirectory,
-					fileList,
-					fileActions: fileList?.fileActions,
-					fileInfoModel: fileList?.getModelForFile(this.name),
-				})
-
+				fileList.rename(this.name);
 				this.close()
 			} catch (error) {
 				this.logger.error('Error while creating the new file from template')
