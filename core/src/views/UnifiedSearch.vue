@@ -76,7 +76,7 @@
 			<SearchResultPlaceholders v-if="isLoading" />
 
 			<EmptyContent v-else-if="isValidQuery" icon="icon-search">
-				{{ t('core', 'No results for {query}', {query}) }}
+				{{ t('core', 'No results for') }} <strong>{{ t('query', query) }}</strong>
 			</EmptyContent>
 
 			<EmptyContent v-else-if="!isLoading || isShortQuery" icon="icon-search">
