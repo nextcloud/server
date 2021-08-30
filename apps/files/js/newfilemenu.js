@@ -52,7 +52,11 @@
 				iconClass: 'icon-folder',
 				fileType: 'folder',
 				actionHandler: function(name) {
-					self.fileList.createDirectory(name);
+					const uniqueName = self.fileList.getUniqueName(name);
+					let tempPromise = self.fileList.createDirectory(uniqueName);
+					Promise.all([tempPromise]).then(() => {
+						self.fileList.rename(uniqueName);
+					});
 				}
 		        }];
 
@@ -90,102 +94,12 @@
 
 		_promptFileName: function($target) {
 			var self = this;
-
-			if ($target.find('form').length) {
-				$target.find('input[type=\'text\']').focus();
-				return;
-			}
-
-			// discard other forms
-			this.$el.find('form').remove();
-			this.$el.find('.displayname').removeClass('hidden');
-
-			$target.find('.displayname').addClass('hidden');
-
-			var newName = $target.attr('data-templatename');
-			var fileType = $target.attr('data-filetype');
-			var $form = $(OCA.Files.Templates['newfilemenu_filename_form']({
-				fileName: newName,
-				cid: this.cid,
-				fileType: fileType
-			}));
-
-			//this.trigger('actionPerformed', action);
-			$target.append($form);
-
-			// here comes the OLD code
-			var $input = $form.find('input[type=\'text\']');
-			var $submit = $form.find('input[type=\'submit\']');
-
-			var lastPos;
-			var checkInput = function () {
-				// Special handling for the setup template directory
-				if ($target.attr('data-action') === 'template-init') {
-					return true;
-				}
-
-				var filename = $input.val();
-				try {
-					if (!Files.isFileNameValid(filename)) {
-						// Files.isFileNameValid(filename) throws an exception itself
-					} else if (self.fileList.inList(filename)) {
-						throw t('files', '{newName} already exists', {newName: filename}, undefined, {
-							escape: false
-						});
-					} else {
-						return true;
-					}
-				} catch (error) {
-					$input.attr('title', error);
-					$input.tooltip({placement: 'right', trigger: 'manual', container: self.$el});
-					$input.tooltip('_fixTitle');
-					$input.tooltip('show');
-					$input.addClass('error');
-				}
-				return false;
-			};
-
-			// verify filename on typing
-			$input.keyup(function() {
-				if (checkInput()) {
-					$input.tooltip('hide');
-					$input.removeClass('error');
-				}
-			});
-
-			$submit.click(function(event) {
-				event.stopPropagation();
-				event.preventDefault();
-				$form.submit();
-			});
-
-			$input.focus();
-			// pre select name up to the extension
-			lastPos = newName.lastIndexOf('.');
-			if (lastPos === -1) {
-				lastPos = newName.length;
-			}
-			$input.selectRange(0, lastPos);
-
-			$form.submit(function(event) {
-				event.stopPropagation();
-				event.preventDefault();
-
-				if (checkInput()) {
-					var newname = $input.val().trim();
-
-					/* Find the right actionHandler that should be called.
-					 * Actions is retrieved by using `actionSpec.id` */
-					var action = _.filter(self._menuItems, function(item) {
-						return item.id == $target.attr('data-action');
-					}).pop();
-					action.actionHandler(newname);
-
-					$form.remove();
-					$target.find('.displayname').removeClass('hidden');
-					OC.hideMenus();
-				}
-			});
+			var newname = $target.attr('data-templatename');
+			var action = _.filter(self._menuItems, function(item) {
+		    		return item.id == $target.attr('data-action');
+			}).pop();
+			action.actionHandler(newname);
+			OC.hideMenus();
 		},
 
 		/**

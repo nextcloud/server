@@ -201,35 +201,18 @@ export default {
 			const currentDirectory = getCurrentDirectory()
 			const fileList = OCA?.Files?.App?.currentFileList
 
-			// If the file doesn't have an extension, add the default one
-			if (this.nameWithoutExt === this.name) {
-				this.logger.debug('Fixed invalid filename', { name: this.name, extension: this.provider?.extension })
-				this.name = this.name + this.provider?.extension
-			}
-
 			try {
-				const fileInfo = await createFromTemplate(
-					normalize(`${currentDirectory}/${this.name}`),
-					this.selectedTemplate?.filename,
-					this.selectedTemplate?.templateType,
-				)
+				const response = await axios.post(generateOcsUrl('apps/files/api/v1/templates/create'), {
+					filePath: `${currentDirectory}/${this.name}`,
+					templatePath: this.selectedTemplate?.filename,
+					templateType: this.selectedTemplate?.templateType,
+				})
+
+				const fileInfo = response.data.ocs.data
 				this.logger.debug('Created new file', fileInfo)
 
-				const data = await fileList?.addAndFetchFileInfo(this.name).then((status, data) => data)
-
-				const model = new OCA.Files.FileInfoModel(data, {
-					filesClient: fileList?.filesClient,
-				})
-				// Run default action
-				const fileAction = OCA.Files.fileActions.getDefaultFileAction(fileInfo.mime, 'file', OC.PERMISSION_ALL)
-				fileAction.action(fileInfo.basename, {
-					$file: fileList?.findFileEl(this.name),
-					dir: currentDirectory,
-					fileList,
-					fileActions: fileList?.fileActions,
-					fileInfoModel: model,
-				})
-
+				await fileList?.addAndFetchFileInfo(this.name)
+				fileList.rename(this.name)
 				this.close()
 			} catch (error) {
 				this.logger.error('Error while creating the new file from template')
