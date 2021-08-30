@@ -612,7 +612,7 @@ class Encryption extends Wrapper {
 	 * @param int $blockSize Length of requested data block in bytes
 	 * @return string Data fetched from stream.
 	 */
-	private function fread_block($handle, $blockSize): string {
+	private function fread_block($handle, int $blockSize): string {
 		$remaining = $blockSize;
 		$data = '';
 
@@ -623,7 +623,7 @@ class Encryption extends Wrapper {
 			$remaining -= $chunk_len;
 		} while (($remaining > 0) && ($chunk_len > 0));
 
- 	  return $data;
+		return $data;
 	}
 
 	/**
