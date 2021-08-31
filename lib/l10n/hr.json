@@ -78,7 +78,7 @@
     "Empty filename is not allowed" : "Datoteke bez naziva nisu dopuštene",
     "App \"%s\" cannot be installed because appinfo file cannot be read." : "Aplikaciju „%s” nije moguće instalirati jer se ne može pročitati datoteka s podacima o aplikaciji.",
     "App \"%s\" cannot be installed because it is not compatible with this version of the server." : "Aplikaciju „%s” nije moguće instalirati jer nije kompatibilna s ovom inačicom poslužitelja.",
-    "__language_name__" : "__language_name__",
+    "__language_name__" : "Hrvatski",
     "This is an automatically sent email, please do not reply." : "Ovo je automatski poslana poruka e-pošte, nemojte odgovarati.",
     "Help" : "Pomoć",
     "Apps" : "Aplikacije",
