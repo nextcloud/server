@@ -14,6 +14,7 @@
     "_in %n minute_::_in %n minutes_" : ["d’aquí %n minuta","d’aquí %n minutas"],
     "_%n minute ago_::_%n minutes ago_" : ["fa %n minuta","fa %n minutas"],
     "seconds ago" : "fa qualques segondas",
+    "__language_name__" : "Occitan",
     "Help" : "Ajuda",
     "Settings" : "Paramètres",
     "Log out" : "Desconnexion",
