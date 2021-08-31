@@ -117,7 +117,7 @@ describe('OCA.Files_External.FileList tests', function() {
 			expect(fakeServer.requests.length).toEqual(1);
 			request = fakeServer.requests[0];
 			expect(request.url).toEqual(
-				OC.linkToOCS('apps/files_external/api/v1/mounts?format=json')
+				OC.linkToOCS('apps/files_external/api/v1') + 'mounts?format=json'
 			);
 
 			fakeServer.requests[0].respond(
