@@ -72,6 +72,17 @@ $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 				<?php else: ?>
 					<!-- Preview frame is filled via JS to support SVG images for modern browsers -->
 					<div id="imgframe"></div>
+						<?php if (isset($_['mimetype']) && strpos($_['mimetype'], 'image') === 0) { ?>
+							<div class="directDownload">
+								<div class="video-file-details">
+									<?php p($l->t('%s', [$_['filename']]))?> (<?php p($_['fileSize']) ?>)
+								</div>
+								<a href="<?php p($_['downloadURL']); ?>" id="downloadFile" class="button">
+									<span class="icon icon-download"></span>
+									<?php p($l->t('Download'))?>
+								</a>
+							</div>							
+						<?php } ?>					
 					<?php if(isset($_['mimetype'])){ ?>
 						 <?php	if (strpos($_['mimetype'], 'image') === 0) { ?>
 							<div class="directDownload">
