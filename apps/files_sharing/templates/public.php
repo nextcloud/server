@@ -74,7 +74,7 @@ $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 					<div id="imgframe"></div>
 						<?php if (isset($_['mimetype']) && strpos($_['mimetype'], 'image') === 0) { ?>
 							<div class="directDownload">
-								<div class="video-file-details">
+								<div>
 									<?php p($l->t('%s', [$_['filename']]))?> (<?php p($_['fileSize']) ?>)
 								</div>
 								<a href="<?php p($_['downloadURL']); ?>" id="downloadFile" class="button">
@@ -86,7 +86,7 @@ $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 					<?php if(isset($_['mimetype'])){ ?>
 						 <?php	if (strpos($_['mimetype'], 'image') === 0) { ?>
 							<div class="directDownload">
-								<div class="video-file-details">
+								<div>
 									<?php p($l->t('%s', [$_['filename']]))?> (<?php p($_['fileSize']) ?>)
 								</div>
 								<a href="<?php p($_['downloadURL']); ?>" id="downloadFile" class="button">
