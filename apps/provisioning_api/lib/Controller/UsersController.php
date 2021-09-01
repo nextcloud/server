@@ -42,6 +42,7 @@ declare(strict_types=1);
  */
 namespace OCA\Provisioning_API\Controller;
 
+use InvalidArgumentException;
 use libphonenumber\NumberParseException;
 use libphonenumber\PhoneNumber;
 use libphonenumber\PhoneNumberFormat;
@@ -418,15 +419,15 @@ class UsersController extends AUserData {
 			}
 
 			if ($displayName !== '') {
-				$this->editUser($userid, 'display', $displayName);
+				$this->editUser($userid, self::USER_FIELD_DISPLAYNAME, $displayName);
 			}
 
 			if ($quota !== '') {
-				$this->editUser($userid, 'quota', $quota);
+				$this->editUser($userid, self::USER_FIELD_QUOTA, $quota);
 			}
 
 			if ($language !== '') {
-				$this->editUser($userid, 'language', $language);
+				$this->editUser($userid, self::USER_FIELD_LANGUAGE, $language);
 			}
 
 			// Send new user mail only if a mail is set
@@ -466,7 +467,7 @@ class UsersController extends AUserData {
 				]
 			);
 			throw $e;
-		} catch (\InvalidArgumentException $e) {
+		} catch (InvalidArgumentException $e) {
 			$this->logger->error('Failed addUser attempt with invalid argument exeption.',
 				[
 					'app' => 'ocs_api',
@@ -676,7 +677,7 @@ class UsersController extends AUserData {
 					try {
 						$targetProperty->setScope($value);
 						$this->accountManager->updateAccount($userAccount);
-					} catch (\InvalidArgumentException $e) {
+					} catch (InvalidArgumentException $e) {
 						throw new OCSException('', 102);
 					}
 				} else {
@@ -717,7 +718,7 @@ class UsersController extends AUserData {
 			if ($this->config->getSystemValue('allow_user_to_change_display_name', true) !== false) {
 				if ($targetUser->getBackend() instanceof ISetDisplayNameBackend
 					|| $targetUser->getBackend()->implementsActions(Backend::SET_DISPLAYNAME)) {
-					$permittedFields[] = 'display';
+					$permittedFields[] = self::USER_FIELD_DISPLAYNAME;
 					$permittedFields[] = IAccountManager::PROPERTY_DISPLAYNAME;
 				}
 				$permittedFields[] = IAccountManager::PROPERTY_EMAIL;
@@ -728,15 +729,16 @@ class UsersController extends AUserData {
 
 			$permittedFields[] = IAccountManager::COLLECTION_EMAIL;
 
-			$permittedFields[] = 'password';
+			$permittedFields[] = self::USER_FIELD_PASSWORD;
+			$permittedFields[] = self::USER_FIELD_NOTIFICATION_EMAIL;
 			if ($this->config->getSystemValue('force_language', false) === false ||
 				$this->groupManager->isAdmin($currentLoggedInUser->getUID())) {
-				$permittedFields[] = 'language';
+				$permittedFields[] = self::USER_FIELD_LANGUAGE;
 			}
 
 			if ($this->config->getSystemValue('force_locale', false) === false ||
 				$this->groupManager->isAdmin($currentLoggedInUser->getUID())) {
-				$permittedFields[] = 'locale';
+				$permittedFields[] = self::USER_FIELD_LOCALE;
 			}
 
 			$permittedFields[] = IAccountManager::PROPERTY_PHONE;
@@ -752,7 +754,7 @@ class UsersController extends AUserData {
 
 			// If admin they can edit their own quota
 			if ($this->groupManager->isAdmin($currentLoggedInUser->getUID())) {
-				$permittedFields[] = 'quota';
+				$permittedFields[] = self::USER_FIELD_QUOTA;
 			}
 		} else {
 			// Check if admin / subadmin
@@ -762,19 +764,19 @@ class UsersController extends AUserData {
 				// They have permissions over the user
 				if ($targetUser->getBackend() instanceof ISetDisplayNameBackend
 					|| $targetUser->getBackend()->implementsActions(Backend::SET_DISPLAYNAME)) {
-					$permittedFields[] = 'display';
+					$permittedFields[] = self::USER_FIELD_DISPLAYNAME;
 					$permittedFields[] = IAccountManager::PROPERTY_DISPLAYNAME;
 				}
 				$permittedFields[] = IAccountManager::PROPERTY_EMAIL;
 				$permittedFields[] = IAccountManager::COLLECTION_EMAIL;
-				$permittedFields[] = 'password';
-				$permittedFields[] = 'language';
-				$permittedFields[] = 'locale';
+				$permittedFields[] = self::USER_FIELD_PASSWORD;
+				$permittedFields[] = self::USER_FIELD_LANGUAGE;
+				$permittedFields[] = self::USER_FIELD_LOCALE;
 				$permittedFields[] = IAccountManager::PROPERTY_PHONE;
 				$permittedFields[] = IAccountManager::PROPERTY_ADDRESS;
 				$permittedFields[] = IAccountManager::PROPERTY_WEBSITE;
 				$permittedFields[] = IAccountManager::PROPERTY_TWITTER;
-				$permittedFields[] = 'quota';
+				$permittedFields[] = self::USER_FIELD_QUOTA;
 			} else {
 				// No rights
 				throw new OCSException('', OCSController::RESPOND_NOT_FOUND);
@@ -786,11 +788,11 @@ class UsersController extends AUserData {
 		}
 		// Process the edit
 		switch ($key) {
-			case 'display':
+			case self::USER_FIELD_DISPLAYNAME:
 			case IAccountManager::PROPERTY_DISPLAYNAME:
 				$targetUser->setDisplayName($value);
 				break;
-			case 'quota':
+			case self::USER_FIELD_QUOTA:
 				$quota = $value;
 				if ($quota !== 'none' && $quota !== 'default') {
 					if (is_numeric($quota)) {
@@ -820,7 +822,7 @@ class UsersController extends AUserData {
 				}
 				$targetUser->setQuota($quota);
 				break;
-			case 'password':
+			case self::USER_FIELD_PASSWORD:
 				try {
 					if (!$targetUser->canChangePassword()) {
 						throw new OCSException('Setting the password is not supported by the users backend', 103);
@@ -830,18 +832,38 @@ class UsersController extends AUserData {
 					throw new OCSException($e->getMessage(), 103);
 				}
 				break;
-			case 'language':
+			case self::USER_FIELD_LANGUAGE:
 				$languagesCodes = $this->l10nFactory->findAvailableLanguages();
 				if (!in_array($value, $languagesCodes, true) && $value !== 'en') {
 					throw new OCSException('Invalid language', 102);
 				}
 				$this->config->setUserValue($targetUser->getUID(), 'core', 'lang', $value);
 				break;
-			case 'locale':
+			case self::USER_FIELD_LOCALE:
 				if (!$this->l10nFactory->localeExists($value)) {
 					throw new OCSException('Invalid locale', 102);
 				}
 				$this->config->setUserValue($targetUser->getUID(), 'core', 'locale', $value);
+				break;
+			case self::USER_FIELD_NOTIFICATION_EMAIL:
+				$success = false;
+				if ($value === '' || filter_var($value, FILTER_VALIDATE_EMAIL)) {
+					try {
+						$targetUser->setPrimaryEMailAddress($value);
+						$success = true;
+					} catch (InvalidArgumentException $e) {
+						$this->logger->info(
+							'Cannot set primary email, because provided address is not verified',
+							[
+								'app' => 'provisioning_api',
+								'exception' => $e,
+							]
+						);
+					}
+				}
+				if (!$success) {
+					throw new OCSException('', 102);
+				}
 				break;
 			case IAccountManager::PROPERTY_EMAIL:
 				if (filter_var($value, FILTER_VALIDATE_EMAIL) || $value === '') {
@@ -878,7 +900,7 @@ class UsersController extends AUserData {
 							if ($userProperty->getName() === IAccountManager::PROPERTY_PHONE) {
 								$this->knownUserService->deleteByContactUserId($targetUser->getUID());
 							}
-						} catch (\InvalidArgumentException $e) {
+						} catch (InvalidArgumentException $e) {
 							throw new OCSException('Invalid ' . $e->getMessage(), 102);
 						}
 					}
@@ -901,7 +923,7 @@ class UsersController extends AUserData {
 					try {
 						$userProperty->setScope($value);
 						$this->accountManager->updateAccount($userAccount);
-					} catch (\InvalidArgumentException $e) {
+					} catch (InvalidArgumentException $e) {
 						throw new OCSException('Invalid ' . $e->getMessage(), 102);
 					}
 				}

@@ -436,7 +436,7 @@ class Setup {
 
 			// Set email for admin
 			if (!empty($options['adminemail'])) {
-				$config->setUserValue($user->getUID(), 'settings', 'email', $options['adminemail']);
+				$user->setSystemEMailAddress($options['adminemail']);
 			}
 		}
 
