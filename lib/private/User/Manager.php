@@ -700,6 +700,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * @since 9.1.0
 	 */
 	public function getByEmail($email) {
+		// looking for 'email' only (and not primary_mail) is intentional
 		$userIds = $this->config->getUsersForUserValueCaseInsensitive('settings', 'email', $email);
 
 		$users = array_map(function ($uid) {
