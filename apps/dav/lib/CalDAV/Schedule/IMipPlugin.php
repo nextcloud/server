@@ -255,9 +255,8 @@ class IMipPlugin extends SabreIMipPlugin {
 		$this->addSubjectAndHeading($template, $l10n, $method, $summary);
 		$this->addBulletList($template, $l10n, $vevent);
 
-
 		// Only add response buttons to invitation requests: Fix Issue #11230
-		if (($method == self::METHOD_REQUEST) && $this->getAttendeeRSVP($attendee)) {
+		if (($method == self::METHOD_REQUEST) && $this->getAttendeeRsvpOrReqForParticipant($attendee)) {
 
 			/*
 			** Only offer invitation accept/reject buttons, which link back to the
@@ -395,10 +394,19 @@ class IMipPlugin extends SabreIMipPlugin {
 	 * @param Property|null $attendee
 	 * @return bool
 	 */
-	private function getAttendeeRSVP(Property $attendee = null) {
+	private function getAttendeeRsvpOrReqForParticipant(Property $attendee = null) {
 		if ($attendee !== null) {
 			$rsvp = $attendee->offsetGet('RSVP');
 			if (($rsvp instanceof Parameter) && (strcasecmp($rsvp->getValue(), 'TRUE') === 0)) {
+				return true;
+			}
+			$role = $attendee->offsetGet('ROLE');
+			// @see https://datatracker.ietf.org/doc/html/rfc5545#section-3.2.16
+			// Attendees without a role are assumed required and should receive an invitation link even if they have no RSVP set
+			if ($role === null
+				|| (($role instanceof Parameter) && (strcasecmp($role->getValue(), 'REQ-PARTICIPANT') === 0))
+				|| (($role instanceof Parameter) && (strcasecmp($role->getValue(), 'OPT-PARTICIPANT') === 0))
+			) {
 				return true;
 			}
 		}
