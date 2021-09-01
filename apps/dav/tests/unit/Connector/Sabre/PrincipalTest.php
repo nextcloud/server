@@ -113,7 +113,7 @@ class PrincipalTest extends TestCase {
 				->willReturn('Dr. Foo-Bar');
 		$fooUser
 				->expects($this->exactly(1))
-				->method('getEMailAddress')
+				->method('getSystemEMailAddress')
 				->willReturn('');
 		$barUser = $this->createMock(User::class);
 		$barUser
@@ -122,7 +122,7 @@ class PrincipalTest extends TestCase {
 			->willReturn('bar');
 		$barUser
 				->expects($this->exactly(1))
-				->method('getEMailAddress')
+				->method('getSystemEMailAddress')
 				->willReturn('bar@nextcloud.com');
 		$this->userManager
 			->expects($this->once())
@@ -183,7 +183,7 @@ class PrincipalTest extends TestCase {
 		$fooUser = $this->createMock(User::class);
 		$fooUser
 				->expects($this->exactly(1))
-				->method('getEMailAddress')
+				->method('getSystemEMailAddress')
 				->willReturn('foo@nextcloud.com');
 		$fooUser
 				->expects($this->exactly(1))
@@ -576,15 +576,15 @@ class PrincipalTest extends TestCase {
 		$user2 = $this->createMock(IUser::class);
 		$user2->method('getUID')->willReturn('user2');
 		$user2->method('getDisplayName')->willReturn('User 2');
-		$user2->method('getEMailAddress')->willReturn('user2@foo.bar');
+		$user2->method('getSystemEMailAddress')->willReturn('user2@foo.bar');
 		$user3 = $this->createMock(IUser::class);
 		$user3->method('getUID')->willReturn('user3');
 		$user2->method('getDisplayName')->willReturn('User 22');
-		$user2->method('getEMailAddress')->willReturn('user2@foo.bar123');
+		$user2->method('getSystemEMailAddress')->willReturn('user2@foo.bar123');
 		$user4 = $this->createMock(IUser::class);
 		$user4->method('getUID')->willReturn('user4');
 		$user2->method('getDisplayName')->willReturn('User 222');
-		$user2->method('getEMailAddress')->willReturn('user2@foo.bar456');
+		$user2->method('getSystemEMailAddress')->willReturn('user2@foo.bar456');
 
 		$this->userManager->expects($this->at(0))
 			->method('searchDisplayName')
@@ -636,20 +636,20 @@ class PrincipalTest extends TestCase {
 		$user2 = $this->createMock(IUser::class);
 		$user2->method('getUID')->willReturn('user2');
 		$user2->method('getDisplayName')->willReturn('User 2');
-		$user2->method('getEMailAddress')->willReturn('user2@foo.bar');
+		$user2->method('getSystemEMailAddress')->willReturn('user2@foo.bar');
 		$user3 = $this->createMock(IUser::class);
 		$user3->method('getUID')->willReturn('user3');
 		$user2->method('getDisplayName')->willReturn('User 22');
-		$user2->method('getEMailAddress')->willReturn('user2@foo.bar123');
+		$user2->method('getSystemEMailAddress')->willReturn('user2@foo.bar123');
 		$user4 = $this->createMock(IUser::class);
 		$user4->method('getUID')->willReturn('user4');
 		$user2->method('getDisplayName')->willReturn('User 222');
-		$user2->method('getEMailAddress')->willReturn('user2@foo.bar456');
+		$user2->method('getSystemEMailAddress')->willReturn('user2@foo.bar456');
 
-		$this->userManager->expects($this->at(0))
+		$this->userManager->expects($this->once())
 			->method('getByEmail')
 			->with('user2@foo.bar')
-			->willReturn([$user2, $user3, $user4]);
+			->willReturn([$user2]);
 
 		$this->assertEquals(['principals/users/user2'], $this->connector->searchPrincipals('principals/users',
 			['{http://sabredav.org/ns}email-address' => 'user2@foo.bar']));
@@ -697,15 +697,15 @@ class PrincipalTest extends TestCase {
 		$user2 = $this->createMock(IUser::class);
 		$user2->method('getUID')->willReturn('user2');
 		$user2->method('getDisplayName')->willReturn('User 2');
-		$user2->method('getEMailAddress')->willReturn('user2@foo.bar');
+		$user2->method('getSystemEMailAddress')->willReturn('user2@foo.bar');
 		$user3 = $this->createMock(IUser::class);
 		$user3->method('getUID')->willReturn('user3');
 		$user3->method('getDisplayName')->willReturn('User 22');
-		$user3->method('getEMailAddress')->willReturn('user2@foo.bar123');
+		$user3->method('getSystemEMailAddress')->willReturn('user2@foo.bar123');
 		$user4 = $this->createMock(IUser::class);
 		$user4->method('getUID')->willReturn('user4');
 		$user4->method('getDisplayName')->willReturn('User 222');
-		$user4->method('getEMailAddress')->willReturn('user2@foo.bar456');
+		$user4->method('getSystemEMailAddress')->willReturn('user2@foo.bar456');
 
 
 		$this->userSession->expects($this->at(0))
@@ -758,15 +758,15 @@ class PrincipalTest extends TestCase {
 		$user2 = $this->createMock(IUser::class);
 		$user2->method('getUID')->willReturn('user2');
 		$user2->method('getDisplayName')->willReturn('User 2');
-		$user2->method('getEMailAddress')->willReturn('user2@foo.bar');
+		$user2->method('getSystemEMailAddress')->willReturn('user2@foo.bar');
 		$user3 = $this->createMock(IUser::class);
 		$user3->method('getUID')->willReturn('user3');
 		$user3->method('getDisplayName')->willReturn('User 22');
-		$user3->method('getEMailAddress')->willReturn('user2@foo.bar123');
+		$user3->method('getSystemEMailAddress')->willReturn('user2@foo.bar123');
 		$user4 = $this->createMock(IUser::class);
 		$user4->method('getUID')->willReturn('user4');
 		$user4->method('getDisplayName')->willReturn('User 222');
-		$user4->method('getEMailAddress')->willReturn('user2@foo.bar456');
+		$user4->method('getSystemEMailAddress')->willReturn('user2@foo.bar456');
 
 
 		$this->userSession->expects($this->at(0))

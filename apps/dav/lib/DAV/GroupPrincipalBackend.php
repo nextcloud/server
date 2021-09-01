@@ -331,7 +331,7 @@ class GroupPrincipalBackend implements BackendInterface {
 			'{urn:ietf:params:xml:ns:caldav}calendar-user-type' => 'INDIVIDUAL',
 		];
 
-		$email = $user->getEMailAddress();
+		$email = $user->getSystemEMailAddress();
 		if (!empty($email)) {
 			$principal['{http://sabredav.org/ns}email-address'] = $email;
 		}

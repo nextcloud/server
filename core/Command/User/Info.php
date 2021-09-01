@@ -75,7 +75,7 @@ class Info extends Base {
 		$data = [
 			'user_id' => $user->getUID(),
 			'display_name' => $user->getDisplayName(),
-			'email' => $user->getEMailAddress() ? $user->getEMailAddress() : '',
+			'email' => (string)$user->getSystemEMailAddress(),
 			'cloud_id' => $user->getCloudId(),
 			'enabled' => $user->isEnabled(),
 			'groups' => $groups,
