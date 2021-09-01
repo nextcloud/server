@@ -153,7 +153,7 @@ abstract class AUserData extends OCSController {
 				$data[IAccountManager::PROPERTY_AVATAR . self::SCOPE_SUFFIX] = $userAccount->getProperty(IAccountManager::PROPERTY_AVATAR)->getScope();
 			}
 
-			$data[IAccountManager::PROPERTY_EMAIL] = $targetUserObject->getEMailAddress();
+			$data[IAccountManager::PROPERTY_EMAIL] = $targetUserObject->getSystemEMailAddress();
 			if ($includeScopes) {
 				$data[IAccountManager::PROPERTY_EMAIL . self::SCOPE_SUFFIX] = $userAccount->getProperty(IAccountManager::PROPERTY_EMAIL)->getScope();
 			}

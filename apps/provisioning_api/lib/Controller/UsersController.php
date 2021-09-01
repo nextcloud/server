@@ -873,7 +873,7 @@ class UsersController extends AUserData {
 				}
 				break;
 			case IAccountManager::COLLECTION_EMAIL:
-				if (filter_var($value, FILTER_VALIDATE_EMAIL) && $value !== $targetUser->getEMailAddress()) {
+				if (filter_var($value, FILTER_VALIDATE_EMAIL) && $value !== $targetUser->getSystemEMailAddress()) {
 					$userAccount = $this->accountManager->getAccount($targetUser);
 					$mailCollection = $userAccount->getPropertyCollection(IAccountManager::COLLECTION_EMAIL);
 					foreach ($mailCollection->getProperties() as $property) {
