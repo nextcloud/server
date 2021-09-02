@@ -50,6 +50,7 @@
     "in a few seconds" : "muutaman sekunnin päästä",
     "seconds ago" : "sekunteja sitten",
     "Empty file" : "Tyhjä tiedosto",
+    "File already exists" : "Tiedosto on jo olemassa",
     "File name is a reserved word" : "Tiedoston nimi on varattu sana",
     "File name contains at least one invalid character" : "Tiedoston nimi sisältää ainakin yhden virheellisen merkin",
     "File name is too long" : "Tiedoston nimi on liian pitkä",

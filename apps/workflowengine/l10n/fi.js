@@ -51,6 +51,7 @@ OC.L10N.register(
     "Delete" : "Poista",
     "Active" : "Aktiivinen",
     "Save" : "Tallenna",
+    "Browse the App Store" : "Selaa Sovelluskauppaa",
     "Show less" : "Näytä vähemmän",
     "Show more" : "Näytä enemmän",
     "matches" : "täsmää",
