@@ -51,7 +51,6 @@ use OC\Files\Mount\MoveableMount;
 use OC\Files\Storage\Storage;
 use OC\User\LazyUser;
 use OC\Share\Share;
-use OC\User\User;
 use OCA\Files_Sharing\SharedMount;
 use OCP\Constants;
 use OCP\Files\Cache\ICacheEntry;
@@ -316,12 +315,12 @@ class View {
 		$this->updaterEnabled = true;
 	}
 
-	protected function writeUpdate(Storage $storage, $internalPath, $time = null) {
+	protected function writeUpdate(Storage $storage, $internalPath, $time = null, $size = null) {
 		if ($this->updaterEnabled) {
 			if (is_null($time)) {
 				$time = time();
 			}
-			$storage->getUpdater()->update($internalPath, $time);
+			$storage->getUpdater()->update($internalPath, $time, $size);
 		}
 	}
 
@@ -1175,6 +1174,7 @@ class View {
 						$this->unlockFile($path, ILockingProvider::LOCK_SHARED);
 						throw $e;
 					}
+					$previousSize = $storage->filesize($internalPath);
 				}
 				try {
 					if (!is_null($extraParam)) {
@@ -1195,7 +1195,13 @@ class View {
 					$this->removeUpdate($storage, $internalPath);
 				}
 				if ($result !== false && in_array('write', $hooks, true) && $operation !== 'fopen' && $operation !== 'touch') {
-					$this->writeUpdate($storage, $internalPath);
+					$size = null;
+					if ($operation === 'mkdir') {
+						$size = 0;
+					} elseif ($operation === 'file_put_contents' && isset($previousSize)) {
+						$size = $result - $previousSize;
+					}
+					$this->writeUpdate($storage, $internalPath, null, $size);
 				}
 				if ($result !== false && in_array('touch', $hooks)) {
 					$this->writeUpdate($storage, $internalPath, $extraParam);
