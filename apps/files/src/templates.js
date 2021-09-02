@@ -110,7 +110,8 @@ templates.forEach((provider, index) => {
 				iconClass: provider.iconClass || 'icon-file',
 				fileType: 'file',
 				actionHandler(name) {
-					TemplatePicker.open(name, provider)
+					const fileName = FileList.getUniqueName(name)
+					TemplatePicker.open(fileName, provider)
 				},
 			})
 		},

@@ -209,7 +209,7 @@ export default {
 				this.logger.debug('Created new file', fileInfo)
 
 				await fileList?.addAndFetchFileInfo(this.name)
-				fileList.rename(this.name);
+				fileList.rename(this.name)
 				this.close()
 			} catch (error) {
 				this.logger.error('Error while creating the new file from template')

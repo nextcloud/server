@@ -53,10 +53,10 @@
 				fileType: 'folder',
 				actionHandler: function(name) {
 					const uniqueName = self.fileList.getUniqueName(name);
-                    let tempPromise = self.fileList.createDirectory(uniqueName);
-                    Promise.all([tempPromise]).then(() => {
+                	let tempPromise = self.fileList.createDirectory(uniqueName);
+                	Promise.all([tempPromise]).then(() => {
                         self.fileList.rename(uniqueName);
-                    });
+                	});
 				}
 		        }];
 
@@ -95,10 +95,10 @@
 		_promptFileName: function($target) {
 			var self = this;
 			var newname = $target.attr('data-templatename');
-            var action = _.filter(self._menuItems, function(item) {
-                return item.id == $target.attr('data-action');
-            }).pop();
-            action.actionHandler(newname);
+        	var action = _.filter(self._menuItems, function(item) {
+            	return item.id == $target.attr('data-action');
+        	}).pop();
+        	action.actionHandler(newname);
 			OC.hideMenus();
 		},
 
