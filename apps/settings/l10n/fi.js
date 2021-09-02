@@ -10,6 +10,7 @@ OC.L10N.register(
     "Private" : "Yksityinen",
     "Local" : "Paikallinen",
     "Only synchronize to trusted servers" : "Synkronoi vain luotetulle palvelimelle",
+    "Published" : "Julkaistu",
     "Verify" : "Vahvista",
     "Verifying …" : "Vahvistetaan…",
     "Unable to change password" : "Salasanan vaihto ei onnistunut",
