@@ -413,7 +413,7 @@ export default {
 		 * @returns {boolean}
 		 */
 		fileHasCreatePermission() {
-			return !!(this.fileInfo.permissions & OC.PERMISSION_CREATE)
+			return Boolean(this.fileInfo.permissions & OC.PERMISSION_CREATE)
 		},
 
 		/**
