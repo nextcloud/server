@@ -366,7 +366,8 @@ class File extends Node implements IFile {
 			}
 
 			// since we skipped the view we need to scan and emit the hooks ourselves
-			$storage->getUpdater()->update($internalPath, null, ($writtenByteCount - $previousFileSize));
+			$sizeDifference = isset($previousFileSize, $writtenByteCount) ? ($writtenByteCount - $previousFileSize) : null;
+			$storage->getUpdater()->update($internalPath, null, $sizeDifference);
 
 			try {
 				$this->changeLock(ILockingProvider::LOCK_SHARED);
