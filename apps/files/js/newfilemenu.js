@@ -55,7 +55,7 @@
 					const uniqueName = self.fileList.getUniqueName(name);
                 	let tempPromise = self.fileList.createDirectory(uniqueName);
                 	Promise.all([tempPromise]).then(() => {
-                        self.fileList.rename(uniqueName);
+                		self.fileList.rename(uniqueName);
                 	});
 				}
 		        }];
