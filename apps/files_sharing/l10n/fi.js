@@ -215,7 +215,6 @@ OC.L10N.register(
     "For more info, please ask the person who sent this link." : "Kysy lisätietoja henkilöltä, jolta sait linkin.",
     "Share note" : "Jaa muistiinpano",
     "Toggle grid view" : "Ruudukkonäkymä päälle/pois",
-    "Download %s" : "Lataa %s",
     "Upload files to %s" : "Lähetä tiedostoja käyttäjälle %s",
     "Note" : "Huomio",
     "Select or drop files" : "Valitse tai pudota tiedostoja",
@@ -225,6 +224,7 @@ OC.L10N.register(
     "Add to your Nextcloud" : "Lisää Nextcloudiisi",
     "invalid permissions" : "vialliset oikeudet",
     "Can't change permissions for public share links" : "Julkisten jakolinkkien käyttöoikeuksia ei voi muuttaa",
-    "Name, email, or federated cloud ID …" : "Nimi, sähköposti tai federoitu Cloud ID..."
+    "Name, email, or federated cloud ID …" : "Nimi, sähköposti tai federoitu Cloud ID...",
+    "Download %s" : "Lataa %s"
 },
 "nplurals=2; plural=(n != 1);");

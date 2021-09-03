@@ -229,7 +229,6 @@ OC.L10N.register(
     "For more info, please ask the person who sent this link." : "För mer information, vänligen kontakta den person som skickade den här länken.",
     "Share note" : "Dela kommentar",
     "Toggle grid view" : "Växla rutnätsvy",
-    "Download %s" : "Hämta %s",
     "Upload files to %s" : "Ladda upp filer till %s",
     "Note" : "Anteckning",
     "Select or drop files" : "Välj eller dra filer hit",
@@ -240,6 +239,7 @@ OC.L10N.register(
     "invalid permissions" : "ogiltiga behörigheter",
     "Can't change permissions for public share links" : "Det går inte att ändra behörigheterna för offentliga länkar",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Delning och skicka lösenordet via Nextcloud Talk går inte eftersom Nextcloud Talk är inte aktiverad",
-    "Name, email, or federated cloud ID …" : "Namn, e-post eller federerat moln-ID ..."
+    "Name, email, or federated cloud ID …" : "Namn, e-post eller federerat moln-ID ...",
+    "Download %s" : "Hämta %s"
 },
 "nplurals=2; plural=(n != 1);");

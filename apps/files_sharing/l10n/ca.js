@@ -220,7 +220,6 @@ OC.L10N.register(
     "For more info, please ask the person who sent this link." : "Per més informació contacteu amb qui us ha enviat l'enllaç.",
     "Share note" : "Comparteix nota",
     "Toggle grid view" : "Commuta la vista de la graella",
-    "Download %s" : "Baixa %s",
     "Upload files to %s" : "Carrega fitxers a %s",
     "Note" : "Nota",
     "Select or drop files" : "Selecciona o deixa anar els fitxers",
@@ -231,6 +230,7 @@ OC.L10N.register(
     "invalid permissions" : "permisos no vàlids",
     "Can't change permissions for public share links" : "No es poden canviar els permisos per als enllaços compartits públics",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "No s’ha pogut compartir enviant la contrasenya per Nextcloud Talk perquè Nextcloud Talk no està activat",
-    "Name, email, or federated cloud ID …" : "Nom, correu o ID de núvol federat …"
+    "Name, email, or federated cloud ID …" : "Nom, correu o ID de núvol federat …",
+    "Download %s" : "Baixa %s"
 },
 "nplurals=2; plural=(n != 1);");

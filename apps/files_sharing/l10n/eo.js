@@ -192,7 +192,6 @@ OC.L10N.register(
     "For more info, please ask the person who sent this link." : "Por plia informo, bonvolu peti al la persono, kiu sendis ĉi tiun ligilon.",
     "Share note" : "Kunhavigo noton",
     "Toggle grid view" : "Baskuligi kradan vidon",
-    "Download %s" : "Elŝuti %s",
     "Upload files to %s" : "Alŝuti dosierojn al %s",
     "Note" : "Noto",
     "Select or drop files" : "Elekti aŭ demeti dosierojn",
@@ -201,6 +200,7 @@ OC.L10N.register(
     "Add to your Nextcloud" : "Aldoni al via Nextcloud",
     "invalid permissions" : "nevalidaj permesoj",
     "Can't change permissions for public share links" : "Ne eblas ŝanĝi permesojn por ligilo de publika kunhavo",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Kunhavigo per sendado de la pasvorto per „Nextcloud Talk“ malsukcesis, ĉar Nextcloud Talk ne estas ebligita"
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Kunhavigo per sendado de la pasvorto per „Nextcloud Talk“ malsukcesis, ĉar Nextcloud Talk ne estas ebligita",
+    "Download %s" : "Elŝuti %s"
 },
 "nplurals=2; plural=(n != 1);");
