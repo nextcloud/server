@@ -189,7 +189,6 @@ OC.L10N.register(
     "For more info, please ask the person who sent this link." : "Vairāk informācijas vaicā personai, kas nosūtīja šo saiti.",
     "Share note" : "Koplietot piezīmi",
     "Toggle grid view" : "Pārslēgt režģa skatu",
-    "Download %s" : "Lejupielādēt %s",
     "Upload files to %s" : "Augšupielādēt datnes uz %s",
     "Note" : "Piezīme",
     "Select or drop files" : "Izvēlies vai ievelc datnes",
@@ -198,6 +197,7 @@ OC.L10N.register(
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Veicot datņu augšupielādi, jūs piekrītat %1$spakalpojuma noteikumiem%2$s.",
     "Add to your Nextcloud" : "Pievienot savam Nextcloud",
     "invalid permissions" : "Nederīgas atļaujas",
-    "Can't change permissions for public share links" : "Publiskai koplietošanas saitei nevar mainīt tiesības"
+    "Can't change permissions for public share links" : "Publiskai koplietošanas saitei nevar mainīt tiesības",
+    "Download %s" : "Lejupielādēt %s"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

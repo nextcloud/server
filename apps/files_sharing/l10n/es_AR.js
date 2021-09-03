@@ -133,13 +133,13 @@ OC.L10N.register(
     "For more info, please ask the person who sent this link." : "Para mayores informes, contacte a la persona que le envió este link.",
     "Share note" : "Compartir nota",
     "Toggle grid view" : "Vista de cuadrícula",
-    "Download %s" : "Descargar %s",
     "Upload files to %s" : "Cargar archivos a %s",
     "Note" : "Nota",
     "Select or drop files" : "Seleccione o suelte los archivos",
     "Uploaded files:" : "Archivos cargados:",
     "Add to your Nextcloud" : "Agregar a su Nextcloud",
     "invalid permissions" : "permisos inválidos",
-    "Can't change permissions for public share links" : "No es posible cambiar los permisos para links públicos compartidas"
+    "Can't change permissions for public share links" : "No es posible cambiar los permisos para links públicos compartidas",
+    "Download %s" : "Descargar %s"
 },
 "nplurals=2; plural=(n != 1);");

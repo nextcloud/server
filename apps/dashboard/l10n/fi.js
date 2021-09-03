@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Dashboard" : "Konsoli",
     "Dashboard app" : "Konsolisovellus",
+    "Show something" : "Näytä jotain",
     "Customize" : "Mukauta",
     "Edit widgets" : "Muokkaa pienoissovelluksia",
     "Change background image" : "Vaihda taustakuva",
