@@ -230,7 +230,6 @@ OC.L10N.register(
     "For more info, please ask the person who sent this link." : "Aby uzyskać więcej informacji, zapytaj osobę, która wysłała ten link.",
     "Share note" : "Notatka udostępnienia",
     "Toggle grid view" : "Przełącz widok siatki",
-    "Download %s" : "Pobierz %s",
     "Upload files to %s" : "Prześlij pliki do %s",
     "Note" : "Notatka",
     "Select or drop files" : "Wybierz lub upuść pliki",
@@ -241,6 +240,7 @@ OC.L10N.register(
     "invalid permissions" : "nieprawidłowe uprawnienia",
     "Can't change permissions for public share links" : "Nie można zmienić uprawnień dla publicznych linków udostępnienia",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Udostępnienie hasła przez Nextcloud Talk nie powiodło się, ponieważ usługa Nextcloud Talk jest wyłączona",
-    "Name, email, or federated cloud ID …" : "Nazwa, adres e-mail lub ID Chmury Federacyjnej…"
+    "Name, email, or federated cloud ID …" : "Nazwa, adres e-mail lub ID Chmury Federacyjnej…",
+    "Download %s" : "Pobierz %s"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

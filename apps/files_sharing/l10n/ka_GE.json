@@ -120,12 +120,12 @@
     "the link expired" : "ბმულს ვადა გაუვიდა",
     "sharing is disabled" : "გაზიარება არაა მოქმედი",
     "For more info, please ask the person who sent this link." : "მეტი ინფრმაციისთვის, გთხოვთ ჰკითხოთ ადამიანს ვინც გამოგიგზავნათ ეს ბმული.",
-    "Download %s" : "%s-ის ჩამოტვირთვა",
     "Upload files to %s" : "ფაილების ატვირთვა %s-ში",
     "Select or drop files" : "აირჩიეთ ან გადმოიტანეთ ფაილები",
     "Uploaded files:" : "ფაილების ატვირთვა:",
     "Add to your Nextcloud" : "თქვენს Nextcloud-ში დამატება",
     "invalid permissions" : "არასწორი უფლებები",
-    "Can't change permissions for public share links" : "უფლებები საზოგადოდ გაზიარებულ ბმულზე ვერ შეიცვალა"
+    "Can't change permissions for public share links" : "უფლებები საზოგადოდ გაზიარებულ ბმულზე ვერ შეიცვალა",
+    "Download %s" : "%s-ის ჩამოტვირთვა"
 },"pluralForm" :"nplurals=2; plural=(n!=1);"
 }

@@ -171,12 +171,12 @@ OC.L10N.register(
     "For more info, please ask the person who sent this link." : "For yderligere information, kontakt venligst personen der sendte linket. ",
     "Share note" : "Del note",
     "Toggle grid view" : "Vis som liste",
-    "Download %s" : "Hent %s",
     "Upload files to %s" : "Upload filer til %s",
     "Note" : "Note",
     "Select or drop files" : "Vælg eller slip filer",
     "Uploaded files:" : "Uploadede filer:",
     "Add to your Nextcloud" : "Tilføj til din Nextcloud",
-    "invalid permissions" : "Ugyldige rettigheder"
+    "invalid permissions" : "Ugyldige rettigheder",
+    "Download %s" : "Hent %s"
 },
 "nplurals=2; plural=(n != 1);");
