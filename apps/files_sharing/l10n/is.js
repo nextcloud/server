@@ -169,7 +169,6 @@ OC.L10N.register(
     "For more info, please ask the person who sent this link." : "Til að vita meira skaltu hafa samband við þann sem sendi þér þennan tengil.",
     "Share note" : "Deila minnispunkti",
     "Toggle grid view" : "Víxla reitasýn af/á",
-    "Download %s" : "Sækja %s",
     "Upload files to %s" : "Senda inn skrár á %s",
     "Note" : "Minnispunktur",
     "Select or drop files" : "Veldu eða slepptu skrám",
@@ -178,6 +177,7 @@ OC.L10N.register(
     "Add to your Nextcloud" : "Bæta í þitt eigið Nextcloud",
     "invalid permissions" : "Ógildar aðgangsheimildir",
     "Can't change permissions for public share links" : "Ekki tókst að breyta aðgangsheimildum fyrir opinbera deilingartengla",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Deiling með því að senda lykilorð með Nextcloud Talk mistókst því að Nextcloud Talk er ekki virkt"
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Deiling með því að senda lykilorð með Nextcloud Talk mistókst því að Nextcloud Talk er ekki virkt",
+    "Download %s" : "Sækja %s"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

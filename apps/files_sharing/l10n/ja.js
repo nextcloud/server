@@ -230,7 +230,6 @@ OC.L10N.register(
     "For more info, please ask the person who sent this link." : "不明な点は、こちらのリンクの提供者に確認をお願いします。",
     "Share note" : "共有ノート",
     "Toggle grid view" : "グリッド表示の切り替え",
-    "Download %s" : "%s をダウンロード",
     "Upload files to %s" : "%s にファイルをアップロード",
     "Note" : "ノート",
     "Select or drop files" : "ファイルを選択するか、ドラッグ&ドロップしてください",
@@ -241,6 +240,7 @@ OC.L10N.register(
     "invalid permissions" : "無効なパーミッション",
     "Can't change permissions for public share links" : "URLリンク共有のパーミッションを変更できません",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Nextcloud Talkが有効になっていないため、Nextcloud Talkによるパスワードの共有に失敗しました",
-    "Name, email, or federated cloud ID …" : "名前、電子メール、またはクラウド連携ID…"
+    "Name, email, or federated cloud ID …" : "名前、電子メール、またはクラウド連携ID…",
+    "Download %s" : "%s をダウンロード"
 },
 "nplurals=1; plural=0;");

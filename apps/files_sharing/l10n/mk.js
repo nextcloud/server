@@ -226,7 +226,6 @@ OC.L10N.register(
     "For more info, please ask the person who sent this link." : "За повеќе информации, прашајте го лицето кое ви го испратил линкот.",
     "Share note" : "Споделување со забелешка ",
     "Toggle grid view" : "Промена во мрежа",
-    "Download %s" : "Преземи %s",
     "Upload files to %s" : "Прикачи датотеки во %s",
     "Note" : "Белешка",
     "Select or drop files" : "Изберете или испуштете датотеки",
@@ -237,6 +236,7 @@ OC.L10N.register(
     "invalid permissions" : "неважечка дозвола",
     "Can't change permissions for public share links" : "Неможат да се сменат дозволите за јавно споделен линк",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Неуспешно испраќање на лозинка за споделувањето преку разговор бидејќи разговорот не е овозможен",
-    "Name, email, or federated cloud ID …" : "Име, е-пошта или федерален ИД ..."
+    "Name, email, or federated cloud ID …" : "Име, е-пошта или федерален ИД ...",
+    "Download %s" : "Преземи %s"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");
