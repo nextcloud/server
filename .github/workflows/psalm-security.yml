@@ -17,7 +17,7 @@ jobs:
         with:
           submodules: recursive
       - name: Psalm
-        uses: docker://vimeo/psalm-github-actions
+        uses: docker://vimeo/psalm-github-actions:4.9.3
         with:
           security_analysis: true
           composer_ignore_platform_reqs: false
