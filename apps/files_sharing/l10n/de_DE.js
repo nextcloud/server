@@ -230,6 +230,7 @@ OC.L10N.register(
     "For more info, please ask the person who sent this link." : "Um nähere Informationen zu erhalten, wenden Sie sich bitte an die Person, die Ihnen diesen Link geschickt hat.",
     "Share note" : "Notiz teilen",
     "Toggle grid view" : "Rasteransicht umschalten",
+    "%s" : "%s",
     "Upload files to %s" : "Dateien für %s hochladen",
     "Note" : "Notiz",
     "Select or drop files" : "Dateien auswählen oder hierher ziehen",

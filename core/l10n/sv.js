@@ -133,6 +133,8 @@ OC.L10N.register(
     "Loading apps …" : "Läser in appar …",
     "Installing apps …" : "Installerar appar ...",
     "App download or installation failed" : "Hämtning eller installation av appen misslyckades",
+    "Cannot install this app because it is not compatible" : "Appen kan inte installeras eftersom den inte är kompatibel",
+    "Cannot install this app" : "Kan inte installera denna app",
     "Cancel" : "Avbryt",
     "Schedule work & meetings, synced with all your devices." : "Planera arbete och möten, synkronisera med alla dina enheter.",
     "Keep your colleagues and friends in one place without leaking their private info." : "Håll dina kollegor och vänner på ett ställe utan att läcka deras privata info.",
