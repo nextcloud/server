@@ -37,6 +37,7 @@
 			<step>OCA\DAV\Migration\RegisterBuildReminderIndexBackgroundJob</step>
 			<step>OCA\DAV\Migration\RemoveOrphanEventsAndContacts</step>
 			<step>OCA\DAV\Migration\RemoveClassifiedEventActivity</step>
+			<step>OCA\DAV\Migration\RemoveDeletedUsersCalendarSubscriptions</step>
 		</post-migration>
 		<live-migration>
 			<step>OCA\DAV\Migration\ChunkCleanup</step>

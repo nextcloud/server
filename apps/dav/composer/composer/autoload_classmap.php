@@ -216,6 +216,7 @@ return array(
     'OCA\\DAV\\Migration\\RegenerateBirthdayCalendars' => $baseDir . '/../lib/Migration/RegenerateBirthdayCalendars.php',
     'OCA\\DAV\\Migration\\RegisterBuildReminderIndexBackgroundJob' => $baseDir . '/../lib/Migration/RegisterBuildReminderIndexBackgroundJob.php',
     'OCA\\DAV\\Migration\\RemoveClassifiedEventActivity' => $baseDir . '/../lib/Migration/RemoveClassifiedEventActivity.php',
+    'OCA\\DAV\\Migration\\RemoveDeletedUsersCalendarSubscriptions' => $baseDir . '/../lib/Migration/RemoveDeletedUsersCalendarSubscriptions.php',
     'OCA\\DAV\\Migration\\RemoveOrphanEventsAndContacts' => $baseDir . '/../lib/Migration/RemoveOrphanEventsAndContacts.php',
     'OCA\\DAV\\Migration\\Version1004Date20170825134824' => $baseDir . '/../lib/Migration/Version1004Date20170825134824.php',
     'OCA\\DAV\\Migration\\Version1004Date20170919104507' => $baseDir . '/../lib/Migration/Version1004Date20170919104507.php',

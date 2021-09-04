@@ -231,6 +231,7 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\Migration\\RegenerateBirthdayCalendars' => __DIR__ . '/..' . '/../lib/Migration/RegenerateBirthdayCalendars.php',
         'OCA\\DAV\\Migration\\RegisterBuildReminderIndexBackgroundJob' => __DIR__ . '/..' . '/../lib/Migration/RegisterBuildReminderIndexBackgroundJob.php',
         'OCA\\DAV\\Migration\\RemoveClassifiedEventActivity' => __DIR__ . '/..' . '/../lib/Migration/RemoveClassifiedEventActivity.php',
+        'OCA\\DAV\\Migration\\RemoveDeletedUsersCalendarSubscriptions' => __DIR__ . '/..' . '/../lib/Migration/RemoveDeletedUsersCalendarSubscriptions.php',
         'OCA\\DAV\\Migration\\RemoveOrphanEventsAndContacts' => __DIR__ . '/..' . '/../lib/Migration/RemoveOrphanEventsAndContacts.php',
         'OCA\\DAV\\Migration\\Version1004Date20170825134824' => __DIR__ . '/..' . '/../lib/Migration/Version1004Date20170825134824.php',
         'OCA\\DAV\\Migration\\Version1004Date20170919104507' => __DIR__ . '/..' . '/../lib/Migration/Version1004Date20170919104507.php',
