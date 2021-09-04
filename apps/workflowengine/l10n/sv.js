@@ -80,6 +80,7 @@ OC.L10N.register(
     "Available flows" : "Tillgängliga flöden",
     "For details on how to write your own flow, check out the development documentation." : "För information om hur du skriver ditt eget flöde, se utvecklingsdokumentationen.",
     "More flows" : "Fler flöden",
+    "Browse the App Store" : "Bläddra i appbutiken",
     "Show less" : "Visa mindre",
     "Show more" : "Visa mer",
     "Configured flows" : "Konfigurerade flöden",
