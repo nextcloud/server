@@ -406,7 +406,7 @@ const Dialogs = {
 						trigger: 'manual',
 						'container': '.newFolderMenu'
 					})
-					$input.tooltip('fixTitle')
+					$input.tooltip('_fixTitle')
 					$input.tooltip('show')
 					$input.addClass('error')
 				}

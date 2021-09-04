@@ -137,8 +137,8 @@
 					}
 				} catch (error) {
 					$input.attr('title', error);
-					$input.tooltip({placement: 'right', trigger: 'manual', 'container': '.newFileMenu'});
-					$input.tooltip('fixTitle');
+					$input.tooltip({placement: 'right', trigger: 'manual', container: '.newFileMenu'});
+					$input.tooltip('_fixTitle');
 					$input.tooltip('show');
 					$input.addClass('error');
 				}
