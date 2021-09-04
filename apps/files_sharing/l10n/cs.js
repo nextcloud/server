@@ -230,6 +230,7 @@ OC.L10N.register(
     "For more info, please ask the person who sent this link." : "Pokud potřebujete další podrobnosti, obraťte se na osobu, která vám tento odkaz zaslala.",
     "Share note" : "Sdílet poznámku",
     "Toggle grid view" : "Vyp/zap. zobrazení v mřížce",
+    "%s" : "%s",
     "Upload files to %s" : "Nahrát soubory do %s",
     "Note" : "Poznámka",
     "Select or drop files" : "Vyberte nebo přetáhněte soubory",
