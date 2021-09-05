@@ -230,6 +230,7 @@ OC.L10N.register(
     "For more info, please ask the person who sent this link." : "Informazio gehiagorako, galdetu esteka hau bidali zuen pertsonari",
     "Share note" : "Partekatu oharra",
     "Toggle grid view" : "Txandakatu sareta ikuspegia",
+    "%s" : "%s",
     "Upload files to %s" : "Kargatu fitxategiak hona: %s",
     "Note" : "Oharra",
     "Select or drop files" : "Hautatu edo jaregin fitxategiak",
