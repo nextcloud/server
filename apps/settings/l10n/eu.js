@@ -299,6 +299,7 @@ OC.L10N.register(
     "You are about to remove the group {group}. The users will NOT be deleted." : "{group} taldea ezabatzera zoaz. Erabiltzaileak EZ dira ezabatuko.",
     "Please confirm the group removal " : "Mesedez, baieztatu taldearen ezabaketa",
     "Address" : "Helbidea",
+    "Avatar" : "Avatarra",
     "Full name" : "Izen osoa",
     "Phone number" : "Telefono zenbakia",
     "Twitter" : "Twitter",
