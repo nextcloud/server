@@ -230,6 +230,7 @@ OC.L10N.register(
     "For more info, please ask the person who sent this link." : "Ayrıntılı bilgi almak için bu bağlantıyı aldığınız kişi ile görüşün.",
     "Share note" : "Notu paylaş",
     "Toggle grid view" : "Tablo görünümünü değiştir",
+    "%s" : "%s",
     "Upload files to %s" : "Dosyaları %s konumuna yükle",
     "Note" : "Not",
     "Select or drop files" : "Dosyaları seçin ya da sürükleyip bırakın",
