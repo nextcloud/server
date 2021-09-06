@@ -787,10 +787,20 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerDeprecatedAlias('Search', ISearch::class);
 
 		$this->registerService(\OC\Security\RateLimiting\Backend\IBackend::class, function ($c) {
-			return new \OC\Security\RateLimiting\Backend\MemoryCache(
-				$this->get(ICacheFactory::class),
-				new \OC\AppFramework\Utility\TimeFactory()
-			);
+			$cacheFactory = $c->get(ICacheFactory::class);
+			if ($cacheFactory->isAvailable()) {
+				$backend = new \OC\Security\RateLimiting\Backend\MemoryCacheBackend(
+					$this->get(ICacheFactory::class),
+					new \OC\AppFramework\Utility\TimeFactory()
+				);
+			} else {
+				$backend = new \OC\Security\RateLimiting\Backend\DatabaseBackend(
+					$c->get(IDBConnection::class),
+					new \OC\AppFramework\Utility\TimeFactory()
+				);
+			}
+
+			return $backend;
 		});
 
 		$this->registerAlias(\OCP\Security\ISecureRandom::class, SecureRandom::class);
