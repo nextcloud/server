@@ -118,7 +118,7 @@ class SvgController extends Controller {
 	 * @return DataDisplayResponse|NotFoundResponse
 	 */
 	private function getSvg(string $path, string $color, string $fileName) {
-		if(!Filesystem::isValidPath($path)) {
+		if (!Filesystem::isValidPath($path)) {
 			return new NotFoundResponse();
 		}
 
