@@ -183,7 +183,7 @@ class SvgControllerTest extends TestCase {
 		$this->appManager->expects($this->once())
 			->method('getAppPath')
 			->with($appName)
-			->willReturn(__DIR__ . '/../../../apps/' . $appName);
+			->willReturn(realpath(__DIR__ . '/../../../apps/') . '/' . $appName);
 
 		$response = $this->svgController->getSvgFromApp($appName, $name, $color);
 
