@@ -29,7 +29,6 @@ namespace OC\Security\RateLimiting;
 use OC\Security\Normalizer\IpAddress;
 use OC\Security\RateLimiting\Backend\IBackend;
 use OC\Security\RateLimiting\Exception\RateLimitExceededException;
-use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IUser;
 
 class Limiter {

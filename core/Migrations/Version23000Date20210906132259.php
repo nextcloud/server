@@ -28,8 +28,7 @@ class Version23000Date20210906132259 extends SimpleMigrationStep {
 
 		$hasTable = $schema->hasTable(self::TABLE_NAME);
 
-		if(!$hasTable)
-		{
+		if (!$hasTable) {
 			$table = $schema->createTable(self::TABLE_NAME);
 			$table->addColumn('hash', Types::STRING, [
 				'notnull' => true,
