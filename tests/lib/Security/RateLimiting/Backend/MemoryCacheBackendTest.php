@@ -82,9 +82,9 @@ class MemoryCacheBackendTest extends TestCase {
 				'1',
 				'2',
 				'87',
-				'123',
-				'123',
-				'124',
+				'223',
+				'223',
+				'224',
 			]));
 
 		$this->assertSame(3, $this->memoryCache->getAttempts('Method', 'User'));
@@ -106,7 +106,7 @@ class MemoryCacheBackendTest extends TestCase {
 			->method('set')
 			->with(
 				'eea460b8d756885099c7f0a4c083bf6a745069ee4a301984e726df58fd4510bffa2dac4b7fd5d835726a6753ffa8343ba31c7e902bbef78fc68c2e743667cb4b',
-				json_encode(['123'])
+				json_encode(['223'])
 			);
 
 		$this->memoryCache->registerAttempt('Method', 'User', 100);
@@ -116,7 +116,7 @@ class MemoryCacheBackendTest extends TestCase {
 		$this->timeFactory
 			->expects($this->once())
 			->method('getTime')
-			->willReturn(129);
+			->willReturn(86);
 
 		$this->cache
 			->expects($this->once())
@@ -140,7 +140,7 @@ class MemoryCacheBackendTest extends TestCase {
 					'123',
 					'123',
 					'124',
-					'129',
+					'186',
 				])
 			);
 
