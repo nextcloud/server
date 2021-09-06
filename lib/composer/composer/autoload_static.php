@@ -13,10 +13,6 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
             'OC\\' => 3,
             'OCP\\' => 4,
         ),
-        'B' => 
-        array (
-            'Bamarni\\Composer\\Bin\\' => 21,
-        ),
     );
 
     public static $prefixDirsPsr4 = array (
@@ -32,10 +28,6 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         array (
             0 => __DIR__ . '/../../..' . '/lib/public',
         ),
-        'Bamarni\\Composer\\Bin\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/bamarni/composer-bin-plugin/src',
-        ),
     );
 
     public static $fallbackDirsPsr4 = array (
@@ -43,10 +35,6 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
     );
 
     public static $classMap = array (
-        'Bamarni\\Composer\\Bin\\BinCommand' => __DIR__ . '/..' . '/bamarni/composer-bin-plugin/src/BinCommand.php',
-        'Bamarni\\Composer\\Bin\\CommandProvider' => __DIR__ . '/..' . '/bamarni/composer-bin-plugin/src/CommandProvider.php',
-        'Bamarni\\Composer\\Bin\\Config' => __DIR__ . '/..' . '/bamarni/composer-bin-plugin/src/Config.php',
-        'Bamarni\\Composer\\Bin\\Plugin' => __DIR__ . '/..' . '/bamarni/composer-bin-plugin/src/Plugin.php',
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'OCP\\Accounts\\IAccount' => __DIR__ . '/../../..' . '/lib/public/Accounts/IAccount.php',
         'OCP\\Accounts\\IAccountManager' => __DIR__ . '/../../..' . '/lib/public/Accounts/IAccountManager.php',
@@ -1010,7 +998,6 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Core\\Migrations\\Version21000Date20210309185126' => __DIR__ . '/../../..' . '/core/Migrations/Version21000Date20210309185126.php',
         'OC\\Core\\Migrations\\Version21000Date20210309185127' => __DIR__ . '/../../..' . '/core/Migrations/Version21000Date20210309185127.php',
         'OC\\Core\\Migrations\\Version22000Date20210216080825' => __DIR__ . '/../../..' . '/core/Migrations/Version22000Date20210216080825.php',
-        'OC\\Core\\Migrations\\Version23000Date20210906132259' => __DIR__ . '/../../..' . '/core/Migrations/Version23000Date20210906132259.php',
         'OC\\Core\\Notification\\CoreNotifier' => __DIR__ . '/../../..' . '/core/Notification/CoreNotifier.php',
         'OC\\Core\\Service\\LoginFlowV2Service' => __DIR__ . '/../../..' . '/core/Service/LoginFlowV2Service.php',
         'OC\\DB\\Adapter' => __DIR__ . '/../../..' . '/lib/private/DB/Adapter.php',
@@ -1407,7 +1394,6 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Security\\IdentityProof\\Manager' => __DIR__ . '/../../..' . '/lib/private/Security/IdentityProof/Manager.php',
         'OC\\Security\\IdentityProof\\Signer' => __DIR__ . '/../../..' . '/lib/private/Security/IdentityProof/Signer.php',
         'OC\\Security\\Normalizer\\IpAddress' => __DIR__ . '/../../..' . '/lib/private/Security/Normalizer/IpAddress.php',
-        'OC\\Security\\RateLimiting\\Backend\\DatabaseBackend' => __DIR__ . '/../../..' . '/lib/private/Security/RateLimiting/Backend/DatabaseBackend.php',
         'OC\\Security\\RateLimiting\\Backend\\IBackend' => __DIR__ . '/../../..' . '/lib/private/Security/RateLimiting/Backend/IBackend.php',
         'OC\\Security\\RateLimiting\\Backend\\MemoryCache' => __DIR__ . '/../../..' . '/lib/private/Security/RateLimiting/Backend/MemoryCache.php',
         'OC\\Security\\RateLimiting\\Exception\\RateLimitExceededException' => __DIR__ . '/../../..' . '/lib/private/Security/RateLimiting/Exception/RateLimitExceededException.php',

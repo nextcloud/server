@@ -24,20 +24,20 @@ declare(strict_types=1);
 
 namespace Test\Security\RateLimiting\Backend;
 
-use OC\Security\RateLimiting\Backend\MemoryCache;
+use OC\Security\RateLimiting\Backend\MemoryCacheBackend;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use Test\TestCase;
 
-class MemoryCacheTest extends TestCase {
+class MemoryCacheBackendTest extends TestCase {
 	/** @var ICacheFactory|\PHPUnit\Framework\MockObject\MockObject */
 	private $cacheFactory;
 	/** @var ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
 	private $timeFactory;
 	/** @var ICache|\PHPUnit\Framework\MockObject\MockObject */
 	private $cache;
-	/** @var MemoryCache */
+	/** @var MemoryCacheBackend */
 	private $memoryCache;
 
 	protected function setUp(): void {
@@ -50,10 +50,10 @@ class MemoryCacheTest extends TestCase {
 		$this->cacheFactory
 			->expects($this->once())
 			->method('createDistributed')
-			->with('OC\Security\RateLimiting\Backend\MemoryCache')
+			->with('OC\Security\RateLimiting\Backend\MemoryCacheBackend')
 			->willReturn($this->cache);
 
-		$this->memoryCache = new MemoryCache(
+		$this->memoryCache = new MemoryCacheBackend(
 			$this->cacheFactory,
 			$this->timeFactory
 		);
@@ -66,7 +66,7 @@ class MemoryCacheTest extends TestCase {
 			->with('eea460b8d756885099c7f0a4c083bf6a745069ee4a301984e726df58fd4510bffa2dac4b7fd5d835726a6753ffa8343ba31c7e902bbef78fc68c2e743667cb4b')
 			->willReturn(null);
 
-		$this->assertSame(0, $this->memoryCache->getAttempts('Method', 'User', 123));
+		$this->assertSame(0, $this->memoryCache->getAttempts('Method', 'User'));
 	}
 
 	public function testGetAttempts() {
@@ -87,7 +87,7 @@ class MemoryCacheTest extends TestCase {
 				'124',
 			]));
 
-		$this->assertSame(3, $this->memoryCache->getAttempts('Method', 'User', 123));
+		$this->assertSame(3, $this->memoryCache->getAttempts('Method', 'User'));
 	}
 
 	public function testRegisterAttemptWithNoAttemptsBefore() {

@@ -6,10 +6,6 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname(dirname($vendorDir));
 
 return array(
-    'Bamarni\\Composer\\Bin\\BinCommand' => $vendorDir . '/bamarni/composer-bin-plugin/src/BinCommand.php',
-    'Bamarni\\Composer\\Bin\\CommandProvider' => $vendorDir . '/bamarni/composer-bin-plugin/src/CommandProvider.php',
-    'Bamarni\\Composer\\Bin\\Config' => $vendorDir . '/bamarni/composer-bin-plugin/src/Config.php',
-    'Bamarni\\Composer\\Bin\\Plugin' => $vendorDir . '/bamarni/composer-bin-plugin/src/Plugin.php',
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
     'OCP\\Accounts\\IAccount' => $baseDir . '/lib/public/Accounts/IAccount.php',
     'OCP\\Accounts\\IAccountManager' => $baseDir . '/lib/public/Accounts/IAccountManager.php',
@@ -973,7 +969,6 @@ return array(
     'OC\\Core\\Migrations\\Version21000Date20210309185126' => $baseDir . '/core/Migrations/Version21000Date20210309185126.php',
     'OC\\Core\\Migrations\\Version21000Date20210309185127' => $baseDir . '/core/Migrations/Version21000Date20210309185127.php',
     'OC\\Core\\Migrations\\Version22000Date20210216080825' => $baseDir . '/core/Migrations/Version22000Date20210216080825.php',
-    'OC\\Core\\Migrations\\Version23000Date20210906132259' => $baseDir . '/core/Migrations/Version23000Date20210906132259.php',
     'OC\\Core\\Notification\\CoreNotifier' => $baseDir . '/core/Notification/CoreNotifier.php',
     'OC\\Core\\Service\\LoginFlowV2Service' => $baseDir . '/core/Service/LoginFlowV2Service.php',
     'OC\\DB\\Adapter' => $baseDir . '/lib/private/DB/Adapter.php',
@@ -1370,7 +1365,6 @@ return array(
     'OC\\Security\\IdentityProof\\Manager' => $baseDir . '/lib/private/Security/IdentityProof/Manager.php',
     'OC\\Security\\IdentityProof\\Signer' => $baseDir . '/lib/private/Security/IdentityProof/Signer.php',
     'OC\\Security\\Normalizer\\IpAddress' => $baseDir . '/lib/private/Security/Normalizer/IpAddress.php',
-    'OC\\Security\\RateLimiting\\Backend\\DatabaseBackend' => $baseDir . '/lib/private/Security/RateLimiting/Backend/DatabaseBackend.php',
     'OC\\Security\\RateLimiting\\Backend\\IBackend' => $baseDir . '/lib/private/Security/RateLimiting/Backend/IBackend.php',
     'OC\\Security\\RateLimiting\\Backend\\MemoryCache' => $baseDir . '/lib/private/Security/RateLimiting/Backend/MemoryCache.php',
     'OC\\Security\\RateLimiting\\Exception\\RateLimitExceededException' => $baseDir . '/lib/private/Security/RateLimiting/Exception/RateLimitExceededException.php',

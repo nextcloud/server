@@ -33,12 +33,12 @@ use OCP\ICache;
 use OCP\ICacheFactory;
 
 /**
- * Class MemoryCache uses the configured distributed memory cache for storing
+ * Class MemoryCacheBackend uses the configured distributed memory cache for storing
  * rate limiting data.
  *
  * @package OC\Security\RateLimiting\Backend
  */
-class MemoryCache implements IBackend {
+class MemoryCacheBackend implements IBackend {
 	/** @var ICache */
 	private $cache;
 	/** @var ITimeFactory */
@@ -86,16 +86,14 @@ class MemoryCache implements IBackend {
 	 * {@inheritDoc}
 	 */
 	public function getAttempts(string $methodIdentifier,
-								string $userIdentifier,
-								int $seconds): int {
+								string $userIdentifier): int {
 		$identifier = $this->hash($methodIdentifier, $userIdentifier);
 		$existingAttempts = $this->getExistingAttempts($identifier);
 
 		$count = 0;
 		$currentTime = $this->timeFactory->getTime();
-		/** @var array $existingAttempts */
-		foreach ($existingAttempts as $attempt) {
-			if (($attempt + $seconds) > $currentTime) {
+		foreach ($existingAttempts as $expirationTime) {
+			if ($expirationTime > $currentTime) {
 				$count++;
 			}
 		}
@@ -113,16 +111,16 @@ class MemoryCache implements IBackend {
 		$existingAttempts = $this->getExistingAttempts($identifier);
 		$currentTime = $this->timeFactory->getTime();
 
-		// Unset all attempts older than $period
-		foreach ($existingAttempts as $key => $attempt) {
-			if (($attempt + $period) < $currentTime) {
+		// Unset all attempts that are already expired
+		foreach ($existingAttempts as $key => $expirationTime) {
+			if ($expirationTime < $currentTime) {
 				unset($existingAttempts[$key]);
 			}
 		}
 		$existingAttempts = array_values($existingAttempts);
 
 		// Store the new attempt
-		$existingAttempts[] = (string)$currentTime;
+		$existingAttempts[] = (string)($currentTime + $period);
 		$this->cache->set($identifier, json_encode($existingAttempts));
 	}
 }

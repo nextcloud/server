@@ -787,7 +787,7 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerService(\OC\Security\RateLimiting\Backend\IBackend::class, function ($c) {
 			$cacheFactory = $c->get(ICacheFactory::class);
 			if ($cacheFactory->isAvailable()) {
-				$backend = new \OC\Security\RateLimiting\Backend\MemoryCache(
+				$backend = new \OC\Security\RateLimiting\Backend\MemoryCacheBackend(
 					$this->get(ICacheFactory::class),
 					new \OC\AppFramework\Utility\TimeFactory()
 				);

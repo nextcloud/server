@@ -26,13 +26,10 @@ namespace Test\Security\RateLimiting;
 
 use OC\Security\RateLimiting\Backend\IBackend;
 use OC\Security\RateLimiting\Limiter;
-use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IUser;
 use Test\TestCase;
 
 class LimiterTest extends TestCase {
-	/** @var ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
-	private $timeFactory;
 	/** @var IBackend|\PHPUnit\Framework\MockObject\MockObject */
 	private $backend;
 	/** @var Limiter */
@@ -41,11 +38,9 @@ class LimiterTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->backend = $this->createMock(IBackend::class);
 
 		$this->limiter = new Limiter(
-			$this->timeFactory,
 			$this->backend
 		);
 	}
@@ -69,10 +64,6 @@ class LimiterTest extends TestCase {
 	}
 
 	public function testRegisterAnonRequestSuccess() {
-		$this->timeFactory
-			->expects($this->once())
-			->method('getTime')
-			->willReturn(2000);
 		$this->backend
 			->expects($this->once())
 			->method('getAttempts')
@@ -126,10 +117,6 @@ class LimiterTest extends TestCase {
 			->method('getUID')
 			->willReturn('MyUid');
 
-		$this->timeFactory
-			->expects($this->once())
-			->method('getTime')
-			->willReturn(2000);
 		$this->backend
 			->expects($this->once())
 			->method('getAttempts')

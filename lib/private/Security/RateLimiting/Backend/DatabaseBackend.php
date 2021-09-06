@@ -71,21 +71,28 @@ class DatabaseBackend implements IBackend {
 	 * @throws \OCP\DB\Exception
 	 */
 	private function getExistingAttemptCount(
-		string $identifier,
-		int $seconds
+		string $identifier
 	): int {
-		$qb = $this->dbConnection->getQueryBuilder();
-		$notOlderThan = $this->timeFactory->getDateTime()->sub(new \DateInterval("PT{$seconds}S"));
+		$currentTime = $this->timeFactory->getDateTime();
 
+		$qb = $this->dbConnection->getQueryBuilder();
+		$qb->delete(self::TABLE_NAME)
+			->where(
+				$qb->expr()->lte('delete_after', $qb->createParameter('currentTime'))
+			)
+			->setParameter('currentTime', $currentTime, 'datetime')
+			->executeStatement();
+
+		$qb = $this->dbConnection->getQueryBuilder();
 		$qb->selectAlias($qb->createFunction('COUNT(*)'), 'count')
 			->from(self::TABLE_NAME)
 			->where(
 				$qb->expr()->eq('hash', $qb->createNamedParameter($identifier, IQueryBuilder::PARAM_STR))
 			)
 			->andWhere(
-				$qb->expr()->gte('timestamp', $qb->createParameter('notOlderThan'))
+				$qb->expr()->gte('delete_after', $qb->createParameter('currentTime'))
 			)
-			->setParameter('notOlderThan', $notOlderThan, 'datetime');
+			->setParameter('currentTime', $currentTime, 'datetime');
 
 		$cursor = $qb->executeQuery();
 		$row = $cursor->fetch();
@@ -98,10 +105,9 @@ class DatabaseBackend implements IBackend {
 	 * {@inheritDoc}
 	 */
 	public function getAttempts(string $methodIdentifier,
-								string $userIdentifier,
-								int $seconds): int {
+								string $userIdentifier): int {
 		$identifier = $this->hash($methodIdentifier, $userIdentifier);
-		return $this->getExistingAttemptCount($identifier, $seconds);
+		return $this->getExistingAttemptCount($identifier);
 	}
 
 	/**
@@ -111,25 +117,14 @@ class DatabaseBackend implements IBackend {
 									string $userIdentifier,
 									int $period) {
 		$identifier = $this->hash($methodIdentifier, $userIdentifier);
-		$currentTime = $this->timeFactory->getDateTime();
-		$notOlderThan = $this->timeFactory->getDateTime('@' . $period);
+		$deleteAfter = $this->timeFactory->getDateTime()->add(new \DateInterval("PT{$period}S"));
 
 		$qb = $this->dbConnection->getQueryBuilder();
-
-		$qb->delete(self::TABLE_NAME)
-			->where(
-				$qb->expr()->eq('hash', $qb->createNamedParameter($identifier, IQueryBuilder::PARAM_STR))
-			)
-			->andWhere(
-				$qb->expr()->lt('timestamp', $qb->createParameter('notOlderThan'))
-			)
-			->setParameter('notOlderThan', $notOlderThan, 'datetime')
-			->executeStatement();
 
 		$qb->insert(self::TABLE_NAME)
 			->values([
 				'hash' => $qb->createNamedParameter($identifier, IQueryBuilder::PARAM_STR),
-				'timestamp' => $qb->createNamedParameter($currentTime, IQueryBuilder::PARAM_DATE),
+				'delete_after' => $qb->createNamedParameter($deleteAfter, IQueryBuilder::PARAM_DATE),
 			])
 			->executeStatement();
 	}
