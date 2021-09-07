@@ -259,6 +259,7 @@ OC.L10N.register(
     "The document could not be found on the server. Maybe the share was deleted or has expired?" : "Документот не може да се пронајде на серверот. Можеби ова споделување е избришано или рекот за пристап му е истечен?",
     "Back to %s" : "Врати се на %s",
     "Too many requests" : "Премногу барања",
+    "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "Има испратено премногу барање од вашата мрежа. Обидете се подоцна повторно или контактирајте го администраторот.",
     "Error" : "Грешка",
     "Previous" : "Претходно",
     "Internal Server Error" : "Внатрешна серверска грешка",
