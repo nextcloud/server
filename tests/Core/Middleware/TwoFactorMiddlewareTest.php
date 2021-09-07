@@ -97,10 +97,6 @@ class TwoFactorMiddlewareTest extends TestCase {
 	}
 
 	public function testBeforeControllerNotLoggedIn() {
-		$this->reflector->expects($this->once())
-			->method('hasAnnotation')
-			->with('PublicPage')
-			->willReturn(false);
 		$this->userSession->expects($this->once())
 			->method('isLoggedIn')
 			->willReturn(false);
@@ -111,24 +107,9 @@ class TwoFactorMiddlewareTest extends TestCase {
 		$this->middleware->beforeController($this->controller, 'index');
 	}
 
-	public function testBeforeControllerPublicPage() {
-		$this->reflector->expects($this->once())
-			->method('hasAnnotation')
-			->with('PublicPage')
-			->willReturn(true);
-		$this->userSession->expects($this->never())
-			->method('isLoggedIn');
-
-		$this->middleware->beforeController($this->controller, 'create');
-	}
-
 	public function testBeforeSetupController() {
 		$user = $this->createMock(IUser::class);
 		$controller = $this->createMock(ALoginSetupController::class);
-		$this->reflector->expects($this->once())
-			->method('hasAnnotation')
-			->with('PublicPage')
-			->willReturn(false);
 		$this->userSession->expects($this->any())
 			->method('getUser')
 			->willReturn($user);
@@ -144,10 +125,6 @@ class TwoFactorMiddlewareTest extends TestCase {
 	public function testBeforeControllerNoTwoFactorCheckNeeded() {
 		$user = $this->createMock(IUser::class);
 
-		$this->reflector->expects($this->once())
-			->method('hasAnnotation')
-			->with('PublicPage')
-			->willReturn(false);
 		$this->userSession->expects($this->once())
 			->method('isLoggedIn')
 			->willReturn(true);
@@ -168,10 +145,6 @@ class TwoFactorMiddlewareTest extends TestCase {
 
 		$user = $this->createMock(IUser::class);
 
-		$this->reflector->expects($this->once())
-			->method('hasAnnotation')
-			->with('PublicPage')
-			->willReturn(false);
 		$this->userSession->expects($this->once())
 			->method('isLoggedIn')
 			->willReturn(true);

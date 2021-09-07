@@ -82,11 +82,6 @@ class TwoFactorMiddleware extends Middleware {
 	 * @param string $methodName
 	 */
 	public function beforeController($controller, $methodName) {
-		if ($this->reflector->hasAnnotation('PublicPage')) {
-			// Don't block public pages
-			return;
-		}
-
 		if ($controller instanceof TwoFactorChallengeController
 			&& $this->userSession->getUser() !== null
 			&& !$this->reflector->hasAnnotation('TwoFactorSetUpDoneRequired')) {
