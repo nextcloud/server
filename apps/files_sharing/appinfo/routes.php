@@ -9,6 +9,7 @@
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Maxence Lange <maxence@artificial-owl.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Hinrich Mahler <nextcloud@mahlerhome.de>
  *
  * @license AGPL-3.0
  *
@@ -81,6 +82,16 @@ return [
 			'name' => 'Settings#setDefaultAccept',
 			'url' => '/settings/defaultAccept',
 			'verb' => 'PUT',
+		],
+		[
+			'name' => 'Settings#setUserShareFolder',
+			'url' => '/settings/shareFolder',
+			'verb' => 'PUT',
+		],
+		[
+			'name' => 'Settings#resetUserShareFolder',
+			'url' => '/settings/shareFolder',
+			'verb' => 'DELETE',
 		],
 		[
 			'name' => 'Accept#accept',

@@ -309,7 +309,7 @@ class Manager {
 
 		if ($share) {
 			\OC_Util::setupFS($this->uid);
-			$shareFolder = Helper::getShareFolder();
+			$shareFolder = Helper::getShareFolder(null, $this->uid);
 			$mountPoint = Files::buildNotExistingFileName($shareFolder, $share['name']);
 			$mountPoint = Filesystem::normalizePath($mountPoint);
 			$hash = md5($mountPoint);

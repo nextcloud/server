@@ -7,6 +7,7 @@ declare(strict_types=1);
  *
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Hinrich Mahler <nextcloud@mahlerhome.de>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -49,10 +50,16 @@ class Personal implements ISettings {
 
 	public function getForm(): TemplateResponse {
 		$defaultAcceptSystemConfig = $this->config->getSystemValueBool('sharing.enable_share_accept', false) ? 'no' : 'yes';
+		$shareFolderSystemConfig = $this->config->getSystemValue('share_folder', '/');
 		$acceptDefault = $this->config->getUserValue($this->userId, Application::APP_ID, 'default_accept', $defaultAcceptSystemConfig) === 'yes';
 		$enforceAccept = $this->config->getSystemValueBool('sharing.force_share_accept', false);
+		$allowCustomDirectory = $this->config->getSystemValueBool('sharing.allow_custom_share_folder', true);
+		$shareFolderDefault = $this->config->getUserValue($this->userId, Application::APP_ID, 'share_folder', $shareFolderSystemConfig);
 		$this->initialState->provideInitialState('accept_default', $acceptDefault);
 		$this->initialState->provideInitialState('enforce_accept', $enforceAccept);
+		$this->initialState->provideInitialState('allow_custom_share_folder', $allowCustomDirectory);
+		$this->initialState->provideInitialState('share_folder', $shareFolderDefault);
+		$this->initialState->provideInitialState('default_share_folder', $shareFolderSystemConfig);
 		return new TemplateResponse('files_sharing', 'Settings/personal');
 	}
 
