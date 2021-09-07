@@ -262,6 +262,7 @@
     "No users in here" : "Nie sú tu žiadni používatelia",
     "Default quota" : "Predvolená kvóta",
     "Common languages" : "Spoločné jazyky",
+    "Other languages" : "Iné jazyky",
     "Password change is disabled because the master key is disabled" : "Zmena hesla je zablokovaná pretože hlavný kľúč je vypnutý",
     "Passwordless authentication requires a secure connection." : "Overenie bez hesla vyžaduje zabezpečné pripojenie.",
     "Add WebAuthn device" : "Pridať zariadenie WebAuthn",
