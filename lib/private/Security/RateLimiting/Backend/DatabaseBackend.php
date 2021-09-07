@@ -29,11 +29,6 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 
-/**
- * Class DatabaseBackend uses the database for storing rate limiting data.
- *
- * @package OC\Security\RateLimiting\Backend
- */
 class DatabaseBackend implements IBackend {
 	private const TABLE_NAME = 'ratelimit_entries';
 

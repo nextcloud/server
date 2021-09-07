@@ -10,9 +10,6 @@ use OCP\DB\Types;
 use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
 
-/**
- * Auto-generated migration step: Please modify to your needs!
- */
 class Version23000Date20210906132259 extends SimpleMigrationStep {
 	private const TABLE_NAME = 'ratelimit_entries';
 

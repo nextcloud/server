@@ -35,7 +35,7 @@ namespace OC\Security\RateLimiting\Backend;
  */
 interface IBackend {
 	/**
-	 * Gets the amount of attempts for the specified method
+	 * Gets the number of attempts for the specified method
 	 *
 	 * @param string $methodIdentifier Identifier for the method
 	 * @param string $userIdentifier Identifier for the user
