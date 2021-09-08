@@ -205,12 +205,17 @@ class AppSettingsController extends Controller {
 		}
 
 		$apps = $this->getAppsForCategory('');
+		$supportedApps = $appClass->getSupportedApps();
 		foreach ($apps as $app) {
 			$app['appstore'] = true;
 			if (!array_key_exists($app['id'], $this->allApps)) {
 				$this->allApps[$app['id']] = $app;
 			} else {
 				$this->allApps[$app['id']] = array_merge($app, $this->allApps[$app['id']]);
+			}
+
+			if (in_array($app['id'], $supportedApps)) {
+				$this->allApps[$app['id']]['level'] = \OC_App::supportedApp;
 			}
 		}
 
