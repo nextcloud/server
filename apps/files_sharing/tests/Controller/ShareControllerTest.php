@@ -299,7 +299,7 @@ class ShareControllerTest extends \Test\TestCase {
 			return null;
 		});
 
-		$this->eventDispatcher->expects($this->once())
+		$this->eventDispatcher->expects($this->exactly(2))
 			->method('dispatchTyped')
 			->with(
 				$this->callback(function ($event) use ($share) {
@@ -450,7 +450,7 @@ class ShareControllerTest extends \Test\TestCase {
 			return null;
 		});
 
-		$this->eventDispatcher->expects($this->once())
+		$this->eventDispatcher->expects($this->exactly(2))
 			->method('dispatchTyped')
 			->with(
 				$this->callback(function ($event) use ($share) {
@@ -605,7 +605,7 @@ class ShareControllerTest extends \Test\TestCase {
 			return null;
 		});
 
-		$this->eventDispatcher->expects($this->once())
+		$this->eventDispatcher->expects($this->exactly(2))
 			->method('dispatchTyped')
 			->with(
 				$this->callback(function ($event) use ($share) {
