@@ -31,6 +31,7 @@ declare(strict_types=1);
 
 namespace OC\Core\Controller;
 
+use OC\Files\Filesystem;
 use OC\Template\IconsCacher;
 use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
@@ -117,6 +118,10 @@ class SvgController extends Controller {
 	 * @return DataDisplayResponse|NotFoundResponse
 	 */
 	private function getSvg(string $path, string $color, string $fileName) {
+		if (!Filesystem::isValidPath($path)) {
+			return new NotFoundResponse();
+		}
+
 		if (!file_exists($path)) {
 			return new NotFoundResponse();
 		}
