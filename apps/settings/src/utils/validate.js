@@ -59,10 +59,11 @@ export function validateEmail(input) {
 /**
  * Validate the language input
  *
- * @param {string} input the input
+ * @param {object} input the input
  * @returns {boolean}
  */
 export function validateLanguage(input) {
 	return input.code !== ''
-		&& input.name
+		&& input.name !== ''
+		&& input.name !== undefined
 }
