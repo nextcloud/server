@@ -89,6 +89,10 @@ class ConnectionFactory {
 		if ($this->config->getValue('mysql.utf8mb4', false)) {
 			$this->defaultConnectionParams['mysql']['charset'] = 'utf8mb4';
 		}
+		$collationOverride = $this->config->getValue('mysql.collation', null);
+		if ($collationOverride) {
+			$this->defaultConnectionParams['mysql']['collation'] = $collationOverride;
+		}
 	}
 
 	/**
