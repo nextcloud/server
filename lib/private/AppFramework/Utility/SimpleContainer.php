@@ -52,6 +52,11 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 		$this->container = new Container();
 	}
 
+	/**
+	 * @template T
+	 * @psalm-param class-string<T> $id
+	 * @psalm-return T
+	 */
 	public function get(string $id) {
 		return $this->query($id);
 	}
