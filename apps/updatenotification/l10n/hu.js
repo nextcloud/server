@@ -33,7 +33,7 @@ OC.L10N.register(
     "Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}" : "Megjegyzés: új verziófrissítés után a frissítés csak a következő alverzió megjelenése vagy későbbi időpontban jelenik meg. Új verziókat adunk ki, ezeket eljuttatjuk a felhasználóinkhoz és néha - amennyiben hibát találunk - verziókat hagyunk ki. A következő linken többet is megtudhat a frissítési és kiadási csatornákról: {link}",
     "Checked on {lastCheckedDate}" : "Ellenőrizve ekkor: {lastCheckedDate}",
     "Checking apps for compatible versions" : "Alkalmazások ellenőrzése kompatibilis frissítéséhez",
-    "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Ellenőrizd, hogy a config.php-dben nincs-e beállítva a <samp>appstoreenabled</samp> false-ra.",
+    "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Ellenőrizze, hogy a config.php fájl nem állítja-e be <samp>appstoreenabled</samp> értékét false-ra.",
     "<strong>All</strong> apps have a compatible version for this Nextcloud version available" : "<strong>Minden</strong> alkalmazás rendelkezik evvel a Nextcloud verzióval kompatibilis verzióval",
     "View changelog" : "Változásnapló megjelenítése",
     "Enterprise" : "Vállalati",
@@ -48,7 +48,7 @@ OC.L10N.register(
     "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "Vedd figyelembe, hogy egy firssítés megjelenése után eltarthat egy darabig míg itt megjelenik. Fokozatosan juttatjuk el a frissítéseket a felhaszálóinkhoz és néha kihagyunk egy-egy verziót, ha problémák merülnek fel.",
     "Only notification for app updates are available." : "Csak az értesítő alkalmazás frissítései érhetők el.",
     "Checking apps for compatible updates" : "Alkalmazások ellenőrzése kompatibilis frissítéséhez",
-    "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "Nem lehet csatlakozni az alkalmazásbolthoz, vagy az nem adott vissza frissítéseket egyáltalán. Keress frissítéseket kézzel, vagy győződj meg arról, hogy a szervered hozzáfér az internethez és eléri az alkalmazásboltot.",
+    "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "Nem lehet csatlakozni az alkalmazástárhoz, vagy az egyáltalán nem adott vissza frissítéseket. Keressen kézzel frissítéseket, vagy győződjön meg arról, hogy a kiszolgálója hozzáfér-e az internethez és eléri-e az alkalmazástárat.",
     "<strong>All</strong> apps have an update for this version available" : "<strong>Minden</strong> alkalmazás felfrissítve a legújabb verzióra",
     "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong>  alkalmazásnak nincs elérhető frissítése ehhez a verzióhoz","<strong>%n</strong> alkalmazásnak nincs elérhető frissítése ehhez a verzióhoz"]
 },
