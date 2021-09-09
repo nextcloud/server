@@ -68,6 +68,7 @@ OC.L10N.register(
     "Your database does not run with \"READ COMMITTED\" transaction isolation level. This can cause problems when multiple actions are executed in parallel." : "A sua base de dados não tem o nível de isolamento da transacção \"READ COMMITTED\" activado. Isto pode causar problemas quando várias acções são executadas em paralelo.",
     "The PHP module \"fileinfo\" is missing. It is strongly recommended to enable this module to get the best results with MIME type detection." : "O módulo PHP 'fileinfo' está ausente. Recomendamos vivamente que ative este módulo para obter melhores resultados na detecção de tipo MIME.",
     "If your installation is not installed at the root of the domain and uses system cron, there can be issues with the URL generation. To avoid these problems, please set the \"overwrite.cli.url\" option in your config.php file to the webroot path of your installation (suggestion: \"{suggestedOverwriteCliURL}\")" : "Se a sua instalação não está instalada na raiz do domínio e usa o sistema cron, podem existir problemas com a geração de URL. Para evitar esses problemas, por favor, defina a opção \"overwrite.cli.url\" no seu ficheiro config.php para o caminho webroot da sua instalação (suggestion: \"{suggestedOverwriteCliURL}\")",
+    "Your installation has no default phone region set. This is required to validate phone numbers in the profile settings without a country code. To allow numbers without a country code, please add \"default_phone_region\" with the respective {linkstart}ISO 3166-1 code ↗{linkend} of the region to your config file." : "A instalação não tem uma região de telefone predefinida. A região predefinida é necessária para validar números de telefone sem código de país nas configurações do perfil . Para permitir números sem um código de país, adicione \"default_phone_region\" com o respectivo {linkstart}código ISO 3166-1 ↗{linkend} da região ao seu ficheiro de configuração.",
     "It was not possible to execute the cron job via CLI. The following technical errors have appeared:" : "Não foi possível executar o cron job via CLI. Ocorreram os seguintes erros técnicos:",
     "This server has no working Internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. Establish a connection from this server to the Internet to enjoy all features." : "Este servidor não tem ligação à Internet: Não foi possível detectar vários pontos de extremidade. Isso significa que alguns dos recursos como a montagem de armazenamento externo, notificações sobre actualizações ou instalação de aplicações de terceiros não funcionarão. Pode também não ser possível aceder a  ficheiros remotamente e enviar emails de notificação. Sugerimos que active a ligação à Internet para este servidor se desejar ter todos os recursos.",
     "The PHP function \"set_time_limit\" is not available. This could result in scripts being halted mid-execution, breaking your installation. Enabling this function is strongly recommended." : "A função PHP \"set_time_limit\" não está disponível. Isto pode resultar na paragem de scripts a meio da execução, corrompendo a instalação. A activação desta função é altamente recomendada.",
@@ -124,6 +125,10 @@ OC.L10N.register(
     "Resetting password" : "A fazer reset à palavra passe",
     "Recommended apps" : "Aplicações recomendadas",
     "Loading apps …" : "A carregar aplicações...",
+    "Installing apps …" : "A instalar aplicações ...",
+    "App download or installation failed" : "A transferência ou instalação desta aplicação não foi bem sucedida",
+    "Cannot install this app because it is not compatible" : "Não é possível instalar esta aplicação por não ser compatível",
+    "Cannot install this app" : "Não é possível instalar esta aplicação",
     "Cancel" : "Cancelar",
     "Forgot password?" : "Senha esquecida?",
     "Back" : "Anterior",
@@ -244,6 +249,7 @@ OC.L10N.register(
     "Please specify the port number along with the host name (e.g., localhost:5432)." : "Por favor, especifique o número da porta com o nome do anfitrião (por exemplo, localhost:5432).",
     "Performance warning" : "Aviso de desempenho",
     "You chose SQLite as database." : "Escolheu SQLite como base de dados",
+    "Install recommended apps" : "Instalar aplicações recomendadas",
     "Finish setup" : "Terminar configuração",
     "Finishing …" : "A terminar...",
     "Need help?" : "Precisa de ajuda?",
@@ -325,6 +331,8 @@ OC.L10N.register(
     "Continue to Nextcloud" : "Continuar para Nextcloud",
     "_The update was successful. Redirecting you to Nextcloud in %n second._::_The update was successful. Redirecting you to Nextcloud in %n seconds._" : ["A actualização foi bem sucedida. A redireccionar para Nextcloud dentro de %n segundos.","A actualização foi bem sucedida. A redireccionar para Nextcloud dentro de %n segundos."],
     "A password reset message has been sent to the e-mail address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Foi enviada, para o seu endereço de e-mail, uma mensagem para fazer reset à password desta conta. Se não a receber, verifique as pastas de spam/junk ou peça ajuda ao seu administrador.",
-    "Password can not be changed. Please contact your administrator." : "A palavra-passe não pode ser alterada. Por favor, contacte o seu administrador."
+    "Password can not be changed. Please contact your administrator." : "A palavra-passe não pode ser alterada. Por favor, contacte o seu administrador.",
+    "Can't install this app because it is not compatible" : "Não é possível instalar esta aplicação por não ser compatível",
+    "Can't install this app" : "Não é possível instalar esta aplicação"
 },
 "nplurals=2; plural=(n != 1);");
