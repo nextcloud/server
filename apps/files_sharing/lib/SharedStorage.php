@@ -401,7 +401,20 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 		return $this->superShare->getShareOwner();
 	}
 
-	public function getWatcher($path = '', $storage = null) {
+	public function getWatcher($path = '', $storage = null): Watcher {
+		$mountManager = \OC::$server->getMountManager();
+
+		// Get node informations
+		$node = $this->getShare()->getNodeCacheEntry();
+		if ($node) {
+			$mount = $mountManager->findByNumericId($node->getStorageId());
+			// If the share is originating from an external storage
+			if (count($mount) > 0 && $mount[0] instanceof ExternalMountPoint) {
+				// Propagate original storage scan
+				return parent::getWatcher($path, $storage);
+			}
+		}
+
 		// cache updating is handled by the share source
 		return new NullWatcher();
 	}
