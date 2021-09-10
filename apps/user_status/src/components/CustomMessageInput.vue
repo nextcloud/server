@@ -26,7 +26,7 @@
 			ref="input"
 			maxlength="80"
 			:disabled="disabled"
-			:placeholder="$t('user_status', 'Whats is your status?')"
+			:placeholder="$t('user_status', 'What is your status?')"
 			type="text"
 			:value="message"
 			@change="change"
