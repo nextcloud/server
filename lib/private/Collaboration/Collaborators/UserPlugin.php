@@ -157,7 +157,7 @@ class UserPlugin implements ISearchPlugin {
 		$userStatuses = $this->userStatusManager->getUserStatuses(array_keys($users));
 		foreach ($users as $uid => $user) {
 			$userDisplayName = $user->getDisplayName();
-			$userEmail = $user->getEMailAddress();
+			$userEmail = $user->getSystemEMailAddress();
 			$uid = (string) $uid;
 
 			$status = [];
@@ -244,7 +244,7 @@ class UserPlugin implements ISearchPlugin {
 				if ($addUser) {
 					$status = [];
 					$uid = $user->getUID();
-					$userEmail = $user->getEMailAddress();
+					$userEmail = $user->getSystemEMailAddress();
 					if (array_key_exists($user->getUID(), $userStatuses)) {
 						$userStatus = $userStatuses[$user->getUID()];
 						$status = [

@@ -74,4 +74,9 @@ return [
 		['name' => 'AppConfig#setValue', 'url' => '/api/v1/config/apps/{app}/{key}', 'verb' => 'POST'],
 		['name' => 'AppConfig#deleteKey', 'url' => '/api/v1/config/apps/{app}/{key}', 'verb' => 'DELETE'],
 	],
+	'routes' => [
+		// Verification
+		['name' => 'Verification#showVerifyMail', 'url' => '/mailVerification/{key}/{token}/{userId}', 'verb' => 'GET'],
+		['name' => 'Verification#verifyMail', 'url' => '/mailVerification/{key}/{token}/{userId}', 'verb' => 'POST'],
+	]
 ];

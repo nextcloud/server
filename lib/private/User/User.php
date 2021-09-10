@@ -34,10 +34,12 @@
  */
 namespace OC\User;
 
+use InvalidArgumentException;
 use OC\Accounts\AccountManager;
 use OC\Avatar\AvatarManager;
 use OC\Hooks\Emitter;
 use OC_Helper;
+use OCP\Accounts\IAccountManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Group\Events\BeforeUserRemovedEvent;
 use OCP\Group\Events\UserRemovedEvent;
@@ -55,6 +57,8 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 class User implements IUser {
+	/** @var IAccountManager */
+	protected $accountManager;
 	/** @var string */
 	private $uid;
 
@@ -165,21 +169,58 @@ class User implements IUser {
 	}
 
 	/**
-	 * set the email address of the user
-	 *
-	 * @param string|null $mailAddress
-	 * @return void
-	 * @since 9.0.0
+	 * @inheritDoc
 	 */
 	public function setEMailAddress($mailAddress) {
-		$oldMailAddress = $this->getEMailAddress();
+		$this->setSystemEMailAddress($mailAddress);
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function setSystemEMailAddress(string $mailAddress): void {
+		$oldMailAddress = $this->getSystemEMailAddress();
+
+		if ($mailAddress === '') {
+			$this->config->deleteUserValue($this->uid, 'settings', 'email');
+		} else {
+			$this->config->setUserValue($this->uid, 'settings', 'email', $mailAddress);
+		}
+
+		$primaryAddress = $this->getPrimaryEMailAddress();
+		if ($primaryAddress === $mailAddress) {
+			// on match no dedicated primary settings is necessary
+			$this->setPrimaryEMailAddress('');
+		}
+
 		if ($oldMailAddress !== $mailAddress) {
-			if ($mailAddress === '') {
-				$this->config->deleteUserValue($this->uid, 'settings', 'email');
-			} else {
-				$this->config->setUserValue($this->uid, 'settings', 'email', $mailAddress);
-			}
 			$this->triggerChange('eMailAddress', $mailAddress, $oldMailAddress);
+		}
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function setPrimaryEMailAddress(string $mailAddress): void {
+		if ($mailAddress === '') {
+			$this->config->deleteUserValue($this->uid, 'settings', 'primary_email');
+			return;
+		}
+
+		$this->ensureAccountManager();
+		$account = $this->accountManager->getAccount($this);
+		$property = $account->getPropertyCollection(IAccountManager::COLLECTION_EMAIL)
+			->getPropertyByValue($mailAddress);
+
+		if ($property === null || $property->getLocallyVerified() !== IAccountManager::VERIFIED) {
+			throw new InvalidArgumentException('Only verified emails can be set as primary');
+		}
+		$this->config->setUserValue($this->uid, 'settings', 'primary_email', $mailAddress);
+	}
+
+	private function ensureAccountManager() {
+		if (!$this->accountManager instanceof IAccountManager) {
+			$this->accountManager = \OC::$server->get(IAccountManager::class);
 		}
 	}
 
@@ -390,7 +431,21 @@ class User implements IUser {
 	 * @since 9.0.0
 	 */
 	public function getEMailAddress() {
+		return $this->getPrimaryEMailAddress() ?? $this->getSystemEMailAddress();
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getSystemEMailAddress(): ?string {
 		return $this->config->getUserValue($this->uid, 'settings', 'email', null);
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getPrimaryEMailAddress(): ?string {
+		return $this->config->getUserValue($this->uid, 'settings', 'primary_email', null);
 	}
 
 	/**

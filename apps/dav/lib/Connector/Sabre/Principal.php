@@ -295,16 +295,13 @@ class Principal implements BackendInterface {
 					if (!$allowEnumeration) {
 						if ($allowEnumerationFullMatch) {
 							$users = $this->userManager->getByEmail($value);
-							$users = \array_filter($users, static function (IUser $user) use ($value) {
-								return $user->getEMailAddress() === $value;
-							});
 						} else {
 							$users = [];
 						}
 					} else {
 						$users = $this->userManager->getByEmail($value);
 						$users = \array_filter($users, function (IUser $user) use ($currentUser, $value, $limitEnumerationPhone, $limitEnumerationGroup, $allowEnumerationFullMatch, $currentUserGroups) {
-							if ($allowEnumerationFullMatch && $user->getEMailAddress() === $value) {
+							if ($allowEnumerationFullMatch && $user->getSystemEMailAddress() === $value) {
 								return true;
 							}
 
@@ -510,7 +507,7 @@ class Principal implements BackendInterface {
 			'{urn:ietf:params:xml:ns:caldav}calendar-user-type' => 'INDIVIDUAL',
 		];
 
-		$email = $user->getEMailAddress();
+		$email = $user->getSystemEMailAddress();
 		if (!empty($email)) {
 			$principal['{http://sabredav.org/ns}email-address'] = $email;
 		}
