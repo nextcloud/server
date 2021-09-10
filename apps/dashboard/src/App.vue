@@ -11,6 +11,7 @@
 
 		<Draggable v-model="layout"
 			class="panels"
+			v-bind="{swapThreshold: 0.30, delay: 500, delayOnTouchOnly: true, touchStartThreshold: 3}"
 			handle=".panel--header"
 			@end="saveLayout">
 			<div v-for="panelId in layout" :key="panels[panelId].id" class="panel">
@@ -51,6 +52,7 @@
 				<Draggable v-model="layout"
 					class="panels"
 					tag="ol"
+					v-bind="{swapThreshold: 0.30, delay: 500, delayOnTouchOnly: true, touchStartThreshold: 3}"
 					handle=".draggable"
 					@end="saveLayout">
 					<li v-for="panel in sortedPanels" :key="panel.id">
