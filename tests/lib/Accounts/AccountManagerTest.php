@@ -25,9 +25,15 @@ use OC\Accounts\Account;
 use OC\Accounts\AccountManager;
 use OCP\Accounts\IAccountManager;
 use OCP\BackgroundJob\IJobList;
+use OCP\Defaults;
 use OCP\IConfig;
 use OCP\IDBConnection;
+use OCP\IURLGenerator;
 use OCP\IUser;
+use OCP\L10N\IFactory;
+use OCP\Mail\IMailer;
+use OCP\Security\ICrypto;
+use OCP\Security\VerificationToken\IVerificationToken;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -41,6 +47,18 @@ use Test\TestCase;
  * @package Test\Accounts
  */
 class AccountManagerTest extends TestCase {
+	/** @var IVerificationToken|MockObject */
+	protected $verificationToken;
+	/** @var IMailer|MockObject */
+	protected $mailer;
+	/** @var ICrypto|MockObject */
+	protected $crypto;
+	/** @var IURLGenerator|MockObject */
+	protected $urlGenerator;
+	/** @var Defaults|MockObject */
+	protected $defaults;
+	/** @var IFactory|MockObject */
+	protected $l10nFactory;
 
 	/** @var  \OCP\IDBConnection */
 	private $connection;
@@ -70,6 +88,12 @@ class AccountManagerTest extends TestCase {
 		$this->config = $this->createMock(IConfig::class);
 		$this->jobList = $this->createMock(IJobList::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
+		$this->verificationToken = $this->createMock(IVerificationToken::class);
+		$this->mailer = $this->createMock(IMailer::class);
+		$this->defaults = $this->createMock(Defaults::class);
+		$this->l10nFactory = $this->createMock(IFactory::class);
+		$this->urlGenerator = $this->createMock(IURLGenerator::class);
+		$this->crypto = $this->createMock(ICrypto::class);
 
 		$this->accountManager = new AccountManager(
 			$this->connection,
@@ -77,6 +101,12 @@ class AccountManagerTest extends TestCase {
 			$this->eventDispatcher,
 			$this->jobList,
 			$this->logger,
+			$this->verificationToken,
+			$this->mailer,
+			$this->defaults,
+			$this->l10nFactory,
+			$this->urlGenerator,
+			$this->crypto
 		);
 	}
 
@@ -310,6 +340,12 @@ class AccountManagerTest extends TestCase {
 				$this->eventDispatcher,
 				$this->jobList,
 				$this->logger,
+				$this->verificationToken,
+				$this->mailer,
+				$this->defaults,
+				$this->l10nFactory,
+				$this->urlGenerator,
+				$this->crypto
 			])
 			->setMethods($mockedMethods)
 			->getMock();

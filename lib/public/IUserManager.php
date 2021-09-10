@@ -196,6 +196,8 @@ interface IUserManager {
 	public function callForSeenUsers(\Closure $callback);
 
 	/**
+	 * returns all users having the provided email set as system email address
+	 *
 	 * @param string $email
 	 * @return IUser[]
 	 * @since 9.1.0

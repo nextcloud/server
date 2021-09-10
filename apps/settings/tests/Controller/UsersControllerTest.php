@@ -621,16 +621,15 @@ class UsersControllerTest extends \Test\TestCase {
 		$user = $this->createMock(IUser::class);
 
 		$user->method('getDisplayName')->willReturn($oldDisplayName);
-		$user->method('getEMailAddress')->willReturn($oldEmailAddress);
+		$user->method('getSystemEMailAddress')->willReturn($oldEmailAddress);
 		$user->method('canChangeDisplayName')->willReturn(true);
 
 		if ($data[IAccountManager::PROPERTY_EMAIL]['value'] === $oldEmailAddress ||
 			($oldEmailAddress === null && $data[IAccountManager::PROPERTY_EMAIL]['value'] === '')) {
-			$user->expects($this->never())->method('setEMailAddress');
+			$user->expects($this->never())->method('setSystemEMailAddress');
 		} else {
-			$user->expects($this->once())->method('setEMailAddress')
-				->with($data[IAccountManager::PROPERTY_EMAIL]['value'])
-				->willReturn(true);
+			$user->expects($this->once())->method('setSystemEMailAddress')
+				->with($data[IAccountManager::PROPERTY_EMAIL]['value']);
 		}
 
 		if ($data[IAccountManager::PROPERTY_DISPLAYNAME]['value'] === $oldDisplayName ||

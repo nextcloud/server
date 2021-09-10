@@ -676,11 +676,14 @@ class UserTest extends TestCase {
 		$emitter->expects($this->never())
 			->method('emit');
 
+		$this->dispatcher->expects($this->never())
+			->method('dispatch');
+
 		$config = $this->createMock(IConfig::class);
 		$config->expects($this->any())
 			->method('getUserValue')
 			->willReturn('foo@bar.com');
-		$config->expects($this->never())
+		$config->expects($this->any())
 			->method('setUserValue');
 
 		$user = new User('foo', $backend, $this->dispatcher, $emitter, $config);

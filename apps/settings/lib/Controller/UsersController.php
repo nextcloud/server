@@ -482,7 +482,7 @@ class UsersController extends Controller {
 			}
 		}
 
-		$oldEmailAddress = $userAccount->getUser()->getEMailAddress();
+		$oldEmailAddress = $userAccount->getUser()->getSystemEMailAddress();
 		$oldEmailAddress = strtolower((string)$oldEmailAddress);
 		if ($oldEmailAddress !== $userAccount->getProperty(IAccountManager::PROPERTY_EMAIL)->getValue()) {
 			// this is the only permission a backend provides and is also used
@@ -490,7 +490,7 @@ class UsersController extends Controller {
 			if (!$userAccount->getUser()->canChangeDisplayName()) {
 				throw new ForbiddenException($this->l10n->t('Unable to change email address'));
 			}
-			$userAccount->getUser()->setEMailAddress($userAccount->getProperty(IAccountManager::PROPERTY_EMAIL)->getValue());
+			$userAccount->getUser()->setSystemEMailAddress($userAccount->getProperty(IAccountManager::PROPERTY_EMAIL)->getValue());
 		}
 
 		try {

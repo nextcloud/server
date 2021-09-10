@@ -54,6 +54,13 @@ use OCP\User\Backend\ISetPasswordBackend;
 abstract class AUserData extends OCSController {
 	public const SCOPE_SUFFIX = 'Scope';
 
+	public const USER_FIELD_DISPLAYNAME = 'display';
+	public const USER_FIELD_LANGUAGE = 'language';
+	public const USER_FIELD_LOCALE = 'locale';
+	public const USER_FIELD_PASSWORD = 'password';
+	public const USER_FIELD_QUOTA = 'quota';
+	public const USER_FIELD_NOTIFICATION_EMAIL = 'notify_email';
+
 	/** @var IUserManager */
 	protected $userManager;
 	/** @var IConfig */
@@ -139,14 +146,14 @@ abstract class AUserData extends OCSController {
 		$data['lastLogin'] = $targetUserObject->getLastLogin() * 1000;
 		$data['backend'] = $targetUserObject->getBackendClassName();
 		$data['subadmin'] = $this->getUserSubAdminGroupsData($targetUserObject->getUID());
-		$data['quota'] = $this->fillStorageInfo($targetUserObject->getUID());
+		$data[self::USER_FIELD_QUOTA] = $this->fillStorageInfo($targetUserObject->getUID());
 
 		try {
 			if ($includeScopes) {
 				$data[IAccountManager::PROPERTY_AVATAR . self::SCOPE_SUFFIX] = $userAccount->getProperty(IAccountManager::PROPERTY_AVATAR)->getScope();
 			}
 
-			$data[IAccountManager::PROPERTY_EMAIL] = $targetUserObject->getEMailAddress();
+			$data[IAccountManager::PROPERTY_EMAIL] = $targetUserObject->getSystemEMailAddress();
 			if ($includeScopes) {
 				$data[IAccountManager::PROPERTY_EMAIL . self::SCOPE_SUFFIX] = $userAccount->getProperty(IAccountManager::PROPERTY_EMAIL)->getScope();
 			}
@@ -187,8 +194,9 @@ abstract class AUserData extends OCSController {
 		}
 
 		$data['groups'] = $gids;
-		$data['language'] = $this->l10nFactory->getUserLanguage($targetUserObject);
-		$data['locale'] = $this->config->getUserValue($targetUserObject->getUID(), 'core', 'locale');
+		$data[self::USER_FIELD_LANGUAGE] = $this->l10nFactory->getUserLanguage($targetUserObject);
+		$data[self::USER_FIELD_LOCALE] = $this->config->getUserValue($targetUserObject->getUID(), 'core', 'locale');
+		$data[self::USER_FIELD_NOTIFICATION_EMAIL] = $targetUserObject->getPrimaryEMailAddress();
 
 		$backend = $targetUserObject->getBackend();
 		$data['backendCapabilities'] = [
@@ -238,7 +246,7 @@ abstract class AUserData extends OCSController {
 				'used' => $storage['used'],
 				'total' => $storage['total'],
 				'relative' => $storage['relative'],
-				'quota' => $storage['quota'],
+				self::USER_FIELD_QUOTA => $storage['quota'],
 			];
 		} catch (NotFoundException $ex) {
 			// User fs is not setup yet
@@ -251,7 +259,7 @@ abstract class AUserData extends OCSController {
 				$quota = OC_Helper::computerFileSize($quota);
 			}
 			$data = [
-				'quota' => $quota !== false ? $quota : 'none',
+				self::USER_FIELD_QUOTA => $quota !== false ? $quota : 'none',
 				'used' => 0
 			];
 		}

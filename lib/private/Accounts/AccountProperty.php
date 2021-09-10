@@ -27,6 +27,7 @@ declare(strict_types=1);
  */
 namespace OC\Accounts;
 
+use InvalidArgumentException;
 use OCP\Accounts\IAccountManager;
 use OCP\Accounts\IAccountProperty;
 
@@ -42,6 +43,8 @@ class AccountProperty implements IAccountProperty {
 	private $verified;
 	/** @var string */
 	private $verificationData;
+	/** @var string */
+	private $locallyVerified = IAccountManager::NOT_VERIFIED;
 
 	public function __construct(string $name, string $value, string $scope, string $verified, string $verificationData) {
 		$this->name = $name;
@@ -90,7 +93,7 @@ class AccountProperty implements IAccountProperty {
 			IAccountManager::SCOPE_PRIVATE,
 			IAccountManager::SCOPE_PUBLISHED
 		])) {
-			throw new \InvalidArgumentException('Invalid scope');
+			throw new InvalidArgumentException('Invalid scope');
 		}
 		$this->scope = $newScope;
 		return $this;
@@ -177,5 +180,21 @@ class AccountProperty implements IAccountProperty {
 
 	public function getVerificationData(): string {
 		return $this->verificationData;
+	}
+
+	public function setLocallyVerified(string $verified): IAccountProperty {
+		if (!in_array($verified, [
+			IAccountManager::NOT_VERIFIED,
+			IAccountManager::VERIFICATION_IN_PROGRESS,
+			IAccountManager::VERIFIED,
+		])) {
+			throw new InvalidArgumentException('Provided verification value is invalid');
+		}
+		$this->locallyVerified = $verified;
+		return $this;
+	}
+
+	public function getLocallyVerified(): string {
+		return $this->locallyVerified;
 	}
 }

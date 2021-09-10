@@ -952,7 +952,7 @@ class UsersControllerTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$targetUser->expects($this->once())
-			->method('getEMailAddress')
+			->method('getSystemEMailAddress')
 			->willReturn('demo@nextcloud.com');
 		$this->userSession
 			->expects($this->once())
@@ -1067,6 +1067,7 @@ class UsersControllerTest extends TestCase {
 				'setPassword' => true,
 			],
 			'additional_mail' => [],
+			'notify_email' => null,
 		];
 		$this->assertEquals($expected, $this->invokePrivate($this->api, 'getUserData', ['UID']));
 	}
@@ -1083,9 +1084,9 @@ class UsersControllerTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$targetUser
-				->expects($this->once())
-				->method('getEMailAddress')
-				->willReturn('demo@nextcloud.com');
+			->expects($this->once())
+			->method('getSystemEMailAddress')
+			->willReturn('demo@nextcloud.com');
 		$this->userSession
 			->expects($this->once())
 			->method('getUser')
@@ -1195,6 +1196,7 @@ class UsersControllerTest extends TestCase {
 				'setPassword' => true,
 			],
 			'additional_mail' => [],
+			'notify_email' => null,
 		];
 		$this->assertEquals($expected, $this->invokePrivate($this->api, 'getUserData', ['UID']));
 	}
@@ -1306,7 +1308,7 @@ class UsersControllerTest extends TestCase {
 			->willReturn('Subadmin User');
 		$targetUser
 			->expects($this->once())
-			->method('getEMailAddress')
+			->method('getSystemEMailAddress')
 			->willReturn('subadmin@nextcloud.com');
 		$targetUser
 			->method('getUID')
@@ -1361,6 +1363,7 @@ class UsersControllerTest extends TestCase {
 				'setPassword' => false,
 			],
 			'additional_mail' => [],
+			'notify_email' => null,
 		];
 		$this->assertEquals($expected, $this->invokePrivate($this->api, 'getUserData', ['UID']));
 	}
