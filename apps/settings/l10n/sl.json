@@ -298,6 +298,7 @@
     "An error occured during the request. Unable to proceed." : "Med izvajanjem zahteve je prišlo do napake, zato ni mogoče nadaljevati.",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "Program je omogočen, vendar zahteva posodobitev. Po nekaj sekundah boste preusmerjeni na stran za posodobitev.",
     "App update" : "Posodobitev programa",
+    "Error: This app cannot be enabled because it makes the server unstable" : "Napaka: tega programa ni mogoče namestiti, ker povzroča nestabilnost strežnika.",
     "Administrator documentation" : "Skrbniška dokumentacija",
     "Documentation" : "Dokumentacija",
     "Forum" : "Forum",
