@@ -153,7 +153,7 @@ class LostControllerTest extends \Test\TestCase {
 			->willReturn($this->existingUser);
 		$this->verificationToken->expects($this->once())
 			->method('check')
-			->with('12345:MySecretToken', $this->existingUser, 'lostpassword')
+			->with('12345:MySecretToken', $this->existingUser, 'lostpassword', 'test@example.com')
 			->willThrowException(new InvalidTokenException(InvalidTokenException::TOKEN_DECRYPTION_ERROR));
 
 		$response = $this->lostController->resetform('12345:MySecretToken', 'ValidTokenUser');
@@ -174,7 +174,7 @@ class LostControllerTest extends \Test\TestCase {
 			->willReturn($this->existingUser);
 		$this->verificationToken->expects($this->once())
 			->method('check')
-			->with('MySecretToken', $this->existingUser, 'lostpassword');
+			->with('MySecretToken', $this->existingUser, 'lostpassword', 'test@example.com');
 
 		$response = $this->lostController->resetform('MySecretToken', 'ValidTokenUser');
 		$expectedResponse = new TemplateResponse('core',
@@ -513,6 +513,9 @@ class LostControllerTest extends \Test\TestCase {
 			->willReturn(false);
 		$user->expects($this->never())
 			->method('setPassword');
+		$user->expects($this->any())
+			->method('getEMailAddress')
+			->willReturn('random@example.org');
 
 		$this->config->method('getUserValue')
 			->with('ValidTokenUser', 'core', 'lostpassword', null)
