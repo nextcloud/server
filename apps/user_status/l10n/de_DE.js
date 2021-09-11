@@ -9,7 +9,6 @@ OC.L10N.register(
     "Working remotely" : "Arbeitet aus der Ferne",
     "User status" : "Benutzerstatus",
     "Clear status message after" : "Statusnachricht löschen nach",
-    "What's your status?" : "Wie ist Ihr Status?",
     "Set status" : "Status setzen",
     "Online status" : "Online-Status",
     "Status message" : "Statusnachricht",
@@ -33,6 +32,7 @@ OC.L10N.register(
     "4 hours" : "4 Stunden",
     "Mute all notifications" : "Alle Benachrichtigungen stummschalten",
     "Appear offline" : "Offline erscheinen",
-    "Clear status after" : "Status löschen nach"
+    "Clear status after" : "Status löschen nach",
+    "What's your status?" : "Wie ist Ihr Status?"
 },
 "nplurals=2; plural=(n != 1);");

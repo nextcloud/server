@@ -9,7 +9,6 @@ OC.L10N.register(
     "Working remotely" : "リモートワーク中",
     "User status" : "ユーザーステータス",
     "Clear status message after" : "ステータスメッセージの有効期限",
-    "What's your status?" : "今のオンラインステータスは何ですか？",
     "Set status" : "ステータスを設定",
     "Online status" : "オンラインステータス",
     "Status message" : "状態メッセージ",
@@ -33,6 +32,7 @@ OC.L10N.register(
     "4 hours" : "4時間",
     "Mute all notifications" : "全ての通知をミュート",
     "Appear offline" : "オフライン",
-    "Clear status after" : "ステータスの有効期限"
+    "Clear status after" : "ステータスの有効期限",
+    "What's your status?" : "今のオンラインステータスは何ですか？"
 },
 "nplurals=1; plural=0;");

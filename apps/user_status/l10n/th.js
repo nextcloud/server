@@ -9,7 +9,6 @@ OC.L10N.register(
     "Working remotely" : "ทำงานจากระยะไกล",
     "User status" : "สถานะผู้ใช้",
     "Clear status message after" : "ลบข้อความสถานะหลังจาก",
-    "What's your status?" : "สถานะของคุณคืออะไร",
     "Set status" : "กำหนดสถานะ",
     "Online status" : "สถานะออนไลน์",
     "Status message" : "ข้อความสถานะ",
@@ -33,6 +32,7 @@ OC.L10N.register(
     "4 hours" : "4 ชั่วโมง",
     "Mute all notifications" : "ปิดการแจ้งเตือนทั้งหมด",
     "Appear offline" : "แสดงเป็นออฟไลน์",
-    "Clear status after" : "ล้างสถานะหลังจาก"
+    "Clear status after" : "ล้างสถานะหลังจาก",
+    "What's your status?" : "สถานะของคุณคืออะไร"
 },
 "nplurals=1; plural=0;");

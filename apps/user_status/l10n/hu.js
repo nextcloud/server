@@ -9,7 +9,6 @@ OC.L10N.register(
     "Working remotely" : "Távoli munkavégzés",
     "User status" : "Felhasználói állapot",
     "Clear status message after" : "Állapotüzenet törlése ennyi idő után:",
-    "What's your status?" : "Mi az állapota?",
     "Set status" : "Állapot beállítása",
     "Online status" : "Online állapot",
     "Status message" : "Állapotüzenet",
@@ -33,6 +32,7 @@ OC.L10N.register(
     "4 hours" : "4 óra",
     "Mute all notifications" : "Összes értesítés némítása",
     "Appear offline" : "Offline módon jelenik meg",
-    "Clear status after" : "Állapot törlése ennyi idő után"
+    "Clear status after" : "Állapot törlése ennyi idő után",
+    "What's your status?" : "Mi az állapota?"
 },
 "nplurals=2; plural=(n != 1);");

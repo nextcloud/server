@@ -113,6 +113,8 @@ OC.L10N.register(
     "Sharing %s sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Souporaba %s s pošiljanjem gesla prek programa Nextcloud Talk je spodletela, ker program Talk ni omogočen.",
     "Invalid date, date format must be YYYY-MM-DD" : "Neveljaven zapis časa; biti mora v zapisu YYYY-MM-DD",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Souporaba %1$s je spodletela, ker ozadnji program ne omogoča souporabe prek vrste %2$s.",
+    "Please specify a valid federated user ID" : "Navesti je treba veljaven ID zveznega uporabnika",
+    "Please specify a valid federated group ID" : "Navesti je treba veljaven ID zvezne skupine",
     "You cannot share to a Circle if the app is not enabled" : "Ni mogoče odobriti souporabe s Krogom, če program ni omogočen",
     "Please specify a valid circle" : "Določite veljaven krog",
     "Sharing %s failed because the back end does not support room shares" : "Souporaba %s je spodletela, ker sistem ne dovoli souporabe znotraj posameznih sob",
