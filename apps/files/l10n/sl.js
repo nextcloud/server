@@ -86,6 +86,7 @@ OC.L10N.register(
     "Group folder \"{mountPoint}\" is almost full ({usedSpacePercent}%)." : "Skupinska mapa »{mountPoint}« je skoraj do konca zasedena ({usedSpacePercent}%).",
     "External storage \"{mountPoint}\" is almost full ({usedSpacePercent}%)." : "Zunanja shramba »{mountPoint}« je skoraj do konca zasedena ({usedSpacePercent}%).",
     "Your storage is almost full ({usedSpacePercent}%)." : "Vaša shramba je skoraj do konca zasedena ({usedSpacePercent}%).",
+    "_matches \"{filter}\"_::_match \"{filter}\"_" : ["se skladajo s filtrom »{filter}«","se skladajo s filtroma »{filter}«","se skladajo s filtri »{filter}«","se skladajo s filtri »{filter}«"],
     "View in folder" : "Pokaži v mapi",
     "Copied!" : "Kopirano!",
     "Copy direct link (only works for users who have access to this file/folder)" : "Kopiraj neposredno povezavo (za uporabnike, ki imajo dostop do datoteke ali mape)",
