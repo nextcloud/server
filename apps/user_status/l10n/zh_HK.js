@@ -9,7 +9,6 @@ OC.L10N.register(
     "Working remotely" : "遠地工作",
     "User status" : "用戶狀態",
     "Clear status message after" : "繼此之後清空狀態訊息",
-    "What's your status?" : "你目前的狀態？",
     "Set status" : "設定狀態",
     "Online status" : "線上狀態",
     "Status message" : "狀態訊息",
@@ -33,6 +32,7 @@ OC.L10N.register(
     "4 hours" : "4 小時",
     "Mute all notifications" : "所有通知靜音",
     "Appear offline" : "顯示為離線",
-    "Clear status after" : "清空狀態於...之後"
+    "Clear status after" : "清空狀態於...之後",
+    "What's your status?" : "你目前的狀態？"
 },
 "nplurals=1; plural=0;");
