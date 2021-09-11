@@ -7,7 +7,6 @@
     "Working remotely" : "Em trabalho remoto",
     "User status" : "Status do usuário",
     "Clear status message after" : "Limpar status do usuário após",
-    "What's your status?" : "Qual é o seu status?",
     "Set status" : "Definir status",
     "Online status" : "Status online",
     "Status message" : "Mensagem de status",
@@ -31,6 +30,7 @@
     "4 hours" : "4 horas",
     "Mute all notifications" : "Silenciar todas as notificações",
     "Appear offline" : "Aparecer offline",
-    "Clear status after" : "Limpar status após"
+    "Clear status after" : "Limpar status após",
+    "What's your status?" : "Qual é o seu status?"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }
