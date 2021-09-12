@@ -9,6 +9,7 @@ OC.L10N.register(
     "Working remotely" : "远程办公中",
     "User status" : "用户状态",
     "Clear status message after" : "清除状态信息",
+    "What is your status?" : "你什么状态？",
     "Set status" : "设定状态",
     "Online status" : "在线状态",
     "Status message" : "状态信息",
