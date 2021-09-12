@@ -124,7 +124,7 @@ class VerificationController extends Controller {
 		} catch (InvalidArgumentException $e) {
 			$error = $e->getMessage();
 		} catch (\Exception $e) {
-			$error = $this->l10n->t('An unexpected error occurred. Please consult your sysadmin.');
+			$error = $this->l10n->t('An unexpected error occurred. Please contact your admin.');
 		}
 
 		if (isset($error)) {
