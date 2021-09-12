@@ -9,6 +9,7 @@ OC.L10N.register(
     "Working remotely" : "Uzaktan çalışıyor",
     "User status" : "Kullanıcı durumu",
     "Clear status message after" : "Durum iletisi şu süre sonunda kaldırılsın",
+    "What is your status?" : "Durumunuz nedir?",
     "Set status" : "Durumu ayarla",
     "Online status" : "Çevrimiçi durumu",
     "Status message" : "Durum iletisi",

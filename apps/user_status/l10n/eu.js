@@ -9,6 +9,7 @@ OC.L10N.register(
     "Working remotely" : "Urrutitik lanean",
     "User status" : "Erabiltzaile-egoera",
     "Clear status message after" : "Garbitu egoera mezua ondoren",
+    "What is your status?" : "Zein da zure egoera?",
     "Set status" : "Ezarri egoera",
     "Online status" : "Lineako egoera",
     "Status message" : "Egoera-mezua",
