@@ -125,5 +125,11 @@ audio {
 	.plyr--full-ui input[type=range] {
 		color: var(--color-primary-element);
 	}
+	// make it a bit off-center in order to fix mobile controls
+	@media only screen and (max-width: 500px) {
+		.plyr--audio {
+			top: calc(35vw / 2 + 60px / 2);
+		}
+	}
 }
 </style>
