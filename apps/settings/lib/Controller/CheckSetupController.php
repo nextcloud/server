@@ -554,6 +554,16 @@ Raw output
 		return extension_loaded('Zend OPcache');
 	}
 
+	private function isTemporaryDirectoryWritable(): bool {
+		try {
+			if (!empty(OC::$server->getTempManager()->getTempBaseDir())) {
+				return true;
+			}
+		} catch (\Exception $e) {
+		}
+		return false;
+	}
+
 	/**
 	 * Iterates through the configured app roots and
 	 * tests if the subdirectories are owned by the same user than the current user.
@@ -779,6 +789,7 @@ Raw output
 				CheckUserCertificates::class => ['pass' => $checkUserCertificates->run(), 'description' => $checkUserCertificates->description(), 'severity' => $checkUserCertificates->severity(), 'elements' => $checkUserCertificates->elements()],
 				'isDefaultPhoneRegionSet' => $this->config->getSystemValueString('default_phone_region', '') !== '',
 				SupportedDatabase::class => ['pass' => $supportedDatabases->run(), 'description' => $supportedDatabases->description(), 'severity' => $supportedDatabases->severity()],
+				'temporaryDirectoryWritable' => $this->isTemporaryDirectoryWritable(),
 			]
 		);
 	}
