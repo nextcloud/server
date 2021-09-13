@@ -74,7 +74,7 @@ class DatabaseBackend implements IBackend {
 		$qb->delete(self::TABLE_NAME)
 			->where(
 				$qb->expr()->lte('delete_after', $qb->createNamedParameter($currentTime, IQueryBuilder::PARAM_DATE))
-			);
+			)
 			->executeStatement();
 
 		$qb = $this->dbConnection->getQueryBuilder();
@@ -88,10 +88,10 @@ class DatabaseBackend implements IBackend {
 			);
 
 		$cursor = $qb->executeQuery();
-		$row = $cursor->fetch();
+		$row = $cursor->fetchOne();
 		$cursor->closeCursor();
 
-		return (int)$row['count'];
+		return (int)$row;
 	}
 
 	/**
