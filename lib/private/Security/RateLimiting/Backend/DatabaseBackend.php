@@ -73,21 +73,19 @@ class DatabaseBackend implements IBackend {
 		$qb = $this->dbConnection->getQueryBuilder();
 		$qb->delete(self::TABLE_NAME)
 			->where(
-				$qb->expr()->lte('delete_after', $qb->createParameter('currentTime'))
-			)
-			->setParameter('currentTime', $currentTime, 'datetime')
+				$qb->expr()->lte('delete_after', $qb->createNamedParameter($currentTime, IQueryBuilder::PARAM_DATE))
+			);
 			->executeStatement();
 
 		$qb = $this->dbConnection->getQueryBuilder();
-		$qb->selectAlias($qb->createFunction('COUNT(*)'), 'count')
+		$qb->select($qb->func()->count())
 			->from(self::TABLE_NAME)
 			->where(
 				$qb->expr()->eq('hash', $qb->createNamedParameter($identifier, IQueryBuilder::PARAM_STR))
 			)
 			->andWhere(
-				$qb->expr()->gte('delete_after', $qb->createParameter('currentTime'))
-			)
-			->setParameter('currentTime', $currentTime, 'datetime');
+				$qb->expr()->gte('delete_after', $qb->createNamedParameter($currentTime, IQueryBuilder::PARAM_DATE))
+			);
 
 		$cursor = $qb->executeQuery();
 		$row = $cursor->fetch();

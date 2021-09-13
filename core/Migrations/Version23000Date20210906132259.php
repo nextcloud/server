@@ -31,13 +31,14 @@ class Version23000Date20210906132259 extends SimpleMigrationStep {
 				'notnull' => true,
 				'length' => 128,
 			]);
-			$table->addColumn('delete_after', 'datetime', [
+			$table->addColumn('delete_after', Types::DATETIME, [
 				'notnull' => true,
 			]);
 			$table->addIndex(['hash'], 'ratelimit_hash_idx');
 			$table->addIndex(['delete_after'], 'ratelimit_delete_after_idx');
+			return $schema;
 		}
 
-		return $schema;
+		return null;
 	}
 }
