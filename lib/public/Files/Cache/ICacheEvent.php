@@ -59,7 +59,7 @@ interface ICacheEvent {
 
 	/**
 	 * @return int
-	 * @since 21.0.0
+	 * @since 20.0.13
 	 */
 	public function getStorageId(): int;
 }

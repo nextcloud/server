@@ -28,7 +28,7 @@ use OC\Files\Cache\AbstractCacheEvent;
 /**
  * Event for when an existing entry in the cache gets inserted
  *
- * @since 21.0.0
+ * @since 20.0.13
  */
 class CacheEntryInsertedEvent extends AbstractCacheEvent implements ICacheEvent {
 }
