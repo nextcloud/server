@@ -135,6 +135,7 @@
     "Tentative" : "Vorläufig",
     "Save" : "Speichern",
     "Your attendance was updated successfully." : "Dein Teilnehmerstatus wurde aktualisiert.",
-    "Calendar and tasks" : "Kalender und Aufgaben"
+    "Calendar and tasks" : "Kalender und Aufgaben",
+    "i" : "i"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -59,7 +59,7 @@ OC.L10N.register(
     "Invisible" : "隱藏",
     "Delete" : "移除",
     "Reset" : "重設",
-    "No files in here" : "沒有任何檔案",
+    "No files in here" : "此處沒有任何檔案",
     "No entries found in this folder" : "在此資料夾中沒有任何項目",
     "Size" : "大小",
     "Modified" : "修改時間"
