@@ -36,16 +36,14 @@ namespace OC\Security\RateLimiting\Backend;
  */
 interface IBackend {
 	/**
-	 * Gets the amount of attempts within the last specified seconds
+	 * Gets the number of attempts for the specified method
 	 *
 	 * @param string $methodIdentifier Identifier for the method
 	 * @param string $userIdentifier Identifier for the user
-	 * @param int $seconds Seconds to look back at
 	 * @return int
 	 */
 	public function getAttempts(string $methodIdentifier,
-								string $userIdentifier,
-								int $seconds): int;
+								string $userIdentifier): int;
 
 	/**
 	 * Registers an attempt
