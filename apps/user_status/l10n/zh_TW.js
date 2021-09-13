@@ -9,6 +9,7 @@ OC.L10N.register(
     "Working remotely" : "遠地工作",
     "User status" : "使用者狀態",
     "Clear status message after" : "清空狀態訊息於……之後",
+    "What is your status?" : "您目前的狀態是什麼呢？",
     "Set status" : "設定狀態",
     "Online status" : "線上狀態",
     "Status message" : "狀態訊息",
