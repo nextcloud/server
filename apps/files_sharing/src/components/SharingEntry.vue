@@ -43,100 +43,6 @@
 			menu-align="right"
 			class="sharing-entry__actions"
 			@close="onMenuClose">
-<<<<<<< HEAD
-			<template v-if="share.canEdit">
-				<!-- edit permission -->
-				<ActionCheckbox
-					ref="canEdit"
-					:checked.sync="canEdit"
-					:value="permissionsEdit"
-					:disabled="saving || !canSetEdit">
-					{{ t('files_sharing', 'Allow editing') }}
-				</ActionCheckbox>
-
-				<!-- create permission -->
-				<ActionCheckbox
-					v-if="isFolder"
-					ref="canCreate"
-					:checked.sync="canCreate"
-					:value="permissionsCreate"
-					:disabled="saving || !canSetCreate">
-					{{ t('files_sharing', 'Allow creating') }}
-				</ActionCheckbox>
-
-				<!-- delete permission -->
-				<ActionCheckbox
-					v-if="isFolder"
-					ref="canDelete"
-					:checked.sync="canDelete"
-					:value="permissionsDelete"
-					:disabled="saving || !canSetDelete">
-					{{ t('files_sharing', 'Allow deleting') }}
-				</ActionCheckbox>
-
-				<!-- reshare permission -->
-				<ActionCheckbox
-					v-if="config.isResharingAllowed"
-					ref="canReshare"
-					:checked.sync="canReshare"
-					:value="permissionsShare"
-					:disabled="saving || !canSetReshare">
-					{{ t('files_sharing', 'Allow resharing') }}
-				</ActionCheckbox>
-
-				<!-- expiration date -->
-				<ActionCheckbox :checked.sync="hasExpirationDate"
-					:disabled="config.isDefaultInternalExpireDateEnforced || saving"
-					@uncheck="onExpirationDisable">
-					{{ config.isDefaultInternalExpireDateEnforced
-						? t('files_sharing', 'Expiration date enforced')
-						: t('files_sharing', 'Set expiration date') }}
-				</ActionCheckbox>
-				<ActionInput v-if="hasExpirationDate"
-					ref="expireDate"
-					v-tooltip.auto="{
-						content: errors.expireDate,
-						show: errors.expireDate,
-						trigger: 'manual'
-					}"
-					:class="{ error: errors.expireDate}"
-					:disabled="saving"
-					:first-day-of-week="firstDay"
-					:lang="lang"
-					:value="share.expireDate"
-					value-type="format"
-					icon="icon-calendar-dark"
-					type="date"
-					:disabled-date="disabledDate"
-					@update:value="onExpirationChange">
-					{{ t('files_sharing', 'Enter a date') }}
-				</ActionInput>
-
-				<!-- note -->
-				<template v-if="canHaveNote">
-					<ActionCheckbox
-						:checked.sync="hasNote"
-						:disabled="saving"
-						@uncheck="queueUpdate('note')">
-						{{ t('files_sharing', 'Note to recipient') }}
-					</ActionCheckbox>
-					<ActionTextEditable v-if="hasNote"
-						ref="note"
-						v-tooltip.auto="{
-							content: errors.note,
-							show: errors.note,
-							trigger: 'manual'
-						}"
-						:class="{ error: errors.note}"
-						:disabled="saving"
-						:value="share.newNote || share.note"
-						icon="icon-edit"
-						@update:value="onNoteChange"
-						@submit="onNoteSubmit" />
-				</template>
-			</template>
-
-=======
 			<ActionButton v-if="share.canEdit"
 				icon="icon-settings"
 				:disabled="saving"
@@ -151,7 +57,6 @@
 				@click.prevent="editNotes">
 				{{ t('files_sharing', 'Send new mail') }}
 			</ActionButton>
->>>>>>> e994a1f60d... NMC-434 - changed the process of file sharing for internal and external sharee
 			<ActionButton v-if="share.canDelete"
 				icon="icon-close"
 				:disabled="saving"
