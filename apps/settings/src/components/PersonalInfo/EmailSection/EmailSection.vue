@@ -36,6 +36,7 @@
 				:primary="true"
 				:scope.sync="primaryEmail.scope"
 				:email.sync="primaryEmail.value"
+				:active-notification-email.sync="notificationEmail"
 				@update:email="onUpdateEmail" />
 		</template>
 		<span v-else>
@@ -46,6 +47,7 @@
 			:index="index"
 			:scope.sync="additionalEmail.scope"
 			:email.sync="additionalEmail.value"
+			:active-notification-email.sync="notificationEmail"
 			@update:email="onUpdateEmail"
 			@delete-additional-email="onDeleteAdditionalEmail(index)" />
 	</section>
@@ -62,7 +64,7 @@ import { ACCOUNT_PROPERTY_READABLE_ENUM, DEFAULT_ADDITIONAL_EMAIL_SCOPE } from '
 import { savePrimaryEmail, savePrimaryEmailScope, removeAdditionalEmail } from '../../../service/PersonalInfo/EmailService'
 import { validateEmail } from '../../../utils/validate'
 
-const { emails: { additionalEmails, primaryEmail } } = loadState('settings', 'personalInfoParameters', {})
+const { emails: { additionalEmails, primaryEmail, notificationEmail } } = loadState('settings', 'personalInfoParameters', {})
 const { displayNameChangeSupported } = loadState('settings', 'accountParameters', {})
 
 export default {
@@ -80,6 +82,7 @@ export default {
 			displayNameChangeSupported,
 			primaryEmail,
 			savePrimaryEmailScope,
+			notificationEmail,
 		}
 	},
 
@@ -124,6 +127,10 @@ export default {
 				this.primaryEmailValue = deletedEmail
 				await this.updatePrimaryEmail()
 			}
+		},
+
+		async onUpdateNotificationEmail(email) {
+			this.notificationEmail = email
 		},
 
 		async updatePrimaryEmail() {

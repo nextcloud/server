@@ -33,6 +33,7 @@ export const ACCOUNT_PROPERTY_ENUM = Object.freeze({
 	DISPLAYNAME: 'displayname',
 	EMAIL: 'email',
 	EMAIL_COLLECTION: 'additional_mail',
+	NOTIFICATION_EMAIL: 'notify_email',
 	PHONE: 'phone',
 	TWITTER: 'twitter',
 	WEBSITE: 'website',

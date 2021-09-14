@@ -65,11 +65,19 @@
 						@click.stop.prevent="deleteEmail">
 						{{ deleteEmailLabel }}
 					</ActionButton>
+					<ActionButton
+						:aria-label="setNotificationMailLabel"
+						:close-after-click="true"
+						:disabled="setNotificationDisabled"
+						icon="icon-favorite"
+						@click.stop.prevent="setNotificationMail">
+						{{ setNotificationMailLabel }}
+					</ActionButton>
 				</Actions>
 			</div>
 		</div>
 
-		<em v-if="primary">
+		<em v-if="isNotificationEmail">
 			{{ t('settings', 'Primary email for password reset and notifications') }}
 		</em>
 	</div>
@@ -78,14 +86,21 @@
 <script>
 import Actions from '@nextcloud/vue/dist/Components/Actions'
 import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
-import { showError } from '@nextcloud/dialogs'
+import {showError} from '@nextcloud/dialogs'
 import debounce from 'debounce'
 
 import FederationControl from '../shared/FederationControl'
 
-import { ACCOUNT_PROPERTY_READABLE_ENUM } from '../../../constants/AccountPropertyConstants'
-import { savePrimaryEmail, saveAdditionalEmail, saveAdditionalEmailScope, updateAdditionalEmail, removeAdditionalEmail } from '../../../service/PersonalInfo/EmailService'
-import { validateEmail } from '../../../utils/validate'
+import {ACCOUNT_PROPERTY_READABLE_ENUM} from '../../../constants/AccountPropertyConstants'
+import {
+	removeAdditionalEmail,
+	saveAdditionalEmail,
+	saveAdditionalEmailScope,
+	saveNotificationEmail,
+	savePrimaryEmail,
+	updateAdditionalEmail
+} from '../../../service/PersonalInfo/EmailService'
+import {validateEmail} from '../../../utils/validate'
 
 export default {
 	name: 'Email',
@@ -113,6 +128,10 @@ export default {
 			type: String,
 			required: true,
 		},
+		activeNotificationEmail: {
+			type: String,
+			default: '',
+		},
 	},
 
 	data() {
@@ -123,6 +142,8 @@ export default {
 			saveAdditionalEmailScope,
 			showCheckmarkIcon: false,
 			showErrorIcon: false,
+			isNotificationEmail: (this.email === this.activeNotificationEmail)
+				|| (this.primary && this.activeNotificationEmail === ''),
 		}
 	},
 
@@ -143,6 +164,17 @@ export default {
 				return t('settings', 'Remove primary email')
 			}
 			return t('settings', 'Delete email')
+		},
+
+	  setNotificationDisabled() {
+			return this.isNotificationEmail
+		},
+
+	  setNotificationMailLabel() {
+			if (this.isNotificationEmail) {
+				return t('settings', 'Your primary email')
+			}
+			return t('settings', 'Set as primary mail')
 		},
 
 		federationDisabled() {
@@ -239,6 +271,21 @@ export default {
 			}
 		},
 
+		async setNotificationMail() {
+		  try {
+			  const responseData = await saveNotificationEmail(this.primary ? '' : this.initialEmail)
+			  this.handleResponse({
+				  notificationEmail: this.primary ? '' : this.initialEmail,
+				  status: responseData.ocs?.meta?.status,
+			  })
+		  } catch (e) {
+			  this.handleResponse({
+				  errorMessage: 'Unable to choose this email for notifications',
+				  error: e,
+			  })
+		  }
+		},
+
 		async updateAdditionalEmail(email) {
 			try {
 				const responseData = await updateAdditionalEmail(this.initialEmail, email)
@@ -276,10 +323,14 @@ export default {
 			}
 		},
 
-		handleResponse({ email, status, errorMessage, error }) {
+		handleResponse({ email, notificationEmail, status, errorMessage, error }) {
 			if (status === 'ok') {
 				// Ensure that local state reflects server state
-				this.initialEmail = email
+				if (email) {
+					this.initialEmail = email
+				} else if (notificationEmail) {
+					this.activeNotificationEmail = notificationEmail
+				}
 				this.showCheckmarkIcon = true
 				setTimeout(() => { this.showCheckmarkIcon = false }, 2000)
 			} else {
