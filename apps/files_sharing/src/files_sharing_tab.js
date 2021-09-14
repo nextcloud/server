@@ -28,6 +28,7 @@ import { translate as t, translatePlural as n } from '@nextcloud/l10n'
 import SharingTab from './views/SharingTab'
 import ShareSearch from './services/ShareSearch'
 import ExternalLinkActions from './services/ExternalLinkActions'
+import ExternalShareActions from './services/ExternalShareActions'
 import TabSections from './services/TabSections'
 
 // Init Sharing Tab Service
@@ -36,6 +37,7 @@ if (!window.OCA.Sharing) {
 }
 Object.assign(window.OCA.Sharing, { ShareSearch: new ShareSearch() })
 Object.assign(window.OCA.Sharing, { ExternalLinkActions: new ExternalLinkActions() })
+Object.assign(window.OCA.Sharing, { ExternalShareActions: new ExternalShareActions() })
 Object.assign(window.OCA.Sharing, { ShareTabSections: new TabSections() })
 
 Vue.prototype.t = t

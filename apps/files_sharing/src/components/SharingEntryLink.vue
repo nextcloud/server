@@ -285,8 +285,16 @@
 						@submit="onNoteSubmit" />
 				</template>
 
-				<!-- external sharing via url (social...) -->
-				<ActionLink v-for="({icon, url, name}, index) in externalActions"
+				<!-- external actions -->
+				<ExternalShareAction v-for="action in externalLinkActions"
+					:id="action.id"
+					:key="action.id"
+					:action="action"
+					:file-info="fileInfo"
+					:share="share" />
+
+				<!-- external legacy sharing via url (social...) -->
+				<ActionLink v-for="({icon, url, name}, index) in externalLegacyLinkActions"
 					:key="index"
 					:href="url(shareLink)"
 					:icon="icon"
@@ -328,15 +336,16 @@ import Vue from 'vue'
 
 import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
 import ActionCheckbox from '@nextcloud/vue/dist/Components/ActionCheckbox'
-import ActionRadio from '@nextcloud/vue/dist/Components/ActionRadio'
 import ActionInput from '@nextcloud/vue/dist/Components/ActionInput'
+import ActionLink from '@nextcloud/vue/dist/Components/ActionLink'
+import ActionRadio from '@nextcloud/vue/dist/Components/ActionRadio'
 import ActionText from '@nextcloud/vue/dist/Components/ActionText'
 import ActionTextEditable from '@nextcloud/vue/dist/Components/ActionTextEditable'
-import ActionLink from '@nextcloud/vue/dist/Components/ActionLink'
 import Actions from '@nextcloud/vue/dist/Components/Actions'
 import Avatar from '@nextcloud/vue/dist/Components/Avatar'
 import Tooltip from '@nextcloud/vue/dist/Directives/Tooltip'
 
+import ExternalShareAction from './ExternalShareAction'
 import GeneratePassword from '../utils/GeneratePassword'
 import Share from '../models/Share'
 import SharesMixin from '../mixins/SharesMixin'
@@ -354,6 +363,7 @@ export default {
 		ActionText,
 		ActionTextEditable,
 		Avatar,
+		ExternalShareAction,
 	},
 
 	directives: {
@@ -381,7 +391,8 @@ export default {
 			publicUploadRValue: OC.PERMISSION_READ,
 			publicUploadWValue: OC.PERMISSION_CREATE,
 
-			ExternalLinkActions: OCA.Sharing.ExternalLinkActions.state,
+			ExternalLegacyLinkActions: OCA.Sharing.ExternalLinkActions.state,
+			ExternalShareActions: OCA.Sharing.ExternalShareActions.state,
 		}
 	},
 
@@ -621,11 +632,23 @@ export default {
 		},
 
 		/**
-		 * External aditionnal actions for the menu
+		 * External additionnai actions for the menu
+		 * @deprecated use OCA.Sharing.ExternalShareActions
 		 * @returns {Array}
 		 */
-		externalActions() {
-			return this.ExternalLinkActions.actions
+		externalLegacyLinkActions() {
+			return this.ExternalLegacyLinkActions.actions
+		},
+
+		/**
+		 * Additional actions for the menu
+		 * @returns {Array}
+		 */
+		externalLinkActions() {
+			// filter only the registered actions for said link
+			return this.ExternalShareActions.actions
+				.filter(action => action.shareType.includes(OC.Share.SHARE_TYPE_LINK)
+					|| action.shareType.includes(OC.Share.SHARE_TYPE_EMAIL))
 		},
 
 		isPasswordPolicyEnabled() {

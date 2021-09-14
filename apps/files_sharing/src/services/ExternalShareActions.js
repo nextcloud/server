@@ -20,7 +20,7 @@
  *
  */
 
-export default class ExternalLinkActions {
+export default class ExternalShareActions {
 
 	_state;
 
@@ -30,7 +30,7 @@ export default class ExternalLinkActions {
 
 		// init default values
 		this._state.actions = []
-		console.debug('OCA.Sharing.ExternalLinkActions initialized')
+		console.debug('OCA.Sharing.ExternalShareActions initialized')
 	}
 
 	/**
@@ -45,21 +45,36 @@ export default class ExternalLinkActions {
 	}
 
 	/**
-	 * Register a new action for the link share
-	 * Mostly used by the social sharing app.
+	 * Register a new option/entry for the a given share type
 	 *
 	 * @param {Object} action new action component to register
+	 * @param {string} action.id unique action id
+	 * @param {Function} action.data data to bind the component to
+	 * @param {Array} action.shareType list of OC.Share.SHARE_XXX to be mounted on
+	 * @param {Object} action.handlers list of listeners
 	 * @returns {boolean}
 	 */
 	registerAction(action) {
-		console.warn('OCA.Sharing.ExternalLinkActions is deprecated, use OCA.Sharing.ExternalShareAction instead')
-
-		if (typeof action === 'object' && action.icon && action.name && action.url) {
-			this._state.actions.push(action)
-			return true
+		// Validate action
+		if (typeof action !== 'object'
+			|| typeof action.id !== 'string'
+			|| typeof action.data !== 'function' // () => {disabled: true}
+			|| !Array.isArray(action.shareType) // [OC.Share.SHARE_TYPE_LINK, ...]
+			|| typeof action.handlers !== 'object' // {click: () => {}, ...}
+			|| !Object.values(action.handlers).every(handler => typeof handler === 'function')) {
+			console.error('Invalid action provided', action)
+			return false
 		}
-		console.error('Invalid action provided', action)
-		return false
+
+		// Check duplicates
+		const hasDuplicate = this._state.actions.findIndex(check => check.id === action.id) > -1
+		if (hasDuplicate) {
+			console.error(`An action with the same id ${action.id} already exists`, action)
+			return false
+		}
+
+		this._state.actions.push(action)
+		return true
 	}
 
 }
