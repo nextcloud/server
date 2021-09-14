@@ -32,11 +32,13 @@
 namespace OCA\Settings\Tests\Settings\Admin;
 
 use OCA\Settings\Settings\Admin\Sharing;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Constants;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\Share\IManager;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class SharingTest extends TestCase {
@@ -44,10 +46,12 @@ class SharingTest extends TestCase {
 	private $admin;
 	/** @var IConfig */
 	private $config;
-	/** @var  IL10N|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var  IL10N|MockObject */
 	private $l10n;
-	/** @var  IManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var  IManager|MockObject */
 	private $shareManager;
+	/** @var IAppManager|MockObject */
+	private $appManager;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -55,15 +59,17 @@ class SharingTest extends TestCase {
 		$this->l10n = $this->getMockBuilder(IL10N::class)->getMock();
 
 		$this->shareManager = $this->getMockBuilder(IManager::class)->getMock();
+		$this->appManager = $this->getMockBuilder(IAppManager::class)->getMock();
 
 		$this->admin = new Sharing(
 			$this->config,
 			$this->l10n,
-			$this->shareManager
+			$this->shareManager,
+			$this->appManager
 		);
 	}
 
-	public function testGetFormWithoutExcludedGroups() {
+	public function testGetFormWithoutExcludedGroups(): void {
 		$this->config
 			->method('getAppValue')
 			->willReturnMap([
@@ -94,10 +100,13 @@ class SharingTest extends TestCase {
 		$this->shareManager->method('shareWithGroupMembersOnly')
 			->willReturn(false);
 
+		$this->appManager->method('isEnabledForUser')->with('files_sharing')->willReturn(false);
+
 		$expected = new TemplateResponse(
 			'settings',
 			'settings/admin/sharing',
 			[
+				'sharingAppEnabled' => false,
 				'allowGroupSharing' => 'yes',
 				'allowLinks' => 'yes',
 				'allowPublicUpload' => 'yes',
@@ -117,7 +126,7 @@ class SharingTest extends TestCase {
 				'publicShareDisclaimerText' => 'Lorem ipsum',
 				'enableLinkPasswordByDefault' => 'yes',
 				'shareApiDefaultPermissions' => Constants::PERMISSION_ALL,
-				'shareApiDefaultPermissionsCheckboxes' => $this->invokePrivate($this->admin, 'getSharePermissionList', []),
+				'shareApiDefaultPermissionsCheckboxes' => self::invokePrivate($this->admin, 'getSharePermissionList', []),
 				'shareDefaultInternalExpireDateSet' => 'no',
 				'shareInternalExpireAfterNDays' => '7',
 				'shareInternalEnforceExpireDate' => 'no',
@@ -132,7 +141,7 @@ class SharingTest extends TestCase {
 		$this->assertEquals($expected, $this->admin->getForm());
 	}
 
-	public function testGetFormWithExcludedGroups() {
+	public function testGetFormWithExcludedGroups(): void {
 		$this->config
 			->method('getAppValue')
 			->willReturnMap([
@@ -163,10 +172,13 @@ class SharingTest extends TestCase {
 		$this->shareManager->method('shareWithGroupMembersOnly')
 			->willReturn(false);
 
+		$this->appManager->method('isEnabledForUser')->with('files_sharing')->willReturn(true);
+
 		$expected = new TemplateResponse(
 			'settings',
 			'settings/admin/sharing',
 			[
+				'sharingAppEnabled' => true,
 				'allowGroupSharing' => 'yes',
 				'allowLinks' => 'yes',
 				'allowPublicUpload' => 'yes',
@@ -186,7 +198,7 @@ class SharingTest extends TestCase {
 				'publicShareDisclaimerText' => 'Lorem ipsum',
 				'enableLinkPasswordByDefault' => 'yes',
 				'shareApiDefaultPermissions' => Constants::PERMISSION_ALL,
-				'shareApiDefaultPermissionsCheckboxes' => $this->invokePrivate($this->admin, 'getSharePermissionList', []),
+				'shareApiDefaultPermissionsCheckboxes' => self::invokePrivate($this->admin, 'getSharePermissionList', []),
 				'shareDefaultInternalExpireDateSet' => 'no',
 				'shareInternalExpireAfterNDays' => '7',
 				'shareInternalEnforceExpireDate' => 'no',
@@ -201,11 +213,11 @@ class SharingTest extends TestCase {
 		$this->assertEquals($expected, $this->admin->getForm());
 	}
 
-	public function testGetSection() {
+	public function testGetSection(): void {
 		$this->assertSame('sharing', $this->admin->getSection());
 	}
 
-	public function testGetPriority() {
+	public function testGetPriority(): void {
 		$this->assertSame(0, $this->admin->getPriority());
 	}
 }

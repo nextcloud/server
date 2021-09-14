@@ -12,6 +12,7 @@
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Sascha Wiswedel <sascha.wiswedel@nextcloud.com>
  * @author Vincent Petry <vincent@nextcloud.com>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -31,7 +32,7 @@
  */
 namespace OCA\Settings\Settings\Admin;
 
-use OC\Share\Share;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Constants;
 use OCP\IConfig;
@@ -50,13 +51,14 @@ class Sharing implements ISettings {
 	/** @var IManager */
 	private $shareManager;
 
-	/**
-	 * @param IConfig $config
-	 */
-	public function __construct(IConfig $config, IL10N $l, IManager $shareManager) {
+	/** @var IAppManager */
+	private $appManager;
+
+	public function __construct(IConfig $config, IL10N $l, IManager $shareManager, IAppManager $appManager) {
 		$this->config = $config;
 		$this->l = $l;
 		$this->shareManager = $shareManager;
+		$this->appManager = $appManager;
 	}
 
 	/**
@@ -72,6 +74,7 @@ class Sharing implements ISettings {
 
 		$parameters = [
 			// Built-In Sharing
+			'sharingAppEnabled' => $this->appManager->isEnabledForUser('files_sharing'),
 			'allowGroupSharing' => $this->config->getAppValue('core', 'shareapi_allow_group_sharing', 'yes'),
 			'allowLinks' => $this->config->getAppValue('core', 'shareapi_allow_links', 'yes'),
 			'allowLinksExcludeGroups' => $linksExcludeGroupsList,
