@@ -39,10 +39,11 @@
 				<span>{{ share.status.message || '' }}</span>
 			</p>
 		</component>
-		<Actions
+		<Actions v-if="open === false"
 			menu-align="right"
 			class="sharing-entry__actions"
 			@close="onMenuClose">
+<<<<<<< HEAD
 			<template v-if="share.canEdit">
 				<!-- edit permission -->
 				<ActionCheckbox
@@ -135,6 +136,22 @@
 				</template>
 			</template>
 
+=======
+			<ActionButton v-if="share.canEdit"
+				icon="icon-settings"
+				:disabled="saving"
+				:share="share"
+				@click.prevent="editPermissions">
+				{{ t('files_sharing', 'Advanced permission') }}
+			</ActionButton>
+			<ActionButton v-if="share.canEdit"
+				icon="icon-mail"
+				:disabled="saving"
+				:share="share"
+				@click.prevent="editNotes">
+				{{ t('files_sharing', 'Send new mail') }}
+			</ActionButton>
+>>>>>>> e994a1f60d... NMC-434 - changed the process of file sharing for internal and external sharee
 			<ActionButton v-if="share.canDelete"
 				icon="icon-close"
 				:disabled="saving"
@@ -181,10 +198,33 @@ export default {
 			permissionsDelete: OC.PERMISSION_DELETE,
 			permissionsRead: OC.PERMISSION_READ,
 			permissionsShare: OC.PERMISSION_SHARE,
+
+			publicUploadRWValue: OC.PERMISSION_UPDATE | OC.PERMISSION_CREATE | OC.PERMISSION_READ | OC.PERMISSION_DELETE,
+			publicUploadRValue: OC.PERMISSION_READ,
+			publicUploadWValue: OC.PERMISSION_CREATE,
+			publicUploadEValue: OC.PERMISSION_UPDATE | OC.PERMISSION_READ,
 		}
 	},
 
 	computed: {
+		/**
+		 * Return the current share permissions
+		 * We always ignore the SHARE permission as this is used for the
+		 * federated sharing.
+		 * @returns {number}
+		 */
+		sharePermissions() {
+			return this.share.permissions & ~OC.PERMISSION_SHARE
+		},
+
+		/**
+		 * Generate a unique random id for this SharingEntry only
+		 * @returns {string}
+		 */
+		randomId() {
+			return Math.random().toString(27).substr(2)
+		},
+
 		title() {
 			let title = this.share.shareWithDisplayName
 			if (this.share.type === this.SHARE_TYPES.SHARE_TYPE_GROUP) {
@@ -348,28 +388,28 @@ export default {
 		 * Does the current share have an expiration date
 		 * @returns {boolean}
 		 */
-		hasExpirationDate: {
-			get() {
-				return this.config.isDefaultInternalExpireDateEnforced || !!this.share.expireDate
-			},
-			set(enabled) {
-				this.share.expireDate = enabled
-					? this.config.defaultInternalExpirationDateString !== ''
-						? this.config.defaultInternalExpirationDateString
-						: moment().format('YYYY-MM-DD')
-					: ''
-			},
-		},
+		// hasExpirationDate: {
+		// 	get() {
+		// 		return this.config.isDefaultInternalExpireDateEnforced || !!this.share.expireDate
+		// 	},
+		// 	set(enabled) {
+		// 		this.share.expireDate = enabled
+		// 			? this.config.defaultInternalExpirationDateString !== ''
+		// 				? this.config.defaultInternalExpirationDateString
+		// 				: moment().format('YYYY-MM-DD')
+		// 			: ''
+		// 	},
+		// },
 
-		dateMaxEnforced() {
-			if (!this.isRemote) {
-				return this.config.isDefaultInternalExpireDateEnforced
-					&& moment().add(1 + this.config.defaultInternalExpireDate, 'days')
-			} else {
-				return this.config.isDefaultRemoteExpireDateEnforced
-					&& moment().add(1 + this.config.defaultRemoteExpireDate, 'days')
-			}
-		},
+		// dateMaxEnforced() {
+		// 	if (!this.isRemote) {
+		// 		return this.config.isDefaultInternalExpireDateEnforced
+		// 			&& moment().add(1 + this.config.defaultInternalExpireDate, 'days')
+		// 	} else {
+		// 		return this.config.isDefaultRemoteExpireDateEnforced
+		// 			&& moment().add(1 + this.config.defaultRemoteExpireDate, 'days')
+		// 	}
+		// },
 
 		/**
 		 * @returns {bool}
@@ -404,6 +444,18 @@ export default {
 		onMenuClose() {
 			this.onNoteSubmit()
 		},
+
+		editPermissions() {
+			this.$store.commit('addFromInput', false)
+			this.$store.commit('addShare', this.share)
+			this.$store.commit('addCurrentTab', 'permissions')
+		},
+
+		editNotes() {
+			this.$store.commit('addFromInput', false)
+			this.$store.commit('addShare', this.share)
+			this.$store.commit('addCurrentTab', 'notes')
+		},
 	},
 }
 </script>
@@ -412,7 +464,7 @@ export default {
 .sharing-entry {
 	display: flex;
 	align-items: center;
-	height: 44px;
+	min-height: 44px;
 	&__desc {
 		display: flex;
 		flex-direction: column;

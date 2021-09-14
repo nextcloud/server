@@ -38,7 +38,7 @@
 		label="displayName"
 		track-by="id"
 		@search-change="asyncFind"
-		@select="addShare">
+		@select="showPermissions">
 		<template #noOptions>
 			{{ t('files_sharing', 'No recommendations. Start typing.') }}
 		</template>
@@ -56,7 +56,6 @@ import debounce from 'debounce'
 import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
 
 import Config from '../services/ConfigService'
-import GeneratePassword from '../utils/GeneratePassword'
 import Share from '../models/Share'
 import ShareRequests from '../mixins/ShareRequests'
 import ShareTypes from '../mixins/ShareTypes'
@@ -154,6 +153,10 @@ export default {
 
 	mounted() {
 		this.getRecommendations()
+
+		this.$root.$on('getRecommendations', data => {
+			this.getRecommendations()
+		})
 	},
 
 	methods: {
@@ -270,7 +273,6 @@ export default {
 			})
 
 			this.loading = false
-			console.info('suggestions', this.suggestions)
 		},
 
 		/**
@@ -314,7 +316,6 @@ export default {
 				.concat(externalResults)
 
 			this.loading = false
-			console.info('recommendations', this.recommendations)
 		},
 
 		/**
@@ -436,81 +437,14 @@ export default {
 			}
 		},
 
-		/**
-		 * Process the new share request
-		 * @param {Object} value the multiselect option
-		 */
-		async addShare(value) {
-			if (value.lookup) {
-				await this.getSuggestions(this.query, true)
-
-				// focus the input again
-				this.$nextTick(() => {
-					this.$refs.multiselect.$el.querySelector('.multiselect__input').focus()
-				})
-				return true
-			}
-
-			// handle externalResults from OCA.Sharing.ShareSearch
-			if (value.handler) {
-				const share = await value.handler(this)
-				this.$emit('add:share', new Share(share))
-				return true
-			}
-
-			this.loading = true
-			console.debug('Adding a new share from the input for', value)
-			try {
-				let password = null
-
-				if (this.config.enforcePasswordForPublicLink
-					&& value.shareType === this.SHARE_TYPES.SHARE_TYPE_EMAIL) {
-					password = await GeneratePassword()
-				}
-
-				const path = (this.fileInfo.path + '/' + this.fileInfo.name).replace('//', '/')
-				const share = await this.createShare({
-					path,
-					shareType: value.shareType,
-					shareWith: value.shareWith,
-					password,
-					permissions: this.fileInfo.sharePermissions & OC.getCapabilities().files_sharing.default_permissions,
-				})
-
-				// If we had a password, we need to show it to the user as it was generated
-				if (password) {
-					share.newPassword = password
-					// Wait for the newly added share
-					const component = await new Promise(resolve => {
-						this.$emit('add:share', share, resolve)
-					})
-
-					// open the menu on the
-					// freshly created share component
-					component.open = true
-				} else {
-					// Else we just add it normally
-					this.$emit('add:share', share)
-				}
-
-				// reset the search string when done
-				// FIXME: https://github.com/shentao/vue-multiselect/issues/633
-				if (this.$refs.multiselect?.$refs?.VueMultiselect?.search) {
-					this.$refs.multiselect.$refs.VueMultiselect.search = ''
-				}
-
-				await this.getRecommendations()
-			} catch (error) {
-				// focus back if any error
-				const input = this.$refs.multiselect.$el.querySelector('input')
-				if (input) {
-					input.focus()
-				}
-				this.query = value.shareWith
-				console.error('Error while adding new share', error)
-			} finally {
-				this.loading = false
-			}
+		async showPermissions(value) {
+			// this.$root.$emit('optionValues', value)
+			this.$store.commit('addOption', value)
+			this.$store.commit('addFromInput', true)
+			const newShare = new Share({})
+			newShare.permissions = OC.PERMISSION_READ
+			this.$store.commit('addShare', newShare)
+			this.$store.commit('addCurrentTab', 'permissions')
 		},
 	},
 }

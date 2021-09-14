@@ -131,176 +131,26 @@
 			:open.sync="open"
 			@close="onMenuClose">
 			<template v-if="share">
-				<template v-if="share.canEdit && canReshare">
-					<!-- Custom Label -->
-					<ActionInput
-						ref="label"
-						v-tooltip.auto="{
-							content: errors.label,
-							show: errors.label,
-							trigger: 'manual',
-							defaultContainer: '.app-sidebar'
-						}"
-						:class="{ error: errors.label }"
-						:disabled="saving"
-						:aria-label="t('files_sharing', 'Share label')"
-						:value="share.newLabel !== undefined ? share.newLabel : share.label"
-						icon="icon-edit"
-						maxlength="255"
-						@update:value="onLabelChange"
-						@submit="onLabelSubmit">
-						{{ t('files_sharing', 'Share label') }}
-					</ActionInput>
-					<!-- folder -->
-					<template v-if="isFolder && fileHasCreatePermission && config.isPublicUploadEnabled">
-						<ActionRadio :checked="sharePermissions === publicUploadRValue"
-							:value="publicUploadRValue"
-							:name="randomId"
-							:disabled="saving"
-							@change="togglePermissions">
-							{{ t('files_sharing', 'Read only') }}
-						</ActionRadio>
-						<ActionRadio :checked="sharePermissions === publicUploadRWValue"
-							:value="publicUploadRWValue"
-							:disabled="saving"
-							:name="randomId"
-							@change="togglePermissions">
-							{{ t('files_sharing', 'Allow upload and editing') }}
-						</ActionRadio>
-						<ActionRadio :checked="sharePermissions === publicUploadWValue"
-							:value="publicUploadWValue"
-							:disabled="saving"
-							:name="randomId"
-							class="sharing-entry__action--public-upload"
-							@change="togglePermissions">
-							{{ t('files_sharing', 'File drop (upload only)') }}
-						</ActionRadio>
-					</template>
-
-					<!-- file -->
-					<ActionCheckbox v-else
-						:checked.sync="canUpdate"
-						:disabled="saving"
-						@change="queueUpdate('permissions')">
-						{{ t('files_sharing', 'Allow editing') }}
-					</ActionCheckbox>
-
-					<ActionCheckbox
-						:checked.sync="share.hideDownload"
-						:disabled="saving"
-						@change="queueUpdate('hideDownload')">
-						{{ t('files_sharing', 'Hide download') }}
-					</ActionCheckbox>
-
-					<!-- password -->
-					<ActionCheckbox :checked.sync="isPasswordProtected"
-						:disabled="config.enforcePasswordForPublicLink || saving"
-						class="share-link-password-checkbox"
-						@uncheck="onPasswordDisable">
-						{{ config.enforcePasswordForPublicLink
-							? t('files_sharing', 'Password protection (enforced)')
-							: t('files_sharing', 'Password protect') }}
-					</ActionCheckbox>
-					<ActionInput v-if="isPasswordProtected"
-						ref="password"
-						v-tooltip.auto="{
-							content: errors.password,
-							show: errors.password,
-							trigger: 'manual',
-							defaultContainer: '#app-sidebar'
-						}"
-						class="share-link-password"
-						:class="{ error: errors.password}"
-						:disabled="saving"
-						:required="config.enforcePasswordForPublicLink"
-						:value="hasUnsavedPassword ? share.newPassword : '***************'"
-						icon="icon-password"
-						autocomplete="new-password"
-						:type="hasUnsavedPassword ? 'text': 'password'"
-						@update:value="onPasswordChange"
-						@submit="onPasswordSubmit">
-						{{ t('files_sharing', 'Enter a password') }}
-					</ActionInput>
-
-					<!-- password protected by Talk -->
-					<ActionCheckbox v-if="isPasswordProtectedByTalkAvailable"
-						:checked.sync="isPasswordProtectedByTalk"
-						:disabled="!canTogglePasswordProtectedByTalkAvailable || saving"
-						class="share-link-password-talk-checkbox"
-						@change="onPasswordProtectedByTalkChange">
-						{{ t('files_sharing', 'Video verification') }}
-					</ActionCheckbox>
-
-					<!-- expiration date -->
-					<ActionCheckbox :checked.sync="hasExpirationDate"
-						:disabled="config.isDefaultExpireDateEnforced || saving"
-						class="share-link-expire-date-checkbox"
-						@uncheck="onExpirationDisable">
-						{{ config.isDefaultExpireDateEnforced
-							? t('files_sharing', 'Expiration date (enforced)')
-							: t('files_sharing', 'Set expiration date') }}
-					</ActionCheckbox>
-					<ActionInput v-if="hasExpirationDate"
-						ref="expireDate"
-						v-tooltip.auto="{
-							content: errors.expireDate,
-							show: errors.expireDate,
-							trigger: 'manual',
-							defaultContainer: '#app-sidebar'
-						}"
-						class="share-link-expire-date"
-						:class="{ error: errors.expireDate}"
-						:disabled="saving"
-						:first-day-of-week="firstDay"
-						:lang="lang"
-						:value="share.expireDate"
-						value-type="format"
-						icon="icon-calendar-dark"
-						type="date"
-						:disabled-date="disabledDate"
-						@update:value="onExpirationChange">
-						{{ t('files_sharing', 'Enter a date') }}
-					</ActionInput>
-
-					<!-- note -->
-					<ActionCheckbox :checked.sync="hasNote"
-						:disabled="saving"
-						@uncheck="queueUpdate('note')">
-						{{ t('files_sharing', 'Note to recipient') }}
-					</ActionCheckbox>
-					<ActionTextEditable v-if="hasNote"
-						ref="note"
-						v-tooltip.auto="{
-							content: errors.note,
-							show: errors.note,
-							trigger: 'manual',
-							defaultContainer: '#app-sidebar'
-						}"
-						:class="{ error: errors.note}"
-						:disabled="saving"
-						:placeholder="t('files_sharing', 'Enter a note for the share recipient')"
-						:value="share.newNote || share.note"
-						icon="icon-edit"
-						@update:value="onNoteChange"
-						@submit="onNoteSubmit" />
-				</template>
-
-				<!-- external actions -->
-				<ExternalShareAction v-for="action in externalLinkActions"
-					:id="action.id"
-					:key="action.id"
-					:action="action"
-					:file-info="fileInfo"
-					:share="share" />
-
-				<!-- external legacy sharing via url (social...) -->
-				<ActionLink v-for="({icon, url, name}, index) in externalLegacyLinkActions"
+				<!-- external sharing via url (social...) -->
+				<ActionLink v-for="({icon, url, name}, index) in externalActions"
 					:key="index"
 					:href="url(shareLink)"
 					:icon="icon"
 					target="_blank">
 					{{ name }}
 				</ActionLink>
+				<ActionButton v-if="share.canEdit"
+					icon="icon-settings"
+					:disabled="saving"
+					@click.prevent="editPermissions">
+					{{ t('files_sharing', 'Advanced permission') }}
+				</ActionButton>
+				<ActionButton v-if="share.canEdit"
+					icon="icon-mail"
+					:disabled="saving"
+					@click.prevent="editNotes">
+					{{ t('files_sharing', 'Send new mail') }}
+				</ActionButton>
 
 				<ActionButton v-if="share.canDelete"
 					icon="icon-close"
@@ -340,7 +190,7 @@ import ActionInput from '@nextcloud/vue/dist/Components/ActionInput'
 import ActionLink from '@nextcloud/vue/dist/Components/ActionLink'
 import ActionRadio from '@nextcloud/vue/dist/Components/ActionRadio'
 import ActionText from '@nextcloud/vue/dist/Components/ActionText'
-import ActionTextEditable from '@nextcloud/vue/dist/Components/ActionTextEditable'
+import ActionLink from '@nextcloud/vue/dist/Components/ActionLink'
 import Actions from '@nextcloud/vue/dist/Components/Actions'
 import Avatar from '@nextcloud/vue/dist/Components/Avatar'
 import Tooltip from '@nextcloud/vue/dist/Directives/Tooltip'
@@ -357,11 +207,9 @@ export default {
 		Actions,
 		ActionButton,
 		ActionCheckbox,
-		ActionRadio,
 		ActionInput,
 		ActionLink,
 		ActionText,
-		ActionTextEditable,
 		Avatar,
 		ExternalShareAction,
 	},
@@ -408,8 +256,6 @@ export default {
 		},
 		/**
 		 * Generate a unique random id for this SharingEntryLink only
-		 * This allows ActionRadios to have the same name prop
-		 * but not to impact others SharingEntryLink
 		 * @returns {string}
 		 */
 		randomId() {
@@ -921,8 +767,19 @@ export default {
 			// YET. We can safely delete the share :)
 			this.$emit('remove:share', this.share)
 		},
-	},
 
+		editPermissions() {
+			this.$store.commit('addFromInput', false)
+			this.$store.commit('addShare', this.share)
+			this.$store.commit('addCurrentTab', 'permissions')
+		},
+
+		editNotes() {
+			this.$store.commit('addFromInput', false)
+			this.$store.commit('addShare', this.share)
+			this.$store.commit('addCurrentTab', 'notes')
+		},
+	},
 }
 </script>
 
