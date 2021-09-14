@@ -60,114 +60,24 @@
 				</template>
 			</template>
 		</component>
-		<Actions
+		<Actions v-if="open === false"
 			menu-align="right"
 			class="sharing-entry__actions"
 			@close="onMenuClose">
-			<template v-if="share.canEdit">
-				<!-- folder -->
-				<template v-if="isFolder && config.isPublicUploadEnabled">
-
-					<ActionRadio :checked="sharePermissions === publicUploadRValue"
-						:value="publicUploadRValue"
-						:name="randomId"
-						:disabled="saving"
-						@change="togglePermissions">
-						{{ t('files_sharing', 'Read only') }}
-					</ActionRadio>
-
-					<ActionRadio :checked="sharePermissions === publicUploadRWValue"
-						:value="publicUploadRWValue"
-						:disabled="saving"
-						:name="randomId"
-						@change="togglePermissions">
-						{{ t('files_sharing', 'Allow upload and editing') }}
-					</ActionRadio>
-
-				</template>
-				<!-- file -->
-				<template v-else>
-					<ActionRadio :checked="sharePermissions === publicUploadRValue"
-						:value="publicUploadRValue"
-						:name="randomId"
-						:disabled="saving"
-						@change="togglePermissions">
-						{{ t('files_sharing', 'Read only') }}
-					</ActionRadio>
-
-					<ActionRadio :checked="sharePermissions === publicUploadEValue"
-						:value="publicUploadEValue"
-						:disabled="saving"
-						:name="randomId"
-						@change="togglePermissions">
-						{{ t('files_sharing', 'Editing') }}
-					</ActionRadio>
-				</template>
-
-				<!-- reshare permission -->
-				<ActionCheckbox
-					v-if="config.isResharingAllowed"
-					ref="canReshare"
-					:checked.sync="canReshare"
-					:value="permissionsShare"
-					:disabled="saving || !canSetReshare">
-					{{ t('files_sharing', 'Allow resharing') }}
-				</ActionCheckbox>
-
-				<!-- expiration date -->
-				<ActionCheckbox
-					v-if="canHaveExpirationDate"
-					:checked.sync="hasExpirationDate"
-					:disabled="config.isDefaultInternalExpireDateEnforced || saving"
-					@uncheck="onExpirationDisable">
-					{{ config.isDefaultInternalExpireDateEnforced
-						? t('files_sharing', 'Expiration date enforced')
-						: t('files_sharing', 'Set expiration date') }}
-				</ActionCheckbox>
-				<ActionInput v-if="hasExpirationDate"
-					ref="expireDate"
-					v-tooltip.auto="{
-						content: errors.expireDate,
-						show: errors.expireDate,
-						trigger: 'manual'
-					}"
-					:class="{ error: errors.expireDate}"
-					:disabled="saving"
-					:first-day-of-week="firstDay"
-					:lang="lang"
-					:value="share.expireDate"
-					value-type="format"
-					icon="icon-calendar-dark"
-					type="date"
-					:disabled-date="disabledDate"
-					@update:value="onExpirationChange">
-					{{ t('files_sharing', 'Enter a date') }}
-				</ActionInput>
-
-				<!-- note -->
-				<template v-if="canHaveNote">
-					<ActionCheckbox
-						:checked.sync="hasNote"
-						:disabled="saving"
-						@uncheck="queueUpdate('note')">
-						{{ t('files_sharing', 'Note to recipient') }}
-					</ActionCheckbox>
-					<ActionTextEditable v-if="hasNote"
-						ref="note"
-						v-tooltip.auto="{
-							content: errors.note,
-							show: errors.note,
-							trigger: 'manual'
-						}"
-						:class="{ error: errors.note}"
-						:disabled="saving"
-						:value="share.newNote || share.note"
-						icon="icon-edit"
-						@update:value="onNoteChange"
-						@submit="onNoteSubmit" />
-				</template>
-			</template>
-
+			<ActionButton v-if="share.canEdit"
+				icon="icon-settings"
+				:disabled="saving"
+				:share="share"
+				@click.prevent="editPermissions">
+				{{ t('files_sharing', 'Advanced permission') }}
+			</ActionButton>
+			<ActionButton v-if="share.canEdit"
+				icon="icon-mail"
+				:disabled="saving"
+				:share="share"
+				@click.prevent="editNotes">
+				{{ t('files_sharing', 'Send new mail') }}
+			</ActionButton>
 			<ActionButton v-if="share.canDelete"
 				icon="icon-close"
 				:disabled="saving"
@@ -182,7 +92,6 @@
 import Avatar from '@nextcloud/vue/dist/Components/Avatar'
 import Actions from '@nextcloud/vue/dist/Components/Actions'
 import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
-import ActionRadio from '@nextcloud/vue/dist/Components/ActionRadio'
 import ActionCheckbox from '@nextcloud/vue/dist/Components/ActionCheckbox'
 import ActionInput from '@nextcloud/vue/dist/Components/ActionInput'
 import ActionTextEditable from '@nextcloud/vue/dist/Components/ActionTextEditable'
@@ -196,7 +105,6 @@ export default {
 	components: {
 		Actions,
 		ActionButton,
-		ActionRadio,
 		ActionCheckbox,
 		ActionInput,
 		ActionTextEditable,
@@ -219,7 +127,7 @@ export default {
 
 			publicUploadRWValue: OC.PERMISSION_UPDATE | OC.PERMISSION_CREATE | OC.PERMISSION_READ | OC.PERMISSION_DELETE,
 			publicUploadRValue: OC.PERMISSION_READ,
-			publicUploadWValue: OC.PERMISSION_CREATE | OC.PERMISSION_READ,
+			publicUploadWValue: OC.PERMISSION_CREATE,
 			publicUploadEValue: OC.PERMISSION_UPDATE | OC.PERMISSION_READ,
 		}
 	},
@@ -234,10 +142,9 @@ export default {
 		sharePermissions() {
 			return this.share.permissions & ~OC.PERMISSION_SHARE
 		},
+
 		/**
-		 * Generate a unique random id for this SharingEntryLink only
-		 * This allows ActionRadios to have the same name prop
-		 * but not to impact others SharingEntryLink
+		 * Generate a unique random id for this SharingEntry only
 		 * @returns {string}
 		 */
 		randomId() {
@@ -420,28 +327,28 @@ export default {
 		 * Does the current share have an expiration date
 		 * @returns {boolean}
 		 */
-		hasExpirationDate: {
-			get() {
-				return this.config.isDefaultInternalExpireDateEnforced || !!this.share.expireDate
-			},
-			set(enabled) {
-				this.share.expireDate = enabled
-					? this.config.defaultInternalExpirationDateString !== ''
-						? this.config.defaultInternalExpirationDateString
-						: moment().format('YYYY-MM-DD')
-					: ''
-			},
-		},
+		// hasExpirationDate: {
+		// 	get() {
+		// 		return this.config.isDefaultInternalExpireDateEnforced || !!this.share.expireDate
+		// 	},
+		// 	set(enabled) {
+		// 		this.share.expireDate = enabled
+		// 			? this.config.defaultInternalExpirationDateString !== ''
+		// 				? this.config.defaultInternalExpirationDateString
+		// 				: moment().format('YYYY-MM-DD')
+		// 			: ''
+		// 	},
+		// },
 
-		dateMaxEnforced() {
-			if (!this.isRemote) {
-				return this.config.isDefaultInternalExpireDateEnforced
-					&& moment().add(1 + this.config.defaultInternalExpireDate, 'days')
-			} else {
-				return this.config.isDefaultRemoteExpireDateEnforced
-					&& moment().add(1 + this.config.defaultRemoteExpireDate, 'days')
-			}
-		},
+		// dateMaxEnforced() {
+		// 	if (!this.isRemote) {
+		// 		return this.config.isDefaultInternalExpireDateEnforced
+		// 			&& moment().add(1 + this.config.defaultInternalExpireDate, 'days')
+		// 	} else {
+		// 		return this.config.isDefaultRemoteExpireDateEnforced
+		// 			&& moment().add(1 + this.config.defaultRemoteExpireDate, 'days')
+		// 	}
+		// },
 
 		/**
 		 * @returns {bool}
@@ -487,6 +394,18 @@ export default {
 		onMenuClose() {
 			this.onNoteSubmit()
 		},
+
+		editPermissions() {
+			this.$store.commit('addFromInput', false)
+			this.$store.commit('addShare', this.share)
+			this.$store.commit('addCurrentTab', 'permissions')
+		},
+
+		editNotes() {
+			this.$store.commit('addFromInput', false)
+			this.$store.commit('addShare', this.share)
+			this.$store.commit('addCurrentTab', 'notes')
+		},
 	},
 }
 </script>
@@ -495,7 +414,7 @@ export default {
 .sharing-entry {
 	display: flex;
 	align-items: center;
-	height: 44px;
+	min-height: 44px;
 	&__desc {
 		display: flex;
 		flex-direction: column;

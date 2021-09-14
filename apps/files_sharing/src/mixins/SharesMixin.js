@@ -188,7 +188,7 @@ export default {
 		 */
 		onExpirationDisable() {
 			this.share.expireDate = ''
-			this.queueUpdate('expireDate')
+			// this.queueUpdate('expireDate')
 		},
 
 		/**
