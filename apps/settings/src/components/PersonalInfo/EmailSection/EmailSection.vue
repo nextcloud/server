@@ -25,7 +25,7 @@
 			:account-property="accountProperty"
 			label-for="email"
 			:handle-scope-change="savePrimaryEmailScope"
-			:is-editable="displayNameChangeSupported"
+			:is-editable="true"
 			:is-multi-value-supported="true"
 			:is-valid-section="isValidSection"
 			:scope.sync="primaryEmail.scope"
@@ -37,18 +37,17 @@
 				:scope.sync="primaryEmail.scope"
 				:email.sync="primaryEmail.value"
 				@update:email="onUpdateEmail" />
-			<Email v-for="(additionalEmail, index) in additionalEmails"
-				:key="index"
-				:index="index"
-				:scope.sync="additionalEmail.scope"
-				:email.sync="additionalEmail.value"
-				@update:email="onUpdateEmail"
-				@delete-additional-email="onDeleteAdditionalEmail(index)" />
 		</template>
-
 		<span v-else>
 			{{ primaryEmail.value || t('settings', 'No email address set') }}
 		</span>
+		<Email v-for="(additionalEmail, index) in additionalEmails"
+			:key="index"
+			:index="index"
+			:scope.sync="additionalEmail.scope"
+			:email.sync="additionalEmail.value"
+			@update:email="onUpdateEmail"
+			@delete-additional-email="onDeleteAdditionalEmail(index)" />
 	</section>
 </template>
 
