@@ -5,6 +5,7 @@
     "Email was already removed from account and cannot be confirmed anymore." : "电子邮件已从帐户中删除，无法再确认。",
     "Could not verify mail because the token is expired." : "无法验证邮件，因为令牌已过期",
     "Could not verify mail because the token is invalid." : "无法验证邮件，因为令牌无效",
+    "An unexpected error occurred. Please contact your admin." : "发生意外错误。请联系系统管理员",
     "Email confirmation successful" : "电子邮件确认成功",
     "Provisioning API" : "Provisioning API",
     "This application enables a set of APIs that external systems can use to manage users, groups and apps." : "此应用程序启用了一组 API ，外部系统可以使用这些 API 来管理用户、组和应用程序。",

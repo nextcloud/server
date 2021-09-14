@@ -357,7 +357,7 @@ OC.L10N.register(
     "I know that if I continue doing the update via web UI has the risk, that the request runs into a timeout and could cause data loss, but I have a backup and know how to restore my instance in case of a failure." : "Знам дека има ризик ако продолжам со ажурирањето преку веб-интерфејс, и да застане во тајм аут и може да предизвика загуба на податоци, но имам резервна копија и знам како да ја вратам мојата истанца во случај на дефект.",
     "Upgrade via web on my own risk" : "Надоградба преку веб-интерфејс на сопствен ризик",
     "Maintenance mode" : "Мод за одржување",
-    "This %s instance is currently in maintenance mode, which may take a while." : "Оваа %s истанца моментално е во режим на одржување, што значи дека може да потрае некое време.",
+    "This %s instance is currently in maintenance mode, which may take a while." : "Истанцата %s моментално е во режим на одржување, што значи дека може да потрае некое време.",
     "This page will refresh itself when the instance is available again." : "Оваа веб страница ќе се рефрешира кога истанцата ќе биде повторно достапна.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Контактирајте го вашиот систем администратор до колку оваа порака продолжи да се појавува или пак се појавува ненадејно.",
     "Couldn't reset password because the token is invalid" : "Неможе да се промени лозинката бидејќи токенот е невалиден.",

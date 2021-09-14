@@ -237,7 +237,6 @@ OC.L10N.register(
     "For more info, please ask the person who sent this link." : "請詢問告訴您此連結的人以瞭解更多",
     "Share note" : "分享筆記",
     "Toggle grid view" : "切換網格檢視",
-    "%s" : "%s",
     "Upload files to %s" : "上傳檔案到 %s",
     "Note" : "筆記",
     "Select or drop files" : "選擇或拖曳檔案至此",
@@ -249,6 +248,7 @@ OC.L10N.register(
     "Can't change permissions for public share links" : "無法由公開分享的連結變更權限",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "因為未啟用 Nextcloud Talk，因此透過 Nextcloud Talk 傳送密碼分享失敗",
     "Name, email, or federated cloud ID …" : "名字，電郵地址或 federated cloud ID …",
-    "Download %s" : "下載 %s"
+    "Download %s" : "下載 %s",
+    "%s" : "%s"
 },
 "nplurals=1; plural=0;");

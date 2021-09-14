@@ -9,6 +9,7 @@ OC.L10N.register(
     "Working remotely" : "Pracuje na diaľku",
     "User status" : "Stav užívateľa",
     "Clear status message after" : "Vyčistiť správu o stave po",
+    "What is your status?" : "Aký je váš stav?",
     "Set status" : "Nastaviť stav",
     "Online status" : "Stav pripojenia",
     "Status message" : "Správa o stave",

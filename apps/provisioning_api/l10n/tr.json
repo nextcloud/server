@@ -5,6 +5,7 @@
     "Email was already removed from account and cannot be confirmed anymore." : "E-posta hesaptan kaldırılmış olduğundan artık onaylanamaz.",
     "Could not verify mail because the token is expired." : "Kodun süresi geçtiğinden e-posta doğrulanamadı.",
     "Could not verify mail because the token is invalid." : "Kod geçersiz olduğundan e-posta doğrulanamadı.",
+    "An unexpected error occurred. Please contact your admin." : "Beklenmeyen bir sorun çıktı. Lütfen BT yöneticiniz ile görüşün.",
     "Email confirmation successful" : "E-posta onaylandı",
     "Provisioning API" : "Karşılama API",
     "This application enables a set of APIs that external systems can use to manage users, groups and apps." : "Bu uygulama, dış sistemlerin kullanıcıları, grupları ve uygulamaları yönetmek için kullanabileceği bir dizi API uygulaması sağlar.",

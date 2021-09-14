@@ -237,7 +237,6 @@ OC.L10N.register(
     "For more info, please ask the person who sent this link." : "Pokud potřebujete další podrobnosti, obraťte se na osobu, která vám tento odkaz zaslala.",
     "Share note" : "Sdílet poznámku",
     "Toggle grid view" : "Vyp/zap. zobrazení v mřížce",
-    "%s" : "%s",
     "Upload files to %s" : "Nahrát soubory do %s",
     "Note" : "Poznámka",
     "Select or drop files" : "Vyberte nebo přetáhněte soubory",
@@ -249,6 +248,7 @@ OC.L10N.register(
     "Can't change permissions for public share links" : "Nelze změnit oprávnění pro veřejně sdílené odkazy",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Sdílení posláním hesla prostřednictvím Nextcloud Talk se nezdařilo protože Nextcloud Talk není zapnutý",
     "Name, email, or federated cloud ID …" : "Jméno, e-mail nebo identifikátor ve federovaném cloudu…",
-    "Download %s" : "Stáhnout %s"
+    "Download %s" : "Stáhnout %s",
+    "%s" : "%s"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");
