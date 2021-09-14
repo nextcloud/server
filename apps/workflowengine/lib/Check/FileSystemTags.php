@@ -6,6 +6,7 @@
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Julius Härtl <jus@bitgrid.net>
+ * @author Richard Steinmetz <richard@steinmetz.cloud>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -131,8 +132,13 @@ class FileSystemTags implements ICheck, IFileCheck {
 	 * @return int[]
 	 */
 	protected function getFileIds(ICache $cache, $path, $isExternalStorage) {
+		// TODO: Fix caching inside group folders
+		// Do not cache file ids inside group folders because multiple file ids might be mapped to
+		// the same combination of cache id + path.
+		$shouldCacheFileIds = !$this->storage
+			->instanceOfStorage(\OCA\GroupFolders\Mount\GroupFolderStorage::class);
 		$cacheId = $cache->getNumericStorageId();
-		if (isset($this->fileIds[$cacheId][$path])) {
+		if ($shouldCacheFileIds && isset($this->fileIds[$cacheId][$path])) {
 			return $this->fileIds[$cacheId][$path];
 		}
 
@@ -148,7 +154,9 @@ class FileSystemTags implements ICheck, IFileCheck {
 			$parentIds[] = $cache->getId($path);
 		}
 
-		$this->fileIds[$cacheId][$path] = $parentIds;
+		if ($shouldCacheFileIds) {
+			$this->fileIds[$cacheId][$path] = $parentIds;
+		}
 
 		return $parentIds;
 	}
