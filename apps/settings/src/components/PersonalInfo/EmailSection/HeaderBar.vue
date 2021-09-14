@@ -31,7 +31,7 @@
 			:scope.sync="localScope"
 			@update:scope="onScopeChange" />
 
-		<AddButton v-if="canEditEmails"
+		<AddButton
 			class="add-button"
 			:disabled="!isValidForm"
 			@click.stop.prevent="addAdditionalEmail" />
@@ -51,10 +51,6 @@ export default {
 	},
 
 	props: {
-		canEditEmails: {
-			type: Boolean,
-			default: true,
-		},
 		isValidForm: {
 			type: Boolean,
 			default: true,
