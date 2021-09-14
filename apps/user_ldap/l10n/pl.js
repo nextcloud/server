@@ -113,7 +113,7 @@ OC.L10N.register(
     "The filter specifies which LDAP users shall have access to the %s instance." : "Filtr określa, którzy użytkownicy LDAP powinni mieć dostęp do instancji %s.",
     "Verify settings and count users" : "Sprawdź ustawienia i policz użytkowników",
     "Saving" : "Zapisuję",
-    "Back" : "Wróć",
+    "Back" : "Wstecz",
     "Continue" : "Kontynuuj ",
     "Please renew your password." : "Proszę odnowić hasło",
     "An internal error occurred." : "Wystąpił wewnętrzny błąd.",
