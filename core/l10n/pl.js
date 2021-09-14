@@ -175,7 +175,7 @@ OC.L10N.register(
     "Local document editing back-end used by the Collabora Online app." : "Lokalne zaplecze do edycji dokumentów używane przez aplikację Collabora Online.",
     "Forgot password?" : "Zapomniałeś hasła?",
     "Log in with a device" : "Zaloguj się za pomocą urządzenia",
-    "Back" : "Wróć",
+    "Back" : "Wstecz",
     "Login form is disabled." : "Formularz logowania jest wyłączony.",
     "Reset search" : "Zresetuj wyszukiwanie",
     "Search for {name} only" : "Wyszukaj tylko {name}",

@@ -5,6 +5,7 @@
     "Email was already removed from account and cannot be confirmed anymore." : "E-mail už byl odebrán z účtu a není už možné ho potvrdit.",
     "Could not verify mail because the token is expired." : "E-mail není možné ověřit, protože platnost tokenu skončila.",
     "Could not verify mail because the token is invalid." : "E-mail není možné ověřit, protože token není platný.",
+    "An unexpected error occurred. Please contact your admin." : "Došlo k neočekávané chybě. Obraťte se na svého správce.",
     "Email confirmation successful" : "E-mail úspěšně potvrzen",
     "Provisioning API" : "Provisioning API",
     "This application enables a set of APIs that external systems can use to manage users, groups and apps." : "Tato aplikace umožňuje nastavovat API rozhraní, které externí systémy mohou používat pro správu uživatelů, skupin a aplikací.",

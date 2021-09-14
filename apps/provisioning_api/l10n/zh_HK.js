@@ -7,6 +7,7 @@ OC.L10N.register(
     "Email was already removed from account and cannot be confirmed anymore." : "電郵地址已從帳戶中刪除，無法再確認。",
     "Could not verify mail because the token is expired." : "權杖已過期，無法驗證郵件。",
     "Could not verify mail because the token is invalid." : "權杖無效，無法驗證郵件。",
+    "An unexpected error occurred. Please contact your admin." : "發生了一個意料之外的錯誤。 請聯絡您的系統管理員。",
     "Email confirmation successful" : "成功確認電郵地址",
     "Provisioning API" : "Provisioning API",
     "This application enables a set of APIs that external systems can use to manage users, groups and apps." : "此應用程序啟用了一組 API ，外部系統可以使用這些 API 來管理用戶、組和應用程序。",
