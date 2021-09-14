@@ -5,6 +5,7 @@
     "Email was already removed from account and cannot be confirmed anymore." : "E-mail został już usunięty z konta i nie można go już potwierdzić.",
     "Could not verify mail because the token is expired." : "Nie można zweryfikować poczty, ponieważ token wygasł.",
     "Could not verify mail because the token is invalid." : "Nie można zweryfikować poczty, ponieważ token jest nieprawidłowy.",
+    "An unexpected error occurred. Please contact your admin." : "Wystąpił nieoczekiwany błąd. Skontaktuj się z administratorem.",
     "Email confirmation successful" : "Potwierdzenie e-maila powiodło się",
     "Provisioning API" : "API obsługi administracyjnej",
     "This application enables a set of APIs that external systems can use to manage users, groups and apps." : "Aplikacja udostępnia zestaw interfejsów API, których systemy zewnętrzne mogą używać ich do zarządzania użytkownikami, grupami i aplikacjami.",

@@ -237,7 +237,6 @@ OC.L10N.register(
     "For more info, please ask the person who sent this link." : "Informazio gehiagorako, galdetu esteka hau bidali zuen pertsonari",
     "Share note" : "Partekatu oharra",
     "Toggle grid view" : "Txandakatu sareta ikuspegia",
-    "%s" : "%s",
     "Upload files to %s" : "Kargatu fitxategiak hona: %s",
     "Note" : "Oharra",
     "Select or drop files" : "Hautatu edo jaregin fitxategiak",
@@ -249,6 +248,7 @@ OC.L10N.register(
     "Can't change permissions for public share links" : "Publikoki partekatutako esteken baimenak ezin dira aldatu",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Nextcloud Talk-etik pasahitza bidaliz partekatzeak huts egin du, Nextcloud Talk ez dagoelako gaituta",
     "Name, email, or federated cloud ID …" : "Izena, posta, edo federatutako lainoaren IDa ...",
-    "Download %s" : "Deskargatu %s"
+    "Download %s" : "Deskargatu %s",
+    "%s" : "%s"
 },
 "nplurals=2; plural=(n != 1);");
