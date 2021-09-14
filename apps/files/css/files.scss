@@ -243,6 +243,7 @@ table th .columntitle.name {
 
 table.multiselect th .columntitle.name {
 	margin-left: 0;
+	padding-left: 15px;
 }
 
 table th .sort-indicator {
@@ -311,9 +312,9 @@ table th.column-last, table td.column-last {
 	top: 94px;
 }
 
-#app-content-recent, 
-#app-content-favorites, 
-#app-content-shareoverview, 
+#app-content-recent,
+#app-content-favorites,
+#app-content-shareoverview,
 #app-content-sharingout,
 #app-content-sharingin,
 #app-content-sharinglinks,
@@ -333,7 +334,7 @@ table.multiselect thead th {
 
 table.multiselect #headerName {
 	position: relative;
-	width: 9999px; /* when we use 100%, the styling breaks on mobile … table styling */
+	width: auto;
 }
 table.multiselect #modified {
 	display: none;
@@ -721,7 +722,7 @@ a.action > img {
 .summary {
 	color: var(--color-text-maxcontrast);
 	/* add whitespace to bottom of files list to correctly show dropdowns */
-	$action-menu-items-count: 7; // list view has currently max 7 items in its action menu 
+	$action-menu-items-count: 7; // list view has currently max 7 items in its action menu
 	height: 44px * ($action-menu-items-count + 0.5); // 0.5 is added to show some whitespace below
 }
 #filestable .filesummary {
@@ -859,7 +860,7 @@ table.dragshadow td.size {
 	overflow: auto;
 	min-width: 160px;
 	height: 54px;
-	
+
 	&:not(.hidden) {
 		display: flex;
 	}
@@ -911,11 +912,9 @@ table.dragshadow td.size {
 	/* HEADER and MULTISELECT */
 	thead {
 		tr {
-			display: block;
 			border-bottom: 1px solid var(--color-border);
 			background-color: var(--color-main-background-translucent);
 			th {
-				width: auto;
 				border: none;
 			}
 		}
@@ -1238,3 +1237,91 @@ table.dragshadow td.size {
 	}
 }
 
+/* Actions for selected files */
+#headerSize .hidden	{
+	display: none;
+}
+
+#headerDate .hidden {
+	display: none;
+}
+
+#headerSizeOpen .hidden {
+	display: none;
+}
+
+table.multiselect {
+	thead {
+		#selectedMenu {
+			width: 100%;
+		}
+	}
+}
+
+.icon-cancel {
+	background-image: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMjRweCIgaGVpZ2h0PSIyNHB4IiB2aWV3Qm94PSIwIDAgMjQgMjQiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8dGl0bGU+aWNvbi9hY3Rpb24vY2xvc2UvZGVmYXVsdEBzdmc8L3RpdGxlPgogICAgPGcgaWQ9Imljb24vYWN0aW9uL2Nsb3NlL2RlZmF1bHQiIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPgogICAgICAgIDxwYXRoIGQ9Ik0xMy4wNSwxMiBMMTcuOCw3LjI0OTk5OTk4IEMxOC4xLDYuOTQ5OTk5OTggMTguMSw2LjQ5OTk5OTk4IDE3LjgsNi4xOTk5OTk5OCBDMTcuNSw1Ljg5OTk5OTk3IDE3LjA1LDUuODk5OTk5OTcgMTYuNzUsNi4xOTk5OTk5OCBMMTIsMTAuOTUgTDcuMjQ5OTk5OTgsNi4xOTk5OTk5OCBDNi45NDk5OTk5OCw1Ljg5OTk5OTk3IDYuNDk5OTk5OTgsNS44OTk5OTk5NyA2LjE5OTk5OTk4LDYuMTk5OTk5OTggQzUuODk5OTk5OTcsNi40OTk5OTk5OCA1Ljg5OTk5OTk3LDYuOTQ5OTk5OTggNi4xOTk5OTk5OCw3LjI0OTk5OTk4IEwxMC45NSwxMiBMNi4xOTk5OTk5OCwxNi43NSBDNS44OTk5OTk5NywxNy4wNSA1Ljg5OTk5OTk3LDE3LjUgNi4xOTk5OTk5OCwxNy44IEM2LjQ5OTk5OTk4LDE4LjEgNi45NDk5OTk5OCwxOC4xIDcuMjQ5OTk5OTgsMTcuOCBMMTIsMTMuMDUgTDE2Ljc1LDE3LjggQzE3LjA1LDE4LjEgMTcuNSwxOC4xIDE3LjgsMTcuOCBDMTguMSwxNy41IDE4LjEsMTcuMDUgMTcuOCwxNi43NSBMMTMuMDUsMTIgWiIgaWQ9IkNvbWJpbmVkLVNoYXBlIiBmaWxsPSIjMjYyNjI2Ij48L3BhdGg+CiAgICA8L2c+Cjwvc3ZnPg==") !important;
+}
+
+.multiselect {
+	.sort-indicator {
+		display: none !important;
+	}
+}
+
+#selectedActionLabel {
+	padding-right: 16px;
+	display: none;
+	a {
+		display: inline;
+		line-height: 50px;
+		padding: 16px 5px;
+		img {
+			position: relative;
+			vertical-align: text-bottom;
+			margin-bottom: -1px;
+		}
+	}
+	a.hidden {
+		display: none;
+	}
+	.actions-selected {
+		.icon-more {
+			display: inline-block;
+			vertical-align: middle;
+		}
+	}
+}
+
+#headerSizeCount .hidden {
+	display: none !important;
+}
+
+.selectedActions {
+	.filesSelectionMenu {
+		display: block !important;
+		ul {
+			li {
+				display: inline;
+				&.hidden {
+					display: none !important;
+				}
+			}
+		}
+		a {
+			.label {
+					padding-left: 8px;
+					padding-right: 19px;
+			}
+		}
+	}
+}
+
+#selectedActionsList {
+	width: 100% !important;
+	text-align: right !important;
+	opacity: unset;
+	.popovermenu {
+		right: -70px;
+		top: 45px;
+	}
+}

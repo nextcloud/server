@@ -42,19 +42,18 @@
 					<span class="hidden-visually"><?php p($l->t('Select all'))?></span>
 				</label>
 			</th>
+			<th id='allLabel'><?php p($l->t('All')); ?></th>
 			<th id='headerName' class="hidden column-name">
 				<div id="headerName-container">
 					<a class="name sort columntitle" data-sort="name">
                         <span><?php p($l->t('Name')); ?></span>
-                        <span class="sort-indicator"></span>
-
-                    </a>
-                    <span id="selectedActionsList" class="selectedActions">
-                        <a href="" class="actions-selected">
-                            <span class="icon icon-more"></span>
-                            <span><?php p($l->t('Actions'))?></span>
-                        </a>
-					</span>
+						<span class="sort-indicator"></span>
+						<span class="headerSizeOpen">(</span>
+						<span id="headerSizeCount" class="column-size">
+							<?php p($l->t('Size')); ?>
+						</span>
+						<span class="headerSizeOpen">)</span>
+					</a>
 				</div>
 			</th>
 			<th id="headerSize" class="hidden column-size">
@@ -62,6 +61,18 @@
 			</th>
 			<th id="headerDate" class="hidden column-mtime">
 				<a id="modified" class="columntitle" data-sort="mtime"><span><?php p($l->t('Modified')); ?></span><span class="sort-indicator"></span></a>
+			</th>
+			<th id="selectedMenu">
+				<div id="selectedActionsList" class="selectedActions">
+				</div>
+			</th>
+			<th>
+				<span id="selectedActionLabel">
+					<a href="" class="actions-selected">
+						<span class="icon icon-more"></span>
+						<span><?php  p($l->t('Actions'))?></span>
+					</a>
+				</span>
 			</th>
 		</tr>
 	</thead>

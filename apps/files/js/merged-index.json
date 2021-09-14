@@ -12,6 +12,7 @@
   "fileinfomodel.js",
   "filelist.js",
   "filemultiselectmenu.js",
+  "filemultipleselectionmenu.js",
   "files.js",
   "filesummary.js",
   "gotoplugin.js",

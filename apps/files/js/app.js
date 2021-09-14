@@ -119,6 +119,12 @@
 							iconClass: 'icon-tag',
 							order: 100,
 						},
+						{
+							name: 'cancel',
+							displayName:  'Cancel',
+							iconClass: 'icon-cancel',
+							order: 101,
+						},
 					],
 					sorting: {
 						mode: $('#defaultFileSorting').val(),

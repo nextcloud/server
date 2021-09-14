@@ -9,9 +9,9 @@
  */
 
 (function() {
-	var FileMultiSelectMenu = OC.Backbone.View.extend({
+	var FileMultipleSelectionMenu = OC.Backbone.View.extend({
 		tagName: 'div',
-		className: 'filesSelectMenu popovermenu bubble menu-right',
+		className: 'filesSelectionMenu',
 		_scopes: null,
 		initialize: function(menuItems) {
 			this._scopes = menuItems;
@@ -88,5 +88,5 @@
 		}
 	});
 
-	OCA.Files.FileMultiSelectMenu = FileMultiSelectMenu;
+	OCA.Files.FileMultipleSelectionMenu = FileMultipleSelectionMenu;
 })(OC, OCA);

@@ -85,4 +85,33 @@ table.dragshadow {
 	table.multiselect th .columntitle.name {
 		margin-left: 0;
 	}
+
+	/* Actions for selected files */
+	table th #selectedActionLabel a {
+		padding: 17px 14px;
+	}
+
+	#allLabel {
+		display: none;
+	}
+
+	#selectedActionsList .filesSelectionMenu {
+		display: none !important;
+	}
+
+	#selectedActionsList .popovermenu {
+		right: -70px;
+		top: 25px;
+	}
+
+	#selectedActionLabel {
+		padding-right: 0px;
+	}
+}
+
+@media only screen and (max-width: 440px) {
+	#selectedActionsList .popovermenu {
+		right: -85px;
+		top: 20px;
+	}
 }

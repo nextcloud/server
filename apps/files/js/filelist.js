@@ -379,6 +379,10 @@
 
 			this.$el.on('show', this._onResize);
 
+			$('#selectedActionLabel').css('display','none');
+			this.resizeFileActionMenu = _.debounce(_.bind(this.resizeFileActionMenu, this), 250);
+			$(window).resize(this.resizeFileActionMenu);
+
 			// reload files list on share accept
 			$('body').on('OCA.Notification.Action', function(eventObject) {
 				if (eventObject.notification.app === 'files_sharing' && eventObject.action.type === 'POST') {
@@ -557,6 +561,9 @@
 						break;
 					case 'tags':
 						this._onClickTagSelected(ev);
+						break;
+					case 'cancel':
+						this._onClickCancelSelected(ev);
 						break;
 				}
 		},
@@ -1191,6 +1198,17 @@
 			});
 		},
 
+		/**
+		 * Event handler for when deselecting all selected files
+		 */
+		_onClickCancelSelected: function(ev) {
+			this._selectedFiles = {};
+			this._selectionSummary.clear();
+			$('#filestable input').prop('checked', false);
+			this.$fileList.find('td.selection > .selectCheckBox:visible').closest('tr').toggleClass('selected', false);
+			this.updateSelectionSummary();
+		},
+
 		_onClickDocument: function(ev) {
 			if(!$(ev.target).closest('#editor_container').length) {
 				this._inputView.setValues([]);
@@ -1511,6 +1529,11 @@
 			this.fileMultiSelectMenu.render();
 			this.$el.find('.selectedActions .filesSelectMenu').remove();
 			this.$el.find('.selectedActions').append(this.fileMultiSelectMenu.$el);
+			this.fileMultipleSelectionMenu = new OCA.Files.FileMultipleSelectionMenu(this.multiSelectMenuItems.sort(function(a, b) {
+				return a.order - b.order
+			}));
+			this.fileMultipleSelectionMenu.render();
+			this.$el.find('.selectedActions').append(this.fileMultipleSelectionMenu.$el);
 		},
 
 		/**
@@ -3431,10 +3454,25 @@
 				this.$el.find('#modified a>span:first').text(t('files','Modified'));
 				this.$el.find('table').removeClass('multiselect');
 				this.$el.find('.selectedActions').addClass('hidden');
+				this.$el.find('#headerSize').removeClass('hidden');
+				this.$el.find('#headerDate').removeClass('hidden');
+				this.$el.find('#headerSizeCount').addClass('hidden');
+				this.$el.find('.headerSizeOpen').addClass('hidden');
+				$('#selectedActionLabel').css('display','none');
 			}
 			else {
 				this.$el.find('.selectedActions').removeClass('hidden');
-				this.$el.find('#headerSize a>span:first').text(OC.Util.humanFileSize(summary.totalSize));
+				this.$el.find('#headerSize').addClass('hidden');
+				this.$el.find('#headerDate').addClass('hidden');
+				this.$el.find('#headerSizeCount').removeClass('hidden');
+				this.$el.find('.headerSizeOpen').removeClass('hidden');
+				this.$el.find('#selectedActionsList').removeClass('menu-center');
+				if (window.matchMedia('(max-width: 480px)').matches) {
+					$('#selectedActionLabel').css('display','block');
+				}
+				this.resizeFileActionMenu();
+				this.$el.find('#headerSizeCount').text(OC.Util.humanFileSize(summary.totalSize));
+				this.fileMultipleSelectionMenu.show(this);
 
 				var directoryInfo = n('files', '%n folder', '%n folders', summary.totalDirs);
 				var fileInfo = n('files', '%n file', '%n files', summary.totalFiles);
@@ -3473,6 +3511,35 @@
 					} else {
 						this.fileMultiSelectMenu.toggleItemVisibility('copyMove', false);
 					}
+				}
+			}
+		},
+
+		/**
+		 * Show or hide file action menu based on the current selection
+		 */
+		resizeFileActionMenu: function() {
+			const appList = $('.filesSelectionMenu ul li');
+			const headerWidth = $('#filestable thead').outerWidth();
+			const checkWidth = $('#headerSelection').outerWidth();
+			const headerNameWidth = $('#headerName').outerWidth();
+			const actionWidth = $('#selectedActionLabel').outerWidth();
+			const allLabelWidth = $('#allLabel').outerWidth();
+
+			let availableWidth = headerWidth - (checkWidth + allLabelWidth+ headerNameWidth);
+			let appCount = Math.floor((availableWidth / $(appList).width()));
+
+			if(appCount < appList.length) {
+				$('#selectedActionLabel').css('display','block');
+				availableWidth = headerWidth - (checkWidth + allLabelWidth+ headerNameWidth + actionWidth);
+				appCount = Math.floor((availableWidth / $(appList).width()));
+			}
+
+			for (let k = 0; k < appList.length; k++) {
+				if (k < appCount) {
+					$(appList[k]).removeClass('hidden');
+				} else {
+					$(appList[k]).addClass('hidden');
 				}
 			}
 		},
