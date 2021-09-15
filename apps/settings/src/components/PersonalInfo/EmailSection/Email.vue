@@ -65,7 +65,7 @@
 						@click.stop.prevent="deleteEmail">
 						{{ deleteEmailLabel }}
 					</ActionButton>
-					<ActionButton
+					<ActionButton v-if="!primary || !isNotificationEmail"
 						:aria-label="setNotificationMailLabel"
 						:close-after-click="true"
 						:disabled="setNotificationMailDisabled"
@@ -171,13 +171,12 @@ export default {
 		},
 
 	  setNotificationMailDisabled() {
-			return this.isNotificationEmail
-					|| (!this.primary && this.localVerificationState !== VERIFICATION_ENUM.VERIFIED)
+			return !this.primary && this.localVerificationState !== VERIFICATION_ENUM.VERIFIED
 		},
 
 	  setNotificationMailLabel() {
 			if (this.isNotificationEmail) {
-				return t('settings', 'Your primary email')
+				return t('settings', 'Unset as primary email')
 			} else if (!this.primary && this.localVerificationState !== VERIFICATION_ENUM.VERIFIED) {
 				return t('settings', 'This address is not confirmed')
 			}
@@ -280,9 +279,10 @@ export default {
 
 		async setNotificationMail() {
 		  try {
-			  const responseData = await saveNotificationEmail(this.primary ? '' : this.initialEmail)
+			  const newNotificationMailValue = (this.primary || this.isNotificationEmail) ? '' : this.initialEmail
+			  const responseData = await saveNotificationEmail(newNotificationMailValue)
 			  this.handleResponse({
-				  notificationEmail: this.primary ? '' : this.initialEmail,
+				  notificationEmail: newNotificationMailValue,
 				  status: responseData.ocs?.meta?.status,
 			  })
 		  } catch (e) {
