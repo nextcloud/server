@@ -231,7 +231,7 @@ class PersonalInfo implements ISettings {
 	 * @return array
 	 */
 	private function getEmails(IAccount $account): array {
-		$primaryEmail = [
+		$systemEmail = [
 			'value' => $account->getProperty(IAccountManager::PROPERTY_EMAIL)->getValue(),
 			'scope' => $account->getProperty(IAccountManager::PROPERTY_EMAIL)->getScope(),
 			'verified' => $account->getProperty(IAccountManager::PROPERTY_EMAIL)->getVerified(),
@@ -243,14 +243,16 @@ class PersonalInfo implements ISettings {
 					'value' => $property->getValue(),
 					'scope' => $property->getScope(),
 					'verified' => $property->getVerified(),
+					'locallyVerified' => $property->getLocallyVerified(),
 				];
 			},
 			$account->getPropertyCollection(IAccountManager::COLLECTION_EMAIL)->getProperties()
 		);
 
 		$emails = [
-			'primaryEmail' => $primaryEmail,
+			'primaryEmail' => $systemEmail,
 			'additionalEmails' => $additionalEmails,
+			'notificationEmail' => (string)$account->getUser()->getPrimaryEMailAddress(),
 		];
 
 		return $emails;

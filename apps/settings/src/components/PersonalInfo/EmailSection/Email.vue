@@ -65,11 +65,19 @@
 						@click.stop.prevent="deleteEmail">
 						{{ deleteEmailLabel }}
 					</ActionButton>
+					<ActionButton v-if="!primary || !isNotificationEmail"
+						:aria-label="setNotificationMailLabel"
+						:close-after-click="true"
+						:disabled="setNotificationMailDisabled"
+						icon="icon-favorite"
+						@click.stop.prevent="setNotificationMail">
+						{{ setNotificationMailLabel }}
+					</ActionButton>
 				</Actions>
 			</div>
 		</div>
 
-		<em v-if="primary">
+		<em v-if="isNotificationEmail">
 			{{ t('settings', 'Primary email for password reset and notifications') }}
 		</em>
 	</div>
@@ -83,8 +91,15 @@ import debounce from 'debounce'
 
 import FederationControl from '../shared/FederationControl'
 
-import { ACCOUNT_PROPERTY_READABLE_ENUM } from '../../../constants/AccountPropertyConstants'
-import { savePrimaryEmail, saveAdditionalEmail, saveAdditionalEmailScope, updateAdditionalEmail, removeAdditionalEmail } from '../../../service/PersonalInfo/EmailService'
+import { ACCOUNT_PROPERTY_READABLE_ENUM, VERIFICATION_ENUM } from '../../../constants/AccountPropertyConstants'
+import {
+	removeAdditionalEmail,
+	saveAdditionalEmail,
+	saveAdditionalEmailScope,
+	saveNotificationEmail,
+	savePrimaryEmail,
+	updateAdditionalEmail,
+} from '../../../service/PersonalInfo/EmailService'
 import { validateEmail } from '../../../utils/validate'
 
 export default {
@@ -112,6 +127,14 @@ export default {
 		scope: {
 			type: String,
 			required: true,
+		},
+		activeNotificationEmail: {
+			type: String,
+			default: '',
+		},
+		localVerificationState: {
+			type: Number,
+			default: VERIFICATION_ENUM.NOT_VERIFIED,
 		},
 	},
 
@@ -145,6 +168,19 @@ export default {
 			return t('settings', 'Delete email')
 		},
 
+	  setNotificationMailDisabled() {
+			return !this.primary && this.localVerificationState !== VERIFICATION_ENUM.VERIFIED
+		},
+
+	  setNotificationMailLabel() {
+			if (this.isNotificationEmail) {
+				return t('settings', 'Unset as primary email')
+			} else if (!this.primary && this.localVerificationState !== VERIFICATION_ENUM.VERIFIED) {
+				return t('settings', 'This address is not confirmed')
+			}
+			return t('settings', 'Set as primary mail')
+		},
+
 		federationDisabled() {
 			return !this.initialEmail
 		},
@@ -162,6 +198,11 @@ export default {
 			}
 			return t('settings', 'Additional email address {index}', { index: this.index + 1 })
 		},
+
+		  isNotificationEmail() {
+			  return (this.email === this.activeNotificationEmail)
+						|| (this.primary && this.activeNotificationEmail === '')
+		  },
 	},
 
 	mounted() {
@@ -239,6 +280,22 @@ export default {
 			}
 		},
 
+		async setNotificationMail() {
+		  try {
+			  const newNotificationMailValue = (this.primary || this.isNotificationEmail) ? '' : this.initialEmail
+			  const responseData = await saveNotificationEmail(newNotificationMailValue)
+			  this.handleResponse({
+				  notificationEmail: newNotificationMailValue,
+				  status: responseData.ocs?.meta?.status,
+			  })
+		  } catch (e) {
+			  this.handleResponse({
+				  errorMessage: 'Unable to choose this email for notifications',
+				  error: e,
+			  })
+		  }
+		},
+
 		async updateAdditionalEmail(email) {
 			try {
 				const responseData = await updateAdditionalEmail(this.initialEmail, email)
@@ -276,10 +333,14 @@ export default {
 			}
 		},
 
-		handleResponse({ email, status, errorMessage, error }) {
+		handleResponse({ email, notificationEmail, status, errorMessage, error }) {
 			if (status === 'ok') {
 				// Ensure that local state reflects server state
-				this.initialEmail = email
+				if (email) {
+					this.initialEmail = email
+				} else if (notificationEmail !== undefined) {
+					this.$emit('update:notification-email', notificationEmail)
+				}
 				this.showCheckmarkIcon = true
 				setTimeout(() => { this.showCheckmarkIcon = false }, 2000)
 			} else {

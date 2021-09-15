@@ -70,6 +70,26 @@ export const saveAdditionalEmail = async(email) => {
 }
 
 /**
+ * Save the notification email of the user
+ *
+ * @param {string} email the notification email
+ * @returns {object}
+ */
+export const saveNotificationEmail = async(email) => {
+	const userId = getCurrentUser().uid
+	const url = generateOcsUrl('cloud/users/{userId}', { userId })
+
+	await confirmPassword()
+
+	const res = await axios.put(url, {
+		key: ACCOUNT_PROPERTY_ENUM.NOTIFICATION_EMAIL,
+		value: email,
+	})
+
+	return res.data
+}
+
+/**
  * Remove an additional email of the user
  *
  * @param {string} email the additional email
