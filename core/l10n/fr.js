@@ -27,6 +27,8 @@ OC.L10N.register(
     "Could not complete login" : "Impossible de terminer la connexion",
     "Your login token is invalid or has expired" : "Votre jeton de connexion est invalide ou expiré",
     "Password reset is disabled" : "La réinitialisation du mot de passe est désactivée",
+    "Could not reset password because the token is expired" : "Impossible de réinitialiser le mot de passe car le jeton d'authentification est expiré.",
+    "Could not reset password because the token is invalid" : "Impossible de réinitialiser le mot de passe car le jeton d'authentification n'est pas valide.",
     "%s password reset" : "Réinitialisation de votre mot de passe %s",
     "Password reset" : "Réinitialiser le mot de passe",
     "Click the following button to reset your password. If you have not requested the password reset, then ignore this email." : "Cliquez sur le bouton suivant pour réinitialiser votre mot de passe. Si vous n'avez pas demandé cette réinitialisation de mot de passe, vous pouvez ignorer ce courriel.",
