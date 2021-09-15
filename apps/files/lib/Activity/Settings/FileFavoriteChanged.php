@@ -72,7 +72,11 @@ class FileFavoriteChanged extends FileActivitySettings {
 	 * @since 11.0.0
 	 */
 	public function canChangeMail() {
-		return true;
+		return false;
+	}
+
+	public function canChangeNotification() {
+		return false;
 	}
 
 	/**
@@ -84,6 +88,6 @@ class FileFavoriteChanged extends FileActivitySettings {
 	}
 
 	public function isDefaultEnabledNotification() {
-		return true;
+		return false;
 	}
 }
