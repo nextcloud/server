@@ -68,7 +68,7 @@ OC.L10N.register(
     "Where: %s" : "Ue: %s",
     "%1$s via %2$s" : "%1$s cun %2$s",
     "Cancelled: %1$s" : "Annulladu: %1$s",
-    "Invitation canceled" : "Invitu cantzelladu",
+    "Invitation canceled" : "Invitu annulladu",
     "Re: %1$s" : "Re: %1$s",
     "Invitation updated" : "Invitu agiornadu",
     "Invitation: %1$s" : "Invitu: %1$s",
