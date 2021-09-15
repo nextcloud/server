@@ -17,12 +17,14 @@
  * @author Michael Weimann <mail@michael-weimann.eu>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author nhirokinet <nhirokinet@nhiroki.net>
+ * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Sven Strickroth <email@cs-ware.de>
  * @author Sylvia van Os <sylvia@hackerchick.me>
  * @author timm2k <timm2k@gmx.de>
  * @author Timo Förster <tfoerster@webfoersterei.de>
+ * @author Valdnet <47037905+Valdnet@users.noreply.github.com>
  *
  * @license AGPL-3.0
  *
@@ -39,7 +41,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Settings\Controller;
 
 use bantu\IniGetWrapper\IniGetWrapper;
@@ -247,7 +248,7 @@ class CheckSetupController extends Controller {
 			return '';
 		}
 
-		$features = $this->l10n->t('installing and updating apps via the app store or Federated Cloud Sharing');
+		$features = $this->l10n->t('installing and updating apps via the App Store or Federated Cloud Sharing');
 		if (!$this->config->getSystemValue('appstoreenabled', true)) {
 			$features = $this->l10n->t('Federated Cloud Sharing');
 		}
@@ -624,6 +625,14 @@ Raw output
 			if (!extension_loaded('imagick')) {
 				$recommendedPHPModules[] = 'imagick';
 			}
+		}
+
+		if (!defined('PASSWORD_ARGON2I') && PHP_VERSION_ID >= 70400) {
+			// Installing php-sodium on >=php7.4 will provide PASSWORD_ARGON2I
+			// on previous version argon2 wasn't part of the "standard" extension
+			// and RedHat disabled it so even installing php-sodium won't provide argon2i
+			// support in password_hash/password_verify.
+			$recommendedPHPModules[] = 'sodium';
 		}
 
 		return $recommendedPHPModules;

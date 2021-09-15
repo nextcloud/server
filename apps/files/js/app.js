@@ -91,6 +91,7 @@
 					fileActions: fileActions,
 					allowLegacyActions: true,
 					scrollTo: urlParams.scrollto,
+					openFile: urlParams.openfile,
 					filesClient: OC.Files.getClient(),
 					multiSelectMenu: [
 						{
@@ -111,6 +112,12 @@
 							displayName: t('files', 'Delete'),
 							iconClass: 'icon-delete',
 							order: 99,
+						},
+						{
+							name: 'tags',
+							displayName:  'Tags',
+							iconClass: 'icon-tag',
+							order: 100,
 						},
 					],
 					sorting: {

@@ -24,9 +24,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_Sharing;
 
+use OCP\Constants;
 use OCP\Share\IShare;
 
 class Updater {
@@ -82,7 +82,12 @@ class Updater {
 		//Ownership is moved over
 		foreach ($shares as $share) {
 			/** @var IShare $share */
+			if (!($dstMount->getShare()->getPermissions() & Constants::PERMISSION_SHARE)) {
+				$shareManager->deleteShare($share);
+				continue;
+			}
 			$share->setShareOwner($newOwner);
+			$share->setPermissions($share->getPermissions() & $dstMount->getShare()->getPermissions());
 			$shareManager->updateShare($share);
 		}
 	}
@@ -94,11 +99,11 @@ class Updater {
 	 * @param string $newPath new path relative to data/user/files
 	 */
 	private static function renameChildren($oldPath, $newPath) {
-		$absNewPath = \OC\Files\Filesystem::normalizePath('/' . \OCP\User::getUser() . '/files/' . $newPath);
-		$absOldPath = \OC\Files\Filesystem::normalizePath('/' . \OCP\User::getUser() . '/files/' . $oldPath);
+		$absNewPath = \OC\Files\Filesystem::normalizePath('/' . \OC_User::getUser() . '/files/' . $newPath);
+		$absOldPath = \OC\Files\Filesystem::normalizePath('/' . \OC_User::getUser() . '/files/' . $oldPath);
 
 		$mountManager = \OC\Files\Filesystem::getMountManager();
-		$mountedShares = $mountManager->findIn('/' . \OCP\User::getUser() . '/files/' . $oldPath);
+		$mountedShares = $mountManager->findIn('/' . \OC_User::getUser() . '/files/' . $oldPath);
 		foreach ($mountedShares as $mount) {
 			if ($mount->getStorage()->instanceOfStorage(ISharedStorage::class)) {
 				$mountPoint = $mount->getMountPoint();

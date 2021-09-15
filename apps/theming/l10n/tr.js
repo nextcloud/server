@@ -32,7 +32,7 @@ OC.L10N.register(
     "Open documentation" : "Belgeleri aç",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Temalar kullandığınız kopyanın ve desteklenen istemcilerin genel görünümün kolayca değiştirilmesini sağlar. Tüm kullanıcılara görüntülenir.",
     "Name" : "Ad",
-    "Reset to default" : "Varsayılana Sıfırla",
+    "Reset to default" : "Varsayılanlara dön",
     "Web link" : "Web bağlantısı",
     "https://…" : "https://…",
     "Slogan" : "Slogan",

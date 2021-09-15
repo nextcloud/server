@@ -68,7 +68,6 @@ OC.L10N.register(
     "File name cannot be empty." : "فایل نوم تش نشي کېدای",
     "\"/\" is not allowed inside a file name." : "د فایل په نوم کې \"/\" نشئ کارولای",
     "\"{name}\" is not an allowed filetype" : "\"{name}\" ډول فایلونو اجازه نشته",
-    "_matches '{filter}'_::_match '{filter}'_" : ["'{filter}' په څېر","'{filter}' په څېر"],
     "View in folder" : "په فولډر کې کتل",
     "Copied!" : "کاپي شو!",
     "Copy direct link (only works for users who have access to this file/folder)" : "نېغ لېنک کاپي کول",
@@ -135,7 +134,6 @@ OC.L10N.register(
     "Deleted shares" : "ړنګ شوي لېنکونه",
     "Text file" : "متن فایل",
     "New text file.txt" : "New text file.txt",
-    "Unshare" : "له شرېکوالي ويستل",
-    "Your storage is almost full ({usedSpacePercent}%)" : "({usedSpacePercent}%) ستاسې ذخیره تقریبا ډکه ده "
+    "_matches '{filter}'_::_match '{filter}'_" : ["'{filter}' په څېر","'{filter}' په څېر"]
 },
 "nplurals=2; plural=(n != 1);");

@@ -25,7 +25,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Encryption\Crypto;
 
 use OC\Encryption\Exceptions\DecryptionFailedException;
@@ -395,7 +394,7 @@ class EncryptAll {
 	 * @return string password
 	 */
 	protected function generateOneTimePassword($uid) {
-		$password = $this->secureRandom->generate(8);
+		$password = $this->secureRandom->generate(16, ISecureRandom::CHAR_HUMAN_READABLE);
 		$this->userPasswords[$uid] = $password;
 		return $password;
 	}

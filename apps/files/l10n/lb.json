@@ -51,9 +51,6 @@
     "\"{name}\" is an invalid file name." : "\"{name}\" ass een ongültegen Numm",
     "File name cannot be empty." : "D'Datei kann net eidel sinn",
     "\"{name}\" is not an allowed filetype" : "\"{name}\" ass een ongültegen Typ vun Datei",
-    "Storage of {owner} is full, files can not be updated or synced anymore!" : "Späicher vum {owener} ass voll, et kennen keng Dokumenter méi eropgelueden oder synchroniséiert ginn!",
-    "Your storage is full, files can not be updated or synced anymore!" : "Däin Späicher ass voll, et kennen keng Dateien méi eropgeluden oder synchrosniséiert ginn",
-    "_matches '{filter}'_::_match '{filter}'_" : ["entsprecht","entspriechen"],
     "View in folder" : "Kuk am Dossier ",
     "Copied!" : "Kopéiert!",
     "Path" : "Pad",
@@ -112,11 +109,8 @@
     "Shared by link" : "Mat engem Link gedeelt",
     "Text file" : "Text Fichier",
     "New text file.txt" : "Neien Text file.txt",
-    "Unshare" : "Net méi deelen",
-    "Storage of {owner} is almost full ({usedSpacePercent}%)" : "Späicher vum {owner} ass baal voll ({usedSpacePercent}%)",
-    "Your storage is almost full ({usedSpacePercent}%)" : "Däin Späicher ass baal voll ({usedSpacePercent}%)",
-    "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>" : "Eng Datei gouf <strong> verännert</strong> oder <strong> embenannt</strong>",
-    "A new file or folder has been <strong>created</strong>" : "Eng nei Datei oder e neien Dossier gouf <strong> erstallt </strong>",
-    "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Limitéier Notifikatiounen op d'Erstellen an Veränneren vun dengen <strong> Favoriten</strong> (nëmmen Floss)"
+    "Storage of {owner} is full, files can not be updated or synced anymore!" : "Späicher vum {owener} ass voll, et kennen keng Dokumenter méi eropgelueden oder synchroniséiert ginn!",
+    "Your storage is full, files can not be updated or synced anymore!" : "Däin Späicher ass voll, et kennen keng Dateien méi eropgeluden oder synchrosniséiert ginn",
+    "_matches '{filter}'_::_match '{filter}'_" : ["entsprecht","entspriechen"]
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

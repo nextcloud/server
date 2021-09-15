@@ -67,6 +67,10 @@
                             maxOccurs="1" />
                 <xs:element name="public" type="public" minOccurs="0"
                             maxOccurs="1" />
+                <xs:element name="trash" type="trash" minOccurs="0"
+                            maxOccurs="1" />
+                <xs:element name="versions" type="versions" minOccurs="0"
+                            maxOccurs="1" />
             </xs:sequence>
         </xs:complexType>
         <xs:unique name="uniqueNameL10n">
@@ -95,6 +99,10 @@
         </xs:unique>
         <xs:unique name="uniqueDatabase">
             <xs:selector xpath="dependencies/database"/>
+            <xs:field xpath="."/>
+        </xs:unique>
+        <xs:unique name="uniqueArchitecture">
+            <xs:selector xpath="dependencies/architecture"/>
             <xs:field xpath="."/>
         </xs:unique>
         <xs:unique name="uniqueLib">
@@ -560,6 +568,8 @@
                         maxOccurs="1"/>
             <xs:element name="nextcloud" type="nextcloud" minOccurs="1"
                         maxOccurs="1"/>
+            <xs:element name="architecture" type="architecture" minOccurs="0"
+                        maxOccurs="unbounded"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -621,6 +631,15 @@
         </xs:restriction>
     </xs:simpleType>
 
+    <xs:simpleType name="architecture">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="x86"/>
+            <xs:enumeration value="x86_64"/>
+            <xs:enumeration value="aarch"/>
+            <xs:enumeration value="aarch64"/>
+        </xs:restriction>
+    </xs:simpleType>
+
     <xs:complexType name="repair-steps">
         <xs:sequence>
             <xs:element name="pre-migration" type="steps" minOccurs="0"
@@ -671,13 +690,52 @@
         </xs:sequence>
     </xs:complexType>
 
+    <xs:complexType name="fulltextsearch-provider">
+        <xs:simpleContent>
+            <xs:extension base="php-class">
+                <xs:attribute name="min-version" type="version" use="optional"/>
+                <xs:attribute name="max-version" type="version" use="optional"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
     <xs:complexType name="fulltextsearch">
         <xs:sequence>
             <xs:element name="platform" type="php-class" minOccurs="0"
                         maxOccurs="unbounded"/>
-            <xs:element name="provider" type="php-class" minOccurs="0"
+            <xs:element name="provider" type="fulltextsearch-provider" minOccurs="0"
                         maxOccurs="unbounded"/>
         </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="trash">
+        <xs:sequence>
+            <xs:element name="backend" type="trash-backend" minOccurs="1"
+                        maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="trash-backend">
+        <xs:simpleContent>
+            <xs:extension base="php-class">
+                <xs:attribute name="for" type="php-class" use="required"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <xs:complexType name="versions">
+        <xs:sequence>
+            <xs:element name="backend" type="versions-backend" minOccurs="1"
+                        maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="versions-backend">
+        <xs:simpleContent>
+            <xs:extension base="php-class">
+                <xs:attribute name="for" type="php-class" use="required"/>
+            </xs:extension>
+        </xs:simpleContent>
     </xs:complexType>
 
     <xs:simpleType name="php-class">

@@ -26,9 +26,11 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\CalDAV;
 
+use DateTimeImmutable;
+use DateTimeInterface;
+use OCA\DAV\CalDAV\Trashbin\Plugin as TrashbinPlugin;
 use OCA\DAV\DAV\Sharing\IShareable;
 use OCA\DAV\Exception\UnsupportedLimitOnInitialSyncException;
 use OCP\IConfig;
@@ -42,15 +44,18 @@ use Sabre\DAV\PropPatch;
  * Class Calendar
  *
  * @package OCA\DAV\CalDAV
- * @property BackendInterface|CalDavBackend $caldavBackend
+ * @property CalDavBackend $caldavBackend
  */
-class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
+class Calendar extends \Sabre\CalDAV\Calendar implements IRestorable, IShareable {
 
 	/** @var IConfig */
 	private $config;
 
 	/** @var IL10N */
 	protected $l10n;
+
+	/** @var bool */
+	private $useTrashbin = true;
 
 	/**
 	 * Calendar constructor.
@@ -61,6 +66,13 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 	 * @param IConfig $config
 	 */
 	public function __construct(BackendInterface $caldavBackend, $calendarInfo, IL10N $l10n, IConfig $config) {
+		// Convert deletion date to ISO8601 string
+		if (isset($calendarInfo[TrashbinPlugin::PROPERTY_DELETED_AT])) {
+			$calendarInfo[TrashbinPlugin::PROPERTY_DELETED_AT] = (new DateTimeImmutable())
+				->setTimestamp($calendarInfo[TrashbinPlugin::PROPERTY_DELETED_AT])
+				->format(DateTimeInterface::ATOM);
+		}
+
 		parent::__construct($caldavBackend, $calendarInfo);
 
 		if ($this->getName() === BirthdayService::BIRTHDAY_CALENDAR_URI) {
@@ -269,7 +281,10 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 			$this->config->setUserValue($userId, 'dav', 'generateBirthdayCalendar', 'no');
 		}
 
-		parent::delete();
+		$this->caldavBackend->deleteCalendar(
+			$this->calendarInfo['id'],
+			!$this->useTrashbin
+		);
 	}
 
 	public function propPatch(PropPatch $propPatch) {
@@ -398,5 +413,13 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 		}
 
 		return parent::getChanges($syncToken, $syncLevel, $limit);
+	}
+
+	public function restore(): void {
+		$this->caldavBackend->restoreCalendar((int) $this->calendarInfo['id']);
+	}
+
+	public function disableTrashbin(): void {
+		$this->useTrashbin = false;
 	}
 }

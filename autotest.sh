@@ -29,7 +29,10 @@ if [ -z "$PHP_EXE" ]; then
 	PHP_EXE=php
 fi
 PHP=$(which "$PHP_EXE")
-PHPUNIT=$(which phpunit)
+if [ -z "$PHPUNIT_EXE" ]; then
+    PHPUNIT_EXE=phpunit
+fi
+PHPUNIT=$(which "$PHPUNIT_EXE")
 
 set -e
 
@@ -309,8 +312,10 @@ function execute_tests {
 
 			echo "Waiting for Postgres initialisation ..."
 
-			# grep exits on the first match and then the script continues
-			docker logs -f "$DOCKER_CONTAINER_ID" 2>&1 | grep -q "database system is ready to accept connections"
+			if ! apps/files_external/tests/env/wait-for-connection $DATABASEHOST 5432 60; then
+				echo "[ERROR] Waited 60 seconds for $DATABASEHOST, no response" >&2
+				exit 1
+			fi
 
 			echo "Postgres is up."
 		else

@@ -1,7 +1,7 @@
 OC.L10N.register(
     "files_external",
     {
-    "External storages" : "Penyimpanan Eksternal",
+    "External storage" : "Penyimpanan eksternal",
     "Personal" : "Pribadi",
     "System" : "Sistem",
     "Grant access" : "Berikan hak akses",
@@ -88,10 +88,8 @@ OC.L10N.register(
     "SFTP" : "SFTP",
     "Root" : "Root",
     "SFTP with secret key login" : "SFTP dengan kunci rahasia masuk",
-    "SMB / CIFS" : "SMB / CIFS",
     "Share" : "Bagikan",
     "Show hidden files" : "Lihat berkas tersembunyi",
-    "SMB / CIFS using OC login" : "SMB / CIFS menggunakan OC login",
     "Username as share" : "Nama pengguna berbagi",
     "OpenStack Object Storage" : "OpenStack Object Storage",
     "Service name" : "Nama layanan",
@@ -103,13 +101,15 @@ OC.L10N.register(
     "Scope" : "Skop",
     "Open documentation" : "Buka dokumentasi",
     "Folder name" : "Nama folder",
-    "External storage" : "Penyimpanan eksternal",
     "Authentication" : "Otentikasi",
     "Configuration" : "Konfigurasi",
     "Available for" : "Tersedia untuk",
     "Add storage" : "Tambahkan penyimpanan",
     "Advanced settings" : "Pengaturan Lanjutan",
     "Allow users to mount external storage" : "Izinkan pengguna untuk mengaitkan penyimpanan eksternal",
-    "(group)" : "(grup)"
+    "External storages" : "Penyimpanan Eksternal",
+    "(group)" : "(grup)",
+    "SMB / CIFS" : "SMB / CIFS",
+    "SMB / CIFS using OC login" : "SMB / CIFS menggunakan OC login"
 },
 "nplurals=1; plural=0;");

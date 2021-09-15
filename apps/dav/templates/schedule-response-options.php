@@ -1,6 +1,5 @@
 <?php
 style('dav', 'schedule-response');
-//script('dav', 'schedule-response');
 ?>
 
 <div class="update">

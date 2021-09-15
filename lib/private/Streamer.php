@@ -7,6 +7,7 @@
  * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author szaimen <szaimen@e.mail.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Victor Dubiniuk <dubiniuk@owncloud.com>
  *
@@ -25,7 +26,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC;
 
 use OC\Files\Filesystem;
@@ -78,7 +78,7 @@ class Streamer {
 		 * larger than 4GiB), but it should not happen in the real world.
 		 *
 		 * We also have to check for a size above 0. As negative sizes could be
-		 * from not fully scanned external storages. And then things fall apart
+		 * from not fully scanned external storage. And then things fall apart
 		 * if somebody tries to package to much.
 		 */
 		if ($size > 0 && $size < 4 * 1000 * 1000 * 1000 && $numberOfFiles < 65536) {

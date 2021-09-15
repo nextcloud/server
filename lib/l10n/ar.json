@@ -1,6 +1,5 @@
 { "translations": {
     "Cannot write into \"config\" directory!" : "الكتابة في مجلد \"config\" غير ممكنة!",
-    "This can usually be fixed by giving the webserver write access to the config directory" : "يمكن حل هذا عادة بإعطاء خادم الوب صلاحية الكتابة في مجلد config",
     "See %s" : "أنظر %s",
     "Sample configuration detected" : "تم اكتشاف إعدادات عيّنة",
     "%1$s and %2$s" : "%1$s و %2$s",
@@ -53,7 +52,6 @@
     "Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP." : "فضلاً إحذف إعداد open_basedir من ملف php.ini لديك أو حوّل إلى PHP إصدار 64 بت.",
     "Set an admin username." : "اعداد اسم مستخدم للمدير",
     "Set an admin password." : "اعداد كلمة مرور للمدير",
-    "Can't create or write into the data directory %s" : "لا يمكن الإنشاء أو الكتابة في مجلد البيانات %s",
     "You are not allowed to share %s" : "أنت غير مسموح لك أن تشارك %s",
     "Click the button below to open it." : "أنقر على الزر أدناه لفتحه.",
     "Could not find category \"%s\"" : "تعذر العثور على المجلد \"%s\"",
@@ -110,13 +108,14 @@
     "Login canceled by app" : "تم إلغاء الدخول مِن طرف التطبيق",
     "a safe home for all your data" : "المكان الآمن لجميع بياناتك",
     "File is currently busy, please try again later" : "إنّ الملف مشغول الآمن، يرجى إعادة المحاولة لاحقًا",
-    "Can't read file" : "لا يمكن قراءة الملف",
     "Application is not enabled" : "التطبيق غير مفعّل",
     "Authentication error" : "لم يتم التأكد من الشخصية بنجاح",
     "Token expired. Please reload page." : "انتهت صلاحية الكلمة , يرجى اعادة تحميل الصفحة",
     "This can usually be fixed by giving the webserver write access to the config directory. See %s" : "يمكن إصلاح هذا الخطا بإعطاء مخدّم الموقع صلاحيات التعديل على مجلد الإعدادات. أنظر %s",
     "Storage is temporarily not available" : "وحدة التخزين غير متوفرة",
-    "Following databases are supported: %s" : "قواعد البيانات التالية مدعومة: %s",
-    "Invalid Federated Cloud ID" : "معرّف سحابة الاتحاد غير صالح"
+    "This can usually be fixed by giving the webserver write access to the config directory" : "يمكن حل هذا عادة بإعطاء خادم الوب صلاحية الكتابة في مجلد config",
+    "Can't create or write into the data directory %s" : "لا يمكن الإنشاء أو الكتابة في مجلد البيانات %s",
+    "Invalid Federated Cloud ID" : "معرّف سحابة الاتحاد غير صالح",
+    "Can't read file" : "لا يمكن قراءة الملف"
 },"pluralForm" :"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"
 }

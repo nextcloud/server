@@ -118,12 +118,9 @@
     "Could not lock node" : "No s'ha pogut bloquejar el node",
     "Could not lock path" : "No s'ha pogut bloquejar la ruta d'accés",
     "Wrong or no update parameter given" : "S'ha donat un paràmetre o un paràmetre d'actualització incorrecte",
-    "Can't change permissions for public share links" : "No es poden canviar els permisos per als enllaços compartits públics",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "No s’ha pogut compartir enviant la contrasenya per Nextcloud Talk perquè Nextcloud Talk no està activat",
     "shared by %s" : "compartit per %s",
     "Download all files" : "Descarrega tots els fitxers",
     "Direct link" : "Enllaç directe",
-    "Add to your Nextcloud" : "Afegiu al vostre NextCloud",
     "Share API is disabled" : "Compartir l'API està desactivat",
     "File sharing" : "Compartició de fitxers",
     "Share will expire tomorrow" : "La compartició caducarà demà",
@@ -221,14 +218,17 @@
     "For more info, please ask the person who sent this link." : "Per més informació contacteu amb qui us ha enviat l'enllaç.",
     "Share note" : "Comparteix nota",
     "Toggle grid view" : "Commuta la vista de la graella",
-    "Download %s" : "Baixa %s",
     "Upload files to %s" : "Carrega fitxers a %s",
     "Note" : "Nota",
     "Select or drop files" : "Selecciona o deixa anar els fitxers",
     "Uploading files" : "Càrregant fitxers",
     "Uploaded files:" : "Fitxers carregats:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Si carregueu els fitxers accepteu les %1$scondicions del servei%2$s.",
+    "Add to your Nextcloud" : "Afegiu al vostre NextCloud",
     "invalid permissions" : "permisos no vàlids",
-    "Name, email, or federated cloud ID …" : "Nom, correu o ID de núvol federat …"
+    "Can't change permissions for public share links" : "No es poden canviar els permisos per als enllaços compartits públics",
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "No s’ha pogut compartir enviant la contrasenya per Nextcloud Talk perquè Nextcloud Talk no està activat",
+    "Name, email, or federated cloud ID …" : "Nom, correu o ID de núvol federat …",
+    "Download %s" : "Baixa %s"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

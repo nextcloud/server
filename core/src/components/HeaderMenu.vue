@@ -27,13 +27,14 @@
 		class="header-menu">
 		<a class="header-menu__trigger"
 			href="#"
+			:aria-label="ariaLabel"
 			:aria-controls="`header-menu-${id}`"
 			:aria-expanded="opened"
-			aria-haspopup="true"
+			aria-haspopup="menu"
 			@click.prevent="toggleMenu">
 			<slot name="trigger" />
 		</a>
-		<div v-if="opened"
+		<div v-show="opened"
 			:id="`header-menu-${id}`"
 			class="header-menu__wrapper"
 			role="menu">
@@ -64,6 +65,10 @@ export default {
 		id: {
 			type: String,
 			required: true,
+		},
+		ariaLabel: {
+			type: String,
+			default: '',
 		},
 		open: {
 			type: Boolean,
@@ -158,6 +163,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.notifications:not(:empty) ~ #unified-search {
+	order: -1;
+	.header-menu__carret {
+		right: 175px;
+	}
+}
 .header-menu {
 	&__trigger {
 		display: flex;
@@ -179,10 +190,10 @@ export default {
 	}
 
 	&__wrapper {
-		position: absolute;
+		position: fixed;
 		z-index: 2000;
 		top: 50px;
-		right: 5px;
+		right: 0;
 		box-sizing: border-box;
 		margin: 0;
 		border-radius: 0 0 var(--border-radius) var(--border-radius);
@@ -193,7 +204,7 @@ export default {
 
 	&__carret {
 		position: absolute;
-		right: 10px;
+		right: 128px;
 		bottom: 100%;
 		width: 0;
 		height: 0;
@@ -206,7 +217,7 @@ export default {
 	&__content {
 		overflow: auto;
 		width: 350px;
-		max-width: 350px;
+		max-width: 100vw;
 		min-height: calc(44px * 1.5);
 		max-height: calc(100vh - 50px * 2);
 	}

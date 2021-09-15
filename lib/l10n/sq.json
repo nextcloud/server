@@ -1,6 +1,5 @@
 { "translations": {
     "Cannot write into \"config\" directory!" : "Nuk shkruhet dot te drejtoria \"config\"!",
-    "This can usually be fixed by giving the webserver write access to the config directory" : "Zakonisht kjo mund të ndreqet duke i akorduar shërbyesit web të drejta shkrimi mbi drejtorinë e formësimeve",
     "See %s" : "Shihni %s",
     "Sample configuration detected" : "U gjet formësim shembull",
     "It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php" : "U pa se është kopjuar shembulli për formësime. Kjo mund të prishë instalimin tuaj dhe nuk mbulohet. Ju lutemi, lexoni dokumentimin, përpara se të kryeni ndryshime te config.php",
@@ -64,15 +63,11 @@
     "Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP." : "Ju lutemi, hiqeni rregullimin open_basedir nga php.ini juaj ose hidhuni te PHP për 64-bit.",
     "Set an admin username." : "Caktoni një emër përdoruesi për përgjegjësin.",
     "Set an admin password." : "Caktoni një fjalëkalim për përgjegjësin.",
-    "Can't create or write into the data directory %s" : "S’e krijon ose s’shkruan dot te drejtoria e të dhënave %s",
     "Sharing backend %s must implement the interface OCP\\Share_Backend" : "Mekanizmi i shërbimit për ndarje %s duhet të sendërtojë ndërfaqen OCP\\Share_Backend",
     "Sharing backend %s not found" : "S’u gjet mekanizmi i shërbimit për ndarje %s",
     "Sharing backend for %s not found" : "S’u gjet mekanizmi i shërbimit për ndarje për %s",
     "Open »%s«" : "Hap»1 %s«",
     "You are not allowed to share %s" : "Nuk ju lejohet ta ndani %s me të tjerët",
-    "Can’t increase permissions of %s" : "Nuk mund të shtohen lejet e %s",
-    "Files can’t be shared with delete permissions" : "Skedarët nuk mund të ndahen me leje të fshira",
-    "Files can’t be shared with create permissions" : "matchSkedarët nuk mund të ndahen me leje të krijuara",
     "Expiration date is in the past" : "Data e skadimit bie në të kaluarën",
     "Click the button below to open it." : "Kliko butonin më poshtë për të hapur atë.",
     "The requested share does not exist anymore" : "Ndarja e kërkuar nuk ekziston më",
@@ -132,7 +127,6 @@
     "Login canceled by app" : "Hyrja u anulua nga aplikacioni",
     "a safe home for all your data" : "Një shtëpi e sigurt për të dhënat e tua",
     "File is currently busy, please try again later" : "Kartela tani është e zënë, ju lutemi, riprovoni më vonë.",
-    "Can't read file" : "S'lexohet dot kartela",
     "Application is not enabled" : "Aplikacioni s’është aktivizuar",
     "Authentication error" : "Gabim mirëfilltësimi",
     "Token expired. Please reload page." : "Token-i ka skaduar. Ju lutem ringarkoni faqen.",
@@ -171,9 +165,13 @@
     "Storage connection error. %s" : "Gabim lidhje te depozita. %s",
     "Storage is temporarily not available" : "Hapsira ruajtëse nuk është në dispozicion përkohësisht",
     "Storage connection timeout. %s" : "Mbarim kohe lidhjeje për depozitën. %s",
-    "Following databases are supported: %s" : "Mbulohen bazat vijuese të të dhënave: %s",
-    "Following platforms are supported: %s" : "Mbulohen platformat vijuese: %s",
+    "This can usually be fixed by giving the webserver write access to the config directory" : "Zakonisht kjo mund të ndreqet duke i akorduar shërbyesit web të drejta shkrimi mbi drejtorinë e formësimeve",
+    "Can't create or write into the data directory %s" : "S’e krijon ose s’shkruan dot te drejtoria e të dhënave %s",
     "Invalid Federated Cloud ID" : "ID Federated Cloud e pavlefshme",
-    "Can’t set expiration date more than %s days in the future" : "Nuk mund të caktohet data e skadimit më shumë se %s ditë në të ardhmen"
+    "Can’t increase permissions of %s" : "Nuk mund të shtohen lejet e %s",
+    "Files can’t be shared with delete permissions" : "Skedarët nuk mund të ndahen me leje të fshira",
+    "Files can’t be shared with create permissions" : "matchSkedarët nuk mund të ndahen me leje të krijuara",
+    "Can’t set expiration date more than %s days in the future" : "Nuk mund të caktohet data e skadimit më shumë se %s ditë në të ardhmen",
+    "Can't read file" : "S'lexohet dot kartela"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

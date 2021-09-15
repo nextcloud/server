@@ -61,7 +61,7 @@ OC.L10N.register(
     "%s (restricted)" : "%s (kısıtlı)",
     "Please enter a valid time span" : "Lütfen geçerli bir tarih aralığı seçin",
     "Select a request URL" : "Bir istek adresi seçin",
-    "Predefined URLs" : "Hazır Adresler",
+    "Predefined URLs" : "Hazır adresler",
     "Files WebDAV" : "Dosya WebDAV",
     "Others" : "Diğerleri",
     "Custom URL" : "Özel adres",
@@ -83,7 +83,7 @@ OC.L10N.register(
     "Available flows" : "Kullanılabilecek akışlar",
     "For details on how to write your own flow, check out the development documentation." : "Kendi akışınızı nasıl yazacağınızı öğrenmek için geliştirme belgelerine bakabilirsiniz.",
     "More flows" : "Diğer akışlar",
-    "Browse the app store" : "Uygulama mağaasına gözat",
+    "Browse the App Store" : "Uygulama mağazasına göz atın",
     "Show less" : "Daha az ayrıntı",
     "Show more" : "Daha çok ayrıntı",
     "Configured flows" : "Yapılandırılmış akışlar",
@@ -114,6 +114,7 @@ OC.L10N.register(
     "Request user agent" : "Kullanıcı uygulaması istensin",
     "User group membership" : "Kullanıcı grubu üyeliği",
     "is member of" : "şunun üyesi olan",
-    "is not member of" : "şunun üyesi olmayan"
+    "is not member of" : "şunun üyesi olmayan",
+    "Browse the app store" : "Uygulama mağazasına göz atın"
 },
 "nplurals=2; plural=(n > 1);");

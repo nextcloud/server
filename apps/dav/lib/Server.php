@@ -8,7 +8,7 @@
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
@@ -32,7 +32,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV;
 
 use OCA\DAV\AppInfo\PluginManager;
@@ -165,7 +164,8 @@ class Server {
 				$this->server->addPlugin(\OC::$server->query(\OCA\DAV\CalDAV\Schedule\IMipPlugin::class));
 			}
 
-			$this->server->addPlugin(new CalDAV\WebcalCaching\Plugin($request));
+			$this->server->addPlugin(\OC::$server->get(\OCA\DAV\CalDAV\Trashbin\Plugin::class));
+			$this->server->addPlugin(new \OCA\DAV\CalDAV\WebcalCaching\Plugin($request));
 			$this->server->addPlugin(new \Sabre\CalDAV\Subscriptions\Plugin());
 
 			$this->server->addPlugin(new \Sabre\CalDAV\Notifications\Plugin());
@@ -238,6 +238,7 @@ class Server {
 						\OC::$server->getConfig(),
 						$this->request,
 						\OC::$server->getPreviewManager(),
+						\OC::$server->getUserSession(),
 						false,
 						!\OC::$server->getConfig()->getSystemValue('debug', false)
 					)
@@ -254,7 +255,7 @@ class Server {
 				);
 				if ($view !== null) {
 					$this->server->addPlugin(
-						new QuotaPlugin($view, false));
+						new QuotaPlugin($view));
 				}
 				$this->server->addPlugin(
 					new TagsPlugin(

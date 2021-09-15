@@ -1,5 +1,5 @@
 { "translations": {
-    "External storages" : "Zunanje shrambe",
+    "External storage" : "Zunanja shramba",
     "Personal" : "Osebno",
     "System" : "Sistem",
     "Grant access" : "Odobri dostop",
@@ -100,13 +100,11 @@
     "SFTP" : "SFTP",
     "Root" : "Koren",
     "SFTP with secret key login" : "Prijava prek protokola SFTP z geslom",
-    "SMB / CIFS" : "SMB / CIFS",
     "Share" : "Souporaba",
     "Show hidden files" : "Pokaži skrite datoteke",
     "Verify ACL access when listing files" : "Overi dostop ACL pri izpisu seznama datotek",
     "Check the ACL's of each file or folder inside a directory to filter out items where the user has no read permissions, comes with a performance penalty" : "Preverite ACL vsake datoteke ali mape, da filtrirate vire, za katere uporabnik nima dovoljenja za branje. Opravilo je lahko časovno iz zmogljivostno zahtevno.",
     "Timeout" : "Časovni zamik",
-    "SMB / CIFS using OC login" : "SMB / CIFS z uporabo prijave OC",
     "Username as share" : "Uporabniško ime za souporabo",
     "OpenStack Object Storage" : "Shramba predmeta OpenStack",
     "Service name" : "Ime storitve",
@@ -124,7 +122,6 @@
     "Open documentation" : "Odpri dokumentacijo-",
     "External storage enables you to mount external storage services and devices as secondary Nextcloud storage devices. You may also allow users to mount their own external storage services." : "Zunanja shramba omogoča uporabo in priklop zunanjih storitev za shranjevanje in povezane naprave kot dodatna skladišča Nextcloud. Dovoliti je mogoče tudi priklapljanje uporabniških zunanjih shramb v skupno okolje.",
     "Folder name" : "Ime mape",
-    "External storage" : "Zunanja shramba",
     "Authentication" : "Overitev",
     "Configuration" : "Nastavitve",
     "Available for" : "Na voljo za",
@@ -132,7 +129,10 @@
     "Add storage" : "Dodaj shrambo",
     "Advanced settings" : "Napredne nastavitve",
     "Allow users to mount external storage" : "Dovoli uporabnikom priklapljanje zunanje shrambe",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Splošna poverila je mogoče uporabiti za overitev z več zunanjimi shrambami, ki uporabljajo enaka poverila.",
-    "(group)" : "(skupina)"
+    "External storages" : "Zunanje shrambe",
+    "(group)" : "(skupina)",
+    "SMB / CIFS" : "SMB / CIFS",
+    "SMB / CIFS using OC login" : "SMB / CIFS z uporabo prijave OC",
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Splošna poverila je mogoče uporabiti za overitev z več zunanjimi shrambami, ki uporabljajo enaka poverila."
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }

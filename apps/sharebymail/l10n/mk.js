@@ -25,7 +25,7 @@ OC.L10N.register(
     "Password to access %1$s was sent to you" : "Лозинката за пристап до %1$s е испратена до вас",
     "Password to access {file} was sent to you" : "Лозинката за пристап до {file}  е испратена до вас",
     "Sharing %1$s failed, because this item is already shared with user %2$s" : "Споделувањето на %1$s е неуспешно, бидејќи истото веќе е споделено со корисникот %2$s",
-    "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Неможе да се испрати автоматски генерирана лозинка. Ве молиме внесете ја вашата е-пошта адреса во параметрите за лични податоци и обидете се повторно.",
+    "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Неможе да се испрати автоматски генерирана лозинка. Ве молиме внесете ја вашата е-пошта адреса во параметрите за лични податоци и обидете се повторно.",
     "Failed to send share by email" : "Неуспешно испраќање на споделување по е-пошта.",
     "%1$s shared »%2$s« with you" : "%1$s сподели »%2$s« со вас",
     "%1$s shared »%2$s« with you." : "%1$s сподели »%2$s« со вас.",
@@ -50,6 +50,7 @@ OC.L10N.register(
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Дозволете им на корисниците да споделуваат персонални линкови до датотеки и папки со внесување на адреса на е-пошта.",
     "Send password by mail" : "Испрати лозинка преку е-пошта",
     "Reply to initiator" : "Одговор до иницијаторот",
+    "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Неможе да се испрати автоматски генерирана лозинка. Ве молиме внесете ја вашата е-пошта адреса во параметрите за лични податоци и обидете се повторно.",
     "Enforce password protection" : "Задолжителна заштита со лозинка"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

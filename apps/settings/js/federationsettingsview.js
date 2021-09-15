@@ -119,7 +119,10 @@
 		_registerEvents: function() {
 			var self = this;
 			_.each(this._inputFields, function(field) {
-				if (field === 'avatar') {
+				if (
+					field === 'avatar' ||
+					field === 'email'
+				) {
 					return;
 				}
 				self.$('#' + field).keyUpDelayedOrEnter(_.bind(self._onInputChanged, self), true);
@@ -207,13 +210,13 @@
 			if (verifyAvailable) {
 				if (field === 'twitter' || field === 'website') {
 					var verifyStatus = this.$('#' + field + 'form > .verify > #verify-' + field);
-					verifyStatus.attr('data-origin-title', t('core', 'Verify'));
+					verifyStatus.attr('data-origin-title', t('settings', 'Verify'));
 					verifyStatus.attr('src', OC.imagePath('core', 'actions/verify.svg'));
 					verifyStatus.data('status', '0');
 					verifyStatus.addClass('verify-action');
 				} else if (field === 'email') {
 					var verifyStatus = this.$('#' + field + 'form > .verify > #verify-' + field);
-					verifyStatus.attr('data-origin-title', t('core', 'Verifying …'));
+					verifyStatus.attr('data-origin-title', t('settings', 'Verifying …'));
 					verifyStatus.data('status', '1');
 					verifyStatus.attr('src', OC.imagePath('core', 'actions/verifying.svg'));
 				}

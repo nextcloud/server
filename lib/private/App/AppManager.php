@@ -35,7 +35,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\App;
 
 use OC\AppConfig;
@@ -536,7 +535,7 @@ class AppManager implements IAppManager {
 		foreach ($apps as $appId) {
 			$info = $this->getAppInfo($appId);
 			if ($info === null) {
-				$incompatibleApps[] = ['id' => $appId];
+				$incompatibleApps[] = ['id' => $appId, 'name' => $appId];
 			} elseif (!\OC_App::isAppCompatible($version, $info)) {
 				$incompatibleApps[] = $info;
 			}

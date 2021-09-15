@@ -1,6 +1,6 @@
 <?php
 /**
- *
+ * @copyright Copyright (c) 2016 Robin Appelman <robin@icewind.nl>
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
@@ -15,7 +15,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -129,7 +129,7 @@ class S3Signature implements SignatureInterface {
 	) {
 		$modify = [
 			'remove_headers' => ['X-Amz-Date'],
-			'set_headers' => ['Date' => gmdate(\DateTime::RFC2822)]
+			'set_headers' => ['Date' => gmdate(\DateTimeInterface::RFC2822)]
 		];
 
 		// Add the security token header if one is being used by the credentials

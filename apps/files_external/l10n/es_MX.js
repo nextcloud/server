@@ -1,7 +1,7 @@
 OC.L10N.register(
     "files_external",
     {
-    "External storages" : "Almacenamiento externo",
+    "External storage" : "Almacenamiento externo",
     "Personal" : "Personal",
     "System" : "Sistema",
     "Grant access" : "Conceder acceso",
@@ -96,10 +96,8 @@ OC.L10N.register(
     "SFTP" : "SFTP",
     "Root" : "Raíz",
     "SFTP with secret key login" : "Inicio de sesión SFTP con llave secreta",
-    "SMB / CIFS" : "SMB / CIFS",
     "Share" : "Compartir",
     "Show hidden files" : "Mostrar archivos ocultos",
-    "SMB / CIFS using OC login" : "SMB / CIFS usando inicio de sesión OC",
     "Username as share" : "Usuario como elemento compartido",
     "OpenStack Object Storage" : "OpenStack Object Storage",
     "Service name" : "Nombre del servicio",
@@ -115,7 +113,6 @@ OC.L10N.register(
     "Scope" : "Alcance",
     "Open documentation" : "Abrir documentación",
     "Folder name" : "Nombre de la carpeta",
-    "External storage" : "Almacenamiento externo",
     "Authentication" : "Autenticación",
     "Configuration" : "Configuración",
     "Available for" : "Disponible para",
@@ -123,6 +120,9 @@ OC.L10N.register(
     "Add storage" : "Agregar almacenamiento",
     "Advanced settings" : "Configuraciones avanzadas",
     "Allow users to mount external storage" : "Permitir a los usuarios montar almacenamiento externo",
-    "(group)" : "(grupo)"
+    "External storages" : "Almacenamiento externo",
+    "(group)" : "(grupo)",
+    "SMB / CIFS" : "SMB / CIFS",
+    "SMB / CIFS using OC login" : "SMB / CIFS usando inicio de sesión OC"
 },
 "nplurals=2; plural=(n != 1);");

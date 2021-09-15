@@ -26,7 +26,7 @@
 			{{ t('core', 'Loading apps …') }}
 		</p>
 		<p v-else-if="loadingAppsError" class="loading-error text-center">
-			{{ t('core', 'Could not fetch list of apps from the app store.') }}
+			{{ t('core', 'Could not fetch list of apps from the App Store.') }}
 		</p>
 		<p v-else class="text-center">
 			{{ t('core', 'Installing apps …') }}
@@ -44,10 +44,10 @@
 					<strong>{{ t('core', 'App download or installation failed') }}</strong>
 				</p>
 				<p v-else-if="!app.isCompatible">
-					<strong>{{ t('core', 'Can\'t install this app because it is not compatible') }}</strong>
+					<strong>{{ t('core', 'Cannot install this app because it is not compatible') }}</strong>
 				</p>
 				<p v-else-if="!app.canInstall">
-					<strong>{{ t('core', 'Can\'t install this app') }}</strong>
+					<strong>{{ t('core', 'Cannot install this app') }}</strong>
 				</p>
 			</div>
 		</div>
@@ -81,12 +81,15 @@ const recommended = {
 	},
 	spreed: {
 		description: t('core', 'Chatting, video calls, screensharing, online meetings and web conferencing – in your browser and with mobile apps.'),
+		icon: imagePath('core', 'apps/spreed.svg')
 	},
 	richdocuments: {
 		description: t('core', 'Collaboratively edit office documents.'),
+		icon: imagePath('core', 'apps/richdocuments.svg')
 	},
 	richdocumentscode: {
 		description: t('core', 'Local document editing back-end used by the Collabora Online app.'),
+		icon: imagePath('core', 'apps/richdocumentscode.svg')
 	},
 }
 const recommendedIds = Object.keys(recommended)

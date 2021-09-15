@@ -141,6 +141,8 @@ OCA.Sharing.App = {
 			{
 				id: 'shares.pending',
 				showPending: true,
+				detailsViewEnabled: false,
+				defaultFileActionsDisabled: true,
 				sharedWithUser: true,
 				fileActions: this._acceptShareAction(),
 				config: OCA.Files.App.getFilesConfig(),
@@ -296,6 +298,10 @@ OCA.Sharing.App = {
 			type: OCA.Files.FileActions.TYPE_INLINE,
 			actionHandler(fileName, context) {
 				const shareId = context.$file.data('shareId')
+				let shareBase = 'shares/pending'
+				if (context.$file.attr('data-remote-id')) {
+					shareBase = 'remote_shares/pending'
+				}
 				$.post(OC.linkToOCS('apps/files_sharing/api/v1/shares/pending', 2) + shareId)
 					.success(function(result) {
 						context.fileList.remove(context.fileInfoModel.attributes.name)
@@ -311,8 +317,21 @@ OCA.Sharing.App = {
 			permissions: OC.PERMISSION_ALL,
 			iconClass: 'icon-close',
 			type: OCA.Files.FileActions.TYPE_INLINE,
+			shouldRender(context) {
+				// disable rejecting group shares from the pending list because they anyway
+				// land back into that same list
+				if (context.$file.attr('data-remote-id') && parseInt(context.$file.attr('data-share-type'), 10) === OC.Share.SHARE_TYPE_REMOTE_GROUP) {
+					return false
+				}
+				return true
+			},
 			actionHandler(fileName, context) {
 				const shareId = context.$file.data('shareId')
+				let shareBase = 'shares'
+				if (context.$file.attr('data-remote-id')) {
+					shareBase = 'remote_shares/pending'
+				}
+
 				$.ajax({
 					url: OC.linkToOCS('apps/files_sharing/api/v1/shares', 2) + shareId,
 					type: 'DELETE',

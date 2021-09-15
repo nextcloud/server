@@ -20,7 +20,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 // WARNING: this should be moved to proper AppFramework handling
 // Check if we are a user
 if (!\OC::$server->getUserSession()->isLoggedIn()) {

@@ -104,9 +104,29 @@ const initLiveTimestamps = () => {
 }
 
 /**
+ * Moment doesn't have aliases for every locale and doesn't parse some locale IDs correctly so we need to alias them
+ */
+const localeAliases = {
+	zh: 'zh-cn',
+	zh_Hans: 'zh-cn',
+	zh_Hans_CN: 'zh-cn',
+	zh_Hans_HK: 'zh-cn',
+	zh_Hans_MO: 'zh-cn',
+	zh_Hans_SG: 'zh-cn',
+	zh_Hant: 'zh-hk',
+	zh_Hant_HK: 'zh-hk',
+	zh_Hant_MO: 'zh-mo',
+	zh_Hant_TW: 'zh-tw',
+}
+let locale = OC.getLocale()
+if (Object.prototype.hasOwnProperty.call(localeAliases, locale)) {
+	locale = localeAliases[locale]
+}
+
+/**
  * Set users locale to moment.js as soon as possible
  */
-moment.locale(OC.getLocale())
+moment.locale(locale)
 
 /**
  * Initializes core

@@ -45,14 +45,14 @@ export default {
 		},
 		enableButtonTooltip() {
 			if (this.app.needsDownload) {
-				return t('settings', 'The app will be downloaded from the app store')
+				return t('settings', 'The app will be downloaded from the App Store')
 			}
 			return false
 		},
 		forceEnableButtonTooltip() {
 			const base = t('settings', 'This app is not marked as compatible with your Nextcloud version. If you continue you will still be able to install the app. Note that the app might not work as expected.')
 			if (this.app.needsDownload) {
-				return base + ' ' + t('settings', 'The app will be downloaded from the app store')
+				return base + ' ' + t('settings', 'The app will be downloaded from the App Store')
 			}
 			return base
 		},

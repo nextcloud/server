@@ -15,14 +15,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Files_Versions\Events;
 
 use OCP\EventDispatcher\Event;
@@ -59,14 +58,14 @@ class CreateVersionEvent extends Event {
 	 *
 	 * @return Node
 	 */
-	public function getNode() {
+	public function getNode(): Node {
 		return $this->node;
 	}
 
 	/**
 	 * disable versions for this file
 	 */
-	public function disableVersions() {
+	public function disableVersions(): void {
 		$this->createVersion = false;
 	}
 
@@ -75,7 +74,7 @@ class CreateVersionEvent extends Event {
 	 *
 	 * @return bool
 	 */
-	public function shouldCreateVersion() {
+	public function shouldCreateVersion(): bool {
 		return $this->createVersion;
 	}
 }

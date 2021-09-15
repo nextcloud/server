@@ -11,8 +11,9 @@ declare(strict_types=1);
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
+ * @author J0WI <J0WI@users.noreply.github.com>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Maxence Lange <maxence@nextcloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
@@ -34,7 +35,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_Sharing\Controller;
 
 use OCP\Constants;
@@ -192,7 +192,9 @@ class ShareesAPIController extends OCSController {
 				$shareTypes[] = IShare::TYPE_DECK;
 			}
 		} else {
-			$shareTypes[] = IShare::TYPE_GROUP;
+			if ($this->shareManager->allowGroupSharing()) {
+				$shareTypes[] = IShare::TYPE_GROUP;
+			}
 			$shareTypes[] = IShare::TYPE_EMAIL;
 		}
 

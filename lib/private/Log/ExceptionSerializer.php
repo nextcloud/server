@@ -19,21 +19,27 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Log;
 
 use OC\Core\Controller\SetupController;
-use OC\HintException;
 use OC\Security\IdentityProof\Key;
 use OC\Setup;
 use OC\SystemConfig;
+use OCA\Encryption\Controller\RecoveryController;
+use OCA\Encryption\Controller\SettingsController;
+use OCA\Encryption\Crypto\Crypt;
+use OCA\Encryption\Crypto\Encryption;
+use OCA\Encryption\Hooks\UserHooks;
+use OCA\Encryption\KeyManager;
+use OCA\Encryption\Session;
+use OCP\HintException;
 
 class ExceptionSerializer {
 	public const methodsWithSensitiveParameters = [
@@ -113,6 +119,61 @@ class ExceptionSerializer {
 		Key::class => [
 			'__construct'
 		],
+		\Redis::class => [
+			'auth'
+		],
+		\RedisCluster::class => [
+			'__construct'
+		],
+		Crypt::class => [
+			'symmetricEncryptFileContent',
+			'encrypt',
+			'generatePasswordHash',
+			'encryptPrivateKey',
+			'decryptPrivateKey',
+			'isValidPrivateKey',
+			'symmetricDecryptFileContent',
+			'checkSignature',
+			'createSignature',
+			'decrypt',
+			'multiKeyDecrypt',
+			'multiKeyEncrypt',
+		],
+		RecoveryController::class => [
+			'adminRecovery',
+			'changeRecoveryPassword'
+		],
+		SettingsController::class => [
+			'updatePrivateKeyPassword',
+		],
+		Encryption::class => [
+			'encrypt',
+			'decrypt',
+		],
+		KeyManager::class => [
+			'checkRecoveryPassword',
+			'storeKeyPair',
+			'setRecoveryKey',
+			'setPrivateKey',
+			'setFileKey',
+			'setAllFileKeys',
+		],
+		Session::class => [
+			'setPrivateKey',
+			'prepareDecryptAll',
+		],
+		\OCA\Encryption\Users\Setup::class => [
+			'setupUser',
+		],
+		UserHooks::class => [
+			'login',
+			'postCreateUser',
+			'postDeleteUser',
+			'prePasswordReset',
+			'postPasswordReset',
+			'preSetPassphrase',
+			'setPassphrase',
+		],
 	];
 
 	private function editTrace(array &$sensitiveValues, array $traceLine): array {
@@ -167,14 +228,27 @@ class ExceptionSerializer {
 		}, $filteredTrace);
 	}
 
-	private function encodeArg($arg) {
+	private function encodeArg($arg, $nestingLevel = 5) {
 		if (is_object($arg)) {
-			$data = get_object_vars($arg);
-			$data['__class__'] = get_class($arg);
-			return array_map([$this, 'encodeArg'], $data);
+			if ($nestingLevel === 0) {
+				return [
+					'__class__' => get_class($arg),
+					'__properties__' => 'Encoding skipped as the maximum nesting level was reached',
+				];
+			}
+
+			$objectInfo = [ '__class__' => get_class($arg) ];
+			$objectVars = get_object_vars($arg);
+			return array_map(function ($arg) use ($nestingLevel) {
+				return $this->encodeArg($arg, $nestingLevel - 1);
+			}, array_merge($objectInfo, $objectVars));
 		}
 
 		if (is_array($arg)) {
+			if ($nestingLevel === 0) {
+				return ['Encoding skipped as the maximum nesting level was reached'];
+			}
+
 			// Only log the first 5 elements of an array unless we are on debug
 			if ((int)$this->systemConfig->getValue('loglevel', 2) !== 0) {
 				$elemCount = count($arg);
@@ -183,7 +257,9 @@ class ExceptionSerializer {
 					$arg[] = 'And ' . ($elemCount - 5) . ' more entries, set log level to debug to see all entries';
 				}
 			}
-			return array_map([$this, 'encodeArg'], $arg);
+			return array_map(function ($e) use ($nestingLevel) {
+				return $this->encodeArg($e, $nestingLevel - 1);
+			}, $arg);
 		}
 
 		return $arg;

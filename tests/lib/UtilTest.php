@@ -10,8 +10,6 @@ namespace Test;
 
 use OC_Util;
 use OCP\App\IAppManager;
-use OCP\IConfig;
-use OCP\IUser;
 
 /**
  * Class UtilTest
@@ -168,53 +166,6 @@ class UtilTest extends \Test\TestCase {
 			// part in the middle is ok
 			['super movie part one.mkv', true],
 			['super.movie.part.mkv', true],
-		];
-	}
-
-	/**
-	 * @dataProvider dataProviderForTestIsSharingDisabledForUser
-	 * @param array $groups existing groups
-	 * @param array $membership groups the user belong to
-	 * @param array $excludedGroups groups which should be excluded from sharing
-	 * @param bool $expected expected result
-	 */
-	public function testIsSharingDisabledForUser($groups, $membership, $excludedGroups, $expected) {
-		$config = $this->getMockBuilder(IConfig::class)->disableOriginalConstructor()->getMock();
-		$groupManager = $this->getMockBuilder('OCP\IGroupManager')->disableOriginalConstructor()->getMock();
-		$user = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
-
-		$config
-				->expects($this->at(0))
-				->method('getAppValue')
-				->with('core', 'shareapi_exclude_groups', 'no')
-				->willReturn('yes');
-		$config
-				->expects($this->at(1))
-				->method('getAppValue')
-				->with('core', 'shareapi_exclude_groups_list')
-				->willReturn(json_encode($excludedGroups));
-
-		$groupManager
-				->expects($this->at(0))
-				->method('getUserGroupIds')
-				->with($user)
-				->willReturn($membership);
-
-		$result = \OC_Util::isSharingDisabledForUser($config, $groupManager, $user);
-
-		$this->assertSame($expected, $result);
-	}
-
-	public function dataProviderForTestIsSharingDisabledForUser() {
-		return [
-			// existing groups, groups the user belong to, groups excluded from sharing, expected result
-			[['g1', 'g2', 'g3'], [], ['g1'], false],
-			[['g1', 'g2', 'g3'], [], [], false],
-			[['g1', 'g2', 'g3'], ['g2'], ['g1'], false],
-			[['g1', 'g2', 'g3'], ['g2'], [], false],
-			[['g1', 'g2', 'g3'], ['g1', 'g2'], ['g1'], false],
-			[['g1', 'g2', 'g3'], ['g1', 'g2'], ['g1', 'g2'], true],
-			[['g1', 'g2', 'g3'], ['g1', 'g2'], ['g1', 'g2', 'g3'], true],
 		];
 	}
 

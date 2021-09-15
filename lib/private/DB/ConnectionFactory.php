@@ -26,7 +26,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\DB;
 
 use Doctrine\Common\EventManager;
@@ -89,6 +88,10 @@ class ConnectionFactory {
 		$this->config = $systemConfig;
 		if ($this->config->getValue('mysql.utf8mb4', false)) {
 			$this->defaultConnectionParams['mysql']['charset'] = 'utf8mb4';
+		}
+		$collationOverride = $this->config->getValue('mysql.collation', null);
+		if ($collationOverride) {
+			$this->defaultConnectionParams['mysql']['collation'] = $collationOverride;
 		}
 	}
 

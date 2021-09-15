@@ -28,14 +28,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Theming\Controller;
 
 use OC\Template\SCSSCacher;
@@ -373,9 +372,29 @@ class ThemingController extends Controller {
 	 */
 	public function getManifest($app) {
 		$cacheBusterValue = $this->config->getAppValue('theming', 'cachebuster', '0');
+		if ($app === 'core' || $app === 'settings') {
+			$name = $this->themingDefaults->getName();
+			$shortName = $this->themingDefaults->getName();
+			$startUrl = $this->urlGenerator->getBaseUrl();
+			$description = $this->themingDefaults->getSlogan();
+		} else {
+			$info = $this->appManager->getAppInfo($app);
+			$name = $info['name'] . ' - ' . $this->themingDefaults->getName();
+			$shortName = $info['name'];
+			if (strpos($this->request->getRequestUri(), '/index.php/') !== false) {
+				$startUrl = $this->urlGenerator->getBaseUrl() . '/index.php/apps/' . $app . '/';
+			} else {
+				$startUrl = $this->urlGenerator->getBaseUrl() . '/apps/' . $app . '/';
+			}
+			$description = $info['summary'];
+		}
 		$responseJS = [
-			'name' => $this->themingDefaults->getName(),
-			'start_url' => $this->urlGenerator->getBaseUrl(),
+			'name' => $name,
+			'short_name' => $shortName,
+			'start_url' => $startUrl,
+			'theme_color' => $this->themingDefaults->getColorPrimary(),
+			'background_color' => $this->themingDefaults->getColorPrimary(),
+			'description' => $description,
 			'icons' =>
 				[
 					[

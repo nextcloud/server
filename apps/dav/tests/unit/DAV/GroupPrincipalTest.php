@@ -7,9 +7,10 @@
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @license AGPL-3.0
@@ -27,7 +28,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Tests\unit\DAV;
 
 use OC\Group\Group;
@@ -38,19 +38,20 @@ use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Share\IManager;
+use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\DAV\PropPatch;
 
 class GroupPrincipalTest extends \Test\TestCase {
-	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IConfig|MockObject */
 	private $config;
 
-	/** @var IGroupManager | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var IGroupManager | MockObject */
 	private $groupManager;
 
-	/** @var IUserSession | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var IUserSession | MockObject */
 	private $userSession;
 
-	/** @var IManager | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var IManager | MockObject */
 	private $shareManager;
 
 	/** @var GroupPrincipalBackend */
@@ -224,13 +225,22 @@ class GroupPrincipalTest extends \Test\TestCase {
 
 	/**
 	 * @dataProvider searchPrincipalsDataProvider
+	 * @param bool $sharingEnabled
+	 * @param bool $groupSharingEnabled
+	 * @param bool $groupsOnly
+	 * @param string $test
+	 * @param array $result
 	 */
-	public function testSearchPrincipals($sharingEnabled, $groupsOnly, $test, $result) {
+	public function testSearchPrincipals(bool $sharingEnabled, bool $groupSharingEnabled, bool $groupsOnly, string $test, array $result): void {
 		$this->shareManager->expects($this->once())
 			->method('shareAPIEnabled')
 			->willReturn($sharingEnabled);
 
-		if ($sharingEnabled) {
+		$this->shareManager->expects($sharingEnabled ? $this->once() : $this->never())
+			->method('allowGroupSharing')
+			->willReturn($groupSharingEnabled);
+
+		if ($sharingEnabled && $groupSharingEnabled) {
 			$this->shareManager->expects($this->once())
 				->method('shareWithGroupMembersOnly')
 				->willReturn($groupsOnly);
@@ -264,7 +274,7 @@ class GroupPrincipalTest extends \Test\TestCase {
 		$group5 = $this->createMock(IGroup::class);
 		$group5->method('getGID')->willReturn('group5');
 
-		if ($sharingEnabled) {
+		if ($sharingEnabled && $groupSharingEnabled) {
 			$this->groupManager->expects($this->once())
 				->method('search')
 				->with('Foo')
@@ -280,24 +290,35 @@ class GroupPrincipalTest extends \Test\TestCase {
 
 	public function searchPrincipalsDataProvider() {
 		return [
-			[true, false, 'allof', ['principals/groups/group1', 'principals/groups/group2', 'principals/groups/group3', 'principals/groups/group4', 'principals/groups/group5']],
-			[true, false, 'anyof', ['principals/groups/group1', 'principals/groups/group2', 'principals/groups/group3', 'principals/groups/group4', 'principals/groups/group5']],
-			[true, true, 'allof', ['principals/groups/group1', 'principals/groups/group2', 'principals/groups/group5']],
-			[true, true, 'anyof', ['principals/groups/group1', 'principals/groups/group2', 'principals/groups/group5']],
-			[false, false, 'allof', []],
-			[false, false, 'anyof', []],
+			[true, true, false, 'allof', ['principals/groups/group1', 'principals/groups/group2', 'principals/groups/group3', 'principals/groups/group4', 'principals/groups/group5']],
+			[true, true, false, 'anyof', ['principals/groups/group1', 'principals/groups/group2', 'principals/groups/group3', 'principals/groups/group4', 'principals/groups/group5']],
+			[true, true, true, 'allof', ['principals/groups/group1', 'principals/groups/group2', 'principals/groups/group5']],
+			[true, true, true, 'anyof', ['principals/groups/group1', 'principals/groups/group2', 'principals/groups/group5']],
+			[true, false, false, 'allof', []],
+			[false, true, false, 'anyof', []],
+			[false, false, false, 'allof', []],
+			[false, false, false, 'anyof', []],
 		];
 	}
 
 	/**
 	 * @dataProvider findByUriDataProvider
+	 * @param bool $sharingEnabled
+	 * @param bool $groupSharingEnabled
+	 * @param bool $groupsOnly
+	 * @param string $findUri
+	 * @param string|null $result
 	 */
-	public function testFindByUri($sharingEnabled, $groupsOnly, $findUri, $result) {
+	public function testFindByUri(bool $sharingEnabled, bool $groupSharingEnabled, bool $groupsOnly, string $findUri, ?string $result): void {
 		$this->shareManager->expects($this->once())
 			->method('shareAPIEnabled')
 			->willReturn($sharingEnabled);
 
-		if ($sharingEnabled) {
+		$this->shareManager->expects($sharingEnabled ? $this->once() : $this->never())
+			->method('allowGroupSharing')
+			->willReturn($groupSharingEnabled);
+
+		if ($sharingEnabled && $groupSharingEnabled) {
 			$this->shareManager->expects($this->once())
 				->method('shareWithGroupMembersOnly')
 				->willReturn($groupsOnly);
@@ -325,19 +346,23 @@ class GroupPrincipalTest extends \Test\TestCase {
 
 	public function findByUriDataProvider() {
 		return [
-			[false, false, 'principal:principals/groups/group1', null],
-			[false, false, 'principal:principals/groups/group3', null],
-			[false, true, 'principal:principals/groups/group1', null],
-			[false, true, 'principal:principals/groups/group3', null],
-			[true, true, 'principal:principals/groups/group1', 'principals/groups/group1'],
-			[true, true, 'principal:principals/groups/group3', null],
-			[true, false, 'principal:principals/groups/group1', 'principals/groups/group1'],
-			[true, false, 'principal:principals/groups/group3', 'principals/groups/group3'],
+			[false, false, false, 'principal:principals/groups/group1', null],
+			[false, false, false, 'principal:principals/groups/group3', null],
+			[false, true, false, 'principal:principals/groups/group1', null],
+			[false, true, false, 'principal:principals/groups/group3', null],
+			[false, false, true, 'principal:principals/groups/group1', null],
+			[false, false, true, 'principal:principals/groups/group3', null],
+			[true, false, true, 'principal:principals/groups/group1', null],
+			[true, false, true, 'principal:principals/groups/group3', null],
+			[true, true, true, 'principal:principals/groups/group1', 'principals/groups/group1'],
+			[true, true, true, 'principal:principals/groups/group3', null],
+			[true, true, false, 'principal:principals/groups/group1', 'principals/groups/group1'],
+			[true, true, false, 'principal:principals/groups/group3', 'principals/groups/group3'],
 		];
 	}
 
 	/**
-	 * @return Group|\PHPUnit\Framework\MockObject\MockObject
+	 * @return Group|MockObject
 	 */
 	private function mockGroup($gid) {
 		$fooGroup = $this->createMock(Group::class);

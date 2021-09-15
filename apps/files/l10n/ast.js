@@ -55,9 +55,6 @@ OC.L10N.register(
     "\"{name}\" is an invalid file name." : "\"{name}\" ye un nome de ficheru inválidu.",
     "File name cannot be empty." : "El nome de ficheru nun pue quedar baleru.",
     "\"{name}\" is not an allowed filetype" : "«{name}» nun ye una triba de ficheru permitida",
-    "Storage of {owner} is full, files can not be updated or synced anymore!" : "L'almacenamientu de {owner} ta completu, ¡yá nun se pueden anovar o sincronizar ficheros!",
-    "Your storage is full, files can not be updated or synced anymore!" : "L'almacenamientu ta completu, ¡yá nun se pueden anovar o sincronizar ficheros!",
-    "_matches '{filter}'_::_match '{filter}'_" : ["concasa '{filter}'","concasa '{filter}'"],
     "View in folder" : "Ver na carpeta",
     "Copied!" : "¡Copióse!",
     "Path" : "Camín",
@@ -110,12 +107,8 @@ OC.L10N.register(
     "Shared by link" : "Compartíos per enllaz",
     "Text file" : "Ficheru de testu",
     "New text file.txt" : "Nuevu testu ficheru.txt",
-    "Unshare" : "Dexar de compartir",
-    "Storage of {owner} is almost full ({usedSpacePercent}%)" : "L'almacenamientu de {owner} ta casi completu ({usedSpacePercent}%)",
-    "Your storage is almost full ({usedSpacePercent}%)" : "L'almacenamientu ta casi completu ({usedSpacePercent}%)",
-    "A new file or folder has been <strong>created</strong>" : "<strong>Creóse</strong> un ficheru o carpeta nuevos",
-    "A file or folder has been <strong>deleted</strong>" : "<strong>Desanicióse</strong> un ficheru o carpeta",
-    "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Llendar les notificaciones tocantes a creación y cambeos a tos <strong>ficheros favoritos</strong <em>(namás Stream)</em>",
-    "A file or folder has been <strong>restored</strong>" : "<strong>Restauróse</strong> un ficheru o carpeta"
+    "Storage of {owner} is full, files can not be updated or synced anymore!" : "L'almacenamientu de {owner} ta completu, ¡yá nun se pueden anovar o sincronizar ficheros!",
+    "Your storage is full, files can not be updated or synced anymore!" : "L'almacenamientu ta completu, ¡yá nun se pueden anovar o sincronizar ficheros!",
+    "_matches '{filter}'_::_match '{filter}'_" : ["concasa '{filter}'","concasa '{filter}'"]
 },
 "nplurals=2; plural=(n != 1);");

@@ -9,7 +9,6 @@ OC.L10N.register(
     "Working remotely" : "Удалённая работа",
     "User status" : "Статус пользователя",
     "Clear status message after" : "Очистить сообщение о состоянии через",
-    "What's your status?" : "Укажите свой статус",
     "Set status" : "Установить статус",
     "Online status" : "Статус работы в сети",
     "Status message" : "Описание статуса",
@@ -33,6 +32,7 @@ OC.L10N.register(
     "4 hours" : "4 часа",
     "Mute all notifications" : "Отключить все уведомления",
     "Appear offline" : "Возможно, не в сети",
-    "Clear status after" : "Удалить статус через"
+    "Clear status after" : "Удалить статус через",
+    "What's your status?" : "Укажите свой статус"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

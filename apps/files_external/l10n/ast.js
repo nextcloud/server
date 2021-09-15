@@ -1,7 +1,7 @@
 OC.L10N.register(
     "files_external",
     {
-    "External storages" : "Almacenamientos internos",
+    "External storage" : "Almacenamientu esternu",
     "Personal" : "Personal",
     "System" : "Sistema",
     "Grant access" : "Conceder accesu",
@@ -56,10 +56,8 @@ OC.L10N.register(
     "Nextcloud" : "Nextcloud",
     "SFTP" : "SFTP",
     "Root" : "Raíz",
-    "SMB / CIFS" : "SMB / CIFS",
     "Share" : "Compartir",
     "Show hidden files" : "Amosar ficheros anubríos",
-    "SMB / CIFS using OC login" : "SMB / CIFS usando accesu OC",
     "Username as share" : "Nome d'usuariu como Compartición",
     "OpenStack Object Storage" : "OpenStack Object Storage",
     "Service name" : "Nome del serviciu",
@@ -68,12 +66,14 @@ OC.L10N.register(
     "Scope" : "Ámbitu",
     "Open documentation" : "Abrir documentación",
     "Folder name" : "Nome de la carpeta",
-    "External storage" : "Almacenamientu esternu",
     "Authentication" : "Autenticación",
     "Configuration" : "Configuración",
     "Available for" : "Disponible pa",
     "Add storage" : "Amestar almacenamientu",
     "Advanced settings" : "Axustes avanzaos",
-    "(group)" : "(grupu)"
+    "External storages" : "Almacenamientos internos",
+    "(group)" : "(grupu)",
+    "SMB / CIFS" : "SMB / CIFS",
+    "SMB / CIFS using OC login" : "SMB / CIFS usando accesu OC"
 },
 "nplurals=2; plural=(n != 1);");

@@ -8,7 +8,6 @@ declare(strict_types=1);
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Julius Härtl <jus@bitgrid.net>
- * @author Robin Windey <ro.windey@gmail.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
@@ -20,14 +19,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\AppFramework\Bootstrap;
 
 use Closure;
@@ -307,12 +305,20 @@ class RegistrationContext {
 	 */
 	public function delegateCapabilityRegistrations(array $apps): void {
 		while (($registration = array_shift($this->capabilities)) !== null) {
+			$appId = $registration->getAppId();
+			if (!isset($apps[$appId])) {
+				// If we land here something really isn't right. But at least we caught the
+				// notice that is otherwise emitted for the undefined index
+				$this->logger->error("App $appId not loaded for the capability registration");
+
+				continue;
+			}
+
 			try {
-				$apps[$registration->getAppId()]
+				$apps[$appId]
 					->getContainer()
 					->registerCapability($registration->getService());
 			} catch (Throwable $e) {
-				$appId = $registration->getAppId();
 				$this->logger->error("Error during capability registration of $appId: " . $e->getMessage(), [
 					'exception' => $e,
 				]);
@@ -374,11 +380,20 @@ class RegistrationContext {
 	 */
 	public function delegateContainerRegistrations(array $apps): void {
 		while (($registration = array_shift($this->services)) !== null) {
+			$appId = $registration->getAppId();
+			if (!isset($apps[$appId])) {
+				// If we land here something really isn't right. But at least we caught the
+				// notice that is otherwise emitted for the undefined index
+				$this->logger->error("App $appId not loaded for the container service registration");
+
+				continue;
+			}
+
 			try {
 				/**
 				 * Register the service and convert the callable into a \Closure if necessary
 				 */
-				$apps[$registration->getAppId()]
+				$apps[$appId]
 					->getContainer()
 					->registerService(
 						$registration->getName(),
@@ -386,7 +401,6 @@ class RegistrationContext {
 						$registration->isShared()
 					);
 			} catch (Throwable $e) {
-				$appId = $registration->getAppId();
 				$this->logger->error("Error during service registration of $appId: " . $e->getMessage(), [
 					'exception' => $e,
 				]);
@@ -394,15 +408,23 @@ class RegistrationContext {
 		}
 
 		while (($registration = array_shift($this->aliases)) !== null) {
+			$appId = $registration->getAppId();
+			if (!isset($apps[$appId])) {
+				// If we land here something really isn't right. But at least we caught the
+				// notice that is otherwise emitted for the undefined index
+				$this->logger->error("App $appId not loaded for the container alias registration");
+
+				continue;
+			}
+
 			try {
-				$apps[$registration->getAppId()]
+				$apps[$appId]
 					->getContainer()
 					->registerAlias(
 						$registration->getAlias(),
 						$registration->getTarget()
 					);
 			} catch (Throwable $e) {
-				$appId = $registration->getAppId();
 				$this->logger->error("Error during service alias registration of $appId: " . $e->getMessage(), [
 					'exception' => $e,
 				]);
@@ -410,16 +432,24 @@ class RegistrationContext {
 		}
 
 		while (($registration = array_shift($this->parameters)) !== null) {
+			$appId = $registration->getAppId();
+			if (!isset($apps[$appId])) {
+				// If we land here something really isn't right. But at least we caught the
+				// notice that is otherwise emitted for the undefined index
+				$this->logger->error("App $appId not loaded for the container parameter registration");
+
+				continue;
+			}
+
 			try {
-				$apps[$registration->getAppId()]
+				$apps[$appId]
 					->getContainer()
 					->registerParameter(
 						$registration->getName(),
 						$registration->getValue()
 					);
 			} catch (Throwable $e) {
-				$appId = $registration->getAppId();
-				$this->logger->error("Error during service alias registration of $appId: " . $e->getMessage(), [
+				$this->logger->error("Error during service parameter registration of $appId: " . $e->getMessage(), [
 					'exception' => $e,
 				]);
 			}
@@ -431,12 +461,20 @@ class RegistrationContext {
 	 */
 	public function delegateMiddlewareRegistrations(array $apps): void {
 		while (($middleware = array_shift($this->middlewares)) !== null) {
+			$appId = $middleware->getAppId();
+			if (!isset($apps[$appId])) {
+				// If we land here something really isn't right. But at least we caught the
+				// notice that is otherwise emitted for the undefined index
+				$this->logger->error("App $appId not loaded for the container middleware registration");
+
+				continue;
+			}
+
 			try {
-				$apps[$middleware->getAppId()]
+				$apps[$appId]
 					->getContainer()
 					->registerMiddleWare($middleware->getService());
 			} catch (Throwable $e) {
-				$appId = $middleware->getAppId();
 				$this->logger->error("Error during capability registration of $appId: " . $e->getMessage(), [
 					'exception' => $e,
 				]);

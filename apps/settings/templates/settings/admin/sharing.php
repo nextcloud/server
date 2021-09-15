@@ -52,10 +52,10 @@
 	<p id="setDefaultInternalExpireDate" class="double-indent <?php if ($_['shareDefaultInternalExpireDateSet'] === 'no' || $_['shareAPIEnabled'] === 'no') {
 	p('hidden');
 }?>">
-		<?php p($l->t('Expire after ')); ?>
+		<?php p($l->t('Expire after') . ' '); ?>
 		<input type="text" name='shareapi_internal_expire_after_n_days' id="shareapiInternalExpireAfterNDays" placeholder="<?php p('7')?>"
 			   value='<?php p($_['shareInternalExpireAfterNDays']) ?>' />
-		<?php p($l->t('days')); ?>
+		<?php p($l->t('day(s)')); ?>
 		<input type="checkbox" name="shareapi_enforce_internal_expire_date" id="shareapiInternalEnforceExpireDate" class="checkbox"
 			   value="1" <?php if ($_['shareInternalEnforceExpireDate'] === 'yes') {
 	print_unescaped('checked="checked"');
@@ -75,10 +75,10 @@
 	<p id="setDefaultRemoteExpireDate" class="double-indent <?php if ($_['shareDefaultRemoteExpireDateSet'] === 'no' || $_['shareAPIEnabled'] === 'no') {
 	p('hidden');
 }?>">
-		<?php p($l->t('Expire after ')); ?>
+		<?php p($l->t('Expire after'). ' '); ?>
 		<input type="text" name='shareapi_remote_expire_after_n_days' id="shareapiRemoteExpireAfterNDays" placeholder="<?php p('7')?>"
 			   value='<?php p($_['shareRemoteExpireAfterNDays']) ?>' />
-		<?php p($l->t('days')); ?>
+		<?php p($l->t('day(s)')); ?>
 		<input type="checkbox" name="shareapi_enforce_remote_expire_date" id="shareapiRemoteEnforceExpireDate" class="checkbox"
 			   value="1" <?php if ($_['shareRemoteEnforceExpireDate'] === 'yes') {
 	print_unescaped('checked="checked"');
@@ -125,10 +125,10 @@
 	<p id="setDefaultExpireDate" class="double-indent <?php if ($_['allowLinks'] !== 'yes' || $_['shareDefaultExpireDateSet'] === 'no' || $_['shareAPIEnabled'] === 'no') {
 	p('hidden');
 }?>">
-		<?php p($l->t('Expire after ')); ?>
+		<?php p($l->t('Expire after'). ' '); ?>
 		<input type="text" name='shareapi_expire_after_n_days' id="shareapiExpireAfterNDays" placeholder="<?php p('7')?>"
 			   value='<?php p($_['shareExpireAfterNDays']) ?>' />
-		<?php p($l->t('days')); ?>
+		<?php p($l->t('day(s)')); ?>
 		<input type="checkbox" name="shareapi_enforce_expire_date" id="shareapiEnforceExpireDate" class="checkbox"
 			   value="1" <?php if ($_['shareEnforceExpireDate'] === 'yes') {
 	print_unescaped('checked="checked"');
@@ -138,6 +138,14 @@
 	<p class="<?php if ($_['shareAPIEnabled'] === 'no') {
 	p('hidden');
 }?>">
+	<p class="indent">
+		<?php p($l->t('Exclude groups from creating link shares:'));?>
+	</p>
+	<p id="selectLinksExcludedGroups" class="indent <?php if ($_['allowLinks'] === 'no') {
+	p('hidden');
+} ?>">
+		<input name="shareapi_allow_links_exclude_groups" type="hidden" id="linksExcludedGroups" value="<?php p($_['allowLinksExcludeGroups']) ?>" style="width: 400px" class="noJSAutoUpdate"/>
+	</p>
 		<input type="checkbox" name="shareapi_allow_resharing" id="allowResharing" class="checkbox"
 			   value="1" <?php if ($_['allowResharing'] === 'yes') {
 	print_unescaped('checked="checked"');
@@ -176,7 +184,7 @@
 } ?>">
 		<input name="shareapi_exclude_groups_list" type="hidden" id="excludedGroups" value="<?php p($_['shareExcludedGroupsList']) ?>" style="width: 400px" class="noJSAutoUpdate"/>
 		<br />
-		<em><?php p($l->t('These groups will still be able to receive shares, but not to initiate them.')); ?></em>
+		 <em><?php p($l->t('These groups will still be able to receive shares, but not to initiate them.')); ?></em>
 	</p>
 
 	<p class="<?php if ($_['shareAPIEnabled'] === 'no') {

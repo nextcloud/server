@@ -1,6 +1,7 @@
 OC.L10N.register(
     "files_external",
     {
+    "External storage" : "Stocare externă",
     "Personal" : "Personal",
     "System" : "Sistem",
     "Grant access" : "Permite accesul",
@@ -64,22 +65,21 @@ OC.L10N.register(
     "SFTP" : "SFTP",
     "Root" : "Root",
     "SFTP with secret key login" : "SFTP cu cheie secretă de autentificare",
-    "SMB / CIFS" : "SMB / CIFS",
     "Share" : "Partajează",
     "Show hidden files" : "Arată fișierele ascunse",
-    "SMB / CIFS using OC login" : "SMB / CIFS folosind autentificare OC",
     "Service name" : "Nume serviciu",
     "Name" : "Nume",
     "Storage type" : "Tip stocare",
     "Scope" : "Scop",
     "Open documentation" : "Deschide documentația",
     "Folder name" : "Denumire director",
-    "External storage" : "Stocare externă",
     "Authentication" : "Autentificare",
     "Configuration" : "Configurație",
     "Available for" : "Disponibil pentru",
     "Add storage" : "Adauga stocare",
     "Advanced settings" : "Setări avansate",
-    "(group)" : "(grup)"
+    "(group)" : "(grup)",
+    "SMB / CIFS" : "SMB / CIFS",
+    "SMB / CIFS using OC login" : "SMB / CIFS folosind autentificare OC"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

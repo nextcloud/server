@@ -1,7 +1,7 @@
 OC.L10N.register(
     "files_external",
     {
-    "External storages" : "Utanáliggjandi gagnageymslur",
+    "External storage" : "Ytri gagnageymsla",
     "Personal" : "Einka",
     "System" : "Kerfi",
     "Grant access" : "Veita aðgengi",
@@ -100,11 +100,9 @@ OC.L10N.register(
     "SFTP" : "SFTP",
     "Root" : "Rót (root)",
     "SFTP with secret key login" : "SFTP innskráning með leynilykli",
-    "SMB / CIFS" : "SMB / CIFS",
     "Share" : "Deila",
     "Show hidden files" : "Sýna faldar skrár",
     "Timeout" : "Tímamörk",
-    "SMB / CIFS using OC login" : "SMB / CIFS með OC-innskráningu",
     "Username as share" : "Notandanafn sem sameign",
     "OpenStack Object Storage" : "OpenStack Object Storage",
     "Service name" : "Heiti á þjónustu",
@@ -120,7 +118,6 @@ OC.L10N.register(
     "Scope" : "Umfang",
     "Open documentation" : "Opna hjálparskjöl",
     "Folder name" : "Nafn möppu",
-    "External storage" : "Ytri gagnageymsla",
     "Authentication" : "Auðkenning",
     "Configuration" : "Uppsetning",
     "Available for" : "Tiltækt fyrir",
@@ -128,6 +125,9 @@ OC.L10N.register(
     "Add storage" : "Bæta við gagnahirslu",
     "Advanced settings" : "Ítarlegri valkostir",
     "Allow users to mount external storage" : "Leyfa notendum að tengja ytri gagnageymslur í skráakerfi",
-    "(group)" : "(hópur)"
+    "External storages" : "Utanáliggjandi gagnageymslur",
+    "(group)" : "(hópur)",
+    "SMB / CIFS" : "SMB / CIFS",
+    "SMB / CIFS using OC login" : "SMB / CIFS með OC-innskráningu"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

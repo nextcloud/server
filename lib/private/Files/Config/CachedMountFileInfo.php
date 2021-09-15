@@ -14,14 +14,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Files\Config;
 
 use OCP\Files\Config\ICachedMountFileInfo;
@@ -31,7 +30,7 @@ class CachedMountFileInfo extends CachedMountInfo implements ICachedMountFileInf
 	/** @var string */
 	private $internalPath;
 
-	public function __construct(IUser $user, $storageId, $rootId, $mountPoint, $mountId = null, $rootInternalPath = '', $internalPath) {
+	public function __construct(IUser $user, $storageId, $rootId, $mountPoint, $mountId, $rootInternalPath, $internalPath) {
 		parent::__construct($user, $storageId, $rootId, $mountPoint, $mountId, $rootInternalPath);
 		$this->internalPath = $internalPath;
 	}

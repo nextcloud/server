@@ -22,7 +22,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Core\Middleware;
 
 use Exception;
@@ -83,17 +82,12 @@ class TwoFactorMiddleware extends Middleware {
 	 * @param string $methodName
 	 */
 	public function beforeController($controller, $methodName) {
-		if ($this->reflector->hasAnnotation('PublicPage')) {
-			// Don't block public pages
-			return;
-		}
-
 		if ($controller instanceof TwoFactorChallengeController
 			&& $this->userSession->getUser() !== null
 			&& !$this->reflector->hasAnnotation('TwoFactorSetUpDoneRequired')) {
 			$providers = $this->twoFactorManager->getProviderSet($this->userSession->getUser());
 
-			if (!($providers->getProviders() === [] && !$providers->isProviderMissing())) {
+			if (!($providers->getPrimaryProviders() === [] && !$providers->isProviderMissing())) {
 				throw new TwoFactorAuthRequiredException();
 			}
 		}
@@ -101,7 +95,11 @@ class TwoFactorMiddleware extends Middleware {
 		if ($controller instanceof ALoginSetupController
 			&& $this->userSession->getUser() !== null
 			&& $this->twoFactorManager->needsSecondFactor($this->userSession->getUser())) {
-			return;
+			$providers = $this->twoFactorManager->getProviderSet($this->userSession->getUser());
+
+			if ($providers->getProviders() === [] && !$providers->isProviderMissing()) {
+				return;
+			}
 		}
 
 		if ($controller instanceof LoginController && $methodName === 'logout') {

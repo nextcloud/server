@@ -21,7 +21,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Federation\Tests\Controller;
 
 use OCA\Federation\Controller\SettingsController;
@@ -89,7 +88,7 @@ class SettingsControllerTest extends TestCase {
 	 * @param bool $isOwnCloud
 	 */
 	public function testAddServerFail($isTrustedServer, $isOwnCloud) {
-		$this->expectException(\OC\HintException::class);
+		$this->expectException(\OCP\HintException::class);
 
 		$this->trustedServers
 			->expects($this->any())
@@ -137,7 +136,7 @@ class SettingsControllerTest extends TestCase {
 	 * @param bool $isOwnCloud
 	 */
 	public function testCheckServerFail($isTrustedServer, $isOwnCloud) {
-		$this->expectException(\OC\HintException::class);
+		$this->expectException(\OCP\HintException::class);
 
 		$this->trustedServers
 			->expects($this->any())

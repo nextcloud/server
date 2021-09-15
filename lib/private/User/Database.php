@@ -43,20 +43,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
-/*
- *
- * The following SQL statement is just a help for developers and will not be
- * executed!
- *
- * CREATE TABLE `users` (
- *   `uid` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
- *   `password` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
- *   PRIMARY KEY (`uid`)
- * ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
- *
- */
-
 namespace OC\User;
 
 use OC\Cache\CappedMemoryCache;

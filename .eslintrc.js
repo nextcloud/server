@@ -13,5 +13,8 @@ module.exports = {
 	extends: ['@nextcloud'],
 	rules: {
 		'no-tabs': 'warn',
-	}
+		// TODO: make sure we fix this as this is bad vue coding style.
+		// Use proper sync modifier
+		'vue/no-mutating-props': 'warn',
+	},
 }

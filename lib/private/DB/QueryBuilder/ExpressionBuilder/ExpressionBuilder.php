@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Robin Appelman <robin@icewind.nl>
@@ -23,7 +24,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\DB\QueryBuilder\ExpressionBuilder;
 
 use Doctrine\DBAL\Query\Expression\ExpressionBuilder as DoctrineExpressionBuilder;
@@ -425,11 +425,11 @@ class ExpressionBuilder implements IExpressionBuilder {
 	/**
 	 * Returns a IQueryFunction that casts the column to the given type
 	 *
-	 * @param string $column
+	 * @param string|IQueryFunction $column
 	 * @param mixed $type One of IQueryBuilder::PARAM_*
 	 * @return IQueryFunction
 	 */
-	public function castColumn(string $column, $type): IQueryFunction {
+	public function castColumn($column, $type): IQueryFunction {
 		return new QueryFunction(
 			$this->helper->quoteColumnName($column)
 		);

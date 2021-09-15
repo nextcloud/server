@@ -32,7 +32,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Share;
 
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -614,7 +613,7 @@ class Share extends Constants {
 		}
 
 		// group items if we are looking for items shared with the current user
-		if (isset($shareWith) && $shareWith === \OCP\User::getUser()) {
+		if (isset($shareWith) && $shareWith === \OC_User::getUser()) {
 			$items = self::groupItems($items, $itemType);
 		}
 

@@ -1,7 +1,7 @@
 OC.L10N.register(
     "files_external",
     {
-    "External storages" : "Extern lagring",
+    "External storage" : "Extern lagring",
     "Personal" : "Privat",
     "System" : "System",
     "Grant access" : "Bevilja åtkomst",
@@ -101,11 +101,9 @@ OC.L10N.register(
     "SFTP" : "SFTP",
     "Root" : "Root",
     "SFTP with secret key login" : "SFTP-inloggning med hemlig nyckel",
-    "SMB / CIFS" : "SMB / CIFS",
     "Share" : "Dela",
-    "Show hidden files" : "Visa gömda filer",
+    "Show hidden files" : "Visa dolda filer",
     "Timeout" : "Timeout",
-    "SMB / CIFS using OC login" : "SMB / CIFS använder OC-inloggning",
     "Username as share" : "Användarnamn till utdelning",
     "OpenStack Object Storage" : "OpenStack Object Storage",
     "Service name" : "Namn på tjänst",
@@ -123,7 +121,6 @@ OC.L10N.register(
     "Open documentation" : "Öppna dokumentationen",
     "External storage enables you to mount external storage services and devices as secondary Nextcloud storage devices. You may also allow users to mount their own external storage services." : "Externt lagringsutrymme gör det möjligt att montera externa lagringstjänster och enheter som sekundära Nextcloud-lagringsenheter. Du kan också tillåta användare att montera sina egna externa lagringstjänster.",
     "Folder name" : "Mappnamn",
-    "External storage" : "Extern lagring",
     "Authentication" : "Autentisering",
     "Configuration" : "Konfiguration",
     "Available for" : "Tillgänglig för",
@@ -131,7 +128,10 @@ OC.L10N.register(
     "Add storage" : "Lägg till lagring",
     "Advanced settings" : "Avancerade inställningar",
     "Allow users to mount external storage" : "Tillåt användare att montera extern lagring",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globala användaruppgifter kan användas för att autentisera med flera externa lagrings-instanser som använder samma användaruppgifter.",
-    "(group)" : "(grupp)"
+    "External storages" : "Extern lagring",
+    "(group)" : "(grupp)",
+    "SMB / CIFS" : "SMB / CIFS",
+    "SMB / CIFS using OC login" : "SMB / CIFS använder OC-inloggning",
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globala användaruppgifter kan användas för att autentisera med flera externa lagrings-instanser som använder samma användaruppgifter."
 },
 "nplurals=2; plural=(n != 1);");

@@ -22,6 +22,7 @@
  */
 
 import $ from 'jquery'
+import { generateOcsUrl } from '@nextcloud/router'
 
 import OC from '../OC/index'
 
@@ -43,7 +44,7 @@ function call(method, endpoint, options) {
 	options = options || {}
 	$.ajax({
 		type: method.toUpperCase(),
-		url: OC.linkToOCS('apps/provisioning_api/api/v1', 2) + 'config/apps' + endpoint,
+		url: generateOcsUrl('apps/provisioning_api/api/v1/config/apps') + endpoint,
 		data: options.data || {},
 		success: options.success,
 		error: options.error,

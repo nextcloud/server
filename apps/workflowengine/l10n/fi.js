@@ -51,7 +51,7 @@ OC.L10N.register(
     "Delete" : "Poista",
     "Active" : "Aktiivinen",
     "Save" : "Tallenna",
-    "Browse the app store" : "Selaa sovelluskauppaa",
+    "Browse the App Store" : "Selaa Sovelluskauppaa",
     "Show less" : "Näytä vähemmän",
     "Show more" : "Näytä enemmän",
     "matches" : "täsmää",
@@ -80,6 +80,7 @@ OC.L10N.register(
     "Request user agent" : "Pyynnön user agent",
     "User group membership" : "Käyttäjäryhmäjäsenyys",
     "is member of" : "on jäsen",
-    "is not member of" : "ei ole jäsen"
+    "is not member of" : "ei ole jäsen",
+    "Browse the app store" : "Selaa sovelluskauppaa"
 },
 "nplurals=2; plural=(n != 1);");

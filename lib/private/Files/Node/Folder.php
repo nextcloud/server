@@ -28,19 +28,15 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Files\Node;
 
-use OC\DB\QueryBuilder\Literal;
+use OC\Files\Cache\QuerySearchHelper;
 use OC\Files\Search\SearchBinaryOperator;
+use OC\Files\Cache\Wrapper\CacheJail;
 use OC\Files\Search\SearchComparison;
+use OC\Files\Search\SearchOrder;
 use OC\Files\Search\SearchQuery;
-use OC\Files\Storage\Wrapper\Jail;
-use OC\Files\Storage\Storage;
-use OCA\Files_Sharing\SharedStorage;
-use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\Cache\ICacheEntry;
-use OCP\Files\Config\ICachedMountInfo;
 use OCP\Files\FileInfo;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\NotFoundException;
@@ -48,6 +44,7 @@ use OCP\Files\NotPermittedException;
 use OCP\Files\Search\ISearchBinaryOperator;
 use OCP\Files\Search\ISearchComparison;
 use OCP\Files\Search\ISearchOperator;
+use OCP\Files\Search\ISearchOrder;
 use OCP\Files\Search\ISearchQuery;
 use OCP\IUserManager;
 
@@ -234,18 +231,8 @@ class Folder extends Node implements \OCP\Files\Folder {
 			$query = $this->queryFromOperator(new SearchComparison(ISearchComparison::COMPARE_LIKE, 'name', '%' . $query . '%'));
 		}
 
-		// Limit+offset for queries with ordering
-		//
-		// Because we currently can't do ordering between the results from different storages in sql
-		// The only way to do ordering is requesting the $limit number of entries from all storages
-		// sorting them and returning the first $limit entries.
-		//
-		// For offset we have the same problem, we don't know how many entries from each storage should be skipped
-		// by a given $offset, so instead we query $offset + $limit from each storage and return entries $offset..($offset+$limit)
-		// after merging and sorting them.
-		//
-		// This is suboptimal but because limit and offset tend to be fairly small in real world use cases it should
-		// still be significantly better than disabling paging altogether
+		// search is handled by a single query covering all caches that this folder contains
+		// this is done by collect
 
 		$limitToHome = $query->limitToHome();
 		if ($limitToHome && count(explode('/', $this->path)) !== 3) {
@@ -256,60 +243,51 @@ class Folder extends Node implements \OCP\Files\Folder {
 		$mount = $this->root->getMount($this->path);
 		$storage = $mount->getStorage();
 		$internalPath = $mount->getInternalPath($this->path);
-		$internalPath = rtrim($internalPath, '/');
+
+		// collect all caches for this folder, indexed by their mountpoint relative to this folder
+		// and save the mount which is needed later to construct the FileInfo objects
+
 		if ($internalPath !== '') {
-			$internalPath = $internalPath . '/';
+			// a temporary CacheJail is used to handle filtering down the results to within this folder
+			$caches = ['' => new CacheJail($storage->getCache(''), $internalPath)];
+		} else {
+			$caches = ['' => $storage->getCache('')];
 		}
-
-		$subQueryLimit = $query->getLimit() > 0 ? $query->getLimit() + $query->getOffset() : 0;
-		$rootQuery = new SearchQuery(
-			new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_AND, [
-				new SearchComparison(ISearchComparison::COMPARE_LIKE, 'path', $internalPath . '%'),
-				$query->getSearchOperation(),
-			]
-			),
-			$subQueryLimit,
-			0,
-			$query->getOrder(),
-			$query->getUser()
-		);
-
-		$files = [];
-
-		$cache = $storage->getCache('');
-
-		$results = $cache->searchQuery($rootQuery);
-		foreach ($results as $result) {
-			$files[] = $this->cacheEntryToFileInfo($mount, '', $internalPath, $result);
-		}
+		$mountByMountPoint = ['' => $mount];
 
 		if (!$limitToHome) {
 			$mounts = $this->root->getMountsIn($this->path);
 			foreach ($mounts as $mount) {
-				$subQuery = new SearchQuery(
-					$query->getSearchOperation(),
-					$subQueryLimit,
-					0,
-					$query->getOrder(),
-					$query->getUser()
-				);
-
 				$storage = $mount->getStorage();
 				if ($storage) {
-					$cache = $storage->getCache('');
-
 					$relativeMountPoint = ltrim(substr($mount->getMountPoint(), $rootLength), '/');
-					$results = $cache->searchQuery($subQuery);
-					foreach ($results as $result) {
-						$files[] = $this->cacheEntryToFileInfo($mount, $relativeMountPoint, '', $result);
-					}
+					$caches[$relativeMountPoint] = $storage->getCache('');
+					$mountByMountPoint[$relativeMountPoint] = $mount;
 				}
 			}
 		}
 
+		/** @var QuerySearchHelper $searchHelper */
+		$searchHelper = \OC::$server->get(QuerySearchHelper::class);
+		$resultsPerCache = $searchHelper->searchInCaches($query, $caches);
+
+		// loop trough all results per-cache, constructing the FileInfo object from the CacheEntry and merge them all
+		$files = array_merge(...array_map(function (array $results, $relativeMountPoint) use ($mountByMountPoint) {
+			$mount = $mountByMountPoint[$relativeMountPoint];
+			return array_map(function (ICacheEntry $result) use ($relativeMountPoint, $mount) {
+				return $this->cacheEntryToFileInfo($mount, $relativeMountPoint, $result);
+			}, $results);
+		}, array_values($resultsPerCache), array_keys($resultsPerCache)));
+
+		// don't include this folder in the results
+		$files = array_filter($files, function (FileInfo $file) {
+			return $file->getPath() !== $this->getPath();
+		});
+
+		// since results were returned per-cache, they are no longer fully sorted
 		$order = $query->getOrder();
 		if ($order) {
-			usort($files, function (FileInfo $a,FileInfo  $b) use ($order) {
+			usort($files, function (FileInfo $a, FileInfo $b) use ($order) {
 				foreach ($order as $orderField) {
 					$cmp = $orderField->sortFileInfo($a, $b);
 					if ($cmp !== 0) {
@@ -319,18 +297,17 @@ class Folder extends Node implements \OCP\Files\Folder {
 				return 0;
 			});
 		}
-		$files = array_values(array_slice($files, $query->getOffset(), $query->getLimit() > 0 ? $query->getLimit() : null));
 
 		return array_map(function (FileInfo $file) {
 			return $this->createNode($file->getPath(), $file);
 		}, $files);
 	}
 
-	private function cacheEntryToFileInfo(IMountPoint $mount, string $appendRoot, string $trimRoot, ICacheEntry $cacheEntry): FileInfo {
-		$trimLength = strlen($trimRoot);
+	private function cacheEntryToFileInfo(IMountPoint $mount, string $appendRoot, ICacheEntry $cacheEntry): FileInfo {
 		$cacheEntry['internalPath'] = $cacheEntry['path'];
-		$cacheEntry['path'] = $appendRoot . substr($cacheEntry['path'], $trimLength);
-		return new \OC\Files\FileInfo($this->path . '/' . $cacheEntry['path'], $mount->getStorage(), $cacheEntry['internalPath'], $cacheEntry, $mount);
+		$cacheEntry['path'] = $appendRoot . $cacheEntry->getPath();
+		$subPath = $cacheEntry['path'] !== '' ? '/' . $cacheEntry['path'] : '';
+		return new \OC\Files\FileInfo($this->path . $subPath, $mount->getStorage(), $cacheEntry['internalPath'], $cacheEntry, $mount);
 	}
 
 	/**
@@ -372,17 +349,28 @@ class Folder extends Node implements \OCP\Files\Folder {
 			$user = null;
 		}
 		$mountsContainingFile = $mountCache->getMountsForFileId((int)$id, $user);
+
+		// when a user has access trough the same storage trough multiple paths
+		// (such as an external storage that is both mounted for a user and shared to the user)
+		// the mount cache will only hold a single entry for the storage
+		// this can lead to issues as the different ways the user has access to a storage can have different permissions
+		//
+		// so instead of using the cached entries directly, we instead filter the current mounts by the rootid of the cache entry
+
+		$mountRootIds = array_map(function ($mount) {
+			return $mount->getRootId();
+		}, $mountsContainingFile);
+		$mountRootPaths = array_map(function ($mount) {
+			return $mount->getRootInternalPath();
+		}, $mountsContainingFile);
+		$mountRoots = array_combine($mountRootIds, $mountRootPaths);
+
 		$mounts = $this->root->getMountsIn($this->path);
 		$mounts[] = $this->root->getMount($this->path);
-		/** @var IMountPoint[] $folderMounts */
-		$folderMounts = array_combine(array_map(function (IMountPoint $mountPoint) {
-			return $mountPoint->getMountPoint();
-		}, $mounts), $mounts);
 
-		/** @var ICachedMountInfo[] $mountsContainingFile */
-		$mountsContainingFile = array_values(array_filter($mountsContainingFile, function (ICachedMountInfo $cachedMountInfo) use ($folderMounts) {
-			return isset($folderMounts[$cachedMountInfo->getMountPoint()]);
-		}));
+		$mountsContainingFile = array_filter($mounts, function ($mount) use ($mountRoots) {
+			return isset($mountRoots[$mount->getStorageRootId()]);
+		});
 
 		if (count($mountsContainingFile) === 0) {
 			if ($user === $this->getAppDataDirectoryName()) {
@@ -391,18 +379,18 @@ class Folder extends Node implements \OCP\Files\Folder {
 			return [];
 		}
 
-		$nodes = array_map(function (ICachedMountInfo $cachedMountInfo) use ($folderMounts, $id) {
-			$mount = $folderMounts[$cachedMountInfo->getMountPoint()];
+		$nodes = array_map(function (IMountPoint $mount) use ($id, $mountRoots) {
+			$rootInternalPath = $mountRoots[$mount->getStorageRootId()];
 			$cacheEntry = $mount->getStorage()->getCache()->get((int)$id);
 			if (!$cacheEntry) {
 				return null;
 			}
 
 			// cache jails will hide the "true" internal path
-			$internalPath = ltrim($cachedMountInfo->getRootInternalPath() . '/' . $cacheEntry->getPath(), '/');
-			$pathRelativeToMount = substr($internalPath, strlen($cachedMountInfo->getRootInternalPath()));
+			$internalPath = ltrim($rootInternalPath . '/' . $cacheEntry->getPath(), '/');
+			$pathRelativeToMount = substr($internalPath, strlen($rootInternalPath));
 			$pathRelativeToMount = ltrim($pathRelativeToMount, '/');
-			$absolutePath = rtrim($cachedMountInfo->getMountPoint() . $pathRelativeToMount, '/');
+			$absolutePath = rtrim($mount->getMountPoint() . $pathRelativeToMount, '/');
 			return $this->root->createNode($absolutePath, new \OC\Files\FileInfo(
 				$absolutePath, $mount->getStorage(), $cacheEntry->getPath(), $cacheEntry, $mount,
 				\OC::$server->getUserManager()->get($mount->getStorage()->getOwner($pathRelativeToMount))
@@ -411,9 +399,13 @@ class Folder extends Node implements \OCP\Files\Folder {
 
 		$nodes = array_filter($nodes);
 
-		return array_filter($nodes, function (Node $node) {
+		$folders = array_filter($nodes, function (Node $node) {
 			return $this->getRelativePath($node->getPath());
 		});
+		usort($folders, function ($a, $b) {
+			return $b->getPath() <=> $a->getPath();
+		});
+		return $folders;
 	}
 
 	protected function getAppDataDirectoryName(): string {
@@ -492,158 +484,37 @@ class Folder extends Node implements \OCP\Files\Folder {
 	 * @return \OCP\Files\Node[]
 	 */
 	public function getRecent($limit, $offset = 0) {
-		$mimetypeLoader = \OC::$server->getMimeTypeLoader();
-		$mounts = $this->root->getMountsIn($this->path);
-		$mounts[] = $this->getMountPoint();
-
-		$mounts = array_filter($mounts, function (IMountPoint $mount) {
-			return $mount->getStorage() !== null;
-		});
-		$storageIds = array_map(function (IMountPoint $mount) {
-			return $mount->getStorage()->getCache()->getNumericStorageId();
-		}, $mounts);
-		/** @var IMountPoint[] $mountMap */
-		$mountMap = array_combine($storageIds, $mounts);
-		$folderMimetype = $mimetypeLoader->getId(FileInfo::MIMETYPE_FOLDER);
-
-		/*
-		 * Construct an array of the storage id with their prefix path
-		 * This helps us to filter in the final query
-		 */
-		$filters = array_map(function (IMountPoint $mount) {
-			$storage = $mount->getStorage();
-
-			$storageId = $storage->getCache()->getNumericStorageId();
-			$prefix = '';
-
-			if ($storage->instanceOfStorage(Jail::class)) {
-				$prefix = $storage->getUnJailedPath('');
-			}
-
-			return [
-				'storageId' => $storageId,
-				'pathPrefix' => $prefix,
-			];
-		}, $mounts);
-
-		// Search in batches of 500 entries
-		$searchLimit = 500;
-		$results = [];
-		$searchResultCount = 0;
-		$count = 0;
-		do {
-			$searchResult = $this->recentSearch($searchLimit, $offset, $folderMimetype, $filters);
-
-			// Exit condition if there are no more results
-			if (count($searchResult) === 0) {
-				break;
-			}
-
-			$searchResultCount += count($searchResult);
-
-			$parseResult = $this->recentParse($searchResult, $mountMap, $mimetypeLoader);
-
-			foreach ($parseResult as $result) {
-				$results[] = $result;
-			}
-
-			$offset += $searchLimit;
-			$count++;
-		} while (count($results) < $limit && ($searchResultCount < (3 * $limit) || $count < 5));
-
-		return array_slice($results, 0, $limit);
-	}
-
-	private function recentSearch($limit, $offset, $folderMimetype, $filters) {
-		$dbconn = \OC::$server->getDatabaseConnection();
-		$builder = $dbconn->getQueryBuilder();
-		$query = $builder
-			->select('f.*')
-			->from('filecache', 'f');
-
-		/*
-		 * Here is where we construct the filtering.
-		 * Note that this is expensive filtering as it is a lot of like queries.
-		 * However the alternative is we do this filtering and parsing later in php with the risk of looping endlessly
-		 */
-		$storageFilters = $builder->expr()->orX();
-		foreach ($filters as $filter) {
-			$storageFilter = $builder->expr()->andX(
-				$builder->expr()->eq('f.storage', $builder->createNamedParameter($filter['storageId']))
-			);
-
-			if ($filter['pathPrefix'] !== '') {
-				$storageFilter->add(
-					$builder->expr()->like('f.path', $builder->createNamedParameter($dbconn->escapeLikeParameter($filter['pathPrefix']) . '/%'))
-				);
-			}
-
-			$storageFilters->add($storageFilter);
-		}
-
-		$query->andWhere($storageFilters);
-
-		$query->andWhere($builder->expr()->orX(
-		// handle non empty folders separate
-			$builder->expr()->neq('f.mimetype', $builder->createNamedParameter($folderMimetype, IQueryBuilder::PARAM_INT)),
-			$builder->expr()->eq('f.size', new Literal(0))
-		))
-			->andWhere($builder->expr()->notLike('f.path', $builder->createNamedParameter('files_versions/%')))
-			->andWhere($builder->expr()->notLike('f.path', $builder->createNamedParameter('files_trashbin/%')))
-			->orderBy('f.mtime', 'DESC')
-			->setMaxResults($limit)
-			->setFirstResult($offset);
-
-		$result = $query->execute();
-		$rows = $result->fetchAll();
-		$result->closeCursor();
-
-		return $rows;
-	}
-
-	private function recentParse($result, $mountMap, $mimetypeLoader) {
-		$files = array_filter(array_map(function (array $entry) use ($mountMap, $mimetypeLoader) {
-			$mount = $mountMap[$entry['storage']];
-			$entry['internalPath'] = $entry['path'];
-			$entry['mimetype'] = $mimetypeLoader->getMimetypeById($entry['mimetype']);
-			$entry['mimepart'] = $mimetypeLoader->getMimetypeById($entry['mimepart']);
-			$path = $this->getAbsolutePath($mount, $entry['path']);
-			if (is_null($path)) {
-				return null;
-			}
-			$fileInfo = new \OC\Files\FileInfo($path, $mount->getStorage(), $entry['internalPath'], $entry, $mount);
-			return $this->root->createNode($fileInfo->getPath(), $fileInfo);
-		}, $result));
-
-		return array_values(array_filter($files, function (Node $node) {
-			$cacheEntry = $node->getMountPoint()->getStorage()->getCache()->get($node->getId());
-			if (!$cacheEntry) {
-				return false;
-			}
-			$relative = $this->getRelativePath($node->getPath());
-			return $relative !== null && $relative !== '/'
-				&& ($cacheEntry->getPermissions() & \OCP\Constants::PERMISSION_READ) === \OCP\Constants::PERMISSION_READ;
-		}));
-	}
-
-	private function getAbsolutePath(IMountPoint $mount, $path) {
-		$storage = $mount->getStorage();
-		if ($storage->instanceOfStorage('\OC\Files\Storage\Wrapper\Jail')) {
-			if ($storage->instanceOfStorage(SharedStorage::class)) {
-				$storage->getSourceStorage();
-			}
-			/** @var \OC\Files\Storage\Wrapper\Jail $storage */
-			$jailRoot = $storage->getUnjailedPath('');
-			$rootLength = strlen($jailRoot) + 1;
-			if ($path === $jailRoot) {
-				return $mount->getMountPoint();
-			} elseif (substr($path, 0, $rootLength) === $jailRoot . '/') {
-				return $mount->getMountPoint() . substr($path, $rootLength);
-			} else {
-				return null;
-			}
-		} else {
-			return $mount->getMountPoint() . $path;
-		}
+		$query = new SearchQuery(
+			new SearchBinaryOperator(
+				// filter out non empty folders
+				ISearchBinaryOperator::OPERATOR_OR,
+				[
+					new SearchBinaryOperator(
+						ISearchBinaryOperator::OPERATOR_NOT,
+						[
+							new SearchComparison(
+								ISearchComparison::COMPARE_EQUAL,
+								'mimetype',
+								FileInfo::MIMETYPE_FOLDER
+							),
+						]
+					),
+					new SearchComparison(
+						ISearchComparison::COMPARE_EQUAL,
+						'size',
+						0
+					),
+				]
+			),
+			$limit,
+			$offset,
+			[
+				new SearchOrder(
+					ISearchOrder::DIRECTION_DESCENDING,
+					'mtime'
+				),
+			]
+		);
+		return $this->search($query);
 	}
 }

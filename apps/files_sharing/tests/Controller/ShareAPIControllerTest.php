@@ -7,7 +7,7 @@
  * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Maxence Lange <maxence@artificial-owl.com>
  * @author Maxence Lange <maxence@nextcloud.com>
@@ -15,6 +15,7 @@
  * @author Richard Steinmetz <richard@steinmetz.cloud>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Valdnet <47037905+Valdnet@users.noreply.github.com>
  * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
@@ -32,7 +33,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_Sharing\Tests\Controller;
 
 use OCA\Files_Sharing\Controller\ShareAPIController;
@@ -47,6 +47,7 @@ use OCP\Files\Mount\IMountPoint;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage;
 use OCP\IConfig;
+use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IPreview;
@@ -785,7 +786,7 @@ class ShareAPIControllerTest extends TestCase {
 		$user = $this->getMockBuilder(IUser::class)->getMock();
 		$user->method('getUID')->willReturn('userId');
 		$user->method('getDisplayName')->willReturn('userDisplay');
-		$user->method('getEMailAddress')->willReturn('userId@example.com');
+		$user->method('getSystemEMailAddress')->willReturn('userId@example.com');
 
 		$group = $this->getMockBuilder('OCP\IGroup')->getMock();
 		$group->method('getGID')->willReturn('groupId');
@@ -2967,7 +2968,7 @@ class ShareAPIControllerTest extends TestCase {
 
 	public function testUpdateLinkShareSendPasswordByTalkWithTalkDisabledDoesNotChangeOther() {
 		$this->expectException(\OCP\AppFramework\OCS\OCSForbiddenException::class);
-		$this->expectExceptionMessage('Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled');
+		$this->expectExceptionMessage('"Sending the password by Nextcloud Talk" for sharing a file or folder failed because Nextcloud Talk is not enabled.');
 
 		$ocs = $this->mockFormatShare();
 
@@ -3475,13 +3476,13 @@ class ShareAPIControllerTest extends TestCase {
 		$this->shareManager->expects($this->once())
 			->method('updateShare')
 			->with($share)
-			->willThrowException(new GenericShareException('Can’t increase permissions of path/file', 'Can’t increase permissions of path/file', 404));
+			->willThrowException(new GenericShareException('Cannot increase permissions of path/file', 'Cannot increase permissions of path/file', 404));
 
 		try {
 			$ocs->updateShare(42, 31);
 			$this->fail();
 		} catch (OCSException $e) {
-			$this->assertEquals('Can’t increase permissions of path/file', $e->getMessage());
+			$this->assertEquals('Cannot increase permissions of path/file', $e->getMessage());
 		}
 	}
 
@@ -3586,7 +3587,7 @@ class ShareAPIControllerTest extends TestCase {
 		$initiator->method('getDisplayName')->willReturn('initiatorDN');
 		$recipient = $this->getMockBuilder(IUser::class)->getMock();
 		$recipient->method('getDisplayName')->willReturn('recipientDN');
-		$recipient->method('getEmailAddress')->willReturn('recipient');
+		$recipient->method('getSystemEMailAddress')->willReturn('recipient');
 
 
 		$result = [];
@@ -4387,7 +4388,7 @@ class ShareAPIControllerTest extends TestCase {
 	public function testFormatShare(array $expects, \OCP\Share\IShare $share, array $users, $exception) {
 		$this->userManager->method('get')->willReturnMap($users);
 
-		$recipientGroup = $this->createMock('\OCP\IGroup');
+		$recipientGroup = $this->createMock(IGroup::class);
 		$recipientGroup->method('getDisplayName')->willReturn('recipientGroupDisplayName');
 		$this->groupManager->method('get')->willReturnMap([
 			['recipientGroup', $recipientGroup],
@@ -4396,7 +4397,6 @@ class ShareAPIControllerTest extends TestCase {
 		$this->urlGenerator->method('linkToRouteAbsolute')
 			->with('files_sharing.sharecontroller.showShare', ['token' => 'myToken'])
 			->willReturn('myLink');
-
 
 		$this->rootFolder->method('getUserFolder')
 			->with($this->currentUser)

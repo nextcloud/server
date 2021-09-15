@@ -11,6 +11,7 @@
 
 		<Draggable v-model="layout"
 			class="panels"
+			v-bind="{swapThreshold: 0.30, delay: 500, delayOnTouchOnly: true, touchStartThreshold: 3}"
 			handle=".panel--header"
 			@end="saveLayout">
 			<div v-for="panelId in layout" :key="panels[panelId].id" class="panel">
@@ -51,6 +52,7 @@
 				<Draggable v-model="layout"
 					class="panels"
 					tag="ol"
+					v-bind="{swapThreshold: 0.30, delay: 500, delayOnTouchOnly: true, touchStartThreshold: 3}"
 					handle=".draggable"
 					@end="saveLayout">
 					<li v-for="panel in sortedPanels" :key="panel.id">
@@ -65,7 +67,7 @@
 					</li>
 				</Draggable>
 
-				<a v-if="isAdmin" :href="appStoreUrl" class="button">{{ t('dashboard', 'Get more widgets from the app store') }}</a>
+				<a v-if="isAdmin" :href="appStoreUrl" class="button">{{ t('dashboard', 'Get more widgets from the App Store') }}</a>
 
 				<h3>{{ t('dashboard', 'Change background image') }}</h3>
 				<BackgroundSettings :background="background"
@@ -180,20 +182,20 @@ export default {
 			const good = {
 				morning: {
 					generic: t('dashboard', 'Good morning'),
-					withName: t('dashboard', 'Good morning, {name}', { name: this.displayName }),
+					withName: t('dashboard', 'Good morning, {name}', { name: this.displayName }, undefined, { escape: false }),
 				},
 				afternoon: {
 					generic: t('dashboard', 'Good afternoon'),
-					withName: t('dashboard', 'Good afternoon, {name}', { name: this.displayName }),
+					withName: t('dashboard', 'Good afternoon, {name}', { name: this.displayName }, undefined, { escape: false }),
 				},
 				evening: {
 					generic: t('dashboard', 'Good evening'),
-					withName: t('dashboard', 'Good evening, {name}', { name: this.displayName }),
+					withName: t('dashboard', 'Good evening, {name}', { name: this.displayName }, undefined, { escape: false }),
 				},
 				night: {
 					// Don't use "Good night" as it's not a greeting
 					generic: t('dashboard', 'Hello'),
-					withName: t('dashboard', 'Hello, {name}', { name: this.displayName }),
+					withName: t('dashboard', 'Hello, {name}', { name: this.displayName }, undefined, { escape: false }),
 				},
 			}
 

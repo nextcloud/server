@@ -233,11 +233,16 @@ table th .columntitle {
 	vertical-align: middle;
 }
 table.multiselect th .columntitle {
-    display: inline-block;
+	display: inline-block;
+	margin-right: -20px;
 }
 table th .columntitle.name {
 	padding-left: 0;
-	margin-left: 50px;
+	margin-left: 44px;
+}
+
+table.multiselect th .columntitle.name {
+	margin-left: 0;
 }
 
 table th .sort-indicator {
@@ -301,8 +306,20 @@ table th.column-last, table td.column-last {
 	max-width: 130px;
 }
 
-#app-content-files thead {
+#app-content-files thead,
+#app-content-trashbin thead {
 	top: 94px;
+}
+
+#app-content-recent, 
+#app-content-favorites, 
+#app-content-shareoverview, 
+#app-content-sharingout,
+#app-content-sharingin,
+#app-content-sharinglinks,
+#app-content-deletedshares,
+#app-content-pendingshares {
+	margin-top: 22px;
 }
 
 table.multiselect thead th {
@@ -704,7 +721,8 @@ a.action > img {
 .summary {
 	color: var(--color-text-maxcontrast);
 	/* add whitespace to bottom of files list to correctly show dropdowns */
-	height: 250px;
+	$action-menu-items-count: 7; // list view has currently max 7 items in its action menu 
+	height: 44px * ($action-menu-items-count + 0.5); // 0.5 is added to show some whitespace below
 }
 #filestable .filesummary {
 	width: 100%;
@@ -774,15 +792,14 @@ table.dragshadow td.size {
 .newFileMenu {
 	font-weight: 300;
 	top: 100%;
+	left: -48px !important;
 	margin-top: 4px;
 	min-width: 100px;
-	margin-left: 22px; /* Align left edge below center of + button … */
-	transform: translateX(-50%); /* … then center it below button */
 	z-index: 1001;
 
 	/* Center triangle */
 	&::after {
-		left: calc(50% - 8px) !important;
+		left: 57px !important;
 	}
 }
 
@@ -835,9 +852,23 @@ table.dragshadow td.size {
 }
 
 .notCreatable {
-	padding-left: 12px;
-	padding-top: 12px;
-	color: var(--color-text-lighter);
+	margin-left: 12px;
+	margin-right: 44px;
+	margin-top: 12px;
+	color: var(--color-main-text);
+	overflow: auto;
+	min-width: 160px;
+	height: 54px;
+	
+	&:not(.hidden) {
+		display: flex;
+	}
+
+	.icon-alert-outline {
+		top: -15px;
+		position: relative;
+		margin-right: 4px;
+	}
 }
 
 #quota {
@@ -1113,6 +1144,8 @@ table.dragshadow td.size {
 		.summary:not(.hidden) {
 			display: inline-block;
 			margin: 0 auto;
+			$action-menu-items-count: 9; // grid view has currently max 9 items in its action menu
+			height: 44px * ($action-menu-items-count + 0.5); // 0.5 is added to show some whitespace below
 
 			td {
 				padding-top: 50px;
@@ -1183,3 +1216,25 @@ table.dragshadow td.size {
 #gallery-button {
 	display: none;
 }
+
+#tag_multiple_files_container {
+	overflow: hidden;
+	background-color: #fff;
+	border-radius: 3px;
+	position: relative;
+	display: flex;
+	flex-wrap: wrap;
+	margin-bottom: 10px;
+
+	h3 {
+		width: 100%;
+		padding: 0 18px;
+	}
+
+	.systemTagsInputFieldContainer {
+		flex: 1 1 80%;
+		min-width: 0;
+		margin: 0 12px;
+	}
+}
+

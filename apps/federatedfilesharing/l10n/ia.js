@@ -34,7 +34,6 @@ OC.L10N.register(
     "Your Federated Cloud ID:" : "Tu ID de Nube Federate:",
     "Add to your website" : "Adde a tu sito web",
     "Share with me via Nextcloud" : "Comparti con me via Nextcloud",
-    "HTML Code:" : "Codice HTML:",
-    "Allow users on this server to send shares to other servers" : "Permitter usatores in iste servitor a inviar elementos compartite a altere servitores"
+    "HTML Code:" : "Codice HTML:"
 },
 "nplurals=2; plural=(n != 1);");

@@ -20,14 +20,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Settings\BackgroundJobs;
 
 use OCP\Accounts\IAccountManager;
@@ -173,7 +172,7 @@ class VerifyUserData extends Job {
 		if (empty($this->lookupServerUrl) ||
 			$this->config->getAppValue('files_sharing', 'lookupServerUploadEnabled', 'yes') !== 'yes' ||
 			$this->config->getSystemValue('has_internet_connection', true) === false) {
-			return false;
+			return true;
 		}
 
 		$user = $this->userManager->get($argument['uid']);

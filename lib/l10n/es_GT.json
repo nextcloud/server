@@ -1,6 +1,5 @@
 { "translations": {
     "Cannot write into \"config\" directory!" : "¡No se puede escribir en el directorio \"config\"!",
-    "This can usually be fixed by giving the webserver write access to the config directory" : "Esto generalmente se resuelve dándole al servidor web acceso para escribir en el directorio config. ",
     "See %s" : "Ver %s",
     "Sample configuration detected" : "Se ha detectado la configuración de muestra",
     "It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php" : "Se ha detectado que la configuración de muestra ha sido copiada. Esto puede arruiniar tu instalacón y no está soportado. Por favor lee la documentación antes de hacer cambios en el archivo config.php",
@@ -74,15 +73,11 @@
     "Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP." : "Por favor elimina el ajuste open_basedir de tu archivo php.ini o cambia a PHP de 64 bits. ",
     "Set an admin username." : "Establecer un Usuario administrador",
     "Set an admin password." : "Establecer la contraseña del administrador.",
-    "Can't create or write into the data directory %s" : "No es posible crear o escribir en el directorio de datos %s",
     "Sharing backend %s must implement the interface OCP\\Share_Backend" : "El backend %s que comparte debe implementar la interface OCP\\Share_Backend",
     "Sharing backend %s not found" : "No fue encontrado el Backend que comparte %s ",
     "Sharing backend for %s not found" : "No fue encontrado el Backend que comparte para %s",
     "Open »%s«" : "Abrir »%s«",
     "You are not allowed to share %s" : "No tienes permitido compartir %s",
-    "Can’t increase permissions of %s" : "No es posible incrementar los privilegios de %s",
-    "Files can’t be shared with delete permissions" : "Los archivos no se pueden compartir con permisos de borrado",
-    "Files can’t be shared with create permissions" : "Los archivos no se pueden compartir con permisos de creación",
     "Expiration date is in the past" : "La fecha de expiración se encuentra en el pasado",
     "Click the button below to open it." : "Haz click en el botón inferior para abrirlo. ",
     "The requested share does not exist anymore" : "El recurso compartido solicitado ya no existe",
@@ -143,7 +138,6 @@
     "Login canceled by app" : "Inicio de sesión cancelado por la aplicación",
     "a safe home for all your data" : "un lugar seguro para todos tus datos",
     "File is currently busy, please try again later" : "El archivo se encuentra actualmente en uso, por favor intentalo más tarde. ",
-    "Can't read file" : "No se puede leer el archivo",
     "Application is not enabled" : "La aplicación está deshabilitada",
     "Authentication error" : "Error de autenticación",
     "Token expired. Please reload page." : "La ficha ha expirado. Por favor recarga la página.",
@@ -182,9 +176,13 @@
     "Storage connection error. %s" : "Se presentó un error con la conexión al almacenamiento. %s",
     "Storage is temporarily not available" : "El almacenamieto se encuentra temporalmente no disponible",
     "Storage connection timeout. %s" : "El tiempo de la conexión del almacenamiento se agotó. %s",
-    "Following databases are supported: %s" : "Las siguientes bases de datos están soportadas: %s",
-    "Following platforms are supported: %s" : "Las siguientes plataformas están soportadas: %s",
+    "This can usually be fixed by giving the webserver write access to the config directory" : "Esto generalmente se resuelve dándole al servidor web acceso para escribir en el directorio config. ",
+    "Can't create or write into the data directory %s" : "No es posible crear o escribir en el directorio de datos %s",
     "Invalid Federated Cloud ID" : "ID Inválido",
-    "Can’t set expiration date more than %s days in the future" : "No es posible establecer la fecha de expiración más allá de %s días en el futuro"
+    "Can’t increase permissions of %s" : "No es posible incrementar los privilegios de %s",
+    "Files can’t be shared with delete permissions" : "Los archivos no se pueden compartir con permisos de borrado",
+    "Files can’t be shared with create permissions" : "Los archivos no se pueden compartir con permisos de creación",
+    "Can’t set expiration date more than %s days in the future" : "No es posible establecer la fecha de expiración más allá de %s días en el futuro",
+    "Can't read file" : "No se puede leer el archivo"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

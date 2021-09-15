@@ -29,7 +29,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Files\Stream;
 
 use Icewind\Streams\Wrapper;
@@ -213,7 +212,7 @@ class Encryption extends Wrapper {
 			} else {
 				$wrapped = fopen($protocol . '://', $mode, false, $context);
 			}
-		} catch (\BadMethodCallException $e) {
+		} catch (\Exception $e) {
 			stream_wrapper_unregister($protocol);
 			throw $e;
 		}
@@ -524,7 +523,7 @@ class Encryption extends Wrapper {
 	/**
 	 * write header at beginning of encrypted file
 	 *
-	 * @return integer
+	 * @return int|false
 	 * @throws EncryptionHeaderKeyExistsException if header key is already in use
 	 */
 	protected function writeHeader() {

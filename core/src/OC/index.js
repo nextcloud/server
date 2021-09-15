@@ -286,9 +286,16 @@ export default {
 	 */
 	linkTo,
 	/**
+	 * @param {String} service service name
+	 * @param {Number} version OCS API version
+	 * @returns {String} OCS API base path
 	 * @deprecated 19.0.0 use `generateOcsUrl` from https://www.npmjs.com/package/@nextcloud/router
 	 */
-	linkToOCS: generateOcsUrl,
+	linkToOCS: (service, version) => {
+		return generateOcsUrl(service, {}, {
+			ocsVersion: version || 1,
+		}) + '/'
+	},
 	/**
 	 * @deprecated 19.0.0 use `generateRemoteUrl` from https://www.npmjs.com/package/@nextcloud/router
 	 */

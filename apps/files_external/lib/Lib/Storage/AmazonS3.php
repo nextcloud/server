@@ -37,7 +37,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_External\Lib\Storage;
 
 use Aws\Result;
@@ -319,6 +318,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 				}
 				// we reached the end when the list is no longer truncated
 			} while ($objects['IsTruncated']);
+			$this->deleteObject($path);
 		} catch (S3Exception $e) {
 			\OC::$server->getLogger()->logException($e, ['app' => 'files_external']);
 			return false;
@@ -385,13 +385,14 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		try {
 			$stat = [];
 			if ($this->is_dir($path)) {
-				//folders don't really exist
-				$stat['size'] = -1; //unknown
-				$stat['mtime'] = time();
 				$cacheEntry = $this->getCache()->get($path);
-				if ($cacheEntry instanceof CacheEntry && $this->getMountOption('filesystem_check_changes', 1) !== 1) {
+				if ($cacheEntry instanceof CacheEntry) {
 					$stat['size'] = $cacheEntry->getSize();
 					$stat['mtime'] = $cacheEntry->getMTime();
+				} else {
+					// Use dummy values
+					$stat['size'] = -1; // Pending
+					$stat['mtime'] = time();
 				}
 			} else {
 				$stat['size'] = $this->getContentLength($path);
@@ -404,6 +405,10 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 			\OC::$server->getLogger()->logException($e, ['app' => 'files_external']);
 			return false;
 		}
+	}
+
+	public function hasUpdated($path, $time) {
+		return $this->getMountOption('filesystem_check_changes', 1) === 1 || parent::hasUpdated($path, $time);
 	}
 
 	/**

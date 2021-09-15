@@ -25,7 +25,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_External\Tests\Service;
 
 use OCA\Files_External\Lib\StorageConfig;
@@ -204,7 +203,7 @@ class UserGlobalStoragesServiceTest extends GlobalStoragesServiceTest {
 	/**
 	 * @dataProvider deleteStorageDataProvider
 	 */
-	public function testDeleteStorage($backendOptions, $rustyStorageId, $expectedCountAfterDeletion) {
+	public function testDeleteStorage($backendOptions, $rustyStorageId) {
 		$this->expectException(\DomainException::class);
 
 		$backend = $this->backendService->getBackend('identifier:\OCA\Files_External\Lib\Backend\SMB');

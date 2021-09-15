@@ -106,11 +106,9 @@ OC.L10N.register(
     "Not a directory" : "Ei ole kaust",
     "Could not lock path" : "Ei saanud rada lukustada",
     "Wrong or no update parameter given" : "Antud vale või aegunud parameeter",
-    "Can't change permissions for public share links" : "Avalikult jagatud linkide õigusi muuta ei saa",
     "shared by %s" : "jagas %s",
     "Download all files" : "Lae kõik failid alla",
     "Direct link" : "Otsene link",
-    "Add to your Nextcloud" : "Lisa oma Nextcloudi",
     "Share API is disabled" : "Jagamise API on keelatud",
     "File sharing" : "Faide jagamine",
     "Share will expire tomorrow" : "Jagamine aegub homme",
@@ -166,11 +164,13 @@ OC.L10N.register(
     "sharing is disabled" : "jagamine on peatatud",
     "For more info, please ask the person who sent this link." : "Täpsema info saamiseks palun pöördu lingi saatnud isiku poole.",
     "Share note" : "Jaga märget",
-    "Download %s" : "Laadi alla %s",
     "Upload files to %s" : "Laadi failid %s",
     "Note" : "Märge",
     "Select or drop files" : "Vali või lohista failid",
     "Uploaded files:" : "Üleslaetud failid:",
-    "invalid permissions" : "valed õigused"
+    "Add to your Nextcloud" : "Lisa oma Nextcloudi",
+    "invalid permissions" : "valed õigused",
+    "Can't change permissions for public share links" : "Avalikult jagatud linkide õigusi muuta ei saa",
+    "Download %s" : "Laadi alla %s"
 },
 "nplurals=2; plural=(n != 1);");

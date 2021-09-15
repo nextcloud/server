@@ -25,7 +25,7 @@ OC.L10N.register(
     "Password to access %1$s was sent to you" : "Wachtwoord voor toegang tot %1$s is naar jou gestuurd",
     "Password to access {file} was sent to you" : "Wachtwoord voor toegang tot {file} is naar je verstuurd",
     "Sharing %1$s failed, because this item is already shared with user %2$s" : "Delen van %1$s is mislukt omdat het object al wordt gedeeld met gebruiker %2$s",
-    "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "We kunnen je geen automatisch gegenereerd wachtwoord toesturen. Vermeld een geldig e-mailadres in je persoonlijke instellingen en probeer het nogmaals.",
+    "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "We kunnen je geen automatisch gegenereerd wachtwoord toesturen. Vermeld een geldig e-mailadres in je persoonlijke instellingen en probeer het nogmaals.",
     "Failed to send share by email" : "Versturen share per e-mail is mislukt",
     "%1$s shared »%2$s« with you" : "%1$s deelde \"%2$s\" met jou",
     "%1$s shared »%2$s« with you." : "%1$s deelde \"%2$s\" met jou.",
@@ -50,6 +50,7 @@ OC.L10N.register(
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Staat gebruikers toe om een gepersonaliseerde link of map te delen door een e-mailadres op te geven.",
     "Send password by mail" : "Wachtwoord per email verzenden",
     "Reply to initiator" : "Antwoord aan oproeper",
+    "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "We kunnen je geen automatisch gegenereerd wachtwoord toesturen. Vermeld een geldig e-mailadres in je persoonlijke instellingen en probeer het nogmaals.",
     "Enforce password protection" : "Wachtwoordbeveiliging afdwingen"
 },
 "nplurals=2; plural=(n != 1);");

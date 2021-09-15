@@ -20,7 +20,7 @@
   -->
 
 <template>
-	<div v-if="!isHttps">
+	<div v-if="!isHttps && !isLocalhost">
 		{{ t('settings', 'Passwordless authentication requires a secure connection.') }}
 	</div>
 	<div v-else>
@@ -86,6 +86,10 @@ export default {
 	props: {
 		httpWarning: Boolean,
 		isHttps: {
+			type: Boolean,
+			default: false,
+		},
+		isLocalhost: {
 			type: Boolean,
 			default: false,
 		},

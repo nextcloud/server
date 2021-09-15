@@ -4,7 +4,6 @@
  *
  * @author Bernhard Reiter <ockham@raz.or.at>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
@@ -22,7 +21,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Tagging;
 
 use OCP\AppFramework\Db\Entity;

@@ -27,7 +27,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Files\ObjectStore;
 
 use Icewind\Streams\CallbackWrapper;
@@ -466,6 +465,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 
 		$stat['mimetype'] = $mimetype;
 		$stat['etag'] = $this->getETag($path);
+		$stat['checksum'] = '';
 
 		$exists = $this->getCache()->inCache($path);
 		$uploadPath = $exists ? $path : $path . '.part';
@@ -493,6 +493,9 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 				$stat['size'] = $size;
 			} else {
 				$this->objectStore->writeObject($urn, $stream, $mimetype);
+				if (is_resource($stream)) {
+					fclose($stream);
+				}
 			}
 		} catch (\Exception $ex) {
 			if (!$exists) {

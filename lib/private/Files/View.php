@@ -44,7 +44,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Files;
 
 use Icewind\Streams\CallbackWrapper;
@@ -422,7 +421,9 @@ class View {
 	 */
 	public function readfile($path) {
 		$this->assertPathLength($path);
-		@ob_end_clean();
+		if (ob_get_level()) {
+			ob_end_clean();
+		}
 		$handle = $this->fopen($path, 'rb');
 		if ($handle) {
 			$chunkSize = 524288; // 512 kB chunks
@@ -446,7 +447,9 @@ class View {
 	 */
 	public function readfilePart($path, $from, $to) {
 		$this->assertPathLength($path);
-		@ob_end_clean();
+		if (ob_get_level()) {
+			ob_end_clean();
+		}
 		$handle = $this->fopen($path, 'rb');
 		if ($handle) {
 			$chunkSize = 524288; // 512 kB chunks
@@ -2171,7 +2174,7 @@ class View {
 			throw new NotFoundException($this->getAbsolutePath($filename) . ' not found');
 		}
 		$uid = $info->getOwner()->getUID();
-		if ($uid != \OCP\User::getUser()) {
+		if ($uid != \OC_User::getUser()) {
 			Filesystem::initMountPoints($uid);
 			$ownerView = new View('/' . $uid . '/files');
 			try {

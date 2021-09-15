@@ -34,7 +34,7 @@ OCA.Files_External.App = {
 		);
 
 		this._extendFileList(this.fileList);
-		this.fileList.appName = t('files_external', 'External storages');
+		this.fileList.appName = t('files_external', 'External storage');
 		return this.fileList;
 	},
 

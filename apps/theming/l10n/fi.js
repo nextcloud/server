@@ -48,6 +48,7 @@ OC.L10N.register(
     "Header logo" : "Otsakelogo",
     "Upload new header logo" : "Lähetä uusi otsakelogo",
     "Favicon" : "Favicon",
-    "Upload new favicon" : "Lähetä uusi favicon"
+    "Upload new favicon" : "Lähetä uusi favicon",
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Asenna Imagemagick PHP-lisäosa SVG-kuvatuella generoidaksesi automaattisesti logoon ja väriin perustuvat suosikkikuvakkeet."
 },
 "nplurals=2; plural=(n != 1);");

@@ -5,7 +5,6 @@
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Citharel <nextcloud@tcit.fr>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
@@ -24,7 +23,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Command;
 
 use OC\KnownUser\KnownUserService;
@@ -32,6 +30,7 @@ use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Proxy\ProxyMapper;
 use OCA\DAV\Connector\Sabre\Principal;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IUserManager;
@@ -88,15 +87,27 @@ class CreateCalendar extends Command {
 			\OC::$server->getAppManager(),
 			\OC::$server->query(ProxyMapper::class),
 			\OC::$server->get(KnownUserService::class),
-			\OC::$server->getConfig()
+			\OC::$server->getConfig(),
+			\OC::$server->getL10NFactory(),
 		);
 		$random = \OC::$server->getSecureRandom();
 		$logger = \OC::$server->getLogger();
 		$dispatcher = \OC::$server->get(IEventDispatcher::class);
 		$legacyDispatcher = \OC::$server->getEventDispatcher();
+		$config = \OC::$server->get(IConfig::class);
 
 		$name = $input->getArgument('name');
-		$caldav = new CalDavBackend($this->dbConnection, $principalBackend, $this->userManager, $this->groupManager, $random, $logger, $dispatcher, $legacyDispatcher);
+		$caldav = new CalDavBackend(
+			$this->dbConnection,
+			$principalBackend,
+			$this->userManager,
+			$this->groupManager,
+			$random,
+			$logger,
+			$dispatcher,
+			$legacyDispatcher,
+			$config
+		);
 		$caldav->createCalendar("principals/users/$user", $name, []);
 		return 0;
 	}

@@ -28,7 +28,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP;
 
 /**
@@ -103,4 +102,10 @@ interface IURLGenerator {
 	 * @since 13.0.0
 	 */
 	public function getBaseUrl(): string;
+
+	/**
+	 * @return string webroot part of the base url
+	 * @since 23.0.0
+	 */
+	public function getWebroot(): string;
 }
