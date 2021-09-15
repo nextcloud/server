@@ -52,6 +52,7 @@ use OCP\IDateTimeFormatter;
 use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\IRequest;
+use OCP\ITempManager;
 use OCP\IURLGenerator;
 use OCP\Lock\ILockingProvider;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -99,6 +100,8 @@ class CheckSetupControllerTest extends TestCase {
 	private $iniGetWrapper;
 	/** @var IDBConnection|\PHPUnit\Framework\MockObject\MockObject */
 	private $connection;
+	/** @var ITempManager|\PHPUnit\Framework\MockObject\MockObject */
+	private $tempManager;
 
 	/**
 	 * Holds a list of directories created during tests.
@@ -141,6 +144,7 @@ class CheckSetupControllerTest extends TestCase {
 		$this->iniGetWrapper = $this->getMockBuilder(IniGetWrapper::class)->getMock();
 		$this->connection = $this->getMockBuilder(IDBConnection::class)
 			->disableOriginalConstructor()->getMock();
+		$this->tempManager = $this->getMockBuilder(ITempManager::class)->getMock();
 		$this->checkSetupController = $this->getMockBuilder(CheckSetupController::class)
 			->setConstructorArgs([
 				'settings',
@@ -159,6 +163,7 @@ class CheckSetupControllerTest extends TestCase {
 				$this->secureRandom,
 				$this->iniGetWrapper,
 				$this->connection,
+				$this->tempManager,
 			])
 			->setMethods([
 				'isReadOnlyConfig',
@@ -180,6 +185,7 @@ class CheckSetupControllerTest extends TestCase {
 				'hasRecommendedPHPModules',
 				'hasBigIntConversionPendingColumns',
 				'isMysqlUsedWithoutUTF8MB4',
+				'isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed',
 				'isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed',
 			])->getMock();
 	}
