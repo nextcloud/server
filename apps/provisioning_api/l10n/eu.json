@@ -5,6 +5,7 @@
     "Email was already removed from account and cannot be confirmed anymore." : "Posta elektronikoa kontutik kendu da eta ezin da berretsi.",
     "Could not verify mail because the token is expired." : "Ezin izan da posta egiaztatu, token-a iraungi delako.",
     "Could not verify mail because the token is invalid." : "Ezin izan da posta egiaztatu, token baliogabea delako.",
+    "An unexpected error occurred. Please contact your admin." : "Ustekabeko errorea gertatu da. Mesedez, Jarri zure administratzailearekin harremanetan.",
     "Email confirmation successful" : "Mezu elektronikoaren berrespena ongi egin da",
     "Provisioning API" : "API hornitzen",
     "This application enables a set of APIs that external systems can use to manage users, groups and apps." : "Aplikazio honek gaitzen du kanpoko sistemek erabiltzaileak, taldeak eta aplikazioak kudeatzeko erabil ditzaketen API multzo bat.",
