@@ -286,12 +286,23 @@
 				</template>
 
 				<!-- external actions -->
-				<ExternalShareAction v-for="action in externalLinkActions"
+				<ActionCheckbox v-for="action in externalLinkActionsCheckbox"
 					:id="action.id"
 					:key="action.id"
-					:action="action"
-					:file-info="fileInfo"
-					:share="share" />
+					:checked="action.data.checked"
+					v-on="action.handlers">
+					{{ action.data.text }}
+				</ActionCheckbox>
+
+				<ActionInput v-for="action in externalLinkActionsInput"
+					:id="action.id"
+					:key="action.id"
+					:icon="action.data.icon"
+					:title="action.data.title"
+					:value="action.data.value"
+					v-on="action.handlers">
+					{{ action.data.text }}
+				</ActionInput>
 
 				<!-- external legacy sharing via url (social...) -->
 				<ActionLink v-for="({icon, url, name}, index) in externalLegacyLinkActions"
@@ -345,7 +356,6 @@ import Actions from '@nextcloud/vue/dist/Components/Actions'
 import Avatar from '@nextcloud/vue/dist/Components/Avatar'
 import Tooltip from '@nextcloud/vue/dist/Directives/Tooltip'
 
-import ExternalShareAction from './ExternalShareAction'
 import GeneratePassword from '../utils/GeneratePassword'
 import Share from '../models/Share'
 import SharesMixin from '../mixins/SharesMixin'
@@ -363,7 +373,6 @@ export default {
 		ActionText,
 		ActionTextEditable,
 		Avatar,
-		ExternalShareAction,
 	},
 
 	directives: {
@@ -649,6 +658,21 @@ export default {
 			return this.ExternalShareActions.actions
 				.filter(action => action.shareType.includes(OC.Share.SHARE_TYPE_LINK)
 					|| action.shareType.includes(OC.Share.SHARE_TYPE_EMAIL))
+				.map((action) => {
+					return {
+						...action,
+						data: action.data({ share: this.share, fileInfo: this.fileInfo }),
+						handlers: action.handlers,
+					}
+				})
+		},
+
+		externalLinkActionsInput() {
+			return this.externalLinkActions.filter(action => action.data?.is?.name === 'ActionInput')
+		},
+
+		externalLinkActionsCheckbox() {
+			return this.externalLinkActions.filter(action => action.data?.is?.name === 'ActionCheckbox')
 		},
 
 		isPasswordPolicyEnabled() {
