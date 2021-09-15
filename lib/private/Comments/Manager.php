@@ -658,7 +658,7 @@ class Manager implements ICommentsManager {
 		foreach (array_chunk($objectIds, 1000) as $chunk) {
 			$query->setParameter('ids', $chunk, IQueryBuilder::PARAM_INT_ARRAY);
 
-			$result = $query->executeQuery();
+			$result = $query->execute();
 			while ($row = $result->fetch()) {
 				$unreadComments[$row['object_id']] = (int) $row['num_comments'];
 			}
