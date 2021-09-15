@@ -86,21 +86,21 @@
 <script>
 import Actions from '@nextcloud/vue/dist/Components/Actions'
 import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
-import {showError} from '@nextcloud/dialogs'
+import { showError } from '@nextcloud/dialogs'
 import debounce from 'debounce'
 
 import FederationControl from '../shared/FederationControl'
 
-import {ACCOUNT_PROPERTY_READABLE_ENUM, VERIFICATION_ENUM} from '../../../constants/AccountPropertyConstants'
+import { ACCOUNT_PROPERTY_READABLE_ENUM, VERIFICATION_ENUM } from '../../../constants/AccountPropertyConstants'
 import {
 	removeAdditionalEmail,
 	saveAdditionalEmail,
 	saveAdditionalEmailScope,
 	saveNotificationEmail,
 	savePrimaryEmail,
-	updateAdditionalEmail
+	updateAdditionalEmail,
 } from '../../../service/PersonalInfo/EmailService'
-import {validateEmail} from '../../../utils/validate'
+import { validateEmail } from '../../../utils/validate'
 
 export default {
 	name: 'Email',
