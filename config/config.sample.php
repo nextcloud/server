@@ -1490,6 +1490,13 @@ $CONFIG = [
  */
 'sharing.enable_share_mail' => true,
 
+/**
+ * Set to true to always transfer incoming shares by default
+ * when running "occ files:transfer-ownership".
+ * Defaults to false, so incoming shares are not transferred if not specifically requested
+ * by a command line argument.
+ */
+'transferIncomingShares' => false,
 
 /**
  * All other configuration options
