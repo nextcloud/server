@@ -37,7 +37,8 @@
 				:scope.sync="primaryEmail.scope"
 				:email.sync="primaryEmail.value"
 				:active-notification-email.sync="notificationEmail"
-				@update:email="onUpdateEmail" />
+				@update:email="onUpdateEmail"
+				@update:notification-email="onUpdateNotificationEmail" />
 		</template>
 		<span v-else>
 			{{ primaryEmail.value || t('settings', 'No email address set') }}
@@ -50,6 +51,7 @@
 			:local-verification-state="parseInt(additionalEmail.locallyVerified, 10)"
 			:active-notification-email.sync="notificationEmail"
 			@update:email="onUpdateEmail"
+			@update:notification-email="onUpdateNotificationEmail"
 			@delete-additional-email="onDeleteAdditionalEmail(index)" />
 	</section>
 </template>

@@ -146,8 +146,6 @@ export default {
 			saveAdditionalEmailScope,
 			showCheckmarkIcon: false,
 			showErrorIcon: false,
-			isNotificationEmail: (this.email === this.activeNotificationEmail)
-				|| (this.primary && this.activeNotificationEmail === ''),
 		}
 	},
 
@@ -200,6 +198,11 @@ export default {
 			}
 			return t('settings', 'Additional email address {index}', { index: this.index + 1 })
 		},
+
+		  isNotificationEmail() {
+			  return (this.email === this.activeNotificationEmail)
+						|| (this.primary && this.activeNotificationEmail === '')
+		  },
 	},
 
 	mounted() {
@@ -335,8 +338,8 @@ export default {
 				// Ensure that local state reflects server state
 				if (email) {
 					this.initialEmail = email
-				} else if (notificationEmail) {
-					this.activeNotificationEmail = notificationEmail
+				} else if (notificationEmail !== undefined) {
+					this.$emit('update:notification-email', notificationEmail)
 				}
 				this.showCheckmarkIcon = true
 				setTimeout(() => { this.showCheckmarkIcon = false }, 2000)
