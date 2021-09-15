@@ -243,6 +243,7 @@ class PersonalInfo implements ISettings {
 					'value' => $property->getValue(),
 					'scope' => $property->getScope(),
 					'verified' => $property->getVerified(),
+					'locallyVerified' => $property->getLocallyVerified(),
 				];
 			},
 			$account->getPropertyCollection(IAccountManager::COLLECTION_EMAIL)->getProperties()

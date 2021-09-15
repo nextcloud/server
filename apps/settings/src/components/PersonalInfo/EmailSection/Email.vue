@@ -68,7 +68,7 @@
 					<ActionButton
 						:aria-label="setNotificationMailLabel"
 						:close-after-click="true"
-						:disabled="setNotificationDisabled"
+						:disabled="setNotificationMailDisabled"
 						icon="icon-favorite"
 						@click.stop.prevent="setNotificationMail">
 						{{ setNotificationMailLabel }}
@@ -91,7 +91,7 @@ import debounce from 'debounce'
 
 import FederationControl from '../shared/FederationControl'
 
-import {ACCOUNT_PROPERTY_READABLE_ENUM} from '../../../constants/AccountPropertyConstants'
+import {ACCOUNT_PROPERTY_READABLE_ENUM, VERIFICATION_ENUM} from '../../../constants/AccountPropertyConstants'
 import {
 	removeAdditionalEmail,
 	saveAdditionalEmail,
@@ -132,6 +132,10 @@ export default {
 			type: String,
 			default: '',
 		},
+		localVerificationState: {
+			type: Number,
+			default: VERIFICATION_ENUM.NOT_VERIFIED,
+		},
 	},
 
 	data() {
@@ -166,13 +170,16 @@ export default {
 			return t('settings', 'Delete email')
 		},
 
-	  setNotificationDisabled() {
+	  setNotificationMailDisabled() {
 			return this.isNotificationEmail
+					|| (!this.primary && this.localVerificationState !== VERIFICATION_ENUM.VERIFIED)
 		},
 
 	  setNotificationMailLabel() {
 			if (this.isNotificationEmail) {
 				return t('settings', 'Your primary email')
+			} else if (!this.primary && this.localVerificationState !== VERIFICATION_ENUM.VERIFIED) {
+				return t('settings', 'This address is not confirmed')
 			}
 			return t('settings', 'Set as primary mail')
 		},

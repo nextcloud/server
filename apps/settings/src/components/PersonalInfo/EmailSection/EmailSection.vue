@@ -47,6 +47,7 @@
 			:index="index"
 			:scope.sync="additionalEmail.scope"
 			:email.sync="additionalEmail.value"
+			:local-verification-state="parseInt(additionalEmail.locallyVerified, 10)"
 			:active-notification-email.sync="notificationEmail"
 			@update:email="onUpdateEmail"
 			@delete-additional-email="onDeleteAdditionalEmail(index)" />
