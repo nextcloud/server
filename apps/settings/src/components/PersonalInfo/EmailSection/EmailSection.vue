@@ -25,7 +25,6 @@
 		class="section"
 		@submit.stop.prevent="() => {}">
 		<HeaderBar
-			:can-edit-emails="displayNameChangeSupported"
 			:is-valid-form="isValidForm"
 			:scope.sync="primaryEmail.scope"
 			@addAdditionalEmail="onAddAdditionalEmail" />
@@ -36,18 +35,17 @@
 				:scope.sync="primaryEmail.scope"
 				:email.sync="primaryEmail.value"
 				@update:email="onUpdateEmail" />
-			<Email v-for="(additionalEmail, index) in additionalEmails"
-				:key="index"
-				:index="index"
-				:scope.sync="additionalEmail.scope"
-				:email.sync="additionalEmail.value"
-				@update:email="onUpdateEmail"
-				@deleteAdditionalEmail="onDeleteAdditionalEmail(index)" />
 		</template>
-
 		<span v-else>
 			{{ primaryEmail.value || t('settings', 'No email address set') }}
 		</span>
+		<Email v-for="(additionalEmail, index) in additionalEmails"
+			:key="index"
+			:index="index"
+			:scope.sync="additionalEmail.scope"
+			:email.sync="additionalEmail.value"
+			@update:email="onUpdateEmail"
+			@deleteAdditionalEmail="onDeleteAdditionalEmail(index)" />
 	</form>
 </template>
 
