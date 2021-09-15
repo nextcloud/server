@@ -75,6 +75,7 @@ use OCP\IDateTimeFormatter;
 use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\IRequest;
+use OCP\ITempManager;
 use OCP\IURLGenerator;
 use OCP\Lock\ILockingProvider;
 use OCP\Security\ISecureRandom;
@@ -111,6 +112,8 @@ class CheckSetupController extends Controller {
 	private $iniGetWrapper;
 	/** @var IDBConnection */
 	private $connection;
+	/** @var ITempManager */
+	private $tempManager;
 
 	public function __construct($AppName,
 								IRequest $request,
@@ -127,7 +130,8 @@ class CheckSetupController extends Controller {
 								MemoryInfo $memoryInfo,
 								ISecureRandom $secureRandom,
 								IniGetWrapper $iniGetWrapper,
-								IDBConnection $connection) {
+								IDBConnection $connection,
+								ITempManager $tempManager) {
 		parent::__construct($AppName, $request);
 		$this->config = $config;
 		$this->clientService = $clientService;
@@ -143,6 +147,7 @@ class CheckSetupController extends Controller {
 		$this->secureRandom = $secureRandom;
 		$this->iniGetWrapper = $iniGetWrapper;
 		$this->connection = $connection;
+		$this->tempManager = $tempManager;
 	}
 
 	/**
@@ -556,7 +561,7 @@ Raw output
 
 	private function isTemporaryDirectoryWritable(): bool {
 		try {
-			if (!empty(OC::$server->getTempManager()->getTempBaseDir())) {
+			if (!empty($this->tempManager->getTempBaseDir())) {
 				return true;
 			}
 		} catch (\Exception $e) {
