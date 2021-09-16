@@ -30,6 +30,7 @@ export const ACCOUNT_PROPERTY_ENUM = Object.freeze({
 	DISPLAYNAME: 'displayname',
 	PHONE: 'phone',
 	EMAIL: 'email',
+	NOTIFICATION_EMAIL: 'notify_email',
 	WEBSITE: 'website',
 	ADDRESS: 'address',
 	TWITTER: 'twitter',
@@ -49,6 +50,13 @@ export const SCOPE_SUFFIX = 'Scope'
 
 /** Default additional email scope */
 export const DEFAULT_ADDITIONAL_EMAIL_SCOPE = SCOPE_ENUM.LOCAL
+
+/** Enum of verification constants, according to IAccountManager */
+export const VERIFICATION_ENUM = Object.freeze({
+	NOT_VERIFIED: 0,
+	VERIFICATION_IN_PROGRESS: 1,
+	VERIFIED: 2,
+})
 
 /**
  * Enum of scope names to properties

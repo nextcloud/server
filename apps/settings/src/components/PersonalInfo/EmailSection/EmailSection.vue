@@ -34,7 +34,9 @@
 				:primary="true"
 				:scope.sync="primaryEmail.scope"
 				:email.sync="primaryEmail.value"
-				@update:email="onUpdateEmail" />
+				:active-notification-email.sync="notificationEmail"
+				@update:email="onUpdateEmail"
+				@update:notification-email="onUpdateNotificationEmail" />
 		</template>
 		<span v-else>
 			{{ primaryEmail.value || t('settings', 'No email address set') }}
@@ -44,7 +46,10 @@
 			:index="index"
 			:scope.sync="additionalEmail.scope"
 			:email.sync="additionalEmail.value"
+			:local-verification-state="parseInt(additionalEmail.locallyVerified, 10)"
+			:active-notification-email.sync="notificationEmail"
 			@update:email="onUpdateEmail"
+			@update:notification-email="onUpdateNotificationEmail"
 			@deleteAdditionalEmail="onDeleteAdditionalEmail(index)" />
 	</form>
 </template>
@@ -59,7 +64,7 @@ import Email from './Email'
 import { savePrimaryEmail, removeAdditionalEmail } from '../../../service/PersonalInfoService'
 import { DEFAULT_ADDITIONAL_EMAIL_SCOPE } from '../../../constants/AccountPropertyConstants'
 
-const { additionalEmails, primaryEmail } = loadState('settings', 'emails', {})
+const { additionalEmails, primaryEmail, notificationEmail } = loadState('settings', 'emails', {})
 const { displayNameChangeSupported } = loadState('settings', 'accountParameters', {})
 
 export default {
@@ -76,6 +81,7 @@ export default {
 			displayNameChangeSupported,
 			primaryEmail,
 			isValidForm: true,
+			notificationEmail,
 		}
 	},
 
@@ -124,6 +130,10 @@ export default {
 				await this.updatePrimaryEmail()
 				this.$nextTick(() => this.updateFormValidity())
 			}
+		},
+
+		async onUpdateNotificationEmail(email) {
+			this.notificationEmail = email
 		},
 
 		async updatePrimaryEmail() {
