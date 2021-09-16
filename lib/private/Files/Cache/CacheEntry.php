@@ -67,7 +67,7 @@ class CacheEntry implements ICacheEntry, \ArrayAccess {
 
 
 	public function getPath() {
-		return $this->data['path'];
+		return (string)$this->data['path'];
 	}
 
 
