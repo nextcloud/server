@@ -1261,7 +1261,7 @@ describe('OC.SetupChecks tests', function() {
 					recommendedPHPModules: [],
 					pendingBigIntConversionColumns: [],
 					isMysqlUsedWithoutUTF8MB4: false,
-					isDefaultPhoneRegionSet: false,
+					isDefaultPhoneRegionSet: true,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
 					temporaryDirectoryWritable: false,
