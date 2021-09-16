@@ -9,6 +9,7 @@ OC.L10N.register(
     "Working remotely" : "Εργασία εξ αποστάσεως",
     "User status" : "Κατάσταση χρήστη",
     "Clear status message after" : "Εκκαθάριση μηνύματος κατάστασης μετά από",
+    "What is your status?" : "Ποια είναι η κατάστασή σας;",
     "Set status" : "Ορισμός κατάστασης",
     "Online status" : "Κατάσταση σε σύνδεση",
     "Status message" : "Μήνυμα κατάστασης",
