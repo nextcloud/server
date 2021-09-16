@@ -44,7 +44,7 @@ class AbstractCacheEvent extends Event implements ICacheEvent {
 	 * @param int $fileId
 	 * @since 16.0.0
 	 */
-	public function __construct(IStorage $storage, string $path, int $fileId, int $storageId) {
+	public function __construct(IStorage $storage, string $path, int $fileId, int $storageId = -1) {
 		$this->storage = $storage;
 		$this->path = $path;
 		$this->fileId = $fileId;
