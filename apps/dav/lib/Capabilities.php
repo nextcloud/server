@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2016, ownCloud GmbH
  *
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Louis Chemineau <louis@chmn.me>
  *
  * @license AGPL-3.0
  *
@@ -28,6 +29,7 @@ class Capabilities implements ICapability {
 		return [
 			'dav' => [
 				'chunking' => '1.0',
+				'bundleupload' => '1.0',
 			]
 		];
 	}
