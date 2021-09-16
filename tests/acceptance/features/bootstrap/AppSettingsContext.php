@@ -39,7 +39,7 @@ class AppSettingsContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function appSettingsContent() {
-		return Locator::forThe()->id("app-settings-content")->
+		return Locator::forThe()->xpath("//div[@id = 'app-settings-content' or  @id = 'app-settings__content']")->
 			descendantOf(self::appSettings())->
 			describedAs("App settings");
 	}
@@ -48,7 +48,7 @@ class AppSettingsContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function appSettingsOpenButton() {
-		return Locator::forThe()->xpath("//div[@id = 'app-settings-header']/button")->
+		return Locator::forThe()->xpath("//div[@id = 'app-settings-header' or  @id = 'app-settings__header']/button")->
 			descendantOf(self::appSettings())->
 			describedAs("The button to open the app settings");
 	}
