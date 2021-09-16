@@ -39,7 +39,7 @@
     "@nextcloud/password-confirmation": "^1.0.1",
     "@nextcloud/paths": "^2.0.0",
     "@nextcloud/router": "^2.0.0",
-    "@nextcloud/vue": "^4.1.0",
+    "@nextcloud/vue": "^4.1.1",
     "@nextcloud/vue-dashboard": "^2.0.1",
     "autosize": "^5.0.1",
     "backbone": "^1.4.0",
