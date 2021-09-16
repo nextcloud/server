@@ -178,7 +178,7 @@ export default {
 			} else if (!this.primary && this.localVerificationState !== VERIFICATION_ENUM.VERIFIED) {
 				return t('settings', 'This address is not confirmed')
 			}
-			return t('settings', 'Set as primary mail')
+			return t('settings', 'Set as primary email')
 		},
 
 		federationDisabled() {
