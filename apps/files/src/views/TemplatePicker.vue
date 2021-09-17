@@ -66,14 +66,13 @@
 </template>
 
 <script>
-import { generateOcsUrl } from '@nextcloud/router'
+import { normalize } from 'path'
 import { showError } from '@nextcloud/dialogs'
-import axios from '@nextcloud/axios'
 import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
 import Modal from '@nextcloud/vue/dist/Components/Modal'
 
 import { getCurrentDirectory } from '../utils/davUtils'
-import { getTemplates } from '../services/Templates'
+import { createFromTemplate, getTemplates } from '../services/Templates'
 import TemplatePreview from '../components/TemplatePreview'
 
 const border = 2
@@ -113,7 +112,9 @@ export default {
 		 * @returns {string}
 		 */
 		nameWithoutExt() {
-			return this.name.indexOf('.') > -1 ? this.name.split('.').slice(0, -1).join('.') : this.name
+			return this.name.indexOf('.') > -1
+				? this.name.split('.').slice(0, -1).join('.')
+				: this.name
 		},
 
 		emptyTemplate() {
@@ -198,14 +199,18 @@ export default {
 			const currentDirectory = getCurrentDirectory()
 			const fileList = OCA?.Files?.App?.currentFileList
 
-			try {
-				const response = await axios.post(generateOcsUrl('apps/files/api/v1/templates/create'), {
-					filePath: `${currentDirectory}/${this.name}`,
-					templatePath: this.selectedTemplate?.filename,
-					templateType: this.selectedTemplate?.templateType,
-				})
+			// If the file doesn't have an extension, add the default one
+			if (this.nameWithoutExt === this.name) {
+				this.logger.debug('Fixed invalid filename', { name: this.name, extension: this.provider?.extension })
+				this.name = this.name + this.provider?.extension
+			}
 
-				const fileInfo = response.data.ocs.data
+			try {
+				const fileInfo = await createFromTemplate(
+					normalize(`${currentDirectory}/${this.name}`),
+					this.selectedTemplate?.filename,
+					this.selectedTemplate?.templateType,
+				)
 				this.logger.debug('Created new file', fileInfo)
 
 				await fileList?.addAndFetchFileInfo(this.name)
