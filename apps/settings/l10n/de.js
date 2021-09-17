@@ -212,6 +212,7 @@ OC.L10N.register(
     "Copied!" : "Kopiert!",
     "Copy" : "Kopieren",
     "Could not copy app password. Please copy it manually." : "Das Passwort für die App konnte nicht kopiert werden. Bitte kopiere es manuell.",
+    "Your full name" : "Dein vollständiger Name",
     "Email options" : "E-Mail-Optionen",
     "Primary email for password reset and notifications" : "Primäre E-Mail-Adresse für Benachrichtigungen und Passwort-Zurücksetzen",
     "Remove primary email" : "Primäre E-Mail-Adresse entfernen",
