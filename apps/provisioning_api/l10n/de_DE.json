@@ -1,5 +1,5 @@
 { "translations": {
-    "Email confirmation" : "E-Mail Bestätigung",
+    "Email confirmation" : "E-Mail-Bestätigung",
     "To enable the email address %s please click the button below." : "Um die E-Mail-Adresse %s zu bestätigen, klicken Sie bitte auf die untenstehende Schaltfläche.",
     "Confirm" : "Bestätigen",
     "Email was already removed from account and cannot be confirmed anymore." : "Diese E-Mail-Adresse wurde bereits aus dem Konto entfernt und kann nicht mehr bestätigt werden.",

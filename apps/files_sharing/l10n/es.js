@@ -241,7 +241,6 @@ OC.L10N.register(
     "Can't change permissions for public share links" : "No se pueden cambiar los permisos para los enlaces de recursos compartidos públicos",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Compartir enviando la contraseña por Nextcloud Talk ha fallado porque Nextcloud Talk no está activado",
     "Name, email, or federated cloud ID …" : "Nombre, correo electrónico o ID de nube federada …",
-    "Download %s" : "Descargar %s",
-    "%s" : "%s"
+    "Download %s" : "Descargar %s"
 },
 "nplurals=2; plural=(n != 1);");
