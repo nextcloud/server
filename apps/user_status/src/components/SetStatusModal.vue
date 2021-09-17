@@ -241,7 +241,7 @@ export default {
 	min-height: 200px;
 	padding: 8px 20px 20px 20px;
 	// Enable scrollbar for too long content, same way as in Dashboard customize
-	max-height: 70vh;
+	max-height: 73vh;
 	overflow: auto;
 
 	&__header {
