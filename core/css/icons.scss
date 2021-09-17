@@ -115,6 +115,14 @@ audio, canvas, embed, iframe, img, input, object, video {
 	}
 }
 
+.icon-collabora {
+  cursor: pointer;
+  opacity: 0.6;
+  &:hover {
+    opacity: 1;
+  }
+}
+
 /* ICONS -------------------------------------------------------------------
  * These icon classes are generated automatically with the following pattern
  * for icon-black-white('close', ...)
