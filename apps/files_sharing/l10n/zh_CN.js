@@ -248,7 +248,6 @@ OC.L10N.register(
     "Can't change permissions for public share links" : "不能改变公共共享链接权限",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "由于 Nextcloud Talk 没有启用，所以通过 Nextcloud Talk 发送共享密码失败。",
     "Name, email, or federated cloud ID …" : "名称，电子邮件或联合云 ID ...",
-    "Download %s" : "下载 %s",
-    "%s" : "%s"
+    "Download %s" : "下载 %s"
 },
 "nplurals=1; plural=0;");

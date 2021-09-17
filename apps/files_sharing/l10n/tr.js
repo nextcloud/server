@@ -248,7 +248,6 @@ OC.L10N.register(
     "Can't change permissions for public share links" : "Herkese açık paylaşılan bağlantıların erişim hakları değiştirilemez",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Nextcloud Talk etkinleştirilmemiş olduğundan, Nextcloud Talk ile paylaşım parolası gönderilemedi",
     "Name, email, or federated cloud ID …" : "Ad, e-posta ya da birleşik bulut kodu …",
-    "Download %s" : "%s indir",
-    "%s" : "%s"
+    "Download %s" : "%s indir"
 },
 "nplurals=2; plural=(n > 1);");
