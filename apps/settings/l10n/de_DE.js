@@ -218,7 +218,7 @@ OC.L10N.register(
     "Primary email for password reset and notifications" : "Primäre E-Mail-Adresse für Benachrichtigungen und Passwort-Zurücksetzen",
     "Remove primary email" : "Primäre E-Mail-Adresse entfernen",
     "Delete email" : "E-Mail löschen",
-    "Unset as primary email" : "Als primäre E-Mail deaktiviert",
+    "Unset as primary email" : "Als primäre E-Mail-Adresse deaktiviert",
     "This address is not confirmed" : "Diese Adresse ist nicht bestätigt",
     "Set as primary mail" : "Als primäre E-Mail-Adresse festlegen",
     "Your email address" : "Ihre E-Mail-Adresse",
