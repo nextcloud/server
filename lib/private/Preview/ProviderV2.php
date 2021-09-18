@@ -70,6 +70,10 @@ abstract class ProviderV2 implements IProviderV2 {
 	 */
 	abstract public function getThumbnail(File $file, int $maxX, int $maxY): ?IImage;
 
+	protected function useTempFile(File $file) {
+		return $file->isEncrypted() || !$file->getStorage()->isLocal();
+	}
+
 	/**
 	 * Get a path to either the local file or temporary file
 	 *
@@ -78,8 +82,7 @@ abstract class ProviderV2 implements IProviderV2 {
 	 * @return string
 	 */
 	protected function getLocalFile(File $file, int $maxSize = null): string {
-		$useTempFile = $file->isEncrypted() || !$file->getStorage()->isLocal();
-		if ($useTempFile) {
+		if ($this->useTempFile($file)) {
 			$absPath = \OC::$server->getTempManager()->getTemporaryFile();
 
 			$content = $file->fopen('r');
