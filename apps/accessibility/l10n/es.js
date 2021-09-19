@@ -3,7 +3,7 @@ OC.L10N.register(
     {
     "Dark theme" : "Tema oscuro",
     "Enable dark theme" : "Activar tema oscuro",
-    "A dark theme to ease your eyes by reducing the overall luminosity and brightness. It is still under development, so please report any issues you may find." : "Tema oscuro para facilitar la navegación reduciendo el brillo y la luminosidad. Aún se encuentra en desarrollo, así que por favor, comunique cualquier problema que encuentre.",
+    "A dark theme to ease your eyes by reducing the overall luminosity and brightness. It is still under development, so please report any issues you may find." : "Tema oscuro para facilitar la navegación, reduciendo el brillo y la luminosidad. Aún se encuentra en desarrollo, así que, por favor, comunique cualquier problema que encuentre.",
     "High contrast mode" : "Modo de alto contraste",
     "Enable high contrast mode" : "Activar modo de alto contraste",
     "A high contrast mode to ease your navigation. Visual quality will be reduced but clarity will be increased." : "Un modo de alto contraste para facilitar la navegación. Se reducirá la calidad visual pero se aumentará la claridad.",
