@@ -137,7 +137,6 @@ OC.L10N.register(
     "Tentative" : "Intentu",
     "Save" : "Sarva",
     "Your attendance was updated successfully." : "Sa partetzipatzione tua est istada agiornada in manera curreta.",
-    "Calendar and tasks" : "Calendàrios e fainas",
-    "i" : "i"
+    "Calendar and tasks" : "Calendàrios e fainas"
 },
 "nplurals=2; plural=(n != 1);");
