@@ -78,12 +78,6 @@ export default {
 	components: {
 	},
 
-	mounted() {
-		// this.$root.$on('optionValues', data => {
-		// 	optionValues = data
-		// })
-	},
-
 	directives: {
 	},
 
@@ -98,6 +92,8 @@ export default {
 			ShareSearch: OCA.Sharing.ShareSearch.state,
 			suggestions: [],
 			shareNote: this.share.newNote || this.share.note,
+			sendPasswordByTalk: null,
+			hideDownload: null,
 		}
 	},
 
@@ -129,7 +125,6 @@ export default {
 			this.onNoteSubmit()
 			this.loading = false
 			this.$store.commit('addCurrentTab', 'default')
-			// console.info('this is send email')
 		},
 
 		/**
@@ -149,19 +144,31 @@ export default {
 			console.debug('Adding a new share from the input for', this.share)
 			try {
 				const path = (this.fileInfo.path + '/' + this.fileInfo.name).replace('//', '/')
+
+				if (this.share.sendPasswordByTalk) {
+					this.sendPasswordByTalk = this.share.sendPasswordByTalk.toString()
+				}
+
+				if (this.share.hideDownload) {
+					this.hideDownload = this.share.hideDownload.toString()
+				}
+
+				console.info('note ', this.shareNote)
+
 				const share = await this.createShare({
 					path,
 					shareType: this.optionValues.shareType,
 					shareWith: this.optionValues.shareWith,
 					password: this.share.password,
-					password_by_talk: this.share.sendPasswordByTalk,
-					expiration: this.share.expireDate,
+					sendPasswordByTalk: this.sendPasswordByTalk,
+					expireDate: this.share.expireDate,
+					hideDownload: this.hideDownload,
 					permissions: this.fileInfo.sharePermissions & OC.getCapabilities().files_sharing.default_permissions & this.share.permissions,
 				})
 
 				// add notes to share if any
 				this.share = share
-				this.share.note = this.shareNote
+				share.note = this.shareNote
 				this.queueUpdate('note')
 
 				// reset the search string when done

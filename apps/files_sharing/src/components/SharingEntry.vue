@@ -166,61 +166,9 @@ export default {
 			return null
 		},
 
-		canHaveNote() {
-			return !this.isRemote
-		},
-
 		isRemote() {
 			return this.share.type === this.SHARE_TYPES.SHARE_TYPE_REMOTE
 				|| this.share.type === this.SHARE_TYPES.SHARE_TYPE_REMOTE_GROUP
-		},
-
-		/**
-		 * Can the sharer set whether the sharee can edit the file ?
-		 *
-		 * @returns {boolean}
-		 */
-		canSetEdit() {
-			// If the owner revoked the permission after the resharer granted it
-			// the share still has the permission, and the resharer is still
-			// allowed to revoke it too (but not to grant it again).
-			return (this.fileInfo.sharePermissions & OC.PERMISSION_UPDATE) || this.canEdit
-		},
-
-		/**
-		 * Can the sharer set whether the sharee can create the file ?
-		 *
-		 * @returns {boolean}
-		 */
-		canSetCreate() {
-			// If the owner revoked the permission after the resharer granted it
-			// the share still has the permission, and the resharer is still
-			// allowed to revoke it too (but not to grant it again).
-			return (this.fileInfo.sharePermissions & OC.PERMISSION_CREATE) || this.canCreate
-		},
-
-		/**
-		 * Can the sharer set whether the sharee can delete the file ?
-		 *
-		 * @returns {boolean}
-		 */
-		canSetDelete() {
-			// If the owner revoked the permission after the resharer granted it
-			// the share still has the permission, and the resharer is still
-			// allowed to revoke it too (but not to grant it again).
-			return (this.fileInfo.sharePermissions & OC.PERMISSION_DELETE) || this.canDelete
-		},
-
-		/**
-		 * Can the sharer set whether the sharee can reshare the file ?
-		 *
-		 * @returns {boolean}
-		 */
-		canSetReshare() {
-			// If the owner revoked the permission after the resharer granted it
-			// the share still has the permission, and the resharer is still
-			// allowed to revoke it too (but not to grant it again).
-			return (this.fileInfo.sharePermissions & OC.PERMISSION_SHARE) || this.canReshare
 		},
 
 		/**
@@ -288,33 +236,6 @@ export default {
 		isFolder() {
 			return this.fileInfo.type === 'dir'
 		},
-
-		/**
-		 * Does the current share have an expiration date
-		 * @returns {boolean}
-		 */
-		// hasExpirationDate: {
-		// 	get() {
-		// 		return this.config.isDefaultInternalExpireDateEnforced || !!this.share.expireDate
-		// 	},
-		// 	set(enabled) {
-		// 		this.share.expireDate = enabled
-		// 			? this.config.defaultInternalExpirationDateString !== ''
-		// 				? this.config.defaultInternalExpirationDateString
-		// 				: moment().format('YYYY-MM-DD')
-		// 			: ''
-		// 	},
-		// },
-
-		// dateMaxEnforced() {
-		// 	if (!this.isRemote) {
-		// 		return this.config.isDefaultInternalExpireDateEnforced
-		// 			&& moment().add(1 + this.config.defaultInternalExpireDate, 'days')
-		// 	} else {
-		// 		return this.config.isDefaultRemoteExpireDateEnforced
-		// 			&& moment().add(1 + this.config.defaultRemoteExpireDate, 'days')
-		// 	}
-		// },
 
 		/**
 		 * @returns {bool}

@@ -25,7 +25,7 @@
  *
  */
 
-import PQueue from 'p-queue/dist/index'
+import PQueue from 'p-queue'
 import debounce from 'debounce'
 
 import Share from '../models/Share'
@@ -188,7 +188,7 @@ export default {
 		 */
 		onExpirationDisable() {
 			this.share.expireDate = ''
-			// this.queueUpdate('expireDate')
+			this.queueUpdate('expireDate')
 		},
 
 		/**
