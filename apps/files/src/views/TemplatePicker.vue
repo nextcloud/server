@@ -199,12 +199,11 @@ export default {
 			const currentDirectory = getCurrentDirectory()
 			const fileList = OCA?.Files?.App?.currentFileList
 
-			try {
-				const response = await axios.post(generateOcsUrl('apps/files/api/v1/templates', 2) + 'create', {
-					filePath: `${currentDirectory}/${this.name}`,
-					templatePath: this.selectedTemplate?.filename,
-					templateType: this.selectedTemplate?.templateType,
-				})
+			// If the file doesn't have an extension, add the default one
+			if (this.nameWithoutExt === this.name) {
+				this.logger.debug('Fixed invalid filename', { name: this.name, extension: this.provider?.extension })
+				this.name = this.name + this.provider?.extension
+			}
 
 			try {
 				const fileInfo = await createFromTemplate(
