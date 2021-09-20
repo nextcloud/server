@@ -493,6 +493,9 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 				$stat['size'] = $size;
 			} else {
 				$this->objectStore->writeObject($urn, $stream);
+				if (is_resource($stream)) {
+					fclose($stream);
+				}
 			}
 		} catch (\Exception $ex) {
 			if (!$exists) {
