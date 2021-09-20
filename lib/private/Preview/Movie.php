@@ -51,17 +51,34 @@ class Movie extends ProviderV2 {
 	public function getThumbnail(File $file, int $maxX, int $maxY): ?IImage {
 		// TODO: use proc_open() and stream the source file ?
 
-		$absPath = $this->getLocalFile($file, 5242880); // only use the first 5MB
-
-		$result = $this->generateThumbNail($maxX, $maxY, $absPath, 5);
-		if ($result === null) {
-			$result = $this->generateThumbNail($maxX, $maxY, $absPath, 1);
-			if ($result === null) {
-				$result = $this->generateThumbNail($maxX, $maxY, $absPath, 0);
-			}
+		$result = null;
+		if ($this->useTempFile($file)) {
+			// try downloading 5 MB first as it's likely that the first frames are present there
+			// in some cases this doesn't work for example when the moov atom is at the
+			// end of the file, so if it fails we fall back to getting the full file
+			$sizeAttempts = [5242880, null];
+		} else {
+			// size is irrelevant, only attempt once
+			$sizeAttempts = [null];
 		}
 
-		$this->cleanTmpFiles();
+		foreach ($sizeAttempts as $size) {
+			$absPath = $this->getLocalFile($file, $size);
+
+			$result = $this->generateThumbNail($maxX, $maxY, $absPath, 5);
+			if ($result === null) {
+				$result = $this->generateThumbNail($maxX, $maxY, $absPath, 1);
+				if ($result === null) {
+					$result = $this->generateThumbNail($maxX, $maxY, $absPath, 0);
+				}
+			}
+
+			$this->cleanTmpFiles();
+
+			if ($result !== null) {
+				break;
+			}
+		}
 
 		return $result;
 	}
