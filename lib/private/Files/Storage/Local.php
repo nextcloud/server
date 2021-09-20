@@ -568,8 +568,11 @@ class Local extends \OC\Files\Storage\Common {
 
 	public function writeStream(string $path, $stream, int $size = null): int {
 		$result = $this->file_put_contents($path, $stream);
+		if (is_resource($stream)) {
+			fclose($stream);
+		}
 		if ($result === false) {
-			throw new GenericFileException("Failed write steam to $path");
+			throw new GenericFileException("Failed write stream to $path");
 		} else {
 			return $result;
 		}
