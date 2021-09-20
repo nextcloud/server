@@ -151,6 +151,23 @@ trait Sharing {
 	}
 
 	/**
+	 * @Then /^public page of last share can be shown$/
+	 */
+	public function publicPageOfLastShareCanBeShown() {
+		if (count($this->lastShareData->data->element) > 0) {
+			$token = $this->lastShareData->data[0]->token;
+		} else {
+			$token = $this->lastShareData->data->token;
+		}
+
+		$fullUrl = substr($this->baseUrl, 0, -4) . "index.php/s/" . $token;
+
+		$client = new Client();
+		$this->response = $client->get($fullUrl);
+		Assert::assertEquals(200, $this->response->getStatusCode());
+	}
+
+	/**
 	 * @Then /^last link share can be downloaded$/
 	 */
 	public function lastLinkShareCanBeDownloaded() {

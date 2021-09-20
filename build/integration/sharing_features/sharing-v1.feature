@@ -357,6 +357,17 @@ Feature: sharing
       | url | AN_URL |
       | mimetype | httpd/unix-directory |
 
+  Scenario: Creating a new public shared folder by user with quota but without external storages and show the share
+    Given user "user0" exists
+    And As an "admin"
+    And user "user0" has a quota of "10 MB"
+    And invoking occ with "config:system:set quota_include_external_storage --value=true --type boolean"
+    And As an "user0"
+    When creating a share with
+      | path | FOLDER |
+      | shareType | 3 |
+    Then public page of last share can be shown
+
   Scenario: Creating a new share of a file with default permissions
     Given user "user0" exists
     And user "user1" exists

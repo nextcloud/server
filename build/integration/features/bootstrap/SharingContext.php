@@ -47,4 +47,11 @@ class SharingContext implements Context, SnippetAcceptingContext {
 		$this->deleteServerConfig('core', 'shareapi_expire_after_n_days');
 		$this->deleteServerConfig('core', 'link_defaultExpDays');
 	}
+
+	/**
+	 * @AfterScenario
+	 */
+	public function resetSystemConfigs() {
+		$this->invokingTheCommand('config:system:delete quota_include_external_storage');
+	}
 }
