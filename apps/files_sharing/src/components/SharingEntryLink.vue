@@ -336,32 +336,6 @@ export default {
 		},
 
 		/**
-		 * Does the current share have an expiration date
-		 * @returns {boolean}
-		 */
-		// hasExpirationDate: {
-		// 	get() {
-		// 		return this.config.isDefaultExpireDateEnforced
-		// 			|| !!this.share.expireDate
-		// 	},
-		// 	set(enabled) {
-		// 		let dateString = moment(this.config.defaultExpirationDateString)
-		// 		if (!dateString.isValid()) {
-		// 			dateString = moment()
-		// 		}
-		// 		this.share.state.expiration = enabled
-		// 			? dateString.format('YYYY-MM-DD')
-		// 			: ''
-		// 		console.debug('Expiration date status', enabled, this.share.expireDate)
-		// 	},
-		// },
-
-		// dateMaxEnforced() {
-		// 	return this.config.isDefaultExpireDateEnforced
-		// 		&& moment().add(1 + this.config.defaultExpireDate, 'days')
-		// },
-
-		/**
 		 * Is the current share password protected ?
 		 * @returns {boolean}
 		 */
@@ -378,35 +352,6 @@ export default {
 		},
 
 		/**
-		 * Is Talk enabled?
-		 * @returns {boolean}
-		 */
-		// isTalkEnabled() {
-		// 	return OC.appswebroots.spreed !== undefined
-		// },
-
-		/**
-		 * Is it possible to protect the password by Talk?
-		 * @returns {boolean}
-		 */
-		// isPasswordProtectedByTalkAvailable() {
-		// 	return this.isPasswordProtected && this.isTalkEnabled
-		// },
-
-		/**
-		 * Is the current share password protected by Talk?
-		 * @returns {boolean}
-		 */
-		// isPasswordProtectedByTalk: {
-		// 	get() {
-		// 		return this.share.sendPasswordByTalk
-		// 	},
-		// 	async set(enabled) {
-		// 		this.share.sendPasswordByTalk = enabled
-		// 	},
-		// },
-
-		/**
 		 * Is the current share an email share ?
 		 * @returns {boolean}
 		 */
@@ -415,20 +360,6 @@ export default {
 				? this.share.type === this.SHARE_TYPES.SHARE_TYPE_EMAIL
 				: false
 		},
-
-		// canTogglePasswordProtectedByTalkAvailable() {
-		// 	if (!this.isPasswordProtected) {
-		// 		// Makes no sense
-		// 		return false
-		// 	} else if (this.isEmailShareType && !this.hasUnsavedPassword) {
-		// 		// For email shares we need a new password in order to enable or
-		// 		// disable
-		// 		return false
-		// 	}
-
-		// 	// Anything else should be fine
-		// 	return true
-		// },
 
 		/**
 		 * Pending data.
@@ -441,33 +372,6 @@ export default {
 		},
 		pendingExpirationDate() {
 			return this.config.isDefaultExpireDateEnforced && this.share && !this.share.id
-		},
-
-		/**
-		 * Can the recipient edit the file ?
-		 * @returns {boolean}
-		 */
-		// canUpdate: {
-		// 	get() {
-		// 		return this.share.hasUpdatePermission
-		// 	},
-		// 	set(enabled) {
-		// 		this.share.permissions = enabled
-		// 			? OC.PERMISSION_READ | OC.PERMISSION_UPDATE
-		// 			: OC.PERMISSION_READ
-		// 	},
-		// },
-
-		/**
-		 * Can the sharee edit the shared file ?
-		 */
-		canEdit: {
-			get() {
-				return this.share.hasUpdatePermission
-			},
-			set(checked) {
-				this.updatePermissions({ isEditChecked: checked })
-			},
 		},
 
 		// if newPassword exists, but is empty, it means
@@ -687,24 +591,6 @@ export default {
 			this.queueUpdate('permissions')
 		},
 
-		/**
-		 * Label changed, let's save it to a different key
-		 * @param {String} label the share label
-		 */
-		// onLabelChange(label) {
-		// 	this.$set(this.share, 'newLabel', label.trim())
-		// },
-
-		/**
-		 * When the note change, we trim, save and dispatch
-		 */
-		// onLabelSubmit() {
-		// 	if (typeof this.share.newLabel === 'string') {
-		// 		this.share.label = this.share.newLabel
-		// 		this.$delete(this.share, 'newLabel')
-		// 		this.queueUpdate('label')
-		// 	}
-		// },
 		async copyLink() {
 			try {
 				await this.$copyText(this.shareLink)
@@ -723,19 +609,6 @@ export default {
 				}, 4000)
 			}
 		},
-
-		/**
-		 * Update newPassword values
-		 * of share. If password is set but not newPassword
-		 * then the user did not changed the password
-		 * If both co-exists, the password have changed and
-		 * we show it in plain text.
-		 * Then on submit (or menu close), we sync it.
-		 * @param {string} password the changed password
-		 */
-		// onPasswordChange(password) {
-		// 	this.$set(this.share, 'newPassword', password)
-		// },
 
 		/**
 		 * Uncheck password protection
@@ -770,22 +643,6 @@ export default {
 				this.queueUpdate('password')
 			}
 		},
-
-		/**
-		 * Update the password along with "sendPasswordByTalk".
-		 *
-		 * If the password was modified the new password is sent; otherwise
-		 * updating a mail share would fail, as in that case it is required that
-		 * a new password is set when enabling or disabling
-		 * "sendPasswordByTalk".
-		 */
-		// onPasswordProtectedByTalkChange() {
-		// 	if (this.hasUnsavedPassword) {
-		// 		this.share.password = this.share.newPassword.trim()
-		// 	}
-
-		// 	this.queueUpdate('sendPasswordByTalk', 'password')
-		// },
 
 		/**
 		 * Save potential changed data on menu close

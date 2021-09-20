@@ -247,12 +247,6 @@ export default {
 		ActionInput,
 	},
 
-	mounted() {
-		// this.$root.$on('optionValues', data => {
-		// 	this.optionValues = data
-		// })
-	},
-
 	directives: {
 		Tooltip,
 	},
@@ -286,11 +280,7 @@ export default {
 		 * @returns {number}
 		 */
 		sharePermissions() {
-			// if (this.isExteranlShare) {
-			// 	return this.share.permissions
-			// } else {
 			return this.share.permissions & ~OC.PERMISSION_SHARE
-			// }
 		},
 		/**
 		 * Generate a unique random id for this SharingPermissions only
@@ -302,49 +292,9 @@ export default {
 			return Math.random().toString(27).substr(2)
 		},
 
-		// canHaveNote() {
-		// 	return !this.isRemote
-		// },
-
 		canHaveExpirationDate() {
 			return !this.isRemoteShare
 		},
-
-		/**
-		 * Can the sharer set whether the sharee can edit the file ?
-		 *
-		 * @returns {boolean}
-		 */
-		// canSetEdit() {
-		// 	// If the owner revoked the permission after the resharer granted it
-		// 	// the share still has the permission, and the resharer is still
-		// 	// allowed to revoke it too (but not to grant it again).
-		// 	return (this.fileInfo.sharePermissions & OC.PERMISSION_UPDATE) || this.canEdit
-		// },
-
-		/**
-		 * Can the sharer set whether the sharee can create the file ?
-		 *
-		 * @returns {boolean}
-		 */
-		// canSetCreate() {
-		// 	// If the owner revoked the permission after the resharer granted it
-		// 	// the share still has the permission, and the resharer is still
-		// 	// allowed to revoke it too (but not to grant it again).
-		// 	return (this.fileInfo.sharePermissions & OC.PERMISSION_CREATE) || this.canCreate
-		// },
-
-		/**
-		 * Can the sharer set whether the sharee can delete the file ?
-		 *
-		 * @returns {boolean}
-		 */
-		// canSetDelete() {
-		// 	// If the owner revoked the permission after the resharer granted it
-		// 	// the share still has the permission, and the resharer is still
-		// 	// allowed to revoke it too (but not to grant it again).
-		// 	return (this.fileInfo.sharePermissions & OC.PERMISSION_DELETE) || this.canDelete
-		// },
 
 		/**
 		 * Can the sharer set whether the sharee can reshare the file ?
@@ -424,16 +374,6 @@ export default {
 		fileHasCreatePermission() {
 			return !!(this.fileInfo.permissions & OC.PERMISSION_CREATE)
 		},
-
-		// dateMaxEnforced() {
-		// 	if (!this.isRemote) {
-		// 		return this.config.isDefaultInternalExpireDateEnforced
-		// 			&& moment().add(1 + this.config.defaultInternalExpireDate, 'days')
-		// 	} else {
-		// 		return this.config.isDefaultRemoteExpireDateEnforced
-		// 			&& moment().add(1 + this.config.defaultRemoteExpireDate, 'days')
-		// 	}
-		// },
 
 		isExteranlShare() {
 			if (this.fromInput) {

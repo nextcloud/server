@@ -78,12 +78,6 @@ export default {
 	components: {
 	},
 
-	mounted() {
-		// this.$root.$on('optionValues', data => {
-		// 	optionValues = data
-		// })
-	},
-
 	directives: {
 	},
 
@@ -131,7 +125,6 @@ export default {
 			this.onNoteSubmit()
 			this.loading = false
 			this.$store.commit('addCurrentTab', 'default')
-			// console.info('this is send email')
 		},
 
 		/**
