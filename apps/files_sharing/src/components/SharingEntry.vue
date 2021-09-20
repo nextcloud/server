@@ -187,13 +187,13 @@ export default {
 			return null
 		},
 
-		canHaveNote() {
-			return !this.isRemote
-		},
+		// canHaveNote() {
+		// 	return !this.isRemote
+		// },
 
-		canHaveExpirationDate() {
-			return !this.isRemoteShare
-		},
+		// canHaveExpirationDate() {
+		// 	return !this.isRemoteShare
+		// },
 
 		isRemote() {
 			return this.share.type === this.SHARE_TYPES.SHARE_TYPE_REMOTE
@@ -205,48 +205,48 @@ export default {
 		 *
 		 * @returns {boolean}
 		 */
-		canSetEdit() {
-			// If the owner revoked the permission after the resharer granted it
-			// the share still has the permission, and the resharer is still
-			// allowed to revoke it too (but not to grant it again).
-			return (this.fileInfo.sharePermissions & OC.PERMISSION_UPDATE) || this.canEdit
-		},
+		// canSetEdit() {
+		// 	// If the owner revoked the permission after the resharer granted it
+		// 	// the share still has the permission, and the resharer is still
+		// 	// allowed to revoke it too (but not to grant it again).
+		// 	return (this.fileInfo.sharePermissions & OC.PERMISSION_UPDATE) || this.canEdit
+		// },
 
 		/**
 		 * Can the sharer set whether the sharee can create the file ?
 		 *
 		 * @returns {boolean}
 		 */
-		canSetCreate() {
-			// If the owner revoked the permission after the resharer granted it
-			// the share still has the permission, and the resharer is still
-			// allowed to revoke it too (but not to grant it again).
-			return (this.fileInfo.sharePermissions & OC.PERMISSION_CREATE) || this.canCreate
-		},
+		// canSetCreate() {
+		// 	// If the owner revoked the permission after the resharer granted it
+		// 	// the share still has the permission, and the resharer is still
+		// 	// allowed to revoke it too (but not to grant it again).
+		// 	return (this.fileInfo.sharePermissions & OC.PERMISSION_CREATE) || this.canCreate
+		// },
 
 		/**
 		 * Can the sharer set whether the sharee can delete the file ?
 		 *
 		 * @returns {boolean}
 		 */
-		canSetDelete() {
-			// If the owner revoked the permission after the resharer granted it
-			// the share still has the permission, and the resharer is still
-			// allowed to revoke it too (but not to grant it again).
-			return (this.fileInfo.sharePermissions & OC.PERMISSION_DELETE) || this.canDelete
-		},
+		// canSetDelete() {
+		// 	// If the owner revoked the permission after the resharer granted it
+		// 	// the share still has the permission, and the resharer is still
+		// 	// allowed to revoke it too (but not to grant it again).
+		// 	return (this.fileInfo.sharePermissions & OC.PERMISSION_DELETE) || this.canDelete
+		// },
 
 		/**
 		 * Can the sharer set whether the sharee can reshare the file ?
 		 *
 		 * @returns {boolean}
 		 */
-		canSetReshare() {
-			// If the owner revoked the permission after the resharer granted it
-			// the share still has the permission, and the resharer is still
-			// allowed to revoke it too (but not to grant it again).
-			return (this.fileInfo.sharePermissions & OC.PERMISSION_SHARE) || this.canReshare
-		},
+		// canSetReshare() {
+		// 	// If the owner revoked the permission after the resharer granted it
+		// 	// the share still has the permission, and the resharer is still
+		// 	// allowed to revoke it too (but not to grant it again).
+		// 	return (this.fileInfo.sharePermissions & OC.PERMISSION_SHARE) || this.canReshare
+		// },
 
 		/**
 		 * Can the sharee edit the shared file ?

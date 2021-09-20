@@ -88,14 +88,7 @@
 			</ActionCheckbox>
 			<ActionInput v-if="isPasswordProtected"
 				ref="password"
-				v-tooltip.auto="{
-					content: errors.password,
-					show: errors.password,
-					trigger: 'manual',
-					defaultContainer: '#app-sidebar'
-				}"
-				class="share-link-password"
-				:class="{ error: errors.password}"
+				icon=""
 				:disabled="saving"
 				:required="config.enforcePasswordForPublicLink"
 				:value="hasUnsavedPassword ? share.newPassword : '***************'"
@@ -105,7 +98,8 @@
 			</ActionInput>
 
 			<!-- password protected by Talk -->
-			<ActionCheckbox :checked.sync="share.sendPasswordByTalk"
+			<ActionCheckbox v-if="isPasswordProtectedByTalkAvailable"
+				:checked.sync="share.sendPasswordByTalk"
 				:disabled="!canTogglePasswordProtectedByTalkAvailable || saving"
 				class="share-link-password-talk-checkbox"
 				@change="addPasswordProtectedByTalkChange">
@@ -115,21 +109,13 @@
 			<!-- expiration date -->
 			<ActionCheckbox
 				v-if="canHaveExpirationDate"
-				:checked.sync="hasExpirationDate"
-				:disabled="config.isDefaultInternalExpireDateEnforced || saving"
-				@uncheck="onExpirationDisable">
+				:checked.sync="hasExpirationDate">
 				{{ config.isDefaultInternalExpireDateEnforced
 					? t('files_sharing', 'Expiration date enforced')
 					: t('files_sharing', 'Set expiration date') }}
 			</ActionCheckbox>
-			<ActionInput v-if="canHaveExpirationDate && hasExpirationDate"
+			<ActionInput v-if="hasExpirationDate"
 				ref="expireDate"
-				v-tooltip.auto="{
-					content: errors.expireDate,
-					show: errors.expireDate,
-					trigger: 'manual'
-				}"
-				:class="{ error: errors.expireDate}"
 				:disabled="saving"
 				:first-day-of-week="firstDay"
 				:lang="lang"
@@ -137,7 +123,7 @@
 				value-type="format"
 				icon="icon-calendar-dark"
 				type="date"
-				@change:value="addExpirationDate">
+				@update:value="addExpirationDate">
 				{{ t('files_sharing', 'Enter a date') }}
 			</ActionInput>
 		</template>
@@ -187,28 +173,21 @@
 				v-if="config.isResharingAllowed"
 				ref="canReshare"
 				:checked.sync="canReshare"
-				@change="updatePermissions"
+				:value="permissionsShare"
 				:disabled="saving || !canSetReshare">
 				{{ t('files_sharing', 'Allow resharing') }}
 			</ActionCheckbox>
+
 			<!-- expiration date -->
 			<ActionCheckbox
 				v-if="canHaveExpirationDate"
-				:checked.sync="hasExpirationDate"
-				:disabled="config.isDefaultInternalExpireDateEnforced || saving"
-				@uncheck="onExpirationDisable">
+				:checked.sync="hasExpirationDate">
 				{{ config.isDefaultInternalExpireDateEnforced
 					? t('files_sharing', 'Expiration date enforced')
 					: t('files_sharing', 'Set expiration date') }}
 			</ActionCheckbox>
-			<ActionInput v-if="canHaveExpirationDate && hasExpirationDate"
+			<ActionInput v-if="hasExpirationDate"
 				ref="expireDate"
-				v-tooltip.auto="{
-					content: errors.expireDate,
-					show: errors.expireDate,
-					trigger: 'manual'
-				}"
-				:class="{ error: errors.expireDate}"
 				:disabled="saving"
 				:first-day-of-week="firstDay"
 				:lang="lang"
@@ -216,7 +195,7 @@
 				value-type="format"
 				icon="icon-calendar-dark"
 				type="date"
-				@change:value="addExpirationDate">
+				@update:value="addExpirationDate">
 				{{ t('files_sharing', 'Enter a date') }}
 			</ActionInput>
 		</template>
@@ -307,11 +286,11 @@ export default {
 		 * @returns {number}
 		 */
 		sharePermissions() {
-			if (this.isExteranlShare) {
-				return this.share.permissions
-			} else {
-				return ~OC.PERMISSION_SHARE & this.share.permissions
-			}
+			// if (this.isExteranlShare) {
+			// 	return this.share.permissions
+			// } else {
+			return this.share.permissions & ~OC.PERMISSION_SHARE
+			// }
 		},
 		/**
 		 * Generate a unique random id for this SharingPermissions only
@@ -323,9 +302,9 @@ export default {
 			return Math.random().toString(27).substr(2)
 		},
 
-		canHaveNote() {
-			return !this.isRemote
-		},
+		// canHaveNote() {
+		// 	return !this.isRemote
+		// },
 
 		canHaveExpirationDate() {
 			return !this.isRemoteShare
@@ -336,36 +315,36 @@ export default {
 		 *
 		 * @returns {boolean}
 		 */
-		canSetEdit() {
-			// If the owner revoked the permission after the resharer granted it
-			// the share still has the permission, and the resharer is still
-			// allowed to revoke it too (but not to grant it again).
-			return (this.fileInfo.sharePermissions & OC.PERMISSION_UPDATE) || this.canEdit
-		},
+		// canSetEdit() {
+		// 	// If the owner revoked the permission after the resharer granted it
+		// 	// the share still has the permission, and the resharer is still
+		// 	// allowed to revoke it too (but not to grant it again).
+		// 	return (this.fileInfo.sharePermissions & OC.PERMISSION_UPDATE) || this.canEdit
+		// },
 
 		/**
 		 * Can the sharer set whether the sharee can create the file ?
 		 *
 		 * @returns {boolean}
 		 */
-		canSetCreate() {
-			// If the owner revoked the permission after the resharer granted it
-			// the share still has the permission, and the resharer is still
-			// allowed to revoke it too (but not to grant it again).
-			return (this.fileInfo.sharePermissions & OC.PERMISSION_CREATE) || this.canCreate
-		},
+		// canSetCreate() {
+		// 	// If the owner revoked the permission after the resharer granted it
+		// 	// the share still has the permission, and the resharer is still
+		// 	// allowed to revoke it too (but not to grant it again).
+		// 	return (this.fileInfo.sharePermissions & OC.PERMISSION_CREATE) || this.canCreate
+		// },
 
 		/**
 		 * Can the sharer set whether the sharee can delete the file ?
 		 *
 		 * @returns {boolean}
 		 */
-		canSetDelete() {
-			// If the owner revoked the permission after the resharer granted it
-			// the share still has the permission, and the resharer is still
-			// allowed to revoke it too (but not to grant it again).
-			return (this.fileInfo.sharePermissions & OC.PERMISSION_DELETE) || this.canDelete
-		},
+		// canSetDelete() {
+		// 	// If the owner revoked the permission after the resharer granted it
+		// 	// the share still has the permission, and the resharer is still
+		// 	// allowed to revoke it too (but not to grant it again).
+		// 	return (this.fileInfo.sharePermissions & OC.PERMISSION_DELETE) || this.canDelete
+		// },
 
 		/**
 		 * Can the sharer set whether the sharee can reshare the file ?
@@ -387,7 +366,7 @@ export default {
 				return this.share.hasSharePermission
 			},
 			set(checked) {
-				this.updatePermissions({ isReshareChecked: checked })
+				this.updatePermissions({ isReshareChecked: checked, otherPermissions: this.sharePermissions })
 			},
 		},
 
@@ -415,9 +394,9 @@ export default {
 			},
 			set(enabled) {
 				this.share.expireDate = enabled
-					? this.config.defaultInternalExpirationDateString !== ''
+					? (this.config.defaultInternalExpirationDateString !== ''
 						? this.config.defaultInternalExpirationDateString
-						: moment().format('YYYY-MM-DD')
+						: ' ')
 					: ''
 			},
 		},
@@ -446,15 +425,15 @@ export default {
 			return !!(this.fileInfo.permissions & OC.PERMISSION_CREATE)
 		},
 
-		dateMaxEnforced() {
-			if (!this.isRemote) {
-				return this.config.isDefaultInternalExpireDateEnforced
-					&& moment().add(1 + this.config.defaultInternalExpireDate, 'days')
-			} else {
-				return this.config.isDefaultRemoteExpireDateEnforced
-					&& moment().add(1 + this.config.defaultRemoteExpireDate, 'days')
-			}
-		},
+		// dateMaxEnforced() {
+		// 	if (!this.isRemote) {
+		// 		return this.config.isDefaultInternalExpireDateEnforced
+		// 			&& moment().add(1 + this.config.defaultInternalExpireDate, 'days')
+		// 	} else {
+		// 		return this.config.isDefaultRemoteExpireDateEnforced
+		// 			&& moment().add(1 + this.config.defaultRemoteExpireDate, 'days')
+		// 	}
+		// },
 
 		isExteranlShare() {
 			if (this.fromInput) {
@@ -481,28 +460,31 @@ export default {
 			// format to YYYY-MM-DD
 			const value = moment(date).format('YYYY-MM-DD')
 			this.share.expireDate = value
-			// this.queueUpdate('expireDate')
 		},
 
 		/**
 		 * On permissions change
 		 * @param {Event} event js event
 		 */
-		updatePermissions() {
-			console.debug('can reshare ', this.canReshare)
-			console.debug('share permissions ', this.permissionsShare)
-			const permissions = this.share.permissions
-			| (this.canReshare ? this.permissionsShare : 0)
+		updatePermissions({ isReshareChecked = this.canReshare, otherPermissions = 0 } = {}) {
+			// calc permissions if checked
+			const permissions = 0
+				| otherPermissions
+				// | (isWrite ? isWrite : 0)
+				// | (isReadOnly ? isReadOnly : 0)
+				// | (isUpdateOnly ? isUpdateOnly : 0)
+				| (isReshareChecked ? this.permissionsShare : 0)
+
 			this.share.permissions = permissions
-			console.debug('update permissions ', this.share.permissions)
 		},
 
 		addPermissions(event) {
+			let permissions = 0
 			if (this.isExteranlShare) {
-				const permissions = parseInt(event.target.value, 10)
+				permissions = parseInt(event.target.value, 10)
 				this.share.permissions = permissions
 			} else {
-				const permissions = parseInt(event.target.value, 10)
+				permissions = parseInt(event.target.value, 10)
 				| (this.canReshare ? this.permissionsShare : 0)
 				this.share.permissions = permissions
 			}
@@ -519,13 +501,15 @@ export default {
 
 		confirmSharing() {
 			this.loading = true
-			this.updateShare(this.share.id, {
+			const result = this.updateShare(this.share.id, {
 				permissions: this.share.permissions,
-				hide_download: this.share.hideDownload,
+				hideDownload: this.share.hideDownload.toString(),
 				password: this.share.password,
-				expiration: this.share.expireDate,
-				password_by_talk: this.share.sendPasswordByTalk,
+				expireDate: this.share.expireDate,
+				sendPasswordByTalk: this.share.sendPasswordByTalk.toString(),
 			})
+			// this.$emit('add:share', this.share)
+			console.debug('updated share', result)
 			this.loading = true
 			this.$store.commit('addCurrentTab', 'default')
 		},
@@ -554,3 +538,8 @@ export default {
 	},
 }
 </script>
+<style lang="scss">
+.action-input__label {
+	display: none !important;
+}
+</style>

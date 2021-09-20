@@ -339,27 +339,27 @@ export default {
 		 * Does the current share have an expiration date
 		 * @returns {boolean}
 		 */
-		hasExpirationDate: {
-			get() {
-				return this.config.isDefaultExpireDateEnforced
-					|| !!this.share.expireDate
-			},
-			set(enabled) {
-				let dateString = moment(this.config.defaultExpirationDateString)
-				if (!dateString.isValid()) {
-					dateString = moment()
-				}
-				this.share.state.expiration = enabled
-					? dateString.format('YYYY-MM-DD')
-					: ''
-				console.debug('Expiration date status', enabled, this.share.expireDate)
-			},
-		},
+		// hasExpirationDate: {
+		// 	get() {
+		// 		return this.config.isDefaultExpireDateEnforced
+		// 			|| !!this.share.expireDate
+		// 	},
+		// 	set(enabled) {
+		// 		let dateString = moment(this.config.defaultExpirationDateString)
+		// 		if (!dateString.isValid()) {
+		// 			dateString = moment()
+		// 		}
+		// 		this.share.state.expiration = enabled
+		// 			? dateString.format('YYYY-MM-DD')
+		// 			: ''
+		// 		console.debug('Expiration date status', enabled, this.share.expireDate)
+		// 	},
+		// },
 
-		dateMaxEnforced() {
-			return this.config.isDefaultExpireDateEnforced
-				&& moment().add(1 + this.config.defaultExpireDate, 'days')
-		},
+		// dateMaxEnforced() {
+		// 	return this.config.isDefaultExpireDateEnforced
+		// 		&& moment().add(1 + this.config.defaultExpireDate, 'days')
+		// },
 
 		/**
 		 * Is the current share password protected ?
@@ -381,30 +381,30 @@ export default {
 		 * Is Talk enabled?
 		 * @returns {boolean}
 		 */
-		isTalkEnabled() {
-			return OC.appswebroots.spreed !== undefined
-		},
+		// isTalkEnabled() {
+		// 	return OC.appswebroots.spreed !== undefined
+		// },
 
 		/**
 		 * Is it possible to protect the password by Talk?
 		 * @returns {boolean}
 		 */
-		isPasswordProtectedByTalkAvailable() {
-			return this.isPasswordProtected && this.isTalkEnabled
-		},
+		// isPasswordProtectedByTalkAvailable() {
+		// 	return this.isPasswordProtected && this.isTalkEnabled
+		// },
 
 		/**
 		 * Is the current share password protected by Talk?
 		 * @returns {boolean}
 		 */
-		isPasswordProtectedByTalk: {
-			get() {
-				return this.share.sendPasswordByTalk
-			},
-			async set(enabled) {
-				this.share.sendPasswordByTalk = enabled
-			},
-		},
+		// isPasswordProtectedByTalk: {
+		// 	get() {
+		// 		return this.share.sendPasswordByTalk
+		// 	},
+		// 	async set(enabled) {
+		// 		this.share.sendPasswordByTalk = enabled
+		// 	},
+		// },
 
 		/**
 		 * Is the current share an email share ?
@@ -416,19 +416,19 @@ export default {
 				: false
 		},
 
-		canTogglePasswordProtectedByTalkAvailable() {
-			if (!this.isPasswordProtected) {
-				// Makes no sense
-				return false
-			} else if (this.isEmailShareType && !this.hasUnsavedPassword) {
-				// For email shares we need a new password in order to enable or
-				// disable
-				return false
-			}
+		// canTogglePasswordProtectedByTalkAvailable() {
+		// 	if (!this.isPasswordProtected) {
+		// 		// Makes no sense
+		// 		return false
+		// 	} else if (this.isEmailShareType && !this.hasUnsavedPassword) {
+		// 		// For email shares we need a new password in order to enable or
+		// 		// disable
+		// 		return false
+		// 	}
 
-			// Anything else should be fine
-			return true
-		},
+		// 	// Anything else should be fine
+		// 	return true
+		// },
 
 		/**
 		 * Pending data.
@@ -447,16 +447,16 @@ export default {
 		 * Can the recipient edit the file ?
 		 * @returns {boolean}
 		 */
-		canUpdate: {
-			get() {
-				return this.share.hasUpdatePermission
-			},
-			set(enabled) {
-				this.share.permissions = enabled
-					? OC.PERMISSION_READ | OC.PERMISSION_UPDATE
-					: OC.PERMISSION_READ
-			},
-		},
+		// canUpdate: {
+		// 	get() {
+		// 		return this.share.hasUpdatePermission
+		// 	},
+		// 	set(enabled) {
+		// 		this.share.permissions = enabled
+		// 			? OC.PERMISSION_READ | OC.PERMISSION_UPDATE
+		// 			: OC.PERMISSION_READ
+		// 	},
+		// },
 
 		/**
 		 * Can the sharee edit the shared file ?
@@ -691,20 +691,20 @@ export default {
 		 * Label changed, let's save it to a different key
 		 * @param {String} label the share label
 		 */
-		onLabelChange(label) {
-			this.$set(this.share, 'newLabel', label.trim())
-		},
+		// onLabelChange(label) {
+		// 	this.$set(this.share, 'newLabel', label.trim())
+		// },
 
 		/**
 		 * When the note change, we trim, save and dispatch
 		 */
-		onLabelSubmit() {
-			if (typeof this.share.newLabel === 'string') {
-				this.share.label = this.share.newLabel
-				this.$delete(this.share, 'newLabel')
-				this.queueUpdate('label')
-			}
-		},
+		// onLabelSubmit() {
+		// 	if (typeof this.share.newLabel === 'string') {
+		// 		this.share.label = this.share.newLabel
+		// 		this.$delete(this.share, 'newLabel')
+		// 		this.queueUpdate('label')
+		// 	}
+		// },
 		async copyLink() {
 			try {
 				await this.$copyText(this.shareLink)
@@ -733,9 +733,9 @@ export default {
 		 * Then on submit (or menu close), we sync it.
 		 * @param {string} password the changed password
 		 */
-		onPasswordChange(password) {
-			this.$set(this.share, 'newPassword', password)
-		},
+		// onPasswordChange(password) {
+		// 	this.$set(this.share, 'newPassword', password)
+		// },
 
 		/**
 		 * Uncheck password protection
@@ -779,13 +779,13 @@ export default {
 		 * a new password is set when enabling or disabling
 		 * "sendPasswordByTalk".
 		 */
-		onPasswordProtectedByTalkChange() {
-			if (this.hasUnsavedPassword) {
-				this.share.password = this.share.newPassword.trim()
-			}
+		// onPasswordProtectedByTalkChange() {
+		// 	if (this.hasUnsavedPassword) {
+		// 		this.share.password = this.share.newPassword.trim()
+		// 	}
 
-			this.queueUpdate('sendPasswordByTalk', 'password')
-		},
+		// 	this.queueUpdate('sendPasswordByTalk', 'password')
+		// },
 
 		/**
 		 * Save potential changed data on menu close
@@ -800,9 +800,6 @@ export default {
 		 * Used in the pending popover
 		 */
 		onCancel() {
-			// this.share already exists at this point,
-			// but is incomplete as not pushed to server
-			// YET. We can safely delete the share :)
 			this.$emit('remove:share', this.share)
 		},
 

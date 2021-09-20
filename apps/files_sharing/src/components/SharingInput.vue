@@ -443,6 +443,8 @@ export default {
 			this.$store.commit('addFromInput', true)
 			const newShare = new Share({})
 			newShare.permissions = OC.PERMISSION_READ
+			newShare.expireDate = ''
+			newShare.password = ''
 			this.$store.commit('addShare', newShare)
 			this.$store.commit('addCurrentTab', 'permissions')
 		},
