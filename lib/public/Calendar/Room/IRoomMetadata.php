@@ -37,7 +37,7 @@ interface IRoomMetadata {
 	/**
 	 * Type of room
 	 *
-	 * Allowed values for this key include:
+	 * Allowed values for this key are:
 	 * - meeting-room
 	 * - lecture-hall
 	 * - seminar-room
