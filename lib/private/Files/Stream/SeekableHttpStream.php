@@ -77,6 +77,8 @@ class SeekableHttpStream implements File {
 	private $current;
 	/** @var int */
 	private $offset = 0;
+	/** @var int */
+	private $length = 0;
 
 	private function reconnect(int $start) {
 		$range = $start . '-';
@@ -102,12 +104,14 @@ class SeekableHttpStream implements File {
 		$content = trim(explode(':', $contentRange)[1]);
 		$range = trim(explode(' ', $content)[1]);
 		$begin = intval(explode('-', $range)[0]);
+		$length = intval(explode('/', $range)[1]);
 
 		if ($begin !== $start) {
 			return false;
 		}
 
 		$this->offset = $begin;
+		$this->length = $length;
 
 		return true;
 	}
@@ -141,7 +145,12 @@ class SeekableHttpStream implements File {
 				}
 				return $this->reconnect($this->offset + $offset);
 			case SEEK_END:
-				return false;
+				if ($this->length === 0) {
+					return false;
+				} elseif ($this->length + $offset === $this->offset) {
+					return true;
+				}
+				return $this->reconnect($this->length + $offset);
 		}
 		return false;
 	}
