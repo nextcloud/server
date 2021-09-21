@@ -36,7 +36,7 @@ export const getTemplates = async function() {
  * @param {string} templateType The template type e.g 'user'
  */
 export const createFromTemplate = async function(filePath, templatePath, templateType) {
-	const response = await axios.post(generateOcsUrl('apps/files/api/v1/templates/create'), {
+	const response = await axios.post(generateOcsUrl('apps/files/api/v1/templates', 2) + 'create', {
 		filePath,
 		templatePath,
 		templateType,
