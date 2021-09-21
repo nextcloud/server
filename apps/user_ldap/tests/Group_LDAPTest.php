@@ -321,6 +321,38 @@ class Group_LDAPTest extends TestCase {
 		$this->assertSame(false, $gid);
 	}
 
+	public function testPrimaryGroupID2NameSuccessCache() {
+		$access = $this->getAccessMock();
+		$pluginManager = $this->getPluginManagerMock();
+
+		$this->enableGroups($access);
+
+		$userDN = 'cn=alice,cn=foo,dc=barfoo,dc=bar';
+		$gid = '3117';
+		$groupDN = 'cn=foo,dc=barfoo,dc=bar';
+
+		/** @var MockObject $connection */
+		$connection = $access->connection;
+		$connection->expects($this->once())
+			->method('getFromCache')
+			->with('primaryGroupIDtoName_' . $gid)
+			->willReturn('MyGroup');
+
+		$access->expects($this->never())
+			->method('getSID');
+
+		$access->expects($this->never())
+			->method('searchGroups');
+
+		$access->expects($this->never())
+			->method('dn2groupname');
+
+		$groupBackend = new GroupLDAP($access, $pluginManager);
+		$group = $groupBackend->primaryGroupID2Name($gid, $userDN);
+
+		$this->assertSame('MyGroup', $group);
+	}
+
 	public function testPrimaryGroupID2NameSuccess() {
 		$access = $this->getAccessMock();
 		$pluginManager = $this->getPluginManagerMock();
