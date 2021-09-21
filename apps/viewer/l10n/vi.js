@@ -1,10 +1,14 @@
 OC.L10N.register(
     "viewer",
     {
+    "Viewer" : "Trình xem",
+    "Simple file viewer with slideshow for media" : "Trình xem tệp đơn giản có trình chiếu phương tiện",
+    "Show your latest holiday photos and videos like in the movies, show a glimpse of your latest novel directly from your nextcloud, choose the best GIF of your collection thanks to the direct preview of your favorites files and many more!" : "Hiện các bức ảnh và video mới nhất về kỳ nghỉ của bạn như ở trong phim, hiện bản xem trước ngắn của cuốn tiểu thuyết mới nhất của bạn trực tiếp từ Nextcloud của bạn, chọn ảnh GIF đẹp nhất trong bộ sưu tập nhờ có mục xem trước trực tiếp các tệp yêu thích của bạn và còn nhiều hơn thế nữa!",
     "Your browser does not support audio." : "Trình duyệt của bạn không hỗ trợ âm thanh.",
     "Error loading {name}" : "Lỗi khi tải {name}",
     "Your browser does not support videos." : "Trình duyệt của bạn không hỗ trợ video.",
     "Open sidebar" : "Mở thanh bên",
+    "Download" : "Tải xuống",
     "Delete" : "Xóa",
     "View" : "Xem"
 },
