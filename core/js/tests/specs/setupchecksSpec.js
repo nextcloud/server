@@ -182,7 +182,7 @@ describe('OC.SetupChecks tests', function() {
 			async.done(function( data, s, x ){
 				expect(data).toEqual([
 					{
-						msg: 'Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root.',
+						msg: 'Your data directory and files are probably accessible from the internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root.',
 						type: OC.SetupChecks.MESSAGE_TYPE_ERROR
 					}]);
 				done();
@@ -260,7 +260,7 @@ describe('OC.SetupChecks tests', function() {
 			async.done(function( data, s, x ){
 				expect(data).toEqual([
 					{
-						msg: 'This server has no working Internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. Establish a connection from this server to the Internet to enjoy all features.',
+						msg: 'This server has no working internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. Establish a connection from this server to the internet to enjoy all features.',
 						type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 					}, {
 						msg: 'No memory cache has been configured. To enhance performance, please configure a memcache, if available. Further information can be found in the <a target="_blank" rel="noreferrer noopener" class="external" href="https://docs.nextcloud.com/server/go.php?to=admin-performance">documentation ↗</a>.',
@@ -316,7 +316,7 @@ describe('OC.SetupChecks tests', function() {
 			async.done(function( data, s, x ){
 				expect(data).toEqual([
 					{
-						msg: 'This server has no working Internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. Establish a connection from this server to the Internet to enjoy all features.',
+						msg: 'This server has no working internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. Establish a connection from this server to the internet to enjoy all features.',
 						type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 					},
 					{
@@ -373,7 +373,7 @@ describe('OC.SetupChecks tests', function() {
 			async.done(function( data, s, x ){
 				expect(data).toEqual([
 				{
-					msg: 'This server has no working Internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. Establish a connection from this server to the Internet to enjoy all features.',
+					msg: 'This server has no working internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. Establish a connection from this server to the internet to enjoy all features.',
 					type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 				}
 				]);
