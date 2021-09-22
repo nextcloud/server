@@ -13,6 +13,7 @@ return array(
     'OCA\\Files_Trashbin\\Command\\CleanUp' => $baseDir . '/../lib/Command/CleanUp.php',
     'OCA\\Files_Trashbin\\Command\\Expire' => $baseDir . '/../lib/Command/Expire.php',
     'OCA\\Files_Trashbin\\Command\\ExpireTrash' => $baseDir . '/../lib/Command/ExpireTrash.php',
+    'OCA\\Files_Trashbin\\Command\\RestoreAllFiles' => $baseDir . '/../lib/Command/RestoreAllFiles.php',
     'OCA\\Files_Trashbin\\Command\\Size' => $baseDir . '/../lib/Command/Size.php',
     'OCA\\Files_Trashbin\\Controller\\PreviewController' => $baseDir . '/../lib/Controller/PreviewController.php',
     'OCA\\Files_Trashbin\\Events\\MoveToTrashEvent' => $baseDir . '/../lib/Events/MoveToTrashEvent.php',
