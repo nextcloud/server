@@ -16,7 +16,7 @@ OC.L10N.register(
     "File created" : "Arquivo criado",
     "File updated" : "Arquivo atualizado",
     "File renamed" : "Arquivo renomeado",
-    "File deleted" : "Arquivo excluído",
+    "File deleted" : "Arquivo apagado",
     "File accessed" : "Arquivo acessado",
     "File copied" : "Arquivo copiado",
     "Tag assigned" : "Etiqueta atribuída",

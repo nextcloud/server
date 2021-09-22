@@ -386,6 +386,7 @@
     "Use system cron service to call the cron.php file every 5 minutes." : "Użyj usługi systemowej cron, aby wywoływać plik cron.php co 5 minut.",
     "The cron.php needs to be executed by the system user \"%s\"." : "Cron.php musi zostać wykonywany przez użytkownika systemu \"%s\".",
     "To run this you need the PHP POSIX extension. See {linkstart}PHP documentation{linkend} for more details." : "Dla uruchomienia tego potrzebujesz rozszerzenia PHP POSIX. Zobacz {linkstart}dokumentację PHP{linkend}, aby uzyskać więcej szczegółów.",
+    "You need to enable the File sharing App." : "Musisz włączyć aplikację do udostępniania plików.",
     "As admin you can fine-tune the sharing behavior. Please see the documentation for more information." : "Jako administrator możesz zoptymalizować ustawienia udostępniania. Szczegółowe informacje znajdziesz w dokumentacji.",
     "Allow apps to use the Share API" : "Zezwalaj aplikacjom na korzystanie z API udostępniania",
     "Set default expiration date for shares" : "Ustaw domyślną datę ważności udostępnień",

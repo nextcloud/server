@@ -388,6 +388,7 @@ OC.L10N.register(
     "Use system cron service to call the cron.php file every 5 minutes." : "Usa el servicio cron del sistema para llamar al archivo cron.php cada 5 minutos.",
     "The cron.php needs to be executed by the system user \"%s\"." : "El archivo cron.php debe ser ejecutado por el usuario de sistema \"%s\".",
     "To run this you need the PHP POSIX extension. See {linkstart}PHP documentation{linkend} for more details." : "Necesitas la extensión PHP POSIX para lanzar esto. Mira la {linkstart}documentación de PHP{linkend} para más detalles.",
+    "You need to enable the File sharing App." : "Tienes que activar la app File sharing",
     "As admin you can fine-tune the sharing behavior. Please see the documentation for more information." : "Como administrador puedes ajustar el comportamiento de compartir. Por favor, lea la documentación para más información.",
     "Allow apps to use the Share API" : "Permitir a las aplicaciones utilizar la API de Compartir",
     "Set default expiration date for shares" : "Establecer fecha de caducidad predeterminada para recursos compartidos",

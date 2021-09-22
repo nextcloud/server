@@ -31,7 +31,7 @@ OC.L10N.register(
     "New comment …" : "Novo comentário",
     "Post" : "Postar",
     "Cancel" : "Cancelar",
-    "[Deleted user]" : "[Usuário excluído]",
+    "[Deleted user]" : "[Usuário removido]",
     "More comments …" : "Mais comentários...",
     "Save" : "Salvar",
     "Allowed characters {count} of {max}" : "{count} de {max} caracteres permitidos",
