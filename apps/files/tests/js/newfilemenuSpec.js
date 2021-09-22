@@ -62,41 +62,13 @@ describe('OCA.Files.NewFileMenu', function() {
 		beforeEach(function() {
 			createDirectoryStub = sinon.stub(FileList.prototype, 'createDirectory');
 			menu.$el.find('.menuitem').eq(1).click();
-			$input = menu.$el.find('form.filenameform input');
 		});
 		afterEach(function() {
 			createDirectoryStub.restore();
 		});
 
-		it('sets default text in field', function() {
-			// text + submit
-			expect($input.length).toEqual(2);
-			expect($input.val()).toEqual('New folder');
-		});
-		it('prevents entering invalid file names', function() {
-			$input.val('..');
-			$input.trigger(new $.Event('keyup', {keyCode: 13}));
-			$input.closest('form').submit();
-
-			expect(createDirectoryStub.notCalled).toEqual(true);
-		});
-		it('prevents entering file names that already exist', function() {
-			var inListStub = sinon.stub(fileList, 'inList').returns(true);
-			$input.val('existing.txt');
-			$input.trigger(new $.Event('keyup', {keyCode: 13}));
-			$input.closest('form').submit();
-
-			expect(createDirectoryStub.notCalled).toEqual(true);
-			inListStub.restore();
-		});
 		it('creates directory when clicking on create directory field', function() {
-			$input = menu.$el.find('form.filenameform input');
-			$input.val('some folder');
-			$input.trigger(new $.Event('keyup', {keyCode: 13}));
-			$input.closest('form').submit();
-
-			expect(createDirectoryStub.calledOnce).toEqual(true);
-			expect(createDirectoryStub.getCall(0).args[0]).toEqual('some folder');
+			expect(createDirectoryStub.getCall(0).args[0]).toEqual('New folder');
 		});
 	});
 	describe('custom entries', function() {
@@ -135,17 +107,7 @@ describe('OCA.Files.NewFileMenu', function() {
 		});
 		it('calls action handler when clicking on custom item', function() {
 			menu.$el.find('.menuitem').eq(2).click();
-			var $input = menu.$el.find('form.filenameform input');
-			$input.val('some name');
-			$input.trigger(new $.Event('keyup', {keyCode: 13}));
-			$input.closest('form').submit();
-
-			expect(actionStub.calledOnce).toEqual(true);
-			expect(actionStub.getCall(0).args[0]).toEqual('some name');
-		});
-		it('switching fields removes the previous form', function() {
-			menu.$el.find('.menuitem').eq(2).click();
-			expect(menu.$el.find('form').length).toEqual(1);
+			expect(actionStub.getCall(0).args[0]).toEqual('New text file.txt');
 		});
 	});
 });
