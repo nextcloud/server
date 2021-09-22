@@ -386,6 +386,7 @@
     "Use system cron service to call the cron.php file every 5 minutes." : "Sistemaren cron zerbitzua erabili cron.php-ri 5 minutuan behin deitzeko.",
     "The cron.php needs to be executed by the system user \"%s\"." : "Sistemako \"%s\" erabiltzaileak, cron.php exekutatu behar du.",
     "To run this you need the PHP POSIX extension. See {linkstart}PHP documentation{linkend} for more details." : "Hau exekutatzeko PHP POSIX luzapena behar duzu. {linkstart}PHP dokumentazioa{linkend} ikusi informazio gehiagorako",
+    "You need to enable the File sharing App." : "Fitxategi partekatze aplikazioa gaitu behar duzu.",
     "As admin you can fine-tune the sharing behavior. Please see the documentation for more information." : "Admin bezala partekatze portaerak zehazki konfigura daitezke. Dokumentazioaikusi informazio gehiagorako. ",
     "Allow apps to use the Share API" : "Baimendu aplikazioak partekatzeko APIa erabiltzeko",
     "Set default expiration date for shares" : "Partekatzeei defektuzko iraungitze data ezarri",
