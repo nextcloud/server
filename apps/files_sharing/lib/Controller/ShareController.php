@@ -403,6 +403,13 @@ class ShareController extends AuthPublicShareController {
 
 			$shareTmpl['dir'] = $shareNode->getRelativePath($folderNode->getPath());
 
+			// In some cases (for example, when quota includes the external
+			// storages) the filesystem needs to be mounted to be able to check
+			// the free space.
+			/* FIXME: We should do this all nicely in OCP */
+			OC_Util::tearDownFS();
+			OC_Util::setupFS($share->getShareOwner());
+
 			/*
 			 * The OC_Util methods require a view. This just uses the node API
 			 */
