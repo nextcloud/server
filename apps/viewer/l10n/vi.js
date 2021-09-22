@@ -10,6 +10,7 @@ OC.L10N.register(
     "Open sidebar" : "Mở thanh bên",
     "Download" : "Tải xuống",
     "Delete" : "Xóa",
+    "There is no plugin available to display this file type" : "Không có plugin nào để hiển thị loại tệp này",
     "View" : "Xem"
 },
 "nplurals=1; plural=0;");
