@@ -98,6 +98,7 @@ module.exports = []
 						'striptags',
 						'toastify-js',
 						'v-tooltip',
+						'yocto-queue',
 					]),
 				},
 				{
