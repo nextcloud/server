@@ -220,7 +220,6 @@ OC.L10N.register(
     "Delete email" : "E-Mail löschen",
     "Unset as primary email" : "Als primäre E-Mail-Adresse deaktiviert",
     "This address is not confirmed" : "Diese Adresse ist nicht bestätigt",
-    "Set as primary mail" : "Als primäre E-Mail-Adresse festlegen",
     "Your email address" : "Ihre E-Mail-Adresse",
     "Additional email address {index}" : "Zusätzliche E-Mail-Adresse {index}",
     "No email address set" : "Keine E-Mail-Adresse angegeben",
@@ -472,6 +471,7 @@ OC.L10N.register(
     "No display name set" : "Kein Anzeigename angegeben",
     "For password reset and notifications" : "Für Passwort-Wiederherstellung und Benachrichtigungen",
     "Change privacy level of full name" : "Datenschutzstufe des vollen Namens ändern",
-    "Change privacy level of email" : "Datenschutzstufe der E-Mail-Adresse ändern"
+    "Change privacy level of email" : "Datenschutzstufe der E-Mail-Adresse ändern",
+    "Set as primary mail" : "Als primäre E-Mail-Adresse festlegen"
 },
 "nplurals=2; plural=(n != 1);");

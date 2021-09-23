@@ -220,7 +220,6 @@ OC.L10N.register(
     "Delete email" : "删除电子邮件",
     "Unset as primary email" : "取消设为主邮件地址",
     "This address is not confirmed" : "此地址未经确认",
-    "Set as primary mail" : "设为主邮件地址",
     "Your email address" : "您的电子邮件",
     "Additional email address {index}" : "附加邮件地址 {index}",
     "No email address set" : "尚未设置 Email 地址",
@@ -472,6 +471,7 @@ OC.L10N.register(
     "No display name set" : "不显示名称设置",
     "For password reset and notifications" : "用于密码重置和通知",
     "Change privacy level of full name" : "更改全名的隐私级别",
-    "Change privacy level of email" : "更改电子邮件的隐私级别"
+    "Change privacy level of email" : "更改电子邮件的隐私级别",
+    "Set as primary mail" : "设为主邮件地址"
 },
 "nplurals=1; plural=0;");
