@@ -369,11 +369,11 @@ export default {
 			return [
 				{
 					label: t('settings', 'Common languages'),
-					languages: this.settings.languages.commonlanguages,
+					languages: this.settings.languages.commonLanguages,
 				},
 				{
-					label: t('settings', 'All languages'),
-					languages: this.settings.languages.languages,
+					label: t('settings', 'Other languages'),
+					languages: this.settings.languages.otherLanguages,
 				},
 			]
 		},
@@ -461,8 +461,13 @@ export default {
 				group: this.selectedGroup !== 'disabled' ? this.selectedGroup : '',
 				search: this.searchQuery,
 			})
-				.then((response) => {
-					response ? $state.loaded() : $state.complete()
+				.then((usersCount) => {
+					if (usersCount > 0) {
+						$state.loaded()
+					}
+					if (usersCount < this.usersLimit) {
+						$state.complete()
+					}
 				})
 		},
 

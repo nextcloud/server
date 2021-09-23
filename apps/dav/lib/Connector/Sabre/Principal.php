@@ -50,6 +50,7 @@ use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\L10N\IFactory;
 use OCP\Share\IManager as IShareManager;
 use Sabre\DAV\Exception;
 use Sabre\DAV\PropPatch;
@@ -89,6 +90,8 @@ class Principal implements BackendInterface {
 
 	/** @var IConfig */
 	private $config;
+	/** @var IFactory */
+	private $languageFactory;
 
 	public function __construct(IUserManager $userManager,
 								IGroupManager $groupManager,
@@ -98,6 +101,7 @@ class Principal implements BackendInterface {
 								ProxyMapper $proxyMapper,
 								KnownUserService $knownUserService,
 								IConfig $config,
+								IFactory $languageFactory,
 								string $principalPrefix = 'principals/users/') {
 		$this->userManager = $userManager;
 		$this->groupManager = $groupManager;
@@ -109,6 +113,7 @@ class Principal implements BackendInterface {
 		$this->proxyMapper = $proxyMapper;
 		$this->knownUserService = $knownUserService;
 		$this->config = $config;
+		$this->languageFactory = $languageFactory;
 	}
 
 	use PrincipalProxyTrait {
@@ -295,16 +300,13 @@ class Principal implements BackendInterface {
 					if (!$allowEnumeration) {
 						if ($allowEnumerationFullMatch) {
 							$users = $this->userManager->getByEmail($value);
-							$users = \array_filter($users, static function (IUser $user) use ($value) {
-								return $user->getEMailAddress() === $value;
-							});
 						} else {
 							$users = [];
 						}
 					} else {
 						$users = $this->userManager->getByEmail($value);
 						$users = \array_filter($users, function (IUser $user) use ($currentUser, $value, $limitEnumerationPhone, $limitEnumerationGroup, $allowEnumerationFullMatch, $currentUserGroups) {
-							if ($allowEnumerationFullMatch && $user->getEMailAddress() === $value) {
+							if ($allowEnumerationFullMatch && $user->getSystemEMailAddress() === $value) {
 								return true;
 							}
 
@@ -508,9 +510,10 @@ class Principal implements BackendInterface {
 			'uri' => $this->principalPrefix . '/' . $userId,
 			'{DAV:}displayname' => is_null($displayName) ? $userId : $displayName,
 			'{urn:ietf:params:xml:ns:caldav}calendar-user-type' => 'INDIVIDUAL',
+			'{http://nextcloud.com/ns}language' => $this->languageFactory->getUserLanguage($user),
 		];
 
-		$email = $user->getEMailAddress();
+		$email = $user->getSystemEMailAddress();
 		if (!empty($email)) {
 			$principal['{http://sabredav.org/ns}email-address'] = $email;
 		}

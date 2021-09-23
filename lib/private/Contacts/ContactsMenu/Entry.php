@@ -165,6 +165,7 @@ class Entry implements IEntry {
 			'topAction' => $topAction,
 			'actions' => $otherActions,
 			'lastMessage' => '',
+			'emailAddresses' => $this->getEMailAddresses(),
 		];
 	}
 }

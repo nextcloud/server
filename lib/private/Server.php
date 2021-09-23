@@ -135,6 +135,7 @@ use OC\Security\CSRF\TokenStorage\SessionStorage;
 use OC\Security\Hasher;
 use OC\Security\SecureRandom;
 use OC\Security\TrustedDomainHelper;
+use OC\Security\VerificationToken\VerificationToken;
 use OC\Session\CryptoWrapper;
 use OC\Share20\ProviderFactory;
 use OC\Share20\ShareHelper;
@@ -224,6 +225,7 @@ use OCP\Security\ICredentialsManager;
 use OCP\Security\ICrypto;
 use OCP\Security\IHasher;
 use OCP\Security\ISecureRandom;
+use OCP\Security\VerificationToken\IVerificationToken;
 use OCP\Share\IShareHelper;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTagObjectMapper;
@@ -785,15 +787,27 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerDeprecatedAlias('Search', ISearch::class);
 
 		$this->registerService(\OC\Security\RateLimiting\Backend\IBackend::class, function ($c) {
-			return new \OC\Security\RateLimiting\Backend\MemoryCache(
-				$this->get(ICacheFactory::class),
-				new \OC\AppFramework\Utility\TimeFactory()
-			);
+			$cacheFactory = $c->get(ICacheFactory::class);
+			if ($cacheFactory->isAvailable()) {
+				$backend = new \OC\Security\RateLimiting\Backend\MemoryCacheBackend(
+					$this->get(ICacheFactory::class),
+					new \OC\AppFramework\Utility\TimeFactory()
+				);
+			} else {
+				$backend = new \OC\Security\RateLimiting\Backend\DatabaseBackend(
+					$c->get(IDBConnection::class),
+					new \OC\AppFramework\Utility\TimeFactory()
+				);
+			}
+
+			return $backend;
 		});
 
 		$this->registerAlias(\OCP\Security\ISecureRandom::class, SecureRandom::class);
 		/** @deprecated 19.0.0 */
 		$this->registerDeprecatedAlias('SecureRandom', \OCP\Security\ISecureRandom::class);
+
+		$this->registerAlias(IVerificationToken::class, VerificationToken::class);
 
 		$this->registerAlias(ICrypto::class, Crypto::class);
 		/** @deprecated 19.0.0 */

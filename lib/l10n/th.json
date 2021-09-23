@@ -34,7 +34,7 @@
     "Dot files are not allowed" : "ชื่อไฟล์ห้ามมีจุด",
     "Empty filename is not allowed" : "ชื่อไฟล์ห้ามว่างเปล่า",
     "App \"%s\" cannot be installed because appinfo file cannot be read." : "แอพฯ \"%s\" ไม่สามารถติดตั้งได้เพราะไฟล์ appInfo ไม่สามารถอ่านได้",
-    "__language_name__" : "ภาษาไทย - Thai languages",
+    "__language_name__" : "ภาษาไทย - Thai",
     "Help" : "ช่วยเหลือ",
     "Apps" : "แอปฯ",
     "Settings" : "ตั้งค่า",

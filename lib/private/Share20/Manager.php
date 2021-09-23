@@ -44,6 +44,7 @@ namespace OC\Share20;
 use OC\Cache\CappedMemoryCache;
 use OC\Files\Mount\MoveableMount;
 use OC\Share20\Exception\ProviderException;
+use OCA\Files_Sharing\AppInfo\Application;
 use OCA\Files_Sharing\ISharedStorage;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
@@ -788,7 +789,15 @@ class Manager implements IManager {
 			}
 
 			// Generate the target
-			$target = $this->config->getSystemValue('share_folder', '/') . '/' . $share->getNode()->getName();
+			$defaultShareFolder = $this->config->getSystemValue('share_folder', '/');
+			$allowCustomShareFolder = $this->config->getSystemValueBool('sharing.allow_custom_share_folder', true);
+			if ($allowCustomShareFolder) {
+				$shareFolder = $this->config->getUserValue($share->getSharedWith(), Application::APP_ID, 'share_folder', $defaultShareFolder);
+			} else {
+				$shareFolder = $defaultShareFolder;
+			}
+
+			$target = $shareFolder . '/' . $share->getNode()->getName();
 			$target = \OC\Files\Filesystem::normalizePath($target);
 			$share->setTarget($target);
 

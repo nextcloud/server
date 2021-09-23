@@ -141,6 +141,13 @@ OC.L10N.register(
     "This application enables users to share files within Nextcloud. If enabled, the admin can choose which groups can share files. The applicable users can then share files and folders with other users and groups within Nextcloud. In addition, if the admin enables the share link feature, an external link can be used to share files with other users outside of Nextcloud. Admins can also enforce passwords, expirations dates, and enable server to server sharing via share links, as well as sharing from mobile devices.\nTurning the feature off removes shared files and folders on the server for all share recipients, and also on the sync clients and mobile apps. More information is available in the Nextcloud Documentation." : "該應用程序使用戶可以在Nextcloud中共享檔案。如果啟用，管理員可以選擇可以共享文件的群組。然後，適用的用戶可以與Nextcloud中的其他用戶和群組共享檔案和資料夾。此外，如果管理員啟用了共享連結功能，則可以使用外部連結與Nextcloud之外的其他用戶分享檔案。管理員還可以實施密碼，有效期，並允許通過分享檔案進行伺服器到伺服器的分享以及從流動裝置進行分享。\n關閉此功能將刪除伺服器上所有分享收件人以及同步客戶端和流動應用程序上的分享了檔案和資料夾。Nextcloud文檔中提供了更多信息。",
     "Sharing" : "分享",
     "Accept user and group shares by default" : "默認接受用戶和群組共享",
+    "Error while toggling options" : "切換選項時出錯",
+    "Set default folder for accepted shares" : "為已接受的分享選擇一個默認資料夾",
+    "Reset" : "重設",
+    "Reset folder to system default" : "將資料夾重置為系統默認值",
+    "Choose a default folder for accepted shares" : "為已接受的分享選擇一個默認資料夾",
+    "Invalid path selected" : "所選的路徑無效",
+    "Unknown error" : "錯誤不詳",
     "Allow editing" : "允許編輯",
     "Allow creating" : "允許創建",
     "Allow deleting" : "允許刪除",
@@ -230,7 +237,6 @@ OC.L10N.register(
     "For more info, please ask the person who sent this link." : "請詢問告訴您此連結的人以瞭解更多",
     "Share note" : "分享筆記",
     "Toggle grid view" : "切換網格檢視",
-    "Download %s" : "下載 %s",
     "Upload files to %s" : "上傳檔案到 %s",
     "Note" : "筆記",
     "Select or drop files" : "選擇或拖曳檔案至此",
@@ -241,6 +247,7 @@ OC.L10N.register(
     "invalid permissions" : "無效的權限",
     "Can't change permissions for public share links" : "無法由公開分享的連結變更權限",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "因為未啟用 Nextcloud Talk，因此透過 Nextcloud Talk 傳送密碼分享失敗",
-    "Name, email, or federated cloud ID …" : "名字，電郵地址或 federated cloud ID …"
+    "Name, email, or federated cloud ID …" : "名字，電郵地址或 federated cloud ID …",
+    "Download %s" : "下載 %s"
 },
 "nplurals=1; plural=0;");

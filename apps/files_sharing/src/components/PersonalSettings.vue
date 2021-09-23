@@ -2,6 +2,7 @@
   - @copyright 2019 Roeland Jago Douma <roeland@famdouma.nl>
   -
   - @author 2019 Roeland Jago Douma <roeland@famdouma.nl>
+  - @author Hinrich Mahler <nextcloud@mahlerhome.de>
   -
   - @license GNU AGPL version 3 or any later version
   -
@@ -20,9 +21,9 @@
   -->
 
 <template>
-	<div v-if="!enforceAcceptShares" id="files-sharing-personal-settings" class="section">
+	<div v-if="!enforceAcceptShares || allowCustomDirectory" id="files-sharing-personal-settings" class="section">
 		<h2>{{ t('files_sharing', 'Sharing') }}</h2>
-		<p>
+		<p v-if="!enforceAcceptShares">
 			<input id="files-sharing-personal-settings-accept"
 				v-model="accepting"
 				class="checkbox"
@@ -30,31 +31,55 @@
 				@change="toggleEnabled">
 			<label for="files-sharing-personal-settings-accept">{{ t('files_sharing', 'Accept user and group shares by default') }}</label>
 		</p>
+		<p v-if="allowCustomDirectory">
+			<SelectShareFolderDialogue />
+		</p>
 	</div>
 </template>
 
 <script>
-import axios from '@nextcloud/axios'
-import { loadState } from '@nextcloud/initial-state'
 import { generateUrl } from '@nextcloud/router'
+import { loadState } from '@nextcloud/initial-state'
+import { showError } from '@nextcloud/dialogs'
+import axios from '@nextcloud/axios'
+
+import SelectShareFolderDialogue from './SelectShareFolderDialogue'
 
 export default {
 	name: 'PersonalSettings',
+	components: {
+		SelectShareFolderDialogue,
+	},
+
 	data() {
 		return {
+			// Share acceptance config
 			accepting: loadState('files_sharing', 'accept_default'),
 			enforceAcceptShares: loadState('files_sharing', 'enforce_accept'),
+
+			// Receiving share folder config
+			allowCustomDirectory: loadState('files_sharing', 'allow_custom_share_folder'),
 		}
 	},
+
 	methods: {
-		toggleEnabled() {
-			axios.put(
-				generateUrl('/apps/files_sharing/settings/defaultAccept'),
-				{
+		async toggleEnabled() {
+			try {
+				await axios.put(generateUrl('/apps/files_sharing/settings/defaultAccept'), {
 					accept: this.accepting,
-				}
-			)
+				})
+			} catch (error) {
+				showError(t('sharing', 'Error while toggling options'))
+				console.error(error)
+			}
 		},
 	},
 }
 </script>
+
+<style scoped lang="scss">
+p {
+	margin-top: 12px;
+	margin-bottom: 12px;
+}
+</style>

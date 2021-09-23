@@ -82,17 +82,12 @@ class TwoFactorMiddleware extends Middleware {
 	 * @param string $methodName
 	 */
 	public function beforeController($controller, $methodName) {
-		if ($this->reflector->hasAnnotation('PublicPage')) {
-			// Don't block public pages
-			return;
-		}
-
 		if ($controller instanceof TwoFactorChallengeController
 			&& $this->userSession->getUser() !== null
 			&& !$this->reflector->hasAnnotation('TwoFactorSetUpDoneRequired')) {
 			$providers = $this->twoFactorManager->getProviderSet($this->userSession->getUser());
 
-			if (!($providers->getProviders() === [] && !$providers->isProviderMissing())) {
+			if (!($providers->getPrimaryProviders() === [] && !$providers->isProviderMissing())) {
 				throw new TwoFactorAuthRequiredException();
 			}
 		}

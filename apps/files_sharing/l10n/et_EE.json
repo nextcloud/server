@@ -162,13 +162,13 @@
     "sharing is disabled" : "jagamine on peatatud",
     "For more info, please ask the person who sent this link." : "Täpsema info saamiseks palun pöördu lingi saatnud isiku poole.",
     "Share note" : "Jaga märget",
-    "Download %s" : "Laadi alla %s",
     "Upload files to %s" : "Laadi failid %s",
     "Note" : "Märge",
     "Select or drop files" : "Vali või lohista failid",
     "Uploaded files:" : "Üleslaetud failid:",
     "Add to your Nextcloud" : "Lisa oma Nextcloudi",
     "invalid permissions" : "valed õigused",
-    "Can't change permissions for public share links" : "Avalikult jagatud linkide õigusi muuta ei saa"
+    "Can't change permissions for public share links" : "Avalikult jagatud linkide õigusi muuta ei saa",
+    "Download %s" : "Laadi alla %s"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

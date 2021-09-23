@@ -230,7 +230,6 @@ OC.L10N.register(
     "For more info, please ask the person who sent this link." : "Voor meer informatie, neem contact op met de persoon die u deze link heeft gestuurd.",
     "Share note" : "Notitie delen",
     "Toggle grid view" : "Omschakelen roosterweergave",
-    "Download %s" : "Download %s",
     "Upload files to %s" : "Upload bestanden naar %s",
     "Note" : "Notitie",
     "Select or drop files" : "Selecteer bestanden of sleep ze naar dit venster",
@@ -241,6 +240,7 @@ OC.L10N.register(
     "invalid permissions" : "Ongeldige rechten",
     "Can't change permissions for public share links" : "Kan rechten voor openbaar gedeelde links niet wijzigen",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Delen versturen van het wachtwoord via Nextcloud Talk is mislukt omdat Nextcloud Talk niet is ingeschakeld",
-    "Name, email, or federated cloud ID …" : "Naam, e-mailadres of gefedereerde Cloud ID …"
+    "Name, email, or federated cloud ID …" : "Naam, e-mailadres of gefedereerde Cloud ID …",
+    "Download %s" : "Download %s"
 },
 "nplurals=2; plural=(n != 1);");

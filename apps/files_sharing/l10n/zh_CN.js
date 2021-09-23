@@ -141,6 +141,13 @@ OC.L10N.register(
     "This application enables users to share files within Nextcloud. If enabled, the admin can choose which groups can share files. The applicable users can then share files and folders with other users and groups within Nextcloud. In addition, if the admin enables the share link feature, an external link can be used to share files with other users outside of Nextcloud. Admins can also enforce passwords, expirations dates, and enable server to server sharing via share links, as well as sharing from mobile devices.\nTurning the feature off removes shared files and folders on the server for all share recipients, and also on the sync clients and mobile apps. More information is available in the Nextcloud Documentation." : "这个应用程序允许用户在 Nextcloud 内部共享文件。如果启用，管理员能够选择哪个组可以共享文件。然后，可用的用户能够共享文件和文件夹给 Nextcloud 中的其他用户和组。另外，如果管理员启用了共享链接功能，能够使用外部链接将文件共享给 Nextcloud 之外的其他用户。管理员也可以强制设置密码，过期日期，并且可以通过共享链接启用服务器到服务器的共享，以及从移动设备共享。\n关闭该功能将删除服务器上所有共享接收者以用同步客户端和移动应用上的共享文件和文件夹。更多信息可查阅 Nextcloud 文档。",
     "Sharing" : "共享",
     "Accept user and group shares by default" : "默认接受用户和分组共享",
+    "Error while toggling options" : "切换选项时出错",
+    "Set default folder for accepted shares" : "设置已接受共享的默认文件夹",
+    "Reset" : "重置",
+    "Reset folder to system default" : "重置文件夹为系统默认值",
+    "Choose a default folder for accepted shares" : "为已接受的共享选择一个默认文件夹",
+    "Invalid path selected" : "所选路径无效",
+    "Unknown error" : "未知错误",
     "Allow editing" : "允许编辑",
     "Allow creating" : "允许创建",
     "Allow deleting" : "允许删除",
@@ -230,7 +237,6 @@ OC.L10N.register(
     "For more info, please ask the person who sent this link." : "欲知详情，请联系发给您该链接的人。",
     "Share note" : "共享笔记",
     "Toggle grid view" : "切换网格视图",
-    "Download %s" : "下载 %s",
     "Upload files to %s" : "上传文件到 %s",
     "Note" : "备注",
     "Select or drop files" : "选择或拖放文件",
@@ -241,6 +247,7 @@ OC.L10N.register(
     "invalid permissions" : "无效的权限",
     "Can't change permissions for public share links" : "不能改变公共共享链接权限",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "由于 Nextcloud Talk 没有启用，所以通过 Nextcloud Talk 发送共享密码失败。",
-    "Name, email, or federated cloud ID …" : "名称，电子邮件或联合云 ID ..."
+    "Name, email, or federated cloud ID …" : "名称，电子邮件或联合云 ID ...",
+    "Download %s" : "下载 %s"
 },
 "nplurals=1; plural=0;");

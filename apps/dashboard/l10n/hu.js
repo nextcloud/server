@@ -6,6 +6,7 @@ OC.L10N.register(
     "Show something" : "Mutass valamit",
     "Customize" : "Testreszabás",
     "Edit widgets" : "Modulok szerkesztése",
+    "Get more widgets from the App Store" : "További felületi elemek letöltése az alkalmazástárból.",
     "Change background image" : "Háttérkép megváltoztatása",
     "Weather service" : "Időjárás",
     "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "A magánélet védelmében az információt az Ön nevében a Nextcloud szerver  kéri le, így az Ön személyes adatai nem kerülnek az időjárási adatok szolgáltatójához.",
@@ -26,7 +27,7 @@ OC.L10N.register(
     "Default images" : "Alapértelmezett képek",
     "Plain background" : "Egyszerű háttér",
     "Insert from {productName}" : "Beillesztés {productName}-ból",
-    "Get more widgets from the app store" : "Tölts le további modulokat az app áruházból",
+    "Get more widgets from the app store" : "Töltsön le további felületi elemeket az alkalmazástárból",
     "Good night, {name}" : "Jó éjszakát, {name}",
     "Good night" : "Jó éjszakát",
     "Pick from files" : "Választás a fájlok közül"

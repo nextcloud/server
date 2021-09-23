@@ -107,7 +107,7 @@
     "Avoids automatic LDAP requests. Better for bigger setups, but requires some LDAP knowledge." : "Verhindert automatische LDAP-Anfragen. Besser geeignet für größere Installationen, benötigt aber erweiterte LDAP-Kenntnisse.",
     "Manually enter LDAP filters (recommended for large directories)" : "LDAP-Filter manuell eingeben (empfohlen für große Verzeichnisse)",
     "Listing and searching for users is constrained by these criteria:" : "Auflistung und Suche nach Nutzern ist eingeschränkt durch folgende Kriterien:",
-    "The most common object classes for users are organizationalPerson, person, user, and inetOrgPerson. If you are not sure which object class to select, please consult your directory admin." : "Die häufigsten Objektklassen für Benutzer sind organizationalPerson, person, user und inetOrgPerson. Wenn Du nicht sicher bist, welche Objektklasse Du wählen sollst, frage bitte Deinen Verzeichnis-Admin.",
+    "The most common object classes for users are organizationalPerson, person, user, and inetOrgPerson. If you are not sure which object class to select, please consult your directory admin." : "Die häufigsten Objektklassen für Benutzer sind organizationalPerson, person, user und inetOrgPerson. Wenn Du nicht sicher bist, welche Objektklasse Du wählen sollst, frage bitte Deinen Verzeichnis-Administrator.",
     "The filter specifies which LDAP users shall have access to the %s instance." : "Der Filter gibt an, welche LDAP-Benutzer Zugriff auf die %s-Instanz haben sollen.",
     "Verify settings and count users" : "Einstellungen überprüfen und Benutzer zählen",
     "Saving" : "Speichern",

@@ -84,6 +84,15 @@ class AccountPropertyCollection implements IAccountPropertyCollection {
 		return $this;
 	}
 
+	public function getPropertyByValue(string $value): ?IAccountProperty {
+		foreach ($this->properties as $i => $property) {
+			if ($property->getValue() === $value) {
+				return $property;
+			}
+		}
+		return null;
+	}
+
 	public function removePropertyByValue(string $value): IAccountPropertyCollection {
 		foreach ($this->properties as $i => $property) {
 			if ($property->getValue() === $value) {

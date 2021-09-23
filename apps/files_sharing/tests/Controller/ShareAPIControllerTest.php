@@ -47,6 +47,7 @@ use OCP\Files\Mount\IMountPoint;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage;
 use OCP\IConfig;
+use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IPreview;
@@ -785,7 +786,7 @@ class ShareAPIControllerTest extends TestCase {
 		$user = $this->getMockBuilder(IUser::class)->getMock();
 		$user->method('getUID')->willReturn('userId');
 		$user->method('getDisplayName')->willReturn('userDisplay');
-		$user->method('getEMailAddress')->willReturn('userId@example.com');
+		$user->method('getSystemEMailAddress')->willReturn('userId@example.com');
 
 		$group = $this->getMockBuilder('OCP\IGroup')->getMock();
 		$group->method('getGID')->willReturn('groupId');
@@ -3586,7 +3587,7 @@ class ShareAPIControllerTest extends TestCase {
 		$initiator->method('getDisplayName')->willReturn('initiatorDN');
 		$recipient = $this->getMockBuilder(IUser::class)->getMock();
 		$recipient->method('getDisplayName')->willReturn('recipientDN');
-		$recipient->method('getEmailAddress')->willReturn('recipient');
+		$recipient->method('getSystemEMailAddress')->willReturn('recipient');
 
 
 		$result = [];
@@ -4387,7 +4388,7 @@ class ShareAPIControllerTest extends TestCase {
 	public function testFormatShare(array $expects, \OCP\Share\IShare $share, array $users, $exception) {
 		$this->userManager->method('get')->willReturnMap($users);
 
-		$recipientGroup = $this->createMock('\OCP\IGroup');
+		$recipientGroup = $this->createMock(IGroup::class);
 		$recipientGroup->method('getDisplayName')->willReturn('recipientGroupDisplayName');
 		$this->groupManager->method('get')->willReturnMap([
 			['recipientGroup', $recipientGroup],
@@ -4396,7 +4397,6 @@ class ShareAPIControllerTest extends TestCase {
 		$this->urlGenerator->method('linkToRouteAbsolute')
 			->with('files_sharing.sharecontroller.showShare', ['token' => 'myToken'])
 			->willReturn('myLink');
-
 
 		$this->rootFolder->method('getUserFolder')
 			->with($this->currentUser)

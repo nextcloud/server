@@ -141,6 +141,13 @@ OC.L10N.register(
     "This application enables users to share files within Nextcloud. If enabled, the admin can choose which groups can share files. The applicable users can then share files and folders with other users and groups within Nextcloud. In addition, if the admin enables the share link feature, an external link can be used to share files with other users outside of Nextcloud. Admins can also enforce passwords, expirations dates, and enable server to server sharing via share links, as well as sharing from mobile devices.\nTurning the feature off removes shared files and folders on the server for all share recipients, and also on the sync clients and mobile apps. More information is available in the Nextcloud Documentation." : "Questa applicazione consente agli utenti di condividere file all'interno di Nextcloud. Se abilitata, l'amministratore può scegliere quali gruppi possono condividere file. Gli utenti ai quali si applica possono quindi condividere file e cartelle con altri utenti e gruppi all'interno di Nextcloud. In aggiunta, se l'amministratore abilita la funzionalità dei collegamenti di condivisione, un collegamento esterno può essere utilizzato per condividere file con altri utenti all'esterno di Nextcloud. Gli amministratori possono inoltre forzare le password, le date di scadenza e abilitare la condivisione tra server tramite collegamenti di condivisione, così come la condivisione da dispositivi mobili.\nLa disattivazione della funzionalità rimuove i file e le cartelle condivisi sul server per tutti i destinatari della condivisione, e anche sui client di sincronizzazione e sulle applicazioni mobili. Altre informazioni sono disponibili nella documentazione di Nextcloud.",
     "Sharing" : "Condivisione",
     "Accept user and group shares by default" : "Accetta le condivisioni di utenti e gruppi in modo predefinito",
+    "Error while toggling options" : "Errore durante il cambio delle opzioni",
+    "Set default folder for accepted shares" : "Imposta cartella predefinita per condivisioni accettate",
+    "Reset" : "Ripristina",
+    "Reset folder to system default" : "Ripristina la cartella alla predefinita di sistema",
+    "Choose a default folder for accepted shares" : "Scegli una cartella predefinita per le condivisioni accettate",
+    "Invalid path selected" : "Percorso selezionato non valido",
+    "Unknown error" : "Errore sconosciuto",
     "Allow editing" : "Consenti la modifica",
     "Allow creating" : "Consenti la creazione",
     "Allow deleting" : "Consenti l'eliminazione",
@@ -230,7 +237,6 @@ OC.L10N.register(
     "For more info, please ask the person who sent this link." : "Per ulteriori informazioni, chiedi alla persona che ti ha inviato il collegamento.",
     "Share note" : "Condividi nota",
     "Toggle grid view" : "Commuta la vista a griglia",
-    "Download %s" : "Scarica %s",
     "Upload files to %s" : "Carica file su %s",
     "Note" : "Nota",
     "Select or drop files" : "Seleziona o deseleziona file",
@@ -241,6 +247,7 @@ OC.L10N.register(
     "invalid permissions" : "permessi non validi",
     "Can't change permissions for public share links" : "Impossibile cambiare i permessi per i collegamenti di condivisione pubblici",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "La condivisione tramite invio della password da Nextcloud Talk non è  riuscito poiché Nextcloud Talk non è abilitato",
-    "Name, email, or federated cloud ID …" : "Nome, email o ID di cloud federata..."
+    "Name, email, or federated cloud ID …" : "Nome, email o ID di cloud federata...",
+    "Download %s" : "Scarica %s"
 },
 "nplurals=2; plural=(n != 1);");

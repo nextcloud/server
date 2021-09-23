@@ -75,6 +75,7 @@ use OCP\IDateTimeFormatter;
 use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\IRequest;
+use OCP\ITempManager;
 use OCP\IURLGenerator;
 use OCP\Lock\ILockingProvider;
 use OCP\Security\ISecureRandom;
@@ -111,6 +112,8 @@ class CheckSetupController extends Controller {
 	private $iniGetWrapper;
 	/** @var IDBConnection */
 	private $connection;
+	/** @var ITempManager */
+	private $tempManager;
 
 	public function __construct($AppName,
 								IRequest $request,
@@ -127,7 +130,8 @@ class CheckSetupController extends Controller {
 								MemoryInfo $memoryInfo,
 								ISecureRandom $secureRandom,
 								IniGetWrapper $iniGetWrapper,
-								IDBConnection $connection) {
+								IDBConnection $connection,
+								ITempManager $tempManager) {
 		parent::__construct($AppName, $request);
 		$this->config = $config;
 		$this->clientService = $clientService;
@@ -143,6 +147,7 @@ class CheckSetupController extends Controller {
 		$this->secureRandom = $secureRandom;
 		$this->iniGetWrapper = $iniGetWrapper;
 		$this->connection = $connection;
+		$this->tempManager = $tempManager;
 	}
 
 	/**
@@ -554,6 +559,16 @@ Raw output
 		return extension_loaded('Zend OPcache');
 	}
 
+	private function isTemporaryDirectoryWritable(): bool {
+		try {
+			if (!empty($this->tempManager->getTempBaseDir())) {
+				return true;
+			}
+		} catch (\Exception $e) {
+		}
+		return false;
+	}
+
 	/**
 	 * Iterates through the configured app roots and
 	 * tests if the subdirectories are owned by the same user than the current user.
@@ -627,7 +642,11 @@ Raw output
 			}
 		}
 
-		if (!defined('PASSWORD_ARGON2I')) {
+		if (!defined('PASSWORD_ARGON2I') && PHP_VERSION_ID >= 70400) {
+			// Installing php-sodium on >=php7.4 will provide PASSWORD_ARGON2I
+			// on previous version argon2 wasn't part of the "standard" extension
+			// and RedHat disabled it so even installing php-sodium won't provide argon2i
+			// support in password_hash/password_verify.
 			$recommendedPHPModules[] = 'sodium';
 		}
 
@@ -775,6 +794,7 @@ Raw output
 				CheckUserCertificates::class => ['pass' => $checkUserCertificates->run(), 'description' => $checkUserCertificates->description(), 'severity' => $checkUserCertificates->severity(), 'elements' => $checkUserCertificates->elements()],
 				'isDefaultPhoneRegionSet' => $this->config->getSystemValueString('default_phone_region', '') !== '',
 				SupportedDatabase::class => ['pass' => $supportedDatabases->run(), 'description' => $supportedDatabases->description(), 'severity' => $supportedDatabases->severity()],
+				'temporaryDirectoryWritable' => $this->isTemporaryDirectoryWritable(),
 			]
 		);
 	}

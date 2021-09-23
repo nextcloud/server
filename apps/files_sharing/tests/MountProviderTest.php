@@ -30,6 +30,7 @@
 namespace OCA\Files_Sharing\Tests;
 
 use OCA\Files_Sharing\MountProvider;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\IRootFolder;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\IConfig;
@@ -70,8 +71,9 @@ class MountProviderTest extends \Test\TestCase {
 		$this->loader = $this->getMockBuilder('OCP\Files\Storage\IStorageFactory')->getMock();
 		$this->shareManager = $this->getMockBuilder(IManager::class)->getMock();
 		$this->logger = $this->getMockBuilder(ILogger::class)->getMock();
+		$eventDispatcher = $this->createMock(IEventDispatcher::class);
 
-		$this->provider = new MountProvider($this->config, $this->shareManager, $this->logger);
+		$this->provider = new MountProvider($this->config, $this->shareManager, $this->logger, $eventDispatcher);
 	}
 
 	private function makeMockShare($id, $nodeId, $owner = 'user2', $target = null, $permissions = 31) {

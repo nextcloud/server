@@ -137,7 +137,6 @@ OC.L10N.register(
     "Tentative" : "暂定",
     "Save" : "保存",
     "Your attendance was updated successfully." : "您的出席状态更新成功。",
-    "Calendar and tasks" : "日历和任务",
-    "i" : "i "
+    "Calendar and tasks" : "日历和任务"
 },
 "nplurals=1; plural=0;");

@@ -141,6 +141,13 @@ OC.L10N.register(
     "This application enables users to share files within Nextcloud. If enabled, the admin can choose which groups can share files. The applicable users can then share files and folders with other users and groups within Nextcloud. In addition, if the admin enables the share link feature, an external link can be used to share files with other users outside of Nextcloud. Admins can also enforce passwords, expirations dates, and enable server to server sharing via share links, as well as sharing from mobile devices.\nTurning the feature off removes shared files and folders on the server for all share recipients, and also on the sync clients and mobile apps. More information is available in the Nextcloud Documentation." : "Bu uygulama kullanıcıların Nextcloud üzerinde dosya paylaşabilmesini sağlar. Etkinleştirildiğinde, yöneticiler dosya paylaşabilecek grupları belirleyebilir. Seçilmiş gruplardaki kullanıcılar Nextcloud üzerindeki diğer kullanıcı ve gruplar ile dosya ve klasör paylaşabilir. Ek olarak, yönetici bağlantı paylaşımı özelliğini etkinleştirmiş ise, Nextcloud üzerinde olmayan kullanıcılar ile dosya paylaşımı bağlantıları kullanılabilir. Yöneticiler ayrıca parola ve son kullanma tarihi kullanımını zorunlu kılmanın yanında, paylaşım bağlantıları ile sunucudan sunucuya paylaşım ve mobil aygıtlar ile paylaşım gibi özellikleri etkinleştirebilir.\nBu özellik devre dışı bırakıldığında, sunucu, eşitleme istemcileri ve mobil uygulamalar üzerinden alıcılar ile paylaşılmış dosya ve klasörler kaldırılır. Ayrıntılı bilgi almak için Nextcloud belgelerine bakabilirsiniz.",
     "Sharing" : "Paylaşım",
     "Accept user and group shares by default" : "Varsayılan olarak kullanıcı ve grup paylaşımları onaylansın",
+    "Error while toggling options" : "Seçenekler değiştirilirken sorun çıktı ",
+    "Set default folder for accepted shares" : "Onaylanmış paylaşımların varsayılan klasörünü ayarlayın",
+    "Reset" : "Sıfırla",
+    "Reset folder to system default" : "Sistem varsayılan klasörüne sıfırlar",
+    "Choose a default folder for accepted shares" : "Onaylanmış paylaşımlar için varsayılan bir klasör seçin",
+    "Invalid path selected" : "Seçilen yol geçersiz",
+    "Unknown error" : "Bilinmeyen sorun",
     "Allow editing" : "Düzenlemeye izin ver",
     "Allow creating" : "Eklenebilsin",
     "Allow deleting" : "Silinebilsin",
@@ -230,7 +237,6 @@ OC.L10N.register(
     "For more info, please ask the person who sent this link." : "Ayrıntılı bilgi almak için bu bağlantıyı aldığınız kişi ile görüşün.",
     "Share note" : "Notu paylaş",
     "Toggle grid view" : "Tablo görünümünü değiştir",
-    "Download %s" : "%s indir",
     "Upload files to %s" : "Dosyaları %s konumuna yükle",
     "Note" : "Not",
     "Select or drop files" : "Dosyaları seçin ya da sürükleyip bırakın",
@@ -241,6 +247,7 @@ OC.L10N.register(
     "invalid permissions" : "izinler geçersiz",
     "Can't change permissions for public share links" : "Herkese açık paylaşılan bağlantıların erişim hakları değiştirilemez",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Nextcloud Talk etkinleştirilmemiş olduğundan, Nextcloud Talk ile paylaşım parolası gönderilemedi",
-    "Name, email, or federated cloud ID …" : "Ad, e-posta ya da birleşik bulut kodu …"
+    "Name, email, or federated cloud ID …" : "Ad, e-posta ya da birleşik bulut kodu …",
+    "Download %s" : "%s indir"
 },
 "nplurals=2; plural=(n > 1);");

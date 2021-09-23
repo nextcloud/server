@@ -55,7 +55,7 @@
     "Share for file {file} with group {group} expired" : "グループ{group}へのファイル:{file}の共有が解除されました",
     "Shared as public link" : "公開リンクとして共有",
     "Removed public link" : "公開リンクを削除",
-    "Public link expired" : "公開リンクの期限が切れています",
+    "Public link expired" : "公開リンクの有効期限が切れました",
     "{actor} shared as public link" : "{actor} が公開リンクとして共有しました",
     "{actor} removed public link" : "{actor} は公開リンクを削除しました",
     "Public link of {actor} expired" : "{actor} の公開リンクの期限が切れています",
@@ -228,7 +228,6 @@
     "For more info, please ask the person who sent this link." : "不明な点は、こちらのリンクの提供者に確認をお願いします。",
     "Share note" : "共有ノート",
     "Toggle grid view" : "グリッド表示の切り替え",
-    "Download %s" : "%s をダウンロード",
     "Upload files to %s" : "%s にファイルをアップロード",
     "Note" : "ノート",
     "Select or drop files" : "ファイルを選択するか、ドラッグ&ドロップしてください",
@@ -239,6 +238,7 @@
     "invalid permissions" : "無効なパーミッション",
     "Can't change permissions for public share links" : "URLリンク共有のパーミッションを変更できません",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Nextcloud Talkが有効になっていないため、Nextcloud Talkによるパスワードの共有に失敗しました",
-    "Name, email, or federated cloud ID …" : "名前、電子メール、またはクラウド連携ID…"
+    "Name, email, or federated cloud ID …" : "名前、電子メール、またはクラウド連携ID…",
+    "Download %s" : "%s をダウンロード"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

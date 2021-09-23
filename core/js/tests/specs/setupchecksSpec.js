@@ -182,7 +182,7 @@ describe('OC.SetupChecks tests', function() {
 			async.done(function( data, s, x ){
 				expect(data).toEqual([
 					{
-						msg: 'Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root.',
+						msg: 'Your data directory and files are probably accessible from the internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root.',
 						type: OC.SetupChecks.MESSAGE_TYPE_ERROR
 					}]);
 				done();
@@ -254,13 +254,14 @@ describe('OC.SetupChecks tests', function() {
 					isDefaultPhoneRegionSet: true,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
+					temporaryDirectoryWritable: true,
 				})
 			);
 
 			async.done(function( data, s, x ){
 				expect(data).toEqual([
 					{
-						msg: 'This server has no working Internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. Establish a connection from this server to the Internet to enjoy all features.',
+						msg: 'This server has no working internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. Establish a connection from this server to the internet to enjoy all features.',
 						type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 					}, {
 						msg: 'No memory cache has been configured. To enhance performance, please configure a memcache, if available. Further information can be found in the <a target="_blank" rel="noreferrer noopener" class="external" href="https://docs.nextcloud.com/server/go.php?to=admin-performance">documentation ↗</a>.',
@@ -310,13 +311,14 @@ describe('OC.SetupChecks tests', function() {
 					isDefaultPhoneRegionSet: true,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
+					temporaryDirectoryWritable: true,
 				})
 			);
 
 			async.done(function( data, s, x ){
 				expect(data).toEqual([
 					{
-						msg: 'This server has no working Internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. Establish a connection from this server to the Internet to enjoy all features.',
+						msg: 'This server has no working internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. Establish a connection from this server to the internet to enjoy all features.',
 						type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 					},
 					{
@@ -367,13 +369,14 @@ describe('OC.SetupChecks tests', function() {
 					isDefaultPhoneRegionSet: true,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
+					temporaryDirectoryWritable: true,
 				})
 			);
 
 			async.done(function( data, s, x ){
 				expect(data).toEqual([
 				{
-					msg: 'This server has no working Internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. Establish a connection from this server to the Internet to enjoy all features.',
+					msg: 'This server has no working internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. Establish a connection from this server to the internet to enjoy all features.',
 					type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 				}
 				]);
@@ -422,6 +425,7 @@ describe('OC.SetupChecks tests', function() {
 					isDefaultPhoneRegionSet: true,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
+					temporaryDirectoryWritable: true,
 				})
 			);
 
@@ -475,6 +479,7 @@ describe('OC.SetupChecks tests', function() {
 					isDefaultPhoneRegionSet: true,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
+					temporaryDirectoryWritable: true,
 				})
 			);
 
@@ -530,6 +535,7 @@ describe('OC.SetupChecks tests', function() {
 					isDefaultPhoneRegionSet: true,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
+					temporaryDirectoryWritable: true,
 				})
 			);
 
@@ -583,6 +589,7 @@ describe('OC.SetupChecks tests', function() {
 					isDefaultPhoneRegionSet: true,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
+					temporaryDirectoryWritable: true,
 				})
 			);
 
@@ -636,6 +643,7 @@ describe('OC.SetupChecks tests', function() {
 					isDefaultPhoneRegionSet: true,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
+					temporaryDirectoryWritable: true,
 				})
 			);
 
@@ -689,6 +697,7 @@ describe('OC.SetupChecks tests', function() {
 					isDefaultPhoneRegionSet: true,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
+					temporaryDirectoryWritable: true,
 				})
 			);
 
@@ -763,6 +772,7 @@ describe('OC.SetupChecks tests', function() {
 					isDefaultPhoneRegionSet: true,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
+					temporaryDirectoryWritable: true,
 				})
 			);
 
@@ -817,6 +827,7 @@ describe('OC.SetupChecks tests', function() {
 					isDefaultPhoneRegionSet: true,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
+					temporaryDirectoryWritable: true,
 				})
 			);
 
@@ -871,6 +882,7 @@ describe('OC.SetupChecks tests', function() {
 					isDefaultPhoneRegionSet: true,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
+					temporaryDirectoryWritable: true,
 				})
 			);
 
@@ -925,6 +937,7 @@ describe('OC.SetupChecks tests', function() {
 					isDefaultPhoneRegionSet: true,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
+					temporaryDirectoryWritable: true,
 				})
 			);
 
@@ -978,6 +991,7 @@ describe('OC.SetupChecks tests', function() {
 					isDefaultPhoneRegionSet: true,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
+					temporaryDirectoryWritable: true,
 				})
 			);
 
@@ -1036,6 +1050,7 @@ describe('OC.SetupChecks tests', function() {
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyDocs: 'https://docs.nextcloud.com/foo/bar.html',
 					reverseProxyGeneratedURL: 'http://server',
+					temporaryDirectoryWritable: true,
 				})
 			);
 
@@ -1090,6 +1105,7 @@ describe('OC.SetupChecks tests', function() {
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyDocs: 'https://docs.nextcloud.com/foo/bar.html',
 					reverseProxyGeneratedURL: 'http://server',
+					temporaryDirectoryWritable: true,
 				})
 			);
 
@@ -1140,6 +1156,7 @@ describe('OC.SetupChecks tests', function() {
 					isDefaultPhoneRegionSet: true,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: false,
 					reverseProxyGeneratedURL: 'https://server',
+					temporaryDirectoryWritable: true,
 				})
 			);
 
@@ -1193,6 +1210,7 @@ describe('OC.SetupChecks tests', function() {
 					isDefaultPhoneRegionSet: false,
 					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
 					reverseProxyGeneratedURL: 'https://server',
+					temporaryDirectoryWritable: true,
 				})
 			);
 
@@ -1200,6 +1218,60 @@ describe('OC.SetupChecks tests', function() {
 				expect(data).toEqual([{
 					msg: 'Your installation has no default phone region set. This is required to validate phone numbers in the profile settings without a country code. To allow numbers without a country code, please add "default_phone_region" with the respective <a target="_blank" rel="noreferrer noopener" class="external" href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements">ISO 3166-1 code ↗</a> of the region to your config file.',
 					type: OC.SetupChecks.MESSAGE_TYPE_INFO
+				}]);
+				done();
+			});
+		});
+
+		it('should return an info if the temporary directory is either non-existent or non-writable', function(done) {
+			var async = OC.SetupChecks.checkSetup();
+
+			suite.server.requests[0].respond(
+				200,
+				{
+					'Content-Type': 'application/json',
+				},
+				JSON.stringify({
+					hasFileinfoInstalled: true,
+					isGetenvServerWorking: true,
+					isReadOnlyConfig: false,
+					hasWorkingFileLocking: true,
+					hasValidTransactionIsolationLevel: true,
+					suggestedOverwriteCliURL: '',
+					isRandomnessSecure: true,
+					securityDocs: 'https://docs.nextcloud.com/myDocs.html',
+					serverHasInternetConnectionProblems: false,
+					isMemcacheConfigured: true,
+					forwardedForHeadersWorking: true,
+					isCorrectMemcachedPHPModuleInstalled: true,
+					hasPassedCodeIntegrityCheck: true,
+					isOpcacheProperlySetup: true,
+					hasOpcacheLoaded: true,
+					isSettimelimitAvailable: true,
+					hasFreeTypeSupport: true,
+					missingIndexes: [],
+					missingPrimaryKeys: [],
+					missingColumns: [],
+					cronErrors: [],
+					cronInfo: {
+						diffInSeconds: 0
+					},
+					isMemoryLimitSufficient: true,
+					appDirsWithDifferentOwner: [],
+					recommendedPHPModules: [],
+					pendingBigIntConversionColumns: [],
+					isMysqlUsedWithoutUTF8MB4: false,
+					isDefaultPhoneRegionSet: true,
+					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true,
+					reverseProxyGeneratedURL: 'https://server',
+					temporaryDirectoryWritable: false,
+				})
+			);
+
+			async.done(function( data, s, x ){
+				expect(data).toEqual([{
+					msg: 'The temporary directory of this instance points to an either non-existing or non-writable directory.',
+					type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 				}]);
 				done();
 			});

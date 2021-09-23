@@ -22,7 +22,7 @@
 <template>
 	<button
 		:disabled="disabled"
-		@click.stop.prevent="onClick">
+		v-on="$listeners">
 		<span class="icon icon-add" />
 		{{ t('settings', 'Add') }}
 	</button>
@@ -38,12 +38,6 @@ export default {
 			default: true,
 		},
 	},
-
-	methods: {
-		onClick(e) {
-			this.$emit('click', e)
-		},
-	},
 }
 </script>
 
@@ -54,8 +48,8 @@ export default {
 		border: none;
 		background-color: transparent;
 
-		&:hover {
-			background-color: rgba(127, 127, 127, .15);
+		.icon {
+			margin-right: 8px;
 		}
 
 		&:enabled {
@@ -66,13 +60,13 @@ export default {
 			}
 		}
 
+		&:hover {
+			background-color: rgba(127, 127, 127, .15);
+		}
+
 		&:enabled:hover {
 			background-color: rgba(127, 127, 127, .25);
 			opacity: 0.8 !important;
-		}
-
-		.icon {
-			margin-right: 8px;
 		}
 	}
 </style>

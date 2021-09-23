@@ -89,4 +89,13 @@ interface IAccountPropertyCollection extends JsonSerializable {
 	 * @since 22.0.0
 	 */
 	public function removePropertyByValue(string $value): IAccountPropertyCollection;
+
+	/**
+	 * retrieves a property identified by its value. null, if none was found.
+	 *
+	 * Returns only the first property if there are more with the same value.
+	 *
+	 * @since 23.0.0
+	 */
+	public function getPropertyByValue(string $value): ?IAccountProperty;
 }

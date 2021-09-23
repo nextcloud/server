@@ -11,6 +11,7 @@ OC.L10N.register(
     "Generate keys" : "Luo avaimet",
     "Error generating key pair" : "Virhe luotaessa avainparia",
     "All users. Type to select user or group." : "Kaikki käyttäjät. Kirjoita valitaksesi käyttäjän tai ryhmän.",
+    "(Group)" : "(Ryhmä)",
     "Compatibility with Mac NFD encoding (slow)" : "Yhteensopivuus Mac NFD -enkoodauksen kanssa (hidas)",
     "Enable encryption" : "Käytä salausta",
     "Enable previews" : "Käytä esikatseluja",

@@ -139,6 +139,13 @@
     "This application enables users to share files within Nextcloud. If enabled, the admin can choose which groups can share files. The applicable users can then share files and folders with other users and groups within Nextcloud. In addition, if the admin enables the share link feature, an external link can be used to share files with other users outside of Nextcloud. Admins can also enforce passwords, expirations dates, and enable server to server sharing via share links, as well as sharing from mobile devices.\nTurning the feature off removes shared files and folders on the server for all share recipients, and also on the sync clients and mobile apps. More information is available in the Nextcloud Documentation." : "Aplikazio honek fitxategiak Nextcloud barruan partekatzeko aukera ematen die erabiltzaileei. Gaituz gero, administratzaileak aukeratu dezake zein taldek partekatu ditzaketen fitxategiak. Baimendutako erabiltzaileek Nextcloudeko beste erabiltzaileekin partekatu ditzakete fitxategi eta karpetak. Horretaz gain, administratzaileak esteka partekatzea aukera gaitzen badu, kanpoko esteka bat erabili daiteke Nextcloudetik kanpo dauden erabiltzaileekin fitxategiak partekatzeko. Administratzaileek pasahitzak eta iraungitze-datak betearazi ditzakete, eta zerbitzaritik zerbitzarira partekatze esteka bidez partekatzea gaitu dezakete, baita gailu mugikorretatik partekatzea ere.\nEzaugarria desgaitzeak partekatutako fitxategi eta karpetak kentzen ditu zerbitzaritik partekatzeen hartzaile guztientzat, baita sinkronizatutako bezero eta mugikorreko aplikazioetatik ere. Informazio gehiago eskuragarri dago Nextclouden dokumentazioan.",
     "Sharing" : "Partekatzea",
     "Accept user and group shares by default" : "Onartu erabiltzaile eta taldeen partekatzeak modu lehenetsian",
+    "Error while toggling options" : "Errorea aukerak aldatzean",
+    "Set default folder for accepted shares" : "Ezarri onartutako partekatzeen karpeta lehenetsia",
+    "Reset" : "Berrezarri",
+    "Reset folder to system default" : "Berrezarri karpeta sistemaren balio lehenetsietara",
+    "Choose a default folder for accepted shares" : "Aukeratu karpeta lehenetsia onartutako akzioetarako",
+    "Invalid path selected" : "Bide baliogabea hautatu da",
+    "Unknown error" : "Errore ezezaguna",
     "Allow editing" : "Baimendu editatzea",
     "Allow creating" : "Baimendu sortzea",
     "Allow deleting" : "Baimendu ezabatzea",
@@ -228,7 +235,6 @@
     "For more info, please ask the person who sent this link." : "Informazio gehiagorako, galdetu esteka hau bidali zuen pertsonari",
     "Share note" : "Partekatu oharra",
     "Toggle grid view" : "Txandakatu sareta ikuspegia",
-    "Download %s" : "Deskargatu %s",
     "Upload files to %s" : "Kargatu fitxategiak hona: %s",
     "Note" : "Oharra",
     "Select or drop files" : "Hautatu edo jaregin fitxategiak",
@@ -239,6 +245,7 @@
     "invalid permissions" : "baimen baliogabeak",
     "Can't change permissions for public share links" : "Publikoki partekatutako esteken baimenak ezin dira aldatu",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Nextcloud Talk-etik pasahitza bidaliz partekatzeak huts egin du, Nextcloud Talk ez dagoelako gaituta",
-    "Name, email, or federated cloud ID …" : "Izena, posta, edo federatutako lainoaren IDa ..."
+    "Name, email, or federated cloud ID …" : "Izena, posta, edo federatutako lainoaren IDa ...",
+    "Download %s" : "Deskargatu %s"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

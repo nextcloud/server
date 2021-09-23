@@ -9,7 +9,7 @@ OC.L10N.register(
     "Working remotely" : "Εργασία εξ αποστάσεως",
     "User status" : "Κατάσταση χρήστη",
     "Clear status message after" : "Εκκαθάριση μηνύματος κατάστασης μετά από",
-    "What's your status?" : "Ποια είναι η κατάστασή σας;",
+    "What is your status?" : "Ποια είναι η κατάστασή σας;",
     "Set status" : "Ορισμός κατάστασης",
     "Online status" : "Κατάσταση σε σύνδεση",
     "Status message" : "Μήνυμα κατάστασης",
@@ -33,6 +33,7 @@ OC.L10N.register(
     "4 hours" : "4 ώρες",
     "Mute all notifications" : "Σίγαση όλων των ειδοποιήσεων",
     "Appear offline" : "Εμφάνιση εκτός σύνδεσης",
-    "Clear status after" : "Εκκαθάριση κατάστασης μετά από"
+    "Clear status after" : "Εκκαθάριση κατάστασης μετά από",
+    "What's your status?" : "Ποια είναι η κατάστασή σας;"
 },
 "nplurals=2; plural=(n != 1);");

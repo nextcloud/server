@@ -256,7 +256,7 @@
 					}
 					if (data.serverHasInternetConnectionProblems) {
 						messages.push({
-							msg: t('core', 'This server has no working Internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. Establish a connection from this server to the Internet to enjoy all features.'),
+							msg: t('core', 'This server has no working internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. Establish a connection from this server to the internet to enjoy all features.'),
 							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 						});
 					}
@@ -487,6 +487,15 @@
 							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 						})
 					}
+					if (!data.temporaryDirectoryWritable) {
+						messages.push({
+							msg: t(
+								'core',
+								'The temporary directory of this instance points to an either non-existing or non-writable directory.'
+							),
+							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
+						})
+					}
 					if (window.location.protocol === 'https:' && data.reverseProxyGeneratedURL.split('/')[0] !== 'https:') {
 						messages.push({
 							msg: t('core', 'You are accessing your instance over a secure connection, however your instance is generating insecure URLs. This most likely means that you are behind a reverse proxy and the overwrite config variables are not set correctly. Please read {linkstart}the documentation page about this ↗{linkend}.')
@@ -589,7 +598,7 @@
 				// .ocdata is an empty file in the data directory - if this is readable then the data dir is not protected
 				if (xhr.status === 200 && xhr.responseText === '') {
 					messages.push({
-						msg: t('core', 'Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root.'),
+						msg: t('core', 'Your data directory and files are probably accessible from the internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root.'),
 						type: OC.SetupChecks.MESSAGE_TYPE_ERROR
 					});
 				}

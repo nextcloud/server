@@ -145,14 +145,18 @@ class PersonalInfo implements ISettings {
 			'groups' => $this->getGroups($user),
 		] + $messageParameters + $languageParameters + $localeParameters;
 
-		$emails = $this->getEmails($account);
+		$personalInfoParameters = [
+			'displayNames' => $this->getDisplayNames($account),
+			'emails' => $this->getEmails($account),
+			'languages' => $this->getLanguages($user),
+		];
 
 		$accountParameters = [
 			'displayNameChangeSupported' => $user->canChangeDisplayName(),
 			'lookupServerUploadEnabled' => $lookupServerUploadEnabled,
 		];
 
-		$this->initialStateService->provideInitialState('emails', $emails);
+		$this->initialStateService->provideInitialState('personalInfoParameters', $personalInfoParameters);
 		$this->initialStateService->provideInitialState('accountParameters', $accountParameters);
 
 		return new TemplateResponse('settings', 'settings/personal/personal.info', $parameters, '');
@@ -197,6 +201,29 @@ class PersonalInfo implements ISettings {
 	}
 
 	/**
+	 * returns the primary display name in an
+	 * associative array
+	 *
+	 * NOTE may be extended to provide additional display names (i.e. aliases) in the future
+	 *
+	 * @param IAccount $account
+	 * @return array
+	 */
+	private function getDisplayNames(IAccount $account): array {
+		$primaryDisplayName = [
+			'value' => $account->getProperty(IAccountManager::PROPERTY_DISPLAYNAME)->getValue(),
+			'scope' => $account->getProperty(IAccountManager::PROPERTY_DISPLAYNAME)->getScope(),
+			'verified' => $account->getProperty(IAccountManager::PROPERTY_DISPLAYNAME)->getVerified(),
+		];
+
+		$displayNames = [
+			'primaryDisplayName' => $primaryDisplayName,
+		];
+
+		return $displayNames;
+	}
+
+	/**
 	 * returns the primary email and additional emails in an
 	 * associative array
 	 *
@@ -204,7 +231,7 @@ class PersonalInfo implements ISettings {
 	 * @return array
 	 */
 	private function getEmails(IAccount $account): array {
-		$primaryEmail = [
+		$systemEmail = [
 			'value' => $account->getProperty(IAccountManager::PROPERTY_EMAIL)->getValue(),
 			'scope' => $account->getProperty(IAccountManager::PROPERTY_EMAIL)->getScope(),
 			'verified' => $account->getProperty(IAccountManager::PROPERTY_EMAIL)->getVerified(),
@@ -216,21 +243,23 @@ class PersonalInfo implements ISettings {
 					'value' => $property->getValue(),
 					'scope' => $property->getScope(),
 					'verified' => $property->getVerified(),
+					'locallyVerified' => $property->getLocallyVerified(),
 				];
 			},
 			$account->getPropertyCollection(IAccountManager::COLLECTION_EMAIL)->getProperties()
 		);
 
 		$emails = [
-			'primaryEmail' => $primaryEmail,
+			'primaryEmail' => $systemEmail,
 			'additionalEmails' => $additionalEmails,
+			'notificationEmail' => (string)$account->getUser()->getPrimaryEMailAddress(),
 		];
 
 		return $emails;
 	}
 
 	/**
-	 * returns the user language, common language and other languages in an
+	 * returns the user's active language, common languages, and other languages in an
 	 * associative array
 	 *
 	 * @param IUser $user
@@ -248,12 +277,12 @@ class PersonalInfo implements ISettings {
 		$languages = $this->l10nFactory->getLanguages();
 
 		// associate the user language with the proper array
-		$userLangIndex = array_search($userConfLang, array_column($languages['commonlanguages'], 'code'));
-		$userLang = $languages['commonlanguages'][$userLangIndex];
+		$userLangIndex = array_search($userConfLang, array_column($languages['commonLanguages'], 'code'));
+		$userLang = $languages['commonLanguages'][$userLangIndex];
 		// search in the other languages
 		if ($userLangIndex === false) {
-			$userLangIndex = array_search($userConfLang, array_column($languages['languages'], 'code'));
-			$userLang = $languages['languages'][$userLangIndex];
+			$userLangIndex = array_search($userConfLang, array_column($languages['otherLanguages'], 'code'));
+			$userLang = $languages['otherLanguages'][$userLangIndex];
 		}
 		// if user language is not available but set somehow: show the actual code as name
 		if (!is_array($userLang)) {
@@ -264,7 +293,7 @@ class PersonalInfo implements ISettings {
 		}
 
 		return array_merge(
-			['activelanguage' => $userLang],
+			['activeLanguage' => $userLang],
 			$languages
 		);
 	}

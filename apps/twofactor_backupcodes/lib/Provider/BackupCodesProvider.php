@@ -30,15 +30,15 @@ namespace OCA\TwoFactorBackupCodes\Provider;
 use OC\App\AppManager;
 use OCA\TwoFactorBackupCodes\Service\BackupCodeStorage;
 use OCA\TwoFactorBackupCodes\Settings\Personal;
+use OCP\Authentication\TwoFactorAuth\IDeactivatableByAdmin;
 use OCP\Authentication\TwoFactorAuth\IPersonalProviderSettings;
-use OCP\Authentication\TwoFactorAuth\IProvider;
 use OCP\Authentication\TwoFactorAuth\IProvidesPersonalSettings;
 use OCP\IInitialStateService;
 use OCP\IL10N;
 use OCP\IUser;
 use OCP\Template;
 
-class BackupCodesProvider implements IProvider, IProvidesPersonalSettings {
+class BackupCodesProvider implements IDeactivatableByAdmin, IProvidesPersonalSettings {
 
 	/** @var string */
 	private $appName;
@@ -163,5 +163,9 @@ class BackupCodesProvider implements IProvider, IProvidesPersonalSettings {
 		$state = $this->storage->getBackupCodesState($user);
 		$this->initialStateService->provideInitialState($this->appName, 'state', $state);
 		return new Personal();
+	}
+
+	public function disableFor(IUser $user) {
+		$this->storage->deleteCodes($user);
 	}
 }

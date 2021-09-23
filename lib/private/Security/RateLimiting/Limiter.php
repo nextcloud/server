@@ -29,23 +29,17 @@ namespace OC\Security\RateLimiting;
 use OC\Security\Normalizer\IpAddress;
 use OC\Security\RateLimiting\Backend\IBackend;
 use OC\Security\RateLimiting\Exception\RateLimitExceededException;
-use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IUser;
 
 class Limiter {
 	/** @var IBackend */
 	private $backend;
-	/** @var ITimeFactory */
-	private $timeFactory;
 
 	/**
-	 * @param ITimeFactory $timeFactory
 	 * @param IBackend $backend
 	 */
-	public function __construct(ITimeFactory $timeFactory,
-								IBackend $backend) {
+	public function __construct(IBackend $backend) {
 		$this->backend = $backend;
-		$this->timeFactory = $timeFactory;
 	}
 
 	/**
@@ -59,12 +53,12 @@ class Limiter {
 							  string $userIdentifier,
 							  int $period,
 							  int $limit): void {
-		$existingAttempts = $this->backend->getAttempts($methodIdentifier, $userIdentifier, $period);
+		$existingAttempts = $this->backend->getAttempts($methodIdentifier, $userIdentifier);
 		if ($existingAttempts >= $limit) {
 			throw new RateLimitExceededException();
 		}
 
-		$this->backend->registerAttempt($methodIdentifier, $userIdentifier, $this->timeFactory->getTime());
+		$this->backend->registerAttempt($methodIdentifier, $userIdentifier, $period);
 	}
 
 	/**

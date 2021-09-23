@@ -32,6 +32,7 @@
  */
 namespace OC\Accounts;
 
+use Exception;
 use InvalidArgumentException;
 use libphonenumber\NumberParseException;
 use libphonenumber\PhoneNumber;
@@ -45,9 +46,17 @@ use OCP\Accounts\IAccountPropertyCollection;
 use OCP\Accounts\PropertyDoesNotExistException;
 use OCP\BackgroundJob\IJobList;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\Defaults;
 use OCP\IConfig;
 use OCP\IDBConnection;
+use OCP\IL10N;
+use OCP\IURLGenerator;
 use OCP\IUser;
+use OCP\L10N\IFactory;
+use OCP\Mail\IMailer;
+use OCP\Security\ICrypto;
+use OCP\Security\VerificationToken\IVerificationToken;
+use OCP\Util;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
@@ -88,17 +97,46 @@ class AccountManager implements IAccountManager {
 
 	/** @var LoggerInterface */
 	private $logger;
+	/** @var IVerificationToken */
+	private $verificationToken;
+	/** @var IMailer */
+	private $mailer;
+	/** @var Defaults */
+	private $defaults;
+	/** @var IL10N */
+	private $l10n;
+	/** @var IURLGenerator */
+	private $urlGenerator;
+	/** @var ICrypto */
+	private $crypto;
+	/** @var IFactory */
+	private $l10nfactory;
 
-	public function __construct(IDBConnection $connection,
-								IConfig $config,
-								EventDispatcherInterface $eventDispatcher,
-								IJobList $jobList,
-								LoggerInterface $logger) {
+	public function __construct(
+		IDBConnection            $connection,
+		IConfig                  $config,
+		EventDispatcherInterface $eventDispatcher,
+		IJobList                 $jobList,
+		LoggerInterface          $logger,
+		IVerificationToken       $verificationToken,
+		IMailer                  $mailer,
+		Defaults                 $defaults,
+		IFactory                 $factory,
+		IURLGenerator            $urlGenerator,
+		ICrypto                  $crypto
+	) {
 		$this->connection = $connection;
 		$this->config = $config;
 		$this->eventDispatcher = $eventDispatcher;
 		$this->jobList = $jobList;
 		$this->logger = $logger;
+		$this->verificationToken = $verificationToken;
+		$this->mailer = $mailer;
+		$this->defaults = $defaults;
+		$this->urlGenerator = $urlGenerator;
+		$this->crypto = $crypto;
+		// DIing IL10N results in a dependency loop
+		$this->l10nfactory = $factory;
 	}
 
 	/**
@@ -337,7 +375,6 @@ class AccountManager implements IAccountManager {
 
 	/**
 	 * check if we need to ask the server for email verification, if yes we create a cronjob
-	 *
 	 */
 	protected function checkEmailVerification(IAccount $updatedAccount, array $oldData): void {
 		try {
@@ -358,11 +395,73 @@ class AccountManager implements IAccountManager {
 				]
 			);
 
-
-
-
 			$property->setVerified(self::VERIFICATION_IN_PROGRESS);
 		}
+	}
+
+	protected function checkLocalEmailVerification(IAccount $updatedAccount, array $oldData): void {
+		$mailCollection = $updatedAccount->getPropertyCollection(self::COLLECTION_EMAIL);
+		foreach ($mailCollection->getProperties() as $property) {
+			if ($property->getLocallyVerified() !== self::NOT_VERIFIED) {
+				continue;
+			}
+			if ($this->sendEmailVerificationEmail($updatedAccount->getUser(), $property->getValue())) {
+				$property->setLocallyVerified(self::VERIFICATION_IN_PROGRESS);
+			}
+		}
+	}
+
+	protected function sendEmailVerificationEmail(IUser $user, string $email): bool {
+		$ref = \substr(hash('sha256', $email), 0, 8);
+		$key = $this->crypto->encrypt($email);
+		$token = $this->verificationToken->create($user, 'verifyMail' . $ref, $email);
+
+		$link = $this->urlGenerator->linkToRouteAbsolute('provisioning_api.Verification.verifyMail',
+			[
+				'userId' => $user->getUID(),
+				'token' => $token,
+				'key' => $key
+			]);
+
+		$emailTemplate = $this->mailer->createEMailTemplate('core.EmailVerification', [
+			'link' => $link,
+		]);
+
+		if (!$this->l10n) {
+			$this->l10n = $this->l10nfactory->get('core');
+		}
+
+		$emailTemplate->setSubject($this->l10n->t('%s email verification', [$this->defaults->getName()]));
+		$emailTemplate->addHeader();
+		$emailTemplate->addHeading($this->l10n->t('Email verification'));
+
+		$emailTemplate->addBodyText(
+			htmlspecialchars($this->l10n->t('Click the following button to confirm your email.')),
+			$this->l10n->t('Click the following link to confirm your email.')
+		);
+
+		$emailTemplate->addBodyButton(
+			htmlspecialchars($this->l10n->t('Confirm your email')),
+			$link,
+			false
+		);
+		$emailTemplate->addFooter();
+
+		try {
+			$message = $this->mailer->createMessage();
+			$message->setTo([$email => $user->getDisplayName()]);
+			$message->setFrom([Util::getDefaultEmailAddress('verification-noreply') => $this->defaults->getName()]);
+			$message->useTemplate($emailTemplate);
+			$this->mailer->send($message);
+		} catch (Exception $e) {
+			// Log the exception and continue
+			$this->logger->info('Failed to send verification mail', [
+				'app' => 'core',
+				'exception' => $e
+			]);
+			return false;
+		}
+		return true;
 	}
 
 	/**
@@ -406,7 +505,6 @@ class AccountManager implements IAccountManager {
 		}
 	}
 
-
 	/**
 	 * add new user to accounts table
 	 *
@@ -435,6 +533,12 @@ class AccountManager implements IAccountManager {
 		foreach ($data as $dataRow) {
 			$propertyName = $dataRow['name'];
 			unset($dataRow['name']);
+
+			if (isset($dataRow['locallyVerified']) && $dataRow['locallyVerified'] === self::NOT_VERIFIED) {
+				// do not write default value, save DB space
+				unset($dataRow['locallyVerified']);
+			}
+
 			if (!$this->isCollection($propertyName)) {
 				$preparedData[$propertyName] = $dataRow;
 				continue;
@@ -511,7 +615,6 @@ class AccountManager implements IAccountManager {
 				continue;
 			}
 
-
 			$query->setParameter('name', $property['name'])
 				->setParameter('value', $property['value'] ?? '');
 			$query->executeStatement();
@@ -587,6 +690,7 @@ class AccountManager implements IAccountManager {
 			$data['verified'] ?? self::NOT_VERIFIED,
 			''
 		);
+		$p->setLocallyVerified($data['locallyVerified'] ?? self::NOT_VERIFIED);
 		$collection->addProperty($p);
 
 		return $collection;
@@ -599,6 +703,10 @@ class AccountManager implements IAccountManager {
 				$account->setPropertyCollection($this->arrayDataToCollection($account, $accountData));
 			} else {
 				$account->setProperty($accountData['name'], $accountData['value'] ?? '', $accountData['scope'] ?? self::SCOPE_LOCAL, $accountData['verified'] ?? self::NOT_VERIFIED);
+				if (isset($accountData['locallyVerified'])) {
+					$property = $account->getProperty($accountData['name']);
+					$property->setLocallyVerified($accountData['locallyVerified']);
+				}
 			}
 		}
 		return $account;
@@ -640,14 +748,17 @@ class AccountManager implements IAccountManager {
 		$oldData = $this->getUser($account->getUser(), false);
 		$this->updateVerificationStatus($account, $oldData);
 		$this->checkEmailVerification($account, $oldData);
+		$this->checkLocalEmailVerification($account, $oldData);
 
 		$data = [];
 		foreach ($account->getAllProperties() as $property) {
+			/** @var IAccountProperty $property */
 			$data[] = [
 				'name' => $property->getName(),
 				'value' => $property->getValue(),
 				'scope' => $property->getScope(),
 				'verified' => $property->getVerified(),
+				'locallyVerified' => $property->getLocallyVerified(),
 			];
 		}
 
