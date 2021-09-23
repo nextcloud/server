@@ -220,7 +220,6 @@ OC.L10N.register(
     "Delete email" : "刪除電子郵件地址",
     "Unset as primary email" : "取消設定為主要電子郵件",
     "This address is not confirmed" : "此地址尚未確認",
-    "Set as primary mail" : "設定為主要電子郵件",
     "Your email address" : "您的電子郵件信箱",
     "Additional email address {index}" : "額外的電子郵件地址 {index}",
     "No email address set" : "未設定電子郵件信箱",
@@ -388,6 +387,7 @@ OC.L10N.register(
     "Use system cron service to call the cron.php file every 5 minutes." : "使用系統 cron 每5分鐘呼叫 cron.php。",
     "The cron.php needs to be executed by the system user \"%s\"." : "cron.php 必須由系統使用者「%s」執行。",
     "To run this you need the PHP POSIX extension. See {linkstart}PHP documentation{linkend} for more details." : "要執行這個，您需要 PHP POSIX 擴充元件。請查閱 {linkstart}PHP 說明文件{linkend} 以取得更多資訊。",
+    "You need to enable the File sharing App." : "您必須啟用檔案分享應用程式。",
     "As admin you can fine-tune the sharing behavior. Please see the documentation for more information." : "系統管理員可以微調分享行為。請查閱說明文件以獲得更多資訊。",
     "Allow apps to use the Share API" : "允許應用程式使用分享 API",
     "Set default expiration date for shares" : "設定分享的預設到期日",
@@ -471,6 +471,7 @@ OC.L10N.register(
     "No display name set" : "未設定顯示名稱",
     "For password reset and notifications" : "用於密碼重設和通知信件",
     "Change privacy level of full name" : "變更全名的隱私等級",
-    "Change privacy level of email" : "變更電子郵件的隱私等級"
+    "Change privacy level of email" : "變更電子郵件的隱私等級",
+    "Set as primary mail" : "設定為主要電子郵件"
 },
 "nplurals=1; plural=0;");

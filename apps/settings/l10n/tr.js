@@ -220,7 +220,6 @@ OC.L10N.register(
     "Delete email" : "E-posta adresini sil",
     "Unset as primary email" : "Birincil e-posta işaretini kaldır",
     "This address is not confirmed" : "Bu adres doğrulanmamış",
-    "Set as primary mail" : "Birincil e-posta olarak işaretle",
     "Your email address" : "E-posta adresiniz",
     "Additional email address {index}" : "{index}. ek e-posta adresi",
     "No email address set" : "E-posta adresi belirtilmemiş",
@@ -472,6 +471,7 @@ OC.L10N.register(
     "No display name set" : "Görüntülenecek ad belirtilmemiş",
     "For password reset and notifications" : "Parola sıfırlama ve bildirimler için",
     "Change privacy level of full name" : "Tam adın gizlilik düzeyini değiştir",
-    "Change privacy level of email" : "E-posta adresinin gizlilik düzeyini değiştir"
+    "Change privacy level of email" : "E-posta adresinin gizlilik düzeyini değiştir",
+    "Set as primary mail" : "Birincil e-posta olarak işaretle"
 },
 "nplurals=2; plural=(n > 1);");

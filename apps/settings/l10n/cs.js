@@ -220,7 +220,6 @@ OC.L10N.register(
     "Delete email" : "Smazat e-mail",
     "Unset as primary email" : "Zrušeno nastavení coby hlavního e-mailu",
     "This address is not confirmed" : "Z této adresy jste ještě nepotvrdili ověřovací e-mail",
-    "Set as primary mail" : "Nastavit jako hlavní e-mai",
     "Your email address" : "Vaše e-mailová adresa",
     "Additional email address {index}" : "Další e-mailová adresa {index}",
     "No email address set" : "E-mailová adresa není nastavena",
@@ -472,6 +471,7 @@ OC.L10N.register(
     "No display name set" : "Nenastaveno žádné zobrazované jméno",
     "For password reset and notifications" : "Pro znovunastavení hesla a upozorňování",
     "Change privacy level of full name" : "Změnit úroveň soukromí pro celé jméno",
-    "Change privacy level of email" : "Změnit úroveň soukromí e-mailu"
+    "Change privacy level of email" : "Změnit úroveň soukromí e-mailu",
+    "Set as primary mail" : "Nastavit jako hlavní e-mai"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");
