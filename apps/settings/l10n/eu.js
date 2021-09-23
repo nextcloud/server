@@ -220,7 +220,6 @@ OC.L10N.register(
     "Delete email" : "Ezabatu posta elektronikoa",
     "Unset as primary email" : "Kendu posta nagusia",
     "This address is not confirmed" : "Helbide hau ez dago berretsita",
-    "Set as primary mail" : "Ezarri posta nagusi bezala",
     "Your email address" : "Zure e-posta",
     "Additional email address {index}" : "Posta elektroniko gehigarria {index}",
     "No email address set" : "Ez da eposta helbidea ezarri",
@@ -472,6 +471,7 @@ OC.L10N.register(
     "No display name set" : "Ez da bistaratze izena ezarri",
     "For password reset and notifications" : "Pasahitza berrezartzeko eta jakinarazpenerako",
     "Change privacy level of full name" : "Aldatu izen osoaren pribatutasun maila",
-    "Change privacy level of email" : "Aldatu posta elektronikoaren pribatutasun maila"
+    "Change privacy level of email" : "Aldatu posta elektronikoaren pribatutasun maila",
+    "Set as primary mail" : "Ezarri posta nagusi bezala"
 },
 "nplurals=2; plural=(n != 1);");

@@ -218,7 +218,6 @@
     "Delete email" : "刪除電郵地址",
     "Unset as primary email" : "取消設定為主要電郵地址",
     "This address is not confirmed" : "此地址尚未確認",
-    "Set as primary mail" : "設為主要電郵地址",
     "Your email address" : "您的電郵地址",
     "Additional email address {index}" : "附加電郵地址 {index}",
     "No email address set" : "未設定電郵地址",
@@ -470,6 +469,7 @@
     "No display name set" : "未設定顯示名稱",
     "For password reset and notifications" : "用於密碼重設和通告信件",
     "Change privacy level of full name" : "更改全名的私隱級別",
-    "Change privacy level of email" : "更改電郵地址的私隱級別"
+    "Change privacy level of email" : "更改電郵地址的私隱級別",
+    "Set as primary mail" : "設為主要電郵地址"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

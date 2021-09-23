@@ -218,7 +218,6 @@
     "Delete email" : "Zmazať email",
     "Unset as primary email" : "Zrušiť nastavenie ako primárny e-mail",
     "This address is not confirmed" : "Táto adresa nie je potvrdená",
-    "Set as primary mail" : "Nastaviť ako primárny e-mail",
     "Your email address" : "Vaša emailová adresa",
     "Additional email address {index}" : "Ďaľšia e-mail adresa {index}",
     "No email address set" : "Emailová adresa nie je nastavená",
@@ -386,6 +385,7 @@
     "Use system cron service to call the cron.php file every 5 minutes." : "Použiť systémový plánovač (cron) pre spustenie súboru cron.php každých 5 minút.",
     "The cron.php needs to be executed by the system user \"%s\"." : "Je potrebné, aby cron.php bol spustený systémovým používateľom \"%s\".",
     "To run this you need the PHP POSIX extension. See {linkstart}PHP documentation{linkend} for more details." : "Pre spustenie potrebujete mať rozšírenie PHP POSIX. Viac detailov v {linkstart}PHP dokumentácii{linkend}.",
+    "You need to enable the File sharing App." : "Musíte povoliť Aplikáciu pre zdieľanie súborov.",
     "As admin you can fine-tune the sharing behavior. Please see the documentation for more information." : "Ako administrátor môžete nastaviť správanie sprístupňovania. Pre viac informácií pozrite dokumentáciu.",
     "Allow apps to use the Share API" : "Povoliť aplikáciám používať API pre sprístupňovanie",
     "Set default expiration date for shares" : "Nastavte predvolený dátum expirácie pre zdieľania",
@@ -469,6 +469,7 @@
     "No display name set" : "Zobrazované meno nie je nastavené",
     "For password reset and notifications" : "Na znovu-nastavenie hesla a oznámení",
     "Change privacy level of full name" : "Zmeniť úroveň súkromia pre celé meno",
-    "Change privacy level of email" : "Zmeniť úroveň súkromia pre email"
+    "Change privacy level of email" : "Zmeniť úroveň súkromia pre email",
+    "Set as primary mail" : "Nastaviť ako primárny e-mail"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);"
 }
