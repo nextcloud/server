@@ -505,7 +505,7 @@ class ShareAPIControllerTest extends TestCase {
 
 	public function createShare($id, $shareType, $sharedWith, $sharedBy, $shareOwner, $path, $permissions,
 								$shareTime, $expiration, $parent, $target, $mail_send, $note = '', $token = null,
-								$password = null, $label = '') {
+								$password = null, $label = '', $hideDownload = null) {
 		$share = $this->getMockBuilder(IShare::class)->getMock();
 		$share->method('getId')->willReturn($id);
 		$share->method('getShareType')->willReturn($shareType);
@@ -524,6 +524,7 @@ class ShareAPIControllerTest extends TestCase {
 		$share->method('getMailSend')->willReturn($mail_send);
 		$share->method('getToken')->willReturn($token);
 		$share->method('getPassword')->willReturn($password);
+		$share->method('getHideDownload')->willReturn($hideDownload);
 
 		if ($shareType === IShare::TYPE_USER ||
 			$shareType === IShare::TYPE_GROUP ||
