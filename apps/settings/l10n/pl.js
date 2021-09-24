@@ -220,6 +220,7 @@ OC.L10N.register(
     "Delete email" : "Usuń e-mail",
     "Unset as primary email" : "Usuń jako podstawowy adres e-mail",
     "This address is not confirmed" : "Ten adres nie jest potwierdzony",
+    "Set as primary email" : "Ustaw jako podstawowy adres e-mail",
     "Your email address" : "Twój adres e-mail",
     "Additional email address {index}" : "Dodatkowy adres e-mail {index}",
     "No email address set" : "Brak adresu e-mail",

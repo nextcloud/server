@@ -300,6 +300,7 @@ OC.L10N.register(
     "You are about to remove the group {group}. The users will NOT be deleted." : "Du bist dabei die Gruppe {group} zu löschen. Die Benutzer werden NICHT gelöscht.",
     "Please confirm the group removal " : "Bitte die Löschung der Gruppe bestätigen",
     "Address" : "Adresse",
+    "Avatar" : "Avatar",
     "Full name" : "Vollständiger Name",
     "Phone number" : "Telefonnummer",
     "Twitter" : "Twitter",
