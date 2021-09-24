@@ -27,7 +27,7 @@
 namespace OC;
 
 class RedisFactory {
-	public const REDIS_MINIMAL_VERSION = '2.2.5';
+	public const REDIS_MINIMAL_VERSION = '3.1.3';
 	public const REDIS_EXTRA_PARAMETERS_MINIMAL_VERSION = '5.3.0';
 
 	/** @var  \Redis|\RedisCluster */
@@ -139,8 +139,8 @@ class RedisFactory {
 	/**
 	 * Get the ssl context config
 	 *
-	 * @param Array $config the current config
-	 * @return Array|null
+	 * @param array $config the current config
+	 * @return array|null
 	 * @throws \UnexpectedValueException
 	 */
 	private function getSslContext($config) {
@@ -167,9 +167,9 @@ class RedisFactory {
 		return $this->instance;
 	}
 
-	public function isAvailable() {
-		return extension_loaded('redis')
-		&& version_compare(phpversion('redis'), '2.2.5', '>=');
+	public function isAvailable(): bool {
+		return \extension_loaded('redis') &&
+			\version_compare(\phpversion('redis'), self::REDIS_MINIMAL_VERSION, '>=');
 	}
 
 	/**
