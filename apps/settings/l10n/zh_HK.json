@@ -218,6 +218,7 @@
     "Delete email" : "刪除電郵地址",
     "Unset as primary email" : "取消設定為主要電郵地址",
     "This address is not confirmed" : "此地址尚未確認",
+    "Set as primary email" : "設為主要電郵地址",
     "Your email address" : "您的電郵地址",
     "Additional email address {index}" : "附加電郵地址 {index}",
     "No email address set" : "未設定電郵地址",

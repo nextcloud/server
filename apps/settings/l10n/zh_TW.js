@@ -220,6 +220,7 @@ OC.L10N.register(
     "Delete email" : "刪除電子郵件地址",
     "Unset as primary email" : "取消設定為主要電子郵件",
     "This address is not confirmed" : "此地址尚未確認",
+    "Set as primary email" : "設定為主要電子郵件",
     "Your email address" : "您的電子郵件信箱",
     "Additional email address {index}" : "額外的電子郵件地址 {index}",
     "No email address set" : "未設定電子郵件信箱",
