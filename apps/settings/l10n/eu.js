@@ -220,6 +220,7 @@ OC.L10N.register(
     "Delete email" : "Ezabatu posta elektronikoa",
     "Unset as primary email" : "Kendu posta nagusia",
     "This address is not confirmed" : "Helbide hau ez dago berretsita",
+    "Set as primary email" : "Ezarri e-posta nagusi bezala",
     "Your email address" : "Zure e-posta",
     "Additional email address {index}" : "Posta elektroniko gehigarria {index}",
     "No email address set" : "Ez da eposta helbidea ezarri",
