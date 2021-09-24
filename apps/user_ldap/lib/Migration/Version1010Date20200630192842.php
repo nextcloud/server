@@ -52,7 +52,7 @@ class Version1010Date20200630192842 extends SimpleMigrationStep {
 			]);
 			$table->addColumn('owncloud_name', Types::STRING, [
 				'notnull' => true,
-				'length' => 255,
+				'length' => 64,
 				'default' => '',
 			]);
 			$table->addColumn('directory_uuid', Types::STRING, [
@@ -73,7 +73,7 @@ class Version1010Date20200630192842 extends SimpleMigrationStep {
 			]);
 			$table->addColumn('owncloud_name', Types::STRING, [
 				'notnull' => true,
-				'length' => 255,
+				'length' => 64,
 				'default' => '',
 			]);
 			$table->addColumn('directory_uuid', Types::STRING, [

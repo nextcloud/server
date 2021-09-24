@@ -59,6 +59,8 @@ use OCP\HintException;
 use OCP\IConfig;
 use OCP\ILogger;
 use OCP\IUserManager;
+use function strlen;
+use function substr;
 
 /**
  * Class Access
@@ -578,7 +580,7 @@ class Access extends LDAPUtility {
 				return false;
 			}
 		} else {
-			$intName = $ldapName;
+			$intName = $this->sanitizeGroupIDCandidate($ldapName);
 		}
 
 		//a new user/group! Add it only if it doesn't conflict with other backend's users or existing groups
@@ -837,6 +839,11 @@ class Access extends LDAPUtility {
 	 * @return string|false with with the name to use in Nextcloud or false if unsuccessful
 	 */
 	private function createAltInternalOwnCloudName($name, $isUser) {
+		// ensure there is space for the "_1234" suffix
+		if (strlen($name) > 59) {
+			$name = substr($name, 0, 59);
+		}
+
 		$originalTTL = $this->connection->ldapCacheTTL;
 		$this->connection->setConfiguration(['ldapCacheTTL' => 0]);
 		if ($isUser) {
@@ -1431,11 +1438,27 @@ class Access extends LDAPUtility {
 		// Every remaining disallowed characters will be removed
 		$name = preg_replace('/[^a-zA-Z0-9_.@-]/u', '', $name);
 
+		if (strlen($name) > 64) {
+			$name = (string)hash('sha256', $name, false);
+		}
+
 		if ($name === '') {
 			throw new \InvalidArgumentException('provided name template for username does not contain any allowed characters');
 		}
 
 		return $name;
+	}
+
+	public function sanitizeGroupIDCandidate(string $candidate): string {
+		$candidate = trim($candidate);
+		if (strlen($candidate) > 64) {
+			$candidate = (string)hash('sha256', $candidate, false);
+		}
+		if ($candidate === '') {
+			throw new \InvalidArgumentException('provided name template for username does not contain any allowed characters');
+		}
+
+		return $candidate;
 	}
 
 	/**
