@@ -409,6 +409,7 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 	private function getNameOfGroup(string $filter, string $cacheKey) {
 		$result = $this->access->searchGroups($filter, ['dn'], 1);
 		if (empty($result)) {
+			$this->access->connection->writeToCache($cacheKey, false);
 			return null;
 		}
 		$dn = $result[0]['dn'][0];
@@ -533,10 +534,10 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 	 * @throws ServerNotAvailableException
 	 */
 	public function primaryGroupID2Name(string $gid, string $dn) {
-		$cacheKey = 'primaryGroupIDtoName';
-		$groupNames = $this->access->connection->getFromCache($cacheKey);
-		if (!is_null($groupNames) && isset($groupNames[$gid])) {
-			return $groupNames[$gid];
+		$cacheKey = 'primaryGroupIDtoName_' . $gid;
+		$groupName = $this->access->connection->getFromCache($cacheKey);
+		if (!is_null($groupName)) {
+			return $groupName;
 		}
 
 		$domainObjectSid = $this->access->getSID($dn);
