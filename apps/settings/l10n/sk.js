@@ -220,6 +220,7 @@ OC.L10N.register(
     "Delete email" : "Zmazať email",
     "Unset as primary email" : "Zrušiť nastavenie ako primárny e-mail",
     "This address is not confirmed" : "Táto adresa nie je potvrdená",
+    "Set as primary email" : "Nastaviť ako primárny e-mail",
     "Your email address" : "Vaša emailová adresa",
     "Additional email address {index}" : "Ďaľšia e-mail adresa {index}",
     "No email address set" : "Emailová adresa nie je nastavená",
