@@ -220,6 +220,7 @@ OC.L10N.register(
     "Delete email" : "E-posta adresini sil",
     "Unset as primary email" : "Birincil e-posta işaretini kaldır",
     "This address is not confirmed" : "Bu adres doğrulanmamış",
+    "Set as primary email" : "Birincil e-posta olarak ayarla",
     "Your email address" : "E-posta adresiniz",
     "Additional email address {index}" : "{index}. ek e-posta adresi",
     "No email address set" : "E-posta adresi belirtilmemiş",
