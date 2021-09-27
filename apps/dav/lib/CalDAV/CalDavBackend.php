@@ -1845,17 +1845,19 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				$outerQuery->createNamedParameter(self::CALENDAR_TYPE_CALENDAR)));
 
 		// only return public items for shared calendars for now
-		if ($calendarInfo['principaluri'] !== $calendarInfo['{http://owncloud.org/ns}owner-principal']) {
+		if (isset($calendarInfo['{http://owncloud.org/ns}owner-principal']) === false || $calendarInfo['principaluri'] !== $calendarInfo['{http://owncloud.org/ns}owner-principal']) {
 			$innerQuery->andWhere($innerQuery->expr()->eq('c.classification',
 				$outerQuery->createNamedParameter(self::CLASSIFICATION_PUBLIC)));
 		}
 
-		$or = $innerQuery->expr()->orX();
-		foreach ($searchProperties as $searchProperty) {
-			$or->add($innerQuery->expr()->eq('op.name',
-				$outerQuery->createNamedParameter($searchProperty)));
+		if (!empty($searchProperties)) {
+			$or = $innerQuery->expr()->orX();
+			foreach ($searchProperties as $searchProperty) {
+				$or->add($innerQuery->expr()->eq('op.name',
+					$outerQuery->createNamedParameter($searchProperty)));
+			}
+			$innerQuery->andWhere($or);
 		}
-		$innerQuery->andWhere($or);
 
 		if ($pattern !== '') {
 			$innerQuery->andWhere($innerQuery->expr()->iLike('op.value',
@@ -1878,7 +1880,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			}
 		}
 
-		if (isset($options['types'])) {
+		if (!empty($options['types'])) {
 			$or = $outerQuery->expr()->orX();
 			foreach ($options['types'] as $type) {
 				$or->add($outerQuery->expr()->eq('componenttype',
@@ -1887,8 +1889,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			$outerQuery->andWhere($or);
 		}
 
-		$outerQuery->andWhere($outerQuery->expr()->in('c.id',
-			$outerQuery->createFunction($innerQuery->getSQL())));
+		$outerQuery->andWhere($outerQuery->expr()->in('c.id', $outerQuery->createFunction($innerQuery->getSQL())));
 
 		if ($offset) {
 			$outerQuery->setFirstResult($offset);

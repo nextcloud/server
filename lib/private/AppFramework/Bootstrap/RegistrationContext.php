@@ -35,6 +35,7 @@ use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\AppFramework\Middleware;
 use OCP\AppFramework\Services\InitialStateProvider;
 use OCP\Authentication\IAlternativeLogin;
+use OCP\Calendar\ICalendarProvider;
 use OCP\Capabilities\ICapability;
 use OCP\Dashboard\IManager;
 use OCP\Dashboard\IWidget;
@@ -94,6 +95,9 @@ class RegistrationContext {
 
 	/** @var ServiceRegistration<\OCP\Authentication\TwoFactorAuth\IProvider>[] */
 	private $twoFactorProviders = [];
+
+	/** @var ServiceRegistration<ICalendarProvider>[] */
+	private $calendarProviders = [];
 
 	/** @var LoggerInterface */
 	private $logger;
@@ -225,6 +229,13 @@ class RegistrationContext {
 					$twoFactorProviderClass
 				);
 			}
+
+			public function registerCalendarProvider(string $class): void {
+				$this->context->registerCalendarProvider(
+					$this->appId,
+					$class
+				);
+			}
 		};
 	}
 
@@ -298,6 +309,10 @@ class RegistrationContext {
 
 	public function registerTwoFactorProvider(string $appId, string $class): void {
 		$this->twoFactorProviders[] = new ServiceRegistration($appId, $class);
+	}
+
+	public function registerCalendarProvider(string $appId, string $class): void {
+		$this->calendarProviders[] = new ServiceRegistration($appId, $class);
 	}
 
 	/**
@@ -529,5 +544,12 @@ class RegistrationContext {
 	 */
 	public function getTwoFactorProviders(): array {
 		return $this->twoFactorProviders;
+	}
+
+	/**
+	 * @return ServiceRegistration<ICalendarProvider>[]
+	 */
+	public function getCalendarProviders(): array {
+		return $this->calendarProviders;
 	}
 }

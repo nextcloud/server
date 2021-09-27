@@ -43,6 +43,7 @@ return array(
     'OCA\\DAV\\CalDAV\\CalendarImpl' => $baseDir . '/../lib/CalDAV/CalendarImpl.php',
     'OCA\\DAV\\CalDAV\\CalendarManager' => $baseDir . '/../lib/CalDAV/CalendarManager.php',
     'OCA\\DAV\\CalDAV\\CalendarObject' => $baseDir . '/../lib/CalDAV/CalendarObject.php',
+    'OCA\\DAV\\CalDAV\\CalendarProvider' => $baseDir . '/../lib/CalDAV/CalendarProvider.php',
     'OCA\\DAV\\CalDAV\\CalendarRoot' => $baseDir . '/../lib/CalDAV/CalendarRoot.php',
     'OCA\\DAV\\CalDAV\\ICSExportPlugin\\ICSExportPlugin' => $baseDir . '/../lib/CalDAV/ICSExportPlugin/ICSExportPlugin.php',
     'OCA\\DAV\\CalDAV\\IRestorable' => $baseDir . '/../lib/CalDAV/IRestorable.php',
