@@ -5,7 +5,7 @@
 	<name>Accessibility</name>
 	<summary>Accessibility options for nextcloud</summary>
 	<description><![CDATA[Provides multiple accessibilities options to ease your use of Nextcloud]]></description>
-	<version>1.8.0</version>
+	<version>1.9.0</version>
 	<licence>agpl</licence>
 	<author>John Molakvoæ</author>
 	<namespace>Accessibility</namespace>

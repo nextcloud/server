@@ -5,7 +5,7 @@
 	<name>Comments</name>
 	<summary>Files app plugin to add comments to files</summary>
 	<description>Files app plugin to add comments to files</description>
-	<version>1.12.0</version>
+	<version>1.13.0</version>
 	<licence>agpl</licence>
 	<author>Arthur Schiwon</author>
 	<author>Vincent Petry</author>
