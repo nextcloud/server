@@ -34,6 +34,9 @@ use OCP\Files\Search\ISearchQuery;
  * @since 6.0.0
  */
 interface Folder extends Node {
+
+	public function getFullPath($path);
+	
 	/**
 	 * Get the full path of an item in the folder within owncloud's filesystem
 	 *
@@ -42,7 +45,8 @@ interface Folder extends Node {
 	 * @throws \OCP\Files\NotPermittedException
 	 * @since 6.0.0
 	 */
-	public function getFullPath($path);
+
+	public function getRelativePath($path);
 
 	/**
 	 * Get the path of an item in the folder relative to the folder
@@ -52,8 +56,9 @@ interface Folder extends Node {
 	 * @return string|null
 	 * @since 6.0.0
 	 */
-	public function getRelativePath($path);
 
+	public function isSubNode($node);
+	
 	/**
 	 * check if a node is a (grand-)child of the folder
 	 *
@@ -61,7 +66,8 @@ interface Folder extends Node {
 	 * @return bool
 	 * @since 6.0.0
 	 */
-	public function isSubNode($node);
+
+	public function getDirectoryListing();
 
 	/**
 	 * get the content of this directory
@@ -70,7 +76,8 @@ interface Folder extends Node {
 	 * @return \OCP\Files\Node[]
 	 * @since 6.0.0
 	 */
-	public function getDirectoryListing();
+
+	public function get($path);
 
 	/**
 	 * Get the node at $path
@@ -80,7 +87,8 @@ interface Folder extends Node {
 	 * @throws \OCP\Files\NotFoundException
 	 * @since 6.0.0
 	 */
-	public function get($path);
+
+	public function nodeExists($path);
 
 	/**
 	 * Check if a file or folder exists in the folder
@@ -89,8 +97,9 @@ interface Folder extends Node {
 	 * @return bool
 	 * @since 6.0.0
 	 */
-	public function nodeExists($path);
 
+	public function newFolder($path);
+	
 	/**
 	 * Create a new folder
 	 *
@@ -99,8 +108,9 @@ interface Folder extends Node {
 	 * @throws \OCP\Files\NotPermittedException
 	 * @since 6.0.0
 	 */
-	public function newFolder($path);
 
+	public function newFile($path, $content = null);
+	
 	/**
 	 * Create a new file
 	 *
@@ -110,8 +120,9 @@ interface Folder extends Node {
 	 * @throws \OCP\Files\NotPermittedException
 	 * @since 6.0.0
 	 */
-	public function newFile($path, $content = null);
 
+	public function search($query);
+	
 	/**
 	 * search for files with the name matching $query
 	 *
@@ -119,7 +130,8 @@ interface Folder extends Node {
 	 * @return \OCP\Files\Node[]
 	 * @since 6.0.0
 	 */
-	public function search($query);
+
+	public function searchByMime($mimetype);
 
 	/**
 	 * search for files by mimetype
@@ -129,8 +141,9 @@ interface Folder extends Node {
 	 * @return \OCP\Files\Node[]
 	 * @since 6.0.0
 	 */
-	public function searchByMime($mimetype);
 
+	public function searchByTag($tag, $userId);
+	
 	/**
 	 * search for files by tag
 	 *
@@ -139,7 +152,8 @@ interface Folder extends Node {
 	 * @return \OCP\Files\Node[]
 	 * @since 8.0.0
 	 */
-	public function searchByTag($tag, $userId);
+
+	public function getById($id);
 
 	/**
 	 * get a file or folder inside the folder by it's internal id
@@ -151,24 +165,27 @@ interface Folder extends Node {
 	 * @return \OCP\Files\Node[]
 	 * @since 6.0.0
 	 */
-	public function getById($id);
 
+	public function getFreeSpace();
+	
 	/**
 	 * Get the amount of free space inside the folder
 	 *
 	 * @return int
 	 * @since 6.0.0
 	 */
-	public function getFreeSpace();
 
+	public function isCreatable();
+	
 	/**
 	 * Check if new files or folders can be created within the folder
 	 *
 	 * @return bool
 	 * @since 6.0.0
 	 */
-	public function isCreatable();
 
+	public function getNonExistingName($name);
+	
 	/**
 	 * Add a suffix to the name in case the file exists
 	 *
@@ -177,13 +194,13 @@ interface Folder extends Node {
 	 * @throws NotPermittedException
 	 * @since 8.1.0
 	 */
-	public function getNonExistingName($name);
 
+	public function getRecent($limit, $offset = 0);
+	
 	/**
 	 * @param int $limit
 	 * @param int $offset
 	 * @return \OCP\Files\Node[]
 	 * @since 9.1.0
 	 */
-	public function getRecent($limit, $offset = 0);
 }
