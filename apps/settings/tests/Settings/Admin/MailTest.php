@@ -31,6 +31,7 @@ namespace OCA\Settings\Tests\Settings\Admin;
 use OCA\Settings\Settings\Admin\Mail;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
+use OCP\IL10N;
 use Test\TestCase;
 
 class MailTest extends TestCase {
@@ -38,13 +39,17 @@ class MailTest extends TestCase {
 	private $admin;
 	/** @var IConfig */
 	private $config;
+	/** @var IL10N */
+	private $l10n;
 
 	protected function setUp(): void {
 		parent::setUp();
 		$this->config = $this->getMockBuilder(IConfig::class)->getMock();
+		$this->l10n = $this->getMockBuilder(IL10N::class)->getMock();
 
 		$this->admin = new Mail(
-			$this->config
+			$this->config,
+			$this->l10n
 		);
 	}
 

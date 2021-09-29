@@ -36,6 +36,7 @@ use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
+use OCP\IL10N;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
@@ -51,12 +52,15 @@ class ServerTest extends TestCase {
 	private $timeFactory;
 	/** @var IConfig|MockObject */
 	private $config;
+	/** @var IL10N|MockObject */
+	private $l10n;
 
 	protected function setUp(): void {
 		parent::setUp();
 		$this->connection = \OC::$server->getDatabaseConnection();
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->config = $this->createMock(IConfig::class);
+		$this->l10n = $this->createMock(IL10N::class);
 
 		$this->admin = $this->getMockBuilder(Server::class)
 			->onlyMethods(['cronMaxAge'])
@@ -64,6 +68,7 @@ class ServerTest extends TestCase {
 				$this->connection,
 				$this->timeFactory,
 				$this->config,
+				$this->l10n,
 			])
 			->getMock();
 	}

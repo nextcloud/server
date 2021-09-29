@@ -366,8 +366,9 @@ class CheckSetupController extends Controller {
 
 	/**
 	 * @return RedirectResponse
+	 * @AuthorizedAdminSetting(settings=OCA\Settings\Settings\Admin\Overview)
 	 */
-	public function rescanFailedIntegrityCheck() {
+	public function rescanFailedIntegrityCheck(): RedirectResponse {
 		$this->checker->runInstanceVerification();
 		return new RedirectResponse(
 			$this->urlGenerator->linkToRoute('settings.AdminSettings.index', ['section' => 'overview'])
@@ -376,6 +377,7 @@ class CheckSetupController extends Controller {
 
 	/**
 	 * @NoCSRFRequired
+	 * @AuthorizedAdminSetting(settings=OCA\Settings\Settings\Admin\Overview)
 	 */
 	public function getFailedIntegrityCheckFiles(): DataDisplayResponse {
 		if (!$this->checker->isCodeCheckEnforced()) {
@@ -740,6 +742,7 @@ Raw output
 
 	/**
 	 * @return DataResponse
+	 * @AuthorizedAdminSetting(settings=OCA\Settings\Settings\Admin\Overview)
 	 */
 	public function check() {
 		$phpDefaultCharset = new PhpDefaultCharset();

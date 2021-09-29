@@ -23,22 +23,25 @@
 
 namespace OCA\Settings\Tests\AppInfo;
 
+use OC\Settings\AuthorizedGroupMapper;
 use OC\Settings\Manager;
+use OCP\Group\ISubAdmin;
 use OCP\IDBConnection;
+use OCP\IGroupManager;
 use OCP\IL10N;
-use OCP\ILogger;
 use OCP\IServerContainer;
 use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
 use OCP\Settings\ISettings;
 use OCP\Settings\ISubAdminSettings;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class ManagerTest extends TestCase {
 
 	/** @var Manager|\PHPUnit\Framework\MockObject\MockObject */
 	private $manager;
-	/** @var ILogger|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
 	private $logger;
 	/** @var IDBConnection|\PHPUnit\Framework\MockObject\MockObject */
 	private $l10n;
@@ -48,21 +51,31 @@ class ManagerTest extends TestCase {
 	private $url;
 	/** @var IServerContainer|\PHPUnit\Framework\MockObject\MockObject */
 	private $container;
+	/** @var IGroupManager|\PHPUnit\Framework\MockObject\MockObject */
+	private $groupManager;
+	/** @var ISubAdmin|\PHPUnit\Framework\MockObject\MockObject */
+	private $subAdmin;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->logger = $this->createMock(ILogger::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->l10n = $this->createMock(IL10N::class);
 		$this->l10nFactory = $this->createMock(IFactory::class);
 		$this->url = $this->createMock(IURLGenerator::class);
 		$this->container = $this->createMock(IServerContainer::class);
+		$this->mapper = $this->createMock(AuthorizedGroupMapper::class);
+		$this->groupManager = $this->createMock(IGroupManager::class);
+		$this->subAdmin = $this->createMock(ISubAdmin::class);
 
 		$this->manager = new Manager(
 			$this->logger,
 			$this->l10nFactory,
 			$this->url,
-			$this->container
+			$this->container,
+			$this->mapper,
+			$this->groupManager,
+			$this->subAdmin,
 		);
 	}
 
@@ -106,7 +119,7 @@ class ManagerTest extends TestCase {
 			->willReturn(13);
 		$section->method('getSection')
 			->willReturn('sharing');
-		$this->container->method('query')
+		$this->container->method('get')
 			->with('myAdminClass')
 			->willReturn($section);
 
@@ -124,7 +137,7 @@ class ManagerTest extends TestCase {
 			->willReturn(13);
 		$section->method('getSection')
 			->willReturn('sharing');
-		$this->container->method('query')
+		$this->container->method('get')
 			->with('myAdminClass')
 			->willReturn($section);
 
@@ -141,7 +154,7 @@ class ManagerTest extends TestCase {
 		$section->method('getSection')
 			->willReturn('sharing');
 		$this->container->expects($this->once())
-			->method('query')
+			->method('get')
 			->with('mySubAdminClass')
 			->willReturn($section);
 
@@ -169,11 +182,11 @@ class ManagerTest extends TestCase {
 		$this->manager->registerSetting('personal', 'section2');
 
 		$this->container->expects($this->at(0))
-			->method('query')
+			->method('get')
 			->with('section1')
 			->willReturn($section);
 		$this->container->expects($this->at(1))
-			->method('query')
+			->method('get')
 			->with('section2')
 			->willReturn($section2);
 

@@ -31,6 +31,10 @@ return [
 		'AuthSettings' => ['url' => '/settings/personal/authtokens' , 'root' => ''],
 	],
 	'routes' => [
+		['name' => 'AuthorizedGroup#create', 'url' => '/settings/authorizedgroups', 'verb' => 'POST'],
+		['name' => 'AuthorizedGroup#saveSettings', 'url' => '/settings/authorizedgroups/saveSettings', 'verb' => 'POST'],
+		['name' => 'AuthorizedGroup#destroy', 'url' => '/settings/authorizedgroups', 'verb' => 'DELETE'],
+
 		['name' => 'AuthSettings#wipe', 'url' => '/settings/personal/authtokens/wipe/{id}', 'verb' => 'POST' , 'root' => ''],
 
 		['name' => 'MailSettings#setMailSettings', 'url' => '/settings/admin/mailsettings', 'verb' => 'POST' , 'root' => ''],

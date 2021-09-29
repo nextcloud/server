@@ -61,6 +61,7 @@ use OCP\App\ManagerEvent;
 use OCP\AppFramework\QueryException;
 use OCP\Authentication\IAlternativeLogin;
 use OCP\ILogger;
+use OCP\Settings\IManager as ISettingsManager;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -223,22 +224,22 @@ class OC_App {
 
 		if (!empty($info['settings']['admin'])) {
 			foreach ($info['settings']['admin'] as $setting) {
-				\OC::$server->getSettingsManager()->registerSetting('admin', $setting);
+				\OC::$server->get(ISettingsManager::class)->registerSetting('admin', $setting);
 			}
 		}
 		if (!empty($info['settings']['admin-section'])) {
 			foreach ($info['settings']['admin-section'] as $section) {
-				\OC::$server->getSettingsManager()->registerSection('admin', $section);
+				\OC::$server->get(ISettingsManager::class)->registerSection('admin', $section);
 			}
 		}
 		if (!empty($info['settings']['personal'])) {
 			foreach ($info['settings']['personal'] as $setting) {
-				\OC::$server->getSettingsManager()->registerSetting('personal', $setting);
+				\OC::$server->get(ISettingsManager::class)->registerSetting('personal', $setting);
 			}
 		}
 		if (!empty($info['settings']['personal-section'])) {
 			foreach ($info['settings']['personal-section'] as $section) {
-				\OC::$server->getSettingsManager()->registerSection('personal', $section);
+				\OC::$server->get(ISettingsManager::class)->registerSection('personal', $section);
 			}
 		}
 

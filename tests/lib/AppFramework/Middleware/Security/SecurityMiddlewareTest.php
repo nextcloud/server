@@ -32,6 +32,7 @@ use OC\AppFramework\Middleware\Security\Exceptions\SecurityException;
 use OC\Appframework\Middleware\Security\Exceptions\StrictCookieMissingException;
 use OC\AppFramework\Middleware\Security\SecurityMiddleware;
 use OC\AppFramework\Utility\ControllerMethodReflector;
+use OC\Settings\AuthorizedGroupMapper;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\JSONResponse;
@@ -42,6 +43,7 @@ use OCP\IL10N;
 use OCP\INavigationManager;
 use OCP\IRequest;
 use OCP\IURLGenerator;
+use OCP\IUserSession;
 use OCP\Security\ISecureRandom;
 use Psr\Log\LoggerInterface;
 
@@ -69,10 +71,16 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 	private $appManager;
 	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
 	private $l10n;
+	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
+	private $userSession;
+	/** @var AuthorizedGroupMapper|\PHPUnit\Framework\MockObject\MockObject */
+	private $authorizedGroupMapper;
 
 	protected function setUp(): void {
 		parent::setUp();
 
+		$this->authorizedGroupMapper = $this->createMock(AuthorizedGroupMapper::class);
+		$this->userSession = $this->createMock(IUserSession::class);
 		$this->controller = $this->createMock(Controller::class);
 		$this->reader = new ControllerMethodReflector();
 		$this->logger = $this->createMock(LoggerInterface::class);
@@ -102,7 +110,9 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 			$isAdminUser,
 			$isSubAdmin,
 			$this->appManager,
-			$this->l10n
+			$this->l10n,
+			$this->authorizedGroupMapper,
+			$this->userSession
 		);
 	}
 

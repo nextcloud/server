@@ -253,7 +253,7 @@ class InfoParser {
 				if (!count($node->children())) {
 					$value = (string)$node;
 					if (!empty($value)) {
-						$data['@value'] = (string)$node;
+						$data['@value'] = $value;
 					}
 				} else {
 					$data = array_merge($data, $this->xmlToArray($node));
