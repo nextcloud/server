@@ -200,7 +200,7 @@ class InvitationResponseController extends Controller {
 		$iTipMessage->method = 'REPLY';
 		$iTipMessage->sequence = $row['sequence'];
 		$iTipMessage->sender = $row['attendee'];
-		$iTipMessage->recipient = $row['organizer'];
+		$iTipMessage->recipient = $row['attendee'];
 
 		$message = <<<EOF
 BEGIN:VCALENDAR
