@@ -377,9 +377,9 @@ $.widget('oc.ocdialogconflictpredlg', {
 			if (this.$title) {
 				this.$title.text(value)
 			} else {
-				const $title = $('<div class="oc-conflict-pre-dlg-title-div"><h2 class="oc-dialog-title">'
+				const $title = $('<div class="flex-container"><div class="oc-conflict-pre-dlg-title-div"><h2 class="oc-conflct-pre-dlg-title">'
 						+ value
-						+ '</h2></div><div class="oc-conflict-pre-dlg-close-div"><a class="close-conflict-pre-dlg">&nbsp;</a></div><br class="clearboth" />')
+						+ '</h2></div><div class="oc-conflict-pre-dlg-close-div"><a class="close-conflict-pre-dlg">&nbsp;</a></div></div>')
 				this.$title = $title.prependTo(this.$dialog)
 			}
 			this._setSizes()
