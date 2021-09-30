@@ -980,13 +980,14 @@ class OC_App {
 		}
 
 		\OC::$server->getAppManager()->clearAppsCache();
-		$appData = self::getAppInfo($appId);
+		$l = \OC::$server->getL10N('core');
+		$appData = self::getAppInfo($appId, false, $l->getLanguageCode());
 
 		$ignoreMaxApps = \OC::$server->getConfig()->getSystemValue('app_install_overwrite', []);
 		$ignoreMax = in_array($appId, $ignoreMaxApps, true);
 		\OC_App::checkAppDependencies(
 			\OC::$server->getConfig(),
-			\OC::$server->getL10N('core'),
+			$l,
 			$appData,
 			$ignoreMax
 		);
