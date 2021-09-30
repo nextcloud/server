@@ -362,14 +362,12 @@ class Updater extends BasicEmitter {
 	 * This is important if you upgrade ownCloud and have non ported 3rd
 	 * party apps installed.
 	 *
-	 * @return array
 	 * @throws \Exception
 	 */
-	private function checkAppsRequirements(): array {
+	private function checkAppsRequirements(): void {
 		$isCoreUpgrade = $this->isCodeUpgrade();
 		$apps = OC_App::getEnabledApps();
 		$version = implode('.', Util::getVersion());
-		$disabledApps = [];
 		$appManager = \OC::$server->getAppManager();
 		foreach ($apps as $app) {
 			// check if the app is compatible with this version of Nextcloud
@@ -378,23 +376,10 @@ class Updater extends BasicEmitter {
 				if ($appManager->isShipped($app)) {
 					throw new \UnexpectedValueException('The files of the app "' . $app . '" were not correctly replaced before running the update');
 				}
-				\OC::$server->getAppManager()->disableApp($app, true);
+				$appManager->disableApp($app, true);
 				$this->emit('\OC\Updater', 'incompatibleAppDisabled', [$app]);
 			}
-			// no need to disable any app in case this is a non-core upgrade
-			if (!$isCoreUpgrade) {
-				continue;
-			}
-			// shipped apps will remain enabled
-			if ($appManager->isShipped($app)) {
-				continue;
-			}
-			// authentication and session apps will remain enabled as well
-			if (OC_App::isType($app, ['session', 'authentication'])) {
-				continue;
-			}
 		}
-		return $disabledApps;
 	}
 
 	/**
