@@ -695,7 +695,28 @@ class AccessTest extends TestCase {
 			['epost@poste.test', 'epost@poste.test'],
 			['fränk', $translitExpected],
 			[' gerda ', 'gerda'],
-			['🕱🐵🐘🐑', null]
+			['🕱🐵🐘🐑', null],
+			[
+				'OneNameToRuleThemAllOneNameToFindThemOneNameToBringThemAllAndInTheDarknessBindThem',
+				'81ff71b5dd0f0092e2dc977b194089120093746e273f2ef88c11003762783127'
+			]
+		];
+	}
+
+	public function groupIDCandidateProvider() {
+		return [
+			['alice', 'alice'],
+			['b/ob', 'b/ob'],
+			['charly🐬', 'charly🐬'],
+			['debo rah', 'debo rah'],
+			['epost@poste.test', 'epost@poste.test'],
+			['fränk', 'fränk'],
+			[' gerda ', 'gerda'],
+			['🕱🐵🐘🐑', '🕱🐵🐘🐑'],
+			[
+				'OneNameToRuleThemAllOneNameToFindThemOneNameToBringThemAllAndInTheDarknessBindThem',
+				'81ff71b5dd0f0092e2dc977b194089120093746e273f2ef88c11003762783127'
+			]
 		];
 	}
 
@@ -713,6 +734,14 @@ class AccessTest extends TestCase {
 			$this->expectException(\InvalidArgumentException::class);
 		}
 		$sanitizedName = $this->access->sanitizeUsername($name);
+		$this->assertSame($expected, $sanitizedName);
+	}
+
+	/**
+	 * @dataProvider groupIDCandidateProvider
+	 */
+	public function testSanitizeGroupIDCandidate(string $name, string $expected) {
+		$sanitizedName = $this->access->sanitizeGroupIDCandidate($name);
 		$this->assertSame($expected, $sanitizedName);
 	}
 
