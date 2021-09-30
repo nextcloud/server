@@ -378,7 +378,7 @@ class ThemingController extends Controller {
 			$startUrl = $this->urlGenerator->getBaseUrl();
 			$description = $this->themingDefaults->getSlogan();
 		} else {
-			$info = $this->appManager->getAppInfo($app);
+			$info = $this->appManager->getAppInfo($app, false, $this->l10n->getLanguageCode());
 			$name = $info['name'] . ' - ' . $this->themingDefaults->getName();
 			$shortName = $info['name'];
 			if (strpos($this->request->getRequestUri(), '/index.php/') !== false) {
