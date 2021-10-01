@@ -412,7 +412,6 @@ $.widget('oc.ocdialogconflictpredlg', {
 					self.$defaultButton = $button
 				}
 				self.$buttonrow.append($button)
-				console.log($button);
 				$button.click(function() {
 					val.click.apply(self.element[0], arguments)
 				})
