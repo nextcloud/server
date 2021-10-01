@@ -33,6 +33,7 @@
     "The following platforms are supported: %s" : "Hurrengo plataformak onartzen dira: %s",
     "Server version %s or higher is required." : "Zerbitzariaren %s bertsioa edo berriagoa behar da.",
     "Server version %s or lower is required." : "Zerbitzariaren %s bertsioa edo zaharragoa behar da.",
+    "Logged in user must be an admin, a sub admin or gotten special right to access this setting" : "Saioa hasitako erabiltzailea administratzailea, azpiadministratzailea edo baimen berezi bat duena izan behar da ezarpen hau aldatzeko.",
     "Logged in user must be an admin or sub admin" : "Saioa hasitako erabiltzailea administratzaile edo azpi-administratzailea izan behar du",
     "Logged in user must be an admin" : "Saioa hasitako erabiltzailea administratzailea izan behar da",
     "Wiping of device %s has started" : "%s gailuaren garbiketa hasi da",
