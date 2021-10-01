@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -46,13 +49,35 @@ interface IFactory {
 	public function get($app, $lang = null, $locale = null);
 
 	/**
-	 * Find the best language
+	 * Find the best language for the context of the current user
 	 *
-	 * @param string|null $app App id or null for core
-	 * @return string language If nothing works it returns 'en'
+	 * This method will try to find the most specific language based on info
+	 * from the user who is logged into the current process and will fall
+	 * back to system settings and heuristics otherwise.
+	 *
+	 * @param string|null $appId specify if you only want a language a specific app supports
+	 *
+	 * @return string language code, defaults to 'en' if no other matches are found
 	 * @since 9.0.0
 	 */
-	public function findLanguage($app = null);
+	public function findLanguage(?string $appId = null): string;
+
+	/**
+	 * Try to find the best language for generic tasks
+	 *
+	 * This method will try to find the most generic language based on system
+	 * settings, independent of the user logged into the current process. This
+	 * is useful for tasks that are run for another user. E.g. the current user
+	 * sends an email to someone else, then we don't want the current user's
+	 * language to be picked but rather a instance-wide default that likely fits
+	 * the target user
+	 *
+	 * @param string|null $appId specify if you only want a language a specific app supports
+	 *
+	 * @return string language code, defaults to 'en' if no other matches are found
+	 * @since 23.0.0
+	 */
+	public function findGenericLanguage(string $appId = null): string;
 
 	/**
 	 * @param string|null $lang user language as default locale
@@ -78,7 +103,7 @@ interface IFactory {
 	 * @return string[] an array of available languages
 	 * @since 9.0.0
 	 */
-	public function findAvailableLanguages($app = null);
+	public function findAvailableLanguages($app = null): array;
 
 	/**
 	 * @return array an array of available
