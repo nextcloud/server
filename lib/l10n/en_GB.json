@@ -18,6 +18,7 @@
     "The library %s is not available." : "The library %s is not available.",
     "Server version %s or higher is required." : "Server version %s or higher is required.",
     "Server version %s or lower is required." : "Server version %s or lower is required.",
+    "Logged in user must be an admin, a sub admin or gotten special right to access this setting" : "Logged in user must be an admin, a sub-admin or has special right to access this setting",
     "Logged in user must be an admin" : "Logged in user must be an admin",
     "Authentication" : "Authentication",
     "Unknown filetype" : "Unknown filetype",

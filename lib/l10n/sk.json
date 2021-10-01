@@ -33,6 +33,7 @@
     "The following platforms are supported: %s" : "Podporované sú nasledujúce platformy: %s",
     "Server version %s or higher is required." : "Je vyžadovaná verzia servera %s alebo vyššia.",
     "Server version %s or lower is required." : "Je vyžadovaná verzia servera %s alebo nižšia.",
+    "Logged in user must be an admin, a sub admin or gotten special right to access this setting" : "Prihlásený používateľ musí byť správcom, podadministrátorom alebo musí mať špeciálne právo na prístup k tomuto nastaveniu",
     "Logged in user must be an admin or sub admin" : "Prihlásený používateľ musí byť správcom alebo správcom pre čiastkovú oblasť.",
     "Logged in user must be an admin" : "Prihlásený používateľ musí byť správca",
     "Wiping of device %s has started" : "Začalo sa mazanie zariadenia %s",
