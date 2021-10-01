@@ -56,9 +56,9 @@ class AppsEnableTest extends TestCase {
 	 * @param $appId
 	 * @param $groups
 	 * @param $statusCode
-	 * @param $output
+	 * @param $pattern
 	 */
-	public function testCommandInput($appId, $groups, $statusCode, $output): void {
+	public function testCommandInput($appId, $groups, $statusCode, $pattern): void {
 		$input = ['app-id' => $appId];
 
 		if (is_array($groups)) {
@@ -67,29 +67,29 @@ class AppsEnableTest extends TestCase {
 
 		$this->commandTester->execute($input);
 
-		$this->assertStringContainsString($output, $this->commandTester->getDisplay());
+		$this->assertRegExp('/' . $pattern . '/', $this->commandTester->getDisplay());
 		$this->assertSame($statusCode, $this->commandTester->getStatusCode());
 	}
 
 	public function dataCommandInput(): array {
 		return [
-			[['admin_audit'], null, 0, 'admin_audit 1.13.0 enabled'],
-			[['comments'], null, 0, 'comments 1.13.0 enabled'],
-			[['comments', 'comments'], null, 0, "comments 1.13.0 enabled\ncomments already enabled"],
+			[['admin_audit'], null, 0, 'admin_audit ([\d\.]*) enabled'],
+			[['comments'], null, 0, 'comments ([\d\.]*) enabled'],
+			[['comments', 'comments'], null, 0, "comments ([\d\.]*) enabled\ncomments already enabled"],
 			[['invalid_app'], null, 1, 'Could not download app invalid_app'],
 
-			[['admin_audit', 'comments'], null, 0, "admin_audit 1.13.0 enabled\ncomments 1.13.0 enabled"],
-			[['admin_audit', 'comments', 'invalid_app'], null, 1, "admin_audit 1.13.0 enabled\ncomments 1.13.0 enabled\nCould not download app invalid_app"],
+			[['admin_audit', 'comments'], null, 0, "admin_audit ([\d\.]*) enabled\ncomments ([\d\.]*) enabled"],
+			[['admin_audit', 'comments', 'invalid_app'], null, 1, "admin_audit ([\d\.]*) enabled\ncomments ([\d\.]*) enabled\nCould not download app invalid_app"],
 
 			[['admin_audit'], ['admin'], 1, "admin_audit can't be enabled for groups"],
 			[['comments'], ['admin'], 1, "comments can't be enabled for groups"],
 
-			[['updatenotification'], ['admin'], 0, 'updatenotification 1.13.0 enabled for groups: admin'],
-			[['updatenotification', 'accessibility'], ['admin'], 0, "updatenotification 1.13.0 enabled for groups: admin\naccessibility 1.9.0 enabled for groups: admin"],
+			[['updatenotification'], ['admin'], 0, 'updatenotification ([\d\.]*) enabled for groups: admin'],
+			[['updatenotification', 'accessibility'], ['admin'], 0, "updatenotification ([\d\.]*) enabled for groups: admin\naccessibility ([\d\.]*) enabled for groups: admin"],
 
-			[['updatenotification'], ['admin', 'invalid_group'], 0, 'updatenotification 1.13.0 enabled for groups: admin'],
-			[['updatenotification', 'accessibility'], ['admin', 'invalid_group'], 0, "updatenotification 1.13.0 enabled for groups: admin\naccessibility 1.9.0 enabled for groups: admin"],
-			[['updatenotification', 'accessibility', 'invalid_app'], ['admin', 'invalid_group'], 1, "updatenotification 1.13.0 enabled for groups: admin\naccessibility 1.9.0 enabled for groups: admin\nCould not download app invalid_app"],
+			[['updatenotification'], ['admin', 'invalid_group'], 0, 'updatenotification ([\d\.]*) enabled for groups: admin'],
+			[['updatenotification', 'accessibility'], ['admin', 'invalid_group'], 0, "updatenotification ([\d\.]*) enabled for groups: admin\naccessibility ([\d\.]*) enabled for groups: admin"],
+			[['updatenotification', 'accessibility', 'invalid_app'], ['admin', 'invalid_group'], 1, "updatenotification ([\d\.]*) enabled for groups: admin\naccessibility ([\d\.]*) enabled for groups: admin\nCould not download app invalid_app"],
 		];
 	}
 }
