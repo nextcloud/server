@@ -239,6 +239,7 @@ class SMB extends Common implements INotifyStorage {
 			try {
 				$files = $this->share->dir($path);
 			} catch (ForbiddenException $e) {
+				$this->logger->critical($e->getMessage(), ['exception' => $e]);
 				throw new NotPermittedException();
 			}
 			foreach ($files as $file) {
