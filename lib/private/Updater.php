@@ -37,11 +37,13 @@
 
 namespace OC;
 
+use OC\App\AppManager;
 use OC\DB\Connection;
 use OC\DB\MigrationService;
 use OC\Hooks\BasicEmitter;
 use OC\IntegrityCheck\Checker;
 use OC_App;
+use OCP\App\IAppManager;
 use OCP\IConfig;
 use OCP\ILogger;
 use OCP\Util;
@@ -262,9 +264,12 @@ class Updater extends BasicEmitter {
 		// Update the appfetchers version so it downloads the correct list from the appstore
 		\OC::$server->getAppFetcher()->setVersion($currentVersion);
 
+		/** @var IAppManager|AppManager $appManager */
+		$appManager = \OC::$server->getAppManager();
+
 		// upgrade appstore apps
-		$this->upgradeAppStoreApps(\OC::$server->getAppManager()->getInstalledApps());
-		$autoDisabledApps = \OC::$server->getAppManager()->getAutoDisabledApps();
+		$this->upgradeAppStoreApps($appManager->getInstalledApps());
+		$autoDisabledApps = $appManager->getAutoDisabledApps();
 		$this->upgradeAppStoreApps($autoDisabledApps, true);
 
 		// install new shipped apps on upgrade
@@ -409,7 +414,7 @@ class Updater extends BasicEmitter {
 	 * @throws \Exception
 	 */
 	private function upgradeAppStoreApps(array $disabledApps, $reenable = false) {
-		foreach ($disabledApps as $app) {
+		foreach ($disabledApps as $app => $previousEnableSetting) {
 			try {
 				$this->emit('\OC\Updater', 'checkAppStoreAppBefore', [$app]);
 				if ($this->installer->isUpdateAvailable($app)) {
@@ -420,7 +425,11 @@ class Updater extends BasicEmitter {
 
 				if ($reenable) {
 					$ocApp = new \OC_App();
-					$ocApp->enable($app);
+					if (!empty($previousEnableSetting)) {
+						$ocApp->enable($app, $previousEnableSetting);
+					} else {
+						$ocApp->enable($app);
+					}
 				}
 			} catch (\Exception $ex) {
 				$this->log->logException($ex, ['app' => 'core']);
