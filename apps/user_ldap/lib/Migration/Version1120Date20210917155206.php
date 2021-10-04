@@ -73,7 +73,7 @@ class Version1120Date20210917155206 extends SimpleMigrationStep {
 		$q = $this->getSelectQuery($table);
 		$u = $this->getUpdateQuery($table);
 
-		$r = $q->executeQuery();
+		$r = $q->execute();
 		while ($row = $r->fetch()) {
 			$newId = hash('sha256', $row['owncloud_name'], false);
 			if ($emitHooks) {
@@ -82,7 +82,7 @@ class Version1120Date20210917155206 extends SimpleMigrationStep {
 			$u->setParameter('uuid', $row['directory_uuid']);
 			$u->setParameter('newId', $newId);
 			try {
-				$u->executeStatement();
+				$u->execute();
 				if ($emitHooks) {
 					$this->emitUnassign($row['owncloud_name'], false);
 					$this->emitAssign($newId);
