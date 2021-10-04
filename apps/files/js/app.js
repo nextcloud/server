@@ -122,7 +122,7 @@
 						{
 							name: 'cancel',
 							displayName:  'Cancel',
-							iconClass: 'icon-cancel',
+							iconClass: 'icon-close',
 							order: 101,
 						},
 					],
