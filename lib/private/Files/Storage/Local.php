@@ -216,7 +216,7 @@ class Local extends \OC\Files\Storage\Common {
 	}
 
 	public function filesize($path) {
-		if ($this->is_dir($path) || !$this->file_exists($path)) {
+		if ($this->is_dir($path) || !$this->is_file($path)) {
 			return 0;
 		}
 		$fullPath = $this->getSourcePath($path);
