@@ -96,6 +96,10 @@
 				:type="hasUnsavedPassword ? 'text': 'password'">
 				{{ t('files_sharing', 'Enter a password') }}
 			</ActionInput>
+			<div v-if="isPasswordProtected"
+				class="password-message">
+				{{ t('files_sharing', 'The password is not send with the email to maintain confidentiality.') }}
+			</div>
 
 			<!-- password protected by Talk -->
 			<ActionCheckbox v-if="isPasswordProtectedByTalkAvailable"
@@ -481,5 +485,8 @@ export default {
 <style lang="scss">
 .action-input__label {
 	display: none !important;
+}
+.password-message {
+	margin-left: 43px;
 }
 </style>
