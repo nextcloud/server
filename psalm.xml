@@ -49,6 +49,7 @@
 		<UndefinedClass>
 			<errorLevel type="suppress">
 				<referencedClass name="OCA\GroupFolders\Mount\GroupFolderStorage"/>
+				<referencedClass name="OCA\TwoFactorNextcloudNotification\Controller\APIController"/>
 			</errorLevel>
 		</UndefinedClass>
 		<UndefinedFunction>
