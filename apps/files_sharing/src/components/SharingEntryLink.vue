@@ -32,6 +32,31 @@
 			<p v-if="subtitle">
 				{{ subtitle }}
 			</p>
+
+			<template v-if="share">
+				<template v-if="share.canEdit">
+					<!-- folder -->
+					<template v-if="isFolder && fileHasCreatePermission && config.isPublicUploadEnabled">
+						<select
+							:name="randomId"
+							@change="togglePermissions">
+							<option :value="publicUploadRValue" :selected="sharePermissions === publicUploadRValue">{{ t('files_sharing', 'Read only') }}</option>
+							<option :value="publicUploadRWValue" :selected="sharePermissions === publicUploadRWValue">{{ t('files_sharing', 'Read, write and upload') }}</option>
+							<option :value="publicUploadWValue" :selected="sharePermissions === publicUploadWValue">{{ t('files_sharing', 'File drop (upload only)') }}</option>
+						</select>
+					</template>
+
+					<!-- file -->
+					<template v-else>
+						<select
+							:name="randomId"
+							@change="togglePermissions">
+							<option :value="publicUploadRValue" :selected="sharePermissions === publicUploadRValue">{{ t('files_sharing', 'Read only') }}</option>
+							<option :value="publicUploadEValue" :selected="sharePermissions === publicUploadEValue">{{ t('files_sharing', 'Read and write') }}</option>
+						</select>
+					</template>
+				</template>
+			</template>
 		</div>
 
 		<!-- clipboard -->

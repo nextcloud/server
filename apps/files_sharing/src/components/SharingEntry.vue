@@ -38,6 +38,27 @@
 				<span>{{ share.status.icon || '' }}</span>
 				<span>{{ share.status.message || '' }}</span>
 			</p>
+
+			<template v-if="share.canEdit">
+				<!-- folder -->
+				<template v-if="isFolder && fileHasCreatePermission && config.isPublicUploadEnabled">
+					<select
+						:name="randomId"
+						@change="togglePermissions">
+						<option :value="publicUploadRValue" :selected="sharePermissions === publicUploadRValue">{{ t('files_sharing', 'Read only') }}</option>
+						<option :value="publicUploadRWValue" :selected="sharePermissions === publicUploadRWValue">{{ t('files_sharing', 'Read, write and upload') }}</option>
+					</select>
+				</template>
+				<!-- files -->
+				<template v-else>
+					<select
+						:name="randomId"
+						@change="togglePermissions">
+						<option :value="publicUploadRValue" :selected="sharePermissions === publicUploadRValue">{{ t('files_sharing', 'Read only') }}</option>
+						<option :value="publicUploadEValue" :selected="sharePermissions === publicUploadEValue">{{ t('files_sharing', 'Read and write') }}</option>
+					</select>
+				</template>
+			</template>
 		</component>
 		<Actions v-if="open === false"
 			menu-align="right"
@@ -45,21 +66,21 @@
 			@close="onMenuClose">
 			<ActionButton v-if="share.canEdit"
 				icon="icon-settings"
-				:disabled="saving"
+				:disabled="saving || !canSetEdit"
 				:share="share"
 				@click.prevent="editPermissions">
 				{{ t('files_sharing', 'Advanced permission') }}
 			</ActionButton>
 			<ActionButton v-if="share.canEdit"
 				icon="icon-mail"
-				:disabled="saving"
+				:disabled="saving || !canSetEdit"
 				:share="share"
 				@click.prevent="editNotes">
 				{{ t('files_sharing', 'Send new mail') }}
 			</ActionButton>
 			<ActionButton v-if="share.canDelete"
 				icon="icon-close"
-				:disabled="saving"
+				:disabled="saving || !canSetEdit"
 				@click.prevent="onDelete">
 				{{ t('files_sharing', 'Unshare') }}
 			</ActionButton>
@@ -172,6 +193,18 @@ export default {
 		},
 
 		/**
+		 * Can the sharer set whether the sharee can edit the file ?
+		 *
+		 * @returns {boolean}
+		 */
+		canSetEdit() {
+			// If the owner revoked the permission after the resharer granted it
+			// the share still has the permission, and the resharer is still
+			// allowed to revoke it too (but not to grant it again).
+			return (this.fileInfo.sharePermissions & OC.PERMISSION_UPDATE) || this.canEdit
+		},
+
+		/**
 		 * Can the sharee edit the shared file ?
 		 */
 		canEdit: {
@@ -227,6 +260,15 @@ export default {
 			get() {
 				return this.share.hasReadPermission
 			},
+		},
+
+		/**
+		 * Does the current file/folder have create permissions
+		 * TODO: move to a proper FileInfo model?
+		 * @returns {boolean}
+		 */
+		fileHasCreatePermission() {
+			return !!(this.fileInfo.permissions & OC.PERMISSION_CREATE)
 		},
 
 		/**
