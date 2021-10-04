@@ -43,6 +43,7 @@ use OCP\Files\IHomeStorage;
 use OCP\Files\InvalidPathException;
 use OCP\Files\Mount\IMountManager;
 use OCP\IUser;
+use OCP\IUserManager;
 use OCP\Share\IManager as IShareManager;
 use OCP\Share\IShare;
 use Symfony\Component\Console\Helper\ProgressBar;
@@ -69,14 +70,19 @@ class OwnershipTransferService {
 	/** @var IUserMountCache */
 	private $userMountCache;
 
+	/** @var IUserManager */
+	private $userManager;
+
 	public function __construct(IEncryptionManager $manager,
 								IShareManager $shareManager,
 								IMountManager $mountManager,
-								IUserMountCache $userMountCache) {
+								IUserMountCache $userMountCache,
+								IUserManager $userManager) {
 		$this->encryptionManager = $manager;
 		$this->shareManager = $shareManager;
 		$this->mountManager = $mountManager;
 		$this->userMountCache = $userMountCache;
+		$this->userManager = $userManager;
 	}
 
 	/**
@@ -401,13 +407,20 @@ class OwnershipTransferService {
 						$share->setSharedBy($destinationUid);
 					}
 
+					if ($share->getShareType() === IShare::TYPE_USER &&
+						!$this->userManager->userExists($share->getSharedWith())) {
+						// stray share with deleted user
+						$output->writeln('<error>Share with id ' . $share->getId() . ' points at deleted user "' . $share->getSharedWith() . '", deleting</error>');
+						$this->shareManager->deleteShare($share);
+						continue;
+					} else {
+						// trigger refetching of the node so that the new owner and mountpoint are taken into account
+						// otherwise the checks on the share update will fail due to the original node not being available in the new user scope
+						$this->userMountCache->clear();
+						$share->setNodeId($share->getNode()->getId());
 
-					// trigger refetching of the node so that the new owner and mountpoint are taken into account
-					// otherwise the checks on the share update will fail due to the original node not being available in the new user scope
-					$this->userMountCache->clear();
-					$share->setNodeId($share->getNode()->getId());
-
-					$this->shareManager->updateShare($share);
+						$this->shareManager->updateShare($share);
+					}
 				}
 			} catch (\OCP\Files\NotFoundException $e) {
 				$output->writeln('<error>Share with id ' . $share->getId() . ' points at deleted file, skipping</error>');
