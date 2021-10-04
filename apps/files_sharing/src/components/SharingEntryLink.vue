@@ -41,7 +41,7 @@
 							:name="randomId"
 							@change="togglePermissions">
 							<option :value="publicUploadRValue" :selected="sharePermissions === publicUploadRValue">{{ t('files_sharing', 'Read only') }}</option>
-							<option :value="publicUploadRWValue" :selected="sharePermissions === publicUploadRWValue">{{ t('files_sharing', 'Allow upload and editing') }}</option>
+							<option :value="publicUploadRWValue" :selected="sharePermissions === publicUploadRWValue">{{ t('files_sharing', 'Read, write and upload') }}</option>
 							<option :value="publicUploadWValue" :selected="sharePermissions === publicUploadWValue">{{ t('files_sharing', 'File drop (upload only)') }}</option>
 						</select>
 					</template>
@@ -52,7 +52,7 @@
 							:name="randomId"
 							@change="togglePermissions">
 							<option :value="publicUploadRValue" :selected="sharePermissions === publicUploadRValue">{{ t('files_sharing', 'Read only') }}</option>
-							<option :value="publicUploadEValue" :selected="sharePermissions === publicUploadEValue">{{ t('files_sharing', 'Editing') }}</option>
+							<option :value="publicUploadEValue" :selected="sharePermissions === publicUploadEValue">{{ t('files_sharing', 'Read and write') }}</option>
 						</select>
 					</template>
 				</template>

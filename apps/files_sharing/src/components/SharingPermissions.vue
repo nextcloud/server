@@ -38,7 +38,7 @@
 					:disabled="saving"
 					:name="randomId"
 					@change="addPermissions">
-					{{ t('files_sharing', 'Allow upload and editing') }}
+					{{ t('files_sharing', 'Read, write and upload') }}
 				</ActionRadio>
 				<ActionRadio :checked="sharePermissions === publicUploadWValue"
 					:value="publicUploadWValue"
@@ -65,7 +65,7 @@
 					:disabled="saving"
 					:name="randomId"
 					@change="addPermissions">
-					{{ t('files_sharing', 'Editing') }}
+					{{ t('files_sharing', 'Read and write') }}
 				</ActionRadio>
 			</template>
 
@@ -143,7 +143,7 @@
 					:disabled="saving"
 					@change="addPermissions"
 					:name="randomId">
-					{{ t('files_sharing', 'Allow upload and editing') }}
+					{{ t('files_sharing', 'Read, write and upload') }}
 				</ActionRadio>
 			</template>
 			<!-- file -->
@@ -161,7 +161,7 @@
 					:disabled="saving"
 					@change="addPermissions"
 					:name="randomId">
-					{{ t('files_sharing', 'Editing') }}
+					{{ t('files_sharing', 'Read and write') }}
 				</ActionRadio>
 			</template>
 

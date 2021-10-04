@@ -30,8 +30,8 @@
 				</label>
 				<div>
 					<textarea
-						v-model="shareNote"
 						ref="note"
+						v-model="shareNote"
 						class="sharing-note"
 						:disabled="saving" />
 				</div>
@@ -91,7 +91,7 @@ export default {
 			recommendations: [],
 			ShareSearch: OCA.Sharing.ShareSearch.state,
 			suggestions: [],
-			shareNote: this.share.newNote || this.share.note,
+			shareNote: this.share.newNote || this.share.note || '',
 			sendPasswordByTalk: null,
 			hideDownload: null,
 		}
@@ -153,8 +153,6 @@ export default {
 					this.hideDownload = this.share.hideDownload.toString()
 				}
 
-				console.info('note ', this.shareNote)
-
 				const share = await this.createShare({
 					path,
 					shareType: this.optionValues.shareType,
@@ -168,7 +166,7 @@ export default {
 
 				// add notes to share if any
 				this.share = share
-				share.note = this.shareNote
+				this.share.note = this.shareNote
 				this.queueUpdate('note')
 
 				// reset the search string when done
