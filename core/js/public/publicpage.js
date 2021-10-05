@@ -44,3 +44,8 @@ $(document).mouseup(function(e) {
 		container.removeClass('open');
 	}
 });
+
+
+$('footer .closeInfo').click(function(e) {
+	$('footer.public-footer-content').hide();
+});

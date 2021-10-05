@@ -68,12 +68,23 @@ $footer-height: 65px;
 
 	/* public footer */
 	footer {
-		position: relative;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		height: $footer-height;
-		flex-direction: column;
+		&.public-footer-content {
+			width: 100%;
+			box-sizing: border-box;
+			text-align: center;
+			background-color: #fff;
+			padding:24px;
+		}
+		.closeInfo{
+			position: absolute;
+			right: 18%;
+		}
+
+		&.fixed-dialog {
+			position: fixed;
+			bottom: 0;
+			z-index: 9999;
+		}
 		p {
 			text-align: center;
 			color: var(--color-text-lighter);

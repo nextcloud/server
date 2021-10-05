@@ -90,7 +90,15 @@
 		<?php print_unescaped($_['content']); ?>
 	</div>
 	<?php if (isset($template) && $template->getFooterVisible()) { ?>
-	<footer>
+		<footer class="public-footer-content <?php if ($_['previewEnabled'] && substr($_['mimetype'], 0, strpos($_['mimetype'], '/')) == 'application' || substr($_['mimetype'], 0, strpos($_['mimetype'], '/')) == 'text') {
+				echo "fixed-dialog";
+			} ?>">
+		<div class="closeInfo">
+          <a href="#" id="closeFooterInfo" class="button">
+            <span class="icon icon-close"></span>
+          </a>
+        </div>
+		<div class="content-section">
 		<p><?php print_unescaped($theme->getLongFooter()); ?></p>
 		<?php
 		if ($_['showSimpleSignUpLink']) {
@@ -103,6 +111,7 @@
 			<?php
 		}
 		?>
+		</div>
 	</footer>
 	<?php } ?>
 
