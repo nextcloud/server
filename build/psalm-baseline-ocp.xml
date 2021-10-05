@@ -50,6 +50,11 @@
       <code>array</code>
     </InvalidReturnType>
   </file>
+  <file src="lib/public/AppFramework/Http/RedirectToDefaultAppResponse.php">
+    <UndefinedClass occurrences="1">
+      <code>\OC</code>
+    </UndefinedClass>
+  </file>
   <file src="lib/public/AppFramework/Http/Response.php">
     <UndefinedClass occurrences="2">
       <code>\OC</code>
