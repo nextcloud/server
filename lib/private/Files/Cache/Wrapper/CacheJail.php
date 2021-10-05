@@ -29,13 +29,10 @@
 namespace OC\Files\Cache\Wrapper;
 
 use OC\Files\Cache\Cache;
-use OC\Files\Search\SearchBinaryOperator;
-use OC\Files\Search\SearchComparison;
+use OC\Files\Cache\QuerySearchHelper;
 use OC\Files\Search\SearchQuery;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\Cache\ICacheEntry;
-use OCP\Files\Search\ISearchBinaryOperator;
-use OCP\Files\Search\ISearchComparison;
 use OCP\Files\Search\ISearchQuery;
 
 /**
@@ -63,6 +60,7 @@ class CacheJail extends CacheWrapper {
 		} else {
 			$this->unjailedRoot = $root;
 		}
+		$this->querySearchHelper = new QuerySearchHelper($this->mimetypeLoader);
 	}
 
 	protected function getRoot() {
@@ -260,7 +258,7 @@ class CacheJail extends CacheWrapper {
 			->whereStorageId()
 			->andWhere($query->expr()->orX(
 				$query->expr()->like('path', $query->createNamedParameter($this->getGetUnjailedRoot() . '/%')),
-				$query->expr()->eq('path_hash', $query->createNamedParameter(md5($this->getGetUnjailedRoot()))),
+				$query->expr()->eq('path', $query->createNamedParameter($this->getGetUnjailedRoot())),
 			))
 			->andWhere($query->expr()->iLike('name', $query->createNamedParameter($pattern)));
 
@@ -292,7 +290,7 @@ class CacheJail extends CacheWrapper {
 			->whereStorageId()
 			->andWhere($query->expr()->orX(
 				$query->expr()->like('path', $query->createNamedParameter($this->getGetUnjailedRoot() . '/%')),
-				$query->expr()->eq('path_hash', $query->createNamedParameter(md5($this->getGetUnjailedRoot()))),
+				$query->expr()->eq('path', $query->createNamedParameter($this->getGetUnjailedRoot())),
 			));
 
 		if (strpos($mimetype, '/')) {
@@ -311,27 +309,21 @@ class CacheJail extends CacheWrapper {
 		return $this->formatSearchResults($results);
 	}
 
-	public function searchQuery(ISearchQuery $query) {
+	public function searchQuery(ISearchQuery $searchQuery) {
 		if ($this->getGetUnjailedRoot() === '' || $this->getGetUnjailedRoot() === '/') {
-			return parent::searchQuery($query);
+			return parent::searchQuery($searchQuery);
 		}
 
-		$prefixFilter = new SearchComparison(
-			ISearchComparison::COMPARE_LIKE,
-			'path',
-			$this->getGetUnjailedRoot() . '/%'
-		);
-		$rootFilter = new SearchComparison(
-			ISearchComparison::COMPARE_EQUAL,
-			'path',
-			$this->getGetUnjailedRoot()
-		);
-		$operation = new SearchBinaryOperator(
-			ISearchBinaryOperator::OPERATOR_AND,
-			[new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_OR, [$prefixFilter, $rootFilter]) , $query->getSearchOperation()]
-		);
-		$simpleQuery = new SearchQuery($operation, $query->getLimit(), $query->getOffset(), $query->getOrder(), $query->getUser());
-		$results = $this->getCache()->searchQuery($simpleQuery);
+		$query = $this->buildSearchQuery($searchQuery);
+
+		$query->andWhere($query->expr()->orX(
+			$query->expr()->like('path', $query->createNamedParameter($this->getGetUnjailedRoot() . '/%')),
+			$query->expr()->eq('path', $query->createNamedParameter($this->getGetUnjailedRoot())),
+		));
+
+		$result = $query->execute();
+		$results = $this->searchResultToCacheEntries($result);
+		$result->closeCursor();
 		return $this->formatSearchResults($results);
 	}
 
