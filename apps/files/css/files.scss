@@ -1308,6 +1308,11 @@ table.multiselect {
 					padding-left: 8px;
 					padding-right: 19px;
 			}
+			&:hover {
+				.label {
+					text-decoration: underline;
+				}
+			}
 		}
 	}
 }
@@ -1319,5 +1324,20 @@ table.multiselect {
 	.popovermenu {
 		right: -70px;
 		top: 45px;
+	}
+}
+
+#allLabel {
+	padding-top: 5px;
+}
+
+.item-cancel {
+	a {
+		.label {
+			color: #ff0000;
+		}
+	}
+	.icon-close {
+		filter: invert(18%) sepia(99%) saturate(7440%) hue-rotate(1deg) brightness(110%) contrast(115%);
 	}
 }

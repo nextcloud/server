@@ -36,8 +36,6 @@
 		 */
 		show: function(context) {
 			this._context = context;
-			this.$el.removeClass('hidden');
-			OC.showMenu(null, this.$el);
 			return false;
 		},
 		toggleItemVisibility: function (itemName, show) {
