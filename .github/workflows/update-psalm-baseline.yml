@@ -25,18 +25,13 @@ jobs:
         run: composer i
       - name: Psalm
         run: composer run psalm -- --monochrome --no-progress --output-format=text --update-baseline
-      - name: Reset composer.json and composer.lock
-        run: |
-          rm -rf lib/composer
-          git checkout -- composer.json composer.lock lib/composer
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
         with:
           token: ${{ secrets.COMMAND_BOT_PAT }}
-          push-to-fork: nextcloud-pr-bot/server
           commit-message: Update psalm baseline
           committer: GitHub <noreply@github.com>
-          author: Nextcloud-PR-Bot <nextcloud-pr-bot@users.noreply.github.com>
+          author: nextcloud-command <nextcloud-command@users.noreply.github.com>
           signoff: true
           branch: automated/noid/psalm-baseline-update
           title: '[Automated] Update psalm-baseline.xml'
