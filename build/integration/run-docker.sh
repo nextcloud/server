@@ -140,7 +140,9 @@ function prepareDocker() {
 	echo "Starting the Nextcloud container"
 	# When using "nextcloudci/phpX.Y" images the container exits immediately if
 	# no command is given, so a Bash session is created to prevent that.
-	docker run --detach --name=$NEXTCLOUD_LOCAL_CONTAINER $NEXTCLOUD_LOCAL_CONTAINER_NETWORK_OPTIONS --interactive --tty $NEXTCLOUD_LOCAL_IMAGE bash
+	docker run \
+		--volume composer_cache:/root/.composer \
+		--detach --name=$NEXTCLOUD_LOCAL_CONTAINER $NEXTCLOUD_LOCAL_CONTAINER_NETWORK_OPTIONS --interactive --tty $NEXTCLOUD_LOCAL_IMAGE bash
 
 	# Use the $TMPDIR or, if not set, fall back to /tmp.
 	NEXTCLOUD_LOCAL_TAR="$($MKTEMP --tmpdir="${TMPDIR:-/tmp}" --suffix=.tar nextcloud-local-XXXXXXXXXX)"
