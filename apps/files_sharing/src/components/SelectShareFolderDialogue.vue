@@ -19,7 +19,7 @@
 
 <template>
 	<div class="share-folder">
-		<span>{{ t('files', 'Set default folder for accepted shares') }} </span>
+		<span>{{ t('files_sharing', 'Set default folder for accepted shares') }} </span>
 
 		<!-- Folder picking form -->
 		<form class="share-folder__form" @reset.prevent.stop="resetFolder">
@@ -32,8 +32,8 @@
 			<input v-if="readableDirectory !== defaultDirectory"
 				class="share-folder__reset"
 				type="reset"
-				:value="t('files', 'Reset')"
-				:aria-label="t('files', 'Reset folder to system default')">
+				:value="t('files_sharing', 'Reset')"
+				:aria-label="t('files_sharing', 'Reset folder to system default')">
 		</form>
 	</div>
 </template>
