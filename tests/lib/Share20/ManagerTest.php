@@ -4663,6 +4663,9 @@ class DummyFactory implements IProviderFactory {
 	 * @return IShareProvider
 	 */
 	public function getProviderForType($shareType) {
+		if ($shareType == -1) {
+			return null;
+		}
 		return $this->provider;
 	}
 

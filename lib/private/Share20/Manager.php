@@ -245,6 +245,7 @@ class Manager implements IManager {
 			}
 		} elseif ($share->getShareType() === IShare::TYPE_ROOM) {
 		} elseif ($share->getShareType() === IShare::TYPE_DECK) {
+		} elseif ($this->factory->getProviderForType($share->getShareType())) {
 		} else {
 			// We cannot handle other types yet
 			throw new \InvalidArgumentException('unknown share type');

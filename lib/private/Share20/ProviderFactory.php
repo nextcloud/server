@@ -325,6 +325,20 @@ class ProviderFactory implements IProviderFactory {
 			$provider = $this->getRoomShareProvider();
 		} elseif ($shareType === IShare::TYPE_DECK) {
 			$provider = $this->getProvider('deck');
+		} else {
+			// try to autodetect in the registered providers;
+			foreach ($this->registeredShareProviders as $shareProvider) {
+				/** @var IShareProvider $instance */
+				$instance = $this->serverContainer->get($shareProvider);
+
+				// not all instances will have the isShareTypeSupported function;
+				if (method_exists($instance, "isShareTypeSupported")) {
+					if ($instance->isShareTypeSupported($shareType)) {
+						$provider = $this->getProvider($instance->identifier());
+						break;
+					}
+				}
+			}
 		}
 
 

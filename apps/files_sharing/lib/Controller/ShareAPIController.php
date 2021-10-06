@@ -113,6 +113,8 @@ class ShareAPIController extends OCSController {
 	/** @var IPreview */
 	private $previewManager;
 
+	private $dynamicShareTypes;
+
 	/**
 	 * Share20OCS constructor.
 	 *
@@ -161,6 +163,33 @@ class ShareAPIController extends OCSController {
 		$this->serverContainer = $serverContainer;
 		$this->userStatusManager = $userStatusManager;
 		$this->previewManager = $previewManager;
+		$this->dynamicShareTypes = [];
+		// FIXME: Move this line into the sciencemesh app:
+		$this->registerHelper(IShare::TYPE_SCIENCEMESH, 'sciencemesh', '\OCA\ScienceMesh\ShareProvider\ShareAPIHelper');
+	}
+
+	public function registerHelper($shareType, $identifier, $helperClassName) {
+		$this->dynamicShareTypes[$shareType] = [
+			"identifier" => $identifier,
+			"helperClass" => $helperClassName
+		];
+	}
+
+	private function haveHelperFor($shareType) {
+		return isset($this->dynamicShareTypes[$shareType]);
+	}
+
+	private function getIdentifierFor($shareType) {
+		return $this->dynamicShareTypes[$shareType]["identifier"];
+	}
+
+	private function getHelperFor($shareType) {
+		$identifier = $this->getIdentifierFor($shareType);
+		if (!$this->appManager->isEnabledForUser($identifier)) {
+			throw new QueryException();
+		}
+
+		return $this->serverContainer->get($this->dynamicShareTypes[$shareType]["helperClass"]);
 	}
 
 	/**
@@ -316,6 +345,14 @@ class ShareAPIController extends OCSController {
 
 			try {
 				$result = array_merge($result, $this->getDeckShareHelper()->formatShare($share));
+			} catch (QueryException $e) {
+			}
+		} elseif ($this->haveHelperFor($share->getShareType())) {
+			$result['share_with'] = $share->getSharedWith();
+			$result['share_with_displayname'] = '';
+
+			try {
+				$result = array_merge($result, $this->getHelperFor($share->getShareType())->formatShare($share));
 			} catch (QueryException $e) {
 			}
 		}
@@ -662,6 +699,12 @@ class ShareAPIController extends OCSController {
 				$this->getDeckShareHelper()->createShare($share, $shareWith, $permissions, $expireDate);
 			} catch (QueryException $e) {
 				throw new OCSForbiddenException($this->l->t('Sharing %s failed because the back end does not support room shares', [$node->getPath()]));
+			}
+		} elseif ($this->haveHelperFor($shareType)) {
+			try {
+				$this->getHelperFor($shareType)->createShare($share, $shareWith, $permissions, $expireDate);
+			} catch (QueryException $e) {
+				throw new OCSForbiddenException($this->l->t('Sharing %s failed because the back end does not support this type of shares', [$node->getPath()]));
 			}
 		} else {
 			throw new OCSBadRequestException($this->l->t('Unknown share type'));
@@ -1568,6 +1611,17 @@ class ShareAPIController extends OCSController {
 			// Do nothing, just try the other share type
 		}
 
+		foreach ($this->dynamicShareTypes as $shareType => $details) {
+			try {
+				if ($this->shareManager->shareProviderExists($shareType)) {
+					$share = $this->shareManager->getShareById($details["identifier"] . ":" . $id, $this->currentUser);
+					return $share;
+				}
+			} catch (ShareNotFound $e) {
+				// Do nothing, just try the other share type
+			}
+		}
+
 		if (!$this->shareManager->outgoingServer2ServerSharesAllowed()) {
 			throw new ShareNotFound();
 		}
@@ -1631,14 +1685,7 @@ class ShareAPIController extends OCSController {
 		return $this->serverContainer->get('\OCA\Deck\Sharing\ShareAPIHelper');
 	}
 
-	/**
-	 * @param string $viewer
-	 * @param Node $node
-	 * @param bool $reShares
-	 *
-	 * @return IShare[]
-	 */
-	private function getSharesFromNode(string $viewer, $node, bool $reShares): array {
+	private function getProvidersExceptOutgoing() {
 		$providers = [
 			IShare::TYPE_USER,
 			IShare::TYPE_GROUP,
@@ -1648,6 +1695,23 @@ class ShareAPIController extends OCSController {
 			IShare::TYPE_ROOM,
 			IShare::TYPE_DECK
 		];
+		foreach ($this->dynamicShareTypes as $shareType => $details) {
+			if ($this->shareManager->shareProviderExists($shareType)) {
+				array_push($providers, $shareType);
+			}
+		}
+		return $providers;
+	}
+
+	/**
+	 * @param string $viewer
+	 * @param Node $node
+	 * @param bool $reShares
+	 *
+	 * @return IShare[]
+	 */
+	private function getSharesFromNode(string $viewer, $node, bool $reShares): array {
+		$providers = $this->getProvidersExceptOutgoing();
 
 		// Should we assume that the (currentUser) viewer is the owner of the node !?
 		$shares = [];
@@ -1785,21 +1849,13 @@ class ShareAPIController extends OCSController {
 	 * @return IShare[]
 	 */
 	private function getAllShares(?Node $path = null, bool $reshares = false) {
-		// Get all shares
-		$userShares = $this->shareManager->getSharesBy($this->currentUser, IShare::TYPE_USER, $path, $reshares, -1, 0);
-		$groupShares = $this->shareManager->getSharesBy($this->currentUser, IShare::TYPE_GROUP, $path, $reshares, -1, 0);
-		$linkShares = $this->shareManager->getSharesBy($this->currentUser, IShare::TYPE_LINK, $path, $reshares, -1, 0);
-
-		// EMAIL SHARES
-		$mailShares = $this->shareManager->getSharesBy($this->currentUser, IShare::TYPE_EMAIL, $path, $reshares, -1, 0);
-
-		// CIRCLE SHARES
-		$circleShares = $this->shareManager->getSharesBy($this->currentUser, IShare::TYPE_CIRCLE, $path, $reshares, -1, 0);
-
-		// TALK SHARES
-		$roomShares = $this->shareManager->getSharesBy($this->currentUser, IShare::TYPE_ROOM, $path, $reshares, -1, 0);
-
-		$deckShares = $this->shareManager->getSharesBy($this->currentUser, IShare::TYPE_DECK, $path, $reshares, -1, 0);
+		$providers = $this->getProvidersExceptOutgoing();
+		$shares = [];
+		foreach ($providers as $provider) {
+			$providerShares =
+				$this->shareManager->getSharesBy($this->currentUser, $provider, $path, $reshares, -1, 0);
+			$shares = array_merge($shares, $providerShares);
+		}
 
 		// FEDERATION
 		if ($this->shareManager->outgoingServer2ServerSharesAllowed()) {
@@ -1813,7 +1869,7 @@ class ShareAPIController extends OCSController {
 			$federatedGroupShares = [];
 		}
 
-		return array_merge($userShares, $groupShares, $linkShares, $mailShares, $circleShares, $roomShares, $deckShares, $federatedShares, $federatedGroupShares);
+		return array_merge($shares, $federatedShares, $federatedGroupShares);
 	}
 
 
