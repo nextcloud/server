@@ -55,7 +55,7 @@ class Delegation implements IIconSection {
 	 * @return string
 	 */
 	public function getName() {
-		return $this->l->t('Admin right privilege');
+		return $this->l->t('Admin privileges');
 	}
 
 	/**
@@ -71,6 +71,6 @@ class Delegation implements IIconSection {
 	 * @return string
 	 */
 	public function getIcon() {
-		return $this->url->imagePath('core', 'places/contacts.svg');
+		return $this->url->imagePath('core', 'actions/user-admin.svg');
 	}
 }
