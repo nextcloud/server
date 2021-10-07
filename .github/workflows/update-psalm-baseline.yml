@@ -22,9 +22,13 @@ jobs:
           extensions: ctype,curl,dom,fileinfo,gd,iconv,intl,json,mbstring,openssl,pdo_sqlite,posix,sqlite,xml,zip
           coverage: none
       - name: Composer install
-        run: composer i
+        run: composer install
       - name: Psalm
         run: composer run psalm -- --monochrome --no-progress --output-format=text --update-baseline
+      - name: Reset composer
+        run: |
+          git clean -f lib/composer
+          git checkout composer.json composer.lock lib/composer
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
         with:
