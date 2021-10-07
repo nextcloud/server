@@ -31,6 +31,7 @@ class SearchComparison implements ISearchComparison {
 	private $field;
 	/** @var string|integer|\DateTime */
 	private $value;
+	private $hints = [];
 
 	/**
 	 * SearchComparison constructor.
@@ -64,5 +65,13 @@ class SearchComparison implements ISearchComparison {
 	 */
 	public function getValue() {
 		return $this->value;
+	}
+
+	public function getQueryHint(string $name, $default) {
+		return $this->hints[$name] ?? $default;
+	}
+
+	public function setQueryHint(string $name, $value): void {
+		$this->hints[$name] = $value;
 	}
 }
