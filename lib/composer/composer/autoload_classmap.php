@@ -6,6 +6,10 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname(dirname($vendorDir));
 
 return array(
+    'Bamarni\\Composer\\Bin\\BinCommand' => $vendorDir . '/bamarni/composer-bin-plugin/src/BinCommand.php',
+    'Bamarni\\Composer\\Bin\\CommandProvider' => $vendorDir . '/bamarni/composer-bin-plugin/src/CommandProvider.php',
+    'Bamarni\\Composer\\Bin\\Config' => $vendorDir . '/bamarni/composer-bin-plugin/src/Config.php',
+    'Bamarni\\Composer\\Bin\\Plugin' => $vendorDir . '/bamarni/composer-bin-plugin/src/Plugin.php',
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
     'OCP\\Accounts\\IAccount' => $baseDir . '/lib/public/Accounts/IAccount.php',
     'OCP\\Accounts\\IAccountManager' => $baseDir . '/lib/public/Accounts/IAccountManager.php',

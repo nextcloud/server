@@ -3822,14 +3822,6 @@
       <code>$this-&gt;e-&gt;getCode()</code>
     </InvalidScalarArgument>
   </file>
-  <file src="lib/private/Files/Storage/Flysystem.php">
-    <ParamNameMismatch occurrences="4">
-      <code>$source</code>
-      <code>$source</code>
-      <code>$target</code>
-      <code>$target</code>
-    </ParamNameMismatch>
-  </file>
   <file src="lib/private/Files/Storage/Local.php">
     <ImplicitToStringCast occurrences="1">
       <code>$file</code>
@@ -4466,9 +4458,6 @@
     <NullableReturnStatement occurrences="1">
       <code>$this-&gt;collectionName</code>
     </NullableReturnStatement>
-    <RedundantCondition occurrences="1">
-      <code>$file !== false</code>
-    </RedundantCondition>
   </file>
   <file src="lib/private/Search.php">
     <RedundantCondition occurrences="1">
@@ -5035,18 +5024,12 @@
     <InvalidPropertyAssignmentValue occurrences="1">
       <code>$resource</code>
     </InvalidPropertyAssignmentValue>
-    <InvalidReturnType occurrences="1">
-      <code>bool</code>
-    </InvalidReturnType>
     <InvalidScalarArgument occurrences="4">
       <code>$this-&gt;bitDepth</code>
       <code>$x</code>
       <code>$y</code>
       <code>90</code>
     </InvalidScalarArgument>
-    <MismatchingDocblockReturnType occurrences="1">
-      <code>bool</code>
-    </MismatchingDocblockReturnType>
     <RedundantCondition occurrences="1">
       <code>$isWritable</code>
     </RedundantCondition>

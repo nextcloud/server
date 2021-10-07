@@ -13,6 +13,10 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
             'OC\\' => 3,
             'OCP\\' => 4,
         ),
+        'B' => 
+        array (
+            'Bamarni\\Composer\\Bin\\' => 21,
+        ),
     );
 
     public static $prefixDirsPsr4 = array (
@@ -28,6 +32,10 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         array (
             0 => __DIR__ . '/../../..' . '/lib/public',
         ),
+        'Bamarni\\Composer\\Bin\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/bamarni/composer-bin-plugin/src',
+        ),
     );
 
     public static $fallbackDirsPsr4 = array (
@@ -35,6 +43,10 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
     );
 
     public static $classMap = array (
+        'Bamarni\\Composer\\Bin\\BinCommand' => __DIR__ . '/..' . '/bamarni/composer-bin-plugin/src/BinCommand.php',
+        'Bamarni\\Composer\\Bin\\CommandProvider' => __DIR__ . '/..' . '/bamarni/composer-bin-plugin/src/CommandProvider.php',
+        'Bamarni\\Composer\\Bin\\Config' => __DIR__ . '/..' . '/bamarni/composer-bin-plugin/src/Config.php',
+        'Bamarni\\Composer\\Bin\\Plugin' => __DIR__ . '/..' . '/bamarni/composer-bin-plugin/src/Plugin.php',
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'OCP\\Accounts\\IAccount' => __DIR__ . '/../../..' . '/lib/public/Accounts/IAccount.php',
         'OCP\\Accounts\\IAccountManager' => __DIR__ . '/../../..' . '/lib/public/Accounts/IAccountManager.php',
