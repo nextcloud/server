@@ -102,6 +102,7 @@ OC.L10N.register(
     "SFTP" : "SFTP",
     "Root" : "Juurihakemisto",
     "SFTP with secret key login" : "SFTP salaisen avaimen kirjautumisella",
+    "SMB/CIFS" : "SMB/CIFS",
     "Share" : "Jaa",
     "Show hidden files" : "Näytä piilotiedostot",
     "Timeout" : "Aikakatkaisu",

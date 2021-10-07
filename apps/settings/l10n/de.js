@@ -136,7 +136,6 @@ OC.L10N.register(
     "MySQL version \"%s\" is used. Nextcloud 21 will no longer support this version and requires MySQL 8.0 or MariaDB 10.2 or higher." : "Es wird die MySQL-Version \"%s\" verwendet. Nextcloud 21 wird diese Version nicht mehr unterstützen und benötigt MySQL 8.0, MariaDB 10.2 oder höher.",
     "PostgreSQL version \"%s\" is used. Nextcloud 21 will no longer support this version and requires PostgreSQL 9.6 or higher." : "Es wird die PostgreSQL-Version \"%s\" verwendet. Nextcloud 21 wird diese Version nicht mehr unterstützen und benötigt PostgreSQL 9.6 oder höher.",
     "Nextcloud settings" : "Nextcloud-Einstellungen",
-    "Here you can decide which group can access some of the admin settings." : "Hier kannst Du festlegen, welche Gruppe auf einige der Verwaltungseinstellungen zugreifen kann.",
     "None" : "Keine",
     "Unable to modify setting" : "Einstellung konnte nicht geändert werden",
     "Two-factor authentication can be enforced for all users and specific groups. If they do not have a two-factor provider configured, they will be unable to log into the system." : "Zwei-Faktor-Authentifizierung kann für alle Benutzer und Gruppen erzwungen werden. Dann können Benutzer für die keine Zwei-Faktor-Authentifizierung eingerichtet ist, sich nicht am System anmelden.",
