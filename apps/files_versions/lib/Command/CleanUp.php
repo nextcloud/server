@@ -64,7 +64,7 @@ class CleanUp extends Command {
 				'path',
 				'p',
 				InputOption::VALUE_REQUIRED,
-				'only delete versions of this path, e.g. --path="/alice/files_versions/Music"'
+				'only delete versions of this path, e.g. --path="/alice/files/Music"'
 			);
 	}
 
@@ -74,7 +74,7 @@ class CleanUp extends Command {
 
 		$path = $input->getOption('path');
 		if ($path) {
-			if (!preg_match('#^/([^/]+)/files_versions(/.*)?$#', $path, $pathMatches)) {
+			if (!preg_match('#^/([^/]+)/files(/.*)?$#', $path, $pathMatches)) {
 				$output->writeln("<error>Invalid path given</error>");
 				return 1;
 			}
