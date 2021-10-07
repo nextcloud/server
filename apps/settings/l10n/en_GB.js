@@ -78,7 +78,6 @@ OC.L10N.register(
     "Personal" : "Personal",
     "Administration" : "Administration",
     "Additional settings" : "Additional settings",
-    "Admin right privilege" : "Admin privileges",
     "Overview" : "Overview",
     "Basic settings" : "Basic settings",
     "Sharing" : "Sharing",
