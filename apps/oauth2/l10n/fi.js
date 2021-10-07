@@ -10,6 +10,7 @@ OC.L10N.register(
     "Add" : "Lisää",
     "Client Identifier" : "Asiakkaan tunniste",
     "Secret" : "Salaisuus",
+    "Show client secret" : "Näytä asiakkaan salaisuus",
     "Delete" : "Poista"
 },
 "nplurals=2; plural=(n != 1);");
