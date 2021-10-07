@@ -19,6 +19,7 @@ OC.L10N.register(
     "No comments yet, start the conversation!" : "Ei kommentteja vielä. Aloita keskustelu!",
     "No more messages" : "Ei enempää viestejä",
     "Retry" : "Yritä uudelleen",
+    "Unable to load the comments list" : "Kommenttilistaa ei voitu ladata",
     "_%n unread comment_::_%n unread comments_" : ["%n lukematon kommentti","%n lukematonta kommenttia"],
     "_1 new comment_::_{unread} new comments_" : ["1 uusi kommentti","{unread} uutta kommenttia"],
     "Comment" : "Kommentti",
