@@ -1009,7 +1009,7 @@ class Cache implements ICache {
 	 * @param ICache $sourceCache
 	 * @param ICacheEntry $sourceEntry
 	 * @param string $targetPath
-	 * @return int fileid of copied entry
+	 * @return int fileId of copied entry
 	 */
 	public function copyFromCache(ICache $sourceCache, ICacheEntry $sourceEntry, string $targetPath): int {
 		if ($sourceEntry->getId() < 0) {
