@@ -225,7 +225,7 @@ class DefaultTokenProvider implements IProvider {
 	 */
 	public function getPassword(IToken $savedToken, string $tokenId): string {
 		$password = $savedToken->getPassword();
-		if (is_null($password)) {
+		if ($password === null || $password === '') {
 			throw new PasswordlessTokenException();
 		}
 		return $this->decryptPassword($password, $tokenId);
