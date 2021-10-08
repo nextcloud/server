@@ -460,6 +460,7 @@ class ShareAPIController extends OCSController {
 	): DataResponse {
 		$share = $this->shareManager->newShare();
 
+		$requestPermissions = $permissions;
 		if ($permissions === null) {
 			$permissions = $this->config->getAppValue('core', 'shareapi_default_permissions', Constants::PERMISSION_ALL);
 		}
@@ -558,7 +559,10 @@ class ShareAPIController extends OCSController {
 					Constants::PERMISSION_UPDATE |
 					Constants::PERMISSION_DELETE;
 			} else {
-				$permissions = Constants::PERMISSION_READ;
+				// do not ignore permissions request param if provided
+				if ($requestPermissions === null) {
+					$permissions = Constants::PERMISSION_READ;
+				}
 			}
 
 			// TODO: It might make sense to have a dedicated setting to allow/deny converting link shares into federated ones
