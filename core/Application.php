@@ -114,6 +114,10 @@ class Application extends App {
 					if (!$table->hasIndex('fs_size')) {
 						$subject->addHintForMissingSubject($table->getName(), 'fs_size');
 					}
+
+					if (!$table->hasIndex('fs_id_storage_size')) {
+						$subject->addHintForMissingSubject($table->getName(), 'fs_id_storage_size');
+					}
 				}
 
 				if ($schema->hasTable('twofactor_providers')) {
