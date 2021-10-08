@@ -114,6 +114,7 @@ OC.L10N.register(
     "Personal" : "Osobné",
     "Administration" : "Administrácia",
     "Additional settings" : "Ďalšie nastavenia",
+    "Admin privileges" : "Oprávnenie správcu",
     "Groupware" : "Groupware",
     "Overview" : "Prehľad",
     "Basic settings" : "Základné nastavenia",
