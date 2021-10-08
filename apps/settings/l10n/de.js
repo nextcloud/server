@@ -198,7 +198,7 @@ OC.L10N.register(
     "Device" : "Gerät",
     "Last activity" : "Letzte Aktivität",
     "Devices & sessions" : "Geräte & Sitzungen",
-    "Web, desktop and mobile clients currently logged in to your account." : "Aktuell in Deinem Konto angemeldete Web-, Desktop- und Mobil-Clients.",
+    "Web, desktop and mobile clients currently logged in to your account." : "Aktuell in Deinem Konto angemeldete Web-, Desktop- und Mobil-Clients:",
     "Do you really want to wipe your data from this device?" : "Möchtest Du wirklich alle Daten von diesem Gerät löschen?",
     "Confirm wipe" : "Löschen bestätigen",
     "Error while creating device token" : "Fehler beim Erstellen des Geräte-Tokens",

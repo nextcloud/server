@@ -114,6 +114,7 @@ OC.L10N.register(
     "Personal" : "Osobiste",
     "Administration" : "Administracja",
     "Additional settings" : "Ustawienia dodatkowe",
+    "Admin privileges" : "Uprawnienia administratora",
     "Groupware" : "Praca grupowa",
     "Overview" : "Przegląd",
     "Basic settings" : "Ustawienia podstawowe",
