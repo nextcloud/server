@@ -87,7 +87,7 @@ class SearchBuilder {
 
 	/**
 	 * @param IQueryBuilder $builder
-	 * @param ISearchOperator $operator
+	 * @param ISearchOperator[] $operators
 	 */
 	public function searchOperatorArrayToDBExprArray(IQueryBuilder $builder, array $operators) {
 		return array_filter(array_map(function ($operator) use ($builder) {
@@ -97,6 +97,7 @@ class SearchBuilder {
 
 	public function searchOperatorToDBExpr(IQueryBuilder $builder, ISearchOperator $operator) {
 		$expr = $builder->expr();
+
 		if ($operator instanceof ISearchBinaryOperator) {
 			if (count($operator->getArguments()) === 0) {
 				return null;
@@ -166,7 +167,7 @@ class SearchBuilder {
 			$field = 'tag.category';
 		} elseif ($field === 'fileid') {
 			$field = 'file.fileid';
-		} elseif ($field === 'path' && $type === ISearchComparison::COMPARE_EQUAL) {
+		} elseif ($field === 'path' && $type === ISearchComparison::COMPARE_EQUAL && $operator->getQueryHint(ISearchComparison::HINT_PATH_EQ_HASH, true)) {
 			$field = 'path_hash';
 			$value = md5((string)$value);
 		}
