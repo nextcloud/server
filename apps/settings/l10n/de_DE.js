@@ -114,6 +114,7 @@ OC.L10N.register(
     "Personal" : "Persönlich",
     "Administration" : "Verwaltung",
     "Additional settings" : "Zusätzliche Einstellungen",
+    "Admin privileges" : "Administratorrechte",
     "Groupware" : "Groupware",
     "Overview" : "Übersicht",
     "Basic settings" : "Grundeinstellungen",

@@ -114,6 +114,7 @@ OC.L10N.register(
     "Personal" : "Pertsonala",
     "Administration" : "Administrazioa",
     "Additional settings" : "Ezarpen gehiago",
+    "Admin privileges" : "Administratzaile pribilegioak",
     "Groupware" : "Taldelanerako tresnak",
     "Overview" : "Ikuspegi orokorra",
     "Basic settings" : "Oinarrizko ezarpenak",

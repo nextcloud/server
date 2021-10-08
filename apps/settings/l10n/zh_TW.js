@@ -114,6 +114,7 @@ OC.L10N.register(
     "Personal" : "個人",
     "Administration" : "管理",
     "Additional settings" : "其他設定",
+    "Admin privileges" : "管理員權限",
     "Groupware" : "協作應用程式",
     "Overview" : "概覽",
     "Basic settings" : "基本設定",
