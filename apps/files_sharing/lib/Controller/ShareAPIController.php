@@ -220,6 +220,7 @@ class ShareAPIController extends OCSController {
 		}
 
 		$result['mimetype'] = $node->getMimetype();
+		$result['size'] = $node->getSize();
 		$result['has_preview'] = $this->previewManager->isAvailable($node);
 		$result['storage_id'] = $node->getStorage()->getId();
 		$result['storage'] = $node->getStorage()->getCache()->getNumericStorageId();
