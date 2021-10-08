@@ -59,7 +59,7 @@ class CleanUpJob extends \OCP\BackgroundJob\Job {
 
 	public function setArgument($argument) {
 		parent::setArgument($argument);
-		$args = \json_decode($argument);
+		$args = \json_decode($argument, true);
 		$this->userId = (string)$args['userId'];
 		$this->subject = (string)$args['subject'];
 		$this->pwdPrefix = (string)$args['pp'];
