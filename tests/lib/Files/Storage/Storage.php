@@ -658,6 +658,7 @@ abstract class Storage extends \Test\TestCase {
 
 		$storage->writeStream('test.txt', $source);
 		$this->assertTrue($storage->file_exists('test.txt'));
-		$this->assertEquals(file_get_contents($textFile), $storage->file_get_contents('test.txt'));
+		$this->assertStringEqualsFile($textFile, $storage->file_get_contents('test.txt'));
+		$this->assertEquals('resource (closed)', gettype($source));
 	}
 }

@@ -926,10 +926,10 @@ class Encryption extends Wrapper {
 		}
 
 		$result = [];
-		
+
 		// first check if it is an encrypted file at all
 		// We would do query to filecache only if we know that entry in filecache exists
-		
+
 		$info = $this->getCache()->get($path);
 		if (isset($info['encrypted']) && $info['encrypted'] === true) {
 			$firstBlock = $this->readFirstBlock($path);
@@ -1033,6 +1033,7 @@ class Encryption extends Wrapper {
 		// always fall back to fopen
 		$target = $this->fopen($path, 'w');
 		[$count, $result] = \OC_Helper::streamCopy($stream, $target);
+		fclose($stream);
 		fclose($target);
 		return $count;
 	}
