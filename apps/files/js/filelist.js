@@ -945,7 +945,7 @@
 					var mime = this.fileActions.getCurrentMimeType();
 					var type = this.fileActions.getCurrentType();
 					var permissions = this.fileActions.getCurrentPermissions();
-					var action = this.fileActions.get(mime, type, permissions)['Details'];
+					var action = this.fileActions.get(mime, type, permissions, filename)['Details'];
 					if (action) {
 						action(filename, {
 							$file: $tr,
