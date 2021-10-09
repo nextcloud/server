@@ -137,6 +137,8 @@ OC.L10N.register(
     "MySQL version \"%s\" is used. Nextcloud 21 will no longer support this version and requires MySQL 8.0 or MariaDB 10.2 or higher." : "使用了 MySQL 版本 \"%s\"。Nextcloud 21将不再支持这个版本，需要MySQL 8.0或MariaDB 10.2或更高。",
     "PostgreSQL version \"%s\" is used. Nextcloud 21 will no longer support this version and requires PostgreSQL 9.6 or higher." : "使用了 PostgreSQL \"%s\" 版本。Nextcloud 21将不再支持此版本，要求 PostgreSQL 9.6 或更高版本。",
     "Nextcloud settings" : "Nextcloud 设置",
+    "Administration privileges" : "管理权限",
+    "Here you can decide which group can access certain sections of the administration settings." : "您可以在此决定哪个组可以访问管理设置的特定部分。",
     "None" : "无",
     "Unable to modify setting" : "无法更改设置",
     "Two-factor authentication can be enforced for all users and specific groups. If they do not have a two-factor provider configured, they will be unable to log into the system." : "两步验证可以对于所有用户和特定分组启用。如果没有设置两步验证提供者，他们则不能登录到系统。",
