@@ -137,6 +137,8 @@ OC.L10N.register(
     "MySQL version \"%s\" is used. Nextcloud 21 will no longer support this version and requires MySQL 8.0 or MariaDB 10.2 or higher." : "Je používána verze MySQL „%s“. Nextcloud 21 už nebude podporovat tuto verzi a vyžaduje MySQL 8.0 nebo MariaDB 10.2 a novější.",
     "PostgreSQL version \"%s\" is used. Nextcloud 21 will no longer support this version and requires PostgreSQL 9.6 or higher." : "Je používána verze PostgreSQL „%s“. Nextcloud 21 již nebude podporovat tuto verzi a vyžaduje PostgreSQL 9.6 nebo novější.",
     "Nextcloud settings" : "Nastavení Nextcloud",
+    "Administration privileges" : "Oprávnění ke správě",
+    "Here you can decide which group can access certain sections of the administration settings." : "Zde je možné rozhodnout, které skupiny mohou přistupovat k určitým nastavením správy.",
     "None" : "Žádné",
     "Unable to modify setting" : "Nastavení se nedaří změnit",
     "Two-factor authentication can be enforced for all users and specific groups. If they do not have a two-factor provider configured, they will be unable to log into the system." : "Dvoufázové ověřování je možné vynutit pro všechny uživatele a konkrétní skupiny. Pokud nemají nastaveného poskytovatele dvoufázového ověřování, nebudou se moci přihlásit do systému.",

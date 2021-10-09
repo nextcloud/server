@@ -135,6 +135,8 @@
     "MySQL version \"%s\" is used. Nextcloud 21 will no longer support this version and requires MySQL 8.0 or MariaDB 10.2 or higher." : "Używana jest MySQL w wersji \"%s\". Nextcloud 21 nie będzie już obsługiwać tej wersji i wymagać będzie MySQL 8.0 lub MariaDB 10.2, albo nowszej.",
     "PostgreSQL version \"%s\" is used. Nextcloud 21 will no longer support this version and requires PostgreSQL 9.6 or higher." : "Używana jest PostgreSQL w wersji \"%s\". Nextcloud 21 nie będzie już obsługiwał tej wersji i wymagać będzie PostgreSQL 9.6 lub nowszego.",
     "Nextcloud settings" : "Ustawienia Nextcloud",
+    "Administration privileges" : "Uprawnienia administracyjne",
+    "Here you can decide which group can access certain sections of the administration settings." : "Możesz zdecydować, która grupa ma dostęp do określonych sekcji ustawień administracyjnych.",
     "None" : "Brak",
     "Unable to modify setting" : "Nie można zmienić ustawienia",
     "Two-factor authentication can be enforced for all users and specific groups. If they do not have a two-factor provider configured, they will be unable to log into the system." : "Uwierzytelnianie dwuskładnikowe może być wymuszane dla wszystkich użytkowników i określonych grup. Jeśli nie mają skonfigurowanego dostawcy logowania dwuskładnikowego, nie będą mogli zalogować się do systemu.",
