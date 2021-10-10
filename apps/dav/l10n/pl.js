@@ -6,7 +6,7 @@ OC.L10N.register(
     "Personal" : "Osobiste",
     "{actor} created calendar {calendar}" : "{actor} utworzył kalendarz {calendar}",
     "You created calendar {calendar}" : "Utworzyłeś kalendarz {calendar}",
-    "{actor} deleted calendar {calendar}" : "{actor} usunął kalendarz {calendar} .",
+    "{actor} deleted calendar {calendar}" : "{actor} usunął kalendarz {calendar}",
     "You deleted calendar {calendar}" : "Usunąłeś kalendarz {calendar}",
     "{actor} updated calendar {calendar}" : "{actor} zaktualizował kalendarz {calendar}",
     "You updated calendar {calendar}" : "Zaktualizowałeś kalendarz {calendar}",
