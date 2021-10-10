@@ -57,7 +57,7 @@
     "jcrop": "git+https://github.com/ChristophWurst/Jcrop.git#v0.9.12-npm3",
     "jquery": "~3.3",
     "jquery-migrate": "~3.3",
-    "jquery-ui": "^1.12.1",
+    "jquery-ui": "^1.13.0",
     "jquery-ui-dist": "^1.12.1",
     "jstimezonedetect": "^1.0.7",
     "lodash": "^4.17.21",
