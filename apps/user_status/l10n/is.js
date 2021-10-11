@@ -9,6 +9,7 @@ OC.L10N.register(
     "Working remotely" : "Fjarvinna",
     "User status" : "Staða notanda",
     "Clear status message after" : "Hreinsa stöðuskilaboð eftir",
+    "What is your status?" : "Hver er staðan á þér?",
     "Set status" : "Setja stöðu",
     "Online status" : "Staða á netinu",
     "Status message" : "Stöðuskilaboð",
