@@ -48,6 +48,11 @@ class UserLoggedInListener implements IEventListener {
 			return;
 		}
 
+		// prevent setting an empty pw as result of pw-less-login
+		if ($event->getPassword() === '') {
+			return;
+		}
+
 		// If this is already a token login there is nothing to do
 		if ($event->isTokenLogin()) {
 			return;
