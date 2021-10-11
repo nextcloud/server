@@ -311,7 +311,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 					$connection->deleteObjects([
 						'Bucket' => $this->bucket,
 						'Delete' => [
-							'Objects' => $objects['Contents']
+							'Objects' => $objects['Contents'],
 						]
 					]);
 					$this->testTimeout();
