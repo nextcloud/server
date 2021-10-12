@@ -49,7 +49,8 @@
 			var actions = fileActions.getActions(
 				fileActions.getCurrentMimeType(),
 				fileActions.getCurrentType(),
-				fileActions.getCurrentPermissions()
+				fileActions.getCurrentPermissions(),
+				fileActions.getCurrentFile()
 			);
 			var actionSpec = actions[actionName];
 			var fileName = this._context.$file.attr('data-file');
@@ -74,7 +75,8 @@
 			var actions = fileActions.getActions(
 				fileActions.getCurrentMimeType(),
 				fileActions.getCurrentType(),
-				fileActions.getCurrentPermissions()
+				fileActions.getCurrentPermissions(),
+				fileActions.getCurrentFile()
 			);
 
 			var defaultAction = fileActions.getCurrentDefaultFileAction();

@@ -154,7 +154,8 @@
 				var availableActions = this._fileActions.get(
 					this.model.get('mimetype'),
 					this.model.get('type'),
-					this.model.get('permissions')
+					this.model.get('permissions'),
+					this.model.get('name')
 				);
 				var hasFavoriteAction = 'Favorite' in availableActions;
 				this.$el.html(this.template({
