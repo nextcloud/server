@@ -551,7 +551,7 @@ class Access extends LDAPUtility {
 
 		if (is_null($ldapName)) {
 			$ldapName = $this->readAttribute($fdn, $nameAttribute, $filter);
-			if (!isset($ldapName[0]) && empty($ldapName[0])) {
+			if (!isset($ldapName[0]) || empty($ldapName[0])) {
 				\OCP\Util::writeLog('user_ldap', 'No or empty name for ' . $fdn . ' with filter ' . $filter . '.', ILogger::DEBUG);
 				return false;
 			}
@@ -562,6 +562,10 @@ class Access extends LDAPUtility {
 			$usernameAttribute = (string)$this->connection->ldapExpertUsernameAttr;
 			if ($usernameAttribute !== '') {
 				$username = $this->readAttribute($fdn, $usernameAttribute);
+				if (!isset($username[0]) || empty($username[0])) {
+					\OCP\Util::writeLog('user_ldap', 'No or empty username (' . $usernameAttribute . ') for ' . $fdn . '.', ILogger::DEBUG);
+					return false;
+				}
 				$username = $username[0];
 			} else {
 				$username = $uuid;
