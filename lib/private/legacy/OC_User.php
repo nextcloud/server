@@ -190,7 +190,7 @@ class OC_User {
 					'post_login',
 					[
 						'uid' => $uid,
-						'password' => '',
+						'password' => null,
 						'isTokenLogin' => false,
 					]
 				);
