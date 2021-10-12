@@ -18,15 +18,23 @@
 	--color-placeholder-dark: #{$color-placeholder-dark};
 
 	--color-primary: #{$color-primary};
+	--color-primary-hover: #{$color-primary-hover};
 	--color-primary-light: #{$color-primary-light};
+	--color-primary-light-hover: #{$color-primary-light-hover};
 	--color-primary-text: #{$color-primary-text};
+	--color-primary-light-text: #{$color-primary-light-text};
 	--color-primary-text-dark: #{$color-primary-text-dark};
 	--color-primary-element: #{$color-primary-element};
+	--color-primary-element-hover: #{$color-primary-element-hover};
 	--color-primary-element-light: #{$color-primary-element-light};
+	--color-primary-element-lighter: #{$color-primary-element-lighter};
 
 	--color-error: #{$color-error};
+	--color-error-hover: #{$color-error-hover};
 	--color-warning: #{$color-warning};
+	--color-warning-hover: #{$color-warning-hover};
 	--color-success: #{$color-success};
+	--color-success-hover: #{$color-success-hover};
 
 	--color-text-maxcontrast: #{$color-text-maxcontrast};
 	--color-text-light: #{$color-main-text};
@@ -44,6 +52,8 @@
 
 	--color-border: #{$color-border};
 	--color-border-dark: #{$color-border-dark};
+
+
 	--border-radius: #{$border-radius};
 	--border-radius-large: #{$border-radius-large};
 	--border-radius-pill: #{$border-radius-pill};
@@ -58,3 +68,4 @@
 
 	--header-height: #{$header-height};
 }
+
