@@ -774,6 +774,18 @@ class OC_App {
 	}
 
 	/**
+	 * List all supported apps
+	 *
+	 * @return array
+	 */
+	public function getSupportedApps(): array {
+		/** @var \OCP\Support\Subscription\IRegistry $subscriptionRegistry */
+		$subscriptionRegistry = \OC::$server->query(\OCP\Support\Subscription\IRegistry::class);
+		$supportedApps = $subscriptionRegistry->delegateGetSupportedApps();
+		return $supportedApps;
+	}
+
+	/**
 	 * List all apps, this is used in apps.php
 	 *
 	 * @return array
@@ -787,9 +799,7 @@ class OC_App {
 		$appList = [];
 		$langCode = \OC::$server->getL10N('core')->getLanguageCode();
 		$urlGenerator = \OC::$server->getURLGenerator();
-		/** @var \OCP\Support\Subscription\IRegistry $subscriptionRegistry */
-		$subscriptionRegistry = \OC::$server->query(\OCP\Support\Subscription\IRegistry::class);
-		$supportedApps = $subscriptionRegistry->delegateGetSupportedApps();
+		$supportedApps = $this->getSupportedApps();
 
 		foreach ($installedApps as $app) {
 			if (array_search($app, $blacklist) === false) {
