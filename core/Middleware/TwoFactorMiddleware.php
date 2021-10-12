@@ -31,6 +31,7 @@ use OC\Authentication\TwoFactorAuth\Manager;
 use OC\Core\Controller\LoginController;
 use OC\Core\Controller\TwoFactorChallengeController;
 use OC\User\Session;
+use OCA\TwoFactorNextcloudNotification\Controller\APIController;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Middleware;
@@ -82,6 +83,11 @@ class TwoFactorMiddleware extends Middleware {
 	 * @param string $methodName
 	 */
 	public function beforeController($controller, $methodName) {
+		if ($controller instanceof APIController && $methodName === 'poll') {
+			// Allow polling the twofactor nextcloud notifications state
+			return;
+		}
+
 		if ($controller instanceof TwoFactorChallengeController
 			&& $this->userSession->getUser() !== null
 			&& !$this->reflector->hasAnnotation('TwoFactorSetUpDoneRequired')) {
