@@ -612,8 +612,35 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 				$this->getConnection()->copyObject([
 					'Bucket' => $this->bucket,
 					'Key' => $this->cleanKey($path2),
-					'CopySource' => S3Client::encodeKey($this->bucket . '/' . $path1)
+					'CopySource' => S3Client::encodeKey($this->bucket . '/' . $path1),
+					'MetadataDirective' => 'COPY',
 				]);
+
+				// copy all contained versions
+				do {
+					$keyMarker = null;
+					$versionIdMarker = null;
+					$objects = $this->getConnection()->listObjectVersions([
+						'Bucket' => $this->bucket,
+						'Prefix' => $this->cleanKey($path1),
+						'KeyMarker' => $keyMarker,
+						'VersionIdMarker' => $versionIdMarker,
+					]);
+					foreach ($objects['Versions'] as $object) {
+						$this->getConnection()->copyObject([
+							'Bucket' => $this->bucket,
+							'Key' => $path2 . '/',
+							'CopySource' => S3Client::encodeKey($this->bucket . '/' . $path1) . '?versionId=' . $object['VersionId'],
+							'MetadataDirective' => 'COPY',
+						]);
+					}
+					if (isset($objects['NextKeyMarker'])) {
+						$keyMarker = $objects['NextKeyMarker'];
+					}
+					if (isset($objects['NextVersionIdMarker'])) {
+						$versionIdMarker = $objects['NextVersionIdMarker'];
+					}
+				} while ($objects['IsTruncated']);
 				$this->testTimeout();
 			} catch (S3Exception $e) {
 				\OC::$server->getLogger()->logException($e, ['app' => 'files_external']);
