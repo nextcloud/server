@@ -48,6 +48,8 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\CalDAV\\Activity\\Setting\\Calendar' => __DIR__ . '/..' . '/../lib/CalDAV/Activity/Setting/Calendar.php',
         'OCA\\DAV\\CalDAV\\Activity\\Setting\\Event' => __DIR__ . '/..' . '/../lib/CalDAV/Activity/Setting/Event.php',
         'OCA\\DAV\\CalDAV\\Activity\\Setting\\Todo' => __DIR__ . '/..' . '/../lib/CalDAV/Activity/Setting/Todo.php',
+        'OCA\\DAV\\CalDAV\\Auth\\CustomPrincipalPlugin' => __DIR__ . '/..' . '/../lib/CalDAV/Auth/CustomPrincipalPlugin.php',
+        'OCA\\DAV\\CalDAV\\Auth\\PublicPrincipalPlugin' => __DIR__ . '/..' . '/../lib/CalDAV/Auth/PublicPrincipalPlugin.php',
         'OCA\\DAV\\CalDAV\\BirthdayCalendar\\EnablePlugin' => __DIR__ . '/..' . '/../lib/CalDAV/BirthdayCalendar/EnablePlugin.php',
         'OCA\\DAV\\CalDAV\\BirthdayService' => __DIR__ . '/..' . '/../lib/CalDAV/BirthdayService.php',
         'OCA\\DAV\\CalDAV\\CachedSubscription' => __DIR__ . '/..' . '/../lib/CalDAV/CachedSubscription.php',
