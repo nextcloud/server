@@ -104,6 +104,8 @@ class SystemConfig {
 				],
 			],
 		],
+		'overwrite.cli.url' => true,
+		'trusted_domains' => true,
 	];
 
 	/** @var Config */
