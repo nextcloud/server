@@ -26,6 +26,7 @@ namespace OCA\User_LDAP;
 use OCA\User_LDAP\User\Manager;
 use OCP\IConfig;
 use OCP\IUserManager;
+use Psr\Log\LoggerInterface;
 
 class AccessFactory {
 	/** @var ILDAPWrapper */
@@ -38,18 +39,22 @@ class AccessFactory {
 	protected $config;
 	/** @var IUserManager */
 	private $ncUserManager;
+	/** @var LoggerInterface */
+	private $logger;
 
 	public function __construct(
 		ILDAPWrapper $ldap,
 		Manager $userManager,
 		Helper $helper,
 		IConfig $config,
-		IUserManager $ncUserManager) {
+		IUserManager $ncUserManager,
+		LoggerInterface $logger) {
 		$this->ldap = $ldap;
 		$this->userManager = $userManager;
 		$this->helper = $helper;
 		$this->config = $config;
 		$this->ncUserManager = $ncUserManager;
+		$this->logger = $logger;
 	}
 
 	public function get(Connection $connection) {
@@ -59,7 +64,8 @@ class AccessFactory {
 			$this->userManager,
 			$this->helper,
 			$this->config,
-			$this->ncUserManager
+			$this->ncUserManager,
+			$this->logger
 		);
 	}
 }
