@@ -311,32 +311,10 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 					$connection->deleteObjects([
 						'Bucket' => $this->bucket,
 						'Delete' => [
-							'Objects' => $objects['Contents'],
+							'Objects' => $objects['Contents']
 						]
 					]);
 					$this->testTimeout();
-				}
-				// we reached the end when the list is no longer truncated
-			} while ($objects['IsTruncated']);
-
-			do {
-				// delete all contained versions and deletion markers
-				$objects = $connection->listObjectVersions($params);
-				if (isset($objects['Versions'])) {
-					$connection->deleteObjects([
-						'Bucket' => $this->bucket,
-						'Delete' => [
-							'Objects' => $objects['Versions'],
-						]
-					]);
-				}
-				if (isset($objects['DeleteMarkers'])) {
-					$connection->deleteObjects([
-						'Bucket' => $this->bucket,
-						'Delete' => [
-							'Objects' => $objects['DeleteMarkers'],
-						]
-					]);
 				}
 				// we reached the end when the list is no longer truncated
 			} while ($objects['IsTruncated']);
