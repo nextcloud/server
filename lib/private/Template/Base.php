@@ -65,7 +65,7 @@ class Base {
 	 */
 	protected function getAppTemplateDirs($theme, $app, $serverRoot, $app_dir) {
 		// Check if the app is in the app folder or in the root
-		if (file_exists($app_dir.'/templates/')) {
+		if ($app_dir !== false && file_exists($app_dir.'/templates/')) {
 			return [
 				$serverRoot.'/themes/'.$theme.'/apps/'.$app.'/templates/',
 				$app_dir.'/templates/',
