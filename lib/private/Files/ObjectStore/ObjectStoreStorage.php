@@ -76,9 +76,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 			$this->objectPrefix = $params['objectPrefix'];
 		}
 		//initialize cache with root directory in cache
-		if (!$this->is_dir('/')) {
-			$this->mkdir('/');
-		}
+		$this->mkdir('/');
 
 		$this->logger = \OC::$server->getLogger();
 	}

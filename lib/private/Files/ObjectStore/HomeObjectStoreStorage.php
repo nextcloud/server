@@ -39,6 +39,9 @@ class HomeObjectStoreStorage extends ObjectStoreStorage implements \OCP\Files\IH
 		}
 		$this->user = $params['user'];
 		parent::__construct($params);
+		// Enforce existence of files directory inside home folder. Required for
+		// login.
+		$this->mkdir('/files/');
 	}
 
 	public function getId() {
