@@ -15,7 +15,9 @@ ADMINLOGIN=admin$EXECUTOR_NUMBER
 BASEDIR=$PWD
 
 DBCONFIGS="sqlite mysql pgsql oci"
-PHPUNIT=$(which phpunit)
+if test -z "$PHPUNIT"; then
+	PHPUNIT=$(which phpunit)
+fi
 
 _XDEBUG_CONFIG=$XDEBUG_CONFIG
 unset XDEBUG_CONFIG
@@ -174,9 +176,9 @@ EOF
 		"$PHPUNIT" --configuration phpunit-autotest-external.xml --log-junit "autotest-external-results-$1.xml"
 	fi
 
-	if [[ $? -ne 0 ]]; then
-	    echo "Error during phpunit execution ... terminating"
-	    exit 1
+	if [[ $? -eq 255 ]]; then
+		echo "Error during phpunit execution... terminating"
+		exit 1
 	fi
 
 	if [ -n "$2" -a "$2" == "common-tests" ]; then
@@ -220,9 +222,9 @@ EOF
 		    DOEXIT=1
 		fi
 
-		if [[ $? -ne 0 ]]; then
-		    echo "Error during phpunit execution ... terminating"
-		    exit 1
+		if [[ $? -eq 255 ]]; then
+			echo "Error during phpunit execution... terminating"
+			exit 1
 		fi
 
 		# calculate stop file
