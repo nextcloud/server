@@ -345,7 +345,7 @@ class JobList implements IJobList {
 	 * Reset the $job so it executes on the next trigger
 	 *
 	 * @param IJob $job
-	 * @since 22.0.0
+	 * @since 23.0.0
 	 */
 	public function resetBackgroundJob(IJob $job): void {
 		$query = $this->connection->getQueryBuilder();
