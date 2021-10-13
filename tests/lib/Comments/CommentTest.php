@@ -160,6 +160,9 @@ class CommentTest extends TestCase {
 			[
 				'Also @"guest/0123456789abcdef" are now supported', [], null, ['guest/0123456789abcdef']
 			],
+			[
+				'Also @"group/My Group ID 321" are now supported', [], null, [], ['My Group ID 321']
+			],
 		];
 	}
 
@@ -171,7 +174,7 @@ class CommentTest extends TestCase {
 	 * @param string|null $author
 	 * @param array $expectedGuests
 	 */
-	public function testMentions(string $message, array $expectedUids, ?string $author = null, array $expectedGuests = []): void {
+	public function testMentions(string $message, array $expectedUids, ?string $author = null, array $expectedGuests = [], array $expectedGroups = []): void {
 		$comment = new Comment();
 		$comment->setMessage($message);
 		if (!is_null($author)) {
@@ -183,6 +186,8 @@ class CommentTest extends TestCase {
 				$id = array_shift($expectedUids);
 			} elseif ($mention['type'] === 'guest') {
 				$id = array_shift($expectedGuests);
+			} elseif ($mention['type'] === 'group') {
+				$id = array_shift($expectedGroups);
 			} else {
 				$this->fail('Unexpected mention type');
 				continue;
