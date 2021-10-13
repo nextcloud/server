@@ -183,12 +183,12 @@ class AppFetcher extends Fetcher {
 
 	public function get($allowUnstable = false) {
 		$apps = parent::get($allowUnstable);
-		$whitelist = $this->config->getSystemValue('appsallowlist');
+		$allowList = $this->config->getSystemValue('appsallowlist');
 
-		// If the admin specified a whitelist, filter apps from the appstore
-		if (is_array($whitelist) && $this->registry->delegateHasValidSubscription()) {
-			return array_filter($apps, function ($app) use ($whitelist) {
-				return in_array($app['id'], $whitelist);
+		// If the admin specified a allow list, filter apps from the appstore
+		if (is_array($allowList) && $this->registry->delegateHasValidSubscription()) {
+			return array_filter($apps, function ($app) use ($allowList) {
+				return in_array($app['id'], $allowList);
 			});
 		}
 
