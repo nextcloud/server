@@ -64,6 +64,29 @@ abstract class Storage extends \Test\TestCase {
 	}
 
 	/**
+	 * Check directories with similar names, as this can fail on S3
+	 */
+	public function testDirectorySameNames() {
+		$this->assertFalse($this->instance->file_exists('/test'));
+
+		$this->assertTrue($this->instance->mkdir('/test suffix'));
+		$this->assertTrue($this->instance->mkdir('/test'));
+		$this->assertTrue($this->instance->mkdir('/test suffix 2'));
+
+		$this->assertTrue($this->instance->isReadable('/test suffix'));
+		$this->assertTrue($this->instance->isReadable('/test'));
+		$this->assertTrue($this->instance->isReadable('/test suffix 2'));
+
+		$this->assertTrue($this->instance->rmdir('/test suffix'));
+		$this->assertTrue($this->instance->rmdir('/test'));
+		$this->assertTrue($this->instance->rmdir('/test suffix 2'));
+
+		$this->assertFalse($this->instance->file_exists('/test suffix'));
+		$this->assertFalse($this->instance->file_exists('/test'));
+		$this->assertFalse($this->instance->file_exists('/test suffix 2'));
+	}
+
+	/**
 	 * @dataProvider directoryProvider
 	 */
 	public function testDirectories($directory) {
