@@ -135,7 +135,7 @@ class Notifier implements INotifier {
 				$notification->setLink($this->url->linkToRouteAbsolute('settings.AdminSettings.index', ['section' => 'overview']) . '#version');
 			}
 		} else {
-			$appInfo = $this->getAppInfo($notification->getObjectType());
+			$appInfo = $this->getAppInfo($notification->getObjectType(), $languageCode);
 			$appName = ($appInfo === null) ? $notification->getObjectType() : $appInfo['name'];
 
 			if (isset($this->appVersions[$notification->getObjectType()])) {
@@ -195,7 +195,7 @@ class Notifier implements INotifier {
 		return \OC_App::getAppVersions();
 	}
 
-	protected function getAppInfo($appId) {
-		return \OC_App::getAppInfo($appId);
+	protected function getAppInfo($appId, $languageCode) {
+		return \OC_App::getAppInfo($appId, false, $languageCode);
 	}
 }

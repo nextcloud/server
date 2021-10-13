@@ -114,9 +114,8 @@ class Installer {
 		}
 
 		$basedir = $app['path'].'/'.$appId;
-		$info = OC_App::getAppInfo($basedir.'/appinfo/info.xml', true);
-
 		$l = \OC::$server->getL10N('core');
+		$info = OC_App::getAppInfo($basedir.'/appinfo/info.xml', true, $l->getLanguageCode());
 
 		if (!is_array($info)) {
 			throw new \Exception(
@@ -171,8 +170,7 @@ class Installer {
 		//run appinfo/install.php
 		self::includeAppScript($basedir . '/appinfo/install.php');
 
-		$appData = OC_App::getAppInfo($appId);
-		OC_App::executeRepairSteps($appId, $appData['repair-steps']['install']);
+		OC_App::executeRepairSteps($appId, $info['repair-steps']['install']);
 
 		//set the installed version
 		\OC::$server->getConfig()->setAppValue($info['id'], 'installed_version', OC_App::getAppVersion($info['id'], false));
