@@ -190,7 +190,7 @@ class OC_User {
 					'post_login',
 					[
 						'uid' => $uid,
-						'password' => '',
+						'password' => null,
 						'isTokenLogin' => false,
 					]
 				);
@@ -199,7 +199,7 @@ class OC_User {
 				$dispatcher->dispatchTyped(new UserLoggedInEvent(
 						\OC::$server->get(IUserManager::class)->get($uid),
 						$uid,
-						'',
+						null,
 						false)
 				);
 
