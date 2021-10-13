@@ -64,7 +64,7 @@ trait S3ObjectTrait {
 			}
 			$opts = [
 				'http' => [
-					'protocol_version' => 1.1,
+					'protocol_version' => $request->getProtocolVersion(),
 					'header' => $headers,
 				],
 			];
