@@ -183,12 +183,6 @@ interface IAppManager {
 	public function getEnabledAppsForGroup(IGroup $group): array;
 
 	/**
-	 * @return array
-	 * @since 17.0.0
-	 */
-	public function getAutoDisabledApps(): array;
-
-	/**
 	 * @param String $appId
 	 * @return string[]
 	 * @since 17.0.0
