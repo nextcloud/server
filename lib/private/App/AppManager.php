@@ -400,7 +400,11 @@ class AppManager implements IAppManager {
 		}
 
 		if ($automaticDisabled) {
-			$this->autoDisabledApps[] = $appId;
+			$previousSetting = $this->appConfig->getValue($appId, 'enabled', 'yes');
+			if ($previousSetting !== 'yes' && $previousSetting !== 'no') {
+				$previousSetting = json_decode($previousSetting, true);
+			}
+			$this->autoDisabledApps[$appId] = $previousSetting;
 		}
 
 		unset($this->installedAppsCache[$appId]);
