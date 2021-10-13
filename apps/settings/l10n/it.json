@@ -112,6 +112,7 @@
     "Personal" : "Personale",
     "Administration" : "Amministrazione",
     "Additional settings" : "Impostazioni aggiuntive",
+    "Admin privileges" : "Privilegi di admin",
     "Groupware" : "Groupware",
     "Overview" : "Riepilogo",
     "Basic settings" : "Impostazioni di base",
@@ -134,7 +135,10 @@
     "MySQL version \"%s\" is used. Nextcloud 21 will no longer support this version and requires MySQL 8.0 or MariaDB 10.2 or higher." : "Stai utilizzando la versione \"%s\" di MySQL. Nextcloud 21 non supporterà più questa versione e richiede MySQL 8.0 o MariaDB 10.2 o successive.",
     "PostgreSQL version \"%s\" is used. Nextcloud 21 will no longer support this version and requires PostgreSQL 9.6 or higher." : "È utilizzata la versione di \"%s\" di PostgreSQL. Nextcloud 21 non supporterà più questa versione e richiede PostgreSQL 9.6 o superiore.",
     "Nextcloud settings" : "Impostazioni di Nextcloud",
+    "Administration privileges" : "Privilegi di amministratore",
+    "Here you can decide which group can access certain sections of the administration settings." : "Qui puoi decidere quali gruppi possono accedere ad alcune sezioni delle impostazioni di amministrazione.",
     "None" : "Nessuno",
+    "Unable to modify setting" : "Impossibile modificare l'impostazione",
     "Two-factor authentication can be enforced for all users and specific groups. If they do not have a two-factor provider configured, they will be unable to log into the system." : "L'autenticazione a due fattori può essere imposta per tutti gli utenti e gruppi specifici. Se non hanno un fornitore a due fattori configurato, non saranno in grado di accedere al sistema.",
     "Enforce two-factor authentication" : "Applica l'autenticazione a due fattori",
     "Limit to groups" : "Limita a gruppi",
@@ -220,6 +224,9 @@
     "Primary email for password reset and notifications" : "Email principale per ripristino della password e notifiche",
     "Remove primary email" : "Rimuovi email principale",
     "Delete email" : "Elimina email",
+    "Unset as primary email" : "Togli dall'email principale",
+    "This address is not confirmed" : "Questo indirizzo non è confermato",
+    "Set as primary email" : "Imposta come email principale",
     "Your email address" : "Il tuo indirizzo email",
     "Additional email address {index}" : "Indirizzo email aggiuntivo {index}",
     "No email address set" : "Nessun indirizzo email impostato",
@@ -383,6 +390,7 @@
     "Use system cron service to call the cron.php file every 5 minutes." : "Usa il servizio cron di sistema per invocare il file cron.php ogni 5 minuti.",
     "The cron.php needs to be executed by the system user \"%s\"." : "Il cron.php deve essere eseguito dall'utente di sistema \"%s\".",
     "To run this you need the PHP POSIX extension. See {linkstart}PHP documentation{linkend} for more details." : "Per eseguirlo, hai bisogno dell'estensione POSIX di PHP. Vedi la {linkstart}documentazione di PHP{linkend} per ulteriori dettagli.",
+    "You need to enable the File sharing App." : "Devi attivare l'app File sharing.",
     "As admin you can fine-tune the sharing behavior. Please see the documentation for more information." : "In qualità di amministratore puoi configurare in modo granulare il comportamento della condivisione. Vedi la documentazione per ulteriori informazioni.",
     "Allow apps to use the Share API" : "Consenti alle applicazioni di utilizzare le API di condivisione",
     "Set default expiration date for shares" : "Imposta data di scadenza predefinita per le condivisioni",
@@ -466,6 +474,7 @@
     "No display name set" : "Nome visualizzato non impostato",
     "For password reset and notifications" : "Per ripristino della password e notifiche",
     "Change privacy level of full name" : "Cambia livello di privacy del nome completo",
-    "Change privacy level of email" : "Cambia livello di privacy dell'email"
+    "Change privacy level of email" : "Cambia livello di privacy dell'email",
+    "Set as primary mail" : "Imposta come email principale"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
