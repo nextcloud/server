@@ -1,0 +1,65 @@
+name: S3 External storage
+on:
+  push:
+    branches:
+      - master
+      - stable*
+    paths:
+      - 'apps/files_external/**'
+  pull_request:
+    paths:
+      - 'apps/files_external/**'
+
+env:
+  APP_NAME: files_external
+
+jobs:
+  s3-external-tests:
+    runs-on: ubuntu-latest
+
+    strategy:
+      # do not stop on another job's failure
+      fail-fast: false
+      matrix:
+        php-versions: ['7.4', '8.0']
+
+    name: php${{ matrix.php-versions }}-${{ matrix.ftpd }}
+
+    services:
+      minio:
+        image: minio/minio:RELEASE.2021-10-06T23-36-31Z
+        ports:
+          - "9000:9000"
+
+    steps:
+      - name: Checkout server
+        uses: actions/checkout@v2
+        with:
+          submodules: true
+
+      - name: Set up php ${{ matrix.php-versions }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-versions }}
+          tools: phpunit
+          extensions: mbstring, iconv, fileinfo, intl, sqlite, pdo_sqlite, zip, gd
+
+      - name: Set up Nextcloud
+        run: |
+          mkdir data
+          ./occ maintenance:install --verbose --database=sqlite --database-name=nextcloud --database-host=127.0.0.1 --database-user=root --database-pass=rootpassword --admin-user admin --admin-pass password
+          ./occ app:enable --force ${{ env.APP_NAME }}
+          php -S localhost:8080 &
+      - name: PHPUnit
+        run: |
+          echo "<?php return ['run' => true,'hostname' => 'localhost','key' => 'minioadmin','secret' => 'minioadmin', 'bucket' => 'bucket', 'port' => 9000, 'use_ssl' => false, 'autocreate' => true, 'use_path_style' => true];" > apps/${{ env.APP_NAME }}/tests/config.amazons3.php
+          phpunit --configuration tests/phpunit-autotest-external.xml apps/files_external/tests/Storage/Amazons3Test.php
+  s3-external-summary:
+    runs-on: ubuntu-latest
+    needs: s3-external-tests
+
+    if: always()
+
+    steps:
+      - name: Summary status
+        run: if ${{ needs.s3-external-tests.result != 'success' }}; then exit 1; fi
