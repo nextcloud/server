@@ -53,7 +53,7 @@ interface IProvider {
 	public function generateToken(string $token,
 								  string $uid,
 								  string $loginName,
-								  $password,
+								  ?string $password,
 								  string $name,
 								  int $type = IToken::TEMPORARY_TOKEN,
 								  int $remember = IToken::DO_NOT_REMEMBER): IToken;
