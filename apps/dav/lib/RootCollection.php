@@ -51,7 +51,6 @@ use Sabre\DAV\SimpleCollection;
 
 class RootCollection extends SimpleCollection {
 	public function __construct() {
-		$config = \OC::$server->getConfig();
 		$l10n = \OC::$server->getL10N('dav');
 		$random = \OC::$server->getSecureRandom();
 		$logger = \OC::$server->getLogger();
