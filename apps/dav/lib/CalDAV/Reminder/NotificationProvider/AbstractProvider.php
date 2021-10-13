@@ -104,7 +104,7 @@ abstract class AbstractProvider implements INotificationProvider {
 			return $this->fallbackLanguage;
 		}
 
-		$fallbackLanguage = $this->l10nFactory->findLanguage();
+		$fallbackLanguage = $this->l10nFactory->findGenericLanguage();
 		$this->fallbackLanguage = $fallbackLanguage;
 
 		return $fallbackLanguage;
