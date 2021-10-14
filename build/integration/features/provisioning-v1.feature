@@ -67,6 +67,11 @@ Feature: provisioning
       | address |
       | website |
       | twitter |
+      | organisation |
+      | role |
+      | headline |
+      | biography |
+      | profile_enabled |
     Given As an "brand-new-user"
     Then user "brand-new-user" has editable fields
       | displayname |
@@ -76,6 +81,11 @@ Feature: provisioning
       | address |
       | website |
       | twitter |
+      | organisation |
+      | role |
+      | headline |
+      | biography |
+      | profile_enabled |
     Then user "self" has editable fields
       | displayname |
       | email |
@@ -84,6 +94,11 @@ Feature: provisioning
       | address |
       | website |
       | twitter |
+      | organisation |
+      | role |
+      | headline |
+      | biography |
+      | profile_enabled |
 
 	Scenario: Edit a user
 		Given As an "admin"

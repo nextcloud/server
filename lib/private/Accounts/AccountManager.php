@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @copyright Copyright (c) 2016, Björn Schießle
@@ -30,6 +31,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OC\Accounts;
 
 use Exception;
@@ -337,7 +339,7 @@ class AccountManager implements IAccountManager {
 			return $this->buildDefaultUserRecord($user);
 		}
 
-		return $this->addMissingDefaultValues($userDataArray);
+		return $this->addMissingDefaultValues($userDataArray, $this->buildDefaultUserRecord($user));
 	}
 
 	public function searchUsers(string $property, array $values): array {
@@ -384,7 +386,8 @@ class AccountManager implements IAccountManager {
 		}
 		$oldMail = isset($oldData[self::PROPERTY_EMAIL]) ? $oldData[self::PROPERTY_EMAIL]['value']['value'] : '';
 		if ($oldMail !== $property->getValue()) {
-			$this->jobList->add(VerifyUserData::class,
+			$this->jobList->add(
+				VerifyUserData::class,
 				[
 					'verificationCode' => '',
 					'data' => $property->getValue(),
@@ -416,12 +419,14 @@ class AccountManager implements IAccountManager {
 		$key = $this->crypto->encrypt($email);
 		$token = $this->verificationToken->create($user, 'verifyMail' . $ref, $email);
 
-		$link = $this->urlGenerator->linkToRouteAbsolute('provisioning_api.Verification.verifyMail',
+		$link = $this->urlGenerator->linkToRouteAbsolute(
+			'provisioning_api.Verification.verifyMail',
 			[
 				'userId' => $user->getUID(),
 				'token' => $token,
 				'key' => $key
-			]);
+			]
+		);
 
 		$emailTemplate = $this->mailer->createEMailTemplate('core.EmailVerification', [
 			'link' => $link,
@@ -465,14 +470,18 @@ class AccountManager implements IAccountManager {
 	}
 
 	/**
-	 * make sure that all expected data are set
-	 *
+	 * Make sure that all expected data are set
 	 */
-	protected function addMissingDefaultValues(array $userData): array {
-		foreach ($userData as $i => $value) {
-			if (!isset($value['verified'])) {
-				$userData[$i]['verified'] = self::NOT_VERIFIED;
+	protected function addMissingDefaultValues(array $userData, array $defaultUserData): array {
+		foreach ($defaultUserData as $i => $value) {
+			// If property doesn't exists, initialize it
+			if (!array_key_exists($i, $userData)) {
+				$userData[$i] = [];
 			}
+
+			// Merge and extend default missing values
+			$defaultValueIndex = array_search($value['name'], array_column($defaultUserData, 'name'));
+			$userData[$i] = array_merge($defaultUserData[$defaultValueIndex], $userData[$i]);
 		}
 
 		return $userData;
@@ -499,7 +508,7 @@ class AccountManager implements IAccountManager {
 					|| $property->getValue() !== $oldData[$propertyName]['value'])
 				&& ($property->getVerified() !== self::NOT_VERIFIED
 					|| $wasVerified)
-				) {
+			) {
 				$property->setVerified(self::NOT_VERIFIED);
 			}
 		}
@@ -629,7 +638,6 @@ class AccountManager implements IAccountManager {
 	 */
 	protected function buildDefaultUserRecord(IUser $user) {
 		return [
-
 			[
 				'name' => self::PROPERTY_DISPLAYNAME,
 				'value' => $user->getDisplayName(),
@@ -677,6 +685,34 @@ class AccountManager implements IAccountManager {
 				'verified' => self::NOT_VERIFIED,
 			],
 
+			[
+				'name' => self::PROPERTY_ORGANISATION,
+				'value' => '',
+				'scope' => self::SCOPE_LOCAL,
+			],
+
+			[
+				'name' => self::PROPERTY_ROLE,
+				'value' => '',
+				'scope' => self::SCOPE_LOCAL,
+			],
+
+			[
+				'name' => self::PROPERTY_HEADLINE,
+				'value' => '',
+				'scope' => self::SCOPE_LOCAL,
+			],
+
+			[
+				'name' => self::PROPERTY_BIOGRAPHY,
+				'value' => '',
+				'scope' => self::SCOPE_LOCAL,
+			],
+
+			[
+				'name' => self::PROPERTY_PROFILE_ENABLED,
+				'value' => '1',
+			],
 		];
 	}
 
