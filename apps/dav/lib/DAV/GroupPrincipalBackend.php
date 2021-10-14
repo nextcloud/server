@@ -125,7 +125,7 @@ class GroupPrincipalBackend implements BackendInterface {
 	 * Returns the list of members for a group-principal
 	 *
 	 * @param string $principal
-	 * @return string[]
+	 * @return array
 	 * @throws Exception
 	 */
 	public function getGroupMemberSet($principal) {
