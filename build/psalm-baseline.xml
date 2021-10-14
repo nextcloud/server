@@ -4151,8 +4151,7 @@
     <ImplementedReturnTypeMismatch occurrences="1">
       <code>null|string</code>
     </ImplementedReturnTypeMismatch>
-    <LessSpecificImplementedReturnType occurrences="2">
-      <code>array</code>
+    <LessSpecificImplementedReturnType occurrences="1">
       <code>array|mixed</code>
     </LessSpecificImplementedReturnType>
   </file>
