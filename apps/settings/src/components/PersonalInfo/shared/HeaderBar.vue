@@ -17,21 +17,21 @@
 	-
 	- You should have received a copy of the GNU Affero General Public License
 	- along with this program. If not, see <http://www.gnu.org/licenses/>.
+	-
 -->
 
 <template>
 	<h3
-		:class="{ 'setting-property': isSettingProperty }">
+		:class="{ 'setting-property': isSettingProperty, 'profile-property': isProfileProperty }">
 		<label :for="labelFor">
 			<!-- Already translated as required by prop validator -->
 			{{ accountProperty }}
 		</label>
 
-		<template v-if="scope && handleScopeChange">
+		<template v-if="scope">
 			<FederationControl
 				class="federation-control"
 				:account-property="accountProperty"
-				:handle-scope-change="handleScopeChange"
 				:scope.sync="localScope"
 				@update:scope="onScopeChange" />
 		</template>
@@ -49,7 +49,7 @@
 import AddButton from './AddButton'
 import FederationControl from './FederationControl'
 
-import { ACCOUNT_PROPERTY_READABLE_ENUM, SETTING_PROPERTY_READABLE_ENUM } from '../../../constants/AccountPropertyConstants'
+import { ACCOUNT_PROPERTY_READABLE_ENUM, ACCOUNT_SETTING_PROPERTY_READABLE_ENUM, PROFILE_READABLE_ENUM } from '../../../constants/AccountPropertyConstants'
 
 export default {
 	name: 'HeaderBar',
@@ -63,11 +63,7 @@ export default {
 		accountProperty: {
 			type: String,
 			required: true,
-			validator: (value) => Object.values(ACCOUNT_PROPERTY_READABLE_ENUM).includes(value) || Object.values(SETTING_PROPERTY_READABLE_ENUM).includes(value),
-		},
-		handleScopeChange: {
-			type: Function,
-			default: null,
+			validator: (value) => Object.values(ACCOUNT_PROPERTY_READABLE_ENUM).includes(value) || Object.values(ACCOUNT_SETTING_PROPERTY_READABLE_ENUM).includes(value) || value === PROFILE_READABLE_ENUM.PROFILE_VISIBILITY,
 		},
 		isEditable: {
 			type: Boolean,
@@ -83,7 +79,7 @@ export default {
 		},
 		labelFor: {
 			type: String,
-			required: true,
+			default: '',
 		},
 		scope: {
 			type: String,
@@ -98,8 +94,12 @@ export default {
 	},
 
 	computed: {
+		isProfileProperty() {
+			return this.accountProperty === ACCOUNT_PROPERTY_READABLE_ENUM.PROFILE_ENABLED
+		},
+
 		isSettingProperty() {
-			return Object.values(SETTING_PROPERTY_READABLE_ENUM).includes(this.accountProperty)
+			return Object.values(ACCOUNT_SETTING_PROPERTY_READABLE_ENUM).includes(this.accountProperty)
 		},
 	},
 
@@ -123,8 +123,12 @@ export default {
 		font-size: 16px;
 		color: var(--color-text-light);
 
-		&.setting-property {
+		&.profile-property {
 			height: 38px;
+		}
+
+		&.setting-property {
+			height: 32px;
 		}
 
 		label {
