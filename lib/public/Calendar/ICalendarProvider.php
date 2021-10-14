@@ -42,4 +42,15 @@ interface ICalendarProvider {
 	 * @since 23.0.0
 	 */
 	public function getCalendars(string $principalUri, array $calendarUris = []): array;
+
+	/**
+	 * Get the principal's scheduling inboxes
+	 *
+	 * @param string $principalUri
+	 *
+	 * @return ISchedulingInbox[]]
+	 *
+	 * @since 23.0.0
+	 */
+	public function getSchedulingInboxes(string $principalUri): array;
 }

@@ -31,6 +31,11 @@ use OCP\Calendar\ICalendar;
 use OCP\Calendar\ICalendarProvider;
 use OCP\Calendar\ICalendarQuery;
 use OCP\Calendar\IManager;
+use Psr\Container\ContainerInterface;
+use Psr\Log\LoggerInterface;
+use Throwable;
+use function array_map;
+use function array_merge;
 
 class Manager implements IManager {
 
@@ -47,8 +52,18 @@ class Manager implements IManager {
 	/** @var Coordinator */
 	private $coordinator;
 
-	public function __construct(Coordinator $coordinator) {
+	/** @var ContainerInterface */
+	private $container;
+
+	/** @var LoggerInterface */
+	private $logger;
+
+	public function __construct(Coordinator $coordinator,
+								ContainerInterface $container,
+								LoggerInterface $logger) {
 		$this->coordinator = $coordinator;
+		$this->container = $container;
+		$this->logger = $logger;
 	}
 
 	/**
@@ -159,9 +174,20 @@ class Manager implements IManager {
 		}
 
 		/** @var CalendarQuery $query */
-		$calendars = array_merge(...array_map(static function (ICalendarProvider $p) use ($query) {
-			return $p->getCalendars($query->getPrincipalUri(), $query->getCalendarUris());
-		}, $context->getCalendarProviders()));
+		$calendars = array_merge(
+			...array_map(function ($registration) use ($query) {
+				try {
+					/** @var ICalendarProvider $provider */
+					$provider = $this->container->get($registration->getService());
+				} catch (Throwable $e) {
+					$this->logger->error('Could not load calendar provider ' . $registration->getService() . ': ' . $e->getMessage(), [
+						'exception' => $e,
+					]);
+				}
+
+				return $provider->getCalendars($query->getPrincipalUri(), $query->getCalendarUris());
+			}, $context->getCalendarProviders())
+		);
 
 		$results = [];
 		/** @var ICalendar $calendar */
@@ -184,5 +210,27 @@ class Manager implements IManager {
 
 	public function newQuery(string $principalUri): ICalendarQuery {
 		return new CalendarQuery($principalUri);
+	}
+
+	public function getSchedulingInboxes(string $principalUri): array {
+		$context = $this->coordinator->getRegistrationContext();
+		if ($context === null) {
+			return [];
+		}
+
+		return array_merge(
+			...array_map(function($registration) use ($principalUri) {
+				try {
+					/** @var ICalendarProvider $provider */
+					$provider = $this->container->get($registration->getService());
+				} catch (Throwable $e) {
+					$this->logger->error('Could not load calendar provider ' . $registration->getService() . ': ' . $e->getMessage(), [
+						'exception' => $e,
+					]);
+				}
+
+				return $provider->getSchedulingInboxes($principalUri);
+			}, $context->getCalendarProviders())
+		);
 	}
 }

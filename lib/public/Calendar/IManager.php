@@ -147,4 +147,15 @@ interface IManager {
 	 * @since 23.0.0
 	 */
 	public function newQuery(string $principalUri) : ICalendarQuery;
+
+	/**
+	 * Get the principal's scheduling inboxes
+	 *
+	 * @param string $principalUri
+	 *
+	 * @return ISchedulingInbox[]]
+	 *
+	 * @since 23.0.0
+	 */
+	public function getSchedulingInboxes(string $principalUri): array;
 }
