@@ -47,7 +47,6 @@ use Icewind\Streams\CallbackWrapper;
 use Icewind\Streams\IteratorDirectory;
 use OC\Cache\CappedMemoryCache;
 use OC\Files\Cache\CacheEntry;
-use OC\Files\Filesystem;
 use OC\Files\ObjectStore\S3ConnectionTrait;
 use OC\Files\ObjectStore\S3ObjectTrait;
 use OCP\Constants;
@@ -173,6 +172,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		if ($path === '.' || $path === '') {
 			return true;
 		}
+		$path = rtrim($path, '/') . '/';
 
 		if (isset($this->directoryCache[$path])) {
 			return $this->directoryCache[$path];
@@ -182,7 +182,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 			// Do a prefix listing of objects to determine.
 			$result = $this->getConnection()->listObjectsV2([
 				'Bucket' => $this->bucket,
-				'Prefix' => rtrim($path, '/'),
+				'Prefix' => $path,
 				'MaxKeys' => 1,
 			]);
 
@@ -359,7 +359,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 			return IteratorDirectory::wrap(array_map(function (array $item) {
 				return $item['name'];
 			}, $content));
-		}  catch (S3Exception $e) {
+		} catch (S3Exception $e) {
 			return false;
 		}
 	}
@@ -434,7 +434,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		}
 
 		try {
-			return $this->isRoot($path) || $this->doesDirectoryExist($path);
+			return $this->doesDirectoryExist($path);
 		} catch (S3Exception $e) {
 			\OC::$server->getLogger()->logException($e, ['app' => 'files_external']);
 			return false;
