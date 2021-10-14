@@ -38,6 +38,8 @@ use OCA\Files_External\Lib\Storage\AmazonS3;
  */
 class Amazons3Test extends \Test\Files\Storage\Storage {
 	private $config;
+	/** @var AmazonS3 */
+	protected $instance;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -59,5 +61,9 @@ class Amazons3Test extends \Test\Files\Storage\Storage {
 
 	public function testStat() {
 		$this->markTestSkipped('S3 doesn\'t update the parents folder mtime');
+	}
+
+	public function testHashInFileName() {
+		$this->markTestSkipped('Localstack has a bug with hashes in filename');
 	}
 }
