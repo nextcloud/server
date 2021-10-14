@@ -721,11 +721,11 @@ class UsersController extends AUserData {
 	 *
 	 * @param string $userId
 	 * @param string $key
-	 * @param string|bool $value
+	 * @param string $value
 	 * @return DataResponse
 	 * @throws OCSException
 	 */
-	public function editUser(string $userId, string $key, $value): DataResponse {
+	public function editUser(string $userId, string $key, string $value): DataResponse {
 		$currentLoggedInUser = $this->userSession->getUser();
 
 		$targetUser = $this->userManager->get($userId);
@@ -961,11 +961,6 @@ class UsersController extends AUserData {
 				$this->accountManager->updateAccount($userAccount);
 				break;
 			case IAccountManager::PROPERTY_PROFILE_ENABLED:
-				if (!is_bool($value)) {
-					throw new OCSException('Invalid value, value must be a boolean', 102);
-				}
-				$value = $value === true ? '1' : '0';
-
 				$userAccount = $this->accountManager->getAccount($targetUser);
 				try {
 					$userProperty = $userAccount->getProperty($key);

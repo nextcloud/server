@@ -27,42 +27,57 @@ namespace Tests\Contacts\ContactsMenu;
 
 use OC\Contacts\ContactsMenu\ContactsStore;
 use OC\KnownUser\KnownUserService;
+use OCP\Accounts\IAccountManager;
 use OCP\Contacts\IManager;
 use OCP\IConfig;
 use OCP\IGroupManager;
+use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\L10N\IFactory as IL10NFactory;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class ContactsStoreTest extends TestCase {
+	/** @var IAccountManager */
+	private $accountManager;
 	/** @var ContactsStore */
 	private $contactsStore;
 	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $contactsManager;
 	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $userManager;
+	/** @var IURLGenerator */
+	private $urlGenerator;
 	/** @var IGroupManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $groupManager;
 	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
 	/** @var KnownUserService|MockObject */
 	private $knownUserService;
+	/** @var IL10NFactory */
+	private $l10nFactory;
 
 	protected function setUp(): void {
 		parent::setUp();
 
+		$this->accountManager = $this->createMock(IAccountManager::class);
 		$this->contactsManager = $this->createMock(IManager::class);
 		$this->userManager = $this->createMock(IUserManager::class);
+		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->knownUserService = $this->createMock(KnownUserService::class);
+		$this->l10nFactory = $this->createMock(IL10NFactory::class);
 		$this->contactsStore = new ContactsStore(
+			$this->accountManager,
 			$this->contactsManager,
 			$this->config,
 			$this->userManager,
+			$this->urlGenerator,
 			$this->groupManager,
-			$this->knownUserService
+			$this->knownUserService,
+			$this->l10nFactory
 		);
 	}
 

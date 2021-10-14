@@ -33,6 +33,7 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 use OC\Core\Application;
 
 /** @var Application $application */
@@ -42,6 +43,7 @@ $application->registerRoutes($this, [
 		['name' => 'lost#email', 'url' => '/lostpassword/email', 'verb' => 'POST'],
 		['name' => 'lost#resetform', 'url' => '/lostpassword/reset/form/{token}/{userId}', 'verb' => 'GET'],
 		['name' => 'lost#setPassword', 'url' => '/lostpassword/set/{token}/{userId}', 'verb' => 'POST'],
+		['name' => 'ProfilePage#index', 'url' => '/u/{targetUserId}', 'verb' => 'GET'],
 		['name' => 'user#getDisplayNames', 'url' => '/displaynames', 'verb' => 'POST'],
 		['name' => 'avatar#getAvatar', 'url' => '/avatar/{userId}/{size}', 'verb' => 'GET'],
 		['name' => 'avatar#deleteAvatar', 'url' => '/avatar/', 'verb' => 'DELETE'],
@@ -116,6 +118,8 @@ $application->registerRoutes($this, [
 		['root' => '/collaboration', 'name' => 'CollaborationResources#removeResource', 'url' => '/resources/collections/{collectionId}', 'verb' => 'DELETE'],
 		['root' => '/collaboration', 'name' => 'CollaborationResources#getCollectionsByResource', 'url' => '/resources/{resourceType}/{resourceId}', 'verb' => 'GET'],
 		['root' => '/collaboration', 'name' => 'CollaborationResources#createCollectionOnResource', 'url' => '/resources/{baseResourceType}/{baseResourceId}', 'verb' => 'POST'],
+
+		['root' => '/profile', 'name' => 'ProfileApi#setVisibility', 'url' => '/{targetUserId}', 'verb' => 'PUT'],
 
 		// Unified search
 		['root' => '/search', 'name' => 'UnifiedSearch#getProviders', 'url' => '/providers', 'verb' => 'GET'],

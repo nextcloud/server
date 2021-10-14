@@ -26,6 +26,7 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OCP\AppFramework\Bootstrap;
 
 use OCP\AppFramework\IAppContainer;
@@ -74,6 +75,7 @@ interface IRegistrationContext {
 	 * @since 20.0.0
 	 */
 	public function registerDashboardWidget(string $widgetClass): void;
+
 	/**
 	 * Register a service
 	 *
@@ -237,4 +239,15 @@ interface IRegistrationContext {
 	 * @since 23.0.0
 	 */
 	public function registerCalendarProvider(string $class): void;
+
+	/**
+	 * Register an implementation of \OCP\Profile\ILinkAction that
+	 * will handle the implementation of a profile action
+	 *
+	 * @param string $actionClass
+	 * @psalm-param class-string<\OCP\Profile\ILinkAction> $actionClass
+	 * @return void
+	 * @since 23.0.0
+	 */
+	public function registerProfileAction(string $actionClass): void;
 }
