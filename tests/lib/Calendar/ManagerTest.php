@@ -27,12 +27,20 @@ use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Calendar\Manager;
 use OCP\Calendar\ICalendar;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Container\ContainerInterface;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class ManagerTest extends TestCase {
 
 	/** @var Coordinator|MockObject */
 	private $coordinator;
+
+	/** @var MockObject|ContainerInterface */
+	private $container;
+
+	/** @var MockObject|LoggerInterface */
+	private $logger;
 
 	/** @var Manager */
 	private $manager;
@@ -41,9 +49,13 @@ class ManagerTest extends TestCase {
 		parent::setUp();
 
 		$this->coordinator = $this->createMock(Coordinator::class);
+		$this->container = $this->createMock(ContainerInterface::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 
 		$this->manager = new Manager(
-			$this->coordinator
+			$this->coordinator,
+			$this->container,
+			$this->logger
 		);
 	}
 
