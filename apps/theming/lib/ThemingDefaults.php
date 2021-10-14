@@ -43,6 +43,7 @@ namespace OCA\Theming;
 use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
 use OCP\Files\NotFoundException;
+use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IL10N;
@@ -347,17 +348,11 @@ class ThemingDefaults extends \OC_Defaults {
 		}
 		$cacheBusterValue = $this->config->getAppValue('theming', 'cachebuster', '0');
 
-		try {
-			$customFavicon = $this->imageManager->getImage('favicon');
-		} catch (NotFoundException $e) {
-			$customFavicon = null;
-		}
-
 		$route = false;
-		if ($image === 'favicon.ico' && ($customFavicon !== null || $this->imageManager->shouldReplaceIcons())) {
+		if ($image === 'favicon.ico' && ($this->imageManager->shouldReplaceIcons() || $this->getCustomFavicon() !== null)) {
 			$route = $this->urlGenerator->linkToRoute('theming.Icon.getFavicon', ['app' => $app]);
 		}
-		if (($image === 'favicon-touch.png' || $image === 'favicon-fb.png') && ($customFavicon !== null || $this->imageManager->shouldReplaceIcons())) {
+		if (($image === 'favicon-touch.png' || $image === 'favicon-fb.png') && ($this->imageManager->shouldReplaceIcons() || $this->getCustomFavicon() !== null)) {
 			$route = $this->urlGenerator->linkToRoute('theming.Icon.getTouchIcon', ['app' => $app]);
 		}
 		if ($image === 'manifest.json') {
@@ -379,6 +374,14 @@ class ThemingDefaults extends \OC_Defaults {
 		}
 
 		return false;
+	}
+
+	protected function getCustomFavicon(): ?ISimpleFile {
+		try {
+			return $this->imageManager->getImage('favicon');
+		} catch (NotFoundException $e) {
+			return null;
+		}
 	}
 
 	/**
