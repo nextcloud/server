@@ -50,7 +50,7 @@ use OC\Cache\CappedMemoryCache;
 use OC\ServerNotAvailableException;
 use OCP\Group\Backend\IGetDisplayNameBackend;
 use OCP\GroupInterface;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 
 class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, IGetDisplayNameBackend {
 	protected $enabled = false;
@@ -63,7 +63,7 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 	protected $cachedNestedGroups;
 	/** @var GroupPluginManager */
 	protected $groupPluginManager;
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	protected $logger;
 
 	/**
@@ -83,7 +83,7 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 		$this->cachedGroupsByMember = new CappedMemoryCache();
 		$this->cachedNestedGroups = new CappedMemoryCache();
 		$this->groupPluginManager = $groupPluginManager;
-		$this->logger = OC::$server->getLogger();
+		$this->logger = OC::$server->get(LoggerInterface::class);
 		$this->ldapGroupMemberAssocAttr = strtolower($gAssoc);
 	}
 
