@@ -104,7 +104,7 @@ class EmailProviderTest extends AbstractNotificationProviderTest {
 			]);
 
 		$this->l10nFactory
-			->method('findLanguage')
+			->method('findGenericLanguage')
 			->willReturn('en');
 
 		$this->l10nFactory
@@ -214,7 +214,7 @@ class EmailProviderTest extends AbstractNotificationProviderTest {
 			]);
 
 		$this->l10nFactory
-			->method('findLanguage')
+			->method('findGenericLanguage')
 			->willReturn('en');
 
 		$this->l10nFactory
