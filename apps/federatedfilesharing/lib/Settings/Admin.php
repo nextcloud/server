@@ -27,9 +27,10 @@ namespace OCA\FederatedFileSharing\Settings;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\GlobalScale\IConfig;
-use OCP\Settings\ISettings;
+use OCP\IL10N;
+use OCP\Settings\IDelegatedSettings;
 
-class Admin implements ISettings {
+class Admin implements IDelegatedSettings {
 
 	/** @var FederatedShareProvider */
 	private $fedShareProvider;
@@ -37,15 +38,19 @@ class Admin implements ISettings {
 	/** @var IConfig */
 	private $gsConfig;
 
+	/** @var IL10N */
+	private $l;
+
 	/**
 	 * Admin constructor.
 	 *
 	 * @param FederatedShareProvider $fedShareProvider
 	 * @param IConfig $globalScaleConfig
 	 */
-	public function __construct(FederatedShareProvider $fedShareProvider, IConfig $globalScaleConfig) {
+	public function __construct(FederatedShareProvider $fedShareProvider, IConfig $globalScaleConfig, IL10N $l) {
 		$this->fedShareProvider = $fedShareProvider;
 		$this->gsConfig = $globalScaleConfig;
+		$this->l = $l;
 	}
 
 	/**
@@ -82,5 +87,23 @@ class Admin implements ISettings {
 	 */
 	public function getPriority() {
 		return 20;
+	}
+
+	public function getName(): ?string {
+		return $this->l->t('Federated Cloud Sharing');
+	}
+
+	public function getAuthorizedAppConfig(): array {
+		return [
+			'files_sharing' => [
+				'outgoing_server2server_share_enabled',
+				'incoming_server2server_share_enabled',
+				'federatedGroupSharingSupported',
+				'outgoingServer2serverGroupShareEnabled',
+				'incomingServer2serverGroupShareEnabled',
+				'lookupServerEnabled',
+				'lookupServerUploadEnabled',
+			],
+		];
 	}
 }

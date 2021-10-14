@@ -26,6 +26,7 @@ namespace OCA\Federation\Tests\Settings;
 use OCA\Federation\Settings\Admin;
 use OCA\Federation\TrustedServers;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\IL10N;
 use Test\TestCase;
 
 class AdminTest extends TestCase {
@@ -38,7 +39,8 @@ class AdminTest extends TestCase {
 		parent::setUp();
 		$this->trustedServers = $this->getMockBuilder('\OCA\Federation\TrustedServers')->disableOriginalConstructor()->getMock();
 		$this->admin = new Admin(
-			$this->trustedServers
+			$this->trustedServers,
+			$this->createMock(IL10N::class)
 		);
 	}
 

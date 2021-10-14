@@ -56,8 +56,9 @@ class SettingsController extends Controller {
 
 
 	/**
-	 * add server to the list of trusted Nextclouds
+	 * Add server to the list of trusted Nextclouds.
 	 *
+	 * @AuthorizedAdminSetting(settings=OCA\Federation\Settings\Admin)
 	 * @param string $url
 	 * @return DataResponse
 	 * @throws HintException
@@ -76,8 +77,9 @@ class SettingsController extends Controller {
 	}
 
 	/**
-	 * add server to the list of trusted Nextclouds
+	 * Add server to the list of trusted Nextclouds.
 	 *
+	 * @AuthorizedAdminSetting(settings=OCA\Federation\Settings\Admin)
 	 * @param int $id
 	 * @return DataResponse
 	 */
@@ -87,8 +89,9 @@ class SettingsController extends Controller {
 	}
 
 	/**
-	 * check if the server should be added to the list of trusted servers or not
+	 * Check if the server should be added to the list of trusted servers or not.
 	 *
+	 * @AuthorizedAdminSetting(settings=OCA\Federation\Settings\Admin)
 	 * @param string $url
 	 * @return bool
 	 * @throws HintException

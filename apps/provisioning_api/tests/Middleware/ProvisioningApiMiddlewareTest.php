@@ -45,13 +45,20 @@ class ProvisioningApiMiddlewareTest extends TestCase {
 
 	public function dataAnnotation() {
 		return [
-			[false, false, false, false],
-			[false, false,  true, false],
-			[false,  true,  true, false],
-			[ true, false, false,  true],
-			[ true, false,  true, false],
-			[ true,  true, false, false],
-			[ true,  true,  true, false],
+			[false, false, false, false, false],
+			[false, false,  true, false, false],
+			[false,  true,  true, false, false],
+			[ true, false, false, false, true],
+			[ true, false,  true, false, false],
+			[ true,  true, false, false, false],
+			[ true,  true,  true, false, false],
+			[false, false, false, true, false],
+			[false, false,  true, true, false],
+			[false,  true,  true, true, false],
+			[ true, false, false, true, false],
+			[ true, false,  true, true, false],
+			[ true,  true, false, true, false],
+			[ true,  true,  true, true, false],
 		];
 	}
 
@@ -63,7 +70,7 @@ class ProvisioningApiMiddlewareTest extends TestCase {
 	 * @param bool $isSubAdmin
 	 * @param bool $shouldThrowException
 	 */
-	public function testBeforeController($subadminRequired, $isAdmin, $isSubAdmin, $shouldThrowException) {
+	public function testBeforeController($subadminRequired, $isAdmin, $isSubAdmin, $hasSettingAuthorizationAnnotation, $shouldThrowException) {
 		$middleware = new ProvisioningApiMiddleware(
 			$this->reflector,
 			$isAdmin,
@@ -71,8 +78,15 @@ class ProvisioningApiMiddlewareTest extends TestCase {
 		);
 
 		$this->reflector->method('hasAnnotation')
-			->with('NoSubAdminRequired')
-			->willReturn(!$subadminRequired);
+			->willReturnCallback(function ($annotation) use ($subadminRequired, $hasSettingAuthorizationAnnotation) {
+				if ($annotation === 'NoSubAdminRequired') {
+					return !$subadminRequired;
+				}
+				if ($annotation === 'AuthorizedAdminSetting') {
+					return $hasSettingAuthorizationAnnotation;
+				}
+				return false;
+			});
 
 		try {
 			$middleware->beforeController(

@@ -96,9 +96,10 @@ class GroupsController extends AUserData {
 	}
 
 	/**
-	 * returns a list of groups details with ids and displaynames
+	 * Returns a list of groups details with ids and displaynames
 	 *
 	 * @NoAdminRequired
+	 * @AuthorizedAdminSetting(settings=OCA\Settings\Settings\Admin\Sharing)
 	 *
 	 * @param string $search
 	 * @param int $limit

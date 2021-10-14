@@ -70,7 +70,8 @@ class ProvisioningApiMiddleware extends Middleware {
 	 * @throws NotSubAdminException
 	 */
 	public function beforeController($controller, $methodName) {
-		if (!$this->isAdmin && !$this->reflector->hasAnnotation('NoSubAdminRequired') && !$this->isSubAdmin) {
+		// If AuthorizedAdminSetting, the check will be done in the SecurityMiddleware
+		if (!$this->isAdmin && !$this->reflector->hasAnnotation('NoSubAdminRequired') && !$this->isSubAdmin && !$this->reflector->hasAnnotation('AuthorizedAdminSetting')) {
 			throw new NotSubAdminException();
 		}
 	}
