@@ -341,7 +341,7 @@ class Sync extends TimedJob {
 		if (isset($argument['logger'])) {
 			$this->logger = $argument['logger'];
 		} else {
-			$this->logger = \OC::$server->getLogger();
+			$this->logger = \OC::$server->get(LoggerInterface::class);
 		}
 
 		if (isset($argument['notificationManager'])) {
