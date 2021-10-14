@@ -44,7 +44,7 @@ class AppFetcher extends Fetcher {
 	private $compareVersion;
 
 	/** @var IRegistry */
-	private $registry;
+	protected $registry;
 
 	/** @var bool */
 	private $ignoreMaxVersion;
@@ -61,7 +61,8 @@ class AppFetcher extends Fetcher {
 			$clientService,
 			$timeFactory,
 			$config,
-			$logger
+			$logger,
+			$registry
 		);
 
 		$this->compareVersion = $compareVersion;

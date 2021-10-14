@@ -51,7 +51,7 @@ class AppFetcherTest extends TestCase {
 	protected $compareVersion;
 	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
 	protected $logger;
-	/** @var IRegistry */
+	/** @var IRegistry|\PHPUnit\Framework\MockObject\MockObject */
 	protected $registry;
 	/** @var AppFetcher */
 	protected $fetcher;
@@ -2067,7 +2067,7 @@ EJL3BaQAQaASSsvFrcozYxrQG4VzEg==
 		$this->assertEquals(self::$expectedResponse['data'], $this->fetcher->get());
 	}
 
-	public function testGetWhitelist() {
+	public function testGetAppsAllowlist() {
 		$this->config->method('getSystemValue')
 			->willReturnCallback(function ($key, $default) {
 				if ($key === 'appstoreenabled') {
@@ -2082,7 +2082,7 @@ EJL3BaQAQaASSsvFrcozYxrQG4VzEg==
 					return $default;
 				}
 			});
-
+		
 		$file = $this->createMock(ISimpleFile::class);
 		$folder = $this->createMock(ISimpleFolder::class);
 		$folder
@@ -2107,6 +2107,7 @@ EJL3BaQAQaASSsvFrcozYxrQG4VzEg==
 			->willReturn($client);
 		$response = $this->createMock(IResponse::class);
 		$client
+			->expects($this->once())
 			->method('get')
 			->with('https://custom.appsstore.endpoint/api/v1/apps.json')
 			->willReturn($response);
@@ -2123,7 +2124,7 @@ EJL3BaQAQaASSsvFrcozYxrQG4VzEg==
 			->willReturn(1234);
 			
 		$this->registry
-			->expects($this->once())
+			->expects($this->exactly(2))
 			->method('delegateHasValidSubscription')
 			->willReturn(true);
 
