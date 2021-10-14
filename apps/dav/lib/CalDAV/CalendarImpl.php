@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright 2017, Georg Ehrke <oc.list@georgehrke.com>
  *
@@ -51,7 +54,7 @@ class CalendarImpl implements ICalendar {
 		$this->calendarInfo = $calendarInfo;
 		$this->backend = $backend;
 	}
-	
+
 	/**
 	 * @return string defining the technical unique key
 	 * @since 13.0.0

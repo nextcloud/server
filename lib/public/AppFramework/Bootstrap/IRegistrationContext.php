@@ -228,4 +228,13 @@ interface IRegistrationContext {
 	 * @since 22.0.0
 	 */
 	public function registerTwoFactorProvider(string $twoFactorProviderClass): void;
+
+	/**
+	 * Register a calendar provider
+	 *
+	 * @param string $class
+	 * @psalm-param class-string<IProvider> $class
+	 * @since 23.0.0
+	 */
+	public function registerCalendarProvider(string $class): void;
 }
