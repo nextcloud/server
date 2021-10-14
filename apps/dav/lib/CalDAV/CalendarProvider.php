@@ -25,6 +25,7 @@ declare(strict_types=1);
  */
 namespace OCA\DAV\CalDAV;
 
+use OCA\dav\lib\CalDAV\SchedulingInbox;
 use OCP\Calendar\ICalendarProvider;
 use OCP\IConfig;
 use OCP\IL10N;
@@ -68,5 +69,11 @@ class CalendarProvider implements ICalendarProvider {
 			);
 		}
 		return $iCalendars;
+	}
+
+	public function getSchedulingInboxes(string $principalUri): array {
+		return [
+			new SchedulingInbox($principalUri)
+		];
 	}
 }
