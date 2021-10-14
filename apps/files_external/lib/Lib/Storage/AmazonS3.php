@@ -50,6 +50,8 @@ use OC\Files\Cache\CacheEntry;
 use OC\Files\ObjectStore\S3ConnectionTrait;
 use OC\Files\ObjectStore\S3ObjectTrait;
 use OCP\Constants;
+use OCP\Files\FileInfo;
+use OCP\Files\IMimeTypeDetector;
 
 class AmazonS3 extends \OC\Files\Storage\Common {
 	use S3ConnectionTrait;
@@ -271,7 +273,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 				'Bucket' => $this->bucket,
 				'Key' => $path . '/',
 				'Body' => '',
-				'ContentType' => 'httpd/unix-directory'
+				'ContentType' => FileInfo::MIMETYPE_FOLDER
 			]);
 			$this->testTimeout();
 		} catch (S3Exception $e) {
@@ -574,11 +576,11 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		return true;
 	}
 
-	public function copy($path1, $path2) {
+	public function copy($path1, $path2, $isFile = null) {
 		$path1 = $this->normalizePath($path1);
 		$path2 = $this->normalizePath($path2);
 
-		if ($this->is_file($path1)) {
+		if ($isFile === true || $this->is_file($path1)) {
 			try {
 				$this->getConnection()->copyObject([
 					'Bucket' => $this->bucket,
@@ -594,28 +596,17 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 			$this->remove($path2);
 
 			try {
-				$this->getConnection()->copyObject([
-					'Bucket' => $this->bucket,
-					'Key' => $path2 . '/',
-					'CopySource' => S3Client::encodeKey($this->bucket . '/' . $path1 . '/')
-				]);
+				$this->mkdir($path2);
 				$this->testTimeout();
 			} catch (S3Exception $e) {
 				\OC::$server->getLogger()->logException($e, ['app' => 'files_external']);
 				return false;
 			}
 
-			$dh = $this->opendir($path1);
-			if (is_resource($dh)) {
-				while (($file = readdir($dh)) !== false) {
-					if (\OC\Files\Filesystem::isIgnoredDir($file)) {
-						continue;
-					}
-
-					$source = $path1 . '/' . $file;
-					$target = $path2 . '/' . $file;
-					$this->copy($source, $target);
-				}
+			foreach ($this->getDirectoryContent($path1) as $item) {
+				$source = $path1 . '/' . $item['name'];
+				$target = $path2 . '/' . $item['name'];
+				$this->copy($source, $target, $item['mimetype'] !== FileInfo::MIMETYPE_FOLDER);
 			}
 		}
 
@@ -744,7 +735,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		} else {
 			return [
 				'name' => basename($path),
-				'mimetype' => 'httpd/unix-directory',
+				'mimetype' => FileInfo::MIMETYPE_FOLDER,
 				'mtime' => time(),
 				'storage_mtime' => time(),
 				'etag' => uniqid(),
