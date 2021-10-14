@@ -5,9 +5,9 @@
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Julien Veyssier <eneiluj@posteo.net>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -18,7 +18,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -29,12 +29,9 @@
 import api from './api'
 import axios from '@nextcloud/axios'
 import { generateOcsUrl } from '@nextcloud/router'
-
 const orderGroups = function(groups, orderBy) {
 	/* const SORT_USERCOUNT = 1;
 	 * const SORT_GROUPNAME = 2;
-	 * https://github.com/nextcloud/server/blob/208e38e84e1a07a49699aa90dc5b7272d24489f0/lib/private/Group/MetaData.php#L34
-	 */
 	if (orderBy === 1) {
 		return groups.sort((a, b) => a.usercount - a.disabled < b.usercount - b.disabled)
 	} else {

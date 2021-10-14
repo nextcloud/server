@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2021 Nextcloud GmbH
  *
  * @author Carl Schwan <carl@carlschwan.eu>
+ * @author Joas Schilling <coding@schilljs.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -20,7 +21,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Settings\Sections\Admin;
 
 use OCP\IL10N;

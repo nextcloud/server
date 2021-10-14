@@ -12,9 +12,11 @@
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Damjan Georgievski <gdamjan@gmail.com>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
+ * @author Daniel Rudolf <github.com@daniel-rudolf.de>
  * @author davidgumberg <davidnoizgumberg@gmail.com>
  * @author Eric Masseran <rico.masseran@gmail.com>
  * @author Florin Peter <github@florin-peter.de>
+ * @author Gary Kim <gary@garykim.dev>
  * @author Greta Doci <gretadoci@gmail.com>
  * @author J0WI <J0WI@users.noreply.github.com>
  * @author Jakob Sack <mail@jakobsack.de>

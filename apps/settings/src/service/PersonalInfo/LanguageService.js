@@ -12,7 +12,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -24,19 +24,10 @@ import axios from '@nextcloud/axios'
 import { getCurrentUser } from '@nextcloud/auth'
 import { generateOcsUrl } from '@nextcloud/router'
 import confirmPassword from '@nextcloud/password-confirmation'
-
 import { SETTING_PROPERTY_ENUM } from '../../constants/AccountPropertyConstants'
-
-/**
- * Save the language of the user
- *
- * @param {string} languageCode the language code
- * @returns {object}
- */
 export const saveLanguage = async(languageCode) => {
 	const userId = getCurrentUser().uid
 	const url = generateOcsUrl('cloud/users/{userId}', { userId })
-
 	await confirmPassword()
 
 	const res = await axios.put(url, {

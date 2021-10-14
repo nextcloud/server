@@ -12,7 +12,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -23,17 +23,7 @@
 import { parseXML, prepareFileFromProps } from 'webdav/dist/node/tools/dav'
 import { processResponsePayload } from 'webdav/dist/node/response'
 import client from './DavClient'
-
 export const DEFAULT_LIMIT = 20
-/**
- * Retrieve the comments list
- *
- * @param {Object} data destructuring object
- * @param {string} data.commentsType the ressource type
- * @param {number} data.ressourceId the ressource ID
- * @param {Object} [options] optional options for axios
- * @returns {Object[]} the comments list
- */
 export default async function({ commentsType, ressourceId }, options = {}) {
 	let response = null
 	const ressourcePath = ['', commentsType, ressourceId].join('/')

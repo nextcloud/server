@@ -13,7 +13,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -26,9 +26,7 @@ import Vuex from 'vuex'
 import PopoverMenu from '@nextcloud/vue/dist/Components/PopoverMenu'
 import Tooltip from '@nextcloud/vue/dist/Directives/Tooltip'
 import ClickOutside from 'vue-click-outside'
-
 import View from './views/CollaborationView'
-
 Vue.prototype.t = t
 Tooltip.options.defaultHtml = false
 

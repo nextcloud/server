@@ -4,6 +4,7 @@
  *
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Gary Kim <gary@garykim.dev>
  * @author Morris Jobke <hey@morrisjobke.de>
  *
  * @license AGPL-3.0

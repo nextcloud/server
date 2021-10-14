@@ -13,7 +13,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -24,7 +24,6 @@
 import { stringValidator, validateIPv4, validateIPv6 } from '../../helpers/validators'
 import FileMimeType from './FileMimeType'
 import FileSystemTag from './FileSystemTag'
-
 const stringOrRegexOperators = () => {
 	return [
 		{ operator: 'matches', name: t('workflowengine', 'matches') },

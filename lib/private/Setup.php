@@ -5,14 +5,14 @@
  * @author Administrator "Administrator@WINDOWS-2012"
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bart Visscher <bartv@thisnet.nl>
+ * @author Bernard Spil <Sp1l@users.noreply.github.com>
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
- * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Brice Maron <brice@bmaron.net>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Dan Callahan <dan.callahan@gmail.com>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author François Kubler <francois@kubler.org>
- * @author Frank Isemann <frank@isemann.name>
+ * @author Gary Kim <gary@garykim.dev>
  * @author Jakob Sack <mail@jakobsack.de>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Julius Härtl <jus@bitgrid.net>

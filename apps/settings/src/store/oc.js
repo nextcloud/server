@@ -13,7 +13,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -23,21 +23,10 @@
 
 import api from './api'
 import { generateOcsUrl } from '@nextcloud/router'
-
 const state = {}
 const mutations = {}
 const getters = {}
 const actions = {
-	/**
-     * Set application config in database
-     *
-	 * @param {Object} context store context
-     * @param {Object} options destructuring object
-	 * @param {string} options.app Application name
-	 * @param {boolean} options.key Config key
-	 * @param {boolean} options.value Value to set
-	 * @returns{Promise}
-	 */
 	setAppConfig(context, { app, key, value }) {
 		return api.requireAdmin().then((response) => {
 			return api.post(generateOcsUrl('apps/provisioning_api/api/v1/config/apps/{app}/{key}', { app, key }), { value })

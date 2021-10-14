@@ -2,11 +2,13 @@
 /**
  * @copyright Copyright (c) 2017 Robin Appelman <robin@icewind.nl>
  *
+ * @author Bernd Rederlechner <Bernd.Rederlechner@t-systems.com>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Florent <florent@coppint.com>
- * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Maxime Besson <maxime.besson@worteks.com>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Samuel <faust64@gmail.com>
  *
  * @license GNU AGPL version 3 or any later version
  *

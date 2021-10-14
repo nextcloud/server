@@ -2,10 +2,9 @@
 /**
  * @copyright 2017, Georg Ehrke <oc.list@georgehrke.com>
  *
+ * @author François Freitag <mail@franek.fr>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Julius Härtl <jus@bitgrid.net>
- * @author Thomas Citharel <nextcloud@tcit.fr>
- * @author François Freitag <mail@franek.fr>
  *
  * @license GNU AGPL version 3 or any later version
  *

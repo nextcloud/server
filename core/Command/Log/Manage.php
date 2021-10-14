@@ -5,6 +5,7 @@
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Johannes Ernst <jernst@indiecomputing.com>
+ * @author Louis Chemineau <louis@chmn.me>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Tim Terhorst <mynamewastaken+gitlab@gmail.com>

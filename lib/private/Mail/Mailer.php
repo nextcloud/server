@@ -9,6 +9,7 @@ declare(strict_types=1);
  * @author Branko Kokanovic <branko@kokanovic.org>
  * @author Carsten Wiedmann <carsten_sttgt@gmx.de>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Jared Boone <jared.boone@gmail.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Julius Härtl <jus@bitgrid.net>

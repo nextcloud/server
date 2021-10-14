@@ -13,7 +13,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -22,14 +22,6 @@
  */
 
 import $ from 'jquery'
-
-/**
- * Filter jQuery selector by attribute value
- *
- * @param {string} attrName attribute name
- * @param {string} attrValue attribute value
- * @returns {Void}
- */
 $.fn.filterAttr = function(attrName, attrValue) {
 	return this.filter(function() {
 		return $(this).attr(attrName) === attrValue

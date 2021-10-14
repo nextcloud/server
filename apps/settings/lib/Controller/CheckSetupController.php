@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Bjoern Schiessle <bjoern@schiessle.org>
+ * @author Carl Schwan <carl@carlschwan.eu>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Cthulhux <git@tuxproject.de>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
@@ -20,6 +21,7 @@
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Stefan <Stefan.Schilling@EXXETA.com>
  * @author Sven Strickroth <email@cs-ware.de>
  * @author Sylvia van Os <sylvia@hackerchick.me>
  * @author timm2k <timm2k@gmx.de>

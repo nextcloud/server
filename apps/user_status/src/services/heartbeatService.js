@@ -2,6 +2,8 @@
  * @copyright Copyright (c) 2020 Georg Ehrke
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -12,7 +14,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -22,13 +24,6 @@
 
 import HttpClient from '@nextcloud/axios'
 import { generateUrl } from '@nextcloud/router'
-
-/**
- * Sends a heartbeat
- *
- * @param {Boolean} isAway Whether or not the user is active
- * @returns {Promise<void>}
- */
 const sendHeartbeat = async(isAway) => {
 	const url = generateUrl('/apps/user_status/heartbeat')
 	const response = await HttpClient.put(url, {

@@ -8,7 +8,6 @@
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Olivier Paroz <github@oparoz.com>
  * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Tanghus <thomas@tanghus.net>
  *
  * @license AGPL-3.0

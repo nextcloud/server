@@ -4,7 +4,6 @@
  *
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Roger Szabo <roger.szabo@web.de>
  * @author root <root@localhost.localdomain>
  *
  * @license GNU AGPL version 3 or any later version

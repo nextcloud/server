@@ -12,7 +12,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -22,7 +22,6 @@
 
 import { generateOcsUrl } from '@nextcloud/router'
 import axios from '@nextcloud/axios'
-
 export const getTemplates = async function() {
 	const response = await axios.get(generateOcsUrl('apps/files/api/v1/templates'))
 	return response.data.ocs.data

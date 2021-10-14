@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2020, Lukas Stabe (lukas@stabe.de)
  *
  * @author Lukas Stabe <lukas@stabe.de>
+ * @author Pauli Järvinen <pauli.jarvinen@gmail.com>
  * @author Robin Appelman <robin@icewind.nl>
  *
  * @license GNU AGPL version 3 or any later version

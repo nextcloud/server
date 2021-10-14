@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @copyright Copyright (c) 2019 Robin Appelman <robin@icewind.nl>
  *
  * @author Robin Appelman <robin@icewind.nl>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *

@@ -16,7 +16,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -30,7 +30,6 @@ import axios from '@nextcloud/axios'
 import { getApiUrl } from './helpers/api'
 import confirmPassword from '@nextcloud/password-confirmation'
 import { loadState } from '@nextcloud/initial-state'
-
 Vue.use(Vuex)
 
 const store = new Vuex.Store({

@@ -7,6 +7,7 @@ declare(strict_types=1);
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author kesselb <mail@danielkesselberg.de>
  *
  * @license GNU AGPL version 3 or any later version
  *

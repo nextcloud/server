@@ -12,15 +12,16 @@
  * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Ko- <k.stoffelen@cs.ru.nl>
+ * @author Louis Chemineau <louis@chmn.me>
  * @author Michael Kuhn <michael@ikkoku.de>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Oliver Kohl D.Sc. <oliver@kohl.bz>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author smichel17 <git@smichel.me>
  * @author Steffen Lindner <mail@steffen-lindner.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <vincent@nextcloud.com>
- * @author Stephen Michel <git@smichel.me>
  *
  * @license AGPL-3.0
  *

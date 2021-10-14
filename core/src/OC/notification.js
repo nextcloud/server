@@ -17,7 +17,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -28,12 +28,6 @@
 import _ from 'underscore'
 import $ from 'jquery'
 import { showMessage, TOAST_DEFAULT_TIMEOUT, TOAST_PERMANENT_TIMEOUT } from '@nextcloud/dialogs'
-
-/**
- * @todo Write documentation
- * @deprecated 17.0.0 use the `@nextcloud/dialogs` package instead
- * @namespace OC.Notification
- */
 export default {
 
 	updatableNotification: null,

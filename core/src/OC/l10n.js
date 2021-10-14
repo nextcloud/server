@@ -2,6 +2,7 @@
  * Copyright (c) 2014 Vincent Petry <pvince81@owncloud.com>
 		 * Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
 		 * Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+		 * Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
@@ -20,7 +21,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -35,7 +36,6 @@ import Handlebars from 'handlebars'
 import identity from 'lodash/fp/identity'
 import escapeHTML from 'escape-html'
 import { generateFilePath } from '@nextcloud/router'
-
 import OC from './index'
 import {
 	getAppTranslations,

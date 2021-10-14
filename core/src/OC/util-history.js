@@ -13,7 +13,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -23,14 +23,6 @@
 
 import _ from 'underscore'
 import OC from './index'
-
-/**
- * Utility class for the history API,
- * includes fallback to using the URL hash when
- * the browser doesn't support the history API.
- *
- * @namespace OC.Util.History
- */
 export default {
 
 	_handlers: [],

@@ -14,7 +14,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -23,14 +23,6 @@
  */
 
 import { getCapabilities as realGetCapabilities } from '@nextcloud/capabilities'
-
-/**
- * Returns the capabilities
- *
- * @returns {Array} capabilities
- *
- * @since 14.0
- */
 export const getCapabilities = () => {
 	console.warn('OC.getCapabilities is deprecated and will be removed in Nextcloud 21. See @nextcloud/capabilities')
 	return realGetCapabilities()

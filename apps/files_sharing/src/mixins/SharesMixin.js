@@ -17,7 +17,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -27,13 +27,11 @@
 
 import PQueue from 'p-queue/dist/index'
 import debounce from 'debounce'
-
 import Share from '../models/Share'
 import SharesRequests from './ShareRequests'
 import ShareTypes from './ShareTypes'
 import Config from '../services/ConfigService'
 import { getCurrentUser } from '@nextcloud/auth'
-
 export default {
 	mixins: [SharesRequests, ShareTypes],
 

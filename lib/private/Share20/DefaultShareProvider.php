@@ -9,6 +9,7 @@
  * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
  * @author Jan-Philipp Litza <jplitza@users.noreply.github.com>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Maxence Lange <maxence@artificial-owl.com>

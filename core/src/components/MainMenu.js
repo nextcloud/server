@@ -14,7 +14,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -23,16 +23,8 @@
  */
 
 import $ from 'jquery'
-
 import OC from '../OC'
-
-/**
- * Set up the main menu toggle to react to media query changes.
- * If the screen is small enough, the main menu becomes a toggle.
- * If the screen is bigger, the main menu is not a toggle any more.
- */
 export const setUp = () => {
-
 	Object.assign(OC, {
 		setNavigationCounter(id, counter) {
 			const appmenuElement = document.getElementById('appmenu').querySelector('[data-id="' + id + '"] svg')

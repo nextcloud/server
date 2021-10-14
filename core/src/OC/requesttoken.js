@@ -13,7 +13,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -22,13 +22,6 @@
  */
 
 import { emit } from '@nextcloud/event-bus'
-
-/**
- * @private
- * @param {Document} global the document to read the initial value from
- * @param {Function} emit the function to invoke for every new token
- * @returns {Object}
- */
 export const manageToken = (global, emit) => {
 	let token = global.getElementsByTagName('head')[0].getAttribute('data-requesttoken')
 

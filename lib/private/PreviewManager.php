@@ -10,8 +10,8 @@
  * @author Olivier Paroz <github@oparoz.com>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Sebastian Steinmetz <462714+steiny2k@users.noreply.github.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Tobias Kaminsky <tobias@kaminsky.me>
  *
  * @license AGPL-3.0
  *

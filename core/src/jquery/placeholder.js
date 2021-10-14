@@ -16,7 +16,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -27,45 +27,6 @@
 /* eslint-disable */
 import $ from 'jquery'
 import md5 from 'blueimp-md5'
-
-/*
- * Adds a background color to the element called on and adds the first character
- * of the passed in string. This string is also the seed for the generation of
- * the background color.
- *
- * You have following HTML:
- *
- * <div id="albumart"></div>
- *
- * And call this from Javascript:
- *
- * $('#albumart').imageplaceholder('The Album Title');
- *
- * Which will result in:
- *
- * <div id="albumart" style="background-color: rgb(121, 90, 171); ... ">T</div>
- *
- * You may also call it like this, to have a different background, than the seed:
- *
- * $('#albumart').imageplaceholder('The Album Title', 'Album Title');
- *
- * Resulting in:
- *
- * <div id="albumart" style="background-color: rgb(121, 90, 171); ... ">A</div>
- *
- */
-
-/*
-* Alternatively, you can use the prototype function to convert your string to rgb colors:
-*
-* "a6741a86aded5611a8e46ce16f2ad646".toRgb()
-*
-* Will return the rgb parameters within the following object:
-*
-* Color {r: 208, g: 158, b: 109}
-*
-*/
-
 const toRgb = (s) => {
 	// Normalize hash
 	var hash = s.toLowerCase()

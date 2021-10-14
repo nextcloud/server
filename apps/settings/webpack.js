@@ -1,8 +1,9 @@
 /**
  * @copyright Copyright (c) 2016 John Molakvoæ <skjnldsv@protonmail.com>
  *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Carl Schwan <carl@carlschwan.eu>
  * @author Christopher Ng <chrng8@gmail.com>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Jan C. Borchardt <hey@jancborchardt.net>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -16,7 +17,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -25,7 +26,6 @@
  */
 
 const path = require('path')
-
 // TODO use @nextcloud/webpack-vue-config
 module.exports = {
 	module: {

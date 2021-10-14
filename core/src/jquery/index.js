@@ -14,7 +14,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -23,7 +23,6 @@
  */
 
 import $ from 'jquery'
-
 import './avatar'
 import './contactsmenu'
 import './exists'
@@ -35,19 +34,8 @@ import './requesttoken'
 import './selectrange'
 import './showpassword'
 import './ui-fixes'
-
 import './css/jquery-ui-fixes.scss'
 import './css/jquery.ocdialog.scss'
-
-/**
- * Disable automatic evaluation of responses for $.ajax() functions (and its
- * higher-level alternatives like $.get() and $.post()).
- *
- * If a response to a $.ajax() request returns a content type of "application/javascript"
- * JQuery would previously execute the response body. This is a pretty unexpected
- * behaviour and can result in a bypass of our Content-Security-Policy as well as
- * multiple unexpected XSS vectors.
- */
 $.ajaxSetup({
 	contents: {
 		script: false,

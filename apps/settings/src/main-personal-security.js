@@ -13,7 +13,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -25,9 +25,7 @@ import { loadState } from '@nextcloud/initial-state'
 import Vue from 'vue'
 import VueClipboard from 'vue-clipboard2'
 import VTooltip from 'v-tooltip'
-
 import AuthTokenSection from './components/AuthTokenSection'
-
 // eslint-disable-next-line camelcase
 __webpack_nonce__ = btoa(OC.requestToken)
 

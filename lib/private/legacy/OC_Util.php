@@ -13,10 +13,12 @@
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Clark Tomlinson <fallen013@gmail.com>
  * @author cmeh <cmeh@users.noreply.github.com>
+ * @author Daniel Rudolf <github.com@daniel-rudolf.de>
  * @author Eric Masseran <rico.masseran@gmail.com>
  * @author Felix Epp <work@felixepp.de>
  * @author Florin Peter <github@florin-peter.de>
  * @author Frank Karlitschek <frank@karlitschek.de>
+ * @author Gary Kim <gary@garykim.dev>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author helix84 <helix84@centrum.sk>
  * @author Ilja Neumann <ineumann@owncloud.com>
@@ -30,7 +32,6 @@
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Markus Goetz <markus@woboq.com>
  * @author Martin Mattel <martin.mattel@diemattels.at>
- * @author Marvin Thomas Rabe <mrabe@marvinrabe.de>
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author rakekniven <mark.ziegler@rakekniven.de>
@@ -63,7 +64,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 use bantu\IniGetWrapper\IniGetWrapper;
 use OC\AppFramework\Http\Request;
 use OC\Files\Storage\LocalRootStorage;

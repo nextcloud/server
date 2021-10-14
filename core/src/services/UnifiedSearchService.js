@@ -15,7 +15,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -26,23 +26,11 @@
 import { generateOcsUrl } from '@nextcloud/router'
 import { loadState } from '@nextcloud/initial-state'
 import axios from '@nextcloud/axios'
-
 export const defaultLimit = loadState('unified-search', 'limit-default')
 export const minSearchLength = 2
 export const regexFilterIn = /[^-]in:([a-z_-]+)/ig
 export const regexFilterNot = /-in:([a-z_-]+)/ig
-
-/**
- * Create a cancel token
- * @returns {CancelTokenSource}
- */
 const createCancelToken = () => axios.CancelToken.source()
-
-/**
- * Get the list of available search providers
- *
- * @returns {Array}
- */
 export async function getTypes() {
 	try {
 		const { data } = await axios.get(generateOcsUrl('search/providers'), {

@@ -16,6 +16,7 @@
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Loïc Hermann <loic.hermann@sciam.fr>
+ * @author MichaIng <micha@dietpi.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Olivier Paroz <github@oparoz.com>
  * @author Robin Appelman <robin@icewind.nl>
@@ -35,7 +36,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -46,13 +47,8 @@
 /* eslint-disable */
 import _ from 'underscore'
 import $ from 'jquery'
-
 import OC from './index'
 import OCA from '../OCA/index'
-
-/**
- * this class to ease the usage of jquery dialogs
- */
 const Dialogs = {
 	// dialog button types
 	YES_NO_BUTTONS: 70,

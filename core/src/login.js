@@ -3,8 +3,6 @@
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -15,7 +13,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -24,12 +22,10 @@
  */
 
 import Vue from 'vue'
-
 // eslint-disable-next-line no-unused-vars
 import OC from './OC/index' // TODO: Not needed but L10n breaks if removed
 import LoginView from './views/Login.vue'
 import Nextcloud from './mixins/Nextcloud'
-
 Vue.mixin(Nextcloud)
 
 const View = Vue.extend(LoginView)

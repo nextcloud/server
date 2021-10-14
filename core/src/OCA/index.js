@@ -12,7 +12,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -21,11 +21,6 @@
  */
 
 import Search from './search'
-
-/**
- * Namespace for apps
- * @namespace OCA
- */
 export default {
 	/**
 	 * @deprecated 20.0.0, will be removed in Nextcloud 22

@@ -4,6 +4,7 @@
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author Mikael Saarinen <mikaels@iki.fi>
  *
  * @license GNU AGPL version 3 or any later version
  *

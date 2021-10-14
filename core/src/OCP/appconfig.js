@@ -13,7 +13,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -23,18 +23,7 @@
 
 import $ from 'jquery'
 import { generateOcsUrl } from '@nextcloud/router'
-
 import OC from '../OC/index'
-
-/**
- * @param {string} method 'post' or 'delete'
- * @param {string} endpoint endpoint
- * @param {Object} [options] destructuring object
- * @param {Object} [options.data] option data
- * @param {function} [options.success] success callback
- * @param {function} [options.error] error callback
- * @internal
- */
 function call(method, endpoint, options) {
 	if ((method === 'post' || method === 'delete') && OC.PasswordConfirmation.requiresPasswordConfirmation()) {
 		OC.PasswordConfirmation.requirePasswordConfirmation(_.bind(call, this, method, endpoint, options))

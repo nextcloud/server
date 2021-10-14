@@ -10,6 +10,8 @@
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author exner104 <59639860+exner104@users.noreply.github.com>
  * @author Frederic Werner <frederic-github@werner-net.work>
+ * @author Gary Kim <gary@garykim.dev>
+ * @author J0WI <J0WI@users.noreply.github.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Lukas Reschke <lukas@statuscode.ch>

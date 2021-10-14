@@ -13,7 +13,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -22,13 +22,6 @@
  */
 
 import $ from 'jquery'
-
-/**
- * check if an element exists.
- * allows you to write if ($('#myid').exists()) to increase readability
- * @link http://stackoverflow.com/questions/31044/is-there-an-exists-function-for-jquery
- * @returns {boolean}
- */
 $.fn.exists = function() {
 	return this.length > 0
 }

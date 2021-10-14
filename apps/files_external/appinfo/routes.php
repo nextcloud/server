@@ -4,10 +4,8 @@
  *
  * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Ross Nicoll <jrn@jrn.me.uk>
  * @author Vincent Petry <vincent@nextcloud.com>
  *
@@ -26,8 +24,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
-
 $this->create('files_external_oauth1', 'apps/files_external/ajax/oauth1.php')
 	->actionInclude('files_external/ajax/oauth1.php');
 $this->create('files_external_oauth2', 'apps/files_external/ajax/oauth2.php')

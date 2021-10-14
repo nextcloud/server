@@ -4,8 +4,10 @@
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Cornelius Kölbel <cornelius.koelbel@netknights.it>
+ * @author Daniel Rudolf <github.com@daniel-rudolf.de>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author pjft <pjft@users.noreply.github.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0

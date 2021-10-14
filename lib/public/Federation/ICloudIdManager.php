@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @copyright Copyright (c) 2017, Robin Appelman <robin@icewind.nl>
  *
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *

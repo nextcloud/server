@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @copyright Copyright (C) 2012 entreCables S.L. All rights reserved.
  * @copyright Copyright (C) 2012 entreCables S.L. All rights reserved.
+ * @copyright Copyright (C) 2012 entreCables S.L. All rights reserved.
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Felix Moeller <mail@felixmoeller.de>

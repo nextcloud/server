@@ -4,6 +4,7 @@
  * @copyright Copyright (c) 2018 Georg Ehrke
  * @copyright Copyright (c) 2020, leith abdulla (<online-nextcloud@eleith.com>)
  *
+ * @author Anna Larch <anna@nextcloud.com>
  * @author Chih-Hsuan Yen <yan12125@gmail.com>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author dartcafe <github@dartcafe.de>
@@ -13,6 +14,7 @@
  * @author leith abdulla <online-nextcloud@eleith.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Richard Steinmetz <richard@steinmetz.cloud>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Simon Spannagel <simonspa@kth.se>

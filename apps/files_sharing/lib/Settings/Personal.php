@@ -5,9 +5,9 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2019, Roeland Jago Douma <roeland@famdouma.nl>
  *
+ * @author Hinrich Mahler <22366557+Bibo-Joshi@users.noreply.github.com>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Hinrich Mahler <nextcloud@mahlerhome.de>
  *
  * @license GNU AGPL version 3 or any later version
  *

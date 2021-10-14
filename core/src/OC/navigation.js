@@ -13,7 +13,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -22,9 +22,4 @@
  */
 
 export const redirect = targetURL => { window.location = targetURL }
-
-/**
- * Reloads the current page
- * @deprecated 17.0.0 use window.location.reload directly
- */
 export const reload = () => { window.location.reload() }

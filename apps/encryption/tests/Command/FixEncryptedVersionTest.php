@@ -1,8 +1,9 @@
 <?php
 /**
- * @author Sujith Haridasan <sharidasan@owncloud.com>
- *
  * @copyright Copyright (c) 2019, ownCloud GmbH
+ *
+ * @author Vincent Petry <vincent@nextcloud.com>
+ *
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -15,10 +16,9 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Encryption\Tests\Command;
 
 use OC\Files\View;

@@ -5,8 +5,8 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2019 Joas Schilling <coding@schilljs.com>
  *
+ * @author Daniel Rudolf <github.com@daniel-rudolf.de>
  * @author Joas Schilling <coding@schilljs.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *

@@ -14,7 +14,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -26,7 +26,6 @@ import Vue from 'vue'
 import Settings from './services/Settings'
 import SettingsView from './views/Settings'
 import Setting from './models/Setting'
-
 Vue.prototype.t = t
 
 // Init Files App Settings Service

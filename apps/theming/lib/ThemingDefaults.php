@@ -8,6 +8,7 @@
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Guillaume COMPAGNON <gcompagnon@outlook.com>
+ * @author HouraisanNEET <HouraisanNEET@users.noreply.github.com>
  * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
  * @author Joachim Bauch <bauch@struktur.de>
  * @author Joas Schilling <coding@schilljs.com>
@@ -21,6 +22,7 @@
  * @author Patrik Kernstock <info@pkern.at>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author szaimen <szaimen@e.mail.de>
  *
  * @license GNU AGPL version 3 or any later version
  *

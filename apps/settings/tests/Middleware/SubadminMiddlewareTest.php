@@ -2,6 +2,7 @@
 /**
  * @copyright 2014 Lukas Reschke lukas@owncloud.com
  *
+ * @author Carl Schwan <carl@carlschwan.eu>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>

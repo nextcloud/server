@@ -11,9 +11,11 @@ declare(strict_types=1);
  * @author Daniel Rudolf <github.com@daniel-rudolf.de>
  * @author Felix Epp <work@felixepp.de>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Jonas Meurer <jonas@freesources.org>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Julius Haertl <jus@bitgrid.net>
  * @author Julius Härtl <jus@bitgrid.net>
+ * @author Louis Chemineau <louis@chmn.me>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author mmccarn <mmccarn-github@mmsionline.us>
  * @author Morris Jobke <hey@morrisjobke.de>

@@ -12,7 +12,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -25,9 +25,7 @@ import { getLoggerBuilder } from '@nextcloud/logger'
 import { getRequestToken } from '@nextcloud/auth'
 import { translate as t, translatePlural as n } from '@nextcloud/l10n'
 import Vue from 'vue'
-
 import UnifiedSearch from './views/UnifiedSearch.vue'
-
 // eslint-disable-next-line camelcase
 __webpack_nonce__ = btoa(getRequestToken())
 

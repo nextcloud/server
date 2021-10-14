@@ -4,12 +4,12 @@
  *
  * @author Björn Schießle <bjoern@schiessle.org>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Hinrich Mahler <22366557+Bibo-Joshi@users.noreply.github.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Maxence Lange <maxence@artificial-owl.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Hinrich Mahler <nextcloud@mahlerhome.de>
  *
  * @license AGPL-3.0
  *

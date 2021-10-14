@@ -12,7 +12,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -21,31 +21,9 @@
  */
 
 import axios from '@nextcloud/axios'
-
-/**
- * Create a cancel token
- * @returns {CancelTokenSource}
- */
 const createCancelToken = () => axios.CancelToken.source()
-
-/**
- * Creates a cancelable axios 'request object'.
- *
- * @param {function} request the axios promise request
- * @returns {Object}
- */
 const cancelableRequest = function(request) {
-	/**
-	 * Generate an axios cancel token
-	 */
 	const cancelToken = createCancelToken()
-
-	/**
-	 * Execute the request
-	 *
-	 * @param {string} url the url to send the request to
-	 * @param {Object} [options] optional config for the request
-	 */
 	const fetch = async function(url, options) {
 		return request(
 			url,

@@ -1,6 +1,7 @@
 /**
  * @copyright Copyright (c) 2020, Julien Veyssier
  *
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Julien Veyssier <eneiluj@posteo.net>
  *
  * @license GNU AGPL version 3 or any later version
@@ -12,7 +13,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -22,14 +23,6 @@
 
 import HttpClient from '@nextcloud/axios'
 import { generateOcsUrl } from '@nextcloud/router'
-
-/**
- *
- *
- * @param {String} lat the latitude
- * @param {String} lon the longitude
- * @returns {Promise<Object>}
- */
 const setLocation = async(lat, lon) => {
 	const url = generateOcsUrl('apps/weather_status/api/v1/location')
 	const response = await HttpClient.put(url, {

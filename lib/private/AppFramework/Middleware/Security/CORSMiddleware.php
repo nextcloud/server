@@ -6,7 +6,6 @@
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author korelstar <korelstar@users.noreply.github.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
  * @author Stefan Weil <sw@weilnetz.de>
  *
  * @license AGPL-3.0

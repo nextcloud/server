@@ -7,6 +7,7 @@ declare(strict_types=1);
  *
  * @author Andreas Fischer <bantu@owncloud.com>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author lynn-stephenson <lynn.stephenson@protonmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>

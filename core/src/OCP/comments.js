@@ -13,7 +13,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -22,18 +22,7 @@
  */
 
 import $ from 'jquery'
-
-/*
- * Detects links:
- * Either the http(s) protocol is given or two strings, basically limited to ascii with the last
- * 	word being at least one digit long,
- * followed by at least another character
- *
- * The downside: anything not ascii is excluded. Not sure how common it is in areas using different
- * alphabets… the upside: fake domains with similar looking characters won't be formatted as links
- */
 const urlRegex = /(\s|^)(https?:\/\/)?((?:[-A-Z0-9+_]+\.)+[-A-Z]+(?:\/[-A-Z0-9+&@#%?=~_|!:,.;()]*)*)(\s|$)/ig
-
 export function plainToRich(content) {
 	return this.formatLinksRich(content)
 }

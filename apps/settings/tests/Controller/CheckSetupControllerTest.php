@@ -14,6 +14,7 @@
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Stefan <Stefan.Schilling@EXXETA.com>
  * @author Sylvia van Os <sylvia@hackerchick.me>
  * @author Timo Förster <tfoerster@webfoersterei.de>
  *

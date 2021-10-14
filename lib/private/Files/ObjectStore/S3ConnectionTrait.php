@@ -3,12 +3,15 @@
  * @copyright Copyright (c) 2016 Robin Appelman <robin@icewind.nl>
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Bernd Rederlechner <Bernd.Rederlechner@t-systems.com>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Florent <florent@coppint.com>
  * @author James Letendre <James.Letendre@gmail.com>
+ * @author Maxime Besson <maxime.besson@worteks.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Samuel <faust64@gmail.com>
  * @author S. Cat <33800996+sparrowjack63@users.noreply.github.com>
  * @author Stephen Cuppett <steve@cuppett.com>
  *

@@ -12,7 +12,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -22,17 +22,8 @@
 
 import axios from '@nextcloud/axios'
 import Config from '../services/ConfigService'
-
 const config = new Config()
 const passwordSet = 'abcdefgijkmnopqrstwxyzABCDEFGHJKLMNPQRSTWXYZ23456789'
-
-/**
- * Generate a valid policy password or
- * request a valid password if password_policy
- * is enabled
- *
- * @returns {string} a valid password
- */
 export default async function() {
 	// password policy is enabled, let's request a pass
 	if (config.passwordPolicy.api && config.passwordPolicy.api.generate) {

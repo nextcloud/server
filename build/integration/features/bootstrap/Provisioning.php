@@ -2,8 +2,10 @@
 /**
  * @copyright Copyright (c) 2016 Sergio Bertolin <sbertolin@solidgear.es>
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
+ * @author Dries Mys <dries.mys@my-dreams.be>
  * @author Joas Schilling <coding@schilljs.com>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>

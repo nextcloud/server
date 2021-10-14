@@ -14,7 +14,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -24,11 +24,8 @@
 
 import './share'
 import './sharebreadcrumbview'
-
 import './style/sharebreadcrumb.scss'
-
 import './collaborationresourceshandler.js'
-
 // eslint-disable-next-line camelcase
 __webpack_public_path__ = OC.linkTo('files_sharing', 'js/dist/')
 // eslint-disable-next-line camelcase

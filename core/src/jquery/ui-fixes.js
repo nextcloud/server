@@ -13,7 +13,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -22,7 +22,6 @@
  */
 
 import $ from 'jquery'
-
 // Set autocomplete width the same as the related input
 // See http://stackoverflow.com/a/11845718
 $.ui.autocomplete.prototype._resizeMenu = function() {

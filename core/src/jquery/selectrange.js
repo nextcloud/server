@@ -13,7 +13,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -22,14 +22,6 @@
  */
 
 import $ from 'jquery'
-
-/**
- * select a range in an input field
- * @link http://stackoverflow.com/questions/499126/jquery-set-cursor-position-in-text-area
- * @param {int} start start selection from
- * @param {int} end number of char from start
- * @returns {Void}
- */
 $.fn.selectRange = function(start, end) {
 	return this.each(function() {
 		if (this.setSelectionRange) {

@@ -1,11 +1,15 @@
 <?php
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
+		$this->defaultEntity = 'Nextcloud'; /* e.g. company name, used for footers and copyright notices */
+	 * Returns entity (e.g. company name) - used for footer, copyright
  *
  * @author Björn Schießle <bjoern@schiessle.org>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
+ * @author HouraisanNEET <HouraisanNEET@users.noreply.github.com>
  * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Julius Haertl <jus@bitgrid.net>
  * @author Julius Härtl <jus@bitgrid.net>
@@ -36,7 +40,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 class OC_Defaults {
 	private $theme;
 

@@ -5,6 +5,7 @@
  * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author nacho <nacho@ownyourbits.com>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
@@ -16,7 +17,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -29,14 +30,12 @@ import _ from 'underscore'
 import $ from 'jquery'
 import moment from 'moment'
 import cssVars from 'css-vars-ponyfill'
-
 import { initSessionHeartBeat } from './session-heartbeat'
 import OC from './OC/index'
 import { setUp as setUpContactsMenu } from './components/ContactsMenu'
 import { setUp as setUpMainMenu } from './components/MainMenu'
 import { setUp as setUpUserMenu } from './components/UserMenu'
 import PasswordConfirmation from './OC/password-confirmation'
-
 // keep in sync with core/css/variables.scss
 const breakpointMobileWidth = 1024
 

@@ -14,7 +14,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -24,19 +24,8 @@
 
 import $ from 'jquery'
 import { generateFilePath } from '@nextcloud/router'
-
 const loadedScripts = {}
 const loadedStyles = []
-
-/**
- * Load a script for the server and load it. If the script is already loaded,
- * the event handler will be called directly
- * @param {string} app the app id to which the script belongs
- * @param {string} script the filename of the script
- * @param {Function} ready event handler to be called when the script is loaded
- * @returns {jQuery.Deferred}
- * @deprecated 16.0.0 Use OCP.Loader.loadScript
- */
 export const addScript = (app, script, ready) => {
 	console.warn('OC.addScript is deprecated, use OCP.Loader.loadScript instead')
 

@@ -9,6 +9,7 @@ declare(strict_types=1);
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Flávio Gomes da Silva Lisboa <flavio.lisboa@serpro.gov.br>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Martin <github@diemattels.at>
  * @author Robin Appelman <robin@icewind.nl>

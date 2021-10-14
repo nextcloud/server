@@ -2,11 +2,7 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Bart Visscher <bartv@thisnet.nl>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Michael Gapczynski <GapczynskiM@gmail.com>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Gary Kim <gary@garykim.dev>
  *
  * @license AGPL-3.0
  *

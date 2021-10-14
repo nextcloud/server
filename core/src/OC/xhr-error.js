@@ -13,7 +13,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -23,17 +23,8 @@
 
 import _ from 'underscore'
 import $ from 'jquery'
-
 import OC from './index'
 import Notification from './notification'
-
-/**
- * Warn users that the connection to the server was lost temporarily
- *
- * This function is throttled to prevent stacked notfications.
- * After 7sec the first notification is gone, then we can show another one
- * if necessary.
- */
 export const ajaxConnectionLostHandler = _.throttle(() => {
 	Notification.showTemporary(t('core', 'Connection to server lost'))
 }, 7 * 1000, { trailing: false })

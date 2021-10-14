@@ -12,7 +12,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -20,20 +20,7 @@
  *
  */
 
-/*
- * Frontend validators, less strict than backend validators
- *
- * TODO add nice validation errors for Profile page settings modal
- */
-
 import { VALIDATE_EMAIL_REGEX } from '../constants/AccountPropertyConstants'
-
-/**
- * Validate the display name input
- *
- * @param {string} input the input
- * @returns {boolean}
- */
 export function validateDisplayName(input) {
 	return input !== ''
 }

@@ -13,7 +13,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -22,21 +22,6 @@
  */
 
 import $ from 'jquery'
-
-/*
-*	@name							Show Password
-*	@description
-*	@version						1.3
-*	@requires						Jquery 1.5
-*
-*	@author							Jan Jarfalk
-*	@author-email					jan.jarfalk@unwrongest.com
-*	@author-website					http://www.unwrongest.com
-*
-*	@special-thanks					Michel Gratton
-*
-*	@licens							MIT License - http://www.opensource.org/licenses/mit-license.php
-*/
 $.fn.extend({
 	showPassword(c) {
 

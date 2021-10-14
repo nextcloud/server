@@ -17,7 +17,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -27,17 +27,8 @@
 
 /* eslint-disable */
  import { getValue, setValue, getApps, getKeys, deleteKey } from '../OCP/appconfig'
-
 export const appConfig = window.oc_appconfig || {}
-
-/**
- * @namespace
- * @deprecated 16.0.0 Use OCP.AppConfig instead
- */
 export const AppConfig = {
-	/**
-	 * @deprecated Use OCP.AppConfig.getValue() instead
-	 */
 	getValue: function(app, key, defaultValue, callback) {
 		getValue(app, key, defaultValue, {
 			success: callback

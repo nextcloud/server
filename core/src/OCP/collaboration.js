@@ -13,7 +13,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -22,24 +22,8 @@
  */
 
 import escapeHTML from 'escape-html'
-
-/**
- * @typedef TypeDefinition
- * @method {callback} action This action is executed to let the user select a resource
- * @param {string} icon Contains the icon css class for the type
  * @constructor
- */
-
-/**
- * @type {TypeDefinition[]}
- **/
 const types = {}
-
-/**
- * Those translations will be used by the vue component but they should be shipped with the server
- * FIXME: Those translations should be added to the library
- * @returns {Array}
- */
 export const l10nProjects = () => {
 	return [
 		t('core', 'Add to a project'),

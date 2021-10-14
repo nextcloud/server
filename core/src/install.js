@@ -14,7 +14,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -26,19 +26,14 @@ import $ from 'jquery'
 import { translate as t } from '@nextcloud/l10n'
 import { getToken } from './OC/requesttoken'
 import getURLParameter from './Util/get-url-parameter'
-
 import './jquery/showpassword'
-
 import 'jquery-ui/ui/widgets/button'
 import 'jquery-ui/themes/base/theme.css'
 import 'jquery-ui/themes/base/button.css'
-
 import 'bootstrap/js/dist/tooltip'
 import './Polyfill/tooltip'
-
 import 'strengthify'
 import 'strengthify/strengthify.css'
-
 window.addEventListener('DOMContentLoaded', function() {
 	const dbtypes = {
 		sqlite: !!$('#hasSQLite').val(),

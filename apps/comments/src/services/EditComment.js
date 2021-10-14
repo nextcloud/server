@@ -12,7 +12,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -21,15 +21,6 @@
  */
 
 import client from './DavClient'
-
-/**
- * Edit an existing comment
- *
- * @param {string} commentsType the ressource type
- * @param {number} ressourceId the ressource ID
- * @param {number} commentId the comment iD
- * @param {string} message the message content
- */
 export default async function(commentsType, ressourceId, commentId, message) {
 	const commentPath = ['', commentsType, ressourceId, commentId].join('/')
 

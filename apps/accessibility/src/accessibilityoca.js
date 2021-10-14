@@ -2,6 +2,7 @@
  * @copyright Copyright (c) 2020 Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @author Jan C. Borchardt <hey@jancborchardt.net>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
  * @license GNU AGPL version 3 or any later version
@@ -13,7 +14,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -22,7 +23,6 @@
  */
 
 import { loadState } from '@nextcloud/initial-state'
-
 OCA.Accessibility = loadState('accessibility', 'data')
 if (OCA.Accessibility.checkMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
 	// Overwrite the theme for Guests based on the prefers-color-scheme

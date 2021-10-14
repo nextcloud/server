@@ -5,7 +5,10 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2021, Lukas Reschke <lukas@statuscode.ch>
  *
+ * @author Aaron Ball <nullspoon@oper.io>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Sanpi <sanpi@homecomputing.fr>
  *
  * @license GNU AGPL version 3 or any later version
  *

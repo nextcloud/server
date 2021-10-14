@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @copyright 2017, Morris Jobke <hey@morrisjobke.de>
  * @copyright 2017, Lukas Reschke <lukas@statuscode.ch>
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author brad2014 <brad2014@users.noreply.github.com>
  * @author Brad Rubenstein <brad@wbr.tech>
@@ -18,6 +19,7 @@ declare(strict_types=1);
  * @author medcloud <42641918+medcloud@users.noreply.github.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author szaimen <szaimen@e.mail.de>
  * @author Tomasz Paluszkiewicz <tomasz.paluszkiewicz@gmail.com>
  *
  * @license GNU AGPL version 3 or any later version

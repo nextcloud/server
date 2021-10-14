@@ -18,7 +18,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -28,16 +28,8 @@
 
 /* eslint-disable */
 import $ from 'jquery'
-
 import { getToken } from './requesttoken'
-
-/**
- * Create a new event source
- * @param {string} src
- * @param {object} [data] to be send as GET
- *
  * @constructs OCEventSource
- */
 const OCEventSource = function(src, data) {
 	var dataStr = ''
 	var name
