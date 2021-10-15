@@ -33,6 +33,8 @@ return array(
     'OCA\\DAV\\CalDAV\\Activity\\Setting\\Calendar' => $baseDir . '/../lib/CalDAV/Activity/Setting/Calendar.php',
     'OCA\\DAV\\CalDAV\\Activity\\Setting\\Event' => $baseDir . '/../lib/CalDAV/Activity/Setting/Event.php',
     'OCA\\DAV\\CalDAV\\Activity\\Setting\\Todo' => $baseDir . '/../lib/CalDAV/Activity/Setting/Todo.php',
+    'OCA\\DAV\\CalDAV\\Auth\\CustomPrincipalPlugin' => $baseDir . '/../lib/CalDAV/Auth/CustomPrincipalPlugin.php',
+    'OCA\\DAV\\CalDAV\\Auth\\PublicPrincipalPlugin' => $baseDir . '/../lib/CalDAV/Auth/PublicPrincipalPlugin.php',
     'OCA\\DAV\\CalDAV\\BirthdayCalendar\\EnablePlugin' => $baseDir . '/../lib/CalDAV/BirthdayCalendar/EnablePlugin.php',
     'OCA\\DAV\\CalDAV\\BirthdayService' => $baseDir . '/../lib/CalDAV/BirthdayService.php',
     'OCA\\DAV\\CalDAV\\CachedSubscription' => $baseDir . '/../lib/CalDAV/CachedSubscription.php',
