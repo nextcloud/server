@@ -218,7 +218,7 @@ OC.L10N.register(
     "read-only" : "salt okunur",
     "_{count} file conflict_::_{count} file conflicts_" : ["{count} dosya çakışması","{count} dosya çakışması"],
     "One file conflict" : "Bir dosya çakışması",
-    "New Files" : "Yeni Dosyalar",
+    "New Files" : "Yeni dosyalar",
     "Already existing files" : "Zaten var olan dosyalar",
     "Which files do you want to keep?" : "Hangi dosyaları saklamak istiyorsunuz?",
     "If you select both versions, the copied file will have a number added to its name." : "İki sürümü de seçerseniz, kopyalanan dosyanın adına bir sayı eklenir.",
