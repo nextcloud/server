@@ -65,9 +65,10 @@ $.fn.contactsMenu = function(shareWith, shareType, appendTo) {
 		}
 
 		$list.addClass('loaded')
-		$.ajax(generateOcsUrl('/contactsmenu/find-one') + '?format=json', {
+		$.ajax(generateOcsUrl('/contactsmenu/find-one'), {
 			method: 'POST',
 			data: {
+				format: 'json',
 				shareType,
 				shareWith,
 			},

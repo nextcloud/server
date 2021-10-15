@@ -450,9 +450,10 @@ ContactsMenu.prototype = {
 	_getContacts: function(searchTerm) {
 		return new Promise((resolve, reject) => {
 			$.ajax({
-				url: generateOcsUrl('/contactsmenu/contacts') + '?format=json',
+				url: generateOcsUrl('/contactsmenu/contacts'),
 				type: 'POST',
 				data: {
+					format: 'json',
 					filter: searchTerm
 				},
 				success: function (data, status, request) {
