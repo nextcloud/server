@@ -949,6 +949,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Core\\Controller\\ContactsMenuController' => __DIR__ . '/../../..' . '/core/Controller/ContactsMenuController.php',
         'OC\\Core\\Controller\\CssController' => __DIR__ . '/../../..' . '/core/Controller/CssController.php',
         'OC\\Core\\Controller\\GuestAvatarController' => __DIR__ . '/../../..' . '/core/Controller/GuestAvatarController.php',
+        'OC\\Core\\Controller\\HoverCardController' => __DIR__ . '/../../..' . '/core/Controller/HoverCardController.php',
         'OC\\Core\\Controller\\JsController' => __DIR__ . '/../../..' . '/core/Controller/JsController.php',
         'OC\\Core\\Controller\\LoginController' => __DIR__ . '/../../..' . '/core/Controller/LoginController.php',
         'OC\\Core\\Controller\\LostController' => __DIR__ . '/../../..' . '/core/Controller/LostController.php',
