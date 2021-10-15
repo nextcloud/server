@@ -272,7 +272,9 @@ class Updater extends BasicEmitter {
 		// upgrade appstore apps
 		$this->upgradeAppStoreApps($appManager->getInstalledApps());
 		$autoDisabledApps = $appManager->getAutoDisabledApps();
-		$this->upgradeAppStoreApps($autoDisabledApps, true);
+		if (!empty($autoDisabledApps)) {
+			$this->upgradeAppStoreApps(array_keys($autoDisabledApps), $autoDisabledApps);
+		}
 
 		// install new shipped apps on upgrade
 		$errors = Installer::installShippedApps(true);
@@ -414,12 +416,12 @@ class Updater extends BasicEmitter {
 	}
 
 	/**
-	 * @param array $disabledApps
-	 * @param bool $reenable
+	 * @param array $apps
+	 * @param array $previousEnableStates
 	 * @throws \Exception
 	 */
-	private function upgradeAppStoreApps(array $disabledApps, bool $reenable = false): void {
-		foreach ($disabledApps as $app => $previousEnableSetting) {
+	private function upgradeAppStoreApps(array $apps, array $previousEnableStates = []): void {
+		foreach ($apps as $app) {
 			try {
 				$this->emit('\OC\Updater', 'checkAppStoreAppBefore', [$app]);
 				if ($this->installer->isUpdateAvailable($app)) {
@@ -428,10 +430,10 @@ class Updater extends BasicEmitter {
 				}
 				$this->emit('\OC\Updater', 'checkAppStoreApp', [$app]);
 
-				if ($reenable) {
+				if (!empty($previousEnableStates)) {
 					$ocApp = new \OC_App();
-					if (!empty($previousEnableSetting)) {
-						$ocApp->enable($app, $previousEnableSetting);
+					if (!empty($previousEnableStates[$app])) {
+						$ocApp->enable($app, $previousEnableStates[$app]);
 					} else {
 						$ocApp->enable($app);
 					}
