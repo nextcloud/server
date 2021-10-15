@@ -1,6 +1,4 @@
 <?php
-
-declare(strict_types=1);
 /**
  * @copyright 2017 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
@@ -27,13 +25,13 @@ declare(strict_types=1);
 namespace OC\Core\Controller;
 
 use OC\Contacts\ContactsMenu\Manager;
+use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
-use OCP\AppFramework\Http\DataResponse;
-use OCP\Contacts\ContactsMenu\IEntry;
+use OCP\AppFramework\Http\JSONResponse;
 use OCP\IRequest;
 use OCP\IUserSession;
 
-class ContactsMenuController extends \OCP\AppFramework\OCSController {
+class ContactsMenuLegacyController extends Controller {
 
 	/** @var Manager */
 	private $manager;
@@ -56,14 +54,10 @@ class ContactsMenuController extends \OCP\AppFramework\OCSController {
 	 * @NoAdminRequired
 	 *
 	 * @param string|null filter
-	 * @return DataResponse
+	 * @return \JsonSerializable[]
 	 */
-	public function index(?string $filter = null): DataResponse {
-		$data = $this->manager->getEntries($this->userSession->getUser(), $filter);
-
-		$response = new DataResponse(array_map([$this, 'entryToArray'], $data['contacts']));
-		$response->addHeader('X-Contacts-App-Enabled', $data['contactsAppEnabled'] ? 'yes' : 'no');
-		return $response;
+	public function index($filter = null) {
+		return $this->manager->getEntries($this->userSession->getUser(), $filter);
 	}
 
 	/**
@@ -71,18 +65,14 @@ class ContactsMenuController extends \OCP\AppFramework\OCSController {
 	 *
 	 * @param integer $shareType
 	 * @param string $shareWith
-	 * @return DataResponse
+	 * @return JSONResponse|\JsonSerializable
 	 */
-	public function findOne(int $shareType, string $shareWith): DataResponse {
+	public function findOne($shareType, $shareWith) {
 		$contact = $this->manager->findOne($this->userSession->getUser(), $shareType, $shareWith);
 
 		if ($contact) {
-			return new DataResponse($this->entryToArray($contact));
+			return $contact;
 		}
-		return new DataResponse([], Http::STATUS_NOT_FOUND);
-	}
-
-	protected function entryToArray(IEntry $entry): array {
-		return json_decode(json_encode($entry), true);
+		return new JSONResponse([], Http::STATUS_NOT_FOUND);
 	}
 }

@@ -285,6 +285,8 @@ class ContactsStore implements IContactsStore {
 
 		if (isset($contact['id'])) {
 			$entry->setId($contact['id']);
+		} elseif (isset($contact['UID'])) {
+			$entry->setId($contact['UID']);
 		}
 
 		if (isset($contact['FN'])) {

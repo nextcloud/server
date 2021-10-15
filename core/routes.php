@@ -80,8 +80,8 @@ $application->registerRoutes($this, [
 		['name' => 'Svg#getSvgFromApp', 'url' => '/svg/{app}/{fileName}', 'verb' => 'GET'],
 		['name' => 'Css#getCss', 'url' => '/css/{appName}/{fileName}', 'verb' => 'GET'],
 		['name' => 'Js#getJs', 'url' => '/js/{appName}/{fileName}', 'verb' => 'GET'],
-		['name' => 'contactsMenu#index', 'url' => '/contactsmenu/contacts', 'verb' => 'POST'],
-		['name' => 'contactsMenu#findOne', 'url' => '/contactsmenu/findOne', 'verb' => 'POST'],
+		['name' => 'contactsMenuLegacy#index', 'url' => '/contactsmenu/contacts', 'verb' => 'POST'],
+		['name' => 'contactsMenuLegacy#findOne', 'url' => '/contactsmenu/findOne', 'verb' => 'POST'],
 		['name' => 'WalledGarden#get', 'url' => '/204', 'verb' => 'GET'],
 		['name' => 'Search#search', 'url' => '/core/search', 'verb' => 'GET'],
 		['name' => 'Wipe#checkWipe', 'url' => '/core/wipe/check', 'verb' => 'POST'],
@@ -107,6 +107,9 @@ $application->registerRoutes($this, [
 		['root' => '/core', 'name' => 'AppPassword#getAppPassword', 'url' => '/getapppassword', 'verb' => 'GET'],
 		['root' => '/core', 'name' => 'AppPassword#rotateAppPassword', 'url' => '/apppassword/rotate', 'verb' => 'POST'],
 		['root' => '/core', 'name' => 'AppPassword#deleteAppPassword', 'url' => '/apppassword', 'verb' => 'DELETE'],
+
+		['root' => '/contactsmenu', 'name' => 'ContactsMenu#index', 'url' => '/contacts', 'verb' => 'POST'],
+		['root' => '/contactsmenu', 'name' => 'ContactsMenu#findOne', 'url' => '/find-one', 'verb' => 'POST'],
 
 		['root' => '/collaboration', 'name' => 'CollaborationResources#searchCollections', 'url' => '/resources/collections/search/{filter}', 'verb' => 'GET'],
 		['root' => '/collaboration', 'name' => 'CollaborationResources#listCollection', 'url' => '/resources/collections/{collectionId}', 'verb' => 'GET'],
