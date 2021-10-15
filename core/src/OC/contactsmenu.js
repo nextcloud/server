@@ -27,6 +27,7 @@ import $ from 'jquery'
 import { Collection, Model, View } from 'backbone'
 
 import OC from './index'
+import { generateOcsUrl } from '@nextcloud/router'
 
 /**
  * @class Contact
@@ -447,13 +448,24 @@ ContactsMenu.prototype = {
 	 * @returns {Promise}
 	 */
 	_getContacts: function(searchTerm) {
-		var url = OC.generateUrl('/contactsmenu/contacts')
-		return Promise.resolve($.ajax(url, {
-			method: 'POST',
-			data: {
-				filter: searchTerm
-			}
-		}))
+		return new Promise((resolve, reject) => {
+			$.ajax({
+				url: generateOcsUrl('/contactsmenu/contacts') + '?format=json',
+				type: 'POST',
+				data: {
+					filter: searchTerm
+				},
+				success: function (data, status, request) {
+					resolve({
+						contacts: data.ocs.data,
+						contactsAppEnabled: request.getResponseHeader('X-Contacts-App-Enabled') === 'yes',
+					})
+				},
+				error: function (error) {
+					reject(error)
+				},
+			})
+		})
 	},
 
 	/**

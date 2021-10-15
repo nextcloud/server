@@ -24,7 +24,7 @@
 
 import $ from 'jquery'
 
-import OC from '../OC'
+import { generateOcsUrl } from '@nextcloud/router'
 
 const LIST = ''
 	+ '<div class="menu popovermenu menu-left hidden contactsmenu-popover">'
@@ -65,23 +65,25 @@ $.fn.contactsMenu = function(shareWith, shareType, appendTo) {
 		}
 
 		$list.addClass('loaded')
-		$.ajax(OC.generateUrl('/contactsmenu/findOne'), {
+		$.ajax(generateOcsUrl('/contactsmenu/find-one') + '?format=json', {
 			method: 'POST',
 			data: {
 				shareType,
 				shareWith,
 			},
 		}).then(function(data) {
+			const contact = data.ocs.data
+
 			$list.find('ul').find('li').addClass('hidden')
 
 			let actions
-			if (!data.topAction) {
+			if (!contact.topAction) {
 				actions = [{
 					hyperlink: '#',
 					title: t('core', 'No action available'),
 				}]
 			} else {
-				actions = [data.topAction].concat(data.actions)
+				actions = [contact.topAction].concat(contact.actions)
 			}
 
 			actions.forEach(function(action) {

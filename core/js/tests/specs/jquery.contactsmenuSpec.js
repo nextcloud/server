@@ -107,7 +107,7 @@ describe('jquery.contactsMenu tests', function() {
 			$selector1.click();
 
 			expect(fakeServer.requests[0].method).toEqual('POST');
-			expect(fakeServer.requests[0].url).toEqual('http://localhost/index.php/contactsmenu/findOne');
+			expect(fakeServer.requests[0].url).toEqual('http://localhost/ocs/v2.php/contactsmenu/find-one?format=json');
 			fakeServer.requests[0].respond(
 				200,
 				{ 'Content-Type': 'application/json; charset=utf-8' },
@@ -151,7 +151,7 @@ describe('jquery.contactsMenu tests', function() {
 				})
 			);
 			expect(fakeServer.requests[0].method).toEqual('POST');
-			expect(fakeServer.requests[0].url).toEqual('http://localhost/index.php/contactsmenu/findOne');
+			expect(fakeServer.requests[0].url).toEqual('http://localhost/ocs/v2.php/contactsmenu/find-one?format=json');
 
 			$selector1.on('load', function() {
 				expect($appendTo.html().replace(/[\r\n\t]?(\ \ +)?/g, '')).toEqual('<div class="menu popovermenu menu-left contactsmenu-popover loaded" style="display: block;"><ul><li class="hidden"><a><span class="icon-loading-small"></span></a></li><li><a href="mailto:bar%40baz.wtf"><img src="foo.svg"><span>bar@baz.wtf</span></a></li><li><a href="http://localhost/index.php/apps/contacts"><img src="details.svg"><span>Details</span></a></li></ul></div>');
@@ -175,7 +175,7 @@ describe('jquery.contactsMenu tests', function() {
 				})
 			);
 			expect(fakeServer.requests[0].method).toEqual('POST');
-			expect(fakeServer.requests[0].url).toEqual('http://localhost/index.php/contactsmenu/findOne');
+			expect(fakeServer.requests[0].url).toEqual('http://localhost/ocs/v2.php/contactsmenu/find-one?format=json');
 
 			$selector1.on('load', function() {
 				expect($appendTo.html().replace(/[\r\n\t]?(\ \ +)?/g, '')).toEqual('<div class="menu popovermenu menu-left contactsmenu-popover loaded" style="display: block;"><ul><li class="hidden"><a><span class="icon-loading-small"></span></a></li><li><a href="#"><span>No action available</span></a></li></ul></div>');
@@ -194,7 +194,7 @@ describe('jquery.contactsMenu tests', function() {
 				JSON.stringify([])
 			);
 			expect(fakeServer.requests[0].method).toEqual('POST');
-			expect(fakeServer.requests[0].url).toEqual('http://localhost/index.php/contactsmenu/findOne');
+			expect(fakeServer.requests[0].url).toEqual('http://localhost/ocs/v2.php/contactsmenu/find-one?format=json');
 
 			$selector1.on('loaderror', function() {
 				expect($appendTo.html().replace(/[\r\n\t]?(\ \ +)?/g, '')).toEqual('<div class="menu popovermenu menu-left contactsmenu-popover loaded" style="display: block;"><ul><li class="hidden"><a><span class="icon-loading-small"></span></a></li><li><a href="#"><span>Error fetching contact actions</span></a></li></ul></div>');
@@ -213,7 +213,7 @@ describe('jquery.contactsMenu tests', function() {
 				JSON.stringify([])
 			);
 			expect(fakeServer.requests[0].method).toEqual('POST');
-			expect(fakeServer.requests[0].url).toEqual('http://localhost/index.php/contactsmenu/findOne');
+			expect(fakeServer.requests[0].url).toEqual('http://localhost/ocs/v2.php/contactsmenu/find-one?format=json');
 
 			$selector1.on('loaderror', function() {
 				expect($appendTo.html().replace(/[\r\n\t]?(\ \ +)?/g, '')).toEqual('<div class="menu popovermenu menu-left contactsmenu-popover loaded" style="display: block;"><ul><li class="hidden"><a><span class="icon-loading-small"></span></a></li><li><a href="#"><span>No action available</span></a></li></ul></div>');

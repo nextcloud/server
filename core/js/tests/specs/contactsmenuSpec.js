@@ -47,7 +47,7 @@ describe('Contacts menu', function() {
 	});
 
 	it('shows a loading message while data is being fetched', function() {
-		fakeServer.respondWith('GET', OC.generateUrl('/contactsmenu/contacts'), [
+		fakeServer.respondWith('GET', generateOcsUrl('/contactsmenu/contacts'), [
 			200,
 			{},
 			''
@@ -60,7 +60,7 @@ describe('Contacts menu', function() {
 
 	it('shows an error message when loading the contacts data fails', function(done) {
 		spyOn(console, 'error');
-		fakeServer.respondWith('GET', OC.generateUrl('/contactsmenu/contacts'), [
+		fakeServer.respondWith('GET', generateOcsUrl('/contactsmenu/contacts'), [
 			500,
 			{},
 			''
