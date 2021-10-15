@@ -131,7 +131,7 @@ class AppSettingsController extends Controller {
 	public function viewApps(): TemplateResponse {
 		\OC_Util::addScript('settings', 'apps');
 		$params = [];
-		$params['appstoreEnabled'] = $this->config->getSystemValue('appstoreenabled', true) === true;
+		$params['appstoreEnabled'] = $this->config->getSystemValueBool('appstoreenabled', true);
 		$params['updateCount'] = count($this->getAppsWithUpdates());
 		$params['developerDocumentation'] = $this->urlGenerator->linkToDocs('developer-manual');
 		$params['bundles'] = $this->getBundles();
