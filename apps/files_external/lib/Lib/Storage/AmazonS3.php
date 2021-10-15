@@ -213,37 +213,6 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 	}
 
 	/**
-	 * Updates old storage ids (v0.2.1 and older) that are based on key and secret to new ones based on the bucket name.
-	 * TODO Do this in a repair step. requires iterating over all users and loading the mount.json from their home
-	 *
-	 * @param array $params
-	 */
-	public function updateLegacyId(array $params) {
-		$oldId = 'amazon::' . $params['key'] . md5($params['secret']);
-
-		// find by old id or bucket
-		$stmt = \OC::$server->getDatabaseConnection()->prepare(
-			'SELECT `numeric_id`, `id` FROM `*PREFIX*storages` WHERE `id` IN (?, ?)'
-		);
-		$stmt->execute([$oldId, $this->id]);
-		while ($row = $stmt->fetch()) {
-			$storages[$row['id']] = $row['numeric_id'];
-		}
-
-		if (isset($storages[$this->id]) && isset($storages[$oldId])) {
-			// if both ids exist, delete the old storage and corresponding filecache entries
-			\OC\Files\Cache\Storage::remove($oldId);
-		} elseif (isset($storages[$oldId])) {
-			// if only the old id exists do an update
-			$stmt = \OC::$server->getDatabaseConnection()->prepare(
-				'UPDATE `*PREFIX*storages` SET `id` = ? WHERE `id` = ?'
-			);
-			$stmt->execute([$this->id, $oldId]);
-		}
-		// only the bucket based id may exist, do nothing
-	}
-
-	/**
 	 * Remove a file or folder
 	 *
 	 * @param string $path
