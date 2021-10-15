@@ -35,7 +35,6 @@ use OCP\Group\Events\UserAddedEvent;
 use OCP\Group\Events\UserRemovedEvent;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
-use OCP\ILogger;
 use OCP\IUser;
 use OCP\IUserManager;
 use Psr\Log\LoggerInterface;
@@ -89,15 +88,19 @@ class UpdateGroups extends TimedJob {
 	}
 
 	public function updateGroups() {
-		\OCP\Util::writeLog('user_ldap', 'Run background job "updateGroups"', ILogger::DEBUG);
+		$this->logger->debug(
+			'Run background job "updateGroups"',
+			['app' => 'user_ldap']
+		);
 
 		$knownGroups = array_keys($this->getKnownGroups());
 		$actualGroups = $this->groupBackend->getGroups();
 
 		if (empty($actualGroups) && empty($knownGroups)) {
-			\OCP\Util::writeLog('user_ldap',
+			$this->logger->info(
 				'bgJ "updateGroups" – groups do not seem to be configured properly, aborting.',
-				ILogger::INFO);
+				['app' => 'user_ldap']
+			);
 			return;
 		}
 
@@ -105,7 +108,10 @@ class UpdateGroups extends TimedJob {
 		$this->handleCreatedGroups(array_diff($actualGroups, $knownGroups));
 		$this->handleRemovedGroups(array_diff($knownGroups, $actualGroups));
 
-		\OCP\Util::writeLog('user_ldap', 'bgJ "updateGroups" – Finished.', ILogger::DEBUG);
+		$this->logger->debug(
+			'bgJ "updateGroups" – Finished.',
+			['app' => 'user_ldap']
+		);
 	}
 
 	/**
@@ -198,46 +204,56 @@ class UpdateGroups extends TimedJob {
 	 * @param string[] $createdGroups
 	 */
 	private function handleCreatedGroups($createdGroups) {
-		\OCP\Util::writeLog('user_ldap', 'bgJ "updateGroups" – dealing with created Groups.', ILogger::DEBUG);
+		$this->logger->debug(
+			'bgJ "updateGroups" – dealing with created Groups.',
+			['app' => 'user_ldap']
+		);
 
 		$query = $this->dbc->getQueryBuilder();
 		$query->insert('ldap_group_members')
 			->setValue('owncloudname', $query->createParameter('owncloudname'))
 			->setValue('owncloudusers', $query->createParameter('owncloudusers'));
 		foreach ($createdGroups as $createdGroup) {
-			\OCP\Util::writeLog('user_ldap',
+			$this->logger->info(
 				'bgJ "updateGroups" – new group "' . $createdGroup . '" found.',
-				ILogger::INFO);
+				['app' => 'user_ldap']
+			);
 			$users = serialize($this->groupBackend->usersInGroup($createdGroup));
 
 			$query->setParameter('owncloudname', $createdGroup)
 				->setParameter('owncloudusers', $users);
 			$query->execute();
 		}
-		\OCP\Util::writeLog('user_ldap',
+		$this->logger->debug(
 			'bgJ "updateGroups" – FINISHED dealing with created Groups.',
-			ILogger::DEBUG);
+			['app' => 'user_ldap']
+		);
 	}
 
 	/**
 	 * @param string[] $removedGroups
 	 */
 	private function handleRemovedGroups($removedGroups) {
-		\OCP\Util::writeLog('user_ldap', 'bgJ "updateGroups" – dealing with removed groups.', ILogger::DEBUG);
+		$this->logger->debug(
+			'bgJ "updateGroups" – dealing with removed groups.',
+			['app' => 'user_ldap']
+		);
 
 		$query = $this->dbc->getQueryBuilder();
 		$query->delete('ldap_group_members')
 			->where($query->expr()->eq('owncloudname', $query->createParameter('owncloudname')));
 
 		foreach ($removedGroups as $removedGroup) {
-			\OCP\Util::writeLog('user_ldap',
+			$this->logger->info(
 				'bgJ "updateGroups" – group "' . $removedGroup . '" was removed.',
-				ILogger::INFO);
+				['app' => 'user_ldap']
+			);
 			$query->setParameter('owncloudname', $removedGroup);
 			$query->execute();
 		}
-		\OCP\Util::writeLog('user_ldap',
+		$this->logger->debug(
 			'bgJ "updateGroups" – FINISHED dealing with removed groups.',
-			ILogger::DEBUG);
+			['app' => 'user_ldap']
+		);
 	}
 }
