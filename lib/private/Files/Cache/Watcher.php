@@ -89,7 +89,14 @@ class Watcher implements IWatcher {
 		}
 		if ($cachedEntry === false || $this->needsUpdate($path, $cachedEntry)) {
 			$this->update($path, $cachedEntry);
-			return true;
+
+			if ($cachedEntry === false) {
+				return true;
+			} else {
+				// storage backends can sometimes return false positives, only return true if the scanner actually found a change
+				$newEntry = $this->cache->get($path);
+				return $newEntry->getStorageMTime() > $cachedEntry->getStorageMTime();
+			}
 		} else {
 			return false;
 		}
