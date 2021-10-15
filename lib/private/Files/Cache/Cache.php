@@ -537,7 +537,7 @@ class Cache implements ICache {
 	public function remove($file) {
 		$entry = $this->get($file);
 
-		if ($entry) {
+		if ($entry && !is_array($entry)) {
 			$query = $this->getQueryBuilder();
 			$query->delete('filecache')
 				->whereFileId($entry->getId());
