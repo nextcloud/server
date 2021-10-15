@@ -349,7 +349,7 @@ class LoginFlowV2ServiceUnitTest extends TestCase {
 
 		// app password is encrypted and must look like:
 		// ZACZOOzxTpKz4+KXL5kZ/gCK0xvkaVi/8yzupAn6Ui6+5qCSKvfPKGgeDRKs0sivvSLzk/XSp811SZCZmH0Y3g==
-		$this->assertRegExp('/[a-zA-Z\/0-9+=]+/', $loginFlowV2->getAppPassword());
+		$this->assertMatchesRegularExpression('/[a-zA-Z\/0-9+=]+/', $loginFlowV2->getAppPassword());
 
 		$this->assertEquals('server', $loginFlowV2->getServer());
 	}
