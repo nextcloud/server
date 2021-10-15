@@ -142,9 +142,6 @@
     </InvalidArgument>
   </file>
   <file src="apps/dav/lib/CalDAV/BirthdayService.php">
-    <InvalidArrayOffset occurrences="1">
-      <code>$user['uri']</code>
-    </InvalidArrayOffset>
     <UndefinedMethod occurrences="2">
       <code>setDateTime</code>
       <code>setDateTime</code>
@@ -789,10 +786,10 @@
       <code>array</code>
       <code>string</code>
     </InvalidNullableReturnType>
-    <InvalidReturnStatement occurrences="2">
+    <InvalidReturnStatement occurrences="1">
       <code>$principals</code>
     </InvalidReturnStatement>
-    <InvalidReturnType occurrences="2">
+    <InvalidReturnType occurrences="1">
       <code>string[]</code>
       <code>string[]</code>
     </InvalidReturnType>
