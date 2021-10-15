@@ -29,15 +29,22 @@ use OCA\DAV\AppInfo\Application;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
 use OCP\AppFramework\Services\IInitialState;
-use OCP\Settings\ISettings;
+use OCP\Settings\IDelegatedSettings;
 
-class CalDAVSettings implements ISettings {
+class CalDAVSettings implements IDelegatedSettings {
 
 	/** @var IConfig */
 	private $config;
 
 	/** @var IInitialState */
 	private $initialState;
+
+	private const defaults = [
+		'sendInvitations' => 'yes',
+		'generateBirthdayCalendar' => 'yes',
+		'sendEventReminders' => 'yes',
+		'sendEventRemindersPush' => 'no',
+	];
 
 	/**
 	 * CalDAVSettings constructor.
@@ -51,13 +58,7 @@ class CalDAVSettings implements ISettings {
 	}
 
 	public function getForm(): TemplateResponse {
-		$defaults = [
-			'sendInvitations' => 'yes',
-			'generateBirthdayCalendar' => 'yes',
-			'sendEventReminders' => 'yes',
-			'sendEventRemindersPush' => 'no',
-		];
-		foreach ($defaults as $key => $default) {
+		foreach (self::defaults as $key => $default) {
 			$value = $this->config->getAppValue(Application::APP_ID, $key, $default);
 			$this->initialState->provideInitialState($key, $value === 'yes');
 		}
@@ -76,5 +77,15 @@ class CalDAVSettings implements ISettings {
 	 */
 	public function getPriority() {
 		return 10;
+	}
+
+	public function getName(): ?string {
+		return null; // Only setting in this section
+	}
+
+	public function getAuthorizedAppConfig(): array {
+		return [
+			'dav' => ['/(' . implode('|', array_keys(self::defaults)) . ')/']
+		];
 	}
 }

@@ -88,6 +88,7 @@ class BirthdayCalendarController extends Controller {
 
 	/**
 	 * @return Response
+	 * @AuthorizedAdminSetting(settings=OCA\DAV\Settings\CalDAVSettings)
 	 */
 	public function enable() {
 		$this->config->setAppValue($this->appName, 'generateBirthdayCalendar', 'yes');
@@ -104,6 +105,7 @@ class BirthdayCalendarController extends Controller {
 
 	/**
 	 * @return Response
+	 * @AuthorizedAdminSetting(settings=OCA\DAV\Settings\CalDAVSettings)
 	 */
 	public function disable() {
 		$this->config->setAppValue($this->appName, 'generateBirthdayCalendar', 'no');

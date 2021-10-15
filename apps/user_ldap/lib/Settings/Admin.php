@@ -29,10 +29,10 @@ use OCA\User_LDAP\Configuration;
 use OCA\User_LDAP\Helper;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IL10N;
-use OCP\Settings\ISettings;
+use OCP\Settings\IDelegatedSettings;
 use OCP\Template;
 
-class Admin implements ISettings {
+class Admin implements IDelegatedSettings {
 	/** @var IL10N */
 	private $l;
 
@@ -97,5 +97,13 @@ class Admin implements ISettings {
 	 */
 	public function getPriority() {
 		return 5;
+	}
+
+	public function getName(): ?string {
+		return null; // Only one setting in this section
+	}
+
+	public function getAuthorizedAppConfig(): array {
+		return []; // Custom controller
 	}
 }
