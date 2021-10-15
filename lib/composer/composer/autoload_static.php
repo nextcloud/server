@@ -847,6 +847,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Core\\Command\\Background\\Ajax' => __DIR__ . '/../../..' . '/core/Command/Background/Ajax.php',
         'OC\\Core\\Command\\Background\\Base' => __DIR__ . '/../../..' . '/core/Command/Background/Base.php',
         'OC\\Core\\Command\\Background\\Cron' => __DIR__ . '/../../..' . '/core/Command/Background/Cron.php',
+        'OC\\Core\\Command\\Background\\Job' => __DIR__ . '/../../..' . '/core/Command/Background/Job.php',
         'OC\\Core\\Command\\Background\\WebCron' => __DIR__ . '/../../..' . '/core/Command/Background/WebCron.php',
         'OC\\Core\\Command\\Base' => __DIR__ . '/../../..' . '/core/Command/Base.php',
         'OC\\Core\\Command\\Broadcast\\Test' => __DIR__ . '/../../..' . '/core/Command/Broadcast/Test.php',
