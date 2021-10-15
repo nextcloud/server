@@ -154,6 +154,9 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 			}
 		}
 
+		if (is_array($this->objectCache[$key]) && !isset($this->objectCache[$key]["Key"])) {
+			$this->objectCache[$key]["Key"] = $key;
+		}
 		return $this->objectCache[$key];
 	}
 
@@ -345,7 +348,6 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 			if ($object === false) {
 				return false;
 			}
-			$object["Key"] = $path;
 			$stat = $this->objectToMetaData($object);
 		}
 		$stat['atime'] = time();
