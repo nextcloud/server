@@ -724,4 +724,17 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		}
 		return $this->versioningEnabled;
 	}
+
+	public function hasUpdated($path, $time) {
+		// for files we can get the proper mtime
+		if ($path !== '' && $object = $this->headObject($path)) {
+			$stat = $this->objectToMetaData($object);
+			return $stat['mtime'] > $time;
+		} else {
+			// for directories, the only real option we have is to do a prefix listing and iterate over all objects
+			// however, since this is just as expensive as just re-scanning the directory, we can simply return true
+			// and have the scanner figure out if anything has actually changed
+			return true;
+		}
+	}
 }
