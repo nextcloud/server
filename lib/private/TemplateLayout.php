@@ -47,6 +47,7 @@ use OC\Search\SearchQuery;
 use OC\Template\JSCombiner;
 use OC\Template\JSConfigHelper;
 use OC\Template\SCSSCacher;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Defaults;
 use OCP\IConfig;
@@ -54,6 +55,7 @@ use OCP\IInitialStateService;
 use OCP\INavigationManager;
 use OCP\IUserSession;
 use OCP\Support\Subscription\IRegistry;
+use OCP\UserStatus\IManager as IUserStatusManager;
 use OCP\Util;
 
 class TemplateLayout extends \OC_Template {
@@ -131,11 +133,23 @@ class TemplateLayout extends \OC_Template {
 			$this->assign('user_displayname', $userDisplayName);
 			$this->assign('user_uid', \OC_User::getUser());
 
-			if (\OC_User::getUser() === false) {
+			if ($user === null) {
 				$this->assign('userAvatarSet', false);
+				$this->assign('userStatus', false);
 			} else {
 				$this->assign('userAvatarSet', true);
 				$this->assign('userAvatarVersion', $this->config->getUserValue(\OC_User::getUser(), 'avatar', 'version', 0));
+				if (\OC::$server->get(IAppManager::class)->isEnabledForUser('user_status')) {
+					$userStatusManager = \OC::$server->get(IUserStatusManager::class);
+					$userStatuses = $userStatusManager->getUserStatuses([$user->getUID()]);
+					if (array_key_exists($user->getUID(), $userStatuses)) {
+						$this->assign('userStatus', $userStatuses[$user->getUID()]);
+					} else {
+						$this->assign('userStatus', false);
+					}
+				} else {
+					$this->assign('userStatus', false);
+				}
 			}
 
 			// check if app menu icons should be inverted

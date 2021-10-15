@@ -1,4 +1,18 @@
-<!DOCTYPE html>
+<?php
+/**
+ * @var \OC_Defaults $theme
+ * @var array $_
+ */
+
+$getUserAvatar = static function (int $size) use ($_): string {
+	return \OC::$server->getURLGenerator()->linkToRoute('core.avatar.getAvatar', [
+		'userId' => $_['user_uid'],
+		'size' => $size,
+		'v' => $_['userAvatarVersion']
+	]);
+}
+
+?><!DOCTYPE html>
 <html class="ng-csp" data-placeholder-focus="false" lang="<?php p($_['language']); ?>" data-locale="<?php p($_['locale']); ?>" >
 	<head data-user="<?php p($_['user_uid']); ?>" data-user-displayname="<?php p($_['user_displayname']); ?>" data-requesttoken="<?php p($_['requesttoken']); ?>">
 		<meta charset="utf-8">
@@ -131,19 +145,30 @@
 					<div id="expand" tabindex="0" role="button" class="menutoggle"
 						aria-label="<?php p($l->t('Settings'));?>"
 						aria-haspopup="true" aria-controls="expanddiv" aria-expanded="false">
-						<div class="avatardiv<?php if ($_['userAvatarSet']) {
+						<div id="avatardiv-menu" class="avatardiv<?php if ($_['userAvatarSet']) {
 				print_unescaped(' avatardiv-shown');
 			} else {
 				print_unescaped('" style="display: none');
-			} ?>">
-							<?php if ($_['userAvatarSet']): ?>
+			} ?>"
+							 data-user="<?php p($_['user_uid']); ?>"
+							 data-displayname="<?php p($_['user_displayname']); ?>"
+			<?php if ($_['userStatus'] !== false) { ?>
+				data-userstatus="<?php p($_['userStatus']->getStatus()); ?>"
+				data-userstatus_message="<?php p($_['userStatus']->getMessage()); ?>"
+				data-userstatus_icon="<?php p($_['userStatus']->getIcon()); ?>"
+			<?php }
+			if ($_['userAvatarSet']) {
+				$avatar32 = $getUserAvatar(32); ?> data-avatar="<?php p($avatar32); ?>"
+			<?php
+			} ?>>
+							<?php
+							if ($_['userAvatarSet']) {?>
 								<img alt="" width="32" height="32"
-								src="<?php p(\OC::$server->getURLGenerator()->linkToRoute('core.avatar.getAvatar', ['userId' => $_['user_uid'], 'size' => 32, 'v' => $_['userAvatarVersion']]));?>"
-								srcset="<?php p(\OC::$server->getURLGenerator()->linkToRoute('core.avatar.getAvatar', ['userId' => $_['user_uid'], 'size' => 64, 'v' => $_['userAvatarVersion']]));?> 2x, <?php p(\OC::$server->getURLGenerator()->linkToRoute('core.avatar.getAvatar', ['userId' => $_['user_uid'], 'size' => 128, 'v' => $_['userAvatarVersion']]));?> 4x"
+								src="<?php p($avatar32);?>"
+								srcset="<?php p($getUserAvatar(64));?> 2x, <?php p($getUserAvatar(128));?> 4x"
 								>
-							<?php endif; ?>
+							<?php } ?>
 						</div>
-						<div id="expandDisplayName" class="icon-settings-white"></div>
 					</div>
 					<nav class="settings-menu" id="expanddiv" style="display:none;"
 						aria-label="<?php p($l->t('Settings menu'));?>">
