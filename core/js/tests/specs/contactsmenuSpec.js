@@ -22,6 +22,8 @@
  *
  */
 
+import { generateOcsUrl } from '@nextcloud/router'
+
 describe('Contacts menu', function() {
 	var $triggerEl,
 			$menuEl,
