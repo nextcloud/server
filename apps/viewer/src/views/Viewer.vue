@@ -25,7 +25,8 @@
 	<Modal
 		v-if="initiated || currentFile.modal"
 		id="viewer"
-		:class="{'icon-loading': !currentFile.loaded && !currentFile.failed, 'theme--dark': theme === 'dark', 'theme--light': theme === 'light', 'theme--default': theme === 'default'}"
+		:class="{'icon-loading': !currentFile.loaded && !currentFile.failed,
+			'theme--undefined': theme === null, 'theme--dark': theme === 'dark', 'theme--light': theme === 'light', 'theme--default': theme === 'default'}"
 		:clear-view-delay="isTesting ? -1 : 5000 /* prevent cypress timeouts */"
 		:dark="true"
 		:enable-slideshow="hasPrevious || hasNext"
@@ -190,7 +191,7 @@ export default {
 			canSwipe: true,
 			isStandalone: !(OCA && OCA.Files && 'fileActions' in OCA.Files),
 			isTesting,
-			theme: 'dark',
+			theme: null,
 			root: getRootPath(),
 		}
 	},
@@ -661,6 +662,7 @@ export default {
 			this.currentModal = null
 			this.fileList = []
 			this.initiated = false
+			this.theme = null
 
 			// cancel requests
 			this.cancelRequestFile()
@@ -823,10 +825,12 @@ export default {
 		&--full .modal-container {
 			width: 100%; // same as max-width
 			height: 100%; // same as max-height
+			box-shadow: none;
 		}
 		&--large .modal-container {
 			width: 85%; // same as max-width
 			height: 90%; // same as max-height
+			box-shadow: none;
 		}
 	}
 
@@ -846,6 +850,10 @@ export default {
 			z-index: -1;
 			left: -10000px;
 		}
+	}
+
+	&.theme--undefined.modal-mask {
+		background-color: transparent !important;
 	}
 
 	&.theme--light {
