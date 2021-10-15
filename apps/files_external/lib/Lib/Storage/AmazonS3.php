@@ -451,6 +451,9 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		}
 
 		try {
+			if (isset($this->directoryCache[$path])) {
+				return 'dir';
+			}
 			if (isset($this->filesCache[$path]) || $this->headObject($path)) {
 				return 'file';
 			}
