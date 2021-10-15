@@ -34,6 +34,7 @@
  */
 namespace OCA\DAV;
 
+use Psr\Log\LoggerInterface;
 use OCA\DAV\AppInfo\PluginManager;
 use OCA\DAV\CalDAV\BirthdayService;
 use OCA\DAV\CardDAV\HasPhotoPlugin;
@@ -62,12 +63,11 @@ use OCA\DAV\DAV\PublicAuth;
 use OCA\DAV\Events\SabrePluginAuthInitEvent;
 use OCA\DAV\Files\BrowserErrorPagePlugin;
 use OCA\DAV\Files\LazySearchBackend;
-use OCA\DAV\BundleUpload\BundlingPlugin;
+use OCA\DAV\BulkUpload\BulkUploadPlugin;
 use OCA\DAV\Provisioning\Apple\AppleProvisioningPlugin;
 use OCA\DAV\SystemTag\SystemTagPlugin;
 use OCA\DAV\Upload\ChunkingPlugin;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\Files\IRootFolder;
 use OCP\IRequest;
 use OCP\SabrePluginEvent;
 use Sabre\CardDAV\VCFExportPlugin;
@@ -296,9 +296,9 @@ class Server {
 						\OC::$server->getShareManager(),
 						$view
 					));
-					$rootFolder = \OC::$server->query(IRootFolder::class);
+					$logger = \OC::$server->get(LoggerInterface::class);
 					$this->server->addPlugin(
-						new BundlingPlugin($view, $userFolder)
+						new BulkUploadPlugin($userFolder, $logger)
 					);
 				}
 				$this->server->addPlugin(new \OCA\DAV\CalDAV\BirthdayCalendar\EnablePlugin(

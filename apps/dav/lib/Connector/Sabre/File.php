@@ -356,7 +356,7 @@ class File extends Node implements IFile {
 		return '"' . $this->info->getEtag() . '"';
 	}
 
-	protected function getPartFileBasePath($path) {
+	private function getPartFileBasePath($path) {
 		$partFileInStorage = \OC::$server->getConfig()->getSystemValue('part_file_in_storage', true);
 		if ($partFileInStorage) {
 			return $path;
@@ -368,7 +368,7 @@ class File extends Node implements IFile {
 	/**
 	 * @param string $path
 	 */
-	protected function emitPreHooks($exists, $path = null) {
+	private function emitPreHooks($exists, $path = null) {
 		if (is_null($path)) {
 			$path = $this->path;
 		}
@@ -396,7 +396,7 @@ class File extends Node implements IFile {
 	/**
 	 * @param string $path
 	 */
-	protected function emitPostHooks($exists, $path = null) {
+	private function emitPostHooks($exists, $path = null) {
 		if (is_null($path)) {
 			$path = $this->path;
 		}
@@ -633,7 +633,7 @@ class File extends Node implements IFile {
 	 *
 	 * @throws \Sabre\DAV\Exception
 	 */
-	protected function convertToSabreException(\Exception $e) {
+	private function convertToSabreException(\Exception $e) {
 		if ($e instanceof \Sabre\DAV\Exception) {
 			throw $e;
 		}

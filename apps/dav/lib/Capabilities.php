@@ -29,7 +29,7 @@ class Capabilities implements ICapability {
 		return [
 			'dav' => [
 				'chunking' => '1.0',
-				'bundleupload' => '1.0',
+				'bulkupload' => '1.0',
 			]
 		];
 	}

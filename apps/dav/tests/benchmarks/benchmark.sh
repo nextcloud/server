@@ -2,6 +2,8 @@
 
 set -eu
 
+# benchmark.sh
+
 export KB=1000
 export MB=$((KB*1000))
 
@@ -32,10 +34,10 @@ do
 	echo "- Upload of $nb tiny file of ${size}B"
 	echo "	- Bundled"
 	start=$(date +%s)
-	echo "$requests_count" | xargs -d ' ' -P $CONCURRENCY -I{} ./bundle_upload.sh "$nb" "$size"
+	echo "$requests_count" | xargs -d ' ' -P $CONCURRENCY -I{} ./bulk_upload.sh "$nb" "$size"
 	end=$(date +%s)
-	bundle_exec_time=$((end-start))
-	echo "${bundle_exec_time}s"
+	bulk_exec_time=$((end-start))
+	echo "${bulk_exec_time}s"
 
 	echo "	- Single"
 	start=$(date +%s)
@@ -44,7 +46,7 @@ do
 	single_exec_time=$((end-start))
 	echo "${single_exec_time}s"
 
-	md_output+="| $nb | $size | $bundle_exec_time | $single_exec_time |\n"
+	md_output+="| $nb | $size | $bulk_exec_time | $single_exec_time |\n"
 done
 
 echo -en "$md_output"
