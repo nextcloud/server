@@ -25,7 +25,7 @@
 	<Modal
 		v-if="initiated || currentFile.modal"
 		id="viewer"
-		:class="{'icon-loading': !currentFile.loaded && !currentFile.failed}"
+		:class="{'icon-loading': !currentFile.loaded && !currentFile.failed, 'theme--dark': theme === 'dark', 'theme--light': theme === 'light', 'theme--default': theme === 'default'}"
 		:clear-view-delay="isTesting ? -1 : 5000 /* prevent cypress timeouts */"
 		:dark="true"
 		:enable-slideshow="hasPrevious || hasNext"
@@ -167,7 +167,7 @@ export default {
 			// Viewer variables
 			components: {},
 			mimeGroups: {},
-			registeredHandlers: [],
+			registeredHandlers: {},
 
 			// Files variables
 			currentIndex: 0,
@@ -190,7 +190,7 @@ export default {
 			canSwipe: true,
 			isStandalone: !(OCA && OCA.Files && 'fileActions' in OCA.Files),
 			isTesting,
-
+			theme: 'dark',
 			root: getRootPath(),
 		}
 	},
@@ -396,11 +396,13 @@ export default {
 
 			try {
 
-				// retrieve, sort and store file List
+				// retrieve and store the file info
 				let fileInfo = await fileRequest(path)
 
 				// get original mime
 				let mime = fileInfo.mime
+
+				this.theme = this.registeredHandlers[mime].theme ?? 'dark'
 
 				// if we don't have a handler for this mime, abort
 				if (!(mime in this.components)) {
@@ -527,7 +529,7 @@ export default {
 		 */
 		registerHandler(handler) {
 			// checking if handler is not already registered
-			if (handler.id && this.registeredHandlers.indexOf(handler.id) > -1) {
+			if (handler.id && Object.values(this.registeredHandlers).findIndex((h) => h.id === handler.id) > -1) {
 				console.error('The following handler is already registered', handler)
 				return
 			}
@@ -575,7 +577,7 @@ export default {
 					Vue.component(handler.component.name, handler.component)
 
 					// set the handler as registered
-					this.registeredHandlers.push(handler.id)
+					this.registeredHandlers[mime] = handler
 				})
 			}
 		},
@@ -611,7 +613,7 @@ export default {
 					this.components[mime] = this.components[alias]
 
 					// set the handler as registered
-					this.registeredHandlers.push(handler.id)
+					this.registeredHandlers[mime] = handler
 				})
 			}
 		},
@@ -796,7 +798,7 @@ export default {
 <style lang="scss" scoped>
 .viewer {
 	&.modal-mask {
-		transition: width ease 100ms;
+		transition: width ease 100ms, background-color .3s ease;
 	}
 
 	::v-deep .modal-container,
@@ -845,6 +847,36 @@ export default {
 			left: -10000px;
 		}
 	}
+
+	&.theme--light {
+		&.modal-mask {
+			background-color: rgba(255, 255, 255, 0.92) !important;
+		}
+		::v-deep .modal-title,
+		::v-deep .modal-header button::before  {
+			color: #000000 !important;
+		}
+		::v-deep .modal-container {
+			box-shadow: none;
+		}
+	}
+
+	&.theme--default {
+		&.modal-mask {
+			body.theme--light & {
+				background-color: rgba(255, 255, 255, 0.92) !important;
+			}
+		}
+		::v-deep .modal-title,
+		::v-deep .modal-header button::before {
+			body.theme--light & {
+				color: var(--color-main-text) !important;
+			}
+		}
+		::v-deep .modal-container {
+			box-shadow: none;
+		}
+	}
 }
 
 </style>
@@ -860,7 +892,8 @@ export default {
 }
 
 // force white icon on single buttons
-#viewer .action-item--single.icon-menu-sidebar {
+#viewer.theme--dark .action-item--single.icon-menu-sidebar,
+body.theme--dark #viewer.theme--default .action-item--single.icon-menu-sidebar {
 	background-image: url('../assets/menu-sidebar-white.svg');
 }
 
