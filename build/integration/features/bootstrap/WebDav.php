@@ -538,6 +538,57 @@ trait WebDav {
 	}
 
 	/**
+	 * @Given user :user uploads bulked files :name1 with :content1 and :name2 with :content2 and :name3 with :content3
+	 * @param string $user
+	 * @param string $name1
+	 * @param string $content1
+	 * @param string $name2
+	 * @param string $content2
+	 * @param string $name3
+	 * @param string $content3
+	 */
+	public function userUploadsChunkedFiles($user, $name1, $content1, $name2, $content2, $name3, $content3) {
+		$boundary = "boundary_azertyuiop";
+
+		$body = "";
+		$body .= '--'.$boundary."\r\n";
+		$body .= "X-File-Path: ".$name1."\r\n";
+		$body .= "X-File-MD5: f6a6263167c92de8644ac998b3c4e4d1\r\n";
+		$body .= "Content-Length: ".strlen($content1)."\r\n";
+		$body .= "\r\n";
+		$body .= $content1."\r\n";
+		$body .= '--'.$boundary."\r\n";
+		$body .= "X-File-Path: ".$name2."\r\n";
+		$body .= "X-File-MD5: 87c7d4068be07d390a1fffd21bf1e944\r\n";
+		$body .= "Content-Length: ".strlen($content2)."\r\n";
+		$body .= "\r\n";
+		$body .= $content2."\r\n";
+		$body .= '--'.$boundary."\r\n";
+		$body .= "X-File-Path: ".$name3."\r\n";
+		$body .= "X-File-MD5: e86a1cf0678099986a901c79086f5617\r\n";
+		$body .= "Content-Length: ".strlen($content3)."\r\n";
+		$body .= "\r\n";
+		$body .= $content3."\r\n";
+		$body .= '--'.$boundary."--\r\n";
+
+		$stream = fopen('php://temp','r+');
+		fwrite($stream, $body);
+		rewind($stream);
+
+		$client = new GClient();
+		$options = [
+			'auth' => [$user, $this->regularUser],
+			'headers' => [
+				'Content-Type' => 'multipart/related; boundary='.$boundary,
+				'Content-Length' => (string)strlen($body),
+			],
+			'body' => $body
+		];
+
+		return $client->request("POST", substr($this->baseUrl, 0, -4) . "remote.php/dav/bulk", $options);
+	}
+
+	/**
 	 * @Given user :user creates a new chunking upload with id :id
 	 */
 	public function userCreatesANewChunkingUploadWithId($user, $id) {

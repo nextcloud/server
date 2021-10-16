@@ -22,6 +22,8 @@ return array(
     'OCA\\DAV\\BackgroundJob\\RegisterRegenerateBirthdayCalendars' => $baseDir . '/../lib/BackgroundJob/RegisterRegenerateBirthdayCalendars.php',
     'OCA\\DAV\\BackgroundJob\\UpdateCalendarResourcesRoomsBackgroundJob' => $baseDir . '/../lib/BackgroundJob/UpdateCalendarResourcesRoomsBackgroundJob.php',
     'OCA\\DAV\\BackgroundJob\\UploadCleanup' => $baseDir . '/../lib/BackgroundJob/UploadCleanup.php',
+    'OCA\\DAV\\BulkUpload\\BulkUploadPlugin' => $baseDir . '/../lib/BulkUpload/BulkUploadPlugin.php',
+    'OCA\\DAV\\BulkUpload\\MultipartRequestParser' => $baseDir . '/../lib/BulkUpload/MultipartRequestParser.php',
     'OCA\\DAV\\CalDAV\\Activity\\Backend' => $baseDir . '/../lib/CalDAV/Activity/Backend.php',
     'OCA\\DAV\\CalDAV\\Activity\\Filter\\Calendar' => $baseDir . '/../lib/CalDAV/Activity/Filter/Calendar.php',
     'OCA\\DAV\\CalDAV\\Activity\\Filter\\Todo' => $baseDir . '/../lib/CalDAV/Activity/Filter/Todo.php',
