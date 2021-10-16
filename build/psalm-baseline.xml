@@ -2017,9 +2017,8 @@
     <NullArgument occurrences="1">
       <code>$cookie</code>
     </NullArgument>
-    <RedundantCondition occurrences="4">
+    <RedundantCondition occurrences="3">
       <code>!is_null($limit)</code>
-      <code>!isset($ldapName[0]) &amp;&amp; empty($ldapName[0])</code>
       <code>$limit === 0</code>
       <code>is_array($result)</code>
     </RedundantCondition>
