@@ -25,11 +25,18 @@
  */
 namespace OC\Core\Command\User;
 
+use Egulias\EmailValidator\EmailValidator;
+use Egulias\EmailValidator\Validation\RFCValidation;
 use OC\Files\Filesystem;
+use OCA\Settings\Mailer\NewUserMailHelper;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\Security\Events\GenerateSecurePasswordEvent;
+use OCP\Security\ISecureRandom;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputArgument;
@@ -39,11 +46,63 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
 
 class Add extends Command {
+	/**
+	 * @var IUserManager
+	 */
+	protected $userManager;
+
+	/**
+	 * @var IGroupManager
+	 */
+	protected $groupManager;
+
+	/**
+	 * @var EmailValidator
+	 */
+	protected $emailValidator;
+
+	/**
+	 * @var IConfig
+	 */
+	private $config;
+
+	/**
+	 * @var NewUserMailHelper
+	 */
+	private $mailHelper;
+
+	/**
+	 * @var IEventDispatcher
+	 */
+	private $eventDispatcher;
+
+	/**
+	 * @var ISecureRandom
+	 */
+	private $secureRandom;
+
+	/**
+	 * @param IUserManager $userManager
+	 * @param IGroupManager $groupManager
+	 * @param EmailValidator $emailValidator
+	 */
 	public function __construct(
-		protected IUserManager $userManager,
-		protected IGroupManager $groupManager,
+		IUserManager $userManager,
+		IGroupManager $groupManager,
+		EmailValidator $emailValidator,
+		IConfig $config,
+		NewUserMailHelper $mailHelper,
+		IEventDispatcher $eventDispatcher,
+		ISecureRandom $secureRandom
 	) {
 		parent::__construct();
+		$this->userManager = $userManager;
+		$this->groupManager = $groupManager;
+		$this->emailValidator = $emailValidator;
+		$this->config = $config;
+		$this->mailHelper = $mailHelper;
+		$this->eventDispatcher = $eventDispatcher;
+		$this->secureRandom = $secureRandom;
 	}
 
 	protected function configure() {
@@ -72,11 +131,22 @@ class Add extends Command {
 				'g',
 				InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
 				'groups the user should be added to (The group will be created if it does not exist)'
+			)
+			->addOption(
+				'email',
+				null,
+				InputOption::VALUE_REQUIRED,
+				'When set, users may register using the default E-Mail verification workflow'
 			);
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$uid = $input->getArgument('uid');
+		$emailIsSet = \is_string($input->getOption('email')) && \mb_strlen($input->getOption('email')) > 0;
+		$emailIsValid = $this->emailValidator->isValid($input->getOption('email') ?? '', new RFCValidation());
+		$password = '';
+		$temporaryPassword = '';
+
 		if ($this->userManager->userExists($uid)) {
 			$output->writeln('<error>The user "' . $uid . '" already exists.</error>');
 			return 1;
@@ -84,6 +154,7 @@ class Add extends Command {
 
 		if ($input->getOption('password-from-env')) {
 			$password = getenv('OC_PASS');
+
 			if (!$password) {
 				$output->writeln('<error>--password-from-env given, but OC_PASS is empty!</error>');
 				return 1;
@@ -109,16 +180,31 @@ class Add extends Command {
 			return 1;
 		}
 
+		if (trim($password) === '' && $emailIsSet) {
+			if ($emailIsValid) {
+				$output->writeln('Setting a temporary password.');
+
+				$temporaryPassword = $this->getTemporaryPassword();
+			} else {
+				$output->writeln(\sprintf(
+					'<error>The given E-Mail address "%s" is invalid: %s</error>',
+					$input->getOption('email'),
+					$this->emailValidator->getError()->description()
+				));
+
+				return 1;
+			}
+		}
+
 		try {
 			$user = $this->userManager->createUser(
 				$input->getArgument('uid'),
-				$password
+				$password ?: $temporaryPassword
 			);
 		} catch (\Exception $e) {
 			$output->writeln('<error>' . $e->getMessage() . '</error>');
 			return 1;
 		}
-
 
 		if ($user instanceof IUser) {
 			$output->writeln('<info>The user "' . $user->getUID() . '" was created successfully</info>');
@@ -129,7 +215,24 @@ class Add extends Command {
 
 		if ($input->getOption('display-name')) {
 			$user->setDisplayName($input->getOption('display-name'));
-			$output->writeln('Display name set to "' . $user->getDisplayName() . '"');
+			$output->writeln(sprintf('Display name set to "%s"', $user->getDisplayName()));
+		}
+
+		if ($emailIsSet && $emailIsValid) {
+			$user->setSystemEMailAddress($input->getOption('email'));
+			$output->writeln(sprintf('E-Mail set to "%s"', (string) $user->getSystemEMailAddress()));
+
+			if (trim($password) === '' && $this->config->getAppValue('core', 'newUser.sendEmail', 'yes') === 'yes') {
+				try {
+					$this->mailHelper->sendMail(
+						$user,
+						$this->mailHelper->generateTemplate($user, true)
+					);
+					$output->writeln('Invitation E-Mail sent.');
+				} catch (\Exception $e) {
+					$output->writeln(\sprintf('Unable to send the invitation mail to %s', $user->getEMailAddress()));
+				}
+			}
 		}
 
 		$groups = $input->getOption('group');
@@ -155,5 +258,17 @@ class Add extends Command {
 			}
 		}
 		return 0;
+	}
+
+	/**
+	 * @return string
+	 */
+	protected function getTemporaryPassword(): string
+	{
+		$passwordEvent = new GenerateSecurePasswordEvent();
+
+		$this->eventDispatcher->dispatchTyped($passwordEvent);
+
+		return $passwordEvent->getPassword() ?? $this->secureRandom->generate(20);
 	}
 }

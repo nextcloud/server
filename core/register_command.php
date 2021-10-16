@@ -48,6 +48,7 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 use Psr\Log\LoggerInterface;
 
 $application->add(new \Stecman\Component\Symfony\Console\BashCompletion\CompletionCommand());
@@ -182,7 +183,7 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 	$application->add(\OC::$server->query(\OC\Core\Command\Preview\Repair::class));
 	$application->add(\OC::$server->query(\OC\Core\Command\Preview\ResetRenderedTexts::class));
 
-	$application->add(new OC\Core\Command\User\Add(\OC::$server->getUserManager(), \OC::$server->getGroupManager()));
+	$application->add(new OC\Core\Command\User\Add(\OC::$server->getUserManager(), \OC::$server->getGroupManager(), \OC::$server->get(Egulias\EmailValidator\EmailValidator::class), \OC::$server->get(\OC\AllConfig::class), \OC::$server->get(\OCA\Settings\Mailer\NewUserMailHelper::class), \OC::$server->get(\OCP\EventDispatcher\IEventDispatcher::class), \OC::$server->get(\OCP\Security\ISecureRandom::class)));
 	$application->add(new OC\Core\Command\User\Delete(\OC::$server->getUserManager()));
 	$application->add(new OC\Core\Command\User\Disable(\OC::$server->getUserManager()));
 	$application->add(new OC\Core\Command\User\Enable(\OC::$server->getUserManager()));
