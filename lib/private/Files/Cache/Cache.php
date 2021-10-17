@@ -585,11 +585,12 @@ class Cache implements ICache {
 				return $cacheEntry->getId();
 			}, $children);
 
-			$childIdChunks = array_chunk($childIds, 2048);
-			foreach ($childIdChunks as $childIdChunk) {
-				$query = $this->getQueryBuilder();
-				$query->delete('filecache_extended')
-					->where($query->expr()->in('fileid', $query->createNamedParameter($childIdChunk, IQueryBuilder::PARAM_INT_ARRAY)));
+			$query = $this->getQueryBuilder();
+			$query->delete('filecache_extended')
+				->where($query->expr()->in('fileid', $query->createParameter('childIds')));
+			
+			foreach (array_chunk($childIds, 1000) as $childIdChunk) {
+				$query->setParameter('childIds', $childIdChunk, IQueryBuilder::PARAM_INT_ARRAY);
 				$query->execute();
 			}
 
@@ -603,11 +604,12 @@ class Cache implements ICache {
 			}
 		}
 
-		$parentIdChunks = array_chunk($parentIds, 2048);
-		foreach ($parentIdChunks as $parentIdChunk) {
-			$query = $this->getQueryBuilder();
-			$query->delete('filecache')
-				->whereParentIn($parentIdChunk);
+		$query = $this->getQueryBuilder();
+		$query->delete('filecache')
+			->whereParentInParameter('parentIds');
+
+		foreach (array_chunk($parentIds, 1000) as $parentIdChunk) {
+			$query->setParameter('parentIds', $parentIdChunk, IQueryBuilder::PARAM_INT_ARRAY);
 			$query->execute();
 		}
 	}
