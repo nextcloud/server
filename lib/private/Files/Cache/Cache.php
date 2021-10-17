@@ -587,10 +587,13 @@ class Cache implements ICache {
 				return $cacheEntry->getId();
 			}, $children);
 
-			$query = $this->getQueryBuilder();
-			$query->delete('filecache_extended')
-				->where($query->expr()->in('fileid', $query->createNamedParameter($childIds, IQueryBuilder::PARAM_INT_ARRAY)));
-			$query->execute();
+			$childIdChunks = array_chunk($childIds, 2048);
+			foreach ($childIdChunks as $childIdChunk) {
+				$query = $this->getQueryBuilder();
+				$query->delete('filecache_extended')
+					->where($query->expr()->in('fileid', $query->createNamedParameter($childIdChunk, IQueryBuilder::PARAM_INT_ARRAY)));
+				$query->execute();
+			}
 
 			/** @var ICacheEntry[] $childFolders */
 			$childFolders = array_filter($children, function ($child) {
@@ -602,10 +605,13 @@ class Cache implements ICache {
 			}
 		}
 
-		$query = $this->getQueryBuilder();
-		$query->delete('filecache')
-			->whereParentIn($parentIds);
-		$query->execute();
+		$parentIdChunks = array_chunk($parentIds, 2048);
+		foreach ($parentIdChunks as $parentIdChunk) {
+			$query = $this->getQueryBuilder();
+			$query->delete('filecache')
+				->whereParentIn($parentIdChunk);
+			$query->execute();
+		}
 	}
 
 	/**
