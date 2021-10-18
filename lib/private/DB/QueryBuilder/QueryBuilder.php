@@ -1353,4 +1353,21 @@ class QueryBuilder implements IQueryBuilder {
 
 		return $this->helper->quoteColumnName($alias);
 	}
+
+	/**
+	 * Either appends to or replaces a single, generic query part.
+	 *
+	 * The available parts are: 'select', 'from', 'set', 'where',
+	 * 'groupBy', 'having' and 'orderBy'.
+	 *
+	 * @param string $sqlPartName
+	 * @param mixed  $sqlPart
+	 * @param bool   $append
+	 *
+	 * @return $this This QueryBuilder instance.
+	 */
+	public function add(string $sqlPartName, $sqlPart, bool $append = false) {
+		$this->queryBuilder->add($sqlPartName, $sqlPart, $append);
+		return $this;
+	}
 }
