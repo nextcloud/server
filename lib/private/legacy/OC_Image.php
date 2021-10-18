@@ -670,30 +670,55 @@ class OC_Image implements \OCP\IImage {
 	 */
 	private function updateImageTypes($buffer) {
 		if ($this->valid()) {
-			$finfo = new finfo(FILEINFO_MIME_TYPE);
-			$this->mimeType = $finfo->buffer($buffer);
-			switch ($this->mimeType) {
-				case 'image/gif':
-					$this->imageType = IMAGETYPE_GIF;
-					break;
-				case 'image/jpeg':
-					$this->imageType = IMAGETYPE_JPEG;
-					break;
-				case 'image/png':
-					$this->imageType = IMAGETYPE_PNG;
-					break;
-				case 'image/xbm':
-					$this->imageType = IMAGETYPE_XBM;
-					break;
-				case 'image/vnd.wap.wbmp':
-					$this->imageType = IMAGETYPE_WBMP;
-					break;
-				case 'image/bmp':
-					$this->imageType = IMAGETYPE_BMP;
-					break;
-				case 'image/webp':
-					$this->imageType = IMAGETYPE_WEBP;
-					break;
+			if ($this->fileInfo) {
+				$this->mimeType = $this->fileInfo->buffer($buffer);
+
+				switch ($this->mimeType) {
+					case 'image/gif':
+						$this->imageType = IMAGETYPE_GIF;
+						break;
+					case 'image/jpeg':
+						$this->imageType = IMAGETYPE_JPEG;
+						break;
+					case 'image/png':
+						$this->imageType = IMAGETYPE_PNG;
+						break;
+					case 'image/xbm':
+						$this->imageType = IMAGETYPE_XBM;
+						break;
+					case 'image/vnd.wap.wbmp':
+						$this->imageType = IMAGETYPE_WBMP;
+						break;
+					case 'image/bmp':
+						$this->imageType = IMAGETYPE_BMP;
+						break;
+					case 'image/webp':
+						$this->imageType = IMAGETYPE_WEBP;
+						break;
+					default:
+						return false;
+				}
+
+				return true;
+			} else {
+				// Fallback: Use temporary file
+				$this->logger->debug('OC_Image->updateImageTypes, finfo not set, using temporary file as a fallback', ['app' => 'core']);
+
+				$tmpFile = tmpfile();
+				$tmpFileName = stream_get_meta_data($tmpFile)['uri'];
+				fwrite($tmpFile, $buffer);
+				fflush($tmpFile);
+
+				if (filesize($tmpFileName) < 12) {
+					return false;
+				}
+
+				$this->imageType = exif_imagetype($tmpFileName);
+				$this->mimeType = image_type_to_mime_type($this->imageType);
+
+				fclose($tmpFile);
+
+				return true;
 			}
 		}
 	}
@@ -713,7 +738,9 @@ class OC_Image implements \OCP\IImage {
 			imagealphablending($this->resource, false);
 			imagesavealpha($this->resource, true);
 		}
-		$this->updateImageTypes($str);
+		if (!$this->updateImageTypes($str)) {
+			return false;
+		}
 
 		if (!$this->resource) {
 			$this->logger->debug('OC_Image->loadFromFile, could not load', ['app' => 'core']);
@@ -735,7 +762,9 @@ class OC_Image implements \OCP\IImage {
 		$data = base64_decode($str);
 		if ($data) { // try to load from string data
 			$this->resource = @imagecreatefromstring($data);
-			$this->updateImageTypes($data);
+			if ($this->updateImageTypes($data)) {
+				return false;
+			}
 			if (!$this->resource) {
 				$this->logger->debug('OC_Image->loadFromBase64, could not load', ['app' => 'core']);
 				return false;
