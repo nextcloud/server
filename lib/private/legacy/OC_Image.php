@@ -666,7 +666,7 @@ class OC_Image implements \OCP\IImage {
 	 * Get the correct file type from a buffered image
 	 *
 	 * @param string $buffer The image data to analyze
-	 * @return void
+	 * @return bool
 	 */
 	private function updateImageTypes($buffer) {
 		if ($this->valid()) {
