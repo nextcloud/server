@@ -5,7 +5,7 @@
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
@@ -21,14 +21,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\App\AppStore\Fetcher;
 
 use GuzzleHttp\Exception\ConnectException;
@@ -39,7 +38,8 @@ use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
-use OCP\ILogger;
+use OCP\Support\Subscription\IRegistry;
+use Psr\Log\LoggerInterface;
 
 abstract class Fetcher {
 	public const INVALIDATE_AFTER_SECONDS = 3600;
@@ -53,8 +53,11 @@ abstract class Fetcher {
 	protected $timeFactory;
 	/** @var IConfig */
 	protected $config;
-	/** @var Ilogger */
+	/** @var LoggerInterface */
 	protected $logger;
+	/** @var IRegistry */
+	protected $registry;
+
 	/** @var string */
 	protected $fileName;
 	/** @var string */
@@ -64,23 +67,18 @@ abstract class Fetcher {
 	/** @var string */
 	protected $channel;
 
-	/**
-	 * @param Factory $appDataFactory
-	 * @param IClientService $clientService
-	 * @param ITimeFactory $timeFactory
-	 * @param IConfig $config
-	 * @param ILogger $logger
-	 */
 	public function __construct(Factory $appDataFactory,
 								IClientService $clientService,
 								ITimeFactory $timeFactory,
 								IConfig $config,
-								ILogger $logger) {
+								LoggerInterface $logger,
+								IRegistry $registry) {
 		$this->appData = $appDataFactory->get('appstore');
 		$this->clientService = $clientService;
 		$this->timeFactory = $timeFactory;
 		$this->config = $config;
 		$this->logger = $logger;
+		$this->registry = $registry;
 	}
 
 	/**
@@ -109,6 +107,12 @@ abstract class Fetcher {
 			$options['headers'] = [
 				'If-None-Match' => $ETag,
 			];
+		}
+
+		// If we have a valid subscription key, send it to the appstore
+		$subscriptionKey = $this->config->getAppValue('support', 'subscription_key');
+		if ($this->registry->delegateHasValidSubscription() && $subscriptionKey) {
+			$options['headers']['X-NC-Subscription-Key'] = $subscriptionKey;
 		}
 
 		$client = $this->clientService->newClient();
@@ -202,7 +206,10 @@ abstract class Fetcher {
 			$this->logger->warning('Could not connect to appstore: ' . $e->getMessage(), ['app' => 'appstoreFetcher']);
 			return [];
 		} catch (\Exception $e) {
-			$this->logger->logException($e, ['app' => 'appstoreFetcher', 'level' => ILogger::WARN]);
+			$this->logger->warning($e->getMessage(), [
+				'exception' => $e,
+				'app' => 'appstoreFetcher',
+			]);
 			return [];
 		}
 	}

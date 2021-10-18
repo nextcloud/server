@@ -6,7 +6,6 @@ OC.L10N.register(
     "Show something" : "أظهر شي ما",
     "Customize" : "تعديل",
     "Edit widgets" : "تعديل الودجات",
-    "Get more widgets from the app store" : "احصل على ودجات من متجر التطبيقات",
     "Change background image" : "تغييرصورة الخلفية",
     "Weather service" : "خدمة احوال الطقس",
     "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "لخصوصيتك، يتم استدعاء بيانات احوال الطقس عبر خادم نكست كلاود الخاص بك نيابه عنك ولذلك خدمة احوال الطقس لا تشارك المعلومات الشخصية.",
@@ -27,6 +26,7 @@ OC.L10N.register(
     "Default images" : "الصور الإفتراضية",
     "Plain background" : "خلفية سادة",
     "Insert from {productName}" : "اضف من {productName}",
+    "Get more widgets from the app store" : "احصل على ودجات من متجر التطبيقات",
     "Good night, {name}" : "تصبح على خير، {name}",
     "Good night" : "تصبح على خير",
     "Pick from files" : "اختر من الملفات"

@@ -11,12 +11,16 @@
  * @author exner104 <59639860+exner104@users.noreply.github.com>
  * @author Frederic Werner <frederic-github@werner-net.work>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Nicolas SIMIDE <2083596+dems54@users.noreply.github.com>
  * @author Robin Appelman <robin@icewind.nl>
+ * @author robottod <83244577+robottod@users.noreply.github.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author rubo77 <github@r.z11.de>
  * @author Stephan Müller <mail@stephanmueller.eu>
+ * @author Valdnet <47037905+Valdnet@users.noreply.github.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -27,17 +31,15 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\ShareByMail;
 
-use OC\HintException;
 use OC\Share20\Exception\InvalidShare;
 use OC\Share20\Share;
 use OC\User\NoUserException;
@@ -49,6 +51,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
+use OCP\HintException;
 use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\ILogger;
@@ -212,7 +215,7 @@ class ShareByMailProvider implements IShareProvider {
 
 		if ($initiatorEMailAddress === null && !$allowPasswordByMail) {
 			throw new \Exception(
-				$this->l->t("We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again.")
+				$this->l->t("We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again.")
 			);
 		}
 
@@ -221,7 +224,7 @@ class ShareByMailProvider implements IShareProvider {
 
 		$password = $passwordEvent->getPassword();
 		if ($password === null) {
-			$password = $this->secureRandom->generate(8, ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_DIGITS);
+			$password = $this->secureRandom->generate(8, ISecureRandom::CHAR_HUMAN_READABLE);
 		}
 
 		return $password;
@@ -574,7 +577,7 @@ class ShareByMailProvider implements IShareProvider {
 
 		if ($initiatorEMailAddress === null) {
 			throw new \Exception(
-				$this->l->t("We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again.")
+				$this->l->t("We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again.")
 			);
 		}
 
@@ -642,7 +645,7 @@ class ShareByMailProvider implements IShareProvider {
 			->andWhere($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_EMAIL)))
 			->orderBy('id');
 
-		$cursor = $qb->execute();
+		$cursor = $qb->executeQuery();
 		while ($data = $cursor->fetch()) {
 			$children[] = $this->createShareObject($data);
 		}
@@ -696,7 +699,7 @@ class ShareByMailProvider implements IShareProvider {
 		 */
 		$qb->setValue('file_target', $qb->createNamedParameter(''));
 
-		$qb->execute();
+		$qb->executeStatement();
 		return $qb->getLastInsertId();
 	}
 
@@ -732,7 +735,7 @@ class ShareByMailProvider implements IShareProvider {
 			->set('expiration', $qb->createNamedParameter($share->getExpirationDate(), IQueryBuilder::PARAM_DATE))
 			->set('note', $qb->createNamedParameter($share->getNote()))
 			->set('hide_download', $qb->createNamedParameter((int)$share->getHideDownload(), IQueryBuilder::PARAM_INT))
-			->execute();
+			->executeStatement();
 
 		if ($originalShare->getNote() !== $share->getNote() && $share->getNote() !== '') {
 			$this->sendNote($share);
@@ -822,7 +825,7 @@ class ShareByMailProvider implements IShareProvider {
 		$qb->setFirstResult($offset);
 		$qb->orderBy('id');
 
-		$cursor = $qb->execute();
+		$cursor = $qb->executeQuery();
 		$shares = [];
 		while ($data = $cursor->fetch()) {
 			$shares[] = $this->createShareObject($data);
@@ -843,7 +846,7 @@ class ShareByMailProvider implements IShareProvider {
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($id)))
 			->andWhere($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_EMAIL)));
 
-		$cursor = $qb->execute();
+		$cursor = $qb->executeQuery();
 		$data = $cursor->fetch();
 		$cursor->closeCursor();
 
@@ -873,7 +876,7 @@ class ShareByMailProvider implements IShareProvider {
 			->from('share')
 			->andWhere($qb->expr()->eq('file_source', $qb->createNamedParameter($path->getId())))
 			->andWhere($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_EMAIL)))
-			->execute();
+			->executeQuery();
 
 		$shares = [];
 		while ($data = $cursor->fetch()) {
@@ -913,7 +916,7 @@ class ShareByMailProvider implements IShareProvider {
 			$qb->andWhere($qb->expr()->eq('file_source', $qb->createNamedParameter($node->getId())));
 		}
 
-		$cursor = $qb->execute();
+		$cursor = $qb->executeQuery();
 
 		while ($data = $cursor->fetch()) {
 			$shares[] = $this->createShareObject($data);
@@ -938,7 +941,7 @@ class ShareByMailProvider implements IShareProvider {
 			->from('share')
 			->where($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_EMAIL)))
 			->andWhere($qb->expr()->eq('token', $qb->createNamedParameter($token)))
-			->execute();
+			->executeQuery();
 
 		$data = $cursor->fetch();
 
@@ -964,7 +967,7 @@ class ShareByMailProvider implements IShareProvider {
 		$qb = $this->dbConnection->getQueryBuilder();
 		$qb->delete('share')
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($shareId)));
-		$qb->execute();
+		$qb->executeStatement();
 	}
 
 	/**
@@ -1058,7 +1061,7 @@ class ShareByMailProvider implements IShareProvider {
 		$qb->delete('share')
 			->where($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_EMAIL)))
 			->andWhere($qb->expr()->eq('uid_owner', $qb->createNamedParameter($uid)))
-			->execute();
+			->executeStatement();
 	}
 
 	/**
@@ -1093,7 +1096,7 @@ class ShareByMailProvider implements IShareProvider {
 			->from('share')
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($id)));
 
-		$cursor = $qb->execute();
+		$cursor = $qb->executeQuery();
 		$data = $cursor->fetch();
 		$cursor->closeCursor();
 
@@ -1135,7 +1138,7 @@ class ShareByMailProvider implements IShareProvider {
 
 		$qb->orderBy('id');
 
-		$cursor = $qb->execute();
+		$cursor = $qb->executeQuery();
 		$shares = [];
 		while ($data = $cursor->fetch()) {
 			$shares[$data['fileid']][] = $this->createShareObject($data);
@@ -1164,7 +1167,7 @@ class ShareByMailProvider implements IShareProvider {
 				$qb->expr()->eq('item_type', $qb->createNamedParameter('folder'))
 			))
 			->setMaxResults(1);
-		$cursor = $qb->execute();
+		$cursor = $qb->executeQuery();
 
 		$mail = $cursor->fetch() !== false;
 		$cursor->closeCursor();
@@ -1183,7 +1186,7 @@ class ShareByMailProvider implements IShareProvider {
 				)
 			);
 
-		$cursor = $qb->execute();
+		$cursor = $qb->executeQuery();
 		while ($data = $cursor->fetch()) {
 			try {
 				$share = $this->createShareObject($data);

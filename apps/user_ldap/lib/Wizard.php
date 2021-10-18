@@ -35,11 +35,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\User_LDAP;
 
 use OC\ServerNotAvailableException;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 
 class Wizard extends LDAPUtility {
 	/** @var \OCP\IL10N */
@@ -49,6 +48,9 @@ class Wizard extends LDAPUtility {
 	protected $configuration;
 	protected $result;
 	protected $resultCache = [];
+
+	/** @var LoggerInterface */
+	protected $logger;
 
 	public const LRESULT_PROCESSED_OK = 2;
 	public const LRESULT_PROCESSED_INVALID = 3;
@@ -77,6 +79,7 @@ class Wizard extends LDAPUtility {
 		}
 		$this->access = $access;
 		$this->result = new WizardResult();
+		$this->logger = \OC::$server->get(LoggerInterface::class);
 	}
 
 	public function __destruct() {
@@ -300,9 +303,11 @@ class Wizard extends LDAPUtility {
 		if ($winner !== '') {
 			$this->applyFind('ldap_email_attr', $winner);
 			if ($writeLog) {
-				\OCP\Util::writeLog('user_ldap', 'The mail attribute has ' .
-					'automatically been reset, because the original value ' .
-					'did not return any results.', ILogger::INFO);
+				$this->logger->info(
+					'The mail attribute has automatically been reset, '.
+					'because the original value did not return any results.',
+					['app' => 'user_ldap']
+				);
 			}
 		}
 
@@ -680,7 +685,10 @@ class Wizard extends LDAPUtility {
 		foreach ($portSettings as $setting) {
 			$p = $setting['port'];
 			$t = $setting['tls'];
-			\OCP\Util::writeLog('user_ldap', 'Wiz: trying port '. $p . ', TLS '. $t, ILogger::DEBUG);
+			$this->logger->debug(
+				'Wiz: trying port '. $p . ', TLS '. $t,
+				['app' => 'user_ldap']
+			);
 			//connectAndBind may throw Exception, it needs to be catched by the
 			//callee of this method
 
@@ -703,7 +711,10 @@ class Wizard extends LDAPUtility {
 					'ldapTLS' => (int)$t
 				];
 				$this->configuration->setConfiguration($config);
-				\OCP\Util::writeLog('user_ldap', 'Wiz: detected Port ' . $p, ILogger::DEBUG);
+				$this->logger->debug(
+					'Wiz: detected Port ' . $p,
+					['app' => 'user_ldap']
+				);
 				$this->result->addChange('ldap_port', $p);
 				return $this->result;
 			}
@@ -848,8 +859,10 @@ class Wizard extends LDAPUtility {
 		if (!$this->ldap->isResource($rr)) {
 			$errorNo = $this->ldap->errno($cr);
 			$errorMsg = $this->ldap->error($cr);
-			\OCP\Util::writeLog('user_ldap', 'Wiz: Could not search base '.$base.
-							' Error '.$errorNo.': '.$errorMsg, ILogger::INFO);
+			$this->logger->info(
+				'Wiz: Could not search base '.$base.' Error '.$errorNo.': '.$errorMsg,
+				['app' => 'user_ldap']
+			);
 			return false;
 		}
 		$entries = $this->ldap->countEntries($cr, $rr);
@@ -1025,7 +1038,10 @@ class Wizard extends LDAPUtility {
 				break;
 		}
 
-		\OCP\Util::writeLog('user_ldap', 'Wiz: Final filter '.$filter, ILogger::DEBUG);
+		$this->logger->debug(
+			'Wiz: Final filter '.$filter,
+			['app' => 'user_ldap']
+		);
 
 		return $filter;
 	}
@@ -1045,7 +1061,10 @@ class Wizard extends LDAPUtility {
 		if (!$hostInfo) {
 			throw new \Exception(self::$l->t('Invalid Host'));
 		}
-		\OCP\Util::writeLog('user_ldap', 'Wiz: Attempting to connect ', ILogger::DEBUG);
+		$this->logger->debug(
+			'Wiz: Attempting to connect',
+			['app' => 'user_ldap']
+		);
 		$cr = $this->ldap->connect($host, $port);
 		if (!is_resource($cr)) {
 			throw new \Exception(self::$l->t('Invalid Host'));
@@ -1064,7 +1083,10 @@ class Wizard extends LDAPUtility {
 				}
 			}
 
-			\OCP\Util::writeLog('user_ldap', 'Wiz: Attemping to Bind ', ILogger::DEBUG);
+			$this->logger->debug(
+				'Wiz: Attemping to Bind',
+				['app' => 'user_ldap']
+			);
 			//interesting part: do the bind!
 			$login = $this->ldap->bind($cr,
 				$this->configuration->ldapAgentName,
@@ -1079,7 +1101,10 @@ class Wizard extends LDAPUtility {
 
 		if ($login === true) {
 			$this->ldap->unbind($cr);
-			\OCP\Util::writeLog('user_ldap', 'Wiz: Bind successful to Port '. $port . ' TLS ' . (int)$tls, ILogger::DEBUG);
+			$this->logger->debug(
+				'Wiz: Bind successful to Port '. $port . ' TLS ' . (int)$tls,
+				['app' => 'user_ldap']
+			);
 			return true;
 		}
 

@@ -25,7 +25,6 @@ OC.L10N.register(
     "A new version is available: <strong>{newVersionString}</strong>" : "Yra prieinama nauja versija: <strong>{newVersionString}</strong>",
     "Checked on {lastCheckedDate}" : "Tikrinta {lastCheckedDate}",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Įsitikinkite, kad jūsų config.php nenustato <samp>appstoreenabled</samp> į neigiamą reikšmę.",
-    "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "Nepavyko prisijungti prie programėlių parduotuvės arba programėlių parduotuvė negrąžino visiškai jokių atnaujinimų. Atlikite rankinę atnaujinimų paiešką arba įsitikinkite, kad jūsų serveris turi prieigą prie interneto ir gali prisijungti prie programėlių parduotuvės.",
     "View changelog" : "Rodyti keitinių žurnalą",
     "Stable" : "Stabilus",
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "Paskiausia stabili versija. Tinka įprastam naudojimui ir visada bus atnaujinama į naujausią pagrindinę versiją.",
@@ -36,6 +35,7 @@ OC.L10N.register(
     "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "Turėkite omenyje, kad po naujos versijos išleidimo, gali praeiti šiek tiek laiko, kol ji čia taps matoma. Mes išleidžiame naujas versijas paskirstytas pagal laiką savo naudotojams ir, kartais, pastebėjus klaidas, praleidžiame versiją.",
     "Only notification for app updates are available." : "Yra prieinami tik pranešimai apie programėlių atnaujinimus.",
     "Checking apps for compatible updates" : "Tikrinama, ar yra suderinamų programėlių atnaujinimų",
+    "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "Nepavyko prisijungti prie programėlių parduotuvės arba programėlių parduotuvė negrąžino visiškai jokių atnaujinimų. Atlikite rankinę atnaujinimų paiešką arba įsitikinkite, kad jūsų serveris turi prieigą prie interneto ir gali prisijungti prie programėlių parduotuvės.",
     "<strong>All</strong> apps have an update for this version available" : "<strong>Visos</strong> programėlės turi šiai versijai prieinamą atnaujinimą",
     "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> programėlė neturi šiai versijai prieinamo atnaujinimo","<strong>%n</strong> programėlės neturi šiai versijai prieinamo atnaujinimo","<strong>%n</strong> programėlių neturi šiai versijai prieinamo atnaujinimo","<strong>%n</strong> programėlė neturi šiai versijai prieinamo atnaujinimo"]
 },

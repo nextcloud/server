@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2016 Joas Schilling <coding@schilljs.com>
  *
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Jonas Rittershofer <jotoeri@users.noreply.github.com>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Maxence Lange <maxence@nextcloud.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -18,14 +19,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCP\RichObjectStrings;
 
 /**
@@ -415,6 +415,37 @@ class Definitions {
 					'required' => false,
 					'description' => 'The full URL that should be opened when clicking the highlighted text.',
 					'example' => 'http://localhost/index.php/f/42',
+				],
+			],
+		],
+		'geo-location' => [
+			'author' => 'Nextcloud',
+			'app' => 'core',
+			'since' => '22.0.0',
+			'parameters' => [
+				'id' => [
+					'since' => '22.0.0',
+					'required' => true,
+					'description' => 'The geo URI (https://en.wikipedia.org/wiki/Geo_URI_scheme) to identify the location',
+					'example' => 'geo:52.5450511,13.3741463',
+				],
+				'name' => [
+					'since' => '22.0.0',
+					'required' => true,
+					'description' => 'A description of the location',
+					'example' => 'Nextcloud Berlin Office',
+				],
+				'latitude' => [
+					'since' => '22.0.0',
+					'required' => true,
+					'description' => 'The latitude of the location MUST be the same as in the id',
+					'example' => '52.5450511',
+				],
+				'longitude' => [
+					'since' => '22.0.0',
+					'required' => true,
+					'description' => 'The longitude of the location MUST be the same as in the id',
+					'example' => '13.3741463',
 				],
 			],
 		],

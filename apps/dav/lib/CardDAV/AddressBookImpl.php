@@ -3,13 +3,14 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Arne Hamann <kontakt+github@arne.email>
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Björn Schießle <bjoern@schiessle.org>
  * @author call-me-matt <nextcloud@matthiasheinisch.de>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
@@ -28,7 +29,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\CardDAV;
 
 use OCP\Constants;
@@ -150,13 +150,17 @@ class AddressBookImpl implements IAddressBook {
 			if (is_array($value)) {
 				$vCard->remove($key);
 				foreach ($value as $entry) {
-					if (($key === "ADR" || $key === "PHOTO") && is_string($entry["value"])) {
-						$entry["value"] = stripslashes($entry["value"]);
-						$entry["value"] = explode(';', $entry["value"]);
-					}
-					$property = $vCard->createProperty($key, $entry["value"]);
-					if (isset($entry["type"])) {
-						$property->add('TYPE', $entry["type"]);
+					if (is_string($entry)) {
+						$property = $vCard->createProperty($key, $entry);
+					} else {
+						if (($key === "ADR" || $key === "PHOTO") && is_string($entry["value"])) {
+							$entry["value"] = stripslashes($entry["value"]);
+							$entry["value"] = explode(';', $entry["value"]);
+						}
+						$property = $vCard->createProperty($key, $entry["value"]);
+						if (isset($entry["type"])) {
+							$property->add('TYPE', $entry["type"]);
+						}
 					}
 					$vCard->add($property);
 				}

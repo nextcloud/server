@@ -1,11 +1,11 @@
 <?php
 /**
- *
+ * @copyright Copyright (c) 2016 Sergio Bertolin <sbertolin@solidgear.es>
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author David Toledo <dtoledo@solidgear.es>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
@@ -24,14 +24,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 use GuzzleHttp\Client as GClient;
 use GuzzleHttp\Message\ResponseInterface;
 use PHPUnit\Framework\Assert;
@@ -536,6 +535,57 @@ trait WebDav {
 		$data = \GuzzleHttp\Psr7\stream_for($data);
 		$file = $destination . '-chunking-42-' . $total . '-' . $num;
 		$this->makeDavRequest($user, 'PUT', $file, ['OC-Chunked' => '1'], $data, "uploads");
+	}
+
+	/**
+	 * @Given user :user uploads bulked files :name1 with :content1 and :name2 with :content2 and :name3 with :content3
+	 * @param string $user
+	 * @param string $name1
+	 * @param string $content1
+	 * @param string $name2
+	 * @param string $content2
+	 * @param string $name3
+	 * @param string $content3
+	 */
+	public function userUploadsChunkedFiles($user, $name1, $content1, $name2, $content2, $name3, $content3) {
+		$boundary = "boundary_azertyuiop";
+
+		$body = "";
+		$body .= '--'.$boundary."\r\n";
+		$body .= "X-File-Path: ".$name1."\r\n";
+		$body .= "X-File-MD5: f6a6263167c92de8644ac998b3c4e4d1\r\n";
+		$body .= "Content-Length: ".strlen($content1)."\r\n";
+		$body .= "\r\n";
+		$body .= $content1."\r\n";
+		$body .= '--'.$boundary."\r\n";
+		$body .= "X-File-Path: ".$name2."\r\n";
+		$body .= "X-File-MD5: 87c7d4068be07d390a1fffd21bf1e944\r\n";
+		$body .= "Content-Length: ".strlen($content2)."\r\n";
+		$body .= "\r\n";
+		$body .= $content2."\r\n";
+		$body .= '--'.$boundary."\r\n";
+		$body .= "X-File-Path: ".$name3."\r\n";
+		$body .= "X-File-MD5: e86a1cf0678099986a901c79086f5617\r\n";
+		$body .= "Content-Length: ".strlen($content3)."\r\n";
+		$body .= "\r\n";
+		$body .= $content3."\r\n";
+		$body .= '--'.$boundary."--\r\n";
+
+		$stream = fopen('php://temp','r+');
+		fwrite($stream, $body);
+		rewind($stream);
+
+		$client = new GClient();
+		$options = [
+			'auth' => [$user, $this->regularUser],
+			'headers' => [
+				'Content-Type' => 'multipart/related; boundary='.$boundary,
+				'Content-Length' => (string)strlen($body),
+			],
+			'body' => $body
+		];
+
+		return $client->request("POST", substr($this->baseUrl, 0, -4) . "remote.php/dav/bulk", $options);
 	}
 
 	/**

@@ -30,6 +30,10 @@ import ItemTemplate from './templates/item.handlebars'
 import Template from './templates/template.handlebars';
 
 (function() {
+	if (!OCA.Files.DetailTabView) {
+		// Only register the versions tab within the files app
+		return
+	}
 	/**
 	 * @memberof OCA.Versions
 	 */

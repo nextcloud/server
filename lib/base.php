@@ -16,12 +16,13 @@
  * @author Eric Masseran <rico.masseran@gmail.com>
  * @author Florin Peter <github@florin-peter.de>
  * @author Greta Doci <gretadoci@gmail.com>
+ * @author J0WI <J0WI@users.noreply.github.com>
  * @author Jakob Sack <mail@jakobsack.de>
  * @author jaltek <jaltek@mailbox.org>
  * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
  * @author Joachim Sokolowski <github@sokolowski.org>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Jose Quinteiro <github@quinteiro.org>
  * @author Juan Pablo Villafáñez <jvillafanez@solidgear.es>
@@ -60,7 +61,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Group\Events\UserRemovedEvent;
 use OCP\ILogger;
@@ -68,6 +68,7 @@ use OCP\Share;
 use OC\Encryption\HookManager;
 use OC\Files\Filesystem;
 use OC\Share20\Hooks;
+use OCP\User\Events\UserChangedEvent;
 
 require_once 'public/Constants.php';
 
@@ -249,17 +250,17 @@ class OC {
 
 			if (self::$CLI) {
 				echo $l->t('Cannot write into "config" directory!')."\n";
-				echo $l->t('This can usually be fixed by giving the webserver write access to the config directory')."\n";
+				echo $l->t('This can usually be fixed by giving the webserver write access to the config directory.')."\n";
 				echo "\n";
-				echo $l->t('Or, if you prefer to keep config.php file read only, set the option "config_is_read_only" to true in it.')."\n";
+				echo $l->t('But, if you prefer to keep config.php file read only, set the option "config_is_read_only" to true in it.')."\n";
 				echo $l->t('See %s', [ $urlGenerator->linkToDocs('admin-config') ])."\n";
 				exit;
 			} else {
 				OC_Template::printErrorPage(
 					$l->t('Cannot write into "config" directory!'),
-					$l->t('This can usually be fixed by giving the webserver write access to the config directory.') . '. '
-					. $l->t('Or, if you prefer to keep config.php file read only, set the option "config_is_read_only" to true in it. See %s',
-					[ $urlGenerator->linkToDocs('admin-config') ]),
+					$l->t('This can usually be fixed by giving the webserver write access to the config directory.') . ' '
+					. $l->t('But, if you prefer to keep config.php file read only, set the option "config_is_read_only" to true in it.') . ' '
+					. $l->t('See %s', [ $urlGenerator->linkToDocs('admin-config') ]),
 					503
 				);
 			}
@@ -387,7 +388,7 @@ class OC {
 		if (!empty($incompatibleShippedApps)) {
 			$l = \OC::$server->getL10N('core');
 			$hint = $l->t('The files of the app %1$s were not replaced correctly. Make sure it is a version compatible with the server.', [implode(', ', $incompatibleShippedApps)]);
-			throw new \OC\HintException('The files of the app ' . implode(', ', $incompatibleShippedApps) . ' were not replaced correctly. Make sure it is a version compatible with the server.', $hint);
+			throw new \OCP\HintException('The files of the app ' . implode(', ', $incompatibleShippedApps) . ' were not replaced correctly. Make sure it is a version compatible with the server.', $hint);
 		}
 
 		$tmpl->assign('appsToUpgrade', $appManager->getAppsNeedingUpgrade($ocVersion));
@@ -404,7 +405,7 @@ class OC {
 
 	public static function initSession() {
 		if (self::$server->getRequest()->getServerProtocol() === 'https') {
-			ini_set('session.cookie_secure', true);
+			ini_set('session.cookie_secure', 'true');
 		}
 
 		// prevents javascript from accessing php session cookies
@@ -843,8 +844,9 @@ class OC {
 	}
 
 	private static function registerAccountHooks() {
-		$hookHandler = \OC::$server->get(\OC\Accounts\Hooks::class);
-		\OCP\Util::connectHook('OC_User', 'changeUser', $hookHandler, 'changeUserHook');
+		/** @var IEventDispatcher $dispatcher */
+		$dispatcher = \OC::$server->get(IEventDispatcher::class);
+		$dispatcher->addServiceListener(UserChangedEvent::class, \OC\Accounts\Hooks::class);
 	}
 
 	private static function registerAppRestrictionsHooks() {
@@ -929,7 +931,7 @@ class OC {
 				\OC::$server->get(\bantu\IniGetWrapper\IniGetWrapper::class),
 				\OC::$server->getL10N('lib'),
 				\OC::$server->query(\OCP\Defaults::class),
-				\OC::$server->getLogger(),
+				\OC::$server->get(\Psr\Log\LoggerInterface::class),
 				\OC::$server->getSecureRandom(),
 				\OC::$server->query(\OC\Installer::class)
 			);
@@ -1019,12 +1021,10 @@ class OC {
 			OC_App::loadApps();
 			OC_User::setupBackends();
 			OC_Util::setupFS();
-			// FIXME
-			// Redirect to default application
-			OC_Util::redirectToDefaultPage();
+			header('Location: ' . \OC::$server->getURLGenerator()->linkToDefaultPageUrl());
 		} else {
 			// Not handled and not logged in
-			header('Location: '.\OC::$server->getURLGenerator()->linkToRouteAbsolute('core.login.showLoginForm'));
+			header('Location: ' . \OC::$server->getURLGenerator()->linkToRouteAbsolute('core.login.showLoginForm'));
 		}
 	}
 

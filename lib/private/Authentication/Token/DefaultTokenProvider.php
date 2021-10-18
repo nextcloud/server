@@ -29,7 +29,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Authentication\Token;
 
 use Exception;
@@ -72,21 +71,12 @@ class DefaultTokenProvider implements IProvider {
 	}
 
 	/**
-	 * Create and persist a new token
-	 *
-	 * @param string $token
-	 * @param string $uid
-	 * @param string $loginName
-	 * @param string|null $password
-	 * @param string $name
-	 * @param int $type token type
-	 * @param int $remember whether the session token should be used for remember-me
-	 * @return IToken
+	 * {@inheritDoc}
 	 */
 	public function generateToken(string $token,
 								  string $uid,
 								  string $loginName,
-								  $password,
+								  ?string $password,
 								  string $name,
 								  int $type = IToken::TEMPORARY_TOKEN,
 								  int $remember = IToken::DO_NOT_REMEMBER): IToken {
@@ -225,7 +215,7 @@ class DefaultTokenProvider implements IProvider {
 	 */
 	public function getPassword(IToken $savedToken, string $tokenId): string {
 		$password = $savedToken->getPassword();
-		if (is_null($password)) {
+		if ($password === null || $password === '') {
 			throw new PasswordlessTokenException();
 		}
 		return $this->decryptPassword($password, $tokenId);

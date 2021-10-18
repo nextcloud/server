@@ -20,14 +20,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\CalDAV\Reminder\NotificationProvider;
 
 use OCA\DAV\AppInfo\Application;
@@ -138,10 +137,10 @@ class PushProvider extends AbstractProvider {
 				? ((string) $vevent->LOCATION)
 				: null,
 			'all_day' => $start instanceof Property\ICalendar\Date,
-			'start_atom' => $start->getDateTime()->format(\DateTime::ATOM),
+			'start_atom' => $start->getDateTime()->format(\DateTimeInterface::ATOM),
 			'start_is_floating' => $start->isFloating(),
 			'start_timezone' => $start->getDateTime()->getTimezone()->getName(),
-			'end_atom' => $end->getDateTime()->format(\DateTime::ATOM),
+			'end_atom' => $end->getDateTime()->format(\DateTimeInterface::ATOM),
 			'end_is_floating' => $end->isFloating(),
 			'end_timezone' => $end->getDateTime()->getTimezone()->getName(),
 		];

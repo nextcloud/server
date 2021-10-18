@@ -5,8 +5,8 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -26,23 +26,22 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC;
 
 use OCP\AppFramework\QueryException;
 use OCP\Capabilities\ICapability;
 use OCP\Capabilities\IPublicCapability;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 
 class CapabilitiesManager {
 
 	/** @var \Closure[] */
 	private $capabilities = [];
 
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	private $logger;
 
-	public function __construct(ILogger $logger) {
+	public function __construct(LoggerInterface $logger) {
 		$this->logger = $logger;
 	}
 
@@ -59,10 +58,8 @@ class CapabilitiesManager {
 			try {
 				$c = $capability();
 			} catch (QueryException $e) {
-				$this->logger->logException($e, [
-					'message' => 'CapabilitiesManager',
-					'level' => ILogger::ERROR,
-					'app' => 'core',
+				$this->logger->error('CapabilitiesManager', [
+					'exception' => $e,
 				]);
 				continue;
 			}

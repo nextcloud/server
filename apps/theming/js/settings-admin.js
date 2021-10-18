@@ -163,7 +163,7 @@ window.addEventListener('DOMContentLoaded', function () {
 		} catch (error) {
 			$('#theming-name').attr('title', error);
 			$('#theming-name').tooltip({placement: 'top', trigger: 'manual'});
-			$('#theming-name').tooltip('fixTitle');
+			$('#theming-name').tooltip('_fixTitle');
 			$('#theming-name').tooltip('show');
 			$('#theming-name').addClass('error');
 		}

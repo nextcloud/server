@@ -1,11 +1,11 @@
 <?php
 /**
- *
+ * @copyright Copyright (c) 2016 Sergio Bertolin <sbertolin@solidgear.es>
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -23,14 +23,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 use GuzzleHttp\Client;
 use GuzzleHttp\Message\ResponseInterface;
 use PHPUnit\Framework\Assert;
@@ -169,12 +168,79 @@ trait Provisioning {
 		$response = $client->get($fullUrl, $options);
 		foreach ($settings->getRows() as $setting) {
 			$value = json_decode(json_encode(simplexml_load_string($response->getBody())->data->{$setting[0]}), 1);
+			if (isset($value['element']) && in_array($setting[0], ['additional_mail', 'additional_mailScope'], true)) {
+				$expectedValues = explode(';', $setting[1]);
+				foreach ($expectedValues as $expected) {
+					Assert::assertTrue(in_array($expected, $value['element'], true));
+				}
+			} elseif (isset($value[0])) {
+				Assert::assertEquals($setting[1], $value[0], "", 0.0, 10, true);
+			} else {
+				Assert::assertEquals('', $setting[1]);
+			}
+		}
+	}
+
+	/**
+	 * @Then /^group "([^"]*)" has$/
+	 *
+	 * @param string $user
+	 * @param \Behat\Gherkin\Node\TableNode|null $settings
+	 */
+	public function groupHasSetting($group, $settings) {
+		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/cloud/groups/details?search=$group";
+		$client = new Client();
+		$options = [];
+		if ($this->currentUser === 'admin') {
+			$options['auth'] = $this->adminUser;
+		} else {
+			$options['auth'] = [$this->currentUser, $this->regularUser];
+		}
+		$options['headers'] = [
+			'OCS-APIREQUEST' => 'true',
+		];
+
+		$response = $client->get($fullUrl, $options);
+		$groupDetails = simplexml_load_string($response->getBody())->data[0]->groups[0]->element;
+		foreach ($settings->getRows() as $setting) {
+			$value = json_decode(json_encode($groupDetails->{$setting[0]}), 1);
 			if (isset($value[0])) {
 				Assert::assertEquals($setting[1], $value[0], "", 0.0, 10, true);
 			} else {
 				Assert::assertEquals('', $setting[1]);
 			}
 		}
+	}
+
+
+	/**
+	 * @Then /^user "([^"]*)" has editable fields$/
+	 *
+	 * @param string $user
+	 * @param \Behat\Gherkin\Node\TableNode|null $fields
+	 */
+	public function userHasEditableFields($user, $fields) {
+		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/cloud/user/fields";
+		if ($user !== 'self') {
+			$fullUrl .= '/' . $user;
+		}
+		$client = new Client();
+		$options = [];
+		if ($this->currentUser === 'admin') {
+			$options['auth'] = $this->adminUser;
+		} else {
+			$options['auth'] = [$this->currentUser, $this->regularUser];
+		}
+		$options['headers'] = [
+			'OCS-APIREQUEST' => 'true',
+		];
+
+		$response = $client->get($fullUrl, $options);
+		$fieldsArray = json_decode(json_encode(simplexml_load_string($response->getBody())->data->element), 1);
+
+		$expectedFields = $fields->getRows();
+		$expectedFields = $this->simplifyArray($expectedFields);
+		Assert::assertEquals($expectedFields, $fieldsArray);
 	}
 
 	/**
@@ -905,5 +971,39 @@ trait Provisioning {
 			$this->deleteGroup($remoteGroup);
 		}
 		$this->usingServer($previousServer);
+	}
+
+	/**
+	 * @Then /^user "([^"]*)" has not$/
+	 */
+	public function userHasNotSetting($user, \Behat\Gherkin\Node\TableNode $settings) {
+		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/cloud/users/$user";
+		$client = new Client();
+		$options = [];
+		if ($this->currentUser === 'admin') {
+			$options['auth'] = $this->adminUser;
+		} else {
+			$options['auth'] = [$this->currentUser, $this->regularUser];
+		}
+		$options['headers'] = [
+			'OCS-APIREQUEST' => 'true',
+		];
+
+		$response = $client->get($fullUrl, $options);
+		foreach ($settings->getRows() as $setting) {
+			$value = json_decode(json_encode(simplexml_load_string($response->getBody())->data->{$setting[0]}), 1);
+			if (isset($value[0])) {
+				if (in_array($setting[0], ['additional_mail', 'additional_mailScope'], true)) {
+					$expectedValues = explode(';', $setting[1]);
+					foreach ($expectedValues as $expected) {
+						Assert::assertFalse(in_array($expected, $value, true));
+					}
+				} else {
+					Assert::assertNotEquals($setting[1], $value[0], "", 0.0, 10, true);
+				}
+			} else {
+				Assert::assertNotEquals('', $setting[1]);
+			}
+		}
 	}
 }

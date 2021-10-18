@@ -5,7 +5,7 @@
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Joas Schilling <coding@schilljs.com>
- * @author Robin Appelman <robin@icewind.nl>
+ * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
@@ -24,7 +24,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\DB\QueryBuilder;
 
 use Doctrine\DBAL\Query\Expression\ExpressionBuilder;
@@ -432,7 +431,7 @@ interface IExpressionBuilder {
 	/**
 	 * Returns a IQueryFunction that casts the column to the given type
 	 *
-	 * @param string $column
+	 * @param string|IQueryFunction $column
 	 * @param mixed $type One of IQueryBuilder::PARAM_*
 	 * @return IQueryFunction
 	 * @since 9.0.0
@@ -440,5 +439,5 @@ interface IExpressionBuilder {
 	 * @psalm-taint-sink sql $column
 	 * @psalm-taint-sink sql $type
 	 */
-	public function castColumn(string $column, $type): IQueryFunction;
+	public function castColumn($column, $type): IQueryFunction;
 }

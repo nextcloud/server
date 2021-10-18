@@ -28,7 +28,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\App;
 
 use OCP\IGroup;
@@ -182,12 +181,6 @@ interface IAppManager {
 	 * @since 17.0.0
 	 */
 	public function getEnabledAppsForGroup(IGroup $group): array;
-
-	/**
-	 * @return array
-	 * @since 17.0.0
-	 */
-	public function getAutoDisabledApps(): array;
 
 	/**
 	 * @param String $appId

@@ -3,9 +3,8 @@ OC.L10N.register(
     {
     "Server is already in the list of trusted servers." : "الخادوم موجود بالفعل في قائمة الخوادم الموثوق فيها.",
     "Could not add server" : "تعذَّرت إضافة خادم",
-    "Federation" : "الإتحاد",
     "Trusted servers" : "الخوادم الموثوق فيها",
-    "Add server automatically once a federated share was created successfully" : "أضف الخادم تلقائياً حال نجاح إنشاء حصة في الاتحاد",
+    "Federation" : "الإتحاد",
     "+ Add trusted server" : "+ إضافة خادوم موثوق فيه",
     "Trusted server" : "خادوم موثوق فيه",
     "Add" : "إضافة"

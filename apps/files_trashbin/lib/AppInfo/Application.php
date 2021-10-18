@@ -23,7 +23,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_Trashbin\AppInfo;
 
 use OCA\DAV\Connector\Sabre\Principal;

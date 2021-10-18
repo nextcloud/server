@@ -22,22 +22,23 @@
 
 namespace Test;
 
+use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 use OC\Installer;
 use OC\IntegrityCheck\Checker;
 use OC\Updater;
 use OCP\IConfig;
-use OCP\ILogger;
 
 class UpdaterTest extends TestCase {
-	/** @var IConfig | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var IConfig|MockObject */
 	private $config;
-	/** @var ILogger | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var LoggerInterface|MockObject */
 	private $logger;
 	/** @var Updater */
 	private $updater;
-	/** @var Checker | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var Checker|MockObject */
 	private $checker;
-	/** @var Installer|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var Installer|MockObject */
 	private $installer;
 
 	protected function setUp(): void {
@@ -45,7 +46,7 @@ class UpdaterTest extends TestCase {
 		$this->config = $this->getMockBuilder(IConfig::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$this->logger = $this->getMockBuilder(ILogger::class)
+		$this->logger = $this->getMockBuilder(LoggerInterface::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$this->checker = $this->getMockBuilder(Checker::class)

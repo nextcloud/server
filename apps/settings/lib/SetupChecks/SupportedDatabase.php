@@ -5,7 +5,9 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2021 Morris Jobke <hey@morrisjobke.de>
  *
+ * @author Claas Augner <github@caugner.de>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -16,14 +18,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Settings\SetupChecks;
 
 use Doctrine\DBAL\Platforms\MariaDb1027Platform;
@@ -74,7 +75,7 @@ class SupportedDatabase {
 					}
 				} else {
 					if (version_compare($version, '8', '<')) {
-						$this->description = $this->l10n->t('MySQL version "%s" is used. Nextcloud 21 will no longer support this version and requires MySQL 8 or higher.', $row['Value']);
+						$this->description = $this->l10n->t('MySQL version "%s" is used. Nextcloud 21 will no longer support this version and requires MySQL 8.0 or MariaDB 10.2 or higher.', $row['Value']);
 						return;
 					}
 				}

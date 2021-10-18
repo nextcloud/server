@@ -16,7 +16,7 @@
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Julius Haertl <jus@bitgrid.net>
  * @author Julius Härtl <jus@bitgrid.net>
@@ -50,7 +50,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC;
 
 use bantu\IniGetWrapper\IniGetWrapper;
@@ -136,6 +135,7 @@ use OC\Security\CSRF\TokenStorage\SessionStorage;
 use OC\Security\Hasher;
 use OC\Security\SecureRandom;
 use OC\Security\TrustedDomainHelper;
+use OC\Security\VerificationToken\VerificationToken;
 use OC\Session\CryptoWrapper;
 use OC\Share20\ProviderFactory;
 use OC\Share20\ShareHelper;
@@ -145,6 +145,7 @@ use OC\Template\JSCombiner;
 use OCA\Theming\ImageManager;
 use OCA\Theming\ThemingDefaults;
 use OCA\Theming\Util;
+use OCA\WorkflowEngine\Service\Logger;
 use OCP\Accounts\IAccountManager;
 use OCP\App\IAppManager;
 use OCP\Authentication\LoginCredentials\IStore;
@@ -224,6 +225,7 @@ use OCP\Security\ICredentialsManager;
 use OCP\Security\ICrypto;
 use OCP\Security\IHasher;
 use OCP\Security\ISecureRandom;
+use OCP\Security\VerificationToken\IVerificationToken;
 use OCP\Share\IShareHelper;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTagObjectMapper;
@@ -731,7 +733,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->get(\OC\User\Manager::class),
 				$c->getAppDataDir('avatar'),
 				$c->getL10N('lib'),
-				$c->get(ILogger::class),
+				$c->get(LoggerInterface::class),
 				$c->get(\OCP\IConfig::class),
 				$c->get(IAccountManager::class),
 				$c->get(KnownUserService::class)
@@ -785,15 +787,27 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerDeprecatedAlias('Search', ISearch::class);
 
 		$this->registerService(\OC\Security\RateLimiting\Backend\IBackend::class, function ($c) {
-			return new \OC\Security\RateLimiting\Backend\MemoryCache(
-				$this->get(ICacheFactory::class),
-				new \OC\AppFramework\Utility\TimeFactory()
-			);
+			$cacheFactory = $c->get(ICacheFactory::class);
+			if ($cacheFactory->isAvailable()) {
+				$backend = new \OC\Security\RateLimiting\Backend\MemoryCacheBackend(
+					$this->get(ICacheFactory::class),
+					new \OC\AppFramework\Utility\TimeFactory()
+				);
+			} else {
+				$backend = new \OC\Security\RateLimiting\Backend\DatabaseBackend(
+					$c->get(IDBConnection::class),
+					new \OC\AppFramework\Utility\TimeFactory()
+				);
+			}
+
+			return $backend;
 		});
 
 		$this->registerAlias(\OCP\Security\ISecureRandom::class, SecureRandom::class);
 		/** @deprecated 19.0.0 */
 		$this->registerDeprecatedAlias('SecureRandom', \OCP\Security\ISecureRandom::class);
+
+		$this->registerAlias(IVerificationToken::class, VerificationToken::class);
 
 		$this->registerAlias(ICrypto::class, Crypto::class);
 		/** @deprecated 19.0.0 */
@@ -877,7 +891,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->get(IGroupManager::class),
 				$c->get(ICacheFactory::class),
 				$c->get(SymfonyAdapter::class),
-				$c->get(ILogger::class)
+				$c->get(LoggerInterface::class)
 			);
 		});
 		/** @deprecated 19.0.0 */
@@ -1031,7 +1045,7 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerService(ILDAPProviderFactory::class, function (ContainerInterface $c) {
 			$config = $c->get(\OCP\IConfig::class);
 			$factoryClass = $config->getSystemValue('ldapProviderFactory', null);
-			if (is_null($factoryClass)) {
+			if (is_null($factoryClass) || !class_exists($factoryClass)) {
 				return new NullLDAPProviderFactory($this);
 			}
 			/** @var \OCP\LDAP\ILDAPProviderFactory $factory */
@@ -1091,7 +1105,7 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerDeprecatedAlias('NotificationManager', \OCP\Notification\IManager::class);
 
 		$this->registerService(CapabilitiesManager::class, function (ContainerInterface $c) {
-			$manager = new CapabilitiesManager($c->get(ILogger::class));
+			$manager = new CapabilitiesManager($c->get(LoggerInterface::class));
 			$manager->registerCapability(function () use ($c) {
 				return new \OC\OCS\CoreCapabilities($c->get(\OCP\IConfig::class));
 			});
@@ -1233,7 +1247,8 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->get(IMailer::class),
 				$c->get(IURLGenerator::class),
 				$c->get('ThemingDefaults'),
-				$c->get(IEventDispatcher::class)
+				$c->get(IEventDispatcher::class),
+				$c->get(IUserSession::class)
 			);
 
 			return $manager;
@@ -1285,7 +1300,7 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 
 		$this->registerService(ICloudIdManager::class, function (ContainerInterface $c) {
-			return new CloudIdManager($c->get(\OCP\Contacts\IManager::class));
+			return new CloudIdManager($c->get(\OCP\Contacts\IManager::class), $c->get(IURLGenerator::class), $c->get(IUserManager::class));
 		});
 
 		$this->registerAlias(\OCP\GlobalScale\IConfig::class, \OC\GlobalScale\Config::class);
@@ -1334,7 +1349,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->get(AppFetcher::class),
 				$c->get(IClientService::class),
 				$c->get(ITempManager::class),
-				$c->get(ILogger::class),
+				$c->get(LoggerInterface::class),
 				$c->get(\OCP\IConfig::class),
 				\OC::$CLI
 			);

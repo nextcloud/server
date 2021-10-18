@@ -31,9 +31,10 @@ import { generateUrl } from '@nextcloud/router'
  */
 const sendHeartbeat = async(isAway) => {
 	const url = generateUrl('/apps/user_status/heartbeat')
-	await HttpClient.put(url, {
+	const response = await HttpClient.put(url, {
 		status: isAway ? 'away' : 'online',
 	})
+	return response.data
 }
 
 export {

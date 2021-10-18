@@ -24,11 +24,14 @@
 		class="unified-search"
 		exclude-click-outside-classes="popover"
 		:open.sync="open"
+		:aria-label="ariaLabel"
 		@open="onOpen"
 		@close="onClose">
 		<!-- Header icon -->
 		<template #trigger>
-			<Magnify class="unified-search__trigger" :size="20" fill-color="var(--color-primary-text)" />
+			<Magnify class="unified-search__trigger"
+				:size="20"
+				fill-color="var(--color-primary-text)" />
 		</template>
 
 		<!-- Search form & filters wrapper -->
@@ -73,7 +76,7 @@
 			<SearchResultPlaceholders v-if="isLoading" />
 
 			<EmptyContent v-else-if="isValidQuery" icon="icon-search">
-				{{ t('core', 'No results for {query}', {query}) }}
+				<Highlight :text="t('core', 'No results for {query}', { query })" :search="query" />
 			</EmptyContent>
 
 			<EmptyContent v-else-if="!isLoading || isShortQuery" icon="icon-search">
@@ -123,10 +126,12 @@
 import { emit } from '@nextcloud/event-bus'
 import { minSearchLength, getTypes, search, defaultLimit, regexFilterIn, regexFilterNot } from '../services/UnifiedSearchService'
 import { showError } from '@nextcloud/dialogs'
+
 import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
 import Actions from '@nextcloud/vue/dist/Components/Actions'
 import debounce from 'debounce'
 import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
+import Highlight from '@nextcloud/vue/dist/Components/Highlight'
 import Magnify from 'vue-material-design-icons/Magnify'
 
 import HeaderMenu from '../components/HeaderMenu'
@@ -145,6 +150,7 @@ export default {
 		Actions,
 		EmptyContent,
 		HeaderMenu,
+		Highlight,
 		Magnify,
 		SearchResult,
 		SearchResultPlaceholders,
@@ -189,6 +195,10 @@ export default {
 				prev[curr.id] = curr.name
 				return prev
 			}, {})
+		},
+
+		ariaLabel() {
+			return t('core', 'Search')
 		},
 
 		/**

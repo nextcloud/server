@@ -6,7 +6,7 @@ OC.L10N.register(
     "Show something" : "Erakutsi zerbait",
     "Customize" : "Pertsonalizatu",
     "Edit widgets" : "Editatu trepetak",
-    "Get more widgets from the app store" : "Eskuratu widget gehiago aplikazio-dendatik",
+    "Get more widgets from the App Store" : "Lortu widget gehiago App Store-tik",
     "Change background image" : "Aldatu atzeko planoko irudia",
     "Weather service" : "Eguraldi zerbitzua",
     "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Zure pribatutasunaren mesedetan, eguraldiaren datuak  Nextcloud zerbitzariak eskatzen ditu zure izenean, eguraldi zerbitzuak informazio pertsonalik ez jasotzeko.",
@@ -27,6 +27,7 @@ OC.L10N.register(
     "Default images" : "Irudi lehenetsiak",
     "Plain background" : "Atzeko plano arrunta",
     "Insert from {productName}" : "Txertatu hemendik: {productName}",
+    "Get more widgets from the app store" : "Eskuratu widget gehiago aplikazio-dendatik",
     "Good night, {name}" : "Gabon, {name}",
     "Good night" : "Gabon",
     "Pick from files" : "Aukeratu fitxategietatik"

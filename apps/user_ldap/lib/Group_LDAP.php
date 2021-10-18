@@ -40,7 +40,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\User_LDAP;
 
 use Closure;
@@ -50,7 +49,7 @@ use OC\Cache\CappedMemoryCache;
 use OC\ServerNotAvailableException;
 use OCP\Group\Backend\IGetDisplayNameBackend;
 use OCP\GroupInterface;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 
 class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, IGetDisplayNameBackend {
 	protected $enabled = false;
@@ -63,7 +62,7 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 	protected $cachedNestedGroups;
 	/** @var GroupPluginManager */
 	protected $groupPluginManager;
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	protected $logger;
 
 	/**
@@ -83,7 +82,7 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 		$this->cachedGroupsByMember = new CappedMemoryCache();
 		$this->cachedNestedGroups = new CappedMemoryCache();
 		$this->groupPluginManager = $groupPluginManager;
-		$this->logger = OC::$server->getLogger();
+		$this->logger = OC::$server->get(LoggerInterface::class);
 		$this->ldapGroupMemberAssocAttr = strtolower($gAssoc);
 	}
 
@@ -410,6 +409,7 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 	private function getNameOfGroup(string $filter, string $cacheKey) {
 		$result = $this->access->searchGroups($filter, ['dn'], 1);
 		if (empty($result)) {
+			$this->access->connection->writeToCache($cacheKey, false);
 			return null;
 		}
 		$dn = $result[0]['dn'][0];
@@ -534,10 +534,10 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 	 * @throws ServerNotAvailableException
 	 */
 	public function primaryGroupID2Name(string $gid, string $dn) {
-		$cacheKey = 'primaryGroupIDtoName';
-		$groupNames = $this->access->connection->getFromCache($cacheKey);
-		if (!is_null($groupNames) && isset($groupNames[$gid])) {
-			return $groupNames[$gid];
+		$cacheKey = 'primaryGroupIDtoName_' . $gid;
+		$groupName = $this->access->connection->getFromCache($cacheKey);
+		if (!is_null($groupName)) {
+			return $groupName;
 		}
 
 		$domainObjectSid = $this->access->getSID($dn);

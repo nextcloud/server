@@ -1,10 +1,14 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Björn Schießle <bjoern@schiessle.org>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author J0WI <J0WI@users.noreply.github.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
@@ -26,10 +30,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Security;
 
 use OC\Files\Filesystem;
+use OCP\ICertificate;
 use OCP\ICertificateManager;
 use OCP\IConfig;
 use OCP\ILogger;
@@ -78,7 +82,7 @@ class CertificateManager implements ICertificateManager {
 	 *
 	 * @return \OCP\ICertificate[]
 	 */
-	public function listCertificates() {
+	public function listCertificates(): array {
 		if (!$this->config->getSystemValue('installed', false)) {
 			return [];
 		}
@@ -130,7 +134,7 @@ class CertificateManager implements ICertificateManager {
 	/**
 	 * create the certificate bundle of all trusted certificated
 	 */
-	public function createCertificateBundle() {
+	public function createCertificateBundle(): void {
 		$path = $this->getPathToCertificates();
 		$certs = $this->listCertificates();
 
@@ -182,7 +186,7 @@ class CertificateManager implements ICertificateManager {
 	 * @return \OCP\ICertificate
 	 * @throws \Exception If the certificate could not get added
 	 */
-	public function addCertificate($certificate, $name) {
+	public function addCertificate(string $certificate, string $name): ICertificate {
 		if (!Filesystem::isValidPath($name) or Filesystem::isFileBlacklisted($name)) {
 			throw new \Exception('Filename is not valid');
 		}
@@ -209,7 +213,7 @@ class CertificateManager implements ICertificateManager {
 	 * @param string $name
 	 * @return bool
 	 */
-	public function removeCertificate($name) {
+	public function removeCertificate(string $name): bool {
 		if (!Filesystem::isValidPath($name)) {
 			return false;
 		}
@@ -226,7 +230,7 @@ class CertificateManager implements ICertificateManager {
 	 *
 	 * @return string
 	 */
-	public function getCertificateBundle() {
+	public function getCertificateBundle(): string {
 		return $this->getPathToCertificates() . 'rootcerts.crt';
 	}
 
@@ -235,7 +239,7 @@ class CertificateManager implements ICertificateManager {
 	 *
 	 * @return string
 	 */
-	public function getAbsoluteBundlePath() {
+	public function getAbsoluteBundlePath(): string {
 		if (!$this->hasCertificates()) {
 			return \OC::$SERVERROOT . '/resources/config/ca-bundle.crt';
 		}
@@ -250,7 +254,7 @@ class CertificateManager implements ICertificateManager {
 	/**
 	 * @return string
 	 */
-	private function getPathToCertificates() {
+	private function getPathToCertificates(): string {
 		return '/files_external/';
 	}
 
@@ -259,7 +263,7 @@ class CertificateManager implements ICertificateManager {
 	 *
 	 * @return bool
 	 */
-	private function needsRebundling() {
+	private function needsRebundling(): bool {
 		$targetBundle = $this->getCertificateBundle();
 		if (!$this->view->file_exists($targetBundle)) {
 			return true;
@@ -274,7 +278,7 @@ class CertificateManager implements ICertificateManager {
 	 *
 	 * @return int
 	 */
-	protected function getFilemtimeOfCaBundle() {
+	protected function getFilemtimeOfCaBundle(): int {
 		return filemtime(\OC::$SERVERROOT . '/resources/config/ca-bundle.crt');
 	}
 }

@@ -54,9 +54,6 @@ OC.L10N.register(
     "\"{name}\" is an invalid file name." : "\"{name}\" es un nomine de file non valide.",
     "File name cannot be empty." : "Le nomine de file non pote esser vacue.",
     "\"{name}\" is not an allowed filetype" : "\"{name}\" non es un typo de file valide ",
-    "Storage of {owner} is full, files can not be updated or synced anymore!" : "Le immagazinage de {owner} es plen: files non pote esser actualisate o synchronisate plus!",
-    "Your storage is full, files can not be updated or synced anymore!" : "Tu immagazinage es plen: files non pote esser actualisate o synchronisate plus!",
-    "_matches '{filter}'_::_match '{filter}'_" : ["corresponde '{filter}'","corresponde '{filter}'"],
     "View in folder" : "Vider in dossier",
     "Copied!" : "Copiate!",
     "Path" : "Sentiero",
@@ -120,13 +117,8 @@ OC.L10N.register(
     "Shared by link" : "Compartite per ligamine",
     "Text file" : "File de texto",
     "New text file.txt" : "Nove texto file.txt",
-    "Unshare" : "Leva sin compartir",
-    "Storage of {owner} is almost full ({usedSpacePercent}%)" : "Le immagazinage de {owner} es quasi plen ({usedSpacePercent}%)",
-    "Your storage is almost full ({usedSpacePercent}%)" : "Tu immagazinage es quasi plen ({usedSpacePercent}%)",
-    "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>" : "Un nove file o dossier ha essite <strong>delite</strong> o <strong>renominate</strong>",
-    "A new file or folder has been <strong>created</strong>" : "Un nove file o dossier ha essite <strong>create</strong>",
-    "A file or folder has been <strong>deleted</strong>" : "Un file o dossier ha essite <strong>delite</strong>",
-    "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Limitar notificationes concernente le creation e le modification de tu <strong>files favorite</strong> <em>(Solmente fluxo)</em>",
-    "A file or folder has been <strong>restored</strong>" : "Un file o un dossier ha essite <strong>restabilite</strong>"
+    "Storage of {owner} is full, files can not be updated or synced anymore!" : "Le immagazinage de {owner} es plen: files non pote esser actualisate o synchronisate plus!",
+    "Your storage is full, files can not be updated or synced anymore!" : "Tu immagazinage es plen: files non pote esser actualisate o synchronisate plus!",
+    "_matches '{filter}'_::_match '{filter}'_" : ["corresponde '{filter}'","corresponde '{filter}'"]
 },
 "nplurals=2; plural=(n != 1);");

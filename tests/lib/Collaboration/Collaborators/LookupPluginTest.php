@@ -33,25 +33,26 @@ use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\Http\Client\IResponse;
 use OCP\IConfig;
-use OCP\ILogger;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Share\IShare;
+use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class LookupPluginTest extends TestCase {
 
-	/** @var  IConfig|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var  IConfig|MockObject */
 	protected $config;
-	/** @var  IClientService|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var  IClientService|MockObject */
 	protected $clientService;
-	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IUserSession|MockObject */
 	protected $userSession;
-	/** @var ICloudIdManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var ICloudIdManager|MockObject */
 	protected $cloudIdManager;
 	/** @var  LookupPlugin */
 	protected $plugin;
-	/** @var ILogger|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var LoggerInterface|MockObject */
 	protected $logger;
 
 	protected function setUp(): void {
@@ -60,7 +61,7 @@ class LookupPluginTest extends TestCase {
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->cloudIdManager = $this->createMock(ICloudIdManager::class);
 		$this->config = $this->createMock(IConfig::class);
-		$this->logger = $this->createMock(ILogger::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->clientService = $this->createMock(IClientService::class);
 		$cloudId = $this->createMock(ICloudId::class);
 		$cloudId->expects($this->any())->method('getRemote')->willReturn('myNextcloud.net');
@@ -108,7 +109,7 @@ class LookupPluginTest extends TestCase {
 		$this->clientService->expects($this->never())
 			->method('newClient');
 
-		/** @var ISearchResult|\PHPUnit\Framework\MockObject\MockObject $searchResult */
+		/** @var ISearchResult|MockObject $searchResult */
 		$searchResult = $this->createMock(ISearchResult::class);
 
 		$this->plugin->search('foobar', 10, 0, $searchResult);
@@ -132,7 +133,7 @@ class LookupPluginTest extends TestCase {
 		$this->clientService->expects($this->never())
 			->method('newClient');
 
-		/** @var ISearchResult|\PHPUnit\Framework\MockObject\MockObject $searchResult */
+		/** @var ISearchResult|MockObject $searchResult */
 		$searchResult = $this->createMock(ISearchResult::class);
 
 		$this->plugin->search('foobar', 10, 0, $searchResult);
@@ -145,7 +146,7 @@ class LookupPluginTest extends TestCase {
 	public function testSearch(array $searchParams) {
 		$type = new SearchResultType('lookup');
 
-		/** @var ISearchResult|\PHPUnit\Framework\MockObject\MockObject $searchResult */
+		/** @var ISearchResult|MockObject $searchResult */
 		$searchResult = $this->createMock(ISearchResult::class);
 		$searchResult->expects($this->once())
 			->method('addResultSet')
@@ -207,7 +208,7 @@ class LookupPluginTest extends TestCase {
 	public function testSearchEnableDisableLookupServer(array $searchParams, $GSEnabled, $LookupEnabled) {
 		$type = new SearchResultType('lookup');
 
-		/** @var ISearchResult|\PHPUnit\Framework\MockObject\MockObject $searchResult */
+		/** @var ISearchResult|MockObject $searchResult */
 		$searchResult = $this->createMock(ISearchResult::class);
 
 		$this->config->expects($this->once())
@@ -269,7 +270,7 @@ class LookupPluginTest extends TestCase {
 			->with('files_sharing', 'lookupServerEnabled', 'yes')
 			->willReturn('no');
 
-		/** @var ISearchResult|\PHPUnit\Framework\MockObject\MockObject $searchResult */
+		/** @var ISearchResult|MockObject $searchResult */
 		$searchResult = $this->createMock(ISearchResult::class);
 		$searchResult->expects($this->never())
 			->method('addResultSet');

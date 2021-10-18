@@ -20,18 +20,17 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Settings\BackgroundJobs;
 
-use OC\Accounts\AccountManager;
 use OCP\Accounts\IAccountManager;
+use OCP\Accounts\PropertyDoesNotExistException;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
@@ -52,7 +51,7 @@ class VerifyUserData extends Job {
 	/** @var int how much time should be between two tries (1 hour) */
 	private $interval = 3600;
 
-	/** @var AccountManager */
+	/** @var IAccountManager */
 	private $accountManager;
 
 	/** @var IUserManager */
@@ -70,7 +69,7 @@ class VerifyUserData extends Job {
 	/** @var IConfig */
 	private $config;
 
-	public function __construct(AccountManager $accountManager,
+	public function __construct(IAccountManager $accountManager,
 								IUserManager $userManager,
 								IClientService $clientService,
 								ILogger $logger,
@@ -157,32 +156,23 @@ class VerifyUserData extends Job {
 				$this->logger->error($argument['uid'] . ' doesn\'t exist, can\'t verify user data.');
 				return $result;
 			}
-			$userData = $this->accountManager->getUser($user);
-
-			if ($publishedCodeSanitized === $argument['verificationCode']) {
-				$userData[IAccountManager::PROPERTY_WEBSITE]['verified'] = AccountManager::VERIFIED;
-			} else {
-				$userData[IAccountManager::PROPERTY_WEBSITE]['verified'] = AccountManager::NOT_VERIFIED;
-			}
-
-			$this->accountManager->updateUser($user, $userData);
+			$userAccount = $this->accountManager->getAccount($user);
+			$websiteProp = $userAccount->getProperty(IAccountManager::PROPERTY_WEBSITE);
+			$websiteProp->setVerified($publishedCodeSanitized === $argument['verificationCode']
+				? IAccountManager::VERIFIED
+				: IAccountManager::NOT_VERIFIED
+			);
+			$this->accountManager->updateAccount($userAccount);
 		}
 
 		return $result;
 	}
 
-	/**
-	 * verify email address
-	 *
-	 * @param array $argument
-	 * @param string $dataType
-	 * @return bool true if we could check the verification code, otherwise false
-	 */
-	protected function verifyViaLookupServer(array $argument, $dataType) {
+	protected function verifyViaLookupServer(array $argument, string $dataType): bool {
 		if (empty($this->lookupServerUrl) ||
 			$this->config->getAppValue('files_sharing', 'lookupServerUploadEnabled', 'yes') !== 'yes' ||
 			$this->config->getSystemValue('has_internet_connection', true) === false) {
-			return false;
+			return true;
 		}
 
 		$user = $this->userManager->get($argument['uid']);
@@ -193,10 +183,7 @@ class VerifyUserData extends Job {
 			return true;
 		}
 
-		$localUserData = $this->accountManager->getUser($user);
 		$cloudId = $user->getCloudId();
-
-		// ask lookup-server for user data
 		$lookupServerData = $this->queryLookupServer($cloudId);
 
 		// for some reasons we couldn't read any data from the lookup server, try again later
@@ -210,12 +197,18 @@ class VerifyUserData extends Job {
 		}
 
 		// lookup server hasn't verified the email address so far, try again later
-		if ($lookupServerData[$dataType]['verified'] === AccountManager::NOT_VERIFIED) {
+		if ($lookupServerData[$dataType]['verified'] === IAccountManager::NOT_VERIFIED) {
 			return false;
 		}
 
-		$localUserData[$dataType]['verified'] = AccountManager::VERIFIED;
-		$this->accountManager->updateUser($user, $localUserData);
+		try {
+			$userAccount = $this->accountManager->getAccount($user);
+			$property = $userAccount->getProperty($dataType);
+			$property->setVerified(IAccountManager::VERIFIED);
+			$this->accountManager->updateAccount($userAccount);
+		} catch (PropertyDoesNotExistException $e) {
+			return false;
+		}
 
 		return true;
 	}
@@ -281,12 +274,17 @@ class VerifyUserData extends Job {
 	/**
 	 * reset verification state after max tries are reached
 	 */
-	protected function resetVerificationState() {
+	protected function resetVerificationState(): void {
 		$user = $this->userManager->get($this->argument['uid']);
 		if ($user !== null) {
-			$accountData = $this->accountManager->getUser($user);
-			$accountData[$this->argument['type']]['verified'] = AccountManager::NOT_VERIFIED;
-			$this->accountManager->updateUser($user, $accountData);
+			$userAccount = $this->accountManager->getAccount($user);
+			try {
+				$property = $userAccount->getProperty($this->argument['type']);
+				$property->setVerified(IAccountManager::NOT_VERIFIED);
+				$this->accountManager->updateAccount($userAccount);
+			} catch (PropertyDoesNotExistException $e) {
+				return;
+			}
 		}
 	}
 }

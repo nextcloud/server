@@ -12,7 +12,7 @@
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Sander Ruitenbeek <sander@grids.be>
- * @author tbelau666 <thomas.belau@gmx.de>
+ * @author Simon Spannagel <simonspa@kth.se>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @license AGPL-3.0
@@ -30,7 +30,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Core\Command\Db;
 
 use Doctrine\DBAL\Exception;
@@ -133,7 +132,7 @@ class ConvertType extends Command implements CompletionAwareInterface {
 				null,
 				InputOption::VALUE_REQUIRED,
 				'the maximum number of database rows to handle in a single query, bigger tables will be handled in chunks of this size. Lower this if the process runs out of memory during conversion.',
-				1000
+				'1000'
 			)
 		;
 	}
@@ -307,7 +306,7 @@ class ConvertType extends Command implements CompletionAwareInterface {
 			return;
 		}
 
-		$chunkSize = $input->getOption('chunk-size');
+		$chunkSize = (int)$input->getOption('chunk-size');
 
 		$query = $fromDB->getQueryBuilder();
 		$query->automaticTablePrefix(false);
@@ -337,14 +336,11 @@ class ConvertType extends Command implements CompletionAwareInterface {
 		try {
 			$orderColumns = $table->getPrimaryKeyColumns();
 		} catch (Exception $e) {
-			$orderColumns = [];
-			foreach ($table->getColumns() as $column) {
-				$orderColumns[] = $column->getName();
-			}
+			$orderColumns = $table->getColumns();
 		}
 
 		foreach ($orderColumns as $column) {
-			$query->addOrderBy($column);
+			$query->addOrderBy($column->getName());
 		}
 
 		$insertQuery = $toDB->getQueryBuilder();

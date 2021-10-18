@@ -32,7 +32,7 @@
     "Checked on {lastCheckedDate}" : "檢查於 {lastCheckedDate}",
     "Checking apps for compatible versions" : "正在檢查應用程式的相容版本",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "請確定您的 config.php 中並沒有將 <samp>appstoreenabled</samp> 的值設定為 false。",
-    "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "無法連線至應用程式商店，或者應用程式商店回應無任何更新，請您手動搜尋更新，或者修復您伺服器的網際網路連線，讓它可以連線至應用程式商店。",
+    "Could not connect to the App Store or no updates have been returned at all. Search manually for updates or make sure your server has access to the internet and can connect to the App Store." : "無法連線至應用程式商店，或是應用程式商店回傳無任何更新。請手動搜尋更新或確定您的伺服器的網際網路連線正常，並可連線至應用程式商店。",
     "<strong>All</strong> apps have a compatible version for this Nextcloud version available" : "<strong>所有</strong>應用程式都有適用於此 Nextcloud 版本的相容版本",
     "View changelog" : "檢視版本更新紀錄",
     "Enterprise" : "企業",
@@ -47,6 +47,7 @@
     "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "請注意，新版本釋出後，需要過一段時間才會在此顯示通知。隨著時間推進，我們為用戶推出了新的版本，有時候會在發現問題時跳過前一個版本更新。",
     "Only notification for app updates are available." : "僅提供應用程式更新的通知。",
     "Checking apps for compatible updates" : "正在檢查應用程式是否相容於更新",
+    "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "無法連線至應用程式商店，或者應用程式商店回應無任何更新，請您手動搜尋更新，或者修復您伺服器的網際網路連線，讓它可以連線至應用程式商店。",
     "<strong>All</strong> apps have an update for this version available" : "<strong>所有</strong>應用程式都有此版本的更新",
     "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> 應用程式沒有此版本的更新"]
 },"pluralForm" :"nplurals=1; plural=0;"

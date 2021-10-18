@@ -25,7 +25,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Encryption;
 
 use OC\Encryption\Exceptions\EncryptionHeaderKeyExistsException;
@@ -33,6 +32,8 @@ use OC\Encryption\Exceptions\EncryptionHeaderToLargeException;
 use OC\Encryption\Exceptions\ModuleDoesNotExistsException;
 use OC\Files\Filesystem;
 use OC\Files\View;
+use OCA\Files_External\Lib\StorageConfig;
+use OCA\Files_External\Service\GlobalStoragesService;
 use OCP\Encryption\IEncryptionModule;
 use OCP\IConfig;
 use OCP\IUser;
@@ -266,7 +267,7 @@ class Util {
 
 	public function getUserWithAccessToMountPoint($users, $groups) {
 		$result = [];
-		if (in_array('all', $users)) {
+		if ($users === [] && $groups === []) {
 			$users = $this->userManager->search('', null, null);
 			$result = array_map(function (IUser $user) {
 				return $user->getUID();
@@ -299,10 +300,12 @@ class Util {
 	 */
 	public function isSystemWideMountPoint($path, $uid) {
 		if (\OCP\App::isEnabled("files_external")) {
-			$mounts = \OCA\Files_External\MountConfig::getSystemMountPoints();
-			foreach ($mounts as $mount) {
-				if (strpos($path, '/files/' . $mount['mountpoint']) === 0) {
-					if ($this->isMountPointApplicableToUser($mount, $uid)) {
+			/** @var GlobalStoragesService $storageService */
+			$storageService = \OC::$server->get(GlobalStoragesService::class);
+			$storages = $storageService->getAllStorages();
+			foreach ($storages as $storage) {
+				if (strpos($path, '/files/' . $storage->getMountPoint()) === 0) {
+					if ($this->isMountPointApplicableToUser($storage, $uid)) {
 						return true;
 					}
 				}
@@ -314,19 +317,21 @@ class Util {
 	/**
 	 * check if mount point is applicable to user
 	 *
-	 * @param array $mount contains $mount['applicable']['users'], $mount['applicable']['groups']
+	 * @param StorageConfig $mount
 	 * @param string $uid
 	 * @return boolean
 	 */
-	private function isMountPointApplicableToUser($mount, $uid) {
-		$acceptedUids = ['all', $uid];
+	private function isMountPointApplicableToUser(StorageConfig $mount, string $uid) {
+		if ($mount->getApplicableUsers() === [] && $mount->getApplicableGroups() === []) {
+			// applicable for everyone
+			return true;
+		}
 		// check if mount point is applicable for the user
-		$intersection = array_intersect($acceptedUids, $mount['applicable']['users']);
-		if (!empty($intersection)) {
+		if (array_search($uid, $mount->getApplicableUsers()) !== false) {
 			return true;
 		}
 		// check if mount point is applicable for group where the user is a member
-		foreach ($mount['applicable']['groups'] as $gid) {
+		foreach ($mount->getApplicableGroups() as $gid) {
 			if ($this->groupManager->isInGroup($uid, $gid)) {
 				return true;
 			}

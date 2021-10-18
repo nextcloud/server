@@ -23,7 +23,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Encryption;
 
 use OC\Encryption\Keys\Storage;
@@ -178,17 +177,15 @@ class Manager implements IManager {
 	 * @throws Exceptions\ModuleDoesNotExistsException
 	 */
 	public function getEncryptionModule($moduleId = '') {
-		if (!empty($moduleId)) {
-			if (isset($this->encryptionModules[$moduleId])) {
-				return call_user_func($this->encryptionModules[$moduleId]['callback']);
-			} else {
-				$message = "Module with ID: $moduleId does not exist.";
-				$hint = $this->l->t('Module with ID: %s does not exist. Please enable it in your apps settings or contact your administrator.', [$moduleId]);
-				throw new Exceptions\ModuleDoesNotExistsException($message, $hint);
-			}
-		} else {
+		if (empty($moduleId)) {
 			return $this->getDefaultEncryptionModule();
 		}
+		if (isset($this->encryptionModules[$moduleId])) {
+			return call_user_func($this->encryptionModules[$moduleId]['callback']);
+		}
+		$message = "Module with ID: $moduleId does not exist.";
+		$hint = $this->l->t('Module with ID: %s does not exist. Please enable it in your apps settings or contact your administrator.', [$moduleId]);
+		throw new Exceptions\ModuleDoesNotExistsException($message, $hint);
 	}
 
 	/**
@@ -199,17 +196,15 @@ class Manager implements IManager {
 	 */
 	protected function getDefaultEncryptionModule() {
 		$defaultModuleId = $this->getDefaultEncryptionModuleId();
-		if (!empty($defaultModuleId)) {
-			if (isset($this->encryptionModules[$defaultModuleId])) {
-				return call_user_func($this->encryptionModules[$defaultModuleId]['callback']);
-			} else {
-				$message = 'Default encryption module not loaded';
-				throw new Exceptions\ModuleDoesNotExistsException($message);
-			}
-		} else {
+		if (empty($defaultModuleId)) {
 			$message = 'No default encryption module defined';
 			throw new Exceptions\ModuleDoesNotExistsException($message);
 		}
+		if (isset($this->encryptionModules[$defaultModuleId])) {
+			return call_user_func($this->encryptionModules[$defaultModuleId]['callback']);
+		}
+		$message = 'Default encryption module not loaded';
+		throw new Exceptions\ModuleDoesNotExistsException($message);
 	}
 
 	/**

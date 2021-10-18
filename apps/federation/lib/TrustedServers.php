@@ -25,14 +25,13 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Federation;
 
-use OC\HintException;
 use OCA\Federation\BackgroundJob\RequestSharedSecret;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
+use OCP\HintException;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\ILogger;
@@ -128,28 +127,6 @@ class TrustedServers {
 		}
 
 		return $result;
-	}
-
-	/**
-	 * enable/disable to automatically add servers to the list of trusted servers
-	 * once a federated share was created and accepted successfully
-	 *
-	 * @param bool $status
-	 */
-	public function setAutoAddServers($status) {
-		$value = $status ? '1' : '0';
-		$this->config->setAppValue('federation', 'autoAddServers', $value);
-	}
-
-	/**
-	 * return if we automatically add servers to the list of trusted servers
-	 * once a federated share was created and accepted successfully
-	 *
-	 * @return bool
-	 */
-	public function getAutoAddServers() {
-		$value = $this->config->getAppValue('federation', 'autoAddServers', '0');
-		return $value === '1';
 	}
 
 	/**

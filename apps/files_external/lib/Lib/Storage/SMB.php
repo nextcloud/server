@@ -8,6 +8,7 @@
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Juan Pablo Villafañez <jvillafanez@solidgear.es>
  * @author Juan Pablo Villafáñez <jvillafanez@solidgear.es>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Philipp Kapfer <philipp.kapfer@gmx.at>
@@ -33,7 +34,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_External\Lib\Storage;
 
 use Icewind\SMB\ACL;
@@ -219,7 +219,7 @@ class SMB extends Common implements INotifyStorage {
 	private function getACL(IFileInfo $file): ?ACL {
 		$acls = $file->getAcls();
 		foreach ($acls as $user => $acl) {
-			[, $user] = explode('\\', $user); // strip domain
+			[, $user] = $this->splitUser($user); // strip domain
 			if ($user === $this->server->getAuth()->getUsername()) {
 				return $acl;
 			}
@@ -257,7 +257,7 @@ class SMB extends Common implements INotifyStorage {
 						// additionally, it's better to have false negatives here then false positives
 						if ($acl->denies(ACL::MASK_READ) || $acl->denies(ACL::MASK_EXECUTE)) {
 							$this->logger->debug('Hiding non readable entry ' . $file->getName());
-							return false;
+							continue;
 						}
 					}
 

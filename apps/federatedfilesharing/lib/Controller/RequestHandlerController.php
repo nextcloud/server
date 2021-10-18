@@ -4,6 +4,7 @@
  *
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
@@ -24,7 +25,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\FederatedFileSharing\Controller;
 
 use OCA\FederatedFileSharing\AddressHandler;
@@ -230,7 +230,7 @@ class RequestHandlerController extends OCSController {
 	 * @return Http\DataResponse
 	 * @throws OCSException
 	 * @throws ShareNotFound
-	 * @throws \OC\HintException
+	 * @throws \OCP\HintException
 	 */
 	public function acceptShare($id) {
 		$token = isset($_POST['token']) ? $_POST['token'] : null;
@@ -442,7 +442,7 @@ class RequestHandlerController extends OCSController {
 			->set('remote_id', $qb->createNamedParameter($newRemoteId))
 			->where($qb->expr()->eq('remote_id', $qb->createNamedParameter($id)))
 			->andWhere($qb->expr()->eq('share_token', $qb->createNamedParameter($token)));
-		$affected = $query->executeUpdate();
+		$affected = $query->executeStatement();
 
 		if ($affected > 0) {
 			return new Http\DataResponse(['remote' => $cloudId->getRemote(), 'owner' => $cloudId->getUser()]);

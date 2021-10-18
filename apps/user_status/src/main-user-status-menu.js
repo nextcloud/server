@@ -26,6 +26,7 @@ import Vue from 'vue'
 import { getRequestToken } from '@nextcloud/auth'
 import UserStatus from './UserStatus'
 import store from './store'
+import Avatar from '@nextcloud/vue/dist/Components/Avatar'
 
 // eslint-disable-next-line camelcase
 __webpack_nonce__ = btoa(getRequestToken())
@@ -38,6 +39,23 @@ __webpack_public_path__ = OC.linkTo('user_status', 'js/')
 
 Vue.prototype.t = t
 Vue.prototype.$t = t
+
+const avatarDiv = document.getElementById('avatardiv-menu')
+const propsData = {
+	preloadedUserStatus: {
+		message: avatarDiv.dataset.userstatus_message,
+		icon: avatarDiv.dataset.userstatus_icon,
+		status: avatarDiv.dataset.userstatus,
+	},
+	user: avatarDiv.dataset.user,
+	displayName: avatarDiv.dataset.displayname,
+	url: avatarDiv.dataset.avatar,
+	disableMenu: true,
+	disableTooltip: true,
+}
+
+const AvatarInMenu = Vue.extend(Avatar)
+new AvatarInMenu({ propsData }).$mount('#avatardiv-menu')
 
 // Register settings menu entry
 export default new Vue({

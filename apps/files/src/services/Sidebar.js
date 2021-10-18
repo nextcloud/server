@@ -22,18 +22,17 @@
 
 export default class Sidebar {
 
-	#state;
-	#view;
+	_state;
 
 	constructor() {
 		// init empty state
-		this.#state = {}
+		this._state = {}
 
 		// init default values
-		this.#state.tabs = []
-		this.#state.views = []
-		this.#state.file = ''
-		this.#state.activeTab = ''
+		this._state.tabs = []
+		this._state.views = []
+		this._state.file = ''
+		this._state.activeTab = ''
 		console.debug('OCA.Files.Sidebar initialized')
 	}
 
@@ -45,7 +44,7 @@ export default class Sidebar {
 	 * @returns {Object} the data state
 	 */
 	get state() {
-		return this.#state
+		return this._state
 	}
 
 	/**
@@ -56,9 +55,9 @@ export default class Sidebar {
 	 * @returns {Boolean}
 	 */
 	registerTab(tab) {
-		const hasDuplicate = this.#state.tabs.findIndex(check => check.id === tab.id) > -1
+		const hasDuplicate = this._state.tabs.findIndex(check => check.id === tab.id) > -1
 		if (!hasDuplicate) {
-			this.#state.tabs.push(tab)
+			this._state.tabs.push(tab)
 			return true
 		}
 		console.error(`An tab with the same id ${tab.id} already exists`, tab)
@@ -66,9 +65,9 @@ export default class Sidebar {
 	}
 
 	registerSecondaryView(view) {
-		const hasDuplicate = this.#state.views.findIndex(check => check.id === view.id) > -1
+		const hasDuplicate = this._state.views.findIndex(check => check.id === view.id) > -1
 		if (!hasDuplicate) {
-			this.#state.views.push(view)
+			this._state.views.push(view)
 			return true
 		}
 		console.error('A similar view already exists', view)
@@ -82,7 +81,7 @@ export default class Sidebar {
 	 * @returns {String} the current opened file
 	 */
 	get file() {
-		return this.#state.file
+		return this._state.file
 	}
 
 	/**
@@ -92,7 +91,7 @@ export default class Sidebar {
 	 * @param {string} id the tab unique id
 	 */
 	setActiveTab(id) {
-		this.#state.activeTab = id
+		this._state.activeTab = id
 	}
 
 }

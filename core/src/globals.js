@@ -42,8 +42,8 @@ import './Polyfill/tooltip'
 import ClipboardJS from 'clipboard'
 import { dav } from 'davclient.js'
 import Handlebars from 'handlebars'
-import 'jcrop/js/jquery.Jcrop'
-import 'jcrop/css/jquery.Jcrop.css'
+import '@nextcloud/jcrop/js/jquery.Jcrop'
+import '@nextcloud/jcrop/css/jquery.Jcrop.css'
 import md5 from 'blueimp-md5'
 import moment from 'moment'
 import 'select2'
@@ -83,7 +83,7 @@ const deprecate = (func, funcName, version) => {
 }
 
 const setDeprecatedProp = (global, cb, msg) => {
-	(Array.isArray(global) ? global : [global]).map(global => {
+	(Array.isArray(global) ? global : [global]).forEach(global => {
 		if (window[global] !== undefined) {
 			delete window[global]
 		}

@@ -3,7 +3,7 @@ OC.L10N.register(
     {
     "Dark theme" : "Ciemny motyw",
     "Enable dark theme" : "Włącz ciemny motyw",
-    "A dark theme to ease your eyes by reducing the overall luminosity and brightness. It is still under development, so please report any issues you may find." : "Ciemny motyw, który łagodzi zmęczenie oczu, zmniejszając ogólną jasność. Nadal jest w fazie rozwoju, więc proszę zgłaszać wszelkie zauważone błędy.",
+    "A dark theme to ease your eyes by reducing the overall luminosity and brightness. It is still under development, so please report any issues you may find." : "Ciemny motyw, który łagodzi zmęczenie oczu, zmniejszając ogólną jasność. Nadal jest w fazie rozwoju, więc zgłaszaj wszelkie zauważone błędy.",
     "High contrast mode" : "Tryb wysokiego kontrastu",
     "Enable high contrast mode" : "Włącz tryb wysokiego kontrastu",
     "A high contrast mode to ease your navigation. Visual quality will be reduced but clarity will be increased." : "Tryb wysokiego kontrastu ułatwiający nawigację. Jakość obrazu zostanie zmniejszona, celem poprawy przejrzystości.",

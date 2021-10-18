@@ -8,7 +8,7 @@ OC.L10N.register(
     "Name cannot be empty" : "Der Name darf nicht leer sein",
     "The given name is too long" : "Der eingegebene Name ist zu lang",
     "The given web address is too long" : "Die eingegebene Adresse ist zu lang",
-    "The given web address is not a valid URL" : "Die eingegebene Web-Adresse ist keine gültige URL",
+    "The given web address is not a valid URL" : "Die eingegebene Internet-Adresse ist keine gültige URL",
     "The given legal notice address is too long" : "Die im Impressum angegebene Adresse ist zu lang",
     "The given legal notice address is not a valid URL" : "Die eingegebene Impressums-Adresse ist keine gültige URL",
     "The given privacy policy address is too long" : "Die eingegebene Adresse der Datenschutzbestimmungen ist zu lang",
@@ -46,7 +46,7 @@ OC.L10N.register(
     "Legal notice link" : "Link zum Impressum",
     "Privacy policy link" : "Link zu den Datenschutzbestimmungen",
     "Header logo" : "Kopfbereichs-Logo",
-    "Upload new header logo" : "Neues Kopfbereichs-Logo hochladen",
+    "Upload new header logo" : "Neues Logo für den Kopfbereich hochladen",
     "Favicon" : "Favicon",
     "Upload new favicon" : "Neues Favicon hochladen",
     "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Installieren Sie die Imagemagick PHP-Erweiterung mit Unterstützung für SVG-Bilder, um automatisch Favicons auf Basis des hochgeladenen Logos und der Farbe zu erstellen."

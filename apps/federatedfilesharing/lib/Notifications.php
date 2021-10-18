@@ -8,6 +8,7 @@
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Samuel <faust64@gmail.com>
  *
  * @license AGPL-3.0
  *
@@ -24,7 +25,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\FederatedFileSharing;
 
 use OCA\FederatedFileSharing\Events\FederatedShareAddedEvent;
@@ -34,8 +34,8 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\ICloudFederationFactory;
 use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Http\Client\IClientService;
-use OCP\OCS\IDiscoveryService;
 use OCP\ILogger;
+use OCP\OCS\IDiscoveryService;
 
 class Notifications {
 	public const RESPONSE_FORMAT = 'json'; // default response format for ocs calls
@@ -97,7 +97,7 @@ class Notifications {
 	 * @param string $sharedByFederatedId
 	 * @param int $shareType (can be a remote user or group share)
 	 * @return bool
-	 * @throws \OC\HintException
+	 * @throws \OCP\HintException
 	 * @throws \OC\ServerNotAvailableException
 	 */
 	public function sendRemoteShare($token, $shareWith, $name, $remoteId, $owner, $ownerFederatedId, $sharedBy, $sharedByFederatedId, $shareType) {
@@ -156,7 +156,7 @@ class Notifications {
 	 * @param int $permission
 	 * @param string $filename
 	 * @return array|false
-	 * @throws \OC\HintException
+	 * @throws \OCP\HintException
 	 * @throws \OC\ServerNotAvailableException
 	 */
 	public function requestReShare($token, $id, $shareId, $remote, $shareWith, $permission, $filename) {
@@ -405,7 +405,7 @@ class Notifications {
 	 * @param $fields
 	 * @param $action
 	 *
-	 * @return bool
+	 * @return array|false
 	 */
 	protected function tryOCMEndPoint($remoteDomain, $fields, $action) {
 		switch ($action) {

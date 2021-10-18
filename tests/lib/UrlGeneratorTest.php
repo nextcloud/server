@@ -13,6 +13,8 @@ use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\IURLGenerator;
+use OCP\IUser;
+use OCP\IUserSession;
 
 /**
  * Class UrlGeneratorTest
@@ -23,6 +25,8 @@ class UrlGeneratorTest extends \Test\TestCase {
 
 	/** @var \PHPUnit\Framework\MockObject\MockObject|IConfig */
 	private $config;
+	/** @var \PHPUnit\Framework\MockObject\MockObject|IUserSession */
+	private $userSession;
 	/** @var \PHPUnit\Framework\MockObject\MockObject|ICacheFactory */
 	private $cacheFactory;
 	/** @var \PHPUnit\Framework\MockObject\MockObject|IRequest */
@@ -37,11 +41,13 @@ class UrlGeneratorTest extends \Test\TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 		$this->config = $this->createMock(IConfig::class);
+		$this->userSession = $this->createMock(IUserSession::class);
 		$this->cacheFactory = $this->createMock(ICacheFactory::class);
 		$this->request = $this->createMock(IRequest::class);
 		$this->router = $this->createMock(Router::class);
 		$this->urlGenerator = new \OC\URLGenerator(
 			$this->config,
+			$this->userSession,
 			$this->cacheFactory,
 			$this->request,
 			$this->router
@@ -179,6 +185,12 @@ class UrlGeneratorTest extends \Test\TestCase {
 		$this->assertEquals($expected, $actual);
 	}
 
+	public function testGetWebroot() {
+		\OC::$WEBROOT = '/nextcloud';
+		$actual = $this->urlGenerator->getWebroot();
+		$this->assertEquals(\OC::$WEBROOT, $actual);
+	}
+
 	/**
 	 * @dataProvider provideOCSRoutes
 	 */
@@ -202,6 +214,111 @@ class UrlGeneratorTest extends \Test\TestCase {
 		return [
 			['core.OCS.getCapabilities', 'http://localhost/nextcloud/ocs/v2.php/cloud/capabilities'],
 			['core.WhatsNew.dismiss', 'http://localhost/nextcloud/ocs/v2.php/core/whatsnew'],
+		];
+	}
+
+	private function mockLinkToDefaultPageUrl(string $defaultAppConfig = '', bool $ignoreFrontControllerConfig = false) {
+		$this->config->expects($this->exactly(2))
+			->method('getSystemValue')
+			->withConsecutive(
+				['defaultapp', $this->anything()],
+				['htaccess.IgnoreFrontController', $this->anything()],
+			)
+			->will($this->onConsecutiveCalls(
+				$defaultAppConfig,
+				$ignoreFrontControllerConfig
+			));
+		$this->config->expects($this->once())
+			->method('getAppValue')
+			->with('core', 'defaultpage')
+			->willReturn('');
+	}
+
+	public function testLinkToDefaultPageUrlWithRedirectUrlWithoutFrontController() {
+		$this->mockBaseUrl();
+
+		$_REQUEST['redirect_url'] = 'myRedirectUrl.com';
+		$this->assertSame('http://localhost' . \OC::$WEBROOT . '/myRedirectUrl.com', $this->urlGenerator->linkToDefaultPageUrl());
+	}
+
+	public function testLinkToDefaultPageUrlWithRedirectUrlRedirectBypassWithoutFrontController() {
+		$this->mockBaseUrl();
+		$this->mockLinkToDefaultPageUrl();
+		putenv('front_controller_active=false');
+
+		$_REQUEST['redirect_url'] = 'myRedirectUrl.com@foo.com:a';
+		$this->assertSame('http://localhost' . \OC::$WEBROOT . '/index.php/apps/files/', $this->urlGenerator->linkToDefaultPageUrl());
+	}
+
+	public function testLinkToDefaultPageUrlWithRedirectUrlRedirectBypassWithFrontController() {
+		$this->mockBaseUrl();
+		$this->mockLinkToDefaultPageUrl();
+		putenv('front_controller_active=true');
+
+		$_REQUEST['redirect_url'] = 'myRedirectUrl.com@foo.com:a';
+		$this->assertSame('http://localhost' . \OC::$WEBROOT . '/apps/files/', $this->urlGenerator->linkToDefaultPageUrl());
+	}
+
+	public function testLinkToDefaultPageUrlWithRedirectUrlWithIgnoreFrontController() {
+		$this->mockBaseUrl();
+		$this->mockLinkToDefaultPageUrl('', true);
+		putenv('front_controller_active=false');
+
+		$_REQUEST['redirect_url'] = 'myRedirectUrl.com@foo.com:a';
+		$this->assertSame('http://localhost' . \OC::$WEBROOT . '/apps/files/', $this->urlGenerator->linkToDefaultPageUrl());
+	}
+
+	/**
+	 * @dataProvider provideDefaultApps
+	 */
+	public function testLinkToDefaultPageUrlWithDefaultApps($defaultAppConfig, $expectedPath) {
+		$userId = $this->getUniqueID();
+
+		/** @var \PHPUnit\Framework\MockObject\MockObject|IUser $userMock */
+		$userMock = $this->createMock(IUser::class);
+		$userMock->expects($this->once())
+			->method('getUID')
+			->willReturn($userId);
+
+		$this->mockBaseUrl();
+		$this->mockLinkToDefaultPageUrl($defaultAppConfig);
+
+		$this->config->expects($this->once())
+			->method('getUserValue')
+			->with($userId, 'core', 'defaultapp')
+			->willReturn('');
+		$this->userSession->expects($this->once())
+			->method('isLoggedIn')
+			->willReturn(true);
+		$this->userSession->expects($this->once())
+			->method('getUser')
+			->willReturn($userMock);
+
+		$this->assertEquals('http://localhost' . \OC::$WEBROOT . $expectedPath, $this->urlGenerator->linkToDefaultPageUrl());
+	}
+
+	public function provideDefaultApps() {
+		return [
+			// none specified, default to files
+			[
+				'',
+				'/index.php/apps/files/',
+			],
+			// unexisting or inaccessible app specified, default to files
+			[
+				'unexist',
+				'/index.php/apps/files/',
+			],
+			// non-standard app
+			[
+				'settings',
+				'/index.php/apps/settings/',
+			],
+			// non-standard app with fallback
+			[
+				'unexist,settings',
+				'/index.php/apps/settings/',
+			],
 		];
 	}
 }

@@ -1,8 +1,9 @@
 <?php
 /**
- *
+ * @copyright Copyright (c) 2016 Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -15,14 +16,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\AppFramework\Middleware;
 
 use OC\AppFramework\Http;
@@ -100,8 +100,7 @@ class OCSMiddleware extends Middleware {
 		 * we need to catch the response and convert it to a proper OCS response.
 		 */
 		if ($controller instanceof OCSController && !($response instanceof BaseResponse)) {
-			if ($response->getStatus() === Http::STATUS_UNAUTHORIZED ||
-				$response->getStatus() === Http::STATUS_FORBIDDEN) {
+			if ($response->getStatus() === Http::STATUS_UNAUTHORIZED) {
 				$message = '';
 				if ($response instanceof JSONResponse) {
 					/** @var DataResponse $response */
@@ -109,6 +108,15 @@ class OCSMiddleware extends Middleware {
 				}
 
 				return $this->buildNewResponse($controller, OCSController::RESPOND_UNAUTHORISED, $message);
+			}
+			if ($response->getStatus() === Http::STATUS_FORBIDDEN) {
+				$message = '';
+				if ($response instanceof JSONResponse) {
+					/** @var DataResponse $response */
+					$message = $response->getData()['message'];
+				}
+
+				return $this->buildNewResponse($controller, Http::STATUS_FORBIDDEN, $message);
 			}
 		}
 

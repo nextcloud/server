@@ -7,7 +7,6 @@
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Maxence Lange <maxence@artificial-owl.com>
- * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
@@ -28,9 +27,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Connector;
 
+use OC\Security\Bruteforce\Throttler;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\Share\Exceptions\ShareNotFound;
@@ -44,6 +43,7 @@ use Sabre\DAV\Auth\Backend\AbstractBasic;
  * @package OCA\DAV\Connector
  */
 class PublicAuth extends AbstractBasic {
+	private const BRUTEFORCE_ACTION = 'public_webdav_auth';
 
 	/** @var \OCP\Share\IShare */
 	private $share;
@@ -57,17 +57,23 @@ class PublicAuth extends AbstractBasic {
 	/** @var IRequest */
 	private $request;
 
+	/** @var Throttler */
+	private $throttler;
+
 	/**
 	 * @param IRequest $request
 	 * @param IManager $shareManager
 	 * @param ISession $session
+	 * @param Throttler $throttler
 	 */
 	public function __construct(IRequest $request,
 								IManager $shareManager,
-								ISession $session) {
+								ISession $session,
+								Throttler $throttler) {
 		$this->request = $request;
 		$this->shareManager = $shareManager;
 		$this->session = $session;
+		$this->throttler = $throttler;
 
 		// setup realm
 		$defaults = new \OCP\Defaults();
@@ -87,9 +93,12 @@ class PublicAuth extends AbstractBasic {
 	 * @throws \Sabre\DAV\Exception\NotAuthenticated
 	 */
 	protected function validateUserPass($username, $password) {
+		$this->throttler->sleepDelayOrThrowOnMax($this->request->getRemoteAddress(), self::BRUTEFORCE_ACTION);
+
 		try {
 			$share = $this->shareManager->getShareByToken($username);
 		} catch (ShareNotFound $e) {
+			$this->throttler->registerAttempt(self::BRUTEFORCE_ACTION, $this->request->getRemoteAddress());
 			return false;
 		}
 
@@ -111,14 +120,17 @@ class PublicAuth extends AbstractBasic {
 					if (in_array('XMLHttpRequest', explode(',', $this->request->getHeader('X-Requested-With')))) {
 						// do not re-authenticate over ajax, use dummy auth name to prevent browser popup
 						http_response_code(401);
-						header('WWW-Authenticate','DummyBasic realm="' . $this->realm . '"');
+						header('WWW-Authenticate: DummyBasic realm="' . $this->realm . '"');
 						throw new \Sabre\DAV\Exception\NotAuthenticated('Cannot authenticate over ajax calls');
 					}
+
+					$this->throttler->registerAttempt(self::BRUTEFORCE_ACTION, $this->request->getRemoteAddress());
 					return false;
 				}
 			} elseif ($share->getShareType() === IShare::TYPE_REMOTE) {
 				return true;
 			} else {
+				$this->throttler->registerAttempt(self::BRUTEFORCE_ACTION, $this->request->getRemoteAddress());
 				return false;
 			}
 		} else {

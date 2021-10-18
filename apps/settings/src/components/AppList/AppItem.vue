@@ -144,7 +144,7 @@ export default {
 	},
 	mounted() {
 		this.isSelected = (this.app.id === this.$route.params.id)
-		if (this.app.screenshot) {
+		if (this.app.releases && this.app.screenshot) {
 			const image = new Image()
 			image.onload = (e) => {
 				this.screenshotLoaded = true

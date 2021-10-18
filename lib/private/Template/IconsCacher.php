@@ -7,7 +7,7 @@ declare(strict_types=1);
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -21,14 +21,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Template;
 
 use OC\Files\AppData\Factory;
@@ -171,7 +170,10 @@ class IconsCacher {
 		} elseif (\strpos($url, $base) === 0) {
 			if (\preg_match('/([A-z0-9\_\-]+)\/([a-zA-Z0-9-_\~\/\.\=\:\;\+\,]+)\?color=([0-9a-fA-F]{3,6})/', $cleanUrl, $matches)) {
 				[,$app,$cleanUrl, $color] = $matches;
-				$location = \OC_App::getAppPath($app) . '/img/' . $cleanUrl . '.svg';
+				$appPath = \OC_App::getAppPath($app);
+				if ($appPath !== false) {
+					$location = $appPath . '/img/' . $cleanUrl . '.svg';
+				}
 				if ($app === 'settings') {
 					$location = \OC::$SERVERROOT . '/settings/img/' . $cleanUrl . '.svg';
 				}

@@ -23,8 +23,6 @@
  *
  */
 
-import { loadState } from '@nextcloud/initial-state'
-import queryString from 'query-string'
 import Vue from 'vue'
 
 // eslint-disable-next-line no-unused-vars
@@ -32,45 +30,7 @@ import OC from './OC/index' // TODO: Not needed but L10n breaks if removed
 import LoginView from './views/Login.vue'
 import Nextcloud from './mixins/Nextcloud'
 
-const query = queryString.parse(location.search)
-if (query.clear === '1') {
-	try {
-		window.localStorage.clear()
-		window.sessionStorage.clear()
-		console.debug('Browser storage cleared')
-	} catch (e) {
-		console.error('Could not clear browser storage', e)
-	}
-}
-
 Vue.mixin(Nextcloud)
 
-const fromStateOr = (key, orValue) => {
-	try {
-		return loadState('core', key)
-	} catch (e) {
-		return orValue
-	}
-}
-
 const View = Vue.extend(LoginView)
-new View({
-	propsData: {
-		errors: fromStateOr('loginErrors', []),
-		messages: fromStateOr('loginMessages', []),
-		redirectUrl: fromStateOr('loginRedirectUrl', undefined),
-		username: fromStateOr('loginUsername', ''),
-		throttleDelay: fromStateOr('loginThrottleDelay', 0),
-		invertedColors: OCA.Theming && OCA.Theming.inverted,
-		canResetPassword: fromStateOr('loginCanResetPassword', false),
-		resetPasswordLink: fromStateOr('loginResetPasswordLink', ''),
-		autoCompleteAllowed: fromStateOr('loginAutocomplete', true),
-		resetPasswordTarget: fromStateOr('resetPasswordTarget', ''),
-		resetPasswordUser: fromStateOr('resetPasswordUser', ''),
-		directLogin: query.direct === '1',
-		hasPasswordless: fromStateOr('webauthn-available', false),
-		isHttps: window.location.protocol === 'https:',
-		hasPublicKeyCredential: typeof (window.PublicKeyCredential) !== 'undefined',
-		hideLoginForm: fromStateOr('hideLoginForm', false),
-	},
-}).$mount('#login')
+new View().$mount('#login')

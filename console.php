@@ -31,7 +31,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 require_once __DIR__ . '/lib/versioncheck.php';
 
 use OC\Console\Application;
@@ -93,7 +92,7 @@ try {
 		\OC::$server->getConfig(),
 		\OC::$server->getEventDispatcher(),
 		\OC::$server->getRequest(),
-		\OC::$server->getLogger(),
+		\OC::$server->get(\Psr\Log\LoggerInterface::class),
 		\OC::$server->query(\OC\MemoryInfo::class)
 	);
 	$application->loadCommands(new ArgvInput(), new ConsoleOutput());

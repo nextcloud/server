@@ -77,6 +77,12 @@
 		<file name="build/stubs/xsl.php"/>
 	</stubs>
 	<issueHandlers>
+		<UndefinedClass>
+			<errorLevel type="suppress">
+				<referencedClass name="OCA\GroupFolders\Mount\GroupFolderStorage"/>
+				<referencedClass name="OCA\TwoFactorNextcloudNotification\Controller\APIController"/>
+			</errorLevel>
+		</UndefinedClass>
 		<UndefinedFunction>
 			<errorLevel type="suppress">
 				<!-- template functions: https://github.com/nextcloud/server/blob/6e8e34fef920a073118c22111f0f31eb3b3a91dc/lib/private/legacy/template/functions.php -->

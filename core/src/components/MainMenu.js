@@ -32,6 +32,26 @@ import OC from '../OC'
  * If the screen is bigger, the main menu is not a toggle any more.
  */
 export const setUp = () => {
+
+	Object.assign(OC, {
+		setNavigationCounter(id, counter) {
+			const appmenuElement = document.getElementById('appmenu').querySelector('[data-id="' + id + '"] svg')
+			const appsElement = document.getElementById('apps').querySelector('[data-id="' + id + '"] svg')
+			if (counter === 0) {
+				appmenuElement.classList.remove('has-unread')
+				appsElement.classList.remove('has-unread')
+				appmenuElement.getElementsByTagName('image')[0].style.mask = ''
+				appsElement.getElementsByTagName('image')[0].style.mask = ''
+			} else {
+				appmenuElement.classList.add('has-unread')
+				appsElement.classList.add('has-unread')
+				appmenuElement.getElementsByTagName('image')[0].style.mask = 'url(#hole)'
+				appsElement.getElementsByTagName('image')[0].style.mask = 'url(#hole)'
+			}
+			document.getElementById('appmenu').querySelector('[data-id="' + id + '"] .unread-counter').textContent = counter
+			document.getElementById('apps').querySelector('[data-id="' + id + '"] .unread-counter').textContent = counter
+		},
+	})
 	// init the more-apps menu
 	OC.registerMenu($('#more-apps > a'), $('#navigation'))
 

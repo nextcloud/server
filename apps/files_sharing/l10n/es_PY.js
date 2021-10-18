@@ -74,7 +74,6 @@ OC.L10N.register(
     "Please specify a file or folder path" : "Por favor especifica un archivo o ruta de carpeta",
     "Wrong path, file/folder doesn't exist" : "La ruta es incorrecta, el correo / carpeta no existe ",
     "Could not create share" : "No fue posible crear el elemento compartido",
-    "invalid permissions" : "permisos inválidos",
     "Please specify a valid user" : "Por favor especifica un usuario válido",
     "Group sharing is disabled by the administrator" : "Compartir en grupos está deshabilitado por el administrador",
     "Please specify a valid group" : "Por favor especifica un grupo válido",
@@ -88,10 +87,8 @@ OC.L10N.register(
     "Not a directory" : "No es una carpeta",
     "Could not lock path" : "No fue posible bloquear la ruta",
     "Wrong or no update parameter given" : "El parametro de actualización está erróneo o falta",
-    "Can't change permissions for public share links" : "No es posible cambiar los permisos para ligas públicas compartidas",
     "shared by %s" : "compartido por %s",
     "Direct link" : "Liga directa",
-    "Add to your Nextcloud" : "Agregar a tu Nextcloud",
     "Share API is disabled" : "El API para compartir está deshabilitado",
     "Accept" : "Aceptar",
     "Sharing" : "Compartiendo",
@@ -126,9 +123,12 @@ OC.L10N.register(
     "the link expired" : "la liga expiró",
     "sharing is disabled" : "compartir está deshabilitado",
     "For more info, please ask the person who sent this link." : "Para mayores informes, contacta a la persona que le envió esta liga.",
-    "Download %s" : "Descargar %s",
     "Upload files to %s" : "Cargar archivos a %s",
     "Select or drop files" : "Selecciona o suelta los archivos",
-    "Uploaded files:" : "Archivos cargados:"
+    "Uploaded files:" : "Archivos cargados:",
+    "Add to your Nextcloud" : "Agregar a tu Nextcloud",
+    "invalid permissions" : "permisos inválidos",
+    "Can't change permissions for public share links" : "No es posible cambiar los permisos para ligas públicas compartidas",
+    "Download %s" : "Descargar %s"
 },
 "nplurals=2; plural=(n != 1);");

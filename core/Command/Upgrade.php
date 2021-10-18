@@ -13,6 +13,7 @@
  * @author Sander Ruitenbeek <sander@grids.be>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Thomas Pulzer <t.pulzer@kniel.de>
+ * @author Valdnet <47037905+Valdnet@users.noreply.github.com>
  * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
@@ -30,15 +31,14 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Core\Command;
 
 use OC\Console\TimestampFormatter;
 use OC\Installer;
 use OC\Updater;
 use OCP\IConfig;
-use OCP\ILogger;
 use OCP\Util;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
@@ -56,15 +56,13 @@ class Upgrade extends Command {
 	/** @var IConfig */
 	private $config;
 
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	private $logger;
 
-	/**
-	 * @param IConfig $config
-	 * @param ILogger $logger
-	 * @param Installer $installer
-	 */
-	public function __construct(IConfig $config, ILogger $logger, Installer $installer) {
+	/** @var Installer */
+	private $installer;
+
+	public function __construct(IConfig $config, LoggerInterface $logger, Installer $installer) {
 		parent::__construct();
 		$this->config = $config;
 		$this->logger = $logger;
@@ -210,10 +208,10 @@ class Upgrade extends Command {
 				$output->writeln('<info>Checking for update of app ' . $app . ' in appstore</info>');
 			});
 			$updater->listen('\OC\Updater', 'upgradeAppStoreApp', function ($app) use ($output) {
-				$output->writeln('<info>Update app ' . $app . ' from appstore</info>');
+				$output->writeln('<info>Update app ' . $app . ' from App Store</info>');
 			});
 			$updater->listen('\OC\Updater', 'checkAppStoreApp', function ($app) use ($output) {
-				$output->writeln('<info>Checked for update of app "' . $app . '" in appstore </info>');
+				$output->writeln('<info>Checked for update of app "' . $app . '" in App Store </info>');
 			});
 			$updater->listen('\OC\Updater', 'appSimulateUpdate', function ($app) use ($output) {
 				$output->writeln("<info>Checking whether the database schema for <$app> can be updated (this can take a long time depending on the database size)</info>");

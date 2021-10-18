@@ -23,12 +23,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Core\Controller;
 
 use OC\Authentication\TwoFactorAuth\Manager;
 use OC_User;
-use OC_Util;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\StandaloneTemplateResponse;
@@ -36,6 +34,7 @@ use OCP\Authentication\TwoFactorAuth\IActivatableAtLogin;
 use OCP\Authentication\TwoFactorAuth\IProvider;
 use OCP\Authentication\TwoFactorAuth\IProvidesCustomCSP;
 use OCP\Authentication\TwoFactorAuth\TwoFactorException;
+use OCP\ILogger;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IURLGenerator;
@@ -52,6 +51,9 @@ class TwoFactorChallengeController extends Controller {
 	/** @var ISession */
 	private $session;
 
+	/** @var ILogger */
+	private $logger;
+
 	/** @var IURLGenerator */
 	private $urlGenerator;
 
@@ -62,14 +64,16 @@ class TwoFactorChallengeController extends Controller {
 	 * @param IUserSession $userSession
 	 * @param ISession $session
 	 * @param IURLGenerator $urlGenerator
+	 * @param ILogger $logger
 	 */
 	public function __construct($appName, IRequest $request, Manager $twoFactorManager, IUserSession $userSession,
-		ISession $session, IURLGenerator $urlGenerator) {
+		ISession $session, IURLGenerator $urlGenerator, ILogger $logger) {
 		parent::__construct($appName, $request);
 		$this->twoFactorManager = $twoFactorManager;
 		$this->userSession = $userSession;
 		$this->session = $session;
 		$this->urlGenerator = $urlGenerator;
+		$this->logger = $logger;
 	}
 
 	/**
@@ -78,7 +82,7 @@ class TwoFactorChallengeController extends Controller {
 	protected function getLogoutUrl() {
 		return OC_User::getLogoutUrl($this->urlGenerator);
 	}
-	
+
 	/**
 	 * @param IProvider[] $providers
 	 */
@@ -198,7 +202,7 @@ class TwoFactorChallengeController extends Controller {
 				if (!is_null($redirect_url)) {
 					return new RedirectResponse($this->urlGenerator->getAbsoluteURL(urldecode($redirect_url)));
 				}
-				return new RedirectResponse(OC_Util::getDefaultPageUrl());
+				return new RedirectResponse($this->urlGenerator->linkToDefaultPageUrl());
 			}
 		} catch (TwoFactorException $e) {
 			/*
@@ -209,6 +213,9 @@ class TwoFactorChallengeController extends Controller {
 			$this->session->set('two_factor_auth_error_message', $e->getMessage());
 		}
 
+		$ip = $this->request->getRemoteAddress();
+		$uid = $user->getUID();
+		$this->logger->warning("Two-factor challenge failed: $uid (Remote IP: $ip)");
 		$this->session->set('two_factor_auth_error', true);
 		return new RedirectResponse($this->urlGenerator->linkToRoute('core.TwoFactorChallenge.showChallenge', [
 			'challengeProviderId' => $provider->getId(),

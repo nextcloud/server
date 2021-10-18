@@ -131,7 +131,7 @@ OCA = OCA || {};
 			if(   key === 'ldap_userfilter_groups'
 			   && message === 'memberOf is not supported by the server'
 			) {
-				message = t('user_ldap', 'The group box was disabled, because the LDAP / AD server does not support memberOf.');
+				message = t('user_ldap', 'The group box was disabled, because the LDAP/AD server does not support memberOf.');
 			}
 			return message;
 		}

@@ -16,14 +16,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Provisioning_API\Tests\Controller;
 
 use OCA\Provisioning_API\Controller\AppConfigController;
@@ -31,7 +30,12 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\IAppConfig;
 use OCP\IConfig;
+use OCP\IGroupManager;
+use OCP\IL10N;
 use OCP\IRequest;
+use OCP\IUser;
+use OCP\IUserSession;
+use OCP\Settings\IManager;
 use Test\TestCase;
 
 /**
@@ -45,12 +49,24 @@ class AppConfigControllerTest extends TestCase {
 	private $config;
 	/** @var IAppConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $appConfig;
+	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
+	private $userSession;
+	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
+	private $l10n;
+	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
+	private $settingManager;
+	/** @var IGroupManager|\PHPUnit\Framework\MockObject\MockObject */
+	private $groupManager;
 
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->config = $this->createMock(IConfig::class);
 		$this->appConfig = $this->createMock(IAppConfig::class);
+		$this->userSession = $this->createMock(IUserSession::class);
+		$this->l10n = $this->createMock(IL10N::class);
+		$this->groupManager = $this->createMock(IGroupManager::class);
+		$this->settingManager = $this->createMock(IManager::class);
 	}
 
 	/**
@@ -65,7 +81,11 @@ class AppConfigControllerTest extends TestCase {
 				'provisioning_api',
 				$request,
 				$this->config,
-				$this->appConfig
+				$this->appConfig,
+				$this->userSession,
+				$this->l10n,
+				$this->groupManager,
+				$this->settingManager
 			);
 		} else {
 			return $this->getMockBuilder(AppConfigController::class)
@@ -74,6 +94,10 @@ class AppConfigControllerTest extends TestCase {
 					$request,
 					$this->config,
 					$this->appConfig,
+					$this->userSession,
+					$this->l10n,
+					$this->groupManager,
+					$this->settingManager
 				])
 				->setMethods($methods)
 				->getMock();
@@ -201,6 +225,18 @@ class AppConfigControllerTest extends TestCase {
 	 * @param int $status
 	 */
 	public function testSetValue($app, $key, $value, $appThrows, $keyThrows, $status) {
+		$adminUser = $this->createMock(IUser::class);
+		$adminUser->expects($this->once())
+			->method('getUid')
+			->willReturn('admin');
+
+		$this->userSession->expects($this->once())
+			->method('getUser')
+			->willReturn($adminUser);
+		$this->groupManager->expects($this->once())
+			->method('isAdmin')
+			->with('admin')
+			->willReturn(true);
 		$api = $this->getInstance(['verifyAppId', 'verifyConfigKey']);
 		if ($appThrows instanceof \Exception) {
 			$api->expects($this->once())

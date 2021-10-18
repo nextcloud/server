@@ -22,21 +22,21 @@
 
 export default class TabSections {
 
-	#sections;
+	_sections;
 
 	constructor() {
-		this.#sections = []
+		this._sections = []
 	}
 
 	/**
 	 * @param {registerSectionCallback} section To be called to mount the section to the sharing sidebar
 	 */
 	registerSection(section) {
-		this.#sections.push(section)
+		this._sections.push(section)
 	}
 
 	getSections() {
-		return this.#sections
+		return this._sections
 	}
 
 }

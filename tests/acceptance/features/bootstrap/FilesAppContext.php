@@ -89,7 +89,7 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function closeDetailsViewButton() {
-		return Locator::forThe()->css(".icon-close")->
+		return Locator::forThe()->css(".app-sidebar__close")->
 				descendantOf(self::detailsView())->
 				describedAs("Close details view in Files app");
 	}
@@ -116,7 +116,7 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function notFavoritedStateIconInFileDetailsInDetailsView() {
-		return Locator::forThe()->css(".icon-star")->
+		return Locator::forThe()->css(".star--star")->
 				descendantOf(self::favoriteActionInFileDetailsInDetailsView())->
 				describedAs("Not favorited state icon in file details in details view in Files app");
 	}
@@ -125,7 +125,7 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function favoritedStateIconInFileDetailsInDetailsView() {
-		return Locator::forThe()->css(".icon-starred")->
+		return Locator::forThe()->css(".star--starred")->
 				descendantOf(self::favoriteActionInFileDetailsInDetailsView())->
 				describedAs("Favorited state icon in file details in details view in Files app");
 	}

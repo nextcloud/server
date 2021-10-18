@@ -1,6 +1,5 @@
 { "translations": {
     "Cannot write into \"config\" directory!" : "Не можу писати у каталог \"config\"!",
-    "This can usually be fixed by giving the webserver write access to the config directory" : "Зазвичай це можна виправити, надавши веб-серверу права на запис в теці конфігурації",
     "See %s" : "Переглянути %s",
     "Sample configuration detected" : "Виявлено приклад конфігурації",
     "It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php" : "Було виявлено, що приклад конфігурації було скопійовано. Це може нашкодити вашій системі та не підтримується. Будь ласка, зверніться до документації перед внесенням змін в файл config.php",
@@ -57,7 +56,6 @@
     "Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP." : "Будь ласка, вилучіть параметр open_basedir у вашому php.ini або перейдіть на 64-бітний PHP.",
     "Set an admin username." : "Встановіть ім'я адміністратора.",
     "Set an admin password." : "Встановіть пароль адміністратора.",
-    "Can't create or write into the data directory %s" : "Неможливо створити або записати каталог даних %s",
     "Sharing backend %s must implement the interface OCP\\Share_Backend" : "Бекенд спільного доступу %s повинен реалізовувати інтерфейс OCP\\Share_Backend",
     "Sharing backend %s not found" : "Бекенд спільного доступу %s не знайдено",
     "Sharing backend for %s not found" : "Бекенд спільного доступу для %s не знайдено",
@@ -126,7 +124,6 @@
     "Login canceled by app" : "Вхід скасовано застосунком",
     "a safe home for all your data" : "безпечний дім для ваших даних",
     "File is currently busy, please try again later" : "Файл на разі зайнятий, будь ласка, спробуйте пізніше",
-    "Can't read file" : "Не можливо прочитати файл",
     "Application is not enabled" : "Застосунок не увімкнено",
     "Authentication error" : "Помилка автентифікації",
     "Token expired. Please reload page." : "Строк дії токена скінчився. Будь ласка, перезавантажте сторінку.",
@@ -158,8 +155,9 @@
     "Storage connection error. %s" : "Помилка з'єднання зі сховищем. %s",
     "Storage is temporarily not available" : "Сховище тимчасово недоступне",
     "Storage connection timeout. %s" : "Час під'єднання до сховища вичерпався. %s",
-    "Following databases are supported: %s" : "Підтримуються наступні сервери баз даних: %s",
-    "Following platforms are supported: %s" : "Підтримуються наступні платформи: %s",
-    "Invalid Federated Cloud ID" : "Неправильний Об'єднаний Хмарний Ідентіфікатор "
+    "This can usually be fixed by giving the webserver write access to the config directory" : "Зазвичай це можна виправити, надавши веб-серверу права на запис в теці конфігурації",
+    "Can't create or write into the data directory %s" : "Неможливо створити або записати каталог даних %s",
+    "Invalid Federated Cloud ID" : "Неправильний Об'єднаний Хмарний Ідентіфікатор ",
+    "Can't read file" : "Не можливо прочитати файл"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);"
 }

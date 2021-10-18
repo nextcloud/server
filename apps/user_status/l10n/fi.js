@@ -9,7 +9,7 @@ OC.L10N.register(
     "Working remotely" : "Etätyössä",
     "User status" : "Käyttäjän tilatieto",
     "Clear status message after" : "Tyhjennä tilaviesti, kun on kulunut",
-    "What's your status?" : "Mikä on tilatietosi?",
+    "What is your status?" : "Mikä on tilatietosi?",
     "Set status" : "Aseta tilatieto",
     "Online status" : "Online-tila",
     "Status message" : "Tilaviesti",
@@ -33,6 +33,7 @@ OC.L10N.register(
     "4 hours" : "4 tuntia",
     "Mute all notifications" : "Mykistä kaikki ilmoitukset",
     "Appear offline" : "Näytä olevan poissa",
-    "Clear status after" : "Tyhjennä tilatieto"
+    "Clear status after" : "Tyhjennä tilatieto",
+    "What's your status?" : "Mikä on tilatietosi?"
 },
 "nplurals=2; plural=(n != 1);");

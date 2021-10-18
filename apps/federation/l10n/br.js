@@ -5,12 +5,11 @@ OC.L10N.register(
     "Server is already in the list of trusted servers." : "Er roll ar servijour fiziet eo dija",
     "No server to federate with found" : "Servijour da gevredañ ebet kavet",
     "Could not add server" : "Dibosupl ouzhpennañ ar servijour",
+    "Trusted servers" : "Servijourienn fiziet",
     "Federation" : "Kevread",
     "Federation allows you to connect with other trusted servers to exchange the user directory." : "Aotreañ a ra deoc'h ar gevread d'en em genstagañ gant servijrourienn fiziet all evit eskemm teuliadoù.",
     "Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "Aotreañ a ra deoc'h ar gevread d'en em genstagañ gant servijrourienn fiziet all evit eskemm teuliadoù. Da skouer implijet e vo evit klokañ en un doare otomatek implijourienn diavaez evit rannadennoù kevredet.",
-    "Trusted servers" : "Servijourienn fiziet",
     "Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing. It is not necessary to add a server as trusted server in order to create a federated share." : "Aotreañ a ra deoc'h ar gevread d'en em genstagañ gant servijrourienn fiziet all evit eskemm teuliadoù. Da skouer implijet e vo evit klokañ en un doare otomatek implijourienn diavaez evit rannadennoù kevredet. N'eo ket rediet ouzhpennañ ur servijour fiziet evit kroui ur rannadenn kevredet.",
-    "Add server automatically once a federated share was created successfully" : "Ouzhpennañ ur servijour en un doare otomatek ur wech krouet mar ar rannadenn kevredet",
     "+ Add trusted server" : "+ Ouzhpenna ur servijour fiziet",
     "Trusted server" : "Servijour fiziet",
     "Add" : "Ouzhpennañ"

@@ -32,12 +32,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
-/**
- * Public interface of ownCloud for apps to use.
- * AppFramework/App class
- */
-
 namespace OCP\AppFramework;
 
 use OC\AppFramework\Routing\RouteConfig;

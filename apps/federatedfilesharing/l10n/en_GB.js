@@ -25,14 +25,13 @@ OC.L10N.register(
     "You received {share} as a remote share from {user}" : "You received {share} as a remote share from {user}",
     "Accept" : "Accept",
     "Decline" : "Decline",
+    "Federated Cloud Sharing" : "Federated Cloud Sharing",
     "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Share with me through my #Nextcloud Federated Cloud ID, see %s",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Share with me through my #Nextcloud Federated Cloud ID",
     "Sharing" : "Sharing",
     "Federated file sharing" : "Federated file sharing",
     "Provide federated file sharing across servers" : "Provide federated file sharing across servers",
-    "Federated Cloud Sharing" : "Federated Cloud Sharing",
     "Open documentation" : "Open documentation",
-    "Adjust how people can share between servers." : "Adjust how people can share between servers.",
     "Allow users on this server to receive shares from other servers" : "Allow users on this server to receive shares from other servers",
     "Search global and public address book for users" : "Search global and public address book for users",
     "Allow users to publish their data to a global and public address book" : "Allow users to publish their data to a global and public address book",
@@ -42,6 +41,6 @@ OC.L10N.register(
     "Add to your website" : "Add to your website",
     "Share with me via Nextcloud" : "Share with me via Nextcloud",
     "HTML Code:" : "HTML Code:",
-    "Allow users on this server to send shares to other servers" : "Allow users on this server to send shares to other servers"
+    "Adjust how people can share between servers." : "Adjust how people can share between servers."
 },
 "nplurals=2; plural=(n != 1);");

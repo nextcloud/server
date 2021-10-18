@@ -154,7 +154,7 @@ function addSelect2 ($elements, userListLimit) {
 		},
 		formatSelection: function (element) {
 			if (element.type === 'group') {
-				return '<span title="'+escapeHTML(element.name)+'" class="group">'+escapeHTML(element.displayname+' '+t('files_external', '(group)'))+'</span>';
+				return '<span title="'+escapeHTML(element.name)+'" class="group">'+escapeHTML(element.displayname+' '+t('files_external', '(Group)'))+'</span>';
 			} else {
 				return '<span title="'+escapeHTML(element.name)+'" class="user">'+escapeHTML(element.displayname)+'</span>';
 			}
@@ -1235,7 +1235,7 @@ MountConfigListView.prototype = _.extend({
 			$statusSpan.attr('title', message);
 			$statusSpan.tooltip();
 		} else {
-			$statusSpan.tooltip('destroy');
+			$statusSpan.tooltip('dispose');
 		}
 	},
 

@@ -7,6 +7,7 @@
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Valdnet <47037905+Valdnet@users.noreply.github.com>
  * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
@@ -24,7 +25,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Connector\Sabre;
 
 use OCP\IConfig;
@@ -82,7 +82,7 @@ class MaintenancePlugin extends ServerPlugin {
 	 */
 	public function checkMaintenanceMode() {
 		if ($this->config->getSystemValueBool('maintenance')) {
-			throw new ServiceUnavailable($this->l10n->t('System in maintenance mode.'));
+			throw new ServiceUnavailable($this->l10n->t('System is in maintenance mode.'));
 		}
 		if (Util::needUpgrade()) {
 			throw new ServiceUnavailable($this->l10n->t('Upgrade needed'));

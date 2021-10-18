@@ -9,7 +9,6 @@ OC.L10N.register(
     "Working remotely" : "Jobber utenfra",
     "User status" : "Brukerstatus",
     "Clear status message after" : "Fjern statusmelding etter",
-    "What's your status?" : "Hva er din status?",
     "Set status" : "Velg status",
     "Online status" : "Online status",
     "Status message" : "Statusmelding",
@@ -32,6 +31,7 @@ OC.L10N.register(
     "1 hour" : "1 time",
     "4 hours" : "4 timer",
     "Mute all notifications" : "Demp alle varslinger",
-    "Clear status after" : "Fjern status etter"
+    "Clear status after" : "Fjern status etter",
+    "What's your status?" : "Hva er din status?"
 },
 "nplurals=2; plural=(n != 1);");

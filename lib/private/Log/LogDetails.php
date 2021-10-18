@@ -15,14 +15,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Log;
 
 use OC\SystemConfig;
@@ -38,7 +37,7 @@ abstract class LogDetails {
 
 	public function logDetails(string $app, $message, int $level): array {
 		// default to ISO8601
-		$format = $this->config->getValue('logdateformat', \DateTime::ATOM);
+		$format = $this->config->getValue('logdateformat', \DateTimeInterface::ATOM);
 		$logTimeZone = $this->config->getValue('logtimezone', 'UTC');
 		try {
 			$timezone = new \DateTimeZone($logTimeZone);
@@ -83,13 +82,17 @@ abstract class LogDetails {
 			'version'
 		);
 
-		if (is_array($message) && !array_key_exists('Exception', $message)) {
-			// Exception messages should stay as they are,
+		if (is_array($message)) {
+			// Exception messages are extracted and the exception is put into a separate field
 			// anything else modern is split to 'message' (string) and
 			// data (array) fields
-			$shortMessage = $message['message'] ?? '(no message provided)';
-			$entry['data'] = $message;
-			$entry['message'] = $shortMessage;
+			if (array_key_exists('Exception', $message)) {
+				$entry['exception'] = $message;
+				$entry['message'] = $message['CustomMessage'] !== '--' ? $message['CustomMessage'] : $message['Message'];
+			} else {
+				$entry['data'] = $message;
+				$entry['message'] = $message['message'] ?? '(no message provided)';
+			}
 		}
 
 		return $entry;

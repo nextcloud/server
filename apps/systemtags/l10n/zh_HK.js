@@ -51,7 +51,7 @@ OC.L10N.register(
     "No tags found" : "找不到標籤",
     "Please select tags to filter by" : "請選擇標籤以篩選",
     "No files found for the selected tags" : "沒有與選擇的標籤相符的檔案",
-    "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "協作標籤可以被所有用戶使用。受限標籤是可見的，但用戶無法分配它們。 不可見標籤僅供內部使用，用戶既看不到也無法分配它們。 ",
+    "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "協作標籤可以被所有用戶使用。受限標籤是可見的，但用戶無法分配它們。不可見標籤僅供內部使用，用戶既看不到也無法分配它們。",
     "Create a new tag" : "建立新標籤",
     "Name" : "名稱",
     "Public" : "公開",
@@ -59,7 +59,7 @@ OC.L10N.register(
     "Invisible" : "隱藏",
     "Delete" : "移除",
     "Reset" : "重設",
-    "No files in here" : "沒有任何檔案",
+    "No files in here" : "此處沒有任何檔案",
     "No entries found in this folder" : "在此資料夾中沒有任何項目",
     "Size" : "大小",
     "Modified" : "修改時間"

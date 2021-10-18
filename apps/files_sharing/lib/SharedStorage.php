@@ -30,20 +30,22 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_Sharing;
 
 use OC\Files\Cache\FailedCache;
 use OC\Files\Cache\NullWatcher;
+use OC\Files\Cache\Watcher;
 use OC\Files\Filesystem;
 use OC\Files\Storage\FailedStorage;
 use OC\Files\Storage\Wrapper\PermissionsMask;
 use OC\User\NoUserException;
+use OCA\Files_External\Config\ExternalMountPoint;
 use OCP\Constants;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IDisableEncryptionStorage;
 use OCP\Files\Storage\IStorage;
+use OCP\IUserManager;
 use OCP\Lock\ILockingProvider;
 use OCP\Share\IShare;
 
@@ -386,7 +388,11 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 			return new FailedCache();
 		}
 
-		$this->cache = new \OCA\Files_Sharing\Cache($storage, $sourceRoot, $this->superShare);
+		$this->cache = new \OCA\Files_Sharing\Cache(
+			$storage,
+			$sourceRoot,
+			\OC::$server->get(IUserManager::class)
+		);
 		return $this->cache;
 	}
 
@@ -401,7 +407,20 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 		return $this->superShare->getShareOwner();
 	}
 
-	public function getWatcher($path = '', $storage = null): NullWatcher {
+	public function getWatcher($path = '', $storage = null): Watcher {
+		$mountManager = \OC::$server->getMountManager();
+
+		// Get node informations
+		$node = $this->getShare()->getNodeCacheEntry();
+		if ($node) {
+			$mount = $mountManager->findByNumericId($node->getStorageId());
+			// If the share is originating from an external storage
+			if (count($mount) > 0 && $mount[0] instanceof ExternalMountPoint) {
+				// Propagate original storage scan
+				return parent::getWatcher($path, $storage);
+			}
+		}
+
 		// cache updating is handled by the share source
 		return new NullWatcher();
 	}

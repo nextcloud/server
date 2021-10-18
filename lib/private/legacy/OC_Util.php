@@ -23,7 +23,7 @@
  * @author Individual IT Services <info@individual-it.net>
  * @author Jakob Sack <mail@jakobsack.de>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Kawohl <john@owncloud.com>
@@ -43,6 +43,7 @@
  * @author Stefan Weil <sw@weilnetz.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Thomas Tanghus <thomas@tanghus.net>
+ * @author Valdnet <47037905+Valdnet@users.noreply.github.com>
  * @author Victor Dubiniuk <dubiniuk@owncloud.com>
  * @author Vincent Petry <vincent@nextcloud.com>
  * @author Volkan Gezer <volkangezer@gmail.com>
@@ -70,8 +71,9 @@ use OCP\Files\Template\ITemplateManager;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\ILogger;
+use OCP\IURLGenerator;
 use OCP\IUser;
-use OCP\IUserSession;
+use OCP\Share\IManager;
 use Psr\Log\LoggerInterface;
 
 class OC_Util {
@@ -336,8 +338,9 @@ class OC_Util {
 	 * @suppress PhanDeprecatedFunction
 	 */
 	public static function isPublicLinkPasswordRequired() {
-		$enforcePassword = \OC::$server->getConfig()->getAppValue('core', 'shareapi_enforce_links_password', 'no');
-		return $enforcePassword === 'yes';
+		/** @var IManager $shareManager */
+		$shareManager = \OC::$server->get(IManager::class);
+		return $shareManager->shareApiLinkEnforcePassword();
 	}
 
 	/**
@@ -348,25 +351,10 @@ class OC_Util {
 	 * @return bool
 	 */
 	public static function isSharingDisabledForUser(IConfig $config, IGroupManager $groupManager, $user) {
-		if ($config->getAppValue('core', 'shareapi_exclude_groups', 'no') === 'yes') {
-			$groupsList = $config->getAppValue('core', 'shareapi_exclude_groups_list', '');
-			$excludedGroups = json_decode($groupsList);
-			if (is_null($excludedGroups)) {
-				$excludedGroups = explode(',', $groupsList);
-				$newValue = json_encode($excludedGroups);
-				$config->setAppValue('core', 'shareapi_exclude_groups_list', $newValue);
-			}
-			$usersGroups = $groupManager->getUserGroupIds($user);
-			if (!empty($usersGroups)) {
-				$remainingGroups = array_diff($usersGroups, $excludedGroups);
-				// if the user is only in groups which are disabled for sharing then
-				// sharing is also disabled for the user
-				if (empty($remainingGroups)) {
-					return true;
-				}
-			}
-		}
-		return false;
+		/** @var IManager $shareManager */
+		$shareManager = \OC::$server->get(IManager::class);
+		$userId = $user ? $user->getUID() : null;
+		return $shareManager->sharingDisabledForUser($userId);
 	}
 
 	/**
@@ -376,14 +364,9 @@ class OC_Util {
 	 * @suppress PhanDeprecatedFunction
 	 */
 	public static function isDefaultExpireDateEnforced() {
-		$isDefaultExpireDateEnabled = \OC::$server->getConfig()->getAppValue('core', 'shareapi_default_expire_date', 'no');
-		$enforceDefaultExpireDate = false;
-		if ($isDefaultExpireDateEnabled === 'yes') {
-			$value = \OC::$server->getConfig()->getAppValue('core', 'shareapi_enforce_expire_date', 'no');
-			$enforceDefaultExpireDate = $value === 'yes';
-		}
-
-		return $enforceDefaultExpireDate;
+		/** @var IManager $shareManager */
+		$shareManager = \OC::$server->get(IManager::class);
+		return $shareManager->shareApiLinkDefaultExpireDateEnforced();
 	}
 
 	/**
@@ -747,10 +730,10 @@ class OC_Util {
 			$config,
 			\OC::$server->get(IniGetWrapper::class),
 			\OC::$server->getL10N('lib'),
-			\OC::$server->query(\OCP\Defaults::class),
-			\OC::$server->getLogger(),
+			\OC::$server->get(\OCP\Defaults::class),
+			\OC::$server->get(LoggerInterface::class),
 			\OC::$server->getSecureRandom(),
-			\OC::$server->query(\OC\Installer::class)
+			\OC::$server->get(\OC\Installer::class)
 		);
 
 		$urlGenerator = \OC::$server->getURLGenerator();
@@ -786,7 +769,7 @@ class OC_Util {
 				$errors[] = [
 					'error' => $l->t('Cannot write into "apps" directory'),
 					'hint' => $l->t('This can usually be fixed by giving the webserver write access to the apps directory'
-						. ' or disabling the appstore in the config file.')
+						. ' or disabling the App Store in the config file.')
 				];
 			}
 		}
@@ -1107,46 +1090,9 @@ class OC_Util {
 	 * @suppress PhanDeprecatedFunction
 	 */
 	public static function getDefaultPageUrl() {
-		/** @var IConfig $config */
-		$config = \OC::$server->get(IConfig::class);
-		$urlGenerator = \OC::$server->getURLGenerator();
-		// Deny the redirect if the URL contains a @
-		// This prevents unvalidated redirects like ?redirect_url=:user@domain.com
-		if (isset($_REQUEST['redirect_url']) && strpos($_REQUEST['redirect_url'], '@') === false) {
-			$location = $urlGenerator->getAbsoluteURL(urldecode($_REQUEST['redirect_url']));
-		} else {
-			$defaultPage = \OC::$server->getConfig()->getAppValue('core', 'defaultpage');
-			if ($defaultPage) {
-				$location = $urlGenerator->getAbsoluteURL($defaultPage);
-			} else {
-				$appId = 'files';
-				$defaultApps = explode(',', $config->getSystemValue('defaultapp', 'dashboard,files'));
-
-				/** @var IUserSession $userSession */
-				$userSession = \OC::$server->get(IUserSession::class);
-				$user = $userSession->getUser();
-				if ($user) {
-					$userDefaultApps = explode(',', $config->getUserValue($user->getUID(), 'core', 'defaultapp'));
-					$defaultApps = array_filter(array_merge($userDefaultApps, $defaultApps));
-				}
-
-				// find the first app that is enabled for the current user
-				foreach ($defaultApps as $defaultApp) {
-					$defaultApp = OC_App::cleanAppId(strip_tags($defaultApp));
-					if (static::getAppManager()->isEnabledForUser($defaultApp)) {
-						$appId = $defaultApp;
-						break;
-					}
-				}
-
-				if ($config->getSystemValue('htaccess.IgnoreFrontController', false) === true || getenv('front_controller_active') === 'true') {
-					$location = $urlGenerator->getAbsoluteURL('/apps/' . $appId . '/');
-				} else {
-					$location = $urlGenerator->getAbsoluteURL('/index.php/apps/' . $appId . '/');
-				}
-			}
-		}
-		return $location;
+		/** @var IURLGenerator $urlGenerator */
+		$urlGenerator = \OC::$server->get(IURLGenerator::class);
+		return $urlGenerator->linkToDefaultPageUrl();
 	}
 
 	/**
@@ -1232,7 +1178,7 @@ class OC_Util {
 
 		$fp = @fopen($testFile, 'w');
 		if (!$fp) {
-			throw new OC\HintException('Can\'t create test file to check for working .htaccess file.',
+			throw new \OCP\HintException('Can\'t create test file to check for working .htaccess file.',
 				'Make sure it is possible for the webserver to write to ' . $testFile);
 		}
 		fwrite($fp, $testContent);
@@ -1243,10 +1189,11 @@ class OC_Util {
 
 	/**
 	 * Check if the .htaccess file is working
+	 *
 	 * @param \OCP\IConfig $config
 	 * @return bool
 	 * @throws Exception
-	 * @throws \OC\HintException If the test file can't get written.
+	 * @throws \OCP\HintException If the test file can't get written.
 	 */
 	public function isHtaccessWorking(\OCP\IConfig $config) {
 		if (\OC::$CLI || !$config->getSystemValue('check_for_working_htaccess', true)) {
@@ -1440,7 +1387,7 @@ class OC_Util {
 	 *
 	 * @param \OC\SystemConfig $config
 	 * @return bool whether the core or any app needs an upgrade
-	 * @throws \OC\HintException When the upgrade from the given version is not allowed
+	 * @throws \OCP\HintException When the upgrade from the given version is not allowed
 	 */
 	public static function needUpgrade(\OC\SystemConfig $config) {
 		if ($config->getValue('installed', false)) {
@@ -1460,11 +1407,11 @@ class OC_Util {
 					return true;
 				} else {
 					// downgrade attempt, throw exception
-					throw new \OC\HintException('Downgrading is not supported and is likely to cause unpredictable issues (from ' . $installedVersion . ' to ' . $currentVersion . ')');
+					throw new \OCP\HintException('Downgrading is not supported and is likely to cause unpredictable issues (from ' . $installedVersion . ' to ' . $currentVersion . ')');
 				}
 			} elseif ($versionDiff < 0) {
 				// downgrade attempt, throw exception
-				throw new \OC\HintException('Downgrading is not supported and is likely to cause unpredictable issues (from ' . $installedVersion . ' to ' . $currentVersion . ')');
+				throw new \OCP\HintException('Downgrading is not supported and is likely to cause unpredictable issues (from ' . $installedVersion . ' to ' . $currentVersion . ')');
 			}
 
 			// also check for upgrades for apps (independently from the user)

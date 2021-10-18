@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author J0WI <J0WI@users.noreply.github.com>
@@ -27,7 +28,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\DB\QueryBuilder;
 
 use Doctrine\DBAL\Platforms\MySQLPlatform;
@@ -309,9 +309,24 @@ class QueryBuilder implements IQueryBuilder {
 		throw new \RuntimeException('Invalid return type for query');
 	}
 
+	/**
+	 * Monkey-patched compatibility layer for apps that were adapted for Nextcloud 22 before
+	 * the first beta, where executeStatement was named executeUpdate.
+	 *
+	 * Static analysis should catch those misuses, but until then let's try to keep things
+	 * running.
+	 *
+	 * @internal
+	 * @deprecated
+	 * @todo drop ASAP
+	 */
 	public function executeUpdate(): int {
+		return $this->executeStatement();
+	}
+
+	public function executeStatement(): int {
 		if ($this->getType() === \Doctrine\DBAL\Query\QueryBuilder::SELECT) {
-			throw new \RuntimeException('Invalid query type, expected INSERT, DELETE or UPDATE query');
+			throw new \RuntimeException('Invalid query type, expected INSERT, DELETE or UPDATE statement');
 		}
 
 		try {
@@ -321,7 +336,7 @@ class QueryBuilder implements IQueryBuilder {
 		}
 
 		if (!is_int($result)) {
-			throw new \RuntimeException('Invalid return type for query');
+			throw new \RuntimeException('Invalid return type for statement');
 		}
 
 		return $result;

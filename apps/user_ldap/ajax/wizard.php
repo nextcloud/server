@@ -7,7 +7,6 @@
  * @author Joas Schilling <coding@schilljs.com>
  * @author Juan Pablo Villafáñez <jvillafanez@solidgear.es>
  * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Roger Szabo <roger.szabo@web.de>
@@ -27,7 +26,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 // Check user and app status
 \OC_JSON::checkAdminUser();
 \OC_JSON::checkAppEnabled('user_ldap');
@@ -71,7 +69,8 @@ $access = new \OCA\User_LDAP\Access(
 	$userManager,
 	new \OCA\User_LDAP\Helper(\OC::$server->getConfig(), \OC::$server->getDatabaseConnection()),
 	\OC::$server->getConfig(),
-	\OC::$server->getUserManager()
+	\OC::$server->getUserManager(),
+	\OC::$server->get(\Psr\Log\LoggerInterface::class)
 );
 
 $wizard = new \OCA\User_LDAP\Wizard($configuration, $ldapWrapper, $access);

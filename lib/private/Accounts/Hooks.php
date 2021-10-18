@@ -15,77 +15,65 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Accounts;
 
 use OCP\Accounts\IAccountManager;
+use OCP\Accounts\PropertyDoesNotExistException;
+use OCP\EventDispatcher\Event;
+use OCP\EventDispatcher\IEventListener;
 use OCP\IUser;
+use OCP\User\Events\UserChangedEvent;
 use Psr\Log\LoggerInterface;
 
-class Hooks {
+class Hooks implements IEventListener {
 
-	/** @var AccountManager|null */
+	/** @var IAccountManager */
 	private $accountManager;
-
 	/** @var LoggerInterface */
 	private $logger;
 
-	public function __construct(LoggerInterface $logger) {
+	public function __construct(LoggerInterface $logger, IAccountManager $accountManager) {
 		$this->logger = $logger;
+		$this->accountManager = $accountManager;
 	}
 
 	/**
 	 * update accounts table if email address or display name was changed from outside
-	 *
-	 * @param array $params
 	 */
-	public function changeUserHook($params) {
-		$accountManager = $this->getAccountManager();
+	public function changeUserHook(IUser $user, string $feature, $newValue): void {
+		$account = $this->accountManager->getAccount($user);
 
-		/** @var IUser $user */
-		$user = isset($params['user']) ? $params['user'] : null;
-		$feature = isset($params['feature']) ? $params['feature'] : null;
-		$newValue = isset($params['value']) ? $params['value'] : null;
-
-		if (is_null($user) || is_null($feature) || is_null($newValue)) {
-			$this->logger->warning('Missing expected parameters in change user hook');
+		try {
+			switch ($feature) {
+				case 'eMailAddress':
+					$property = $account->getProperty(IAccountManager::PROPERTY_EMAIL);
+					break;
+				case 'displayName':
+					$property = $account->getProperty(IAccountManager::PROPERTY_DISPLAYNAME);
+					break;
+			}
+		} catch (PropertyDoesNotExistException $e) {
+			$this->logger->debug($e->getMessage(), ['exception' => $e]);
 			return;
 		}
 
-		$accountData = $accountManager->getUser($user);
-
-		switch ($feature) {
-			case 'eMailAddress':
-				if ($accountData[IAccountManager::PROPERTY_EMAIL]['value'] !== $newValue) {
-					$accountData[IAccountManager::PROPERTY_EMAIL]['value'] = $newValue;
-					$accountManager->updateUser($user, $accountData);
-				}
-				break;
-			case 'displayName':
-				if ($accountData[IAccountManager::PROPERTY_DISPLAYNAME]['value'] !== $newValue) {
-					$accountData[IAccountManager::PROPERTY_DISPLAYNAME]['value'] = $newValue;
-					$accountManager->updateUser($user, $accountData);
-				}
-				break;
+		if (isset($property) && $property->getValue() !== (string)$newValue) {
+			$property->setValue($newValue);
+			$this->accountManager->updateAccount($account);
 		}
 	}
 
-	/**
-	 * return instance of accountManager
-	 *
-	 * @return AccountManager
-	 */
-	protected function getAccountManager(): AccountManager {
-		if ($this->accountManager === null) {
-			$this->accountManager = \OC::$server->query(AccountManager::class);
+	public function handle(Event $event): void {
+		if (!$event instanceof UserChangedEvent) {
+			return;
 		}
-		return $this->accountManager;
+		$this->changeUserHook($event->getUser(), $event->getFeature(), $event->getValue());
 	}
 }

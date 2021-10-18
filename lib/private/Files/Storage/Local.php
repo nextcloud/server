@@ -11,6 +11,7 @@
  * @author J0WI <J0WI@users.noreply.github.com>
  * @author Jakob Sack <mail@jakobsack.de>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Johannes Leuker <j.leuker@hosting.de>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Klaas Freitag <freitag@owncloud.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
@@ -39,7 +40,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Files\Storage;
 
 use OC\Files\Filesystem;
@@ -169,7 +169,7 @@ class Local extends \OC\Files\Storage\Common {
 
 		$permissions = Constants::PERMISSION_SHARE;
 		$statPermissions = $stat['mode'];
-		$isDir = ($statPermissions & 0x4000) === 0x4000;
+		$isDir = ($statPermissions & 0x4000) === 0x4000 && !($statPermissions & 0x8000);
 		if ($statPermissions & 0x0100) {
 			$permissions += Constants::PERMISSION_READ;
 		}
@@ -216,7 +216,7 @@ class Local extends \OC\Files\Storage\Common {
 	}
 
 	public function filesize($path) {
-		if ($this->is_dir($path)) {
+		if (!$this->is_file($path)) {
 			return 0;
 		}
 		$fullPath = $this->getSourcePath($path);
@@ -492,7 +492,7 @@ class Local extends \OC\Files\Storage\Common {
 	}
 
 	private function calculateEtag(string $path, array $stat): string {
-		if ($stat['mode'] & 0x4000) { // is_dir
+		if ($stat['mode'] & 0x4000 && !($stat['mode'] & 0x8000)) { // is_dir & not socket
 			return parent::getETag($path);
 		} else {
 			if ($stat === false) {
@@ -568,8 +568,11 @@ class Local extends \OC\Files\Storage\Common {
 
 	public function writeStream(string $path, $stream, int $size = null): int {
 		$result = $this->file_put_contents($path, $stream);
+		if (is_resource($stream)) {
+			fclose($stream);
+		}
 		if ($result === false) {
-			throw new GenericFileException("Failed write steam to $path");
+			throw new GenericFileException("Failed write stream to $path");
 		} else {
 			return $result;
 		}

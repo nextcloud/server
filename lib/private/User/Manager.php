@@ -7,7 +7,7 @@
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
@@ -31,13 +31,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\User;
 
-use OC\HintException;
 use OC\Hooks\PublicEmitter;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\HintException;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IConfig;
@@ -159,7 +158,7 @@ class Manager extends PublicEmitter implements IUserManager {
 			return $this->cachedUsers[$uid];
 		}
 
-		$cachedBackend = $this->cache->get($uid);
+		$cachedBackend = $this->cache->get(sha1($uid));
 		if ($cachedBackend !== null && isset($this->backends[$cachedBackend])) {
 			// Cache has the info of the user backend already, so ask that one directly
 			$backend = $this->backends[$cachedBackend];
@@ -175,7 +174,8 @@ class Manager extends PublicEmitter implements IUserManager {
 			}
 
 			if ($backend->userExists($uid)) {
-				$this->cache->set($uid, $i, 300);
+				// Hash $uid to ensure that only valid characters are used for the cache key
+				$this->cache->set(sha1($uid), $i, 300);
 				return $this->getUserObject($uid, $backend);
 			}
 		}
@@ -700,6 +700,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * @since 9.1.0
 	 */
 	public function getByEmail($email) {
+		// looking for 'email' only (and not primary_mail) is intentional
 		$userIds = $this->config->getUsersForUserValueCaseInsensitive('settings', 'email', $email);
 
 		$users = array_map(function ($uid) {

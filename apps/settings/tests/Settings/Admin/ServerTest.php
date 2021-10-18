@@ -22,14 +22,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Settings\Tests\Settings\Admin;
 
 use OCA\Settings\Settings\Admin\Server;
@@ -37,6 +36,7 @@ use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
+use OCP\IL10N;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
@@ -52,12 +52,15 @@ class ServerTest extends TestCase {
 	private $timeFactory;
 	/** @var IConfig|MockObject */
 	private $config;
+	/** @var IL10N|MockObject */
+	private $l10n;
 
 	protected function setUp(): void {
 		parent::setUp();
 		$this->connection = \OC::$server->getDatabaseConnection();
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->config = $this->createMock(IConfig::class);
+		$this->l10n = $this->createMock(IL10N::class);
 
 		$this->admin = $this->getMockBuilder(Server::class)
 			->onlyMethods(['cronMaxAge'])
@@ -65,6 +68,7 @@ class ServerTest extends TestCase {
 				$this->connection,
 				$this->timeFactory,
 				$this->config,
+				$this->l10n,
 			])
 			->getMock();
 	}

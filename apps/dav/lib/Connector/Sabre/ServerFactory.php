@@ -29,7 +29,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Connector\Sabre;
 
 use OC\Files\Node\Folder;
@@ -172,6 +171,7 @@ class ServerFactory {
 					$this->config,
 					$this->request,
 					$this->previewManager,
+					$this->userSession,
 					false,
 					!$this->config->getSystemValue('debug', false)
 				)

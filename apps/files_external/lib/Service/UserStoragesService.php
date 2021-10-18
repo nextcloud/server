@@ -8,6 +8,7 @@
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Stefan Weil <sw@weilnetz.de>
+ * @author szaimen <szaimen@e.mail.de>
  * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
@@ -25,7 +26,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_External\Service;
 
 use OC\Files\Filesystem;
@@ -36,7 +36,7 @@ use OCP\Files\Config\IUserMountCache;
 use OCP\IUserSession;
 
 /**
- * Service class to manage user external storages
+ * Service class to manage user external storage
  * (aka personal storages)
  */
 class UserStoragesService extends StoragesService {

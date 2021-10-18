@@ -65,7 +65,7 @@ class ThemingAppContext implements Context, ActorAwareInterface {
 	 * @When I set the :parameterName parameter in the Theming app to :parameterValue
 	 */
 	public function iSetTheParameterInTheThemingAppTo($parameterName, $parameterValue) {
-		$this->actor->find(self::inputFieldFor($parameterName), 10)->setValue($parameterValue . "\r");
+		$this->actor->find(self::inputFieldFor($parameterName), 10)->setValue($parameterValue);
 	}
 
 	/**

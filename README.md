@@ -62,7 +62,7 @@ Otherwise, git checkouts can be handled the same as release archives, by using t
 
 We are moving more and more towards using Vue.js in the frontend, starting with Settings. For building the code on changes, use these terminal commands in the root folder:
 
-``` bash
+```bash
 # install dependencies
 make dev-setup
 
@@ -76,30 +76,30 @@ make watch-js
 make build-js-production
 ```
 
-#### Commiting changes
+#### Committing changes
 
 **When making changes, also commit the compiled files!**
 
 We still use Handlebars templates some places in Files and Settings. We will replace these step-by-step with Vue.js, but in the meantime you need to compile them separately.
 
 If you don’t have Handlebars installed yet, you can do it with this terminal command:
-```
+```bash
 sudo npm install -g handlebars
 ```
 
 Then inside the root folder of your local Nextcloud development installation, run this command in the terminal every time you changed a `.handlebars` file to compile it:
-```
+```bash
 ./build/compile-handlebars-templates.sh
 ```
 
 Before checking in JS changes, make sure to also build for production:
-```
+```bash
 make build-js-production
 ```
 Then add the compiled files for committing.
 
 To save some time, to only rebuild for a specific app, use the following and replace the module with the app name:
-```
+```bash
 MODULE=user_status make build-js-production
 ```
 

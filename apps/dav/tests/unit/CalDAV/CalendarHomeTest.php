@@ -23,7 +23,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Tests\unit\CalDAV;
 
 use OCA\DAV\AppInfo\PluginManager;
@@ -32,6 +31,7 @@ use OCA\DAV\CalDAV\CalendarHome;
 use OCA\DAV\CalDAV\Integration\ExternalCalendar;
 use OCA\DAV\CalDAV\Integration\ICalendarProvider;
 use OCA\DAV\CalDAV\Outbox;
+use OCA\DAV\CalDAV\Trashbin\TrashbinHome;
 use Sabre\CalDAV\Schedule\Inbox;
 use Sabre\DAV\MkCol;
 use Test\TestCase;
@@ -141,13 +141,14 @@ class CalendarHomeTest extends TestCase {
 
 		$actual = $this->calendarHome->getChildren();
 
-		$this->assertCount(6, $actual);
+		$this->assertCount(7, $actual);
 		$this->assertInstanceOf(Inbox::class, $actual[0]);
 		$this->assertInstanceOf(Outbox::class, $actual[1]);
-		$this->assertEquals('plugin1calendar1', $actual[2]);
-		$this->assertEquals('plugin1calendar2', $actual[3]);
-		$this->assertEquals('plugin2calendar1', $actual[4]);
-		$this->assertEquals('plugin2calendar2', $actual[5]);
+		$this->assertInstanceOf(TrashbinHome::class, $actual[2]);
+		$this->assertEquals('plugin1calendar1', $actual[3]);
+		$this->assertEquals('plugin1calendar2', $actual[4]);
+		$this->assertEquals('plugin2calendar1', $actual[5]);
+		$this->assertEquals('plugin2calendar2', $actual[6]);
 	}
 
 	public function testGetChildNonAppGenerated():void {

@@ -6,7 +6,6 @@ OC.L10N.register(
     "Show something" : "תראה משהו",
     "Customize" : "התאמה אישית",
     "Edit widgets" : "ערוך יישומונים",
-    "Get more widgets from the app store" : "קבל יישומונים נוספים מחנות האפליקציות",
     "Change background image" : "שנה תמונת רקע",
     "Weather service" : "שירות מזג אוויר",
     "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "למען פרטיותך, נתוני מזג האוויר מתבקשים על ידי שרת Nextcloud עבורך, כך ששירות מזג האוויר אינו מקבל מידע אישי.",
@@ -27,6 +26,7 @@ OC.L10N.register(
     "Default images" : "תמונות ברירת מחדל",
     "Plain background" : "רקע רגיל",
     "Insert from {productName}" : "הכנס מ-{productName}",
+    "Get more widgets from the app store" : "קבל יישומונים נוספים מחנות האפליקציות",
     "Good night, {name}" : "לילה טוב, {name}",
     "Good night" : "לילה טוב",
     "Pick from files" : "בחר מתוך קבצים"

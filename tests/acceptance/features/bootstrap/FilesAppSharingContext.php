@@ -23,6 +23,7 @@
 
 use Behat\Behat\Context\Context;
 use PHPUnit\Framework\Assert;
+use WebDriver\Key;
 
 class FilesAppSharingContext implements Context, ActorAwareInterface {
 	use ActorAware;
@@ -217,6 +218,15 @@ class FilesAppSharingContext implements Context, ActorAwareInterface {
 		return Locator::forThe()->css(".sharing-entry__actions .trigger")->
 				descendantOf(self::shareLinkRow())->
 				describedAs("Share link menu trigger in the details view in Files app");
+	}
+
+	/**
+	 * @return Locator
+	 */
+	public static function shareLinkSingleUnshareAction() {
+		return Locator::forThe()->css(".sharing-entry__actions.icon-close")->
+			descendantOf(self::shareLinkRow())->
+			describedAs("Unshare link single action in the details view in Files app");
 	}
 
 	/**
@@ -427,7 +437,7 @@ class FilesAppSharingContext implements Context, ActorAwareInterface {
 		$shareLinkMenuTriggerElement = $this->actor->find(self::shareLinkMenuTrigger(), 2);
 		$this->actor->find(self::passwordProtectCheckbox($shareLinkMenuTriggerElement), 2)->click();
 
-		$this->actor->find(self::passwordProtectField($shareLinkMenuTriggerElement), 2)->setValue($password . "\r");
+		$this->actor->find(self::passwordProtectField($shareLinkMenuTriggerElement), 2)->setValue($password . Key::ENTER);
 	}
 
 	/**
@@ -504,10 +514,13 @@ class FilesAppSharingContext implements Context, ActorAwareInterface {
 	 * @When I unshare the link share
 	 */
 	public function iUnshareTheLink() {
-		$this->showShareLinkMenuIfNeeded();
-
-		$shareLinkMenuTriggerElement = $this->actor->find(self::shareLinkMenuTrigger(), 2);
-		$this->actor->find(self::unshareLinkButton($shareLinkMenuTriggerElement), 2)->click();
+		try {
+			$this->actor->find(self::shareLinkSingleUnshareAction(), 2)->click();
+		} catch (NoSuchElementException $e) {
+			$this->showShareLinkMenuIfNeeded();
+			$shareLinkMenuTriggerElement = $this->actor->find(self::shareLinkMenuTrigger(), 2);
+			$this->actor->find(self::unshareLinkButton($shareLinkMenuTriggerElement), 2)->click();
+		}
 	}
 
 	/**

@@ -21,26 +21,33 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Federation;
 
 use OCP\Contacts\IManager;
 use OCP\Federation\ICloudId;
 use OCP\Federation\ICloudIdManager;
+use OCP\IURLGenerator;
+use OCP\IUserManager;
 
 class CloudIdManager implements ICloudIdManager {
 	/** @var IManager */
 	private $contactsManager;
+	/** @var IURLGenerator */
+	private $urlGenerator;
+	/** @var IUserManager */
+	private $userManager;
 
-	public function __construct(IManager $contactsManager) {
+	public function __construct(IManager $contactsManager, IURLGenerator $urlGenerator, IUserManager $userManager) {
 		$this->contactsManager = $contactsManager;
+		$this->urlGenerator = $urlGenerator;
+		$this->userManager = $userManager;
 	}
 
 	/**
@@ -104,22 +111,37 @@ class CloudIdManager implements ICloudIdManager {
 
 	/**
 	 * @param string $user
-	 * @param string $remote
+	 * @param string|null $remote
 	 * @return CloudId
 	 */
-	public function getCloudId(string $user, string $remote): ICloudId {
-		// TODO check what the correct url is for remote (asking the remote)
-		$fixedRemote = $this->fixRemoteURL($remote);
-		if (strpos($fixedRemote, 'http://') === 0) {
-			$host = substr($fixedRemote, strlen('http://'));
-		} elseif (strpos($fixedRemote, 'https://') === 0) {
-			$host = substr($fixedRemote, strlen('https://'));
+	public function getCloudId(string $user, ?string $remote): ICloudId {
+		if ($remote === null) {
+			$remote = rtrim($this->removeProtocolFromUrl($this->urlGenerator->getAbsoluteURL('/')), '/');
+			$fixedRemote = $this->fixRemoteURL($remote);
+			$localUser = $this->userManager->get($user);
+			$displayName = !is_null($localUser) ? $localUser->getDisplayName() : '';
 		} else {
-			$host = $fixedRemote;
+			// TODO check what the correct url is for remote (asking the remote)
+			$fixedRemote = $this->fixRemoteURL($remote);
+			$host = $this->removeProtocolFromUrl($fixedRemote);
+			$displayName = $this->getDisplayNameFromContact($user . '@' . $host);
 		}
 		$id = $user . '@' . $remote;
-		$displayName = $this->getDisplayNameFromContact($user . '@' . $host);
 		return new CloudId($id, $user, $fixedRemote, $displayName);
+	}
+
+	/**
+	 * @param string $url
+	 * @return string
+	 */
+	private function removeProtocolFromUrl($url) {
+		if (strpos($url, 'https://') === 0) {
+			return substr($url, strlen('https://'));
+		} elseif (strpos($url, 'http://') === 0) {
+			return substr($url, strlen('http://'));
+		}
+
+		return $url;
 	}
 
 	/**

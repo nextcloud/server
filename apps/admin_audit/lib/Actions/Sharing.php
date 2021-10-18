@@ -9,6 +9,7 @@ declare(strict_types=1);
  * @author Joas Schilling <coding@schilljs.com>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Sascha Wiswedel <sascha.wiswedel@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
@@ -20,14 +21,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\AdminAudit\Actions;
 
 use OCP\Share\IShare;
@@ -50,7 +50,7 @@ class Sharing extends Action {
 				$params,
 				[
 					'itemType',
-					'itemTarget',
+					'path',
 					'itemSource',
 					'permissions',
 					'id',
@@ -62,7 +62,7 @@ class Sharing extends Action {
 				$params,
 				[
 					'itemType',
-					'itemTarget',
+					'path',
 					'itemSource',
 					'shareWith',
 					'permissions',
@@ -75,7 +75,7 @@ class Sharing extends Action {
 				$params,
 				[
 					'itemType',
-					'itemTarget',
+					'path',
 					'itemSource',
 					'shareWith',
 					'permissions',
@@ -88,7 +88,7 @@ class Sharing extends Action {
 				$params,
 				[
 					'itemType',
-					'itemTarget',
+					'path',
 					'itemSource',
 					'shareWith',
 					'permissions',
@@ -101,7 +101,7 @@ class Sharing extends Action {
 				$params,
 				[
 					'itemType',
-					'itemTarget',
+					'path',
 					'itemSource',
 					'shareWith',
 					'permissions',
@@ -114,7 +114,7 @@ class Sharing extends Action {
 				$params,
 				[
 					'itemType',
-					'itemTarget',
+					'path',
 					'itemSource',
 					'shareWith',
 					'permissions',
@@ -127,7 +127,7 @@ class Sharing extends Action {
 				$params,
 				[
 					'itemType',
-					'itemTarget',
+					'path',
 					'itemSource',
 					'shareWith',
 					'permissions',
@@ -140,7 +140,7 @@ class Sharing extends Action {
 				$params,
 				[
 					'itemType',
-					'itemTarget',
+					'path',
 					'itemSource',
 					'shareWith',
 					'permissions',
@@ -153,7 +153,7 @@ class Sharing extends Action {
 				$params,
 				[
 					'itemType',
-					'itemTarget',
+					'path',
 					'itemSource',
 					'shareWith',
 					'permissions',
@@ -320,15 +320,26 @@ class Sharing extends Action {
 	 * @param array $params
 	 */
 	public function updateExpirationDate(array $params): void {
-		$this->log(
-			'The expiration date of the publicly shared %s with ID "%s" has been changed to "%s"',
-			$params,
-			[
-				'itemType',
-				'itemSource',
-				'date',
-			]
-		);
+		if ($params['date'] === null) {
+			$this->log(
+				'The expiration date of the publicly shared %s with ID "%s" has been removed',
+				$params,
+				[
+					'itemType',
+					'itemSource',
+				]
+			);
+		} else {
+			$this->log(
+				'The expiration date of the publicly shared %s with ID "%s" has been changed to "%s"',
+				$params,
+				[
+					'itemType',
+					'itemSource',
+					'date',
+				]
+			);
+		}
 	}
 
 	/**

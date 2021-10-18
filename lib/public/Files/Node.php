@@ -25,12 +25,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
-/**
- * Public interface of ownCloud for apps to use.
- * Files/Node interface
- */
-
 // use OCP namespace for all classes that are considered public.
 // This means that they should be used by apps instead of the internal ownCloud classes
 
@@ -69,7 +63,7 @@ interface Node extends FileInfo {
 	public function delete();
 
 	/**
-	 * Cope the file or folder to a new location
+	 * Copy the file or folder to a new location
 	 *
 	 * @param string $targetPath the absolute target path
 	 * @return Node

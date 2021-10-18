@@ -24,7 +24,9 @@ OC.L10N.register(
     "Password to access {file} was sent to {email}" : "Lösenord till {file} skickades till {email}",
     "Password to access %1$s was sent to you" : "Lösenord för att nå %1$s skickades till dig",
     "Password to access {file} was sent to you" : "Lösenord till {file} skickades till dig",
-    "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Vi kan inte skicka det autogenererade lösenordet till dig. Vänligen ange en giltig e-postadress i dina personliga inställningar och försök igen.",
+    "Share by mail" : "Dela via e-post",
+    "Sharing %1$s failed, because this item is already shared with user %2$s" : "Delning av %1$s misslyckades eftersom detta redan är delat med användaren %2$s",
+    "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Vi kan inte skicka det autogenererade lösenordet till dig. Vänligen ange en giltig e-postadress i dina personliga inställningar och försök igen.",
     "Failed to send share by email" : "Det gick inte att skicka delning via e-post",
     "%1$s shared »%2$s« with you" : "%1$s delade »%2$s« med dig",
     "%1$s shared »%2$s« with you." : "%1$s delade »%2$s« med dig.",
@@ -44,10 +46,10 @@ OC.L10N.register(
     "This is the password:" : "Detta är lösenordet:",
     "You can choose a different password at any time in the share dialog." : "Du kan välja ett annat lösenord när som helst i delningsdialogen.",
     "Could not find share" : "Kunde inte hitta delning",
-    "Share by mail" : "Dela via e-post",
     "Share provider which allows you to share files by mail" : "Möjliggör delning av filer via e-post",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Tillåt användare att dela en personlig länk till en fil eller mapp genom att ange en e-postadress",
     "Send password by mail" : "Skicka lösenord via e-post",
+    "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Vi kan inte skicka det autogenererade lösenordet till dig. Vänligen ange en giltig e-postadress i dina personliga inställningar och försök igen.",
     "Enforce password protection" : "Tvinga lösenordsskydd"
 },
 "nplurals=2; plural=(n != 1);");

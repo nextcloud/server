@@ -4,10 +4,13 @@
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author Johannes Leuker <j.leuker@hosting.de>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Loki3000 <github@labcms.ru>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author tgrant <tom.grant760@gmail.com>
+ * @author Tom Grant <TomG736@users.noreply.github.com>
  *
  * @license AGPL-3.0
  *
@@ -24,23 +27,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-/*
- *
- * The following SQL statement is just a help for developers and will not be
- * executed!
- *
- * CREATE TABLE `groups` (
- *   `gid` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
- *   PRIMARY KEY (`gid`)
- * ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
- *
- * CREATE TABLE `group_user` (
- *   `gid` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
- *   `uid` varchar(64) COLLATE utf8_unicode_ci NOT NULL
- * ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
- *
- */
-
 namespace OC\Group;
 
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
@@ -458,7 +444,11 @@ class Database extends ABackend implements
 
 	public function getDisplayName(string $gid): string {
 		if (isset($this->groupCache[$gid])) {
-			return $this->groupCache[$gid]['displayname'];
+			$displayName = $this->groupCache[$gid]['displayname'];
+
+			if (isset($displayName) && trim($displayName) !== '') {
+				return $displayName;
+			}
 		}
 
 		$this->fixDI();

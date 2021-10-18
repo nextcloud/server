@@ -76,6 +76,27 @@ class L10nTest extends TestCase {
 		$this->assertEquals('5 oken', (string)$l->n('%n window', '%n windows', 5));
 	}
 
+	public function dataPlaceholders(): array {
+		return [
+			['Ordered placeholders one %s two %s', 'Placeholder one 1 two 2'],
+			['Reordered placeholders one %s two %s', 'Placeholder two 2 one 1'],
+			['Reordered placeholders one %1$s two %2$s', 'Placeholder two 2 one 1'],
+		];
+	}
+
+	/**
+	 * @dataProvider dataPlaceholders
+	 *
+	 * @param $string
+	 * @param $expected
+	 */
+	public function testPlaceholders($string, $expected): void {
+		$transFile = \OC::$SERVERROOT.'/tests/data/l10n/de.json';
+		$l = new L10N($this->getFactory(), 'test', 'de', 'de_AT', [$transFile]);
+
+		$this->assertEquals($expected, $l->t($string, ['1', '2']));
+	}
+
 	public function localizationData() {
 		return [
 			// timestamp as string

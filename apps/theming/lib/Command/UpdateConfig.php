@@ -13,14 +13,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Theming\Command;
 
 use OCA\Theming\ImageManager;
@@ -126,6 +125,11 @@ class UpdateConfig extends Command {
 			}
 			$value = $this->imageManager->updateImage($key, $value);
 			$key = $key . 'Mime';
+		}
+
+		if ($key === 'color' && !preg_match('/^\#([0-9a-f]{3}|[0-9a-f]{6})$/i', $value)) {
+			$output->writeln('<error>The given color is invalid: ' . $value . '</error>');
+			return 1;
 		}
 
 		$this->themingDefaults->set($key, $value);

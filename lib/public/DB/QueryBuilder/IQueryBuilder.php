@@ -25,7 +25,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\DB\QueryBuilder;
 
 use Doctrine\DBAL\Connection;
@@ -149,7 +148,7 @@ interface IQueryBuilder {
 	/**
 	 * Executes this query using the bound parameters and their types.
 	 *
-	 * Uses {@see Connection::executeQuery} for select statements and {@see Connection::executeUpdate}
+	 * Uses {@see Connection::executeQuery} for select statements and {@see Connection::executeStatement}
 	 * for insert, update and delete statements.
 	 *
 	 * Warning: until Nextcloud 20, this method could return a \Doctrine\DBAL\Driver\Statement but since
@@ -159,7 +158,7 @@ interface IQueryBuilder {
 	 * @return IResult|int
 	 * @throws Exception since 21.0.0
 	 * @since 8.2.0
-	 * @deprecated 22.0.0 Use executeQuery or executeUpdate
+	 * @deprecated 22.0.0 Use executeQuery or executeStatement
 	 */
 	public function execute();
 
@@ -175,15 +174,15 @@ interface IQueryBuilder {
 	public function executeQuery(): IResult;
 
 	/**
-	 * Execute  for insert, update and delete statements
+	 * Execute insert, update and delete statements
 	 *
-	 * @return int
+	 * @return int the number of affected rows
 	 * @since 22.0.0
 	 *
 	 * @throws Exception
 	 * @throws \RuntimeException in case of usage with select query
 	 */
-	public function executeUpdate(): int;
+	public function executeStatement(): int;
 
 	/**
 	 * Gets the complete SQL string formed by the current specifications of this QueryBuilder.

@@ -6,7 +6,7 @@ OC.L10N.register(
     "Show something" : "Mostra qualcosa",
     "Customize" : "Personalizza",
     "Edit widgets" : "Modifica widget",
-    "Get more widgets from the app store" : "Ottieni altri widget dal negozio di applicazioni",
+    "Get more widgets from the App Store" : "Ottieni altri widget dal negozio delle applicazioni",
     "Change background image" : "Cambia l'immagine di sfondo",
     "Weather service" : "Servizio meteo",
     "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Per la tua riservatezza, i dati meteorologici sono richiesti dal tuo server Nextcloud per tuo conto, per cui il servizio meteo non riceve informazioni personali.",
@@ -27,6 +27,7 @@ OC.L10N.register(
     "Default images" : "Immagini predefinite",
     "Plain background" : "Sfondo semplice",
     "Insert from {productName}" : "Inserisci da {productName}",
+    "Get more widgets from the app store" : "Ottieni altri widget dal negozio delle applicazioni",
     "Good night, {name}" : "Buona notte, {name}",
     "Good night" : "Buona notte",
     "Pick from files" : "Scegli da file"

@@ -29,14 +29,13 @@ OC.L10N.register(
     "You received {share} as a remote share from {user}" : "Λάβατε {share} ως απομακρυσμένο κοινόχρηστο από {user}",
     "Accept" : "Αποδοχή",
     "Decline" : "Απόρριψη",
+    "Federated Cloud Sharing" : "Διαμοιρασμός Federated Cloud",
     "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Διαμοιρασμός με εμένα μέσω του #Nextcloud Federated Cloud ID μου, δείτε %s",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Διαμοιρασμός με εμένα μέσω του #Nextcloud Federated Cloud ID μου",
     "Sharing" : "Διαμοιρασμός",
     "Federated file sharing" : "Federated διαμοιρασμός αρχείου",
     "Provide federated file sharing across servers" : "Παρέχει κοινής χρήσης αρχεία μεταξύ διακομιστών",
-    "Federated Cloud Sharing" : "Διαμοιρασμός Federated Cloud",
     "Open documentation" : "Άνοιγμα τεκμηρίωσης",
-    "Adjust how people can share between servers." : "Προσαρμόστε το πως τα άτομα θα διαμοιράζονται μεταξύ των διακομιστών",
     "Allow users on this server to send shares to other servers (this option also allows WebDAV access to public shares)" : "Να επιτρέπεται στους χρήστες αυτού του διακομιστή να στέλνουν κοινόχρηστα στοιχεία σε άλλους διακομιστές (αυτή η επιλογή επιτρέπει επίσης στο WebDAV πρόσβαση σε δημόσιες κοινοποιήσεις).",
     "Allow users on this server to receive shares from other servers" : "Να επιτρέπεται στους χρίστες του διακομιστή να λαμβάνουν διαμοιρασμένα αρχεία από άλλους διακομιστές",
     "Allow users on this server to send shares to groups on other servers" : "Επιτρέπει σε χρήστες αυτού του διακομιστή να διαμοιράζεται αρχεία σε ομάδες άλλου διακομιστή",
@@ -50,6 +49,6 @@ OC.L10N.register(
     "Add to your website" : "Προσθήκη στην ιστοσελίδα σας",
     "Share with me via Nextcloud" : "Διαμοιραστείτε με εμένα μέσω του Nextcloud",
     "HTML Code:" : "Κώδικας HTML:",
-    "Allow users on this server to send shares to other servers" : "Να επιτρέπεται σε χρήστες αυτού του διακομιστή να στέλνουν διαμοιρασμένους φακέλους σε άλλους διακομιστές"
+    "Adjust how people can share between servers." : "Προσαρμόστε το πως τα άτομα θα διαμοιράζονται μεταξύ των διακομιστών"
 },
 "nplurals=2; plural=(n != 1);");

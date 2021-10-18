@@ -262,7 +262,7 @@ export default {
 
 		app() {
 			this.screenshotLoaded = false
-			if (this.app && this.app.screenshot) {
+			if (this.app?.releases && this.app?.screenshot) {
 				const image = new Image()
 				image.onload = (e) => {
 					this.screenshotLoaded = true

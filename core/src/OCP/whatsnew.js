@@ -23,15 +23,14 @@
 
 import _ from 'underscore'
 import $ from 'jquery'
-
-import OC from '../OC/index'
+import { generateOcsUrl } from '@nextcloud/router'
 
 export function query(options) {
 	options = options || {}
 	const dismissOptions = options.dismiss || {}
 	$.ajax({
 		type: 'GET',
-		url: options.url || OC.linkToOCS('core', 2) + 'whatsnew?format=json',
+		url: options.url || generateOcsUrl('core/whatsnew?format=json'),
 		success: options.success || function(data, statusText, xhr) {
 			onQuerySuccess(data, statusText, xhr, dismissOptions)
 		},
@@ -43,7 +42,7 @@ export function dismiss(version, options) {
 	options = options || {}
 	$.ajax({
 		type: 'POST',
-		url: options.url || OC.linkToOCS('core', 2) + 'whatsnew',
+		url: options.url || generateOcsUrl('core/whatsnew'),
 		data: { version: encodeURIComponent(version) },
 		success: options.success || onDismissSuccess,
 		error: options.error || onDismissError,

@@ -8,11 +8,12 @@
  * @author fnuesse <felix.nuesse@t-online.de>
  * @author fnuesse <fnuesse@techfak.uni-bielefeld.de>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Max Kovalenko <mxss1998@yandex.ru>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Nina Pypchenko <22447785+nina-py@users.noreply.github.com>
  * @author Richard Steinmetz <richard@steinmetz.cloud>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -34,7 +35,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files\Controller;
 
 use OC\Files\Node\Node;
@@ -67,9 +67,9 @@ class ApiController extends Controller {
 	private $shareManager;
 	/** @var IPreview */
 	private $previewManager;
-	/** IUserSession */
+	/** @var IUserSession */
 	private $userSession;
-	/** IConfig */
+	/** @var IConfig */
 	private $config;
 	/** @var Folder */
 	private $userFolder;
@@ -177,9 +177,9 @@ class ApiController extends Controller {
 	 * @return array
 	 */
 	private function formatNodes(array $nodes) {
-		return array_values(array_map(function (Node $node) {
-			/** @var \OC\Files\Node\Node $shareTypes */
-			$shareTypes = $this->getShareTypes($node);
+		$shareTypesForNodes = $this->getShareTypesForNodes($nodes);
+		return array_values(array_map(function (Node $node) use ($shareTypesForNodes) {
+			$shareTypes = $shareTypesForNodes[$node->getId()] ?? [];
 			$file = \OCA\Files\Helper::formatFileInfo($node->getFileInfo());
 			$file['hasPreview'] = $this->previewManager->isAvailable($node);
 			$parts = explode('/', dirname($node->getPath()), 4);
@@ -196,6 +196,57 @@ class ApiController extends Controller {
 	}
 
 	/**
+	 * Get the share types for each node
+	 *
+	 * @param \OCP\Files\Node[] $nodes
+	 * @return array<int, int[]> list of share types for each fileid
+	 */
+	private function getShareTypesForNodes(array $nodes): array {
+		$userId = $this->userSession->getUser()->getUID();
+		$requestedShareTypes = [
+			IShare::TYPE_USER,
+			IShare::TYPE_GROUP,
+			IShare::TYPE_LINK,
+			IShare::TYPE_REMOTE,
+			IShare::TYPE_EMAIL,
+			IShare::TYPE_ROOM,
+			IShare::TYPE_DECK,
+		];
+		$shareTypes = [];
+
+		$nodeIds = array_map(function (Node $node) {
+			return $node->getId();
+		}, $nodes);
+
+		foreach ($requestedShareTypes as $shareType) {
+			$nodesLeft = array_combine($nodeIds, array_fill(0, count($nodeIds), true));
+			$offset = 0;
+
+			// fetch shares until we've either found shares for all nodes or there are no more shares left
+			while (count($nodesLeft) > 0) {
+				$shares = $this->shareManager->getSharesBy($userId, $shareType, null, false, 100, $offset);
+				foreach ($shares as $share) {
+					$fileId = $share->getNodeId();
+					if (isset($nodesLeft[$fileId])) {
+						if (!isset($shareTypes[$fileId])) {
+							$shareTypes[$fileId] = [];
+						}
+						$shareTypes[$fileId][] = $shareType;
+						unset($nodesLeft[$fileId]);
+					}
+				}
+
+				if (count($shares) < 100) {
+					break;
+				} else {
+					$offset += count($shares);
+				}
+			}
+		}
+		return $shareTypes;
+	}
+
+	/**
 	 * Returns a list of recently modifed files.
 	 *
 	 * @NoAdminRequired
@@ -206,41 +257,6 @@ class ApiController extends Controller {
 		$nodes = $this->userFolder->getRecent(100);
 		$files = $this->formatNodes($nodes);
 		return new DataResponse(['files' => $files]);
-	}
-
-	/**
-	 * Return a list of share types for outgoing shares
-	 *
-	 * @param Node $node file node
-	 *
-	 * @return int[] array of share types
-	 */
-	private function getShareTypes(Node $node) {
-		$userId = $this->userSession->getUser()->getUID();
-		$shareTypes = [];
-		$requestedShareTypes = [
-			IShare::TYPE_USER,
-			IShare::TYPE_GROUP,
-			IShare::TYPE_LINK,
-			IShare::TYPE_REMOTE,
-			IShare::TYPE_EMAIL,
-			IShare::TYPE_ROOM,
-			IShare::TYPE_DECK,
-		];
-		foreach ($requestedShareTypes as $requestedShareType) {
-			// one of each type is enough to find out about the types
-			$shares = $this->shareManager->getSharesBy(
-				$userId,
-				$requestedShareType,
-				$node,
-				false,
-				1
-			);
-			if (!empty($shares)) {
-				$shareTypes[] = $requestedShareType;
-			}
-		}
-		return $shareTypes;
 	}
 
 	/**
@@ -275,8 +291,8 @@ class ApiController extends Controller {
 	 * @return Response
 	 * @throws \OCP\PreConditionNotMetException
 	 */
-	public function showHiddenFiles($show) {
-		$this->config->setUserValue($this->userSession->getUser()->getUID(), 'files', 'show_hidden', (int)$show);
+	public function showHiddenFiles(bool $show): Response {
+		$this->config->setUserValue($this->userSession->getUser()->getUID(), 'files', 'show_hidden', $show ? '1' : '0');
 		return new Response();
 	}
 
@@ -289,8 +305,8 @@ class ApiController extends Controller {
 	 * @return Response
 	 * @throws \OCP\PreConditionNotMetException
 	 */
-	public function cropImagePreviews($crop) {
-		$this->config->setUserValue($this->userSession->getUser()->getUID(), 'files', 'crop_image_previews', (int)$crop);
+	public function cropImagePreviews(bool $crop): Response {
+		$this->config->setUserValue($this->userSession->getUser()->getUID(), 'files', 'crop_image_previews', $crop ? '1' : '0');
 		return new Response();
 	}
 
@@ -303,8 +319,8 @@ class ApiController extends Controller {
 	 * @return Response
 	 * @throws \OCP\PreConditionNotMetException
 	 */
-	public function showGridView($show) {
-		$this->config->setUserValue($this->userSession->getUser()->getUID(), 'files', 'show_grid', (int)$show);
+	public function showGridView(bool $show): Response {
+		$this->config->setUserValue($this->userSession->getUser()->getUID(), 'files', 'show_grid', $show ? '1' : '0');
 		return new Response();
 	}
 
@@ -329,13 +345,13 @@ class ApiController extends Controller {
 	 * @return Response
 	 * @throws \OCP\PreConditionNotMetException
 	 */
-	public function toggleShowFolder(int $show, string $key) {
+	public function toggleShowFolder(int $show, string $key): Response {
 		// ensure the edited key exists
 		$navItems = \OCA\Files\App::getNavigationManager()->getAll();
 		foreach ($navItems as $item) {
 			// check if data is valid
 			if (($show === 0 || $show === 1) && isset($item['expandedState']) && $key === $item['expandedState']) {
-				$this->config->setUserValue($this->userSession->getUser()->getUID(), 'files', $key, $show);
+				$this->config->setUserValue($this->userSession->getUser()->getUID(), 'files', $key, (string)$show);
 				return new Response();
 			}
 		}

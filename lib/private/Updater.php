@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @copyright Copyright (c) 2016, Lukas Reschke <lukas@statuscode.ch>
@@ -8,6 +11,7 @@
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Frank Karlitschek <frank@karlitschek.de>
  * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author J0WI <J0WI@users.noreply.github.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
@@ -34,14 +38,16 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC;
 
+use OC\App\AppManager;
 use OC\DB\Connection;
 use OC\DB\MigrationService;
 use OC\Hooks\BasicEmitter;
 use OC\IntegrityCheck\Checker;
 use OC_App;
+use OCP\App\IAppManager;
+use OCP\HintException;
 use OCP\IConfig;
 use OCP\ILogger;
 use OCP\Util;
@@ -59,7 +65,7 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  */
 class Updater extends BasicEmitter {
 
-	/** @var ILogger $log */
+	/** @var LoggerInterface */
 	private $log;
 
 	/** @var IConfig */
@@ -79,15 +85,9 @@ class Updater extends BasicEmitter {
 		4 => 'Fatal',
 	];
 
-	/**
-	 * @param IConfig $config
-	 * @param Checker $checker
-	 * @param ILogger $log
-	 * @param Installer $installer
-	 */
 	public function __construct(IConfig $config,
 								Checker $checker,
-								ILogger $log = null,
+								?LoggerInterface $log,
 								Installer $installer) {
 		$this->log = $log;
 		$this->config = $config;
@@ -101,7 +101,7 @@ class Updater extends BasicEmitter {
 	 *
 	 * @return bool true if the operation succeeded, false otherwise
 	 */
-	public function upgrade() {
+	public function upgrade(): bool {
 		$this->emitRepairEvents();
 		$this->logAllEvents();
 
@@ -132,11 +132,15 @@ class Updater extends BasicEmitter {
 		try {
 			$this->doUpgrade($currentVersion, $installedVersion);
 		} catch (HintException $exception) {
-			$this->log->logException($exception, ['app' => 'core']);
+			$this->log->error($exception->getMessage(), [
+				'exception' => $exception,
+			]);
 			$this->emit('\OC\Updater', 'failure', [$exception->getMessage() . ': ' .$exception->getHint()]);
 			$success = false;
 		} catch (\Exception $exception) {
-			$this->log->logException($exception, ['app' => 'core']);
+			$this->log->error($exception->getMessage(), [
+				'exception' => $exception,
+			]);
 			$this->emit('\OC\Updater', 'failure', [get_class($exception) . ': ' .$exception->getMessage()]);
 			$success = false;
 		}
@@ -162,7 +166,7 @@ class Updater extends BasicEmitter {
 	 *
 	 * @return array allowed previous versions per vendor
 	 */
-	private function getAllowedPreviousVersions() {
+	private function getAllowedPreviousVersions(): array {
 		// this should really be a JSON file
 		require \OC::$SERVERROOT . '/version.php';
 		/** @var array $OC_VersionCanBeUpgradedFrom */
@@ -174,7 +178,7 @@ class Updater extends BasicEmitter {
 	 *
 	 * @return string Get the vendor
 	 */
-	private function getVendor() {
+	private function getVendor(): string {
 		// this should really be a JSON file
 		require \OC::$SERVERROOT . '/version.php';
 		/** @var string $vendor */
@@ -188,7 +192,7 @@ class Updater extends BasicEmitter {
 	 * @param array $allowedPreviousVersions
 	 * @return bool
 	 */
-	public function isUpgradePossible($oldVersion, $newVersion, array $allowedPreviousVersions) {
+	public function isUpgradePossible(string $oldVersion, string $newVersion, array $allowedPreviousVersions): bool {
 		$version = explode('.', $oldVersion);
 		$majorMinor = $version[0] . '.' . $version[1];
 
@@ -223,7 +227,7 @@ class Updater extends BasicEmitter {
 	 *
 	 * @throws \Exception
 	 */
-	private function doUpgrade($currentVersion, $installedVersion) {
+	private function doUpgrade(string $currentVersion, string $installedVersion): void {
 		// Stop update if the update is over several major versions
 		$allowedPreviousVersions = $this->getAllowedPreviousVersions();
 		if (!$this->isUpgradePossible($installedVersion, $currentVersion, $allowedPreviousVersions)) {
@@ -263,16 +267,22 @@ class Updater extends BasicEmitter {
 		// Update the appfetchers version so it downloads the correct list from the appstore
 		\OC::$server->getAppFetcher()->setVersion($currentVersion);
 
+		/** @var IAppManager|AppManager $appManager */
+		$appManager = \OC::$server->getAppManager();
+
 		// upgrade appstore apps
-		$this->upgradeAppStoreApps(\OC::$server->getAppManager()->getInstalledApps());
-		$autoDisabledApps = \OC::$server->getAppManager()->getAutoDisabledApps();
+		$this->upgradeAppStoreApps($appManager->getInstalledApps());
+		$autoDisabledApps = $appManager->getAutoDisabledApps();
 		$this->upgradeAppStoreApps($autoDisabledApps, true);
 
 		// install new shipped apps on upgrade
 		$errors = Installer::installShippedApps(true);
 		foreach ($errors as $appId => $exception) {
 			/** @var \Exception $exception */
-			$this->log->logException($exception, ['app' => $appId]);
+			$this->log->error($exception->getMessage(), [
+				'exception' => $exception,
+				'app' => $appId,
+			]);
 			$this->emit('\OC\Updater', 'failure', [$appId . ': ' . $exception->getMessage()]);
 		}
 
@@ -295,7 +305,7 @@ class Updater extends BasicEmitter {
 		$this->config->setAppValue('core', 'vendor', $this->getVendor());
 	}
 
-	protected function doCoreUpgrade() {
+	protected function doCoreUpgrade(): void {
 		$this->emit('\OC\Updater', 'dbUpgradeBefore');
 
 		// execute core migrations
@@ -311,7 +321,7 @@ class Updater extends BasicEmitter {
 	 *
 	 * @throws NeedsUpdateException
 	 */
-	protected function doAppUpgrade() {
+	protected function doAppUpgrade(): void {
 		$apps = \OC_App::getEnabledApps();
 		$priorityTypes = ['authentication', 'filesystem', 'logging'];
 		$pseudoOtherType = 'other';
@@ -357,14 +367,12 @@ class Updater extends BasicEmitter {
 	 * This is important if you upgrade ownCloud and have non ported 3rd
 	 * party apps installed.
 	 *
-	 * @return array
 	 * @throws \Exception
 	 */
-	private function checkAppsRequirements() {
+	private function checkAppsRequirements(): void {
 		$isCoreUpgrade = $this->isCodeUpgrade();
 		$apps = OC_App::getEnabledApps();
 		$version = implode('.', Util::getVersion());
-		$disabledApps = [];
 		$appManager = \OC::$server->getAppManager();
 		foreach ($apps as $app) {
 			// check if the app is compatible with this version of Nextcloud
@@ -373,29 +381,16 @@ class Updater extends BasicEmitter {
 				if ($appManager->isShipped($app)) {
 					throw new \UnexpectedValueException('The files of the app "' . $app . '" were not correctly replaced before running the update');
 				}
-				\OC::$server->getAppManager()->disableApp($app, true);
+				$appManager->disableApp($app, true);
 				$this->emit('\OC\Updater', 'incompatibleAppDisabled', [$app]);
 			}
-			// no need to disable any app in case this is a non-core upgrade
-			if (!$isCoreUpgrade) {
-				continue;
-			}
-			// shipped apps will remain enabled
-			if ($appManager->isShipped($app)) {
-				continue;
-			}
-			// authentication and session apps will remain enabled as well
-			if (OC_App::isType($app, ['session', 'authentication'])) {
-				continue;
-			}
 		}
-		return $disabledApps;
 	}
 
 	/**
 	 * @return bool
 	 */
-	private function isCodeUpgrade() {
+	private function isCodeUpgrade(): bool {
 		$installedVersion = $this->config->getSystemValue('version', '0.0.0');
 		$currentVersion = implode('.', Util::getVersion());
 		if (version_compare($currentVersion, $installedVersion, '>')) {
@@ -409,8 +404,8 @@ class Updater extends BasicEmitter {
 	 * @param bool $reenable
 	 * @throws \Exception
 	 */
-	private function upgradeAppStoreApps(array $disabledApps, $reenable = false) {
-		foreach ($disabledApps as $app) {
+	private function upgradeAppStoreApps(array $disabledApps, bool $reenable = false): void {
+		foreach ($disabledApps as $app => $previousEnableSetting) {
 			try {
 				$this->emit('\OC\Updater', 'checkAppStoreAppBefore', [$app]);
 				if ($this->installer->isUpdateAvailable($app)) {
@@ -421,10 +416,16 @@ class Updater extends BasicEmitter {
 
 				if ($reenable) {
 					$ocApp = new \OC_App();
-					$ocApp->enable($app);
+					if (!empty($previousEnableSetting)) {
+						$ocApp->enable($app, $previousEnableSetting);
+					} else {
+						$ocApp->enable($app);
+					}
 				}
 			} catch (\Exception $ex) {
-				$this->log->logException($ex, ['app' => 'core']);
+				$this->log->error($ex->getMessage(), [
+					'exception' => $ex,
+				]);
 			}
 		}
 	}
@@ -432,7 +433,7 @@ class Updater extends BasicEmitter {
 	/**
 	 * Forward messages emitted by the repair routine
 	 */
-	private function emitRepairEvents() {
+	private function emitRepairEvents(): void {
 		$dispatcher = \OC::$server->getEventDispatcher();
 		$dispatcher->addListener('\OC\Repair::warning', function ($event) {
 			if ($event instanceof GenericEvent) {
@@ -456,7 +457,7 @@ class Updater extends BasicEmitter {
 		});
 	}
 
-	private function logAllEvents() {
+	private function logAllEvents(): void {
 		$log = $this->log;
 
 		$dispatcher = \OC::$server->getEventDispatcher();

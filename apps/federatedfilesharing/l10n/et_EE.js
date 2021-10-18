@@ -24,12 +24,11 @@ OC.L10N.register(
     "You received {share} as a remote share from {user}" : "Sa said kaugjagatud faili {file} kasutajalt {user}",
     "Accept" : "Nõustu",
     "Decline" : "Keeldu",
+    "Federated Cloud Sharing" : "Jagamine liitpilves",
     "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Jaga minuga läbi minu #Nextcloudi liitpilve ID, vaata %s",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Jaga minuga läbi minu #Nextcloudi liitpilve ID",
     "Sharing" : "Jagamine",
-    "Federated Cloud Sharing" : "Jagamine liitpilves",
     "Open documentation" : "Ava dokumentatsioon",
-    "Adjust how people can share between servers." : "Seadista, kuidas inimesed saavad serverite vahel jagada.",
     "Allow users on this server to receive shares from other servers" : "Luba selle serveri kasutajatel võtta vastu jagamisi teistest serveritest",
     "Search global and public address book for users" : "Otsi kasutajaid globaalsest ja avalikust aadressiraamatust",
     "Allow users to publish their data to a global and public address book" : "Luba kasutajatel avaldada oma andmeid globaalses ja avalikus aadressiraamatus",
@@ -39,6 +38,6 @@ OC.L10N.register(
     "Add to your website" : "Lisa oma veebisaidile",
     "Share with me via Nextcloud" : "Jaga minuga läbi Nextcloudi",
     "HTML Code:" : "HTML kood:",
-    "Allow users on this server to send shares to other servers" : "Luba selle serveri kasutajatel saata faile teistesse serveritesse"
+    "Adjust how people can share between servers." : "Seadista, kuidas inimesed saavad serverite vahel jagada."
 },
 "nplurals=2; plural=(n != 1);");

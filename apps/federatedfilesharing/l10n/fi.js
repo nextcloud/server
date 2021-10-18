@@ -26,14 +26,13 @@ OC.L10N.register(
     "You received {share} as a remote share from {user}" : "Vastaanotit jaon {share} etäjakona käyttäjältä {user}",
     "Accept" : "Hyväksy",
     "Decline" : "Kieltäydy",
+    "Federated Cloud Sharing" : "Federoitu pilvijakaminen",
     "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Jaa kanssani käyttäen #Nextcloud ja federoitua pilvitunnistetta, katso %s",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Jaa kanssani käyttäen #Nextcloud ja federoitua pilvitunnistetta",
     "Sharing" : "Jakaminen",
     "Federated file sharing" : "Federoitu tiedostojako",
     "Provide federated file sharing across servers" : "Mahdollistaa federoidun tiedostojaon palvelinten välillä",
-    "Federated Cloud Sharing" : "Federoitu pilvijakaminen",
     "Open documentation" : "Avaa ohje",
-    "Adjust how people can share between servers." : "Mukauta kuinka ihmiset voivat jakaa palvelinten välillä.",
     "Allow users on this server to receive shares from other servers" : "Salli tämän palvelimen käyttäjien vastaanottaa jakoja muilta palvelimilta",
     "Allow users on this server to send shares to groups on other servers" : "Salli käyttäjien tällä palvelimella lähettää jakoja toisten palvelimien ryhmille",
     "Allow users on this server to receive group shares from other servers" : "Salli käyttäjien tällä palvelimella vastaanottaa ryhmäjakoja toisilta palvelimilta",
@@ -45,6 +44,6 @@ OC.L10N.register(
     "Add to your website" : "Lisää verkkosivuillesi",
     "Share with me via Nextcloud" : "Jaa kanssani Nextcloudin kautta",
     "HTML Code:" : "HTML-koodi:",
-    "Allow users on this server to send shares to other servers" : "Salli tämän palvelimen käyttäjien lähettää jakoja muille palvelimille"
+    "Adjust how people can share between servers." : "Mukauta kuinka ihmiset voivat jakaa palvelinten välillä."
 },
 "nplurals=2; plural=(n != 1);");

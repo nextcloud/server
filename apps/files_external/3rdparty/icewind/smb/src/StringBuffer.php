@@ -44,7 +44,7 @@ class StringBuffer {
 	}
 
 	public function read(int $count): string {
-		$chunk = substr($this->buffer, $this->pos, $this->pos + $count);
+		$chunk = substr($this->buffer, $this->pos, $count);
 		$this->pos += strlen($chunk);
 		return $chunk;
 	}

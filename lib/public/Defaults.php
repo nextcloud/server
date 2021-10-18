@@ -1,9 +1,14 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author J0WI <J0WI@users.noreply.github.com>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -24,13 +29,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
-/**
- * Public interface of ownCloud for apps to use.
- * Defaults Class
- *
- */
-
 // use OCP namespace for all classes that are considered public.
 // This means that they should be used by apps instead of the internal ownCloud classes
 
@@ -65,7 +63,7 @@ class Defaults {
 	 * @return string
 	 * @since 6.0.0
 	 */
-	public function getBaseUrl() {
+	public function getBaseUrl(): string {
 		return $this->defaults->getBaseUrl();
 	}
 
@@ -74,7 +72,7 @@ class Defaults {
 	 * @return string
 	 * @since 6.0.0
 	 */
-	public function getSyncClientUrl() {
+	public function getSyncClientUrl(): string {
 		return $this->defaults->getSyncClientUrl();
 	}
 
@@ -83,7 +81,7 @@ class Defaults {
 	 * @return string
 	 * @since 8.0.0
 	 */
-	public function getiOSClientUrl() {
+	public function getiOSClientUrl(): string {
 		return $this->defaults->getiOSClientUrl();
 	}
 
@@ -92,8 +90,17 @@ class Defaults {
 	 * @return string
 	 * @since 8.0.0
 	 */
-	public function getAndroidClientUrl() {
+	public function getAndroidClientUrl(): string {
 		return $this->defaults->getAndroidClientUrl();
+	}
+
+	/**
+	 * link to the Android client on F-Droid
+	 * @return string
+	 * @since 23.0.0
+	 */
+	public function getFDroidClientUrl() {
+		return $this->defaults->getFDroidClientUrl();
 	}
 
 	/**
@@ -101,17 +108,27 @@ class Defaults {
 	 * @return string
 	 * @since 6.0.0
 	 */
-	public function getDocBaseUrl() {
+	public function getDocBaseUrl(): string {
 		return $this->defaults->getDocBaseUrl();
 	}
 
 	/**
-	 * name of your ownCloud instance
+	 * name of your Nextcloud instance (e.g. MyPrivateCloud)
 	 * @return string
 	 * @since 6.0.0
 	 */
-	public function getName() {
+	public function getName(): string {
 		return $this->defaults->getName();
+	}
+
+	/**
+	 * Name of the software product (defaults to Nextcloud)
+	 *
+	 * @return string
+	 * @since 22.0.0
+	 */
+	public function getProductName(): string {
+		return $this->defaults->getProductName();
 	}
 
 	/**
@@ -120,7 +137,7 @@ class Defaults {
 	 * @since 8.0.0
 	 * @depreacted 22.0.0
 	 */
-	public function getHTMLName() {
+	public function getHTMLName(): string {
 		return $this->defaults->getHTMLName();
 	}
 
@@ -129,7 +146,7 @@ class Defaults {
 	 * @return string
 	 * @since 6.0.0
 	 */
-	public function getEntity() {
+	public function getEntity(): string {
 		return $this->defaults->getEntity();
 	}
 
@@ -138,7 +155,7 @@ class Defaults {
 	 * @return string
 	 * @since 6.0.0
 	 */
-	public function getSlogan(?string $lang = null) {
+	public function getSlogan(?string $lang = null): string {
 		return $this->defaults->getSlogan($lang);
 	}
 
@@ -147,7 +164,7 @@ class Defaults {
 	 * @return string
 	 * @since 6.0.0
 	 */
-	public function getShortFooter() {
+	public function getShortFooter(): string {
 		return $this->defaults->getShortFooter();
 	}
 
@@ -156,7 +173,7 @@ class Defaults {
 	 * @return string
 	 * @since 6.0.0
 	 */
-	public function getLongFooter() {
+	public function getLongFooter(): string {
 		return $this->defaults->getLongFooter();
 	}
 
@@ -165,7 +182,7 @@ class Defaults {
 	 * @return string AppId
 	 * @since 8.0.0
 	 */
-	public function getiTunesAppId() {
+	public function getiTunesAppId(): string {
 		return $this->defaults->getiTunesAppId();
 	}
 
@@ -176,7 +193,7 @@ class Defaults {
 	 * @return string
 	 * @since 12.0.0
 	 */
-	public function getLogo($useSvg = true) {
+	public function getLogo(bool $useSvg = true): string {
 		return $this->defaults->getLogo($useSvg);
 	}
 
@@ -185,7 +202,7 @@ class Defaults {
 	 * @return string
 	 * @since 12.0.0
 	 */
-	public function getColorPrimary() {
+	public function getColorPrimary(): string {
 		return $this->defaults->getColorPrimary();
 	}
 
@@ -194,7 +211,7 @@ class Defaults {
 	 * @return string URL to doc with key
 	 * @since 12.0.0
 	 */
-	public function buildDocLinkToKey($key) {
+	public function buildDocLinkToKey(string $key): string {
 		return $this->defaults->buildDocLinkToKey($key);
 	}
 
@@ -203,7 +220,7 @@ class Defaults {
 	 * @return string title
 	 * @since 12.0.0
 	 */
-	public function getTitle() {
+	public function getTitle(): string {
 		return $this->defaults->getTitle();
 	}
 
@@ -212,7 +229,7 @@ class Defaults {
 	 * @return string
 	 * @since 13.0.0
 	 */
-	public function getTextColorPrimary() {
+	public function getTextColorPrimary(): string {
 		return $this->defaults->getTextColorPrimary();
 	}
 }

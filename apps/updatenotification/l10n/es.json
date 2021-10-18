@@ -18,7 +18,7 @@
     "Download now" : "Descargar ahora",
     "Please use the command line updater to update." : "Por favor, utilice el actualizador de línea de comandos para actualizar.",
     "What's new?" : "¿Qué novedades hay?",
-    "The update check is not yet finished. Please refresh the page." : "La comprobación de actuliazaciones no ha finalizado aún. Por favor, recarga la página.",
+    "The update check is not yet finished. Please refresh the page." : "La comprobación de actualizaciones no ha finalizado aún. Por favor, recarga la página.",
     "Your version is up to date." : "Su versión está actualizada.",
     "A non-default update server is in use to be checked for updates:" : "Se está usando un servidor de actualizaciones no estándar para comprobar las actualizaciones:",
     "Update channel:" : "Canal de actualización: ",
@@ -32,7 +32,7 @@
     "Checked on {lastCheckedDate}" : "Comprobado el {lastCheckedDate}",
     "Checking apps for compatible versions" : "Comprobando las versiones comatibles de las apps ",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Por favor, asegúrate de que tu config.php no tiene configurado <samp>appstoreenabled</samp> como 'false'.",
-    "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "No se ha podido conectar con la appstore o no ha devuelto ninguna actualización. Busca actualizaciones manualmente o asegúrate de que tu servidor tiene acceso a internet y puede conectarse a la appstore.",
+    "Could not connect to the App Store or no updates have been returned at all. Search manually for updates or make sure your server has access to the internet and can connect to the App Store." : "No se ha podido conectar a la App Store o no se ha devuelto ninguna actualización. Busque manualmente las actualizaciones o asegúrese de que su servidor tiene acceso a Internet y pueda conectarse a la App Store.",
     "<strong>All</strong> apps have a compatible version for this Nextcloud version available" : "<strong>Todas</strong> las apps son compatibles con la versión de Nextcloud disponible",
     "View changelog" : "Ver registro de cambios",
     "Enterprise" : "Empresa",
@@ -47,6 +47,7 @@
     "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "Nota: tras un nuevo lanzamiento, puede pasar algo de tiempo antes de que aparezca aquí. Escalonamos la difusión de nuevas versiones a nuestros usuarios y a veces saltamos una versión cuando aparecen problemas.",
     "Only notification for app updates are available." : "Solo están disponibles las notificaciones para actualizaciones de apps",
     "Checking apps for compatible updates" : "Comprobando que las apps tengan actualizaciones compatibles",
+    "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "No se ha podido conectar con la appstore o no ha devuelto ninguna actualización. Busca actualizaciones manualmente o asegúrate de que tu servidor tiene acceso a internet y puede conectarse a la appstore.",
     "<strong>All</strong> apps have an update for this version available" : "<strong>Todas</strong> las apps tienen disponible una actualización para esta versión",
     "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> app no dispone de actualización para esta versión.","<strong>%n</strong> apps no disponen de actualización para esta versión."]
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

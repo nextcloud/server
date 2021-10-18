@@ -31,7 +31,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 require_once __DIR__ . '/lib/versioncheck.php';
 
 try {
@@ -51,7 +50,7 @@ try {
 		'version' => implode('.', \OCP\Util::getVersion()),
 		'versionstring' => OC_Util::getVersionString(),
 		'edition' => '',
-		'productname' => $defaults->getName(),
+		'productname' => $defaults->getProductName(),
 		'extendedSupport' => \OCP\Util::hasExtendedSupport()
 	];
 	if (OC::$CLI) {

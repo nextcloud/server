@@ -29,7 +29,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\User_LDAP\User;
 
 use OCA\User_LDAP\Access;
@@ -449,7 +448,7 @@ class User {
 		if ($email !== '') {
 			$user = $this->userManager->get($this->uid);
 			if (!is_null($user)) {
-				$currentEmail = (string)$user->getEMailAddress();
+				$currentEmail = (string)$user->getSystemEMailAddress();
 				if ($currentEmail !== $email) {
 					$user->setEMailAddress($email);
 				}

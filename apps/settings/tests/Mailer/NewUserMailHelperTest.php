@@ -24,14 +24,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Settings\Tests\Mailer;
 
 use OC\Mail\EMailTemplate;
@@ -130,11 +129,7 @@ class NewUserMailHelperTest extends TestCase {
 		$this->secureRandom
 			->expects($this->once())
 			->method('generate')
-			->with(21,
-				ISecureRandom::CHAR_DIGITS .
-				ISecureRandom::CHAR_LOWER .
-				ISecureRandom::CHAR_UPPER
-			)
+			->with(21, ISecureRandom::CHAR_ALPHANUMERIC)
 			->willReturn('MySuperLongSecureRandomToken');
 		$this->timeFactory
 			->expects($this->once())
@@ -350,7 +345,7 @@ class NewUserMailHelperTest extends TestCase {
 					</tr>
 					</tbody>
 				</table>
-				<p class="text-center float-center" align="center" style="Margin:0;Margin-bottom:10px;color:#C8C8C8;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:12px;font-weight:400;line-height:16px;margin:0;margin-bottom:10px;padding:0;text-align:center">TestCloud - <br>This is an automatically sent email, please do not reply.</p>
+				<p class="text-center float-center" align="center" style="Margin:0;Margin-bottom:10px;color:#C8C8C8;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:12px;font-weight:400;line-height:16px;margin:0;margin-bottom:10px;padding:0;text-align:center">TestCloud<br>This is an automatically sent email, please do not reply.</p>
 			</center>
 		</td>
 	</tr>
@@ -377,7 +372,7 @@ Install Client: https://nextcloud.com/install/#install-clients
 
 
 -- 
-TestCloud - 
+TestCloud
 This is an automatically sent email, please do not reply.
 EOF;
 
@@ -582,7 +577,7 @@ EOF;
 					</tr>
 					</tbody>
 				</table>
-				<p class="text-center float-center" align="center" style="Margin:0;Margin-bottom:10px;color:#C8C8C8;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:12px;font-weight:400;line-height:16px;margin:0;margin-bottom:10px;padding:0;text-align:center">TestCloud - <br>This is an automatically sent email, please do not reply.</p>
+				<p class="text-center float-center" align="center" style="Margin:0;Margin-bottom:10px;color:#C8C8C8;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:12px;font-weight:400;line-height:16px;margin:0;margin-bottom:10px;padding:0;text-align:center">TestCloud<br>This is an automatically sent email, please do not reply.</p>
 			</center>
 		</td>
 	</tr>
@@ -609,7 +604,7 @@ Install Client: https://nextcloud.com/install/#install-clients
 
 
 -- 
-TestCloud - 
+TestCloud
 This is an automatically sent email, please do not reply.
 EOF;
 
@@ -803,7 +798,7 @@ EOF;
 					</tr>
 					</tbody>
 				</table>
-				<p class="text-center float-center" align="center" style="Margin:0;Margin-bottom:10px;color:#C8C8C8;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:12px;font-weight:400;line-height:16px;margin:0;margin-bottom:10px;padding:0;text-align:center">TestCloud - <br>This is an automatically sent email, please do not reply.</p>
+				<p class="text-center float-center" align="center" style="Margin:0;Margin-bottom:10px;color:#C8C8C8;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:12px;font-weight:400;line-height:16px;margin:0;margin-bottom:10px;padding:0;text-align:center">TestCloud<br>This is an automatically sent email, please do not reply.</p>
 			</center>
 		</td>
 	</tr>
@@ -828,7 +823,7 @@ Install Client: https://nextcloud.com/install/#install-clients
 
 
 -- 
-TestCloud - 
+TestCloud
 This is an automatically sent email, please do not reply.
 EOF;
 

@@ -36,7 +36,11 @@
  *
  */
 
+use OC\User\LoginException;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ILogger;
+use OCP\IUserManager;
+use OCP\User\Events\UserLoggedInEvent;
 
 /**
  * This class provides wrapper methods for user management. Multiple backends are
@@ -168,6 +172,10 @@ class OC_User {
 			if (self::getUser() !== $uid) {
 				self::setUserId($uid);
 				$userSession = \OC::$server->getUserSession();
+				if ($userSession->getUser() && !$userSession->getUser()->isEnabled()) {
+					$message = \OC::$server->getL10N('lib')->t('User disabled');
+					throw new LoginException($message);
+				}
 				$userSession->setLoginName($uid);
 				$request = OC::$server->getRequest();
 				$userSession->createSessionToken($request, $uid, $uid);
@@ -182,10 +190,19 @@ class OC_User {
 					'post_login',
 					[
 						'uid' => $uid,
-						'password' => '',
+						'password' => null,
 						'isTokenLogin' => false,
 					]
 				);
+				/** @var IEventDispatcher $dispatcher */
+				$dispatcher = \OC::$server->get(IEventDispatcher::class);
+				$dispatcher->dispatchTyped(new UserLoggedInEvent(
+						\OC::$server->get(IUserManager::class)->get($uid),
+						$uid,
+						null,
+						false)
+				);
+
 				//trigger creation of user home and /files folder
 				\OC::$server->getUserFolder($uid);
 			}
@@ -314,32 +331,6 @@ class OC_User {
 			return $uid;
 		} else {
 			return false;
-		}
-	}
-
-	/**
-	 * get the display name of the user currently logged in.
-	 *
-	 * @param string $uid
-	 * @return string|bool uid or false
-	 * @deprecated 8.1.0 fetch \OCP\IUser (has getDisplayName()) by using method
-	 *                   get() of \OCP\IUserManager - \OC::$server->getUserManager()
-	 */
-	public static function getDisplayName($uid = null) {
-		if ($uid) {
-			$user = \OC::$server->getUserManager()->get($uid);
-			if ($user) {
-				return $user->getDisplayName();
-			} else {
-				return $uid;
-			}
-		} else {
-			$user = \OC::$server->getUserSession()->getUser();
-			if ($user) {
-				return $user->getDisplayName();
-			} else {
-				return false;
-			}
 		}
 	}
 

@@ -15,14 +15,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Files_Versions\Controller;
 
 use OCA\Files_Versions\Versions\IVersionManager;
@@ -30,7 +29,6 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\FileDisplayResponse;
-use OCP\Files\IMimeTypeDetector;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\IPreview;
@@ -45,9 +43,6 @@ class PreviewController extends Controller {
 	/** @var IUserSession */
 	private $userSession;
 
-	/** @var IMimeTypeDetector */
-	private $mimeTypeDetector;
-
 	/** @var IVersionManager */
 	private $versionManager;
 
@@ -55,11 +50,10 @@ class PreviewController extends Controller {
 	private $previewManager;
 
 	public function __construct(
-		$appName,
+		string $appName,
 		IRequest $request,
 		IRootFolder $rootFolder,
 		IUserSession $userSession,
-		IMimeTypeDetector $mimeTypeDetector,
 		IVersionManager $versionManager,
 		IPreview $previewManager
 	) {
@@ -67,7 +61,6 @@ class PreviewController extends Controller {
 
 		$this->rootFolder = $rootFolder;
 		$this->userSession = $userSession;
-		$this->mimeTypeDetector = $mimeTypeDetector;
 		$this->versionManager = $versionManager;
 		$this->previewManager = $previewManager;
 	}
@@ -83,10 +76,10 @@ class PreviewController extends Controller {
 	 * @return DataResponse|FileDisplayResponse
 	 */
 	public function getPreview(
-		$file = '',
-		$x = 44,
-		$y = 44,
-		$version = ''
+		string $file = '',
+		int $x = 44,
+		int $y = 44,
+		string $version = ''
 	) {
 		if ($file === '' || $version === '' || $x === 0 || $y === 0) {
 			return new DataResponse([], Http::STATUS_BAD_REQUEST);

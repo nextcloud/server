@@ -81,7 +81,6 @@ OC.L10N.register(
     "Available flows" : "Prieinamos eigos",
     "For details on how to write your own flow, check out the development documentation." : "Išsamesnę informaciją apie tai, kaip parašyti savo asmeninę eigą, rasite plėtotojo dokumentacijoje.",
     "More flows" : "Daugiau eigų",
-    "Browse the app store" : "Naršyti programėlių parduotuvę",
     "Show less" : "Rodyti mažiau",
     "Show more" : "Rodyti daugiau",
     "Configured flows" : "Konfigūruotos eigos",
@@ -112,6 +111,7 @@ OC.L10N.register(
     "Request user agent" : "Užklausti naudotojo agentą",
     "User group membership" : "Naudotojų grupių narystės",
     "is member of" : "priklauso grupei",
-    "is not member of" : "nepriklauso grupei"
+    "is not member of" : "nepriklauso grupei",
+    "Browse the app store" : "Naršyti programėlių parduotuvę"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

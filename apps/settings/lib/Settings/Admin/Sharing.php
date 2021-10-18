@@ -5,10 +5,14 @@
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Sascha Wiswedel <sascha.wiswedel@nextcloud.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -19,26 +23,25 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Settings\Settings\Admin;
 
-use OC\Share\Share;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Constants;
 use OCP\IConfig;
 use OCP\IL10N;
-use OCP\Settings\ISettings;
+use OCP\Settings\IDelegatedSettings;
 use OCP\Share\IManager;
 use OCP\Util;
 
-class Sharing implements ISettings {
+class Sharing implements IDelegatedSettings {
 	/** @var IConfig */
 	private $config;
 
@@ -48,13 +51,14 @@ class Sharing implements ISettings {
 	/** @var IManager */
 	private $shareManager;
 
-	/**
-	 * @param IConfig $config
-	 */
-	public function __construct(IConfig $config, IL10N $l, IManager $shareManager) {
+	/** @var IAppManager */
+	private $appManager;
+
+	public function __construct(IConfig $config, IL10N $l, IManager $shareManager, IAppManager $appManager) {
 		$this->config = $config;
 		$this->l = $l;
 		$this->shareManager = $shareManager;
+		$this->appManager = $appManager;
 	}
 
 	/**
@@ -64,11 +68,16 @@ class Sharing implements ISettings {
 		$excludedGroups = $this->config->getAppValue('core', 'shareapi_exclude_groups_list', '');
 		$excludeGroupsList = !is_null(json_decode($excludedGroups))
 			? implode('|', json_decode($excludedGroups, true)) : '';
+		$linksExcludedGroups = $this->config->getAppValue('core', 'shareapi_allow_links_exclude_groups', '');
+		$linksExcludeGroupsList = !is_null(json_decode($linksExcludedGroups))
+			? implode('|', json_decode($linksExcludedGroups, true)) : '';
 
 		$parameters = [
 			// Built-In Sharing
+			'sharingAppEnabled' => $this->appManager->isEnabledForUser('files_sharing'),
 			'allowGroupSharing' => $this->config->getAppValue('core', 'shareapi_allow_group_sharing', 'yes'),
 			'allowLinks' => $this->config->getAppValue('core', 'shareapi_allow_links', 'yes'),
+			'allowLinksExcludeGroups' => $linksExcludeGroupsList,
 			'allowPublicUpload' => $this->config->getAppValue('core', 'shareapi_allow_public_upload', 'yes'),
 			'allowResharing' => $this->config->getAppValue('core', 'shareapi_allow_resharing', 'yes'),
 			'allowShareDialogUserEnumeration' => $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes'),
@@ -144,5 +153,15 @@ class Sharing implements ISettings {
 	 */
 	public function getPriority() {
 		return 0;
+	}
+
+	public function getAuthorizedAppConfig(): array {
+		return [
+			'core' => ['/shareapi_.*/'],
+		];
+	}
+
+	public function getName(): ?string {
+		return null;
 	}
 }

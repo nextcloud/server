@@ -4,7 +4,8 @@
  * @copyright Copyright (c) 2019 Janis Köhr <janiskoehr@icloud.com>
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -15,22 +16,19 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Accessibility\Settings;
 
 use OCA\Accessibility\AccessibilityProvider;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\IConfig;
-use OCP\IL10N;
-use OCP\IURLGenerator;
 use OCP\IUserSession;
 use OCP\Settings\ISettings;
 use OCP\Util;
@@ -46,12 +44,6 @@ class Personal implements ISettings {
 	/** @var IUserSession */
 	private $userSession;
 
-	/** @var IL10N */
-	private $l;
-
-	/** @var IURLGenerator */
-	private $urlGenerator;
-
 	/** @var AccessibilityProvider */
 	private $accessibilityProvider;
 
@@ -61,15 +53,11 @@ class Personal implements ISettings {
 	public function __construct(string $appName,
 								IConfig $config,
 								IUserSession $userSession,
-								IL10N $l,
-								IURLGenerator $urlGenerator,
 								AccessibilityProvider $accessibilityProvider,
 								IInitialState $initialStateService) {
 		$this->appName = $appName;
 		$this->config = $config;
 		$this->userSession = $userSession;
-		$this->l = $l;
-		$this->urlGenerator = $urlGenerator;
 		$this->accessibilityProvider = $accessibilityProvider;
 		$this->initialStateService = $initialStateService;
 	}

@@ -61,6 +61,7 @@ use OCP\App\ManagerEvent;
 use OCP\AppFramework\QueryException;
 use OCP\Authentication\IAlternativeLogin;
 use OCP\ILogger;
+use OCP\Settings\IManager as ISettingsManager;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -135,7 +136,14 @@ class OC_App {
 		ob_start();
 		foreach ($apps as $app) {
 			if (!isset(self::$loadedApps[$app]) && ($types === [] || self::isType($app, $types))) {
-				self::loadApp($app);
+				try {
+					self::loadApp($app);
+				} catch (\Throwable $e) {
+					\OC::$server->get(LoggerInterface::class)->emergency('Error during app loading: ' . $e->getMessage(), [
+						'exception' => $e,
+						'app' => $app,
+					]);
+				}
 			}
 		}
 		ob_end_clean();
@@ -216,22 +224,22 @@ class OC_App {
 
 		if (!empty($info['settings']['admin'])) {
 			foreach ($info['settings']['admin'] as $setting) {
-				\OC::$server->getSettingsManager()->registerSetting('admin', $setting);
+				\OC::$server->get(ISettingsManager::class)->registerSetting('admin', $setting);
 			}
 		}
 		if (!empty($info['settings']['admin-section'])) {
 			foreach ($info['settings']['admin-section'] as $section) {
-				\OC::$server->getSettingsManager()->registerSection('admin', $section);
+				\OC::$server->get(ISettingsManager::class)->registerSection('admin', $section);
 			}
 		}
 		if (!empty($info['settings']['personal'])) {
 			foreach ($info['settings']['personal'] as $setting) {
-				\OC::$server->getSettingsManager()->registerSetting('personal', $setting);
+				\OC::$server->get(ISettingsManager::class)->registerSetting('personal', $setting);
 			}
 		}
 		if (!empty($info['settings']['personal-section'])) {
 			foreach ($info['settings']['personal-section'] as $section) {
-				\OC::$server->getSettingsManager()->registerSection('personal', $section);
+				\OC::$server->get(ISettingsManager::class)->registerSection('personal', $section);
 			}
 		}
 
@@ -453,10 +461,6 @@ class OC_App {
 	 * @return string|false
 	 */
 	public static function getInstallPath() {
-		if (\OC::$server->getSystemConfig()->getValue('appstoreenabled', true) == false) {
-			return false;
-		}
-
 		foreach (OC::$APPSROOTS as $dir) {
 			if (isset($dir['writable']) && $dir['writable'] === true) {
 				return $dir['path'];
@@ -770,6 +774,18 @@ class OC_App {
 	}
 
 	/**
+	 * List all supported apps
+	 *
+	 * @return array
+	 */
+	public function getSupportedApps(): array {
+		/** @var \OCP\Support\Subscription\IRegistry $subscriptionRegistry */
+		$subscriptionRegistry = \OC::$server->query(\OCP\Support\Subscription\IRegistry::class);
+		$supportedApps = $subscriptionRegistry->delegateGetSupportedApps();
+		return $supportedApps;
+	}
+
+	/**
 	 * List all apps, this is used in apps.php
 	 *
 	 * @return array
@@ -783,9 +799,7 @@ class OC_App {
 		$appList = [];
 		$langCode = \OC::$server->getL10N('core')->getLanguageCode();
 		$urlGenerator = \OC::$server->getURLGenerator();
-		/** @var \OCP\Support\Subscription\IRegistry $subscriptionRegistry */
-		$subscriptionRegistry = \OC::$server->query(\OCP\Support\Subscription\IRegistry::class);
-		$supportedApps = $subscriptionRegistry->delegateGetSupportedApps();
+		$supportedApps = $this->getSupportedApps();
 
 		foreach ($installedApps as $app) {
 			if (array_search($app, $blacklist) === false) {
@@ -978,13 +992,14 @@ class OC_App {
 		}
 
 		\OC::$server->getAppManager()->clearAppsCache();
-		$appData = self::getAppInfo($appId);
+		$l = \OC::$server->getL10N('core');
+		$appData = self::getAppInfo($appId, false, $l->getLanguageCode());
 
 		$ignoreMaxApps = \OC::$server->getConfig()->getSystemValue('app_install_overwrite', []);
 		$ignoreMax = in_array($appId, $ignoreMaxApps, true);
 		\OC_App::checkAppDependencies(
 			\OC::$server->getConfig(),
-			\OC::$server->getL10N('core'),
+			$l,
 			$appData,
 			$ignoreMax
 		);

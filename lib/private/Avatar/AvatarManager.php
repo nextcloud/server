@@ -7,7 +7,8 @@ declare(strict_types=1);
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Michael Weimann <mail@michael-weimann.eu>
@@ -15,6 +16,7 @@ declare(strict_types=1);
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -31,13 +33,13 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Avatar;
 
 use OC\KnownUser\KnownUserService;
 use OC\User\Manager;
 use OC\User\NoUserException;
 use OCP\Accounts\IAccountManager;
+use OCP\Accounts\PropertyDoesNotExistException;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
@@ -45,8 +47,8 @@ use OCP\IAvatar;
 use OCP\IAvatarManager;
 use OCP\IConfig;
 use OCP\IL10N;
-use OCP\ILogger;
 use OCP\IUserSession;
+use Psr\Log\LoggerInterface;
 
 /**
  * This class implements methods to access Avatar functionality
@@ -65,7 +67,7 @@ class AvatarManager implements IAvatarManager {
 	/** @var IL10N */
 	private $l;
 
-	/** @var ILogger  */
+	/** @var LoggerInterface */
 	private $logger;
 
 	/** @var IConfig */
@@ -77,22 +79,12 @@ class AvatarManager implements IAvatarManager {
 	/** @var KnownUserService */
 	private $knownUserService;
 
-	/**
-	 * AvatarManager constructor.
-	 *
-	 * @param Manager $userManager
-	 * @param IAppData $appData
-	 * @param IL10N $l
-	 * @param ILogger $logger
-	 * @param IConfig $config
-	 * @param IUserSession $userSession
-	 */
 	public function __construct(
 			IUserSession $userSession,
 			Manager $userManager,
 			IAppData $appData,
 			IL10N $l,
-			ILogger $logger,
+			LoggerInterface $logger,
 			IConfig $config,
 			IAccountManager $accountManager,
 			KnownUserService $knownUserService
@@ -135,9 +127,13 @@ class AvatarManager implements IAvatarManager {
 			$folder = $this->appData->newFolder($userId);
 		}
 
-		$account = $this->accountManager->getAccount($user);
-		$avatarProperties = $account->getProperty(IAccountManager::PROPERTY_AVATAR);
-		$avatarScope = $avatarProperties->getScope();
+		try {
+			$account = $this->accountManager->getAccount($user);
+			$avatarProperties = $account->getProperty(IAccountManager::PROPERTY_AVATAR);
+			$avatarScope = $avatarProperties->getScope();
+		} catch (PropertyDoesNotExistException $e) {
+			$avatarScope = '';
+		}
 
 		if (
 			// v2-private scope hides the avatar from public access and from unknown users

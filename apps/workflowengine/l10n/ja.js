@@ -83,7 +83,7 @@ OC.L10N.register(
     "Available flows" : "利用可能なフロー",
     "For details on how to write your own flow, check out the development documentation." : "独自のフローを作成する方法の詳細については、開発ドキュメントを参照してください。",
     "More flows" : "その他のフロー",
-    "Browse the app store" : "アプリストアをブラウザでみる",
+    "Browse the App Store" : "AppStoreをブラウザーでみる",
     "Show less" : "表示を減らす",
     "Show more" : "表示を増やす",
     "Configured flows" : "設定済みフロー",
@@ -114,6 +114,7 @@ OC.L10N.register(
     "Request user agent" : "リクエスト時のユーザーエージェント",
     "User group membership" : "ユーザーがグループのメンバーかどうか",
     "is member of" : "が次のグループのメンバーである",
-    "is not member of" : "が次のグループのメンバーではない"
+    "is not member of" : "が次のグループのメンバーではない",
+    "Browse the app store" : "アプリストアをブラウザーでみる"
 },
 "nplurals=1; plural=0;");

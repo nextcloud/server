@@ -26,13 +26,16 @@ use OC\AppFramework\Utility\ControllerMethodReflector;
 use OC\Security\RateLimiting\Exception\RateLimitExceededException;
 use OC\Security\RateLimiting\Limiter;
 use OCP\AppFramework\Controller;
-use OCP\AppFramework\Http\JSONResponse;
+use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserSession;
 use Test\TestCase;
 
+/**
+ * @group DB
+ */
 class RateLimitingMiddlewareTest extends TestCase {
 	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
 	private $request;
@@ -250,11 +253,7 @@ class RateLimitingMiddlewareTest extends TestCase {
 			->willReturn('JSON');
 
 		$result = $this->rateLimitingMiddleware->afterException($controller, 'testMethod', new RateLimitExceededException());
-		$expected = new JSONResponse(
-			[
-				'message' => 'Rate limit exceeded',
-			],
-			429
+		$expected = new DataResponse([], 429
 		);
 		$this->assertEquals($expected, $result);
 	}
@@ -271,13 +270,12 @@ class RateLimitingMiddlewareTest extends TestCase {
 		$result = $this->rateLimitingMiddleware->afterException($controller, 'testMethod', new RateLimitExceededException());
 		$expected = new TemplateResponse(
 			'core',
-			'403',
-			[
-				'file' => 'Rate limit exceeded',
-			],
-			'guest'
+			'429',
+			[],
+			TemplateResponse::RENDER_AS_GUEST
 		);
 		$expected->setStatus(429);
 		$this->assertEquals($expected, $result);
+		$this->assertIsString($result->render());
 	}
 }

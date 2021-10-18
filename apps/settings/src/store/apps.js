@@ -200,7 +200,7 @@ const actions = {
 							if (!Array.isArray(appId)) {
 								context.commit('setError', {
 									appId: apps,
-									error: t('settings', 'Error: This app can not be enabled because it makes the server unstable'),
+									error: t('settings', 'Error: This app cannot be enabled because it makes the server unstable'),
 								})
 							}
 						})

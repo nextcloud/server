@@ -23,11 +23,24 @@
 
 namespace Test\Calendar;
 
+use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Calendar\Manager;
 use OCP\Calendar\ICalendar;
+use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Container\ContainerInterface;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class ManagerTest extends TestCase {
+
+	/** @var Coordinator|MockObject */
+	private $coordinator;
+
+	/** @var MockObject|ContainerInterface */
+	private $container;
+
+	/** @var MockObject|LoggerInterface */
+	private $logger;
 
 	/** @var Manager */
 	private $manager;
@@ -35,14 +48,22 @@ class ManagerTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->manager = new Manager();
+		$this->coordinator = $this->createMock(Coordinator::class);
+		$this->container = $this->createMock(ContainerInterface::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
+
+		$this->manager = new Manager(
+			$this->coordinator,
+			$this->container,
+			$this->logger
+		);
 	}
 
 	/**
 	 * @dataProvider searchProvider
 	 */
 	public function testSearch($search1, $search2, $expected) {
-		/** @var ICalendar | \PHPUnit\Framework\MockObject\MockObject $calendar1 */
+		/** @var ICalendar | MockObject $calendar1 */
 		$calendar1 = $this->createMock(ICalendar::class);
 		$calendar1->method('getKey')->willReturn('simple:1');
 		$calendar1->expects($this->once())
@@ -50,7 +71,7 @@ class ManagerTest extends TestCase {
 			->with('', [], [], null, null)
 			->willReturn($search1);
 
-		/** @var ICalendar | \PHPUnit\Framework\MockObject\MockObject $calendar2 */
+		/** @var ICalendar | MockObject $calendar2 */
 		$calendar2 = $this->createMock(ICalendar::class);
 		$calendar2->method('getKey')->willReturn('simple:2');
 		$calendar2->expects($this->once())
@@ -69,7 +90,7 @@ class ManagerTest extends TestCase {
 	 * @dataProvider searchProvider
 	 */
 	public function testSearchOptions($search1, $search2, $expected) {
-		/** @var ICalendar | \PHPUnit\Framework\MockObject\MockObject $calendar1 */
+		/** @var ICalendar | MockObject $calendar1 */
 		$calendar1 = $this->createMock(ICalendar::class);
 		$calendar1->method('getKey')->willReturn('simple:1');
 		$calendar1->expects($this->once())
@@ -78,7 +99,7 @@ class ManagerTest extends TestCase {
 				['timerange' => ['start' => null, 'end' => null]], 5, 20)
 			->willReturn($search1);
 
-		/** @var ICalendar | \PHPUnit\Framework\MockObject\MockObject $calendar2 */
+		/** @var ICalendar | MockObject $calendar2 */
 		$calendar2 = $this->createMock(ICalendar::class);
 		$calendar2->method('getKey')->willReturn('simple:2');
 		$calendar2->expects($this->once())
@@ -150,11 +171,11 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testRegisterUnregister() {
-		/** @var ICalendar | \PHPUnit\Framework\MockObject\MockObject $calendar1 */
+		/** @var ICalendar | MockObject $calendar1 */
 		$calendar1 = $this->createMock(ICalendar::class);
 		$calendar1->method('getKey')->willReturn('key1');
 
-		/** @var ICalendar | \PHPUnit\Framework\MockObject\MockObject $calendar2 */
+		/** @var ICalendar | MockObject $calendar2 */
 		$calendar2 = $this->createMock(ICalendar::class);
 		$calendar2->method('getKey')->willReturn('key2');
 
@@ -174,11 +195,11 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testGetCalendars() {
-		/** @var ICalendar | \PHPUnit\Framework\MockObject\MockObject $calendar1 */
+		/** @var ICalendar | MockObject $calendar1 */
 		$calendar1 = $this->createMock(ICalendar::class);
 		$calendar1->method('getKey')->willReturn('key1');
 
-		/** @var ICalendar | \PHPUnit\Framework\MockObject\MockObject $calendar2 */
+		/** @var ICalendar | MockObject $calendar2 */
 		$calendar2 = $this->createMock(ICalendar::class);
 		$calendar2->method('getKey')->willReturn('key2');
 
@@ -203,7 +224,7 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testIfEnabledIfSo() {
-		/** @var ICalendar | \PHPUnit\Framework\MockObject\MockObject $calendar */
+		/** @var ICalendar | MockObject $calendar */
 		$calendar = $this->createMock(ICalendar::class);
 		$this->manager->registerCalendar($calendar);
 

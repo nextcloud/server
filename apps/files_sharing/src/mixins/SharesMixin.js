@@ -25,7 +25,7 @@
  *
  */
 
-import PQueue from 'p-queue'
+import PQueue from 'p-queue/dist/index'
 import debounce from 'debounce'
 
 import Share from '../models/Share'

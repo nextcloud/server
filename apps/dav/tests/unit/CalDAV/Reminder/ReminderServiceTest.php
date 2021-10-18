@@ -19,14 +19,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\Tests\unit\CalDAV\Reminder;
 
 use OCA\DAV\CalDAV\CalDavBackend;
@@ -211,17 +210,15 @@ EOD;
 			->method('cleanRemindersForEvent')
 			->with(44);
 
-		$action = '\OCA\DAV\CalDAV\CalDavBackend::deleteCalendarObject';
 		$objectData = [
 			'id' => '44',
 			'component' => 'vevent',
 		];
 
-		$this->reminderService->onTouchCalendarObject($action, $objectData);
+		$this->reminderService->onCalendarObjectDelete($objectData);
 	}
 
 	public function testOnCalendarObjectCreateSingleEntry():void {
-		$action = '\OCA\DAV\CalDAV\CalDavBackend::createCalendarObject';
 		$objectData = [
 			'calendardata' => self::CALENDAR_DATA,
 			'id' => '42',
@@ -242,11 +239,10 @@ EOD;
 			->with()
 			->willReturn(\DateTime::createFromFormat(\DateTime::ATOM, '2016-06-08T00:00:00+00:00'));
 
-		$this->reminderService->onTouchCalendarObject($action, $objectData);
+		$this->reminderService->onCalendarObjectCreate($objectData);
 	}
 
 	public function testOnCalendarObjectCreateSingleEntryWithRepeat(): void {
-		$action = '\OCA\DAV\CalDAV\CalDavBackend::createCalendarObject';
 		$objectData = [
 			'calendardata' => self::CALENDAR_DATA_REPEAT,
 			'id' => '42',
@@ -270,11 +266,10 @@ EOD;
 			->with()
 			->willReturn(\DateTime::createFromFormat(\DateTime::ATOM, '2016-06-08T00:00:00+00:00'));
 
-		$this->reminderService->onTouchCalendarObject($action, $objectData);
+		$this->reminderService->onCalendarObjectCreate($objectData);
 	}
 
 	public function testOnCalendarObjectCreateRecurringEntry(): void {
-		$action = '\OCA\DAV\CalDAV\CalDavBackend::createCalendarObject';
 		$objectData = [
 			'calendardata' => self::CALENDAR_DATA_RECURRING,
 			'id' => '42',
@@ -295,11 +290,10 @@ EOD;
 			->with()
 			->willReturn(\DateTime::createFromFormat(\DateTime::ATOM, '2016-06-29T00:00:00+00:00'));
 
-		$this->reminderService->onTouchCalendarObject($action, $objectData);
+		$this->reminderService->onCalendarObjectCreate($objectData);
 	}
 
 	public function testOnCalendarObjectCreateEmpty():void {
-		$action = '\OCA\DAV\CalDAV\CalDavBackend::createCalendarObject';
 		$objectData = [
 			'calendardata' => self::CALENDAR_DATA_NO_ALARM,
 			'id' => '42',
@@ -310,11 +304,10 @@ EOD;
 		$this->backend->expects($this->never())
 			->method('insertReminder');
 
-		$this->reminderService->onTouchCalendarObject($action, $objectData);
+		$this->reminderService->onCalendarObjectCreate($objectData);
 	}
 
 	public function testOnCalendarObjectCreateRecurringEntryWithRepeat():void {
-		$action = '\OCA\DAV\CalDAV\CalDavBackend::createCalendarObject';
 		$objectData = [
 			'calendardata' => self::CALENDAR_DATA_RECURRING_REPEAT,
 			'id' => '42',
@@ -339,7 +332,7 @@ EOD;
 			->with()
 			->willReturn(\DateTime::createFromFormat(\DateTime::ATOM, '2016-06-29T00:00:00+00:00'));
 
-		$this->reminderService->onTouchCalendarObject($action, $objectData);
+		$this->reminderService->onCalendarObjectCreate($objectData);
 	}
 
 	public function testProcessReminders():void {

@@ -86,7 +86,7 @@ class SearchContext implements Context, ActorAwareInterface {
 	 * @When I search for :query
 	 */
 	public function iSearchFor($query) {
-		$this->actor->find(self::searchBoxInput(), 10)->setValue($query . "\r");
+		$this->actor->find(self::searchBoxInput(), 10)->setValue($query);
 	}
 
 	/**
