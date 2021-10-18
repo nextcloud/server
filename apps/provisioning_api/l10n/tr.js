@@ -1,7 +1,6 @@
 OC.L10N.register(
     "provisioning_api",
     {
-    "Logged in user must be an admin or have authorization to edit this setting." : "Oturum açmış kullanıcı bir yönetici olmalı veya bu ayarı düzenleme izni olmalıdır.",
     "Email confirmation" : "E-posta doğrulaması",
     "To enable the email address %s please click the button below." : "%s e-posta adresini doğrulamak için aşağıdaki düğmeye tıklayın.",
     "Confirm" : "Onayla",
