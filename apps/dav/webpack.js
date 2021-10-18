@@ -25,6 +25,7 @@ const path = require('path')
 module.exports = {
 	entry: {
 		'settings-admin-caldav': path.join(__dirname, 'src', 'settings.js'),
+		'settings-personal-availability': path.join(__dirname, 'src', 'settings-personal-availability.js'),
 	},
 	output: {
 		path: path.resolve(__dirname, './js'),
