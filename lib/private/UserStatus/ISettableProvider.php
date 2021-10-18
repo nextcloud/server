@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2020, Georg Ehrke
+ * @copyright Copyright (c) 2021 Carl Schwan <carl@carlschwan.eu>
  *
- * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author Carl Schwan <carl@carlschwan.eu>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -23,42 +23,33 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-namespace OCP\UserStatus;
+namespace OC\UserStatus;
+
+use OCP\UserStatus\IProvider;
 
 /**
- * Interface IManager
- *
- * @since 20.0.0
+ * Interface ISettableProvider
+ * @package OC\UserStatus
  */
-interface IManager {
-
-	/**
-	 * Gets the statuses for all users in $users
-	 *
-	 * @param string[] $userIds
-	 * @return IUserStatus[]
-	 * @since 20.0.0
-	 */
-	public function getUserStatuses(array $userIds):array;
-
-
+interface ISettableProvider extends IProvider {
 	/**
 	 * Set a new status for the selected user.
 	 *
 	 * @param string $userId The user for which we want to update the status.
-	 * @param string $messageId The id of the predefined message.
+	 * @param string $messageId The new message id.
+	 * @param string $status The new status.
 	 * @param bool $createBackup If true, this will store the old status so that it is possible to revert it later (e.g. after a call).
-	 * @since 23.0.0
 	 */
-	public function setUserStatus(string $userId, string $messageId, string $status, bool $createBackup = false): void;
+	public function setUserStatus(string $userId, string $messageId, string $status, bool $createBackup): void;
 
 	/**
 	 * Revert an automatically set user status. For example after leaving a call,
-	 * change back to the previously set status.
+	 * change back to the previously set status. If the user has already updated
+	 * their status, this method does nothing.
 	 *
 	 * @param string $userId The user for which we want to update the status.
-	 * @param string $messageId The expected current messageId. If the user has already updated their status, this method does nothing.
-	 * @since 23.0.0
+	 * @param string $messageId The expected current messageId.
+	 * @param string $status The expected current status.
 	 */
 	public function revertUserStatus(string $userId, string $messageId, string $status): void;
 }

@@ -64,7 +64,7 @@ class StatusService {
 		IUserStatus::AWAY,
 		IUserStatus::DND,
 		IUserStatus::INVISIBLE,
-		IUserStatus::OFFLINE
+		IUserStatus::OFFLINE,
 	];
 
 	/**
@@ -172,6 +172,7 @@ class StatusService {
 		$userStatus->setStatus($status);
 		$userStatus->setStatusTimestamp($statusTimestamp);
 		$userStatus->setIsUserDefined($isUserDefined);
+		$userStatus->setIsBackup(false);
 
 		if ($userStatus->getId() === null) {
 			return $this->mapper->insert($userStatus);
@@ -316,9 +317,9 @@ class StatusService {
 	 * @param string $userId
 	 * @return bool
 	 */
-	public function removeUserStatus(string $userId): bool {
+	public function removeUserStatus(string $userId, bool $isBackup = false): bool {
 		try {
-			$userStatus = $this->mapper->findByUserId($userId);
+			$userStatus = $this->mapper->findByUserId($userId, $isBackup);
 		} catch (DoesNotExistException $ex) {
 			// if there is no status to remove, just return
 			return false;
@@ -389,5 +390,64 @@ class StatusService {
 			$status->setCustomMessage($predefinedMessage['message']);
 			$status->setCustomIcon($predefinedMessage['icon']);
 		}
+	}
+
+	/**
+	 * @return bool false iff there is already a backup. In this case abort the procedure.
+	 */
+	public function backupCurrentStatus(string $userId): bool {
+		try {
+			$this->mapper->findByUserId($userId, true);
+			return false;
+		} catch (DoesNotExistException $ex) {
+			// No backup already existing => Good
+		}
+
+		try {
+			$userStatus = $this->mapper->findByUserId($userId);
+		} catch (DoesNotExistException $ex) {
+			// if there is no status to backup, just return
+			return true;
+		}
+
+		$userStatus->setIsBackup(true);
+		// Prefix user account with an underscore because user_id is marked as unique
+		// in the table. Starting an username with an underscore is not allowed so this
+		// shouldn't create any trouble.
+		$userStatus->setUserId('_' . $userStatus->getUserId());
+		$this->mapper->update($userStatus);
+		return true;
+	}
+
+	public function revertUserStatus(string $userId, string $messageId, string $status): void {
+		try {
+			/** @var UserStatus $userStatus */
+			$backupUserStatus = $this->mapper->findByUserId($userId, true);
+		} catch (DoesNotExistException $ex) {
+			// No backup, just move back to available
+			try {
+				$userStatus = $this->mapper->findByUserId($userId);
+			} catch (DoesNotExistException $ex) {
+				// No backup nor current status => ignore
+				return;
+			}
+			$this->cleanStatus($userStatus);
+			$this->cleanStatusMessage($userStatus);
+			return;
+		}
+		try {
+			$userStatus = $this->mapper->findByUserId($userId);
+			if ($userStatus->getMessageId() !== $messageId || $userStatus->getStatus() !== $status) {
+				// Another status is set automatically, do nothing
+				return;
+			}
+			$this->removeUserStatus($userId);
+		} catch (DoesNotExistException $ex) {
+			// No current status => nothing to delete
+		}
+		$backupUserStatus->setIsBackup(false);
+		// Remove the underscore prefix added when creating the backup
+		$backupUserStatus->setUserId(substr($backupUserStatus->getUserId(), 1));
+		$this->mapper->update($backupUserStatus);
 	}
 }

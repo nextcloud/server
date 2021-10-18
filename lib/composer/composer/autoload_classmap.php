@@ -1453,6 +1453,7 @@ return array(
     'OC\\Updater\\ChangesMapper' => $baseDir . '/lib/private/Updater/ChangesMapper.php',
     'OC\\Updater\\ChangesResult' => $baseDir . '/lib/private/Updater/ChangesResult.php',
     'OC\\Updater\\VersionCheck' => $baseDir . '/lib/private/Updater/VersionCheck.php',
+    'OC\\UserStatus\\ISettableProvider' => $baseDir . '/lib/private/UserStatus/ISettableProvider.php',
     'OC\\UserStatus\\Manager' => $baseDir . '/lib/private/UserStatus/Manager.php',
     'OC\\User\\Backend' => $baseDir . '/lib/private/User/Backend.php',
     'OC\\User\\Database' => $baseDir . '/lib/private/User/Database.php',

@@ -1482,6 +1482,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Updater\\ChangesMapper' => __DIR__ . '/../../..' . '/lib/private/Updater/ChangesMapper.php',
         'OC\\Updater\\ChangesResult' => __DIR__ . '/../../..' . '/lib/private/Updater/ChangesResult.php',
         'OC\\Updater\\VersionCheck' => __DIR__ . '/../../..' . '/lib/private/Updater/VersionCheck.php',
+        'OC\\UserStatus\\ISettableProvider' => __DIR__ . '/../../..' . '/lib/private/UserStatus/ISettableProvider.php',
         'OC\\UserStatus\\Manager' => __DIR__ . '/../../..' . '/lib/private/UserStatus/Manager.php',
         'OC\\User\\Backend' => __DIR__ . '/../../..' . '/lib/private/User/Backend.php',
         'OC\\User\\Database' => __DIR__ . '/../../..' . '/lib/private/User/Database.php',
