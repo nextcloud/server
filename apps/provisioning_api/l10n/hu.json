@@ -1,5 +1,4 @@
 { "translations": {
-    "Logged in user must be an admin or have authorization to edit this setting." : "A bejelentkezett felhasználónak rendszergazdának kell lennie, vagy engedéllyel kell rendelkeznie, hogy szerkessze ezt a beállítást.",
     "Email confirmation" : "E-mail-cím megerősítése",
     "To enable the email address %s please click the button below." : "A(z) %s e-mail-cím engedélyezéséhez kattintson a lenti gombra.",
     "Confirm" : "Megerősítés",
