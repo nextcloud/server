@@ -75,10 +75,29 @@ class LinkActionTest extends TestCase {
 		$this->action->setName('Nickie Works');
 		$this->action->setPriority(33);
 		$this->action->setHref('example.com');
+		$this->action->setAppName('contacts');
 		$expected = [
 			'title' => 'Nickie Works',
 			'icon' => 'icon-contacts',
 			'hyperlink' => 'example.com',
+			'appName' => 'contacts',
+		];
+
+		$json = $this->action->jsonSerialize();
+
+		$this->assertEquals($expected, $json);
+	}
+
+	public function testJsonSerializeNoAppName() {
+		$this->action->setIcon('icon-contacts');
+		$this->action->setName('Nickie Works');
+		$this->action->setPriority(33);
+		$this->action->setHref('example.com');
+		$expected = [
+			'title' => 'Nickie Works',
+			'icon' => 'icon-contacts',
+			'hyperlink' => 'example.com',
+			'appName' => '',
 		];
 
 		$json = $this->action->jsonSerialize();

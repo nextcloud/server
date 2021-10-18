@@ -32,13 +32,15 @@ class ActionFactory implements IActionFactory {
 	 * @param string $icon
 	 * @param string $name
 	 * @param string $href
+	 * @param string $appName
 	 * @return ILinkAction
 	 */
-	public function newLinkAction($icon, $name, $href) {
+	public function newLinkAction(string $icon, string $name, string $href, string $appName = ''): ILinkAction {
 		$action = new LinkAction();
 		$action->setName($name);
 		$action->setIcon($icon);
 		$action->setHref($href);
+		$action->setAppName($appName);
 		return $action;
 	}
 
@@ -46,9 +48,10 @@ class ActionFactory implements IActionFactory {
 	 * @param string $icon
 	 * @param string $name
 	 * @param string $email
+	 * @param string $appName
 	 * @return ILinkAction
 	 */
-	public function newEMailAction($icon, $name, $email) {
-		return $this->newLinkAction($icon, $name, 'mailto:' . $email);
+	public function newEMailAction(string $icon, string $name, string $email, string $appName = ''): ILinkAction {
+		return $this->newLinkAction($icon, $name, 'mailto:' . $email, $appName);
 	}
 }
