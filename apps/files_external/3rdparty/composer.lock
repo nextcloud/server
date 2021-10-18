@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "dacbb67c9e2d1d46204d5b1a7f5cebc2",
+    "content-hash": "a780bde1a9c1ff33495d5d957f171500",
     "packages": [
         {
             "name": "icewind/smb",
@@ -55,16 +55,16 @@
         },
         {
             "name": "icewind/streams",
-            "version": "v0.7.3",
+            "version": "v0.7.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/icewind1991/Streams.git",
-                "reference": "22ef9fc5b50d645dbc202206a656cc4dde28f95c"
+                "reference": "0c6aae16ebdadb257f0bd089c1e1e4cf5e20ddc2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/icewind1991/Streams/zipball/22ef9fc5b50d645dbc202206a656cc4dde28f95c",
-                "reference": "22ef9fc5b50d645dbc202206a656cc4dde28f95c",
+                "url": "https://api.github.com/repos/icewind1991/Streams/zipball/0c6aae16ebdadb257f0bd089c1e1e4cf5e20ddc2",
+                "reference": "0c6aae16ebdadb257f0bd089c1e1e4cf5e20ddc2",
                 "shasum": ""
             },
             "require": {
@@ -94,9 +94,9 @@
             "description": "A set of generic stream wrappers",
             "support": {
                 "issues": "https://github.com/icewind1991/Streams/issues",
-                "source": "https://github.com/icewind1991/Streams/tree/v0.7.3"
+                "source": "https://github.com/icewind1991/Streams/tree/v0.7.5"
             },
-            "time": "2021-03-02T19:33:35+00:00"
+            "time": "2021-06-14T14:02:48+00:00"
         }
     ],
     "packages-dev": [],
@@ -107,5 +107,5 @@
     "prefer-lowest": false,
     "platform": [],
     "platform-dev": [],
-    "plugin-api-version": "2.0.0"
+    "plugin-api-version": "2.1.0"
 }
