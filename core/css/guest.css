@@ -151,6 +151,7 @@ form #datadirField legend {
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	padding: 10px 5px;
 	position: relative; /* Make the wrapper the containing block of its
 						   absolutely positioned descendant icons */
 }
@@ -164,7 +165,7 @@ form #datadirField legend {
 }
 
 .alternative-logins a.button {
-	margin: 10px 5px;
+	margin: 0;
 	display: block;
 	font-size: 15px;
 	white-space: nowrap;
