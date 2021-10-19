@@ -120,6 +120,7 @@ OC.L10N.register(
     "Due on %s" : "До %s",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "точка подключения WebDAV",
+    "Save" : "Сохранить",
     "Calendar server" : "Сервер календаря",
     "Send invitations to attendees" : "Отправить приглашения",
     "Automatically generate a birthday calendar" : "Создавать календарь дней рождения автоматически",
@@ -134,7 +135,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Обратитесь к организатору напрямую.",
     "Are you accepting the invitation?" : "Принять приглашение?",
     "Tentative" : "Под вопросом",
-    "Save" : "Сохранить",
     "Your attendance was updated successfully." : "Статус участия обновлён.",
     "Calendar and tasks" : "Календарь и задачи"
 },

@@ -88,6 +88,7 @@ OC.L10N.register(
     "Due on %s" : "Caduca o %s",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "Terminación WebDAV",
+    "Save" : "Gardar",
     "Calendar server" : "Servidor do calendario",
     "Send invitations to attendees" : "Enviar convites aos asistentes",
     "Automatically generate a birthday calendar" : "Xerar automaticamente o calendario de aniversarios",
@@ -102,7 +103,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Contacte directamente co organizador.",
     "Are you accepting the invitation?" : "Acepta vostede o convite?",
     "Tentative" : "Tentativa",
-    "Save" : "Gardar",
     "Your attendance was updated successfully." : "A súa asistencia foi actualizada satisfactoriamente.",
     "Calendar and tasks" : "Calendario e tarefas"
 },

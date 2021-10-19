@@ -86,6 +86,7 @@ OC.L10N.register(
     "Completed on %s" : "הושלמה ב־%s",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "נקודת קצה WebDAV",
+    "Save" : "שמירה",
     "Calendar server" : "שרת לוח שנה",
     "Send invitations to attendees" : "שליחת הזמנות למשתתפים",
     "Automatically generate a birthday calendar" : "יצירת יומן ימי הולדת אוטומטית",
@@ -100,7 +101,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "נא ליצור קשר עם הגוף מארגן ישירות.",
     "Are you accepting the invitation?" : "האם להיענות להזמנה?",
     "Tentative" : "טנטטיבית",
-    "Save" : "שמירה",
     "Your attendance was updated successfully." : "ההשתתפות שלך עודכנה בהצלחה.",
     "Calendar and tasks" : "לוח שנה ומשימות"
 },

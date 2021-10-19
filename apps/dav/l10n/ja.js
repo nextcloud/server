@@ -121,6 +121,7 @@ OC.L10N.register(
     "Due on %s" : "期限日：%s",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "WebDAVエンドポイント",
+    "Save" : "保存",
     "Calendar server" : "カレンダーサーバー",
     "Send invitations to attendees" : "参加者に招待状を送信する",
     "Automatically generate a birthday calendar" : "自動的に誕生日カレンダーを生成する",
@@ -135,7 +136,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "主催者に直接お問い合わせください。",
     "Are you accepting the invitation?" : "招待を受け入れていますか？",
     "Tentative" : "暫定的",
-    "Save" : "保存",
     "Your attendance was updated successfully." : "出席は正常に更新されました。",
     "Calendar and tasks" : "カレンダーとタスク"
 },

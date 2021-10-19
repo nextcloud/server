@@ -121,6 +121,7 @@ OC.L10N.register(
     "Due on %s" : "Verwacht op %s",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "WebDAV eindpunt",
+    "Save" : "Opslaan",
     "Calendar server" : "Agendaserver",
     "Send invitations to attendees" : "Verzend uitnodigingen naar deelnemers",
     "Automatically generate a birthday calendar" : "Genereer verjaardagskalender automatisch",
@@ -135,7 +136,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Neem rechtstreeks contact op met de organisator.",
     "Are you accepting the invitation?" : "Neem je de uitnodiging aan?",
     "Tentative" : "Onder voorbehoud",
-    "Save" : "Opslaan",
     "Your attendance was updated successfully." : "Je deelname is succesvol bijgewerkt.",
     "Calendar and tasks" : "Agenda en taken"
 },

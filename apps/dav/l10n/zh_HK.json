@@ -119,6 +119,7 @@
     "Due on %s" : "完成日期 %s",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "WebDAV 端點",
+    "Save" : "儲存",
     "Calendar server" : "日曆伺服器",
     "Send invitations to attendees" : "發送邀請函給參加者",
     "Automatically generate a birthday calendar" : "自動建立生日日曆",
@@ -133,7 +134,6 @@
     "Please contact the organizer directly." : "請直接聯繫絡主辦人",
     "Are you accepting the invitation?" : "接受邀請嗎？",
     "Tentative" : "暫定",
-    "Save" : "儲存",
     "Your attendance was updated successfully." : "您的參與狀況成功更新",
     "Calendar and tasks" : "日曆和任務"
 },"pluralForm" :"nplurals=1; plural=0;"
