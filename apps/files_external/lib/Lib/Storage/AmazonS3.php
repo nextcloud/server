@@ -52,6 +52,8 @@ use OC\Files\ObjectStore\S3ObjectTrait;
 use OCP\Constants;
 use OCP\Files\FileInfo;
 use OCP\Files\IMimeTypeDetector;
+use OCP\ICacheFactory;
+use OCP\IMemcache;
 
 class AmazonS3 extends \OC\Files\Storage\Common {
 	use S3ConnectionTrait;
@@ -76,12 +78,19 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 	/** @var bool|null */
 	private $versioningEnabled = null;
 
+	/** @var IMemcache */
+	private $memCache;
+
 	public function __construct($parameters) {
 		parent::__construct($parameters);
 		$this->parseParams($parameters);
 		$this->objectCache = new CappedMemoryCache();
 		$this->directoryCache = new CappedMemoryCache();
 		$this->filesCache = new CappedMemoryCache();
+		$this->mimeDetector = \OC::$server->get(IMimeTypeDetector::class);
+		/** @var ICacheFactory $cacheFactory */
+		$cacheFactory = \OC::$server->get(ICacheFactory::class);
+		$this->memCache = $cacheFactory->createLocal('s3-external');
 	}
 
 	/**
@@ -721,8 +730,14 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 
 	public function versioningEnabled(): bool {
 		if ($this->versioningEnabled === null) {
-			$result = $this->getConnection()->getBucketVersioning(['Bucket' => $this->getBucket()]);
-			$this->versioningEnabled = $result->get('Status') === 'Enabled';
+			$cached = $this->memCache->get('versioning-enabled::' . $this->getBucket());
+			if ($cached === null) {
+				$result = $this->getConnection()->getBucketVersioning(['Bucket' => $this->getBucket()]);
+				$this->versioningEnabled = $result->get('Status') === 'Enabled';
+				$this->memCache->set('versioning-enabled::' . $this->getBucket(), $this->versioningEnabled, 60);
+			} else {
+				$this->versioningEnabled = $cached;
+			}
 		}
 		return $this->versioningEnabled;
 	}
