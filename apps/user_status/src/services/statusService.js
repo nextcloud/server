@@ -48,6 +48,19 @@ const fetchCurrentBackupStatus = async() => {
 }
 
 /**
+ * Revert the current user status to the one who is in the backup.
+ *
+ * @param {String} statusType The status (online / away / dnd / invisible)
+ * @returns {Promise<void>}
+ */
+const setStatus = async(statusType) => {
+	const url = generateOcsUrl('apps/user_status/api/v1/user_status/revert')
+	await HttpClient.put(url, {
+		statusType,
+	})
+}
+
+/**
  * Sets the status
  *
  * @param {String} statusType The status (online / away / dnd / invisible)
