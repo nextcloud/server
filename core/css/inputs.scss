@@ -215,7 +215,7 @@ input[type='reset'] {
 		color: #fff !important;
 	}
 }
-button:not(.button-vue), .button:not(.button-vue) {
+button:not(.button-vue):not(.action-button), .button:not(.button-vue) {
 	> span {
 		/* icon position inside buttons */
 		&[class^='icon-'],
