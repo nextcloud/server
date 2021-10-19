@@ -46,7 +46,7 @@ export async function findScheduleInboxAvailability() {
 			  <x0:prop>
 				<x1:calendar-availability xmlns:x1="urn:ietf:params:xml:ns:caldav"/>
 			  </x0:prop>
-			</x0:propfind>`
+			</x0:propfind>`,
 	})
 
 	const xml = await parseXML(response.data)
@@ -142,6 +142,6 @@ export async function saveScheduleInboxAvailability(slots, timezoneId) {
 				  <x1:calendar-availability xmlns:x1="urn:ietf:params:xml:ns:caldav">${vcalendarComp.toString()}</x1:calendar-availability>
 				</x0:prop>
 			  </x0:set>
-			</x0:propertyupdate>`
+			</x0:propertyupdate>`,
 	})
 }
