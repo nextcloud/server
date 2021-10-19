@@ -1,6 +1,7 @@
 OC.L10N.register(
     "provisioning_api",
     {
+    "Logged in user must be an administrator or have authorization to edit this setting." : "已登录用户必须是一名管理员或拥有编辑此设置的授权",
     "Email confirmation" : "电子邮件确认",
     "To enable the email address %s please click the button below." : "要启用电子邮件地址 %s 请点击下方按钮。",
     "Confirm" : "确认",

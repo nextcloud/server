@@ -103,6 +103,7 @@
     "Untitled task" : "Nimetön tehtävä",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "WebDAV-päätepiste",
+    "Save" : "Tallenna",
     "Calendar server" : "Kalenteripalvelin",
     "Send invitations to attendees" : "Lähetä kutsut osallistujille",
     "Automatically generate a birthday calendar" : "Luo syntymäpäiväkalenteri automaattisesti",
@@ -115,7 +116,6 @@
     "Please contact the organizer directly." : "Ota yhteys suoraan järjestäjään.",
     "Are you accepting the invitation?" : "Hyväksytkö kutsun?",
     "Tentative" : "Alustava",
-    "Save" : "Tallenna",
     "Your attendance was updated successfully." : "Osallistumisesi päivitettiin onnistuneesti.",
     "Calendar and tasks" : "Kalenteri ja tehtävät"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
