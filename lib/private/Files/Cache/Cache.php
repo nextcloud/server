@@ -799,7 +799,7 @@ class Cache implements ICache {
 	 * @param Statement $result
 	 * @return CacheEntry[]
 	 */
-	private function searchResultToCacheEntries(Statement $result) {
+	protected function searchResultToCacheEntries(Statement $result) {
 		$files = $result->fetchAll();
 
 		return array_map(function (array $data) {
@@ -836,11 +836,7 @@ class Cache implements ICache {
 		}, $files);
 	}
 
-	/**
-	 * @param ISearchQuery $searchQuery
-	 * @return CacheEntry[]
-	 */
-	public function searchQuery(ISearchQuery $searchQuery) {
+	protected function buildSearchQuery(ISearchQuery $searchQuery): IQueryBuilder {
 		$builder = $this->getQueryBuilder();
 
 		$query = $builder->selectFileCache('file');
@@ -879,6 +875,12 @@ class Cache implements ICache {
 		if ($searchQuery->getOffset()) {
 			$query->setFirstResult($searchQuery->getOffset());
 		}
+
+		return $query;
+	}
+
+	public function searchQuery(ISearchQuery $searchQuery) {
+		$query = $this->buildSearchQuery($searchQuery);
 
 		$result = $query->execute();
 		return $this->searchResultToCacheEntries($result);
