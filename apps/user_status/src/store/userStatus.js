@@ -166,6 +166,21 @@ const actions = {
 	},
 
 	/**
+	 * Update status from 'user_status:status.updated' update.
+	 * This doesn't trigger another 'user_status:status.updated'
+	 * event.
+	 *
+	 * @param {Object} vuex The Vuex destructuring object
+	 * @param {Function} vuex.commit The Vuex commit function
+	 * @param {Object} vuex.state The Vuex state object
+	 * @param {String} status The new status
+	 * @returns {Promise<void>}
+	 */
+	async setStatusFromObject({ commit, state }, status) {
+		commit('loadStatusFromServer', status)
+	},
+
+	/**
 	 * Sets a message using a predefined message
 	 *
 	 * @param {Object} vuex The Vuex destructuring object
