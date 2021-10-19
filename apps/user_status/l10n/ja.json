@@ -7,6 +7,7 @@
     "Working remotely" : "リモートワーク中",
     "User status" : "ユーザーステータス",
     "Clear status message after" : "ステータスメッセージの有効期限",
+    "What is your status?" : "現在のオンラインステータスは？",
     "Set status" : "ステータスを設定",
     "Online status" : "オンラインステータス",
     "Status message" : "状態メッセージ",
@@ -31,6 +32,6 @@
     "Mute all notifications" : "全ての通知をミュート",
     "Appear offline" : "オフライン",
     "Clear status after" : "ステータスの有効期限",
-    "What's your status?" : "今のオンラインステータスは何ですか？"
+    "What's your status?" : "現在のオンラインステータスは？"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

@@ -119,6 +119,7 @@
     "Due on %s" : "Fällig am %s",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "WebDAV-Endpunkt",
+    "Save" : "Speichern",
     "Calendar server" : "Kalender-Server",
     "Send invitations to attendees" : "Einladungen an die Teilnehmer versenden",
     "Automatically generate a birthday calendar" : "Automatisch einen Kalender für Geburtstage erstellen",
@@ -133,7 +134,6 @@
     "Please contact the organizer directly." : "Bitte den Organisator direkt kontaktieren.",
     "Are you accepting the invitation?" : "Die Einladung annehmen?",
     "Tentative" : "Vorläufig",
-    "Save" : "Speichern",
     "Your attendance was updated successfully." : "Dein Teilnehmerstatus wurde aktualisiert.",
     "Calendar and tasks" : "Kalender und Aufgaben"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

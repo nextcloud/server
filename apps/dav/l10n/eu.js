@@ -121,6 +121,7 @@ OC.L10N.register(
     "Due on %s" : "%s-(e)an epemuga",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "WebDAV amaiera-puntua",
+    "Save" : "Gorde",
     "Calendar server" : "Egutegi-zerbitzaria",
     "Send invitations to attendees" : "Gonbidatutakoei gonbidapenak bidali",
     "Automatically generate a birthday calendar" : "Automatikoki sortu urtebetetzeen egutegia",
@@ -135,7 +136,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Mesedez jarri harremanetan antolatzailearekin zuzenean.",
     "Are you accepting the invitation?" : "Gonbidapena onartzen duzu?",
     "Tentative" : "Behin behinekoa",
-    "Save" : "Gorde",
     "Your attendance was updated successfully." : "Zure parte-hartzea ondo eguneratu da.",
     "Calendar and tasks" : "Egutegia eta atazak"
 },

@@ -1,4 +1,5 @@
 { "translations": {
+    "Logged in user must be an administrator or have authorization to edit this setting." : "登入的使用者必須為管理員或是有權編輯此設定的使用者。",
     "Email confirmation" : "電子郵件確認",
     "To enable the email address %s please click the button below." : "要啟用電子郵件地址 %s，請點擊下方按鈕。",
     "Confirm" : "確認",

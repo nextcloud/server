@@ -121,6 +121,7 @@ OC.L10N.register(
     "Due on %s" : "%s tarihine kadar",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "WebDAV bağlantı noktası",
+    "Save" : "Kaydet",
     "Calendar server" : "Takvim sunucusu",
     "Send invitations to attendees" : "Katılımcılara çağrıları gönder",
     "Automatically generate a birthday calendar" : "Doğum günü takvimi otomatik oluşturulsun",
@@ -135,7 +136,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Lütfen düzenleyici ile doğrudan görüşün.",
     "Are you accepting the invitation?" : "Çağrıyı kabul ediyor musunuz?",
     "Tentative" : "Kesin değil",
-    "Save" : "Kaydet",
     "Your attendance was updated successfully." : "Katılımınız güncellendi.",
     "Calendar and tasks" : "Takvim ve görevler"
 },

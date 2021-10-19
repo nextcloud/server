@@ -77,6 +77,7 @@ OC.L10N.register(
     "Tasks" : "Taskoj",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "WebDAV-finpunkto",
+    "Save" : "Konservi",
     "Calendar server" : "Kalendara servilo",
     "Send invitations to attendees" : "Sendi invitojn al ĉeestantoj",
     "Automatically generate a birthday calendar" : "Aŭtomate estigi datrevenan kalendaron",
@@ -90,7 +91,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Bv. senpere kontakti la organizanton.",
     "Are you accepting the invitation?" : "Ĉu vi akceptas la inviton?",
     "Tentative" : "Nekonfirmita",
-    "Save" : "Konservi",
     "Your attendance was updated successfully." : "Via ĉeesto sukcese ĝisdatiĝis."
 },
 "nplurals=2; plural=(n != 1);");
