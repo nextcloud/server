@@ -121,6 +121,7 @@ OC.L10N.register(
     "Due on %s" : "Treba završiti do %s",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "WebDAV krajnja točka",
+    "Save" : "Spremi",
     "Calendar server" : "Poslužitelj kalendara",
     "Send invitations to attendees" : "Pošaljite pozive sudionicima",
     "Automatically generate a birthday calendar" : "Automatski generiraj kalendar rođendana",
@@ -135,7 +136,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Izravno se obratite organizatoru.",
     "Are you accepting the invitation?" : "Prihvaćate li poziv?",
     "Tentative" : "Uvjetno",
-    "Save" : "Spremi",
     "Your attendance was updated successfully." : "Vaša je prisutnost uspješno ažurirana.",
     "Calendar and tasks" : "Kalendar i zadaci"
 },

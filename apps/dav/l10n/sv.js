@@ -118,6 +118,7 @@ OC.L10N.register(
     "Due on %s" : "Slutar den %s",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "WebDAV endpoint",
+    "Save" : "Spara",
     "Calendar server" : "Kalenderserver",
     "Send invitations to attendees" : "Skicka inbjudan till deltagare",
     "Automatically generate a birthday calendar" : "Generera en födelsedagskalender automatiskt",
@@ -132,7 +133,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Vänligen kontakta arrangören direkt.",
     "Are you accepting the invitation?" : "Acceptera inbjudan?",
     "Tentative" : "Preliminärt",
-    "Save" : "Spara",
     "Your attendance was updated successfully." : "Dina närvaro uppdaterades.",
     "Calendar and tasks" : "Kalender och uppgifter"
 },

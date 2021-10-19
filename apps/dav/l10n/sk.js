@@ -121,6 +121,7 @@ OC.L10N.register(
     "Due on %s" : "Termín do %s",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "Koncový bod WebDAV",
+    "Save" : "Uložiť",
     "Calendar server" : "Kalendárový server",
     "Send invitations to attendees" : "Odoslanie pozvánok účastníkom",
     "Automatically generate a birthday calendar" : "Automaticky generovať narodeninový kalendár",
@@ -135,7 +136,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Prosím kontaktujte priamo organizátora.",
     "Are you accepting the invitation?" : "Príjmate pozvánku?",
     "Tentative" : "Neistý",
-    "Save" : "Uložiť",
     "Your attendance was updated successfully." : "Vaša účasť bola aktualizovaná úspešne.",
     "Calendar and tasks" : "Kalendár a úlohy"
 },

@@ -88,6 +88,7 @@ OC.L10N.register(
     "Due on %s" : "Ενημερώσατε το ημερολόγιο {ημερολόγιο}",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "Τερματικό WebDAV",
+    "Save" : "Αποθήκευση",
     "Calendar server" : "Διακομιστής ημερολογίου",
     "Send invitations to attendees" : "Αποστολή προσκλήσεων στους συμμετέχοντες.",
     "Automatically generate a birthday calendar" : "Δημιουργία ημερολογίου γενεθλίων αυτόματα",
@@ -102,7 +103,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Παρακαλώ επικοινωνήστε απ' ευθείας με τον διοργανωτή.",
     "Are you accepting the invitation?" : "Αποδέχεστε την πρόσκληση;",
     "Tentative" : "Δοκιμαστικό",
-    "Save" : "Αποθήκευση",
     "Your attendance was updated successfully." : "Η παρουσία σας ενημερώθηκε με επιτυχία.",
     "Calendar and tasks" : "Ημερολόγιο και εργασίες"
 },

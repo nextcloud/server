@@ -121,6 +121,7 @@ OC.L10N.register(
     "Due on %s" : "iscadet su %s",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "puntu finale WebDAV ",
+    "Save" : "Sarva",
     "Calendar server" : "Serbidore calendàriu",
     "Send invitations to attendees" : "Imbia invitos de partetzipatziones",
     "Automatically generate a birthday calendar" : "Gènera in automàticu su calendàriu de cumpleannos",
@@ -135,7 +136,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Pro praghere, cuntata deretu a s'organizadore.",
     "Are you accepting the invitation?" : "Cheres atzetare s'invitu?",
     "Tentative" : "Intentu",
-    "Save" : "Sarva",
     "Your attendance was updated successfully." : "Sa partetzipatzione tua est istada agiornada in manera curreta.",
     "Calendar and tasks" : "Calendàrios e fainas"
 },

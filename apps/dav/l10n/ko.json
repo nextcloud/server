@@ -117,6 +117,7 @@
     "Due on %s" : "만료일: %s",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "WebDAV 종단점",
+    "Save" : "저장",
     "Calendar server" : "달력 서버",
     "Send invitations to attendees" : "참석자에게 초대장 보내기",
     "Automatically generate a birthday calendar" : "자동으로 생일 달력 생성",
@@ -131,7 +132,6 @@
     "Please contact the organizer directly." : "주최자에게 직접 연락하십시오.",
     "Are you accepting the invitation?" : "초대를 수락하시겠습니까?",
     "Tentative" : "예정됨",
-    "Save" : "저장",
     "Your attendance was updated successfully." : "참석 정보를 업데이트했습니다.",
     "Calendar and tasks" : "달력과 작업"
 },"pluralForm" :"nplurals=1; plural=0;"
