@@ -19,6 +19,7 @@ return array(
     'OCA\\User_LDAP\\Command\\SetConfig' => $baseDir . '/../lib/Command/SetConfig.php',
     'OCA\\User_LDAP\\Command\\ShowConfig' => $baseDir . '/../lib/Command/ShowConfig.php',
     'OCA\\User_LDAP\\Command\\ShowRemnants' => $baseDir . '/../lib/Command/ShowRemnants.php',
+    'OCA\\User_LDAP\\Command\\SyncUser' => $baseDir . '/../lib/Command/SyncUser.php',
     'OCA\\User_LDAP\\Command\\TestConfig' => $baseDir . '/../lib/Command/TestConfig.php',
     'OCA\\User_LDAP\\Configuration' => $baseDir . '/../lib/Configuration.php',
     'OCA\\User_LDAP\\Connection' => $baseDir . '/../lib/Connection.php',

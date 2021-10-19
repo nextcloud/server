@@ -7,14 +7,14 @@ namespace Composer\Autoload;
 class ComposerStaticInitUser_LDAP
 {
     public static $prefixLengthsPsr4 = array (
-        'O' => 
+        'O' =>
         array (
             'OCA\\User_LDAP\\' => 14,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'OCA\\User_LDAP\\' => 
+        'OCA\\User_LDAP\\' =>
         array (
             0 => __DIR__ . '/..' . '/../lib',
         ),
@@ -34,6 +34,7 @@ class ComposerStaticInitUser_LDAP
         'OCA\\User_LDAP\\Command\\SetConfig' => __DIR__ . '/..' . '/../lib/Command/SetConfig.php',
         'OCA\\User_LDAP\\Command\\ShowConfig' => __DIR__ . '/..' . '/../lib/Command/ShowConfig.php',
         'OCA\\User_LDAP\\Command\\ShowRemnants' => __DIR__ . '/..' . '/../lib/Command/ShowRemnants.php',
+        'OCA\\User_LDAP\\Command\\SyncUser' => __DIR__ . '/..' . '/../lib/Command/SyncUser.php',
         'OCA\\User_LDAP\\Command\\TestConfig' => __DIR__ . '/..' . '/../lib/Command/TestConfig.php',
         'OCA\\User_LDAP\\Configuration' => __DIR__ . '/..' . '/../lib/Configuration.php',
         'OCA\\User_LDAP\\Connection' => __DIR__ . '/..' . '/../lib/Connection.php',
