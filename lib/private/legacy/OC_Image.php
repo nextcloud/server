@@ -721,6 +721,8 @@ class OC_Image implements \OCP\IImage {
 				return true;
 			}
 		}
+
+		return false;
 	}
 
 	/**
