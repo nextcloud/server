@@ -27,7 +27,7 @@
 		id="viewer"
 		:class="{'icon-loading': !currentFile.loaded && !currentFile.failed,
 			'theme--undefined': theme === null, 'theme--dark': theme === 'dark', 'theme--light': theme === 'light', 'theme--default': theme === 'default'}"
-		:clear-view-delay="isTesting ? -1 : 5000 /* prevent cypress timeouts */"
+		:clear-view-delay="(isTesting || isMobile) ? -1 : undefined /* prevent cypress timeouts and disable on mobile, otherwise use default of the modal */"
 		:dark="true"
 		:enable-slideshow="hasPrevious || hasNext"
 		:enable-swipe="canSwipe"

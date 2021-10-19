@@ -70,7 +70,7 @@ describe('Open the sidebar from the viewer and open viewer with sidebar already 
 	it('See the menu icon and title on the viewer header', function() {
 		cy.get('body > .viewer .modal-title').should('contain', 'image1.jpg')
 		cy.get('body > .viewer .modal-header button.action-item__menutoggle').should('be.visible')
-		cy.get('body > .viewer .modal-header button.icon-close').should('be.visible')
+		cy.get('body > .viewer .modal-header button.header-close').should('be.visible')
 	})
 
 	it('Does not have any visual regression 1', function() {
@@ -151,7 +151,7 @@ describe('Open the sidebar from the viewer and open viewer with sidebar already 
 	})
 
 	it('Open the viewer with the sidebar open', function() {
-		cy.get('body > .viewer .header-close.icon-close').click()
+		cy.get('body > .viewer .modal-header button.header-close').click()
 		cy.get('body > .viewer').should('not.exist')
 
 		// open the sidebar without viewer open

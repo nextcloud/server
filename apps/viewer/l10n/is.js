@@ -8,6 +8,7 @@ OC.L10N.register(
     "Error loading {name}" : "Villa við að hlaða inn {name}",
     "Your browser does not support videos." : "Vafrinn þinn styður ekki myndskeið.",
     "Open sidebar" : "Opna hliðarspjald",
+    "Download" : "Sækja",
     "Delete" : "Eyða",
     "There is no plugin available to display this file type" : "Ekki er til nein viðbót til að birta þessa tegund af skrám",
     "View" : "Skoða"

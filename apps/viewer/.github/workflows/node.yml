@@ -23,18 +23,18 @@ jobs:
 
       - name: Read package.json node and npm engines version
         uses: skjnldsv/read-package-engines-version-actions@v1.1
-        id: package-engines-versions
+        id: versions
         with:
           fallbackNode: '^12'
           fallbackNpm: '^6'
 
-      - name: Set up node ${{ steps.package-engines-versions.outputs.nodeVersion }}
+      - name: Set up node ${{ steps.versions.outputs.nodeVersion }}
         uses: actions/setup-node@v2
         with:
-          node-version: ${{ steps.package-engines-versions.outputs.nodeVersion }}
+          node-version: ${{ steps.versions.outputs.nodeVersion }}
 
-      - name: Set up npm ${{ steps.package-engines-versions.outputs.npmVersion }}
-        run: npm i -g npm@"${{ steps.package-engines-versions.outputs.npmVersion }}"
+      - name: Set up npm ${{ steps.versions.outputs.npmVersion }}
+        run: npm i -g npm@"${{ steps.versions.outputs.npmVersion }}"
 
       - name: Install dependencies & build
         run: |
@@ -43,4 +43,10 @@ jobs:
 
       - name: Check webpack build changes
         run: |
-          bash -c "[[ ! \"`git status --porcelain `\" ]] || ( echo 'Uncommited changes in webpack build' && git status && exit 1 )"
+          bash -c "[[ ! \"`git status --porcelain `\" ]] || exit 1"
+
+      - name: Show changes on failure
+        if: failure()
+        run: |
+          git status
+          git --no-pager diff

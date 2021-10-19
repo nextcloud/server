@@ -60,7 +60,7 @@ describe('Open audio.mp3 in viewer', function() {
 	it('See the menu icon and title on the viewer header', function() {
 		cy.get('body > .viewer .modal-title').should('contain', 'audio.mp3')
 		cy.get('body > .viewer .modal-header button.action-item__menutoggle').should('be.visible')
-		cy.get('body > .viewer .modal-header button.icon-close').should('be.visible')
+		cy.get('body > .viewer .modal-header button.header-close').should('be.visible')
 	})
 
 	it('Does not see navigation arrows', function() {

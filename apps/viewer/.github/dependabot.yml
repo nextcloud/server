@@ -7,10 +7,10 @@ updates:
     day: saturday
     time: "03:00"
     timezone: Europe/Paris
-  open-pull-requests-limit: 10
   labels:
-  - 3. to review
-  - dependencies
+    - "3. to review"
+    - "dependencies"
+
 - package-ecosystem: npm
   directory: "/"
   schedule:
@@ -18,7 +18,55 @@ updates:
     day: saturday
     time: "03:00"
     timezone: Europe/Paris
-  open-pull-requests-limit: 10
   labels:
-  - 3. to review
-  - dependencies
+    - "3. to review"
+    - "dependencies"
+
+# Main stableXX npm
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: weekly
+    day: saturday
+    time: "03:00"
+    timezone: Europe/Paris
+  target-branch: stable20
+  labels:
+    - "3. to review"
+    - "dependencies"
+  ignore:
+    # ignore all GitHub linguist patch updates
+    - dependency-name: "*"
+      update-types: ["version-update:semver-major", "version-update:semver-minor"]
+
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: weekly
+    day: saturday
+    time: "03:00"
+    timezone: Europe/Paris
+  target-branch: stable21
+  labels:
+    - "3. to review"
+    - "dependencies"
+  ignore:
+    # ignore all GitHub linguist patch updates
+    - dependency-name: "*"
+      update-types: ["version-update:semver-major", "version-update:semver-minor"]
+
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: weekly
+    day: saturday
+    time: "03:00"
+    timezone: Europe/Paris
+  target-branch: stable22
+  labels:
+    - "3. to review"
+    - "dependencies"
+  ignore:
+    # ignore all GitHub linguist patch updates
+    - dependency-name: "*"
+      update-types: ["version-update:semver-major", "version-update:semver-minor"]
