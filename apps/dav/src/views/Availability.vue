@@ -121,11 +121,14 @@ export default {
 	},
 	async mounted() {
 		try {
-			const { slots } = await findScheduleInboxAvailability()
+			const { slots, timezoneId } = await findScheduleInboxAvailability()
 			if (slots) {
 				this.daysOfTheWeek.forEach(day => {
 					day.slots.push(...slots[day.id])
 				})
+			}
+			if (timezoneId) {
+				this.timezone = timezoneId
 			}
 			console.info('availability loaded', this.daysOfTheWeek)
 		} catch (e) {
