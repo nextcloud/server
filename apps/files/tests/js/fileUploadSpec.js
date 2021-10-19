@@ -69,6 +69,7 @@ describe('OC.Upload tests', function() {
 				files: [file],
 				jqXHR: jqXHR,
 				response: sinon.stub().returns(jqXHR),
+				targetDir: "/",
 				submit: sinon.stub(),
 				abort: sinon.stub()
 			};
