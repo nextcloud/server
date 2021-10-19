@@ -22,6 +22,7 @@ import { getClient } from '../dav/client'
 import ICAL from 'ical.js'
 import logger from './logger'
 import { parseXML } from 'webdav/dist/node/tools/dav'
+import { getZoneString } from 'icalzone'
 import { v4 as uuidv4 } from 'uuid'
 
 export function getEmptySlots() {
@@ -107,11 +108,20 @@ export async function saveScheduleInboxAvailability(slots, timezoneId) {
 	})))]
 
 	const vcalendarComp = new ICAL.Component('vcalendar')
+	vcalendarComp.addPropertyWithValue('prodid', 'Nextcloud DAV app')
 
 	// Store time zone info
-	const timezoneComp = new ICAL.Component('vtimezone')
-	timezoneComp.addPropertyWithValue('tzid', timezoneId)
-	vcalendarComp.addSubcomponent(timezoneComp)
+	// If possible we use the info from a time zone database
+	const predefinedTimezoneIcal = getZoneString(timezoneId)
+	if (predefinedTimezoneIcal) {
+		const timezoneComp = new ICAL.Component(ICAL.parse(predefinedTimezoneIcal))
+		vcalendarComp.addSubcomponent(timezoneComp)
+	} else {
+		// Fall back to a simple markup
+		const timezoneComp = new ICAL.Component('vtimezone')
+		timezoneComp.addPropertyWithValue('tzid', timezoneId)
+		vcalendarComp.addSubcomponent(timezoneComp)
+	}
 
 	// Store availability info
 	const vavailabilityComp = new ICAL.Component('vavailability')
