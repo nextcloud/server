@@ -58,6 +58,7 @@ return array(
     'OCA\\User_LDAP\\Migration\\UUIDFixInsert' => $baseDir . '/../lib/Migration/UUIDFixInsert.php',
     'OCA\\User_LDAP\\Migration\\UUIDFixUser' => $baseDir . '/../lib/Migration/UUIDFixUser.php',
     'OCA\\User_LDAP\\Migration\\Version1010Date20200630192842' => $baseDir . '/../lib/Migration/Version1010Date20200630192842.php',
+    'OCA\\User_LDAP\\Migration\\Version1120Date20210917155206' => $baseDir . '/../lib/Migration/Version1120Date20210917155206.php',
     'OCA\\User_LDAP\\Notification\\Notifier' => $baseDir . '/../lib/Notification/Notifier.php',
     'OCA\\User_LDAP\\PagedResults\\IAdapter' => $baseDir . '/../lib/PagedResults/IAdapter.php',
     'OCA\\User_LDAP\\PagedResults\\Php54' => $baseDir . '/../lib/PagedResults/Php54.php',
