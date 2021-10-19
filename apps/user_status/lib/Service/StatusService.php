@@ -154,11 +154,12 @@ class StatusService {
 
 	/**
 	 * @param string $userId
+	 * @param bool $isBackup
 	 * @return UserStatus
 	 * @throws DoesNotExistException
 	 */
-	public function findByUserId(string $userId):UserStatus {
-		return $this->processStatus($this->mapper->findByUserId($userId));
+	public function findByUserId(string $userId, bool $isBackup = false):UserStatus {
+		return $this->processStatus($this->mapper->findByUserId($userId, $isBackup));
 	}
 
 	/**

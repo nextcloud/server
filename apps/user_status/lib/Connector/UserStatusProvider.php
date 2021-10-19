@@ -28,19 +28,24 @@ namespace OCA\UserStatus\Connector;
 use OCA\UserStatus\Service\StatusService;
 use OCP\UserStatus\IProvider;
 use OC\UserStatus\ISettableProvider;
+use OCP\IConfig;
 
 class UserStatusProvider implements IProvider, ISettableProvider {
 
 	/** @var StatusService */
 	private $service;
 
+	/** @var IConfig */
+	private $config;
+
 	/**
 	 * UserStatusProvider constructor.
 	 *
 	 * @param StatusService $service
 	 */
-	public function __construct(StatusService $service) {
+	public function __construct(StatusService $service, IConfig $config) {
 		$this->service = $service;
+		$this->config = $config;
 	}
 
 	/**
@@ -58,6 +63,9 @@ class UserStatusProvider implements IProvider, ISettableProvider {
 	}
 
 	public function setUserStatus(string $userId, string $messageId, string $status, bool $createBackup = false): void {
+		if (!(bool)$this->config->getUserValue($userId, 'user_status', 'automatic_status_enabled', (string)true)) {
+			return;
+		}
 		if ($createBackup) {
 			if ($this->service->backupCurrentStatus($userId) === false) {
 				return; // Already a status set automatically => abort.

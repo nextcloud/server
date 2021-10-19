@@ -92,6 +92,21 @@ class UserStatusController extends OCSController {
 	/**
 	 * @NoAdminRequired
 	 *
+	 * @return DataResponse
+	 */
+	public function getBackupStatus(): DataResponse {
+		try {
+			$userStatus = $this->service->findByUserId($this->userId, true);
+		} catch (DoesNotExistException $ex) {
+			return new DataResponse(['hasBackup' => false]);
+		}
+
+		return new DataResponse($this->formatStatus($userStatus));
+	}
+
+	/**
+	 * @NoAdminRequired
+	 *
 	 * @param string $statusType
 	 * @return DataResponse
 	 * @throws OCSBadRequestException
@@ -99,6 +114,7 @@ class UserStatusController extends OCSController {
 	public function setStatus(string $statusType): DataResponse {
 		try {
 			$status = $this->service->setStatus($this->userId, $statusType, null, true);
+			$this->service->removeUserStatus($this->userId, true);
 			return new DataResponse($this->formatStatus($status));
 		} catch (InvalidStatusTypeException $ex) {
 			$this->logger->debug('New user-status for "' . $this->userId . '" was rejected due to an invalid status type "' . $statusType . '"');
@@ -118,6 +134,7 @@ class UserStatusController extends OCSController {
 										 ?int $clearAt): DataResponse {
 		try {
 			$status = $this->service->setPredefinedMessage($this->userId, $messageId, $clearAt);
+			$this->service->removeUserStatus($this->userId, true);
 			return new DataResponse($this->formatStatus($status));
 		} catch (InvalidClearAtException $ex) {
 			$this->logger->debug('New user-status for "' . $this->userId . '" was rejected due to an invalid clearAt value "' . $clearAt . '"');
@@ -147,6 +164,7 @@ class UserStatusController extends OCSController {
 				$this->service->clearMessage($this->userId);
 				$status = $this->service->findByUserId($this->userId);
 			}
+			$this->service->removeUserStatus($this->userId, true);
 			return new DataResponse($this->formatStatus($status));
 		} catch (InvalidClearAtException $ex) {
 			$this->logger->debug('New user-status for "' . $this->userId . '" was rejected due to an invalid clearAt value "' . $clearAt . '"');

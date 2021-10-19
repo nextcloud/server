@@ -24,6 +24,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import predefinedStatuses from './predefinedStatuses'
 import userStatus from './userStatus'
+import backupStatus from './backupUserStatus'
 
 Vue.use(Vuex)
 
@@ -31,6 +32,7 @@ export default new Vuex.Store({
 	modules: {
 		predefinedStatuses,
 		userStatus,
+		backupStatus,
 	},
 	strict: true,
 })

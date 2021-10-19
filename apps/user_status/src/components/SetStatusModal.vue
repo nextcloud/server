@@ -59,6 +59,7 @@
 			<ClearAtSelect
 				:clear-at="clearAt"
 				@selectClearAt="setClearAt" />
+			<ResetStatus />
 			<div class="status-buttons">
 				<button class="status-buttons__select" :disabled="isSavingStatus" @click="clearStatus">
 					{{ $t('user_status', 'Clear status message') }}
@@ -82,6 +83,7 @@ import PredefinedStatusesList from './PredefinedStatusesList'
 import CustomMessageInput from './CustomMessageInput'
 import ClearAtSelect from './ClearAtSelect'
 import OnlineStatusSelect from './OnlineStatusSelect'
+import ResetStatus from './ResetStatus'
 
 export default {
 	name: 'SetStatusModal',
@@ -93,6 +95,7 @@ export default {
 		Modal,
 		OnlineStatusSelect,
 		PredefinedStatusesList,
+		ResetStatus,
 	},
 	mixins: [OnlineStatusMixin],
 

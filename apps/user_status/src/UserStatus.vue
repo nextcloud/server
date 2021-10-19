@@ -64,7 +64,6 @@ import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 import debounce from 'debounce'
 
 import { sendHeartbeat } from './services/heartbeatService'
-import OnlineStatusMixin from './mixins/OnlineStatusMixin'
 
 const { profileEnabled } = loadState('user_status', 'profileEnabled', false)
 
