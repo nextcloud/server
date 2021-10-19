@@ -81,7 +81,7 @@ import { validateEmail } from '../../../utils/validate'
 
 const { emailMap: { additionalEmails, primaryEmail, notificationEmail } } = loadState('settings', 'personalInfoParameters', {})
 const { displayNameChangeSupported } = loadState('settings', 'accountParameters', {})
-const { profileConfig: { email: { visibility } } } = loadState('settings', 'profileParameters', {})
+const { profileConfig } = loadState('settings', 'profileParameters', {})
 
 export default {
 	name: 'EmailSection',
@@ -101,7 +101,7 @@ export default {
 			primaryEmail,
 			savePrimaryEmailScope,
 			notificationEmail,
-			visibility,
+			visibility: profileConfig?.role?.visibility,
 		}
 	},
 

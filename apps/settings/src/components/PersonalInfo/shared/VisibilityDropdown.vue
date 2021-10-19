@@ -75,9 +75,9 @@ export default {
 
 	data() {
 		return {
-			initialVisibility: profileConfig[this.paramId].visibility,
+			initialVisibility: profileConfig[this.paramId]?.visibility,
 			profileEnabled,
-			visibility: profileConfig[this.paramId].visibility,
+			visibility: profileConfig[this.paramId]?.visibility,
 		}
 	},
 

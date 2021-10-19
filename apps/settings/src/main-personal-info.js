@@ -82,7 +82,8 @@ const visibilityDropdownParamIds = [
 ]
 
 for (const paramId of visibilityDropdownParamIds) {
-	const { displayId } = profileConfig[paramId]
+	const displayId = profileConfig[paramId]?.displayId
+
 	new VisibilityDropdownView({
 		propsData: {
 			paramId,

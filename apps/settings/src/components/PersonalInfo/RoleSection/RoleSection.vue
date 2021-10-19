@@ -47,8 +47,8 @@ import VisibilityDropdown from '../shared/VisibilityDropdown'
 
 import { ACCOUNT_PROPERTY_ENUM, ACCOUNT_PROPERTY_READABLE_ENUM } from '../../../constants/AccountPropertyConstants'
 
-const { roleMap: { primaryRole } } = loadState('settings', 'personalInfoParameters', {})
-const { profileConfig: { role: { visibility } } } = loadState('settings', 'profileParameters', {})
+const { roleMap } = loadState('settings', 'personalInfoParameters', {})
+const { profileConfig } = loadState('settings', 'profileParameters', {})
 
 export default {
 	name: 'RoleSection',
@@ -63,8 +63,8 @@ export default {
 		return {
 			accountProperty: ACCOUNT_PROPERTY_READABLE_ENUM.ROLE,
 			accountPropertyId: ACCOUNT_PROPERTY_ENUM.ROLE,
-			primaryRole,
-			visibility,
+			primaryRole: roleMap?.primaryRole,
+			visibility: profileConfig?.role?.visibility,
 		}
 	},
 }
