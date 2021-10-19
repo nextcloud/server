@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @copyright 2017 Christoph Wurst <christoph@winzerhof-wurst.at>
  * @copyright 2017 Lukas Reschke <lukas@statuscode.ch>
@@ -27,18 +28,26 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OC\Contacts\ContactsMenu;
 
 use OC\KnownUser\KnownUserService;
+use OCP\Accounts\IAccountManager;
 use OCP\Contacts\ContactsMenu\IContactsStore;
 use OCP\Contacts\ContactsMenu\IEntry;
 use OCP\Contacts\IManager;
 use OCP\IConfig;
 use OCP\IGroupManager;
+use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\L10N\IFactory as IL10NFactory;
 
 class ContactsStore implements IContactsStore {
+	use \OC\Profile\TProfileHelper;
+
+	/** @var IAccountManager */
+	private $accountManager;
 
 	/** @var IManager */
 	private $contactsManager;
@@ -49,22 +58,36 @@ class ContactsStore implements IContactsStore {
 	/** @var IUserManager */
 	private $userManager;
 
+	/** @var IURLGenerator */
+	private $urlGenerator;
+
 	/** @var IGroupManager */
 	private $groupManager;
 
 	/** @var KnownUserService */
 	private $knownUserService;
 
-	public function __construct(IManager $contactsManager,
-								IConfig $config,
-								IUserManager $userManager,
-								IGroupManager $groupManager,
-								KnownUserService $knownUserService) {
+	/** @var IL10NFactory */
+	private $l10nFactory;
+
+	public function __construct(
+		IAccountManager $accountManager,
+		IManager $contactsManager,
+		IConfig $config,
+		IUserManager $userManager,
+		IURLGenerator $urlGenerator,
+		IGroupManager $groupManager,
+		KnownUserService $knownUserService,
+		IL10NFactory $l10nFactory
+	) {
+		$this->accountManager = $accountManager;
 		$this->contactsManager = $contactsManager;
 		$this->config = $config;
 		$this->userManager = $userManager;
+		$this->urlGenerator = $urlGenerator;
 		$this->groupManager = $groupManager;
 		$this->knownUserService = $knownUserService;
+		$this->l10nFactory = $l10nFactory;
 	}
 
 	/**
@@ -116,9 +139,11 @@ class ContactsStore implements IContactsStore {
 	 * @param string $filter
 	 * @return Entry[] the filtered contacts
 	 */
-	private function filterContacts(IUser $self,
-									array $entries,
-									$filter) {
+	private function filterContacts(
+		IUser $self,
+		array $entries,
+		$filter
+	) {
 		$disallowEnumeration = $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') !== 'yes';
 		$restrictEnumerationGroup = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_group', 'no') === 'yes';
 		$restrictEnumerationPhone = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_phone', 'no') === 'yes';
@@ -299,6 +324,19 @@ class ContactsStore implements IContactsStore {
 		if (isset($contact['EMAIL'])) {
 			foreach ($contact['EMAIL'] as $email) {
 				$entry->addEMailAddress($email);
+			}
+		}
+
+		// Provide profile parameters for core/src/OC/contactsmenu/contact.handlebars template
+		if (isset($contact['UID']) && isset($contact['FN'])) {
+			$targetUserId = $contact['UID'];
+			$user = $this->userManager->get($targetUserId);
+			if (!empty($user)) {
+				$account = $this->accountManager->getAccount($user);
+				if ($this->isProfileEnabled($account)) {
+					$entry->setProfileTitle($this->l10nFactory->get('core')->t('View profile'));
+					$entry->setProfileUrl($this->urlGenerator->linkToRouteAbsolute('core.ProfilePage.index', ['targetUserId' => $targetUserId]));
+				}
 			}
 		}
 

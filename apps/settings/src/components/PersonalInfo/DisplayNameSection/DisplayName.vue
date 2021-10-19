@@ -17,21 +17,19 @@
 	-
 	- You should have received a copy of the GNU Affero General Public License
 	- along with this program. If not, see <http://www.gnu.org/licenses/>.
+	-
 -->
 
 <template>
 	<div class="displayname">
 		<input
 			id="displayname"
-			ref="displayName"
 			type="text"
-			name="displayname"
 			:placeholder="t('settings', 'Your full name')"
 			:value="displayName"
 			autocapitalize="none"
 			autocomplete="on"
 			autocorrect="off"
-			required
 			@input="onDisplayNameChange">
 
 		<div class="displayname__actions-container">
@@ -45,10 +43,12 @@
 
 <script>
 import { showError } from '@nextcloud/dialogs'
+import { emit } from '@nextcloud/event-bus'
 import debounce from 'debounce'
 
-import { savePrimaryDisplayName } from '../../../service/PersonalInfo/DisplayNameService'
-import { validateDisplayName } from '../../../utils/validate'
+import { ACCOUNT_PROPERTY_ENUM } from '../../../constants/AccountPropertyConstants'
+import { savePrimaryAccountProperty } from '../../../service/PersonalInfo/PersonalInfoService'
+import { validateStringInput } from '../../../utils/validate'
 
 // TODO Global avatar updating on events (e.g. updating the displayname) is currently being handled by global js, investigate using https://github.com/nextcloud/nextcloud-event-bus for global avatar updating
 
@@ -82,21 +82,21 @@ export default {
 		},
 
 		debounceDisplayNameChange: debounce(async function(displayName) {
-			if (validateDisplayName(displayName)) {
+			if (validateStringInput(displayName)) {
 				await this.updatePrimaryDisplayName(displayName)
 			}
 		}, 500),
 
 		async updatePrimaryDisplayName(displayName) {
 			try {
-				const responseData = await savePrimaryDisplayName(displayName)
+				const responseData = await savePrimaryAccountProperty(ACCOUNT_PROPERTY_ENUM.DISPLAYNAME, displayName)
 				this.handleResponse({
 					displayName,
 					status: responseData.ocs?.meta?.status,
 				})
 			} catch (e) {
 				this.handleResponse({
-					errorMessage: 'Unable to update full name',
+					errorMessage: t('settings', 'Unable to update full name'),
 					error: e,
 				})
 			}
@@ -106,10 +106,11 @@ export default {
 			if (status === 'ok') {
 				// Ensure that local state reflects server state
 				this.initialDisplayName = displayName
+				emit('settings:display-name:updated', displayName)
 				this.showCheckmarkIcon = true
 				setTimeout(() => { this.showCheckmarkIcon = false }, 2000)
 			} else {
-				showError(t('settings', errorMessage))
+				showError(errorMessage)
 				this.logger.error(errorMessage, error)
 				this.showErrorIcon = true
 				setTimeout(() => { this.showErrorIcon = false }, 2000)

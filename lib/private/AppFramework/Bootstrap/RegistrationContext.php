@@ -26,9 +26,11 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OC\AppFramework\Bootstrap;
 
 use Closure;
+use function array_shift;
 use OC\Support\CrashReport\Registry;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
@@ -43,11 +45,11 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Template\ICustomTemplateProvider;
 use OCP\Http\WellKnown\IHandler;
 use OCP\Notification\INotifier;
+use OCP\Profile\ILinkAction;
 use OCP\Search\IProvider;
 use OCP\Support\CrashReport\IReporter;
 use Psr\Log\LoggerInterface;
 use Throwable;
-use function array_shift;
 
 class RegistrationContext {
 
@@ -59,6 +61,9 @@ class RegistrationContext {
 
 	/** @var ServiceRegistration<IWidget>[] */
 	private $dashboardPanels = [];
+
+	/** @var ServiceRegistration<ILinkAction>[] */
+	private $profileActions = [];
 
 	/** @var ServiceFactoryRegistration[] */
 	private $services = [];
@@ -236,6 +241,13 @@ class RegistrationContext {
 					$class
 				);
 			}
+
+			public function registerProfileAction(string $actionClass): void {
+				$this->context->registerProfileAction(
+					$this->appId,
+					$actionClass
+				);
+			}
 		};
 	}
 
@@ -313,6 +325,13 @@ class RegistrationContext {
 
 	public function registerCalendarProvider(string $appId, string $class): void {
 		$this->calendarProviders[] = new ServiceRegistration($appId, $class);
+	}
+
+	/**
+	 * @psalm-param class-string<ILinkAction> $capability
+	 */
+	public function registerProfileAction(string $appId, string $actionClass): void {
+		$this->profileActions[] = new ServiceRegistration($appId, $actionClass);
 	}
 
 	/**
@@ -551,5 +570,12 @@ class RegistrationContext {
 	 */
 	public function getCalendarProviders(): array {
 		return $this->calendarProviders;
+	}
+
+	/**
+	 * @return ServiceRegistration<ILinkAction>[]
+	 */
+	public function getProfileActions(): array {
+		return $this->profileActions;
 	}
 }

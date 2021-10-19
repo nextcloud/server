@@ -109,8 +109,14 @@ $invert: luma($color-primary) > 0.6;
 	background-image: $image-logo;
 }
 
-#body-user #header, #body-settings #header, #body-public #header {
-	@include faded-background;
+#body-user,
+#body-settings,
+#body-public {
+	#header,
+	.profile__header,
+	.preview-card__header {
+		@include faded-background;
+	}
 }
 
 #body-login,

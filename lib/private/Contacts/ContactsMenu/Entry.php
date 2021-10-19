@@ -24,6 +24,7 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OC\Contacts\ContactsMenu;
 
 use OCP\Contacts\ContactsMenu\IAction;
@@ -42,6 +43,12 @@ class Entry implements IEntry {
 
 	/** @var string|null */
 	private $avatar;
+
+	/** @var string|null */
+	private $profileTitle;
+
+	/** @var string|null */
+	private $profileUrl;
 
 	/** @var IAction[] */
 	private $actions = [];
@@ -96,6 +103,34 @@ class Entry implements IEntry {
 	 */
 	public function getAvatar(): ?string {
 		return $this->avatar;
+	}
+
+	/**
+	 * @param string $profileTitle
+	 */
+	public function setProfileTitle(string $profileTitle): void {
+		$this->profileTitle = $profileTitle;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getProfileTitle(): ?string {
+		return $this->profileTitle;
+	}
+
+	/**
+	 * @param string $profileUrl
+	 */
+	public function setProfileUrl(string $profileUrl): void {
+		$this->profileUrl = $profileUrl;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getProfileUrl(): ?string {
+		return $this->profileUrl;
 	}
 
 	/**
@@ -166,6 +201,8 @@ class Entry implements IEntry {
 			'actions' => $otherActions,
 			'lastMessage' => '',
 			'emailAddresses' => $this->getEMailAddresses(),
+			'profileTitle' => $this->profileTitle,
+			'profileUrl' => $this->profileUrl,
 		];
 	}
 }

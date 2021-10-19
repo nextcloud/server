@@ -32,6 +32,7 @@ namespace OC\Template;
 use OC\AppConfig;
 use OC\Files\AppData\Factory;
 use OC\Memcache\NullCache;
+use OCA\Theming\ThemingDefaults;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
@@ -62,7 +63,7 @@ class SCSSCacher {
 	/** @var IConfig */
 	protected $config;
 
-	/** @var \OC_Defaults */
+	/** @var ThemingDefaults */
 	private $defaults;
 
 	/** @var string */
@@ -96,7 +97,7 @@ class SCSSCacher {
 	 * @param Factory $appDataFactory
 	 * @param IURLGenerator $urlGenerator
 	 * @param IConfig $config
-	 * @param \OC_Defaults $defaults
+	 * @param ThemingDefaults $defaults
 	 * @param string $serverRoot
 	 * @param ICacheFactory $cacheFactory
 	 * @param IconsCacher $iconsCacher
@@ -106,7 +107,7 @@ class SCSSCacher {
 								Factory $appDataFactory,
 								IURLGenerator $urlGenerator,
 								IConfig $config,
-								\OC_Defaults $defaults,
+								ThemingDefaults $defaults,
 								$serverRoot,
 								ICacheFactory $cacheFactory,
 								IconsCacher $iconsCacher,
@@ -406,7 +407,7 @@ class SCSSCacher {
 	}
 
 	/**
-	 * @return string SCSS code for variables from OC_Defaults
+	 * @return string SCSS code for variables from ThemingDefaults
 	 */
 	private function getInjectedVariables(string $cache = ''): string {
 		if ($this->injectedVariables !== null) {

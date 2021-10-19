@@ -24,11 +24,13 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OC\Contacts\ContactsMenu;
 
 use Exception;
 use OC\App\AppManager;
 use OC\Contacts\ContactsMenu\Providers\EMailProvider;
+use OC\Contacts\ContactsMenu\Providers\ProfileProvider;
 use OCP\AppFramework\QueryException;
 use OCP\Contacts\ContactsMenu\IProvider;
 use OCP\IServerContainer;
@@ -67,7 +69,8 @@ class ActionProviderStore {
 			try {
 				$providers[] = $this->serverContainer->query($class);
 			} catch (QueryException $ex) {
-				$this->logger->error('Could not load contacts menu action provider ' . $class,
+				$this->logger->error(
+					'Could not load contacts menu action provider ' . $class,
 					[
 						'app' => 'core',
 						'exception' => $ex,
@@ -85,6 +88,7 @@ class ActionProviderStore {
 	 */
 	private function getServerProviderClasses(): array {
 		return [
+			ProfileProvider::class,
 			EMailProvider::class,
 		];
 	}

@@ -35,6 +35,7 @@ module.exports = [
 			install: path.join(__dirname, 'src/install.js'),
 			login: path.join(__dirname, 'src/login.js'),
 			main: path.join(__dirname, 'src/main.js'),
+			profile: path.join(__dirname, 'src/profile.js'),
 			maintenance: path.join(__dirname, 'src/maintenance.js'),
 			recommendedapps: path.join(__dirname, 'src/recommendedapps.js'),
 			'unified-search': path.join(__dirname, 'src/unified-search.js'),

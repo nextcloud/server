@@ -25,42 +25,50 @@ import { getCurrentUser } from '@nextcloud/auth'
 import { generateOcsUrl } from '@nextcloud/router'
 import confirmPassword from '@nextcloud/password-confirmation'
 
-import { ACCOUNT_PROPERTY_ENUM, SCOPE_SUFFIX } from '../../constants/AccountPropertyConstants'
+import { SCOPE_SUFFIX } from '../../constants/AccountPropertyConstants'
 
 /**
- * Save the primary display name of the user
+ * Save the primary account property value for the user
  *
- * @param {string} displayName the primary display name
+ * @param {string} accountProperty the account property
+ * @param {string|boolean} value the primary value
  * @returns {object}
  */
-export const savePrimaryDisplayName = async(displayName) => {
+export const savePrimaryAccountProperty = async(accountProperty, value) => {
+	// TODO allow boolean values on backend route handler
+	// Convert boolean to string for compatibility
+	if (typeof value === 'boolean') {
+		value = value ? '1' : '0'
+	}
+
 	const userId = getCurrentUser().uid
 	const url = generateOcsUrl('cloud/users/{userId}', { userId })
 
 	await confirmPassword()
 
 	const res = await axios.put(url, {
-		key: ACCOUNT_PROPERTY_ENUM.DISPLAYNAME,
-		value: displayName,
+		key: accountProperty,
+		value,
 	})
 
 	return res.data
 }
 
 /**
- * Save the federation scope for the primary display name of the user
+ * Save the federation scope of the primary account property for the user
  *
+ * @param {string} accountProperty the account property
  * @param {string} scope the federation scope
  * @returns {object}
  */
-export const savePrimaryDisplayNameScope = async(scope) => {
+export const savePrimaryAccountPropertyScope = async(accountProperty, scope) => {
 	const userId = getCurrentUser().uid
 	const url = generateOcsUrl('cloud/users/{userId}', { userId })
 
 	await confirmPassword()
 
 	const res = await axios.put(url, {
-		key: `${ACCOUNT_PROPERTY_ENUM.DISPLAYNAME}${SCOPE_SUFFIX}`,
+		key: `${accountProperty}${SCOPE_SUFFIX}`,
 		value: scope,
 	})
 

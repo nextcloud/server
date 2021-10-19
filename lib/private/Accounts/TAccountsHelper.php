@@ -29,8 +29,12 @@ namespace OC\Accounts;
 use OCP\Accounts\IAccountManager;
 
 trait TAccountsHelper {
+	/**
+	 * returns whether the property is a collection
+	 */
 	protected function isCollection(string $propertyName): bool {
-		return in_array($propertyName,
+		return in_array(
+			$propertyName,
 			[
 				IAccountManager::COLLECTION_EMAIL,
 			],

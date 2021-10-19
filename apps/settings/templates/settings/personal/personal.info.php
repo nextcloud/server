@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @copyright Copyright (c) 2017 Arthur Schiwon <blizzz@arthur-schiwon.de>
  *
@@ -51,13 +52,13 @@ script('settings', [
 				<div id="displayavatar">
 					<div class="avatardiv"></div>
 					<div class="warning hidden"></div>
-					<?php if ($_['avatarChangeSupported']): ?>
+					<?php if ($_['avatarChangeSupported']) : ?>
 						<label for="uploadavatar" class="inlineblock button icon-upload svg" id="uploadavatarbutton" title="<?php p($l->t('Upload new')); ?>" tabindex="0"></label>
 						<button class="inlineblock button icon-folder svg" id="selectavatar" title="<?php p($l->t('Select from Files')); ?>"></button>
 						<button class="hidden button icon-delete svg" id="removeavatar" title="<?php p($l->t('Remove image')); ?>"></button>
 						<input type="file" name="files[]" id="uploadavatar" class="hiddenuploadfield" accept="image/*">
 						<p><em><?php p($l->t('png or jpg, max. 20 MB')); ?></em></p>
-					<?php else: ?>
+					<?php else : ?>
 						<?php p($l->t('Picture provided by original account')); ?>
 					<?php endif; ?>
 				</div>
@@ -69,8 +70,9 @@ script('settings', [
 					</div>
 				</div>
 				<span class="icon-checkmark hidden"></span>
-				<span class="icon-error hidden" ></span>
+				<span class="icon-error hidden"></span>
 				<input type="hidden" id="avatarscope" value="<?php p($_['avatarScope']) ?>">
+				<div id="vue-profile-visibility-avatar"></div>
 			</form>
 		</div>
 		<div class="personal-settings-setting-box personal-settings-group-box section">
@@ -84,26 +86,30 @@ script('settings', [
 			<div id="quota" class="personal-info icon-quota">
 				<div class="quotatext-bg">
 					<p class="quotatext">
-						<?php if ($_['quota'] === \OCP\Files\FileInfo::SPACE_UNLIMITED): ?>
-							<?php print_unescaped($l->t('You are using <strong>%s</strong>',
-								[$_['usage']]));?>
-						<?php else: ?>
-							<?php print_unescaped($l->t('You are using <strong>%1$s</strong> of <strong>%2$s</strong> (<strong>%3$s %%</strong>)',
-								[$_['usage'], $_['total_space'],  $_['usage_relative']]));?>
+						<?php if ($_['quota'] === \OCP\Files\FileInfo::SPACE_UNLIMITED) : ?>
+							<?php print_unescaped($l->t(
+								'You are using <strong>%s</strong>',
+								[$_['usage']]
+							)); ?>
+						<?php else : ?>
+							<?php print_unescaped($l->t(
+								'You are using <strong>%1$s</strong> of <strong>%2$s</strong> (<strong>%3$s %%</strong>)',
+								[$_['usage'], $_['total_space'],  $_['usage_relative']]
+							)); ?>
 						<?php endif ?>
 					</p>
 				</div>
-				<progress value="<?php p($_['usage_relative']); ?>" max="100"<?php if ($_['usage_relative'] > 80): ?> class="warn" <?php endif; ?>></progress>
+				<progress value="<?php p($_['usage_relative']); ?>" max="100" <?php if ($_['usage_relative'] > 80) : ?> class="warn" <?php endif; ?>></progress>
 			</div>
 		</div>
 	</div>
 
 	<div class="personal-settings-container">
 		<div class="personal-settings-setting-box">
-			<div id="vue-displaynamesection" class="section"></div>
+			<div id="vue-displayname-section"></div>
 		</div>
 		<div class="personal-settings-setting-box">
-			<div id="vue-emailsection" class="section"></div>
+			<div id="vue-email-section"></div>
 		</div>
 		<div class="personal-settings-setting-box">
 			<form id="phoneform" class="section">
@@ -115,13 +121,11 @@ script('settings', [
 						</span>
 					</a>
 				</h3>
-				<input type="tel" id="phone" name="phone"
-					   value="<?php p($_['phone']) ?>"
-					   placeholder="<?php p($l->t('Your phone number')); ?>"
-				       autocomplete="on" autocapitalize="none" autocorrect="off" />
+				<input type="tel" id="phone" name="phone" value="<?php p($_['phone']) ?>" placeholder="<?php p($l->t('Your phone number')); ?>" autocomplete="on" autocapitalize="none" autocorrect="off" />
 				<span class="icon-checkmark hidden"></span>
-				<span class="icon-error hidden" ></span>
+				<span class="icon-error hidden"></span>
 				<input type="hidden" id="phonescope" value="<?php p($_['phoneScope']) ?>">
+				<div id="vue-profile-visibility-phone"></div>
 			</form>
 		</div>
 		<div class="personal-settings-setting-box">
@@ -134,13 +138,11 @@ script('settings', [
 						</span>
 					</a>
 				</h3>
-				<input type="text" id="address" name="address"
-					   placeholder="<?php p($l->t('Your postal address')); ?>"
-					   value="<?php p($_['address']) ?>"
-					   autocomplete="on" autocapitalize="none" autocorrect="off" />
+				<input type="text" id="address" name="address" placeholder="<?php p($l->t('Your postal address')); ?>" value="<?php p($_['address']) ?>" autocomplete="on" autocapitalize="none" autocorrect="off" />
 				<span class="icon-checkmark hidden"></span>
-				<span class="icon-error hidden" ></span>
+				<span class="icon-error hidden"></span>
 				<input type="hidden" id="addressscope" value="<?php p($_['addressScope']) ?>">
+				<div id="vue-profile-visibility-address"></div>
 			</form>
 		</div>
 		<div class="personal-settings-setting-box">
@@ -154,10 +156,10 @@ script('settings', [
 					</a>
 				</h3>
 				<?php if ($_['lookupServerUploadEnabled']) { ?>
-				<div class="verify <?php if ($_['website'] === '' || $_['websiteScope'] !== 'public') {
-									p('hidden');
-								} ?>">
-					<img id="verify-website" title="<?php p($_['websiteMessage']); ?>" data-status="<?php p($_['websiteVerification']) ?>" src="
+					<div class="verify <?php if ($_['website'] === '' || $_['websiteScope'] !== 'public') {
+								p('hidden');
+							} ?>">
+						<img id="verify-website" title="<?php p($_['websiteMessage']); ?>" data-status="<?php p($_['websiteVerification']) ?>" src="
 					<?php
 					switch ($_['websiteVerification']) {
 						case \OC\Accounts\AccountManager::VERIFICATION_IN_PROGRESS:
@@ -169,27 +171,23 @@ script('settings', [
 						default:
 							p(image_path('core', 'actions/verify.svg'));
 					}
-					?>"
-					<?php if ($_['websiteVerification'] === \OC\Accounts\AccountManager::VERIFICATION_IN_PROGRESS || $_['websiteVerification'] === \OC\Accounts\AccountManager::NOT_VERIFIED) {
+					?>" <?php if ($_['websiteVerification'] === \OC\Accounts\AccountManager::VERIFICATION_IN_PROGRESS || $_['websiteVerification'] === \OC\Accounts\AccountManager::NOT_VERIFIED) {
 						print_unescaped(' class="verify-action"');
-					} ?>
-					>
-					<div class="verification-dialog popovermenu bubble menu">
-						<div class="verification-dialog-content">
-							<p class="explainVerification"></p>
-							<p class="verificationCode"></p>
-							<p><?php p($l->t('It can take up to 24 hours before the account is displayed as verified.'));?></p>
+					} ?>>
+						<div class="verification-dialog popovermenu bubble menu">
+							<div class="verification-dialog-content">
+								<p class="explainVerification"></p>
+								<p class="verificationCode"></p>
+								<p><?php p($l->t('It can take up to 24 hours before the account is displayed as verified.')); ?></p>
+							</div>
 						</div>
 					</div>
-				</div>
 				<?php } ?>
-				<input type="url" name="website" id="website" value="<?php p($_['website']); ?>"
-				       placeholder="<?php p($l->t('Link https://…')); ?>"
-				       autocomplete="on" autocapitalize="none" autocorrect="off"
-				/>
+				<input type="url" name="website" id="website" value="<?php p($_['website']); ?>" placeholder="<?php p($l->t('Link https://…')); ?>" autocomplete="on" autocapitalize="none" autocorrect="off" />
 				<span class="icon-checkmark hidden"></span>
-				<span class="icon-error hidden" ></span>
+				<span class="icon-error hidden"></span>
 				<input type="hidden" id="websitescope" value="<?php p($_['websiteScope']) ?>">
+				<div id="vue-profile-visibility-website"></div>
 			</form>
 		</div>
 		<div class="personal-settings-setting-box">
@@ -203,10 +201,10 @@ script('settings', [
 					</a>
 				</h3>
 				<?php if ($_['lookupServerUploadEnabled']) { ?>
-				<div class="verify <?php if ($_['twitter'] === '' || $_['twitterScope'] !== 'public') {
+					<div class="verify <?php if ($_['twitter'] === '' || $_['twitterScope'] !== 'public') {
 						p('hidden');
 					} ?>">
-					<img id="verify-twitter" title="<?php p($_['twitterMessage']); ?>" data-status="<?php p($_['twitterVerification']) ?>" src="
+						<img id="verify-twitter" title="<?php p($_['twitterMessage']); ?>" data-status="<?php p($_['twitterVerification']) ?>" src="
 					<?php
 					switch ($_['twitterVerification']) {
 						case \OC\Accounts\AccountManager::VERIFICATION_IN_PROGRESS:
@@ -218,60 +216,74 @@ script('settings', [
 						default:
 							p(image_path('core', 'actions/verify.svg'));
 					}
-					?>"
-					<?php if ($_['twitterVerification'] === \OC\Accounts\AccountManager::VERIFICATION_IN_PROGRESS || $_['twitterVerification'] === \OC\Accounts\AccountManager::NOT_VERIFIED) {
+					?>" <?php if ($_['twitterVerification'] === \OC\Accounts\AccountManager::VERIFICATION_IN_PROGRESS || $_['twitterVerification'] === \OC\Accounts\AccountManager::NOT_VERIFIED) {
 						print_unescaped(' class="verify-action"');
-					} ?>
-					>
-					<div class="verification-dialog popovermenu bubble menu">
-						<div class="verification-dialog-content">
-							<p class="explainVerification"></p>
-							<p class="verificationCode"></p>
-							<p><?php p($l->t('It can take up to 24 hours before the account is displayed as verified.'));?></p>
+					} ?>>
+						<div class="verification-dialog popovermenu bubble menu">
+							<div class="verification-dialog-content">
+								<p class="explainVerification"></p>
+								<p class="verificationCode"></p>
+								<p><?php p($l->t('It can take up to 24 hours before the account is displayed as verified.')); ?></p>
+							</div>
 						</div>
 					</div>
-				</div>
 				<?php } ?>
-				<input type="text" name="twitter" id="twitter" value="<?php p($_['twitter']); ?>"
-					   placeholder="<?php p($l->t('Twitter handle @…')); ?>"
-					   autocomplete="on" autocapitalize="none" autocorrect="off"
-				/>
+				<input type="text" name="twitter" id="twitter" value="<?php p($_['twitter']); ?>" placeholder="<?php p($l->t('Twitter handle @…')); ?>" autocomplete="on" autocapitalize="none" autocorrect="off" />
 				<span class="icon-checkmark hidden"></span>
-				<span class="icon-error hidden" ></span>
+				<span class="icon-error hidden"></span>
 				<input type="hidden" id="twitterscope" value="<?php p($_['twitterScope']) ?>">
+				<div id="vue-profile-visibility-twitter"></div>
 			</form>
+		</div>
+		<div class="personal-settings-setting-box">
+			<div id="vue-organisation-section"></div>
+		</div>
+		<div class="personal-settings-setting-box">
+			<div id="vue-role-section"></div>
+		</div>
+		<div class="personal-settings-setting-box">
+			<div id="vue-headline-section"></div>
+		</div>
+		<div class="personal-settings-setting-box">
+			<div id="vue-biography-section"></div>
 		</div>
 	</div>
 
 	<div class="profile-settings-container">
+		<div class="personal-settings-setting-box">
+			<div id="vue-profile-section"></div>
+		</div>
+		<div class="personal-settings-setting-box">
+			<div id="vue-profile-visibility-section"></div>
+		</div>
 		<div class="personal-settings-setting-box personal-settings-language-box">
-			<div id="vue-languagesection" class="section"></div>
+			<div id="vue-language-section"></div>
 		</div>
 		<div class="personal-settings-setting-box personal-settings-locale-box">
 			<?php if (isset($_['activelocale'])) { ?>
 				<form id="locale" class="section">
 					<h3>
-						<label for="localeinput"><?php p($l->t('Locale'));?></label>
+						<label for="localeinput"><?php p($l->t('Locale')); ?></label>
 					</h3>
-					<select id="localeinput" name="lang" data-placeholder="<?php p($l->t('Locale'));?>">
-						<option value="<?php p($_['activelocale']['code']);?>">
-							<?php p($l->t($_['activelocale']['name']));?>
+					<select id="localeinput" name="lang" data-placeholder="<?php p($l->t('Locale')); ?>">
+						<option value="<?php p($_['activelocale']['code']); ?>">
+							<?php p($l->t($_['activelocale']['name'])); ?>
 						</option>
 						<optgroup label="––––––––––"></optgroup>
-						<?php foreach ($_['localesForLanguage'] as $locale):?>
-							<option value="<?php p($locale['code']);?>">
-								<?php p($l->t($locale['name']));?>
+						<?php foreach ($_['localesForLanguage'] as $locale) : ?>
+							<option value="<?php p($locale['code']); ?>">
+								<?php p($l->t($locale['name'])); ?>
 							</option>
-						<?php endforeach;?>
+						<?php endforeach; ?>
 						<optgroup label="––––––––––"></optgroup>
-						<option value="<?php p($_['activelocale']['code']);?>">
-							<?php p($l->t($_['activelocale']['name']));?>
+						<option value="<?php p($_['activelocale']['code']); ?>">
+							<?php p($l->t($_['activelocale']['name'])); ?>
 						</option>
-						<?php foreach ($_['locales'] as $locale):?>
-							<option value="<?php p($locale['code']);?>">
-								<?php p($l->t($locale['name']));?>
+						<?php foreach ($_['locales'] as $locale) : ?>
+							<option value="<?php p($locale['code']); ?>">
+								<?php p($l->t($locale['name'])); ?>
 							</option>
-						<?php endforeach;?>
+						<?php endforeach; ?>
 					</select>
 					<div id="localeexample" class="personal-info icon-timezone">
 						<p>
