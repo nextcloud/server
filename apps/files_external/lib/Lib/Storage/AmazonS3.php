@@ -204,7 +204,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 				return true;
 			}
 		} catch (S3Exception $e) {
-			if ($e->getStatusCode() === 403) {
+			if ($e->getStatusCode() >= 400 && $e->getStatusCode() < 500) {
 				$this->directoryCache[$path] = false;
 			}
 			throw $e;
@@ -422,7 +422,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		}
 
 		try {
-			if (isset($this->directoryCache[$path])) {
+			if (isset($this->directoryCache[$path]) && $this->directoryCache[$path]) {
 				return 'dir';
 			}
 			if (isset($this->filesCache[$path]) || $this->headObject($path)) {
