@@ -119,6 +119,7 @@
     "Due on %s" : "Termín do %s",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "Koncový bod WebDAV",
+    "Save" : "Uložiť",
     "Calendar server" : "Kalendárový server",
     "Send invitations to attendees" : "Odoslanie pozvánok účastníkom",
     "Automatically generate a birthday calendar" : "Automaticky generovať narodeninový kalendár",
@@ -133,7 +134,6 @@
     "Please contact the organizer directly." : "Prosím kontaktujte priamo organizátora.",
     "Are you accepting the invitation?" : "Príjmate pozvánku?",
     "Tentative" : "Neistý",
-    "Save" : "Uložiť",
     "Your attendance was updated successfully." : "Vaša účasť bola aktualizovaná úspešne.",
     "Calendar and tasks" : "Kalendár a úlohy"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);"

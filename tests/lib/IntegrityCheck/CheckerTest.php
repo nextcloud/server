@@ -833,7 +833,13 @@ class CheckerTest extends TestCase {
 				 	'application/vnd.oasis.opendocument.text' => 'x-office/document',
 				 	'application/vnd.oasis.opendocument.text-master' => 'x-office/document',
 				 	'application/vnd.oasis.opendocument.text-template' => 'x-office/document',
+				 	'application/vnd.oasis.opendocument.graphics' => 'x-office/drawing',
+				 	'application/vnd.oasis.opendocument.graphics-template' => 'x-office/drawing',
 				 	'application/vnd.oasis.opendocument.text-web' => 'x-office/document',
+				 	'application/vnd.oasis.opendocument.text-flat-xml' => 'x-office/document',
+				 	'application/vnd.oasis.opendocument.spreadsheet-flat-xml' => 'x-office/spreadsheet',
+				 	'application/vnd.oasis.opendocument.graphics-flat-xml' => 'x-office/drawing',
+				 	'application/vnd.oasis.opendocument.presentation-flat-xml' => 'x-office/presentation',
 				 	'application/vnd.openxmlformats-officedocument.presentationml.presentation' => 'x-office/presentation',
 				 	'application/vnd.openxmlformats-officedocument.presentationml.slideshow' => 'x-office/presentation',
 				 	'application/vnd.openxmlformats-officedocument.presentationml.template' => 'x-office/presentation',
@@ -944,7 +950,13 @@ class CheckerTest extends TestCase {
 				 	'application/vnd.oasis.opendocument.text' => 'x-office/document',
 				 	'application/vnd.oasis.opendocument.text-master' => 'x-office/document',
 				 	'application/vnd.oasis.opendocument.text-template' => 'x-office/document',
+				 	'application/vnd.oasis.opendocument.graphics' => 'x-office/drawing',
+				 	'application/vnd.oasis.opendocument.graphics-template' => 'x-office/drawing',
 				 	'application/vnd.oasis.opendocument.text-web' => 'x-office/document',
+				 	'application/vnd.oasis.opendocument.text-flat-xml' => 'x-office/document',
+				 	'application/vnd.oasis.opendocument.spreadsheet-flat-xml' => 'x-office/spreadsheet',
+				 	'application/vnd.oasis.opendocument.graphics-flat-xml' => 'x-office/drawing',
+				 	'application/vnd.oasis.opendocument.presentation-flat-xml' => 'x-office/presentation',
 				 	'application/vnd.openxmlformats-officedocument.presentationml.presentation' => 'x-office/presentation',
 				 	'application/vnd.openxmlformats-officedocument.presentationml.slideshow' => 'x-office/presentation',
 				 	'application/vnd.openxmlformats-officedocument.presentationml.template' => 'x-office/presentation',
@@ -1002,9 +1014,9 @@ class CheckerTest extends TestCase {
 			->willReturn(\OC::$SERVERROOT . '/tests/data/integritycheck/mimetypeListModified');
 		$signatureDataFile = '{
     "hashes": {
-        "mimetypelist.js": "23a3fa45757b26795f5cf8f94d9e5bce76fc916288a6458679311b312c167adcf4158ccb2c5c3db791fa0b87703b6c5863afb6c9d790b8cbac5ab3ae8c3418fb"
+        "core\/js\/mimetypelist.js": "94195a260a005dac543c3f6aa504f1b28e0078297fe94a4f52f012c16c109f0323eecc9f767d6949f860dfe454625fcaf1dc56f87bb8350975d8f006bbbdf14a"
     },
-    "signature": "rqdAbS1evGMhv5vQEhFwDoDgumY1La+xAEgF8TdJjyE1uEjV5442LgnIbolqH5WmGkU4EEjcIJWXEhxbtr7P1EO8WT0v7mVJBmAT0p5Gi3nxz9z9gp7mAbjfBH8McYxNzy92XbdYgiNMqi5tltYRCBXTVw1Rexh9dFc7jmLQIfpAFImR9sQG5eqGUGm+L70o34EToDnEg6Finqj4Ii5aGaGTf+DMz6wZRM2vfeegw5pxgv7EjW4R2dVTGSwwvjQbBSDzMqJHGPXkAlpnqgPDXfSLsRYXVYoRGfD6gXJ8WkjCtceQhW3FG7zMzGykogQtxWDgvbTZsz1PlzBR82UZj144ustqmCNf+ZFSwzjKpQil0hiNZmgmAGPn7frwKbDwE6TAqvqfNbpNy1GcP+eNmTn8C+tmKgyGSkqx67w8NgEn9mmPkubZk6Q/cQ/GIVprY27iPQc5irdV+COi6ZWl+WfO6BNRewlsiAYAe1XQwf4wJ5qGFzKNUd9ovWUfgh61ZthIZEVFcTGMmH4cjymnGxpbqiow4di7RQNuCKTRowmrKAWb58KUGEXxy5Nrr9M8SSn5N232iV6HSEWf5QwoKpZ2Zv9BdTXv0Rzx3MO/NWhj2O0UBmCqL1VI/uem9HoC0751GTnMSk36bIVWflJm6fimVvF7OAvZpZgNKBbtJVs=",
+    "signature": "BYPMrU+2vzSOOjSFcRPsWphv0uXQ+Vu6yC7FL6V0iM4WXcAkTK1e5OjkHFqUBNIDxg0AWB14ogUFRGDr+Qh+AqDRaX1u2ST2BhO1mgVh4JaqVOhlnDgWg8NPRMaVqvMy6Rfmyj57D1vmDmbVGQmnaIxEot84mOx4MP6sgZIVOMEe2itlmNwp1ogG6t61wpj4dFe73tYPDePWh0j+TmW8a\/Ry67wIhWHHhSGWIhhYRi8NmfW0oLhL1tgze5+Oo4pvgIgJq47BOYGu4YnfY3w8PB\/sQ5bPIvd\/+CTt\/1RASoadEfLd0MjLFEVEAj3uVGMq1kv7gK4bisXrKJS\/dbCwM+iJQfVFIVjwzuPH1QLbvSEsVUkJKVM4iS4aKiIty5Q760ufuSkZUoZoBrJCy\/PfC6Dc9hmOg1gXiPA9Tzje7L\/V8b0ULmFdnZtITYjEXd52yhfB\/P6qsKOm3HM8bM\/qoL3ra7\/hwe\/dyEi45eJbrbw9lywWwK8Q+fY92o2PCQgVkPYgK0VUOxPMZ6CtBM5OOe9lkuUZzGzCl\/sWZzUiSiXQME\/CDmi2T\/cX65eXzPkFCv2503OKOGtY7fFgBOg2DGXz0\/SEubpeuhs3P+mc\/v\/TUbhJ3hOXD7OBWruTWLbJ4WZyNj4k\/NaXLi1ktbsIB5L19wAFrRLACzCD+ZkVSMs=",
     "certificate": "-----BEGIN CERTIFICATE-----\r\nMIIEvjCCAqagAwIBAgIUc\/0FxYrsgSs9rDxp03EJmbjN0NwwDQYJKoZIhvcNAQEF\r\nBQAwIzEhMB8GA1UECgwYb3duQ2xvdWQgQ29kZSBTaWduaW5nIENBMB4XDTE1MTEw\r\nMzIxMDMzM1oXDTE2MTEwMzIxMDMzM1owDzENMAsGA1UEAwwEY29yZTCCAiIwDQYJ\r\nKoZIhvcNAQEBBQADggIPADCCAgoCggIBALb6EgHpkAqZbO5vRO8XSh7G7XGWHw5s\r\niOf4RwPXR6SE9bWZEm\/b72SfWk\/\/J6AbrD8WiOzBuT\/ODy6k5T1arEdHO+Pux0W1\r\nMxYJJI4kH74KKgMpC0SB0Rt+8WrMqV1r3hhJ46df6Xr\/xolP3oD+eLbShPcblhdS\r\nVtkZEkoev8Sh6L2wDCeHDyPxzvj1w2dTdGVO9Kztn0xIlyfEBakqvBWtcxyi3Ln0\r\nklnxlMx3tPDUE4kqvpia9qNiB1AN2PV93eNr5\/2riAzIssMFSCarWCx0AKYb54+d\r\nxLpcYFyqPJ0ydBCkF78DD45RCZet6PNYkdzgbqlUWEGGomkuDoJbBg4wzgzO0D77\r\nH87KFhYW8tKFFvF1V3AHl\/sFQ9tDHaxM9Y0pZ2jPp\/ccdiqnmdkBxBDqsiRvHvVB\r\nCn6qpb4vWGFC7vHOBfYspmEL1zLlKXZv3ezMZEZw7O9ZvUP3VO\/wAtd2vUW8UFiq\r\ns2v1QnNLN6jNh51obcwmrBvWhJy9vQIdtIjQbDxqWTHh1zUSrw9wrlklCBZ\/zrM0\r\ni8nfCFwTxWRxp3H9KoECzO\/zS5R5KIS7s3\/wq\/w9T2Ie4rcecgXwDizwnn0C\/aKc\r\nbDIjujpL1s9HO05pcD\/V3wKcPZ1izymBkmMyIbL52iRVN5FTVHeZdXPpFuq+CTQJ\r\nQ238lC+A\/KOVAgMBAAEwDQYJKoZIhvcNAQEFBQADggIBAGoKTnh8RfJV4sQItVC2\r\nAvfJagkrIqZ3iiQTUBQGTKBsTnAqE1H7QgUSV9vSd+8rgvHkyZsRjmtyR1e3A6Ji\r\noNCXUbExC\/0iCPUqdHZIVb+Lc\/vWuv4ByFMybGPydgtLoEUX2ZrKFWmcgZFDUSRd\r\n9Uj26vtUhCC4bU4jgu6hIrR9IuxOBLQUxGTRZyAcXvj7obqRAEZwFAKQgFpfpqTb\r\nH+kjcbZSaAlLVSF7vBc1syyI8RGYbqpwvtREqJtl5IEIwe6huEqJ3zPnlP2th\/55\r\ncf3Fovj6JJgbb9XFxrdnsOsDOu\/tpnaRWlvv5ib4+SzG5wWFT5UUEo4Wg2STQiiX\r\nuVSRQxK1LE1yg84bs3NZk9FSQh4B8vZVuRr5FaJsZZkwlFlhRO\/\/+TJtXRbyNgsf\r\noMRZGi8DLGU2SGEAHcRH\/QZHq\/XDUWVzdxrSBYcy7GSpT7UDVzGv1rEJUrn5veP1\r\n0KmauAqtiIaYRm4f6YBsn0INcZxzIPZ0p8qFtVZBPeHhvQtvOt0iXI\/XUxEWOa2F\r\nK2EqhErgMK\/N07U1JJJay5tYZRtvkGq46oP\/5kQG8hYST0MDK6VihJoPpvCmAm4E\r\npEYKQ96x6A4EH9Y9mZlYozH\/eqmxPbTK8n89\/p7Ydun4rI+B2iiLnY8REWWy6+UQ\r\nV204fGUkJqW5CrKy3P3XvY9X\r\n-----END CERTIFICATE-----"
 }';
 		$this->fileAccessHelper

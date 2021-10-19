@@ -124,6 +124,7 @@ class ThemingController extends Controller {
 	}
 
 	/**
+	 * @AuthorizedAdminSetting(settings=OCA\Theming\Settings\Admin)
 	 * @param string $setting
 	 * @param string $value
 	 * @return DataResponse
@@ -208,6 +209,7 @@ class ThemingController extends Controller {
 	}
 
 	/**
+	 * @AuthorizedAdminSetting(settings=OCA\Theming\Settings\Admin)
 	 * @return DataResponse
 	 * @throws NotPermittedException
 	 */
@@ -278,6 +280,7 @@ class ThemingController extends Controller {
 
 	/**
 	 * Revert setting to default value
+	 * @AuthorizedAdminSetting(settings=OCA\Theming\Settings\Admin)
 	 *
 	 * @param string $setting setting which should be reverted
 	 * @return DataResponse
@@ -378,7 +381,7 @@ class ThemingController extends Controller {
 			$startUrl = $this->urlGenerator->getBaseUrl();
 			$description = $this->themingDefaults->getSlogan();
 		} else {
-			$info = $this->appManager->getAppInfo($app);
+			$info = $this->appManager->getAppInfo($app, false, $this->l10n->getLanguageCode());
 			$name = $info['name'] . ' - ' . $this->themingDefaults->getName();
 			$shortName = $info['name'];
 			if (strpos($this->request->getRequestUri(), '/index.php/') !== false) {

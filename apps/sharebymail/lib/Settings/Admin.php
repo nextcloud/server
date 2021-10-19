@@ -24,15 +24,20 @@
 namespace OCA\ShareByMail\Settings;
 
 use OCP\AppFramework\Http\TemplateResponse;
-use OCP\Settings\ISettings;
+use OCP\IL10N;
+use OCP\Settings\IDelegatedSettings;
 
-class Admin implements ISettings {
+class Admin implements IDelegatedSettings {
 
 	/** @var SettingsManager */
 	private $settingsManager;
 
-	public function __construct(SettingsManager $settingsManager) {
+	/** @var IL10N */
+	private $l;
+
+	public function __construct(SettingsManager $settingsManager, IL10N $l) {
 		$this->settingsManager = $settingsManager;
+		$this->l = $l;
 	}
 
 	/**
@@ -63,5 +68,15 @@ class Admin implements ISettings {
 	 */
 	public function getPriority() {
 		return 40;
+	}
+
+	public function getName(): ?string {
+		return $this->l->t('Share by mail');
+	}
+
+	public function getAuthorizedAppConfig(): array {
+		return [
+			'sharebymail' => ['s/(sendpasswordmail|replyToInitiator)/'],
+		];
 	}
 }

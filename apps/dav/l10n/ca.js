@@ -88,6 +88,7 @@ OC.L10N.register(
     "Due on %s" : "Venç en %s",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "Punt final de WebDAV",
+    "Save" : "Desa",
     "Calendar server" : "Servidor de calendari",
     "Send invitations to attendees" : "Envia invitacions als assistents",
     "Automatically generate a birthday calendar" : "Genera automàticament un calendari d’aniversari",
@@ -102,7 +103,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Si us plau contacteu amb l'organitzador directament.",
     "Are you accepting the invitation?" : "Accepteu la invitació?",
     "Tentative" : "Provisional",
-    "Save" : "Desa",
     "Your attendance was updated successfully." : "La vostra assistència ha estat actualitzada correctament.",
     "Calendar and tasks" : "Calendari i tasques"
 },

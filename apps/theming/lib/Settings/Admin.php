@@ -33,9 +33,9 @@ use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IURLGenerator;
-use OCP\Settings\ISettings;
+use OCP\Settings\IDelegatedSettings;
 
-class Admin implements ISettings {
+class Admin implements IDelegatedSettings {
 	/** @var IConfig */
 	private $config;
 	/** @var IL10N */
@@ -105,5 +105,15 @@ class Admin implements ISettings {
 	 */
 	public function getPriority(): int {
 		return 5;
+	}
+
+	public function getName(): ?string {
+		return null; // Only one setting in this section
+	}
+
+	public function getAuthorizedAppConfig(): array {
+		return [
+			'theming' => '/.*/',
+		];
 	}
 }

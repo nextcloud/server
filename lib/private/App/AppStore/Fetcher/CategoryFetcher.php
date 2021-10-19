@@ -30,6 +30,7 @@ use OC\Files\AppData\Factory;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
+use OCP\Support\Subscription\IRegistry;
 use Psr\Log\LoggerInterface;
 
 class CategoryFetcher extends Fetcher {
@@ -37,14 +38,17 @@ class CategoryFetcher extends Fetcher {
 								IClientService $clientService,
 								ITimeFactory $timeFactory,
 								IConfig $config,
-								LoggerInterface $logger) {
+								LoggerInterface $logger,
+								IRegistry $registry) {
 		parent::__construct(
 			$appDataFactory,
 			$clientService,
 			$timeFactory,
 			$config,
-			$logger
+			$logger,
+			$registry
 		);
+
 		$this->fileName = 'categories.json';
 		$this->endpointName = 'categories.json';
 	}

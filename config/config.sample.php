@@ -108,7 +108,7 @@ $CONFIG = [
  * Your host server name, for example ``localhost``, ``hostname``,
  * ``hostname.example.com``, or the IP address. To specify a port use
  * ``hostname:####``; to specify a Unix socket use
- * ``localhost:/path/to/socket``.
+ * ``/path/to/directory/containing/socket`` e.g. ``/run/postgresql/``.
  */
 'dbhost' => '',
 
@@ -971,6 +971,12 @@ $CONFIG = [
  * Defaults to ``https://apps.nextcloud.com/api/v1``
  */
 'appstoreurl' => 'https://apps.nextcloud.com/api/v1',
+
+/**
+ * Filters allowed installable apps from the appstore.
+ * Empty array will prevent all apps from the store to be found.
+ */
+'appsallowlist' => [],
 
 /**
  * Use the ``apps_paths`` parameter to set the location of the Apps directory,
@@ -1965,4 +1971,15 @@ $CONFIG = [
  */
 
 'login_form_autocomplete' => true,
+
+/**
+ * Disable background scanning of files
+ *
+ * By default, a background job runs every 10 minutes and execute a background
+ * scan to sync filesystem and database. Only users with unscanned files
+ * (size < 0 in filecache) are included. Maximum 500 users per job.
+ *
+ * Defaults to ``true``
+ */
+'files_no_background_scan' => false,
 ];

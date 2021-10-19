@@ -17,6 +17,7 @@
 	-
 	- You should have received a copy of the GNU Affero General Public License
 	- along with this program. If not, see <http://www.gnu.org/licenses/>.
+	-
 -->
 
 <template>
@@ -26,13 +27,17 @@
 			label-for="displayname"
 			:is-editable="displayNameChangeSupported"
 			:is-valid-section="isValidSection"
-			:handle-scope-change="savePrimaryDisplayNameScope"
 			:scope.sync="primaryDisplayName.scope" />
 
 		<template v-if="displayNameChangeSupported">
 			<DisplayName
 				:display-name.sync="primaryDisplayName.value"
 				:scope.sync="primaryDisplayName.scope" />
+
+			<VisibilityDropdown
+				:param-id="accountPropertyId"
+				:display-id="accountProperty"
+				:visibility.sync="visibility" />
 		</template>
 
 		<span v-else>
@@ -46,13 +51,14 @@ import { loadState } from '@nextcloud/initial-state'
 
 import DisplayName from './DisplayName'
 import HeaderBar from '../shared/HeaderBar'
+import VisibilityDropdown from '../shared/VisibilityDropdown'
 
-import { ACCOUNT_PROPERTY_READABLE_ENUM } from '../../../constants/AccountPropertyConstants'
-import { savePrimaryDisplayNameScope } from '../../../service/PersonalInfo/DisplayNameService'
-import { validateDisplayName } from '../../../utils/validate'
+import { ACCOUNT_PROPERTY_ENUM, ACCOUNT_PROPERTY_READABLE_ENUM } from '../../../constants/AccountPropertyConstants'
+import { validateStringInput } from '../../../utils/validate'
 
-const { displayNames: { primaryDisplayName } } = loadState('settings', 'personalInfoParameters', {})
+const { displayNameMap: { primaryDisplayName } } = loadState('settings', 'personalInfoParameters', {})
 const { displayNameChangeSupported } = loadState('settings', 'accountParameters', {})
+const { profileConfig: { displayname: { visibility } } } = loadState('settings', 'profileParameters', {})
 
 export default {
 	name: 'DisplayNameSection',
@@ -60,20 +66,22 @@ export default {
 	components: {
 		DisplayName,
 		HeaderBar,
+		VisibilityDropdown,
 	},
 
 	data() {
 		return {
 			accountProperty: ACCOUNT_PROPERTY_READABLE_ENUM.DISPLAYNAME,
+			accountPropertyId: ACCOUNT_PROPERTY_ENUM.DISPLAYNAME,
 			displayNameChangeSupported,
 			primaryDisplayName,
-			savePrimaryDisplayNameScope,
+			visibility,
 		}
 	},
 
 	computed: {
 		isValidSection() {
-			return validateDisplayName(this.primaryDisplayName.value)
+			return validateStringInput(this.primaryDisplayName.value)
 		},
 	},
 }

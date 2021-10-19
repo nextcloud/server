@@ -35,12 +35,16 @@ use OC\Files\AppData\Factory;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
+use OCP\Support\Subscription\IRegistry;
 use Psr\Log\LoggerInterface;
 
 class AppFetcher extends Fetcher {
 
 	/** @var CompareVersion */
 	private $compareVersion;
+
+	/** @var IRegistry */
+	protected $registry;
 
 	/** @var bool */
 	private $ignoreMaxVersion;
@@ -50,18 +54,22 @@ class AppFetcher extends Fetcher {
 								ITimeFactory $timeFactory,
 								IConfig $config,
 								CompareVersion $compareVersion,
-								LoggerInterface $logger) {
+								LoggerInterface $logger,
+								IRegistry $registry) {
 		parent::__construct(
 			$appDataFactory,
 			$clientService,
 			$timeFactory,
 			$config,
-			$logger
+			$logger,
+			$registry
 		);
+
+		$this->compareVersion = $compareVersion;
+		$this->registry = $registry;
 
 		$this->fileName = 'apps.json';
 		$this->endpointName = 'apps.json';
-		$this->compareVersion = $compareVersion;
 		$this->ignoreMaxVersion = true;
 	}
 
@@ -171,5 +179,20 @@ class AppFetcher extends Fetcher {
 		parent::setVersion($version);
 		$this->fileName = $fileName;
 		$this->ignoreMaxVersion = $ignoreMaxVersion;
+	}
+
+
+	public function get($allowUnstable = false) {
+		$apps = parent::get($allowUnstable);
+		$allowList = $this->config->getSystemValue('appsallowlist');
+
+		// If the admin specified a allow list, filter apps from the appstore
+		if (is_array($allowList) && $this->registry->delegateHasValidSubscription()) {
+			return array_filter($apps, function ($app) use ($allowList) {
+				return in_array($app['id'], $allowList);
+			});
+		}
+
+		return $apps;
 	}
 }

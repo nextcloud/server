@@ -17,6 +17,7 @@
 	-
 	- You should have received a copy of the GNU Affero General Public License
 	- along with this program. If not, see <http://www.gnu.org/licenses/>.
+	-
 -->
 
 <template>
@@ -39,20 +40,30 @@
 				:active-notification-email.sync="notificationEmail"
 				@update:email="onUpdateEmail"
 				@update:notification-email="onUpdateNotificationEmail" />
+
+			<VisibilityDropdown
+				:param-id="accountPropertyId"
+				:display-id="accountProperty"
+				:visibility.sync="visibility" />
 		</template>
+
 		<span v-else>
 			{{ primaryEmail.value || t('settings', 'No email address set') }}
 		</span>
-		<Email v-for="(additionalEmail, index) in additionalEmails"
-			:key="index"
-			:index="index"
-			:scope.sync="additionalEmail.scope"
-			:email.sync="additionalEmail.value"
-			:local-verification-state="parseInt(additionalEmail.locallyVerified, 10)"
-			:active-notification-email.sync="notificationEmail"
-			@update:email="onUpdateEmail"
-			@update:notification-email="onUpdateNotificationEmail"
-			@delete-additional-email="onDeleteAdditionalEmail(index)" />
+
+		<template v-if="additionalEmails.length">
+			<em class="additional-emails-label">{{ t('settings', 'Additional emails') }}</em>
+			<Email v-for="(additionalEmail, index) in additionalEmails"
+				:key="index"
+				:index="index"
+				:scope.sync="additionalEmail.scope"
+				:email.sync="additionalEmail.value"
+				:local-verification-state="parseInt(additionalEmail.locallyVerified, 10)"
+				:active-notification-email.sync="notificationEmail"
+				@update:email="onUpdateEmail"
+				@update:notification-email="onUpdateNotificationEmail"
+				@delete-additional-email="onDeleteAdditionalEmail(index)" />
+		</template>
 	</section>
 </template>
 
@@ -62,13 +73,15 @@ import { showError } from '@nextcloud/dialogs'
 
 import Email from './Email'
 import HeaderBar from '../shared/HeaderBar'
+import VisibilityDropdown from '../shared/VisibilityDropdown'
 
-import { ACCOUNT_PROPERTY_READABLE_ENUM, DEFAULT_ADDITIONAL_EMAIL_SCOPE } from '../../../constants/AccountPropertyConstants'
+import { ACCOUNT_PROPERTY_ENUM, ACCOUNT_PROPERTY_READABLE_ENUM, DEFAULT_ADDITIONAL_EMAIL_SCOPE } from '../../../constants/AccountPropertyConstants'
 import { savePrimaryEmail, savePrimaryEmailScope, removeAdditionalEmail } from '../../../service/PersonalInfo/EmailService'
 import { validateEmail } from '../../../utils/validate'
 
-const { emails: { additionalEmails, primaryEmail, notificationEmail } } = loadState('settings', 'personalInfoParameters', {})
+const { emailMap: { additionalEmails, primaryEmail, notificationEmail } } = loadState('settings', 'personalInfoParameters', {})
 const { displayNameChangeSupported } = loadState('settings', 'accountParameters', {})
+const { profileConfig: { email: { visibility } } } = loadState('settings', 'profileParameters', {})
 
 export default {
 	name: 'EmailSection',
@@ -76,16 +89,19 @@ export default {
 	components: {
 		HeaderBar,
 		Email,
+		VisibilityDropdown,
 	},
 
 	data() {
 		return {
 			accountProperty: ACCOUNT_PROPERTY_READABLE_ENUM.EMAIL,
+			accountPropertyId: ACCOUNT_PROPERTY_ENUM.EMAIL,
 			additionalEmails,
 			displayNameChangeSupported,
 			primaryEmail,
 			savePrimaryEmailScope,
 			notificationEmail,
+			visibility,
 		}
 	},
 
@@ -141,7 +157,11 @@ export default {
 				const responseData = await savePrimaryEmail(this.primaryEmailValue)
 				this.handleResponse(responseData.ocs?.meta?.status)
 			} catch (e) {
-				this.handleResponse('error', 'Unable to update primary email address', e)
+				this.handleResponse(
+					'error',
+					t('settings', 'Unable to update primary email address'),
+					e
+				)
 			}
 		},
 
@@ -150,7 +170,11 @@ export default {
 				const responseData = await removeAdditionalEmail(this.firstAdditionalEmail)
 				this.handleDeleteFirstAdditionalEmail(responseData.ocs?.meta?.status)
 			} catch (e) {
-				this.handleResponse('error', 'Unable to delete additional email address', e)
+				this.handleResponse(
+					'error',
+					t('settings', 'Unable to delete additional email address'),
+					e
+				)
 			}
 		},
 
@@ -158,13 +182,17 @@ export default {
 			if (status === 'ok') {
 				this.$delete(this.additionalEmails, 0)
 			} else {
-				this.handleResponse('error', 'Unable to delete additional email address', {})
+				this.handleResponse(
+					'error',
+					t('settings', 'Unable to delete additional email address'),
+					{}
+				)
 			}
 		},
 
 		handleResponse(status, errorMessage, error) {
 			if (status !== 'ok') {
-				showError(t('settings', errorMessage))
+				showError(errorMessage)
 				this.logger.error(errorMessage, error)
 			}
 		},
@@ -178,6 +206,11 @@ section {
 
 	&::v-deep button:disabled {
 		cursor: default;
+	}
+
+	.additional-emails-label {
+		display: block;
+		margin-top: 16px;
 	}
 }
 </style>

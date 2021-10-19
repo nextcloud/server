@@ -26,7 +26,7 @@ declare(strict_types=1);
 namespace OCP\UserStatus;
 
 /**
- * Interface IManager
+ * Interface IProvider
  *
  * @since 20.0.0
  */

@@ -608,3 +608,14 @@ Feature: webdav-related
 		And user "user0" uploads new chunk file "3" with "CCCCC" to id "chunking-42"
 		When user "user0" moves new chunk file with id "chunking-42" to "/myChunkedFile.txt" with size 15
 		Then the HTTP status code should be "201"
+
+	Scenario: Upload bulked files
+		Given user "user0" exists
+		And user "user0" uploads bulked files "A.txt" with "AAAAA" and "B.txt" with "BBBBB" and "C.txt" with "CCCCC"
+		When As an "user0"
+		Then Downloading file "/A.txt"
+		And Downloaded content should be "AAAAA"
+		And Downloading file "/B.txt"
+		And Downloaded content should be "BBBBB"
+		And Downloading file "/C.txt"
+		And Downloaded content should be "CCCCC"

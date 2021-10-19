@@ -121,6 +121,7 @@ OC.L10N.register(
     "Due on %s" : "到期于%s",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "WebDAV端点",
+    "Save" : "保存",
     "Calendar server" : "日历服务器",
     "Send invitations to attendees" : "向与会者发送邀请",
     "Automatically generate a birthday calendar" : "自动生成生日日历",
@@ -135,7 +136,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "请直接联系组织者。",
     "Are you accepting the invitation?" : "您是否接受邀请？",
     "Tentative" : "暂定",
-    "Save" : "保存",
     "Your attendance was updated successfully." : "您的出席状态更新成功。",
     "Calendar and tasks" : "日历和任务"
 },

@@ -87,6 +87,7 @@ OC.L10N.register(
     "Due on %s" : "%s időpontban esedékes",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "WebDAV végpont",
+    "Save" : "Mentés",
     "Calendar server" : "Naptár szerver",
     "Send invitations to attendees" : "Meghívó küldése a résztvevőknek",
     "Automatically generate a birthday calendar" : "Születésnapokat tartalmazó naptár automatikus létrehozása",
@@ -101,7 +102,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Kérlek vedd fel közvetlenül a kapcsolatot a szervezővel.",
     "Are you accepting the invitation?" : "Elfogadod az meghívást?",
     "Tentative" : "Valószínűleg",
-    "Save" : "Mentés",
     "Your attendance was updated successfully." : "A részvételed frissítése sikerült.",
     "Calendar and tasks" : "Naptár és feladatok"
 },

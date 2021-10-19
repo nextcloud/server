@@ -63,6 +63,7 @@ class ComposerStaticInitSettings
         'OCA\\Settings\\Sections\\Admin\\Security' => __DIR__ . '/..' . '/../lib/Sections/Admin/Security.php',
         'OCA\\Settings\\Sections\\Admin\\Server' => __DIR__ . '/..' . '/../lib/Sections/Admin/Server.php',
         'OCA\\Settings\\Sections\\Admin\\Sharing' => __DIR__ . '/..' . '/../lib/Sections/Admin/Sharing.php',
+        'OCA\\Settings\\Sections\\Personal\\Groupware' => __DIR__ . '/..' . '/../lib/Sections/Personal/Groupware.php',
         'OCA\\Settings\\Sections\\Personal\\PersonalInfo' => __DIR__ . '/..' . '/../lib/Sections/Personal/PersonalInfo.php',
         'OCA\\Settings\\Sections\\Personal\\Security' => __DIR__ . '/..' . '/../lib/Sections/Personal/Security.php',
         'OCA\\Settings\\Sections\\Personal\\SyncClients' => __DIR__ . '/..' . '/../lib/Sections/Personal/SyncClients.php',

@@ -102,12 +102,13 @@ class UserStatusMapper extends QBMapper {
 	 * @return UserStatus
 	 * @throws \OCP\AppFramework\Db\DoesNotExistException
 	 */
-	public function findByUserId(string $userId):UserStatus {
+	public function findByUserId(string $userId, bool $isBackup = false):UserStatus {
 		$qb = $this->db->getQueryBuilder();
 		$qb
 			->select('*')
 			->from($this->tableName)
-			->where($qb->expr()->eq('user_id', $qb->createNamedParameter($userId, IQueryBuilder::PARAM_STR)));
+			->where($qb->expr()->eq('user_id', $qb->createNamedParameter($isBackup ? '_' . $userId : $userId, IQueryBuilder::PARAM_STR)))
+			->andWhere($qb->expr()->eq('is_backup', $qb->createNamedParameter($isBackup, IQueryBuilder::PARAM_BOOL)));
 
 		return $this->findEntity($qb);
 	}

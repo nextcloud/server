@@ -142,9 +142,6 @@
     </InvalidArgument>
   </file>
   <file src="apps/dav/lib/CalDAV/BirthdayService.php">
-    <InvalidArrayOffset occurrences="1">
-      <code>$user['uri']</code>
-    </InvalidArrayOffset>
     <UndefinedMethod occurrences="2">
       <code>setDateTime</code>
       <code>setDateTime</code>
@@ -789,10 +786,10 @@
       <code>array</code>
       <code>string</code>
     </InvalidNullableReturnType>
-    <InvalidReturnStatement occurrences="2">
+    <InvalidReturnStatement occurrences="1">
       <code>$principals</code>
     </InvalidReturnStatement>
-    <InvalidReturnType occurrences="2">
+    <InvalidReturnType occurrences="1">
       <code>string[]</code>
       <code>string[]</code>
     </InvalidReturnType>
@@ -2020,9 +2017,8 @@
     <NullArgument occurrences="1">
       <code>$cookie</code>
     </NullArgument>
-    <RedundantCondition occurrences="4">
+    <RedundantCondition occurrences="3">
       <code>!is_null($limit)</code>
-      <code>!isset($ldapName[0]) &amp;&amp; empty($ldapName[0])</code>
       <code>$limit === 0</code>
       <code>is_array($result)</code>
     </RedundantCondition>
@@ -4151,8 +4147,7 @@
     <ImplementedReturnTypeMismatch occurrences="1">
       <code>null|string</code>
     </ImplementedReturnTypeMismatch>
-    <LessSpecificImplementedReturnType occurrences="2">
-      <code>array</code>
+    <LessSpecificImplementedReturnType occurrences="1">
       <code>array|mixed</code>
     </LessSpecificImplementedReturnType>
   </file>
@@ -4913,12 +4908,6 @@
       <code>setDisplayName</code>
       <code>setPassword</code>
     </UndefinedInterfaceMethod>
-  </file>
-  <file src="lib/private/UserStatus/Manager.php">
-    <InvalidCatch occurrences="1"/>
-    <InvalidPropertyAssignmentValue occurrences="1">
-      <code>$class</code>
-    </InvalidPropertyAssignmentValue>
   </file>
   <file src="lib/private/legacy/OC_API.php">
     <InvalidNullableReturnType occurrences="1">

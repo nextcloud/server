@@ -121,6 +121,7 @@ OC.L10N.register(
     "Due on %s" : "Echéance le %s",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "Point d'accès WebDAV",
+    "Save" : "Enregistrer",
     "Calendar server" : "Serveur de calendrier",
     "Send invitations to attendees" : "Envoyer des invitations aux participants",
     "Automatically generate a birthday calendar" : "Générer automatiquement un agenda d'anniversaire",
@@ -135,7 +136,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Merci de contacter l'organisateur directement.",
     "Are you accepting the invitation?" : "Acceptez-vous l'invitation ?",
     "Tentative" : "Provisoire",
-    "Save" : "Enregistrer",
     "Your attendance was updated successfully." : "Votre présence a été mise à jour avec succès.",
     "Calendar and tasks" : "Agenda et tâches"
 },

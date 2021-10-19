@@ -21,7 +21,7 @@
  */
 
 /*
- * SYNC to be kept in sync with lib/public/Accounts/IAccountManager.php
+ * SYNC to be kept in sync with `lib/public/Accounts/IAccountManager.php`
  */
 
 import { translate as t } from '@nextcloud/l10n'
@@ -30,11 +30,16 @@ import { translate as t } from '@nextcloud/l10n'
 export const ACCOUNT_PROPERTY_ENUM = Object.freeze({
 	ADDRESS: 'address',
 	AVATAR: 'avatar',
+	BIOGRAPHY: 'biography',
 	DISPLAYNAME: 'displayname',
-	EMAIL: 'email',
 	EMAIL_COLLECTION: 'additional_mail',
+	EMAIL: 'email',
+	HEADLINE: 'headline',
 	NOTIFICATION_EMAIL: 'notify_email',
+	ORGANISATION: 'organisation',
 	PHONE: 'phone',
+	PROFILE_ENABLED: 'profile_enabled',
+	ROLE: 'role',
 	TWITTER: 'twitter',
 	WEBSITE: 'website',
 })
@@ -43,28 +48,59 @@ export const ACCOUNT_PROPERTY_ENUM = Object.freeze({
 export const ACCOUNT_PROPERTY_READABLE_ENUM = Object.freeze({
 	ADDRESS: t('settings', 'Address'),
 	AVATAR: t('settings', 'Avatar'),
+	BIOGRAPHY: t('settings', 'About'),
 	DISPLAYNAME: t('settings', 'Full name'),
-	EMAIL: t('settings', 'Email'),
 	EMAIL_COLLECTION: t('settings', 'Additional email'),
+	EMAIL: t('settings', 'Email'),
+	HEADLINE: t('settings', 'Headline'),
+	ORGANISATION: t('settings', 'Organisation'),
 	PHONE: t('settings', 'Phone number'),
+	PROFILE_ENABLED: t('settings', 'Profile'),
+	ROLE: t('settings', 'Role'),
 	TWITTER: t('settings', 'Twitter'),
 	WEBSITE: t('settings', 'Website'),
 })
 
-/** Enum of setting properties */
-export const SETTING_PROPERTY_ENUM = Object.freeze({
+/** Enum of profile specific sections to human readable names */
+export const PROFILE_READABLE_ENUM = Object.freeze({
+	PROFILE_VISIBILITY: t('settings', 'Profile Visibility'),
+})
+
+/** Enum of readable account properties to account property keys used by the server */
+export const PROPERTY_READABLE_KEYS_ENUM = Object.freeze({
+	[ACCOUNT_PROPERTY_READABLE_ENUM.ADDRESS]: ACCOUNT_PROPERTY_ENUM.ADDRESS,
+	[ACCOUNT_PROPERTY_READABLE_ENUM.AVATAR]: ACCOUNT_PROPERTY_ENUM.AVATAR,
+	[ACCOUNT_PROPERTY_READABLE_ENUM.BIOGRAPHY]: ACCOUNT_PROPERTY_ENUM.BIOGRAPHY,
+	[ACCOUNT_PROPERTY_READABLE_ENUM.DISPLAYNAME]: ACCOUNT_PROPERTY_ENUM.DISPLAYNAME,
+	[ACCOUNT_PROPERTY_READABLE_ENUM.EMAIL_COLLECTION]: ACCOUNT_PROPERTY_ENUM.EMAIL_COLLECTION,
+	[ACCOUNT_PROPERTY_READABLE_ENUM.EMAIL]: ACCOUNT_PROPERTY_ENUM.EMAIL,
+	[ACCOUNT_PROPERTY_READABLE_ENUM.HEADLINE]: ACCOUNT_PROPERTY_ENUM.HEADLINE,
+	[ACCOUNT_PROPERTY_READABLE_ENUM.ORGANISATION]: ACCOUNT_PROPERTY_ENUM.ORGANISATION,
+	[ACCOUNT_PROPERTY_READABLE_ENUM.PHONE]: ACCOUNT_PROPERTY_ENUM.PHONE,
+	[ACCOUNT_PROPERTY_READABLE_ENUM.PROFILE_ENABLED]: ACCOUNT_PROPERTY_ENUM.PROFILE_ENABLED,
+	[ACCOUNT_PROPERTY_READABLE_ENUM.ROLE]: ACCOUNT_PROPERTY_ENUM.ROLE,
+	[ACCOUNT_PROPERTY_READABLE_ENUM.TWITTER]: ACCOUNT_PROPERTY_ENUM.TWITTER,
+	[ACCOUNT_PROPERTY_READABLE_ENUM.WEBSITE]: ACCOUNT_PROPERTY_ENUM.WEBSITE,
+})
+
+/**
+ * Enum of account setting properties
+ *
+ * *Account setting properties unlike account properties do not support scopes*
+ */
+export const ACCOUNT_SETTING_PROPERTY_ENUM = Object.freeze({
 	LANGUAGE: 'language',
 })
 
-/** Enum of setting properties to human readable setting properties */
-export const SETTING_PROPERTY_READABLE_ENUM = Object.freeze({
-	LANGUAGE: 'Language',
+/** Enum of account setting properties to human readable setting properties */
+export const ACCOUNT_SETTING_PROPERTY_READABLE_ENUM = Object.freeze({
+	LANGUAGE: t('settings', 'Language'),
 })
 
 /** Enum of scopes */
 export const SCOPE_ENUM = Object.freeze({
-	LOCAL: 'v2-local',
 	PRIVATE: 'v2-private',
+	LOCAL: 'v2-local',
 	FEDERATED: 'v2-federated',
 	PUBLISHED: 'v2-published',
 })
@@ -73,10 +109,15 @@ export const SCOPE_ENUM = Object.freeze({
 export const PROPERTY_READABLE_SUPPORTED_SCOPES_ENUM = Object.freeze({
 	[ACCOUNT_PROPERTY_READABLE_ENUM.ADDRESS]: [SCOPE_ENUM.LOCAL, SCOPE_ENUM.PRIVATE],
 	[ACCOUNT_PROPERTY_READABLE_ENUM.AVATAR]: [SCOPE_ENUM.LOCAL, SCOPE_ENUM.PRIVATE],
+	[ACCOUNT_PROPERTY_READABLE_ENUM.BIOGRAPHY]: [SCOPE_ENUM.LOCAL, SCOPE_ENUM.PRIVATE],
 	[ACCOUNT_PROPERTY_READABLE_ENUM.DISPLAYNAME]: [SCOPE_ENUM.LOCAL],
-	[ACCOUNT_PROPERTY_READABLE_ENUM.EMAIL]: [SCOPE_ENUM.LOCAL],
 	[ACCOUNT_PROPERTY_READABLE_ENUM.EMAIL_COLLECTION]: [SCOPE_ENUM.LOCAL],
+	[ACCOUNT_PROPERTY_READABLE_ENUM.EMAIL]: [SCOPE_ENUM.LOCAL],
+	[ACCOUNT_PROPERTY_READABLE_ENUM.HEADLINE]: [SCOPE_ENUM.LOCAL, SCOPE_ENUM.PRIVATE],
+	[ACCOUNT_PROPERTY_READABLE_ENUM.ORGANISATION]: [SCOPE_ENUM.LOCAL, SCOPE_ENUM.PRIVATE],
 	[ACCOUNT_PROPERTY_READABLE_ENUM.PHONE]: [SCOPE_ENUM.LOCAL, SCOPE_ENUM.PRIVATE],
+	[ACCOUNT_PROPERTY_READABLE_ENUM.PROFILE_ENABLED]: [SCOPE_ENUM.LOCAL, SCOPE_ENUM.PRIVATE],
+	[ACCOUNT_PROPERTY_READABLE_ENUM.ROLE]: [SCOPE_ENUM.LOCAL, SCOPE_ENUM.PRIVATE],
 	[ACCOUNT_PROPERTY_READABLE_ENUM.TWITTER]: [SCOPE_ENUM.LOCAL, SCOPE_ENUM.PRIVATE],
 	[ACCOUNT_PROPERTY_READABLE_ENUM.WEBSITE]: [SCOPE_ENUM.LOCAL, SCOPE_ENUM.PRIVATE],
 })
@@ -90,28 +131,32 @@ export const SCOPE_SUFFIX = 'Scope'
  * *Used for federation control*
  */
 export const SCOPE_PROPERTY_ENUM = Object.freeze({
-	[SCOPE_ENUM.LOCAL]: {
-		name: SCOPE_ENUM.LOCAL,
-		displayName: t('settings', 'Local'),
-		tooltip: t('settings', 'Only visible to people on this instance and guests'),
-		iconClass: 'icon-password',
-	},
 	[SCOPE_ENUM.PRIVATE]: {
 		name: SCOPE_ENUM.PRIVATE,
 		displayName: t('settings', 'Private'),
 		tooltip: t('settings', 'Only visible to people matched via phone number integration through Talk on mobile'),
+		tooltipDisabled: t('settings', 'Unavailable as this property is required for core functionality including file sharing and calendar invitations\n\nOnly visible to people matched via phone number integration through Talk on mobile'),
 		iconClass: 'icon-phone',
+	},
+	[SCOPE_ENUM.LOCAL]: {
+		name: SCOPE_ENUM.LOCAL,
+		displayName: t('settings', 'Local'),
+		tooltip: t('settings', 'Only visible to people on this instance and guests'),
+		// tooltipDisabled is not required here as this scope is supported by all account properties
+		iconClass: 'icon-password',
 	},
 	[SCOPE_ENUM.FEDERATED]: {
 		name: SCOPE_ENUM.FEDERATED,
 		displayName: t('settings', 'Federated'),
 		tooltip: t('settings', 'Only synchronize to trusted servers'),
+		tooltipDisabled: t('settings', 'Unavailable as publishing user specific data to the lookup server is not allowed, contact your system administrator if you have any questions\n\nOnly synchronize to trusted servers'),
 		iconClass: 'icon-contacts-dark',
 	},
 	[SCOPE_ENUM.PUBLISHED]: {
 		name: SCOPE_ENUM.PUBLISHED,
 		displayName: t('settings', 'Published'),
 		tooltip: t('settings', 'Synchronize to trusted servers and the global and public address book'),
+		tooltipDisabled: t('settings', 'Unavailable as publishing user specific data to the lookup server is not allowed, contact your system administrator if you have any questions\n\nSynchronize to trusted servers and the global and public address book'),
 		iconClass: 'icon-link',
 	},
 })

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright 2017, Georg Ehrke <oc.list@georgehrke.com>
  *
@@ -24,10 +27,14 @@
  */
 namespace OCA\DAV\CalDAV;
 
-use OCP\Calendar\ICalendar;
+use OCA\DAV\CalDAV\Auth\CustomPrincipalPlugin;
+use OCA\DAV\CalDAV\InvitationResponse\InvitationResponseServer;
+use OCP\Calendar\Exceptions\CalendarException;
+use OCP\Calendar\ICreateFromString;
 use OCP\Constants;
+use Sabre\DAV\Exception\Conflict;
 
-class CalendarImpl implements ICalendar {
+class CalendarImpl implements ICreateFromString {
 
 	/** @var CalDavBackend */
 	private $backend;
@@ -45,13 +52,14 @@ class CalendarImpl implements ICalendar {
 	 * @param array $calendarInfo
 	 * @param CalDavBackend $backend
 	 */
-	public function __construct(Calendar $calendar, array $calendarInfo,
+	public function __construct(Calendar $calendar,
+								array $calendarInfo,
 								CalDavBackend $backend) {
 		$this->calendar = $calendar;
 		$this->calendarInfo = $calendarInfo;
 		$this->backend = $backend;
 	}
-	
+
 	/**
 	 * @return string defining the technical unique key
 	 * @since 13.0.0
@@ -116,5 +124,36 @@ class CalendarImpl implements ICalendar {
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Create a new calendar event for this calendar
+	 * by way of an ICS string
+	 *
+	 * @param string $name the file name - needs to contan the .ics ending
+	 * @param string $calendarData a string containing a valid VEVENT ics
+	 *
+	 * @throws CalendarException
+	 */
+	public function createFromString(string $name, string $calendarData): void {
+		$server = new InvitationResponseServer(false);
+
+		/** @var CustomPrincipalPlugin $plugin */
+		$plugin = $server->server->getPlugin('auth');
+		// we're working around the previous implementation
+		// that only allowed the public system principal to be used
+		// so set the custom principal here
+		$plugin->setCurrentPrincipal($this->calendar->getPrincipalURI());
+
+		$stream = fopen('php://memory', 'rb+');
+		fwrite($stream, $calendarData);
+		rewind($stream);
+		try {
+			$server->server->createFile($name, $stream);
+		} catch (Conflict $e) {
+			throw new CalendarException('Could not create new calendar event: ' . $e->getMessage(), 0, $e);
+		} finally {
+			fclose($stream);
+		}
 	}
 }

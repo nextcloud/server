@@ -425,6 +425,9 @@ class Setup {
 			//and we are done
 			$config->setSystemValue('installed', true);
 
+			$bootstrapCoordinator = \OC::$server->query(\OC\AppFramework\Bootstrap\Coordinator::class);
+			$bootstrapCoordinator->runInitialRegistration();
+
 			// Create a session token for the newly created user
 			// The token provider requires a working db, so it's not injected on setup
 			/* @var $userSession User\Session */

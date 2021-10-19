@@ -27,10 +27,14 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OC\AppFramework\Bootstrap;
 
-use OC\Support\CrashReport\Registry;
+use function class_exists;
+use function class_implements;
+use function in_array;
 use OC_App;
+use OC\Support\CrashReport\Registry;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\QueryException;
@@ -39,9 +43,6 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IServerContainer;
 use Psr\Log\LoggerInterface;
 use Throwable;
-use function class_exists;
-use function class_implements;
-use function in_array;
 
 class Coordinator {
 
@@ -66,11 +67,13 @@ class Coordinator {
 	/** @var string[] */
 	private $bootedApps = [];
 
-	public function __construct(IServerContainer $container,
-								Registry $registry,
-								IManager $dashboardManager,
-								IEventDispatcher $eventListener,
-								LoggerInterface $logger) {
+	public function __construct(
+		IServerContainer $container,
+		Registry $registry,
+		IManager $dashboardManager,
+		IEventDispatcher $eventListener,
+		LoggerInterface $logger
+	) {
 		$this->serverContainer = $container;
 		$this->registry = $registry;
 		$this->dashboardManager = $dashboardManager;

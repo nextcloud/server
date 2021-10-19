@@ -47,14 +47,15 @@ class PredefinedStatusServiceTest extends TestCase {
 	}
 
 	public function testGetDefaultStatuses(): void {
-		$this->l10n->expects($this->exactly(5))
+		$this->l10n->expects($this->exactly(6))
 			->method('t')
 			->withConsecutive(
 				['In a meeting'],
 				['Commuting'],
 				['Working remotely'],
 				['Out sick'],
-				['Vacationing']
+				['Vacationing'],
+				['In a call'],
 			)
 			->willReturnArgument(0);
 
@@ -102,6 +103,13 @@ class PredefinedStatusServiceTest extends TestCase {
 				'message' => 'Vacationing',
 				'clearAt' => null,
 			],
+			[
+				'id' => 'call',
+				'icon' => '💬',
+				'message' => 'In a call',
+				'clearAt' => null,
+				'visible' => false,
+			],
 		], $actual);
 	}
 
@@ -126,6 +134,7 @@ class PredefinedStatusServiceTest extends TestCase {
 			['sick-leave', '🤒'],
 			['vacationing', '🌴'],
 			['remote-work', '🏡'],
+			['call', '💬'],
 			['unknown-id', null],
 		];
 	}
@@ -154,6 +163,7 @@ class PredefinedStatusServiceTest extends TestCase {
 			['sick-leave', 'Out sick'],
 			['vacationing', 'Vacationing'],
 			['remote-work', 'Working remotely'],
+			['call', 'In a call'],
 			['unknown-id', null],
 		];
 	}
@@ -179,28 +189,31 @@ class PredefinedStatusServiceTest extends TestCase {
 			['sick-leave', true],
 			['vacationing', true],
 			['remote-work', true],
+			['call', true],
 			['unknown-id', false],
 		];
 	}
 
 	public function testGetDefaultStatusById(): void {
-		$this->l10n->expects($this->exactly(5))
+		$this->l10n->expects($this->exactly(6))
 			->method('t')
 			->withConsecutive(
 				['In a meeting'],
 				['Commuting'],
 				['Working remotely'],
 				['Out sick'],
-				['Vacationing']
+				['Vacationing'],
+				['In a call'],
 			)
 			->willReturnArgument(0);
 
 		$this->assertEquals([
-			'id' => 'vacationing',
-			'icon' => '🌴',
-			'message' => 'Vacationing',
+			'id' => 'call',
+			'icon' => '💬',
+			'message' => 'In a call',
 			'clearAt' => null,
-		], $this->service->getDefaultStatusById('vacationing'));
+			'visible' => false,
+		], $this->service->getDefaultStatusById('call'));
 	}
 
 	public function testGetDefaultStatusByUnknownId(): void {

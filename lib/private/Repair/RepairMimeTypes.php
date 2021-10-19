@@ -192,6 +192,17 @@ class RepairMimeTypes implements IRepairStep {
 		return $this->updateMimetypes($updatedMimetypes);
 	}
 
+	private function introduceFlatOpenDocumentType() {
+		$updatedMimetypes = [
+			"fodt" => "application/vnd.oasis.opendocument.text-flat-xml",
+			"fods" => "application/vnd.oasis.opendocument.spreadsheet-flat-xml",
+			"fodg" => "application/vnd.oasis.opendocument.graphics-flat-xml",
+			"fodp" => "application/vnd.oasis.opendocument.presentation-flat-xml",
+		];
+
+		return $this->updateMimetypes($updatedMimetypes);
+	}
+
 	private function introduceOrgModeType() {
 		$updatedMimetypes = [
 			'org' => 'text/org'
@@ -244,6 +255,10 @@ class RepairMimeTypes implements IRepairStep {
 
 		if (version_compare($ocVersionFromBeforeUpdate, '21.0.0.7', '<') && $this->introduceOrgModeType()) {
 			$out->info('Fixed orgmode mime types');
+		}
+
+		if (version_compare($ocVersionFromBeforeUpdate, '23.0.0.2', '<') && $this->introduceFlatOpenDocumentType()) {
+			$out->info('Fixed Flat OpenDocument mime types');
 		}
 	}
 }

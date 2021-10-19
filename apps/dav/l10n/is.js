@@ -77,6 +77,7 @@ OC.L10N.register(
     "Untitled task" : "Ónefnt verkefni",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "WebDAV-endapunktur",
+    "Save" : "Vista",
     "Calendar server" : "Dagatalaþjónn",
     "Send invitations to attendees" : "Senda boð til þátttakenda",
     "Automatically generate a birthday calendar" : "Útbúa fæðingardagatal sjálfvirkt",
@@ -88,7 +89,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Hafðu samband beint við skipuleggjendurna.",
     "Are you accepting the invitation?" : "Ætlar þú að samþykkja boðið?",
     "Tentative" : "Bráðabirgða",
-    "Save" : "Vista",
     "Your attendance was updated successfully." : "Mætingarstaða þín var uppfærð."
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

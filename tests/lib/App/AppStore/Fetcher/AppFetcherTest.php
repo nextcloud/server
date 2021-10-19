@@ -34,6 +34,7 @@ use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\Http\Client\IResponse;
 use OCP\IConfig;
+use OCP\Support\Subscription\IRegistry;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
@@ -50,6 +51,8 @@ class AppFetcherTest extends TestCase {
 	protected $compareVersion;
 	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
 	protected $logger;
+	/** @var IRegistry|\PHPUnit\Framework\MockObject\MockObject */
+	protected $registry;
 	/** @var AppFetcher */
 	protected $fetcher;
 	/** @var string */
@@ -1849,6 +1852,7 @@ EJL3BaQAQaASSsvFrcozYxrQG4VzEg==
 		$this->config = $this->createMock(IConfig::class);
 		$this->compareVersion = new CompareVersion();
 		$this->logger = $this->createMock(LoggerInterface::class);
+		$this->registry = $this->createMock(IRegistry::class);
 
 		$this->fetcher = new AppFetcher(
 			$factory,
@@ -1856,7 +1860,8 @@ EJL3BaQAQaASSsvFrcozYxrQG4VzEg==
 			$this->timeFactory,
 			$this->config,
 			$this->compareVersion,
-			$this->logger
+			$this->logger,
+			$this->registry
 		);
 	}
 
@@ -2060,5 +2065,78 @@ EJL3BaQAQaASSsvFrcozYxrQG4VzEg==
 
 		$this->fetcher->setVersion('11.0.0.2', 'future-apps.json', false);
 		$this->assertEquals(self::$expectedResponse['data'], $this->fetcher->get());
+	}
+
+	public function testGetAppsAllowlist() {
+		$this->config->method('getSystemValue')
+			->willReturnCallback(function ($key, $default) {
+				if ($key === 'appstoreenabled') {
+					return true;
+				} elseif ($key === 'version') {
+					return '11.0.0.2';
+				} elseif ($key === 'appstoreurl' && $default === 'https://apps.nextcloud.com/api/v1') {
+					return 'https://custom.appsstore.endpoint/api/v1';
+				} elseif ($key === 'appsallowlist') {
+					return ['contacts'];
+				} else {
+					return $default;
+				}
+			});
+		
+		$file = $this->createMock(ISimpleFile::class);
+		$folder = $this->createMock(ISimpleFolder::class);
+		$folder
+			->expects($this->at(0))
+			->method('getFile')
+			->with('apps.json')
+			->willThrowException(new NotFoundException());
+		$folder
+			->expects($this->at(1))
+			->method('newFile')
+			->with('apps.json')
+			->willReturn($file);
+		$this->appData
+			->expects($this->once())
+			->method('getFolder')
+			->with('/')
+			->willReturn($folder);
+		$client = $this->createMock(IClient::class);
+		$this->clientService
+			->expects($this->once())
+			->method('newClient')
+			->willReturn($client);
+		$response = $this->createMock(IResponse::class);
+		$client
+			->expects($this->once())
+			->method('get')
+			->with('https://custom.appsstore.endpoint/api/v1/apps.json')
+			->willReturn($response);
+		$response
+			->expects($this->once())
+			->method('getBody')
+			->willReturn(self::$responseJson);
+		$response->method('getHeader')
+			->with($this->equalTo('ETag'))
+			->willReturn('"myETag"');
+		$this->timeFactory
+			->expects($this->once())
+			->method('getTime')
+			->willReturn(1234);
+			
+		$this->registry
+			->expects($this->exactly(2))
+			->method('delegateHasValidSubscription')
+			->willReturn(true);
+
+		$file
+			->expects($this->once())
+			->method('putContent');
+		$file
+			->method('getContent')
+			->willReturn(json_encode(self::$expectedResponse));
+
+		$apps = array_values($this->fetcher->get());
+		$this->assertEquals(count($apps), 1);
+		$this->assertEquals($apps[0]['id'], 'contacts');
 	}
 }

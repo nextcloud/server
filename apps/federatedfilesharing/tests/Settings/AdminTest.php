@@ -29,6 +29,7 @@ use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\FederatedFileSharing\Settings\Admin;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\GlobalScale\IConfig;
+use OCP\IL10N;
 use Test\TestCase;
 
 class AdminTest extends TestCase {
@@ -45,7 +46,8 @@ class AdminTest extends TestCase {
 		$this->gsConfig = $this->createMock(IConfig::class);
 		$this->admin = new Admin(
 			$this->federatedShareProvider,
-			$this->gsConfig
+			$this->gsConfig,
+			$this->createMock(IL10N::class)
 		);
 	}
 

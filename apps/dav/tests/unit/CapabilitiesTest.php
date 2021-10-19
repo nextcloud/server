@@ -35,6 +35,7 @@ class CapabilitiesTest extends TestCase {
 		$expected = [
 			'dav' => [
 				'chunking' => '1.0',
+				'bulkupload' => '1.0',
 			],
 		];
 		$this->assertSame($expected, $capabilities->getCapabilities());
