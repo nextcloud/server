@@ -396,10 +396,8 @@ class StorageConfig implements \JsonSerializable {
 
 	/**
 	 * Serialize config to JSON
-	 *
-	 * @return array
 	 */
-	public function jsonSerialize() {
+	public function jsonSerialize(): array {
 		$result = [];
 		if (!is_null($this->id)) {
 			$result['id'] = $this->id;

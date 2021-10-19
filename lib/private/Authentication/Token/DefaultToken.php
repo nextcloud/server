@@ -121,7 +121,7 @@ class DefaultToken extends Entity implements INamedToken {
 		return parent::getPassword();
 	}
 
-	public function jsonSerialize() {
+	public function jsonSerialize(): array {
 		return [
 			'id' => $this->id,
 			'name' => $this->name,

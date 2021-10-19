@@ -138,7 +138,7 @@ class PublicKeyToken extends Entity implements INamedToken, IWipeableToken {
 		return parent::getPassword();
 	}
 
-	public function jsonSerialize() {
+	public function jsonSerialize(): array {
 		return [
 			'id' => $this->id,
 			'name' => $this->name,

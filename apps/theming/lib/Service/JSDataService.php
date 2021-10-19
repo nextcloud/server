@@ -50,7 +50,7 @@ class JSDataService implements \JsonSerializable {
 		$this->appConfig = $appConfig;
 	}
 
-	public function jsonSerialize() {
+	public function jsonSerialize(): array {
 		return [
 			'name' => $this->themingDefaults->getName(),
 			'url' => $this->themingDefaults->getBaseUrl(),

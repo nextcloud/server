@@ -197,13 +197,15 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 	/**
 	 * @deprecated 20.0.0 use \Psr\Container\ContainerInterface::has
 	 */
-	public function offsetExists($id) {
+	public function offsetExists($id): bool {
 		return $this->container->offsetExists($id);
 	}
 
 	/**
 	 * @deprecated 20.0.0 use \Psr\Container\ContainerInterface::get
+	 * @return mixed
 	 */
+	#[\ReturnTypeWillChange]
 	public function offsetGet($id) {
 		return $this->container->offsetGet($id);
 	}
@@ -211,14 +213,14 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 	/**
 	 * @deprecated 20.0.0 use \OCP\IContainer::registerService
 	 */
-	public function offsetSet($id, $service) {
+	public function offsetSet($id, $service): void {
 		$this->container->offsetSet($id, $service);
 	}
 
 	/**
 	 * @deprecated 20.0.0
 	 */
-	public function offsetUnset($offset) {
+	public function offsetUnset($offset): void {
 		$this->container->offsetUnset($offset);
 	}
 }

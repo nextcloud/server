@@ -69,7 +69,7 @@ final class Template implements \JsonSerializable {
 	/**
 	 * @since 21.0.0
 	 */
-	public function jsonSerialize() {
+	public function jsonSerialize(): array {
 		return [
 			'templateType' => $this->templateType,
 			'templateId' => $this->templateId,
