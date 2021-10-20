@@ -31,8 +31,6 @@ namespace OCA\Files_External\AppInfo;
 
 use OCA\Files_External\Config\ConfigAdapter;
 use OCA\Files_External\Config\UserPlaceholderHandler;
-use OCA\Files_External\Listener\GroupDeletedListener;
-use OCA\Files_External\Listener\UserDeletedListener;
 use OCA\Files_External\Lib\Auth\AmazonS3\AccessKey;
 use OCA\Files_External\Lib\Auth\Builtin;
 use OCA\Files_External\Lib\Auth\NullMechanism;
@@ -49,6 +47,7 @@ use OCA\Files_External\Lib\Auth\Password\UserGlobalAuth;
 use OCA\Files_External\Lib\Auth\Password\UserProvided;
 use OCA\Files_External\Lib\Auth\PublicKey\RSA;
 use OCA\Files_External\Lib\Auth\PublicKey\RSAPrivateKey;
+use OCA\Files_External\Lib\Auth\SMB\KerberosApacheAuth;
 use OCA\Files_External\Lib\Auth\SMB\KerberosAuth;
 use OCA\Files_External\Lib\Backend\AmazonS3;
 use OCA\Files_External\Lib\Backend\DAV;
@@ -62,6 +61,8 @@ use OCA\Files_External\Lib\Backend\SMB_OC;
 use OCA\Files_External\Lib\Backend\Swift;
 use OCA\Files_External\Lib\Config\IAuthMechanismProvider;
 use OCA\Files_External\Lib\Config\IBackendProvider;
+use OCA\Files_External\Listener\GroupDeletedListener;
+use OCA\Files_External\Listener\UserDeletedListener;
 use OCA\Files_External\Service\BackendService;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
@@ -180,6 +181,7 @@ class Application extends App implements IBackendProvider, IAuthMechanismProvide
 			// Specialized mechanisms
 			$container->query(AccessKey::class),
 			$container->query(KerberosAuth::class),
+			$container->query(KerberosApacheAuth::class),
 		];
 	}
 }
