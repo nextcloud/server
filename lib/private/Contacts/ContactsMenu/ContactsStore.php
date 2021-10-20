@@ -113,9 +113,18 @@ class ContactsStore implements IContactsStore {
 			$options
 		);
 
+		$userId = $user->getUID();
+		$contacts = array_filter($allContacts, function ($contact) use ($userId) {
+			// When searching for multiple results, we strip out the current user
+			if (array_key_exists('UID', $contact)) {
+				return $contact['UID'] !== $userId;
+			}
+			return true;
+		});
+
 		$entries = array_map(function (array $contact) {
 			return $this->contactArrayToEntry($contact);
-		}, $allContacts);
+		}, $contacts);
 		return $this->filterContacts(
 			$user,
 			$entries,
@@ -125,12 +134,11 @@ class ContactsStore implements IContactsStore {
 
 	/**
 	 * Filters the contacts. Applied filters:
-	 *  1. filter the current user
-	 *  2. if the `shareapi_allow_share_dialog_user_enumeration` config option is
+	 *  1. if the `shareapi_allow_share_dialog_user_enumeration` config option is
 	 * enabled it will filter all local users
-	 *  3. if the `shareapi_exclude_groups` config option is enabled and the
+	 *  2. if the `shareapi_exclude_groups` config option is enabled and the
 	 * current user is in an excluded group it will filter all local users.
-	 *  4. if the `shareapi_only_share_with_group_members` config option is
+	 *  3. if the `shareapi_only_share_with_group_members` config option is
 	 * enabled it will filter all users which doens't have a common group
 	 * with the current user.
 	 *
@@ -171,10 +179,6 @@ class ContactsStore implements IContactsStore {
 		$selfUID = $self->getUID();
 
 		return array_values(array_filter($entries, function (IEntry $entry) use ($skipLocal, $ownGroupsOnly, $selfGroups, $selfUID, $disallowEnumeration, $restrictEnumerationGroup, $restrictEnumerationPhone, $allowEnumerationFullMatch, $filter) {
-			if ($entry->getProperty('UID') === $selfUID) {
-				return false;
-			}
-
 			if ($entry->getProperty('isLocalSystemBook')) {
 				if ($skipLocal) {
 					return false;
@@ -266,11 +270,7 @@ class ContactsStore implements IContactsStore {
 				return null;
 		}
 
-		$userId = $user->getUID();
-		$allContacts = $this->contactsManager->search($shareWith, $filter);
-		$contacts = array_filter($allContacts, function ($contact) use ($userId) {
-			return $contact['UID'] !== $userId;
-		});
+		$contacts = $this->contactsManager->search($shareWith, $filter);
 		$match = null;
 
 		foreach ($contacts as $contact) {
