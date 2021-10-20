@@ -9,6 +9,7 @@ OC.L10N.register(
     "Working remotely" : "Dirbu nuotoliniu būdu",
     "User status" : "Naudotojo būsena",
     "Clear status message after" : "Išvalyti būsenos žinutę po",
+    "What is your status?" : "Kokia jūsų būsena?",
     "Set status" : "Nustatyti būseną",
     "Online status" : "Prisijungimo būsena",
     "Status message" : "Būsenos žinutė",

@@ -1,5 +1,7 @@
 { "translations": {
+    "Email confirmation" : "E-Mail-Bestätigung",
     "To enable the email address %s please click the button below." : "Um die E-Mail-Adresse %s zu bestätigen, klicke bitte auf die untenstehende Schaltfläche.",
+    "Email was already removed from account and cannot be confirmed anymore." : "Diese E-Mail-Adresse wurde bereits aus dem Konto entfernt und kann nicht mehr bestätigt werden.",
     "An unexpected error occurred. Please contact your admin." : "Es ist ein unerwarteter Fehler aufgetreten, bitte kontaktiere Deinen Administrator.",
     "Provisioning API" : "Bereitstellungs-API",
     "This application enables a set of APIs that external systems can use to manage users, groups and apps." : "Diese Anwendung stellt eine API bereit, um von anderen Systemen aus Benutzer, Gruppen und Apps zu verwalten.",

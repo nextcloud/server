@@ -236,7 +236,6 @@ OC.L10N.register(
     "Help translate" : "Helfen Sie bei der Übersetzung",
     "No language set" : "Keine Sprache eingestellt",
     "Add" : "Hinzufügen",
-    "Change privacy level of {accountProperty}" : "Datenschutzstufe von {accountProperty} ändern",
     "Unable to update federation scope of the primary {accountProperty}" : "Der Federation-Bereich des primären {accountProperty} kann nicht aktualisiert werden",
     "Unable to update federation scope of additional {accountProperty}" : "Unable to update federation scope of additional {accountProperty}",
     "You do not have permissions to see the details of this user" : "Sie haben keine Berechtigung, um auf die Details dieses Benutzers zu sehen",
