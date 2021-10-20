@@ -44,7 +44,9 @@ use OCP\Http\Client\IResponse;
 use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IURLGenerator;
+use OCP\IUser;
 use OCP\IUserManager;
+use OCP\IUserSession;
 use OCP\Share\IShare;
 use Psr\Log\LoggerInterface;
 use Test\Traits\UserTrait;
@@ -153,6 +155,13 @@ class ManagerTest extends TestCase {
 	}
 
 	private function createManagerForUser($userId) {
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')
+			->willReturn($userId);
+		$userSession = $this->createMock(IUserSession::class);
+		$userSession->method('getUser')
+			->willReturn($user);
+
 		return $this->getMockBuilder(Manager::class)
 			->setConstructorArgs(
 				[
@@ -166,7 +175,7 @@ class ManagerTest extends TestCase {
 					$this->cloudFederationFactory,
 					$this->groupManager,
 					$this->userManager,
-					$userId,
+					$userSession,
 					$this->eventDispatcher,
 					$this->logger,
 				]

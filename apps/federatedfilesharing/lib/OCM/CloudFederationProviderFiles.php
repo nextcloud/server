@@ -33,10 +33,10 @@ use OC\Files\Filesystem;
 use OCA\FederatedFileSharing\AddressHandler;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\Files_Sharing\Activity\Providers\RemoteShares;
+use OCA\Files_Sharing\External\Manager;
 use OCP\Activity\IManager as IActivityManager;
 use OCP\App\IAppManager;
 use OCP\Constants;
-use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\Exceptions\ActionNotSupportedException;
 use OCP\Federation\Exceptions\AuthenticationFailedException;
 use OCP\Federation\Exceptions\BadRequestException;
@@ -59,7 +59,6 @@ use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
 use OCP\Util;
-use Psr\Log\LoggerInterface;
 
 class CloudFederationProviderFiles implements ICloudFederationProvider {
 
@@ -108,6 +107,9 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 	/** @var IConfig */
 	private $config;
 
+	/** @var Manager */
+	private $externalShareManager;
+
 	/**
 	 * CloudFederationProvider constructor.
 	 *
@@ -125,22 +127,26 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 	 * @param ICloudFederationProviderManager $cloudFederationProviderManager
 	 * @param IDBConnection $connection
 	 * @param IGroupManager $groupManager
+	 * @param IConfig $config
+	 * @param Manager $externalShareManager
 	 */
-	public function __construct(IAppManager $appManager,
-								FederatedShareProvider $federatedShareProvider,
-								AddressHandler $addressHandler,
-								ILogger $logger,
-								IUserManager $userManager,
-								IManager $shareManager,
-								ICloudIdManager $cloudIdManager,
-								IActivityManager $activityManager,
-								INotificationManager $notificationManager,
-								IURLGenerator $urlGenerator,
-								ICloudFederationFactory $cloudFederationFactory,
-								ICloudFederationProviderManager $cloudFederationProviderManager,
-								IDBConnection $connection,
-								IGroupManager $groupManager,
-								IConfig $config
+	public function __construct(
+		IAppManager $appManager,
+		FederatedShareProvider $federatedShareProvider,
+		AddressHandler $addressHandler,
+		ILogger $logger,
+		IUserManager $userManager,
+		IManager $shareManager,
+		ICloudIdManager $cloudIdManager,
+		IActivityManager $activityManager,
+		INotificationManager $notificationManager,
+		IURLGenerator $urlGenerator,
+		ICloudFederationFactory $cloudFederationFactory,
+		ICloudFederationProviderManager $cloudFederationProviderManager,
+		IDBConnection $connection,
+		IGroupManager $groupManager,
+		IConfig $config,
+		Manager $externalShareManager
 	) {
 		$this->appManager = $appManager;
 		$this->federatedShareProvider = $federatedShareProvider;
@@ -157,6 +163,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 		$this->connection = $connection;
 		$this->groupManager = $groupManager;
 		$this->config = $config;
+		$this->externalShareManager = $externalShareManager;
 	}
 
 
@@ -239,24 +246,8 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 				throw new ProviderCouldNotAddShareException('Group does not exists', '',Http::STATUS_BAD_REQUEST);
 			}
 
-			$externalManager = new \OCA\Files_Sharing\External\Manager(
-				\OC::$server->getDatabaseConnection(),
-				Filesystem::getMountManager(),
-				Filesystem::getLoader(),
-				\OC::$server->getHTTPClientService(),
-				\OC::$server->getNotificationManager(),
-				\OC::$server->query(\OCP\OCS\IDiscoveryService::class),
-				\OC::$server->getCloudFederationProviderManager(),
-				\OC::$server->getCloudFederationFactory(),
-				\OC::$server->getGroupManager(),
-				\OC::$server->getUserManager(),
-				$shareWith,
-				\OC::$server->query(IEventDispatcher::class),
-				\OC::$server->get(LoggerInterface::class)
-			);
-
 			try {
-				$externalManager->addShare($remote, $token, '', $name, $owner, $shareType,false, $shareWith, $remoteId);
+				$this->externalShareManager->addShare($remote, $token, '', $name, $owner, $shareType,false, $shareWith, $remoteId);
 				$shareId = \OC::$server->getDatabaseConnection()->lastInsertId('*PREFIX*share_external');
 
 				if ($shareType === IShare::TYPE_USER) {
