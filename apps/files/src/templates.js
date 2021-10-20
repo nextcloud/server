@@ -32,8 +32,6 @@ import TemplatePickerView from './views/TemplatePicker'
 import { getCurrentUser } from '@nextcloud/auth'
 import { showError } from '@nextcloud/dialogs'
 
-import './legacy/filelistSearch'
-
 // Set up logger
 const logger = getLoggerBuilder()
 	.setApp('files')
