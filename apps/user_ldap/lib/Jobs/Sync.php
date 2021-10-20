@@ -39,6 +39,7 @@ use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IUserManager;
 use OCP\Notification\IManager;
+use Psr\Log\LoggerInterface;
 
 class Sync extends TimedJob {
 	public const MAX_INTERVAL = 12 * 60 * 60; // 12h
@@ -59,6 +60,8 @@ class Sync extends TimedJob {
 	protected $dbc;
 	/** @var  IUserManager */
 	protected $ncUserManager;
+	/** @var  LoggerInterface */
+	protected $logger;
 	/** @var  IManager */
 	protected $notificationManager;
 	/** @var ConnectionFactory */
@@ -336,6 +339,12 @@ class Sync extends TimedJob {
 			$this->ncUserManager = \OC::$server->getUserManager();
 		}
 
+		if (isset($argument['logger'])) {
+			$this->logger = $argument['logger'];
+		} else {
+			$this->logger = \OC::$server->get(LoggerInterface::class);
+		}
+
 		if (isset($argument['notificationManager'])) {
 			$this->notificationManager = $argument['notificationManager'];
 		} else {
@@ -366,7 +375,8 @@ class Sync extends TimedJob {
 				$this->userManager,
 				$this->ldapHelper,
 				$this->config,
-				$this->ncUserManager
+				$this->ncUserManager,
+				$this->logger
 			);
 		}
 	}
