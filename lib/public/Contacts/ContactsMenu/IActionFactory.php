@@ -35,10 +35,10 @@ interface IActionFactory {
 	 * @param string $icon full path to the action's icon
 	 * @param string $name localized name of the action
 	 * @param string $href target URL
-	 * @param string $appName the appName registering the action
+	 * @param string $appId the app ID registering the action
 	 * @return ILinkAction
 	 */
-	public function newLinkAction(string $icon, string $name, string $href, string $appName = ''): ILinkAction;
+	public function newLinkAction(string $icon, string $name, string $href, string $appId = ''): ILinkAction;
 
 	/**
 	 * Construct and return a new email action for the contacts menu
@@ -48,8 +48,8 @@ interface IActionFactory {
 	 * @param string $icon full path to the action's icon
 	 * @param string $name localized name of the action
 	 * @param string $email target e-mail address
-	 * @param string $appName the appName registering the action
+	 * @param string $appId the appName registering the action
 	 * @return ILinkAction
 	 */
-	public function newEMailAction(string $icon, string $name, string $email, string $appName = ''): ILinkAction;
+	public function newEMailAction(string $icon, string $name, string $email, string $appId = ''): ILinkAction;
 }

@@ -39,7 +39,7 @@ class LinkAction implements ILinkAction {
 	private $priority = 10;
 
 	/** @var string */
-	private $appName;
+	private $appId;
 
 	/**
 	 * @param string $icon absolute URI to an icon
@@ -91,19 +91,19 @@ class LinkAction implements ILinkAction {
 	}
 
 	/**
-	 * @param string $appName
+	 * @param string $appId
 	 * @since 23.0.0
 	 */
-	public function setAppName(string $appName) {
-		$this->appName = $appName;
+	public function setAppId(string $appId) {
+		$this->appId = $appId;
 	}
 
 	/**
 	 * @return string
 	 * @since 23.0.0
 	 */
-	public function getAppName(): string {
-		return $this->appName;
+	public function getAppId(): string {
+		return $this->appId;
 	}
 
 	/**
@@ -114,7 +114,7 @@ class LinkAction implements ILinkAction {
 			'title' => $this->name,
 			'icon' => $this->icon,
 			'hyperlink' => $this->href,
-			'appName' => $this->appName,
+			'appId' => $this->appId,
 		];
 	}
 }

@@ -62,14 +62,14 @@ interface IAction extends JsonSerializable {
 	public function getPriority();
 
 	/**
-	 * @param string $appName
+	 * @param string $appId
 	 * @since 23.0.0
 	 */
-	public function setAppName(string $appName);
+	public function setAppId(string $appId);
 
 	/**
 	 * @return string
 	 * @since 23.0.0
 	 */
-	public function getAppName(): string;
+	public function getAppId(): string;
 }

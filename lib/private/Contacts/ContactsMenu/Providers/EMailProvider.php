@@ -54,7 +54,7 @@ class EMailProvider implements IProvider {
 				// Skip
 				continue;
 			}
-			$action = $this->actionFactory->newEMailAction($iconUrl, $address, $address);
+			$action = $this->actionFactory->newEMailAction($iconUrl, $address, $address, 'email');
 			$entry->addAction($action);
 		}
 	}
