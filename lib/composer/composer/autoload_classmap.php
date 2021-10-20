@@ -920,6 +920,7 @@ return array(
     'OC\\Core\\Controller\\ContactsMenuController' => $baseDir . '/core/Controller/ContactsMenuController.php',
     'OC\\Core\\Controller\\CssController' => $baseDir . '/core/Controller/CssController.php',
     'OC\\Core\\Controller\\GuestAvatarController' => $baseDir . '/core/Controller/GuestAvatarController.php',
+    'OC\\Core\\Controller\\HoverCardController' => $baseDir . '/core/Controller/HoverCardController.php',
     'OC\\Core\\Controller\\JsController' => $baseDir . '/core/Controller/JsController.php',
     'OC\\Core\\Controller\\LoginController' => $baseDir . '/core/Controller/LoginController.php',
     'OC\\Core\\Controller\\LostController' => $baseDir . '/core/Controller/LostController.php',

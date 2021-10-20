@@ -29,26 +29,21 @@ use OCP\Contacts\ContactsMenu\ILinkAction;
 class ActionFactory implements IActionFactory {
 
 	/**
-	 * @param string $icon
-	 * @param string $name
-	 * @param string $href
-	 * @return ILinkAction
+	 * {@inheritDoc}
 	 */
-	public function newLinkAction($icon, $name, $href) {
+	public function newLinkAction(string $icon, string $name, string $href, string $appId = ''): ILinkAction {
 		$action = new LinkAction();
 		$action->setName($name);
 		$action->setIcon($icon);
 		$action->setHref($href);
+		$action->setAppId($appId);
 		return $action;
 	}
 
 	/**
-	 * @param string $icon
-	 * @param string $name
-	 * @param string $email
-	 * @return ILinkAction
+	 * {@inheritDoc}
 	 */
-	public function newEMailAction($icon, $name, $email) {
-		return $this->newLinkAction($icon, $name, 'mailto:' . $email);
+	public function newEMailAction(string $icon, string $name, string $email, string $appId = ''): ILinkAction {
+		return $this->newLinkAction($icon, $name, 'mailto:' . $email, $appId);
 	}
 }
