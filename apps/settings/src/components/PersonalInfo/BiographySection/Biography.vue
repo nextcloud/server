@@ -125,7 +125,7 @@ export default {
 	align-items: center;
 
 	textarea {
-		resize: none;
+		resize: vertical;
 		grid-area: 1 / 1;
 		width: 100%;
 		margin: 3px 3px 3px 0;
