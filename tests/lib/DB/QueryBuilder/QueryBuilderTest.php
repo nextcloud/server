@@ -102,7 +102,7 @@ class QueryBuilderTest extends \Test\TestCase {
 
 	public function dataFirstResult() {
 		return [
-			[null, [99, 98, 97, 96, 95, 94, 93, 92, 91]],
+			[0, [99, 98, 97, 96, 95, 94, 93, 92, 91]],
 			[0, [99, 98, 97, 96, 95, 94, 93, 92, 91]],
 			[1, [98, 97, 96, 95, 94, 93, 92, 91]],
 			[5, [94, 93, 92, 91]],
@@ -112,7 +112,7 @@ class QueryBuilderTest extends \Test\TestCase {
 	/**
 	 * @dataProvider dataFirstResult
 	 *
-	 * @param int $firstResult
+	 * @param int|null $firstResult
 	 * @param array $expectedSet
 	 */
 	public function testFirstResult($firstResult, $expectedSet) {
@@ -121,14 +121,10 @@ class QueryBuilderTest extends \Test\TestCase {
 
 		if ($firstResult !== null) {
 			$this->queryBuilder->setFirstResult($firstResult);
-
-			// FIXME Remove this once Doctrine/DBAL is >2.5.1:
-			// FIXME See https://github.com/doctrine/dbal/pull/782
-			$this->queryBuilder->setMaxResults(100);
 		}
 
 		$this->assertSame(
-			$firstResult,
+			$firstResult ?? 0,
 			$this->queryBuilder->getFirstResult()
 		);
 
