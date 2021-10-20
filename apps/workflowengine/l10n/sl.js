@@ -83,6 +83,7 @@ OC.L10N.register(
     "Available flows" : "Razpoložljivi koračniki",
     "For details on how to write your own flow, check out the development documentation." : "Za podrobnosti, kako sestaviti koračnike po meri, preverite razvijalsko dokumentacijo.",
     "More flows" : "Več koračnikov",
+    "Browse the App Store" : "Prebrskaj po trgovini programov",
     "Show less" : "Pokaži manj",
     "Show more" : "Pokaži več",
     "Configured flows" : "Nastavljeni koračniki",

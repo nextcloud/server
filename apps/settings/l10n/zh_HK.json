@@ -234,7 +234,6 @@
     "Help translate" : "協助翻譯",
     "No language set" : "未設定語言",
     "Add" : "新增",
-    "Change privacy level of {accountProperty}" : "更新 {accountProperty} 的隱私級別",
     "Unable to update federation scope of the primary {accountProperty}" : "無法更新主要 {accountProperty} 的聯盟範圍",
     "Unable to update federation scope of additional {accountProperty}" : "無法更新額外 {accountProperty} 的聯盟範圍",
     "You do not have permissions to see the details of this user" : "您沒有檢視此用戶詳細資料的權限",
