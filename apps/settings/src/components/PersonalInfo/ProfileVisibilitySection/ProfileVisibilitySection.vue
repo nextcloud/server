@@ -32,7 +32,7 @@
 			:show-display-id="true"
 			:visibility.sync="parameter.visibility" />
 
-		<em :class="{ disabled }">{{ t('settings', 'The more restrictive setting of either visibility or scope is respected on your Profile — For example, when visibility is set to "Show to everyone" and scope is set to "Private", "Private" will be respected') }}</em>
+		<em :class="{ disabled }">{{ t('settings', 'The more restrictive setting of either visibility or scope is respected on your Profile, for example: When visibility is set to "Show to everyone" and scope is set to "Private", "Private" will be respected') }}</em>
 	</section>
 </template>
 
