@@ -78,6 +78,7 @@ use OCP\IRequest;
 use OCP\ITempManager;
 use OCP\IURLGenerator;
 use OCP\Lock\ILockingProvider;
+use OCP\Notification\IManager;
 use OCP\Security\ISecureRandom;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -114,6 +115,8 @@ class CheckSetupController extends Controller {
 	private $connection;
 	/** @var ITempManager */
 	private $tempManager;
+	/** @var IManager */
+	private $manager;
 
 	public function __construct($AppName,
 								IRequest $request,
@@ -131,7 +134,8 @@ class CheckSetupController extends Controller {
 								ISecureRandom $secureRandom,
 								IniGetWrapper $iniGetWrapper,
 								IDBConnection $connection,
-								ITempManager $tempManager) {
+								ITempManager $tempManager,
+								IManager $manager) {
 		parent::__construct($AppName, $request);
 		$this->config = $config;
 		$this->clientService = $clientService;
@@ -148,6 +152,15 @@ class CheckSetupController extends Controller {
 		$this->iniGetWrapper = $iniGetWrapper;
 		$this->connection = $connection;
 		$this->tempManager = $tempManager;
+		$this->manager = $manager;
+	}
+
+	/**
+	 * Check if is fair use of free push service
+	 * @return bool
+	 */
+	private function isFairUseOfFreePushService(): bool {
+		return $this->manager->isFairUseOfFreePushService();
 	}
 
 	/**
@@ -761,6 +774,7 @@ Raw output
 				'suggestedOverwriteCliURL' => $this->getSuggestedOverwriteCliURL(),
 				'cronInfo' => $this->getLastCronInfo(),
 				'cronErrors' => $this->getCronErrors(),
+				'isFairUseOfFreePushService' => $this->isFairUseOfFreePushService(),
 				'serverHasInternetConnectionProblems' => $this->hasInternetConnectivityProblems(),
 				'isMemcacheConfigured' => $this->isMemcacheConfigured(),
 				'memcacheDocs' => $this->urlGenerator->linkToDocs('admin-performance'),
