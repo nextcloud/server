@@ -234,7 +234,6 @@
     "Help translate" : "Pomóż w tłumaczeniu",
     "No language set" : "Nie ustawiono języka",
     "Add" : "Dodaj",
-    "Change privacy level of {accountProperty}" : "Zmiana poziomu prywatności na {accountProperty}",
     "Unable to update federation scope of the primary {accountProperty}" : "Nie można zaktualizować zakresu federacji podstawowego {accountProperty}",
     "Unable to update federation scope of additional {accountProperty}" : "Nie można zaktualizować zakresu federacji dodatkowego {accountProperty}",
     "You do not have permissions to see the details of this user" : "Nie masz uprawnień aby zobaczyć informacje o tym użytkowniku",

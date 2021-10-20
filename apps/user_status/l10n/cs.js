@@ -7,6 +7,7 @@ OC.L10N.register(
     "Out sick" : "Nemoc",
     "Vacationing" : "Dovolená",
     "Working remotely" : "Pracuje na dálku",
+    "In a call" : "Má hovor",
     "User status" : "Stav uživatele",
     "Clear status message after" : "Vyčistit stavovou zprávu po uplynutí",
     "What is your status?" : "Jaký je váš stav?",

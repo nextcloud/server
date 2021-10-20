@@ -7,6 +7,7 @@ OC.L10N.register(
     "Out sick" : "Krank geschrieben",
     "Vacationing" : "Im Urlaub",
     "Working remotely" : "Arbeitet aus der Ferne",
+    "In a call" : "In einem Anruf",
     "User status" : "Benutzerstatus",
     "Clear status message after" : "Statusnachricht löschen nach",
     "What is your status?" : "Wie ist Ihr Status?",
