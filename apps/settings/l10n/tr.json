@@ -234,7 +234,6 @@
     "Help translate" : "Çeviriye yardım edin",
     "No language set" : "Herhangi bir dil ayarlanmamış",
     "Add" : "Ekle",
-    "Change privacy level of {accountProperty}" : "{accountProperty} gizlilik düzeyini değiştir",
     "Unable to update federation scope of the primary {accountProperty}" : "Birincil {accountProperty} birleşik kapsamı güncellenemedi",
     "Unable to update federation scope of additional {accountProperty}" : "Ek {accountProperty} birleşik kapsamı güncellenemedi",
     "You do not have permissions to see the details of this user" : "Bu kullanıcının ayrıntılarını görüntüleme izniniz yok",

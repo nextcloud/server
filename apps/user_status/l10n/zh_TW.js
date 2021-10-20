@@ -7,6 +7,7 @@ OC.L10N.register(
     "Out sick" : "生病",
     "Vacationing" : "休假",
     "Working remotely" : "遠地工作",
+    "In a call" : "通話中",
     "User status" : "使用者狀態",
     "Clear status message after" : "清空狀態訊息於……之後",
     "What is your status?" : "您目前的狀態是什麼呢？",
