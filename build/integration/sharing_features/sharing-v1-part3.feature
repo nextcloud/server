@@ -472,6 +472,36 @@ Feature: sharing
     Then the OCS status code should be "404"
     And the HTTP status code should be "200"
 
+  Scenario: do allow to create links on a shared folder with two mountpoints
+    Given As an "admin"
+    And user "user0" exists
+    And user "user1" exists
+    And group "group1" exists
+    And user "user1" belongs to group "group1"
+    And user "user0" created a folder "/TMP"
+    And user "user0" created a folder "/TMP/SUB"
+    And As an "user0"
+    And creating a share with
+      | path | TMP |
+      | shareType | 1 |
+      | shareWith | group1 |
+      | permissions | 15  |
+    When As an "user1"
+    And accepting last share
+    And As an "user0"
+    And creating a share with
+      | path | TMP/SUB |
+      | shareType | 0 |
+      | shareWith | user1 |
+      | permissions | 31  |
+    When As an "user1"
+    And accepting last share
+    And creating a share with
+      | path | TMP/SUB |
+      | shareType | 3 |
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+
   Scenario: deleting file out of a share as recipient creates a backup for the owner
     Given As an "admin"
     And user "user0" exists
