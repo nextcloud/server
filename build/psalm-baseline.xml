@@ -4253,6 +4253,7 @@
     </ParamNameMismatch>
   </file>
   <file src="lib/private/Notification/Manager.php">
+    <InvalidCatch occurrences="3"/>
     <TypeDoesNotContainType occurrences="2">
       <code>!($notification instanceof INotification)</code>
       <code>!($notification instanceof INotification)</code>

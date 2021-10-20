@@ -27,6 +27,7 @@ declare(strict_types=1);
  */
 namespace OCP\Support\Subscription;
 
+use OCP\Notification\IManager;
 use OCP\Support\Subscription\Exception\AlreadyRegisteredException;
 
 /**
@@ -81,7 +82,8 @@ interface IRegistry {
 	/**
 	 * Indicates if a hard user limit is reached and no new users should be created
 	 *
+	 * @param IManager|null $notificationManager
 	 * @since 21.0.0
 	 */
-	public function delegateIsHardUserLimitReached(): bool;
+	public function delegateIsHardUserLimitReached(?IManager $notificationManager = null): bool;
 }

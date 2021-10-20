@@ -44,6 +44,7 @@ use OCP\IGroup;
 use OCP\IUser;
 use OCP\IUserBackend;
 use OCP\IUserManager;
+use OCP\Notification\IManager;
 use OCP\Support\Subscription\IRegistry;
 use OCP\User\Backend\IGetRealUIDBackend;
 use OCP\User\Backend\ISearchKnownUsersBackend;
@@ -379,7 +380,11 @@ class Manager extends PublicEmitter implements IUserManager {
 	 */
 	public function createUser($uid, $password) {
 		// DI injection is not used here as IRegistry needs the user manager itself for user count and thus it would create a cyclic dependency
-		if (\OC::$server->get(IRegistry::class)->delegateIsHardUserLimitReached()) {
+		/** @var IRegistry $registry */
+		$registry = \OC::$server->get(IRegistry::class);
+		/** @var IManager $notificationManager */
+		$notificationManager = \OC::$server->get(IManager::class);
+		if ($registry->delegateIsHardUserLimitReached($notificationManager)) {
 			$l = \OC::$server->getL10N('lib');
 			throw new HintException($l->t('The user limit has been reached and the user was not created.'));
 		}

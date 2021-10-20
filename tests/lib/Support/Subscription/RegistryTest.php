@@ -75,8 +75,7 @@ class RegistryTest extends TestCase {
 			$this->serverContainer,
 			$this->userManager,
 			$this->groupManager,
-			$this->logger,
-			$this->notificationManager
+			$this->logger
 		);
 	}
 
@@ -177,7 +176,7 @@ class RegistryTest extends TestCase {
 			->method('get')
 			->willReturn($dummyGroup);
 
-		$this->assertSame(true, $this->registry->delegateIsHardUserLimitReached());
+		$this->assertSame(true, $this->registry->delegateIsHardUserLimitReached($this->notificationManager));
 	}
 
 	public function testDelegateIsHardUserLimitReachedWithoutSupportApp() {
@@ -186,7 +185,7 @@ class RegistryTest extends TestCase {
 			->with('one-click-instance')
 			->willReturn(false);
 
-		$this->assertSame(false, $this->registry->delegateIsHardUserLimitReached());
+		$this->assertSame(false, $this->registry->delegateIsHardUserLimitReached($this->notificationManager));
 	}
 
 	public function dataForUserLimitCheck() {
@@ -237,6 +236,6 @@ class RegistryTest extends TestCase {
 				->willReturn($dummyGroup);
 		}
 
-		$this->assertSame($expectedResult, $this->registry->delegateIsHardUserLimitReached());
+		$this->assertSame($expectedResult, $this->registry->delegateIsHardUserLimitReached($this->notificationManager));
 	}
 }
