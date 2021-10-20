@@ -32,8 +32,7 @@
 			:show-user-status="true"
 			:show-user-status-compact="false"
 			:disable-menu="true"
-			:disable-tooltip="true"
-			@click.native.prevent.stop="openStatusModal" />
+			:disable-tooltip="true" />
 		<div class="preview-card__header">
 			<span>{{ displayName }}</span>
 		</div>
@@ -57,11 +56,11 @@ export default {
 	},
 
 	props: {
-		organisation: {
+		displayName: {
 			type: String,
 			required: true,
 		},
-		displayName: {
+		organisation: {
 			type: String,
 			required: true,
 		},
@@ -73,11 +72,6 @@ export default {
 			type: String,
 			required: true,
 		},
-	},
-
-	data() {
-		return {
-		}
 	},
 
 	computed: {
@@ -94,9 +88,6 @@ export default {
 			// and to allow the hover event (which disabling pointer-events wouldn't allow) for styling
 			return null
 		},
-	},
-
-	methods: {
 	},
 }
 </script>
@@ -142,50 +133,49 @@ export default {
 		}
 	}
 
-	&__header {
-		position: relative !important;
-		width: auto !important;
-		height: 70px !important;
-		border-radius: var(--border-radius-large) var(--border-radius-large) 0 0 !important;
-
-		span {
-			position: absolute;
-			bottom: 0;
-			left: 78px;
-			color: var(--color-primary-text);
-			font-size: 18px;
-			font-weight: bold;
-			margin-bottom: 8px;
-		}
-	}
-
+	&__header,
 	&__footer {
 		position: relative;
 		width: auto;
-		height: 46px;
 
 		span {
 			position: absolute;
-			top: 0;
 			left: 78px;
-			color: var(--color-text-maxcontrast);
-			font-size: 14px;
-			font-weight: normal;
-			margin-top: 4px;
-			line-height: 1.3;
-
 			overflow: hidden;
-			white-space: nowrap;
 			text-overflow: ellipsis;
+			word-break: break-all;
 
 			@supports (-webkit-line-clamp: 2) {
-				overflow: hidden;
-				white-space: initial;
-				text-overflow: ellipsis;
 				display: -webkit-box;
 				-webkit-line-clamp: 2;
 				-webkit-box-orient: vertical;
 			}
+		}
+	}
+
+	&__header {
+		height: 70px;
+		border-radius: var(--border-radius-large) var(--border-radius-large) 0 0;
+
+		span {
+			bottom: 0;
+			color: var(--color-primary-text);
+			font-size: 18px;
+			font-weight: bold;
+			margin: 0 4px 8px 0;
+		}
+	}
+
+	&__footer {
+		height: 46px;
+
+		span {
+			top: 0;
+			color: var(--color-text-maxcontrast);
+			font-size: 14px;
+			font-weight: normal;
+			margin: 4px 4px 0 0;
+			line-height: 1.3;
 		}
 	}
 }
