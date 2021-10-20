@@ -278,51 +278,61 @@ class ProfileManager {
 	}
 
 	/**
-	 * @inheritDoc
+	 * Return the default profile config
+	 */
+	private function getDefaultProfileConfig(IUser $targetUser, ?IUser $visitingUser): array {
+		// Contruct the default config for actions
+		$actionsConfig = [];
+		foreach ($this->getActions($targetUser, $visitingUser) as $action) {
+			$actionsConfig[$action->getId()] = [
+				'displayId' => $action->getDisplayId(),
+				'visibility' => ProfileConfig::DEFAULT_VISIBILITY,
+			];
+		}
+
+		// Map of account properties to display IDs
+		$propertyDisplayMap = [
+			IAccountManager::PROPERTY_ADDRESS => $this->l10nFactory->get('core')->t('Address'),
+			IAccountManager::PROPERTY_AVATAR => $this->l10nFactory->get('core')->t('Avatar'),
+			IAccountManager::PROPERTY_BIOGRAPHY => $this->l10nFactory->get('core')->t('About'),
+			IAccountManager::PROPERTY_DISPLAYNAME => $this->l10nFactory->get('core')->t('Full name'),
+			IAccountManager::PROPERTY_HEADLINE => $this->l10nFactory->get('core')->t('Headline'),
+			IAccountManager::PROPERTY_ORGANISATION => $this->l10nFactory->get('core')->t('Organisation'),
+			IAccountManager::PROPERTY_ROLE => $this->l10nFactory->get('core')->t('Role'),
+			IAccountManager::PROPERTY_EMAIL => $this->l10nFactory->get('core')->t('Email'),
+			IAccountManager::PROPERTY_PHONE => $this->l10nFactory->get('core')->t('Phone'),
+			IAccountManager::PROPERTY_TWITTER => $this->l10nFactory->get('core')->t('Twitter'),
+			IAccountManager::PROPERTY_WEBSITE => $this->l10nFactory->get('core')->t('Website'),
+		];
+
+		// Contruct the default config for account properties
+		$propertiesConfig = [];
+		foreach ($propertyDisplayMap as $property => $displayId) {
+			$propertiesConfig[$property] = [
+				'displayId' => $displayId,
+				'visibility' => ProfileConfig::DEFAULT_PROPERTY_VISIBILITY[$property],
+			];
+		}
+
+		return array_merge($actionsConfig, $propertiesConfig);
+	}
+
+	/**
+	 * Return the profile config
 	 */
 	public function getProfileConfig(IUser $targetUser, ?IUser $visitingUser): array {
+		$defaultProfileConfig = $this->getDefaultProfileConfig($targetUser, $visitingUser);
 		try {
-			$configArray = $this->configMapper->getArray($targetUser->getUID());
+			$config = $this->configMapper->get($targetUser->getUID());
+			// Merge defaults with the existing config in case the defaults are missing
+			$config->setConfigArray(array_merge($defaultProfileConfig, $config->getConfigArray()));
+			$this->configMapper->update($config);
+			$configArray = $config->getConfigArray();
 		} catch (DoesNotExistException $e) {
+			// Create a new default config if it does not exist
 			$config = new ProfileConfig();
 			$config->setUserId($targetUser->getUID());
-
-			// Map of account properties to display IDs
-			$propertyDisplayMap = [
-				IAccountManager::PROPERTY_ADDRESS => $this->l10nFactory->get('core')->t('Address'),
-				IAccountManager::PROPERTY_AVATAR => $this->l10nFactory->get('core')->t('Avatar'),
-				IAccountManager::PROPERTY_BIOGRAPHY => $this->l10nFactory->get('core')->t('About'),
-				IAccountManager::PROPERTY_DISPLAYNAME => $this->l10nFactory->get('core')->t('Full name'),
-				IAccountManager::PROPERTY_HEADLINE => $this->l10nFactory->get('core')->t('Headline'),
-				IAccountManager::PROPERTY_ORGANISATION => $this->l10nFactory->get('core')->t('Organisation'),
-				IAccountManager::PROPERTY_ROLE => $this->l10nFactory->get('core')->t('Role'),
-				IAccountManager::PROPERTY_EMAIL => $this->l10nFactory->get('core')->t('Email'),
-				IAccountManager::PROPERTY_PHONE => $this->l10nFactory->get('core')->t('Phone'),
-				IAccountManager::PROPERTY_TWITTER => $this->l10nFactory->get('core')->t('Twitter'),
-				IAccountManager::PROPERTY_WEBSITE => $this->l10nFactory->get('core')->t('Website'),
-			];
-
-			// Contruct the default config for account properties
-			$propertiesConfig = [];
-			foreach ($propertyDisplayMap as $property => $displayId) {
-				$propertiesConfig[$property] = [
-					'displayId' => $displayId,
-					'visibility' => ProfileConfig::DEFAULT_PROPERTY_VISIBILITY[$property] ?: ProfileConfig::DEFAULT_VISIBILITY,
-				];
-			}
-
-			// Contruct the default config for actions
-			$actionsConfig = [];
-			/** @var ILinkAction $action */
-			foreach ($this->getActions($targetUser, $visitingUser) as $action) {
-				$actionsConfig[$action->getId()] = [
-					'displayId' => $action->getDisplayId(),
-					'visibility' => ProfileConfig::DEFAULT_VISIBILITY,
-				];
-			}
-
-			// Set the default config
-			$config->setConfigArray(array_merge($propertiesConfig, $actionsConfig));
+			$config->setConfigArray($defaultProfileConfig);
 			$this->configMapper->insert($config);
 			$configArray = $config->getConfigArray();
 		}
