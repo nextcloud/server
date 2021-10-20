@@ -24,16 +24,18 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OCA\Files_External\Lib\Backend;
 
 use Icewind\SMB\BasicAuth;
+use Icewind\SMB\KerberosApacheAuth;
 use Icewind\SMB\KerberosAuth;
 use OCA\Files_External\Lib\Auth\AuthMechanism;
 use OCA\Files_External\Lib\Auth\Password\Password;
 use OCA\Files_External\Lib\DefinitionParameter;
+use OCA\Files_External\Lib\InsufficientDataForMeaningfulAnswerException;
 use OCA\Files_External\Lib\LegacyDependencyCheckPolyfill;
 use OCA\Files_External\Lib\StorageConfig;
-
 use OCP\IL10N;
 use OCP\IUser;
 
@@ -69,10 +71,6 @@ class SMB extends Backend {
 			->setLegacyAuthMechanism($legacyAuth);
 	}
 
-	/**
-	 * @param StorageConfig $storage
-	 * @param IUser $user
-	 */
 	public function manipulateStorageConfig(StorageConfig &$storage, IUser $user = null) {
 		$auth = $storage->getAuthMechanism();
 		if ($auth->getScheme() === AuthMechanism::SCHEME_PASSWORD) {
@@ -89,6 +87,31 @@ class SMB extends Backend {
 			switch ($auth->getIdentifier()) {
 				case 'smb::kerberos':
 					$smbAuth = new KerberosAuth();
+					break;
+				case 'smb::kerberosapache':
+					$credentialsStore = $auth->getCredentialsStore();
+					$kerb_auth = new KerberosApacheAuth();
+					if ($kerb_auth->checkTicket()) {
+						$kerb_auth->registerApacheKerberosTicket();
+						$smbAuth = $kerb_auth;
+					} else {
+						try {
+							$credentials = $credentialsStore->getLoginCredentials();
+							$user = $credentials->getLoginName();
+							$pass = $credentials->getPassword();
+							if (preg_match('/(.*)@(.*)/', $user, $matches) !== 1) {
+								throw new InsufficientDataForMeaningfulAnswerException('No valid session credentials');
+							}
+							$smbAuth = new BasicAuth(
+								$matches[0],
+								$matches[1],
+								$pass
+							);
+						} catch (\Exception $e) {
+							throw new InsufficientDataForMeaningfulAnswerException('No session credentials saved');
+						}
+					}
+
 					break;
 				default:
 					throw new \InvalidArgumentException('unknown authentication backend');
