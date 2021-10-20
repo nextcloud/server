@@ -1871,9 +1871,6 @@
     <InvalidScalarArgument occurrences="1">
       <code>$uid</code>
     </InvalidScalarArgument>
-    <UndefinedInterfaceMethod occurrences="1">
-      <code>getLanguages</code>
-    </UndefinedInterfaceMethod>
   </file>
   <file src="apps/sharebymail/lib/ShareByMailProvider.php">
     <InvalidScalarArgument occurrences="4">
