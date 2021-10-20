@@ -7,6 +7,8 @@
 /apps/comments/js/*.js.map binary
 /apps/dashboard/js/*.js binary
 /apps/dashboard/js/*.js.map binary
+/apps/dav/js/*.js binary
+/apps/dav/js/*.js.map binary
 /apps/files/js/dist/*.js binary
 /apps/files/js/dist/*.js.map binary
 /apps/files_sharing/js/dist/*.js binary
