@@ -27,7 +27,6 @@ declare(strict_types=1);
 namespace OC\Profile;
 
 use function Safe\usort;
-
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Core\Db\ProfileConfig;
 use OC\Core\Db\ProfileConfigMapper;
@@ -46,9 +45,6 @@ use OCP\Profile\ILinkAction;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
-/**
- * @inheritDoc
- */
 class ProfileManager {
 
 	/** @var IAccountManager */
@@ -78,6 +74,9 @@ class ProfileManager {
 	/** @var ILinkAction[] */
 	private $actions = [];
 
+	/**
+	 * Array of account property actions
+	 */
 	private const ACCOUNT_PROPERTY_ACTIONS = [
 		EmailAction::class,
 		PhoneAction::class,
@@ -233,7 +232,7 @@ class ProfileManager {
 	}
 
 	/**
-	 * @inheritDoc
+	 * Return the profile parameters
 	 */
 	public function getProfileParams(IUser $targetUser, ?IUser $visitingUser): array {
 		$account = $this->accountManager->getAccount($targetUser);
