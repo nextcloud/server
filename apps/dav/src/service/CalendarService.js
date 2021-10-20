@@ -100,15 +100,37 @@ export async function saveScheduleInboxAvailability(slots, timezoneId) {
 	})))]
 
 	const vavailabilityComp = new ICAL.Component('vavailability')
-	// TODO: deduplicate slots that occur on more than one day
-	all.map(slot => {
+
+	// Deduplicate by start and end time
+	const deduplicated = all.reduce((acc, slot) => {
+		const key = [
+			slot.start.getHours(),
+			slot.start.getMinutes(),
+			slot.end.getHours(),
+			slot.end.getMinutes(),
+		].join('-')
+
+		return {
+			...acc,
+			[key]: [...(acc[key] ?? []), slot],
+		}
+	}, {})
+
+	// Create an AVAILABILITY component for every recurring slot
+	Object.keys(deduplicated).map(key => {
+		const slots = deduplicated[key]
+		const start = slots[0].start
+		const end = slots[0].end
+		// Combine days but make them also unique
+		const days = slots.map(slot => slot.day).filter((day, index, self) => self.indexOf(day) === index)
+
 		const availableComp = new ICAL.Component('available')
 
 		// Define DTSTART and DTEND
 		// TODO: tz? moment.tz(dateTime, timezone).toDate()
-		const startTimeProp = availableComp.addPropertyWithValue('dtstart', ICAL.Time.fromJSDate(slot.start, false))
+		const startTimeProp = availableComp.addPropertyWithValue('dtstart', ICAL.Time.fromJSDate(start, false))
 		startTimeProp.setParameter('tzid', timezoneId)
-		const endTimeProp = availableComp.addPropertyWithValue('dtend', ICAL.Time.fromJSDate(slot.end, false))
+		const endTimeProp = availableComp.addPropertyWithValue('dtend', ICAL.Time.fromJSDate(end, false))
 		endTimeProp.setParameter('tzid', timezoneId)
 
 		// Add mandatory UID
@@ -119,7 +141,7 @@ export async function saveScheduleInboxAvailability(slots, timezoneId) {
 		// Define RRULE
 		availableComp.addPropertyWithValue('rrule', {
 			freq: 'WEEKLY',
-			byday: slot.day,
+			byday: days,
 		})
 
 		return availableComp
