@@ -57,10 +57,10 @@
 </template>
 
 <script>
-import { getCurrentUser } from '@nextcloud/auth'
-import { subscribe, unsubscribe } from '@nextcloud/event-bus'
-import { loadState } from '@nextcloud/initial-state'
 import { generateUrl } from '@nextcloud/router'
+import { getCurrentUser } from '@nextcloud/auth'
+import { loadState } from '@nextcloud/initial-state'
+import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 import debounce from 'debounce'
 
 import { sendHeartbeat } from './services/heartbeatService'
@@ -149,6 +149,7 @@ export default {
 
 			this._backgroundHeartbeat()
 		}
+		subscribe('user_status:status.updated', this.handleUserStatusUpdated)
 	},
 
 	/**
@@ -159,6 +160,7 @@ export default {
 		unsubscribe('settings:profile-enabled:updated', this.handleProfileEnabledUpdate)
 		window.removeEventListener('mouseMove', this.mouseMoveListener)
 		clearInterval(this.heartbeatInterval)
+		unsubscribe('user_status:status.updated', this.handleUserStatusUpdated)
 	},
 
 	methods: {
@@ -205,6 +207,15 @@ export default {
 				}
 			} catch (error) {
 				console.debug('Failed sending heartbeat, got: ' + error.response?.status)
+			}
+		},
+		handleUserStatusUpdated(state) {
+			if (OC.getCurrentUser().uid === state.userId) {
+				this.$store.dispatch('setStatusFromObject', {
+					status: state.status,
+					icon: state.icon,
+					message: state.message,
+				})
 			}
 		},
 	},
