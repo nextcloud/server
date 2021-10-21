@@ -52,6 +52,7 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
 use OC\Profile\ProfileManager;
+use OCP\Notification\IManager;
 use OCP\Settings\ISettings;
 
 class PersonalInfo implements ISettings {
@@ -84,6 +85,9 @@ class PersonalInfo implements ISettings {
 	/** @var IInitialState */
 	private $initialStateService;
 
+	/** @var IManager */
+	private $manager;
+
 	public function __construct(
 		IConfig $config,
 		IUserManager $userManager,
@@ -93,7 +97,8 @@ class PersonalInfo implements ISettings {
 		IAppManager $appManager,
 		IFactory $l10nFactory,
 		IL10N $l,
-		IInitialState $initialStateService
+		IInitialState $initialStateService,
+		IManager $manager
 	) {
 		$this->config = $config;
 		$this->userManager = $userManager;
@@ -104,6 +109,7 @@ class PersonalInfo implements ISettings {
 		$this->l10nFactory = $l10nFactory;
 		$this->l = $l;
 		$this->initialStateService = $initialStateService;
+		$this->manager = $manager;
 	}
 
 	public function getForm(): TemplateResponse {
@@ -160,6 +166,7 @@ class PersonalInfo implements ISettings {
 			'twitterScope' => $account->getProperty(IAccountManager::PROPERTY_TWITTER)->getScope(),
 			'twitterVerification' => $account->getProperty(IAccountManager::PROPERTY_TWITTER)->getVerified(),
 			'groups' => $this->getGroups($user),
+			'isFairUseOfFreePushService' => $this->isFairUseOfFreePushService()
 		] + $messageParameters + $languageParameters + $localeParameters;
 
 		$personalInfoParameters = [
@@ -188,6 +195,14 @@ class PersonalInfo implements ISettings {
 		$this->initialStateService->provideInitialState('profileParameters', $profileParameters);
 
 		return new TemplateResponse('settings', 'settings/personal/personal.info', $parameters, '');
+	}
+
+	/**
+	 * Check if is fair use of free push service
+	 * @return boolean
+	 */
+	private function isFairUseOfFreePushService(): bool {
+		return $this->manager->isFairUseOfFreePushService();
 	}
 
 	/**

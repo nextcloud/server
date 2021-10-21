@@ -35,6 +35,13 @@ script('settings', [
 	'vue-settings-personal-info',
 ]);
 ?>
+<?php if (!$_['isFairUseOfFreePushService']) : ?>
+	<div class="section">
+		<div class="warning">
+			<?php p($l->t('This community release of Nextcloud is unsupported and instant notifications are unavailable.')); ?>
+		</div>
+	</div>
+<?php endif; ?>
 
 <div id="personal-settings" data-federation-enabled="<?php p($_['federationEnabled'] ? 'true' : 'false') ?>"
 							data-lookup-server-upload-enabled="<?php p($_['lookupServerUploadEnabled'] ? 'true' : 'false') ?>">
