@@ -1868,9 +1868,7 @@ EJL3BaQAQaASSsvFrcozYxrQG4VzEg==
 	public function testGetWithFilter() {
 		$this->config->method('getSystemValue')
 			->willReturnCallback(function ($key, $default) {
-				if ($key === 'appstoreenabled') {
-					return true;
-				} elseif ($key === 'version') {
+				if ($key === 'version') {
 					return '11.0.0.2';
 				} elseif ($key === 'appstoreurl' && $default === 'https://apps.nextcloud.com/api/v1') {
 					return 'https://custom.appsstore.endpoint/api/v1';
@@ -1878,6 +1876,10 @@ EJL3BaQAQaASSsvFrcozYxrQG4VzEg==
 					return $default;
 				}
 			});
+		$this->config
+			->method('getSystemValueBool')
+			->with('appstoreenabled', true)
+			->willReturn(true);
 
 		$file = $this->createMock(ISimpleFile::class);
 		$folder = $this->createMock(ISimpleFolder::class);
@@ -1951,13 +1953,15 @@ EJL3BaQAQaASSsvFrcozYxrQG4VzEg==
 		$this->config
 			->method('getSystemValue')
 			->willReturnCallback(function ($var, $default) {
-				if ($var === 'appstoreenabled') {
-					return false;
-				} elseif ($var === 'version') {
+				if ($var === 'version') {
 					return '11.0.0.2';
 				}
 				return $default;
 			});
+		$this->config
+			->method('getSystemValueBool')
+			->with('appstoreenabled', true)
+			->willReturn(false);
 		$this->appData
 			->expects($this->never())
 			->method('getFolder');
@@ -1977,6 +1981,10 @@ EJL3BaQAQaASSsvFrcozYxrQG4VzEg==
 				}
 				return $default;
 			});
+		$this->config
+			->method('getSystemValueBool')
+			->with('appstoreenabled', true)
+			->willReturn(true);
 		$this->appData
 			->expects($this->never())
 			->method('getFolder');
@@ -1987,9 +1995,7 @@ EJL3BaQAQaASSsvFrcozYxrQG4VzEg==
 	public function testSetVersion() {
 		$this->config->method('getSystemValue')
 			->willReturnCallback(function ($key, $default) {
-				if ($key === 'appstoreenabled') {
-					return true;
-				} elseif ($key === 'version') {
+				if ($key === 'version') {
 					return '10.0.7.2';
 				} elseif ($key === 'appstoreurl' && $default === 'https://apps.nextcloud.com/api/v1') {
 					return 'https://custom.appsstore.endpoint/api/v1';
@@ -1997,6 +2003,10 @@ EJL3BaQAQaASSsvFrcozYxrQG4VzEg==
 					return $default;
 				}
 			});
+		$this->config
+			->method('getSystemValueBool')
+			->with('appstoreenabled', true)
+			->willReturn(true);
 
 		$file = $this->createMock(ISimpleFile::class);
 		$folder = $this->createMock(ISimpleFolder::class);
@@ -2070,9 +2080,7 @@ EJL3BaQAQaASSsvFrcozYxrQG4VzEg==
 	public function testGetAppsAllowlist() {
 		$this->config->method('getSystemValue')
 			->willReturnCallback(function ($key, $default) {
-				if ($key === 'appstoreenabled') {
-					return true;
-				} elseif ($key === 'version') {
+				if ($key === 'version') {
 					return '11.0.0.2';
 				} elseif ($key === 'appstoreurl' && $default === 'https://apps.nextcloud.com/api/v1') {
 					return 'https://custom.appsstore.endpoint/api/v1';
@@ -2082,7 +2090,11 @@ EJL3BaQAQaASSsvFrcozYxrQG4VzEg==
 					return $default;
 				}
 			});
-		
+		$this->config
+			->method('getSystemValueBool')
+			->with('appstoreenabled', true)
+			->willReturn(true);
+
 		$file = $this->createMock(ISimpleFile::class);
 		$folder = $this->createMock(ISimpleFolder::class);
 		$folder
@@ -2122,7 +2134,7 @@ EJL3BaQAQaASSsvFrcozYxrQG4VzEg==
 			->expects($this->once())
 			->method('getTime')
 			->willReturn(1234);
-			
+
 		$this->registry
 			->expects($this->exactly(2))
 			->method('delegateHasValidSubscription')
