@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
+ * @copyright Copyright (c) Guillaume Colson <guillaume.colson@univ-lorraine.fr>
  *
  * @author Guillaume Colson <guillaume.colson@univ-lorraine.fr>
  *
