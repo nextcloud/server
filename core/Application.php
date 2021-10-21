@@ -31,6 +31,7 @@
 
 namespace OC\Core;
 
+use Doctrine\DBAL\Platforms\PostgreSQL94Platform;
 use OC\Authentication\Events\RemoteWipeFinished;
 use OC\Authentication\Events\RemoteWipeStarted;
 use OC\Authentication\Listeners\RemoteWipeActivityListener;
@@ -108,7 +109,7 @@ class Application extends App {
 						$subject->addHintForMissingSubject($table->getName(), 'fs_mtime');
 					}
 
-					if (!$table->hasIndex('fs_storage_path_prefix')) {
+					if (!$table->hasIndex('fs_storage_path_prefix') && !$schema->getDatabasePlatform() instanceof PostgreSQL94Platform) {
 						$subject->addHintForMissingSubject($table->getName(), 'fs_storage_path_prefix');
 					}
 				}
