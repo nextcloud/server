@@ -37,7 +37,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
-class RemoteWipeActivityListenerTests extends TestCase {
+class RemoteWipeActivityListenerTest extends TestCase {
 
 	/** @var IActivityManager|MockObject */
 	private $activityManager;
