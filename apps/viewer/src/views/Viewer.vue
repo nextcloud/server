@@ -861,7 +861,7 @@ export default {
 			background-color: rgba(255, 255, 255, 0.92) !important;
 		}
 		::v-deep .modal-title,
-		::v-deep .modal-header button::before  {
+		::v-deep .modal-header .icons-menu button svg {
 			color: #000000 !important;
 		}
 		::v-deep .modal-container {
@@ -876,7 +876,7 @@ export default {
 			}
 		}
 		::v-deep .modal-title,
-		::v-deep .modal-header button::before {
+		::v-deep .modal-header .icons-menu button svg {
 			body.theme--light & {
 				color: var(--color-main-text) !important;
 			}
