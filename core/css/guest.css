@@ -208,7 +208,6 @@ form #datadirField legend {
 #submit-wrapper .submit-icon,
 #reset-password-wrapper .submit-icon {
 	position: absolute;
-	top: 22px;
 	right: 24px;
 	transition: right 100ms ease-in-out;
 	pointer-events: none; /* The submit icon is positioned on the submit button.
