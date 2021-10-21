@@ -1533,6 +1533,7 @@
 				return a.order - b.order
 			}));
 			this.fileMultipleSelectionMenu.render();
+			this.$el.find('.selectedActions .filesSelectionMenu').remove();
 			this.$el.find('.selectedActions').append(this.fileMultipleSelectionMenu.$el);
 		},
 
