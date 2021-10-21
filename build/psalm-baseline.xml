@@ -791,7 +791,6 @@
     </InvalidReturnStatement>
     <InvalidReturnType occurrences="1">
       <code>string[]</code>
-      <code>string[]</code>
     </InvalidReturnType>
     <MoreSpecificImplementedParamType occurrences="1">
       <code>$members</code>
@@ -1015,6 +1014,11 @@
     <UndefinedFunction occurrences="1">
       <code>\Sabre\Uri\split($this-&gt;principalInfo['uri'])</code>
     </UndefinedFunction>
+  </file>
+  <file src="apps/encryption/lib/Command/FixEncryptedVersion.php">
+    <TypeDoesNotContainNull occurrences="1">
+      <code>$user === null</code>
+    </TypeDoesNotContainNull>
   </file>
   <file src="apps/encryption/lib/Command/ScanLegacyFormat.php">
     <InvalidOperand occurrences="1">
@@ -1274,28 +1278,18 @@
       <code>$this</code>
     </InvalidScope>
   </file>
-  <file src="apps/files_external/lib/Command/Applicable.php">
-    <InvalidArgument occurrences="1">
-      <code>$mountId</code>
-    </InvalidArgument>
-  </file>
-  <file src="apps/files_external/lib/Command/Config.php">
-    <InvalidArgument occurrences="1">
-      <code>$mountId</code>
-    </InvalidArgument>
-  </file>
   <file src="apps/files_external/lib/Command/Delete.php">
-    <InvalidArgument occurrences="2">
-      <code>$mountId</code>
-      <code>$mountId</code>
-    </InvalidArgument>
     <NullArgument occurrences="1">
       <code>null</code>
     </NullArgument>
   </file>
+  <file src="apps/files_external/lib/Command/ListCommand.php">
+    <InvalidScalarArgument occurrences="1">
+      <code>$userId</code>
+    </InvalidScalarArgument>
+  </file>
   <file src="apps/files_external/lib/Command/Notify.php">
-    <InvalidArgument occurrences="2">
-      <code>$input-&gt;getArgument('mount_id')</code>
+    <InvalidArgument occurrences="1">
       <code>$storage</code>
     </InvalidArgument>
     <InvalidReturnStatement occurrences="1"/>
@@ -1310,9 +1304,6 @@
     </UndefinedInterfaceMethod>
   </file>
   <file src="apps/files_external/lib/Command/Verify.php">
-    <InvalidArgument occurrences="1">
-      <code>$mountId</code>
-    </InvalidArgument>
     <InvalidScalarArgument occurrences="2">
       <code>$e-&gt;getCode()</code>
       <code>$status</code>
@@ -1374,6 +1365,12 @@
     <UndefinedMagicMethod occurrences="1">
       <code>clearBucket</code>
     </UndefinedMagicMethod>
+  </file>
+  <file src="apps/files_external/lib/Lib/Storage/FtpConnection.php">
+    <UndefinedConstant occurrences="2">
+      <code>FTP_BINARY</code>
+      <code>FTP_BINARY</code>
+    </UndefinedConstant>
   </file>
   <file src="apps/files_external/lib/Lib/Storage/SFTP.php">
     <InternalMethod occurrences="1">
@@ -2498,6 +2495,9 @@
     <InvalidScalarArgument occurrences="1">
       <code>$levelNum</code>
     </InvalidScalarArgument>
+    <TypeDoesNotContainType occurrences="1">
+      <code>$identifier === false</code>
+    </TypeDoesNotContainType>
   </file>
   <file src="core/Command/Maintenance/DataFingerprint.php">
     <InvalidScalarArgument occurrences="1">
@@ -2554,11 +2554,6 @@
       <code>1</code>
       <code>1</code>
       <code>1</code>
-    </InvalidScalarArgument>
-  </file>
-  <file src="core/Command/User/Setting.php">
-    <InvalidScalarArgument occurrences="1">
-      <code>$input-&gt;getOption('default-value')</code>
     </InvalidScalarArgument>
   </file>
   <file src="core/Controller/ClientFlowLoginV2Controller.php">
@@ -2869,8 +2864,11 @@
     </MoreSpecificImplementedParamType>
   </file>
   <file src="lib/private/AppFramework/Utility/SimpleContainer.php">
-    <UndefinedMethod occurrences="1">
+    <UndefinedMethod occurrences="4">
       <code>getName</code>
+      <code>isBuiltin</code>
+      <code>isBuiltin</code>
+      <code>isBuiltin</code>
     </UndefinedMethod>
   </file>
   <file src="lib/private/Archive/TAR.php">
