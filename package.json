@@ -13,7 +13,7 @@
     "watch": "NODE_ENV=development webpack --progress --watch --config webpack.dev.js",
     "lint": "eslint '**/src/**/*.{vue,js}'",
     "lint:fix": "eslint '**/src/**/*.{vue,js}' --fix",
-    "test": "jest",
+    "test": "jest core/ --testRegex='[sS]pec.[tj]s'",
     "test:watch": "jest --watch",
     "test:jsunit": "karma start tests/karma.config.js --single-run"
   },
