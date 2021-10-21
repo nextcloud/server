@@ -58,6 +58,7 @@ use OC\App\AppManager;
 use OC\App\AppStore\Bundles\BundleFetcher;
 use OC\App\AppStore\Fetcher\AppFetcher;
 use OC\App\AppStore\Fetcher\CategoryFetcher;
+use OC\AppFramework\Bootstrap\Coordinator;
 use OC\AppFramework\Http\Request;
 use OC\AppFramework\Utility\TimeFactory;
 use OC\Authentication\Events\LoginFailed;
@@ -318,7 +319,9 @@ class Server extends ServerContainer implements IServerContainer {
 				),
 				$c->get(SymfonyAdapter::class),
 				$c->get(GeneratorHelper::class),
-				$c->get(ISession::class)->get('user_id')
+				$c->get(ISession::class)->get('user_id'),
+				$c->get(Coordinator::class),
+				$c->get(IServerContainer::class)
 			);
 		});
 		/** @deprecated 19.0.0 */

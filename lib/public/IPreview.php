@@ -58,6 +58,9 @@ interface IPreview {
 	 * @param \Closure $callable
 	 * @return void
 	 * @since 8.1.0
+	 * @see \OCP\AppFramework\Bootstrap\IRegistrationContext::registerPreviewProvider
+	 *
+	 * @deprecated 23.0.0 Register your provider via the IRegistrationContext when booting the app
 	 */
 	public function registerProvider($mimeTypeRegex, \Closure $callable);
 

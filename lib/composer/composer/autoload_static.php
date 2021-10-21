@@ -640,6 +640,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\AppFramework\\Bootstrap\\EventListenerRegistration' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Bootstrap/EventListenerRegistration.php',
         'OC\\AppFramework\\Bootstrap\\FunctionInjector' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Bootstrap/FunctionInjector.php',
         'OC\\AppFramework\\Bootstrap\\ParameterRegistration' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Bootstrap/ParameterRegistration.php',
+        'OC\\AppFramework\\Bootstrap\\PreviewProviderRegistration' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Bootstrap/PreviewProviderRegistration.php',
         'OC\\AppFramework\\Bootstrap\\RegistrationContext' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Bootstrap/RegistrationContext.php',
         'OC\\AppFramework\\Bootstrap\\ServiceAliasRegistration' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Bootstrap/ServiceAliasRegistration.php',
         'OC\\AppFramework\\Bootstrap\\ServiceFactoryRegistration' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Bootstrap/ServiceFactoryRegistration.php',
