@@ -21,21 +21,11 @@
  */
 namespace OCA\User_LDAP\Command;
 
-use OC\ServerNotAvailableException;
-use OCA\User_LDAP\AccessFactory;
-use OCA\User_LDAP\Configuration;
-use OCA\User_LDAP\ConnectionFactory;
 use OCA\User_LDAP\Helper;
 use OCA\User_LDAP\LDAP;
-use OCA\User_LDAP\Mapping\UserMapping;
-use OCA\User_LDAP\User\Manager;
 
 use OCA\User_LDAP\User_Proxy;
-use OCP\IAvatarManager;
 use OCP\IConfig;
-use OCP\IDBConnection;
-use OCP\IUserManager;
-use OCP\Notification\IManager;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -46,24 +36,15 @@ use Symfony\Component\Console\Output\OutputInterface;
 class SyncUser extends Command {
 	/** @var \OCP\IConfig */
 	protected $ocConfig;
-	/** @var  Manager */
-	protected $userManager;
-	/** @var  IDBConnection */
-	protected $dbc;
+	/** @var User_Proxy */
+	protected $backend;
+	/** @var Helper */
+	protected $helper;
 
-	public function __construct(IConfig $ocConfig) {
+	public function __construct(IConfig $ocConfig, User_Proxy $uBackend, Helper $helper) {
 		$this->ocConfig = $ocConfig;
-		$this->dbc = \OC::$server->getDatabaseConnection();
-		$this->userManager = new \OCA\User_LDAP\User\Manager(
-			\OC::$server->getConfig(),
-			new \OCA\User_LDAP\FilesystemHelper(),
-			new \OCA\User_LDAP\LogWrapper(),
-			\OC::$server->getAvatarManager(),
-			new \OCP\Image(),
-			\OC::$server->getUserManager(),
-			\OC::$server->getNotificationManager(),
-			\OC::$server->getShareManager()
-		);
+		$this->backend = $uBackend;
+		$this->helper = $helper;
 
 		parent::__construct();
 	}
@@ -81,24 +62,13 @@ class SyncUser extends Command {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-		$helper = new Helper($this->ocConfig, \OC::$server->getDatabaseConnection());
-		$configPrefixes = $helper->getServerConfigurationPrefixes(true);
+		$configPrefixes = $this->helper->getServerConfigurationPrefixes(true);
 		$prefix = $this->ocConfig->getAppValue('user_ldap', 'background_sync_prefix', null);
 		$ldapWrapper = new LDAP();
 
-		$connectionFactory = new ConnectionFactory($ldapWrapper);
-		$connection = $connectionFactory->get($prefix);
+		$access = $this->backend->getLDAPAccess($uid);
 
-		$accessFactory = new AccessFactory(
-			$ldapWrapper,
-			$this->userManager,
-			$helper,
-			$this->ocConfig,
-			\OC::$server->getUserManager()
-		);
-
-		$access = $accessFactory->get($connection);
-		$access->setUserMapper(new UserMapping($this->dbc));
+		$connection = $access->getConnection();
 
 		$loginName = $access->escapeFilterPart($input->getArgument('uid'));
 		$filter = str_replace('%uid', $loginName, $connection->ldapLoginFilter);
