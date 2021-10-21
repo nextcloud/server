@@ -6,6 +6,7 @@ OC.L10N.register(
     "Show something" : "Mostrar algo",
     "Customize" : "Personalizar",
     "Edit widgets" : "Editar widgets",
+    "Get more widgets from the App Store" : "Conseguir más widgets desde la tienda de Apps",
     "Change background image" : "Cambiar imagen de fondo",
     "Weather service" : "Servicio metereológico",
     "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Por privacidad, los datos meteorológicos son solicitados por tu servidor Nextcloud en tu nombre de tal forma que el servicio no recibe información personal.",

@@ -9,6 +9,7 @@ OC.L10N.register(
     "Working remotely" : "Praca zdalna",
     "In a call" : "Rozmawia",
     "User status" : "Status użytkownika",
+    "View profile" : "Zobacz profil",
     "Clear status message after" : "Wyczyść komunikat statusu po",
     "What is your status?" : "Jaki jest Twój status?",
     "Set status" : "Ustaw status",
