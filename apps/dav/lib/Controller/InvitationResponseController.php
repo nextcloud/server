@@ -198,7 +198,12 @@ class InvitationResponseController extends Controller {
 		$iTipMessage->method = 'REPLY';
 		$iTipMessage->sequence = $row['sequence'];
 		$iTipMessage->sender = $row['attendee'];
-		$iTipMessage->recipient = $row['organizer'];
+
+		if ($this->responseServer->isExternalAttendee($row['attendee'])) {
+			$iTipMessage->recipient = $row['organizer'];
+		} else {
+			$iTipMessage->recipient = $row['attendee'];
+		}
 
 		$message = <<<EOF
 BEGIN:VCALENDAR
