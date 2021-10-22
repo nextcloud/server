@@ -124,4 +124,10 @@ class InvitationResponseServer {
 		$schedulingPlugin = $this->server->getPlugin('caldav-schedule');
 		$schedulingPlugin->scheduleLocalDelivery($iTipMessage);
 	}
+
+	public function isExternalAttendee(string $principalUri): bool {
+		/** @var \Sabre\DAVACL\Plugin $aclPlugin */
+		$aclPlugin = $this->server->getPlugin('acl');
+		return $aclPlugin->getPrincipalByUri($principalUri) === null;
+	}
 }
