@@ -100,10 +100,10 @@ class PublicKeyTokenProviderTest extends TestCase {
 
 	public function testUpdateToken() {
 		$tk = new PublicKeyToken();
-		$tk->setLastActivity($this->time - 200);
 		$this->mapper->expects($this->once())
-			->method('update')
-			->with($tk);
+			->method('updateActivity')
+			->with($tk, $this->time);
+		$tk->setLastActivity($this->time - 200);
 
 		$this->tokenProvider->updateTokenActivity($tk);
 
@@ -112,16 +112,15 @@ class PublicKeyTokenProviderTest extends TestCase {
 
 	public function testUpdateTokenDebounce() {
 		$tk = new PublicKeyToken();
-
 		$this->config->method('getSystemValueInt')
 			->willReturnCallback(function ($value, $default) {
 				return $default;
 			});
-
 		$tk->setLastActivity($this->time - 30);
+
 		$this->mapper->expects($this->never())
-			->method('update')
-			->with($tk);
+			->method('updateActivity')
+			->with($tk, $this->time);
 
 		$this->tokenProvider->updateTokenActivity($tk);
 	}

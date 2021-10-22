@@ -221,9 +221,8 @@ class PublicKeyTokenProvider implements IProvider {
 		/** @var PublicKeyToken $token */
 		$now = $this->time->getTime();
 		if ($token->getLastActivity() < ($now - $activityInterval)) {
-			// Update token only once per minute
 			$token->setLastActivity($now);
-			$this->mapper->update($token);
+			$this->mapper->updateActivity($token, $now);
 		}
 	}
 
