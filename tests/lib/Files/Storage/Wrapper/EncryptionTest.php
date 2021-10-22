@@ -641,7 +641,7 @@ class EncryptionTest extends Storage {
 			->disableOriginalConstructor()->getMock();
 
 		$sourceStorage->expects($this->once())
-			->method('file_exists')
+			->method('is_file')
 			->willReturn($exists);
 
 		$util = $this->getMockBuilder('\OC\Encryption\Util')
