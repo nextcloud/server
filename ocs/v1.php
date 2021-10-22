@@ -79,7 +79,13 @@ try {
 	OC_API::setContentType();
 
 	$format = \OC::$server->getRequest()->getParam('format', 'xml');
-	$txt = 'Invalid query, please check the syntax. API specifications are here:'
-		.' http://www.freedesktop.org/wiki/Specifications/open-collaboration-services.'."\n";
-	OC_API::respond(new \OC\OCS\Result(null, \OCP\AppFramework\OCSController::RESPOND_NOT_FOUND, $txt), $format);
+	$txt = 'Internal Server Error'."\n";
+	try {
+		if (\OC::$server->getSystemConfig()->getValue('debug', false)) {
+			$txt .= $e->getMessage();
+		}
+	} catch (\Throwable $e) {
+		// Just to be save
+	}
+	OC_API::respond(new \OC\OCS\Result(null, \OCP\AppFramework\OCSController::RESPOND_SERVER_ERROR, $txt), $format);
 }
