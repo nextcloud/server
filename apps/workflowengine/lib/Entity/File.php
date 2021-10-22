@@ -141,7 +141,7 @@ class File implements IEntity, IDisplayText, IUrl, IIcon, IContextPortation {
 				return true;
 			}
 			$acl = $this->shareManager->getAccessList($node, true, true);
-			return array_key_exists($uid, $acl['users']);
+			return isset($acl['users']) && array_key_exists($uid, $acl['users']);
 		} catch (NotFoundException $e) {
 			return false;
 		}
