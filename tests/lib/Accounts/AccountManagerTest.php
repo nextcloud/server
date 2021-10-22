@@ -516,8 +516,6 @@ class AccountManagerTest extends TestCase {
 				'value' => 'bob',
 				'verified' => IAccountManager::NOT_VERIFIED,
 			],
-			[],
-			[],
 			[
 				'name' => IAccountManager::PROPERTY_EMAIL,
 				'value' => 'bob@bob.bob',
@@ -533,6 +531,13 @@ class AccountManagerTest extends TestCase {
 			],
 
 			[
+				'name' => IAccountManager::PROPERTY_EMAIL,
+				'value' => 'bob@bob.bob',
+				'scope' => IAccountManager::SCOPE_FEDERATED,
+				'verified' => IAccountManager::NOT_VERIFIED,
+			],
+
+			[
 				'name' => IAccountManager::PROPERTY_ADDRESS,
 				'value' => '',
 				'scope' => IAccountManager::SCOPE_LOCAL,
@@ -543,13 +548,6 @@ class AccountManagerTest extends TestCase {
 				'name' => IAccountManager::PROPERTY_WEBSITE,
 				'value' => '',
 				'scope' => IAccountManager::SCOPE_LOCAL,
-				'verified' => IAccountManager::NOT_VERIFIED,
-			],
-
-			[
-				'name' => IAccountManager::PROPERTY_EMAIL,
-				'value' => 'bob@bob.bob',
-				'scope' => IAccountManager::SCOPE_FEDERATED,
 				'verified' => IAccountManager::NOT_VERIFIED,
 			],
 
