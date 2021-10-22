@@ -1,13 +1,31 @@
-/* eslint-disable */
-/*
+/**
  * Copyright (c) 2014
  *
- * This file is licensed under the Affero General Public License version 3
- * or later.
+ * @author Azul <azul@riseup.net>
+ * @author Gary Kim <gary@garykim.dev>
+ * @author Jan C. Borchardt <hey@jancborchardt.net>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Robin Appelman <robin@icewind.nl>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
- * See the COPYING-README file.
+ * @license GNU AGPL version 3 or any later version
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
+/* eslint-disable */
 (function() {
 	var DELETED_REGEXP = new RegExp(/^(.+)\.d[0-9]+$/)
 	var FILENAME_PROP = '{http://nextcloud.org/ns}trashbin-filename'

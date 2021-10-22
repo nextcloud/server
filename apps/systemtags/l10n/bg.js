@@ -3,7 +3,7 @@ OC.L10N.register(
     {
     "Update" : "Актуализирай",
     "Create" : "Създай",
-    "Select tag…" : "Изберете етикет...",
+    "Select tag …" : "Изберете етикет...",
     "Added system tag {systemtag}" : "Добавен системен етикет {systemtag}",
     "Added system tag %1$s" : "Добавен системен етикет %1$s",
     "%1$s added system tag %2$s" : "%1$s добави системен етикет %2$s",
@@ -40,7 +40,6 @@ OC.L10N.register(
     "No tags found" : "Не са открити етикети",
     "Please select tags to filter by" : "Моля изберете етикети, за филтрирането",
     "No files found for the selected tags" : "Няма намерени файлове за избраните етикети",
-    "Select tag …" : "Изберете етикет...",
     "Create a new tag" : "Създаване на нов етикет",
     "Name" : "Име",
     "Public" : "Публичен",

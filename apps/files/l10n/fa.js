@@ -71,9 +71,6 @@ OC.L10N.register(
     "\"{name}\" is an invalid file name." : "\"{name}\" نامی نامعتبر برای فایل است.",
     "File name cannot be empty." : "نام پرونده نمی تواند خالی باشد.",
     "\"{name}\" is not an allowed filetype" : "\"{name}\" یک نوع پرونده مجاز نیست",
-    "Storage of {owner} is full, files can not be updated or synced anymore!" : "فضای ذخیر‌سازی {owner}  پر شده است، امکان بروزرسانی یا هم‌گام‌سازی بیشتر وجود ندارد!",
-    "Your storage is full, files can not be updated or synced anymore!" : "فضای ذخیره ی شما کاملا پر است، بیش از این فایلها بهنگام یا همگام سازی نمی توانند بشوند!",
-    "_matches '{filter}'_::_match '{filter}'_" : ["تطبیق '{filter}'","تطبیق '{filter}'"],
     "View in folder" : "مشاهده در پوشه",
     "Copied!" : "کپی انجام شد!",
     "Path" : "مسیر",
@@ -126,11 +123,8 @@ OC.L10N.register(
     "Pending shares" : "اشتراک در حال انتظار ",
     "Text file" : "فایل متنی",
     "New text file.txt" : "فایل متنی جدید .txt",
-    "Unshare" : "لغو اشتراک",
-    "Storage of {owner} is almost full ({usedSpacePercent}%)" : "فضای  {owner} تقریبا پر شده است ({usedSpacePercent}%)",
-    "Your storage is almost full ({usedSpacePercent}%)" : "فضای ذخیره ی شما تقریبا پر است ({usedSpacePercent}%)",
-    "A new file or folder has been <strong>created</strong>" : "فایل یا پوشه ای <strong>ایجاد</strong> شد",
-    "A file or folder has been <strong>deleted</strong>" : "فایل یا پوشه ای به <strong>حذف</strong> شد",
-    "A file or folder has been <strong>restored</strong>" : "یک فایل یا پوشه <strong>بازگردانی شد</strong>"
+    "Storage of {owner} is full, files can not be updated or synced anymore!" : "فضای ذخیر‌سازی {owner}  پر شده است، امکان بروزرسانی یا هم‌گام‌سازی بیشتر وجود ندارد!",
+    "Your storage is full, files can not be updated or synced anymore!" : "فضای ذخیره ی شما کاملا پر است، بیش از این فایلها بهنگام یا همگام سازی نمی توانند بشوند!",
+    "_matches '{filter}'_::_match '{filter}'_" : ["تطبیق '{filter}'","تطبیق '{filter}'"]
 },
 "nplurals=2; plural=(n > 1);");

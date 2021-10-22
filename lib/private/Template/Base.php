@@ -5,6 +5,7 @@
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Björn Schießle <bjoern@schiessle.org>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
@@ -26,7 +27,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Template;
 
 use OCP\Defaults;
@@ -65,7 +65,7 @@ class Base {
 	 */
 	protected function getAppTemplateDirs($theme, $app, $serverRoot, $app_dir) {
 		// Check if the app is in the app folder or in the root
-		if (file_exists($app_dir.'/templates/')) {
+		if ($app_dir !== false && file_exists($app_dir.'/templates/')) {
 			return [
 				$serverRoot.'/themes/'.$theme.'/apps/'.$app.'/templates/',
 				$app_dir.'/templates/',
@@ -168,7 +168,9 @@ class Base {
 		if (!is_null($additionalParams)) {
 			$_ = array_merge($additionalParams, $this->vars);
 			foreach ($_ as $var => $value) {
-				${$var} = $value;
+				if (!isset(${$var})) {
+					${$var} = $value;
+				}
 			}
 		}
 

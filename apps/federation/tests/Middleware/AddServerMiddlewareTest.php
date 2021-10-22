@@ -24,13 +24,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Federation\Tests\Middleware;
 
-use OC\HintException;
 use OCA\Federation\Controller\SettingsController;
 use OCA\Federation\Middleware\AddServerMiddleware;
 use OCP\AppFramework\Http;
+use OCP\HintException;
 use OCP\IL10N;
 use OCP\ILogger;
 use Test\TestCase;

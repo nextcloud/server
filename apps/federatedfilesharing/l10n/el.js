@@ -18,7 +18,6 @@ OC.L10N.register(
     "Federated Share request sent, you will receive an invitation. Check your notifications." : "Το αίτημα για Federate διαμοιρασμό εστάλη, θα λάβεις μια πρόσκληση. Έλεγξε τις ειδοποιήσεις.",
     "Couldn't establish a federated share, it looks like the server to federate with is too old (Nextcloud <= 9)." : "Δεν μπόρεσε να δημιουργήσει ένα ομοσπονδιακό κοινόχρηστο, μοιάζει ο ομόσπονδος διακομιστής είναι πολύ παλαιός (Nextcloud <= 9).",
     "It is not allowed to send federated group shares from this server." : "Δεν επιτρέπεται η αποστολή ομοσπονδιακών κονόχρηστων ομάδας από αυτόν τον διακομιστή.",
-    "Sharing %1$s failed, because this item is already shared with %2$s" : "Ο διαμοιρασμός του %1$s απέτυχε, γιατί το αντικείμενο είναι διαμοιρασμένο ήδη με τον χρήστη %2$s",
     "Not allowed to create a federated share with the same user" : "Δεν επιτρέπεται η δημιουργία federated διαμοιρασμού με τον ίδιο χρήστη",
     "File is already shared with %s" : "Το αρχείο είναι ήδη κοινόχρηστο με %s",
     "Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable or uses a self-signed certificate." : "Η κοινή χρήση του %1$s απέτυχε, αδύνατη η εύρεση του %2$s, ίσως ο διακομιστής δεν είναι προσβάσιμος αυτήν τη στιγμή ή χρησιμοποιεί αυτό-υπογεγραμμένο πιστοποιητικό.",
@@ -30,14 +29,13 @@ OC.L10N.register(
     "You received {share} as a remote share from {user}" : "Λάβατε {share} ως απομακρυσμένο κοινόχρηστο από {user}",
     "Accept" : "Αποδοχή",
     "Decline" : "Απόρριψη",
+    "Federated Cloud Sharing" : "Διαμοιρασμός Federated Cloud",
     "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Διαμοιρασμός με εμένα μέσω του #Nextcloud Federated Cloud ID μου, δείτε %s",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Διαμοιρασμός με εμένα μέσω του #Nextcloud Federated Cloud ID μου",
     "Sharing" : "Διαμοιρασμός",
     "Federated file sharing" : "Federated διαμοιρασμός αρχείου",
     "Provide federated file sharing across servers" : "Παρέχει κοινής χρήσης αρχεία μεταξύ διακομιστών",
-    "Federated Cloud Sharing" : "Διαμοιρασμός Federated Cloud",
     "Open documentation" : "Άνοιγμα τεκμηρίωσης",
-    "Adjust how people can share between servers." : "Προσαρμόστε το πως τα άτομα θα διαμοιράζονται μεταξύ των διακομιστών",
     "Allow users on this server to send shares to other servers (this option also allows WebDAV access to public shares)" : "Να επιτρέπεται στους χρήστες αυτού του διακομιστή να στέλνουν κοινόχρηστα στοιχεία σε άλλους διακομιστές (αυτή η επιλογή επιτρέπει επίσης στο WebDAV πρόσβαση σε δημόσιες κοινοποιήσεις).",
     "Allow users on this server to receive shares from other servers" : "Να επιτρέπεται στους χρίστες του διακομιστή να λαμβάνουν διαμοιρασμένα αρχεία από άλλους διακομιστές",
     "Allow users on this server to send shares to groups on other servers" : "Επιτρέπει σε χρήστες αυτού του διακομιστή να διαμοιράζεται αρχεία σε ομάδες άλλου διακομιστή",
@@ -51,6 +49,6 @@ OC.L10N.register(
     "Add to your website" : "Προσθήκη στην ιστοσελίδα σας",
     "Share with me via Nextcloud" : "Διαμοιραστείτε με εμένα μέσω του Nextcloud",
     "HTML Code:" : "Κώδικας HTML:",
-    "Allow users on this server to send shares to other servers" : "Να επιτρέπεται σε χρήστες αυτού του διακομιστή να στέλνουν διαμοιρασμένους φακέλους σε άλλους διακομιστές"
+    "Adjust how people can share between servers." : "Προσαρμόστε το πως τα άτομα θα διαμοιράζονται μεταξύ των διακομιστών"
 },
 "nplurals=2; plural=(n != 1);");

@@ -5,7 +5,10 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2020 Julius Härtl <jus@bitgrid.net>
  *
+ * @author Julien Veyssier <eneiluj@posteo.net>
  * @author Julius Härtl <jus@bitgrid.net>
+ * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -23,7 +26,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Dashboard\Controller;
 
 use OCA\Dashboard\Service\BackgroundService;

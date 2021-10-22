@@ -19,14 +19,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\FederatedFileSharing\OCM;
 
 use OC\AppFramework\Http;
@@ -34,10 +33,10 @@ use OC\Files\Filesystem;
 use OCA\FederatedFileSharing\AddressHandler;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\Files_Sharing\Activity\Providers\RemoteShares;
+use OCA\Files_Sharing\External\Manager;
 use OCP\Activity\IManager as IActivityManager;
 use OCP\App\IAppManager;
 use OCP\Constants;
-use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\Exceptions\ActionNotSupportedException;
 use OCP\Federation\Exceptions\AuthenticationFailedException;
 use OCP\Federation\Exceptions\BadRequestException;
@@ -48,13 +47,14 @@ use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Federation\ICloudFederationShare;
 use OCP\Federation\ICloudIdManager;
 use OCP\Files\NotFoundException;
+use OCP\HintException;
+use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\ILogger;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\Notification\IManager as INotificationManager;
-use OCP\Share;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
@@ -104,6 +104,12 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 	/** @var IGroupManager */
 	private $groupManager;
 
+	/** @var IConfig */
+	private $config;
+
+	/** @var Manager */
+	private $externalShareManager;
+
 	/**
 	 * CloudFederationProvider constructor.
 	 *
@@ -121,21 +127,26 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 	 * @param ICloudFederationProviderManager $cloudFederationProviderManager
 	 * @param IDBConnection $connection
 	 * @param IGroupManager $groupManager
+	 * @param IConfig $config
+	 * @param Manager $externalShareManager
 	 */
-	public function __construct(IAppManager $appManager,
-								FederatedShareProvider $federatedShareProvider,
-								AddressHandler $addressHandler,
-								ILogger $logger,
-								IUserManager $userManager,
-								IManager $shareManager,
-								ICloudIdManager $cloudIdManager,
-								IActivityManager $activityManager,
-								INotificationManager $notificationManager,
-								IURLGenerator $urlGenerator,
-								ICloudFederationFactory $cloudFederationFactory,
-								ICloudFederationProviderManager $cloudFederationProviderManager,
-								IDBConnection $connection,
-								IGroupManager $groupManager
+	public function __construct(
+		IAppManager $appManager,
+		FederatedShareProvider $federatedShareProvider,
+		AddressHandler $addressHandler,
+		ILogger $logger,
+		IUserManager $userManager,
+		IManager $shareManager,
+		ICloudIdManager $cloudIdManager,
+		IActivityManager $activityManager,
+		INotificationManager $notificationManager,
+		IURLGenerator $urlGenerator,
+		ICloudFederationFactory $cloudFederationFactory,
+		ICloudFederationProviderManager $cloudFederationProviderManager,
+		IDBConnection $connection,
+		IGroupManager $groupManager,
+		IConfig $config,
+		Manager $externalShareManager
 	) {
 		$this->appManager = $appManager;
 		$this->federatedShareProvider = $federatedShareProvider;
@@ -151,6 +162,8 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 		$this->cloudFederationProviderManager = $cloudFederationProviderManager;
 		$this->connection = $connection;
 		$this->groupManager = $groupManager;
+		$this->config = $config;
+		$this->externalShareManager = $externalShareManager;
 	}
 
 
@@ -170,7 +183,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 	 *
 	 * @throws ProviderCouldNotAddShareException
 	 * @throws \OCP\AppFramework\QueryException
-	 * @throws \OC\HintException
+	 * @throws HintException
 	 * @since 14.0.0
 	 */
 	public function shareReceived(ICloudFederationShare $share) {
@@ -233,23 +246,8 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 				throw new ProviderCouldNotAddShareException('Group does not exists', '',Http::STATUS_BAD_REQUEST);
 			}
 
-			$externalManager = new \OCA\Files_Sharing\External\Manager(
-				\OC::$server->getDatabaseConnection(),
-				Filesystem::getMountManager(),
-				Filesystem::getLoader(),
-				\OC::$server->getHTTPClientService(),
-				\OC::$server->getNotificationManager(),
-				\OC::$server->query(\OCP\OCS\IDiscoveryService::class),
-				\OC::$server->getCloudFederationProviderManager(),
-				\OC::$server->getCloudFederationFactory(),
-				\OC::$server->getGroupManager(),
-				\OC::$server->getUserManager(),
-				$shareWith,
-				\OC::$server->query(IEventDispatcher::class)
-			);
-
 			try {
-				$externalManager->addShare($remote, $token, '', $name, $owner, $shareType,false, $shareWith, $remoteId);
+				$this->externalShareManager->addShare($remote, $token, '', $name, $owner, $shareType,false, $shareWith, $remoteId);
 				$shareId = \OC::$server->getDatabaseConnection()->lastInsertId('*PREFIX*share_external');
 
 				if ($shareType === IShare::TYPE_USER) {
@@ -299,7 +297,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 	 * @throws ActionNotSupportedException
 	 * @throws AuthenticationFailedException
 	 * @throws BadRequestException
-	 * @throws \OC\HintException
+	 * @throws HintException
 	 * @since 14.0.0
 	 */
 	public function notificationReceived($notificationType, $providerId, array $notification) {
@@ -367,7 +365,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 	 * @throws ActionNotSupportedException
 	 * @throws AuthenticationFailedException
 	 * @throws BadRequestException
-	 * @throws \OC\HintException
+	 * @throws HintException
 	 */
 	private function shareAccepted($id, array $notification) {
 		if (!$this->isS2SEnabled()) {
@@ -436,7 +434,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 	 * @throws AuthenticationFailedException
 	 * @throws BadRequestException
 	 * @throws ShareNotFound
-	 * @throws \OC\HintException
+	 * @throws HintException
 	 *
 	 */
 	protected function shareDeclined($id, array $notification) {
@@ -640,6 +638,11 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 		$senderId = $notification['senderId'];
 
 		$share = $this->federatedShareProvider->getShareById($id);
+
+		// We have to respect the default share permissions
+		$permissions = $share->getPermissions() & (int)$this->config->getAppValue('core', 'shareapi_default_permissions', (string)Constants::PERMISSION_ALL);
+		$share->setPermissions($permissions);
+
 		// don't allow to share a file back to the owner
 		try {
 			[$user, $remote] = $this->addressHandler->splitUserRemote($shareWith);
@@ -678,24 +681,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 	 * @throws BadRequestException
 	 */
 	protected function updateResharePermissions($id, array $notification) {
-		if (!isset($notification['sharedSecret'])) {
-			throw new BadRequestException(['sharedSecret']);
-		}
-		$token = $notification['sharedSecret'];
-
-		if (!isset($notification['permission'])) {
-			throw new BadRequestException(['permission']);
-		}
-		$ocmPermissions = $notification['permission'];
-
-		$share = $this->federatedShareProvider->getShareById($id);
-
-		$ncPermission = $this->ocmPermissions2ncPermissions($ocmPermissions);
-
-		$this->verifyShare($share, $token);
-		$this->updatePermissionsInDatabase($share, $ncPermission);
-
-		return [];
+		throw new HintException('Updating reshares not allowed');
 	}
 
 	/**

@@ -26,7 +26,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_Sharing;
 
 use OC\Cache\CappedMemoryCache;
@@ -106,7 +105,7 @@ class SharedMount extends MountPoint implements MoveableMount {
 			$folderExistCache->set($parent, $parentExists);
 		}
 		if (!$parentExists) {
-			$parent = Helper::getShareFolder($this->recipientView);
+			$parent = Helper::getShareFolder($this->recipientView, $this->user);
 		}
 
 		$newMountPoint = $this->generateUniqueTarget(

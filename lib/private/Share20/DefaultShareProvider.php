@@ -32,7 +32,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Share20;
 
 use OC\Files\Cache\Cache;
@@ -223,7 +222,7 @@ class DefaultShareProvider implements IShareProvider {
 		$cursor->closeCursor();
 
 		if ($data === false) {
-			throw new ShareNotFound();
+			throw new ShareNotFound('Newly created share could not be found');
 		}
 
 		$mailSendValue = $share->getMailSend();
@@ -470,7 +469,8 @@ class DefaultShareProvider implements IShareProvider {
 			}
 
 			if (!$group->inGroup($user)) {
-				throw new ProviderException('Recipient not in receiving group');
+				// nothing left to do
+				return;
 			}
 
 			// Try to fetch user specific share

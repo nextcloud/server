@@ -4,6 +4,7 @@
  *
  * @author Joas Schilling <coding@schilljs.com>
  * @author Robin Appelman <robin@icewind.nl>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @license AGPL-3.0
@@ -21,7 +22,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\DB\QueryBuilder\ExpressionBuilder;
 
 use OC\DB\QueryBuilder\QueryFunction;
@@ -33,7 +33,7 @@ class PgSqlExpressionBuilder extends ExpressionBuilder {
 	/**
 	 * Returns a IQueryFunction that casts the column to the given type
 	 *
-	 * @param string $column
+	 * @param string|IQueryFunction $column
 	 * @param mixed $type One of IQueryBuilder::PARAM_*
 	 * @return IQueryFunction
 	 */

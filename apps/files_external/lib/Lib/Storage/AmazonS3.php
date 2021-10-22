@@ -37,7 +37,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_External\Lib\Storage;
 
 use Aws\Result;
@@ -50,6 +49,7 @@ use OC\Files\Cache\CacheEntry;
 use OC\Files\ObjectStore\S3ConnectionTrait;
 use OC\Files\ObjectStore\S3ObjectTrait;
 use OCP\Constants;
+use OCP\Files\IMimeTypeDetector;
 
 class AmazonS3 extends \OC\Files\Storage\Common {
 	use S3ConnectionTrait;
@@ -68,12 +68,16 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 	/** @var CappedMemoryCache|array */
 	private $filesCache;
 
+	/** @var IMimeTypeDetector */
+	private $mimeDetector;
+
 	public function __construct($parameters) {
 		parent::__construct($parameters);
 		$this->parseParams($parameters);
 		$this->objectCache = new CappedMemoryCache();
 		$this->directoryCache = new CappedMemoryCache();
 		$this->filesCache = new CappedMemoryCache();
+		$this->mimeDetector = \OC::$server->get(IMimeTypeDetector::class);
 	}
 
 	/**
@@ -314,6 +318,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 				}
 				// we reached the end when the list is no longer truncated
 			} while ($objects['IsTruncated']);
+			$this->deleteObject($path);
 		} catch (S3Exception $e) {
 			\OC::$server->getLogger()->logException($e, ['app' => 'files_external']);
 			return false;
@@ -380,13 +385,14 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		try {
 			$stat = [];
 			if ($this->is_dir($path)) {
-				//folders don't really exist
-				$stat['size'] = -1; //unknown
-				$stat['mtime'] = time();
 				$cacheEntry = $this->getCache()->get($path);
-				if ($cacheEntry instanceof CacheEntry && $this->getMountOption('filesystem_check_changes', 1) !== 1) {
+				if ($cacheEntry instanceof CacheEntry) {
 					$stat['size'] = $cacheEntry->getSize();
 					$stat['mtime'] = $cacheEntry->getMTime();
+				} else {
+					// Use dummy values
+					$stat['size'] = -1; // Pending
+					$stat['mtime'] = time();
 				}
 			} else {
 				$stat['size'] = $this->getContentLength($path);
@@ -399,6 +405,10 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 			\OC::$server->getLogger()->logException($e, ['app' => 'files_external']);
 			return false;
 		}
+	}
+
+	public function hasUpdated($path, $time) {
+		return $this->getMountOption('filesystem_check_changes', 1) === 1 || parent::hasUpdated($path, $time);
 	}
 
 	/**
@@ -573,7 +583,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 
 		try {
 			if (!$this->file_exists($path)) {
-				$mimeType = \OC::$server->getMimeTypeDetector()->detectPath($path);
+				$mimeType = $this->mimeDetector->detectPath($path);
 				$this->getConnection()->putObject([
 					'Bucket' => $this->bucket,
 					'Key' => $this->cleanKey($path),
@@ -684,7 +694,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 	public function writeBack($tmpFile, $path) {
 		try {
 			$source = fopen($tmpFile, 'r');
-			$this->writeObject($path, $source);
+			$this->writeObject($path, $source, $this->mimeDetector->detectPath($path));
 			$this->invalidateCache($path);
 
 			unlink($tmpFile);

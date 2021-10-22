@@ -23,6 +23,7 @@
 namespace Test\Support\Subscription;
 
 use OC\Support\Subscription\Registry;
+use OC\User\Database;
 use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
@@ -31,6 +32,8 @@ use OCP\IUserManager;
 use OCP\Notification\IManager;
 use OCP\Support\Subscription\ISubscription;
 use OCP\Support\Subscription\ISupportedApps;
+use OCP\User\Backend\ICountUsersBackend;
+use OCP\UserInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
@@ -212,8 +215,8 @@ class RegistryTest extends TestCase {
 			->method('getUsersForUserValue')
 			->with('core', 'enabled', 'false')
 			->willReturn(array_fill(0, $disabledUsers, ''));
-		/* @var UserInterface|\PHPUnit\Framework\MockObject\MockObject $dummyBackend */
-		$dummyBackend = $this->createMock(UserInterface::class);
+		/* @var UserInterface|ICountUsersBackend|\PHPUnit\Framework\MockObject\MockObject $dummyBackend */
+		$dummyBackend = $this->createMock(Database::class);
 		$dummyBackend->expects($this->once())
 			->method('implementsActions')
 			->willReturn(true);

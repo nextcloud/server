@@ -24,21 +24,22 @@
 		id="user-status_panel"
 		:items="items"
 		:loading="loading">
-		<template v-slot:default="{ item }">
+		<template #default="{ item }">
 			<DashboardWidgetItem
 				:main-text="item.mainText"
 				:sub-text="item.subText">
-				<template v-slot:avatar>
+				<template #avatar>
 					<Avatar
 						class="item-avatar"
 						:size="44"
 						:user="item.avatarUsername"
 						:display-name="item.mainText"
+						:show-user-status="false"
 						:show-user-status-compact="false" />
 				</template>
 			</DashboardWidgetItem>
 		</template>
-		<template v-slot:empty-content>
+		<template #empty-content>
 			<EmptyContent
 				id="user_status-widget-empty-content"
 				icon="icon-user-status">

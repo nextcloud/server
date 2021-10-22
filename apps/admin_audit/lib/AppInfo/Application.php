@@ -24,14 +24,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\AdminAudit\AppInfo;
 
 use Closure;
@@ -49,6 +48,7 @@ use OCA\AdminAudit\Actions\Sharing;
 use OCA\AdminAudit\Actions\Trashbin;
 use OCA\AdminAudit\Actions\UserManagement;
 use OCA\AdminAudit\Actions\Versions;
+use OCA\AdminAudit\Listener\CriticalActionPerformedEventListener;
 use OCP\App\ManagerEvent;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
@@ -61,6 +61,7 @@ use OCP\IGroupManager;
 use OCP\IPreview;
 use OCP\IServerContainer;
 use OCP\IUserSession;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\Log\ILogFactory;
 use OCP\Share;
 use OCP\Util;
@@ -78,6 +79,7 @@ class Application extends App implements IBootstrap {
 	}
 
 	public function register(IRegistrationContext $context): void {
+		$context->registerEventListener(CriticalActionPerformedEvent::class, CriticalActionPerformedEventListener::class);
 	}
 
 	public function boot(IBootContext $context): void {

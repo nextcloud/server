@@ -23,11 +23,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\FederatedFileSharing;
 
-use OC\HintException;
 use OCP\Federation\ICloudIdManager;
+use OCP\HintException;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 

@@ -18,7 +18,6 @@ OC.L10N.register(
     "Federated Share request sent, you will receive an invitation. Check your notifications." : "Sendi beiðni um skýjasambandssameign, þú munt fá boðskort. Athugaðu skilaboð til þín.",
     "Couldn't establish a federated share, it looks like the server to federate with is too old (Nextcloud <= 9)." : "Gat ekki bætt við skýjasambandssameign, það lítur út fyrir að þjónninn sem á að koma sambandi við sé of gamall (Nextcloud <= 9).",
     "It is not allowed to send federated group shares from this server." : "Ekki er heimilt að senda skýjasambandssameign fyrir hópa af þessum þjóni.",
-    "Sharing %1$s failed, because this item is already shared with %2$s" : "Deiling %1$s mistókst, því þessu atriði er þegar deilt með %2$s",
     "Not allowed to create a federated share with the same user" : "Ekki er heimilt að búa til skýjasambandssameign með sama notanda",
     "File is already shared with %s" : "Skránni er þegar deilt með %s",
     "Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable or uses a self-signed certificate." : "Deiling %1$s mistókst, gat ekki fundið %2$s, hugsanlega er þjónninn ekki tiltækur í augnablikinu eða að hann notar sjálfundirritað skilríki.",
@@ -30,14 +29,13 @@ OC.L10N.register(
     "You received {share} as a remote share from {user}" : "Þú tókst við {share} sem fjartengdri sameign frá {user}",
     "Accept" : "Samþykkja",
     "Decline" : "Hafna",
+    "Federated Cloud Sharing" : "Deiling með skýjasambandi",
     "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Deila með mér í gegnum víðværa skýjasambandsauðkennið mitt #Nextcloud Federated Cloud ID, sjá %s",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Deila með mér í gegnum víðværa skýjasambandsauðkennið mitt #Nextcloud Federated Cloud ID",
     "Sharing" : "Deiling",
     "Federated file sharing" : "Deiling skráa milli þjóna (skýjasambandssameign)",
     "Provide federated file sharing across servers" : "Sér um deilingu skráa milli skýjaþjóna (skýjasambandssameign)",
-    "Federated Cloud Sharing" : "Deiling með skýjasambandi",
     "Open documentation" : "Opna hjálparskjöl",
-    "Adjust how people can share between servers." : "Stilltu hvernig fólk getur deilt á milli þjóna.",
     "Allow users on this server to receive shares from other servers" : "Leyfa notendum á þessum þjóni að taka á móti sameignum frá öðrum þjónum",
     "Allow users on this server to send shares to groups on other servers" : "Leyfa notendum á þessum þjóni að senda sameignir til hópa á öðrum þjónum",
     "Allow users on this server to receive group shares from other servers" : "Leyfa notendum á þessum þjóni að taka á móti hópsameignum frá öðrum þjónum",
@@ -50,6 +48,6 @@ OC.L10N.register(
     "Add to your website" : "Bæta við vefsvæðið þitt",
     "Share with me via Nextcloud" : "Deila með mér í gegnum Nextcloud",
     "HTML Code:" : "HTML-kóði:",
-    "Allow users on this server to send shares to other servers" : "Leyfa notendum á þessum þjóni að senda sameignir til annarra þjóna"
+    "Adjust how people can share between servers." : "Stilltu hvernig fólk getur deilt á milli þjóna."
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

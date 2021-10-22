@@ -5,11 +5,12 @@
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Michael Weimann <mail@michael-weimann.eu>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Nina Pypchenko <22447785+nina-py@users.noreply.github.com>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Vincent Petry <vincent@nextcloud.com>
@@ -29,7 +30,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files\Tests\Controller;
 
 use OCA\Files\Activity\Helper;
@@ -48,6 +48,7 @@ use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserSession;
+use OCP\Share\IManager;
 use OCP\Template;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Test\TestCase;
@@ -84,6 +85,8 @@ class ViewControllerTest extends TestCase {
 	private $initialState;
 	/** @var ITemplateManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $templateManager;
+	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
+	private $shareManager;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -105,6 +108,7 @@ class ViewControllerTest extends TestCase {
 		$this->activityHelper = $this->createMock(Helper::class);
 		$this->initialState = $this->createMock(IInitialState::class);
 		$this->templateManager = $this->createMock(ITemplateManager::class);
+		$this->shareManager = $this->createMock(IManager::class);
 		$this->viewController = $this->getMockBuilder('\OCA\Files\Controller\ViewController')
 			->setConstructorArgs([
 				'files',
@@ -119,6 +123,7 @@ class ViewControllerTest extends TestCase {
 				$this->activityHelper,
 				$this->initialState,
 				$this->templateManager,
+				$this->shareManager,
 			])
 		->setMethods([
 			'getStorageInfo',
@@ -153,6 +158,8 @@ class ViewControllerTest extends TestCase {
 				->expects($this->any())
 				->method('getAppValue')
 				->willReturnArgument(2);
+		$this->shareManager->method('shareApiAllowLinks')
+			->willReturn(true);
 
 		$nav = new Template('files', 'appnavigation');
 		$nav->assign('usage_relative', 123);
@@ -171,6 +178,7 @@ class ViewControllerTest extends TestCase {
 				'icon' => '',
 				'type' => 'link',
 				'classes' => '',
+				'unread' => 0,
 			],
 			'recent' => [
 				'id' => 'recent',
@@ -182,6 +190,7 @@ class ViewControllerTest extends TestCase {
 				'icon' => '',
 				'type' => 'link',
 				'classes' => '',
+				'unread' => 0,
 			],
 			'favorites' => [
 				'id' => 'favorites',
@@ -240,7 +249,8 @@ class ViewControllerTest extends TestCase {
 					],
 				],
 				'defaultExpandedState' => false,
-				'expandedState' => 'show_Quick_Access'
+				'expandedState' => 'show_Quick_Access',
+				'unread' => 0,
 			],
 			'systemtagsfilter' => [
 				'id' => 'systemtagsfilter',
@@ -252,6 +262,7 @@ class ViewControllerTest extends TestCase {
 				'icon' => '',
 				'type' => 'link',
 				'classes' => '',
+				'unread' => 0,
 			],
 			'trashbin' => [
 				'id' => 'trashbin',
@@ -263,6 +274,7 @@ class ViewControllerTest extends TestCase {
 				'icon' => '',
 				'type' => 'link',
 				'classes' => 'pinned',
+				'unread' => 0,
 			],
 			'shareoverview' => [
 				'id' => 'shareoverview',
@@ -313,6 +325,7 @@ class ViewControllerTest extends TestCase {
 				'type' => 'link',
 				'expandedState' => 'show_sharing_menu',
 				'defaultExpandedState' => false,
+				'unread' => 0,
 			]
 		]);
 

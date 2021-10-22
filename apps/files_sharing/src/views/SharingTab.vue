@@ -175,7 +175,7 @@ export default {
 				this.loading = true
 
 				// init params
-				const shareUrl = generateOcsUrl('apps/files_sharing/api/v1', 2) + 'shares'
+				const shareUrl = generateOcsUrl('apps/files_sharing/api/v1/shares')
 				const format = 'json'
 				// TODO: replace with proper getFUllpath implementation of our own FileInfo model
 				const path = (this.fileInfo.path + '/' + this.fileInfo.name).replace('//', '/')
@@ -301,9 +301,9 @@ export default {
 		 * and return the newly created share component
 		 *
 		 * @param {Share} share the share to add to the array
-		 * @param {Function} resolve a function to run after the share is added and its component initialized
+		 * @param {Function} [resolve] a function to run after the share is added and its component initialized
 		 */
-		addShare(share, resolve) {
+		addShare(share, resolve = () => {}) {
 			// only catching share type MAIL as link shares are added differently
 			// meaning: not from the ShareInput
 			if (share.type === this.SHARE_TYPES.SHARE_TYPE_EMAIL) {

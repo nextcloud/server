@@ -30,8 +30,6 @@ class ComposerStaticInitFederation
         'OCA\\Federation\\Controller\\SettingsController' => __DIR__ . '/..' . '/../lib/Controller/SettingsController.php',
         'OCA\\Federation\\DAV\\FedAuth' => __DIR__ . '/..' . '/../lib/DAV/FedAuth.php',
         'OCA\\Federation\\DbHandler' => __DIR__ . '/..' . '/../lib/DbHandler.php',
-        'OCA\\Federation\\Hooks' => __DIR__ . '/..' . '/../lib/Hooks.php',
-        'OCA\\Federation\\Listener\\FederatedShareAddedListener' => __DIR__ . '/..' . '/../lib/Listener/FederatedShareAddedListener.php',
         'OCA\\Federation\\Listener\\SabrePluginAuthInitListener' => __DIR__ . '/..' . '/../lib/Listener/SabrePluginAuthInitListener.php',
         'OCA\\Federation\\Middleware\\AddServerMiddleware' => __DIR__ . '/..' . '/../lib/Middleware/AddServerMiddleware.php',
         'OCA\\Federation\\Migration\\Version1010Date20200630191302' => __DIR__ . '/..' . '/../lib/Migration/Version1010Date20200630191302.php',

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright 2017, Georg Ehrke <oc.list@georgehrke.com>
  *
@@ -14,19 +17,27 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Calendar;
 
+use OC\AppFramework\Bootstrap\Coordinator;
 use OCP\Calendar\ICalendar;
+use OCP\Calendar\ICalendarProvider;
+use OCP\Calendar\ICalendarQuery;
+use OCP\Calendar\IManager;
+use Psr\Container\ContainerInterface;
+use Psr\Log\LoggerInterface;
+use Throwable;
+use function array_map;
+use function array_merge;
 
-class Manager implements \OCP\Calendar\IManager {
+class Manager implements IManager {
 
 	/**
 	 * @var ICalendar[] holds all registered calendars
@@ -37,6 +48,23 @@ class Manager implements \OCP\Calendar\IManager {
 	 * @var \Closure[] to call to load/register calendar providers
 	 */
 	private $calendarLoaders = [];
+
+	/** @var Coordinator */
+	private $coordinator;
+
+	/** @var ContainerInterface */
+	private $container;
+
+	/** @var LoggerInterface */
+	private $logger;
+
+	public function __construct(Coordinator $coordinator,
+								ContainerInterface $container,
+								LoggerInterface $logger) {
+		$this->coordinator = $coordinator;
+		$this->container = $container;
+		$this->logger = $logger;
+	}
 
 	/**
 	 * This function is used to search and find objects within the user's calendars.
@@ -137,5 +165,51 @@ class Manager implements \OCP\Calendar\IManager {
 			$callable($this);
 		}
 		$this->calendarLoaders = [];
+	}
+
+	public function searchForPrincipal(ICalendarQuery $query): array {
+		$context = $this->coordinator->getRegistrationContext();
+		if ($context === null) {
+			return [];
+		}
+
+		/** @var CalendarQuery $query */
+		$calendars = array_merge(
+			...array_map(function ($registration) use ($query) {
+				try {
+					/** @var ICalendarProvider $provider */
+					$provider = $this->container->get($registration->getService());
+				} catch (Throwable $e) {
+					$this->logger->error('Could not load calendar provider ' . $registration->getService() . ': ' . $e->getMessage(), [
+						'exception' => $e,
+					]);
+					return [];
+				}
+
+				return $provider->getCalendars($query->getPrincipalUri(), $query->getCalendarUris());
+			}, $context->getCalendarProviders())
+		);
+
+		$results = [];
+		/** @var ICalendar $calendar */
+		foreach ($calendars as $calendar) {
+			$r = $calendar->search(
+				$query->getSearchPattern() ?? '',
+				$query->getSearchProperties(),
+				$query->getOptions(),
+				$query->getLimit(),
+				$query->getOffset()
+			);
+
+			foreach ($r as $o) {
+				$o['calendar-key'] = $calendar->getKey();
+				$results[] = $o;
+			}
+		}
+		return $results;
+	}
+
+	public function newQuery(string $principalUri): ICalendarQuery {
+		return new CalendarQuery($principalUri);
 	}
 }

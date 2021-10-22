@@ -28,7 +28,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Core\Command\Maintenance;
 
 use bantu\IniGetWrapper\IniGetWrapper;
@@ -37,6 +36,7 @@ use OC\Installer;
 use OC\Setup;
 use OC\SystemConfig;
 use OCP\Defaults;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
@@ -85,7 +85,7 @@ class Install extends Command {
 			$this->iniGetWrapper,
 			$server->getL10N('lib'),
 			$server->query(Defaults::class),
-			$server->getLogger(),
+			$server->get(LoggerInterface::class),
 			$server->getSecureRandom(),
 			\OC::$server->query(Installer::class)
 		);

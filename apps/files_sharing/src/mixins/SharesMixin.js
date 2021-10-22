@@ -1,7 +1,12 @@
 /**
  * @copyright Copyright (c) 2019 John Molakvoæ <skjnldsv@protonmail.com>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
+ * @author Gary Kim <gary@garykim.dev>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Julius Härtl <jus@bitgrid.net>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -20,7 +25,7 @@
  *
  */
 
-import PQueue from 'p-queue'
+import PQueue from 'p-queue/dist/index'
 import debounce from 'debounce'
 
 import Share from '../models/Share'

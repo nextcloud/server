@@ -20,7 +20,7 @@ OC.L10N.register(
     "No comments yet, start the conversation!" : "Keine Kommentare bisher. Beginne die Diskussion!",
     "No more messages" : "Keine weiteren Nachrichten",
     "Retry" : "Wiederholen",
-    "Unable to load the comments list" : "Kommentarliste kann nicht geladen werden",
+    "Unable to load the comments list" : "Kommentarliste konnte nicht geladen werden",
     "_%n unread comment_::_%n unread comments_" : ["%n ungelesener Kommentar","%n ungelesene Kommentare"],
     "_1 new comment_::_{unread} new comments_" : ["1 neuer Kommentar","[unread] neue Kommentare"],
     "Comment" : "Kommentar",

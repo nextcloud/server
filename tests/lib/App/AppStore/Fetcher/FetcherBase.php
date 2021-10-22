@@ -33,7 +33,8 @@ use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\Http\Client\IResponse;
 use OCP\IConfig;
-use OCP\ILogger;
+use OCP\Support\Subscription\IRegistry;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 abstract class FetcherBase extends TestCase {
@@ -47,8 +48,10 @@ abstract class FetcherBase extends TestCase {
 	protected $timeFactory;
 	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	protected $config;
-	/** @var ILogger|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
 	protected $logger;
+	/** @var IRegistry|\PHPUnit\Framework\MockObject\MockObject */
+	protected $registry;
 	/** @var Fetcher */
 	protected $fetcher;
 	/** @var string */
@@ -67,13 +70,14 @@ abstract class FetcherBase extends TestCase {
 		$this->clientService = $this->createMock(IClientService::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->config = $this->createMock(IConfig::class);
-		$this->logger = $this->createMock(ILogger::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
+		$this->registry = $this->createMock(IRegistry::class);
 	}
 
 	public function testGetWithAlreadyExistingFileAndUpToDateTimestampAndVersion() {
 		$this->config
 			->expects($this->at(0))
-			->method('getSystemValue')
+			->method('getSystemValueBool')
 			->with('appstoreenabled', true)
 			->willReturn(true);
 		$this->config
@@ -122,9 +126,7 @@ abstract class FetcherBase extends TestCase {
 		$this->config
 			->method('getSystemValue')
 			->willReturnCallback(function ($var, $default) {
-				if ($var === 'appstoreenabled') {
-					return true;
-				} elseif ($var === 'has_internet_connection') {
+				if ($var === 'has_internet_connection') {
 					return true;
 				} elseif ($var === 'appstoreurl') {
 					return 'https://apps.nextcloud.com/api/v1';
@@ -133,6 +135,10 @@ abstract class FetcherBase extends TestCase {
 				}
 				return $default;
 			});
+		$this->config
+			->method('getSystemValueBool')
+			->with('appstoreenabled', $this->anything())
+			->willReturn(true);
 
 		$folder = $this->createMock(ISimpleFolder::class);
 		$file = $this->createMock(ISimpleFile::class);
@@ -198,14 +204,16 @@ abstract class FetcherBase extends TestCase {
 	public function testGetWithAlreadyExistingFileAndOutdatedTimestamp() {
 		$this->config->method('getSystemValue')
 			->willReturnCallback(function ($key, $default) {
-				if ($key === 'appstoreenabled') {
-					return true;
-				} elseif ($key === 'version') {
+				if ($key === 'version') {
 					return '11.0.0.2';
 				} else {
 					return $default;
 				}
 			});
+		$this->config
+			->method('getSystemValueBool')
+			->with('appstoreenabled', true)
+			->willReturn(true);
 
 		$folder = $this->createMock(ISimpleFolder::class);
 		$file = $this->createMock(ISimpleFile::class);
@@ -275,9 +283,7 @@ abstract class FetcherBase extends TestCase {
 		$this->config
 			->method('getSystemValue')
 			->willReturnCallback(function ($var, $default) {
-				if ($var === 'appstoreenabled') {
-					return true;
-				} elseif ($var === 'has_internet_connection') {
+				if ($var === 'has_internet_connection') {
 					return true;
 				} elseif ($var === 'appstoreurl') {
 					return 'https://apps.nextcloud.com/api/v1';
@@ -286,6 +292,10 @@ abstract class FetcherBase extends TestCase {
 				}
 				return $default;
 			});
+		$this->config
+			->method('getSystemValueBool')
+			->with('appstoreenabled', true)
+			->willReturn(true);
 
 		$folder = $this->createMock(ISimpleFolder::class);
 		$file = $this->createMock(ISimpleFile::class);
@@ -351,9 +361,7 @@ abstract class FetcherBase extends TestCase {
 		$this->config
 			->method('getSystemValue')
 			->willReturnCallback(function ($var, $default) {
-				if ($var === 'appstoreenabled') {
-					return true;
-				} elseif ($var === 'has_internet_connection') {
+				if ($var === 'has_internet_connection') {
 					return true;
 				} elseif ($var === 'appstoreurl') {
 					return 'https://apps.nextcloud.com/api/v1';
@@ -362,6 +370,10 @@ abstract class FetcherBase extends TestCase {
 				}
 				return $default;
 			});
+		$this->config
+			->method('getSystemValueBool')
+			->with('appstoreenabled', true)
+			->willReturn(true);
 
 		$folder = $this->createMock(ISimpleFolder::class);
 		$file = $this->createMock(ISimpleFile::class);
@@ -425,12 +437,12 @@ abstract class FetcherBase extends TestCase {
 	public function testGetWithExceptionInClient() {
 		$this->config->method('getSystemValue')
 			->willReturnCallback(function ($key, $default) {
-				if ($key === 'appstoreenabled') {
-					return true;
-				} else {
-					return $default;
-				}
+				return $default;
 			});
+		$this->config
+			->method('getSystemValueBool')
+			->with('appstoreenabled', true)
+			->willReturn(true);
 
 		$folder = $this->createMock(ISimpleFolder::class);
 		$file = $this->createMock(ISimpleFile::class);
@@ -465,14 +477,16 @@ abstract class FetcherBase extends TestCase {
 	public function testGetMatchingETag() {
 		$this->config->method('getSystemValue')
 			->willReturnCallback(function ($key, $default) {
-				if ($key === 'appstoreenabled') {
-					return true;
-				} elseif ($key === 'version') {
+				if ($key === 'version') {
 					return '11.0.0.2';
 				} else {
 					return $default;
 				}
 			});
+		$this->config
+			->method('getSystemValueBool')
+			->with('appstoreenabled', true)
+			->willReturn(true);
 
 		$folder = $this->createMock(ISimpleFolder::class);
 		$file = $this->createMock(ISimpleFile::class);
@@ -546,14 +560,16 @@ abstract class FetcherBase extends TestCase {
 	public function testGetNoMatchingETag() {
 		$this->config->method('getSystemValue')
 			->willReturnCallback(function ($key, $default) {
-				if ($key === 'appstoreenabled') {
-					return true;
-				} elseif ($key === 'version') {
+				if ($key === 'version') {
 					return '11.0.0.2';
 				} else {
 					return $default;
 				}
 			});
+		$this->config
+			->method('getSystemValueBool')
+			->with('appstoreenabled', true)
+			->willReturn(true);
 
 		$folder = $this->createMock(ISimpleFolder::class);
 		$file = $this->createMock(ISimpleFile::class);
@@ -633,14 +649,16 @@ abstract class FetcherBase extends TestCase {
 	public function testFetchAfterUpgradeNoETag() {
 		$this->config->method('getSystemValue')
 			->willReturnCallback(function ($key, $default) {
-				if ($key === 'appstoreenabled') {
-					return true;
-				} elseif ($key === 'version') {
+				if ($key === 'version') {
 					return '11.0.0.3';
 				} else {
 					return $default;
 				}
 			});
+		$this->config
+			->method('getSystemValueBool')
+			->with('appstoreenabled', true)
+			->willReturn(true);
 
 		$folder = $this->createMock(ISimpleFolder::class);
 		$file = $this->createMock(ISimpleFile::class);

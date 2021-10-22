@@ -25,11 +25,11 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_Sharing;
 
 use OC\Files\Filesystem;
 use OC\Files\View;
+use OCA\Files_Sharing\AppInfo\Application;
 
 class Helper {
 	public static function registerHooks() {
@@ -64,16 +64,29 @@ class Helper {
 	/**
 	 * get default share folder
 	 *
-	 * @param \OC\Files\View $view
+	 * @param \OC\Files\View|null $view
+	 * @param string|null $userId
 	 * @return string
 	 */
-	public static function getShareFolder($view = null) {
+	public static function getShareFolder(View $view = null, string $userId = null): string {
 		if ($view === null) {
 			$view = Filesystem::getView();
 		}
-		$shareFolder = \OC::$server->getConfig()->getSystemValue('share_folder', '/');
+
+		$config = \OC::$server->getConfig();
+		$systemDefault = $config->getSystemValue('share_folder', '/');
+		$allowCustomShareFolder = $config->getSystemValueBool('sharing.allow_custom_share_folder', true);
+
+		// Init custom shareFolder
+		$shareFolder = $systemDefault;
+		if ($userId !== null && $allowCustomShareFolder) {
+			$shareFolder = $config->getUserValue($userId, Application::APP_ID, 'share_folder', $systemDefault);
+		}
+
+		// Verify and sanitize path
 		$shareFolder = Filesystem::normalizePath($shareFolder);
 
+		// Init path if folder doesn't exists
 		if (!$view->file_exists($shareFolder)) {
 			$dir = '';
 			$subdirs = explode('/', $shareFolder);

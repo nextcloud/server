@@ -3,7 +3,6 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Andreas Fischer <bantu@owncloud.com>
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
@@ -29,23 +28,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
-use OCP\ILogger;
-
-/**
- * This class manages the access to the database. It basically is a wrapper for
- * Doctrine with some adaptions.
- */
 class OC_DB {
-
-	/**
-	 * get MDB2 schema manager
-	 *
-	 * @return \OC\DB\MDB2SchemaManager
-	 */
-	private static function getMDB2SchemaManager() {
-		return new \OC\DB\MDB2SchemaManager(\OC::$server->get(\OC\DB\Connection::class));
-	}
 
 	/**
 	 * Prepare a SQL query
@@ -157,45 +140,6 @@ class OC_DB {
 			throw new \OC\DatabaseException($message);
 		}
 		return $result;
-	}
-
-	/**
-	 * Creates tables from XML file
-	 * @param string $file file to read structure from
-	 * @return bool
-	 *
-	 * TODO: write more documentation
-	 */
-	public static function createDbFromStructure($file) {
-		$schemaManager = self::getMDB2SchemaManager();
-		return $schemaManager->createDbFromStructure($file);
-	}
-
-	/**
-	 * update the database schema
-	 * @param string $file file to read structure from
-	 * @throws Exception
-	 * @return string|boolean
-	 * @suppress PhanDeprecatedFunction
-	 */
-	public static function updateDbFromStructure($file) {
-		$schemaManager = self::getMDB2SchemaManager();
-		try {
-			$result = $schemaManager->updateDbFromStructure($file);
-		} catch (Exception $e) {
-			\OCP\Util::writeLog('core', 'Failed to update database structure ('.$e.')', ILogger::FATAL);
-			throw $e;
-		}
-		return $result;
-	}
-
-	/**
-	 * remove all tables defined in a database structure xml file
-	 * @param string $file the xml file describing the tables
-	 */
-	public static function removeDBStructure($file) {
-		$schemaManager = self::getMDB2SchemaManager();
-		$schemaManager->removeDBStructure($file);
 	}
 
 	/**

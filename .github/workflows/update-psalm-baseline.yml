@@ -19,23 +19,23 @@ jobs:
         uses: shivammathur/setup-php@master
         with:
           php-version: 7.4
+          extensions: ctype,curl,dom,fileinfo,gd,iconv,intl,json,mbstring,openssl,pdo_sqlite,posix,sqlite,xml,zip
           coverage: none
       - name: Composer install
-        run: composer i
+        run: composer install
       - name: Psalm
         run: composer run psalm -- --monochrome --no-progress --output-format=text --update-baseline
-      - name: Reset composer.json and composer.lock
+      - name: Reset composer
         run: |
-          rm -rf lib/composer
-          git checkout -- composer.json composer.lock lib/composer
+          git clean -f lib/composer
+          git checkout composer.json composer.lock lib/composer
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
         with:
-          token: ${{ secrets.MACHINE_USER_PAT }}
-          push-to-fork: nextcloud-pr-bot/server
+          token: ${{ secrets.COMMAND_BOT_PAT }}
           commit-message: Update psalm baseline
           committer: GitHub <noreply@github.com>
-          author: Nextcloud-PR-Bot <nextcloud-pr-bot@users.noreply.github.com>
+          author: nextcloud-command <nextcloud-command@users.noreply.github.com>
           signoff: true
           branch: automated/noid/psalm-baseline-update
           title: '[Automated] Update psalm-baseline.xml'
@@ -43,4 +43,4 @@ jobs:
             Auto-generated update psalm-baseline.xml with fixed psalm warnings
           labels: |
             automated pr
-          reviewers: rullzer, morrisjobke, kesselb
+          reviewers: juliushaertl, artonge, kesselb

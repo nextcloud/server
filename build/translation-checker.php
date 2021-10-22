@@ -48,6 +48,11 @@ foreach ($directories as $dir) {
 		$content = file_get_contents($file->getPathname());
 		$json = json_decode($content, true);
 
+		$translations = json_encode($json['translations']);
+		if (strpos($translations, '|') !== false) {
+			$errors[] = $file->getPathname() . "\n" . '  ' . 'Contains a | in the translations' . "\n";
+		}
+
 		if (json_last_error() !== JSON_ERROR_NONE) {
 			$errors[] = $file->getPathname() . "\n" . '  ' . json_last_error_msg() . "\n";
 		} else {

@@ -1,7 +1,12 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2021 Julius Härtl <jus@bitgrid.net>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Julius Härtl <jus@bitgrid.net>
  *
  * @license GNU AGPL version 3 or any later version
@@ -20,10 +25,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
-declare(strict_types=1);
-
-
 namespace OC\Files\Template;
 
 use OC\AppFramework\Bootstrap\Coordinator;
@@ -36,7 +37,6 @@ use OCP\Files\GenericFileException;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
-use OCP\Files\NotPermittedException;
 use OCP\Files\Template\FileCreatedFromTemplateEvent;
 use OCP\Files\Template\ICustomTemplateProvider;
 use OCP\Files\Template\ITemplateManager;
@@ -155,7 +155,12 @@ class TemplateManager implements ITemplateManager {
 		} catch (NotFoundException $e) {
 		}
 		try {
-			$targetFile = $userFolder->newFile($filePath);
+			if (!$userFolder->nodeExists(dirname($filePath))) {
+				throw new GenericFileException($this->l10n->t('Invalid path'));
+			}
+			$folder = $userFolder->get(dirname($filePath));
+			$targetFile = $folder->newFile(basename($filePath));
+			$template = null;
 			if ($templateType === 'user' && $templateId !== '') {
 				$template = $userFolder->get($templateId);
 				$template->copy($targetFile->getPath());
@@ -296,9 +301,10 @@ class TemplateManager implements ITemplateManager {
 			}
 
 			try {
-				$folder = $userFolder->newFolder($userTemplatePath);
-			} catch (NotPermittedException $e) {
 				$folder = $userFolder->get($userTemplatePath);
+			} catch (NotFoundException $e) {
+				$folder = $userFolder->get(dirname($userTemplatePath));
+				$folder = $folder->newFolder(basename($userTemplatePath));
 			}
 
 			$folderIsEmpty = count($folder->getDirectoryListing()) === 0;

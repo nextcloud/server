@@ -16,7 +16,7 @@ OC.L10N.register(
     "Regenerate backup codes" : "Torra a generare còdighes de còpia de seguresa",
     "If you regenerate backup codes, you automatically invalidate old codes." : "Si torras a generare is còdighes de còpia de seguresa, in automàticu is còdighes betzos non sunt prus vàlidos.",
     "An error occurred while generating your backup codes" : "Ddoe at àpidu un'errore in sa creatzione de is còdighes de còpia de seguresa",
-    "{name} backup codes" : "{nùmene} còdighes de còpia de seguresa",
+    "{name} backup codes" : "{name} còdighes de còpia de seguresa",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Imprea unu de is còdighes de còpia de seguresa chi as sarvadu candu impostas s'autenticatzione a duos fatores.",
     "Submit" : "Imbia"
 },

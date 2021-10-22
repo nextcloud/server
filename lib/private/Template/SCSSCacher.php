@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2016, John Molakvoæ (skjnldsv@protonmail.com)
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Julius Haertl <jus@bitgrid.net>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Morris Jobke <hey@morrisjobke.de>
@@ -20,19 +20,19 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Template;
 
 use OC\AppConfig;
 use OC\Files\AppData\Factory;
 use OC\Memcache\NullCache;
+use OCA\Theming\ThemingDefaults;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
@@ -63,7 +63,7 @@ class SCSSCacher {
 	/** @var IConfig */
 	protected $config;
 
-	/** @var \OC_Defaults */
+	/** @var ThemingDefaults */
 	private $defaults;
 
 	/** @var string */
@@ -97,7 +97,7 @@ class SCSSCacher {
 	 * @param Factory $appDataFactory
 	 * @param IURLGenerator $urlGenerator
 	 * @param IConfig $config
-	 * @param \OC_Defaults $defaults
+	 * @param ThemingDefaults $defaults
 	 * @param string $serverRoot
 	 * @param ICacheFactory $cacheFactory
 	 * @param IconsCacher $iconsCacher
@@ -107,7 +107,7 @@ class SCSSCacher {
 								Factory $appDataFactory,
 								IURLGenerator $urlGenerator,
 								IConfig $config,
-								\OC_Defaults $defaults,
+								ThemingDefaults $defaults,
 								$serverRoot,
 								ICacheFactory $cacheFactory,
 								IconsCacher $iconsCacher,
@@ -407,7 +407,7 @@ class SCSSCacher {
 	}
 
 	/**
-	 * @return string SCSS code for variables from OC_Defaults
+	 * @return string SCSS code for variables from ThemingDefaults
 	 */
 	private function getInjectedVariables(string $cache = ''): string {
 		if ($this->injectedVariables !== null) {

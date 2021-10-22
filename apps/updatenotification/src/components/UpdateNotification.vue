@@ -194,7 +194,7 @@ export default {
 			}
 
 			if (this.appStoreFailed) {
-				return t('updatenotification', 'Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore.')
+				return t('updatenotification', 'Could not connect to the App Store or no updates have been returned at all. Search manually for updates or make sure your server has access to the internet and can connect to the App Store.')
 			}
 
 			return this.missingAppUpdates.length === 0
@@ -298,7 +298,7 @@ export default {
 			}
 
 			$.ajax({
-				url: generateOcsUrl('apps/updatenotification/api/v1/applist', 2) + this.newVersion,
+				url: generateOcsUrl('apps/updatenotification/api/v1/applist/{newVersion}', { newVersion: this.newVersion }),
 				type: 'GET',
 				beforeSend(request) {
 					request.setRequestHeader('Accept', 'application/json')
@@ -356,7 +356,7 @@ export default {
 		}.bind(this))
 
 		$.ajax({
-			url: generateOcsUrl('cloud', 2) + '/groups',
+			url: generateOcsUrl('cloud/groups'),
 			dataType: 'json',
 			success: function(data) {
 				const results = []

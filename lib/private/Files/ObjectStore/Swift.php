@@ -23,7 +23,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Files\ObjectStore;
 
 use GuzzleHttp\Client;
@@ -74,12 +73,7 @@ class Swift implements IObjectStore {
 		return $this->params['container'];
 	}
 
-	/**
-	 * @param string $urn the unified resource name used to identify the object
-	 * @param resource $stream stream with the data to write
-	 * @throws \Exception from openstack lib when something goes wrong
-	 */
-	public function writeObject($urn, $stream) {
+	public function writeObject($urn, $stream, string $mimetype = null) {
 		$tmpFile = \OC::$server->getTempManager()->getTemporaryFile('swiftwrite');
 		file_put_contents($tmpFile, $stream);
 		$handle = fopen($tmpFile, 'rb');
@@ -88,12 +82,14 @@ class Swift implements IObjectStore {
 			$this->getContainer()->createObject([
 				'name' => $urn,
 				'stream' => stream_for($handle),
+				'contentType' => $mimetype,
 			]);
 		} else {
 			$this->getContainer()->createLargeObject([
 				'name' => $urn,
 				'stream' => stream_for($handle),
 				'segmentSize' => SWIFT_SEGMENT_SIZE,
+				'contentType' => $mimetype,
 			]);
 		}
 	}

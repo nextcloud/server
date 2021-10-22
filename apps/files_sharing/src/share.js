@@ -1,14 +1,38 @@
-/* eslint-disable */
-/*
+/**
  * Copyright (c) 2014
  *
- * This file is licensed under the Affero General Public License version 3
- * or later.
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Julius Härtl <jus@bitgrid.net>
+ * @author Maxence Lange <maxence@nextcloud.com>
+ * @author Michael Jobst <mjobst+github@tecratech.de>
+ * @author Michael Jobst <mjobst@necls.com>
+ * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Samuel <faust64@gmail.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
- * See the COPYING-README file.
+ * @license GNU AGPL version 3 or any later version
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
+/* eslint-disable */
 import escapeHTML from 'escape-html'
 
 (function() {
@@ -157,6 +181,8 @@ import escapeHTML from 'escape-html'
 								hasShares = true
 							} else if (shareType === OC.Share.SHARE_TYPE_REMOTE) {
 								hasShares = true
+							} else if (shareType === OC.Share.SHARE_TYPE_REMOTE_GROUP) {
+								hasShares = true
 							} else if (shareType === OC.Share.SHARE_TYPE_CIRCLE) {
 								hasShares = true
 							} else if (shareType === OC.Share.SHARE_TYPE_ROOM) {
@@ -206,6 +232,10 @@ import escapeHTML from 'escape-html'
 				},
 				type: OCA.Files.FileActions.TYPE_INLINE,
 				actionHandler: function(fileName, context) {
+					// details view disabled in some share lists
+					if (!fileList._detailsView) {
+						return
+					}
 					// do not open sidebar if permission is set and equal to 0
 					var permissions = parseInt(context.$file.data('share-permissions'), 10)
 					if (isNaN(permissions) || permissions > 0) {

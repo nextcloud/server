@@ -9,6 +9,7 @@ declare(strict_types=1);
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author J0WI <J0WI@users.noreply.github.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Markus Goetz <markus@woboq.com>
@@ -33,7 +34,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC;
 
 use \OCP\AutoloadNotAllowedException;
@@ -68,7 +68,7 @@ class Autoloader {
 	 *
 	 * @param string $root
 	 */
-	public function addValidRoot(string $root) {
+	public function addValidRoot(string $root): void {
 		$root = stream_resolve_include_path($root);
 		$this->validRoots[$root] = true;
 	}
@@ -76,14 +76,14 @@ class Autoloader {
 	/**
 	 * disable the usage of the global classpath \OC::$CLASSPATH
 	 */
-	public function disableGlobalClassPath() {
+	public function disableGlobalClassPath(): void {
 		$this->useGlobalClassPath = false;
 	}
 
 	/**
 	 * enable the usage of the global classpath \OC::$CLASSPATH
 	 */
-	public function enableGlobalClassPath() {
+	public function enableGlobalClassPath(): void {
 		$this->useGlobalClassPath = true;
 	}
 
@@ -184,7 +184,7 @@ class Autoloader {
 	 *
 	 * @param \OC\Memcache\Cache $memoryCache Instance of memory cache.
 	 */
-	public function setMemoryCache(\OC\Memcache\Cache $memoryCache = null) {
+	public function setMemoryCache(\OC\Memcache\Cache $memoryCache = null): void {
 		$this->memoryCache = $memoryCache;
 	}
 }

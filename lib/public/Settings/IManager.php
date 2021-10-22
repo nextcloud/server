@@ -16,7 +16,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -25,6 +25,8 @@
  */
 
 namespace OCP\Settings;
+
+use OCP\IUser;
 
 /**
  * @since 9.1
@@ -51,7 +53,7 @@ interface IManager {
 	public const KEY_PERSONAL_SECTION = 'personal-section';
 
 	/**
-	 * @param string $type 'admin' or 'personal'
+	 * @param string $type 'admin-section' or 'personal-section'
 	 * @param string $section Class must implement OCP\Settings\ISection
 	 * @since 14.0.0
 	 */
@@ -59,7 +61,7 @@ interface IManager {
 
 	/**
 	 * @param string $type 'admin' or 'personal'
-	 * @param string $setting Class must implement OCP\Settings\ISetting
+	 * @param string $setting Class must implement OCP\Settings\ISettings
 	 * @since 14.0.0
 	 */
 	public function registerSetting(string $type, string $setting);
@@ -67,7 +69,7 @@ interface IManager {
 	/**
 	 * returns a list of the admin sections
 	 *
-	 * @return array array of ISection[] where key is the priority
+	 * @return array<int, array<int, IIconSection>> array from IConSection[] where key is the priority
 	 * @since 9.1.0
 	 */
 	public function getAdminSections(): array;
@@ -85,16 +87,32 @@ interface IManager {
 	 *
 	 * @param string $section the section id for which to load the settings
 	 * @param bool $subAdminOnly only return settings sub admins are supposed to see (since 17.0.0)
-	 * @return array array of IAdmin[] where key is the priority
+	 * @return array<int, array<int, ISettings>> array of ISettings[] where key is the priority
 	 * @since 9.1.0
 	 */
 	public function getAdminSettings($section, bool $subAdminOnly = false): array;
 
 	/**
+	 * Returns a list of admin settings that the given user can use for the give section
+	 *
+	 * @return array<int, list<ISettings>> The array of admin settings there admin delegation is allowed.
+	 * @since 23.0.0
+	 */
+	public function getAllowedAdminSettings(string $section, IUser $user): array;
+
+	/**
+	 * Returns a list of admin settings that the given user can use.
+	 *
+	 * @return array<int, list<ISettings>> The array of admin settings there admin delegation is allowed.
+	 * @since 23.0.0
+	 */
+	public function getAllAllowedAdminSettings(IUser $user): array;
+
+	/**
 	 * returns a list of the personal  settings
 	 *
 	 * @param string $section the section id for which to load the settings
-	 * @return array array of IPersonal[] where key is the priority
+	 * @return array array of ISettings[] where key is the priority
 	 * @since 13.0.0
 	 */
 	public function getPersonalSettings($section): array;

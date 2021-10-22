@@ -3,7 +3,7 @@ OC.L10N.register(
     {
     "Update" : "Uuenda",
     "Create" : "Loo",
-    "Select tag…" : "Vali silt...",
+    "Select tag …" : "Vali silt ...",
     "Added system tag {systemtag}" : "Lisas süsteemi sildi {systemtag}",
     "Added system tag %1$s" : "Lisas süsteemi sildi %1$s",
     "%1$s added system tag %2$s" : "%1$s lisas süsteemi sildi %2$s",
@@ -42,7 +42,6 @@ OC.L10N.register(
     "No tags found" : "Silte ei leitud",
     "Please select tags to filter by" : "Palun vali sildid, mille järgi filtreerida",
     "No files found for the selected tags" : "Valitud siltidega ei leitud ühtegi faili",
-    "Select tag …" : "Vali silt ...",
     "Name" : "Nimi",
     "Public" : "Avalik",
     "Restricted" : "Piiratud",

@@ -16,7 +16,7 @@ OC.L10N.register(
     "Password to access {file} was sent to {email}" : "Password to access {file} was sent to {email}",
     "Password to access %1$s was sent to you" : "Password to access %1$s was sent to you",
     "Password to access {file} was sent to you" : "Password to access {file} was sent to you",
-    "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again.",
+    "Share by mail" : "Share by mail",
     "Failed to send share by email" : "Failed to send share by email",
     "Click the button below to open it." : "Click the button below to open it.",
     "Open »%s«" : "Open »%s«",
@@ -28,10 +28,10 @@ OC.L10N.register(
     "It is protected with the following password:" : "It is protected with the following password:",
     "You can choose a different password at any time in the share dialog." : "You can choose a different password at any time in the share dialog.",
     "Could not find share" : "Could not find share",
-    "Share by mail" : "Share by mail",
     "Share provider which allows you to share files by mail" : "Share provider which allows you to share files by mail",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Allows users to share a personalised link to a file or folder by putting in an email address.",
     "Send password by mail" : "Send password by mail",
+    "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again.",
     "Enforce password protection" : "Enforce password protection"
 },
 "nplurals=2; plural=(n != 1);");

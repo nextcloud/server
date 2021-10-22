@@ -7,9 +7,11 @@ OC.L10N.register(
     "Out sick" : "Hasta",
     "Vacationing" : "Tatilde",
     "Working remotely" : "Uzaktan çalışıyor",
+    "In a call" : "Bir görüşmede",
     "User status" : "Kullanıcı durumu",
+    "View profile" : "Profili görüntüle",
     "Clear status message after" : "Durum iletisi şu süre sonunda kaldırılsın",
-    "What's your status?" : "Durumunuz nedir?",
+    "What is your status?" : "Durumunuz nedir?",
     "Set status" : "Durumu ayarla",
     "Online status" : "Çevrimiçi durumu",
     "Status message" : "Durum iletisi",
@@ -33,6 +35,7 @@ OC.L10N.register(
     "4 hours" : "4 saat",
     "Mute all notifications" : "Tüm bildirimleri kapat",
     "Appear offline" : "Çevrimdışı görün",
-    "Clear status after" : "Durum şu kadar sonra kaldırılsın"
+    "Clear status after" : "Durum şu kadar sonra kaldırılsın",
+    "What's your status?" : "Durumunuz nedir?"
 },
 "nplurals=2; plural=(n > 1);");

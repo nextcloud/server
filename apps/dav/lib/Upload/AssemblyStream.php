@@ -26,7 +26,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Upload;
 
 use Sabre\DAV\IFile;
@@ -74,14 +73,14 @@ class AssemblyStream implements \Icewind\Streams\File {
 		$this->loadContext('assembly');
 
 		$nodes = $this->nodes;
-		// https://stackoverflow.com/a/10985500
-		@usort($nodes, function (IFile $a, IFile $b) {
+		usort($nodes, function (IFile $a, IFile $b) {
 			return strnatcmp($a->getName(), $b->getName());
 		});
 		$this->nodes = array_values($nodes);
 		$this->size = array_reduce($this->nodes, function ($size, IFile $file) {
 			return $size + $file->getSize();
 		}, 0);
+
 		return true;
 	}
 

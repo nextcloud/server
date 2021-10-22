@@ -1,6 +1,6 @@
 { "translations": {
-    "Dark theme" : "Tummateema",
-    "Enable dark theme" : "Käytä tummaateemaa",
+    "Dark theme" : "Tumma teema",
+    "Enable dark theme" : "Käytä tummaa teemaa",
     "A dark theme to ease your eyes by reducing the overall luminosity and brightness. It is still under development, so please report any issues you may find." : "Tumma teema helpottaa silmien rasitusta vähentämällä kokonaiskirkkautta. Teemaa kehitetään edelleen, joten ilmoitathan mahdollisesti kohtaamasi ongelmat.",
     "High contrast mode" : "Suuren kontrastin tila",
     "Enable high contrast mode" : "Käytä suuren kontrastin tilaa",

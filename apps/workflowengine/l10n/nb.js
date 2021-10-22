@@ -81,7 +81,6 @@ OC.L10N.register(
     "Available flows" : "Tilgjengelige flyt",
     "For details on how to write your own flow, check out the development documentation." : "For informasjon om hvordan du skriver din egen flyt, sjekk ut utviklingsdokumentasjonen.",
     "More flows" : "Flere flyt",
-    "Browse the app store" : "Bla gjennom app-butikken",
     "Show less" : "Vis mindre",
     "Show more" : "Vis mer",
     "Configured flows" : "Konfigurerte flyt",
@@ -112,6 +111,7 @@ OC.L10N.register(
     "Request user agent" : "Ønsket brukeragent",
     "User group membership" : "Brukerens gruppemedlemsskap",
     "is member of" : "er medlem av",
-    "is not member of" : "er ikke medlem av"
+    "is not member of" : "er ikke medlem av",
+    "Browse the app store" : "Bla gjennom app-butikken"
 },
 "nplurals=2; plural=(n != 1);");

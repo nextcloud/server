@@ -25,7 +25,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\User_LDAP\Tests\Integration;
 
 use OCA\User_LDAP\Access;
@@ -144,7 +143,7 @@ abstract class AbstractIntegrationTest {
 	 * initializes the Access test instance
 	 */
 	protected function initAccess() {
-		$this->access = new Access($this->connection, $this->ldap, $this->userManager, $this->helper, \OC::$server->getConfig());
+		$this->access = new Access($this->connection, $this->ldap, $this->userManager, $this->helper, \OC::$server->getConfig(), \OC::$server->getLogger());
 	}
 
 	/**

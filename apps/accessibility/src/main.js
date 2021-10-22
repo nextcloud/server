@@ -16,24 +16,17 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
  */
+
 import Vue from 'vue'
-import { loadState } from '@nextcloud/initial-state'
 import App from './Accessibility.vue'
 
 // bind to window
 Vue.prototype.OC = OC
 Vue.prototype.t = t
 
-const availableConfig = loadState('accessibility', 'available-config')
-const userConfig = loadState('accessibility', 'user-config')
-
 const View = Vue.extend(App)
-const accessibility = new View({
-	propsData: {
-		availableConfig,
-		userConfig,
-	},
-})
+const accessibility = new View()
 accessibility.$mount('#accessibility')

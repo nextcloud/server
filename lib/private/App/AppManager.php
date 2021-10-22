@@ -35,7 +35,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\App;
 
 use OC\AppConfig;
@@ -46,9 +45,9 @@ use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
-use OCP\ILogger;
 use OCP\IUser;
 use OCP\IUserSession;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class AppManager implements IAppManager {
@@ -83,7 +82,7 @@ class AppManager implements IAppManager {
 	/** @var EventDispatcherInterface */
 	private $dispatcher;
 
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	private $logger;
 
 	/** @var string[] $appId => $enabled */
@@ -104,21 +103,13 @@ class AppManager implements IAppManager {
 	/** @var array */
 	private $autoDisabledApps = [];
 
-	/**
-	 * @param IUserSession $userSession
-	 * @param IConfig $config
-	 * @param AppConfig $appConfig
-	 * @param IGroupManager $groupManager
-	 * @param ICacheFactory $memCacheFactory
-	 * @param EventDispatcherInterface $dispatcher
-	 */
 	public function __construct(IUserSession $userSession,
 								IConfig $config,
 								AppConfig $appConfig,
 								IGroupManager $groupManager,
 								ICacheFactory $memCacheFactory,
 								EventDispatcherInterface $dispatcher,
-								ILogger $logger) {
+								LoggerInterface $logger) {
 		$this->userSession = $userSession;
 		$this->config = $config;
 		$this->appConfig = $appConfig;
@@ -249,7 +240,7 @@ class AppManager implements IAppManager {
 
 			if (!is_array($groupIds)) {
 				$jsonError = json_last_error();
-				$this->logger->warning('AppManger::checkAppForUser - can\'t decode group IDs: ' . print_r($enabled, true) . ' - json error code: ' . $jsonError, ['app' => 'lib']);
+				$this->logger->warning('AppManger::checkAppForUser - can\'t decode group IDs: ' . print_r($enabled, true) . ' - json error code: ' . $jsonError);
 				return false;
 			}
 
@@ -282,7 +273,7 @@ class AppManager implements IAppManager {
 
 			if (!is_array($groupIds)) {
 				$jsonError = json_last_error();
-				$this->logger->warning('AppManger::checkAppForUser - can\'t decode group IDs: ' . print_r($enabled, true) . ' - json error code: ' . $jsonError, ['app' => 'lib']);
+				$this->logger->warning('AppManger::checkAppForUser - can\'t decode group IDs: ' . print_r($enabled, true) . ' - json error code: ' . $jsonError);
 				return false;
 			}
 
@@ -400,7 +391,11 @@ class AppManager implements IAppManager {
 		}
 
 		if ($automaticDisabled) {
-			$this->autoDisabledApps[] = $appId;
+			$previousSetting = $this->appConfig->getValue($appId, 'enabled', 'yes');
+			if ($previousSetting !== 'yes' && $previousSetting !== 'no') {
+				$previousSetting = json_decode($previousSetting, true);
+			}
+			$this->autoDisabledApps[$appId] = $previousSetting;
 		}
 
 		unset($this->installedAppsCache[$appId]);
@@ -544,7 +539,7 @@ class AppManager implements IAppManager {
 		foreach ($apps as $appId) {
 			$info = $this->getAppInfo($appId);
 			if ($info === null) {
-				$incompatibleApps[] = ['id' => $appId];
+				$incompatibleApps[] = ['id' => $appId, 'name' => $appId];
 			} elseif (!\OC_App::isAppCompatible($version, $info)) {
 				$incompatibleApps[] = $info;
 			}

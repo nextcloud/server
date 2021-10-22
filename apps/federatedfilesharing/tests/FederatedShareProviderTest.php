@@ -12,6 +12,8 @@
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Valdnet <47037905+Valdnet@users.noreply.github.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -28,7 +30,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\FederatedFileSharing\Tests;
 
 use OC\Federation\CloudIdManager;
@@ -45,6 +46,7 @@ use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\ILogger;
+use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
@@ -114,7 +116,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 		//$this->addressHandler = new AddressHandler(\OC::$server->getURLGenerator(), $this->l);
 		$this->addressHandler = $this->getMockBuilder('OCA\FederatedFileSharing\AddressHandler')->disableOriginalConstructor()->getMock();
 		$this->contactsManager = $this->createMock(IContactsManager::class);
-		$this->cloudIdManager = new CloudIdManager($this->contactsManager);
+		$this->cloudIdManager = new CloudIdManager($this->contactsManager, $this->createMock(IURLGenerator::class), $this->userManager);
 		$this->gsConfig = $this->createMock(\OCP\GlobalScale\IConfig::class);
 
 		$this->userManager->expects($this->any())->method('userExists')->willReturn(true);
@@ -145,7 +147,17 @@ class FederatedShareProviderTest extends \Test\TestCase {
 		parent::tearDown();
 	}
 
-	public function testCreate() {
+	public function dataTestCreate() {
+		return [
+			[null, null],
+			[new \DateTime('2020-03-01T01:02:03'), '2020-03-01 01:02:03'],
+		];
+	}
+
+	/**
+	 * @dataProvider dataTestCreate
+	 */
+	public function testCreate($expirationDate, $expectedDataDate) {
 		$share = $this->shareManager->newShare();
 
 		/** @var File|MockObject $node */
@@ -158,6 +170,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 			->setShareOwner('shareOwner')
 			->setPermissions(19)
 			->setShareType(IShare::TYPE_REMOTE)
+			->setExpirationDate($expirationDate)
 			->setNode($node);
 
 		$this->tokenHandler->method('generateToken')->willReturn('token');
@@ -209,6 +222,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 			'permissions' => 19,
 			'accepted' => 0,
 			'token' => 'token',
+			'expiration' => $expectedDataDate,
 		];
 		foreach (array_keys($expected) as $key) {
 			$this->assertEquals($expected[$key], $data[$key], "Assert that value for key '$key' is the same");
@@ -223,6 +237,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 		$this->assertEquals(42, $share->getNodeId());
 		$this->assertEquals(19, $share->getPermissions());
 		$this->assertEquals('token', $share->getToken());
+		$this->assertEquals($expirationDate, $share->getExpirationDate());
 	}
 
 	public function testCreateCouldNotFindServer() {
@@ -437,15 +452,14 @@ class FederatedShareProviderTest extends \Test\TestCase {
 		try {
 			$this->provider->create($share);
 		} catch (\Exception $e) {
-			$this->assertEquals('Sharing myFile failed, because this item is already shared with user@server.com', $e->getMessage());
+			$this->assertEquals('Sharing myFile failed, because this item is already shared with user user@server.com', $e->getMessage());
 		}
 	}
 
 	/**
-	 * @dataProvider datatTestUpdate
-	 *
+	 * @dataProvider dataTestUpdate
 	 */
-	public function testUpdate($owner, $sharedBy) {
+	public function testUpdate($owner, $sharedBy, $expirationDate) {
 		$this->provider = $this->getMockBuilder('OCA\FederatedFileSharing\FederatedShareProvider')
 			->setConstructorArgs(
 				[
@@ -478,6 +492,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 			->setShareOwner($owner)
 			->setPermissions(19)
 			->setShareType(IShare::TYPE_REMOTE)
+			->setExpirationDate(new \DateTime('2019-02-01T01:02:03'))
 			->setNode($node);
 
 		$this->tokenHandler->method('generateToken')->willReturn('token');
@@ -512,17 +527,19 @@ class FederatedShareProviderTest extends \Test\TestCase {
 		$share = $this->provider->create($share);
 
 		$share->setPermissions(1);
+		$share->setExpirationDate($expirationDate);
 		$this->provider->update($share);
 
 		$share = $this->provider->getShareById($share->getId());
 
 		$this->assertEquals(1, $share->getPermissions());
+		$this->assertEquals($expirationDate, $share->getExpirationDate());
 	}
 
-	public function datatTestUpdate() {
+	public function dataTestUpdate() {
 		return [
-			['sharedBy', 'shareOwner'],
-			['shareOwner', 'shareOwner']
+			['sharedBy', 'shareOwner', new \DateTime('2020-03-01T01:02:03')],
+			['shareOwner', 'shareOwner', null],
 		];
 	}
 

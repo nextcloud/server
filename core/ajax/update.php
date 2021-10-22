@@ -3,7 +3,6 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Björn Schießle <bjoern@schiessle.org>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Ko- <k.stoffelen@cs.ru.nl>
@@ -31,7 +30,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 use OCP\ILogger;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
@@ -117,7 +115,7 @@ if (\OCP\Util::needUpgrade()) {
 	// avoid side effects
 	\OC_User::setIncognitoMode(true);
 
-	$logger = \OC::$server->getLogger();
+	$logger = \OC::$server->get(\Psr\Log\LoggerInterface::class);
 	$config = \OC::$server->getConfig();
 	$updater = new \OC\Updater(
 			$config,
@@ -162,29 +160,17 @@ if (\OCP\Util::needUpgrade()) {
 	$updater->listen('\OC\Updater', 'dbUpgrade', function () use ($eventSource, $l) {
 		$eventSource->send('success', $l->t('Updated database'));
 	});
-	$updater->listen('\OC\Updater', 'dbSimulateUpgradeBefore', function () use ($eventSource, $l) {
-		$eventSource->send('success', $l->t('Checking whether the database schema can be updated (this can take a long time depending on the database size)'));
-	});
-	$updater->listen('\OC\Updater', 'dbSimulateUpgrade', function () use ($eventSource, $l) {
-		$eventSource->send('success', $l->t('Checked database schema update'));
-	});
-	$updater->listen('\OC\Updater', 'appUpgradeCheckBefore', function () use ($eventSource, $l) {
-		$eventSource->send('success', $l->t('Checking updates of apps'));
-	});
 	$updater->listen('\OC\Updater', 'checkAppStoreAppBefore', function ($app) use ($eventSource, $l) {
-		$eventSource->send('success', $l->t('Checking for update of app "%s" in appstore', [$app]));
+		$eventSource->send('success', $l->t('Checking for update of app "%s" in App Store', [$app]));
 	});
 	$updater->listen('\OC\Updater', 'upgradeAppStoreApp', function ($app) use ($eventSource, $l) {
-		$eventSource->send('success', $l->t('Update app "%s" from appstore', [$app]));
+		$eventSource->send('success', $l->t('Update app "%s" from App Store', [$app]));
 	});
 	$updater->listen('\OC\Updater', 'checkAppStoreApp', function ($app) use ($eventSource, $l) {
-		$eventSource->send('success', $l->t('Checked for update of app "%s" in appstore', [$app]));
+		$eventSource->send('success', $l->t('Checked for update of app "%s" in App Store', [$app]));
 	});
 	$updater->listen('\OC\Updater', 'appSimulateUpdate', function ($app) use ($eventSource, $l) {
 		$eventSource->send('success', $l->t('Checking whether the database schema for %s can be updated (this can take a long time depending on the database size)', [$app]));
-	});
-	$updater->listen('\OC\Updater', 'appUpgradeCheck', function () use ($eventSource, $l) {
-		$eventSource->send('success', $l->t('Checked database schema update for apps'));
 	});
 	$updater->listen('\OC\Updater', 'appUpgrade', function ($app, $version) use ($eventSource, $l) {
 		$eventSource->send('success', $l->t('Updated "%1$s" to %2$s', [$app, $version]));

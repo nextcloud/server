@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @copyright Copyright (c) 2019, Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Hinrich Mahler <nextcloud@mahlerhome.de>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -16,14 +17,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Files_Sharing\Controller;
 
 use OCA\Files_Sharing\AppInfo\Application;
@@ -36,10 +36,13 @@ class SettingsController extends Controller {
 
 	/** @var IConfig */
 	private $config;
+
 	/** @var string */
 	private $userId;
 
-	public function __construct(IRequest $request, IConfig $config, string $userId) {
+	public function __construct(IRequest $request,
+								IConfig $config,
+								string $userId) {
 		parent::__construct(Application::APP_ID, $request);
 
 		$this->config = $config;
@@ -51,6 +54,22 @@ class SettingsController extends Controller {
 	 */
 	public function setDefaultAccept(bool $accept): JSONResponse {
 		$this->config->setUserValue($this->userId, Application::APP_ID, 'default_accept', $accept ? 'yes' : 'no');
+		return new JSONResponse();
+	}
+
+	/**
+	 * @NoAdminRequired
+	 */
+	public function setUserShareFolder(string $shareFolder): JSONResponse {
+		$this->config->setUserValue($this->userId, Application::APP_ID, 'share_folder', $shareFolder);
+		return new JSONResponse();
+	}
+
+	/**
+	 * @NoAdminRequired
+	 */
+	public function resetUserShareFolder(): JSONResponse {
+		$this->config->deleteUserValue($this->userId, Application::APP_ID, 'share_folder');
 		return new JSONResponse();
 	}
 }

@@ -20,10 +20,10 @@ use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
-use OCP\ILogger;
 use OCP\IUser;
 use OCP\IUserSession;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Test\TestCase;
 
@@ -93,7 +93,7 @@ class AppManagerTest extends TestCase {
 	/** @var EventDispatcherInterface|MockObject */
 	protected $eventDispatcher;
 
-	/** @var ILogger|MockObject */
+	/** @var LoggerInterface|MockObject */
 	protected $logger;
 
 	/** @var IAppManager */
@@ -109,7 +109,7 @@ class AppManagerTest extends TestCase {
 		$this->cacheFactory = $this->createMock(ICacheFactory::class);
 		$this->cache = $this->createMock(ICache::class);
 		$this->eventDispatcher = $this->createMock(EventDispatcherInterface::class);
-		$this->logger = $this->createMock(ILogger::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->cacheFactory->expects($this->any())
 			->method('createDistributed')
 			->with('settings')

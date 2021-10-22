@@ -17,14 +17,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Core\Controller;
 
 use OCP\AppFramework\Controller;
@@ -55,7 +54,6 @@ class SearchController extends Controller {
 
 	/**
 	 * @NoAdminRequired
-	 * @NoCSRFRequired
 	 */
 	public function search(string $query, array $inApps = [], int $page = 1, int $size = 30): JSONResponse {
 		$results = $this->searcher->searchPaged($query, $inApps, $page, $size);

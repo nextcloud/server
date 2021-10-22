@@ -1,10 +1,12 @@
 <?php
 
 declare(strict_types=1);
+
 /**
  * @copyright 2017 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -15,7 +17,7 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -28,6 +30,7 @@ namespace OC\Contacts\ContactsMenu;
 use Exception;
 use OC\App\AppManager;
 use OC\Contacts\ContactsMenu\Providers\EMailProvider;
+use OC\Contacts\ContactsMenu\Providers\ProfileProvider;
 use OCP\AppFramework\QueryException;
 use OCP\Contacts\ContactsMenu\IProvider;
 use OCP\IServerContainer;
@@ -66,7 +69,8 @@ class ActionProviderStore {
 			try {
 				$providers[] = $this->serverContainer->query($class);
 			} catch (QueryException $ex) {
-				$this->logger->error('Could not load contacts menu action provider ' . $class,
+				$this->logger->error(
+					'Could not load contacts menu action provider ' . $class,
 					[
 						'app' => 'core',
 						'exception' => $ex,
@@ -84,6 +88,7 @@ class ActionProviderStore {
 	 */
 	private function getServerProviderClasses(): array {
 		return [
+			ProfileProvider::class,
 			EMailProvider::class,
 		];
 	}

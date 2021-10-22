@@ -6,8 +6,10 @@
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -24,11 +26,26 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_Sharing\Tests;
 
+use OC\Share20\Manager;
 use OCA\Files_Sharing\Capabilities;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\IRootFolder;
+use OCP\Files\Mount\IMountManager;
 use OCP\IConfig;
+use OCP\IGroupManager;
+use OCP\IL10N;
+use OCP\ILogger;
+use OCP\IURLGenerator;
+use OCP\IUserManager;
+use OCP\IUserSession;
+use OCP\L10N\IFactory;
+use OCP\Mail\IMailer;
+use OCP\Security\IHasher;
+use OCP\Security\ISecureRandom;
+use OCP\Share\IProviderFactory;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Class CapabilitiesTest
@@ -60,7 +77,26 @@ class CapabilitiesTest extends \Test\TestCase {
 	private function getResults(array $map) {
 		$config = $this->getMockBuilder(IConfig::class)->disableOriginalConstructor()->getMock();
 		$config->method('getAppValue')->willReturnMap($map);
-		$cap = new Capabilities($config);
+		$shareManager = new Manager(
+			$this->createMock(ILogger::class),
+			$config,
+			$this->createMock(ISecureRandom::class),
+			$this->createMock(IHasher::class),
+			$this->createMock(IMountManager::class),
+			$this->createMock(IGroupManager::class),
+			$this->createMock(IL10N::class),
+			$this->createMock(IFactory::class),
+			$this->createMock(IProviderFactory::class),
+			$this->createMock(IUserManager::class),
+			$this->createMock(IRootFolder::class),
+			$this->createMock(EventDispatcherInterface::class),
+			$this->createMock(IMailer::class),
+			$this->createMock(IURLGenerator::class),
+			$this->createMock(\OC_Defaults::class),
+			$this->createMock(IEventDispatcher::class),
+			$this->createMock(IUserSession::class)
+		);
+		$cap = new Capabilities($config, $shareManager);
 		$result = $this->getFilesSharingPart($cap->getCapabilities());
 		return $result;
 	}
@@ -284,5 +320,12 @@ class CapabilitiesTest extends \Test\TestCase {
 		$result = $this->getResults($map);
 		$this->assertArrayHasKey('federation', $result);
 		$this->assertFalse($result['federation']['outgoing']);
+	}
+
+	public function testFederatedSharingExpirationDate() {
+		$result = $this->getResults([]);
+		$this->assertArrayHasKey('federation', $result);
+		$this->assertEquals(['enabled' => true], $result['federation']['expire_date']);
+		$this->assertEquals(['enabled' => true], $result['federation']['expire_date_supported']);
 	}
 }

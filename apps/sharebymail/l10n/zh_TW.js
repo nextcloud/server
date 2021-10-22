@@ -24,7 +24,9 @@ OC.L10N.register(
     "Password to access {file} was sent to {email}" : "存取 {file} 的密碼已寄送給 {email}",
     "Password to access %1$s was sent to you" : "存取 %1$s 的密碼已寄送給您",
     "Password to access {file} was sent to you" : "存取 {file} 的密碼已寄送給您",
-    "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "我們無法將自動生成的密碼寄送給您。請在您的個人設定裡設定有效的電子郵件地址並再試一次。",
+    "Share by mail" : "透過電子郵件分享",
+    "Sharing %1$s failed, because this item is already shared with user %2$s" : "分享 %1$s 失敗，因為此項目已與使用者 %2$s 分享",
+    "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "我們無法將自動生成的密碼寄送給您。請在您的個人設定裡設定有效的電子郵件地址並再試一次。",
     "Failed to send share by email" : "透過電子郵件寄送分享失敗",
     "%1$s shared »%2$s« with you" : "%1$s 與您分享了 %2$s",
     "%1$s shared »%2$s« with you." : "%1$s 與您分享了 %2$s。",
@@ -44,11 +46,11 @@ OC.L10N.register(
     "This is the password:" : "這是密碼：",
     "You can choose a different password at any time in the share dialog." : "您隨時可以在分享對話框中選擇其他密碼。",
     "Could not find share" : "找不到分享",
-    "Share by mail" : "透過電子郵件分享",
     "Share provider which allows you to share files by mail" : "分享提供者，讓您可以透過電子郵件分享檔案",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "允許使用者透過輸入電子郵件地址來分享到檔案或資料夾的個人化連結。",
     "Send password by mail" : "透過電子郵件寄送密碼",
     "Reply to initiator" : "回覆給發起人",
+    "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "我們無法將自動生成的密碼寄送給您。請在您的個人設定裡設定有效的電子郵件地址並再試一次。",
     "Enforce password protection" : "強制密碼保護"
 },
 "nplurals=1; plural=0;");

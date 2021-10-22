@@ -2,32 +2,25 @@
 /**
  * @copyright Copyright (c) 2020, NextCloud, Inc.
  *
- * @author Andreas Fischer <bantu@owncloud.com>
- * @author Christopher Schäpers <kondou@ts.unde.re>
- * @author Clark Tomlinson <fallen013@gmail.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Laurens Post <lkpost@scept.re>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Sujith H <sharidasan@owncloud.com>
+ * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Sean Molenaar <sean@seanmolenaar.eu>
  *
- * @license AGPL-3.0
+ * @license GNU AGPL version 3 or any later version
  *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Core\Command\User;
 
 use OC\Authentication\Token\IProvider;
@@ -122,7 +115,7 @@ class AddAppPassword extends Command {
 		$this->tokenProvider->generateToken(
 			$token,
 			$user->getUID(),
-			$user->getDisplayName(),
+			$user->getUID(),
 			$password,
 			'cli',
 			IToken::PERMANENT_TOKEN,

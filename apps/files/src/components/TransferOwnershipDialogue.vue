@@ -162,7 +162,7 @@ export default {
 
 			this.loadingUsers = true
 			try {
-				const response = await axios.get(generateOcsUrl('apps/files_sharing/api/v1') + 'sharees', {
+				const response = await axios.get(generateOcsUrl('apps/files_sharing/api/v1/sharees'), {
 					params: {
 						format: 'json',
 						itemType: 'file',
@@ -171,10 +171,6 @@ export default {
 						lookup: false,
 					},
 				})
-
-				if (response.data.ocs.meta.statuscode !== 100) {
-					logger.error('Error fetching suggestions', { response })
-				}
 
 				this.userSuggestions = {}
 				response.data.ocs.data.exact.users.concat(response.data.ocs.data.users).forEach(user => {
@@ -201,7 +197,7 @@ export default {
 			}
 			logger.debug('submit transfer ownership form', data)
 
-			const url = generateOcsUrl('apps/files/api/v1/', 2) + 'transferownership'
+			const url = generateOcsUrl('apps/files/api/v1/transferownership')
 
 			axios.post(url, data)
 				.then(resp => resp.data)

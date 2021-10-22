@@ -5,10 +5,11 @@
  * @author Arne Hamann <kontakt+github@arne.email>
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Chih-Hsuan Yen <yan12125@gmail.com>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author matt <34400929+call-me-matt@users.noreply.github.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
@@ -32,7 +33,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\CardDAV;
 
 use OCA\DAV\Connector\Sabre\Principal;
@@ -1271,7 +1271,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 				}
 			}
 			$query->setParameter('name', $property->name);
-			$query->setParameter('value', mb_substr($property->getValue(), 0, 254));
+			$query->setParameter('value', mb_strcut($property->getValue(), 0, 254));
 			$query->setParameter('preferred', $preferred);
 			$query->execute();
 		}

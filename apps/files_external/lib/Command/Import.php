@@ -22,7 +22,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_External\Command;
 
 use OC\Core\Command\Base;
@@ -108,7 +107,7 @@ class Import extends Base {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-		$user = $input->getOption('user');
+		$user = (string) $input->getOption('user');
 		$path = $input->getArgument('path');
 		if ($path === '-') {
 			$json = file_get_contents('php://stdin');

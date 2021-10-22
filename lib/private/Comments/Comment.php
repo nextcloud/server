@@ -23,7 +23,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Comments;
 
 use OCP\Comments\IComment;
@@ -228,21 +227,23 @@ class Comment implements IComment {
 	 *
 	 */
 	public function getMentions() {
-		$ok = preg_match_all("/\B(?<![^a-z0-9_\-@\.\'\s])@(\"guest\/[a-f0-9]+\"|\"[a-z0-9_\-@\.\' ]+\"|[a-z0-9_\-@\.\']+)/i", $this->getMessage(), $mentions);
+		$ok = preg_match_all("/\B(?<![^a-z0-9_\-@\.\'\s])@(\"guest\/[a-f0-9]+\"|\"group\/[a-z0-9_\-@\.\' ]+\"|\"[a-z0-9_\-@\.\' ]+\"|[a-z0-9_\-@\.\']+)/i", $this->getMessage(), $mentions);
 		if (!$ok || !isset($mentions[0]) || !is_array($mentions[0])) {
 			return [];
 		}
-		$uids = array_unique($mentions[0]);
-		usort($uids, static function ($uid1, $uid2) {
-			return mb_strlen($uid2) <=> mb_strlen($uid1);
+		$mentionIds = array_unique($mentions[0]);
+		usort($mentionIds, static function ($mentionId1, $mentionId2) {
+			return mb_strlen($mentionId2) <=> mb_strlen($mentionId1);
 		});
 		$result = [];
-		foreach ($uids as $uid) {
-			$cleanUid = trim(substr($uid, 1), '"');
-			if (strpos($cleanUid, 'guest/') === 0) {
-				$result[] = ['type' => 'guest', 'id' => $cleanUid];
+		foreach ($mentionIds as $mentionId) {
+			$cleanId = trim(substr($mentionId, 1), '"');
+			if (strpos($cleanId, 'guest/') === 0) {
+				$result[] = ['type' => 'guest', 'id' => $cleanId];
+			} elseif (strpos($cleanId, 'group/') === 0) {
+				$result[] = ['type' => 'group', 'id' => substr($cleanId, 6)];
 			} else {
-				$result[] = ['type' => 'user', 'id' => $cleanUid];
+				$result[] = ['type' => 'user', 'id' => $cleanId];
 			}
 		}
 		return $result;

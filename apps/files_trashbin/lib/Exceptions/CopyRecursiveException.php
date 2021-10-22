@@ -3,7 +3,6 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Björn Schießle <bjoern@schiessle.org>
- * @author Morris Jobke <hey@morrisjobke.de>
  *
  * @license AGPL-3.0
  *
@@ -20,7 +19,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_Trashbin\Exceptions;
 
 class CopyRecursiveException extends \Exception {

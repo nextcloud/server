@@ -27,39 +27,6 @@
  *
  */
 
-/**
- * @var $this \OCP\Route\IRouter
- **/
-\OCA\Files_External\MountConfig::$app->registerRoutes(
-	$this,
-	[
-		'resources' => [
-			'global_storages' => ['url' => '/globalstorages'],
-			'user_storages' => ['url' => '/userstorages'],
-			'user_global_storages' => ['url' => '/userglobalstorages'],
-		],
-		'routes' => [
-			[
-				'name' => 'Ajax#getSshKeys',
-				'url' => '/ajax/public_key.php',
-				'verb' => 'POST',
-				'requirements' => [],
-			],
-			[
-				'name' => 'Ajax#saveGlobalCredentials',
-				'url' => '/globalcredentials',
-				'verb' => 'POST',
-			],
-		],
-		'ocs' => [
-			[
-				'name' => 'Api#getUserMounts',
-				'url' => '/api/v1/mounts',
-				'verb' => 'GET',
-			],
-		],
-	]
-);
 
 $this->create('files_external_oauth1', 'apps/files_external/ajax/oauth1.php')
 	->actionInclude('files_external/ajax/oauth1.php');
@@ -69,3 +36,31 @@ $this->create('files_external_oauth2', 'apps/files_external/ajax/oauth2.php')
 
 $this->create('files_external_list_applicable', '/apps/files_external/applicable')
 	->actionInclude('files_external/ajax/applicable.php');
+
+return [
+	'resources' => [
+		'global_storages' => ['url' => '/globalstorages'],
+		'user_storages' => ['url' => '/userstorages'],
+		'user_global_storages' => ['url' => '/userglobalstorages'],
+	],
+	'routes' => [
+		[
+			'name' => 'Ajax#getSshKeys',
+			'url' => '/ajax/public_key.php',
+			'verb' => 'POST',
+			'requirements' => [],
+		],
+		[
+			'name' => 'Ajax#saveGlobalCredentials',
+			'url' => '/globalcredentials',
+			'verb' => 'POST',
+		],
+	],
+	'ocs' => [
+		[
+			'name' => 'Api#getUserMounts',
+			'url' => '/api/v1/mounts',
+			'verb' => 'GET',
+		],
+	],
+];

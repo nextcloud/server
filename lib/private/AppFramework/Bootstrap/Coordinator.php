@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @copyright 2020 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
@@ -19,7 +20,7 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -29,19 +30,19 @@ declare(strict_types=1);
 
 namespace OC\AppFramework\Bootstrap;
 
-use OC\Support\CrashReport\Registry;
+use function class_exists;
+use function class_implements;
+use function in_array;
 use OC_App;
+use OC\Support\CrashReport\Registry;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\QueryException;
 use OCP\Dashboard\IManager;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\ILogger;
 use OCP\IServerContainer;
+use Psr\Log\LoggerInterface;
 use Throwable;
-use function class_exists;
-use function class_implements;
-use function in_array;
 
 class Coordinator {
 
@@ -57,7 +58,7 @@ class Coordinator {
 	/** @var IEventDispatcher */
 	private $eventDispatcher;
 
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	private $logger;
 
 	/** @var RegistrationContext|null */
@@ -66,11 +67,13 @@ class Coordinator {
 	/** @var string[] */
 	private $bootedApps = [];
 
-	public function __construct(IServerContainer $container,
-								Registry $registry,
-								IManager $dashboardManager,
-								IEventDispatcher $eventListener,
-								ILogger $logger) {
+	public function __construct(
+		IServerContainer $container,
+		Registry $registry,
+		IManager $dashboardManager,
+		IEventDispatcher $eventListener,
+		LoggerInterface $logger
+	) {
 		$this->serverContainer = $container;
 		$this->registry = $registry;
 		$this->dashboardManager = $dashboardManager;
@@ -113,22 +116,24 @@ class Coordinator {
 			 */
 			$appNameSpace = App::buildAppNamespace($appId);
 			$applicationClassName = $appNameSpace . '\\AppInfo\\Application';
-			if (class_exists($applicationClassName) && in_array(IBootstrap::class, class_implements($applicationClassName), true)) {
-				try {
-					/** @var IBootstrap|App $application */
-					$apps[$appId] = $application = $this->serverContainer->query($applicationClassName);
-				} catch (QueryException $e) {
-					// Weird, but ok
-					continue;
-				}
-				try {
+			try {
+				if (class_exists($applicationClassName) && in_array(IBootstrap::class, class_implements($applicationClassName), true)) {
+					try {
+						/** @var IBootstrap|App $application */
+						$apps[$appId] = $application = $this->serverContainer->query($applicationClassName);
+					} catch (QueryException $e) {
+						// Weird, but ok
+						continue;
+					}
+
 					$application->register($this->registrationContext->for($appId));
-				} catch (Throwable $e) {
-					$this->logger->logException($e, [
-						'message' => 'Error during app service registration: ' . $e->getMessage(),
-						'level' => ILogger::FATAL,
-					]);
 				}
+			} catch (Throwable $e) {
+				$this->logger->emergency('Error during app service registration: ' . $e->getMessage(), [
+					'exception' => $e,
+					'app' => $appId,
+				]);
+				continue;
 			}
 		}
 
@@ -176,13 +181,12 @@ class Coordinator {
 				$application->boot($context);
 			}
 		} catch (QueryException $e) {
-			$this->logger->logException($e, [
-				'message' => "Could not boot $appId" . $e->getMessage(),
+			$this->logger->error("Could not boot $appId: " . $e->getMessage(), [
+				'exception' => $e,
 			]);
 		} catch (Throwable $e) {
-			$this->logger->logException($e, [
-				'message' => "Could not boot $appId" . $e->getMessage(),
-				'level' => ILogger::FATAL,
+			$this->logger->emergency("Could not boot $appId: " . $e->getMessage(), [
+				'exception' => $e,
 			]);
 		}
 	}

@@ -41,7 +41,7 @@ class InstallCoreBundleTest extends TestCase {
 	/** @var InstallCoreBundle */
 	private $installCoreBundle;
 
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 		$this->bundleFetcher = $this->createMock(BundleFetcher::class);
 		$this->config = $this->createMock(IConfig::class);

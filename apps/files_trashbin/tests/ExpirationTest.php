@@ -23,6 +23,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
+namespace OCA\Files_Trashbin\Tests;
 
 use OCA\Files_Trashbin\Expiration;
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -118,16 +119,16 @@ class ExpirationTest extends \Test\TestCase {
 	}
 
 
-	public function configData() {
+	public function timestampTestData(): array {
 		return [
-			[ 'disabled', null, null, null],
-			[ 'auto', Expiration::DEFAULT_RETENTION_OBLIGATION, Expiration::NO_OBLIGATION, true ],
-			[ 'auto,auto', Expiration::DEFAULT_RETENTION_OBLIGATION, Expiration::NO_OBLIGATION, true ],
-			[ 'auto, auto', Expiration::DEFAULT_RETENTION_OBLIGATION, Expiration::NO_OBLIGATION, true ],
-			[ 'auto, 3', Expiration::NO_OBLIGATION, 3, true ],
-			[ '5, auto', 5, Expiration::NO_OBLIGATION, true ],
-			[ '3, 5', 3, 5, false ],
-			[ '10, 3', 10, 10, false ],
+			[ 'disabled', false],
+			[ 'auto', false ],
+			[ 'auto,auto', false ],
+			[ 'auto, auto', false ],
+			[ 'auto, 3',  self::FAKE_TIME_NOW - (3 * self::SECONDS_PER_DAY) ],
+			[ '5, auto', false ],
+			[ '3, 5', self::FAKE_TIME_NOW - (5 * self::SECONDS_PER_DAY) ],
+			[ '10, 3', self::FAKE_TIME_NOW - (10 * self::SECONDS_PER_DAY) ],
 		];
 	}
 

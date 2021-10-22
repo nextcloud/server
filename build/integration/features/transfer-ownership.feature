@@ -533,6 +533,35 @@ Feature: transfer-ownership
 		And Getting info of last share
 		And the OCS status code should be "404"
 
+	Scenario: transferring ownership transfers received shares into subdir when requested
+		Given user "user0" exists
+		And user "user1" exists
+		And user "user2" exists
+		And User "user2" created a folder "/transfer-share"
+		And User "user2" created a folder "/do-not-transfer"
+		And User "user0" created a folder "/sub"
+		And folder "/transfer-share" of user "user2" is shared with user "user0" with permissions 31
+		And user "user0" accepts last share
+		And User "user0" moved folder "/transfer-share" to "/sub/transfer-share"
+		And folder "/do-not-transfer" of user "user2" is shared with user "user0" with permissions 31
+		And user "user0" accepts last share
+		When transferring ownership of path "sub" from "user0" to "user1" with received shares
+		And the command was successful
+		And As an "user1"
+		And using received transfer folder of "user1" as dav path
+		Then as "user1" the folder "/sub" exists
+		And as "user1" the folder "/do-not-transfer" does not exist
+		And as "user1" the folder "/sub/do-not-transfer" does not exist
+		And as "user1" the folder "/sub/transfer-share" exists
+		And using old dav path
+		And as "user1" the folder "/transfer-share" does not exist
+		And as "user1" the folder "/do-not-transfer" does not exist
+		And using old dav path
+		And as "user0" the folder "/sub" does not exist
+		And as "user0" the folder "/do-not-transfer" exists
+		And Getting info of last share
+		And the OCS status code should be "404"
+
 	Scenario: transferring ownership does not transfer external storage
 		Given user "user0" exists
 		And user "user1" exists

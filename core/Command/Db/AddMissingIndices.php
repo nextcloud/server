@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @copyright Copyright (c) 2017 Bjoern Schiessle <bjoern@schiessle.org>
  *
  * @author Bjoern Schiessle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Mario Danic <mario@lovelyhq.com>
@@ -23,16 +24,16 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Core\Command\Db;
 
+use Doctrine\DBAL\Platforms\PostgreSQL94Platform;
 use OC\DB\Connection;
 use OC\DB\SchemaWrapper;
 use OCP\IDBConnection;
@@ -144,9 +145,16 @@ class AddMissingIndices extends Command {
 				$updated = true;
 				$output->writeln('<info>Filecache table updated successfully.</info>');
 			}
-			if (!$table->hasIndex('fs_path_prefix')) {
+			if (!$table->hasIndex('fs_id_storage_size')) {
+				$output->writeln('<info>Adding additional size index to the filecache table, this can take some time...</info>');
+				$table->addIndex(['fileid', 'storage', 'size'], 'fs_id_storage_size');
+				$this->connection->migrateToSchema($schema->getWrappedSchema());
+				$updated = true;
+				$output->writeln('<info>Filecache table updated successfully.</info>');
+			}
+			if (!$table->hasIndex('fs_storage_path_prefix') && !$schema->getDatabasePlatform() instanceof PostgreSQL94Platform) {
 				$output->writeln('<info>Adding additional path index to the filecache table, this can take some time...</info>');
-				$table->addIndex(['size'], 'fs_path_prefix', [], ["lengths" => [128]]);
+				$table->addIndex(['storage', 'path'], 'fs_storage_path_prefix', [], ['lengths' => [null, 64]]);
 				$this->connection->migrateToSchema($schema->getWrappedSchema());
 				$updated = true;
 				$output->writeln('<info>Filecache table updated successfully.</info>');

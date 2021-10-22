@@ -28,6 +28,6 @@ A reference to why it was very difficult to actually find good background pictur
 - We need to have a good balance of different motives, e.g. not too many landscape pics.
 - Same for a good balance of different colors.
 - The photo needs to work as a background. Photos with objects focused in the middle don’t really work as they will be overlapped by the widgets anyway.
-- Especially the top part can’t have too much differing contrast, as then it’s not possible to see the navigation icons.
+- Especially the top part cannot have too much differing contrast, as then it’s not possible to see the navigation icons.
 - We serve the pictures at 4k resolution and most of the selected images are also available in 6k or higher so it is future-proof.
 - For the search of course we had to limit to CC0, CC By and CC By-Sa. Only CC0 would have been practically impossible cause there’s just not so many good ones which fit.

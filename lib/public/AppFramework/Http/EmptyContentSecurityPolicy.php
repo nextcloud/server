@@ -24,12 +24,11 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\AppFramework\Http;
 
 /**
  * Class EmptyContentSecurityPolicy is a simple helper which allows applications
- * to modify the Content-Security-Policy sent by ownCloud. Per default the policy
+ * to modify the Content-Security-Policy sent by Nexcloud. Per default the policy
  * is forbidding everything.
  *
  * As alternative with sane exemptions look at ContentSecurityPolicy

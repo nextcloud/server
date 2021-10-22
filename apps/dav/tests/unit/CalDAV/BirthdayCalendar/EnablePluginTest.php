@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2017 Georg Ehrke <oc.list@georgehrke.com>
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author François Freitag <mail@franek.fr>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -16,14 +17,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\Tests\unit\CalDAV\BirthdayCalendar;
 
 use OCA\DAV\CalDAV\BirthdayCalendar\EnablePlugin;
@@ -82,7 +82,7 @@ class EnablePluginTest extends TestCase {
 
 		$plugin = new EnablePlugin($this->config, $this->birthdayService);
 
-		$server->expects($this->at(0))
+		$server->expects($this->once())
 			->method('on')
 			->with('method:POST', [$plugin, 'httpPost']);
 
@@ -120,11 +120,11 @@ class EnablePluginTest extends TestCase {
 			->with('/bar/foo')
 			->willReturn($calendarHome);
 
-		$this->request->expects($this->at(0))
+		$this->request->expects($this->once())
 			->method('getBodyAsString')
 			->willReturn('<nc:disable-birthday-calendar xmlns:nc="http://nextcloud.com/ns"/>');
 
-		$this->request->expects($this->at(1))
+		$this->request->expects($this->once())
 			->method('getUrl')
 			->willReturn('url_abc');
 
@@ -158,11 +158,11 @@ class EnablePluginTest extends TestCase {
 			->method('getOwner')
 			->willReturn('principals/users/BlaBlub');
 
-		$this->request->expects($this->at(0))
+		$this->request->expects($this->once())
 			->method('getBodyAsString')
 			->willReturn('<nc:enable-birthday-calendar xmlns:nc="http://nextcloud.com/ns"/>');
 
-		$this->request->expects($this->at(1))
+		$this->request->expects($this->once())
 			->method('getUrl')
 			->willReturn('url_abc');
 

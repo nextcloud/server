@@ -32,6 +32,7 @@ use OC\AppFramework\Middleware\Security\Exceptions\SecurityException;
 use OC\Appframework\Middleware\Security\Exceptions\StrictCookieMissingException;
 use OC\AppFramework\Middleware\Security\SecurityMiddleware;
 use OC\AppFramework\Utility\ControllerMethodReflector;
+use OC\Settings\AuthorizedGroupMapper;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\JSONResponse;
@@ -39,11 +40,12 @@ use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
 use OCP\IL10N;
-use OCP\ILogger;
 use OCP\INavigationManager;
 use OCP\IRequest;
 use OCP\IURLGenerator;
+use OCP\IUserSession;
 use OCP\Security\ISecureRandom;
+use Psr\Log\LoggerInterface;
 
 class SecurityMiddlewareTest extends \Test\TestCase {
 
@@ -59,7 +61,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 	private $request;
 	/** @var ControllerMethodReflector */
 	private $reader;
-	/** @var ILogger|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
 	private $logger;
 	/** @var INavigationManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $navigationManager;
@@ -69,13 +71,19 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 	private $appManager;
 	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
 	private $l10n;
+	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
+	private $userSession;
+	/** @var AuthorizedGroupMapper|\PHPUnit\Framework\MockObject\MockObject */
+	private $authorizedGroupMapper;
 
 	protected function setUp(): void {
 		parent::setUp();
 
+		$this->authorizedGroupMapper = $this->createMock(AuthorizedGroupMapper::class);
+		$this->userSession = $this->createMock(IUserSession::class);
 		$this->controller = $this->createMock(Controller::class);
 		$this->reader = new ControllerMethodReflector();
-		$this->logger = $this->createMock(ILogger::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->navigationManager = $this->createMock(INavigationManager::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->request = $this->createMock(IRequest::class);
@@ -102,7 +110,9 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 			$isAdminUser,
 			$isSubAdmin,
 			$this->appManager,
-			$this->l10n
+			$this->l10n,
+			$this->authorizedGroupMapper,
+			$this->userSession
 		);
 	}
 
@@ -506,7 +516,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 			->willReturn('http://localhost/nextcloud/index.php/login?redirect_url=nextcloud/index.php/apps/specialapp');
 		$this->logger
 			->expects($this->once())
-			->method('logException');
+			->method('debug');
 		$response = $this->middleware->afterException(
 			$this->controller,
 			'test',
@@ -576,7 +586,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 		$this->middleware = $this->getMiddleware(false, false, false);
 		$this->logger
 			->expects($this->once())
-			->method('logException');
+			->method('debug');
 		$response = $this->middleware->afterException(
 			$this->controller,
 			'test',

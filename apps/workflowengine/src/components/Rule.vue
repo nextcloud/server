@@ -19,7 +19,7 @@
 					type="button"
 					class="check--add"
 					value="Add a new filter"
-					@click="rule.checks.push({class: null, operator: null, value: ''})">
+					@click="onAddFilter">
 			</p>
 		</div>
 		<div class="flow-icon icon-confirm" />
@@ -152,12 +152,18 @@ export default {
 				this.dirty = false
 			}
 		},
+
 		async removeCheck(check) {
 			const index = this.rule.checks.findIndex(item => item === check)
 			if (index > -1) {
 				this.$delete(this.rule.checks, index)
 			}
 			this.$store.dispatch('updateRule', this.rule)
+		},
+
+		onAddFilter() {
+			// eslint-disable-next-line vue/no-mutating-props
+			this.rule.checks.push({ class: null, operator: null, value: '' })
 		},
 	},
 }

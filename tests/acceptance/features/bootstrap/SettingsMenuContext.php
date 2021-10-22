@@ -23,6 +23,7 @@
  */
 
 use Behat\Behat\Context\Context;
+use PHPUnit\Framework\Assert;
 
 class SettingsMenuContext implements Context, ActorAwareInterface {
 	use ActorAware;
@@ -155,7 +156,7 @@ class SettingsMenuContext implements Context, ActorAwareInterface {
 	 * @Then I see that the Settings menu is shown
 	 */
 	public function iSeeThatTheSettingsMenuIsShown() {
-		PHPUnit_Framework_Assert::assertTrue(
+		Assert::assertTrue(
 				$this->actor->find(self::settingsMenu(), 10)->isVisible());
 	}
 
@@ -163,14 +164,14 @@ class SettingsMenuContext implements Context, ActorAwareInterface {
 	 * @Then I see that the Settings menu has only :items items
 	 */
 	public function iSeeThatTheSettingsMenuHasOnlyXItems($items) {
-		PHPUnit_Framework_Assert::assertCount(intval($items), self::menuItems());
+		Assert::assertCount(intval($items), self::menuItems());
 	}
 
 	/**
 	 * @Then I see that the :itemText item in the Settings menu is shown
 	 */
 	public function iSeeThatTheItemInTheSettingsMenuIsShown($itemText) {
-		PHPUnit_Framework_Assert::assertTrue(
+		Assert::assertTrue(
 				$this->actor->find(self::menuItemFor($itemText), 10)->isVisible());
 	}
 
@@ -181,7 +182,7 @@ class SettingsMenuContext implements Context, ActorAwareInterface {
 		$this->iSeeThatTheSettingsMenuIsShown();
 
 		try {
-			PHPUnit_Framework_Assert::assertFalse(
+			Assert::assertFalse(
 					$this->actor->find(self::menuItemFor($itemText))->isVisible());
 		} catch (NoSuchElementException $exception) {
 		}
@@ -191,7 +192,7 @@ class SettingsMenuContext implements Context, ActorAwareInterface {
 	 * @Then I see that the :itemText settings panel is shown
 	 */
 	public function iSeeThatTheItemSettingsPanelIsShown($itemText) {
-		PHPUnit_Framework_Assert::assertTrue(
+		Assert::assertTrue(
 			$this->actor->find(self::settingsPanelFor($itemText), 10)->isVisible()
 		);
 	}
@@ -200,7 +201,7 @@ class SettingsMenuContext implements Context, ActorAwareInterface {
 	 * @Then I see that the :itemText entry in the settings panel is shown
 	 */
 	public function iSeeThatTheItemEntryInTheSettingsPanelIsShown($itemText) {
-		PHPUnit_Framework_Assert::assertTrue(
+		Assert::assertTrue(
 			$this->actor->find(self::settingsPanelEntryFor($itemText), 10)->isVisible()
 		);
 	}
@@ -210,7 +211,7 @@ class SettingsMenuContext implements Context, ActorAwareInterface {
 	 */
 	public function iSeeThatTheItemSettingsPanelIsNotShown($itemText) {
 		try {
-			PHPUnit_Framework_Assert::assertFalse(
+			Assert::assertFalse(
 				$this->actor->find(self::settingsPanelFor($itemText), 10)->isVisible()
 			);
 		} catch (NoSuchElementException $exception) {

@@ -5,7 +5,7 @@ Feature: header
     Given I am logged in as the admin
     When I open the Settings menu
     Then I see that the Settings menu is shown
-    And I see that the Settings menu has only 6 items
+    And I see that the Settings menu has only 7 items
     And I see that the "Set status" item in the Settings menu is shown
     And I see that the "Settings" item in the Settings menu is shown
     And I see that the "Apps" item in the Settings menu is shown
@@ -17,7 +17,7 @@ Feature: header
     Given I am logged in
     When I open the Settings menu
     Then I see that the Settings menu is shown
-    And I see that the Settings menu has only 4 items
+    And I see that the Settings menu has only 5 items
     And I see that the "Set status" item in the Settings menu is shown
     And I see that the "Settings" item in the Settings menu is shown
     And I see that the "Help" item in the Settings menu is shown

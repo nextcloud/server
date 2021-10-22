@@ -19,6 +19,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 import HttpClient from '@nextcloud/axios'
 import { generateOcsUrl } from '@nextcloud/router'
 
@@ -28,7 +29,7 @@ import { generateOcsUrl } from '@nextcloud/router'
  * @returns {Promise<void>}
  */
 const fetchAllPredefinedStatuses = async() => {
-	const url = generateOcsUrl('apps/user_status/api/v1', 2) + '/predefined_statuses?format=json'
+	const url = generateOcsUrl('apps/user_status/api/v1/predefined_statuses?format=json')
 	const response = await HttpClient.get(url)
 
 	return response.data.ocs.data

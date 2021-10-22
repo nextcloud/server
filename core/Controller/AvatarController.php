@@ -5,7 +5,8 @@
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Julien Veyssier <eneiluj@posteo.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -27,7 +28,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Core\Controller;
 
 use OC\AppFramework\Utility\TimeFactory;
@@ -193,8 +193,20 @@ class AvatarController extends Controller {
 				$content = $this->cache->get('avatar_upload');
 				unlink($files['tmp_name'][0]);
 			} else {
+				$phpFileUploadErrors = [
+					UPLOAD_ERR_OK => $this->l->t('The file was uploaded'),
+					UPLOAD_ERR_INI_SIZE => $this->l->t('The uploaded file exceeds the upload_max_filesize directive in php.ini'),
+					UPLOAD_ERR_FORM_SIZE => $this->l->t('The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form'),
+					UPLOAD_ERR_PARTIAL => $this->l->t('The file was only partially uploaded'),
+					UPLOAD_ERR_NO_FILE => $this->l->t('No file was uploaded'),
+					UPLOAD_ERR_NO_TMP_DIR => $this->l->t('Missing a temporary folder'),
+					UPLOAD_ERR_CANT_WRITE => $this->l->t('Could not write file to disk'),
+					UPLOAD_ERR_EXTENSION => $this->l->t('A PHP extension stopped the file upload'),
+				];
+				$message = $phpFileUploadErrors[$files['error'][0]] ?? $this->l->t('Invalid file provided');
+				$this->logger->warning($message, ['app' => 'core']);
 				return new JSONResponse(
-					['data' => ['message' => $this->l->t('Invalid file provided')]],
+					['data' => ['message' => $message]],
 					Http::STATUS_BAD_REQUEST
 				);
 			}

@@ -24,7 +24,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Security\CSRF;
 
 use OC\Security\CSRF\TokenStorage\SessionStorage;

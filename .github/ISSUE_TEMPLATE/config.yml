@@ -1,8 +1,8 @@
 blank_issues_enabled: false
 contact_links:
-    - name: ❓ Question
+    - name: ❓ Community Support and Help
       url: https://help.nextcloud.com/
-      about: I have a question …
+      about: Configuration, webserver/proxy or performance issues and other questions
     - name: 💼 Nextcloud Enterprise
       url: https://portal.nextcloud.com/
-      about: If you are a customer and are using Nextcloud Enterprise, please submit your issue directly in the Nextcloud Portal so it can be resolved by our dedicated engineers more quickly.
+      about: If you are a Nextcloud Enterprise customer, or need Professional support, so it can be resolved directly by our dedicated engineers more quickly

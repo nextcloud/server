@@ -19,7 +19,7 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -30,10 +30,13 @@ declare(strict_types=1);
 namespace OCP\AppFramework\Bootstrap;
 
 use OCP\AppFramework\IAppContainer;
+use OCP\Authentication\TwoFactorAuth\IProvider;
 use OCP\Capabilities\ICapability;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Template\ICustomTemplateProvider;
 use OCP\IContainer;
+use OCP\Notification\INotifier;
+use OCP\Preview\IProviderV2;
 
 /**
  * The context object passed to IBootstrap::register
@@ -73,6 +76,7 @@ interface IRegistrationContext {
 	 * @since 20.0.0
 	 */
 	public function registerDashboardWidget(string $widgetClass): void;
+
 	/**
 	 * Register a service
 	 *
@@ -209,4 +213,54 @@ interface IRegistrationContext {
 	 * @since 21.0.0
 	 */
 	public function registerTemplateProvider(string $providerClass): void;
+
+	/**
+	 * Register an INotifier class
+	 *
+	 * @param string $notifierClass
+	 * @psalm-param class-string<INotifier> $notifierClass
+	 * @since 22.0.0
+	 */
+	public function registerNotifierService(string $notifierClass): void;
+
+	/**
+	 * Register a two-factor provider
+	 *
+	 * @param string $twoFactorProviderClass
+	 * @psalm-param class-string<IProvider> $twoFactorProviderClass
+	 * @since 22.0.0
+	 */
+	public function registerTwoFactorProvider(string $twoFactorProviderClass): void;
+
+	/**
+	 * Register a preview provider
+	 *
+	 * It is allowed to register more than one provider per app.
+	 *
+	 * @param string $previewProviderClass
+	 * @param string $mimeTypeRegex
+	 * @psalm-param class-string<IProviderV2> $previewProviderClass
+	 * @since 23.0.0
+	 */
+	public function registerPreviewProvider(string $previewProviderClass, string $mimeTypeRegex): void;
+
+	/**
+	 * Register a calendar provider
+	 *
+	 * @param string $class
+	 * @psalm-param class-string<IProvider> $class
+	 * @since 23.0.0
+	 */
+	public function registerCalendarProvider(string $class): void;
+
+	/**
+	 * Register an implementation of \OCP\Profile\ILinkAction that
+	 * will handle the implementation of a profile action
+	 *
+	 * @param string $actionClass
+	 * @psalm-param class-string<\OCP\Profile\ILinkAction> $actionClass
+	 * @return void
+	 * @since 23.0.0
+	 */
+	public function registerProfileAction(string $actionClass): void;
 }

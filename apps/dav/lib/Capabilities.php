@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2016, ownCloud GmbH
  *
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Louis Chemineau <louis@chmn.me>
  *
  * @license AGPL-3.0
  *
@@ -19,7 +20,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV;
 
 use OCP\Capabilities\ICapability;
@@ -29,6 +29,7 @@ class Capabilities implements ICapability {
 		return [
 			'dav' => [
 				'chunking' => '1.0',
+				'bulkupload' => '1.0',
 			]
 		];
 	}

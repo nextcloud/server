@@ -23,12 +23,20 @@
 	<li>
 		<div class="user-status-menu-item">
 			<!-- Username display -->
-			<span
+			<a
 				v-if="!inline"
 				class="user-status-menu-item__header"
-				:title="displayName">
-				{{ displayName }}
-			</span>
+				:href="profilePageLink"
+				@click="loadProfilePage">
+				<div class="user-status-menu-item__header-content">
+					<div class="user-status-menu-item__header-content-displayname">{{ displayName }}</div>
+					<div v-if="!loadingProfilePage" class="user-status-menu-item__header-content-placeholder" />
+					<div v-else class="icon-loading-small" />
+				</div>
+				<div v-if="profileEnabled">
+					{{ t('user_status', 'View profile') }}
+				</div>
+			</a>
 
 			<!-- Status modal toggle -->
 			<toggle :is="inline ? 'button' : 'a'"
@@ -49,11 +57,16 @@
 </template>
 
 <script>
+import { generateUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
+import { loadState } from '@nextcloud/initial-state'
+import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 import debounce from 'debounce'
 
 import { sendHeartbeat } from './services/heartbeatService'
 import OnlineStatusMixin from './mixins/OnlineStatusMixin'
+
+const { profileEnabled } = loadState('user_status', 'profileEnabled', false)
 
 export default {
 	name: 'UserStatus',
@@ -72,21 +85,30 @@ export default {
 
 	data() {
 		return {
-			isModalOpen: false,
+			displayName: getCurrentUser().displayName,
 			heartbeatInterval: null,
-			setAwayTimeout: null,
-			mouseMoveListener: null,
 			isAway: false,
+			isModalOpen: false,
+			loadingProfilePage: false,
+			mouseMoveListener: null,
+			profileEnabled,
+			setAwayTimeout: null,
 		}
 	},
 	computed: {
 		/**
-		 * The display-name of the current user
+		 * The profile page link
 		 *
-		 * @returns {String}
+		 * @returns {String|null}
 		 */
-		displayName() {
-			return getCurrentUser().displayName
+		profilePageLink() {
+			if (this.profileEnabled) {
+				return generateUrl('/u/{userId}', { userId: getCurrentUser().uid })
+			}
+			// Since an anchor element is used rather than a button,
+			// this hack removes href if the profile is disabled so that disabling pointer-events is not needed to prevent a click from opening a page
+			// and to allow the hover event for styling
+			return null
 		},
 	},
 
@@ -95,6 +117,9 @@ export default {
 	 * and stores it in Vuex
 	 */
 	mounted() {
+		subscribe('settings:display-name:updated', this.handleDisplayNameUpdate)
+		subscribe('settings:profile-enabled:updated', this.handleProfileEnabledUpdate)
+
 		this.$store.dispatch('loadStatusFromInitialState')
 
 		if (OC.config.session_keepalive) {
@@ -124,17 +149,35 @@ export default {
 
 			this._backgroundHeartbeat()
 		}
+		subscribe('user_status:status.updated', this.handleUserStatusUpdated)
 	},
 
 	/**
 	 * Some housekeeping before destroying the component
 	 */
 	beforeDestroy() {
+		unsubscribe('settings:display-name:updated', this.handleDisplayNameUpdate)
+		unsubscribe('settings:profile-enabled:updated', this.handleProfileEnabledUpdate)
 		window.removeEventListener('mouseMove', this.mouseMoveListener)
 		clearInterval(this.heartbeatInterval)
+		unsubscribe('user_status:status.updated', this.handleUserStatusUpdated)
 	},
 
 	methods: {
+		handleDisplayNameUpdate(displayName) {
+			this.displayName = displayName
+		},
+
+		handleProfileEnabledUpdate(profileEnabled) {
+			this.profileEnabled = profileEnabled
+		},
+
+		loadProfilePage() {
+			if (this.profileEnabled) {
+				this.loadingProfilePage = true
+			}
+		},
+
 		/**
 		 * Opens the modal to set a custom status
 		 */
@@ -156,32 +199,75 @@ export default {
 		 */
 		async _backgroundHeartbeat() {
 			try {
-				await sendHeartbeat(this.isAway)
+				const status = await sendHeartbeat(this.isAway)
+				if (status?.userId) {
+					this.$store.dispatch('setStatusFromHeartbeat', status)
+				} else {
+					await this.$store.dispatch('reFetchStatusFromServer')
+				}
 			} catch (error) {
-				console.debug('Failed sending heartbeat, got: ' + error.response.status)
-				return
+				console.debug('Failed sending heartbeat, got: ' + error.response?.status)
 			}
-			await this.$store.dispatch('reFetchStatusFromServer')
+		},
+		handleUserStatusUpdated(state) {
+			if (OC.getCurrentUser().uid === state.userId) {
+				this.$store.dispatch('setStatusFromObject', {
+					status: state.status,
+					icon: state.icon,
+					message: state.message,
+				})
+			}
 		},
 	},
 }
 </script>
 
 <style lang="scss" scoped>
-$max-width-user-status: 200px;
-
 .user-status-menu-item {
 	&__header {
-		display: block;
-		overflow: hidden;
-		box-sizing: border-box;
-		max-width: $max-width-user-status;
-		padding: 10px 12px 5px 38px;
-		text-align: left;
-		white-space: nowrap;
-		text-overflow: ellipsis;
-		opacity: 1;
-		color: var(--color-text-maxcontrast);
+		display: flex !important;
+		flex-direction: column !important;
+		width: auto !important;
+		height: 44px * 1.5 !important;
+		padding: 10px 12px 5px 12px !important;
+		align-items: flex-start !important;
+		color: var(--color-main-text) !important;
+
+		&:not([href]) {
+			height: var(--header-menu-item-height) !important;
+			color: var(--color-text-maxcontrast) !important;
+			cursor: default !important;
+
+			& * {
+				cursor: default !important;
+			}
+
+			&:hover {
+				background-color: transparent !important;
+			}
+		}
+
+		&-content {
+			display: inline-flex !important;
+			font-weight: bold !important;
+			gap: 0 10px !important;
+			width: auto;
+
+			&-displayname {
+				width: auto;
+			}
+
+			&-placeholder {
+				width: 16px !important;
+				height: 24px !important;
+				margin-right: 10px !important;
+				visibility: hidden !important;
+			}
+		}
+
+		span {
+			color: var(--color-text-maxcontrast) !important;
+		}
 	}
 
 	&__toggle {

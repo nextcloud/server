@@ -43,7 +43,7 @@ class UpdateLanguageCodesTest extends TestCase {
 	/** @var IConfig | \PHPUnit_Framework_MockObject_MockObject */
 	private $config;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->connection = \OC::$server->getDatabaseConnection();
@@ -86,6 +86,7 @@ class UpdateLanguageCodesTest extends TestCase {
 			->from('preferences')
 			->where($qb->expr()->eq('appid', $qb->createNamedParameter('core')))
 			->andWhere($qb->expr()->eq('configkey', $qb->createNamedParameter('lang')))
+			->orderBy('userid')
 			->execute();
 
 		$rows = $result->fetchAll();

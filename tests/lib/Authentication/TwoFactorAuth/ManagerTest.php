@@ -33,6 +33,7 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Authentication\TwoFactorAuth\IActivatableAtLogin;
 use OCP\Authentication\TwoFactorAuth\IProvider;
 use OCP\Authentication\TwoFactorAuth\IRegistry;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\ISession;
 use OCP\IUser;
@@ -83,6 +84,9 @@ class ManagerTest extends TestCase {
 	/** @var ITimeFactory|MockObject */
 	private $timeFactory;
 
+	/** @var IEventDispatcher|MockObject */
+	private $newDispatcher;
+
 	/** @var EventDispatcherInterface|MockObject */
 	private $eventDispatcher;
 
@@ -99,6 +103,7 @@ class ManagerTest extends TestCase {
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->tokenProvider = $this->createMock(TokenProvider::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
+		$this->newDispatcher = $this->createMock(IEventDispatcher::class);
 		$this->eventDispatcher = $this->createMock(EventDispatcherInterface::class);
 
 		$this->manager = new Manager(
@@ -111,6 +116,7 @@ class ManagerTest extends TestCase {
 			$this->logger,
 			$this->tokenProvider,
 			$this->timeFactory,
+			$this->newDispatcher,
 			$this->eventDispatcher
 		);
 
@@ -529,6 +535,7 @@ class ManagerTest extends TestCase {
 				$this->logger,
 				$this->tokenProvider,
 				$this->timeFactory,
+				$this->newDispatcher,
 				$this->eventDispatcher
 			])
 			->setMethods(['loadTwoFactorApp', 'isTwoFactorAuthenticated'])// Do not actually load the apps

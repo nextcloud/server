@@ -14,14 +14,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\User_LDAP\Controller;
 
 use OC\CapabilitiesManager;
@@ -77,7 +76,7 @@ class ConfigAPIController extends OCSController {
 	}
 
 	/**
-	 * creates a new (empty) configuration and returns the resulting prefix
+	 * Creates a new (empty) configuration and returns the resulting prefix
 	 *
 	 * Example: curl -X POST -H "OCS-APIREQUEST: true"  -u $admin:$password \
 	 *   https://nextcloud.server/ocs/v2.php/apps/user_ldap/api/v1/config
@@ -111,6 +110,7 @@ class ConfigAPIController extends OCSController {
 	 *
 	 * For JSON output provide the format=json parameter
 	 *
+	 * @AuthorizedAdminSetting(settings=OCA\User_LDAP\Settings\Admin)
 	 * @return DataResponse
 	 * @throws OCSException
 	 */
@@ -143,6 +143,7 @@ class ConfigAPIController extends OCSController {
 	 *   <data/>
 	 * </ocs>
 	 *
+	 * @AuthorizedAdminSetting(settings=OCA\User_LDAP\Settings\Admin)
 	 * @param string $configID
 	 * @return DataResponse
 	 * @throws OCSBadRequestException
@@ -165,7 +166,7 @@ class ConfigAPIController extends OCSController {
 	}
 
 	/**
-	 * modifies a configuration
+	 * Modifies a configuration
 	 *
 	 * Example:
 	 *   curl -X PUT -d "configData[ldapHost]=ldaps://my.ldap.server&configData[ldapPort]=636" \
@@ -182,6 +183,7 @@ class ConfigAPIController extends OCSController {
 	 *   <data/>
 	 * </ocs>
 	 *
+	 * @AuthorizedAdminSetting(settings=OCA\User_LDAP\Settings\Admin)
 	 * @param string $configID
 	 * @param array $configData
 	 * @return DataResponse
@@ -217,7 +219,7 @@ class ConfigAPIController extends OCSController {
 	}
 
 	/**
-	 * retrieves a configuration
+	 * Retrieves a configuration
 	 *
 	 * <?xml version="1.0"?>
 	 * <ocs>
@@ -281,6 +283,7 @@ class ConfigAPIController extends OCSController {
 	 *   </data>
 	 * </ocs>
 	 *
+	 * @AuthorizedAdminSetting(settings=OCA\User_LDAP\Settings\Admin)
 	 * @param string $configID
 	 * @param bool|string $showPassword
 	 * @return DataResponse
@@ -312,8 +315,9 @@ class ConfigAPIController extends OCSController {
 	}
 
 	/**
-	 * if the given config ID is not available, an exception is thrown
+	 * If the given config ID is not available, an exception is thrown
 	 *
+	 * @AuthorizedAdminSetting(settings=OCA\User_LDAP\Settings\Admin)
 	 * @param string $configID
 	 * @throws OCSNotFoundException
 	 */

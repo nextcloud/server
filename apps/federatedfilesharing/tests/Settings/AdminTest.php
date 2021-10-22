@@ -16,20 +16,20 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\FederatedFileSharing\Tests\Settings;
 
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\FederatedFileSharing\Settings\Admin;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\GlobalScale\IConfig;
+use OCP\IL10N;
 use Test\TestCase;
 
 class AdminTest extends TestCase {
@@ -46,7 +46,8 @@ class AdminTest extends TestCase {
 		$this->gsConfig = $this->createMock(IConfig::class);
 		$this->admin = new Admin(
 			$this->federatedShareProvider,
-			$this->gsConfig
+			$this->gsConfig,
+			$this->createMock(IL10N::class)
 		);
 	}
 

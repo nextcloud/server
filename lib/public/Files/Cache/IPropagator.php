@@ -19,7 +19,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\Files\Cache;
 
 /**
@@ -50,7 +49,8 @@ interface IPropagator {
 	/**
 	 * @param string $internalPath
 	 * @param int $time
+	 * @param int $sizeDifference
 	 * @since 9.0.0
 	 */
-	public function propagateChange($internalPath, $time);
+	public function propagateChange($internalPath, $time, $sizeDifference = 0);
 }

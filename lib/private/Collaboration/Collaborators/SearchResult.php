@@ -15,14 +15,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Collaboration\Collaborators;
 
 use OCP\Collaboration\Collaborators\ISearchResult;
@@ -84,5 +83,25 @@ class SearchResult implements ISearchResult {
 		if (isset($this->result['exact'][$type])) {
 			$this->result['exact'][$type] = [];
 		}
+	}
+
+	public function removeCollaboratorResult(SearchResultType $type, string $collaboratorId): bool {
+		$type = $type->getLabel();
+		if (!isset($this->result[$type])) {
+			return false;
+		}
+
+		$actionDone = false;
+		$resultArrays = [&$this->result['exact'][$type], &$this->result[$type]];
+		foreach ($resultArrays as &$resultArray) {
+			foreach ($resultArray as $k => $result) {
+				if ($result['value']['shareWith'] === $collaboratorId) {
+					unset($resultArray[$k]);
+					$actionDone = true;
+				}
+			}
+		}
+
+		return $actionDone;
 	}
 }

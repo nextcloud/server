@@ -27,7 +27,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Authentication\Token;
 
 use OC\Authentication\Exceptions\ExpiredTokenException;
@@ -54,7 +53,7 @@ interface IProvider {
 	public function generateToken(string $token,
 								  string $uid,
 								  string $loginName,
-								  $password,
+								  ?string $password,
 								  string $name,
 								  int $type = IToken::TEMPORARY_TOKEN,
 								  int $remember = IToken::DO_NOT_REMEMBER): IToken;

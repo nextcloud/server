@@ -32,6 +32,7 @@ use OCA\OAuth2\Db\ClientMapper;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\StandaloneTemplateResponse;
 use OCP\Defaults;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\ISession;
@@ -41,7 +42,6 @@ use OCP\IUserSession;
 use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
 use OCP\Session\Exceptions\SessionNotAvailableException;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Test\TestCase;
 
 class ClientFlowLoginControllerTest extends TestCase {
@@ -67,7 +67,7 @@ class ClientFlowLoginControllerTest extends TestCase {
 	private $accessTokenMapper;
 	/** @var ICrypto|\PHPUnit\Framework\MockObject\MockObject */
 	private $crypto;
-	/** @var EventDispatcherInterface|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IEventDispatcher|\PHPUnit\Framework\MockObject\MockObject */
 	private $eventDispatcher;
 
 
@@ -94,7 +94,7 @@ class ClientFlowLoginControllerTest extends TestCase {
 		$this->clientMapper = $this->createMock(ClientMapper::class);
 		$this->accessTokenMapper = $this->createMock(AccessTokenMapper::class);
 		$this->crypto = $this->createMock(ICrypto::class);
-		$this->eventDispatcher = $this->createMock(EventDispatcherInterface::class);
+		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 
 		$this->clientFlowLoginController = new ClientFlowLoginController(
 			'core',
@@ -392,7 +392,7 @@ class ClientFlowLoginControllerTest extends TestCase {
 			->willReturn('');
 
 		$this->eventDispatcher->expects($this->once())
-			->method('dispatch');
+			->method('dispatchTyped');
 
 		$expected = new Http\RedirectResponse('nc://login/server:http://example.com&user:MyLoginName&password:MyGeneratedToken');
 		$this->assertEquals($expected, $this->clientFlowLoginController->generateAppPassword('MyStateToken'));
@@ -488,7 +488,7 @@ class ClientFlowLoginControllerTest extends TestCase {
 			->willReturn($client);
 
 		$this->eventDispatcher->expects($this->once())
-			->method('dispatch');
+			->method('dispatchTyped');
 
 		$expected = new Http\RedirectResponse($redirectUrl);
 		$this->assertEquals($expected, $this->clientFlowLoginController->generateAppPassword('MyStateToken', 'MyClientIdentifier'));
@@ -563,7 +563,7 @@ class ClientFlowLoginControllerTest extends TestCase {
 			->willReturn('');
 
 		$this->eventDispatcher->expects($this->once())
-			->method('dispatch');
+			->method('dispatchTyped');
 
 		$expected = new Http\RedirectResponse('nc://login/server:http://example.com&user:MyLoginName&password:MyGeneratedToken');
 		$this->assertEquals($expected, $this->clientFlowLoginController->generateAppPassword('MyStateToken'));
@@ -694,7 +694,7 @@ class ClientFlowLoginControllerTest extends TestCase {
 			->willReturnMap($headers);
 
 		$this->eventDispatcher->expects($this->once())
-			->method('dispatch');
+			->method('dispatchTyped');
 
 		$expected = new Http\RedirectResponse('nc://login/server:' . $expected . '://example.com&user:MyLoginName&password:MyGeneratedToken');
 		$this->assertEquals($expected, $this->clientFlowLoginController->generateAppPassword('MyStateToken'));

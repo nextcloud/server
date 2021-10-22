@@ -20,14 +20,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Authentication\Token;
 
 use OC\Authentication\Exceptions\ExpiredTokenException;
@@ -81,7 +80,7 @@ class PublicKeyTokenProvider implements IProvider {
 	public function generateToken(string $token,
 								  string $uid,
 								  string $loginName,
-								  $password,
+								  ?string $password,
 								  string $name,
 								  int $type = IToken::TEMPORARY_TOKEN,
 								  int $remember = IToken::DO_NOT_REMEMBER): IToken {
@@ -222,9 +221,8 @@ class PublicKeyTokenProvider implements IProvider {
 		/** @var PublicKeyToken $token */
 		$now = $this->time->getTime();
 		if ($token->getLastActivity() < ($now - $activityInterval)) {
-			// Update token only once per minute
 			$token->setLastActivity($now);
-			$this->mapper->update($token);
+			$this->mapper->updateActivity($token, $now);
 		}
 	}
 
@@ -413,6 +411,11 @@ class PublicKeyTokenProvider implements IProvider {
 
 	public function updatePasswords(string $uid, string $password) {
 		$this->cache->clear();
+
+		// prevent setting an empty pw as result of pw-less-login
+		if ($password === '') {
+			return;
+		}
 
 		// Update the password for all tokens
 		$tokens = $this->mapper->getTokenByUser($uid);

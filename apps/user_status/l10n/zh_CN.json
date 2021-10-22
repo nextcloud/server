@@ -5,9 +5,11 @@
     "Out sick" : "生病了",
     "Vacationing" : "度假中",
     "Working remotely" : "远程办公中",
+    "In a call" : "通话中",
     "User status" : "用户状态",
+    "View profile" : "查看个人资料",
     "Clear status message after" : "清除状态信息",
-    "What's your status?" : "您现在是什么状态？",
+    "What is your status?" : "你什么状态？",
     "Set status" : "设定状态",
     "Online status" : "在线状态",
     "Status message" : "状态信息",
@@ -31,6 +33,7 @@
     "4 hours" : "4 小时",
     "Mute all notifications" : "静音所有通知",
     "Appear offline" : "显示为离线",
-    "Clear status after" : "清除状态于"
+    "Clear status after" : "清除状态于",
+    "What's your status?" : "您现在是什么状态？"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

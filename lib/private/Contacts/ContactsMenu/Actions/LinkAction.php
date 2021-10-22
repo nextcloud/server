@@ -13,14 +13,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Contacts\ContactsMenu\Actions;
 
 use OCP\Contacts\ContactsMenu\ILinkAction;
@@ -38,6 +37,9 @@ class LinkAction implements ILinkAction {
 
 	/** @var int */
 	private $priority = 10;
+
+	/** @var string */
+	private $appId;
 
 	/**
 	 * @param string $icon absolute URI to an icon
@@ -89,6 +91,22 @@ class LinkAction implements ILinkAction {
 	}
 
 	/**
+	 * @param string $appId
+	 * @since 23.0.0
+	 */
+	public function setAppId(string $appId) {
+		$this->appId = $appId;
+	}
+
+	/**
+	 * @return string
+	 * @since 23.0.0
+	 */
+	public function getAppId(): string {
+		return $this->appId;
+	}
+
+	/**
 	 * @return array
 	 */
 	public function jsonSerialize() {
@@ -96,6 +114,7 @@ class LinkAction implements ILinkAction {
 			'title' => $this->name,
 			'icon' => $this->icon,
 			'hyperlink' => $this->href,
+			'appId' => $this->appId,
 		];
 	}
 }

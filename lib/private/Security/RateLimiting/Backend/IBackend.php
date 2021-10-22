@@ -17,14 +17,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Security\RateLimiting\Backend;
 
 /**
@@ -36,16 +35,14 @@ namespace OC\Security\RateLimiting\Backend;
  */
 interface IBackend {
 	/**
-	 * Gets the amount of attempts within the last specified seconds
+	 * Gets the number of attempts for the specified method
 	 *
 	 * @param string $methodIdentifier Identifier for the method
 	 * @param string $userIdentifier Identifier for the user
-	 * @param int $seconds Seconds to look back at
 	 * @return int
 	 */
 	public function getAttempts(string $methodIdentifier,
-								string $userIdentifier,
-								int $seconds): int;
+								string $userIdentifier): int;
 
 	/**
 	 * Registers an attempt

@@ -17,14 +17,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Files_External\Command;
 
 use Doctrine\DBAL\Exception\DriverException;
@@ -99,6 +98,11 @@ class Notify extends Base {
 				'',
 				InputOption::VALUE_NONE,
 				'Disable self check on startup'
+			)->addOption(
+				'dry-run',
+				'',
+				InputOption::VALUE_NONE,
+				'Don\'t make any changes, only log detected changes'
 			);
 		parent::configure();
 	}
@@ -181,23 +185,24 @@ class Notify extends Base {
 			return 1;
 		}
 
-		$verbose = $input->getOption('verbose');
+		$dryRun = $input->getOption('dry-run');
+		if ($dryRun && $output->getVerbosity() < OutputInterface::VERBOSITY_VERBOSE) {
+			$output->setVerbosity(OutputInterface::VERBOSITY_VERBOSE);
+		}
 
 		$path = trim($input->getOption('path'), '/');
 		$notifyHandler = $storage->notify($path);
 
 		if (!$input->getOption('no-self-check')) {
-			$this->selfTest($storage, $notifyHandler, $verbose, $output);
+			$this->selfTest($storage, $notifyHandler, $output);
 		}
 
-		$notifyHandler->listen(function (IChange $change) use ($mount, $verbose, $output) {
-			if ($verbose) {
-				$this->logUpdate($change, $output);
-			}
+		$notifyHandler->listen(function (IChange $change) use ($mount, $output, $dryRun) {
+			$this->logUpdate($change, $output);
 			if ($change instanceof IRenameChange) {
-				$this->markParentAsOutdated($mount->getId(), $change->getTargetPath(), $output);
+				$this->markParentAsOutdated($mount->getId(), $change->getTargetPath(), $output, $dryRun);
 			}
-			$this->markParentAsOutdated($mount->getId(), $change->getPath(), $output);
+			$this->markParentAsOutdated($mount->getId(), $change->getPath(), $output, $dryRun);
 		});
 		return 0;
 	}
@@ -207,29 +212,44 @@ class Notify extends Base {
 		return new $class($mount->getBackendOptions());
 	}
 
-	private function markParentAsOutdated($mountId, $path, OutputInterface $output) {
+	private function markParentAsOutdated($mountId, $path, OutputInterface $output, bool $dryRun) {
 		$parent = ltrim(dirname($path), '/');
 		if ($parent === '.') {
 			$parent = '';
 		}
 
 		try {
-			$storageIds = $this->getStorageIds($mountId);
+			$storages = $this->getStorageIds($mountId, $parent);
 		} catch (DriverException $ex) {
 			$this->logger->logException($ex, ['message' => 'Error while trying to find correct storage ids.', 'level' => ILogger::WARN]);
 			$this->connection = $this->reconnectToDatabase($this->connection, $output);
 			$output->writeln('<info>Needed to reconnect to the database</info>');
-			$storageIds = $this->getStorageIds($mountId);
+			$storages = $this->getStorageIds($mountId, $path);
 		}
-		if (count($storageIds) === 0) {
-			throw new StorageNotAvailableException('No storages found by mount ID ' . $mountId);
+		if (count($storages) === 0) {
+			$output->writeln("  no users found with access to '$parent', skipping", OutputInterface::VERBOSITY_VERBOSE);
+			return;
 		}
-		$storageIds = array_map('intval', $storageIds);
 
-		$result = $this->updateParent($storageIds, $parent);
-		if ($result === 0) {
-			//TODO: Find existing parent further up the tree in the database and register that folder instead.
-			$this->logger->info('Failed updating parent for "' . $path . '" while trying to register change. It may not exist in the filecache.');
+		$users = array_map(function (array $storage) {
+			return $storage['user_id'];
+		}, $storages);
+
+		$output->writeln("  marking '$parent' as outdated for " . implode(', ', $users), OutputInterface::VERBOSITY_VERBOSE);
+
+		$storageIds = array_map(function (array $storage) {
+			return intval($storage['storage_id']);
+		}, $storages);
+		$storageIds = array_values(array_unique($storageIds));
+
+		if ($dryRun) {
+			$output->writeln("  dry-run: skipping database write");
+		} else {
+			$result = $this->updateParent($storageIds, $parent);
+			if ($result === 0) {
+				//TODO: Find existing parent further up the tree in the database and register that folder instead.
+				$this->logger->info('Failed updating parent for "' . $path . '" while trying to register change. It may not exist in the filecache.');
+			}
 		}
 	}
 
@@ -256,21 +276,20 @@ class Notify extends Base {
 			$text .= ' to ' . $change->getTargetPath();
 		}
 
-		$output->writeln($text);
+		$output->writeln($text, OutputInterface::VERBOSITY_VERBOSE);
 	}
 
-	/**
-	 * @param int $mountId
-	 * @return array
-	 */
-	private function getStorageIds($mountId) {
+	private function getStorageIds(int $mountId, string $path): array {
+		$pathHash = md5(trim((string)\OC_Util::normalizeUnicode($path), '/'));
 		$qb = $this->connection->getQueryBuilder();
 		return $qb
-			->select('storage_id')
-			->from('mounts')
+			->select('storage_id', 'user_id')
+			->from('mounts', 'm')
+			->innerJoin('m', 'filecache', 'f', $qb->expr()->eq('m.storage_id', 'f.storage'))
 			->where($qb->expr()->eq('mount_id', $qb->createNamedParameter($mountId, IQueryBuilder::PARAM_INT)))
+			->andWhere($qb->expr()->eq('path_hash', $qb->createNamedParameter($pathHash, IQueryBuilder::PARAM_STR)))
 			->execute()
-			->fetchAll(\PDO::FETCH_COLUMN);
+			->fetchAll();
 	}
 
 	/**
@@ -312,7 +331,7 @@ class Notify extends Base {
 	}
 
 
-	private function selfTest(IStorage $storage, INotifyHandler $notifyHandler, $verbose, OutputInterface $output) {
+	private function selfTest(IStorage $storage, INotifyHandler $notifyHandler, OutputInterface $output) {
 		usleep(100 * 1000); //give time for the notify to start
 		$storage->file_put_contents('/.nc_test_file.txt', 'test content');
 		$storage->mkdir('/.nc_test_folder');
@@ -339,11 +358,11 @@ class Notify extends Base {
 			}
 		}
 
-		if ($foundRootChange && $foundSubfolderChange && $verbose) {
-			$output->writeln('<info>Self-test successful</info>');
-		} elseif ($foundRootChange && !$foundSubfolderChange) {
+		if ($foundRootChange && $foundSubfolderChange) {
+			$output->writeln('<info>Self-test successful</info>', OutputInterface::VERBOSITY_VERBOSE);
+		} elseif ($foundRootChange) {
 			$output->writeln('<error>Error while running self-test, change is subfolder not detected</error>');
-		} elseif (!$foundRootChange) {
+		} else {
 			$output->writeln('<error>Error while running self-test, no changes detected</error>');
 		}
 	}

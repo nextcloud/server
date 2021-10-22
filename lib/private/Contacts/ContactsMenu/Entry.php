@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @copyright 2017 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -16,7 +17,7 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -42,6 +43,12 @@ class Entry implements IEntry {
 
 	/** @var string|null */
 	private $avatar;
+
+	/** @var string|null */
+	private $profileTitle;
+
+	/** @var string|null */
+	private $profileUrl;
 
 	/** @var IAction[] */
 	private $actions = [];
@@ -96,6 +103,34 @@ class Entry implements IEntry {
 	 */
 	public function getAvatar(): ?string {
 		return $this->avatar;
+	}
+
+	/**
+	 * @param string $profileTitle
+	 */
+	public function setProfileTitle(string $profileTitle): void {
+		$this->profileTitle = $profileTitle;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getProfileTitle(): ?string {
+		return $this->profileTitle;
+	}
+
+	/**
+	 * @param string $profileUrl
+	 */
+	public function setProfileUrl(string $profileUrl): void {
+		$this->profileUrl = $profileUrl;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getProfileUrl(): ?string {
+		return $this->profileUrl;
 	}
 
 	/**
@@ -165,6 +200,9 @@ class Entry implements IEntry {
 			'topAction' => $topAction,
 			'actions' => $otherActions,
 			'lastMessage' => '',
+			'emailAddresses' => $this->getEMailAddresses(),
+			'profileTitle' => $this->profileTitle,
+			'profileUrl' => $this->profileUrl,
 		];
 	}
 }

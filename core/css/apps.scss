@@ -267,7 +267,7 @@ kbd {
 				justify-content: space-between;
 				line-height: 44px;
 				min-height: 44px;
-				padding: 0 12px 0 44px;
+				padding: 0 12px 0 14px;
 				overflow: hidden;
 				box-sizing: border-box;
 				white-space: nowrap;
@@ -277,11 +277,14 @@ kbd {
 				flex: 1 1 0px;
 				z-index: 100; /* above the bullet to allow click*/
 				/* TODO: forbid using img as icon in menu? */
+
+				&.svg {
+					padding: 0 12px 0 44px;
+				}
 				&:first-child img {
 				    margin-right: 11px;
 				    width: 16px;
 				    height: 16px;
-				    margin-left: -30px;
 				}
 
 				/* counter can also be inside the link */
@@ -729,8 +732,10 @@ $min-content-width: $breakpoint-mobile - $navigation-width - $list-min-width;
 	border: 0;
 	border-radius: 0;
 	text-align: left;
-	padding-left: 42px;
+	padding-left: 44px;
 	font-weight: normal;
+	font-size: 100%;
+	opacity: 0.8;
 
 	/* like app-navigation a */
 	color: var(--color-main-text);

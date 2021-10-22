@@ -7,6 +7,7 @@
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Valdnet <47037905+Valdnet@users.noreply.github.com>
  *
  * @license AGPL-3.0
  *
@@ -23,7 +24,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_External\Lib\Backend;
 
 use Icewind\SMB\BasicAuth;
@@ -45,7 +45,7 @@ class SMB extends Backend {
 			->setIdentifier('smb')
 			->addIdentifierAlias('\OC\Files\Storage\SMB')// legacy compat
 			->setStorageClass('\OCA\Files_External\Lib\Storage\SMB')
-			->setText($l->t('SMB / CIFS'))
+			->setText($l->t('SMB/CIFS'))
 			->addParameters([
 				new DefinitionParameter('host', $l->t('Host')),
 				new DefinitionParameter('share', $l->t('Share')),

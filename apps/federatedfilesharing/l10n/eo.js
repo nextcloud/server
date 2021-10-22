@@ -18,7 +18,6 @@ OC.L10N.register(
     "Federated Share request sent, you will receive an invitation. Check your notifications." : "Federkunhava peto sendita, vi ricevos inviton. Kontrolu viajn sciigojn.",
     "Couldn't establish a federated share, it looks like the server to federate with is too old (Nextcloud <= 9)." : "Ne povis fari federan kunhavon, ŝajnas, ke la servilo federota estas tro malnova (Nextcloud ⩽ 9).",
     "It is not allowed to send federated group shares from this server." : "Ne estas permesita sendi federajn grupajn kuhavojn el tiu ĉi servilo. ",
-    "Sharing %1$s failed, because this item is already shared with %2$s" : "Kunhavigo de %1$s malsukcesis, ĉar tiu elemento jam kunhaviĝas kun %2$s",
     "Not allowed to create a federated share with the same user" : "Vi ne rajtas krei federan kunhavon kun la sama uzanto",
     "File is already shared with %s" : "Dosiero jam kuhaviĝas kun %s",
     "Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable or uses a self-signed certificate." : "Kunhavigo de  %1$s malsukcesis, ne eblis trovi %2$s; eble la servilo estas provizore neatingebla aŭ uzas memsubskribitan atestilon.",
@@ -30,14 +29,13 @@ OC.L10N.register(
     "You received {share} as a remote share from {user}" : "Vi ricevis „{share}“ kiel foran kunhavon el {user}",
     "Accept" : "Akcepti",
     "Decline" : "Malakcepti",
+    "Federated Cloud Sharing" : "Federnuba kunhavigo",
     "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Kunhavigi kun mi per mia identigilo de #Nextcloud-federnuba identigilo; vidu %s",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Kunhavigi kun mi per mia #Nextcloud-federnuba identigilo",
     "Sharing" : "Kunhavigo",
     "Federated file sharing" : "Federa dosierkunhavado",
     "Provide federated file sharing across servers" : "Provizas federan dosierkunhavigon inter serviloj",
-    "Federated Cloud Sharing" : "Federnuba kunhavigo",
     "Open documentation" : "Malfermi la dokumentaron",
-    "Adjust how people can share between servers." : "Agordi, kiel oni povas kunhavigi inter serviloj.",
     "Allow users on this server to receive shares from other servers" : "Permesi al uzantoj en tiu ĉi servilo ricevi kunhavojn el aliaj serviloj",
     "Allow users on this server to send shares to groups on other servers" : "Permesi al uzantoj en tiu ĉi servilo sendi kunhavojn al grupoj de aliaj serviloj",
     "Allow users on this server to receive group shares from other servers" : "Permesi al uzantoj en tiu ĉi servilo ricevi kunhavojn el grupoj de aliaj serviloj",
@@ -50,6 +48,6 @@ OC.L10N.register(
     "Add to your website" : "Aldoni al via TTT-ejo",
     "Share with me via Nextcloud" : "Kunhavigi kun mi per Nextcloud",
     "HTML Code:" : "HTML-kodo:",
-    "Allow users on this server to send shares to other servers" : "Permesi al uzantoj en tiu ĉi servilo sendi kunhavojn al aliaj serviloj"
+    "Adjust how people can share between servers." : "Agordi, kiel oni povas kunhavigi inter serviloj."
 },
 "nplurals=2; plural=(n != 1);");

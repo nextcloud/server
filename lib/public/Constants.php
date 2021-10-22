@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -25,9 +28,7 @@
  *
  */
 
-/**
- * This file defines common constants used in ownCloud
- */
+// This file defines common constants used in ownCloud
 
 namespace OCP;
 

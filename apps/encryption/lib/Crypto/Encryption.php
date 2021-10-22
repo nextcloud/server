@@ -11,8 +11,10 @@
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Valdnet <47037905+Valdnet@users.noreply.github.com>
  *
  * @license AGPL-3.0
  *
@@ -29,7 +31,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Encryption\Crypto;
 
 use OC\Encryption\Exceptions\DecryptionFailedException;
@@ -366,8 +367,8 @@ class Encryption implements IEncryptionModule {
 	 */
 	public function decrypt($data, $position = 0) {
 		if (empty($this->fileKey)) {
-			$msg = 'Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you.';
-			$hint = $this->l->t('Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you.');
+			$msg = 'Cannot decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you.';
+			$hint = $this->l->t('Cannot decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you.');
 			$this->logger->error($msg);
 
 			throw new DecryptionFailedException($msg, $hint);
@@ -435,7 +436,7 @@ class Encryption implements IEncryptionModule {
 	public function shouldEncrypt($path) {
 		if ($this->util->shouldEncryptHomeStorage() === false) {
 			$storage = $this->util->getStorage($path);
-			if ($storage->instanceOfStorage('\OCP\Files\IHomeStorage')) {
+			if ($storage && $storage->instanceOfStorage('\OCP\Files\IHomeStorage')) {
 				return false;
 			}
 		}
@@ -492,7 +493,7 @@ class Encryption implements IEncryptionModule {
 				// valid private/public key
 				$msg = 'Encryption module "' . $this->getDisplayName() .
 					'" is not able to read ' . $path;
-				$hint = $this->l->t('Can not read this file, probably this is a shared file. Please ask the file owner to reshare the file with you.');
+				$hint = $this->l->t('Cannot read this file, probably this is a shared file. Please ask the file owner to reshare the file with you.');
 				$this->logger->warning($msg);
 				throw new DecryptionFailedException($msg, $hint);
 			}

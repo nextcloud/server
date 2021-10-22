@@ -1,7 +1,7 @@
 OC.L10N.register(
     "accessibility",
     {
-    "Dark theme" : "Активиране на тъмна тема",
+    "Dark theme" : "Tъмна Tема",
     "Enable dark theme" : "Активиране на тъмна тема",
     "A dark theme to ease your eyes by reducing the overall luminosity and brightness. It is still under development, so please report any issues you may find." : "Тъмна тема, която облекчава очите ви, като намалява яркостта. Все още е в процес на разработка, затова, моля, докладвайте за всички проблеми, които откриете.",
     "High contrast mode" : "Висок контраст",

@@ -22,6 +22,7 @@
  */
 
 use Behat\Behat\Context\Context;
+use PHPUnit\Framework\Assert;
 
 class DialogContext implements Context, ActorAwareInterface {
 	use ActorAware;
@@ -58,7 +59,7 @@ class DialogContext implements Context, ActorAwareInterface {
 				$this->actor,
 				self::theDialog(),
 				$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
-			PHPUnit_Framework_Assert::fail("The confirmation dialog was not shown yet after $timeout seconds");
+			Assert::fail("The confirmation dialog was not shown yet after $timeout seconds");
 		}
 	}
 
@@ -70,7 +71,7 @@ class DialogContext implements Context, ActorAwareInterface {
 				$this->actor,
 				self::theDialog(),
 				$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
-			PHPUnit_Framework_Assert::fail("The confirmation dialog is still shown after $timeout seconds");
+			Assert::fail("The confirmation dialog is still shown after $timeout seconds");
 		}
 	}
 }

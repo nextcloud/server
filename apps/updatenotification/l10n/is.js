@@ -27,7 +27,6 @@ OC.L10N.register(
     "A new version is available: <strong>{newVersionString}</strong>" : "Ný útgáfa er tiltæk: <strong>{newVersionString}</strong>",
     "Checked on {lastCheckedDate}" : "Athugað þann {lastCheckedDate}",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Gakktu úr skugga um að í config.php sé <samp>appstoreenabled</samp> ekki sett sem ósatt/false.",
-    "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "Gat ekki tengst við forritabúðina eða að í henni eru engar uppfærslur. Leitaðu handvirkt að uppfærslum, eða gakktu úr skugga um að þjónninn þinn sé með aðgang að internetinu og geti tengst forritabúðinni.",
     "View changelog" : "Skoða breytingaannál",
     "Enterprise" : "Fyrirtæki",
     "Stable" : "Stöðug",
@@ -39,6 +38,7 @@ OC.L10N.register(
     "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "Athugaðu að það getur tekið nokkurn tíma áður en nýjar útgáfur birtast hér. Við dreifum útgáfum yfir tíma auk þess sem stundum er útgáfum sleppt ef í þeim finnast hnökrar.",
     "Only notification for app updates are available." : "Eingöngu eru eru tiltækar tilkynningar fyrir uppfærslur forrita.",
     "Checking apps for compatible updates" : "Athuga forrit vegna hugsanlegra uppfærslna",
+    "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "Gat ekki tengst við forritabúðina eða að í henni eru engar uppfærslur. Leitaðu handvirkt að uppfærslum, eða gakktu úr skugga um að þjónninn þinn sé með aðgang að internetinu og geti tengst forritabúðinni.",
     "<strong>All</strong> apps have an update for this version available" : "<strong>Öll</strong> forrit eru með uppfærslu tiltæka fyrir þessa útgáfu",
     "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> forrit eru með uppfærslu tiltæka fyrir þessa útgáfu","<strong>%n</strong> forrit eru með uppfærslu tiltæka fyrir þessa útgáfu"]
 },

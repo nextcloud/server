@@ -27,10 +27,10 @@ namespace Test;
 
 use OC\AppFramework\Bootstrap\Coordinator;
 use OCP\IServerContainer;
+use Psr\Log\LoggerInterface;
 use function json_encode;
 use JsonSerializable;
 use OC\InitialStateService;
-use OCP\ILogger;
 use stdClass;
 
 class InitialStateServiceTest extends TestCase {
@@ -42,7 +42,7 @@ class InitialStateServiceTest extends TestCase {
 		parent::setUp();
 
 		$this->service = new InitialStateService(
-			$this->createMock(ILogger::class),
+			$this->createMock(LoggerInterface::class),
 			$this->createMock(Coordinator::class),
 			$this->createMock(IServerContainer::class)
 		);

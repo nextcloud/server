@@ -23,7 +23,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Settings\Middleware;
 
 use OC\AppFramework\Http;
@@ -66,7 +65,7 @@ class SubadminMiddleware extends Middleware {
 	 * @throws \Exception
 	 */
 	public function beforeController($controller, $methodName) {
-		if (!$this->reflector->hasAnnotation('NoSubAdminRequired')) {
+		if (!$this->reflector->hasAnnotation('NoSubAdminRequired') && !$this->reflector->hasAnnotation('AuthorizedAdminSetting')) {
 			if (!$this->isSubAdmin) {
 				throw new NotAdminException($this->l10n->t('Logged in user must be a subadmin'));
 			}

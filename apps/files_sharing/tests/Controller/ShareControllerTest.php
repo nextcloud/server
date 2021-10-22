@@ -8,7 +8,7 @@
  * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Michael Weimann <mail@michael-weimann.eu>
@@ -16,6 +16,7 @@
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -32,7 +33,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_Sharing\Tests\Controllers;
 
 use OC\Files\Filesystem;
@@ -106,6 +106,8 @@ class ShareControllerTest extends \Test\TestCase {
 	private $eventDispatcher;
 	/** @var IL10N */
 	private $l10n;
+	/** @var Defaults|MockObject */
+	private $defaults;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -125,6 +127,7 @@ class ShareControllerTest extends \Test\TestCase {
 		$this->accountManager = $this->createMock(IAccountManager::class);
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 		$this->l10n = $this->createMock(IL10N::class);
+		$this->defaults = $this->createMock(Defaults::class);
 
 		$this->shareController = new \OCA\Files_Sharing\Controller\ShareController(
 			$this->appName,
@@ -142,7 +145,7 @@ class ShareControllerTest extends \Test\TestCase {
 			$this->accountManager,
 			$this->eventDispatcher,
 			$this->l10n,
-			$this->createMock(Defaults::class)
+			$this->defaults
 		);
 
 
@@ -234,7 +237,7 @@ class ShareControllerTest extends \Test\TestCase {
 
 		$accountName = $this->createMock(IAccountProperty::class);
 		$accountName->method('getScope')
-			->willReturn(IAccountManager::VISIBILITY_PUBLIC);
+			->willReturn(IAccountManager::SCOPE_PUBLISHED);
 		$account = $this->createMock(IAccount::class);
 		$account->method('getProperty')
 			->with(IAccountManager::PROPERTY_DISPLAYNAME)
@@ -296,7 +299,7 @@ class ShareControllerTest extends \Test\TestCase {
 			return null;
 		});
 
-		$this->eventDispatcher->expects($this->once())
+		$this->eventDispatcher->expects($this->exactly(2))
 			->method('dispatchTyped')
 			->with(
 				$this->callback(function ($event) use ($share) {
@@ -309,6 +312,10 @@ class ShareControllerTest extends \Test\TestCase {
 			->willReturnCallback(function ($text, $parameters) {
 				return vsprintf($text, $parameters);
 			});
+
+		$this->defaults->expects(self::any())
+			->method('getProductName')
+			->willReturn('Nextcloud');
 
 		$response = $this->shareController->showShare();
 		$sharedTmplParams = [
@@ -381,7 +388,7 @@ class ShareControllerTest extends \Test\TestCase {
 
 		$accountName = $this->createMock(IAccountProperty::class);
 		$accountName->method('getScope')
-			->willReturn(IAccountManager::VISIBILITY_PRIVATE);
+			->willReturn(IAccountManager::SCOPE_LOCAL);
 		$account = $this->createMock(IAccount::class);
 		$account->method('getProperty')
 			->with(IAccountManager::PROPERTY_DISPLAYNAME)
@@ -443,7 +450,7 @@ class ShareControllerTest extends \Test\TestCase {
 			return null;
 		});
 
-		$this->eventDispatcher->expects($this->once())
+		$this->eventDispatcher->expects($this->exactly(2))
 			->method('dispatchTyped')
 			->with(
 				$this->callback(function ($event) use ($share) {
@@ -456,6 +463,10 @@ class ShareControllerTest extends \Test\TestCase {
 			->will($this->returnCallback(function ($text, $parameters) {
 				return vsprintf($text, $parameters);
 			}));
+
+		$this->defaults->expects(self::any())
+			->method('getProductName')
+			->willReturn('Nextcloud');
 
 		$response = $this->shareController->showShare();
 		$sharedTmplParams = [
@@ -528,7 +539,7 @@ class ShareControllerTest extends \Test\TestCase {
 
 		$accountName = $this->createMock(IAccountProperty::class);
 		$accountName->method('getScope')
-			->willReturn(IAccountManager::VISIBILITY_PUBLIC);
+			->willReturn(IAccountManager::SCOPE_PUBLISHED);
 		$account = $this->createMock(IAccount::class);
 		$account->method('getProperty')
 			->with(IAccountManager::PROPERTY_DISPLAYNAME)
@@ -594,7 +605,7 @@ class ShareControllerTest extends \Test\TestCase {
 			return null;
 		});
 
-		$this->eventDispatcher->expects($this->once())
+		$this->eventDispatcher->expects($this->exactly(2))
 			->method('dispatchTyped')
 			->with(
 				$this->callback(function ($event) use ($share) {
@@ -688,7 +699,7 @@ class ShareControllerTest extends \Test\TestCase {
 
 		$accountName = $this->createMock(IAccountProperty::class);
 		$accountName->method('getScope')
-			->willReturn(IAccountManager::VISIBILITY_PUBLIC);
+			->willReturn(IAccountManager::SCOPE_PUBLISHED);
 		$account = $this->createMock(IAccount::class);
 		$account->method('getProperty')
 			->with(IAccountManager::PROPERTY_DISPLAYNAME)

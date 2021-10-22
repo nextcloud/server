@@ -4,7 +4,8 @@
  *
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Björn Schießle <bjoern@schiessle.org>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Vincent Petry <vincent@nextcloud.com>
  *
@@ -24,7 +25,7 @@
  *
  */
 // Check if we are a user
-OCP\User::checkLoggedIn();
+OC_Util::checkLoggedIn();
 
 $config = \OC::$server->getConfig();
 $userSession = \OC::$server->getUserSession();

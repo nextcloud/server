@@ -31,7 +31,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Session;
 
 use OC\Authentication\Exceptions\InvalidTokenException;
@@ -182,7 +181,9 @@ class Internal extends Session {
 	 * @throws \ErrorException
 	 */
 	public function trapError(int $errorNumber, string $errorString) {
-		throw new \ErrorException($errorString);
+		if ($errorNumber & E_ERROR) {
+			throw new \ErrorException($errorString);
+		}
 	}
 
 	/**

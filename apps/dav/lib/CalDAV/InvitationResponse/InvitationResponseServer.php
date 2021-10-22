@@ -16,17 +16,18 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\CalDAV\InvitationResponse;
 
 use OCA\DAV\AppInfo\PluginManager;
+use OCA\DAV\CalDAV\Auth\CustomPrincipalPlugin;
+use OCA\DAV\CalDAV\Auth\PublicPrincipalPlugin;
 use OCA\DAV\Connector\Sabre\AnonymousOptionsPlugin;
 use OCA\DAV\Connector\Sabre\BlockLegacyClientPlugin;
 use OCA\DAV\Connector\Sabre\CachingTree;
@@ -34,7 +35,6 @@ use OCA\DAV\Connector\Sabre\DavAclPlugin;
 use OCA\DAV\Events\SabrePluginAuthInitEvent;
 use OCA\DAV\RootCollection;
 use OCP\EventDispatcher\IEventDispatcher;
-use Sabre\DAV\Auth\Plugin;
 use Sabre\VObject\ITip\Message;
 
 class InvitationResponseServer {
@@ -45,7 +45,7 @@ class InvitationResponseServer {
 	/**
 	 * InvitationResponseServer constructor.
 	 */
-	public function __construct() {
+	public function __construct(bool $public = true) {
 		$baseUri = \OC::$WEBROOT . '/remote.php/dav/';
 		$logger = \OC::$server->getLogger();
 		/** @var IEventDispatcher $dispatcher */
@@ -63,11 +63,13 @@ class InvitationResponseServer {
 
 		$this->server->addPlugin(new BlockLegacyClientPlugin(\OC::$server->getConfig()));
 		$this->server->addPlugin(new AnonymousOptionsPlugin());
-		$this->server->addPlugin(new class() extends Plugin {
-			public function getCurrentPrincipal() {
-				return 'principals/system/public';
-			}
-		});
+
+		// allow custom principal uri option
+		if ($public) {
+			$this->server->addPlugin(new PublicPrincipalPlugin());
+		} else {
+			$this->server->addPlugin(new CustomPrincipalPlugin());
+		}
 
 		// allow setup of additional auth backends
 		$event = new SabrePluginAuthInitEvent($this->server);

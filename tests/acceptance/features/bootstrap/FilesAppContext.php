@@ -22,6 +22,7 @@
  */
 
 use Behat\Behat\Context\Context;
+use PHPUnit\Framework\Assert;
 
 class FilesAppContext implements Context, ActorAwareInterface {
 	use ActorAware;
@@ -88,7 +89,7 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function closeDetailsViewButton() {
-		return Locator::forThe()->css(".icon-close")->
+		return Locator::forThe()->css(".app-sidebar__close")->
 				descendantOf(self::detailsView())->
 				describedAs("Close details view in Files app");
 	}
@@ -115,7 +116,7 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function notFavoritedStateIconInFileDetailsInDetailsView() {
-		return Locator::forThe()->css(".icon-star")->
+		return Locator::forThe()->css(".star--star")->
 				descendantOf(self::favoriteActionInFileDetailsInDetailsView())->
 				describedAs("Not favorited state icon in file details in details view in Files app");
 	}
@@ -124,7 +125,7 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function favoritedStateIconInFileDetailsInDetailsView() {
-		return Locator::forThe()->css(".icon-starred")->
+		return Locator::forThe()->css(".star--starred")->
 				descendantOf(self::favoriteActionInFileDetailsInDetailsView())->
 				describedAs("Favorited state icon in file details in details view in Files app");
 	}
@@ -295,7 +296,7 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 * @Then I see that the current page is the Files app
 	 */
 	public function iSeeThatTheCurrentPageIsTheFilesApp() {
-		PHPUnit_Framework_Assert::assertStringStartsWith(
+		Assert::assertStringStartsWith(
 				$this->actor->locatePath("/apps/files/"),
 				$this->actor->getSession()->getCurrentUrl());
 
@@ -313,7 +314,7 @@ class FilesAppContext implements Context, ActorAwareInterface {
 				$this->actor,
 				self::detailsView(),
 				$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
-			PHPUnit_Framework_Assert::fail("The details view is not open yet after $timeout seconds");
+			Assert::fail("The details view is not open yet after $timeout seconds");
 		}
 	}
 
@@ -325,7 +326,7 @@ class FilesAppContext implements Context, ActorAwareInterface {
 				$this->actor,
 				self::detailsView(),
 				$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
-			PHPUnit_Framework_Assert::fail("The details view is not closed yet after $timeout seconds");
+			Assert::fail("The details view is not closed yet after $timeout seconds");
 		}
 	}
 
@@ -333,7 +334,7 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 * @Then I see that the file name shown in the details view is :fileName
 	 */
 	public function iSeeThatTheFileNameShownInTheDetailsViewIs($fileName) {
-		PHPUnit_Framework_Assert::assertEquals(
+		Assert::assertEquals(
 				$this->actor->find(self::fileNameInDetailsView(), 10)->getText(), $fileName);
 	}
 
@@ -341,7 +342,7 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 * @Then I see that the file is marked as favorite in the details view
 	 */
 	public function iSeeThatTheFileIsMarkedAsFavoriteInTheDetailsView() {
-		PHPUnit_Framework_Assert::assertNotNull(
+		Assert::assertNotNull(
 				$this->actor->find(self::favoritedStateIconInFileDetailsInDetailsView(), 10));
 	}
 
@@ -349,7 +350,7 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 * @Then I see that the file is not marked as favorite in the details view
 	 */
 	public function iSeeThatTheFileIsNotMarkedAsFavoriteInTheDetailsView() {
-		PHPUnit_Framework_Assert::assertNotNull(
+		Assert::assertNotNull(
 				$this->actor->find(self::notFavoritedStateIconInFileDetailsInDetailsView(), 10));
 	}
 
@@ -357,7 +358,7 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 * @Then I see that the input field for tags in the details view is shown
 	 */
 	public function iSeeThatTheInputFieldForTagsInTheDetailsViewIsShown() {
-		PHPUnit_Framework_Assert::assertTrue(
+		Assert::assertTrue(
 				$this->actor->find(self::inputFieldForTagsInDetailsView(), 10)->isVisible());
 	}
 
@@ -365,7 +366,7 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 * @Then I see that the input field for tags in the details view contains the tag :tag
 	 */
 	public function iSeeThatTheInputFieldForTagsInTheDetailsViewContainsTheTag($tag) {
-		PHPUnit_Framework_Assert::assertTrue(
+		Assert::assertTrue(
 				$this->actor->find(self::itemInInputFieldForTagsInDetailsViewForTag($tag), 10)->isVisible());
 	}
 
@@ -376,7 +377,7 @@ class FilesAppContext implements Context, ActorAwareInterface {
 		$this->iSeeThatTheInputFieldForTagsInTheDetailsViewIsShown();
 
 		try {
-			PHPUnit_Framework_Assert::assertFalse(
+			Assert::assertFalse(
 					$this->actor->find(self::itemInInputFieldForTagsInDetailsViewForTag($tag))->isVisible());
 		} catch (NoSuchElementException $exception) {
 		}
@@ -386,7 +387,7 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 * @Then I see that the tag :tag in the dropdown for tags in the details view is checked
 	 */
 	public function iSeeThatTheTagInTheDropdownForTagsInTheDetailsViewIsChecked($tag) {
-		PHPUnit_Framework_Assert::assertTrue(
+		Assert::assertTrue(
 				$this->actor->find(self::checkmarkInItemInDropdownForTag($tag), 10)->isVisible());
 	}
 
@@ -394,10 +395,10 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 * @Then I see that the tag :tag in the dropdown for tags in the details view is not checked
 	 */
 	public function iSeeThatTheTagInTheDropdownForTagsInTheDetailsViewIsNotChecked($tag) {
-		PHPUnit_Framework_Assert::assertTrue(
+		Assert::assertTrue(
 				$this->actor->find(self::itemInDropdownForTag($tag), 10)->isVisible());
 
-		PHPUnit_Framework_Assert::assertFalse(
+		Assert::assertFalse(
 				$this->actor->find(self::checkmarkInItemInDropdownForTag($tag))->isVisible());
 	}
 
@@ -409,7 +410,7 @@ class FilesAppContext implements Context, ActorAwareInterface {
 				$this->actor,
 				self::loadingIconForTabInDetailsViewNamed($tabName),
 				$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
-			PHPUnit_Framework_Assert::fail("The $tabName tab in the details view has not been loaded after $timeout seconds");
+			Assert::fail("The $tabName tab in the details view has not been loaded after $timeout seconds");
 		}
 	}
 }

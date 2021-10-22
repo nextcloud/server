@@ -3,7 +3,7 @@ OC.L10N.register(
     {
     "Update" : "Atjaunināt",
     "Create" : "Izveidot",
-    "Select tag…" : "Izvēlieties birku...",
+    "Select tag …" : "Izvēlies birku...",
     "System tag %1$s added by the system" : "Sistēma ir pievienojusi sistēmas birku %1$s",
     "Added system tag {systemtag}" : "Pievienota sistēmas birka {systemtag}",
     "Added system tag %1$s" : "Pievienota sistēmas birka %1$s",
@@ -44,7 +44,6 @@ OC.L10N.register(
     "Please select tags to filter by" : "Lūdzu, izvēlieties birkas, pēc kurām filtrēt",
     "No files found for the selected tags" : "Datnes ar atlasītajām birkām netika atrastas",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Sadarbības birkas ir pieejamas visiem lietotājiem. Ierobežotās birkas ir redzamas lietotājiem, bet viņi tās nevar piešķirt. Neredzamās birkas ir paredzētas iekšējai lietošanai, jo lietotāji nevar tās redzēt vai piešķirt.",
-    "Select tag …" : "Izvēlies birku...",
     "Create a new tag" : "Izveidot jaunu birku",
     "Name" : "Nosaukums",
     "Public" : "Publiska",

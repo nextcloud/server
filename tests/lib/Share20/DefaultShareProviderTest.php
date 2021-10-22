@@ -1558,9 +1558,6 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 
 	public function testDeleteFromSelfGroupUserNotInGroup() {
-		$this->expectException(\OC\Share20\Exception\ProviderException::class);
-		$this->expectExceptionMessage('Recipient not in receiving group');
-
 		$qb = $this->dbConn->getQueryBuilder();
 		$stmt = $qb->insert('share')
 			->values([

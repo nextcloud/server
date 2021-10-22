@@ -22,28 +22,47 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Core\Command;
 
+use OC_Util;
+use OCP\Defaults;
+use OCP\IConfig;
+use OCP\Util;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Status extends Base {
+
+	/** @var IConfig */
+	private $config;
+	/** @var Defaults */
+	private $themingDefaults;
+
+	public function __construct(IConfig $config, Defaults $themingDefaults) {
+		parent::__construct('status');
+
+		$this->config = $config;
+		$this->themingDefaults = $themingDefaults;
+	}
+
 	protected function configure() {
 		parent::configure();
 
 		$this
-			->setName('status')
 			->setDescription('show some status information')
 		;
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$values = [
-			'installed' => (bool) \OC::$server->getConfig()->getSystemValue('installed', false),
-			'version' => implode('.', \OCP\Util::getVersion()),
-			'versionstring' => \OC_Util::getVersionString(),
+			'installed' => $this->config->getSystemValueBool('installed', false),
+			'version' => implode('.', Util::getVersion()),
+			'versionstring' => OC_Util::getVersionString(),
 			'edition' => '',
+			'maintenance' => $this->config->getSystemValueBool('maintenance', false),
+			'needsDbUpgrade' => Util::needUpgrade(),
+			'productname' => $this->themingDefaults->getProductName(),
+			'extendedSupport' => Util::hasExtendedSupport()
 		];
 
 		$this->writeArrayInOutputFormat($input, $output, $values);

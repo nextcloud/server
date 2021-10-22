@@ -16,14 +16,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCP\UserStatus;
 
 /**
@@ -41,4 +40,25 @@ interface IManager {
 	 * @since 20.0.0
 	 */
 	public function getUserStatuses(array $userIds):array;
+
+
+	/**
+	 * Set a new status for the selected user.
+	 *
+	 * @param string $userId The user for which we want to update the status.
+	 * @param string $messageId The id of the predefined message.
+	 * @param bool $createBackup If true, this will store the old status so that it is possible to revert it later (e.g. after a call).
+	 * @since 23.0.0
+	 */
+	public function setUserStatus(string $userId, string $messageId, string $status, bool $createBackup = false): void;
+
+	/**
+	 * Revert an automatically set user status. For example after leaving a call,
+	 * change back to the previously set status.
+	 *
+	 * @param string $userId The user for which we want to update the status.
+	 * @param string $messageId The expected current messageId. If the user has already updated their status, this method does nothing.
+	 * @since 23.0.0
+	 */
+	public function revertUserStatus(string $userId, string $messageId, string $status): void;
 }

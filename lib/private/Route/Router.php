@@ -7,13 +7,13 @@
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -30,7 +30,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Route;
 
 use OC\AppFramework\Routing\RouteParser;
@@ -131,8 +130,9 @@ class Router implements IRouter {
 			if (isset($this->loadedApps[$app])) {
 				return;
 			}
-			$file = \OC_App::getAppPath($app) . '/appinfo/routes.php';
-			if ($file !== false && file_exists($file)) {
+			$appPath = \OC_App::getAppPath($app);
+			$file = $appPath . '/appinfo/routes.php';
+			if ($appPath !== false && file_exists($file)) {
 				$routingFiles = [$app => $file];
 			} else {
 				$routingFiles = [];

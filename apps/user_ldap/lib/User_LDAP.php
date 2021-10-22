@@ -36,7 +36,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\User_LDAP;
 
 use OC\ServerNotAvailableException;
@@ -46,10 +45,9 @@ use OCA\User_LDAP\Exceptions\NotOnLDAP;
 use OCA\User_LDAP\User\OfflineUser;
 use OCA\User_LDAP\User\User;
 use OCP\IConfig;
-use OCP\ILogger;
 use OCP\IUserSession;
 use OCP\Notification\IManager as INotificationManager;
-use OCP\Util;
+use Psr\Log\LoggerInterface;
 
 class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserInterface, IUserLDAP {
 	/** @var \OCP\IConfig */
@@ -60,6 +58,9 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 
 	/** @var UserPluginManager */
 	protected $userPluginManager;
+
+	/** @var LoggerInterface */
+	protected $logger;
 
 	/**
 	 * @param Access $access
@@ -72,6 +73,7 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 		$this->ocConfig = $ocConfig;
 		$this->notificationManager = $notificationManager;
 		$this->userPluginManager = $userPluginManager;
+		$this->logger = \OC::$server->get(LoggerInterface::class);
 	}
 
 	/**
@@ -173,17 +175,21 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 		try {
 			$ldapRecord = $this->getLDAPUserByLoginName($uid);
 		} catch (NotOnLDAP $e) {
-			\OC::$server->getLogger()->logException($e, ['app' => 'user_ldap', 'level' => ILogger::DEBUG]);
+			$this->logger->debug(
+				$e->getMessage(),
+				['app' => 'user_ldap', 'exception' => $e]
+			);
 			return false;
 		}
 		$dn = $ldapRecord['dn'][0];
 		$user = $this->access->userManager->get($dn);
 
 		if (!$user instanceof User) {
-			Util::writeLog('user_ldap',
+			$this->logger->warning(
 				'LDAP Login: Could not get user object for DN ' . $dn .
 				'. Maybe the LDAP entry has no set display name attribute?',
-				ILogger::WARN);
+				['app' => 'user_ldap']
+			);
 			return false;
 		}
 		if ($user->getUsername() !== false) {
@@ -266,16 +272,20 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 			$this->access->getFilterPartForUserSearch($search)
 		]);
 
-		Util::writeLog('user_ldap',
+		$this->logger->debug(
 			'getUsers: Options: search '.$search.' limit '.$limit.' offset '.$offset.' Filter: '.$filter,
-			ILogger::DEBUG);
+			['app' => 'user_ldap']
+		);
 		//do the search and translate results to Nextcloud names
 		$ldap_users = $this->access->fetchListOfUsers(
 			$filter,
 			$this->access->userManager->getAttributes(true),
 			$limit, $offset);
 		$ldap_users = $this->access->nextcloudUserNames($ldap_users);
-		Util::writeLog('user_ldap', 'getUsers: '.count($ldap_users). ' Users found', ILogger::DEBUG);
+		$this->logger->debug(
+			'getUsers: '.count($ldap_users). ' Users found',
+			['app' => 'user_ldap']
+		);
 
 		$this->access->connection->writeToCache($cachekey, $ldap_users);
 		return $ldap_users;
@@ -353,8 +363,10 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 		$user = $this->access->userManager->get($uid);
 
 		if (is_null($user)) {
-			Util::writeLog('user_ldap', 'No DN found for '.$uid.' on '.
-				$this->access->connection->ldapHost, ILogger::DEBUG);
+			$this->logger->debug(
+				'No DN found for '.$uid.' on '.$this->access->connection->ldapHost,
+				['app' => 'user_ldap']
+			);
 			$this->access->connection->writeToCache('userExists'.$uid, false);
 			return false;
 		}
@@ -379,12 +391,13 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 
 		$marked = $this->ocConfig->getUserValue($uid, 'user_ldap', 'isDeleted', 0);
 		if ((int)$marked === 0) {
-			\OC::$server->getLogger()->notice(
+			$this->logger->notice(
 				'User '.$uid . ' is not marked as deleted, not cleaning up.',
-				['app' => 'user_ldap']);
+				['app' => 'user_ldap']
+			);
 			return false;
 		}
-		\OC::$server->getLogger()->info('Cleaning up after user ' . $uid,
+		$this->logger->info('Cleaning up after user ' . $uid,
 			['app' => 'user_ldap']);
 
 		$this->access->getUserMapper()->unmap($uid); // we don't emit unassign signals here, since it is implicit to delete signals fired from core
@@ -619,7 +632,7 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 						);
 						$this->access->cacheUserExists($username);
 					} else {
-						\OC::$server->getLogger()->warning(
+						$this->logger->warning(
 							'Failed to map created LDAP user with userid {userid}, because UUID could not be determined',
 							[
 								'app' => 'user_ldap',

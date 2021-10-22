@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
@@ -26,7 +27,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Memcache;
 
 use OCP\IMemcacheTTL;
@@ -69,7 +69,7 @@ class Redis extends Cache implements IMemcacheTTL {
 	}
 
 	public function hasKey($key) {
-		return self::$cache->exists($this->getNameSpace() . $key);
+		return (bool)self::$cache->exists($this->getNameSpace() . $key);
 	}
 
 	public function remove($key) {

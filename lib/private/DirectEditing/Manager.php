@@ -16,17 +16,17 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\DirectEditing;
 
 use Doctrine\DBAL\FetchMode;
+use OC\Files\Node\Folder;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\TemplateResponse;
@@ -130,7 +130,12 @@ class Manager implements IManager {
 		if ($userFolder->nodeExists($path)) {
 			throw new \RuntimeException('File already exists');
 		} else {
-			$file = $userFolder->newFile($path);
+			if (!$userFolder->nodeExists(dirname($path))) {
+				throw new \RuntimeException('Invalid path');
+			}
+			/** @var Folder $folder */
+			$folder = $userFolder->get(dirname($path));
+			$file = $folder->newFile(basename($path));
 			$editor = $this->getEditor($editorId);
 			$creators = $editor->getCreators();
 			foreach ($creators as $creator) {

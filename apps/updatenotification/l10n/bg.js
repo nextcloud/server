@@ -25,7 +25,6 @@ OC.L10N.register(
     "The selected update channel does not support updates of the server." : "Избрания канал за актуализации не поддържа сървърни актуализации.",
     "A new version is available: <strong>{newVersionString}</strong>" : "Налична е нова версия: <strong>{newVersionString}</strong>",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Моля, уверете се, че в config.php не е зададено <samp>appstoreenabled</samp> на false.",
-    "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "Свързването с магазина за приложения не е възможно или няма актуализации. Потърсете ръчно за актуализации или се уверете, че сървъра има връзка с Интернет и може да се свързва с магазина за приложения.",
     "View changelog" : "Преглед на списъка с промени",
     "Stable" : "Стабилна",
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "Последната стабилна версия. Подходяща е за ежедневно ползване и се актуализации до последната главна версия.",
@@ -36,6 +35,7 @@ OC.L10N.register(
     "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "След издаването на нова версия обикновено няма да получите веднага известие. Потребителите се известяват на интервали, което може да доведе до пропускане на версия ако се появят проблеми.",
     "Only notification for app updates are available." : "Налични са само известия за актуализации на приложенията.",
     "Checking apps for compatible updates" : "Проверка на приложенията за съвместими актуализации",
+    "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "Свързването с магазина за приложения не е възможно или няма актуализации. Потърсете ръчно за актуализации или се уверете, че сървъра има връзка с Интернет и може да се свързва с магазина за приложения.",
     "<strong>All</strong> apps have an update for this version available" : "<strong>Всички</strong> приложения имат актуализация за наличната версия",
     "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> приложение няма актуализация за тази версия","<strong>%n</strong> приложения нямат актуализация за тази версия"]
 },

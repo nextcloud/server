@@ -5,6 +5,7 @@
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  *
  * @license AGPL-3.0
@@ -22,7 +23,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\AppFramework\Db;
 
 use function lcfirst;
@@ -115,7 +115,14 @@ abstract class Entity {
 					// (B)LOB is treated as string when we read from the DB
 					$type = 'string';
 				}
-				settype($args[0], $type);
+
+				if ($type === 'datetime') {
+					if (!$args[0] instanceof \DateTime) {
+						$args[0] = new \DateTime($args[0]);
+					}
+				} else {
+					settype($args[0], $type);
+				}
 			}
 			$this->$name = $args[0];
 		} else {

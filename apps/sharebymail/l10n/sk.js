@@ -24,7 +24,9 @@ OC.L10N.register(
     "Password to access {file} was sent to {email}" : "Heslo na sprístupnenie {file} bolo zaslané na {email}",
     "Password to access %1$s was sent to you" : "Heslo na sprístupnenie %1$s Vám bolo zaslané",
     "Password to access {file} was sent to you" : "Heslo na sprístupnenie {file} Vám bolo zaslané",
-    "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Vygenerované heslo Vám nemôže byť zaslané. Zadajte správnu mailovú adresu vo Vašich osobných nastaveniach a skúste znovu.",
+    "Share by mail" : "Sprístupniť e-mailom",
+    "Sharing %1$s failed, because this item is already shared with user %2$s" : "Zdieľanie %1$s zlyhalo, táto položka už je zdieľaná s užívateľom %2$s ",
+    "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Vygenerované heslo Vám nemôže byť zaslané. Zadajte správnu mailovú adresu vo Vašich osobných nastaveniach a skúste znovu.",
     "Failed to send share by email" : "Zaslanie sprístupnenia cez e-mail zlyhalo",
     "%1$s shared »%2$s« with you" : "%1$s vám sprístupnil »%2$s«",
     "%1$s shared »%2$s« with you." : "%1$s vám sprístupnil »%2$s«.",
@@ -44,10 +46,11 @@ OC.L10N.register(
     "This is the password:" : "Toto je heslo:",
     "You can choose a different password at any time in the share dialog." : "Kedykoľvek môžete vybrať iné heslo v okne zdieľania.",
     "Could not find share" : "Nebolo možné nájsť sprístupnenie",
-    "Share by mail" : "Sprístupniť e-mailom",
     "Share provider which allows you to share files by mail" : "Poskytovateľ zdieľania umožňuje zdieľať súbory pomocou e-mailu",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Povoľuje používateľom zdieľať personalizovaný odkaz na súbor alebo priečinok zadaním e-mailovej adresy.",
     "Send password by mail" : "Odoslať heslo e-mailom",
+    "Reply to initiator" : "Odpovedať iniciátorovi",
+    "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Vygenerované heslo Vám nemôže byť zaslané. Zadajte správnu mailovú adresu vo Vašich osobných nastaveniach a skúste znovu.",
     "Enforce password protection" : "Vynútiť ochranu heslom"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

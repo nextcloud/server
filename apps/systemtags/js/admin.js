@@ -145,7 +145,7 @@
 		select2: {
 			allowClear: false,
 			multiple: false,
-			placeholder: t('systemtags_manager', 'Select tag…'),
+			placeholder: t('systemtags_manager', 'Select tag …'),
 			query: _.debounce(function(query) {
 				query.callback({
 					results: OCA.SystemTags.Admin.collection.filterByName(query.term)

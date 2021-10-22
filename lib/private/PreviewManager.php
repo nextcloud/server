@@ -28,11 +28,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC;
 
+use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Preview\Generator;
 use OC\Preview\GeneratorHelper;
+use OCP\AppFramework\QueryException;
 use OCP\Files\File;
 use OCP\Files\IAppData;
 use OCP\Files\IRootFolder;
@@ -40,8 +41,10 @@ use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\IConfig;
 use OCP\IPreview;
+use OCP\IServerContainer;
 use OCP\Preview\IProviderV2;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use function array_key_exists;
 
 class PreviewManager implements IPreview {
 	/** @var IConfig */
@@ -80,6 +83,20 @@ class PreviewManager implements IPreview {
 	/** @var string */
 	protected $userId;
 
+	/** @var Coordinator */
+	private $bootstrapCoordinator;
+
+	/**
+	 * Hash map (without value) of loaded bootstrap providers
+	 *
+	 * @var null[]
+	 * @psalm-var array<string, null>
+	 */
+	private $loadedBootstrapProviders = [];
+
+	/** @var IServerContainer */
+	private $container;
+
 	/**
 	 * PreviewManager constructor.
 	 *
@@ -94,13 +111,17 @@ class PreviewManager implements IPreview {
 								IAppData $appData,
 								EventDispatcherInterface $eventDispatcher,
 								GeneratorHelper $helper,
-								$userId) {
+								$userId,
+								Coordinator $bootstrapCoordinator,
+								IServerContainer $container) {
 		$this->config = $config;
 		$this->rootFolder = $rootFolder;
 		$this->appData = $appData;
 		$this->eventDispatcher = $eventDispatcher;
 		$this->helper = $helper;
 		$this->userId = $userId;
+		$this->bootstrapCoordinator = $bootstrapCoordinator;
+		$this->container = $container;
 	}
 
 	/**
@@ -135,6 +156,7 @@ class PreviewManager implements IPreview {
 		}
 
 		$this->registerCoreProviders();
+		$this->registerBootstrapProviders();
 		if ($this->providerListDirty) {
 			$keys = array_map('strlen', array_keys($this->providers));
 			array_multisort($keys, SORT_DESC, $this->providers);
@@ -221,6 +243,7 @@ class PreviewManager implements IPreview {
 		}
 
 		$this->registerCoreProviders();
+		$this->registerBootstrapProviders();
 		$providerMimeTypes = array_keys($this->providers);
 		foreach ($providerMimeTypes as $supportedMimeType) {
 			if (preg_match($supportedMimeType, $mimeType)) {
@@ -278,7 +301,6 @@ class PreviewManager implements IPreview {
 	 *  - OC\Preview\JPEG
 	 *  - OC\Preview\GIF
 	 *  - OC\Preview\BMP
-	 *  - OC\Preview\HEIC
 	 *  - OC\Preview\XBitmap
 	 *  - OC\Preview\MarkDown
 	 *  - OC\Preview\MP3
@@ -286,6 +308,7 @@ class PreviewManager implements IPreview {
 	 *
 	 * The following providers are disabled by default due to performance or privacy concerns:
 	 *  - OC\Preview\Font
+	 *  - OC\Preview\HEIC
 	 *  - OC\Preview\Illustrator
 	 *  - OC\Preview\Movie
 	 *  - OC\Preview\MSOfficeDoc
@@ -311,7 +334,6 @@ class PreviewManager implements IPreview {
 			Preview\JPEG::class,
 			Preview\GIF::class,
 			Preview\BMP::class,
-			Preview\HEIC::class,
 			Preview\XBitmap::class,
 			Preview\Krita::class,
 			Preview\WebP::class,
@@ -431,6 +453,33 @@ class PreviewManager implements IPreview {
 
 				$this->registerCoreProvider(Preview\Movie::class, '/video\/.*/');
 			}
+		}
+	}
+
+	private function registerBootstrapProviders(): void {
+		$context = $this->bootstrapCoordinator->getRegistrationContext();
+
+		if ($context === null) {
+			// Just ignore for now
+			return;
+		}
+
+		$providers = $context->getPreviewProviders();
+		foreach ($providers as $provider) {
+			$key = $provider->getMimeTypeRegex() . '-' . $provider->getService();
+			if (array_key_exists($key, $this->loadedBootstrapProviders)) {
+				// Do not load the provider more than once
+				continue;
+			}
+			$this->loadedBootstrapProviders[$key] = null;
+
+			$this->registerProvider($provider->getMimeTypeRegex(), function () use ($provider) {
+				try {
+					return $this->container->query($provider->getService());
+				} catch (QueryException $e) {
+					return null;
+				}
+			});
 		}
 	}
 }

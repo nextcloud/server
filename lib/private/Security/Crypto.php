@@ -27,9 +27,9 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Security;
 
+use Exception;
 use OCP\IConfig;
 use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
@@ -83,9 +83,12 @@ class Crypto implements ICrypto {
 
 	/**
 	 * Encrypts a value and adds an HMAC (Encrypt-Then-MAC)
+	 *
 	 * @param string $plaintext
 	 * @param string $password Password to encrypt, if not specified the secret from config.php will be taken
 	 * @return string Authenticated ciphertext
+	 * @throws Exception if it was not possible to gather sufficient entropy
+	 * @throws Exception if encrypting the data failed
 	 */
 	public function encrypt(string $plaintext, string $password = ''): string {
 		if ($password === '') {
@@ -97,7 +100,13 @@ class Crypto implements ICrypto {
 		$iv = \random_bytes($this->ivLength);
 		$this->cipher->setIV($iv);
 
-		$ciphertext = bin2hex($this->cipher->encrypt($plaintext));
+		/** @var string|false $encrypted */
+		$encrypted = $this->cipher->encrypt($plaintext);
+		if ($encrypted === false) {
+			throw new Exception('Encrypting failed.');
+		}
+
+		$ciphertext = bin2hex($encrypted);
 		$iv = bin2hex($iv);
 		$hmac = bin2hex($this->calculateHMAC($ciphertext.$iv, substr($keyMaterial, 32)));
 
@@ -109,8 +118,8 @@ class Crypto implements ICrypto {
 	 * @param string $authenticatedCiphertext
 	 * @param string $password Password to encrypt, if not specified the secret from config.php will be taken
 	 * @return string plaintext
-	 * @throws \Exception If the HMAC does not match
-	 * @throws \Exception If the decryption failed
+	 * @throws Exception If the HMAC does not match
+	 * @throws Exception If the decryption failed
 	 */
 	public function decrypt(string $authenticatedCiphertext, string $password = ''): string {
 		if ($password === '') {
@@ -121,17 +130,17 @@ class Crypto implements ICrypto {
 		$parts = explode('|', $authenticatedCiphertext);
 		$partCount = \count($parts);
 		if ($partCount < 3 || $partCount > 4) {
-			throw new \Exception('Authenticated ciphertext could not be decoded.');
+			throw new Exception('Authenticated ciphertext could not be decoded.');
 		}
 
-		$ciphertext = hex2bin($parts[0]);
+		$ciphertext = $this->hex2bin($parts[0]);
 		$iv = $parts[1];
-		$hmac = hex2bin($parts[2]);
+		$hmac = $this->hex2bin($parts[2]);
 
 		if ($partCount === 4) {
 			$version = $parts[3];
 			if ($version >= '2') {
-				$iv = hex2bin($iv);
+				$iv = $this->hex2bin($iv);
 			}
 
 			if ($version === '3') {
@@ -144,12 +153,28 @@ class Crypto implements ICrypto {
 		$this->cipher->setIV($iv);
 
 		if (!hash_equals($this->calculateHMAC($parts[0] . $parts[1], $hmacKey), $hmac)) {
-			throw new \Exception('HMAC does not match.');
+			throw new Exception('HMAC does not match.');
 		}
 
 		$result = $this->cipher->decrypt($ciphertext);
 		if ($result === false) {
-			throw new \Exception('Decryption failed');
+			throw new Exception('Decryption failed');
+		}
+
+		return $result;
+	}
+
+	private function hex2bin(string $hex): string {
+		if (!ctype_xdigit($hex)) {
+			throw new \RuntimeException('String contains non hex chars: ' . $hex);
+		}
+		if (strlen($hex) % 2 !== 0) {
+			throw new \RuntimeException('Hex string is not of even length: ' . $hex);
+		}
+		$result = hex2bin($hex);
+
+		if ($result === false) {
+			throw new \RuntimeException('Hex to bin conversion failed: ' . $hex);
 		}
 
 		return $result;

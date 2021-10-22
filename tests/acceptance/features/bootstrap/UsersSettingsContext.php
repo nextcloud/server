@@ -24,6 +24,8 @@
  */
 
 use Behat\Behat\Context\Context;
+use PHPUnit\Framework\Assert;
+use WebDriver\Key;
 
 class UsersSettingsContext implements Context, ActorAwareInterface {
 	use ActorAware;
@@ -72,7 +74,7 @@ class UsersSettingsContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function createNewUserButton() {
-		return Locator::forThe()->xpath("//form[@id = 'new-user']//input[@type = 'submit']")->
+		return Locator::forThe()->xpath("//form[@id = 'new-user']//button[@type = 'submit']")->
 			describedAs("Create user button in Users Settings");
 	}
 
@@ -241,7 +243,7 @@ class UsersSettingsContext implements Context, ActorAwareInterface {
 	 * @When I set the :field for :user to :value
 	 */
 	public function iSetTheFieldForUserTo($field, $user, $value) {
-		$this->actor->find(self::inputForUserInCell($field, $user), 2)->setValue($value . "\r");
+		$this->actor->find(self::inputForUserInCell($field, $user), 2)->setValue($value . Key::ENTER);
 	}
 
 	/**
@@ -271,7 +273,7 @@ class UsersSettingsContext implements Context, ActorAwareInterface {
 				$this->actor,
 				self::rowForUser($user),
 				$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
-			PHPUnit_Framework_Assert::fail("The user $user in the list of users is not shown yet after $timeout seconds");
+			Assert::fail("The user $user in the list of users is not shown yet after $timeout seconds");
 		}
 	}
 
@@ -283,7 +285,7 @@ class UsersSettingsContext implements Context, ActorAwareInterface {
 				$this->actor,
 				self::rowForUser($user),
 				$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
-			PHPUnit_Framework_Assert::fail("The user $user in the list of users is still shown after $timeout seconds");
+			Assert::fail("The user $user in the list of users is still shown after $timeout seconds");
 		}
 	}
 
@@ -291,7 +293,7 @@ class UsersSettingsContext implements Context, ActorAwareInterface {
 	 * @Then I see that the new user form is shown
 	 */
 	public function iSeeThatTheNewUserFormIsShown() {
-		PHPUnit_Framework_Assert::assertTrue(
+		Assert::assertTrue(
 			$this->actor->find(self::newUserForm(), 10)->isVisible());
 	}
 
@@ -299,7 +301,7 @@ class UsersSettingsContext implements Context, ActorAwareInterface {
 	 * @Then I see that the :action action in the :user actions menu is shown
 	 */
 	public function iSeeTheAction($action, $user) {
-		PHPUnit_Framework_Assert::assertTrue(
+		Assert::assertTrue(
 			$this->actor->find(self::theAction($action, $user), 10)->isVisible());
 	}
 
@@ -307,7 +309,7 @@ class UsersSettingsContext implements Context, ActorAwareInterface {
 	 * @Then I see that the :column column is shown
 	 */
 	public function iSeeThatTheColumnIsShown($column) {
-		PHPUnit_Framework_Assert::assertTrue(
+		Assert::assertTrue(
 			$this->actor->find(self::theColumn($column), 10)->isVisible());
 	}
 
@@ -315,7 +317,7 @@ class UsersSettingsContext implements Context, ActorAwareInterface {
 	 * @Then I see that the :field of :user is :value
 	 */
 	public function iSeeThatTheFieldOfUserIs($field, $user, $value) {
-		PHPUnit_Framework_Assert::assertEquals(
+		Assert::assertEquals(
 			$this->actor->find(self::inputForUserInCell($field, $user), 10)->getValue(), $value);
 	}
 
@@ -323,7 +325,7 @@ class UsersSettingsContext implements Context, ActorAwareInterface {
 	 * @Then I see that the display name for the user :user is :displayName
 	 */
 	public function iSeeThatTheDisplayNameForTheUserIs($user, $displayName) {
-		PHPUnit_Framework_Assert::assertEquals(
+		Assert::assertEquals(
 			$displayName, $this->actor->find(self::displayNameCellForUser($user), 10)->getValue());
 	}
 
@@ -349,7 +351,7 @@ class UsersSettingsContext implements Context, ActorAwareInterface {
 				$this->actor,
 				self::classCellForUser($cell . ' icon-loading-small', $user),
 				$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
-			PHPUnit_Framework_Assert::fail("The loading icon for user $user is still shown after $timeout seconds");
+			Assert::fail("The loading icon for user $user is still shown after $timeout seconds");
 		}
 	}
 
@@ -357,7 +359,7 @@ class UsersSettingsContext implements Context, ActorAwareInterface {
 	 * @Then I see that the user quota of :user is :quota
 	 */
 	public function iSeeThatTheuserQuotaIs($user, $quota) {
-		PHPUnit_Framework_Assert::assertEquals(
+		Assert::assertEquals(
 			$this->actor->find(self::selectedSelectOption('quota', $user), 2)->getText(), $quota);
 	}
 
@@ -369,7 +371,7 @@ class UsersSettingsContext implements Context, ActorAwareInterface {
 				$this->actor,
 				self::editModeOn($user),
 				$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
-			PHPUnit_Framework_Assert::fail("The edit mode for user $user in the list of users is not on yet after $timeout seconds");
+			Assert::fail("The edit mode for user $user in the list of users is not on yet after $timeout seconds");
 		}
 	}
 }

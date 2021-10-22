@@ -1,6 +1,6 @@
 <?php
 /**
- *
+ * @copyright Copyright (c) 2016 Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
@@ -22,14 +22,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 // FIXME: disabled for now to be able to inject IGroupManager and also use
 // getSubAdmin()
 //declare(strict_types=1);
@@ -37,11 +36,11 @@
 namespace OCA\Settings\Controller;
 
 use OC\Group\Manager as GroupManager;
-use OC\HintException;
 use OC\User\Session;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\JSONResponse;
+use OCP\HintException;
 use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IRequest;

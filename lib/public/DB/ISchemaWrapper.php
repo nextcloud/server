@@ -13,15 +13,17 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCP\DB;
+
+use Doctrine\DBAL\Exception;
+use Doctrine\DBAL\Platforms\AbstractPlatform;
 
 /**
  * Interface ISchemaWrapper
@@ -82,7 +84,7 @@ interface ISchemaWrapper {
 	 * @since 13.0.0
 	 */
 	public function getTableNames();
-	
+
 	/**
 	 * Gets all table names
 	 *
@@ -90,4 +92,14 @@ interface ISchemaWrapper {
 	 * @since 13.0.0
 	 */
 	public function getTableNamesWithoutPrefix();
+
+	/**
+	 * Gets the DatabasePlatform for the database.
+	 *
+	 * @return AbstractPlatform
+	 *
+	 * @throws Exception
+	 * @since 23.0.0
+	 */
+	public function getDatabasePlatform();
 }

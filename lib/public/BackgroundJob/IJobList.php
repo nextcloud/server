@@ -23,7 +23,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\BackgroundJob;
 
 /**
@@ -99,6 +98,13 @@ interface IJobList {
 	public function getById($id);
 
 	/**
+	 * @param int $id
+	 * @return array|null
+	 * @since 23.0.0
+	 */
+	public function getDetailsById(int $id): ?array;
+
+	/**
 	 * set the job that was last ran to the current time
 	 *
 	 * @param \OCP\BackgroundJob\IJob $job
@@ -130,4 +136,12 @@ interface IJobList {
 	 * @since 12.0.0
 	 */
 	public function setExecutionTime(IJob $job, $timeTaken);
+
+	/**
+	 * Reset the $job so it executes on the next trigger
+	 *
+	 * @param IJob $job
+	 * @since 23.0.0
+	 */
+	public function resetBackgroundJob(IJob $job): void;
 }

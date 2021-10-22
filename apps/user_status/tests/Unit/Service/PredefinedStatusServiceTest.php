@@ -5,24 +5,25 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2020, Georg Ehrke
  *
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  *
- * @license AGPL-3.0
+ * @license GNU AGPL version 3 or any later version
  *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\UserStatus\Tests\Service;
 
 use OCA\UserStatus\Service\PredefinedStatusService;
@@ -46,14 +47,15 @@ class PredefinedStatusServiceTest extends TestCase {
 	}
 
 	public function testGetDefaultStatuses(): void {
-		$this->l10n->expects($this->exactly(5))
+		$this->l10n->expects($this->exactly(6))
 			->method('t')
 			->withConsecutive(
 				['In a meeting'],
 				['Commuting'],
 				['Working remotely'],
 				['Out sick'],
-				['Vacationing']
+				['Vacationing'],
+				['In a call'],
 			)
 			->willReturnArgument(0);
 
@@ -101,6 +103,13 @@ class PredefinedStatusServiceTest extends TestCase {
 				'message' => 'Vacationing',
 				'clearAt' => null,
 			],
+			[
+				'id' => 'call',
+				'icon' => '💬',
+				'message' => 'In a call',
+				'clearAt' => null,
+				'visible' => false,
+			],
 		], $actual);
 	}
 
@@ -125,6 +134,7 @@ class PredefinedStatusServiceTest extends TestCase {
 			['sick-leave', '🤒'],
 			['vacationing', '🌴'],
 			['remote-work', '🏡'],
+			['call', '💬'],
 			['unknown-id', null],
 		];
 	}
@@ -153,6 +163,7 @@ class PredefinedStatusServiceTest extends TestCase {
 			['sick-leave', 'Out sick'],
 			['vacationing', 'Vacationing'],
 			['remote-work', 'Working remotely'],
+			['call', 'In a call'],
 			['unknown-id', null],
 		];
 	}
@@ -178,28 +189,31 @@ class PredefinedStatusServiceTest extends TestCase {
 			['sick-leave', true],
 			['vacationing', true],
 			['remote-work', true],
+			['call', true],
 			['unknown-id', false],
 		];
 	}
 
 	public function testGetDefaultStatusById(): void {
-		$this->l10n->expects($this->exactly(5))
+		$this->l10n->expects($this->exactly(6))
 			->method('t')
 			->withConsecutive(
 				['In a meeting'],
 				['Commuting'],
 				['Working remotely'],
 				['Out sick'],
-				['Vacationing']
+				['Vacationing'],
+				['In a call'],
 			)
 			->willReturnArgument(0);
 
 		$this->assertEquals([
-			'id' => 'vacationing',
-			'icon' => '🌴',
-			'message' => 'Vacationing',
+			'id' => 'call',
+			'icon' => '💬',
+			'message' => 'In a call',
 			'clearAt' => null,
-		], $this->service->getDefaultStatusById('vacationing'));
+			'visible' => false,
+		], $this->service->getDefaultStatusById('call'));
 	}
 
 	public function testGetDefaultStatusByUnknownId(): void {

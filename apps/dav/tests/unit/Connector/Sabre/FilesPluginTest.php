@@ -1,6 +1,8 @@
 <?php
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
+ * Copyright (c) 2015 Vincent Petry <pvince81@owncloud.com>
+ * Copyright (c) 2015 Vincent Petry <pvince81@owncloud.com>
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
@@ -27,7 +29,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OC\User\User;
@@ -40,6 +41,8 @@ use OCP\Files\StorageNotAvailableException;
 use OCP\IConfig;
 use OCP\IPreview;
 use OCP\IRequest;
+use OCP\IUserSession;
+use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\DAV\PropFind;
 use Sabre\DAV\PropPatch;
 use Sabre\DAV\Server;
@@ -98,30 +101,27 @@ class FilesPluginTest extends TestCase {
 	 */
 	private $previewManager;
 
+	/** @var IUserSession|MockObject */
+	private $userSession;
+
 	protected function setUp(): void {
 		parent::setUp();
-		$this->server = $this->getMockBuilder(Server::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$this->tree = $this->getMockBuilder(Tree::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$this->server = $this->createMock(Server::class);
+		$this->tree = $this->createMock(Tree::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->config->expects($this->any())->method('getSystemValue')
 			->with($this->equalTo('data-fingerprint'), $this->equalTo(''))
 			->willReturn('my_fingerprint');
-		$this->request = $this->getMockBuilder(IRequest::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$this->previewManager = $this->getMockBuilder(IPreview::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$this->request = $this->createMock(IRequest::class);
+		$this->previewManager = $this->createMock(IPreview::class);
+		$this->userSession = $this->createMock(IUserSession::class);
 
 		$this->plugin = new FilesPlugin(
 			$this->tree,
 			$this->config,
 			$this->request,
-			$this->previewManager
+			$this->previewManager,
+			$this->userSession
 		);
 
 		$response = $this->getMockBuilder(ResponseInterface::class)
@@ -263,6 +263,7 @@ class FilesPluginTest extends TestCase {
 				->disableOriginalConstructor()
 				->getMock(),
 			$this->previewManager,
+			$this->userSession,
 			true);
 		$this->plugin->initialize($this->server);
 

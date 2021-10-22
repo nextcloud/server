@@ -7,22 +7,22 @@ declare(strict_types=1);
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
  *
- * @license AGPL-3.0
+ * @license GNU AGPL version 3 or any later version
  *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\UserStatus\Service;
 
 use OCP\IL10N;
@@ -41,6 +41,7 @@ class PredefinedStatusService {
 	private const SICK_LEAVE = 'sick-leave';
 	private const VACATIONING = 'vacationing';
 	private const REMOTE_WORK = 'remote-work';
+	public const CALL = 'call';
 
 	/** @var IL10N */
 	private $l10n;
@@ -101,6 +102,13 @@ class PredefinedStatusService {
 				'message' => $this->getTranslatedStatusForId(self::VACATIONING),
 				'clearAt' => null,
 			],
+			[
+				'id' => self::CALL,
+				'icon' => '💬',
+				'message' => $this->getTranslatedStatusForId(self::CALL),
+				'clearAt' => null,
+				'visible' => false,
+			],
 		];
 	}
 
@@ -139,6 +147,9 @@ class PredefinedStatusService {
 			case self::REMOTE_WORK:
 				return '🏡';
 
+			case self::CALL:
+				return '💬';
+
 			default:
 				return null;
 		}
@@ -166,6 +177,9 @@ class PredefinedStatusService {
 			case self::REMOTE_WORK:
 				return $this->l10n->t('Working remotely');
 
+			case self::CALL:
+				return $this->l10n->t('In a call');
+
 			default:
 				return null;
 		}
@@ -182,6 +196,7 @@ class PredefinedStatusService {
 			self::SICK_LEAVE,
 			self::VACATIONING,
 			self::REMOTE_WORK,
+			self::CALL,
 		], true);
 	}
 }

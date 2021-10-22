@@ -6,23 +6,24 @@ declare(strict_types=1);
  * @copyright Copyright (c) 2020, Georg Ehrke
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author Joas Schilling <coding@schilljs.com>
  *
- * @license AGPL-3.0
+ * @license GNU AGPL version 3 or any later version
  *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\UserStatus\Service;
 
 use OCA\UserStatus\Db\UserStatus;
@@ -34,6 +35,7 @@ use OCA\UserStatus\Exception\InvalidStatusTypeException;
 use OCA\UserStatus\Exception\StatusMessageTooLongException;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\IConfig;
 use OCP\UserStatus\IUserStatus;
 
 /**
@@ -55,6 +57,15 @@ class StatusService {
 	/** @var EmojiService */
 	private $emojiService;
 
+	/** @var bool */
+	private $shareeEnumeration;
+
+	/** @var bool */
+	private $shareeEnumerationInGroupOnly;
+
+	/** @var bool */
+	private $shareeEnumerationPhone;
+
 	/**
 	 * List of priorities ordered by their priority
 	 */
@@ -63,7 +74,7 @@ class StatusService {
 		IUserStatus::AWAY,
 		IUserStatus::DND,
 		IUserStatus::INVISIBLE,
-		IUserStatus::OFFLINE
+		IUserStatus::OFFLINE,
 	];
 
 	/**
@@ -87,17 +98,22 @@ class StatusService {
 	 *
 	 * @param UserStatusMapper $mapper
 	 * @param ITimeFactory $timeFactory
-	 * @param PredefinedStatusService $defaultStatusService,
+	 * @param PredefinedStatusService $defaultStatusService
 	 * @param EmojiService $emojiService
+	 * @param IConfig $config
 	 */
 	public function __construct(UserStatusMapper $mapper,
 								ITimeFactory $timeFactory,
 								PredefinedStatusService $defaultStatusService,
-								EmojiService $emojiService) {
+								EmojiService $emojiService,
+								IConfig $config) {
 		$this->mapper = $mapper;
 		$this->timeFactory = $timeFactory;
 		$this->predefinedStatusService = $defaultStatusService;
 		$this->emojiService = $emojiService;
+		$this->shareeEnumeration = $config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes';
+		$this->shareeEnumerationInGroupOnly = $this->shareeEnumeration && $config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_group', 'no') === 'yes';
+		$this->shareeEnumerationPhone = $this->shareeEnumeration && $config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_phone', 'no') === 'yes';
 	}
 
 	/**
@@ -106,6 +122,13 @@ class StatusService {
 	 * @return UserStatus[]
 	 */
 	public function findAll(?int $limit = null, ?int $offset = null): array {
+		// Return empty array if user enumeration is disabled or limited to groups
+		// TODO: find a solution that scales to get only users from common groups if user enumeration is limited to
+		//       groups. See discussion at https://github.com/nextcloud/server/pull/27879#discussion_r729715936
+		if (!$this->shareeEnumeration || $this->shareeEnumerationInGroupOnly || $this->shareeEnumerationPhone) {
+			return [];
+		}
+
 		return array_map(function ($status) {
 			return $this->processStatus($status);
 		}, $this->mapper->findAll($limit, $offset));
@@ -117,6 +140,13 @@ class StatusService {
 	 * @return array
 	 */
 	public function findAllRecentStatusChanges(?int $limit = null, ?int $offset = null): array {
+		// Return empty array if user enumeration is disabled or limited to groups
+		// TODO: find a solution that scales to get only users from common groups if user enumeration is limited to
+		//       groups. See discussion at https://github.com/nextcloud/server/pull/27879#discussion_r729715936
+		if (!$this->shareeEnumeration || $this->shareeEnumerationInGroupOnly || $this->shareeEnumerationPhone) {
+			return [];
+		}
+
 		return array_map(function ($status) {
 			return $this->processStatus($status);
 		}, $this->mapper->findAllRecent($limit, $offset));
@@ -171,6 +201,7 @@ class StatusService {
 		$userStatus->setStatus($status);
 		$userStatus->setStatusTimestamp($statusTimestamp);
 		$userStatus->setIsUserDefined($isUserDefined);
+		$userStatus->setIsBackup(false);
 
 		if ($userStatus->getId() === null) {
 			return $this->mapper->insert($userStatus);
@@ -224,7 +255,7 @@ class StatusService {
 	/**
 	 * @param string $userId
 	 * @param string|null $statusIcon
-	 * @param string|null $message
+	 * @param string $message
 	 * @param int|null $clearAt
 	 * @return UserStatus
 	 * @throws InvalidClearAtException
@@ -315,9 +346,9 @@ class StatusService {
 	 * @param string $userId
 	 * @return bool
 	 */
-	public function removeUserStatus(string $userId): bool {
+	public function removeUserStatus(string $userId, bool $isBackup = false): bool {
 		try {
-			$userStatus = $this->mapper->findByUserId($userId);
+			$userStatus = $this->mapper->findByUserId($userId, $isBackup);
 		} catch (DoesNotExistException $ex) {
 			// if there is no status to remove, just return
 			return false;
@@ -332,7 +363,7 @@ class StatusService {
 	 * up to date and provides translated default status if needed
 	 *
 	 * @param UserStatus $status
-	 * @returns UserStatus
+	 * @return UserStatus
 	 */
 	private function processStatus(UserStatus $status): UserStatus {
 		$clearAt = $status->getClearAt();
@@ -355,6 +386,10 @@ class StatusService {
 	 * @param UserStatus $status
 	 */
 	private function cleanStatus(UserStatus $status): void {
+		if ($status->getStatus() === IUserStatus::OFFLINE && !$status->getIsUserDefined()) {
+			return;
+		}
+
 		$status->setStatus(IUserStatus::OFFLINE);
 		$status->setStatusTimestamp($this->timeFactory->getTime());
 		$status->setIsUserDefined(false);
@@ -384,5 +419,64 @@ class StatusService {
 			$status->setCustomMessage($predefinedMessage['message']);
 			$status->setCustomIcon($predefinedMessage['icon']);
 		}
+	}
+
+	/**
+	 * @return bool false iff there is already a backup. In this case abort the procedure.
+	 */
+	public function backupCurrentStatus(string $userId): bool {
+		try {
+			$this->mapper->findByUserId($userId, true);
+			return false;
+		} catch (DoesNotExistException $ex) {
+			// No backup already existing => Good
+		}
+
+		try {
+			$userStatus = $this->mapper->findByUserId($userId);
+		} catch (DoesNotExistException $ex) {
+			// if there is no status to backup, just return
+			return true;
+		}
+
+		$userStatus->setIsBackup(true);
+		// Prefix user account with an underscore because user_id is marked as unique
+		// in the table. Starting an username with an underscore is not allowed so this
+		// shouldn't create any trouble.
+		$userStatus->setUserId('_' . $userStatus->getUserId());
+		$this->mapper->update($userStatus);
+		return true;
+	}
+
+	public function revertUserStatus(string $userId, string $messageId, string $status): void {
+		try {
+			/** @var UserStatus $userStatus */
+			$backupUserStatus = $this->mapper->findByUserId($userId, true);
+		} catch (DoesNotExistException $ex) {
+			// No backup, just move back to available
+			try {
+				$userStatus = $this->mapper->findByUserId($userId);
+			} catch (DoesNotExistException $ex) {
+				// No backup nor current status => ignore
+				return;
+			}
+			$this->cleanStatus($userStatus);
+			$this->cleanStatusMessage($userStatus);
+			return;
+		}
+		try {
+			$userStatus = $this->mapper->findByUserId($userId);
+			if ($userStatus->getMessageId() !== $messageId || $userStatus->getStatus() !== $status) {
+				// Another status is set automatically, do nothing
+				return;
+			}
+			$this->removeUserStatus($userId);
+		} catch (DoesNotExistException $ex) {
+			// No current status => nothing to delete
+		}
+		$backupUserStatus->setIsBackup(false);
+		// Remove the underscore prefix added when creating the backup
+		$backupUserStatus->setUserId(substr($backupUserStatus->getUserId(), 1));
+		$this->mapper->update($backupUserStatus);
 	}
 }

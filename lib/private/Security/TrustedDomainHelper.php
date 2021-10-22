@@ -1,12 +1,15 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author J0WI <J0WI@users.noreply.github.com>
  * @author Johannes Ernst <jernst@indiecomputing.com>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
@@ -24,7 +27,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Security;
 
 use OC\AppFramework\Http\Request;
@@ -51,7 +53,7 @@ class TrustedDomainHelper {
 	 * @param string $host
 	 * @return string $host without appended port
 	 */
-	private function getDomainWithoutPort($host) {
+	private function getDomainWithoutPort(string $host): string {
 		$pos = strrpos($host, ':');
 		if ($pos !== false) {
 			$port = substr($host, $pos + 1);
@@ -71,7 +73,7 @@ class TrustedDomainHelper {
 	 * @return bool true if the given domain is trusted or if no trusted domains
 	 * have been configured
 	 */
-	public function isTrustedDomain($domainWithPort) {
+	public function isTrustedDomain(string $domainWithPort): bool {
 		// overwritehost is always trusted
 		if ($this->config->getSystemValue('overwritehost') !== '') {
 			return true;

@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- *
+ * @copyright Copyright (c) 2016 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Morris Jobke <hey@morrisjobke.de>
@@ -18,28 +18,27 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\TwoFactorBackupCodes\Provider;
 
 use OC\App\AppManager;
 use OCA\TwoFactorBackupCodes\Service\BackupCodeStorage;
 use OCA\TwoFactorBackupCodes\Settings\Personal;
+use OCP\Authentication\TwoFactorAuth\IDeactivatableByAdmin;
 use OCP\Authentication\TwoFactorAuth\IPersonalProviderSettings;
-use OCP\Authentication\TwoFactorAuth\IProvider;
 use OCP\Authentication\TwoFactorAuth\IProvidesPersonalSettings;
 use OCP\IInitialStateService;
 use OCP\IL10N;
 use OCP\IUser;
 use OCP\Template;
 
-class BackupCodesProvider implements IProvider, IProvidesPersonalSettings {
+class BackupCodesProvider implements IDeactivatableByAdmin, IProvidesPersonalSettings {
 
 	/** @var string */
 	private $appName;
@@ -164,5 +163,9 @@ class BackupCodesProvider implements IProvider, IProvidesPersonalSettings {
 		$state = $this->storage->getBackupCodesState($user);
 		$this->initialStateService->provideInitialState($this->appName, 'state', $state);
 		return new Personal();
+	}
+
+	public function disableFor(IUser $user) {
+		$this->storage->deleteCodes($user);
 	}
 }

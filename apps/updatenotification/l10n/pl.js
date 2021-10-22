@@ -34,7 +34,7 @@ OC.L10N.register(
     "Checked on {lastCheckedDate}" : "Sprawdzono {lastCheckedDate}",
     "Checking apps for compatible versions" : "Sprawdzanie aplikacji pod kątem kompatybilnych wersji",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Upewnij się, że opcja <samp>appstoreenabled</samp> w Twoim config.php nie jest ustawiona na false.",
-    "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "Nie można połączyć się z appstore lub całkowicie zgłasza brak aktualizacji. Wyszukaj aktualizacje ręcznie lub upewnij się, że masz dostęp do Internetu i możesz łączyć się z appstore.",
+    "Could not connect to the App Store or no updates have been returned at all. Search manually for updates or make sure your server has access to the internet and can connect to the App Store." : "Nie można połączyć się ze sklepem z aplikacjami lub zgłasza brak aktualizacji. Wyszukaj aktualizacje ręcznie lub upewnij się, że serwer ma dostęp do Internetu i może łączyć się ze sklepem z aplikacjami.",
     "<strong>All</strong> apps have a compatible version for this Nextcloud version available" : "<strong>Wszystkie</strong> aplikacje mają dostępną wersję zgodną z tą wersją Nextcloud",
     "View changelog" : "Zobacz listę zmian",
     "Enterprise" : "Komercyjna",
@@ -49,6 +49,7 @@ OC.L10N.register(
     "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "Zauważ, że po opublikowaniu nowej wersji może minąć trochę czasu, zanim pojawi się ona tutaj. Publikację dla naszych użytkowników rozkładamy w czasie, a czasami pomijamy wersję, gdy znajdziemy jakieś błędy.",
     "Only notification for app updates are available." : "Dostępne są tylko powiadomienia o aktualizacjach aplikacji.",
     "Checking apps for compatible updates" : "Sprawdzanie aplikacji pod kątem zgodnych aktualizacji",
+    "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "Nie można połączyć się ze sklepem z aplikacjami lub zgłasza brak aktualizacji. Wyszukaj aktualizacje ręcznie lub upewnij się, że serwer ma dostęp do Internetu i może łączyć się ze sklepem z aplikacjami.",
     "<strong>All</strong> apps have an update for this version available" : "<strong>Wszystkie</strong> aplikacje mają dostępną aktualizację dla tej wersji",
     "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> aplikacja nie ma dostępnej aktualizacji dla tej wersji","<strong>%n</strong> aplikacje nie mają dostępnych aktualizacji dla tej wersji","<strong>%n</strong> aplikacji nie ma dostępnych aktualizacji dla tej wersji","<strong>%n</strong> aplikacje nie mają dostępnych aktualizacji dla tej wersji"]
 },

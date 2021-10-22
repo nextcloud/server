@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
@@ -24,10 +25,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\CardDAV;
 
-use OC\Accounts\AccountManager;
+use Exception;
 use OCP\Accounts\IAccountManager;
 use OCP\IImage;
 use OCP\IUser;
@@ -36,24 +36,15 @@ use Sabre\VObject\Property\Text;
 
 class Converter {
 
-	/** @var AccountManager */
+	/** @var IAccountManager */
 	private $accountManager;
 
-	/**
-	 * Converter constructor.
-	 *
-	 * @param AccountManager $accountManager
-	 */
-	public function __construct(AccountManager $accountManager) {
+	public function __construct(IAccountManager $accountManager) {
 		$this->accountManager = $accountManager;
 	}
 
-	/**
-	 * @param IUser $user
-	 * @return VCard|null
-	 */
-	public function createCardFromUser(IUser $user) {
-		$userData = $this->accountManager->getUser($user);
+	public function createCardFromUser(IUser $user): ?VCard {
+		$userProperties = $this->accountManager->getAccount($user)->getProperties();
 
 		$uid = $user->getUID();
 		$cloudId = $user->getCloudId();
@@ -65,23 +56,19 @@ class Converter {
 
 		$publish = false;
 
-		if ($image !== null && isset($userData[IAccountManager::PROPERTY_AVATAR])) {
-			$userData[IAccountManager::PROPERTY_AVATAR]['value'] = true;
-		}
-
-		foreach ($userData as $property => $value) {
+		foreach ($userProperties as $property) {
 			$shareWithTrustedServers =
-				$value['scope'] === AccountManager::VISIBILITY_CONTACTS_ONLY ||
-				$value['scope'] === AccountManager::VISIBILITY_PUBLIC;
+				$property->getScope() === IAccountManager::SCOPE_FEDERATED ||
+				$property->getScope() === IAccountManager::SCOPE_PUBLISHED;
 
-			$emptyValue = !isset($value['value']) || $value['value'] === '';
+			$emptyValue = $property->getValue() === '';
 
 			if ($shareWithTrustedServers && !$emptyValue) {
 				$publish = true;
-				switch ($property) {
+				switch ($property->getName()) {
 					case IAccountManager::PROPERTY_DISPLAYNAME:
-						$vCard->add(new Text($vCard, 'FN', $value['value']));
-						$vCard->add(new Text($vCard, 'N', $this->splitFullName($value['value'])));
+						$vCard->add(new Text($vCard, 'FN', $property->getValue()));
+						$vCard->add(new Text($vCard, 'N', $this->splitFullName($property->getValue())));
 						break;
 					case IAccountManager::PROPERTY_AVATAR:
 						if ($image !== null) {
@@ -89,19 +76,19 @@ class Converter {
 						}
 						break;
 					case IAccountManager::PROPERTY_EMAIL:
-						$vCard->add(new Text($vCard, 'EMAIL', $value['value'], ['TYPE' => 'OTHER']));
+						$vCard->add(new Text($vCard, 'EMAIL', $property->getValue(), ['TYPE' => 'OTHER']));
 						break;
 					case IAccountManager::PROPERTY_WEBSITE:
-						$vCard->add(new Text($vCard, 'URL', $value['value']));
+						$vCard->add(new Text($vCard, 'URL', $property->getValue()));
 						break;
 					case IAccountManager::PROPERTY_PHONE:
-						$vCard->add(new Text($vCard, 'TEL', $value['value'], ['TYPE' => 'OTHER']));
+						$vCard->add(new Text($vCard, 'TEL', $property->getValue(), ['TYPE' => 'OTHER']));
 						break;
 					case IAccountManager::PROPERTY_ADDRESS:
-						$vCard->add(new Text($vCard, 'ADR', $value['value'], ['TYPE' => 'OTHER']));
+						$vCard->add(new Text($vCard, 'ADR', $property->getValue(), ['TYPE' => 'OTHER']));
 						break;
 					case IAccountManager::PROPERTY_TWITTER:
-						$vCard->add(new Text($vCard, 'X-SOCIALPROFILE', $value['value'], ['TYPE' => 'TWITTER']));
+						$vCard->add(new Text($vCard, 'X-SOCIALPROFILE', $property->getValue(), ['TYPE' => 'TWITTER']));
 						break;
 				}
 			}
@@ -116,11 +103,7 @@ class Converter {
 		return null;
 	}
 
-	/**
-	 * @param string $fullName
-	 * @return string[]
-	 */
-	public function splitFullName($fullName) {
+	public function splitFullName(string $fullName): array {
 		// Very basic western style parsing. I'm not gonna implement
 		// https://github.com/android/platform_packages_providers_contactsprovider/blob/master/src/com/android/providers/contacts/NameSplitter.java ;)
 
@@ -140,14 +123,10 @@ class Converter {
 		return $result;
 	}
 
-	/**
-	 * @param IUser $user
-	 * @return null|IImage
-	 */
-	private function getAvatarImage(IUser $user) {
+	private function getAvatarImage(IUser $user): ?IImage {
 		try {
 			return $user->getAvatarImage(-1);
-		} catch (\Exception $ex) {
+		} catch (Exception $ex) {
 			return null;
 		}
 	}

@@ -23,6 +23,7 @@
 
 use Behat\Behat\Context\Context;
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
+use PHPUnit\Framework\Assert;
 
 class LoginPageContext implements Context, ActorAwareInterface {
 	use ActorAware;
@@ -90,7 +91,7 @@ class LoginPageContext implements Context, ActorAwareInterface {
 	 * @Then I see that the current page is the Login page
 	 */
 	public function iSeeThatTheCurrentPageIsTheLoginPage() {
-		PHPUnit_Framework_Assert::assertStringStartsWith(
+		Assert::assertStringStartsWith(
 				$this->actor->locatePath("/login"),
 				$this->actor->getSession()->getCurrentUrl());
 	}
@@ -99,7 +100,7 @@ class LoginPageContext implements Context, ActorAwareInterface {
 	 * @Then I see that a wrong password message is shown
 	 */
 	public function iSeeThatAWrongPasswordMessageIsShown() {
-		PHPUnit_Framework_Assert::assertTrue(
+		Assert::assertTrue(
 				$this->actor->find(self::wrongPasswordMessage(), 10)->isVisible());
 	}
 
@@ -107,7 +108,7 @@ class LoginPageContext implements Context, ActorAwareInterface {
 	 * @Then I see that the disabled user message is shown
 	 */
 	public function iSeeThatTheDisabledUserMessageIsShown() {
-		PHPUnit_Framework_Assert::assertTrue(
+		Assert::assertTrue(
 				$this->actor->find(self::userDisabledMessage(), 10)->isVisible());
 	}
 

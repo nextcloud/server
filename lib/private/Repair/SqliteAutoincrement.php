@@ -21,7 +21,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Repair;
 
 use Doctrine\DBAL\Platforms\SqlitePlatform;
@@ -84,7 +83,7 @@ class SqliteAutoincrement implements IRepairStep {
 				foreach ($columnNames as $columnName) {
 					$columnSchema = $tableSchema->getColumn($columnName);
 					$columnDiff = new ColumnDiff($columnSchema->getName(), $columnSchema);
-					$tableDiff->changedColumns[] = $columnDiff;
+					$tableDiff->changedColumns[$columnSchema->getName()] = $columnDiff;
 					$schemaDiff->changedTables[] = $tableDiff;
 				}
 			} catch (SchemaException $e) {

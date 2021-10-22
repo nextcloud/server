@@ -28,7 +28,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Encryption\Crypto;
 
 use OC\Encryption\Exceptions\DecryptionFailedException;
@@ -57,10 +56,20 @@ use OCP\IUserSession;
  * @package OCA\Encryption\Crypto
  */
 class Crypt {
+	public const SUPPORTED_CIPHERS_AND_KEY_SIZE = [
+		'AES-256-CTR' => 32,
+		'AES-128-CTR' => 16,
+		'AES-256-CFB' => 32,
+		'AES-128-CFB' => 16,
+	];
+	// one out of SUPPORTED_CIPHERS_AND_KEY_SIZE
 	public const DEFAULT_CIPHER = 'AES-256-CTR';
 	// default cipher from old Nextcloud versions
 	public const LEGACY_CIPHER = 'AES-128-CFB';
 
+	public const SUPPORTED_KEY_FORMATS = ['hash', 'password'];
+	// one out of SUPPORTED_KEY_FORMATS
+	public const DEFAULT_KEY_FORMAT = 'hash';
 	// default key format, old Nextcloud version encrypted the private key directly
 	// with the user password
 	public const LEGACY_KEY_FORMAT = 'password';
@@ -77,19 +86,11 @@ class Crypt {
 	/** @var IConfig */
 	private $config;
 
-	/** @var array */
-	private $supportedKeyFormats;
-
 	/** @var IL10N */
 	private $l;
 
-	/** @var array */
-	private $supportedCiphersAndKeySize = [
-		'AES-256-CTR' => 32,
-		'AES-128-CTR' => 16,
-		'AES-256-CFB' => 32,
-		'AES-128-CFB' => 16,
-	];
+	/** @var string|null */
+	private $currentCipher;
 
 	/** @var bool */
 	private $supportLegacy;
@@ -105,8 +106,6 @@ class Crypt {
 		$this->user = $userSession && $userSession->isLoggedIn() ? $userSession->getUser()->getUID() : '"no user given"';
 		$this->config = $config;
 		$this->l = $l;
-		$this->supportedKeyFormats = ['hash', 'password'];
-
 		$this->supportLegacy = $this->config->getSystemValueBool('encryption.legacy_format_support', false);
 	}
 
@@ -207,12 +206,12 @@ class Crypt {
 	/**
 	 * generate header for encrypted file
 	 *
-	 * @param string $keyFormat (can be 'hash' or 'password')
+	 * @param string $keyFormat see SUPPORTED_KEY_FORMATS
 	 * @return string
 	 * @throws \InvalidArgumentException
 	 */
-	public function generateHeader($keyFormat = 'hash') {
-		if (in_array($keyFormat, $this->supportedKeyFormats, true) === false) {
+	public function generateHeader($keyFormat = self::DEFAULT_KEY_FORMAT) {
+		if (in_array($keyFormat, self::SUPPORTED_KEY_FORMATS, true) === false) {
 			throw new \InvalidArgumentException('key format "' . $keyFormat . '" is not supported');
 		}
 
@@ -252,32 +251,42 @@ class Crypt {
 	}
 
 	/**
-	 * return Cipher either from config.php or the default cipher defined in
+	 * return cipher either from config.php or the default cipher defined in
 	 * this class
 	 *
 	 * @return string
 	 */
-	public function getCipher() {
+	private function getCachedCipher() {
+		if (isset($this->currentCipher)) {
+			return $this->currentCipher;
+		}
+
+		// Get cipher either from config.php or the default cipher defined in this class
 		$cipher = $this->config->getSystemValue('cipher', self::DEFAULT_CIPHER);
-		if (!isset($this->supportedCiphersAndKeySize[$cipher])) {
+		if (!isset(self::SUPPORTED_CIPHERS_AND_KEY_SIZE[$cipher])) {
 			$this->logger->warning(
-					sprintf(
-							'Unsupported cipher (%s) defined in config.php supported. Falling back to %s',
-							$cipher,
-							self::DEFAULT_CIPHER
-					),
-				['app' => 'encryption']);
+				sprintf(
+					'Unsupported cipher (%s) defined in config.php supported. Falling back to %s',
+					$cipher,
+					self::DEFAULT_CIPHER
+				),
+				['app' => 'encryption']
+			);
 			$cipher = self::DEFAULT_CIPHER;
 		}
 
-		// Workaround for OpenSSL 0.9.8. Fallback to an old cipher that should work.
-		if (OPENSSL_VERSION_NUMBER < 0x1000101f) {
-			if ($cipher === 'AES-256-CTR' || $cipher === 'AES-128-CTR') {
-				$cipher = self::LEGACY_CIPHER;
-			}
-		}
+		// Remember current cipher to avoid frequent lookups
+		$this->currentCipher = $cipher;
+		return $this->currentCipher;
+	}
 
-		return $cipher;
+	/**
+	 * return current encryption cipher
+	 *
+	 * @return string
+	 */
+	public function getCipher() {
+		return $this->getCachedCipher();
 	}
 
 	/**
@@ -288,8 +297,8 @@ class Crypt {
 	 * @throws \InvalidArgumentException
 	 */
 	protected function getKeySize($cipher) {
-		if (isset($this->supportedCiphersAndKeySize[$cipher])) {
-			return $this->supportedCiphersAndKeySize[$cipher];
+		if (isset(self::SUPPORTED_CIPHERS_AND_KEY_SIZE[$cipher])) {
+			return self::SUPPORTED_CIPHERS_AND_KEY_SIZE[$cipher];
 		}
 
 		throw new \InvalidArgumentException(
@@ -411,7 +420,7 @@ class Crypt {
 			$keyFormat = self::LEGACY_KEY_FORMAT;
 		}
 
-		if ($keyFormat === 'hash') {
+		if ($keyFormat === self::DEFAULT_KEY_FORMAT) {
 			$password = $this->generatePasswordHash($password, $cipher, $uid);
 		}
 
@@ -587,7 +596,7 @@ class Crypt {
 			throw new GenericEncryptionException('Missing Signature', $this->l->t('Missing Signature'));
 		}
 
-		// enforce signature for the new 'CTR' ciphers
+		// Enforce signature for the new 'CTR' ciphers
 		if (!$skipSignatureCheck && $signaturePosition === false && stripos($cipher, 'ctr') !== false) {
 			throw new GenericEncryptionException('Missing Signature', $this->l->t('Missing Signature'));
 		}

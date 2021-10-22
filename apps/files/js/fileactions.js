@@ -142,6 +142,7 @@
 				name: name,
 				displayName: action.displayName,
 				mime: mime,
+				filename: action.filename,
 				order: action.order || 0,
 				icon: action.icon,
 				iconClass: action.iconClass,
@@ -154,6 +155,9 @@
 			}
 			if (_.isFunction(action.render)) {
 				actionSpec.render = action.render;
+			}
+			if (_.isFunction(action.shouldRender)) {
+				actionSpec.shouldRender = action.shouldRender;
 			}
 			if (!this.actions[mime]) {
 				this.actions[mime] = {};
@@ -188,11 +192,12 @@
 		 * @param {string} mime mime type
 		 * @param {string} type "dir" or "file"
 		 * @param {int} permissions permissions
+		 * @param {string} filename filename
 		 *
 		 * @return {Object.<string,OCA.Files.FileActions~actionHandler>} map of action name to action spec
 		 */
-		get: function (mime, type, permissions) {
-			var actions = this.getActions(mime, type, permissions);
+		get: function(mime, type, permissions, filename) {
+			var actions = this.getActions(mime, type, permissions, filename);
 			var filteredActions = {};
 			$.each(actions, function (name, action) {
 				filteredActions[name] = action.action;
@@ -206,10 +211,11 @@
 		 * @param {string} mime mime type
 		 * @param {string} type "dir" or "file"
 		 * @param {int} permissions permissions
+		 * @param {string} filename filename
 		 *
 		 * @return {Array.<OCA.Files.FileAction>} array of action specs
 		 */
-		getActions: function (mime, type, permissions) {
+		getActions: function(mime, type, permissions, filename) {
 			var actions = {};
 			if (this.actions.all) {
 				actions = $.extend(actions, this.actions.all);
@@ -228,13 +234,27 @@
 					actions = $.extend(actions, this.actions[mime]);
 				}
 			}
+
 			var filteredActions = {};
-			$.each(actions, function (name, action) {
-				if ((action.permissions === OC.PERMISSION_NONE) || (action.permissions & permissions)) {
+			var self = this;
+			$.each(actions, function(name, action) {
+				if (self.allowedPermissions(action.permissions, permissions) &&
+					self.allowedFilename(action.filename, filename)) {
 					filteredActions[name] = action;
 				}
 			});
+
 			return filteredActions;
+		},
+
+
+		allowedPermissions: function(actionPermissions, permissions) {
+			return (actionPermissions === OC.PERMISSION_NONE || (actionPermissions & permissions));
+		},
+
+		allowedFilename: function(actionFilename, filename) {
+			return (!filename || filename === '' || !actionFilename
+				|| actionFilename === '' || actionFilename === filename);
 		},
 
 		/**
@@ -397,6 +417,11 @@
 		 * @param {OCA.Files.FileActionContext} context rendering context
 		 */
 		_renderInlineAction: function(actionSpec, isDefault, context) {
+			if (actionSpec.shouldRender) {
+				if (!actionSpec.shouldRender(context)) {
+					return;
+				}
+			}
 			var renderFunc = actionSpec.render || _.bind(this._defaultRenderAction, this);
 			var $actionEl = renderFunc(actionSpec, isDefault, context);
 			if (!$actionEl || !$actionEl.length) {
@@ -462,7 +487,8 @@
 			var actions = this.get(
 				fileInfoModel.get('mimetype'),
 				fileInfoModel.isDirectory() ? 'dir' : 'file',
-				fileInfoModel.get('permissions')
+				fileInfoModel.get('permissions'),
+				fileInfoModel.get('name')
 			);
 
 			if (actionName) {
@@ -520,7 +546,8 @@
 			var actions = this.getActions(
 				this.getCurrentMimeType(),
 				this.getCurrentType(),
-				this.getCurrentPermissions()
+				this.getCurrentPermissions(),
+				this.getCurrentFile()
 			);
 			var nameLinks;
 			if ($tr.data('renaming')) {
@@ -665,11 +692,11 @@
 						if (type === OC.dialogs.FILEPICKER_TYPE_COPY) {
 							context.fileList.copy(filename, targetPath, false, context.dir);
 						}
-						if (type === OC.dialogs.FILEPICKER_TYPE_MOVE) {
-							context.fileList.move(filename, targetPath, false, context.dir);
-						}
-						context.fileList.dirInfo.dirLastCopiedTo = targetPath;
-					}, false, "httpd/unix-directory", true, actions, dialogDir);
+							if (type === OC.dialogs.FILEPICKER_TYPE_MOVE) {
+								context.fileList.move(filename, targetPath, false, context.dir);
+							}
+							context.fileList.dirInfo.dirLastCopiedTo = targetPath;
+						}, false, "httpd/unix-directory", true, actions, dialogDir);
 				}
 			});
 
@@ -679,12 +706,19 @@
 				permissions: OC.PERMISSION_READ,
 				icon: '',
 				actionHandler: function (filename, context) {
-					var dir = context.$file.attr('data-path') || context.fileList.getCurrentDirectory();
+					let dir, id
+					if (context.$file) {
+						dir = context.$file.attr('data-path')
+						id = context.$file.attr('data-id')
+					} else {
+						dir = context.fileList.getCurrentDirectory()
+						id = context.fileId
+					}
 					if (OCA.Files.App && OCA.Files.App.getActiveView() !== 'files') {
 						OCA.Files.App.setActiveView('files', {silent: true});
 						OCA.Files.App.fileList.changeDirectory(OC.joinPaths(dir, filename), true, true);
 					} else {
-						context.fileList.changeDirectory(OC.joinPaths(dir, filename), true, false, parseInt(context.$file.attr('data-id'), 10));
+						context.fileList.changeDirectory(OC.joinPaths(dir, filename), true, false, parseInt(id, 10));
 					}
 				},
 				displayName: t('files', 'Open')
@@ -762,6 +796,7 @@
 	 * display name string for the action, or function that returns the display name.
 	 * Defaults to the name given in name property
 	 * @property {String} mime mime type
+	 * @property {String} filename filename
 	 * @property {int} permissions permissions
 	 * @property {(Function|String)} icon icon path to the icon or function that returns it (deprecated, use iconClass instead)
 	 * @property {(String|OCA.Files.FileActions~iconClassFunction)} iconClass class name of the icon (recommended for theming)

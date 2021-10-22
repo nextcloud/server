@@ -6,7 +6,7 @@
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
@@ -22,14 +22,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Collaboration\Collaborators;
 
 use OC\KnownUser\KnownUserService;
@@ -158,7 +157,7 @@ class UserPlugin implements ISearchPlugin {
 		$userStatuses = $this->userStatusManager->getUserStatuses(array_keys($users));
 		foreach ($users as $uid => $user) {
 			$userDisplayName = $user->getDisplayName();
-			$userEmail = $user->getEMailAddress();
+			$userEmail = $user->getSystemEMailAddress();
 			$uid = (string) $uid;
 
 			$status = [];
@@ -245,7 +244,7 @@ class UserPlugin implements ISearchPlugin {
 				if ($addUser) {
 					$status = [];
 					$uid = $user->getUID();
-					$userEmail = $user->getEMailAddress();
+					$userEmail = $user->getSystemEMailAddress();
 					if (array_key_exists($user->getUID(), $userStatuses)) {
 						$userStatus = $userStatuses[$user->getUID()];
 						$status = [

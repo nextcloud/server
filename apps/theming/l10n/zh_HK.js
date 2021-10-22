@@ -1,7 +1,7 @@
 OC.L10N.register(
     "theming",
     {
-    "Loading preview…" : "正在載入預覽。。。",
+    "Loading preview…" : "正在載入預覽...",
     "Saved" : "已儲存",
     "Admin" : "管理員",
     "a safe home for all your data" : "您資料的安全屋",

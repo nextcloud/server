@@ -28,7 +28,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\User_LDAP\Tests;
 
 use OCA\User_LDAP\Access;
@@ -319,6 +318,38 @@ class Group_LDAPTest extends TestCase {
 		$gid = $groupBackend->getGroupGidNumber($dn);
 
 		$this->assertSame(false, $gid);
+	}
+
+	public function testPrimaryGroupID2NameSuccessCache() {
+		$access = $this->getAccessMock();
+		$pluginManager = $this->getPluginManagerMock();
+
+		$this->enableGroups($access);
+
+		$userDN = 'cn=alice,cn=foo,dc=barfoo,dc=bar';
+		$gid = '3117';
+		$groupDN = 'cn=foo,dc=barfoo,dc=bar';
+
+		/** @var MockObject $connection */
+		$connection = $access->connection;
+		$connection->expects($this->once())
+			->method('getFromCache')
+			->with('primaryGroupIDtoName_' . $gid)
+			->willReturn('MyGroup');
+
+		$access->expects($this->never())
+			->method('getSID');
+
+		$access->expects($this->never())
+			->method('searchGroups');
+
+		$access->expects($this->never())
+			->method('dn2groupname');
+
+		$groupBackend = new GroupLDAP($access, $pluginManager);
+		$group = $groupBackend->primaryGroupID2Name($gid, $userDN);
+
+		$this->assertSame('MyGroup', $group);
 	}
 
 	public function testPrimaryGroupID2NameSuccess() {

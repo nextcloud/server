@@ -9,6 +9,7 @@ declare(strict_types=1);
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Michael Weimann <mail@michael-weimann.eu>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -19,14 +20,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Avatar;
 
 use OC\NotSquareException;
@@ -39,7 +39,7 @@ use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\IConfig;
 use OCP\IImage;
 use OCP\IL10N;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 
 /**
  * This class represents a registered user's avatar.
@@ -64,13 +64,13 @@ class UserAvatar extends Avatar {
 	 * @param ISimpleFolder $folder The avatar files folder
 	 * @param IL10N $l The localization helper
 	 * @param User $user The user this class manages the avatar for
-	 * @param ILogger $logger The logger
+	 * @param LoggerInterface $logger The logger
 	 */
 	public function __construct(
 		ISimpleFolder $folder,
 		IL10N $l,
 		$user,
-		ILogger $logger,
+		LoggerInterface $logger,
 		IConfig $config) {
 		parent::__construct($logger);
 		$this->folder = $folder;
@@ -270,6 +270,7 @@ class UserAvatar extends Avatar {
 				throw new NotFoundException;
 			}
 
+			// TODO: rework to integrate with the PlaceholderAvatar in a compatible way
 			if ($this->folder->fileExists('generated')) {
 				if (!$data = $this->generateAvatarFromSvg($size)) {
 					$data = $this->generateAvatar($this->getDisplayName(), $size);

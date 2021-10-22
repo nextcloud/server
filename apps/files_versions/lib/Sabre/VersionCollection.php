@@ -17,28 +17,24 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Files_Versions\Sabre;
 
 use OCA\Files_Versions\Versions\IVersion;
 use OCA\Files_Versions\Versions\IVersionManager;
 use OCP\Files\File;
-use OCP\Files\Folder;
 use OCP\IUser;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\ICollection;
 
 class VersionCollection implements ICollection {
-	/** @var Folder */
-	private $userFolder;
 
 	/** @var File */
 	private $file;
@@ -49,8 +45,7 @@ class VersionCollection implements ICollection {
 	/** @var IVersionManager */
 	private $versionManager;
 
-	public function __construct(Folder $userFolder, File $file, IUser $user, IVersionManager $versionManager) {
-		$this->userFolder = $userFolder;
+	public function __construct(File $file, IUser $user, IVersionManager $versionManager) {
 		$this->file = $file;
 		$this->user = $user;
 		$this->versionManager = $versionManager;

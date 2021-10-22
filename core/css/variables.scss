@@ -44,17 +44,27 @@ $color-placeholder-light: nc-darken($color-main-background, 10%) !default;
 $color-placeholder-dark: nc-darken($color-main-background, 20%) !default;
 
 $color-primary: #0082c9 !default;
+$color-primary-hover: mix($color-primary, $color-main-background, 80%) !default;
+
 $color-primary-light: mix($color-primary, $color-main-background, 10%) !default;
+$color-primary-light-text: $color-primary !default;
+$color-primary-light-hover: mix($color-primary-light, $color-main-text, 95%) !default;
+
 $color-primary-text: #ffffff !default;
 // do not use nc-darken/lighten in case of overriding because
 // primary-text is independent of color-main-text
 $color-primary-text-dark: darken($color-primary-text, 7%) !default;
 $color-primary-element: $color-primary !default;
+$color-primary-element-hover: mix($color-primary-element, $color-main-background, 80%) !default;
 $color-primary-element-light: lighten($color-primary-element, 15%) !default;
+$color-primary-element-lighter: mix($color-primary-element, $color-main-background, 15%) !default;
 
 $color-error: #e9322d;
+$color-error-hover: mix($color-error, $color-main-background, 80%) !default;
 $color-warning: #eca700;
+$color-warning-hover: mix($color-warning, $color-main-background, 80%) !default;
 $color-success: #46ba61;
+$color-success-hover: mix($color-success, $color-main-background, 80%) !default;
 // used for svg
 $color-white: #fff;
 $color-black: #000;
@@ -81,6 +91,7 @@ $color-box-shadow: transparentize(nc-darken($color-main-background, 70%), 0.5) !
 $color-border: nc-darken($color-main-background, 7%) !default;
 // darker border like inputs or very visible elements
 $color-border-dark: nc-darken($color-main-background, 14%) !default;
+
 $border-radius: 3px !default;
 $border-radius-large: 10px !default;
 // Pill-style button, value is large so big buttons also have correct roundness
@@ -101,6 +112,8 @@ $sidebar-min-width: 300px;
 $sidebar-max-width: 500px;
 $list-min-width: 200px;
 $list-max-width: 300px;
+$header-menu-item-height: 44px;
+$header-menu-profile-item-height: 66px;
 
 // mobile. Keep in sync with core/js/js.js
 $breakpoint-mobile: 1024px;

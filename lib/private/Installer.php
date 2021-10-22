@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @copyright Copyright (c) 2016, Lukas Reschke <lukas@statuscode.ch>
  *
+ * @author acsfer <carlos@reendex.com>
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Brice Maron <brice@bmaron.net>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
@@ -10,11 +11,10 @@
  * @author Frank Karlitschek <frank@karlitschek.de>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Kamil Domanski <kdomanski@kdemail.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Markus Staab <markus.staab@redaxo.de>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -37,7 +37,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC;
 
 use Doctrine\DBAL\Exception\TableExistsException;
@@ -46,14 +45,16 @@ use OC\App\AppStore\Fetcher\AppFetcher;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Archive\TAR;
 use OC\DB\Connection;
+use OC\DB\MigrationService;
 use OC_App;
-use OC_DB;
 use OC_Helper;
+use OCP\HintException;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\ILogger;
 use OCP\ITempManager;
 use phpseclib\File\X509;
+use Psr\Log\LoggerInterface;
 
 /**
  * This class provides the functionality needed to install, update and remove apps
@@ -65,7 +66,7 @@ class Installer {
 	private $clientService;
 	/** @var ITempManager */
 	private $tempManager;
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	private $logger;
 	/** @var IConfig */
 	private $config;
@@ -76,18 +77,11 @@ class Installer {
 	/** @var bool */
 	private $isCLI;
 
-	/**
-	 * @param AppFetcher $appFetcher
-	 * @param IClientService $clientService
-	 * @param ITempManager $tempManager
-	 * @param ILogger $logger
-	 * @param IConfig $config
-	 */
 	public function __construct(
 		AppFetcher $appFetcher,
 		IClientService $clientService,
 		ITempManager $tempManager,
-		ILogger $logger,
+		LoggerInterface $logger,
 		IConfig $config,
 		bool $isCLI
 	) {
@@ -114,9 +108,13 @@ class Installer {
 		}
 
 		$basedir = $app['path'].'/'.$appId;
-		$info = OC_App::getAppInfo($basedir.'/appinfo/info.xml', true);
+
+		if (is_file($basedir . '/appinfo/database.xml')) {
+			throw new \Exception('The appinfo/database.xml file is not longer supported. Used in ' . $appId);
+		}
 
 		$l = \OC::$server->getL10N('core');
+		$info = OC_App::getAppInfo($basedir.'/appinfo/info.xml', true, $l->getLanguageCode());
 
 		if (!is_array($info)) {
 			throw new \Exception(
@@ -152,16 +150,9 @@ class Installer {
 		}
 
 		//install the database
-		if (is_file($basedir.'/appinfo/database.xml')) {
-			if (\OC::$server->getConfig()->getAppValue($info['id'], 'installed_version') === null) {
-				OC_DB::createDbFromStructure($basedir.'/appinfo/database.xml');
-			} else {
-				OC_DB::updateDbFromStructure($basedir.'/appinfo/database.xml');
-			}
-		} else {
-			$ms = new \OC\DB\MigrationService($info['id'], \OC::$server->get(Connection::class));
-			$ms->migrate('latest', true);
-		}
+		$ms = new MigrationService($info['id'], \OC::$server->get(Connection::class));
+		$ms->migrate('latest', true);
+
 		if ($previousVersion) {
 			OC_App::executeRepairSteps($appId, $info['repair-steps']['post-migration']);
 		}
@@ -171,8 +162,7 @@ class Installer {
 		//run appinfo/install.php
 		self::includeAppScript($basedir . '/appinfo/install.php');
 
-		$appData = OC_App::getAppInfo($appId);
-		OC_App::executeRepairSteps($appId, $appData['repair-steps']['install']);
+		OC_App::executeRepairSteps($appId, $info['repair-steps']['install']);
 
 		//set the installed version
 		\OC::$server->getConfig()->setAppValue($info['id'], 'installed_version', OC_App::getAppVersion($info['id'], false));
@@ -203,9 +193,8 @@ class Installer {
 			try {
 				$this->downloadApp($appId, $allowUnstable);
 			} catch (\Exception $e) {
-				$this->logger->logException($e, [
-					'level' => ILogger::ERROR,
-					'app' => 'core',
+				$this->logger->error($e->getMessage(), [
+					'exception' => $e,
 				]);
 				return false;
 			}
@@ -309,7 +298,10 @@ class Installer {
 				// Check if the signature actually matches the downloaded content
 				$certificate = openssl_get_publickey($app['certificate']);
 				$verified = (bool)openssl_verify(file_get_contents($tempFile), base64_decode($app['releases'][0]['signature']), $certificate, OPENSSL_ALGO_SHA512);
-				openssl_free_key($certificate);
+				// PHP 8+ deprecates openssl_free_key and automatically destroys the key instance when it goes out of scope
+				if ((PHP_VERSION_ID < 80000)) {
+					openssl_free_key($certificate);
+				}
 
 				if ($verified === true) {
 					// Seems to match, let's proceed
@@ -341,9 +333,13 @@ class Installer {
 						}
 
 						// Check if appinfo/info.xml has the same app ID as well
-						$loadEntities = libxml_disable_entity_loader(false);
-						$xml = simplexml_load_file($extractDir . '/' . $folders[0] . '/appinfo/info.xml');
-						libxml_disable_entity_loader($loadEntities);
+						if ((PHP_VERSION_ID < 80000)) {
+							$loadEntities = libxml_disable_entity_loader(false);
+							$xml = simplexml_load_file($extractDir . '/' . $folders[0] . '/appinfo/info.xml');
+							libxml_disable_entity_loader($loadEntities);
+						} else {
+							$xml = simplexml_load_file($extractDir . '/' . $folders[0] . '/appinfo/info.xml');
+						}
 						if ((string)$xml->id !== $appId) {
 							throw new \Exception(
 								sprintf(
@@ -601,20 +597,8 @@ class Installer {
 		$appPath = OC_App::getAppPath($app);
 		\OC_App::registerAutoloading($app, $appPath);
 
-		if (is_file("$appPath/appinfo/database.xml")) {
-			try {
-				OC_DB::createDbFromStructure("$appPath/appinfo/database.xml");
-			} catch (TableExistsException $e) {
-				throw new HintException(
-					'Failed to enable app ' . $app,
-					'Please ask for help via one of our <a href="https://nextcloud.com/support/" target="_blank" rel="noreferrer noopener">support channels</a>.',
-					0, $e
-				);
-			}
-		} else {
-			$ms = new \OC\DB\MigrationService($app, \OC::$server->get(Connection::class));
-			$ms->migrate('latest', true);
-		}
+		$ms = new MigrationService($app, \OC::$server->get(Connection::class));
+		$ms->migrate('latest', true);
 
 		//run appinfo/install.php
 		self::includeAppScript("$appPath/appinfo/install.php");

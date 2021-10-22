@@ -25,7 +25,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Federation\Tests;
 
 use OCA\Federation\DbHandler;
@@ -153,45 +152,6 @@ class TrustedServersTest extends TestCase {
 		return [
 			[true],
 			[false]
-		];
-	}
-
-	/**
-	 * @dataProvider dataTrueFalse
-	 *
-	 * @param bool $status
-	 */
-	public function testSetAutoAddServers($status) {
-		if ($status) {
-			$this->config->expects($this->once())->method('setAppValue')
-				->with('federation', 'autoAddServers', '1');
-		} else {
-			$this->config->expects($this->once())->method('setAppValue')
-				->with('federation', 'autoAddServers', '0');
-		}
-
-		$this->trustedServers->setAutoAddServers($status);
-	}
-
-	/**
-	 * @dataProvider dataTestGetAutoAddServers
-	 *
-	 * @param string $status
-	 * @param bool $expected
-	 */
-	public function testGetAutoAddServers($status, $expected) {
-		$this->config->expects($this->once())->method('getAppValue')
-			->with('federation', 'autoAddServers', '0')->willReturn($status);
-
-		$this->assertSame($expected,
-			$this->trustedServers->getAutoAddServers()
-		);
-	}
-
-	public function dataTestGetAutoAddServers() {
-		return [
-			['1', true],
-			['0', false]
 		];
 	}
 
@@ -351,7 +311,7 @@ class TrustedServersTest extends TestCase {
 	 * @dataProvider dataTestCheckOwnCloudVersionTooLow
 	 */
 	public function testCheckOwnCloudVersionTooLow($status) {
-		$this->expectException(\OC\HintException::class);
+		$this->expectException(\OCP\HintException::class);
 		$this->expectExceptionMessage('Remote server version is too low. 9.0 is required.');
 
 		$this->invokePrivate($this->trustedServers, 'checkOwnCloudVersion', [$status]);

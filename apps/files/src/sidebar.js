@@ -12,7 +12,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -58,4 +58,5 @@ window.addEventListener('DOMContentLoaded', function() {
 	AppSidebar.$mount('#app-sidebar')
 	window.OCA.Files.Sidebar.open = AppSidebar.open
 	window.OCA.Files.Sidebar.close = AppSidebar.close
+	window.OCA.Files.Sidebar.setFullScreenMode = AppSidebar.setFullScreenMode
 })

@@ -5,6 +5,7 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2020 Julius Härtl <jus@bitgrid.net>
  *
+ * @author Julien Veyssier <eneiluj@posteo.net>
  * @author Julius Härtl <jus@bitgrid.net>
  *
  * @license GNU AGPL version 3 or any later version
@@ -23,7 +24,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 return [
 	'routes' => [
 		['name' => 'dashboard#index', 'url' => '/', 'verb' => 'GET'],
@@ -31,5 +31,8 @@ return [
 		['name' => 'dashboard#updateStatuses', 'url' => '/statuses', 'verb' => 'POST'],
 		['name' => 'dashboard#getBackground', 'url' => '/background', 'verb' => 'GET'],
 		['name' => 'dashboard#setBackground', 'url' => '/background/{type}', 'verb' => 'POST'],
+	],
+	'ocs' => [
+		['name' => 'dashboardApi#getWidgetItems', 'url' => '/api/v1/widget-items', 'verb' => 'GET'],
 	]
 ];

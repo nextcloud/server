@@ -30,7 +30,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\AppFramework\Http;
 
 use OC\AppFramework\Http;
@@ -156,7 +155,7 @@ class Dispatcher {
 			$response = $this->middlewareDispatcher->afterException(
 				$controller, $methodName, $exception);
 		} catch (\Throwable $throwable) {
-			$exception = new \Exception($throwable->getMessage(), $throwable->getCode(), $throwable);
+			$exception = new \Exception($throwable->getMessage() . ' in file \'' . $throwable->getFile() . '\' line ' . $throwable->getLine(), $throwable->getCode(), $throwable);
 			$response = $this->middlewareDispatcher->afterException(
 			$controller, $methodName, $exception);
 		}

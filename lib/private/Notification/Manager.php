@@ -24,9 +24,9 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Notification;
 
+use OC\AppFramework\Bootstrap\Coordinator;
 use OCP\AppFramework\QueryException;
 use OCP\ILogger;
 use OCP\Notification\AlreadyProcessedException;
@@ -43,6 +43,8 @@ class Manager implements IManager {
 	protected $validator;
 	/** @var ILogger */
 	protected $logger;
+	/** @var Coordinator */
+	private $coordinator;
 
 	/** @var IApp[] */
 	protected $apps;
@@ -58,17 +60,23 @@ class Manager implements IManager {
 	protected $preparingPushNotification;
 	/** @var bool */
 	protected $deferPushing;
+	/** @var bool */
+	private $parsedRegistrationContext;
 
 	public function __construct(IValidator $validator,
-								ILogger $logger) {
+								ILogger $logger,
+								Coordinator $coordinator) {
 		$this->validator = $validator;
 		$this->logger = $logger;
+		$this->coordinator = $coordinator;
+
 		$this->apps = [];
 		$this->notifiers = [];
 		$this->appClasses = [];
 		$this->notifierClasses = [];
 		$this->preparingPushNotification = false;
 		$this->deferPushing = false;
+		$this->parsedRegistrationContext = false;
 	}
 	/**
 	 * @param string $appClass The service must implement IApp, otherwise a
@@ -141,6 +149,32 @@ class Manager implements IManager {
 	 * @return INotifier[]
 	 */
 	public function getNotifiers(): array {
+		if (!$this->parsedRegistrationContext) {
+			$notifierServices = $this->coordinator->getRegistrationContext()->getNotifierServices();
+			foreach ($notifierServices as $notifierService) {
+				try {
+					$notifier = \OC::$server->query($notifierService->getService());
+				} catch (QueryException $e) {
+					$this->logger->logException($e, [
+						'message' => 'Failed to load notification notifier class: ' . $notifierService->getService(),
+						'app' => 'notifications',
+					]);
+					continue;
+				}
+
+				if (!($notifier instanceof INotifier)) {
+					$this->logger->error('Notification notifier class ' . $notifierService->getService() . ' is not implementing ' . INotifier::class, [
+						'app' => 'notifications',
+					]);
+					continue;
+				}
+
+				$this->notifiers[] = $notifier;
+			}
+
+			$this->parsedRegistrationContext = true;
+		}
+
 		if (empty($this->notifierClasses)) {
 			return $this->notifiers;
 		}

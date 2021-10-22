@@ -1,7 +1,10 @@
 /**
  * @copyright Copyright (c) 2019 John Molakvoæ <skjnldsv@protonmail.com>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Julius Härtl <jus@bitgrid.net>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -27,7 +30,7 @@ import { generateOcsUrl } from '@nextcloud/router'
 import axios from '@nextcloud/axios'
 import Share from '../models/Share'
 
-const shareUrl = generateOcsUrl('apps/files_sharing/api/v1', 2) + 'shares'
+const shareUrl = generateOcsUrl('apps/files_sharing/api/v1/shares')
 const headers = {
 	'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
 }

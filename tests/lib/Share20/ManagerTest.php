@@ -22,7 +22,6 @@
 namespace Test\Share20;
 
 use OC\Files\Mount\MoveableMount;
-use OC\HintException;
 use OC\Share20\DefaultShareProvider;
 use OC\Share20\Exception;
 use OC\Share20\Manager;
@@ -36,6 +35,7 @@ use OCP\Files\Mount\IMountManager;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Node;
 use OCP\Files\Storage;
+use OCP\HintException;
 use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
@@ -45,6 +45,7 @@ use OCP\IServerContainer;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Mail\IMailer;
 use OCP\Security\Events\ValidatePasswordPolicyEvent;
@@ -104,6 +105,7 @@ class ManagerTest extends \Test\TestCase {
 	protected $urlGenerator;
 	/** @var  \OC_Defaults|MockObject */
 	protected $defaults;
+	protected $userSession;
 
 	protected function setUp(): void {
 		$this->logger = $this->createMock(ILogger::class);
@@ -119,12 +121,17 @@ class ManagerTest extends \Test\TestCase {
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->defaults = $this->createMock(\OC_Defaults::class);
 		$this->dispatcher = $this->createMock(IEventDispatcher::class);
+		$this->userSession = $this->createMock(IUserSession::class);
 
 		$this->l10nFactory = $this->createMock(IFactory::class);
 		$this->l = $this->createMock(IL10N::class);
 		$this->l->method('t')
 			->willReturnCallback(function ($text, $parameters = []) {
 				return vsprintf($text, $parameters);
+			});
+		$this->l->method('n')
+			->willReturnCallback(function ($singular, $plural, $count, $parameters = []) {
+				return vsprintf(str_replace('%n', $count, ($count === 1) ? $singular : $plural), $parameters);
 			});
 
 		$this->factory = new DummyFactory(\OC::$server);
@@ -145,7 +152,8 @@ class ManagerTest extends \Test\TestCase {
 			$this->mailer,
 			$this->urlGenerator,
 			$this->defaults,
-			$this->dispatcher
+			$this->dispatcher,
+			$this->userSession
 		);
 
 		$this->defaultProvider = $this->createMock(DefaultShareProvider::class);
@@ -174,7 +182,8 @@ class ManagerTest extends \Test\TestCase {
 				$this->mailer,
 				$this->urlGenerator,
 				$this->defaults,
-				$this->dispatcher
+				$this->dispatcher,
+				$this->userSession
 			]);
 	}
 
@@ -592,7 +601,7 @@ class ManagerTest extends \Test\TestCase {
 			[$this->createShare(null, IShare::TYPE_GROUP, $file, $group0, null, $user0, 31, null, null), 'SharedBy should be set', true],
 			[$this->createShare(null, IShare::TYPE_LINK,  $file, null, null, $user0, 31, null, null), 'SharedBy should be set', true],
 
-			[$this->createShare(null, IShare::TYPE_USER,  $file, $user0, $user0, $user0, 31, null, null), 'Can’t share with yourself', true],
+			[$this->createShare(null, IShare::TYPE_USER,  $file, $user0, $user0, $user0, 31, null, null), 'Cannot share with yourself', true],
 
 			[$this->createShare(null, IShare::TYPE_USER,  null, $user2, $user0, $user0, 31, null, null), 'Path should be set', true],
 			[$this->createShare(null, IShare::TYPE_GROUP, null, $group0, $user0, $user0, 31, null, null), 'Path should be set', true],
@@ -635,9 +644,9 @@ class ManagerTest extends \Test\TestCase {
 		$limitedPermssions->method('getMountPoint')->willReturn($mount);
 
 
-		$data[] = [$this->createShare(null, IShare::TYPE_USER,  $limitedPermssions, $user2, $user0, $user0, 31, null, null), 'Can’t increase permissions of path', true];
-		$data[] = [$this->createShare(null, IShare::TYPE_GROUP, $limitedPermssions, $group0, $user0, $user0, 17, null, null), 'Can’t increase permissions of path', true];
-		$data[] = [$this->createShare(null, IShare::TYPE_LINK,  $limitedPermssions, null, $user0, $user0, 3, null, null), 'Can’t increase permissions of path', true];
+		$data[] = [$this->createShare(null, IShare::TYPE_USER,  $limitedPermssions, $user2, $user0, $user0, 31, null, null), 'Cannot increase permissions of path', true];
+		$data[] = [$this->createShare(null, IShare::TYPE_GROUP, $limitedPermssions, $group0, $user0, $user0, 17, null, null), 'Cannot increase permissions of path', true];
+		$data[] = [$this->createShare(null, IShare::TYPE_LINK,  $limitedPermssions, null, $user0, $user0, 3, null, null), 'Cannot increase permissions of path', true];
 
 		$nonMoveableMountPermssions = $this->createMock(Folder::class);
 		$nonMoveableMountPermssions->method('isShareable')->willReturn(true);
@@ -650,17 +659,17 @@ class ManagerTest extends \Test\TestCase {
 		$nonMoveableMountPermssions->method('getStorage')
 			->willReturn($storage);
 
-		$data[] = [$this->createShare(null, IShare::TYPE_USER,  $nonMoveableMountPermssions, $user2, $user0, $user0, 11, null, null), 'Can’t increase permissions of path', false];
-		$data[] = [$this->createShare(null, IShare::TYPE_GROUP, $nonMoveableMountPermssions, $group0, $user0, $user0, 11, null, null), 'Can’t increase permissions of path', false];
+		$data[] = [$this->createShare(null, IShare::TYPE_USER,  $nonMoveableMountPermssions, $user2, $user0, $user0, 11, null, null), 'Cannot increase permissions of path', false];
+		$data[] = [$this->createShare(null, IShare::TYPE_GROUP, $nonMoveableMountPermssions, $group0, $user0, $user0, 11, null, null), 'Cannot increase permissions of path', false];
 
 		$rootFolder = $this->createMock(Folder::class);
 		$rootFolder->method('isShareable')->willReturn(true);
 		$rootFolder->method('getPermissions')->willReturn(\OCP\Constants::PERMISSION_ALL);
 		$rootFolder->method('getId')->willReturn(42);
 
-		$data[] = [$this->createShare(null, IShare::TYPE_USER,  $rootFolder, $user2, $user0, $user0, 30, null, null), 'You can’t share your root folder', true];
-		$data[] = [$this->createShare(null, IShare::TYPE_GROUP, $rootFolder, $group0, $user0, $user0, 2, null, null), 'You can’t share your root folder', true];
-		$data[] = [$this->createShare(null, IShare::TYPE_LINK,  $rootFolder, null, $user0, $user0, 16, null, null), 'You can’t share your root folder', true];
+		$data[] = [$this->createShare(null, IShare::TYPE_USER,  $rootFolder, $user2, $user0, $user0, 30, null, null), 'You cannot share your root folder', true];
+		$data[] = [$this->createShare(null, IShare::TYPE_GROUP, $rootFolder, $group0, $user0, $user0, 2, null, null), 'You cannot share your root folder', true];
+		$data[] = [$this->createShare(null, IShare::TYPE_LINK,  $rootFolder, null, $user0, $user0, 16, null, null), 'You cannot share your root folder', true];
 
 		$allPermssions = $this->createMock(Folder::class);
 		$allPermssions->method('isShareable')->willReturn(true);
@@ -693,7 +702,7 @@ class ManagerTest extends \Test\TestCase {
 			->willReturn($storage);
 		$data[] = [$this->createShare(null, IShare::TYPE_REMOTE, $remoteFile, $user2, $user0, $user0, 1, null, null), null, false];
 		$data[] = [$this->createShare(null, IShare::TYPE_REMOTE, $remoteFile, $user2, $user0, $user0, 3, null, null), null, false];
-		$data[] = [$this->createShare(null, IShare::TYPE_REMOTE, $remoteFile, $user2, $user0, $user0, 31, null, null), 'Can’t increase permissions of ', true];
+		$data[] = [$this->createShare(null, IShare::TYPE_REMOTE, $remoteFile, $user2, $user0, $user0, 31, null, null), 'Cannot increase permissions of ', true];
 
 		return $data;
 	}
@@ -749,7 +758,7 @@ class ManagerTest extends \Test\TestCase {
 
 	public function testGeneralCheckShareRoot() {
 		$this->expectException(\InvalidArgumentException::class);
-		$this->expectExceptionMessage('You can’t share your root folder');
+		$this->expectExceptionMessage('You cannot share your root folder');
 
 		$thrown = null;
 
@@ -772,7 +781,14 @@ class ManagerTest extends \Test\TestCase {
 		self::invokePrivate($this->manager, 'generalCreateChecks', [$share]);
 	}
 
-	public function testValidateExpirationDateInternalInPast() {
+	public function validateExpirationDateInternalProvider() {
+		return [[IShare::TYPE_USER], [IShare::TYPE_REMOTE], [IShare::TYPE_REMOTE_GROUP]];
+	}
+
+	/**
+	 * @dataProvider validateExpirationDateInternalProvider
+	 */
+	public function testValidateExpirationDateInternalInPast($shareType) {
 		$this->expectException(\OCP\Share\Exceptions\GenericShareException::class);
 		$this->expectExceptionMessage('Expiration date is in the past');
 
@@ -781,51 +797,88 @@ class ManagerTest extends \Test\TestCase {
 		$past->sub(new \DateInterval('P1D'));
 
 		$share = $this->manager->newShare();
+		$share->setShareType($shareType);
 		$share->setExpirationDate($past);
 
 		self::invokePrivate($this->manager, 'validateExpirationDateInternal', [$share]);
 	}
 
-	public function testValidateExpirationDateInternalEnforceButNotSet() {
+	/**
+	 * @dataProvider validateExpirationDateInternalProvider
+	 */
+	public function testValidateExpirationDateInternalEnforceButNotSet($shareType) {
 		$this->expectException(\InvalidArgumentException::class);
 		$this->expectExceptionMessage('Expiration date is enforced');
 
 		$share = $this->manager->newShare();
 		$share->setProviderId('foo')->setId('bar');
-
-		$this->config->method('getAppValue')
-			->willReturnMap([
-				['core', 'shareapi_default_internal_expire_date', 'no', 'yes'],
-				['core', 'shareapi_enforce_internal_expire_date', 'no', 'yes'],
-			]);
+		$share->setShareType($shareType);
+		if ($shareType === IShare::TYPE_USER) {
+			$this->config->method('getAppValue')
+				->willReturnMap([
+					['core', 'shareapi_default_internal_expire_date', 'no', 'yes'],
+					['core', 'shareapi_enforce_internal_expire_date', 'no', 'yes'],
+				]);
+		} else {
+			$this->config->method('getAppValue')
+				->willReturnMap([
+					['core', 'shareapi_default_remote_expire_date', 'no', 'yes'],
+					['core', 'shareapi_enforce_remote_expire_date', 'no', 'yes'],
+				]);
+		}
 
 		self::invokePrivate($this->manager, 'validateExpirationDateInternal', [$share]);
 	}
 
-	public function testValidateExpirationDateInternalEnforceButNotEnabledAndNotSet() {
+	/**
+	 * @dataProvider validateExpirationDateInternalProvider
+	 */
+	public function testValidateExpirationDateInternalEnforceButNotEnabledAndNotSet($shareType) {
 		$share = $this->manager->newShare();
 		$share->setProviderId('foo')->setId('bar');
+		$share->setShareType($shareType);
 
-		$this->config->method('getAppValue')
-			->willReturnMap([
-				['core', 'shareapi_enforce_internal_expire_date', 'no', 'yes'],
-			]);
+		if ($shareType === IShare::TYPE_USER) {
+			$this->config->method('getAppValue')
+				->willReturnMap([
+					['core', 'shareapi_enforce_internal_expire_date', 'no', 'yes'],
+				]);
+		} else {
+			$this->config->method('getAppValue')
+				->willReturnMap([
+					['core', 'shareapi_enforce_remote_expire_date', 'no', 'yes'],
+				]);
+		}
 
 		self::invokePrivate($this->manager, 'validateExpirationDateInternal', [$share]);
 
 		$this->assertNull($share->getExpirationDate());
 	}
 
-	public function testValidateExpirationDateInternalEnforceButNotSetNewShare() {
+	/**
+	 * @dataProvider validateExpirationDateInternalProvider
+	 */
+	public function testValidateExpirationDateInternalEnforceButNotSetNewShare($shareType) {
 		$share = $this->manager->newShare();
+		$share->setShareType($shareType);
 
-		$this->config->method('getAppValue')
-			->willReturnMap([
-				['core', 'shareapi_enforce_internal_expire_date', 'no', 'yes'],
-				['core', 'shareapi_internal_expire_after_n_days', '7', '3'],
-				['core', 'shareapi_default_internal_expire_date', 'no', 'yes'],
-				['core', 'internal_defaultExpDays', '3', '3'],
-			]);
+		if ($shareType === IShare::TYPE_USER) {
+			$this->config->method('getAppValue')
+				->willReturnMap([
+					['core', 'shareapi_enforce_internal_expire_date', 'no', 'yes'],
+					['core', 'shareapi_internal_expire_after_n_days', '7', '3'],
+					['core', 'shareapi_default_internal_expire_date', 'no', 'yes'],
+					['core', 'internal_defaultExpDays', '3', '3'],
+				]);
+		} else {
+			$this->config->method('getAppValue')
+				->willReturnMap([
+					['core', 'shareapi_enforce_remote_expire_date', 'no', 'yes'],
+					['core', 'shareapi_remote_expire_after_n_days', '7', '3'],
+					['core', 'shareapi_default_remote_expire_date', 'no', 'yes'],
+					['core', 'remote_defaultExpDays', '3', '3'],
+				]);
+		}
 
 		$expected = new \DateTime();
 		$expected->setTime(0,0,0);
@@ -837,16 +890,30 @@ class ManagerTest extends \Test\TestCase {
 		$this->assertEquals($expected, $share->getExpirationDate());
 	}
 
-	public function testValidateExpirationDateInternalEnforceRelaxedDefaultButNotSetNewShare() {
+	/**
+	 * @dataProvider validateExpirationDateInternalProvider
+	 */
+	public function testValidateExpirationDateInternalEnforceRelaxedDefaultButNotSetNewShare($shareType) {
 		$share = $this->manager->newShare();
+		$share->setShareType($shareType);
 
-		$this->config->method('getAppValue')
-			->willReturnMap([
-				['core', 'shareapi_enforce_internal_expire_date', 'no', 'yes'],
-				['core', 'shareapi_internal_expire_after_n_days', '7', '3'],
-				['core', 'shareapi_default_internal_expire_date', 'no', 'yes'],
-				['core', 'internal_defaultExpDays', '3', '1'],
-			]);
+		if ($shareType === IShare::TYPE_USER) {
+			$this->config->method('getAppValue')
+				->willReturnMap([
+					['core', 'shareapi_enforce_internal_expire_date', 'no', 'yes'],
+					['core', 'shareapi_internal_expire_after_n_days', '7', '3'],
+					['core', 'shareapi_default_internal_expire_date', 'no', 'yes'],
+					['core', 'internal_defaultExpDays', '3', '1'],
+				]);
+		} else {
+			$this->config->method('getAppValue')
+				->willReturnMap([
+					['core', 'shareapi_enforce_remote_expire_date', 'no', 'yes'],
+					['core', 'shareapi_remote_expire_after_n_days', '7', '3'],
+					['core', 'shareapi_default_remote_expire_date', 'no', 'yes'],
+					['core', 'remote_defaultExpDays', '3', '1'],
+				]);
+		}
 
 		$expected = new \DateTime();
 		$expected->setTime(0,0,0);
@@ -858,27 +925,43 @@ class ManagerTest extends \Test\TestCase {
 		$this->assertEquals($expected, $share->getExpirationDate());
 	}
 
-	public function testValidateExpirationDateInternalEnforceTooFarIntoFuture() {
+	/**
+	 * @dataProvider validateExpirationDateInternalProvider
+	 */
+	public function testValidateExpirationDateInternalEnforceTooFarIntoFuture($shareType) {
 		$this->expectException(\OCP\Share\Exceptions\GenericShareException::class);
-		$this->expectExceptionMessage('Can’t set expiration date more than 3 days in the future');
+		$this->expectExceptionMessage('Cannot set expiration date more than 3 days in the future');
 
 		$future = new \DateTime();
 		$future->add(new \DateInterval('P7D'));
 
 		$share = $this->manager->newShare();
+		$share->setShareType($shareType);
 		$share->setExpirationDate($future);
 
-		$this->config->method('getAppValue')
-			->willReturnMap([
-				['core', 'shareapi_enforce_internal_expire_date', 'no', 'yes'],
-				['core', 'shareapi_internal_expire_after_n_days', '7', '3'],
-				['core', 'shareapi_default_internal_expire_date', 'no', 'yes'],
-			]);
+		if ($shareType === IShare::TYPE_USER) {
+			$this->config->method('getAppValue')
+				->willReturnMap([
+					['core', 'shareapi_enforce_internal_expire_date', 'no', 'yes'],
+					['core', 'shareapi_internal_expire_after_n_days', '7', '3'],
+					['core', 'shareapi_default_internal_expire_date', 'no', 'yes'],
+				]);
+		} else {
+			$this->config->method('getAppValue')
+				->willReturnMap([
+					['core', 'shareapi_enforce_remote_expire_date', 'no', 'yes'],
+					['core', 'shareapi_remote_expire_after_n_days', '7', '3'],
+					['core', 'shareapi_default_remote_expire_date', 'no', 'yes'],
+				]);
+		}
 
 		self::invokePrivate($this->manager, 'validateExpirationDateInternal', [$share]);
 	}
 
-	public function testValidateExpirationDateInternalEnforceValid() {
+	/**
+	 * @dataProvider validateExpirationDateInternalProvider
+	 */
+	public function testValidateExpirationDateInternalEnforceValid($shareType) {
 		$future = new \DateTime();
 		$future->add(new \DateInterval('P2D'));
 		$future->setTime(1,2,3);
@@ -887,14 +970,24 @@ class ManagerTest extends \Test\TestCase {
 		$expected->setTime(0,0,0);
 
 		$share = $this->manager->newShare();
+		$share->setShareType($shareType);
 		$share->setExpirationDate($future);
 
-		$this->config->method('getAppValue')
-			->willReturnMap([
-				['core', 'shareapi_enforce_internal_expire_date', 'no', 'yes'],
-				['core', 'shareapi_internal_expire_after_n_days', '7', '3'],
-				['core', 'shareapi_default_internal_expire_date', 'no', 'yes'],
-			]);
+		if ($shareType === IShare::TYPE_USER) {
+			$this->config->method('getAppValue')
+				->willReturnMap([
+					['core', 'shareapi_enforce_internal_expire_date', 'no', 'yes'],
+					['core', 'shareapi_internal_expire_after_n_days', '7', '3'],
+					['core', 'shareapi_default_internal_expire_date', 'no', 'yes'],
+				]);
+		} else {
+			$this->config->method('getAppValue')
+				->willReturnMap([
+					['core', 'shareapi_enforce_remote_expire_date', 'no', 'yes'],
+					['core', 'shareapi_remote_expire_after_n_days', '7', '3'],
+					['core', 'shareapi_default_remote_expire_date', 'no', 'yes'],
+				]);
+		}
 
 		$hookListener = $this->getMockBuilder('Dummy')->setMethods(['listener'])->getMock();
 		\OCP\Util::connectHook('\OC\Share', 'verifyExpirationDate', $hookListener, 'listener');
@@ -907,7 +1000,10 @@ class ManagerTest extends \Test\TestCase {
 		$this->assertEquals($expected, $share->getExpirationDate());
 	}
 
-	public function testValidateExpirationDateInternalNoDefault() {
+	/**
+	 * @dataProvider validateExpirationDateInternalProvider
+	 */
+	public function testValidateExpirationDateInternalNoDefault($shareType) {
 		$date = new \DateTime();
 		$date->add(new \DateInterval('P5D'));
 		$date->setTime(1,2,3);
@@ -916,6 +1012,7 @@ class ManagerTest extends \Test\TestCase {
 		$expected->setTime(0,0,0);
 
 		$share = $this->manager->newShare();
+		$share->setShareType($shareType);
 		$share->setExpirationDate($date);
 
 		$hookListener = $this->getMockBuilder('Dummy')->setMethods(['listener'])->getMock();
@@ -929,7 +1026,10 @@ class ManagerTest extends \Test\TestCase {
 		$this->assertEquals($expected, $share->getExpirationDate());
 	}
 
-	public function testValidateExpirationDateInternalNoDateNoDefault() {
+	/**
+	 * @dataProvider validateExpirationDateInternalProvider
+	 */
+	public function testValidateExpirationDateInternalNoDateNoDefault($shareType) {
 		$hookListener = $this->getMockBuilder('Dummy')->setMethods(['listener'])->getMock();
 		\OCP\Util::connectHook('\OC\Share', 'verifyExpirationDate', $hookListener, 'listener');
 		$hookListener->expects($this->once())->method('listener')->with($this->callback(function ($data) {
@@ -937,6 +1037,7 @@ class ManagerTest extends \Test\TestCase {
 		}));
 
 		$share = $this->manager->newShare();
+		$share->setShareType($shareType);
 		$share->setPassword('password');
 
 		self::invokePrivate($this->manager, 'validateExpirationDateInternal', [$share]);
@@ -944,19 +1045,32 @@ class ManagerTest extends \Test\TestCase {
 		$this->assertNull($share->getExpirationDate());
 	}
 
-	public function testValidateExpirationDateInternalNoDateDefault() {
+	/**
+	 * @dataProvider validateExpirationDateInternalProvider
+	 */
+	public function testValidateExpirationDateInternalNoDateDefault($shareType) {
 		$share = $this->manager->newShare();
+		$share->setShareType($shareType);
 
 		$expected = new \DateTime();
 		$expected->add(new \DateInterval('P3D'));
 		$expected->setTime(0,0,0);
 
-		$this->config->method('getAppValue')
-			->willReturnMap([
-				['core', 'shareapi_default_internal_expire_date', 'no', 'yes'],
-				['core', 'shareapi_internal_expire_after_n_days', '7', '3'],
-				['core', 'internal_defaultExpDays', '3', '3'],
-			]);
+		if ($shareType === IShare::TYPE_USER) {
+			$this->config->method('getAppValue')
+				->willReturnMap([
+					['core', 'shareapi_default_internal_expire_date', 'no', 'yes'],
+					['core', 'shareapi_internal_expire_after_n_days', '7', '3'],
+					['core', 'internal_defaultExpDays', '3', '3'],
+				]);
+		} else {
+			$this->config->method('getAppValue')
+				->willReturnMap([
+					['core', 'shareapi_default_remote_expire_date', 'no', 'yes'],
+					['core', 'shareapi_remote_expire_after_n_days', '7', '3'],
+					['core', 'remote_defaultExpDays', '3', '3'],
+				]);
+		}
 
 		$hookListener = $this->getMockBuilder('Dummy')->setMethods(['listener'])->getMock();
 		\OCP\Util::connectHook('\OC\Share', 'verifyExpirationDate', $hookListener, 'listener');
@@ -969,7 +1083,10 @@ class ManagerTest extends \Test\TestCase {
 		$this->assertEquals($expected, $share->getExpirationDate());
 	}
 
-	public function testValidateExpirationDateInternalDefault() {
+	/**
+	 * @dataProvider validateExpirationDateInternalProvider
+	 */
+	public function testValidateExpirationDateInternalDefault($shareType) {
 		$future = new \DateTime();
 		$future->add(new \DateInterval('P5D'));
 		$future->setTime(1,2,3);
@@ -978,14 +1095,24 @@ class ManagerTest extends \Test\TestCase {
 		$expected->setTime(0,0,0);
 
 		$share = $this->manager->newShare();
+		$share->setShareType($shareType);
 		$share->setExpirationDate($future);
 
-		$this->config->method('getAppValue')
-			->willReturnMap([
-				['core', 'shareapi_default_internal_expire_date', 'no', 'yes'],
-				['core', 'shareapi_internal_expire_after_n_days', '7', '3'],
-				['core', 'internal_defaultExpDays', '3', '1'],
-			]);
+		if ($shareType === IShare::TYPE_USER) {
+			$this->config->method('getAppValue')
+				->willReturnMap([
+					['core', 'shareapi_default_internal_expire_date', 'no', 'yes'],
+					['core', 'shareapi_internal_expire_after_n_days', '7', '3'],
+					['core', 'internal_defaultExpDays', '3', '1'],
+				]);
+		} else {
+			$this->config->method('getAppValue')
+				->willReturnMap([
+					['core', 'shareapi_default_remote_expire_date', 'no', 'yes'],
+					['core', 'shareapi_remote_expire_after_n_days', '7', '3'],
+					['core', 'remote_defaultExpDays', '3', '1'],
+				]);
+		}
 
 		$hookListener = $this->getMockBuilder('Dummy')->setMethods(['listener'])->getMock();
 		\OCP\Util::connectHook('\OC\Share', 'verifyExpirationDate', $hookListener, 'listener');
@@ -998,7 +1125,10 @@ class ManagerTest extends \Test\TestCase {
 		$this->assertEquals($expected, $share->getExpirationDate());
 	}
 
-	public function testValidateExpirationDateInternalHookModification() {
+	/**
+	 * @dataProvider validateExpirationDateInternalProvider
+	 */
+	public function testValidateExpirationDateInternalHookModification($shareType) {
 		$nextWeek = new \DateTime();
 		$nextWeek->add(new \DateInterval('P7D'));
 		$nextWeek->setTime(0,0,0);
@@ -1012,6 +1142,7 @@ class ManagerTest extends \Test\TestCase {
 		});
 
 		$share = $this->manager->newShare();
+		$share->setShareType($shareType);
 		$share->setExpirationDate($nextWeek);
 
 		self::invokePrivate($this->manager, 'validateExpirationDateInternal', [$share]);
@@ -1020,7 +1151,10 @@ class ManagerTest extends \Test\TestCase {
 		$this->assertEquals($save, $share->getExpirationDate());
 	}
 
-	public function testValidateExpirationDateInternalHookException() {
+	/**
+	 * @dataProvider validateExpirationDateInternalProvider
+	 */
+	public function testValidateExpirationDateInternalHookException($shareType) {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('Invalid date!');
 
@@ -1029,6 +1163,7 @@ class ManagerTest extends \Test\TestCase {
 		$nextWeek->setTime(0,0,0);
 
 		$share = $this->manager->newShare();
+		$share->setShareType($shareType);
 		$share->setExpirationDate($nextWeek);
 
 		$hookListener = $this->getMockBuilder('Dummy')->setMethods(['listener'])->getMock();
@@ -1041,16 +1176,27 @@ class ManagerTest extends \Test\TestCase {
 		self::invokePrivate($this->manager, 'validateExpirationDateInternal', [$share]);
 	}
 
-	public function testValidateExpirationDateInternalExistingShareNoDefault() {
+	/**
+	 * @dataProvider validateExpirationDateInternalProvider
+	 */
+	public function testValidateExpirationDateInternalExistingShareNoDefault($shareType) {
 		$share = $this->manager->newShare();
-
+		$share->setShareType($shareType);
 		$share->setId('42')->setProviderId('foo');
 
-		$this->config->method('getAppValue')
-			->willReturnMap([
-				['core', 'shareapi_default_internal_expire_date', 'no', 'yes'],
-				['core', 'shareapi_internal_expire_after_n_days', '7', '6'],
-			]);
+		if ($shareType === IShare::TYPE_USER) {
+			$this->config->method('getAppValue')
+				->willReturnMap([
+					['core', 'shareapi_default_internal_expire_date', 'no', 'yes'],
+					['core', 'shareapi_internal_expire_after_n_days', '7', '6'],
+				]);
+		} else {
+			$this->config->method('getAppValue')
+				->willReturnMap([
+					['core', 'shareapi_default_remote_expire_date', 'no', 'yes'],
+					['core', 'shareapi_remote_expire_after_n_days', '7', '6'],
+				]);
+		}
 
 		self::invokePrivate($this->manager, 'validateExpirationDateInternal', [$share]);
 
@@ -1145,7 +1291,7 @@ class ManagerTest extends \Test\TestCase {
 
 	public function testValidateExpirationDateEnforceTooFarIntoFuture() {
 		$this->expectException(\OCP\Share\Exceptions\GenericShareException::class);
-		$this->expectExceptionMessage('Can’t set expiration date more than 3 days in the future');
+		$this->expectExceptionMessage('Cannot set expiration date more than 3 days in the future');
 
 		$future = new \DateTime();
 		$future->add(new \DateInterval('P7D'));
@@ -1820,7 +1966,7 @@ class ManagerTest extends \Test\TestCase {
 		$data = [];
 
 		// No exclude groups
-		$data[] = ['no', null, null, null, false];
+		$data[] = ['no', null, null, [], false];
 
 		// empty exclude list, user no groups
 		$data[] = ['yes', '', json_encode(['']), [], false];
@@ -2549,7 +2695,8 @@ class ManagerTest extends \Test\TestCase {
 			$this->mailer,
 			$this->urlGenerator,
 			$this->defaults,
-			$this->dispatcher
+			$this->dispatcher,
+			$this->userSession
 		);
 
 		$share = $this->createMock(IShare::class);
@@ -2593,7 +2740,8 @@ class ManagerTest extends \Test\TestCase {
 			$this->mailer,
 			$this->urlGenerator,
 			$this->defaults,
-			$this->dispatcher
+			$this->dispatcher,
+			$this->userSession
 		);
 
 		$share = $this->createMock(IShare::class);
@@ -2644,7 +2792,8 @@ class ManagerTest extends \Test\TestCase {
 			$this->mailer,
 			$this->urlGenerator,
 			$this->defaults,
-			$this->dispatcher
+			$this->dispatcher,
+			$this->userSession
 		);
 
 		$share = $this->createMock(IShare::class);
@@ -2829,7 +2978,7 @@ class ManagerTest extends \Test\TestCase {
 
 	public function testUpdateShareCantChangeShareType() {
 		$this->expectException(\Exception::class);
-		$this->expectExceptionMessage('Can’t change share type');
+		$this->expectExceptionMessage('Cannot change share type');
 
 		$manager = $this->createManagerMock()
 			->setMethods([
@@ -2883,7 +3032,7 @@ class ManagerTest extends \Test\TestCase {
 
 	public function testUpdateShareCantShareWithOwner() {
 		$this->expectException(\Exception::class);
-		$this->expectExceptionMessage('Can’t share with the share owner');
+		$this->expectExceptionMessage('Cannot share with the share owner');
 
 		$manager = $this->createManagerMock()
 			->setMethods([
@@ -3097,7 +3246,7 @@ class ManagerTest extends \Test\TestCase {
 
 	public function testUpdateShareLinkEnableSendPasswordByTalkWithNoPassword() {
 		$this->expectException(\InvalidArgumentException::class);
-		$this->expectExceptionMessage('Can’t enable sending the password by Talk with an empty password');
+		$this->expectExceptionMessage('Cannot enable sending the password by Talk with an empty password');
 
 		$manager = $this->createManagerMock()
 			->setMethods([
@@ -3417,7 +3566,7 @@ class ManagerTest extends \Test\TestCase {
 
 	public function testUpdateShareMailEnableSendPasswordByTalkWithNoPassword() {
 		$this->expectException(\InvalidArgumentException::class);
-		$this->expectExceptionMessage('Can’t enable sending the password by Talk with an empty password');
+		$this->expectExceptionMessage('Cannot enable sending the password by Talk with an empty password');
 
 		$manager = $this->createManagerMock()
 			->setMethods([
@@ -3490,7 +3639,7 @@ class ManagerTest extends \Test\TestCase {
 
 	public function testUpdateShareMailEnableSendPasswordByTalkRemovingPassword() {
 		$this->expectException(\InvalidArgumentException::class);
-		$this->expectExceptionMessage('Can’t enable sending the password by Talk with an empty password');
+		$this->expectExceptionMessage('Cannot enable sending the password by Talk with an empty password');
 
 		$manager = $this->createManagerMock()
 			->setMethods([
@@ -3563,7 +3712,7 @@ class ManagerTest extends \Test\TestCase {
 
 	public function testUpdateShareMailEnableSendPasswordByTalkRemovingPasswordWithEmptyString() {
 		$this->expectException(\InvalidArgumentException::class);
-		$this->expectExceptionMessage('Can’t enable sending the password by Talk with an empty password');
+		$this->expectExceptionMessage('Cannot enable sending the password by Talk with an empty password');
 
 		$manager = $this->createManagerMock()
 			->setMethods([
@@ -3636,7 +3785,7 @@ class ManagerTest extends \Test\TestCase {
 
 	public function testUpdateShareMailEnableSendPasswordByTalkWithPreviousPassword() {
 		$this->expectException(\InvalidArgumentException::class);
-		$this->expectExceptionMessage('Can’t enable sending the password by Talk without setting a new password');
+		$this->expectExceptionMessage('Cannot enable sending the password by Talk without setting a new password');
 
 		$manager = $this->createManagerMock()
 			->setMethods([
@@ -3710,7 +3859,7 @@ class ManagerTest extends \Test\TestCase {
 
 	public function testUpdateShareMailDisableSendPasswordByTalkWithPreviousPassword() {
 		$this->expectException(\InvalidArgumentException::class);
-		$this->expectExceptionMessage('Can’t disable sending the password by Talk without setting a new password');
+		$this->expectExceptionMessage('Cannot disable sending the password by Talk without setting a new password');
 
 		$manager = $this->createManagerMock()
 			->setMethods([
@@ -3784,7 +3933,7 @@ class ManagerTest extends \Test\TestCase {
 
 	public function testUpdateShareMailDisableSendPasswordByTalkWithoutChangingPassword() {
 		$this->expectException(\InvalidArgumentException::class);
-		$this->expectExceptionMessage('Can’t disable sending the password by Talk without setting a new password');
+		$this->expectExceptionMessage('Cannot disable sending the password by Talk without setting a new password');
 
 		$manager = $this->createManagerMock()
 			->setMethods([
@@ -3858,7 +4007,7 @@ class ManagerTest extends \Test\TestCase {
 
 	public function testMoveShareLink() {
 		$this->expectException(\InvalidArgumentException::class);
-		$this->expectExceptionMessage('Can’t change target of link share');
+		$this->expectExceptionMessage('Cannot change target of link share');
 
 		$share = $this->manager->newShare();
 		$share->setShareType(IShare::TYPE_LINK);
@@ -3982,7 +4131,8 @@ class ManagerTest extends \Test\TestCase {
 			$this->mailer,
 			$this->urlGenerator,
 			$this->defaults,
-			$this->dispatcher
+			$this->dispatcher,
+			$this->userSession
 		);
 		$this->assertSame($expected,
 			$manager->shareProviderExists($shareType)
@@ -4015,7 +4165,8 @@ class ManagerTest extends \Test\TestCase {
 			$this->mailer,
 			$this->urlGenerator,
 			$this->defaults,
-			$this->dispatcher
+			$this->dispatcher,
+			$this->userSession
 		);
 
 		$factory->setProvider($this->defaultProvider);
@@ -4079,7 +4230,8 @@ class ManagerTest extends \Test\TestCase {
 			$this->mailer,
 			$this->urlGenerator,
 			$this->defaults,
-			$this->dispatcher
+			$this->dispatcher,
+			$this->userSession
 		);
 
 		$factory->setProvider($this->defaultProvider);
@@ -4195,7 +4347,8 @@ class ManagerTest extends \Test\TestCase {
 			$this->mailer,
 			$this->urlGenerator,
 			$this->defaults,
-			$this->dispatcher
+			$this->dispatcher,
+			$this->userSession
 		);
 
 		$factory->setProvider($this->defaultProvider);
@@ -4320,7 +4473,8 @@ class ManagerTest extends \Test\TestCase {
 			$this->mailer,
 			$this->urlGenerator,
 			$this->defaults,
-			$this->dispatcher
+			$this->dispatcher,
+			$this->userSession
 		);
 
 		$factory->setProvider($this->defaultProvider);

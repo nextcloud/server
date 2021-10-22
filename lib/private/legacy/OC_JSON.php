@@ -27,11 +27,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
-/**
- * Class OC_JSON
- * @deprecated Use a AppFramework JSONResponse instead
- */
 class OC_JSON {
 
 	/**

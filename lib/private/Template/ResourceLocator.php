@@ -5,7 +5,7 @@
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
@@ -27,7 +27,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Template;
 
 abstract class ResourceLocator {
@@ -103,7 +102,7 @@ abstract class ResourceLocator {
 	 * @return bool True if the resource was found, false otherwise
 	 */
 	protected function appendIfExist($root, $file, $webRoot = null) {
-		if (is_file($root.'/'.$file)) {
+		if ($root !== false && is_file($root.'/'.$file)) {
 			$this->append($root, $file, $webRoot, false);
 			return true;
 		}

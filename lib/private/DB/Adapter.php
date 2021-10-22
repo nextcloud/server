@@ -10,7 +10,6 @@
  * @author Ole Ostergaard <ole.c.ostergaard@gmail.com>
  * @author Ole Ostergaard <ole.ostergaard@knime.com>
  * @author Robin Appelman <robin@icewind.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @license AGPL-3.0
  *
@@ -27,7 +26,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\DB;
 
 use Doctrine\DBAL\Exception;

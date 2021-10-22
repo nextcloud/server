@@ -159,7 +159,7 @@ OCA.Files_External.StatusManager = {
 				},
 				error: function (jqxhr, state, error) {
 					self.mountPointList = [];
-					OC.Notification.show(t('files_external', 'Couldn\'t get the list of external mount points: {type}', 
+					OC.Notification.show(t('files_external', 'Couldn\'t get the list of external mount points: {type}',
 						{type: error}), {type: 'error'}
 					);
 				},
@@ -271,7 +271,7 @@ OCA.Files_External.StatusManager = {
 			// check if we have a list first
 			if (list === undefined && !self.emptyWarningShown) {
 				self.emptyWarningShown = true;
-				OC.Notification.show(t('files_external', 'Couldn\'t fetch list of Windows network drive mount points: Empty response from server'), 
+				OC.Notification.show(t('files_external', 'Couldn\'t fetch list of Windows network drive mount points: Empty response from server'),
 					{type: 'error'}
 				);
 				return;

@@ -26,18 +26,26 @@ declare(strict_types=1);
 
 namespace lib\Authentication\TwoFactorAuth;
 
+use OC\AppFramework\Bootstrap\Coordinator;
+use OC\AppFramework\Bootstrap\RegistrationContext;
+use OC\AppFramework\Bootstrap\ServiceRegistration;
 use OC\Authentication\TwoFactorAuth\ProviderLoader;
 use OCP\App\IAppManager;
 use OCP\Authentication\TwoFactorAuth\IProvider;
+use OCP\IUser;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class ProviderLoaderTest extends TestCase {
 
-	/** @var IAppManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IAppManager|MockObject */
 	private $appManager;
 
-	/** @var \OCP\IUser|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IUser|MockObject */
 	private $user;
+
+	/** @var RegistrationContext|MockObject */
+	private $registrationContext;
 
 	/** @var ProviderLoader */
 	private $loader;
@@ -46,9 +54,14 @@ class ProviderLoaderTest extends TestCase {
 		parent::setUp();
 
 		$this->appManager = $this->createMock(IAppManager::class);
-		$this->user = $this->createMock(\OCP\IUser::class);
+		$this->user = $this->createMock(IUser::class);
 
-		$this->loader = new ProviderLoader($this->appManager);
+		$this->registrationContext = $this->createMock(RegistrationContext::class);
+		$coordinator = $this->createMock(Coordinator::class);
+		$coordinator->method('getRegistrationContext')
+			->willReturn($this->registrationContext);
+
+		$this->loader = new ProviderLoader($this->appManager, $coordinator);
 	}
 
 
@@ -90,6 +103,31 @@ class ProviderLoaderTest extends TestCase {
 			->willReturn(['two-factor-providers' => [
 				'\\OCA\\TwoFactorTest\\Provider',
 			]]);
+
+		$providers = $this->loader->getProviders($this->user);
+
+		$this->assertCount(1, $providers);
+		$this->assertArrayHasKey('test', $providers);
+		$this->assertSame($provider, $providers['test']);
+	}
+
+	public function testGetProvidersBootstrap() {
+		$provider = $this->createMock(IProvider::class);
+		$provider->method('getId')->willReturn('test');
+
+		\OC::$server->registerService('\\OCA\\TwoFactorTest\\Provider', function () use ($provider) {
+			return $provider;
+		});
+
+		$this->appManager->expects($this->once())
+			->method('getEnabledAppsForUser')
+			->with($this->user)
+			->willReturn([]);
+
+		$this->registrationContext->method('getTwoFactorProviders')
+			->willReturn([
+				new ServiceRegistration('twofactor_test', '\\OCA\\TwoFactorTest\\Provider')
+			]);
 
 		$providers = $this->loader->getProviders($this->user);
 

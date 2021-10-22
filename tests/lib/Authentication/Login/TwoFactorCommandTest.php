@@ -23,7 +23,7 @@
 
 declare(strict_types=1);
 
-namespace lib\Authentication\Login;
+namespace Test\Authentication\Login;
 
 use OC\Authentication\Login\TwoFactorCommand;
 use OC\Authentication\TwoFactorAuth\Manager;

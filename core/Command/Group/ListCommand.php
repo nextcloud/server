@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2016 Robin Appelman <robin@icewind.nl>
  *
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Johannes Leuker <j.leuker@hosting.de>
  * @author Robin Appelman <robin@icewind.nl>
  *
  * @license GNU AGPL version 3 or any later version
@@ -14,14 +15,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Core\Command\Group;
 
 use OC\Core\Command\Base;
@@ -52,13 +52,13 @@ class ListCommand extends Base {
 				'l',
 				InputOption::VALUE_OPTIONAL,
 				'Number of groups to retrieve',
-				500
+				'500'
 			)->addOption(
 				'offset',
 				'o',
 				InputOption::VALUE_OPTIONAL,
 				'Offset for retrieving groups',
-				0
+				'0'
 			)->addOption(
 				'info',
 				'i',

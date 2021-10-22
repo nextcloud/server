@@ -22,7 +22,10 @@ RUN apt-get install --no-install-recommends -y \
     libmagickcore-6.q16-3-extra \
     curl \
     vim \
-    lsof
+    lsof \
+    make \
+    nodejs \
+    npm
 
 RUN echo "xdebug.remote_enable = 1" >> /etc/php/7.4/cli/conf.d/20-xdebug.ini
 RUN echo "xdebug.remote_autostart = 1" >> /etc/php/7.4/cli/conf.d/20-xdebug.ini
