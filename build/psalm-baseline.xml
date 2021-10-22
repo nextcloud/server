@@ -1366,12 +1366,6 @@
       <code>clearBucket</code>
     </UndefinedMagicMethod>
   </file>
-  <file src="apps/files_external/lib/Lib/Storage/FtpConnection.php">
-    <UndefinedConstant occurrences="2">
-      <code>FTP_BINARY</code>
-      <code>FTP_BINARY</code>
-    </UndefinedConstant>
-  </file>
   <file src="apps/files_external/lib/Lib/Storage/SFTP.php">
     <InternalMethod occurrences="1">
       <code>put</code>
@@ -2495,9 +2489,6 @@
     <InvalidScalarArgument occurrences="1">
       <code>$levelNum</code>
     </InvalidScalarArgument>
-    <TypeDoesNotContainType occurrences="1">
-      <code>$identifier === false</code>
-    </TypeDoesNotContainType>
   </file>
   <file src="core/Command/Maintenance/DataFingerprint.php">
     <InvalidScalarArgument occurrences="1">
@@ -2864,11 +2855,8 @@
     </MoreSpecificImplementedParamType>
   </file>
   <file src="lib/private/AppFramework/Utility/SimpleContainer.php">
-    <UndefinedMethod occurrences="4">
+    <UndefinedMethod occurrences="1">
       <code>getName</code>
-      <code>isBuiltin</code>
-      <code>isBuiltin</code>
-      <code>isBuiltin</code>
     </UndefinedMethod>
   </file>
   <file src="lib/private/Archive/TAR.php">
