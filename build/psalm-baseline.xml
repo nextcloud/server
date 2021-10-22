@@ -4024,7 +4024,7 @@
     </NoInterfaceProperties>
   </file>
   <file src="lib/private/Files/Storage/Wrapper/Availability.php">
-    <InvalidNullableReturnType occurrences="34">
+    <InvalidNullableReturnType occurrences="33">
       <code>copy</code>
       <code>copyFromStorage</code>
       <code>file_exists</code>
@@ -4041,7 +4041,6 @@
       <code>getMimeType</code>
       <code>getOwner</code>
       <code>getPermissions</code>
-      <code>hasUpdated</code>
       <code>hash</code>
       <code>isCreatable</code>
       <code>isDeletable</code>
