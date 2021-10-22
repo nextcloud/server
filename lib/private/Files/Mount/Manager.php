@@ -88,7 +88,7 @@ class Manager implements IMountManager {
 	 * @return MountPoint|null
 	 */
 	public function find(string $path) {
-		\OC_Util::setupFS();
+		\OC_Util::setupFS(null);
 		$path = Filesystem::normalizePath($path);
 
 		if (isset($this->pathCache[$path])) {
@@ -121,7 +121,7 @@ class Manager implements IMountManager {
 	 * @return MountPoint[]
 	 */
 	public function findIn(string $path): array {
-		\OC_Util::setupFS();
+		\OC_Util::setupFS(null);
 		$path = $this->formatPath($path);
 
 		if (isset($this->inPathCache[$path])) {
