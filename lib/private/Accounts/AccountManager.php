@@ -473,15 +473,16 @@ class AccountManager implements IAccountManager {
 	 * Make sure that all expected data are set
 	 */
 	protected function addMissingDefaultValues(array $userData, array $defaultUserData): array {
-		foreach ($defaultUserData as $i => $value) {
-			// If property doesn't exists, initialize it
-			if (!array_key_exists($i, $userData)) {
-				$userData[$i] = [];
+		foreach ($defaultUserData as $defaultDataItem) {
+			// If property does not exist, initialize it
+			$userDataIndex = array_search($defaultDataItem['name'], array_column($userData, 'name'));
+			if ($userDataIndex === false) {
+				$userData[] = $defaultDataItem;
+				continue;
 			}
 
 			// Merge and extend default missing values
-			$defaultValueIndex = array_search($value['name'], array_column($defaultUserData, 'name'));
-			$userData[$i] = array_merge($defaultUserData[$defaultValueIndex], $userData[$i]);
+			$userData[$userDataIndex] = array_merge($defaultDataItem, $userData[$userDataIndex]);
 		}
 
 		return $userData;
