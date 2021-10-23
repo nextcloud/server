@@ -1,6 +1,7 @@
 OC.L10N.register(
     "provisioning_api",
     {
+    "Logged in user must be an administrator or have authorization to edit this setting." : "Saioa hasitako erabiltzailea administratzailea edo ezarpen hau editatzeko baimena duena izan behar da.",
     "Email confirmation" : "Posta elektronikoaren berrespena",
     "To enable the email address %s please click the button below." : "%shelbide elektronikoa gaitzeko, egin klik beheko botoian.",
     "Confirm" : "Berretsi",

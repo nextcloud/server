@@ -27,7 +27,7 @@
     "The following architectures are supported: %s" : "支援下列架構：%s",
     "The following databases are supported: %s" : "支援下列數據庫：%s",
     "The command line tool %s could not be found" : "找不到命令列工具指令 %s",
-    "The library %s is not available." : "套件庫 %s 無法使用",
+    "The library %s is not available." : "套件庫 %s 無法使用。",
     "Library %1$s with a version higher than %2$s is required - available version %3$s." : "需要使用 %2$s 版以上的 %1$s 函式庫，目前可用的版本是 %3$s",
     "Library %1$s with a version lower than %2$s is required - available version %3$s." : "需要使用 %2$s 版以下的 %1$s 函式庫，目前可用的版本是 %3$s",
     "The following platforms are supported: %s" : "支援下列平台：%s",
