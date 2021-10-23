@@ -63,6 +63,7 @@ use OCP\Authentication\IAlternativeLogin;
 use OCP\ILogger;
 use OCP\Settings\IManager as ISettingsManager;
 use Psr\Log\LoggerInterface;
+use Throwable;
 
 /**
  * This class manages the apps. It allows them to register and integrate in the
