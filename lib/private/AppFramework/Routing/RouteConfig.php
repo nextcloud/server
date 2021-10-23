@@ -130,7 +130,7 @@ class RouteConfig {
 
 		$split = explode('#', $name, 2);
 		if (count($split) !== 2) {
-			throw new \UnexpectedValueException('Invalid route name');
+			throw new \UnexpectedValueException('Invalid route name: use the format foo#bar to reference FooController::bar');
 		}
 		[$controller, $action] = $split;
 
