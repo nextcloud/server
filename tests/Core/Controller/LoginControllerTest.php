@@ -33,12 +33,14 @@ use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Defaults;
 use OCP\IConfig;
 use OCP\IInitialStateService;
+use OCP\IL10N;
 use OCP\ILogger;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\Notification\IManager;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
@@ -86,6 +88,12 @@ class LoginControllerTest extends TestCase {
 	/** @var \OC\Authentication\WebAuthn\Manager|MockObject */
 	private $webAuthnManager;
 
+	/** @var IManager|MockObject */
+	private $notificationManager;
+
+	/** @var IL10N|MockObject */
+	private $l;
+
 	protected function setUp(): void {
 		parent::setUp();
 		$this->request = $this->createMock(IRequest::class);
@@ -101,6 +109,13 @@ class LoginControllerTest extends TestCase {
 		$this->chain = $this->createMock(LoginChain::class);
 		$this->initialStateService = $this->createMock(IInitialStateService::class);
 		$this->webAuthnManager = $this->createMock(\OC\Authentication\WebAuthn\Manager::class);
+		$this->notificationManager = $this->createMock(IManager::class);
+		$this->l = $this->createMock(IL10N::class);
+		$this->l->expects($this->any())
+			->method('t')
+			->willReturnCallback(function ($text, $parameters = []) {
+				return vsprintf($text, $parameters);
+			});
 
 
 		$this->request->method('getRemoteAddress')
@@ -124,7 +139,9 @@ class LoginControllerTest extends TestCase {
 			$this->throttler,
 			$this->chain,
 			$this->initialStateService,
-			$this->webAuthnManager
+			$this->webAuthnManager,
+			$this->notificationManager,
+			$this->l
 		);
 	}
 
@@ -249,6 +266,7 @@ class LoginControllerTest extends TestCase {
 				[
 					'MessageArray1',
 					'MessageArray2',
+					'This community release of Nextcloud is unsupported and instant notifications are unavailable.',
 				]
 			);
 		$this->initialStateService->expects($this->at(1))
@@ -278,7 +296,7 @@ class LoginControllerTest extends TestCase {
 			->expects($this->once())
 			->method('isLoggedIn')
 			->willReturn(false);
-		$this->initialStateService->expects($this->at(2))
+		$this->initialStateService->expects($this->at(4))
 			->method('provideInitialState')
 			->with(
 				'core',
@@ -339,14 +357,14 @@ class LoginControllerTest extends TestCase {
 			->method('get')
 			->with('LdapUser')
 			->willReturn($user);
-		$this->initialStateService->expects($this->at(0))
+		$this->initialStateService->expects($this->at(2))
 			->method('provideInitialState')
 			->with(
 				'core',
 				'loginUsername',
 				'LdapUser'
 			);
-		$this->initialStateService->expects($this->at(4))
+		$this->initialStateService->expects($this->at(6))
 			->method('provideInitialState')
 			->with(
 				'core',
@@ -386,21 +404,21 @@ class LoginControllerTest extends TestCase {
 			->method('get')
 			->with('0')
 			->willReturn($user);
-		$this->initialStateService->expects($this->at(1))
+		$this->initialStateService->expects($this->at(3))
 			->method('provideInitialState')
 			->with(
 				'core',
 				'loginAutocomplete',
 				true
 			);
-		$this->initialStateService->expects($this->at(3))
+		$this->initialStateService->expects($this->at(5))
 			->method('provideInitialState')
 			->with(
 				'core',
 				'loginResetPasswordLink',
 				false
 			);
-		$this->initialStateService->expects($this->at(4))
+		$this->initialStateService->expects($this->at(6))
 			->method('provideInitialState')
 			->with(
 				'core',
