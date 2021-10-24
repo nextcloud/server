@@ -64,6 +64,12 @@ class SetupController {
 		}
 
 		if (isset($post['install']) and $post['install'] == 'true') {
+			// autoconfig.php by itself...
+			$autoConfig = $this->loadAutoConfig([]);
+
+			// ... already contains all setup parameters.
+			$autoConfigIsComplete = isset($autoConfig['install']) and $autoConfig['install'] == 'true';
+
 			// We have to launch the installation process :
 			$e = $this->setupHelper->install($post);
 			$errors = ['errors' => $e];
@@ -72,6 +78,14 @@ class SetupController {
 				$options = array_merge($opts, $post, $errors);
 				$this->display($options);
 			} else {
+				if ($autoConfigIsComplete) {
+					// Everything was done automatically, POSTed data (if any) had no effect.
+					// So the owner doesn't expect to have to visit the site first (ASAP).
+
+					// For the case the client isn't the owner, prevent auto-login (as admin).
+					header_remove('Set-Cookie');
+				}
+
 				$this->finishSetup();
 			}
 		} else {
