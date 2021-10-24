@@ -149,6 +149,8 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Skontaktuj się bezpośrednio z orgnizatorem.",
     "Are you accepting the invitation?" : "Czy akceptujesz zaproszenie?",
     "Tentative" : "Niepewne",
+    "Number of guests" : "Liczba gości",
+    "Comment" : "Komentarz",
     "Your attendance was updated successfully." : "Twoja obecność została pomyślnie zaktualizowana.",
     "Calendar and tasks" : "Kalendarz i zadania"
 },
