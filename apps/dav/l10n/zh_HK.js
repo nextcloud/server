@@ -149,6 +149,8 @@ OC.L10N.register(
     "Please contact the organizer directly." : "請直接聯繫絡主辦人",
     "Are you accepting the invitation?" : "接受邀請嗎？",
     "Tentative" : "暫定",
+    "Number of guests" : "訪客数目",
+    "Comment" : "留言",
     "Your attendance was updated successfully." : "您的參與狀況成功更新",
     "Calendar and tasks" : "日曆和任務"
 },

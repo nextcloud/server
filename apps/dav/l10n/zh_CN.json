@@ -147,6 +147,8 @@
     "Please contact the organizer directly." : "请直接联系组织者。",
     "Are you accepting the invitation?" : "您是否接受邀请？",
     "Tentative" : "暂定",
+    "Number of guests" : "客人数目",
+    "Comment" : "备注",
     "Your attendance was updated successfully." : "您的出席状态更新成功。",
     "Calendar and tasks" : "日历和任务"
 },"pluralForm" :"nplurals=1; plural=0;"
