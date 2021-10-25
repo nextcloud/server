@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.8.1@f73f2299dbc59a3e6c4d66cff4605176e728ee69">
+<files psalm-version="3.15@de6e7f324f44dde540ebe7ebd4eb481b97c86f30">
   <file src="3rdparty/sabre/dav/lib/CalDAV/Calendar.php">
     <MoreSpecificImplementedParamType occurrences="1">
       <code>$calendarData</code>
@@ -1363,9 +1363,8 @@
     <InvalidArgument occurrences="1">
       <code>$object-&gt;lastModified</code>
     </InvalidArgument>
-    <InvalidNullableReturnType occurrences="2">
+    <InvalidNullableReturnType occurrences="1">
       <code>filetype</code>
-      <code>fopen</code>
     </InvalidNullableReturnType>
   </file>
   <file src="apps/files_external/lib/Migration/DummyUserSession.php">
