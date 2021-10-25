@@ -37,6 +37,7 @@ use OCA\UserStatus\Service\PredefinedStatusService;
 use OCA\UserStatus\Service\StatusService;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\IConfig;
 use OCP\UserStatus\IUserStatus;
 use Test\TestCase;
 
@@ -54,6 +55,9 @@ class StatusServiceTest extends TestCase {
 	/** @var EmojiService|\PHPUnit\Framework\MockObject\MockObject */
 	private $emojiService;
 
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
+	private $config;
+
 	/** @var StatusService */
 	private $service;
 
@@ -64,10 +68,20 @@ class StatusServiceTest extends TestCase {
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->predefinedStatusService = $this->createMock(PredefinedStatusService::class);
 		$this->emojiService = $this->createMock(EmojiService::class);
+
+		$this->config = $this->createMock(IConfig::class);
+
+		$this->config->method('getAppValue')
+			->willReturnMap([
+				['core', 'shareapi_allow_share_dialog_user_enumeration', 'yes', 'yes'],
+				['core', 'shareapi_restrict_user_enumeration_to_group', 'no', 'no']
+			]);
+
 		$this->service = new StatusService($this->mapper,
 			$this->timeFactory,
 			$this->predefinedStatusService,
-			$this->emojiService);
+			$this->emojiService,
+			$this->config);
 	}
 
 	public function testFindAll(): void {
@@ -98,6 +112,49 @@ class StatusServiceTest extends TestCase {
 			$status1,
 			$status2,
 		], $this->service->findAllRecentStatusChanges(20, 50));
+	}
+
+	public function testFindAllRecentStatusChangesNoEnumeration(): void {
+		$status1 = $this->createMock(UserStatus::class);
+		$status2 = $this->createMock(UserStatus::class);
+
+		$this->mapper->method('findAllRecent')
+			->with(20, 50)
+			->willReturn([$status1, $status2]);
+
+		// Rebuild $this->service with user enumeration turned off
+		$this->config = $this->createMock(IConfig::class);
+
+		$this->config->method('getAppValue')
+			->willReturnMap([
+				['core', 'shareapi_allow_share_dialog_user_enumeration', 'yes', 'no'],
+				['core', 'shareapi_restrict_user_enumeration_to_group', 'no', 'no']
+			]);
+
+		$this->service = new StatusService($this->mapper,
+			$this->timeFactory,
+			$this->predefinedStatusService,
+			$this->emojiService,
+			$this->config);
+
+		$this->assertEquals([], $this->service->findAllRecentStatusChanges(20, 50));
+
+		// Rebuild $this->service with user enumeration limited to common groups
+		$this->config = $this->createMock(IConfig::class);
+
+		$this->config->method('getAppValue')
+			->willReturnMap([
+				['core', 'shareapi_allow_share_dialog_user_enumeration', 'yes', 'yes'],
+				['core', 'shareapi_restrict_user_enumeration_to_group', 'no', 'yes']
+			]);
+
+		$this->service = new StatusService($this->mapper,
+			$this->timeFactory,
+			$this->predefinedStatusService,
+			$this->emojiService,
+			$this->config);
+
+		$this->assertEquals([], $this->service->findAllRecentStatusChanges(20, 50));
 	}
 
 	public function testFindByUserId(): void {
