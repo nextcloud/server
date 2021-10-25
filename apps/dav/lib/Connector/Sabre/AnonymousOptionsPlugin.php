@@ -62,7 +62,7 @@ class AnonymousOptionsPlugin extends ServerPlugin {
 	 * @return bool
 	 */
 	public function handleAnonymousOptions(RequestInterface $request, ResponseInterface $response) {
-		$isOffice = preg_match('/Microsoft Office/i', $request->getHeader('User-Agent'));
+		$isOffice = preg_match('/Microsoft Office/i', $request->getHeader('User-Agent') ?? '');
 		$emptyAuth = $request->getHeader('Authorization') === null
 			|| $request->getHeader('Authorization') === ''
 			|| trim($request->getHeader('Authorization')) === 'Bearer';
