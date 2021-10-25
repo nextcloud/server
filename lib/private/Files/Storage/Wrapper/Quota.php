@@ -94,7 +94,7 @@ class Quota extends Wrapper {
 	 * Get free space as limited by the quota
 	 *
 	 * @param string $path
-	 * @return int
+	 * @return int|bool
 	 */
 	public function free_space($path) {
 		if ($this->quota < 0 || strpos($path, 'cache') === 0 || strpos($path, 'uploads') === 0) {
@@ -154,7 +154,7 @@ class Quota extends Wrapper {
 	 *
 	 * @param string $path
 	 * @param string $mode
-	 * @return resource
+	 * @return resource|bool
 	 */
 	public function fopen($path, $mode) {
 		$source = $this->storage->fopen($path, $mode);
@@ -162,7 +162,7 @@ class Quota extends Wrapper {
 		// don't apply quota for part files
 		if (!$this->isPartFile($path)) {
 			$free = $this->free_space($path);
-			if ($source && $free >= 0 && $mode !== 'r' && $mode !== 'rb') {
+			if ($source && is_int($free) && $free >= 0 && $mode !== 'r' && $mode !== 'rb') {
 				// only apply quota for files, not metadata, trash or others
 				if ($this->shouldApplyQuota($path)) {
 					return \OC\Files\Stream\Quota::wrap($source, $free);
