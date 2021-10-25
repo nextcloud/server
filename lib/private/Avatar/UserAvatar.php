@@ -122,7 +122,7 @@ class UserAvatar extends Avatar {
 	/**
 	 * Returns an image from several sources.
 	 *
-	 * @param IImage|resource|string $data An image object, imagedata or path to the avatar
+	 * @param IImage|resource|string|\GdImage $data An image object, imagedata or path to the avatar
 	 * @return IImage
 	 */
 	private function getAvatarImage($data) {
@@ -131,7 +131,10 @@ class UserAvatar extends Avatar {
 		}
 
 		$img = new OC_Image();
-		if (is_resource($data) && get_resource_type($data) === 'gd') {
+		if (
+			(is_resource($data) && get_resource_type($data) === 'gd') ||
+			(is_object($data) && get_class($data) === \GdImage::class)
+			) {
 			$img->setResource($data);
 		} elseif (is_resource($data)) {
 			$img->loadFromFileHandle($data);
