@@ -283,11 +283,12 @@ class AvatarController extends Controller {
 		$image = new \OC_Image();
 		$image->loadFromData($tmpAvatar);
 
-		$resp = new DataDisplayResponse($image->data(),
+		$resp = new DataDisplayResponse(
+				$image->data() ?? '',
 				Http::STATUS_OK,
 				['Content-Type' => $image->mimeType()]);
 
-		$resp->setETag((string)crc32($image->data()));
+		$resp->setETag((string)crc32($image->data() ?? ''));
 		$resp->cacheFor(0);
 		$resp->setLastModified(new \DateTime('now', new \DateTimeZone('GMT')));
 		return $resp;
