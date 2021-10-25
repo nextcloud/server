@@ -56,6 +56,8 @@ class GuestAvatarControllerTest extends \Test\TestCase {
 		$this->avatar = $this->getMockBuilder(IAvatar::class)->getMock();
 		$this->avatarManager = $this->getMockBuilder(IAvatarManager::class)->getMock();
 		$this->file = $this->getMockBuilder(ISimpleFile::class)->getMock();
+		$this->file->method('getName')->willReturn('my name');
+		$this->file->method('getMTime')->willReturn(42);
 		$this->guestAvatarController = new GuestAvatarController(
 			'core',
 			$this->request,

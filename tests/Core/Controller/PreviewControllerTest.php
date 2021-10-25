@@ -212,6 +212,8 @@ class PreviewControllerTest extends \Test\TestCase {
 			->willReturn(true);
 
 		$preview = $this->createMock(ISimpleFile::class);
+		$preview->method('getName')->willReturn('my name');
+		$preview->method('getMTime')->willReturn(42);
 		$this->previewManager->method('getPreview')
 			->with($this->equalTo($file), 10, 10, false, $this->equalTo('myMode'))
 			->willReturn($preview);

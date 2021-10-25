@@ -68,9 +68,14 @@ class RepairTest extends TestCase {
 		$this->output->expects($this->any())
 			->method('section')
 			->willReturn($this->output);
+
+		/* We need format method to return a string */
+		$outputFormatter = $this->createMock(OutputFormatterInterface::class);
+		$outputFormatter->method('format')->willReturnArgument(0);
+
 		$this->output->expects($this->any())
 			->method('getFormatter')
-			->willReturn($this->getMockBuilder(OutputFormatterInterface::class)->getMock());
+			->willReturn($outputFormatter);
 		$this->output->expects($this->any())
 			->method('writeln')
 			->willReturnCallback(function ($line) use ($self) {
