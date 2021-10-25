@@ -149,6 +149,8 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Mesedez jarri harremanetan antolatzailearekin zuzenean.",
     "Are you accepting the invitation?" : "Gonbidapena onartzen duzu?",
     "Tentative" : "Behin behinekoa",
+    "Number of guests" : "Gonbidatu kopurua",
+    "Comment" : "Iruzkindu",
     "Your attendance was updated successfully." : "Zure parte-hartzea ondo eguneratu da.",
     "Calendar and tasks" : "Egutegia eta atazak"
 },
