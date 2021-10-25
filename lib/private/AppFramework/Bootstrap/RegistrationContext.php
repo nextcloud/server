@@ -63,7 +63,7 @@ class RegistrationContext {
 	private $dashboardPanels = [];
 
 	/** @var ServiceRegistration<ILinkAction>[] */
-	private $profileActions = [];
+	private $profileLinkActions = [];
 
 	/** @var ServiceFactoryRegistration[] */
 	private $services = [];
@@ -253,8 +253,8 @@ class RegistrationContext {
 				);
 			}
 
-			public function registerProfileAction(string $actionClass): void {
-				$this->context->registerProfileAction(
+			public function registerProfileLinkAction(string $actionClass): void {
+				$this->context->registerProfileLinkAction(
 					$this->appId,
 					$actionClass
 				);
@@ -343,10 +343,10 @@ class RegistrationContext {
 	}
 
 	/**
-	 * @psalm-param class-string<ILinkAction> $capability
+	 * @psalm-param class-string<ILinkAction> $actionClass
 	 */
-	public function registerProfileAction(string $appId, string $actionClass): void {
-		$this->profileActions[] = new ServiceRegistration($appId, $actionClass);
+	public function registerProfileLinkAction(string $appId, string $actionClass): void {
+		$this->profileLinkActions[] = new ServiceRegistration($appId, $actionClass);
 	}
 
 	/**
@@ -597,7 +597,7 @@ class RegistrationContext {
 	/**
 	 * @return ServiceRegistration<ILinkAction>[]
 	 */
-	public function getProfileActions(): array {
-		return $this->profileActions;
+	public function getProfileLinkActions(): array {
+		return $this->profileLinkActions;
 	}
 }

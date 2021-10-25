@@ -255,12 +255,12 @@ interface IRegistrationContext {
 
 	/**
 	 * Register an implementation of \OCP\Profile\ILinkAction that
-	 * will handle the implementation of a profile action
+	 * will handle the implementation of a profile link action
 	 *
 	 * @param string $actionClass
 	 * @psalm-param class-string<\OCP\Profile\ILinkAction> $actionClass
 	 * @return void
 	 * @since 23.0.0
 	 */
-	public function registerProfileAction(string $actionClass): void;
+	public function registerProfileLinkAction(string $actionClass): void;
 }
