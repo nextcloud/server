@@ -56,6 +56,7 @@
     "escape-html": "^1.0.3",
     "handlebars": "^4.7.7",
     "ical.js": "^1.4.0",
+    "icalzone": "^0.0.1",
     "jquery": "~3.3",
     "jquery-migrate": "~3.3",
     "jquery-ui": "^1.13.0",
