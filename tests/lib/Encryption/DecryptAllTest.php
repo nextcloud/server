@@ -81,8 +81,12 @@ class DecryptAllTest extends TestCase {
 		$this->userInterface = $this->getMockBuilder(UserInterface::class)
 			->disableOriginalConstructor()->getMock();
 
+		/* We need format method to return a string */
+		$outputFormatter = $this->createMock(OutputFormatterInterface::class);
+		$outputFormatter->method('format')->willReturn('foo');
+
 		$this->outputInterface->expects($this->any())->method('getFormatter')
-			->willReturn($this->createMock(OutputFormatterInterface::class));
+			->willReturn($outputFormatter);
 
 		$this->instance = new DecryptAll($this->encryptionManager, $this->userManager, $this->view);
 
@@ -298,10 +302,15 @@ class DecryptAllTest extends TestCase {
 			->method('decryptFile')
 			->with('/user1/files/foo/subfile');
 
+
+		/* We need format method to return a string */
+		$outputFormatter = $this->createMock(OutputFormatterInterface::class);
+		$outputFormatter->method('format')->willReturn('foo');
+
 		$output = $this->createMock(OutputInterface::class);
 		$output->expects($this->any())
 			->method('getFormatter')
-			->willReturn($this->createMock(OutputFormatterInterface::class));
+			->willReturn($outputFormatter);
 		$progressBar = new ProgressBar($output);
 
 		$this->invokePrivate($instance, 'decryptUsersFiles', ['user1', $progressBar, '']);
