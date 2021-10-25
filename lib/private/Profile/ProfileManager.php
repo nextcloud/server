@@ -74,6 +74,9 @@ class ProfileManager {
 	/** @var ILinkAction[] */
 	private $actions = [];
 
+	/** @var null|ILinkAction[] */
+	private $sortedActions = null;
+
 	/**
 	 * Array of account property actions
 	 */
@@ -157,21 +160,25 @@ class ProfileManager {
 	 * @return ILinkAction[]
 	 */
 	private function getActions(IUser $targetUser, ?IUser $visitingUser): array {
-		$context = $this->coordinator->getRegistrationContext();
-		if ($context === null) {
-			return [];
+		// If actions are already registered and sorted, return them
+		if ($this->sortedActions !== null) {
+			return $this->sortedActions;
 		}
 
 		foreach (self::ACCOUNT_PROPERTY_ACTIONS as $actionClass) {
-			/** @var ILinkAction $provider */
-			$provider = $this->container->get($actionClass);
-			$this->registerAction($targetUser, $visitingUser, $provider);
+			/** @var ILinkAction $action */
+			$action = $this->container->get($actionClass);
+			$this->registerAction($targetUser, $visitingUser, $action);
 		}
 
-		foreach ($context->getProfileLinkActions() as $registration) {
-			/** @var ILinkAction $provider */
-			$provider = $this->container->get($registration->getService());
-			$this->registerAction($targetUser, $visitingUser, $provider);
+		$context = $this->coordinator->getRegistrationContext();
+
+		if ($context !== null) {
+			foreach ($context->getProfileLinkActions() as $registration) {
+				/** @var ILinkAction $action */
+				$action = $this->container->get($registration->getService());
+				$this->registerAction($targetUser, $visitingUser, $action);
+			}
 		}
 
 		$actionsClone = $this->actions;
@@ -179,7 +186,9 @@ class ProfileManager {
 		usort($actionsClone, function (ILinkAction $a, ILinkAction $b) {
 			return $a->getPriority() === $b->getPriority() ? 0 : ($a->getPriority() < $b->getPriority() ? -1 : 1);
 		});
-		return $actionsClone;
+
+		$this->sortedActions = $actionsClone;
+		return $this->sortedActions;
 	}
 
 	/**
