@@ -44,6 +44,7 @@ const avatarDiv = document.getElementById('avatardiv-menu')
 const propsData = {
 	preloadedUserStatus: {
 		message: avatarDiv.dataset.userstatus_message,
+		messageId: avatarDiv.dataset.userstatus_message_id,
 		icon: avatarDiv.dataset.userstatus_icon,
 		status: avatarDiv.dataset.userstatus,
 	},

@@ -82,6 +82,7 @@ const actions = {
 	async loadBackupStatus({ commit }) {
 		const status = await fetchCurrentBackupStatus()
 		if ('hasBackup' in status && status.hasBackup === false) {
+			commit('loadBackupStatusFromServer', {})
 			return
 		}
 		commit('loadBackupStatusFromServer', status)

@@ -62,6 +62,7 @@ import { getCurrentUser } from '@nextcloud/auth'
 import { loadState } from '@nextcloud/initial-state'
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 import debounce from 'debounce'
+import OnlineStatusMixin from './mixins/OnlineStatusMixin'
 
 import { sendHeartbeat } from './services/heartbeatService'
 

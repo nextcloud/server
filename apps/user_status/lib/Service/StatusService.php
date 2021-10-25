@@ -449,7 +449,7 @@ class StatusService {
 		return true;
 	}
 
-	public function revertUserStatus(string $userId, string $messageId, string $status): void {
+	public function revertUserStatus(string $userId, ?string $messageId, string $status): void {
 		try {
 			/** @var UserStatus $userStatus */
 			$backupUserStatus = $this->mapper->findByUserId($userId, true);
@@ -467,7 +467,8 @@ class StatusService {
 		}
 		try {
 			$userStatus = $this->mapper->findByUserId($userId);
-			if ($userStatus->getMessageId() !== $messageId || $userStatus->getStatus() !== $status) {
+			if (($messageId !== null && $userStatus->getMessageId() !== $messageId)
+				|| $userStatus->getStatus() !== $status) {
 				// Another status is set automatically, do nothing
 				return;
 			}

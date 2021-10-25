@@ -199,6 +199,16 @@ class UserStatusController extends OCSController {
 	}
 
 	/**
+	 * @NoAdminRequired
+	 * @param array $status The current status.
+	 * @return DataResponse
+	 */
+	public function revert(array $status): DataResponse {
+		$this->service->revertUserStatus($this->userId, null, $status['status']);
+		return new DataResponse([]);
+	}
+
+	/**
 	 * @param UserStatus $status
 	 * @return array
 	 */

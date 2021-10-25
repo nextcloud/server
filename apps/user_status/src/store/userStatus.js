@@ -26,6 +26,7 @@ import {
 	setPredefinedMessage,
 	setCustomMessage,
 	clearMessage,
+	revertStatus,
 } from '../services/statusService'
 import { loadState } from '@nextcloud/initial-state'
 import { getCurrentUser } from '@nextcloud/auth'
@@ -163,6 +164,24 @@ const actions = {
 			clearAt: state.clearAt,
 			userId: getCurrentUser()?.uid,
 		})
+	},
+
+	/**
+	 * Sets a new status
+	 *
+	 * @param {Object} vuex The Vuex destructuring object
+	 * @param {Function} vuex.commit The Vuex commit function
+	 * @param {Object} vuex.state The Vuex state object
+	 * @param {Object} vuex.dispatch The Vuex dispatch object
+	 * @param {Object} data The data destructuring object
+	 * @param {Object} data.status The current status
+	 * @param {Object} data.backupStatus The backup status
+	 * @returns {Promise<void>}
+	 */
+	async revertStatus({ commit, state, dispatch }, { status, backupStatus }) {
+		await revertStatus(status)
+		commit('loadStatusFromServer', backupStatus)
+		dispatch('loadBackupStatus')
 	},
 
 	/**

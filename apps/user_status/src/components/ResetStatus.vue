@@ -33,15 +33,16 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
+import { getCurrentUser } from '@nextcloud/auth'
 
 export default {
 	name: 'ResetStatus',
 	computed: {
 		...mapState({
 			backupStatus: state => state.backupStatus,
-			status: state => state.status,
+			userStatus: state => state.userStatus,
 		}),
 		/**
 		 * Indicator whether the backup status has already been loaded
@@ -77,7 +78,7 @@ export default {
 				return this.$t('user_status', 'Offline')
 			}
 			return ''
-		}
+		},
 	},
 	/**
 	 * Loads all predefined statuses from the server
@@ -92,15 +93,22 @@ export default {
 	},
 	methods: {
 		/**
-		 * Emits an event when the user selects a status
+		 * Revert the current status.
 		 */
-		revertCurrentStatus(status) {
-			this.$emit('selectStatus', status)
+		revertCurrentStatus() {
+			this.$store.dispatch('revertStatus', {
+				status: this.userStatus,
+				backupStatus: this.backupStatus,
+			})
 		},
-		handleUserStatusUpdated(state) {
-			if (OC.getCurrentUser().uid === state.userId) {
+		/**
+		 * Handle change of status, and check if we still need to display the
+		 * option to revert the current status.
+		 * @param {Object} status The current status
+		 */
+		handleUserStatusUpdated(status) {
+			if (getCurrentUser().uid === status.userId) {
 				// Update backup information
-				// TODO optimize
 				this.$store.dispatch('loadBackupStatus')
 			}
 		},
@@ -111,7 +119,7 @@ export default {
 <style lang="scss" scoped>
 a {
   font-weight: bold;
-  &::focus, &::hover {
+  &:focus, &:hover {
     text-decoration: underline;
   }
 }

@@ -50,13 +50,14 @@ const fetchCurrentBackupStatus = async() => {
 /**
  * Revert the current user status to the one who is in the backup.
  *
- * @param {String} statusType The status (online / away / dnd / invisible)
+ * @param {Object} status The current status
  * @returns {Promise<void>}
  */
-const setStatus = async(statusType) => {
+const revertStatus = async(status) => {
+	console.debug(status)
 	const url = generateOcsUrl('apps/user_status/api/v1/user_status/revert')
-	await HttpClient.put(url, {
-		statusType,
+	await HttpClient.post(url, {
+		status,
 	})
 }
 
@@ -122,4 +123,5 @@ export {
 	setCustomMessage,
 	setPredefinedMessage,
 	clearMessage,
+	revertStatus,
 }

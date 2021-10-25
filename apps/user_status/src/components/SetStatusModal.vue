@@ -37,6 +37,8 @@
 					@select="changeStatus" />
 			</div>
 
+			<ResetStatus />
+
 			<!-- Status message -->
 			<div class="set-status-modal__header">
 				<h3>{{ $t('user_status', 'Status message') }}</h3>
@@ -59,7 +61,6 @@
 			<ClearAtSelect
 				:clear-at="clearAt"
 				@selectClearAt="setClearAt" />
-			<ResetStatus />
 			<div class="status-buttons">
 				<button class="status-buttons__select" :disabled="isSavingStatus" @click="clearStatus">
 					{{ $t('user_status', 'Clear status message') }}
@@ -244,7 +245,7 @@ export default {
 	min-height: 200px;
 	padding: 8px 20px 20px 20px;
 	// Enable scrollbar for too long content, same way as in Dashboard customize
-	max-height: 70vh;
+	max-height: 75vh;
 	overflow: auto;
 
 	&__header {
