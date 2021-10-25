@@ -52,6 +52,10 @@ class TXT extends ProviderV2 {
 	 * {@inheritDoc}
 	 */
 	public function getThumbnail(File $file, int $maxX, int $maxY): ?IImage {
+		if (!$this->isAvailable($file)) {
+			return null;
+		}
+
 		$content = $file->fopen('r');
 
 		if ($content === false) {
