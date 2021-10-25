@@ -504,6 +504,7 @@ class Filesystem {
 		if (self::$mounts) {
 			self::$usersSetup = [];
 			self::$mounts->clear();
+			self::$mounts = null;
 		}
 	}
 
