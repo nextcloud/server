@@ -80,6 +80,8 @@
 		<UndefinedClass>
 			<errorLevel type="suppress">
 				<referencedClass name="OCA\GroupFolders\Mount\GroupFolderStorage"/>
+				<!-- Classes from PHP>=8 (needed to be able to use \GdImage::class) -->
+				<referencedClass name="GdImage" />
 			</errorLevel>
 		</UndefinedClass>
 		<UndefinedFunction>
@@ -123,6 +125,8 @@
 				<!-- Helper classes for sharing API integration from other apps -->
 				<referencedClass name="OCA\Deck\Sharing\ShareAPIHelper" />
 				<referencedClass name="OCA\Talk\Share\Helper\DeletedShareAPIController" />
+				<!-- Classes from PHP>=8 -->
+				<referencedClass name="GdImage" />
 			</errorLevel>
 		</UndefinedDocblockClass>
 	</issueHandlers>
