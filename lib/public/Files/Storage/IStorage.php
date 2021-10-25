@@ -88,7 +88,7 @@ interface IStorage {
 	 * see http://php.net/manual/en/function.opendir.php
 	 *
 	 * @param string $path
-	 * @return resource|false
+	 * @return resource|bool
 	 * @since 9.0.0
 	 */
 	public function opendir($path);
@@ -116,7 +116,7 @@ interface IStorage {
 	 * only the following keys are required in the result: size and mtime
 	 *
 	 * @param string $path
-	 * @return array|false
+	 * @return array|bool
 	 * @since 9.0.0
 	 */
 	public function stat($path);
@@ -125,7 +125,7 @@ interface IStorage {
 	 * see http://php.net/manual/en/function.filetype.php
 	 *
 	 * @param string $path
-	 * @return string|false
+	 * @return string|bool
 	 * @since 9.0.0
 	 */
 	public function filetype($path);
@@ -135,7 +135,7 @@ interface IStorage {
 	 * The result for filesize when called on a folder is required to be 0
 	 *
 	 * @param string $path
-	 * @return int|false
+	 * @return int|bool
 	 * @since 9.0.0
 	 */
 	public function filesize($path);
@@ -208,7 +208,7 @@ interface IStorage {
 	 * see http://php.net/manual/en/function.filemtime.php
 	 *
 	 * @param string $path
-	 * @return int|false
+	 * @return int|bool
 	 * @since 9.0.0
 	 */
 	public function filemtime($path);
@@ -217,7 +217,7 @@ interface IStorage {
 	 * see http://php.net/manual/en/function.file_get_contents.php
 	 *
 	 * @param string $path
-	 * @return string|false
+	 * @return string|bool
 	 * @since 9.0.0
 	 */
 	public function file_get_contents($path);
@@ -266,7 +266,7 @@ interface IStorage {
 	 *
 	 * @param string $path
 	 * @param string $mode
-	 * @return resource|false
+	 * @return resource|bool
 	 * @since 9.0.0
 	 */
 	public function fopen($path, $mode);
@@ -276,7 +276,7 @@ interface IStorage {
 	 * The mimetype for a folder is required to be "httpd/unix-directory"
 	 *
 	 * @param string $path
-	 * @return string|false
+	 * @return string|bool
 	 * @since 9.0.0
 	 */
 	public function getMimeType($path);
@@ -287,7 +287,7 @@ interface IStorage {
 	 * @param string $type
 	 * @param string $path
 	 * @param bool $raw
-	 * @return string|false
+	 * @return string|bool
 	 * @since 9.0.0
 	 */
 	public function hash($type, $path, $raw = false);
@@ -296,7 +296,7 @@ interface IStorage {
 	 * see http://php.net/manual/en/function.free_space.php
 	 *
 	 * @param string $path
-	 * @return int|false
+	 * @return int|bool
 	 * @since 9.0.0
 	 */
 	public function free_space($path);
@@ -317,7 +317,7 @@ interface IStorage {
 	 * The local version of the file can be temporary and doesn't have to be persistent across requests
 	 *
 	 * @param string $path
-	 * @return string|false
+	 * @return string|bool
 	 * @since 9.0.0
 	 */
 	public function getLocalFile($path);
@@ -339,7 +339,7 @@ interface IStorage {
 	 * get the ETag for a file or folder
 	 *
 	 * @param string $path
-	 * @return string|false
+	 * @return string|bool
 	 * @since 9.0.0
 	 */
 	public function getETag($path);
@@ -371,7 +371,7 @@ interface IStorage {
 	 * For now the returned array can hold the parameter url - in future more attributes might follow.
 	 *
 	 * @param string $path
-	 * @return array|false
+	 * @return array|bool
 	 * @since 9.0.0
 	 */
 	public function getDirectDownload($path);
