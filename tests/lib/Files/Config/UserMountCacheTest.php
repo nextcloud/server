@@ -47,7 +47,18 @@ class UserMountCacheTest extends TestCase {
 	protected function setUp(): void {
 		$this->fileIds = [];
 		$this->connection = \OC::$server->getDatabaseConnection();
-		$this->userManager = new Manager($this->createMock(IConfig::class), $this->createMock(EventDispatcherInterface::class), $this->createMock(ICacheFactory::class), $this->createMock(IEventDispatcher::class));
+		$config = $this->getMockBuilder(IConfig::class)
+			->disableOriginalConstructor()
+			->getMock();
+		$config
+			->expects($this->any())
+			->method('getUserValue')
+			->willReturnArgument(3);
+		$config
+			->expects($this->any())
+			->method('getAppValue')
+			->willReturnArgument(2);
+		$this->userManager = new Manager($config, $this->createMock(EventDispatcherInterface::class), $this->createMock(ICacheFactory::class), $this->createMock(IEventDispatcher::class));
 		$userBackend = new Dummy();
 		$userBackend->createUser('u1', '');
 		$userBackend->createUser('u2', '');
