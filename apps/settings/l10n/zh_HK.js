@@ -460,6 +460,7 @@ OC.L10N.register(
     "Follow us on Mastodon" : "在 Mastodon 上追蹤我們",
     "Check out our blog" : "逛逛我們的部落格",
     "Subscribe to our newsletter" : "訂閱我們的電子報",
+    "This community release of Nextcloud is unsupported and instant notifications are unavailable." : "不支援 Nextcloud 的這個社群版本，且即時通知不可用。",
     "Profile picture" : "個人資料圖片",
     "Change privacy level of profile picture" : "更改個人資料圖片的私隱級別",
     "Upload new" : "上傳新的",
