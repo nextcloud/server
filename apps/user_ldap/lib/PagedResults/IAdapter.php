@@ -82,7 +82,7 @@ interface IAdapter {
 	/**
 	 * the adapter should do it's LDAP function call and return success state
 	 *
-	 * @param resource $link LDAP resource
+	 * @param resource|\LDAP\Connection $link LDAP resource
 	 * @return bool
 	 */
 	public function responseCall($link): bool;
@@ -123,7 +123,7 @@ interface IAdapter {
 	/**
 	 * Returns the current paged results cookie
 	 *
-	 * @param resource $link LDAP resource
+	 * @param resource|\LDAP\Connection $link LDAP resource
 	 * @return string
 	 */
 	public function getCookie($link): string;

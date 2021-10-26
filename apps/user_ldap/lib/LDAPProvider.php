@@ -149,7 +149,7 @@ class LDAPProvider implements ILDAPProvider, IDeletionFlagSupport {
 	 * Return a new LDAP connection resource for the specified user.
 	 * The connection must be closed manually.
 	 * @param string $uid user id
-	 * @return resource of the LDAP connection
+	 * @return resource|\LDAP\Connection The LDAP connection
 	 * @throws \Exception if user id was not found in LDAP
 	 */
 	public function getLDAPConnection($uid) {
@@ -163,7 +163,7 @@ class LDAPProvider implements ILDAPProvider, IDeletionFlagSupport {
 	 * Return a new LDAP connection resource for the specified user.
 	 * The connection must be closed manually.
 	 * @param string $gid group id
-	 * @return resource of the LDAP connection
+	 * @return resource|\LDAP\Connection The LDAP connection
 	 * @throws \Exception if group id was not found in LDAP
 	 */
 	public function getGroupLDAPConnection($gid) {
