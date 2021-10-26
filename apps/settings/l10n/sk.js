@@ -460,6 +460,7 @@ OC.L10N.register(
     "Follow us on Mastodon" : "Sledujte nás na Mastodon",
     "Check out our blog" : "Pozri si náš blog",
     "Subscribe to our newsletter" : "Prihlás sa na odber noviniek emailom",
+    "This community release of Nextcloud is unsupported and instant notifications are unavailable." : "Toto komunitné vydanie Nextcloud nie je podporované a okamžité upozornenia nie sú k dispozícii.",
     "Profile picture" : "Avatar",
     "Change privacy level of profile picture" : "Zmeniť úroveň súkromia pre profilový obrázok",
     "Upload new" : "Nahrať nový",
