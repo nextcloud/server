@@ -689,6 +689,8 @@ class ThemingControllerTest extends TestCase {
 
 	public function testGetLogo() {
 		$file = $this->createMock(ISimpleFile::class);
+		$file->method('getName')->willReturn('logo.svg');
+		$file->method('getMTime')->willReturn(42);
 		$this->imageManager->expects($this->once())
 			->method('getImage')
 			->willReturn($file);
@@ -719,6 +721,8 @@ class ThemingControllerTest extends TestCase {
 
 	public function testGetLoginBackground() {
 		$file = $this->createMock(ISimpleFile::class);
+		$file->method('getName')->willReturn('background.png');
+		$file->method('getMTime')->willReturn(42);
 		$this->imageManager->expects($this->once())
 			->method('getImage')
 			->willReturn($file);
