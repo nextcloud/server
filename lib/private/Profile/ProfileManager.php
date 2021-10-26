@@ -168,7 +168,7 @@ class ProfileManager {
 			$this->registerAction($targetUser, $visitingUser, $provider);
 		}
 
-		foreach ($context->getProfileActions() as $registration) {
+		foreach ($context->getProfileLinkActions() as $registration) {
 			/** @var ILinkAction $provider */
 			$provider = $this->container->get($registration->getService());
 			$this->registerAction($targetUser, $visitingUser, $provider);
