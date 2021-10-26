@@ -460,6 +460,7 @@ OC.L10N.register(
     "Follow us on Mastodon" : "Bizi Mastodon üzerinde izleyin",
     "Check out our blog" : "Bloğumuza bakın",
     "Subscribe to our newsletter" : "Bültenimize abone olun",
+    "This community release of Nextcloud is unsupported and instant notifications are unavailable." : "Bu Nextcloud topluluk sürümü desteklenmiyor ve anlık bildirimler kullanılamıyor.",
     "Profile picture" : "Profil görseli",
     "Change privacy level of profile picture" : "Profil görselinin gizlilik düzeyini değiştir",
     "Upload new" : "Yeni yükle",
