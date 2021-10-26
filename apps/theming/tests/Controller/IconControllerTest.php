@@ -91,6 +91,8 @@ class IconControllerTest extends TestCase {
 		$icon->expects($this->any())->method('getContent')->willReturn($data);
 		$icon->expects($this->any())->method('getMimeType')->willReturn('image type');
 		$icon->expects($this->any())->method('getEtag')->willReturn('my etag');
+		$icon->expects($this->any())->method('getName')->willReturn('my name');
+		$icon->expects($this->any())->method('getMTime')->willReturn(42);
 		$icon->method('getName')->willReturn($filename);
 		return new SimpleFile($icon);
 	}
