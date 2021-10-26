@@ -149,6 +149,8 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Prosím kontaktujte priamo organizátora.",
     "Are you accepting the invitation?" : "Príjmate pozvánku?",
     "Tentative" : "Neistý",
+    "Number of guests" : "Počet návštevníkov",
+    "Comment" : "Komentár",
     "Your attendance was updated successfully." : "Vaša účasť bola aktualizovaná úspešne.",
     "Calendar and tasks" : "Kalendár a úlohy"
 },
