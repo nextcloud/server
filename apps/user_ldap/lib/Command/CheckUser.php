@@ -83,6 +83,12 @@ class CheckUser extends Command {
 				InputOption::VALUE_NONE,
 				'syncs values from LDAP'
 			)
+			->addOption(
+				'fetch',
+				null,
+				InputOption::VALUE_NONE,
+				'fetch user from LDAP to map it to nextcloud'
+			)
 		;
 	}
 
@@ -90,6 +96,9 @@ class CheckUser extends Command {
 		try {
 			$uid = $input->getArgument('ocName');
 			$this->isAllowed($input->getOption('force'));
+			if ($input->getOption('fetch')) {
+				$uid = 	$this->backend->loginName2UserName($uid);
+			}
 			$this->confirmUserIsMapped($uid);
 			$exists = $this->backend->userExistsOnLDAP($uid);
 			if ($exists === true) {
