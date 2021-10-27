@@ -308,8 +308,7 @@ class Manager implements IManager {
 			/**
 			 * We want to keep offering our push notification service for free, but large
 			 * users overload our infrastructure. For this reason we have to rate-limit the
-			 * use of push notifications. If you need this feature, consider setting up your
-			 * own push server or using Nextcloud Enterprise.
+			 * use of push notifications. If you need this feature, consider using Nextcloud Enterprise.
 			 */
 			// TODO Remove time check after 1st March 2022
 			$isFairUse = $this->timeFactory->getTime() < 1646089200
