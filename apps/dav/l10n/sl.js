@@ -119,6 +119,8 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Z organizatorjem stopite v stik neposredno.",
     "Are you accepting the invitation?" : "Ali želite sprejeti povabilo?",
     "Tentative" : "Začasno",
+    "Number of guests" : "Število gostov",
+    "Comment" : "Opomba",
     "Your attendance was updated successfully." : "Vaša prisotnost je uspešno posodobljena.",
     "Calendar and tasks" : "Koledar in naloge"
 },

@@ -43,7 +43,7 @@ OC.L10N.register(
     "Enable recovery key" : "Wiederherstellungsschlüssel aktivieren",
     "Disable recovery key" : "Wiederherstellungsschlüssel deaktivieren",
     "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "Der Wiederherstellungsschlüssel ist ein zusätzlicher Verschlüsselungsschlüssel, der zum Verschlüsseln von Dateien benutzt wird. Er erlaubt die Wiederherstellung von Benutzerdateien auch dann, wenn der Benutzer sein Passwort vergessen hat.",
-    "Recovery key password" : "Passwort für den Wiederherstellungsschlüsse",
+    "Recovery key password" : "Passwort für den Wiederherstellungsschlüssel",
     "Repeat recovery key password" : "Passwort für den Wiederherstellungsschlüssel wiederholen",
     "Change recovery key password:" : "Passwort für den Wiederherstellungsschlüssel ändern",
     "Old recovery key password" : "Altes Passwort für den Wiederherstellungsschlüssel",
