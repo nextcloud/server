@@ -140,7 +140,7 @@ OC.L10N.register(
     "read-only" : "Тільки для читання",
     "_{count} file conflict_::_{count} file conflicts_" : ["{count} файловий конфлікт","{count} файлових конфліктів","{count} файлових конфліктів","{count} файлових конфліктів"],
     "One file conflict" : "Один файловий конфлікт",
-    "New Files" : "Нових Файлів",
+    "New Files" : "Нові Файли",
     "Already existing files" : "Файли що вже існують",
     "Which files do you want to keep?" : "Які файли ви хочете залишити?",
     "If you select both versions, the copied file will have a number added to its name." : "При виборі обох версій, до назви копійованого файлу буде додана цифра",
