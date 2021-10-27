@@ -103,7 +103,7 @@ templates['file_action_trigger'] = template({"1":function(container,depth0,helpe
 
   return "			<span class=\"icon "
     + container.escapeExpression(((helper = (helper = lookupProperty(helpers,"iconClass") || (depth0 != null ? lookupProperty(depth0,"iconClass") : depth0)) != null ? helper : container.hooks.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"iconClass","hash":{},"data":data,"loc":{"start":{"line":6,"column":21},"end":{"line":6,"column":34}}}) : helper)))
-    + "\" />\n";
+    + "\"></span>\n";
 },"6":function(container,depth0,helpers,partials,data) {
     var helper, lookupProperty = container.lookupProperty || function(parent, propertyName) {
         if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
