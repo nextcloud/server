@@ -31,6 +31,7 @@ namespace OCP\AppFramework\Bootstrap;
 
 use OCP\AppFramework\IAppContainer;
 use OCP\Authentication\TwoFactorAuth\IProvider;
+use OCP\Calendar\ICalendarProvider;
 use OCP\Capabilities\ICapability;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Template\ICustomTemplateProvider;
@@ -248,7 +249,7 @@ interface IRegistrationContext {
 	 * Register a calendar provider
 	 *
 	 * @param string $class
-	 * @psalm-param class-string<IProvider> $class
+	 * @psalm-param class-string<ICalendarProvider> $class
 	 * @since 23.0.0
 	 */
 	public function registerCalendarProvider(string $class): void;
