@@ -74,6 +74,7 @@ class SharingTest extends TestCase {
 			->method('getAppValue')
 			->willReturnMap([
 				['core', 'shareapi_exclude_groups_list', '', ''],
+				['core', 'shareapi_allow_links_exclude_groups', '', ''],
 				['core', 'shareapi_allow_group_sharing', 'yes', 'yes'],
 				['core', 'shareapi_allow_links', 'yes', 'yes'],
 				['core', 'shareapi_allow_public_upload', 'yes', 'yes'],
@@ -146,6 +147,7 @@ class SharingTest extends TestCase {
 			->method('getAppValue')
 			->willReturnMap([
 				['core', 'shareapi_exclude_groups_list', '', '["NoSharers","OtherNoSharers"]'],
+				['core', 'shareapi_allow_links_exclude_groups', '', ''],
 				['core', 'shareapi_allow_group_sharing', 'yes', 'yes'],
 				['core', 'shareapi_allow_links', 'yes', 'yes'],
 				['core', 'shareapi_allow_public_upload', 'yes', 'yes'],
