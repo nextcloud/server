@@ -198,7 +198,8 @@ class ProfileManager {
 	}
 
 	/**
-	 * Return whether the profile parameter is visible to the visiting user
+	 * Return whether the profile parameter of the target user
+	 * is visible to the visiting user
 	 */
 	private function isParameterVisible(IUser $targetUser, ?IUser $visitingUser, string $paramId): bool {
 		try {
@@ -247,7 +248,8 @@ class ProfileManager {
 	}
 
 	/**
-	 * Return the profile parameters
+	 * Return the profile parameters of the target user that are visible to the visiting user
+	 * in an associative array
 	 */
 	public function getProfileParams(IUser $targetUser, ?IUser $visitingUser): array {
 		$account = $this->accountManager->getAccount($targetUser);
