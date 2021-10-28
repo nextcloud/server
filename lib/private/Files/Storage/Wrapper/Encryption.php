@@ -759,7 +759,7 @@ class Encryption extends Wrapper {
 				fclose($source);
 				fclose($target);
 				$this->logger->logException(new \Exception("Fail to copy '$sourceInternalPath' to '$targetInternalPath'", 0, $e));
-				if (defined('STDERR')) {
+				if ($GLOBALS['ignore-encryption-error']) {
 					fwrite(STDERR, "	- Skipping '$sourceInternalPath'" . $e->getMessage() . PHP_EOL);
 					$result = true;
 				} else {
@@ -932,10 +932,10 @@ class Encryption extends Wrapper {
 		}
 
 		$result = [];
-		
+
 		// first check if it is an encrypted file at all
 		// We would do query to filecache only if we know that entry in filecache exists
-		
+
 		$info = $this->getCache()->get($path);
 		if (isset($info['encrypted']) && $info['encrypted'] === true) {
 			$firstBlock = $this->readFirstBlock($path);
