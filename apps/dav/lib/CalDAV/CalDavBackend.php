@@ -39,6 +39,7 @@
 namespace OCA\DAV\CalDAV;
 
 use DateTime;
+use DateTimeInterface;
 use OCA\DAV\AppInfo\Application;
 use OCA\DAV\Connector\Sabre\Principal;
 use OCA\DAV\DAV\Sharing\Backend;
@@ -1870,11 +1871,11 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			->where($outerQuery->expr()->isNull('deleted_at'));
 
 		if (isset($options['timerange'])) {
-			if (isset($options['timerange']['start']) && $options['timerange']['start'] instanceof DateTime) {
+			if (isset($options['timerange']['start']) && $options['timerange']['start'] instanceof DateTimeInterface) {
 				$outerQuery->andWhere($outerQuery->expr()->gt('lastoccurence',
 					$outerQuery->createNamedParameter($options['timerange']['start']->getTimeStamp())));
 			}
-			if (isset($options['timerange']['end']) && $options['timerange']['end'] instanceof DateTime) {
+			if (isset($options['timerange']['end']) && $options['timerange']['end'] instanceof DateTimeInterface) {
 				$outerQuery->andWhere($outerQuery->expr()->lt('firstoccurence',
 					$outerQuery->createNamedParameter($options['timerange']['end']->getTimeStamp())));
 			}
