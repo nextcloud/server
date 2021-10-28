@@ -26,6 +26,7 @@ declare(strict_types=1);
 
 namespace OC\Profile;
 
+use function Safe\array_flip;
 use function Safe\usort;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Core\Db\ProfileConfig;
@@ -77,6 +78,8 @@ class ProfileManager {
 	/** @var null|ILinkAction[] */
 	private $sortedActions = null;
 
+	private const CORE_APP_ID = 'core';
+
 	/**
 	 * Array of account property actions
 	 */
@@ -123,7 +126,7 @@ class ProfileManager {
 	/**
 	 * Register an action for the user
 	 */
-	private function registerAction(IUser $targetUser, ?IUser $visitingUser, ILinkAction $action): void {
+	private function registerAction(ILinkAction $action, IUser $targetUser, ?IUser $visitingUser): void {
 		$action->preload($targetUser);
 
 		if ($action->getTarget() === null) {
@@ -131,18 +134,9 @@ class ProfileManager {
 			return;
 		}
 
-		if (isset($this->actions[$action->getId()])) {
-			$this->logger->error('Cannot register duplicate action: ' . $action->getId());
-			return;
-		}
-
-		if ($action->getAppId() !== 'core') {
+		if ($action->getAppId() !== self::CORE_APP_ID) {
 			if (!$this->appManager->isEnabledForUser($action->getAppId(), $targetUser)) {
-				$this->logger->notice('App: ' . $action->getAppId() . ' cannot register actions as it is not enabled for the user: ' . $targetUser->getUID());
-				return;
-			}
-			if ($visitingUser === null) {
-				$this->logger->notice('App: ' . $action->getAppId() . ' cannot register actions as it is not available to non logged in users');
+				$this->logger->notice('App: ' . $action->getAppId() . ' cannot register actions as it is not enabled for the target user: ' . $targetUser->getUID());
 				return;
 			}
 			if (!$this->appManager->isEnabledForUser($action->getAppId(), $visitingUser)) {
@@ -153,6 +147,11 @@ class ProfileManager {
 
 		if (in_array($action->getId(), self::PROFILE_PROPERTIES, true)) {
 			$this->logger->error('Cannot register action with ID: ' . $action->getId() . ', as it is used by a core account property.');
+			return;
+		}
+
+		if (isset($this->actions[$action->getId()])) {
+			$this->logger->error('Cannot register duplicate action: ' . $action->getId());
 			return;
 		}
 
@@ -174,7 +173,7 @@ class ProfileManager {
 		foreach (self::ACCOUNT_PROPERTY_ACTIONS as $actionClass) {
 			/** @var ILinkAction $action */
 			$action = $this->container->get($actionClass);
-			$this->registerAction($targetUser, $visitingUser, $action);
+			$this->registerAction($action, $targetUser, $visitingUser);
 		}
 
 		$context = $this->coordinator->getRegistrationContext();
@@ -183,7 +182,7 @@ class ProfileManager {
 			foreach ($context->getProfileLinkActions() as $registration) {
 				/** @var ILinkAction $action */
 				$action = $this->container->get($registration->getService());
-				$this->registerAction($targetUser, $visitingUser, $action);
+				$this->registerAction($action, $targetUser, $visitingUser);
 			}
 		}
 
@@ -201,7 +200,7 @@ class ProfileManager {
 	 * Return whether the profile parameter of the target user
 	 * is visible to the visiting user
 	 */
-	private function isParameterVisible(IUser $targetUser, ?IUser $visitingUser, string $paramId): bool {
+	private function isParameterVisible(string $paramId, IUser $targetUser, ?IUser $visitingUser): bool {
 		try {
 			$account = $this->accountManager->getAccount($targetUser);
 			$scope = $account->getProperty($paramId)->getScope();
@@ -253,6 +252,7 @@ class ProfileManager {
 	 */
 	public function getProfileParams(IUser $targetUser, ?IUser $visitingUser): array {
 		$account = $this->accountManager->getAccount($targetUser);
+
 		// Initialize associative array of profile parameters
 		$profileParameters = [
 			'userId' => $account->getUser()->getUID(),
@@ -268,14 +268,14 @@ class ProfileManager {
 				case IAccountManager::PROPERTY_ORGANISATION:
 				case IAccountManager::PROPERTY_ROLE:
 					$profileParameters[$property] =
-						$this->isParameterVisible($targetUser, $visitingUser, $property)
+						$this->isParameterVisible($property, $targetUser, $visitingUser)
 						// Explicitly set to null when value is empty string
 						? ($account->getProperty($property)->getValue() ?: null)
 						: null;
 					break;
 				case IAccountManager::PROPERTY_AVATAR:
 					// Add avatar visibility
-					$profileParameters['isUserAvatarVisible'] = $this->isParameterVisible($targetUser, $visitingUser, $property);
+					$profileParameters['isUserAvatarVisible'] = $this->isParameterVisible($property, $targetUser, $visitingUser);
 					break;
 			}
 		}
@@ -295,7 +295,7 @@ class ProfileManager {
 				array_filter(
 					$this->getActions($targetUser, $visitingUser),
 					function (ILinkAction $action) use ($targetUser, $visitingUser) {
-						return $this->isParameterVisible($targetUser, $visitingUser, $action->getId());
+						return $this->isParameterVisible($action->getId(), $targetUser, $visitingUser);
 					}
 				),
 			)
@@ -305,54 +305,53 @@ class ProfileManager {
 	}
 
 	/**
+	 * Return the filtered profile config containing only
+	 * the properties to be stored on the database
+	 */
+	private function filterNotStoredProfileConfig(array $profileConfig): array {
+		$dbParamConfigProperties = [
+			'visibility',
+		];
+
+		foreach ($profileConfig as $paramId => $paramConfig) {
+			$profileConfig[$paramId] = array_intersect_key($paramConfig, array_flip($dbParamConfigProperties));
+		}
+
+		return $profileConfig;
+	}
+
+	/**
 	 * Return the default profile config
 	 */
 	private function getDefaultProfileConfig(IUser $targetUser, ?IUser $visitingUser): array {
 		// Contruct the default config for actions
 		$actionsConfig = [];
 		foreach ($this->getActions($targetUser, $visitingUser) as $action) {
-			$actionsConfig[$action->getId()] = [
-				'displayId' => $action->getDisplayId(),
-				'visibility' => ProfileConfig::DEFAULT_VISIBILITY,
-			];
+			$actionsConfig[$action->getId()] = ['visibility' => ProfileConfig::DEFAULT_VISIBILITY];
 		}
-
-		// Map of account properties to display IDs
-		$propertyDisplayMap = [
-			IAccountManager::PROPERTY_ADDRESS => $this->l10nFactory->get('core')->t('Address'),
-			IAccountManager::PROPERTY_AVATAR => $this->l10nFactory->get('core')->t('Avatar'),
-			IAccountManager::PROPERTY_BIOGRAPHY => $this->l10nFactory->get('core')->t('About'),
-			IAccountManager::PROPERTY_DISPLAYNAME => $this->l10nFactory->get('core')->t('Full name'),
-			IAccountManager::PROPERTY_HEADLINE => $this->l10nFactory->get('core')->t('Headline'),
-			IAccountManager::PROPERTY_ORGANISATION => $this->l10nFactory->get('core')->t('Organisation'),
-			IAccountManager::PROPERTY_ROLE => $this->l10nFactory->get('core')->t('Role'),
-			IAccountManager::PROPERTY_EMAIL => $this->l10nFactory->get('core')->t('Email'),
-			IAccountManager::PROPERTY_PHONE => $this->l10nFactory->get('core')->t('Phone'),
-			IAccountManager::PROPERTY_TWITTER => $this->l10nFactory->get('core')->t('Twitter'),
-			IAccountManager::PROPERTY_WEBSITE => $this->l10nFactory->get('core')->t('Website'),
-		];
 
 		// Contruct the default config for account properties
 		$propertiesConfig = [];
-		foreach ($propertyDisplayMap as $property => $displayId) {
-			$propertiesConfig[$property] = [
-				'displayId' => $displayId,
-				'visibility' => ProfileConfig::DEFAULT_PROPERTY_VISIBILITY[$property],
-			];
+		foreach (ProfileConfig::DEFAULT_PROPERTY_VISIBILITY as $property => $visibility) {
+			$propertiesConfig[$property] = ['visibility' => $visibility];
 		}
 
 		return array_merge($actionsConfig, $propertiesConfig);
 	}
 
 	/**
-	 * Return the profile config
+	 * Return the profile config of the target user,
+	 * if a config does not already exist a default config is created and returned
 	 */
 	public function getProfileConfig(IUser $targetUser, ?IUser $visitingUser): array {
 		$defaultProfileConfig = $this->getDefaultProfileConfig($targetUser, $visitingUser);
 		try {
 			$config = $this->configMapper->get($targetUser->getUID());
 			// Merge defaults with the existing config in case the defaults are missing
-			$config->setConfigArray(array_merge($defaultProfileConfig, $config->getConfigArray()));
+			$config->setConfigArray(array_merge(
+				$defaultProfileConfig,
+				$this->filterNotStoredProfileConfig($config->getConfigArray()),
+			));
 			$this->configMapper->update($config);
 			$configArray = $config->getConfigArray();
 		} catch (DoesNotExistException $e) {
@@ -362,6 +361,78 @@ class ProfileManager {
 			$config->setConfigArray($defaultProfileConfig);
 			$this->configMapper->insert($config);
 			$configArray = $config->getConfigArray();
+		}
+
+		return $configArray;
+	}
+
+	/**
+	 * Return the profile config of the target user with additional medatata,
+	 * if a config does not already exist a default config is created and returned
+	 */
+	public function getProfileConfigWithMetadata(IUser $targetUser, ?IUser $visitingUser): array {
+		$configArray = $this->getProfileConfig($targetUser, $visitingUser);
+
+		$actionsMetadata = [];
+		foreach ($this->getActions($targetUser, $visitingUser) as $action) {
+			$actionsMetadata[$action->getId()] = [
+				'appId' => $action->getAppId(),
+				'displayId' => $action->getDisplayId(),
+			];
+		}
+
+		// Add metadata for account property actions which are always configurable
+		foreach (self::ACCOUNT_PROPERTY_ACTIONS as $actionClass) {
+			/** @var ILinkAction $action */
+			$action = $this->container->get($actionClass);
+			if (!isset($actionsMetadata[$action->getId()])) {
+				$actionsMetadata[$action->getId()] = [
+					'appId' => $action->getAppId(),
+					'displayId' => $action->getDisplayId(),
+				];
+			}
+		}
+
+		$propertiesMetadata = [
+			IAccountManager::PROPERTY_ADDRESS => [
+				'appId' => self::CORE_APP_ID,
+				'displayId' => $this->l10nFactory->get(self::CORE_APP_ID)->t('Address'),
+			],
+			IAccountManager::PROPERTY_AVATAR => [
+				'appId' => self::CORE_APP_ID,
+				'displayId' => $this->l10nFactory->get(self::CORE_APP_ID)->t('Profile picture'),
+			],
+			IAccountManager::PROPERTY_BIOGRAPHY => [
+				'appId' => self::CORE_APP_ID,
+				'displayId' => $this->l10nFactory->get(self::CORE_APP_ID)->t('About'),
+			],
+			IAccountManager::PROPERTY_DISPLAYNAME => [
+				'appId' => self::CORE_APP_ID,
+				'displayId' => $this->l10nFactory->get(self::CORE_APP_ID)->t('Full name'),
+			],
+			IAccountManager::PROPERTY_HEADLINE => [
+				'appId' => self::CORE_APP_ID,
+				'displayId' => $this->l10nFactory->get(self::CORE_APP_ID)->t('Headline'),
+			],
+			IAccountManager::PROPERTY_ORGANISATION => [
+				'appId' => self::CORE_APP_ID,
+				'displayId' => $this->l10nFactory->get(self::CORE_APP_ID)->t('Organisation'),
+			],
+			IAccountManager::PROPERTY_ROLE => [
+				'appId' => self::CORE_APP_ID,
+				'displayId' => $this->l10nFactory->get(self::CORE_APP_ID)->t('Role'),
+			],
+		];
+
+		$paramMetadata = array_merge($actionsMetadata, $propertiesMetadata);
+
+		foreach ($configArray as $paramId => $paramConfig) {
+			if (isset($paramMetadata[$paramId])) {
+				$configArray[$paramId] = array_merge(
+					$paramConfig,
+					$paramMetadata[$paramId],
+				);
+			}
 		}
 
 		return $configArray;
