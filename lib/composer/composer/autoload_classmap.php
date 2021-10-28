@@ -494,6 +494,7 @@ return array(
     'OCP\\Security\\ICrypto' => $baseDir . '/lib/public/Security/ICrypto.php',
     'OCP\\Security\\IHasher' => $baseDir . '/lib/public/Security/IHasher.php',
     'OCP\\Security\\ISecureRandom' => $baseDir . '/lib/public/Security/ISecureRandom.php',
+    'OCP\\Security\\ITrustedDomainHelper' => $baseDir . '/lib/public/Security/ITrustedDomainHelper.php',
     'OCP\\Security\\VerificationToken\\IVerificationToken' => $baseDir . '/lib/public/Security/VerificationToken/IVerificationToken.php',
     'OCP\\Security\\VerificationToken\\InvalidTokenException' => $baseDir . '/lib/public/Security/VerificationToken/InvalidTokenException.php',
     'OCP\\Session\\Exceptions\\SessionNotAvailableException' => $baseDir . '/lib/public/Session/Exceptions/SessionNotAvailableException.php',
