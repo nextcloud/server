@@ -98,8 +98,17 @@ class CheckUser extends Command {
 			$uid = $input->getArgument('ocName');
 			$this->isAllowed($input->getOption('force'));
 			if ($input->getOption('fetch')) {
-				$uid = $this->backend->loginName2UserName($uid);
+				$uid_after_fetch = $this->backend->loginName2UserName($uid);
+				if ($uid_after_fetch === false) {
+					$output->writeln('No user found in LDAP with login : ' . $uid);
+					return 2;
+				} else {
+					$output->writeln('The user ' . $this->backend->getDisplayName($uid_after_fetch)
+						. ' (' . $uid_after_fetch . ') has been fetched from LDAP.');
+					return 0;
+				}
 			}
+	
 
 			$this->confirmUserIsMapped($uid);
 			$exists = $this->backend->userExistsOnLDAP($uid);
