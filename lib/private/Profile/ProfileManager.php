@@ -92,6 +92,7 @@ class ProfileManager {
 	 */
 	private const PROFILE_PROPERTIES = [
 		IAccountManager::PROPERTY_ADDRESS,
+		IAccountManager::PROPERTY_AVATAR,
 		IAccountManager::PROPERTY_BIOGRAPHY,
 		IAccountManager::PROPERTY_DISPLAYNAME,
 		IAccountManager::PROPERTY_HEADLINE,
@@ -148,6 +149,11 @@ class ProfileManager {
 				$this->logger->notice('App: ' . $action->getAppId() . ' cannot register actions as it is not enabled for the visiting user: ' . $visitingUser->getUID());
 				return;
 			}
+		}
+
+		if (in_array($action->getId(), self::PROFILE_PROPERTIES, true)) {
+			$this->logger->error('Cannot register action with ID: ' . $action->getId() . ', as it is used by a core account property.');
+			return;
 		}
 
 		// Add action to associative array of actions
@@ -252,15 +258,25 @@ class ProfileManager {
 
 		// Add account properties
 		foreach (self::PROFILE_PROPERTIES as $property) {
-			$profileParameters[$property] =
-				$this->isParameterVisible($targetUser, $visitingUser, $property)
-				// Explicitly set to null when value is empty string
-				? ($account->getProperty($property)->getValue() ?: null)
-				: null;
+			switch ($property) {
+				case IAccountManager::PROPERTY_ADDRESS:
+				case IAccountManager::PROPERTY_BIOGRAPHY:
+				case IAccountManager::PROPERTY_DISPLAYNAME:
+				case IAccountManager::PROPERTY_HEADLINE:
+				case IAccountManager::PROPERTY_ORGANISATION:
+				case IAccountManager::PROPERTY_ROLE:
+					$profileParameters[$property] =
+						$this->isParameterVisible($targetUser, $visitingUser, $property)
+						// Explicitly set to null when value is empty string
+						? ($account->getProperty($property)->getValue() ?: null)
+						: null;
+					break;
+				case IAccountManager::PROPERTY_AVATAR:
+					// Add avatar visibility
+					$profileParameters['isUserAvatarVisible'] = $this->isParameterVisible($targetUser, $visitingUser, $property);
+					break;
+			}
 		}
-
-		// Add avatar visibility
-		$profileParameters['isUserAvatarVisible'] = $this->isParameterVisible($targetUser, $visitingUser, IAccountManager::PROPERTY_AVATAR);
 
 		// Add actions
 		$profileParameters['actions'] = array_map(
