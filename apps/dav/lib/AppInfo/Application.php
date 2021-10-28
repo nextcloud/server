@@ -38,6 +38,7 @@ use OCA\DAV\CalDAV\Activity\Backend;
 use OCA\DAV\CalDAV\BirthdayService;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\CalendarManager;
+use OCA\DAV\CalDAV\CalendarProvider;
 use OCA\DAV\CalDAV\Reminder\NotificationProvider\AudioProvider;
 use OCA\DAV\CalDAV\Reminder\NotificationProvider\EmailProvider;
 use OCA\DAV\CalDAV\Reminder\NotificationProvider\PushProvider;
@@ -161,6 +162,8 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(CardUpdatedEvent::class, CardListener::class);
 
 		$context->registerNotifierService(Notifier::class);
+
+		$context->registerCalendarProvider(CalendarProvider::class);
 	}
 
 	public function boot(IBootContext $context): void {
