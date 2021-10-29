@@ -32,6 +32,7 @@ use Icewind\SMB\KerberosApacheAuth;
 use Icewind\SMB\KerberosAuth;
 use OCA\Files_External\Lib\Auth\AuthMechanism;
 use OCA\Files_External\Lib\Auth\Password\Password;
+use OCA\Files_External\Lib\Auth\SMB\KerberosApacheAuth as KerberosApacheAuthMechanism;
 use OCA\Files_External\Lib\DefinitionParameter;
 use OCA\Files_External\Lib\InsufficientDataForMeaningfulAnswerException;
 use OCA\Files_External\Lib\LegacyDependencyCheckPolyfill;
@@ -89,6 +90,9 @@ class SMB extends Backend {
 					$smbAuth = new KerberosAuth();
 					break;
 				case 'smb::kerberosapache':
+					if (!$auth instanceof KerberosApacheAuthMechanism) {
+						throw new \InvalidArgumentException('invalid authentication backend');
+					}
 					$credentialsStore = $auth->getCredentialsStore();
 					$kerb_auth = new KerberosApacheAuth();
 					if ($kerb_auth->checkTicket()) {
@@ -99,12 +103,23 @@ class SMB extends Backend {
 							$credentials = $credentialsStore->getLoginCredentials();
 							$user = $credentials->getLoginName();
 							$pass = $credentials->getPassword();
-							if (preg_match('/(.*)@(.*)/', $user, $matches) !== 1) {
-								throw new InsufficientDataForMeaningfulAnswerException('No valid session credentials');
+							preg_match('/(.*)@(.*)/', $user, $matches);
+							$realm = $storage->getBackendOption('default_realm');
+							if (empty($realm)) {
+								$realm = 'WORKGROUP';
+							}
+							$userPart = $matches[1];
+							$domainPart = $matches[2];
+							if (count($matches) === 0) {
+								$username = $user;
+								$workgroup = $realm;
+							} else {
+								$username = $userPart;
+								$workgroup = $domainPart;
 							}
 							$smbAuth = new BasicAuth(
-								$matches[0],
-								$matches[1],
+								$username,
+								$workgroup,
 								$pass
 							);
 						} catch (\Exception $e) {
