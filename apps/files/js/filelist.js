@@ -3520,7 +3520,7 @@
 		 * Show or hide file action menu based on the current selection
 		 */
 		resizeFileActionMenu: function() {
-			const appList = $('.filesSelectionMenu ul li').not('.item-toggleSelectionMode:hidden');
+			const appList = $('.filesSelectionMenu ul li').not('.item-toggleSelectionMode:hidden,.item-tags:hidden');
 			const headerWidth = $('#filestable thead').outerWidth();
 			const checkWidth = $('#headerSelection').outerWidth();
 			const headerNameWidth = $('#headerName').outerWidth();
@@ -3529,11 +3529,18 @@
 
 			let availableWidth = headerWidth - (checkWidth + allLabelWidth+ headerNameWidth);
 			let appCount = Math.floor((availableWidth / $(appList).width()));
+			let appListCount = $(appList).width();
 
 			if(appCount < appList.length) {
 				$('#selectedActionLabel').css('display','block');
 				availableWidth = headerWidth - (checkWidth + allLabelWidth+ headerNameWidth + actionWidth);
 				appCount = Math.floor((availableWidth / $(appList).width()));
+			}
+			else if(appListCount==0) {
+				$('#selectedActionLabel').css('display','block');
+			}
+			else{
+				$('#selectedActionLabel').css('display','none');
 			}
 
 			for (let k = 0; k < appList.length; k++) {
