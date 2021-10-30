@@ -30,11 +30,6 @@
 		<Headline
 			:headline.sync="primaryHeadline.value"
 			:scope.sync="primaryHeadline.scope" />
-
-		<VisibilityDropdown
-			:param-id="accountPropertyId"
-			:display-id="accountProperty"
-			:visibility.sync="visibility" />
 	</section>
 </template>
 
@@ -43,12 +38,10 @@ import { loadState } from '@nextcloud/initial-state'
 
 import Headline from './Headline'
 import HeaderBar from '../shared/HeaderBar'
-import VisibilityDropdown from '../shared/VisibilityDropdown'
 
-import { ACCOUNT_PROPERTY_ENUM, ACCOUNT_PROPERTY_READABLE_ENUM } from '../../../constants/AccountPropertyConstants'
+import { ACCOUNT_PROPERTY_READABLE_ENUM } from '../../../constants/AccountPropertyConstants'
 
 const { headlineMap: { primaryHeadline } } = loadState('settings', 'personalInfoParameters', {})
-const { profileConfig: { headline: { visibility } } } = loadState('settings', 'profileParameters', {})
 
 export default {
 	name: 'HeadlineSection',
@@ -56,15 +49,12 @@ export default {
 	components: {
 		Headline,
 		HeaderBar,
-		VisibilityDropdown,
 	},
 
 	data() {
 		return {
 			accountProperty: ACCOUNT_PROPERTY_READABLE_ENUM.HEADLINE,
-			accountPropertyId: ACCOUNT_PROPERTY_ENUM.HEADLINE,
 			primaryHeadline,
-			visibility,
 		}
 	},
 }

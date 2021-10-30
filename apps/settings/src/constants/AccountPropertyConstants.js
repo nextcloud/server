@@ -63,7 +63,7 @@ export const ACCOUNT_PROPERTY_READABLE_ENUM = Object.freeze({
 
 /** Enum of profile specific sections to human readable names */
 export const PROFILE_READABLE_ENUM = Object.freeze({
-	PROFILE_VISIBILITY: t('settings', 'Profile Visibility'),
+	PROFILE_VISIBILITY: t('settings', 'Profile visibility'),
 })
 
 /** Enum of readable account properties to account property keys used by the server */
