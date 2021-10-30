@@ -44,7 +44,7 @@
     "autosize": "^4.0.4",
     "backbone": "^1.4.0",
     "blueimp-md5": "^2.18.0",
-    "bootstrap": "^4.6.0",
+    "bootstrap": "^4.6.1",
     "camelcase": "^6.2.0",
     "clipboard": "^2.0.8",
     "core-js": "^3.8.3",
