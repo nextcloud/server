@@ -47,6 +47,7 @@ use OCA\DAV\Connector\Sabre\Auth;
 use OCA\DAV\Connector\Sabre\BearerAuth;
 use OCA\DAV\Connector\Sabre\BlockLegacyClientPlugin;
 use OCA\DAV\Connector\Sabre\CachingTree;
+use OCA\DAV\Connector\Sabre\ChecksumUpdatePlugin;
 use OCA\DAV\Connector\Sabre\CommentPropertiesPlugin;
 use OCA\DAV\Connector\Sabre\CopyEtagHeaderPlugin;
 use OCA\DAV\Connector\Sabre\DavAclPlugin;
@@ -245,6 +246,7 @@ class Server {
 						!\OC::$server->getConfig()->getSystemValue('debug', false)
 					)
 				);
+				$this->server->addPlugin(new ChecksumUpdatePlugin());
 
 				$this->server->addPlugin(
 					new \Sabre\DAV\PropertyStorage\Plugin(
