@@ -379,7 +379,6 @@
 
 			this.$el.on('show', this._onResize);
 
-			$('#selectedActionLabel').css('display','none');
 			this.resizeFileActionMenu = _.debounce(_.bind(this.resizeFileActionMenu, this), 250);
 			$(window).resize(this.resizeFileActionMenu);
 
@@ -3468,12 +3467,9 @@
 				this.$el.find('#headerSizeCount').removeClass('hidden');
 				this.$el.find('.headerSizeOpen').removeClass('hidden');
 				this.$el.find('#selectedActionsList').removeClass('menu-center');
-				if (window.matchMedia('(max-width: 480px)').matches) {
-					$('#selectedActionLabel').css('display','block');
-				}
-				this.resizeFileActionMenu();
 				this.$el.find('#headerSizeCount').text(OC.Util.humanFileSize(summary.totalSize));
 				this.fileMultipleSelectionMenu.show(this);
+				this.resizeFileActionMenu();
 
 				var directoryInfo = n('files', '%n folder', '%n folders', summary.totalDirs);
 				var fileInfo = n('files', '%n file', '%n files', summary.totalFiles);
@@ -3519,28 +3515,48 @@
 		/**
 		 * Show or hide file action menu based on the current selection
 		 */
-		resizeFileActionMenu: function() {
+		 resizeFileActionMenu: function() {
 			const appList = $('.filesSelectionMenu ul li').not('.item-toggleSelectionMode:hidden,.item-tags:hidden');
 			const headerWidth = $('#filestable thead').outerWidth();
 			const checkWidth = $('#headerSelection').outerWidth();
 			const headerNameWidth = $('#headerName').outerWidth();
 			const actionWidth = $('#selectedActionLabel').outerWidth();
-			const allLabelWidth = $('#allLabel').outerWidth();
-
-			let availableWidth = headerWidth - (checkWidth + allLabelWidth+ headerNameWidth);
-			let appCount = Math.floor((availableWidth / $(appList).width()));
-			let appListCount = $(appList).width();
-
-			if(appCount < appList.length) {
-				$('#selectedActionLabel').css('display','block');
-				availableWidth = headerWidth - (checkWidth + allLabelWidth+ headerNameWidth + actionWidth);
-				appCount = Math.floor((availableWidth / $(appList).width()));
-			}
-			else if(appListCount==0) {
-				$('#selectedActionLabel').css('display','block');
+			const allLabelWidth = $('#allLabel').not('#allLabel:hidden').outerWidth();
+			var availableWidth;
+			if(!allLabelWidth){
+				 availableWidth = headerWidth - (checkWidth + headerNameWidth);
 			}
 			else{
+				 availableWidth = headerWidth - (checkWidth + allLabelWidth+ headerNameWidth);
+			}
+
+			let appCount = Math.floor((availableWidth / $(appList).width()));
+
+			if(appCount < appList.length) {
+				if(!allLabelWidth){
+					availableWidth = headerWidth - (checkWidth + headerNameWidth + actionWidth);
+				}
+				else{
+					availableWidth = headerWidth - (checkWidth + allLabelWidth+ headerNameWidth + actionWidth);
+				}
+				appCount = Math.floor((availableWidth / $(appList).width()));
+			}
+
+			var summary = this._selectionSummary.summary;
+			if (summary.totalFiles === 0 && summary.totalDirs === 0) {
 				$('#selectedActionLabel').css('display','none');
+			}
+			else{
+				if(appCount < appList.length) {
+					$('#selectedActionLabel').css('display','block');
+				}
+				else if(appCount == appList.length){
+				 	$('#selectedActionLabel').css('display','none');
+				}
+				else if (!isFinite(appCount))
+				{
+					$('#selectedActionLabel').css('display','block');
+				}
 			}
 
 			for (let k = 0; k < appList.length; k++) {
@@ -3551,6 +3567,7 @@
 				}
 			}
 		},
+
 
 		/**
 		 * Check whether all selected files are copiable
