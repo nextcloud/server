@@ -1082,7 +1082,7 @@ class View {
 	 * @param string $type
 	 * @param string $path
 	 * @param bool $raw
-	 * @return bool|string
+	 * @return bool|null|string
 	 */
 	public function hash($type, $path, $raw = false) {
 		$postFix = (substr($path, -1) === '/') ? '/' : '';
@@ -1099,13 +1099,12 @@ class View {
 					[Filesystem::signal_param_path => $this->getHookPath($path)]
 				);
 			}
-			/** @var Storage|null $storage */
 			[$storage, $internalPath] = Filesystem::resolvePath($absolutePath . $postFix);
 			if ($storage) {
 				return $storage->hash($type, $internalPath, $raw);
 			}
 		}
-		return false;
+		return null;
 	}
 
 	/**
