@@ -197,7 +197,7 @@
 						self.fileMultiSelectMenu.toggleLoading('restore', false)
 					},
 					function() {
-						OC.Notification.show(t('files_trashbin', 'Error while restoring files from trashbin'))
+						OC.Notification.show(t('files_trashbin', 'Error while restoring files from trash bin'))
 					}
 				)
 			},
@@ -220,7 +220,7 @@
 								self.setFiles([])
 							},
 							function() {
-								OC.Notification.show(t('files_trashbin', 'Error while emptying trashbin'))
+								OC.Notification.show(t('files_trashbin', 'Error while emptying trash bin'))
 							}
 						)
 				} else {
@@ -238,7 +238,7 @@
 							self.fileMultiSelectMenu.toggleLoading('delete', false)
 						},
 						function() {
-							OC.Notification.show(t('files_trashbin', 'Error while removing files from trashbin'))
+							OC.Notification.show(t('files_trashbin', 'Error while removing files from trash bin'))
 						}
 					)
 				}
