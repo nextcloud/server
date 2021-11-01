@@ -9,6 +9,7 @@ OC.L10N.register(
     "Working remotely" : "Thuiswerken",
     "User status" : "Gebruikersstatus",
     "Clear status message after" : "Opruimen statusbericht na",
+    "What is your status?" : "Wat is jouw status?",
     "Set status" : "Instellen status",
     "Online status" : "Online status",
     "Status message" : "Statusbericht",
