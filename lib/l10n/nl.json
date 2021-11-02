@@ -179,7 +179,7 @@
     "A valid password must be provided" : "Er moet een geldig wachtwoord worden opgegeven",
     "The username is already being used" : "De gebruikersnaam bestaat al",
     "Could not create user" : "Kan gebruiker niet aanmaken.",
-    "User disabled" : "Gebruiker geblokkeerd",
+    "User disabled" : "Gebruiker uitgeschakeld",
     "Login canceled by app" : "Inloggen geannuleerd door app",
     "App \"%1$s\" cannot be installed because the following dependencies are not fulfilled: %2$s" : "App \"%1$s\" kan niet worden geïnstalleerd, omdat de volgende afhankelijkheden niet zijn ingevuld: %2$s",
     "a safe home for all your data" : "een veilige plek voor al je gegevens",
