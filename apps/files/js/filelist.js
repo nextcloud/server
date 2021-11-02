@@ -3516,7 +3516,7 @@
 		 * Show or hide file action menu based on the current selection
 		 */
 		 resizeFileActionMenu: function() {
-			const appList = $('.filesSelectionMenu ul li').not('.item-toggleSelectionMode:hidden,.item-tags:hidden');
+			const appList = $('.filesSelectionMenu ul li');
 			const headerWidth = $('#filestable thead').outerWidth();
 			const checkWidth = $('#headerSelection').outerWidth();
 			const headerNameWidth = $('#headerName').outerWidth();
