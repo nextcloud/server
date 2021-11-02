@@ -16,4 +16,12 @@
 	<extraFiles>
 		<directory name="3rdparty"/>
 	</extraFiles>
+	<issueHandlers>
+		<UndefinedDocblockClass>
+			<errorLevel type="suppress">
+				<!-- Classes from PHP>=8 -->
+				<referencedClass name="GdImage" />
+			</errorLevel>
+		</UndefinedDocblockClass>
+	</issueHandlers>
 </psalm>
