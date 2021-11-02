@@ -186,7 +186,6 @@ class CheckSetupControllerTest extends TestCase {
 				'hasBigIntConversionPendingColumns',
 				'isMysqlUsedWithoutUTF8MB4',
 				'isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed',
-				'isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed',
 			])->getMock();
 	}
 
