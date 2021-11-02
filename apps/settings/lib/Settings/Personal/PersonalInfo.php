@@ -50,6 +50,8 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
 use OCP\Settings\ISettings;
+use OCP\IDBConnection;
+use OC\Files\View;
 
 class PersonalInfo implements ISettings {
 
@@ -67,8 +69,11 @@ class PersonalInfo implements ISettings {
 	private $l10nFactory;
 	/** @var IL10N */
 	private $l;
+	/** @var IDBConnection */
+	private $db;
 
 	public function __construct(
+		IDBConnection $db,
 		IConfig $config,
 		IUserManager $userManager,
 		IGroupManager $groupManager,
@@ -77,6 +82,7 @@ class PersonalInfo implements ISettings {
 		IFactory $l10nFactory,
 		IL10N $l
 	) {
+		$this->db = $db;
 		$this->config = $config;
 		$this->userManager = $userManager;
 		$this->accountManager = $accountManager;
@@ -96,6 +102,14 @@ class PersonalInfo implements ISettings {
 		}
 
 		$uid = \OC_User::getUser();
+
+		$imageMimetypes = '"image","image/jpeg","image/gif","image/png","image/svg+xml","image/webp"';
+		$videoMimetypes = '"video","video/3gpp","video/mp4"';
+
+		$imageStorageInBytes = $this->storageUtilization($uid, $imageMimetypes);
+		$videoStorageInBytes = $this->storageUtilization($uid, $videoMimetypes);
+
+		$photoVideoSizeInBytes =  $imageStorageInBytes + $videoStorageInBytes;
 		$user = $this->userManager->get($uid);
 		$account = $this->accountManager->getAccount($user);
 
@@ -108,10 +122,12 @@ class PersonalInfo implements ISettings {
 		} else {
 			$totalSpace = \OC_Helper::humanFileSize($storageInfo['total']);
 		}
+		$filesSizeInBytes = $storageInfo['used'] - $photoVideoSizeInBytes;
 
 		$languageParameters = $this->getLanguages($user);
 		$localeParameters = $this->getLocales($user);
 		$messageParameters = $this->getMessageParameters($account);
+		$trashSizeinBytes = self::getTrashbinSize($uid);
 
 		$parameters = [
 			'total_space' => $totalSpace,
@@ -138,10 +154,45 @@ class PersonalInfo implements ISettings {
 			'twitterScope' => $account->getProperty(IAccountManager::PROPERTY_TWITTER)->getScope(),
 			'twitterVerification' => $account->getProperty(IAccountManager::PROPERTY_TWITTER)->getVerified(),
 			'groups' => $this->getGroups($user),
+			'trashSize' => \OC_Helper::humanFileSize($trashSizeinBytes),
+			'photoVideoSize' => \OC_Helper::humanFileSize($photoVideoSizeInBytes),
+			'filesSize' => \OC_Helper::humanFileSize($filesSizeInBytes),
+			'trashSizeInPer' => round(($trashSizeinBytes / $storageInfo['quota']) * 100) ,
+			'photoVideoSizeInPer' => round(($photoVideoSizeInBytes / $storageInfo['quota']) * 100),
+			'filesSizeInPer' => round(($filesSizeInBytes / $storageInfo['quota']) * 100)
 		] + $messageParameters + $languageParameters + $localeParameters;
 
 
 		return new TemplateResponse('settings', 'settings/personal/personal.info', $parameters, '');
+	}
+
+	private static function getTrashbinSize($user) {
+		$view = new View('/' . $user);
+		$fileInfo = $view->getFileInfo('/files_trashbin');
+		return isset($fileInfo['size']) ? $fileInfo['size'] : 0;
+	}
+
+	private function storageUtilization($user= null, $filterMimetypes=null){
+		$details = null;
+
+		$rootFolder = \OC::$server->getRootFolder()->getUserFolder($user);
+		$storageId = $rootFolder->getStorage()->getCache()->getNumericStorageId();
+
+		$query = $this->db->getQueryBuilder();
+		$query->selectAlias($query->func()->sum('size'), 'f1')
+			->from('filecache', 'fc')
+			->innerJoin('fc', 'mimetypes', 'mt', $query->expr()->eq('fc.mimetype', 'mt.id'))
+			->where('mt.mimetype in('.$filterMimetypes.')')
+			->andWhere($query->expr()->neq('fc.size', $query->createPositionalParameter(-1)))
+			->andWhere('fc.path NOT Like "files_trashbin/files/%"')
+			->andWhere($query->expr()->eq('fc.storage', $query->createPositionalParameter($storageId)));
+
+		$result = $query->execute();
+		while ($row = $result->fetch()) {
+			$details = $row['f1'];
+		}
+		$result->closeCursor();
+		return $details;
 	}
 
 	/**

@@ -91,7 +91,32 @@ script('settings', [
 						<?php endif ?>
 					</p>
 				</div>
-				<progress value="<?php p($_['usage_relative']); ?>" max="100"<?php if ($_['usage_relative'] > 80): ?> class="warn" <?php endif; ?>></progress>
+			<!--	<progress value="<?php p($_['usage_relative']); ?>" max="100"<?php if ($_['usage_relative'] > 80): ?> class="warn" <?php endif; ?>></progress>-->
+				<div class="settings-progress-bar">
+					<div class="progress-bar styledbar files-usage" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: <?php p($_['filesSizeInPer']); ?>%;">
+					</div>
+					<div class="progress-bar styledbar photos-usage" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: <?php p($_['photoVideoSizeInPer']); ?>%;">
+					</div>
+
+					<div class="progress-bar styledbar bin-usage" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: <?php p($_['trashSizeInPer']); ?>%;">
+					</div>
+				</div>
+
+				<div class="extra-details">
+					<div>
+					<div id="files" class="files-usage"></div>
+					<?php p($l->t('Files')); ?>: <strong><?php p($_['filesSize']); ?></strong>
+					</div>
+					<div>
+					<div id="photos" class="photos-usage"></div>
+					<?php p($l->t('Photos & videos')); ?>: <strong><?php p($_['photoVideoSize']); ?></strong>
+					</div>
+					<div>
+					<div id="bin" class="bin-usage"></div>
+					<?php p($l->t('Recycle Bin')); ?>: <strong><?php p($_['trashSize']); ?></strong>
+					</div>
+				</div>
+
 			</div>
 		</div>
 	</div>
@@ -388,3 +413,5 @@ script('settings', [
 	</div>
 
 </div>
+
+

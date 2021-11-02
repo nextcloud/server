@@ -190,6 +190,52 @@ select {
 	}
 }
 
+.settings-progress-bar {
+    display: flex;
+    height: 10px;
+    width: 100%;
+    background: #f2f2f2;
+    border-radius: 10px;
+	margin-top: 1rem;
+	margin-bottom: 1rem;
+}
+
+.settings-progress-bar .progress-bar {
+    border-radius: 10px;
+}
+
+.progress-bar {
+    height: 100%;
+    -webkit-transition: width .6s ease;
+    transition: width .6s ease;
+}
+
+
+
+.extra-details #files, .extra-details #photos, .extra-details #backup, .extra-details #bin {
+    border-radius: 30px;
+    width: 16px;
+    height: 8px;
+    display: inline-block;
+    margin: 0.125rem 0.25rem;
+}
+
+.extra-details {
+    margin-bottom: 1.5rem;
+}
+
+.files-usage {
+    background-color: #22adb9;
+}
+
+.photos-usage {
+    background-color: #b682bd;
+}
+
+.bin-usage {
+    background-color: #fc9a55;
+}
+
 
 
 @media (min-width: 1200px) and (max-width: 1400px) {
