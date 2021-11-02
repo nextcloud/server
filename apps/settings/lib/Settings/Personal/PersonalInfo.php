@@ -122,12 +122,17 @@ class PersonalInfo implements ISettings {
 		} else {
 			$totalSpace = \OC_Helper::humanFileSize($storageInfo['total']);
 		}
-		$filesSizeInBytes = $storageInfo['used'] - $photoVideoSizeInBytes;
+
+		$trashSizeinBytes = self::getTrashbinSize($uid);
+		$filesSizeInBytes = $storageInfo['used'] - ($photoVideoSizeInBytes + $trashSizeinBytes);
+		if($filesSizeInBytes < 0){
+			$filesSizeInBytes = 0;
+		}
 
 		$languageParameters = $this->getLanguages($user);
 		$localeParameters = $this->getLocales($user);
 		$messageParameters = $this->getMessageParameters($account);
-		$trashSizeinBytes = self::getTrashbinSize($uid);
+
 
 		$parameters = [
 			'total_space' => $totalSpace,
