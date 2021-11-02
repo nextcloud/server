@@ -55,6 +55,7 @@ use OCP\IRequest;
 use OCP\ITempManager;
 use OCP\IURLGenerator;
 use OCP\Lock\ILockingProvider;
+use OCP\Notification\IManager;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerInterface;
@@ -102,6 +103,8 @@ class CheckSetupControllerTest extends TestCase {
 	private $connection;
 	/** @var ITempManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $tempManager;
+	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
+	private $notificationManager;
 
 	/**
 	 * Holds a list of directories created during tests.
@@ -145,6 +148,7 @@ class CheckSetupControllerTest extends TestCase {
 		$this->connection = $this->getMockBuilder(IDBConnection::class)
 			->disableOriginalConstructor()->getMock();
 		$this->tempManager = $this->getMockBuilder(ITempManager::class)->getMock();
+		$this->notificationManager = $this->getMockBuilder(IManager::class)->getMock();
 		$this->checkSetupController = $this->getMockBuilder(CheckSetupController::class)
 			->setConstructorArgs([
 				'settings',
@@ -164,6 +168,7 @@ class CheckSetupControllerTest extends TestCase {
 				$this->iniGetWrapper,
 				$this->connection,
 				$this->tempManager,
+				$this->notificationManager,
 			])
 			->setMethods([
 				'isReadOnlyConfig',
@@ -669,6 +674,8 @@ class CheckSetupControllerTest extends TestCase {
 				$this->secureRandom,
 				$this->iniGetWrapper,
 				$this->connection,
+				$this->tempManager,
+				$this->notificationManager,
 			])
 			->setMethods(null)->getMock();
 
@@ -1423,23 +1430,25 @@ Array
 			});
 
 		$checkSetupController = new CheckSetupController(
-				'settings',
-				$this->request,
-				$this->config,
-				$this->clientService,
-				$this->urlGenerator,
-				$this->l10n,
-				$this->checker,
-				$this->logger,
-				$this->dispatcher,
-				$this->db,
-				$this->lockingProvider,
-				$this->dateTimeFormatter,
-				$this->memoryInfo,
-				$this->secureRandom,
-				$this->iniGetWrapper,
-				$this->connection
-			);
+			'settings',
+			$this->request,
+			$this->config,
+			$this->clientService,
+			$this->urlGenerator,
+			$this->l10n,
+			$this->checker,
+			$this->logger,
+			$this->dispatcher,
+			$this->db,
+			$this->lockingProvider,
+			$this->dateTimeFormatter,
+			$this->memoryInfo,
+			$this->secureRandom,
+			$this->iniGetWrapper,
+			$this->connection,
+			$this->tempManager,
+			$this->notificationManager
+		);
 
 		$this->assertSame($expected, $this->invokePrivate($checkSetupController, 'isMysqlUsedWithoutUTF8MB4'));
 	}
@@ -1488,7 +1497,9 @@ Array
 			$this->memoryInfo,
 			$this->secureRandom,
 			$this->iniGetWrapper,
-			$this->connection
+			$this->connection,
+			$this->tempManager,
+			$this->notificationManager
 		);
 
 		$this->assertSame($expected, $this->invokePrivate($checkSetupController, 'isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed'));
