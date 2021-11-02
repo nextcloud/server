@@ -342,7 +342,7 @@ class CheckSetupControllerTest extends TestCase {
 	 * @param string $remoteAddr
 	 * @param bool $result
 	 */
-	public function testForwardedForHeadersWorking(array $trustedProxies, string $remoteAddrNotForwarded, string $remoteAddr, bool $result) {
+	public function testForwardedForHeadersWorking(array $trustedProxies, string $remoteAddrNotForwarded, string $remoteAddr, bool $result): void {
 		$this->config->expects($this->once())
 			->method('getSystemValue')
 			->with('trusted_proxies', [])
@@ -363,7 +363,7 @@ class CheckSetupControllerTest extends TestCase {
 		);
 	}
 
-	public function dataForwardedForHeadersWorking() {
+	public function dataForwardedForHeadersWorking(): array {
 		return [
 			// description => trusted proxies, getHeader('REMOTE_ADDR'), getRemoteAddr, expected result
 			'no trusted proxies' => [[], '2.2.2.2', '2.2.2.2', true],
@@ -373,7 +373,28 @@ class CheckSetupControllerTest extends TestCase {
 		];
 	}
 
-	public function testForwardedHostPresentButTrustedProxiesEmpty() {
+	public function testForwardedHostPresentButTrustedProxiesNotAnArray(): void {
+		$this->config->expects($this->once())
+			->method('getSystemValue')
+			->with('trusted_proxies', [])
+			->willReturn('1.1.1.1');
+		$this->request->expects($this->atLeastOnce())
+			->method('getHeader')
+			->willReturnMap([
+				['REMOTE_ADDR', '1.1.1.1'],
+				['X-Forwarded-Host', 'nextcloud.test']
+			]);
+		$this->request->expects($this->any())
+			->method('getRemoteAddress')
+			->willReturn('1.1.1.1');
+
+		$this->assertEquals(
+			false,
+			self::invokePrivate($this->checkSetupController, 'forwardedForHeadersWorking')
+		);
+	}
+
+	public function testForwardedHostPresentButTrustedProxiesEmpty(): void {
 		$this->config->expects($this->once())
 			->method('getSystemValue')
 			->with('trusted_proxies', [])
@@ -594,7 +615,7 @@ class CheckSetupControllerTest extends TestCase {
 					'eol' => true,
 					'version' => PHP_VERSION
 				],
-				'forwardedForHeadersWorking' => true,
+				'forwardedForHeadersWorking' => false,
 				'reverseProxyDocs' => 'reverse-proxy-doc-link',
 				'isCorrectMemcachedPHPModuleInstalled' => true,
 				'hasPassedCodeIntegrityCheck' => true,
@@ -623,6 +644,8 @@ class CheckSetupControllerTest extends TestCase {
 				'imageMagickLacksSVGSupport' => false,
 				'isDefaultPhoneRegionSet' => false,
 				'OCA\Settings\SetupChecks\SupportedDatabase' => ['pass' => true, 'description' => '', 'severity' => 'info'],
+				'isFairUseOfFreePushService' => false,
+				'temporaryDirectoryWritable' => false,
 			]
 		);
 		$this->assertEquals($expected, $this->checkSetupController->check());
