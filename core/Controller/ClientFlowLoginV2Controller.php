@@ -117,7 +117,7 @@ class ClientFlowLoginV2Controller extends Controller {
 	 * @PublicPage
 	 * @UseSession
 	 */
-	public function showAuthPickerPage(): StandaloneTemplateResponse {
+	public function showAuthPickerPage($user = ''): StandaloneTemplateResponse {
 		try {
 			$flow = $this->getFlowByLoginToken();
 		} catch (LoginFlowV2NotFoundException $e) {
@@ -138,6 +138,7 @@ class ClientFlowLoginV2Controller extends Controller {
 				'instanceName' => $this->defaults->getName(),
 				'urlGenerator' => $this->urlGenerator,
 				'stateToken' => $stateToken,
+				'user' => $user,
 			],
 			'guest'
 		);

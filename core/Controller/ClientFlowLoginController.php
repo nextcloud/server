@@ -167,7 +167,7 @@ class ClientFlowLoginController extends Controller {
 	 *
 	 * @return StandaloneTemplateResponse
 	 */
-	public function showAuthPickerPage($clientIdentifier = '') {
+	public function showAuthPickerPage($clientIdentifier = '', $user = '') {
 		$clientName = $this->getClientName();
 		$client = null;
 		if ($clientIdentifier !== '') {
@@ -218,6 +218,7 @@ class ClientFlowLoginController extends Controller {
 				'stateToken' => $stateToken,
 				'serverHost' => $this->getServerPath(),
 				'oauthState' => $this->session->get('oauth.state'),
+				'user' => $user,
 			],
 			'guest'
 		);
