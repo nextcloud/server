@@ -222,6 +222,8 @@
     "Admin" : "Admin",
     "Help" : "Ajuda",
     "Access forbidden" : "Accès defendut",
+    "Profile not found" : "Perfil pas trobat",
+    "The profile does not exist." : "Lo perfil existís pas.",
     "Back to %s" : "Tornar a %s",
     "File not found" : "Fichièr pas trobat",
     "The document could not be found on the server. Maybe the share was deleted or has expired?" : "Lo document es pas trobable sul servidor. Benlèu que lo partiment foguèt suprimit o a expirat ?",
