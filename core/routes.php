@@ -68,6 +68,7 @@ $application->registerRoutes($this, [
 		['name' => 'ClientFlowLoginV2#grantPage', 'url' => '/login/v2/grant', 'verb' => 'GET'],
 		['name' => 'ClientFlowLoginV2#generateAppPassword', 'url' => '/login/v2/grant', 'verb' => 'POST'],
 		['name' => 'ClientFlowLoginV2#init', 'url' => '/login/v2', 'verb' => 'POST'],
+		['name' => 'ClientFlowLoginV2#apptokenRedirect', 'url' => '/login/v2/apptoken', 'verb' => 'POST'],
 		['name' => 'TwoFactorChallenge#selectChallenge', 'url' => '/login/selectchallenge', 'verb' => 'GET'],
 		['name' => 'TwoFactorChallenge#showChallenge', 'url' => '/login/challenge/{challengeProviderId}', 'verb' => 'GET'],
 		['name' => 'TwoFactorChallenge#solveChallenge', 'url' => '/login/challenge/{challengeProviderId}', 'verb' => 'POST'],

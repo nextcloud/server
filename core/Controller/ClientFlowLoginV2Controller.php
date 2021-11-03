@@ -27,6 +27,7 @@ declare(strict_types=1);
  */
 namespace OC\Core\Controller;
 
+use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Core\Db\LoginFlowV2;
 use OC\Core\Exception\LoginFlowV2NotFoundException;
 use OC\Core\Service\LoginFlowV2Service;
@@ -171,6 +172,36 @@ class ClientFlowLoginV2Controller extends Controller {
 			],
 			'guest'
 		);
+	}
+
+	/**
+	 * @PublicPage
+	 */
+	public function apptokenRedirect(string $stateToken, string $user, string $password) {
+		if (!$this->isValidStateToken($stateToken)) {
+			return $this->stateTokenForbiddenResponse();
+		}
+
+		try {
+			$token = \OC::$server->get(\OC\Authentication\Token\IProvider::class)->getToken($password);
+			if ($token->getLoginName() !== $user) {
+				throw new InvalidTokenException('login name does not match');
+			}
+		} catch (InvalidTokenException $e) {
+			$response = new StandaloneTemplateResponse(
+				$this->appName,
+				'403',
+				[
+					'message' => $this->l10n->t('Invalid app password'),
+				],
+				'guest'
+			);
+			$response->setStatus(Http::STATUS_FORBIDDEN);
+			return $response;
+		}
+
+		$redirectUri = 'nc://login/server:' . $this->getServerPath() . '&user:' . urlencode($user) . '&password:' . urlencode($password);
+		return new Http\RedirectResponse($redirectUri);
 	}
 
 	/**
