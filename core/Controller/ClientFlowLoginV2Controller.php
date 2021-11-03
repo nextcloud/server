@@ -27,11 +27,10 @@ declare(strict_types=1);
  */
 namespace OC\Core\Controller;
 
-use OC\Authentication\Exceptions\InvalidTokenException;
+use OC\Authentication\Token\IToken;
 use OC\Core\Db\LoginFlowV2;
 use OC\Core\Exception\LoginFlowV2NotFoundException;
 use OC\Core\Service\LoginFlowV2Service;
-use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\RedirectResponse;
@@ -44,7 +43,7 @@ use OCP\ISession;
 use OCP\IURLGenerator;
 use OCP\Security\ISecureRandom;
 
-class ClientFlowLoginV2Controller extends Controller {
+class ClientFlowLoginV2Controller extends ClientFlowLoginBaseController {
 	public const TOKEN_NAME = 'client.flow.v2.login.token';
 	public const STATE_NAME = 'client.flow.v2.state.token';
 
@@ -71,8 +70,9 @@ class ClientFlowLoginV2Controller extends Controller {
 								ISecureRandom $random,
 								Defaults $defaults,
 								?string $userId,
-								IL10N $l10n) {
-		parent::__construct($appName, $request);
+								IL10N $l10n,
+								IToken $tokenProvider) {
+		parent::__construct($appName, $request, $tokenProvider);
 		$this->loginFlowV2Service = $loginFlowV2Service;
 		$this->urlGenerator = $urlGenerator;
 		$this->session = $session;
@@ -175,36 +175,6 @@ class ClientFlowLoginV2Controller extends Controller {
 	}
 
 	/**
-	 * @PublicPage
-	 */
-	public function apptokenRedirect(string $stateToken, string $user, string $password) {
-		if (!$this->isValidStateToken($stateToken)) {
-			return $this->stateTokenForbiddenResponse();
-		}
-
-		try {
-			$token = \OC::$server->get(\OC\Authentication\Token\IProvider::class)->getToken($password);
-			if ($token->getLoginName() !== $user) {
-				throw new InvalidTokenException('login name does not match');
-			}
-		} catch (InvalidTokenException $e) {
-			$response = new StandaloneTemplateResponse(
-				$this->appName,
-				'403',
-				[
-					'message' => $this->l10n->t('Invalid app password'),
-				],
-				'guest'
-			);
-			$response->setStatus(Http::STATUS_FORBIDDEN);
-			return $response;
-		}
-
-		$redirectUri = 'nc://login/server:' . $this->getServerPath() . '&user:' . urlencode($user) . '&password:' . urlencode($password);
-		return new Http\RedirectResponse($redirectUri);
-	}
-
-	/**
 	 * @NoAdminRequired
 	 * @UseSession
 	 */
@@ -270,25 +240,12 @@ class ClientFlowLoginV2Controller extends Controller {
 		return new JSONResponse($data);
 	}
 
-	private function isValidStateToken(string $stateToken): bool {
+	protected function isValidStateToken(string $stateToken): bool {
 		$currentToken = $this->session->get(self::STATE_NAME);
 		if (!is_string($stateToken) || !is_string($currentToken)) {
 			return false;
 		}
 		return hash_equals($currentToken, $stateToken);
-	}
-
-	private function stateTokenForbiddenResponse(): StandaloneTemplateResponse {
-		$response = new StandaloneTemplateResponse(
-			$this->appName,
-			'403',
-			[
-				'message' => $this->l10n->t('State token does not match'),
-			],
-			'guest'
-		);
-		$response->setStatus(Http::STATUS_FORBIDDEN);
-		return $response;
 	}
 
 	/**

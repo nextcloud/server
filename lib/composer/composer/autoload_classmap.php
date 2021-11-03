@@ -916,6 +916,7 @@ return array(
     'OC\\Core\\Controller\\AutoCompleteController' => $baseDir . '/core/Controller/AutoCompleteController.php',
     'OC\\Core\\Controller\\AvatarController' => $baseDir . '/core/Controller/AvatarController.php',
     'OC\\Core\\Controller\\CSRFTokenController' => $baseDir . '/core/Controller/CSRFTokenController.php',
+    'OC\\Core\\Controller\\ClientFlowLoginBaseController' => $baseDir . '/core/Controller/ClientFlowLoginBaseController.php',
     'OC\\Core\\Controller\\ClientFlowLoginController' => $baseDir . '/core/Controller/ClientFlowLoginController.php',
     'OC\\Core\\Controller\\ClientFlowLoginV2Controller' => $baseDir . '/core/Controller/ClientFlowLoginV2Controller.php',
     'OC\\Core\\Controller\\CollaborationResourcesController' => $baseDir . '/core/Controller/CollaborationResourcesController.php',
