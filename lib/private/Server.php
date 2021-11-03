@@ -226,6 +226,7 @@ use OCP\Security\ICredentialsManager;
 use OCP\Security\ICrypto;
 use OCP\Security\IHasher;
 use OCP\Security\ISecureRandom;
+use OCP\Security\ITrustedDomainHelper;
 use OCP\Security\VerificationToken\IVerificationToken;
 use OCP\Share\IShareHelper;
 use OCP\SystemTag\ISystemTagManager;
@@ -968,6 +969,7 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerDeprecatedAlias('AsyncCommandBus', IBus::class);
 		/** @deprecated 20.0.0 */
 		$this->registerDeprecatedAlias('TrustedDomainHelper', TrustedDomainHelper::class);
+		$this->registerAlias(ITrustedDomainHelper::class, TrustedDomainHelper::class);
 		/** @deprecated 19.0.0 */
 		$this->registerDeprecatedAlias('Throttler', Throttler::class);
 		$this->registerService('IntegrityCodeChecker', function (ContainerInterface $c) {
