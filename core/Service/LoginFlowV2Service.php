@@ -186,6 +186,23 @@ class LoginFlowV2Service {
 		return true;
 	}
 
+	public function flowDoneWithAppPassword(string $loginToken, string $server, string $loginName, string $appPassword): bool {
+		try {
+			$data = $this->mapper->getByLoginToken($loginToken);
+		} catch (DoesNotExistException $e) {
+			return false;
+		}
+
+		$data->setLoginName($loginName);
+		$data->setServer($server);
+
+		// Properly encrypt
+		$data->setAppPassword($this->encryptPassword($appPassword, $data->getPublicKey()));
+
+		$this->mapper->update($data);
+		return true;
+	}
+
 	public function createTokens(string $userAgent): LoginFlowV2Tokens {
 		$flow = new LoginFlowV2();
 		$pollToken = $this->random->generate(128, ISecureRandom::CHAR_DIGITS.ISecureRandom::CHAR_LOWER.ISecureRandom::CHAR_UPPER);
