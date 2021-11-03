@@ -57,25 +57,20 @@ class CapabilitiesTest extends TestCase {
 
 	public function getCapabilitiesProvider() {
 		return [
-			[true, false, false, true, false],
-			[true, true, false, true, false],
-			[true, true, true, true, true],
-			[false, false, false, false, false],
-			[false, true, false, false, false],
-			[false, true, true, false, true],
+			[false, false, false],
+			[true, false, false],
+			[true, true, true],
 		];
 	}
 
 	/**
 	 * @dataProvider getCapabilitiesProvider
 	 */
-	public function testGetCapabilities($federationAppEnabled, $federatedFileSharingAppEnabled, $lookupServerEnabled, $expectedFederatedScopeEnabled, $expectedPublishedScopeEnabled) {
-		$this->appManager->expects($this->any())
-			->method('isEnabledForUser')
-			->will($this->returnValueMap([
-				['federation', null, $federationAppEnabled],
-				['federatedfilesharing', null, $federatedFileSharingAppEnabled],
-			]));
+	public function testGetCapabilities($federationAppEnabled, $lookupServerEnabled, $expectedFederationScopesEnabled) {
+		$this->appManager->expects($this->once())
+		   ->method('isEnabledForUser')
+		   ->with('federatedfilesharing')
+		   ->willReturn($federationAppEnabled);
 
 		$federatedShareProvider = $this->createMock(FederatedShareProvider::class);
 		$this->overwriteService(FederatedShareProvider::class, $federatedShareProvider);
@@ -88,8 +83,7 @@ class CapabilitiesTest extends TestCase {
 			'provisioning_api' => [
 				'version' => '1.12',
 				'AccountPropertyScopesVersion' => 2,
-				'AccountPropertyScopesFederatedEnabled' => $expectedFederatedScopeEnabled,
-				'AccountPropertyScopesPublishedEnabled' => $expectedPublishedScopeEnabled,
+				'AccountPropertyScopesFederationEnabled' => $expectedFederationScopesEnabled,
 			],
 		];
 		$this->assertSame($expected, $this->capabilities->getCapabilities());
