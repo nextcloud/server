@@ -33,6 +33,7 @@ use OCP\Calendar\Exceptions\CalendarException;
 use OCP\Calendar\ICreateFromString;
 use OCP\Constants;
 use Sabre\DAV\Exception\Conflict;
+use function Sabre\Uri\split as uriSplit;
 
 class CalendarImpl implements ICreateFromString {
 
@@ -145,11 +146,19 @@ class CalendarImpl implements ICreateFromString {
 		// so set the custom principal here
 		$plugin->setCurrentPrincipal($this->calendar->getPrincipalURI());
 
+		if (empty($this->calendarInfo['uri'])) {
+			throw new CalendarException('Could not write to calendar as URI parameter is missing');
+		}
+
+		// Build full calendar path
+		[, $user] = uriSplit($this->calendar->getPrincipalURI());
+		$fullCalendarFilename = sprintf('calendars/%s/%s/%s', $user, $this->calendarInfo['uri'], $name);
+
 		$stream = fopen('php://memory', 'rb+');
 		fwrite($stream, $calendarData);
 		rewind($stream);
 		try {
-			$server->server->createFile($name, $stream);
+			$server->server->createFile($fullCalendarFilename, $stream);
 		} catch (Conflict $e) {
 			throw new CalendarException('Could not create new calendar event: ' . $e->getMessage(), 0, $e);
 		} finally {
