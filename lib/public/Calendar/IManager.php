@@ -118,7 +118,7 @@ interface IManager {
 	/**
 	 * @return ICalendar[]
 	 * @since 13.0.0
-	 * @deprecated 23.0.0
+	 * @deprecated 23.0.0 use \OCP\Calendar\IManager::getCalendarsForPrincipal
 	 */
 	public function getCalendars();
 
@@ -130,6 +130,15 @@ interface IManager {
 	 * @deprecated 23.0.0
 	 */
 	public function clear();
+
+	/**
+	 * @param string $principalUri URI of the principal
+	 * @param string[] $calendarUris optionally specify which calendars to load, or all if this array is empty
+	 *
+	 * @return ICalendar[]
+	 * @since 23.0.0
+	 */
+	public function getCalendarsForPrincipal(string $principalUri, array $calendarUris = []): array;
 
 	/**
 	 * Query a principals calendar(s)
