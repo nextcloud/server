@@ -26,6 +26,7 @@ jobs:
 
       - name: Psalm
         run: composer run psalm -- --monochrome --no-progress --output-format=text --update-baseline
+        continue-on-error: true
 
       - name: Reset composer
         run: |
