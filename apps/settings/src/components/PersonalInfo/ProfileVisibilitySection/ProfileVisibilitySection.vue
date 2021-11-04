@@ -21,18 +21,24 @@
 -->
 
 <template>
-	<section>
+	<!-- TODO remove this inline margin placeholder once the settings layout is updated -->
+	<section
+		id="profile-visibility"
+		:style="{ marginLeft }">
 		<HeaderBar
 			:account-property="heading" />
 
-		<VisibilityDropdown v-for="parameter in visibilityArray"
-			:key="parameter.id"
-			:param-id="parameter.id"
-			:display-id="parameter.displayId"
-			:show-display-id="true"
-			:visibility.sync="parameter.visibility" />
+		<em :class="{ disabled }">
+			{{ t('settings', 'The more restrictive setting of either visibility or scope is respected on your Profile. For example, if visibility is set to "Show to everyone" and scope is set to "Private", "Private" is respected.') }}
+		</em>
 
-		<em :class="{ disabled }">{{ t('settings', 'The more restrictive setting of either visibility or scope is respected on your Profile — For example, when visibility is set to "Show to everyone" and scope is set to "Private", "Private" will be respected') }}</em>
+		<div class="visibility-dropdowns">
+			<VisibilityDropdown v-for="param in visibilityParams"
+				:key="param.id"
+				:param-id="param.id"
+				:display-id="param.displayId"
+				:visibility.sync="param.visibility" />
+		</div>
 	</section>
 </template>
 
@@ -41,8 +47,8 @@ import { loadState } from '@nextcloud/initial-state'
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 
 import HeaderBar from '../shared/HeaderBar'
-import VisibilityDropdown from '../shared/VisibilityDropdown'
-import { ACCOUNT_PROPERTY_ENUM, PROFILE_READABLE_ENUM } from '../../../constants/AccountPropertyConstants'
+import VisibilityDropdown from './VisibilityDropdown'
+import { PROFILE_READABLE_ENUM } from '../../../constants/AccountPropertyConstants'
 
 const { profileConfig } = loadState('settings', 'profileParameters', {})
 const { profileEnabled } = loadState('settings', 'personalInfoParameters', false)
@@ -59,10 +65,11 @@ export default {
 		return {
 			heading: PROFILE_READABLE_ENUM.PROFILE_VISIBILITY,
 			profileEnabled,
-			visibilityArray: Object.entries(profileConfig)
-				// Filter for profile parameters registered by apps in this section as visibility controls for the rest (account properties) are handled in their respective property sections
-				.filter(([paramId, { displayId, visibility }]) => !Object.values(ACCOUNT_PROPERTY_ENUM).includes(paramId))
-				.map(([paramId, { displayId, visibility }]) => ({ id: paramId, displayId, visibility })),
+			visibilityParams: Object.entries(profileConfig)
+				.map(([paramId, { appId, displayId, visibility }]) => ({ id: paramId, appId, displayId, visibility }))
+				.sort((a, b) => a.appId === b.appId ? a.displayId.localeCompare(b.displayId) : (a.appId !== 'core' ? -1 : 1)),
+			// TODO remove this when not used once the settings layout is updated
+			marginLeft: window.getComputedStyle(document.getElementById('personal-settings-avatar-container')).getPropertyValue('width').trim(),
 		}
 	},
 
@@ -74,6 +81,12 @@ export default {
 
 	mounted() {
 		subscribe('settings:profile-enabled:updated', this.handleProfileEnabledUpdate)
+		// TODO remove this when not used once the settings layout is updated
+		window.onresize = () => {
+			this.marginLeft = window.matchMedia('(min-width: 1200px)').matches
+				? window.getComputedStyle(document.getElementById('personal-settings-avatar-container')).getPropertyValue('width').trim()
+				: '0px'
+		}
 	},
 
 	beforeDestroy() {
@@ -90,11 +103,11 @@ export default {
 
 <style lang="scss" scoped>
 section {
-	padding: 10px 10px;
+	padding: 30px;
 
 	em {
 		display: block;
-		margin-top: 16px;
+		margin: 16px 0;
 
 		&.disabled {
 			filter: grayscale(1);
@@ -110,8 +123,23 @@ section {
 		}
 	}
 
-	&::v-deep button:disabled {
-		cursor: default;
+	.visibility-dropdowns {
+		display: grid;
+		grid-template-rows: repeat(auto-fit, 44px);
+		gap: 10px 40px;
+	}
+
+	@media (min-width: 1200px) {
+		width: 940px;
+
+		.visibility-dropdowns {
+			grid-auto-flow: column;
+			height: 320px;
+		}
+	}
+
+	@media (max-width: 1200px) {
+		width: 470px;
 	}
 }
 </style>

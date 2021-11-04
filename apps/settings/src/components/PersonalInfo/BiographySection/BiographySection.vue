@@ -30,11 +30,6 @@
 		<Biography
 			:biography.sync="primaryBiography.value"
 			:scope.sync="primaryBiography.scope" />
-
-		<VisibilityDropdown
-			:param-id="accountPropertyId"
-			:display-id="accountProperty"
-			:visibility.sync="visibility" />
 	</section>
 </template>
 
@@ -43,12 +38,10 @@ import { loadState } from '@nextcloud/initial-state'
 
 import Biography from './Biography'
 import HeaderBar from '../shared/HeaderBar'
-import VisibilityDropdown from '../shared/VisibilityDropdown'
 
-import { ACCOUNT_PROPERTY_ENUM, ACCOUNT_PROPERTY_READABLE_ENUM } from '../../../constants/AccountPropertyConstants'
+import { ACCOUNT_PROPERTY_READABLE_ENUM } from '../../../constants/AccountPropertyConstants'
 
 const { biographyMap: { primaryBiography } } = loadState('settings', 'personalInfoParameters', {})
-const { profileConfig: { biography: { visibility } } } = loadState('settings', 'profileParameters', {})
 
 export default {
 	name: 'BiographySection',
@@ -56,15 +49,12 @@ export default {
 	components: {
 		Biography,
 		HeaderBar,
-		VisibilityDropdown,
 	},
 
 	data() {
 		return {
 			accountProperty: ACCOUNT_PROPERTY_READABLE_ENUM.BIOGRAPHY,
-			accountPropertyId: ACCOUNT_PROPERTY_ENUM.BIOGRAPHY,
 			primaryBiography,
-			visibility,
 		}
 	},
 }

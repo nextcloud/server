@@ -40,11 +40,6 @@
 				:active-notification-email.sync="notificationEmail"
 				@update:email="onUpdateEmail"
 				@update:notification-email="onUpdateNotificationEmail" />
-
-			<VisibilityDropdown
-				:param-id="accountPropertyId"
-				:display-id="accountProperty"
-				:visibility.sync="visibility" />
 		</template>
 
 		<span v-else>
@@ -73,15 +68,13 @@ import { showError } from '@nextcloud/dialogs'
 
 import Email from './Email'
 import HeaderBar from '../shared/HeaderBar'
-import VisibilityDropdown from '../shared/VisibilityDropdown'
 
-import { ACCOUNT_PROPERTY_ENUM, ACCOUNT_PROPERTY_READABLE_ENUM, DEFAULT_ADDITIONAL_EMAIL_SCOPE } from '../../../constants/AccountPropertyConstants'
+import { ACCOUNT_PROPERTY_READABLE_ENUM, DEFAULT_ADDITIONAL_EMAIL_SCOPE } from '../../../constants/AccountPropertyConstants'
 import { savePrimaryEmail, savePrimaryEmailScope, removeAdditionalEmail } from '../../../service/PersonalInfo/EmailService'
 import { validateEmail } from '../../../utils/validate'
 
 const { emailMap: { additionalEmails, primaryEmail, notificationEmail } } = loadState('settings', 'personalInfoParameters', {})
 const { displayNameChangeSupported } = loadState('settings', 'accountParameters', {})
-const { profileConfig: { email: { visibility } } } = loadState('settings', 'profileParameters', {})
 
 export default {
 	name: 'EmailSection',
@@ -89,19 +82,16 @@ export default {
 	components: {
 		HeaderBar,
 		Email,
-		VisibilityDropdown,
 	},
 
 	data() {
 		return {
 			accountProperty: ACCOUNT_PROPERTY_READABLE_ENUM.EMAIL,
-			accountPropertyId: ACCOUNT_PROPERTY_ENUM.EMAIL,
 			additionalEmails,
 			displayNameChangeSupported,
 			primaryEmail,
 			savePrimaryEmailScope,
 			notificationEmail,
-			visibility,
 		}
 	},
 

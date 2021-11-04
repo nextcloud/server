@@ -30,11 +30,6 @@
 		<Organisation
 			:organisation.sync="primaryOrganisation.value"
 			:scope.sync="primaryOrganisation.scope" />
-
-		<VisibilityDropdown
-			:param-id="accountPropertyId"
-			:display-id="accountProperty"
-			:visibility.sync="visibility" />
 	</section>
 </template>
 
@@ -43,12 +38,10 @@ import { loadState } from '@nextcloud/initial-state'
 
 import Organisation from './Organisation'
 import HeaderBar from '../shared/HeaderBar'
-import VisibilityDropdown from '../shared/VisibilityDropdown'
 
-import { ACCOUNT_PROPERTY_ENUM, ACCOUNT_PROPERTY_READABLE_ENUM } from '../../../constants/AccountPropertyConstants'
+import { ACCOUNT_PROPERTY_READABLE_ENUM } from '../../../constants/AccountPropertyConstants'
 
 const { organisationMap: { primaryOrganisation } } = loadState('settings', 'personalInfoParameters', {})
-const { profileConfig: { organisation: { visibility } } } = loadState('settings', 'profileParameters', {})
 
 export default {
 	name: 'OrganisationSection',
@@ -56,15 +49,12 @@ export default {
 	components: {
 		Organisation,
 		HeaderBar,
-		VisibilityDropdown,
 	},
 
 	data() {
 		return {
 			accountProperty: ACCOUNT_PROPERTY_READABLE_ENUM.ORGANISATION,
-			accountPropertyId: ACCOUNT_PROPERTY_ENUM.ORGANISATION,
 			primaryOrganisation,
-			visibility,
 		}
 	},
 }

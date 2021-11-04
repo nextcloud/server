@@ -187,7 +187,7 @@ class PersonalInfo implements ISettings {
 		];
 
 		$profileParameters = [
-			'profileConfig' => $this->profileManager->getProfileConfig($user, $user),
+			'profileConfig' => $this->profileManager->getProfileConfigWithMetadata($user, $user),
 		];
 
 		$this->initialStateService->provideInitialState('personalInfoParameters', $personalInfoParameters);

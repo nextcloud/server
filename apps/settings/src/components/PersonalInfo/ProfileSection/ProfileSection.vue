@@ -33,6 +33,9 @@
 			:display-name="displayName"
 			:profile-enabled="profileEnabled"
 			:user-id="userId" />
+
+		<EditProfileAnchorLink
+			:profile-enabled="profileEnabled" />
 	</section>
 </template>
 
@@ -40,6 +43,7 @@
 import { loadState } from '@nextcloud/initial-state'
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 
+import EditProfileAnchorLink from './EditProfileAnchorLink'
 import HeaderBar from '../shared/HeaderBar'
 import ProfileCheckbox from './ProfileCheckbox'
 import ProfilePreviewCard from './ProfilePreviewCard'
@@ -57,6 +61,7 @@ export default {
 	name: 'ProfileSection',
 
 	components: {
+		EditProfileAnchorLink,
 		HeaderBar,
 		ProfileCheckbox,
 		ProfilePreviewCard,
