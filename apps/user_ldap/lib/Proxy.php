@@ -36,6 +36,7 @@ namespace OCA\User_LDAP;
 use OCA\User_LDAP\Mapping\GroupMapping;
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\User\Manager;
+use Psr\Log\LoggerInterface;
 
 abstract class Proxy {
 	private static $accesses = [];
@@ -70,6 +71,7 @@ abstract class Proxy {
 		static $db;
 		static $coreUserManager;
 		static $coreNotificationManager;
+		static $logger;
 		if ($fs === null) {
 			$ocConfig = \OC::$server->getConfig();
 			$fs = new FilesystemHelper();
@@ -80,12 +82,13 @@ abstract class Proxy {
 			$groupMap = new GroupMapping($db);
 			$coreUserManager = \OC::$server->getUserManager();
 			$coreNotificationManager = \OC::$server->getNotificationManager();
+			$logger = \OC::$server->get(LoggerInterface::class);
 		}
 		$userManager =
 			new Manager($ocConfig, $fs, $log, $avatarM, new \OCP\Image(), $db,
 				$coreUserManager, $coreNotificationManager);
 		$connector = new Connection($this->ldap, $configPrefix);
-		$access = new Access($connector, $this->ldap, $userManager, new Helper($ocConfig), $ocConfig, $coreUserManager);
+		$access = new Access($connector, $this->ldap, $userManager, new Helper($ocConfig), $ocConfig, $coreUserManager, $logger);
 		$access->setUserMapper($userMap);
 		$access->setGroupMapper($groupMap);
 		self::$accesses[$configPrefix] = $access;
