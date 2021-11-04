@@ -80,6 +80,7 @@
 		<UndefinedClass>
 			<errorLevel type="suppress">
 				<referencedClass name="OCA\GroupFolders\Mount\GroupFolderStorage"/>
+				<referencedClass name="OCA\TwoFactorNextcloudNotification\Controller\APIController"/>
 				<!-- Classes from PHP>=8 (needed to be able to use \GdImage::class) -->
 				<referencedClass name="GdImage" />
 			</errorLevel>
