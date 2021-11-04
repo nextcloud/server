@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0ffc772b2aaaaffe52decb8d13361976",
+    "content-hash": "ed821b15824934fd2d245faca1f35aad",
     "packages": [
         {
             "name": "icewind/smb",
-            "version": "v3.4.1",
+            "version": "v3.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/icewind1991/SMB.git",
-                "reference": "9dba42ab2a3990de29e18cc62b0a8270aceb74e3"
+                "reference": "c1ce4fbb2ff1786846d9d0b3850b395ca94cf563"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/icewind1991/SMB/zipball/9dba42ab2a3990de29e18cc62b0a8270aceb74e3",
-                "reference": "9dba42ab2a3990de29e18cc62b0a8270aceb74e3",
+                "url": "https://api.github.com/repos/icewind1991/SMB/zipball/c1ce4fbb2ff1786846d9d0b3850b395ca94cf563",
+                "reference": "c1ce4fbb2ff1786846d9d0b3850b395ca94cf563",
                 "shasum": ""
             },
             "require": {
@@ -49,9 +49,9 @@
             "description": "php wrapper for smbclient and libsmbclient-php",
             "support": {
                 "issues": "https://github.com/icewind1991/SMB/issues",
-                "source": "https://github.com/icewind1991/SMB/tree/v3.4.1"
+                "source": "https://github.com/icewind1991/SMB/tree/v3.5.1"
             },
-            "time": "2021-04-19T13:53:08+00:00"
+            "time": "2021-11-04T14:28:18+00:00"
         },
         {
             "name": "icewind/streams",

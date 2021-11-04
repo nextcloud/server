@@ -48,6 +48,7 @@ return array(
     'Icewind\\SMB\\IShare' => $vendorDir . '/icewind/smb/src/IShare.php',
     'Icewind\\SMB\\ISystem' => $vendorDir . '/icewind/smb/src/ISystem.php',
     'Icewind\\SMB\\ITimeZoneProvider' => $vendorDir . '/icewind/smb/src/ITimeZoneProvider.php',
+    'Icewind\\SMB\\KerberosApacheAuth' => $vendorDir . '/icewind/smb/src/KerberosApacheAuth.php',
     'Icewind\\SMB\\KerberosAuth' => $vendorDir . '/icewind/smb/src/KerberosAuth.php',
     'Icewind\\SMB\\Native\\NativeFileInfo' => $vendorDir . '/icewind/smb/src/Native/NativeFileInfo.php',
     'Icewind\\SMB\\Native\\NativeReadStream' => $vendorDir . '/icewind/smb/src/Native/NativeReadStream.php',

@@ -62,7 +62,7 @@ class System implements ISystem {
 			$result = null;
 			$output = [];
 			exec("which $binary 2>&1", $output, $result);
-			$this->paths[$binary] = $result === 0 ? trim(implode('', $output)) : null;
+			$this->paths[$binary] = $result === 0 && isset($output[0]) ? (string)$output[0] : null;
 		}
 		return $this->paths[$binary];
 	}
