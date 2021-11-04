@@ -900,9 +900,12 @@ export default {
 }
 
 // force white icon on single buttons
-#viewer.theme--dark .action-item--single.icon-menu-sidebar,
-body.theme--dark #viewer.theme--default .action-item--single.icon-menu-sidebar {
+#viewer.modal-mask--dark .action-item--single.icon-menu-sidebar {
 	background-image: url('../assets/menu-sidebar-white.svg');
+}
+
+#viewer.modal-mask--dark .action-item--single.icon-download {
+	background-image: var(--icon-download-fff);
 }
 
 // put autocomplete over full sidebar
