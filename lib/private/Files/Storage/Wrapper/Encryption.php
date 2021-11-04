@@ -136,7 +136,7 @@ class Encryption extends Wrapper {
 	 * The result for filesize when called on a folder is required to be 0
 	 *
 	 * @param string $path
-	 * @return int
+	 * @return int|bool
 	 */
 	public function filesize($path) {
 		$fullPath = $this->getFullPath($path);
@@ -209,7 +209,7 @@ class Encryption extends Wrapper {
 	 * see http://php.net/manual/en/function.file_get_contents.php
 	 *
 	 * @param string $path
-	 * @return string
+	 * @return string|bool
 	 */
 	public function file_get_contents($path) {
 		$encryptionModule = $this->getEncryptionModule($path);
@@ -402,6 +402,7 @@ class Encryption extends Wrapper {
 
 				if ($this->file_exists($path)) {
 					$size = $this->storage->filesize($path);
+					/** @var int */
 					$unencryptedSize = $this->filesize($path);
 				} else {
 					$size = $unencryptedSize = 0;
@@ -498,7 +499,7 @@ class Encryption extends Wrapper {
 			if (isset($this->fixUnencryptedSizeOf[$this->getFullPath($path)]) === false) {
 				$this->fixUnencryptedSizeOf[$this->getFullPath($path)] = true;
 				try {
-					$result = $this->fixUnencryptedSize($path, $size, $unencryptedSize);
+					$result = $this->fixUnencryptedSize($path, (int) $size, $unencryptedSize);
 				} catch (\Exception $e) {
 					$this->logger->error('Couldn\'t re-calculate unencrypted size for ' . $path);
 					$this->logger->logException($e);
@@ -760,7 +761,7 @@ class Encryption extends Wrapper {
 			}
 			if ($result) {
 				if ($preserveMtime) {
-					$this->touch($targetInternalPath, $sourceStorage->filemtime($sourceInternalPath));
+					$this->touch($targetInternalPath, (int) $sourceStorage->filemtime($sourceInternalPath));
 				}
 				$this->updateEncryptedVersion($sourceStorage, $sourceInternalPath, $targetInternalPath, $isRename, false);
 			} else {
@@ -778,7 +779,7 @@ class Encryption extends Wrapper {
 	 * The local version of the file can be temporary and doesn't have to be persistent across requests
 	 *
 	 * @param string $path
-	 * @return string
+	 * @return bool|string
 	 */
 	public function getLocalFile($path) {
 		if ($this->encryptionManager->isEnabled()) {
@@ -807,7 +808,7 @@ class Encryption extends Wrapper {
 	 * only the following keys are required in the result: size and mtime
 	 *
 	 * @param string $path
-	 * @return array
+	 * @return array|bool
 	 */
 	public function stat($path) {
 		$stat = $this->storage->stat($path);
