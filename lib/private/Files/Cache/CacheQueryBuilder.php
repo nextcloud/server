@@ -95,7 +95,7 @@ class CacheQueryBuilder extends QueryBuilder {
 		return $this;
 	}
 
-	public function whereParentIn(array $parents) {
+	public function whereParentInParameter(string $parameter) {
 		$alias = $this->alias;
 		if ($alias) {
 			$alias .= '.';
@@ -103,7 +103,7 @@ class CacheQueryBuilder extends QueryBuilder {
 			$alias = '';
 		}
 
-		$this->andWhere($this->expr()->in("{$alias}parent", $this->createNamedParameter($parents, IQueryBuilder::PARAM_INT_ARRAY)));
+		$this->andWhere($this->expr()->in("{$alias}parent", $this->createParameter($parameter)));
 
 		return $this;
 	}
