@@ -1,45 +1,41 @@
 name: Update Psalm baseline
 
 on:
-  workflow_dispatch:
   schedule:
     - cron: '5 4 * * *'
 
 jobs:
   update-psalm-baseline:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v2
-        with:
-          submodules: true
-
+      - name: Checkout submodules
+        shell: bash
+        run: |
+          auth_header="$(git config --local --get http.https://github.com/.extraheader)"
+          git submodule sync --recursive
+          git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --force --recursive --depth=1
       - name: Set up php7.4
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@master
         with:
           php-version: 7.4
-          extensions: ctype,curl,dom,fileinfo,gd,iconv,intl,json,mbstring,openssl,pdo_sqlite,posix,sqlite,xml,zip
           coverage: none
-
       - name: Composer install
-        run: composer install
-
+        run: composer i
       - name: Psalm
         run: composer run psalm -- --monochrome --no-progress --output-format=text --update-baseline
-        continue-on-error: true
-
-      - name: Reset composer
+      - name: Reset composer.json and composer.lock
         run: |
-          git clean -f lib/composer
-          git checkout composer.json composer.lock lib/composer
-
+          rm -rf lib/composer
+          git checkout -- composer.json composer.lock lib/composer
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
         with:
-          token: ${{ secrets.COMMAND_BOT_PAT }}
+          token: ${{ secrets.MACHINE_USER_PAT }}
+          push-to-fork: nextcloud-pr-bot/server
           commit-message: Update psalm baseline
           committer: GitHub <noreply@github.com>
-          author: nextcloud-command <nextcloud-command@users.noreply.github.com>
+          author: Nextcloud-PR-Bot <nextcloud-pr-bot@users.noreply.github.com>
           signoff: true
           branch: automated/noid/psalm-baseline-update
           title: '[Automated] Update psalm-baseline.xml'
@@ -47,5 +43,4 @@ jobs:
             Auto-generated update psalm-baseline.xml with fixed psalm warnings
           labels: |
             automated pr
-            3. to review
-          team-reviewers: server-backend
+          reviewers: rullzer, morrisjobke, kesselb
