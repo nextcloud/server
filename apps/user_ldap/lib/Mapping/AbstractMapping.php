@@ -355,6 +355,17 @@ abstract class AbstractMapping {
 	 * @return bool
 	 */
 	public function map($fdn, $name, $uuid) {
+		if (mb_strlen($fdn) > 4096) {
+			\OC::$server->getLogger()->error(
+				'Cannot map, because the DN exceeds 4096 characters: {dn}',
+				[
+					'app' => 'user_ldap',
+					'dn' => $fdn,
+				]
+			);
+			return false;
+		}
+
 		$row = [
 			'ldap_dn_hash' => $this->getDNHash($fdn),
 			'ldap_dn' => $fdn,
