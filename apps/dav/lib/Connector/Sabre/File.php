@@ -494,7 +494,7 @@ class File extends Node implements IFile {
 	}
 
 	/**
-	 * @return array|bool
+	 * @return array|false
 	 */
 	public function getDirectDownload() {
 		if (\OCP\App::isEnabled('encryption')) {

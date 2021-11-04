@@ -26,7 +26,6 @@ namespace OC\Files\ObjectStore;
 
 use OCP\Files\ObjectStore\IObjectStore;
 use OCP\Files\Storage\IStorage;
-use function is_resource;
 
 /**
  * Object store that wraps a storage backend, mostly for testing purposes
@@ -58,11 +57,11 @@ class StorageObjectStore implements IObjectStore {
 	 */
 	public function readObject($urn) {
 		$handle = $this->storage->fopen($urn, 'r');
-		if (is_resource($handle)) {
+		if ($handle) {
 			return $handle;
+		} else {
+			throw new \Exception();
 		}
-
-		throw new \Exception();
 	}
 
 	/**

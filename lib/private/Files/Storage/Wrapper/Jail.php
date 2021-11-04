@@ -106,7 +106,7 @@ class Jail extends Wrapper {
 	 * see http://php.net/manual/en/function.opendir.php
 	 *
 	 * @param string $path
-	 * @return resource|bool
+	 * @return resource
 	 */
 	public function opendir($path) {
 		return $this->getWrapperStorage()->opendir($this->getUnjailedPath($path));
@@ -137,7 +137,7 @@ class Jail extends Wrapper {
 	 * only the following keys are required in the result: size and mtime
 	 *
 	 * @param string $path
-	 * @return array|bool
+	 * @return array
 	 */
 	public function stat($path) {
 		return $this->getWrapperStorage()->stat($this->getUnjailedPath($path));
@@ -158,7 +158,7 @@ class Jail extends Wrapper {
 	 * The result for filesize when called on a folder is required to be 0
 	 *
 	 * @param string $path
-	 * @return int|bool
+	 * @return int
 	 */
 	public function filesize($path) {
 		return $this->getWrapperStorage()->filesize($this->getUnjailedPath($path));
@@ -239,7 +239,7 @@ class Jail extends Wrapper {
 	 * see http://php.net/manual/en/function.filemtime.php
 	 *
 	 * @param string $path
-	 * @return int|bool
+	 * @return int
 	 */
 	public function filemtime($path) {
 		return $this->getWrapperStorage()->filemtime($this->getUnjailedPath($path));
@@ -249,7 +249,7 @@ class Jail extends Wrapper {
 	 * see http://php.net/manual/en/function.file_get_contents.php
 	 *
 	 * @param string $path
-	 * @return string|bool
+	 * @return string
 	 */
 	public function file_get_contents($path) {
 		return $this->getWrapperStorage()->file_get_contents($this->getUnjailedPath($path));
@@ -303,7 +303,7 @@ class Jail extends Wrapper {
 	 *
 	 * @param string $path
 	 * @param string $mode
-	 * @return resource|bool
+	 * @return resource
 	 */
 	public function fopen($path, $mode) {
 		return $this->getWrapperStorage()->fopen($this->getUnjailedPath($path), $mode);
@@ -314,7 +314,7 @@ class Jail extends Wrapper {
 	 * The mimetype for a folder is required to be "httpd/unix-directory"
 	 *
 	 * @param string $path
-	 * @return string|bool
+	 * @return string
 	 */
 	public function getMimeType($path) {
 		return $this->getWrapperStorage()->getMimeType($this->getUnjailedPath($path));
@@ -326,7 +326,7 @@ class Jail extends Wrapper {
 	 * @param string $type
 	 * @param string $path
 	 * @param bool $raw
-	 * @return string|bool
+	 * @return string
 	 */
 	public function hash($type, $path, $raw = false) {
 		return $this->getWrapperStorage()->hash($type, $this->getUnjailedPath($path), $raw);
@@ -336,7 +336,7 @@ class Jail extends Wrapper {
 	 * see http://php.net/manual/en/function.free_space.php
 	 *
 	 * @param string $path
-	 * @return int|bool
+	 * @return int
 	 */
 	public function free_space($path) {
 		return $this->getWrapperStorage()->free_space($this->getUnjailedPath($path));
@@ -346,7 +346,7 @@ class Jail extends Wrapper {
 	 * search for occurrences of $query in file names
 	 *
 	 * @param string $query
-	 * @return array|bool
+	 * @return array
 	 */
 	public function search($query) {
 		return $this->getWrapperStorage()->search($query);
@@ -369,7 +369,7 @@ class Jail extends Wrapper {
 	 * The local version of the file can be temporary and doesn't have to be persistent across requests
 	 *
 	 * @param string $path
-	 * @return string|bool
+	 * @return string
 	 */
 	public function getLocalFile($path) {
 		return $this->getWrapperStorage()->getLocalFile($this->getUnjailedPath($path));
@@ -432,7 +432,7 @@ class Jail extends Wrapper {
 	 * get the ETag for a file or folder
 	 *
 	 * @param string $path
-	 * @return string|bool
+	 * @return string
 	 */
 	public function getETag($path) {
 		return $this->getWrapperStorage()->getETag($this->getUnjailedPath($path));
