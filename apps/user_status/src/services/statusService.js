@@ -54,11 +54,11 @@ const fetchCurrentBackupStatus = async() => {
  * @returns {Promise<void>}
  */
 const revertStatus = async(status) => {
-	console.debug(status)
 	const url = generateOcsUrl('apps/user_status/api/v1/user_status/revert')
 	const response = await HttpClient.post(url, {
 		status,
 	})
+
 	return response.data.ocs.data
 }
 
