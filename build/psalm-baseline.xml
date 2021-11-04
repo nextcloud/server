@@ -4261,11 +4261,6 @@
       <code>[]</code>
     </InvalidReturnStatement>
   </file>
-  <file src="lib/private/Preview/Bitmap.php">
-    <ImplicitToStringCast occurrences="1">
-      <code>$bp</code>
-    </ImplicitToStringCast>
-  </file>
   <file src="lib/private/Preview/Generator.php">
     <InvalidArgument occurrences="2">
       <code>$maxPreviewImage</code>
@@ -4305,11 +4300,6 @@
       <code>$provider-&gt;getThumbnail($file, $maxWidth, $maxHeight)</code>
     </NullableReturnStatement>
   </file>
-  <file src="lib/private/Preview/HEIC.php">
-    <ImplicitToStringCast occurrences="1">
-      <code>$bp</code>
-    </ImplicitToStringCast>
-  </file>
   <file src="lib/private/Preview/Movie.php">
     <InvalidScalarArgument occurrences="2">
       <code>$second</code>
@@ -4331,11 +4321,6 @@
     <InvalidReturnType occurrences="1">
       <code>string</code>
     </InvalidReturnType>
-  </file>
-  <file src="lib/private/Preview/SVG.php">
-    <ImplicitToStringCast occurrences="1">
-      <code>$svg</code>
-    </ImplicitToStringCast>
   </file>
   <file src="lib/private/RedisFactory.php">
     <InvalidScalarArgument occurrences="1">
@@ -4982,10 +4967,6 @@
     <RedundantCondition occurrences="1">
       <code>$isWritable</code>
     </RedundantCondition>
-    <TypeDoesNotContainType occurrences="2">
-      <code>get_class($resource) === 'GdImage'</code>
-      <code>get_class($this-&gt;resource) === 'GdImage'</code>
-    </TypeDoesNotContainType>
   </file>
   <file src="lib/private/legacy/OC_JSON.php">
     <InvalidScalarArgument occurrences="1">
