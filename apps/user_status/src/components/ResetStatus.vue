@@ -22,7 +22,7 @@
 <template>
 	<div v-if="hasLoaded && backupStatus.status">
 		{{ $t('user_status', 'Automatically set during calls and events.') }}<br />
-		{{ $t('user_status', 'Reset to') }}
+		{{ $t('user_status', 'Reset to:') }}
 		<a
 			href="#"
 			role="button"

@@ -41,7 +41,7 @@ const fetchCurrentStatus = async() => {
  * @returns {Promise<Object>}
  */
 const fetchCurrentBackupStatus = async() => {
-	const url = generateOcsUrl('apps/user_status/api/v1/user_status_backup')
+	const url = generateOcsUrl('apps/user_status/api/v1/user_status/backup')
 	const response = await HttpClient.get(url)
 
 	return response.data.ocs.data
@@ -56,9 +56,10 @@ const fetchCurrentBackupStatus = async() => {
 const revertStatus = async(status) => {
 	console.debug(status)
 	const url = generateOcsUrl('apps/user_status/api/v1/user_status/revert')
-	await HttpClient.post(url, {
+	const response = await HttpClient.post(url, {
 		status,
 	})
+	return response.data.ocs.data
 }
 
 /**

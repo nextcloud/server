@@ -205,7 +205,12 @@ class UserStatusController extends OCSController {
 	 */
 	public function revert(array $status): DataResponse {
 		$this->service->revertUserStatus($this->userId, null, $status['status']);
-		return new DataResponse([]);
+		try {
+			$userStatus = $this->service->findByUserId($this->userId, true);
+		} catch (DoesNotExistException $ex) {
+			return new DataResponse(['hasBackup' => false]);
+		}
+		return new DataResponse($this->formatStatus($userStatus));
 	}
 
 	/**

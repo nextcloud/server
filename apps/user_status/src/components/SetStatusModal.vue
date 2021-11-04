@@ -37,8 +37,6 @@
 					@select="changeStatus" />
 			</div>
 
-			<ResetStatus />
-
 			<!-- Status message -->
 			<div class="set-status-modal__header">
 				<h3>{{ $t('user_status', 'Status message') }}</h3>
@@ -56,6 +54,7 @@
 					@change="setMessage"
 					@submit="saveStatus" />
 			</div>
+			<ResetStatus />
 			<PredefinedStatusesList
 				@selectStatus="selectPredefinedMessage" />
 			<ClearAtSelect

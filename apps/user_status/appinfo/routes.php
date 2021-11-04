@@ -35,7 +35,7 @@ return [
 		['name' => 'UserStatus#setCustomMessage', 'url' => '/api/v1/user_status/message/custom', 'verb' => 'PUT'],
 		['name' => 'UserStatus#clearMessage', 'url' => '/api/v1/user_status/message', 'verb' => 'DELETE'],
 		// Routes for getting your backup status (if it exists)
-		['name' => 'UserStatus#getBackupStatus', 'url' => '/api/v1/user_status_backup', 'verb' => 'GET'],
+		['name' => 'UserStatus#getBackupStatus', 'url' => '/api/v1/user_status/backup', 'verb' => 'GET'],
 		['name' => 'UserStatus#revert', 'url' => '/api/v1/user_status/revert', 'verb' => 'POST'],
 		// Routes for listing default routes
 		['name' => 'PredefinedStatus#findAll', 'url' => '/api/v1/predefined_statuses/', 'verb' => 'GET']

@@ -179,9 +179,9 @@ const actions = {
 	 * @returns {Promise<void>}
 	 */
 	async revertStatus({ commit, state, dispatch }, { status, backupStatus }) {
-		await revertStatus(status)
+		const newBackup = await revertStatus(status)
 		commit('loadStatusFromServer', backupStatus)
-		dispatch('loadBackupStatus')
+		dispatch('setBackupStatus', newBackup)
 		emit('user_status:status.updated', {
 			status: state.status,
 			message: state.message,

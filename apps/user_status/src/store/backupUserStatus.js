@@ -87,6 +87,22 @@ const actions = {
 		}
 		commit('loadBackupStatusFromServer', status)
 	},
+
+	/**
+	 * Set the backup status
+	 *
+	 * @param {Object} vuex The Vuex destructuring object
+	 * @param {Function} vuex.commit The Vuex commit function
+	 * @param {Object} backupStatus The new backup state
+	 * @returns {Promise<void>}
+	 */
+	async setBackupStatus({ commit }, backupStatus) {
+		if ('hasBackup' in backupStatus && backupStatus.hasBackup === false) {
+			commit('loadBackupStatusFromServer', {})
+			return
+		}
+		commit('loadBackupStatusFromServer', backupStatus)
+	},
 }
 
 export default { state, mutations, getters, actions }
