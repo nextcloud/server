@@ -122,6 +122,14 @@ export const PROPERTY_READABLE_SUPPORTED_SCOPES_ENUM = Object.freeze({
 	[ACCOUNT_PROPERTY_READABLE_ENUM.WEBSITE]: [SCOPE_ENUM.LOCAL, SCOPE_ENUM.PRIVATE],
 })
 
+/** List of readable account properties which aren't published to the lookup server */
+export const UNPUBLISHED_READABLE_PROPERTIES = Object.freeze([
+	ACCOUNT_PROPERTY_READABLE_ENUM.BIOGRAPHY,
+	ACCOUNT_PROPERTY_READABLE_ENUM.HEADLINE,
+	ACCOUNT_PROPERTY_READABLE_ENUM.ORGANISATION,
+	ACCOUNT_PROPERTY_READABLE_ENUM.ROLE,
+])
+
 /** Scope suffix */
 export const SCOPE_SUFFIX = 'Scope'
 
@@ -135,7 +143,7 @@ export const SCOPE_PROPERTY_ENUM = Object.freeze({
 		name: SCOPE_ENUM.PRIVATE,
 		displayName: t('settings', 'Private'),
 		tooltip: t('settings', 'Only visible to people matched via phone number integration through Talk on mobile'),
-		tooltipDisabled: t('settings', 'Unavailable as this property is required for core functionality including file sharing and calendar invitations\n\nOnly visible to people matched via phone number integration through Talk on mobile'),
+		tooltipDisabled: t('settings', 'Not available as this property is required for core functionality including file sharing and calendar invitations'),
 		iconClass: 'icon-phone',
 	},
 	[SCOPE_ENUM.LOCAL]: {
@@ -149,14 +157,14 @@ export const SCOPE_PROPERTY_ENUM = Object.freeze({
 		name: SCOPE_ENUM.FEDERATED,
 		displayName: t('settings', 'Federated'),
 		tooltip: t('settings', 'Only synchronize to trusted servers'),
-		tooltipDisabled: t('settings', 'Unavailable as publishing user specific data to the lookup server is not allowed, contact your system administrator if you have any questions\n\nOnly synchronize to trusted servers'),
+		tooltipDisabled: t('settings', 'Not available as publishing user specific data to the lookup server is not allowed, contact your system administrator if you have any questions'),
 		iconClass: 'icon-contacts-dark',
 	},
 	[SCOPE_ENUM.PUBLISHED]: {
 		name: SCOPE_ENUM.PUBLISHED,
 		displayName: t('settings', 'Published'),
 		tooltip: t('settings', 'Synchronize to trusted servers and the global and public address book'),
-		tooltipDisabled: t('settings', 'Unavailable as publishing user specific data to the lookup server is not allowed, contact your system administrator if you have any questions\n\nSynchronize to trusted servers and the global and public address book'),
+		tooltipDisabled: t('settings', 'Not available as publishing user specific data to the lookup server is not allowed, contact your system administrator if you have any questions'),
 		iconClass: 'icon-link',
 	},
 })

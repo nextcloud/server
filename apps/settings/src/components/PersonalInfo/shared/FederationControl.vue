@@ -46,7 +46,13 @@ import { showError } from '@nextcloud/dialogs'
 
 import FederationControlAction from './FederationControlAction'
 
-import { ACCOUNT_PROPERTY_READABLE_ENUM, PROPERTY_READABLE_KEYS_ENUM, PROPERTY_READABLE_SUPPORTED_SCOPES_ENUM, SCOPE_ENUM, SCOPE_PROPERTY_ENUM } from '../../../constants/AccountPropertyConstants'
+import {
+	ACCOUNT_PROPERTY_READABLE_ENUM,
+	PROPERTY_READABLE_KEYS_ENUM,
+	PROPERTY_READABLE_SUPPORTED_SCOPES_ENUM,
+	SCOPE_ENUM, SCOPE_PROPERTY_ENUM,
+	UNPUBLISHED_READABLE_PROPERTIES,
+} from '../../../constants/AccountPropertyConstants'
 import { savePrimaryAccountPropertyScope } from '../../../service/PersonalInfo/PersonalInfoService'
 
 const { lookupServerUploadEnabled } = loadState('settings', 'accountParameters', {})
@@ -108,7 +114,7 @@ export default {
 		},
 
 		supportedScopes() {
-			if (lookupServerUploadEnabled) {
+			if (lookupServerUploadEnabled && !UNPUBLISHED_READABLE_PROPERTIES.includes(this.accountProperty)) {
 				return [
 					...PROPERTY_READABLE_SUPPORTED_SCOPES_ENUM[this.accountProperty],
 					SCOPE_ENUM.FEDERATED,
