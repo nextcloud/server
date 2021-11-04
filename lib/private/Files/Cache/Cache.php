@@ -848,13 +848,7 @@ class Cache implements ICache {
 	protected function buildSearchQuery(ISearchQuery $searchQuery): IQueryBuilder {
 		$builder = $this->getQueryBuilder();
 
-		// mysql really likes to pick an index for sorting if it can't fully satisfy the where
-		// filter with an index, since search queries pretty much never are fully filtered by index
-		// mysql often picks an index for sorting instead of the *much* more useful index for filtering.
-		//
-		// To bypass this, we tell mysql explicitly not to use the mtime (the default order field) index,
-		// so it will instead pick an index that is actually useful.
-		$query = $builder->selectFileCache('file', 'ignore index for order by (fs_mtime)');
+		$query = $builder->selectFileCache('file');
 
 		$query->whereStorageId();
 
