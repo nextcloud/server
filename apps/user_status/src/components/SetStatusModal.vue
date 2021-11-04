@@ -134,6 +134,7 @@ export default {
 				time: this.$store.state.userStatus.clearAt,
 			}
 		}
+		subscribe('user_status:status.updated', this.handleUserStatusUpdated)
 	},
 	methods: {
 		/**
@@ -181,6 +182,13 @@ export default {
 			this.clearAt = status.clearAt
 			this.icon = status.icon
 			this.message = status.message
+		},
+		handleUserStatusUpdated(state) {
+			if (OC.getCurrentUser().uid === state.userId) {
+				this.messageId = this.$store.state.userStatus.messageId
+				this.icon = this.$store.state.userStatus.icon
+				this.message = this.$store.state.userStatus.message || ''
+			}
 		},
 		/**
 		 * Saves the status and closes the
@@ -245,7 +253,7 @@ export default {
 	min-height: 200px;
 	padding: 8px 20px 20px 20px;
 	// Enable scrollbar for too long content, same way as in Dashboard customize
-	max-height: 75vh;
+	max-height: 80vh;
 	overflow: auto;
 
 	&__header {

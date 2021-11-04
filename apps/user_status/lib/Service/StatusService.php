@@ -454,15 +454,7 @@ class StatusService {
 			/** @var UserStatus $userStatus */
 			$backupUserStatus = $this->mapper->findByUserId($userId, true);
 		} catch (DoesNotExistException $ex) {
-			// No backup, just move back to available
-			try {
-				$userStatus = $this->mapper->findByUserId($userId);
-			} catch (DoesNotExistException $ex) {
-				// No backup nor current status => ignore
-				return;
-			}
-			$this->cleanStatus($userStatus);
-			$this->cleanStatusMessage($userStatus);
+			// No user status to revert, do nothing
 			return;
 		}
 		try {

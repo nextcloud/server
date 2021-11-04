@@ -182,6 +182,13 @@ const actions = {
 		await revertStatus(status)
 		commit('loadStatusFromServer', backupStatus)
 		dispatch('loadBackupStatus')
+		emit('user_status:status.updated', {
+			status: state.status,
+			message: state.message,
+			icon: state.icon,
+			clearAt: state.clearAt,
+			userId: getCurrentUser()?.uid,
+		})
 	},
 
 	/**
