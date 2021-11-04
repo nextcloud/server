@@ -232,6 +232,11 @@
       <code>calendarSearch</code>
     </UndefinedInterfaceMethod>
   </file>
+  <file src="apps/dav/lib/CalDAV/CalendarImpl.php">
+    <UndefinedFunction occurrences="1">
+      <code>uriSplit($this-&gt;calendar-&gt;getPrincipalURI())</code>
+    </UndefinedFunction>
+  </file>
   <file src="apps/dav/lib/CalDAV/CalendarRoot.php">
     <ParamNameMismatch occurrences="1">
       <code>$principal</code>
