@@ -94,10 +94,10 @@ class SMB extends Backend {
 						throw new \InvalidArgumentException('invalid authentication backend');
 					}
 					$credentialsStore = $auth->getCredentialsStore();
-					$kerb_auth = new KerberosApacheAuth();
-					if ($kerb_auth->checkTicket()) {
-						$kerb_auth->registerApacheKerberosTicket();
-						$smbAuth = $kerb_auth;
+					$kerbAuth = new KerberosApacheAuth();
+					// check if a kerberos ticket is available, else fallback to session credentials
+					if ($kerbAuth->checkTicket()) {
+						$smbAuth = $kerbAuth;
 					} else {
 						try {
 							$credentials = $credentialsStore->getLoginCredentials();
