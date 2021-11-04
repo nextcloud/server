@@ -330,7 +330,7 @@ interface Storage extends IStorage {
 	 * The local version of the file can be temporary and doesn't have to be persistent across requests
 	 *
 	 * @param string $path
-	 * @return string|bool
+	 * @return string
 	 * @since 6.0.0
 	 */
 	public function getLocalFile($path);

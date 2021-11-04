@@ -96,6 +96,7 @@ abstract class ProviderV2 implements IProviderV2 {
 			$this->tmpFiles[] = $absPath;
 			return $absPath;
 		} else {
+			/** @var string */
 			return $file->getStorage()->getLocalFile($file->getInternalPath());
 		}
 	}
