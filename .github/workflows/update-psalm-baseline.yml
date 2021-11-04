@@ -47,4 +47,5 @@ jobs:
             Auto-generated update psalm-baseline.xml with fixed psalm warnings
           labels: |
             automated pr
+            3. to review
           team-reviewers: server-backend
