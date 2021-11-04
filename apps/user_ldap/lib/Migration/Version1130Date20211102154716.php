@@ -57,7 +57,7 @@ class Version1130Date20211102154716 extends SimpleMigrationStep {
 				$column->setLength(4096);
 				$changeSchema = true;
 			}
-			if ($table === 'ldap_user_mapping') {
+			if ($tableName === 'ldap_user_mapping') {
 				if ($table->hasIndex('ldap_dn_users')) {
 					$table->dropIndex('ldap_dn_users');
 					$changeSchema = true;
@@ -132,7 +132,7 @@ class Version1130Date20211102154716 extends SimpleMigrationStep {
 	protected function getUpdateQuery(string $table): IQueryBuilder {
 		$q = $this->dbc->getQueryBuilder();
 		$q->update($table)
-			->set('ldap_dn_hash', $query->createParameter('dn_hash'))
+			->set('ldap_dn_hash', $q->createParameter('dn_hash'))
 			->where($q->expr()->eq('owncloud_name', $q->createParameter('name')));
 		return $q;
 	}
