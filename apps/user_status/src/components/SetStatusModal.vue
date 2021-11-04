@@ -74,6 +74,7 @@
 </template>
 
 <script>
+import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { showError } from '@nextcloud/dialogs'
 import EmojiPicker from '@nextcloud/vue/dist/Components/EmojiPicker'
 import Modal from '@nextcloud/vue/dist/Components/Modal'
@@ -135,6 +136,9 @@ export default {
 			}
 		}
 		subscribe('user_status:status.updated', this.handleUserStatusUpdated)
+	},
+	beforeDestroy() {
+		unsubscribe('user_status:status.updated', this.handleUserStatusUpdated)
 	},
 	methods: {
 		/**

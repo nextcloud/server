@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapState } from 'vuex'
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { getCurrentUser } from '@nextcloud/auth'
 
