@@ -141,8 +141,8 @@
 							title=""
 							fill-color="var(--color-text-maxcontrast)"
 							:size="60" />
-						<h3>{{ displayname || userId }} {{ t('core', 'hasn\'t added any info yet') }}</h3>
-						<p>{{ t('core', 'The headline and about section will show up here') }}</p>
+						<h3>{{ emptyProfileMessage }}</h3>
+						<p>{{ t('core', 'The headline and about sections will show up here') }}</p>
 					</div>
 				</template>
 			</div>
@@ -254,6 +254,12 @@ export default {
 		colorMainBackground() {
 			// For some reason the returned string has prepended whitespace
 			return getComputedStyle(document.body).getPropertyValue('--color-main-background').trim()
+		},
+
+		emptyProfileMessage() {
+			return this.isCurrentUser
+				? t('core', 'You haven\'t added any info yet')
+				: t('core', '{user} hasn\'t added any info yet', { user: (this.displayname || this.userId) })
 		},
 	},
 
