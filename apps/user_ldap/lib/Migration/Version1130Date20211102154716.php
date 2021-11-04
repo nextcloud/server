@@ -45,9 +45,8 @@ class Version1130Date20211102154716 extends SimpleMigrationStep {
 			$table = $schema->getTable($tableName);
 			if (!$table->hasColumn('ldap_dn_hash')) {
 				$table->addColumn('ldap_dn_hash', Types::STRING, [
-					'notnull' => true,
+					'notnull' => false,
 					'length' => 64,
-					'default' => '',
 				]);
 				$changeSchema = true;
 			}
@@ -74,7 +73,7 @@ class Version1130Date20211102154716 extends SimpleMigrationStep {
 					$table->addUniqueIndex(['ldap_dn_hash'], 'ldap_group_dn_hashes');
 					$changeSchema = true;
 				}
-				if ($table->getPrimaryKeyColumns() !== ['owncloud_name']) {
+				if (!$table->hasPrimaryKey() || ($table->getPrimaryKeyColumns() !== ['owncloud_name'])) {
 					$table->dropPrimaryKey();
 					$table->setPrimaryKey(['owncloud_name']);
 					$changeSchema = true;
