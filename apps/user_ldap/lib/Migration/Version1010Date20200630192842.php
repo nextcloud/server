@@ -47,12 +47,7 @@ class Version1010Date20200630192842 extends SimpleMigrationStep {
 			$table = $schema->createTable('ldap_user_mapping');
 			$table->addColumn('ldap_dn', Types::STRING, [
 				'notnull' => true,
-				'length' => 64,
-				'default' => '',
-			]);
-			$table->addColumn('ldap_full_dn', Types::STRING, [
-				'notnull' => true,
-				'length' => 4096,
+				'length' => 255,
 				'default' => '',
 			]);
 			$table->addColumn('owncloud_name', Types::STRING, [
@@ -73,12 +68,7 @@ class Version1010Date20200630192842 extends SimpleMigrationStep {
 			$table = $schema->createTable('ldap_group_mapping');
 			$table->addColumn('ldap_dn', Types::STRING, [
 				'notnull' => true,
-				'length' => 64,
-				'default' => '',
-			]);
-			$table->addColumn('ldap_full_dn', Types::STRING, [
-				'notnull' => true,
-				'length' => 4096,
+				'length' => 255,
 				'default' => '',
 			]);
 			$table->addColumn('owncloud_name', Types::STRING, [
