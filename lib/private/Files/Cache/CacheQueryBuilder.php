@@ -26,7 +26,6 @@ declare(strict_types=1);
 
 namespace OC\Files\Cache;
 
-use Doctrine\DBAL\Platforms\MySQLPlatform;
 use OC\DB\QueryBuilder\QueryBuilder;
 use OC\SystemConfig;
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -46,24 +45,12 @@ class CacheQueryBuilder extends QueryBuilder {
 		$this->cache = $cache;
 	}
 
-	public function selectFileCache(string $alias = null, string $mysqlIndexHint = '') {
+	public function selectFileCache(string $alias = null) {
 		$name = $alias ? $alias : 'filecache';
 		$this->select("$name.fileid", 'storage', 'path', 'path_hash', "$name.parent", 'name', 'mimetype', 'mimepart', 'size', 'mtime',
 			'storage_mtime', 'encrypted', 'etag', 'permissions', 'checksum', 'metadata_etag', 'creation_time', 'upload_time')
-			->from('filecache', $name);
-		if ($mysqlIndexHint !== '' && $this->getConnection()->getDatabasePlatform() instanceof MySQLPlatform) {
-			$this->add('join', [
-				$this->quoteAlias($name) => [
-					// horrible query builder crimes to sneak in raw sql after the "FROM oc_filecache $name"
-					'joinType' => $mysqlIndexHint . ' left',
-					'joinTable' => $this->getTableName('filecache_extended'),
-					'joinAlias' => $this->quoteAlias('fe'),
-					'joinCondition' => $this->expr()->eq("$name.fileid", 'fe.fileid'),
-				],
-			], true);
-		} else {
-			$this->leftJoin($name, 'filecache_extended', 'fe', $this->expr()->eq("$name.fileid", 'fe.fileid'));
-		}
+			->from('filecache', $name)
+			->leftJoin($name, 'filecache_extended', 'fe', $this->expr()->eq("$name.fileid", 'fe.fileid'));
 
 		$this->alias = $name;
 
