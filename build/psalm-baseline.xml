@@ -625,11 +625,6 @@
       <code>\Sabre\Uri\split($principal)</code>
     </UndefinedFunction>
   </file>
-  <file src="apps/dav/lib/Connector/PublicAuth.php">
-    <InvalidScalarArgument occurrences="1">
-      <code>'DummyBasic realm="' . $this-&gt;realm . '"'</code>
-    </InvalidScalarArgument>
-  </file>
   <file src="apps/dav/lib/Connector/Sabre/AnonymousOptionsPlugin.php">
     <InvalidNullableReturnType occurrences="1">
       <code>bool</code>
@@ -1237,7 +1232,7 @@
     <InvalidReturnType occurrences="1">
       <code>string</code>
     </InvalidReturnType>
-    <InvalidScalarArgument occurrences="6">
+    <InvalidScalarArgument occurrences="5">
       <code>$id</code>
       <code>$id</code>
       <code>$id</code>
@@ -1546,10 +1541,6 @@
     </ParamNameMismatch>
   </file>
   <file src="apps/files_external/lib/Lib/Storage/SFTPReadStream.php">
-    <FalsableReturnStatement occurrences="2">
-      <code>false</code>
-      <code>false</code>
-    </FalsableReturnStatement>
     <InvalidArgument occurrences="2">
       <code>$this-&gt;handle</code>
       <code>$this-&gt;handle</code>
@@ -1568,11 +1559,6 @@
     </InvalidReturnType>
   </file>
   <file src="apps/files_external/lib/Lib/Storage/SFTPWriteStream.php">
-    <FalsableReturnStatement occurrences="3">
-      <code>false</code>
-      <code>false</code>
-      <code>false</code>
-    </FalsableReturnStatement>
     <InvalidArgument occurrences="2">
       <code>$this-&gt;handle</code>
       <code>$this-&gt;handle</code>
@@ -1591,9 +1577,6 @@
     </InvalidReturnType>
   </file>
   <file src="apps/files_external/lib/Lib/Storage/SMB.php">
-    <FalsableReturnStatement occurrences="1">
-      <code>false</code>
-    </FalsableReturnStatement>
     <InvalidArgument occurrences="1">
       <code>$files</code>
     </InvalidArgument>
@@ -1889,12 +1872,8 @@
     </InvalidReturnType>
   </file>
   <file src="apps/files_sharing/lib/SharedStorage.php">
-    <FalsableReturnStatement occurrences="5">
+    <FalsableReturnStatement occurrences="1">
       <code>$this-&gt;sourceRootInfo</code>
-      <code>false</code>
-      <code>false</code>
-      <code>false</code>
-      <code>$this-&gt;nonMaskedStorage-&gt;fopen($this-&gt;getUnjailedPath($path), $mode)</code>
     </FalsableReturnStatement>
     <InvalidNullableReturnType occurrences="1">
       <code>ICacheEntry</code>
@@ -2406,8 +2385,7 @@
     <NullArgument occurrences="1">
       <code>$cookie</code>
     </NullArgument>
-    <RedundantCondition occurrences="5">
-      <code>!isset($ldapName[0]) &amp;&amp; empty($ldapName[0])</code>
+    <RedundantCondition occurrences="4">
       <code>is_null($limit)</code>
       <code>!is_null($limit) &amp;&amp; (int)$this-&gt;connection-&gt;ldapPagingSize !== 0</code>
       <code>is_array($result)</code>
@@ -2690,11 +2668,6 @@
       <code>$qb-&gt;createNamedParameter($userIds, IQueryBuilder::PARAM_STR_ARRAY)</code>
     </ImplicitToStringCast>
     <MoreSpecificImplementedParamType occurrences="1"/>
-  </file>
-  <file src="apps/user_status/lib/Service/StatusService.php">
-    <MismatchingDocblockParamType occurrences="1">
-      <code>string|null</code>
-    </MismatchingDocblockParamType>
   </file>
   <file src="apps/workflowengine/lib/Check/AbstractStringCheck.php">
     <NullArgument occurrences="1">
@@ -4487,7 +4460,6 @@
     </ImplicitToStringCast>
     <InvalidReturnStatement occurrences="3">
       <code>$helper-&gt;getFileSize($fullPath)</code>
-      <code>file_put_contents($this-&gt;getSourcePath($path), $data)</code>
       <code>$space</code>
     </InvalidReturnStatement>
     <InvalidReturnType occurrences="3">
@@ -4553,29 +4525,6 @@
     </InvalidReturnType>
   </file>
   <file src="lib/private/Files/Storage/Wrapper/Encoding.php">
-    <FalsableReturnStatement occurrences="12">
-      <code>$this-&gt;storage-&gt;opendir($this-&gt;findPathToUse($path))</code>
-      <code>$this-&gt;storage-&gt;stat($this-&gt;findPathToUse($path))</code>
-      <code>$this-&gt;storage-&gt;filesize($this-&gt;findPathToUse($path))</code>
-      <code>$this-&gt;storage-&gt;filemtime($this-&gt;findPathToUse($path))</code>
-      <code>$this-&gt;storage-&gt;file_get_contents($this-&gt;findPathToUse($path))</code>
-      <code>$result</code>
-      <code>$this-&gt;storage-&gt;getMimeType($this-&gt;findPathToUse($path))</code>
-      <code>$this-&gt;storage-&gt;hash($type, $this-&gt;findPathToUse($path), $raw)</code>
-      <code>$this-&gt;storage-&gt;free_space($this-&gt;findPathToUse($path))</code>
-      <code>$this-&gt;storage-&gt;search($query)</code>
-      <code>$this-&gt;storage-&gt;getLocalFile($this-&gt;findPathToUse($path))</code>
-      <code>$this-&gt;storage-&gt;getETag($this-&gt;findPathToUse($path))</code>
-    </FalsableReturnStatement>
-    <ImplementedReturnTypeMismatch occurrences="1">
-      <code>bool</code>
-    </ImplementedReturnTypeMismatch>
-    <InvalidReturnStatement occurrences="1">
-      <code>$this-&gt;storage-&gt;filetype($this-&gt;findPathToUse($path))</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
-      <code>bool</code>
-    </InvalidReturnType>
     <UndefinedInterfaceMethod occurrences="13">
       <code>$this-&gt;namesCache</code>
       <code>$this-&gt;namesCache</code>
@@ -4593,16 +4542,9 @@
     </UndefinedInterfaceMethod>
   </file>
   <file src="lib/private/Files/Storage/Wrapper/Encryption.php">
-    <FalsableReturnStatement occurrences="5">
-      <code>$this-&gt;storage-&gt;filesize($path)</code>
+    <FalsableReturnStatement occurrences="1">
       <code>false</code>
-      <code>$this-&gt;storage-&gt;file_get_contents($path)</code>
-      <code>$this-&gt;storage-&gt;getLocalFile($path)</code>
-      <code>$stat</code>
     </FalsableReturnStatement>
-    <ImplementedReturnTypeMismatch occurrences="1">
-      <code>resource|bool</code>
-    </ImplementedReturnTypeMismatch>
     <InvalidArgument occurrences="2">
       <code>$source</code>
       <code>$target</code>
@@ -4630,23 +4572,6 @@
     </UndefinedInterfaceMethod>
   </file>
   <file src="lib/private/Files/Storage/Wrapper/Jail.php">
-    <FalsableReturnStatement occurrences="12">
-      <code>$this-&gt;getWrapperStorage()-&gt;opendir($this-&gt;getUnjailedPath($path))</code>
-      <code>$this-&gt;getWrapperStorage()-&gt;stat($this-&gt;getUnjailedPath($path))</code>
-      <code>$this-&gt;getWrapperStorage()-&gt;filesize($this-&gt;getUnjailedPath($path))</code>
-      <code>$this-&gt;getWrapperStorage()-&gt;filemtime($this-&gt;getUnjailedPath($path))</code>
-      <code>$this-&gt;getWrapperStorage()-&gt;file_get_contents($this-&gt;getUnjailedPath($path))</code>
-      <code>$this-&gt;getWrapperStorage()-&gt;fopen($this-&gt;getUnjailedPath($path), $mode)</code>
-      <code>$this-&gt;getWrapperStorage()-&gt;getMimeType($this-&gt;getUnjailedPath($path))</code>
-      <code>$this-&gt;getWrapperStorage()-&gt;hash($type, $this-&gt;getUnjailedPath($path), $raw)</code>
-      <code>$this-&gt;getWrapperStorage()-&gt;free_space($this-&gt;getUnjailedPath($path))</code>
-      <code>$this-&gt;getWrapperStorage()-&gt;search($query)</code>
-      <code>$this-&gt;getWrapperStorage()-&gt;getLocalFile($this-&gt;getUnjailedPath($path))</code>
-      <code>$this-&gt;getWrapperStorage()-&gt;getETag($this-&gt;getUnjailedPath($path))</code>
-    </FalsableReturnStatement>
-    <ImplementedReturnTypeMismatch occurrences="1">
-      <code>bool</code>
-    </ImplementedReturnTypeMismatch>
     <InvalidReturnStatement occurrences="1">
       <code>$this-&gt;getWrapperStorage()-&gt;filetype($this-&gt;getUnjailedPath($path))</code>
     </InvalidReturnStatement>
@@ -4654,16 +4579,7 @@
       <code>bool</code>
     </InvalidReturnType>
   </file>
-  <file src="lib/private/Files/Storage/Wrapper/PermissionsMask.php">
-    <FalsableReturnStatement occurrences="1">
-      <code>$this-&gt;checkMask($permissions) ? parent::fopen($path, $mode) : false</code>
-    </FalsableReturnStatement>
-  </file>
   <file src="lib/private/Files/Storage/Wrapper/Quota.php">
-    <FalsableReturnStatement occurrences="2">
-      <code>$this-&gt;storage-&gt;free_space($path)</code>
-      <code>$source</code>
-    </FalsableReturnStatement>
     <InvalidReturnStatement occurrences="1">
       <code>$extension === 'part'</code>
     </InvalidReturnStatement>
@@ -4682,39 +4598,14 @@
     </UndefinedInterfaceMethod>
   </file>
   <file src="lib/private/Files/Storage/Wrapper/Wrapper.php">
-    <FalsableReturnStatement occurrences="13">
-      <code>$this-&gt;getWrapperStorage()-&gt;opendir($path)</code>
-      <code>$this-&gt;getWrapperStorage()-&gt;stat($path)</code>
-      <code>$this-&gt;getWrapperStorage()-&gt;filesize($path)</code>
-      <code>$this-&gt;getWrapperStorage()-&gt;filemtime($path)</code>
-      <code>$this-&gt;getWrapperStorage()-&gt;file_get_contents($path)</code>
-      <code>$this-&gt;getWrapperStorage()-&gt;fopen($path, $mode)</code>
-      <code>$this-&gt;getWrapperStorage()-&gt;getMimeType($path)</code>
-      <code>$this-&gt;getWrapperStorage()-&gt;hash($type, $path, $raw)</code>
-      <code>$this-&gt;getWrapperStorage()-&gt;free_space($path)</code>
-      <code>$this-&gt;getWrapperStorage()-&gt;search($query)</code>
-      <code>$this-&gt;getWrapperStorage()-&gt;getLocalFile($path)</code>
-      <code>$this-&gt;getWrapperStorage()-&gt;getETag($path)</code>
-      <code>$this-&gt;getWrapperStorage()-&gt;getDirectDownload($path)</code>
-    </FalsableReturnStatement>
-    <ImplementedReturnTypeMismatch occurrences="1">
-      <code>bool</code>
-    </ImplementedReturnTypeMismatch>
-    <InvalidReturnStatement occurrences="2">
-      <code>$this-&gt;getWrapperStorage()-&gt;filetype($path)</code>
+    <InvalidReturnStatement occurrences="1">
       <code>$this-&gt;getWrapperStorage()-&gt;test()</code>
     </InvalidReturnStatement>
-    <InvalidReturnType occurrences="2">
-      <code>bool</code>
+    <InvalidReturnType occurrences="1">
       <code>true</code>
     </InvalidReturnType>
   </file>
   <file src="lib/private/Files/Stream/SeekableHttpStream.php">
-    <FalsableReturnStatement occurrences="3">
-      <code>false</code>
-      <code>false</code>
-      <code>false</code>
-    </FalsableReturnStatement>
     <InvalidPropertyAssignmentValue occurrences="2">
       <code>$this-&gt;current</code>
       <code>$this-&gt;current</code>
@@ -5041,11 +4932,6 @@
       <code>mixed</code>
     </LessSpecificImplementedReturnType>
   </file>
-  <file src="lib/private/Memcache/Factory.php">
-    <RedundantCondition occurrences="1">
-      <code>$lockingCacheClass &amp;&amp; class_exists($distributedCacheClass) &amp;&amp; $lockingCacheClass::isAvailable()</code>
-    </RedundantCondition>
-  </file>
   <file src="lib/private/Memcache/Memcached.php">
     <RedundantCondition occurrences="1">
       <code>method_exists(self::$cache, 'deleteMulti')</code>
@@ -5148,11 +5034,6 @@
     <InvalidReturnType occurrences="1">
       <code>?IImage</code>
     </InvalidReturnType>
-  </file>
-  <file src="lib/private/Preview/ProviderV2.php">
-    <FalsableReturnStatement occurrences="1">
-      <code>$file-&gt;getStorage()-&gt;getLocalFile($file-&gt;getInternalPath())</code>
-    </FalsableReturnStatement>
   </file>
   <file src="lib/private/Preview/SVG.php">
     <ImplicitToStringCast occurrences="1">
@@ -6039,18 +5920,10 @@
       <code>\OC_App::getStorage($app)</code>
     </FalsableReturnStatement>
   </file>
-  <file src="lib/public/Files/Storage.php">
-    <InvalidReturnType occurrences="1">
-      <code>string|false</code>
-    </InvalidReturnType>
-  </file>
   <file src="lib/public/Files/Storage/IStorage.php">
     <InvalidParamDefault occurrences="1">
       <code>array</code>
     </InvalidParamDefault>
-    <InvalidReturnType occurrences="1">
-      <code>string|false</code>
-    </InvalidReturnType>
   </file>
   <file src="lib/public/FullTextSearch/Model/ISearchRequest.php">
     <InvalidClass occurrences="1">
