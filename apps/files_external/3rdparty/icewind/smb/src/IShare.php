@@ -45,7 +45,7 @@ interface IShare {
 	public function put(string $source, string $target): bool;
 
 	/**
-	 * Open a readable stream top a remote file
+	 * Open a readable stream to a remote file
 	 *
 	 * @param string $source
 	 * @return resource a read only stream with the contents of the remote file

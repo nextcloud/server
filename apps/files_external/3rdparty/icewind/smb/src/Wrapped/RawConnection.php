@@ -71,7 +71,8 @@ class RawConnection {
 
 		setlocale(LC_ALL, Server::LOCALE);
 		$env = array_merge($this->env, [
-			'CLI_FORCE_INTERACTIVE' => 'y', // Needed or the prompt isn't displayed!!
+			'CLI_FORCE_INTERACTIVE' => 'y', // Make sure the prompt is displayed
+			'CLI_NO_READLINE'       => 1,   // Not all distros build smbclient with readline, disable it to get consistent behaviour
 			'LC_ALL'                => Server::LOCALE,
 			'LANG'                  => Server::LOCALE,
 			'COLUMNS'               => 8192 // prevent smbclient from line-wrapping it's output
@@ -91,7 +92,7 @@ class RawConnection {
 	public function isValid(): bool {
 		if (is_resource($this->process)) {
 			$status = proc_get_status($this->process);
-			return (bool)$status['running'];
+			return $status['running'];
 		} else {
 			return false;
 		}
@@ -110,12 +111,29 @@ class RawConnection {
 	}
 
 	/**
+	 * read output till the next prompt
+	 *
+	 * @return string|false
+	 */
+	public function readTillPrompt() {
+		$output = "";
+		do {
+			$chunk = $this->readLine('\> ');
+			if ($chunk === false) {
+				return false;
+			}
+			$output .= $chunk;
+		} while (strlen($chunk) == 4096 && strpos($chunk, "smb:") === false);
+		return $output;
+	}
+
+	/**
 	 * read a line of output
 	 *
 	 * @return string|false
 	 */
-	public function readLine() {
-		return stream_get_line($this->getOutputStream(), 4086, "\n");
+	public function readLine(string $end = "\n") {
+		return stream_get_line($this->getOutputStream(), 4096, $end);
 	}
 
 	/**
@@ -202,6 +220,14 @@ class RawConnection {
 	 * @psalm-assert null $this->process
 	 */
 	public function close(bool $terminate = true): void {
+		$this->close_process($terminate);
+	}
+
+	/**
+	 * @param bool $terminate
+	 * @psalm-assert null $this->process
+	 */
+	protected function close_process(bool $terminate = true): void {
 		if (!is_resource($this->process)) {
 			return;
 		}
