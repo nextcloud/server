@@ -113,7 +113,7 @@ abstract class Archive {
 	 * get a file handler
 	 * @param string $path
 	 * @param string $mode
-	 * @return resource
+	 * @return bool|resource
 	 */
 	abstract public function getStream($path, $mode);
 	/**

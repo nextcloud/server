@@ -338,7 +338,7 @@ class TAR extends Archive {
 	 *
 	 * @param string $path
 	 * @param string $mode
-	 * @return resource
+	 * @return bool|resource
 	 */
 	public function getStream($path, $mode) {
 		if (strrpos($path, '.') !== false) {

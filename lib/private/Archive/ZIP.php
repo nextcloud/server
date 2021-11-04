@@ -187,7 +187,7 @@ class ZIP extends Archive {
 	 * get a file handler
 	 * @param string $path
 	 * @param string $mode
-	 * @return resource
+	 * @return bool|resource
 	 */
 	public function getStream($path, $mode) {
 		if ($mode=='r' or $mode=='rb') {
