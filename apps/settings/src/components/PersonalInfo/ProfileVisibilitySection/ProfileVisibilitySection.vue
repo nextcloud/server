@@ -29,7 +29,7 @@
 			:account-property="heading" />
 
 		<em :class="{ disabled }">
-			{{ t('settings', 'The more restrictive setting of either visibility or scope is respected on your Profile. For example, if visibility is set to "Show to everyone" and scope is set to "Private", "Private" is respected.') }}
+			{{ t('settings', 'The more restrictive setting of either visibility or scope, which they will respected on your Profile. For example, if visibility is set to "Show to everyone" and scope is set to "Private", "Private" is respected.') }}
 		</em>
 
 		<div class="visibility-dropdowns">
