@@ -401,6 +401,7 @@ class Encryption extends Wrapper {
 				}
 
 				if ($this->file_exists($path)) {
+					/** @var int */
 					$size = $this->storage->filesize($path);
 					/** @var int */
 					$unencryptedSize = $this->filesize($path);
