@@ -122,29 +122,8 @@ class ProfilePageController extends Controller {
 
 		// Run user enumeration checks only if viewing another user's profile
 		if ($targetUser !== $visitingUser) {
-			if (!$this->shareManager->allowEnumeration()) {
+			if (!$this->shareManager->currentUserCanEnumerateTargetUser($visitingUser, $targetUser)) {
 				return $profileNotFoundTemplate;
-			} else {
-				if ($this->shareManager->limitEnumerationToGroups() || $this->shareManager->limitEnumerationToPhone()) {
-					$targerUserGroupIds = $this->groupManager->getUserGroupIds($targetUser);
-					$visitingUserGroupIds = $this->groupManager->getUserGroupIds($visitingUser);
-					if ($this->shareManager->limitEnumerationToGroups() && $this->shareManager->limitEnumerationToPhone()) {
-						if (
-							empty(array_intersect($targerUserGroupIds, $visitingUserGroupIds))
-							&& !$this->knownUserService->isKnownToUser($targetUser->getUID(), $visitingUser->getUID())
-						) {
-							return $profileNotFoundTemplate;
-						}
-					} elseif ($this->shareManager->limitEnumerationToGroups()) {
-						if (empty(array_intersect($targerUserGroupIds, $visitingUserGroupIds))) {
-							return $profileNotFoundTemplate;
-						}
-					} elseif ($this->shareManager->limitEnumerationToPhone()) {
-						if (!$this->knownUserService->isKnownToUser($targetUser->getUID(), $visitingUser->getUID())) {
-							return $profileNotFoundTemplate;
-						};
-					}
-				}
 			}
 		}
 

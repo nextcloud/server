@@ -28,6 +28,7 @@
  */
 namespace OCA\Files_Sharing\Tests;
 
+use OC\KnownUser\KnownUserService;
 use OC\Share20\Manager;
 use OCA\Files_Sharing\Capabilities;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -94,7 +95,8 @@ class CapabilitiesTest extends \Test\TestCase {
 			$this->createMock(IURLGenerator::class),
 			$this->createMock(\OC_Defaults::class),
 			$this->createMock(IEventDispatcher::class),
-			$this->createMock(IUserSession::class)
+			$this->createMock(IUserSession::class),
+			$this->createMock(KnownUserService::class)
 		);
 		$cap = new Capabilities($config, $shareManager);
 		$result = $this->getFilesSharingPart($cap->getCapabilities());

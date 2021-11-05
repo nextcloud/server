@@ -22,6 +22,7 @@
 namespace Test\Share20;
 
 use OC\Files\Mount\MoveableMount;
+use OC\KnownUser\KnownUserService;
 use OC\Share20\DefaultShareProvider;
 use OC\Share20\Exception;
 use OC\Share20\Manager;
@@ -105,7 +106,10 @@ class ManagerTest extends \Test\TestCase {
 	protected $urlGenerator;
 	/** @var  \OC_Defaults|MockObject */
 	protected $defaults;
+	/** @var IUserSession|MockObject  */
 	protected $userSession;
+	/** @var KnownUserService|MockObject  */
+	protected $knownUserService;
 
 	protected function setUp(): void {
 		$this->logger = $this->createMock(ILogger::class);
@@ -122,6 +126,7 @@ class ManagerTest extends \Test\TestCase {
 		$this->defaults = $this->createMock(\OC_Defaults::class);
 		$this->dispatcher = $this->createMock(IEventDispatcher::class);
 		$this->userSession = $this->createMock(IUserSession::class);
+		$this->knownUserService = $this->createMock(KnownUserService::class);
 
 		$this->l10nFactory = $this->createMock(IFactory::class);
 		$this->l = $this->createMock(IL10N::class);
@@ -153,7 +158,8 @@ class ManagerTest extends \Test\TestCase {
 			$this->urlGenerator,
 			$this->defaults,
 			$this->dispatcher,
-			$this->userSession
+			$this->userSession,
+			$this->knownUserService
 		);
 
 		$this->defaultProvider = $this->createMock(DefaultShareProvider::class);
@@ -2696,7 +2702,8 @@ class ManagerTest extends \Test\TestCase {
 			$this->urlGenerator,
 			$this->defaults,
 			$this->dispatcher,
-			$this->userSession
+			$this->userSession,
+			$this->knownUserService
 		);
 
 		$share = $this->createMock(IShare::class);
@@ -2741,7 +2748,8 @@ class ManagerTest extends \Test\TestCase {
 			$this->urlGenerator,
 			$this->defaults,
 			$this->dispatcher,
-			$this->userSession
+			$this->userSession,
+			$this->knownUserService
 		);
 
 		$share = $this->createMock(IShare::class);
@@ -2793,7 +2801,8 @@ class ManagerTest extends \Test\TestCase {
 			$this->urlGenerator,
 			$this->defaults,
 			$this->dispatcher,
-			$this->userSession
+			$this->userSession,
+			$this->knownUserService
 		);
 
 		$share = $this->createMock(IShare::class);
@@ -4132,7 +4141,8 @@ class ManagerTest extends \Test\TestCase {
 			$this->urlGenerator,
 			$this->defaults,
 			$this->dispatcher,
-			$this->userSession
+			$this->userSession,
+			$this->knownUserService
 		);
 		$this->assertSame($expected,
 			$manager->shareProviderExists($shareType)
@@ -4166,7 +4176,8 @@ class ManagerTest extends \Test\TestCase {
 			$this->urlGenerator,
 			$this->defaults,
 			$this->dispatcher,
-			$this->userSession
+			$this->userSession,
+			$this->knownUserService
 		);
 
 		$factory->setProvider($this->defaultProvider);
@@ -4231,7 +4242,8 @@ class ManagerTest extends \Test\TestCase {
 			$this->urlGenerator,
 			$this->defaults,
 			$this->dispatcher,
-			$this->userSession
+			$this->userSession,
+			$this->knownUserService
 		);
 
 		$factory->setProvider($this->defaultProvider);
@@ -4348,7 +4360,8 @@ class ManagerTest extends \Test\TestCase {
 			$this->urlGenerator,
 			$this->defaults,
 			$this->dispatcher,
-			$this->userSession
+			$this->userSession,
+			$this->knownUserService
 		);
 
 		$factory->setProvider($this->defaultProvider);
@@ -4474,7 +4487,8 @@ class ManagerTest extends \Test\TestCase {
 			$this->urlGenerator,
 			$this->defaults,
 			$this->dispatcher,
-			$this->userSession
+			$this->userSession,
+			$this->knownUserService
 		);
 
 		$factory->setProvider($this->defaultProvider);
