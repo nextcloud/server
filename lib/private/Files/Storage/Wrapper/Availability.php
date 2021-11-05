@@ -453,7 +453,7 @@ class Availability extends Wrapper {
 	/**
 	 * @throws StorageNotAvailableException
 	 */
-	protected function setUnavailable(?StorageNotAvailableException $e) {
+	protected function setUnavailable(?StorageNotAvailableException $e): void {
 		$delay = self::RECHECK_TTL_SEC;
 		if ($e instanceof StorageAuthException) {
 			$delay = max(
