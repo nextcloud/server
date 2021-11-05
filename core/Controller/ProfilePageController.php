@@ -26,14 +26,17 @@ declare(strict_types=1);
 
 namespace OC\Core\Controller;
 
+use OC\KnownUser\KnownUserService;
+use OC\Profile\ProfileManager;
 use OCP\Accounts\IAccountManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
+use OCP\IGroupManager;
 use OCP\IRequest;
 use OCP\IUserManager;
 use OCP\IUserSession;
-use OC\Profile\ProfileManager;
+use OCP\Share\IManager as IShareManager;
 use OCP\UserStatus\IManager as IUserStatusManager;
 
 class ProfilePageController extends Controller {
@@ -47,6 +50,15 @@ class ProfilePageController extends Controller {
 
 	/** @var ProfileManager */
 	private $profileManager;
+
+	/** @var IShareManager */
+	private $shareManager;
+
+	/** @var IGroupManager */
+	private $groupManager;
+
+	/** @var KnownUserService */
+	private $knownUserService;
 
 	/** @var IUserManager */
 	private $userManager;
@@ -63,6 +75,9 @@ class ProfilePageController extends Controller {
 		IInitialState $initialStateService,
 		IAccountManager $accountManager,
 		ProfileManager $profileManager,
+		IShareManager $shareManager,
+		IGroupManager $groupManager,
+		KnownUserService $knownUserService,
 		IUserManager $userManager,
 		IUserSession $userSession,
 		IUserStatusManager $userStatusManager
@@ -71,6 +86,9 @@ class ProfilePageController extends Controller {
 		$this->initialStateService = $initialStateService;
 		$this->accountManager = $accountManager;
 		$this->profileManager = $profileManager;
+		$this->shareManager = $shareManager;
+		$this->groupManager = $groupManager;
+		$this->knownUserService = $knownUserService;
 		$this->userManager = $userManager;
 		$this->userSession = $userSession;
 		$this->userStatusManager = $userStatusManager;
@@ -83,13 +101,15 @@ class ProfilePageController extends Controller {
 	 * @NoSubAdminRequired
 	 */
 	public function index(string $targetUserId): TemplateResponse {
+		$profileNotFoundTemplate = new TemplateResponse(
+			'core',
+			'404-profile',
+			[],
+			TemplateResponse::RENDER_AS_GUEST,
+		);
+
 		if (!$this->userManager->userExists($targetUserId)) {
-			return new TemplateResponse(
-				'core',
-				'404-profile',
-				[],
-				TemplateResponse::RENDER_AS_GUEST,
-			);
+			return $profileNotFoundTemplate;
 		}
 
 		$visitingUser = $this->userSession->getUser();
@@ -97,12 +117,37 @@ class ProfilePageController extends Controller {
 		$targetAccount = $this->accountManager->getAccount($targetUser);
 
 		if (!$this->isProfileEnabled($targetAccount)) {
-			return new TemplateResponse(
-				'core',
-				'404-profile',
-				[],
-				TemplateResponse::RENDER_AS_GUEST,
-			);
+			return $profileNotFoundTemplate;
+		}
+
+		// Run user enumeration checks only if viewing another user's profile
+		if ($targetUser !== $visitingUser) {
+			if ($this->shareManager->allowEnumerationFullMatch()) {
+				// Full id match is allowed
+			} elseif (!$this->shareManager->allowEnumeration()) {
+				return $profileNotFoundTemplate;
+			} else {
+				if ($this->shareManager->limitEnumerationToGroups() || $this->shareManager->limitEnumerationToPhone()) {
+					$targerUserGroupIds = $this->groupManager->getUserGroupIds($targetUser);
+					$visitingUserGroupIds = $this->groupManager->getUserGroupIds($visitingUser);
+					if ($this->shareManager->limitEnumerationToGroups() && $this->shareManager->limitEnumerationToPhone()) {
+						if (
+							empty(array_intersect($targerUserGroupIds, $visitingUserGroupIds))
+							&& !$this->knownUserService->isKnownToUser($targetUser->getUID(), $visitingUser->getUID())
+						) {
+							return $profileNotFoundTemplate;
+						}
+					} elseif ($this->shareManager->limitEnumerationToGroups()) {
+						if (empty(array_intersect($targerUserGroupIds, $visitingUserGroupIds))) {
+							return $profileNotFoundTemplate;
+						}
+					} elseif ($this->shareManager->limitEnumerationToPhone()) {
+						if (!$this->knownUserService->isKnownToUser($targetUser->getUID(), $visitingUser->getUID())) {
+							return $profileNotFoundTemplate;
+						}
+					}
+				}
+			}
 		}
 
 		$userStatuses = $this->userStatusManager->getUserStatuses([$targetUserId]);
