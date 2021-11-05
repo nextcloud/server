@@ -325,7 +325,6 @@ OC.L10N.register(
     "Role" : "役職",
     "Twitter" : "Twitter",
     "Website" : "ウェブサイト",
-    "Profile Visibility" : "プロファイルの公開",
     "Show to everyone" : "全員に見せる",
     "Show to logged in users only" : "ログインしているユーザーだけに見せる",
     "Hide" : "隠す",
