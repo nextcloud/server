@@ -34,6 +34,7 @@ use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\IGroupManager;
 use OCP\IRequest;
+use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Share\IManager as IShareManager;
@@ -108,12 +109,11 @@ class ProfilePageController extends Controller {
 			TemplateResponse::RENDER_AS_GUEST,
 		);
 
-		if (!$this->userManager->userExists($targetUserId)) {
+		$targetUser = $this->userManager->get($targetUserId);
+		if (!$targetUser instanceof IUser) {
 			return $profileNotFoundTemplate;
 		}
-
 		$visitingUser = $this->userSession->getUser();
-		$targetUser = $this->userManager->get($targetUserId);
 		$targetAccount = $this->accountManager->getAccount($targetUser);
 
 		if (!$this->isProfileEnabled($targetAccount)) {
@@ -122,37 +122,14 @@ class ProfilePageController extends Controller {
 
 		// Run user enumeration checks only if viewing another user's profile
 		if ($targetUser !== $visitingUser) {
-			if ($this->shareManager->allowEnumerationFullMatch()) {
-				// Full id match is allowed
-			} elseif (!$this->shareManager->allowEnumeration()) {
+			if (!$this->shareManager->currentUserCanEnumerateTargetUser($visitingUser, $targetUser)) {
 				return $profileNotFoundTemplate;
-			} else {
-				if ($this->shareManager->limitEnumerationToGroups() || $this->shareManager->limitEnumerationToPhone()) {
-					$targerUserGroupIds = $this->groupManager->getUserGroupIds($targetUser);
-					$visitingUserGroupIds = $this->groupManager->getUserGroupIds($visitingUser);
-					if ($this->shareManager->limitEnumerationToGroups() && $this->shareManager->limitEnumerationToPhone()) {
-						if (
-							empty(array_intersect($targerUserGroupIds, $visitingUserGroupIds))
-							&& !$this->knownUserService->isKnownToUser($targetUser->getUID(), $visitingUser->getUID())
-						) {
-							return $profileNotFoundTemplate;
-						}
-					} elseif ($this->shareManager->limitEnumerationToGroups()) {
-						if (empty(array_intersect($targerUserGroupIds, $visitingUserGroupIds))) {
-							return $profileNotFoundTemplate;
-						}
-					} elseif ($this->shareManager->limitEnumerationToPhone()) {
-						if (!$this->knownUserService->isKnownToUser($targetUser->getUID(), $visitingUser->getUID())) {
-							return $profileNotFoundTemplate;
-						}
-					}
-				}
 			}
 		}
 
 		$userStatuses = $this->userStatusManager->getUserStatuses([$targetUserId]);
-		$status = array_shift($userStatuses);
-		if (!empty($status)) {
+		$status = $userStatuses[$targetUserId] ?? null;
+		if ($status !== null) {
 			$this->initialStateService->provideInitialState('status', [
 				'icon' => $status->getIcon(),
 				'message' => $status->getMessage(),

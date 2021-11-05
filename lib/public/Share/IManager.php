@@ -32,6 +32,7 @@ namespace OCP\Share;
 use OCP\Files\Folder;
 use OCP\Files\Node;
 
+use OCP\IUser;
 use OCP\Share\Exceptions\GenericShareException;
 use OCP\Share\Exceptions\ShareNotFound;
 
@@ -446,6 +447,16 @@ interface IManager {
 	 * @since 21.0.1
 	 */
 	public function allowEnumerationFullMatch(): bool;
+
+	/**
+	 * Check if the current user can enumerate the target user
+	 *
+	 * @param IUser|null $currentUser
+	 * @param IUser $targetUser
+	 * @return bool
+	 * @since 23.0.0
+	 */
+	public function currentUserCanEnumerateTargetUser(?IUser $currentUser, IUser $targetUser): bool;
 
 	/**
 	 * Check if sharing is disabled for the given user

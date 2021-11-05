@@ -43,6 +43,7 @@ namespace OC\Share20;
 
 use OC\Cache\CappedMemoryCache;
 use OC\Files\Mount\MoveableMount;
+use OC\KnownUser\KnownUserService;
 use OC\Share20\Exception\ProviderException;
 use OCA\Files_Sharing\AppInfo\Application;
 use OCA\Files_Sharing\ISharedStorage;
@@ -118,7 +119,10 @@ class Manager implements IManager {
 	private $defaults;
 	/** @var IEventDispatcher */
 	private $dispatcher;
+	/** @var IUserSession */
 	private $userSession;
+	/** @var KnownUserService */
+	private $knownUserService;
 
 	public function __construct(
 		ILogger $logger,
@@ -137,7 +141,8 @@ class Manager implements IManager {
 		IURLGenerator $urlGenerator,
 		\OC_Defaults $defaults,
 		IEventDispatcher $dispatcher,
-		IUserSession $userSession
+		IUserSession $userSession,
+		KnownUserService $knownUserService
 	) {
 		$this->logger = $logger;
 		$this->config = $config;
@@ -160,6 +165,7 @@ class Manager implements IManager {
 		$this->defaults = $defaults;
 		$this->dispatcher = $dispatcher;
 		$this->userSession = $userSession;
+		$this->knownUserService = $knownUserService;
 	}
 
 	/**
@@ -1907,6 +1913,42 @@ class Manager implements IManager {
 
 	public function allowEnumerationFullMatch(): bool {
 		return $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match', 'yes') === 'yes';
+	}
+
+	public function currentUserCanEnumerateTargetUser(?IUser $currentUser, IUser $targetUser): bool {
+		if ($this->allowEnumerationFullMatch()) {
+			return true;
+		}
+
+		if (!$this->allowEnumeration()) {
+			return false;
+		}
+
+		if (!$this->limitEnumerationToPhone() && !$this->limitEnumerationToGroups()) {
+			// Enumeration is enabled and not restricted: OK
+			return true;
+		}
+
+		if (!$currentUser instanceof IUser) {
+			// Enumeration restrictions require an account
+			return false;
+		}
+
+		// Enumeration is limited to phone match
+		if ($this->limitEnumerationToPhone() && $this->knownUserService->isKnownToUser($currentUser->getUID(), $targetUser->getUID())) {
+			return true;
+		}
+
+		// Enumeration is limited to groups
+		if ($this->limitEnumerationToGroups()) {
+			$currentUserGroupIds = $this->groupManager->getUserGroupIds($currentUser);
+			$targetUserGroupIds = $this->groupManager->getUserGroupIds($targetUser);
+			if (!empty(array_intersect($currentUserGroupIds, $targetUserGroupIds))) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/**
