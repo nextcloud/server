@@ -32,7 +32,7 @@
     "@nextcloud/dialogs": "^3.1.2",
     "@nextcloud/event-bus": "^2.0.0",
     "@nextcloud/files": "^2.1.0",
-    "@nextcloud/initial-state": "^1.2.0",
+    "@nextcloud/initial-state": "^1.2.1",
     "@nextcloud/jcrop": "^0.10.0",
     "@nextcloud/l10n": "^1.4.1",
     "@nextcloud/logger": "^2.1.0",
