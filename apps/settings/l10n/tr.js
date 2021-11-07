@@ -350,6 +350,8 @@ OC.L10N.register(
     "Twitter" : "Twitter",
     "Website" : "Web sitesi",
     "Profile visibility" : "Profil görünürlüğü",
+    "Not available as this property is required for core functionality including file sharing and calendar invitations" : "Bu özellik, dosya paylaşımı ve takvim çağrıları gibi temel işlevler için gerekli olduğundan kullanılamıyor",
+    "Not available as publishing user specific data to the lookup server is not allowed, contact your system administrator if you have any questions" : "Kullanıcıya özel verilerin arama sunucusunda yayınlanmasına izin verilmediğinden kullanılamıyor. Herhangi bir sorunuz varsa sistem yöneticinizle görüşün.",
     "Show to everyone" : "Herkese görüntülensin",
     "Show to logged in users only" : "Yalnız oturum açmış kullanıcılara görüntülensin",
     "Hide" : "Gizlensin",

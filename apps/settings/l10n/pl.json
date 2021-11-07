@@ -348,6 +348,8 @@
     "Twitter" : "Twitter",
     "Website" : "Strona internetowa",
     "Profile visibility" : "Widoczność profilu",
+    "Not available as this property is required for core functionality including file sharing and calendar invitations" : "Niedostępne, ponieważ ta właściwość jest wymagana do podstawowych funkcji, w tym udostępniania pliku i zaproszeń do kalendarza",
+    "Not available as publishing user specific data to the lookup server is not allowed, contact your system administrator if you have any questions" : "Niedostępne, ponieważ publikowanie danych specyficznych dla użytkownika na serwerze wyszukiwania jest niedozwolone, skontaktuj się z administratorem systemu, jeśli masz jakiekolwiek pytania",
     "Show to everyone" : "Pokaż wszystkim",
     "Show to logged in users only" : "Pokaż tylko zalogowanym użytkownikom",
     "Hide" : "Ukryj",

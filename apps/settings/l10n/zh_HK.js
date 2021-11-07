@@ -350,6 +350,8 @@ OC.L10N.register(
     "Twitter" : "Twitter",
     "Website" : "網站",
     "Profile visibility" : "個人檔案能見度",
+    "Not available as this property is required for core functionality including file sharing and calendar invitations" : "無法使用，因為此屬性是核心功能（包括檔案分享和日曆邀請）所必需的。",
+    "Not available as publishing user specific data to the lookup server is not allowed, contact your system administrator if you have any questions" : "無法使用，因為不允許將用戶的特定資料發佈到查詢伺服器。如果有任何問題，請聯絡您的系統管理員。",
     "Show to everyone" : "顯示给所有人",
     "Show to logged in users only" : "僅顯示給登錄用戶",
     "Hide" : "隱藏",
