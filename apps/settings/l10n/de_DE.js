@@ -350,6 +350,8 @@ OC.L10N.register(
     "Twitter" : "Twitter",
     "Website" : "Webseite",
     "Profile visibility" : "Sichtbarkeit des Profils",
+    "Not available as this property is required for core functionality including file sharing and calendar invitations" : "Nicht verfügbar, da diese Eigenschaft für Kernfunktionen wie Dateifreigabe und Kalendereinladungen erforderlich ist.",
+    "Not available as publishing user specific data to the lookup server is not allowed, contact your system administrator if you have any questions" : "Nicht verfügbar, da die Veröffentlichung benutzerspezifischer Daten auf dem Lookup-Server nicht zulässig ist. Wenden Sie sich bei Fragen an Ihre Systemadministration.",
     "Show to everyone" : "Jedem anzeigen",
     "Show to logged in users only" : "Nur angemeldeten Benutzern anzeigen",
     "Hide" : "Ausblenden",
