@@ -30,7 +30,7 @@
     "@nextcloud/axios": "^1.7.0",
     "@nextcloud/capabilities": "^1.0.4",
     "@nextcloud/dialogs": "^3.1.2",
-    "@nextcloud/event-bus": "^2.0.0",
+    "@nextcloud/event-bus": "^2.1.1",
     "@nextcloud/files": "^2.1.0",
     "@nextcloud/initial-state": "^1.2.1",
     "@nextcloud/jcrop": "^0.10.0",
