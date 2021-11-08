@@ -89,6 +89,16 @@ class Plugin extends \Sabre\CalDAV\Schedule\Plugin {
 	}
 
 	/**
+	 * Allow manual setting of the object change URL
+	 * to support public write
+	 *
+	 * @param string $path
+	 */
+	public function setPathOfCalendarObjectChange(string $path): void {
+		$this->pathOfCalendarObjectChange = $path;
+	}
+
+	/**
 	 * This method handler is invoked during fetching of properties.
 	 *
 	 * We use this event to add calendar-auto-schedule-specific properties.
