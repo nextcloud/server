@@ -9,7 +9,7 @@ OC.L10N.register(
     "A high contrast mode to ease your navigation. Visual quality will be reduced but clarity will be increased." : "Un modo de alto contraste para facilitar la navegación. Se reducirá la calidad visual pero se aumentará la claridad.",
     "Dyslexia font" : "Tipo de letra para dislexia",
     "Enable dyslexia font" : "Activa tipo de letra para dislexia",
-    "OpenDyslexic is a free typeface/font designed to mitigate some of the common reading errors caused by dyslexia." : "OpenDyslexic es un tipo de letra/fuente libre diseñado para reducir algunos de los errores de lectura comunes causados por la dislexia.",
+    "OpenDyslexic is a free typeface/font designed to mitigate some of the common reading errors caused by dyslexia." : "OpenDyslexic es un tipo de letra libre diseñada para reducir algunos de los errores de lectura comunes causados por la dislexia.",
     "Accessibility" : "Accesibilidad",
     "Accessibility options for nextcloud" : "Opciones de accesibilidad para nextcloud",
     "Provides multiple accessibilities options to ease your use of Nextcloud" : "Ofrece múltiples opciones de accesibilidad para facilitarte el uso de Nextcloud",
