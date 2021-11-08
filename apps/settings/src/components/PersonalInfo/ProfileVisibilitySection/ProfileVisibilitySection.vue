@@ -25,14 +25,17 @@
 		<HeaderBar
 			:account-property="heading" />
 
-		<VisibilityDropdown v-for="parameter in visibilityArray"
-			:key="parameter.id"
-			:param-id="parameter.id"
-			:display-id="parameter.displayId"
-			:show-display-id="true"
-			:visibility.sync="parameter.visibility" />
+		<em :class="{ disabled }">
+			{{ t('settings', 'The more restrictive setting of either visibility or scope is respected on your Profile. For example, if visibility is set to "Show to everyone" and scope is set to "Private", "Private" is respected.') }}
+		</em>
 
-		<em :class="{ disabled }">{{ t('settings', 'The more restrictive setting of either visibility or scope is respected on your Profile, for example: When visibility is set to "Show to everyone" and scope is set to "Private", "Private" will be respected') }}</em>
+		<div class="visibility-dropdowns">
+			<VisibilityDropdown v-for="param in visibilityParams"
+				:key="param.id"
+				:param-id="param.id"
+				:display-id="param.displayId"
+				:visibility.sync="param.visibility" />
+		</div>
 	</section>
 </template>
 
