@@ -154,6 +154,11 @@ class CalendarImpl implements ICreateFromString {
 		[, $user] = uriSplit($this->calendar->getPrincipalURI());
 		$fullCalendarFilename = sprintf('calendars/%s/%s/%s', $user, $this->calendarInfo['uri'], $name);
 
+		// Force calendar change URI
+		/** @var Schedule\Plugin $schedulingPlugin */
+		$schedulingPlugin = $server->server->getPlugin('caldav-schedule');
+		$schedulingPlugin->setPathOfCalendarObjectChange($fullCalendarFilename);
+
 		$stream = fopen('php://memory', 'rb+');
 		fwrite($stream, $calendarData);
 		rewind($stream);
