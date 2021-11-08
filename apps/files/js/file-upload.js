@@ -215,6 +215,12 @@ OC.FileUpload.prototype = {
 		var data = this.data;
 		var file = this.getFile();
 
+		// if file is a directory, just create it
+		// files are handled separately
+		if (file.isDirectory) {
+			return this.uploader.ensureFolderExists(OC.joinPaths(this._targetFolder, file.fullPath));
+		}
+
 		if (self.aborted === true) {
 			return $.Deferred().resolve().promise();
 		}
