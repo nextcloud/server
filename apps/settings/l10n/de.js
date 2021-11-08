@@ -343,6 +343,7 @@ OC.L10N.register(
     "Role" : "Funktion",
     "Twitter" : "Twitter",
     "Website" : "Webseite",
+    "Not available as publishing user specific data to the lookup server is not allowed, contact your system administrator if you have any questions" : "Nicht verfügbar, da die Veröffentlichung benutzerspezifischer Daten auf dem Lookup-Server nicht zulässig ist. Wende Dich bei Fragen an Deinen Systemadministrator",
     "Show to everyone" : "Jedem anzeigen",
     "Show to logged in users only" : "Nur angemeldeten Benutzern anzeigen",
     "Download and enable" : "Herunterladen und aktivieren",
