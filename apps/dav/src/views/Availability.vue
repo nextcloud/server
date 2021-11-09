@@ -6,9 +6,11 @@
 		</p>
 		<div class="time-zone">
 			<strong>
-				{{ $t('calendar', 'Please select a time zone:') }}
+				{{ $t('calendar', 'Time zone:') }}
 			</strong>
-			<TimezonePicker v-model="timezone" />
+			<span class="time-zone-text">
+				<TimezonePicker v-model="timezone" />
+			</span>
 		</div>
 		<div class="grid-table">
 			<template v-for="day in daysOfTheWeek">
@@ -16,15 +18,17 @@
 					{{ day.displayName }}
 				</div>
 				<div :key="`day-slots-${day.id}`" class="availability-slots">
-					<div class="availability-slot">
+					<div class="availability-slot-group">
 						<template v-for="(slot, idx) in day.slots">
-							<div :key="`slot-${day.id}-${idx}`">
+							<div :key="`slot-${day.id}-${idx}`" class="availability-slot">
 								<DatetimePicker
 									v-model="slot.start"
 									type="time"
 									class="start-date"
 									format="H:mm" />
-								{{ $t('dav', 'to') }}
+								<span class="to-text">
+									{{ $t('dav', 'to') }}
+								</span>
 								<DatetimePicker
 									v-model="slot.end"
 									type="time"
@@ -37,16 +41,20 @@
 							</div>
 						</template>
 					</div>
-					<button :disabled="loading"
-						class="add-another button"
-						@click="addSlot(day)">
-						{{ $t('dav', 'Add slot') }}
-					</button>
+					<span v-if="day.slots.length === 0"
+						class="empty-content">
+						{{ $t('dav', 'No working hours set') }}
+					</span>
 				</div>
+				<button :key="`add-slot-${day.id}`"
+					:disabled="loading"
+					class="icon-add add-another button"
+					:title="$t('dav', 'Add slot')"
+					@click="addSlot(day)" />
 			</template>
 		</div>
 		<button :disabled="loading || saving"
-			class="button"
+			class="button primary"
 			@click="save">
 			{{ $t('dav', 'Save') }}
 		</button>
@@ -187,8 +195,14 @@ export default {
 }
 .availability-slots {
 	display: flex;
+	padding-left: 8px;
 }
 .availability-slot {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+.availability-slot-group {
 	display: flex;
 	flex-direction: column;
 }
@@ -196,7 +210,7 @@ export default {
 	width: 85px;
 }
 ::v-deep .mx-datepicker {
-	width: 110px;
+	width: 97px;
 }
 ::v-deep .multiselect {
 	border: 1px solid var(--color-border-dark);
@@ -207,20 +221,48 @@ export default {
 }
 .grid-table {
 	display: grid;
-	grid-template-columns: min-content auto;
+	grid-column-gap: 20px;
+	grid-row-gap: 20px;
+	grid-template-columns: min-content min-content min-content;
 }
 .button {
 	align-self: flex-end;
 }
 .label-weekday {
-	padding: 8px 23px 14px 0;
 	position: relative;
 	display: inline-flex;
+	padding-top: 7px;
 }
 .delete-slot {
 	background-color: transparent;
 	border: none;
-	padding: 15px;
+	padding-bottom: 12px;
+	opacity: .5;
+	&:hover {
+		opacity: 1;
+	}
+}
+
+.add-another {
+	background-color: transparent;
+	border: none;
+	opacity: .5;
+	display: inline-flex;
+	padding: 0;
+
+	&:hover {
+		opacity: 1;
+	}
+}
+.to-text {
+	padding-right: 12px;
+}
+.time-zone-text{
+	padding-left: 22px;
+}
+.empty-content {
+	color: var(--color-text-lighter);
+	align-self: center;
 }
 
 </style>
