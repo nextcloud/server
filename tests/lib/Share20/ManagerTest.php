@@ -22,6 +22,7 @@
 namespace Test\Share20;
 
 use OC\Files\Mount\MoveableMount;
+use OC\KnownUser\KnownUserService;
 use OC\Share20\DefaultShareProvider;
 use OC\Share20\Exception;
 use OC\Share20\Manager;
@@ -53,6 +54,7 @@ use OCP\Security\IHasher;
 use OCP\Security\ISecureRandom;
 use OCP\Share\Exceptions\AlreadySharedException;
 use OCP\Share\Exceptions\ShareNotFound;
+use OCP\Share\IManager;
 use OCP\Share\IProviderFactory;
 use OCP\Share\IShare;
 use OCP\Share\IShareProvider;
@@ -105,7 +107,10 @@ class ManagerTest extends \Test\TestCase {
 	protected $urlGenerator;
 	/** @var  \OC_Defaults|MockObject */
 	protected $defaults;
+	/** @var IUserSession|MockObject  */
 	protected $userSession;
+	/** @var KnownUserService|MockObject  */
+	protected $knownUserService;
 
 	protected function setUp(): void {
 		$this->logger = $this->createMock(ILogger::class);
@@ -122,6 +127,7 @@ class ManagerTest extends \Test\TestCase {
 		$this->defaults = $this->createMock(\OC_Defaults::class);
 		$this->dispatcher = $this->createMock(IEventDispatcher::class);
 		$this->userSession = $this->createMock(IUserSession::class);
+		$this->knownUserService = $this->createMock(KnownUserService::class);
 
 		$this->l10nFactory = $this->createMock(IFactory::class);
 		$this->l = $this->createMock(IL10N::class);
@@ -153,7 +159,8 @@ class ManagerTest extends \Test\TestCase {
 			$this->urlGenerator,
 			$this->defaults,
 			$this->dispatcher,
-			$this->userSession
+			$this->userSession,
+			$this->knownUserService
 		);
 
 		$this->defaultProvider = $this->createMock(DefaultShareProvider::class);
@@ -165,7 +172,7 @@ class ManagerTest extends \Test\TestCase {
 	 * @return MockBuilder
 	 */
 	private function createManagerMock() {
-		return 	$this->getMockBuilder('\OC\Share20\Manager')
+		return $this->getMockBuilder(Manager::class)
 			->setConstructorArgs([
 				$this->logger,
 				$this->config,
@@ -183,7 +190,8 @@ class ManagerTest extends \Test\TestCase {
 				$this->urlGenerator,
 				$this->defaults,
 				$this->dispatcher,
-				$this->userSession
+				$this->userSession,
+				$this->knownUserService
 			]);
 	}
 
@@ -2696,7 +2704,8 @@ class ManagerTest extends \Test\TestCase {
 			$this->urlGenerator,
 			$this->defaults,
 			$this->dispatcher,
-			$this->userSession
+			$this->userSession,
+			$this->knownUserService
 		);
 
 		$share = $this->createMock(IShare::class);
@@ -2741,7 +2750,8 @@ class ManagerTest extends \Test\TestCase {
 			$this->urlGenerator,
 			$this->defaults,
 			$this->dispatcher,
-			$this->userSession
+			$this->userSession,
+			$this->knownUserService
 		);
 
 		$share = $this->createMock(IShare::class);
@@ -2793,7 +2803,8 @@ class ManagerTest extends \Test\TestCase {
 			$this->urlGenerator,
 			$this->defaults,
 			$this->dispatcher,
-			$this->userSession
+			$this->userSession,
+			$this->knownUserService
 		);
 
 		$share = $this->createMock(IShare::class);
@@ -4132,7 +4143,8 @@ class ManagerTest extends \Test\TestCase {
 			$this->urlGenerator,
 			$this->defaults,
 			$this->dispatcher,
-			$this->userSession
+			$this->userSession,
+			$this->knownUserService
 		);
 		$this->assertSame($expected,
 			$manager->shareProviderExists($shareType)
@@ -4166,7 +4178,8 @@ class ManagerTest extends \Test\TestCase {
 			$this->urlGenerator,
 			$this->defaults,
 			$this->dispatcher,
-			$this->userSession
+			$this->userSession,
+			$this->knownUserService
 		);
 
 		$factory->setProvider($this->defaultProvider);
@@ -4231,7 +4244,8 @@ class ManagerTest extends \Test\TestCase {
 			$this->urlGenerator,
 			$this->defaults,
 			$this->dispatcher,
-			$this->userSession
+			$this->userSession,
+			$this->knownUserService
 		);
 
 		$factory->setProvider($this->defaultProvider);
@@ -4348,7 +4362,8 @@ class ManagerTest extends \Test\TestCase {
 			$this->urlGenerator,
 			$this->defaults,
 			$this->dispatcher,
-			$this->userSession
+			$this->userSession,
+			$this->knownUserService
 		);
 
 		$factory->setProvider($this->defaultProvider);
@@ -4474,7 +4489,8 @@ class ManagerTest extends \Test\TestCase {
 			$this->urlGenerator,
 			$this->defaults,
 			$this->dispatcher,
-			$this->userSession
+			$this->userSession,
+			$this->knownUserService
 		);
 
 		$factory->setProvider($this->defaultProvider);
@@ -4505,6 +4521,83 @@ class ManagerTest extends \Test\TestCase {
 		$expects = [$share1, $share2, $share3, $share4];
 
 		$this->assertSame($expects, $result);
+	}
+
+	public function dataCurrentUserCanEnumerateTargetUser(): array {
+		return [
+			'Full match guest' => [true, true, false, false, false, false, false, true],
+			'Full match user' => [false, true, false, false, false, false, false, true],
+			'Enumeration off guest' => [true, false, false, false, false, false, false, false],
+			'Enumeration off user' => [false, false, false, false, false, false, false, false],
+			'Enumeration guest' => [true, false, true, false, false, false, false, true],
+			'Enumeration user' => [false, false, true, false, false, false, false, true],
+
+			// Restricted enumerations guests never works
+			'Guest phone' => [true, false, true, true, false, false, false, false],
+			'Guest group' => [true, false, true, false, true, false, false, false],
+			'Guest both' => [true, false, true, true, true, false, false, false],
+
+			// Restricted enumerations users
+			'User phone but not known' => [false, false, true, true, false, false, false, false],
+			'User phone known' => [false, false, true, true, false, true, false, true],
+			'User group but no match' => [false, false, true, false, true, false, false, false],
+			'User group with match' => [false, false, true, false, true, false, true, true],
+		];
+	}
+
+	/**
+	 * @dataProvider dataCurrentUserCanEnumerateTargetUser
+	 * @param bool $expected
+	 */
+	public function testCurrentUserCanEnumerateTargetUser(bool $currentUserIsGuest, bool $allowEnumerationFullMatch, bool $allowEnumeration, bool $limitEnumerationToPhone, bool $limitEnumerationToGroups, bool $isKnownToUser, bool $haveCommonGroup, bool $expected): void {
+		/** @var IManager|MockObject $manager */
+		$manager = $this->createManagerMock()
+			->setMethods([
+				'allowEnumerationFullMatch',
+				'allowEnumeration',
+				'limitEnumerationToPhone',
+				'limitEnumerationToGroups',
+			])
+		->getMock();
+
+		$manager->method('allowEnumerationFullMatch')
+			->willReturn($allowEnumerationFullMatch);
+		$manager->method('allowEnumeration')
+			->willReturn($allowEnumeration);
+		$manager->method('limitEnumerationToPhone')
+			->willReturn($limitEnumerationToPhone);
+		$manager->method('limitEnumerationToGroups')
+			->willReturn($limitEnumerationToGroups);
+
+		$this->knownUserService->method('isKnownToUser')
+			->with('current', 'target')
+			->willReturn($isKnownToUser);
+
+		$currentUser = null;
+		if (!$currentUserIsGuest) {
+			$currentUser = $this->createMock(IUser::class);
+			$currentUser->method('getUID')
+				->willReturn('current');
+		}
+		$targetUser = $this->createMock(IUser::class);
+		$targetUser->method('getUID')
+			->willReturn('target');
+
+		if ($haveCommonGroup) {
+			$this->groupManager->method('getUserGroupIds')
+				->willReturnMap([
+					[$targetUser, ['gid1', 'gid2']],
+					[$currentUser, ['gid2', 'gid3']],
+				]);
+		} else {
+			$this->groupManager->method('getUserGroupIds')
+				->willReturnMap([
+					[$targetUser, ['gid1', 'gid2']],
+					[$currentUser, ['gid3', 'gid4']],
+				]);
+		}
+
+		$this->assertSame($expected, $manager->currentUserCanEnumerateTargetUser($currentUser, $targetUser));
 	}
 }
 

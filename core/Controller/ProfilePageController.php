@@ -26,14 +26,18 @@ declare(strict_types=1);
 
 namespace OC\Core\Controller;
 
+use OC\KnownUser\KnownUserService;
+use OC\Profile\ProfileManager;
 use OCP\Accounts\IAccountManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
+use OCP\IGroupManager;
 use OCP\IRequest;
+use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
-use OC\Profile\ProfileManager;
+use OCP\Share\IManager as IShareManager;
 use OCP\UserStatus\IManager as IUserStatusManager;
 
 class ProfilePageController extends Controller {
@@ -47,6 +51,15 @@ class ProfilePageController extends Controller {
 
 	/** @var ProfileManager */
 	private $profileManager;
+
+	/** @var IShareManager */
+	private $shareManager;
+
+	/** @var IGroupManager */
+	private $groupManager;
+
+	/** @var KnownUserService */
+	private $knownUserService;
 
 	/** @var IUserManager */
 	private $userManager;
@@ -63,6 +76,9 @@ class ProfilePageController extends Controller {
 		IInitialState $initialStateService,
 		IAccountManager $accountManager,
 		ProfileManager $profileManager,
+		IShareManager $shareManager,
+		IGroupManager $groupManager,
+		KnownUserService $knownUserService,
 		IUserManager $userManager,
 		IUserSession $userSession,
 		IUserStatusManager $userStatusManager
@@ -71,6 +87,9 @@ class ProfilePageController extends Controller {
 		$this->initialStateService = $initialStateService;
 		$this->accountManager = $accountManager;
 		$this->profileManager = $profileManager;
+		$this->shareManager = $shareManager;
+		$this->groupManager = $groupManager;
+		$this->knownUserService = $knownUserService;
 		$this->userManager = $userManager;
 		$this->userSession = $userSession;
 		$this->userStatusManager = $userStatusManager;
@@ -83,31 +102,34 @@ class ProfilePageController extends Controller {
 	 * @NoSubAdminRequired
 	 */
 	public function index(string $targetUserId): TemplateResponse {
-		if (!$this->userManager->userExists($targetUserId)) {
-			return new TemplateResponse(
-				'core',
-				'404-profile',
-				[],
-				TemplateResponse::RENDER_AS_GUEST,
-			);
-		}
+		$profileNotFoundTemplate = new TemplateResponse(
+			'core',
+			'404-profile',
+			[],
+			TemplateResponse::RENDER_AS_GUEST,
+		);
 
-		$visitingUser = $this->userSession->getUser();
 		$targetUser = $this->userManager->get($targetUserId);
+		if (!$targetUser instanceof IUser) {
+			return $profileNotFoundTemplate;
+		}
+		$visitingUser = $this->userSession->getUser();
 		$targetAccount = $this->accountManager->getAccount($targetUser);
 
 		if (!$this->isProfileEnabled($targetAccount)) {
-			return new TemplateResponse(
-				'core',
-				'404-profile',
-				[],
-				TemplateResponse::RENDER_AS_GUEST,
-			);
+			return $profileNotFoundTemplate;
+		}
+
+		// Run user enumeration checks only if viewing another user's profile
+		if ($targetUser !== $visitingUser) {
+			if (!$this->shareManager->currentUserCanEnumerateTargetUser($visitingUser, $targetUser)) {
+				return $profileNotFoundTemplate;
+			}
 		}
 
 		$userStatuses = $this->userStatusManager->getUserStatuses([$targetUserId]);
-		$status = array_shift($userStatuses);
-		if (!empty($status)) {
+		$status = $userStatuses[$targetUserId] ?? null;
+		if ($status !== null) {
 			$this->initialStateService->provideInitialState('status', [
 				'icon' => $status->getIcon(),
 				'message' => $status->getMessage(),
