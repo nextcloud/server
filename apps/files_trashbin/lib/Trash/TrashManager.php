@@ -48,7 +48,7 @@ class TrashManager implements ITrashManager {
 			return array_merge($items, $backend->listTrashRoot($user));
 		}, []);
 		usort($items, function (ITrashItem $a, ITrashItem $b) {
-			return $a->getDeletedTime() - $b->getDeletedTime();
+			return $b->getDeletedTime() - $a->getDeletedTime();
 		});
 		return $items;
 	}

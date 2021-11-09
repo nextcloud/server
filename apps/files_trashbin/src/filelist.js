@@ -72,7 +72,7 @@
 			this.$el.find('.undelete').click('click', _.bind(this._onClickRestoreSelected, this))
 
 			// Sort by most recently deleted first
-			this.setSort('mtime', 'asc')
+			this.setSort('mtime', 'desc')
 
 			/**
 			 * Override crumb making to add "Deleted Files" entry
