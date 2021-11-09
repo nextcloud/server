@@ -74,6 +74,23 @@ function processMultistatus(result, isDetailed = false) {
 		const {
 			propstat: { prop: props },
 		} = item
-		return prepareFileFromProps(props, props.id.toString(), isDetailed)
+		// Decode HTML entities
+		const decodedProps = {
+			...props,
+			// Decode twice to handle potentially double-encoded entities
+			// FIXME Remove this once https://github.com/nextcloud/server/issues/29306 is resolved
+			actorDisplayName: decodeHtmlEntities(props.actorDisplayName, 2),
+			message: decodeHtmlEntities(props.message, 2),
+		}
+		return prepareFileFromProps(decodedProps, decodedProps.id.toString(), isDetailed)
 	})
+}
+
+function decodeHtmlEntities(value, passes = 1) {
+	const parser = new DOMParser()
+	let decoded = value
+	for (let i = 0; i < passes; i++) {
+		decoded = parser.parseFromString(decoded, 'text/html').documentElement.textContent
+	}
+	return decoded
 }
