@@ -39,7 +39,6 @@ use OCA\User_LDAP\FilesystemHelper;
 use OCA\User_LDAP\Helper;
 use OCA\User_LDAP\ILDAPWrapper;
 use OCA\User_LDAP\LDAP;
-use OCA\User_LDAP\LogWrapper;
 use OCA\User_LDAP\Mapping\GroupMapping;
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\User\Manager;
@@ -119,7 +118,7 @@ class AccessTest extends TestCase {
 			->setConstructorArgs([
 				$this->createMock(IConfig::class),
 				$this->createMock(FilesystemHelper::class),
-				$this->createMock(LogWrapper::class),
+				$this->createMock(LoggerInterface::class),
 				$this->createMock(IAvatarManager::class),
 				$this->createMock(Image::class),
 				$this->createMock(IUserManager::class),

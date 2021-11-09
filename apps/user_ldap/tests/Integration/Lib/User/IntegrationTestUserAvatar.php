@@ -28,7 +28,6 @@
 namespace OCA\User_LDAP\Tests\Integration\Lib\User;
 
 use OCA\User_LDAP\FilesystemHelper;
-use OCA\User_LDAP\LogWrapper;
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\Tests\Integration\AbstractIntegrationTest;
 use OCA\User_LDAP\User\Manager;
@@ -36,6 +35,7 @@ use OCA\User_LDAP\User\User;
 use OCA\User_LDAP\User_LDAP;
 use OCA\User_LDAP\UserPluginManager;
 use OCP\Image;
+use Psr\Log\LoggerInterface;
 
 require_once __DIR__ . '/../../Bootstrap.php';
 
@@ -134,7 +134,7 @@ class IntegrationTestUserAvatar extends AbstractIntegrationTest {
 		$this->userManager = new Manager(
 			\OC::$server->getConfig(),
 			new FilesystemHelper(),
-			new LogWrapper(),
+			\OC::$server->get(LoggerInterface::class),
 			\OC::$server->getAvatarManager(),
 			new Image(),
 			\OC::$server->getDatabaseConnection(),
