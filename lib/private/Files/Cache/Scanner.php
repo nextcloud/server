@@ -420,6 +420,7 @@ class Scanner extends BasicEmitter implements IScanner {
 				continue;
 			}
 			$file = $fileMeta['name'];
+			$file = trim(\OC\Files\Filesystem::normalizePath($file), '/');
 			$newChildNames[] = $file;
 			$child = $path ? $path . '/' . $file : $file;
 			try {
