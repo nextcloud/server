@@ -55,6 +55,7 @@ use OCP\IRequest;
 use OCP\ITempManager;
 use OCP\IURLGenerator;
 use OCP\Lock\ILockingProvider;
+use OCP\Notification\IManager;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerInterface;
@@ -102,6 +103,8 @@ class CheckSetupControllerTest extends TestCase {
 	private $connection;
 	/** @var ITempManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $tempManager;
+	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
+	private $notificationManager;
 
 	/**
 	 * Holds a list of directories created during tests.
@@ -145,6 +148,7 @@ class CheckSetupControllerTest extends TestCase {
 		$this->connection = $this->getMockBuilder(IDBConnection::class)
 			->disableOriginalConstructor()->getMock();
 		$this->tempManager = $this->getMockBuilder(ITempManager::class)->getMock();
+		$this->notificationManager = $this->getMockBuilder(IManager::class)->getMock();
 		$this->checkSetupController = $this->getMockBuilder(CheckSetupController::class)
 			->setConstructorArgs([
 				'settings',
@@ -164,6 +168,7 @@ class CheckSetupControllerTest extends TestCase {
 				$this->iniGetWrapper,
 				$this->connection,
 				$this->tempManager,
+				$this->notificationManager,
 			])
 			->setMethods([
 				'isReadOnlyConfig',
@@ -185,7 +190,6 @@ class CheckSetupControllerTest extends TestCase {
 				'hasRecommendedPHPModules',
 				'hasBigIntConversionPendingColumns',
 				'isMysqlUsedWithoutUTF8MB4',
-				'isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed',
 				'isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed',
 			])->getMock();
 	}
@@ -342,7 +346,7 @@ class CheckSetupControllerTest extends TestCase {
 	 * @param string $remoteAddr
 	 * @param bool $result
 	 */
-	public function testForwardedForHeadersWorking(array $trustedProxies, string $remoteAddrNotForwarded, string $remoteAddr, bool $result) {
+	public function testForwardedForHeadersWorking(array $trustedProxies, string $remoteAddrNotForwarded, string $remoteAddr, bool $result): void {
 		$this->config->expects($this->once())
 			->method('getSystemValue')
 			->with('trusted_proxies', [])
@@ -363,7 +367,7 @@ class CheckSetupControllerTest extends TestCase {
 		);
 	}
 
-	public function dataForwardedForHeadersWorking() {
+	public function dataForwardedForHeadersWorking(): array {
 		return [
 			// description => trusted proxies, getHeader('REMOTE_ADDR'), getRemoteAddr, expected result
 			'no trusted proxies' => [[], '2.2.2.2', '2.2.2.2', true],
@@ -373,7 +377,28 @@ class CheckSetupControllerTest extends TestCase {
 		];
 	}
 
-	public function testForwardedHostPresentButTrustedProxiesEmpty() {
+	public function testForwardedHostPresentButTrustedProxiesNotAnArray(): void {
+		$this->config->expects($this->once())
+			->method('getSystemValue')
+			->with('trusted_proxies', [])
+			->willReturn('1.1.1.1');
+		$this->request->expects($this->atLeastOnce())
+			->method('getHeader')
+			->willReturnMap([
+				['REMOTE_ADDR', '1.1.1.1'],
+				['X-Forwarded-Host', 'nextcloud.test']
+			]);
+		$this->request->expects($this->any())
+			->method('getRemoteAddress')
+			->willReturn('1.1.1.1');
+
+		$this->assertEquals(
+			false,
+			self::invokePrivate($this->checkSetupController, 'forwardedForHeadersWorking')
+		);
+	}
+
+	public function testForwardedHostPresentButTrustedProxiesEmpty(): void {
 		$this->config->expects($this->once())
 			->method('getSystemValue')
 			->with('trusted_proxies', [])
@@ -594,7 +619,7 @@ class CheckSetupControllerTest extends TestCase {
 					'eol' => true,
 					'version' => PHP_VERSION
 				],
-				'forwardedForHeadersWorking' => true,
+				'forwardedForHeadersWorking' => false,
 				'reverseProxyDocs' => 'reverse-proxy-doc-link',
 				'isCorrectMemcachedPHPModuleInstalled' => true,
 				'hasPassedCodeIntegrityCheck' => true,
@@ -623,6 +648,8 @@ class CheckSetupControllerTest extends TestCase {
 				'imageMagickLacksSVGSupport' => false,
 				'isDefaultPhoneRegionSet' => false,
 				'OCA\Settings\SetupChecks\SupportedDatabase' => ['pass' => true, 'description' => '', 'severity' => 'info'],
+				'isFairUseOfFreePushService' => false,
+				'temporaryDirectoryWritable' => false,
 			]
 		);
 		$this->assertEquals($expected, $this->checkSetupController->check());
@@ -647,6 +674,8 @@ class CheckSetupControllerTest extends TestCase {
 				$this->secureRandom,
 				$this->iniGetWrapper,
 				$this->connection,
+				$this->tempManager,
+				$this->notificationManager,
 			])
 			->setMethods(null)->getMock();
 
@@ -1401,23 +1430,25 @@ Array
 			});
 
 		$checkSetupController = new CheckSetupController(
-				'settings',
-				$this->request,
-				$this->config,
-				$this->clientService,
-				$this->urlGenerator,
-				$this->l10n,
-				$this->checker,
-				$this->logger,
-				$this->dispatcher,
-				$this->db,
-				$this->lockingProvider,
-				$this->dateTimeFormatter,
-				$this->memoryInfo,
-				$this->secureRandom,
-				$this->iniGetWrapper,
-				$this->connection
-			);
+			'settings',
+			$this->request,
+			$this->config,
+			$this->clientService,
+			$this->urlGenerator,
+			$this->l10n,
+			$this->checker,
+			$this->logger,
+			$this->dispatcher,
+			$this->db,
+			$this->lockingProvider,
+			$this->dateTimeFormatter,
+			$this->memoryInfo,
+			$this->secureRandom,
+			$this->iniGetWrapper,
+			$this->connection,
+			$this->tempManager,
+			$this->notificationManager
+		);
 
 		$this->assertSame($expected, $this->invokePrivate($checkSetupController, 'isMysqlUsedWithoutUTF8MB4'));
 	}
@@ -1466,7 +1497,9 @@ Array
 			$this->memoryInfo,
 			$this->secureRandom,
 			$this->iniGetWrapper,
-			$this->connection
+			$this->connection,
+			$this->tempManager,
+			$this->notificationManager
 		);
 
 		$this->assertSame($expected, $this->invokePrivate($checkSetupController, 'isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed'));
