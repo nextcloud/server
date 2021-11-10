@@ -94,7 +94,6 @@ OC.L10N.register(
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "Končna točka WebDAV",
     "Availability" : "Razpoložljivost",
-    "Please select a time zone:" : "Izbor časovnega pasu:",
     "Delete slot" : "Izbriši možnost",
     "Add slot" : "Dodaj polje",
     "Save" : "Shrani",
