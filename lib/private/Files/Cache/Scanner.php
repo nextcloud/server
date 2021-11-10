@@ -37,6 +37,7 @@ namespace OC\Files\Cache;
 
 use Doctrine\DBAL\Exception;
 use OC\Files\Filesystem;
+use OC\Files\Storage\Wrapper\Encoding;
 use OC\Hooks\BasicEmitter;
 use OCP\Files\Cache\IScanner;
 use OCP\Files\ForbiddenException;
@@ -419,8 +420,13 @@ class Scanner extends BasicEmitter implements IScanner {
 			if ($permissions === 0) {
 				continue;
 			}
-			$file = $fileMeta['name'];
-			$file = trim(\OC\Files\Filesystem::normalizePath($file), '/');
+			$originalFile = $fileMeta['name'];
+			$file = trim(\OC\Files\Filesystem::normalizePath($originalFile), '/');
+			if (trim($originalFile, '/') !== $file && !$this->storage->instanceOfStorage(Encoding::class)) {
+				// encoding mismatch, might require compatibility wrapper
+				$this->emit('\OC\Files\Cache\Scanner', 'normalizedNameMismatch', [$path ? $path . '/' . $originalFile : $originalFile]);
+			}
+
 			$newChildNames[] = $file;
 			$child = $path ? $path . '/' . $file : $file;
 			try {
