@@ -22,7 +22,6 @@
  */
 namespace OCA\Files_Trashbin\Trash;
 
-use OCA\Files_Sharing\SharedStorage;
 use OCP\Files\Storage\IStorage;
 use OCP\IUser;
 
@@ -100,14 +99,6 @@ class TrashManager implements ITrashManager {
 		try {
 			$backend = $this->getBackendForStorage($storage);
 			$this->trashPaused = true;
-			if ($storage->instanceOfStorage(SharedStorage::class) && !($backend instanceof LegacyTrashBackend)) {
-				/** @var LegacyTrashBackend $legacyBackend */
-				$legacyBackend = $this->getBackendForStorage(\OC::$server->getUserFolder()->getStorage());
-				if ($legacyBackend instanceof LegacyTrashBackend) {
-					$legacyBackend->copyToTrash($storage, $internalPath);
-				}
-			}
-
 			$result = $backend->moveToTrash($storage, $internalPath);
 			$this->trashPaused = false;
 			return $result;

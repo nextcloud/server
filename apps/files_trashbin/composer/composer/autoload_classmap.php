@@ -36,6 +36,7 @@ return array(
     'OCA\\Files_Trashbin\\Sabre\\TrashRoot' => $baseDir . '/../lib/Sabre/TrashRoot.php',
     'OCA\\Files_Trashbin\\Storage' => $baseDir . '/../lib/Storage.php',
     'OCA\\Files_Trashbin\\Trash\\BackendNotFoundException' => $baseDir . '/../lib/Trash/BackendNotFoundException.php',
+    'OCA\\Files_Trashbin\\Trash\\IHomeTrashBackend' => $baseDir . '/../lib/Trash/IHomeTrashBackend.php',
     'OCA\\Files_Trashbin\\Trash\\ITrashBackend' => $baseDir . '/../lib/Trash/ITrashBackend.php',
     'OCA\\Files_Trashbin\\Trash\\ITrashItem' => $baseDir . '/../lib/Trash/ITrashItem.php',
     'OCA\\Files_Trashbin\\Trash\\ITrashManager' => $baseDir . '/../lib/Trash/ITrashManager.php',

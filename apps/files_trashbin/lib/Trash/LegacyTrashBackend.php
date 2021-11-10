@@ -33,7 +33,7 @@ use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IStorage;
 use OCP\IUser;
 
-class LegacyTrashBackend implements ITrashBackend {
+class LegacyTrashBackend implements IHomeTrashBackend {
 	/** @var array */
 	private $deletedFiles = [];
 
