@@ -43,7 +43,7 @@
 					</div>
 					<span v-if="day.slots.length === 0"
 						class="empty-content">
-						{{ $t('dav', 'No working hours set') }}
+						{{ $t('dav', 'Non-working hours set') }}
 					</span>
 				</div>
 				<button :key="`add-slot-${day.id}`"
