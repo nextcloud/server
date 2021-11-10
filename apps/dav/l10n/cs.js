@@ -123,7 +123,6 @@ OC.L10N.register(
     "WebDAV endpoint" : "WebDAV endpoint",
     "Availability" : "Dostupnost",
     "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Když sem zadáte svou pracovní dobu, ostatní uživatelé při rezervování schůzky uvidí, kdy jste mimo kancelář.",
-    "Please select a time zone:" : "Vyberte časové pásmo:",
     "to" : "do",
     "Delete slot" : "Smazat slot",
     "Add slot" : "Přidat slot",

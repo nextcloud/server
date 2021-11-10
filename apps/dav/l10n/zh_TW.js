@@ -123,7 +123,6 @@ OC.L10N.register(
     "WebDAV endpoint" : "WebDAV 端點",
     "Availability" : "可用性",
     "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "若您設定了您的工作時間，其他使用者在預約會議時就會知道您何時不在辦公室。",
-    "Please select a time zone:" : "請選取時區：",
     "to" : "到",
     "Delete slot" : "刪除欄位",
     "Add slot" : "新增欄位",
