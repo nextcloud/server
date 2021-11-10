@@ -27,7 +27,7 @@
 		id="viewer"
 		:class="{'icon-loading': !currentFile.loaded && !currentFile.failed,
 			'theme--undefined': theme === null, 'theme--dark': theme === 'dark', 'theme--light': theme === 'light', 'theme--default': theme === 'default'}"
-		:clear-view-delay="(isTesting || isMobile) ? -1 : undefined /* prevent cypress timeouts and disable on mobile, otherwise use default of the modal */"
+		:clear-view-delay="-1 /* disable fade-out because of accessibility reasons */"
 		:dark="true"
 		:enable-slideshow="hasPrevious || hasNext"
 		:enable-swipe="canSwipe"
@@ -190,7 +190,6 @@ export default {
 			isSidebarShown: false,
 			canSwipe: true,
 			isStandalone: !(OCA && OCA.Files && 'fileActions' in OCA.Files),
-			isTesting,
 			theme: null,
 			root: getRootPath(),
 		}
