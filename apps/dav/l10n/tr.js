@@ -123,7 +123,6 @@ OC.L10N.register(
     "WebDAV endpoint" : "WebDAV bağlantı noktası",
     "Availability" : "Kullanılabilirlik",
     "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Çalışma saatlerinizi ayarlarsanız, diğer kullanıcılar bir toplantı ayarladıklarında ofis dışında olduğunuzu görürler.",
-    "Please select a time zone:" : "Lütfen bir saat dilimi seçin:",
     "to" : "ile",
     "Delete slot" : "Aralığı sil",
     "Add slot" : "Aralık ekle",

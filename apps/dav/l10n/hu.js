@@ -122,7 +122,6 @@ OC.L10N.register(
     "WebDAV endpoint" : "WebDAV végpont",
     "Availability" : "Elérhetőség",
     "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Ha beállítod a munkaidődet, más felhasználók megbeszélés létrehozásakor fogják, hogy mikor vagy elérhető.",
-    "Please select a time zone:" : "Válassz időzónát:",
     "to" : "címzett",
     "Save" : "Mentés",
     "Monday" : "Hétfő",

@@ -95,7 +95,6 @@ OC.L10N.register(
     "Tasks" : "Užduotys",
     "Untitled task" : "Užduotis be pavadinimo",
     "WebDAV" : "WebDAV",
-    "Please select a time zone:" : "Pasirinkite laiko juostą:",
     "Save" : "Įrašyti",
     "Monday" : "Pirmadienis",
     "Tuesday" : "Antradienis",

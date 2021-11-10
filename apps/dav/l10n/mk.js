@@ -96,7 +96,6 @@ OC.L10N.register(
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "WebDAV крајна точка",
     "Availability" : "Достапност",
-    "Please select a time zone:" : "Изберете временска зона:",
     "to" : "до",
     "Delete slot" : "Избриши слот",
     "Add slot" : "Додади слот",
