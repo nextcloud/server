@@ -97,7 +97,7 @@ OC.L10N.register(
     "Username as share" : "Usuario como elemento compartido",
     "OpenStack Object Storage" : "OpenStack Object Storage",
     "Service name" : "Nombre del servicio",
-    "Request timeout (seconds)" : "Tiemo de vida de la solicitud (segudos)",
+    "Request timeout (seconds)" : "Tiemo de vida de la solicitud (segundos)",
     "The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "El soporte para cURL en PHP no se encuentra habilitado o instalado. El montaje de %s no es posible. Por favor solicita a tu administador su instalación. ",
     "The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "El soporte para FTP en PHP no se encuentra habilitado o instalado. El montaje de %s no es posible. Por favor solicita a tu administador su instalación. ",
     "No external storage configured or you don't have the permission to configure them" : "No se ha configurado almacenamiento externo o no tienes permiso para configurarlo",

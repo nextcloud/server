@@ -83,6 +83,7 @@ OC.L10N.register(
     "Available flows" : "Διαθέσιμες ροές",
     "For details on how to write your own flow, check out the development documentation." : "Για λεπτομέρεις πως μπορείτε να συντάξετε δική σας ροή, δείτε στην τεκμηρίωση προγραμματιστών.",
     "More flows" : "Περισσότερες ροές",
+    "Browse the App Store" : "Εξερευνήστε την Αγορά εφαρμογών",
     "Show less" : "Εμφάνιση λιγότερων",
     "Show more" : "Εμφάνιση περισσότερων",
     "Configured flows" : "Ρύθμιση ροών",
