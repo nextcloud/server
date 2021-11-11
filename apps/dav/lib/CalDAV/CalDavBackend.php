@@ -170,10 +170,25 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		'{http://calendarserver.org/ns/}subscribed-strip-attachments' => 'stripattachments',
 	];
 
-	/** @var array properties to index */
-	public static $indexProperties = ['CATEGORIES', 'COMMENT', 'DESCRIPTION',
-		'LOCATION', 'RESOURCES', 'STATUS', 'SUMMARY', 'ATTENDEE', 'CONTACT',
-		'ORGANIZER'];
+	/**
+	 * properties to index
+	 *
+	 * This list has to be kept in sync with ICalendarQuery::SEARCH_PROPERTY_*
+	 *
+	 * @see \OCP\Calendar\ICalendarQuery
+	 */
+	private const INDEXED_PROPERTIES = [
+		'CATEGORIES',
+		'COMMENT',
+		'DESCRIPTION',
+		'LOCATION',
+		'RESOURCES',
+		'STATUS',
+		'SUMMARY',
+		'ATTENDEE',
+		'CONTACT',
+		'ORGANIZER'
+	];
 
 	/** @var array parameters to index */
 	public static $indexParameters = [
@@ -2948,7 +2963,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			}
 
 			foreach ($component->children() as $property) {
-				if (in_array($property->name, self::$indexProperties)) {
+				if (in_array($property->name, self::INDEXED_PROPERTIES, true)) {
 					$value = $property->getValue();
 					// is this a shitty db?
 					if (!$this->db->supports4ByteText()) {
