@@ -195,7 +195,7 @@ class AppManager implements IAppManager {
 		if ($values[$appId] === 'yes' || $values[$appId] === 'no') {
 			return [];
 		}
-		return json_decode($values[$appId]);
+		return json_decode($values[$appId], true);
 	}
 
 
