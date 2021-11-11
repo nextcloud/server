@@ -466,7 +466,7 @@ class Updater extends BasicEmitter {
 
 				if (!empty($previousEnableStates)) {
 					$ocApp = new \OC_App();
-					if (!empty($previousEnableStates[$app])) {
+					if (!empty($previousEnableStates[$app]) && is_array($previousEnableStates[$app])) {
 						$ocApp->enable($app, $previousEnableStates[$app]);
 					} else {
 						$ocApp->enable($app);
