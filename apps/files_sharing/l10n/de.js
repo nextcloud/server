@@ -93,7 +93,7 @@ OC.L10N.register(
     "{actor} removed you from the share named {file}" : "{actor} hat Dich aus der Freigabe von {file} entfernt",
     "Share for file {file} with {user} expired" : "Freigabe für die Datei {file} mit {user} abgelaufen",
     "Share for file {file} expired" : "Freigabe für die Datei {file} abgelaufen",
-    "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "Öffentlich oder per E-Mail geteilte Datei / Ordner wurde <strong>heruntergeladen</strong>",
+    "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "Öffentlich oder per E-Mail geteilte Datei oder Ordner wurde <strong>heruntergeladen</strong>",
     "A file or folder was shared from <strong>another server</strong>" : "Eine Datei oder ein Ordner wurde von <strong>einem anderen Server</strong> geteilt",
     "Files" : "Dateien",
     "A file or folder has been <strong>shared</strong>" : "Eine Datei oder ein Ordner wurde <strong>geteilt</strong>",
