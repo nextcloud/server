@@ -57,8 +57,8 @@
 		"extends @nextcloud/browserslist-config"
 	],
 	"engines": {
-		"node": ">=14.0.0",
-		"npm": ">=7.0.0"
+		"node": "^14.0.0",
+		"npm": "^7.0.0"
 	},
 	"devDependencies": {
 		"@babel/plugin-proposal-class-properties": "^7.16.0",
