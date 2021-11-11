@@ -148,7 +148,7 @@
     "Your connection is not secure" : "Deine Verbindung ist nicht sicher",
     "Passwordless authentication is only available over a secure connection." : "Anmeldung ohne Passwort ist nur über eine sichere Verbindung möglich",
     "Reset password" : "Passwort zurücksetzen",
-    "A password reset message has been sent to the email address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Eine Nachricht zum Zurücksetzen des Passworts wurde an die in diesem Konto hinterlegte E-Mail-Adresse gesendet. Wenn Sie diese nicht erhalten haben, prüfen Sie bitte die Ordner Spam/Junk oder kontaktieren Sie Ihren lokalen Administrator für weitere Hilfe.",
+    "A password reset message has been sent to the email address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Eine Nachricht zum Zurücksetzen des Passworts wurde an die in diesem Konto hinterlegte E-Mail-Adresse gesendet. Wenn du diese nicht erhalten hast, prüfen bitte die Ordner Spam/Junk oder kontaktieren deinen lokalen Administrator für weitere Hilfe.",
     "If it is not there ask your local administrator." : "Wenn Du keine E-Mail bekommen hast, wende Dich bitte an Deinen lokalen Administrator.",
     "Couldn't send reset email. Please contact your administrator." : "Die E-Mail zum Zurücksetzen konnte nicht versendet werden. Bitte kontaktiere Deinen Administrator.",
     "Password cannot be changed. Please contact your administrator." : "Passwort kann nicht geändert werden. Bitte wende Dich an  Deinen Administrator.",
