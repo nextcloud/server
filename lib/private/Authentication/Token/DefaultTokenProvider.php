@@ -128,6 +128,8 @@ class DefaultTokenProvider implements IProvider {
 			// Update token only once per minute
 			$token->setLastActivity($now);
 			$this->mapper->update($token);
+		} else if (!empty($token->getUpdatedFields())) {
+			$this->mapper->update($token);
 		}
 	}
 
