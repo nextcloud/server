@@ -264,6 +264,8 @@ OC.L10N.register(
     "Admin" : "Beheerder",
     "Help" : "Help",
     "Access forbidden" : "Toegang verboden",
+    "Profile not found" : "Proefiel niet gevonden",
+    "The profile does not exist." : "Het profiel bestaat niet.",
     "Back to %s" : "Terug naar %s",
     "File not found" : "Bestand niet gevonden",
     "The document could not be found on the server. Maybe the share was deleted or has expired?" : "Het document werd niet gevonden op de server. Misschien is de share verwijderd of verlopen?",
