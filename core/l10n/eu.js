@@ -182,6 +182,7 @@ OC.L10N.register(
     "Edit Profile" : "Editatu profila",
     "hasn't added any info yet" : "ez du informaziorik gehitu oraindik",
     "The headline and about section will show up here" : "Izenburua eta 'honi buruz' sekzioa hemen agertuko da",
+    "Error opening the user status modal, try hard refreshing the page" : "Errorea erabiltzailen egoera leihoa irekitzen, saiatu orria guztiz freskatzen",
     "Reset search" : "Berrezarri bilaketa",
     "Search for {name} only" : "Biatu {name} bakarrik",
     "No results for {query}" : " {query}-(r)entzako emaitzarik ez",

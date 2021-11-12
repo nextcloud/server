@@ -349,6 +349,7 @@ OC.L10N.register(
     "Twitter" : "Twitter",
     "Website" : "Webgunea",
     "Profile visibility" : "Profilaren ikusgarritasuna",
+    "Not available as this property is required for core functionality including file sharing and calendar invitations" : "Ez dago eskuragarri propietate hau oinarrizko funtzionaltasunentzako beharrezkoa delako, fitxategien partekatze eta egutegien gonbidapenak barne",
     "Show to everyone" : "Erakutsi denei",
     "Show to logged in users only" : "Erakutsi saioa hasi duten erabiltzaileei soilik",
     "Hide" : "Ezkutatu",
