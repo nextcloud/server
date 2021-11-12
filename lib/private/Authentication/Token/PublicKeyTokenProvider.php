@@ -228,7 +228,7 @@ class PublicKeyTokenProvider implements IProvider {
 			} else {
 				$this->mapper->updateActivity($token, $now);
 			}
-		} else if (!empty($token->getUpdatedFields())) {
+		} elseif (!empty($token->getUpdatedFields())) {
 			$this->mapper->update($token);
 		}
 	}
