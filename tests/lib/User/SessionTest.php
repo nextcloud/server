@@ -1255,7 +1255,7 @@ class SessionTest extends \Test\TestCase {
 		$mapper->expects($this->any())
 			->method('getToken')
 			->willReturn($token);
-		$mapper->expects($this->once())
+		$mapper->expects($this->exactly(2))
 			->method('update');
 		$request
 			->expects($this->any())
@@ -1305,7 +1305,7 @@ class SessionTest extends \Test\TestCase {
 		$mapper->expects($this->any())
 			->method('getToken')
 			->willReturn($token);
-		$mapper->expects($this->never())
+		$mapper->expects($this->once())
 			->method('update');
 		$request
 			->expects($this->any())
