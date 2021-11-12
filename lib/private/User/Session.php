@@ -750,6 +750,7 @@ class Session implements IUserSession, Emitter {
 			}
 
 			$dbToken->setLastCheck($now);
+			$this->tokenProvider->updateToken($dbToken);
 			return true;
 		}
 
@@ -767,6 +768,7 @@ class Session implements IUserSession, Emitter {
 		}
 
 		$dbToken->setLastCheck($now);
+		$this->tokenProvider->updateToken($dbToken);
 		return true;
 	}
 
