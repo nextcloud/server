@@ -105,6 +105,7 @@ OC.L10N.register(
     "SMB/CIFS" : "SMB/CIFS",
     "Share" : "Jaa",
     "Show hidden files" : "Näytä piilotiedostot",
+    "Verify ACL access when listing files" : "Vahvista ACL-pääsy tiedostoja listatessa",
     "Timeout" : "Aikakatkaisu",
     "Username as share" : "Käyttäjänimi jakona",
     "OpenStack Object Storage" : "OpenStack Object Storage",

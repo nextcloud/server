@@ -54,6 +54,7 @@
     "Your password will expire tomorrow." : "Votre mot de passe expirera demain",
     "Your password will expire today." : "Votre mot de passe va expirer aujourd'hui.",
     "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["Votre mot de passe va expirer dans %n jour.","Votre mot de passe va expirer dans %n jours."],
+    "LDAP/AD integration" : "Integration LDAP/AD ",
     "_%s group found_::_%s groups found_" : ["%s groupe trouvé","%s groupes trouvés"],
     "_%s user found_::_%s users found_" : ["%s utilisateur trouvé","%s utilisateurs trouvés"],
     "Could not detect user display name attribute. Please specify it yourself in advanced LDAP settings." : "Impossible de détecter l'attribut contenant le nom d'affichage des utilisateurs. Veuillez l'indiquer vous-même dans les paramètres LDAP avancés.",
