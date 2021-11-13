@@ -1284,12 +1284,13 @@ class OC_Util {
 			// Borrowed from \Patchwork\Utf8\Bootup::initLocale
 			setlocale(LC_ALL, 'C.UTF-8', 'C');
 			setlocale(LC_CTYPE, 'en_US.UTF-8', 'fr_FR.UTF-8', 'es_ES.UTF-8', 'de_DE.UTF-8', 'ru_RU.UTF-8', 'pt_BR.UTF-8', 'it_IT.UTF-8', 'ja_JP.UTF-8', 'zh_CN.UTF-8', '0');
+
+			// Check again
+			if ('' === escapeshellcmd('§')) {
+				return false;
+			}
 		}
 
-		// Check again
-		if ('' === escapeshellcmd('§')) {
-			return false;
-		}
 		return true;
 	}
 
