@@ -117,7 +117,7 @@ OC.L10N.register(
     "Please specify a valid federated group ID" : "Моля, посочете валиден идентификатор на федерирана група",
     "You cannot share to a Circle if the app is not enabled" : "Не можете да споделяте с Кръг, ако приложението не е активирано",
     "Please specify a valid circle" : "Моля, изберете валиден кръг",
-    "Sharing %s failed because the back end does not support room shares" : "Споделянето %s не бе успешно, защото вътрешния сървър не позволява споделяния ш стаите",
+    "Sharing %s failed because the back end does not support room shares" : "Споделянето %s не бе успешно, защото вътрешния сървър не позволява споделяния на стаите",
     "Unknown share type" : "Неизвестен тип споделяне",
     "Not a directory" : "Не е  директория",
     "Could not lock node" : "Възелът не можа да се заключи",
