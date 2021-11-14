@@ -39,6 +39,8 @@ OC.L10N.register(
     "Could not load info for file \"{file}\"" : "Kon geen informatie laden voor bestand \"{file}\"",
     "Files" : "Bestanden",
     "Details" : "Details",
+    "Please select tag(s) to add to the selection" : "Selecteer alsjeblieft tag(s) om aan de selectie toe te voegen",
+    "Apply tag(s) to selection" : "Pas teg(s) toe voor selectie",
     "Select" : "Selecteer",
     "Pending" : "In behandeling",
     "Unable to determine date" : "Kon datum niet vaststellen",
