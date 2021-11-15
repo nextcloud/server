@@ -204,14 +204,8 @@ class Upgrade extends Command {
 			$updater->listen('\OC\Updater', 'incompatibleAppDisabled', function ($app) use ($output) {
 				$output->writeln('<comment>Disabled incompatible app: ' . $app . '</comment>');
 			});
-			$updater->listen('\OC\Updater', 'checkAppStoreAppBefore', function ($app) use ($output) {
-				$output->writeln('<info>Checking for update of app ' . $app . ' in appstore</info>');
-			});
 			$updater->listen('\OC\Updater', 'upgradeAppStoreApp', function ($app) use ($output) {
 				$output->writeln('<info>Update app ' . $app . ' from App Store</info>');
-			});
-			$updater->listen('\OC\Updater', 'checkAppStoreApp', function ($app) use ($output) {
-				$output->writeln('<info>Checked for update of app "' . $app . '" in App Store </info>');
 			});
 			$updater->listen('\OC\Updater', 'appSimulateUpdate', function ($app) use ($output) {
 				$output->writeln("<info>Checking whether the database schema for <$app> can be updated (this can take a long time depending on the database size)</info>");
