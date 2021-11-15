@@ -82,6 +82,8 @@ class UtilTest extends \Test\TestCase {
 		$locale = setlocale(LC_CTYPE, 0);
 		setlocale(LC_CTYPE, 'C');
 		$this->assertEquals('', escapeshellcmd('§'));
+		setlocale(LC_CTYPE, 'C.UTF-8');
+		$this->assertEquals('§', escapeshellcmd('§'));
 		setlocale(LC_CTYPE, $locale);
 	}
 
