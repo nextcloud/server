@@ -191,7 +191,7 @@
     "Oct." : "říj.",
     "Nov." : "list.",
     "Dec." : "pro.",
-    "The user limit has been reached and the user was not created." : "Bylo dosaženo limitu uživatelů a uživatel nebyl vytvořen.",
+    "The user limit has been reached and the user was not created." : "Bylo dosaženo limitu počtu uživatelů a uživatel proto nebyl vytvořen.",
     "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Pouze následující znaky jsou povoleny pro uživatelské jméno: „a-z“, „A-Z“, „0-9“, a „_.@-'“",
     "A valid username must be provided" : "Je třeba zadat platné uživatelské jméno",
     "Username contains whitespace at the beginning or at the end" : "Uživatelské jméno je chybné – na jeho začátku či konci se nachází prázdný znak (mezera, tabulátor, atp.)",
