@@ -406,7 +406,7 @@ class SCSSCacher {
 	}
 
 	/**
-	 * @return string SCSS code for variables from ThemingDefaults
+	 * @return string SCSS code for variables from OC_Defaults
 	 */
 	private function getInjectedVariables(string $cache = ''): string {
 		if ($this->injectedVariables !== null) {
