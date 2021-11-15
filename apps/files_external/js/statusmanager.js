@@ -254,8 +254,6 @@ OCA.Files_External.StatusManager = {
 				OCA.Files_External.StatusManager.Utils.changeFolderIcon(elementList);
 				// Save default view
 				OCA.Files_External.StatusManager.Utils.storeDefaultFolderIconAndBgcolor(elementList);
-				// Disable row until check status
-				elementList.addClass('externalDisabledRow');
 				OCA.Files_External.StatusManager.Utils.toggleLink(elementList.find('a.name'), false, false);
 			}
 		}
@@ -505,7 +503,6 @@ OCA.Files_External.StatusManager.Utils = {
 			// can't use here FileList.findFileEl(OCA.Files_External.StatusManager.Utils.jqSelEscape(folder)); return incorrect instance of filelist
 			trFolder = $('#fileList tr[data-file=\"' + OCA.Files_External.StatusManager.Utils.jqSelEscape(folder) + '\"]');
 		}
-		trFolder.removeClass('externalErroredRow').removeClass('externalDisabledRow');
 		var tdChilds = trFolder.find("td.filename div.thumbnail");
 		tdChilds.each(function () {
 			var thisElement = $(this);
