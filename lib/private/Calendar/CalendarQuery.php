@@ -47,8 +47,8 @@ class CalendarQuery implements ICalendarQuery {
 	/** @var int|null */
 	private $limit;
 
-	/** @var array */
-	private $calendarUris;
+	/** @var string[] */
+	private $calendarUris = [];
 
 	public function __construct(string $principalUri) {
 		$this->principalUri = $principalUri;
@@ -86,6 +86,9 @@ class CalendarQuery implements ICalendarQuery {
 		$this->calendarUris[] = $calendarUri;
 	}
 
+	/**
+	 * @return string[]
+	 */
 	public function getCalendarUris(): array {
 		return $this->calendarUris;
 	}
