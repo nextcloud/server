@@ -280,7 +280,7 @@ interface IQueryBuilder {
 	/**
 	 * Sets the position of the first result to retrieve (the "offset").
 	 *
-	 * @param integer $firstResult The first result to return.
+	 * @param int $firstResult The first result to return.
 	 *
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
@@ -299,7 +299,7 @@ interface IQueryBuilder {
 	/**
 	 * Sets the maximum number of results to retrieve (the "limit").
 	 *
-	 * @param integer $maxResults The maximum number of results to retrieve.
+	 * @param int|null $maxResults The maximum number of results to retrieve.
 	 *
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
