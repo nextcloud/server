@@ -1254,7 +1254,7 @@ class OC_Util {
 	}
 
 	/**
-	 * Check if the setlocal call does not work. This can happen if the right
+	 * Check if the setlocale call does not work. This can happen if the right
 	 * local packages are not available on the server.
 	 *
 	 * @return bool
