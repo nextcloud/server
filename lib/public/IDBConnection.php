@@ -69,8 +69,8 @@ interface IDBConnection {
 	/**
 	 * Used to abstract the ownCloud database access away
 	 * @param string $sql the sql query with ? placeholder for params
-	 * @param int $limit the maximum number of rows
-	 * @param int $offset from which row we want to start
+	 * @param int|null $limit the maximum number of rows
+	 * @param int|null $offset from which row we want to start
 	 * @return IPreparedStatement The prepared statement.
 	 * @since 6.0.0
 	 * @throws Exception since 21.0.0

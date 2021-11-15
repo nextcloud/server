@@ -256,7 +256,7 @@ interface IQueryBuilder {
 	/**
 	 * Sets the position of the first result to retrieve (the "offset").
 	 *
-	 * @param integer $firstResult The first result to return.
+	 * @param int $firstResult The first result to return.
 	 *
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
@@ -265,9 +265,9 @@ interface IQueryBuilder {
 
 	/**
 	 * Gets the position of the first result the query object was set to retrieve (the "offset").
-	 * Returns NULL if {@link setFirstResult} was not applied to this QueryBuilder.
+	 * Returns 0 if {@link setFirstResult} was not applied to this QueryBuilder.
 	 *
-	 * @return integer The position of the first result.
+	 * @return int The position of the first result.
 	 * @since 8.2.0
 	 */
 	public function getFirstResult();
@@ -275,7 +275,7 @@ interface IQueryBuilder {
 	/**
 	 * Sets the maximum number of results to retrieve (the "limit").
 	 *
-	 * @param integer $maxResults The maximum number of results to retrieve.
+	 * @param int|null $maxResults The maximum number of results to retrieve.
 	 *
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
