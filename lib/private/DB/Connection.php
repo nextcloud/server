@@ -189,15 +189,20 @@ class Connection extends \Doctrine\DBAL\Connection {
 	 * Prepares an SQL statement.
 	 *
 	 * @param string $statement The SQL statement to prepare.
-	 * @param int $limit
-	 * @param int $offset
+	 * @param int|null $limit
+	 * @param int|null $offset
 	 *
 	 * @return Statement The prepared statement.
 	 * @throws Exception
 	 */
 	public function prepare($statement, $limit = null, $offset = null): Statement {
-		if ($limit === -1) {
+		if ($limit === -1 || $limit === null) {
 			$limit = null;
+		} else {
+			$limit = (int) $limit;
+		}
+		if ($offset !== null) {
+			$offset = (int) $offset;
 		}
 		if (!is_null($limit)) {
 			$platform = $this->getDatabasePlatform();
