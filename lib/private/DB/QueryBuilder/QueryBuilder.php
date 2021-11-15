@@ -398,12 +398,12 @@ class QueryBuilder implements IQueryBuilder {
 	/**
 	 * Sets the position of the first result to retrieve (the "offset").
 	 *
-	 * @param integer $firstResult The first result to return.
+	 * @param int $firstResult The first result to return.
 	 *
 	 * @return $this This QueryBuilder instance.
 	 */
 	public function setFirstResult($firstResult) {
-		$this->queryBuilder->setFirstResult($firstResult);
+		$this->queryBuilder->setFirstResult((int) $firstResult);
 
 		return $this;
 	}
@@ -425,12 +425,16 @@ class QueryBuilder implements IQueryBuilder {
 	 * of the databases will just return an empty result set, Oracle will return
 	 * all entries.
 	 *
-	 * @param integer $maxResults The maximum number of results to retrieve.
+	 * @param int|null $maxResults The maximum number of results to retrieve.
 	 *
 	 * @return $this This QueryBuilder instance.
 	 */
 	public function setMaxResults($maxResults) {
-		$this->queryBuilder->setMaxResults($maxResults);
+		if ($maxResults === null) {
+			$this->queryBuilder->setMaxResults($maxResults);
+		} else {
+			$this->queryBuilder->setMaxResults((int) $maxResults);
+		}
 
 		return $this;
 	}
