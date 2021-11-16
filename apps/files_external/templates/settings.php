@@ -207,7 +207,7 @@ $canCreateMounts = $_['visibilityType'] === BackendService::VISIBILITY_ADMIN || 
 	<form autocomplete="false" action="#"
 		  id="global_credentials" method="post">
 		<h2><?php p($l->t('Global credentials')); ?></h2>
-		<p class="settings-hint"><?php p($l->t('Global credentials can be used to authenticate with multiple external storage that have the same credentials.')); ?></p>
+		<p class="settings-hint"><?php p($l->t('Global credentials can be used to authenticate with multiple external storages that have the same credentials.')); ?></p>
 		<input type="text" name="username"
 			   autocomplete="false"
 			   value="<?php p($_['globalCredentials']['user']); ?>"
