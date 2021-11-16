@@ -74,6 +74,18 @@ class UtilTest extends \Test\TestCase {
 		$this->assertEquals("/%C2%A7%23%40test%25%26%5E%C3%A4/-child", $result);
 	}
 
+	public function testIsNonUTF8Locale() {
+		// OC_Util::isNonUTF8Locale() assumes escapeshellcmd('§') returns '' with non-UTF-8 locale.
+		$locale = setlocale(LC_CTYPE, 0);
+		setlocale(LC_CTYPE, 'C');
+		$this->assertEquals('', escapeshellcmd('§'));
+		$this->assertEquals('\'\'', escapeshellarg('§'));
+		setlocale(LC_CTYPE, 'C.UTF-8');
+		$this->assertEquals('§', escapeshellcmd('§'));
+		$this->assertEquals('\'§\'', escapeshellarg('§'));
+		setlocale(LC_CTYPE, $locale);
+	}
+
 	public function testFileInfoLoaded() {
 		$expected = function_exists('finfo_open');
 		$this->assertEquals($expected, \OC_Util::fileInfoLoaded());
