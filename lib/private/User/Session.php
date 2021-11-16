@@ -835,8 +835,7 @@ class Session implements IUserSession, Emitter {
 			return true;
 		}
 
-		// Remember me tokens are not app_passwords
-		if ($dbToken->getRemember() === IToken::DO_NOT_REMEMBER) {
+		if ($dbToken->getType() === IToken::PERMANENT_TOKEN) {
 			// Set the session variable so we know this is an app password
 			$this->session->set('app_password', $token);
 		}

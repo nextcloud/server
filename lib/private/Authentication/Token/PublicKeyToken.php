@@ -35,7 +35,6 @@ use OCP\AppFramework\Db\Entity;
  * @method void setLoginName(string $loginname)
  * @method string getToken()
  * @method void setType(int $type)
- * @method int getType()
  * @method void setRemember(int $remember)
  * @method void setLastActivity(int $lastactivity)
  * @method int getLastActivity()
@@ -199,6 +198,10 @@ class PublicKeyToken extends Entity implements INamedToken, IWipeableToken {
 
 	public function setName(string $name): void {
 		parent::setName($name);
+	}
+
+	public function getType(): int {
+		return parent::getType();
 	}
 
 	public function getRemember(): int {

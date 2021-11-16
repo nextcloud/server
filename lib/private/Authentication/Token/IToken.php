@@ -112,6 +112,13 @@ interface IToken extends JsonSerializable {
 	public function getRemember(): int;
 
 	/**
+	 * Get the token type
+	 *
+	 * @return int
+	 */
+	public function getType(): int;
+
+	/**
 	 * Set the token
 	 *
 	 * @param string $token
