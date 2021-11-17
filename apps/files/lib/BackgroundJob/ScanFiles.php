@@ -116,11 +116,17 @@ class ScanFiles extends \OC\BackgroundJob\TimedJob {
 		}
 
 		$usersScanned = 0;
+		$lastUser = '';
 		$user = $this->getUserToScan();
-		while ($user && $usersScanned < self::USERS_PER_SESSION) {
+		while ($user && $usersScanned < self::USERS_PER_SESSION && $lastUser !== $user) {
 			$this->runScanner($user);
+			$lastUser = $user;
 			$user = $this->getUserToScan();
 			$usersScanned += 1;
+		}
+
+		if ($lastUser === $user) {
+			$this->logger->warning("User $user still has unscanned files after running background scan, background scan might be stopped prematurely");
 		}
 	}
 }
