@@ -37,6 +37,7 @@ return array(
     'OCA\\Files_Sharing\\Controller\\ShareesAPIController' => $baseDir . '/../lib/Controller/ShareesAPIController.php',
     'OCA\\Files_Sharing\\DeleteOrphanedSharesJob' => $baseDir . '/../lib/DeleteOrphanedSharesJob.php',
     'OCA\\Files_Sharing\\Event\\BeforeTemplateRenderedEvent' => $baseDir . '/../lib/Event/BeforeTemplateRenderedEvent.php',
+    'OCA\\Files_Sharing\\Event\\ShareLinkAccessedEvent' => $baseDir . '/../lib/Event/ShareLinkAccessedEvent.php',
     'OCA\\Files_Sharing\\Exceptions\\BrokenPath' => $baseDir . '/../lib/Exceptions/BrokenPath.php',
     'OCA\\Files_Sharing\\Exceptions\\S2SException' => $baseDir . '/../lib/Exceptions/S2SException.php',
     'OCA\\Files_Sharing\\Exceptions\\SharingRightsException' => $baseDir . '/../lib/Exceptions/SharingRightsException.php',

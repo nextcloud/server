@@ -48,6 +48,7 @@ use OC\Security\CSP\ContentSecurityPolicy;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\Files_Sharing\Activity\Providers\Downloads;
 use OCA\Files_Sharing\Event\BeforeTemplateRenderedEvent;
+use OCA\Files_Sharing\Event\ShareLinkAccessedEvent;
 use OCA\Viewer\Event\LoadViewer;
 use OCP\Accounts\IAccountManager;
 use OCP\AppFramework\AuthPublicShareController;
@@ -162,6 +163,10 @@ class ShareController extends AuthPublicShareController {
 		$this->shareManager = $shareManager;
 	}
 
+	public const SHARE_ACCESS = 'access';
+	public const SHARE_AUTH = 'auth';
+	public const SHARE_DOWNLOAD = 'download';
+
 	/**
 	 * @PublicPage
 	 * @NoCSRFRequired
@@ -233,6 +238,7 @@ class ShareController extends AuthPublicShareController {
 
 	protected function authFailed() {
 		$this->emitAccessShareHook($this->share, 403, 'Wrong password');
+		$this->emitShareAccessEvent($this->share, self::SHARE_AUTH, 403, 'Wrong password');
 	}
 
 	/**
@@ -242,10 +248,13 @@ class ShareController extends AuthPublicShareController {
 	 * otherwise token
 	 * @param int $errorCode
 	 * @param string $errorMessage
+	 *
 	 * @throws \OC\HintException
 	 * @throws \OC\ServerNotAvailableException
+	 *
+	 * @deprecated use OCP\Files_Sharing\Event\ShareLinkAccessedEvent
 	 */
-	protected function emitAccessShareHook($share, $errorCode = 200, $errorMessage = '') {
+	protected function emitAccessShareHook($share, int $errorCode = 200, string $errorMessage = '') {
 		$itemType = $itemSource = $uidOwner = '';
 		$token = $share;
 		$exception = null;
@@ -260,17 +269,31 @@ class ShareController extends AuthPublicShareController {
 				$exception = $e;
 			}
 		}
+
 		\OC_Hook::emit(Share::class, 'share_link_access', [
 			'itemType' => $itemType,
 			'itemSource' => $itemSource,
 			'uidOwner' => $uidOwner,
 			'token' => $token,
 			'errorCode' => $errorCode,
-			'errorMessage' => $errorMessage,
+			'errorMessage' => $errorMessage
 		]);
+
 		if (!is_null($exception)) {
 			throw $exception;
 		}
+	}
+
+	/**
+	 * Emit a ShareLinkAccessedEvent event when a share is accessed, downloaded, auth...
+	 */
+	protected function emitShareAccessEvent(IShare $share, string $step = '', int $errorCode = 200, string $errorMessage = ''): void {
+		if ($step !== self::SHARE_ACCESS &&
+			$step !== self::SHARE_AUTH &&
+			$step !== self::SHARE_DOWNLOAD) {
+			return;
+		}
+		$this->eventDispatcher->dispatchTyped(new ShareLinkAccessedEvent($share, $step, $errorCode, $errorMessage));
 	}
 
 	/**
@@ -312,6 +335,7 @@ class ShareController extends AuthPublicShareController {
 		try {
 			$share = $this->shareManager->getShareByToken($this->getToken());
 		} catch (ShareNotFound $e) {
+			// The share does not exists, we do not emit an ShareLinkAccessedEvent
 			$this->emitAccessShareHook($this->getToken(), 404, 'Share not found');
 			throw new NotFoundException();
 		}
@@ -326,10 +350,12 @@ class ShareController extends AuthPublicShareController {
 		try {
 			if ($shareNode instanceof \OCP\Files\File && $path !== '') {
 				$this->emitAccessShareHook($share, 404, 'Share not found');
+				$this->emitShareAccessEvent($share, self::SHARE_ACCESS, 404, 'Share not found');
 				throw new NotFoundException();
 			}
 		} catch (\Exception $e) {
 			$this->emitAccessShareHook($share, 404, 'Share not found');
+			$this->emitShareAccessEvent($share, self::SHARE_ACCESS, 404, 'Share not found');
 			throw $e;
 		}
 
@@ -371,6 +397,7 @@ class ShareController extends AuthPublicShareController {
 				$folderNode = $shareNode->get($path);
 			} catch (\OCP\Files\NotFoundException $e) {
 				$this->emitAccessShareHook($share, 404, 'Share not found');
+				$this->emitShareAccessEvent($share, self::SHARE_ACCESS, 404, 'Share not found');
 				throw new NotFoundException();
 			}
 
@@ -534,6 +561,7 @@ class ShareController extends AuthPublicShareController {
 		$response->setContentSecurityPolicy($csp);
 
 		$this->emitAccessShareHook($share);
+		$this->emitShareAccessEvent($share, self::SHARE_ACCESS);
 
 		return $response;
 	}
@@ -596,6 +624,7 @@ class ShareController extends AuthPublicShareController {
 					$node = $node->get($path);
 				} catch (NotFoundException $e) {
 					$this->emitAccessShareHook($share, 404, 'Share not found');
+					$this->emitShareAccessEvent($share, self::SHARE_DOWNLOAD, 404, 'Share not found');
 					return new NotFoundResponse();
 				}
 			}
@@ -637,6 +666,7 @@ class ShareController extends AuthPublicShareController {
 		}
 
 		$this->emitAccessShareHook($share);
+		$this->emitShareAccessEvent($share, self::SHARE_DOWNLOAD);
 
 		$server_params = [ 'head' => $this->request->getMethod() === 'HEAD' ];
 
