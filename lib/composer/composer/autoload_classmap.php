@@ -1131,6 +1131,7 @@ return array(
     'OC\\Files\\Storage\\Temporary' => $baseDir . '/lib/private/Files/Storage/Temporary.php',
     'OC\\Files\\Storage\\Wrapper\\Availability' => $baseDir . '/lib/private/Files/Storage/Wrapper/Availability.php',
     'OC\\Files\\Storage\\Wrapper\\Encoding' => $baseDir . '/lib/private/Files/Storage/Wrapper/Encoding.php',
+    'OC\\Files\\Storage\\Wrapper\\EncodingDirectoryWrapper' => $baseDir . '/lib/private/Files/Storage/Wrapper/EncodingDirectoryWrapper.php',
     'OC\\Files\\Storage\\Wrapper\\Encryption' => $baseDir . '/lib/private/Files/Storage/Wrapper/Encryption.php',
     'OC\\Files\\Storage\\Wrapper\\Jail' => $baseDir . '/lib/private/Files/Storage/Wrapper/Jail.php',
     'OC\\Files\\Storage\\Wrapper\\PermissionsMask' => $baseDir . '/lib/private/Files/Storage/Wrapper/PermissionsMask.php',
