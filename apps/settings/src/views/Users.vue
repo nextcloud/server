@@ -81,7 +81,15 @@
 					<AppNavigationCounter v-if="group.count" slot="counter">
 						{{ group.count }}
 					</AppNavigationCounter>
-					<template slot="actions">
+					<template #actions>
+						<ActionInput v-if="group.id !== 'admin' && group.id !== 'disabled' && settings.isAdmin"
+							ref="displayNameInput"
+							icon="icon-edit"
+							type="text"
+							:value="group.title"
+							@submit="renameGroup(group.id)">
+							{{ t('settings', 'Rename group') }}
+						</ActionInput>
 						<ActionButton v-if="group.id !== 'admin' && group.id !== 'disabled' && settings.isAdmin"
 							icon="icon-delete"
 							@click="removeGroup(group.id)">
@@ -154,6 +162,7 @@
 </template>
 
 <script>
+import ActionInput from '@nextcloud/vue/dist/Components/ActionInput'
 import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
 import AppContent from '@nextcloud/vue/dist/Components/AppContent'
 import AppNavigation from '@nextcloud/vue/dist/Components/AppNavigation'
@@ -176,6 +185,7 @@ Vue.use(VueLocalStorage)
 export default {
 	name: 'Users',
 	components: {
+		ActionInput,
 		ActionButton,
 		AppContent,
 		AppNavigation,
@@ -365,6 +375,24 @@ export default {
 			this.showConfig[key] = status
 			this.$localStorage.set(key, status)
 			return status
+		},
+		async renameGroup(gid) {
+			// check if group id is valid
+			if (gid.trim() === '') {
+				return
+			}
+
+			const displayName = this.$refs.displayNameInput[0].$el.querySelector('input[type="text"]').value
+
+			// check if group name is valid
+			if (displayName.trim() === '') {
+				return
+			}
+
+			try {
+				await this.$store.dispatch('renameGroup', { groupid: gid.trim(), displayName: displayName.trim() })
+			} catch {
+			}
 		},
 		removeGroup(groupid) {
 			const self = this
