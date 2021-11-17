@@ -1,7 +1,7 @@
 OC.L10N.register(
     "core",
     {
-    "Please select a file." : "Aukeratu fitxategi bat.",
+    "Please select a file." : "Mesedez, hautatu fitxategi bat.",
     "File is too big" : "Fitxategia handiegia da",
     "The selected file is not an image." : "Aukeratutako fitxategia ez da irudi bat.",
     "The selected file cannot be read." : "Aukeratutako fitxategia ezin da irakurri.",
@@ -275,7 +275,7 @@ OC.L10N.register(
     "Access forbidden" : "Sarrera debekatuta",
     "Profile not found" : "Profila ez da aurkitu",
     "The profile does not exist." : "Profila ez da existitzen",
-    "Back to %s" : "%s(e)ra bueltatu",
+    "Back to %s" : "Itzuli %s(e)ra",
     "File not found" : "Ez da fitxategia aurkitu",
     "The document could not be found on the server. Maybe the share was deleted or has expired?" : "Dokumentua ezin izan da aurkitu zerbitzarian. Agian partekatutakoa ezabatua izan da ala iraungitu egin da?",
     "Too many requests" : "Eskaera gehiegi",
