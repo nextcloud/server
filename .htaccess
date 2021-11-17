@@ -43,7 +43,7 @@
   </IfModule>
 
   # Add cache control for static resources
-  <FilesMatch "\.(css|js|svg|gif|png|jpg|ico)$">
+  <FilesMatch "\.(css|js|svg|gif|png|jpg|ico|wasm|tflite)$">
     Header set Cache-Control "max-age=15778463"
   </FilesMatch>
 
@@ -75,6 +75,7 @@
 
 <IfModule mod_mime.c>
   AddType image/svg+xml svg svgz
+  AddType application/wasm wasm
   AddEncoding gzip svgz
 </IfModule>
 
