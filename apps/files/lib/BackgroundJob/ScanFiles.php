@@ -30,7 +30,6 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\ILogger;
-use OCP\IUserManager;
 
 /**
  * Class ScanFiles is a background job used to run the file scanner over the user
@@ -57,10 +56,10 @@ class ScanFiles extends \OC\BackgroundJob\TimedJob {
 	 * @param IDBConnection $connection
 	 */
 	public function __construct(
-		IConfig          $config,
+		IConfig $config,
 		IEventDispatcher $dispatcher,
-		ILogger          $logger,
-		IDBConnection    $connection
+		ILogger $logger,
+		IDBConnection $connection
 	) {
 		// Run once per 10 minutes
 		$this->setInterval(60 * 10);
