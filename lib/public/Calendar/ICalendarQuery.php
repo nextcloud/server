@@ -51,6 +51,11 @@ interface ICalendarQuery {
 	/**
 	 * Define the property name(s) to search for
 	 *
+	 * Note: Nextcloud only indexes *some* properties. You can not search for
+	 *       arbitrary properties.
+	 *
+	 * @param string $value one of CATEGORIES, COMMENT, DESCRIPTION, LOCATION, RESOURCES, STATUS, SUMMARY, ATTENDEE, CONTACT or ORGANIZER
+	 *
 	 * @since 23.0.0
 	 */
 	public function addSearchProperty(string $value): void;
