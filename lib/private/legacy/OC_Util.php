@@ -1274,22 +1274,38 @@ class OC_Util {
 	}
 
 	/**
-	 * Check if the setlocal call does not work. This can happen if the right
+	 * Check if current locale is non-UTF8
+	 *
+	 * @return bool
+	 */
+	private static function isNonUTF8Locale() {
+		if (function_exists('escapeshellcmd')) {
+			return '' === escapeshellcmd('§');
+		} elseif (function_exists('escapeshellarg')) {
+			return '\'\'' === escapeshellarg('§');
+		} else {
+			return 0 === preg_match('/utf-?8/i', setlocale(LC_CTYPE, 0));
+		}
+	}
+
+	/**
+	 * Check if the setlocale call does not work. This can happen if the right
 	 * local packages are not available on the server.
 	 *
 	 * @return bool
 	 */
 	public static function isSetLocaleWorking() {
-		if ('' === basename('§')) {
+		if (self::isNonUTF8Locale()) {
 			// Borrowed from \Patchwork\Utf8\Bootup::initLocale
 			setlocale(LC_ALL, 'C.UTF-8', 'C');
 			setlocale(LC_CTYPE, 'en_US.UTF-8', 'fr_FR.UTF-8', 'es_ES.UTF-8', 'de_DE.UTF-8', 'ru_RU.UTF-8', 'pt_BR.UTF-8', 'it_IT.UTF-8', 'ja_JP.UTF-8', 'zh_CN.UTF-8', '0');
+
+			// Check again
+			if (self::isNonUTF8Locale()) {
+				return false;
+			}
 		}
 
-		// Check again
-		if ('' === basename('§')) {
-			return false;
-		}
 		return true;
 	}
 
