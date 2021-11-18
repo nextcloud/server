@@ -38,7 +38,7 @@ OC.L10N.register(
     "Cheers!" : "Dzięki!",
     "Hey there,<br><br>the admin enabled server-side-encryption. Your files were encrypted using the password <strong>%s</strong>.<br><br>Please login to the web interface, go to the section \"basic encryption module\" of your personal settings and update your encryption password by entering this password into the \"old log-in password\" field and your current login-password.<br><br>" : "Hej tam,<br><br>admin włączył szyfrowanie po stronie serwera. Twoje pliki zostały zaszyfrowane przy użyciu hasła <strong>%s</strong>.<br><br>Proszę zalogować się do interfejsu internetowego, przejdź do sekcji Nextcloud podstawowy moduł szyfrowania, następnie osobiste ustawienia i zaktualizuj hasło szyfrowania wpisując aktualny login, w polu stare hasło logowania wpisz stare hasło, a następnie aktualne hasło.<br><br>",
     "Encryption app is enabled but your keys are not initialized, please log-out and log-in again" : "Szyfrowanie w aplikacji jest włączone, ale klucze nie są zainicjowane. Prosimy wylogować się i ponownie zalogować się.",
-    "Encrypt the home storage" : "Szyfrowanie przechowywanie w domu",
+    "Encrypt the home storage" : "Zaszyfruj magazyn główny",
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "Włączenie tej opcji spowoduje szyfrowanie wszystkich plików zapisanych na pamięci wewnętrznej. W innym wypadku szyfrowane będą tylko pliki na pamięci zewnętrznej.",
     "Enable recovery key" : "Włącz klucz odzyskiwania",
     "Disable recovery key" : "Wyłącz klucz odzyskiwania",

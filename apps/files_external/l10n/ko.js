@@ -128,11 +128,10 @@ OC.L10N.register(
     "Add storage" : "저장소 추가",
     "Advanced settings" : "고급 설정",
     "Allow users to mount external storage" : "사용자가 외부 저장소를 마운트하도록 허용",
-    "Global credentials can be used to authenticate with multiple external storage that have the same credentials." : "전역 인증 정보를 사용하여 같은 인증 정보를 사용하는 여러 외부 저장소에 인증할 수 있습니다.",
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "전역 인증 정보를 사용하여 같은 인증 정보를 사용하는 여러 외부 저장소에 인증할 수 있습니다.",
     "External storages" : "외부 저장소",
     "(group)" : "(그룹)",
     "SMB / CIFS" : "SMB/CIFS",
-    "SMB / CIFS using OC login" : "OC 로그인을 사용하는 SMB/CIFS",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "전역 인증 정보를 사용하여 같은 인증 정보를 사용하는 여러 외부 저장소에 인증할 수 있습니다."
+    "SMB / CIFS using OC login" : "OC 로그인을 사용하는 SMB/CIFS"
 },
 "nplurals=1; plural=0;");

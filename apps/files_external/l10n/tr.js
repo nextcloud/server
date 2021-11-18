@@ -133,11 +133,10 @@ OC.L10N.register(
     "Add storage" : "Depolama ekle",
     "Advanced settings" : "Gelişmiş ayarlar",
     "Allow users to mount external storage" : "Kullanıcılar dış depolama bağlayabilsin",
-    "Global credentials can be used to authenticate with multiple external storage that have the same credentials." : "Aynı kimlik doğrulama bilgilerini kullanan birkaç dış depolama aygıtına genel kimlik doğrulama bilgileri ile erişebilirsiniz.",
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Aynı kimlik doğrulama bilgilerini kullanan bir çok dış depolama aygıtına genel kimlik doğrulama bilgileri ile erişebilirsiniz.",
     "External storages" : "Dış depolama",
     "(group)" : "(grup)",
     "SMB / CIFS" : "SMB / CIFS",
-    "SMB / CIFS using OC login" : "OC oturum açma ile SMB / CIFS",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Aynı kimlik doğrulama bilgilerini kullanan bir çok dış depolama aygıtına genel kimlik doğrulama bilgileri ile erişebilirsiniz."
+    "SMB / CIFS using OC login" : "OC oturum açma ile SMB / CIFS"
 },
 "nplurals=2; plural=(n > 1);");

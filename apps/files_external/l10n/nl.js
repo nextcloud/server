@@ -133,11 +133,10 @@ OC.L10N.register(
     "Add storage" : "Toevoegen opslag",
     "Advanced settings" : "Geavanceerde instellingen",
     "Allow users to mount external storage" : "Sta gebruikers toe om een externe opslag aan te koppelen",
-    "Global credentials can be used to authenticate with multiple external storage that have the same credentials." : "Globale inloggegevens kunnen worden gebruikt met meerdere externe opslagsystemen met dezelfde inloggegevens.",
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globale inloggegevens kunnen worden gebruikt met meerdere externe opslagsystemen met dezelfde inloggegevens.",
     "External storages" : "Externe opslag",
     "(group)" : "(groep)",
     "SMB / CIFS" : "SMB / CIFS",
-    "SMB / CIFS using OC login" : "SMB / CIFS via OC inlog",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globale inloggegevens kunnen worden gebruikt met meerdere externe opslagsystemen met dezelfde inloggegevens."
+    "SMB / CIFS using OC login" : "SMB / CIFS via OC inlog"
 },
 "nplurals=2; plural=(n != 1);");
