@@ -66,6 +66,7 @@ class Version1010Date20200630192842 extends SimpleMigrationStep {
 			]);
 			$table->setPrimaryKey(['owncloud_name']);
 			$table->addUniqueIndex(['ldap_dn_hash'], 'ldap_user_dn_hashes');
+			$table->addUniqueIndex(['directory_uuid'], 'ldap_user_directory_uuid');
 		}
 
 		if (!$schema->hasTable('ldap_group_mapping')) {
@@ -91,6 +92,7 @@ class Version1010Date20200630192842 extends SimpleMigrationStep {
 			]);
 			$table->setPrimaryKey(['owncloud_name']);
 			$table->addUniqueIndex(['ldap_dn_hash'], 'ldap_group_dn_hashes');
+			$table->addUniqueIndex(['directory_uuid'], 'ldap_group_directory_uuid');
 		}
 
 		if (!$schema->hasTable('ldap_group_members')) {
