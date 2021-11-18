@@ -128,10 +128,10 @@ OC.L10N.register(
     "Add storage" : "Lägg till lagring",
     "Advanced settings" : "Avancerade inställningar",
     "Allow users to mount external storage" : "Tillåt användare att montera extern lagring",
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globala användaruppgifter kan användas för att autentisera med flera externa lagrings-instanser som använder samma användaruppgifter.",
     "External storages" : "Extern lagring",
     "(group)" : "(grupp)",
     "SMB / CIFS" : "SMB / CIFS",
-    "SMB / CIFS using OC login" : "SMB / CIFS använder OC-inloggning",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globala användaruppgifter kan användas för att autentisera med flera externa lagrings-instanser som använder samma användaruppgifter."
+    "SMB / CIFS using OC login" : "SMB / CIFS använder OC-inloggning"
 },
 "nplurals=2; plural=(n != 1);");

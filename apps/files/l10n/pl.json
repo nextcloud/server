@@ -81,7 +81,7 @@
     "\"{name}\" is not an allowed filetype" : "typ pliku \"{name}\" jest niedozwolony",
     "Storage of {owner} is full, files cannot be updated or synced anymore!" : "Magazyn dla {owner} jest pełny. Nie można już aktualizować ani synchronizować plików!",
     "Group folder \"{mountPoint}\" is full, files cannot be updated or synced anymore!" : "Katalog grupowy \"{mountPoint}\" jest pełny. Nie można już aktualizować ani synchronizować plików!",
-    "External storage \"{mountPoint}\" is full, files cannot be updated or synced anymore!" : "Pamięć zewnętrzna \"{mountPoint}\" jest pełna. Nie można już aktualizować ani synchronizować plików!",
+    "External storage \"{mountPoint}\" is full, files cannot be updated or synced anymore!" : "Magazyn zewnętrzny \"{mountPoint}\" jest pełny. Nie można już aktualizować ani synchronizować plików!",
     "Your storage is full, files cannot be updated or synced anymore!" : "Magazyn jest pełny. Nie można już zaktualizować ani zsynchronizować plików!",
     "Storage of {owner} is almost full ({usedSpacePercent}%)." : "Magazyn dla {owner} jest pawie pełny ({usedSpacePercent}%).",
     "Group folder \"{mountPoint}\" is almost full ({usedSpacePercent}%)." : "Katalog grupowy \"{mountPoint}\" jest prawie pełny ({usedSpacePercent}%).",

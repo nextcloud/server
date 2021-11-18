@@ -131,11 +131,10 @@
     "Add storage" : "Agiunghe archiviatzione",
     "Advanced settings" : "Impostatziones avantzadas",
     "Allow users to mount external storage" : "Permiti a is utentes de montare archiviatziones de foras",
-    "Global credentials can be used to authenticate with multiple external storage that have the same credentials." : "Is credentziales globales si podent impreare puru pro s'autenticatzione cun prus archiviatziones de foras chi tenent is matessi credentziales.",
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Is credentziales globales si podent impreare puru pro s'autenticatzione cun prus archiviatziones de foras chi tenent is matessi credentziales.",
     "External storages" : "Archiviatzione de foras",
     "(group)" : "(grupu)",
     "SMB / CIFS" : "SMB / CIFS",
-    "SMB / CIFS using OC login" : "SMB / CIFS cun atzessu OC",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Is credentziales globales si podent impreare puru pro s'autenticatzione cun prus archiviatziones de foras chi tenent is matessi credentziales."
+    "SMB / CIFS using OC login" : "SMB / CIFS cun atzessu OC"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
