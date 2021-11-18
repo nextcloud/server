@@ -103,16 +103,16 @@ class Version1130Date20211102154716 extends SimpleMigrationStep {
 	}
 
 	protected function handleDNHashes(string $table): void {
-		$q = $this->getSelectQuery($table);
-		$u = $this->getUpdateQuery($table);
+		$select = $this->getSelectQuery($table);
+		$update = $this->getUpdateQuery($table);
 
-		$r = $q->executeQuery();
-		while ($row = $r->fetch()) {
+		$result = $select->executeQuery();
+		while ($row = $result->fetch()) {
 			$dnHash = hash('sha256', $row['ldap_dn'], false);
-			$u->setParameter('name', $row['owncloud_name']);
-			$u->setParameter('dn_hash', $dnHash);
+			$update->setParameter('name', $row['owncloud_name']);
+			$update->setParameter('dn_hash', $dnHash);
 			try {
-				$u->executeStatement();
+				$update->executeStatement();
 			} catch (Exception $e) {
 				$this->logger->error('Failed to add hash "{dnHash}" ("{name}" of {table})',
 					[
@@ -125,22 +125,22 @@ class Version1130Date20211102154716 extends SimpleMigrationStep {
 				);
 			}
 		}
-		$r->closeCursor();
+		$result->closeCursor();
 	}
 
 	protected function getSelectQuery(string $table): IQueryBuilder {
-		$q = $this->dbc->getQueryBuilder();
-		$q->select('owncloud_name', 'ldap_dn', 'ldap_dn_hash')
+		$qb = $this->dbc->getQueryBuilder();
+		$qb->select('owncloud_name', 'ldap_dn', 'ldap_dn_hash')
 			->from($table)
-			->where($q->expr()->isNull('ldap_dn_hash'));
-		return $q;
+			->where($qb->expr()->isNull('ldap_dn_hash'));
+		return $qb;
 	}
 
 	protected function getUpdateQuery(string $table): IQueryBuilder {
-		$q = $this->dbc->getQueryBuilder();
-		$q->update($table)
-			->set('ldap_dn_hash', $q->createParameter('dn_hash'))
-			->where($q->expr()->eq('owncloud_name', $q->createParameter('name')));
-		return $q;
+		$qb = $this->dbc->getQueryBuilder();
+		$qb->update($table)
+			->set('ldap_dn_hash', $qb->createParameter('dn_hash'))
+			->where($qb->expr()->eq('owncloud_name', $qb->createParameter('name')));
+		return $qb;
 	}
 }
