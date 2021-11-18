@@ -182,7 +182,12 @@ abstract class AbstractMapping {
 	 * Get the hash to store in database column ldap_dn_hash for a given dn
 	 */
 	protected function getDNHash(string $fdn): string {
-		return (string)hash('sha256', $fdn, false);
+		$hash = hash('sha256', $fdn, false);
+		if (is_string($hash)) {
+			return $hash;
+		} else {
+			throw new \RuntimeException('hash function did not return a string');
+		}
 	}
 
 	/**
