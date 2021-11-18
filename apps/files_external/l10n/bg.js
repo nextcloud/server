@@ -133,11 +133,10 @@ OC.L10N.register(
     "Add storage" : "Добави хранилище",
     "Advanced settings" : "Допълнителни настройки",
     "Allow users to mount external storage" : "Разреши на потребителите да монтират външни хранилища",
-    "Global credentials can be used to authenticate with multiple external storage that have the same credentials." : "Глобалните идентификационни данни могат да се използват за удостоверяване с множество външни хранилища, които имат едни и същи идентификационни данни.",
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Глобалните идентификационни данни могат да се използват за удостоверяване с множество външни хранилища, които имат едни и същи идентификационни данни.",
     "External storages" : "Външни хранилища",
     "(group)" : "(група)",
     "SMB / CIFS" : "SMB / CIFS",
-    "SMB / CIFS using OC login" : "SMB / CIFS използвайки OC профил",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Глобалните идентификационни данни могат да се използват за удостоверяване с множество външни хранилища, които имат едни и същи идентификационни данни."
+    "SMB / CIFS using OC login" : "SMB / CIFS използвайки OC профил"
 },
 "nplurals=2; plural=(n != 1);");

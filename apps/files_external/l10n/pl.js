@@ -1,7 +1,7 @@
 OC.L10N.register(
     "files_external",
     {
-    "External storage" : "Zewnętrzne zasoby dyskowe",
+    "External storage" : "Magazyn zewnętrzny",
     "Personal" : "Osobiste",
     "System" : "System",
     "Grant access" : "Udziel dostępu",
@@ -132,12 +132,11 @@ OC.L10N.register(
     "Click to recheck the configuration" : "Kliknij, aby ponownie sprawdzić konfigurację",
     "Add storage" : "Dodaj zewnętrzne magazyny",
     "Advanced settings" : "Ustawienia zaawansowane",
-    "Allow users to mount external storage" : "Pozwól użytkownikom montować zewnętrzne zasoby dyskowe",
-    "Global credentials can be used to authenticate with multiple external storage that have the same credentials." : "Poświadczenia globalne mogą służyć do uwierzytelniania z wieloma zewnętrznymi magazynami, które mają te same poświadczenia.",
+    "Allow users to mount external storage" : "Zezwalaj użytkownikom na montowanie magazynów zewnętrznych",
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Poświadczenia globalne mogą być używane do uwierzytelniania z wieloma zewnętrznymi magazynami, o ile posiadają takie same poświadczenia.",
     "External storages" : "Magazyny zewnętrzne",
     "(group)" : "(grupa)",
     "SMB / CIFS" : "SMB/CIFS",
-    "SMB / CIFS using OC login" : "SMB/CIFS za pomocą logowania OC",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Poświadczenia globalne mogą być używane do uwierzytelniania z wieloma zewnętrznymi magazynami, o ile posiadają takie same poświadczenia."
+    "SMB / CIFS using OC login" : "SMB/CIFS za pomocą logowania OC"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");
