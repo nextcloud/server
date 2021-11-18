@@ -236,22 +236,22 @@ class Storage {
 			$query->select('storage_id')
 				->from('mounts')
 				->where($query->expr()->eq('mount_id', $query->createNamedParameter($mountId, IQueryBuilder::PARAM_INT)));
-			$storageIds = $query->executeQuery()->fetchAll(\PDO::FETCH_COLUMN);
+			$storageIds = $query->execute()->fetchAll(\PDO::FETCH_COLUMN);
 
 			$query = $db->getQueryBuilder();
 			$query->delete('filecache')
 				->where($query->expr()->in('storage', $query->createNamedParameter($storageIds, IQueryBuilder::PARAM_INT_ARRAY)));
-			$query->executeStatement();
+			$query->execute();
 
 			$query = $db->getQueryBuilder();
 			$query->delete('storages')
 				->where($query->expr()->eq('numeric_id', $query->createNamedParameter($storageIds, IQueryBuilder::PARAM_INT_ARRAY)));
-			$query->executeStatement();
+			$query->execute();
 
 			$query = $db->getQueryBuilder();
 			$query->delete('mounts')
 				->where($query->expr()->eq('mount_id', $query->createNamedParameter($mountId, IQueryBuilder::PARAM_INT)));
-			$query->executeStatement();
+			$query->execute();
 
 			$db->commit();
 		} catch (\Exception $e) {
