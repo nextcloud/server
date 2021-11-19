@@ -145,6 +145,9 @@ class Scanner extends PublicEmitter {
 			$this->emit('\OC\Files\Utils\Scanner', 'postScanFolder', [$mount->getMountPoint() . $path]);
 			$this->dispatcher->dispatchTyped(new FolderScannedEvent($mount->getMountPoint() . $path));
 		});
+		$scanner->listen('\OC\Files\Cache\Scanner', 'normalizedNameMismatch', function ($path) use ($mount) {
+			$this->emit('\OC\Files\Utils\Scanner', 'normalizedNameMismatch', [$path]);
+		});
 	}
 
 	/**
