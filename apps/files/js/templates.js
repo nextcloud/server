@@ -103,7 +103,7 @@ templates['file_action_trigger'] = template({"1":function(container,depth0,helpe
 
   return "			<span class=\"icon "
     + container.escapeExpression(((helper = (helper = lookupProperty(helpers,"iconClass") || (depth0 != null ? lookupProperty(depth0,"iconClass") : depth0)) != null ? helper : container.hooks.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"iconClass","hash":{},"data":data,"loc":{"start":{"line":6,"column":21},"end":{"line":6,"column":34}}}) : helper)))
-    + "\" />\n";
+    + "\"></span>\n";
 },"6":function(container,depth0,helpers,partials,data) {
     var helper, lookupProperty = container.lookupProperty || function(parent, propertyName) {
         if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
@@ -302,7 +302,7 @@ templates['mainfileinfodetailsview'] = template({"1":function(container,depth0,h
         return undefined
     };
 
-  return "<div class=\"thumbnailContainer\"><a href=\"#\" class=\"thumbnail action-default\"><div class=\"stretcher\"/></a></div>\n<div class=\"file-details-container\">\n	<div class=\"fileName\">\n		<h3 title=\""
+  return "<div class=\"thumbnailContainer\"><a href=\"#\" class=\"thumbnail action-default\"><div class=\"stretcher\"></div></a></div>\n<div class=\"file-details-container\">\n	<div class=\"fileName\">\n		<h3 title=\""
     + alias4(((helper = (helper = lookupProperty(helpers,"name") || (depth0 != null ? lookupProperty(depth0,"name") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"name","hash":{},"data":data,"loc":{"start":{"line":4,"column":13},"end":{"line":4,"column":21}}}) : helper)))
     + "\" class=\"ellipsis\">"
     + alias4(((helper = (helper = lookupProperty(helpers,"name") || (depth0 != null ? lookupProperty(depth0,"name") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"name","hash":{},"data":data,"loc":{"start":{"line":4,"column":40},"end":{"line":4,"column":48}}}) : helper)))
