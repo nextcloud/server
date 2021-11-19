@@ -13,7 +13,7 @@ OC.L10N.register(
     "Error while emptying trash bin" : "Fout bij het legen van de prullenbak",
     "Error while removing files from trash bin" : "Fout bij het verwijderen van bestanden in de prullenbak",
     "This operation is forbidden" : "Deze taak is verboden",
-    "This directory is unavailable, please check the logs or contact the administrator" : "Deze map is niet beschikbaar. Verifieer de logs of neem contact op met de beheerder",
+    "This directory is unavailable, please check the logs or contact the administrator" : "Deze map is niet beschikbaar. Controleer de logs of neem contact op met de beheerder",
     "No deleted files" : "Geen verwijderde bestanden",
     "You will be able to recover deleted files from here" : "Van hieruit kun je verwijderde bestanden terugzetten",
     "No entries found in this folder" : "Niets gevonden in deze map",
