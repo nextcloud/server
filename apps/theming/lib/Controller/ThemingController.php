@@ -386,7 +386,7 @@ class ThemingController extends Controller {
 			} else {
 				$startUrl = $this->urlGenerator->getBaseUrl() . '/apps/' . $app . '/';
 			}
-			$description = $info['summary'];
+			$description = $info['summary'] ?? '';
 		}
 		$responseJS = [
 			'name' => $name,
