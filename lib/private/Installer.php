@@ -159,7 +159,7 @@ class Installer {
 			}
 		} else {
 			$ms = new \OC\DB\MigrationService($info['id'], \OC::$server->get(Connection::class));
-			$ms->migrate('latest', true);
+			$ms->migrate('latest', !$previousVersion);
 		}
 		if ($previousVersion) {
 			OC_App::executeRepairSteps($appId, $info['repair-steps']['post-migration']);
@@ -606,6 +606,8 @@ class Installer {
 		$appPath = OC_App::getAppPath($app);
 		\OC_App::registerAutoloading($app, $appPath);
 
+		$config = \OC::$server->getConfig();
+
 		if (is_file("$appPath/appinfo/database.xml")) {
 			try {
 				OC_DB::createDbFromStructure("$appPath/appinfo/database.xml");
@@ -617,8 +619,9 @@ class Installer {
 				);
 			}
 		} else {
+			$previousVersion = $config->getAppValue($app, 'installed_version', false);
 			$ms = new \OC\DB\MigrationService($app, \OC::$server->get(Connection::class));
-			$ms->migrate('latest', true);
+			$ms->migrate('latest', !$previousVersion);
 		}
 
 		//run appinfo/install.php
@@ -631,8 +634,6 @@ class Installer {
 		\OC_App::setupBackgroundJobs($info['background-jobs']);
 
 		OC_App::executeRepairSteps($app, $info['repair-steps']['install']);
-
-		$config = \OC::$server->getConfig();
 
 		$config->setAppValue($app, 'installed_version', OC_App::getAppVersion($app));
 		if (array_key_exists('ocsid', $info)) {
