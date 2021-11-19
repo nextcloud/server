@@ -101,6 +101,7 @@ export default {
 			clearAt: null,
 			icon: null,
 			message: '',
+			messageId: '',
 			isSavingStatus: false,
 			statuses: getAllStatusOptions(),
 		}
@@ -191,7 +192,7 @@ export default {
 			try {
 				this.isSavingStatus = true
 
-				if (this.messageId !== null) {
+				if (this.messageId !== undefined && this.messageId !== null) {
 					await this.$store.dispatch('setPredefinedMessage', {
 						messageId: this.messageId,
 						clearAt: this.clearAt,

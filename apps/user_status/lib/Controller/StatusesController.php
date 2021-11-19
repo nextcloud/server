@@ -87,10 +87,8 @@ class StatusesController extends OCSController {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 *
 	 * @param UserStatus $status
-	 * @return array
+	 * @return array{userId: string, message: string, icon: string, clearAt: int, status: string}
 	 */
 	private function formatStatus(UserStatus $status): array {
 		$visibleStatus = $status->getStatus();
