@@ -142,6 +142,11 @@ module.exports = {
 		new webpack.ProvidePlugin({
 			// Provide jQuery to jquery plugins as some are loaded before $ is exposed globally.
 			jQuery: 'jquery',
+			// Shim ICAL to prevent using the global object (window.ICAL).
+			// The library ical.js heavily depends on instanceof checks which will
+			// break if two separate versions of the library are used (e.g. bundled one
+			// and global one).
+			ICAL: 'ical.js',
 		}),
 	],
 	resolve: {

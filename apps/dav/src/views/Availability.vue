@@ -12,45 +12,19 @@
 				<TimezonePicker v-model="timezone" />
 			</span>
 		</div>
-		<div class="grid-table">
-			<template v-for="day in daysOfTheWeek">
-				<div :key="`day-label-${day.id}`" class="label-weekday">
-					{{ day.displayName }}
-				</div>
-				<div :key="`day-slots-${day.id}`" class="availability-slots">
-					<div class="availability-slot-group">
-						<template v-for="(slot, idx) in day.slots">
-							<div :key="`slot-${day.id}-${idx}`" class="availability-slot">
-								<DatetimePicker v-model="slot.start"
-									type="time"
-									class="start-date"
-									format="H:mm" />
-								<span class="to-text">
-									{{ $t('dav', 'to') }}
-								</span>
-								<DatetimePicker v-model="slot.end"
-									type="time"
-									class="end-date"
-									format="H:mm" />
-								<button :key="`slot-${day.id}-${idx}-btn`"
-									class="icon-delete delete-slot button"
-									:title="$t('dav', 'Delete slot')"
-									@click="deleteSlot(day, idx)" />
-							</div>
-						</template>
-					</div>
-					<span v-if="day.slots.length === 0"
-						class="empty-content">
-						{{ $t('dav', 'No working hours set') }}
-					</span>
-				</div>
-				<button :key="`add-slot-${day.id}`"
-					:disabled="loading"
-					class="icon-add add-another button"
-					:title="$t('dav', 'Add slot')"
-					@click="addSlot(day)" />
-			</template>
-		</div>
+		<CalendarAvailability :slots.sync="slots"
+			:loading="loading"
+			:l10n-to="$t('dav', 'to')"
+			:l10n-delete-slot="$t('dav', 'Delete slot')"
+			:l10n-empty-day="$t('dav', 'No working hours set')"
+			:l10n-add-slot="$t('dav', 'Add slot')"
+			:l10n-monday="$t('dav', 'Monday')"
+			:l10n-tuesday="$t('dav', 'Tuesday')"
+			:l10n-wednesday="$t('dav', 'Wednesday')"
+			:l10n-thursday="$t('dav', 'Thursday')"
+			:l10n-friday="$t('dav', 'Friday')"
+			:l10n-saturday="$t('dav', 'Saturday')"
+			:l10n-sunday="$t('dav', 'Sunday')" />
 		<button :disabled="loading || saving"
 			class="button primary"
 			@click="save">
@@ -60,19 +34,18 @@
 </template>
 
 <script>
-import DatetimePicker from '@nextcloud/vue/dist/Components/DatetimePicker'
+import { CalendarAvailability } from '@nextcloud/calendar-availability-vue'
 import {
 	findScheduleInboxAvailability,
 	getEmptySlots,
 	saveScheduleInboxAvailability,
 } from '../service/CalendarService'
-import { getFirstDay } from '@nextcloud/l10n'
 import jstz from 'jstimezonedetect'
 import TimezonePicker from '@nextcloud/vue/dist/Components/TimezonePicker'
 export default {
 	name: 'Availability',
 	components: {
-		DatetimePicker,
+		CalendarAvailability,
 		TimezonePicker,
 	},
 	data() {
@@ -80,63 +53,27 @@ export default {
 		const defaultTimezone = jstz.determine()
 		const defaultTimezoneId = defaultTimezone ? defaultTimezone.name() : 'UTC'
 
-		const moToSa = [
-			{
-				id: 'MO',
-				displayName: this.$t('dav', 'Monday'),
-				slots: [],
-			},
-			{
-				id: 'TU',
-				displayName: this.$t('dav', 'Tuesday'),
-				slots: [],
-			},
-			{
-				id: 'WE',
-				displayName: this.$t('dav', 'Wednesday'),
-				slots: [],
-			},
-			{
-				id: 'TH',
-				displayName: this.$t('dav', 'Thursday'),
-				slots: [],
-			},
-			{
-				id: 'FR',
-				displayName: this.$t('dav', 'Friday'),
-				slots: [],
-			},
-			{
-				id: 'SA',
-				displayName: this.$t('dav', 'Saturday'),
-				slots: [],
-			},
-		]
-		const sunday = {
-			id: 'SU',
-			displayName: this.$t('dav', 'Sunday'),
-			slots: [],
-		}
-		const daysOfTheWeek = getFirstDay() === 1 ? [...moToSa, sunday] : [sunday, ...moToSa]
 		return {
 			loading: true,
 			saving: false,
 			timezone: defaultTimezoneId,
-			daysOfTheWeek,
+			slots: getEmptySlots(),
 		}
 	},
 	async mounted() {
 		try {
-			const { slots, timezoneId } = await findScheduleInboxAvailability()
-			if (slots) {
-				this.daysOfTheWeek.forEach(day => {
-					day.slots.push(...slots[day.id])
-				})
+			const slotData = await findScheduleInboxAvailability()
+			if (!slotData) {
+				console.info('no availability is set')
+				this.slots = getEmptySlots()
+			} else {
+				const { slots, timezoneId } = slotData
+				this.slots = slots
+				if (timezoneId) {
+					this.timezone = timezoneId
+				}
+				console.info('availability loaded', this.slots, this.timezoneId)
 			}
-			if (timezoneId) {
-				this.timezone = timezoneId
-			}
-			console.info('availability loaded', this.daysOfTheWeek)
 		} catch (e) {
 			console.error('could not load existing availability', e)
 
@@ -146,32 +83,11 @@ export default {
 		}
 	},
 	methods: {
-		addSlot(day) {
-			const start = new Date()
-			start.setHours(9)
-			start.setMinutes(0)
-			start.setSeconds(0)
-			const end = new Date()
-			end.setHours(17)
-			end.setMinutes(0)
-			end.setSeconds(0)
-			day.slots.push({
-				start,
-				end,
-			})
-		},
-		deleteSlot(day, idx) {
-			day.slots.splice(idx, 1)
-		},
 		async save() {
 			try {
 				this.saving = true
 
-				const slots = getEmptySlots()
-				this.daysOfTheWeek.forEach(day => {
-					day.slots.forEach(slot => slots[day.id].push(slot))
-				})
-				await saveScheduleInboxAvailability(slots, this.timezone)
+				await saveScheduleInboxAvailability(this.slots, this.timezone)
 
 				// TODO: show a nice toast
 			} catch (e) {
