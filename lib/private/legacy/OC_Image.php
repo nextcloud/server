@@ -989,7 +989,7 @@ class OC_Image implements \OCP\IImage {
 			$targetWidth = $width;
 			$targetHeight = $height;
 		}
-		$process = imagecreatetruecolor($targetWidth, $targetHeight);
+		if ($width > 0 and $height > 0){ $process = imagecreatetruecolor($width, $height); } else { $process = false; }
 		if ($process == false) {
 			$this->logger->error('OC_Image->centerCrop, Error creating true color image', ['app' => 'core']);
 			imagedestroy($process);
