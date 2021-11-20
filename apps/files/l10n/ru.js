@@ -76,7 +76,7 @@ OC.L10N.register(
     "New" : "Новый",
     "Select file range" : "Выбор диапазона файлов",
     "{used} of {quota} used" : "использовано {used} из {quota}",
-    "{used} used" : "использовано {used}",
+    "{used} used" : "Использовано {used}",
     "\"{name}\" is an invalid file name." : "«{name}» — недопустимое имя файла.",
     "File name cannot be empty." : "Имя файла не может быть пустым.",
     "\"/\" is not allowed inside a file name." : "Символ «/» недопустим в имени файла.",
