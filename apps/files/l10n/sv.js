@@ -39,6 +39,8 @@ OC.L10N.register(
     "Could not load info for file \"{file}\"" : "Kunde inte läsa in information för filen \"{file}\"",
     "Files" : "Filer",
     "Details" : "Detaljer",
+    "Please select tag(s) to add to the selection" : "Vänligen välj tagg(ar) att lägga till i ditt urval",
+    "Apply tag(s) to selection" : "Lägg till tagg(ar) i ditt urval",
     "Select" : "Välj",
     "Pending" : "Väntar",
     "Unable to determine date" : "Misslyckades avgöra datum",
