@@ -79,7 +79,9 @@ export default {
 				.map(([paramId, { appId, displayId, visibility }]) => ({ id: paramId, appId, displayId, visibility }))
 				.sort(compareParams),
 			// TODO remove this when not used once the settings layout is updated
-			marginLeft: window.getComputedStyle(document.getElementById('personal-settings-avatar-container')).getPropertyValue('width').trim(),
+			marginLeft: window.matchMedia('(min-width: 1600px)').matches
+				? window.getComputedStyle(document.getElementById('personal-settings-avatar-container')).getPropertyValue('width').trim()
+				: '0px'
 		}
 	},
 
@@ -93,7 +95,7 @@ export default {
 		subscribe('settings:profile-enabled:updated', this.handleProfileEnabledUpdate)
 		// TODO remove this when not used once the settings layout is updated
 		window.onresize = () => {
-			this.marginLeft = window.matchMedia('(min-width: 1200px)').matches
+			this.marginLeft = window.matchMedia('(min-width: 1600px)').matches
 				? window.getComputedStyle(document.getElementById('personal-settings-avatar-container')).getPropertyValue('width').trim()
 				: '0px'
 		}
