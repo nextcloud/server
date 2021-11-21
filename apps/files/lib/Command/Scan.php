@@ -107,15 +107,6 @@ class Scan extends Base {
 			);
 	}
 
-	public function checkScanWarning($fullPath, OutputInterface $output) {
-		$normalizedPath = basename(\OC\Files\Filesystem::normalizePath($fullPath));
-		$path = basename($fullPath);
-
-		if ($normalizedPath !== $path) {
-			$output->writeln("\t<error>Entry \"" . $fullPath . '" will not be accessible due to incompatible encoding</error>');
-		}
-	}
-
 	protected function scanFiles($user, $path, OutputInterface $output, $backgroundScan = false, $recursive = true, $homeOnly = false) {
 		$connection = $this->reconnectToDatabase($output);
 		$scanner = new \OC\Files\Utils\Scanner(
@@ -143,12 +134,8 @@ class Scan extends Base {
 			$output->writeln('Error while scanning, storage not available (' . $e->getMessage() . ')', OutputInterface::VERBOSITY_VERBOSE);
 		});
 
-		$scanner->listen('\OC\Files\Utils\Scanner', 'scanFile', function ($path) use ($output) {
-			$this->checkScanWarning($path, $output);
-		});
-
-		$scanner->listen('\OC\Files\Utils\Scanner', 'scanFolder', function ($path) use ($output) {
-			$this->checkScanWarning($path, $output);
+		$scanner->listen('\OC\Files\Utils\Scanner', 'normalizedNameMismatch', function ($fullPath) use ($output) {
+			$output->writeln("\t<error>Entry \"" . $fullPath . '" will not be accessible due to incompatible encoding</error>');
 		});
 
 		try {

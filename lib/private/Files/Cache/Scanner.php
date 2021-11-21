@@ -38,6 +38,7 @@ namespace OC\Files\Cache;
 
 use Doctrine\DBAL\Exception;
 use OC\Files\Filesystem;
+use OC\Files\Storage\Wrapper\Encoding;
 use OC\Hooks\BasicEmitter;
 use OCP\Files\Cache\IScanner;
 use OCP\Files\ForbiddenException;
@@ -420,7 +421,16 @@ class Scanner extends BasicEmitter implements IScanner {
 			if ($permissions === 0) {
 				continue;
 			}
-			$file = $fileMeta['name'];
+			$originalFile = $fileMeta['name'];
+			$file = trim(\OC\Files\Filesystem::normalizePath($originalFile), '/');
+			if (trim($originalFile, '/') !== $file) {
+				// encoding mismatch, might require compatibility wrapper
+				\OC::$server->getLogger()->debug('Scanner: Skipping non-normalized file name "'. $originalFile . '" in path "' . $path . '".', ['app' => 'core']);
+				$this->emit('\OC\Files\Cache\Scanner', 'normalizedNameMismatch', [$path ? $path . '/' . $originalFile : $originalFile]);
+				// skip this entry
+				continue;
+			}
+
 			$newChildNames[] = $file;
 			$child = $path ? $path . '/' . $file : $file;
 			try {
