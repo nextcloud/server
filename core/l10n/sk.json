@@ -51,9 +51,7 @@
     "Maintenance mode is kept active" : "Režim údržby je stále aktívny",
     "Updating database schema" : "Aktualizuje sa schéma databázy",
     "Updated database" : "Databáza je aktualizovaná",
-    "Checking for update of app \"%s\" in App Store" : "Hľadá sa aktualizácia aplikácie \"%s\" v obchode",
     "Update app \"%s\" from App Store" : "Aktualizovať aplikáciu \"%s\" z obchodu",
-    "Checked for update of app \"%s\" in App Store" : "Hľadá sa aktualizácia aplikácie \"%s\" v obchode",
     "Checking whether the database schema for %s can be updated (this can take a long time depending on the database size)" : "Kontroluje sa, či je možné aktualizovať schému databázy pre %s (to môže trvať dlhší čas v závislosti na veľkosti databázy)",
     "Updated \"%1$s\" to %2$s" : "Aktualizované \"%1$s\" na %2$s",
     "Set log level to debug" : "Nastaviť úroveň záznamu na ladenie",
@@ -424,6 +422,8 @@
     "Password can not be changed. Please contact your administrator." : "Heslo nemožno zmeniť. Kontaktujte prosím vášho administrátora.",
     "Could not fetch list of apps from the app store." : "Nepodarilo sa načítať zoznam apiek z katalógu.",
     "Can't install this app because it is not compatible" : "Táto apka sa nedá nainštalovať, nie je kompatibilná",
-    "Can't install this app" : "Táto apka sa nedá nainštalovať"
+    "Can't install this app" : "Táto apka sa nedá nainštalovať",
+    "Checking for update of app \"%s\" in App Store" : "Hľadá sa aktualizácia aplikácie \"%s\" v obchode",
+    "Checked for update of app \"%s\" in App Store" : "Hľadá sa aktualizácia aplikácie \"%s\" v obchode"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);"
 }

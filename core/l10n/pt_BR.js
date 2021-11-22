@@ -53,9 +53,7 @@ OC.L10N.register(
     "Maintenance mode is kept active" : "O modo de manutenção está sendo mantido como ativo",
     "Updating database schema" : "Atualizando o schema do banco de dados",
     "Updated database" : "Atualizar o banco de dados",
-    "Checking for update of app \"%s\" in App Store" : "Verificando a atualização do aplicativo \"%s\" na App Store",
     "Update app \"%s\" from App Store" : "Atualizar aplicativo \"%s\" da App Store",
-    "Checked for update of app \"%s\" in App Store" : "Verificando a atualização do aplicativo \"%s\" na App Store",
     "Checking whether the database schema for %s can be updated (this can take a long time depending on the database size)" : "Verificando se o schema do banco de dados para %s pode ser atualizado (isso pode levar muito tempo, dependendo do tamanho do banco de dados)",
     "Updated \"%1$s\" to %2$s" : "Atualizou \"%1$s\" para %2$s",
     "Set log level to debug" : "Definir o nível de log para debug",
@@ -426,6 +424,8 @@ OC.L10N.register(
     "Password can not be changed. Please contact your administrator." : "A senha não pôde ser alterada. Por favor, contate o administrador.",
     "Could not fetch list of apps from the app store." : "Não foi possível buscar a lista de aplicativos na loja.",
     "Can't install this app because it is not compatible" : "Não foi possível instalar este aplicativo pois é incompatível",
-    "Can't install this app" : "Não foi possível instalar este aplicativo"
+    "Can't install this app" : "Não foi possível instalar este aplicativo",
+    "Checking for update of app \"%s\" in App Store" : "Verificando a atualização do aplicativo \"%s\" na App Store",
+    "Checked for update of app \"%s\" in App Store" : "Verificando a atualização do aplicativo \"%s\" na App Store"
 },
 "nplurals=2; plural=(n > 1);");

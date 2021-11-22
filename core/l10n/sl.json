@@ -50,8 +50,6 @@
     "Maintenance mode is kept active" : "Vzdrževalni način ostane dejaven.",
     "Updating database schema" : "Poteka posodabljanje sheme podatkovne zbirke ...",
     "Updated database" : "Podatkovna zbirka je posodobljena.",
-    "Checking for update of app \"%s\" in App Store" : "Poteka preverjanje posodobitev programa »%s« v trgovini ...",
-    "Checked for update of app \"%s\" in App Store" : "Preverjanje posodobitev programa »%s« v trgovini je končano.",
     "Checking whether the database schema for %s can be updated (this can take a long time depending on the database size)" : "Poteka preverjanje, ali je shemo podatkovne zbirke za %s mogoče posodobiti (trajanje posodobitve je odvisno od velikosti zbirke).",
     "Updated \"%1$s\" to %2$s" : "Posodabljanje »%1$s« na različico %2$s",
     "Set log level to debug" : "Nastavljanje ravni beleženja za razhroščevanje",
@@ -411,6 +409,8 @@
     "Password can not be changed. Please contact your administrator." : "Gesla ni mogoče spremeniti. Stopite v stik s skrbnikom.",
     "Could not fetch list of apps from the app store." : "Ni mogoče pridobiti seznama programov iz trgovine.",
     "Can't install this app because it is not compatible" : "Programa ni mogoče namestiti, ker ni skladen z različico okolja.",
-    "Can't install this app" : "Programa ni mogoče namestiti."
+    "Can't install this app" : "Programa ni mogoče namestiti.",
+    "Checking for update of app \"%s\" in App Store" : "Poteka preverjanje posodobitev programa »%s« v trgovini ...",
+    "Checked for update of app \"%s\" in App Store" : "Preverjanje posodobitev programa »%s« v trgovini je končano."
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }

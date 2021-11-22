@@ -51,9 +51,7 @@
     "Maintenance mode is kept active" : "Режим на поддръжка се поддържа активен",
     "Updating database schema" : "Актуализиране схемата на базата данни",
     "Updated database" : "Базата данни е актуализирана",
-    "Checking for update of app \"%s\" in App Store" : "Проверка за актуализация на приложението „%s“ в App Store",
     "Update app \"%s\" from App Store" : "Актуализиране на „%s“ от App Store",
-    "Checked for update of app \"%s\" in App Store" : "Проверено за актуализация на приложението „%s“ в App Store",
     "Checking whether the database schema for %s can be updated (this can take a long time depending on the database size)" : "Проверка дали схемата на базата данни %s може да бъде актуализирана (това може да отнеме повече време в зависимост от големината на базата данни)",
     "Updated \"%1$s\" to %2$s" : "Актуализиран \"%1$s\" до %2$s",
     "Set log level to debug" : "Промени ниво на лог на дебъг",
@@ -424,6 +422,8 @@
     "Password can not be changed. Please contact your administrator." : "Паролата не може да бъде промена. Моля, свържете се с администратора.",
     "Could not fetch list of apps from the app store." : "Списъкът с приложения не можа да се извлече от app store.",
     "Can't install this app because it is not compatible" : "Това приложение не може да се инсталира, защото е несъвместимо",
-    "Can't install this app" : "Това приложение не може да се инсталира"
+    "Can't install this app" : "Това приложение не може да се инсталира",
+    "Checking for update of app \"%s\" in App Store" : "Проверка за актуализация на приложението „%s“ в App Store",
+    "Checked for update of app \"%s\" in App Store" : "Проверено за актуализация на приложението „%s“ в App Store"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

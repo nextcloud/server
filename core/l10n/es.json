@@ -51,9 +51,7 @@
     "Maintenance mode is kept active" : "El modo mantenimiento aún está activo.",
     "Updating database schema" : "Actualizando el esquema del base de datos",
     "Updated database" : "Base de datos actualizada",
-    "Checking for update of app \"%s\" in App Store" : "Comprobando actualizaciones de la aplicación \"%s\" en la App Store.",
     "Update app \"%s\" from App Store" : "Actualizar la app \"%s\" desde la App Store",
-    "Checked for update of app \"%s\" in App Store" : "Comprobado actualización de la aplicación \"%s\" en la App Store.",
     "Checking whether the database schema for %s can be updated (this can take a long time depending on the database size)" : "Comprobar si se puede actualizar el esquema de la base de datos %s (esto puede tardar bastante tiempo, dependiendo del tamaño de la base de datos)",
     "Updated \"%1$s\" to %2$s" : "\"%1$s\" actualizado a %2$s",
     "Set log level to debug" : "Establecer el nivel de registro a depuración",
@@ -424,6 +422,8 @@
     "Password can not be changed. Please contact your administrator." : "La contraseña no se puede cambiar. Por favor, contacte a su administrador.",
     "Could not fetch list of apps from the app store." : "No es posible obtener la lista de apps de la App Store.",
     "Can't install this app because it is not compatible" : "Esta aplicación no se puede instalar porque no es compatible",
-    "Can't install this app" : "Esta aplicación no se puede instalar "
+    "Can't install this app" : "Esta aplicación no se puede instalar ",
+    "Checking for update of app \"%s\" in App Store" : "Comprobando actualizaciones de la aplicación \"%s\" en la App Store.",
+    "Checked for update of app \"%s\" in App Store" : "Comprobado actualización de la aplicación \"%s\" en la App Store."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
