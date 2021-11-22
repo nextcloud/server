@@ -96,10 +96,9 @@ class IpAddress {
 	 * Returns the IPv4 address embedded in an IPv6 if applicable.
 	 * The detected format is "::ffff:x.x.x.x" using the binary form.
 	 *
-	 * @param string $ipv6 IPv6 string
-	 * @return null|string embedded IPv4 string or null if none was found
+	 * @return string|null embedded IPv4 string or null if none was found
 	 */
-	private function getEmbeddedIpv4($ipv6) {
+	private function getEmbeddedIpv4(string $ipv6): ?string {
 		$binary = inet_pton($ipv6);
 		if (!$binary) {
 			return null;
