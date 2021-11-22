@@ -53,9 +53,7 @@ OC.L10N.register(
     "Maintenance mode is kept active" : "Onderhoudsmodus blijft actief",
     "Updating database schema" : "Databaseschema aan het bijwerken",
     "Updated database" : "Database bijgewerkt",
-    "Checking for update of app \"%s\" in App Store" : "Controleren op updates voor app \"%s\" in de App Store",
     "Update app \"%s\" from App Store" : "Update app \"%s\" vanuit de App Store",
-    "Checked for update of app \"%s\" in App Store" : "Op updates gecontroleerd voor app \"%s\" in App Store",
     "Checking whether the database schema for %s can be updated (this can take a long time depending on the database size)" : "Controleert of het databaseschema voor %s geüpdatet kan worden (dit kan lang duren afhankelijk van de grootte van de database)",
     "Updated \"%1$s\" to %2$s" : "Werkte \"%1$s\" bij tot %2$s",
     "Set log level to debug" : "Debug logniveau instellen",
@@ -426,6 +424,8 @@ OC.L10N.register(
     "Password can not be changed. Please contact your administrator." : "Het wachtwoord kan niet worden gewijzigd. Neem contact op met je beheerder.",
     "Could not fetch list of apps from the app store." : "Kon lijst met apps niet ophalen van de app store.",
     "Can't install this app because it is not compatible" : "Kan deze app niet installeren omdat deze niet compatible is",
-    "Can't install this app" : "Kan deze app niet installeren"
+    "Can't install this app" : "Kan deze app niet installeren",
+    "Checking for update of app \"%s\" in App Store" : "Controleren op updates voor app \"%s\" in de App Store",
+    "Checked for update of app \"%s\" in App Store" : "Op updates gecontroleerd voor app \"%s\" in App Store"
 },
 "nplurals=2; plural=(n != 1);");

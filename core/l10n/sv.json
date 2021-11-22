@@ -47,9 +47,7 @@
     "Maintenance mode is kept active" : "Underhållsläget förblir aktiverat",
     "Updating database schema" : "Uppdaterar databasschema",
     "Updated database" : "Uppdaterade databasen",
-    "Checking for update of app \"%s\" in App Store" : "Letar efter uppdatering av appen \"%s\" i appbutiken",
     "Update app \"%s\" from App Store" : "Uppdatera appen \"%s\" från appbutiken",
-    "Checked for update of app \"%s\" in App Store" : "Letade efter uppdatering av appen \"%s\" i appbutiken",
     "Checking whether the database schema for %s can be updated (this can take a long time depending on the database size)" : "Kontrollerar om databasschema för %s kan uppdateras (detta kan ta lång tid beroende på databasens storlek)",
     "Updated \"%1$s\" to %2$s" : "Uppdaterade \"%1$s\" till %2$s",
     "Set log level to debug" : "Sätter loggningsnivå till \"debug\"",
@@ -364,6 +362,8 @@
     "A password reset message has been sent to the e-mail address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Ett meddelande om lösenordsåterställning har skickats till e-postadressen för det här kontot. Om du får det, kontrollera dina spam/skräp -mappar eller fråga din lokala administratör om hjälp.",
     "Password can not be changed. Please contact your administrator." : "Lösenordet kan inte ändras. Vänligen kontakta din administratör.",
     "Can't install this app because it is not compatible" : "Appen kan inte installeras eftersom den inte är kompatibel",
-    "Can't install this app" : "Appen kan inte installeras"
+    "Can't install this app" : "Appen kan inte installeras",
+    "Checking for update of app \"%s\" in App Store" : "Letar efter uppdatering av appen \"%s\" i appbutiken",
+    "Checked for update of app \"%s\" in App Store" : "Letade efter uppdatering av appen \"%s\" i appbutiken"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -51,9 +51,7 @@ OC.L10N.register(
     "Maintenance mode is kept active" : "Huoltotila pidetään aktiivisena",
     "Updating database schema" : "Päivitetään tietokannan skeemaa",
     "Updated database" : "Tietokanta päivitetty",
-    "Checking for update of app \"%s\" in App Store" : "Tarkistetaan sovelluksen \"%s\" päivityksiä sovelluskaupasta",
     "Update app \"%s\" from App Store" : "Päivitä sovellus \"%s\" sovelluskaupasta",
-    "Checked for update of app \"%s\" in App Store" : "Päivitykset tarkistettu sovelluskaupasta sovellukselle \"%s\"",
     "Checking whether the database schema for %s can be updated (this can take a long time depending on the database size)" : "Tarkistetaan, onko kohteen %s tietokannan skeemaa mahdollista päivittää (tämä saattaa kestää kauan riippuen tietokannan koosta)",
     "Updated \"%1$s\" to %2$s" : "Päivitetty \"%1$s\" versioon %2$s",
     "Set log level to debug" : "Asetettu lokitasoksi vianetsintä",
@@ -373,6 +371,8 @@ OC.L10N.register(
     "Password can not be changed. Please contact your administrator." : "Salasanan vaihtaminen ei onnistunut. Ota yhteys ylläpitäjään.",
     "Could not fetch list of apps from the app store." : "Ei voitu hakea sovelluskaupan listaa.",
     "Can't install this app because it is not compatible" : "Tätä sovellusta ei voi asentaa, koska se ei ole yhteensopiva",
-    "Can't install this app" : "Tätä sovellusta ei voi asentaa"
+    "Can't install this app" : "Tätä sovellusta ei voi asentaa",
+    "Checking for update of app \"%s\" in App Store" : "Tarkistetaan sovelluksen \"%s\" päivityksiä sovelluskaupasta",
+    "Checked for update of app \"%s\" in App Store" : "Päivitykset tarkistettu sovelluskaupasta sovellukselle \"%s\""
 },
 "nplurals=2; plural=(n != 1);");

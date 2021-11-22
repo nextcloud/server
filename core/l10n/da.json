@@ -51,9 +51,7 @@
     "Maintenance mode is kept active" : "Vedligeholdelsestilstanden holdes kørende",
     "Updating database schema" : "Opdaterer database skema",
     "Updated database" : "Opdaterede database",
-    "Checking for update of app \"%s\" in App Store" : "Søger efter opdatering af app \"%s\" i App Store",
     "Update app \"%s\" from App Store" : "Opdater app \"%s\" fra App Store",
-    "Checked for update of app \"%s\" in App Store" : "Kontrolleret for opdatering af app \"%s\" i App Store",
     "Checking whether the database schema for %s can be updated (this can take a long time depending on the database size)" : "Tjekker om database schema'et for %s kan opdateres (dette kan tage lang tid afhængig af databasens størrelse)",
     "Updated \"%1$s\" to %2$s" : "Opdaterede \"%1$s\" til %2$s",
     "Set log level to debug" : "Sæt logningsniveau til fejlfinding",
@@ -424,6 +422,8 @@
     "Password can not be changed. Please contact your administrator." : "Adgangskoden kunne ikke ændres. Kontakt venligst din administrator.",
     "Could not fetch list of apps from the app store." : "Kunne ikke hente liste over apps fra app-storen.",
     "Can't install this app because it is not compatible" : "Denne app kan ikke installeres fordi den ikke er kompatibel",
-    "Can't install this app" : "Kan ikke installere denne app"
+    "Can't install this app" : "Kan ikke installere denne app",
+    "Checking for update of app \"%s\" in App Store" : "Søger efter opdatering af app \"%s\" i App Store",
+    "Checked for update of app \"%s\" in App Store" : "Kontrolleret for opdatering af app \"%s\" i App Store"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
