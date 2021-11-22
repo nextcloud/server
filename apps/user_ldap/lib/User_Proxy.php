@@ -204,11 +204,10 @@ class User_Proxy extends Proxy implements \OCP\IUserBackend, \OCP\UserInterface,
 	 *
 	 * @param string|\OCA\User_LDAP\User\User $user either the Nextcloud user
 	 * name or an instance of that user
-	 * @return boolean
 	 */
-	public function userExistsOnLDAP($user) {
+	public function userExistsOnLDAP($user, bool $ignoreCache = false): bool {
 		$id = ($user instanceof User) ? $user->getUsername() : $user;
-		return $this->handleRequest($id, 'userExistsOnLDAP', [$user]);
+		return $this->handleRequest($id, 'userExistsOnLDAP', [$user, $ignoreCache]);
 	}
 
 	/**
