@@ -296,11 +296,10 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 	 *
 	 * @param string|\OCA\User_LDAP\User\User $user either the Nextcloud user
 	 * name or an instance of that user
-	 * @return bool
 	 * @throws \Exception
 	 * @throws \OC\ServerNotAvailableException
 	 */
-	public function userExistsOnLDAP($user) {
+	public function userExistsOnLDAP($user, bool $ignoreCache = false): bool {
 		if (is_string($user)) {
 			$user = $this->access->userManager->get($user);
 		}
@@ -309,9 +308,11 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 		}
 		$uid = $user instanceof User ? $user->getUsername() : $user->getOCName();
 		$cacheKey = 'userExistsOnLDAP' . $uid;
-		$userExists = $this->access->connection->getFromCache($cacheKey);
-		if (!is_null($userExists)) {
-			return (bool)$userExists;
+		if (!$ignoreCache) {
+			$userExists = $this->access->connection->getFromCache($cacheKey);
+			if (!is_null($userExists)) {
+				return (bool)$userExists;
+			}
 		}
 
 		$dn = $user->getDN();
