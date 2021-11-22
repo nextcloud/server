@@ -390,13 +390,27 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 			}
 		}
 
-		$marked = $this->ocConfig->getUserValue($uid, 'user_ldap', 'isDeleted', 0);
-		if ((int)$marked === 0) {
-			$this->logger->notice(
-				'User '.$uid . ' is not marked as deleted, not cleaning up.',
-				['app' => 'user_ldap']
-			);
-			return false;
+		$marked = (int)$this->ocConfig->getUserValue($uid, 'user_ldap', 'isDeleted', 0);
+		if ($marked === 0) {
+			try {
+				$user = $this->access->userManager->get($uid);
+				if (($user instanceof User) && !$this->userExistsOnLDAP($uid, true)) {
+					$user->markUser();
+					$marked = 1;
+				}
+			} catch (\Exception $e) {
+				$this->logger->debug(
+					$e->getMessage(),
+					['app' => 'user_ldap', 'exception' => $e]
+				);
+			}
+			if ($marked === 0) {
+				$this->logger->notice(
+					'User '.$uid . ' is not marked as deleted, not cleaning up.',
+					['app' => 'user_ldap']
+				);
+				return false;
+			}
 		}
 		$this->logger->info('Cleaning up after user ' . $uid,
 			['app' => 'user_ldap']);
