@@ -93,6 +93,39 @@ class IpAddress {
 	}
 
 	/**
+	 * Returns the IPv4 address embedded in an IPv6 if applicable.
+	 * The detected format is "::ffff:x.x.x.x" using the binary form.
+	 *
+	 * @param string $ipv6 IPv6 string
+	 * @return null|string embedded IPv4 string or null if none was found
+	 */
+	private function getEmbeddedIpv4($ipv6) {
+		$binary = inet_pton($ipv6);
+		if (!$binary) {
+			return null;
+		}
+		for ($i = 0; $i <= 9; $i++) {
+			if (unpack('C', $binary[$i])[1] !== 0) {
+				return null;
+			}
+		}
+
+		for ($i = 10; $i <= 11; $i++) {
+			if (unpack('C', $binary[$i])[1] !== 255) {
+				return null;
+			}
+		}
+
+		$binary4 = '';
+		for ($i = 12; $i < 16; $i++) {
+			$binary4 .= $binary[$i];
+		}
+
+		return inet_ntop($binary4);
+	}
+
+
+	/**
 	 * Gets either the /32 (IPv4) or the /64 (IPv6) subnet of an IP address
 	 *
 	 * @return string
@@ -103,9 +136,16 @@ class IpAddress {
 				$this->ip,
 				32
 			);
-		} elseif (substr(strtolower($this->ip), 0, 7) === '::ffff:') {
-			return '::ffff:' . $this->getIPv4Subnet(substr($this->ip, 7), 32);
 		}
+
+		$ipv4 = $this->getEmbeddedIpv4($this->ip);
+		if ($ipv4 !== null) {
+			return $this->getIPv4Subnet(
+				$ipv4,
+				32
+			);
+		}
+
 		return $this->getIPv6Subnet(
 			$this->ip,
 			64
