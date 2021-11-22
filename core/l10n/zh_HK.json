@@ -51,9 +51,7 @@
     "Maintenance mode is kept active" : "伺服器正處於維護模式",
     "Updating database schema" : "正在更新數據庫模式",
     "Updated database" : "已更新數據庫",
-    "Checking for update of app \"%s\" in App Store" : "在 App Store 中檢查應用程式 “%s” 是否有更新",
     "Update app \"%s\" from App Store" : "從 App Store 更新應用程式 “%s”",
-    "Checked for update of app \"%s\" in App Store" : "已檢查 App Store 中應用程式 “%s” 是否有更新",
     "Checking whether the database schema for %s can be updated (this can take a long time depending on the database size)" : "檢查 %s 是否有可更新的數據庫模式（若數據庫較大，可能需要一段時間）",
     "Updated \"%1$s\" to %2$s" : "已從 %1$s 更新至 %2$s",
     "Set log level to debug" : "設定記錄至除錯層級",
@@ -424,6 +422,8 @@
     "Password can not be changed. Please contact your administrator." : "無法更改密碼，請聯絡管理員。",
     "Could not fetch list of apps from the app store." : "無法從應用程式商店抓取應用程式清單",
     "Can't install this app because it is not compatible" : "這是一個不兼容的應用程式，無法安裝。",
-    "Can't install this app" : "無法安裝此應用程式"
+    "Can't install this app" : "無法安裝此應用程式",
+    "Checking for update of app \"%s\" in App Store" : "在 App Store 中檢查應用程式 “%s” 是否有更新",
+    "Checked for update of app \"%s\" in App Store" : "已檢查 App Store 中應用程式 “%s” 是否有更新"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

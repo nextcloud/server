@@ -53,9 +53,7 @@ OC.L10N.register(
     "Maintenance mode is kept active" : "Mantentze modua aktibatuta dago oraindik.",
     "Updating database schema" : "Datu-basearen eskema eguneratzen",
     "Updated database" : "Datu-basea eguneratuta",
-    "Checking for update of app \"%s\" in App Store" : "App Store-n\"%s\" aplikazioaren eguneratzea egiaztatzen",
     "Update app \"%s\" from App Store" : "Eguneratu \"%s\" aplikazioa App Store-tik",
-    "Checked for update of app \"%s\" in App Store" : "App Store-n \"%s\" aplikazioaren eguneratzea egiaztatu da",
     "Checking whether the database schema for %s can be updated (this can take a long time depending on the database size)" : "%s datu-basearen eskema eguneratu daitekeen egiaztatzen (honek luze jo dezake datu-basearen tamainaren arabera)",
     "Updated \"%1$s\" to %2$s" : "\"%1$s\" eguneratu da %2$s(e)ra",
     "Set log level to debug" : "Ezarri egunkari-maila arazketara",
@@ -425,6 +423,8 @@ OC.L10N.register(
     "Password can not be changed. Please contact your administrator." : "Ezin da pasahitza aldatu. Jarri zure administratzailearekin harremanetan.",
     "Could not fetch list of apps from the app store." : "Ezin izan da aplikazioen zerrenda eskuratu aplikazioen biltegitik.",
     "Can't install this app because it is not compatible" : "Ezin da aplikazio hau instalatu ez delako bateragarria",
-    "Can't install this app" : "Ezin da aplikazio hau instalatu"
+    "Can't install this app" : "Ezin da aplikazio hau instalatu",
+    "Checking for update of app \"%s\" in App Store" : "App Store-n\"%s\" aplikazioaren eguneratzea egiaztatzen",
+    "Checked for update of app \"%s\" in App Store" : "App Store-n \"%s\" aplikazioaren eguneratzea egiaztatu da"
 },
 "nplurals=2; plural=(n != 1);");

@@ -53,9 +53,7 @@ OC.L10N.register(
     "Maintenance mode is kept active" : "Karbantartási mód aktiválva maradt",
     "Updating database schema" : "Adatbázis séma frissítése",
     "Updated database" : "Adatbázis frissítve",
-    "Checking for update of app \"%s\" in App Store" : "A(z) „%s” alkalmazás frissítéseinek keresése az alkalmazástárban",
     "Update app \"%s\" from App Store" : "A(z) „%s” alkalmazás frissítése az alkalmazástárból",
-    "Checked for update of app \"%s\" in App Store" : "A(z) „%s” alkalmazás frissítései ellenőrizve az alkalmazástárban",
     "Checking whether the database schema for %s can be updated (this can take a long time depending on the database size)" : "Ellenőrzés, hogy a %s adatbázis sémája frissíthető-e (ez az adatbázis méretétől függően hosszabb ideig is eltarthat)",
     "Updated \"%1$s\" to %2$s" : "„%1$s” frissítve erre: %2$s",
     "Set log level to debug" : "Naplózási szint beállítása hibakeresésre",
@@ -426,6 +424,8 @@ OC.L10N.register(
     "Password can not be changed. Please contact your administrator." : "A jelszó nem módosítható. Lépjen kapcsolatba a rendszergazdával.",
     "Could not fetch list of apps from the app store." : "Az alkalmazások listája nem kérhető le az alkalmazástártól.",
     "Can't install this app because it is not compatible" : "Az alkalmazás nem telepíthető, mert nem kompatibilis",
-    "Can't install this app" : "Az alkalmazás nem telepíthető"
+    "Can't install this app" : "Az alkalmazás nem telepíthető",
+    "Checking for update of app \"%s\" in App Store" : "A(z) „%s” alkalmazás frissítéseinek keresése az alkalmazástárban",
+    "Checked for update of app \"%s\" in App Store" : "A(z) „%s” alkalmazás frissítései ellenőrizve az alkalmazástárban"
 },
 "nplurals=2; plural=(n != 1);");

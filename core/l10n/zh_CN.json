@@ -51,9 +51,7 @@
     "Maintenance mode is kept active" : "维护模式已启用",
     "Updating database schema" : "正在更新数据库结构",
     "Updated database" : "数据库已更新",
-    "Checking for update of app \"%s\" in App Store" : "在应用商店中检查应用 \"%s\" 是否有更新",
     "Update app \"%s\" from App Store" : "从应用商店更新应用 \"%s\"",
-    "Checked for update of app \"%s\" in App Store" : "已在应用商店中检查了应用 \"%s\" 是否有更新",
     "Checking whether the database schema for %s can be updated (this can take a long time depending on the database size)" : "检查 %s 的数据库结构是否可以更新（这可能需要很长的时间，取决于数据库大小）",
     "Updated \"%1$s\" to %2$s" : "已更新 “%1$s” 到 %2$s",
     "Set log level to debug" : "设置日志级别为 调试",
@@ -424,6 +422,8 @@
     "Password can not be changed. Please contact your administrator." : "无法修改密码，请联系管理员。",
     "Could not fetch list of apps from the app store." : "无法从应用商店中获取应用列表。",
     "Can't install this app because it is not compatible" : "无法安装此应用，因为不兼容",
-    "Can't install this app" : "无法安装此应用"
+    "Can't install this app" : "无法安装此应用",
+    "Checking for update of app \"%s\" in App Store" : "在应用商店中检查应用 \"%s\" 是否有更新",
+    "Checked for update of app \"%s\" in App Store" : "已在应用商店中检查了应用 \"%s\" 是否有更新"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

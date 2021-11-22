@@ -48,9 +48,7 @@
     "Maintenance mode is kept active" : "Sa modalidade de mantenidura abarrat ativa",
     "Updating database schema" : "Agiornende s'ischema de sa base de datos",
     "Updated database" : "Base de datos agionada",
-    "Checking for update of app \"%s\" in App Store" : "Chirchende un'agiornamentu de s'aplicatzione \"%s\" in sa butega de is aplicatziones",
     "Update app \"%s\" from App Store" : "Agiorna s'aplicatzione \"%s\" dae sa butega de is aplicatziones",
-    "Checked for update of app \"%s\" in App Store" : "Controlladu s'agiornamentu de s'aplicatzione \"%s\" in sa butega de is aplicatziones",
     "Checking whether the database schema for %s can be updated (this can take a long time depending on the database size)" : "Averguende si s'ischema de sa base de datos de %s faghet a dd'agiornare (podet trigare segundu sa mannària de sa base de datos)",
     "Updated \"%1$s\" to %2$s" : "Agiornadu \"%1$s\" a %2$s",
     "Set log level to debug" : "Imposta livellu de registratzione de currègere",
@@ -409,6 +407,8 @@
     "Password can not be changed. Please contact your administrator." : "Sa crae non faghet a dda cambiare. Cuntata s'amministratzione.",
     "Could not fetch list of apps from the app store." : "No at fatu a recuperare sa lista dae sa butega de is aplicatziones.",
     "Can't install this app because it is not compatible" : "Non faghet a installare custa aplicatzione ca no est cumpatìbile",
-    "Can't install this app" : "Non faghet a installare custa aplicatzione"
+    "Can't install this app" : "Non faghet a installare custa aplicatzione",
+    "Checking for update of app \"%s\" in App Store" : "Chirchende un'agiornamentu de s'aplicatzione \"%s\" in sa butega de is aplicatziones",
+    "Checked for update of app \"%s\" in App Store" : "Controlladu s'agiornamentu de s'aplicatzione \"%s\" in sa butega de is aplicatziones"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
