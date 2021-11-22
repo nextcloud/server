@@ -50,9 +50,7 @@ OC.L10N.register(
     "Maintenance mode is kept active" : "Način rada za održavanje održan",
     "Updating database schema" : "Ažuriranje sheme baze podataka",
     "Updated database" : "Baza podataka ažurirana",
-    "Checking for update of app \"%s\" in App Store" : "U tijeku je provjera ažuriranja aplikacije „%s” iz trgovine aplikacija App Store",
     "Update app \"%s\" from App Store" : "Ažurirajte aplikaciju „%s” iz trgovine aplikacijama App Store",
-    "Checked for update of app \"%s\" in App Store" : "Izvedena je provjera ažuriranja aplikacije „%s” iz trgovine aplikacija App Store",
     "Checking whether the database schema for %s can be updated (this can take a long time depending on the database size)" : "U tijeku je provjera može li se ažurirati shema baze podataka za %s (može potrajati ovisno o veličini baze podataka)",
     "Updated \"%1$s\" to %2$s" : "Ažurirano „%1$s” u %2$s",
     "Set log level to debug" : "Postavi razinu zapisa za otklanjanje pogrešaka",
@@ -411,6 +409,8 @@ OC.L10N.register(
     "Password can not be changed. Please contact your administrator." : "Zaporku nije moguće promijeniti. Obratite se svom administratoru.",
     "Could not fetch list of apps from the app store." : "Dohvaćanje popisa aplikacija iz trgovine aplikacijama nije uspjelo.",
     "Can't install this app because it is not compatible" : "Aplikaciju nije moguće instalirati jer nije kompatibilna",
-    "Can't install this app" : "Aplikaciju nije moguće instalirati"
+    "Can't install this app" : "Aplikaciju nije moguće instalirati",
+    "Checking for update of app \"%s\" in App Store" : "U tijeku je provjera ažuriranja aplikacije „%s” iz trgovine aplikacija App Store",
+    "Checked for update of app \"%s\" in App Store" : "Izvedena je provjera ažuriranja aplikacije „%s” iz trgovine aplikacija App Store"
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

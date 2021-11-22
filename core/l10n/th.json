@@ -48,9 +48,7 @@
     "Maintenance mode is kept active" : "โหมดการบำรุงรักษาถูกเปิดไว้",
     "Updating database schema" : "กำลังอัปเดต Schema ฐานข้อมูล",
     "Updated database" : "อัปเดตฐานข้อมูลแล้ว",
-    "Checking for update of app \"%s\" in App Store" : "กำลังตรวจสอบอัปเดตของแอป \"%s\" ในร้านค้าแอป",
     "Update app \"%s\" from App Store" : "อัปเดตแอป \"%s\" จากร้านค้าแอป",
-    "Checked for update of app \"%s\" in App Store" : "ตรวจสอบอัปเดตของแอป \"%s\" จากร้านค้าแอปแล้ว",
     "Checking whether the database schema for %s can be updated (this can take a long time depending on the database size)" : "กำลังตรวจสอบว่า Schema ฐานข้อมูลสำหรับ %s สามารถอัปเดตได้หรือไม่ (อาจใช้เวลานาน ขึ้นอยู่กับขนาดของฐานข้อมูล)",
     "Updated \"%1$s\" to %2$s" : "อัปเดต \"%1$s\" เป็น %2$s แล้ว",
     "Set log level to debug" : "ตั้งค่าระดับบันทึกเป็น debug",
@@ -339,6 +337,8 @@
     "Password can not be changed. Please contact your administrator." : "ไม่สามารถเปลี่ยนรหัสผ่าน กรุณาติดต่อผู้ดูแลระบบ",
     "Could not fetch list of apps from the app store." : "ไม่สามารถดึงรายการแอปจากร้านค้าแอป",
     "Can't install this app because it is not compatible" : "ไม่สามารถติดตั้งแอปนี้ เนื่องจากแอปนี้เข้ากันไม่ได้",
-    "Can't install this app" : "ไม่สามารถติดตั้งแอปนี้"
+    "Can't install this app" : "ไม่สามารถติดตั้งแอปนี้",
+    "Checking for update of app \"%s\" in App Store" : "กำลังตรวจสอบอัปเดตของแอป \"%s\" ในร้านค้าแอป",
+    "Checked for update of app \"%s\" in App Store" : "ตรวจสอบอัปเดตของแอป \"%s\" จากร้านค้าแอปแล้ว"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

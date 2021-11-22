@@ -53,9 +53,7 @@ OC.L10N.register(
     "Maintenance mode is kept active" : "Bakım kipi etkin tutuldu",
     "Updating database schema" : "Veritabanı şeması güncelleniyor",
     "Updated database" : "Veritabanı güncellendi",
-    "Checking for update of app \"%s\" in App Store" : "Uygulama mağazasından \"%s\"  uygulamasının güncellemesi denetleniyor",
     "Update app \"%s\" from App Store" : "Uygulama mağazasından \"%s\" uygulamasını güncelle",
-    "Checked for update of app \"%s\" in App Store" : "Uygulama mağazasından \"%s\"  uygulamasının güncellemesi denetlendi",
     "Checking whether the database schema for %s can be updated (this can take a long time depending on the database size)" : "%s için veritabanı şeması güncellemesi denetleniyor (veritabanının büyüklüğüne bağlı olarak uzun sürebilir)",
     "Updated \"%1$s\" to %2$s" : "\"%1$s\", %2$s sürümüne güncellendi",
     "Set log level to debug" : "Günlükleme düzeyini Hata Ayıklama olarak ayarla",
@@ -426,6 +424,8 @@ OC.L10N.register(
     "Password can not be changed. Please contact your administrator." : "Parola değiştirilemedi. Lütfen BT yöneticiniz ile görüşün.",
     "Could not fetch list of apps from the app store." : "Uygulama mağazasından uygulama listesi alınamadı.",
     "Can't install this app because it is not compatible" : "Bu uygulama uyumlu olmadığından kurulamadı",
-    "Can't install this app" : "Bu uygulama kurulamadı"
+    "Can't install this app" : "Bu uygulama kurulamadı",
+    "Checking for update of app \"%s\" in App Store" : "Uygulama mağazasından \"%s\"  uygulamasının güncellemesi denetleniyor",
+    "Checked for update of app \"%s\" in App Store" : "Uygulama mağazasından \"%s\"  uygulamasının güncellemesi denetlendi"
 },
 "nplurals=2; plural=(n > 1);");

@@ -50,9 +50,7 @@ OC.L10N.register(
     "Maintenance mode is kept active" : "유지 보수 모드가 켜져 있음",
     "Updating database schema" : "데이터베이스 스키마 업데이트 중",
     "Updated database" : "데이터베이스 업데이트됨",
-    "Checking for update of app \"%s\" in App Store" : "앱 스토어에서 \"%s\" 앱의 업데이트를 확인하는 중",
     "Update app \"%s\" from App Store" : "앱 스토어에서 \"%s\" 앱 업데이트",
-    "Checked for update of app \"%s\" in App Store" : "앱 스토어에서 \"%s\" 앱 업데이트 확인함",
     "Checking whether the database schema for %s can be updated (this can take a long time depending on the database size)" : "%s의 데이터베이스 스키마 업데이트 가능 여부 확인 중(데이터베이스 크기에 따라서 오래 걸릴 수도 있습니다)",
     "Updated \"%1$s\" to %2$s" : "\"%1$s\"을(를) %2$s(으)로 업데이트함",
     "Set log level to debug" : "로그 단계를 디버그로 설정",
@@ -388,6 +386,8 @@ OC.L10N.register(
     "Password can not be changed. Please contact your administrator." : "암호를 변경할 수 없습니다. 관리자에게 문의하십시오.",
     "Could not fetch list of apps from the app store." : "앱스토어로부터 앱 목록을 가져올 수 없음",
     "Can't install this app because it is not compatible" : "호환되지 않아 앱을 설치할 수 없습니다.",
-    "Can't install this app" : "앱을 설치할 수 없음"
+    "Can't install this app" : "앱을 설치할 수 없음",
+    "Checking for update of app \"%s\" in App Store" : "앱 스토어에서 \"%s\" 앱의 업데이트를 확인하는 중",
+    "Checked for update of app \"%s\" in App Store" : "앱 스토어에서 \"%s\" 앱 업데이트 확인함"
 },
 "nplurals=1; plural=0;");

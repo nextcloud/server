@@ -53,9 +53,7 @@ OC.L10N.register(
     "Maintenance mode is kept active" : "Le mode de maintenance est laissé actif",
     "Updating database schema" : "Mise à jour du schéma de la base de données",
     "Updated database" : "Base de données mise à jour",
-    "Checking for update of app \"%s\" in App Store" : "Vérification de mise à jour pour l'app \"%s\" dans l'App Store.",
     "Update app \"%s\" from App Store" : "Mettre à jour l'app \"%s\" depuis l'App Store",
-    "Checked for update of app \"%s\" in App Store" : "Vérification de mise à jour pour l'app \"%s\" dans l'App Store effectuée.",
     "Checking whether the database schema for %s can be updated (this can take a long time depending on the database size)" : "Vérification de la possibilité de mettre à jour le schéma de la base de données pour %s (cela peut prendre un certain temps selon la taille de la base de données)",
     "Updated \"%1$s\" to %2$s" : "Mise à jour de \"%1$s\" vers %2$s",
     "Set log level to debug" : "Réglage du niveau de journalisation à \"déboguage\"",
@@ -426,6 +424,8 @@ OC.L10N.register(
     "Password can not be changed. Please contact your administrator." : "Le mot de passe ne peut être modifié. Veuillez contacter votre administrateur.",
     "Could not fetch list of apps from the app store." : "Impossible de récupérer la liste des applications depuis l'app store.",
     "Can't install this app because it is not compatible" : "Impossible d'installer cette appli car elle n'est pas compatible",
-    "Can't install this app" : "Impossible d'installer cette appli"
+    "Can't install this app" : "Impossible d'installer cette appli",
+    "Checking for update of app \"%s\" in App Store" : "Vérification de mise à jour pour l'app \"%s\" dans l'App Store.",
+    "Checked for update of app \"%s\" in App Store" : "Vérification de mise à jour pour l'app \"%s\" dans l'App Store effectuée."
 },
 "nplurals=2; plural=(n > 1);");

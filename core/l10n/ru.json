@@ -50,9 +50,7 @@
     "Maintenance mode is kept active" : "Режим обслуживания оставлен включенным",
     "Updating database schema" : "Выполняется обновление схемы базы данных",
     "Updated database" : "База данных обновлена",
-    "Checking for update of app \"%s\" in App Store" : "Проверяется наличие обновления приложения «%s»",
     "Update app \"%s\" from App Store" : "Выполняется обновление приложения «%s»",
-    "Checked for update of app \"%s\" in App Store" : "Проверено наличие обновления приложения «%s»",
     "Checking whether the database schema for %s can be updated (this can take a long time depending on the database size)" : "Проверка возможности обновления схемы базы данных %s (может занять длительное время, зависящее от размера базы данных)",
     "Updated \"%1$s\" to %2$s" : "Приложение «%1$s» обновлено до версии %2$s",
     "Set log level to debug" : "Установлен отладочный уровень протоколирования",
@@ -423,6 +421,8 @@
     "Password can not be changed. Please contact your administrator." : "Пароль не может быть изменён. Свяжитесь с вашим системным администратором.",
     "Could not fetch list of apps from the app store." : "Не удалось получить список приложений.",
     "Can't install this app because it is not compatible" : "Приложение не может быть установлено, так как оно несовместимо",
-    "Can't install this app" : "Это приложение не может быть установлено"
+    "Can't install this app" : "Это приложение не может быть установлено",
+    "Checking for update of app \"%s\" in App Store" : "Проверяется наличие обновления приложения «%s»",
+    "Checked for update of app \"%s\" in App Store" : "Проверено наличие обновления приложения «%s»"
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }
