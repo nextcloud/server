@@ -53,7 +53,7 @@ class CacheWrapper extends Cache {
 	}
 
 	/**
-	 * Make it easy for wrappers to modify every returned cache entry
+	 * Makes it easy for wrappers to modify every returned cache entry
 	 *
 	 * @param ICacheEntry $entry
 	 * @return ICacheEntry
@@ -224,7 +224,9 @@ class CacheWrapper extends Cache {
 	 */
 	public function search($pattern) {
 		$results = $this->getCache()->search($pattern);
-		return array_map([$this, 'formatCacheEntry'], $results);
+		return array_filter(array_map([$this, 'formatCacheEntry'], $results), function ($entry) {
+			return $entry !== false;
+		});
 	}
 
 	/**
@@ -235,12 +237,16 @@ class CacheWrapper extends Cache {
 	 */
 	public function searchByMime($mimetype) {
 		$results = $this->getCache()->searchByMime($mimetype);
-		return array_map([$this, 'formatCacheEntry'], $results);
+		return array_filter(array_map([$this, 'formatCacheEntry'], $results), function ($entry) {
+			return $entry !== false;
+		});
 	}
 
 	public function searchQuery(ISearchQuery $query) {
 		$results = $this->getCache()->searchQuery($query);
-		return array_map([$this, 'formatCacheEntry'], $results);
+		return array_filter(array_map([$this, 'formatCacheEntry'], $results), function ($entry) {
+			return $entry !== false;
+		});
 	}
 
 	/**

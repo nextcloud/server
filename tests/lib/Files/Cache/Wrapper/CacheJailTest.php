@@ -9,6 +9,7 @@
 namespace Test\Files\Cache\Wrapper;
 
 use OC\Files\Cache\Wrapper\CacheJail;
+use OC\Files\Cache\Wrapper\CacheWrapper;
 use OC\Files\Search\SearchComparison;
 use OC\Files\Search\SearchQuery;
 use OC\User\User;
@@ -199,6 +200,29 @@ class CacheJailTest extends CacheTest {
 		$result = $nested->search('%asd%');
 		$this->assertCount(1, $result);
 		$this->assertEquals('asd', $result[0]['path']);
+	}
+
+	public function testNotAuthorized() {
+		$this->storage->getScanner()->scan('');
+		$file1 = 'foo';
+		$file2 = 'foo/bar';
+		$file3 = 'foo/bar/asd';
+		$data1 = ['size' => 100, 'mtime' => 50, 'mimetype' => 'foo/folder'];
+
+		$this->sourceCache->put($file1, $data1);
+		$this->sourceCache->put($file2, $data1);
+		$this->sourceCache->put($file3, $data1);
+
+		$nested = new class($this->cache) extends CacheWrapper {
+			protected function formatCacheEntry($entry) {
+				return false;
+			}
+		};
+
+		$nested = new \OC\Files\Cache\Wrapper\CacheJail($nested, 'bar');
+
+		$result = $nested->search('%asd%');
+		$this->assertCount(0, $result);
 	}
 
 	public function testRootJail() {
