@@ -103,6 +103,8 @@ class IpAddress {
 				$this->ip,
 				32
 			);
+		} elseif (substr(strtolower($this->ip), 0, 7) === '::ffff:') {
+			return '::ffff:' . $this->getIPv4Subnet(substr($this->ip, 7), 32);
 		}
 		return $this->getIPv6Subnet(
 			$this->ip,
