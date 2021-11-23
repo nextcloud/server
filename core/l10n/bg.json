@@ -177,8 +177,6 @@
     "Back" : "Назад",
     "Login form is disabled." : "Формулярът за вход е деактивиран",
     "Edit Profile" : "Редактиране на профил",
-    "hasn't added any info yet" : "все още не е добавил никаква информация",
-    "The headline and about section will show up here" : "Заглавието и секцията за информация ще се покажат тук",
     "Error opening the user status modal, try hard refreshing the page" : "Грешка при отваряне на модалния статус на потребителя, опитайте настоятелно да опресните страницата",
     "Reset search" : "Рестартирай търсенето",
     "Search for {name} only" : "Търсене само за {name}",
