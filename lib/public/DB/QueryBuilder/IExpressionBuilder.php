@@ -418,7 +418,7 @@ interface IExpressionBuilder {
 	 * Quotes a given input parameter.
 	 *
 	 * @param mixed $input The parameter to be quoted.
-	 * @param mixed|null $type One of the IQueryBuilder::PARAM_* constants
+	 * @param int $type One of the IQueryBuilder::PARAM_* constants
 	 *
 	 * @return ILiteral
 	 * @since 8.2.0
@@ -426,7 +426,7 @@ interface IExpressionBuilder {
 	 * @psalm-taint-sink sql $input
 	 * @psalm-taint-sink sql $type
 	 */
-	public function literal($input, $type = null): ILiteral;
+	public function literal($input, $type = IQueryBuilder::PARAM_STR): ILiteral;
 
 	/**
 	 * Returns a IQueryFunction that casts the column to the given type

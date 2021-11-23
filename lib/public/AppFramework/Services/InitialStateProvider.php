@@ -42,7 +42,9 @@ abstract class InitialStateProvider implements \JsonSerializable {
 
 	/**
 	 * @since 21.0.0
+	 * @return mixed
 	 */
+	#[\ReturnTypeWillChange]
 	final public function jsonSerialize() {
 		return $this->getData();
 	}

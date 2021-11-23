@@ -49,7 +49,7 @@ class JSDataService implements \JsonSerializable {
 		$this->statusService = $statusService;
 	}
 
-	public function jsonSerialize() {
+	public function jsonSerialize(): array {
 		$user = $this->userSession->getUser();
 
 		if ($user === null) {

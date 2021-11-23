@@ -667,7 +667,19 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testDeleteUser() {
-		$manager = new \OC\User\Manager($this->config, $this->oldDispatcher, $this->cacheFactory, $this->eventDispatcher);
+		$config = $this->getMockBuilder(AllConfig::class)
+			->disableOriginalConstructor()
+			->getMock();
+		$config
+			->expects($this->any())
+			->method('getUserValue')
+			->willReturnArgument(3);
+		$config
+			->expects($this->any())
+			->method('getAppValue')
+			->willReturnArgument(2);
+
+		$manager = new \OC\User\Manager($config, $this->oldDispatcher, $this->cacheFactory, $this->eventDispatcher);
 		$backend = new \Test\Util\User\Dummy();
 
 		$manager->registerBackend($backend);

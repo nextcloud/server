@@ -74,9 +74,12 @@ class ChangeKeyStorageRootTest extends TestCase {
 		$this->outputInterface = $this->getMockBuilder(OutputInterface::class)->getMock();
 		$this->userInterface = $this->getMockBuilder(UserInterface::class)->getMock();
 
-		$outputFormatterInterface = $this->getMockBuilder(OutputFormatterInterface::class)->getMock();
+		/* We need format method to return a string */
+		$outputFormatter = $this->createMock(OutputFormatterInterface::class);
+		$outputFormatter->method('format')->willReturnArgument(0);
+
 		$this->outputInterface->expects($this->any())->method('getFormatter')
-			->willReturn($outputFormatterInterface);
+			->willReturn($outputFormatter);
 
 		$this->changeKeyStorageRoot = new ChangeKeyStorageRoot(
 			$this->view,

@@ -480,7 +480,7 @@ class Setup {
 			if (!filter_var($webRoot, FILTER_VALIDATE_URL)) {
 				throw new InvalidArgumentException('invalid value for overwrite.cli.url');
 			}
-			$webRoot = rtrim(parse_url($webRoot, PHP_URL_PATH), '/');
+			$webRoot = rtrim((parse_url($webRoot, PHP_URL_PATH) ?? ''), '/');
 		} else {
 			$webRoot = !empty(\OC::$WEBROOT) ? \OC::$WEBROOT : '/';
 		}

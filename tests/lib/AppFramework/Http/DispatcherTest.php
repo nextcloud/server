@@ -148,7 +148,7 @@ class DispatcherTest extends \Test\TestCase {
 
 		$this->response = $this->createMock(Response::class);
 
-		$this->lastModified = new \DateTime(null, new \DateTimeZone('GMT'));
+		$this->lastModified = new \DateTime('now', new \DateTimeZone('GMT'));
 		$this->etag = 'hi';
 	}
 

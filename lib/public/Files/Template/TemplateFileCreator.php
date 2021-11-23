@@ -106,7 +106,7 @@ final class TemplateFileCreator implements \JsonSerializable {
 	/**
 	 * @since 21.0.0
 	 */
-	public function jsonSerialize() {
+	public function jsonSerialize(): array {
 		return [
 			'app' => $this->appId,
 			'label' => $this->actionName,

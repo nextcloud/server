@@ -230,10 +230,8 @@ final class WidgetSetting implements JsonSerializable {
 	/**
 	 * @since 15.0.0
 	 * @deprecated 20.0.0
-	 *
-	 * @return array
 	 */
-	public function jsonSerialize() {
+	public function jsonSerialize(): array {
 		return [
 			'name' => $this->getName(),
 			'title' => $this->getTitle(),

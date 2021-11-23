@@ -137,10 +137,8 @@ class Backend implements \JsonSerializable {
 
 	/**
 	 * Serialize into JSON for client-side JS
-	 *
-	 * @return array
 	 */
-	public function jsonSerialize() {
+	public function jsonSerialize(): array {
 		$data = $this->jsonSerializeDefinition();
 		$data += $this->jsonSerializeIdentifier();
 

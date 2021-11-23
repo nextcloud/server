@@ -386,13 +386,14 @@ class Database extends ABackend implements
 			$row = $result->fetch();
 			$result->closeCursor();
 
-			$this->cache[$uid] = false;
-
 			// "uid" is primary key, so there can only be a single result
 			if ($row !== false) {
-				$this->cache[$uid]['uid'] = (string)$row['uid'];
-				$this->cache[$uid]['displayname'] = (string)$row['displayname'];
+				$this->cache[$uid] = [
+					'uid' => (string)$row['uid'],
+					'displayname' => (string)$row['displayname'],
+				];
 			} else {
+				$this->cache[$uid] = false;
 				return false;
 			}
 		}

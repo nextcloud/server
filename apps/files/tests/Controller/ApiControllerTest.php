@@ -165,7 +165,7 @@ class ApiControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->apiController->getThumbnail(0, 0, ''));
 	}
 
-	public function testGetThumbnailInvaidImage() {
+	public function testGetThumbnailInvalidImage() {
 		$file = $this->createMock(File::class);
 		$this->userFolder->method('get')
 			->with($this->equalTo('unknown.jpg'))
@@ -184,6 +184,8 @@ class ApiControllerTest extends TestCase {
 			->with($this->equalTo('known.jpg'))
 			->willReturn($file);
 		$preview = $this->createMock(ISimpleFile::class);
+		$preview->method('getName')->willReturn('my name');
+		$preview->method('getMTime')->willReturn(42);
 		$this->preview->expects($this->once())
 			->method('getPreview')
 			->with($this->equalTo($file), 10, 10, true)

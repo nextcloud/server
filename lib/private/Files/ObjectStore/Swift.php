@@ -27,7 +27,7 @@ namespace OC\Files\ObjectStore;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\BadResponseException;
-use function GuzzleHttp\Psr7\stream_for;
+use GuzzleHttp\Psr7\Utils;
 use Icewind\Streams\RetryWrapper;
 use OCP\Files\NotFoundException;
 use OCP\Files\ObjectStore\IObjectStore;
@@ -81,13 +81,13 @@ class Swift implements IObjectStore {
 		if (filesize($tmpFile) < SWIFT_SEGMENT_SIZE) {
 			$this->getContainer()->createObject([
 				'name' => $urn,
-				'stream' => stream_for($handle),
+				'stream' => Utils::streamFor($handle),
 				'contentType' => $mimetype,
 			]);
 		} else {
 			$this->getContainer()->createLargeObject([
 				'name' => $urn,
-				'stream' => stream_for($handle),
+				'stream' => Utils::streamFor($handle),
 				'segmentSize' => SWIFT_SEGMENT_SIZE,
 				'contentType' => $mimetype,
 			]);

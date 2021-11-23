@@ -156,7 +156,9 @@ class GenericEvent extends Event implements ArrayAccess, IteratorAggregate {
 	 * @link https://php.net/manual/en/arrayaccess.offsetget.php
 	 * @since 18.0.0
 	 * @deprecated 22.0.0
+	 * @return mixed
 	 */
+	#[\ReturnTypeWillChange]
 	public function offsetGet($offset) {
 		return $this->arguments[$offset];
 	}

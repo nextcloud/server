@@ -1363,7 +1363,7 @@ class DefaultShareProvider implements IShareProvider {
 		$best = [];
 		$bestDepth = 0;
 		foreach ($shares as $id => $share) {
-			$depth = substr_count($share['file_target'], '/');
+			$depth = substr_count(($share['file_target'] ?? ''), '/');
 			if (empty($best) || $depth < $bestDepth) {
 				$bestDepth = $depth;
 				$best = [

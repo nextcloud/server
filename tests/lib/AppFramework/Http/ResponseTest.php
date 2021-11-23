@@ -216,7 +216,7 @@ class ResponseTest extends \Test\TestCase {
 
 
 	public function testGetLastModified() {
-		$lastModified = new \DateTime(null, new \DateTimeZone('GMT'));
+		$lastModified = new \DateTime('now', new \DateTimeZone('GMT'));
 		$lastModified->setTimestamp(1);
 		$this->childResponse->setLastModified($lastModified);
 		$this->assertEquals($lastModified, $this->childResponse->getLastModified());
@@ -252,7 +252,7 @@ class ResponseTest extends \Test\TestCase {
 
 
 	public function testEtagLastModifiedHeaders() {
-		$lastModified = new \DateTime(null, new \DateTimeZone('GMT'));
+		$lastModified = new \DateTime('now', new \DateTimeZone('GMT'));
 		$lastModified->setTimestamp(1);
 		$this->childResponse->setLastModified($lastModified);
 		$headers = $this->childResponse->getHeaders();
@@ -260,7 +260,7 @@ class ResponseTest extends \Test\TestCase {
 	}
 
 	public function testChainability() {
-		$lastModified = new \DateTime(null, new \DateTimeZone('GMT'));
+		$lastModified = new \DateTime('now', new \DateTimeZone('GMT'));
 		$lastModified->setTimestamp(1);
 
 		$this->childResponse->setEtag('hi')

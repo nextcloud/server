@@ -241,7 +241,7 @@ class FilesReportPlugin extends ServerPlugin {
 	 *
 	 * @return string files base uri
 	 */
-	private function getFilesBaseUri($uri, $subPath) {
+	private function getFilesBaseUri(string $uri, string $subPath): string {
 		$uri = trim($uri, '/');
 		$subPath = trim($subPath, '/');
 		if (empty($subPath)) {
