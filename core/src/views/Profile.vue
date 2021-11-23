@@ -512,6 +512,52 @@ $content-max-width: 640px;
 	}
 }
 
+@media only screen and (max-width: 1024px) {
+	.profile {
+		&__header {
+			height: 250px;
+			position: unset;
+
+			&__container {
+				grid-template-columns: unset;
+
+				&__displayname {
+					margin: 100px 20px 0px;
+					width: unset;
+					display: unset;
+					text-align: center;
+				}
+
+				&__edit-button {
+					width: fit-content;
+					display: block;
+					margin: 30px auto;
+				}
+			}
+		}
+
+		&__content {
+			display: block;
+		}
+
+		&__blocks {
+			width: unset;
+			max-width: 600px;
+			margin: 0 auto;
+			padding: 20px 50px 50px 50px;
+
+			&-empty-info {
+				margin: 0;
+			}
+		}
+
+		&__sidebar {
+			margin: unset;
+			position: unset;
+		}
+	}
+}
+
 .user-actions {
 	display: flex;
 	flex-direction: column;
