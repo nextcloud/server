@@ -53,6 +53,16 @@ import { PROFILE_READABLE_ENUM } from '../../../constants/AccountPropertyConstan
 const { profileConfig } = loadState('settings', 'profileParameters', {})
 const { profileEnabled } = loadState('settings', 'personalInfoParameters', false)
 
+const compareParams = (a, b) => {
+	if (a.appId === b.appId || (a.appId !== 'core' && b.appId !== 'core')) {
+		return a.displayId.localeCompare(b.displayId)
+	} else if (a.appId === 'core') {
+		return 1
+	} else {
+		return -1
+	}
+}
+
 export default {
 	name: 'ProfileVisibilitySection',
 
@@ -67,7 +77,7 @@ export default {
 			profileEnabled,
 			visibilityParams: Object.entries(profileConfig)
 				.map(([paramId, { appId, displayId, visibility }]) => ({ id: paramId, appId, displayId, visibility }))
-				.sort((a, b) => a.appId === b.appId ? a.displayId.localeCompare(b.displayId) : (a.appId !== 'core' ? -1 : 1)),
+				.sort(compareParams),
 			// TODO remove this when not used once the settings layout is updated
 			marginLeft: window.getComputedStyle(document.getElementById('personal-settings-avatar-container')).getPropertyValue('width').trim(),
 		}
