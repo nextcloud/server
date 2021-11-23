@@ -696,6 +696,7 @@ class AccessTest extends TestCase {
 			['debo rah', 'debo_rah'],
 			['epost@poste.test', 'epost@poste.test'],
 			['fränk', 'frank'],
+			[' UPPÉR Case/[\]^`', 'UPPER_Case'],
 			[' gerda ', 'gerda'],
 			['🕱🐵🐘🐑', null],
 			[

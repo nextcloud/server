@@ -1437,9 +1437,9 @@ class Access extends LDAPUtility {
 		$name = htmlentities($name, ENT_NOQUOTES, 'UTF-8');
 
 		// Remove accents
-		$name = preg_replace('#&([A-za-z])(?:acute|cedil|caron|circ|grave|orn|ring|slash|th|tilde|uml);#', '\1', $name);
+		$name = preg_replace('#&([A-Za-z])(?:acute|cedil|caron|circ|grave|orn|ring|slash|th|tilde|uml);#', '\1', $name);
 		// Remove ligatures
-		$name = preg_replace('#&([A-za-z]{2})(?:lig);#', '\1', $name);
+		$name = preg_replace('#&([A-Za-z]{2})(?:lig);#', '\1', $name);
 		// Remove unknown leftover entities
 		$name = preg_replace('#&[^;]+;#', '', $name);
 
