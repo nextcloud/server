@@ -129,7 +129,7 @@ describe('OCA.Trashbin.FileList tests', function () {
 	describe('Initialization', function () {
 		it('Sorts by mtime by default', function () {
 			expect(fileList._sort).toEqual('mtime');
-			expect(fileList._sortDirection).toEqual('asc');
+			expect(fileList._sortDirection).toEqual('desc');
 		});
 		it('Always returns read and delete permission', function () {
 			expect(fileList.getDirectoryPermissions()).toEqual(OC.PERMISSION_READ | OC.PERMISSION_DELETE);
