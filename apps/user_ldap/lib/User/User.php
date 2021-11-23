@@ -73,7 +73,7 @@ class User {
 	/**
 	 * @var LoggerInterface
 	 */
-	private $logger;
+	protected $logger;
 	/**
 	 * @var IAvatarManager
 	 */
