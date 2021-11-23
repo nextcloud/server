@@ -752,7 +752,7 @@ class OC_Util {
 			if (!is_writable(OC::$configDir) or !is_readable(OC::$configDir)) {
 				$errors[] = [
 					'error' => $l->t('Cannot write into "config" directory'),
-					'hint' => $l->t('This can usually be fixed by giving the webserver write access to the config directory. See %s',
+					'hint' => $l->t('This can usually be fixed by giving the web server write access to the config directory. See %s',
 						[ $urlGenerator->linkToDocs('admin-dir_permissions') ]) . '. '
 						. $l->t('Or, if you prefer to keep config.php file read only, set the option "config_is_read_only" to true in it. See %s',
 						[ $urlGenerator->linkToDocs('admin-config') ])
@@ -768,7 +768,7 @@ class OC_Util {
 			) {
 				$errors[] = [
 					'error' => $l->t('Cannot write into "apps" directory'),
-					'hint' => $l->t('This can usually be fixed by giving the webserver write access to the apps directory'
+					'hint' => $l->t('This can usually be fixed by giving the web server write access to the apps directory'
 						. ' or disabling the App Store in the config file.')
 				];
 			}
@@ -782,7 +782,7 @@ class OC_Util {
 				} else {
 					$errors[] = [
 						'error' => $l->t('Cannot create "data" directory'),
-						'hint' => $l->t('This can usually be fixed by giving the webserver write access to the root directory. See %s',
+						'hint' => $l->t('This can usually be fixed by giving the web server write access to the root directory. See %s',
 							[$urlGenerator->linkToDocs('admin-dir_permissions')])
 					];
 				}
@@ -791,7 +791,7 @@ class OC_Util {
 				$testFile = sprintf('%s/%s.tmp', $CONFIG_DATADIRECTORY, uniqid('data_dir_writability_test_'));
 				$handle = fopen($testFile, 'w');
 				if (!$handle || fwrite($handle, 'Test write operation') === false) {
-					$permissionsHint = $l->t('Permissions can usually be fixed by giving the webserver write access to the root directory. See %s.',
+					$permissionsHint = $l->t('Permissions can usually be fixed by giving the web server write access to the root directory. See %s.',
 						[$urlGenerator->linkToDocs('admin-dir_permissions')]);
 					$errors[] = [
 						'error' => 'Your data directory is not writable',
@@ -811,7 +811,7 @@ class OC_Util {
 				'error' => $l->t('Setting locale to %s failed',
 					['en_US.UTF-8/fr_FR.UTF-8/es_ES.UTF-8/de_DE.UTF-8/ru_RU.UTF-8/'
 						. 'pt_BR.UTF-8/it_IT.UTF-8/ja_JP.UTF-8/zh_CN.UTF-8']),
-				'hint' => $l->t('Please install one of these locales on your system and restart your webserver.')
+				'hint' => $l->t('Please install one of these locales on your system and restart your web server.')
 			];
 		}
 
@@ -1179,7 +1179,7 @@ class OC_Util {
 		$fp = @fopen($testFile, 'w');
 		if (!$fp) {
 			throw new \OCP\HintException('Can\'t create test file to check for working .htaccess file.',
-				'Make sure it is possible for the webserver to write to ' . $testFile);
+				'Make sure it is possible for the web server to write to ' . $testFile);
 		}
 		fwrite($fp, $testContent);
 		fclose($fp);
