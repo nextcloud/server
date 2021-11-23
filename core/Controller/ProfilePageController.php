@@ -127,13 +127,15 @@ class ProfilePageController extends Controller {
 			}
 		}
 
-		$userStatuses = $this->userStatusManager->getUserStatuses([$targetUserId]);
-		$status = $userStatuses[$targetUserId] ?? null;
-		if ($status !== null) {
-			$this->initialStateService->provideInitialState('status', [
-				'icon' => $status->getIcon(),
-				'message' => $status->getMessage(),
-			]);
+		if ($visitingUser !== null) {
+			$userStatuses = $this->userStatusManager->getUserStatuses([$targetUserId]);
+			$status = $userStatuses[$targetUserId] ?? null;
+			if ($status !== null) {
+				$this->initialStateService->provideInitialState('status', [
+					'icon' => $status->getIcon(),
+					'message' => $status->getMessage(),
+				]);
+			}
 		}
 
 		$this->initialStateService->provideInitialState(
