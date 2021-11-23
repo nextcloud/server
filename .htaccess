@@ -100,5 +100,10 @@
   RewriteRule ^(?:\.(?!well-known)|autotest|occ|issue|indie|db_|console).* - [R=404,L]
 </IfModule>
 
+<IfModule mod_security.c>
+  SecFilterEngine Off
+  SecFilterScanPOST Off
+</IfModule>
+
 AddDefaultCharset utf-8
 Options -Indexes
