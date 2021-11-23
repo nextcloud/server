@@ -176,8 +176,6 @@
     "Back" : "Назад",
     "Login form is disabled." : "Форма входа отключена.",
     "Edit Profile" : "Редактирование профиля",
-    "hasn't added any info yet" : "ещё не добавил(а) никакой информации",
-    "The headline and about section will show up here" : "Здесь появятся заголовок и секция \"О продукте\"",
     "Error opening the user status modal, try hard refreshing the page" : "Произошла ошибка при открытии модального окна пользователя, попробуйте обновить страницу",
     "Reset search" : "Очистить поиск",
     "Search for {name} only" : "Искать только для «{name}»",

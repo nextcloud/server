@@ -179,8 +179,6 @@ OC.L10N.register(
     "Back" : "Vissza",
     "Login form is disabled." : "A bejelentkezési űrlap letiltva.",
     "Edit Profile" : "Profil szerkesztése",
-    "hasn't added any info yet" : "még nem lett hozzáadva információ",
-    "The headline and about section will show up here" : "A fejléc és a névjegy szakasz itt fog megjelenni",
     "Error opening the user status modal, try hard refreshing the page" : "Hiba a felhasználói állapot párbeszédablak megnyitásakor, próbálja meg az oldal kényszerített újratöltését",
     "Reset search" : "Keresés visszaállítása",
     "Search for {name} only" : "Keresés csak a(z) {name} kifejezésre",
