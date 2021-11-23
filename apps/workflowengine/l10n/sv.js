@@ -24,6 +24,7 @@ OC.L10N.register(
     "%s created %s" : "%s skapad %s",
     "%s modified %s" : "%s ändrad %s",
     "%s deleted %s" : "%s raderad %s",
+    "%s accessed %s" : "%s öppnade %s",
     "%s renamed %s" : "%s omdöpt %s",
     "%s copied %s" : "%s kopierad %s",
     "%s assigned %s to %s" : "%s tilldelad %s till %s",

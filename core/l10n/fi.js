@@ -143,7 +143,6 @@ OC.L10N.register(
     "Back" : "Takaisin",
     "Login form is disabled." : "Kirjautumislomake on poistettu käytöstä.",
     "Edit Profile" : "Muokkaa profiilia",
-    "hasn't added any info yet" : "ei ole lisättyjä tietoja",
     "Reset search" : "Tyhjennä haku",
     "Search for {name} only" : "Etsi vain {name}",
     "No results for {query}" : "Ei tuloksia haulle {query}",
