@@ -100,7 +100,7 @@ interface ISchemaWrapper {
 	 * @return AbstractPlatform
 	 *
 	 * @throws Exception
-	 * @since 23.0.0
+	 * @since 21.0.8
 	 */
 	public function getDatabasePlatform();
 }
