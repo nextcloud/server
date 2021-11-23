@@ -78,6 +78,7 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 	$application->add(new OC\Core\Command\App\GetPath());
 	$application->add(new OC\Core\Command\App\ListApps(\OC::$server->getAppManager()));
 	$application->add(new OC\Core\Command\App\Remove(\OC::$server->getAppManager(), \OC::$server->query(\OC\Installer::class), \OC::$server->get(LoggerInterface::class)));
+	$application->add(new OC\Core\Command\App\Rollout(\OC::$server->getAppManager()));
 	$application->add(\OC::$server->query(\OC\Core\Command\App\Update::class));
 
 	$application->add(\OC::$server->query(\OC\Core\Command\TwoFactorAuth\Cleanup::class));
