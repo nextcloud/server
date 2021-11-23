@@ -64,7 +64,6 @@ class ComposerStaticInitUser_LDAP
         'OCA\\User_LDAP\\LDAPProvider' => __DIR__ . '/..' . '/../lib/LDAPProvider.php',
         'OCA\\User_LDAP\\LDAPProviderFactory' => __DIR__ . '/..' . '/../lib/LDAPProviderFactory.php',
         'OCA\\User_LDAP\\LDAPUtility' => __DIR__ . '/..' . '/../lib/LDAPUtility.php',
-        'OCA\\User_LDAP\\LogWrapper' => __DIR__ . '/..' . '/../lib/LogWrapper.php',
         'OCA\\User_LDAP\\Mapping\\AbstractMapping' => __DIR__ . '/..' . '/../lib/Mapping/AbstractMapping.php',
         'OCA\\User_LDAP\\Mapping\\GroupMapping' => __DIR__ . '/..' . '/../lib/Mapping/GroupMapping.php',
         'OCA\\User_LDAP\\Mapping\\UserMapping' => __DIR__ . '/..' . '/../lib/Mapping/UserMapping.php',
