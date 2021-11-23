@@ -179,8 +179,6 @@ OC.L10N.register(
     "Back" : "Voltar",
     "Login form is disabled." : "O formulário de login está desativado.",
     "Edit Profile" : "Editar Perfil ",
-    "hasn't added any info yet" : "ainda não adicionou nenhuma informação ",
-    "The headline and about section will show up here" : "O título e a seção sobre aparecerão aqui",
     "Error opening the user status modal, try hard refreshing the page" : "Erro ao abrir o modal de status do usuário, tente atualizar a página",
     "Reset search" : "Redefinir pesquisa",
     "Search for {name} only" : "Pesquisar somente por {nome}",
