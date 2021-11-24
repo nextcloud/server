@@ -235,10 +235,7 @@ class MailPlugin implements ISearchPlugin {
 		}
 
 		$reachedEnd = true;
-		if (!$this->shareeEnumeration) {
-			$result['wide'] = [];
-			$userResults['wide'] = [];
-		} else {
+		if ($this->shareeEnumeration) {
 			$reachedEnd = (count($result['wide']) < $offset + $limit) &&
 				(count($userResults['wide']) < $offset + $limit);
 
