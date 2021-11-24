@@ -139,6 +139,9 @@ class QuerySearchHelper {
 			$query->andWhere($searchExpr);
 		}
 
+		// exclude entries from the hidden folder in the user storage
+		$query->andWhere($query->expr()->notLike('path', $query->createNamedParameter('files/hidden_' . \OC_Util::getInstanceId() . '%')));
+
 		$this->searchBuilder->addSearchOrdersToQuery($query, $searchQuery->getOrder());
 
 		if ($searchQuery->getLimit()) {

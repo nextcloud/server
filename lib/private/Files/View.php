@@ -1665,9 +1665,16 @@ class View {
 				}
 			}
 
+			$hiddenFolder = 'hidden_' . \OC_Util::getInstanceId();
 			$mounts = Filesystem::getMountManager()->findIn($this->fakeRoot);
 			foreach ($mounts as $mount) {
 				$mountPoint = $mount->getMountPoint();
+
+				// don't search in mounts inside the hidden folder
+				if (strpos($mountPoint, '/' . $hiddenFolder .'/') !== false) {
+					continue;
+				}
+
 				$storage = $mount->getStorage();
 				if ($storage) {
 					$cache = $storage->getCache('');

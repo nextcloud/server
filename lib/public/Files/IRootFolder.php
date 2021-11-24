@@ -55,4 +55,22 @@ interface IRootFolder extends Folder, Emitter {
 	 * @since 24.0.0
 	 */
 	public function getByIdInPath(int $id, string $path);
+
+	/**
+	 * Returns a hidden files directory
+	 *
+	 * This directory can be used to place files hidden for user,
+	 * but still usable through most normal api as it is still inside the user folder
+	 *
+	 * Note that an experienced user can still browser this folder if they manually navigate into it.
+	 * Do not rely on it being hidden for security purposes
+	 *
+	 * @param string $userId user ID
+	 * @return \OCP\Files\Folder
+	 * @throws NoUserException
+	 * @throws NotPermittedException
+	 *
+	 * @since 24.0.0
+	 */
+	public function getHiddenUserFolder($userId);
 }

@@ -250,8 +250,14 @@ class Folder extends Node implements \OCP\Files\Folder {
 		$mountByMountPoint = ['' => $mount];
 
 		if (!$limitToHome) {
+			$hiddenFolder = 'hidden_' . \OC_Util::getInstanceId();
 			$mounts = $this->root->getMountsIn($this->path);
 			foreach ($mounts as $mount) {
+				// don't search in mounts inside the hidden folder
+				if (strpos($mount->getMountPoint(), '/' . $hiddenFolder .'/') !== false) {
+					continue;
+				}
+
 				$storage = $mount->getStorage();
 				if ($storage) {
 					$relativeMountPoint = ltrim(substr($mount->getMountPoint(), $rootLength), '/');

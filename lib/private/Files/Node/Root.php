@@ -404,6 +404,20 @@ class Root extends Folder implements IRootFolder {
 		return $this->userFolderCache->get($userId);
 	}
 
+	public function getHiddenUserFolder($userId) {
+		$userFolder = $this->getUserFolder($userId);
+		$hiddenName = 'hidden_' . \OC_Util::getInstanceId();
+		try {
+			return $userFolder->get($hiddenName);
+		} catch (NotFoundException $e) {
+			return $userFolder->newFolder($hiddenName);
+		}
+	}
+
+	public function clearCache() {
+		$this->userFolderCache = new CappedMemoryCache();
+	}
+
 	public function getUserMountCache() {
 		return $this->userMountCache;
 	}
