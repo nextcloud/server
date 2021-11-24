@@ -859,6 +859,9 @@ class Cache implements ICache {
 			$query->andWhere($searchExpr);
 		}
 
+		// exclude entries from the hidden folder in the user storage
+		$query->andWhere($query->expr()->notLike('path', $query->createNamedParameter('files/hidden_' . \OC_Util::getInstanceId() . '%')));
+
 		if ($searchQuery->limitToHome() && ($this instanceof HomeCache)) {
 			$query->andWhere($builder->expr()->like('path', $query->expr()->literal('files/%')));
 		}
