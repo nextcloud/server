@@ -346,9 +346,21 @@ class StatusService {
 	 * @param string $userId
 	 * @return bool
 	 */
-	public function removeUserStatus(string $userId, bool $isBackup = false): bool {
+	public function removeUserStatus(string $userId): bool {
 		try {
-			$userStatus = $this->mapper->findByUserId($userId, $isBackup);
+			$userStatus = $this->mapper->findByUserId($userId, false);
+		} catch (DoesNotExistException $ex) {
+			// if there is no status to remove, just return
+			return false;
+		}
+
+		$this->mapper->delete($userStatus);
+		return true;
+	}
+
+	public function removeBackupUserStatus(string $userId): bool {
+		try {
+			$userStatus = $this->mapper->findByUserId($userId, true);
 		} catch (DoesNotExistException $ex) {
 			// if there is no status to remove, just return
 			return false;
@@ -448,20 +460,12 @@ class StatusService {
 		return true;
 	}
 
-	public function revertUserStatus(string $userId, string $messageId, string $status): void {
+	public function revertUserStatus(string $userId, ?string $messageId, string $status): void {
 		try {
 			/** @var UserStatus $userStatus */
 			$backupUserStatus = $this->mapper->findByUserId($userId, true);
 		} catch (DoesNotExistException $ex) {
-			// No backup, just move back to available
-			try {
-				$userStatus = $this->mapper->findByUserId($userId);
-			} catch (DoesNotExistException $ex) {
-				// No backup nor current status => ignore
-				return;
-			}
-			$this->cleanStatus($userStatus);
-			$this->cleanStatusMessage($userStatus);
+			// No user status to revert, do nothing
 			return;
 		}
 		try {
