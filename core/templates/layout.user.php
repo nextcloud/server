@@ -18,6 +18,7 @@ $getUserAvatar = static function (int $size) use ($_): string {
 		<meta charset="utf-8">
 		<title>
 			<?php
+				p(!empty($_['pageTitle'])?$_['pageTitle'].' - ':'');
 				p(!empty($_['application'])?$_['application'].' - ':'');
 				p($theme->getTitle());
 			?>

@@ -145,6 +145,13 @@ class Manager implements IManager {
 		return $this->sections[$type];
 	}
 
+	public function getSection(string $type, string $sectionId): ?IIconSection {
+		if (isset($this->sections[$type]) && isset($this->sections[$type][$sectionId])) {
+			return $this->sections[$type][$sectionId];
+		}
+		return null;
+	}
+
 	protected function isKnownDuplicateSectionId(string $sectionID): bool {
 		return in_array($sectionID, [
 			'connected-accounts',
