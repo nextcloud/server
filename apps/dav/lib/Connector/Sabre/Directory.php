@@ -33,6 +33,7 @@
 
 namespace OCA\DAV\Connector\Sabre;
 
+use OC\Files\Filesystem;
 use OC\Files\Mount\MoveableMount;
 use OC\Files\View;
 use OCA\DAV\Connector\Sabre\Exception\FileLocked;
@@ -267,7 +268,7 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node implements \Sabre\DAV\ICol
 			throw new Locked();
 		}
 
-		$hiddenName = 'hidden_' . \OC_Util::getInstanceId();
+		$hiddenName = Filesystem::getHiddenFolderName();
 
 		$nodes = [];
 		foreach ($folderContent as $info) {

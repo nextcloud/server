@@ -40,6 +40,7 @@ namespace OC\Files\Cache;
 
 use Doctrine\DBAL\Driver\Statement;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+use OC\Files\Filesystem;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Cache\CacheEntryInsertedEvent;
@@ -860,7 +861,7 @@ class Cache implements ICache {
 		}
 
 		// exclude entries from the hidden folder in the user storage
-		$query->andWhere($query->expr()->notLike('path', $query->createNamedParameter('files/hidden_' . \OC_Util::getInstanceId() . '%')));
+		$query->andWhere($query->expr()->notLike('path', $query->createNamedParameter('files/' . Filesystem::getHiddenFolderName() . '%')));
 
 		if ($searchQuery->limitToHome() && ($this instanceof HomeCache)) {
 			$query->andWhere($builder->expr()->like('path', $query->expr()->literal('files/%')));

@@ -33,6 +33,8 @@
 namespace OC\Files\Node;
 
 use OC\Cache\CappedMemoryCache;
+use OC\Files\FileInfo;
+use OC\Files\Filesystem;
 use OC\Files\Mount\Manager;
 use OC\Files\Mount\MountPoint;
 use OC\Hooks\PublicEmitter;
@@ -395,7 +397,7 @@ class Root extends Folder implements IRootFolder {
 
 	public function getHiddenUserFolder($userId) {
 		$userFolder = $this->getUserFolder($userId);
-		$hiddenName = 'hidden_' . \OC_Util::getInstanceId();
+		$hiddenName = Filesystem::getHiddenFolderName();
 		try {
 			return $userFolder->get($hiddenName);
 		} catch (NotFoundException $e) {

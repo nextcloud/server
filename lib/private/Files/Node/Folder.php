@@ -33,6 +33,7 @@ namespace OC\Files\Node;
 
 use OC\DB\QueryBuilder\Literal;
 use OC\Files\Cache\CacheEntry;
+use OC\Files\Filesystem;
 use OC\Files\Search\SearchBinaryOperator;
 use OC\Files\Search\SearchComparison;
 use OC\Files\Search\SearchQuery;
@@ -283,7 +284,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 		}
 
 		if (!$limitToHome) {
-			$hiddenFolder = 'hidden_' . \OC_Util::getInstanceId();
+			$hiddenFolder = Filesystem::getHiddenFolderName();
 			$mounts = $this->root->getMountsIn($this->path);
 			foreach ($mounts as $mount) {
 				// don't search in mounts inside the hidden folder
