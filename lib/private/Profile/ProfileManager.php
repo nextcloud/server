@@ -425,6 +425,7 @@ class ProfileManager {
 		];
 
 		$paramMetadata = array_merge($actionsMetadata, $propertiesMetadata);
+		$configArray = array_intersect_key($configArray, $paramMetadata);
 
 		foreach ($configArray as $paramId => $paramConfig) {
 			if (isset($paramMetadata[$paramId])) {
