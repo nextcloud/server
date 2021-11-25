@@ -129,8 +129,12 @@ abstract class AbstractMappingTest extends \Test\TestCase {
 		list($mapper, $data) = $this->initTest();
 
 		foreach ($data as $entry) {
+			$fdnBefore = $mapper->getDNByName($entry['name']);
 			$result = $mapper->unmap($entry['name']);
+			$fdnAfter = $mapper->getDNByName($entry['name']);
 			$this->assertTrue($result);
+			$this->assertSame($fdnBefore, $entry['dn']);
+			$this->assertFalse($fdnAfter);
 		}
 
 		$result = $mapper->unmap('notAnEntry');
