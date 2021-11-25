@@ -608,3 +608,12 @@ Feature: webdav-related
 		And user "user0" uploads new chunk file "3" with "CCCCC" to id "chunking-42"
 		When user "user0" moves new chunk file with id "chunking-42" to "/myChunkedFile.txt" with size 15
 		Then the HTTP status code should be "201"
+
+	Scenario: Creating a folder with invalid characters
+		Given using new dav path
+		And As an "admin"
+		And user "user0" exists
+		And user "user1" exists
+		And As an "user1"
+		And user "user1" created a folder "/testshare	"
+		Then the HTTP status code should be "400"
