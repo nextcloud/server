@@ -380,7 +380,7 @@ $content-max-width: 640px;
 				width: max-content;
 				max-width: $content-max-width;
 				padding: 5px 10px;
-				margin-left: -14px;
+				margin-left: -12px;
 				margin-top: 2px;
 
 				&.interactive {
