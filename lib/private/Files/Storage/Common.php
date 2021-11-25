@@ -554,8 +554,8 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 	 * @throws InvalidPathException
 	 */
 	protected function verifyPosixPath($fileName) {
-		$fileName = trim($fileName);
 		$this->scanForInvalidCharacters($fileName, "\\/");
+		$fileName = trim($fileName);
 		$reservedNames = ['*'];
 		if (in_array($fileName, $reservedNames)) {
 			throw new ReservedWordException();
