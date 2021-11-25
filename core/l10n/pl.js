@@ -427,6 +427,6 @@ OC.L10N.register(
     "Can't install this app because it is not compatible" : "Nie można zainstalować tej aplikacji, ponieważ nie jest kompatybilna",
     "Can't install this app" : "Nie można zainstalować tej aplikacji",
     "Checking for update of app \"%s\" in App Store" : "Sprawdzanie aktualizacji dla aplikacji \"%s\" w sklepie z aplikacjami",
-    "Checked for update of app \"%s\" in App Store" : "Sprawdzono aktualizacje dla aplikacji \"%s\" w sklepie z aplikacjami"
+    "Checked for update of app \"%s\" in App Store" : "Sprawdzono aktualizację dla aplikacji \"%s\" w sklepie z aplikacjami"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

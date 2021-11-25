@@ -38,6 +38,7 @@
     "Settings" : "الإعدادات",
     "Log out" : "الخروج",
     "Users" : "المستخدمين",
+    "Full name" : "الاسم الكامل",
     "Unknown user" : "المستخدم غير معروف",
     "Additional settings" : "الإعدادات المتقدمة",
     "%s enter the database username and name." : "%s أدخِل اسم قاعدة البيانات واسم مستخدمها.",
