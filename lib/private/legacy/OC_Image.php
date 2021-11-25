@@ -924,6 +924,10 @@ class OC_Image implements \OCP\IImage {
 	 * @return resource|bool|\GdImage
 	 */
 	public function preciseResizeNew(int $width, int $height) {
+		if (!($width > 0) || !($height > 0)) {
+			$this->logger->info(__METHOD__ . '(): Requested image size not bigger than 0', ['app' => 'core']);
+			return false;
+		}
 		if (!$this->valid()) {
 			$this->logger->error(__METHOD__ . '(): No image loaded', ['app' => 'core']);
 			return false;
