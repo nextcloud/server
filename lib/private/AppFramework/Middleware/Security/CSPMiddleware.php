@@ -74,6 +74,12 @@ class CSPMiddleware extends Middleware {
 		if ($this->cspNonceManager->browserSupportsCspV3()) {
 			$defaultPolicy->useJsNonce($this->csrfTokenManager->getToken()->getEncryptedValue());
 		}
+		
+		if (count($defaultPolicy->getAllowedWorkerSrcDomains()) > 0 && (preg_match("/Safari/S", $_SERVER['HTTP_USER_AGENT']) === 1 || preg_match("/iOS/S", $_SERVER['HTTP_USER_AGENT']) === 1)) {
+			$safariPolicy = $this->contentSecurityPolicyManager->getDefaultPolicy();
+			$safariPolicy->setAllowedChildSrcDomains($defaultPolicy->getAllowedWorkerSrcDomains());
+			$defaultPolicy = $this->contentSecurityPolicyManager->mergePolicies($defaultPolicy, $safariPolicy);
+		}
 
 		$response->setContentSecurityPolicy($defaultPolicy);
 
