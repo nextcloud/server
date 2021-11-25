@@ -619,3 +619,12 @@ Feature: webdav-related
 		And Downloaded content should be "BBBBB"
 		And Downloading file "/C.txt"
 		And Downloaded content should be "CCCCC"
+
+	Scenario: Creating a folder with invalid characters
+		Given using new dav path
+		And As an "admin"
+		And user "user0" exists
+		And user "user1" exists
+		And As an "user1"
+		And user "user1" created a folder "/testshare	"
+		Then the HTTP status code should be "400"
