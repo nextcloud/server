@@ -379,6 +379,11 @@ abstract class AbstractMapping {
 			DELETE FROM `' . $this->getTableName() . '`
 			WHERE `owncloud_name` = ?');
 
+		$dn = array_search($name, $this->cache);
+		if ($dn !== false) {
+			unset($this->cache[$dn]);
+		}
+
 		return $this->modify($statement, [$name]);
 	}
 
