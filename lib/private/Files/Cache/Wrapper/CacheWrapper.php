@@ -60,7 +60,7 @@ class CacheWrapper extends Cache {
 	 * Make it easy for wrappers to modify every returned cache entry
 	 *
 	 * @param ICacheEntry $entry
-	 * @return ICacheEntry
+	 * @return ICacheEntry|false
 	 */
 	protected function formatCacheEntry($entry) {
 		return $entry;
@@ -311,7 +311,8 @@ class CacheWrapper extends Cache {
 	public function getCacheEntryFromSearchResult(ICacheEntry $rawEntry): ?ICacheEntry {
 		$rawEntry = $this->getCache()->getCacheEntryFromSearchResult($rawEntry);
 		if ($rawEntry) {
-			return $this->formatCacheEntry(clone $rawEntry);
+			$entry = $this->formatCacheEntry(clone $rawEntry);
+			return $entry ?: null;
 		}
 
 		return null;

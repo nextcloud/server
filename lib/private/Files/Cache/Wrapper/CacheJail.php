@@ -328,7 +328,7 @@ class CacheJail extends CacheWrapper {
 		if ($rawEntry) {
 			$jailedPath = $this->getJailedPath($rawEntry->getPath());
 			if ($jailedPath !== null) {
-				return $this->formatCacheEntry(clone $rawEntry);
+				return $this->formatCacheEntry(clone $rawEntry) ?: null;
 			}
 		}
 
