@@ -458,7 +458,10 @@ trait WebDav {
 		try {
 			$this->response = $this->makeDavRequest($user, "PUT", $destination, [], $file);
 		} catch (\GuzzleHttp\Exception\ServerException $e) {
-			// 4xx and 5xx responses cause an exception
+			// 5xx responses cause a server exception
+			$this->response = $e->getResponse();
+		} catch (\GuzzleHttp\Exception\ClientException $e) {
+			// 4xx responses cause a client exception
 			$this->response = $e->getResponse();
 		}
 	}
@@ -487,7 +490,10 @@ trait WebDav {
 		try {
 			$this->response = $this->makeDavRequest($user, "PUT", $destination, [], $file);
 		} catch (\GuzzleHttp\Exception\ServerException $e) {
-			// 4xx and 5xx responses cause an exception
+			// 5xx responses cause a server exception
+			$this->response = $e->getResponse();
+		} catch (\GuzzleHttp\Exception\ClientException $e) {
+			// 4xx responses cause a client exception
 			$this->response = $e->getResponse();
 		}
 	}
@@ -502,7 +508,10 @@ trait WebDav {
 		try {
 			$this->response = $this->makeDavRequest($user, 'DELETE', $file, []);
 		} catch (\GuzzleHttp\Exception\ServerException $e) {
-			// 4xx and 5xx responses cause an exception
+			// 5xx responses cause a server exception
+			$this->response = $e->getResponse();
+		} catch (\GuzzleHttp\Exception\ClientException $e) {
+			// 4xx responses cause a client exception
 			$this->response = $e->getResponse();
 		}
 	}
@@ -517,7 +526,10 @@ trait WebDav {
 			$destination = '/' . ltrim($destination, '/');
 			$this->response = $this->makeDavRequest($user, "MKCOL", $destination, []);
 		} catch (\GuzzleHttp\Exception\ServerException $e) {
-			// 4xx and 5xx responses cause an exception
+			// 5xx responses cause a server exception
+			$this->response = $e->getResponse();
+		} catch (\GuzzleHttp\Exception\ClientException $e) {
+			// 4xx responses cause a client exception
 			$this->response = $e->getResponse();
 		}
 	}
@@ -639,8 +651,12 @@ trait WebDav {
 	public function downloadingFileAs($fileName, $user) {
 		try {
 			$this->response = $this->makeDavRequest($user, 'GET', $fileName, []);
-		} catch (\GuzzleHttp\Exception\ServerException $ex) {
-			$this->response = $ex->getResponse();
+		} catch (\GuzzleHttp\Exception\ServerException $e) {
+			// 5xx responses cause a server exception
+			$this->response = $e->getResponse();
+		} catch (\GuzzleHttp\Exception\ClientException $e) {
+			// 4xx responses cause a client exception
+			$this->response = $e->getResponse();
 		}
 	}
 
