@@ -794,4 +794,8 @@ class Filesystem {
 	public static function getETag($path) {
 		return self::$defaultInstance->getETag($path);
 	}
+
+	public static function getHiddenFolderName(): string {
+		return '.hidden_' . \OC_Util::getInstanceId();
+	}
 }

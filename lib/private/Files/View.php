@@ -1665,7 +1665,7 @@ class View {
 				}
 			}
 
-			$hiddenFolder = 'hidden_' . \OC_Util::getInstanceId();
+			$hiddenFolder = Filesystem::getHiddenFolderName();
 			$mounts = Filesystem::getMountManager()->findIn($this->fakeRoot);
 			foreach ($mounts as $mount) {
 				$mountPoint = $mount->getMountPoint();
