@@ -46,7 +46,7 @@ class RedisFactory {
 	}
 
 	private function create() {
-		$isCluster = in_array('redis.cluster', $this->config->getKeys());
+		$isCluster = in_array('redis.cluster', $this->config->getKeys(), true);
 		$config = $isCluster
 			? $this->config->getValue('redis.cluster', [])
 			: $this->config->getValue('redis', []);
