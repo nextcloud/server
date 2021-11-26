@@ -1932,3 +1932,30 @@ trigger:
   event:
     - pull_request
     - push
+
+---
+kind: pipeline
+name: memcache-memcached
+
+steps:
+- name: submodules
+  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
+  commands:
+    - git submodule update --init
+- name: memcache-memcached
+  image: nextcloudci/php7.3-memcached:php7.3-memcached-3
+  commands:
+    - phpenmod xdebug
+    - service memcached restart
+    - ./autotest.sh sqlite tests/lib/Memcache/MemcachedTest.php
+    - wget https://codecov.io/bash -O codecov.sh
+    - sh -c "if [ '$DRONE_BUILD_EVENT' = 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -P $DRONE_PULL_REQUEST -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5 -f tests/autotest-clover-sqlite.xml; fi"
+    - sh -c "if [ '$DRONE_BUILD_EVENT' != 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5 -f tests/autotest-clover-sqlite.xml; fi"
+
+trigger:
+  branch:
+    - master
+    - stable*
+  event:
+    - pull_request
+    - push
