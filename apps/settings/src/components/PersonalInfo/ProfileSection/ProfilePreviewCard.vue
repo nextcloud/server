@@ -105,8 +105,15 @@ export default {
 	font-weight: bold;
 	box-shadow: 0 2px 9px var(--color-box-shadow);
 
-	&:hover {
+	&:hover,
+	&:focus,
+	&:active {
 		box-shadow: 0 2px 12px var(--color-box-shadow);
+	}
+
+	&:focus-visible {
+		outline: var(--color-main-text) solid 1px;
+		outline-offset: 3px;
 	}
 
 	&.disabled {

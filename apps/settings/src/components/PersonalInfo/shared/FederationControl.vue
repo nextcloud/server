@@ -185,7 +185,9 @@ export default {
 	.federation-actions--additional {
 		opacity: 0.4 !important;
 
-		&:hover {
+		&:hover,
+		&:focus,
+		&:active {
 			opacity: 0.8 !important;
 		}
 	}

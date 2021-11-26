@@ -88,7 +88,9 @@ a {
 		margin-right: 8px;
 	}
 
-	&:hover {
+	&:hover,
+	&:focus,
+	&:active {
 		opacity: 0.8;
 		background-color: rgba(127, 127, 127, .25);
 	}
