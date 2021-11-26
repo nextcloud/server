@@ -364,7 +364,9 @@ $content-max-width: 640px;
 				line-height: 44px;
 				font-weight: bold;
 
-				&:hover {
+				&:hover,
+				&:focus,
+				&:active {
 					color: var(--color-primary-text);
 					background-color: var(--color-primary-element-light);
 				}
@@ -386,7 +388,9 @@ $content-max-width: 640px;
 				&.interactive {
 					cursor: pointer;
 
-					&:hover {
+					&:hover,
+					&:focus,
+					&:active {
 						background-color: var(--color-main-background);
 						color: var(--color-main-text);
 						border-radius: var(--border-radius-pill);
@@ -438,7 +442,9 @@ $content-max-width: 640px;
 			.avatardiv__user-status {
 				cursor: pointer;
 
-				&:hover {
+				&:hover,
+				&:focus,
+				&:active {
 					box-shadow: 0 3px 6px var(--color-box-shadow);
 				}
 			}
