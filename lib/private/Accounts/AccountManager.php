@@ -343,6 +343,10 @@ class AccountManager implements IAccountManager {
 	}
 
 	public function searchUsers(string $property, array $values): array {
+		// the value col is limited to 255 bytes. It is used for searches only.
+		$values = array_map(function (string $value) {
+			return Util::shortenMultibyteString($value, 255);
+		}, $values);
 		$chunks = array_chunk($values, 500);
 		$query = $this->connection->getQueryBuilder();
 		$query->select('*')
@@ -625,8 +629,11 @@ class AccountManager implements IAccountManager {
 				continue;
 			}
 
+			// the value col is limited to 255 bytes. It is used for searches only.
+			$value = $property['value'] ? Util::shortenMultibyteString($property['value'],  255) : '';
+
 			$query->setParameter('name', $property['name'])
-				->setParameter('value', $property['value'] ?? '');
+				->setParameter('value', $value);
 			$query->executeStatement();
 		}
 	}
