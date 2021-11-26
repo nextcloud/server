@@ -334,7 +334,7 @@ class ContactsStore implements IContactsStore {
 			if (!empty($user)) {
 				$account = $this->accountManager->getAccount($user);
 				if ($this->isProfileEnabled($account)) {
-					$entry->setProfileTitle($this->l10nFactory->get('core')->t('View profile'));
+					$entry->setProfileTitle($this->l10nFactory->get('lib')->t('View profile'));
 					$entry->setProfileUrl($this->urlGenerator->linkToRouteAbsolute('core.ProfilePage.index', ['targetUserId' => $targetUserId]));
 				}
 			}
