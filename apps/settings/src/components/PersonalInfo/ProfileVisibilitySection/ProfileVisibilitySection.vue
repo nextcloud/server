@@ -32,7 +32,11 @@
 			{{ t('settings', 'The more restrictive setting of either visibility or scope is respected on your Profile. For example, if visibility is set to "Show to everyone" and scope is set to "Private", "Private" is respected.') }}
 		</em>
 
-		<div class="visibility-dropdowns">
+		<div
+			class="visibility-dropdowns"
+			:style="{
+				gridTemplateRows: `repeat(${rows}, 44px)`,
+			}">
 			<VisibilityDropdown v-for="param in visibilityParams"
 				:key="param.id"
 				:param-id="param.id"
@@ -89,6 +93,10 @@ export default {
 		disabled() {
 			return !this.profileEnabled
 		},
+
+		rows() {
+			return Math.ceil(this.visibilityParams.length / 2)
+		},
 	},
 
 	mounted() {
@@ -137,7 +145,6 @@ section {
 
 	.visibility-dropdowns {
 		display: grid;
-		grid-template-rows: repeat(auto-fit, 44px);
 		gap: 10px 40px;
 	}
 
@@ -146,7 +153,6 @@ section {
 
 		.visibility-dropdowns {
 			grid-auto-flow: column;
-			height: 320px;
 		}
 	}
 
