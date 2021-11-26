@@ -1,7 +1,13 @@
 { "translations": {
     "Viewer" : "Visualizaira",
+    "Simple file viewer with slideshow for media" : "Visionador de fichièrs simples amb diaporama pels mèdias",
+    "Your browser does not support audio." : "Vòstre navigador pren pas encarga l’àudio.",
+    "Error loading {name}" : "Error en cargant {name}",
+    "Your browser does not support videos." : "Vòstre navigador pren pas encarga las vidèos.",
+    "Open sidebar" : "Dobrir panèl lateral",
     "Download" : "Telecargar",
     "Delete" : "Suprimir",
+    "There is no plugin available to display this file type" : "I a pas cap d’extension per afichar aqueste tipe de fichièr",
     "View" : "Vista"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }
