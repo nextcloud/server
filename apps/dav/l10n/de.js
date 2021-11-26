@@ -124,6 +124,7 @@ OC.L10N.register(
     "Availability" : "Verfügbarkeit",
     "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Wenn Du Deine Arbeitszeiten konfigurierst, können andere Benutzer sehen, wann Du nicht im Büro bist, wenn sie eine Besprechung buchen.",
     "Time zone:" : "Zeitzone:",
+    "to" : "an",
     "Delete slot" : "Slot löschen",
     "No working hours set" : "Keine Arbeitszeiten konfiguriert",
     "Add slot" : "Slot hinzufügen",
