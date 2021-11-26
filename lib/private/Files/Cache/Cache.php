@@ -588,7 +588,7 @@ class Cache implements ICache {
 			$query = $this->getQueryBuilder();
 			$query->delete('filecache_extended')
 				->where($query->expr()->in('fileid', $query->createParameter('childIds')));
-			
+
 			foreach (array_chunk($childIds, 1000) as $childIdChunk) {
 				$query->setParameter('childIds', $childIdChunk, IQueryBuilder::PARAM_INT_ARRAY);
 				$query->execute();
@@ -791,7 +791,7 @@ class Cache implements ICache {
 		}
 
 		$query = $this->getQueryBuilder();
-		$query->selectFileCache()
+		$query->selectFileCache('file', 'ignore index for order by (fs_mtime)')
 			->whereStorageId()
 			->andWhere($query->expr()->iLike('name', $query->createNamedParameter($pattern)));
 
@@ -848,7 +848,13 @@ class Cache implements ICache {
 	protected function buildSearchQuery(ISearchQuery $searchQuery): IQueryBuilder {
 		$builder = $this->getQueryBuilder();
 
-		$query = $builder->selectFileCache('file');
+		// mysql really likes to pick an index for sorting if it can't fully satisfy the where
+		// filter with an index, since search queries pretty much never are fully filtered by index
+		// mysql often picks an index for sorting instead of the *much* more useful index for filtering.
+		//
+		// To bypass this, we tell mysql explicitly not to use the mtime (the default order field) index,
+		// so it will instead pick an index that is actually useful.
+		$query = $builder->selectFileCache('file', 'ignore index for order by (fs_mtime)');
 
 		$query->whereStorageId();
 
