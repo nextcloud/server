@@ -310,4 +310,11 @@ class UtilTest extends \Test\TestCase {
 			'myApp/vendor/myFancyCSSFile2',
 		], \OC_Util::$styles);
 	}
+
+	public function testShortenMultibyteString() {
+		$this->assertEquals('Short nuff', \OCP\Util::shortenMultibyteString('Short nuff', 255));
+		$this->assertEquals('ABC', \OCP\Util::shortenMultibyteString('ABCDEF', 3));
+		// each of the characters is 12 bytes
+		$this->assertEquals('🙈', \OCP\Util::shortenMultibyteString('🙈🙊🙉', 16, 2));
+	}
 }
