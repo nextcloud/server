@@ -1187,6 +1187,107 @@ class ShareByMailProviderTest extends TestCase {
 				'OwnerUser',
 				'john@doe.com',
 				null,
+				''
+			]);
+	}
+
+	public function testSendMailNotificationWithSameUserAndUserEmailAndNote() {
+		$provider = $this->getInstance();
+		$user = $this->createMock(IUser::class);
+		$this->settingsManager->expects($this->any())->method('replyToInitiator')->willReturn(true);
+		$this->userManager
+			->expects($this->once())
+			->method('get')
+			->with('OwnerUser')
+			->willReturn($user);
+		$user
+			->expects($this->once())
+			->method('getDisplayName')
+			->willReturn('Mrs. Owner User');
+		$message = $this->createMock(Message::class);
+		$this->mailer
+			->expects($this->once())
+			->method('createMessage')
+			->willReturn($message);
+		$template = $this->createMock(IEMailTemplate::class);
+		$this->mailer
+			->expects($this->once())
+			->method('createEMailTemplate')
+			->willReturn($template);
+		$template
+			->expects($this->once())
+			->method('addHeader');
+		$template
+			->expects($this->once())
+			->method('addHeading')
+			->with('Mrs. Owner User shared »file.txt« with you');
+		$template
+			->expects($this->exactly(2))
+			->method('addBodyText')
+			->withConsecutive(
+				['This is a note to the recipient', 'This is a note to the recipient'],
+				['Mrs. Owner User shared »file.txt« with you. Click the button below to open it.', 'Mrs. Owner User shared »file.txt« with you.'],
+			);
+		$template
+			->expects($this->once())
+			->method('addBodyButton')
+			->with(
+				'Open »file.txt«',
+				'https://example.com/file.txt'
+			);
+		$message
+			->expects($this->once())
+			->method('setTo')
+			->with(['john@doe.com']);
+		$this->defaults
+			->expects($this->once())
+			->method('getName')
+			->willReturn('UnitTestCloud');
+		$message
+			->expects($this->once())
+			->method('setFrom')
+			->with([
+				\OCP\Util::getDefaultEmailAddress('UnitTestCloud') => 'Mrs. Owner User via UnitTestCloud'
+			]);
+		$user
+			->expects($this->once())
+			->method('getEMailAddress')
+			->willReturn('owner@example.com');
+		$message
+			->expects($this->once())
+			->method('setReplyTo')
+			->with(['owner@example.com' => 'Mrs. Owner User']);
+		$this->defaults
+			->expects($this->exactly(2))
+			->method('getSlogan')
+			->willReturn('Testing like 1990');
+		$template
+			->expects($this->once())
+			->method('addFooter')
+			->with('UnitTestCloud - Testing like 1990');
+		$template
+			->expects($this->once())
+			->method('setSubject')
+			->with('Mrs. Owner User shared »file.txt« with you');
+		$message
+			->expects($this->once())
+			->method('useTemplate')
+			->with($template);
+		$this->mailer
+			->expects($this->once())
+			->method('send')
+			->with($message);
+
+		self::invokePrivate(
+			$provider,
+			'sendMailNotification',
+			[
+				'file.txt',
+				'https://example.com/file.txt',
+				'OwnerUser',
+				'john@doe.com',
+				null,
+				'This is a note to the recipient'
 			]);
 	}
 

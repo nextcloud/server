@@ -852,7 +852,8 @@ class Manager implements IManager {
 							$this->urlGenerator->linkToRouteAbsolute('files_sharing.Accept.accept', ['shareId' => $share->getFullId()]),
 							$share->getSharedBy(),
 							$emailAddress,
-							$share->getExpirationDate()
+							$share->getExpirationDate(),
+							$share->getNote()
 						);
 						$this->logger->debug('Sent share notification to ' . $emailAddress . ' for share with ID ' . $share->getId(), ['app' => 'share']);
 					} else {
@@ -886,7 +887,8 @@ class Manager implements IManager {
 											$link,
 											$initiator,
 											$shareWith,
-											\DateTime $expiration = null) {
+											\DateTime $expiration = null,
+											$note = '') {
 		$initiatorUser = $this->userManager->get($initiator);
 		$initiatorDisplayName = ($initiatorUser instanceof IUser) ? $initiatorUser->getDisplayName() : $initiator;
 
@@ -904,6 +906,10 @@ class Manager implements IManager {
 		$emailTemplate->addHeader();
 		$emailTemplate->addHeading($l->t('%1$s shared »%2$s« with you', [$initiatorDisplayName, $filename]), false);
 		$text = $l->t('%1$s shared »%2$s« with you.', [$initiatorDisplayName, $filename]);
+
+		if ($note !== '') {
+			$emailTemplate->addBodyText(htmlspecialchars($note), $note);
+		}
 
 		$emailTemplate->addBodyText(
 			htmlspecialchars($text . ' ' . $l->t('Click the button below to open it.')),
