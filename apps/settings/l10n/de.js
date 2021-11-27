@@ -23,7 +23,7 @@ OC.L10N.register(
     "So-so password" : "Akzeptables Passwort",
     "Good password" : "Gutes Passwort",
     "Strong password" : "Starkes Passwort",
-    "An error occurred while changing your language. Please reload the page and try again." : "Beim Ändern der Sprache ist ein Fehler aufgetreten. Bitte lade die Seite neu und versuch es nochmals.",
+    "An error occurred while changing your language. Please reload the page and try again." : "Es ist ein Fehler beim Ändern der Sprache aufgetreten. Bitte lade die Seite neu und versuch es nochmals.",
     "An error occurred while changing your locale. Please reload the page and try again." : "Es ist ein Fehler beim Wechseln des Gebietsschemas aufgetreten. Bitte lade die Seite neu und versuche es noch einmal.",
     "Select a profile picture" : "Wähle ein Profilbild",
     "Week starts on {fdow}" : "Die Woche startet am {fdow}",
