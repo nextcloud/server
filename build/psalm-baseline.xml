@@ -1011,9 +1011,6 @@
     <InvalidReturnType occurrences="1">
       <code>array</code>
     </InvalidReturnType>
-    <NullArgument occurrences="1">
-      <code>null</code>
-    </NullArgument>
   </file>
   <file src="apps/dav/lib/Upload/UploadHome.php">
     <UndefinedFunction occurrences="1">
@@ -1335,12 +1332,6 @@
   <file src="apps/files_external/lib/Lib/Backend/Backend.php">
     <InvalidReturnType occurrences="1">
       <code>self</code>
-    </InvalidReturnType>
-  </file>
-  <file src="apps/files_external/lib/Lib/DefinitionParameter.php">
-    <InvalidReturnStatement occurrences="1"/>
-    <InvalidReturnType occurrences="1">
-      <code>string</code>
     </InvalidReturnType>
   </file>
   <file src="apps/files_external/lib/Lib/FrontendDefinitionTrait.php">
@@ -2167,11 +2158,6 @@
     <UndefinedDocblockClass occurrences="1">
       <code>Resource</code>
     </UndefinedDocblockClass>
-  </file>
-  <file src="apps/user_ldap/lib/LogWrapper.php">
-    <InvalidReturnType occurrences="1">
-      <code>bool</code>
-    </InvalidReturnType>
   </file>
   <file src="apps/user_ldap/lib/Mapping/AbstractMapping.php">
     <InvalidOperand occurrences="1">
@@ -3321,12 +3307,6 @@
       <code>dispatch</code>
     </TooManyArguments>
   </file>
-  <file src="lib/private/EventDispatcher/GenericEventWrapper.php">
-    <InvalidReturnStatement occurrences="2">
-      <code>$this-&gt;event-&gt;offsetSet($key, $value)</code>
-      <code>$this-&gt;event-&gt;offsetUnset($key)</code>
-    </InvalidReturnStatement>
-  </file>
   <file src="lib/private/EventDispatcher/SymfonyAdapter.php">
     <ImplementedParamTypeMismatch occurrences="1">
       <code>$eventName</code>
@@ -3688,21 +3668,11 @@
     <NullArgument occurrences="1">
       <code>null</code>
     </NullArgument>
-    <UndefinedFunction occurrences="2">
-      <code>Psr7\modify_request($request, $modify)</code>
-      <code>Psr7\parse_query($query)</code>
-    </UndefinedFunction>
   </file>
   <file src="lib/private/Files/ObjectStore/StorageObjectStore.php">
     <InvalidReturnType occurrences="1">
       <code>string</code>
     </InvalidReturnType>
-  </file>
-  <file src="lib/private/Files/ObjectStore/Swift.php">
-    <UndefinedFunction occurrences="2">
-      <code>stream_for($handle)</code>
-      <code>stream_for($handle)</code>
-    </UndefinedFunction>
   </file>
   <file src="lib/private/Files/Storage/Common.php">
     <ImplementedReturnTypeMismatch occurrences="1">
