@@ -109,7 +109,7 @@
     "handlebars-loader": "^1.7.1",
     "jest": "^26.6.3",
     "jsdom": "^18.0.1",
-    "sass": "^1.43.4",
+    "sass": "^1.43.5",
     "sass-loader": "^10.1.1",
     "style-loader": "^2.0.0",
     "url-loader": "^4.1.1",
