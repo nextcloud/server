@@ -1,8 +1,16 @@
 OC.L10N.register(
     "viewer",
     {
+    "Viewer" : "Визуализатор",
+    "Simple file viewer with slideshow for media" : "Прост визуализатор на файлове със слайдшоу за медии",
+    "Show your latest holiday photos and videos like in the movies, show a glimpse of your latest novel directly from your nextcloud, choose the best GIF of your collection thanks to the direct preview of your favorites files and many more!" : "Покажете най-новите си празнични снимки и видеоклипове, като във филмите, покажете част от най-новия си роман директно от вашия nextcloud, изберете най-добрия GIF от колекцията си благодарение на директния преглед на любими за вас файлове и много други!",
+    "Your browser does not support audio." : "Вашият браузър не поддържа аудио.",
+    "Error loading {name}" : "Грешка при зареждането на {name}",
+    "Your browser does not support videos." : "Вашият браузър не поддържа видеоклипове.",
     "Open sidebar" : "Отвори страничното меню",
+    "Download" : "Изтегляне",
     "Delete" : "Изтриване",
+    "There is no plugin available to display this file type" : "Няма налична добавка за показване на този тип файл",
     "View" : "Изглед"
 },
 "nplurals=2; plural=(n != 1);");
